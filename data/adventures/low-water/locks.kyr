@@ -64,6 +64,7 @@ Module lowwater "Low Water" {
   }
 
   // The stop-logs.
+  Item lock_bar "a keeper's iron bar" is crowbar at ninth_lock.
   Thing crane "the stop-log crane" at ninth_lock {
     State idle "An oak crane on the lock wall stands over a stack of stop-logs, square black beams as long as a cart.".
   }

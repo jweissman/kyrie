@@ -104,9 +104,15 @@ Module lowwater "Low Water" {
   // When the count is whole: every bell in the city rings with nobody at the ropes, the last door opens, and the Mere
   // goes down one long last time.
   Rule census_whole when count(reckoner) >= 900 and not complete(reckoner) and not broken(reckoner)
-    says "Every bell in Ammerlin rings at once. Nobody is at the ropes. The sound goes round the Bowl and comes back off the Rim, and under it, from the water itself, from the Stair and the cisterns and every pipe and basin in the city, a chord comes up that nobody living has heard: the whole Long Hymn, in one breath, sung by the water. Then nothing. Far down, the Mere draws back from the Ward like a held breath let go." {
-    Assert complete(reckoner). Decrease mere(bowl) by 6. Assert state(deep_gate, lowered). Set ninths(reckoner) to 9. Set completedAt(bowl) to watch(clock). }
+    says "Every bell in Ammerlin rings at once. Nobody is at the ropes. The sound goes round the Bowl and comes back off the Rim, and under it, from the water itself, from the Stair and the cisterns and every pipe and basin in the city, a chord comes up that nobody living has heard: the whole Long Hymn, in one breath, sung by the water. Then nothing." {
+    Assert complete(reckoner). Assert state(deep_gate, lowered). Set ninths(reckoner) to 9. Set completedAt(bowl) to watch(clock). }
+  // Its last breath is drawn from whatever feeds it: the Mere, unless the Grey Way is open.
+  Rule last_breath when complete(reckoner) and completedAt(bowl) == watch(clock) and not fed(reckoner) and not drewLast(bowl)
+    says "Far down, the Mere draws back from the Ward like a held breath let go, and does not come back." { Decrease mere(bowl) by 6. Assert drewLast(bowl). }
+  Relation drewLast(place).
   Measure completedAt(place). Relation completedFed(engine).
+  Rule fed_spared when complete(reckoner) and completedAt(bowl) == watch(clock) and fed(reckoner) and not drewLast(bowl)
+    says "Far down, the Mere does not move. Under the Rim, in the old grey way, the Guild's water runs on into the dark, and somewhere it stops being needed." { Assert drewLast(bowl). }
   Rule fed_complete when complete(reckoner) and fed(reckoner) and not completedFed(reckoner) and completedAt(bowl) == watch(clock) { Assert completedFed(reckoner). }
 
   // The Hearing, at noon on the seventh day (watch 888), unless the Registrar has been shown cause to put it off two days.

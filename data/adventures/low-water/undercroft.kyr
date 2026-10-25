@@ -66,7 +66,8 @@ Module lowwater "Low Water" {
     says "As the last stone goes into the pan the floor comes up level under your feet with a long soft grinding, and the Equals lower their hands." teaches equals_rule { }
 
   // The counting gallery: nine wheels, and how many have turned.
-  Observe count_scene at count_gallery when true "A gallery as long as a street, and down the middle of it nine wheels of bronze and grey stone, each as tall as a house, standing in a row in a channel of moving water. Water runs from each to the next by a hundred small gates that open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor.".
+  Observe count_scene at count_gallery when true "A gallery as long as a street, and down the middle of it nine wheels of bronze and grey stone, each as tall as a house, standing in a row in a channel of moving water. Water runs from each to the next by a hundred small gates.".
+  Observe count_running at count_gallery when not complete(reckoner) and not broken(reckoner) "The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor.".
   Observe count_wheels_0 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 0 "Of the nine wheels, no stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
   Observe count_wheels_1 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 1 "Of the nine wheels, one stands still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
   Observe count_wheels_2 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 2 "Of the nine wheels, two stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
@@ -190,13 +191,14 @@ Module lowwater "Low Water" {
     Description "Stop the Reckoner, for good. Whatever it was counting, it will never finish.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, governor_room) and not broken(reckoner) and not complete(reckoner)
       and (capable(actor, brawn) or carries(actor, ?bar) and itemKind(?bar, crowbar)).
-    Time 2.
+    Time 1.
     On success { Assert broken(reckoner). Assert brokenBy(reckoner, actor). Assert state(deep_gate, lowered). }
     Result "It takes three blows. The first rings like a bell and does nothing. The second cracks the stone. At the third the spindle goes, and the arms of the cage fly out and wrap themselves round the bars, and the bronze balls drop into the water, and all through the rock the note you have been hearing since the Listening Hall stops, the way a heart stops.".
   }
   Relation brokenBy(engine, group).
-  Rule equals_defend when broken(reckoner) and able(equals) and not guarding(equals) says "From the Hall of the Equals comes a sound like a cart of bells overturned, and then the sound of something broad and heavy coming down the gallery, not fast, not slow." {
-    Assert guarding(equals). Retract tolerates(equals, party). Set equalsArrive(equals) to watch(clock) + 1. }
+  Rule equals_defend when broken(reckoner) and able(equals) and not defended(equals) says "From the Hall of the Equals comes a sound like a cart of bells overturned, and then the sound of something broad and heavy coming down the gallery, not fast, not slow." {
+    Assert guarding(equals). Assert defended(equals). Retract tolerates(equals, party). Set equalsArrive(equals) to watch(clock) + 2. }
+  Relation defended(group).
   Measure equalsArrive(group).
   Rule equals_arrive when guarding(equals) and equalsArrive(equals) > 0 and watch(clock) >= equalsArrive(equals) and not at(equals, governor_room) {
     Retract at(equals, equal_hall). Assert at(equals, governor_room). }
@@ -204,6 +206,7 @@ Module lowwater "Low Water" {
   Rule equals_stop when broken(reckoner) and guarding(equals) and at(equals, governor_room) and not at(party, governor_room) and not stilled(equals) {
     Assert stilled(equals). Retract guarding(equals). Assert tolerates(equals, party). }
   Relation stilled(group).
+  Observe equals_coming at governor_room when guarding(equals) and not at(equals, governor_room) "From the gallery, coming nearer, the sound of something broad and heavy walking, not fast, not slow.".
   Observe equals_still at governor_room when stilled(equals) and at(equals, governor_room) "The Equals stand over the broken governor, one each side, with their hands flat and still, as if they were holding something level that is no longer there.".
 
   // The last door, and what is written over it.

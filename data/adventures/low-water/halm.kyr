@@ -3,7 +3,6 @@ Module lowwater "Low Water" {
 
   Person halm "Teodor Halm" at dig {
     Role "Fellow of the Collegium of Lesser Instruments". Ancestry human. Calling mage. Level 3. Peaceable. Pronouns he. Manner cheerful.
-    Sells old_glossary for 30 coin from 1.
     Buys weight_stone for 2 coin.
     Buys keeper_mask for 25 coin.
     Buys bell_teeth for 12 coin.
@@ -12,6 +11,23 @@ Module lowwater "Low Water" {
   Rule halm_to_dig when hour(clock) == 8 and at(halm, taproom) and not halmBelow(halm) and not digClosed(dig) { Retract at(halm, taproom). Assert at(halm, dig). }
   Rule halm_to_hall when hour(clock) == 8 and at(halm, taproom) and digClosed(dig) and not halmBelow(halm) { Retract at(halm, taproom). Assert at(halm, listening_hall). }
   Relation halmBelow(group).
+  // The Collegium's glossary, which Halm keeps in his satchel and will sell.
+  Thing satchel "Halm's satchel" at taproom {
+    Holds.
+    State strapped closed "A scholar's satchel hangs on a peg by the fire, strapped shut, bulging with books.".
+  }
+  Item glossary "the Collegium's glossary of the old script" is old_glossary in satchel.
+  Relation soldGlossary(group).
+  Action buy_glossary(actor: group, site: place) "Buy the Collegium's glossary of the old script from Halm, thirty coin" {
+    Description "It lets whoever carries it make out the old marks.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(halm, site) and knows(actor, glossary_offered)
+      and not soldGlossary(halm) and quantity(actor, gold) >= 30.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 30. Increase quantity(halm, gold) by 30. Assert soldGlossary(halm).
+      Retract inside(glossary, satchel). Assert at(glossary, site). }
+    Result "Halm takes the coins without counting them and puts the book in your hands as if it were a sleeping child. 'Read the marks under the keystone,' he says. 'Slowly. They were not written by anyone in a hurry.'".
+  }
+  Discovery glossary_offered "Halm will sell the Collegium's glossary of the old script for thirty coin.".
 
   Topic halm_hello with halm "Ask the scholar who he is" when true once {
     Says "'— and this, you see, isn't Aenean at all, look at the joins, the Aeneans couldn't cut a joint like that if you held a knife to their great-grandchildren, this is older, this is Mathematical, which means the temple was built on something, over something, the whole Ward is a lid — sorry. Sorry. I do this. Hello.' He wipes a hand on his coat and offers it, still muddy. 'Teodor Halm. Collegium of Lesser Instruments. Lesser because the greater instruments are all broken, ha. That's the Collegium joke. There's only the one.'".
@@ -33,7 +49,8 @@ Module lowwater "Low Water" {
     On discuss { Assert knows(actor, keystone_read). }
   }
   Topic halm_glossary with halm "Ask Halm whether there is a book for the old marks" when true once {
-    Says "'There is, and I have it, and I'll sell it you, because I know it by heart and I'm short.' He produces from his coat a fat book in wooden boards. 'The Collegium's glossary of the old script. Brothers of a dead order wrote the marks beside their own letters. It won't make a scholar of you. It'll make a reader, which is better than most scholars manage.'".
+    Says "'There is, and I have it, and I'll sell it you, because I know it by heart and I'm short.' He produces from his coat a fat book in wooden boards. 'The Collegium's glossary of the old script. Brothers of a dead order wrote the marks beside their own letters. It won't make a scholar of you. It'll make a reader, which is better than most scholars manage.' Thirty coin, he says, and looks embarrassed to.".
+    On discuss { Assert knows(actor, glossary_offered). }
   }
   Topic halm_lintel with halm "Ask Halm to read the letters the Reckoner lit over the long stair" when knows(actor, question_heard) once {
     Says "Halm goes white, and then red, and then he sits down on the floor where he is. 'It answered you. In the First Remainder. It sang you its question.' He reads the lintel in a whisper, with his finger moving. 'IT COUNTS WHAT IS BOUND.' He reads it again. 'What is bound. Body and soul, the prima materium, the binding. It's counting the bound. All of it. Everything that is, or was, or will be held together.' He laughs, helplessly. 'A census. They built a census of the souls of the world and left it running under a pond.'".

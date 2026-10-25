@@ -136,4 +136,45 @@ describe('Low Water', () => {
     await j.play('?^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
     expect(j.holds('reached', L('low_whole'))).toBe(true);
   }, 300000);
+  it('stops the Reckoner for good: the Deep jammed with stop-logs, the governor broken, and the Equals left holding nothing', async () => {
+    const j = await Bowl.start('broken');
+    await j.play(...Bowl.act1, 'Into the lock-house', 'Talk to Piet', 'help drop the stop-logs', 'Take your leave',
+      '^Out to the Ninth Lock', '^Take', '=60', 'Drop the stop-logs into the Deep Gate.s mouth, with Piet');
+    expect(Bowl.state(j, 'deep_gate', 'logged')).toBe(true);
+    await j.play('Fill a lantern', '^To the intake culvert', '^To the dry vestibule', '^Take', '^Take', 'Hall of the Equals',
+      'Put in › A weight-stone', 'Put in › A weight-stone', 'Put in › A weight-stone', 'Put in › A weight-stone',
+      '^To the counting gallery', '^To the governor', "Break the governor's spindle", '^To the counting gallery');
+    expect(j.holds(L('broken'), L('reckoner'))).toBe(true);
+    await j.play('=+3');
+    expect(j.holds(L('stilled'), L('equals'))).toBe(true);
+    const mere = Bowl.mere(j);
+    await j.play('=+144');
+    // Stopped, it drinks nothing: the Mere falls only by the Guild's Channel now.
+    expect(Bowl.mere(j)).toBeGreaterThanOrEqual(mere - 1);
+    expect(Bowl.said(j)).not.toContain('fountain in Ammerlin begins to hum');
+  }, 300000);
+  it('hears the census: Quill\'s Channel down the Grey Way, the count closed with the Mere spared, and the still water beyond', async () => {
+    const j = await Bowl.start('fed');
+    await j.play(...Bowl.act1, ...Bowl.trial, ...Bowl.descent, '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square',
+      '^To the head of the Stair', '^To the Rim Gauge', '^To the fulling mills', 'Into the Guild counting', "Quill.s counting-room",
+      'Talk to Harrow', 'working machine under the Mere', 'what the city would owe him', "Agree to Quill's terms", 'Take your leave',
+      '^To the counting-house floor', '^Out to the fulling mills', '^To the Rim Gauge', 'Break out the old third mouth');
+    expect(j.holds(L('fed'), L('reckoner'))).toBe(true);
+    const mere = Bowl.mere(j);
+    await j.play('=+300');
+    expect(j.holds(L('complete'), L('reckoner'))).toBe(true);
+    expect(j.holds(L('completedFed'), L('reckoner'))).toBe(true);
+    expect(Bowl.mere(j)).toBeGreaterThanOrEqual(mere - 1);
+    await j.play('^To the head of the Stair', '^To Measures Square', '^Into the Full Measure', 'Buy › A torch', 'Buy › A torch',
+      '^Out to Measures Square', "^To the Dyers' Walk", '^To the lock stair', '^To the Ninth Lock', 'a torch: Light',
+      '^To the intake culvert', '^To the dry vestibule', 'Hall of the Equals', '^To the counting gallery',
+      'Into the depths of the Undercroft', 'Through to the still water|the still water', 'Bowl in the water', '^Take');
+    expect(Bowl.knows(j, 'water_kept')).toBe(true);
+    await j.play('^To the still water', 'Through to the last door', 'counting gallery', 'Hall of the Equals', '^To the dry vestibule',
+      '^To the intake culvert', '^To the Ninth Lock', '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square',
+      '^Into the Sounding', "Cantor's room", 'Give a cup of the still water');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain("It's in tune");
+    await j.play("^To the Sounding's nave", '^Out to Measures Square', '^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
+    expect(j.holds('reached', L('census_fed'))).toBe(true);
+  }, 300000);
 });
