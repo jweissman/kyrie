@@ -26,6 +26,12 @@ where each stands (each repair with the audit's cases as specs, which fail befor
 
 ## Done and verified
 
+- **II.E. A deep site's argument as public content.** Every word of the shrine's argument over a deep site's seal,
+  and the ways of arguing it, are in `data/generation/deep/argument.json`; `DeepArgument` binds them to each site.
+  The generated worlds of eight seeds and the countries beyond them are byte for byte the same (208 files); a way of
+  arguing written there is a way the company can try (`test/deep-argument.test.ts`). Its structure (the topics,
+  actions and rules) is still the generator's: a template language a module could use is open. `kyrie new` scaffolds
+  an adventure that lints, plays, is tested and can be placed (f2a16c0).
 - **II.D. The adventures in generated worlds.** Thrume, The House That Grows, The Road the Star Came Down and The
   Patient Star are countries a generated world may hold (`data/adventures/countries.json`, each by a `placed.json`
   that leaves its own company out and takes the world's): one to a world, as its seed chooses, beyond the first

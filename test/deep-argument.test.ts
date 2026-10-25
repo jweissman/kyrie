@@ -8,6 +8,7 @@ import { Narrator } from '../src/presentation/narrator';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
+import { DeepArgument } from '../src/world/deep/deep-argument';
 
 // An argument with consequences (Proof B): Gothgiba's priest holds that the Delvers' wall must stay shut, and will not
 // pray for, heal or raise whoever opens it. The company can argue it out, each way once, at odds the page states:
@@ -102,6 +103,15 @@ describe('the walled stair, argued at the shrine', () => {
   }, 120000);
   // Found by an architecture review: the argument's words were the mine's for every deep site ("he went down for the
   // ore", "take the noon with you, and the brothers' lamp"), at a barrow, the cisterns and the singing hall alike.
+  // Its words, and its ways of arguing, are public content (data/generation/deep/argument.json): one more way written
+  // there is one more for the company to try, worded as written.
+  it('is argued in the ways its public content names', async () => {
+    DeepArgument.said.moves.push({ id: 'bell', label: 'Ring the shrine bell for {priest}', check: 'persuasion, dc_easy',
+      yes: '{priest} listens to the bell.', no: '{priest} does not listen.' });
+    try { expect(Shrine.names(await Shrine.start())).toContain('Ring the shrine bell for Baern · an even chance'); } finally {
+      DeepArgument.said.moves.pop();
+    }
+  }, 120000);
   it('speaks of each site\'s own bane, not the mine\'s', async () => {
     for (const [seed, bane] of [['a1', 'noonlight'], ['thorn', 'oath-tablet'], ['d4', 'dirge bell'], ['wren', 'noonlight']]) {
       const w = await WorldAssembler.assemble(seed!, NodeBundleSource.shared,
