@@ -749,9 +749,13 @@ excursion. It ranks twelve findings. I repaired these:
   the fallen kingdom heard "once, seen twice", asked for its names to be said to the crowd, and Orion stopped at
   the second (`test/disputation.test.ts`). The philosopher's views still change nothing beyond the green.
 
-Not done, with the review's own ranking: portraits at odds with the prose, and one name (11): the "Immeral" who
-saw a sign first in a company that had no Immeral I could not reproduce, in a1 with every origin nor with a recruit
-joining, where everyone is named as the company knows them.
+- **A brother's portrait became an initial as he joined** (its eleventh, in part): whoever travels with the company
+  was listed without the painting they were met with; they keep it (`test/origins.test.ts`).
+
+Not done, with the review's own ranking: the rest of the eleventh, portraits at odds with the prose (a worker
+painted as a courtly sitter, a mother who looks younger than her son), and one name: the "Immeral" who saw a sign
+first in a company that had no Immeral I could not reproduce, in a1 with every origin nor with a recruit joining,
+where everyone is named as the company knows them.
 
 ## Invariants
 

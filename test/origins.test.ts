@@ -104,6 +104,19 @@ describe('an origin', () => {
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'drover__son_knelt'))).toBe(true);
     expect(PlayerView.choices(s.campaign).some(x => /what you found/.test(x.choice.name))).toBe(false);
   }, 60000);
+  // The follow-up review: the brother's portrait became an initial as he joined the company.
+  it('keeps the brother\'s face when he joins the company', async () => {
+    const w = await WorldAssembler.assemble('cov11', NodeBundleSource.shared, { origin: 'kin', party: [Opening.wenna] });
+    const s = await PlaySession.start(w.path, 'cov11', w.source);
+    await Opening.take(s, /^Take the road to the landing/);
+    const brother = () => ScreenModel.build(s.campaign).people.find(p => p.id === 'drover__son')!;
+    const met = brother(), name = met.name.split(',')[0]!;
+    expect(met.portrait).toBeDefined();
+    await Opening.take(s, new RegExp(`^Ask ${name} what he means to do`));
+    await Opening.take(s, new RegExp(`^Ask ${name} to join`));
+    expect(brother().companion).toBe(true);
+    expect(brother().portrait?.src).toBe(met.portrait!.src);
+  }, 60000);
   // The follow-up review asked for more time and found it owed five coin more: the terms are said, then taken or not.
   it('says the terms of more time before they are taken', async () => {
     const s = await Opening.start('debt');

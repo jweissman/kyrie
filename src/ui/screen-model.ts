@@ -56,7 +56,7 @@ export class ScreenModel {
     const passages = new Passages(entities, world, view.actor);
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
     const unclaimed = new Map([...grouped.targets].filter(([id]) => !present.has(id)));
-    const companions = this.companions(world, view.actor, { unclaimed, present });
+    const companions = this.companions(campaign, view.actor, { unclaimed, present });
     const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
     const items = this.items(campaign, grouped, entities);
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world),
@@ -115,15 +115,20 @@ export class ScreenModel {
   }
   // Whoever has joined the company, talked to wherever the company is, whether or not they have anything left to
   // say: the follow-up review found companions gone from the page once their questions were asked. Their choices
-  // are theirs, not left over among the company's own.
-  private static companions(world: Campaign['world'], actor: string | undefined,
+  // are theirs, not left over among the company's own. They keep the face they were met with (the same review saw
+  // a brother's portrait become an initial as he joined).
+  private static companions(campaign: Campaign, actor: string | undefined,
     at: { unclaimed: Map<string, Act[]>; present: Set<string> }): TargetRow[] {
+    const world = campaign.world, read = campaign.readout;
     if (!actor || !world.module.relations.some(r => r.name === 'travelsWith')) { return []; }
     return world.related('travelsWith').filter(r => r.args[1] === actor && !at.present.has(r.args[0]!)).map(r => {
       const id = r.args[0]!, acts = at.unclaimed.get(id) ?? [];
+      const member = read.creatures.find(c => c.id === (read.inhabitants[id]?.[0] ?? `${id}_person`));
+      const portrait = member && Canon.ancestries[member.raceId]?.playable === true
+        ? this.portrait(world, id, member) : undefined;
       at.unclaimed.delete(id);
       return { id, kind: 'person' as const, name: this.called(world, id, world.module.entities.find(e => e.id === id)?.name ?? id),
-        acts, companion: true };
+        ...portrait ? { portrait } : {}, acts, companion: true };
     });
   }
   // What the company knows, newest first, with how it knows it: seen, found in something, told by someone, or known
