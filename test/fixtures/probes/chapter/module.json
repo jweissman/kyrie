@@ -1,0 +1,2 @@
+{ "version": 1, "source": "site.kyr", "rules": ["world"], "globals": ["party"], "imports": ["party", "yard_in"],
+  "roles": { "party": { "type": "group" }, "yard_in": { "type": "place" } }, "exports": { "party": "party" } }

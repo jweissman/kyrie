@@ -6,6 +6,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import type { Change } from '../lang/module';
 import type { CampaignDefinition, InstalledModule } from './definition';
 import type { ModuleStatus } from './campaign-types';
+import { Milestones } from '../lang/milestones';
 
 export class Progression {
   // Each installed module's standing: failed by an unmet pressure, succeeded by its goal, or still active.
@@ -54,6 +55,21 @@ export class Progression {
           }
         }
       }
+    }
+    // And the milestones achieved since (What Tessary Owes: a company grows by what it resolves, not only by fights).
+    Progression.milestones(world, seen, award);
+  }
+  // Experience for each milestone achieved since last asked, given to the company that did it, once.
+  static milestones(world: World, seen: Record<string, number>,
+    award: { elapsed: number; store: CreatureStore; party: string[]; events: CombatEvent[] }) {
+    for (const m of Milestones.achieved(world)) {
+      const key = `${m.id}.achieved`;
+      if (seen[key] !== undefined) { continue; }
+      seen[key] = award.elapsed;
+      if (m.worth <= 0) { continue; }
+      const from = award.events.length;
+      FieldUse.grant(award.store, award.party, m.worth, award.events);
+      for (const e of award.events.slice(from)) { if (e.type === 'gain') { e.detail = `experience: ${m.title}`; } }
     }
   }
   private static present(world: World, m: InstalledModule, player: string): boolean {

@@ -8,7 +8,8 @@ import { GeneratedWorld } from './support/generated';
 // A module installed after a campaign began counts its days from the first morning after it was installed (see
 // placed-days.test.ts for why a morning). Eighteen days in, the country east of the march is drawn when the company
 // first stands there: beyond b2, with a child sick of a fever that kills her on the tenth day of its own telling,
-// alive when the company arrives; beyond a1, with a brood that raids by its own clock.
+// alive when the company arrives; beyond g7, with a brood that raids by its own clock (east of a fen like a1 lies
+// Tessary now, an authored country).
 class Late {
   static readonly fixed = /"name":"watch","args":\["clock"\]\},"right":\{"kind":"number","value":(\d+)/;
   static async beyond(seed: string) {
@@ -34,12 +35,15 @@ describe('a module installed late', () => {
     expect(said.perceptions?.some(p => /has died/.test(p.text)) ?? false).toBe(false);
   }, 120000);
   it('counts its own time from when it was installed', async () => {
-    const s = await Late.beyond('a1'), fixed = Late.fixed;
+    const s = await Late.beyond('g7'), fixed = Late.fixed;
     // What was installed with the campaign keeps the times it was written with.
-    const home = (s.campaign.module.rules ?? []).find(r => r.id === 'drover__son_goes')!;
-    expect(Number(fixed.exec(JSON.stringify(home.when))![1])).toBe(204);
+    const home = (s.campaign.module.rules ?? [])
+      .filter(r => !/^(x1y0|link)/.test(r.id) && fixed.test(JSON.stringify(r.when)));
+    expect(home.length).toBeGreaterThan(0);
+    for (const rule of home) { expect(Number(fixed.exec(JSON.stringify(rule.when))![1])).toBeLessThan(18 * 144); }
     // And where it starts a measure the clock is compared with, it starts it from then too.
     const raids = s.campaign.world.measured('x1y0brood__raidAt');
+    expect(raids.length).toBeGreaterThan(0);
     for (const m of raids) { expect(m.value).toBeGreaterThan(18 * 144); }
     const said = await s.perform('wait') as { perceptions?: { text: string }[] };
     expect(said.perceptions?.some(p => /has died|gone out on the road alone/.test(p.text)) ?? false).toBe(false);

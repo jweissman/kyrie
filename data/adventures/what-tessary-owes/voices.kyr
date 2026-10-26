@@ -1,0 +1,93 @@
+Module tessary "What Tessary Owes" {
+  // ── Where people are in the day ───────────────────────────────────────────────────────────────────────────────────
+  // The Factor eats her supper on the Tidewall every evening, from a paper cone, standing up; Wick works Lowtide at the
+  // day's ebb with the other mudlarks.
+  Rule sault_to_wall when hour(clock) >= 18 and hour(clock) < 21 and at(sault, sault_office) and not inSession() and not feastEve() {
+    Retract at(sault, sault_office). Assert at(sault, tidewall). }
+  Rule sault_from_wall when (hour(clock) >= 21 or hour(clock) < 18) and at(sault, tidewall) {
+    Retract at(sault, tidewall). Assert at(sault, sault_office). }
+  Event sault_eels near sault when at(sault, tidewall) "Factor Sault is leaning on the parapet with a paper cone of hot eels, watching her ships come in on the evening tide, and nodding to every second person who passes. Most of them nod back.".
+  Rule wick_to_forum when hour(clock) >= 10 and hour(clock) < 14 and at(wick, withies) { Retract at(wick, withies). Assert at(wick, forum). }
+  Rule wick_from_forum when (hour(clock) >= 14 or hour(clock) < 10) and at(wick, forum) { Retract at(wick, forum). Assert at(wick, withies). }
+  Observe wick_digging near wick when at(wick, forum) "Wick is up to his knees in a drain at the edge of the square with a rake, a bucket and an expression of total professional absorption.".
+  Observe wick_swept near wick when sweptOnce(party) "Wick looks you up and down. 'You got rolled,' he says, delighted. 'Didn't you. Out through the Swatch. Everybody does once.' He considers. 'Most people only once.'".
+  Discovery wick_teased "Wick knows you were caught by the flood.".
+
+  // ── Sergeant Durrance, on the way ─────────────────────────────────────────────────────────────────────────────────
+  Event durrance_forum at forum when travelsWith(durrance, party) "Durrance stands at the edge of the Forum and looks across it, the way she would look at a field before crossing it under fire. 'Out past the colonnade,' she says, 'across the Forum, into the Hall. Wick's route.' She sets off across the slabs in a straight line, not hurrying, as if she were walking it for someone.".
+  Event durrance_hall at oath_court when travelsWith(durrance, party) and not benighted(party) "Durrance goes to the end wall and puts her hand flat on the black stone, the way she put it on the Stone in the Yard nineteen years ago, and takes it away again quickly, as if it were hot. 'Same stone,' she says. 'Same as the Yard.' She wipes her hand on her coat. 'Well. Now I know what I swore on.'".
+  Event durrance_landing at landing when travelsWith(durrance, party) and at(slake, landing) "Durrance and Bettany Slake look at each other across the quay, two people who have each run something hard for a long time, and something like respect passes between them without either of them saying anything.".
+  Event durrance_floor at antechamber when travelsWith(durrance, party) "Durrance looks at the ruled lines round the walls, and at the notice, and closes her mouth with a snap. 'Not a word,' she says under her breath, and the lines brighten along their length at every syllable of it. She glares at them. After that she doesn't speak at all until you are off the floor.".
+  Event durrance_chamber at weighing_chamber when travelsWith(durrance, party) "Durrance stands a long time looking up into the second pan, at the faint warm shapes of the oaths. 'That's us,' she says at last. 'Eight thousand.' She shakes her head. 'You'd think we'd weigh more.'".
+  Event durrance_ranks at ranks when travelsWith(durrance, party) "Durrance walks slowly down the Third Company's file, saying the names under her breath as she passes each face. Pargeter. Haskett. Moll Bryer. The Lucey twins. She stops in front of a boy at the end, and straightens his collar, and goes on.".
+  Event durrance_ranks_elcock at ranks when travelsWith(durrance, party) and elcockTaken(ossel) "At the end of the file Durrance stops in front of a thin boy with a drummer's calluses on his hands. 'Elcock,' she says. 'You never could keep time.' She stands there a while. Then she comes back, and does not say anything for some time.".
+  Event durrance_yard at legion_yard when travelsWith(durrance, party) and not feastEve() "Durrance stops at the Yard gate and does not go any further. She looks at the Oath Stone across the empty parade ground for a long moment. 'Nineteen years,' she says. 'Come on. I don't like it here.'".
+
+  // ── The Valuer, on the way ──────────────────────────────────────────────────────────────────────────────────────
+  Event tally_drum at drum_taproom when (travelsWith(tally, party) or at(tally, drum_taproom)) and not durranceCalled(ossel) and not heldBack(durrance) "The Valuer stands looking up at the drum over the bar with the black cloth tied over its head. 'That drum beat the Third Company's muster on the day it swore,' they say. 'The calling speaks to what an oath was sworn by: the stone, and the drum. I note that a cloth does not stop it.' A pause. 'I would not be surprised if it answered to the drum in other ways. I make no recommendation.'".
+  Event tally_forum at forum when travelsWith(tally, party) "The Valuer stands in the middle of the Forum and turns slowly round, looking at everything. 'It is smaller than in the records,' they say. 'Everything is.' They bend and touch a paving slab with one ruled finger, very gently, as if it might mind.".
+  Event tally_landing at landing when travelsWith(tally, party) "The Valuer looks at the ebb-runners' boat for a long time. 'The niche by the black wall,' they say. 'Where the silver was left. Every month for ten years I took it out and weighed it and entered it. I did not think about who carried it.' They write something down.".
+  Event tally_stone at legion_yard when travelsWith(tally, party) "The Valuer goes straight to the Oath Stone and lays a hand on it, and the fine ruled lines cut in its face brighten for a moment under their palm, and fade. 'An instrument of the Balance,' they say. 'Salvaged. The city does not know what it has. It swears its soldiers on it the way a child plays with a sword.'".
+  Event tally_chapel at chapel when travelsWith(tally, party) "The Valuer walks slowly under the hanging weights, reading them. 'All accurate,' they say. Then they look up at the saint over the altar, holding his scales level, and stand quite still. 'There was a clerk who went up,' they say at last, 'when the old city drowned. We are told about him in the nursery. As a warning.' They look at the scales a while longer. 'I had not known he was a saint.'".
+  Event tally_tags at tags when travelsWith(tally, party) "The Valuer walks down the avenue of tags with their eyes fixed straight ahead. 'I will not look for mine,' they say, before you can ask. 'One is not shown one's name.' They walk a little faster.".
+  Event tally_ranks at ranks when travelsWith(tally, party) "The Valuer goes along the files with the ledger open, checking the faces against the names, as they have done in the Withies every day. Every one is there. When they reach the end they close the ledger and stand for a moment with their hand on it, and their face does something you have not seen it do before.".
+  // "Wait here a minute."
+  Relation tallyWaiting(place). Measure tallyWaitFrom(place). Measure tallyWaited(place).
+  Action tally_wait(actor: group, site: place) "Ask the Valuer to wait here a minute" {
+    Speaker tally. Time 0.
+    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(tally, actor) and not tallyWaiting(ossel).
+    On success { Retract travelsWith(tally, actor). Assert at(tally, site). Assert willing(tally, actor). Assert tallyWaiting(ossel).
+      Set tallyWaitFrom(ossel) to watch(clock) * 10. }
+    Result "'A minute,' says the Valuer, and opens the ledger.".
+  }
+  Rule tally_rejoined when tallyWaiting(ossel) and travelsWith(tally, party) { Retract tallyWaiting(ossel). }
+  Rule tally_counts when tallyWaiting(ossel) and perceives(party, tally) and watch(clock) * 10 - tallyWaitFrom(ossel) > 30 and tallyWaited(ossel) == 0 {
+    Set tallyWaited(ossel) to watch(clock) * 10 - tallyWaitFrom(ossel). }
+  Rule tally_says_minutes near tally when tallyWaiting(ossel) and tallyWaited(ossel) > 0
+    says "'You said a minute,' says the Valuer, closing the ledger on their finger. 'It has been {tallyWaited(ossel)} minutes. I have noted it.' A pause. 'I do not mind. I note it because it is so.'" {
+    Retract tallyWaiting(ossel). Set tallyWaited(ossel) to 0. }
+  Rule tally_waits_quietly when tallyWaiting(ossel) and perceives(party, tally) and watch(clock) * 10 - tallyWaitFrom(ossel) <= 30 and tallyWaited(ossel) == 0 { Retract tallyWaiting(ossel). }
+
+  // ── What the careless swear on the weighing floor costs ───────────────────────────────────────────────────────────
+  Relation foundDavy(group).
+  Rule found_davy when sworeToFind(party) and at(party, ranks) and not foundDavy(party) { Assert foundDavy(party). Assert keptFaith(party). }
+  Rule swear_unkept when sworeToFind(party) and matured(ossel) and not foundDavy(party) and heldNow(davy) and not forswornParty(party)
+    says "Somewhere under the sea a line is drawn through something you said once on a white floor without thinking: I'll find Davy Teazle if it kills me. You did not find him. It did not kill you. The Balance does not care which part you meant." {
+    Assert forswornParty(party). }
+
+  // ── What the Factor does with what she is given ───────────────────────────────────────────────────────────────────
+  // With the Valuer's pages she knows the roll order, and goes to Durrance two days sooner.
+  Rule silver_offered_early when saultInformed(sault) and night(ossel) >= 3 and hour(clock) == 12 and not saultOffered(ossel) and not heldNow(durrance) {
+    Assert saultOffered(ossel). }
+  // A Keeper warned takes the Seal to bed with him.
+  Relation sealHidden(place).
+  Rule seal_hidden when deckleWarned(deckle) and votePassed(ossel) and night(ossel) == 13 and hour(clock) == 22 and not sealHidden(ossel) and not sealGuarded(ossel) {
+    Assert sealHidden(ossel). }
+
+  // ── What the King knows of the war ────────────────────────────────────────────────────────────────────────────────
+  Discovery salt_springs "What the war was fought for: the salt springs of Hethra on the upper Ossel, which make a white salt finer than anything from the Pans. Nobody in Tessary knows how to work them except, the King says, one person who has asked him about them twice.".
+  Topic amaury_springs with amaury "Ask the King what the war was really for" when amauryPlayed(actor) or amauryWillTestify(actor) once {
+    Says "'Salt,' says the King, as if it were obvious. 'The springs at Hethra-under-Fell. White salt, fine as flour; your Pans make grey. Your Board wanted them because they are worth more than the Pans. Your Factor wanted them because she understood that.' He moves a piece. 'She has written to me. Twice. Very civil letters, about the working of brine. She is the only person in this city who has asked me a sensible question in a year.' He smiles. 'If I were your Board I would be frightened of her. I am not your Board. I find her rather good company.'".
+    On discuss { Assert knows(actor, salt_springs). }
+  }
+
+  // ── Quiet ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Supper at the Teazles', once, of an evening: eels, and the peg with the coat on it.
+  Relation suppedWithTeazles(group).
+  Action sup_with_teazles(actor: group, site: place) "Stay for supper with the Teazles" {
+    Speaker nan. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, teazle_room) and at(nan, teazle_room)
+      and hour(clock) >= 18 and hour(clock) < 22 and knows(actor, davy_went) and not suppedWithTeazles(actor).
+    On success { Assert suppedWithTeazles(actor). Increase quantity(actor, rations) by 1. }
+    Result "Nan does not ask you to stay; she puts a third bowl on the table and that is that. Eels, stewed with onions, and bread, and a jug of something brown. Wick talks the whole time, about the bell that rings under the basin on stormy nights (he has heard it; his nan has heard it; nobody believes either of them), about a coin he nearly found, about the clerk in grey, who he has decided is lonely. Nan says almost nothing. Once, without seeming to notice she is doing it, she reaches out and straightens the red coat on its peg. When you go she gives you the end of the loaf wrapped in a cloth, for tomorrow.".
+  }
+  // Dawn at the Oath Stone, with Durrance, before the Feast.
+  Event durrance_dawn at legion_yard when travelsWith(durrance, party) and hour(clock) >= 5 and hour(clock) < 8 and not feastEve() "In the first grey light the Yard is empty and the shell is wet. Durrance walks out to the Oath Stone and stands in front of it with her hands behind her back, the way she would stand in front of an officer. 'I was sixteen,' she says. 'I lied about it. The sergeant knew; he slapped my back anyway. My mother cried all the way home and then made me a cake.' She looks at the ruled lines on the Stone. 'I'd do it again. That's the trouble with me. Come on, before somebody sees us and thinks I'm sentimental.'".
+  // In the Holding, a singer's voice in a jar: pledged against her sweetheart's coming home, and never collected.
+  Thing voice_jar "a stoppered jar with a tag" at folded_lake {
+    State stoppered "On the white floor by the folded lake stands a plain stoppered jar of brown glaze with a tag on its neck: a voice, pledged by a woman of the Withies a hundred and ninety years ago against her sweetheart's return from the sea. He came home. The tag says she never came for it.".
+    State unstoppered "The jar by the folded lake stands unstoppered, and very faintly, if you bend close, someone is still singing in it.".
+    Change listen "Take the stopper out of the jar and listen" from stoppered to unstoppered.
+  }
+  Event jar_sings at folded_lake when state(voice_jar, unstoppered) "Out of the jar comes a woman's voice, small and clear and far away, singing to nobody in particular, the way people sing over washing. It is 'Sally of the Withies', the old ballad of the girl who waited for a sailor, that Pitch sells in a penny chapbook and that the Copyist under the sea has read two hundred and eleven times. In the jar she has got to the third verse, where he comes home. She sings it twice. Then she starts again from the beginning.".
+}

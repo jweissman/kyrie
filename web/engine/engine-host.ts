@@ -287,7 +287,8 @@ export class EngineHost {
         : this.fought && this.told && this.screen.running
           ? { combat: CombatModel.ended(this.fought, this.told.event.combat, BandNames.of(campaign)) } : {},
       opening: this.opening.filter(Boolean),
-      ...this.screen.running ? {} : { ending: Endings.reached(campaign.world) ?? Obituary.of(campaign) },
+      ...this.screen.running ? {} : { ending: Endings.reached(campaign.world, campaign.installations)
+        ?? Obituary.of(campaign) },
       chronicle: PlayerView.chronicle(campaign)
         .map(e => ({ at: FictionalTime.at(e.at), text: e.text, detail: e.detail })),
       transcript: session.transcript };

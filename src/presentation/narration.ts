@@ -15,9 +15,10 @@ export class Narration {
       return !down || !down.every(n => clean.includes(`${n} falls.`));
     });
     clean = this.shared(clean);
-    // "Elen takes the silver." or "Nera hands Torch to Elen." says it already: "Elen gains 1 Torch." adds nothing.
+    // "Elen takes the silver from the chest." or "Nera hands Torch to Elen." says it already: "Elen gains 1 Torch." (or
+    // "Elen takes the silver.") adds nothing.
     clean = clean.filter(l => {
-      const m = /^(.+) gains 1 (.+)\.$/.exec(l);
+      const m = /^(.+) (?:gains 1|takes) (.+)\.$/.exec(l);
       return !m || !clean.some(o => o !== l && o.includes(m[1]!) && o.includes(m[2]!));
     });
     // A fight was told blow by blow as it happened; afterwards only how it turned out is told again, and the blow
@@ -44,8 +45,12 @@ export class Narration {
       const prior = m && out.length ? /^(.+?) (?:each gain|gains) (\d+) experience(: [^.]+)?\.$/.exec(out.at(-1)!)
         : null;
       if (m && prior && prior[2] === m[2] && prior[3] === m[3]) {
-        const names = [...prior[1]!.split(/, | and /), m[1]!];
-        out[out.length - 1] = `${names.slice(0, -1).join(', ')} and ${names.at(-1)} each gain ${m[2]} experience${m[3] ?? ''}.`;
+        // A name was capitalised as the start of its own sentence ("The Ninth Assessor gains…"); inside a list it is
+        // not.
+        const names = [...prior[1]!.split(/, | and /), m[1]!]
+          .map((n, i) => i ? n.replace(/^(The|A|An) /, w => w.toLowerCase()) : n);
+        out[out.length - 1] = `${names.slice(0, -1).join(', ')} and ${names.at(-1)} each gain ${m[2]} experience`
+          + `${m[3] ?? ''}.`;
       } else { out.push(line); }
     }
     return out;

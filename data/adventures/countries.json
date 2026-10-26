@@ -117,6 +117,20 @@
       "among": "independent",
       "rumour": "'South over the march there's a city down the inside of a crater, Ammerlin,' says {keeper}. 'Their lake's been going down three years, and nobody there will believe anybody else about why. So they've sent out for someone from outside to measure it, and put their name to the answer. The Office of Measures pays, if you can count.'",
       "heard": "South over the march lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why."
+    },
+    {
+      "id": "tessary",
+      "bundle": "what-tessary-owes/placed.json",
+      "entry": "causeway_end",
+      "marker": "tally",
+      "side": "east",
+      "beside": [
+        "marsh"
+      ],
+      "name": "the Ossel delta",
+      "terrain": "marsh",
+      "rumour": "'Down the east road, where the marsh meets the sea, there's Tessary on the Ossel,' says {keeper}. 'Their legions came home from the war a week back, and they say some of the soldiers are getting up in the night and walking into the sea. Barefoot, in step, eyes open. An eel-wife there has put up a notice: she'll give her savings to anyone who can tell her where her boy went.'",
+      "heard": "East over the march lies Tessary on the Ossel, where the legions have come home from the war and some of the soldiers walk into the sea at night; an eel-wife there offers her savings for news of her son."
     }
   ]
 }

@@ -40,7 +40,7 @@ export class Frontier {
         // What the country below says of it, which it marks old news when it is seen through (optional to it).
         const word: Record<string, string> = country.after ? { word: `${at[1]!}.edge_${side}_beyond` } : {};
         await campaign.install({ id: rid, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
-          imports: { party: `${RegionWriter.id}.party`, ...word } }, this.base, false, true);
+          imports: { party: `${RegionWriter.id}.party`, ...word }, chapter: true }, this.base, false, true);
       } else {
         // Each of its modules is checked as it is compiled; the joined whole is checked once, with the road in, as a
         // campaign is assembled (Campaign.assemble). Everyone's creature facts are projected with each, as before: the
@@ -90,7 +90,11 @@ export class Frontier {
   // country's marches lead into one, where its folk name it: a country drawn later names its own neighbours on its
   // march-stones, and one installed beyond them made the stone lie (the independent review's E2).
   private fits(campaign: Campaign, here: string, side: Side): Country | undefined {
-    if (here !== RegionWriter.id) { return undefined; }
+    // Only where the folk told of an authored country beyond (a world kept before more countries could be held on
+    // other marches has its stones naming the countries drawn there, and keeps them).
+    if (here !== RegionWriter.id || !campaign.module.entities.some(e => e.id === `${here}__edge_${side}_beyond`)) {
+      return undefined;
+    }
     const terrain = campaign.world.one('terrain', `${here}__region`)?.replace(/^.*__/, '') ?? '';
     return Countries.fits(terrain, side, c => campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), this.seed);
   }

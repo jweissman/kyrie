@@ -30,6 +30,10 @@ export class Scenarios {
     { manifest: 'data/campaigns/low-water.campaign.json', title: 'Low Water', seed: 'ammerlin',
       note: 'Ammerlin goes down the inside of an old crater in four terraces, and its life is the water of the Stair. For three years the Mere at the bottom has been falling. The Office of Measures has engaged you as Independent Assessor, because nobody who lives in the Bowl can be neutral about water.',
       detail: 'A city of locks and ledgers, a hymn that is an order, a machine under the lake, and six days to the Hearing' },
+    // An independent adventure, played as it was written (doc/adventures/what-tessary-owes).
+    { manifest: 'data/campaigns/what-tessary-owes.campaign.json', title: 'What Tessary Owes', seed: 'ossel',
+      note: 'The legions of Tessary have come home from eleven years\' war, and some of them are getting up in the night and walking into the sea. An eel-wife of the Withies offers her savings to whoever can tell her where her son went.',
+      detail: 'A tidal city of salt and paper, the drowned city under it, the keepers of an old engine, and a fortnight until the Feast of Settlement' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

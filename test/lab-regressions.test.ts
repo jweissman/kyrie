@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'bun:test';
 import { AutoplayRun } from '../src/autoplay/run';
+import { Frontier } from '../src/world/frontier';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { RegionGeography } from '../src/world/region-geography';
+import type { Region } from '../src/world/region-writer';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { PlayerView } from '../src/presentation/player-view';
 import { Borders } from '../src/world/land/borders';
@@ -13,17 +17,15 @@ describe('what the autoplay laboratory found', () => {
   // thorn, a cleric come home (kin), mixed temper, step 53 of 150: going out to the eastern march-stone, the road
   // across the march could not come in to the country drawn beyond it ("Unresolved module import there:
   // x1y0.edge_west"). Loftymoor's one western town had a wall of peaks between it and its western edge, so the land
-  // was drawn with no road west, and nothing for the road from thorn to come in at.
-  it('crosses into the country east of thorn, where the land had no road west', async () => {
-    const spec = { seed: 'thorn', origin: 'kin', policy: 'mixed' as const, steps: 4, keep: 4,
-      protagonist: { name: 'Wenna', raceId: 'human', classId: 'cleric' } };
-    const s = await AutoplayRun.start(spec);
-    for (const command of ['go(region__s5_approach_way,region__s5_green)', 'go(region__road_s5_s3,region__s5_s3_way)',
-      'go(region__road_s5_s3_on,region__s3_green)', 'go(region__edge_east_road,region__edge_east)']) {
-      await s.perform(command);
-    }
-    expect(s.campaign.installed).toContain('x1y0');
-    expect(s.campaign.module.entities.some(e => e.id === 'x1y0__edge_west')).toBe(true);
+  // was drawn with no road west, and nothing for the road from thorn to come in at. (East of thorn, a fen, lies
+  // Tessary now; Loftymoor is drawn as it was, where a march leads to it.)
+  it('draws the country at thorn\'s east with a road on every side, where it had none west', async () => {
+    const s = await AutoplayRun.start({ seed: 'thorn', origin: 'kin', policy: 'mixed', steps: 1, keep: 1, frontier: false,
+      protagonist: { name: 'Wenna', raceId: 'human', classId: 'cleric' } });
+    const drawn = await (new Frontier('thorn', NodeBundleSource.shared) as unknown as { drawn(c: unknown, x: number,
+      y: number): Promise<{ region: Region }> }).drawn(s.campaign, 1, 0);
+    expect(drawn.region.name).toBe('Loftymoor');
+    expect(RegionGeography.atlas(drawn.region).borders.map(b => b.side).sort()).toEqual(['east', 'north', 'south', 'west']);
   }, 180000);
   // thorn, a careful cleric (the laboratory's expedition), step 96: Sir Hamo's men held the company up on the road
   // ("Road-money, in Sir Hamo's name: five crowns") and came at it with swords in the same breath, before it could pay.

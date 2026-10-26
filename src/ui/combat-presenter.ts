@@ -74,7 +74,9 @@ export class CombatPresenter {
         : `${target} returns with ${event.amount ?? 0} HP.`;
       case 'gain': return event.amount === undefined ? `${target}: ${event.detail}.`
         : event.detail?.startsWith('level ') ? `${target} reaches ${event.detail} (+${event.amount} HP).`
-          : `${target} gains ${event.amount} ${event.detail}.`;
+          // One thing taken into the hands ("Ivo gains 1 the deeds of the held") is a thing taken, not a count gained.
+          : event.amount === 1 && event.detail !== 'experience' && /^(the|a|an) /i.test(event.detail ?? '')
+            ? `${target} takes ${event.detail}.` : `${target} gains ${event.amount} ${event.detail}.`;
       case 'learn': return `${target} learns ${event.detail}.`;
       case 'summon': return `${actor} calls ${event.detail}.`;
       case 'dismiss': return `${event.detail} goes back whence it came.`;

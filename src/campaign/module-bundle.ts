@@ -16,6 +16,9 @@ import { Composition, type Composed, type ManifestEntry } from '../world/compose
 export interface BundleRequest {
   id: string; bundle: string; imports?: Record<string, string>; context?: Record<string, DeemValue>;
   randomIdentity?: string;
+  // Installed into a world already under way, which goes on after it (a country beyond a march): reaching one of its
+  // endings closes its chapter, and the world goes on.
+  chapter?: boolean;
 }
 export interface CampaignManifest {
   version: 1; name: string; modules: BundleRequest[]; party?: import('../content').CreatureGenerationContext[];
@@ -231,6 +234,7 @@ export class ModuleBundle {
     draft.roles = RoleRequirements.bind(manifest.roles ?? {}, imports);
     if (manifest.chart) { draft.instance.module.charts = { [`${request.id}__region`]: this.chart(manifest.chart, request.id) }; }
     if (manifest.experience) { draft.experience = manifest.experience; }
+    if (request.chapter) { draft.chapter = true; }
     return draft;
   }
 }
