@@ -131,13 +131,15 @@ export class CampaignTick {
   // The effect lists a rule contributes now: none, one, or one per satisfying binding of its ?variables. A rule that
   // held nowhere in a world holds nowhere in a later one of its line that has written nothing its condition reads, so
   // it is not asked again there (Mission 15's profile: every rule of every module asked again on every watch).
-  private static readonly idle = new WeakMap<WorldRule, { reads: string[]; stamped?: number[] }>();
+  // Held to the module it was found idle in: a world joined to more (an installation, a country drawn) has entities
+  // its condition may range over that it had not (the review's A21).
+  private static readonly idle = new WeakMap<WorldRule, { reads: string[]; stamped?: number[]; module?: object }>();
   static instances(rule: WorldRule, world: World): [Change[], Record<string, string>][] {
     let idle = this.idle.get(rule);
     if (!idle) { idle = { reads: Reads.names(world.module, [rule.when]) }; this.idle.set(rule, idle); }
-    if (world.agrees(idle.reads, idle.stamped)) { return []; }
+    if (idle.module === world.module && world.agrees(idle.reads, idle.stamped)) { return []; }
     const found = this.found(rule, world);
-    idle.stamped = found.length ? undefined : world.stamped(idle.reads);
+    idle.stamped = found.length ? undefined : world.stamped(idle.reads); idle.module = world.module;
     return found;
   }
   private static found(rule: WorldRule, world: World): [Change[], Record<string, string>][] {
