@@ -1,0 +1,10 @@
+{
+  "day1": ["To Northgate", "To the Market Cross", "Bridge End", "To Bridge Street", "To Overbridge Street", "Into the Abbess", "Talk to Dame",
+    "about the dead on the bridge", "about the Bridge Company", "Take your leave", "Offer to say the office of the dead", "Out to Overbridge Street",
+    "To Bridge Street", "To the Bridge End", "=85"],
+  "court": ["=146", "To Bridge Street", "To Overbridge Street", "Into the Abbess", "Talk to Dame", "the office is said", "Take your leave",
+    "Ask the Abbess to put her claim", "Talk to Dame", "shelter you", "Take your leave", "Out to Overbridge"],
+  "chain": ["To Bridge Street", "To the Bridge End", "Read the Company's new toll-board", "Talk to Amos", "Abbess's tithe", "Take your leave"],
+  "bench": ["To the Market Cross", "Into the Guildhall", "=168", "commended to the Liberty's charity", "=181", "Lay before the reeve"],
+  "verdict": ["=440"]
+}

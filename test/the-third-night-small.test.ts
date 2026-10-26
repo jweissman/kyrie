@@ -74,3 +74,36 @@ describe('The Third Night: the night of the rising', () => {
     expect(g.holds('pinchGone', 'pinch')).toBe(true);
   }, 240000);
 });
+
+describe('The Third Night: what a build brings', () => {
+  it('a cleric says the office under the rail at the curfew, and the Abbess\'s regard carries the Liberty\'s charity, with no check', async () => {
+    const g = await Wrayford.start(build('cleric'));
+    await g.fixture('office', 'day1');
+    expect(g.holds('ritesOffered', 'party')).toBe(true);
+    expect(g.holds('spread', 'rites_fact')).toBe(true);
+    await g.fixture('office', 'court');
+    expect(g.measure('abbessRegard', 'abbess')).toBe(2);
+    expect(g.holds('abbessClaims', 'abbess')).toBe(true);
+    expect(g.holds('sanctuary', 'party')).toBe(true);
+    await g.fixture('office', 'chain', 'bench');
+    await g.until(440);
+    expect(g.holds('tokenGiven', 'party')).toBe(true);
+    expect(g.ending()).toEqual([w('charity')]);
+  }, 240000);
+
+  it('a scholar digs the graves by day, learns the ford from Ham\'s herd, and gets two of the three over before the river rises', async () => {
+    const g = await Wrayford.start(build('scholar'));
+    await g.fixture('scholar', 'day1');
+    expect(g.holds('dugOwn', 'party')).toBe(true);
+    expect(g.holds('state', 'graves', 'dug')).toBe(true);
+    await g.fixture('scholar', 'night2');
+    expect(g.knows('ford_way')).toBe(true);
+    expect(g.at('joss_dead')).toBe(w('under_arches'));
+    await g.until(440);
+    expect(g.holds('buried', 'wat_dead')).toBe(true);
+    expect(g.holds('buried', 'dunstan_dead')).toBe(true);
+    expect(g.holds('buried', 'joss_dead')).toBe(false);
+    expect(g.page).toMatch(/found Joss Wilder in the morning where he had been left/);
+    expect(g.ending()).toEqual([w('third_man')]);
+  }, 240000);
+});

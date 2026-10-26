@@ -123,7 +123,7 @@ Module wrayford "The Third Night" {
   }
   Kind chisels_kind "Dunstan Fenner's chisels" is gear worth 3 weighing 2
     described "A roll of oiled leather with six chisels in it, the handles dark with a man's hands, the edges kept like razors.".
-  Item fenner_chisels "Dunstan Fenner's chisels" is chisels_kind at pawnshop hidden until tools_pawned.
+  Item fenner_chisels "Dunstan Fenner's chisels" is chisels_kind at pawnshop hidden until tools_pawned owned by pratt.
   Action bring_tools(actor: group, carrier: member, roll: item, site: place) "Put {roll} on Win's table" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, fenner_copper) and at(win, fenner_copper)
       and memberOf(carrier, actor) and ownedItem(roll, carrier) and itemKind(roll, chisels_kind) and not toolsHome(win).

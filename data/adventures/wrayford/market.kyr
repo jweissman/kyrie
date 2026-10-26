@@ -236,12 +236,16 @@ Module wrayford "The Third Night" {
     On success { Retract acquireRing(recipient). }
     Result "{recipient} takes Joss Wilder's ring.".
   }
+  // What is pledged is hers until it is redeemed, and she says so.
+  Entity pratt_objects: fact "'Those are pledged,' says Mistress Pratt, very loud, with her hand on the bell for the reeve's man. 'Pledged, and in my ledger, and not yours.'".
+  Initially Assert objection(pratt, pratt_objects).
   Action redeem_chisels(actor: group, recipient: member, site: place) "Pay Mistress Pratt three coin for Dunstan Fenner's chisels" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, pawnshop) and at(pratt, pawnshop)
-      and knows(actor, tools_pawned) and not chiselsBought(actor) and memberOf(recipient, actor) and quantity(actor, gold) >= 3.
+      and knows(actor, tools_pawned) and not chiselsBought(actor) and memberOf(recipient, actor) and quantity(actor, gold) >= 3
+      and at(fenner_chisels, pawnshop).
     Time 2 minutes.
     Resolve acquire(fenner_chisels, chisels_kind, recipient).
-    On success { Decrease quantity(actor, gold) by 3. Assert chiselsBought(actor). }
+    On success { Retract owns(pratt, fenner_chisels). Decrease quantity(actor, gold) by 3. Assert chiselsBought(actor). }
     Result "'A boy's been bringing them one at a time,' she says. 'Six. Three coin.' She does not ask who you are.".
   }
 

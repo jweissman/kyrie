@@ -6,6 +6,8 @@ Module wrayford "The Third Night" {
   Relation captainGone(place).
   Rule captain_gone_told when captainGone(wray) and inWrayford() and not spread(gone_fact) says "At noon the captain rides out over the drawbridge with her riders and Gault's four behind her, and the lord's toll money in a strongbox on a led horse, and does not look back at the gatehouse, and Wrayford watches her all the way up the south road until the hedges have her." { Assert spread(gone_fact). }
   Entity gone_fact: fact "The captain gone".
+  // Whatever of the dead is not in the ground at the verdict goes to the lord's lime.
+  Rule unburied_to_lime when verdictGiven(wray) and deadBody(?b) and not buried(?b) and not at(?b, limbo) { Assert at(?b, limbo). }
   Rule maudie_after when maudieHanged(maudie) and not at(maudie, limbo) { Assert at(maudie, limbo). }
   Rule maudie_home_after when verdictGiven(wray) and not maudieHanged(maudie) and maudieTaken(maudie) and not at(maudie, pardoe_kitchen) { Assert at(maudie, pardoe_kitchen). }
 

@@ -123,6 +123,10 @@ Module wrayford "The Third Night" {
   }
   Rule rites_said at gate_road when ritesOffered(party) and hour(clock) == 22 and stillHanging() and at(party, gate_road) and not spread(rites_fact) says "At the curfew bell you stand under the rail and say the office of the dead for Wat Pardoe, Dunstan Fenner and Joss Wilder, aloud, in the old words. The riders on the leads stop talking. In the doorways of Bridge Street people come out and stand. When you have finished there is no sound at all but the river, and then, from somewhere behind the shutters, someone says Amen, and then a great many people do." { Assert spread(rites_fact). Increase temper(wray) by 1. }
   Entity rites_fact: fact "The office said under the rail".
+  Topic abbess_after_rites with abbess "Tell the Abbess the office is said" when spread(rites_fact) once {
+    Says "'I heard.' She does not look up. 'The whole of Overbridge heard. Half of it came out on to the drawbridge to listen, and the riders let them stand there, which they have not let anyone do in four days.' She writes something, and sands it. 'You did what I could not, and you did it properly. The old words, not the new ones.' She looks up. 'The Liberty is obliged to you. It does not say that often.'".
+    On discuss { Increase abbessRegard(abbess) by 1. }
+  }
   Topic abbess_sanctuary with abbess "Ask the Abbess whether the Liberty would shelter you, if it came to that" when abbessRegard(abbess) >= 2 and not sanctuary(actor) once {
     Says "'It has sheltered worse.' She does not look up. 'Whoever is in the Liberty is beyond the reeve's writ. If you have done something in the city you would rather not answer for to Simon Hulme, be on this side of the drawbridge at dawn, and he may send me a letter.' She signs something. 'I shall frame it.'".
     On discuss { Assert sanctuary(actor). }

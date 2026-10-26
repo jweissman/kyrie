@@ -101,6 +101,16 @@ Module wrayford "The Third Night" {
     Result "You lay {body} in the grave by the church door, in his sacking, and fill it in, and tread it down, and lay the turf back. There is no stone. There will be.".
   }
   Rule all_buried when buried(wat_dead) and buried(dunstan_dead) and buried(joss_dead) and not buriedLawfully(wray) and not buriedByNight(wray) and takenDown(wray) { Assert buriedByNight(wray). }
+  // Whoever is still lying by the church door at the end of his day, Corbin buries, without being asked: he said he would dig
+  // when they were down.
+  Rule corbin_buries when deadBody(?b) and at(?b, wades_acre) and not borne(?b) and not buried(?b) and state(graves, dug)
+    and corbinWillDig(wray) and not corbinResigned(corbin) and not releaseUnderway(wray) and hour(clock) >= 19 and hour(clock) < 21
+    and not at(party, wades_acre) and not bearingAny(party) says "Word comes over the water: at the end of the day old Corbin found {?b} lying by the church door in his sacking, and stood over him a while with his pipe, and then buried him, properly, without being asked." {
+    Assert buried(?b). Assert at(?b, limbo). }
+  // Whoever is left lying anywhere else, the reeve's men find in the morning.
+  Rule dead_found when deadBody(?b) and not buried(?b) and not borne(?b) and not inCart(?b) and state(rail, cut) and not releaseUnderway(wray) and hour(clock) >= 8
+    and hour(clock) < 20 and at(?b, ?p) and not inLiberty(?p) and not at(?b, limbo) and not at(?b, reeve_yard) says "Word goes round: the reeve's men found {?b} in the morning where he had been left, and carried him up to the Guildhall yard under a sheet, to wait for the captain." {
+    Assert at(?b, reeve_yard). }
   Rule grave_rites at wades_acre when buriedByNight(wray) and capable(party, rites) and not ritesAtGrave(wray) says "Over the three new graves, in the dark, you say the office of the dead, the old words, all of them. It is the first time they have been said for these three, and the river says something under them." { Assert ritesAtGrave(wray). }
   Rule wat_coat_left when buriedByNight(wray) and homecomer(party) and not coatGiven(maudie) { Assert coatGiven(maudie). }
   Measure buriedOn(place). Relation burialDated(place).
