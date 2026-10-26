@@ -5,6 +5,7 @@ import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act } from './act';
+import { Moments } from './moments';
 
 // What the place says and what just happened in it. Coming somewhere, the way there is told, then the place, then
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
@@ -46,20 +47,6 @@ export class Told {
           {[...l.journey, ...l.lines].map((t, j) => <p key={j}>{Typography.curl(t)}</p>)}</li>)}</ol>
         {!travel.arrived && <p className="stopped">{Typography.curl(travel.stopped ?? 'The journey stops here')}.</p>}
       </section>
-    );
-  }
-  // Something seen through (the Long Man, the fever) is the end of a chapter, and the page sets it as one: what it
-  // was, large; what it was worth; and, where it is enough for a level, when that is taken up.
-  static readonly ending = /^(.+?) (each gain|gains) (\d+) experience: (.+), seen through\.$/;
-  static SeenThrough({ ended, ready }: { ended: RegExpExecArray; ready?: string }) {
-    const [, who, gain, amount, what] = ended;
-    return (
-      <div className="seen-through" role="note" data-id="seen-through">
-        <p className="kicker">Seen through</p>
-        <p className="what">{Typography.curl(Words.upper(what!))}</p>
-        <p className="gain">{Typography.curl(`${who} ${gain} ${amount} experience.`)}</p>
-        {ready && <p className="next">{Typography.curl(ready)}.</p>}
-      </div>
     );
   }
   // Who in the company has enough for their next level, and how it is taken up.
@@ -110,13 +97,13 @@ export class Told {
   // happened, and what it came to know or spent.
   static Happened({ exchange, said, ready }: { exchange: Exchange; said?: boolean; ready?: string }) {
     const echo = said && exchange.said ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
-    const ended = exchange.lines.map(l => Told.ending.exec(l.text)).find(Boolean);
+    const { plain, ended, levels } = Moments.of(exchange.lines);
     return (
       <section className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
-        {exchange.lines.filter(l => !Told.ending.test(l.text)).map((l, i) => <p key={i} className={l.kind}>
-          {Typography.curl(l.text)}</p>)}
-        {ended && <Told.SeenThrough ended={ended} ready={ready} />}
+        {plain.map((l, i) => <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
+        {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
+        {levels.length > 0 && <Moments.Levelled levels={levels} />}
         {exchange.notes.length > 0 && <ul className="notes">{exchange.notes.map(n => <li key={n}
           className={/^Noted: /.test(n) ? 'learned' : undefined}>{/^Noted: /.test(n)
             ? <><span className="label">You know now</span> {Typography.curl(n.replace(/^Noted: /, ''))}</>

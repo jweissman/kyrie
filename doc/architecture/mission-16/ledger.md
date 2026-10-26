@@ -8,7 +8,7 @@ deliberately left. Newest entries first in each part. The plan and its decisions
 | Gate | Stands |
 |---|---|
 | A. A transformed, trustworthy interface | in production: the place, road, conversation, object and fight pages on one white page; the Character view from the start, with development and its previews |
-| B. The way into adventure | in production for every world Begin draws: Merrowdale's notice and rumour in every first-country town, its road known, one journey there; free play from Begin across seeds still to do |
+| B. The way into adventure | in production for every world Begin draws: Merrowdale's notice and rumour in every first-country town, its road known, one journey there; a newcomer who sees only the page finds the lead in every one of eight worlds |
 | C. A complete RPG expedition | in production: The Long Man played from Begin in two drawn worlds (Lonelymoor, Coldwaste) to its peaceful end, with withdrawal, return and a reload midway; its findings repaired; the storm and its aftermath still to play |
 | D. Becoming and continuing | in production: seen through for 1,000 experience, level 2 after a night under a roof, a development chosen in the Character view by what it opens; the return acknowledged in the country below; the Story whole across reloads; Saltgrave entered from the same world; the deep rivals' brothers heard of, asked after and traced, own history kept apart from reports and traces |
 | E. Independent acceptance and accounting | in hand: the reconciliation ([reconciliation.md](reconciliation.md)) and eight branches pruned; free play at 1440 and 900, by keys alone and without images, still to do. No independent player or reviewer has played this build |
@@ -28,6 +28,40 @@ Played from the title page at 1280 × 860:
   - the road across the march told as fen ("Out on the fen the sky is enormous") in a frost country.
 
 ## Done and verified
+
+- **B. A newcomer who sees only the page.** The way in was played across worlds by a policy that knows nothing of the
+  game: set out for any place newly offered to set out for, and again when a journey is stopped; else read what can
+  be read; else ask the first question not yet asked; else go somewhere not yet been, in the page's order. It names
+  no place, person or adventure.
+
+  | World | Origin | Commands to the lead | To the march-stone |
+  |---|---|---|---|
+  | wren | wanderer | 12 | 13 |
+  | a1 | kin | 12 | 13 |
+  | b2 | wanderer | 12 | 15 (stopped once by danger, set out again) |
+  | thorn | order | 13 | 14 |
+  | cov11 | kin | 17 | 18 |
+  | f1 | debt | 16 | 17 |
+  | mere | kin | 15 | 16 |
+  | e5 | debt | 15 | 16 |
+
+  In every world the lead was the notice where travellers are kept. The policy reads it on entering, before asking
+  anyone anything. Two worlds are kept as a test (`test/newcomer.test.ts`).
+
+- **C, D. Found in the free plays, and repaired.**
+  - **The father under the cart.** Coming home, the protagonist found "a man under it, a day or more dead", in the
+    words a stranger finds him in. To the drover's child that is now followed by "It is your father. You know the
+    coat first, and the hands, before you will let yourself know the face."
+  - **The brother kneeling.** His kneeling was filed under what the company knew ("Kildrak knelt by the cart"), and
+    the scene itself had never been shown: an observation that teaches what turns it off was visible only while the
+    command was settling. What a command taught is now read from the command itself. A fact an author keeps with no
+    words is a mark, not knowledge: it is never listed or noted. Test: `test/origins.test.ts`.
+  - **A bridge is crossed as a bridge.** The land along a way was told from its cells alone, so a road over the
+    river by its bridge was waded "with your boots full". A river leg is told now by the bridge, ford or ferry the
+    road comes to, and by neither where it comes to none. Test: `test/travel.test.ts`.
+  - **A level gained is a moment.** It was one more line after a night's rest. It is set apart now, lighter than a
+    chapter's end: who, and the level, what it gave, and the development it brings to be spent. Test:
+    `test/told-moments.test.ts`.
 
 - **E. The accounting.** Every obligation the mission inherited is in one table with its state
   ([reconciliation.md](reconciliation.md)): Mission 15's next steps, the audit, both architecture reviews and the
@@ -250,9 +284,6 @@ From the free plays, in the order met:
 - the wet gallery says it is dark before the torch gutters out;
 - the gauge shaft, once climbable, is listed among the roads out;
 - two places with one name are two roads out of Marirkom, alike to the letter ("To the bridge over the Karnahar");
-- coming home, the father found under the cart is "a man", told in the ordinary register, and "Kildrak knelt by the
-  cart" is filed under what you know;
-- a crossing by a bridge is told as a ford ("up the far bank with your boots full");
 - on a phone, the map cuts its labels at the left edge.
 
 ## Deliberately left

@@ -42,6 +42,9 @@
 .happened .seen-through .what { font: 400 34px/1.1 var(--told); margin: 0 0 12px; }
 .happened .seen-through .gain { font: 400 15.5px/1.45 var(--do); margin: 0; }
 .happened .seen-through .next { font: 400 14.5px/1.45 var(--do); color: var(--grey); margin: 4px 0 0; }
+/* A level gained: a moment of the person, lighter than a chapter's end. */
+.happened .levelled { margin-top: 22px; border-top: 2px solid var(--blue); }
+.happened .levelled .what { font-size: 28px; }
 .working .you::after { content: ' …'; }
 
 /* ---- Danger: what it is, and how a fight would go, in words, before anything is done about it. ---- */

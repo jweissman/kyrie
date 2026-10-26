@@ -6,6 +6,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
+import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { Origins } from '../src/world/origins';
 
 // One person comes into a generated country with a reason of their own, and the country knows them by it. a1 holds
@@ -103,7 +104,14 @@ describe('an origin', () => {
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', `region__${road}`) }]));
     await s.perform('wait');
-    await Opening.take(s, /^Search/);
+    const before = PlayerView.observe(s.campaign), found = await Opening.take(s, /^Search/);
+    // To the drover's child he is their father, and the brother's kneeling is seen, not filed as something known
+    // (the M16 free play read "a man under it", and "Kildrak knelt by the cart" under what it knew).
+    const told = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign),
+      { event: found, feedback: ActionFeedbackView.read(s.campaign, found, before), moved: false }).exchange!;
+    expect(told.lines.map(l => l.text).slice(-2).map(t => t.split('.')[0]))
+      .toEqual(['It is your father', `${name} goes down the bank to the cart before anyone can stop him, and kneels there a long time`]);
+    expect(told.notes.some(n => /knelt|father/.test(n))).toBe(false);
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', 'drover__son_knelt'))).toBe(true);
     expect(PlayerView.choices(s.campaign).some(x => /what you found/.test(x.choice.name))).toBe(false);
   }, 60000);

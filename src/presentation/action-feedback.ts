@@ -27,11 +27,13 @@ export class ActionFeedbackView {
     const member = before.party.find(p => p.id === target);
     return !!member && !member.conditions.includes(status);
   }
-  private static taught(campaign: Campaign, event: CampaignEvent, learned: string[]): { id: string; text: string }[] {
+  private static taught(campaign: Campaign, event: CampaignEvent): { id: string; text: string }[] {
     const observations = campaign.module.observations ?? [];
+    // Whatever the command taught, a mark with no words included (the brother kneeling by the cart, seen once).
+    const learned = new Set(event.changes.flatMap(c => /^\+ knows\([^,]+, ([^)]+)\)$/.exec(c)?.[1] ?? []));
     return (event.perceptions ?? []).filter(p => p.kind === 'observation').flatMap(p => {
       const o = observations.find(x => x.id === p.id.split('@')[0]);
-      if (!o?.teaches || !learned.includes(o.teaches)) { return []; }
+      if (!o?.teaches || !learned.has(o.teaches)) { return []; }
       const credit = this.credit(campaign, o.when);
       return [{ id: p.id, text: p.text }, ...credit ? [{ id: `${p.id}:credit`, text: credit }] : []];
     });
@@ -108,7 +110,7 @@ export class ActionFeedbackView {
       .map(e => CombatPresenter.format(e, names));
     const learned = after.knowledge.filter(k => !before.knowledge.some(b => b.id === k.id));
     // What taught the company something is what it saw, though once it knows, the place no longer shows it so.
-    const taught = ActionFeedbackView.taught(campaign, event, learned.map(k => k.id))
+    const taught = ActionFeedbackView.taught(campaign, event)
       .filter(t => !before.observations.some(b => b.text === t.text));
     // What shows only because of what was just learned is the short of what was just said ("Her coat is stiff with
     // ditch-mud"): the place shows it from now on, and it is not told again.

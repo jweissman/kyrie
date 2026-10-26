@@ -5,6 +5,7 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { Itineraries } from '../src/ui/itinerary';
 import { Travel } from '../src/session/travel';
+import { GeneratedWorld } from './support/generated';
 
 // The way into adventure (Mission 16's Gate B): the first country's towns tell of the authored country beyond it,
 // the notice is up where travellers are kept, and once it is known the way there is known too, over the country's
@@ -41,6 +42,18 @@ describe('the way into Merrowdale', () => {
     // Each leg is an ordinary command in the transcript, so the journey replays as it was made.
     expect(s.transcript.steps.slice(-4).every(step => step.command.startsWith('go('))).toBe(true);
   }, 180000);
+  // The free play crossed the bridge over the Karnahar "with your boots full": a road crosses its river as it is
+  // built to, by its bridge or its ford.
+  it('crosses a river as its road does, over the bridge and not through the water', async () => {
+    const w = await WorldAssembler.assemble('f1', NodeBundleSource.shared, { origin: 'wanderer',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'f1', w.source), c = s.campaign;
+    await GeneratedWorld.travel(s, 's1_s4_way');
+    const bridge = PlayerView.choices(c).find(x => x.choice.id.includes('region__road_s1_s4_on'))!;
+    expect(bridge.choice.name).toStartWith('Take the bridge over the Alquarant');
+    const land = ((await s.perform(bridge.choice.id)).voiced ?? []).filter(v => v.kind === 'journey-land');
+    expect(land.map(v => v.id)).toEqual([expect.stringMatching(/^journey-land\.river\.bridge\./)]);
+  }, 120000);
   it('reckons night as the dark hours, which stop a journey that runs into them', () => {
     expect([Travel.night(0), Travel.night(6 * 11), Travel.night(6 * 12), Travel.night(6 * 22)])
       .toEqual([false, false, true, false]);

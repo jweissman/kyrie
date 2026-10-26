@@ -1,5 +1,5 @@
 {
-  "about": "A way across country, told as it goes, a sentence or two and no more: setting out (by the hour and the sky: fair, grey, rain, fog, wind, cold, hot, ash), the land the way runs through (by what its cells are: water crossed, fen, wood, open fields, moor, a pass), the light going on the way, and coming in sight of where it ends (by the size of the settlement). {from} and {to} are where the way begins and ends; {way} is what it is, a road or a path (a track over the fells is not a road). When every line that fits has been said, the one said longest ago is said again.",
+  "about": "A way across country, told as it goes, a sentence or two and no more: setting out (by the hour and the sky: fair, grey, rain, fog, wind, cold, hot, ash), the land the way runs through (by what its cells are: water crossed, fen, wood, open fields, moor, a pass; water crossed by the bridge, ford or ferry the way comes to, when it comes to one), the light going on the way, and coming in sight of where it ends (by the size of the settlement). {from} and {to} are where the way begins and ends; {way} is what it is, a road or a path (a track over the fells is not a road). When every line that fits has been said, the one said longest ago is said again.",
   "kinds": ["journey-depart", "journey-land", "journey-dark", "journey-arrive", "journey-long"],
   "lines": [
     { "id": "journey-depart.morning.fair.1", "when": { "time": "morning", "sky": "fair", "light": "early" }, "text": "You leave {from} with the sun low behind you and the dew still on the grass." },
@@ -28,8 +28,13 @@
     { "id": "journey-depart.underground.2", "when": { "shelter": "underground" }, "text": "Under the ground there is no hour and no weather; only the way, and the sound of your own feet coming back off the stone." },
     { "id": "journey-depart.underground.3", "when": { "shelter": "underground" }, "text": "You leave {from} by lamplight. The air is still and cold, and smells of stone and old water." },
 
-    { "id": "journey-land.river.1", "when": { "land": "river" }, "text": "Partway, the {way} goes down to the water and through it, and up the far bank with your boots full." },
-    { "id": "journey-land.river.2", "when": { "land": "river" }, "text": "The {way} follows the river a while, close enough to hear it, and crosses where it runs wide and shallow." },
+    { "id": "journey-land.river.1", "when": { "land": "river", "crossing": "ford" }, "text": "Partway, the {way} goes down to the water and through it, and up the far bank with your boots full." },
+    { "id": "journey-land.river.2", "when": { "land": "river", "crossing": "ford" }, "text": "The {way} follows the river a while, close enough to hear it, and crosses where it runs wide and shallow." },
+    { "id": "journey-land.river.bridge.1", "when": { "land": "river", "crossing": "bridge" }, "text": "Partway, the {way} comes down to the river and goes over it by the bridge, and the water runs deep and quick under your feet." },
+    { "id": "journey-land.river.bridge.2", "when": { "land": "river", "crossing": "bridge" }, "text": "The {way} follows the river a while, close enough to hear it, and crosses at the bridge, where it runs too deep to wade." },
+    { "id": "journey-land.river.ferry.1", "when": { "land": "river", "crossing": "ferry" }, "text": "At the river you wait for the ferry, and cross sitting on your pack with the brown water slapping at the boards." },
+    { "id": "journey-land.river.3", "when": { "land": "river" }, "text": "For a while the {way} keeps company with a river, close enough to hear it." },
+    { "id": "journey-land.river.4", "when": { "land": "river" }, "text": "The {way} runs along a river for a mile, with alders on the bank and the water loud over the stones." },
     { "id": "journey-land.lake.1", "when": { "land": "lake" }, "text": "For a while the {way} runs along a shore, and birds get up off the water as you pass." },
     { "id": "journey-land.fen.1", "when": { "land": "fen" }, "text": "The {way} goes out across the fen on a raised bank, reed on either hand taller than a man, open water glinting through it." },
     { "id": "journey-land.fen.2", "when": { "land": "fen" }, "text": "Out on the fen the sky is enormous, and the only things standing up in all that flatness are you and a heron." },

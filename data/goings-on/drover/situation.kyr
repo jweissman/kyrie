@@ -24,6 +24,11 @@ Module drover "The drover who did not come home" {
   Discovery found_cart "The drover's cart went off the road in the night. He is under it, a day or more dead, and whatever had the oxen dragged them off toward the hills." {
     Found by searching road "Below the road, where the bank drops away, a cart lies on its side in the ditch with a man under it, a day or more dead. The oxen are gone; something had them, and dragged them off toward the hills.".
   }
+  // To the drover's own child the man under the cart is their father, known before the face is (the M16 free play
+  // found him "a man" to his child, in the words a stranger would find him in). Seen once: what it teaches is a mark
+  // with no words, never told as something known.
+  Entity father_known: fact "".
+  Observe father_seen at road as event when kin(party, wife) and knows(party, found_cart) and not knows(party, father_known) "It is your father. You know the coat first, and the hands, before you will let yourself know the face." teaches father_known.
   Item knife "a drover's knife with a horn handle" is dagger at road hidden until found_cart.
   // Said while it is so: taken, the knife is no longer in his belt (the follow-up review took it and it stayed).
   Observe knife_belt at road when knows(party, found_cart) and at(knife, road) and not buried(party) and not fetched(party) "His knife is still in his belt.".
@@ -120,7 +125,9 @@ Module drover "The drover who did not come home" {
     Says "'He used to sing to the oxen,' says {son}. 'Terrible songs. He made them up as he went, and they liked them better than anything.' He is quiet a while. 'Mother would not have him sing in the house.'".
   }
   Event son_wheel at road when travelsWith(son, party) and awake(member_son_person) and at(party, road) and not knows(party, found_cart) "{son} stops where the ruts go off the road and stands looking at them. 'That is the left wheel,' he says. 'That is his.'".
-  Entity son_knelt: fact "{son} knelt by the cart.".
+  // He kneels there once, before the company's eyes: something seen, not something learned, so what it teaches has no
+  // words (the M16 free play found his kneeling filed among what it knew).
+  Entity son_knelt: fact "".
   Observe son_kneels at road as event when travelsWith(son, party) and awake(member_son_person) and knows(party, found_cart) and not knows(party, son_knelt) "{son} goes down the bank to the cart before anyone can stop him, and kneels there a long time. When he comes back up he has nothing to say, and nobody asks him to." teaches son_knelt.
   // Left alone too long, the son goes out after his father himself.
   Rule son_goes at green when watch(clock) >= 204 and not told(son) and at(son, green) says "{son} has taken his father's old spear and gone out on the road alone. Nobody stopped him." { Retract at(son, green). Assert gone(son). }

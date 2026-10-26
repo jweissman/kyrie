@@ -41,7 +41,8 @@ export class Journeys {
       ...this.going(campaign, event, from, start) ? [] : [['journey-depart', { time: FictionalTime.part(start),
         sky: this.skies[sky ?? ''] ?? 'fair', ...FictionalTime.early(start) ? { light: 'early' } : {} }] as
         [string, Record<string, string>]],
-      ...chart && !again ? [['journey-land', { land: this.land(chart, this.cells(chart, from, to)) }] as [string, Record<string, string>]] : [],
+      ...chart && !again ? [['journey-land', this.ground(campaign, chart, { way, from, to })] as
+        [string, Record<string, string>]] : [],
       ...!FictionalTime.dark(start) && FictionalTime.dark(event.elapsed) ? [['journey-dark', {}] as [string, Record<string, string>]] : [],
       ...again ? [] : this.arrival(campaign, to, ticks)];
     // The land is not told again as it was told a leg or two back (the river crossed twice over in one journey).
@@ -109,6 +110,21 @@ export class Journeys {
       return chart.roads[to] ? road.slice(0, half) : road.slice(-half);
     }
     return [chart.places[from], chart.places[to]].filter((c): c is number => c !== undefined);
+  }
+  // The land a way runs through, and how it crosses water when it does: by the bridge, ford or ferry the road comes to,
+  // the way itself or the next from its room in the wild (the M16 free play crossed the bridge over the Karnahar
+  // "with your boots full").
+  private static ground(campaign: Campaign, chart: LandChart, leg: { way: string; from: string; to: string }):
+    Record<string, string> {
+    const land = this.land(chart, this.cells(chart, leg.from, leg.to));
+    if (land !== 'river') { return { land }; }
+    const room = [leg.to, leg.from].find(p => !this.settlement(campaign, p));
+    const next = room ? campaign.world.related('connects').filter(r => r.args[1] === room).map(r => r.args[0]!) : [];
+    const crossing = [leg.way, ...next].map(p => this.kind(campaign, p)).find(k => ['bridge', 'ford', 'ferry'].includes(k));
+    return crossing ? { land, crossing } : { land };
+  }
+  private static kind(campaign: Campaign, passage: string): string {
+    return campaign.world.one('passageKind', passage)?.replace(/^.*way_/, '') ?? '';
   }
   // What the land along the way is, the most telling thing first: water crossed, then the high ground, the fen, the
   // wood, the lake shore; else open fields.

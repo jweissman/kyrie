@@ -10,7 +10,9 @@ import type { PlayerSnapshot } from './player-view';
 export class CompanyKnowledge {
   static of(campaign: Campaign, actor: string, labels: Map<string, string>): PlayerSnapshot['knowledge'] {
     const world = campaign.world, learned = this.learned(campaign, actor);
-    const known = EntityIndex.of(campaign.module.entities).ordered(world.related('knows', actor).map(r => r.args[1]!));
+    // A fact with no words is a mark an author keeps (the brother knelt by the cart), not something to be told.
+    const known = EntityIndex.of(campaign.module.entities).ordered(world.related('knows', actor).map(r => r.args[1]!))
+      .filter(e => e.name);
     return known.map(e => {
       const told = world.related('toldBy', actor).find(r => r.args[2] === e.id);
       const found = world.related('learnedFrom', actor).find(r => r.args[2] === e.id);
