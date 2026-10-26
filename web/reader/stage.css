@@ -1,376 +1,205 @@
-/* The stage: play, one activity at a time, lit as the company is. Jost names and does; Newsreader tells and speaks.
-   Black and white, with one colour that means something under each light (moss by day, lamp-amber in the dark), and
-   red only for danger. */
-.stage[data-light] {
-  --ground: #ece6da; --paper: #f7f3eb; --ink: #17140f; --grey: #676155; --faint: #a39d90; --hair: #d6cebe;
-  --wash: #ebe5d8; --accent: #3b5a36; --red: #a3301f; --sel-bg: #17140f; --sel-ink: #f7f3eb; --river: #2f5d8a;
-  --land: #efe9dd; --known: #e6dfd1; --wood: #d6dccb; --fell: #e4dccd; --heath: #e6dbd1; --fen: #dbe3d9; --peak: #cfc8bb;
-  --water: #cfdbe6;
-  color-scheme: light;
-}
-.stage[data-light="indoor"] { --ground: #e3d8c4; --paper: #f4ecdd; --ink: #1d160e; --grey: #6e604c; --hair: #d5c6ab;
-  --wash: #ebdfc9; --accent: #84501e; --sel-bg: #1d160e; --sel-ink: #f4ecdd; }
-.stage[data-light="dusk"], .stage[data-light="night"], .stage[data-light="dark"] {
-  --ink: #ece6da; --grey: #a29d92; --faint: #6f6b63; --accent: #d9a54c; --red: #e0563e; --river: #7aa7ea;
-  --land: #1d1d22; --known: #26262c; --wood: #232820; --fell: #29261f; --heath: #2a2422; --fen: #1f2623; --peak: #302d28;
-  --water: #1b2533; color-scheme: dark;
-}
-.stage[data-light="dusk"] { --ground: #22222a; --paper: #2b2b34; --hair: #41414c; --wash: #33333d; --sel-bg: #ece6da;
-  --sel-ink: #22222a; }
-.stage[data-light="night"] { --ground: #0f1115; --paper: #161920; --hair: #2c3039; --wash: #1d2028; --sel-bg: #ece6da;
-  --sel-ink: #0f1115; }
-.stage[data-light="dark"] { --ground: #0b0a09; --paper: #151311; --hair: #34302a; --wash: #1d1a17; --sel-bg: #ece6da;
-  --sel-ink: #0b0a09; }
-/* Lamplight, chosen in the options or the device's own: the day's page and the inn's are dark too (the inn's warm by
-   its fire); the night's and the deep's always are. */
-:root[data-theme="dark"] .stage:is([data-light="day"], [data-light="indoor"]) {
-  --ink: #ece6da; --grey: #a29d92; --faint: #6f6b63; --accent: #9fbf8e; --red: #e0563e; --river: #7aa7ea;
-  --land: #1d1d22; --known: #26262c; --wood: #232820; --fell: #29261f; --heath: #2a2422; --fen: #1f2623; --peak: #302d28;
-  --water: #1b2533; color-scheme: dark;
-  --ground: #1b1a17; --paper: #24221e; --hair: #3c3933; --wash: #2c2a25; --sel-bg: #ece6da; --sel-ink: #1b1a17; }
-:root[data-theme="dark"] .stage[data-light="indoor"] { --ground: #1f1a14; --paper: #29221a; --accent: #d9a54c;
-  --hair: #443a2c; --wash: #30281e; --sel-ink: #1f1a14; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .stage:is([data-light="day"], [data-light="indoor"]) {
-    --ink: #ece6da; --grey: #a29d92; --faint: #6f6b63; --accent: #9fbf8e; --red: #e0563e; --river: #7aa7ea;
-    --land: #1d1d22; --known: #26262c; --wood: #232820; --fell: #29261f; --heath: #2a2422; --fen: #1f2623; --peak: #302d28;
-    --water: #1b2533; color-scheme: dark;
-    --ground: #1b1a17; --paper: #24221e; --hair: #3c3933; --wash: #2c2a25; --sel-bg: #ece6da; --sel-ink: #1b1a17; }
-  :root:not([data-theme="light"]) .stage[data-light="indoor"] { --ground: #1f1a14; --paper: #29221a; --accent: #d9a54c;
-    --hair: #443a2c; --wash: #30281e; --sel-ink: #1f1a14; }
-}
-:root:has(.stage[data-light="day"]) body { background: #ece6da; }
-:root:has(.stage[data-light="indoor"]) body { background: #e3d8c4; }
-:root:has(.stage[data-light="dusk"]) body { background: #22222a; }
-:root:has(.stage[data-light="night"]) body { background: #0f1115; }
-:root:has(.stage[data-light="dark"]) body { background: #0b0a09; }
-:root[data-theme="dark"]:has(.stage[data-light="day"]) body { background: #1b1a17; }
-:root[data-theme="dark"]:has(.stage[data-light="indoor"]) body { background: #1f1a14; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):has(.stage[data-light="day"]) body { background: #1b1a17; }
-  :root:not([data-theme="light"]):has(.stage[data-light="indoor"]) body { background: #1f1a14; }
-}
+/* The stage: play, one composition at a time, on the same white page. Newsreader tells and speaks; Jost names the
+   ways and does. The place's name and its telling are the centre; what can be done follows the telling it answers. */
 
-.stage { min-height: 100dvh; background: var(--ground); color: var(--ink); transition: background-color .4s; }
-.stage .act { text-decoration-color: var(--hair); }
-.stage .act.sel, .stage .act:focus-visible { background: var(--sel-bg); color: var(--sel-ink); }
-.stage .act small, .stage .act .note { font: 400 13.5px/1.3 var(--display); color: var(--grey); }
-.stage .act .note::before { content: ' · '; }
-.stage .acts.cards .act .note::before { content: none; }
-.stage .act.sel small { color: inherit; opacity: .75; }
-.stage .label { color: var(--grey); }
-.stage .status { font: 600 11.5px/1.2 var(--display); letter-spacing: .18em; text-transform: uppercase; color: var(--grey);
-  display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; }
-.stage .status span:first-child { color: var(--ink); }
-.stage .danger { color: var(--red); }
-.stage .close { all: unset; position: fixed; top: 12px; right: 16px; z-index: 5; cursor: pointer; font: 300 30px/1 var(--display);
-  color: var(--grey); padding: 4px 10px; }
-.stage .close:hover { color: var(--ink); }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.stage[aria-busy="true"] .acts, .stage[aria-busy="true"] .replies, .stage[aria-busy="true"] .doors { opacity: .55;
-  transition: opacity .2s .15s; }
+/* ---- The page: one column of reading, centred, never widened to fill the screen. ---- */
+.page { max-width: 40rem; margin: 0 auto; padding: 30px 24px 96px; }
+.running { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 18px; padding-bottom: 10px;
+  margin: 0 0 40px; border-bottom: 1px solid var(--hair); font: 500 11.5px/1.3 var(--do); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--grey); }
+.running .where span + span::before, .running .when span + span::before { content: '·'; margin: 0 8px; color: var(--faint); }
+.running .where span:first-child { color: var(--ink); }
+.chapter { font: 500 12px/1.3 var(--do); letter-spacing: .18em; text-transform: uppercase; margin: 0 0 8px; }
+/* Coming into a country is a chapter of its own: the page gives it room, and the new country a mark of discovery. */
+.chapter.kind-country { margin-top: 18px; font-size: 13px; }
+.chapter.kind-country::before { content: ''; display: block; width: 44px; height: 5px; background: var(--yellow); margin: 0 0 18px; }
+.chapter.kind-country + .place { font-size: clamp(38px, 5vw, 52px); margin-bottom: 26px; }
+.place { font: 400 clamp(32px, 4.2vw, 42px)/1.12 var(--told); letter-spacing: -.005em; margin: 0 0 20px; text-wrap: balance; }
+.dark-note { font: italic 400 19px/1.5 var(--told); }
+.journey p { font-style: italic; color: var(--grey); }
+.establish p { margin-bottom: .75em; }
+.recall { color: var(--grey); font-size: 16.5px; }
+.presence p { color: #2B2B2B; }
+.presence.quiet p { color: var(--grey); font-size: 16.5px; }
+.inline { all: unset; cursor: pointer; border-bottom: 1px solid var(--hair); }
+.inline:hover { border-bottom-color: var(--ink); }
+.changed { margin: 22px 0; }
+.changed p { font-style: italic; }
 
-/* ---- A place: a walled field, its ways through its walls. ---- */
-.stage .field { position: relative; margin: 66px clamp(150px, 13vw, 210px); min-height: calc(100dvh - 132px);
-  background: var(--paper); outline: 1.5px solid var(--ink); padding: 40px clamp(28px, 3.4vw, 52px) 40px;
-  display: flex; flex-direction: column; }
-.stage .field.n-tall { margin-top: 118px; min-height: calc(100dvh - 184px); }
-.stage .place { font: 600 clamp(42px, 5.4vw, 84px)/.95 var(--display); letter-spacing: -.035em; margin: 12px 0 20px;
-  text-wrap: balance; }
-.stage .chapter { font: 500 15px/1.3 var(--display); color: var(--accent); margin: -8px 0 18px; letter-spacing: .02em; }
-.stage .dark-note { font: 600 12px var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
-.stage .establish p { font: 400 21px/1.52 var(--text); max-width: 36em; margin: 0 0 .6em; }
-.stage .establish.receded p { font-size: 16.5px; line-height: 1.5; color: var(--grey); }
-.stage .journey p { font: italic 19px/1.5 var(--text); color: var(--grey); max-width: 36em; margin: 0 0 .5em; }
-.stage .journey { margin: 0 0 18px; }
-.stage .happened { border: 0; border-left: 3px solid var(--accent); padding: 2px 0 2px 18px; margin: 4px 0 24px; max-width: 38em; }
-.stage .happened p { font: italic 20px/1.5 var(--text); color: var(--ink); margin: 0 0 .45em; }
-.stage .happened .speech { font-style: normal; }
-.stage .happened .you { font: 500 14px/1.3 var(--display); letter-spacing: .02em; text-transform: none; color: var(--accent); }
-.stage .happened .notes { font: 500 14px/1.4 var(--display); font-style: normal; color: var(--accent); }
-.stage .happened .notes span { display: block; }
-.stage .happened.tone-fail p:not(.you) { color: var(--grey); }
-.stage .changed p { font-size: 18px; color: var(--grey); }
+/* What has just happened: kept in its own words, under what the company did. */
+.happened { margin: 22px 0 26px; }
+.happened .you { font: 400 14.5px/1.4 var(--do); color: var(--grey); margin: 0 0 8px; }
+.happened .speech { font-size: 20px; line-height: 1.5; }
+.happened .change { font-style: italic; }
+.happened .event, .happened .fight { font: 400 15.5px/1.45 var(--do); color: var(--grey); }
+.happened.tone-fail p { color: var(--grey); }
+.happened .notes, .lines .notes { list-style: none; padding: 0; margin: 10px 0 0; font: 400 14.5px/1.45 var(--do); color: var(--grey); }
+.happened .notes li.learned { border-left: 4px solid var(--yellow); padding: 3px 0 3px 12px; color: var(--ink); margin: 6px 0; }
+.happened .notes .label { margin: 0 6px 0 0; display: inline; }
+.working .you::after { content: ' …'; }
 
-.stage .cast { display: flex; flex-wrap: wrap; gap: 28px 24px; margin: 26px 0 8px; }
-.stage .fig { width: 184px; margin: 0; }
-.stage .fig-act { all: unset; box-sizing: border-box; display: block; cursor: pointer; }
-.stage .fig img, .stage .fig .blank { display: block; width: 184px; height: 238px; object-fit: cover; background: var(--wash); }
-.stage .fig .blank { display: grid; place-items: center; font: 300 96px/1 var(--display); color: var(--faint); }
-.stage .fig .n { display: block; font: 600 18px/1.2 var(--display); margin-top: 10px; }
-/* Without a likeness: a card with the name, the size of what it says. */
-.stage .fig.unpainted, .stage .cast .fig.unpainted { width: auto; max-width: 300px; }
-.stage .fig.unpainted .fig-act { display: block; border: 1.5px solid var(--accent); padding: 9px 14px 8px; }
-.stage .fig.unpainted .n { margin-top: 0; color: var(--accent); }
-.stage .fig .r { display: block; font: 400 13.5px/1.3 var(--display); color: var(--grey); margin-top: 2px; }
-.stage .fig figcaption { font: italic 14.5px/1.4 var(--text); color: var(--grey); margin-top: 6px; }
-@media (hover: hover) { .stage .fig-act:hover img { outline: 2px solid var(--ink); outline-offset: 3px; } }
-.stage .cast.few .fig { width: 236px; } .stage .cast.few .fig img, .stage .cast.few .fig .blank { width: 236px; height: 306px; }
-.stage .fig-act.sel, .stage .fig-act:focus-visible { background: none; color: inherit; }
-.stage .fig-act.sel img, .stage .fig-act:focus-visible img { outline: 3px solid var(--accent); outline-offset: 4px; }
-.stage .fig-act.sel .n { color: var(--accent); }
-.stage .fig.dead img, .stage .fig.down img { filter: grayscale(1) brightness(.7); }
-/* After dark the faces are seen by what light there is. */
-.stage[data-light="night"] .fig img, .stage[data-light="dusk"] .fig img { filter: brightness(.78) saturate(.85); }
-.stage .threats { margin: 22px 0 6px; display: grid; gap: 14px; }
-.stage .threat { border-left: 4px solid var(--red); padding: 4px 0 4px 18px; max-width: 40em; }
-.stage .threat .n { font: 600 22px/1.2 var(--display); margin: 0 0 4px; }
-.stage .threat .r { font-weight: 400; font-size: 15px; color: var(--grey); }
-.stage .threat .d { font: italic 17px/1.45 var(--text); color: var(--grey); margin: 0 0 4px; }
-.stage .things { margin: 26px 0 0; }
-.stage .things ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
-.stage .look { all: unset; box-sizing: border-box; cursor: pointer; display: block; border: 1.5px solid var(--ink);
-  padding: 9px 14px 8px; max-width: 300px; }
-.stage .look .n { display: block; font: 500 16.5px/1.25 var(--display); }
-.stage .look small { display: block; margin-top: 2px; }
-.stage .look:hover { background: var(--wash); }
-.stage .look.sel, .stage .look:focus-visible { background: var(--sel-bg); color: var(--sel-ink); }
+/* ---- Danger: what it is, and how a fight would go, in words, before anything is done about it. ---- */
+.threat { border-left: 3px solid var(--red); padding: 2px 0 2px 16px; margin: 26px 0; }
+.threat .label { color: var(--red); }
+.threat .n { font: 500 18px/1.3 var(--do); margin: 0 0 4px; }
+.threat .n .r { font-weight: 400; color: var(--grey); font-size: 15px; }
+.threat .d { font-style: italic; }
+.threat .reckoning { font: 400 17px/1.45 var(--told); }
 
-.stage .doors .door { position: absolute; z-index: 2; }
-.stage .door .door-act { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column;
-  font: 500 15.5px/1.25 var(--display); color: var(--ink); padding: 4px 10px; }
-.stage .door .arrow { font: 400 22px/1 var(--display); color: var(--accent); }
-.stage .door .to { text-wrap: balance; }
-.stage .door small { margin-top: 2px; }
-.stage .door-act:hover .to { text-decoration: underline; text-underline-offset: 4px; }
-.stage .door-act.sel, .stage .door-act:focus-visible { background: var(--sel-bg); color: var(--sel-ink); }
-.stage .door-act.sel .arrow { color: inherit; }
-.stage .door-act[aria-disabled="true"] { color: var(--faint); }
-.stage .door-also { display: block; font-size: 13.5px; margin: 0 0 0 4px; color: var(--grey); }
-.stage .door-also.shut { color: var(--faint); cursor: default; } .stage .door-also .why { font-size: 12.5px; }
-/* What a thing on the way opens to (looking closer, prodding it), under the thing, so the look answers where it was asked. */
-.stage .door .door-opened { display: block; margin: 2px 0 4px 16px; padding-left: 8px; border-left: 1px solid var(--accent); }
-.stage .door .door-opened .act { display: block; font-size: 13.5px; text-align: left; }
-.stage .door.side-n, .stage .door.side-s { left: var(--at); max-width: 320px; text-align: center; }
-.stage .door.side-n { top: 0; transform: translate(-50%, calc(-100% - 4px)); }
-.stage .door.side-s { top: 100%; transform: translate(-50%, 4px); }
-.stage .door.side-n::after, .stage .door.side-s::after { content: ''; position: absolute; left: 50%; width: 46px; margin-left: -23px;
-  height: 4px; background: var(--paper); }
-.stage .door.side-n::after { bottom: -7px; } .stage .door.side-s::after { top: -7px; }
-.stage .door.side-n .door-act, .stage .door.side-s .door-act { flex-direction: row; flex-wrap: wrap; justify-content: center;
-  align-items: baseline; gap: 0 8px; }
-.stage .door.side-n .door-act small, .stage .door.side-s .door-act small { flex-basis: 100%; margin: 0; }
-.stage .door.side-w, .stage .door.side-e { top: var(--at); width: clamp(132px, 11.5vw, 186px); }
-.stage .door.side-w { left: 0; transform: translate(calc(-100% - 6px), -50%); text-align: right; }
-.stage .door.side-w .door-act { align-items: flex-end; }
-.stage .door.side-e { left: 100%; transform: translate(6px, -50%); }
-.stage .door.side-w::after, .stage .door.side-e::after { content: ''; position: absolute; top: 2px; width: 4px; height: 34px;
-  background: var(--paper); }
-.stage .door.side-w::after { right: -8px; } .stage .door.side-e::after { left: -8px; }
-.stage .door.far .arrow { color: var(--ink); }
+/* ---- Who and what is here: a line each, names to be attended to. ---- */
+.here { margin: 30px 0 0; }
+.line-of, .ways { margin: 0 0 18px; }
+.names { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 22px; }
+.names li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; }
+.act.name .n { font-weight: 500; }
+.act.name .r, .act.route .r { font: 400 14px/1.35 var(--do); color: var(--grey); margin-left: 7px; text-decoration: none; display: inline-block; }
+.name.still { font: 450 16.5px/1.35 var(--do); color: var(--grey); }
+.name.still .r { margin-left: 7px; font-size: 14px; }
+.act.also { color: var(--grey); }
+.ways { margin-top: 26px; }
+.routes { list-style: none; margin: 0; padding: 0; }
+.routes li { margin: 0 0 6px; }
+.act.route .n { font-weight: 500; }
 
-.stage .foot { margin-top: auto; padding-top: 34px; display: flex; flex-wrap: wrap; justify-content: space-between;
-  align-items: flex-end; gap: 14px 40px; font: 400 14.5px/1.5 var(--display); color: var(--grey); }
-.stage .foot .by { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
-.stage .foot .by li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; }
-.stage .foot b { color: var(--ink); font-weight: 600; }
-.stage .foot .self { text-align: right; margin-left: auto; }
-.stage .foot .me { margin: 0 0 2px; }
-/* The company's light, under the company: how long what is lit will last, and what there is to spare. */
-.stage .foot .light { margin: 0 0 4px; font-size: 13.5px; color: var(--grey); }
-.stage .foot .hurt { color: var(--red); }
-.stage .acts.small { gap: 0 14px; margin: 0; justify-content: inherit; }
-.stage .self .acts { justify-content: flex-end; }
-.stage .acts.small .act { font: 500 14.5px/1.4 var(--display); }
-.stage .sheets { list-style: none; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0 14px; margin: 6px 0 0;
-  padding: 0; }
-.stage .sheet-key { all: unset; cursor: pointer; font: 500 14.5px/1.5 var(--display); color: var(--ink); }
-.stage .sheet-key:hover { text-decoration: underline; text-underline-offset: 4px; }
-.stage .opened-list { border-left-color: var(--accent); }
+/* ---- At the foot: yourself, and the books. ---- */
+.foot { margin-top: 44px; padding-top: 14px; border-top: 1px solid var(--hair); font: 400 14.5px/1.45 var(--do); color: var(--grey); }
+.foot .me b { color: var(--ink); font-weight: 600; }
+.foot .light { margin: 2px 0 4px; }
+.hurt { color: var(--red); }
+.sheets { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.sheet-key { all: unset; cursor: pointer; font: 450 14.5px var(--do); color: var(--ink); text-decoration: underline;
+  text-decoration-color: var(--hair); text-underline-offset: 4px; }
+.sheet-key[aria-pressed="true"] { color: var(--blue); text-decoration-color: var(--blue); }
+.sheet-key:focus-visible { color: var(--blue); outline: none; text-decoration-color: var(--blue); }
 
-/* ---- A conversation: their painting, and what passes between you. ---- */
-.stage .talk { display: grid; grid-template-columns: minmax(0, 44fr) minmax(0, 56fr); min-height: 100dvh; }
-.stage .sitter { position: sticky; top: 0; height: 100dvh; overflow: hidden; background: #1a1714; }
-.stage .sitter img { width: 100%; height: 100%; object-fit: cover; }
-.stage .sitter .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 150px clamp(22px, 3vw, 44px) 34px;
-  background: linear-gradient(transparent, rgba(10, 9, 8, .88)); color: #f3efe6; }
-.stage .sitter .n { font: 600 clamp(40px, 4.4vw, 66px)/1 var(--display); letter-spacing: -.02em; margin: 0; }
-.stage .sitter .r { font: 400 17px/1.35 var(--display); opacity: .82; margin: 8px 0 0; }
-.stage .sitter .credit { position: absolute; top: 14px; left: 18px; right: 18px; margin: 0; font: 400 11.5px/1.3 var(--display);
-  color: rgba(243, 239, 230, .62); }
-.stage .sitter .initial { position: absolute; inset: 0; display: grid; place-items: center; font: 300 46vh/1 var(--display);
-  color: rgba(243, 239, 230, .1); }
-.stage .dialogue { padding: 40px clamp(24px, 4vw, 60px) 48px; display: flex; flex-direction: column; min-height: 100dvh; }
-.stage .lines { flex: 1; margin-top: 34px; max-width: 36em; }
-@media (min-width: 861px) {
-  /* At a desk the conversation keeps its replies in view: what has been said scrolls above them. */
-  .stage .dialogue { height: 100dvh; min-height: 0; }
-  .stage .lines { overflow-y: auto; min-height: 0; padding-right: 12px; scrollbar-width: thin; }
-}
-.stage .line { font: 400 22px/1.5 var(--text); margin: 0 0 20px; }
-.stage .line.telling, .stage .line.event, .stage .line.change { font-style: italic; font-size: 19px; color: var(--grey); }
-.stage .line.you { font: 500 16px/1.4 var(--display); color: var(--accent); margin: 8px 0 10px; }
-.stage .line.you::before { content: '— '; }
-.stage .line.you.waiting { opacity: .7; }
-.stage .line.learned { font: 500 15.5px/1.45 var(--display); border-top: 1px solid var(--hair); padding-top: 10px; }
-.stage .line.tally { font: 400 14px/1.4 var(--display); color: var(--grey); margin-top: -10px; }
-.stage .line.learned b { display: block; color: var(--accent); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
-  margin-bottom: 4px; }
-.stage .counter { max-width: 36em; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--hair); }
-.stage .counter ul { list-style: none; margin: 0; padding: 0; columns: 2 16em; column-gap: 28px; }
-.stage .counter li { font: 500 15px/1.5 var(--display); break-inside: avoid; }
-.stage .counter li small { color: var(--grey); font-weight: 400; }
-.stage .counter li.dear { color: var(--faint); }
-.stage .counter .buys { font: 400 14px/1.45 var(--display); color: var(--grey); margin: 8px 0 0; }
-.stage .replies { list-style: none; padding: 16px 0 0; margin: 12px 0 0; border-top: 2px solid var(--ink); max-width: 36em; }
-.stage .replies .act { all: unset; box-sizing: border-box; display: block; cursor: pointer; font: 500 18.5px/1.4 var(--display);
-  padding: 8px 10px; margin-left: -10px; }
-.stage .replies .act i { font-style: normal; color: var(--grey); display: inline-block; width: 30px; font-variant-numeric: tabular-nums; }
-.stage .replies .act:hover { background: var(--wash); }
-.stage .replies .act.sel, .stage .replies .act:focus-visible { background: var(--sel-bg); color: var(--sel-ink); }
-.stage .replies .act.sel i { color: inherit; }
-.stage .replies .act[aria-disabled="true"] { color: var(--faint); }
-.stage .replies .leave .act { color: var(--grey); }
-.stage .replies .asked .act:not(.sel) { color: var(--grey); }
-.stage .replies .opened-list { list-style: none; margin: 2px 0 8px 30px; padding-left: 14px; }
+/* ---- On a road: the line across the country, then the telling. ---- */
+.strip { margin: 0 0 30px; }
+.strip .ends { display: flex; justify-content: space-between; font: 500 11.5px var(--do); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--grey); margin-bottom: 8px; }
+.strip .line { position: relative; height: 34px; border-top: 2px solid var(--ink); }
+.strip .band { position: absolute; top: 6px; height: 22px; border-left: 1px solid var(--paper); }
+.strip .band em { font: italic 400 13px var(--told); color: var(--grey); padding-left: 6px; white-space: nowrap; }
+.strip .band.c-fen { background: var(--fen); } .strip .band.c-wood { background: var(--wood); }
+.strip .band.c-heath { background: var(--heath); } .strip .band.c-fell { background: var(--fell); }
+.strip .band.c-peak { background: var(--peak); } .strip .band.c-lake, .strip .band.c-ford, .strip .band.c-shore { background: var(--water); }
+.strip .band.c-open { background: var(--land); }
+.strip .you { position: absolute; top: -7px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: var(--blue); }
+.strip .branches { list-style: none; padding: 0; margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 2px 18px; }
+.onward { display: flex; justify-content: space-between; gap: 18px; margin-top: 30px; flex-wrap: wrap; }
+.end-way { display: flex; flex-direction: column; gap: 2px; }
+.end-way:not(.back) { text-align: right; align-items: flex-end; }
 
-/* ---- One thing, looked at: dark, the thing large, what can be done with it beside. ---- */
-.stage .thing { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 100dvh; }
-.stage .thing .face { padding: 48px clamp(24px, 4.4vw, 64px); border-right: 1px solid var(--hair); }
-.stage .thing .kicker { font: 600 11.5px var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--accent);
-  margin: 38px 0 0; }
-.stage .thing .n { font: 300 clamp(40px, 4.6vw, 66px)/1.02 var(--display); letter-spacing: -.02em; margin: 12px 0 14px; }
-.stage .thing .r { font: 400 16px var(--display); color: var(--grey); }
-.stage .thing .seen { font: 400 22px/1.55 var(--text); max-width: 28em; }
-.stage .thing .happened { border-left-color: var(--accent); margin-top: 26px; }
-.stage .thing .uses { padding: 96px clamp(24px, 4vw, 56px) 48px; }
-.stage .thing .group { margin: 0 0 28px; }
-.stage .thing .uses .act { font: 400 20px/1.6 var(--display); text-decoration: none; }
-.stage .thing .uses .act:hover { text-decoration: underline; text-underline-offset: 5px; }
-.stage .thing .group.risky .act { color: var(--red); }
-.stage .thing .group.risky .act.sel { color: var(--sel-ink); background: var(--red); }
-.stage .thing .away { margin-top: 36px; }
-.stage .thing .away .act { font-size: 16px; color: var(--grey); }
+/* ---- Someone spoken with: their painting, large, with their name on it; beside it, the conversation. ---- */
+.talk { display: grid; grid-template-columns: minmax(300px, 44%) minmax(0, 1fr); min-height: 100dvh; position: relative; }
+.sitter { position: sticky; top: 0; height: 100dvh; overflow: hidden; background: #101010; }
+.sitter img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sitter .credit { position: absolute; top: 14px; left: 18px; margin: 0; font: 400 11.5px var(--do); color: rgba(255,255,255,.8);
+  text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.sitter .cap { position: absolute; left: clamp(20px, 3vw, 44px); bottom: clamp(22px, 4vh, 44px); right: 20px; color: #fff;
+  text-shadow: 0 2px 16px rgba(0,0,0,.55); }
+.sitter .cap .n { font: 600 clamp(44px, 5.4vw, 72px)/1 var(--do); letter-spacing: -.01em; margin: 0 0 6px; }
+.sitter .cap .r { font: 400 16px var(--do); margin: 0; }
+/* No painting fits them: the page is theirs in type. */
+.sitter.unpainted { background: var(--paper); border-right: 1px solid var(--hair); display: flex; align-items: flex-end; }
+.sitter.unpainted .cap { position: static; color: var(--ink); text-shadow: none; padding: 0 clamp(24px, 4vw, 56px) clamp(30px, 8vh, 80px); }
+.sitter.unpainted .cap .n { font: 400 clamp(46px, 6vw, 80px)/1.02 var(--told); }
+.sitter.unpainted .cap .r { font: 500 12px var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin-top: 10px; }
+.dialogue { padding: 30px clamp(24px, 4vw, 56px) 80px; max-width: 46rem; }
+.dialogue .running { margin-bottom: 30px; }
+.lines { margin: 0 0 22px; }
+.lines .line { margin: 0 0 .75em; }
+.lines .line.you { font: 400 14.5px/1.4 var(--do); color: var(--grey); margin-top: 18px; }
+.lines .line.you.waiting::after { content: ' …'; }
+.lines .line.speech { font-size: 20.5px; line-height: 1.5; }
+.lines .line.telling, .lines .line.change { color: #2B2B2B; }
+.lines .line.event, .lines .line.tally { font: 400 15px/1.45 var(--do); color: var(--grey); }
+.lines .line.learned { border-left: 4px solid var(--yellow); padding: 3px 0 3px 12px; font: 400 15px/1.45 var(--do); }
+.lines .line.learned b { display: block; font: 500 11px var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); }
+.counter { margin: 16px 0; padding: 10px 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair);
+  font: 400 15px/1.5 var(--do); }
+.counter ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 2px 18px; }
+.counter small { color: var(--grey); font-size: 14px; }
+.counter .dear { color: var(--faint); }
+.counter .buys { margin: 6px 0 0; color: var(--grey); font-size: 14px; }
+.replies { list-style: none; padding: 0; margin: 14px 0 0; }
+.replies li { margin: 0 0 6px; }
+.replies .act i { font-style: normal; color: var(--faint); display: inline-block; width: 1.7em; }
+.replies .act.sel i { color: var(--blue); }
+.replies .asked .act { color: var(--grey); }
+.replies .leave .act { color: var(--grey); }
+.close { all: unset; cursor: pointer; position: absolute; top: 14px; right: 18px; font: 300 28px/1 var(--do); color: var(--grey); z-index: 2; }
 
-/* ---- A road: a line across the country. ---- */
-.stage .road { padding: 44px clamp(24px, 5vw, 72px) 36px; min-height: 100dvh; display: flex; flex-direction: column; }
-.stage .strip { position: relative; height: 150px; margin: 22px 0 18px; }
-.stage .strip .end { position: absolute; top: 0; margin: 0; font: 600 22px/1.2 var(--display); }
-.stage .strip .end.to { right: 0; text-align: right; }
-.stage .strip .line { position: absolute; left: 0; right: 0; top: 52px; height: 30px; border-left: 2px solid var(--ink);
-  border-right: 2px solid var(--ink); background: linear-gradient(var(--ink), var(--ink)) 0 50% / 100% 2px no-repeat; }
-.stage .strip .band { position: absolute; top: 0; height: 30px; opacity: .9; }
-.stage .strip .band em { position: absolute; top: 38px; left: 0; font: 500 10.5px var(--display); font-style: normal;
-  letter-spacing: .14em; text-transform: uppercase; color: var(--grey); white-space: nowrap;
-  /* A band's name stays within its band: a narrow one is named as far as it has room, not over the next. */
-  max-width: calc(100% - 6px); overflow: hidden; text-overflow: clip; }
-.stage .band.c-fen { background: #c9d6c2; } .stage .band.c-wood { background: #a6b995; } .stage .band.c-heath { background: #cdb99c; }
-.stage .band.c-fell { background: #bcb3a1; } .stage .band.c-peak { background: #9d978a; } .stage .band.c-shore { background: #c2d3dc; }
-.stage .band.c-lake { background: #b6cdda; } .stage .band.c-ford { background: #9fbcd8; } .stage .band.c-open { background: #dcd6c0; }
-.stage[data-light="dusk"] .band, .stage[data-light="night"] .band { filter: brightness(.5) saturate(.8); }
-.stage .strip .you { position: absolute; top: 4px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%;
-  background: var(--red); box-shadow: 0 0 0 6px color-mix(in srgb, var(--red) 22%, transparent); }
-.stage .strip .branches { position: absolute; top: 112px; left: 0; right: 0; list-style: none; margin: 0; padding: 0;
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 0 28px; }
-.stage .branch { font: 500 15px var(--display); text-decoration: none; }
-.stage .onroad { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 0 60px; flex: 1; }
-.stage .road .told .establish p { font-size: 20px; }
-.stage .by-the-road { border-left: 1px solid var(--hair); padding-left: 28px; display: flex; flex-direction: column; }
-.stage .by-the-road .by { margin: 0 0 14px; }
-.stage .by-the-road .n { font: 600 16.5px/1.3 var(--display); margin: 0; }
-.stage .by-the-road .d { font: italic 15.5px/1.4 var(--text); color: var(--grey); margin: 2px 0; }
-.stage .by-the-road .foot { margin-top: auto; flex-direction: column; align-items: flex-start; }
-.stage .by-the-road .foot .self { text-align: left; margin: 0; }
-.stage .by-the-road .self .acts, .stage .by-the-road .sheets { justify-content: flex-start; }
-.stage .onward { display: flex; justify-content: space-between; gap: 20px; border-top: 2px solid var(--ink); padding-top: 16px;
-  margin-top: 28px; }
-.stage .end-way { display: flex; flex-direction: column; align-items: flex-end; }
-.stage .end-way.back { align-items: flex-start; }
-.stage .end-way small { font: 400 13.5px var(--display); color: var(--grey); }
-.stage .onward-act { font: 600 clamp(20px, 2vw, 26px)/1.25 var(--display); text-decoration: none; }
+/* ---- One thing looked at: the thing set large, what can be done with it beside it. ---- */
+.thing { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 0 clamp(28px, 5vw, 72px);
+  max-width: 78rem; margin: 0 auto; padding: 30px clamp(20px, 4vw, 56px) 80px; position: relative; }
+.thing .face .running { margin-bottom: 36px; }
+.thing .kicker { font: 500 11.5px var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin: 0 0 8px; }
+.thing .face .n { font: 400 clamp(38px, 4.8vw, 56px)/1.05 var(--told); margin: 0 0 6px; text-wrap: balance; }
+.thing .face .r { font: 400 15px var(--do); color: var(--grey); margin: 0 0 22px; }
+.thing .seen { font-size: 21px; line-height: 1.55; }
+.thing .uses { padding-top: 76px; }
+.thing .group { margin: 0 0 22px; }
+.thing .group.risky .label { color: var(--red); }
+.thing .away { margin-top: 28px; }
+.thing .lead { font: 400 15px/1.4 var(--do); color: var(--grey); margin: 0 0 4px; }
+.thing .parts { gap: 4px 24px; }
+.thing .act.part { font: 400 21px/1.4 var(--told); }
 
-/* ---- A fight: two sides, and what just happened between them. ---- */
-.stage .fight { padding: 36px clamp(18px, 4vw, 56px) 40px; min-height: 100dvh; }
-.stage .fight .law { font: 400 15px/1.45 var(--display); color: var(--accent); margin: 10px 0 0; max-width: 50em; }
-.stage .sides { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr); gap: 36px;
-  align-items: start; margin: 30px 0 18px; }
-.stage .side { list-style: none; margin: 0; padding: 0; }
-.stage .card { margin: 0 0 18px; padding-left: 12px; border-left: 3px solid transparent; }
-.stage .card.acting { border-left-color: var(--accent); }
-.stage .card .n { font: 600 18px/1.25 var(--display); margin: 0; }
-.stage .card .took { font: 700 15px var(--display); color: var(--red); margin-left: 10px; animation: took 1.2s ease-out; }
-@keyframes took { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-.stage .card .line { font: 400 13.5px/1.35 var(--display); color: var(--grey); margin: 0; }
-.stage .card .hp { display: block; height: 6px; background: var(--hair); margin: 6px 0 4px; max-width: 260px; }
-.stage .card .hp i { display: block; height: 100%; background: var(--ink); transition: width .5s; }
-.stage .foes .card .hp i { background: var(--red); }
-.stage .card .tags, .stage .card .intent, .stage .card .defenses { font: 400 13.5px/1.4 var(--display); color: var(--grey); margin: 0; }
-.stage .card .hurt.badly-hurt, .stage .card .hurt.near-death, .stage .card .hurt.down { color: var(--red); }
-.stage .card .intent { color: var(--ink); }
-.stage .card.down { opacity: .45; }
-.stage .foes .card { text-align: right; border-left: 0; border-right: 3px solid transparent; padding: 0 12px 0 0; }
-.stage .foes .card.acting { border-right-color: var(--red); }
-.stage .foes .card .hp { margin-left: auto; }
-.stage .beat { text-align: center; }
-.stage .beat p { font: 400 19px/1.45 var(--text); color: var(--grey); margin: 0 0 12px; }
-.stage .beat p:last-child { font-size: 25px; color: var(--ink); }
-.stage .beat .began { font-style: italic; }
-.stage .beat p.after, .stage .beat p.after:last-child { font: 600 19px/1.45 var(--text); color: var(--ink); }
-.stage .fight .turn { font: 600 16px var(--display); text-align: center; margin: 8px 0 20px; }
-.stage .fight .turn span { font-weight: 400; color: var(--grey); }
-.stage .moves section { margin: 0 0 16px; }
-.stage .acts.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-.stage .acts.cards li { display: flex; }
-.stage .acts.cards .act { display: block; width: 100%; border: 1.5px solid var(--ink); padding: 12px 14px; margin: 0;
-  font: 600 16.5px/1.3 var(--display); text-decoration: none; }
-.stage .acts.cards .act small { display: block; margin-top: 4px; }
-.stage .acts.cards .act:hover { background: var(--wash); }
-.stage .acts.cards .act.sel { background: var(--sel-bg); color: var(--sel-ink); }
-.stage .moves .auto { font: 400 13px var(--display); color: var(--faint); }
-.stage .fight details summary { font: 600 11.5px var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--grey);
-  cursor: pointer; margin-top: 18px; }
+/* ---- A fight: the two sides, what just passed between them, and what the one whose turn it is can do. ---- */
+.fight { max-width: 76rem; margin: 0 auto; padding: 30px clamp(20px, 4vw, 48px) 80px; }
+.fight .status { display: flex; gap: 14px; flex-wrap: wrap; font: 500 11.5px var(--do); letter-spacing: .14em;
+  text-transform: uppercase; color: var(--grey); padding-bottom: 10px; border-bottom: 1px solid var(--hair); margin: 0 0 26px; }
+.fight .status span:first-child { color: var(--red); }
+.fight .law { font: 400 15px/1.45 var(--do); color: var(--grey); }
+.fight .sides { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr); gap: 0 clamp(18px, 3vw, 44px); }
+.fight .side { list-style: none; padding: 0; margin: 0; }
+.fight .side.foes { text-align: right; }
+.fight .card { margin: 0 0 18px; padding-left: 12px; border-left: 3px solid transparent; }
+.fight .foes .card { padding: 0 12px 0 0; border-left: 0; border-right: 3px solid transparent; }
+.fight .card.acting { border-left-color: var(--blue); }
+.fight .card .n { font: 500 18px/1.25 var(--do); margin: 0; }
+.fight .card .took { font: 500 14px var(--do); color: var(--red); margin-left: 8px; }
+.fight .card .line { font: 400 14px var(--do); color: var(--grey); margin: 0 0 6px; }
+.fight .card .hp { display: block; height: 5px; background: var(--hair); max-width: 240px; }
+.fight .foes .card .hp { margin-left: auto; }
+.fight .card .hp i { display: block; height: 100%; background: var(--ink); }
+.fight .card .tags { font: 400 13.5px/1.4 var(--do); color: var(--grey); margin: 5px 0 0; }
+.fight .card .tags .near-death, .fight .card .tags .badly-hurt, .fight .card .tags .down { color: var(--red); }
+.fight .card .hp i { transition: width .25s ease-out; }
+.fight .card .intent, .fight .card .defenses { font: 400 13.5px/1.4 var(--do); color: var(--grey); margin: 3px 0 0; }
+.fight .card.down { opacity: .55; }
+.fight .beat p { font: 400 18px/1.5 var(--told); text-align: center; color: var(--grey); }
+.fight .beat p:last-child { color: var(--ink); font-size: 21px; }
+.fight .beat .after { font: 450 16px/1.45 var(--do); color: var(--ink); }
+.fight .turn { text-align: center; font: 500 15px var(--do); margin: 18px 0 26px; }
+.fight .turn span { color: var(--grey); font-weight: 400; }
+.fight .moves section { margin: 0 0 16px; }
+.fight .moves .acts.cards { gap: 4px 26px; }
+.fight .auto { font: 400 13.5px var(--do); color: var(--grey); }
+.fight-log-fold summary { cursor: pointer; font: 500 11.5px var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); }
 
-/* ---- What is read: notes, the story, the pack, the company, the map. ---- */
-.stage .book-page { max-width: 900px; margin: 0 auto; padding: 48px clamp(16px, 4vw, 40px) 80px; }
-.stage .book-page .sheet .back { margin-bottom: 26px; }
-.stage .book-page > .sheets, .stage .dialogue > .sheets, .stage .uses > .sheets { justify-content: flex-start; margin-top: 30px;
-  gap: 0 18px; }
-.stage .dialogue > .sheets .sheet-key, .stage .uses > .sheets .sheet-key { color: var(--grey); font-size: 13.5px; }
+/* ---- The end of a life: the one page the dark is right for. ---- */
+.stage.mode-fallen { background: var(--ink); color: var(--paper); min-height: 100dvh; }
+.stage.mode-fallen .running { border-color: #333; color: #A0A0A0; }
+.stage.mode-fallen .running .where span:first-child { color: var(--paper); }
+.stage.mode-fallen .place { font-size: clamp(40px, 6vw, 64px); }
+.stage.mode-fallen .how { font-size: 21px; }
+.stage.mode-fallen .act { color: var(--paper); text-decoration-color: #555; }
+.stage.mode-fallen .acts { margin-top: 30px; gap: 8px 28px; }
 
-/* ---- Narrower: the field loses its side margins first, then its walls. ---- */
-@media (max-width: 1100px) {
-  .stage .field { margin: 44px 130px; }
-  .stage .field.n-tall { margin-top: 112px; }
-  .stage .door.side-w, .stage .door.side-e { width: 118px; }
-  .stage .fig { width: 160px; } .stage .fig img, .stage .fig .blank { width: 160px; height: 208px; }
-}
 @media (max-width: 860px) {
-  .stage .field, .stage .field.n-tall { margin: 0; outline: 0; min-height: 100dvh; padding: 22px 16px 28px; }
-  .stage .doors { order: 1; margin: 30px 0 0; border-top: 2px solid var(--ink); padding-top: 10px; display: grid; gap: 2px; }
-  .stage .doors .door { position: static; transform: none; width: auto; max-width: none; background: none; text-align: left; }
-  .stage .door::after { display: none; }
-  .stage .door .door-act, .stage .door.side-n .door-act, .stage .door.side-s .door-act, .stage .door.side-w .door-act {
-    flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-items: baseline; gap: 0 10px; padding: 8px 4px; }
-  .stage .door .arrow { width: 22px; font-size: 18px; }
-  .stage .door .door-act small, .stage .door.side-n .door-act small, .stage .door.side-s .door-act small { flex-basis: auto; }
-  .stage .foot { order: 2; flex-direction: column; align-items: flex-start; }
-  .stage .foot .self { text-align: left; margin: 0; }
-  .stage .self .acts, .stage .sheets { justify-content: flex-start; }
-  .stage .establish p { font-size: 19px; }
-  .stage .cast { gap: 20px 12px; }
-  .stage .fig { width: calc(50% - 6px); } .stage .fig img, .stage .fig .blank { width: 100%; height: 58vw; }
-  .stage .talk { display: block; }
-  .stage .sitter { position: relative; height: 56dvh; }
-  .stage .sitter .cap { padding: 90px 18px 18px; }
-  .stage .dialogue { padding: 20px 16px 36px; min-height: 0; }
-  .stage .lines { margin-top: 16px; }
-  .stage .line { font-size: 19.5px; }
-  .stage .thing { display: block; }
-  .stage .thing .face { border: 0; padding: 22px 16px 10px; }
-  .stage .thing .kicker { margin-top: 22px; }
-  .stage .thing .seen { font-size: 19px; }
-  .stage .thing .uses { padding: 10px 16px 40px; }
-  .stage .road { padding: 22px 16px 28px; }
-  .stage .strip { height: 168px; }
-  .stage .strip .end { font-size: 17px; max-width: 48%; }
-  .stage .strip .branches { top: 118px; justify-content: flex-start; }
-  .stage .onroad { display: block; }
-  .stage .by-the-road { border: 0; padding: 18px 0 0; }
-  .stage .sides { grid-template-columns: minmax(0, 1fr); gap: 14px; }
-  .stage .foes { order: -1; }
-  .stage .foes .card { text-align: left; border-right: 0; padding: 0 0 0 12px; border-left: 3px solid transparent; }
-  .stage .foes .card.acting { border-left-color: var(--red); }
-  .stage .foes .card .hp { margin-left: 0; }
-  .stage .beat p:last-child { font-size: 21px; }
-  .stage .acts.cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .page { padding: 18px 16px 72px; }
+  .running { margin-bottom: 28px; }
+  .talk, .thing { grid-template-columns: minmax(0, 1fr); }
+  .sitter { position: relative; height: 48vh; }
+  .sitter.unpainted { height: auto; border-right: 0; border-bottom: 1px solid var(--hair); }
+  .sitter.unpainted .cap { padding: 28px 16px 18px; }
+  .dialogue { padding: 20px 16px 64px; }
+  .thing { padding: 18px 16px 64px; }
+  .thing .uses { padding-top: 10px; }
+  .fight { padding: 18px 16px 64px; }
+  .fight .sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .fight .beat { grid-column: 1 / -1; grid-row: 2; }
+  .fight .beat p { text-align: left; }
+  .onward { flex-direction: column; }
+  .end-way:not(.back) { text-align: left; align-items: flex-start; }
 }

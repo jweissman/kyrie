@@ -30,12 +30,15 @@ export class SceneModel {
     const every = sections.filter(s => ['creature', 'person', 'thing'].includes(s.tone))
       .map(s => this.subject(s, companions, screen));
     const subjects = every.filter(s => s.choices.length || ['creature', 'person', 'animal', 'companion'].includes(s.kind));
-    const rank: Record<SceneSubject['kind'], number> = { creature: 0, person: 1, animal: 2, thing: 3, companion: 4 };
-    return { subjects: subjects.sort((a, b) => rank[a.kind] - rank[b.kind]),
+    return { subjects: subjects.sort((a, b) => this.rank(a) - this.rank(b)),
       still: every.filter(s => !subjects.includes(s)),
       near: all.filter(c => !this.far(c)), far: all.filter(c => this.far(c)),
       you: sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => !this.across(c))) };
   }
+  // Danger first (a creature, or a band the company would reckon a fight with), then people, animals and things,
+  // and whoever is with the company last.
+  static readonly ranks: Record<SceneSubject['kind'], number> = { creature: 0, person: 1, animal: 2, thing: 3, companion: 4 };
+  private static rank(x: SceneSubject): number { return x.danger && x.kind !== 'companion' ? 0 : this.ranks[x.kind]; }
   private static subject(s: Section, companions: Set<string>, screen: Screen): SceneSubject {
     const row = [...screen.people, ...screen.things].find(t => t.id === s.id);
     const kind = companions.has(s.id) ? 'companion' : row?.kind === 'animal' ? 'animal'

@@ -22,7 +22,7 @@ export class BookStage {
     const frame = app.state.frame!, ending = frame.ending ?? { title: 'No one is left standing', lines: [] };
     return (
       <div className="book-page ending fallen" id="page">
-        <Stage.Status frame={frame} />
+        <Stage.Running frame={frame} />
         <h1 className="place">{Typography.curl(ending.title)}</h1>
         {ending.lines.map((l, i) => <p key={i} className={i === 0 ? 'how' : undefined}>{Typography.curl(l)}</p>)}
         <ul className="acts">

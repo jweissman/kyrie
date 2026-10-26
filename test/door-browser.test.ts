@@ -25,9 +25,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await page.locator('.door .door-also', { hasText: 'Look at the tripwire' }).click();
+    await page.locator('.ways [data-exit] .also', { hasText: 'Look at the tripwire' }).click();
     await driver.settle();
-    const opened = page.locator('.door .door-opened');
+    const opened = page.locator('.ways [data-exit] .unfolded');
     expect(await opened.innerText()).toContain('Look closely');
     await opened.locator('[data-action="choice"]', { hasText: 'Look closely' }).click();
     await driver.settle();

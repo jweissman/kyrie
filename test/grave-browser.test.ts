@@ -29,7 +29,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a grave act on the page', () => {
     const act = () => page.locator('[data-choice^="p__statue/"][data-choice*=":Break"]').first();
     await act().click();
     await driver.settle();
-    expect(await act().locator('.grave').innerText()).toContain('broken, it stays broken. It cannot be undone.');
+    expect(await act().locator('.grave-said').innerText()).toContain('broken, it stays broken. It cannot be undone.');
     expect(await page.evaluate(() => document.body.innerText)).not.toContain('it goes over');
     await act().click();
     await driver.settle();

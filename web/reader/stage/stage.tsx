@@ -2,8 +2,8 @@ import type { Frame } from '../../engine/protocol';
 import type { ReaderApp } from '../reader-app';
 import { Routes } from '../../../src/ui/route';
 import { FictionalTime } from '../../../src/presentation/fictional-time';
+import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
-import { Act } from './act';
 import { PlaceStage } from './place-stage';
 import { TalkStage } from './talk-stage';
 import { ThingStage } from './thing-stage';
@@ -11,21 +11,18 @@ import { RoadStage } from './road-stage';
 import { FightStage } from './fight-stage';
 import { BookStage } from './book-stage';
 
-export type Light = 'day' | 'indoor' | 'dusk' | 'night' | 'dark';
 export type Mode = 'explore' | 'talk' | 'examine' | 'road' | 'combat' | 'book' | 'fallen';
 
-// Play, as one stage at a time, chosen by what the player is doing: standing somewhere (the place, walled, with its
-// ways out through its walls), on a road (the road as a line across the country), speaking with someone (their
-// painting, and the conversation), looking at one thing (the thing, and what can be done with it), fighting (the two
-// sides, and what just happened between them), or reading (notes, the story, the pack, the map). Each is lit as the
-// company is: paper by day, lamp-light indoors, ink at night, and dark underground, in a fight and over a mystery.
+// Play, one composition at a time, chosen by what the player is attending to: a place (the page of it, with who and
+// what is there and the ways out), a road (the line across the country), someone spoken with (their painting when
+// one fits, and the conversation), one thing looked at (the thing set large), a fight (the two sides and what just
+// passed between them), or a book (the character, notes, the pack, the map, the story). Every one is on the same
+// white page; the dark, the night and the deep are told, not painted over it.
 export class Stage {
   static View({ app }: { app: ReaderApp }) {
-    const s = app.state, frame = s.frame!, menu = app.menu, mode = Stage.mode(app);
-    const light = Stage.light(frame, mode);
+    const s = app.state, menu = app.menu, mode = Stage.mode(app), frame = s.frame!;
     return (
-      <div className={`stage ${mode}`} data-mode={Stage.inspected(app, mode)} data-light={light}
-        aria-busy={s.pending ? true : undefined} onPointerDown={Act.down} onPointerLeave={Act.leave.bind(null, app)}>
+      <div className={`stage mode-${mode}`} data-mode={Stage.inspected(app, mode)} aria-busy={s.pending ? true : undefined}>
         <div className="intentions" data-region="choices">
           {mode === 'fallen' && <BookStage.Ending app={app} />}
           {mode === 'combat' && <FightStage.View app={app} />}
@@ -55,23 +52,23 @@ export class Stage {
     }
     return mode;
   }
-  static light(frame: Frame, mode: Mode): Light {
-    const screen = frame.screen, shelter = frame.leaf.shelter;
-    // Looking closely at something is not going somewhere darker: an altar in the open stays in the day.
-    if (['combat', 'fallen'].includes(mode) || screen.dark || shelter === 'underground') { return 'dark'; }
-    if (shelter === 'indoors') { return screen.expedition.daylight === 'night' ? 'night' : 'indoor'; }
-    return screen.expedition.daylight === 'night' ? 'night' : screen.expedition.daylight === 'evening' ? 'dusk' : 'day';
+  // "Hillfells · Gothgiba" and "Morning · snowy · 4 Wolfmoon": where, and when.
+  static where(frame: Frame): string[] {
+    const named = frame.screen.path.filter(p => ['settlement', 'site', 'wilderness'].includes(p.kind)).map(p => p.name);
+    return [frame.title, ...named.filter(n => n !== frame.title)].slice(0, 3);
   }
-  // "Faennmeós · Morning · rain · 20 Leaffall"
   static when(frame: Frame): string[] {
     const s = frame.screen;
-    return [frame.title, [Words.upper(FictionalTime.part(s.elapsed)), s.weather].filter(Boolean).join(' · '),
-      s.date?.short ?? ''].filter(Boolean);
+    return [Words.upper(FictionalTime.part(s.elapsed)), s.weather ?? '', s.date?.short ?? ''].filter(Boolean);
   }
-  static Status({ frame, extra }: { frame: Frame; extra?: string }) {
+  // The running head: the country and what part of it, and the time, in the margin's small capitals.
+  static Running({ frame, extra }: { frame: Frame; extra?: string }) {
     return (
-      <p className="status" data-id="clock">{Stage.when(frame).map(w => <span key={w}>{w}</span>)}
-        {extra && <span>{extra}</span>}</p>
+      <header className="running" data-id="clock">
+        <span className="where">{Stage.where(frame).map(w => <span key={w}>{Typography.curl(w)}</span>)}
+          {extra && <span>{Typography.curl(extra)}</span>}</span>
+        <span className="when">{Stage.when(frame).map(w => <span key={w}>{w}</span>)}</span>
+      </header>
     );
   }
 }

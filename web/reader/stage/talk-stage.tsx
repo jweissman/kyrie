@@ -20,7 +20,7 @@ export class TalkStage {
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')} />
         <div className="dialogue">
-          <Stage.Status frame={frame} extra={frame.screen.place.name} />
+          <Stage.Running frame={frame} extra={frame.screen.place.name} />
           <TalkStage.Lines lines={s.talk} pending={s.pending?.said} />
           <TalkStage.Counter counter={frame.screen.trade.find(c => c.id === who.id)} coin={frame.screen.purse.coin} />
           <ol className="replies" aria-label={`What you might say to ${name}`}>
@@ -35,13 +35,13 @@ export class TalkStage {
     );
   }
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
-  // as far as the painting itself says. Without one, their initial, large.
+  // as far as the painting itself says. Where no painting fits them, the page is theirs in type: their name, large,
+  // and what they are, rather than a picture of someone they are not.
   static Sitter({ app, name, role }: { app: ReaderApp; name: string; role: string }) {
     const portrait = app.menu.talk!.subject.portrait;
     return (
       <div className={`sitter${portrait ? '' : ' unpainted'}`}>
-        {portrait ? <img src={portrait.large} alt="" decoding="async" style={{ objectPosition: `50% ${portrait.focus}%` }} />
-          : <span className="initial" aria-hidden="true">{name.charAt(0)}</span>}
+        {portrait && <img src={portrait.large} alt="" decoding="async" style={{ objectPosition: `50% ${portrait.focus}%` }} />}
         {portrait && <p className="credit">{portrait.credit ?? 'Painter unrecorded'}</p>}
         <div className="cap"><h1 className="n">{Typography.curl(name)}</h1>{role && <p className="r">{Typography.curl(role)}</p>}</div>
       </div>

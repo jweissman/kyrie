@@ -1,8 +1,9 @@
 import type { Examined } from '../../../src/ui/attention';
+import type { Choice } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
-import { Act } from './act';
+import { Act, type Draw } from './act';
 import { Stage } from './stage';
 import { Told } from './told';
 
@@ -20,18 +21,18 @@ export class ThingStage {
     return (
       <div className="thing" id="page">
         <div className="face">
-          <Stage.Status frame={frame} extra={frame.screen.place.name} />
+          <Stage.Running frame={frame} extra={frame.screen.place.name} />
           <p className="kicker">Looking at</p>
           <h1 className="n">{Typography.curl(Words.upper(thing.name))}</h1>
           {thing.note && <p className="r">{Typography.curl(thing.note)}</p>}
           {seen.map((p, i) => <p key={i} className="seen">
             {Typography.curl(p)}</p>)}
-          {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} />}
+          {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} said />}
         </div>
         <div className="uses">
           {examined.groups.map(g => <section key={g.title} className={`group${g.title === 'Go through it anyway' ? ' risky' : ''}`}>
             <p className="label">{g.title}</p>
-            <Act.List choices={g.choices} draw={draw} className="column" />
+            <ThingStage.Choices choices={g.choices} draw={draw} />
           </section>)}
           <p className="away"><Act.View choice={examined.back} draw={draw}>← Turn back to {Typography.curl(
             frame.screen.place.name)}</Act.View></p>
@@ -40,6 +41,17 @@ export class ThingStage {
         <button type="button" className="close" data-action="back" aria-label="Turn away" onClick={app.back}>×</button>
       </div>
     );
+  }
+  // A kind of doing's choices: as a column, or, where they differ in one part only, that part of each in a row under
+  // what they share ("Press the word … on the casket: Starlight · Thunder · Darkness · Cloud").
+  static Choices({ choices, draw }: { choices: Choice[]; draw: Draw }) {
+    const shared = choices.some(c => c.children || c.note) ? undefined : Words.shared(choices.map(c => c.label));
+    if (!shared) { return <Act.List choices={choices} draw={draw} className="column" />; }
+    return <>
+      <p className="lead">{Typography.curl(`${shared.lead} … ${shared.tail}`.trim())}</p>
+      <ul className="acts parts">{choices.map((c, i) => <li key={c.id}><Act.View choice={c} draw={draw} className="part">
+        {Typography.curl(shared.parts[i]!)}</Act.View></li>)}</ul>
+    </>;
   }
   // What can be seen of it: what is said of it where it stands, and what the place says of it by name.
   static seen(situation: string[], name: string, about?: string): string[] {

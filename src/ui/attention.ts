@@ -17,6 +17,9 @@ export class Attending {
     return { ...scene, subjects: scene.subjects.map(s => this.opener(s)) };
   }
   private static opener(s: SceneSubject): SceneSubject {
+    // A danger is met where it stands: fighting it, talking it round and warning it off are all said at once, not
+    // behind a conversation that may never be opened.
+    if (s.danger && s.kind !== 'companion') { return s; }
     if (['person', 'companion'].includes(s.kind) && s.choices.length) {
       const talk = this.all(s.choices).find(c => this.talking.test(c.command ?? ''));
       const rest = this.replies(s.choices);

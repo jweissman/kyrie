@@ -2,15 +2,11 @@ import type { MouseEvent } from 'react';
 import type { ReaderApp } from './reader-app';
 import { ReaderOptions, type Options } from './reader-options';
 
-// Options, from the title: the light the page is read by, the size of its letters, and whether the dice behind what
-// happens are told ("Wenna makes the persuasion check (d20 16 …)") or only what came of them. Night, and the deep,
-// are dark whatever light is chosen: that is the world's, not the page's.
+// Options, from the title: the size of the page's letters, and whether the dice behind what happens are told
+// ("Wenna makes the persuasion check (d20 16 …)") or only what came of them. The page is always paper; night and the
+// deep are dark in what is told, not in the page.
 export class OptionsPage {
   static readonly settings: { key: keyof Options; label: string; values: { id: string; label: string; note: string }[] }[] = [
-    { key: 'theme', label: 'Light', values: [
-      { id: 'device', label: 'As this device has it', note: 'Lamplight when the device is dark, else paper.' },
-      { id: 'light', label: 'Paper', note: 'Black on white by day.' },
-      { id: 'dark', label: 'Lamplight', note: 'Light on dark by day too.' }] },
     { key: 'size', label: 'Letters', values: [
       { id: 'smaller', label: 'Smaller', note: '' }, { id: 'usual', label: 'Usual', note: '' },
       { id: 'larger', label: 'Larger', note: '' }] },

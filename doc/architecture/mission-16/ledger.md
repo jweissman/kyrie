@@ -7,7 +7,7 @@ deliberately left. Newest entries first in each part. The plan and its decisions
 
 | Gate | Stands |
 |---|---|
-| A. A transformed, trustworthy interface | not begun |
+| A. A transformed, trustworthy interface | foundation in production: the place, road, conversation, object and fight pages on one white page; the Character view not yet built |
 | B. The way into adventure | not begun; the baseline below fails it |
 | C. A complete RPG expedition | not begun |
 | D. Becoming and continuing | not begun |
@@ -29,7 +29,18 @@ Played from the title page at 1280 × 860:
 
 ## Done and verified
 
-(none yet)
+- **A. The page, in production.** The walled field, the portrait grid, the cream paper and the dark theme are gone.
+  - **A place is a page to read:** a running head, the place's name, its telling, and who is about, each person
+    named in the telling and spoken to from there.
+  - **Under the telling, a line each:** danger first (anyone the company reckons a fight with, every way of meeting
+    them shown at once), then people, animals, things to look at, and whoever is with you. Then the ways about the
+    place in a line, and the roads out as routes (by what way, how long, been).
+  - **The conversation is the painted page kept, on white,** and in type when no painting fits.
+  - **An object is set large;** words that differ in one part are said once ("Press the word … on the casket").
+  - **A fight is the two sides on white,** with each fighter's state in words and numbers. Red is kept for harm.
+  - **The one dark page is a death.**
+
+  Played at 1280 and 390 px; the browser specs and the long descents pass.
 
 ## Found, not yet done
 

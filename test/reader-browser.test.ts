@@ -109,19 +109,19 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     expect(errors).toEqual([]);
     await page.close();
   }, 300000);
-  it('keeps the options chosen from the title: the light, the letters and the dice', async () => {
+  it('keeps the options chosen from the title: the letters and the dice (the page is always paper)', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, pointer: false, query: '' });
     await page.waitForSelector('[data-action="options"]');
     await page.click('[data-action="options"]');
     await page.waitForSelector('[data-mode="options"]');
-    for (const [key, id] of [['theme', 'dark'], ['size', 'larger'], ['rolls', 'hidden']]) {
+    for (const [key, id] of [['size', 'larger'], ['rolls', 'hidden']]) {
       await page.click(`[data-action="option"][data-key="${key}"][data-id="${id}"]`);
     }
     const worn = () => page.evaluate(() => ({ ...document.documentElement.dataset }));
-    expect(await worn()).toEqual({ theme: 'dark', size: 'larger', rolls: 'hidden' });
+    expect(await worn()).toEqual({ size: 'larger', rolls: 'hidden' });
     await page.reload();
     await page.waitForSelector('[data-action="begin"]');
-    expect(await worn()).toEqual({ theme: 'dark', size: 'larger', rolls: 'hidden' });
+    expect(await worn()).toEqual({ size: 'larger', rolls: 'hidden' });
     expect(errors).toEqual([]);
     await page.close();
   }, 120000);

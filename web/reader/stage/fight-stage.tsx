@@ -58,7 +58,7 @@ export class FightStage {
         <p className="n"><b>{Typography.curl(Words.upper(f.name))}</b>{took > 0 && <span className="took" key={`${f.hp}`}>−{took}</span>}</p>
         <p className="line">{f.line}</p>
         <span className="hp" aria-hidden="true"><i style={{ width: `${f.maxHp ? (f.hp / f.maxHp) * 100 : 0}%` }} /></span>
-        <p className="tags"><span className={`hurt ${hurt.replace(' ', '-')}`} title={`${f.hp} of ${f.maxHp}`}>{hurt}</span>
+        <p className="tags"><span className={`state ${hurt.replace(' ', '-')}`}>{hurt} · {f.hp} of {f.maxHp}</span>
           {!f.down && f.statuses.length > 0 && ` · ${[...new Set(f.statuses)].join(', ')}`}
           {!f.down && f.boons && f.boons.length > 0 && ` · ${[...new Set(f.boons)].join(', ')}`}</p>
         {foe && !f.down && f.intent && <p className="intent">Means to use {Words.intent(f.intent)}.</p>}

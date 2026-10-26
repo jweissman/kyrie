@@ -44,4 +44,16 @@ export class Words {
   static article(noun: string): string { return /^(a|an|the) /i.test(noun) ? noun : `${/^[aeiou]/i.test(noun) ? 'an' : 'a'} ${noun}`; }
   // The subject of a person or thing named with what they are: "Wren, ferry-keeper" is Wren.
   static short(name: string): string { return name.split(', ')[0]!; }
+  // Choices that differ in one part only (four words to press on a casket) are said once, the words apart: what they
+  // share before and after, and each one's own part; nothing when they have too little in common to be worth it.
+  static shared(labels: string[]): { lead: string; tail: string; parts: string[] } | undefined {
+    if (labels.length < 3) { return undefined; }
+    const words = labels.map(l => l.split(' ')), n = Math.min(...words.map(w => w.length));
+    let a = 0, b = 0;
+    while (a < n - 1 && words.every(w => w[a] === words[0]![a])) { a++; }
+    while (b < n - 1 - a && words.every(w => w[w.length - 1 - b] === words[0]![words[0]!.length - 1 - b])) { b++; }
+    const lead = words[0]!.slice(0, a).join(' '), tail = b ? words[0]!.slice(-b).join(' ') : '';
+    if (lead.length + tail.length < 8) { return undefined; }
+    return { lead, tail, parts: words.map(w => w.slice(a, w.length - b).join(' ')) };
+  }
 }
