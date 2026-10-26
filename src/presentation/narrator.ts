@@ -237,7 +237,10 @@ export class Narrator {
     // So does what was learned, when the scene shows it: the dog's muddy coat, not the note of it.
     const bare = voiced.length && (/^You do /.test(feedback.result ?? '')
       || (feedback.discoveries.length > 0 && feedback.result === feedback.discoveries.join(' ')));
-    const result = spoken.length || bare ? [] : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : [];
+    const telling = spoken.length || bare ? [] : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : [];
+    // How a fight ended is told after the blows that ended it: What Tessary Owes' cold playtest read "Your company is
+    // defeated" before "Bettany Slake hits Ivo" (W23).
+    const result = feedback.ended ? [] : telling, outcome = feedback.ended ? telling : [];
     const events = feedback.events.map(text => ({ text, kind: 'event' as const }));
     // A thing changed is told by what came of it (the water going down) before how it is now (the well dry); a wait,
     // by how the place has become (night on the crest) before what broke it off (the Mower come up onto it).
@@ -250,6 +253,7 @@ export class Narrator {
       ...voiced,
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''),
         kind: fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
+      ...outcome,
       ...event.changes.includes(`+ weary(${campaign.playerActor})`)
         ? [{ text: Narrator.weary(campaign.readout.partyIds.length === 1), kind: 'event' as const }] : [],
       ...waiting ? [] : seen,

@@ -13,6 +13,8 @@ export interface ActionFeedback {
   // Of the immediate, those that tell a roll made outside a fight (a check): what was rolled, against what.
   rolls: string[];
   observations: string[]; available: string[]; unavailable: string[]; events: string[];
+  // Whether the result is how a fight ended, which is told after its blows.
+  ended?: boolean;
 }
 export class ActionFeedbackView {
   static readonly probes = ['look_closely', 'prod', 'pry', 'burn', 'push', 'listen', 'search'];
@@ -150,7 +152,7 @@ export class ActionFeedbackView {
       time: this.time(before, { elapsed: event.elapsed, minutes: after.minutes }),
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],
-      rolls, discoveries: learned.map(k => k.text),
+      rolls, discoveries: learned.map(k => k.text), ...!response && battleResult ? { ended: true } : {},
       events: (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       observations: changed.map(o => FictionalTime.prose(o.text)),
       available: before.location?.id === after.location?.id ?
