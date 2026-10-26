@@ -23,8 +23,10 @@ describe('the Bowl of Ammerlin beyond a march', () => {
     const c = PlayerView.choices(s.campaign).find(x => /road across the march/.test(x.choice.name))!;
     await s.perform(c.choice.id);
     expect(s.campaign.world.one('at', 'party')).toBe(`${rid}__rim_road`);
-    expect(s.campaign.world.number({ kind: 'call', name: `${rid}__hearingAt`, args: [`${rid}__bowl`] }))
-      .toBe(888 + Math.ceil(elapsed / 144) * 144);
+    // Its Hearing at its own watch 888, its watch read as the watches since the morning after it was reached.
+    expect(s.campaign.world.number({ kind: 'call', name: `${rid}__hearingAt`, args: [`${rid}__bowl`] })).toBe(888);
+    expect(JSON.stringify(s.campaign.module.rules!.filter(r => r.id.startsWith(`${rid}__`)).map(r => r.when)))
+      .toContain(`"right":{"kind":"number","value":${Math.ceil(elapsed / 144) * 144}}`);
     // Isaura waits at the head of the Stair for the Assessor; the Office's commission is the country's own.
     const head = PlayerView.choices(s.campaign).find(x => /head of the Stair/.test(x.choice.name))!;
     await s.perform(head.choice.id);

@@ -135,7 +135,7 @@ export class ModuleInstallations {
     InstalledInstance {
     // A draft is made for the one installation, and is the installation's own to change.
     const incoming = draft.instance, addition = incoming.campaign!;
-    ClockShift.apply(incoming.module, addition.schemas!, draft.id, elapsed);
+    ClockShift.apply(incoming.module, addition, draft.id, elapsed);
     const prior = base?.campaign;
     if (prior?.installations?.some(m => m.id === draft.id)) { throw new Error('Module already installed'); }
     this.admit(base?.module.entities ?? [], incoming.module, draft);
