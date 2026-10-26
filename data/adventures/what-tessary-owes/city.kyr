@@ -20,16 +20,16 @@ Module tessary "What Tessary Owes" {
 
   // ── Tessary ───────────────────────────────────────────────────────────────────────────────────────────────────────
   // Streets, on the city's own grid: the Tidewall and the Yard along the sea, the Lettered Quarter and the Terraces in
-  // the middle, the Withies, the Landgate and Saltgate along the landward side.
-  Place throat_head "the head of the Throat Stair" is room within tessary at 0, 0 outdoors.
+  // the middle, the Withies, the Landgate and Panhythe along the landward side.
+  Place throat_head "the head of the Swatch Stair" is room within tessary at 0, 0 outdoors.
   Place tidewall "the Tidewall" is room within tessary at 1, 0 outdoors.
   Place legion_yard "the Legion Yard" is room within tessary at 2, 0 outdoors.
-  Place tideline_steps "the Tideline Steps" is room within tessary at 0, 1 outdoors.
+  Place tideline_steps "the Watersteps" is room within tessary at 0, 1 outdoors.
   Place scriveners_row "Scriveners' Row" is room within tessary at 1, 1 outdoors.
   Place terraces "the Terraces" is room within tessary at 2, 1 outdoors.
   Place withies "the Withies" is room within tessary at 0, 2 outdoors.
   Place landgate "the Landgate" is room within tessary at 1, 2 outdoors.
-  Place saltgate "Saltgate" is room within tessary at 2, 2 outdoors.
+  Place saltgate "Panhythe" is room within tessary at 2, 2 outdoors.
   Place pans "the Pans" is room within tessary at 3, 2 outdoors.
 
   Passage withy_walk "the Withy boardwalk" is bridge between landgate and withies taking 5 minutes.
@@ -46,7 +46,7 @@ Module tessary "What Tessary Owes" {
   Passage salt_lane "Brine Lane" is path between terraces and saltgate taking 10 minutes.
 
   // The Landgate: where the Causeway comes in, and everyone who comes in reads the board.
-  Observe landgate_scene at landgate when not dark() and not visitedBefore(landgate) "Inside the gate is a three-cornered square of trodden shell, loud with carts. A board on the gatehouse wall is shingled with bills, three deep: the Feast of Settlement, a fortnight hence; a reward for a stolen goose; rooms; a hiring hall in Saltgate that pays veterans by the day; the eel-fair postponed; a lecture at the Notaries' Hall on the Aenean subjunctive, admission one penny, discussion after. In the corner a little chapel to Saint Evenhand has a pair of brass scales over its door. Somebody has polished the scales.".
+  Observe landgate_scene at landgate when not dark() and not visitedBefore(landgate) "Inside the gate is a three-cornered square of trodden shell, loud with carts. A board on the gatehouse wall is shingled with bills, three deep: the Feast of Settlement, a fortnight hence; a reward for a stolen goose; rooms; a hiring hall in Panhythe that pays veterans by the day; the eel-fair postponed; a lecture at the Notaries' Hall on the Aenean subjunctive, admission one penny, discussion after. In the corner a little chapel to Saint Evenhand has a pair of brass scales over its door. Somebody has polished the scales.".
   Observe landgate_scene_again at landgate when not dark() and visitedBefore(landgate) "The Landgate's square: carts, the shingled bill-board, Saint Evenhand's polished scales over the chapel door.".
   Observe landgate_night at landgate when dark() "The square is empty but for a watchman with a lantern and a cat on the bill-board. The bills move a little in the wind off the sea.".
   Observe landgate_bunting at landgate when not dark() and not feastEve() and night(ossel) < 5 "Red bunting for the Muster's homecoming is still up over the gate, a week old and sagging. Under it a man with a bucket is pasting a new bill over the old: THE BOARD OF MOIETIES WILL HEAR THE QUESTION OF THE VETERANS' SETTLEMENT ON THE THIRTEENTH DAY, FROM TEN IN THE MORNING.".
@@ -57,16 +57,16 @@ Module tessary "What Tessary Owes" {
   Observe withies_scene_again at withies when not dark() and visitedBefore(withies) "The Withies: swaying boardwalks, eel-traps on the rails, red coats airing between the stilt-houses.".
   Observe withies_night at withies when dark() "Lamps in the stilt-houses, and the backwater black under the boardwalks. Somebody is singing a marching song very slowly in one of the houses, and stops, and starts again.".
 
-  // The Tideline Steps: the sea-stair at the end of the Withies, where the called leave their boots.
+  // The Watersteps: the sea-stair at the end of the Withies, where the called leave their boots.
   Observe steps_scene at tideline_steps when not visitedBefore(tideline_steps) "Broad stone steps go down from the end of the boardwalk into the sea, twenty of them above the high-water mark and nobody knows how many below. They are older than everything around them. The stone is cut with something like letters, worn to dimples.".
-  Observe steps_scene_again at tideline_steps when visitedBefore(tideline_steps) "The Tideline Steps, old and worn to dimples, going down into the sea.".
+  Observe steps_scene_again at tideline_steps when visitedBefore(tideline_steps) "The Watersteps, old and worn to dimples, going down into the sea.".
   Observe steps_boots at tideline_steps when bootsOnSteps(ossel) "On the top step stand pairs of boots, set neatly side by side, toes to the water, the way a soldier sets them by his cot. Nobody has moved them. Nobody will.".
   Observe steps_water at tideline_steps when lowWater() "The sea has drawn back a long way, and the steps go down and down into weed and wet sand, and out there in the grey, very low, the tops of walls.".
   Observe steps_full at tideline_steps when not lowWater() "The water stands high on the steps, slopping and green.".
 
-  // The Throat Stair, and the Throat: the channel the basin drains by.
-  Observe throat_scene at throat_head when not visitedBefore(throat_head) "At the west end of the Tidewall the wall-walk breaks off at a stair that goes straight down the face of the wall into the basin. A chain hangs beside it for a handrail. Below, the Throat: the one deep channel through which the outer basin fills and empties twice a day, with a noise like a slow mill.".
-  Observe throat_scene_again at throat_head when visitedBefore(throat_head) "The head of the Throat Stair, where the wall-walk breaks off, with its chain for a handrail and the Throat milling below.".
+  // The Swatch Stair, and the Swatch: the channel the basin drains by.
+  Observe throat_scene at throat_head when not visitedBefore(throat_head) "At the west end of the Tidewall the wall-walk breaks off at a stair that goes straight down the face of the wall into the basin. A chain hangs beside it for a handrail. Below, the Swatch: the one deep channel through which the outer basin fills and empties twice a day, with a noise like a slow mill.".
+  Observe throat_scene_again at throat_head when visitedBefore(throat_head) "The head of the Swatch Stair, where the wall-walk breaks off, with its chain for a handrail and the Swatch milling below.".
   Observe throat_low_dark at throat_head when lowWater() and dark() "The basin is out. Below the stair the drowned city lies in the dark, and you can hear it draining, a thousand small waters running off stone. Far out, one lantern moves, low to the ground, and stops, and moves again.".
   Observe throat_low at throat_head when lowWater() and not dark() "The basin is out. Below the stair lies a city of wet stone: roofs, a colonnade, the dome of something, streets with weed lying flat in them like combed hair. Figures are moving down there, small, bent over, looking for things.".
 
@@ -89,11 +89,11 @@ Module tessary "What Tessary Owes" {
   Observe terraces_scene at terraces when not visitedBefore(terraces) "The ground rises here to the city's one hill, and the old houses of the Moieties stand along it in terraces of walled garden (three of them claim descent from the Aenean magistrates, and have the portraits to prove it, all painted in the last century), with salt-bitten fig trees and doors painted the colours of their families. The Council House has a portico and a bell. Further along, a tall house with a soldier on its steps is where the city keeps the King of Hethra, courteously, until his ransom is paid.".
   Observe terraces_scene_again at terraces when visitedBefore(terraces) "The Terraces: walled gardens, painted doors, the Council House with its bell, the King's lodging with its soldier on the steps.".
 
-  // Saltgate and the Pans.
-  Observe saltgate_scene at saltgate when not dark() and not visitedBefore(saltgate) "Saltgate is the city's working end: carts, sacks, a smell of brine and peat-smoke. Factor Sault's countinghouse has a brass plate polished like a mirror. Beside it her warehouses run back to the water, and next to those is a long hall with its doors open and a crowd of men in old red coats outside it, waiting to be picked for the day's work.".
-  Observe saltgate_scene_again at saltgate when not dark() and visitedBefore(saltgate) "Saltgate: carts and brine, the Factor's brass plate, red coats waiting outside the hiring hall.".
+  // Panhythe and the Pans.
+  Observe saltgate_scene at saltgate when not dark() and not visitedBefore(saltgate) "Panhythe is the city's working end: carts, sacks, a smell of brine and peat-smoke. Factor Sault's countinghouse has a brass plate polished like a mirror. Beside it her warehouses run back to the water, and next to those is a long hall with its doors open and a crowd of men in old red coats outside it, waiting to be picked for the day's work.".
+  Observe saltgate_scene_again at saltgate when not dark() and visitedBefore(saltgate) "Panhythe: carts and brine, the Factor's brass plate, red coats waiting outside the hiring hall.".
   Observe saltgate_night at saltgate when dark() "The countinghouse is shuttered. A lantern burns over the warehouse door, and under it two of Factor Sault's men are playing dice on a salt-sack.".
-  Observe pans_scene at pans when true "East of the city the salt-pans run out into the marsh in a chequer of shallow squares, white at the edges, each with its sluice. Women in wooden pattens rake the crust. Steam rises from the boiling-houses. The tide that comes through the Throat runs out here too, under the dykes, and what it carries out it leaves: weed, timber, a shoe.".
+  Observe pans_scene at pans when true "East of the city the salt-pans run out into the marsh in a chequer of shallow squares, white at the edges, each with its sluice. Women in wooden pattens rake the crust. Steam rises from the boiling-houses. The tide that comes through the Swatch runs out here too, under the dykes, and what it carries out it leaves: weed, timber, a shoe.".
 
   // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
   Place teazle_house "Nan Teazle's house" is building within tessary.

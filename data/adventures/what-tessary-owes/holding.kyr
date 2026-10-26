@@ -14,7 +14,7 @@ Module tessary "What Tessary Owes" {
   Place ranks "the Ranks" is room within holding at 1, 2 outdoors.
   Place far_edge "the far edge" is room within holding at 2, 2 outdoors.
 
-  // The Door stands open on the night of the Settlement; at other times only to the Assessor and whoever goes with
+  // The Door stands open on the night of the Settlement; at other times only to the Valuer and whoever goes with
   // them, or to whomever the Comptroller admits.
   Relation holdingAdmits(group).
   Query doorOpen() means feastEve() and hour(clock) >= 18 or night(ossel) >= 15 or travelsWith(tally, party) or holdingAdmits(party).
@@ -33,9 +33,9 @@ Module tessary "What Tessary Owes" {
   Observe sheaves_scene at sheaves when true "A field of sheaves, standing in stooks on the white floor, gold and dry and smelling of August: a harvest, a whole country's harvest, acres of it. The tag on the nearest stook is old leather, and the writing on it says, in a script like the Scruples', a king's word that his people would not starve, given in a year of famine, and broken.".
   Observe lake_scene at folded_lake when true "A lake, folded. That is the only way to say it: a lake has been folded like linen, in squares, and laid on the floor in a stack higher than a house, and you can see through the folds the reeds and the fish and a little boat, very small and perfectly still, caught between two layers of water. Its tag is the size of a door.".
   Observe tags_scene at tags when true "An avenue of tags with nothing tied to them: little white tags on cords, hanging from a rail at the height of your eyes, thousands of them, stirring though there is no wind. Each has a name on it in the ruled script. These are the names of the Scruples, pledged at their births. Some are very old. Some are new, and the ink still wet.".
-  Observe ranks_scene at ranks when true "The Ranks. Soldiers of the Long Muster, standing in files on the white floor as if on parade, barefoot, in their shirts, their eyes closed, their hands at their sides. They are breathing, very slowly, all together. There are a hundred and fifty of them, and more; there are faces you have seen on the boardwalks of the Withies, and faces you have seen only on the Assessor's pages. Nobody has tied tags to them. Their tags are in the Weighing Chamber, in the pan.".
+  Observe ranks_scene at ranks when true "The Ranks. Soldiers of the Long Muster, standing in files on the white floor as if on parade, barefoot, in their shirts, their eyes closed, their hands at their sides. They are breathing, very slowly, all together. There are a hundred and fifty of them, and more; there are faces you have seen on the boardwalks of the Withies, and faces you have seen only on the Valuer's pages. Nobody has tied tags to them. Their tags are in the Weighing Chamber, in the pan.".
   Observe desk_scene at notary_desk when true "A white desk stands on the white floor with nothing round it for a long way in any direction: a clerk's desk, sloped, with an inkwell, and a rail behind it hung with keys that have no doors. There is no chair. Whoever works here does not sit.".
-  Observe durrance_held near durrance when heldNow(durrance) and at(durrance, ranks) and asleep(durrance) "At the end of the Third Company's file, a little apart, as a sergeant stands, Agathe Durrance is asleep on her feet, barefoot, with her chin up as if on parade.".
+  Observe durrance_held near durrance when heldNow(durrance) and at(durrance, ranks) and asleep(durrance) "At the end of the Third Company's file, a little apart, as a sergeant stands, Thomasin Durrance is asleep on her feet, barefoot, with her chin up as if on parade.".
   Observe davy_held near davy when heldNow(davy) and asleep(davy) "In the Third Company's file, between a big man with a burned hand and a boy who cannot be more than seventeen, Davy Teazle is asleep in his shirt. His feet are bare and very white. He looks cold.".
   Observe edge_scene at far_edge when true "The floor ends. It does not drop away; it stops, and beyond it is dark that is not night, and in the dark, very far off, there are nine points of black light, arranged in no shape you know, perfectly still. They do not twinkle. The cold comes off them the way cold comes off a cellar door, and it smells of iron. You find you have counted them three times.".
   Observe ranks_count at ranks when held(ossel) > 150 "The files are longer than they were. New faces at the ends of them, in their shirts, with their eyes closed.".
@@ -51,7 +51,7 @@ Module tessary "What Tessary Owes" {
   Topic notary_lights with notary "Ask the Notary about the nine black lights at the far edge" when true once {
     Says "The Notary is quiet for a long time. 'Security,' it says at last. 'For the oldest promise this floor holds. The Scruples call it the Fastening; your priests have other words. The nine jewels your songs remember are the tallies of it, and what they tally is held there.' Its lines grow very close together. 'I do not discuss the terms. I will say that they are being kept. I will say that at one place in Imbar the ledger is uneven, and the fastening there is slack, and it is the place you came from.'".
   }
-  Topic notary_redeem with notary "Ask the Notary how the held may be redeemed" when true once {
+  Topic notary_redeem with notary "Ask the Notary how the called may be redeemed" when true once {
     Says "'Three ways,' says the Notary. 'The debt is paid, and all that was pledged for it goes home. The debt is released, by the one it is owed to, and all goes home. Or a single thing is redeemed by another pledge of its weight, laid on this desk.' It turns a page that is not there. 'A soldier's oath weighs about what a person's name weighs, and everything they carry of worth. I make that observation to everyone who asks. Very few people ask twice.'".
     On discuss { Assert knows(actor, redeem_by_pledge). }
   }
@@ -68,8 +68,8 @@ Module tessary "What Tessary Owes" {
     Says "'Forfeit,' says the Notary. 'A miller wagered her on a horse and the horse lost. She is the property of the Balance. She has eaten approximately a third of the harvest of Old Ennelmark.' Its lines move in a way that might be a sigh. 'Nothing forfeit to the Holding ages. Nothing in the Holding can be made to leave it. I have tried.'".
   }
 
-  // ── The held ──────────────────────────────────────────────────────────────────────────────────────────────────────
-  Person held_files "the held of the Long Muster" at ranks {
+  // ── The called ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person held_files "the called of the Long Muster" at ranks {
     Role "soldiers asleep on their feet, in files". Ancestry human. Numbers 1. Peaceable. Pronouns they.
   }
   Initially Assert asleep(held_files).
@@ -104,23 +104,23 @@ Module tessary "What Tessary Owes" {
   Rule durrance_sleeps_again when durranceWoke(ossel) and heldNow(durrance) and not at(party, ranks) { Assert asleep(durrance). }
   Rule durrance_wakes_again when durranceWoke(ossel) and heldNow(durrance) and at(party, ranks) and asleep(durrance) { Retract asleep(durrance). }
 
-  // The deeds of the held, put into their hands before the Settlement: the city's promise, kept to every soldier.
+  // The deeds of the called, put into their hands before the Settlement: the city's promise, kept to every soldier.
   Action deliver_deeds(actor: group, site: place) "Go down the files putting a sealed deed into every hand" {
     Description "A hundred and sixty-odd deeds, name by name. It will take a while.".
     Time 6.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ranks) and carries(actor, held_deeds)
       and not deedsDelivered(ossel) and not matured(ossel).
     On success { Assert deedsDelivered(ossel). }
-    Result "You go down the files with the casket open, reading the names off the deeds, finding the faces. Pike. Haskett. Moll Bryer. The Lucey twins, side by side. Teazle, D. Every hand takes the paper as you put it there, the way a sleeping hand will close on whatever is put in it, and holds it. When you come to the end of the last file the casket is empty, and all down the Ranks, very faintly, there is a sound like a great many people breathing out.".
+    Result "You go down the files with the casket open, reading the names off the deeds, finding the faces. Pargeter. Haskett. Moll Bryer. The Lucey twins, side by side. Teazle, D. Every hand takes the paper as you put it there, the way a sleeping hand will close on whatever is put in it, and holds it. When you come to the end of the last file the casket is empty, and all down the Ranks, very faintly, there is a sound like a great many people breathing out.".
   }
 
   // ── The pledge ────────────────────────────────────────────────────────────────────────────────────────────────────
   // One pledge to a person, for there is one name to a person: laid on the Notary's desk, it redeems one held thing.
   Relation pledgedSelf(group). Relation redeemedBy(group, group). Relation tallyFreed(place). Relation tallyNameFound(group).
-  Observe tally_tag at tags when knows(party, tally_name_known) and not tallyFreed(ossel) "In the ninth row, near the end, a tag hangs whose ink is twenty-nine years old. You know it is the Assessor's before you read it. It is a short name. It would sound strange in Tessary, and then, after a while, it would not.".
-  Discovery tally_name_known "The Assessor's name hangs in the avenue of tags in the Holding, pledged at their birth.".
-  Topic tally_name with tally "Ask the Assessor what their name is" when tallySawDefaults(ossel) and not knows(actor, tally_name_known) once {
-    Says "The Assessor looks at you for a long time. 'It is held,' they say. 'In the ninth row of the avenue of tags. I have never seen it. One is not shown one's name.' A pause. 'I find, since the Room of Defaults, that I would like to know what it is. I note that. I do not know what to do with it.'".
+  Observe tally_tag at tags when knows(party, tally_name_known) and not tallyFreed(ossel) "In the ninth row, near the end, a tag hangs whose ink is twenty-nine years old. You know it is the Valuer's before you read it. It is a short name. It would sound strange in Tessary, and then, after a while, it would not.".
+  Discovery tally_name_known "The Valuer's name hangs in the avenue of tags in the Holding, pledged at their birth.".
+  Topic tally_name with tally "Ask the Valuer what their name is" when tallySawDefaults(ossel) and not knows(actor, tally_name_known) once {
+    Says "The Valuer looks at you for a long time. 'It is held,' they say. 'In the ninth row of the avenue of tags. I have never seen it. One is not shown one's name.' A pause. 'I find, since the Room of Defaults, that I would like to know what it is. I note that. I do not know what to do with it.'".
     On discuss { Assert knows(actor, tally_name_known). }
   }
   Action pledge_for_davy(actor: group, site: place) "Lay your name and everything you carry of worth on the Notary's desk, to redeem Davy Teazle" {
@@ -131,7 +131,7 @@ Module tessary "What Tessary Owes" {
     On success { Assert pledgedSelf(actor). Assert redeemedBy(davy, actor). Set quantity(actor, gold) to 0. Assert registered(actor). }
     Result "You say your name, the whole of it, and the Notary writes it on a tag, and ties the tag to the rail with the others, and it hangs there stirring. 'Held,' it says. 'Teazle, D., redeemed.' Your purse is empty; you did not see it go. When you try to think of your own name it is there, still, but at a distance, like a word in a language you used to speak. 'You will be called something,' says the Notary. 'People always are.'".
   }
-  Action pledge_for_durrance(actor: group, site: place) "Lay your name and everything you carry of worth on the Notary's desk, to redeem Agathe Durrance" {
+  Action pledge_for_durrance(actor: group, site: place) "Lay your name and everything you carry of worth on the Notary's desk, to redeem Thomasin Durrance" {
     Speaker notary. Time 1 minute.
     Grave "A name pledged to the Holding is held. It is not given back.".
     Requires able(actor) and company(actor) and at(actor, site) and at(notary, site) and knows(actor, redeem_by_pledge)
@@ -139,9 +139,9 @@ Module tessary "What Tessary Owes" {
     On success { Assert pledgedSelf(actor). Assert redeemedBy(durrance, actor). Set quantity(actor, gold) to 0. Assert registered(actor). }
     Result "You say your name, the whole of it, and the Notary writes it on a tag and ties it to the rail. 'Held,' it says. 'Durrance, A., redeemed.' Your purse is empty. Your own name, when you reach for it, is there, but at a distance, like the name of a town you passed through once.".
   }
-  Action pledge_for_tally(actor: group, site: place) "Lay your name and everything you carry of worth on the Notary's desk, to redeem the Assessor's name" {
+  Action pledge_for_tally(actor: group, site: place) "Lay your name and everything you carry of worth on the Notary's desk, to redeem the Valuer's name" {
     Speaker notary. Time 1 minute.
-    Grave "A name pledged to the Holding is held. It is not given back. The Assessor's, redeemed, is theirs.".
+    Grave "A name pledged to the Holding is held. It is not given back. The Valuer's, redeemed, is theirs.".
     Requires able(actor) and company(actor) and at(actor, site) and at(notary, site) and knows(actor, redeem_by_pledge)
       and knows(actor, tally_name_known) and not tallyFreed(ossel) and not pledgedSelf(actor) and not tallyUnravelled(ossel).
     On success { Assert pledgedSelf(actor). Assert tallyFreed(ossel). Set quantity(actor, gold) to 0. Assert registered(actor). }
@@ -156,7 +156,7 @@ Module tessary "What Tessary Owes" {
   Rule comptroller_redeems when redeemedByComptroller(davy) and heldNow(davy) and lowWater() and dark() {
     Retract heldNow(davy). Retract asleep(davy). Assert cameHome(davy). Assert wokeHome(davy). }
   Rule davy_back_told when wokeHome(davy) and not knows(party, davy_back) and inTessary()
-    says "Word runs along the Withies faster than the tide: Davy Teazle woke up on the Tideline Steps in his shirt with his boots beside him, and walked home, and put his boots on the mat inside his mother's door, side by side." teaches davy_back { }
+    says "Word runs along the Withies faster than the tide: Davy Teazle woke up on the Watersteps in his shirt with his boots beside him, and walked home, and put his boots on the mat inside his mother's door, side by side." teaches davy_back { }
   Discovery davy_back "Davy Teazle has come home to the Withies.".
   Event nan_pays near nan when knows(party, davy_back) and nanOffer(party) and not nanPaid(party) "Nan Teazle puts a tin in your hands without a word. Nine coin in it. Davy is asleep in the cupboard bed behind her, in his coat, with his boots on." then {
     Increase quantity(party, gold) by 9. Assert nanPaid(party). }

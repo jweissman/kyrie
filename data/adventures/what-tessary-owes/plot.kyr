@@ -28,7 +28,7 @@ Module tessary "What Tessary Owes" {
   Discovery sault_saw_letter "Factor Sault has seen her letter in your hands.".
 
   // What the city shows a company that comes back to it, of what was done while it was away.
-  Event drum_boots at drum_taproom when durranceCalled(ossel) and heldNow(durrance) "Agathe Durrance's boots stand on the bar of the Muffled Drum, side by side, toes to the door, under the drum with the cloth over it. Nobody drinks at that end of the bar.".
+  Event drum_boots at drum_taproom when durranceCalled(ossel) and heldNow(durrance) "Thomasin Durrance's boots stand on the bar of the Muffled Drum, side by side, toes to the door, under the drum with the cloth over it. Nobody drinks at that end of the bar.".
   Observe exchequer_shut at exchequer_room when quireDrowned(ossel) "The Treasurer's room has been shut up. The cot is stripped, the ledgers stacked, and someone has tied a black ribbon round the empty bottle and left it on the desk.".
   Observe terraces_riot at terraces when riotHappened(ossel) and not matured(ossel) "Glass glitters in the gutters of the Terraces. The Council House windows are boarded, and men of the Watch stand on its portico with pikes, looking anxious.".
   Observe marrable_abed at marrable_room when marrableHurt(ossel) "Ysbel Marrable is sitting up in a chair by the window with her head bandaged and one eye closed. 'They didn't take the other arm,' she says. 'Considerate of them.'".
@@ -103,7 +103,7 @@ Module tessary "What Tessary Owes" {
     says "The drum fills the low room. Rap, rap, and the long roll, and rap: the stand-down, that every soldier of the Muster has heard at the end of every day for eleven years. Durrance stops with one boot off. All over the Withies, in the stilt-houses, you hear other things stop: a door, a ladder, someone on the boardwalk. Durrance sits down, hard, on the floor, and looks at the boot in her hand as if she has never seen it." {
     Assert heldBack(durrance). Assert drumBeaten(ossel). }
   Rule drum_offends when state(third_drum, bare) and not drumBeaten(ossel) and at(party, drum_taproom)
-    says "Hannelore Sedge comes round the bar and puts the cloth back over the drum's head, and ties it, and looks at you. 'I said don't,' she says. 'I said it kindly.'" {
+    says "Hannelore Rackham comes round the bar and puts the cloth back over the drum's head, and ties it, and looks at you. 'I said don't,' she says. 'I said it kindly.'" {
     Assert state(third_drum, muffled). }
   Rule durrance_goes when night(ossel) == 8 and callings(ossel) == 8 and not durranceCalled(ossel) and not heldNow(durrance)
     and not durranceSafe() {
@@ -112,14 +112,14 @@ Module tessary "What Tessary Owes" {
   Relation heldRoom(place). Initially Assert heldRoom(ranks).
   Rule durrance_leaves_place when heldNow(durrance) and at(durrance, ?p) and not heldRoom(?p) { Retract at(durrance, ?p). }
   Rule durrance_gone_told when durranceCalled(ossel) and not spread(durrance_gone)
-    and inTessary() says "In the morning Hannelore Sedge stands Agathe Durrance's boots on the bar of the Muffled Drum, side by side, toes to the door, under the drum with the cloth over it. Nobody drinks there all day." { Assert spread(durrance_gone). }
+    and inTessary() says "In the morning Hannelore Rackham stands Thomasin Durrance's boots on the bar of the Muffled Drum, side by side, toes to the door, under the drum with the cloth over it. Nobody drinks there all day." { Assert spread(durrance_gone). }
   Discovery durrance_gone "Sergeant Durrance answered the drum at the eighth night's spring ebb, and walked into the sea.".
   // Whoever is passed over, the weight is the weight: another goes in their place.
   Rule elcock_goes when night(ossel) == 8 and callings(ossel) == 8 and not elcockTaken(ossel) and not interestPaid(ossel)
     and (durranceSpared(ossel) or heldBack(durrance) or durranceKnowsFraud(durrance)) and not heldNow(durrance) {
     Assert elcockTaken(ossel). }
   Rule elcock_told when elcockTaken(ossel) and not knows(party, elcock_known)
-    and inTessary() says "In the morning there are twelve pairs of boots on the Tideline Steps. The eleventh pair is small, and very new, and belongs to Robin Elcock, who was a drummer, and was nineteen." teaches elcock_known { }
+    and inTessary() says "In the morning there are twelve pairs of boots on the Watersteps. The eleventh pair is small, and very new, and belongs to Robin Elcock, who was a drummer, and was nineteen." teaches elcock_known { }
   Discovery elcock_known "Durrance was not taken at the eighth night's ebb. Robin Elcock, a drummer of nineteen, was taken in her place.".
   Topic durrance_elcock with durrance "Tell Durrance who went in her place" when knows(actor, elcock_known) and not heldNow(durrance) once {
     Says "'Elcock,' says Durrance. 'Robin Elcock. He couldn't keep time. I used to make him march at the back so the step wouldn't go to pieces.' She looks at her hands. 'He went in my place.' A long silence. 'Right. Then I owe him. And I pay what I owe, which is more than this city does.'".
@@ -128,7 +128,7 @@ Module tessary "What Tessary Owes" {
   Relation durranceOwes(group).
 
   // 4. The Treasurer: on the ninth day the Factor goes to see him. Unless someone has given him a reason to live, on
-  // the tenth night he walks down the Throat Stair into the full basin.
+  // the tenth night he walks down the Swatch Stair into the full basin.
   Relation quirePressed(place). Relation quireHope(group). Relation quireDrowned(place). Relation quireWillConfess(group).
   Rule quire_pressed when night(ossel) >= 9 and hour(clock) == 11 and not quirePressed(ossel) { Assert quirePressed(ossel). }
   Observe quire_after at exchequer_room when quirePressed(ossel) and not quireDrowned(ossel) and not quireHope(quire) "Quire has not slept. The bottle is empty. 'The Factor came,' he says to you, or to the room. 'She sat in that chair and told me what would happen to me when the Board learns what I signed. Very kindly. She brought eels.'".
@@ -139,10 +139,10 @@ Module tessary "What Tessary Owes" {
   Rule quire_walks when night(ossel) == 10 and hour(clock) == 4 and quirePressed(ossel) and not quireHope(quire) and not quireDrowned(ossel) {
     Assert quireDrowned(ossel). Retract at(quire, exchequer_room). }
   Rule quire_found when quireDrowned(ossel) and not spread(quire_dead)
-    and inTessary() says "Word goes along the Tidewall in the morning: the Treasurer went down the Throat Stair before dawn, into the full basin, with his coat buttoned. The fishermen brought him up at the ebb. In his coat was a list of a hundred and thirty-eight names." { Assert spread(quire_dead). }
-  Discovery quire_dead "Treasurer Quire drowned himself at the Throat on the tenth night, with the list of the called in his coat.".
+    and inTessary() says "Word goes along the Tidewall in the morning: the Treasurer went down the Swatch Stair before dawn, into the full basin, with his coat buttoned. The fishermen brought him up at the ebb. In his coat was a list of a hundred and thirty-eight names." { Assert spread(quire_dead). }
+  Discovery quire_dead "Treasurer Quire drowned himself at the Swatch on the tenth night, with the list of the called in his coat.".
 
-  // 5. Councillor Pell's chair, and Orme's: the Board as it stands, and what can move it on the thirteenth day.
+  // 5. the chairs: the Board as it stands, and what can move it on the thirteenth day.
   // 6. The attempt on Marrable, the night before the eleventh ebb, if the vote looks as if it might pass.
   Measure support(place). Relation marrableHurt(place). Relation marrableGuarded(place). Relation attemptMade(place).
   Query looksLikely() means quireWillConfess(quire) or amauryWillTestify(party) or carries(party, sault_letter) or at(plum, terraces) or plumHome(ossel).
@@ -185,7 +185,7 @@ Module tessary "What Tessary Owes" {
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert riotCalmed(ossel). }
     On failure { Assert triedCalming(actor). }
-    Result "You tell them what is true: that the Board will vote tomorrow, and that if soldiers go up the Terraces tonight with torches, Orme and old Lisle will vote no out of fright, and the Factor knows it, and that is why they are here. It takes a long time, and some of them shout you down, and then one of them says, 'That's right,' and then a lot of them say it. By midnight the Row is empty, and the torches are going home through the Withies in twos and threes.".
+    Result "You tell them what is true: that the Board will vote tomorrow, and that if soldiers go up the Terraces tonight with torches, Orme and old Hallam will vote no out of fright, and the Factor knows it, and that is why they are here. It takes a long time, and some of them shout you down, and then one of them says, 'That's right,' and then a lot of them say it. By midnight the Row is empty, and the torches are going home through the Withies in twos and threes.".
     Otherwise "You get up on the desk and they shout you off it.".
   }
   Relation triedCalming(group).
@@ -216,7 +216,7 @@ Module tessary "What Tessary Owes" {
   Rule sault_leaves when not inSession() and at(sault, council_chamber) { Retract at(sault, council_chamber). Assert at(sault, sault_office). }
   Rule marrable_sits when inSession() and at(marrable, marrable_room) and not marrableHurt(ossel) { Retract at(marrable, marrable_room). Assert at(marrable, council_chamber). }
   Rule marrable_home when not inSession() and at(marrable, council_chamber) { Retract at(marrable, council_chamber). Assert at(marrable, marrable_room). }
-  Observe session_scene at council_chamber when inSession() "The Board of Moieties is sitting. Seven of the eight carved seats are full; the Salt chair is Factor Sault's, and she sits in it with her arms folded, eating nothing for once. Councillors Greaves and Vantage, the furniture, in velvet. Old Lisle asleep or nearly. Haverick of Paper, red-eyed. Orme of Ship, doing sums on his cuff. Dauntry of Rope, looking at Sault. The public bench is full of red coats. The Speaker is reading the question aloud, slowly, as if hoping it will go away.".
+  Observe session_scene at council_chamber when inSession() "The Board of Moieties is sitting. Seven of the eight carved seats are full; the Salt chair is Factor Sault's, and she sits in it with her arms folded, eating nothing for once. Councillors Greaves and Vantage, the furniture, in velvet. Old Hallam asleep or nearly. Haverick of Paper, red-eyed. Orme of Ship, doing sums on his cuff. Dauntry of Rope, looking at Sault. The public bench is full of red coats. The Speaker is reading the question aloud, slowly, as if hoping it will go away.".
   Observe session_marrable at council_chamber when inSession() and at(marrable, council_chamber) "Ysbel Marrable stands at the Eel chair with her pinned sleeve, waiting her turn to speak, and when it comes she speaks for a quarter of an hour without notes, and does not raise her voice once.".
   Observe session_empty_eel at council_chamber when inSession() and marrableHurt(ossel) "The Eel chair is empty. Everybody looks at it and nobody mentions it.".
   Relation boardSawList(place). Relation boardSawTerms(place). Relation boardSawBid(place). Relation amauryTestified(place).
@@ -242,14 +242,14 @@ Module tessary "What Tessary Owes" {
     On success { Assert boardSawBid(ossel). Assert saultExposed(ossel). }
     Result "You read them the Factor's letter: I will take up the note and with it the Muster, and Tessary will be governed by someone who can count. Factor Sault does not interrupt. When you have finished she stands up, quite unhurried, and looks round the chamber at each of them, and at the public bench. 'Every word,' she says. 'Somebody should.' And walks out. Dauntry of Rope sits for a moment, and then, very slowly, as if testing whether it is allowed, takes his eyes off her empty chair.".
   }
-  // Someone they cannot call a liar: the Board is the debtor, and the Assessor may state a debtor's affairs to it.
+  // Someone they cannot call a liar: the Board is the debtor, and the Valuer may state a debtor's affairs to it.
   Relation boardHeardTally(place).
-  Action lay_tally(actor: group, site: place) "Ask the Assessor to tell the Board what the city pledged" {
+  Action lay_tally(actor: group, site: place) "Ask the Valuer to tell the Board what the city pledged" {
     Time 1. Speaker tally.
     Requires able(actor) and company(actor) and at(actor, site) and at(board, site) and inSession() and travelsWith(tally, actor)
       and not boardHeardTally(ossel) and not tallyUnravelled(ossel).
     On success { Assert boardHeardTally(ossel). }
-    Result "The Assessor walks out into the middle of the floor, under the painting of the Kneeling, and opens the ledger. 'You are the debtor,' they say to the Board, 'so I may state your affairs to you. I am the Ninth Assessor of the Balance. I cannot lie; you may ask anyone below.' Then they read out, in the voice of someone reading a bill of lading, what the city pledged, and when, and how many have been taken, by name, in roll order. Somewhere about the fortieth name Councillor Greaves stops pretending to read his papers. Nobody calls the Assessor a liar. Nobody can think how.".
+    Result "The Valuer walks out into the middle of the floor, under the painting of the Kneeling, and opens the ledger. 'You are the debtor,' they say to the Board, 'so I may state your affairs to you. I am the Ninth Valuer of the Balance. I cannot lie; you may ask anyone below.' Then they read out, in the voice of someone reading a bill of lading, what the city pledged, and when, and how many have been taken, by name, in roll order. Somewhere about the fortieth name Councillor Greaves stops pretending to read his papers. Nobody calls the Valuer a liar. Nobody can think how.".
   }
   Event amaury_testifies at council_chamber when inSession() and amauryWillTestify(party) and not amauryTestified(ossel) "The doors open and the King of Hethra comes in between two guards, in a plain coat, and walks up to the painting of the Kneeling and stands under it. 'I am told,' he says to the Board, pleasantly, 'that this city has been paying for my knees.' And he tells them about the hand on the back of his neck, and the oath of his house, and the silver, and when he has done the Speaker has to call for order three times." then {
     Assert amauryTestified(ossel). }
@@ -361,14 +361,14 @@ Module tessary "What Tessary Owes" {
   Rule deeds_sealed_told when deedsSealed(ossel) and inTessary() and not spread(deeds_sealed_known)
     says "All day the Office of Seals has worked with its doors shut and every clerk in the Lettered Quarter borrowed; by four in the afternoon the last deed has passed under the Seal, and they begin carrying them out to the Withies in baskets, with the Muster's own sergeants calling the names. Land and a pension. A deed to every hand." { Assert spread(deeds_sealed_known). }
   Discovery deeds_sealed_known "The deeds of the Settlement have been sealed and given out.".
-  Item held_deeds "the deeds of the held" is deeds_kind at seals_inner hidden until deeds_for_held.
+  Item held_deeds "the deeds of the called" is deeds_kind at seals_inner hidden until deeds_for_held.
   Kind deeds_kind "a casket of sealed deeds" is gear worth 0 weighing 3
     described "A cedar casket with a hundred and sixty-odd deeds in it, each sealed with the scales and the wave: land and a pension, made out to soldiers of the Long Muster who are not in Tessary to receive them.".
-  Discovery deeds_for_held "The deeds made out to the held cannot be put into their hands in Tessary. They wait in a casket at the Office of Seals for whoever will carry them down.".
+  Discovery deeds_for_held "The deeds made out to the called cannot be put into their hands in Tessary. They wait in a casket at the Office of Seals for whoever will carry them down.".
   Rule deeds_casket at seals_inner when deedsSealed(ossel) and not knows(party, deeds_for_held)
     says "On the Keeper's table, apart from the rest, stands a cedar casket. 'The deeds of the ones who are not here,' says Deckle. 'The Settlement says every hand. I cannot put these into a hand.' He looks at you. 'I am told that somebody may know where those hands are.'" teaches deeds_for_held { }
   Initially Assert lends(deckle, held_deeds, party).
-  Action take_deeds(actor: group, recipient: member, site: place) "Take the casket of the held's deeds from the Keeper" {
+  Action take_deeds(actor: group, recipient: member, site: place) "Take the casket of the deeds of the called from the Keeper" {
     Speaker deckle. Time 1 minute.
     Requires able(actor) and company(actor) and at(actor, site) and at(deckle, site) and knows(actor, deeds_for_held)
       and memberOf(recipient, actor) and awake(recipient) and at(held_deeds, site).
@@ -378,5 +378,5 @@ Module tessary "What Tessary Owes" {
   }
   Rule deeds_word when deedsSealed(ossel) and not spread(deeds_word_known) and not at(party, seals_inner)
     and inTessary() says "A boy from the Office of Seals finds you: the Keeper asks for you. There is a casket of deeds that nobody in Tessary can deliver." { Assert spread(deeds_word_known). }
-  Discovery deeds_word_known "The Keeper of the Seal has a casket of deeds for the held, and asks for you.".
+  Discovery deeds_word_known "The Keeper of the Seal has a casket of deeds for the called, and asks for you.".
 }

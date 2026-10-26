@@ -19,7 +19,7 @@ their boots together in their lives. A coat on a peg that nobody wears. A queue 
 place. Hollow people "like coats with nobody in." A goose eating a king's harvest one grain at a time. A drum with a
 black cloth over its head that nobody plays until the last of the Third comes home.
 
-**Two characters who can change.** The Assessor's arc is driven by what they can prove, not by what they feel, and
+**Two characters who can change.** The Valuer's arc is driven by what they can prove, not by what they feel, and
 it ends four genuinely different ways. Durrance's belief (the oath, not the city) is tested from four sides.
 
 ## What I am not happy with
@@ -38,8 +38,8 @@ cashed.
 Reading it again, the adventure is full of doubles it never notices: a city built on the plan of the city drowned
 beneath it; two promises of equal weight; two strategic powers who want the same default for opposite reasons; a
 scrivener's draft, a copied inventory, a clerk called the Copyist; the Ledger, which writes down every act a second
-time; boots standing in for the men who left them; empty coats on pegs, hollow Forsworn, the Assessor's grey coat
-with nobody in it at the end of the Broken Note; Saint Evenhand, a Scruple who came up, and the Assessor, who may;
+time; boots standing in for the men who left them; empty coats on pegs, hollow Forsworn, the Valuer's grey coat
+with nobody in it at the end of the Broken Note; Saint Evenhand, a Scruple who came up, and the Valuer, who may;
 the Comptroller, who swore a promise young and could not keep it, and Quire, who signed one and could not keep it
 either, and who both answer it with drowning. None of this is pointed at. It should be: not explained, but *rhymed*,
 so that a player half-notices that Lowtide's streets lie under Tessary's, that the Oath Stone stands above a hollow
@@ -57,7 +57,7 @@ half-disbelieved. The cosmic stake should be verified by the world before it is 
 
 The adventure's central reversal (the creditor drew the note to fail, because he defaulted first) arrives without a
 trace before the Room of Defaults. A good reversal makes earlier details mean something new. There should be a saying
-of Saint Evenhand's in the chapel, a phrase on the Tideline Steps, a Scruple clerk's unguarded line, so that the
+of Saint Evenhand's in the chapel, a phrase on the Watersteps, a Scruple clerk's unguarded line, so that the
 ledger in the Room of Defaults *completes* something rather than introducing it.
 
 ### 5. The Factor is offstage
@@ -76,15 +76,15 @@ offer a way round it for the clever, the prepared and the kind.
 
 ### 7. Too few problems have more than one key
 
-The vote, the Durrance night and the endings are richly multiple. Smaller problems are not: the counterweight door
+The vote, the Durrance night and the endings are richly multiple. Smaller problems are not: the pan door
 has one solution (weights); the ebb-runners' lockbox is opened by stealth or force but not by persuasion; the
-warehouse lightermen can only be fought; the way into the Strongrooms needs the Assessor or the compact.
+warehouse lightermen can only be fought; the way into the Strongrooms needs the Valuer or the compact.
 
 ### 8. Pulp, specifically
 
 Most of the prose stays on the right side of the line, but these lines reach past what they have earned:
 "a nave, cut out of the bottom of the world"; "the nine black lights at the far edge of everything"; "something comes
-up the Throat on the flood that was not born in Imbar"; "Something about the nine points makes you want very much to
+up the Swatch on the flood that was not born in Imbar"; "Something about the nine points makes you want very much to
 look somewhere else." The first two are the adventure telling the player to be awed. The third is acceptable OSR
 dread if the earlier wrong stars have prepared it. The fourth is a cliché of the uncanny.
 
@@ -98,14 +98,14 @@ dread if the earlier wrong stars have prepared it. The fourth is a cliché of th
    in which the city hangs upside down; the Stone-shaped hollow in the Hall of Oaths' end wall; Pounce on contracts made
    in two copies and Tessary as the second copy of a city; the empty coat motif sharpened; the two Musters.
 3. **Foreshadowing the default**: a saying of Saint Evenhand's ("Not the sea. A promise drowned the old city."), the
-   worn letters on the Tideline Steps, a Scruple clerk's slip, fishermen's wrong stars on the Tidewall at night.
+   worn letters on the Watersteps, a Scruple clerk's slip, fishermen's wrong stars on the Tidewall at night.
 4. **The Comptroller rewritten** to say less and imply more; the cosmology moved into what the player has seen.
 5. **The Factor given a scene and a past**: she seeks the protagonist out on the Tidewall at dusk, reacts to what they
    have done, and, if shown the Room of Defaults' truth, tells them about her father.
 6. **The Forsworn guard the drowned city's own way down**: a drain under the plunge-pool into the Scruples' cistern,
    which bypasses the black wall. Three ways past them: fight; draw them out by swearing aloud in the hall and slip
    through; or give them what they hold out their hands for, the weight of a kept promise from Saint Evenhand's.
-7. **More keys**: the Assessor can balance the counterweight door; Bettany Slake will hand over the Factor's letter
+7. **More keys**: the Valuer can balance the pan door; Bettany Slake will hand over the Factor's letter
    to someone who tells her what her letters are for; the warehouse lightermen let anyone on the Factor's books pass,
    and can be slipped past at the change of the night watch.
 8. **The pulp lines cut or earned.**
@@ -124,7 +124,7 @@ All eight items were carried out in the Kyr (two new files, `history.kyr` and `w
   later, what he remembers of the Ranks (standing, in a line, white like snow with no cold in it, and a voice singing
   the Sally song) rhymes with the jar in the Holding without saying so.
 - **The eel-mother.** A second lethal danger, the only one in the open: a conger as long as a boat at the foot of the
-  Throat Stair, at the night ebb only. She warns before she strikes. Old Gudrun, who sells hot eels on the Tidewall by
+  Swatch Stair, at the night ebb only. She warns before she strikes. Old Gudrun, who sells hot eels on the Tidewall by
   day, will tell anyone who asks what the eel-mother likes; a cone thrown into the channel buys the stair. A patient
   company can slip past along the wall; a sensible one goes down by day.
 - **Intensifiers pruned.** A pass through the strings for *very*, *somehow*, *strangely* and their kind cut those

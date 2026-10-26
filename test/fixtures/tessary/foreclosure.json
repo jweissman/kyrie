@@ -2,12 +2,12 @@
  "day1": [
   "To the Landgate",
   "To the Withies",
-  "To the Tideline Steps"
+  "To the Watersteps"
  ],
  "day2": [
-  "To the head of the Throat",
+  "To the head of the Swatch",
   "=156",
-  "To the foot of the Throat",
+  "To the foot of the Swatch",
   "To the Weed",
   "To the Drowned Forum",
   "To the Street of Scales",
@@ -18,14 +18,14 @@
   "To the Street of Scales",
   "To the Drowned Forum",
   "To the Weed",
-  "To the foot of the Throat",
-  "To the head of the Throat",
+  "To the foot of the Swatch",
+  "To the head of the Swatch",
   "letter: Read|Break the wax"
  ],
  "tell": [
-  "To the Tideline Steps",
+  "To the Watersteps",
   "To the Withies",
-  "Tell the Assessor that the Factor means",
+  "Tell the Valuer that the Factor means",
   "=2154"
  ]
 }

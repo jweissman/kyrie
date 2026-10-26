@@ -7,7 +7,7 @@ Module tessary "What Tessary Owes" {
 
   Observe after_withies at withies when homecoming() "Boots stand on the mats inside the stilt-house doors now, pairs and pairs of them, put there the way the army taught. Somebody has taken the red coats in off the rails. Somebody else is teaching a soldier who has been asleep for three months how to mend an eel-trap again, and laughing at him.".
   Observe after_withies_held at withies when matured(ossel) and foreclosed(ossel) "From the eaves of the stilt-houses, all along the boardwalks, boots hang by their laces, pair by pair, turning a little in the wind off the sea. Nobody takes them down.".
-  Observe after_withies_factor at withies when factorRules() "Half the men of the Withies are in the Factor's coats now, grey with a salt-white collar, and go out to Saltgate at dawn in step without being told. Their wives watch them go from the doors.".
+  Observe after_withies_factor at withies when factorRules() "Half the men of the Withies are in the Factor's coats now, grey with a salt-white collar, and go out to Panhythe at dawn in step without being told. Their wives watch them go from the doors.".
   Observe after_landgate_kept at landgate when matured(ossel) and keptPromise(ossel) "On the board: a surveyor's notice, and a list of the strips upriver, and names against them in a clerk's hand, and against some of the names a cross where a man who cannot write has made his mark. Someone has written THEY KEPT IT across the top in charcoal, and someone else has written ABOUT TIME.".
   Observe after_landgate_release at landgate when matured(ossel) and released(ossel) "On the board, the Board's notice of a medal for the Long Muster, to be presented on the steps of the Council House. Under it, in pencil, in a great many hands: NO THANK YOU.".
   Observe after_landgate_factor at landgate when factorRules() "On the board, a single printed bill on good paper, with the Great Seal at the foot and a pair of crossed rakes beside it: THE WARDEN OF THE CITY GIVES NOTICE. The rest is about curfews and the price of bread, which has gone down.".
@@ -21,7 +21,7 @@ Module tessary "What Tessary Owes" {
   Observe after_chamber_void at weighing_chamber when matured(ossel) and noteVoid(ossel) "The pan where the black glass lay is empty. The pointer of the Balance stands off the level by the width of a city, and a Scruple sits on a stool at the foot of it with a ledger, writing down, very carefully, how far.".
   Observe after_countinghouse_warden at sault_office when matured(ossel) and saultWarden(ossel) and saultHoldsNote(ossel) "The War Note hangs on the wall behind the Factor's desk in a plain frame, a sheet of black glass that does not reflect anything. Under it, pinned, a letter from the King of Hethra about the working of brine, much annotated.".
 
-  // The Assessor, freed, keeps a stall on Scriveners' Row.
+  // The Valuer, freed, keeps a stall on Scriveners' Row.
   Person tally_freed "the scrivener in grey" at scriveners_row {
     Role "who keeps a stall at the end of the Row: CONTRACTS READ, DISPUTES WEIGHED, NO LIES TOLD (NONE)". Ancestry human. Peaceable. Pronouns they. Manner stoic.
     Seen when matured(ossel) and tallyFreed(ossel).

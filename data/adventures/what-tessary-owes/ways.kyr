@@ -32,21 +32,21 @@ Module tessary "What Tessary Owes" {
   Rule forsworn_close when able(forsworn) and not forswornAppeased(ossel) and state(forsworn_watch, parted) and not at(party, plunge) and not at(party, scruples_cistern) { Assert state(forsworn_watch, standing). }
   // A weight of a kept promise, from Saint Evenhand's.
   Kind votive_weight "a votive weight of a kept promise" is gear worth 0 weighing 1
-    described "A small lead weight on a cord, rubbed smooth, from the chapel ceiling: hung forty years ago by a woman whose husband promised to come home from the sea, and did. Brother Tolley says it has been kept a long time, and can be spared.".
+    described "A small lead weight on a cord, rubbed smooth, from the chapel ceiling: hung forty years ago by a woman whose husband promised to come home from the sea, and did. Brother Ancel says it has been kept a long time, and can be spared.".
   Item kept_weight "a votive weight of a kept promise" is votive_weight at chapel hidden until weight_given.
-  Discovery weight_given "Brother Tolley has given you the weight of a kept promise.".
-  Topic tolley_hollow with tolley "Ask Brother Tolley what the hollow men in Lowtide want" when true once {
-    Says "Tolley does not laugh. 'The forsworn,' he says. 'The old city's oath-breakers, the book calls them. The saint pitied them. He said they hold out their hands because they want to be given back what they broke, and there is no giving it.' He looks up at the weights. 'He used to take a weight down from here, one of the old ones, a promise that had been kept, and go down at the ebb and give it to one. The book says it stood aside for him, and let him go where he was going. I have never tried it. I am a coward, and they are not mine to pity.'".
+  Discovery weight_given "Brother Ancel has given you the weight of a kept promise.".
+  Topic tolley_hollow with tolley "Ask Brother Ancel what the hollow men in Lowtide want" when true once {
+    Says "Ancel does not laugh. 'The forsworn,' he says. 'The old city's oath-breakers, the book calls them. The saint pitied them. He said they hold out their hands because they want to be given back what they broke, and there is no giving it.' He looks up at the weights. 'He used to take a weight down from here, one of the old ones, a promise that had been kept, and go down at the ebb and give it to one. The book says it stood aside for him, and let him go where he was going. I have never tried it. I am a coward, and they are not mine to pity.'".
     On discuss { Assert knows(actor, hollow_want). }
   }
   Discovery hollow_want "Saint Evenhand used to give the Forsworn the weight of a kept promise from his chapel, and they would stand aside for him.".
-  Action ask_weight(actor: group, recipient: member, site: place) "Ask Brother Tolley for the weight of a kept promise" {
+  Action ask_weight(actor: group, recipient: member, site: place) "Ask Brother Ancel for the weight of a kept promise" {
     Speaker tolley. Time 1.
     Requires able(actor) and company(actor) and at(actor, site) and at(tolley, site) and knows(actor, hollow_want)
       and memberOf(recipient, actor) and awake(recipient) and at(kept_weight, chapel).
     Resolve acquire(kept_weight, votive_weight, recipient).
     On success { Assert knows(actor, weight_given). Retract at(kept_weight, chapel). }
-    Result "Tolley stands on the altar-step and reaches up among the weights for a long time, reading the little paper tags, and comes down with a lead one rubbed smooth as a pebble. 'Forty years,' he says. 'A sailor's wife. He came home. She died last winter, and he the winter before, and it has hung here kept all that while.' He puts it in your hand and closes your fingers over it. 'Bring the cord back, if you can. I like to know where they go.'".
+    Result "Ancel stands on the altar-step and reaches up among the weights for a long time, reading the little paper tags, and comes down with a lead one rubbed smooth as a pebble. 'Forty years,' he says. 'A sailor's wife. He came home. She died last winter, and he the winter before, and it has hung here kept all that while.' He puts it in your hand and closes your fingers over it. 'Bring the cord back, if you can. I like to know where they go.'".
   }
   Action give_weight(actor: group, giver: member, site: place) "Hold out the weight of a kept promise to the Forsworn" {
     Time 1 minute.
@@ -70,13 +70,13 @@ Module tessary "What Tessary Owes" {
   Rule slip_done when unseen(party, forsworn) and not at(party, plunge) { Retract unseen(party, forsworn). }
 
   // ── Other keys ────────────────────────────────────────────────────────────────────────────────────────────────────
-  // A Scruple balances the counterweight pans as a child of seven does.
-  Action tally_balances(actor: group, site: place) "Ask the Assessor to balance the pans" {
+  // A Scruple balances the weighing pans as a child of seven does.
+  Action tally_balances(actor: group, site: place) "Ask the Valuer to balance the pans" {
     Speaker tally. Time 1 minute.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallery) and travelsWith(tally, actor)
       and state(counter_door, shut) and not brokeFaith(actor).
     On success { Assert state(counter_door, open). Assert chamberOpened(ossel). }
-    Result "The Assessor does not look at the brass on the rack. They step into the empty pan themselves, and stand quite still, and the pan sinks under them, a little, and stops a hair short; and they take a pen out of their coat and hold it out at arm's length, and the pointer creeps to its mark, and the white door opens. 'Every one of us does that at seven years old,' they say, stepping out. 'It is how we are taught what we weigh. A pen is about the weight of an untold lie.'".
+    Result "The Valuer does not look at the brass on the rack. They step into the empty pan themselves, and stand quite still, and the pan sinks under them, a little, and stops a hair short; and they take a pen out of their coat and hold it out at arm's length, and the pointer creeps to its mark, and the white door opens. 'Every one of us does that at seven years old,' they say, stepping out. 'It is how we are taught what we weigh. A pen is about the weight of an untold lie.'".
   }
   // Bettany Slake carries the Factor's letters. Shown what they are for, she will not carry another.
   Topic slake_letters with slake "Tell Bettany Slake what the Factor's letters to the Hall are for" when knows(actor, collateral) and knows(actor, sault_courier) and tolerates(slake, actor) and not state(runners_box, open) once {
@@ -94,7 +94,7 @@ Module tessary "What Tessary Owes" {
     Requires able(actor) and company(actor) and at(actor, site) and at(lightermen, site) and able(lightermen)
       and not tolerates(lightermen, actor) and not assails(lightermen, actor) and quantity(actor, gold) >= 6.
     On success { Decrease quantity(actor, gold) by 6. Increase quantity(lightermen, gold) by 6. Assert tolerates(lightermen, actor). }
-    Result "The biggest of them looks at the coins, and at his mates, and at the door to Saltgate, where the Factor is not. 'Never saw you,' he says, and they go and sit on the salt-sacks by the far wall with their backs to the trap-door.".
+    Result "The biggest of them looks at the coins, and at his mates, and at the door to Panhythe, where the Factor is not. 'Never saw you,' he says, and they go and sit on the salt-sacks by the far wall with their backs to the trap-door.".
   }
 
   // ── The Treasurer and the Comptroller ─────────────────────────────────────────────────────────────────────────────
@@ -110,7 +110,7 @@ Module tessary "What Tessary Owes" {
   Rule davy_wakes_home when cameHome(davy) and at(davy, teazle_room) and asleep(davy) and hour(clock) >= 8 and hour(clock) < 20 { Retract asleep(davy). }
 
   // ── The eel-mother ────────────────────────────────────────────────────────────────────────────────────────────────
-  // A conger as long as a boat that comes up the Throat at the night ebb to hunt the drained streets, and lies at the
+  // A conger as long as a boat that comes up the Swatch at the night ebb to hunt the drained streets, and lies at the
   // foot of the stair. By day she is out in the deep channel. Ways past her: by day; by the Factor's cistern; quietly,
   // while she is turned to the channel; or with what the Withies always give her, hot eels with vinegar, which she
   // likes better than anyone has ever been able to explain.
@@ -131,10 +131,10 @@ Module tessary "What Tessary Owes" {
     Seen when not dark().
   }
   Topic gudrun_eelmother with eel_seller "Ask Old Gudrun about the eel-mother" when true once {
-    Says "'Her?' Old Gudrun laughs, and stirs the pot. 'She's been coming up the Throat at the night ebb since my gran was a girl. Takes a dog now and then. Took a mudlark in my mother's time, and they say the mudlark had it coming.' She fills a cone and holds it out to you, steaming. 'You want to go down there of a night, you take her a cone of these. Vinegar. Lots. Throw it in the channel and she'll stop to eat it, and while she's eating you go by. She's been eating my eels sixty years. She knows the smell of my pot better than my husband does.'".
+    Says "'Her?' Old Gudrun laughs, and stirs the pot. 'She's been coming up the Swatch at the night ebb since my gran was a girl. Takes a dog now and then. Took a mudlark in my mother's time, and they say the mudlark had it coming.' She fills a cone and holds it out to you, steaming. 'You want to go down there of a night, you take her a cone of these. Vinegar. Lots. Throw it in the channel and she'll stop to eat it, and while she's eating you go by. She's been eating my eels sixty years. She knows the smell of my pot better than my husband does.'".
     On discuss { Assert knows(actor, eelmother_known). }
   }
-  Discovery eelmother_known "A great conger, the eel-mother, comes up the Throat at the night ebb and lies at the foot of the stair; a cone of hot eels thrown into the channel stops her long enough to get past.".
+  Discovery eelmother_known "A great conger, the eel-mother, comes up the Swatch at the night ebb and lies at the foot of the stair; a cone of hot eels thrown into the channel stops her long enough to get past.".
   Topic wick_night_ebb with wick "Ask Wick about going down at the night ebb" when true once {
     Says "'Don't,' says Wick at once. 'Not at the night ebb. The eel-mother comes up.' He holds his hands as far apart as they go, and then looks at them as if they were not nearly far enough. 'She lies at the bottom of the stair with her head out. You take her Gudrun's eels, from the barrow on the Wall. Everybody knows that.' He considers. 'Or you go round by the Factor's tunnel, but they'll break your head. Or you don't go.'".
     On discuss { Assert knows(actor, eelmother_known). }

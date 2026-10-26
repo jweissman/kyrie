@@ -1,19 +1,19 @@
 Module tessary "What Tessary Owes" {
   // ── The middle of the fortnight ───────────────────────────────────────────────────────────────────────────────────
   // What happens between the first week's findings and the Feast happens somewhere, at an hour, whether or not anyone
-  // is there: Durrance's night, the Treasurer at the Throat, the lightermen at Marrable's door, the Muster on the Row,
+  // is there: Durrance's night, the Treasurer at the Swatch, the lightermen at Marrable's door, the Muster on the Row,
   // the Board, the Seal. The Muffled Drum hears of each a day or two before, and Hannelore says what it hears.
   Topic gossip_deserters with sedge "Ask Hannelore what they are saying in the Drum" when night(ossel) >= 2 and night(ossel) <= 4 once {
-    Says "'Deserters,' says Hannelore, and empties a pot into the slop-bucket as if it had said it. 'That bill on the Landgate. Printed, on good paper. The Board hasn't paper like that; it came off the Factor's press, and the whole Withies knows it.' She wipes the bar. 'And Benno Fisk is buying rounds, which he never did in his life. And nobody says a word to Agathe about her page, so she sits there and says it to herself.'".
+    Says "'Deserters,' says Hannelore, and empties a pot into the slop-bucket as if it had said it. 'That bill on the Landgate. Printed, on good paper. The Board hasn't paper like that; it came off the Factor's press, and the whole Withies knows it.' She wipes the bar. 'And Benno Fisk is buying rounds, which he never did in his life. And nobody says a word to Thomasin about her page, so she sits there and says it to herself.'".
   }
   Topic gossip_coats with sedge "Ask Hannelore what they are saying in the Drum" when night(ossel) >= 5 and night(ossel) <= 6 once {
-    Says "'Coats,' says Hannelore. 'Lads go down to the Factor's hall in the morning in red and come back in grey with a salt-white collar. And they say she's offered to pay the next ebb's silver herself, all twelve, if the right sergeant asks her nicely.' She looks up at the drum. 'The spring ebb's the night after next. Two in the morning. If you've anything to do for Agathe, do it before then.'".
+    Says "'Coats,' says Hannelore. 'Lads go down to the Factor's hall in the morning in red and come back in grey with a salt-white collar. And they say she's offered to pay the next ebb's silver herself, all twelve, if the right sergeant asks her nicely.' She looks up at the drum. 'The spring ebb's the night after next. Two in the morning. If you've anything to do for Thomasin, do it before then.'".
   }
   Topic gossip_tonight with sedge "Ask Hannelore what they are saying in the Drum" when night(ossel) == 7 and not heldNow(durrance) once {
-    Says "'Nothing,' says Hannelore. 'Nobody's saying anything tonight.' She is polishing the same pot she was polishing when you came in. 'Spring ebb's at two. Agathe's at the top of the page. She's said she'll sit up here with her boots on, like a Christian.' She puts the pot down. 'Rap, rap, and the long roll. My husband used to beat it. I've not touched it since.'".
+    Says "'Nothing,' says Hannelore. 'Nobody's saying anything tonight.' She is polishing the same pot she was polishing when you came in. 'Spring ebb's at two. Thomasin's at the top of the page. She's said she'll sit up here with her boots on, like a soldier.' She puts the pot down. 'Rap, rap, and the long roll. My husband used to beat it. I've not touched it since.'".
   }
   Topic gossip_treasurer with sedge "Ask Hannelore what they are saying in the Drum" when night(ossel) >= 8 and night(ossel) <= 10 and not quireDrowned(ossel) once {
-    Says "'The Treasurer,' says Hannelore. 'Twice now the eel-men have seen him at the head of the Throat Stair before dawn, in his good coat, buttoned up, looking down at the water. Not doing anything. Just looking.' She frowns. 'Somebody ought to say something to him. Somebody he'd listen to.' And then, lower: 'And the Factor's lightermen were in the Eel quarter yesterday asking which door is Councillor Marrable's. Asking nicely.'".
+    Says "'The Treasurer,' says Hannelore. 'Twice now the eel-men have seen him at the head of the Swatch Stair before dawn, in his good coat, buttoned up, looking down at the water. Not doing anything. Just looking.' She frowns. 'Somebody ought to say something to him. Somebody he'd listen to.' And then, lower: 'And the Factor's lightermen were in the Eel quarter yesterday asking which door is Councillor Marrable's. Asking nicely.'".
   }
   Topic gossip_terraces with sedge "Ask Hannelore what they are saying in the Drum" when night(ossel) >= 11 and night(ossel) <= 12 and not fiskTurned(fisk) and not riotHappened(ossel) and not riotCalmed(ossel) once {
     Says "'Torches,' says Hannelore. 'The lads at the Factor's hall say if the Board's going to vote no, they'll go up the Terraces the night before and ask it again, louder. Fisk's getting them together on Scriveners' Row after dark, the night before the sitting.' She shakes her head. 'And the Factor says leave it to her, and pays for the torches. Work that out.'".
@@ -32,7 +32,7 @@ Module tessary "What Tessary Owes" {
   }
 
   // The tenth night: an hour before he goes down the stair, the Treasurer goes to the head of it and stands there.
-  // Anyone at the head of the Throat Stair can speak to him. Who knows what to tell him can give him a reason; anyone
+  // Anyone at the head of the Swatch Stair can speak to him. Who knows what to tell him can give him a reason; anyone
   // can try to give him a smaller one.
   Rule quire_to_throat when night(ossel) == 10 and hour(clock) == 3 and quirePressed(ossel) and not quireHope(quire)
     and not quireDrowned(ossel) and at(quire, exchequer_room) {
@@ -40,7 +40,7 @@ Module tessary "What Tessary Owes" {
   Rule quire_off_throat when quireDrowned(ossel) and at(quire, throat_head) { Retract at(quire, throat_head). }
   Rule quire_back_home when quireHope(quire) and at(quire, throat_head) and hour(clock) != 3 {
     Retract at(quire, throat_head). Assert at(quire, exchequer_room). }
-  Observe quire_at_throat near quire when at(quire, throat_head) and not quireHope(quire) "At the head of the Throat Stair, in the dark, a man is standing with his coat buttoned to the neck, looking down at the full basin. It is the Treasurer. He has taken his spectacles off and holds them folded in one hand, as if he did not expect to need them again.".
+  Observe quire_at_throat near quire when at(quire, throat_head) and not quireHope(quire) "At the head of the Swatch Stair, in the dark, a man is standing with his coat buttoned to the neck, looking down at the full basin. It is the Treasurer. He has taken his spectacles off and holds them folded in one hand, as if he did not expect to need them again.".
   Relation triedQuire(group).
   Action stay_quire(actor: group, site: place) "Ask the Treasurer who will send the money to the mothers on the first of the month" {
     Time 1.
@@ -53,8 +53,8 @@ Module tessary "What Tessary Owes" {
     Otherwise "He hears you out politely, and thanks you, and says you should go home to bed. He does not move from the top step.".
   }
   Rule quire_saved_told when quireHope(quire) and night(ossel) == 10 and not quireDrowned(ossel) and not spread(quire_lived)
-    and inTessary() and not at(party, throat_head) says "Word goes along the Tidewall in the morning that the Treasurer was seen at the head of the Throat Stair before dawn, and that he went home." { Assert spread(quire_lived). }
-  Discovery quire_lived "The Treasurer stood at the head of the Throat Stair on the tenth night, and went home.".
+    and inTessary() and not at(party, throat_head) says "Word goes along the Tidewall in the morning that the Treasurer was seen at the head of the Swatch Stair before dawn, and that he went home." { Assert spread(quire_lived). }
+  Discovery quire_lived "The Treasurer stood at the head of the Swatch Stair on the tenth night, and went home.".
 
   // The thirteenth day: the Council House bell.
   Discovery board_sits "The Board of Moieties sits on the thirteenth day, from ten in the morning until the count at two in the afternoon. The public bench is open, and anyone with something to say may stand up and say it before two.".

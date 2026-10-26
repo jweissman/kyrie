@@ -6,10 +6,10 @@
   "Buy \u203a A torch",
   "Buy \u203a A torch",
   "Out to the Landgate",
-  "To Saltgate",
+  "To Panhythe",
   "Into Factor Sault",
   "Ask the Factor about the veterans",
-  "Out to Saltgate",
+  "Out to Panhythe",
   "Brine Lane|To the Terraces",
   "Into the King",
   "Play the King",
@@ -18,12 +18,12 @@
   "To Scriveners",
   "To the Landgate",
   "To the Withies",
-  "To the Tideline Steps"
+  "To the Watersteps"
  ],
  "day2": [
-  "To the head of the Throat",
+  "To the head of the Swatch",
   "=156",
-  "To the foot of the Throat",
+  "To the foot of the Swatch",
   "To the Weed",
   "To the Drowned Forum",
   "To the Street of Scales",
@@ -34,8 +34,8 @@
   "To the Street of Scales",
   "To the Drowned Forum",
   "To the Weed",
-  "To the foot of the Throat",
-  "To the head of the Throat",
+  "To the foot of the Swatch",
+  "To the head of the Swatch",
   "letter: Read|Break the wax"
  ],
  "board": [
@@ -48,7 +48,7 @@
   "Show the Board",
   "=1909",
   "Out to the Terraces",
-  "To Saltgate|Brine Lane",
+  "To Panhythe|Brine Lane",
   "Into Factor Sault",
   "Put terms to the Factor",
   "=2154"

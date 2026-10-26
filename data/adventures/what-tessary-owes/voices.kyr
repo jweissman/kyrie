@@ -10,7 +10,7 @@ Module tessary "What Tessary Owes" {
   Rule wick_to_forum when hour(clock) >= 10 and hour(clock) < 14 and at(wick, withies) { Retract at(wick, withies). Assert at(wick, forum). }
   Rule wick_from_forum when (hour(clock) >= 14 or hour(clock) < 10) and at(wick, forum) { Retract at(wick, forum). Assert at(wick, withies). }
   Observe wick_digging near wick when at(wick, forum) "Wick is up to his knees in a drain at the edge of the square with a rake, a bucket and an expression of total professional absorption.".
-  Observe wick_swept near wick when sweptOnce(party) "Wick looks you up and down. 'You got rolled,' he says, delighted. 'Didn't you. Out through the Throat. Everybody does once.' He considers. 'Most people only once.'".
+  Observe wick_swept near wick when sweptOnce(party) "Wick looks you up and down. 'You got rolled,' he says, delighted. 'Didn't you. Out through the Swatch. Everybody does once.' He considers. 'Most people only once.'".
   Discovery wick_teased "Wick knows you were caught by the flood.".
 
   // ── Sergeant Durrance, on the way ─────────────────────────────────────────────────────────────────────────────────
@@ -19,32 +19,32 @@ Module tessary "What Tessary Owes" {
   Event durrance_landing at landing when travelsWith(durrance, party) and at(slake, landing) "Durrance and Bettany Slake look at each other across the quay, two people who have each run something hard for a long time, and something like respect passes between them without either of them saying anything.".
   Event durrance_floor at antechamber when travelsWith(durrance, party) "Durrance looks at the ruled lines round the walls, and at the notice, and closes her mouth with a snap. 'Not a word,' she says under her breath, and the lines brighten along their length at every syllable of it. She glares at them. After that she doesn't speak at all until you are off the floor.".
   Event durrance_chamber at weighing_chamber when travelsWith(durrance, party) "Durrance stands a long time looking up into the second pan, at the faint warm shapes of the oaths. 'That's us,' she says at last. 'Eight thousand.' She shakes her head. 'You'd think we'd weigh more.'".
-  Event durrance_ranks at ranks when travelsWith(durrance, party) "Durrance walks slowly down the Third Company's file, saying the names under her breath as she passes each face. Pike. Haskett. Moll Bryer. The Lucey twins. She stops in front of a boy at the end, and straightens his collar, and goes on.".
+  Event durrance_ranks at ranks when travelsWith(durrance, party) "Durrance walks slowly down the Third Company's file, saying the names under her breath as she passes each face. Pargeter. Haskett. Moll Bryer. The Lucey twins. She stops in front of a boy at the end, and straightens his collar, and goes on.".
   Event durrance_ranks_elcock at ranks when travelsWith(durrance, party) and elcockTaken(ossel) "At the end of the file Durrance stops in front of a thin boy with a drummer's calluses on his hands. 'Elcock,' she says. 'You never could keep time.' She stands there a while. Then she comes back, and does not say anything for some time.".
   Event durrance_yard at legion_yard when travelsWith(durrance, party) and not feastEve() "Durrance stops at the Yard gate and does not go any further. She looks at the Oath Stone across the empty parade ground for a long moment. 'Nineteen years,' she says. 'Come on. I don't like it here.'".
 
-  // ── The Assessor, on the way ──────────────────────────────────────────────────────────────────────────────────────
-  Event tally_drum at drum_taproom when (travelsWith(tally, party) or at(tally, drum_taproom)) and not durranceCalled(ossel) and not heldBack(durrance) "The Assessor stands looking up at the drum over the bar with the black cloth tied over its head. 'That drum beat the Third Company's muster on the day it swore,' they say. 'The calling speaks to what an oath was sworn by: the stone, and the drum. I note that a cloth does not stop it.' A pause. 'I would not be surprised if it answered to the drum in other ways. I make no recommendation.'".
-  Event tally_forum at forum when travelsWith(tally, party) "The Assessor stands in the middle of the Forum and turns slowly round, looking at everything. 'It is smaller than in the records,' they say. 'Everything is.' They bend and touch a paving slab with one ruled finger, very gently, as if it might mind.".
-  Event tally_landing at landing when travelsWith(tally, party) "The Assessor looks at the ebb-runners' boat for a long time. 'The niche by the black wall,' they say. 'Where the silver was left. Every month for ten years I took it out and weighed it and entered it. I did not think about who carried it.' They write something down.".
-  Event tally_stone at legion_yard when travelsWith(tally, party) "The Assessor goes straight to the Oath Stone and lays a hand on it, and the fine ruled lines cut in its face brighten for a moment under their palm, and fade. 'An instrument of the Balance,' they say. 'Salvaged. The city does not know what it has. It swears its soldiers on it the way a child plays with a sword.'".
-  Event tally_chapel at chapel when travelsWith(tally, party) "The Assessor walks slowly under the hanging weights, reading them. 'All accurate,' they say. Then they look up at the saint over the altar, holding his scales level, and stand quite still. 'There was a clerk who went up,' they say at last, 'when the old city drowned. We are told about him in the nursery. As a warning.' They look at the scales a while longer. 'I had not known he was a saint.'".
-  Event tally_tags at tags when travelsWith(tally, party) "The Assessor walks down the avenue of tags with their eyes fixed straight ahead. 'I will not look for mine,' they say, before you can ask. 'One is not shown one's name.' They walk a little faster.".
-  Event tally_ranks at ranks when travelsWith(tally, party) "The Assessor goes along the files with the ledger open, checking the faces against the names, as they have done in the Withies every day. Every one is there. When they reach the end they close the ledger and stand for a moment with their hand on it, and their face does something you have not seen it do before.".
+  // ── The Valuer, on the way ──────────────────────────────────────────────────────────────────────────────────────
+  Event tally_drum at drum_taproom when (travelsWith(tally, party) or at(tally, drum_taproom)) and not durranceCalled(ossel) and not heldBack(durrance) "The Valuer stands looking up at the drum over the bar with the black cloth tied over its head. 'That drum beat the Third Company's muster on the day it swore,' they say. 'The calling speaks to what an oath was sworn by: the stone, and the drum. I note that a cloth does not stop it.' A pause. 'I would not be surprised if it answered to the drum in other ways. I make no recommendation.'".
+  Event tally_forum at forum when travelsWith(tally, party) "The Valuer stands in the middle of the Forum and turns slowly round, looking at everything. 'It is smaller than in the records,' they say. 'Everything is.' They bend and touch a paving slab with one ruled finger, very gently, as if it might mind.".
+  Event tally_landing at landing when travelsWith(tally, party) "The Valuer looks at the ebb-runners' boat for a long time. 'The niche by the black wall,' they say. 'Where the silver was left. Every month for ten years I took it out and weighed it and entered it. I did not think about who carried it.' They write something down.".
+  Event tally_stone at legion_yard when travelsWith(tally, party) "The Valuer goes straight to the Oath Stone and lays a hand on it, and the fine ruled lines cut in its face brighten for a moment under their palm, and fade. 'An instrument of the Balance,' they say. 'Salvaged. The city does not know what it has. It swears its soldiers on it the way a child plays with a sword.'".
+  Event tally_chapel at chapel when travelsWith(tally, party) "The Valuer walks slowly under the hanging weights, reading them. 'All accurate,' they say. Then they look up at the saint over the altar, holding his scales level, and stand quite still. 'There was a clerk who went up,' they say at last, 'when the old city drowned. We are told about him in the nursery. As a warning.' They look at the scales a while longer. 'I had not known he was a saint.'".
+  Event tally_tags at tags when travelsWith(tally, party) "The Valuer walks down the avenue of tags with their eyes fixed straight ahead. 'I will not look for mine,' they say, before you can ask. 'One is not shown one's name.' They walk a little faster.".
+  Event tally_ranks at ranks when travelsWith(tally, party) "The Valuer goes along the files with the ledger open, checking the faces against the names, as they have done in the Withies every day. Every one is there. When they reach the end they close the ledger and stand for a moment with their hand on it, and their face does something you have not seen it do before.".
   // "Wait here a minute."
   Relation tallyWaiting(place). Measure tallyWaitFrom(place). Measure tallyWaited(place).
-  Action tally_wait(actor: group, site: place) "Ask the Assessor to wait here a minute" {
+  Action tally_wait(actor: group, site: place) "Ask the Valuer to wait here a minute" {
     Speaker tally. Time 0.
     Requires able(actor) and company(actor) and at(actor, site) and travelsWith(tally, actor) and not tallyWaiting(ossel).
     On success { Retract travelsWith(tally, actor). Assert at(tally, site). Assert willing(tally, actor). Assert tallyWaiting(ossel).
       Set tallyWaitFrom(ossel) to watch(clock) * 10. }
-    Result "'A minute,' says the Assessor, and opens the ledger.".
+    Result "'A minute,' says the Valuer, and opens the ledger.".
   }
   Rule tally_rejoined when tallyWaiting(ossel) and travelsWith(tally, party) { Retract tallyWaiting(ossel). }
   Rule tally_counts when tallyWaiting(ossel) and perceives(party, tally) and watch(clock) * 10 - tallyWaitFrom(ossel) > 30 and tallyWaited(ossel) == 0 {
     Set tallyWaited(ossel) to watch(clock) * 10 - tallyWaitFrom(ossel). }
   Rule tally_says_minutes near tally when tallyWaiting(ossel) and tallyWaited(ossel) > 0
-    says "'You said a minute,' says the Assessor, closing the ledger on their finger. 'It has been {tallyWaited(ossel)} minutes. I have noted it.' A pause. 'I do not mind. I note it because it is so.'" {
+    says "'You said a minute,' says the Valuer, closing the ledger on their finger. 'It has been {tallyWaited(ossel)} minutes. I have noted it.' A pause. 'I do not mind. I note it because it is so.'" {
     Retract tallyWaiting(ossel). Set tallyWaited(ossel) to 0. }
   Rule tally_waits_quietly when tallyWaiting(ossel) and perceives(party, tally) and watch(clock) * 10 - tallyWaitFrom(ossel) <= 30 and tallyWaited(ossel) == 0 { Retract tallyWaiting(ossel). }
 
@@ -56,7 +56,7 @@ Module tessary "What Tessary Owes" {
     Assert forswornParty(party). }
 
   // ── What the Factor does with what she is given ───────────────────────────────────────────────────────────────────
-  // With the Assessor's pages she knows the roll order, and goes to Durrance two days sooner.
+  // With the Valuer's pages she knows the roll order, and goes to Durrance two days sooner.
   Rule silver_offered_early when saultInformed(sault) and night(ossel) >= 3 and hour(clock) == 12 and not saultOffered(ossel) and not heldNow(durrance) {
     Assert saultOffered(ossel). }
   // A Keeper warned takes the Seal to bed with him.

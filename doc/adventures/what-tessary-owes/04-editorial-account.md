@@ -17,13 +17,13 @@ debt faces and a deadline; the debt gave the homecoming a mechanism and a villai
 
 | Weakness found in the first treatment | Decision |
 |---|---|
-| The political act was a vote, and a vote is a spreadsheet; worse, a passed vote made the last act unnecessary | The promise is kept only when the deeds reach every hand, the held soldiers' included. A carried vote reveals a worse difficulty, and the Holding follows from the vote by cause |
+| The political act was a vote, and a vote is a spreadsheet; worse, a passed vote made the last act unnecessary | The promise is kept only when the deeds reach every hand, the called soldiers' included. A carried vote reveals a worse difficulty, and the Holding follows from the vote by cause |
 | Every revelation enlarged; none overturned | The Comptroller drew the note to fail, to fill a hole he made eleven hundred years ago. The creditor became a second strategic power, first met as an ally against the Factor |
 | The ending list was a menu; the "Commons" had no mechanism | Endings must be prepared by earlier acts and leave different worlds. The Commons became the Release, which rests on the Scruples' second law: a promise is discharged when its promisee holds the promisor quit |
-| The Assessor's arc was "the alien learns to feel" | The Assessor changes for reasons of their own kind: a legal and moral contradiction they can prove. Their turn is a filing |
+| The Valuer's arc was "the alien learns to feel" | The Valuer changes for reasons of their own kind: a legal and moral contradiction they can prove. Their turn is a filing |
 | The antagonist was a stock merchant villain, nearly given a dead son | No dead son. She is right about the council, frank about her ambition, and the protagonist's first employer |
 | Durrance was a type | She believes in the oath, not the city, and events can test the belief in four directions |
-| Cosmology as postcard | The vision stays, but the ledger's unevenness has a consequence in Tessary: other stars in the sea, and once, something up the Throat |
+| Cosmology as postcard | The vision stays, but the ledger's unevenness has a consequence in Tessary: other stars in the sea, and once, something up the Swatch |
 | Bank goblins; Ariosto's moon; Portia's quibble | The Scruples are human-descended clerks who own nothing; the Holding keeps pledged, not lost, things; the oath's literal words are one lever among several, never the solution |
 
 ## 3. Changes made in building it
@@ -35,7 +35,24 @@ Dace, the Lamplighter, the Registry. The cast was renamed throughout before a li
 Withies**, the Kept **the Scruples** (a unit of weight and a moral exactness), the Registrar **the Notary**, Harrow
 **Hethra**, the lamplighters **the ebb-runners**. Tessary's surnames came to follow its trade: Quire, Pounce, Deckle.
 
-**The Assessor gave everything away in half an hour.** The first build let the Assessor answer every question it was
+**Names, a second time.** After the cold playtest every proper name and coined term in the module was checked against
+the other adventures, the shared rules, the name tables and the docs. More had crept in, some during the revision:
+Quire's first name was *The Road*'s Absalom; Durrance's was a Thrume nun's (Agathe); the chandler's, a Corrow
+farmer's (Jory); a councillor's, a Provost's (Lisle); two privates on the roll belonged to *The Road* (Tobin) and *The
+Patient Star* (Pike). Worse, some of the module's own institutions were someone else's: *The Road* has an Assessor of
+the Fourth Gate who enters names in a roll; *The Patient Star* has a Tally, a Tideline and a Throat; Thrume has a
+Weigher, and a salt town called Saltgrave beside this one's Saltgate; *The Road*'s Counterweights are a people; and
+*The Patient Star* calls those its light has stopped "the held". So: Josiah Quire, Thomasin Durrance, Lemuel Pitch,
+Hallam, Tamsett and Pargeter; the **Ninth Valuer**, whom the children call **Docket** (a docket being the label that
+says what a parcel holds, which is accurate as a description); **the Swatch** and its stair (a swatch is a channel
+through sandbanks); **the Watersteps**; **Panhythe**; the **Gallery of Pans**; a **Tare-Clerk**; and the called, not
+the held. Brother Tolley and Hannelore Sedge, whose surnames are in the folk name tables a generated village draws
+from, became Brother Ancel and Hannelore Rackham. Two passages added in the revision were too near *The Long Man* and
+were rewritten: a date-stone on the Tidewall vowing to keep the sea out (the Hesk cut a vow to keep their wall into
+theirs) is now a ladder of painted high-water marks, and the ebb-runners' notched board (the Hesk write in notches) is
+a chalked slate.
+
+**The Valuer gave everything away in half an hour.** The first build let the Valuer answer every question it was
 asked: the collateral, the terms, the weight, the next page, all in one conversation on the first morning. It was
 accurate to their nature and ruinous to the mystery. They now decline a debtor's affairs to a third party, confirm
 only what the protagonist already has evidence for ("You have seen the Treasurer's list; I may confirm what he has
@@ -45,7 +62,7 @@ the scrivener's draft and the drowned court, and can be walked in several orders
 
 **The drum.** Durrance's eighth night was designed with three ways to keep her back; a fourth came in the building,
 and is the best: the calling speaks to what an oath was sworn by, so the stand-down beaten on the Third Company's
-muffled drum breaks the step of every soldier who hears it. Hannelore tells you not to touch the drum; the Assessor,
+muffled drum breaks the step of every soldier who hears it. Hannelore tells you not to touch the drum; the Valuer,
 standing under it, notes that a cloth does not stop the calling and that they "would not be surprised if it answered
 to the drum in other ways. I make no recommendation." It is the adventure's one true puzzle of attention, and it costs:
 whoever is kept back, another goes, and the boots on the steps the next morning belong to a drummer of nineteen.
@@ -88,7 +105,7 @@ Read as a player, in the page's own telling (`playtest/`), the work had these fa
 - **The Assembly convened silently** round a player waiting in the nave. Its arrival is told.
 - **News printed twice**, once as a journal line and once as narration. News that nothing else reads now latches on a
   plain relation.
-- **The Assessor's leave-taking line** ("I am on page nine") was absurd when they left to prepare an indictment.
+- **The Valuer's leave-taking line** ("I am on page nine") was absurd when they left to prepare an indictment.
 - **No repose.** The design promised quiet; the build had flattened it. Added: supper with the Teazles (Nan does not
   ask you to stay; she puts a third bowl on the table), dawn at the Oath Stone with Durrance, and in the Holding a
   stoppered jar in which a woman of the Withies, who pledged her voice against her sweetheart's return and never came
@@ -100,7 +117,7 @@ Read as a player, in the page's own telling (`playtest/`), the work had these fa
 - **The Commons** (veterans swearing a new oath to each other): no mechanism that respected the Balance's own logic.
   Replaced by the Release.
 - **The pledge as an ending**: kept as a personal act inside any ending (one name, one person redeemed).
-- **Lucan Sault**, the doubting heir; **Councillors Orme, Greaves, Vantage, Lisle and Dauntry** as speaking parts (they
+- **Lucan Sault**, the doubting heir; **Councillors Orme, Greaves, Vantage, Hallam and Dauntry** as speaking parts (they
   are present in the Board's session, and counted); **the Settlement Fields upriver** (told in the endings, not
   visited). Each would have added a place or a voice without adding a decision.
 - **A second wager-goose subplot.** One goose is comedy; two would be a theme.

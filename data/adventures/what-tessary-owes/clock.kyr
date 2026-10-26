@@ -1,7 +1,7 @@
 Module tessary "What Tessary Owes" {
   // ── The fortnight ─────────────────────────────────────────────────────────────────────────────────────────────────
   // Tessary keeps its days by the ebbs. Low water comes twice a day, about the eleventh hour and about the eleventh of
-  // the night, and lasts some five hours each time; while it lasts the outer basin drains through the Throat and
+  // the night, and lasts some five hours each time; while it lasts the outer basin drains through the Swatch and
   // Lowtide stands out of the water. The night ebb at two in the morning is the one the city counts: each is a night of
   // the fortnight. On the first, the eighth and the fifteenth it is a spring ebb, the lowest of all, and on those
   // nights the Balance takes its interest. The fifteenth is the Feast of Settlement, when the war note falls due.
@@ -70,7 +70,7 @@ Module tessary "What Tessary Owes" {
     Retract callingDue(ossel). Increase held(ossel) by 12. Assert bootsOnSteps(ossel). Assert calledLast(ossel). }
   Relation calledLast(place).
   Rule boots_taken when bootsOnSteps(ossel) and hour(clock) == 9 { Retract bootsOnSteps(ossel). }
-  Rule calling_told at tideline_steps when calledLast(ossel) says "They come down through the Withies a little after two, twelve of them, in step, though nobody is calling the step. Barefoot. Their eyes are open. At the top of the Tideline Steps each of them stops, and stoops, and sets his boots side by side on the stone, toes to the water, and straightens, and walks down into the sea. The water is very low. They walk out over the sand toward the walls in the basin, getting smaller, keeping step, until the dark has them." teaches calling_witnessed { Retract calledLast(ossel). }
+  Rule calling_told at tideline_steps when calledLast(ossel) says "They come down through the Withies a little after two, twelve of them, in step, though nobody is calling the step. Barefoot. Their eyes are open. At the top of the Watersteps each of them stops, and stoops, and sets his boots side by side on the stone, toes to the water, and straightens, and walks down into the sea. The water is very low. They walk out over the sand toward the walls in the basin, getting smaller, keeping step, until the dark has them." teaches calling_witnessed { Retract calledLast(ossel). }
   Rule calling_unseen when calledLast(ossel) { Retract calledLast(ossel). }
-  Discovery calling_witnessed "At the spring ebb, twelve veterans of the Long Muster walked barefoot and in step down the Tideline Steps and out across the drained basin toward the drowned city, as if called, and left their boots paired on the top step.".
+  Discovery calling_witnessed "At the spring ebb, twelve veterans of the Long Muster walked barefoot and in step down the Watersteps and out across the drained basin toward the drowned city, as if called, and left their boots paired on the top step.".
 }

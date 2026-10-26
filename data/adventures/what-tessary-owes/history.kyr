@@ -6,7 +6,7 @@ Module tessary "What Tessary Owes" {
   // Muster and promised it land on the south bank of the Ossel. It gave the First Muster a plaque, and the right to
   // rake the pans in perpetuity. Factor Sault's father raked salt.
 
-  Observe tidewall_datestone at tidewall when not visitedBefore(tidewall) "Set into the parapet where the city's courses begin on the Aenean ones is a date-stone, much weathered: RAISED BY THE MOIETIES IN THE 402nd YEAR OF THE DROWNING, THAT THE SEA SHALL NOT HAVE THIS CITY. Somebody, long ago, has scratched under it: AGAIN.".
+  Observe tidewall_datestone at tidewall when not visitedBefore(tidewall) "Where the city's courses begin on the Aenean ones, the parapet is painted with a ladder of white bars, each with a year of the Drowning beside it: the Grey Water of 711, the Long Spring of 902, the Salt Flood of 1104, each bar higher than the one before. The fishermen touch the top bar for luck going out. Below the lowest, where the old city's stone begins, there is a bar in another paint, very faded, older than all of them, with no year.".
   Observe tidewall_stars at tidewall when dark() "Lanterns along the parapet, and fishermen under them, talking low. One of them says, not to you, that the stars past the bar were wrong again last night, the whole sky of them, close as lamps. The man next to him tells him to shut his mouth and mind his line.".
   Observe terraces_plaque at terraces when not visitedBefore(terraces) "By the Council House steps a bronze plaque, green with salt, is set into the wall at knee height, where nobody reads it: TO THE FIRST MUSTER OF THE SALT WAR, WHO KEPT THE CITY. THE CITY WILL NEVER FORGET. IN THE 1104th YEAR OF THE DROWNING.".
   Observe terraces_plaque_again at terraces when visitedBefore(terraces) and knows(party, first_muster) "The First Muster's plaque by the Council House steps, at knee height, green with salt.".
@@ -14,8 +14,8 @@ Module tessary "What Tessary Owes" {
   Discovery first_muster "Forty years ago, for the Salt War against the fen-reeves of Carrabay, Tessary raised a First Muster and promised it land on the south bank of the Ossel. It gave the First Muster a bronze plaque and the right to rake the city's salt-pans in perpetuity. Factor Sault's father was one of them." {
     Known by sault, tolley.
   }
-  Topic tolley_first with tolley "Ask Brother Tolley about the old rakers on the Pans" when true once {
-    Says "'The First Muster,' says Tolley. 'What is left of it. The Salt War, forty years back. They were promised land on the south bank, and the Board voted them a plaque instead, and the rakes, and called it generous.' He looks up at the hanging weights. 'Half the brass up there is theirs. Their wives hung them. Factor Sault's mother hung one, I'm told, the year Imma was born. It is still there. Nobody has ever taken it down, because nobody has ever been able to say it was kept.'".
+  Topic tolley_first with tolley "Ask Brother Ancel about the old rakers on the Pans" when true once {
+    Says "'The First Muster,' says Ancel. 'What is left of it. The Salt War, forty years back. They were promised land on the south bank, and the Board voted them a plaque instead, and the rakes, and called it generous.' He looks up at the hanging weights. 'Half the brass up there is theirs. Their wives hung them. Factor Sault's mother hung one, I'm told, the year Imma was born. It is still there. Nobody has ever taken it down, because nobody has ever been able to say it was kept.'".
     On discuss { Assert knows(actor, first_muster). }
   }
 
@@ -23,14 +23,14 @@ Module tessary "What Tessary Owes" {
   Discovery evenhand_saying "Saint Evenhand used to say that the sea did not drown the old city: a promise did. Asked whose, he wept, which is the only time his book says he wept." {
     Known by tolley.
   }
-  Topic tolley_saying with tolley "Ask Brother Tolley what the saint said about the Drowning" when knows(actor, evenhand_tale) once {
-    Says "Tolley takes a small book from the altar, so old the boards have gone soft as cloth. 'His sayings,' he says. 'Taken down by the first brothers. Most of them are about weights and measures.' He turns to a page he does not have to look for. 'Not the sea. A promise drowned the old city.' He closes the book. 'They asked him whose promise, and he wept. It is the only time the book says he wept. Seven hundred years of brothers have argued about what he meant. I think he meant exactly what he said. He could not do otherwise.'".
+  Topic tolley_saying with tolley "Ask Brother Ancel what the saint said about the Drowning" when knows(actor, evenhand_tale) once {
+    Says "Ancel takes a small book from the altar, so old the boards have gone soft as cloth. 'His sayings,' he says. 'Taken down by the first brothers. Most of them are about weights and measures.' He turns to a page he does not have to look for. 'Not the sea. A promise drowned the old city.' He closes the book. 'They asked him whose promise, and he wept. It is the only time the book says he wept. Seven hundred years of brothers have argued about what he meant. I think he meant exactly what he said. He could not do otherwise.'".
     On discuss { Assert knows(actor, evenhand_saying). }
   }
-  // The worn letters on the Tideline Steps, which are the beginning of the formula on the Hall's wall.
-  Discovery steps_letters "The worn letters on the Tideline Steps are Aenean: WHO COMES TO THE LEDGER, and the rest worn away. The Steps were an instrument of the Balance once, like the Oath Stone, and a little of them still is: what is sworn on them is held.".
-  Topic tally_steps with tally "Ask the Assessor what the letters on the Steps say" when at(tally, tideline_steps) or travelsWith(tally, actor) and at(actor, tideline_steps) once {
-    Says "The Assessor does not need to bend. 'Who comes to the ledger,' they say. 'The rest is worn away by feet. These steps were an instrument once, as the Stone in your Yard was. They are a very old one, and very tired, but they still hold a little.' They look down at the water. 'It is why the called come this way. The calling goes by the old roads. And it is why, when a ferryman swears on these steps that he will not drink, we write it down.'".
+  // The worn letters on the Watersteps, which are the beginning of the formula on the Hall's wall.
+  Discovery steps_letters "The worn letters on the Watersteps are Aenean: WHO COMES TO THE LEDGER, and the rest worn away. The Steps were an instrument of the Balance once, like the Oath Stone, and a little of them still is: what is sworn on them is held.".
+  Topic tally_steps with tally "Ask the Valuer what the letters on the Steps say" when at(tally, tideline_steps) or travelsWith(tally, actor) and at(actor, tideline_steps) once {
+    Says "The Valuer does not need to bend. 'Who comes to the ledger,' they say. 'The rest is worn away by feet. These steps were an instrument once, as the Stone in your Yard was. They are a very old one, and very tired, but they still hold a little.' They look down at the water. 'It is why the called come this way. The calling goes by the old roads. And it is why, when a ferryman swears on these steps that he will not drink, we write it down.'".
     On discuss { Assert knows(actor, steps_letters). }
   }
 

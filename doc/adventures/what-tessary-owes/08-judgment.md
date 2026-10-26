@@ -23,13 +23,13 @@ cannot lie and chooses what to say, and his crime is the kind a decent person co
 They want the same default for opposite reasons, and a player can set them against each other.
 
 **Some images will stay.** Boots set together on the top step, toes to the water, by men who never set their boots
-together in their lives. A coat on a peg nobody wears; hollow people "like coats with nobody in"; the Assessor's grey
+together in their lives. A coat on a peg nobody wears; hollow people "like coats with nobody in"; the Valuer's grey
 coat with nobody in it at the end of the Broken Note. A queue whose oldest member holds his father's place. A goose
 eating a king's harvest one grain at a time. A drowned city whose streets lie exactly under the living one, and a
 hollow in the drowned court's wall the shape of the stone the city swears its soldiers on. A woman's voice in a jar
 singing the ballad of the girl who waited.
 
-**It has people who can change, and change for their own reasons.** The Assessor's turn is a filing, not a feeling,
+**It has people who can change, and change for their own reasons.** The Valuer's turn is a filing, not a feeling,
 and it ends four ways. Durrance's belief is tested from four directions. Quire, who signed, and the Comptroller, who
 drafted, are the same kind of fool, and Quire is the one who says so.
 
@@ -38,11 +38,11 @@ drafted, are the same kind of fool, and Quire is the one who says so.
 - **It is still, at bottom, an investigation followed by a deadline.** A cold player, reading nothing of the source,
   had the whole mystery by the end of the first night and then waited eleven days for news. The revision that
   followed gave the middle week its scenes back (each of the Factor's moves, and the Treasurer's last hour at the
-  Throat, is now something the Drum hears of a day ahead, with an hour and a place) and made the central reversal
+  Swatch, is now something the Drum hears of a day ahead, with an hour and a place) and made the central reversal
   something the player puts together rather than reads. But the shape is unchanged: the best plays are pre-emptive,
   and a diligent player who pre-empts everything has bought a quiet week.
 - **The Board session is a well-written vote.** Its arithmetic is honest, its levers are found in the world, and the
-  Assessor can now stand up in it as the one witness nobody can call a liar; but the design's own critique was right:
+  Valuer can now stand up in it as the one witness nobody can call a liar; but the design's own critique was right:
   a vote is the least dramatic thing in the story, and it is still the hinge of one ending.
 - **The Scruples are a hall of clerks with three good lines each, not a society.** The design wanted a culture with
   customs, factions and a politics of its own; what is there is an atmosphere and a law.
@@ -50,7 +50,7 @@ drafted, are the same kind of fool, and Quire is the one who says so.
   the nine lights are marvels to look at; only the Ranks and the Notary's desk are places where something is decided.
   That is defensible (the Holding is a vault, not a country) but it is less than the first treatment imagined.
 - **Danger is still mild for an OSR adventure.** Two lethal things (the Forsworn in the plunge-room, guarding the
-  drowned city's own drain, and the eel-mother at the foot of the Throat Stair at the night ebb), each warned of, each
+  drowned city's own drain, and the eel-mother at the foot of the Swatch Stair at the night ebb), each warned of, each
   with ways round that a clever, prepared or kind player can find in the city; everyone else takes prisoners; the tide
   bruises and robs. That suits a story about obligation more than one about survival. The fear of the dark is there
   now, but it is narrow: two places, both optional.

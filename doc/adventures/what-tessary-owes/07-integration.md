@@ -24,7 +24,7 @@ with twelve coin, at eight in the morning on the 30th of Frost, 1144.
 ## Readiness and level
 
 The adventure is written for **one protagonist of level 1 to 3**, alone or with companions found on the way (Durrance
-and the Assessor will both come, for reasons of their own). It does not scale to the company and does not need to:
+and the Valuer will both come, for reasons of their own). It does not scale to the company and does not need to:
 
 - **Fighting is optional almost everywhere, and costly where it is not.** The ebb-runners, the Factor's lightermen
   and the Factor herself take prisoners: a beaten company wakes on the salt-pans, lighter, not dead. The Forsworn in
@@ -45,7 +45,7 @@ in the city, not by a level gate.
   (settlement), `lowtide` (site), `strongrooms` (site, three levels); and a second plane, `holding_plane` › `white_floor`
   › `holding`.
 - **Entry export**: `causeway_end`, outdoors, at the country's edge.
-- **Marker**: `tally` (the Ninth Assessor), the entity only this country has.
+- **Marker**: `tally` (the Ninth Valuer), the entity only this country has.
 - **Clock**: the fortnight runs from arrival. The module counts its own nights at the two o'clock ebb, beginning with
   the first that is at least five hours after the company comes, so a company arriving at one in the morning is not
   dropped straight into the first calling. Rules that compare watches are shifted by the installation time as usual.
@@ -78,7 +78,7 @@ in the city, not by a level gate.
    the Settlement long past and the default ending's world (the Factor's Tessary). That is the design, but in a
    continuing world a player may want to know it before leaving: Nan and Durrance both name the thirteenth and
    fifteenth days, and the bills at the Landgate do, but nothing stops a company walking out on day two.
-3. **Experience to companions.** Milestones go to the whole company, as module experience does; the Assessor, if
+3. **Experience to companions.** Milestones go to the whole company, as module experience does; the Valuer, if
    travelling with the company, grows too.
 4. **The cosmological contributions** (the Balance as an instrument of the fastening of the planes; the Scruples; the
    Holding; the Kiritarun as tallies of a pledge held there; the Forsworn) are statements by the adventure's people, not

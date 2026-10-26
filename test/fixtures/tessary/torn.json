@@ -28,19 +28,19 @@
   "Out to Scriveners",
   "To the Landgate",
   "To the Withies",
-  "To the Tideline Steps"
+  "To the Watersteps"
  ],
  "night1": [
   "=110",
-  "Ask the Assessor where the soldiers",
-  "Tell the Assessor that the city promised",
-  "Ask the Assessor to come with you",
-  "Ask the Ninth Assessor to join"
+  "Ask the Valuer where the soldiers",
+  "Tell the Valuer that the city promised",
+  "Ask the Valuer to come with you",
+  "Ask the Ninth Valuer to join"
  ],
  "below": [
-  "To the head of the Throat",
+  "To the head of the Swatch",
   "=156",
-  "To the foot of the Throat",
+  "To the foot of the Swatch",
   "To the Weed",
   "To the Drowned Forum",
   "Into the Hall of Oaths",
@@ -49,21 +49,21 @@
   "To the Antechamber",
   "To the Hall of Clerks",
   "To the Archive",
-  "Ask the Assessor to open the Room",
+  "Ask the Valuer to open the Room",
   "To the Room of Defaults",
   "Read the thin ledger"
  ],
  "chamber": [
   "To the Archive",
   "To the Hall of Clerks",
-  "To the Counterweight",
+  "To the Gallery of Pans",
   "four lines: Take|Take a brass weight of four",
   "five lines: Take|Take a brass weight of five",
   "Put in \u203a A brass weight of four",
   "Put in \u203a A brass weight of five",
   "To the Weighing Chamber",
   "=2113",
-  "Ask the Assessor to take the War Note",
+  "Ask the Valuer to take the War Note",
   "=2154"
  ]
 }

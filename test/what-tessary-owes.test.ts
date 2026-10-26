@@ -97,7 +97,7 @@ describe('What Tessary Owes', () => {
     expect(g.page).toMatch(/I hold it quit/);
   }, 240000);
 
-  it('the Void Note: the Assessor reads the Room of Defaults, indicts the Comptroller, and mercy is asked', async () => {
+  it('the Void Note: the Valuer reads the Room of Defaults, indicts the Comptroller, and mercy is asked', async () => {
     const g = await Tessary.start();
     await g.fixture('void');
     expect(g.holds('tallySawDefaults', 'ossel')).toBe(true);
@@ -109,7 +109,7 @@ describe('What Tessary Owes', () => {
     expect(g.page).toMatch(/four hundred years/);
   }, 240000);
 
-  it('the Broken Note: with nothing else left, the Assessor breaks the note and unravels', async () => {
+  it('the Broken Note: with nothing else left, the Valuer breaks the note and unravels', async () => {
     const g = await Tessary.start();
     await g.fixture('torn');
     expect(g.holds('noteTorn', 'ossel')).toBe(true);
@@ -129,7 +129,7 @@ describe('What Tessary Owes', () => {
     expect(g.ending()).toEqual([t('warden')]);
   }, 240000);
 
-  it('Foreclosure: the Assessor objects to a bid for dominion, and nobody pays', async () => {
+  it('Foreclosure: the Valuer objects to a bid for dominion, and nobody pays', async () => {
     const g = await Tessary.start();
     await g.fixture('foreclosure');
     expect(g.holds('objectionFiled', 'ossel')).toBe(true);
@@ -141,10 +141,10 @@ describe('What Tessary Owes', () => {
 });
 
 describe('What Tessary Owes: failure and its costs', () => {
-  it('caught by the flood in Lowtide: rolled out through the Throat to the Pans, hurt and lighter', async () => {
+  it('caught by the flood in Lowtide: rolled out through the Swatch to the Pans, hurt and lighter', async () => {
     const g = await Tessary.start();
-    await g.play('To the Landgate', 'To the Withies', 'To the Tideline Steps', 'To the head of the Throat', '=156',
-      'To the foot of the Throat', 'To the Weed', 'To the Drowned Forum');
+    await g.play('To the Landgate', 'To the Withies', 'To the Watersteps', 'To the head of the Swatch', '=156',
+      'To the foot of the Swatch', 'To the Weed', 'To the Drowned Forum');
     const purse = g.j.measure('quantity', 'party', 'gold');
     await g.play('=182');
     expect(g.page).toMatch(/The water in the gutters has stopped running out/);
@@ -157,8 +157,8 @@ describe('What Tessary Owes: failure and its costs', () => {
 
   it('a roof is a refuge: out on the aqueduct when the flood comes, the company waits for the ebb', async () => {
     const g = await Tessary.start();
-    await g.play('To the Landgate', 'Into Pitch', 'Buy › A coil of rope', 'Out to the Landgate', 'To the Withies', 'To the Tideline Steps',
-      'To the head of the Throat', '=156', 'To the foot of the Throat', 'To the Weed', 'To the Drowned Forum', 'To the foot of the Aqueduct',
+    await g.play('To the Landgate', 'Into Pitch', 'Buy › A coil of rope', 'Out to the Landgate', 'To the Withies', 'To the Watersteps',
+      'To the head of the Swatch', '=156', 'To the foot of the Swatch', 'To the Weed', 'To the Drowned Forum', 'To the foot of the Aqueduct',
       'To the top of the Aqueduct', '=200');
     expect(g.j.campaign.world.one('at', 'party')).toBe(t('aqueduct_top'));
     expect(g.page).toMatch(/You are above it, and will be until the ebb/);
@@ -169,28 +169,28 @@ describe('What Tessary Owes: failure and its costs', () => {
 
   it('beaten by the ebb-runners: they take prisoners, and dump them on the Pans', async () => {
     const g = await Tessary.start();
-    await g.play('To the Landgate', 'To the Withies', 'To the Tideline Steps', 'To the head of the Throat', '=156',
-      'To the foot of the Throat', 'To the Weed', 'To the Drowned Forum', 'To the Street of Scales', 'To the ebb-runners',
+    await g.play('To the Landgate', 'To the Withies', 'To the Watersteps', 'To the head of the Swatch', '=156',
+      'To the foot of the Swatch', 'To the Weed', 'To the Drowned Forum', 'To the Street of Scales', 'To the ebb-runners',
       'Bettany Slake.*Attack');
     expect(g.j.campaign.world.one('at', 'party')).toBe(t('pans'));
     expect(g.page).toMatch(/Someone has also been through your purse/);
     expect(g.running).toBe(true);
   }, 120000);
 
-  it('a lie on the weighing floor: the Assessor writes it down, and the Weights turn', async () => {
+  it('a lie on the weighing floor: the Valuer writes it down, and the Weights turn', async () => {
     const g = await Tessary.start();
-    await g.play(...phase('void', 'day1'), 'To the Withies', 'To the Landgate', 'To Saltgate', 'Into Factor Sault', 'Ask the Factor about the veterans',
-      'Out to Saltgate', 'To the Landgate', 'To the Withies', 'To the Tideline Steps', '=110', 'Ask the Assessor where the soldiers',
-      'Ask the Assessor to come with you', 'Ask the Ninth Assessor to join', 'To the head of the Throat', '=156', 'To the foot of the Throat',
+    await g.play(...phase('void', 'day1'), 'To the Withies', 'To the Landgate', 'To Panhythe', 'Into Factor Sault', 'Ask the Factor about the veterans',
+      'Out to Panhythe', 'To the Landgate', 'To the Withies', 'To the Watersteps', '=110', 'Ask the Valuer where the soldiers',
+      'Ask the Valuer to come with you', 'Ask the Ninth Valuer to join', 'To the head of the Swatch', '=156', 'To the foot of the Swatch',
       'To the Weed', 'To the Drowned Forum', 'Into the Hall of Oaths', 'torch.*Light', 'Into the Strongrooms', 'To the Antechamber');
-    expect(g.j.offers('Tell the Assessor that Factor Sault hired you')).toBe(true);
-    await g.play('Tell the Assessor that you are in no one');
+    expect(g.j.offers('Tell the Valuer that Factor Sault hired you')).toBe(true);
+    await g.play('Tell the Valuer that you are in no one');
     expect(g.holds('brokeFaith', 'party')).toBe(true);
     expect(g.holds('forswornParty', 'party')).toBe(true);
-    // The Assessor will not now open the Room of Defaults, and the Weights in the gallery come for the forsworn.
+    // The Valuer will not now open the Room of Defaults, and the Weights in the gallery come for the forsworn.
     await g.play('To the Hall of Clerks', 'To the Archive');
-    expect(g.j.offers('Ask the Assessor to open the Room')).toBe(false);
-    await g.play('To the Hall of Clerks', 'To the Counterweight');
+    expect(g.j.offers('Ask the Valuer to open the Room')).toBe(false);
+    await g.play('To the Hall of Clerks', 'To the Gallery of Pans');
     // The Weights seize the forsworn and put them out: the black wall does not open to them again.
     expect(g.holds('barredBelow', 'party')).toBe(true);
     expect(g.j.campaign.world.one('at', 'party')).toBe(t('oath_court'));
@@ -201,9 +201,9 @@ describe('What Tessary Owes: failure and its costs', () => {
 
   it("the Comptroller's bargain: Durrance passed over for a promise, Elcock taken, and the promise unkept", async () => {
     const g = await Tessary.start();
-    await g.play(...phase('void', 'day1'), 'To the Withies', 'Into the Muffled Drum', 'Ask Durrance about the soldiers', 'Out to the Withies', 'To the Tideline Steps',
-      '=110', 'Ask the Assessor where the soldiers', 'Ask the Assessor to come with you', 'Ask the Ninth Assessor to join',
-      'To the head of the Throat', '=156', 'To the foot of the Throat', 'To the Weed', 'To the Drowned Forum', 'Into the Hall of Oaths',
+    await g.play(...phase('void', 'day1'), 'To the Withies', 'Into the Muffled Drum', 'Ask Durrance about the soldiers', 'Out to the Withies', 'To the Watersteps',
+      '=110', 'Ask the Valuer where the soldiers', 'Ask the Valuer to come with you', 'Ask the Ninth Valuer to join',
+      'To the head of the Swatch', '=156', 'To the foot of the Swatch', 'To the Weed', 'To the Drowned Forum', 'Into the Hall of Oaths',
       'torch.*Light', 'Into the Strongrooms', 'To the Antechamber', 'To the Hall of Clerks', "To the Comptroller's office",
       'Ask the Comptroller to strike', 'Promise the Comptroller');
     expect(g.holds('durranceSpared', 'ossel')).toBe(true);
@@ -217,12 +217,12 @@ describe('What Tessary Owes: failure and its costs', () => {
 
   it('a name laid on the Notary\'s desk redeems one soldier, and costs everything carried of worth', async () => {
     const g = await Tessary.start();
-    // The Assessor takes the company down and through the Door before the Settlement.
-    await g.play(...phase('void', 'day1'), '=110', 'Ask the Assessor where the soldiers', 'Ask the Assessor to come with you',
-      'Ask the Ninth Assessor to join', 'To the head of the Throat', '=156', 'To the foot of the Throat', 'To the Weed', 'To the Drowned Forum',
-      'Into the Hall of Oaths', 'torch.*Light', 'Into the Strongrooms', 'To the Antechamber', 'To the Hall of Clerks', 'To the Counterweight',
+    // The Valuer takes the company down and through the Door before the Settlement.
+    await g.play(...phase('void', 'day1'), '=110', 'Ask the Valuer where the soldiers', 'Ask the Valuer to come with you',
+      'Ask the Ninth Valuer to join', 'To the head of the Swatch', '=156', 'To the foot of the Swatch', 'To the Weed', 'To the Drowned Forum',
+      'Into the Hall of Oaths', 'torch.*Light', 'Into the Strongrooms', 'To the Antechamber', 'To the Hall of Clerks', 'To the Gallery of Pans',
       'four lines: Take', 'five lines: Take', 'Put in › A brass weight of four', 'Put in › A brass weight of five', 'To the Weighing Chamber',
-      'Through to the threshold', "To the Notary's desk", 'Ask the Notary how the held', 'Lay your name.*Davy');
+      'Through to the threshold', "To the Notary's desk", 'Ask the Notary how the called', 'Lay your name.*Davy');
     expect(g.holds('pledgedSelf', 'party')).toBe(true);
     expect(g.j.measure('quantity', 'party', 'gold')).toBe(0);
     expect(g.holds('heldNow', 'davy')).toBe(false);
@@ -231,13 +231,13 @@ describe('What Tessary Owes: failure and its costs', () => {
 });
 
 describe('What Tessary Owes: more than one key', () => {
-  const lowtide = ['To the Tideline Steps', 'To the head of the Throat', '=156', 'To the foot of the Throat', 'To the Weed',
+  const lowtide = ['To the Watersteps', 'To the head of the Swatch', '=156', 'To the foot of the Swatch', 'To the Weed',
     'To the Drowned Forum'];
   it("past the Forsworn with the weight of a kept promise, and down the drowned city's own drain into the Strongrooms", async () => {
     const g = await Tessary.start();
     await g.play('To the Landgate', 'Into Pitch', 'Buy › A torch', 'Buy › A torch', 'Out to the Landgate', 'Into Saint Evenhand',
-      'Ask Brother Tolley who Saint', 'Ask Brother Tolley what the saint said', 'Ask Brother Tolley what the hollow',
-      'Ask Brother Tolley for the weight', 'Out to the Landgate', 'To the Withies', ...lowtide, 'To the Street of Scales',
+      'Ask Brother Ancel who Saint', 'Ask Brother Ancel what the saint said', 'Ask Brother Ancel what the hollow',
+      'Ask Brother Ancel for the weight', 'Out to the Landgate', 'To the Withies', ...lowtide, 'To the Street of Scales',
       'Into the bath-house', 'torch.*Light', 'To the plunge-room');
     expect(g.knows('evenhand_saying')).toBe(true);
     expect(g.page).toMatch(/hold out their hands, palm up/);
@@ -249,13 +249,13 @@ describe('What Tessary Owes: more than one key', () => {
     expect(g.holds('registered', 'party')).toBe(false);
   }, 240000);
 
-  it('the eel-mother warns at the foot of the Throat Stair at the night ebb, and a company that listens can go back up', async () => {
+  it('the eel-mother warns at the foot of the Swatch Stair at the night ebb, and a company that listens can go back up', async () => {
     const g = await Tessary.start();
-    await g.play('To the Landgate', 'To the Withies', 'Ask Wick about going down at the night ebb', 'To the Tideline Steps',
-      'To the head of the Throat', '=230', 'To the foot of the Throat');
+    await g.play('To the Landgate', 'To the Withies', 'Ask Wick about going down at the night ebb', 'To the Watersteps',
+      'To the head of the Swatch', '=230', 'To the foot of the Swatch');
     expect(g.knows('eelmother_known')).toBe(true);
     expect(g.page).toMatch(/She does not want you on her stair/);
-    await g.play('To the head of the Throat');
+    await g.play('To the head of the Swatch');
     expect(g.j.campaign.world.one('at', 'party')).toBe(t('throat_head'));
     expect(g.running).toBe(true);
   }, 240000);
@@ -263,24 +263,24 @@ describe('What Tessary Owes: more than one key', () => {
   it('Bettany Slake hands over the letter to someone who tells her what her letters are for', async () => {
     const g = await Tessary.start();
     await g.play('To the Landgate', 'To Scriveners', 'Into the Exchequer', 'Read a list', 'Out to Scriveners', 'To the Landgate',
-      'To the Withies', 'Ask the Assessor whether the city pledged', ...lowtide, 'To the Street of Scales', 'To the ebb-runners',
+      'To the Withies', 'Ask the Valuer whether the city pledged', ...lowtide, 'To the Street of Scales', 'To the ebb-runners',
       'Pay Bettany', 'Ask Bettany Slake what she carried', 'Tell Bettany Slake what the Factor', 'Take from the ebb-runners');
     expect(g.j.holds('carries', 'party', t('sault_letter'))).toBe(true);
     expect(g.j.holds('hostile', t('slake'), 'party')).toBe(false);
   }, 240000);
 
-  it('the Assessor balances the counterweight pans as a child of seven does', async () => {
+  it('the Valuer balances the weighing pans as a child of seven does', async () => {
     const g = await Tessary.start();
     await g.play(...phase('void', 'day1'), ...phase('void', 'night1'), ...phase('void', 'below').slice(0, 9),
-      'To the Hall of Clerks', 'To the Counterweight', 'Ask the Assessor to balance');
+      'To the Hall of Clerks', 'To the Gallery of Pans', 'Ask the Valuer to balance');
     expect(g.page).toMatch(/A pen is about the weight of an untold lie/);
     expect(g.j.offers('To the Weighing Chamber')).toBe(true);
   }, 240000);
 
   it('the Factor seeks out the one she hired on the Tidewall at dusk, and speaks of her father', async () => {
     const g = await Tessary.start();
-    await g.play('To the Landgate', 'To Saltgate', 'Into Factor Sault', 'Ask the Factor about the veterans', 'Out to Saltgate',
-      'To the Landgate', 'Into Saint Evenhand', 'Ask Brother Tolley about the old rakers', 'Out to the Landgate', 'To Scriveners',
+    await g.play('To the Landgate', 'To Panhythe', 'Into Factor Sault', 'Ask the Factor about the veterans', 'Out to Panhythe',
+      'To the Landgate', 'Into Saint Evenhand', 'Ask Brother Ancel about the old rakers', 'Out to the Landgate', 'To Scriveners',
       'To the Tidewall', '=350');
     expect(g.page).toMatch(/You look like someone who.s been under the sea/);
     await g.play('Ask the Factor about the First Muster');
@@ -289,9 +289,9 @@ describe('What Tessary Owes: more than one key', () => {
 
   it('the Factor pays her twenty coin for what is taking her lads, and hears out her own letter', async () => {
     const g = await Tessary.start();
-    await g.play('To the Landgate', 'To Saltgate', 'Into Factor Sault', 'Ask the Factor about the veterans', 'Out to Saltgate',
+    await g.play('To the Landgate', 'To Panhythe', 'Into Factor Sault', 'Ask the Factor about the veterans', 'Out to Panhythe',
       'To the Landgate', 'To Scriveners', 'Into the Exchequer', 'Read a list', 'Ask the Treasurer about his list', 'Out to Scriveners',
-      'To the Landgate', 'To Saltgate', 'Into Factor Sault');
+      'To the Landgate', 'To Panhythe', 'Into Factor Sault');
     const purse = g.j.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     await g.play('Tell the Factor what is taking her lads');
     expect(g.j.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(purse + 20);
@@ -299,13 +299,13 @@ describe('What Tessary Owes: more than one key', () => {
     expect(g.j.offers('read her letter')).toBe(false);
   }, 240000);
 
-  it('the Drum hears of each night before it comes, and the Treasurer can be met at the head of the Throat Stair', async () => {
+  it('the Drum hears of each night before it comes, and the Treasurer can be met at the head of the Swatch Stair', async () => {
     const g = await Tessary.start();
     await g.play('To the Landgate', 'To the Withies', 'Into the Muffled Drum', '=300', 'Ask Hannelore what they are saying');
     expect(g.page).toMatch(/off the Factor.s press/);
     await g.play('=1300', 'Ask Hannelore what they are saying');
-    expect(g.page).toMatch(/head of the Throat Stair before dawn/);
-    await g.play('Out to the Withies', 'To the Tideline Steps', 'To the head of the Throat', '=1410');
+    expect(g.page).toMatch(/head of the Swatch Stair before dawn/);
+    await g.play('Out to the Withies', 'To the Watersteps', 'To the head of the Swatch', '=1410');
     expect(g.at('quire')).toBe(t('throat_head'));
     expect(g.page).toMatch(/He has taken his spectacles off/);
     await g.play('Ask the Treasurer who will send the money');
@@ -315,12 +315,12 @@ describe('What Tessary Owes: more than one key', () => {
     expect(g.at('quire')).toBe(stayed ? t('exchequer_room') : undefined);
   }, 360000);
 
-  it('someone the Board cannot call a liar: the Assessor states the city\'s affairs to it, and is counted', async () => {
+  it('someone the Board cannot call a liar: the Valuer states the city\'s affairs to it, and is counted', async () => {
     const g = await Tessary.start();
     await g.play(...phase('void', 'day1'), ...phase('void', 'night1'), 'To the Withies', 'To the Landgate', 'To Scriveners',
       'To the Terraces', 'Into the Council House', '=1890');
     expect(g.at('board')).toBe(t('council_chamber'));
-    await g.play('Tell the Board what is on', 'Read the Board the terms', 'Ask the Assessor to tell the Board');
+    await g.play('Tell the Board what is on', 'Read the Board the terms', 'Ask the Valuer to tell the Board');
     expect(g.page).toMatch(/You are the debtor/);
     await g.play('=1910');
     expect(g.holds('counted_tally', 'ossel')).toBe(true);

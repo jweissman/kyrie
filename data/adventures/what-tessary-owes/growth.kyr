@@ -16,7 +16,7 @@ Module tessary "What Tessary Owes" {
   Milestone m_seal "kept the Great Seal" worth 250 when sealRaidFoiled(ossel) or sealTried(ossel) and not sealStolen(ossel) and night(ossel) >= 14.
   Milestone m_marrable "kept Councillor Marrable from harm" worth 200 when attemptFoiled(ossel) or attemptMade(ossel) and not marrableHurt(ossel) and night(ossel) >= 11.
   Milestone m_quire "gave the Treasurer a reason to live" worth 300 when quireHope(quire).
-  Milestone m_deeds "put the deeds into the hands of the held" worth 800 when deedsDelivered(ossel).
+  Milestone m_deeds "put the deeds into the hands of the called" worth 800 when deedsDelivered(ossel).
   Milestone m_release "stood with the Muster at the Oath Stone" worth 800 when released(ossel).
   Milestone m_assembly "testified before the Assembly of the Scruples" worth 700 when assemblyHeard(ossel).
   Milestone m_warden "made the Factor a Warden" worth 500 when saultWarden(ossel).
