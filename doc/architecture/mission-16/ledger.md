@@ -10,8 +10,8 @@ deliberately left. Newest entries first in each part. The plan and its decisions
 | A. A transformed, trustworthy interface | in production: the place, road, conversation, object and fight pages on one white page; the Character view from the start, with development and its previews |
 | B. The way into adventure | in production for every world Begin draws: Merrowdale's notice and rumour in every first-country town, its road known, one journey there; free play from Begin across seeds still to do |
 | C. A complete RPG expedition | in production: The Long Man played from Begin in two drawn worlds (Lonelymoor, Coldwaste) to its peaceful end, with withdrawal, return and a reload midway; its findings repaired; the storm and its aftermath still to play |
-| D. Becoming and continuing | in production: seen through for 1,000 experience, level 2 after a night under a roof, a development chosen in the Character view by what it opens; the return acknowledged in the country below; the Story whole across reloads; Saltgrave entered from the same world. The deep rivals' brothers still to follow as the offstage diagnostic |
-| E. Independent acceptance and accounting | not begun |
+| D. Becoming and continuing | in production: seen through for 1,000 experience, level 2 after a night under a roof, a development chosen in the Character view by what it opens; the return acknowledged in the country below; the Story whole across reloads; Saltgrave entered from the same world; the deep rivals' brothers heard of, asked after and traced, own history kept apart from reports and traces |
+| E. Independent acceptance and accounting | in hand: the reconciliation ([reconciliation.md](reconciliation.md)) and eight branches pruned; free play at 1440 and 900, by keys alone and without images, still to do. No independent player or reviewer has played this build |
 
 ## The baseline (`0e066e5`, the public page, seed drawn by Begin)
 
@@ -28,6 +28,19 @@ Played from the title page at 1280 × 860:
   - the road across the march told as fen ("Out on the fen the sky is enormous") in a frost country.
 
 ## Done and verified
+
+- **E. The accounting.** Every obligation the mission inherited is in one table with its state
+  ([reconciliation.md](reconciliation.md)): Mission 15's next steps, the audit, both architecture reviews and the
+  readiness memorandum, the cold playtest, and Low Water's friction list.
+  - Eight branches are pruned, each once nothing on it was missing from main: two merged as commits, five that main
+    carries further (checked file by file), and a second name for a review's commit. Each head is kept in this
+    clone under `refs/archive/`. The three review branches stay, since their findings are not all addressed. So does
+    `adventure/tessary`, a new adventure that arrived during the mission.
+  - Found while checking the cold playtest's list: a company under its own Light spell was told "Nothing lit". The
+    light line now counts a conjured light, with the time it has left (`test/darkness.test.ts`).
+  - The wren record still plays through, all 334 commands. At `3491ecd` it ends at canonical `91802e0a2936462`,
+    facts `b647c301c89a6c46`, told `a79d41d377479b5`. These are the new baseline for the inner loop's
+    equivalence checks; Mission 15's hashes stand for the game before this mission changed what happens and is told.
 
 - **D. The brothers' expedition, the offstage diagnostic.** The deep site's rivals (the brothers who go up after
   the prize, a level every two days) were all there in the world, but out of the player's sight. The cold playtest
@@ -53,7 +66,7 @@ Played from the title page at 1280 × 860:
   A heading of tries with one try under it is shown as that try ("Look closely", not "Examine — Look closely"). Its
   label stays as it is, since four adventures' journeys name it.
 
-- **C. A fight told truly** (the cold playtest's finding 3, met again in free play: Sefa and her brother against a
+- **C. A fight told truly** (the cold playtest's finding 3, met again in free play: Sefa and Kildrak, Sefa's brother, against a
   toll sergeant).
   - The ending names everyone who fell, the one the player made first, and counts both sides ("one against two"),
     no longer "one against one" whenever there was one foe.
@@ -226,17 +239,31 @@ Played from the title page at 1280 × 860:
 
 ## Found, not yet done
 
-- **Climbing down a shaft is told as a walk in the rain** ("You leave the gauge stone with your hood up").
-- From the plays:
-  - the gauge shaft, once climbable, is listed among the roads out;
-  - the map draws the south road hanging from the Drowned Ox;
-  - state names as notes ("worn", "hung") and "Examine — Look closely".
-
-- **A level-1 warrior knows all ten of its calling's techniques,** so a technique cannot be what a level adds
-  without rebalancing every fight. The first stage is skills and qualities; techniques stay the calling's features.
-
-- The road across a march is told from the far country's terrain list, not the land it crosses.
+From the free plays, in the order met:
+- the road across a march is told from the far country's terrain list, not the land it crosses (fen in a frost
+  country);
+- a technique is said in the rules' shorthand ("Charge: End on yourself; 3d8 + 1 + 1"), under names a player would
+  not use ("Vigor Up"; "Sets Spear" for a swordsman);
+- state names stand as notes under a thing ("worn", "hung", "in the hook");
+- a topic once asked is gone, and a notice once read leaves the things to look at;
+- the map draws the south road hanging from the Drowned Ox;
+- the wet gallery says it is dark before the torch gutters out;
+- the gauge shaft, once climbable, is listed among the roads out;
+- two places with one name are two roads out of Marirkom, alike to the letter ("To the bridge over the Karnahar");
+- coming home, the father found under the cart is "a man", told in the ordinary register, and "Kildrak knelt by the
+  cart" is filed under what you know;
+- a crossing by a bridge is told as a ford ("up the far bank with your boots full");
+- on a phone, the map cuts its labels at the left edge.
 
 ## Deliberately left
 
-(none yet)
+- **Each group of enemies is reckoned alone** (the toll sergeant "likely beat them", his deserters "beyond you"),
+  as the engine fights them: one group to a fight. The reckoning plays the fight the company would have. What was
+  wrong at the bridge was the reckoning's confidence, now played again when uneven.
+- **"Set out for" lists the edges of the country only once told of or been to,** though the map draws the roads to
+  them. An edge beyond which a country is told of is named for it ("the march-stone of Merrowdale"), so to list every
+  edge from the start would tell the lead that the town is there to tell.
+
+- **A level-1 warrior knows all ten of its calling's techniques,** so a technique cannot be what a level adds
+  without rebalancing every fight. The first stage is skills and qualities, and a skill taken up opens what it is
+  for; techniques stay the calling's own.

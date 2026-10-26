@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
+import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import companies from '../data/campaigns/companies.json';
 import type { CreatureGenerationContext } from '../src/content';
@@ -42,6 +43,8 @@ describe('light and the dark', () => {
     const s = await Dark.play('delvers', ...Dark.toStores);
     await s.perform('field_spell(march__member_party_3,conjure_light,march__member_party_3)');
     expect(s.campaign.world.test(ModuleWriter.call('capable', 'party', 'light'))).toBe(true);
+    // The page says so, as it says what a torch has left (the cold playtest read "Nothing lit" under its Light).
+    expect(ScreenModel.build(s.campaign).expedition.light).toMatch(/^Ivo's conjured light, .+ left · /);
     // Twelve watches of ten minutes, the first spent in the casting.
     for (let i = 0; i < 10; i++) { await s.perform('wait'); }
     expect(s.campaign.world.test(ModuleWriter.call('capable', 'party', 'light'))).toBe(true);

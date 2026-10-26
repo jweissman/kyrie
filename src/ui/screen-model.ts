@@ -222,7 +222,9 @@ export class ScreenModel {
       weary: world.relates('weary') && world.test(ModuleWriter.call('weary', actor)),
       ...(meal ? { nextMeal: FictionalTime.clock(meal) } : {}) };
   }
-  static readonly burning: Record<string, string> = { torchlit: 'torch', lamplit: 'lantern', candlelit: 'candle' };
+  // What gives the company light: a flame, or a light conjured (the cold playtest read "Nothing lit" under its Light).
+  static readonly burning: Record<string, string> = { torchlit: 'torch', lamplit: 'lantern', candlelit: 'candle',
+    lit: 'conjured light' };
   // How long the company's light will last, where that matters: somewhere unlit, or while something burns.
   private static light(view: PlayerSnapshot, items: ItemRow[], unlit: boolean): { light?: string } {
     const lit = view.party.flatMap(m => m.conditions.filter(c => this.burning[c]).map(c => `${m.name}'s ${this.burning[c]}`
