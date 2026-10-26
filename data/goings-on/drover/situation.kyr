@@ -68,7 +68,7 @@ Module drover "The drover who did not come home" {
     On success { Assert stood(actor). }
     Result "You stand a while. Nobody says anything, and nothing needs saying.".
   }
-  Event son_at_grave near son when stood(party) and travelsWith(son, party) and awake(member_son_person) "'Somebody should sing him something terrible,' says {son}. Nobody does; but you all think of it, and it helps.".
+  Event son_at_grave near party when stood(party) and travelsWith(son, party) and awake(member_son_person) "'Somebody should sing him something terrible,' says {son}. Nobody does; but you all think of it, and it helps.".
 
   // To one of the family the drover is a father, his wife a mother, his son a brother: they say other things.
   Observe wife_kin near wife when kin(party, wife) and not told(wife) "Your mother is at the hearth with her back to the room.".
@@ -129,6 +129,24 @@ Module drover "The drover who did not come home" {
   // words (the M16 free play found his kneeling filed among what it knew).
   Entity son_knelt: fact "".
   Observe son_kneels at road as event when travelsWith(son, party) and awake(member_son_person) and knows(party, found_cart) and not knows(party, son_knelt) "{son} goes down the bank to the cart before anyone can stop him, and kneels there a long time. When he comes back up he has nothing to say, and nobody asks him to." teaches son_knelt.
+  // On the road with you he is himself, after the cart as before it: what he makes of where you take him, what he
+  // remembers, and who he sits with (M16's deepening asked for one companion with a perspective, a memory and people
+  // of his own). Said where the company is: one who has joined it stands nowhere of his own (his words at the grave,
+  // said where he stood, were never heard while he went with you).
+  Event son_under near party when travelsWith(son, party) and awake(member_son_person) and at(party, ?p) and unlit(?p) and not benighted(party) "{son} keeps to the middle of the light and does not look behind him. 'Father would never go under a roof he could not see the end of,' he says. 'I used to think it was because he was a coward. I think now it was because he had sense.'".
+  Event son_binds near party when travelsWith(son, party) and awake(member_son_person) and memberOf(?m, party) and needsCare(?m) and not joinedAs(?m, son) "{son} binds the hurt fast and badly, the way Father bound the oxen when they went lame. 'Hold still,' he says, in Father's voice, and then stops, surprised at himself.".
+  Event son_purse near party when travelsWith(son, party) and awake(member_son_person) and quantity(party, gold) >= 60 "{son} weighs the purse in his hand. 'More than Father had in a year of droves,' he says. 'Mother is not to know how we came by it.' He thinks. 'Or she is, and we will not tell her.'".
+  Event son_with_mother near party when travelsWith(son, party) and awake(member_son_person) and told(wife) and at(party, taproom) and at(wife, taproom) and kin(party, son) "{son} sits down by your mother without a word, and she puts a hand on his arm without looking at him. That is all either of them will say about it, tonight.".
+  Event son_and_fellow near party when travelsWith(son, party) and awake(member_son_person) and travelsWith(?f, party) and distinct(?f, son) "{son} watches {?f} a while, when {?f} is not looking. 'Father would have liked {?f},' he says. 'He would have said so twice, and then given {?f} the worst ox.'".
+  Topic son_after with son travelling "Ask {son} what he will do now" when kin(actor, son) and awake(member_son_person) and knows(actor, found_cart) once {
+    Says "'Take Father's road to market, I suppose,' says {son}, 'if anything comes back of the oxen. Somebody has to.' He looks along the road a while. 'You will go back over the hills.' He does not ask you to stay, which is how you know he wants you to.".
+  }
+  Topic son_after_stranger with son travelling "Ask {son} what he will do now" when not kin(actor, son) and awake(member_son_person) and knows(actor, found_cart) once {
+    Says "'See Mother right,' says {son}. 'Then I don't know. Father would have known.' He shoulders the spear. 'Till then I'm with you, if you'll have me.'".
+  }
+  Topic son_home with son travelling "Ask {son} about home" when kin(actor, son) and awake(member_son_person) once {
+    Says "'You remember the flood year?' says {son}. 'You carried me over the ford on your back and told me there were eels in it the size of oxen. I did not go near water again until I was ten.' He grins for the first time. 'There were not, were there.'".
+  }
   // Left alone too long, the son goes out after his father himself.
   Rule son_goes at green when watch(clock) >= 204 and not told(son) and at(son, green) says "{son} has taken his father's old spear and gone out on the road alone. Nobody stopped him." { Retract at(son, green). Assert gone(son). }
 

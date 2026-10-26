@@ -192,3 +192,29 @@ describe('the boundary stones', () => {
   }, 60000);
 });
 
+
+// The drover's son as a companion of his own (M16's deepening: one companion with a perspective, a memory and people of
+// his own): come home to mere as his brother or sister, he remembers home, and says what he makes of the dark places
+// you take him, of another who joins you, and of what comes after the cart.
+describe('your brother on the road', () => {
+  it('remembers home, and has something of his own to say of the dark and of a fellow', async () => {
+    const w = await WorldAssembler.assemble('mere', NodeBundleSource.shared,
+      { origin: 'kin', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'mere', w.source), placed = w.report.placements.find(p => p.scenario === 'drover')!;
+    GeneratedWorld.put(s, `${placed.bindings.town}_green`);
+    await s.perform('wait');
+    await Town.act(s, /^Ask .* what he means to do$/);
+    await Town.act(s, /to join the company$/);
+    expect(Town.said(await Town.act(s, /^Ask .* about home$/))).toContain('eels in it the size of oxen');
+    // Somewhere unlit, with a light, he keeps to it.
+    const dark = s.campaign.world.related('unlit')[0]!.args[0]!.replace(/^region__/, '');
+    GeneratedWorld.put(s, dark);
+    const light = PlayerView.choices(s.campaign).find(x => /^light_item\(/.test(x.choice.id));
+    const lit = await s.perform(light ? light.choice.id : 'wait');
+    expect(Town.said(lit)).toContain('keeps to the middle of the light');
+    // Asked what he will do, once the cart is found.
+    const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'drover__found_cart') }]));
+    expect(Town.said(await Town.act(s, /^Ask .* what he will do now$/))).toContain('Take Father\'s road to market');
+  }, 120000);
+});
