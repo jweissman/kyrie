@@ -1,5 +1,6 @@
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
+import { RegionZones } from './region-zones';
 import { RegionWriter, type Contact, type Region } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
 import { WorldAssembler, type Placement, type ScenarioManifest } from './world-assembler';
@@ -31,6 +32,7 @@ export class ScenarioWord {
       const fact = `h${index + 1}`;
       lines.push(`  Entity ${fact}: fact "What people say".`);
       imports[fact] = WorldAssembler.ref(hook.fact, placement);
+      this.leads(fact, firstSite, { placement, lines, imports, declared: carriers, region });
       if (s.route && hook.opens !== false) { lines.push(`  Initially Assert revealedBy(route_in, ${fact}).`); }
       // Carriers in the towns nearest the scenario, and members' contacts anywhere who hear that kind of news.
       const tellers = new Map<string, string>();
@@ -60,8 +62,8 @@ export class ScenarioWord {
     }
     lines.push('  Goal false.', '}');
     const names = Object.keys(imports);
-    const types = Object.fromEntries(names.map(n => [n, { type: n === 'party' ? 'group' : n === 'route_in' ? 'passage'
-      : /^h\d+$/.test(n) ? 'fact' : /_(taproom|shrine|shop|green)$|^at_/.test(n) ? 'place' : 'group' }]));
+    const types = Object.fromEntries(names.map(n => [n, { type: n === 'party' ? 'group' : /^route_in$|^by_/.test(n)
+      ? 'passage' : /^h\d+$/.test(n) ? 'fact' : /_(taproom|shrine|shop|green)$|^at_/.test(n) ? 'place' : 'group' }]));
     return { source: lines.join('\n'), imports,
       manifest: { version: 1, source: 'word.kyr', rules: ['world'], globals: ['party'], imports: names, roles: types } };
   }
@@ -86,6 +88,24 @@ export class ScenarioWord {
       }
       return `{${local}}`;
     });
+  }
+  // What people say of it says where it is, and the way there as the place's own way is told (RegionSites): the
+  // trails through wild country to where its track starts, and the track. Before, a starting town told of five such
+  // troubles and none of them could be set out for (the M16 deepening).
+  private static leads(fact: string, role: string | undefined, at: { placement: Placement; lines: string[];
+    imports: Record<string, string>; declared: Set<string>; region: Region }) {
+    const id = role && at.placement.bindings[role], site = at.region.sites.find(s => s.id === id);
+    if (!id) { return; }
+    at.lines.push(`  Initially Assert leadsTo(${fact}, ${this.named(`{${role}}`, at.placement, at).slice(1, -1)}).`);
+    const zone = RegionGeography.atlas(at.region).zones.find(z => z.id === site?.zone);
+    for (const way of [...zone ? RegionZones.told(at.region, zone, site!.part ?? 0) : [], ...site ? [`${id}_track`] : []]) {
+      const local = `by_${way}`;
+      if (!at.declared.has(local)) {
+        at.lines.push(`  Entity ${local}: passage "The way".`); at.imports[local] = `${at.placement.rid}.${way}`;
+        at.declared.add(local);
+      }
+      at.lines.push(`  Initially Assert leadsVia(${fact}, ${local}).`);
+    }
   }
   // The way in is found by looking about where it starts, as well as by hearing of the trouble: a company that came
   // on the place by itself is not shut out of it (the follow-up review searched a pit and found no way down into it).

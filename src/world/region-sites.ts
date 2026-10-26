@@ -62,8 +62,8 @@ export class RegionSites {
   private static seat(seat: Seat, region: Region, claimed: boolean): string[] {
     const q = JSON.stringify, { site, town } = seat, id = site.id, keeper = `${town.id}_innkeeper`;
     const where = this.where(seat, region), seen = this.look(site, region);
-    const great = !!site.work?.great;
-    const hidden = great || (!claimed && (site.part ?? 0) > 0);
+    const great = !!site.work?.great, zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
+    const hidden = great || (!claimed && (site.part ?? 0) > 0), tells = hidden || !!zone;
     const lines = [...this.stand(seat, region, { where, hidden }),
       `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
       `  Initially Assert leadsTo(${id}_named, ${id}).`,
@@ -73,11 +73,12 @@ export class RegionSites {
       ...this.cut[site.kind] && !site.work ? [] : [`  Observe ${id}_known at ${id} as feature when knows(party, ${id}_named) ${q(`This is ${site.name}${this.worn(region, site) ? ', as the folk call it' : ''}.`)}.`],
       // A work's own people tell of it in its plan's words (RegionWorks); anything else, the innkeeper knows.
       ...site.work ? [] : [`  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once {`,
-        `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${hidden ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
-        `    On discuss { Assert knows(actor, ${id}_named).${hidden ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }']];
+        `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${tells ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`,
+        `    On discuss { Assert knows(actor, ${id}_named).${tells ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }']];
     // Every site's way can be learned, told landmark by landmark where it is in wild country; one deep in wild country
-    // can also be found by searching where it starts.
-    const zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
+    // can also be found by searching where it starts. Told, it is a way the company can set out along (leadsVia).
+    const ways = [...zone ? RegionZones.told(region, zone, site.part ?? 0) : [], `${id}_track`];
+    lines.push(`  Initially Assert leadsTo(${id}_found, ${id}).`, ...ways.map(w => `  Initially Assert leadsVia(${id}_found, ${w}).`));
     // Named as the company knows it when it reads it: the way to a timbered adit, or to Obscurusport once named.
     const told = zone ? `The way to {${id}}: ${RegionZones.route(region, zone, site.part ?? 0)}, where the track to it starts.`
       : `The way to {${id}}: the track to it goes from {${this.start(seat, region).from}}.`;

@@ -7,6 +7,8 @@ export interface Choice {
   id: string; label: string; tone: Tone;
   command?: string; children?: Choice[];
   note?: string; about?: string; risk?: boolean; minutes?: number; disabled?: string;
+  // A way about the settlement or site the company is in, however long it takes (see ExitRow).
+  local?: boolean;
   // What cannot be undone by it: the page says so, and asks again, before it is done.
   grave?: string;
 }
@@ -89,7 +91,7 @@ export class ChoiceList {
     const twice = new Set(labels.filter((l, i) => labels.indexOf(l) !== i));
     const choices = exits.flatMap((e, i) => {
       const label = twice.has(labels[i]!) ? `${labels[i]!.split(' ')[0]} ${this.inline(e.destination.name)}` : labels[i]!;
-      return this.way(e, label);
+      return this.way(e, label).map(c => e.local ? { ...c, local: true } : c);
     });
     return { id: 'ways', title: 'Ways on', tone: 'way', glyph: '→', choices };
   }

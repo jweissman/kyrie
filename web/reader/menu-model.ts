@@ -66,10 +66,12 @@ export class MenuModel {
     return { id: c.id, label: `${m?.name ?? c.label}: ${left === 1 ? 'a development' : `${left} developments`} to spend`,
       tone: c.tone, command: `view:company:${id}` };
   }
-  // A place known and the way to it: opened, the way it goes, leg by leg, and setting out.
+  // A place known and the way to it: opened, the way it goes, leg by leg, and setting out. A place whose way is not
+  // known is set out toward, as far as the known ways go (the edge of the wood it is said to be in).
   static destinations(screen: Frame['screen']): Choice[] {
-    return (screen.destinations ?? []).map(d => ({ id: `dest:${d.id}`, label: d.name, tone: 'way' as const,
-      note: Words.span(d.minutes), children: [{ id: `travel:${d.id}`, label: `Set out for ${d.name}`, tone: 'way' as const,
+    return (screen.destinations ?? []).map(d => ({ id: `dest:${d.id}`, label: d.toward ? `Toward ${d.name}` : d.name,
+      tone: 'way' as const, note: d.toward ? `${Words.span(d.minutes)}, as far as ${d.toward}` : Words.span(d.minutes),
+      children: [{ id: `travel:${d.id}`, label: `Set out ${d.toward ? 'toward' : 'for'} ${d.name}`, tone: 'way' as const,
         command: `travel:${d.id}`, minutes: d.minutes }] }));
   }
   // Someone spoken with: what can be said to them, and taking leave. Something looked at: what can be done with it, by

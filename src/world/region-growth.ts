@@ -36,13 +36,14 @@ export class RegionGrowth {
         .map(l => ({ id: l.id, cells: [l.cell!], name: l.name })))];
   }
   // Where a plant grows near a settlement, nearest first: what someone who knows the water would say.
-  static near(region: Region, plant: string, cell: number): string[] {
+  static near(region: Region, plant: string, cell: number): { id: string; name: string }[] {
     const W = RegionGeography.atlas(region).land.width, o = Canon.organisms[plant]!;
     return this.places(region).filter(p => o.habitats.some(h => this.habitats(region, p.cells).has(h)))
       .map(p => ({ p, d: Math.min(...p.cells.map(c => this.apart(c, cell, W))) })).filter(x => x.d <= 8)
-      .sort((a, b) => a.d - b.d).map(x => x.p.name)
+      .sort((a, b) => a.d - b.d).map(x => ({ id: x.p.id, name: x.p.name }))
       // Two fords of the same river are one place to someone telling the way.
-      .filter((n, i, all) => all.slice(0, i).every(o => !this.proper(o).some(w => this.proper(n).includes(w))))
+      .filter((n, i, all) => all.slice(0, i)
+        .every(o => !this.proper(o.name).some(w => this.proper(n.name).includes(w))))
       .slice(0, 2);
   }
   private static proper(name: string): string[] { return name.split(/\s+/).filter(w => /^\p{Lu}/u.test(w)); }

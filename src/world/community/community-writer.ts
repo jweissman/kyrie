@@ -80,14 +80,15 @@ export class CommunityWriter {
     ];
   }
   // Someone whose work is by the water knows where the willow grows (and so what to strip for a fever): they say
-  // where, and the company knows it.
+  // where, and the company knows it, and can set out for it.
   private static knowing(region: Region, c: Community, r: Resident): string[] {
     const q = this.q, s = c.settlement;
     if (!r.work.knows?.some(k => k === 'water' || k === 'herbs') || s.cell === undefined) { return []; }
-    const where = RegionGrowth.near(region, 'willow', s.cell);
+    const where = RegionGrowth.near(region, 'willow', s.cell), names = where.map(w => w.name);
     if (!where.length) { return []; }
-    const fact = `${r.id}_willows`, places = where.length > 1 ? `${where[0]}, and along ${where[1]}` : where[0]!;
+    const fact = `${r.id}_willows`, places = names.length > 1 ? `${names[0]}, and along ${names[1]}` : names[0]!;
     return [`  Entity ${fact}: fact ${q(`Willows grow by the water on ${places}: willow bark breaks a fever.`)}.`,
+      ...where.map(w => `  Initially Assert leadsTo(${fact}, ${w.id}).`),
       `  Topic ${r.id}_where with ${r.id} ${q(`Ask ${r.name} where willow grows`)} when not knows(actor, ${fact}) {`,
       `    Says ${q(`'Willow? By the water, same as everywhere,' says ${r.name}. 'There's a good stand on ${places}. Strip the bark, not the wood.'`)}.`,
       `    On discuss { Assert knows(actor, ${fact}). }`, '  }'];

@@ -1,6 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
+import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model';
 import type { WayInfo } from './passage-model';
 import { VisitedPlaces } from '../presentation/visited-places';
@@ -9,38 +10,64 @@ import { Spatial } from '../spatial';
 // One leg of a journey: by what way, from where to where, and how long it takes.
 export interface Leg { passage: string; way: string; from: string; to: string; minutes: number }
 // The way to a known place over ways the company knows: the place asked for, the room the way comes to, its legs in
-// order, and the time they take together.
-export interface Itinerary { id: string; to: string; name: string; legs: Leg[]; minutes: number }
+// order, and the time they take together; or, where the way there is not known, toward it, as far as the wild country
+// it is said to lie in (`toward` names it).
+export interface Itinerary { id: string; to: string; name: string; legs: Leg[]; minutes: number; toward?: string }
 
 // The way to somewhere known, over the ways the company knows: those it has walked from, been told of, the country's
 // roads (which its folk know), and with wayfinding every road and path of the country (see ChartModel.ways).
 export class Itineraries {
-  // The known ways, from each place.
-  static graph(campaign: Campaign): Map<string, WayInfo[]> {
-    const actor = campaign.playerActor!, world = campaign.world;
-    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
-    const ways = new ChartModel(world, actor, entities).ways(VisitedPlaces.of(campaign, actor));
-    const graph = new Map<string, WayInfo[]>();
+  // The known ways, from each place; or only those open now, with nothing in the way and nothing to risk (a ford in
+  // spate is risked, not taken). Read once for each state of the world and of where the company has been, for every
+  // place it plans for (the page plans for each place it knows of).
+  private static readonly read = new WeakMap<object, { at: string; ways: WayInfo[] }>();
+  static graph(campaign: Campaign, clear = false): Map<string, WayInfo[]> {
+    const actor = campaign.playerActor!, world = campaign.world, at = `${actor}:${campaign.history.length}`;
+    let kept = this.read.get(world);
+    if (kept?.at !== at) {
+      const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+      kept = { at, ways: new ChartModel(world, actor, entities).ways(VisitedPlaces.of(campaign, actor)) };
+      this.read.set(world, kept);
+    }
+    const ways = kept.ways, graph = new Map<string, WayInfo[]>();
     for (const w of ways) {
-      if (w.status === 'blocked') { continue; }
+      if (w.status === 'blocked' || (clear && w.status !== 'open')) { continue; }
       if (!(graph.get(w.from) ?? []).some(x => x.passage === w.passage && x.to === w.to)) {
         graph.set(w.from, [...graph.get(w.from) ?? [], w]);
       }
     }
     return graph;
   }
-  // The quickest known way from where the company stands to a place, or to anywhere within an area.
+  // The quickest known way from where the company stands to a place, or to anywhere within an area: by ways open
+  // now if there are any (mere's march-stone by the bridge, while both fords are in spate), else by those that ask
+  // something of the company on the way; failing that, toward it: to the edge of the wild country it is said to lie
+  // in, whose ways on the company does not know.
   static plan(campaign: Campaign, destination: string): Itinerary | undefined {
+    return this.route(campaign, destination, true) ?? this.route(campaign, destination)
+      ?? this.toward(campaign, destination);
+  }
+  private static toward(campaign: Campaign, destination: string): Itinerary | undefined {
+    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const here = campaign.world.one('at', campaign.playerActor!);
+    for (const area of Spatial.ancestry(entities, destination).slice(1).filter(e => e.space?.kind === 'wilderness')) {
+      if (!here || this.within(entities, here, area.id)) { return undefined; }
+      const p = this.route(campaign, area.id, true) ?? this.route(campaign, area.id);
+      const name = ObservationText.label(campaign.world, destination);
+      if (p) { return { ...p, id: destination, name, toward: p.name }; }
+    }
+    return undefined;
+  }
+  private static route(campaign: Campaign, destination: string, clear = false): Itinerary | undefined {
     const world = campaign.world, here = world.one('at', campaign.playerActor!);
     if (!here || here === destination) { return undefined; }
-    const graph = this.graph(campaign), entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const graph = this.graph(campaign, clear), entities = new Map(campaign.module.entities.map(e => [e.id, e]));
     const best = new Map<string, { minutes: number; legs: Leg[] }>([[here, { minutes: 0, legs: [] }]]);
     const open = [here];
     while (open.length) {
       open.sort((a, b) => best.get(a)!.minutes - best.get(b)!.minutes);
       const at = open.shift()!, so = best.get(at)!;
       if (this.within(entities, at, destination)) {
-        return { id: destination, to: at, name: entities.get(destination)?.name ?? destination, legs: so.legs,
+        return { id: destination, to: at, name: ObservationText.label(world, destination), legs: so.legs,
           minutes: so.minutes };
       }
       for (const w of graph.get(at) ?? []) {
@@ -68,7 +95,9 @@ export class Itineraries {
     const visited = VisitedPlaces.of(campaign, actor), byId = new Map(entities.map(e => [e.id, e]));
     const here = world.one('at', actor), area = here ? this.area(byId, here) : undefined;
     const known = new Set([...told, ...[...visited].map(v => this.area(byId, v)?.id ?? v)]);
-    return [...known].filter(id => id !== area?.id && this.worth(byId.get(id)))
+    // A place someone has told of is somewhere to set out for, whatever it is (a pit in the ground, a lone tower);
+    // somewhere been is, when it is a settlement, a site or the edge of the country.
+    return [...known].filter(id => id !== area?.id && (told.includes(id) || this.worth(byId.get(id))))
       .flatMap(id => { const p = this.plan(campaign, id); return p && p.legs.length > 1 ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
   }

@@ -29,17 +29,38 @@ export class ChartModel {
   // The roads of a country, which its folk know and anyone in it can follow: roads, and the bridges, fords, ferries
   // and causeways they cross by. A track or a path into wild country is known only once walked, or told of.
   static readonly roads = ['way_road', 'way_causeway', 'way_bridge', 'way_ford', 'way_ferry'];
-  // The ways the company has walked from, the ways it has been told of (a track hidden until its way is known, once
-  // someone has told it), the country's roads, and with wayfinding every road and path of the country.
+  // The ways the company has walked from, the ways it has been told of, the country's roads, and with wayfinding every
+  // road and path of the country.
   ways(visited: Set<string>): WayInfo[] {
-    const model = new PassageModel(this.world, this.actor, this.entities), relations = this.world.view.relations;
-    const told = relations.filter(r => r.name === 'revealedBy'
-      && this.world.test(ModuleWriter.call('knows', this.actor, r.args[1]!)))
-      .flatMap(r => relations.filter(c => c.name === 'connects' && c.args[0] === r.args[0]))
-      .flatMap(c => model.ways(c.args[1]!).filter(w => w.passage === c.args[0] && w.to === c.args[2]));
-    const seen = [...[...visited].flatMap(from => model.ways(from)), ...told, ...this.kind(model, ChartModel.roads)];
+    const model = new PassageModel(this.world, this.actor, this.entities);
+    const seen = [...[...visited].flatMap(from => model.ways(from)), ...this.toldWays(model),
+      ...this.kind(model, ChartModel.roads)];
     if (!this.world.test(ModuleWriter.call('capable', this.actor, 'wayfinding'))) { return seen; }
     return [...seen, ...this.kind(model, ChartModel.regional)];
+  }
+  // The ways told: a track hidden until its way is known, once someone has told it; the ways a fact tells, landmark
+  // by landmark (leadsVia); and the ways into a place the company has been told of, from where its own track starts,
+  // and into the wild country it is said to lie in, as far as its edge. Before, a starting town told of seventeen
+  // things, and only the two march-stones could be set out for (M16).
+  private toldWays(model: PassageModel): WayInfo[] {
+    const relations = this.world.view.relations;
+    const passages = new Set([
+      ...relations.filter(r => r.name === 'revealedBy' && this.knows(r.args[1]!)).map(r => r.args[0]!),
+      ...relations.filter(r => r.name === 'leadsVia' && this.knows(r.args[0]!)).map(r => r.args[1]!),
+      ...relations.filter(r => r.name === 'leadsTo' && this.knows(r.args[0]!)).flatMap(r => Spatial
+        .ancestry(this.entities, r.args[1]!).filter(e => e.id === r.args[1] || e.space?.kind === 'wilderness')
+        .flatMap(e => this.into(e.id)))]);
+    return relations.filter(c => c.name === 'connects' && passages.has(c.args[0]!))
+      .flatMap(c => model.ways(c.args[1]!).filter(w => w.passage === c.args[0] && w.to === c.args[2]));
+  }
+  private knows(fact: string): boolean { return this.world.test(ModuleWriter.call('knows', this.actor, fact)); }
+  // The ways into a place from outside it.
+  private into(place: string): string[] {
+    return this.world.view.relations.filter(c => c.name === 'connects' && this.inside(c.args[2]!, place)
+      && !this.inside(c.args[1]!, place)).map(c => c.args[0]!);
+  }
+  private inside(id: string, place: string): boolean {
+    return id === place || Spatial.ancestry(this.entities, id).some(e => e.id === place);
   }
   private kind(model: PassageModel, kinds: string[]): WayInfo[] {
     const relations = this.world.view.relations;

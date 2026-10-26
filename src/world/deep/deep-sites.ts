@@ -44,12 +44,13 @@ export class DeepSites {
       ...DeepArgument.lines(layout, values, purpose), ...DeepRivals.lines(region, site, { layout, purpose, values }),
       ...this.land(purpose, layout)];
   }
-  // The levels and their rooms, each with how it looks; every room below the mouth is dark.
+  // The levels and their rooms, each with how it looks; every room below the mouth is dark, and underground (the
+  // galleries told themselves "outdoors", from the wild country the workings are in).
   private static places(layout: DeepLayout): string[] {
     const q = this.q, site = layout.site;
     return layout.levels.flatMap(level => [`  Place ${level.id} ${q(level.name)} is level within ${site}_site.`,
       ...level.rooms.flatMap(r => [`  Place ${r.id} ${q(r.name)} is room within ${level.id} at ${r.x}, ${r.y}`
-        + `${r.open ? ' outdoors' : ''}.`,
+        + `${r.open ? ' outdoors' : ' underground'}.`,
         `  Observe ${r.id}_scene at ${r.id} when true ${q(r.scene)}.`,
         ...r.lit ? [] : [`  Initially Assert unlit(${r.id}).`]])]);
   }

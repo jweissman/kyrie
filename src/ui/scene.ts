@@ -72,8 +72,9 @@ export class SceneModel {
       ...c.children ? { children: c.children.map(k => this.bare(k, name)) } : {} };
   }
   private static escape(text: string): string { return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-  // Ways that take more than a few minutes, or set out across wild country, are the ways out; the rest are about here.
-  private static far(c: Choice): boolean { return (c.minutes ?? 0) > 10 || this.across(c); }
+  // Ways that take more than a few minutes, or set out across wild country, are the ways out; the rest, and any way
+  // about the settlement or site the company is in however long (the gauge shaft, the Hall lane), are about here.
+  private static far(c: Choice): boolean { return !c.local && ((c.minutes ?? 0) > 10 || this.across(c)); }
   private static across(c: Choice): boolean { return /__z\d+_(strike|cast|follow)(\(|$)/.test(c.command ?? ''); }
   private static astray(sections: Section[]): Choice[] {
     return sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => this.across(c)));

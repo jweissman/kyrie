@@ -372,8 +372,8 @@ export class ScreenModel {
   private static destinations(campaign: Campaign, entities: Map<string, Entity>): Screen['destinations'] {
     if (!campaign.running) { return []; }
     return Itineraries.destinations(campaign).map(d => ({ id: d.id, name: entities.get(d.id)?.name ?? d.name,
-      minutes: d.minutes, legs: d.legs.map(l => ({ way: entities.get(l.passage)?.name ?? l.way,
-        to: entities.get(l.to)?.name ?? l.to, minutes: l.minutes })) }));
+      minutes: d.minutes, ...d.toward ? { toward: d.toward } : {}, legs: d.legs.map(l => ({
+        way: entities.get(l.passage)?.name ?? l.way, to: entities.get(l.to)?.name ?? l.to, minutes: l.minutes })) }));
   }
   // The member as the rules have them, and what a development would change, each with its command if offered.
   private static sheet(campaign: Campaign, id: string, ref: string | undefined, acts: Act[]) {

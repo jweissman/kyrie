@@ -39,6 +39,12 @@ export class RegionZones {
   }
   // Every place a stretch of wild country holds: its landmarks and the place where those lost in it are.
   static rooms(region: Region, zone: Wilds): string[] { return [...this.landmarks(region, zone).map(l => l.id), `${zone.id}_lost`]; }
+  // The ways in and the trails between landmarks, which word of a place in the country can tell (ScenarioWord).
+  static passages(region: Region, zone: Wilds): string[] {
+    const marks = this.landmarks(region, zone), land = RegionGeography.atlas(region).land;
+    return [...this.ways(zone, region, marks).map((_, i) => `${zone.id}_way${i + 1}`),
+      ...this.tree(land, marks).map((_, i) => `${zone.id}_trail${i + 1}`)];
+  }
   private static readonly drawn = new WeakMap<Region, Map<string, Landmark[]>>();
   // A part's own landmark at its centre (the edge, the places further in); a second where a part is large; and the
   // crossing of any river that runs through.
@@ -196,16 +202,34 @@ export class RegionZones {
   // from the settlement the edge is known by, so that "the foot of Barzelrehes by Muzgkom" is reached from Muzgkom.
   private static entries(zone: Wilds, region: Region, marks: Landmark[]): string[] {
     const q = JSON.stringify, land = RegionGeography.atlas(region).land, t = this.table[zone.wild];
-    const ways = this.starts(zone, region).map(s => ({ s, to: this.nearest(land, marks, s.cell) })), edge = marks[0]!;
-    if (!ways.some(w => w.to === edge)) {
-      const by = this.from(region, zone);
-      ways.push({ s: { from: `${by.id}_green`, cell: by.cell!, through: false, by: by.name }, to: edge });
-    }
-    return ways.map(({ s, to }, i) => {
+    return this.ways(zone, region, marks).map(({ s, to }, i) => {
       const minutes = Math.max(30, Math.round(Terrain.distance(land, to.cell, s.cell) * 40 / 10) * 10);
       const way = s.through ? `a track off the road into ${zone.naming.name}` : this.fill(t.into, { zone: zone.naming.name });
       return `  Passage ${zone.id}_way${i + 1} ${q(way)} is path between ${s.from} and ${to.id} taking ${RegionRoads.time(minutes)}.`;
     });
+  }
+  // The ways in, each from where it starts to the landmark nearest it, and one to the edge from the settlement it is
+  // known by where none comes to the edge.
+  private static ways(zone: Wilds, region: Region, marks: Landmark[]) {
+    const land = RegionGeography.atlas(region).land, edge = marks[0]!;
+    const ways = this.starts(zone, region).map(s => ({ s, to: this.nearest(land, marks, s.cell) }));
+    if (!ways.some(w => w.to === edge)) {
+      const by = this.from(region, zone);
+      ways.push({ s: { from: `${by.id}_green`, cell: by.cell!, through: false, by: by.name }, to: edge });
+    }
+    return ways;
+  }
+  // The ways a site's way is told by (RegionSites, leadsVia): the way in that comes to the landmark the telling begins
+  // from, and the trails on from it, landmark by landmark, to where the site's track starts (as route says them).
+  static told(region: Region, zone: Wilds, part: number): string[] {
+    const all = this.landmarks(region, zone), land = RegionGeography.atlas(region).land;
+    const to = all.find(l => l.id === this.room(zone, part))!, tree = this.tree(land, all);
+    const path = all.filter((l, i) => i === 0 || l.side).map(e => this.path(land, all, e, to))
+      .sort((a, b) => a.length - b.length)[0]!;
+    const trails = path.slice(1)
+      .map((m, i) => tree.findIndex(([a, b]) => (a === path[i] && b === m) || (a === m && b === path[i])));
+    const ways = this.ways(zone, region, all).flatMap((w, i) => w.to === path[0] ? [`${zone.id}_way${i + 1}`] : []);
+    return [...ways, ...trails.map(i => `${zone.id}_trail${i + 1}`)];
   }
   // Leaving the trails: from a landmark, straight across the country to another the company has been to, quicker but
   // risked. Somewhere with a view, or someone who reads wild country, keeps you right; otherwise you may lose the
@@ -222,6 +246,8 @@ export class RegionZones {
     return [`  Place ${z}_lost ${q(this.fill(t.lost.name, { zone: name }))} is room within ${z} outdoors.`,
       `  Observe ${z}_lost_scene at ${z}_lost as fixture when true ${q(this.fill(t.lost.scene, { zone: name }))}.`,
       `  Entity ${z}_mapped: fact ${q(`You know the lie of ${name}: its paths, its water, and which way the edges lie.`)}.`,
+      // Its paths are ways the company can set out along, as if it had walked them (leadsVia).
+      ...this.passages(region, zone).map(w => `  Initially Assert leadsVia(${z}_mapped, ${w}).`),
       `  Relation ${z}_across(place, place). Relation ${z}_heading(group, place). Relation ${z}_astray(group). Relation ${z}_casting(group).`,
       `  Measure ${z}_span(place, place).`,
       ...across,

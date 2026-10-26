@@ -1,7 +1,9 @@
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { ModuleWriter } from '../lang/module-writer';
+import { ObservationText } from '../lang/observation-text';
 import { PlayerView } from '../presentation/player-view';
 import { Itineraries, type Leg } from '../ui/itinerary';
+import { PassageModel } from '../ui/passage-model';
 
 // A journey made: each leg as it was done (its command and what came of it), and why it stopped where it did.
 export interface Journeyed {
@@ -25,10 +27,15 @@ export class Travel {
     const done: Journeyed = { legs: [], arrived: false };
     for (let guard = 0; guard < 40; guard++) {
       const plan = Itineraries.plan(t.campaign, destination);
-      if (!plan) { done.arrived = this.at(t.campaign, destination); break; }
+      if (!plan) {
+        done.arrived = this.at(t.campaign, destination);
+        // Toward a place whose way is not known, as far as the edge of the country it is said to lie in.
+        if (!done.arrived) { done.stopped = `You know no way on to ${ObservationText.label(t.campaign.world, destination)}`; }
+        break;
+      }
       const leg = plan.legs[0]!, choice = PlayerView.choices(t.campaign)
         .find(c => /^go\(/.test(c.choice.id) && c.choice.id.startsWith(`go(${leg.passage},`));
-      if (!choice) { done.stopped = `${leg.way} will not let you by from here`; break; }
+      if (!choice) { done.stopped = this.barred(t.campaign, leg); break; }
       const before = this.condition(t.campaign);
       const event = await t.perform(choice.choice.id, choice.choice.name);
       done.legs.push({ command: choice.choice.id, said: choice.choice.name, event });
@@ -37,6 +44,14 @@ export class Travel {
       if (why) { done.stopped = why; break; }
     }
     return done;
+  }
+  // Why a leg cannot simply be taken, in the words of what stands in the way: the river in spate, a rope wanted, a
+  // watcher. Before, a ford in spate was said only to "not let you by" (mere, in a newcomer's night).
+  private static barred(campaign: Campaign, leg: Leg): string {
+    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const way = new PassageModel(campaign.world, campaign.playerActor!, entities).ways(leg.from)
+      .find(w => w.passage === leg.passage && w.to === leg.to);
+    return way?.reason ? way.reason.replace(/\.$/, '') : `${leg.way} will not let you by from here`;
   }
   private static at(campaign: Campaign, destination: string): boolean {
     const here = campaign.world.one('at', campaign.playerActor!);

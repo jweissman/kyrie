@@ -23,6 +23,10 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   // What a fact tells of where something is (a site named, a country rumoured beyond a march): known, the place is on
   // the company's map, as told, before it has been there or knows the way.
   Relation leadsTo(fact, place).
+  // The ways a fact tells (the way to a ruin deep in a wood, landmark by landmark): known, the company knows them as if
+  // it had walked them, and can set out along them. The way into a place it has been told of it knows already: from
+  // where the place's own track starts.
+  Relation leadsVia(fact, passage).
   // What was so and is no longer (a child's fever, once it has broken or the child has died): still known to whoever
   // knew it, but no longer passed on as news.
   Relation stale(fact).

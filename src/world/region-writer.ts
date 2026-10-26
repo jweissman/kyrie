@@ -194,7 +194,7 @@ export class RegionWriter {
     }),
     ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`, `${w.id}_found`]), ...ways,
     ...roads.map(r => r.land),
-    ...zones.flatMap(z => [z.id, ...RegionZones.rooms(region, z)]),
+    ...zones.flatMap(z => [z.id, ...RegionZones.rooms(region, z), ...RegionZones.passages(region, z)]),
     ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`,
       // What is said of an authored country beyond, which the country marks old news once it is seen through.
       ...RegionBorders.remembers(region.beyond?.[b.side]) ? [`${RegionBorders.room(b)}_beyond`] : []]),

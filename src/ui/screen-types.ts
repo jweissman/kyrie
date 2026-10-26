@@ -23,6 +23,9 @@ export interface PlaceRef { id: string; name: string; kind: string }
 export interface ExitRow {
   id: string; kind: 'exit'; name: string; destination: PlaceRef; transition: Transition; passage: Passage;
   scope?: string; via?: string; blocked?: string; visited: boolean; acts: Act[]; way?: string; hazard?: string;
+  // A way about the settlement or site the company is in (a lane to the hall, a shaft to the level below), however
+  // long it takes: not a way out.
+  local?: boolean;
 }
 export interface TargetRow {
   id: string; kind: 'person' | 'creature' | 'animal' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
@@ -99,8 +102,10 @@ export interface Screen {
     // long it has left, and what there is to spare. "Rharash's torch, 40 minutes left · 2 torches to spare".
     light?: string };
   unplaced: Act[];
-  // The places the company knows the way to and could set out for, more than a step away, with the legs of the way.
-  destinations?: { id: string; name: string; minutes: number; legs: { way: string; to: string; minutes: number }[] }[];
+  // The places the company knows the way to and could set out for, more than a step away, with the legs of the way;
+  // and those it could set out toward, as far as the wild country a place is said to lie in.
+  destinations?: { id: string; name: string; minutes: number; toward?: string;
+    legs: { way: string; to: string; minutes: number }[] }[];
 }
 export interface Chart {
   // A way out of the plan is drawn as a place beyond it (external); one to another level of the site goes up or down.

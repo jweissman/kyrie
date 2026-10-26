@@ -137,8 +137,10 @@ export class Passages {
   private row(here: string, k: Known, acts: Act[], visited: Set<string>): ExitRow {
     const transition = k.mode && k.mode !== 'walk' ? k.mode : this.transition(here, k.destination);
     const scope = this.scope(here, k.destination, transition);
+    const area = Spatial.ancestry(this.entities, here).find(e => ['settlement', 'site'].includes(e.space!.kind));
+    const local = !!area && Spatial.ancestry(this.entities, k.destination).some(e => e.id === area.id);
     return { id: `exit:${k.destination}`, kind: 'exit', name: k.name ?? this.place(k.destination).name,
-      destination: this.place(k.destination), transition, passage: k.passage,
+      destination: this.place(k.destination), transition, passage: k.passage, ...local ? { local } : {},
       ...(scope ? { scope } : {}), ...(k.via ? { via: k.via } : {}),
       ...(acts.length && !k.blocked ? {} : { blocked: k.blocked ?? 'Not possible from here right now.' }),
       ...(k.way ? { way: k.way } : {}), ...(k.hazard ? { hazard: k.hazard } : {}),
