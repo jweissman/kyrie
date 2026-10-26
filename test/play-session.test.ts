@@ -30,7 +30,7 @@ describe('browser session command handling', () => {
     await session.perform('go(world__byre_door,world__byre)');
     // Through a door is a minute: no watch has passed, but the minute has.
     expect([session.campaign.state.elapsed, session.campaign.readout.minutes]).toEqual([0, 1]);
-    expect(session.transcript.steps).toEqual([{ command: 'go(world__byre_door,world__byre)' }]);
+    expect(session.transcript.steps).toEqual([{ command: 'go(world__byre_door,world__byre)', digest: expect.any(String) }]);
   });
   it('records the player side of an encounter and replays it to the identical canonical state', async () => {
     const played = await Fixture.play(await Fixture.start('ember'), ['wait']);
@@ -40,7 +40,7 @@ describe('browser session command handling', () => {
       chosen.push(command);
       return Promise.resolve(command);
     });
-    expect(played.transcript.steps[1]).toEqual({ command: 'attack(world__grey)', combat: chosen });
+    expect(played.transcript.steps[1]).toEqual({ command: 'attack(world__grey)', combat: chosen, digest: expect.any(String) });
     expect(played.campaign.events[1]!.combat.length).toBeGreaterThan(0);
     const replayed = await Fixture.start('ember');
     await replayed.replay(played.transcript.steps);

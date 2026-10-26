@@ -7,8 +7,10 @@ import { Tactics } from '../tactics';
 import { PlayerView } from '../presentation/player-view';
 import { Telling } from '../narrative/telling';
 import type { Memorial } from '../world/memorial';
+import { Digest } from './digest';
 
-export interface TranscriptStep { command: string; combat?: Command[] }
+// digest: what the game was after it (see Digest).
+export interface TranscriptStep { command: string; combat?: Command[]; digest?: string }
 export interface Transcript {
   version: 1; party?: CreatureGenerationContext[]; scenario: string; seed: string;
   steps: TranscriptStep[]; complete: boolean;
@@ -48,8 +50,13 @@ export class PlaySession {
   // handed: the checkpoint is the session's own from now on (owned), and was kept by this engine (trusted).
   static resume(checkpoint: SessionCheckpoint, handed: { owned?: boolean; trusted?: boolean } = {}): PlaySession {
     if (checkpoint.version !== 1) { throw new Error('Unsupported session checkpoint'); }
-    const t = checkpoint.transcript;
-    return new PlaySession(Campaign.restore(checkpoint.save, handed), t);
+    const t = checkpoint.transcript, session = new PlaySession(Campaign.restore(checkpoint.save, handed), t);
+    // Kept by this build, it is what its own record says it was after its last step (see Digest).
+    const last = t.steps.at(-1)?.digest;
+    if (handed.trusted && last && last !== Digest.of(session.campaign)) {
+      throw new Error('This game is not what its own record says it was: it cannot be opened as it was kept.');
+    }
+    return session;
   }
   // A bare Kyr save has no command history; continuing from it yields an incomplete transcript.
   static fromSave(save: CampaignSave, scenario = 'imported'): PlaySession {
@@ -100,7 +107,7 @@ export class PlaySession {
         // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
         voiced = Telling.tell(this.campaign, event);
       } catch (error) { this.campaign.undo(); throw error; }
-      this.steps.push(combat.length ? { command, combat } : { command });
+      this.steps.push({ command, ...combat.length ? { combat } : {}, digest: Digest.of(this.campaign) });
       if (voiced.length) { this.campaign.told(voiced); event.voiced = voiced; }
       return event;
     } finally { this.busy = false; }
@@ -116,12 +123,15 @@ export class PlaySession {
     return next ? Promise.resolve(next) : Promise.reject(new Error('Transcript ended during combat'));
   }
   async replay(steps: TranscriptStep[]): Promise<void> {
-    for (const step of steps) {
+    for (const [i, step] of steps.entries()) {
       const controller = PlaySession.scripted(step.combat ?? []);
       await this.perform(step.command, controller);
       const recorded = this.steps[this.steps.length - 1]!;
       if ((recorded.combat?.length ?? 0) !== (step.combat?.length ?? 0)) {
         throw new Error(`Transcript combat for ${step.command} did not match the encounter`);
+      }
+      if (step.digest && recorded.digest !== step.digest) {
+        throw new Error(`The replay came out otherwise than the game it replays, at step ${i + 1} (${step.command})`);
       }
     }
   }
