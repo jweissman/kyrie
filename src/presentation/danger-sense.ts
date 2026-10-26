@@ -12,6 +12,7 @@ export interface Reckoning { danger: Danger; text: string }
 // How a fight with a group would likely go, as the company reckons it before it starts: the fight played out a few
 // times from where everyone stands now, both sides fighting as the game's own tactics would. It decides nothing; it
 // is what a seasoned eye makes of the odds, said by the most seasoned member in words, not numbers.
+interface Trial { won: boolean; fell: string[]; hurt: number }
 export class DangerSense {
   static readonly trials = 6;
   private static readonly reckoned = new Map<string, Reckoning>();
@@ -36,25 +37,39 @@ export class DangerSense {
   // The fight played out: how often the company wins, and in a win, how many of it fall, how hurt it is, and who fell
   // most often.
   private static play(campaign: Campaign, ours: Creature[], foes: Creature[], key: string) {
-    const place = Environment.encounter(campaign.world, campaign.playerActor), falls = new Map<string, number>();
-    let wins = 0, fallen = 0, hurt = 0;
+    const place = Environment.encounter(campaign.world, campaign.playerActor), played: Trial[] = [];
     for (let trial = 0; trial < this.trials; trial++) {
-      const store = new CreatureStore(structuredClone([...ours, ...foes]));
-      const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
-        ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed: `${key}:${trial}`, maxTurns: 150,
-        ...place });
-      while (!battle.state.outcome) { battle.step(Tactics.choose(battle.state, battle.legalCommands())); }
-      if (battle.state.outcome !== 'fighters') { continue; }
-      const company = battle.state.combatants.filter(f => f.team === 'fighters');
-      wins++; fallen += company.filter(f => f.hp === 0).length;
-      for (const f of company.filter(x => x.hp === 0)) { falls.set(f.id, (falls.get(f.id) ?? 0) + 1); }
-      hurt += 1 - company.reduce((sum, f) => sum + f.hp, 0) / ours.reduce((sum, c) => sum + c.state.hp, 0);
+      played.push(this.trial(ours, foes, `${key}:${trial}`, place));
       // Half the trials lost leave no doubt.
-      if (trial === this.trials / 2 - 1 && wins === 0) { return { odds: 0, fallen: ours.length, hurt: 1 }; }
+      if (trial === this.trials / 2 - 1 && played.every(t => !t.won)) {
+        return { odds: 0, fallen: ours.length, hurt: 1 };
+      }
     }
+    // Six fights decide most reckonings; one in the uneven middle (could be lost, or likely won) is played six more
+    // times before it is said (M16's free play heard "you would likely beat them" of a fight won less than half the
+    // time, from four wins in six).
+    const first = played.filter(t => t.won).length / this.trials;
+    for (let trial = this.trials; first >= 0.25 && first < 0.9 && trial < this.trials * 2; trial++) {
+      played.push(this.trial(ours, foes, `${key}:${trial}`, place));
+    }
+    const won = played.filter(t => t.won), falls = new Map<string, number>();
+    for (const id of won.flatMap(t => t.fell)) { falls.set(id, (falls.get(id) ?? 0) + 1); }
     const frail = [...falls].sort((a, b) => b[1] - a[1])[0]?.[0];
-    return { odds: wins / this.trials, fallen: wins ? fallen / wins : ours.length, hurt: wins ? hurt / wins : 1,
-      ...frail ? { frail } : {} };
+    return { odds: won.length / played.length,
+      fallen: won.length ? won.reduce((n, t) => n + t.fell.length, 0) / won.length : ours.length,
+      hurt: won.length ? won.reduce((n, t) => n + t.hurt, 0) / won.length : 1, ...frail ? { frail } : {} };
+  }
+  // One fight played out: whether the company won it, who of it fell, and how hurt it came out.
+  private static trial(ours: Creature[], foes: Creature[], seed: string,
+    place: ReturnType<typeof Environment.encounter>): Trial {
+    const store = new CreatureStore(structuredClone([...ours, ...foes]));
+    const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
+      ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: 150, ...place });
+    while (!battle.state.outcome) { battle.step(Tactics.choose(battle.state, battle.legalCommands())); }
+    if (battle.state.outcome !== 'fighters') { return { won: false, fell: [], hurt: 1 }; }
+    const company = battle.state.combatants.filter(f => f.team === 'fighters');
+    return { won: true, fell: company.filter(f => f.hp === 0).map(f => f.id),
+      hurt: 1 - company.reduce((sum, f) => sum + f.hp, 0) / ours.reduce((sum, c) => sum + c.state.hp, 0) };
   }
   // Anyone falling in any of the fights played out makes it a hard one: one who falls may not get up. Who would
   // fall is said by name (Wenna, at seven hit points, where the beetles are no match for Tharash).

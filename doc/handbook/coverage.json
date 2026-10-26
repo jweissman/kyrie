@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 197,
+    "kyr": 207,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 192,
+      "kyr": 196,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 1,
+      "kyr": 7,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10477,6 +10477,13 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.speed",
+   "title": "speed",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.purse",
    "title": "purse, appraised",
    "status": "kyr",
@@ -10687,6 +10694,13 @@
    "section": "world-rules/rules-care"
   },
   {
+   "id": "rule:care.learn_skill",
+   "title": "learn skill",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
+  },
+  {
    "id": "rule:care.learn_spell",
    "title": "learn spell",
    "status": "kyr",
@@ -10748,6 +10762,13 @@
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-care"
+  },
+  {
+   "id": "rule:world_core.ending",
+   "title": "ending, reached",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
   },
   {
    "id": "rule:world_core.difficulty",
@@ -10976,6 +10997,13 @@
   {
    "id": "rule:discovery_rules.staged",
    "title": "staged",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-discovery"
+  },
+  {
+   "id": "rule:discovery_rules.leadsTo",
+   "title": "leadsTo",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-discovery"
@@ -11758,8 +11786,50 @@
    "section": "making-worlds/frameworks"
   },
   {
+   "id": "campaign:hold-one-season",
+   "title": "Hold One Season",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:let-one-remember",
+   "title": "The Road the Star Came Down",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:low-water",
+   "title": "Low Water",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:the-house-that-grows",
+   "title": "The House That Grows",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:the-long-man",
    "title": "The Long Man",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:the-patient-star",
+   "title": "The Patient Star",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:thrume",
+   "title": "Thrume",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

@@ -45,8 +45,11 @@ export class Engagement {
     const many = (host.tickState.definition.actors.find(a => a.id === foe)?.members.length ?? 1) > 1;
     return `${name.charAt(0).toUpperCase()}${name.slice(1)} ${many ? 'come' : 'comes'} at you!`;
   }
-  // The attack the company is drawn into: the standard attack, against the assailant, where they stand.
+  // The attack the company is drawn into: the standard attack, against the assailant, where they stand. A company
+  // that has just run from a fight it chose has gone back the way it came first, and is not fallen on again by what
+  // it ran from (the cold playtest fled the cave spiders, and "The ferocious cave spiders come at you!" followed).
   static assault(host: EngagementHost): Operator | undefined {
+    this.withdraw(host);
     const foe = this.foe(host), player = host.playerActor;
     if (!foe || !player) { return undefined; }
     const here = host.world.one('at', player);
@@ -56,7 +59,7 @@ export class Engagement {
   static after(host: EngagementHost, first: CampaignEvent, fight: CampaignEvent, foe: string): CampaignEvent {
     const player = host.playerActor!, world = host.world;
     const changes: Change[] = [{ kind: 'retract', call: ModuleWriter.call('assails', foe, player) }];
-    const ran = fight.combat.some(e => e.type === 'end' && e.outcome === 'escaped' && e.fled?.team !== 'goblins');
+    const ran = this.ran(fight);
     const here = world.one('at', player);
     const back = ran ? this.cameFrom(host.events, player, here) : undefined;
     if (back && here) {
@@ -76,6 +79,25 @@ export class Engagement {
         ...(first.perceptions?.length ? { perceptions: first.perceptions } : {}) }, ...(back ? { fledTo: back } : {}) };
     host.amend(told);
     return told;
+  }
+  private static withdraw(host: EngagementHost) {
+    const event = host.events.at(-1), player = host.playerActor, world = host.world;
+    if (!event || !player || !this.ran(event)) { return; }
+    const here = world.one('at', player), back = this.cameFrom(host.events.slice(0, -1), player, here);
+    if (!back || !here) { return; }
+    // Whoever would have come at it where it stood does not, and is not said to: the company has gone.
+    const foe = this.foe(host), gone = foe && this.announced(host, foe, (event.perceptions ?? []).filter(p => p.kind === 'event'));
+    const after = world.apply([{ kind: 'retract', call: ModuleWriter.call('at', player, here) },
+      { kind: 'assert', call: ModuleWriter.call('at', player, back) },
+      ...foe ? [{ kind: 'retract' as const, call: ModuleWriter.call('assails', foe, player) }] : []]);
+    host.commitWorld(after);
+    const { response, ...rest } = event;
+    host.amend({ ...rest, ...response && response !== gone ? { response } : {},
+      perceptions: event.perceptions?.filter(p => p.text !== gone),
+      changes: [...event.changes, ...CampaignTick.diff(world, after)], fledTo: back });
+  }
+  private static ran(event: CampaignEvent): boolean {
+    return event.combat.some(e => e.type === 'end' && e.outcome === 'escaped' && e.fled?.team !== 'goblins');
   }
   // The place the company was in before it came here, from what the log records.
   private static cameFrom(events: CampaignEvent[], player: string, here: string | undefined): string | undefined {

@@ -230,7 +230,7 @@ export class Campaign implements WatchHost {
       battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
       if (battle) { play(battle); }
       const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
-      if (!assault) { return event; }
+      if (!assault) { return structuredClone(this.log.at(-1) ?? event); }
       battle = this.encounterBattle(assault.id); play(battle);
       const fight = this.complete(assault, this.checkpoint(), battle);
       return Engagement.after(this, event, fight, assault.bindings!.opponent!);
@@ -245,7 +245,7 @@ export class Campaign implements WatchHost {
       battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
       if (battle) { await play(battle); }
       const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
-      if (!assault) { return event; }
+      if (!assault) { return structuredClone(this.log.at(-1) ?? event); }
       battle = this.encounterBattle(assault.id); await play(battle);
       const fight = this.complete(assault, this.checkpoint(), battle);
       return Engagement.after(this, event, fight, assault.bindings!.opponent!);

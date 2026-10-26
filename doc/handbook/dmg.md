@@ -70,7 +70,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 24 | 8 | 2 | 7 | 18 |
+| 2 | 24 | 9 | 2 | 7 | 18 |
 
 #### relieves
 
@@ -121,6 +121,12 @@ Says: "You go easier for what you have set down."
 > When: weighed(?a); not (laden(?a))
 
 > Then: Retract weighed(?a).
+
+#### speed
+
+*Kyr · measure(member)* · `rule:belongings.speed`
+
+How fast a member goes, in hundredths of their own, where a module says (the stilling: half at a point of dose); unset is their own. A company walks at its slowest member's speed, and laden at half that.
 
 #### purse, appraised
 
@@ -428,11 +434,11 @@ Someone who deals in valuables says what a thing is worth, when it is worth more
 
 ### Rest, mending and lessons
 
-Also kept, without comment: swappable, improvable, learnable, featOpen, memberOf, fieldUsable, restful, offeredAt, giftEffect, rewardFor, claimed.
+Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpen, memberOf, fieldUsable, restful, offeredAt, giftEffect, rewardFor, claimed.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 18 | 1 | 0 | 2 | 9 |
+| 6 | 19 | 1 | 0 | 2 | 10 |
 
 #### awake, fallen, slain, needsCare, canCast, treatable
 
@@ -476,9 +482,23 @@ An hour of study or prayer. A spell prepared in a slot still ready can be cast a
 - Takes: 10 minutes
 - Costs: 1
 
-Each level gained lets a companion raise one quality by a point. Strength lands blows and Dexterity turns them; Constitution adds hit points at the next level; Intelligence, Wisdom or Charisma feeds a caster's spells.
+Each level gained gives a companion one development: a point of a quality, or a skill their calling teaches. Strength lands blows and Dexterity turns them; Constitution adds hit points at the next level; Intelligence, Wisdom or Charisma feeds a caster's spells and what they can be talked or taught into.
 
 > Needs: able(actor); memberOf(member, actor); awake(member); improvable(member)
+
+> Then: nothing changes
+
+#### learn skill
+
+*Kyr · action (group, member, capability)* · `rule:care.learn_skill`
+
+- Shown as: Have {member} take up {skill}
+- Takes: 10 minutes
+- Costs: 1
+
+Each level gained gives a companion one development: a point of a quality, or a skill their calling teaches. A skill opens what it is for (a lock picked, a wound bound, a lie told) and counts as trained in every check that rests on it.
+
+> Needs: able(actor); memberOf(member, actor); awake(member); skillOpen(member, skill)
 
 > Then: nothing changes
 
@@ -596,7 +616,13 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 13 | 32 | 11 | 5 | 1 | 8 |
+| 14 | 33 | 11 | 5 | 1 | 8 |
+
+#### ending, reached
+
+*Kyr · kind; relation(ending)* · `rule:world_core.ending`
+
+An ending an author writes (Ending … when … "epilogue"): reached once, and the book closes on it.
 
 #### difficulty
 
@@ -870,7 +896,7 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 18 | 0 | 0 | 0 | 5 |
+| 2 | 19 | 0 | 0 | 0 | 5 |
 
 #### readIn
 
@@ -884,6 +910,12 @@ Known by reading it (a tally, a tablet): the writing's own account, as good as w
 
 A place where a story is being told (a cart gone off the road, a man under it), and the story: nothing else that could be taken for part of it happens there by chance (a carrier's wheel in the ditch).
 
+#### leadsTo
+
+*Kyr · relation(fact, place)* · `rule:discovery_rules.leadsTo`
+
+What a fact tells of where something is (a site named, a country rumoured beyond a march): known, the place is on the company's map, as told, before it has been there or knows the way.
+
 #### stale
 
 *Kyr · relation(fact)* · `rule:discovery_rules.stale`
@@ -894,9 +926,11 @@ What was so and is no longer (a child's fever, once it has broken or the child h
 
 *Kyr · action (group, source, fact, place)* · `rule:discovery_rules.examine`
 
-- Shown as: Examine {witness}
+- Shown as: Read {witness}
 - Takes: 10 minutes
 - Costs: 1
+
+What a source tells is read in it (a notice, a ledger, notches cut in stone), and is said so.
 
 > Needs: able(actor); at(actor, site); at(witness, site); not (benighted(actor)); noticeable(witness); intact(witness); mayExamine(actor, witness); reveals(witness, statement); established(statement); not (learnedFrom(actor, witness, statement))
 
@@ -1562,7 +1596,7 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 
 *Kyr · action (group, change, entity, condition, condition, item, itemkind, member)* · `rule:world_passages.change_thing_spending`
 
-- Shown as: {how}, using {carrier}'s {spent}
+- Shown as: {how}, using {spent}
 - Takes: 10 minutes
 - Costs: 1
 
@@ -1579,6 +1613,8 @@ What it takes is used up doing it.
 - Shown as: {how}
 - Takes: 10 minutes
 - Costs: 1
+
+Said by the thing's own name ("the Abbess's Eye is used up", not "Elen's the Abbess's Eye").
 
 > Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); consumes(how, spent); quantity(actor, spent) >= 1
 
@@ -1995,6 +2031,42 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 The worlds that ship with the game.
 
+### Hold One Season
+
+*Kyr* · `campaign:hold-one-season`
+
+- Regions and sites: season
+- Kits placed: —
+
+> You owe the Cutters' Mutual fourteen felt-lengths. Your uncle Garret walked into an open granary vault under the glass last autumn and has stood in its light ever since, alive. The Mutual's Master will halve your debt the day he walks into her hall on his own feet.
+
+### The Road the Star Came Down
+
+*Kyr* · `campaign:let-one-remember`
+
+- Regions and sites: corrow
+- Kits placed: —
+
+> Ninety years after the star at the bottom of the Well got up and went after the jewel, the floating mountain the Corrow calls Hightown is drifting on its chain toward the lake it was lifted out of, the memory-stones are going blank, and lost things are coming home. Something in the grey country beyond the Seam is gathering itself a syllable at a time, and a new star is brightening over the Teskarn. It begins in the Stake ruins in the last week of autumn; it ends at the end of the road the star came down. Choose three companions.
+
+### Low Water
+
+*Kyr* · `campaign:low-water`
+
+- Regions and sites: lowwater
+- Kits placed: —
+
+> Ammerlin goes down the inside of an old crater in four terraces, and its life is the water of the Stair. For three years the Mere at the bottom has been falling, and everybody in the city has a reason, and every reason is also a claim on somebody else's water. The Office of Measures has engaged you as Independent Assessor, because nobody who lives there can be neutral. Choose three companions.
+
+### The House That Grows
+
+*Kyr* · `campaign:the-house-that-grows`
+
+- Regions and sites: hhg
+- Kits placed: —
+
+> You are in your second year learning the Watch, and Kezu of Cobble Ring is your teacher. Two nights ago she sat up with a room of glass that fell into Haddo's barley, and at dawn she shut her eyes on purpose and let its small door open. Since then she sleeps too much, and lies about her dreams.
+
 ### The Long Man
 
 *Kyr* · `campaign:the-long-man`
@@ -2003,6 +2075,24 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > At the head of Merrowdale a long green ridge lies across the valley, and the village under it says a giant king is buried there. Something tall walks its crest at night. The steward of the Hall has posted forty crowns for whoever will lay it, and the autumn storm is three days off. Choose three companions.
+
+### The Patient Star
+
+*Kyr* · `campaign:the-patient-star`
+
+- Regions and sites: season
+- Kits placed: —
+
+> Two thousand years ago a seed fell on the Ghessil Uplands and did not go out. Its light stops time in stone and slows it in flesh. You are a cutter of Quell, in debt; your uncle has stood eleven months in an open granary vault under the glass, alive. Under the plateau a citadel is building itself downward, and above it something is coming down the light.
+
+### Thrume
+
+*Kyr* · `campaign:thrume`
+
+- Regions and sites: thrume
+- Kits placed: —
+
+> In the salt town under the fells, people pay to sleep, and some of them do not come home. The giants of Thrume have come down off the mountain for the first time in living memory, and the Margravine of Ebb will pay a barony for the thane's head before the Duke of Harle's host crosses the river. Choose three companions.
 
 ## Appendix: Orsino's world material
 

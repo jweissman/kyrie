@@ -29,6 +29,22 @@ Played from the title page at 1280 × 860:
 
 ## Done and verified
 
+- **C. A fight told truly** (the cold playtest's finding 3, met again in free play: Sefa and her brother against a
+  toll sergeant).
+  - The ending names everyone who fell, the one the player made first, and counts both sides ("one against two"),
+    no longer "one against one" whenever there was one foe.
+  - A company that runs from a fight it chose goes back the way it came, as one that runs from an ambush does.
+    Before, it stayed where it stood, and what it ran from fell on it again in the same command ("The Wet comes down
+    the gallery at you", then a second fight).
+  - A danger reckoned in the uneven middle (could be lost, or likely won) is played six more times before it is said:
+    free play heard "you would likely beat them" of a fight the company wins less than half the time.
+  - Tried and left: shortening Sweeping Strike's knockdown (three rounds to one, with a recharge), because the
+    sergeant kept the brother on the ground. Two hundred simulated fights of that toll fight showed it made things
+    worse for the company (45% of fights won → 26%) and twice as long (13 rounds → 29): a company's own warrior keeps
+    a lone foe down at least as often. Reverted, and recorded here.
+
+  Tests: `test/engagement.test.ts`, `test/obituary.test.ts`.
+
 - **E. A game kept in the browser is kept whole, and says when it cannot be** (the architecture review of 26 October,
   N1 and N2).
   - The state and the world are each written to the slot not in use, and the summary that names the slots is

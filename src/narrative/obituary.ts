@@ -19,6 +19,10 @@ export class Obituary {
     const party = new Set(campaign.readout.partyIds), names = this.names(campaign);
     const fallen = (last?.combat ?? []).filter((c): c is Death => c.type === 'death' && party.has(c.actor));
     const one = fallen.at(-1)?.actor, who = one ? names.get(one) ?? 'You' : 'You';
+    // Everyone of the company who fell, the one who began it first (the cold playtest's epitaph named only the last
+    // companion to fall, and not the one the player made).
+    const first = campaign.readout.partyIds[0], all = [...new Set(fallen.map(c => c.actor))]
+      .sort((a, b) => Number(b === first) - Number(a === first)).map(id => names.get(id) ?? 'You');
     const place = campaign.module.entities.find(e => e.id === campaign.world.one('at', campaign.playerActor ?? 'party'))?.name;
     const title = party.size > 1 ? 'No one is left standing' : `${who} is dead`;
     if (!last || !one) { return { title, lines: [`It is over${place ? `, at ${place}` : ''}.`] }; }
@@ -32,10 +36,13 @@ export class Obituary {
     const foes = new Set(last.combat.filter((c): c is Of<'action'> => c.type === 'action' && !party.has(c.command.actor))
       .map(c => c.command.actor));
     return { title, lines: [
-      `${who} fell${fell ? ` at ${fell}` : ''}, ${FictionalTime.part(last.elapsed)} of ${this.day(last.elapsed)}.`,
+      `${this.list(all.length ? all : [who])} fell${fell ? ` at ${fell}` : ''}, ${FictionalTime.part(last.elapsed)} of ${
+        this.day(last.elapsed)}.`,
       this.began(campaign, last, names),
       killer ? `${this.upper(killer)} struck the last blow${weapon ? ` with ${weapon}` : ''}${blow!.amount ? `, for ${blow!.amount}` : ''}.` : '',
-      `${rounds > 1 ? `It lasted ${rounds} rounds` : 'It was over in a round'}; ${foes.size > 1 ? `${foes.size} against ${party.size === 1 ? 'one' : party.size}` : 'one against one'}.`,
+      // How many against how many, as it was: not "one against one" for one against two (the cold playtest).
+      `${rounds > 1 ? `It lasted ${rounds} rounds` : 'It was over in a round'}; ${this.count(Math.max(1, foes.size))
+      } against ${this.count(party.size)}.`,
       'The country goes on without you. What you did there is in the story so far.',
     ].filter(Boolean), memorial: { name: who, place: where,
       how: killer ? `${this.upper(killer)} killed ${who}.` : 'Nobody saw how.' } };
@@ -83,6 +90,10 @@ export class Obituary {
   private static day(elapsed: number): string {
     const n = Number(/^Day (\d+)/.exec(FictionalTime.at(elapsed))?.[1] ?? 1);
     return ['the first day', 'the second day', 'the third day', 'the fourth day', 'the fifth day'][n - 1] ?? `day ${n}`;
+  }
+  private static count(n: number): string { return ['one', 'two', 'three', 'four', 'five', 'six'][n - 1] ?? String(n); }
+  private static list(items: string[]): string {
+    return items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items.at(-1)!}`;
   }
   private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   private static lower(s: string): string { return s.charAt(0).toLowerCase() + s.slice(1); }

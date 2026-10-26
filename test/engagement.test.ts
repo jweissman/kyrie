@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { PlayerView } from '../src/presentation/player-view';
 import type { Battle } from '../src/battle';
 import type { Command } from '../src/model';
 
@@ -44,6 +45,21 @@ describe('people who fall on the company', () => {
     expect([event.fledTo, Watch.where(s)]).toEqual(['world__lane', 'world__lane']);
     // The sentry is still at his post, and will challenge them again.
     expect(s.campaign.world.test(ModuleWriter.call('at', 'world__sentry', 'world__gatehouse'))).toBe(true);
+  }, 60000);
+  // The cold playtest fled the cave spiders it had attacked, and was told "The ferocious cave spiders come at you!"
+  // with nothing after: a company that runs from a fight it chose stayed where it stood, and what it ran from fell on
+  // it again in the same command. It goes back the way it came, and nothing comes after it.
+  it('puts a company that runs from a fight it chose back the way it came, and nothing falls on it there', async () => {
+    const s = await PlaySession.start('data/campaigns/the-long-man.campaign.json', 'merrow', NodeBundleSource.shared);
+    for (const way of [/Merrow green/, /Hall yard/, /crest/, /sinkhole/]) {
+      await s.perform(PlayerView.choices(s.campaign).find(c => way.test(c.choice.name))!.choice.id);
+    }
+    expect(Watch.where(s)).toBe('longman__leak');
+    const attack = PlayerView.choices(s.campaign).find(c => /^Attack the Wet/.test(c.choice.name))!.choice.id;
+    const event = await s.perform(attack, Watch.run);
+    expect(event.combat.filter(e => e.type === 'end').length).toBe(1);
+    expect([event.fledTo, Watch.where(s)]).toEqual(['longman__crest', 'longman__crest']);
+    expect(JSON.stringify(event)).not.toContain('comes down the gallery at you');
   }, 60000);
   it('sends the patrol after a company that gets into the yard, and they fall on it there', async () => {
     const s = await Watch.start();
