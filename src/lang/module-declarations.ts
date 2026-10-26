@@ -27,6 +27,13 @@ export class ModuleDeclarations {
     action.requires = and(action.requires, { kind: 'or', left: here, right: along });
   }
   private static call(name: string, ...args: string[]): Predicate { return { kind: 'call', name, args }; }
+  // What the language writes for an Ending is its own: a module's `concluded` was one with its Ending's, which could
+  // then never be reached (the architecture review's A16). The language's other names (reached, achieved, merit,
+  // unopened) are the shared rules', and a module's own is made its own apart (see ModuleShadow).
+  private static own(s: Signature): Signature {
+    if (s.name === Endings.concluded) { throw new Error(`${s.name} is the language's own: an Ending writes it`); }
+    return s;
+  }
   private static and(left: Predicate, right: Predicate): Predicate { return { kind: 'and', left, right }; }
   // One declaration, joined to the module it is in.
   static declare(module: Module, { field, value }: Field,
@@ -50,7 +57,7 @@ export class ModuleDeclarations {
       case 'rule': (module.rules ??= []).push(value as NonNullable<Module['rules']>[number]); break;
       case 'observation': (module.observations ??= []).push(value as NonNullable<Module['observations']>[number]); break;
       case 'kind': module.kinds.push(value as string); break;
-      case 'relation': module.relations.push(value as Signature); break;
+      case 'relation': module.relations.push(ModuleDeclarations.own(value as Signature)); break;
       case 'measure': module.measures.push(value as Signature); break;
       case 'query': module.queries.push(value as Query); break;
       case 'entity': module.entities.push(value as Module['entities'][number]); break;
