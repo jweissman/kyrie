@@ -81,7 +81,7 @@ the cold playtest (`review/cold-playtest-2026-10-25`) arrived on 2026-10-25. Wha
 - **II.A. Four independent adventures on `main`, on the title page.** Thrume (93d03f4), The House That Grows
   (41ba11a), The Road the Star Came Down (5a2dec7, its branch's head as it moved) and The Patient Star with Hold One
   Season (0efdc56), each as written but for what the language's later rules asked (named in each commit), each
-  played by its own journeys and offered beside The Long Man.
+  played by its own journeys and offered beside The Long Man on the title page, under `?dev` only (the review's E1).
 - **I.G. A frontier game replayed in another process.** The wander of 120 commands from a1 across five marches (16 to
   35 modules), played through the browser's engine (`EngineHost`), and its transcript replayed by `bin/kyrie replay`
   in a fresh process (26 s), come to the same canonical state, once the scenario's path is read the same (the engine
