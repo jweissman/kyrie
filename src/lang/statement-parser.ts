@@ -1,5 +1,6 @@
 import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
+import { KyrText } from './kyr-text';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
@@ -59,7 +60,19 @@ export class StatementParser {
     return { kind: 'deem', expression: parts.sourceString.trim() };
   }
   static Integer(this: Node, _digits: Node) { return { kind: 'number', value: Number(this.sourceString) }; }
-  static String(this: Node, _open: Node, _chars: Node, _close: Node) { return JSON.parse(this.sourceString) as string; }
+  static String(this: Node, _open: Node, _chars: Node, _close: Node) {
+    return StatementParser.unquote(this.sourceString);
+  }
+  // A Kyr string: JSON's escapes, any other character escaped as itself (it\'s), and a brace escaped as a brace that
+  // names nothing (\{closed\}), kept apart until it is told (see ObservationText.render). The grammar allowed any
+  // escape, and the reading refused all but JSON's (the architecture review's A25).
+  static unquote(source: string): string {
+    const text = source.slice(1, -1);
+    return !text.includes('\\') ? text : text.replace(/\\(u[0-9a-fA-F]{4}|[\s\S])/g, (_, c: string) => c.length > 1
+      ? String.fromCharCode(parseInt(c.slice(1), 16)) : StatementParser.escapes[c] ?? c);
+  }
+  static readonly escapes: Record<string, string> = { n: '\n', t: '\t', r: '\r', b: '\b', f: '\f',
+    '{': KyrText.brace[0], '}': KyrText.brace[1] };
   static Kind(_kind: Node, name: Node, _dot: Node): Field { return { field: 'kind', value: name.sourceString }; }
   static Parameter(name: Node, _colon: Node, type: Node) {
     return { name: name.sourceString, type: type.sourceString };

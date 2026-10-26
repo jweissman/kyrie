@@ -3,6 +3,7 @@ import type { Call, Entity } from './module';
 import { ModuleWriter } from './module-writer';
 import { World } from './world';
 import { Reads } from './reads';
+import { KyrText } from './kyr-text';
 
 // Authored text may reference numeric measures, `{quantity(party, gold)}`, and entities by id, `{guest}`. An entity
 // reference renders the entity's current name, so portable text can name whatever its roles were bound to. A rule's
@@ -83,7 +84,8 @@ export class ObservationText {
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {
     const rendered = this.map(text, call => String(world.number(call, binding)),
       id => this.label(world, binding[id] ?? id, binding));
-    return capitalize ? this.sentences(rendered) : rendered;
+    const told = rendered.replaceAll(KyrText.brace[0], '{').replaceAll(KyrText.brace[1], '}');
+    return capitalize ? this.sentences(told) : told;
   }
   // Names are lower-case nouns ("the rising river"); a sentence that starts with one is capitalized. A quotation
   // that ends in a question or a cry goes on into who said it ("'Murkstede?' says Hob"); one that ends in a full stop
