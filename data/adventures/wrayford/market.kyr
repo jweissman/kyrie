@@ -219,7 +219,7 @@ Module wrayford "The Third Night" {
   }
   Action argue_ring(actor: group, recipient: member, site: place) "Tell Mistress Pratt that the ring was pawned before Joss was any felon, and is the pawn's, not the lord's" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, pawnshop) and at(pratt, pawnshop)
-      and knows(actor, ring_pawned) and not ringFreed(actor) and not triedPratt(actor) and memberOf(recipient, actor)
+      and knows(actor, ring_pawned) and not ringFreed(actor) and not triedPratt(actor) and not ruling(ruled_felon) and memberOf(recipient, actor)
       and quantity(actor, gold) >= 4.
     Time 2 minutes.
     Resolve check(actor, persuasion, dc_fair).

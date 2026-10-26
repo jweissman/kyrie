@@ -107,3 +107,29 @@ describe('The Third Night: what a build brings', () => {
     expect(g.ending()).toEqual([w('third_man')]);
   }, 240000);
 });
+
+describe('The Third Night: the satire', () => {
+  it('the portrait painted true, wept over by its sitter, carries the motion to release the dead without his wife\'s word', async () => {
+    const g = await Wrayford.start(build('warrior'));
+    await g.fixture('portrait', 'day1');
+    expect(g.holds('state', 'portrait', 'true_likeness')).toBe(true);
+    await g.fixture('portrait', 'bench');
+    expect(g.holds('portraitHung', 'wray')).toBe(true);
+    expect(g.holds('honoriaLobbies', 'honoria')).toBe(false);
+    expect(g.holds('clauseRelease', 'wray')).toBe(true);
+    // A clause that gives the reeve cover is not the clause that keeps the dead up as the Company's surety.
+    expect(g.holds('clauseWorse', 'wray')).toBe(false);
+  }, 240000);
+
+  it('the dead ruled goods of a felon: the crowd angrier, the collector bound by his ruling, the pawnbroker armed with it', async () => {
+    const g = await Wrayford.start();
+    await g.play('To Northgate', 'To the Market Cross', 'Bridge End', 'Read the Company\'s new toll-board', 'Talk to Amos', 'goods of a felon');
+    expect(g.holds('ruling', 'ruled_felon')).toBe(true);
+    expect(g.measure('temper', 'wray')).toBe(1);
+    expect(g.j.offers('a dead man is a carcass')).toBe(false);
+    await g.play('Take your leave', 'Ask the pie-seller about the youngest', 'To the Market Cross', 'Cutler\'s Lane', 'Into the pawnshop',
+      'about Joss Wilder\'s betrothal ring');
+    expect(g.j.offers('the ring was pawned before Joss was any felon')).toBe(false);
+    expect(g.j.offers('eight coin for Joss Wilder\'s ring')).toBe(true);
+  }, 240000);
+});

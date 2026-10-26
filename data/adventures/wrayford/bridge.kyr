@@ -51,6 +51,7 @@ Module wrayford "The Third Night" {
   Relation pinchGone(group).
   // The rulings: how a dead man crosses the bridge, by the board.
   Relation ruling(entity). Relation pinchFlustered(group). Relation pinchCowed(group).
+  Discovery ruled_felon "Pinch has ruled, in writing, at the chain, that the dead on the rail are goods of a felon: forfeit to the lord, not to pass. Whatever else they were, they are now a ruling.".
   Discovery ruled_carcass "Pinch rules that the dead may cross as carcasses, at three pence the hundredweight.".
   Discovery ruled_tithe "Pinch rules that the dead, claimed by the Abbess, cross free as her tithe.".
   Topic pinch_dead with pinch "Ask Pinch what it costs to carry a dead man over the bridge" when not pinchFlustered(pinch) once {
@@ -58,13 +59,15 @@ Module wrayford "The Third Night" {
   }
   Topic pinch_felon with pinch "Put it to Pinch that the dead are goods of a felon" when knows(actor, toll_schedule) and not pinchFlustered(pinch) once {
     Says "'Goods of a felon,' says Pinch, with relief, as if you had handed him something he had dropped. 'Forfeit to the lord. Not to pass. Yes.' He writes it down. 'That is very clear. Thank you.' Then he looks up at the rail, and at you, and for the first time something crosses his face that is not arithmetic. 'Was that what you wanted?'".
+    On discuss { Assert ruling(ruled_felon). Assert knows(actor, ruled_felon). Increase temper(wray) by 1. }
   }
-  Topic pinch_carcass with pinch "Put it to Pinch that a dead man is a carcass, by the hundredweight" when knows(actor, toll_schedule) and not pinchFlustered(pinch) and not ruling(ruled_carcass) once {
+  Topic pinch_carcass with pinch "Put it to Pinch that a dead man is a carcass, by the hundredweight" when knows(actor, toll_schedule) and not pinchFlustered(pinch) and not ruling(ruled_carcass) and not ruling(ruled_felon) once {
     Says "Pinch considers this with his whole face. 'A carcass,' he says. 'Three pence the hundredweight. A carcass is a dead beast. A man is not a beast. But the board does not say beast, it says carcass, and a dead man,' and he closes his eyes, and opens them, 'is a carcass. Wat Pardoe was a big man. Call it twelve stone, with the rope. One hundredweight and a half: four pence ha'penny. Dunstan Fenner, ten stone. Joss Wilder, a boy, nine.' He writes it all down in a small exact hand. 'One and a penny farthing for the three. In coin, at the chain.' The crowd has gone very quiet. Annis Pye, at her pitch, puts down the pie she was holding.".
     On discuss { Assert ruling(ruled_carcass). Assert knows(actor, ruled_carcass). }
   }
   Topic pinch_pilgrim with pinch "Put it to Pinch that Wat Pardoe is a pilgrim to Saint Wade's" when knows(actor, toll_schedule) and not pinchFlustered(pinch) once {
     Says "'On his own feet,' says Pinch at once. 'It says on his own feet. A pilgrim to Saint Wade's on his own feet: free. Wat Pardoe is not,' he looks up at the rail, and down again quickly, 'on his own feet. In the relevant sense.' Somebody in the crowd laughs, and then somebody else, and it is not a kind laugh, and it is not at the dead. Pinch goes red to the ears.".
+    On discuss { Increase temper(wray) by 1. }
   }
   Topic pinch_tithe with pinch "Put it to Pinch that the dead are the Abbess's tithe, and she has claimed them" when knows(actor, toll_schedule) and abbessClaims(abbess) and not pinchFlustered(pinch) and not ruling(ruled_tithe) once {
     Says "Pinch reads the Abbess's letter twice, holding it at arm's length as if it might bite. 'The Abbess's tithe,' he says. 'Free. By ancient privilege.' He looks at the board, which says so, in his own paint. 'The Company has always respected the Liberty's privilege,' he says, in the voice of a man repeating something he was told to say, and writes it down, and does not look up at the rail at all.".
