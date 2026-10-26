@@ -78,8 +78,10 @@ export class ObservationText {
     const role = e.roles?.find(r => world.test(r.when)), now = role ? { ...e, name: role.name } : e;
     return now.alias || (now.type !== 'group' && now.name.includes('{')) ? { ...now, name: this.label(world, e.id) } : now;
   }
+  // A measure in it is read with what its rule bound ("{gold(?g)}" was read of nobody, and said 0: the architecture
+  // review's A17).
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {
-    const rendered = this.map(text, call => String(world.number(call)),
+    const rendered = this.map(text, call => String(world.number(call, binding)),
       id => this.label(world, binding[id] ?? id, binding));
     return capitalize ? this.sentences(rendered) : rendered;
   }

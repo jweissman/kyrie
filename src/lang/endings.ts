@@ -44,8 +44,13 @@ export class Endings {
     const id = world.relates('reached') ? world.related('reached').map(r => r.args[0]!)
       .find(e => !chapters.some(c => e.startsWith(c))) : undefined;
     if (!id) { return undefined; }
-    const say = world.module.rules?.find(r => r.id === id)?.say;
+    const rule = world.module.rules?.find(r => r.id === id), say = rule?.say;
     const title = world.module.entities.find(e => e.id === id)?.name ?? id;
-    return { title, lines: say ? [ObservationText.render(say, world)] : [] };
+    // Said of whom it was reached by, where its condition names them ("?g leaves rich" was printed: the
+    // architecture review's A17).
+    const asked = rule?.when.kind === 'and' ? rule.when.left : undefined;
+    const binding = asked && say && ObservationText.variables(say).length
+      ? world.solve(asked, {}).next().value ?? {} : {};
+    return { title, lines: say ? [ObservationText.render(say, world, true, binding)] : [] };
   }
 }

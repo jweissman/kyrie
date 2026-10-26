@@ -97,6 +97,11 @@ export class ModuleCompiler {
       if (subject) { this.subject(o.id, o.anchor, subject, o.when); } else { this.anchor(module, o.place, o.anchor); }
       this.predicate(module, o.when); ModuleCompiler.bound(`Observation ${o.id}`, o.when);
       this.text(module, o.text, subject ? { [subject]: 'entity' } : {});
+      // What it speaks of is what its condition binds ("{?who} waits here." printed ?who: the review's A17).
+      const named = JSON.stringify(o.when);
+      for (const v of ObservationText.variables(o.text).filter(v => v !== subject && !named.includes(`"${v}"`))) {
+        throw new Error(`Observation ${o.id} speaks of ${v}, which its condition does not bind`);
+      }
       if (o.teaches && this.type(module, o.teaches) !== 'fact') { throw new Error(`${o.id} teaches ${o.teaches}, not a fact`); }
       if (o.about && !o.about.startsWith('?') && !this.type(module, o.about)) { throw new Error(`${o.id} is of ${o.about}, which is not an entity`); }
       if (o.aspect && !ModuleCompiler.aspects.includes(o.aspect)) {
