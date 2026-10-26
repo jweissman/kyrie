@@ -45,6 +45,15 @@ Module tessary "What Tessary Owes" {
   Topic scruples_asked with scruples "Ask the clerks at the desks what they are writing" when true once {
     Says "The nearest clerk finishes the line before looking up. 'Promises,' she says. 'As they are kept. A fishwife in the Withies has paid her rent. A ferryman has sworn to his wife on the Tideline Steps that he will not drink, and has drunk, and it is a small thing and the Balance has noted it. A great deal of the city stands on the old instruments without knowing it, you see. We write what is kept and what is not.' She dips her pen. 'Mostly it is not.'".
   }
+  Topic scruples_names with scruples "Ask the clerks what they are called" when true once {
+    Says "Three or four of the nearest clerks look up at once, which they evidently find embarrassing. 'By our offices,' says one. 'I am the Third Copyist of Settlements. He is the Clerk of Small Wagers. She has been the Second Weigher for two hundred years and will be for two hundred more.' He touches his wrist, where there is a pale band like the mark of a ring long worn. 'Our names are on the white floor beyond the Balance. One gives it at birth, as surety for a lifetime's exactness. One does not miss it. One cannot miss what one has never had.' The others go back to their pens, a little too quickly.".
+  }
+  Topic scruples_surface with scruples "Ask the clerks what they think of the city above" when true once {
+    Says "'Tessary?' The Clerk of Small Wagers puts down his pen. 'We write it down. We are very fond of it, in the way one is fond of weather.' He turns back a page. 'This morning a woman in the Withies swore on the Tideline Steps that she would never speak to her sister again, and at noon she spoke to her sister. The Balance holds the steps; we entered it.' He shakes his head. 'They do it all day. They do not know they are doing it. Sometimes I think the whole of the drowned city went down because nobody up there ever once meant what they said, and sometimes I think that is what I would like most to try.' The Second Weigher looks at him, and he picks up his pen.".
+  }
+  Topic scruples_sleep with scruples "Ask the clerks why they sleep standing" when true once {
+    Says "'One sleeps as one stands before the Balance,' says the Second Weigher, without looking up. 'Upright, and ready to be weighed.' A pause. 'Also, there is not room for beds. The Mathematical people built for a thousand clerks and there are eleven thousand of us. The archive takes precedence.'".
+  }
   Person copyist "the Fourteenth Copyist" at clerks_hall {
     Role "a very young Scruple with ink on her ruled fingers and a bad habit of looking at the stair". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Wants chapbook.
