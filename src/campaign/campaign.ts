@@ -1,7 +1,6 @@
 import { RandomStreams } from '../random-streams';
 import { CommandResolutions } from './command-resolution';
-import { Aftermath } from './aftermath';
-import { FieldUse } from './field-use';
+import { Aftermath } from './aftermath'; import { FieldUse } from './field-use';
 import { FieldResolver } from './field-resolver';
 import { ObservationText } from '../lang/observation-text'; import { Operators } from './operators';
 import { CompanyChoices } from './company-choices';
@@ -326,13 +325,13 @@ export class Campaign implements WatchHost {
     this.log.push(event);
     return structuredClone(event);
   }
-  // A fight won is worth its experience; what the command resolves (other than a fight or a rest) happens now.
+  // A fight won is worth the foes it defeated, not one that got away (the architecture review's A15); what the
+  // command resolves (other than a fight or a rest) happens now.
   private settle(action: Operator, battle: Battle | undefined, combat: CombatEvent[]) {
     const won = battle?.state.outcome === 'fighters' || combat.some(e => e.type === 'end' && e.fled?.team === 'goblins');
     const taken = battle?.state.outcome === 'goblins' && Mercy.spare(this.world, this.creatures,
       { ...this.current, player: this.playerActor, combat }); if (taken) { this.commit(taken); this.refresh(); }
     const opponent = action.resolve?.args[0];
-    // Worth the foes it defeated: not one that got away (the review's A15).
     if (won && action.resolve?.name === 'combat' && opponent) {
       FieldUse.award(this.creatures, this.current.partyIds, this.world, { opponent, events: combat,
         members: (this.current.inhabitants[opponent] ?? []).filter(id => this.creatures.get(id).state.hp === 0) });
@@ -418,7 +417,8 @@ export class Campaign implements WatchHost {
   }
   // Campaigns are open-ended: installed situations report outcomes; the campaign itself does not end.
   private updateOutcome() {
-    const left = Membership.depart(this.current, this.playerActor, this.module, this.world);
+    const { current, module, world, creatures } = this, company = this.playerActor;
+    const left = Membership.depart({ current, company, module, world, creatures });
     if (left) { this.commit(left); this.refresh(); } this.current.outcome = 'active'; this.observe();
   }
   static autofight(battle: Battle) { while (!battle.state.outcome) { battle.step(battle.chosen()); } }

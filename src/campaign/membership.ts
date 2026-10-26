@@ -6,7 +6,7 @@ import type { CampaignActor } from './definition';
 
 export interface LiveCache { base: CampaignActor[]; key: string; actors: CampaignActor[] }
 interface Current { partyIds: string[]; inhabitants: Record<string, string[]>; enlisted?: Record<string, string>;
-  released?: string[] }
+  released?: string[]; purses?: Record<string, number> }
 
 // Who is in each group as play goes on. A campaign's actors are fixed when it loads; someone who joins the company
 // moves their creatures into it, and their own group is left empty. Until anyone joins, the actors are the
@@ -31,14 +31,19 @@ export class Membership {
   }
   // Someone joins the company: their creatures are the company's from now on, and no longer their group's members.
   // What they had of their own stays theirs, not the company's to spend (the company's coin is its members' purses
-  // together: The Road the Star Came Down's silver went from 60 to 66 on hiring Teshen for 2).
+  // together: The Road the Star Came Down's silver went from 60 to 66 on hiring Teshen for 2): it is put by (purses)
+  // while they are with the company, and is theirs again when they leave it (it was simply gone: the architecture
+  // review's A22).
   static enlist(at: { current: Current; company?: string; module: Module; world: World; creatures?: CreatureStore },
     recruit: string, company: string): World {
     const { current } = at, members = current.inhabitants[recruit] ?? [];
     if (!members.length || company !== at.company) { throw new Error(`${recruit} cannot join ${company}`); }
     const lease = at.creatures?.acquire(members);
     try {
-      lease?.creatures.forEach(c => { c.state.gold = 0; });
+      for (const c of lease?.creatures.filter(x => x.state.gold > 0) ?? []) {
+        current.purses = { ...current.purses, [c.id]: (current.purses?.[c.id] ?? 0) + c.state.gold };
+        c.state.gold = 0;
+      }
       lease?.commit(lease.creatures);
     } finally { lease?.release(); }
     current.partyIds.push(...members);
@@ -55,7 +60,10 @@ export class Membership {
   // them stay behind) leaves it: their bodies are their own group's again, as before they joined, and they are where
   // they were sent, or where the company is (the audit's F4: they stayed in the company). One laid to rest (inter) has
   // left already.
-  static depart(current: Current, company: string | undefined, module: Module, world: World): World | undefined {
+  static depart(at: { current: Current; company: string | undefined; module: Module; world: World;
+    creatures?: CreatureStore }): World | undefined {
+    const { current, company, module } = at;
+    let world = at.world;
     if (!company) { return undefined; }
     const gone = Object.keys(current.enlisted ?? {}).filter(r => current.enlisted![r] === company
       && !world.test(ModuleWriter.call('travelsWith', r, company)));
@@ -69,6 +77,7 @@ export class Membership {
       current.inhabitants[company] = [...current.partyIds];
       current.inhabitants[recruit] = bodies;
       current.enlisted = Object.fromEntries(Object.entries(current.enlisted!).filter(([r]) => r !== recruit));
+      Membership.repay(current, bodies, at.creatures);
       const here = world.one('at', recruit) ? undefined : world.one('at', company);
       world = world.apply([...refs.flatMap(r => [{ kind: 'retract' as const, call: ModuleWriter.call('joinedAs', r, recruit) },
         { kind: 'retract' as const, call: ModuleWriter.call('memberOf', r, company) },
@@ -76,6 +85,17 @@ export class Membership {
         ...here ? [{ kind: 'assert' as const, call: ModuleWriter.call('at', recruit, here) }] : []]);
     }
     return world;
+  }
+  // What each who leaves had put by when they joined is theirs again.
+  private static repay(current: Current, bodies: string[], creatures?: CreatureStore) {
+    const owed = bodies.filter(id => current.purses?.[id]);
+    if (!owed.length || !creatures) { return; }
+    const lease = creatures.acquire(owed);
+    try {
+      for (const c of lease.creatures) { c.state.gold += current.purses![c.id]!; delete current.purses![c.id]; }
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    if (!Object.keys(current.purses!).length) { delete current.purses; }
   }
   // A companion laid to rest leaves the company for good: they are no longer one of its members.
   static release(at: { current: Current; company?: string; module: Module; world: World }, reference: string): World {

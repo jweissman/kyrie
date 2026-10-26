@@ -21,6 +21,8 @@ export interface CampaignState {
   enlisted?: Record<string, string>;
   // Companions laid to rest, who have left the company for good.
   released?: string[];
+  // What each who joined the company had of their own, put by until they leave it (see Membership.enlist).
+  purses?: Record<string, number>;
   // The date the campaign began on, when its manifest gives one (see Calendar).
   calendar?: CalendarStart;
   outcome: 'active' | 'success' | 'failure';
