@@ -84,7 +84,7 @@ export class ModuleCompiler {
       if (r.teaches && (!r.say || this.type(module, r.teaches) !== 'fact')) {
         throw new Error(`Rule ${r.id} teaches ${r.teaches}: it must say something, and teach a fact`);
       }
-      r.effects.forEach(c => this.change(module, c));
+      r.effects.forEach(c => this.change(module, c)); ModuleCompiler.writes(`Rule ${r.id}`, r.when, r.effects);
       if (r.effects.some(c => EngineOwned.rules.has(c.call.name))) {
         throw new Error(`Rule ${r.id} cannot change canonical projections, clocks, records or discovery knowledge`
           + ' (a rule teaches what it says: says "…" teaches fact)');
@@ -262,6 +262,24 @@ export class ModuleCompiler {
     this.variables(when, seen, true);
     const loose = [...seen.compared].filter(v => !seen.bound.has(v));
     if (loose.length) { throw new Error(`${id} compares ${loose.join(', ')}, which nothing in its condition binds`); }
+  }
+  // What a rule writes is what its condition binds: a variable it did not bind was written as itself, and kept (the
+  // architecture review's A9: `Assert marked(?t)` under `at(ann, hall)`, or under `not lit(?t)`, kept marked(?t)).
+  private static writes(id: string, when: Predicate, effects: Change[]) {
+    const bound = this.binds(when);
+    const written = effects.flatMap(c => JSON.stringify(c).match(/"\?[A-Za-z0-9_]+"/g) ?? []).map(v => v.slice(1, -1));
+    for (const v of written) {
+      if (!bound.has(v)) { throw new Error(`${id} writes ${v}, which its condition does not bind`); }
+    }
+  }
+  // The variables a condition binds wherever it holds: of an `or`, only those both sides bind.
+  private static binds(p: Predicate): Set<string> {
+    switch (p.kind) {
+      case 'call': return new Set(p.args.filter(a => a.startsWith('?')));
+      case 'and': return new Set([...this.binds(p.left), ...this.binds(p.right)]);
+      case 'or': { const right = this.binds(p.right); return new Set([...this.binds(p.left)].filter(v => right.has(v))); }
+      default: return new Set();
+    }
   }
   private static variables(p: Predicate, seen: { bound: Set<string>; compared: Set<string> }, positive: boolean) {
     if (p.kind === 'call' && positive) { for (const a of p.args.filter(a => a.startsWith('?'))) { seen.bound.add(a); } }
