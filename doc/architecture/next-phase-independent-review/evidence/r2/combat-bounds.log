@@ -1,0 +1,3 @@
+validate accepts {"kind":"revive","amount":{"kind":"literal","value":1},"target":"dead ally","percent":150}
+after 150% revive: hp 22 maxHp 15
+store commit would throw: Invalid creature statistics: x

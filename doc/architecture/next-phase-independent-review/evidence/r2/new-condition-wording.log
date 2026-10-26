@@ -1,0 +1,13 @@
+conditions 202; read as a state ("is …") 106
+Acidproof | Anointed | Armor Shred | Augured | Bleeding | Bleeding | Blessed | Blinded | Blurred | Braced | Burning | Candlelit | Chanting | Charmed | Charming | Confused | Consecrated | Cursed | Darkproof | Deafened | Defending | Disabled | Diseased | Disrupting | Distracted | Dodging | Dominated | Doomed | Drenched | Electrostatic Field | Engulfed | Enlarged | Enlightened | Entangled | Fatigued | Favour of magic | Feebleminded | Fireproof | Fleeing | Fox's Cunning | Frightened | Frozen | Greatly Inspired | Guarded | Hexed | Hidden | Infected | Insane | Inspired | Invisible | Invulnerable | Keen Senses | Keen Weapon | Lamplit | Lightproof | Luminous Blade | Mage-Armored | Magebane | Mageproof | Major Augured | Major Warded | Major Weakened | Marked as Prey | Marked for Judgment | Meditating | Mind Reading | Mindproof | Minor Warded | Mocked | Oiled | Overwatching | Paralyzed | Petrified | Poisoned | Polymorphed | Praying | Preparing to Charge | Prime Material | Protected | Raging | Rallied | Raven's Cunning | Reckless | Riposting | Scalded | Severely Distracted | Shielded | Slimed | Soundproof | Stormproof | Stunned | Summoning | Sunmarked | Taunted | Ticking | Time Stopped | Torchlit | Unbarring | Vigorous | Vital Boost | Warded | Warding Glyph | Waterproof | Weakened | poisoning blade | shapechanged
+
+ability summaries using "is/are": 158; samples:
+ - One enemy is marked as prey for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it).
+ - Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it).
+ - You are poisoning blade for 3 turns.
+ - You are warding glyph for 3 turns.
+ - One ally is warded for 20 turns.
+ - You are shielded for 3 turns; you gain bear's endurance for 3 turns; you are minor warded for 3 turns.
+ - 6d6 (6–36) radiant damage to one enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); it is blinded for 3 turns (a Dexterity save against 15 + level + bonusSpellDC avoids it); it is marked for judgment for 3 turns (a Wisdom save against 14 + level + bonusSpellDC avoids it).
+ - One ally is shielded for 10 turns.
+ - 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it).

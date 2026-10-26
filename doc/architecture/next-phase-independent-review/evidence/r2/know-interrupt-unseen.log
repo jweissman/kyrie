@@ -1,0 +1,4 @@
+ysolde at: m__camp | noticed by company: false
+event response (shown to player): "Sister Ysolde comes where you are." | cut: true
+choices naming her: []
+chronicle npc: ["Sister Ysolde takes the reed path toward the camp."]

@@ -1,0 +1,3 @@
+tampered checkpoint resumed without error; elapsed = 501 strength 11
+resumed transcript steps: [ "wait", "never-performed" ]
+transcript replays to elapsed = 1 strength 11 ; canonical equal: false

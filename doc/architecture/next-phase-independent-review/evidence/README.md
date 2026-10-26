@@ -34,3 +34,19 @@ grep -rnoE "(relations|measures|queries)\.some\(\w+ => \w+\.name === '[A-Za-z_]+
 
 `bun test --parallel --path-ignore-patterns='test/deem-choice-space.test.ts'`: 857 pass, 36 skip, 0 fail, 893 tests
 across 192 files, 578 s.
+
+## Second pass at `d79cbbd` (see ../addendum-d79cbbd.md)
+
+- `at-d79cbbd/`: every probe above, re-run against `d79cbbd`. All reproduce unchanged.
+- `r2/`: the new probes, each a `.ts` with a `.log` beside it. Run from the repository root with
+  `bun doc/architecture/next-phase-independent-review/evidence/r2/<name>.ts`.
+
+| Prefix | Area | Findings |
+|---|---|---|
+| `combat-*` | Combat and rules core | A4, A5, A15, A22, A23 |
+| `state-*` | Campaign state ownership | A1, A7, A8, A14 |
+| `lang-*` | Compiler and query semantics | A9, A17, A18, A21, A25 |
+| `persist-*` | Persistence and the worker | A2, A3, A11, A12, A24 |
+| `know-*` | Knowledge and telling | A6, A13 |
+| `new-*` | The 36 new commits | A1, A16, A19, A22 |
+| `import-graph.py` | The full value-import graph, layer edges and cycles | A10 (`python3 -I …/import-graph.py . /tmp/graph.json`) |

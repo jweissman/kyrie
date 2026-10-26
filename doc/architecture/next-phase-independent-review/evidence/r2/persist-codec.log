@@ -1,0 +1,10 @@
+CompressionStream available: true
+empty: 0 chars -> 32 packed; lossless=true (1 ms)
+ascii: 5 chars -> 40 packed; lossless=true (0 ms)
+quotes/backslash: 8 chars -> 44 packed; lossless=true (0 ms)
+unicode: 27 chars -> 92 packed; lossless=true (0 ms)
+astral names: 11000 chars -> 244 packed; lossless=true (0 ms)
+raw lone surrogate: 3 chars -> 40 packed; lossless=false (0 ms)
+json-escaped lone surrogate: 19 chars -> 56 packed; lossless=true (0 ms)
+mark-prefixed plain text: 21 chars -> 60 packed; lossless=true (0 ms)
+40 MB log: 42377789 chars -> 1590016 packed; lossless=true (328 ms)

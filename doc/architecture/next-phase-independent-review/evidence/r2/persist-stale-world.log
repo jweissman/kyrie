@@ -1,0 +1,8 @@
+installed 16
+  keep: world x8qf86spxzk3 (sent); page write ok; used 4531853
+after crossing, installed 18 new world size 4878441
+  keep: world dyev6k1nsc707 (sent); page write FAILED -> unkept toast; used 4531853
+  keep: world dyev6k1nsc707 (not sent: host thinks kept); page write ok; used 4557109
+state names world dyev6k1nsc707 | world returned has key x8qf86spxzk3 | match: false
+resumed TRUSTED without error; installed 16 vs live 18 ; party at region__s1_green vs live region__s1_green ; facts 16042 vs live 18820
+a further command performed: wait

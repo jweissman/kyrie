@@ -1,5 +1,8 @@
 # Independent architecture review: Kyrie before its next phase
 
+> **Follow-up:** a second, finer pass at `d79cbbd` (36 commits later) re-checked every finding below and adds 25
+> more. See [addendum-d79cbbd.md](addendum-d79cbbd.md).
+
 **Snapshot reviewed:** `main` at `69125e50a9108bae503556eba21b3dc219dce5c8`, committed 2026-10-26T09:38:46-04:00
 ("Small truths kept: a wait broken off told as begun, …"). It was fetched at the start of the review and held fixed.
 Nothing after it was considered.

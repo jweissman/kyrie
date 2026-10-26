@@ -1,0 +1,7 @@
+fight frames posted: 1 ; turn held: true
+second perform rejected: A command is already in progress
+after the rejected perform, turn held: false ; session acting: true
+fight choice now returns: null
+original attack settled: false
+any later command: A command is already in progress
+download (checkpoint) after 500 ms: REJECTED at once: Save only between campaign commands (this.working was replaced by the rejected perform's promise) ; autosaves posted: 0

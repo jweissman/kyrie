@@ -1,0 +1,33 @@
+REFUSED rule writes able (guarded): Rule r cannot change canonical projections, clocks, records or discovery knowledge (a rule teaches what it says: says "…" teaches fact)
+REFUSED action writes watch (guarded): Creature projections and campaign clock/pressure records are read-only
+LOADED  rule writes hour/day/season
+  ran wait(party)
+  before {"elapsed":0,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":19,"untilDark":78,"engineUntilDark":78,"untilLight":0,"company":["party"],"slain":[]}
+  after  {"elapsed":1,"dark":false,"engineDark":false,"hour":3,"engineHour":8,"day":40,"season":4,"dice":91,"untilDark":77,"engineUntilDark":77,"untilLight":0,"company":["party"],"slain":[]}
+LOADED  rule writes untilDark/untilTurn
+  ran wait(party)
+  before {"elapsed":0,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":19,"untilDark":78,"engineUntilDark":78,"untilLight":0,"company":["party"],"slain":[]}
+  after  {"elapsed":1,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":91,"untilDark":0,"engineUntilDark":77,"untilLight":0,"company":["party"],"slain":[]}
+LOADED  action writes dark/dice
+  ran p__forge(party)
+  before {"elapsed":0,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":19,"untilDark":78,"engineUntilDark":78,"untilLight":0,"company":["party"],"slain":[]}
+  after  {"elapsed":1,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":91,"untilDark":77,"engineUntilDark":77,"untilLight":0,"company":["party"],"slain":[]}
+LOADED  action writes untilDark
+  ran p__forge(party)
+  before {"elapsed":0,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":19,"untilDark":78,"engineUntilDark":78,"untilLight":0,"company":["party"],"slain":[]}
+  after  {"elapsed":1,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":91,"untilDark":77,"engineUntilDark":77,"untilLight":0,"company":["party"],"slain":[]}
+  {"waitForDarkTook":77,"engineWouldTake":77}
+LOADED  topic On discuss writes dark/dice/established
+  ran p__t(party,p__room)
+  before {"elapsed":0,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":19,"untilDark":78,"engineUntilDark":78,"untilLight":0,"company":["party"],"slain":[]}
+  after  {"elapsed":0,"dark":true,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":1,"untilDark":78,"engineUntilDark":78,"untilLight":0,"company":["party"],"slain":[]}
+REFUSED event then writes dice (rule): Rule e cannot change canonical projections, clocks, records or discovery knowledge (a rule teaches what it says: says "…" teaches fact)
+LOADED  initially dark/dice/untilLight/hour
+  ran wait(party)
+  before {"elapsed":0,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":19,"untilDark":78,"engineUntilDark":78,"untilLight":0,"company":["party"],"slain":[]}
+  after  {"elapsed":1,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":91,"untilDark":77,"engineUntilDark":77,"untilLight":0,"company":["party"],"slain":[]}
+REFUSED rule writes company/temperament/slain: wg9/site.kyr:2: Invalid argument ann in slain(ann)
+LOADED  rule writes quantity of a non-actor
+  ran wait(party)
+  before {"elapsed":0,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":19,"untilDark":78,"engineUntilDark":78,"untilLight":0,"company":["party"],"slain":[]}
+  after  {"elapsed":1,"dark":false,"engineDark":false,"hour":8,"engineHour":8,"day":1,"season":0,"dice":91,"untilDark":77,"engineUntilDark":77,"untilLight":0,"company":["party"],"slain":[]}

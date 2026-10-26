@@ -1,0 +1,89 @@
+
+== G1 effect names a ?variable its condition never binds
+   Rule r1 when at(ann, hall) { Assert marked(?t). }
+   ACCEPTED by ModuleCompiler.validate
+   fact + marked(?t)
+
+== G2 effect names a ?variable bound only under not
+   Rule r2 when not marked(?t) { Assert lit(?t). }
+   ACCEPTED by ModuleCompiler.validate
+   fact + lit(?t)
+
+== G3 ?variable bound to a group written where a thing is expected
+   Rule r3 when at(?g, hall) { Assert marked(?g). Increase count(?g) by 1. }
+   ACCEPTED by ModuleCompiler.validate
+   fact + count(ann) = 1
+   fact + count(bob) = 1
+   fact + marked(ann)
+   fact + marked(bob)
+
+== G4 compared ?variable bound only on the other side of an or (bound() treats or as and)
+   Entity cellar: place "the cellar".
+   Rule r4 when at(?g, cellar) or gold(?g) > 5 says "{?g} is rich or below." { Assert lit(cup). }
+   ACCEPTED by ModuleCompiler.validate
+
+== G5 compared ?variable hidden in arithmetic escapes bound()
+   Rule r5 when gold(?g) + 0 > 5 { Assert lit(cup). }
+   ACCEPTED by ModuleCompiler.validate
+
+== G5b same comparison without arithmetic (control)
+   Rule r5b when gold(?g) > 5 { Assert lit(cup). }
+   REJECTED: Rule r5b compares ?g, which nothing in its condition binds
+
+== G6 measure interpolation with a ?variable in a rule says renders the unbound measure
+   Rule r6 when at(?g, hall) and gold(?g) > 5 says "{?g} counts {gold(?g)} coins." { Assert lit(cup). }
+   ACCEPTED by ModuleCompiler.validate
+   fact + lit(cup)
+   said r6: Ann counts 0 coins.
+
+== G7 measure interpolation with a ?variable the condition never binds
+   Rule r7 when at(ann, hall) says "Someone counts {gold(?nobody)} coins." { Assert lit(cup). }
+   ACCEPTED by ModuleCompiler.validate
+   fact + lit(cup)
+   said r7: Someone counts 0 coins.
+
+== G8 ending epilogue naming what its condition bound: told right as it happens, raw on the closing page
+   Ending won "Won" when at(?g, hall) and gold(?g) > 5 "{?g} leaves rich.".
+   ACCEPTED by ModuleCompiler.validate
+   fact + concluded()
+   fact + reached(won)
+   said won: Ann leaves rich.
+   closing page (Endings.reached): {"title":"Won","lines":["?g leaves rich."]}
+
+== G9 query body comparing a ?variable nothing binds: always false, accepted
+   Query rich() means gold(?g) > 5.
+   Rule r9 when rich() { Assert lit(cup). }
+   ACCEPTED by ModuleCompiler.validate
+
+== G10 distinct over an unbound ?variable: accepted, throws when the world runs
+   Rule r10 when at(ann, ?p) and distinct(ann, ?other) { Assert lit(cup). }
+   ACCEPTED by ModuleCompiler.validate
+   RUNTIME THROW: distinct compares two bound parties
+
+== G11 Observation text naming a ?variable its condition never binds (Rule says checks this; Observe does not)
+   Observe o1 at hall when at(ann, hall) "{?who} waits here.".
+   ACCEPTED by ModuleCompiler.validate
+   observation renders: ?who waits here.
+
+== G13 Rule writing a Query name (control)
+   Query rich(g: group) means gold(g) > 5.
+   Rule r13 when at(ann, hall) { Assert rich(ann). }
+   REJECTED: Unknown function or arity: rich(ann)
+
+== G14 authored relation colliding with an Event latch
+   Relation once_e().
+   Event e when at(ann, hall) "It happens.".
+   REJECTED: Duplicate function once_e
+
+== G15 authored relation colliding with Endings' concluded (silently merged: the author's fact ends the book)
+   Relation concluded().
+   Ending fin "Fin" when lit(cup) "The end.".
+   Rule r15 when at(ann, hall) and not concluded() { Assert concluded(). }
+   Rule r15b when at(ann, hall) { Assert lit(cup). }
+   ACCEPTED by ModuleCompiler.validate
+   fact + concluded()
+   fact + lit(cup)
+
+== G16 literal braces in authored text
+   Rule r16 when at(ann, hall) says "A sign: {no entry}." { Assert lit(cup). }
+   REJECTED: Invalid predicate: Line 1, col 4:

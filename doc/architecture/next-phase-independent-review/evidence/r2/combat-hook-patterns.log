@@ -1,0 +1,5 @@
+hidden ("Hidden") onAttack: remove /Hidden/ from enemy -> matches [hidden]; ends its own holder's condition: NO
+overwatch ("Overwatching") reactions.onEnemyMelee: remove /Overwatching/ from enemy -> matches [overwatch]; ends its own holder's condition: NO
+blade_barrier ("Blade Barrier") reactions.onEnemyMelee: remove /Blade Barrier/ from enemy -> matches [blade_barrier]; ends its own holder's condition: NO
+consecrated ("Consecrated") reactions.onEnemyOffensiveCasting: remove /Consecrated/ from self -> matches [consecrated]; ends its own holder's condition: yes
+consecrated ("Consecrated") reactions.onEnemyAttack: remove /Consecrated/ from self -> matches [consecrated]; ends its own holder's condition: yes

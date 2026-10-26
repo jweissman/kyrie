@@ -1,0 +1,9 @@
+label(keep) as the company knows it: a ruined tower
+label(eyrie): a ledge high above
+choices: ["Wait a while","Wait an hour","Wait until dark","Wait and watch","Take the long road to the camp","Make camp at a ruined tower","Search a ruined tower","Set down a battleaxe","Set down chain mail","Set down a torch","Set down a ten-foot pole"]
+Openings (character sheet): [["climbing",["the cliff face, to the Eyrie of Saint Hollis"]]]
+Obituary (if the company fell here): ["It is over, at Grimwater Keep."]
+CLI InformationView: supported = true | location = {"id":"m__keep","name":"Grimwater Keep"} | choices = ["Make camp at Grimwater Keep","Search Grimwater Keep"]
+performed: Take the long road to the camp -> success
+voiced journey lines: ["You leave Grimwater Keep with the sun low behind you and the dew still on the grass."]
+knows keep_named after? false

@@ -1,0 +1,10 @@
+[
+ {
+  "check": "applicability",
+  "message": "action scorched__sift has no possible target in this world"
+ },
+ {
+  "check": "applicability",
+  "message": "action scorched__gloat has no possible target in this world"
+ }
+]

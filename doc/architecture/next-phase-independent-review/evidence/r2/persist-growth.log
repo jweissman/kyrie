@@ -1,0 +1,9 @@
+step 0: events 0 (0 kB json); kept state 22 kB -> packed 4 kB; split+stringify+pack 6 ms; heap 22 MB
+step 25: events 25 (77 kB json); kept state 103 kB -> packed 10 kB; split+stringify+pack 1 ms; heap 22 MB
+step 50: events 50 (144 kB json); kept state 172 kB -> packed 16 kB; split+stringify+pack 2 ms; heap 24 MB
+step 75: events 75 (201 kB json); kept state 231 kB -> packed 22 kB; split+stringify+pack 5 ms; heap 28 MB
+step 100: events 100 (259 kB json); kept state 292 kB -> packed 28 kB; split+stringify+pack 3 ms; heap 30 MB
+step 125: events 125 (302 kB json); kept state 336 kB -> packed 31 kB; split+stringify+pack 4 ms; heap 31 MB
+step 150: events 150 (348 kB json); kept state 384 kB -> packed 33 kB; split+stringify+pack 5 ms; heap 33 MB
+step 175: events 175 (396 kB json); kept state 433 kB -> packed 36 kB; split+stringify+pack 4 ms; heap 34 MB
+step 200: events 200 (445 kB json); kept state 483 kB -> packed 38 kB; split+stringify+pack 5 ms; heap 35 MB

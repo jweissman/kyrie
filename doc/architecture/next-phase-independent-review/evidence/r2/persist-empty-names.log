@@ -1,0 +1,14 @@
+step 0 installed 16 live empty names: facts ["dark"] measures ["untilLight"] | rebuilt-from-save: 0
+step 1 installed 18 live empty names: facts [] measures [] | rebuilt-from-save: 0
+step 2 installed 18 live empty names: facts ["enRoute","dark"] measures ["untilLight"] | rebuilt-from-save: 0
+step 3 installed 18 live empty names: facts ["enRoute","dark"] measures ["untilLight"] | rebuilt-from-save: 0
+step 4 installed 18 live empty names: facts ["enRoute","dark"] measures ["untilLight"] | rebuilt-from-save: 0
+step 5 installed 18 live empty names: facts ["enRoute","dark","region__inTrouble"] measures ["untilLight"] | rebuilt-from-save: 0
+step 6 installed 18 live empty names: facts ["enRoute","dark","region__inTrouble"] measures ["untilLight"] | rebuilt-from-save: 0
+step 7 installed 18 live empty names: facts ["enRoute","region__inTrouble","hungry"] measures ["untilDark"] | rebuilt-from-save: 0
+step 8 installed 18 live empty names: facts ["enRoute","region__inTrouble","hungry"] measures ["untilDark"] | rebuilt-from-save: 0
+step 9 installed 18 live empty names: facts ["enRoute","region__inTrouble","hungry"] measures ["untilDark","hour"] | rebuilt-from-save: 0
+step 10 installed 18 live empty names: facts ["enRoute","region__inTrouble","hungry"] measures ["untilDark"] | rebuilt-from-save: 0
+step 11 installed 18 live empty names: facts ["enRoute","region__inTrouble","hungry"] measures ["untilDark"] | rebuilt-from-save: 0
+step 12 installed 18 live empty names: facts ["enRoute","dark","region__inTrouble","hungry","x0ym1__hunting"] measures ["untilLight"] | rebuilt-from-save: 0
+step 13 installed 18 live empty names: facts ["enRoute","dark","region__inTrouble","hungry","x0ym1__hunting"] measures ["untilLight"] | rebuilt-from-save: 0

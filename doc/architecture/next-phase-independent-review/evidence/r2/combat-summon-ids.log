@@ -1,0 +1,4 @@
+limit 3
+fighter ids: owner, foe, summon-4-7, summon-5-7, summon-5-7
+duplicates: [ "summon-5-7" ]
+summon events: summon:summon-2-7 summon:summon-3-7 summon:summon-4-7 summon:summon-5-7 dismiss:summon-2-7 summon:summon-5-7 dismiss:summon-3-7

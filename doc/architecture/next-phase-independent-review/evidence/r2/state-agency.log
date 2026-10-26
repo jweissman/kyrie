@@ -1,0 +1,9 @@
+A after idle {"elapsed":1,"npc":[],"walkerHome":false,"key":"112.12.12s2ssi.ilyey","cache":[["p__walker/go_home",7]]}
+A continued  {"elapsed":2,"npc":[],"walkerHome":false,"key":"113.12.1qh6qlx.1yvspow","cache":[["p__walker/go_home",7]]}
+B restored   {"elapsed":2,"npc":["p__own_arrive(p__walker)"],"walkerHome":true,"key":"114.12.cpq23q.1xo8hta","cache":[]}
+C viewed     {"elapsed":0,"walkerHome":false,"key":"111.11.1pfjvsk.19kxv9q","cache":[["p__walker/go_home",6]]}
+C after      {"elapsed":1,"npc":[],"walkerHome":false,"key":"113.12.1mu1rnd.13mu4jc","cache":[["p__walker/go_home",6]]}
+D unviewed   {"elapsed":1,"npc":["p__own_arrive(p__walker)"],"walkerHome":true,"key":"114.12.92l356.12f9wnq","cache":[]}
+E leaked     {"elapsed":1,"npc":[],"walkerHome":false,"key":"113.12.1mu1rnd.13mu4jc","cache":[["p__walker/go_home",7]]}
+F undone     {"elapsed":0,"walkerHome":false,"key":"111.11.1pfjvsk.19kxv9q","cache":[["p__walker/go_home",7]]}
+F after      {"elapsed":1,"npc":[],"walkerHome":false,"key":"113.12.1mu1rnd.13mu4jc","cache":[["p__walker/go_home",7]]}

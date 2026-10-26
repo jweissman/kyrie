@@ -1,0 +1,76 @@
+trials=3000 seed=1 parse/eval errors=55 mismatches=3
+  THROW distinct compares two bound parties
+  q(x,y) means (r(y, x) and (r(y, y) or (r(y, y) and distinct(y, ?z)))): 1
+  THROW distinct compares two bound parties
+  q(x,y) means ((distinct(x, x) and m(x) > 1) and p(x)): 1
+  THROW distinct compares two bound parties
+  q(x,y) means (not r(x, x) or distinct(x, ?z)): 1
+---
+THROW distinct compares two bound parties
+  q(x,y) means (not r(x, x) or distinct(x, ?z))
+---
+THROW distinct compares two bound parties
+  q(x,y) means ((distinct(x, x) and m(x) > 1) and p(x))
+---
+THROW distinct compares two bound parties
+  q(x,y) means (r(y, x) and (r(y, y) or (r(y, y) and distinct(y, ?z))))
+trials=3000 seed=2 parse/eval errors=51 mismatches=2
+  THROW distinct compares two bound parties
+  q(x,y) means (not p(y) or distinct(x, ?z)): 1
+  THROW distinct compares two bound parties
+  q(x,y) means (m(c) > 1 or p(y)): 1
+---
+THROW distinct compares two bound parties
+  q(x,y) means (m(a) > 1 or p(y))
+---
+THROW distinct compares two bound parties
+  q(x,y) means (not p(y) or distinct(x, ?z))
+trials=3000 seed=3 parse/eval errors=67 mismatches=1
+  THROW distinct compares two bound parties
+  q(x,y) means (not r(?z, c) or distinct(x, ?z)): 1
+---
+THROW distinct compares two bound parties
+  q(x,y) means (not r(?z, a) or distinct(x, ?z))
+trials=3000 seed=1 parse/eval errors=71 mismatches=821
+  s(?c) and q(?c,?c): 466
+  q(?c,?c): 349
+  THROW distinct compares two bound parties
+  q(x,y) means (p(x) or distinct(y, x)): 1
+  THROW distinct compares two bound parties
+  q(x,y) means not (s(x) and p(x)): 1
+  THROW distinct compares two bound parties
+  q(x,y) means (r(c, y) and distinct(y, ?z)): 1
+  THROW distinct compares two bound parties
+  q(x,y) means (p(x) or (not s(x) and distinct(y, ?z))): 1
+  THROW distinct compares two bound parties
+  q(x,y) means (r(y, x) and p(c)): 1
+  THROW distinct compares two bound parties
+  q(x,y) means (r(x, ?z) or (distinct(x, ?z) or r(?z, x))): 1
+---
+THROW distinct compares two bound parties
+  q(x,y) means (r(y, x) and p(a))
+---
+THROW distinct compares two bound parties
+  q(x,y) means not (s(x) and p(x))
+---
+THROW distinct compares two bound parties
+  q(x,y) means (p(x) or distinct(y, x))
+---
+THROW distinct compares two bound parties
+  q(x,y) means (r(a, y) and distinct(y, ?z))
+---
+THROW distinct compares two bound parties
+  q(x,y) means (p(x) or (not s(x) and distinct(y, ?z)))
+---
+THROW distinct compares two bound parties
+  q(x,y) means (r(x, ?z) or (distinct(x, ?z) or r(?z, x)))
+---
+q(?a,?b): open=[h,a h,b h,c] closed=[]
+  p(x) means m(a) > 0
+  q(x,y) means s(x)
+  Initially Assert r(b, b). Initially Assert s(h). Initially Set m(b) to 1.
+---
+q(?a,?b): open=[a,h c,c h,b] closed=[c,c]
+  p(x) means s(x)
+  q(x,y) means r(y, x)
+  Initially Assert r(b, h). Initially Assert r(c, c). Initially Assert r(h, a).

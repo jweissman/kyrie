@@ -1,0 +1,9 @@
+A private relation names: [ "a__secret" ]
+before B: a__secret(a__nook) = true
+B installed (checked). after one watch: a__secret(a__nook) = false  leaked(a__nook) = true  rule ids: [
+]
+C refused checked=true: Unknown function or arity: able(actor, p)
+C installed checked=false: able signature kept = {"name":"able","types":["group"],"exclusive":false}  drifted = ["able"]  c__poke requires = {"kind":"call","name":"able","args":["actor","p"]}
+  offered() ran: 10 choices
+D installed (checked). drifted = ["wipe"]  marker() ever asserted = false  rules named wipe: [
+]
