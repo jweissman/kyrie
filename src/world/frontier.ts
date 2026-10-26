@@ -85,15 +85,20 @@ export class Frontier {
     }
   }
   // The country drawn beyond a march, from all it is drawn from now: drawn once, if it was drawn ahead from the same.
-  private readonly ahead = new Map<string, Awaited<ReturnType<typeof WorldAssembler.beyond>>>();
+  // Kept while it is being drawn, too: a crossing made while the country was still being drawn ahead waits for that
+  // drawing, and does not draw it again beside it (the architecture review's A24).
+  private readonly ahead = new Map<string, ReturnType<typeof WorldAssembler.beyond>>();
   private async drawn(campaign: Campaign, x: number, y: number, keep = false) {
     const installed = new Set(campaign.installed);
     const at = { x, y, calendar: campaign.state.calendar, exclude: await this.placed(installed),
       named: this.named(campaign, [x, y]), taken: this.works(campaign), first: this.first(campaign) };
     const key = JSON.stringify(at);
-    const beyond = this.ahead.get(key) ?? await WorldAssembler.beyond(this.seed, this.base, at);
-    if (keep) { this.ahead.set(key, beyond); } else { this.ahead.clear(); }
-    return beyond;
+    const drawing = this.ahead.get(key) ?? WorldAssembler.beyond(this.seed, this.base, at);
+    if (keep && !this.ahead.has(key)) {
+      this.ahead.set(key, drawing);
+      drawing.catch(() => { if (this.ahead.get(key) === drawing) { this.ahead.delete(key); } });
+    }
+    try { return await drawing; } finally { if (!keep) { this.ahead.clear(); } }
   }
   // The authored country a region already installed is, if it is one.
   private holds(campaign: Campaign, rid: string): Country | undefined {

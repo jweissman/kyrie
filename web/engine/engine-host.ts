@@ -76,7 +76,9 @@ export class EngineHost {
       case 'travel': return this.command(() => this.travel(request.destination, request.said));
       case 'kept': this.acknowledged(request.key, request.ok); return null;
       // The page's download waits for the command under way (the independent review's A2).
-      case 'checkpoint': await this.working; return this.session ? JSON.stringify(this.session.checkpoint(true)) : null;
+      // With the story so far, so that a game opened from the file has its Story page (the review's A24).
+      case 'checkpoint': await this.working;
+        return this.session ? JSON.stringify({ checkpoint: this.session.checkpoint(true), log: this.log }) : null;
       case 'story': return this.log;
     }
   }

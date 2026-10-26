@@ -40,6 +40,9 @@ describe('a checkpoint', () => {
     await new Promise(r => setTimeout(r, 20));
     expect(taken).toBe(false);
     gate.release(); await performing;
-    expect(Race.agrees(JSON.parse(await checkpointing) as SessionCheckpoint)).toBe(true);
+    // The download carries the story with the checkpoint (the architecture review's A24).
+    const taken2 = JSON.parse(await checkpointing) as { checkpoint: SessionCheckpoint; log: unknown[] };
+    expect(Race.agrees(taken2.checkpoint)).toBe(true);
+    expect(Array.isArray(taken2.log)).toBe(true);
   }, 120000);
 });

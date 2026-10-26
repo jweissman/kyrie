@@ -54,7 +54,9 @@ export class SimBench {
   }
   // A profile's checkpoint, played on as the engine plays it: the country beyond drawn as the company crosses a march.
   static resumed(path: string, seed: string): PlaySession {
-    const s = PlaySession.resume(JSON.parse(readFileSync(path, 'utf8')) as SessionCheckpoint);
+    // A save file as the page downloads it carries its story beside the checkpoint.
+    const kept = JSON.parse(readFileSync(path, 'utf8')) as SessionCheckpoint | { checkpoint: SessionCheckpoint };
+    const s = PlaySession.resume('checkpoint' in kept ? kept.checkpoint : kept);
     const frontier = new Frontier(seed, NodeBundleSource.shared);
     return s.extend({ expand: frontier.expand.bind(frontier) });
   }
