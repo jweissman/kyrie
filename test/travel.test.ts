@@ -21,7 +21,7 @@ describe('the way into Merrowdale', () => {
     expect(told.length).toBe(w.report.region.settlements.length);
     await s.perform(PlayerView.choices(c).find(x => /bailey/.test(x.choice.name))!.choice.id);
     await s.perform(PlayerView.choices(c).find(x => /Wooden Wolf/.test(x.choice.name))!.choice.id);
-    expect(names()).toContain('Examine a notice from Merrowdale');
+    expect(names()).toContain('Read a notice from Merrowdale');
     expect(Itineraries.destinations(c)).toEqual([]);
     await s.perform(PlayerView.choices(c).find(x => x.choice.name === 'Ask Fargrim about the forty crowns in Merrowdale')!
       .choice.id);

@@ -124,6 +124,7 @@ export class ChoiceGrouping {
     prepare_spell: { slot: 'member', param: 'caster', path: ['Prepare spells', 'In place of {outgoing} ({tier})', '{incoming}'],
       tells: 'incoming' },
     raise_quality: { slot: 'member', param: 'member', path: ['Advance', 'Raise a quality', '{quality}'] },
+    learn_skill: { slot: 'member', param: 'member', path: ['Advance', 'Take up a skill', '{skill}'] },
     learn_spell: { slot: 'member', param: 'member', path: ['Advance', 'Learn a spell', '{spell}'], tells: 'spell' },
     take_feat: { slot: 'member', param: 'member', path: ['Advance', 'Take up a feat', '{choice}'], tells: 'choice' },
     wait: { slot: 'camp', path: ['Wait', 'A while'] },

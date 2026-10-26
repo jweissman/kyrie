@@ -43,11 +43,12 @@ export class Narrator {
     const changed = known && told?.moved ? screen.fresh : [];
     const exchange = told && this.exchange(campaign, told);
     // What the last command did to the place (a trap sprung, a wonder gone quiet) is told as what happened, not again
-    // in the place's telling under it.
-    // What looking closely, prodding or listening found is the answer to it, and told as that; anything else newly
-    // seen in the place (a room a torch shows) is told with the place.
+    // in the place's telling under it. What looking closely, prodding or listening found is the answer to it, and told
+    // as that; anything else newly seen in a place come to is told with the place.
     const probing = told && ActionFeedbackView.probes.includes(campaign.operator(told.event.action)?.schema ?? '');
-    if (exchange && !probing) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
+    // Staying, the place is only recalled (its first sentence), so what the command made seen in it (the Mower come up
+    // onto the crest, a room a torch shows) is told as what happened.
+    if (exchange && !probing && told.moved) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
       || !kept.some(k => Narration.sentence(k.text) === l.text)); }
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
     const lines = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))
@@ -215,21 +216,23 @@ export class Narrator {
     const voiced = (event.voiced ?? []).filter(v => !v.kind.startsWith('journey'))
       .map(v => ({ text: v.text, kind: 'telling' as const }));
     // So does what was learned, when the scene shows it: the dog's muddy coat, not the note of it.
-    const bare = voiced.length && (/^You (carry out|do) /.test(feedback.result ?? '')
+    const bare = voiced.length && (/^You do /.test(feedback.result ?? '')
       || (feedback.discoveries.length > 0 && feedback.result === feedback.discoveries.join(' ')));
     const result = spoken.length || bare ? [] : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : [];
     const events = feedback.events.map(text => ({ text, kind: 'event' as const }));
-    // A thing changed is told by what came of it (the water going down) before how it is now (the well dry).
-    const changing = /^change_thing/.test(action?.schema ?? '');
+    // A thing changed is told by what came of it (the water going down) before how it is now (the well dry); a wait,
+    // by how the place has become (night on the crest) before what broke it off (the Mower come up onto it).
+    const changing = /^change_thing/.test(action?.schema ?? ''), waiting = /^wait/.test(action?.schema ?? '');
+    const seen = (told.moved ? [] : feedback.observations).map(text => ({ text, kind: 'change' as const }));
     const lines: ExchangeLine[] = [
-      ...changing ? events : [], ...result,
+      ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...changing ? events : [], ...result,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...changing ? [] : events,
       ...voiced,
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''),
         kind: fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
       ...event.changes.includes(`+ weary(${campaign.playerActor})`) ? [{ text: Narrator.weary, kind: 'event' as const }] : [],
-      ...(told.moved ? [] : feedback.observations.map(text => ({ text, kind: 'change' as const }))),
+      ...waiting ? [] : seen,
     // What someone says, whether answering or of their own accord (a companion's word on coming somewhere), is speech.
     ].map(l => ({ ...l, kind: ['telling', 'event'].includes(l.kind) && /^['‘"“]/.test(l.text) ? 'speech' as const : l.kind }));
     // Going somewhere is told by the place it brings you to: "You arrive at the old bank" adds nothing to it.

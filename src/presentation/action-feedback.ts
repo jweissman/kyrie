@@ -100,8 +100,9 @@ export class ActionFeedbackView {
           combat.length ? '' :
             action.schema === 'wait' ? 'Time passes.' :
               changed[0] ? FictionalTime.prose(changed[0].text)
-                // What happened is told by what came of it, when something did; only otherwise is it just done.
-                : (event.perceptions ?? []).some(p => p.kind === 'event') ? '' : 'You carry out the action.');
+                // What happened is told by what came of it, when something did; otherwise the act said is enough
+                // (the Story read "You carry out the action." under every greeting).
+                : '');
     const resources = [...new Set([...(before.resources ?? []).map(r => r.id),
       ...(after.resources ?? []).map(r => r.id)])]
       .flatMap(id => {

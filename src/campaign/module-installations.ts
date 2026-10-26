@@ -62,14 +62,18 @@ export class ModuleInstallations {
     creature.state.gold += entry.gold;
     return creature;
   }
-  // What two installations both declare must agree; each is kept once. Definitions are never changed after they are
-  // joined, so the result shares them rather than copying.
+  // What two installations both declare is kept once. Definitions are never changed after they are joined, so the
+  // result shares them rather than copying. Shared definitions all come from one edition of the rules, and a module's
+  // own are named for it, so two that differ are a world kept from an earlier edition joined by a country drawn in
+  // this one (M16's free play: a save from before "Examine" was "Read" could not go over the march). The world keeps
+  // the rules it was made with; what differed is noted (drifted).
+  static readonly drifted = new Set<string>();
   private static union<T>(left: T[], right: T[], key: (value: T) => string): T[] {
     const result = [...left], index = new Map(left.map(v => [key(v), v]));
     for (const value of right) {
       const previous = index.get(key(value));
       if (previous && previous !== value && JSON.stringify(previous) !== JSON.stringify(value)) {
-        throw new Error(`Conflicting shared definition ${key(value)}`);
+        this.drifted.add(key(value));
       }
       if (!previous) { result.push(value); index.set(key(value), value); }
     }

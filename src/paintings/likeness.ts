@@ -26,8 +26,11 @@ export class Likeness {
   // Works of the same name, said differently by Orsino's backgrounds and the painters.
   static readonly synonyms: Record<string, string> = { smith: 'blacksmith', woodworker: 'carpenter', herdsman: 'shepherd',
     laborer: 'peasant', beadle: 'reeve', acolyte: 'deacon', stone_mason: 'mason', woodcutter: 'feller', skinner: 'furrier',
-    innkeeper: 'tavernkeeper', herbwife: 'herbalist', woodwright: 'carpenter', fisher: 'fisherman', traveller: 'wanderer',
-    wayfarer: 'wanderer', tracker: 'hunter', pilgrim: 'penitent', chandler: 'candlemaker', salter: 'merchant' };
+    innkeeper: 'tavernkeeper', herbwife: 'midwife', 'herb-wife': 'midwife', pedlar: 'peddler', woodwright: 'carpenter', fisher: 'fisherman', traveller: 'wanderer',
+    wayfarer: 'wanderer', tracker: 'hunter', pilgrim: 'penitent', chandler: 'candlemaker', salter: 'merchant',
+    steward: 'reeve', bailiff: 'reeve', landlord: 'tavernkeeper', landlady: 'tavernkeeper', foreman: 'mason',
+    barge: 'sailor', boatman: 'sailor', ferryman: 'sailor', carter: 'peasant', drover: 'shepherd',
+    'alehouse-keeper': 'tavernkeeper', alehouse: 'tavernkeeper', speaks: 'reeve', shrine: 'prayer' };
   // The stations a family of work is painted in, first the likeliest.
   static readonly families: Record<string, string[]> = { trade: ['middling', 'labouring'],
     learning: ['learned', 'middling'], stage: ['player', 'artist'], faith: ['religious'], court: ['high'],
@@ -56,29 +59,62 @@ export class Likeness {
   }
   static readonly eras: Record<string, number> = { early: 4, late: 3, modern: 0 };
   // A painting for someone the world has not given one, from the words it knows them by: their work, and what they
-  // are to others, which says their age (a mother is no girl: the follow-up review saw one younger than her son).
-  static of(at: { own?: string; background?: string; profession?: string; role?: string; sex?: 'man' | 'woman';
-    key?: string }): string | undefined {
+  // are to others, which says their age (a mother is no girl: the follow-up review saw one younger than her son), and
+  // the title they go by (Mother Ysolt is a woman of years). It is a painting of their work, or of someone of their
+  // sex and station; where nothing says their station, or no painting is of it, there is none, and they are met in
+  // words (Mother Ysolt was a young Samson, an alehouse-keeper a preacher, the inn's dog an auctioneer).
+  static of(at: { own?: string; background?: string; profession?: string; role?: string; name?: string;
+    sex?: 'man' | 'woman'; key?: string }): string | undefined {
     if (at.own && this.ids.has(at.own)) { return at.own; }
-    const words = [at.profession, at.background, ...this.words(at.role ?? '')].filter((t): t is string => !!t);
-    const concept = words.map(w => this.resolve(w)).find(Boolean);
+    // A name that is a description ("the prior", "the woman in black") says what they are as a role does.
+    const described = /^the /i.test(at.name ?? '') ? this.words(at.name!) : [];
+    const words = [at.profession, at.background, ...this.words(at.role ?? ''), ...described]
+      .filter((t): t is string => !!t);
+    // Whose someone is comes before anything said after it: "a widow whose son went after the raiders" is no raider.
+    const k = words.findIndex(w => Object.hasOwn(this.kin, w)), kin = k < 0 ? undefined : words[k]!;
+    const concept = words.slice(0, k < 0 ? undefined : k).map(w => this.resolve(w)).find(Boolean);
     // A work whose own painting is not of one person (a priest's is a shrine) is painted in its family's station.
     // A painting refused (data/paintings/unfit.json) lends nothing: not even the station it shows.
     const own = concept && !this.unfit.has(concept) ? this.stations[concept] : undefined;
     const station = concept && (own ?? this.families[PaintingConcepts.of(concept).family ?? '']?.[0]);
-    const age = words.map(w => this.ages[w]).find(Boolean);
-    if (!at.sex && concept && this.sitters.has(concept) && !this.unfit.has(concept)) { return concept; }
-    return this.choose({ ...at.sex ? { sex: at.sex } : {}, ...concept ? { concept } : {},
-      ...station ? { stations: [station] } : {}, ...age ? { age } : {} }, at.key ?? words.join(' '));
+    const title = this.titles[(at.name ?? '').split(' ')[0]!.toLowerCase()];
+    const sex = at.sex ?? title?.sex ?? (kin && this.kin[kin]);
+    const age = words.map(w => this.ages[w]).find(Boolean) ?? title?.age;
+    if (!sex && concept && this.sitters.has(concept) && !this.unfit.has(concept)) { return concept; }
+    // Someone known only by whose they are (the child's mother, the drover's son) is one of the working people.
+    if (!station && !kin) { return undefined; }
+    const painted = station ?? 'labouring', id = this.choose({ ...sex ? { sex } : {}, ...concept ? { concept } : {},
+      stations: [painted], ...age ? { age } : {} }, at.key ?? words.join(' '));
+    const sitter = id ? this.sitters.get(id) : undefined;
+    // Not a girl for a woman of years, nor a greybeard for a lad.
+    const far = !!age && !!sitter?.age && Math.abs(this.years.indexOf(age) - this.years.indexOf(sitter.age)) > 1;
+    return id && (id === concept || (sitter?.station === painted && !far)) ? id : undefined;
   }
+  static readonly years = ['young', 'adult', 'old'];
+  static readonly kin: Record<string, 'man' | 'woman'> = { mother: 'woman', father: 'man', sister: 'woman',
+    brother: 'man', wife: 'woman', husband: 'man', widow: 'woman', widower: 'man', daughter: 'woman', woman: 'woman',
+    grandmother: 'woman', grandfather: 'man', uncle: 'man', aunt: 'woman', nephew: 'man', niece: 'woman' };
   static readonly ages: Record<string, string> = { mother: 'adult', father: 'adult', wife: 'adult', husband: 'adult',
-    widow: 'adult', widower: 'adult', grandmother: 'old', grandfather: 'old', elder: 'old', crone: 'old' };
+    widow: 'adult', widower: 'adult', grandmother: 'old', grandfather: 'old', elder: 'old', crone: 'old',
+    sister: 'young', brother: 'young', daughter: 'young' };
+  // The titles a name can begin with, and what each says of whoever bears it.
+  static readonly titles: Record<string, { sex: 'man' | 'woman'; age?: string }> = {
+    mother: { sex: 'woman', age: 'old' }, sister: { sex: 'woman' }, dame: { sex: 'woman' }, lady: { sex: 'woman' },
+    mistress: { sex: 'woman' }, goodwife: { sex: 'woman', age: 'adult' }, gammer: { sex: 'woman', age: 'old' },
+    father: { sex: 'man', age: 'old' }, brother: { sex: 'man' }, master: { sex: 'man' }, sir: { sex: 'man' },
+    lord: { sex: 'man' }, goodman: { sex: 'man', age: 'adult' }, gaffer: { sex: 'man', age: 'old' } };
+  // Words that are in a role without naming a work ("master of the barge Heron" is not a painter).
+  static readonly vague = new Set(['master', 'mistress', 'keeper', 'head', 'chief', 'young', 'elder']);
   private static resolve(word: string): string | undefined {
-    // A work said as what is done ("who cooks at the inn") is the work.
-    return [word, this.synonyms[word], word.replace(/_/g, '-'), word.replace(/s$/, '')].find(id => id && this.ids.has(id));
+    // A work said as what is done ("who cooks at the inn") is the work; a dyke-reeve is a reeve.
+    return [word, this.synonyms[word], word.replace(/_/g, '-'), word.replace(/s$/, ''), word.split('-').at(-1)]
+      .find(id => id && !this.vague.has(id) && this.ids.has(id));
   }
+  // The words of a role, the work first: what a role is comes before what it is of ("priest of the Chapel of the
+  // Ford" is a priest, not a chapel), and in each part the last word is the work ("the old dyke-reeve").
   private static words(role: string): string[] {
-    return role.toLowerCase().replace(/[^a-z\- ]/g, ' ').split(/\s+/).filter(w => w.length > 3).reverse();
+    return role.toLowerCase().replace(/[^a-z\- ]/g, ' ').split(/\b(?:of|at|in|on|from|by|for|to|with|who|whose|that)\b/)
+      .flatMap(part => part.split(/\s+/).filter(w => w.length > 3).reverse());
   }
   private static hash(text: string): number {
     let h = 2166136261;

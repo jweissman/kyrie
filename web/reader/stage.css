@@ -30,11 +30,18 @@
 .happened .you { font: 400 14.5px/1.4 var(--do); color: var(--grey); margin: 0 0 8px; }
 .happened .speech { font-size: 20px; line-height: 1.5; }
 .happened .change { font-style: italic; }
-.happened .event, .happened .fight { font: 400 15.5px/1.45 var(--do); color: var(--grey); }
+/* What happened of itself (the Mower walking into the hill) is told as the story is; a fight's blows are noted. */
+.happened .fight { font: 400 15.5px/1.45 var(--do); color: var(--grey); }
 .happened.tone-fail p { color: var(--grey); }
 .happened .notes, .lines .notes { list-style: none; padding: 0; margin: 10px 0 0; font: 400 14.5px/1.45 var(--do); color: var(--grey); }
 .happened .notes li.learned { border-left: 4px solid var(--yellow); padding: 3px 0 3px 12px; color: var(--ink); margin: 6px 0; }
 .happened .notes .label { margin: 0 6px 0 0; display: inline; }
+/* Something seen through: the end of a chapter, set as one. */
+.happened .seen-through { margin: 30px 0 8px; padding: 18px 0 16px; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--hair); }
+.happened .seen-through .kicker { font: 500 11.5px var(--do); letter-spacing: .18em; text-transform: uppercase; color: var(--blue); margin: 0 0 10px; }
+.happened .seen-through .what { font: 400 34px/1.1 var(--told); margin: 0 0 12px; }
+.happened .seen-through .gain { font: 400 15.5px/1.45 var(--do); margin: 0; }
+.happened .seen-through .next { font: 400 14.5px/1.45 var(--do); color: var(--grey); margin: 4px 0 0; }
 .working .you::after { content: ' …'; }
 
 /* ---- Danger: what it is, and how a fight would go, in words, before anything is done about it. ---- */

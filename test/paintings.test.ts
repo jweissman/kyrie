@@ -77,5 +77,22 @@ describe('the painting corpus', () => {
       expect([role, Likeness.unfit.has(id), Likeness.sitter(id)?.station]).toEqual([role, false, 'religious']);
     }
   }, 120000);
+  // Free play of M16 met Mother Ysolt as Valentin's young Samson, and an alehouse-keeper as a preacher: a role was
+  // read from its last word (the Ford, not the priest), and whoever no word placed was given anyone of their sex.
+  it('paints someone by what their role says they are, and otherwise not at all', () => {
+    const sitter = (at: Parameters<typeof Likeness.of>[0]) => Likeness.sitter(Likeness.of(at) ?? '');
+    expect(sitter({ role: 'priest of the Chapel of the Ford', sex: 'man', key: 'a' })?.station).toBe('religious');
+    expect(sitter({ role: 'foreman at the Hall', sex: 'man', key: 'b' })?.station).toBe('labouring');
+    expect(sitter({ role: 'landlord of the Drowned Ox', sex: 'woman', key: 'c' })?.sex).toBe('woman');
+    // A title says who bears it; a woman of years is not painted as a girl.
+    const mother = sitter({ role: 'priest of the Chapel of the Ford', name: 'Mother Ysolt', key: 'd' });
+    expect(mother === undefined || (mother.sex === 'woman' && mother.age !== 'young')).toBe(true);
+    // "Master of the barge" is not a painter; nothing in "who keeps the books" says what they look like.
+    expect(sitter({ role: 'master of the barge Heron', sex: 'woman', key: 'e' })?.station).toBe('labouring');
+    expect(Likeness.of({ role: 'who keeps the books of the Reodweard company', sex: 'man', key: 'f' })).toBeUndefined();
+    // Someone known by whose they are is one of the working people, of the sex the words say.
+    expect(sitter({ role: 'a widow whose son went after the raiders', name: 'the woman in black', key: 'g' }))
+      .toMatchObject({ sex: 'woman', station: 'labouring' });
+  });
 });
 

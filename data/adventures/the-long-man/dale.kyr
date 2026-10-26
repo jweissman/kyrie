@@ -82,17 +82,21 @@ Module longman "The Long Man" {
 
   // The people of Merrow, and what they want.
   Person venn "Aldous Venn" at study {
-    Role "steward of the Hall". Ancestry human. Peaceable.
+    Role "steward of the Hall". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "Aldous Venn gets up from his bills with a smile that arrives a moment before the rest of him. 'A traveller, and armed,' he says. 'You will have seen my notice.'".
     Objects "Venn sees {?i} in your hands, and his face changes. 'That belongs to the Hall,' he says. 'Give it here.'".
   }
   Person dunnet "Dunnet" at yard {
-    Role "foreman at the Hall". Ancestry human. Calling warrior. Peaceable.
+    Role "foreman at the Hall". Ancestry human. Calling warrior. Peaceable. Pronouns he. Manner stoic.
+    Greets "Dunnet, a big man with a slow face, straightens up from the cart and looks at you, and then past you at the hill, as if you might have brought something down off it.".
     Wants bandages. Wants tin_lantern.
     Objects "Dunnet looks at {?i}, and at you, and goes in to the steward without a word. The study door bangs.".
   }
   Initially Assert serves(dunnet, venn).
   Person ysolt "Mother Ysolt" at nave {
-    Role "priest of the Chapel of the Ford". Ancestry human. Calling cleric. Peaceable.
+    Role "priest of the Chapel of the Ford". Ancestry human. Calling cleric. Peaceable. Pronouns she. Manner compassionate.
+    Likeness "abbess".
+    Greets "Mother Ysolt looks up from the parish register with the eyes of someone who has buried half the parish and christened the rest. 'You'll be after the steward's forty crowns,' she says. 'Sit down first.'".
     Wants keeper_mask.
   }
   Event mask_buried near ysolt when keeps(ysolt, ?face) and itemKind(?face, keeper_mask) "Mother Ysolt takes the grey face in both hands and looks at it a long time. That evening she buries it in the chapel yard with the words for the dead, and rings the bell once." then {
@@ -100,14 +104,18 @@ Module longman "The Long Man" {
   }
   Relation buried(item).
   Person hob "Hob Teller" at millhouse {
-    Role "the miller". Ancestry human. Peaceable.
+    Role "the miller". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Likeness "potter".
+    Greets "Hob Teller looks up from the hopper, and his eyes go to your boots, wet from the beck, and back to your face. 'Mill's not grinding today,' he says, though it is.".
   }
   Person nell "Gammer Coller" at reeve_room {
-    Role "the dyke-reeve". Ancestry human. Peaceable.
+    Role "the dyke-reeve". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "Gammer Coller looks you over from her chair by the fire, slowly, the way she would look at a ditch. 'Well,' she says. 'Shut the door, or the cat will be out.'".
     Objects "'That is the reeve's rod,' says Gammer Coller, very quietly. 'It is not yours, and it is not mine to lose. Put it back.'".
   }
   Person martin "Martin Pask" at taproom {
-    Role "landlord of the Drowned Ox". Profession innkeeper. Peaceable.
+    Role "landlord of the Drowned Ox". Profession innkeeper. Peaceable. Pronouns he. Manner jovial.
+    Greets "'A traveller!' says Martin Pask, loud enough for half the place to hear. 'Sit, sit. Or stand. What'll it be?'".
     Sells rations for 2 coin from 6.
     Sells torch for 1 coin from 6.
   }
@@ -295,7 +303,8 @@ Module longman "The Long Man" {
     On discuss { Assert confessed(hob). }
   }
   Rule hob_staunches when confessed(hob) and state(cuts, open) and untilLight(clock) == 1 { Assert state(cuts, staunched). }
-  Thing cuts "the cuts at the springs" at springs {
+  // What the springs are is not in their name: looking closely, or searching the place, finds the spade-cuts.
+  Thing cuts "the spring-heads" at springs {
     State open "The springs pour out of the turf, cold and clear, more water than a few springs ought to give.".
     State staunched "The cuts at the springs have been staked and packed with clay. The water seeps instead of pouring.".
     Change staunch "Stake the spade-cuts and pack them with clay" from open to staunched needing digging or shovel after learning cuts_known.
@@ -303,6 +312,7 @@ Module longman "The Long Man" {
   Discovery cuts_known "Someone has cut the Weeping Springs wider with a spade, this year: the edges are still square." {
     Found by searching springs "Under the water the turf is cut in clean square bites, too regular for water to have made. A spade did this, not long ago.".
   }
+  Observe cuts_looked near cuts when tried(cuts, looking) "Under the water the turf is cut in clean square bites, too regular for water to have made. A spade did this, not long ago." teaches cuts_known.
 
   // Gammer Coller and her rod.
   Topic nell_rhyme with nell "Ask Gammer Coller about the Mower" when true once {
@@ -321,7 +331,9 @@ Module longman "The Long Man" {
 
   // Cass Rowell's barge, the Heron: up the beck at noon on the second day, away at dusk.
   Person cass "Cass Rowell" at downriver {
-    Role "master of the barge Heron". Ancestry human. Calling thief. Level 3. Peaceable.
+    Role "master of the barge Heron". Ancestry human. Calling thief. Level 3. Peaceable. Pronouns she. Manner grim.
+    Likeness "butcher".
+    Greets "Cass Rowell looks at you, and at your hands, and at the bank behind you, in that order. 'If it's passage, I'm full,' she says. 'If it's business, say it.'".
     Buys bell_teeth for 8 coin.
   }
   Person hands "the Heron's hands" at downriver {

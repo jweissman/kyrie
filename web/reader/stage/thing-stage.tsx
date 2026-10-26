@@ -53,9 +53,12 @@ export class ThingStage {
         {Typography.curl(shared.parts[i]!)}</Act.View></li>)}</ul>
     </>;
   }
-  // What can be seen of it: what is said of it where it stands, and what the place says of it by name.
+  // What can be seen of it: what is said of it where it stands, and what the place says of it by name, sentence by
+  // sentence (a notice nailed up in a taproom is that sentence, not the taproom's colliers and stair).
   static seen(situation: string[], name: string, about?: string): string[] {
     const bare = name.replace(/^(the|a|an|some) /i, '').toLowerCase();
-    return [...about ? [about] : [], ...situation.filter(p => p.toLowerCase().includes(bare) && !(about && p.includes(about)))];
+    const said = situation.flatMap(p => p.match(/[^.!?]+[.!?]+['’”]?(\s|$)/g) ?? [p]).map(t => t.trim())
+      .filter(t => t.toLowerCase().includes(bare) && !(about && about.includes(t)));
+    return [...about ? [about] : [], ...said.length ? [said.join(' ')] : []];
   }
 }

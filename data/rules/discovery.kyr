@@ -27,7 +27,8 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   // knew it, but no longer passed on as news.
   Relation stale(fact).
   Goal false.
-  Action examine(actor: group, witness: source, statement: fact, site: place) "Examine {witness}" {
+  // What a source tells is read in it (a notice, a ledger, notches cut in stone), and is said so.
+  Action examine(actor: group, witness: source, statement: fact, site: place) "Read {witness}" {
     Time 5 minutes.
     Requires able(actor) and at(actor, site) and at(witness, site) and not benighted(actor)
       and noticeable(witness) and intact(witness) and mayExamine(actor, witness)

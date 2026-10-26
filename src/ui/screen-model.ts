@@ -13,6 +13,7 @@ import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../presentation/fictional-time';
 import { SeenThrough } from './seen-through';
+import { Openings } from '../presentation/openings';
 import { Calendar } from '../presentation/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
@@ -290,7 +291,7 @@ export class ScreenModel {
     const food = counted ? w.number(ModuleWriter.call('quantity', p.id, 'rations')) : 0;
     const forSale = w.module.relations.some(r => r.name === 'forSale') && w.test(ModuleWriter.call('forSale', p.id));
     // Something growing is told by how it grows (its description), not by the name of its state.
-    const note = p.condition && p.type !== 'scenery' ? p.condition : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'read')
+    const note = p.condition && p.type !== 'scenery' ? p.condition : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     const look = p.type === 'item' ? this.described(w, p.id, p.name) : undefined;
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
@@ -311,13 +312,13 @@ export class ScreenModel {
     TargetRow['portrait'] {
     const own = w.module.relations.some(r => r.name === 'likeness') ? w.one('likeness', id) : undefined;
     const ownName = own && w.module.entities.find(e => e.id === own)?.name;
-    const role = w.module.entities.find(e => e.id === id)?.name.split(', ').slice(1).join(' ');
+    const [name, ...rest] = w.module.entities.find(e => e.id === id)?.name.split(', ') ?? [], role = rest.join(' ');
     const pronoun = w.module.relations.some(r => r.name === 'pronouns') ? w.one('pronouns', id) : undefined;
     const sex = /pron_he$/.test(pronoun ?? '') ? 'man' as const : /pron_she$/.test(pronoun ?? '') ? 'woman' as const : undefined;
     const painting = Likeness.of({ ...ownName ? { own: ownName } : {},
       ...member?.backgroundId ? { background: member.backgroundId } : {},
       ...member?.professionId ? { profession: member.professionId } : {}, ...role ? { role } : {},
-      ...sex ? { sex } : {}, key: id });
+      ...name ? { name } : {}, ...sex ? { sex } : {}, key: id });
     const credit = painting && Likeness.credits[painting];
     return painting ? { src: Likeness.src(painting), large: Likeness.large(painting), focus: Likeness.focus(painting),
       ...credit ? { credit } : {} } : undefined;
@@ -373,7 +374,7 @@ export class ScreenModel {
   private static sheet(campaign: Campaign, id: string, ref: string | undefined, acts: Act[]) {
     const c = campaign.readout.creatures.find(x => x.id === id);
     if (!c) { return {}; }
-    const development = CharacterSheets.development(c, ref, new Set(this.offered(acts)));
+    const development = CharacterSheets.development(c, ref, new Set(this.offered(acts)), Openings.of(campaign));
     return { sheet: CharacterSheets.sheet(c), ...development ? { development } : {} };
   }
   private static offered(acts: Act[]): string[] {

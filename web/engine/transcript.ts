@@ -21,7 +21,9 @@ export class PlayTranscript {
     const ambush = event.prelude ? [...(event.prelude.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       event.prelude.response ?? ''] : [];
     // "Bran: set down a sack of bell-teeth." is how an item leaves a hand; the action says how it went.
-    const lines = [...ambush, ...(plain ? [] : [f.result]),
+    // What the voice tables told of it (a greeting, someone joining) is the story's as it was the page's.
+    const voiced = (event.voiced ?? []).filter(v => !v.kind.startsWith('journey')).map(v => v.text);
+    const lines = [...ambush, ...(plain ? [] : [f.result]), ...voiced,
       ...f.immediate.map(l => l.replace(/^You witness: /, '')).filter(l => !/^[^:]+: set down /.test(l)),
       ...(c.moved ? [] : f.observations), ...f.events];
     const told = Narration.tidy([...new Set(lines.filter(Boolean))],

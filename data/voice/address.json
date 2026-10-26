@@ -163,7 +163,7 @@
         "moment": "first",
         "manner": "jovial"
       },
-      "text": "‘A traveller!’ says {actor}, loud enough for half the place to hear. ‘Sit, sit. Or stand. What’ll it be?’"
+      "text": "‘Now then!’ says {actor}, loud enough for anyone near to hear. ‘A new face. What can I do for you?’"
     },
     {
       "id": "address.again.jovial",

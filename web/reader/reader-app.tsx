@@ -1,6 +1,6 @@
 import { Component, type ReactNode } from 'react';
 import type { Choice } from '../../src/ui/choice-list';
-import type { Catalog, CompanyView, Frame, Member, Message, Setting } from '../engine/protocol';
+import type { Catalog, CompanyView, Entry, Frame, Member, Message, Setting } from '../engine/protocol';
 import { EngineClient } from './engine-client';
 import { MenuModel, type Menu, type View } from './menu-model';
 import { Conversation, type TalkLine } from './conversation';
@@ -44,6 +44,8 @@ export interface AppState {
   // A choice that cannot be undone, chosen once: its cost is said, and it is done if chosen again.
   confirming?: string;
   stage: string; error: string; help: boolean;
+  // The whole story so far, asked for when the Story is opened (frames carry only its last entries).
+  story?: Entry[];
 }
 
 // The page. The engine decides everything that happens; this keeps what is on show, which choice the keys are on,
@@ -122,6 +124,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       return;
     }
     if (!choice.command) { if (this.state.view === 'company') { this.setState({ member: choice.id }); } return; }
+    // A pointer to a book (a development to spend is spent in the character).
+    const book = /^view:(\w+)(?::(.+))?$/.exec(choice.command);
+    if (book) { this.show(book[1] as View, book[2]); return; }
     // Nothing that cannot be undone is done by a slip: it is said first, and done when chosen again.
     if (choice.grave && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
     const said = MenuModel.said(this.menu, choice);
@@ -201,10 +206,14 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
     else if (s.attention.kind !== 'place') { this.setState({ attention: Conversation.place, cursor: 0 }); }
   };
-  show(view: View) {
+  show(view: View, who?: string) {
     if (this.state.frame?.combat && view !== 'here') { return; }
-    const member = this.state.member || (this.state.frame?.screen.party[0]?.id ?? '');
+    const member = who ?? (this.state.member || (this.state.frame?.screen.party[0]?.id ?? ''));
     this.setState({ view: this.state.view === view ? 'here' : view, cursor: 0, open: [], hovered: undefined, member });
+    if (view === 'story' && this.state.view !== 'story') {
+      this.setState({ story: undefined });
+      void this.engine.request<Entry[]>({ kind: 'story' }).then(story => { this.setState({ story }); });
+    }
   }
   readonly hover = (id?: string) => { if (id !== this.state.hovered) { this.setState({ hovered: id }); } };
   readonly download = () => {

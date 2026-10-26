@@ -25,6 +25,9 @@ export interface CharacterSheet {
 // One way to spend a level's development, with what it would change, worked out by doing it to a copy.
 export interface DevelopmentOption {
   kind: 'quality' | 'skill'; id: string; name: string; text?: string; changes: string[];
+  // What it would open that the company has come to and cannot do now (see Openings): "the gauge shaft, to the
+  // gauge stone".
+  opens?: string[];
   // The command that spends it, when the engine offers it now (awake, and somewhere it can be taken in).
   command?: string;
 }
@@ -94,11 +97,12 @@ export class CharacterSheets {
   }
   // A level's development: what is left to spend, and each way of spending it with what it would change and, where
   // the engine offers it now, the command that spends it (`offered`: the member's commands, by id).
-  static development(c: Creature, ref?: string, offered: Set<string> = new Set()): Development | undefined {
+  static development(c: Creature, ref?: string, offered: Set<string> = new Set(),
+    opens: Map<string, string[]> = new Map()): Development | undefined {
     const left = c.state.advances?.qualities ?? 0;
     if (!left || c.state.hp === 0) { return undefined; }
     const options = [...CreatureSchema.attributes.map(q => this.quality(c, q)),
-      ...Advancement.teachable(c).map(s => this.skill(c, s))];
+      ...Advancement.teachable(c).map(s => ({ ...this.skill(c, s), ...opens.get(s) ? { opens: opens.get(s)! } : {} }))];
     return { left, options: options.map(o => {
       const command = `${o.kind === 'quality' ? 'raise_quality' : 'learn_skill'}(${ref},${o.id})`;
       return ref && offered.has(command) ? { ...o, command } : o;

@@ -76,6 +76,7 @@ export class EngineHost {
       }
       // The page's download waits for the command under way (the independent review's A2).
       case 'checkpoint': await this.working; return this.session ? JSON.stringify(this.session.checkpoint(true)) : null;
+      case 'story': return this.log;
     }
   }
   // A start made ready while the player reads the page, for the choices as they then stood.
@@ -226,7 +227,7 @@ export class EngineHost {
     if (!this.session || this.turn) { return; }
     try {
       const checkpoint = this.session.checkpoint(true), world = this.worldOf(checkpoint);
-      const save = JSON.stringify(KeptGame.split(checkpoint, world, this.log.slice(-80), this.session.campaign.world));
+      const save = JSON.stringify(KeptGame.split(checkpoint, world, this.log, this.session.campaign.world));
       const fresh = world.kept ? undefined : { key: world.key, text: await SaveCodec.pack(world.text!) };
       this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary(), ...fresh ? { world: fresh } : {} });
       world.kept = true; world.text = undefined;

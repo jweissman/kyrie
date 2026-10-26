@@ -10,7 +10,7 @@ import { CharacterPage } from './character-page';
 export class Sheet {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, screen = frame.screen;
-    const body = s.view === 'journal' ? Sheet.journal(app, frame) : s.view === 'story' ? Sheet.story(frame.entries)
+    const body = s.view === 'journal' ? Sheet.journal(app, frame) : s.view === 'story' ? Sheet.story(Sheet.whole(s.story, frame.entries))
       : s.view === 'company' ? <CharacterPage.View app={app} /> : Sheet.pack(app, screen);
     return (
       <section className={`sheet view-${s.view}`} data-region="details" aria-label={s.view}>
@@ -52,6 +52,11 @@ export class Sheet {
     const heard = facts.some(k => k.kind === 'reported') ? ', but what you have heard of is yours to follow' : '';
     return `${screen.done.length ? 'Nothing more is asked of you' : 'Nothing is asked of you yet'}${heard}.`;
   }
+  // The story as asked for, and whatever has happened since it came.
+  static whole(story: Entry[] | undefined, recent: Entry[]): Entry[] {
+    const last = story?.at(-1)?.id ?? -1;
+    return story ? [...story, ...recent.filter(e => e.id > last)] : recent;
+  }
   // Everything so far, place by place.
   private static story(entries: Entry[]) {
     let place = '';
@@ -62,7 +67,8 @@ export class Sheet {
           const chapter = e.place !== place ? <h3 key={`h${e.id}`}>{Words.upper(e.placeName)}</h3> : null;
           place = e.place;
           return <div key={e.id}>{chapter}
-            {e.said && <p className="you">{Words.echo(Words.lastSaid(e.said))}</p>}
+            {e.said && !Words.restates(Words.echo(Words.lastSaid(e.said)), e.lines[0])
+              && <p className="you">{Words.echo(Words.lastSaid(e.said))}</p>}
             {e.lines.map((l, i) => <p key={i}>{l}</p>)}</div>;
         }) : <p className="none">Nothing has happened yet.</p>}
       </article>

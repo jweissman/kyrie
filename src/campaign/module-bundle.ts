@@ -96,7 +96,10 @@ export class ModuleBundle {
     const seen = new Set<string>(), entities = modules.flatMap(m => m.entities)
       .filter(e => seen.size < seen.add(`${e.id}\u0000${JSON.stringify(e)}`).size);
     const company = modules.find(m => m.company)?.company;
-    return { ...modules[0]!, ...company ? { company } : {}, entities,
+    // The goal is whichever file declares one (The Long Man's is in its second file, and was lost as false).
+    const goals = modules.map(m => m.goal).filter(g => !(g.kind === 'boolean' && g.value === false));
+    if (goals.length > 1) { throw new Error('A module declares its Goal once, in one of its files'); }
+    return { ...modules[0]!, ...goals[0] ? { goal: goals[0] } : {}, ...company ? { company } : {}, entities,
       kinds: [...new Set(modules.flatMap(m => m.kinds))],
       relations: modules.flatMap(m => m.relations), measures: modules.flatMap(m => m.measures),
       queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),

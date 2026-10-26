@@ -88,7 +88,9 @@ export type Request =
   // Travel along known ways to a place the company knows (see Travel): leg after leg, until it arrives or something
   // wants a decision.
   | { kind: 'travel'; destination: string; said: string }
-  | { kind: 'checkpoint' };
+  | { kind: 'checkpoint' }
+  // The whole story so far, for the Story page: frames carry only its last entries.
+  | { kind: 'story' };
 export interface Envelope { id: number; request: Request }
 // What a kept game says about itself on the title: the campaign, where the company is, when, and who.
 export interface SaveSummary { title: string; where: string; when: string; company: string }

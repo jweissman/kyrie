@@ -76,9 +76,10 @@ Module longman "The Long Man" {
     Found by searching rest with lore "The notches on the Mower's breastplate are writing, the same writing as on the walls. It says, as near as it can be read: KEEPER OF THE WALL.".
   }
   Discovery mower_keeps "The Mower keeps the Long Man: it cuts every sapling on the crest before its roots can crack the wall, and it goes after bronze taken from its wheels.".
-  // Given back its bronze, it fits the teeth to the leak gate's wheel that night, and closes the gate.
-  Event mower_mends near mower when keeps(mower, teeth) and not state(leak_gate, mended) "The Mower takes the sack of teeth in both hands, turns, and walks away into the hill. Some time later, deep inside the Long Man, something heavy closes with a sound like a bell." then {
-    Assert state(leak_gate, mended).
+  // Given back its bronze, it fits the teeth to the leak gate's wheel that night, and closes the gate. The company
+  // that gave them sees it go into the hill (near the company, since it is the Mower that goes).
+  Event mower_mends near party when keeps(mower, teeth) and not state(leak_gate, mended) "The Mower takes the sack of teeth in both hands, turns, and walks away into the hill. Some time later, deep inside the Long Man, something heavy closes with a sound like a bell." then {
+    Assert state(leak_gate, mended). Assert at(mower, leak).
   }
   Item mask "the Mower's mask" is keeper_mask at core.
   Rule mower_falls when dead(mower) and at(mower, ?p) and at(mask, core) { Assert at(mask, ?p). }
@@ -172,4 +173,7 @@ Module longman "The Long Man" {
   Observe after_mended at green when calm(long_man) and not broke(long_man) and not drawn(hollow) "The beck runs brown but low between its banks, and nobody on the green is talking about the Long Man. The springs at its foot, people say, have nearly stopped.".
   Observe after_drawn at green when calm(long_man) and drawn(hollow) "Children stand on the dyke looking north, where the roofs of a grey town show above Hollow Water for the first time in a thousand years.".
   Observe after_broken at yard when calm(long_man) and broke(long_man) "Below the Hall the dale is one brown water from the ridge to the willows. The Long Man has a gap in it a hundred yards wide, and the lake is going out through it.".
+  // Merrow safe from its wall: the leak shut, by the Mower or by the company; the lake drawn down; or the wall broken
+  // with Merrow up the hill. Seen through, it is the company's experience (module.json, placed.json).
+  Goal state(leak_gate, mended) or drawn(hollow) or (broke(long_man) and calm(long_man) and not lostToWater(folk)).
 }

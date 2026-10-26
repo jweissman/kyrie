@@ -9,8 +9,8 @@ deliberately left. Newest entries first in each part. The plan and its decisions
 |---|---|
 | A. A transformed, trustworthy interface | in production: the place, road, conversation, object and fight pages on one white page; the Character view from the start, with development and its previews |
 | B. The way into adventure | in production for every world Begin draws: Merrowdale's notice and rumour in every first-country town, its road known, one journey there; free play from Begin across seeds still to do |
-| C. A complete RPG expedition | not begun |
-| D. Becoming and continuing | not begun |
+| C. A complete RPG expedition | in production: The Long Man played from Begin in two drawn worlds (Lonelymoor, Coldwaste) to its peaceful end, with withdrawal, return and a reload midway; its findings repaired; the storm and its aftermath still to play |
+| D. Becoming and continuing | in part: seen through for 1,000 experience, level 2 after a night under a roof, a development chosen in the Character view by what it opens; the Story whole across reloads; Saltgrave entered from the same world. The return is not yet acknowledged |
 | E. Independent acceptance and accounting | not begun |
 
 ## The baseline (`0e066e5`, the public page, seed drawn by Begin)
@@ -28,6 +28,45 @@ Played from the title page at 1280 × 860:
   - the road across the march told as fen ("Out on the fen the sky is enormous") in a frost country.
 
 ## Done and verified
+
+- **C, D. The Long Man, played from Begin.** Two free plays from the title page, in worlds Begin drew. Lonelymoor: a
+  dwarf warrior on the brothers' errand. Coldwaste: a human warrior who owes a smith fifty coin. Begin to Merrow
+  green took 4½ minutes of the player's time. What the plays found, repaired:
+  - **Seen through, and worth it.** The Long Man has a goal at last: Merrow safe from its wall, by the leak shut, the
+    lake drawn down, or the wall broken with Merrow up the hill. Seen through, it is 1,000 experience for each of
+    the company: a level, taken up after a night under a roof. The goal had been written all along in the
+    adventure's second file, and the merge kept only the first file's (`ModuleBundle.merge` now takes it wherever
+    it is, and refuses two).
+  - **The moment is set as one.** Giving the Mower its teeth ends a chapter: what happened, then "Seen through", the
+    adventure's name large, what it was worth and what it brings. The Mower's own words were going unheard, because
+    the event moved it out of earshot as it told them.
+  - **What is newly seen is told.** Staying in a place, the page recalls only its first sentence, so the Mower coming
+    onto the crest at nightfall ("a long blade flicks, and something small falls") and the wheels a torch shows in
+    the sluice chamber were cut. What a command makes seen is now told as what happened. A wait tells the place,
+    then whoever came, as they are seen (`Interruption`), not "The Mower comes where you are".
+  - **The people of the dale are themselves.** Each has the manner, pronouns and first greeting the adventure's
+    design gives them. Four of them had greeted the company as a jovial landlord ("Sit, sit. Or stand. What'll it
+    be?"), Dunnet in a yard.
+  - **A likeness that fits, or none, again.** Mother Ysolt was Valentin's young Samson. A role is now read by its
+    work ("priest of the Chapel of the Ford" is a priest, not a ford), a title says sex and age (Mother, Gammer,
+    Sir), and someone nothing places is met in type. Twenty-four more paintings are refused: faces the player may
+    know (the Mona Lisa, Franklin, Darwin, Voltaire, Erasmus, Shakespeare, Newton, Dickens, Lovelace, Napoleon,
+    the Lady with an Ermine), saints with their emblems, a cardinal in scarlet, sketches and posters.
+  - **No empty answers.** Looking closely at the springs found nothing, though the spade-cuts are the dale's
+    secret, and the thing was named "the cuts" before anyone knew. The Story said "You carry out the action." under
+    every greeting. A source is read, not examined. An act and its telling are not said twice ("You light a torch.
+    / Hild lights a torch.").
+  - **The Story is the whole story.** A save kept its last eighty entries, so after a reload the story began
+    mid-way. It now keeps all of it, and the Story page asks the engine for the whole.
+  - **Development where the character is.** Seven "take up" acts crowded the place. The skills were not even
+    choosable in the Character view, being grouped nowhere. Now the place says only that there is a development to
+    spend, and opens the character, where each skill says what it opens (`Openings`, from the rules' own needs):
+    "Climbing … Opens the gauge shaft, to the foot of the gauge shaft". Taken up, the shaft opened.
+  - **A kept game goes on after the rules change.** A save from before "Examine" became "Read" could not go over a
+    march ("Conflicting shared definition examine", in a toast). Shared definitions all come from one edition of
+    the rules, so two that differ mean a kept world joined by newer content. The world keeps its own.
+  - Tests: `test/paintings.test.ts`, `test/the-long-man.test.ts`, `test/travel.test.ts`, the browser specs and the
+    long descents.
 
 - **A. A likeness that fits, or none.** Eighteen portraits the game will not cast for anyone it makes are listed
   with why (`data/paintings/unfit.json`): the two severed heads, another world's saints, apostles, Virgin and pope
@@ -91,12 +130,23 @@ Played from the title page at 1280 × 860:
 
 ## Found, not yet done
 
-- **The road's telling repeats across legs:** "The road follows the river a while…" and "Partway, the road goes down
-  to the water…" on two legs of one journey (generated text, an editorial item).
+- **The return is not acknowledged.** Back in Machatdûm after Merrowdale, the innkeeper who sent the company
+  greets it as anyone. The notice and the talk of forty crowns go on as if nothing had happened.
+- **A journey says it sets out on every leg:** "You set out from X in the middle of the afternoon, and the rain sets
+  out with you" on four legs running. Climbing down a shaft is told as a walk in the rain. "The road follows the
+  river a while…" and "Partway, the road goes down to the water…" came on two legs of one journey.
+- **A road page offers no "Set out for",** so a journey stopped on the road cannot be taken up again from there.
+- From the plays:
+  - the Mower's danger line says "Automaton", which gives away what the dale must discover;
+  - Hild's lore read the Mower's breastplate, but nothing says it was her learning that did;
+  - a thing page shows the last exchange even when it was about someone else;
+  - the gauge shaft, once climbable, is listed among the roads out;
+  - "The company is weary" for a company of one;
+  - "You go out of Merrow" from the Hall yard to the green;
+  - "Aldous Venn sees what you have taken" while he is in his study;
+  - the map draws the south road hanging from the Drowned Ox;
+  - state names as notes ("worn", "hung") and "Examine — Look closely".
 
-- **Nothing teaches a character for resolving a situation.** Experience comes from fights won and treasure first
-  sold, so The Long Man's peaceful ending would give a character nothing. Level 2 is 1,000 experience; the wren
-  record's first expedition brings 360.
 - **A level-1 warrior knows all ten of its calling's techniques,** so a technique cannot be what a level adds
   without rebalancing every fight. The first stage is skills and qualities; techniques stay the calling's features.
 

@@ -30,7 +30,11 @@ export class MenuModel {
   }
   // The character: who in the company is shown (when there is more than one), the development they have to spend,
   // each way of spending it said with what it is, and whatever else can be done with them.
-  static readonly developing = /^(raise_quality|learn_skill)\(/;
+  static readonly development = /^(raise_quality|learn_skill)\(/;
+  // A choice that spends a development, or opens only ways of spending one (Advance › Take up a skill).
+  private static develops(c: Choice): boolean {
+    return this.development.test(c.command ?? '') || (!!c.children?.length && c.children.every(k => this.develops(k)));
+  }
   static character(screen: Frame['screen'], member?: string): Section[] {
     const m = screen.party.find(x => x.id === member) ?? screen.party[0];
     if (!m) { return []; }
@@ -43,15 +47,24 @@ export class MenuModel {
       ...development.length ? [{ id: 'development', title: 'Development', tone: 'member' as const, glyph: '+',
         choices: development }] : [],
       { id: 'acts', title: 'What can be done', tone: 'member' as const, glyph: '·',
-        choices: others.filter(c => !this.developing.test(c.command ?? '')) }];
+        choices: others.filter(c => !this.develops(c)) }];
   }
-  // The place, and after its ways out, the places the company knows the way to and could set out for.
-  private static place(scene: Scene, opened: Set<string>, screen: Frame['screen']): Menu {
+  // The place, and after its ways out, the places the company knows the way to and could set out for. A level's
+  // development is spent in the character, where what each way of spending it changes is said: here it is only said
+  // that there is one (the free play of M16 found seven "take up" acts crowding the place).
+  private static place(found: Scene, opened: Set<string>, screen: Frame['screen']): Menu {
+    const scene = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen) : c) };
     const destinations = this.destinations(screen);
     const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...destinations,
       ...scene.you].flatMap(c => this.unfold(c, opened));
     return { scene, sections: [...this.sections(scene), ...destinations.length ? [{ id: 'destinations',
       title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: destinations }] : []], choices, destinations };
+  }
+  private static developing(c: Choice, screen: Frame['screen']): Choice {
+    const id = /^advance:([^/]+)/.exec(c.id)![1]!, m = screen.party.find(x => x.id === id);
+    const left = m?.development?.left ?? 1;
+    return { id: c.id, label: `${m?.name ?? c.label}: ${left === 1 ? 'a development' : `${left} developments`} to spend`,
+      tone: c.tone, command: `view:company:${id}` };
   }
   // A place known and the way to it: opened, the way it goes, leg by leg, and setting out.
   static destinations(screen: Frame['screen']): Choice[] {

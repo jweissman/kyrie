@@ -26,7 +26,7 @@ export class CharacterPage {
         <h2 className="who">{Typography.curl(m.name)}</h2>
         <p className="line-of">{Words.upper(Words.article(m.line))}, level {m.level}{m.background
           ? `, once ${Words.article(m.background.toLowerCase())}` : ''}</p>
-        {exchange?.said && /^(Have|Raise|Take up)/.test(exchange.said) && <Told.Happened exchange={exchange} said />}
+        {exchange?.said && /^(Have|Raise|Take up)/.test(exchange.said) && <Told.Happened exchange={exchange} />}
         <CharacterPage.Development member={m} draw={draw} choices={sections.find(s => s.id === 'development')?.choices ?? []} />
         <CharacterPage.Standing member={m} />
         <CharacterPage.Sheet member={m} screen={screen} />
@@ -61,7 +61,8 @@ export class CharacterPage {
           : <span className="take still">{o.name}</span>}
         {o.kind === 'quality' && <span className="from-to">{o.text}</span>}
         {o.kind === 'skill' && o.text && <p className="what">{Typography.curl(o.text)}</p>}
-        <ul className="changes">{o.changes.map(c => <li key={c}>{Typography.curl(c)}</li>)}</ul>
+        <ul className="changes">{o.changes.map(c => <li key={c}>{Typography.curl(c)}</li>)}
+          {(o.opens ?? []).map(w => <li key={w} className="opens">Opens {Typography.curl(w)}</li>)}</ul>
       </li>
     );
   }
@@ -75,7 +76,7 @@ export class CharacterPage {
     );
   }
   static Sheet({ member: m, screen }: { member: MemberRow; screen: Screen }) {
-    const sheet = m.sheet, gear = screen.items.filter(i => i.owner === m.id);
+    const sheet = m.sheet, gear = CharacterPage.counted(screen.items.filter(i => i.owner === m.id));
     return <>
       {sheet && <section><h3>Qualities</h3><table className="qualities"><tbody>{sheet.qualities.map(q => <tr key={q.id}>
         <th scope="row">{q.name}</th>
@@ -97,10 +98,20 @@ export class CharacterPage {
       </ul></section>}
       <section><h3>Techniques</h3><dl className="abilities">{m.abilities.map(a => <div key={a.id}>
         <dt>{a.name}{a.price && <span className="from"> {a.price}</span>}</dt><dd>{Typography.curl(a.text)}</dd></div>)}</dl></section>
-      <section><h3>Carries</h3><ul className="gear">{gear.map(i => <li key={i.id}><b>{Words.upper(i.name)}</b>
+      <section><h3>Carries</h3><ul className="gear">{gear.map(({ item: i, count }) => <li key={i.id}>
+        <b>{Words.upper(count > 1 ? Words.many(count, Words.bare(i.name)) : Words.bare(i.name))}</b>
         {i.equipped && <span className="from"> in use</span>}{i.description && <span> · {Typography.curl(i.description)}</span>}
       </li>)}</ul>{!gear.length && <p className="none">Nothing.</p>}</section>
     </>;
   }
   static signed(n: number): string { return n >= 0 ? `+${n}` : `−${-n}`; }
+  // What is carried, the same things together (three torches, not a torch three times), what is in use apart.
+  static counted<T extends { name: string; equipped?: boolean }>(items: T[]): { item: T; count: number }[] {
+    const out: { item: T; count: number }[] = [];
+    for (const item of items) {
+      const same = out.find(o => o.item.name === item.name && !!o.item.equipped === !!item.equipped);
+      if (same) { same.count++; } else { out.push({ item, count: 1 }); }
+    }
+    return out;
+  }
 }

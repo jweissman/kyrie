@@ -19,12 +19,12 @@ export class Told {
       {leaf.heading && <p className={`chapter kind-${leaf.heading.kind}`}>{Typography.curl(leaf.heading.kind === 'country'
         ? `Into ${leaf.heading.title}` : leaf.heading.title)}</p>}
       <h1 className="place" data-id="place">{Typography.curl(Words.upper(screen.place.name))}</h1>
-      {screen.dark && <p className="dark-note">It is dark here. You have no light to see by.</p>}
+      {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       {s.pending && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {!s.pending && frame.travel && <Told.Journey travel={frame.travel} />}
       {!s.pending && !frame.travel && leaf.moved && leaf.journey && leaf.journey.length > 0 && <div className="journey"
         aria-label="On the way">{leaf.journey.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}</div>}
-      {!s.pending && stayed && <Told.Happened exchange={told} said />}
+      {!s.pending && stayed && <Told.Happened exchange={told} said ready={Told.ready(screen)} />}
       {leaf.situation.length > 0 && (stayed
         ? <p className="recall">{Typography.curl(Told.first(leaf.situation[0]!))}</p>
         : <div className="establish">{leaf.situation.map((p, i) => <p key={i}>{Typography.curl(p)}</p>)}</div>)}
@@ -33,7 +33,7 @@ export class Told {
         <p className="label">Since you were last here</p>
         {leaf.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
       </div>}
-      {!s.pending && told && !stayed && <Told.Happened exchange={told} />}
+      {!s.pending && told && !stayed && <Told.Happened exchange={told} ready={Told.ready(screen)} />}
     </>;
   }
   // A journey along known ways: each leg as it went, under the time it came there; and, if it did not arrive, what
@@ -47,6 +47,30 @@ export class Told {
         {!travel.arrived && <p className="stopped">{Typography.curl(travel.stopped ?? 'The journey stops here')}.</p>}
       </section>
     );
+  }
+  // Something seen through (the Long Man, the fever) is the end of a chapter, and the page sets it as one: what it
+  // was, large; what it was worth; and, where it is enough for a level, when that is taken up.
+  static readonly ending = /^(.+?) (each gain|gains) (\d+) experience: (.+), seen through\.$/;
+  static SeenThrough({ ended, ready }: { ended: RegExpExecArray; ready?: string }) {
+    const [, who, gain, amount, what] = ended;
+    return (
+      <div className="seen-through" role="note" data-id="seen-through">
+        <p className="kicker">Seen through</p>
+        <p className="what">{Typography.curl(Words.upper(what!))}</p>
+        <p className="gain">{Typography.curl(`${who} ${gain} ${amount} experience.`)}</p>
+        {ready && <p className="next">{Typography.curl(ready)}.</p>}
+      </div>
+    );
+  }
+  // Who in the company has enough for their next level, and how it is taken up.
+  static ready(screen: Frame['screen']): string | undefined {
+    const m = screen.party.find(x => /^Ready for level/.test(x.progress ?? ''));
+    return m && `${screen.party.length > 1 ? `${m.name}: ` : ''}${m.progress!.replace(/^Ready/, 'Enough')
+      .replace(/: a night under a roof$/, ', taken up after a night under a roof')}`;
+  }
+  // Whether the page already says it (the dark, in the place's own words), so it is not said twice.
+  static says(leaf: Frame['leaf'], pattern: RegExp): boolean {
+    return [...leaf.situation, ...leaf.exchange?.lines.map(l => l.text) ?? []].some(t => pattern.test(t));
   }
   // A paragraph's first sentence: the place, recalled while something is done in it.
   static first(text: string): string {
@@ -84,11 +108,15 @@ export class Told {
   }
   // What came of something done: what the company did, when it did it where it stands, in its own words; then what
   // happened, and what it came to know or spent.
-  static Happened({ exchange, said }: { exchange: Exchange; said?: boolean }) {
+  static Happened({ exchange, said, ready }: { exchange: Exchange; said?: boolean; ready?: string }) {
+    const echo = said && exchange.said ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
+    const ended = exchange.lines.map(l => Told.ending.exec(l.text)).find(Boolean);
     return (
       <section className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
-        {said && exchange.said && <p className="you">{Typography.curl(Words.echo(Words.lastSaid(exchange.said)))}</p>}
-        {exchange.lines.map((l, i) => <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
+        {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
+        {exchange.lines.filter(l => !Told.ending.test(l.text)).map((l, i) => <p key={i} className={l.kind}>
+          {Typography.curl(l.text)}</p>)}
+        {ended && <Told.SeenThrough ended={ended} ready={ready} />}
         {exchange.notes.length > 0 && <ul className="notes">{exchange.notes.map(n => <li key={n}
           className={/^Noted: /.test(n) ? 'learned' : undefined}>{/^Noted: /.test(n)
             ? <><span className="label">You know now</span> {Typography.curl(n.replace(/^Noted: /, ''))}</>

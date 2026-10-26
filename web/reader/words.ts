@@ -38,6 +38,16 @@ export class Words {
     const act = what!.toLowerCase();
     return at ? `${act} on ${at}` : act;
   }
+  // Whether a line of what happened says the act again ("Hild lights a torch." after "You light a torch."): its verb
+  // among its first words, and the two after it the same. Then the echo of it is not said as well.
+  static restates(echo: string, line?: string): boolean {
+    const [you, verb, ...rest] = this.words(echo), said = this.words(line ?? '');
+    if (you !== 'you' || !verb) { return false; }
+    const forms = [verb, `${verb}s`, `${verb}es`, verb.replace(/y$/, 'ies')];
+    const at = said.slice(0, 4).findIndex(w => forms.includes(w));
+    return at >= 0 && rest.slice(0, 2).every((w, i) => said[at + 1 + i] === w);
+  }
+  private static words(t: string): string[] { return t.toLowerCase().replace(/[.!?,;:’']/g, '').split(/\s+/); }
   // What the player chose, as the last of the labels it was chosen by ("Speak with Eamon › Ask about the road").
   static lastSaid(said: string): string { return said.split(' › ').at(-1)!; }
   // "a hunter", "an eel-catcher".
@@ -47,6 +57,15 @@ export class Words {
     if (minutes < 60) { return `${minutes} minutes`; }
     const halves = Math.round(minutes / 30), hours = Math.floor(halves / 2), half = halves % 2 ? '½' : '';
     return `about ${hours}${half} hour${hours === 1 && !half ? '' : 's'}`;
+  }
+  // A thing without its article, as a list names it: "a torch" is "torch".
+  static bare(name: string): string { return name.replace(/^(a|an|the|some) /i, ''); }
+  // How many of a thing, in words: "three torches", "two sacks of bell-teeth".
+  static many(n: number, noun: string): string {
+    const [head, ...of] = noun.split(' of '), plural = /(s|x|z|ch|sh)$/.test(head!) ? `${head}es`
+      : /[^aeiou]y$/.test(head!) ? `${head!.slice(0, -1)}ies` : `${head}s`;
+    const said = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n];
+    return `${said ?? n} ${[plural, ...of].join(' of ')}`;
   }
   // The subject of a person or thing named with what they are: "Wren, ferry-keeper" is Wren.
   static short(name: string): string { return name.split(', ')[0]!; }
