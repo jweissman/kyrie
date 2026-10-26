@@ -29,6 +29,20 @@ Module wrayford "The Third Night" {
     Role "the Bridge Company's collector, in a new black coat". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Greets "Amos Pinch looks up from his tally with the expression of a man who has been looked up from his tally all morning. 'A farthing, foot-passengers,' he says. 'Since the riot.'".
   }
+  // The farthing, taken at the chain from everyone who goes on to the bridge while Pinch keeps the booth: once a day,
+  // since he gives a tally-stick for it, and nobody but the Bench's freemen goes free.
+  Measure tollDay(group). Initially Set tollDay(party) to 0.
+  Relation owesToll(group).
+  Rule toll_taken when at(party, bridge_street) and at(pinch, gate_road) and not asleep(pinch) and tollDay(party) < dayN(wray)
+    and not carries(party, bridge_token) and quantity(party, gold) >= 1 says "At the chain Amos Pinch takes your farthing. You give him a penny; he gives you three farthings' change, counted into your palm one at a time, and a notched tally-stick that says you have paid today." {
+    Set tollDay(party) to dayN(wray). Decrease quantity(party, gold) by 1. }
+  Rule toll_owed when at(party, bridge_street) and at(pinch, gate_road) and not asleep(pinch) and tollDay(party) < dayN(wray)
+    and not carries(party, bridge_token) and quantity(party, gold) < 1 says "At the chain Amos Pinch holds out his hand, and looks at your empty one, and writes your name in the day-book as owing the Worshipful Company of the Bridge one farthing, and lets you by." {
+    Set tollDay(party) to dayN(wray). Assert owesToll(party). }
+  // The freedom of the bridge: a brass token, the Bench's, which the Bench gives to almost nobody.
+  Kind bridge_token_kind "a bridge token" is gear worth 0 weighing 0
+    described "A brass token stamped with the gold bridge and WE BEAR THE CROSSING: the freedom of the bridge at Wrayford, toll-free, by the Bench's leave, for life.".
+  Item bridge_token "the freedom of the bridge" is bridge_token_kind at limbo.
   // He keeps the booth from eight until the curfew, and sleeps behind the counting-house.
   Rule pinch_opens when hour(clock) >= 8 and hour(clock) < 20 and not at(pinch, gate_road) and not pinchGone(pinch) { Assert at(pinch, gate_road). }
   Rule pinch_shuts when (hour(clock) >= 20 or hour(clock) < 8) and not at(pinch, pinch_room) and not pinchGone(pinch) { Assert at(pinch, pinch_room). }
@@ -89,7 +103,7 @@ Module wrayford "The Third Night" {
   Initially Assert deadBody(wat_dead). Initially Assert deadBody(dunstan_dead). Initially Assert deadBody(joss_dead).
   Initially Assert state(wat_dead, lying). Initially Assert state(dunstan_dead, lying). Initially Assert state(joss_dead, lying).
   // Who bears a body takes it wherever they go, and goes at half pace.
-  Rule body_carried when bearing(?m, ?b) and memberOf(?m, ?c) and at(?c, ?p) and not at(?b, ?p) { Retract at(?b, ?q). Assert at(?b, ?p). }
+  Rule body_carried when bearing(?m, ?b) and memberOf(?m, ?c) and at(?c, ?p) and not at(?b, ?p) { Assert at(?b, ?p). }
   Rule bearer_slowed when bearing(?m, ?b) and speed(?m) != 50 { Set speed(?m) to 50. }
   Rule bearer_eased when speed(?m) == 50 and not bearing(?m, ?b) and memberOf(?m, ?c) and company(?c) { Set speed(?m) to 0. }
   Query borne(b: entity) means bearing(?m, b).

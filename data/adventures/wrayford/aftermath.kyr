@@ -23,6 +23,18 @@ Module wrayford "The Third Night" {
   Rule hulme_retires when hulmeResigned(hulme) and not at(hulme, hulme_study) { Assert hulmeAway(hulme). Assert at(hulme, hulme_study). }
   Observe after_acre at wades_acre when verdictGiven(wray) and reconciled(wray) and evening() "At dusk Dorcas Mudd rows across to the Acre steps, and Corbin comes down the steps to meet her, and they sit in the boat together not talking, and then they start to quarrel, comfortably, the way people do who have all the time in the world.".
 
+  // ── What is given ───────────────────────────────────────────────────────────────────────────────────────────────
+  // The Bench, entering its charity in the minutes, enters its benefactor too: the freedom of the bridge.
+  Relation tokenGiven(group). Relation ferryTokenGiven(group).
+  Rule bench_token when verdictGiven(wray) and releasedBy(wray, by_charity) and inWrayford() and not tokenGiven(party) and at(party, ?p) says "Lancelot Inchbold finds you in the crowd with a brass token on a ribbon and a paper to sign. 'The freedom of the bridge,' he says. 'By the Bench's resolution of this morning, in recognition of your services to the Company's charity.' He does not smile. 'It is entered in the minutes. Everything is.'" {
+    Assert tokenGiven(party). Assert at(bridge_token, ?p). }
+  // Dorcas, for a crossing the bridge never saw: her own token, a penny with a hole in it, good at any hour.
+  Kind ferry_token_kind "Dorcas Mudd's penny" is gear worth 0 weighing 0
+    described "A penny with a hole bored through it, on a twist of tarred twine, and MUDD scratched on the back: good for the ferry at any hour, for life, with no questions and no farthings.".
+  Item ferry_token "Dorcas Mudd's penny" is ferry_token_kind at limbo.
+  Rule dorcas_token when verdictGiven(wray) and (boatCrossed(wray) or reconciled(wray)) and inWrayford() and not ferryTokenGiven(party) and at(party, ?p) says "A boy from the Wharf finds you with something wrapped in a bit of sacking: a penny with a hole bored through it, on tarred twine. 'From Mistress Mudd,' he says. 'She says it's good for the ferry any hour, and she says don't thank her, and she says she means it.'" {
+    Assert ferryTokenGiven(party). Assert at(ferry_token, ?p). }
+
   // ── The Bridge Feast ──────────────────────────────────────────────────────────────────────────────────────────────
   // On the fifth day at eleven the Company processes over the bridge in its blue gowns, and at the gatehouse the Abbess
   // receives the bridge penny that the city has paid the Liberty since the bridge was built.

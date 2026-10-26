@@ -190,7 +190,7 @@ Module wrayford "The Third Night" {
   // ── The bear-garden ───────────────────────────────────────────────────────────────────────────────────────────────
   Observe bear_scene at bear_garden when not dark() "The bear-garden: a ring of raised benches round a sanded pit, a post in the middle with a chain, and on the chain an old brown she-bear, sitting on her haunches with her forepaws in her lap like a farmer's wife. A boy of twelve or so is combing the burrs out of her coat, and she lets him.".
   Person robin "Robin Tull" at bear_garden {
-    Role "a cutler's boy of twelve, who has run away to the bears". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Role "a cutler's boy of twelve, with bear-hair on his sleeves". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "The boy looks up from the bear's coat. 'She's called Margery,' he says, before you can ask anything else.".
   }
   Person clout "Sim Clout" at bear_garden {
@@ -201,7 +201,7 @@ Module wrayford "The Third Night" {
     Role "an old brown she-bear on a chain". Species bear. Peaceable. Pronouns she.
   }
   Relation clouted(group). Relation margeryBought(group). Relation margerySettled(group).
-  Topic robin_why with robin "Ask Robin Tull why he will not go home" when knows(actor, robin_gone) once {
+  Topic robin_why with robin "Ask Robin Tull why he will not go home" when knows(actor, robin_gone) and not robinHome(robin) and not robinStays(robin) once {
     Says "'Because Margery won't dance for anyone else.' He goes on combing. 'Not for him. Only me. And if she won't dance he'll sell her to the baiting at Harbury at Michaelmas, he says so, and they'll set dogs on her.' He looks at the strap on Clout's belt, and away. 'So I can't go home. Can I.' He combs. 'I like knives,' he says, as if it were a confession. 'I do. I'd rather bears.'".
     On discuss { Assert knows(actor, margery_fate). }
   }

@@ -29,4 +29,6 @@ Module wrayford "The Third Night" {
   Entity fate_robin: fact "Robin".
   Rule fate_win when verdictGiven(wray) and winHelped(party) and buried(dunstan_dead) and not spread(fate_win) says "Win Fenner stood at Dunstan's grave with her four children in a row by height, and the chisels in the eldest's hands." { Assert spread(fate_win). }
   Entity fate_win: fact "Win".
+  Rule fate_pinch when verdictGiven(wray) and (captainPinch(party) or pinchExposed(wray)) and not pinchGone(pinch) and not spread(fate_pinch) says "Amos Pinch goes south with the captain's baggage, for the lord's court at Harbury, on foot behind the led horse, with the day-book under his arm. He asked to carry it himself." { Assert spread(fate_pinch). Assert pinchGone(pinch). Assert at(pinch, limbo). }
+  Entity fate_pinch: fact "Pinch".
 }

@@ -1,0 +1,40 @@
+{
+  "tull": [
+    "To Northgate",
+    "To the Market Cross",
+    "Cutler's Lane",
+    "Into Tull's",
+    "Talk to Goodwife Tull",
+    "who he is, and where",
+    "Take your leave",
+    "Out to Cutler's Lane",
+    "To the Market Cross"
+  ],
+  "court": [
+    "=150",
+    "Bridge End",
+    "To Bridge Street",
+    "To Overbridge Street",
+    "Into the Abbess",
+    "=157",
+    "Ask Saul Kemp why",
+    "Ask Barnaby Crouch why",
+    "Examine \u2014 Look closely",
+    "it is Ham Ostler's"
+  ],
+  "bears": [
+    "Out to Overbridge Street",
+    "tan-yards",
+    "bear-garden",
+    "Ask Robin Tull why",
+    "settles a beast",
+    "To the tan-yards",
+    "To Overbridge Street",
+    "To Bridge Street",
+    "To the Bridge End",
+    "To the Market Cross",
+    "Cutler's Lane",
+    "Into Tull's",
+    "Take the knife"
+  ]
+}

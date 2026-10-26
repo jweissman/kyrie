@@ -133,6 +133,10 @@ Module wrayford "The Third Night" {
     Result "She looks at the roll of leather for a long time before she touches it. Then she unrolls it on the table among the children and counts the chisels with one finger, all six, and rolls it up again, and puts it on the high shelf where Kester cannot reach. She does not thank you. She says, 'When they bring him down. Dunstan. I want him in the Acre by the church door, where his mother is,' as if it were a thing you had already agreed between you.".
   }
   Rule win_claims_after when winHelped(party) and not winClaims(win) and knows(party, dead_on_rail) { Assert winClaims(win). }
+  // A widow's claim, said aloud: Northgate hears it, and is the angrier and the quieter for it.
+  Relation winClaimTold(group).
+  Rule win_claim_spreads when winClaims(win) and not winClaimTold(win) and inWrayford() and hour(clock) >= 7 and hour(clock) < 21 says "Word goes round Northgate: Win Fenner went to the Guildhall door with her four children in a row by height and told the reeve's constable to his face that she will have Dunstan in the Acre by the church door, where his mother is, and the constable took his hat off." {
+    Assert winClaimTold(win). Increase temper(wray) by 1. }
 
   // ── The yards ─────────────────────────────────────────────────────────────────────────────────────────────────────
   Observe yards_scene at carters_yards when not dark() "The carters' yards behind Northgate: wagons up on blocks, wheels stacked against the walls, a forge with the farrier at it. The young carters sit on a dray in the middle of the yard with nothing to do, talking low, and stop when anyone comes in.".

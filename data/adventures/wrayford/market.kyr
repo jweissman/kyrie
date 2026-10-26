@@ -101,6 +101,10 @@ Module wrayford "The Third Night" {
     Change pick "Pick the lock on the collector's door" from locked to open needing lockwork.
   }
   Initially Assert state(pinch_lock, locked).
+  // The clerk sees everything, and writes it down, and that is all he does with it.
+  Relation inchboldNoted(group).
+  Rule inchbold_notes when state(pinch_lock, open) and at(inchbold, counting_room) and at(party, counting_room) and not pinchGone(pinch) and not inchboldNoted(party) says "Lancelot Inchbold watches you open the collector's door. He dips his pen, and writes something in the margin of his ledger, and blots it, and goes back to his figures. Whatever it is, it is minuted." {
+    Assert inchboldNoted(party). }
   Rule pinch_locks when hour(clock) == 8 and state(pinch_lock, open) and not pinchGone(pinch) { Assert state(pinch_lock, locked). }
   Discovery daybook_found "Under Pinch's mattress, wrapped in a clean shirt: the toll day-book from the burned toll-house, its covers scorched and its pages whole." { Found by searching pinch_room. }
   Kind daybook_kind "the toll day-book" is gear worth 0 weighing 1
@@ -247,7 +251,7 @@ Module wrayford "The Third Night" {
     Role "a cutler's widow, who keeps the shop". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "Goodwife Tull does not stop grinding. 'If you've come to tell me where he is, I know where he is.'".
   }
-  Topic tull_robin with tull "Ask Goodwife Tull where who is" when true once {
+  Topic tull_robin with tull "Ask Goodwife Tull who he is, and where" when not robinHome(robin) once {
     Says "'Robin. My boy. Apprenticed to me, articled, sealed, and run off four days ago across the bridge to the bear-garden in Overbridge to be a bear-ward's boy, because a bear is more interesting than knives.' The cleaver shrieks on the stone. 'I can't go and fetch him. It's the Liberty; the reeve's man won't go, and if I go myself I'll take the bear-ward's ears off and then where will I be.' She holds the cleaver up to the light. 'Fetch him home. I'll give you the best knife in the shop.'".
     On discuss { Assert knows(actor, robin_gone). }
   }
@@ -318,7 +322,7 @@ Module wrayford "The Third Night" {
     Assert at(wat_dead, limbo). Assert at(dunstan_dead, limbo).
     Assert at(joss_dead, limbo). }
   // Unloaded at the tan-yards, where the cart goes.
-  Rule cart_unloads when cartGone(offal_cart) and inCart(?b) and not cartFound(wray) { Retract inCart(?b). Retract at(?b, ?p). Assert at(?b, tanyards). }
+  Rule cart_unloads when cartGone(offal_cart) and inCart(?b) and not cartFound(wray) { Retract inCart(?b). Assert at(?b, tanyards). }
 
   // Ham Ostler's beasts, and the toll on them.
   Person ham "Ham Ostler" at shambles {

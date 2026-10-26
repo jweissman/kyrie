@@ -128,7 +128,7 @@ Module wrayford "The Third Night" {
   // Dorcas Mudd's ferry, from her stage on the Wharf to the south stair: while she runs it, and at night only for those
   // she will run it for.
   Passage ferry "Dorcas Mudd's ferry" is ferry between ferry_stage and south_stair taking 20 minutes
-    opening when ferryRunning() "The ferry-boat is drawn up on the stage with its oars shipped. Nobody crosses by Dorcas Mudd's ferry unless Dorcas Mudd is rowing it.".
+    opening when ferryRunning() or carries(party, ferry_token) "The ferry-boat is drawn up on the stage with its oars shipped. Nobody crosses by Dorcas Mudd's ferry unless Dorcas Mudd is rowing it.".
   // The old ford, below the bridge, where the city got its name: under water by day, when the mills upstream are
   // grinding, and shallow in the small hours, when they pen the river behind the weir.
   Passage ford "the old ford" is ford between under_arches and tanyards taking 30 minutes

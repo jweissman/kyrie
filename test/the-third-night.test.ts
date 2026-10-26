@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'bun:test';
-import { readFileSync } from 'node:fs';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { KyrLint } from '../src/cli/kyr-lint';
 import { Journey } from '../src/session/journey';
@@ -8,41 +7,12 @@ import { PlayerView } from '../src/presentation/player-view';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
+import { Wrayford, build, home, steps, w } from './support/wrayford';
 
 // The Third Night (doc/adventures/the-third-night): each journey plays by the labels a player sees, from the steps in
 // test/fixtures/wrayford, and checks what the world did. The homecoming starts at eight in the morning on watch 0.
 // Its days turn at dawn: the first night's small hours are watches 102-120, the Remonstrance sits 168-180 on the
 // second day, Kit's fire is at 240, the captain comes at 354, Maudie goes at 396 and the verdict is at 438.
-const home = 'data/campaigns/the-third-night.campaign.json';
-const build = (name: string) => `test/fixtures/wrayford/${name}.campaign.json`;
-const fixture = (name: string): Record<string, string[]> =>
-  JSON.parse(readFileSync(`test/fixtures/wrayford/${name}.json`, 'utf8')) as Record<string, string[]>;
-const steps = (name: string, ...phases: string[]): string[] => {
-  const f = fixture(name);
-  return (phases.length ? phases : Object.keys(f)).flatMap(p => f[p]!);
-};
-const shared = new Set(['party', 'state', 'at', 'knows', 'travelsWith', 'following', 'asleep', 'captured', 'reached', 'kin']);
-const w = (id: string) => shared.has(id) ? id : `wrayford__${id}`;
-export class Wrayford {
-  static async start(campaign = home, seed = 'wray') { return new Wrayford(await Journey.start(campaign, seed)); }
-  constructor(readonly j: Journey) {}
-  async play(...labels: string[]) { await this.j.play(...labels); return this; }
-  async fixture(name: string, ...phases: string[]) { return this.play(...steps(name, ...phases)); }
-  holds(name: string, ...args: string[]) { return this.j.holds(w(name), ...args.map(w)); }
-  knows(fact: string) { return this.j.holds('knows', 'party', w(fact)); }
-  measure(name: string, ...args: string[]) { return this.j.measure(w(name), ...args.map(w)); }
-  ending() { return this.j.campaign.world.related('reached').map(r => r.args[0]); }
-  at(who: string) { return this.j.campaign.world.one('at', w(who)); }
-  get page() { return this.j.taken.map(x => `[${x.label}] ${x.page} ${x.told}`).join('\n'); }
-  get running() { return this.j.campaign.running; }
-  experience() { return this.j.campaign.fighters.map(m => m.experience).reduce((a, b) => a + b, 0); }
-  // Plays to the watch, or as far as the book goes: an ending closes it at the verdict.
-  async until(watch: number) {
-    try { await this.play(`=${watch}`); } catch (e) { if (this.running) { throw e; } }
-    return this;
-  }
-}
-
 describe('The Third Night', () => {
   it('lints clean, played alone and placed in a world', async () => {
     for (const c of [home, build('traveller'), build('continuing')]) {
