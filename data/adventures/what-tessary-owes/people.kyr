@@ -2,7 +2,7 @@ Module tessary "What Tessary Owes" {
   // ── What can be known ─────────────────────────────────────────────────────────────────────────────────────────────
   // The facts of the adventure, in the order a company is likely to come by them. Each is a step in what the
   // vanishings turn out to be.
-  Discovery notice_read "Nan Teazle, an eel-wife of the Withies, offers her savings for news of her son, Private Davy Teazle of the Long Muster, who set his boots on the Tideline Steps at the last spring ebb and walked into the sea." {
+  Discovery notice_read "Nan Teazle of the Withies will give her savings for news of her son, who walked into the sea. The notice is in a careful, laboured hand, pressed hard into cheap paper: 'MY SON PRIVATE DAVY TEAZLE OF THE LONG MUSTER WENT DOWN THE TIDELINE STEPS INTO THE SEA AT THE LAST SPRING EBB. HE SET HIS BOOTS ON THE TOP STEP. WHO CAN TELL ME WHERE HE WENT I WILL GIVE MY SAVINGS. NOT A BODY. WHERE HE WENT. NAN TEAZLE, THE WITHIES, BY THE DRUM.'" {
     Source notice "a notice on the Landgate board" at landgate readable by party.
   }
   Discovery enlist_promise "Eleven years ago, raising the Long Muster, the city of Tessary promised land and a pension to every soldier who came home. It was cried in every square and printed on every bill." {
