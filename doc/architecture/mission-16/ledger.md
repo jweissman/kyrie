@@ -29,6 +29,14 @@ Played from the title page at 1280 × 860:
 
 ## Done and verified
 
+- **A. A likeness that fits, or none.** Eighteen portraits the game will not cast for anyone it makes are listed
+  with why (`data/paintings/unfit.json`): the two severed heads, another world's saints, apostles, Virgin and pope
+  (named in the credits the page shows), friars at crucifixes, and kings, queens and a prince for people who are
+  none of these. A work whose own painting is not a portrait (a priest's is a shrine) is painted in its family's
+  station, so a priest of Aine is painted as someone of faith ("an old preacher in black with a ruff"), not as
+  David with the head of Goliath and not as a halberdier. Where nothing fits, the conversation page is in type. An
+  author who names a painting still has it. Test: `test/paintings.test.ts`.
+
 - **B. The way into Merrowdale, by ordinary play.**
   - **Placement:** every world Begin draws now holds Merrowdale beyond its north march (its `beside` is every
     terrain), and the independent adventure the seed chooses on another side.
@@ -92,7 +100,6 @@ Played from the title page at 1280 × 860:
 - **A level-1 warrior knows all ten of its calling's techniques,** so a technique cannot be what a level adds
   without rebalancing every fight. The first stage is skills and qualities; techniques stay the calling's features.
 
-- Priests are painted from one canvas whatever it shows (plan, decision 4).
 - The road across a march is told from the far country's terrain list, not the land it crosses.
 
 ## Deliberately left

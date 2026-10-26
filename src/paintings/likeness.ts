@@ -1,4 +1,6 @@
 import likeness from '../../data/paintings/likeness.json';
+import unfit from '../../data/paintings/unfit.json';
+import { PaintingConcepts } from './painting-concepts';
 
 // Who a portrait shows, as recorded by looking at it (data/paintings/seen.json, through bun scripts/paintings.ts).
 export interface Sitter { sex: 'man' | 'woman'; age?: string; station?: string; era: string; face: number }
@@ -29,7 +31,12 @@ export class Likeness {
   // The stations a family of work is painted in, first the likeliest.
   static readonly families: Record<string, string[]> = { trade: ['middling', 'labouring'],
     learning: ['learned', 'middling'], stage: ['player', 'artist'], faith: ['religious'], court: ['high'],
-    arms: ['martial'], shadows: ['middling', 'labouring'], wild: ['labouring'] };
+    arms: ['martial'], shadows: ['middling', 'labouring'], wild: ['labouring'], roads: ['labouring', 'middling'],
+    healing: ['middling', 'learned'], water: ['labouring'], earth: ['labouring'], mechanisms: ['middling', 'labouring'],
+    margins: ['labouring'] };
+  // What the game will not cast for someone of its own making (data/paintings/unfit.json): a severed head, another
+  // world's saints, a king for an innkeeper.
+  static readonly unfit = new Set(Object.keys((unfit as { paintings: Record<string, string> }).paintings));
   static sitter(id: string): Sitter | undefined { return this.sitters.get(id); }
   // The best painting for someone among those not yet taken: their work's own painting if it shows someone of their
   // sex; else one of their sex and station, of their age if it can be, in an older manner before a newer; ties settled
@@ -38,7 +45,7 @@ export class Likeness {
     const concept = who.concept && this.resolve(who.concept);
     let best: string | undefined, score = -Infinity;
     for (const [id, s] of this.sitters) {
-      if (who.sex && s.sex !== who.sex) { continue; }
+      if ((who.sex && s.sex !== who.sex) || this.unfit.has(id)) { continue; }
       const station = who.stations?.indexOf(s.station ?? '') ?? -1;
       const value = (id === concept ? 60 : 0) + (station >= 0 ? 20 - station * 6 : 0)
         + (who.age && s.age === who.age ? 6 : 0) + Likeness.eras[s.era]! - (taken.has(id) ? 80 : 0)
@@ -55,8 +62,12 @@ export class Likeness {
     if (at.own && this.ids.has(at.own)) { return at.own; }
     const words = [at.profession, at.background, ...this.words(at.role ?? '')].filter((t): t is string => !!t);
     const concept = words.map(w => this.resolve(w)).find(Boolean);
-    const station = concept && this.stations[concept], age = words.map(w => this.ages[w]).find(Boolean);
-    if (!at.sex && concept && this.sitters.has(concept)) { return concept; }
+    // A work whose own painting is not of one person (a priest's is a shrine) is painted in its family's station.
+    // A painting refused (data/paintings/unfit.json) lends nothing: not even the station it shows.
+    const own = concept && !this.unfit.has(concept) ? this.stations[concept] : undefined;
+    const station = concept && (own ?? this.families[PaintingConcepts.of(concept).family ?? '']?.[0]);
+    const age = words.map(w => this.ages[w]).find(Boolean);
+    if (!at.sex && concept && this.sitters.has(concept) && !this.unfit.has(concept)) { return concept; }
     return this.choose({ ...at.sex ? { sex: at.sex } : {}, ...concept ? { concept } : {},
       ...station ? { stations: [station] } : {}, ...age ? { age } : {} }, at.key ?? words.join(' '));
   }

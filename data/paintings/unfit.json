@@ -1,0 +1,23 @@
+{
+  "about": "Portraits the game will not cast for someone of its own making, and why: a likeness should be someone who could be them, in a world with its own gods, and an excellent page in type is better than a misleading painting. An author who names a painting for someone (Likeness \"x\" in Kyr) still has it. Read by src/paintings/likeness.ts.",
+  "paintings": {
+    "believer": "David with the Head of Goliath: a severed head, and a story of another world",
+    "barbarian": "a woman holding a severed head on a platter",
+    "messenger": "Saint John the Evangelist: a saint of another world's faith, named in the credit",
+    "minister": "The Apostle Simon: an apostle of another world's faith, named in the credit",
+    "nun": "The Virgin in Prayer: another world's faith, named in the credit",
+    "pope": "Pope Gregory XV: another world's church, named in the credit",
+    "saint": "Saint George: a saint of another world's faith, named in the credit",
+    "seer": "Saint Mary Magdalene at the Sepulchre: another world's faith, named in the credit",
+    "prior": "a friar praying before a crucifix: another world's faith",
+    "theologian": "a hermit holding a crucifix: another world's faith",
+    "bishop": "an archbishop of Cambrai, named in the credit",
+    "king": "a king in his regalia, for someone who is not one",
+    "queen": "a queen on a dais, for someone who is not one",
+    "fool": "a bearded king in a jewelled hat, for someone who is not one",
+    "prudence": "a king in robes of state, for someone who is not one",
+    "dietitian": "a young queen with plumes, for someone who is not one",
+    "empress": "an empress in a tiara, for someone who is not one",
+    "duke": "a prince in an ermine cloak, named in the credit"
+  }
+}

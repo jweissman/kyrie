@@ -60,4 +60,22 @@ describe('the painting corpus', () => {
       expect([painting, ['middling', 'labouring'].includes(sitter.station ?? '')]).toEqual([painting, true]);
     }
   });
+  // A likeness is someone who could be them, in a world with its own gods: no severed head, no saint of another
+  // world's faith, no king for an innkeeper (data/paintings/unfit.json); a priest is painted as someone of faith.
+  it('casts no one the game makes in a painting it refuses, and a priest as someone of faith', async () => {
+    const { WorldAssembler } = await import('../src/world/world-assembler');
+    const { NodeBundleSource } = await import('../src/campaign/node-bundle-source');
+    for (const seed of ['wren', 'a1', 'thorn']) {
+      const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { origin: 'wanderer' });
+      const files = [...(w.source as unknown as { files: Map<string, string> }).files.values()].join('\n');
+      const cast = [...files.matchAll(/Likeness "([^"]+)"/g)].map(m => m[1]!);
+      expect(cast.length).toBeGreaterThan(10);
+      expect(cast.filter(id => Likeness.unfit.has(id))).toEqual([]);
+    }
+    for (const role of ['priest of Aine', 'priest of Flidais', 'the prior']) {
+      const id = Likeness.of({ role, sex: 'man', key: role })!;
+      expect([role, Likeness.unfit.has(id), Likeness.sitter(id)?.station]).toEqual([role, false, 'religious']);
+    }
+  }, 120000);
 });
+
