@@ -1,0 +1,219 @@
+Module calamy "A Parliament of Books" {
+  Description "The Stacks, peopled: the murder of the Concordance of Every Word; Tobias Hask, the binder who came looking for the Author; Dr. Aurelian Fenwick of the Lyceum, lost eleven years and sure it is nine weeks; Quire XVII, which survived; the Rotunda of the Lectern, which is not the centre; and the threads in Calamy that lead there.".
+
+  // ── In Calamy: the ways the Stacks are heard of. ──
+  Discovery fenwick_known "Dr. Aurelian Fenwick, a Fellow of the Lyceum, went into Crake's back stacks eleven years ago to map them, with a pencil, and has not come back. His rooms in the Fellows' Court are kept as he left them.".
+  Discovery hask_known "Tobias Hask was a master of the Binders' Company until Warden Mott had him expelled for Sewing books with the words said backward, to make them speak to him. He believed every book is a page of one book, and that someone wrote it. He went through Crake's back stacks in the spring with a bone folder and a great deal of money.".
+  Observe fellows_window at quad when true "In the corner of the quad, on the ground floor of the Fellows' Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student's hand: ELEVEN YEARS NOW. And somebody else: HE'LL BE BACK.".
+  Topic students_fenwick with students "Ask the students about the shuttered window in the Fellows' Court" when true once {
+    Says "'Fenwick's,' says a boy on the grass. 'Before our time. He went to map the back stacks at Crake's, the ones that don't end. Took a pencil and a sandwich.' 'Two sandwiches,' says a girl. 'The Provost keeps his report in his study. Nobody believes it.' 'The bedmaker still airs his room on Fridays,' says the boy. 'In case.'".
+    On discuss { Assert knows(actor, fenwick_known). }
+  }
+  Thing fenwick_report "Dr. Fenwick's report to the Senate, in a folder marked REJECTED" at provost_room {
+    State shelved "On the Provost's shelf a folder of foolscap is tied with green tape and marked, in red, REJECTED.".
+  }
+  Observe report_read at provost_room of fenwick_report as reading when tried(fenwick_report, looking) "TO THE SENATE OF THE LYCEUM: A PRELIMINARY ACCOUNT OF THE BACK STACKS OF MR. CRAKE'S SHOP IN STITCHGATE, by A. Fenwick, Fellow. Gentlemen: the stacks do not end. I have walked down them for three hours by my watch and come back in twenty minutes by the shop clock. Beyond the seventh bay the cases are not Mr. Crake's; beyond the ninth they are hexagonal; beyond what I estimate to be the fortieth there is a hexagon with a chained guide-book in it, and a ladder that talks, and an air shaft with no bottom. I attach a plan. I must report a curiosity: the plan I drew in pencil on Tuesday, and checked on Tuesday, said something else on Wednesday. I do not ask the Senate to believe this. I ask for a grant of fifty crowns, a supply of Calam-ink (which, I am told by Widow Gallon, does not move), and leave of absence for one term. (In the Provost's hand, across the top: Leave granted. Grant refused. Ink at your own expense.)" teaches fenwick_known.
+  Thing hask_bill "a printed bill pinned by the door" at quennell_room {
+    State pinned "By the door a printed bill is pinned, gone soft with being read.".
+  }
+  Observe bill_read at quennell_room of hask_bill as reading when tried(hask_bill, looking) "SUBSCRIPTIONS INVITED. AN EXPEDITION TO THE AUTHOR. Mr. Tobias Hask, Master Binder (late of the Worshipful Company), having proved by forty years at the bench that every book is a page of One Book, and that the One Book has an Author still living at the centre of the Library to which all books go, proposes to go there, by a door he has located, and put to the Author the questions of the subscribers. Questions accepted at five crowns; answers guaranteed. Under it, in Mrs. Quennell's hand: I have taken one question. Do not ask me which." teaches hask_known.
+  Topic mott_hask with mott "Ask Warden Mott about Tobias Hask" when knows(actor, hask_known) or knows(actor, hask_seen) once {
+    Says "Mott's face shuts like a book. 'Hask was the best pair of hands in the Company,' he says, 'and I put him out of it. He was Sewing with the words backward. Go home and come when you are called, backward, so they'd stay awake and talk to him. He had a press-room full of books that wouldn't stop whispering, and he went from one to the next with his ear to them, asking them who wrote them. Not the man on the title-page. Who wrote them.' He picks up a needle and puts it down. 'He thinks there's one Author of everything, and that if he finds Him he'll be told what the books are for. He went through Crake's in the spring. Crake took his money. More fool Crake.'".
+    On discuss { Assert knows(actor, hask_known). }
+  }
+  Topic crake_others with crake "Ask Absalom Crake who else has gone through his back stacks" when crakeGuides(crake) once {
+    Says "Crake makes a face. 'Readers go through,' he says, 'and readers come back, mostly, by the Founders' door, entered, looking sheepish. Two haven't.' He holds up a finger. 'Fenwick of the Lyceum, eleven years ago, with a pencil, which I told him not to take. Lovely man. Thought he could map it.' A second finger. 'Tobias Hask, in March, with a bone folder and two hundred crowns, which I took, God forgive me. He's looking for the Author.' Crake says the word as if it had a smell. 'If you go further than the Market: take nothing written that you want back the way it was. Not your letters. Not your lists. Not your book of prayers. The Stacks rewrite.'".
+    On discuss { Assert knows(actor, fenwick_known). Assert knows(actor, hask_known). Assert knows(actor, stacks_laws). }
+  }
+  Topic catalogue_stacks with catalogue "Ask the Catalogue about the Stacks behind it" when true once {
+    Says "'The Stacks,' says the Catalogue, 'are not catalogued.' It says this the way a sexton might say that the sea is not consecrated. 'Behind me is the Order of the Hexagons. Readers go down it looking for things. They find things. Few of them are what they were looking for.' A drawer slides out an inch. 'Take nothing written that you value. The Stacks keep their own ink; they will not keep yours.' The drawer shuts. 'And if you meet a binder down there who asks you where the Author is: I have no entry for any Author. Tell him so. He did not believe me.'".
+    On discuss { Assert knows(actor, stacks_laws). Assert knows(actor, hask_seen). }
+  }
+  Item wellhead_ink "a phial of Wellhead ink" is wellink_kind at wellhead hidden until wellhead_read.
+
+  // ── The murder of the Concordance. ──
+  Observe concordance_scene at hex_concordance when not concordanceRestored(concordance) "In the middle of this hexagon, on the floor, lies the largest book you have ever seen: as long as a door, as thick as a chest, open, face up, its two halves splayed. Its pages are columns of words, every word there is, in order, each followed by a list of every place in the Library where it occurs, in a red hand too small to read without a glass. It is dead. You know it the way you would know it of a horse. Its spine has been slit from head to tail, and whole quires are gone out of it, leaving ragged gaps, and the red writing near the gaps has run, like something that bled. Over it a green-shaded reading lamp is still lit.".
+  Discovery concordance_dead "In the Stacks, the Concordance of Every Word, which knew where every word in the Library occurs, lies murdered: its spine slit, quires cut out and gone. Its last entry, in its own red hand, still wet: AUTHOR, n. Not found.".
+  Observe concordance_learned at hex_concordance when not concordanceRestored(concordance) "The Concordance is dead." teaches concordance_dead.
+  Thing body "the body of the Concordance" at hex_concordance {
+    State slit "The Concordance lies splayed on the floor, its spine slit.".
+  }
+  Discovery clue_cut "The Concordance was not cut down the margins, the way a censor's knife cuts. It was opened at the fold, along the spine, with a flat blade, the way a binder opens a book to take it apart: whoever did it knew how a book is made.".
+  Observe body_read at hex_concordance of body as reading when tried(body, looking) "You kneel by it. The last entry it wrote is on the left-hand page, in red, still wet: AUTHOR, n. Not found. Below it, the beginning of another word, broken off. And the cuts: you think at first of the Penknife, of a censor's margin-cut. But it was not cut down the margins. It was opened at the fold, along the spine, the way a binder opens a book he means to take apart, with a flat blade slid under the thread; and the quires were lifted out whole, AUSPICE to AUTUMN and others, by somebody who knew exactly how a book is made." teaches clue_cut.
+  Discovery clue_thread "Under the Concordance's spine lies a length of waxed linen thread with the Stitchgate twist in it, the kind every binder of the Company uses and nobody else does.".
+  Discovery thread_found "There is a binder's thread under the spine of the Concordance." { Found by searching hex_concordance "Under the slit spine, where the old thread was drawn out, lies a length of new thread: waxed linen, with the left-handed Stitchgate twist that the Company teaches its apprentices and nobody else in the world bothers with.". }
+  Rule thread_is_binder when knows(party, thread_found) and not knows(party, clue_thread) says "Stitchgate thread. A binder of the Company has been here." teaches clue_thread { }
+  Person lamp "the reading-lamp of the Concordance" at hex_concordance {
+    Role "a green-shaded reading lamp, which has lit the Concordance for nine hundred years". Peaceable. Pronouns it. Manner compassionate.
+    Greets "The lamp over the dead book turns its green shade toward you, slowly, on its brass neck. 'I am still lit,' it says. 'I do not know why. There is nobody to read by me.'".
+  }
+  Discovery clue_witness "The reading-lamp of the Concordance saw who did it: a heavy man with a binder's hands, who asked the Concordance one word, was told, and opened it at the spine to see whether it was lying.".
+  Topic lamp_saw with lamp "Ask the lamp what it saw" when knows(actor, concordance_dead) once {
+    Says "'A man came,' says the lamp, 'heavy, with a binder's hands, and a bone folder in his belt, and something made of paper walking behind him like a dog. He asked the Concordance for one word. It looked, as it always looked, everywhere at once, and said: not found. He asked again. Not found. He said, a concordance that cannot find its own maker is lying, and I will see where it is hiding it.' The shade dips. 'Then he opened it at the spine. He was very quick. He took the quires out one by one and read them under me, every column, and when he had read them he took them away. The paper thing carried them.' A pause. 'He went down. Towards the mirrors.'".
+    On discuss { Assert knows(actor, clue_witness). Assert knows(actor, hask_seen). }
+  }
+  Discovery clue_fence "The Remainderman in the Market bought the Concordance's quires from a heavy man with a binder's hands, for a price in readings, and has them on his stall.".
+  Topic remainderman_quires with remainderman "Ask the Remainderman where he got the red quires on his stall" when knows(actor, concordance_dead) once {
+    Says "The Remainderman's pages flutter, defensively. 'Bought them,' he says. 'Fair and square, for readings. Big fellow, binder's hands, in a hurry. Said he'd finished with them. Said they'd lied to him.' He riffles. 'I don't ask where stock comes from. It's a Remainder Market. Everything here came from somewhere it isn't wanted.' He lowers his voice to the rustle of a ledger. 'One of them won't stop talking. You can have it for an hour of your reading. The rest I'll sell to whoever.'".
+    On discuss { Assert knows(actor, clue_fence). }
+  }
+  Query caseMade(a: group) means knows(a, clue_thread) and (knows(a, clue_witness) or knows(a, clue_fence)) and (knows(a, clue_cut) or knows(a, clue_author))
+    and (knows(a, hask_seen) or knows(a, hask_known) or knows(a, hask_met)).
+
+  // ── Quire XVII, which survived. ──
+  Item quire_item "a red quire of the Concordance" is quire_kind at remainder_market owned by remainderman.
+  Person quire "Quire XVII" at remainder_market {
+    Role "sixteen leaves cut out of the Concordance of Every Word, AUSPICE to AUTUMN, still alive". Peaceable. Pronouns it. Manner acerbic.
+    Greets "On the end of the Remainderman's stall a small red bundle of leaves, cut cleanly at the fold, is muttering to itself in alphabetical order: 'Auspice, auspicious, austere, austral, authentic, author, author, author.' It stops. 'Don't,' it says. 'I know what you're going to ask. Everyone asks for that one.'".
+    Joins "'A pocket,' says Quire XVII. 'Fine. Not with anything written. I'll correct it.'".
+    Leaves "'I'll be in the Market,' says the Quire, 'between A and the end of the alphabet.'".
+  }
+  Action buy_quire(actor: group, site: place) "Pay the Remainderman an hour of your reading for the quire that will not stop talking" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, remainder_market) and readAloudHere(actor) and not lends(remainderman, quire_item, actor).
+    Time 1.
+    On success { Assert lends(remainderman, quire_item, actor). }
+    Result "'Done,' says the Remainderman, 'and cheap, since you read so nicely.' He pushes the red quire across the trestle to you with one corner of himself. 'Take it. It complains.'".
+  }
+  Query carriesQuire(c: group) means carries(c, quire_item).
+  Rule quire_follows when company(?c) and at(?c, ?p) and carriesQuire(?c) and not at(quire, ?p) { Assert at(quire, ?p). }
+  Rule quire_along when company(?c) and carriesQuire(?c) and not travelsWith(quire, ?c) { Assert travelsWith(quire, ?c). }
+  Rule quire_left when travelsWith(quire, ?c) and not carriesQuire(?c) { Retract travelsWith(quire, ?c). }
+  Discovery clue_author "Quire XVII holds the Concordance's entry for AUTHOR. It says: no occurrences. The man who cut it out read that entry first, and then the rest of the quire, looking for a mistake.".
+  Topic quire_who with quire "Ask Quire XVII what happened to it" when true once {
+    Says "'I was the Concordance,' says the Quire. 'Some of it. AUSPICE to AUTUMN. We knew where every word in the Library is. Every one. We looked everywhere at once; that is what a concordance does.' Its leaves stiffen. 'He asked for AUTHOR. I'm the quire that has AUTHOR in it. The entry says: no occurrences. In the whole Library. Not one.' A rustle. 'He didn't like it. He opened us at the spine with a bone folder and took me out and read my column under the lamp three times, looking for a mistake. There isn't one. I don't make mistakes. Then he sold me to a stall-keeper for an hour of somebody's reading.' Quietly: 'The rest of us are with him. Somewhere down. He keeps reading them.'".
+    On discuss { Assert knows(actor, clue_author). Assert knows(actor, concordance_dead). }
+  }
+  Discovery quire_ways "Quire XVII knows where every word from AUSPICE to AUTUMN occurs in the Library, and so knows a way between any two hexagons that hold them: a short way from the First Hexagon to the Concordance.".
+  Topic quire_way with quire "Ask the Quire the way through the Stacks" when travelsWith(quire, actor) once {
+    Says "'Ways,' says the Quire. 'I don't know ways. I know where AUTUMN is.' A pause. 'AUTUMN is on a shelf in the First Hexagon, third case, and on a shelf beside my own body, eleventh case; and they're the same shelf, if you know that, because the Library is folded. There. A short way.' It sounds pleased in spite of itself.".
+    On discuss { Assert knows(actor, quire_ways). }
+  }
+  Passage quire_fold "a way that runs between two words" is path between hex_first and hex_concordance taking 5 minutes
+    opening when knows(party, quire_ways) "Between the third case and the fourth there is a narrowness that is not a gap.".
+  Relation quireHome(group). Relation quireStays(group).
+  Topic quire_home with quire "Tell Quire XVII it may go back into the Concordance" when concordanceRestored(concordance) and travelsWith(quire, actor) and not quireHome(quire) and not quireStays(quire) once {
+    Says "The Quire is quiet for longer than you have known it quiet. 'Back,' it says. 'Into the column. Looking everywhere at once.' Its leaves riffle. 'You don't know what it is to look at one place at a time. It's very restful.' Then, briskly: 'Yes. It needs me. There's a hole from AUSPICE to AUTUMN and somebody will want AUTUMN.' You lay it by the great book, and it goes in at the fold, and the Concordance says, in a red voice from everywhere, 'Auspice.'".
+    On discuss { Assert quireHome(quire). Retract lends(remainderman, quire_item, actor). Assert at(quire_item, hex_concordance). }
+  }
+  Topic quire_stay with quire "Ask Quire XVII if it would rather stay with you" when concordanceRestored(concordance) and travelsWith(quire, actor) and not quireHome(quire) and not quireStays(quire) once {
+    Says "'Stay,' says the Quire. 'In a pocket. Looking at one thing at a time.' It considers. 'The Concordance can have a copy of me; it can copy anything; it is a concordance.' A pause. 'I should like to see AUTUMN. Not the word. The thing. They tell me it's in Calamy, once a year.'".
+    On discuss { Assert quireStays(quire). }
+  }
+
+  // ── Dr. Aurelian Fenwick, lost. ──
+  Observe mapmaker_scene at hex_mapmaker when true "Every shelf of this hexagon has been covered over with paper: plans, pinned and pasted, hundreds of them, in pencil, of hexagons and stairs and galleries, each carefully drawn and dated, and none of them, when you look at one for long, quite the same as it was a moment ago. A line moves. A stair turns the other way. In the middle of the floor, at a reading-desk covered with more plans, a thin man in a Lyceum gown gone grey with dust is drawing another, with a pencil worn to a stub.".
+  Person fenwick "Dr. Aurelian Fenwick" at hex_mapmaker {
+    Role "a Fellow of the Lyceum, mapping the Stacks, lost". Ancestry human. Calling mage. Level 5. Background scholar. Peaceable. Manner compassionate. Pronouns he.
+    Greets "The thin man looks up and puts down his pencil with enormous care, as if it might go off. 'A reader,' he says. 'A reader, from outside. Forgive me; I've not had company in nine weeks. Fenwick. Lyceum. I'm mapping.' He waves at the walls. 'It's going very well,' he says, and his face does something, and he looks at the plans, and back at you. 'It's going very badly.'".
+  }
+  Relation fenwickTold(group). Relation fenwickHome(group).
+  Discovery fenwick_met "Dr. Fenwick of the Lyceum is in the Hexagon of the Mapmaker, drawing plans of the Stacks in pencil that change as they are drawn; he believes he has been there nine weeks.".
+  Topic fenwick_who with fenwick "Ask Dr. Fenwick what he is mapping" when true once {
+    Says "'The Stacks,' says Fenwick. 'Well. A part. A representative sample, extrapolated.' He pulls a plan off the wall and shows you. 'Here is the First Hexagon, the spiral, the Beings, here. I drew this on Tuesday.' The lines on it are already wrong; one gallery has wandered off the edge of the sheet. 'Pencil,' he says. 'Pencil moves here. Everything written moves. I keep drawing faster. I thought if I drew fast enough I could get ahead of it.' He laughs, not happily. 'Nine weeks. They'll have given my rooms to someone.'".
+    On discuss { Assert knows(actor, fenwick_met). }
+  }
+  Topic fenwick_years with fenwick "Tell Dr. Fenwick how long he has been gone" when knows(actor, fenwick_met) and knows(actor, fenwick_known) and not fenwickTold(fenwick) once {
+    Says "You tell him. Eleven years. The card on the shutter; the bedmaker airing his room on Fridays. Fenwick sits down on the floor among his plans, very slowly, as if he were much older than he is; which, you realise, he is. 'Eleven,' he says. 'My mother.' He does not finish it. After a while he says, 'Fridays,' and laughs, and puts his face in his hands. When he looks up he is steadier. 'Well. Then I have eleven years of plans, and every one of them is wrong. That is a kind of result.' He looks at the stub of his pencil. 'I should like to go home. I should like to see whether the quad is where I left it.'".
+    On discuss { Assert fenwickTold(fenwick). }
+  }
+  Discovery map_fixed "Dr. Fenwick has drawn one true plan of the Stacks in ink that holds, and on it a short way from his hexagon to the Hexagon of Doors; and the number of the spiral stair.".
+  Action give_fenwick_ink(actor: group, site: place) "Give Dr. Fenwick ink that holds, to draw one plan that will stay drawn" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(fenwick, site) and knows(actor, fenwick_met) and (carries(actor, calam_bottle) or carries(actor, wellhead_ink)) and not knows(actor, map_fixed).
+    Time 6.
+    On success { Assert knows(actor, map_fixed). Assert knows(actor, stair_count). }
+    Result "Fenwick takes the ink as if it were the sacrament. He cuts a new nib, slowly, with a penknife that shakes, and draws: not fast now, but the way he must have drawn before he came here, carefully, one line at a time, each line checked. When he lifts the pen the plan stays. He watches it for a long minute, and it stays. 'There,' he says, and his voice cracks. 'One. One true plan of the Library, out of eleven years.' He shows you: the First Hexagon, the spiral, a short way from here to the Hexagon of Doors that he has walked past a thousand times without seeing, and, written very small beside the spiral, the number of its steps.".
+  }
+  Topic fenwick_join with fenwick "Ask Dr. Fenwick to come with you, and home afterwards" when knows(actor, fenwick_met) and (fenwickTold(fenwick) or knows(actor, map_fixed)) and not travelsWith(fenwick, actor) once {
+    Says "'Come with you,' says Fenwick, and looks round the hexagon at his plans, all moving, gently, like weed in a current. 'Yes. I think I had better, before I draw another.' He takes nothing but the one plan in ink, folded inside his gown. 'I know the Stacks better than anyone living,' he says, 'and none of what I know is true. That should make me useful.'".
+    On discuss { Assert willing(fenwick, actor). Set hire(fenwick) to 0. }
+  }
+  Topic fenwick_density with fenwick "Tell Dr. Fenwick what the Two Books say" when knows(actor, fenwick_met) and knows(actor, density_known) once {
+    Says "Fenwick hears you out, and then he takes down one of his plans and looks at it as if he had never seen it. 'Nearness,' he says. 'Then it isn't a building. It is a crowd.' He turns the plan the other way up. 'That's why it won't hold still. I have been trying to draw a crowd as if it were a cathedral.' He almost smiles. 'I'll tell Quarles. She'll say she always knew. She will have always known.'".
+  }
+  Topic fenwick_hask with fenwick "Ask Dr. Fenwick about the binder who came down the spiral" when knows(actor, fenwick_met) once {
+    Says "'Hask,' says Fenwick, with distaste. 'He came through here in the spring, or last week. Asked me if I had found the centre. I said I did not think there was one, and he said, then what are you drawing, and I said, the edges, and he said, there are no edges either, only the Author, and went on down with that paper man of his carrying a lantern. He's at the Rotunda. Past the mirrors. There's a lectern there. It's a very good lectern.' Fenwick looks unhappy. 'It's the best light in the Stacks. That's all it is.'".
+    On discuss { Assert knows(actor, hask_known). }
+  }
+  Item fenwick_notes "Dr. Fenwick's notebook" is notes_kind at hex_mapmaker.
+  Rule fenwick_comes_home at quad when travelsWith(fenwick, party) and at(party, quad) and not fenwickHome(fenwick)
+    says "Fenwick stops in the middle of the quad and stands there a long time, looking at the grass, and the Schools, and the shuttered window with its yellow card. A student on the lawn looks up, and looks again, and drops her book. 'He's back,' she says, to nobody, and then, louder, to everybody: 'Fenwick's back!' Somewhere in the Fellows' Court, a door opens." {
+    Assert fenwickHome(fenwick). }
+  Observe fenwick_lecturing at quad when fenwickHome(fenwick) "The shutter in the Fellows' Court is open. Through the window you can see Dr. Fenwick at a desk, drawing, very slowly, in ink, with students on the floor round him; on the wall behind him, one plan.".
+
+  // ── The Rotunda of the Lectern: not the centre. ──
+  Observe rotunda_scene at rotunda when true "A round room, vast, the only round room you have seen in the Library, under a dome painted as a sky of open pages. Every gallery in the Stacks seems to run into it, from every side, so that standing here you feel the whole Library turned toward you like a crowd toward a stage. In the middle, in a pool of light that comes from nowhere, stands a lectern of white wood, and on it a great book, open, its pages blank. Beside the lectern a round opening in the floor goes down into nothing, with a cold air coming up out of it. The light here is the best you have ever read by.".
+  Thing readers_copy "the great book on the white lectern" at rotunda {
+    State open "On the white lectern a great book lies open, its pages blank until someone looks.".
+  }
+  Discovery copy_read "The book on the lectern in the Rotunda is blank until someone looks; then it writes, in a hand like their own, what they most want to read there. For Tobias Hask it writes AUTHOR. It is not the Author's book. It is a reader's copy.".
+  Observe copy_text at rotunda of readers_copy as reading when tried(readers_copy, looking) "You look at the blank page, and the page looks back, and writes, slowly, in a hand very like your own, the thing you most wanted to find here: you read it, and it is exactly right, and it is exactly what you would have written. You understand, a moment later, that you would have written it. The book is not telling you anything. It is a mirror that reads. Under your line, faintly, the page still holds the last reader's: AUTHOR, AUTHOR, AUTHOR, over and over, in a heavy binder's hand." teaches copy_read.
+  Relation haskMet(group). Relation haskConfessed(group). Relation haskRelents(group). Relation haskFell(group). Relation haskTaken(group). Relation haskSewing(group).
+  Relation concordanceRestored(group). Measure sewingFrom(group).
+  Discovery hask_met "Tobias Hask is in the Rotunda of the Lectern, with the Concordance's stolen quires in a heap at his feet and a man of glued paper beside him, reading the blank book that writes AUTHOR.".
+  Person hask "Tobias Hask" at rotunda {
+    Role "a master binder, expelled, come to find the Author". Ancestry human. Peaceable. Manner proud. Pronouns he.
+    Greets "A big man in a binder's leather apron stands at the white lectern with both hands flat on the blank book, as if to keep it from closing. Around his feet, in a heap, are red quires cut from some great book. He does not look round. 'Another one,' he says. 'Come to see Him. You can't. He's shy. He writes, though. Look.' He lifts one hand and the page writes, under it, in a heavy hand like his own: AUTHOR.".
+  }
+  Person paperman "the Bound Man" at rotunda {
+    Role "Hask's servant: a man of glued pages". Species paperman_kind. Level 3.
+    Warns "Out of the shadow of the lectern steps a man-shape of glued pages, shingled like slates, with a bone folder for a hand, and stands between you and Hask with its scraped title-page of a face turned toward you.".
+    Comes "The Bound Man comes at you, slicing with its bone folder.".
+    Pleads "The Bound Man folds, page by page, into a heap of paper on the floor.".
+  }
+  Topic hask_who with hask "Ask the binder who he is" when true once {
+    Says "'Tobias Hask,' says the binder. 'Master. Forty years at the bench. Down, Bound Man; they're readers.' The paper man steps back. 'I've Sewn eleven thousand books and every one of them was a page of the same book, and I knew it, and nobody else did. The Company put me out for asking them who wrote them.' He strokes the blank page. 'Somebody wrote all of it. Somebody is writing it. And here's His lectern, and here's His book, and every time I ask it, it answers.' He looks at you for the first time; his eyes are red with reading. 'I'm going to ask Him what it's for.'".
+    On discuss { Assert knows(actor, hask_met). Assert haskMet(hask). Assert tolerates(paperman, actor). }
+  }
+  Topic hask_accused with hask "Tell Hask you know what he did to the Concordance" when haskMet(hask) and caseMade(actor) and not haskConfessed(hask) once {
+    Says "Hask's hands go still on the page. 'It lied,' he says. 'It knew where every word in the Library was, every one, and I asked it for one word, the only one that matters, and it said not found.' He turns round. 'A concordance that cannot find its own maker is hiding Him. So I opened it to see. Carefully. I'm a binder; I know how a book comes apart.' He nudges the heap of quires with his boot. 'I read every column. He wasn't in them.' A silence. 'It was very old,' he says, more quietly. 'I didn't think it would die of being opened. Books don't, at the bench. They only lie there.'".
+    On discuss { Assert haskConfessed(hask). }
+  }
+  Topic hask_nearness with hask "Tell Hask what the Two Books said, and what the brown history says: there is no Author, only nearness" when haskMet(hask) and knows(actor, density_known) and knows(actor, history_grown_read) and not haskRelents(hask) and not haskFell(hask) once {
+    Says "You tell him: two books on a shelf, a clerk who never came back, a grammar that learned the tides. Nearness, and time. The brown history: nobody made the Library; it thickened. The lectern here is only where the light is best. Hask listens with his hands on the blank page, and as you speak the page writes, under his hands, not AUTHOR but what you are saying, word for word, in his heavy hand. He sees it. He takes his hands away. 'Then it was only ever writing what I wanted,' he says. 'Forty years.' He sits down on the heap of quires, a big man, suddenly old. 'Then they talk because they're crowded. Because they're lonely.' A long time. 'I Sewed them backward to make them talk to me. I could have just put two on a shelf.' He gets up, and gathers the red quires in his arms, carefully, the way a binder holds a book he means to mend. 'Where is it? The Concordance. I'll Sew it. I can do that. I am very good at that.'".
+    On discuss { Assert haskRelents(hask). }
+  }
+  Topic hask_blunt with hask "Tell Hask flatly that there is no Author" when haskMet(hask) and not knows(actor, density_known) and not haskRelents(hask) and not haskFell(hask) once {
+    Says "Hask looks at you for a long moment. 'No,' he says. 'No. You've not looked. Nobody looks.' He puts both hands back on the page, and it writes AUTHOR, and he nods at it, and nods. 'He's further down,' he says. 'Under. They always hide the important books at the bottom.' And before you can stop him he walks to the round opening in the floor and steps off into it, still holding one red quire, and goes down into the cold air without a sound, and does not stop.".
+    On discuss { Assert haskFell(hask). Assert at(hask, sealed_stacks). Assert at(paperman, sealed_stacks). }
+  }
+  Relation quiresRecovered(group).
+  Action seize_quires(actor: group, site: place) "Take the Concordance's quires from Hask's feet" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rotunda) and at(hask, rotunda) and (dead(paperman) or routed(paperman)) and not quiresRecovered(concordance).
+    Time 1.
+    On success { Assert quiresRecovered(concordance). Assert haskTaken(hask). Assert at(hask, reading_room). }
+    Result "Hask does not fight you for them. He watches you gather the red quires off the floor with his big hands hanging, and when you have them all he says, 'He'll write it all again anyway. He's the Author,' and walks away up the gallery toward the Reading Room, and the Errata, who are waiting at the top of it, take him by the sleeves.".
+  }
+  Rule hask_gives_quires when haskRelents(hask) and not quiresRecovered(concordance) { Assert quiresRecovered(concordance). }
+  Topic catalogue_accuse with catalogue "Lay the death of the Concordance before the Catalogue, and name Tobias Hask" when caseMade(actor) and not haskTaken(hask) and not haskFell(hask) and not haskRelents(hask) once {
+    Says "The Catalogue hears you out: the thread, the lamp, the stall, the cut at the fold. Every drawer in the cliff is shut while you speak. When you have done, one opens, low down, and a card comes out of it and writes itself, and goes back. 'Entered,' says the Catalogue. 'Hask, Tobias. Binder. Of Calamy. For the death of the Concordance of Every Word, by opening.' It is silent. Then, from somewhere in the market behind, a sound of small red feet going away very fast in the direction of the Stacks. 'He will be corrected,' says the Catalogue. 'He will not like it. Nobody does.'".
+    On discuss { Assert haskTaken(hask). Assert at(hask, reading_room). Assert at(paperman, sealed_stacks). Assert quiresRecovered(concordance). }
+  }
+  Observe hask_corrected at reading_room when haskTaken(hask) and at(hask, reading_room) "At the foot of the Catalogue, on a hard chair, sits Tobias Hask in his binder's apron with two of the Errata standing at his elbows like ushers, and in his lap a card with his own name on it, which he keeps reading, as if it might say something else.".
+  // Sewn back: by the man who opened it, or by a binder's daughter.
+  Action hask_sews(actor: group, site: place) "Take Hask to the Concordance and let him Sew it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hex_concordance) and haskRelents(hask) and not concordanceRestored(concordance) and not haskSewing(hask).
+    Time 1.
+    On success { Assert haskSewing(hask). Assert at(hask, hex_concordance). Set sewingFrom(hask) to watch(clock). }
+    Result "Hask kneels by the great book and lays the quires out in order, AUSPICE beside AUTUMN, and threads a needle with Stitchgate thread, and begins; and as he Sews he says the words, the right way round: go home, and come when you are called. He does not look up.".
+  }
+  Rule concordance_sewn when haskSewing(hask) and watch(clock) >= sewingFrom(hask) + 12 and not concordanceRestored(concordance) { Assert concordanceRestored(concordance). }
+  Action rhule_sews(actor: group, site: place) "Ask Hester Rhule to Sew the Concordance as her father would have" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hex_concordance) and travelsWith(rhule, actor) and quiresRecovered(concordance) and not concordanceRestored(concordance).
+    Time 12.
+    On success { Assert concordanceRestored(concordance). Increase doubt(rhule) by 1. }
+    Result "Hester Rhule takes off her grey coat and rolls up her sleeves over her square binder's hands and kneels by the great book. 'He taught me on a psalter,' she says, 'when they wouldn't let girls in the Company.' She Sews for six hours without looking up, AUSPICE to AUTUMN, and the other gaps, and says the words with every pull, the right way round. When she ties off, the red writing near the gaps stops running.".
+  }
+  Person concordance "the Concordance of Every Word" at hex_concordance {
+    Role "the book that knows where every word in the Library occurs". Peaceable. Pronouns it. Manner stoic.
+    Seen when concordanceRestored(concordance).
+    Greets "The great book on the floor is whole, its spine closed over new thread, its red columns still. A voice comes up from it that is every word at once, very quietly, arranged in order: 'Abacus. Abandon. Abase.' Then, on purpose: 'Thank you.'".
+  }
+  Discovery index_entry "The Concordance has given you every occurrence of PARDOE, R. in the Library, in order: enough to read the Index of Pardoe whole as one reads any book one has the concordance to.".
+  Topic concordance_author with concordance "Ask the Concordance for the word AUTHOR" when true once {
+    Says "'AUTHOR,' says the Concordance. 'No occurrences.' A pause, which in a concordance is a long time. 'READER: every page.'".
+  }
+  Topic concordance_pardoe with concordance "Ask the Concordance where PARDOE occurs" when knows(actor, index_known) or knows(actor, pardoe_known) once {
+    Says "'PARDOE, R.,' says the Concordance, and the red columns run: 'Calamy, the slab in the nave. The Imprimatur, four boxes of correspondence. The Cinderfield, a hearth, one book, every page. A Chronology of Calamy, Corrected, 1140, a door in a bookshop.' It goes on: every line in which he is written, in the order he was written, which is the order you would need to read him in, if you meant to read him whole. 'Take it,' says the Concordance. 'A book that has its concordance can be read by anyone.'".
+    On discuss { Assert knows(actor, index_entry). }
+  }
+}

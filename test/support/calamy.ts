@@ -18,8 +18,10 @@ export class Calamy {
   static route(j: Journey, to: string): string[] {
     const w = j.campaign.world, here = j.at('party')!, goal = C(to);
     const edges = new Map<string, [string, string][]>();
+    const closed = new Set(w.related('unopened').map(r => r.args[0]));
     for (const r of w.related('connects')) {
       const [p, a, b] = r.args as [string, string, string];
+      if (closed.has(p)) { continue; }
       edges.set(a, [...edges.get(a) ?? [], [p, b]]);
     }
     const prev = new Map<string, [string, string]>([[here, ['', '']]]), queue = [here];

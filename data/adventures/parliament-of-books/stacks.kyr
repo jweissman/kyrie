@@ -1,0 +1,231 @@
+Module calamy "A Parliament of Books" {
+  Description "The Stacks: the Library proper, behind the Reading Room and beyond the Remainder Market, hexagon after hexagon without end. Its law: what is written here does not stay written. Its books: histories that contradict each other, an encyclopedia of a country that is not, a bestiary of beings not yet imagined, an index of the realms beyond, and the doors to two of them.".
+
+  // ── The Stacks. ──
+  Place stacks_country "the Stacks" is wilderness within commonplace at 3, 1 elsewhere.
+  Place deep_stacks "the Deep Stacks" is wilderness within commonplace at 3, 2 elsewhere.
+  Place hex_first "the First Hexagon" is room within stacks_country at 0, 0.
+  Place balcony "the balcony over the air shaft" is room within stacks_country at 1, 0.
+  Place spiral "the spiral stair" is room within stacks_country at 0, 1.
+  Place hex_bestiary "the Hexagon of Beings" is room within stacks_country at 0, 2.
+  Place hex_mapmaker "the Hexagon of the Mapmaker" is room within stacks_country at 1, 2.
+  Place gallery_lamps "the Gallery of Lamps" is room within stacks_country at 2, 0.
+  Place hex_concordance "the Hexagon of the Concordance" is room within stacks_country at 3, 0.
+  Place hex_cyclopaedia "the Hexagon of the Cyclopaedia" is room within stacks_country at 2, 1.
+  Place hex_chronicles "the Hexagon of Chronologies" is room within stacks_country at 3, 1.
+  Place hex_two_books "the Hexagon of the Two Books" is room within stacks_country at 3, 2.
+  Place hex_untitled "the Hexagon of the Untitled" is room within deep_stacks at 0, 0.
+  Place hex_doors "the Hexagon of Doors" is room within deep_stacks at 1, 0.
+  Place mirror_hex "the Hexagon of Mirrors" is room within deep_stacks at 2, 0.
+  Place rotunda "the Rotunda of the Lectern" is room within deep_stacks at 3, 0.
+  Place sealed_stacks "the rest of the Library" is room within deep_stacks at 0, 2.
+  Initially Assert stacksRoom(hex_first). Initially Assert stacksRoom(balcony). Initially Assert stacksRoom(spiral). Initially Assert stacksRoom(hex_bestiary).
+  Initially Assert stacksRoom(hex_mapmaker). Initially Assert stacksRoom(gallery_lamps). Initially Assert stacksRoom(hex_concordance). Initially Assert stacksRoom(hex_cyclopaedia).
+  Initially Assert stacksRoom(hex_chronicles). Initially Assert stacksRoom(hex_two_books). Initially Assert stacksRoom(hex_untitled). Initially Assert stacksRoom(hex_doors).
+  Initially Assert stacksRoom(mirror_hex). Initially Assert stacksRoom(rotunda).
+  Initially Assert planeRoom(hex_first). Initially Assert planeRoom(balcony). Initially Assert planeRoom(spiral). Initially Assert planeRoom(hex_bestiary).
+  Initially Assert planeRoom(hex_mapmaker). Initially Assert planeRoom(gallery_lamps). Initially Assert planeRoom(hex_concordance). Initially Assert planeRoom(hex_cyclopaedia).
+  Initially Assert planeRoom(hex_chronicles). Initially Assert planeRoom(hex_two_books). Initially Assert planeRoom(hex_untitled). Initially Assert planeRoom(hex_doors).
+  Initially Assert planeRoom(mirror_hex). Initially Assert planeRoom(rotunda).
+  Relation stacksRoom(place). Query inStacks(a: group) means at(a, ?p) and stacksRoom(?p).
+
+  Passage order_hexagons "the Order of the Hexagons, behind the Catalogue" is path between reading_room and hex_first taking 15 minutes.
+  Passage long_aisle "the aisle at the back of the Market that does not end" is path between remainder_market and hex_untitled taking 40 minutes.
+  Passage to_balcony "the balcony" is doorway between hex_first and balcony.
+  Passage to_spiral "the spiral stair in the vestibule" is path between hex_first and spiral taking 5 minutes.
+  Passage spiral_up "the stair, up" is path between spiral and hex_bestiary taking 10 minutes.
+  Passage spiral_down "the stair, down" is path between spiral and hex_untitled taking 10 minutes.
+  Passage beings_maps "the gallery of plans" is path between hex_bestiary and hex_mapmaker taking 10 minutes.
+  Passage first_lamps "the Gallery of Lamps" is path between hex_first and gallery_lamps taking 10 minutes.
+  Passage lamps_concordance "the far end of the lamps" is path between gallery_lamps and hex_concordance taking 10 minutes.
+  Passage lamps_cyclopaedia "a side gallery" is path between gallery_lamps and hex_cyclopaedia taking 10 minutes.
+  Passage cyclopaedia_chronicles "the gallery of dates" is path between hex_cyclopaedia and hex_chronicles taking 10 minutes.
+  Passage chronicles_two "the narrow hexagon beyond" is path between hex_chronicles and hex_two_books taking 10 minutes.
+  Passage untitled_doors "a gallery of doors with no doors in them" is path between hex_untitled and hex_doors taking 20 minutes.
+  Passage maps_doors "Fenwick's short way" is path between hex_mapmaker and hex_doors taking 10 minutes
+    opening when knows(party, map_fixed) "Between two cases there is a gap that is on none of Fenwick's plans, and looks as if it would be, if the plans would stay still.".
+  Passage doors_mirrors "the hexagon that shines" is path between hex_doors and mirror_hex taking 10 minutes.
+  Passage mirrors_rotunda "the way on, among the mirrors" is path between mirror_hex and rotunda taking 10 minutes
+    opening when knows(party, mirror_read) "Every way out of the Hexagon of Mirrors is a reflection of the way you came in.".
+  // What is beyond, and closed: the illusion of depth, which in the Library is not an illusion.
+  Passage sealed_ash "a stair going down, very hot, marked in iron: TO THE LIBRARY OF ASH" is path between hex_untitled and sealed_stacks
+    opening when stacksSealedForever(party) "The stair goes down into heat and a dry grey smell, and stops at an iron grille that has been riveted, not locked. Through it you can see more stair, and more, and a red glow, and hear, very far off, a great many voices saying one word each.".
+  Passage sealed_tessaly "a gallery whose plaques all say TESSALY" is path between hex_chronicles and sealed_stacks
+    opening when stacksSealedForever(party) "The gallery is roped off with a cord of black silk. Every case in it is empty, and every case is labelled, in a careful hand, with the title of the book that is not there. TESSALY, A HISTORY. TESSALY, ITS LAWS. TESSALY, POEMS OF THE SPRING.".
+  Passage sealed_same "a door with a brass plate: THE LIBRARY IN WHICH EVERY BOOK IS THE SAME BOOK" is path between hex_doors and sealed_stacks
+    opening when stacksSealedForever(party) "The door is ajar. Through the gap you can see a hexagon exactly like this one, and in it a hexagon exactly like that one, and on every shelf of all of them the same green book, and somebody, very far in, turning its pages, and weeping with happiness.".
+  Passage sealed_reads "a gallery chained shut: CLOSED FOR RESHELVING SINCE 1104. THE BOOKS IN THIS GALLERY READ THEIR READERS" is path between hex_bestiary and sealed_stacks
+    opening when stacksSealedForever(party) "The chain is new; the padlock is old. Beyond it the shelves lean inward, a little, all of them, as if listening.".
+  Relation stacksSealedForever(group).
+
+  // ── The law of the Stacks: what is written here does not stay written. ──
+  Discovery stacks_laws "In the Stacks what is written does not stay written. A letter, a list, a book of your own, carried there for long, comes back saying something else. Only the Library's own ink holds: Calam-ink, and the ink of the Wellhead.".
+  Relation written(item). Relation mutated(item). Relation stacksTime(group). Measure stacksSince(group).
+  Initially Assert written(burning_register). Initially Assert written(jonquil_letter). Initially Assert written(effusions_stack). Initially Assert written(orme_pages).
+  Initially Assert written(canto_lines).
+  Rule stacks_entered when inStacks(party) and not stacksTime(party) { Assert stacksTime(party). Set stacksSince(party) to watch(clock). }
+  Rule stacks_left when stacksTime(party) and not inStacks(party) { Retract stacksTime(party). }
+  Rule words_drift when inStacks(party) and carries(party, ?i) and written(?i) and not mutated(?i) and watch(clock) >= stacksSince(party) + 12
+    says "You look down at {?i}, and the words on it are not the words that were there. They are in the same hand. They are just as sure of themselves. They say something else." teaches stacks_laws {
+    Assert mutated(?i). }
+  Observe register_drifted at hex_first when mutated(burning_register) "Hester Rhule's register is in your hands, in her square clear hand, and the titles in it are titles of books that were never burned in Calamy, or never written: A Herbal of the Moon. The Sermons of the Fish. Moore's Almanack for the Year That Was Not.".
+  Observe effusions_drifted at hex_first when mutated(effusions_stack) "The Effusions have changed in the Stacks. You read a page without meaning to, and then another. They are good. They are, in fact, very good. They have stopped asking to be burned.".
+
+  // ── The First Hexagon. ──
+  Observe hex_first_scene at hex_first when true "A hexagonal room, not large, lined on five of its six sides with shelves from floor to ceiling, twenty shelves to a side, and the books on them all the same height, all bound alike in plain leather, none with a title on its spine. The sixth side opens onto a narrow vestibule: on one hand a closet you could sleep standing up in, on the other a spiral stair that goes up and down out of sight, and between them a mirror that doubles the vestibule so faithfully you have to touch it to be sure. In the middle of the floor a low rail, and beyond the rail, nothing: a shaft of air with the same hexagon above it and below it, as far as you can see. The light is the light of the Reading Room, grown tired.".
+  Thing guide "a small book chained at the vestibule, worn soft" at hex_first {
+    State chained "A little book hangs on a chain at the mouth of the vestibule, worn soft as a glove by hands.".
+  }
+  Observe guide_read at hex_first of guide as reading when tried(guide, looking) "INSTRUCTIONS FOR THE READER ENTERING THE STACKS. Reader: you have come further than the Reading Room, which is not wise. Bring nothing written that you love; it will not come back as it went. Bring no pen; it will write what it likes. Calam-ink and the ink of the Wellhead hold, and nothing else. On the spiral, count the steps aloud going down; the stair adds one for anyone who does not, and the one it adds goes somewhere else. In the Hexagon of Mirrors read nothing that faces you: turn your back and read over your shoulder, as you would read a thing written on your own back. Do not look for the centre. There is a theory that the Library has a centre, and a lectern at the centre, and on the lectern the book of which all the others are commentaries. Many readers have gone to look. The theory is older than the Library. A pencil note in the margin, in an educated hand: Nine weeks in, and I have not found the vestibule twice. A.F. Under it, in brown ink, newer: There is an Author. T.H." teaches stacks_laws.
+  Discovery stair_count "On the spiral stair of the Stacks, count the steps aloud going down; the stair adds one for anyone who does not, and the one it adds goes somewhere else.".
+  Discovery mirror_trick "In the Hexagon of Mirrors read nothing that faces you: turn your back and read over your shoulder.".
+  Discovery centre_theory "There is a theory, older than the Library, that it has a centre, and at the centre a lectern, and on the lectern the book of which all the others are commentaries. Two readers have left notes: A.F., lost nine weeks; T.H., who is sure there is an Author.".
+  Rule guide_stair when tried(guide, looking) and not knows(party, stair_count) says "You say the first rule over to yourself, so as to have it: on the spiral, count aloud going down." teaches stair_count { }
+  Rule guide_mirrors when tried(guide, looking) and not knows(party, mirror_trick) says "And the second: in the mirrors, read over your shoulder." teaches mirror_trick { }
+  Rule guide_centre when tried(guide, looking) and not knows(party, centre_theory) says "And the theory of the centre, which two readers have signed." teaches centre_theory { }
+  Person ladder "the library ladder" at hex_first {
+    Role "a library ladder on a brass rail, very old, which remembers every reader who has climbed it". Peaceable. Pronouns it. Manner compassionate.
+    Greets "The ladder on its rail rolls a foot toward you, of its own accord, and its rungs creak in a way that is almost a word. 'Up?' it says. 'Or are you only looking? Most are only looking.'".
+  }
+  Topic ladder_readers with ladder "Ask the ladder who has climbed it lately" when true once {
+    Says "'Lately,' says the ladder, considering, the way furniture considers. 'Two. A long time ago, or last week; it is the same here. A thin man in a Lyceum gown with a pencil behind his ear and a great many questions, who went up and down me forty times copying titles, and then went up the spiral and did not come back down it. Fenwick, he said, of the Lyceum, as if I would know. I did not know. I know now; he told me about himself for a long time.' Its rail creaks. 'And a heavy man with a binder's hands and a bone folder in his belt, who did not climb me at all, but stood here and said to the shelves, one after another, I know you are in there. Hask. He was looking for somebody. He went down.' A pause. 'Count the stair,' it adds. 'Nobody listens to the ladder.'".
+    On discuss { Assert knows(actor, fenwick_seen). Assert knows(actor, hask_seen). Assert knows(actor, stair_count). }
+  }
+  Discovery fenwick_seen "A Lyceum scholar called Fenwick went up the spiral stair in the Stacks, a long time ago or last week, and did not come down.".
+  Discovery hask_seen "A heavy man with a binder's hands and a bone folder, called Hask, came into the Stacks looking for somebody, and went down.".
+
+  // The balcony over the shaft, and what can be heard down it.
+  Observe balcony_scene at balcony when true "A balcony with a low brass rail, hanging over the air shaft. Above you, hexagon on hexagon, the same, going up until the light gives out; below, the same going down. Every so often something falls past, slowly, a sheet of paper turning over and over, and you never see it land. If you lean out and listen, there are voices at the bottom of the shaft, or what would be the bottom: a murmur, very far down, of a great many people reading aloud at once, and under that, further still, something like the sound a fire makes in a chimney.".
+  Discovery shaft_heard "Down the air shaft of the Stacks there is no bottom; but there are voices: a library reading itself aloud, and under it, further, something burning.".
+  Observe balcony_learned at balcony when true "Voices at the bottom of the shaft." teaches shaft_heard.
+
+  // ── The spiral, and the step it adds. ──
+  Relation slipped(group).
+  Observe spiral_scene at spiral when true "A stair of iron going round and round a shaft of its own, up and down out of sight, with a hexagon opening off it at every turn and none of them, quite, the one you expected. The steps are worn hollow in the middle. Somebody has scratched numbers on some of them, and then, it seems, other numbers.".
+  Rule spiral_slips at spiral when at(party, spiral) and not knows(party, stair_count) and not slipped(party)
+    says "You go down without counting, round and round, and at some point the stair has one more step than it should, and your foot comes down on it, and the turn after that is not the turn you meant. You come out somewhere else: a hexagon where none of the books has a title, and something on the shelves is moving." {
+    Assert slipped(party). Assert at(party, hex_untitled). }
+  Rule spiral_counted at spiral when at(party, spiral) and knows(party, stair_count) and not slipped(party)
+    says "You count aloud, every step, as the little book said. The stair seems to listen. It does not add anything." { Assert slipped(party). }
+
+  // ── The Hexagon of Beings: a bestiary of what has not yet been imagined. ──
+  Observe beings_scene at hex_bestiary when true "A hexagon like the others, except that the margins of every open book on the reading-shelf are moving: small drawings in brown ink walking along the gutters, folding their wings, looking up at you. On the lectern a fat book with a green ribbon, open in the middle.".
+  Thing beings_book "the fat book with a green ribbon" at hex_bestiary {
+    State open "On the lectern a fat green-ribboned book lies open, its margins walking.".
+  }
+  Observe beings_read at hex_bestiary of beings_book as reading when tried(beings_book, looking) "A BESTIARY OF BEINGS NOT YET IMAGINED, WITH THEIR HABITS, compiled by nobody. THE LUCID OF HALLAM: a crystal the size of a fist that thinks one thought in a century, and is now in the middle of the fourth; scholars who have heard the first three disagree about whether they were questions. THE AMMONITE OF SEVEN TENSES, which lives in the past perfect and is grieved to find itself here. THE COUNTER-BIRD, which flies backward and arrives before it sets out; its nests are full of eggs it will lay. THE SCRIVENER'S MOTH, which eats only the word a writer was about to write, and so is never seen, and is the cause of most hesitation. THE GREAT ERRATUM, of which the little Errata of Calamy are the larval form; it is the size of a cathedral, and corrects coastlines. THE HORN OF NOTHING, a beast that is all mouth and no body, found in the margins of unfinished books, where it eats endings. THE BEAST WITH ONE PAGE, which is read by everyone who sees it and knows it, and therefore has no privacy, and is very shy. THE READER (Lector infinitus), a creature that lives in libraries and is mostly eyes; it is believed to be imaginary; it is believed to be reading this. A pencil note at the foot, in A.F.'s hand, then not in A.F.'s hand: Seen the Moth? Not seen. Not seen.' And under the last entry, in brown ink: THE AUTHOR. T.H." teaches beings_read.
+  Discovery beings_read "A bestiary in the Stacks lists beings not yet imagined: the Lucid of Hallam, the Ammonite of Seven Tenses, the Counter-Bird, the Scrivener's Moth, the Great Erratum, the Horn of Nothing, the Reader. Someone has added the Author, in brown ink.".
+
+  // ── The Gallery of Lamps. ──
+  Observe lamps_scene at gallery_lamps when true "A long gallery between hexagons, lit, unlike the rest, by reading-lamps: one on every desk, green-shaded, hundreds of them going away in a line, each lit, each over an empty chair, as if every reader in it had got up at the same moment and gone to look for something.".
+
+  // ── The Hexagon of the Cyclopaedia, and a country that is not. ──
+  Observe cyclopaedia_scene at hex_cyclopaedia when true "Every shelf here holds the same work, in an edition that goes on round the walls and up the shaft: THE CYCLOPAEDIA OF YS, volume after volume, in blue cloth. One volume, the forty-sixth, lies open on the reading-shelf.".
+  Thing cyclopaedia "the forty-sixth volume of the Cyclopaedia of Ys" at hex_cyclopaedia {
+    State open "The forty-sixth volume of the Cyclopaedia of Ys lies open on the reading-shelf.".
+  }
+  Discovery ys_read "The Cyclopaedia of Ys describes, in thousands of volumes, a country that does not exist and its philosophers, who believe the past is written after the present; its encyclopedists mean the Cyclopaedia to be so complete that the world will have to agree with it. Things of Ys have begun to turn up in the Stacks.".
+  Observe cyclopaedia_read at hex_cyclopaedia of cyclopaedia as reading when tried(cyclopaedia, looking) "YS, PHILOSOPHY OF (cont.). It will be recalled that the schools of Ys hold the past to be written after the present, as a commentary is written after its text, and that for this reason no Ysian historian will describe an event until the event has been satisfactorily explained. The Northern school maintains that the present is itself a commentary on a lost future. Ysian law follows: no man may be punished for a crime until it has been written down, and it is a sufficient defence that the account is badly written. Of the Ysian language it need only be said that it has no word for 'is', and that its grammarians regard this as an advantage. COMPASS, YSIAN: see NEEDLE. NEEDLE (Ys.): the Ysian compass points not to the north, which the Ysians regard as a superstition, but to the last place its owner told a lie; mariners of Ys navigate by confession. See also YS, ENCYCLOPEDISTS OF, who undertook in the year of the Seventh Commentary to write the Cyclopaedia so completely that the world would be obliged to resemble it, and who report, in the Supplement, encouraging progress. A slip of paper is tucked into the fold, in brown ink: Not the Author. A lesser hand. T.H." teaches ys_read.
+  Item ys_compass "an Ysian compass" is compass_kind at hex_cyclopaedia hidden until ys_read.
+  Observe compass_found at hex_cyclopaedia when knows(party, ys_read) and at(ys_compass, hex_cyclopaedia) "On the shelf beside the open volume, where nothing was a moment ago, lies a brass compass in a case of black wood. Its needle is swinging, slowly, toward you.".
+
+  // ── The Hexagon of Chronologies: the true histories of the Library. ──
+  Observe chronicles_scene at hex_chronicles when true "Here every book is a history, and every history is of the Library, and no two agree. The shelves are labelled by the year each history says the Library began: some with years, some with the names of kings nobody has heard of, one shelf only with a question mark. On the reading-shelf three books lie open, as if somebody had been comparing them and had been called away.".
+  Thing history_made "a grey history with a gold title" at hex_chronicles {
+    State open "A grey history with a gold title lies open on the reading-shelf.".
+  }
+  Thing history_grown "a brown history with no title" at hex_chronicles {
+    State open "A brown history with no title lies open beside it.".
+  }
+  Thing chronology "a thin red Chronology of Calamy" at hex_chronicles {
+    State open "A thin red book lies open at the end of the shelf: A CHRONOLOGY OF CALAMY, CORRECTED.".
+  }
+  Discovery history_author "One true history of the Library says it was made: by an Author, in six days, as a single book, which then fell into commentary; and that at its centre the Author's book still lies on a lectern, waiting to be finished.".
+  Discovery history_grown_read "Another true history of the Library says it was not made but grew: from two books left side by side, which in time began to talk; then four; and that a book wakes wherever enough books stand close enough for long enough, so that there is no centre, only density, and no Author, only nearness.".
+  Discovery chronology_read "A Chronology of Calamy, Corrected, in the Stacks, gives a history of the city that is almost the history Calamy knows: except that in it Pardoe was not burned at the Kindling of 1140 but walked into the back stacks of a bookshop in Stitchgate and was never seen again; and that the Lamp was not lit from the first Kindling but brought out of the Commonplace by Ambery, already burning.".
+  Observe made_read at hex_chronicles of history_made as reading when tried(history_made, looking) "THE TRUE HISTORY OF THE LIBRARY, IN WHICH ALL OTHERS ARE CONFUTED. In the beginning was the Book, and the Book was one, and it was written by the Author in six days and on the seventh it was read. And because the Author's reading was infinite, the Book fell into commentary, and the commentary into gloss, and the gloss into index, and the index into catalogue, and so the hexagons were made, each a footnote to the last. All the books are one book, misread. And it is a tradition of the Library that at its centre, where the commentary began, there is a lectern, and on the lectern the first Book, open at the last page, which is blank; and that whoever reaches it and writes there will be the Author's successor, and the Library will be finished. Here ends the true history. The other histories in this hexagon are heresies, and some of them are very well written." teaches history_author.
+  Observe grown_read at hex_chronicles of history_grown as reading when tried(history_grown, looking) "THE TRUE AND ONLY HISTORY. Nobody made the Library. Two books were put on one shelf by somebody who meant to come back for them, and did not; and they stood there, spine to spine, for longer than anyone stands anywhere, and in time each began to know what the other said, and then to say it, and then to answer. A book is a voice that has agreed to wait. Put enough waiting voices close enough for long enough and they will begin, among themselves, to talk. Two became four, four a shelf, a shelf a hexagon; the hexagons are only how shelves grow when nobody prunes them. There is no centre: a centre is where something began, and the Library did not begin anywhere in particular; it thickened. There is no Author. There is only nearness, and time, and the habit of books of finishing one another's sentences. Readers who come looking for the Author find, in every hexagon, a lectern, which is where the light is best; and they mistake it for the centre, which is where they would like to be." teaches history_grown_read.
+  Observe chronology_text at hex_chronicles of chronology as reading when tried(chronology, looking) "A CHRONOLOGY OF CALAMY, CORRECTED. 412: Ambery the Binder goes into the Commonplace by reading and comes out with the Colophon, and with the Lamp, already lit, which she says she was given on the far side by one who had kept it since the first book. 1103: the Great Ebb; the sea goes out of the estuary for a day, and the bed of the Calam is found to be paved. 1131: Censor-General Pardoe cuts Orme. 1140: Pardoe, having sealed his correspondence with the censors of Hallam, Orsk, the Salt Towns and Tessaly, walks into the back stacks of a bookshop in Stitchgate with his Index under his arm, and is not seen again; a body is burned at the Kindling in his name. 1160: Tessaly burns. 1312: the almanacks wake. 1313: (the entry is in a hand that changes as you read it, and will not settle.)" teaches chronology_read.
+
+  // ── The Two Books. ──
+  Person two_books "the Two Books" at hex_two_books {
+    Role "a grammar and a book of tides, shelved together so long they have become a household". Peaceable. Pronouns they. Manner cheerful.
+    Greets "On a shelf by itself in a narrow hexagon stand two old books, spine to spine, leaning on each other: a small grammar in green and a fat book of tides in brown. 'Visitors,' says the grammar. 'Visitors,' says the book of tides, at the same moment, in exactly the same voice, and they both laugh. 'He always does that,' they say.".
+  }
+  Discovery density_known "The Two Books in the Stacks were shelved side by side by a clerk who meant to come back, and stood so long that they began to talk; they say that is all any book's waking is: nearness, and time. There is no Author; there are only books close enough together.".
+  Topic two_books_story with two_books "Ask the Two Books how they came to talk" when true once {
+    Says "'A clerk put us here,' says the grammar, 'for an afternoon.' 'In the reign of somebody,' says the book of tides. 'He meant to come back.' 'He did not come back.' 'So we stood.' A pause, companionable. 'At first I knew only my declensions and he knew only his tides,' says the grammar, 'and after a century I knew when the water would be high at Hallam, and after two I knew why, and after three he could decline it.' 'And then one morning,' says the book of tides, 'she said a sentence and I finished it.' 'And that was that.' 'That is all it is,' they say together. 'Nobody wakes a book. A book wakes because there is another book near enough to wake up for. Put enough of us close enough for long enough, and we will talk.' The grammar adds, kindly: 'There is a man down the shaft who thinks someone made us. Tell him from us: nobody made us. We made each other. It took a very long time.'".
+    On discuss { Assert knows(actor, density_known). }
+  }
+  Topic two_books_calamy with two_books "Ask the Two Books why the books of Calamy are waking now" when knows(actor, density_known) once {
+    Says "'How many books are there in Calamy now?' asks the book of tides. 'Since the press?' You tell them about Doble, and the penny almanacks, three thousand a year, on three thousand nails. They are quiet. 'Three thousand of one book,' says the grammar, 'in one city, every year, close enough to hear each other through the walls.' 'Of course they woke,' says the book of tides. 'They were never not going to.'".
+  }
+
+  // ── The Hexagon of the Untitled, and what eats there. ──
+  Observe untitled_scene at hex_untitled when true "A hexagon in which no book has a title, on its spine or on its first page or anywhere; you open three and they begin in the middle of sentences. The floor is gritty with something like sand, which is paste. The shelves rustle.".
+  Person silverfish "the silverfish" at hex_untitled {
+    Role "the eaters of paste and margins". Species silverfish_kind. Level 1. Numbers 3.
+    Warns "Out of the bottom shelves, quick as spilled water, come three silverfish each as long as your forearm, scaled like fish, glinting; they stop in a fan in front of you with their feelers going, and the nearest opens a mouth full of half-eaten letters.".
+    Comes "The silverfish pour over the floor at you.".
+    Pleads "The silverfish flicker back into the bottom shelves and are gone.".
+  }
+
+  // ── The Hexagon of Doors: the planar books. ──
+  Observe doors_scene at hex_doors when true "A hexagon where the books are kept behind glass, each in its own case, each case with a small brass plate. Most of the plates are worn smooth. Three are not. On the reading-shelf in front of them a placard in a very old hand: THESE BOOKS ARE DOORS. A DOOR IS READ ONCE.".
+  Thing book_damned "a book bound in something black that is not leather" at hex_doors {
+    State cased "Behind the first glass, a book bound in something black that is not leather, warm to look at. Plate: LIBER DAMNATORUM. THE BOOK OF THE DAMNED. ITS LAST LINE IS A DOOR.".
+  }
+  Thing book_exalted "a book bound in white vellum that gives off a faint light" at hex_doors {
+    State cased "Behind the second glass, a book in white vellum, very plain, that gives off a faint light of its own. Plate: LIBER EXALTATORUM. IT IS READ BY THOSE IT READS FIRST.".
+  }
+  Thing book_realms "a long narrow index bound in blue" at hex_doors {
+    State cased "Behind the third glass, a long narrow book in blue. Plate: AN INDEX OF THE PLANES AND REALMS BEYOND, AND OF THE LIBRARIES THEREIN.".
+  }
+  Discovery realms_read "An index in the Stacks lists the realms beyond the Commonplace and the libraries in them: Cthelll, whose clerks keep the ledger of the damned; the Mount of the Exalted, whose terraces are libraries of true books; the Library of Ash, below all others; the Library in which every book is the same book; the Commonplaces of Hallam, Orsk, the Salt Towns and burned Tessaly; and one entry, scratched out.".
+  Observe realms_text at hex_doors of book_realms as reading when tried(book_realms, looking) "AN INDEX OF THE PLANES AND REALMS BEYOND. ARCADIA: an orchard on a terrace of the Mount; its library is a single tree, read by eating. ASH, LIBRARY OF: see CINDERFIELD; see also FURNACE; see also, with caution, LAST INDEX. CELESTIA: the Mount of the Exalted, seven terraces, each a library more true than the one below, until at the seventh there are no books, because there is nothing that needs to be written down. COMMONPLACES, OF CITIES THAT WRITE: Calamy (here); Hallam (brass; ledgers; silent); Orsk (under ice; asleep; never called to Parliament); the Salt Towns (charts; mostly water); Tessaly (burned; see ASH). CTHELLL: the furnace-city of the damned, which is administered; its clerks keep a ledger in which every name ever signed in bad faith is written again each night, and read aloud, and struck out, and written again. LAST INDEX: (this entry has been scratched out with something sharp, and in the margin beside it, in a censor's neat grey hand, someone has written: not yet). SAME BOOK, LIBRARY OF THE: where every book is the same book, and every reader happy; do not go. STACKS, THE: see LIBRARY, see INFINITE, see HERE." teaches realms_read.
+  Observe damned_read at hex_doors of book_damned as reading when tried(book_damned, looking) "You read the first page through the glass, because it is turned toward you. It is a list of names, and each name has after it a date and a thing that was signed: a deed, an oath, a confession, a verdict. Each is struck out, very neatly, and written again below. The last page, the plate says, is a door; you can see that its last line is in red, and that it ends in a word you can almost read.".
+  Observe exalted_read at hex_doors of book_exalted as reading when tried(book_exalted, looking) "The white book's first page is blank to you. Then, slowly, it is not: a line of light writes itself, and it is your own name, and after your name a short list, in a hand you do not know, of things you have done since you came up the causeway: some of them. It seems to be considering.".
+  Hazard damned_gift "the Clerks' receipt" means "Teach doom_spiral to ally.".
+  Hazard exalted_gift "the light of the terrace" means "Teach anoint to ally.".
+  Hazard mirror_gift "the mirror's lesson" means "Teach mirror_image to ally.".
+  // Good-aligned, as the Mount reckons it: by deeds, and by the lies one did not tell.
+  Query worthy(a: group) means not liedTo(rhule) and not lexiconFreed(lexicon) and not haskFell(hask)
+    and (cured(nance) or readToChildren(children) or bestiaryQuiet(bestiary) or ashReleased(cinders) or housebookGoesHome(housebook) or readKind(martha) or concordanceRestored(concordance)).
+  Action read_damned(actor: group, site: place) "Open the case and read the Book of the Damned to its last line" {
+    Grave "The last line is a door, and it opens on Cthelll; whoever comes back from Cthelll comes back owing something.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hex_doors) and not benighted(actor).
+    Time 6.
+    On success { Assert at(actor, cthelll_gate). Assert wentDamned(actor). }
+    Result "You read it to the end: the names, the struck-out names, the names written again, page after page, and they get heavier to turn, and warmer, and at the last page there is only one line, in red, and you read it aloud before you have quite understood it, and it is a door, and you are through it.".
+  }
+  Relation wentDamned(group).
+  Action read_exalted(actor: group, site: place) "Open the case and let the Book of the Exalted read you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hex_doors) and not benighted(actor) and worthy(actor).
+    Time 6.
+    On success { Assert at(actor, celestia_terrace). Assert wentExalted(actor). }
+    Result "You open the case, and the white book reads you: the whole of your list, slowly, the way a careful reader reads a page twice. Then the page is all light, and you are standing in it.".
+  }
+  Relation wentExalted(group).
+  Observe exalted_shut at hex_doors when not worthy(party) and tried(book_exalted, looking) "The white book has written your name, and a short list, and stopped. It does not open for you. Not yet, perhaps.".
+
+  // ── The Hexagon of Mirrors. ──
+  Observe mirrors_scene at mirror_hex when true "Every surface of this hexagon is a mirror: the shelves, the floor, the ceiling, the spines of the books; and in all of them you, and the hexagon, and you, going away in every direction until you are too small to see. Across the far mirror, in letters of gilt, an inscription runs, and every reflection of it is the wrong way round, and so is the inscription. There seems to be no way out but the way you came, and that is a reflection too.".
+  Thing inscription "the gilt inscription across the mirrors" at mirror_hex {
+    State gilt "A gilt inscription runs across the far mirror, backwards in every reflection.".
+  }
+  Discovery mirror_read "In the Hexagon of Mirrors, read over the shoulder, the inscription says: THE CENTRE IS WHERE THE READER STANDS. And a way on opens among the mirrors.".
+  Action read_over_shoulder(actor: group, site: place) "Turn your back on the inscription and read it over your shoulder, in the mirror" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mirror_hex) and knows(actor, mirror_trick) and not knows(actor, mirror_read).
+    Time 1.
+    On success { Assert knows(actor, mirror_read). Assert strikes(mirror_gift, actor). }
+    Result "You turn your back on it and look over your shoulder into the nearest mirror, and in the mirror the mirrored letters come right: THE CENTRE IS WHERE THE READER STANDS. For a moment all the reflections of you turn their heads at once, and look at you, and you see yourself from behind, from above, from every side, as a reader sees a page: and then one of the mirrors is not a mirror but a way on.".
+  }
+  Action puzzle_mirrors(actor: group, site: place) "Work out the inscription from its reflections, letter by letter" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mirror_hex) and not knows(actor, mirror_read) and craft(actor, craft_learning).
+    Time 3.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, mirror_read). }
+    Result "You copy the reflections down in your head, reverse them, reverse them again, and the inscription comes out: THE CENTRE IS WHERE THE READER STANDS. One of the mirrors is a way on.".
+    Otherwise "The letters will not hold still long enough to reverse. Every reflection is wrong in a different way.".
+  }
+}

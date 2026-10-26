@@ -59,7 +59,7 @@ Module calamy "A Parliament of Books" {
   Relation heardAtFire(group).
   // The year-book: the Effusions, of their own leave.
   Action give_yearbook(actor: group, site: place) "Give the Effusions to the fire, by their own leave, to carry the city's word" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashpit) and kindlingBegun(ashpit) and carries(actor, effusions_stack) and yearBook(effusions) and not yearBookBurned(effusions) and kindlingLit(ashpit).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashpit) and kindlingBegun(ashpit) and carries(actor, effusions_stack) and yearBook(effusions) and not mutated(effusions_stack) and not yearBookBurned(effusions) and kindlingLit(ashpit).
     Time 1.
     On success { Assert yearBookBurned(effusions). Assert burnedEffusions(effusions). }
     Result "You hold the bundle out over the edge of the fire. 'Ready,' says the small voice of fifty thin books. 'We've learned it. The whole thing. Every clause.' And then, very fast: 'Tell him heart and tart was the best thing in us.' You let go. They go up white and quick, all at once, and for one moment the smoke above the Ashpit is full of small bright pages going up very straight, as if carrying something; and then the fire is only a fire, and the Lamp's verger, who has been waiting with a taper, lights it from the place where they burned.".

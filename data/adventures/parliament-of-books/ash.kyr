@@ -54,7 +54,7 @@ Module calamy "A Parliament of Books" {
   // Read them their names: what was owed them, and never paid.
   Action name_burned(actor: group, site: place) "Read the burned their names, one by one, from Hester Rhule's register" {
     Grave "It will take the rest of the day, and every name must be read aloud.".
-    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, cinderfield) or at(actor, char_edge)) and carries(actor, burning_register) and not ashReleased(cinders).
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, cinderfield) or at(actor, char_edge)) and carries(actor, burning_register) and not mutated(burning_register) and not ashReleased(cinders).
     Time 18.
     On success { Assert ashReleased(cinders). Retract at(cinders, cinderfield). Retract at(pickets, char_edge). Retract at(pickets, foxing_edge). }
     Result "You open the register and begin, aloud, as she read them at the brazier: the title, the date, the hour. A Book of Hours of the Pellow family. A ready-reckoner. Moore's Calamy Almanack. Moore's Calamy Almanack. Moore's Calamy Almanack. At each name something in the ranks stops whispering. Somewhere past the hundredth you understand that nobody has said these names since the fire; that a burned book is a book nobody will ever read again, and that a name read aloud is a reading. The ranks thin. Shapes lie down in the ash and are only ash, and some do not lie down but go up, very straight, as if carrying something, the way the year-book went. When you read the last name the field is empty and grey and quiet, and the red glow at the end of it has gone small.".
@@ -106,7 +106,7 @@ Module calamy "A Parliament of Books" {
     Grave "It is long; it will take the night.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hearth) and not indexEnded(index) and knows(actor, index_known)
       and (tolerates(penknife, actor) or dead(penknife) or routed(penknife))
-      and (craft(actor, craft_learning) or travelsWith(rhule, actor) or carries(actor, burning_register)).
+      and (craft(actor, craft_learning) or travelsWith(rhule, actor) or carries(actor, burning_register) or knows(actor, index_entry)).
     Time 24.
     On success { Assert indexEnded(index). Assert indexRead(index). }
     Result "You read it from the first entry, 1131, Orme, cut for impiety, to the last, which is still wet: every title, every chapter, every reason, aloud, and you do not skip the reasons. It is a long night. Somewhere in the middle the Index stops writing. Somewhere past three in the morning, by a clock that is not here, you notice that it has stopped being a list of things to be done and become a list of things that were done, by a frightened man, for forty years, some of them right. When you read the last line the furnace door swings shut by itself. The book on the lectern is only a book: a history of the Imprimatur of Calamy, rather dull, with an index. A dry voice comes down from very far off, from the Reading Room: 'Entered.'".
@@ -181,7 +181,7 @@ Module calamy "A Parliament of Books" {
     Result "You walk down the gangway with the taper held up, and the burned lean away from it the way paper leans from a candle, rank by rank, back and back, down the gangway and out of the chamber, until the Index is sitting on its seat of ash alone. 'A seat,' says the Roll, 'is held by a member and those it speaks for.' The Index says nothing. Its seat crumbles under it, and its lectern carries it back down the gangway after its ranks.".
   }
   Action name_burned_chamber(actor: group, site: place) "Read the burned their names, there in the gangway, from Hester Rhule's register" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and sits(index) and carries(actor, burning_register) and not ashAnswered(index).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and sits(index) and carries(actor, burning_register) and not mutated(burning_register) and not ashAnswered(index).
     Time 12.
     On success { Assert ashAnswered(index). Assert ashReleased(cinders). Retract at(cinders, cinderfield). Retract at(pickets, char_edge). Retract at(pickets, foxing_edge). }
     Result "You stand at the head of the gangway and read: the title, the date, the hour. At each name something in the ranks stops whispering, and lies down, or goes up. The members watch. The Primer, quietly, says the names after you. By the time you reach the end of the register the gangway is empty, and the Index is on its seat of ash with no one behind it, and the seat crumbles.".
@@ -218,5 +218,11 @@ Module calamy "A Parliament of Books" {
   }
   Topic catalogue_cities with catalogue "Ask the Catalogue whether other cities have a country like this one" when true once {
     Says "A drawer slides out an inch. 'Every city that writes,' says the Catalogue. 'Hallam's is all ledgers, and quiet, and the beams there are the colour of brass. Orsk's is under the ice; their books go home to sleep in the cold and nobody has ever called theirs to a Parliament. The Salt Towns keep theirs in the Commonplace of the sea-charts, which is mostly water. Tessaly's burned, in my fourth century; we had refugees in the Margin for a hundred years.' The drawer stays out. 'There is one book I will not enter. It did not come by the Founders' door, or by any door. It came by the fire.' The drawer shuts.".
+  }
+
+  // Written again, as she wrote it: she has never forgotten a title.
+  Topic rhule_rewrite with rhule "Ask Hester Rhule to write her register out again; the Stacks have changed it" when mutated(burning_register) and lends(rhule, burning_register, actor) once {
+    Says "Rhule turns the pages of her own register and reads titles of books that were never burned and never written, in her own square hand. She does not ask how. She takes a new ledger from the drawer and writes it all out again, from memory, without stopping, every title, date and hour, while you wait. 'I have never forgotten one,' she says, blotting the last. 'I did not know until now that this was what it was for.'".
+    On discuss { Retract mutated(burning_register). }
   }
 }
