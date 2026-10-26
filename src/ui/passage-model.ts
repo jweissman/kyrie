@@ -2,6 +2,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { KeptPredicates } from '../lang/kept-predicates';
 import { ObservationText } from '../lang/observation-text';
 import { ItemNames } from '../item-names';
+import { LocalObservations } from '../presentation/local-observations';
 import type { Entity, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 
@@ -32,6 +33,11 @@ export class PassageModel {
     return o ? ObservationText.render(o.text, this.world) : undefined;
   }
   label(id: string): string { return ObservationText.label(this.world, id); }
+  // A clause the rules have where the world declares it: that it does not hold.
+  private unless(name: string, ...args: string[]): Predicate[] {
+    const declared = [...this.world.module.relations, ...this.world.module.queries].some(r => r.name === name);
+    return declared ? [{ kind: 'not', value: this.call(name, ...args) }] : [];
+  }
   private shut(passage: string): string | undefined {
     const o = this.world.module.observations?.find(x => x.id === `${passage}__shut`);
     return o ? ObservationText.render(o.text, this.world) : undefined;
@@ -45,8 +51,11 @@ export class PassageModel {
   private way(passage: string, from: string, to: string): WayInfo {
     const base = { passage, name: this.entities.get(passage)?.name ?? passage, from, to,
       oneWay: !this.world.test(this.call('connects', passage, to, from)) };
-    const blocker = this.first(this.all(`blocker:${passage}`, this.call('on', '?t', passage), this.call('state', '?t', '?s'),
-      this.call('blocksWhen', '?t', '?s')));
+    // As the rules have it for this company (barredFor, watchedAgainst): what bars a way is no bar to whoever holds
+    // its key, nor a guard to one it is allied with or tolerates, and a hazard not noticed is not named (the
+    // architecture review's H5: a keyholder's way was told barred beside a Go across it).
+    const blocker = this.first(this.all(`blocker:${passage}:${this.actor}`, this.call('on', '?t', passage),
+      this.call('state', '?t', '?s'), this.call('blocksWhen', '?t', '?s'), ...this.unless('opens', this.actor, '?t')));
     if (blocker) {
       const t = blocker['?t']!;
       return { ...base, status: 'blocked', via: this.label(t), reason: this.describe(t) ?? `${this.label(t)} is in the way.` };
@@ -54,15 +63,17 @@ export class PassageModel {
     if (this.world.test(this.call('unopened', passage))) {
       return { ...base, status: 'blocked', via: base.name, reason: this.shut(passage) ?? `${this.label(passage)} does not open now.` };
     }
-    const guard = this.first(this.all(`guard:${passage}`, this.call('guards', '?g', passage), this.call('able', '?g'),
-      this.call('state', '?g', '?s'), this.call('blocksWhen', '?g', '?s')));
+    const guard = this.first(this.all(`guard:${passage}:${this.actor}`, this.call('guards', '?g', passage),
+      this.call('able', '?g'), this.call('state', '?g', '?s'), this.call('blocksWhen', '?g', '?s'),
+      this.call('at', '?g', '?p'), this.call('connects', passage, '?p', '?q'), ...this.unless('allied', '?g', this.actor),
+      ...this.unless('tolerates', '?g', this.actor)));
     if (guard) {
       const g = guard['?g']!;
       return { ...base, status: 'guarded', via: this.label(g), reason: this.describe(g) ?? `${this.label(g)} bars the way.` };
     }
     const hazard = this.first(this.all(`hazard:${passage}`, this.call('on', '?h', passage), this.call('state', '?h', '?s'),
       this.call('harmsWhen', '?h', '?s')));
-    if (hazard) {
+    if (hazard && LocalObservations.noticed(this.world, hazard['?h']!, this.actor)) {
       const h = hazard['?h']!;
       return { ...base, status: 'hazard', via: this.label(h), reason: this.describe(h) ?? `${this.label(h)} is dangerous.` };
     }

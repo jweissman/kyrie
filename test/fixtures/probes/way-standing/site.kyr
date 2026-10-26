@@ -1,0 +1,23 @@
+Module standing "Ways as the rules have them" {
+  Place field "a field" is wilderness.
+  Place yard "the yard" is room within field at 0, 0.
+  Place cellar "the cellar" is room within field at 1, 0.
+  Place byre "the byre" is room within field at 0, 1.
+  Passage hatch "the cellar hatch" is passage between yard and cellar.
+  Passage byre_door "the byre door" is passage between yard and byre.
+  Company party "You" of 1 at yard.
+  // A grate the company holds the key to: it bars the way to anyone else, and to the company it is no bar.
+  Thing grate "the iron grate" on hatch {
+    State locked blocking "An iron grate is locked across the hatch.".
+    State open "The grate stands open.".
+  }
+  Initially Assert keyholder(party, grate).
+  // A dog that keeps the byre door, and lets the company by: it tolerates them.
+  Person dog "Brindle" at yard {
+    Role "the farm dog". Species dog. Peaceable.
+    State keeping blocking "Brindle lies across the byre door.".
+    Guards byre_door.
+  }
+  Initially Assert tolerates(dog, party).
+  Observe yard_scene at yard when true "A yard with a hatch and a byre door.".
+}

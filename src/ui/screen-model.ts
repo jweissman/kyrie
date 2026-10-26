@@ -23,10 +23,8 @@ import { DangerSense } from '../presentation/danger-sense';
 import { ChoiceGrouping, type Grouped, type Row } from './choice-grouping';
 import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
-import { ChartModel } from './chart-model';
-import { Carriers } from './carriers';
-import { Overlays } from '../overlays';
-import { PerkText } from '../presentation/perk-text';
+import { ChartModel } from './chart-model'; import { Carriers } from './carriers';
+import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text';
 import { TradeModel } from './trade-model';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
@@ -57,7 +55,8 @@ export class ScreenModel {
     const companions = this.companions(campaign, view.actor, { unclaimed, present });
     const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
     const items = this.items(campaign, grouped, entities);
-    const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world),
+    const dark = view.observations.some(o => o.id === 'darkness');
+    const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world, dark),
       ...along.has(p.id) ? { companion: true } : {},
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped),
       ...CharacterSheets.recruit(campaign, p.id, grouped.targets.get(p.id) ?? []) })));
@@ -213,8 +212,11 @@ export class ScreenModel {
   }
   // What a provisioning party plans around: the hour, whether it is light, food in hand, and when they next must eat.
   private static expedition(world: Campaign['world'], view: PlayerSnapshot, items: ItemRow[], here?: string) {
-    const actor = view.actor, elapsed = view.elapsed, hour = (8 + Math.floor(elapsed / 6)) % 24;
-    const daylight = hour >= 6 && hour < 18 ? 'day' : hour >= 18 && hour < 21 ? 'evening' : 'night';
+    // Light as the world has it (dark), and the evening as the one clock says it: two formulas disagreed by an hour
+    // (the review's H5).
+    const actor = view.actor, elapsed = view.elapsed, part = FictionalTime.part(elapsed);
+    const dark = world.relates('dark') ? world.test(ModuleWriter.call('dark')) : part === 'night';
+    const daylight = dark ? 'night' : part === 'evening' ? 'evening' : 'day';
     const meal = world.module.measures.some(m => m.name === 'nextMeal') ? world.number(ModuleWriter.call('nextMeal', actor)) : 0;
     return { time: FictionalTime.at(elapsed, view.minutes), daylight,
       ...this.light(view, items, !!here && world.test(ModuleWriter.call('unlit', here))),
@@ -264,7 +266,8 @@ export class ScreenModel {
     return `${[...kinds].map(([k, n]) => n > 1 ? `${k} ×${n}` : k).join(', ')}; level ${levels.join('–')}`
       + `; ${low === high ? low : `${low}–${high}`} HP${standing.length > 1 ? ' each' : ''}; ${hurt ? `${hurt} wounded` : 'unhurt'}.`;
   }
-  private static target(p: PlayerSnapshot['present'][number], grouped: Grouped, w: Campaign['world']): TargetRow {
+  private static target(p: PlayerSnapshot['present'][number], grouped: Grouped, w: Campaign['world'], dark = false):
+    TargetRow {
     const acts = grouped.targets.get(p.id) ?? [];
     if (p.type === 'group') {
       const member = p.members?.[0];
@@ -280,8 +283,10 @@ export class ScreenModel {
       const note = (p.state ? undefined : p.condition) ?? (member && !playable && !animal && !p.name.includes(', ')
         ? `${Content.race(member.raceId)?.name ?? member.raceId}` : undefined);
       // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
-      const look = p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner')) ? undefined
-        : this.look(p.members ?? []);
+      // In the dark they are heard, not seen: nothing of how many are hurt, how seasoned or how hardy (the
+      // architecture review's H5: exact hit points beside "In the dark you can hear…").
+      const look = dark || p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner'))
+        ? undefined : this.look(p.members ?? []);
       const name = this.called(w, p.id, p.name);
       // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;

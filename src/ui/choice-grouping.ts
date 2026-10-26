@@ -134,7 +134,9 @@ export class ChoiceGrouping {
     wait_watch: { slot: 'camp', path: ['Wait', 'And watch, until something changes'] },
     eat: { slot: 'camp', path: ['Eat a ration'] },
     rest: { slot: 'camp', path: ['Rest six hours'] },
-    rest_unfed: { slot: 'camp', path: ['Rest six hours (no rations)'] },
+    // Said as what it is: with nothing to eat, a rest is no rest (it takes a minute, and says so; the architecture
+    // review's H5 found it told and kept as six hours' rest).
+    rest_unfed: { slot: 'camp', path: ['Try to rest, with nothing to eat'] },
   };
   static group(rows: Row[], context: GroupingContext): Grouped {
     const out: Grouped = { exits: new Map(), targets: new Map(), items: new Map(), members: new Map(),
