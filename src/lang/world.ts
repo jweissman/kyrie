@@ -2,6 +2,7 @@ import type { Call, Change, Module, NumberValue, Predicate, Signature, Value, Wo
 import { RelationViews } from './relation-views';
 import { Asking } from './asking';
 import { QueryModes } from './query-modes';
+import { Counts } from './counts';
 
 // Name lookups for a module's signatures. Modules are assembled before execution; a changed signature list
 // (by identity or length) rebuilds the index.
@@ -133,15 +134,17 @@ export class World {
     const v = b[a];
     return v === undefined ? a : v.charCodeAt(0) === 63 ? b[v] ?? v : v;
   }
-  number(value: Value, bindings: Record<string, string> = {}): number {
+  // A value, read as the changes so far in a list of them leave it where they are given (see admits).
+  number(value: Value, bindings: Record<string, string> = {}, counts?: Counts): number {
     if (value.kind === 'number') { return value.value; }
     if (value.kind === 'deem') { throw new Error('Deem module values must be instantiated before execution'); }
     if (value.kind === 'arith') {
-      const left = this.number(value.left, bindings), right = this.number(value.right, bindings);
+      const left = this.number(value.left, bindings, counts), right = this.number(value.right, bindings, counts);
       return value.op === '+' ? left + right : value.op === '-' ? left - right : left * right;
     }
     if (!World.index(this.module).measures.has(value.name)) { throw new Error(`Unknown measure ${value.name}`); }
-    const call = this.bind(value, bindings);
+    const call = this.bind(value, bindings), changed = counts?.now(World.key(call));
+    if (changed !== undefined) { return changed; }
     if (call.name === 'dice' && call.args[0] !== 'clock') { return this.die(call.args[0]!); }
     return this.measure(call)?.value ?? 0;
   }
@@ -241,13 +244,15 @@ export class World {
   // A world is never changed once made, so no changes at all give this world itself.
   apply(changes: Change[]): World {
     if (!changes.length) { return this; }
-    const next = World.fork(this);
-    for (const change of changes) { next.change(change); }
+    const next = World.fork(this), counts = new Counts();
+    for (const change of changes) { next.change(change, counts); }
     return next;
   }
-  // Whether `apply(changes)` would succeed, without building the next world.
+  // Whether `apply(changes)` would succeed, without building the next world, and keep every count it changes at or
+  // above nothing, in all (see Counts): an action that would take one past nothing is not offered. Its values are read
+  // as apply reads them, a die as a die (one was read as a count of nothing: the architecture review's A18).
   admits(changes: Change[]): boolean {
-    const signatures = World.index(this.module), pending = new Map<string, number>();
+    const signatures = World.index(this.module), counts = new Counts();
     for (const change of changes) {
       if (change.kind === 'assert' || change.kind === 'retract') {
         if (!signatures.relations.has(change.call.name)) { return false; }
@@ -255,20 +260,12 @@ export class World {
       }
       if (!signatures.measures.has(change.call.name)) { return false; }
       try {
-        const amount = change.value.kind === 'call' ? this.pending(pending, change.value)
-          : change.value.kind === 'arith' ? this.number(change.value) : World.literal(change.value);
-        const previous = this.pending(pending, change.call), key = World.key(change.call);
-        const value = change.kind === 'set' ? amount : change.kind === 'increase' ? previous + amount : previous - amount;
-        if (!Number.isSafeInteger(value) || value < 0) { return false; }
-        pending.set(key, value);
+        const amount = this.number(change.value, {}, counts);
+        const value = counts.next(World.key(change.call), change.kind, amount, () => this.number(change.call));
+        if (!Number.isSafeInteger(value)) { return false; }
       } catch { return false; }
     }
-    return true;
-  }
-  private pending(pending: Map<string, number>, call: Call): number {
-    if (!World.index(this.module).measures.has(call.name)) { throw new Error(`Unknown measure ${call.name}`); }
-    const key = World.key(call);
-    return pending.has(key) ? pending.get(key)! : this.measure(call)?.value ?? 0;
+    return !counts.past();
   }
   private add(key: string, call: Call) {
     let named = this.byName.get(call.name);
@@ -309,7 +306,7 @@ export class World {
   }
   // Whether two worlds are of one line, so that what each shares with the other is shared (see `differing`).
   sameLine(other: World): boolean { return this.lineage === other.lineage; }
-  private change(change: Change) {
+  private change(change: Change, counts: Counts) {
     this.memoSnapshot = undefined;
     this.stamps.set(change.call.name, ++World.writes);
     const key = World.key(change.call);
@@ -333,11 +330,8 @@ export class World {
     }
     const amount = change.value.kind === 'call' || change.value.kind === 'arith' ? this.number(change.value)
       : World.literal(change.value);
-    const previous = this.number(change.call);
-    // A count taken past nothing stops there (a dose that recovers eight at a time stopped play: The Patient Star's
-    // P5, The Road the Star Came Down's B2); a quantity set outright may be less (selm weighs less than nothing).
-    const value = change.kind === 'set' ? amount
-      : Math.max(0, change.kind === 'increase' ? previous + amount : previous - amount);
+    // A count is what the list does to it in all, stopped at nothing; a quantity set outright may be less (Counts).
+    const value = counts.next(key, change.kind, amount, () => this.number(change.call));
     if (!Number.isSafeInteger(value)) {
       throw new Error(`Invalid quantity for ${World.format(change.call)}`);
     }
