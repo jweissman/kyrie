@@ -16,17 +16,19 @@ Module wrayford "The Third Night" {
   Observe row_scene at wain_row when not dark() and not visitedBefore(wain_row) "Wain Row is a lane of carters' houses, each with its yard and its cart-shed behind, the doors painted the colours carters paint them, red and green and a blue that was once expensive. Four doors along, the Pardoes' is red. Its step has been scrubbed this morning, hard. Two women talking on the next step stop talking when they see you, and go in.".
   Observe row_scene_again at wain_row when not dark() and visitedBefore(wain_row) "Wain Row: cart-sheds, painted doors, the Pardoes' red one with its scrubbed step.".
   Observe row_night at wain_row when dark() "Wain Row in the dark. A lamp in the Pardoes' kitchen, and in no other window.".
-  Observe kitchen_home at pardoe_kitchen when homecomer(party) and not visitedBefore(pardoe_kitchen) "The kitchen is as it was: the long table, the settle, the bread oven, the hook by the door where your father's coat hangs, which is the first thing you look at and the last thing you will be able to stop looking at. It smells of bread. It always smelled of bread. Your mother is at the table with her sleeves up and flour to the elbow, and she looks at you in the doorway for a long moment, and then goes on kneading.".
-  Observe kitchen_strange at pardoe_kitchen when stranger(party) and not visitedBefore(pardoe_kitchen) "A carter's kitchen: a long table, a settle, a bread oven, a man's coat on a hook by the door. A woman in her fifties is kneading bread at the table with her sleeves up, and she does not stop when you come in, and she does not ask you to sit.".
-  Observe kitchen_again at pardoe_kitchen when visitedBefore(pardoe_kitchen) "The Pardoe kitchen: the table, the oven, the bread proving under a cloth.".
+  Observe kitchen_home at pardoe_kitchen when homecomer(party) and not visitedBefore(pardoe_kitchen) and at(maudie, pardoe_kitchen) and not verdictGiven(wray) "The kitchen is as it was: the long table, the settle, the bread oven, the hook by the door where your father's coat hangs, which is the first thing you look at and the last thing you will be able to stop looking at. It smells of bread. It always smelled of bread. Your mother is at the table with her sleeves up and flour to the elbow, and she looks at you in the doorway for a long moment, and then goes on kneading.".
+  Observe kitchen_strange at pardoe_kitchen when stranger(party) and not visitedBefore(pardoe_kitchen) and at(maudie, pardoe_kitchen) and not verdictGiven(wray) "A carter's kitchen: a long table, a settle, a bread oven, a man's coat on a hook by the door. A woman in her fifties is kneading bread at the table with her sleeves up, and she does not stop when you come in, and she does not ask you to sit.".
+  Observe kitchen_again at pardoe_kitchen when visitedBefore(pardoe_kitchen) and not verdictGiven(wray) "The Pardoe kitchen: the table, the oven, the bread proving under a cloth.".
   Observe kitchen_coat at pardoe_kitchen when homecomer(party) and not coatGiven(maudie) "On the hook by the door, Wat Pardoe's coat: brown frieze, the pockets pulled out of shape by thirty years of hands.".
-  Observe kitchen_bread at pardoe_kitchen when true "There is more bread than one woman could eat in a month: loaves on the dresser, on the settle, under cloths on the windowsill. She makes bread when she cannot think.".
+  Observe kitchen_bread at pardoe_kitchen when not verdictGiven(wray) "There is more bread than one woman could eat in a month: loaves on the dresser, on the settle, under cloths on the windowsill. She makes bread when she cannot think.".
+  Observe kitchen_bare at pardoe_kitchen when not at(maudie, pardoe_kitchen) and not verdictGiven(wray) and not visitedBefore(pardoe_kitchen) "A carter's kitchen: a long table, a settle, a bread oven, a man's coat on a hook by the door, and nobody in it, and the fire going down.".
   Observe yard_scene at pardoe_yard when not dark() "The yard: the cart-shed with no cart in it, a water-butt, the mounting-block. The cart is in the Guildhall yard, impounded, with the other two. The shed is very clean, as if somebody had swept it for something to do.".
   Observe yard_bramble at pardoe_yard when at(bramble, pardoe_yard) "Bramble lies in the empty cart-shed, in the place where the cart stood, with his chin on his paws.".
 
   Person maudie "Maudie Pardoe" at pardoe_kitchen {
     Role "a carter's widow of Wain Row". Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Greets "Maudie Pardoe does not stop kneading.".
+    Leaves "Maudie Pardoe turns the dough, and pushes it away from her, and does not look up.".
   }
   Relation coatGiven(group). Relation maudieWelcomes(group).
   Measure vigils(group). Measure lastVigil(group).
@@ -108,6 +110,7 @@ Module wrayford "The Third Night" {
     Role "a carter's son, seventeen, with black under his nails". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner grim.
     Greets "Kit looks up, and looks away again.".
     Joins "Kit wipes his hands on his trousers and comes, half a step behind, the way he used to.".
+    Leaves "Kit nods, once, at the ground.".
     Seen when not at(kit, under_arches) or knows(viewer, kit_place).
   }
   Discovery kit_place "After dark Kit Pardoe goes down under the bridge's first arches, where he always went as a boy when his father shouted at him, and sits there by the water.".

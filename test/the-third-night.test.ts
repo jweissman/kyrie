@@ -249,5 +249,14 @@ describe('The Third Night: saving, replaying, and the world it lies in', () => {
     const kitchen = await j.play('To Northgate', 'To Wain Row', 'Into the Pardoe house');
     expect(kitchen).toMatch(/a man.s coat on a hook/);
     expect(kitchen).not.toContain('your mother');
+    // Left alone, the four days go by in the city; the chapter closes at the verdict, and the world goes on.
+    const start = j.watch();
+    while (!s.campaign.world.related('reached').length && j.watch() < start + 800) { await j.play(`=${j.watch() + 6}`); }
+    expect(s.campaign.world.related('reached').map(r => r.args[0])).toEqual([`${drawn!.rid}__third_night`]);
+    expect(s.campaign.running).toBe(true);
+    expect(j.page).toMatch(/The kitchen is cold/);
+    expect(j.page).not.toMatch(/kitchen is cold[^[]*kneading/);
+    await j.play('Out to Wain Row', 'To Northgate', 'drove road', 'march-stone');
+    expect(s.campaign.world.one('at', 'party')).not.toMatch(new RegExp(`^${drawn!.rid}__`));
   }, 240000);
 });
