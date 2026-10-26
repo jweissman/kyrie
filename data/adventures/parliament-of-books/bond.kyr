@@ -29,7 +29,7 @@ Module calamy "A Parliament of Books" {
   Initially Assert unlit(bond_floor). Initially Assert unlit(bond_loft).
   Observe loft_scene at bond_loft when not dark() "The upper floor of the bond, under the roof, with one round window. In the middle of the floor on a crate, open, lies a great book a foot and a half tall, its pages loose where the thread was cut, and every page painted: blue and red and gold. The pictures are strange. A lion's body with no head on it. A white bird's outline with nothing inside it. A great empty space shaped like a bull. The words under the pictures are all there; the beasts are not.".
 
-  // The Bestiary: frightened, very old, Sewn for six hundred years.
+  // The Bestiary: frightened, old, Sewn for six hundred years.
   Person bestiary "the Hithe Bestiary" at bond_loft {
     Role "an illuminated bestiary, six hundred years old, its thread cut". Peaceable. Pronouns it. Manner compassionate.
     Greets "The great book on the crate stirs its loose pages, and a voice comes out of it, old and soft and frightened, like a nun who has woken in the wrong house. 'Who is it? Is it the knives again? Please. I have nothing left that is gold.'".
@@ -105,7 +105,7 @@ Module calamy "A Parliament of Books" {
     Requires able(actor) and company(actor) and at(actor, site) and at(bestiary, site) and sewingTaught(actor) and not bestiaryResewn(bestiary) and not dark().
     Time 12.
     On success { Assert bestiaryResewn(bestiary). Assert bestiaryQuiet(bestiary). Assert inPage(manticore). Assert inPage(bonnacon). Assert inPage(caladrius). }
-    Result "It takes the afternoon. Gathering by gathering, over and through, and the words with every pull, as Mott taught you: go home, and come when you are called. Somewhere past the middle the voice in the book stops answering you, and by the last stitch the Bestiary is only a book, very old and very beautiful, lying on a crate in a warehouse, with its beasts in their pages and its gold all there. It has gone home.".
+    Result "It takes the afternoon. Gathering by gathering, over and through, and the words with every pull, as Mott taught you: go home, and come when you are called. Somewhere past the middle the voice in the book stops answering you, and by the last stitch the Bestiary is only a book, old and very beautiful, lying on a crate in a warehouse, with its beasts in their pages and its gold all there. It has gone home.".
   }
   Topic mott_bestiary with mott "Ask Warden Mott to come and Sew the Bestiary in the Customs bond" when knows(actor, bestiary_unsewn) and not bestiaryResewn(bestiary) and not bestiaryBurned(bestiary) once {
     Says "'The Saint Ide bestiary? Six hundred years?' Mott is already reaching for his roll of needles. 'Agnes Hurd's. It's in the Company's book. Who cut it?' He does not wait for an answer. 'Thieves. For the gold.' He jams his hat on. 'I'll go now. I'll Sew it myself. I'll not have the Imprimatur burn a book that was Sewn in this city, not while I've a needle.' He goes out of the hall at a pace you would not have thought he had in him.".

@@ -1,6 +1,6 @@
 # By Crake's back stacks, to the Recall
 
-Seed `recall`; 304 steps; ended at watch 1296, at the ending "The Recall"; sealed: door_shut, fire_leave, read_rounds, sew_all. Written by `bun scripts/parliament-of-books-transcripts.ts` from the journey as the page told it.
+Seed `recall`; 303 steps; ended at watch 1296, at the ending "The Recall"; sealed: door_shut, fire_leave, read_rounds, sew_all. Written by `bun scripts/parliament-of-books-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -64,7 +64,7 @@ A grey heron comes to see who you are. The Gannet Steps go up from the Close in 
 
 **By the Lyceum gate, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, very old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the tower door, to the foot of the Tower of Rounds**
 
@@ -72,7 +72,7 @@ The thin old tower at the corner of the Lyceum is the Tower of Rounds, where the
 
 **By the tower's turning stair, to the top of the Tower of Rounds**
 
-A round room at the top of the tower with windows on every side and the whole estuary in them. It is full of books, but they are not on shelves; they lie open on every surface, on the floor, on the bed, face up, as if being read by the light. In a high chair by the south window sits a very old woman with white eyes and her hands folded on a stick, and her face turned toward the sea. Ottoline Quarles, an Archivist of the Lyceum, is here.
+A round room at the top of the tower with windows on every side and the whole estuary in them. It is full of books, but they are not on shelves; they lie open on every surface, on the floor, on the bed, face up, as if being read by the light. In a high chair by the south window sits an old woman with white eyes and her hands folded on a stick, and her face turned toward the sea. Ottoline Quarles, an Archivist of the Lyceum, is here.
 
 **Talk to Ottoline Quarles**
 
@@ -92,7 +92,7 @@ A round room at the foot of the tower, cold, with a turning stair going up the w
 
 **By the tower door, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, very old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the Lyceum gate, to the Gannet Steps**
 
@@ -108,11 +108,11 @@ A square of beaten earth in the middle of the Close, black in the middle, with t
 
 **By the walk across the Close, to the Close green**
 
-A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and very old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
+A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
 
 **By the great door of the Lamp, to the nave of the Lamp**
 
-The low old church on the Close is the Church of the Lamp, whose lamp has burned since the first Kindling. A long low nave, dark, with round pillars like the trunks of trees, and hanging from the roof in the middle on a chain as thick as your arm, a single great lamp of brass and horn, burning. It has burned, the verger will tell you, since the first Kindling, nine hundred years, relit from itself every year. Under it, chained to a lectern carved like a heron, a very old book lies open. A very old book lies open on the heron lectern, chained. Here are Martha Coyle, a widow; and Harry Coyle’s commonplace book, a fat book in a widow’s lap, very quietly talking.
+The low old church on the Close is the Church of the Lamp, whose lamp has burned since the first Kindling. Set in the floor of the nave of the Lamp is Censor-General Robert Pardoe’s slab: he cut that Calamy might be whole, and at his own order his body and his Index were given to the Kindling of 1140. In the Hithe, children are told that Pardoe will get them if they scribble in a book. A long low nave, dark, with round pillars like the trunks of trees, and hanging from the roof in the middle on a chain as thick as your arm, a single great lamp of brass and horn, burning. It has burned, the verger will tell you, since the first Kindling, nine hundred years, relit from itself every year. Under it, chained to a lectern carved like a heron, an old book lies open. Before the altar, let into the floor where everyone must walk over it, a black slab worn grey in the middle by feet: ROBERT PARDOE CENSOR GENERAL OF CALAMY 1098-1140. HE CUT THAT WE MIGHT BE WHOLE. And under it, in a different cutting, shallower, as if added in a hurry: AT HIS OWN ORDER HIS BODY AND HIS INDEX WERE GIVEN TO THE KINDLING. Somebody has left a penny almanack on it, face down. An old book lies open on the heron lectern, chained. Here are Martha Coyle, a widow; and Harry Coyle’s commonplace book, a fat book in a widow’s lap, quietly talking.
 
 **By the vestry door, to the vestry**
 
@@ -132,11 +132,11 @@ The Canon hears you out, sitting on her vestment chest, turning an apple she doe
 
 **By the vestry door, to the nave of the Lamp**
 
-A long low nave, dark, with round pillars like the trunks of trees, and hanging from the roof in the middle on a chain as thick as your arm, a single great lamp of brass and horn, burning. It has burned, the verger will tell you, since the first Kindling, nine hundred years, relit from itself every year. Under it, chained to a lectern carved like a heron, a very old book lies open. A very old book lies open on the heron lectern, chained. Here are Martha Coyle, a widow; and Harry Coyle’s commonplace book, a fat book in a widow’s lap, very quietly talking.
+A long low nave, dark, with round pillars like the trunks of trees, and hanging from the roof in the middle on a chain as thick as your arm, a single great lamp of brass and horn, burning. It has burned, the verger will tell you, since the first Kindling, nine hundred years, relit from itself every year. Under it, chained to a lectern carved like a heron, an old book lies open. Before the altar, let into the floor where everyone must walk over it, a black slab worn grey in the middle by feet: ROBERT PARDOE CENSOR GENERAL OF CALAMY 1098-1140. HE CUT THAT WE MIGHT BE WHOLE. And under it, in a different cutting, shallower, as if added in a hurry: AT HIS OWN ORDER HIS BODY AND HIS INDEX WERE GIVEN TO THE KINDLING. Somebody has left a penny almanack on it, face down. An old book lies open on the heron lectern, chained. Here are Martha Coyle, a widow; and Harry Coyle’s commonplace book, a fat book in a widow’s lap, quietly talking.
 
 **By the great door of the Lamp, to the Close green**
 
-A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and very old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
+A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
 
 **By the Clerks' Gate, to Scriveners' Row**
 
@@ -288,7 +288,7 @@ The aisle runs back between the high shelves, bay after bay, and the red ribbon 
 
 **By the far end of the back stacks, to the Remainder Market**
 
-You leave the back stacks in the full of the morning, with the sun climbing and the path dry underfoot. A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, very lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
+You leave the back stacks in the full of the morning, with the sun climbing and the path dry underfoot. A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
 
 **By the back of the market, to the Draft-Fields**
 
@@ -312,15 +312,15 @@ A figure stands up out of the drifting drafts: drawn in pencil, lightly, by a ve
 
 **By the back of the market, to the Remainder Market**
 
-A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, very lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
+A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
 
 **By a long sentence, to the Reading Room of the Catalogue**
 
-You set out from the Remainder Market. You are standing on a floor of paper, in light. Not lamplight and not daylight: a pale clear light that comes down in beams from very high up, the way sun comes through cloud, and every beam is a little different in colour. A few of them are very bright. Most are thin. Here and there one goes out as you watch, and another comes on somewhere else. It takes you a long time to understand what you are seeing: every beam is someone in Calamy, now, reading. A reading room without walls, under the beams: a floor of paper going away on every side, and in the middle of it a cliff of little drawers, thousands upon thousands of them, rising up out of sight, each with a brass handle and a card. Index cards flutter about the cliff like moths, settling, rising, filing. A voice comes from the drawers, from all of them, dry and patient and not unkind: the Catalogue. One beam, very thin and very old and very steady, comes down from the direction you think of as the hill. It does not fall on any book. It falls on the light itself, as if someone were reading by ear, with their eyes shut. The Catalogue of the Founders, a cliff of little drawers, and a voice, is here.
+You set out from the Remainder Market. You are standing on a floor of paper, in light. Not lamplight and not daylight: a pale clear light that comes down in beams from very high up, the way sun comes through cloud, and every beam is a little different in colour. A few of them are very bright. Most are thin. Here and there one goes out as you watch, and another comes on somewhere else. It takes you a long time to understand what you are seeing: every beam is someone in Calamy, now, reading. A reading room without walls, under the beams: a floor of paper going away on every side, and in the middle of it a cliff of little drawers, thousands upon thousands of them, rising up out of sight, each with a brass handle and a card. Index cards flutter about the cliff like moths, settling, rising, filing. A voice comes from the drawers, from all of them, dry and patient and not unkind: the Catalogue. One beam, thin and old and steady, comes down from the direction you think of as the hill. It does not fall on any book. It falls on the light itself, as if someone were reading by ear, with their eyes shut. The Catalogue of the Founders, a cliff of little drawers, and a voice, is here.
 
 **By the Order of Business, to the Chamber of the Parliament**
 
-A chamber with no walls and no roof, open to the beams, and its floor is the Great Roll of Pleas: unrolled, enormous, a road of old yellow skin a hundred paces wide covered in crabbed writing and red capitals, going away in both directions further than you can see. Down its middle runs a line of seats, each different: a high-backed chair, a little stool, a slab of black stone with three ring-bolts in it, a bed of herbs, a doorstep, a heap of loose pages. In front of the seats, set into the floor of the Roll itself, a long brass plate engraved THE ORDER PAPER. THE ORDER PAPER. In the chamber: 0 of six. Of the Sleep: the Sewing of all, 3, the Sleep by leave, 1, the Unsewing, 2. Of the Fire: no burning but by leave, 4, burning only by judgment, 2, the Censors’ discretion, 0. Of the Reading: the Lyceum’s Rounds, 3, reading by request, 3, no reading owed, 0. Of the Door: the Founders’ door only, 2, Crake’s door under licence, 2, open doors, 2. Four carry, or three and the clerk. The Great Roll of Pleas, the Speaker; the floor of the chamber, unrolled, is here.
+A chamber with no walls and no roof, open to the beams, and its floor is the Great Roll of Pleas: unrolled, enormous, a road of old yellow skin a hundred paces wide covered in crabbed writing and red capitals, going away in both directions further than you can see. Down its middle runs a line of seats, each different: a high-backed chair, a little stool, a slab of black stone with three ring-bolts in it, a bed of herbs, a doorstep, a heap of loose pages. In front of the seats, set into the floor of the Roll itself, a long brass plate engraved THE ORDER PAPER. THE ORDER PAPER. Seated: 0. Of the Sleep: the Sewing of all, 3, the Sleep by leave, 1, the Unsewing, 2. Of the Fire: no burning but by leave, 4, burning only by judgment, 2, the Censors’ discretion, 0. Of the Reading: the Lyceum’s Rounds, 3, reading by request, 3, no reading owed, 0. Of the Door: the Founders’ door only, 2, Crake’s door under licence, 2, open doors, 2. Four carry, or three and the clerk. The Great Roll of Pleas, the Speaker; the floor of the chamber, unrolled, is here.
 
 **Talk to the Great Roll of Pleas**
 
@@ -344,13 +344,7 @@ The Great Roll of Pleas considers the conversation over some moments before you 
 
 An hour passes. It is a long time since anyone slept. The company is weary, and will fight the worse for it until it sleeps.
 
-*(31 waits in which nothing is told)*
-
-**Wait › An hour**
-
-The bell of the Lamp tolls for Harry Coyle, and they bury him in the churchyard under the north wall, with his commonplace book on his chest, shut.
-
-*(39 waits in which nothing is told)*
+*(70 waits in which nothing is told)*
 
 **Wait › An hour**
 
@@ -370,11 +364,11 @@ The Guildhall bell rings for noon and for the vote.
 
 **Ask the Speaker to call the Parliament of the Bound to sit**
 
-‘ORDER,’ says the floor, and the word goes away along the Roll in both directions like a wave along a beach. And they come: down the gangway and up the Order of Business and out of the air, each to its seat. A narrow house’s voice, sharp, from the doorstep. A pencil figure with a lantern, on the heap of loose pages. A little wooden paddle on the stool. An old woman of leaves on the bed of herbs. And on the black slab, held by three chains that run away to the sky, the Lexicon, open. A single drawer slides out of nowhere beside the order paper, and stays: the clerk. ‘The Parliament of the Bound sits,’ says the floor. ‘There is before it the motion of the Speaker: the Recall. Every book of Calamy Sewn, and the Quick called home; no burning but by leave, as the old Colophon has it; the Lyceum’s Rounds; no door but the Founders’. If nothing else is carried, it stands at the Kindling. A reader of Calamy has standing. The chair will hear readings of the four articles.’ A pause. ‘Briefly.’ THE ORDER PAPER. In the chamber: 6 of six. Of the Sleep: the Sewing of all, 3, the Sleep by leave, 1, the Unsewing, 2. Of the Fire: no burning but by leave, 4, burning only by judgment, 2, the Censors’ discretion, 0. Of the Reading: the Lyceum’s Rounds, 3, reading by request, 3, no reading owed, 0. Of the Door: the Founders’ door only, 2, Crake’s door under licence, 2, open doors, 2. Four carry, or three and the clerk.
+‘ORDER,’ says the floor, and the word goes away along the Roll in both directions like a wave along a beach. And they come: down the gangway and up the Order of Business and out of the air, each to its seat. A narrow house’s voice, sharp, from the doorstep. A pencil figure with a lantern, on the heap of loose pages. A little wooden paddle on the stool. An old woman of leaves on the bed of herbs. And on the black slab, held by three chains that run away to the sky, the Lexicon, open. A single drawer slides out of nowhere beside the order paper, and stays: the clerk. ‘The Parliament of the Bound sits,’ says the floor. ‘There is before it the motion of the Speaker: the Recall. Every book of Calamy Sewn, and the Quick called home; no burning but by leave, as the old Colophon has it; the Lyceum’s Rounds; no door but the Founders’. If nothing else is carried, it stands at the Kindling. A reader of Calamy has standing. The chair will hear readings of the four articles.’ A pause. ‘Briefly.’ Before the first reading can be put, the light in the chamber goes grey. Up the gangway from the Margin, in step, come the burned: rank after rank of grey shapes the size of books, whispering, and they stop at the edge of the Roll and stand there; and between them, carried on its charred lectern by nothing, comes a black book bound in iron. ‘Robert Pardoe,’ it says, ‘for the burned of Calamy, who were never asked. Three hundred years of them. I claim a seat.’ The floor is silent. The Housebook has drawn her door shut. Then the Roll says, heavily: ‘The chair cannot find that the burned were ever discharged from the Colophon. The claim is in order.’ A seat of ash rises out of the Roll at the end of the row. THE ORDER PAPER. Seated: 7. Of the Sleep: the Sewing of all, 3, the Sleep by leave, 1, the Unsewing, 2. Of the Fire: no burning but by leave, 4, burning only by judgment, 2, the Censors’ discretion, 0. Of the Reading: the Lyceum’s Rounds, 3, reading by request, 3, no reading owed, 0. Of the Door: the Founders’ door only, 2, Crake’s door under licence, 2, open doors, 2. Four carry, or three and the clerk. The burned stand in the gangway in their ranks, whispering, and on the seat of ash the Index lies open, writing.
 
 **Put to the Parliament: that every book of Calamy be Sewn, and the Quick called home**
 
-‘The question,’ says the floor, ‘is that every book of Calamy be Sewn, and the Quick called home. The chair will poll the members.’ The Great Roll of Pleas: aye. The Annery Housebook: aye. Dame Tibbet’s Primer: aye. The Second Canto of the Lantern-Bearers: no. The Black Lexicon of Oddny Vask: no. Mother Orme’s Physick: no. ‘The chamber is equally divided,’ says the floor. The drawer beside the order paper opens an inch. ‘The clerk votes aye,’ says the Catalogue drily. ‘Carried.’ Carried, of the Sleep: the Sewing of all.
+‘The question,’ says the floor, ‘is that every book of Calamy be Sewn, and the Quick called home. The chair will poll the members.’ The Great Roll of Pleas: aye. The Annery Housebook: aye. Dame Tibbet’s Primer: aye. The Index of Pardoe: aye. The Second Canto of the Lantern-Bearers: no. The Black Lexicon of Oddny Vask: no. Mother Orme’s Physick: no. ‘The ayes have it,’ says the floor. ‘Carried.’ A clerk’s card writes itself and goes into the drawer. THE ORDER PAPER. Seated: 7. Of the Sleep: the Sewing of all, 4, the Sleep by leave, 1, the Unsewing, 2. Of the Fire: no burning but by leave, 4, burning only by judgment, 2, the Censors’ discretion, 1. Of the Reading: the Lyceum’s Rounds, 3, reading by request, 3, no reading owed, 1. Of the Door: the Founders’ door only, 3, Crake’s door under licence, 2, open doors, 2. Four carry, or three and the clerk. Carried, of the Sleep: the Sewing of all.
 
 **Ask the Speaker to seal the Colophon as it now stands**
 
@@ -384,7 +378,7 @@ The Guildhall bell rings for noon and for the vote.
 
 **Wait › An hour**
 
-The light changes. Every beam in the Commonplace goes out at once, and comes back red, the colour of a fire seen through closed eyelids; and the Catalogue’s voice says, from everywhere, quite gently, ‘It is the Kindling. Readers are called.’ The paper under your feet turns like a page, and you come when you are called. A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling. Hester Rhule, a Deputy Censor of the Imprimatur, is here. The Kindling fire stands twice the height of a man now, faggots and broken furniture and old shutters, with a ladder against it and a boy on the ladder. The Ashpit is packed to the walls with Calamy: millers and binders and printers and fishwives, students on the Guildhall steps, the Lord Mayor on a cart. The great pile stands in the middle, unlit, taller than the Guildhall door. Everyone has an unlit lantern. Almost everyone has an almanack. And the almanacks, all of them, in all their hands, are quite silent. Hester Rhule stands at the foot of the pile in grey with a lit torch, very straight, as she stands every Thursday at the brazier.
+The light changes. Every beam in the Commonplace goes out at once, and comes back red, the colour of a fire seen through closed eyelids; and the Catalogue’s voice says, from everywhere, quite gently, ‘It is the Kindling. Readers are called.’ The paper under your feet turns like a page, and you come when you are called. A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling. Hester Rhule, a Deputy Censor of the Imprimatur, is here. The Kindling fire stands twice the height of a man now, faggots and broken furniture and old shutters, with a ladder against it and a boy on the ladder. By the cold brazier at the edge of the Ashpit the ash of Thursday’s burning has not blown away, though the wind is off the river. It lies on the beaten earth in fine straight lines, grey, close together, like the lines of a page; and the sweepers have swept round it. The Ashpit is packed to the walls with Calamy: millers and binders and printers and fishwives, students on the Guildhall steps, the Lord Mayor on a cart. The great pile stands in the middle, unlit, taller than the Guildhall door. Everyone has an unlit lantern. Almost everyone has an almanack. And the almanacks, all of them, in all their hands, are quite silent. Hester Rhule stands at the foot of the pile in grey with a lit torch, very straight, as she stands every Thursday at the brazier.
 
 **Wait › An hour**
 
@@ -392,16 +386,16 @@ The bell on the chapel pier rings once, far off over the water, and the Lamp’s
 
 **Wait › An hour**
 
-And nobody throws an almanack on the fire. It goes round the Ashpit like a draught: people looking at the little paper books in their hands, and at each other, and putting them back in their aprons and pockets. Moll Garrow is the first to light her lantern from the fire with her almanack held against her chest. Then everyone. The Ashpit fills with lit lanterns going home in every direction, and with three thousand small voices saying, all at once, very quietly, ‘Thank you,’ and then, because they cannot help it, ‘High water at the Hithe, half past six.’
+And nobody throws an almanack on the fire. It goes round the Ashpit like a draught: people looking at the little paper books in their hands, and at each other, and putting them back in their aprons and pockets. Moll Garrow is the first to light her lantern from the fire with her almanack held against her chest. Then everyone. The Ashpit fills with lit lanterns going home in every direction, and with three thousand small voices saying, all at once, quietly, ‘Thank you,’ and then, because they cannot help it, ‘High water at the Hithe, half past six.’
 
 *(6 waits in which nothing is told)*
 
 **Wait › An hour**
 
-The Ashpit is black and cold, with a great round of ash where the Kindling was. Children are already drawing on it with sticks. In the night, all over Calamy, very quietly, something goes from kitchen to kitchen: small red figures with pen-nibs for hands, and needles of red ink, Sewing. In the morning the almanacks on the nails do not say the tides. The penny Pleas lie on their shelves like law. The Quick have been called home.
+The Ashpit is black and cold, with a great round of ash where the Kindling was. Children are already drawing on it with sticks. In the night, all over Calamy, quietly, something goes from kitchen to kitchen: small red figures with pen-nibs for hands, and needles of red ink, Sewing. In the morning the almanacks on the nails do not say the tides. The penny Pleas lie on their shelves like law. The Quick have been called home.
 
 *(7 waits in which nothing is told)*
 
 **Wait › An hour**
 
-The books of Calamy are asleep again, every one, the Bound as they always were and the Quick Sewn in the night by red needles and called home. On the kitchen nails the almanacks are silent; somewhere very far off, in a country made of reading, a cheerful voice is telling the Commonplace the tides of a city it can no longer see. The back stacks end at the wall. The Lyceum reads its Rounds with books in its hands. It is very quiet.
+The books of Calamy are asleep again, every one, the Bound as they always were and the Quick Sewn in the night by red needles and called home. On the kitchen nails the almanacks are silent; somewhere very far off, in a country made of reading, a cheerful voice is telling the Commonplace the tides of a city it can no longer see. The back stacks end at the wall. The Lyceum reads its Rounds with books in its hands. It is quiet.

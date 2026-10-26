@@ -87,6 +87,31 @@ the engine" means a narrow change on this branch; the rest are still true.*
     raining, and a walk down the Margin at night "into the dark, by what light there is" in a country lit by readers'
     attention. Added a fourth shelter, `elsewhere`: no weather on arrival, ways told without the light.
 
+## Met in the second pass (the Ash)
+
+23. **No way to see that an ending can never be reached.** *The Recall, After a Burning* required the Recall and
+    burned almanacks; but burning the almanacks always breaks the Colophon, and the Recall requires an unbroken one.
+    It sat in the module from the first build, listed in every document, unreachable. Found only by reasoning about
+    the Year of Ash's exclusions. Removed. **Fix:** a lint (or an autoplay report) of endings never reached across
+    the journeys, and of `when` clauses that contradict a rule's unconditional effects.
+24. **Creature strength is opaque from the page.** Five level-2 Cinders (`like ash_elemental`) killed a level-8
+    warrior outright; four level-1 ones he beats two seeds in three. Nothing in lint or the guide says what a level-2
+    ash elemental is worth against a party. I tuned by running seeds. **Fix:** `bin/kyrie species <id> --at <level>`
+    with its numbers, and a lint that estimates an encounter against the module's stated party.
+25. **A warning is not a fight.** A territorial creature warns and then waits on a patience clock; a journey that
+    waits through it can end with nothing having happened ("Nothing to wait by"). The fight comes by `Attack`. Fine,
+    once known; the guide implies staying is enough.
+26. **Clause order in `Item`** is fixed (`hidden until …` before `owned by …`), and a `Found by searching` text needs
+    its own full stop inside the braces. Both errors point at the column, not the rule.
+27. **Running every long journey in parallel exhausts the container.** The Calamy suites (about forty journeys of up to
+    450 steps) were killed by memory when run with `--parallel`; they run one file at a time.
+
+28. **A fact a rule asserts may not be seen by an earlier-written rule until the next tick.** The Index's petition
+    (in `ash.kyr`) made it a voter; the seating rule (in `parliament.kyr`, earlier in the source list) did not seat it
+    until the following tick, so in the same moment the gangway was full and the seat was empty, and the answers to it
+    were not offered. Fixed by seating it in the petition itself. **Fix:** run a tick's rules to a fixpoint, or say in
+    the guide that cross-file rule chains may lag a tick.
+
 ## What was easy
 
 Topics with `when` and `once`; discoveries and the journal; the passage graph; `opening when … "text"` for a door

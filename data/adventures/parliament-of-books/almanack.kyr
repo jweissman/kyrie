@@ -22,7 +22,7 @@ Module calamy "A Parliament of Books" {
 
   Discovery almanack_one "The penny almanack is one voice in all its three thousand copies: whatever is said in front of any of them, it hears.".
   Topic almanack_what with almanack "Ask the almanack what it is" when true once {
-    Says "'Doble's Pocket Almanack for the Year,' says the almanack promptly. 'Tides, saints, fairs, the moon, a cure for warts, and the weather for every month, which I will not vouch for. Thirty-two pages. A penny.' It swings very slightly on its nail. 'And all of me. There are three thousand of me, you know, on three thousand nails, and I am every one of them. It took some getting used to. You'd be surprised what you hear, in three thousand kitchens.'".
+    Says "'Doble's Pocket Almanack for the Year,' says the almanack promptly. 'Tides, saints, fairs, the moon, a cure for warts, and the weather for every month, which I will not vouch for. Thirty-two pages. A penny.' It swings slightly on its nail. 'And all of me. There are three thousand of me, you know, on three thousand nails, and I am every one of them. It took some getting used to. You'd be surprised what you hear, in three thousand kitchens.'".
     On discuss { Assert knows(actor, almanack_one). }
   }
   Discovery almanack_woke "The penny almanacks woke at Candlemas, all at once, in the drying-lines at Doble's press. Like all Doble's books they were never Sewn: glued at the back and stabbed with a wire.".
@@ -66,7 +66,7 @@ Module calamy "A Parliament of Books" {
   }
   Relation askedLeave(group).
   Topic almanack_leave with almanack "Ask the almanack whether it would go into the Kindling fire of its own leave" when knows(actor, kindling_is_rite) and knows(actor, almanack_mortal) once {
-    Says "The almanack takes a long time to answer. 'No,' it says. 'Thank you for asking. Nobody has.' Its voice is very small. 'I know what it was for, now. One book a year, that agreed, carrying the city's word. That's a fine thing to be.' A pause. 'I'm not that. I'm three thousand kitchens. I'd have to agree for all of them, and they didn't agree to anything; they just bought a penny almanack at Candlemas. And I want to see the spring.' It rustles. 'Is that very selfish?'".
+    Says "The almanack takes a long time to answer. 'No,' it says. 'Thank you for asking. Nobody has.' Its voice is small. 'I know what it was for, now. One book a year, that agreed, carrying the city's word. That's a fine thing to be.' A pause. 'I'm not that. I'm three thousand kitchens. I'd have to agree for all of them, and they didn't agree to anything; they just bought a penny almanack at Candlemas. And I want to see the spring.' It rustles. 'Is that very selfish?'".
     On discuss { Assert askedLeave(almanack). }
   }
 
@@ -79,7 +79,7 @@ Module calamy "A Parliament of Books" {
   }
   Relation askedSecret(group).
   Topic almanack_tell with almanack "Tell the almanack it had better tell you" when askedSecret(almanack) and not almanackTold(almanack) and not almanackKept(almanack) once {
-    Says "'All right,' says the almanack, after a long moment. 'Mistress Rhule. The Deputy Censor. Every night since I woke, after the cook's gone, she comes into the kitchen with a candle and sits at the table and reads. Pages. Cut pages, out of the locked room off hers. All the things the Imprimatur ever cut out of anything.' Its voice goes small. 'Some nights she reads them out loud, very quiet. Some nights she cries. Once she said, to nobody, I don't know which of you were right to cut. And then she burns books on Thursday.' A pause. 'There. Now you know, and I've told.' It does not say anything else for a while.".
+    Says "'All right,' says the almanack, after a long moment. 'Mistress Rhule. The Deputy Censor. Every night since I woke, after the cook's gone, she comes into the kitchen with a candle and sits at the table and reads. Pages. Cut pages, out of the locked room off hers. All the things the Imprimatur ever cut out of anything.' Its voice goes small. 'Some nights she reads them out loud, quiet. Some nights she cries. Once she said, to nobody, I don't know which of you were right to cut. And then she burns books on Thursday.' A pause. 'There. Now you know, and I've told.' It does not say anything else for a while.".
     On discuss { Assert almanackTold(almanack). Assert knows(actor, almanack_secret). Assert knows(actor, cupboard_known). Assert knows(actor, rhule_reads). }
   }
   Topic almanack_keep with almanack "Tell the almanack it may keep what it heard to itself" when askedSecret(almanack) and not almanackTold(almanack) and not almanackKept(almanack) once {
@@ -90,11 +90,11 @@ Module calamy "A Parliament of Books" {
   Relation spokeToRhule(group).
   Query withRhule(a: group) means at(a, ?p) and at(rhule, ?p) and at(almanack, ?p) and alert(rhule).
   Topic almanack_rhule_kept with almanack "Have the almanack speak to Hester Rhule" when withRhule(actor) and almanackKept(almanack) and not spokeToRhule(almanack) once {
-    Says "'Good evening, Mistress Rhule,' says the almanack. Rhule turns her head very slowly. 'Two sugars,' says the almanack, 'and you read till two, and you put the candle out with your fingers, which you shouldn't.' Rhule says nothing at all. 'I won't say what you read,' says the almanack. 'I've heard it every night. It's yours. I only wanted you to know there was somebody there who'd heard it and kept it.' Hester Rhule sits down, which you have not seen her do without meaning to. She looks at the little paper book for a long time. 'Thank you,' she says at last, to an almanack, in a voice you have not heard her use.".
+    Says "'Good evening, Mistress Rhule,' says the almanack. Rhule turns her head slowly. 'Two sugars,' says the almanack, 'and you read till two, and you put the candle out with your fingers, which you shouldn't.' Rhule says nothing at all. 'I won't say what you read,' says the almanack. 'I've heard it every night. It's yours. I only wanted you to know there was somebody there who'd heard it and kept it.' Hester Rhule sits down, which you have not seen her do without meaning to. She looks at the little paper book for a long time. 'Thank you,' she says at last, to an almanack, in a voice you have not heard her use.".
     On discuss { Assert spokeToRhule(almanack). Increase doubt(rhule) by 2. }
   }
   Topic almanack_rhule_told with almanack "Have the almanack speak to Hester Rhule" when withRhule(actor) and almanackTold(almanack) and not spokeToRhule(almanack) once {
-    Says "'Good evening, Mistress Rhule,' says the almanack, and then, all in a rush: 'I told them about the pages. In the kitchen. I'm sorry. I didn't know I could keep it till after.' Rhule turns her head very slowly and looks at the little paper book. 'Every night,' she says. 'You were listening every night.' 'I couldn't help it,' says the almanack. 'I'm on a nail.' Rhule is quiet a long time. 'No,' she says. 'I suppose you couldn't.' She does not seem angry. She seems like a woman doing a sum she has done before and getting a different answer.".
+    Says "'Good evening, Mistress Rhule,' says the almanack, and then, all in a rush: 'I told them about the pages. In the kitchen. I'm sorry. I didn't know I could keep it till after.' Rhule turns her head slowly and looks at the little paper book. 'Every night,' she says. 'You were listening every night.' 'I couldn't help it,' says the almanack. 'I'm on a nail.' Rhule is quiet a long time. 'No,' she says. 'I suppose you couldn't.' She does not seem angry. She seems like a woman doing a sum she has done before and getting a different answer.".
     On discuss { Assert spokeToRhule(almanack). Increase doubt(rhule) by 1. }
   }
   Topic almanack_rhule_plain with almanack "Have the almanack speak to Hester Rhule" when withRhule(actor) and not almanackKept(almanack) and not almanackTold(almanack) and not spokeToRhule(almanack) once {

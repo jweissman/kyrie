@@ -3,8 +3,11 @@ Module calamy "A Parliament of Books" {
 
   Observe ashpit_scene at ashpit when true "A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.".
   Observe pyre_grows at ashpit when day(clock) >= 5 and not kindlingDone(ashpit) "The Kindling fire stands twice the height of a man now, faggots and broken furniture and old shutters, with a ladder against it and a boy on the ladder.".
+  Discovery ash_lines "The ash from the Thursday brazier at the Ashpit does not blow away. It lies on the beaten earth in fine straight grey lines, like the lines of a page, and the sweepers go round it.".
+  Observe ash_in_lines at ashpit when burnings(rhule) >= 1 and not burningNow() and not kindlingDone(ashpit) "By the cold brazier at the edge of the Ashpit the ash of Thursday's burning has not blown away, though the wind is off the river. It lies on the beaten earth in fine straight lines, grey, close together, like the lines of a page; and the sweepers have swept round it." teaches ash_lines.
   Relation kindlingDone(place).
   Observe imp_scene at imp_office when true "A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down." teaches imprimatur_named.
+  Observe imp_letters at imp_office when true "Behind the counter, on its own shelf, a row of grey boxes tied with tape and sealed with the little lamp, each with a label in an old hand: CORRESPONDENCE OF THE CENSOR-GENERAL WITH THE CENSORS OF HALLAM. OF ORSK. OF THE SALT TOWNS. OF TESSALY (UNANSWERED). 1132-1140. NOT TO BE OPENED.".
   Person clerk "the clerk at the counter" at imp_office {
     Role "a clerk of the Imprimatur". Ancestry human. Background scribe. Peaceable. Manner stoic. Pronouns they.
     Buys almanack_copy for 1 coin.
@@ -15,10 +18,10 @@ Module calamy "A Parliament of Books" {
   // ── Hester Rhule. ──
   Person rhule "Hester Rhule" at rhule_room {
     Role "Deputy Censor of the Imprimatur". Ancestry human. Calling warrior. Level 3. Trait strong_willed. Background magistrate. Peaceable. Manner stoic. Pronouns she.
-    Greets "A woman in grey sits at a plain table with a book open in front of her and a pen across it, very straight, very still. She has a binder's square hands. 'Hester Rhule. Deputy Censor.' She does not get up. 'If you have come about a licence, you have come to the wrong room. If you have come about an unquiet volume, you have come to the right one. Sit down.'".
+    Greets "A woman in grey sits at a plain table with a book open in front of her and a pen across it, very straight, still. She has a binder's square hands. 'Hester Rhule. Deputy Censor.' She does not get up. 'If you have come about a licence, you have come to the wrong room. If you have come about an unquiet volume, you have come to the right one. Sit down.'".
     Objects "Hester Rhule looks at {?i} in your hand, and then at you, and says, very evenly: 'That is the Imprimatur's.'".
   }
-  Observe rhule_room_scene at rhule_room when true "A small square room with a plain table, two chairs, a cot made up very tight, a shelf of law-books, and a grey door in the far wall with a good lock on it. On the table, open, a book with its pages cut out: a neat ladder of stubs where whole chapters were.".
+  Observe rhule_room_scene at rhule_room when true "A small square room with a plain table, two chairs, a cot made up tight, a shelf of law-books, and a grey door in the far wall with a good lock on it. On the table, open, a book with its pages cut out: a neat ladder of stubs where whole chapters were.".
   Measure doubt(group).
   Relation liedTo(group). Relation rhuleMet(group).
   Discovery rhule_view "Hester Rhule believes the quickening spreads from book to book like rot; that a book which alters its own text is a lie that cannot be corrected; and that she burns unquiet volumes to save the rest from the mob that would burn them all.".
@@ -46,7 +49,7 @@ Module calamy "A Parliament of Books" {
     says "As the first almanack goes into the brazier there is a sound: not from the fire, but from everywhere, faint and thin and all at once, from every kitchen round the Close, from the Imprimatur's own windows, from the Lamb across the river for all you know. A cry. Then another as the second goes in. The crowd shifts. Somebody laughs, the wrong way. Hester Rhule's hand does not stop." {
     Assert burningSeen(party). }
   Rule almanack_hurt_pocket when burningNow() and carries(party, ?c) and itemKind(?c, almanack_copy) and at(party, ashpit) and not hurtInPocket(party)
-    says "In your pocket the almanack makes a sound you will not forget, a thin dry shriek, as if a page were being torn very slowly; and then another, as the next goes in." {
+    says "In your pocket the almanack makes a sound you will not forget, a thin dry shriek, as if a page were being torn slowly; and then another, as the next goes in." {
     Assert hurtInPocket(party). }
   Relation hurtInPocket(group).
   Topic rhule_heard with rhule "Ask Hester Rhule what she hears when the almanacks go into the fire" when burningSeen(actor) and not heardCry(rhule) once {
@@ -81,7 +84,7 @@ Module calamy "A Parliament of Books" {
   // How the company may come by the pages: asked for, or taken.
   Relation pagesGiven(group). Relation cupboardShown(group).
   Topic rhule_cupboard with rhule "Ask Hester Rhule about the pages she reads at night" when (knows(actor, rhule_reads) or knows(actor, cupboard_known)) and not cupboardShown(rhule) and doubt(rhule) >= 2 once {
-    Says "Rhule goes very still. Then she gets up, and takes a key from inside her collar on a cord, and opens the grey door. 'The Cupboard of Excisions,' she says. 'Every page the Imprimatur has cut from a book in three hundred years. We are to keep them and never read them, so that what was cut can never be said to have been destroyed.' She stands in the door with her back to you. 'I read them. Every night for six years. Some of them were cut for nothing at all. A joke about a bishop. A woman's name.' Her voice does not change. 'Some of them were cut because they would kill people. I have not been able to tell which is which, by reading. I have tried.'".
+    Says "Rhule goes still. Then she gets up, and takes a key from inside her collar on a cord, and opens the grey door. 'The Cupboard of Excisions,' she says. 'Every page the Imprimatur has cut from a book in three hundred years. We are to keep them and never read them, so that what was cut can never be said to have been destroyed.' She stands in the door with her back to you. 'I read them. Every night for six years. Some of them were cut for nothing at all. A joke about a bishop. A woman's name.' Her voice does not change. 'Some of them were cut because they would kill people. I have not been able to tell which is which, by reading. I have tried.'".
     On discuss { Assert cupboardShown(rhule). Assert state(excision_lock, open). Assert knows(actor, cupboard_known). }
   }
   Topic rhule_cupboard_denied with rhule "Ask Hester Rhule about the pages she reads at night" when (knows(actor, rhule_reads) or knows(actor, cupboard_known)) and not cupboardShown(rhule) and doubt(rhule) < 2 once {

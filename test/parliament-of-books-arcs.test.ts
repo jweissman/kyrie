@@ -29,7 +29,7 @@ describe('A Parliament of Books: Hester Rhule', () => {
     expect(reached(j)).toEqual([C('recalled')]);
   }, 600000);
 
-  it('goes back to her father\'s trade when she has been lied to: and with no one to stop it, the almanacks burn', async () => {
+  it('goes back to her father\'s trade when she has been lied to: and with no one to stop it, the almanacks burn, and the Ash comes', async () => {
     const j = await Calamy.start('binder');
     await Calamy.play(j, ...Arcs.rhuleLied);
     expect(Calamy.holds(j, 'liedTo', 'rhule')).toBe(true);
@@ -39,7 +39,7 @@ describe('A Parliament of Books: Hester Rhule', () => {
     expect(Calamy.holds(j, 'rhuleBinder', 'rhule')).toBe(true);
     expect(Calamy.holds(j, 'almanacksBurned', 'ashpit')).toBe(true);
     await until(j, 1300);
-    expect(reached(j)).toEqual([C('unsewn')]);
+    expect(reached(j)).toEqual([C('ashen')]);
   }, 600000);
 
   it('lights the Kindling herself when nobody has shown her anything', async () => {

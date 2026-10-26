@@ -1,7 +1,8 @@
 # The map: Calamy and the Commonplace
 
 *A spatial account, as built. Grid positions are the module's own (`at x, y`); minutes are the passages' own. The
-city is about eighty rooms in seven districts and a marsh; the Commonplace eighteen rooms in nine places.*
+city is about eighty rooms in seven districts and a marsh; the Commonplace twenty-one rooms in ten places, the last
+of them under the others.*
 
 ## The city on its river
 
@@ -80,3 +81,26 @@ its cellar of reckonings, which it does not forgive being read); Mother Orme's g
 poison); the Foxing (the fading unread; Dame Tibbet's Primer); the Wellhead (the first words ever written in Calamy:
 the third reversal); the Tower of Oddny Vask (the Lexicon in three chains, and the Black Letters at its foot); the
 Chamber (the Parliament, on the floor that is the Roll).
+
+## The Cinderfield, under the Foxing
+
+```
+     deep Foxing ── the burned edge of the Foxing (20) ── the burned edge ── a road of ash (20) ── the Cinderfield
+                                                         (pickets; after the                    (the ranks; last year's
+                                                          second Thursday they                   almanack; the father's
+                                                          come up into the Foxing)               book; one beam)
+                                                                                                        │ a knife-cut (10)
+                                                                                                 Pardoe's hearth
+                                                                                                 (the Index; the Penknife)
+```
+
+At the far side of the deep Foxing the brown goes to toast, to char, and stops at a line nobody's beam falls beyond.
+Below it there is no light but what comes over the edge: the paper ends like a page held too near a candle, and the
+ash beyond holds the prints of a great many small flat feet all going down. The Cinderfield is a plain of ash in no
+light at all, the burned standing on their edges in rows as straight as lines of type, drilling toward a red glow:
+Pardoe's hearth, a furnace door standing by itself with nothing behind it. One thin beam falls from very high up,
+from the direction of the Close, over the ranks to the hearth: Hester Rhule, reading, every night.
+
+The Ash is a strategic presence, not only a dungeon level: after the second Thursday burning its pickets come up into
+the Foxing (where the Primer is, saying its letters very fast); on Kindling eve the ranks march up the gangway from
+the Margin into the Chamber.

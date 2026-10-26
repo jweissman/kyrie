@@ -47,12 +47,13 @@ describe('A Parliament of Books: what the Parliament comes to', () => {
     expect(reached(j)).toEqual([C('separation')]);
   }, 600000);
 
-  it('comes to the Pleading Accord: a warden sworn to the Physick, and a priest\'s binding of the Lexicon in the chamber', async () => {
+  it('comes to the Pleading Accord: a warden sworn to the Physick, who clears the Ash from the gangway and binds the Lexicon', async () => {
     const j = await Calamy.start('pleading', one('cleric', 'warden', 3));
     await Calamy.play(j, ...rite, ...canon, 'go:gallon_attic', 'Talk to the Effusions', 'what they want', 'Take your leave', ...withCrake,
       'go:orme_garden', 'Talk to Mother', 'where she stands', 'Swear to the Physick', 'Take your leave', 'go:draft_fields',
       'Talk to the Second', 'where they stand', 'poems in an attic', 'speak for you', 'Take your leave', 'go:foxing_deep', 'Talk to Dame', 'where it stands',
-      'Take your leave', ...roll, ...wellhead, '=1176', 'Ask the Speaker to call', 'Talk to the Black Lexicon', 'where it stands',
+      'Take your leave', ...roll, ...wellhead, '=1176', 'Ask the Speaker to call', 'Drive the burned out of the gangway',
+      'Talk to the Black Lexicon', 'where it stands',
       'Take your leave', 'Bind the Lexicon');
     expect(Calamy.holds(j, 'lexiconBound', 'lexicon')).toBe(true);
     expect(j.measure(C('seated'), C('chamber'))).toBe(5);

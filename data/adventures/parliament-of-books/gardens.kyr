@@ -56,7 +56,7 @@ Module calamy "A Parliament of Books" {
   Observe corvell_after at corvell_hall when corvellTold(corvell) and not raidCalled(lantern_yard) "Sir Gideon is sitting on the bottom stair with his magnifying glass in his lap, looking at nothing.".
 
   // ── Mrs. Quennell's subscription library, and a book forty-one years overdue. ──
-  Observe quennell_scene at quennell_room when true "A long low room with lace at the windows and a carpet, armchairs, a clock, and shelves of novels, sermons, travels and cookery with numbered labels on their spines. A desk by the door with a ledger the size of a paving stone, and behind the desk a very small, very upright old lady with a pen." teaches quennell_named.
+  Observe quennell_scene at quennell_room when true "A long low room with lace at the windows and a carpet, armchairs, a clock, and shelves of novels, sermons, travels and cookery with numbered labels on their spines. A desk by the door with a ledger the size of a paving stone, and behind the desk a small, upright old lady with a pen." teaches quennell_named.
   Person quennell "Mrs. Amabel Quennell" at quennell_room {
     Role "keeper of the subscription library". Ancestry human. Background librarian. Peaceable. Manner acerbic. Pronouns she.
     Wants treatise_kind.

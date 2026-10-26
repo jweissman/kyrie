@@ -59,3 +59,16 @@
 
 See [09-critique.md](09-critique.md): the thin middle errands, the safe Commonplace, the predictable session, the
 straw readings, the Almanack's middle days, long arrival pages.
+
+## The second pass
+
+A harder reading ([11-second-pass.md](11-second-pass.md)) found a chamber piece without an adversary or an
+underworld. Added: **the Ash** (`ash.kyr`): the Cinderfield under the Foxing, the burned in ranks, Pardoe's Index and
+its Penknife; Rhule's register, her father's book among the burned, and her candle as the Index's only light; the
+Lamp's taper; the Index's claim of a seat on Kindling eve, ruled in order, and four ways to answer it there; its
+bargain (giving the straw *Censors' discretion* a patron); **the Year of Ash** ending. Threaded foreshadowing through
+the city: the ash in lines at the Ashpit, the pepper verse, Pardoe's slab, Quarles on Pardoe, the Imprimatur's
+sealed correspondence, the Catalogue on other cities' Commonplaces. The Almanack's middle scenes: where its burned
+copies went; last year's almanack in the front rank. Removed the unreachable *Recall, After a Burning*. Trimmed 57
+reflexive intensifiers. Tuned the Cinders after they killed a level-8 warrior.
+

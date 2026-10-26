@@ -97,7 +97,9 @@ describe('A Parliament of Books: the Parliament and the Kindling', () => {
   it('moves the Parliament by what the city taught it, seals the Lending Accord on Kindling eve, and the Almanack sees the spring', async () => {
     const j = await Calamy.start('lending');
     await Calamy.play(j, ...Steps.arrive, 'Talk to the Almanack', 'kitchens of the Close', 'not sure it should tell', 'may keep',
-      'Take your leave', ...Steps.pieces, ...Steps.hennet, ...Steps.quarles, 'go:gallon_attic', 'Talk to the Effusions', 'what they want',
+      'Take your leave', ...Steps.pieces, 'go:bridge_middle', 'Talk to the children', 'any more of the rhyme', 'Take your leave',
+      'go:vestry', 'Talk to Canon', 'light from the Lamp', 'Take your leave', 'taper lit at the Lamp: Take', ...Steps.hennet,
+      ...Steps.quarles, 'go:gallon_attic', 'Talk to the Effusions', 'what they want',
       'Take your leave', ...Steps.corvell, 'go:crake_parlour', 'green ledger: Examine', 'go:jonquil_garret', 'Talk to Jonquil', 'Housebook',
       'what he would do', 'where his family', 'Take your leave', 'letter to his mother.s book: Take', ...Steps.key, ...Steps.ink, ...Steps.read);
     await Calamy.play(j, 'go:wellhead', 'first words: Examine', 'go:foxing_deep', 'Talk to Dame', 'where it stands',
@@ -108,7 +110,12 @@ describe('A Parliament of Books: the Parliament and the Kindling', () => {
       'when the Parliament sits', 'first words at the Wellhead', 'Take your leave');
     // It does not sit until Kindling eve.
     expect(j.offers('Ask the Speaker to call')).toBe(false);
-    await Calamy.play(j, '=1176', 'Ask the Speaker to call', 'Put to the Parliament: that every book sleep or wake',
+    // The burned come up the gangway and claim a seat; the Lamp's flame sends them down again.
+    await Calamy.play(j, '=1176', 'Ask the Speaker to call');
+    expect(Calamy.holds(j, 'sits', 'index')).toBe(true);
+    await Calamy.play(j, 'Carry the Lamp.s flame down the gangway');
+    expect(Calamy.holds(j, 'sits', 'index')).toBe(false);
+    await Calamy.play(j, 'Put to the Parliament: that every book sleep or wake',
       'Put to the Parliament: that any book may ask', "Put to the Parliament: that Crake's door",
       'Put to the Parliament: that no book be burned in Calamy save', 'seal the Colophon');
     const poll = Calamy.said(j, j.taken.length - 6);
@@ -126,14 +133,15 @@ describe('A Parliament of Books: the Parliament and the Kindling', () => {
     expect(reached(j)).toEqual([C('lending')]);
   }, 600000);
 
-  it('does nothing at all: the almanacks are burned, the Colophon breaks, and the Year of Voices comes', async () => {
+  it('does nothing at all: the almanacks are burned, the Index has its regiments, and the Year of Ash comes', async () => {
     const j = await Calamy.start('idle');
     await Calamy.play(j, 'go:ashpit');
     await until(j, 1240);
     expect(Calamy.holds(j, 'almanacksBurned', 'ashpit')).toBe(true);
     expect(Calamy.holds(j, 'colophonBroken', 'ashpit')).toBe(true);
     await until(j, 1300);
-    expect(reached(j)).toEqual([C('unsewn')]);
+    expect(reached(j)).toEqual([C('ashen')]);
+    expect(Calamy.said(j)).toContain('Something is going through Calamy with a knife');
     // The Speaker's motion stood for every article no one carried.
     expect(sealed(j)).toEqual([C('door_shut'), C('fire_leave'), C('read_rounds'), C('sew_all')]);
   }, 300000);

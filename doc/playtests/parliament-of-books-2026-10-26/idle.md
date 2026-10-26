@@ -1,6 +1,6 @@
 # Nobody does anything: the Year of Voices
 
-Seed `idle`; 226 steps; ended at watch 1296, at the ending "The Year of Voices"; sealed: door_shut, fire_leave, read_rounds, sew_all. Written by `bun scripts/parliament-of-books-transcripts.ts` from the journey as the page told it.
+Seed `idle`; 226 steps; ended at watch 1296, at the ending "The Year of Ash"; sealed: door_shut, fire_leave, read_rounds, sew_all. Written by `bun scripts/parliament-of-books-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -20,7 +20,7 @@ Wet steps up from the river into a low arch in the wall of the Close. At the top
 
 **By the Water Gate, to the Close green**
 
-A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and very old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
+A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
 
 **By the walk across the Close, to the Ashpit**
 
@@ -38,7 +38,11 @@ An hour passes. It is a long time since you slept. You are weary, and will fight
 
 At the edge of the Ashpit, away from the great Kindling pile, a brazier burns, and Hester Rhule stands beside it in grey with a clerk holding a basket. The crowd stands back. From the basket she takes the week’s unquiet volumes one by one and reads out each title in a clear voice, as at a funeral, and puts it in the fire. A book of hours. A ready-reckoner. A penny almanack, then another, then six more. As the first almanack goes into the brazier there is a sound: not from the fire, but from everywhere, faint and thin and all at once, from every kitchen round the Close, from the Imprimatur’s own windows, from the Lamb across the river for all you know. A cry. Then another as the second goes in. The crowd shifts. Somebody laughs, the wrong way. Hester Rhule’s hand does not stop.
 
-*(59 waits in which nothing is told)*
+**Wait › An hour**
+
+By the cold brazier at the edge of the Ashpit the ash of Thursday’s burning has not blown away, though the wind is off the river. It lies on the beaten earth in fine straight lines, grey, close together, like the lines of a page; and the sweepers have swept round it. An hour passes.
+
+*(58 waits in which nothing is told)*
 
 **Wait › An hour**
 
@@ -60,13 +64,21 @@ A cart goes over the bridge from the Customs under a tarpaulin, and something un
 
 Hester Rhule puts a great book into the brazier, a foot and a half tall, its pages loose and gold, and reads its title out, and her voice is not quite steady: the Bestiary of the Saint Ide. The gold runs. For a moment, in the smoke over the Ashpit, something white goes up, singing, and then there is only smoke. At the edge of the Ashpit, away from the great Kindling pile, a brazier burns, and Hester Rhule stands beside it in grey with a clerk holding a basket. The crowd stands back. From the basket she takes the week’s unquiet volumes one by one and reads out each title in a clear voice, as at a funeral, and puts it in the fire. A book of hours. A ready-reckoner. A penny almanack, then another, then six more. The Guildhall bell rings for noon and for the vote.
 
-*(71 waits in which nothing is told)*
+**Wait › An hour**
+
+By the cold brazier at the edge of the Ashpit the ash of Thursday’s burning has not blown away, though the wind is off the river. It lies on the beaten earth in fine straight lines, grey, close together, like the lines of a page; and the sweepers have swept round it. An hour passes.
+
+*(70 waits in which nothing is told)*
 
 **Wait › An hour**
 
 At the edge of the Ashpit, away from the great Kindling pile, a brazier burns, and Hester Rhule stands beside it in grey with a clerk holding a basket. The crowd stands back. From the basket she takes the week’s unquiet volumes one by one and reads out each title in a clear voice, as at a funeral, and puts it in the fire. A book of hours. A ready-reckoner. A penny almanack, then another, then six more. An hour passes.
 
-*(29 waits in which nothing is told)*
+**Wait › An hour**
+
+By the cold brazier at the edge of the Ashpit the ash of Thursday’s burning has not blown away, though the wind is off the river. It lies on the beaten earth in fine straight lines, grey, close together, like the lines of a page; and the sweepers have swept round it. An hour passes.
+
+*(28 waits in which nothing is told)*
 
 **Wait › An hour**
 
@@ -82,16 +94,16 @@ The bell on the chapel pier rings once, far off over the water, and the Lamp’s
 
 **Wait › An hour**
 
-And Calamy throws the old year on the fire, as its grandmothers did. Three thousand penny almanacks go into the Kindling, from three thousand hands, and the sound is not the sound of paper burning: it is one voice, very small, everywhere at once, crying out and going on crying out for a long time, and then not. People light their lanterns and go home quickly, not looking at each other.
+And Calamy throws the old year on the fire, as its grandmothers did. Three thousand penny almanacks go into the Kindling, from three thousand hands, and the sound is not the sound of paper burning: it is one voice, small, everywhere at once, crying out and going on crying out for a long time, and then not. People light their lanterns and go home quickly, not looking at each other.
 
 *(6 waits in which nothing is told)*
 
 **Wait › An hour**
 
-The Ashpit is black and cold, with a great round of ash where the Kindling was. Children are already drawing on it with sticks. Some time after midnight every book in Calamy wakes. You hear it begin in the Close, a murmur from the Court and the Lamp and the Imprimatur’s cellar, and spread outward: the Lyceum, Needle Street, the Gardens, the Hithe, every Housebook on every dresser in every kitchen clearing its throat at once. By dawn the city is full of voices. Somebody’s will is reading itself aloud in Orchard Walk. The Great Roll in the Court of Pleas is saying WHEREAS, steadily, through the shut doors. The Year of Voices has come again.
+The Ashpit is black and cold, with a great round of ash where the Kindling was. Children are already drawing on it with sticks. The smoke of the Kindling does not go up. All night it lies over Calamy like a fog, grey, faintly warm, smelling of a snuffed wick; and in it, if you stand still, you can hear whispering, a great many voices saying the same few words. In the morning the fog has gone into the houses. There are words missing. A will in Orchard Walk has a blank where the heir was. The Pleas in the Court of Pleas have a gap where the Sixth Plea was, cut very clean. Children on the bridge skip to the Kindling rhyme and cannot remember the third line. Something is going through Calamy with a knife, carefully, a little every night.
 
 *(7 waits in which nothing is told)*
 
 **Wait › An hour**
 
-Calamy wakes to its books awake. Every Housebook on every dresser, every will in every lawyer’s press, the Great Roll in its Court, the Life of Ambery on its heron, the bestiary in the bond: all of them, at once, in their bodies, talking. The Second Canto walks down Gutter Lane in pencil at noon and nobody stops it. It will be a long year, and a loud one, and nobody alive knows how the first one ended. Somewhere in the city a binder sits down at a frame and begins, very slowly, to Sew, for anyone who asks.
+The smoke of the Kindling lay over Calamy all night and went into the houses. Three thousand almanacks went down to the Cinderfield without their leave, and the Index had its regiments, and came up the smoke. Nothing is burned in Calamy now; nothing needs to be. Every night a little more is cut, very cleanly: a line from a will, a verse from the rhyme, a name from a gravestone, the Sixth Plea. The books do not speak any more. Neither, much, do the people. In a year, the Index says from every page that is left, it will be quiet, and every page in it will say exactly what it said the day before.

@@ -73,8 +73,8 @@ change the city and it goes on):
 
 | Ending | When | What Calamy is like |
 |---|---|---|
-| **The Year of Voices** | the Colophon broken (almanacks burned on the Kindling fire against their leave), or the Unsewing carried | every book awake in its body, at once |
-| **The Recall, After a Burning** | the Recall, and the almanacks burned | the books asleep; the Almanack nowhere at all |
+| **The Year of Ash** | the almanacks burned against their leave, the Index not ended, and its bargain not carried | the smoke does not go up; every night something cuts a little more out of Calamy, very cleanly |
+| **The Year of Voices** | the Colophon broken (almanacks burned on the Kindling fire against their leave, but no Index to take them), or the Unsewing carried | every book awake in its body, at once |
 | **The Recall** | the Recall, the door shut | the books asleep; the almanacks silent on their nails, very far off, seeing the spring |
 | **The Separation** | the Recall, with a door kept | the Bound sleep; the Quick go, under licence, entered |
 | **The Lending Accord** | by leave, reading by asking, the licensed door | the Housebook goes up a garret stair in a dying man's hands; Quennell's has a queue |
@@ -82,15 +82,27 @@ change the city and it goes on):
 | **The Open Door** | by leave, the doors open | nobody quite sure which books were written by anyone |
 | **The Colophon by Leave** | by leave, otherwise | most of the Bound sleep, most of the Quick talk, some change their minds |
 
+### The Index in the chamber
+
+If the Ash has risen (a Thursday has burned, and the Index is neither ended nor its ranks released), then after the
+Speaker opens the session the burned come up the gangway and the Index claims a seat for those who were never asked.
+The Roll, bound by procedure, rules the claim **in order**: the Index sits, the order paper counts it, and it votes
+for the Recall, *the Censors' discretion*, *no reading owed* and the Founders' door, which turns a 3–3 that the clerk
+would have broken into a 3–4 loss. It can be answered there: the Lamp's flame carried down the gangway; the burned read
+their names from Rhule's register; Rhule herself, beside the company, turning her back on it; or a soldier clearing
+the gangway like a street. Answered, its seat goes to ash and it goes back to its hearth. See
+[11-second-pass.md](11-second-pass.md) for the Cinderfield and every way of ending it.
+
 ### The Kindling, which decides as much as the vote
 
 The Parliament settles the terms; the **fire** decides whether the city keeps them. At twenty hundred on day 9 the
 Ashpit fills. The almanacks are **spared** if Rhule has become the Advocate, or the Canon has ruled (told what the
 Kindling was), or the protagonist climbs the pile and tells Calamy what the Kindling was (a hard persuasion check; sure for one of the stage, the faith or the courts, who has held a crowd before), or the Almanack (its secret kept)
 speaks for itself, or the Recall has already called it home. Otherwise three thousand awake almanacks go on the fire,
-and the Colophon breaks. **Renewal** is separate: one book must go into the fire *of its own leave*, and the one that
-asks to is Absalom Gallon's *Effusions*.
+and the Colophon breaks; and unless the Index has been ended, or bought off, they go down to it. **Renewal** is
+separate: one book must go into the fire *of its own leave*, and the one that asks to is Absalom Gallon's *Effusions*.
 
 Tested: `test/parliament-of-books-outcomes.test.ts` (Recall, Separation, Pleading, Open Door, the Effusions'
-renewal), `test/parliament-of-books.test.ts` (Lending, the Year of Voices), the arcs test (Rhule's three ends at the
+renewal), `test/parliament-of-books.test.ts` (Lending, the Year of Ash), `test/parliament-of-books-ash.test.ts` (the
+Cinderfield, the names, Rhule's candle, the Index burned, the Year of Voices), the arcs test (Rhule's three ends at the
 fire).

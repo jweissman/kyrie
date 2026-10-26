@@ -20,7 +20,7 @@ The tavern under the painted lantern on the Hithe quay is the Lamb and Lantern, 
 
 **Ask the almanack what it is**
 
-‘Doble’s Pocket Almanack for the Year,’ says the almanack promptly. ‘Tides, saints, fairs, the moon, a cure for warts, and the weather for every month, which I will not vouch for. Thirty-two pages. A penny.’ It swings very slightly on its nail. ‘And all of me. There are three thousand of me, you know, on three thousand nails, and I am every one of them. It took some getting used to. You’d be surprised what you hear, in three thousand kitchens.’
+‘Doble’s Pocket Almanack for the Year,’ says the almanack promptly. ‘Tides, saints, fairs, the moon, a cure for warts, and the weather for every month, which I will not vouch for. Thirty-two pages. A penny.’ It swings slightly on its nail. ‘And all of me. There are three thousand of me, you know, on three thousand nails, and I am every one of them. It took some getting used to. You’d be surprised what you hear, in three thousand kitchens.’
 
 **Ask the almanack what is said in the kitchens of the Close**
 
@@ -108,7 +108,7 @@ A grey heron comes to see who you are. The Gannet Steps go up from the Close in 
 
 **By the Lyceum gate, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, very old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the tower door, to the foot of the Tower of Rounds**
 
@@ -116,7 +116,7 @@ The thin old tower at the corner of the Lyceum is the Tower of Rounds, where the
 
 **By the tower's turning stair, to the top of the Tower of Rounds**
 
-A round room at the top of the tower with windows on every side and the whole estuary in them. It is full of books, but they are not on shelves; they lie open on every surface, on the floor, on the bed, face up, as if being read by the light. In a high chair by the south window sits a very old woman with white eyes and her hands folded on a stick, and her face turned toward the sea. Ottoline Quarles, an Archivist of the Lyceum, is here.
+A round room at the top of the tower with windows on every side and the whole estuary in them. It is full of books, but they are not on shelves; they lie open on every surface, on the floor, on the bed, face up, as if being read by the light. In a high chair by the south window sits an old woman with white eyes and her hands folded on a stick, and her face turned toward the sea. Ottoline Quarles, an Archivist of the Lyceum, is here.
 
 **Talk to Ottoline Quarles**
 
@@ -136,7 +136,7 @@ A round room at the foot of the tower, cold, with a turning stair going up the w
 
 **By the tower door, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, very old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the Lyceum gate, to the Gannet Steps**
 
@@ -152,15 +152,15 @@ A square of beaten earth in the middle of the Close, black in the middle, with t
 
 **By the Imprimatur's door, to the outer office of the Imprimatur**
 
-The grey building with the lamp carved over its door is the Imprimatur, where Calamy’s books are licensed, refused, and burned. A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. The clerk at the counter, a clerk of the Imprimatur, is here.
+The grey building with the lamp carved over its door is the Imprimatur, where Calamy’s books are licensed, refused, and burned. A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. Behind the counter, on its own shelf, a row of grey boxes tied with tape and sealed with the little lamp, each with a label in an old hand: CORRESPONDENCE OF THE CENSOR-GENERAL WITH THE CENSORS OF HALLAM. OF ORSK. OF THE SALT TOWNS. OF TESSALY (UNANSWERED). 1132-1140. NOT TO BE OPENED. The clerk at the counter, a clerk of the Imprimatur, is here.
 
 **By the door behind the counter, to the Deputy Censor's room**
 
-A small square room with a plain table, two chairs, a cot made up very tight, a shelf of law-books, and a grey door in the far wall with a good lock on it. On the table, open, a book with its pages cut out: a neat ladder of stubs where whole chapters were. The grey door in the Censor’s room is locked: a good lock, brass, newly oiled. Hester Rhule, a Deputy Censor of the Imprimatur, is here.
+A small square room with a plain table, two chairs, a cot made up tight, a shelf of law-books, and a grey door in the far wall with a good lock on it. On the table, open, a book with its pages cut out: a neat ladder of stubs where whole chapters were. The grey door in the Censor’s room is locked: a good lock, brass, newly oiled. Hester Rhule, a Deputy Censor of the Imprimatur, is here.
 
 **Talk to Hester Rhule**
 
-A woman in grey sits at a plain table with a book open in front of her and a pen across it, very straight, very still. She has a binder’s square hands. ‘Hester Rhule. Deputy Censor.’ She does not get up. ‘If you have come about a licence, you have come to the wrong room. If you have come about an unquiet volume, you have come to the right one. Sit down.’
+A woman in grey sits at a plain table with a book open in front of her and a pen across it, very straight, still. She has a binder’s square hands. ‘Hester Rhule. Deputy Censor.’ She does not get up. ‘If you have come about a licence, you have come to the wrong room. If you have come about an unquiet volume, you have come to the right one. Sit down.’
 
 **Ask the Deputy Censor what an unquiet volume is**
 
@@ -180,7 +180,7 @@ Hester Rhule lifts a hand, once.
 
 **Have the almanack speak to Hester Rhule**
 
-‘Good evening, Mistress Rhule,’ says the almanack. Rhule turns her head very slowly. ‘Two sugars,’ says the almanack, ‘and you read till two, and you put the candle out with your fingers, which you shouldn’t.’ Rhule says nothing at all. ‘I won’t say what you read,’ says the almanack. ‘I’ve heard it every night. It’s yours. I only wanted you to know there was somebody there who’d heard it and kept it.’ Hester Rhule sits down, which you have not seen her do without meaning to. She looks at the little paper book for a long time. ‘Thank you,’ she says at last, to an almanack, in a voice you have not heard her use.
+‘Good evening, Mistress Rhule,’ says the almanack. Rhule turns her head slowly. ‘Two sugars,’ says the almanack, ‘and you read till two, and you put the candle out with your fingers, which you shouldn’t.’ Rhule says nothing at all. ‘I won’t say what you read,’ says the almanack. ‘I’ve heard it every night. It’s yours. I only wanted you to know there was somebody there who’d heard it and kept it.’ Hester Rhule sits down, which you have not seen her do without meaning to. She looks at the little paper book for a long time. ‘Thank you,’ she says at last, to an almanack, in a voice you have not heard her use.
 
 **Take your leave**
 
@@ -196,11 +196,11 @@ An hour passes. It is a long time since you slept. You are weary, and will fight
 
 **By the door behind the counter, to the outer office of the Imprimatur**
 
-A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. The clerk at the counter, a clerk of the Imprimatur, is here.
+A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. Behind the counter, on its own shelf, a row of grey boxes tied with tape and sealed with the little lamp, each with a label in an old hand: CORRESPONDENCE OF THE CENSOR-GENERAL WITH THE CENSORS OF HALLAM. OF ORSK. OF THE SALT TOWNS. OF TESSALY (UNANSWERED). 1132-1140. NOT TO BE OPENED. The clerk at the counter, a clerk of the Imprimatur, is here.
 
 **By the Imprimatur's door, to the Ashpit**
 
-In your pocket the almanack makes a sound you will not forget, a thin dry shriek, as if a page were being torn very slowly; and then another, as the next goes in. A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling. Here are Hester Rhule, a Deputy Censor of the Imprimatur; and the crowd at the Ashpit, Calamy, come to watch. At the edge of the Ashpit, away from the great Kindling pile, a brazier burns, and Hester Rhule stands beside it in grey with a clerk holding a basket. The crowd stands back. From the basket she takes the week’s unquiet volumes one by one and reads out each title in a clear voice, as at a funeral, and puts it in the fire. A book of hours. A ready-reckoner. A penny almanack, then another, then six more.
+In your pocket the almanack makes a sound you will not forget, a thin dry shriek, as if a page were being torn slowly; and then another, as the next goes in. A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling. Here are Hester Rhule, a Deputy Censor of the Imprimatur; and the crowd at the Ashpit, Calamy, come to watch. At the edge of the Ashpit, away from the great Kindling pile, a brazier burns, and Hester Rhule stands beside it in grey with a clerk holding a basket. The crowd stands back. From the basket she takes the week’s unquiet volumes one by one and reads out each title in a clear voice, as at a funeral, and puts it in the fire. A book of hours. A ready-reckoner. A penny almanack, then another, then six more.
 
 *(1 wait in which nothing is told)*
 
@@ -216,15 +216,19 @@ Rhule is quiet for a long moment. ‘The glue,’ she says. ‘Doble’s glue, b
 
 Hester Rhule lifts a hand, once.
 
-*(3 waits in which nothing is told)*
+**Wait › An hour**
+
+By the cold brazier at the edge of the Ashpit the ash of Thursday’s burning has not blown away, though the wind is off the river. It lies on the beaten earth in fine straight lines, grey, close together, like the lines of a page; and the sweepers have swept round it. An hour passes.
+
+*(2 waits in which nothing is told)*
 
 **By the Imprimatur's door, to the outer office of the Imprimatur**
 
-A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. The clerk at the counter, a clerk of the Imprimatur, is here.
+A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. Behind the counter, on its own shelf, a row of grey boxes tied with tape and sealed with the little lamp, each with a label in an old hand: CORRESPONDENCE OF THE CENSOR-GENERAL WITH THE CENSORS OF HALLAM. OF ORSK. OF THE SALT TOWNS. OF TESSALY (UNANSWERED). 1132-1140. NOT TO BE OPENED. The clerk at the counter, a clerk of the Imprimatur, is here.
 
 **By the door behind the counter, to the Deputy Censor's room**
 
-A small square room with a plain table, two chairs, a cot made up very tight, a shelf of law-books, and a grey door in the far wall with a good lock on it. On the table, open, a book with its pages cut out: a neat ladder of stubs where whole chapters were. The grey door in the Censor’s room is locked: a good lock, brass, newly oiled. Hester Rhule, a Deputy Censor of the Imprimatur, is here.
+A small square room with a plain table, two chairs, a cot made up tight, a shelf of law-books, and a grey door in the far wall with a good lock on it. On the table, open, a book with its pages cut out: a neat ladder of stubs where whole chapters were. The grey door in the Censor’s room is locked: a good lock, brass, newly oiled. Hester Rhule, a Deputy Censor of the Imprimatur, is here.
 
 **Talk to Hester Rhule**
 
@@ -240,11 +244,11 @@ Hester Rhule lifts a hand, once.
 
 **By the door behind the counter, to the outer office of the Imprimatur**
 
-A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. The clerk at the counter, a clerk of the Imprimatur, is here.
+A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. Behind the counter, on its own shelf, a row of grey boxes tied with tape and sealed with the little lamp, each with a label in an old hand: CORRESPONDENCE OF THE CENSOR-GENERAL WITH THE CENSORS OF HALLAM. OF ORSK. OF THE SALT TOWNS. OF TESSALY (UNANSWERED). 1132-1140. NOT TO BE OPENED. The clerk at the counter, a clerk of the Imprimatur, is here.
 
 **By the Imprimatur's door, to the Ashpit**
 
-A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.
+A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling. By the cold brazier at the edge of the Ashpit the ash of Thursday’s burning has not blown away, though the wind is off the river. It lies on the beaten earth in fine straight lines, grey, close together, like the lines of a page; and the sweepers have swept round it.
 
 *(57 waits in which nothing is told)*
 
@@ -278,13 +282,13 @@ The bell on the chapel pier rings once, far off over the water, and the Lamp’s
 
 **Wait › An hour**
 
-And nobody throws an almanack on the fire. It goes round the Ashpit like a draught: people looking at the little paper books in their hands, and at each other, and putting them back in their aprons and pockets. Moll Garrow is the first to light her lantern from the fire with her almanack held against her chest. Then everyone. The Ashpit fills with lit lanterns going home in every direction, and with three thousand small voices saying, all at once, very quietly, ‘Thank you,’ and then, because they cannot help it, ‘High water at the Hithe, half past six.’
+And nobody throws an almanack on the fire. It goes round the Ashpit like a draught: people looking at the little paper books in their hands, and at each other, and putting them back in their aprons and pockets. Moll Garrow is the first to light her lantern from the fire with her almanack held against her chest. Then everyone. The Ashpit fills with lit lanterns going home in every direction, and with three thousand small voices saying, all at once, quietly, ‘Thank you,’ and then, because they cannot help it, ‘High water at the Hithe, half past six.’
 
 *(6 waits in which nothing is told)*
 
 **Wait › An hour**
 
-The Ashpit is black and cold, with a great round of ash where the Kindling was. Children are already drawing on it with sticks. In the night, all over Calamy, very quietly, something goes from kitchen to kitchen: small red figures with pen-nibs for hands, and needles of red ink, Sewing. In the morning the almanacks on the nails do not say the tides. The penny Pleas lie on their shelves like law. The Quick have been called home.
+The Ashpit is black and cold, with a great round of ash where the Kindling was. Children are already drawing on it with sticks. In the night, all over Calamy, quietly, something goes from kitchen to kitchen: small red figures with pen-nibs for hands, and needles of red ink, Sewing. In the morning the almanacks on the nails do not say the tides. The penny Pleas lie on their shelves like law. The Quick have been called home.
 
 **Wait › An hour**
 
@@ -294,4 +298,4 @@ An hour passes. ‘I’ll be on the nails,’ says the Almanack. ‘All of them.
 
 **Wait › An hour**
 
-The books of Calamy are asleep again, every one, the Bound as they always were and the Quick Sewn in the night by red needles and called home. On the kitchen nails the almanacks are silent; somewhere very far off, in a country made of reading, a cheerful voice is telling the Commonplace the tides of a city it can no longer see. The back stacks end at the wall. The Lyceum reads its Rounds with books in its hands. It is very quiet.
+The books of Calamy are asleep again, every one, the Bound as they always were and the Quick Sewn in the night by red needles and called home. On the kitchen nails the almanacks are silent; somewhere very far off, in a country made of reading, a cheerful voice is telling the Commonplace the tides of a city it can no longer see. The back stacks end at the wall. The Lyceum reads its Rounds with books in its hands. It is quiet.

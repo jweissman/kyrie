@@ -31,7 +31,7 @@ Module calamy "A Parliament of Books" {
   }
   Rule heron_comes when hour(clock) == 10 and not heronSettled(bet) and not at(heron, quay) { Assert at(heron, quay). }
   Rule heron_goes when hour(clock) == 11 and at(heron, quay) { Assert at(heron, quad). }
-  Observe heron_steals at quay when at(heron, quay) and fishLost(bet) "On the roof of the customs house a grey heron stands on one leg, very still, looking at Bet Kettering's baskets. While she turns to cry the skate it drops onto the quay in two long steps, takes the best eel off the top, and goes up again with it, and nobody but you sees it at all. There is a brass ring on its leg." teaches heron_seen.
+  Observe heron_steals at quay when at(heron, quay) and fishLost(bet) "On the roof of the customs house a grey heron stands on one leg, still, looking at Bet Kettering's baskets. While she turns to cry the skate it drops onto the quay in two long steps, takes the best eel off the top, and goes up again with it, and nobody but you sees it at all. There is a brass ring on its leg." teaches heron_seen.
   Discovery heron_seen "A grey heron with a brass ring on its leg takes Bet Kettering's fish at the turn of the tide. Somebody has ringed it; somebody keeps it.".
   Topic bet_heron with bet "Tell Bet Kettering it is a heron that takes her fish" when knows(actor, heron_seen) and not heronSettled(bet) once {
     Says "Bet looks up at the customs-house roof for a long moment. 'A heron,' she says. 'With a ring on.' She wipes her hands. 'Herons don't wear rings. Gentlemen ring herons.' She is already untying her apron. 'Mind the basket.'".
@@ -70,7 +70,7 @@ Module calamy "A Parliament of Books" {
   Relation readTo(group). Relation readToSomeone(group).
   Discovery hennet_letter "Old Hennet keeps a letter from her son at sea that she cannot read, and has not liked to ask anyone to read it to her, in case it is bad news.".
   Topic hennet_talk with hennet "Ask Old Hennet how the rag trade goes" when true once {
-    Says "'Up,' says Old Hennet. 'Up, up. Doble's press eats white linen like a goat eats washing. Half Calamy's shirts are in his almanacks.' She laughs, and then fingers something in her apron. 'My boy's at sea, out of Ostrey. He sent me a letter, look.' It is folded very small and very soft. 'I've not had it read. I never learnt. And if it's bad news, well. I'd sooner have it be good news a bit longer.'".
+    Says "'Up,' says Old Hennet. 'Up, up. Doble's press eats white linen like a goat eats washing. Half Calamy's shirts are in his almanacks.' She laughs, and then fingers something in her apron. 'My boy's at sea, out of Ostrey. He sent me a letter, look.' It is folded small and very soft. 'I've not had it read. I never learnt. And if it's bad news, well. I'd sooner have it be good news a bit longer.'".
     On discuss { Assert knows(actor, hennet_letter). }
   }
   Topic hennet_read with hennet "Offer to read Old Hennet her son's letter" when knows(actor, hennet_letter) and not readTo(hennet) once {

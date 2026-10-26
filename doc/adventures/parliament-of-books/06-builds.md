@@ -29,6 +29,14 @@ through, never the only one. The rule kept throughout: **no gate that only one k
 Accord, and a bard-messenger who wins the Open Door (`outcomes` test). The Parliament can be won by a company that
 has never rolled a persuasion check: every vote in the Lending Accord journey moves on something found.
 
+## Against the Ash
+
+| Who | What they can do |
+|---|---|
+| **arms** | drive the burned out of the chamber's gangway; fight down through the pickets, the ranks and the Penknife (a level-8 soldier alone wins two seeds in three) and throw the Index into its furnace |
+| **learning** | read the Index aloud whole, every cut and reason, until it is a history (otherwise only with Rhule beside you or her register in hand) |
+| **anyone** | ask the Canon for a taper lit at the Lamp, and walk through the burned; borrow Rhule's register (if she trusts you) and read them their names; tell Rhule about her father's book and her candle, and let the Index starve; or carry its bargain in the chamber |
+
 ## Tested builds
 
 `test/parliament-of-books-builds.test.ts`, one protagonist alone each time: scholar (mage/scholar), priest,

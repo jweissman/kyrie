@@ -25,6 +25,11 @@ Module calamy "A Parliament of Books" {
     Says "'The Kindling rhyme,' says the girl with the gap, scornfully. 'Everybody knows the Kindling rhyme.' And to show you, they start the rope again, and chant it, slapping their feet down on the planks: SEW it UP and SEND it HOME, READ it ONCE and LEAVE a-LONE, BURN it IF it ASKS you TO, KINDling KINDling ONE for YOU! At YOU the rope stops on somebody's ankle, and that one is out, and everybody screams.".
     On discuss { Assert knows(actor, rhyme_heard). }
   }
+  Discovery pepper_verse "The Kindling rhyme has a second verse the children of Calamy skip to when the rope goes fast: DOWN IT GOES AND DOWN IT STAYS, PARDOE READS IT ALL ITS DAYS, ASH AND ASH AND ONE TWO THREE, PARDOE'S COMING, NOT FOR ME.".
+  Topic children_pepper with children "Ask the children if there is any more of the rhyme" when knows(actor, rhyme_heard) once {
+    Says "'There's pepper,' says the boy, and the girl with the gap kicks him. 'There's not supposed to be pepper, Dame Pruett said.' But they turn the rope fast, so fast it hums, and the smallest one jumps in, and they chant it under their breath, quick and flat, the way children say the parts of rhymes that frighten them: DOWN it GOES and DOWN it STAYS, PARDOE READS it ALL its DAYS, ASH and ASH and ONE two THREE, PARDOE'S COMING, NOT for ME! The small one gets out of the rope just in time and stands there, pleased and pale. 'Pardoe gets you if you scribble in a book,' she tells you seriously. 'He takes your words away.'".
+    On discuss { Assert knows(actor, pepper_verse). }
+  }
   Topic children_school with children "Ask the children why they are not at school" when true once {
     Says "'School's shut,' says a boy. 'Dame Pruett died.' 'At Michaelmas,' says the girl with the gap. 'She was a hundred.' 'She was not.' 'She was nearly.' The boy shrugs. 'Nobody's took it. So we come here.' He looks at the ballad on the line, which is singing. 'You can learn a lot on the bridge.'".
   }

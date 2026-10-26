@@ -1,5 +1,8 @@
 # An honest critique
 
+*(The second pass, [11-second-pass.md](11-second-pass.md), answers the largest of these: the safe Commonplace, the
+predictable session, the straw readings, the Almanack's middle days. What remains is said there.)*
+
 *Written after playing every journey and reading every transcript end to end, as a reader who did not write it
 would read it. What works first, briefly; then what does not, at length, because that is the useful part.*
 

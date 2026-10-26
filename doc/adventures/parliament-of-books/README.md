@@ -26,6 +26,7 @@ on after the Kindling with no ending to close the book.
 | [friction.md](friction.md) | What it cost to say this in Kyr |
 | [09-critique.md](09-critique.md) | An honest literary and experiential critique |
 | [10-changes.md](10-changes.md) | The record of changes: treatment → revision → implementation → final pass |
+| [11-second-pass.md](11-second-pass.md) | The second pass: a harder reading; the Ash and the Index; foreshadowing; ten times the ambition |
 
 ## The synopsis
 
@@ -54,6 +55,12 @@ the Great Roll of Pleas, has moved **the Recall**: every book of Calamy Sewn, th
 Unwritten (books nobody wrote, natives of the Commonplace) want **the Unsewing**: every book awake in its body. On
 Kindling eve the Parliament will vote. If nothing is carried, the Speaker's motion stands.
 
+And under the Commonplace, where nobody reads, is the place nobody in either world talks about. Books burned without
+their leave do not go home. They go down, to a field of ash, and stand in ranks; and at the far end of it the Index
+of Censor-General Pardoe, who had himself burned with his register of everything he cut, has been drilling them for
+two hundred years. This year it means to have the three thousand almanacks, and come up the Kindling smoke, and cut
+Calamy clean.
+
 ## The acts
 
 1. **The ordinary business of books** (days 1–3). Arrival; the Almanack; a sluice shut at night, an eel-pie wedding, a
@@ -67,10 +74,14 @@ Kindling eve the Parliament will vote. If nothing is carried, the Speaker's moti
    Crake's back stacks, unentered and hunted by the Errata. The members met in their own places: a house, a garden of
    burnt beds, a fading primer in the Foxing, a grimoire in chains. *Reversal three*, at the Wellhead: the Colophon
    was the books' own petition. Sleep was mercy. And the Recall would still kill the Quick.
-4. **The Parliament** (Kindling eve, day 9, from noon). Four articles (the Sleep, the Fire, the Reading, the Door),
-   three readings each, six voices and a clerk. What moves each member is a thing the company found, brought, knows,
-   is, or has with it.
-5. **The Kindling** (day 9, twenty hundred) and **the morning after**. Who stands at the Ashpit; what goes on the fire;
+4. **The Cinderfield** (the descent). Under the Foxing, past a scorched edge, the burned of three hundred years stand
+   in ranks; at the far end Censor-General Pardoe's Index drills them for the Kindling. Last year's almanack in the
+   front rank; a book of hours with Rhule's father's knot; one beam of attention, from the Close. *Reversal four*: the
+   danger is not the waking books but what Calamy's fear has made of the ones it burned, and Rhule has been feeding it.
+5. **The Parliament** (Kindling eve, day 9, from noon). Four articles (the Sleep, the Fire, the Reading, the Door),
+   three readings each, six voices and a clerk; then the burned come up the gangway and the Index claims a seat, in
+   order. What moves each member is a thing the company found, brought, knows, is, or has with it.
+6. **The Kindling** (day 9, twenty hundred) and **the morning after**. Who stands at the Ashpit; what goes on the fire;
    what Calamy is like on the tenth day.
 
 ## The principal characters
@@ -80,11 +91,17 @@ Kindling eve the Parliament will vote. If nothing is carried, the Speaker's moti
   with its copies; spared at the fire; speaking for itself at the Ashpit; or gone home, recalled, a voice that "sees
   the spring" from very far off.
 - **Hester Rhule**, Deputy Censor: the character with the substantial arc. A binder's daughter who burns books every
-  Thursday because a book once ruined her father. Moved only by evidence (the cry of an almanack through a copy she is
+  Thursday because she watched a frightened street burn her father's shop, and him in it, for a book that woke on his
+  bench. She reads the excised pages every night, and does not know that her reading is the only light the Index has. Moved only by evidence (the cry of an almanack through a copy she is
   burning; a secret kept; Pardoe's excisions; the Court's ruling; the Physick's face; the Colophon's first term);
-  closed by a lie. **Three ends**: the *Advocate* (stops the burnings, stands at the Kindling with the lamp, pleads for
+  closed by a lie. Her father's book among the burned, and her own candle, are the deepest things she can be told.
+  **Three ends**: the *Advocate* (stops the burnings, stands at the Kindling with the lamp, pleads for
   books afterwards), the *Binder* (resigns her seal and goes back to her father's trade), the *Burner* (lights the
   Kindling herself).
+- **The Index of Pardoe**, the adversary: the register of everything cut and burned in Calamy since 1131, which was
+  a man; burned at his own order with it in 1140; reasonable, grieving, and resolved to make Calamy a text that says
+  exactly what it said the day before. It drills the burned for the Kindling, claims a seat in the Parliament, and
+  offers a bargain. It can be fought, read whole, starved of its one reader, or bought off.
 - **Ottoline Quarles**, the Archivist, who knows the whole Colophon and will tell it only to someone who has found two
   pieces of it; and who owes a fine forty years overdue.
 - **Absalom Crake**, bookseller, smuggler of Unwritten books into printed bodies; the keeper of the back door.
@@ -104,19 +121,20 @@ Kindling eve the Parliament will vote. If nothing is carried, the Speaker's moti
 
 City against its books (the Imprimatur, the Ordinance, the Awls); books against books (the Bound against the Quick;
 the Roll against its own printed child); the Bound against the Unwritten (sleep against bodies); a woman against her
-own certainty (Rhule); a companion against its own discretion (the Almanack); and under all of it, a festival against
-its forgotten meaning.
+own certainty (Rhule); a companion against its own discretion (the Almanack); the burned against everyone who never
+asked them; and under all of it, a festival against its forgotten meaning, and a censor's fear against a city's voice.
 
 ## The settlements (endings)
 
-Standalone, the morning after the Kindling: **The Year of Voices** (the Colophon broken: every book awake),
-**The Recall** and **The Recall, After a Burning**, **The Separation**, **The Lending Accord**, **The Pleading Accord**,
+Standalone, the morning after the Kindling: **The Year of Ash** (the almanacks burned and the Index unanswered:
+something goes through Calamy with a knife), **The Year of Voices** (the Colophon broken: every book awake),
+**The Recall**, **The Separation**, **The Lending Accord**, **The Pleading Accord**,
 **The Open Door**, and **The Colophon by Leave**. In a generated world the same facts change the city instead.
 
 ## An authored cosmology
 
-The Commonplace, the Sewing, the Colophon, the Parliament of the Bound, the Quick and the Unwritten, foxing as the
-blight of the unread, and editions as children are **this adventure's own invention**, offered as an authored
+The Commonplace, the Sewing, the Colophon, the Parliament of the Bound, the Quick and the Unwritten, the Cinderfield
+and the Index, foxing as the blight of the unread, and editions as children are **this adventure's own invention**, offered as an authored
 contribution to Kyrie's world. Nothing in the engine or other modules depends on them, and nothing here claims they
 hold anywhere outside Calamy.
 

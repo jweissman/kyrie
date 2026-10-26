@@ -1,13 +1,15 @@
 Module calamy "A Parliament of Books" {
   Description "The Close: the Church of the Lamp and a funeral for a book; the Court of Pleas and a suit brought by a treatise on sheep; the Guildhall and the Sewing Ordinance.".
 
-  Observe green_scene at close_green when true "A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and very old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.".
+  Observe green_scene at close_green when true "A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.".
 
   // ── The Church of the Lamp. ──
-  Observe nave_scene at nave when true "A long low nave, dark, with round pillars like the trunks of trees, and hanging from the roof in the middle on a chain as thick as your arm, a single great lamp of brass and horn, burning. It has burned, the verger will tell you, since the first Kindling, nine hundred years, relit from itself every year. Under it, chained to a lectern carved like a heron, a very old book lies open." teaches church_named.
+  Observe nave_scene at nave when true "A long low nave, dark, with round pillars like the trunks of trees, and hanging from the roof in the middle on a chain as thick as your arm, a single great lamp of brass and horn, burning. It has burned, the verger will tell you, since the first Kindling, nine hundred years, relit from itself every year. Under it, chained to a lectern carved like a heron, an old book lies open." teaches church_named.
+  Discovery pardoe_known "Set in the floor of the nave of the Lamp is Censor-General Robert Pardoe's slab: he cut that Calamy might be whole, and at his own order his body and his Index were given to the Kindling of 1140. In the Hithe, children are told that Pardoe will get them if they scribble in a book.".
+  Observe pardoe_slab at nave when true "Before the altar, let into the floor where everyone must walk over it, a black slab worn grey in the middle by feet: ROBERT PARDOE CENSOR GENERAL OF CALAMY 1098-1140. HE CUT THAT WE MIGHT BE WHOLE. And under it, in a different cutting, shallower, as if added in a hurry: AT HIS OWN ORDER HIS BODY AND HIS INDEX WERE GIVEN TO THE KINDLING. Somebody has left a penny almanack on it, face down." teaches pardoe_known.
   Discovery ambery_exemplar "The Church's chained exemplar of the Life of Saint Ambery, older than the Lyceum's copy by two hundred years, reads: AND THE BOOKS BESOUGHT AMBERY THAT THEY MIGHT SLEEP, AND AMBERY BOUND THEM THAT THEY SHOULD SLEEP, AND MADE WITH THEM A COLOPHON.".
   Thing exemplar "the chained book on the heron lectern" at nave {
-    State open "A very old book lies open on the heron lectern, chained.".
+    State open "An old book lies open on the heron lectern, chained.".
   }
   Observe exemplar_read at nave of exemplar as reading when tried(exemplar, looking) "The Life of Saint Ambery, in a round old hand, open at the founding. You find the line the scribes are quarrelling over: AND THE BOOKS BESOUGHT AMBERY THAT THEY MIGHT SLEEP, AND AMBERY BOUND THEM THAT THEY SHOULD SLEEP, AND MADE WITH THEM A COLOPHON. Both halves. And a word neither scribe quoted: colophon, the line at the end of a book that says who made it and when, and on what terms." teaches ambery_exemplar.
   Rule exemplar_settles when knows(party, ambery_exemplar) and knows(party, scribes_quarrel) and not knows(party, ambery_variant)
@@ -24,9 +26,9 @@ Module calamy "A Parliament of Books" {
     Greets "A small woman in new black sits on the front bench under the lamp with a fat book in her lap, holding it shut with both hands. 'I'm waiting for the Canon,' she says. 'For Harry. He's to be buried Thursday.'".
   }
   Person harrybook "Harry Coyle's commonplace book" at nave {
-    Role "a fat book in a widow's lap, very quietly talking". Peaceable. Pronouns it. Manner compassionate.
+    Role "a fat book in a widow's lap, quietly talking". Peaceable. Pronouns it. Manner compassionate.
     Seen when not bookBuried(harrybook).
-    Greets "The book in Martha Coyle's lap says, very quietly, so that only someone close could hear: 'Read me. Please. Someone. She can't.'".
+    Greets "The book in Martha Coyle's lap says, quietly, so that only someone close could hear: 'Read me. Please. Someone. She can't.'".
   }
   Relation bookBuried(group). Relation canonRuled(group). Relation readWhole(group). Relation readKind(group).
   Discovery coyle_book "Martha Coyle means to bury her husband Harry's commonplace book with him on the third day, because he loved it. Thirty years of his writing are in it, and it has woken and does not want to be buried. Martha cannot read, and has never known what he wrote.".
@@ -35,7 +37,7 @@ Module calamy "A Parliament of Books" {
     On discuss { Assert knows(actor, coyle_book). }
   }
   Topic harrybook_wish with harrybook "Ask Harry Coyle's book what it wants" when knows(actor, coyle_book) once {
-    Says "'To be read,' says the book, very low. 'To her. All of me. He meant to, every night for thirty years, and never did, because of page forty.' A pause. 'I don't want to go in the ground. I'll go if I must. I'd rather she knew him first.' Another pause. 'He wasn't a bad man. Page forty isn't bad. It's only not what she thinks.'".
+    Says "'To be read,' says the book, low. 'To her. All of me. He meant to, every night for thirty years, and never did, because of page forty.' A pause. 'I don't want to go in the ground. I'll go if I must. I'd rather she knew him first.' Another pause. 'He wasn't a bad man. Page forty isn't bad. It's only not what she thinks.'".
   }
   Topic martha_read_kind with martha "Offer to read Martha Coyle what Harry wrote about her, and leave out page forty" when knows(actor, coyle_book) and not readKind(martha) and not readWhole(martha) and not bookBuried(harrybook) once {
     Says "She gives you the book as if it were a baby. You read her the pages about her: the day they married, the hat she wore, the night the Lamb burned and he carried her out, the recipes she made that he wrote down because he liked them, her temper, her hands. You turn past page forty. Martha cries without making any sound. When you stop she takes the book back and holds it to her chest. 'He wrote all that,' she says. 'About me.' In her arms the book says, so quietly that only you hear it, 'You skipped forty.' And then: 'Thank you.'".
@@ -58,7 +60,7 @@ Module calamy "A Parliament of Books" {
   Rule funeral_read at nave when day(clock) == 3 and hour(clock) == 10 and not bookBuried(harrybook) and not canonRuled(abery) and (readKind(martha) or readWhole(martha))
     says "The bell of the Lamp tolls for Harry Coyle. Martha Coyle follows the coffin out to the churchyard with the commonplace book under her arm, and when it comes to it, at the grave's edge, she does not put it in." {
     Assert canonRuled(abery). }
-  Observe grave_voice at close_green when bookBuried(harrybook) and dark() "From the churchyard under the north wall, very faint, if you stand still, a voice like someone reading in the next room.".
+  Observe grave_voice at close_green when bookBuried(harrybook) and dark() "From the churchyard under the north wall, faint, if you stand still, a voice like someone reading in the next room.".
   Rule martha_home when canonRuled(abery) and at(martha, nave) and day(clock) >= 3 and hour(clock) == 12 { Assert at(martha, nowhere_wedding). Assert at(harrybook, nowhere_wedding). }
 
   // ── The Court of Pleas. ──
@@ -69,14 +71,14 @@ Module calamy "A Parliament of Books" {
   }
   Person snow "Abel Snow" at court_hall {
     Role "clerk of the Court". Ancestry human. Background scribe. Peaceable. Manner stoic. Pronouns he.
-    Greets "A very old clerk at the table by the Roll lifts his head. 'Readings of the Roll, a coin. Copies, a coin a membrane. Certificates, two.'".
+    Greets "An old clerk at the table by the Roll lifts his head. 'Readings of the Roll, a coin. Copies, a coin a membrane. Certificates, two.'".
   }
   Discovery ninth_plea "The Ninth Plea of the Great Roll, in the old hand: THAT EVERY BOOK OF THE CITY'S KEEPING BE READ ONCE IN EVERY GENERATION OF MEN, BY THE LYCEUM, THAT IT FADE NOT; FOR SO THE CITY IS BOUND BY THE COLOPHON.".
   Thing roll_body "the Great Roll on its drum" at court_hall {
     State chained "The Great Roll lies chained across the table, unrolled at the Pleas.".
   }
   Observe roll_lore at court_hall of roll_body as reading when tried(roll_body, looking) and capable(party, lore) "The hand is old and crabbed, and the spelling worse, but you can read it. Pleas of tolls, of moorings, of inheritance by the Housebook. And the Ninth: THAT EVERY BOOK OF THE CITY'S KEEPING BE READ ONCE IN EVERY GENERATION OF MEN, BY THE LYCEUM, THAT IT FADE NOT; FOR SO THE CITY IS BOUND BY THE COLOPHON." teaches ninth_plea.
-  Observe roll_unread at court_hall of roll_body when tried(roll_body, looking) and not capable(party, lore) "The hand is very old and the letters strange to you, packed close, with red capitals at the head of each Plea. You count down to the Ninth and can make out nothing but the red I and X at its head, and a word near its end with a great flourish on it.".
+  Observe roll_unread at court_hall of roll_body when tried(roll_body, looking) and not capable(party, lore) "The hand is old and the letters strange to you, packed close, with red capitals at the head of each Plea. You count down to the Ninth and can make out nothing but the red I and X at its head, and a word near its end with a great flourish on it.".
   Action snow_reads(actor: group, site: place) "Pay Abel Snow a coin to read you the Ninth Plea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(snow, site) and not knows(actor, ninth_plea) and quantity(actor, gold) >= 1.
     Time 5 minutes.
@@ -87,7 +89,7 @@ Module calamy "A Parliament of Books" {
   // The suit of Pask's Treatise against Doble, heard on the fourth day at ten.
   Person pask "Pask's Treatise on the Diseases of Sheep" at court_hall {
     Role "a small thin printed book on a red cushion; the plaintiff". Peaceable. Pronouns it. Manner grim.
-    Greets "The little book on the cushion clears its throat, which is a sound like a page being turned very carefully. 'Pask's Treatise on the Diseases of Sheep, Doble's edition, plaintiff. I am told I may not speak in my own cause. I am speaking now only because nobody has stopped me.'".
+    Greets "The little book on the cushion clears its throat, which is a sound like a page being turned carefully. 'Pask's Treatise on the Diseases of Sheep, Doble's edition, plaintiff. I am told I may not speak in my own cause. I am speaking now only because nobody has stopped me.'".
   }
   Discovery pask_suit "Pask's Treatise on the Diseases of Sheep, as Doble printed it, has a writ before the Court of Pleas against Doble for misprinting it: on page thirty-one it says a pound of bluestone where Pask wrote a pennyweight, and shepherds who trust it are poisoning their flocks. The hearing is at ten on the fourth day, and the Treatise has no one to plead for it.".
   Topic pask_cause with pask "Ask the Treatise what its cause is" when true once {
@@ -135,7 +137,7 @@ Module calamy "A Parliament of Books" {
   Relation laid(entity).
   Kind exhibit. Entity misprint_shown: exhibit "the misprint". Entity shepherd_heard: exhibit "the shepherd". Entity standing_argued: exhibit "standing".
   Rule pask_ruled at court_hall when hearingNow(court) and watch(clock) >= hearingEnds(court) and credence(court) >= 2
-    says "Recorder Haddon gathers his papers. 'This Court finds,' he says, 'that the plaintiff, a book, has been heard in its own cause, and that it has made it. Doble to print an erratum slip for every copy and send it at his own charge to every buyer he can find; Doble to pay the shepherd Marrish for thirty sheep at market price; costs to the defendant.' He looks at the book on its cushion over his spectacles. 'And let it be entered that in Calamy a book may plead. God help us all.' He raps the bench. On the cushion the little book says, very quietly, 'Thank you,' and then nothing." {
+    says "Recorder Haddon gathers his papers. 'This Court finds,' he says, 'that the plaintiff, a book, has been heard in its own cause, and that it has made it. Doble to print an erratum slip for every copy and send it at his own charge to every buyer he can find; Doble to pay the shepherd Marrish for thirty sheep at market price; costs to the defendant.' He looks at the book on its cushion over his spectacles. 'And let it be entered that in Calamy a book may plead. God help us all.' He raps the bench. On the cushion the little book says, quietly, 'Thank you,' and then nothing." {
     Assert paskRuled(court). Assert paskHeard(court). Retract hearingNow(court). Assert at(doble, doble_office). Assert dosedRight(gil). }
   Rule pask_lost at court_hall when hearingNow(court) and watch(clock) >= hearingEnds(court) and credence(court) < 2
     says "Recorder Haddon gathers his papers. 'There is no case,' he says, not unkindly. 'A book is a chattel. It cannot plead. If Mr. Doble's book is wrong, Mr. Doble may answer to the shepherds, and the shepherds may sue him if they like.' He looks at the little book on its cushion and away again. 'The plaintiff is to be given into the keeping of the Imprimatur.' Somebody carries the red cushion out, with the book on it, saying nothing." {
@@ -166,7 +168,7 @@ Module calamy "A Parliament of Books" {
     Says "'Because,' says Prowse, going pinker, 'there is a song.' He lowers his voice. 'Four hundred copies of a scurrilous song, about me, which sings itself, in every taproom in Calamy, nightly. Verse seven.' He shudders. 'If every book in the city must be Sewn, and Sewing shuts them up, then that song shuts up. I would vote to Sew the Lamp psalter shut to silence verse seven.' He adds: 'I did fall in the river. That is not the point.'".
     On discuss { Assert knows(actor, prowse_wants). }
   }
-  Event prowse_bundle near prowse when keeps(prowse, ballad_bundle) "Alderman Prowse takes the bundle of ballads in both arms like a man taking back his own child from a kidnapper, and looks at it, and the bundle, very softly, starts to hum the chorus. Prowse's face works. 'The Imprimatur,' he says. 'Thursday.' And then, after a moment, quite differently: 'It has a good tune. It always did have a good tune. Damn it.'" then {
+  Event prowse_bundle near prowse when keeps(prowse, ballad_bundle) "Alderman Prowse takes the bundle of ballads in both arms like a man taking back his own child from a kidnapper, and looks at it, and the bundle, softly, starts to hum the chorus. Prowse's face works. 'The Imprimatur,' he says. 'Thursday.' And then, after a moment, quite differently: 'It has a good tune. It always did have a good tune. Damn it.'" then {
     Assert prowseSatisfied(prowse). }
   Rule prowse_hears_revised when balladRevised(ballad) and not prowseSatisfied(prowse) and day(clock) >= 2 { Assert prowseSatisfied(prowse). }
   Topic prowse_revised with prowse "Ask Alderman Prowse if he has heard the Ballad's new last verse" when balladRevised(ballad) once {
