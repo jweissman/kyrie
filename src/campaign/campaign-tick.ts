@@ -22,7 +22,7 @@ export interface TickHost {
   readonly operators: Operators;
   readonly tickState: { definition: CampaignDefinition; creatures: CreatureStore;
     current: { seed: string; elapsed: number; minutes?: number; world: WorldState;
-      pending?: Record<string, PendingAction> } };
+      pending?: Record<string, PendingAction>; waiting?: Record<string, number> } };
   applyAction(action: Operator, success?: boolean): void; refreshProjection(): void; recordObservations(): void;
   commitWorld(world: World): void;
 }
@@ -79,7 +79,7 @@ export class CampaignTick {
         else if (action) { this.act(host, decisions, { actor: actor.id, goal: 'obstructed', action, plan: [] }, false); }
         continue;
       }
-      const choice = Agency.choose(host.world, actor, host.operators);
+      const choice = Agency.choose(host.world, actor, host.operators, current);
       if (!choice) { continue; }
       const duration = ActionTime.of(choice.action, host.world);
       if (duration > 1) {

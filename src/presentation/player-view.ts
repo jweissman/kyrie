@@ -342,7 +342,7 @@ export class PlayerView {
   private static activity(campaign: Campaign, world: World, id: string): string | undefined {
     const actor = campaign.actors.find(a => a.id === id && !a.player);
     if (!actor || !world.module.relations.some(r => r.name === 'at') || !this.test(world, 'able', id)) { return undefined; }
-    const explained = Agency.explain(world, actor, campaign.operators);
+    const explained = Agency.explain(world, actor, campaign.operators, campaign.readout.waiting);
     const pursuing = explained.selected ?? explained.goals.find(g => g.applicable && !g.satisfied)?.id;
     const label = campaign.module.pursuits?.find(p => p.actor === id && p.id === pursuing)?.label;
     if (!label) { return undefined; }

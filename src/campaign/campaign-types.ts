@@ -27,6 +27,8 @@ export interface CampaignState {
   modules?: ModuleStatus[];
   outcomes?: Record<string, boolean>; developments?: { id: string; elapsed: number }[];
   pending?: Record<string, PendingAction>;
+  // Who found no way to a goal after a long look, and the watch they try again at (see Agency.plan).
+  waiting?: Record<string, number>;
 }
 export interface NpcDecision {
   actor: string; goal: string; action: string; plan: string[]; elapsed?: number; changes?: string[];
