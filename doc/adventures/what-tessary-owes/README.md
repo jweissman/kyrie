@@ -8,7 +8,7 @@ The reports that close the commission are linked at the end. Spoilers throughout
 ```sh
 bin/kyrie lint data/campaigns/what-tessary-owes.campaign.json        # 0 errors, 0 warnings
 bin/kyrie preview data/campaigns/what-tessary-owes.campaign.json     # the reader
-bun test test/what-tessary-owes.test.ts                              # 17 journeys
+bun test test/what-tessary-owes.test.ts                              # 22 journeys and a lint
 bun test test/what-tessary-owes-wander.test.ts                       # seeded random legal play
 bun scripts/tessary-pages.ts release tessary                         # a journey written out as the page tells it
 ```
@@ -41,20 +41,35 @@ a defeated king in good rooms.
 
 **Lowtide**: twice a day the outer basin drains through the Throat and the drowned Aenean streets stand out of the
 water for five hours: a colonnade furred with weed, a forum, a street of shops with scales on every counter, a
-bath-house whose plunge-room is full of hollow people, the ebb-runners' quay, and at the bottom of everything the
+bath-house whose plunge-room is full of hollow people guarding the drowned city's own drain, the ebb-runners' quay, and at the bottom of everything the
 windowless **Hall of Oaths**, whose end wall is the way down. The tide is the clock. Whoever is in the streets when it
 turns is rolled out through the Throat onto the salt-pans, hurt and lighter; the aqueduct and the bath-house dome are
-refuges.
+refuges. The drowned streets lie exactly under the living ones: the Forum under the Legion Yard, the Street of Scales
+under Scriveners' Row, and in the end wall of the Hall of Oaths a hollow the shape of the stone the city swears its
+soldiers on. At the night ebb the eel-mother lies at the foot of the Throat Stair; the eel-sellers on the Tidewall
+know what she likes.
 
 **The Strongrooms**: a Mathematical Age vault under the delta, kept by **the Scruples**, the drowned city's clerks'
 descendants: pale, long-lived, unable to lie, ruled like paper, their names pledged at birth. A weighing floor holds
 whatever is said on it. A thin ledger in a locked room records every default. At the bottom hangs **the Balance**, a
-scale the size of a ship, in a nave cut out of the bottom of the world.
+scale whose pans are each the size of a fishing boat, in a nave cut so deep into the bedrock that its hum is the only
+sound left.
 
 **The Holding**: beyond the Balance, a white floor under no sky where pledged and forfeit things are kept with their
 tags: a kingdom's harvest in stooks, a lake folded like linen, a three-hundred-year-forfeit goose, the names of the
 Scruples on ten thousand cords, the held of the Long Muster asleep on their feet, and at the far edge, nine points of
 black light that the Scruples say are what the Kiritarun tally.
+
+## The city's past
+
+Tessary counts its years from the Drowning (it is now the 1144th year), when the sea came over the Aenean city; four
+hundred years of mud-huts on the ridge passed before the Moieties raised the Tidewall on the old footings, and someone
+scratched AGAIN under its date-stone. Forty years ago, in the Salt War, it raised the **First Muster**, promised them land,
+and gave them a plaque at knee height on the Tidewall and a rake each for the pans; the Factor's father is on it.
+Saint Evenhand, a Scruple who came up and stayed, left the city one saying the chapel still keeps: *Not the sea. A
+promise drowned the old city.* Fishermen on the Tidewall at night say the sea past the bar shows stars that are not
+Tessary's. Every mudlark has dug under the Forum's empty bell-tower for the old city's bell; it is not in Lowtide, but
+hangs at the edge of the Holding, pledged. None of this is explained; some of it is paid off.
 
 ## The movements
 
@@ -85,7 +100,9 @@ the thirteenth day.
   learns the city sold her before she learns what the Factor means; the leader of the Release, if she learns the
   Scruples' second law.
 - **Factor Imma Sault** — Mistress of the Salt Moiety, risen from the pans, right about the Board, frank about her
-  ambition. The protagonist's first employer. Her undertakings run whether or not anyone interferes.
+  ambition. The protagonist's first employer. Her undertakings run whether or not anyone interferes. She comes looking
+for the one she hired on the Tidewall at dusk, and, shown what the Room of Defaults holds, tells them about her father
+and the First Muster's rakes.
 - **The Comptroller** — eldest of the Scruples, eleven hundred years old, who swore the drowned city's compact and saw
   the sea take it. He cannot lie; he can choose what to say; he can offer a bargain for silence.
 - **Absalom Quire**, the Treasurer who signed, who sends the families money he does not have, and who drowns himself at
@@ -118,7 +135,7 @@ a redeemed soldier for silence.
 | **The Broken Note** | the Room of Defaults read, nothing else left, the Assessor's sacrifice | The held home; a hollow man in a grey coat in the bath-house doorway |
 | **The Warden** | the Factor exposed, and put to terms she can live with (the salt springs) | The Muster belongs to a woman who will never call it; the city owes her for ever |
 | **The Factor's Tessary** | nothing (the default) | Order, prosperity, soldiers in her coats on the Tidewall |
-| **Foreclosure** | the Factor's bid objected to as dominion, and nobody paying | The held stay held; something comes up the Throat that was not born in Imbar |
+| **Foreclosure** | the Factor's bid objected to as dominion, and nobody paying | The held stay held; the sea shows stars that are not Tessary's, and something no book names is found on the Pans |
 
 ## The reports
 
@@ -127,4 +144,6 @@ a redeemed soldier for silence.
 - [friction.md](friction.md): what Kyr, Deem and the engine made hard, what was changed.
 - [07-integration.md](07-integration.md): entry, placement, dependencies, campaigns.
 - [08-judgment.md](08-judgment.md): where it succeeds, where it falls short, what another revision would change.
+- [09-literary-review.md](09-literary-review.md): the built work read critically as literature, and the revision that
+  followed.
 - [playtest/](playtest/): journeys written out as the page tells them.

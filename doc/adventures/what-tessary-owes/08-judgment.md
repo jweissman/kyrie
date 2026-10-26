@@ -47,9 +47,11 @@ drafted, are the same kind of fool, and Quire is the one who says so.
 - **The Holding is small and mostly seen.** Seven rooms, two of them used. The folded lake, the harvest, the bell and
   the nine lights are marvels to look at; only the Ranks and the Notary's desk are places where something is decided.
   That is defensible (the Holding is a vault, not a country) but it is less than the first treatment imagined.
-- **Danger is mild.** One lethal place (the plunge-room), clearly warned; everyone else takes prisoners; the tide
-  bruises and robs. That suits a story about obligation more than one about survival, but a player who wants the OSR's
-  real fear of the dark will not find much of it until the Forsworn.
+- **Danger is still mild for an OSR adventure.** Two lethal things (the Forsworn in the plunge-room, guarding the
+  drowned city's own drain, and the eel-mother at the foot of the Throat Stair at the night ebb), each warned of, each
+  with ways round that a clever, prepared or kind player can find in the city; everyone else takes prisoners; the tide
+  bruises and robs. That suits a story about obligation more than one about survival. The fear of the dark is there
+  now, but it is narrow: two places, both optional.
 - **The cosmology is asserted more than it is explored.** The wrong stars in the sea are now prepared by fishermen and
   a chandler before the Comptroller confirms them, and the Foreclosure ending pays them off; but the Balance as an
   instrument of the planes' fastening, and the Kiritarun as tallies, remain things people say.

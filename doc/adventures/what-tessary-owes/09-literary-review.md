@@ -109,3 +109,29 @@ dread if the earlier wrong stars have prepared it. The fourth is a cliché of th
    to someone who tells her what her letters are for; the warehouse lightermen let anyone on the Factor's books pass,
    and can be slipped past at the change of the night watch.
 8. **The pulp lines cut or earned.**
+
+## What the revision did, and what it did not
+
+All eight items were carried out in the Kyr (two new files, `history.kyr` and `ways.kyr`, and rewrites through
+`people.kyr`, `lowtide.kyr`, `strongrooms.kyr`, `voices.kyr` and `feast.kyr`) and each new way through is a journey in
+`test/what-tessary-owes.test.ts`. What was added beyond the list, because the list exposed it:
+
+- **The Treasurer doubles the Comptroller, and knows it.** Told that the note was drawn to fail, Quire wants the relief
+  of being cheated, and then refuses it: he signed what he did not read, as the Comptroller swore what he could not
+  keep, and both of them answered it the same way. With Pounce on contracts drawn in two copies, it is one of only two
+  places the adventure points at its own doubling, and both are a character's insight, not the narrator's.
+- **The Teazles afterwards.** Davy home asleep in the red coat with his boots on, which his mother has not mentioned;
+  later, what he remembers of the Ranks (standing, in a line, white like snow with no cold in it, and a voice singing
+  the Sally song) rhymes with the jar in the Holding without saying so.
+- **The eel-mother.** A second lethal danger, the only one in the open: a conger as long as a boat at the foot of the
+  Throat Stair, at the night ebb only. She warns before she strikes. Old Gudrun, who sells hot eels on the Tidewall by
+  day, will tell anyone who asks what the eel-mother likes; a cone thrown into the channel buys the stair. A patient
+  company can slip past along the wall; a sensible one goes down by day.
+- **Intensifiers pruned.** A pass through the strings for *very*, *somehow*, *strangely* and their kind cut those
+  that were doing a noun's work.
+
+What it did not do, and could not in a revision of this size, is recorded in [08-judgment.md](08-judgment.md): the
+middle week still waits; the vote is still a vote; the Scruples still have no politics. The doubling is now present
+throughout, but it is rhymed in scenery more than in choices: the player sees the second city, the second Muster, the
+second fool, and is never asked to *be* a second copy of anyone. The one place that comes near it is the pledge, where
+the protagonist's name lies on the Notary's desk in place of a soldier's; I would build outward from there.

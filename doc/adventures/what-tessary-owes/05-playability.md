@@ -8,7 +8,7 @@ generated-world journey, which places the company at the innkeeper's table as th
 
 | File | What it plays | Result |
 |---|---|---|
-| `test/what-tessary-owes.test.ts` | 18 journeys (below) | all pass |
+| `test/what-tessary-owes.test.ts` | a lint and 22 journeys (below) | all pass |
 | `test/what-tessary-owes-wander.test.ts` | seeded random legal play: from a fresh start, one of whatever the page offers, again and again, with long waits mixed in, checking after every step that the company is somewhere real, that nobody held walks with the company, that counts stay sane | 4 walks of 160 steps (default); 8 walks of 700 steps (`WANDER_STEPS=700 WANDER_SEEDS=x1,…,x8`) — all pass |
 | `test/what-tessary-owes-browser.test.ts` | the title page, the Causeway, the notice read and put down, the Withies, Wick, in Chromium at 1440×900 and at 390×844 with touch | passes (`KYRIE_BROWSER=1`); screenshots in `playtest/screens` |
 | `test/milestones.test.ts` | the two engine extensions on their own probes | passes |
@@ -33,6 +33,11 @@ A failing random walk reports its seed and every command it took, as `@command` 
 | A lie on the weighing floor | hired by the Factor, then denies it to the Assessor | forsworn; the Assessor no longer opens the Room of Defaults; the Weights carry the company out and the black wall does not open to it again |
 | The Comptroller's bargain | Durrance passed over for a promise, the letter never brought | Durrance safe, Elcock taken, the company forsworn on the Feast eve |
 | The pledge | the Assessor takes the company through the Door before the Settlement | a name laid on the Notary's desk; the purse empty; Davy home in the Withies |
+| Past the Forsworn | the votive weight bought at Saint Evenhand's and given into the hollow people's hands; the drain under the plunge-pool | the Strongrooms reached without the Assessor or the compact; the Scruples' cistern; the Forsworn not fought |
+| The eel-mother | the Throat Stair at the night ebb, warned and turned back; then fed a cone of Gudrun's hot eels | her warning gives a choice before any fight; going back up is safe; fed, she lets the company by |
+| Bettany's letter | Bettany Slake told what her letters are for | the Factor's letter handed over, no lockbox, no goose, no fight |
+| The Assessor balances the pans | the Assessor at the counterweight door with no weights carried | the door opened without the brass weights |
+| The Factor at dusk | hired, then on the Tidewall at dusk; later, shown the Room of Defaults' truth | she seeks the protagonist out, reacts to what they have done, and speaks of her father and the First Muster |
 | Kept and opened again | the Release journey, saved after the seventh night's approach, restored, finished | the same ending, the same clock, the same held |
 | Played twice | sixty steps from the same seed, twice | identical histories |
 | The world it lies in | a generated fen country (seed `ossel`) | the innkeeper's rumour, the heard fact, the frontier installing Tessary as a chapter, the road across the march, the notice |
@@ -41,10 +46,13 @@ A failing random walk reports its seed and every command it took, as `@command` 
 ## Difficulty
 
 - **Combat.** The dangerous creatures are few and placed: the Forsworn (two level-2 revenant-kin, in the plunge-room
-  the page warns of), Bettany Slake and three ebb-runners (levels 1–3, take prisoners), three lightermen (level 2, take
+  the page warns of, guarding the drain that is the drowned city's own way down; fought, slipped past while they answer
+  an oath sworn aloud in the hall, or given the weight of a kept promise), the eel-mother (a level-5 conger at the foot
+  of the Throat Stair at the night ebb only; she warns first, and can be fed, slipped past, or left alone by taking the
+  stair at the day ebb), Bettany Slake and three ebb-runners (levels 1–3, take prisoners), three lightermen (level 2, take
   prisoners), the Factor herself (level 5, takes prisoners), and the Weights (who do not fight). A level-1 thief alone
   loses to the ebb-runners and wakes on the Pans; with Durrance (level 4) she wins. Nothing obliges a fight on any
-  path to any ending.
+  path to any ending, and every fight the adventure offers has at least one way round it.
 - **The tide.** The main pressure, and fair: five hours of low water twice a day, the turn announced an hour before the
   flood, refuges, and a cost (three coin and a wound) rather than death. The night ebb is dark; the Hall of Oaths needs
   a light. Torches gutter: a player who means to read the drowned court should carry several.
