@@ -1,5 +1,6 @@
 import type { Counter } from './trade-model';
 import type { Danger } from '../presentation/danger-sense';
+import type { CharacterSheet, Development } from '../presentation/character-sheet';
 
 // Renderer-independent game screen contract. Every executable leaf carries a PlayerView command id; the client
 // never decides what is legal. Rows describe what the party can perceive at its current location.
@@ -61,6 +62,9 @@ export interface MemberRow {
   conditions: string[]; boons?: string[];
   abilities: { id: string; name: string; text: string; cost: number; price: string }[];
   attributes: Record<string, number>; acts: Act[];
+  // The member as the rules have them (qualities as they stand, how they fight and are fought, saves, skills), and a
+  // level's development still to spend, each way with what it would change (see CharacterSheets).
+  sheet?: CharacterSheet; development?: Development;
   overlays?: { id: string; name: string; role: string; grants: string[] }[];
 }
 export interface LogEntry { at: string; title: string; lines: string[]; tone: 'act' | 'fight' | 'note' | 'fail' }

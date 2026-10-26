@@ -9,7 +9,7 @@ Module care "Rest, mending and lessons" {
   Kind quality.
   Entity strength: quality "Strength". Entity dexterity: quality "Dexterity". Entity constitution: quality "Constitution".
   Entity intelligence: quality "Intelligence". Entity wisdom: quality "Wisdom". Entity charisma: quality "Charisma".
-  Relation improvable(member). Relation learnable(member, ability).
+  Relation improvable(member). Relation learnable(member, ability). Relation skillOpen(member, capability).
   Kind feat. Relation featOpen(member, feat).
   Relation memberOf(member, group).
   Relation fieldUsable(ability).
@@ -34,10 +34,16 @@ Module care "Rest, mending and lessons" {
     Result "{caster} spends an hour over {incoming}.".
   }
   Action raise_quality(actor: group, member: member, quality: quality) "Have {member} raise {quality}" {
-    Description "Each level gained lets a companion raise one quality by a point. Strength lands blows and Dexterity turns them; Constitution adds hit points at the next level; Intelligence, Wisdom or Charisma feeds a caster's spells.".
+    Description "Each level gained gives a companion one development: a point of a quality, or a skill their calling teaches. Strength lands blows and Dexterity turns them; Constitution adds hit points at the next level; Intelligence, Wisdom or Charisma feeds a caster's spells and what they can be talked or taught into.".
     Requires able(actor) and memberOf(member, actor) and awake(member) and improvable(member).
     Resolve improve(member, quality).
     Result "{member} grows in {quality}.".
+  }
+  Action learn_skill(actor: group, member: member, skill: capability) "Have {member} take up {skill}" {
+    Description "Each level gained gives a companion one development: a point of a quality, or a skill their calling teaches. A skill opens what it is for (a lock picked, a wound bound, a lie told) and counts as trained in every check that rests on it.".
+    Requires able(actor) and memberOf(member, actor) and awake(member) and skillOpen(member, skill).
+    Resolve school(member, skill).
+    Result "{member} takes up {skill}.".
   }
   Action learn_spell(actor: group, member: member, spell: ability) "Have {member} learn {spell}" {
     Description "Each level gained lets a caster add a spell of their tradition, of a level they can cast, to what they know. It can be prepared from then on.".

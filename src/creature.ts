@@ -22,13 +22,28 @@ export interface Creature {
     hp: number; mana: number; gold: number; experience: number; slots?: number[];
     // The spell prepared in each slot, by spell level, and those of them not yet cast (see Spellcasting).
     prepared?: string[][]; ready?: string[][];
-    // What levels gained have still to be spent: points of quality to raise, spells to learn, feats to take.
+    // What levels gained have still to be spent: developments (a point of a quality, or a skill), spells to learn,
+    // feats to take. A development is counted as `qualities`, the name it had when a point was all it could be.
     advances?: { qualities: number; spells: number; feats?: number };
+    // The skills taken up with developments, beyond what background, calling and gear bring (see Advancement).
+    skills?: string[];
     learnedAbilities: string[]; conditions: ConditionInstance[]; inventory?: ItemInstance[];
   };
 }
 
 export class CreatureSchema {
+  // What levels have still to give, and the skills taken up with them.
+  static validateProgress(creature: Creature) {
+    const advances = creature.state.advances;
+    const counts = advances ? [advances.qualities, advances.spells, advances.feats ?? 0] : [];
+    if (!counts.every(n => Number.isSafeInteger(n) && n >= 0)) {
+      throw new Error(`Invalid advances: ${creature.id}`);
+    }
+    const skills = creature.state.skills ?? [];
+    if (!Array.isArray(skills) || skills.some(id => typeof id !== 'string' || !id) || new Set(skills).size !== skills.length) {
+      throw new Error(`Invalid skills: ${creature.id}`);
+    }
+  }
   static readonly attributes: Attribute[] = [
     'strength', 'dexterity', 'intelligence', 'wisdom', 'constitution', 'charisma',
   ];
@@ -61,11 +76,7 @@ export class CreatureSchema {
         || ready[i]!.some(id => ready[i]!.filter(x => x === id).length > p.filter(x => x === id).length)))) {
       throw new Error(`Invalid prepared spells: ${creature.id}`);
     }
-    const advances = creature.state.advances;
-    const counts = advances ? [advances.qualities, advances.spells, advances.feats ?? 0] : [];
-    if (!counts.every(n => Number.isSafeInteger(n) && n >= 0)) {
-      throw new Error(`Invalid advances: ${creature.id}`);
-    }
+    this.validateProgress(creature);
     const inventory = creature.state.inventory ?? [];
     if (!Array.isArray(inventory) || inventory.some(i => !i.id || !i.definition
       || (i.equipped !== undefined && typeof i.equipped !== 'boolean'))

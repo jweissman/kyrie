@@ -205,3 +205,46 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 }
 @media (hover: none) { .act:hover { text-decoration-color: var(--hair); } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* ---- The character: who they are, how they stand, what they can do and could become. ---- */
+.character .members { display: flex; flex-wrap: wrap; gap: 4px 24px; margin: 0 0 22px; }
+.character .members .act .r { font: 400 13.5px var(--do); color: var(--grey); margin-left: 7px; text-decoration: none; }
+.character .members .act.here .n { color: var(--blue); }
+.character .who { font: 400 clamp(38px, 5vw, 52px)/1.05 var(--told); margin: 0 0 6px; }
+.character .line-of { font: 400 16px/1.4 var(--do); color: var(--grey); margin: 0 0 18px; }
+.character .progress, .character .standing { font: 400 15.5px/1.5 var(--do); color: var(--grey); }
+.character .standing { color: var(--ink); }
+.character h3 { font: 500 11.5px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin: 30px 0 10px; }
+.character .development { margin: 22px 0 8px; padding: 14px 0 6px 18px; border-left: 4px solid var(--yellow); }
+.character .development h3 { margin-top: 0; color: var(--ink); }
+.character .development .how { font: 400 14.5px/1.45 var(--do); color: var(--grey); max-width: 34em; }
+.character .options { list-style: none; padding: 0; margin: 4px 0 16px; }
+.character .option { margin: 0 0 12px; }
+.character .option .take { font-weight: 500; }
+.character .option .take.still { font: 500 16.5px var(--do); color: var(--grey); }
+.character .option .from-to { font: 400 14.5px var(--do); color: var(--grey); margin-left: 10px; font-variant-numeric: tabular-nums; }
+.character .option .what { font-size: 16px; margin: 2px 0; color: #2B2B2B; }
+.character .changes { list-style: none; padding: 0; margin: 2px 0 0; font: 400 14px/1.45 var(--do); color: var(--grey); }
+.character .changes li::before { content: '→ '; color: var(--faint); }
+.qualities { border-collapse: collapse; width: 100%; font: 400 15px/1.4 var(--do); }
+.qualities th { text-align: left; font-weight: 500; padding: 6px 12px 6px 0; white-space: nowrap; vertical-align: top; }
+.qualities td { padding: 6px 12px 6px 0; vertical-align: top; }
+.qualities .score { font: 500 18px var(--told); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.qualities .base, .qualities .check { color: var(--grey); font-size: 13.5px; font-family: var(--do); }
+.qualities .mods { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.qualities .rests { color: var(--grey); font-size: 14px; }
+.qualities tr + tr th, .qualities tr + tr td { border-top: 1px solid var(--hair); }
+.bearings, .skills, .character .abilities { margin: 0; }
+.bearings div { display: grid; grid-template-columns: minmax(9em, 14em) 1fr; gap: 0 16px; padding: 5px 0; border-top: 1px solid var(--hair); }
+.bearings dt { font: 500 14.5px var(--do); }
+.bearings dd { margin: 0; font-size: 17px; }
+.skills div, .character .abilities div { padding: 6px 0; border-top: 1px solid var(--hair); }
+.skills dt, .character .abilities dt { font: 500 15.5px var(--do); }
+.skills dd, .character .abilities dd { margin: 0; font-size: 16.5px; color: #2B2B2B; }
+.character .from { font: 400 13px var(--do); color: var(--grey); margin-left: 6px; }
+.character .gear { list-style: none; padding: 0; }
+.character .gear li { padding: 5px 0; border-top: 1px solid var(--hair); font-size: 16px; }
+@media (max-width: 860px) {
+  .bearings div { grid-template-columns: minmax(0, 1fr); }
+  .qualities .rests { display: none; }
+}

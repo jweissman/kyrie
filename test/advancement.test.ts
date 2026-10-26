@@ -10,6 +10,8 @@ import { FieldUse } from '../src/campaign/field-use';
 import { CombatProjection } from '../src/combat-projection';
 import type { World } from '../src/lang/world';
 import { GeneratedWorld } from './support/generated';
+import { Checks } from '../src/rules/checks';
+import { PartyCapabilities } from '../src/campaign/party-capabilities';
 
 describe('advancement', () => {
   it('follows Orsino\'s experience curve and values creatures by kind and level', () => {
@@ -177,5 +179,48 @@ describe('a feat at the fifth level', () => {
     await s.perform(`take_feat(${ref},knight)`);
     expect(s.campaign.state.creatures.find(c => c.id === warrior.id)!.traits).toContain('knight');
     expect(PlayerView.choices(s.campaign).some(c => c.choice.id.startsWith(`take_feat(${ref},`))).toBe(false);
+  }, 60000);
+});
+
+describe('a skill taken up with a level', () => {
+  it('is one of the skills the calling teaches, and makes the member trained in it', () => {
+    const w = new Content('skill').createCreature('w', { raceId: 'human', classId: 'warrior' });
+    expect(Advancement.teachable(w)).toEqual([]);
+    w.state.experience = Advancement.threshold(2);
+    Advancement.train(w, 'skill');
+    // A warrior already brings brawn and intimidation; of what the calling teaches, nothing it has.
+    expect(Advancement.teachable(w)).toEqual(['climbing', 'mending', 'woodcraft', 'digging', 'insight', 'persuasion']);
+    const before = Checks.total(w, 'persuasion');
+    Advancement.school(w, 'persuasion');
+    expect([w.state.skills, w.state.advances?.qualities, PartyCapabilities.brings('persuasion', w)])
+      .toEqual([['persuasion'], 0, true]);
+    // Trained: two more on every check that rests on it, so talking a band round is likelier.
+    expect(Checks.total(w, 'persuasion')).toBe(before + 2);
+    // One development: the point or the skill, not both.
+    expect(Advancement.teachable(w)).toEqual([]);
+    expect(() => Advancement.improve(w, 'strength')).toThrow();
+  });
+  it('is offered from the company after a night under a roof, as a quality is', async () => {
+    const companies = (await import('../data/campaigns/companies.json')).default;
+    const members = companies.companies.find(c => c.id === 'delvers')!.members;
+    const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'skills', NodeBundleSource.shared,
+      members);
+    const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
+    const lease = store.acquire(s.campaign.state.partyIds);
+    try {
+      lease.creatures.forEach(c => { c.state.experience = 1000; });
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    await s.perform('go(march__oar_door,march__taproom)');
+    await s.perform('take_lodging(march__maud_lodging,march__maud)');
+    const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
+    const skill = ids.find(id => id.startsWith('learn_skill(march__member_party_1,'))!;
+    expect(skill).toBeDefined();
+    await s.perform(skill);
+    const first = s.campaign.state.creatures.find(c => c.id === s.campaign.state.partyIds[0])!;
+    expect(first.state.skills).toEqual([skill.slice(skill.indexOf(',') + 1, -1)]);
+    const after = PlayerView.choices(s.campaign).map(c => c.choice.id);
+    expect(after.some(id => id.startsWith('learn_skill(march__member_party_1,')
+      || id.startsWith('raise_quality(march__member_party_1,'))).toBe(false);
   }, 60000);
 });

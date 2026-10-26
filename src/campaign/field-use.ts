@@ -117,7 +117,7 @@ export class FieldUse {
     const grants = Effects.status(id).grants ?? [];
     return grants.includes('light') && grants.includes('flame');
   }
-  // What a companion does with study: prepare a spell, or spend a level's advance on a quality or a new spell.
+  // What a companion does with study: prepare a spell, or spend a level's advance on a quality, a skill or a spell.
   static study(store: CreatureStore, name: string, args: string[]): CombatEvent[] {
     if (name === 'prepare') { return this.prepare(store, args as [string, string, string, string]); }
     const [member, choice] = args as [string, string], lease = store.acquire([member]);
@@ -125,11 +125,12 @@ export class FieldUse {
       const c = lease.creatures[0]!;
       if (name === 'improve') { Advancement.improve(c, choice as Attribute); } else if (name === 'feat') {
         Advancement.feat(c, choice);
-      } else { Advancement.learn(c, choice); }
+      } else if (name === 'school') { Advancement.school(c, choice); } else { Advancement.learn(c, choice); }
       lease.commit([c], { advancement: true });
       const what = name === 'improve' ? `${choice.charAt(0).toUpperCase()}${choice.slice(1)} is now ${c.base[choice as Attribute]}`
         : name === 'feat' ? `${Canon.traits[choice]?.name ?? choice} taken up`
-          : `${Content.abilities.find(a => a.id === choice)?.name ?? choice} learned`;
+          : name === 'school' ? `${Canon.skills[choice]?.name ?? choice} taken up`
+            : `${Content.abilities.find(a => a.id === choice)?.name ?? choice} learned`;
       return [{ type: 'gain', turn: 0, actor: member, target: member, detail: what }];
     } finally { lease.release(); }
   }

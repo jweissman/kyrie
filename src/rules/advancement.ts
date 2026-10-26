@@ -7,6 +7,7 @@ import { CreatureSchema, type Attribute, type Creature } from '../creature';
 import { Creation } from './creation';
 import { Perks } from './perks';
 import type { CombatEvent } from '../model';
+import { PartyCapabilities } from '../campaign/party-capabilities';
 
 interface Table {
   thresholds: number[]; species: Record<string, number>; ancestry: Record<string, number>; person: number;
@@ -52,7 +53,8 @@ export class Advancement {
         creature.state.slots = creature.state.ready.map(r => r.length);
       }
       events.push(...this.features(creature, level));
-      // Orsino's level-up choices: a point of any quality, and for a specialist caster a new spell.
+      // A level's development, spent on a point of any quality or a skill the calling teaches; and for a specialist
+      // caster a new spell.
       const advances = creature.state.advances ??= { qualities: 0, spells: 0 };
       advances.qualities++;
       if (this.specialist(creature)) { advances.spells++; }
@@ -118,6 +120,18 @@ export class Advancement {
     creature.base.abilities = [...new Set([...creature.base.abilities, ...(Canon.traits[id]!.grants?.abilities ?? [])
       .filter(a => Creation.executable(a))])];
     creature.state.advances!.feats!--;
+  }
+  // The skills a member could take up with a development: those their calling teaches (Canon.classes' `learns`)
+  // that they do not already bring, by background, calling, gear or study.
+  static teachable(creature: Creature): string[] {
+    if (!creature.state.advances?.qualities || creature.state.hp === 0) { return []; }
+    return (Canon.classes[creature.classId ?? '']?.learns ?? []).filter(id => !PartyCapabilities.brings(id, creature));
+  }
+  // Takes up a skill with a development: from then on the member brings it, as one trained in it.
+  static school(creature: Creature, skill: string) {
+    if (!this.teachable(creature).includes(skill)) { throw new Error(`${creature.id} cannot take up ${skill}`); }
+    creature.state.skills = [...creature.state.skills ?? [], skill];
+    creature.state.advances!.qualities--;
   }
   static improve(creature: Creature, quality: Attribute) {
     const advances = creature.state.advances;

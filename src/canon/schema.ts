@@ -111,6 +111,9 @@ export interface Proficiencies { all?: true; kinds?: string[]; weights?: string[
 export interface CharacterClass {
   name: string; description: string; hitDie: number; attributes: Partial<Record<Attribute, number>>; gold: number;
   abilities: string[]; playable?: boolean; adventuring?: false; skills?: string[];
+  // The skills the calling can take up with a level's development, beyond those it starts with: what a warrior or
+  // a thief might learn on the road, each opening acts in the world (see Advancement.teachable).
+  learns?: string[];
   // What the calling means in play, in a sentence or two for the player choosing it.
   practice?: string;
   specializations?: string[]; weapons: string[]; armor: string[]; startingGear?: string[];

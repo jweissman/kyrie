@@ -31,7 +31,7 @@ export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'relieves', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable',
-    'brings', 'featOpen', 'temperament', 'fallen', 'slain', 'craft'];
+    'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
     'water', 'stage', 'trade', 'court', 'margins'];
   // Every relation or measure a projection writes or reads besides the creatures (see Projection).
@@ -46,6 +46,7 @@ export class CreatureFacts {
       if (scope.has.has('swappable')) { changes.push(...this.swaps(world, members, scope.references, scope.abilityIds)); }
       if (scope.has.has('learnable')) { changes.push(...this.lessons(world, members, scope.references)); }
       if (scope.has.has('featOpen')) { changes.push(...this.feats(world, members, scope.references)); }
+      if (scope.has.has('skillOpen')) { changes.push(...this.schooling(world, members, scope)); }
       if (scope.has.has('temperament')) { changes.push(...this.temperament(world, actor.id, members)); }
     }
     const different = changes.filter(c => c.kind === 'assert' ? !world.holds(World.key(c.call)) :
@@ -268,6 +269,12 @@ export class CreatureFacts {
   // The feats each companion with one to take may choose.
   private static feats(world: World, members: Creature[], references: Map<string, string>): Change[] {
     return this.choices(world, 'featOpen', members.map(c => [references.get(c.id)!, Advancement.feats(c)]));
+  }
+  // The skills each companion with a development to spend could take up, of those the world names.
+  private static schooling(world: World, members: Creature[], scope: Scope): Change[] {
+    const named = new Set(scope.capabilities.map(e => e.id));
+    return this.choices(world, 'skillOpen', members.map(c => [scope.references.get(c.id)!,
+      Advancement.teachable(c).filter(id => named.has(id))]));
   }
   private static choices(world: World, relation: string, open: [string, string[]][]): Change[] {
     const refs = new Set(open.map(([ref]) => ref));

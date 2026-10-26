@@ -1,4 +1,5 @@
 import { Likeness } from '../paintings/likeness';
+import { CharacterSheets } from '../presentation/character-sheet';
 import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names';
@@ -357,8 +358,18 @@ export class ScreenModel {
           .filter(a => !!a).map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0, price: MechanicsText.price(a),
             text: MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }) })),
         attributes: m.attributes ?? {}, acts: ref ? grouped.members.get(ref) ?? [] : [],
-        overlays: this.overlays(campaign, m.id) };
+        overlays: this.overlays(campaign, m.id), ...this.sheet(campaign, m.id, ref, grouped.members.get(ref ?? '') ?? []) };
     });
+  }
+  // The member as the rules have them, and what a development would change, each with its command if offered.
+  private static sheet(campaign: Campaign, id: string, ref: string | undefined, acts: Act[]) {
+    const c = campaign.readout.creatures.find(x => x.id === id);
+    if (!c) { return {}; }
+    const development = CharacterSheets.development(c, ref, new Set(this.offered(acts)));
+    return { sheet: CharacterSheets.sheet(c), ...development ? { development } : {} };
+  }
+  private static offered(acts: Act[]): string[] {
+    return acts.flatMap(a => [...a.command ? [a.command] : [], ...this.offered(a.children ?? [])]);
   }
   // How far a companion is from the next level, and what it brings.
   private static progress(level: number, experience: number, next: string[]): string {

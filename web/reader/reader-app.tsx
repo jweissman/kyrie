@@ -94,12 +94,14 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         attention: Conversation.place, talk: [], asked: [], confirming: undefined });
     }
   }
-  private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; menu: Menu };
-  // What can be chosen now, built once for each frame, view, attention and set of open choices.
+  private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; member: string; menu: Menu };
+  // What can be chosen now, built once for each frame, view, attention, member shown and set of open choices.
   get menu(): Menu {
-    const { frame, view, open, attention } = this.state, b = this.built;
-    if (b && b.frame === frame && b.view === view && b.open === open && b.attention === attention) { return b.menu; }
-    this.built = { frame, view, open, attention, menu: MenuModel.build(frame, view, open, attention) };
+    const { frame, view, open, attention, member } = this.state, b = this.built;
+    if (b && b.frame === frame && b.view === view && b.open === open && b.attention === attention && b.member === member) {
+      return b.menu;
+    }
+    this.built = { frame, view, open, attention, member, menu: MenuModel.build(frame, view, open, { attention, member }) };
     return this.built.menu;
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.
@@ -178,14 +180,14 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const person = attention.kind === 'person';
       const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said)] : [];
       this.setState({ frame: next, pending: undefined, cursor: 0, open: this.kept(next, attention), hovered: undefined,
-        view: this.state.view === 'map' ? 'map' : 'here', stage: '', attention, talk,
+        view: ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
         asked: person && !turning ? [...this.state.asked, choice.id] : [] });
     } catch (error) { this.failed(error); }
   }
   // A conversation goes on: what was open with someone (what to buy from them) stays open, if they are still there
   // with more to offer. Anything else is put away.
   private kept(next: Frame, attention: Attention): string[] {
-    const subjects = MenuModel.build(next, 'here', [], attention).scene?.subjects ?? [];
+    const subjects = MenuModel.build(next, 'here', [], { attention }).scene?.subjects ?? [];
     return this.state.open.filter(id => subjects.some(s => s.kind !== 'thing' && s.choices.some(c => c.id === id && c.children)));
   }
   readonly back = () => {

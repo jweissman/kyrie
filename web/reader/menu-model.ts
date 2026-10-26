@@ -12,7 +12,9 @@ export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 export interface Menu { sections: Section[]; choices: Choice[]; scene?: Scene; talk?: Talk; examined?: Examined }
 
 export class MenuModel {
-  static build(frame: Frame | undefined, view: View, open: string[], attention?: Attention): Menu {
+  static build(frame: Frame | undefined, view: View, open: string[],
+    at: { attention?: Attention; member?: string } = {}): Menu {
+    const { attention, member } = at;
     if (!frame) { return { sections: [], choices: [] }; }
     const opened = new Set(open);
     if (!frame.combat && !['pack', 'company'].includes(view)) {
@@ -20,8 +22,25 @@ export class MenuModel {
       return this.attending(scene, opened, attention) ?? this.place(Attending.place(scene), opened);
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
-      : view === 'pack' ? ChoiceList.pack(frame.screen) : ChoiceList.party(frame.screen);
+      : view === 'pack' ? ChoiceList.pack(frame.screen) : this.character(frame.screen, member);
     return { sections, choices: ChoiceList.all(sections).flatMap(c => this.unfold(c, opened)) };
+  }
+  // The character: who in the company is shown (when there is more than one), the development they have to spend,
+  // each way of spending it said with what it is, and whatever else can be done with them.
+  static readonly developing = /^(raise_quality|learn_skill)\(/;
+  static character(screen: Frame['screen'], member?: string): Section[] {
+    const m = screen.party.find(x => x.id === member) ?? screen.party[0];
+    if (!m) { return []; }
+    const others = ChoiceList.party({ ...screen, party: [m] })[0]?.choices[0]?.children ?? [];
+    const development = (m.development?.options ?? []).filter(o => o.command).map(o => ({ id: `dev:${o.command!}`,
+      label: o.kind === 'quality' ? `Raise ${o.name}` : `Take up ${o.name}`, tone: 'member' as const, command: o.command }));
+    return [
+      ...screen.party.length > 1 ? [{ id: 'members', title: 'The company', tone: 'member' as const, glyph: '☺',
+        choices: screen.party.map(x => ({ id: x.id, label: x.name, tone: 'member' as const, note: `${x.line} · level ${x.level}` })) }] : [],
+      ...development.length ? [{ id: 'development', title: 'Development', tone: 'member' as const, glyph: '+',
+        choices: development }] : [],
+      { id: 'acts', title: 'What can be done', tone: 'member' as const, glyph: '·',
+        choices: others.filter(c => !this.developing.test(c.command ?? '')) }];
   }
   private static place(scene: Scene, opened: Set<string>): Menu {
     return { scene, sections: this.sections(scene), choices: SceneModel.order(scene, opened) };

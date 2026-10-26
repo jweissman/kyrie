@@ -1,17 +1,17 @@
 import type { Entry, Frame } from '../engine/protocol';
-import type { MemberRow, Screen } from '../../src/ui/screen-types';
+import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Act } from './stage/act';
 import { Words } from './words';
+import { CharacterPage } from './character-page';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
 // you can be of it), the story so far, what you carry, the company. Back goes back to what is here; the world stays.
 export class Sheet {
-  static readonly numerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, screen = frame.screen;
     const body = s.view === 'journal' ? Sheet.journal(app, frame) : s.view === 'story' ? Sheet.story(frame.entries)
-      : s.view === 'company' ? Sheet.company(app, screen) : Sheet.pack(app, screen);
+      : s.view === 'company' ? <CharacterPage.View app={app} /> : Sheet.pack(app, screen);
     return (
       <section className={`sheet view-${s.view}`} data-region="details" aria-label={s.view}>
         <p className="back"><button type="button" className="act" data-action="close" onClick={app.back}>‹ Back</button></p>
@@ -80,36 +80,6 @@ export class Sheet {
         </section>) : <p className="none">You carry nothing.</p>}
         <p className="how">{screen.purse.coin} coin · {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}
           {screen.purse.other.length > 0 && ` · ${screen.purse.other.join(', ')}`}</p>
-      </article>
-    );
-  }
-  private static company(app: ReaderApp, screen: Screen) {
-    const m = screen.party.find(x => x.id === app.state.member) ?? screen.party[0]!;
-    const menu = app.menu, draw = Act.draw(app);
-    return <>
-      <Act.List choices={menu.sections.flatMap(sec => sec.choices)} draw={draw} />
-      {Sheet.member(m, screen)}
-    </>;
-  }
-  private static member(m: MemberRow, screen: Screen) {
-    const gear = screen.items.filter(i => i.owner === m.id);
-    return (
-      <article className="member-sheet">
-        <h2>{m.name}</h2>
-        <p>{m.line}, level {m.level}{m.background ? `; once ${Words.article(m.background.toLowerCase())}` : ''}</p>
-        {m.progress && <p className="how">{m.progress}</p>}
-        <p>{Words.upper(Words.hurt(m.hp, m.maxHp))} ({m.hp} of {m.maxHp}){m.conditions.length > 0
-          && `; ${m.conditions.join(', ')}`}{(m.boons ?? []).length > 0 && ` · ${m.boons!.join(', ')}`}</p>
-        <p className="attrs">{Object.entries(m.attributes).map(([k, v]) => <span key={k} title={k}>{k.slice(0, 3)} <b>{v}</b></span>)}</p>
-        {(m.spells ?? []).length > 0 && <><h3>Prepared today</h3><ul>
-          {[...new Set(m.spells!.map(x => x.level))].map(l => <li key={l}><b>{Sheet.numerals[l - 1]}</b>{' '}
-            {m.spells!.filter(x => x.level === l).map(x => x.ready ? x.name : `(${x.name}, spent)`).join(', ')}</li>)}
-        </ul></>}
-        <h3>Can do</h3>
-        <dl className="abilities">{m.abilities.map(a => <div key={a.id}><dt>{a.name}{a.price && <small> {a.price}</small>}</dt>
-          <dd>{a.text}</dd></div>)}</dl>
-        <h3>Carries</h3>
-        <p>{gear.length ? Words.upper(gear.map(i => `${i.name}${i.equipped ? ' (in use)' : ''}`).join(', ')) : 'Nothing.'}</p>
       </article>
     );
   }

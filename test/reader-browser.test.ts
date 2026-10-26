@@ -91,10 +91,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     }
     // What is asked for opens over the right-hand page, and Esc closes it.
     await d.mode('c');
-    expect(await page.locator('.sheet.view-company .member-sheet h2:visible').count()).toBe(1);
+    expect(await page.locator('.sheet.view-company .character h2.who:visible').count()).toBe(1);
     // A caster's row shows the caster's sheet as it opens what they can do (it left the first member's showing).
     await d.pick(c => c.label === 'Dori', 'Dori');
-    expect(await page.textContent('.sheet.view-company .member-sheet h2')).toContain('Dori');
+    expect(await page.textContent('.sheet.view-company .character h2.who')).toContain('Dori');
     await d.mode('j');
     expect(await page.locator('.sheet.view-journal:visible').count()).toBe(1);
     await page.keyboard.press('Escape');

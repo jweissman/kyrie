@@ -103,6 +103,14 @@
         "brawn",
         "intimidation"
       ],
+      "learns": [
+        "climbing",
+        "mending",
+        "woodcraft",
+        "digging",
+        "insight",
+        "persuasion"
+      ],
       "practice": "Takes and deals the most harm and wears any armour. Brawn: lifts what has fallen and wrenches what is stuck."
     },
     "mage": {
@@ -332,6 +340,12 @@
       "skills": [
         "lore"
       ],
+      "learns": [
+        "reading_the_dead",
+        "insight",
+        "persuasion",
+        "deception"
+      ],
       "practice": "Few hit points and no armour, but prepared spells that can turn a fight. Lore: reads old scripts and the workings of magic."
     },
     "thief": {
@@ -362,6 +376,12 @@
         "trapwork",
         "stealth",
         "deception"
+      ],
+      "learns": [
+        "climbing",
+        "insight",
+        "persuasion",
+        "lore"
       ],
       "weapons": [
         "dagger",
@@ -468,6 +488,12 @@
         "mending",
         "rites",
         "insight"
+      ],
+      "learns": [
+        "lore",
+        "persuasion",
+        "reading_the_dead",
+        "woodcraft"
       ],
       "specializations": [
         "vitalist",
@@ -913,6 +939,12 @@
         "lore",
         "persuasion"
       ],
+      "learns": [
+        "deception",
+        "insight",
+        "stealth",
+        "reading_the_dead"
+      ],
       "practice": "A few spells, a steady voice and lore: songs and histories that remember what others forget."
     },
     "ranger": {
@@ -937,6 +969,13 @@
       "playable": true,
       "skills": [
         "woodcraft"
+      ],
+      "learns": [
+        "wayfinding",
+        "stealth",
+        "climbing",
+        "mending",
+        "trapwork"
       ],
       "weapons": [
         "longsword",
@@ -1051,6 +1090,12 @@
         "climbing",
         "mending",
         "insight"
+      ],
+      "learns": [
+        "stealth",
+        "lore",
+        "persuasion",
+        "woodcraft"
       ],
       "specializations": [
         "wise",
@@ -1188,7 +1233,13 @@
         "kyr": true,
         "notes": "Ordinary life rather than a calling, open to every ancestry. Orsino has no commoner class."
       },
-      "practice": "No calling."
+      "practice": "No calling.",
+      "learns": [
+        "digging",
+        "mending",
+        "woodcraft",
+        "brawn"
+      ]
     }
   }
 }

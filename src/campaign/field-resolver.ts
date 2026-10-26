@@ -33,7 +33,9 @@ export class FieldResolver {
       return FieldUse.perform(creatures, [call.args[1]!], { ability: call.args[0]!, caster: call.args[1]!,
         target: call.args[1]!, seed, service: 'reward' });
     }
-    if (['prepare', 'improve', 'learn', 'feat'].includes(call.name)) { return FieldUse.study(creatures, call.name, call.args); }
+    if (['prepare', 'improve', 'learn', 'feat', 'school'].includes(call.name)) {
+      return FieldUse.study(creatures, call.name, call.args);
+    }
     if (call.name === 'invoke') {
       return FieldUse.perform(creatures, [call.args[1]!, call.args[2]!],
         { ability: call.args[0]!, caster: call.args[1]!, target: call.args[2]!, seed });
