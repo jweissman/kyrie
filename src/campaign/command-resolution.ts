@@ -3,6 +3,7 @@ import type { Creature } from '../creature';
 import type { CombatEvent } from '../model';
 import type { Change, Entity, Operator } from '../lang/module';
 import type { World } from '../lang/world';
+import { ObservationText } from '../lang/observation-text';
 
 export interface CommandResolution {
   version: 1; id: string; actor?: string; source: string;
@@ -21,6 +22,14 @@ export class CommandResolutions {
     const target = action.resolve?.name === 'expose'
       ? entities.find(e => e.id === action.resolve!.args[1])?.creatureId : undefined;
     return !target || creatures.some(c => c.id === target && c.state.hp > 0);
+  }
+  // What a failed exposure says where its author said nothing: the one who went first brought down, and, on a way, the
+  // company not over it (that it "does not cross" was said of a rack heaved off a guest: the architecture review's L1).
+  static downed(action: Operator, world: World): string {
+    if (action.schema === 'risk') {
+      return 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.';
+    }
+    return `${ObservationText.label(world, action.resolve!.args[1]!)} is brought down; the hurt lasts until it is treated.`;
   }
   // What a command changed in the world: of the relations and measures it wrote, not of every fact.
   static world(before: World, after: World): Change[] { return structuredClone(after.changesSince(before)); }

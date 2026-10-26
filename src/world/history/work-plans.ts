@@ -89,8 +89,11 @@ export class WorkPlans {
     });
   }
   // A section's lines with the work's values in place of its placeholders. Braces around anything else are Kyr's
-  // own references, left as they are: "{{w}_hall}" is written "{w3_hall}", the hall's name when it is read.
+  // own references, left as they are: "{{w}_hall}" is written "{w3_hall}", the hall's name when it is read. A value
+  // goes in as words: its quotes, backslashes and braces escaped (they went into a quoted Kyr string as they were: the
+  // architecture review's M3).
   static fill(lines: string[], values: Record<string, string>): string[] {
-    return lines.map(line => line.replace(/\{([a-z]+)\}/g, (whole, name: string) => values[name] ?? whole));
+    return lines.map(line => line.replace(/\{([a-z]+)\}/g, (whole, name: string) => values[name]?.replace(/["\\{}]/g, '\\$&')
+      ?? whole));
   }
 }

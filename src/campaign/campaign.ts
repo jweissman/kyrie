@@ -295,7 +295,7 @@ export class Campaign implements WatchHost {
     this.resolutions(combat, true);
     const told = success ? action.report : action.otherwise;
     let response = told ? ObservationText.render(told, this.world) : undefined;
-    if (!success && action.resolve?.name === 'expose') { response = 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.'; }
+    if (!success && action.resolve?.name === 'expose' && !action.otherwise) { response = CommandResolutions.downed(action, this.world); }
     const pass = WatchLoop.pass(this, action,
       { before, combat, ...leg ? { journey: { leg, arrive: Journey.arrive.bind(Journey, this, action, leg) } } : {} });
     const { npc, happenings, interrupted } = pass;
