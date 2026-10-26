@@ -25,8 +25,11 @@ export class CombatProjection {
             && !original.state.learnedAbilities.includes(id))),
         conditions: structuredClone(fighter.statuses),
         ...(original?.state.inventory ? { inventory: structuredClone(original.state.inventory) } : {}),
-        // What levels gained still have to spend is no part of a fight, and comes back from it as it went in.
-        ...(original?.state.advances ? { advances: structuredClone(original.state.advances) } : {}) } };
+        // What levels gained still have to spend, and the skills taken up with them, are no part of a fight, and come
+        // back from it as they went in (a warrior's climbing, taken up with a level, was gone at the next watch of a
+        // torch burning: found by test/growth.test.ts).
+        ...(original?.state.advances ? { advances: structuredClone(original.state.advances) } : {}),
+        ...(original?.state.skills ? { skills: [...original.state.skills] } : {}) } };
   }
   static fighter(creature: Creature, team: Team): Fighter {
     const sources = ItemCatalog.abilities(creature);

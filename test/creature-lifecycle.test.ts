@@ -56,6 +56,14 @@ class Lifecycle {
 }
 
 describe('canonical creature lifecycle', () => {
+  // A creature made again from how it stands in a fight keeps everything of its state: once, the skills taken up with
+  // its levels were lost (a warrior's climbing, gone at the next watch of a torch burning).
+  it('keeps the whole of a creature\'s state through a fight', () => {
+    const c = new Content('kept').createCreature('wenna', { raceId: 'human', classId: 'warrior' });
+    c.state.skills = ['climbing']; c.state.advances = { qualities: 1, spells: 0 };
+    const again = CombatProjection.creature(CombatProjection.fighter(c, 'fighters'), c);
+    expect(again.state).toEqual(c.state);
+  });
   it('generates PCs and goblins from one creature template reproducibly and validates their complete instances', () => {
     const a = Lifecycle.setup();
     const b = Lifecycle.setup();
