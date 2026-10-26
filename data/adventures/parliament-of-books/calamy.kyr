@@ -42,7 +42,8 @@ Module calamy "A Parliament of Books" {
   Place garrets "the garret house" is building within hithe.
   Place garret_top "the top of the garret house" is level within garrets.
   Place jonquil_garret "a garret under the leads" is room within garret_top at 2, 2.
-  Place nance_house "the midwife's house" is building within hithe.
+  Place nance_house "the midwife's house" is building within hithe seen as "a house with a green door and a horseshoe" until nance_named.
+  Discovery nance_named "The house with the green door in Pudding Lane is Goody Nance's, the midwife of the Hithe.".
   Place nance_room "Goody Nance's front room" is room within nance_house at 2, 3.
   Place coddy_hut "Coddy Fitch's hut" is room within hithe at 4, 1 outdoors.
 
@@ -78,7 +79,8 @@ Module calamy "A Parliament of Books" {
   Place scriveners "Scriveners' Row" is room within stitchgate at 1, 1 outdoors.
   Place gutter_lane "Gutter Lane" is room within stitchgate at 2, 3 outdoors.
   Place lantern_yard "Lantern Yard" is room within stitchgate at 3, 3 outdoors.
-  Place binders_hall "the Binders' Hall" is building within stitchgate.
+  Place binders_hall "the Binders' Hall" is building within stitchgate seen as "a hall with an iron needle over the door" until binders_named.
+  Discovery binders_named "The hall with the great iron needle over its door is the Binders' Hall, of the Worshipful Company of Binders.".
   Place hall_floor "the Binders' great room" is room within binders_hall at 2, 2.
   Place sewing_room "the sewing room" is room within binders_hall at 2, 1.
   Place gallon_house "the ink shop" is building within stitchgate.
@@ -111,14 +113,16 @@ Module calamy "A Parliament of Books" {
   Place ashpit "the Ashpit" is room within close at 1, 1 outdoors.
   Place close_green "the Close green" is room within close at 0, 1 outdoors.
   Place pleas_steps "the Court steps" is room within close at 1, 0 outdoors.
-  Place church "the Church of the Lamp" is building within close.
+  Place church "the Church of the Lamp" is building within close seen as "a low old church with a light inside" until church_named.
+  Discovery church_named "The low old church on the Close is the Church of the Lamp, whose lamp has burned since the first Kindling.".
   Place nave "the nave of the Lamp" is room within church at 0, 0.
   Place vestry "the vestry" is room within church at 0, 2.
   Place court "the Court of Pleas" is building within close.
   Place court_hall "the hall of the Court of Pleas" is room within court at 2, 0.
   Place guildhall "the Guildhall" is building within close.
   Place guild_chamber "the aldermen's chamber" is room within guildhall at 2, 1.
-  Place imprimatur "the Imprimatur" is building within close.
+  Place imprimatur "the Imprimatur" is building within close seen as "a grey building with a lamp carved over its door" until imprimatur_named.
+  Discovery imprimatur_named "The grey building with the lamp carved over its door is the Imprimatur, where Calamy's books are licensed, refused, and burned.".
   Place imp_office "the outer office of the Imprimatur" is room within imprimatur at 1, 2.
   Place rhule_room "the Deputy Censor's room" is room within imprimatur at 2, 2.
   Place imp_kitchen "the Imprimatur's kitchen" is room within imprimatur at 1, 3.
@@ -143,13 +147,16 @@ Module calamy "A Parliament of Books" {
   Place schools "the Schools" is building within gannet.
   Place schoolroom "the great schoolroom" is room within schools at 2, 1.
   Place buttery "the buttery" is room within schools at 2, 2.
-  Place rounds_tower "the Tower of Rounds" is building within gannet.
+  Place rounds_tower "the Tower of Rounds" is building within gannet seen as "a thin old tower" until tower_named.
+  Discovery tower_named "The thin old tower at the corner of the Lyceum is the Tower of Rounds, where the Archivist lives.".
   Place tower_foot "the foot of the Tower of Rounds" is room within rounds_tower at 0, 1.
   Place tower_top "the head of the tower" is level within rounds_tower.
   Place quarles_room "the top of the Tower of Rounds" is room within tower_top at 0, 0.
-  Place chained_house "the Chained Room" is building within gannet.
+  Place chained_house "the Chained Room" is building within gannet seen as "a squat building with an iron-bound door" until chained_named.
+  Discovery chained_named "The squat building with the iron-bound door is the Lyceum's Chained Room.".
   Place chained_room "the Chained Room" is room within chained_house at 1, 0.
-  Place provost_lodge "the Provost's Lodging" is building within gannet.
+  Place provost_lodge "the Provost's Lodging" is building within gannet seen as "a pleasant house with a brass knocker" until lodge_named.
+  Discovery lodge_named "The pleasant house with the brass knocker is the Provost's Lodging.".
   Place provost_room "the Provost's study" is room within provost_lodge at 2, 0.
 
   Passage close_gannet "the Gannet Steps up from the Close" is steps between pleas_steps and gannet_steps taking 6 minutes.
@@ -179,10 +186,12 @@ Module calamy "A Parliament of Books" {
   // ── The Gardens: walled orchards and the houses of the rich. ──
   Place orchard_walk "Orchard Walk" is room within gardens at 1, 1 outdoors.
   Place physic_garden "the physic garden" is room within gardens at 2, 1 outdoors.
-  Place corvell_house "Corvell House" is building within gardens.
+  Place corvell_house "Corvell House" is building within gardens seen as "a house with a portico, shuttered on one side" until corvell_named.
+  Discovery corvell_named "The house with the portico on Orchard Walk is Corvell House, Sir Gideon Corvell's.".
   Place corvell_hall "the hall of Corvell House" is room within corvell_house at 0, 0.
   Place corvell_library "Sir Gideon's library" is room within corvell_house at 1, 0.
-  Place quennell_lib "Mrs. Quennell's library" is building within gardens.
+  Place quennell_lib "Mrs. Quennell's library" is building within gardens seen as "a narrow shop with gilt letters and lace curtains" until quennell_named.
+  Discovery quennell_named "The narrow shop with lace curtains on Orchard Walk is Mrs. Quennell's subscription library.".
   Place quennell_room "the subscription room" is room within quennell_lib at 0, 1.
 
   Passage newmarket_gardens "Orchard Walk from Newmarket" is road between newmarket and orchard_walk taking 6 minutes.

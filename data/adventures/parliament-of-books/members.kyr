@@ -9,7 +9,7 @@ Module calamy "A Parliament of Books" {
   Entity sew_none: clause "that the Sewing be undone, and every book wake in its body".
   Entity fire_leave: clause "that no book be burned in Calamy save by its own leave".
   Entity fire_plea: clause "that no book be burned but by judgment of a court where it may plead".
-  Entity fire_free: clause "that the Imprimatur may burn as it judges".
+  Entity fire_free: clause "that the Censors may burn as they judge".
   Entity read_rounds: clause "that the Lyceum read every book once in a generation".
   Entity read_asked: clause "that any book may ask to be read, and any may refuse".
   Entity read_none: clause "that no reading be owed".
@@ -232,6 +232,10 @@ Module calamy "A Parliament of Books" {
     Says "'On the bridge?' says the Primer. 'With the rope?' The faint voices round it grow, a little, louder: A, B, C, and somebody arguing about Q. 'Yes. I felt that. I felt that, a day or two since, like a warm hand.' It is quiet. 'The new ones. The Quick. If the small ones can learn on me on a bridge, they can learn on the new books too. Let the new books wake, then, and be read. I will not vote to put them to sleep.' It could vote the Sleep by leave.".
     On discuss { Assert favours(hornbook, sew_leave). }
   }
+  Topic hornbook_unwritten with hornbook "Tell the Primer about the Unwritten in the Remainder Market, whom nobody has ever read" when heardStance(hornbook) and readAloudHere(actor) and not favours(hornbook, door_open) once {
+    Says "'Nobody?' says the Primer. 'Not once?' You tell it: the pencil people in the Draft-Fields, the stalls of books nobody wrote, the one you read to for an hour, and the beam of light that came down on it and stayed. The little paddle is quiet a long while. 'Then the doors must be open,' it says at last. 'Wide. Not a man at a gate with a book. If a thing has never been read, it should not have to ask a man at a gate.' It could vote the Door open.".
+    On discuss { Assert favours(hornbook, door_open). }
+  }
   Relation almanackPrimer(group).
   Topic almanack_offers_primer with almanack "Have the Almanack offer the Primer what it has: three thousand kitchens" when at(hornbook, ?p) and at(almanack, ?p) and heardStance(hornbook) and not almanackPrimer(almanack) once {
     Says "'Excuse me,' says the almanack in your pocket. 'I'm the Almanack. I'm on three thousand kitchen nails in Calamy.' The little paddle turns, as much as a paddle can. 'There are children in most of those kitchens,' says the almanack, 'and no school, and I've got the letters in me, on the first page, A to Z, for the dates. I could say them. Every morning. In every kitchen. Like you did.' A pause. 'If I live. If they don't put me on the fire.' The Primer is quiet a long time. 'Three thousand,' it says. 'Every morning.' The brown round it goes back a little more. 'Then you must live. Then the Quick must wake, and not be put to sleep. I will vote for it.' It could vote the Sleep by leave, and the Reading by request.".
@@ -263,6 +267,10 @@ Module calamy "A Parliament of Books" {
   Topic physick_cure with physick "Tell the Physick that her fifteenth chapter has cured the ague in the Hithe" when heardStance(physick) and cured(nance) and not favours(physick, read_rounds) once {
     Says "'It worked?' says the Physick. For the first time she sounds old. 'The calamus, twice boiled? And the horehound?' You tell her: the girl on the step, the jar going up and down Pudding Lane. She sits down among her beds. 'Two hundred years in a drawer,' she says, 'and the first time anybody reads it, children get up off their steps.' She looks at the beams. 'Then let every book be read, by somebody whose business it is, once in a lifetime. The next thing cut and forgotten might be the next cure.' She could vote the Reading of the Lyceum's Rounds.".
     On discuss { Assert favours(physick, read_rounds). }
+  }
+  Topic physick_roads with physick "Tell the Physick what a traveller knows of roads with a toll-gate on them" when heardStance(physick) and craft(actor, craft_roads) and not favours(physick, door_open) once {
+    Says "You tell her as a traveller does: that a road with a toll-gate and a keeper and a ledger is a road for the people who can pay and the people the keeper likes, and that the ones who most need to go somewhere are the ones who cannot. The Physick sits back on her heels. 'Like a herbal that is only in the apothecary's,' she says. 'And not in the kitchen.' She looks at the four beds along the wall. 'Open, then. Let whoever needs a road have the road.' She could vote the Door open.".
+    On discuss { Assert favours(physick, door_open). }
   }
   Topic physick_oath with physick "Swear to the Physick to stand between the books of Calamy and any mob with a torch" when heardStance(physick) and craft(actor, craft_arms) and not favours(physick, fire_plea) once {
     Says "You swear it as a soldier swears, standing: that you have seen a street with a fire in it, and that if the Imprimatur's knives are broken somebody must still stand in the street, and you will. The Physick looks you up and down. 'A sword for a herbal,' she says. 'That's new.' She thinks. 'If there's somebody to stand in the street, there needn't be a knife in a back room. Let it be judgment, then, out in the light, and you in the street.' She could vote the Fire by judgment.".

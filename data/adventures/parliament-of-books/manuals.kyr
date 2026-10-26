@@ -50,7 +50,10 @@ Module calamy "A Parliament of Books" {
     On success { Assert studied(corday_book). }
     Result "Six hours with the Grammar open on a barrel and a stick for a sword, answering nine positions and then nine more. By the end {reader}'s hand is somewhere else before the blow has finished arriving. The Grammar shuts itself. 'Now give me to somebody younger,' it says.".
   }
-  Observe corday_unready at margin_edge when knows(party, corday_given) and memberOf(?m, party) and levelOf(?m) < 4 "Corday's Grammar, when you open it, reads you back for a moment, and shuts. 'Not yet,' it says. 'Go and be beaten by a few people first.'".
+  // A Manual too strong for its reader says so when it is first carried, and waits.
+  Relation cordayDeferred(group). Relation quillonDeferred(group).
+  Rule corday_unready when carries(party, corday_book) and memberOf(?m, party) and levelOf(?m) < 4 and not studied(corday_book) and not cordayDeferred(corday)
+    says "Corday's Grammar, when you open it, reads you back for a moment, and shuts. 'Not yet,' it says. 'Go and be beaten by a few people first.'" { Assert cordayDeferred(corday). }
 
   // ── Quillon's Constitution of the Mind: the Parliament's gift to the reader who seals a Colophon. ──
   Item quillon_book "Quillon's Constitution of the Mind" is quillon_kind at chamber hidden until gift_given.
@@ -64,7 +67,8 @@ Module calamy "A Parliament of Books" {
     On success { Assert studied(quillon_book). }
     Result "{reader} reads Quillon through, slowly, the whole night, and somewhere in the middle the book begins to read back: a light pressure, like a hand running down a list, finding what is slack and taking it in. In the morning {reader} remembers everything they have ever read, a little better than they read it.".
   }
-  Observe quillon_unready at chamber when knows(party, gift_given) and memberOf(?m, party) and levelOf(?m) < 5 "The grey book is shut, and stays shut. It will read you when you have more in you to read.".
+  Rule quillon_unready when carries(party, quillon_book) and memberOf(?m, party) and levelOf(?m) < 5 and not studied(quillon_book) and not quillonDeferred(party)
+    says "Quillon's grey book is shut, and stays shut. It will read you when you have more in you to read." { Assert quillonDeferred(party). }
 
   // ── The Physick's gift, when her beds are green again. ──
   Hazard orme_gift "a leaf from the restored bed" means "Teach cure_disease to ally.".

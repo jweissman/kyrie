@@ -63,7 +63,8 @@ describe('A Parliament of Books: the city', () => {
 describe('A Parliament of Books: the ways in', () => {
   it('goes in by the Archivist\'s reading: two pieces found, a letter read aloud, the ink cut at dead low water, and entered', async () => {
     const j = await Calamy.start('reading');
-    await Calamy.play(j, ...Steps.arrive, ...Steps.pieces, ...Steps.hennet, ...Steps.quarles, ...Steps.key, ...Steps.ink, ...Steps.read);
+    await Calamy.play(j, ...Steps.arrive, ...Steps.pieces, ...Steps.hennet, ...Steps.quarles, ...Steps.key,
+      ...Steps.ink, ...Steps.read);
     expect(j.at('party')).toBe(C('reading_room'));
     expect(Calamy.holds(j, 'entered', 'party')).toBe(true);
     expect(Calamy.holds(j, 'correctedEntry', 'party')).toBe(false);

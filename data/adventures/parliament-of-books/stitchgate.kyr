@@ -7,7 +7,7 @@ Module calamy "A Parliament of Books" {
   Observe scriveners_scene at scriveners when true "Scriveners' Row is a long arcade of wooden booths against the wall, each with a desk, a stool, a scribe, and a queue of people wanting letters written, wills copied, love made legible. The scratching is like rain. At the top of the row an old gate leads through into the Close.".
 
   // ── The Binders' Hall. ──
-  Observe hall_scene at hall_floor when true "A great room, beamed, with long tables down it and at every table a binder with a book in a press: boards, thread, paste-pots, bone folders. On the end wall hangs a painted board of the Worshipful Company of Binders, a needle crossed with a book. Through an inner door you can see frames standing in rows, and hear someone singing under their breath.".
+  Observe hall_scene at hall_floor when true "A great room, beamed, with long tables down it and at every table a binder with a book in a press: boards, thread, paste-pots, bone folders. On the end wall hangs a painted board of the Worshipful Company of Binders, a needle crossed with a book. Through an inner door you can see frames standing in rows, and hear someone singing under their breath." teaches binders_named.
   Person mott "Warden Hesketh Mott" at hall_floor {
     Role "Warden of the Worshipful Company of Binders". Ancestry human. Background artisan. Peaceable. Manner proud. Pronouns he.
     Greets "A stout man in a leather apron with a silver needle pinned to it gets up from the end of the long table. 'Hesketh Mott, Warden. If you have a book that wants binding, you've come to the right street. If you have a book that wants talking to, you've come to the wrong one, and I'll thank you to take it to Newmarket where it was made.'".

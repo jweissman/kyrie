@@ -82,7 +82,8 @@ export const Steps = {
     'never Old Brannock', 'Take your leave'],
 };
 export const Arcs = {
-  // Hester Rhule shown, in order: the cry at Thursday's burning, the almanack that kept her secret, the Colophon's first term.
+  // Hester Rhule shown, in order: the cry at Thursday's burning, the almanack that kept her secret, the Colophon's
+  // first term.
   rhuleKept: ['go:taproom', 'Talk to the Almanack', 'what it is', 'kitchens of the Close', 'not sure it should tell', 'may keep',
     'Take your leave', 'go:bridge_north', 'Buy.*penny almanack', 'go:bridge_middle', 'Talk to the children', 'what they are singing',
     'Take your leave', 'go:court_hall', 'Pay Abel Snow', 'go:quarles_room', 'Talk to Ottoline', 'Tell the Archivist what you have found',

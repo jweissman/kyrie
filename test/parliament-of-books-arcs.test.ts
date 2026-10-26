@@ -52,14 +52,14 @@ describe('A Parliament of Books: Hester Rhule', () => {
 });
 
 describe('A Parliament of Books: the bond and the yard', () => {
-  it('reads the bestiary\'s beasts home by lantern-light, and is paid for it', async () => {
+  it('is turned out of the bond at dusk, goes back in by lantern-light on purpose, reads the beasts home, and is paid', async () => {
     const j = await Calamy.start('bond');
     await Calamy.play(j, 'go:customs_yard', 'Talk to Mr. Sallis', 'claw-marks', 'Take your leave', 'go:gallon_shop', 'Buy › A lantern',
       'Buy › A flask', 'go:bond_loft', 'Talk to the Hithe Bestiary', 'what happened', 'beasts might be called', 'Take your leave',
-      'go:bond_floor', '=78', 'Fill a lantern', 'Read the bonnacon', 'go:bond_loft', 'Read the manticore', 'Read the caladrius', '=+2');
+      'go:bond_floor', '=78', 'Fill a lantern', 'lift the bar on the bond gate', 'go:bond_floor', 'Read the bonnacon', 'go:bond_loft', 'Read the manticore', 'Read the caladrius', '=+2');
     expect(Calamy.holds(j, 'bestiaryQuiet', 'bestiary')).toBe(true);
     expect(Calamy.knows(j, 'bestiary_unsewn')).toBe(true);
-    await Calamy.play(j, 'go:bond_floor', 'Lift the bar', 'go:customs_yard', 'Talk to Mr. Sallis', 'bond is quiet', 'Take your leave');
+    await Calamy.play(j, 'go:customs_yard', 'Talk to Mr. Sallis', 'bond is quiet', 'Take your leave');
     expect(Calamy.holds(j, 'paidBySallis', 'sallis')).toBe(true);
   }, 180000);
 

@@ -8,7 +8,7 @@ Module calamy "A Parliament of Books" {
   Discovery rounds_hollow "Every morning at six the Lyceum keeps the Rounds: a proctor reads out the titles of the city's books and the students answer AND READ. Nobody reads any of the books. Once, the Archivist says, they did.".
 
   // ── The Archivist. ──
-  Observe tower_foot_scene at tower_foot when true "A round room at the foot of the tower, cold, with a turning stair going up the wall and a rope on iron rings for a handrail. A notice on the door, in big careful letters for the half-blind: THE ARCHIVIST. KNOCK. THEN COME UP. THEN KNOCK AGAIN.".
+  Observe tower_foot_scene at tower_foot when true "A round room at the foot of the tower, cold, with a turning stair going up the wall and a rope on iron rings for a handrail. A notice on the door, in big careful letters for the half-blind: THE ARCHIVIST. KNOCK. THEN COME UP. THEN KNOCK AGAIN." teaches tower_named.
   Observe quarles_scene at quarles_room when true "A round room at the top of the tower with windows on every side and the whole estuary in them. It is full of books, but they are not on shelves; they lie open on every surface, on the floor, on the bed, face up, as if being read by the light. In a high chair by the south window sits a very old woman with white eyes and her hands folded on a stick, and her face turned toward the sea.".
   Person quarles "Ottoline Quarles" at quarles_room {
     Role "Archivist of the Lyceum". Ancestry human. Calling mage. Level 9. Background archivist. Peaceable. Manner acerbic. Pronouns she.
@@ -66,7 +66,7 @@ Module calamy "A Parliament of Books" {
     State open "The iron-bound door of the Chained Room stands unlocked.".
     Change pick "Pick the lock of the Chained Room" from locked to open needing lockwork.
   }
-  Observe chained_scene at chained_room when true "A long low room with shelves down both walls and every book on them chained by the spine to a rod, so that it can be taken down and opened but not carried off. At the far end, on a lectern of its own, a book the size of a door lies open: the Catalogue of the Founders, its pages black with small writing. Near it, on a stand, a thick old codex with brass clasps, shut. In the corner an iron cage, padlocked, with a book in it bound in something dark that is not quite leather. From the ceiling, where the tarpaulin does not reach, water drips steadily into a bucket next to the Catalogue.".
+  Observe chained_scene at chained_room when true "A long low room with shelves down both walls and every book on them chained by the spine to a rod, so that it can be taken down and opened but not carried off. At the far end, on a lectern of its own, a book the size of a door lies open: the Catalogue of the Founders, its pages black with small writing. Near it, on a stand, a thick old codex with brass clasps, shut. In the corner an iron cage, padlocked, with a book in it bound in something dark that is not quite leather. From the ceiling, where the tarpaulin does not reach, water drips steadily into a bucket next to the Catalogue." teaches chained_named.
   Discovery catalogue_seen "The Catalogue of the Founders lies open in the Chained Room: every book Calamy has made, entered in Calam-ink from the Founders' entry at the head, nine hundred years of it, with blank leaves at the foot.".
   Observe catalogue_learned at chained_room when true "The Catalogue of the Founders: you could lie down on its open pages. At the head of the first leaf, in letters like iron, THE FOUNDERS; and then entry after entry, every book ever made in Calamy, in an ink so black it seems to sink into the page; and at the very end, hundreds of leaves on, blank pages waiting." teaches catalogue_seen.
   Relation entryWritten(group).
@@ -106,7 +106,7 @@ Module calamy "A Parliament of Books" {
   }
 
   // ── The Provost, the cook, and the cheese. ──
-  Observe provost_scene at provost_room when true "A comfortable study with a good fire, a good carpet, good port in a decanter, and a great many unread books with their spines uncracked. On the hearth-rug, among the crumbs, a cheese-knife.".
+  Observe provost_scene at provost_room when true "A brass plate on the door says THE PROVOST. A comfortable study with a good fire, a good carpet, good port in a decanter, and a great many unread books with their spines uncracked. On the hearth-rug, among the crumbs, a cheese-knife." teaches lodge_named.
   Person provost "Provost Lucan Fairweather" at provost_room {
     Role "Provost of the Lyceum". Ancestry human. Background scholar. Peaceable. Manner proud. Pronouns he.
     Greets "A handsome silver-haired man in a velvet gown rises from behind a desk with nothing on it. 'Fairweather. Provost. If you are a benefactor, sit down; if you are a parent, sit down and do not shout; if you are from the Imprimatur, I have nothing to say until I have spoken to my solicitor.'".

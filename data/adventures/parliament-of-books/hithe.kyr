@@ -138,7 +138,7 @@ Module calamy "A Parliament of Books" {
     Says "'Marsh ague,' says Goody Nance. 'Comes up off the flats every spring or two. Mostly it passes. This year it doesn't.' She pours water onto leaves. 'My gran had a cure for it out of Orme. Mother Orme's Physick, the old herbal; there's a copy up at the Lyceum and one in every apothecary's in Calamy and not one of them has the chapter. Cut. The Imprimatur cut it out, I don't know when, before my gran was born. She had it by heart.' She sets the cup down. 'I don't. I was nine. Calamus root, dug at the bottom of the tide. And something after that. I've lain awake on it.'".
     On discuss { Assert knows(actor, orme_remedy). }
   }
-  Observe nance_scene at nance_room when true "A front room that is half kitchen and half sick-bay: a truckle bed with a child asleep in it, bunches of herbs under the ceiling, a scrubbed table, a kettle. On the wall by the hearth hangs a penny almanack on a nail, and a framed sampler: PHYSICIAN HEAL THY SELF, AND THEN THE REST OF US.".
+  Observe nance_scene at nance_room when true "A front room that is half kitchen and half sick-bay: a truckle bed with a child asleep in it, bunches of herbs under the ceiling, a scrubbed table, a kettle. On the wall by the hearth hangs a penny almanack on a nail, and a framed sampler: PHYSICIAN HEAL THY SELF, AND THEN THE REST OF US." teaches nance_named.
   Discovery jonquil_known "A young man is dying of a consumption in a garret at the top of Pudding Lane: Jonquil Annery, the last of the Annerys, who were a great Hithe family once.".
   Initially Assert leadsTo(jonquil_known, jonquil_garret).
   Topic nance_garret with nance "Ask Goody Nance who coughs at the top of the lane" when true once {

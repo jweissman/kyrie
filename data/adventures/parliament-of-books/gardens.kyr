@@ -4,7 +4,7 @@ Module calamy "A Parliament of Books" {
   Observe walk_scene at orchard_walk when true "Orchard Walk runs between high brick walls with fruit trees showing over them, and doors in the walls with bell-pulls. One house stands out to the street with a portico and a great many windows, all shuttered on one side. Further along, a narrow shop-front with gilt letters and lace curtains, and at the end a gate into a garden of beds and labels.".
 
   // ── Corvell House, and the library that left. ──
-  Observe corvell_hall_scene at corvell_hall when true "A hall of black and white marble, two staircases, and on every wall a glass case with a book in it, open, lit from above: a psalter with gold on it, a herbal with painted roots, a book of hours no bigger than a hand. Each case has a card. The double doors at the end stand open on a long room, and from here the long room looks empty.".
+  Observe corvell_hall_scene at corvell_hall when true "A hall of black and white marble, two staircases, and on every wall a glass case with a book in it, open, lit from above: a psalter with gold on it, a herbal with painted roots, a book of hours no bigger than a hand. Each case has a card. The double doors at the end stand open on a long room, and from here the long room looks empty." teaches corvell_named.
   Person corvell "Sir Gideon Corvell" at corvell_hall {
     Role "collector". Ancestry human. Background aristocrat. Peaceable. Manner proud. Pronouns he.
     Greets "A tall man in a velvet coat, with a magnifying glass on a ribbon round his neck, turns from a case. 'Are you from the Imprimatur? No. Are you from the Watch? No. Then you are either a thief come back to look at what you did, or a person of sense, and I shall assume the second, because I am out of patience with the first.'".
@@ -56,7 +56,7 @@ Module calamy "A Parliament of Books" {
   Observe corvell_after at corvell_hall when corvellTold(corvell) and not raidCalled(lantern_yard) "Sir Gideon is sitting on the bottom stair with his magnifying glass in his lap, looking at nothing.".
 
   // ── Mrs. Quennell's subscription library, and a book forty-one years overdue. ──
-  Observe quennell_scene at quennell_room when true "A long low room with lace at the windows and a carpet, armchairs, a clock, and shelves of novels, sermons, travels and cookery with numbered labels on their spines. A desk by the door with a ledger the size of a paving stone, and behind the desk a very small, very upright old lady with a pen.".
+  Observe quennell_scene at quennell_room when true "A long low room with lace at the windows and a carpet, armchairs, a clock, and shelves of novels, sermons, travels and cookery with numbered labels on their spines. A desk by the door with a ledger the size of a paving stone, and behind the desk a very small, very upright old lady with a pen." teaches quennell_named.
   Person quennell "Mrs. Amabel Quennell" at quennell_room {
     Role "keeper of the subscription library". Ancestry human. Background librarian. Peaceable. Manner acerbic. Pronouns she.
     Wants treatise_kind.

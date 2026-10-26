@@ -6,9 +6,10 @@ import { PlayerView } from '../src/presentation/player-view';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
 
-// Calamy in a world that goes on: one of the independent adventures, of which a world holds the one its seed chooses; beyond the east march of a cold country, where it comes down to the sea and the river runs out through the reeds and the
-// estuary begins. Its nine days to the Kindling run from the morning after it is reached; its folk
-// speak of it in the country before; and after the Kindling it goes on, changed, with no ending to close the book.
+// Calamy in a world that goes on: one of the independent adventures, of which a world holds the one its seed
+// chooses; beyond the east march of a cold country, where the river runs out through the reeds and the estuary
+// begins. Its nine days to the Kindling run from the morning after it is reached; its folk speak of it in the
+// country before; and after the Kindling it goes on, changed, with no ending to close the book.
 describe('Calamy beyond a march', () => {
   it('is spoken of in a cold country, held beyond its east march, and its Kindling falls nine days on from reaching it', async () => {
     const w = await WorldAssembler.assemble('cold', NodeBundleSource.shared, { region: { terrain: 'frost' } });
