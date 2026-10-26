@@ -94,7 +94,13 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   private listen(message: Message) {
     if (message.kind === 'saved') {
       const started = performance.now(), size = message.save.length + (message.world?.text.length ?? 0);
-      const saved = ReaderStore.write(message.save, message.summary, message.world);
+      // A state is kept only beside the world it was kept against; the engine is told whether its world is kept here,
+      // so that one not kept goes again with the next (the architecture review's A3).
+      const beside = !!message.world || ReaderStore.holds(message.key);
+      const saved = beside ? ReaderStore.write(message.save, message.summary, message.world) : undefined;
+      if (message.world || !beside) {
+        void this.engine.request({ kind: 'kept', key: message.key, ok: !!saved }).catch(() => undefined);
+      }
       if (saved) { this.setState({ saved, unkept: false }, () => Timings.kept(performance.now() - started, size)); }
       // Not kept (the browser's storage is full, or refused): the player is told, and given the save to take.
       else if (!this.state.unkept) { this.setState({ unkept: true }); }

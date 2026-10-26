@@ -94,7 +94,9 @@ export type Request =
   | { kind: 'travel'; destination: string; said: string }
   | { kind: 'checkpoint' }
   // The whole story so far, for the Story page: frames carry only its last entries.
-  | { kind: 'story' };
+  | { kind: 'story' }
+  // Whether the page kept the world it was sent (see the saved message): until it says so, the world is sent again.
+  | { kind: 'kept'; key: string; ok: boolean };
 export interface Envelope { id: number; request: Request }
 // What a kept game says about itself on the title: the campaign, where the company is, when, and who.
 export interface SaveSummary { title: string; where: string; when: string; company: string }
@@ -104,5 +106,6 @@ export type Message =
   // The game to keep in this browser, once a command is done (sent after its frame, so play does not wait on it):
   // packed small (see SaveCodec), with what the title page says of it.
   // The game kept after a command: its state, and its world the first time it is kept or after it changes.
-  | { kind: 'saved'; save: string; summary: SaveSummary; world?: { key: string; text: string } }
+  // key: the world the state was kept against, which a state is kept beside and no other.
+  | { kind: 'saved'; save: string; summary: SaveSummary; key: string; world?: { key: string; text: string } }
   | { kind: 'progress'; stage: string };

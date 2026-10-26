@@ -13,6 +13,10 @@ export class GeneratedWorld {
   // Walks the company to a place by the shortest way the world joins them, taking each way as the company can (a
   // place of the first region by its own name; of another, by its id: x0y1__edge_east).
   static async travel(s: PlaySession, place: string) {
+    for (const [passage, to] of this.path(s, place)) { await s.perform(`go(${passage},${to})`); }
+  }
+  // The ways to take, passage by passage, from where the company stands to a place.
+  static path(s: PlaySession, place: string): [string, string][] {
     const world = s.campaign.world, target = place.includes('__') ? place : `region__${place}`;
     const links = world.related('connects');
     const start = world.one('at', 'party')!, came = new Map<string, [string, string]>([[start, ['', '']]]);
@@ -25,7 +29,7 @@ export class GeneratedWorld {
     if (!came.has(target)) { throw new Error(`No way from ${start} to ${target}`); }
     const steps: [string, string][] = [];
     for (let at = target; at !== start; at = came.get(at)![0]) { steps.unshift([came.get(at)![1], at]); }
-    for (const [passage, to] of steps) { await s.perform(`go(${passage},${to})`); }
+    return steps;
   }
   // The first person who carries word of a placement, and the room they are found in (an innkeeper in a taproom, or
   // whoever speaks for a hamlet on its green).

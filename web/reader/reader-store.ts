@@ -55,6 +55,11 @@ export class ReaderStore {
       return { text, ...summary, ...worldText ? { world: worldText } : {} };
     } catch { return undefined; }
   }
+  // Whether the world kept here is this one: a state is kept beside its own world, and no other.
+  static holds(key: string): boolean {
+    const pointer = this.pointer();
+    return pointer.worldKey === key || (!pointer.worldSlot && this.legacyWorld()?.key === key);
+  }
   // The slots in use now, as the summary names them.
   private static pointer(): Pointer {
     try { return JSON.parse(localStorage.getItem(this.about) ?? '{}') as Pointer; } catch { return {}; }

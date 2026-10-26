@@ -53,6 +53,11 @@ export class EngineHost {
   private readonly creation = new Creation();
   // The command under way, if any, which a checkpoint waits for.
   private working: Promise<unknown> = Promise.resolve();
+  // Which game the host plays: one begun or opened is the next. A command that ends after another game has begun
+  // writes nothing into it, and a fight it is in is fought on by the game's tactics (the architecture review's A2: a
+  // new game took the old command's journal entry). The game a command is under way in, while it is.
+  private game = 0;
+  private busy?: number;
   constructor(private readonly post: (message: Message) => void) {}
   warm() { setTimeout(() => void ModuleBundle.warmRules(Scenarios.source()).catch(() => undefined), 0); }
   async handle(request: Request): Promise<unknown> {
@@ -64,17 +69,12 @@ export class EngineHost {
       case 'begin': return this.begin(request);
       case 'ready': this.prepare(request); return null;
       case 'resume': return this.resume(request.saved, request.world);
-      case 'perform': {
-        const done = this.perform(request.command, { said: request.said, move: request.move, named: !!request.named });
-        this.working = done.catch(() => undefined);
-        return done;
-      }
+      case 'perform':
+        return this.command(() => this.perform(request.command, { said: request.said, move: request.move,
+          named: !!request.named }));
       case 'fight': this.fight(request.choice); return null;
-      case 'travel': {
-        const done = this.travel(request.destination, request.said);
-        this.working = done.catch(() => undefined);
-        return done;
-      }
+      case 'travel': return this.command(() => this.travel(request.destination, request.said));
+      case 'kept': this.acknowledged(request.key, request.ok); return null;
       // The page's download waits for the command under way (the independent review's A2).
       case 'checkpoint': await this.working; return this.session ? JSON.stringify(this.session.checkpoint(true)) : null;
       case 'story': return this.log;
@@ -102,13 +102,16 @@ export class EngineHost {
     return r.campaign === Creation.generated ? session.drawnFor({ party: r.party, ...at }) : session;
   }
   private async begin(r: Starting): Promise<Frame> {
+    const game = this.abandon();
     this.post({ kind: 'progress', stage: 'Drawing the world' });
     const ready = this.ready?.key === EngineHost.key(r) ? this.ready.started : undefined;
     this.ready = undefined;
     this.post({ kind: 'progress', stage: 'Placing its people' });
-    this.session = await (ready?.catch(() => this.start(r)) ?? this.start(r));
+    const session = await (ready?.catch(() => this.start(r)) ?? this.start(r));
+    if (game !== this.game) { throw new Error('Another game was begun meanwhile.'); }
+    this.session = session;
     this.frontier = r.campaign === Creation.generated ? new Frontier(r.seed, Scenarios.source()) : undefined;
-    if (this.frontier) { this.session.extend({ expand: this.widen }); }
+    if (this.frontier) { this.session.extend({ expand: this.widening(game) }); }
     this.log = []; this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
     this.crossed = false; this.world = undefined;
     return this.settled();
@@ -116,8 +119,17 @@ export class EngineHost {
   // A game kept in this browser (packed), or a save file: a checkpoint, with or without the page's telling of it.
   // A game kept in this browser is its state and the world it names, kept apart (see KeptGame).
   private async resume(text: string, world?: string): Promise<Frame> {
+    const game = this.abandon();
     const parsed = JSON.parse(await SaveCodec.unpack(text)) as KeptState | Whole | SessionCheckpoint;
-    const part = world ? JSON.parse(await SaveCodec.unpack(world)) as WorldPart : undefined;
+    const unpacked = world ? await SaveCodec.unpack(world) : undefined;
+    const part = unpacked ? JSON.parse(unpacked) as WorldPart : undefined;
+    // A state is opened only with the world it was kept against (the architecture review's A3: an old world, kept
+    // beside a state of a newer one, opened unchecked and played on without the country the company stood in).
+    if ('version' in parsed && parsed.version === 2 && unpacked && KeptGame.key(unpacked) !== parsed.world) {
+      throw new Error('The world this game was kept with is not the one kept beside it in this browser. The game can '
+        + 'be opened from a save file, or a new one begun from the title page.');
+    }
+    if (game !== this.game) { throw new Error('Another game was begun meanwhile.'); }
     const saved = KeptGame.join(parsed, part), kept = 'version' in parsed && parsed.version === 2;
     // Parsed here for this alone, it is handed over; one this very build kept (state and world) is not checked again.
     // One kept by another build is checked as it is opened, and if it cannot be, the player is told why.
@@ -134,19 +146,20 @@ export class EngineHost {
       index: KeptGame.index(part.base ?? []) } : undefined;
     const t = saved.checkpoint.transcript;
     this.frontier = Frontier.generated(t.scenario) ? new Frontier(t.seed, Scenarios.source()) : undefined;
-    if (this.frontier) { this.session.extend({ expand: this.widen }); }
+    if (this.frontier) { this.session.extend({ expand: this.widening(game) }); }
     this.log = (saved.log ?? []).map((e, i) => ({ ...e, id: e.id ?? i, notes: e.notes ?? [] }));
     this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
     this.crossed = true;
     return this.settled();
   }
   private async perform(command: string, context: { said: string; move: boolean; named: boolean }): Promise<Frame> {
-    const session = this.session;
+    const session = this.session, game = this.game;
     if (!session) { throw new Error('No game is under way'); }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
     this.fought = undefined;
     try {
-      const event = await session.perform(command, this.controller);
+      const event = await session.perform(command, this.controlling(game));
+      if (game !== this.game) { throw new Error('That game is no longer under way.'); }
       const after = PlayerView.observe(campaign), feedback = ActionFeedbackView.read(campaign, event, before);
       const moved = before.location?.id !== after.location?.id;
       this.log.push(PlayTranscript.entry(event, feedback, { ...context, id: this.next(), moved,
@@ -154,8 +167,33 @@ export class EngineHost {
       // A choice made from an opened list is echoed as the action it was ("You buy a torch for Bran").
       const said = context.named || context.said.includes(' › ') ? feedback.attempt : context.said;
       this.told = { event, feedback: this.fought ? EngineHost.unfought(feedback) : feedback, said, moved };
-    } finally { this.turn = undefined; this.opening = []; this.spent = performance.now() - started; }
+    } finally {
+      if (game === this.game) { this.turn = undefined; this.opening = []; this.spent = performance.now() - started; }
+    }
     return this.settled();
+  }
+  // One command at a time in a game: another, while one is under way, is refused, and leaves that one as it was (a
+  // fight waiting on the player went unanswerable, and every later command was refused: the review's A2).
+  private command<T>(run: () => Promise<T>): Promise<T> {
+    if (this.busy === this.game) { return Promise.reject(new Error('A command is already in progress')); }
+    const game = this.busy = this.game;
+    const done = run().finally(() => { if (this.busy === game) { this.busy = undefined; } });
+    this.working = done.catch(() => undefined);
+    return done;
+  }
+  // The game left for another: a fight of its that waits on the player is fought on by the game's tactics, so that its
+  // command can end, and whatever it then does is written nowhere. The game begun or opened now.
+  private abandon(): number {
+    const turn = this.turn;
+    this.turn = undefined; this.fought = undefined; this.busy = undefined; this.working = Promise.resolve();
+    if (turn) { turn.resolve(Tactics.choose(turn.battle.state, turn.battle.legalCommands())); }
+    return ++this.game;
+  }
+  // The fight's controller for a command of one game: the page's while that game is played, and its tactics after.
+  private controlling(game: number) { return this.control.bind(this, game); }
+  private control(game: number, battle: Battle): Promise<Command> {
+    return game === this.game ? this.controller(battle)
+      : Promise.resolve(Tactics.choose(battle.state, battle.legalCommands()));
   }
   // A journey along known ways: each leg the command the page offers for it, told as it is made; the frame it ends
   // with says each leg (where it came, when, how the way went, what came of it), and why it stopped if it did.
@@ -184,10 +222,13 @@ export class EngineHost {
   private next(): number { return this.log.reduce((n, e) => Math.max(n, e.id + 1), 0); }
   // Coming to a march-stone draws the country beyond it, the first time: some seconds, once, said while it lasts. It
   // is drawn as part of the command (see PlaySession.extend), so a replay of the game draws it too.
-  private readonly widen = async (campaign: Campaign) => {
-    if (this.frontier?.drawing(campaign)) { this.post({ kind: 'progress', stage: 'The country beyond is being drawn' }); }
-    return this.frontier?.expand(campaign);
-  };
+  private widening(game: number) { return this.widen.bind(this, game, this.frontier); }
+  private async widen(game: number, frontier: Frontier | undefined, campaign: Campaign) {
+    if (game === this.game && frontier?.drawing(campaign)) {
+      this.post({ kind: 'progress', stage: 'The country beyond is being drawn' });
+    }
+    return frontier?.expand(campaign);
+  }
   // The fight's controller: the page turns to the fight, opening with what started it, and waits for a choice.
   readonly controller = (battle: Battle) => new Promise<Command>(resolve => {
     // A fight begins where the company now is (it may have just come there), not where the page last showed it.
@@ -234,9 +275,11 @@ export class EngineHost {
     try {
       const checkpoint = this.session.checkpoint(true), world = this.worldOf(checkpoint);
       const save = JSON.stringify(KeptGame.split(checkpoint, world, this.log, this.session.campaign.world));
-      const fresh = world.kept ? undefined : { key: world.key, text: await SaveCodec.pack(world.text!) };
-      this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary(), ...fresh ? { world: fresh } : {} });
-      world.kept = true; world.text = undefined;
+      // The world goes with the state until the page says it has kept it (see acknowledged).
+      const fresh = world.kept || world.sent ? undefined : { key: world.key, text: await SaveCodec.pack(world.text!) };
+      this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary(), key: world.key,
+        ...fresh ? { world: fresh } : {} });
+      if (fresh) { world.sent = true; }
     } catch { /* a command began before the game could be kept; it is kept after that one */ }
     this.ahead();
   }
@@ -248,7 +291,18 @@ export class EngineHost {
     this.preparing = this.frontier.prepare(this.session.campaign).catch(() => undefined)
       .finally(() => { this.preparing = undefined; });
   }
-  private world?: Keyed & { kept: boolean; text?: string };
+  private world?: Keyed & { kept: boolean; sent?: boolean; text?: string };
+  // What the page did with a world it was sent, or found missing beside a state it was sent: kept, it is not sent
+  // again;
+  // not kept (the browser's storage full), it goes with the next state (the review's A3: a world posted was taken for
+  // kept, and a state of it then kept beside the world before).
+  private acknowledged(key: string, ok: boolean) {
+    const world = this.world;
+    if (world?.key !== key) { return; }
+    world.sent = false;
+    // Not kept, it is drawn up again from the game as it is then (its text was let go once kept).
+    if (ok) { world.kept = true; world.text = undefined; } else { this.world = undefined; }
+  }
   // The world a checkpoint is played in, keyed by its contents: the same until the country grows.
   private worldOf(checkpoint: SessionCheckpoint) {
     const { module, definition } = checkpoint.save;
