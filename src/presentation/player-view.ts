@@ -108,6 +108,9 @@ export class PlayerView {
     if (!rows) { rows = this.list(campaign, offered); this.listed.set(offered, rows); }
     return rows.map(row => ({ ...row, choice: { ...row.choice } }));
   }
+  // Actions as the page offers them: what the company sees, named as it would name them, worded, alike ones as one
+  // (also what the company could do with more coin: CoinReading).
+  static offer(campaign: Campaign, offered: readonly Operator[]) { return this.list(campaign, offered); }
   private static list(campaign: Campaign, offered: readonly Operator[]) {
     const world = campaign.world, unnamed = this.unnamed(world), actor = campaign.playerActor ?? '';
     const here = ChoiceWording.here(campaign);
@@ -347,7 +350,11 @@ export class PlayerView {
     const label = campaign.module.pursuits?.find(p => p.actor === id && p.id === pursuing)?.label;
     if (!label) { return undefined; }
     const text = ObservationText.render(label, world, false);
-    return explained.selected ? text : `${text}, but no way is open to them`;
+    // What they are evidently doing; and, from one who speaks and is here to say it, that they can find no way to it.
+    // A creature with no way open is doing nothing to be seen: that is the planner's knowledge of the whole world,
+    // not the company's (the review's A20).
+    if (explained.selected) { return text; }
+    return this.test(world, 'talks', id) ? `${text}, but no way is open to them` : undefined;
   }
   private static change(change: Change, labels: Map<string, string>): string {
     const call = { ...change.call, args: change.call.args.map(id => labels.get(id) ?? id) };

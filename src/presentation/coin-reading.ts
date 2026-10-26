@@ -1,7 +1,8 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Operator, Predicate, Value } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
-import { ActionPresentation, type PublicChoice } from './action-presentation';
+import type { PublicChoice } from './action-presentation';
+import { PlayerView } from './player-view';
 
 // A choice the company could make if it had the coin: a purchase, a toll, a hire, a bed. What it costs and what the
 // company has.
@@ -31,7 +32,9 @@ export class CoinReading {
       value: { kind: 'number', value: have + 100000 } }]);
     const legal = new Set(campaign.offered().map(a => a.id));
     const opened = campaign.operators.applicable(rich, actor, priced).filter(op => !legal.has(op.id));
-    const short = ActionPresentation.choices(opened, campaign.schemaList).map(row => ({ ...row, have,
+    // As the page would offer them: of what the company sees, named as it would name them (the architecture review's
+    // A20: they bypassed what the page keeps from the company).
+    const short = PlayerView.offer(campaign, opened).map(row => ({ ...row, have,
       cost: Math.max(0, ...this.prices(row.action.requires).filter(p => p.actor === actor)
         .map(p => world.number(p.right))) }));
     this.cache.set(campaign, { world, short });
