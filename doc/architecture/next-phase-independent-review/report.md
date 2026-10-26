@@ -4,7 +4,8 @@
 ("Small truths kept: a wait broken off told as begun, …"). It was fetched at the start of the review and held fixed.
 Nothing after it was considered.
 
-**Branch:** `review/architecture-2026-10-26`, cut from that exact commit in a separate worktree. The only change on it is
+**Branch:** `review/architecture-2026-10-26-next-phase` (the name `review/architecture-2026-10-26` was already
+taken on the remote by an earlier review; see section 6), cut from that exact commit in a separate worktree. The only change on it is
 this directory. No product code was modified, and nothing was merged, opened as a PR, or commented on.
 
 **Date:** 2026-10-26.
@@ -928,7 +929,33 @@ remembered world would currently remember different things depending on what els
 
 ---
 
-## 6. Method and limits
+## 6. Relation to the earlier review of `0e066e5`
+
+**Where it is.** A separate review of the earlier snapshot `0e066e5` was pushed to the remote branch
+`review/architecture-2026-10-26` (commit `112d61f`, `doc/architecture/review-2026-10-26/report.md`) before this one
+began. It is not on `main`. Because that branch name was taken, this review is published on
+`review/architecture-2026-10-26-next-phase`.
+
+**Overlap, and status at `69125e5`.**
+- **Its N3 (the generator emits Kyr strings and reads them back)** is the mechanism under this report's H4 and M3.
+  This review adds the plot-level consequences: fixed story structures, the dead-speaker clause and the fever cure
+  everywhere.
+- **Its N7 (the parse cache keyed by text)** is still reproducible at this snapshot (H7, `det-parse-cache`). This
+  review adds two id-keyed item caches and the concurrent-load failure.
+- **Its N5 (the layer table is unenforced)** is consistent with H2. This review adds the runtime's import of
+  presentation for night and perception, and command resolution through `PlayerView`.
+- **Its N2 (saves trusted by format, not build)** has since been partly addressed: `BuildStamp` now gates `trusted`
+  (`web/engine/engine-host.ts:124`). H6 records what remains: no state digest, no replay on build change, and every
+  unbuilt run reporting `'dev'`.
+
+**New in this review.** These findings are, to my knowledge, not raised by any earlier review:
+- H1: unloadable seeds;
+- H3: the rule library as the engine's ABI;
+- H5: knowledge leaks and the re-derived passage rules;
+- H6: the locale-dependent AI and the single combat stream;
+- M1, M2, M4, M5 and M7's companion duplication.
+
+## 7. Method and limits
 
 **Reading.**
 - I read `src/lang/world.ts`, `asking.ts`, the campaign transaction, tick, watch loop, operators, action schemas,
