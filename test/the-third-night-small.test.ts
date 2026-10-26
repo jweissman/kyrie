@@ -68,9 +68,13 @@ describe('The Third Night: the night of the rising', () => {
     await g.fixture('mystery', 'captain');
     expect(g.holds('captainPinch', 'party')).toBe(true);
     expect(g.measure('captainView', 'sefton')).toBeGreaterThanOrEqual(2);
+    // She asks the one person at the table she has not been told what to think of; a rebel's child who came to supper.
+    await g.fixture('mystery', 'supper');
+    expect(g.holds('captainAnswered', 'party')).toBe(true);
+    expect(g.measure('captainView', 'sefton')).toBeGreaterThanOrEqual(3);
     await g.until(440);
     expect(g.holds('maudieTaken', 'maudie')).toBe(true);
-    expect(g.holds('maudieHanged', 'maudie')).toBe(g.measure('captainView', 'sefton') < 3);
+    expect(g.holds('maudieHanged', 'maudie')).toBe(false);
     expect(g.holds('pinchGone', 'pinch')).toBe(true);
   }, 240000);
 });
@@ -131,5 +135,16 @@ describe('The Third Night: the satire', () => {
       'about Joss Wilder\'s betrothal ring');
     expect(g.j.offers('the ring was pawned before Joss was any felon')).toBe(false);
     expect(g.j.offers('eight coin for Joss Wilder\'s ring')).toBe(true);
+  }, 240000);
+});
+
+describe('The Third Night: a stranger at the captain\'s supper', () => {
+  it('a traveller with nobody on the rail is believed for having no reason to lie, and the captain goes to the yards', async () => {
+    const g = await Wrayford.start(build('traveller'));
+    await g.play('To Northgate', 'To the Market Cross', '=356', 'Into the Guildhall', 'Talk to Captain');
+    expect(g.j.offers('my father is on that rail')).toBe(false);
+    await g.play('I am a stranger here', 'Take your leave');
+    expect(g.measure('captainView', 'sefton')).toBe(1);
+    expect(g.j.offers('ask the carters, not the Bench')).toBe(false);
   }, 240000);
 });

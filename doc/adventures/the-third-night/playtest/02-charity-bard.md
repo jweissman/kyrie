@@ -32,7 +32,7 @@ Tom Lumley does not take his eyes off the canvas. ‘If you’re from the Compan
 
 **› Talk to Hal Hulme** · *Day 1, 9:01 a.m.*
 
-Hal Hulme puts down his pen.
+Hal Hulme looks up, and for a moment he is twelve years old, and then he is not.
 
 **› Take your leave** · *Day 1, 9:01 a.m.*
 
@@ -149,7 +149,7 @@ He reads the Abbess’s letter, and the Bench’s clause in Inchbold’s copperp
 > Word comes before dawn, the way it comes in a city, from nowhere: the young carters went for the Company's counting-house at midnight with lamp-oil, and Sergeant Gault was waiting in the dark for them, and the fire was out before it was lit, and Kit Pardoe and two others are in the Guildhall cellar.
 > At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south.
 > At dusk the captain rides in over the drawbridge with her riders behind her, and does not look up at the gatehouse as she passes under it, and goes to the Guildhall, where the Bench has laid supper.
-> The captain finds nothing on the rail but three cut ropes, and a letter from the Abbess claiming her dead, and the Bench's clause in Inchbold's copperplate, and the collector's ruling, and three new graves in Wade's Acre that the Liberty's brothers dug. She reads the papers at supper with an expression nobody can read. In the morning she gives her verdict, that Wrayford is in order, and goes home with the toll money. The reeve keeps his office. The Company keeps its farm, and has its charity entered in its minutes, at the Liberty's charge. Everyone in Wrayford is a little ashamed, and nobody is hanged, and on the whole it is a better morning than the city deserved.
+> The captain finds nothing on the rail but three cut ropes, and a letter from the Abbess claiming her dead, and the Bench's clause in Inchbold's copperplate, and the collector's ruling, and three new graves in Wade's Acre, dug square by old Corbin, who says it is the best work he has done in forty years. She reads the papers at supper with an expression nobody can read. In the morning she gives her verdict, that Wrayford is in order, and goes home with the toll money. The reeve keeps his office. The Company keeps its farm, and has its charity entered in its minutes, at the Liberty's charge. Everyone in Wrayford is a little ashamed, and the rail is empty, and on the whole it is a better morning than the city deserved.
 > Kit Pardoe goes south with the captain, tied to a rider's saddle, for the lord's justice at Harbury. He looks back once, at the bridge.
 > Lancelot Inchbold finds you in the crowd with a brass token on a ribbon and a paper to sign. 'The freedom of the bridge,' he says. 'By the Bench's resolution of this morning, in recognition of your services to the Company's charity.' He does not smile. 'It is entered in the minutes. Everything is.'
 

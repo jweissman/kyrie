@@ -165,7 +165,7 @@ The gate-ward’s door stands unlocked.
 
 **› Into the gatehouse** · *Day 2, 1:18 a.m.*
 
-The leads at night: the brazier’s red glow, the parapet a black line, the river loud below. The gate-ward’s door stands unlocked. Along the river parapet three men hang on short ropes from iron hooks driven into the coping, under sacking the reeve allowed. Their boots show below the sacking: a carter’s big boots, a pair mended with wire, a boy’s. Here are Sergeant Gault, the riders’ sergeant, a square man with a broken nose; and the lord’s riders on the gate, four of the lord’s riders, in buff coats, with the lord’s badge.
+The leads at night: the brazier’s red glow, the parapet a black line, the river loud below. The riders are asleep round the brazier, rolled in their cloaks with their boots to the coals, and one of them is snoring. Sergeant Gault sits against the parapet with his chin on his chest and his hand on his sword-hilt, asleep or near it. The gate-ward’s door stands unlocked. Along the river parapet three men hang on short ropes from iron hooks driven into the coping, under sacking the reeve allowed. Their boots show below the sacking: a carter’s big boots, a pair mended with wire, a boy’s. Here are Sergeant Gault, the riders’ sergeant, a square man with a broken nose; and the lord’s riders on the gate, four of the lord’s riders, in buff coats, with the lord’s badge.
 
 **› Cut the three down from the rail** · *Day 2, 1:28 a.m.*
 

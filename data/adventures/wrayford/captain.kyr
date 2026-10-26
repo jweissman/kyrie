@@ -57,6 +57,27 @@ Module wrayford "The Third Night" {
   Relation hamSpoke(group).
   Rule ham_speaks when captainHere(wray) and hamGrateful(party) and not hamSpoke(ham) and not verdictGiven(wray) says "At the Bridge End, as the captain's riders water their horses, Ham Ostler leans on his crook and tells the nearest of them, loud enough for the captain, that he has driven beasts through every rising in the north these thirty years, and this is not one, it is a city with a toothache. The captain looks at him from the saddle. Drovers, it seems, are people she listens to." {
     Assert hamSpoke(ham). Increase captainView(sefton) by 1. }
+  // She asks the company one question, the first time it speaks to her in the city: the only one at the table she has
+  // not been told what to think of. What it may answer depends on who it is.
+  Relation captainAsked(group). Relation captainAnswered(group).
+  Event captain_asks near sefton when captainHere(wray) and addressed(sefton, party) and not captainAsked(party) and not verdictGiven(wray) "Captain Sefton looks at you down the length of the table, past the aldermen. 'You,' she says. 'You are the only person in this hall I have not been told what to think of. Is Wrayford in rebellion?' The table goes quiet. Gidley opens his mouth, and she lifts one finger without looking at him, and he shuts it." then { Assert captainAsked(party). }
+  Topic answer_captain_kin with sefton "Tell her: my father is on that rail, and I have not burned anything" when captainAsked(actor) and homecomer(actor) and not captainAnswered(actor) once {
+    Says "She looks at you for a long moment. 'Pardoe,' she says. 'The big one, who sang.' She turns her cup round on the cloth. 'A rebel's child who comes to supper with the Bench instead of to the gate with a torch.' She does not say what she makes of it. But she does not look at Gidley again for the rest of the meal.".
+    On discuss { Assert captainAnswered(actor). Increase captainView(sefton) by 1. }
+  }
+  Topic answer_captain_stranger with sefton "Tell her: I am a stranger here, with nobody on the rail; it is grief, not rebellion" when captainAsked(actor) and stranger(actor) and not captainAnswered(actor) once {
+    Says "'A stranger.' She considers you as if you were a horse somebody else was selling. 'Then you've no reason to lie to me, and no reason to tell me the truth, which is the best a captain ever gets.' She nods, once. 'Grief. I have seen grief. It does not usually set fire to things.' She looks down the table at the aldermen. 'Usually.'".
+    On discuss { Assert captainAnswered(actor). Increase captainView(sefton) by 1. }
+  }
+  Topic answer_captain_carters with sefton "Tell her to ask the carters, not the Bench" when captainAsked(actor) and not captainAnswered(actor) once {
+    Says "'The carters.' She almost smiles. 'Yes. I'll go to the yards tonight, without my riders, and see what they are.' She does. Word comes back before midnight: she stood in the carters' yards for an hour with a pot of the Nine Wheels' ale, and they told her about the board in the river, and the chain, and nobody drew a knife.".
+    On discuss { Assert captainAnswered(actor). Assert captainSawYards(sefton). }
+  }
+  Relation captainSawYards(group).
+  // What she finds in the yards depends on what the carters did.
+  Rule captain_yards_quiet when captainSawYards(sefton) and not fireTried(wray) and not countingBurned(wray) and not yardsCounted(sefton) { Assert yardsCounted(sefton). Increase captainView(sefton) by 1. }
+  Rule captain_yards_laughing when captainSawYards(sefton) and boardSunk(wray) and not countingBurned(wray) and not yardsCounted(sefton) { Assert yardsCounted(sefton). Increase captainView(sefton) by 1. }
+  Relation yardsCounted(group).
   // The Company, at supper, offers the captain a live ringleader for the lord's justice: the boy, if it knows of him.
   Rule company_offers when captainHere(wray) and hour(clock) >= 20 and (bargainMade(party) or kitExposed(wray)) and not companyOffersKit(wray) and not kitTaken(kit) and not travelsWith(kit, party) says "Word comes out of the Guildhall supper: Alderman Gidley has told the captain, with tears, that the true driver of the cart was Wat Pardoe's son, and that the Company would think it a great mercy to the city if the lord's justice took the boy alive. The riders go to the yards for Kit Pardoe." {
     Assert companyOffersKit(wray). Assert kitTaken(kit). Assert at(kit, guild_cellar). }

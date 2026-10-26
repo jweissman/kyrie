@@ -39,6 +39,11 @@
     "=356",
     "Tell the captain at supper that there was no rising"
   ],
+  "supper": [
+    "Talk to Captain",
+    "my father is on that rail",
+    "Take your leave"
+  ],
   "verdict": [
     "=440"
   ]

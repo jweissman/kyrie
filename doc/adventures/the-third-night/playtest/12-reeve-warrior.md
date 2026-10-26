@@ -60,7 +60,7 @@ Sergeant Gault looks at you over the brazier the way a dog looks at another dog,
 
 **› Take your leave** · *Day 1, 9:14 a.m.*
 
-Sergeant Gault has gone back to work before you have turned round.
+Sergeant Gault lifts a hand, once.
 
 **› Go back down the stair with the sergeant** · *Day 1, 9:16 a.m.*
 
@@ -96,7 +96,7 @@ He looks at you for a long time across the jug. ‘You’ve stood a watch,’ he
 
 **› Take your leave** · *Day 1, 8:12 p.m.*
 
-Sergeant Gault has gone back to work before you have turned round.
+Sergeant Gault lifts a hand, once.
 
 **› Out to Northgate** · *Day 1, 8:13 p.m.*
 
@@ -124,7 +124,7 @@ The starling: a ledge of stone round the foot of the middle pier where it breaks
 
 **› Talk to Hal Hulme** · *Day 1, 8:32 p.m.*
 
-Hal Hulme puts down his pen.
+Hal Hulme looks up, and for a moment he is twelve years old, and then he is not.
 
 **› Tell Hal you have read his letter in Gault's coat** · *Day 1, 8:32 p.m.*
 
@@ -132,7 +132,7 @@ He goes white, and then he goes very still, the way his father does. ‘Yes,’ 
 
 **› Tell Hal he must tell his father** · *Day 1, 8:32 p.m.*
 
-He nods, slowly, as if you had told him the time. ‘Yes.’ He gets up. ‘Tonight. Before supper.’ At the door he stops. ‘He’ll resign,’ he says. ‘Or he won’t, and that’ll be worse.’
+He nods, slowly, as if you had told him the time. ‘Yes.’ He gets up. ‘Tonight. When he comes in.’ At the door he stops. ‘He’ll resign,’ he says. ‘Or he won’t, and that’ll be worse.’
 
 ## wait
 
@@ -142,12 +142,11 @@ He nods, slowly, as if you had told him the time. ‘Yes.’ He gets up. ‘Toni
 > In Wade's Acre old Corbin has taken his coat off and is cutting turf by the church door, and the sound of the spade carries over the water.
 > In Wade's Acre, in the afternoon, the three are buried by the church door, with Wrayford standing round the wall and on the wall and on the roofs of the tan-yards. The Abbess says the office herself.
 > Word comes before dawn, the way it comes in a city, from nowhere: the young carters went for the Company's counting-house at midnight with lamp-oil, and Sergeant Gault was waiting in the dark for them, and the fire was out before it was lit, and Kit Pardoe and two others are in the Guildhall cellar.
-> In the morning the reeve's men take Kit Pardoe from the yards, because he is Wat's son and the city knows what it would have done in his place, and he does not deny it, which he could have, and goes with them to the cellar with his head up.
 > At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south.
 > At dusk the captain rides in over the drawbridge with her riders behind her, and does not look up at the gatehouse as she passes under it, and goes to the Guildhall, where the Bench has laid supper.
 > The captain hears at supper that the reeve of Wrayford cut the rebels down from the lord's rail with his own hands. In the morning she gives her verdict: that the city is in order, and its reeve is not. Simon Hulme hands her his chain of office on the Guildhall steps, and she takes it, not unkindly, and rides home with it and the toll money. He goes on living in the house on the Hill, and keeps a garden, and on the third night of every month walks down to the Bridge End and stands under the gatehouse for an hour, and nobody asks him why.
 > Kit Pardoe goes south with the captain, tied to a rider's saddle, for the lord's justice at Harbury. He looks back once, at the bridge.
-> Hal Hulme, it is said, told his father what he did on the night of the rising, before supper, and his father sat with his head in his hands until dawn, and in the morning went to his court as usual.
+> Hal Hulme, it is said, told his father what he did on the night of the rising, and his father sat with his head in his hands until dawn; and it was the next day that the reeve went down to the Bridge End with his knife.
 
 *(the story ends)*
 

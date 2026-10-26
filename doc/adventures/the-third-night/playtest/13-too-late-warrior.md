@@ -60,11 +60,11 @@ Sergeant Gault looks at you over the brazier the way a dog looks at another dog,
 
 **› Take your leave** · *Day 1, 9:14 a.m.*
 
-Sergeant Gault has gone back to work before you have turned round.
+Sergeant Gault lifts a hand, once.
 
 **› Go back down the stair with the sergeant** · *Day 1, 9:16 a.m.*
 
-Gault walks you down and locks the door behind you. Under the gatehouse wall, directly below the rail, a brindled dog lies with his chin on his paws, as close to the wall as he can get, and does not move when people step over him. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; Annis Pye, a pie-seller at the Bridge End, with a tray on a strap; and Alderman Prosper Gidley, the Master of the Worshipful Company of the Bridge, in a blue gown. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking.
+Gault walks you down and locks the door behind you. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; Annis Pye, a pie-seller at the Bridge End, with a tray on a strap; and Alderman Prosper Gidley, the Master of the Worshipful Company of the Bridge, in a blue gown. Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. Annis Pye is selling pies, with her back to the gatehouse.
 
 ## evening
 
@@ -96,7 +96,7 @@ He looks at you for a long time across the jug. ‘You’ve stood a watch,’ he
 
 **› Take your leave** · *Day 1, 8:12 p.m.*
 
-Sergeant Gault has gone back to work before you have turned round.
+Sergeant Gault lifts a hand, once.
 
 **› Out to Northgate** · *Day 1, 8:13 p.m.*
 
@@ -108,11 +108,11 @@ The Market Cross: the Guildhall clock, the blue counting-house, the sheets on ev
 
 **› To the Bridge End, under the gatehouse** · *Day 1, 8:28 p.m.*
 
-Under the gatehouse wall, directly below the rail, a brindled dog lies with his chin on his paws, as close to the wall as he can get, and does not move when people step over him. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. The gate-ward’s door into the tower is shut and locked. Bramble, a carter’s dog, brindled, grey in the muzzle, is here.
+Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. The gate-ward’s door into the tower is shut and locked. Bramble, a carter’s dog, brindled, grey in the muzzle, is here.
 
 **› To Bridge Street, on the arches** · *Day 1, 8:29 p.m.*
 
-Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Annis Pye, a pie-seller at the Bridge End, with a tray on a strap, is here.
+Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Annis Pye, a pie-seller at the Bridge End, with a tray on a strap, is here.
 
 **› Into Saint Wade's chapel on the bridge** · *Day 1, 8:30 p.m.*
 
@@ -134,11 +134,11 @@ A small chapel of grey stone built into the pier, so that the river is loud thro
 
 **› Out to Bridge Street, on the arches** · *Day 2, 3:05 p.m.*
 
-At the chain Amos Pinch takes your farthing. There being no farthings left in Wrayford since the riot, he takes a penny, and writes you a tally-stick for the three farthings he owes you, which he says the Company will honour at Michaelmas. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Bridge Street on the arches: the leaning shops, the gaps with the river in them, the chapel on the middle pier.
+At the chain Amos Pinch takes your farthing. There being no farthings left in Wrayford since the riot, he takes a penny, and writes you a tally-stick for the three farthings he owes you, which he says the Company will honour at Michaelmas. The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Bridge Street on the arches: the leaning shops, the gaps with the river in them, the chapel on the middle pier.
 
 **› To the Bridge End, under the gatehouse** · *Day 2, 3:06 p.m.*
 
-Under the gatehouse wall, directly below the rail, a brindled dog lies with his chin on his paws, as close to the wall as he can get, and does not move when people step over him. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap.
+Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. Annis Pye is selling pies, with her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap.
 
 **› To the Market Cross** · *Day 2, 3:11 p.m.*
 
@@ -166,11 +166,11 @@ The Market Cross: the Guildhall clock, the blue counting-house, the sheets on ev
 
 **› To the Bridge End, under the gatehouse** · *Day 2, 3:18 p.m.*
 
-Under the gatehouse wall, directly below the rail, a brindled dog lies with his chin on his paws, as close to the wall as he can get, and does not move when people step over him. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap.
+Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. Annis Pye is selling pies, with her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap.
 
 **› To Bridge Street, on the arches** · *Day 2, 3:19 p.m.*
 
-Bridge Street on the arches: the leaning shops, the gaps with the river in them, the chapel on the middle pier. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain.
+Bridge Street on the arches: the leaning shops, the gaps with the river in them, the chapel on the middle pier. The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain.
 
 **› Into Saint Wade's chapel on the bridge** · *Day 2, 3:20 p.m.*
 
@@ -189,7 +189,7 @@ The starling: a ledge of stone round the foot of the middle pier where it breaks
 
 **› Talk to Hal Hulme** · *Day 3, 6:02 p.m.*
 
-Hal Hulme puts down his pen.
+Hal Hulme looks up, and for a moment he is twelve years old, and then he is not.
 
 **› Tell Hal you have read his letter in Gault's coat** · *Day 3, 6:02 p.m.*
 
@@ -197,7 +197,7 @@ He goes white, and then he goes very still, the way his father does. ‘Yes,’ 
 
 **› Tell Hal he must tell his father** · *Day 3, 6:02 p.m.*
 
-He nods, slowly, as if you had told him the time. ‘Yes.’ He gets up. ‘Tonight. Before supper.’ At the door he stops. ‘He’ll resign,’ he says. ‘Or he won’t, and that’ll be worse.’
+He nods, slowly, as if you had told him the time. ‘Yes.’ He gets up. ‘Tonight. When he comes in.’ At the door he stops. ‘He’ll resign,’ he says. ‘Or he won’t, and that’ll be worse.’
 
 **› Take your leave** · *Day 3, 6:02 p.m.*
 

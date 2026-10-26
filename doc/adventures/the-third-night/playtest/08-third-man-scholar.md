@@ -50,11 +50,11 @@ Alderman Gidley arrives at the Bridge End in his blue gown, as he has every morn
 
 **› To Bridge Street, on the arches** · *Day 1, 9:01 a.m.*
 
-At the chain Amos Pinch takes your farthing. There being no farthings left in Wrayford since the riot, he takes a penny, and writes you a tally-stick for the three farthings he owes you, which he says the Company will honour at Michaelmas. Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain.
+At the chain Amos Pinch takes your farthing. There being no farthings left in Wrayford since the riot, he takes a penny, and writes you a tally-stick for the three farthings he owes you, which he says the Company will honour at Michaelmas. Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain.
 
 **› To Overbridge Street** · *Day 1, 9:11 a.m.*
 
-Overbridge Street comes off the drawbridge into another town: older, lower, poorer and louder, timber houses with their upper floors leaning on their neighbours, the tan-yards stinking at one end and the bear-garden roaring at the other, and in the middle Saint Wade’s, a squat old church with a tower, and the Abbess’s lodging behind a wall. A painted post at the bridge foot says THE LIBERTY OF SAINT WADE. The reeve’s writ ends here, and everybody walks a little differently. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge.
+Overbridge Street comes off the drawbridge into another town: older, lower, poorer and louder, timber houses with their upper floors leaning on their neighbours, the tan-yards stinking at one end and the bear-garden roaring at the other, and in the middle Saint Wade’s, a squat old church with a tower, and the Abbess’s lodging behind a wall. A painted post at the bridge foot says THE LIBERTY OF SAINT WADE. The reeve’s writ ends here, and everybody walks a little differently. The drawbridge is down.
 
 **› Into Saint Wade's** · *Day 1, 9:12 a.m.*
 
@@ -70,19 +70,19 @@ You cut the turf back and stack it, and dig. It is heavy river clay under a foot
 
 **› Into Saint Wade's** · *Day 1, 12:14 p.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters.
+Saint Wade’s: whitewash, the cheerful saint, the carved wheels on the pews.
 
 **› Out to Overbridge Street** · *Day 1, 12:15 p.m.*
 
-The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE.
+The drawbridge is down. Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE.
 
 **› To Bridge Street, on the arches** · *Day 1, 12:25 p.m.*
 
-The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Bridge Street on the arches: the leaning shops, the gaps with the river in them, the chapel on the middle pier.
+The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Bridge Street on the arches: the leaning shops, the gaps with the river in them, the chapel on the middle pier.
 
 **› To the Bridge End, under the gatehouse** · *Day 1, 12:26 p.m.*
 
-Under the gatehouse wall, directly below the rail, a brindled dog lies with his chin on his paws, as close to the wall as he can get, and does not move when people step over him. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking.
+A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap. Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. Annis Pye is selling pies, with her back to the gatehouse.
 
 **› To the Market Cross** · *Day 1, 12:31 p.m.*
 
@@ -117,7 +117,7 @@ Back over the stones in the dark, up along the pier’s foot past the gap, and o
 
 **› To the gatehouse leads** · *Day 3, 2:23 a.m.*
 
-The leads at night: the brazier’s red glow, the parapet a black line, the river loud below. The gate-ward’s door into the tower is shut and locked. Along the river parapet three men hang on short ropes from iron hooks driven into the coping, under sacking the reeve allowed. Their boots show below the sacking: a carter’s big boots, a pair mended with wire, a boy’s. Here are Sergeant Gault, the riders’ sergeant, a square man with a broken nose; and the lord’s riders on the gate, four of the lord’s riders, in buff coats, with the lord’s badge.
+The leads at night: the brazier’s red glow, the parapet a black line, the river loud below. The riders are asleep round the brazier, rolled in their cloaks with their boots to the coals, and one of them is snoring. Sergeant Gault sits against the parapet with his chin on his chest and his hand on his sword-hilt, asleep or near it. The gate-ward’s door into the tower is shut and locked. Along the river parapet three men hang on short ropes from iron hooks driven into the coping, under sacking the reeve allowed. Their boots show below the sacking: a carter’s big boots, a pair mended with wire, a boy’s. Here are Sergeant Gault, the riders’ sergeant, a square man with a broken nose; and the lord’s riders on the gate, four of the lord’s riders, in buff coats, with the lord’s badge.
 
 **› Cut the three down from the rail** · *Day 3, 2:33 a.m.*
 
@@ -145,7 +145,7 @@ Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Overbridge
 
 **› Into Saint Wade's** · *Day 3, 3:46 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
+Saint Wade’s: whitewash, the cheerful saint, the carved wheels on the pews. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
 
 **› Out to Wade's Acre** · *Day 3, 3:48 a.m.*
 
@@ -157,7 +157,7 @@ Hesk sets Wat Pardoe down, carefully.
 
 **› Into Saint Wade's** · *Day 3, 3:50 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
+Saint Wade’s: whitewash, the cheerful saint, the carved wheels on the pews. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
 
 **› Out to Overbridge Street** · *Day 3, 3:51 a.m.*
 
@@ -181,11 +181,11 @@ You find the stones with your feet, one after another, and when the water goes d
 
 **› To Overbridge Street** · *Day 3, 5:07 a.m.*
 
-Overbridge at night: the Ferry Inn lit and loud, and every other door shut. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. Dunstan Fenner lies wrapped in his sacking, his mended boots showing.
+Overbridge at night: the Ferry Inn lit and loud, and every other door shut. The drawbridge is down. Dunstan Fenner lies wrapped in his sacking, his mended boots showing.
 
 **› Into Saint Wade's** · *Day 3, 5:09 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters. Dunstan Fenner lies wrapped in his sacking, his mended boots showing. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
+Saint Wade’s: whitewash, the cheerful saint, the carved wheels on the pews. Dunstan Fenner lies wrapped in his sacking, his mended boots showing. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
 
 **› Out to Wade's Acre** · *Day 3, 5:11 a.m.*
 
@@ -197,11 +197,11 @@ Hesk sets Dunstan Fenner down, carefully.
 
 **› Into Saint Wade's** · *Day 3, 5:13 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
+Saint Wade’s: whitewash, the cheerful saint, the carved wheels on the pews. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
 
 **› Out to Overbridge Street** · *Day 3, 5:14 a.m.*
 
-Overbridge at night: the Ferry Inn lit and loud, and every other door shut. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge.
+Overbridge at night: the Ferry Inn lit and loud, and every other door shut. The drawbridge is down.
 
 **› To the tan-yards** · *Day 3, 5:19 a.m.*
 
@@ -211,7 +211,7 @@ The tan-yards at night: the pits black, the hides on their frames like people st
 
 **… (waiting, to Day 4, 9:09 a.m.)**
 
-> In the morning the reeve's men take Kit Pardoe from the yards, because he is Wat's son and the city knows what it would have done in his place, and he does not deny it, which he could have, and goes with them to the cellar with his head up.
+> In the morning the reeve's men go down to the Guildhall cellar, where they have Kit Pardoe already, and write his name against the cutting-down as well, since it saves going anywhere else.
 > Word goes round: the reeve's men found Joss Wilder in the morning where he had been left, and carried him up to the Guildhall yard under a sheet, to wait for the captain.
 > At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south.
 > Word comes over the water: at the end of the day old Corbin found Wat Pardoe lying by the church door in his sacking, and stood over him a while with his pipe, and then buried him, properly, without being asked.

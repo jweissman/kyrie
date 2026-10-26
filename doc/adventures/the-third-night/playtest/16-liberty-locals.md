@@ -50,11 +50,11 @@ The brindled dog under the gatehouse lifts his eyes to you, and not his head. Un
 
 **› To Bridge Street, on the arches** · *Day 2, 9:08 a.m.*
 
-At the chain Amos Pinch takes your farthing. There being no farthings left in Wrayford since the riot, he takes a penny, and writes you a tally-stick for the three farthings he owes you, which he says the Company will honour at Michaelmas. Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain.
+At the chain Amos Pinch takes your farthing. There being no farthings left in Wrayford since the riot, he takes a penny, and writes you a tally-stick for the three farthings he owes you, which he says the Company will honour at Michaelmas. Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain.
 
 **› To Overbridge Street** · *Day 2, 9:18 a.m.*
 
-Overbridge Street comes off the drawbridge into another town: older, lower, poorer and louder, timber houses with their upper floors leaning on their neighbours, the tan-yards stinking at one end and the bear-garden roaring at the other, and in the middle Saint Wade’s, a squat old church with a tower, and the Abbess’s lodging behind a wall. A painted post at the bridge foot says THE LIBERTY OF SAINT WADE. The reeve’s writ ends here, and everybody walks a little differently. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge.
+Overbridge Street comes off the drawbridge into another town: older, lower, poorer and louder, timber houses with their upper floors leaning on their neighbours, the tan-yards stinking at one end and the bear-garden roaring at the other, and in the middle Saint Wade’s, a squat old church with a tower, and the Abbess’s lodging behind a wall. A painted post at the bridge foot says THE LIBERTY OF SAINT WADE. The reeve’s writ ends here, and everybody walks a little differently. The drawbridge is down.
 
 **› Into the Abbess's lodging** · *Day 2, 9:19 a.m.*
 
@@ -82,7 +82,7 @@ You show her the curlew. The Abbess takes her spectacles off and looks at it for
 
 **› Out to Overbridge Street** · *Day 2, 10:24 a.m.*
 
-The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE.
+The drawbridge is down. Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE.
 
 **› To the tan-yards** · *Day 2, 10:29 a.m.*
 
@@ -106,15 +106,15 @@ The tan-yards: pits of lime and bark and worse, hides on frames, men with their 
 
 **› To Overbridge Street** · *Day 2, 11:04 a.m.*
 
-Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge.
+Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down.
 
 **› To Bridge Street, on the arches** · *Day 2, 11:14 a.m.*
 
-The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Bridge Street on the arches: the leaning shops, the gaps with the river in them, the chapel on the middle pier.
+The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Bridge Street on the arches: the leaning shops, the gaps with the river in them, the chapel on the middle pier.
 
 **› To the Bridge End, under the gatehouse** · *Day 2, 11:15 a.m.*
 
-Under the gatehouse wall, directly below the rail, a brindled dog lies with his chin on his paws, as close to the wall as he can get, and does not move when people step over him. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking.
+A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap. Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. Annis Pye is selling pies, with her back to the gatehouse.
 
 **› To the Market Cross** · *Day 2, 11:20 a.m.*
 

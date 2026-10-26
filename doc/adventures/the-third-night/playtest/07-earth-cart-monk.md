@@ -60,7 +60,7 @@ Under the first arch at night the river is loud and close and black, and the pie
 
 **› To the gatehouse leads** · *Day 2, 1:27 a.m.*
 
-The leads at night: the brazier’s red glow, the parapet a black line, the river loud below. The gate-ward’s door into the tower is shut and locked. Along the river parapet three men hang on short ropes from iron hooks driven into the coping, under sacking the reeve allowed. Their boots show below the sacking: a carter’s big boots, a pair mended with wire, a boy’s. Here are Sergeant Gault, the riders’ sergeant, a square man with a broken nose; and the lord’s riders on the gate, four of the lord’s riders, in buff coats, with the lord’s badge.
+The leads at night: the brazier’s red glow, the parapet a black line, the river loud below. The riders are asleep round the brazier, rolled in their cloaks with their boots to the coals, and one of them is snoring. Sergeant Gault sits against the parapet with his chin on his chest and his hand on his sword-hilt, asleep or near it. The gate-ward’s door into the tower is shut and locked. Along the river parapet three men hang on short ropes from iron hooks driven into the coping, under sacking the reeve allowed. Their boots show below the sacking: a carter’s big boots, a pair mended with wire, a boy’s. Here are Sergeant Gault, the riders’ sergeant, a square man with a broken nose; and the lord’s riders on the gate, four of the lord’s riders, in buff coats, with the lord’s badge.
 
 **› Cut the three down from the rail** · *Day 2, 1:37 a.m.*
 
@@ -184,11 +184,11 @@ The brindled dog under the gatehouse lifts his eyes to you, and not his head. Un
 
 **› To Bridge Street, on the arches** · *Day 2, 7:22 a.m.*
 
-Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Annis Pye, a pie-seller at the Bridge End, with a tray on a strap, is here.
+Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Annis Pye, a pie-seller at the Bridge End, with a tray on a strap, is here.
 
 **› To Overbridge Street** · *Day 2, 7:32 a.m.*
 
-Overbridge Street comes off the drawbridge into another town: older, lower, poorer and louder, timber houses with their upper floors leaning on their neighbours, the tan-yards stinking at one end and the bear-garden roaring at the other, and in the middle Saint Wade’s, a squat old church with a tower, and the Abbess’s lodging behind a wall. A painted post at the bridge foot says THE LIBERTY OF SAINT WADE. The reeve’s writ ends here, and everybody walks a little differently. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge.
+Overbridge Street comes off the drawbridge into another town: older, lower, poorer and louder, timber houses with their upper floors leaning on their neighbours, the tan-yards stinking at one end and the bear-garden roaring at the other, and in the middle Saint Wade’s, a squat old church with a tower, and the Abbess’s lodging behind a wall. A painted post at the bridge foot says THE LIBERTY OF SAINT WADE. The reeve’s writ ends here, and everybody walks a little differently. The drawbridge is down.
 
 **› To the tan-yards** · *Day 2, 7:37 a.m.*
 
@@ -200,7 +200,7 @@ Wen gets Wat Pardoe up over one shoulder, and stands, and finds the weight.
 
 **› To Overbridge Street** · *Day 2, 7:48 a.m.*
 
-The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE.
+The drawbridge is down. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE.
 
 **› Into Saint Wade's** · *Day 2, 7:50 a.m.*
 
@@ -216,11 +216,11 @@ Wen sets Wat Pardoe down, carefully.
 
 **› Into Saint Wade's** · *Day 2, 7:54 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters.
+Saint Wade’s: whitewash, the cheerful saint, the carved wheels on the pews.
 
 **› Out to Overbridge Street** · *Day 2, 7:55 a.m.*
 
-Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge.
+Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down.
 
 **› To the tan-yards** · *Day 2, 8:00 a.m.*
 
@@ -232,11 +232,11 @@ Wen gets Dunstan Fenner up over one shoulder, and stands, and finds the weight.
 
 **› To Overbridge Street** · *Day 2, 8:11 a.m.*
 
-Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. Dunstan Fenner lies wrapped in his sacking, his mended boots showing.
+Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down. Dunstan Fenner lies wrapped in his sacking, his mended boots showing.
 
 **› Into Saint Wade's** · *Day 2, 8:13 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters. Dunstan Fenner lies wrapped in his sacking, his mended boots showing.
+Saint Wade’s: whitewash, the cheerful saint, the carved wheels on the pews. Dunstan Fenner lies wrapped in his sacking, his mended boots showing.
 
 **› Out to Wade's Acre** · *Day 2, 8:15 a.m.*
 
@@ -248,11 +248,11 @@ Wen sets Dunstan Fenner down, carefully.
 
 **› Into Saint Wade's** · *Day 2, 8:17 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters.
+Saint Wade’s: whitewash, the cheerful saint, the carved wheels on the pews.
 
 **› Out to Overbridge Street** · *Day 2, 8:18 a.m.*
 
-Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge.
+Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down.
 
 **› To the tan-yards** · *Day 2, 8:23 a.m.*
 
@@ -264,11 +264,11 @@ Wen gets Joss Wilder up over one shoulder, and stands, and finds the weight.
 
 **› To Overbridge Street** · *Day 2, 8:34 a.m.*
 
-Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge. Joss Wilder lies wrapped in his sacking. He was not very old.
+Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE. The drawbridge is down. Joss Wilder lies wrapped in his sacking. He was not very old.
 
 **› Into Saint Wade's** · *Day 2, 8:36 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters. Joss Wilder lies wrapped in his sacking. He was not very old.
+Saint Wade’s: whitewash, the cheerful saint, the carved wheels on the pews. Joss Wilder lies wrapped in his sacking. He was not very old.
 
 **› Out to Wade's Acre** · *Day 2, 8:38 a.m.*
 
@@ -296,7 +296,7 @@ You lay Joss Wilder in the grave by the church door, in his sacking, and fill it
 
 > At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south.
 > At dusk the captain rides in over the drawbridge with her riders behind her, and does not look up at the gatehouse as she passes under it, and goes to the Guildhall, where the Bench has laid supper.
-> When the captain comes up the south road there is nothing on the rail but three cut ropes, and in Wade's Acre there are three graves nobody will admit to digging. The reeve has his answer for her, because he had to have one. She takes it, and the toll money, and gives her verdict that Wrayford is in order, and goes. In Wain Row your mother bakes bread for three days and gives it all away. Nobody in the city ever says, out loud, who climbed the gatehouse in the small hours, and everybody knows.
+> When the captain comes up the south road there is nothing on the rail but three cut ropes, and in Wade's Acre there are three graves nobody will admit to digging. The reeve has his answer for her, because he had to have one. She takes it, and the toll money, and gives her verdict that Wrayford is in order, and goes. In Wain Row Maudie Pardoe bakes bread for three days and gives it all away. Nobody in the city ever says, out loud, who climbed the gatehouse in the small hours, and everybody knows.
 > Kit Pardoe goes south with the captain, tied to a rider's saddle, for the lord's justice at Harbury. He looks back once, at the bridge.
 
 *(the story ends)*

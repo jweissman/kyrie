@@ -80,6 +80,7 @@ Ash hits Human 1. Human 1 takes 5 slashing damage (0 HP left). Human 1 falls. As
 > Before dawn the carters' yards empty. Kit Pardoe goes down the Cartway at the head of thirty men with cart-staves and torches, to the gatehouse where his mother was taken, and the captain's riders meet them at the Bridge End. By first light it is over, and Kit is in the Guildhall cellar with his arm broken, and two of the riders are being carried into the Bridge End inn.
 > The captain gives her verdict at nine in the Guildhall, and it takes one sentence. By noon the carters' row is burning, Wain Row and the yards behind it, and the captain's riders stand at the end of every lane to see that nobody puts it out. Ten men are hanged from the gatehouse rail beside the three, which is the lord's law for a rising, and the rail is not long enough, and they use the drawbridge chains. In the evening the riders go home down the south road with the toll money and the lord's thanks, and Wrayford stands in its own smoke and does not speak to itself for a generation. The Company rebuilds its counting-house in stone.
 > Kit Pardoe goes south with the captain, tied to a rider's saddle, for the lord's justice at Harbury. He looks back once, at the bridge.
+> Maudie Pardoe is the first of the ten. She goes up the gate-ward's stair on her own feet, and does not look for anyone in the crowd.
 
 *(the story ends)*
 
