@@ -23,7 +23,7 @@ Module tessary "What Tessary Owes" {
   Discovery collateral "The Muster's oaths, sworn on the Oath Stone, were pledged as security on a debt the city owes to the keepers of an engine under the sea. At each spring ebb a dozen are taken as interest." {
     Known by tally, quire, sault, comptroller.
   }
-  Discovery note_terms "The War Note: twelve years ago Tessary borrowed, from the Scruples who keep the Balance under the sea, the right to call an oath King Amaury's ancestor swore to the Aenean emperors. The Long Muster's oaths were pledged as collateral; interest was paid in silver each month; the principal falls due at the Feast of Settlement in the twelfth year, and may be paid only in a kept promise of equal weight." {
+  Discovery note_terms "The War Note: twelve years ago Tessary borrowed, from the Scruples who keep the Balance under the sea, the right to call an oath King Amaury's ancestor swore to the Aenean emperors at Aen-Vessaly. The Long Muster's oaths were pledged as collateral; interest was paid in silver each month; the principal falls due at the Feast of Settlement in the twelfth year, and may be paid only in a kept promise of equal weight." {
     Known by tally, quire, sault, comptroller.
   }
   Discovery promise_weight "In the Scruples' reckoning only a promise of a whole people to a whole people weighs as much as the War Note, and Tessary has made one such promise: land and a pension for every soldier who came home. If the city keeps it, the debt is paid." {

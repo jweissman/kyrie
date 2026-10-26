@@ -124,7 +124,7 @@ a redeemed soldier for silence.
 
 - [04-editorial-account.md](04-editorial-account.md): what changed between the first conception and the work, and why.
 - [05-playability.md](05-playability.md): journeys, alternatives, difficulty, persistence and replay, known limits.
-- [06-authoring-friction.md](06-authoring-friction.md): what Kyr, Deem and the engine made hard, what was changed.
+- [friction.md](friction.md): what Kyr, Deem and the engine made hard, what was changed.
 - [07-integration.md](07-integration.md): entry, placement, dependencies, campaigns.
 - [08-judgment.md](08-judgment.md): where it succeeds, where it falls short, what another revision would change.
 - [playtest/](playtest/): journeys written out as the page tells them.

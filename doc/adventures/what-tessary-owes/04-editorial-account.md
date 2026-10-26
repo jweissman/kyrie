@@ -70,7 +70,7 @@ ebb-runners' lockbox. Brought home, she is a vote on the Board.
 
 **Growth.** A long adventure of finding out and persuading gave a first-level protagonist almost no experience,
 because Kyr awarded it only for fights and for a module's single goal. The `Milestone` construct was added to the
-engine for this (see [06-authoring-friction.md](06-authoring-friction.md)).
+engine for this (see [friction.md](friction.md)).
 
 **An ending in a world that goes on.** Kyr's `Ending` stopped the whole game, which would have ended a player's
 generated world. A country installed beyond a march now closes its own chapter, and an aftermath was written so that

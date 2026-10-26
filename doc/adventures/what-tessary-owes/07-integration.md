@@ -50,7 +50,7 @@ in the city, not by a level gate.
   the first that is at least five hours after the company comes, so a company arriving at one in the morning is not
   dropped straight into the first calling. Rules that compare watches are shifted by the installation time as usual.
 - **Chapters**: a country installed by the frontier carries `chapter: true` (engine change E2 in
-  [06-authoring-friction.md](06-authoring-friction.md)). Reaching one of Tessary's seven endings in a generated world
+  [friction.md](friction.md)). Reaching one of Tessary's seven endings in a generated world
   tells its epilogue and the characters' fates, and the world goes on: the company can walk back up the Causeway, and
   Tessary is still there, changed. Played alone, the same ending closes the book.
 

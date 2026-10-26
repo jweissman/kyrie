@@ -1,4 +1,4 @@
-# What Tessary Owes — authoring friction
+# What Tessary Owes — authoring friction (`friction.md`)
 
 *What Kyr, Deem and the engine made hard to express; what was changed in the engine, and why; what the module works
 round; what would be worth building. Every engine change is small, general, tested on its own probe, and justified by
@@ -35,6 +35,16 @@ the design asked for could be said in Kyr. The places where it could not are bel
 | W11 | News latched once, without a journal entry | A rule that `teaches` a fact puts the fact's text on the page before the rule's own words: "The Board of Moieties has voted on the Veterans' Settlement. At two in the afternoon the Board of Moieties votes…" (the Road's F17). Pure news now latches on a `spread(fact)` relation; only facts other content reads are knowledge. | Let a rule's words stand for the fact it teaches in the moment, keeping the fact's text for the journal |
 | W12 | A seed-dependent lore check that a journey must pass | Failure can be retried at once (costing tide time and torch-light, which is the point), so journeys retry and relight. | none needed; noted for authors writing tests |
 | W13 | Zero-argument queries (`lowWater()`) | Must be called with `()`: `lowWater(ossel)` fails "Unknown function or arity". Clear once known. | Document it in the guide |
+
+### Found in the final revision
+
+| # | The revision wanted | What happened | What the module does | Proposed remedy |
+|---|---|---|---|---|
+| W14 | The Forsworn as a danger with ways round it: a weight held out, a quiet slip along the pool | A `savage` creature strikes the moment the company arrives, before any choice is offered; the noncombat options were unreachable | `territorial`, with a `Warns` line in the Forsworn's own manner ("hold out their hands, palm up… Not yet.") | Document that only warning temperaments leave a turn for anything but a fight |
+| W15 | Bettany opens her own lockbox and hands over the letter | The rule "someone is at the lockbox in front of her" fired on her own act: a fact (`state(box, open)`) does not remember who made it so | A `slakeGaveLetter` flag excludes it | Changes that remember their agent (`changedBy(thing, who)`), so a rule can ask who did it |
+| W16 | Two ways into the Strongrooms, through the black wall and up the drowned city's drain | Both are offered as "Into the Strongrooms" from different rooms, so the label does not say which way it is | Left; the rooms differ | A passage's own name in its label when its destination's area is entered by more than one way (the Road's F6) |
+| W17 | Creatures that stand over a way and part when appeased | `Guards` is for people with a blocking state; for a group of creatures the module puts a blocking scenery thing on the passage and keeps it in step with rules | `forsworn_watch` | `Guards plunge_drain until …` on any creature |
+| E6 | "Ivo takes the deeds of the held." (engine change E4) | Said twice for ordinary pickups ("Ivo takes a letter… from the lockbox. Ivo takes a letter."), because the narrator's redundancy filter knew only the old wording | The filter now knows both wordings | done (engine) |
 
 ## Bugs and surprises reported, not fixed
 

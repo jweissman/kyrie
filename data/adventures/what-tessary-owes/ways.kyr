@@ -96,4 +96,16 @@ Module tessary "What Tessary Owes" {
     On success { Decrease quantity(actor, gold) by 6. Increase quantity(lightermen, gold) by 6. Assert tolerates(lightermen, actor). }
     Result "The biggest of them looks at the coins, and at his mates, and at the door to Saltgate, where the Factor is not. 'Never saw you,' he says, and they go and sit on the salt-sacks by the far wall with their backs to the trap-door.".
   }
+
+  // ── The Treasurer and the Comptroller ─────────────────────────────────────────────────────────────────────────────
+  // Two men who put their names to a promise they knew could not be kept.
+  Topic quire_designed with quire "Tell the Treasurer that the War Note was drawn to fail" when knows(actor, note_designed) and quireConfided(actor) and not quireDrowned(ossel) once {
+    Says "Quire takes his spectacles off. 'Drawn to fail,' he says. 'Then we were cheated.' He sits with that for a moment, and you watch him want it, the relief of it, and then watch him put it down. 'No,' he says. 'We read it. We knew the treasury. We knew what land and a pension for eight thousand would cost, and we signed it anyway, because the other side wanted it signed and we wanted to win.' He puts the spectacles back on. 'A man who signs a promise he cannot keep, because the man across the table would like it broken, is still the man who signed it. Your clerk under the sea and I are the same kind of fool. He has only been one longer.'".
+  }
+  // ── The Teazles, after ────────────────────────────────────────────────────────────────────────────────────────────
+  Observe teazles_home at teazle_room when cameHome(davy) and at(davy, teazle_room) "The red coat is not on its peg. Davy Teazle is asleep in the cupboard bed in it, with his boots on, which his mother has not mentioned. Nan is mending a net by the brazier and has stopped pretending she is not looking at him. The recruiting bill is gone from the shelf; there is a pale square where it was.".
+  Topic davy_home_talk with davy "Ask Davy what he remembers" when cameHome(davy) and at(davy, teazle_room) and not asleep(davy) once {
+    Says "'Standing,' says Davy. 'In a line. White, everywhere, like snow with no cold in it.' He looks at his hands. 'And a voice somewhere singing the Sally song over and over, a woman, very far off. I kept trying to remember the last verse and I couldn't.' He looks up at his mother. 'He comes home,' he says. 'In the last verse. I remember now.'".
+  }
+  Rule davy_wakes_home when cameHome(davy) and at(davy, teazle_room) and asleep(davy) and hour(clock) >= 8 and hour(clock) < 20 { Retract asleep(davy). }
 }

@@ -229,6 +229,53 @@ describe('What Tessary Owes: failure and its costs', () => {
   }, 240000);
 });
 
+describe('What Tessary Owes: more than one key', () => {
+  const lowtide = ['To the Tideline Steps', 'To the head of the Throat', '=156', 'To the foot of the Throat', 'To the Weed',
+    'To the Drowned Forum'];
+  it("past the Forsworn with the weight of a kept promise, and down the drowned city's own drain into the Strongrooms", async () => {
+    const g = await Tessary.start();
+    await g.play('To the Landgate', 'Into Pitch', 'Buy › A torch', 'Buy › A torch', 'Out to the Landgate', 'Into Saint Evenhand',
+      'Ask Brother Tolley who Saint', 'Ask Brother Tolley what the saint said', 'Ask Brother Tolley what the hollow',
+      'Ask Brother Tolley for the weight', 'Out to the Landgate', 'To the Withies', ...lowtide, 'To the Street of Scales',
+      'Into the bath-house', 'torch.*Light', 'To the plunge-room');
+    expect(g.knows('evenhand_saying')).toBe(true);
+    expect(g.page).toMatch(/hold out their hands, palm up/);
+    await g.play('Hold out the weight');
+    expect(g.holds('forswornAppeased', 'ossel')).toBe(true);
+    await g.play('Into the Strongrooms', 'To the standing dormitory', 'To the Hall of Clerks');
+    expect(g.j.campaign.world.one('at', 'party')).toBe(t('clerks_hall'));
+    // Nobody fought; the black wall was never opened.
+    expect(g.holds('registered', 'party')).toBe(false);
+  }, 240000);
+
+  it('Bettany Slake hands over the letter to someone who tells her what her letters are for', async () => {
+    const g = await Tessary.start();
+    await g.play('To the Landgate', 'To Scriveners', 'Into the Exchequer', 'Read a list', 'Out to Scriveners', 'To the Landgate',
+      'To the Withies', 'Ask the Assessor whether the city pledged', ...lowtide, 'To the Street of Scales', 'To the ebb-runners',
+      'Pay Bettany', 'Ask Bettany Slake what she carried', 'Tell Bettany Slake what the Factor', 'Take from the ebb-runners');
+    expect(g.j.holds('carries', 'party', t('sault_letter'))).toBe(true);
+    expect(g.j.holds('hostile', t('slake'), 'party')).toBe(false);
+  }, 240000);
+
+  it('the Assessor balances the counterweight pans as a child of seven does', async () => {
+    const g = await Tessary.start();
+    await g.play(...phase('void', 'day1'), ...phase('void', 'night1'), ...phase('void', 'below').slice(0, 9),
+      'To the Hall of Clerks', 'To the Counterweight', 'Ask the Assessor to balance');
+    expect(g.page).toMatch(/A pen is about the weight of an untold lie/);
+    expect(g.j.offers('To the Weighing Chamber')).toBe(true);
+  }, 240000);
+
+  it('the Factor seeks out the one she hired on the Tidewall at dusk, and speaks of her father', async () => {
+    const g = await Tessary.start();
+    await g.play('To the Landgate', 'To Saltgate', 'Into Factor Sault', 'Ask the Factor about the veterans', 'Out to Saltgate',
+      'To the Landgate', 'Into Saint Evenhand', 'Ask Brother Tolley about the old rakers', 'Out to the Landgate', 'To Scriveners',
+      'To the Tidewall', '=350');
+    expect(g.page).toMatch(/You look like someone who.s been under the sea/);
+    await g.play('Ask the Factor about the First Muster');
+    expect(g.page).toMatch(/at knee height/);
+  }, 240000);
+});
+
 describe('What Tessary Owes: saving, replaying, and the world it lies in', () => {
   it('kept mid-fortnight and opened again, the world goes on to the same end as one never kept', async () => {
     const whole = await Tessary.start('kept');
