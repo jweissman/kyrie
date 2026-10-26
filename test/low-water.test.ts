@@ -242,4 +242,17 @@ describe('Low Water', () => {
     expect(j.holds(L('halmTurned'), L('halm'))).toBe(true);
     expect(Bowl.said(j, j.taken.length - 1)).toContain('Merrow');
   }, 300000);
+  it('walks the nine wheel-rooms, times the seventh wheel\'s tide to read its dial, and finds what is set in the ninth', async () => {
+    const j = await Bowl.start('wheels');
+    await j.play(...Bowl.act1, ...Bowl.trial, 'Fill a lantern', '^To the intake culvert', '^To the dry vestibule', '^Take', '^Take',
+      'Hall of the Equals', 'Put in › A weight-stone', 'Put in › A weight-stone', 'Put in › A weight-stone', 'Put in › A weight-stone',
+      '^To the counting gallery', 'room of the first wheel', 'counting gallery', 'room of the fourth wheel', 'counting gallery',
+      'room of the seventh wheel', '~face of the seventh wheel', "seventh wheel's dial: Examine");
+    expect(Bowl.knows(j, 'wheels_counted')).toBe(true);
+    expect(Bowl.knows(j, 'unborn_read')).toBe(true);
+    await j.play('=+3');
+    expect(j.at('party')).toBe(L('w_unborn'));
+    await j.play('counting gallery', 'room of the ninth wheel');
+    expect(Bowl.knows(j, 'remainder_seen')).toBe(true);
+  }, 300000);
 });

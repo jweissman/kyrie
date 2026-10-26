@@ -69,8 +69,8 @@ Module lowwater "Low Water" {
     says "As the last stone goes into the pan the floor comes up level under your feet with a long soft grinding, and the Equals lower their hands." teaches equals_rule { }
 
   // The counting gallery: nine wheels, and how many have turned.
-  Observe count_scene at count_gallery when not familiar(count_gallery) "A gallery as long as a street, and down the middle of it nine wheels of bronze and grey stone, each as tall as a house, standing in a row in a channel of moving water. Water runs from each to the next by a hundred small gates.".
-  Observe count_scene_again at count_gallery when familiar(count_gallery) "The counting gallery and its nine great wheels.".
+  Observe count_scene at count_gallery when not familiar(count_gallery) "A gallery as long as a street, and down one side of it nine tall arches, and through every arch a wheel of bronze and grey stone, each in a room of its own, each as tall as a house. A channel of moving water runs the length of the gallery and turns in at every arch, and comes out again, by a hundred small gates.".
+  Observe count_scene_again at count_gallery when familiar(count_gallery) "The counting gallery, and its nine arches, and the wheel in every one.".
   Observe count_running at count_gallery when not complete(reckoner) and not broken(reckoner) "The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor.".
   Observe count_wheels_0 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 0 "Of the nine wheels, no stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
   Observe count_wheels_1 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 1 "Of the nine wheels, one stands still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
