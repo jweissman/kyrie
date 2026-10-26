@@ -17,19 +17,21 @@ Module wrayford "The Third Night" {
   Rule carters_go when fireHour() and (kitMeansFire() or kitJoined(kit)) and not kitTurned(kit) and not kitStoodDown(kit) and not cartersOut(carters) and not fireTried(wray) {
     Assert cartersOut(carters). Assert kitOut(kit). Assert at(carters, counting_room). Assert at(kit, counting_room). }
   // With the company there beside them: Gault comes out of the dark at them.
-  Rule ambush_springs at counting_room when cartersOut(carters) and at(party, counting_room) and ambushLaid(wray) and not fireFought(wray) says "The young carters come into the counting-house with the oil, and Kit with a lantern, and Sergeant Gault stands up from behind the counter. 'Evening,' he says, and his riders step out of the dark either side of the door." {
+  Rule ambush_springs when cartersOut(carters) and at(party, counting_room) and ambushLaid(wray) and not fireFought(wray) says "The young carters come into the counting-house with the oil, and Kit with a lantern, and Sergeant Gault stands up from behind the counter. 'Evening,' he says, and two of the lord's riders step out of the dark either side of the door." {
     Assert fireFought(wray). Retract peaceable(gault). Retract peaceable(ambush). Assert assails(gault, party). Assert assails(ambush, party). }
   // Without the company: Gault takes them in the act.
-  Rule ambush_takes when cartersOut(carters) and not at(party, counting_room) and ambushLaid(wray) and not fireTried(wray) says "Word comes before dawn, the way it comes in a city, from nowhere: the young carters went for the Company's counting-house at midnight with lamp-oil, and Sergeant Gault was waiting in the dark for them, and the fire was out before it was lit, and Kit Pardoe and two others are in the Guildhall cellar." {
+  Rule ambush_takes when cartersOut(carters) and not at(party, counting_room) and ambushLaid(wray) and not fireTried(wray) and not fireFought(wray) says "Word comes before dawn, the way it comes in a city, from nowhere: the young carters went for the Company's counting-house at midnight with lamp-oil, and Sergeant Gault was waiting in the dark for them, and the fire was out before it was lit, and Kit Pardoe and two others are in the Guildhall cellar." {
     Assert fireTried(wray). Assert kitTaken(kit). Assert cartersTaken(carters). Assert at(kit, guild_cellar). Assert at(carters, guild_cellar).
     Retract cartersOut(carters). Retract kitOut(kit). Retract gaultAway(gault). Assert at(ambush, limbo). }
   // Won: the counting-house burns.
   Rule counting_burns when fireFought(wray) and (not able(gault) or routed(gault)) and (not able(ambush) or routed(ambush)) and not countingBurned(wray) says "The oil goes on the ledgers and the lantern after it, and the counting-house of the Worshipful Company of the Bridge goes up with a sound like a great breath. The gold bridge over the door melts and runs. By the time the Market is awake the whole of it is burning, and the bells are ringing, and nobody in Wrayford will ever again be able to say there was no rising." {
     Assert countingBurned(wray). Assert fireTried(wray). Retract cartersOut(carters). Retract kitOut(kit). Retract gaultAway(gault). }
-  Rule fire_lost when fireFought(wray) and (captured(gault, party) or captured(ambush, party)) says "You come round in the Guildhall cellar on the straw, with Kit beside you with his face cut, and the young carters, and the smell of lamp-oil on your hands." {
+  Rule fire_lost when fireFought(wray) and at(party, counting_room) and (captured(gault, party) or captured(ambush, party)) says "You come round in the Guildhall cellar on the straw, with Kit beside you with his face cut, and the young carters, and the smell of lamp-oil on your hands." {
     Retract captured(gault, party). Retract captured(ambush, party). Assert at(party, guild_cellar). Assert heldInCellar(party). Assert kitTaken(kit). Assert at(kit, guild_cellar).
     Assert cartersTaken(carters). Assert at(carters, guild_cellar). Assert fireTried(wray). Retract cartersOut(carters). Retract kitOut(kit). Retract gaultAway(gault).
     Assert peaceable(gault). Assert peaceable(ambush). Assert at(ambush, limbo). }
+  // And the proof of the first fire goes in the second: Pinch's day-book, under his mattress behind the counter.
+  Rule daybook_burns when countingBurned(wray) and at(daybook, pinch_room) { Retract at(daybook, pinch_room). }
   Observe counting_burned at counting_room when countingBurned(wray) "The counting-house is a shell: black walls, the counter charcoal, a smell that will be in the Market for a year. Over the doorway a lump of gold metal hangs where the bridge was.".
   // Turned: the new toll-board goes into the river instead, and nobody hangs for a board.
   Rule board_sinks when fireHour() and kitTurned(kit) and not boardSunk(wray) and not kitTaken(kit) {

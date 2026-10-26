@@ -127,7 +127,7 @@ Module wrayford "The Third Night" {
     Grave "He will have to take you for it.".
     Requires able(actor) and company(actor) and at(actor, site) and at(hulme, site) and kitBlamed(kit) and kitTaken(kit) and not gaveSelfUp(actor) and homecomer(actor) and not dark().
     Time 1.
-    On success { Assert gaveSelfUp(actor). Assert arrestedParty(actor). Retract kitBlamed(kit). Retract kitTaken(kit). Assert at(kit, carters_yards).
+    On success { Assert gaveSelfUp(actor). Assert arrestedParty(actor). Retract kitBlamed(kit). Retract kitTaken(kit). Assert at(kit, carters_yards). Assert kitStoodDown(kit). Increase kitTrust(kit) by 2.
       Assert at(actor, guild_cellar). Assert heldInCellar(actor). }
     Result "Simon Hulme looks at you for a long time across the desk. 'I know,' he says. 'I knew it was you before he said a word, and so did he, and he said nothing, which is your father all over.' He calls the constable. Kit passes you on the cellar stair coming up as you go down, and stops, and you do not let him say anything.".
   }
@@ -135,7 +135,7 @@ Module wrayford "The Third Night" {
     Grave "He will have to take you for it.".
     Requires able(actor) and company(actor) and at(actor, site) and at(hulme, site) and kitBlamed(kit) and kitTaken(kit) and not gaveSelfUp(actor) and stranger(actor) and not dark().
     Time 1.
-    On success { Assert gaveSelfUp(actor). Assert arrestedParty(actor). Retract kitBlamed(kit). Retract kitTaken(kit). Assert at(kit, carters_yards).
+    On success { Assert gaveSelfUp(actor). Assert arrestedParty(actor). Retract kitBlamed(kit). Retract kitTaken(kit). Assert at(kit, carters_yards). Assert kitStoodDown(kit). Increase kitTrust(kit) by 2.
       Assert at(actor, guild_cellar). Assert heldInCellar(actor). }
     Result "The reeve looks at you, a stranger, for a long time. 'Why?' he asks. You tell him. He writes it down in his own hand, not his son's. 'Wrayford will owe you for that,' he says, 'and will not know it,' and calls the constable.".
   }

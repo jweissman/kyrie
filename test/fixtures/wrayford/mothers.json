@@ -1,0 +1,91 @@
+{
+  "home": [
+    "To Northgate",
+    "Wain Row",
+    "Pardoe",
+    "Talk to Maudie",
+    "what happened",
+    "about Kit",
+    "third night",
+    "Take your leave",
+    "Out to Wain Row",
+    "To Northgate"
+  ],
+  "ice": [
+    "To the Market Cross",
+    "Read the printed sheet",
+    "Mercer",
+    "Into Alderman Gidley",
+    "Talk to Honoria",
+    "about her aunt",
+    "ice for the toll-keeper",
+    "Take your leave",
+    "Out to Mercer Hill",
+    "Into Gidley's ice-house",
+    "a block of ice: Take",
+    "Out to Mercer Hill",
+    "To the Market Cross"
+  ],
+  "jennet": [
+    "Bridge End",
+    "Press Pinch",
+    "To Bridge Street",
+    "brought a block of ice",
+    "toll-keeper's house",
+    "Sit with Jennet",
+    "Talk to Jennet",
+    "about Ned",
+    "Take your leave",
+    "Out to Bridge Street"
+  ],
+  "evidence": [
+    "To the Bridge End",
+    "To the Market Cross",
+    "Guildhall yard",
+    "Look closely",
+    "To the Market Cross",
+    "To Northgate",
+    "To the carters' yards",
+    "Talk to Jos",
+    "who was on the box",
+    "Take your leave"
+  ],
+  "print": [
+    "To Northgate",
+    "To the Market Cross",
+    "Cutler's Lane",
+    "Into Quoin",
+    "Talk to Ezra",
+    "who brought him",
+    "THREE CARTERS",
+    "Take your leave"
+  ],
+  "kit": [
+    "Out to Cutler's Lane",
+    "To the Market Cross",
+    "Shambles",
+    "Wharf",
+    "bank under",
+    "=80",
+    "Sit down by Kit",
+    "Talk to Kit",
+    "had the reins",
+    "Ask Kit Pardoe to join"
+  ],
+  "tell": [
+    "To the Wharf",
+    "To the Shambles",
+    "To the Market Cross",
+    "To the Bridge End",
+    "To Bridge Street",
+    "toll-keeper's house",
+    "Stand by Kit while he tells",
+    "Ask Jennet Hobday to come with you"
+  ],
+  "walk": [
+    "=172"
+  ],
+  "verdict": [
+    "=440"
+  ]
+}

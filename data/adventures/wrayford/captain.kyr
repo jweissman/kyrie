@@ -56,6 +56,9 @@ Module wrayford "The Third Night" {
   // The Company, at supper, offers the captain a live ringleader for the lord's justice: the boy, if it knows of him.
   Rule company_offers when captainHere(wray) and hour(clock) >= 20 and (bargainMade(party) or kitExposed(wray)) and not companyOffersKit(wray) and not kitTaken(kit) and not travelsWith(kit, party) says "Word comes out of the Guildhall supper: Alderman Gidley has told the captain, with tears, that the true driver of the cart was Wat Pardoe's son, and that the Company would think it a great mercy to the city if the lord's justice took the boy alive. The riders go to the yards for Kit Pardoe." {
     Assert companyOffersKit(wray). Assert kitTaken(kit). Assert at(kit, guild_cellar). }
+  // The Company keeps its word, such as it is: a live ringleader bought, it asks mercy for the dead, before the third night.
+  Rule company_mercy when captainHere(wray) and hour(clock) >= 20 and kitSold(kit) and stillHanging() and not releaseUnderway(wray) says "Word comes out of the Guildhall supper: the Company, having given the lord's justice a live ringleader, has asked the captain's mercy for the dead, as a kindness to the city, and she has granted it, with a look at Alderman Gidley that goes on a little too long. The three come down from the rail by torchlight and are carried over the bridge to Wade's Acre, to wait for morning." {
+    Assert releaseUnderway(wray). Assert releasedBy(wray, by_captain). }
 
   // ── The third night: the reeve, too late; the carters, rising ─────────────────────────────────────────────────────
   Relation reeveLate(place). Relation tooLate(place). Relation riseNight(place).
@@ -66,8 +69,8 @@ Module wrayford "The Third Night" {
     Assert releaseUnderway(wray). Assert reeveRelease(wray). Assert releasedBy(wray, by_reeve). }
   // With his mother in the cellar and his father on the rail, Kit takes the young carters to the gatehouse, unless he
   // is held, or with you, or has given his word.
-  Rule carters_rise when maudieTaken(maudie) and stillHanging() and not kitTaken(kit) and not travelsWith(kit, party) and not kitStoodDown(kit) and thirdDay() and hour(clock) >= 4 and hour(clock) < 6 and not riseNight(wray) says "Before dawn the carters' yards empty. Kit Pardoe goes down the Cartway at the head of thirty men with cart-staves and torches, to the gatehouse where his mother was taken, and the captain's riders meet them at the Bridge End." {
-    Assert riseNight(wray). }
+  Rule carters_rise when maudieTaken(maudie) and stillHanging() and not kitTaken(kit) and not travelsWith(kit, party) and not kitStoodDown(kit) and thirdDay() and hour(clock) >= 4 and hour(clock) < 6 and not riseNight(wray) says "Before dawn the carters' yards empty. Kit Pardoe goes down the Cartway at the head of thirty men with cart-staves and torches, to the gatehouse where his mother was taken, and the captain's riders meet them at the Bridge End. By first light it is over, and Kit is in the Guildhall cellar with his arm broken, and two of the riders are being carried into the Bridge End inn." {
+    Assert riseNight(wray). Assert kitTaken(kit). Assert at(kit, guild_cellar). }
 
   // ── The verdict ───────────────────────────────────────────────────────────────────────────────────────────────────
   // At nine on the fourth morning, in the Guildhall. Rebellion is fire raised, or riders beaten, or a rising at the gate.

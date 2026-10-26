@@ -67,7 +67,7 @@ Module wrayford "The Third Night" {
   Place bridge_street "Bridge Street, on the arches" is room within bridge at 2, 0 outdoors.
   Place hobday_room "Jennet Hobday's front room" is room within hobday_house at 2, 1 indoors.
   Place chapel "the bridge chapel" is room within bridge_chapel at 3, 0 indoors.
-  Place chapel_below "under the bridge chapel" is level within bridge_chapel.
+  Place chapel_below "the starling steps" is level within bridge_chapel.
   Place starling "the starling ledge under the middle arch" is room within chapel_below at 3, 1 outdoors.
   Place overbridge_street "Overbridge Street" is room within overbridge at 1, 0 outdoors.
   Place south_stair "the south ferry-stair" is room within overbridge at 0, 0 outdoors.

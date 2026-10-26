@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "calendar": {
+    "year": 612,
+    "month": 8,
+    "day": 21
+  },
+  "name": "The Third Night (a traveller)",
+  "modules": [
+    {
+      "id": "wrayford",
+      "bundle": "traveller/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Mara",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "caravaner"
+    }
+  ]
+}

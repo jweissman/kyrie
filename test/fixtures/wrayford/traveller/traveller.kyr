@@ -1,0 +1,5 @@
+Module wrayford "The Third Night" {
+  // A traveller of no kin here, come down the drove road alone: the placed country's company, played on its own.
+  Company party "You" of 1 at drove_road.
+  Initially Set quantity(party, gold) to 9. Initially Set quantity(party, rations) to 2.
+}

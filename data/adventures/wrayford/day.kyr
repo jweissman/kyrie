@@ -43,7 +43,10 @@ Module wrayford "The Third Night" {
   }
   // At two, the Bench rises; if nobody moved anything of use, the clerk's clause is read in.
   Rule bench_rises when secondDay() and hour(clock) >= 14 and not benchRose(wray) { Assert benchRose(wray). }
-  Rule worse_clause when benchRose(wray) and not clauseCharity(wray) and not clauseRelease(wray) and not clauseWorse(wray) and inWrayford() says "At two the Bench rises. The Remonstrance goes to the lord with one clause added at the end, which the clerk read in and nobody opposed: that the dead remain upon the rail until the Company's loss in the riot shall have been reckoned by the lord's captain, the Company's claims being thereby secured. The reeve, it is said, read it in his court with his face like a shut door." { Assert clauseWorse(wray). Decrease hulmeMoved(hulme) by 1. }
+  Rule worse_clause when benchRose(wray) and not clauseCharity(wray) and not clauseRelease(wray) and not clauseWorse(wray) and inWrayford() says "At two the Bench rises. The Remonstrance goes to the lord with one clause added at the end, which the clerk read in and nobody opposed: that the dead remain upon the rail until the Company's loss in the riot shall have been reckoned by the lord's captain, the Company's claims being thereby secured. The reeve, it is said, read it in his court with his face like a shut door." { Assert clauseWorse(wray). }
+  // A measure cannot go below nothing: an effect that would take it there makes the whole rule impossible.
+  Rule worse_clause_hardens when clauseWorse(wray) and hulmeMoved(hulme) >= 1 and not clauseHardened(wray) { Assert clauseHardened(wray). Decrease hulmeMoved(hulme) by 1. }
+  Relation clauseHardened(place).
 
   // ── The Liberty's charity: the dead released lawfully, before the captain ────────────────────────────────────────
   Query crossingLawful() means ruling(ruled_tithe) or pinchExposed(wray) or pinchGone(pinch) or ruling(ruled_carcass).
@@ -77,14 +80,14 @@ Module wrayford "The Third Night" {
   // Told by someone she trusts, she keeps it; by someone she does not, she goes to the reeve.
   Rule jennet_keeps when jennetTold(jennet) and jennetTrust(jennet) >= 3 and not jennetKnowsTruth(jennet) and not kitInformedOn(kit) { Assert jennetKnowsTruth(jennet). }
   Rule jennet_goes_to_reeve when jennetTold(jennet) and jennetTrust(jennet) < 3 and not kitInformedOn(kit) and not jennetKnowsTruth(jennet) says "Jennet Hobday walks up the Cartway to the Guildhall and asks for the reeve, and is with him an hour. In the evening the riders take Kit Pardoe from the yards." {
-    Assert kitInformedOn(kit). Assert kitTaken(kit). Assert at(kit, guild_cellar). Decrease kitTrust(kit) by 5. }
+    Assert kitInformedOn(kit). Assert kitTaken(kit). Assert at(kit, guild_cellar). Set kitTrust(kit) to 0. }
   Relation kitInformedOn(group).
   Observe jennet_after_tell at hobday_room when jennetTold(jennet) and jennetTrust(jennet) >= 3 and not kitToldJennet(jennet) "Jennet Hobday sits by the bed with her hands in her lap. 'He lifted him in,' she says, not to you. 'He lifted him in like something precious and drove for the bone-setter.' She says it again, as if learning it. 'You've sat with me,' she says. 'I'll not hang a boy for this. I've had enough of hanging.'".
   Action bring_jennet(actor: group, site: place) "Ask Jennet Hobday to come with you to Wain Row, and sit with Maudie Pardoe" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hobday_room) and at(jennet, hobday_room)
       and jennetKnowsTruth(jennet) and jennetTrust(jennet) >= 3 and stillHanging() and not mothersMet(wray) and not captainCome().
     Time 6.
-    On success { Assert mothersMet(wray). Set walkDay(wray) to dayN(wray) + 1. }
+    On success { Assert mothersMet(wray). Set walkDay(wray) to dayN(wray) + 1. Assert at(actor, wain_row). Assert at(jennet, pardoe_kitchen). }
     Result "She looks at the bed for a long time. Then she puts on her shawl. You walk with her the length of Bridge Street and up the Cartway and down Wain Row, and people stop in their doorways to watch the toll-keeper's widow go to the carter's widow's door. Maudie Pardoe opens it with flour on her hands. The two women look at each other. Then Maudie stands aside, and Jennet goes in, and the door shuts, and you are not asked in, and you do not ask. After an hour Maudie comes to the door and says to you, quite briskly, as if arranging a wash-day: 'In the morning. Both of them. Over the bridge, in the light, with the city behind us. And let them stop us.'".
   }
   // The morning after: if the city is behind them, nobody stops them.
@@ -99,4 +102,5 @@ Module wrayford "The Third Night" {
   Rule ned_buried_lawful when buriedLawfully(wray) and not nedBuried(jennet) and corbinWillDig(wray) { Assert nedBuried(jennet). }
   Rule hulme_resigns when mothersWalked(wray) and buried(wat_dead) and not hulmeResigned(hulme) and hour(clock) >= 18 says "In the evening the reeve of Wrayford takes off his chain of office in the Guildhall before the Bench, and lays it on the long table, and goes home." { Assert hulmeResigned(hulme). }
   Relation hulmeResigned(group).
+  Rule jennet_goes_home when mothersWalked(wray) and buried(wat_dead) and not at(jennet, hobday_room) { Assert at(jennet, hobday_room). }
 }

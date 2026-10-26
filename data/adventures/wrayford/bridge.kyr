@@ -47,7 +47,7 @@ Module wrayford "The Third Night" {
   }
   Topic pinch_carcass with pinch "Put it to Pinch that a dead man is a carcass, by the hundredweight" when knows(actor, toll_schedule) and not pinchFlustered(pinch) and not ruling(ruled_carcass) once {
     Says "Pinch considers this with his whole face. 'A carcass,' he says. 'Three pence the hundredweight. A carcass is a dead beast. A man is not a beast. But the board does not say beast, it says carcass, and a dead man,' and he closes his eyes, and opens them, 'is a carcass. Wat Pardoe was a big man. Call it twelve stone, with the rope. One hundredweight and a half: four pence ha'penny. Dunstan Fenner, ten stone. Joss Wilder, a boy, nine.' He writes it all down in a small exact hand. 'One and a penny farthing for the three. In coin, at the chain.' The crowd has gone very quiet. Annis Pye, at her pitch, puts down the pie she was holding.".
-    On discuss { Assert ruling(ruled_carcass). Assert knows(actor, ruled_carcass). Decrease temper(wray) by 1. }
+    On discuss { Assert ruling(ruled_carcass). Assert knows(actor, ruled_carcass). }
   }
   Topic pinch_pilgrim with pinch "Put it to Pinch that Wat Pardoe is a pilgrim to Saint Wade's" when knows(actor, toll_schedule) and not pinchFlustered(pinch) once {
     Says "'On his own feet,' says Pinch at once. 'It says on his own feet. A pilgrim to Saint Wade's on his own feet: free. Wat Pardoe is not,' he looks up at the rail, and down again quickly, 'on his own feet. In the relevant sense.' Somebody in the crowd laughs, and then somebody else, and it is not a kind laugh, and it is not at the dead. Pinch goes red to the ears.".
@@ -146,7 +146,7 @@ Module wrayford "The Third Night" {
   Relation riderPeace(group).
   // Taken: a night in the Guildhall cellar, and the dead back on the rail by morning.
   Relation heldInCellar(group).
-  Rule taken_at_rail when captured(riders, party) or captured(gault, party) says "You come round in the dark on cold stone, with your hands tied. The Guildhall cellar. Up the stair, through the door, somebody is saying your name to the reeve." {
+  Rule taken_at_rail when (captured(riders, party) or captured(gault, party)) and not (fireFought(wray) and at(party, counting_room)) says "You come round in the dark on cold stone, with your hands tied. The Guildhall cellar. Up the stair, through the door, somebody is saying your name to the reeve." {
     Retract captured(riders, party). Retract captured(gault, party). Assert at(party, guild_cellar). Assert heldInCellar(party).
     Assert peaceable(riders). Assert peaceable(gault). }
   Rule cellar_unburdens when heldInCellar(party) and bearing(?m, ?b) { Retract bearing(?m, ?b). }

@@ -35,13 +35,18 @@ Module wrayford "The Third Night" {
     Says "He flinches. It is the first thing that has touched him, and he cannot hide it. 'Don't,' he says. 'Don't say that to me.' He gets up and goes to the window and stands with his back to you for a long time. 'Get out,' he says at last, quite gently. 'Go home to your mother.'".
     On discuss { Assert hulmeAnswered(actor). Increase hulmeMoved(hulme) by 1. }
   }
+  // After the Bench's clause: its dead are now the Company's surety, and the reeve its bailiff. Anyone may say so.
+  Topic hulme_clause with hulme "Put it to the reeve that the Bench has made his dead the Company's surety, and him its bailiff" when clauseWorse(wray) and stillHanging() once {
+    Says "He has the Remonstrance on his desk; he has read it more than once. 'Its surety,' he says. 'Yes.' He turns it face down. 'I kept them on the rail for the city. Three men, so that it should not be thirty. And the Company has written under my seal that they stay there till its riot-money is counted.' He looks at the decree on the wall, in his son's hand. 'I did not hang men to be a debt-collector's pledge.' He does not say anything else, but he has not turned the paper back over.".
+    On discuss { Increase hulmeMoved(hulme) by 1. }
+  }
   Topic hulme_release with hulme "Ask the reeve what would let him release the dead" when stranger(actor) and knows(actor, hulme_reasons) once {
     Says "He considers you: a stranger, who has no stake, and is asking anyway. 'Cover,' he says. 'If the Abbess of Overbridge claimed them, they'd be the Liberty's, not the city's rebels. If the Bench gave me leave. If the crossing at the chain were ruled lawful, so it's not a felon's goods going over the bridge. Three things.' He shakes his head. 'The Bench will give nothing for nothing, and the Abbess gives nothing at all.'".
     On discuss { Assert knows(actor, charity_path). }
   }
   Topic hulme_kit with hulme "Tell the reeve what Kit Pardoe means to do tomorrow night" when knows(actor, kit_plan) and not kitStoodDown(kit) and not kitTurned(kit) and not kitTaken(kit) and not kitBetrayed(kit) once {
     Says "The reeve listens with his hand over his eyes. 'The counting-house,' he says. 'He'd hang. They'd hang him with his father.' He takes his hand away. 'I'll have him taken up tonight, before. The cellar's dry. It's better than the rope.' He looks at you. 'He'll not forgive you.'".
-    On discuss { Assert kitBetrayed(kit). Assert kitTaken(kit). Decrease kitTrust(kit) by 5. }
+    On discuss { Assert kitBetrayed(kit). Assert kitTaken(kit). Set kitTrust(kit) to 0. }
   }
   Rule kit_taken_up when kitBetrayed(kit) and not at(kit, guild_cellar) and not travelsWith(kit, party) { Assert at(kit, guild_cellar). Assert kitTaken(kit). }
 
@@ -137,7 +142,7 @@ Module wrayford "The Third Night" {
     Requires able(actor) and company(actor) and at(actor, site) and at(gidley, site) and bargainMade(actor) and not purseTaken(actor)
       and not kitTaken(kit).
     Time 2 minutes.
-    On success { Increase quantity(actor, gold) by 40. Assert purseTaken(actor). Assert kitTaken(kit). Assert kitSold(kit). Decrease kitTrust(kit) by 10. }
+    On success { Increase quantity(actor, gold) by 40. Assert purseTaken(actor). Assert kitTaken(kit). Assert kitSold(kit). Set kitTrust(kit) to 0. }
     Result "The purse is heavy. Gidley sends a boy running for the reeve's men, and pours you a glass of something, and toasts the city. You do not drink it.".
   }
   Relation kitSold(group).

@@ -1,0 +1,50 @@
+{
+  "home": [
+    "To Northgate",
+    "Wain Row",
+    "Pardoe",
+    "Talk to Maudie",
+    "what happened",
+    "about Kit",
+    "third night",
+    "Take your leave",
+    "Out to Wain Row",
+    "To Northgate"
+  ],
+  "evidence": [
+    "To the Market Cross",
+    "Guildhall yard",
+    "Look closely",
+    "To the Market Cross",
+    "To Northgate",
+    "To the carters' yards",
+    "Talk to Jos",
+    "who was on the box",
+    "Take your leave"
+  ],
+  "kit": [
+    "To Northgate",
+    "To the Market Cross",
+    "Shambles",
+    "Wharf",
+    "bank under",
+    "=80",
+    "Sit down by Kit",
+    "Talk to Kit",
+    "had the reins"
+  ],
+  "sell": [
+    "To the Wharf",
+    "To the Shambles",
+    "To the Market Cross",
+    "Mercer",
+    "Into Alderman Gidley",
+    "Talk to Alderman",
+    "who was really driving",
+    "Take your leave",
+    "Take the Company's forty crowns"
+  ],
+  "verdict": [
+    "=440"
+  ]
+}

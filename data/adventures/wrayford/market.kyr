@@ -78,6 +78,11 @@ Module wrayford "The Third Night" {
     Role "the Bridge Company's clerk, with ink to the second knuckle". Ancestry human. Peaceable. Pronouns he. Manner proud.
     Greets "Lancelot Inchbold finishes his line, sands it, and only then looks up, as if you were a sum he had been expecting.".
   }
+  // The clerk keeps the Company's hours, and spends his evenings in the Nine Wheels, where he hears everything.
+  Rule inchbold_works when hour(clock) >= 8 and hour(clock) < 18 and not countingBurned(wray) and not at(inchbold, counting_room) { Assert at(inchbold, counting_room). }
+  Rule inchbold_works_burned when hour(clock) >= 8 and hour(clock) < 18 and countingBurned(wray) and not at(inchbold, guild_hall) { Assert at(inchbold, guild_hall). }
+  Rule inchbold_drinks when hour(clock) >= 18 and hour(clock) < 23 and not at(inchbold, wheels_taproom) { Assert at(inchbold, wheels_taproom). }
+  Rule inchbold_home when (hour(clock) >= 23 or hour(clock) < 8) and not at(inchbold, limbo) { Assert at(inchbold, limbo). }
   Topic inchbold_bench with inchbold "Ask the Company's clerk how the Bench decides things" when true once {
     Says "'Gracefully.' He dips his pen. 'The Bench is a body of gentlemen of the greatest goodwill, who will agree to any proposal that does not cost them anything. I draft the proposals.' He does not smile, quite. 'You would be surprised what does not cost anything, phrased well. The Remonstrance against the toll is being moved tomorrow at noon in the hall. It costs nothing: the lord will not read it.' He writes. 'I wrote it.'".
     On discuss { Assert knows(actor, bench_rule). Assert knows(actor, remonstrance_called). }
@@ -183,7 +188,7 @@ Module wrayford "The Third Night" {
   }
   Relation kitExposed(place).
   Rule kit_taken_exposed when kitExposed(wray) and not kitTaken(kit) and not travelsWith(kit, party) and hour(clock) >= 20 says "In the evening the riders go into the carters' yards and take Kit Pardoe, who does not fight them, and walk him to the Guildhall cellar through a crowd that does not know whether to cheer or curse." {
-    Assert kitTaken(kit). Assert at(kit, guild_cellar). Decrease kitTrust(kit) by 3. }
+    Assert kitTaken(kit). Assert at(kit, guild_cellar). Set kitTrust(kit) to 0. }
 
   // The pawnshop, kept by Alderman Gidley's cousin.
   Observe pawn_scene at pawnshop when true "A dark shop full of other people's things: clocks, Sunday coats, a fiddle, a trayful of rings under glass, a cradle. Each has a ticket on a string.".
@@ -311,7 +316,7 @@ Module wrayford "The Third Night" {
   Rule boy_talks when cartGone(offal_cart) and inCart(?b) and boyBribed(party) and not kempAgrees(party) and not cartFound(wray) says "Word comes back over the bridge: at the chain the riders stopped the offal cart, because the butcher's boy had told them in the Nine Wheels there was something in it, and pulled back the tarpaulin, and found the dead." {
     Assert cartFound(wray). Retract inCart(wat_dead). Retract inCart(dunstan_dead). Retract inCart(joss_dead). Assert state(rail, hanging).
     Assert at(wat_dead, limbo). Assert at(dunstan_dead, limbo).
-    Assert at(joss_dead, limbo). Decrease temper(wray) by 1. }
+    Assert at(joss_dead, limbo). }
   // Unloaded at the tan-yards, where the cart goes.
   Rule cart_unloads when cartGone(offal_cart) and inCart(?b) and not cartFound(wray) { Retract inCart(?b). Retract at(?b, ?p). Assert at(?b, tanyards). }
 

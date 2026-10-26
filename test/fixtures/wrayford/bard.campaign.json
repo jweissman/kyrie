@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "calendar": {
+    "year": 612,
+    "month": 8,
+    "day": 21
+  },
+  "name": "The Third Night (bard)",
+  "modules": [
+    {
+      "id": "wrayford",
+      "bundle": "../../../data/adventures/wrayford/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Lark",
+      "raceId": "human",
+      "classId": "bard",
+      "backgroundId": "caravaner"
+    }
+  ]
+}

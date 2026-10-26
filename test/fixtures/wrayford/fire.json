@@ -1,0 +1,21 @@
+{
+  "day1": [
+    "To Northgate",
+    "To the Market Cross",
+    "Bridge End",
+    "Read the Company's new toll-board",
+    "To the Market Cross",
+    "To Northgate",
+    "To the carters' yards",
+    "Talk to the young carters",
+    "Ask the young carters about the night of the rising",
+    "Take your leave",
+    "Talk to Kit",
+    "what he and the others mean",
+    "sink the Company's new toll-board",
+    "Take your leave"
+  ],
+  "wait": [
+    "=440"
+  ]
+}

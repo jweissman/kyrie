@@ -106,7 +106,7 @@ Module wrayford "The Third Night" {
   // He drove the cart. Nobody knows but him, and Dunstan, who is dead.
   Person kit "Kit Pardoe" at carters_yards {
     Role "a carter's son, seventeen, with black under his nails". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner grim.
-    Greets "Kit looks up from the wheel he is greasing, and looks down again.".
+    Greets "Kit looks up, and looks away again.".
     Joins "Kit wipes his hands on his trousers and comes, half a step behind, the way he used to.".
     Seen when not at(kit, under_arches) or knows(viewer, kit_place).
   }
@@ -157,7 +157,7 @@ Module wrayford "The Third Night" {
   }
   Topic kit_accused with kit "Tell Kit you know he had the reins" when knows(actor, kit_reins) and not kitTrusts(actor) and not kitConfessed(actor) and not kitDenied(actor) once {
     Says "He is on his feet with the grease-brush in his fist before you have finished. 'Who told you that? Who's saying that?' His face is white. 'I was at the chain. I was at the chain. You can tell whoever's saying it I'll knock their teeth in.' He goes, fast, and does not look back.".
-    On discuss { Assert kitDenied(actor). Decrease kitTrust(kit) by 1. }
+    On discuss { Assert kitDenied(actor). }
   }
   Relation kitDenied(group).
   Discovery kit_driving "Kit Pardoe was driving his father's cart when it went over Ned Hobday. Wat took the reins back, lifted the boy into the cart and drove for the bone-setter at Scar Top; Ned died on the way. When the riders stopped them on the fell road, Wat said he had been driving.".
