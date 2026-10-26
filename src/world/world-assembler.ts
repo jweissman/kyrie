@@ -162,8 +162,10 @@ export class WorldAssembler {
         const chosen = this.choose(open, context, RandomStreams.key(at.seed, 'world', kind === 'town' ? 'town' : 'scenario', round));
         if (!chosen) { break; }
         const n = (count.get(chosen.manifest.id) ?? 0) + 1;
-        count.set(chosen.manifest.id, n);
-        placements.push(this.place(chosen.manifest, { n, region, claimed, seed: at.seed, rid: at.rid }));
+        const placement = this.place(chosen.manifest, { n, region, claimed, seed: at.seed, rid: at.rid });
+        // One that cannot be placed here is not tried again here.
+        count.set(chosen.manifest.id, placement ? n : Infinity);
+        if (placement) { placements.push(placement); }
       }
     }
     return { context, eligibility, placements };
@@ -301,12 +303,14 @@ export class WorldAssembler {
     } catch { return undefined; }
   }
   // Binds each place a scenario needs: a free region site of a kind it accepts (or a newly generated one), or the
-  // settlement nearest one of those sites.
+  // settlement nearest one of those sites. A site that can stand nowhere in the land, and the scenario is not placed,
+  // and nothing it took is kept: placed all the same, its site had no cell, was never written, and the region's
+  // exports named it (2 of 41 seeds, and 1 of 100 games Begin started, would not load: the architecture review's H1).
   private static place(s: ScenarioManifest,
-    at: { n: number; region: Region; claimed: Set<string>; seed: string; rid: string }): Placement {
+    at: { n: number; region: Region; claimed: Set<string>; seed: string; rid: string }): Placement | undefined {
     const { n, region, claimed, seed } = at, prefix = this.prefix(at.rid);
     const instance = `${prefix}${s.id.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`, bindings: Record<string, string> = {};
-    const generated: string[] = [];
+    const generated: string[] = [], before = new Set(claimed), sites = region.sites.length;
     for (const [role, need] of Object.entries(s.places)) {
       if (need.site) {
         // A scenario takes a site of its own, never one of the makers' works, which are whole already.
@@ -315,7 +319,11 @@ export class WorldAssembler {
         if (!site) {
           const key = RandomStreams.key(seed, 'world', 'site', instance, role);
           site = PlaceNames.another(region, need.site.map(kind => this.newSite(region, kind, key)).find(Boolean)!, key);
-          this.situate(region, site, RandomStreams.key(seed, 'world', 'spot', instance, role));
+          if (!this.situate(region, site, RandomStreams.key(seed, 'world', 'spot', instance, role))) {
+            region.sites.length = sites;
+            for (const id of [...claimed].filter(id => !before.has(id))) { claimed.delete(id); }
+            return undefined;
+          }
           region.sites.push(site); generated.push(site.id);
         }
         claimed.add(site.id); bindings[role] = site.id;
