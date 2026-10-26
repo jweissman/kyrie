@@ -107,12 +107,18 @@ export class ModuleBundle {
     if (goals.length > 1) { throw new Error('A module declares its Goal once, in one of its files'); }
     return { ...modules[0]!, ...goals[0] ? { goal: goals[0] } : {}, ...company ? { company } : {}, entities,
       kinds: [...new Set(modules.flatMap(m => m.kinds))],
-      relations: modules.flatMap(m => m.relations), measures: modules.flatMap(m => m.measures),
+      relations: ModuleBundle.once(modules.flatMap(m => m.relations)), measures: modules.flatMap(m => m.measures),
       queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),
       actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),
       pursuits: modules.flatMap(m => m.pursuits ?? []), rules: modules.flatMap(m => m.rules ?? []),
       observations: modules.flatMap(m => m.observations ?? []), objectives: modules.flatMap(m => m.objectives ?? []),
       ...LocalKinds.merge(...modules.map(m => m.catalog)) };
+  }
+  // A relation declared alike in two files is one relation: what an Ending declares for itself in each file it is in
+  // (concluded) was declared twice, and a module with endings in two files would not load (the review's A16).
+  private static once<T>(declared: T[]): T[] {
+    const seen = new Set<string>();
+    return declared.filter(d => seen.size < seen.add(JSON.stringify(d)).size);
   }
   // Each declared import bound to an entity another installation exports; globals keep their own names.
   private static imports(manifest: BundleManifest, request: BundleRequest, installed: InstalledModule[] | undefined,
