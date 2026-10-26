@@ -24,6 +24,7 @@ import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary';
 import { BuildStamp } from '../../src/session/build-stamp';
+import { ChoiceList } from '../../src/ui/choice-list';
 
 // A journey as it goes: each leg as it was told, and the frame the last one left.
 interface Trail { legs: NonNullable<Frame['travel']>['legs']; last?: Frame }
@@ -70,10 +71,9 @@ export class EngineHost {
       case 'ready': this.prepare(request); return null;
       case 'resume': return this.resume(request.saved, request.world);
       case 'perform':
-        return this.command(() => this.perform(request.command, { said: request.said, move: request.move,
-          named: !!request.named }));
+        return this.command(() => this.perform(request.command));
       case 'fight': this.fight(request.choice); return null;
-      case 'travel': return this.command(() => this.travel(request.destination, request.said));
+      case 'travel': return this.command(() => this.travel(request.destination));
       case 'kept': this.acknowledged(request.key, request.ok); return null;
       // The page's download waits for the command under way (the independent review's A2).
       // With the story so far, so that a game opened from the file has its Story page (the review's A24).
@@ -154,7 +154,13 @@ export class EngineHost {
     this.crossed = true;
     return this.settled();
   }
-  private async perform(command: string, context: { said: string; move: boolean; named: boolean }): Promise<Frame> {
+  // What was done, as the engine words it: a way by the label the screen it last sent gave it, anything else by what
+  // the action was (see PlayTranscript.entry).
+  private said(command: string): { said: string; move: boolean; named: boolean } {
+    const way = ChoiceList.command(ChoiceList.ways(this.screen?.exits ?? []).choices, command);
+    return way ? { said: way.label, move: true, named: false } : { said: '', move: false, named: true };
+  }
+  private async perform(command: string, context = this.said(command)): Promise<Frame> {
     const session = this.session, game = this.game;
     if (!session) { throw new Error('No game is under way'); }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
@@ -199,14 +205,14 @@ export class EngineHost {
   }
   // A journey along known ways: each leg the command the page offers for it, told as it is made; the frame it ends
   // with says each leg (where it came, when, how the way went, what came of it), and why it stopped if it did.
-  private async travel(destination: string, said: string): Promise<Frame> {
+  private async travel(destination: string): Promise<Frame> {
     const session = this.session;
     if (!session) { throw new Error('No game is under way'); }
     const trail: Trail = { legs: [] };
     const done = await Travel.go({ campaign: session.campaign, perform: this.leg.bind(this, trail) }, destination);
     const frame = trail.last ?? this.settled(), legs = trail.legs;
     const to = Itineraries.plan(session.campaign, destination)?.name
-      ?? session.campaign.module.entities.find(e => e.id === destination)?.name ?? said;
+      ?? session.campaign.module.entities.find(e => e.id === destination)?.name ?? destination;
     return { ...frame, travel: { to, arrived: done.arrived, legs, ...done.stopped ? { stopped: done.stopped } : {} } };
   }
   // One leg of a journey, done as the page does a way chosen, and kept as it was told.

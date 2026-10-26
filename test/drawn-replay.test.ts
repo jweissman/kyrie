@@ -20,7 +20,7 @@ class Played {
     const session = (host as unknown as { session: PlaySession }).session;
     for (const pick of [/^Wait/, /^Take /, /^Wait/]) {
       const c = PlayerView.choices(session.campaign).find(x => pick.test(x.choice.name))!;
-      await host.handle({ kind: 'perform', command: c.choice.id, said: c.choice.name, move: false, named: true }) as Frame;
+      await host.handle({ kind: 'perform', command: c.choice.id }) as Frame;
     }
     return session;
   }

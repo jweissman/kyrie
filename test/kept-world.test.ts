@@ -54,11 +54,11 @@ describe('a game kept in the browser', () => {
     // what the browser has room for.
     for (const [passage, to] of GeneratedWorld.path(session, 'edge_west')) {
       if (to === 'region__edge_west') { store.limit = store.used + 400_000; }
-      await host.handle({ kind: 'perform', command: `go(${passage},${to})`, said: 'go', move: true });
+      await host.handle({ kind: 'perform', command: `go(${passage},${to})` });
       await settle();
     }
     expect(session.campaign.installed.length).toBeGreaterThanOrEqual(18);
-    const wait = () => host.handle({ kind: 'perform', command: 'wait', said: 'Wait', move: false });
+    const wait = () => host.handle({ kind: 'perform', command: 'wait' });
     await wait(); await settle();
     // Not kept beside the world before: what the browser has is the game as it last was whole.
     const stale = ReaderStore.read()!, staleState = JSON.parse(await SaveCodec.unpack(stale.text)) as { world: string };

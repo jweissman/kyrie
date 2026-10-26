@@ -86,12 +86,14 @@ export type Request =
     memorial?: Memorial }
   // A kept game, with the world it was played in when that is kept apart from it (see KeptGame).
   | { kind: 'resume'; saved: string; world?: string }
-  | { kind: 'perform'; command: string; said: string; move: boolean; named?: boolean }
+  // The page only chooses: what was done is worded by the engine, a way by the label its own screen gave it (the page's
+  // words had been kept as the story: the architecture review's H2).
+  | { kind: 'perform'; command: string }
   // A companion's choice in a fight ("ability>target"); none lets them fight this turn on their own.
   | { kind: 'fight'; choice?: string }
   // Travel along known ways to a place the company knows (see Travel): leg after leg, until it arrives or something
   // wants a decision.
-  | { kind: 'travel'; destination: string; said: string }
+  | { kind: 'travel'; destination: string }
   | { kind: 'checkpoint' }
   // The whole story so far, for the Story page: frames carry only its last entries.
   | { kind: 'story' }

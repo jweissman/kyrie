@@ -37,7 +37,7 @@ export class CompositionBuild {
       const c = PlayerView.choices(campaign).find(x => re.test(x.choice.name));
       if (!c) { throw new Error(`The wren record has no choice for step ${n}: ${lines[n - 1]}`); }
       fights = [];
-      const frame = await host.handle({ kind: 'perform', command: c.choice.id, said: c.choice.name, move: false });
+      const frame = await host.handle({ kind: 'perform', command: c.choice.id });
       out.steps[n] = { said: c.choice.name, id: c.choice.id };
       if (keep.has(n)) { out.frames[n] = frame as Frame; if (fights.length) { out.fights[n] = fights; } }
     }

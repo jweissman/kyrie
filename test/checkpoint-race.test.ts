@@ -33,7 +33,7 @@ describe('a checkpoint', () => {
     const setting = await host.handle({ kind: 'setting', campaign }) as { party: never[] };
     await host.handle({ kind: 'begin', campaign, seed: 'merrow', party: setting.party });
     const gate = Race.slow(inner.session);
-    const performing = host.handle({ kind: 'perform', command: Race.go(inner.session), said: 'Go', move: true });
+    const performing = host.handle({ kind: 'perform', command: Race.go(inner.session) });
     await gate.entered;
     let taken = false;
     const checkpointing = host.handle({ kind: 'checkpoint' }).then(text => { taken = true; return text as string; });

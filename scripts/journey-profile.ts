@@ -121,7 +121,7 @@ export class JourneyProfile {
   }
   private async measure(n: number, c: Offered): Promise<JourneyStep> {
     const campaign = this.inner.session.campaign, t1 = performance.now();
-    const frame = await this.host.handle({ kind: 'perform', command: c.choice.id, said: c.choice.name, move: false });
+    const frame = await this.host.handle({ kind: 'perform', command: c.choice.id });
     const t2 = performance.now();
     await this.inner.keep();
     const t3 = performance.now();

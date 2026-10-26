@@ -289,6 +289,15 @@ export class ChoiceList {
   // Every choice in a list of sections, in display order (what digits and arrow keys walk through).
   static all(sections: Section[]): Choice[] { return sections.flatMap(s => s.choices); }
   static find(sections: Section[], id: string): Choice | undefined { return this.walk(this.all(sections), id); }
+  // The choice that does this command, among these and theirs.
+  static command(choices: Choice[], command: string): Choice | undefined {
+    for (const c of choices) {
+      if (c.command === command) { return c; }
+      const inner = c.children && this.command(c.children, command);
+      if (inner) { return inner; }
+    }
+    return undefined;
+  }
   private static walk(choices: Choice[], id: string): Choice | undefined {
     for (const c of choices) {
       if (c.id === id) { return c; }

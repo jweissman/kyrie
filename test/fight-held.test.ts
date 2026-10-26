@@ -35,8 +35,7 @@ class Hounds {
   }
   static async attack(host: EngineHost, session: PlaySession) {
     const attack = PlayerView.choices(session.campaign).find(c => /^Attack/.test(c.choice.name))!;
-    return await host.handle({ kind: 'perform', command: attack.choice.id, said: attack.choice.name, move: false,
-      named: true }) as Frame;
+    return await host.handle({ kind: 'perform', command: attack.choice.id }) as Frame;
   }
 }
 
@@ -58,7 +57,7 @@ describe('a fight that has ended', () => {
     // The journal keeps the fight as it was.
     expect(frame.entries.at(-1)!.lines.some(l => / falls\.$/.test(l))).toBe(true);
     // The next command's page is the place's.
-    expect((await host.handle({ kind: 'perform', command: 'wait', said: 'Wait', move: false, named: false }) as Frame)
+    expect((await host.handle({ kind: 'perform', command: 'wait' }) as Frame)
       .combat).toBeUndefined();
   }, 120000);
 });

@@ -37,18 +37,18 @@ describe('the engine, while a fight waits on the player', () => {
     const { host, held, frames } = await Host.fight();
     const attack = PlayerView.choices(held.session.campaign).find(c => /^Attack/.test(c.choice.name))!.choice.id;
     let settled = false;
-    const fight = (host.handle({ kind: 'perform', command: attack, said: 'Attack', move: false, named: true }) as
+    const fight = (host.handle({ kind: 'perform', command: attack }) as
       Promise<Frame>).finally(() => { settled = true; });
     await new Promise(r => setTimeout(r, 50));
     expect(frames()).toBeGreaterThan(0);
-    expect(host.handle({ kind: 'perform', command: attack, said: 'x', move: false })).rejects.toThrow('already in progress');
+    expect(host.handle({ kind: 'perform', command: attack })).rejects.toThrow('already in progress');
     expect(!!held.turn).toBe(true);
     // Answered turn after turn, the fight ends, and the game goes on.
     for (let i = 0; i < 400 && !settled; i++) { await host.handle({ kind: 'fight' }); await new Promise(r => setTimeout(r, 1)); }
     await fight;
     expect(await host.handle({ kind: 'checkpoint' })).toBeTruthy();
     const wait = PlayerView.choices(held.session.campaign).find(c => c.choice.id === 'wait')!.choice.id;
-    expect((await host.handle({ kind: 'perform', command: wait, said: 'Wait', move: false }) as Frame).screen).toBeTruthy();
+    expect((await host.handle({ kind: 'perform', command: wait }) as Frame).screen).toBeTruthy();
   }, 240000);
 });
 describe('a new game begun while a command of the last is under way', () => {
@@ -66,7 +66,7 @@ describe('a new game begun while a command of the last is under way', () => {
       old.extend({ expand: async () => { r(); await new Promise<void>(x => { release = x; }); } });
     });
     const go = PlayerView.choices(old.campaign).find(c => c.choice.id.startsWith('go('))!.choice;
-    const performing = host.handle({ kind: 'perform', command: go.id, said: go.name, move: true }) as Promise<Frame>;
+    const performing = host.handle({ kind: 'perform', command: go.id }) as Promise<Frame>;
     await entered;
     const other = 'data/campaigns/thrume.campaign.json';
     const s2 = await host.handle({ kind: 'setting', campaign: other }) as { party: never[] };
