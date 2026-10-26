@@ -77,7 +77,7 @@ export class ModuleParser {
     Unary_true: StatementParser.True, Unary_false: StatementParser.False,
     Comparison: StatementParser.Comparison, Call: StatementParser.Call,
     Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
-    string: StatementParser.String,
+    string: StatementParser.String, Product: StatementParser.Value, Operand_group: StatementParser.Group,
     ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
   });
   // Parsing is the costliest part of loading a campaign, and the same texts (the shared rules above all) come again

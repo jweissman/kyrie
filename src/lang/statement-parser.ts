@@ -45,7 +45,7 @@ export class StatementParser {
   static Group(_open: Node, value: Node, _close: Node) { return ModuleParser.ast(value); }
   static True(_true: Node) { return { kind: 'boolean', value: true }; }
   static False(_false: Node) { return { kind: 'boolean', value: false }; }
-  // Left to right: "a - b - c" is (a - b) - c.
+  // Left to right: "a - b - c" is (a - b) - c; so too a product's factors (Product), each taken before the sum.
   static Value(first: Node, tails: Node) {
     return tails.children.reduce((left, tail) => ({ kind: 'arith', op: tail.children[0]!.sourceString,
       left, right: ModuleParser.ast(tail.children[1]!) }), ModuleParser.ast(first) as object);

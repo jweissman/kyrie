@@ -560,8 +560,9 @@ An action with `Time 0.` takes no watch (a word, a pat on the head); the world's
 
 ### Reckoning
 
-Measures and numbers can be added, taken away and multiplied as the world runs, left to right, in a requirement, a
-comparison or a change. The changes of an action happen in the order written, so the second reads what the first
+Measures and numbers can be added, taken away and multiplied as the world runs, in a requirement, a comparison or a
+change: a product is taken before a sum (`fare(actor) * 2 - 1`), each left to right, and parentheses group
+(`(fare(actor) - 1) * 2`). The changes of an action happen in the order written, so the second reads what the first
 did (`probes/reckoning`):
 
 ```text
@@ -572,8 +573,8 @@ did (`probes/reckoning`):
   }
 ```
 
-A number in parentheses is a Deem expression, `(2d6)`, rolled once when the module is installed; arithmetic outside
-parentheses is worked out each time it is read.
+A roll in parentheses is a Deem expression, `(2d6)`, rolled once when the module is installed; arithmetic, in
+parentheses or out, is worked out each time it is read.
 
 ### Your adventure in a generated world
 
