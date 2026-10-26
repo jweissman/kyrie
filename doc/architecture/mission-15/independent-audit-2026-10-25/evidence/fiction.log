@@ -1,0 +1,12 @@
+departure party names [ "Ama", "Mirel" ]
+departure dead narration false
+dead priest body [ 0 ]
+dead speaker response The priest hears you out and agrees.
+variable teaching perception [
+  {
+    id: "t__glow@t__lamp",
+    text: "Lamp burns brightly.",
+    kind: "observation",
+  }
+]
+variable teaching known false

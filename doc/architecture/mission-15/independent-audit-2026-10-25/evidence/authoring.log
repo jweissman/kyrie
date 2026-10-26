@@ -1,0 +1,56 @@
+bun test v1.4.3 (c6da4a4d3)
+
+test/prose-fit.test.ts:
+(pass) what is said in a settlement > fits it, in thorn [3612.82ms]
+(pass) what is said in a settlement > fits it, in a1 [2696.14ms]
+(pass) what is said in a settlement > fits it, in b2 [3220.60ms]
+(pass) what is said in a settlement > fits it, in c3 [3211.13ms]
+(pass) what is said in a settlement > fits it, in e5 [2982.74ms]
+(pass) what is said in a settlement > fits it, in f6 [2605.47ms]
+
+test/the-dead.test.ts:
+(pass) the dead > end the conversation they were in, and take no leave [2730.26ms]
+(pass) the dead > nor does anyone who has turned on the company [1501.96ms]
+
+test/authorability-probes.test.ts:
+(pass) Authorability probes > K1: an adventure declares a kind of thing of its own, with its worth and weight [412.17ms]
+(pass) Authorability probes > K2: a condition applied for hours outside a fight takes, and wears off with the clock [449.51ms]
+(pass) Authorability probes > K2: the same condition for turns lasts as many watches outside a fight [51.22ms]
+(pass) Authorability probes > K4: a query asked about someone not yet known is answered for whoever satisfies it [35.51ms]
+(pass) Authorability probes > K5: each room left to chance throws its own die [127.10ms]
+(pass) Authorability probes > K5: measures are added, taken away and multiplied as the world runs, the changes in their order [460.82ms]
+(pass) Authorability probes > K6: a rule can take a way out of the world, and the exit goes with it [49.06ms]
+(pass) Authorability probes > Finding 5: a way opens only while something holds, and says how it looks shut [437.00ms]
+(pass) Authorability probes > K7: a kinsman who joins is still himself, and can be asked what he could be asked at home [50.69ms]
+(pass) Authorability probes > K7: one led keeps his voice and follows through any door [74.17ms]
+(pass) Authorability probes > K8: an owner asleep does not see her cup taken [52.48ms]
+(pass) Authorability probes > K9: a peaceable dog keeps the peace, whatever its kind would do [10.63ms]
+(pass) Authorability probes > K10: a law one module declares is shared by a module written against it [519.31ms]
+(pass) Authorability probes > K11: selm weighs less than nothing, and the world can say so [35.85ms]
+(pass) Authorability probes > F15: an observation near a variable is told near each entity its condition finds, wherever that is [442.27ms]
+(pass) Authorability probes > F17: someone seen only by some is not there, and cannot be spoken to, for anyone else [413.38ms]
+(pass) Authorability probes > F19: a company grows weary eighteen hours after it slept, fights weary, and a night's sleep mends it [216.38ms]
+(pass) Authorability probes > K12: an error in a declaration is said with its file, line and column [6.13ms]
+
+test/authoring.test.ts:
+(pass) the clerk and the key > keeps the key out of reach in the clerk's coat until he is paid to leave it on his desk, lent [70.00ms]
+(pass) the clerk and the key > opens the strongroom to its own key and to no other [44.24ms]
+(pass) the clerk and the key > makes the clerk object when the company carries his key unlent [20.54ms]
+(pass) the clerk and the key > lets the porter object in his own words while his master is out [19.98ms]
+(pass) the counting-house's back door, its dog and its porter > lets the back door's bar be lifted only from the office side [23.77ms]
+(pass) the counting-house's back door, its dog and its porter > gives the yard dog its temperament and words in its own declaration [25.25ms]
+(pass) the counting-house's back door, its dog and its porter > lets a discovery be known with no source to read, and taught by a topic [20.19ms]
+(pass) what an author is told when a module does not load > says where the name is declared, and that the shared rules already have it [30.78ms]
+(pass) what an author is told when a module does not load > says when a name is a parameter of a shared rule [20.06ms]
+(pass) what an author is told when a module does not load > says when the author has given one name to two things [18.45ms]
+(pass) what an author is told when a module does not load > puts a syntax error at its file, line and column [6.09ms]
+
+test/authoring-guide.test.ts:
+(pass) the authoring guide > builds a world the linter finds nothing wrong with [1493.76ms]
+(pass) the authoring guide > plays: the inn and the chandlery trade, the ford takes time, the grille yields to the locksmith [267.63ms]
+(pass) the authoring guide > gives authored people the mechanics their ancestry, class, traits and equipment name [4.86ms]
+
+ 40 pass
+ 0 fail
+ 126 expect() calls
+Ran 40 tests across 5 files. [28.84s]

@@ -1,0 +1,3 @@
+dagger before true true
+expected rejection Error: The kind of item dagger is already in the catalog; give yours another name, or make it like dagger
+dagger after reset false false

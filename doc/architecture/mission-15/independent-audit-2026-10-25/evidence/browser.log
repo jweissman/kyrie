@@ -1,0 +1,13 @@
+begin 5651 ms
+steps 1-50: choice to paint p50 94 max 361 | engine 39 screen 16 render 24 | page heap 3MB kept 477k
+steps 51-100: choice to paint p50 110 max 410 | engine 38 screen 20 render 23 | page heap 4MB kept 521k
+steps 101-150: choice to paint p50 142 max 560 | engine 49 screen 26 render 24 | page heap 4MB kept 555k
+steps 151-200: choice to paint p50 129 max 361 | engine 37 screen 19 render 24 | page heap 4MB kept 590k
+steps 201-250: choice to paint p50 128 max 902 | engine 44 screen 16 render 26 | page heap 5MB kept 654k
+steps 251-300: choice to paint p50 144 max 254 | engine 42 screen 17 render 23 | page heap 5MB kept 689k
+total: p50 128 p90 228 p99 426 max 902 ms
+engine: p50 40 p90 83 p99 257 max 741 ms
+screen: p50 19 p90 85 p99 255 max 277 ms
+narrative: p50 6 p90 9 p99 12 max 15 ms
+render: p50 24 p90 31 p99 33 max 41 ms
+fight: p50 1 p90 4 p99 384 max 894 ms

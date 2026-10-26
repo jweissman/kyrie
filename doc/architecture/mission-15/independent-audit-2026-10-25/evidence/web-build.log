@@ -1,0 +1,2 @@
+$ bun run scripts/build-web.ts
+Built /tmp/kyrie-review-20261025/kyrie/site (8630 KiB of scripts and maps)

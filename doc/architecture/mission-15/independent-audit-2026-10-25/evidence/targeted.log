@@ -1,0 +1,41 @@
+bun test v1.4.3 (c6da4a4d3)
+
+test/drawn-replay.test.ts:
+(pass) a game in a generated world > is replayed in the terminal from its transcript, to the same game [9285.86ms]
+
+test/command-contract.test.ts:
+(pass) makes misses and criticals explicit, pays costs on misses, and applies both components only on hit [7.44ms]
+(pass) applies Orsino hit arithmetic to every hit: bonus damage, then resistance, then damage reduction; true damage skips both [1.70ms]
+(pass) rejects invalid definitions and unbound areas before spending mana or emitting events [0.84ms]
+(pass) says a condition ends only when none of it is left [1.85ms]
+(pass) uses typed source-only damage for world-time conditions and expires them exactly once [1.00ms]
+(pass) advances world-time wards during ordinary campaign actions, saves their clocks and records canonical changes [1253.88ms]
+(pass) commits a fatal hazard as failure without crossing, and rejects later invalid commands atomically [308.53ms]
+(pass) validates field wards using the shared typed definitions and keeps generated base data unchanged [2.79ms]
+(pass) resolves an explicitly bound area through the same pipeline without affecting absent creatures [2.90ms]
+(pass) keeps offscreen ongoing effects in the canonical receipt without leaking them into player feedback [263.14ms]
+(pass) applies typed ongoing damage without treating armour class as poison protection [1.42ms]
+(pass) removes an equipment-granted field ability when its item leaves, retaining the independently cast ward [3.10ms]
+(pass) makes half saves an explicit partial resolution with committed cost [1.69ms]
+(pass) keeps world clocks separate from owner-turn clocks across encounter projection and commit [5.74ms]
+(pass) commits deaths during delayed recovery instead of throwing and rolling back the fatal clock [497.87ms]
+
+test/module-shadow.test.ts:
+(pass) an adventure that names what the shared rules name > loads, says which names are its own, and means its own by them [478.01ms]
+(pass) an adventure that names what the shared rules name > loads and plays though it declares every relation and measure the shared rules have [499.03ms]
+
+test/candidates.test.ts:
+(pass) candidates proposed by a query > include every true answer, though a negation in it reads what is not yet bound [0.44ms]
+(pass) candidates proposed by a query > let grounding offer exactly what grounding every binding and testing it does, as the world changes [1.18ms]
+
+test/frontier-replay.test.ts:
+(pass) the country beyond the march > is drawn again when the same commands are replayed [13336.43ms]
+
+test/save-codec.test.ts:
+(pass) a kept game > packs small and opens to the same text [6.42ms]
+(pass) a kept game > opens a plain save as it is [0.09ms]
+
+ 23 pass
+ 0 fail
+ 102 expect() calls
+Ran 23 tests across 6 files. [26.43s]

@@ -1,0 +1,1 @@
+Terminated by audit after approximately five minutes; exit 143. No test summary or pass claim.

@@ -1,0 +1,44 @@
+bun test v1.4.3 (c6da4a4d3)
+
+test/patient-probes.test.ts:
+39 | describe('The Patient Star probes', () => {
+40 |   it('P1: half pace for a slowed company is reachable only through the laden rule, and says the wrong thing', async () => {
+41 |     const s = await Probe.start('light');
+42 |     await Probe.act(s, 'To the margin of the glass');
+43 |     const told = await Probe.act(s, 'Wait › An hour');
+44 |     expect(told).toMatch(/What you carry drags at you/);
+                      ^
+error: expect(received).toMatch(expected)
+
+Expected substring or pattern: /What you carry drags at you/
+Received: "The heath stops and the ground goes clear. Grass roots stand in it like hair in water, and every shadow lies down pointing west. ?m's own footsteps sound late, and the world seems to hurry. An hour passes."
+
+      at <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/patient-probes.test.ts:44:18)
+(fail) The Patient Star probes > P1: half pace for a slowed company is reachable only through the laden rule, and says the wrong thing [420.37ms]
+(pass) The Patient Star probes > P2: a kind of the module's own cannot say it is worn; like a plain cloak it cannot be, like a magic one it is magic [93.01ms]
+(pass) The Patient Star probes > P3: a description cannot be anchored at a variable place: one line per gallery the mirror lights [95.38ms]
+(pass) The Patient Star probes > P4: two things whose changes are worded alike: lint is silent, and only the first is offered [561.86ms]
+(pass) The Patient Star probes > P5: a decrease past nothing stops play at run time, naming the measure but not the rule [56.74ms]
+(pass) The Patient Star probes > P6: a person with somewhere to go stays put unless the module also says Uses go, and lint is silent [618.72ms]
+(pass) The Patient Star probes > P7: a rule cannot put two known things together into a third, and the refusal names no rule [35.07ms]
+91 |   }, 60000);
+92 | 
+93 |   it('P8: a kind declared in a shared law cannot be sold by a person in the module that uses the law', async () => {
+94 |     let error = '';
+95 |     try { await Probe.start('law-sells'); } catch (e) { error = (e as Error).message; }
+96 |     expect(error).toMatch(/'umber_felt' is already declared by the shared rules/);
+                       ^
+error: expect(received).toMatch(expected)
+
+Expected substring or pattern: /'umber_felt' is already declared by the shared rules/
+Received: "ENOENT: no such file or directory, open '/tmp/kyrie-review-20261025/kyrie/test/fixtures/patient/law-sells/site/module.json'"
+
+      at <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/patient-probes.test.ts:96:19)
+(fail) The Patient Star probes > P8: a kind declared in a shared law cannot be sold by a person in the module that uses the law [0.65ms]
+(pass) The Patient Star probes > P9: an event happens once, seen or not: a man who wakes in the next room never says so to anyone [55.22ms]
+(pass) The Patient Star probes > P10: a companion a rule sends home is told as gone, stays in the company, and is found dead where she went [80.03ms]
+
+ 8 pass
+ 2 fail
+ 18 expect() calls
+Ran 10 tests across 1 file. [2.36s]

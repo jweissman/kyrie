@@ -1,0 +1,334 @@
+{"step":1,"choice":"Take the road to the bailey of Gothgiba","total":243,"engine":122,"screen":17,"narrative":7,"render":34,"fight":2,"heap":3,"kept":0}
+{"step":2,"choice":"Take the door of the Wooden Wolf to the taproom of the Wooden Wolf","total":135,"engine":64,"screen":15,"narrative":7,"render":20,"fight":2,"heap":4,"kept":0}
+{"step":3,"choice":"Ask Fargrim about the old workings","total":125,"engine":32,"screen":11,"narrative":4,"render":18,"fight":2,"heap":4,"kept":0}
+{"step":4,"choice":"Ask Thoradin what brings him to Gothgiba","total":123,"engine":33,"screen":10,"narrative":3,"render":28,"fight":1,"heap":5,"kept":435564}
+{"step":5,"choice":"Ask Thoradin to join the company","total":126,"engine":49,"screen":15,"narrative":3,"render":29,"fight":1,"heap":5,"kept":438374}
+{"step":6,"choice":"Buy one ration from Fargrim","total":67,"engine":27,"screen":10,"narrative":4,"render":24,"fight":1,"heap":6,"kept":440762}
+{"step":7,"choice":"Take the door of the Wooden Wolf to the bailey of Gothgiba","total":95,"engine":56,"screen":12,"narrative":3,"render":18,"fight":2,"heap":6,"kept":440982}
+{"step":8,"choice":"Take Ulfgar's door to Ulfgar's forge","total":141,"engine":47,"screen":73,"narrative":3,"render":16,"fight":1,"heap":7,"kept":441150}
+{"step":9,"choice":"Ask Ulfgar what the old workings are worth","total":122,"engine":24,"screen":63,"narrative":3,"render":31,"fight":1,"heap":6,"kept":441934}
+{"step":10,"choice":"Buy a torch for Wenna · 1 coin","total":128,"engine":35,"screen":57,"narrative":4,"render":29,"fight":2,"heap":7,"kept":442526}
+{"step":11,"choice":"Buy a crowbar for Wenna · 3 coin","total":111,"engine":30,"screen":52,"narrative":3,"render":24,"fight":1,"heap":7,"kept":442846}
+{"step":12,"choice":"Take Ulfgar's door to the bailey of Gothgiba","total":78,"engine":43,"screen":11,"narrative":3,"render":16,"fight":2,"heap":7,"kept":442998}
+{"step":13,"choice":"Take the path up onto Barzelrehes to the foot of Barzelrehes by Gothgiba","total":141,"engine":61,"screen":42,"narrative":3,"render":30,"fight":3,"heap":7,"kept":443891}
+{"step":14,"choice":"Take a wall-side track to the foot of Barzelrehes by Muzgkom","total":94,"engine":53,"screen":13,"narrative":4,"render":22,"fight":1,"heap":7,"kept":444423}
+{"step":15,"choice":"Take the track to Aurumtener","total":93,"engine":50,"screen":9,"narrative":5,"render":26,"fight":2,"heap":8,"kept":445391}
+{"step":16,"choice":"Take the way in to the adit mouth","total":278,"engine":83,"screen":167,"narrative":5,"render":20,"fight":2,"heap":8,"kept":445391}
+{"step":17,"choice":"Take the passage to the adit","total":97,"engine":56,"screen":12,"narrative":3,"render":24,"fight":2,"heap":7,"kept":446005}
+{"step":18,"choice":"Light a torch","total":73,"engine":32,"screen":16,"narrative":3,"render":19,"fight":2,"heap":7,"kept":447293}
+{"step":19,"choice":"Press the word “Darkness” on the casket","total":92,"engine":37,"screen":21,"narrative":3,"render":28,"fight":1,"heap":8,"kept":447813}
+{"step":20,"choice":"Take a flask of oil out of the stone casket for Wenna","total":76,"engine":36,"screen":10,"narrative":3,"render":24,"fight":1,"heap":8,"kept":448181}
+{"step":21,"choice":"Take the gallery to the smithy","total":94,"engine":45,"screen":20,"narrative":3,"render":22,"fight":2,"heap":8,"kept":448181}
+{"step":22,"choice":"Collect a Delver's pay-token for Wenna","total":77,"engine":30,"screen":12,"narrative":5,"render":27,"fight":2,"heap":8,"kept":448883}
+{"step":23,"choice":"Take the gallery to the adit","total":62,"engine":27,"screen":11,"narrative":3,"render":20,"fight":1,"heap":8,"kept":448977}
+{"step":24,"choice":"Take the gallery to the crossing","total":361,"engine":52,"screen":274,"narrative":6,"render":24,"fight":2,"heap":8,"kept":448977}
+{"step":25,"choice":"Attack the goblins","total":150,"engine":0,"screen":0,"narrative":0,"render":12,"fight":245,"heap":9,"kept":449617}
+{"step":26,"choice":"Gather up the coins","total":122,"engine":49,"screen":34,"narrative":6,"render":29,"fight":2,"heap":4,"kept":465337}
+{"step":27,"choice":"Collect a Delver's pay-token for Wenna","total":95,"engine":56,"screen":16,"narrative":3,"render":17,"fight":2,"heap":4,"kept":465337}
+{"step":28,"choice":"Look closely at the arcane glyph","total":107,"engine":43,"screen":21,"narrative":6,"render":32,"fight":3,"heap":4,"kept":466137}
+{"step":29,"choice":"Hold the pole's end across the glyph, looking away","total":73,"engine":34,"screen":15,"narrative":4,"render":20,"fight":1,"heap":5,"kept":466137}
+{"step":30,"choice":"Take the gallery to the old stope","total":125,"engine":69,"screen":16,"narrative":6,"render":32,"fight":1,"heap":5,"kept":467246}
+{"step":31,"choice":"Collect a lump of star-iron for Wenna","total":76,"engine":33,"screen":18,"narrative":3,"render":19,"fight":1,"heap":5,"kept":467246}
+{"step":32,"choice":"Collect a lump of star-iron for Wenna","total":90,"engine":44,"screen":19,"narrative":4,"render":20,"fight":1,"heap":6,"kept":467558}
+{"step":33,"choice":"Collect a lump of star-iron for Wenna","total":88,"engine":45,"screen":14,"narrative":4,"render":24,"fight":2,"heap":6,"kept":467838}
+{"step":34,"choice":"Search the old stope","total":80,"engine":29,"screen":14,"narrative":3,"render":30,"fight":2,"heap":6,"kept":468345}
+{"step":35,"choice":"Light a torch","total":62,"engine":26,"screen":13,"narrative":3,"render":18,"fight":1,"heap":6,"kept":468345}
+{"step":36,"choice":"Search the old stope","total":91,"engine":39,"screen":17,"narrative":4,"render":29,"fight":1,"heap":7,"kept":469589}
+{"step":37,"choice":"Take the gap behind the rubble to the air shaft","total":95,"engine":40,"screen":18,"narrative":6,"render":27,"fight":1,"heap":5,"kept":470209}
+{"step":38,"choice":"Unstrap the notebook and read it","total":76,"engine":31,"screen":19,"narrative":4,"render":20,"fight":1,"heap":6,"kept":471153}
+{"step":39,"choice":"Gather up the coins","total":93,"engine":33,"screen":25,"narrative":5,"render":28,"fight":2,"heap":6,"kept":471153}
+{"step":40,"choice":"Collect a coil of rope for Wenna","total":75,"engine":29,"screen":15,"narrative":3,"render":24,"fight":1,"heap":7,"kept":471801}
+{"step":41,"choice":"Collect a torch for Wenna","total":79,"engine":31,"screen":13,"narrative":4,"render":29,"fight":2,"heap":7,"kept":472009}
+{"step":42,"choice":"Take the gap behind the rubble to the old stope","total":77,"engine":29,"screen":15,"narrative":4,"render":25,"fight":1,"heap":6,"kept":472245}
+{"step":43,"choice":"Take the drift to the shaft head","total":95,"engine":42,"screen":20,"narrative":3,"render":28,"fight":2,"heap":6,"kept":472245}
+{"step":44,"choice":"Press the word “Shirt” on the casket","total":126,"engine":41,"screen":33,"narrative":3,"render":23,"fight":1,"heap":7,"kept":473534}
+{"step":45,"choice":"Take a Delver's ring out of the stone casket for Wenna","total":94,"engine":38,"screen":20,"narrative":3,"render":31,"fight":2,"heap":7,"kept":473534}
+{"step":46,"choice":"Touch the singing crystal","total":121,"engine":46,"screen":22,"narrative":8,"render":31,"fight":2,"heap":8,"kept":474570}
+{"step":47,"choice":"Collect a lump of star-iron for Wenna","total":77,"engine":34,"screen":16,"narrative":3,"render":23,"fight":1,"heap":8,"kept":474790}
+{"step":48,"choice":"Gather up the coins","total":76,"engine":30,"screen":15,"narrative":3,"render":24,"fight":2,"heap":7,"kept":475354}
+{"step":49,"choice":"Take the drift to the ore pass","total":141,"engine":79,"screen":26,"narrative":6,"render":26,"fight":1,"heap":8,"kept":475354}
+{"step":50,"choice":"Light a torch","total":75,"engine":32,"screen":18,"narrative":3,"render":16,"fight":1,"heap":3,"kept":476500}
+{"step":51,"choice":"Collect a lump of star-iron for Wenna","total":87,"engine":40,"screen":20,"narrative":5,"render":19,"fight":1,"heap":4,"kept":476500}
+{"step":52,"choice":"Collect a lump of star-iron for Wenna","total":78,"engine":29,"screen":13,"narrative":5,"render":29,"fight":2,"heap":4,"kept":476836}
+{"step":53,"choice":"Pass a hand through the cold flame","total":62,"engine":25,"screen":11,"narrative":3,"render":20,"fight":1,"heap":4,"kept":476836}
+{"step":54,"choice":"Take the drift to the shaft head","total":76,"engine":33,"screen":13,"narrative":3,"render":24,"fight":1,"heap":5,"kept":478150}
+{"step":55,"choice":"Take the drift to the old stope","total":77,"engine":37,"screen":14,"narrative":3,"render":21,"fight":1,"heap":5,"kept":478150}
+{"step":56,"choice":"Take the gap behind the rubble to the air shaft","total":60,"engine":27,"screen":10,"narrative":3,"render":19,"fight":1,"heap":5,"kept":478653}
+{"step":57,"choice":"Take the iron rungs in the air shaft to Aurumtener","total":78,"engine":34,"screen":11,"narrative":4,"render":27,"fight":1,"heap":5,"kept":479085}
+{"step":58,"choice":"Take the track to the foot of Barzelrehes by Muzgkom","total":94,"engine":48,"screen":12,"narrative":3,"render":28,"fight":1,"heap":5,"kept":480662}
+{"step":59,"choice":"Take a wall-side track to the foot of Barzelrehes by Gothgiba","total":144,"engine":71,"screen":36,"narrative":4,"render":29,"fight":1,"heap":5,"kept":481343}
+{"step":60,"choice":"Take the path up onto Barzelrehes to the bailey of Gothgiba","total":145,"engine":104,"screen":12,"narrative":5,"render":20,"fight":3,"heap":6,"kept":481343}
+{"step":61,"choice":"Take Ulfgar's door to Ulfgar's forge","total":123,"engine":35,"screen":54,"narrative":4,"render":26,"fight":1,"heap":6,"kept":483554}
+{"step":62,"choice":"Sell a lump of star-iron to Ulfgar","total":111,"engine":37,"screen":47,"narrative":3,"render":22,"fight":1,"heap":6,"kept":483554}
+{"step":63,"choice":"Sell a lump of star-iron to Ulfgar","total":109,"engine":35,"screen":47,"narrative":3,"render":23,"fight":1,"heap":7,"kept":484426}
+{"step":64,"choice":"Sell a lump of star-iron to Ulfgar","total":145,"engine":36,"screen":69,"narrative":5,"render":32,"fight":1,"heap":7,"kept":484774}
+{"step":65,"choice":"Sell a lump of star-iron to Ulfgar","total":110,"engine":33,"screen":43,"narrative":4,"render":27,"fight":2,"heap":7,"kept":485006}
+{"step":66,"choice":"Sell a lump of star-iron to Ulfgar","total":95,"engine":29,"screen":36,"narrative":3,"render":24,"fight":1,"heap":8,"kept":485214}
+{"step":67,"choice":"Sell a lump of star-iron to Ulfgar","total":110,"engine":39,"screen":43,"narrative":5,"render":19,"fight":1,"heap":8,"kept":485214}
+{"step":68,"choice":"Sell a Delver's pay-token to Ulfgar","total":110,"engine":35,"screen":48,"narrative":4,"render":19,"fight":1,"heap":8,"kept":485214}
+{"step":69,"choice":"Sell a Delver's pay-token to Ulfgar","total":108,"engine":32,"screen":43,"narrative":4,"render":21,"fight":1,"heap":7,"kept":485810}
+{"step":70,"choice":"Sell a Delver's ring to Ulfgar","total":109,"engine":36,"screen":35,"narrative":4,"render":28,"fight":1,"heap":8,"kept":485982}
+{"step":71,"choice":"Take Ulfgar's door to the bailey of Gothgiba","total":90,"engine":37,"screen":11,"narrative":4,"render":30,"fight":1,"heap":9,"kept":487422}
+{"step":72,"choice":"Take the shrine porch in Gothgiba to the shrine of Aine","total":94,"engine":52,"screen":15,"narrative":3,"render":21,"fight":1,"heap":9,"kept":487422}
+{"step":73,"choice":"Ask Baern to raise Thoradin from the dead","total":309,"engine":233,"screen":49,"narrative":5,"render":19,"fight":1,"heap":8,"kept":487822}
+{"step":74,"choice":"Buy a glossary of the old script for Wenna · 80 coin","total":76,"engine":35,"screen":14,"narrative":4,"render":19,"fight":1,"heap":9,"kept":487822}
+{"step":75,"choice":"Take the shrine porch in Gothgiba to the bailey of Gothgiba","total":107,"engine":49,"screen":13,"narrative":4,"render":27,"fight":1,"heap":10,"kept":490854}
+{"step":76,"choice":"Take the door of the Wooden Wolf to the taproom of the Wooden Wolf","total":92,"engine":42,"screen":11,"narrative":4,"render":31,"fight":1,"heap":10,"kept":491334}
+{"step":77,"choice":"Take a bed and supper from Fargrim","total":179,"engine":137,"screen":11,"narrative":4,"render":22,"fight":2,"heap":9,"kept":491334}
+{"step":78,"choice":"Take the door of the Wooden Wolf to the bailey of Gothgiba","total":77,"engine":38,"screen":13,"narrative":4,"render":15,"fight":1,"heap":10,"kept":492590}
+{"step":79,"choice":"Take Ulfgar's door to Ulfgar's forge","total":159,"engine":33,"screen":99,"narrative":3,"render":17,"fight":4,"heap":4,"kept":492686}
+{"step":80,"choice":"Buy a torch for Wenna · 1 coin","total":157,"engine":37,"screen":87,"narrative":5,"render":23,"fight":1,"heap":4,"kept":492806}
+{"step":81,"choice":"Buy a lantern for Wenna · 7 coin","total":127,"engine":34,"screen":61,"narrative":3,"render":24,"fight":2,"heap":5,"kept":493358}
+{"step":82,"choice":"Buy a flask of lamp oil for Wenna · 1 coin","total":94,"engine":31,"screen":31,"narrative":7,"render":23,"fight":1,"heap":5,"kept":493922}
+{"step":83,"choice":"Take Ulfgar's door to the bailey of Gothgiba","total":94,"engine":43,"screen":14,"narrative":7,"render":26,"fight":1,"heap":6,"kept":493794}
+{"step":84,"choice":"Take the path up onto Barzelrehes to the foot of Barzelrehes by Gothgiba","total":126,"engine":44,"screen":44,"narrative":4,"render":30,"fight":1,"heap":7,"kept":494271}
+{"step":85,"choice":"Take a wall-side track to the foot of Barzelrehes by Muzgkom","total":95,"engine":52,"screen":10,"narrative":4,"render":26,"fight":1,"heap":7,"kept":494271}
+{"step":86,"choice":"Take the track to Aurumtener","total":93,"engine":46,"screen":10,"narrative":3,"render":31,"fight":1,"heap":8,"kept":495810}
+{"step":87,"choice":"Take the way in to the adit mouth","total":178,"engine":31,"screen":120,"narrative":4,"render":20,"fight":1,"heap":8,"kept":495810}
+{"step":88,"choice":"Take the passage to the adit","total":77,"engine":26,"screen":12,"narrative":3,"render":28,"fight":2,"heap":8,"kept":496148}
+{"step":89,"choice":"Fill a lantern from a flask of lamp oil and light it","total":141,"engine":63,"screen":25,"narrative":15,"render":30,"fight":2,"heap":9,"kept":496148}
+{"step":90,"choice":"Take the gallery to the crossing","total":191,"engine":48,"screen":108,"narrative":4,"render":19,"fight":1,"heap":9,"kept":496488}
+{"step":91,"choice":"Equip a glossary of the old script on Wenna","total":146,"engine":87,"screen":16,"narrative":9,"render":18,"fight":2,"heap":10,"kept":496572}
+{"step":92,"choice":"Attack the rats","total":106,"engine":0,"screen":0,"narrative":0,"render":11,"fight":265,"heap":8,"kept":497348}
+{"step":93,"choice":"Take the gallery to the head of the winze","total":115,"engine":0,"screen":0,"narrative":0,"render":13,"fight":342,"heap":10,"kept":509257}
+{"step":94,"choice":"Collect a string of star-iron beads for Wenna","total":139,"engine":79,"screen":31,"narrative":6,"render":17,"fight":1,"heap":10,"kept":509257}
+{"step":95,"choice":"Gather up the coins","total":144,"engine":42,"screen":40,"narrative":9,"render":28,"fight":4,"heap":11,"kept":518257}
+{"step":96,"choice":"Take the gallery to the crossing","total":157,"engine":61,"screen":33,"narrative":11,"render":22,"fight":1,"heap":10,"kept":519032}
+{"step":97,"choice":"Take the drift to the spring","total":410,"engine":99,"screen":175,"narrative":7,"render":25,"fight":1,"heap":10,"kept":519386}
+{"step":98,"choice":"Ask the goblin chief to let you by · an even chance","total":110,"engine":44,"screen":19,"narrative":7,"render":30,"fight":2,"heap":11,"kept":519942}
+{"step":99,"choice":"Swing the gate across, and turn the spring down the race","total":109,"engine":45,"screen":19,"narrative":5,"render":19,"fight":1,"heap":11,"kept":519942}
+{"step":100,"choice":"Gather up the coins","total":139,"engine":43,"screen":19,"narrative":7,"render":24,"fight":2,"heap":4,"kept":520834}
+{"step":101,"choice":"Take the drift to the crossing","total":138,"engine":58,"screen":23,"narrative":9,"render":27,"fight":2,"heap":4,"kept":521214}
+{"step":102,"choice":"Take the gallery to the old stope","total":157,"engine":70,"screen":25,"narrative":6,"render":30,"fight":2,"heap":5,"kept":521456}
+{"step":103,"choice":"Take the gap behind the rubble to the air shaft","total":124,"engine":43,"screen":33,"narrative":7,"render":28,"fight":2,"heap":5,"kept":521533}
+{"step":104,"choice":"Rest and recover at the air shaft","total":560,"engine":490,"screen":23,"narrative":8,"render":17,"fight":2,"heap":5,"kept":522145}
+{"step":105,"choice":"Rest and recover at the air shaft","total":264,"engine":189,"screen":22,"narrative":7,"render":26,"fight":13,"heap":5,"kept":522601}
+{"step":106,"choice":"Light a torch","total":218,"engine":97,"screen":33,"narrative":8,"render":22,"fight":2,"heap":6,"kept":532513}
+{"step":107,"choice":"Take the gap behind the rubble to the old stope","total":125,"engine":40,"screen":18,"narrative":6,"render":28,"fight":4,"heap":6,"kept":534265}
+{"step":108,"choice":"Take the drift to the shaft head","total":108,"engine":31,"screen":19,"narrative":5,"render":27,"fight":3,"heap":6,"kept":534910}
+{"step":109,"choice":"Work the seized wheel free","total":77,"engine":29,"screen":17,"narrative":7,"render":17,"fight":4,"heap":7,"kept":535362}
+{"step":110,"choice":"Take the cage in the shaft to the shaft bottom","total":209,"engine":89,"screen":63,"narrative":8,"render":18,"fight":1,"heap":7,"kept":535948}
+{"step":111,"choice":"Collect a lump of star-iron for Wenna","total":113,"engine":39,"screen":26,"narrative":5,"render":18,"fight":1,"heap":8,"kept":536248}
+{"step":112,"choice":"Collect a lump of star-iron for Thoradin","total":161,"engine":86,"screen":29,"narrative":5,"render":24,"fight":3,"heap":9,"kept":536732}
+{"step":113,"choice":"Collect a lump of star-iron for Thoradin","total":92,"engine":37,"screen":16,"narrative":5,"render":21,"fight":1,"heap":8,"kept":537096}
+{"step":114,"choice":"Look closely at the magical rune","total":112,"engine":39,"screen":26,"narrative":10,"render":20,"fight":1,"heap":9,"kept":537316}
+{"step":115,"choice":"Lay the pole's end on the rune from as far off as it allows","total":108,"engine":36,"screen":16,"narrative":4,"render":18,"fight":1,"heap":9,"kept":537668}
+{"step":116,"choice":"Take the drift to the haulage way","total":145,"engine":48,"screen":41,"narrative":7,"render":28,"fight":3,"heap":8,"kept":538079}
+{"step":117,"choice":"Collect a lump of star-iron for Wenna","total":94,"engine":38,"screen":13,"narrative":7,"render":21,"fight":1,"heap":9,"kept":538075}
+{"step":118,"choice":"Look closely at the enchanted object","total":110,"engine":35,"screen":12,"narrative":5,"render":29,"fight":2,"heap":10,"kept":538427}
+{"step":119,"choice":"Knock it over with the pole, from well back","total":93,"engine":35,"screen":18,"narrative":10,"render":21,"fight":2,"heap":10,"kept":538603}
+{"step":120,"choice":"Take the gallery to the pump-room","total":426,"engine":80,"screen":277,"narrative":5,"render":29,"fight":6,"heap":4,"kept":538913}
+{"step":121,"choice":"Knock the pawl home, and set the bucket-chain on the axle","total":123,"engine":41,"screen":31,"narrative":5,"render":18,"fight":3,"heap":4,"kept":539157}
+{"step":122,"choice":"Collect a small star-iron ingot for Thoradin","total":110,"engine":45,"screen":14,"narrative":7,"render":22,"fight":1,"heap":5,"kept":539913}
+{"step":123,"choice":"Take the gallery to the haulage way","total":109,"engine":36,"screen":24,"narrative":6,"render":19,"fight":2,"heap":5,"kept":540411}
+{"step":124,"choice":"Take the passage to the Delvers' hall","total":243,"engine":106,"screen":64,"narrative":11,"render":27,"fight":2,"heap":6,"kept":540689}
+{"step":125,"choice":"Read the brothers' tablet","total":144,"engine":36,"screen":69,"narrative":7,"render":17,"fight":1,"heap":7,"kept":540937}
+{"step":126,"choice":"Collect a chapel cup of pewter and star-iron for Wenna","total":139,"engine":49,"screen":24,"narrative":8,"render":31,"fight":2,"heap":7,"kept":541353}
+{"step":127,"choice":"Take the gallery to the shrine of the vein","total":193,"engine":80,"screen":51,"narrative":5,"render":30,"fight":2,"heap":8,"kept":542170}
+{"step":128,"choice":"Study the mural","total":160,"engine":46,"screen":56,"narrative":8,"render":21,"fight":3,"heap":8,"kept":542390}
+{"step":129,"choice":"Collect a Delver's silver lamp for Wenna","total":144,"engine":50,"screen":22,"narrative":9,"render":24,"fight":2,"heap":9,"kept":542798}
+{"step":130,"choice":"Take the gallery to the Delvers' hall","total":93,"engine":37,"screen":15,"narrative":6,"render":19,"fight":1,"heap":10,"kept":543445}
+{"step":131,"choice":"Take the gallery to the stores","total":194,"engine":68,"screen":65,"narrative":6,"render":29,"fight":3,"heap":10,"kept":543746}
+{"step":132,"choice":"Gather up the coins","total":177,"engine":45,"screen":75,"narrative":6,"render":31,"fight":3,"heap":11,"kept":543622}
+{"step":133,"choice":"Light a torch","total":293,"engine":145,"screen":86,"narrative":9,"render":30,"fight":3,"heap":9,"kept":544110}
+{"step":134,"choice":"Unstrap the notebook and read it","total":305,"engine":103,"screen":122,"narrative":7,"render":29,"fight":2,"heap":9,"kept":544666}
+{"step":135,"choice":"Collect a torch for Wenna","total":142,"engine":60,"screen":29,"narrative":8,"render":22,"fight":2,"heap":10,"kept":545094}
+{"step":136,"choice":"Collect a coil of rope for Thoradin","total":142,"engine":47,"screen":26,"narrative":6,"render":22,"fight":6,"heap":10,"kept":545850}
+{"step":137,"choice":"Search the stores","total":193,"engine":90,"screen":27,"narrative":10,"render":25,"fight":2,"heap":10,"kept":546058}
+{"step":138,"choice":"Take the gallery to the Delvers' hall","total":137,"engine":47,"screen":17,"narrative":9,"render":20,"fight":1,"heap":10,"kept":546317}
+{"step":139,"choice":"Take the passage to the haulage way","total":160,"engine":73,"screen":23,"narrative":11,"render":19,"fight":3,"heap":11,"kept":546867}
+{"step":140,"choice":"Take the drift to the shaft bottom","total":159,"engine":65,"screen":24,"narrative":5,"render":30,"fight":1,"heap":12,"kept":547488}
+{"step":141,"choice":"Take the gallery to the ore bin","total":394,"engine":83,"screen":255,"narrative":12,"render":23,"fight":2,"heap":12,"kept":547987}
+{"step":142,"choice":"Attack the bone hounds","total":107,"engine":0,"screen":0,"narrative":0,"render":17,"fight":384,"heap":15,"kept":548835}
+{"step":143,"choice":"Gather up the coins","total":138,"engine":40,"screen":52,"narrative":6,"render":29,"fight":5,"heap":4,"kept":548835}
+{"step":144,"choice":"Collect a lump of star-iron for Wenna","total":158,"engine":54,"screen":51,"narrative":13,"render":23,"fight":1,"heap":5,"kept":552379}
+{"step":145,"choice":"Collect a lump of star-iron for Wenna","total":159,"engine":52,"screen":50,"narrative":5,"render":26,"fight":1,"heap":5,"kept":552887}
+{"step":146,"choice":"Collect a lump of star-iron for Thoradin","total":111,"engine":51,"screen":15,"narrative":7,"render":22,"fight":2,"heap":6,"kept":553307}
+{"step":147,"choice":"Search the ore bin","total":141,"engine":56,"screen":15,"narrative":6,"render":28,"fight":2,"heap":6,"kept":553432}
+{"step":148,"choice":"Light a torch","total":95,"engine":33,"screen":19,"narrative":8,"render":20,"fight":3,"heap":7,"kept":553976}
+{"step":149,"choice":"Take the gallery to the shaft bottom","total":133,"engine":36,"screen":26,"narrative":6,"render":27,"fight":1,"heap":7,"kept":554401}
+{"step":150,"choice":"Take the cage in the shaft to the shaft head","total":144,"engine":52,"screen":32,"narrative":8,"render":32,"fight":1,"heap":4,"kept":554739}
+{"step":151,"choice":"Take the drift to the old stope","total":136,"engine":57,"screen":18,"narrative":7,"render":33,"fight":2,"heap":5,"kept":555031}
+{"step":152,"choice":"Take the gap behind the rubble to the air shaft","total":93,"engine":44,"screen":12,"narrative":6,"render":22,"fight":1,"heap":5,"kept":555398}
+{"step":153,"choice":"Take the iron rungs in the air shaft to Aurumtener","total":96,"engine":35,"screen":11,"narrative":7,"render":18,"fight":1,"heap":5,"kept":555883}
+{"step":154,"choice":"Take the track to the foot of Barzelrehes by Muzgkom","total":128,"engine":54,"screen":15,"narrative":5,"render":18,"fight":1,"heap":6,"kept":556511}
+{"step":155,"choice":"Take a wall-side track to the foot of Barzelrehes by Gothgiba","total":244,"engine":73,"screen":103,"narrative":5,"render":27,"fight":3,"heap":6,"kept":557015}
+{"step":156,"choice":"Take the path up onto Barzelrehes to the bailey of Gothgiba","total":223,"engine":127,"screen":25,"narrative":9,"render":31,"fight":10,"heap":7,"kept":557494}
+{"step":157,"choice":"Take Ulfgar's door to Ulfgar's forge","total":238,"engine":57,"screen":143,"narrative":5,"render":20,"fight":3,"heap":7,"kept":558006}
+{"step":158,"choice":"Sell a lump of star-iron to Ulfgar","total":228,"engine":43,"screen":120,"narrative":7,"render":25,"fight":1,"heap":7,"kept":559230}
+{"step":159,"choice":"Sell a lump of star-iron to Ulfgar","total":228,"engine":40,"screen":141,"narrative":5,"render":22,"fight":2,"heap":7,"kept":559138}
+{"step":160,"choice":"Sell a lump of star-iron to Ulfgar","total":208,"engine":39,"screen":119,"narrative":6,"render":25,"fight":1,"heap":8,"kept":559870}
+{"step":161,"choice":"Sell a lump of star-iron to Ulfgar","total":212,"engine":40,"screen":122,"narrative":6,"render":18,"fight":1,"heap":9,"kept":560162}
+{"step":162,"choice":"Sell a lump of star-iron to Ulfgar","total":193,"engine":34,"screen":95,"narrative":5,"render":29,"fight":1,"heap":9,"kept":560366}
+{"step":163,"choice":"Sell a lump of star-iron to Ulfgar","total":195,"engine":32,"screen":114,"narrative":5,"render":24,"fight":1,"heap":10,"kept":560726}
+{"step":164,"choice":"Sell a lump of star-iron to Ulfgar","total":194,"engine":36,"screen":115,"narrative":5,"render":22,"fight":1,"heap":10,"kept":560918}
+{"step":165,"choice":"Sell a string of star-iron beads to Ulfgar","total":178,"engine":30,"screen":97,"narrative":5,"render":17,"fight":6,"heap":9,"kept":561118}
+{"step":166,"choice":"Sell a small star-iron ingot to Ulfgar","total":226,"engine":42,"screen":125,"narrative":5,"render":24,"fight":3,"heap":10,"kept":561390}
+{"step":167,"choice":"Sell a Delver's silver lamp to Ulfgar","total":144,"engine":28,"screen":76,"narrative":5,"render":18,"fight":1,"heap":11,"kept":561690}
+{"step":168,"choice":"Sell a chapel cup of pewter and star-iron to Ulfgar","total":160,"engine":35,"screen":76,"narrative":4,"render":24,"fight":1,"heap":11,"kept":561934}
+{"step":169,"choice":"Buy a torch for Wenna · 1 coin","total":161,"engine":32,"screen":85,"narrative":7,"render":20,"fight":3,"heap":12,"kept":562162}
+{"step":170,"choice":"Buy a flask of lamp oil for Wenna · 1 coin","total":143,"engine":32,"screen":58,"narrative":4,"render":22,"fight":1,"heap":4,"kept":562554}
+{"step":171,"choice":"Buy a flask of lamp oil for Wenna · 1 coin","total":144,"engine":42,"screen":59,"narrative":4,"render":18,"fight":1,"heap":5,"kept":562858}
+{"step":172,"choice":"Buy a flask of lamp oil for Thoradin · 1 coin","total":144,"engine":35,"screen":58,"narrative":6,"render":25,"fight":6,"heap":5,"kept":563150}
+{"step":173,"choice":"Take Ulfgar's door to the bailey of Gothgiba","total":159,"engine":61,"screen":19,"narrative":5,"render":21,"fight":1,"heap":6,"kept":563398}
+{"step":174,"choice":"Take the door of the Wooden Wolf to the taproom of the Wooden Wolf","total":92,"engine":34,"screen":12,"narrative":7,"render":26,"fight":1,"heap":7,"kept":563594}
+{"step":175,"choice":"Take a bed and supper from Fargrim","total":361,"engine":304,"screen":12,"narrative":4,"render":21,"fight":1,"heap":8,"kept":564750}
+{"step":176,"choice":"Buy one ration from Fargrim","total":106,"engine":30,"screen":14,"narrative":5,"render":24,"fight":1,"heap":8,"kept":564982}
+{"step":177,"choice":"Buy one ration from Fargrim","total":95,"engine":32,"screen":12,"narrative":5,"render":18,"fight":3,"heap":9,"kept":566822}
+{"step":178,"choice":"Take the door of the Wooden Wolf to the bailey of Gothgiba","total":112,"engine":39,"screen":22,"narrative":5,"render":19,"fight":3,"heap":10,"kept":567110}
+{"step":179,"choice":"Take the shrine porch in Gothgiba to the shrine of Aine","total":107,"engine":35,"screen":14,"narrative":4,"render":29,"fight":2,"heap":10,"kept":567314}
+{"step":180,"choice":"Ask Baern about the walled stair in Aurumtener","total":94,"engine":31,"screen":13,"narrative":7,"render":31,"fight":1,"heap":11,"kept":567358}
+{"step":181,"choice":"Watch Baern for what goes unsaid · an even chance","total":110,"engine":41,"screen":18,"narrative":7,"render":32,"fight":2,"heap":12,"kept":567550}
+{"step":182,"choice":"Speak to Baern of the brother who went down · an even chance","total":94,"engine":33,"screen":13,"narrative":5,"render":31,"fight":1,"heap":12,"kept":567874}
+{"step":183,"choice":"Take the shrine porch in Gothgiba to the bailey of Gothgiba","total":112,"engine":56,"screen":16,"narrative":5,"render":22,"fight":1,"heap":9,"kept":568414}
+{"step":184,"choice":"Take the path up onto Barzelrehes to the foot of Barzelrehes by Gothgiba","total":175,"engine":50,"screen":68,"narrative":6,"render":21,"fight":1,"heap":10,"kept":569143}
+{"step":185,"choice":"Take a wall-side track to the foot of Barzelrehes by Muzgkom","total":129,"engine":61,"screen":12,"narrative":5,"render":32,"fight":1,"heap":11,"kept":569235}
+{"step":186,"choice":"Take the track to Aurumtener","total":126,"engine":55,"screen":20,"narrative":7,"render":26,"fight":3,"heap":11,"kept":569743}
+{"step":187,"choice":"Fill a lantern from a flask of lamp oil and light it","total":94,"engine":26,"screen":12,"narrative":4,"render":33,"fight":1,"heap":12,"kept":570127}
+{"step":188,"choice":"Take the iron rungs in the air shaft to the air shaft","total":94,"engine":37,"screen":12,"narrative":5,"render":33,"fight":1,"heap":12,"kept":570714}
+{"step":189,"choice":"Take the gap behind the rubble to the old stope","total":111,"engine":36,"screen":24,"narrative":7,"render":31,"fight":5,"heap":13,"kept":571122}
+{"step":190,"choice":"Take the drift to the shaft head","total":126,"engine":41,"screen":18,"narrative":7,"render":29,"fight":1,"heap":14,"kept":571691}
+{"step":191,"choice":"Take the cage in the shaft to the shaft bottom","total":95,"engine":31,"screen":15,"narrative":5,"render":24,"fight":1,"heap":5,"kept":572093}
+{"step":192,"choice":"Take the drift to the haulage way","total":109,"engine":39,"screen":11,"narrative":5,"render":22,"fight":1,"heap":5,"kept":572500}
+{"step":193,"choice":"Take the passage to the Delvers' hall","total":95,"engine":29,"screen":13,"narrative":6,"render":26,"fight":1,"heap":6,"kept":572982}
+{"step":194,"choice":"Take the gallery to the long haulage","total":94,"engine":0,"screen":0,"narrative":0,"render":24,"fight":840,"heap":6,"kept":573857}
+{"step":195,"choice":"Gather up the coins","total":94,"engine":31,"screen":26,"narrative":5,"render":19,"fight":3,"heap":6,"kept":586437}
+{"step":196,"choice":"Collect a lump of star-iron for Wenna","total":94,"engine":33,"screen":17,"narrative":5,"render":21,"fight":1,"heap":7,"kept":586437}
+{"step":197,"choice":"Take the gallery to the Delvers' hall","total":94,"engine":31,"screen":12,"narrative":5,"render":24,"fight":1,"heap":8,"kept":587498}
+{"step":198,"choice":"Rest and recover at the Delvers' hall","total":195,"engine":128,"screen":17,"narrative":5,"render":19,"fight":1,"heap":8,"kept":587869}
+{"step":199,"choice":"Take the passage to the haulage way","total":162,"engine":60,"screen":29,"narrative":12,"render":18,"fight":1,"heap":9,"kept":588447}
+{"step":200,"choice":"Take the drift to the shaft bottom","total":127,"engine":33,"screen":15,"narrative":8,"render":27,"fight":1,"heap":4,"kept":589664}
+{"step":201,"choice":"Take the cage in the shaft to the shaft head","total":93,"engine":41,"screen":21,"narrative":6,"render":19,"fight":1,"heap":5,"kept":589870}
+{"step":202,"choice":"Take the drift to the old stope","total":110,"engine":34,"screen":15,"narrative":5,"render":18,"fight":2,"heap":5,"kept":590097}
+{"step":203,"choice":"Take the gap behind the rubble to the air shaft","total":111,"engine":27,"screen":12,"narrative":6,"render":25,"fight":1,"heap":6,"kept":590565}
+{"step":204,"choice":"Take the iron rungs in the air shaft to Aurumtener","total":94,"engine":37,"screen":11,"narrative":7,"render":21,"fight":1,"heap":6,"kept":591014}
+{"step":205,"choice":"Take the track to the foot of Barzelrehes by Muzgkom","total":143,"engine":58,"screen":13,"narrative":8,"render":30,"fight":1,"heap":6,"kept":591466}
+{"step":206,"choice":"Take a wall-side track to the foot of Barzelrehes by Gothgiba","total":162,"engine":81,"screen":35,"narrative":6,"render":22,"fight":3,"heap":7,"kept":592727}
+{"step":207,"choice":"Take the path up onto Barzelrehes to the bailey of Gothgiba","total":145,"engine":63,"screen":15,"narrative":8,"render":26,"fight":5,"heap":8,"kept":592906}
+{"step":208,"choice":"Take Ulfgar's door to Ulfgar's forge","total":902,"engine":741,"screen":49,"narrative":9,"render":10,"fight":3,"heap":9,"kept":593798}
+{"step":209,"choice":"Sell a lump of star-iron to Ulfgar","total":144,"engine":37,"screen":40,"narrative":7,"render":20,"fight":1,"heap":9,"kept":594442}
+{"step":210,"choice":"Take Ulfgar's door to the bailey of Gothgiba","total":142,"engine":47,"screen":14,"narrative":9,"render":28,"fight":2,"heap":10,"kept":594486}
+{"step":211,"choice":"Take the shrine porch in Gothgiba to the shrine of Aine","total":127,"engine":35,"screen":21,"narrative":6,"render":31,"fight":1,"heap":9,"kept":594990}
+{"step":212,"choice":"Ask Baern to raise Thoradin from the dead","total":262,"engine":177,"screen":13,"narrative":5,"render":32,"fight":5,"heap":10,"kept":595054}
+{"step":213,"choice":"Take the shrine porch in Gothgiba to the bailey of Gothgiba","total":114,"engine":46,"screen":15,"narrative":8,"render":23,"fight":6,"heap":11,"kept":595346}
+{"step":214,"choice":"Take the door of the Wooden Wolf to the taproom of the Wooden Wolf","total":118,"engine":44,"screen":15,"narrative":8,"render":22,"fight":2,"heap":12,"kept":604898}
+{"step":215,"choice":"Take a bed and supper from Fargrim","total":291,"engine":205,"screen":22,"narrative":6,"render":21,"fight":1,"heap":5,"kept":606474}
+{"step":216,"choice":"Take the door of the Wooden Wolf to the bailey of Gothgiba","total":160,"engine":53,"screen":24,"narrative":9,"render":41,"fight":3,"heap":6,"kept":606642}
+{"step":217,"choice":"Take the Karavor road to the top of the Karavor","total":212,"engine":117,"screen":55,"narrative":6,"render":22,"fight":3,"heap":7,"kept":608158}
+{"step":218,"choice":"Take the Karavor road to the burners' clearing at Muzgkom","total":317,"engine":161,"screen":90,"narrative":7,"render":21,"fight":1,"heap":8,"kept":608232}
+{"step":219,"choice":"Ask Veit what brings her to Muzgkom","total":214,"engine":49,"screen":91,"narrative":7,"render":32,"fight":3,"heap":9,"kept":609200}
+{"step":220,"choice":"Ask Veit to join the company","total":290,"engine":72,"screen":135,"narrative":6,"render":24,"fight":1,"heap":10,"kept":611198}
+{"step":221,"choice":"Take a place in the hayloft from Dain","total":464,"engine":257,"screen":147,"narrative":9,"render":11,"fight":1,"heap":11,"kept":611710}
+{"step":222,"choice":"Take the Karavor road to the top of the Karavor","total":245,"engine":101,"screen":82,"narrative":6,"render":29,"fight":1,"heap":12,"kept":612148}
+{"step":223,"choice":"Take a track off the road into Barzelrehes to the foot of Barzelrehes by Gothgiba","total":178,"engine":39,"screen":86,"narrative":5,"render":31,"fight":1,"heap":13,"kept":613978}
+{"step":224,"choice":"Take a wall-side track to the foot of Barzelrehes by Muzgkom","total":128,"engine":64,"screen":13,"narrative":5,"render":19,"fight":2,"heap":9,"kept":614765}
+{"step":225,"choice":"Take the track to Aurumtener","total":127,"engine":45,"screen":12,"narrative":7,"render":33,"fight":1,"heap":10,"kept":615208}
+{"step":226,"choice":"Take the iron rungs in the air shaft to the air shaft","total":95,"engine":37,"screen":14,"narrative":6,"render":20,"fight":3,"heap":11,"kept":615519}
+{"step":227,"choice":"Take the gap behind the rubble to the old stope","total":111,"engine":35,"screen":15,"narrative":6,"render":18,"fight":1,"heap":12,"kept":616319}
+{"step":228,"choice":"Take the drift to the shaft head","total":129,"engine":31,"screen":15,"narrative":5,"render":29,"fight":3,"heap":12,"kept":616944}
+{"step":229,"choice":"Take the cage in the shaft to the shaft bottom","total":111,"engine":45,"screen":16,"narrative":5,"render":28,"fight":1,"heap":13,"kept":617386}
+{"step":230,"choice":"Take the drift to the haulage way","total":112,"engine":33,"screen":12,"narrative":7,"render":24,"fight":1,"heap":14,"kept":617777}
+{"step":231,"choice":"Take the passage to the Delvers' hall","total":111,"engine":30,"screen":14,"narrative":6,"render":27,"fight":2,"heap":15,"kept":618307}
+{"step":232,"choice":"Take the gallery to the long haulage","total":128,"engine":47,"screen":18,"narrative":6,"render":33,"fight":3,"heap":5,"kept":618630}
+{"step":233,"choice":"Look closely at the pressure plate","total":112,"engine":40,"screen":16,"narrative":7,"render":31,"fight":1,"heap":6,"kept":619118}
+{"step":234,"choice":"Lean on the plate with the pole, standing well back","total":93,"engine":29,"screen":14,"narrative":5,"render":24,"fight":1,"heap":6,"kept":619430}
+{"step":235,"choice":"Take the drift to the sealed stair","total":95,"engine":0,"screen":0,"narrative":0,"render":26,"fight":547,"heap":12,"kept":620362}
+{"step":236,"choice":"Read what is cut in the wall","total":92,"engine":30,"screen":20,"narrative":7,"render":21,"fight":1,"heap":12,"kept":620362}
+{"step":237,"choice":"Break the wall down","total":128,"engine":50,"screen":19,"narrative":6,"render":22,"fight":1,"heap":5,"kept":636182}
+{"step":238,"choice":"Take the sealed stair to the foot of the stair","total":244,"engine":50,"screen":24,"narrative":10,"render":26,"fight":1,"heap":6,"kept":637259}
+{"step":239,"choice":"Look closely at the arcane glyph","total":128,"engine":44,"screen":16,"narrative":7,"render":27,"fight":1,"heap":6,"kept":638027}
+{"step":240,"choice":"Unsay the glyph, letter by letter","total":128,"engine":32,"screen":16,"narrative":7,"render":29,"fight":1,"heap":7,"kept":638027}
+{"step":241,"choice":"Take the gallery to the sump gallery","total":194,"engine":61,"screen":53,"narrative":6,"render":21,"fight":3,"heap":8,"kept":638798}
+{"step":242,"choice":"Collect a lump of star-iron for Veit","total":163,"engine":37,"screen":54,"narrative":7,"render":21,"fight":1,"heap":9,"kept":638982}
+{"step":243,"choice":"Collect a lump of star-iron for Thoradin","total":112,"engine":35,"screen":14,"narrative":6,"render":21,"fight":1,"heap":10,"kept":639426}
+{"step":244,"choice":"Take the gallery to the furnace hall","total":111,"engine":0,"screen":0,"narrative":0,"render":27,"fight":894,"heap":10,"kept":640062}
+{"step":245,"choice":"Gather up the coins","total":122,"engine":49,"screen":20,"narrative":10,"render":32,"fight":6,"heap":11,"kept":640062}
+{"step":246,"choice":"Look closely at the pressure plate","total":128,"engine":37,"screen":18,"narrative":7,"render":33,"fight":3,"heap":12,"kept":651586}
+{"step":247,"choice":"Lean on the plate with the pole, standing well back","total":111,"engine":31,"screen":16,"narrative":7,"render":31,"fight":1,"heap":10,"kept":652534}
+{"step":248,"choice":"Take the drift to the paymaster's strongroom","total":177,"engine":58,"screen":62,"narrative":7,"render":22,"fight":1,"heap":11,"kept":653076}
+{"step":249,"choice":"Collect a jar of noonlight for Wenna","total":146,"engine":35,"screen":31,"narrative":8,"render":31,"fight":1,"heap":12,"kept":653308}
+{"step":250,"choice":"Collect an ancient tome for Veit","total":111,"engine":35,"screen":15,"narrative":8,"render":26,"fight":1,"heap":5,"kept":653864}
+{"step":251,"choice":"Gather up the coins","total":126,"engine":55,"screen":18,"narrative":6,"render":19,"fight":1,"heap":5,"kept":654188}
+{"step":252,"choice":"Read the runes","total":143,"engine":40,"screen":19,"narrative":8,"render":23,"fight":6,"heap":6,"kept":654564}
+{"step":253,"choice":"Search the paymaster's strongroom","total":146,"engine":42,"screen":25,"narrative":7,"render":29,"fight":2,"heap":7,"kept":654912}
+{"step":254,"choice":"Take the drift to the furnace hall","total":158,"engine":48,"screen":25,"narrative":11,"render":21,"fight":4,"heap":7,"kept":655510}
+{"step":255,"choice":"Take the gallery to the sump gallery","total":127,"engine":33,"screen":13,"narrative":8,"render":23,"fight":1,"heap":8,"kept":656114}
+{"step":256,"choice":"Take the gallery to the foot of the stair","total":145,"engine":40,"screen":17,"narrative":11,"render":30,"fight":1,"heap":8,"kept":656219}
+{"step":257,"choice":"Take the sealed stair","total":161,"engine":54,"screen":22,"narrative":9,"render":30,"fight":3,"heap":9,"kept":656526}
+{"step":258,"choice":"Take the drift to the long haulage","total":143,"engine":40,"screen":20,"narrative":8,"render":29,"fight":6,"heap":10,"kept":656806}
+{"step":259,"choice":"Take the gallery to the Delvers' hall","total":127,"engine":43,"screen":22,"narrative":8,"render":18,"fight":1,"heap":11,"kept":657583}
+{"step":260,"choice":"Rest and recover at the Delvers' hall","total":246,"engine":141,"screen":17,"narrative":7,"render":25,"fight":1,"heap":5,"kept":657831}
+{"step":261,"choice":"Take the passage to the haulage way","total":126,"engine":44,"screen":14,"narrative":7,"render":15,"fight":1,"heap":6,"kept":658377}
+{"step":262,"choice":"Take the drift to the shaft bottom","total":144,"engine":42,"screen":22,"narrative":8,"render":18,"fight":3,"heap":7,"kept":659678}
+{"step":263,"choice":"Take the cage in the shaft to the shaft head","total":242,"engine":41,"screen":23,"narrative":8,"render":25,"fight":4,"heap":8,"kept":659704}
+{"step":264,"choice":"Take the drift to the old stope","total":129,"engine":37,"screen":14,"narrative":7,"render":26,"fight":1,"heap":9,"kept":659975}
+{"step":265,"choice":"Take the gap behind the rubble to the air shaft","total":145,"engine":44,"screen":16,"narrative":8,"render":31,"fight":1,"heap":9,"kept":659975}
+{"step":266,"choice":"Take the iron rungs in the air shaft to Aurumtener","total":158,"engine":45,"screen":17,"narrative":9,"render":26,"fight":1,"heap":10,"kept":660872}
+{"step":267,"choice":"Take the track to the foot of Barzelrehes by Muzgkom","total":127,"engine":51,"screen":13,"narrative":7,"render":17,"fight":1,"heap":11,"kept":661293}
+{"step":268,"choice":"Take a wall-side track to the foot of Barzelrehes by Gothgiba","total":196,"engine":70,"screen":52,"narrative":8,"render":21,"fight":4,"heap":12,"kept":661862}
+{"step":269,"choice":"Take the path up onto Barzelrehes to the bailey of Gothgiba","total":213,"engine":114,"screen":22,"narrative":10,"render":23,"fight":3,"heap":14,"kept":662180}
+{"step":270,"choice":"Take Ulfgar's door to Ulfgar's forge","total":254,"engine":58,"screen":127,"narrative":10,"render":18,"fight":1,"heap":11,"kept":662672}
+{"step":271,"choice":"Sell a lump of star-iron to Ulfgar","total":207,"engine":39,"screen":97,"narrative":6,"render":22,"fight":1,"heap":12,"kept":663656}
+{"step":272,"choice":"Take a lump of star-iron from Thoradin for Wenna","total":178,"engine":42,"screen":71,"narrative":8,"render":24,"fight":1,"heap":13,"kept":664096}
+{"step":273,"choice":"Sell a lump of star-iron to Ulfgar","total":162,"engine":35,"screen":71,"narrative":7,"render":18,"fight":3,"heap":14,"kept":664764}
+{"step":274,"choice":"Sell an ancient tome to Ulfgar","total":162,"engine":33,"screen":68,"narrative":7,"render":17,"fight":1,"heap":15,"kept":665328}
+{"step":275,"choice":"Have Wenna raise Strength","total":175,"engine":35,"screen":78,"narrative":6,"render":21,"fight":3,"heap":15,"kept":665608}
+{"step":276,"choice":"Buy a torch for Wenna · 1 coin","total":178,"engine":36,"screen":60,"narrative":6,"render":29,"fight":2,"heap":5,"kept":665868}
+{"step":277,"choice":"Buy a flask of lamp oil for Veit · 1 coin","total":162,"engine":43,"screen":53,"narrative":7,"render":29,"fight":3,"heap":6,"kept":666180}
+{"step":278,"choice":"Take Ulfgar's door to the bailey of Gothgiba","total":111,"engine":42,"screen":15,"narrative":7,"render":17,"fight":4,"heap":7,"kept":666524}
+{"step":279,"choice":"Take the shrine porch in Gothgiba to the shrine of Aine","total":129,"engine":37,"screen":12,"narrative":9,"render":29,"fight":1,"heap":8,"kept":666916}
+{"step":280,"choice":"Ask Baern to raise Thoradin from the dead","total":229,"engine":146,"screen":14,"narrative":6,"render":32,"fight":4,"heap":9,"kept":667484}
+{"step":281,"choice":"Take the shrine porch in Gothgiba to the bailey of Gothgiba","total":128,"engine":58,"screen":14,"narrative":7,"render":21,"fight":1,"heap":10,"kept":667816}
+{"step":282,"choice":"Take the door of the Wooden Wolf to the taproom of the Wooden Wolf","total":110,"engine":35,"screen":12,"narrative":8,"render":21,"fight":1,"heap":11,"kept":677056}
+{"step":283,"choice":"Buy one ration from Fargrim","total":111,"engine":31,"screen":14,"narrative":9,"render":18,"fight":4,"heap":12,"kept":678432}
+{"step":284,"choice":"Buy one ration from Fargrim","total":129,"engine":33,"screen":17,"narrative":6,"render":31,"fight":4,"heap":13,"kept":678688}
+{"step":285,"choice":"Buy one ration from Fargrim","total":111,"engine":29,"screen":14,"narrative":6,"render":32,"fight":1,"heap":14,"kept":679468}
+{"step":286,"choice":"Buy one ration from Fargrim","total":111,"engine":30,"screen":15,"narrative":6,"render":32,"fight":1,"heap":11,"kept":679776}
+{"step":287,"choice":"Take a bed and supper from Fargrim","total":246,"engine":166,"screen":14,"narrative":6,"render":31,"fight":4,"heap":12,"kept":679944}
+{"step":288,"choice":"Equip a jar of noonlight on Wenna","total":244,"engine":127,"screen":18,"narrative":7,"render":18,"fight":3,"heap":12,"kept":679944}
+{"step":289,"choice":"Take the door of the Wooden Wolf to the bailey of Gothgiba","total":127,"engine":41,"screen":15,"narrative":7,"render":22,"fight":3,"heap":14,"kept":681232}
+{"step":290,"choice":"Take the path up onto Barzelrehes to the foot of Barzelrehes by Gothgiba","total":228,"engine":49,"screen":96,"narrative":7,"render":31,"fight":1,"heap":15,"kept":682349}
+{"step":291,"choice":"Take a wall-side track to the foot of Barzelrehes by Muzgkom","total":141,"engine":62,"screen":14,"narrative":8,"render":20,"fight":2,"heap":16,"kept":683556}
+{"step":292,"choice":"Take the track to Aurumtener","total":145,"engine":48,"screen":13,"narrative":7,"render":33,"fight":1,"heap":5,"kept":684208}
+{"step":293,"choice":"Take the iron rungs in the air shaft to the air shaft","total":127,"engine":37,"screen":16,"narrative":7,"render":22,"fight":1,"heap":6,"kept":684539}
+{"step":294,"choice":"Take the gap behind the rubble to the old stope","total":128,"engine":40,"screen":14,"narrative":8,"render":18,"fight":1,"heap":7,"kept":685599}
+{"step":295,"choice":"Take the drift to the shaft head","total":144,"engine":52,"screen":20,"narrative":11,"render":16,"fight":1,"heap":8,"kept":686100}
+{"step":296,"choice":"Take the cage in the shaft to the shaft bottom","total":143,"engine":42,"screen":16,"narrative":9,"render":29,"fight":3,"heap":9,"kept":686746}
+{"step":297,"choice":"Take the drift to the haulage way","total":105,"engine":31,"screen":13,"narrative":6,"render":17,"fight":1,"heap":10,"kept":687173}
+{"step":298,"choice":"Take the passage to the Delvers' hall","total":144,"engine":38,"screen":23,"narrative":12,"render":24,"fight":1,"heap":11,"kept":687568}
+{"step":299,"choice":"Take the gallery to the long haulage","total":144,"engine":42,"screen":16,"narrative":8,"render":17,"fight":1,"heap":12,"kept":687895}
+{"step":300,"choice":"Take the drift to the sealed stair","total":143,"engine":41,"screen":17,"narrative":6,"render":31,"fight":1,"heap":5,"kept":688531}
+{"step":301,"choice":"Take the sealed stair to the foot of the stair","total":96,"engine":30,"screen":14,"narrative":6,"render":31,"fight":1,"heap":6,"kept":688532}
+{"step":302,"choice":"Take the gallery to the sump gallery","total":111,"engine":30,"screen":13,"narrative":6,"render":26,"fight":1,"heap":6,"kept":689119}
+{"step":303,"choice":"Take the gallery to the furnace hall","total":377,"engine":43,"screen":269,"narrative":7,"render":22,"fight":4,"heap":7,"kept":689079}
+{"step":304,"choice":"Take the passage to the deep cut","total":328,"engine":56,"screen":194,"narrative":8,"render":29,"fight":4,"heap":7,"kept":689383}
+{"step":305,"choice":"Collect gloves of dexterity for Wenna","total":145,"engine":36,"screen":45,"narrative":7,"render":27,"fight":1,"heap":8,"kept":690191}
+{"step":306,"choice":"Take the rough cut to the breach","total":179,"engine":51,"screen":53,"narrative":8,"render":29,"fight":1,"heap":8,"kept":690661}
+{"step":307,"choice":"Collect a crown of star-iron for Veit","total":112,"engine":35,"screen":14,"narrative":7,"render":25,"fight":1,"heap":9,"kept":691045}
+{"step":308,"choice":"Equip gloves of dexterity on Wenna","total":112,"engine":31,"screen":16,"narrative":7,"render":20,"fight":1,"heap":10,"kept":691637}
+{"step":309,"choice":"Look closely at the magical rune","total":195,"engine":36,"screen":19,"narrative":6,"render":20,"fight":4,"heap":11,"kept":692045}
+{"step":310,"choice":"Lay the pole's end on the rune from as far off as it allows","total":129,"engine":36,"screen":16,"narrative":7,"render":29,"fight":1,"heap":12,"kept":692205}
+{"step":311,"choice":"Take the passage to the hollow vault","total":229,"engine":51,"screen":95,"narrative":11,"render":29,"fight":1,"heap":5,"kept":692635}
+{"step":312,"choice":"Collect galvorn mail for Thoradin","total":155,"engine":36,"screen":49,"narrative":7,"render":26,"fight":1,"heap":6,"kept":692951}
+{"step":313,"choice":"Equip galvorn mail on Thoradin","total":162,"engine":32,"screen":52,"narrative":8,"render":31,"fight":3,"heap":7,"kept":693555}
+{"step":314,"choice":"Collect a lump of star-iron for Veit","total":162,"engine":39,"screen":52,"narrative":6,"render":32,"fight":1,"heap":8,"kept":693919}
+{"step":315,"choice":"Collect a lump of star-iron for Thoradin","total":145,"engine":40,"screen":45,"narrative":7,"render":22,"fight":1,"heap":9,"kept":694087}
+{"step":316,"choice":"Take the gallery to the heart of the vein","total":178,"engine":53,"screen":48,"narrative":9,"render":27,"fight":1,"heap":10,"kept":694268}
+{"step":317,"choice":"Gather up the coins","total":145,"engine":36,"screen":47,"narrative":7,"render":21,"fight":1,"heap":11,"kept":694344}
+{"step":318,"choice":"Collect the heart of the vein for Wenna","total":129,"engine":38,"screen":13,"narrative":6,"render":29,"fight":1,"heap":12,"kept":694776}
+{"step":319,"choice":"Take the gallery to the hollow vault","total":145,"engine":33,"screen":45,"narrative":8,"render":19,"fight":1,"heap":12,"kept":695211}
+{"step":320,"choice":"Take the passage to the breach","total":128,"engine":31,"screen":16,"narrative":7,"render":33,"fight":6,"heap":13,"kept":695677}
+{"step":321,"choice":"Take the rough cut to the deep cut","total":145,"engine":42,"screen":43,"narrative":7,"render":21,"fight":1,"heap":14,"kept":695655}
+{"step":322,"choice":"Take the passage to the furnace hall","total":129,"engine":41,"screen":14,"narrative":8,"render":24,"fight":1,"heap":12,"kept":695899}
+{"step":323,"choice":"Take the gallery to the sump gallery","total":128,"engine":36,"screen":16,"narrative":7,"render":32,"fight":3,"heap":13,"kept":696563}
+{"step":324,"choice":"Take the gallery to the foot of the stair","total":112,"engine":35,"screen":14,"narrative":14,"render":17,"fight":3,"heap":14,"kept":697092}
+{"step":325,"choice":"Take the sealed stair","total":129,"engine":35,"screen":17,"narrative":7,"render":25,"fight":1,"heap":15,"kept":697471}
+{"step":326,"choice":"Take the drift to the long haulage","total":228,"engine":137,"screen":17,"narrative":8,"render":27,"fight":1,"heap":16,"kept":697779}
+{"step":327,"choice":"Take the gallery to the Delvers' hall","total":128,"engine":35,"screen":16,"narrative":8,"render":26,"fight":1,"heap":5,"kept":698368}
+{"step":328,"choice":"Take the passage to the haulage way","total":125,"engine":37,"screen":14,"narrative":8,"render":20,"fight":1,"heap":6,"kept":698606}
+{"step":329,"choice":"Take the drift to the shaft bottom","total":144,"engine":34,"screen":19,"narrative":11,"render":31,"fight":4,"heap":7,"kept":699059}
+{"step":330,"choice":"Take the cage in the shaft to the shaft head","total":128,"engine":38,"screen":22,"narrative":10,"render":24,"fight":1,"heap":8,"kept":699317}
+{"step":331,"choice":"Take the drift to the old stope","total":128,"engine":43,"screen":13,"narrative":7,"render":29,"fight":1,"heap":9,"kept":699688}
+{"step":332,"choice":"Take the gap behind the rubble to the air shaft","total":178,"engine":62,"screen":21,"narrative":7,"render":21,"fight":1,"heap":9,"kept":699688}
+{"step":333,"choice":"Take the iron rungs in the air shaft to Aurumtener","total":122,"engine":38,"screen":15,"narrative":8,"render":26,"fight":4,"heap":10,"kept":700669}
+{"step":334,"choice":"Wait until first light","total":263,"engine":143,"screen":14,"narrative":7,"render":33,"fight":1,"heap":11,"kept":701144}

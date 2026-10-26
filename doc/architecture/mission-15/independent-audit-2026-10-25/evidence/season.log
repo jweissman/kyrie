@@ -1,0 +1,55 @@
+bun test v1.4.3 (c6da4a4d3)
+
+test/hold-one-season.test.ts:
+(pass) Hold One Season > lints clean as a recommended campaign [7561.12ms]
+(pass) Hold One Season > J1, canonical: the shutter cord pulled from the doorway, Garret comes round, Dagny keeps her word [6822.68ms]
+113 |     const clock = () => { const m = /(\d+):(\d+) (a|p)\.m\./.exec(ScreenModel.build(j.s.campaign).clock)!;
+114 |       return (Number(m[1]) % 12 + (m[3] === 'p' ? 12 : 0)) * 60 + Number(m[2]); };
+115 |     const t0 = clock();
+116 |     await j.play('To the Waking Ward');
+117 |     if (process.env.JOURNEY_TRACE) { console.log('doorway took', clock() - t0, 'minutes; laden', j.holds('laden', 'party')); }
+118 |     expect(clock() - t0).toBe(2);
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: 2
+Received: 1
+
+      at <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/hold-one-season.test.ts:118:26)
+(fail) Hold One Season > J2, into the beam: whoever drags him out is dosed, and slowed goes at half pace [1160.57ms]
+(pass) Hold One Season > J3, the world does not wait: the crew goes down, argues, frees him; Ness takes the jars; no debt is forgiven [6058.49ms]
+(pass) Hold One Season > J4, inference: the clerk on the plate says the Ennick prayer, and the company knows what it is [1271.18ms]
+(pass) Hold One Season > J5, testimony: Ilis says what she has never told Bren, only to someone who has seen the jars [1651.82ms]
+(pass) Hold One Season > J6, the Outfall: shut by the flood at first, open once it falls in Harvest, eight hours to the Flood Line [4008.97ms]
+55 |         && Object.entries(m.exports).every(([k, v]) => /^[A-Za-z][A-Za-z0-9_-]*$/.test(k) && typeof v === 'string')));
+56 |     if (!valid) { throw new Error('Invalid module manifest'); }
+57 |   }
+58 |   // A campaign's modules, in order; entries that ask for a kit are composed into modules with the campaign's seed.
+59 |   static async campaign(path: string, source: BundleSource, seed = ''): Promise<CampaignManifest> {
+60 |     const manifest = JSON.parse(await source.read(path)) as Omit<CampaignManifest, 'modules'> & { modules: ManifestEntry[] };
+                                                  ^
+ENOENT: no such file or directory, open 'test/fixtures/patient/deep.campaign.json'
+    path: "test/fixtures/patient/deep.campaign.json",
+ syscall: "open",
+   errno: -2,
+    code: "ENOENT"
+
+      at async campaign (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:60:46)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:115:61)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async start (/tmp/kyrie-review-20261025/kyrie/test/hold-one-season.test.ts:20:42)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/hold-one-season.test.ts:166:29)
+(fail) Hold One Season > J7, the Sluice: wound open, it washes out Ennick's lower road and drops Quell's wells [1.90ms]
+(pass) Hold One Season > J8, the mirror: cranked away from the Bunks, the Bunks crew notice; the north garden browns over days [1141.60ms]
+(pass) Hold One Season > J9, the Neck: a mark scratched at the waterline is found dry days later [1314.30ms]
+(pass) Hold One Season > J10, Doran breathes: most of an hour of watching, nine hundred paces into the glass [792.50ms]
+(pass) Hold One Season > J11, the wolves: they keep level with a company that can run, and come at one that cannot [728.64ms]
+(pass) Hold One Season > J12, Saro: the light does not slow her, in the company or out of it [678.61ms]
+(pass) Hold One Season > J13, false felt: the barrow boy's cloak looks the same and stops nothing [321.80ms]
+(pass) Hold One Season > J14, the night way: past Hal Brewin without coin or licence [589.07ms]
+
+ 13 pass
+ 2 fail
+ 46 expect() calls
+Ran 15 tests across 1 file. [34.41s]

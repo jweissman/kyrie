@@ -1,0 +1,281 @@
+bun test v1.4.3 (c6da4a4d3)
+
+test/thrume.test.ts:
+32 |         continue;
+33 |       }
+34 |       let command = step.startsWith('@') ? step.slice(1) : undefined;
+35 |       if (!command) {
+36 |         const offered = this.choices(s), c = offered.find(x => new RegExp(step, 'i').test(x.label));
+37 |         if (!c) { throw new Error(`No /${step}/ at watch ${this.watch(s)} among ${offered.map(x => x.label).join(' | ')}`); }
+                                 ^
+error: No /a torch: Light/ at watch 138 among To the ice cellar | To the ice cellar — look at the keepers' arch — Look closely | To the foot of the Keepers' Stair | Wait › A while | Wait › An hour | Wait › Until dark | Wait › And watch, until something changes | Search here | Dori: prepare spells › In place of Anoint (first-level slot) › Aquatic Bolt | Dori: prepare spells › In place of Anoint (first-level slot) › Shadow Cloak | Dori: prepare spells › In place of Shadow Cloak (first-level slot) › Anoint | Dori: prepare spells › In place of Shadow Cloak (first-level slot) › Aquatic Bolt | a coil of rope: Set down here | a javelin: Set down here | leather armor: Set down here | a bedroll: Set down here | firewood: Set down here | a flask: Set down here | the keepers' ring: Set down here | thieves' tools: Set down here | a battleaxe: Set down here | chain mail: Set down here | a ten-foot pole: Set down here | a torch: Set down here | bandages: Set down here | healing herbs: Set down here | a staff: Set down here | splint mail: Set down here | a holy symbol: Set down here | a grey humming pebble: Set down here
+      at play (/tmp/kyrie-review-20261025/kyrie/test/thrume.test.ts:37:29)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/thrume.test.ts:71:20)
+(fail) Thrume > is played from the dream-houses of Saltgrave to the Mouth under every sleep, and the song refuses it [2799.00ms]
+(pass) Thrume > wakes, if nobody stops the cutting, before the host of Harle crosses the Ebb [609.14ms]
+(pass) Thrume > challenges a stranger in the giants' yard, and Skarn comes for a company that does not answer [923.44ms]
+(pass) the Heart-Tomb > kills whoever strikes the Gate with iron, and stirs the sleeper [289.38ms]
+(pass) the Heart-Tomb > opens to the hammer of salt, and unmakes whoever walks into the Sleeper's mouth [183.51ms]
+(pass) the Heart-Tomb > scalds a thief who sets the Gearworks as the painted panel says, and opens only to the Master's order [925.39ms]
+
+test/house-that-grows.test.ts:
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:76:26)
+(fail) The House That Grows > opens the Annex door onto the city, because Cobble Ring watches the Annex [51.61ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:92:26)
+(fail) The House That Grows > strands the company in the city until someone stays behind to watch [46.08ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:102:26)
+(fail) The House That Grows > comes down by a lamp lit with dreg and left burning in the city [56.84ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:117:26)
+(fail) The House That Grows > loses Old Pammu to the folded man in the low hour, and gets him back by an hour's stare [47.24ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:129:26)
+(fail) The House That Grows > keeps Old Pammu on his stool if someone stands the low hour with the watchers [53.00ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:137:26)
+(fail) The House That Grows > makes Kezu a door after two nights nobody watches her, and her door opens on the Long Hall [47.09ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:146:26)
+(fail) The House That Grows > keeps Kezu from becoming a door if her student sits up with her [60.43ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:153:29)
+(fail) The House That Grows > sells the house to the Company unless the reeve is shown it is one house with the city [48.14ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:169:26)
+(fail) The House That Grows > pays for a true map of the Annex, and refuses one that has gone stale [51.43ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:190:26)
+(fail) The House That Grows > finds Quill's red door scratched on a bunk shelf, by searching the bunk room [40.68ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:197:26)
+(fail) The House That Grows > takes a boy of the city home by the house, the lamp and the causeway, to his mother [46.39ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:212:26)
+(fail) The House That Grows > lets the folded man close on a lapse, and holds him still while he is watched [44.41ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:227:26)
+(fail) The House That Grows > sings a listener into the dream of the hallway, unless their ears are stopped [57.95ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:237:26)
+(fail) The House That Grows > maps the Annex and a room of the city for Dace, and leaves the mapper in the city with the slate [40.89ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:247:26)
+(fail) The House That Grows > answers a torch held to the seams, and wax in the ears to the Choir [53.24ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:262:26)
+(fail) The House That Grows > hears Kezu lie about her dreams, and then, shown the twin of her cup, tell them [41.22ms]
+81 |   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
+82 |   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
+83 |   private static parsed(file: SourceFile): Module {
+84 |     let module = this.parses.get(file.text);
+85 |     if (!module) {
+86 |       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
+                                                                                             ^
+error: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+      at parsed (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:86:89)
+      at load (/tmp/kyrie-review-20261025/kyrie/src/campaign/module-bundle.ts:183:65)
+      at async assemble (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:121:40)
+      at async load (/tmp/kyrie-review-20261025/kyrie/src/campaign/campaign.ts:95:37)
+      at async start (/tmp/kyrie-review-20261025/kyrie/src/session/play-session.ts:45:43)
+      at async <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/house-that-grows.test.ts:278:26)
+(fail) The House That Grows > lets a peaceable dog be a dog [45.58ms]
+
+ 5 pass
+ 18 fail
+ 25 expect() calls
+Ran 23 tests across 2 files. [6.84s]

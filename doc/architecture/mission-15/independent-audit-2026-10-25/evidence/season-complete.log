@@ -1,0 +1,36 @@
+bun test v1.4.3 (c6da4a4d3)
+
+test/hold-one-season.test.ts:
+(pass) Hold One Season > lints clean as a recommended campaign [6658.26ms]
+(pass) Hold One Season > J1, canonical: the shutter cord pulled from the doorway, Garret comes round, Dagny keeps her word [4272.55ms]
+113 |     const clock = () => { const m = /(\d+):(\d+) (a|p)\.m\./.exec(ScreenModel.build(j.s.campaign).clock)!;
+114 |       return (Number(m[1]) % 12 + (m[3] === 'p' ? 12 : 0)) * 60 + Number(m[2]); };
+115 |     const t0 = clock();
+116 |     await j.play('To the Waking Ward');
+117 |     if (process.env.JOURNEY_TRACE) { console.log('doorway took', clock() - t0, 'minutes; laden', j.holds('laden', 'party')); }
+118 |     expect(clock() - t0).toBe(2);
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: 2
+Received: 1
+
+      at <anonymous> (/tmp/kyrie-review-20261025/kyrie/test/hold-one-season.test.ts:118:26)
+(fail) Hold One Season > J2, into the beam: whoever drags him out is dosed, and slowed goes at half pace [862.35ms]
+(pass) Hold One Season > J3, the world does not wait: the crew goes down, argues, frees him; Ness takes the jars; no debt is forgiven [3539.60ms]
+(pass) Hold One Season > J4, inference: the clerk on the plate says the Ennick prayer, and the company knows what it is [980.21ms]
+(pass) Hold One Season > J5, testimony: Ilis says what she has never told Bren, only to someone who has seen the jars [1484.96ms]
+(pass) Hold One Season > J6, the Outfall: shut by the flood at first, open once it falls in Harvest, eight hours to the Flood Line [3173.48ms]
+(pass) Hold One Season > J7, the Sluice: wound open, it washes out Ennick's lower road and drops Quell's wells [1111.72ms]
+(pass) Hold One Season > J8, the mirror: cranked away from the Bunks, the Bunks crew notice; the north garden browns over days [1159.92ms]
+(pass) Hold One Season > J9, the Neck: a mark scratched at the waterline is found dry days later [1026.38ms]
+(pass) Hold One Season > J10, Doran breathes: most of an hour of watching, nine hundred paces into the glass [843.65ms]
+(pass) Hold One Season > J11, the wolves: they keep level with a company that can run, and come at one that cannot [585.98ms]
+(pass) Hold One Season > J12, Saro: the light does not slow her, in the company or out of it [574.52ms]
+(pass) Hold One Season > J13, false felt: the barrow boy's cloak looks the same and stops nothing [231.75ms]
+(pass) Hold One Season > J14, the night way: past Hal Brewin without coin or licence [607.05ms]
+
+ 14 pass
+ 1 fail
+ 48 expect() calls
+Ran 15 tests across 1 file. [27.42s]

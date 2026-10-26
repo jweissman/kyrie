@@ -40,7 +40,7 @@ export default defineConfig([
       curly: ['error', 'all'],
       'max-lines-per-function': [
         'error',
-        { max: 60, skipBlankLines: true, skipComments: true, IIFEs: true },
+        { max: 55, skipBlankLines: true, skipComments: true, IIFEs: true },
       ],
       '@stylistic/max-len': [
         'error',
@@ -55,7 +55,7 @@ export default defineConfig([
       'max-lines': [
         'error',
         {
-          max: 400,
+          max: 380,
           skipBlankLines: true,
           skipComments: true,
         },
@@ -107,7 +107,7 @@ export default defineConfig([
       'no-restricted-syntax': 'off',
       'max-lines-per-function': [
         'error',
-        { max: 400, skipBlankLines: true, skipComments: true, IIFEs: true },
+        { max: 160, skipBlankLines: true, skipComments: true, IIFEs: true },
       ],
       '@typescript-eslint/no-unsafe-argument': 'off',
       'max-lines': [

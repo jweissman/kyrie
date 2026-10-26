@@ -1,0 +1,10 @@
+import { readFileSync } from 'node:fs';
+import { PlaySession } from '../src/session/play-session';
+import { PlayerView } from '../src/presentation/player-view';
+const before=performance.now();
+let cp=JSON.parse(readFileSync('../checkpoints/step-250.json','utf8'));
+const parsed=performance.now(),session=PlaySession.resume(cp);cp=undefined;
+const restored=performance.now();
+PlayerView.observe(session.campaign);PlayerView.choices(session.campaign);
+Bun.gc(true);
+console.log(JSON.stringify({parseMs:parsed-before,restoreMs:restored-parsed,heapMB:process.memoryUsage().heapUsed/1e6,facts:session.campaign.world.view.relations.length,events:session.campaign.history.length,modules:session.campaign.installed.length}));

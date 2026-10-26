@@ -1,0 +1,20 @@
+local kind before second game true true
+take command take_item(p__ox,p__member_party_1)
+offered [
+  "wait", "wait_hour", "wait_for_dark", "wait_watch", "camp(p__barley)", "search(p__barley)",
+  "take_item(p__ox,p__member_party_1)", "take_item(p__jar,p__member_party_1)", "put_item(p__party_1__battleaxe)",
+  "put_item(p__party_1__plate)", "put_item(p__party_1__torch)", "put_item(p__party_1__pole)"
+]
+local kind after second game false false
+lookup error Error: Unknown item definition dreg_ox
+first game choices 12
+first game unchanged true
+take after second game error Error: Unknown item definition dreg_ox
+clear a closed true clear variable []
+award rule instances []
+diagonal repeated variable [
+  {
+    "?t": "b",
+  }
+]
+conflicting kinds accepted 99 2

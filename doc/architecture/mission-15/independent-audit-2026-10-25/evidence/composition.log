@@ -1,0 +1,38 @@
+bun test v1.4.3 (c6da4a4d3)
+
+test/journey.test.ts:
+(pass) journeys > spends a journey on the way, and arrives for its last watch [2661.98ms]
+(pass) journeys > meets the company with whoever keeps the far end, and leaves it time to answer [278.31ms]
+(pass) journeys > lets a savage creature fall on the company as it arrives [436.59ms]
+(pass) journeys > gives a creature the place gave no words the plain words of its temperament [276.39ms]
+(pass) journeys > turns the company back when the way closes under it [129.67ms]
+
+test/continuation.test.ts:
+(pass) a country begun again after a death in it > keeps a cairn where the dead one fell [14658.82ms]
+
+test/composition.test.ts:
+(pass) composing kits > builds the fells' Hob-Knot from the raider-hold kit with every slot and dimension fixed by its author [97.01ms]
+(pass) composing kits > binds what a proposal implies even when the author fixed the proposal: the settlement the hobs robbed of its bell [690.36ms]
+(pass) composing kits > refuses a fixing that breaks a hard requirement, and names it [25.74ms]
+(pass) composing kits > binds open slots by requirement and preference, and Deem fills the dimensions, the same way for the same seed [80.19ms]
+(pass) composing kits > places a kit into a campaign already under way, taking nothing already taken [426.42ms]
+(pass) a kit that builds on another > puts a price on the band an earlier placement put in the world, bound through the ledger [23.63ms]
+(pass) a kit that builds on another > pays when the band is broken, whichever patron Deem proposed [1068.17ms]
+(pass) the raider-hold kit in play > lets the hobs' own stolen bell drive them off their gate [154.50ms]
+(pass) the raider-hold kit in play > has outlaws who stop a company on their road by day, and let it go for road-money [645.60ms]
+(pass) the raider-hold kit in play > lets a demand die with the men who made it [271.72ms]
+(pass) kits in generated regions > holds the raiders off the roads, at a site or in the depths of wild country [10075.86ms]
+(pass) kits in generated regions > realizes the kit differently in different regions, in who the raiders are and what their hold is [10079.02ms]
+
+test/deep-argument.test.ts:
+(pass) the walled stair, argued at the shrine > tells the dice of a check apart from what came of it, so that a reader may leave them untold [7379.73ms]
+(pass) the walled stair, argued at the shrine > is the priest's to forbid, and is argued at odds the page states [3523.12ms]
+(pass) the walled stair, argued at the shrine > is won by seeing the grief behind the doctrine and speaking to it; won, the priest tells what is below [2861.89ms]
+(pass) the walled stair, argued at the shrine > is lost for good by a threat: the shrine is shut to the company, and shows it [2818.28ms]
+(pass) the walled stair, argued at the shrine > holds the company to its word: the stair opened against it, or a promise broken, shuts the shrine [4706.44ms]
+(pass) the walled stair, argued at the shrine > speaks of each site's own bane, not the mine's [11661.09ms]
+
+ 24 pass
+ 0 fail
+ 77 expect() calls
+Ran 24 tests across 4 files. [77.23s]

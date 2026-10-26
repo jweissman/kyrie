@@ -1,0 +1,18 @@
+bun test v1.4.3 (c6da4a4d3)
+
+test/patient-star.test.ts:
+(pass) The Patient Star > lints clean as a recommended campaign [6595.90ms]
+(pass) The Patient Star > S1, the Hour: the hour-names put together from two sources open the archive; the Wall names the murderers [2382.06ms]
+(pass) The Patient Star > S2, the Undersun: touch gives time, speech is laid, the name is the plan; down to the Tip [3856.60ms]
+(pass) The Patient Star > S3, the Way and the Keeping: four gates answered from history; the sigils seen; Ithmar bound tighter [24413.91ms]
+(pass) The Patient Star > S4, the Corbel and the Masonry: the filament, the Interlocutor in your own voice, and Saro holding the Heart [2666.32ms]
+(pass) The Patient Star > S5, the Concord: called when the Corbel is seen and the sinking proved; the Way shown, a descent passes [1328.31ms]
+(pass) The Patient Star > S6, the Breach: a herd-mark in the culvert and a sluice pin on the holder's door name who cut it [776.95ms]
+(pass) The Patient Star > S7, the fourth Dane: his name taken by touch below, spoken at his tomb, and the Weirs' dispute is settled [4616.84ms]
+(pass) The Patient Star > S8, the long clock: the Corbel comes down two metres a day while the company waits [1526.70ms]
+(pass) The Patient Star > S9, the king: Amaru wakes by the week, and in the eighth the Warden's men carry him up with a fever [9742.58ms]
+
+ 10 pass
+ 0 fail
+ 33 expect() calls
+Ran 10 tests across 1 file. [58.21s]

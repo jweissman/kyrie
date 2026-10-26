@@ -1,0 +1,6 @@
+vocabulary [repository]: 0 errors, 254 warnings
+data/campaigns/thrume.campaign.json [recommended]: 0 errors, 0 warnings
+data/campaigns/the-house-that-grows.campaign.json [recommended]: 1 errors, 0 warnings
+  error load: data/adventures/house-that-grows/cobble-ring.kyr:116:3: Item kezu_cup names a kind missing from the item catalog: dreg
+data/campaigns/hold-one-season.campaign.json [recommended]: 0 errors, 1 warnings
+  warning applicability: action season__saro_holds has no possible target in this world

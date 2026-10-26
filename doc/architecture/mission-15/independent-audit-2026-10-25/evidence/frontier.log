@@ -1,0 +1,26 @@
+begin 5855 ms
+slow: step 13 Take the old road south to the southern edge of Wǽtfaenn 3863 ms (facts 37964)
+steps 1-25: command p50 112 max 3863 | engine 64 screen 30 narrative 6 save 44 (max 252) | facts 37980 modules 22 commands 25 saved 52k heap 125MB
+steps 26-50: command p50 141 max 313 | engine 94 screen 37 narrative 6 save 41 (max 100) | facts 38010 modules 22 commands 50 saved 76k heap 175MB
+slow: step 62 Take the old road east to the eastern edge of Merscmeós 6079 ms (facts 57264)
+steps 51-75: command p50 130 max 6079 | engine 83 screen 32 narrative 8 save 47 (max 274) | facts 57287 modules 29 commands 75 saved 110k heap 183MB
+steps 76-100: command p50 126 max 1138 | engine 74 screen 31 narrative 9 save 55 (max 268) | facts 61307 modules 31 commands 100 saved 122k heap 170MB
+steps 101-125: command p50 129 max 216 | engine 76 screen 34 narrative 9 save 55 (max 122) | facts 61316 modules 31 commands 125 saved 130k heap 198MB
+steps 126-150: command p50 134 max 563 | engine 77 screen 39 narrative 12 save 73 (max 248) | facts 61322 modules 31 commands 150 saved 137k heap 218MB
+steps 151-175: command p50 115 max 211 | engine 59 screen 34 narrative 10 save 63 (max 131) | facts 61319 modules 31 commands 175 saved 145k heap 218MB
+steps 176-200: command p50 121 max 277 | engine 66 screen 39 narrative 11 save 65 (max 155) | facts 61322 modules 31 commands 200 saved 149k heap 218MB
+steps 201-225: command p50 120 max 271 | engine 64 screen 37 narrative 11 save 63 (max 156) | facts 61323 modules 31 commands 225 saved 157k heap 219MB
+steps 226-250: command p50 121 max 291 | engine 68 screen 35 narrative 11 save 63 (max 168) | facts 61328 modules 31 commands 250 saved 163k heap 217MB
+steps 251-275: command p50 142 max 272 | engine 81 screen 32 narrative 10 save 60 (max 147) | facts 61333 modules 31 commands 275 saved 177k heap 235MB
+step 285: nothing to do (the record no longer holds, or it has ended)
+total: p50 129 p90 219 p99 1138 max 6079 ms
+engine: p50 71 p90 156 p99 1101 max 6041 ms
+screen: p50 35 p90 70 p99 177 max 216 ms
+narrative: p50 10 p90 14 p99 92 max 113 ms
+save: p50 59 p90 127 p99 252 max 274 ms
+worst: step 62 Take the old road east to the eastern edge of Merscmeós — command 6079 save 274 ms
+worst: step 13 Take the old road south to the southern edge of Wǽtfaenn — command 3863 save 252 ms
+worst: step 85 Take the old road north to the northern edge of Mountainmoor — command 1138 save 268 ms
+worst: step 135 Wait an hour — command 449 save 222 ms
+worst: step 133 Take the bedchamber door to the steward's study — command 563 save 78 ms
+canonical 78476e6a1569921b facts 22c6f3f52201e335 told 6be5152ac12fc66f

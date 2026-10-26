@@ -1,0 +1,3 @@
+vocabulary [repository]: 0 errors, 254 warnings
+test/fixtures/probes/bad-kind/probe.campaign.json [legacy]: 1 errors, 0 warnings
+  error load: test/fixtures/probes/bad-kind/site.kyr:4:3: Kind wyrd is like nothing_at_all, which is no kind of item

@@ -1,0 +1,19 @@
+begin 4506 ms
+steps 1-50: command p50 66 max 374 | engine 36 screen 21 narrative 4 save 20 (max 238) | facts 17724 modules 17 commands 50 saved 60k heap 106MB
+steps 51-100: command p50 79 max 254 | engine 33 screen 25 narrative 4 save 22 (max 64) | facts 17840 modules 17 commands 101 saved 106k heap 129MB
+steps 101-150: command p50 84 max 366 | engine 44 screen 25 narrative 7 save 35 (max 124) | facts 18206 modules 17 commands 151 saved 141k heap 149MB
+steps 151-200: command p50 88 max 652 | engine 40 screen 16 narrative 6 save 35 (max 148) | facts 17931 modules 17 commands 202 saved 176k heap 179MB
+steps 201-250: command p50 76 max 684 | engine 44 screen 15 narrative 8 save 42 (max 138) | facts 18310 modules 17 commands 254 saved 241k heap 207MB
+steps 251-300: command p50 74 max 287 | engine 40 screen 15 narrative 9 save 46 (max 142) | facts 18611 modules 17 commands 304 saved 276k heap 215MB
+step 335: nothing to do (the record no longer holds, or it has ended)
+total: p50 75 p90 177 p99 381 max 684 ms
+engine: p50 39 p90 110 p99 356 max 657 ms
+screen: p50 17 p90 72 p99 194 max 320 ms
+narrative: p50 7 p90 10 p99 18 max 108 ms
+save: p50 39 p90 111 p99 166 max 238 ms
+worst: step 244 Take the gallery to the furnace hall — command 684 save 111 ms
+worst: step 194 Take the gallery to the long haulage — command 652 save 36 ms
+worst: step 235 Take the drift to the sealed stair — command 449 save 41 ms
+worst: step 221 Take a place in the hayloft from Dain — command 381 save 100 ms
+worst: step 303 Take the gallery to the furnace hall — command 335 save 141 ms
+canonical 5eae0f91a0ce6203 facts 2693c7793aa85ef4 told 6926d284f15e9327

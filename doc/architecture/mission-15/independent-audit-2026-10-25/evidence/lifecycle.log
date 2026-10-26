@@ -1,0 +1,8 @@
+expander failure Error: injected frontier read failure
+failure changed canonical true elapsed 1 transcript 0 events 1
+multi-region 16 25 steps 3
+observations pure true
+rejection pure true
+checkpoint equal true
+resume continuation equal true
+CLI replay status 0 canonical equal true
