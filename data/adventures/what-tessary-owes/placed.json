@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "plot.kyr",
+    "city.kyr",
+    "people.kyr",
+    "lowtide.kyr",
+    "strongrooms.kyr",
+    "holding.kyr",
+    "feast.kyr",
+    "voices.kyr",
+    "growth.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "ossel",
+    "causeway_end": "causeway_end"
+  },
+  "experience": 1000,
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  }
+}

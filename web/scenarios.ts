@@ -26,6 +26,10 @@ export class Scenarios {
     { manifest: 'data/campaigns/the-patient-star.campaign.json', title: 'The Patient Star', seed: 'quell',
       note: 'Two thousand years ago a seed fell on the Ghessil Uplands and did not go out. Its light stops time in stone and slows it in flesh. You are a cutter of Quell, in debt; your uncle has stood eleven months in an open granary vault under the glass, alive.',
       detail: 'A plateau under a light that slows, a citadel building itself downward, and the past kept as a place' },
+    // An independent adventure, played as it was written (doc/adventures/what-tessary-owes).
+    { manifest: 'data/campaigns/what-tessary-owes.campaign.json', title: 'What Tessary Owes', seed: 'ossel',
+      note: 'The legions of Tessary have come home from eleven years\' war, and some of them are getting up in the night and walking into the sea. An eel-wife of the Withies offers her savings to whoever can tell her where her son went.',
+      detail: 'A tidal city of salt and paper, the drowned city under it, the keepers of an old engine, and a fortnight until the Feast of Settlement' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

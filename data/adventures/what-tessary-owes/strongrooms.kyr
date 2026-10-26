@@ -40,7 +40,7 @@ Module tessary "What Tessary Owes" {
 
   // ── The Scruples ──────────────────────────────────────────────────────────────────────────────────────────────────
   Person scruples "the Scruples at their desks" at clerks_hall {
-    Role "clerks of the Balance, writing". Ancestry human. Numbers 1. Peaceable. Pronouns they.
+    Role "who keep the Balance's books". Ancestry human. Numbers 1. Peaceable. Pronouns they.
   }
   Topic scruples_asked with scruples "Ask the clerks at the desks what they are writing" when true once {
     Says "The nearest clerk finishes the line before looking up. 'Promises,' she says. 'As they are kept. A fishwife in the Withies has paid her rent. A ferryman has sworn to his wife on the Tideline Steps that he will not drink, and has drunk, and it is a small thing and the Balance has noted it. A great deal of the city stands on the old instruments without knowing it, you see. We write what is kept and what is not.' She dips her pen. 'Mostly it is not.'".
@@ -87,12 +87,12 @@ Module tessary "What Tessary Owes" {
     On success { Assert sworeToFind(actor). Assert registered(actor). }
     Result "The ruled lines round the walls brighten all along their length, and hold, and fade. The floor under you dips a hair, and steadies. Somewhere far below, something has written it down.".
   }
-  Observe swore_noted near tally when sworeToFind(party) and travelsWith(tally, party) and at(party, antechamber) "'That was held,' says the Assessor, looking at the walls. 'I would not have said if it kills me.'".
+  Observe swore_noted at antechamber when sworeToFind(party) and travelsWith(tally, party) and at(party, antechamber) "'That was held,' says the Assessor, looking at the walls. 'I would not have said if it kills me.'".
 
   // ── Lies to the Assessor ──────────────────────────────────────────────────────────────────────────────────────────
   // The Assessor asked a promise of honesty at the Hall of Oaths; below, it is held.
   Relation askedEmployer(group). Relation keptFaith(group). Relation brokeFaith(group).
-  Observe tally_asks near tally when travelsWith(tally, party) and at(party, antechamber) and hiredBySault(party) and not askedEmployer(party) "On the weighing floor the Assessor stops and turns to you. 'A question,' they say, 'which I should have asked above. Are you in anyone's employ in this matter?'".
+  Observe tally_asks at antechamber when travelsWith(tally, party) and at(party, antechamber) and hiredBySault(party) and not askedEmployer(party) "On the weighing floor the Assessor stops and turns to you. 'A question,' they say, 'which I should have asked above. Are you in anyone's employ in this matter?'".
   Action tell_tally_truth(actor: group, site: place) "Tell the Assessor that Factor Sault hired you to find out who takes the veterans" {
     Speaker tally. Time 0.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, antechamber) and travelsWith(tally, actor)
@@ -163,8 +163,17 @@ Module tessary "What Tessary Owes" {
   Species weight_kind "a Weight" like bronze_construct temperament obedient
     described "A figure of bronze and white stone twice the height of a man, with a pair of scales cast into its chest where a heart would be. It does not move unless something is owed.".
   Person weights "the Weights" at gallery {
-    Role "two bailiffs of bronze and white stone, standing either side of the door". Species weight_kind. Level 6. Numbers 2. Pronouns they.
+    Role "two bailiffs of bronze and white stone, standing either side of the door". Species weight_kind. Level 8. Numbers 2. Pronouns they.
+    Comes "The Weights come down the gallery toward you, not fast, with their bronze hands open: not to strike, to take hold.".
   }
+  // Bailiffs seize; they do not kill. Whoever they take is carried up the Long Stair and put out through the black wall,
+  // which does not open to them again.
+  Initially Assert takesPrisoners(weights).
+  Relation barredBelow(group).
+  Rule weights_captured when captured(weights, party) and at(party, ?p)
+    says "Bronze hands close on you, very gently, the way a careful man picks up something that might break. You are carried, a long way, up the Long Stair, in the dark, and set down on the floor of the Hall of Oaths, and when you turn round there is only the black wall, and it is cold." {
+    Retract captured(weights, party). Retract at(party, ?p). Assert at(party, oath_court). Assert barredBelow(party).
+    Retract assails(weights, party). }
   Initially Assert tolerates(weights, party).
   Initially Assert peaceable(weights).
   Rule weights_seize when forswornParty(party) and at(party, ?p) and at(weights, ?p) and peaceable(weights)

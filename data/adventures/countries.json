@@ -82,6 +82,21 @@
       "among": "independent",
       "rumour": "'West, up on the Ghessil Uplands,' says {keeper}, 'there is a light lies on the glass that slows whatever drinks it. There are people standing in it, they say, that went in last autumn and are standing there yet, alive.'",
       "heard": "West over the march lie the Ghessil Uplands, where a light on the glass slows whatever drinks it, and people stand in it alive since last autumn."
+    },
+    {
+      "id": "tessary",
+      "bundle": "what-tessary-owes/placed.json",
+      "entry": "causeway_end",
+      "marker": "tally",
+      "side": "east",
+      "beside": [
+        "marsh"
+      ],
+      "name": "the Ossel delta",
+      "terrain": "marsh",
+      "among": "independent",
+      "rumour": "'Down the east road, where the marsh meets the sea, there's Tessary on the Ossel,' says {keeper}. 'Their legions came home from the war a week back, and they say some of the soldiers are getting up in the night and walking into the sea. Barefoot, in step, eyes open. An eel-wife there has put up a notice: she'll give her savings to anyone who can tell her where her boy went.'",
+      "heard": "East over the march lies Tessary on the Ossel, where the legions have come home from the war and some of the soldiers walk into the sea at night; an eel-wife there offers her savings for news of her son."
     }
   ]
 }

@@ -9,12 +9,12 @@ Module tessary "What Tessary Owes" {
   Place forum "the Drowned Forum" is room within lowtide at 1, 1 outdoors.
   Place scales_street "the Street of Scales" is room within lowtide at 2, 1 outdoors.
   Place aqueduct_foot "under the Aqueduct" is room within lowtide at 0, 1 outdoors.
-  Place aqueduct_top "on top of the Aqueduct" is room within lowtide at 0, 2 outdoors.
+  Place aqueduct_top "the top of the Aqueduct" is room within lowtide at 0, 2 outdoors.
   Place landing "the ebb-runners' landing" is room within lowtide at 3, 1 outdoors.
   Place bath_house "the bath-house" is building within lowtide.
   Place bath_hall "the bath-house hall" is room within bath_house at 2, 2.
   Place plunge "the plunge-room" is room within bath_house at 3, 2.
-  Place bath_dome "on the bath-house dome" is room within lowtide at 2, 3 outdoors.
+  Place bath_dome "the top of the bath-house dome" is room within lowtide at 2, 3 outdoors.
   Place oath_house "the Hall of Oaths" is building within lowtide.
   Place oath_court "the Hall of Oaths" is room within oath_house at 1, 2.
 
@@ -25,12 +25,12 @@ Module tessary "What Tessary Owes" {
   Passage scales_way "the Street of Scales" is path between forum and scales_street taking 5 minutes.
   Passage aqueduct_way "the lane to the aqueduct" is path between forum and aqueduct_foot taking 5 minutes.
   Passage pier "the broken pier" is passage between aqueduct_foot and aqueduct_top needing climbing or rope
-    opening when lowWater() or at(party, aqueduct_top) "The broken pier stands up out of the sea. The water is over everything below it.".
+    opening when lowWater() "The broken pier stands up out of the sea. The water is over everything below it.".
   Passage landing_way "the quay steps" is steps between scales_street and landing.
   Passage bath_door "the bath-house door" is doorway between scales_street and bath_hall.
   Passage plunge_arch "the plunge-room arch" is arch between bath_hall and plunge.
   Passage dome_stair "the dome stair" is passage between bath_hall and bath_dome
-    opening when lowWater() or at(party, bath_dome) "The dome stair goes down into black water.".
+    opening when lowWater() "The dome stair goes down into black water.".
   Passage hall_steps "the Hall steps" is steps between forum and oath_court.
   Passage runners_tunnel "the ebb-runners' tunnel" is tunnel between landing and cistern taking 20 minutes.
   Initially Assert unlit(plunge). Initially Assert unlit(oath_court).
@@ -199,5 +199,5 @@ Module tessary "What Tessary Owes" {
   }
   Relation registered(group).
   Passage black_wall "the black wall" is passage between oath_court and long_stair
-    opening when travelsWith(tally, party) or weighedAt(party, oath_court) or registered(party) "A plain wall of black stone, warm to the touch, with no door in it.".
+    opening when (travelsWith(tally, party) or weighedAt(party, oath_court) or registered(party)) and not barredBelow(party) "A plain wall of black stone, warm to the touch, with no door in it.".
 }

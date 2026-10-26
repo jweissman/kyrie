@@ -71,8 +71,9 @@ export class Battle {
         // Those who drew it out and waited for it meet it ready.
         const ready = options.ready?.includes(p.creatureId) && Canon.conditions.ready
           ? [{ id: 'ready', remaining: 1, clock: 'until-removed' as const }] : [];
-        return { ...f, statuses: [...f.statuses, ...laws.filter(l => !f.statuses.some(s => s.id === l.id)), ...tired,
-          ...ready],
+        // Each once: a fighter who carries one already (a fight joined from another) does not carry it twice.
+        const fresh = <T extends { id: string }>(list: T[]) => list.filter(l => !f.statuses.some(s => s.id === l.id));
+        return { ...f, statuses: [...f.statuses, ...fresh(laws), ...fresh(tired), ...fresh(ready)],
           ...options.environment ? { environment: options.environment } : {} };
       });
       return new Battle({ id: 'encounter', combatants, abilities: options.abilities ?? Content.abilities },

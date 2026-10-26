@@ -22,7 +22,7 @@
   "exports": {
     "party": "party",
     "region": "ossel",
-    "causeway": "causeway_end"
+    "causeway_end": "causeway_end"
   },
   "experience": 1000
 }
