@@ -20,6 +20,7 @@ Module longman "The Long Man" {
     State afloat "The punt rides at the edge of the reeds.".
     Change launch "Push the punt off the reeds" from beached to afloat needing brawn.
   }
+  Observe punt_looked beside punt_way as event when tried(punt, looking) "She is old and grey with weather, but somebody keeps her: her seams are fresh-tarred, and the pole across the thwarts is new ash.".
   Thing steps_water "the water over the steps" on house_steps is scenery {
     State under blocking "Below the Water-House door, steps go down into the lake, and the lake closes over them.".
     State drawn "The steps go down from the Water-House door into a street of grey houses, wet and shining.".
@@ -41,6 +42,7 @@ Module longman "The Long Man" {
     State lifted "The oak bar leans against the wall beside the open door.".
     Change lift "Lift the bar from the door" from barred to lifted at drowned_street.
   }
+  Observe bar_looked beside last_door as event when tried(last_bar, looking) "The oak is black with the water, not with age, and the brackets are on the street side: whoever barred this door meant it to stay shut from outside.".
   Observe last_house_scene at last_house when true "One room. A table is laid for four, with bowls, a jug, and bread gone to grey stone. Nothing has been moved but by the water.".
   Observe tally_seen at last_house when true "Down the door-post runs a tally of days, cut neat and even. It stops at forty-one." teaches last_count.
   Discovery last_count "The last house of the drowned town was barred from outside, with its table laid for a meal. The tally of days on its door-post stops at forty-one, the same count as the last notches in the keeper's niche. The Hesk meant to come back.".
@@ -48,6 +50,7 @@ Module longman "The Long Man" {
     State still "On the sill sits a child's toy, a little bell of grey weirstone no bigger than a fist.".
     Tries pushing.
   }
+  Observe bell_looked near toy_bell when tried(toy_bell, looking) "A little bell of grey weirstone, cut, not cast. Its clapper is a pebble of bronze on a thread of gut gone as hard as wire.".
   Event bell_answered near toy_bell when tried(toy_bell, pushing) "It rings, clear and long. Far off, under the hill, something rings back, once." then {
     Assert rung(toy_bell).
   }
@@ -66,6 +69,7 @@ Module longman "The Long Man" {
     State turned "The great wheel has been turned its full round; somewhere below, water is going out with a long sigh.".
     Change turn "Set the rod in the socket and turn the great wheel" from set to turned needing sluice_rod.
   }
+  Observe wheel_looked near wheel when tried(wheel, looking) "The great wheel is grey as the wall and taller than a man. In its hub is a square socket, its edges notched in a close pattern, made for something that is not here.".
   Measure drawsAt(place).
   Rule draw_begins when state(wheel, turned) and drawsAt(hollow) == 0 { Set drawsAt(hollow) to watch(clock). Increase drawsAt(hollow) by 12. }
   Rule lake_drawn when state(wheel, turned) and drawsAt(hollow) > 0 and watch(clock) >= drawsAt(hollow) and not drawn(hollow)

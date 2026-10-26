@@ -166,6 +166,10 @@ Module longman "The Long Man" {
     State empty "Nothing hangs on the hook by the study door.".
   }
   Item key "the steward's iron key" is cell_key in key_hook owned by venn.
+  // What a close look finds, of the things in the dale and the Hall (no try of them goes unanswered).
+  Observe cart_looked near cart when tried(cart, looking) "The cart is built for more than wool: its axle would carry a millstone. Under the edge of the tarpaulin the bed is gouged pale, where something heavy and hard has been dragged in and out.".
+  Observe chest_looked near cellar_chest when tried(cellar_chest, looking) "An old wine-barrel with its head set back loose. The top staves are bright where hands have been at them lately, and one is smeared with green, like the green on old bronze.".
+  Observe hook_looked near key_hook when tried(key_hook, looking) "A plain iron hook by the study door, worn bright where a ring has hung from it for years.".
   Rule venn_sleeps when dark() and state(key_hook, worn) and not lends(venn, key, ?c) { Assert state(key_hook, hung). }
   Rule venn_wakes when not dark() and state(key_hook, hung) and not lends(venn, key, ?c) and inside(key, key_hook) { Assert state(key_hook, worn). }
   // The hook says what hangs on it: once the key is gone, nothing does.
@@ -343,6 +347,7 @@ Module longman "The Long Man" {
   Thing hold "the Heron's hold" at downriver {
     Holds.
   }
+  Observe hold_looked near hold when tried(hold, looking) "The Heron's hold is open to the sky and wet underfoot. There is room in it for a good deal more than wool, and the boards are scored where something heavy was stowed and taken out again.".
   Rule cass_comes when watch(clock) >= 168 and watch(clock) < 204 and at(cass, downriver) { Assert at(cass, landing). Assert at(hands, landing). Assert at(hold, landing). }
   Rule cass_goes when watch(clock) >= 204 and at(cass, landing) and able(cass) { Assert at(cass, downriver). Assert at(hands, downriver). Assert at(hold, downriver). }
   Observe heron_scene at landing when at(cass, landing) "The barge Heron lies at the landing, low in the water, with a brown sail furled and two bargemen sitting on the hatch.".
@@ -356,5 +361,6 @@ Module longman "The Long Man" {
     State open "The iron grate stands open on its hinges.".
     Change unlock "Unlock the grate with the steward's key" from locked to open needing key.
   }
+  Observe grate_looked beside culvert as event when tried(grate, looking) "New iron in old stone, a thousand years apart. The hinges are greased, and the mud at the foot of the grate has been walked through, lately, in boots.".
   Initially Assert keyholder(venn, grate).
 }

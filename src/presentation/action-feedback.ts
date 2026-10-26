@@ -16,6 +16,12 @@ export interface ActionFeedback {
 }
 export class ActionFeedbackView {
   static readonly probes = ['look_closely', 'prod', 'pry', 'burn', 'push', 'listen', 'search'];
+  // What a try that finds nothing says, in the words of the try (the cold playtest heard "Nothing comes of it." from
+  // a speaking door, a mural and a casket alike, and stopped looking at things).
+  static readonly nothing: Record<string, string> = { look_closely: 'Looked at closely, it is just as it seems.',
+    listen: 'There is nothing to hear from it.', prod: 'Nothing gives, and nothing answers.',
+    pry: 'The bar finds no purchase, and nothing gives.', push: 'It does not shift, either way.',
+    burn: 'It does not take the flame.', search: 'You find nothing out of the ordinary.' };
   // A recovery that removes a status the member never had is not news.
   private static lacked(before: PlayerSnapshot, target: string, status: string): boolean {
     const member = before.party.find(p => p.id === target);
@@ -114,7 +120,7 @@ export class ActionFeedbackView {
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
     const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && !learned.length && !changed.length
       && !combat.length && !(event.perceptions ?? []).some(p => p.kind === 'event');
-    const nothing = quiet ? ` ${action.schema === 'search' ? 'You find nothing out of the ordinary.' : 'Nothing comes of it.'}` : '';
+    const nothing = quiet ? ` ${ActionFeedbackView.nothing[action.schema ?? ''] ?? 'Nothing comes of it.'}` : '';
     // Who came at the company is told between the fights, not before the first.
     const response = split ? undefined : event.response;
     const result = response ? `${response}${nothing}` : battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :

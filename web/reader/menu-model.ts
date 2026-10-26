@@ -111,11 +111,12 @@ export class MenuModel {
   // beside the dog, "Make much of" is "Make much of Fly".
   static said(menu: Menu, choice: Choice): string {
     const subject = menu.scene?.subjects.find(s => this.holds(s.choices, choice.id));
-    if (!subject || choice.label.includes(subject.name)) { return choice.label; }
-    const ask = /^(Ask|Tell|Show|Offer|Give|Pay) (about|what|why|how|if|for|whether|that|where|who)\b/
-      .exec(choice.label);
-    if (ask) { return choice.label.replace(/^(\w+) /, `$1 ${subject.name} `); }
-    return /^\w+( \w+)?( of| at| to| with)?$/.test(choice.label) ? `${choice.label} ${this.inline(subject.name)}` : choice.label;
+    const label = Words.shown(choice.label);
+    if (!subject || label.includes(subject.name)) { return label; }
+    const ask = /^(Ask|Tell|Show|Offer|Give|Pay) (about|what|why|how|if|for|whether|that|where|who)\b/.exec(label);
+    if (ask) { return label.replace(/^(\w+) /, `$1 ${subject.name} `); }
+    if (label === 'Look closely') { return `Look closely at ${this.inline(subject.name)}`; }
+    return /^\w+( \w+)?( of| at| to| with)?$/.test(label) ? `${label} ${this.inline(subject.name)}` : label;
   }
   private static holds(choices: Choice[], id: string): boolean {
     return choices.some(c => c.id === id || (c.children ? this.holds(c.children, id) : false));

@@ -3,6 +3,7 @@ import type { Choice } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
 import type { View } from '../menu-model';
 import { Typography } from '../../../src/presentation/typography';
+import { Words } from '../words';
 
 // What every choice on the stage is drawn by: one button, known by the engine's command through its place in the
 // menu (data-index), marked when the keys are on it, saying what it opens when it opens something. Its look is the
@@ -22,7 +23,7 @@ export class Act {
       <button type="button" className={classes} data-action="choice" data-choice={c.id} data-index={i}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
         aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)}>
-        {children ?? <>{Typography.curl(c.label)}{c.note && <span className="note">{Typography.curl(c.note)}</span>}</>}
+        {children ?? <>{Typography.curl(Words.shown(c.label))}{c.note && <span className="note">{Typography.curl(c.note)}</span>}</>}
         {c.disabled && <span className="why">{Typography.curl(c.disabled)}</span>}
         {c.about && (c.risk || c.grave) && !children && <span className="about">{Typography.curl(c.about)}</span>}
         {c.grave && s.confirming === c.id && <span className="grave-said" role="alert">

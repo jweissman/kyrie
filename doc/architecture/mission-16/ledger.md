@@ -29,6 +29,16 @@ Played from the title page at 1280 × 860:
 
 ## Done and verified
 
+- **C. No empty answers in the principal expedition.** Thirteen of The Long Man's things offered a try with nothing
+  written for it: about thirty-five answers of "Nothing comes of it.", in the expedition the brief singles out. Each
+  now answers a close look in the adventure's own words: texture, and fair clues where the design has them (the
+  barrel's staves smeared bronze-green, the wheel's socket "made for something that is not here", the grate's mud
+  walked through in boots). Elsewhere, a try that finds nothing says so in the words of the try ("There is nothing
+  to hear from it"; "It does not shift, either way").
+
+  A heading of tries with one try under it is shown as that try ("Look closely", not "Examine — Look closely"). Its
+  label stays as it is, since four adventures' journeys name it.
+
 - **C. A fight told truly** (the cold playtest's finding 3, met again in free play: Sefa and her brother against a
   toll sergeant).
   - The ending names everyone who fell, the one the player made first, and counts both sides ("one against two"),

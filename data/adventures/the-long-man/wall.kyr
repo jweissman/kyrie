@@ -32,6 +32,7 @@ Module longman "The Long Man" {
     State unbarred "The bar is off the door in the broken wall, and it stands a hand's width open on the dark.".
     Change lift "Lift the oak bar off the door in the broken wall" from barred to unbarred at cellar.
   }
+  Observe door_looked beside broken_wall as event when tried(cellar_door, looking) "New planks, hung in a hole knocked through grey stone that was never meant to be broken: the stone is cracked for a yard round the hole, the way ice cracks.".
   Initially Assert keyholder(venn, cellar_door).
   // Shut in behind a barred door, a company can always make itself heard: at a price.
   Action hammer_door(actor: group, site: place) "Hammer on the door until someone in the cellar hears" {
@@ -101,6 +102,8 @@ Module longman "The Long Man" {
     State mended "The bronze shutter is closed across the crack, every socket of its wheel filled.".
     Change heave "Heave the shutter's wheel round and close it" from fitted to mended needing brawn.
   }
+  Observe shutter_looked near leak_gate when tried(leak_gate, looking) and state(leak_gate, jammed) "Each of the twelve sockets is shaped for one of the bell-teeth, and each is bright at its edges where a bar went in and levered the tooth out. Water beads along the crack behind the shutter and runs down into the clay.".
+  Observe shutter_seen near leak_gate when tried(leak_gate, looking) and not state(leak_gate, jammed) "Bronze, green with age, on a wheel of twelve sockets; behind it, the crack in the clay core, darker than the clay round it.".
   Action fit_teeth(actor: group, carrier: member, site: place) "Fit the bell-teeth back into the shutter's wheel" {
     Description "Twelve sockets, twelve teeth. They go in with a sound like a bell.".
     Requires able(actor) and company(actor) and at(actor, site) and at(leak_gate, site) and state(leak_gate, jammed)
@@ -128,6 +131,7 @@ Module longman "The Long Man" {
     Change open_it "Turn the small wheel and open the bottom sluice" from shut to open needing brawn.
     Change shut_it "Turn the small wheel home and shut the bottom sluice" from open to shut needing brawn.
   }
+  Observe sluice_looked near bottom_sluice when tried(bottom_sluice, looking) "A shutter of grey stone in a groove, worked by the small wheel. The groove is worn as smooth as the font: it has gone up and down ten thousand times, and the last time not long ago.".
   Thing culvert_water "the water in the culvert" on culvert is scenery {
     State low "The beck runs ankle-deep along the culvert floor.".
     State high blocking dangerous "The culvert is full to the roof with fast brown water.".

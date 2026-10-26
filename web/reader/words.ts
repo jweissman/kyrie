@@ -58,6 +58,15 @@ export class Words {
     const halves = Math.round(minutes / 30), hours = Math.floor(halves / 2), half = halves % 2 ? '½' : '';
     return `about ${hours}${half} hour${hours === 1 && !half ? '' : 's'}`;
   }
+  // How a choice is shown: a heading of tries with one try under it is that try ("Examine — Look closely" is "Look
+  // closely"; "look at the iron grate — Look closely" is "Look closely at the iron grate"). Its label stays as it is
+  // for those who name it in a journey.
+  static shown(label: string): string {
+    const lone = /^Examine — (.+)$/.exec(label)?.[1];
+    if (lone) { return lone; }
+    const at = /^[Ll]ook at (.+) — Look closely$/.exec(label)?.[1];
+    return at ? `Look closely at ${at}` : label;
+  }
   // A thing without its article, as a list names it: "a torch" is "torch".
   static bare(name: string): string { return name.replace(/^(a|an|the|some) /i, ''); }
   // How many of a thing, in words: "three torches", "two sacks of bell-teeth".
