@@ -146,10 +146,12 @@ describe('family', () => {
 describe('what people know by their work', () => {
   it('someone who works by the water says where the willow grows, and it does', async () => {
     const { w, s } = await Settled.start('herbs'), region = Settled.region(w);
-    await Settled.act(s, /_green\)$/);
-    const ask = PlayerView.choices(s.campaign).find(c => / where willow grows$/.test(c.choice.name));
-    if (!ask) { return; }
-    const told = await s.perform(ask.choice.id);
+    // Sought among the country's people, not assumed on the first green: it returned early there, having tested nothing
+    // (the review of 483e3af).
+    const ask = await Settled.find(s, region.settlements.flatMap(t => Communities.plan(region, t).residents),
+      / where willow grows$/);
+    expect(ask).toBeDefined();
+    const told = await s.perform(ask!.choice.id);
     const said = told.response ?? '';
     const named = RegionGrowth.places(region).filter(p => said.includes(p.name));
     expect(named.length).toBeGreaterThan(0);

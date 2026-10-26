@@ -247,9 +247,14 @@ export class Narrator {
     const said = new Set(unique.map(l => l.text));
     const notes = [...feedback.resources.map(r => this.resource(r)), ...(spoken.length ? []
       : feedback.discoveries.filter(d => !said.has(d)).map(d => `Noted: ${this.gist(d)}`))];
-    return { ...told.said ? { said: told.said } : {}, lines: this.tidy(unique, fight), notes,
-      tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' };
+    const begun = event.cut && campaign.operator(event.action)?.name;
+    return { ...told.said ? { said: begun ? Narrator.begun(begun) : told.said } : {},
+      lines: this.tidy(unique, fight), notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' };
   }
+  // An activity broken off is told as begun, not done, in its own words (a heading's choice may have no verb: "Until
+  // first light"), and what broke it off follows. "You wait until first light" was told at night, the wait cut short
+  // by the storm.
+  static begun(name: string): string { return `Begin to ${name.charAt(0).toLowerCase()}${name.slice(1)}`; }
   // Tidied lines keep the kind of the line they were made from ("Wenna takes 7 slashing damage (8 HP left)" is
   // the event it was); one made of several (two who each gain experience) is an event.
   private static tidy(lines: ExchangeLine[], fight: boolean): ExchangeLine[] {

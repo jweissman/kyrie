@@ -312,7 +312,7 @@ export class Campaign implements WatchHost {
     this.updateOutcome();
     const event: CampaignEvent = { action: action.id, elapsed: this.current.elapsed, result: success ? 'success' : 'failure',
       changes: CampaignTick.diff(before, after), combat: combat.filter(e => e.visibility !== 'private'),
-      ...(response ? { response } : {}),
+      ...(response ? { response } : {}), ...(interrupted ? { cut: true as const } : {}),
       ...(this.definition ? { npc } : {}) };
     if (causal) {
       event.resolution = CommandResolutions.receipt(action,

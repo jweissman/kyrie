@@ -11,7 +11,7 @@ export class Words {
     const day = Number(/^Day (\d+)/.exec(FictionalTime.at(elapsed))?.[1] ?? 1);
     return `${this.upper(FictionalTime.part(elapsed))}, the ${this.ordinals[day - 1] ?? `${day}th`} day`;
   }
-  static readonly verbs = new Set(['ask', 'tell', 'pay', 'buy', 'sell', 'take', 'give', 'read', 'search', 'wait',
+  static readonly verbs = new Set(['begin', 'ask', 'tell', 'pay', 'buy', 'sell', 'take', 'give', 'read', 'search', 'wait',
     'look', 'open', 'close', 'shut', 'pick', 'wrench', 'attack', 'scatter', 'approach', 'toss', 'show', 'address',
     'light', 'use', 'equip', 'make', 'rest', 'speak', 'follow', 'climb', 'examine', 'puzzle', 'turn', 'pin', 'lash',
     'brace', 'set', 'return', 'enter', 'leave', 'hide', 'bribe', 'offer', 'call', 'go', 'walk', 'lift', 'drop',

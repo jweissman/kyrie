@@ -77,8 +77,8 @@ describe('wild country', () => {
     const { s } = await Wood.start();
     GeneratedWorld.put(s, 'z3_edge');
     await s.perform('wait');
-    await Wood.take(s, /to the charcoal-burners' clearing$/);
-    await Wood.take(s, /to the old bank$/);
+    await Wood.take(s, /to the charcoal-burners' clearing in Eikwudu$/);
+    await Wood.take(s, /to the old bank( in Eikwudu)?$/);
     expect(s.campaign.world.one('at', 'party')).toBe('region__z3_deep');
     // Where a trail runs there is no striking out across instead.
     expect(Wood.ways(s).some(n => /^Strike out across Eikwudu toward the charcoal/.test(n))).toBe(false);
@@ -98,12 +98,15 @@ describe('wild country', () => {
     expect(s.campaign.world.one('at', 'party')).toBe('region__z3_edge');
   }, 120000);
   it('lets whoever has climbed somewhere with a view keep their bearings', async () => {
-    const { w, zone, s } = await Wood.start();
-    const view = RegionZones.landmarks(w.report.region, zone).find(l => l.view);
-    if (!view) { return; }
-    GeneratedWorld.put(s, view.id);
+    const { w, s } = await Wood.start(), region = w.report.region;
+    // A wild country of the region with somewhere to look out from, found, not assumed: this test returned early when
+    // the wood it named had none, having tested nothing (the review of 483e3af).
+    const zone = region.atlas!.zones.find(z => RegionZones.landmarks(region, z).some(l => l.view));
+    const view = zone && RegionZones.landmarks(region, zone).find(l => l.view);
+    expect(view).toBeDefined();
+    GeneratedWorld.put(s, view!.id);
     await s.perform('wait');
     await Wood.take(s, /^Climb up and look out over/);
-    expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', `region__${zone.id}_mapped`))).toBe(true);
+    expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', `region__${zone!.id}_mapped`))).toBe(true);
   }, 60000);
 });

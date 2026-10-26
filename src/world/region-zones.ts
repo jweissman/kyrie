@@ -65,11 +65,19 @@ export class RegionZones {
         water: river.naming.name });
     }
     out.push(...this.sides(zone, region, out));
-    const from = this.from(region, zone).name;
+    const from = this.from(region, zone).name, taken = this.taken(region, zone);
     const named = out.map(l => ({ ...l, name: this.fill(l.name, { zone: name, river: l.water ?? '', from: l.side ?? from }),
-      scene: this.fill(l.scene, { zone: name, river: l.water ?? '', from: this.upper(l.side ?? from) }) }));
+      scene: this.fill(l.scene, { zone: name, river: l.water ?? '', from: this.upper(l.side ?? from) }) }))
+      // A name another wild country of the region has already is said with its own (two woods' old banks: the willow
+      // was "along the old bank", and the region had two).
+      .map(l => taken.has(l.name) ? { ...l, name: `${l.name} in ${name}` } : l);
     cache.set(zone.id, named);
     return named;
+  }
+  // The names the wild countries drawn before this one have given their landmarks.
+  private static taken(region: Region, zone: Wilds): Set<string> {
+    const zones = RegionGeography.atlas(region).zones;
+    return new Set(zones.slice(0, zones.indexOf(zone)).flatMap(z => this.landmarks(region, z).map(l => l.name)));
   }
   // An edge of its own where a way comes in from a road or a settlement with no landmark near: the country's cell
   // nearest where the way starts, known by the settlement it faces.

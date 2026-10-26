@@ -42,11 +42,11 @@ noted beside the finding it answers, and is not itself a finding until play call
 | COR-10 | `{?x}` printed; an observation near a variable taught nothing | R25 item 4; AUD-F5 | Fixed | M15 0efdc56; `authorability-probes` |
 | COR-11 | Two changes worded alike: only the first offered | AUD-F7; PS-7 | Fixed | M15; `patient-probes` P4 |
 | COR-12 | Presentation inside the authority boundary (perception decided by presentation code; prose stored in the log) | R25-B1; R26 | Open (deferred within D) | Architectural; no player-visible defect traced to it this mission. Brought forward if a defect is |
-| COR-13 | A wait cut short is told as done ("You wait until first light", at night) | M16 | Open (A) | The action contract: a result agrees with what happened |
+| COR-13 | A wait cut short is told as done ("You wait until first light", at night) | M16 | Fixed | The engine marks an activity broken off by what came (`cut` on the event); it is told as begun in the action's own words ("You begin to wait until first light."), and what broke it off follows. `test/broken-off.test.ts` (the standalone Long Man's storm cuts a long watch) |
 | COR-14 | Every offered action keeps state valid, its actor and costs truthful, its result non-empty and true | OWN (II) | Open (A) | The autoplay laboratory's invariants over varied seeds and tempers, with every failure kept and shrunk |
 | COR-15 | Choices grounded afresh in every new world (22 ms in the frontier) | M15 | Deferred | Throughput is not yet the limit on play; revisit with the laboratory's numbers (F) |
-| COR-16 | `test/smoke-deem.sh` fails in its own verify step | M15 | Open (A) | Runs, or is removed with its reason |
-| COR-17 | Two vacuous tests (`community.test.ts:151`, `wild-country.test.ts:103`) | R25 | Open (A) | Each asserts what it claims |
+| COR-16 | `test/smoke-deem.sh` fails in its own verify step | M15 | Fixed | Its proof stepped every other fighter with "defend", which not every fighter has, and then let level-20 opponents kill the creature before its turn; they now hold back (defend, or act on themselves). The script passes |
+| COR-17 | Two vacuous tests (`community.test.ts:151`, `wild-country.test.ts:103`) | R25 | Fixed | Each returned early in its seed, so neither had ever tested anything. Both now seek what they test (a willow-teller among the country's people; a wild country with a lookout) and assert it. The willow test then found a real fault: two wild countries' landmarks both called "the old bank" (NAV-04) |
 | COR-18 | Tests teleport rather than journey | R25-H1; R26 | Partial | The autoplay laboratory plays only offered commands; this mission's new specs walk where they can (`test/weary-fights.test.ts` walks by the world's own passages). Open: an audit of the teleporting specs (F) |
 
 ## 2. Navigation and geography (NAV)
@@ -56,7 +56,7 @@ noted beside the finding it answers, and is not itself a finding until play call
 | NAV-01 | Too much wandering among towns without finding opportunities | OWN | Open (B) | The starting region's density: an ordinary player meets several kinds of opportunity within a short walk; measured by the laboratory's wanderer and by play |
 | NAV-02 | A chosen intention has no place of its own among the ways | OWN | Open (B) | "Toward your destination": the next leg of an accepted undertaking set apart from local ways and roads out |
 | NAV-03 | Ways sorted by time, so the gauge shaft and the Hall lane are among the roads out | M16 | Open (B) | A road out is a way that leaves the place's site or settlement |
-| NAV-04 | Two places with one name (two roads "through Dorontaurelin"; two bridges over the Karnahar) | M16; CP-10; RD-B4 | Open (B) | Names distinct within a country, or told apart by what is beyond |
+| NAV-04 | Two places with one name (two roads "through Dorontaurelin"; two bridges over the Karnahar; two "old banks") | M16; CP-10; RD-B4; COR-17 | Partial | A landmark whose name an earlier wild country has is said with its own ("the great oak in Pharaiyaar"); a road whose proper name an earlier road has is told by where it goes ("the road through Lithtaur toward Tussaosta"); no seed of six keeps a duplicate road. Open (B): two people of one name in one place (Erevan and Erevan), exits to places named alike (RD-B4) |
 | NAV-05 | The map draws the south road hanging from the Drowned Ox; labels cut on a phone | M16 | Open (B/XI) | The map drawn from the places' own geometry, legible at 390 px |
 | NAV-06 | The generated mine's galleries give shelter "outdoors" | M15 | Open (B) | Underground places report underground |
 | NAV-07 | The road across a march told from the far country's terrain list | M16 | Open (B) | The land between told by what it is |
@@ -104,7 +104,7 @@ noted beside the finding it answers, and is not itself a finding until play call
 | NAR-13 | Something heard of and since taken stays "heard, not yet seen" | M16 | Open (D) | |
 | NAR-14 | Exceptional events in the ordinary register (a body found, a betrayal, a revelation) | M16; OWN | Partial | Chapter ends, levels, deaths set apart (M16). Open (D): authored forms for the rest |
 | NAR-15 | The feverwort given as "healing herbs" | M16 | Open (D) | |
-| NAR-16 | The riddle "I always was, yet never will be" answered "Tomorrow" | CP-5 | Open (A) | Every riddle checked against its answer |
+| NAR-16 | The riddle "I always was, yet never will be" answered "Tomorrow" | CP-5 | Fixed | All 60 of Orsino's riddles read through: that one answered "Yesterday", and five that ask what another already asks left out (two lights, two silences, two stamps, two colds, and the hurricane beside the needle's eye), in an editor's layer of the generator (`OrsinoWorld.corrected`, `.repeated`) so regenerating keeps them. `test/riddles.test.ts` |
 | NAR-17 | Independent undertakings must leave traces and reports | OWN; CP-8 | Partial | The brothers (M16 3491ecd). Open (X): other world processes |
 
 ## 5. Presentation (PRE)

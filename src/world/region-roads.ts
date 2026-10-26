@@ -38,9 +38,19 @@ export class RegionRoads {
   static time(minutes: number): string {
     return minutes % 60 === 0 ? `${minutes / 60} hour${minutes === 60 ? '' : 's'}` : `${minutes} minutes`;
   }
+  // What a road and its land are called. Two roads through one wood, or over one river, are told apart by where they
+  // go (the M16 free play read two ways out of Marirkom alike to the letter: "To the bridge over the Karnahar"); a
+  // plain "the road" is no one's name, and is left as it is.
+  static names(road: Road, region: Region): WayNames {
+    const own = this.own(road, region), roads = RegionGeography.roads(region);
+    const before = roads.slice(0, roads.findIndex(r => r.way === road.way)).map(r => this.own(r, region));
+    const [way, on, out] = (['way', 'on', 'out'] as const).map(key => /\p{Lu}/u.test(own[key])
+      && before.some(b => b[key] === own[key]) ? `${own[key]} toward ${road.to.name}` : own[key]);
+    return { ...own, way: way!, on: on!, out: out! };
+  }
   // What a road and its land are called, and how it looks, by what it crosses or runs through. Each half of it is
   // walked both ways, so it is named for neither end: the Karavor road, taken up from Gothgiba or down to Muzgkom.
-  static names(road: Road, region: Region): WayNames {
+  private static own(road: Road, region: Region): WayNames {
     const { from, to, form } = road, name = form?.name ?? '';
     const draw = new Draw(`${road.way}:prose`), bridge = road.route.crossings[0]?.kind === 'bridge';
     switch (form?.form) {

@@ -36,11 +36,17 @@ class Proof {
       const opponents = ['left', 'right'].map(id => CombatProjection.fighter(new Content('targets')
         .createCreature(id, { raceId: 'human', classId: 'warrior', level: 20 }), 'goblins'));
       const battle = new Battle({ id: 'proof', combatants: [actor, ...opponents], abilities: Content.abilities }, 'proof');
+      // Whoever acts before it holds back: defends where it can, or does something to itself (not every fighter has a
+      // "defend"), so the creature proven is still standing when its turn comes.
       while (battle.state.actor !== actor.id && !battle.state.outcome) {
-        battle.step(battle.legalCommands().find(command => command.ability === 'defend')!);
+        const legal = battle.legalCommands();
+        battle.step(legal.find(x => x.ability === 'defend') ?? legal.find(x => x.target === x.actor) ?? battle.chosen());
       }
       const command = battle.legalCommands().find(command => command.ability === (c.action === 'attack' ? actor.equipment.weapon.missile ? 'ranged' : 'melee' : c.action));
-      if (!command) { throw new Error(`Generated capability is unavailable: ${c.action}`); }
+      if (!command) {
+        throw new Error(`Generated capability is unavailable: ${c.action} (${c.id}: ${battle.state.outcome ?? 'its turn'}; `
+          + `${battle.legalCommands().map(x => x.ability).join(', ')})`);
+      }
       battle.step(command);
       battle.close();
       return { parameters: c.parameters, commandLine: `deem run --seed public-cli --type ${c.id}`

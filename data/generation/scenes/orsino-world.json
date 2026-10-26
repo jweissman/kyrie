@@ -2352,13 +2352,6 @@
     "source": "riddle:medium#3"
    },
    {
-    "question": "What can fill a room but takes up no space?",
-    "answer": "Light",
-    "kind": "phenomenon",
-    "level": "medium",
-    "source": "riddle:medium#4"
-   },
-   {
     "question": "What is seen in the middle of March and April that can't be seen at the beginning or end of either month?",
     "answer": "R",
     "kind": "letter",
@@ -2443,20 +2436,6 @@
     "source": "riddle:medium#16"
    },
    {
-    "question": "What is so fragile that saying its name breaks it?",
-    "answer": "Silence",
-    "kind": "abstract_concept",
-    "level": "medium",
-    "source": "riddle:medium#17"
-   },
-   {
-    "question": "What can travel around the world while staying in the same spot?",
-    "answer": "Stamp",
-    "kind": "small_object",
-    "level": "medium",
-    "source": "riddle:medium#18"
-   },
-   {
     "question": "What has one eye but can't see?",
     "answer": "Needle",
     "kind": "small_object",
@@ -2485,20 +2464,6 @@
     "source": "riddle:medium#22"
    },
    {
-    "question": "What has an eye but cannot see?",
-    "answer": "Hurricane",
-    "kind": "phenomenon",
-    "level": "medium",
-    "source": "riddle:medium#23"
-   },
-   {
-    "question": "What can you catch but not throw?",
-    "answer": "Cold",
-    "kind": "abstract_concept",
-    "level": "medium",
-    "source": "riddle:medium#24"
-   },
-   {
     "question": "What breaks but never falls?",
     "answer": "Day",
     "kind": "abstract_concept",
@@ -2514,7 +2479,7 @@
    },
    {
     "question": "I always was, yet never will be.",
-    "answer": "Tomorrow",
+    "answer": "Yesterday",
     "kind": "abstract_concept",
     "level": "medium",
     "source": "riddle:medium#27"

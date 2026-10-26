@@ -88,12 +88,20 @@ export class OrsinoWorld {
       return fits ? [[id, Math.max(1, Math.round(item.value))] as [string, number]] : [];
     }).sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0])).slice(0, 8);
   }
+  // An editor's hand on Orsino's riddles, read through: an answer the riddle contradicts, put right (what always was
+  // and never will be is yesterday; the cold playtest was asked for "Tomorrow"), and riddles that ask what another
+  // already asks, left out, so one world does not ask the same thing twice in other words.
+  static readonly corrected: Record<string, string> = { 'I always was, yet never will be.': 'Yesterday' };
+  static readonly repeated = new Set(['What can fill a room but takes up no space?',
+    'What is so fragile that saying its name breaks it?', 'What can travel around the world while staying in the same spot?',
+    'What can you catch but not throw?', 'What has an eye but cannot see?']);
   private riddles(): WorldTables['riddles'] {
     return Object.fromEntries(this.family('riddle').map(e => [e.key, ((e.definition as Raw[]) ?? [])
       .filter(r => /^[\p{L} ,'?.!-]+$/u.test(String(r.question)))
-      .map((r, n) => ({ question: String(r.question), answer: String(r.answer), kind: String(r.answer_type),
-        level: e.key,
-        source: `riddle:${e.key}#${n}` }))]));
+      .map((r, n) => ({ question: String(r.question),
+        answer: OrsinoWorld.corrected[String(r.question)] ?? String(r.answer), kind: String(r.answer_type),
+        level: e.key, source: `riddle:${e.key}#${n}` }))
+      .filter(r => !OrsinoWorld.repeated.has(r.question))]));
   }
   private dungeon(): DungeonTables {
     const overlays = Object.fromEntries(this.family('roomOverlay').map(e => {

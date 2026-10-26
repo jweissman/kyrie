@@ -50,7 +50,7 @@ describe('the map', () => {
       await s.perform(c.choice.id);
     }
     const region = ScreenModel.build(s.campaign).region!, land = region.land!;
-    const clearing = land.marks.find(m => m.name === 'the charcoal-burners\' clearing')!;
+    const clearing = land.marks.find(m => m.name.startsWith('the charcoal-burners\' clearing'))!;
     expect(clearing).toMatchObject({ kind: 'landmark', visited: true, here: true });
     expect(land.here).toBe(clearing.cell);
     // The old bank is known of, from the edge of the wood, but not yet been to.
