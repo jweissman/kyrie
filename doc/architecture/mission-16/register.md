@@ -136,9 +136,9 @@ noted beside the finding it answers, and is not itself a finding until play call
 | ID | Finding | Source | Disposition | Evidence, or phase and acceptance |
 |---|---|---|---|---|
 | ADV-01 | Every completed adventure installed and discoverable in one continuing world | OWN (XIII) | Open (E) | Inventory, placement, leads, entry, validation, per adventure |
-| ADV-02 | What Tessary Owes assessed and integrated by play | OWN (IX) | Open (E) | |
-| ADV-03 | An ending in a placed country closes the whole game | LW-13; TS-E2 | Partial | Tessary's branch carries chapters; to be merged and verified (E) |
-| ADV-04 | A company that does not grow in an adventure that is not fought through | TS-E1; RD | Partial | Tessary's branch carries milestones; to be merged and verified (E) |
+| ADV-02 | What Tessary Owes assessed and integrated by play | OWN (IX) | Fixed | Merged (cbe56e7, 73658f8) with its engine changes: milestones, chapters, the frontier's guard on marches told of. Placed east of a fen's first country, its rumour told by every innkeeper there, and its causeway entered by the road across the march (`test/what-tessary-owes.test.ts`); played through by its own journeys, resumed from a save mid-way, and wandered (`test/what-tessary-owes-wander.test.ts`, `test/what-tessary-owes-browser.test.ts`). Its friction list is worked through as the AUT rows below |
+| ADV-03 | An ending in a placed country closes the whole game | LW-13; TS-E2 | Fixed | A country placed beyond a march is installed as a chapter: its ending is told and reached, and the world goes on (`test/milestones.test.ts`; Tessary's city is still there after the Settlement, `test/what-tessary-owes.test.ts`) |
+| ADV-04 | A company that does not grow in an adventure that is not fought through | TS-E1; RD | Fixed | `Milestone … worth N when …`: experience the first time it is achieved, and only then, said for what it was (`test/milestones.test.ts`). Used by Tessary; other adventures to adopt it where they are seen through without fighting (E) |
 | ADV-05 | An authored country placed in a world tells of its own protagonist | M15 | Open (E) | The Patient Star's threads |
 | ADV-06 | Names shared between adventures found only by hand | TS-W25 | Open (E) | A lint over proper names across modules |
 
