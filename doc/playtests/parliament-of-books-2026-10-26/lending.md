@@ -12,7 +12,7 @@ The Hithe quay is cobbled and wet and loud. Eel-boats lie two and three deep at 
 
 **By the door under the lantern, to the Lamb's taproom**
 
-The tavern under the painted lantern on the Hithe quay is the Lamb and Lantern, Moll Garrow’s. Over the bar a board says THE LAMB AND LANTERN, M. GARROW, and under it in smaller letters NO BOOKS READ ALOUD AFTER TEN. A low taproom, smoky, with a long table and benches and a fire you could stand up in. Eel-men and millhands at the table; a cat on the hearth; a board of chalked prices. By the chimney, on a nail at head height, hangs a penny almanack, soft as cloth with handling, curling a little in the heat. Here are Moll Garrow, the innkeeper of the Lamb and Lantern; and the Almanack, a penny almanack, one voice in three thousand kitchens.
+The tavern under the painted lantern on the Hithe quay is the Lamb and Lantern, Moll Garrow’s. Over the bar a board says THE LAMB AND LANTERN, M. GARROW, and under it in smaller letters NO BOOKS READ ALOUD AFTER TEN. A low taproom, smoky, with a long table and benches and a fire you could stand up in. Eel-men and millhands at the table; a cat on the hearth; a board of chalked prices. By the chimney, on a nail at head height, hangs a penny almanack, soft as cloth with handling, curling a little in the heat. On the settle by the window somebody has left a little guide-book, much thumbed. Here are Moll Garrow, the innkeeper of the Lamb and Lantern; and the Almanack, a penny almanack, one voice in three thousand kitchens.
 
 **Talk to the Almanack**
 
@@ -268,7 +268,7 @@ The Gannet Steps go up from the Close in long flights between garden walls, with
 
 **By the Lyceum gate, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the tower door, to the foot of the Tower of Rounds**
 
@@ -304,7 +304,7 @@ A round room at the foot of the tower, cold, with a turning stair going up the w
 
 **By the tower door, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the Lyceum gate, to the Gannet Steps**
 
@@ -572,7 +572,7 @@ The Gannet Steps go up from the Close in long flights between garden walls, with
 
 **By the Lyceum gate, to the Lyceum quad**
 
-A grey heron comes to see who you are. The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+A grey heron comes to see who you are. The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the door of the Schools, to the great schoolroom**
 
@@ -612,11 +612,11 @@ A long high room with benches in tiers and a pulpit at each end, facing each oth
 
 **By the door of the Schools, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the Lodging door, to the Provost's study**
 
-The pleasant house with the brass knocker is the Provost’s Lodging. A brass plate on the door says THE PROVOST. A comfortable study with a good fire, a good carpet, good port in a decanter, and a great many unread books with their spines uncracked. On the hearth-rug, among the crumbs, a cheese-knife. Provost Lucan Fairweather, a Provost of the Lyceum, is here.
+The pleasant house with the brass knocker is the Provost’s Lodging. A brass plate on the door says THE PROVOST. A comfortable study with a good fire, a good carpet, good port in a decanter, and a great many unread books with their spines uncracked. On the hearth-rug, among the crumbs, a cheese-knife. On the Provost’s shelf a folder of foolscap is tied with green tape and marked, in red, REJECTED. Provost Lucan Fairweather, a Provost of the Lyceum, is here.
 
 **Talk to Provost Lucan Fairweather**
 
@@ -632,7 +632,7 @@ Provost Lucan Fairweather considers the conversation over some moments before yo
 
 **By the Lodging door, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here. The iron-bound door of the Chained Room stands unlocked.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here. The iron-bound door of the Chained Room stands unlocked.
 
 **By the Lyceum gate, to the Gannet Steps**
 
@@ -824,7 +824,7 @@ The Gannet Steps go up from the Close in long flights between garden walls, with
 
 **By the Lyceum gate, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room stands unlocked. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The iron-bound door of the Chained Room stands unlocked. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the iron-bound door, to the Chained Room**
 
@@ -848,7 +848,7 @@ Wren takes your shelfmark.
 
 **By a long sentence, to the Remainder Market**
 
-You set out from the Reading Room of the Catalogue. A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
+You set out from the Reading Room of the Catalogue. A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began. Here are the Remainderman, a broker of unsold books, himself a book of trade tables; and Quire XVII, a sixteen leaves cut out of the Concordance of Every Word, AUSPICE to AUTUMN, still alive.
 
 **By the gutter, to the white country of the Margin**
 
@@ -932,7 +932,7 @@ White country. A great plain of blank paper running away under the beams, ruled 
 
 **By the gutter, to the Remainder Market**
 
-A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
+A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began. Here are the Remainderman, a broker of unsold books, himself a book of trade tables; and Quire XVII, a sixteen leaves cut out of the Concordance of Every Word, AUSPICE to AUTUMN, still alive.
 
 **By the back of the market, to the Draft-Fields**
 
@@ -956,7 +956,7 @@ The Canto listens with their pencil head on one side. ‘They asked to stop,’ 
 
 **By the back of the market, to the Remainder Market**
 
-A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
+A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began. Here are the Remainderman, a broker of unsold books, himself a book of trade tables; and Quire XVII, a sixteen leaves cut out of the Concordance of Every Word, AUSPICE to AUTUMN, still alive.
 
 **By the gutter, to the white country of the Margin**
 
@@ -984,7 +984,7 @@ White country. A great plain of blank paper running away under the beams, ruled 
 
 **By the gutter, to the Remainder Market**
 
-A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
+A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began. Here are the Remainderman, a broker of unsold books, himself a book of trade tables; and Quire XVII, a sixteen leaves cut out of the Concordance of Every Word, AUSPICE to AUTUMN, still alive.
 
 **By a long sentence, to the Reading Room of the Catalogue**
 

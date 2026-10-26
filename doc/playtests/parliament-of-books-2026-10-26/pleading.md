@@ -64,7 +64,7 @@ A grey heron comes to see who you are. The Gannet Steps go up from the Close in 
 
 **By the Lyceum gate, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the tower door, to the foot of the Tower of Rounds**
 
@@ -92,7 +92,7 @@ A round room at the foot of the tower, cold, with a turning stair going up the w
 
 **By the tower door, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the Lyceum gate, to the Gannet Steps**
 
@@ -324,7 +324,7 @@ The aisle runs back between the high shelves, bay after bay, and the red ribbon 
 
 **By the far end of the back stacks, to the Remainder Market**
 
-You leave the back stacks in the full of the morning, with the sun climbing and the path dry underfoot. A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
+You leave the back stacks in the full of the morning, with the sun climbing and the path dry underfoot. A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. Here are the Remainderman, a broker of unsold books, himself a book of trade tables; and Quire XVII, a sixteen leaves cut out of the Concordance of Every Word, AUSPICE to AUTUMN, still alive.
 
 **By the gutter, to the white country of the Margin**
 
@@ -356,7 +356,7 @@ White country. A great plain of blank paper running away under the beams, ruled 
 
 **By the gutter, to the Remainder Market**
 
-A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
+A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. Here are the Remainderman, a broker of unsold books, himself a book of trade tables; and Quire XVII, a sixteen leaves cut out of the Concordance of Every Word, AUSPICE to AUTUMN, still alive.
 
 **By the back of the market, to the Draft-Fields**
 
@@ -384,7 +384,7 @@ The Canto listens with their pencil head on one side. ‘They asked to stop,’ 
 
 **By the back of the market, to the Remainder Market**
 
-A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
+A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. Here are the Remainderman, a broker of unsold books, himself a book of trade tables; and Quire XVII, a sixteen leaves cut out of the Concordance of Every Word, AUSPICE to AUTUMN, still alive.
 
 **By the gutter, to the white country of the Margin**
 

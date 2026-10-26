@@ -12,7 +12,7 @@ The Hithe quay is cobbled and wet and loud. Eel-boats lie two and three deep at 
 
 **By the door under the lantern, to the Lamb's taproom**
 
-The tavern under the painted lantern on the Hithe quay is the Lamb and Lantern, Moll Garrow’s. Over the bar a board says THE LAMB AND LANTERN, M. GARROW, and under it in smaller letters NO BOOKS READ ALOUD AFTER TEN. A low taproom, smoky, with a long table and benches and a fire you could stand up in. Eel-men and millhands at the table; a cat on the hearth; a board of chalked prices. By the chimney, on a nail at head height, hangs a penny almanack, soft as cloth with handling, curling a little in the heat. Here are Moll Garrow, the innkeeper of the Lamb and Lantern; and the Almanack, a penny almanack, one voice in three thousand kitchens.
+The tavern under the painted lantern on the Hithe quay is the Lamb and Lantern, Moll Garrow’s. Over the bar a board says THE LAMB AND LANTERN, M. GARROW, and under it in smaller letters NO BOOKS READ ALOUD AFTER TEN. A low taproom, smoky, with a long table and benches and a fire you could stand up in. Eel-men and millhands at the table; a cat on the hearth; a board of chalked prices. By the chimney, on a nail at head height, hangs a penny almanack, soft as cloth with handling, curling a little in the heat. On the settle by the window somebody has left a little guide-book, much thumbed. Here are Moll Garrow, the innkeeper of the Lamb and Lantern; and the Almanack, a penny almanack, one voice in three thousand kitchens.
 
 **Talk to the Almanack**
 
@@ -108,7 +108,7 @@ A grey heron comes to see who you are. The Gannet Steps go up from the Close in 
 
 **By the Lyceum gate, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the tower door, to the foot of the Tower of Rounds**
 
@@ -136,7 +136,7 @@ A round room at the foot of the tower, cold, with a turning stair going up the w
 
 **By the tower door, to the Lyceum quad**
 
-The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
+The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, old, with one window lit at the top in daylight. In the corner of the quad, on the ground floor of the Fellows’ Court, one window is shuttered from the inside, and on the shutter is pinned a card gone yellow: DR. A. FENWICK. AWAY. Somebody has added in pencil, in a student’s hand: ELEVEN YEARS NOW. And somebody else: HE’LL BE BACK. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
 **By the Lyceum gate, to the Gannet Steps**
 

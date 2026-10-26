@@ -1,6 +1,6 @@
 # Nobody does anything: the Year of Voices
 
-Seed `idle`; 226 steps; ended at watch 1296, at the ending "The Year of Ash"; sealed: door_shut, fire_leave, read_rounds, sew_all. Written by `bun scripts/parliament-of-books-transcripts.ts` from the journey as the page told it.
+Seed `idle`; 227 steps; ended at watch 1296, at the ending "The Year of Ash"; sealed: door_shut, fire_leave, read_rounds, sew_all. Written by `bun scripts/parliament-of-books-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -10,19 +10,23 @@ A raised causeway of black stones crosses the saltings toward a town of roofs an
 
 The Hithe quay is cobbled and wet and loud. Eel-boats lie two and three deep at the steps; a fishwife cries her baskets; a gang of boys rolls rag bales up a plank into a lighter. Along the back of the quay stand a tavern under a painted lantern, a customs house with a great barred warehouse behind it, and a crowd of people round a board nailed to a post. At the west end the steps go down to a ferry; at the east, the quay turns into a market of rags. On the post a printed notice, fresh, with the Imprimatur’s little lamp stamped at the foot: UNQUIET VOLUMES. Under it someone has chalked a drawing of a book with legs, running, and someone else has rubbed most of it out. Bet Kettering, a fishwife, is here.
 
-**By the steps down to the ferry, to the ferry stairs**
+**By the bridge foot, to the south end of the Penny Bridge**
 
-Green steps go down into the river between two piles hung with weed. A flat black ferry-boat is tied at the bottom, and on the top step a board says J. PELLOW, FERRYMAN, PENNY A HEAD. Across the board somebody has chalked NOT AFTER DARK. LICENCE LAPSED. BY ORDER. Jonah Pellow, a ferryman, is here.
+The bridge begins as a street: sheds and stalls on both sides built out over the water on brackets, so that you walk between walls of books and ballads and pies with the river showing through the cracks in the planks. A tooth-drawer, a pie-man, three second-hand bookstalls with their tables tilted to the light, and a puppet booth with a striped curtain and a crowd of children in front of it. The bridge gate stands open, the chain coiled on its post.
 
-**By Jonah's ferry, to the Water Gate stairs**
+**By the southern arches, to the chapel pier**
 
-Wet steps up from the river into a low arch in the wall of the Close. At the top an iron gate, open; through it, grass and the dark bulk of a church.
+Halfway over, the bridge widens round a pier with a tiny chapel on it no bigger than a cart, with a bell in a hutch on its roof. Children are skipping a long rope across the whole width of the bridge, so that everyone has to wait or jump; a ballad-seller has his sheets pegged to a line along the parapet; and a broadside on the line is singing, by itself, quite loudly. The bridge gate stands open, the chain coiled on its post. Here are the children on the bridge, a dozen children of the Hithe and Stitchgate, skipping; the Ballad of Alderman Prowse, a printed broadside on a line, singing; and Dickon Spry, a ballad-seller.
 
-**By the Water Gate, to the Close green**
+**By the northern arches, to the north end of the Penny Bridge**
 
-A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
+The north end of the bridge comes up under the city wall. Stalls of almanacks and ballads and prints; a toll-house with a window like a ticket-office; and the river stair going up to an old gate in the wall, with a road running off east along the river toward a new town of chimneys. Lettice Ames, an almanack-seller, is here.
 
-**By the walk across the Close, to the Ashpit**
+**By the road along the river wall, to Newmarket**
+
+Outside the wall the town is new and loud: a broad street of printers’ shops with their windows full of ballads and proclamations and almanacks pegged on strings, ink-boys running with bundles, a smell of hot metal and size. At the end of it a cart arch opens into a yard stacked with paper bales, and over the arch, in letters a foot high: DOBLE. PRINTER TO THE CITY.
+
+**By the Close's east gate, to the Ashpit**
 
 A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.
 

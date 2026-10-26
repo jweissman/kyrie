@@ -36,7 +36,7 @@ Module calamy "A Parliament of Books" {
   Passage spiral_up "the stair, up" is path between spiral and hex_bestiary taking 10 minutes.
   Passage spiral_down "the stair, down" is path between spiral and hex_untitled taking 10 minutes.
   Passage beings_maps "the gallery of plans" is path between hex_bestiary and hex_mapmaker taking 10 minutes.
-  Passage first_lamps "the Gallery of Lamps" is path between hex_first and gallery_lamps taking 10 minutes.
+  Passage first_lamps "the arch where the lamps begin" is path between hex_first and gallery_lamps taking 10 minutes.
   Passage lamps_concordance "the far end of the lamps" is path between gallery_lamps and hex_concordance taking 10 minutes.
   Passage lamps_cyclopaedia "a side gallery" is path between gallery_lamps and hex_cyclopaedia taking 10 minutes.
   Passage cyclopaedia_chronicles "the gallery of dates" is path between hex_cyclopaedia and hex_chronicles taking 10 minutes.
@@ -95,9 +95,8 @@ Module calamy "A Parliament of Books" {
   Discovery hask_seen "A heavy man with a binder's hands and a bone folder, called Hask, came into the Stacks looking for somebody, and went down.".
 
   // The balcony over the shaft, and what can be heard down it.
-  Observe balcony_scene at balcony when true "A balcony with a low brass rail, hanging over the air shaft. Above you, hexagon on hexagon, the same, going up until the light gives out; below, the same going down. Every so often something falls past, slowly, a sheet of paper turning over and over, and you never see it land. If you lean out and listen, there are voices at the bottom of the shaft, or what would be the bottom: a murmur, very far down, of a great many people reading aloud at once, and under that, further still, something like the sound a fire makes in a chimney.".
+  Observe balcony_scene at balcony when true "A balcony with a low brass rail, hanging over the air shaft. Above you, hexagon on hexagon, the same, going up until the light gives out; below, the same going down. Every so often something falls past, slowly, a sheet of paper turning over and over, and you never see it land. If you lean out and listen, there are voices at the bottom of the shaft, or what would be the bottom: a murmur, very far down, of a great many people reading aloud at once, and under that, further still, something like the sound a fire makes in a chimney." teaches shaft_heard.
   Discovery shaft_heard "Down the air shaft of the Stacks there is no bottom; but there are voices: a library reading itself aloud, and under it, further, something burning.".
-  Observe balcony_learned at balcony when true "Voices at the bottom of the shaft." teaches shaft_heard.
 
   // ── The spiral, and the step it adds. ──
   Relation slipped(group).

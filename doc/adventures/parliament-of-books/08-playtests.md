@@ -30,8 +30,12 @@ transcripts are written from those journeys, as the page told them.*
 | [pleading.md](../../playtests/parliament-of-books-2026-10-26/pleading.md) (a cleric-warden) | ~340 | The Pleading Accord | by leave, by judgment, Rounds, Founders' door |
 | [open-door.md](../../playtests/parliament-of-books-2026-10-26/open-door.md) (a bard-messenger) | ~380 | The Open Door | by leave, by leave, Rounds, open door |
 | [advocate.md](../../playtests/parliament-of-books-2026-10-26/advocate.md) | ~280 | The Recall (no Parliament, but no burning) | the Speaker's motion |
-| [binder.md](../../playtests/parliament-of-books-2026-10-26/binder.md) | ~270 | The Year of Voices | the Speaker's motion, but the Colophon broken by the fire |
-| [idle.md](../../playtests/parliament-of-books-2026-10-26/idle.md) | ~230 | The Year of Voices | the Speaker's motion |
+| [binder.md](../../playtests/parliament-of-books-2026-10-26/binder.md) | ~270 | The Year of Ash | the Speaker's motion, but the Colophon broken by the fire |
+| [cinderfield.md](../../playtests/parliament-of-books-2026-10-26/cinderfield.md) | ~110 | (the descent) | the Lamp's flame through the burned; last year's almanack; the Index heard out |
+| [rhule-ash.md](../../playtests/parliament-of-books-2026-10-26/rhule-ash.md) | ~375 | The Recall (the burned released, the Index starved, nothing sealed) | Rhule's father, her candle, her register |
+| [stacks.md](../../playtests/parliament-of-books-2026-10-26/stacks.md) | ~100 | (the Library) | the guide, the bestiary, the Cyclopaedia, the histories, the Two Books; Fenwick home |
+| [concordance.md](../../playtests/parliament-of-books-2026-10-26/concordance.md) | ~110 | (the murder) | the clues, the Rotunda, Hask told of nearness, the Concordance Sewn, the Quire kept |
+| [idle.md](../../playtests/parliament-of-books-2026-10-26/idle.md) | ~230 | The Year of Ash | the Speaker's motion |
 | [bond.md](../../playtests/parliament-of-books-2026-10-26/bond.md) | ~55 | (a day's errand) | |
 
 ## The two ways in, compared in play
