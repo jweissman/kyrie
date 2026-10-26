@@ -1,7 +1,8 @@
 # Mission 16 ledger
 
 The running record of Mission 16: what is done and verified, what was found and is not yet done, and what is
-deliberately left. Newest entries first in each part. The plan and its decisions are in [plan.md](plan.md).
+deliberately left. Newest entries first in each part. The plan and its decisions are in [plan.md](plan.md), and the
+mission's closing account is the [report](report.md).
 
 ## Gates
 
