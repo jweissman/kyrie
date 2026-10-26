@@ -1,0 +1,13 @@
+Module milestone "A well, and what a company grows by" {
+  Place yard "the yard" is wilderness.
+  Place well_head "the well-head" is room within yard at 0, 0.
+  Company party "You" of 1 at well_head.
+  Thing bucket "the well bucket" at well_head {
+    State down "A bucket hangs down the well on its rope.".
+    State up "The bucket stands on the well's lip, full.".
+    Change haul "Haul the bucket up" from down to up.
+  }
+  Observe yard_scene at well_head when true "A stone well-head in a yard.".
+  // Worth so much the first time it is done, and nothing after.
+  Milestone hauled "drew water from the old well" worth 120 when state(bucket, up).
+}
