@@ -184,14 +184,14 @@ the tree with the review's own probe before it was worked; a disposition here sa
 
 | ID | Finding | Disposition | Evidence, or what would count as done |
 |---|---|---|---|
-| ARV-H1 | Some generated countries fail to load: a placement that cannot be situated is kept, and the exports are a hand-kept list | Open | |
+| ARV-H1 | Some generated countries fail to load: a placement that cannot be situated is kept, and the exports are a hand-kept list | Fixed | 0c84b85: a scenario whose site can stand nowhere is not placed, nothing it took is kept, and it is not tried again in that country; s24, alpha and Begin's juvesese load (`test/seeds-load.test.ts`). Exports are still a list beside the declarations (M6) |
 | ARV-H2 | Command legality, replay and world time routed through presentation | Open | |
 | ARV-H3 | The Kyr rule library is the engine's hidden ABI: names, feature detection, resolver vocabulary | Open | |
 | ARV-H4 | Generators author plots in TypeScript that emits Kyr text | Open | |
 | ARV-H5 | Presentation reads omniscient truth (foe HP in the dark) and re-derives rules incompletely (passage legality, rest labels, daylight) | Open | |
-| ARV-H6 | Determinism asserted, not verified: locale-dependent combat AI, one combat stream, unchecked resume and replay | Open | |
+| ARV-H6 | Determinism asserted, not verified: locale-dependent combat AI, one combat stream, unchecked resume and replay | Partial | 741b004: ties broken by ids as written, not by the host's language (`test/tie-order.test.ts`). Open: a per-step digest verified on replay and resume; combat draws keyed by identity |
 | ARV-H7 | Process-global caches (item kinds, parse cache, concurrent loads) make meaning depend on process history | Open | |
-| ARV-M1 | The engine-written relation list is hand-kept and wrong both ways (exposedTo, witnessedAttack missing; defeated, ended listed) | Open | |
+| ARV-M1 | The engine-written relation list is hand-kept and wrong both ways (exposedTo, witnessedAttack missing; defeated, ended listed) | Fixed | ddd6388: the list has every relation the engine asserts as play goes, and not the two nothing writes; a test reads the engine for them and lint is checked both ways on the review's fixture (`test/engine-writes.test.ts`) |
 | ARV-M2 | Kyr too large at the leaves, too small in the middle (no once-only rule, money, timers; dead Exit and Budget) | Open | |
 | ARV-M3 | Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped | Open | |
 | ARV-M4 | Closed English word lists and name regexes classify content in general code | Open | |
@@ -208,23 +208,23 @@ the tree with the review's own probe before it was worked; a disposition here sa
 | ARV-A3 | A world that failed to store is never re-sent; an old world is paired with a newer state and resumed trusted | Fixed | The page keeps a state only beside the world it was kept against, and says whether it kept a world it was sent (`kept`); a world not kept goes again with the next state. A kept state opened beside another world is refused. `test/kept-world.test.ts` (the probe persist-stale-world, run through the engine and the page's keeping, with a store that runs out of room after a crossing) |
 | ARV-A4 | A companion raised in a fight stays slain forever | Fixed | A raising lifts death in a fight as at a shrine (`Effects.raised`); what a fight made a creature (the undead a raising makes) goes on from it; a shrine raises one left "slain" with breath in them by an older game; a rest is tended by one up and not dead. `test/raised.test.ts` |
 | ARV-A5 | Cures by display name, stance endings that hit the attacker, stuns that cost nothing, a drainer healed after death | Partial | Fixed: a cure lifts what it names by id, the id it stands for, its kind of harm or its name (cure disease lifts the Diseased, the restorations Kyr's Poisoned); a stance that ends on answering a blow ends, from its holder, whether the blow lands; a condition laid by another waits for its holder's turn before it runs down (133 of 133 stuns now cost a turn, from 83); a drainer killed by what answered its blow stays dead. `test/mechanical-meaning.test.ts`. Open: the catalog-wide test of every ability's text against its execution |
-| ARV-A6 | "You witness" tells offscreen and obstructed acts as done; unseen arrivals are named | Open | |
+| ARV-A6 | "You witness" tells offscreen and obstructed acts as done; unseen arrivals are named | Fixed | 3346762: whether the company saw an act is decided by the runtime as it happens and kept with it; an obstructed one is told by its author's failure, if any; only those noticed are said to arrive (`test/witnessed.test.ts`) |
 | ARV-A7 | A module's rules file can reach another module's private relations; clashes are dropped silently | Open | |
 | ARV-A8 | The engine-write guard is three hand-kept lists; a Topic can set dark() and dice | Open | |
 | ARV-A9 | The compiler accepts unbound and ill-typed effect variables; binding-check holes; query types depend on asking mode | Open | |
 | ARV-A10 | More layer inversions and cycles in the import graph | Open | |
 | ARV-A11 | A restored world is not state-equivalent: the order of emptied names differs | Open | |
-| ARV-A12 | The player's name is spliced unescaped into generated Kyr | Open | |
-| ARV-A13 | Real place names leak where the page shows an alias (journeys, character sheet, obituary, CLI) | Open | |
+| ARV-A12 | The player's name is spliced unescaped into generated Kyr | Fixed | 432fae4: a name with braces, quotes or a backslash is refused at creation, said plainly; one written in by another way is stripped of braces and escaped (`test/names-typed.test.ts`). The escape in Kyr strings themselves is A25 |
+| ARV-A13 | Real place names leak where the page shows an alias (journeys, character sheet, obituary, CLI) | Fixed | 56ebd09: the journey's going, the character sheet, the obituary and the terminal name places as the company would; the terminal offers the page's choices (`test/alias-names.test.ts`). The lint forbidding raw names in narration is not made |
 | ARV-A14 | Clock shift for late installs misses timers in queries and arithmetic | Open | |
 | ARV-A15 | One foe fleeing ends the whole fight, a win over every foe | Fixed | One foe of several getting away leaves the fight alone and the rest fight on; the last, or the company, ends it. A fight won is worth the foes it defeated, not one that got away. `test/mechanical-meaning.test.ts` |
-| ARV-A16 | A module with Endings in two files no longer loads; desugared names not reserved | Open | |
+| ARV-A16 | A module with Endings in two files no longer loads; desugared names not reserved | Partial | ec11c5d: a relation declared alike in two files is one, and endings in two files load (`test/endings-split.test.ts`). Open: desugared names (concluded, reached, achieved, merit, unopened) reserved against an author's own |
 | ARV-A17 | Text with variables renders wrongly (measures unbound, endings print ?g) | Open | |
 | ARV-A18 | A count taken past nothing: clamps, refusals and Set disagree | Open | |
-| ARV-A19 | Generated "Ask … again" copies often dead, chosen by English wording; condition grammar from word endings | Open | |
-| ARV-A20 | Coin reading and the NPC activity suffix reveal what the company cannot see | Open | |
-| ARV-A21 | The idle-rule cache misses entities added by an installation | Open | |
-| ARV-A22 | Smaller defects: summon ids reused, revive percent unchecked, enlisting zeroes a recruit's coin, far-off milestones, the .resolved key, membership after departure | Partial | A raising of more than whole health is refused when the catalog is read. Open: the rest |
+| ARV-A19 | Generated "Ask … again" copies often dead, chosen by English wording; condition grammar from word endings | Partial | 16bbaa7: a copy no longer waits on what its asking taught, and only a question that did nothing but teach is asked again: no dead copy in Tessary or a generated country (`test/asked-again-live.test.ts`). Open: the choice of which topics are questions still reads their English (`Ask … about`); MechanicsText's condition grammar still reads word endings |
+| ARV-A20 | Coin reading and the NPC activity suffix reveal what the company cannot see | Fixed | 714229c: the unaffordable are offered through the page's own filters; a creature with no way open shows no activity, a person who speaks says so |
+| ARV-A21 | The idle-rule cache misses entities added by an installation | Fixed | 9f98e61: an idle rule is held to the module it was found idle in (`test/idle-rule.test.ts`) |
+| ARV-A22 | Smaller defects: summon ids reused, revive percent unchecked, enlisting zeroes a recruit's coin, far-off milestones, the .resolved key, membership after departure | Partial | A raising of more than whole health is refused (cc46f2b); a recruit's coin is put by while they are with the company and theirs when they leave (c3eca7a, `test/purse-kept.test.ts`). Open: summon ids, far-off milestones, the `.resolved` key, membership after departure |
 | ARV-A23 | Combat constants and ids hard-coded; field time lacks battle's dice and lapse | Open | |
-| ARV-A24 | The download lacks the story log; autosaves re-serialize everything; a country can be drawn twice at once | Open | |
+| ARV-A24 | The download lacks the story log; autosaves re-serialize everything; a country can be drawn twice at once | Partial | 32c71e0: the download carries the story; a drawing under way is waited for, not drawn again. Open: autosave re-serializes all events; migrations scattered; transcript version |
 | ARV-A25 | Kyr strings cannot escape { or ' | Open | |
