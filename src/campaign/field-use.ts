@@ -43,10 +43,13 @@ export class FieldUse {
     const lease = store.acquire([id]);
     try {
       const c = lease.creatures[0]!;
-      if (c.state.hp > 0) { return []; }
+      // One already up and not dead needs no raising; one left "slain" with breath in them (raised in a fight before
+      // a raising lifted death: the review's A4) is raised whole.
+      const dead = c.state.conditions.some(s => s.id === 'slain');
+      if (c.state.hp > 0 && !dead) { return []; }
       const revive = Content.abilities.find(a => a.id === 'raise_dead')?.effects.find(e => e.kind === 'revive');
-      const percent = revive && 'percent' in revive ? revive.percent ?? 50 : 50;
-      c.state.hp = Math.max(1, Math.floor(percent / 100 * c.base.maxHp)); c.state.conditions = [];
+      const percent = revive && 'percent' in revive ? Math.min(revive.percent ?? 50, 100) : 50;
+      c.state.hp = Math.max(c.state.hp, 1, Math.floor(percent / 100 * c.base.maxHp)); c.state.conditions = [];
       lease.commit([c]);
       return [{ type: 'revive', turn: 0, actor: id, target: id, detail: 'returned to life', amount: c.state.hp }];
     } finally { lease.release(); }

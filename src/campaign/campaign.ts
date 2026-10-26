@@ -332,9 +332,10 @@ export class Campaign implements WatchHost {
     const taken = battle?.state.outcome === 'goblins' && Mercy.spare(this.world, this.creatures,
       { ...this.current, player: this.playerActor, combat }); if (taken) { this.commit(taken); this.refresh(); }
     const opponent = action.resolve?.args[0];
+    // Worth the foes it defeated: not one that got away (the review's A15).
     if (won && action.resolve?.name === 'combat' && opponent) {
-      FieldUse.award(this.creatures, this.current.partyIds, this.world,
-        { opponent, members: this.current.inhabitants[opponent] ?? [], events: combat });
+      FieldUse.award(this.creatures, this.current.partyIds, this.world, { opponent, events: combat,
+        members: (this.current.inhabitants[opponent] ?? []).filter(id => this.creatures.get(id).state.hp === 0) });
     }
     if (action.resolve && Membership.resolves(action.resolve)) {
       this.commit(Membership.resolve({ current: this.current, company: this.playerActor, module: this.module,

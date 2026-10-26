@@ -24,10 +24,18 @@ export class Reactions {
         if (!effects.length || reactor.hp === 0 || actor.hp === 0) { continue; }
         context.events.push({ type: 'react', turn: context.turn, actor: reactor.id, target: actor.id, detail: key });
         const inner: EffectContext = { ...context, actor: reactor, hooking: true, drawn: undefined };
+        let missed = false;
         for (const effect of effects) {
-          const target = effect.target === 'self' ? reactor : actor;
+          // "And it ends": a reaction that lifts the very stance it comes from lifts it from whoever holds it, whether
+          // or not what came before it told (the holder's Overwatch and Blade Barrier never ended, the attacker being
+          // searched for them, and a missed blow stopped the rest: the review's A5).
+          const own = effect.kind === 'remove'
+            && reactor.statuses.some(s => Reactions.answers(s.id, key) && Effects.removes(effect, s.id));
+          if (missed && !own) { continue; }
+          const target = effect.target === 'self' || own ? reactor : actor;
           if (target.hp === 0 || reactor.hp === 0) { break; }
-          if (!AbilityUse.effectOn(effect, target, { expressions: context.expressions!, context: inner })) { break; }
+          const told = AbilityUse.effectOn(effect, target, { expressions: context.expressions!, context: inner });
+          if (!told) { missed = true; }
         }
       }
     }
@@ -42,6 +50,8 @@ export class Reactions {
     }
     Reactions.provoke(actor, ['onEnemyCasting'], context);
   }
+  // Whether a condition is one that answers this.
+  static answers(status: string, key: string): boolean { return !!Effects.status(status).hooks?.reactions?.[key]; }
   static of(fighter: Fighter, key: string): Effect[] {
     return [...new Set(fighter.statuses.map(s => s.id))]
       .flatMap(id => Effects.status(id).hooks?.reactions?.[key] ?? []);

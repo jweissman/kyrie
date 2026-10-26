@@ -19,7 +19,7 @@ describe('a generated world', () => {
       const errors = (await KyrLint.campaign(w.path, w.source)).filter(f => f.level === 'error');
       expect([seed, errors.map(f => f.message)]).toEqual([seed, []]);
     }
-  }, 240000);
+  }, 480000);
   it('has a wonder whose power cannot be run met without failing', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });

@@ -20,7 +20,9 @@ export class FieldResolver {
     call.args = call.args.map(id => host.module.entities.find(e => e.id === id)?.creatureId ?? id);
     if (call.name === 'recover' || call.name === 'rough') {
       const actor = host.actors.find(a => a.id === call.args[0])!;
-      const caster = actor.members.find(id => creatures.get(id).state.hp > 0)!;
+      // Whoever can still tend the others: up, and not dead.
+      const caster = actor.members.find(id => creatures.get(id).state.hp > 0
+        && !creatures.get(id).state.conditions.some(s => s.id === 'slain'))!;
       const rested = FieldUse.perform(creatures, actor.members, { ability: call.name === 'rough' ? 'rough_rest'
         : 'camp_recovery', caster, target: caster, seed, service: 'recover' });
       // Whoever has fallen comes round, or does not; a night under a roof is also when a companion takes in what

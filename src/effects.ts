@@ -138,6 +138,10 @@ export class Effects {
       throw new Error('Status duration must be positive');
     }
     if (effect.kind === 'learn' && !abilities.includes(effect.ability)) { throw new Error('Unknown taught ability'); }
+    // A raising gives back at most the whole of a body's health (150% set 22 of 15, which no store would keep).
+    if (effect.kind === 'revive' && effect.percent !== undefined && !(effect.percent > 0 && effect.percent <= 100)) {
+      throw new Error('A raising restores between 1 and 100 percent of health');
+    }
     if (effect.kind === 'summon' && [effect.creature, ...effect.from ?? [], ...Object.values(effect.byAncestry ?? {}).flat()]
       .some(s => !Canon.isSpecies(s))) { throw new Error('Unknown summoned creature'); }
   }
@@ -268,6 +272,20 @@ export class Effects {
       else { Effects.hp(target, amount, tick, true); }
     }
   }
+  // What a condition is known by, for a cure that names it: its id, the id it stands for, its kind of harm, its name.
+  static names(id: string): string[] {
+    const status = Effects.status(id);
+    return [id, Canon.resolve('conditions', id), ...status.saveKind ? [status.saveKind] : [], status.name];
+  }
+  // Whether a remove effect lifts this condition: the one it names, or any its pattern names.
+  static removes(effect: Extract<Effect, { kind: 'remove' }>, id: string): boolean {
+    if (!effect.pattern) { return id === effect.status; }
+    const pattern = new RegExp(`^(${effect.pattern})$`, 'i');
+    return Effects.names(id).some(n => pattern.test(n));
+  }
+  // What is left of a body's conditions once it is raised: not its death. A raising in a fight and one at a shrine are
+  // the same raising (FieldUse.raise).
+  static raised<T extends { id: string }>(conditions: T[]): T[] { return conditions.filter(c => c.id !== 'slain'); }
   static apply(effect: Effect, target: Fighter, rolled: number, context: EffectContext) {
     const actor = context.actor;
     switch (effect.kind) {
@@ -282,7 +300,9 @@ export class Effects {
       case 'damage': Effects.damage(target, { amount: rolled, type: effect.damageType }, context); break;
       case 'drain': {
         const dealt = Effects.damage(target, { amount: rolled, type: effect.damageType ?? 'necrotic' }, context);
-        if (actor) { Effects.hp(actor, dealt, context, true); }
+        // What was drawn heals a drainer who is still alive (a shield that answered the blow could have killed it,
+        // and the draining raised it: the review's A5).
+        if (actor && actor.hp > 0) { Effects.hp(actor, dealt, context, true); }
         break;
       }
       case 'heal':
@@ -293,8 +313,11 @@ export class Effects {
         break;
       case 'revive':
         if (target.hp === 0 && (rolled > 0 || effect.percent)) {
-          target.hp = effect.percent ? Math.max(1, Math.floor((effect.percent / 100) * target.maxHp))
+          target.hp = effect.percent ? Math.max(1, Math.floor((Math.min(effect.percent, 100) / 100) * target.maxHp))
             : Math.min(rolled, target.maxHp);
+          // Raised is raised: whoever had died is no longer dead (a companion raised in a fight was "slain" for good,
+          // and lost every turn after: the architecture review's A4).
+          target.statuses = Effects.raised(target.statuses);
           target.traits = [...new Set([...target.traits ?? [], ...effect.traits ?? []])];
           Effects.detail(context, target, { type: 'revive', detail: 'returned to life', amount: target.hp });
         }
@@ -302,10 +325,10 @@ export class Effects {
       case 'kill': if (target.hp > 0) { Effects.hp(target, target.hp, context); } break;
       case 'apply': Effects.condition(effect, target, context); break;
       case 'remove': {
-        // Removing what a creature does not have is not news. A pattern removes every condition whose name it matches.
-        const pattern = effect.pattern ? new RegExp(`^(${effect.pattern})$`, 'i') : undefined;
-        const removed = target.statuses.filter(s => pattern ? pattern.test(Effects.status(s.id).name)
-          : s.id === effect.status);
+        // Removing what a creature does not have is not news. A pattern removes every condition it names: by its id,
+        // its kind of harm (poison, disease, fear) or its name. By name alone, "cure disease" lifted nothing from the
+        // Diseased, nor the restorations Kyr's lasting Poisoned (the review's A5).
+        const removed = target.statuses.filter(s => Effects.removes(effect, s.id));
         target.statuses = target.statuses.filter(s => !removed.includes(s));
         for (const s of removed) { Effects.detail(context, target, { type: 'remove', detail: s.id }); }
         break;
@@ -350,6 +373,7 @@ export class Effects {
       context.actor.environment ? { environment: context.actor.environment } : {}) : 0;
     target.statuses.push({ id: effect.status, remaining: effect.duration + longer,
       ...effect.clock ? { clock: effect.clock } : {},
+      ...!effect.clock && context.actor && context.actor.id !== target.id ? { waits: true } : {},
       ...context.source ? { source: context.source.id } : {}, ...context.actor ? { by: context.actor.id } : {},
       ...pool ? { tempHp: pool } : {} });
     Effects.detail(context, target, { type: 'status', detail: effect.status, amount: effect.duration,

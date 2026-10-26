@@ -236,7 +236,11 @@ export class Battle {
     const context = this.context(actor);
     if (actor.abilitySources?.[ability.id]) { context.source = actor.abilitySources[ability.id]; }
     AbilityUse.perform(ability, command.target, this.expressions, context);
-    if (context.retreat || context.location) { this.finish('escaped', 'retreat', { actor: actor.id, team: actor.team }); }
+    // One foe of several getting away leaves the fight alone, and the rest fight on; the last, or the company, ends
+    // it (one wolf of three fleeing ended the fight, and counted as a win over all three: the review's A15).
+    if (context.retreat && !context.location && actor.team !== 'fighters' && this.others(actor)) {
+      this.depart(actor); this.finishIfEliminated();
+    } else if (context.retreat || context.location) { this.finish('escaped', 'retreat', { actor: actor.id, team: actor.team }); }
     else { this.finishIfEliminated(); }
     // A creature with actions left this turn (hasted) acts again before its turn ends, if it has anything to do.
     if (!this.outcome && actor.hp > 0 && --this.actions > 0 && !actor.statuses.some(s => Effects.skips(s.id))
@@ -275,7 +279,7 @@ export class Battle {
     this.cursor = 0;
     this.history.push({ type: 'initiative', turn: this.turn, order: rolls });
     for (const f of living) {
-      for (const s of f.statuses.filter(c => !c.clock)) { s.remaining--; }
+      for (const s of f.statuses.filter(c => !c.clock && !c.waits)) { s.remaining--; }
       Effects.expire(f, s => !s.clock, this.context());
     }
     this.declare();
@@ -283,12 +287,19 @@ export class Battle {
   // Combat.round: a foe that has turned to flight leaves before anyone rolls, and what it summoned goes with it.
   private rout() {
     for (const f of this.fighters.filter(x => x.hp > 0 && x.team !== 'fighters' && Effects.modifiers(x).flee)) {
-      for (const g of [f, ...this.fighters.filter(s => s.summoner === f.id)]) {
-        this.fighters.splice(this.fighters.indexOf(g), 1);
-        if (!g.summoner) { this.departed.push(g); }
-      }
+      this.depart(f);
       this.history.push({ type: 'flee', turn: this.turn, actor: f.id, success: true });
     }
+  }
+  private depart(f: Fighter) {
+    for (const g of [f, ...this.fighters.filter(s => s.summoner === f.id)]) {
+      this.fighters.splice(this.fighters.indexOf(g), 1);
+      if (!g.summoner) { this.departed.push(g); }
+    }
+  }
+  // Whether others of its side are still in the fight and standing, not counting what it summoned.
+  private others(f: Fighter): boolean {
+    return this.fighters.some(x => x !== f && x.team === f.team && x.hp > 0 && x.summoner !== f.id);
   }
   private advance() {
     do {
@@ -308,6 +319,8 @@ export class Battle {
     while (!this.outcome) {
       const actor = this.actor();
       for (const id of Object.keys(actor.cooldowns)) { actor.cooldowns[id] = Math.max(0, actor.cooldowns[id]! - 1); }
+      // Its turn has come: what others laid on it tells on it now, and runs down from here.
+      for (const s of actor.statuses) { delete s.waits; }
       this.standDown(actor);
       this.finishIfEliminated();
       if (this.outcome) { return; }

@@ -4,9 +4,11 @@ export type Attribute = 'strength' | 'dexterity' | 'intelligence' | 'wisdom' | '
 export type Attributes = Record<Attribute, number>;
 // by: the creature that applied it (Orsino's `by`, read by forceTarget). tempHp: what remains of its temporary hit
 // points.
+// waits: laid on its holder by another, it has not yet had its holder's turn to tell on, and does not run down until
+// it has (a stun laid after its holder had acted ran out before it cost a turn: the architecture review's A5).
 export interface ConditionInstance {
   id: string; remaining: number; source?: string; clock?: 'owner-turn' | 'world-time' | 'until-removed';
-  by?: string; tempHp?: number;
+  by?: string; tempHp?: number; waits?: boolean;
 }
 export interface ItemInstance { id: string; definition: string; equipped?: boolean }
 // raceId is what the creature is: an ancestry (a person, who has a class) or a species (which has none).

@@ -6,7 +6,9 @@ export class CombatProjection {
   static creature(fighter: Fighter, original?: Creature): Creature {
     return { ...(original?.generation ? { generation: structuredClone(original.generation) } : {}),
       ...(original?.professionId ? { professionId: original.professionId } : {}),
-      ...(original?.traits ?? fighter.traits ? { traits: [...original?.traits ?? fighter.traits ?? []] } : {}),
+      // What it is goes on from the fight, and what a fight made it (the undead a raising makes) with it.
+      ...(original?.traits ?? fighter.traits
+        ? { traits: [...new Set([...original?.traits ?? [], ...fighter.traits ?? []])] } : {}),
       ...(original?.backgroundId ? { backgroundId: original.backgroundId } : {}),
       id: fighter.id, name: fighter.name, raceId: fighter.raceId,
       ...fighter.classId ? { classId: fighter.classId } : {},

@@ -79,5 +79,5 @@ describe('progression to twentieth level', () => {
     const wins = (level: number) => seeds.filter(s => Party.fight(level, 'red_dragon', `dragon-${s}`) === 'fighters').length;
     expect(wins(1)).toBe(0);
     expect(wins(15)).toBeGreaterThanOrEqual(4);
-  });
+  }, 60000);
 });

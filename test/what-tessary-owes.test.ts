@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { KyrLint } from '../src/cli/kyr-lint';
 import { Journey } from '../src/session/journey';
+import type { CreatureStore } from '../src/creature-store';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { WorldAssembler } from '../src/world/world-assembler';
@@ -170,8 +171,15 @@ describe('What Tessary Owes: failure and its costs', () => {
   it('beaten by the ebb-runners: they take prisoners, and dump them on the Pans', async () => {
     const g = await Tessary.start();
     await g.play('To the Landgate', 'To the Withies', 'To the Watersteps', 'To the head of the Swatch', '=156',
-      'To the foot of the Swatch', 'To the Weed', 'To the Drowned Forum', 'To the Street of Scales', 'To the ebb-runners',
-      'Bettany Slake.*Attack');
+      'To the foot of the Swatch', 'To the Weed', 'To the Drowned Forum', 'To the Street of Scales', 'To the ebb-runners');
+    // Come to them already badly hurt (a bleed now runs its whole course on its holder, and a whole company once won
+    // here only because the ebb-runners' wounds ran out between their turns).
+    const store = (g.j.campaign as unknown as { creatures: CreatureStore }).creatures;
+    const lease = store.acquire(g.j.campaign.state.partyIds);
+    try {
+      lease.creatures.forEach(c => { c.state.hp = 1; }); lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    await g.play('Bettany Slake.*Attack');
     expect(g.j.campaign.world.one('at', 'party')).toBe(t('pans'));
     expect(g.page).toMatch(/Someone has also been through your purse/);
     expect(g.running).toBe(true);
