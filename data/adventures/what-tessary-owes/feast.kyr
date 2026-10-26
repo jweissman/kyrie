@@ -58,8 +58,8 @@ Module tessary "What Tessary Owes" {
     Assert assails(lightermen, party). }
   Rule release_broken when releaseGathered(ossel) and at(lightermen, legion_yard) and able(lightermen) and hour(clock) == 0 and not at(party, legion_yard) and not released(ossel) and not releaseBroken(ossel) {
     Assert releaseBroken(ossel). }
-  Rule release_broken_told when releaseBroken(ossel) and not knows(party, release_broken_known)
-    and inTessary() says "Word comes from the Legion Yard: the Factor's lightermen broke up the Muster at the Oath Stone with cudgels, and the Watch stood by, and Durrance was carried off the plinth with a broken head." teaches release_broken_known { }
+  Rule release_broken_told when releaseBroken(ossel) and not spread(release_broken_known)
+    and inTessary() says "Word comes from the Legion Yard: the Factor's lightermen broke up the Muster at the Oath Stone with cudgels, and the Watch stood by, and Durrance was carried off the plinth with a broken head." { Assert spread(release_broken_known). }
   Discovery release_broken_known "The Factor's lightermen broke up the Muster's gathering at the Oath Stone on the Feast night.".
   Relation saultStopped(place).
   Action stand_release(actor: group, site: place) "Stand with the Muster at the Oath Stone while they say it" {
@@ -162,18 +162,18 @@ Module tessary "What Tessary Owes" {
   Rule held_wake when discharged(ossel) and heldNow(?s) { Retract heldNow(?s). Retract asleep(?s). Assert cameHome(?s). Assert wokeHome(?s). }
   Rule held_warden when saultHoldsNote(ossel) and saultWarden(ossel) and heldNow(?s) { Retract heldNow(?s). Retract asleep(?s). Assert cameHome(?s). Assert wokeHome(?s). }
   Rule held_count when (discharged(ossel) or saultWarden(ossel) and saultHoldsNote(ossel)) and held(ossel) > 0 { Set held(ossel) to 0. }
-  Rule settlement_heard at ranks when discharged(ossel) and not knows(party, held_woke)
-    says "All down the Ranks the sleepers open their eyes, together, as if a drum had beaten the stand-down. They look at their hands. They look at each other. Somebody laughs. Somebody starts to cry. Then, without anyone giving the order, they turn, all of them, and begin to walk back across the white floor toward the Door, in step, because they do not know how not to." teaches held_woke { }
-  Rule settlement_seen when discharged(ossel) and not at(party, ranks) and not knows(party, held_woke)
-    and inTessary() says "At two in the morning, all over the Withies, people wake for no reason and go out onto the boardwalks. The basin is out, lower than anyone has ever seen it. And out in the drowned city, very small, coming up the steps of the Hall of Oaths and across the Forum in the starlight, barefoot and in their shirts and in step, a hundred and sixty soldiers of the Long Muster are walking home." teaches held_woke { }
+  Rule settlement_heard at ranks when discharged(ossel) and not spread(held_woke)
+    says "All down the Ranks the sleepers open their eyes, together, as if a drum had beaten the stand-down. They look at their hands. They look at each other. Somebody laughs. Somebody starts to cry. Then, without anyone giving the order, they turn, all of them, and begin to walk back across the white floor toward the Door, in step, because they do not know how not to." { Assert spread(held_woke). }
+  Rule settlement_seen when discharged(ossel) and not at(party, ranks) and not spread(held_woke)
+    and inTessary() says "At two in the morning, all over the Withies, people wake for no reason and go out onto the boardwalks. The basin is out, lower than anyone has ever seen it. And out in the drowned city, very small, coming up the steps of the Hall of Oaths and across the Forum in the starlight, barefoot and in their shirts and in step, a hundred and sixty soldiers of the Long Muster are walking home." { Assert spread(held_woke). }
   Discovery held_woke "At the Settlement the note was discharged, and the held of the Long Muster woke and walked home.".
-  Rule muster_called when saultHoldsNote(ossel) and not saultWarden(ossel) and not knows(party, muster_called_known)
-    says "At two in the morning, all over Tessary, the soldiers of the Long Muster get up out of their beds, the old ones and the young ones and the one-armed ones, and dress, and go out into the streets, and walk in step through the dark to Saltgate, where Factor Sault is waiting for them on the steps of her countinghouse with a lantern. Her voice carries a long way in the quiet. 'Good morning, lads,' she says. 'You're paid from today.'" teaches muster_called_known { }
+  Rule muster_called when saultHoldsNote(ossel) and not saultWarden(ossel) and not spread(muster_called_known)
+    says "At two in the morning, all over Tessary, the soldiers of the Long Muster get up out of their beds, the old ones and the young ones and the one-armed ones, and dress, and go out into the streets, and walk in step through the dark to Saltgate, where Factor Sault is waiting for them on the steps of her countinghouse with a lantern. Her voice carries a long way in the quiet. 'Good morning, lads,' she says. 'You're paid from today.'" { Assert spread(muster_called_known). }
   Discovery muster_called_known "At the Settlement Factor Sault took up the War Note and called the Long Muster to Saltgate.".
-  Rule muster_warden when saultHoldsNote(ossel) and saultWarden(ossel) and not knows(party, muster_called_known)
-    says "At two in the morning the soldiers of the Long Muster wake in their beds all over the city, every one of them, for no reason, and lie listening. Nothing calls them. Out in the drowned city, in the starlight, a hundred and sixty more are walking home across the Forum, and at the head of them, in a wet sea-cloak with a lantern, the Factor of the Salt Moiety is picking her way over the weed and swearing." teaches muster_called_known { }
-  Rule foreclosure_told when foreclosed(ossel) and not knows(party, foreclosed_known)
-    and inTessary() says "At two in the morning nothing happens. The basin is out, lower than anyone remembers; the Tidewall bonfires have burned down to red; the last contracts of the year are ash. Nobody walks into the sea. Nobody walks out of it. Only, a long way out past the Hall of Oaths, where the outer bar meets the open water, the sea for a moment shows a sky full of stars that are not the stars over Tessary, very bright and close, and then is the sea again." teaches foreclosed_known { }
+  Rule muster_warden when saultHoldsNote(ossel) and saultWarden(ossel) and not spread(muster_called_known)
+    says "At two in the morning the soldiers of the Long Muster wake in their beds all over the city, every one of them, for no reason, and lie listening. Nothing calls them. Out in the drowned city, in the starlight, a hundred and sixty more are walking home across the Forum, and at the head of them, in a wet sea-cloak with a lantern, the Factor of the Salt Moiety is picking her way over the weed and swearing." { Assert spread(muster_called_known). }
+  Rule foreclosure_told when foreclosed(ossel) and not spread(foreclosed_known)
+    and inTessary() says "At two in the morning nothing happens. The basin is out, lower than anyone remembers; the Tidewall bonfires have burned down to red; the last contracts of the year are ash. Nobody walks into the sea. Nobody walks out of it. Only, a long way out past the Hall of Oaths, where the outer bar meets the open water, the sea for a moment shows a sky full of stars that are not the stars over Tessary, very bright and close, and then is the sea again." { Assert spread(foreclosed_known). }
   Discovery foreclosed_known "At the Settlement the War Note fell in and nobody took it up. The held stay held, and the ledger is uneven at Tessary.".
 
   // ── What became of them ───────────────────────────────────────────────────────────────────────────────────────────

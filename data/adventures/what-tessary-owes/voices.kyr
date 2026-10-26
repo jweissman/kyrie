@@ -6,11 +6,11 @@ Module tessary "What Tessary Owes" {
     Retract at(sault, sault_office). Assert at(sault, tidewall). }
   Rule sault_from_wall when (hour(clock) >= 21 or hour(clock) < 18) and at(sault, tidewall) {
     Retract at(sault, tidewall). Assert at(sault, sault_office). }
-  Observe sault_eels near sault when at(sault, tidewall) "Factor Sault is leaning on the parapet with a paper cone of hot eels, watching her ships come in on the evening tide, and nodding to every second person who passes. Most of them nod back.".
+  Event sault_eels near sault when at(sault, tidewall) "Factor Sault is leaning on the parapet with a paper cone of hot eels, watching her ships come in on the evening tide, and nodding to every second person who passes. Most of them nod back.".
   Rule wick_to_forum when hour(clock) >= 10 and hour(clock) < 14 and at(wick, withies) { Retract at(wick, withies). Assert at(wick, forum). }
   Rule wick_from_forum when (hour(clock) >= 14 or hour(clock) < 10) and at(wick, forum) { Retract at(wick, forum). Assert at(wick, withies). }
   Observe wick_digging near wick when at(wick, forum) "Wick is up to his knees in a drain at the edge of the square with a rake, a bucket and an expression of total professional absorption.".
-  Observe wick_swept near wick when sweptOnce(party) and not knows(party, wick_teased) "Wick looks you up and down. 'You got rolled,' he says, delighted. 'Didn't you. Out through the Throat. Everybody does once.' He considers. 'Most people only once.'" teaches wick_teased.
+  Observe wick_swept near wick when sweptOnce(party) "Wick looks you up and down. 'You got rolled,' he says, delighted. 'Didn't you. Out through the Throat. Everybody does once.' He considers. 'Most people only once.'".
   Discovery wick_teased "Wick knows you were caught by the flood.".
 
   // ── Sergeant Durrance, on the way ─────────────────────────────────────────────────────────────────────────────────

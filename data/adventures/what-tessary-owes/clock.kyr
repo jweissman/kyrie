@@ -20,6 +20,8 @@ Module tessary "What Tessary Owes" {
   // Where word of the city's doings reaches the company: anywhere in Tessary, not under the sea. A company that has
   // been below hears what happened when it comes up.
   Relation cityRoom(place).
+  // News already gone round, so it is not told twice.
+  Relation spread(fact).
   Initially Assert cityRoom(throat_head).
   Initially Assert cityRoom(tidewall).
   Initially Assert cityRoom(legion_yard).
