@@ -29,6 +29,20 @@ Played from the title page at 1280 × 860:
 
 ## Done and verified
 
+- **E. A game kept in the browser is kept whole, and says when it cannot be** (the architecture review of 26 October,
+  N1 and N2).
+  - The state and the world are each written to the slot not in use, and the summary that names the slots is
+    written last. So a write the browser's quota refuses part-way leaves the game as it was last kept.
+  - The summary's world key no longer shares a name with the world's text.
+  - A game that cannot be kept is said so on the page, with a save to download.
+  - Every kept game carries the stamp of the build that kept it: a hash of the built engine, code and data together.
+    Only one kept by this very build is trusted unchecked; any other is checked as it is opened, and if it cannot be,
+    the player is told why in words.
+  - A game kept before slots opens and moves into them on its next keeping.
+  - Played: Sefa's game, kept by the build before, continued under the new one.
+
+  Test: `test/reader-store.test.ts`, with the review's probe as a quota fake.
+
 - **D. Low Water integrated.** The branch `adventure/low-water`, marked complete by its author, is merged whole: 23
   files of Kyr, its standalone campaign and its 36 journeys. Its two shared changes are taken:
   - underground ways are told without the sky, which also mends "climbing down a shaft told as a walk in the rain";

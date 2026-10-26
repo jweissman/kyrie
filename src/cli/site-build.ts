@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path';
 import type { PluginBuilder } from 'bun';
 import { Handbooks } from '../handbook/handbooks';
 import { HandbookPublisher } from '../handbook/publish';
+import { BuildStamp } from '../session/build-stamp';
 
 // Static browser build: classic IIFE scripts plus HTML/CSS with relative URLs, so the site works from file://,
 // a domain root, or a GitHub Pages repository subpath. Tests reuse bundle() to execute the browser artifact.
@@ -33,9 +34,12 @@ export class SiteBuild {
     const result = await Bun.build({ entrypoints: [join(this.root, 'web/engine/engine-worker.ts')], target: 'browser',
       format: 'iife', minify, plugins: [{ name: 'single-ohm', setup: SiteBuild.singleOhm },
         ...files ? [{ name: 'fixtures', setup: SiteBuild.fixtures.bind(SiteBuild, files) }] : []],
-      define: { 'process.env.NODE_ENV': '"production"' } });
+      define: { 'process.env.NODE_ENV': '"production"', KYRIE_BUILD: JSON.stringify(BuildStamp.placeholder) } });
     if (!result.success) { throw new AggregateError(result.logs, 'Engine build failed'); }
-    return result.outputs[0]!.text();
+    // The build is known by the engine it built: code and data hashed together, and written in where it is asked.
+    const text = await result.outputs[0]!.text();
+    const stamp = new Bun.CryptoHasher('sha256').update(text).digest('hex').slice(0, 16);
+    return text.replaceAll(BuildStamp.placeholder, stamp);
   }
   static fixtures(files: Record<string, string>, build: PluginBuilder) {
     build.onLoad({ filter: /bundles\.generated\.json$/ }, () => ({ contents: JSON.stringify(files), loader: 'json' }));

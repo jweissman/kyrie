@@ -46,6 +46,8 @@ export interface AppState {
   stage: string; error: string; help: boolean;
   // The whole story so far, asked for when the Story is opened (frames carry only its last entries).
   story?: Entry[];
+  // Whether the last game the engine kept could not be kept in this browser (see ReaderStore.write).
+  unkept?: boolean;
   // The thing the last command was done to, from its own page: what came of it is told there, and not under another
   // thing looked at after (leave taken of the steward, told under his hook).
   acted?: string;
@@ -93,7 +95,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (message.kind === 'saved') {
       const started = performance.now(), size = message.save.length + (message.world?.text.length ?? 0);
       const saved = ReaderStore.write(message.save, message.summary, message.world);
-      if (saved) { this.setState({ saved }, () => Timings.kept(performance.now() - started, size)); }
+      if (saved) { this.setState({ saved, unkept: false }, () => Timings.kept(performance.now() - started, size)); }
+      // Not kept (the browser's storage is full, or refused): the player is told, and given the save to take.
+      else if (!this.state.unkept) { this.setState({ unkept: true }); }
     } else if (message.kind === 'progress') { this.setState({ stage: message.stage }); }
     else if (message.kind === 'frame') {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight

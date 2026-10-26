@@ -3,6 +3,7 @@ import type { CampaignSave } from '../../src/campaign/campaign-types';
 import type { Call, WorldState } from '../../src/lang/module';
 import type { Entry } from './protocol';
 import type { World } from '../../src/lang/world';
+import { BuildStamp } from '../../src/session/build-stamp';
 
 // A game as the browser keeps it. What the company has done and where it stands changes with every command and is
 // kept after each; the world it does it in (the compiled module, the campaign's definition, and every fact as it stood
@@ -17,6 +18,8 @@ export interface Facts { removed: number[]; tail: Call[]; measures: WorldState['
 type State = CampaignSave['state'];
 export interface KeptState {
   version: 2; world: string; log?: Entry[];
+  // The build that kept it (BuildStamp): a game kept by another build is checked as it is opened, not trusted.
+  build?: string;
   checkpoint: Omit<SessionCheckpoint, 'save'> & {
     save: Omit<CampaignSave, 'module' | 'definition' | 'state'> & { state: Omit<State, 'world'>; facts: Facts } };
 }
@@ -39,7 +42,8 @@ export class KeptGame {
   // Given the world the checkpoint was taken of (live), its facts are read from it relation by relation.
   static split(checkpoint: SessionCheckpoint, world: Keyed, log: Entry[], live?: World): KeptState {
     const save = checkpoint.save, { world: facts, ...state } = save.state;
-    return { version: 2, world: world.key, log, checkpoint: { ...checkpoint, save: { version: save.version,
+    return { version: 2, world: world.key, build: BuildStamp.current, log, checkpoint: { ...checkpoint, save: {
+      version: save.version,
       ...save.actionFormat ? { actionFormat: save.actionFormat } : {}, state, creatures: save.creatures,
       events: save.events, encounter: save.encounter, observations: save.observations,
       facts: live ? this.differLive(live, facts.measures, world) : this.differ(facts, world) } } };

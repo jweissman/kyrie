@@ -25,7 +25,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a kept game with a thing of its own
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.do('ox', 'Take');
-    await page.waitForFunction(() => !!localStorage.getItem('kyrie.mono.v1'), null, { timeout: 30000 });
+    await page.waitForFunction(() => !!localStorage.getItem('kyrie.mono.v1.summary'), null, { timeout: 30000 });
     await page.waitForTimeout(500);
     await page.reload();
     await driver.click('[data-action="continue"]');

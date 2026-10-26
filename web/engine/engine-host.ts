@@ -23,6 +23,7 @@ import { Endings } from '../../src/lang/endings';
 import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary';
+import { BuildStamp } from '../../src/session/build-stamp';
 
 // A journey as it goes: each leg as it was told, and the frame the last one left.
 interface Trail { legs: NonNullable<Frame['travel']>['legs']; last?: Frame }
@@ -118,9 +119,14 @@ export class EngineHost {
     const parsed = JSON.parse(await SaveCodec.unpack(text)) as KeptState | Whole | SessionCheckpoint;
     const part = world ? JSON.parse(await SaveCodec.unpack(world)) as WorldPart : undefined;
     const saved = KeptGame.join(parsed, part), kept = 'version' in parsed && parsed.version === 2;
-    // Parsed here for this alone, it is handed over; one this engine kept itself (state and world) is not checked
-    // again.
-    this.session = PlaySession.resume(saved.checkpoint, { owned: true, trusted: kept });
+    // Parsed here for this alone, it is handed over; one this very build kept (state and world) is not checked again.
+    // One kept by another build is checked as it is opened, and if it cannot be, the player is told why.
+    const trusted = kept && parsed.build === BuildStamp.current;
+    try { this.session = PlaySession.resume(saved.checkpoint, { owned: true, trusted }); } catch (error) {
+      if (trusted) { throw error; }
+      throw new Error(`This game was kept by an earlier edition of Kyr, and this one cannot open it (${
+        error instanceof Error ? error.message : String(error)}). A new game can be begun from the title page.`);
+    }
     // The world it came with is kept already: known by the same key, and by the module the campaign now holds.
     const live = this.session.checkpoint(true).save;
     this.world = 'version' in parsed && parsed.version === 2 && part ? { key: parsed.world, kept: true,
