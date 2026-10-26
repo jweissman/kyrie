@@ -1,0 +1,14 @@
+Module admitted "A gate a rule opens" {
+  Place court "the outer court" is settlement.
+  Place lane "the lane" is room within court at 0, 0.
+  Place porch "the porch" is room within court at 1, 0.
+  Place hall "the hall" is room within court at 2, 0.
+  Company party "You" of 1 at lane.
+  Passage walk "the walk" is path between lane and porch.
+  // The gate's opening is declared before the rule that admits the company (Low Water's 1, What Tessary Owes' W10).
+  Passage inner "the inner gate" is gate between porch and hall
+    opening when admitted(party) "The inner gate is barred.".
+  Relation admitted(group).
+  Rule admit when at(party, porch) and not admitted(party) says "The porter sees you on the porch and lifts the bar." { Assert admitted(party). }
+  Observe porch_scene at porch when true "A stone porch before the inner gate.".
+}

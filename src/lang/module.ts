@@ -58,6 +58,8 @@ export interface WorldRule {
   id: string; when: Predicate; effects: Change[]; say?: string; place?: string; anchor?: Anchor;
   // A fact its words teach whoever hears them: known, as witnessed, when the company perceives them.
   teaches?: string;
+  // Read again once the rules of the moment have run: a way's opening (see WorldConstructs.opening).
+  upkeep?: boolean;
 }
 // What an observation tells of: what a place is (a fixture, the default), a part worth a closer look (a feature),
 // evidence of something (a sign), the sky (weather), the passing life of the place (ambience), something happening

@@ -98,23 +98,29 @@ export class CampaignTick {
       elapsed: host.tickState.current.elapsed, changes: this.diff(prior, host.world) });
     host.recordObservations();
   }
+  // The world's rules, in the order they are declared; then a way's opening once more, so that a gate declared
+  // before the rule that lets the company through is open as soon as it has (Low Water's 1, the Assayers' gate; What
+  // Tessary Owes' W10, the black wall that shut a watch late).
   static rules(host: TickHost, happenings: Happening[]) {
+    const rules = host.module.rules ?? [];
+    for (const rule of rules) { this.fire(host, rule, happenings); }
+    for (const rule of rules) { if (rule.upkeep) { this.fire(host, rule, happenings); } }
+  }
+  private static fire(host: TickHost, rule: WorldRule, happenings: Happening[]) {
     const { definition, creatures } = host.tickState;
-    for (const rule of host.module.rules ?? []) {
-      for (const [effects, binding] of this.instances(rule, host.world)) {
-        // Each instance fires only if its condition still holds after those before it (two powers cannot both seize
-        // the one stronghold left vacant).
-        if (Object.keys(binding).length && !host.world.test(rule.when, binding)) { continue; }
-        const prior = host.world, next = prior.apply(effects);
-        CreatureFacts.commitMoney(prior, next, definition.actors, creatures);
-        // The world itself is kept, not a copy of its facts, which the next reading of the world would build again
-        // from every fact (Mission 15's profile: most of a command's time in a country of several regions).
-        host.commitWorld(next);
-        const player = host.playerActor;
-        if (rule.say && player && next.test(ModuleWriter.call('able', player))
-          && (!rule.place || LocalObservations.perceives(next, player, rule.place, rule.anchor))) {
-          happenings.push({ id: rule.id, text: ObservationText.render(rule.say, next, true, binding), kind: 'event' });
-        }
+    for (const [effects, binding] of this.instances(rule, host.world)) {
+      // Each instance fires only if its condition still holds after those before it (two powers cannot both seize
+      // the one stronghold left vacant).
+      if (Object.keys(binding).length && !host.world.test(rule.when, binding)) { continue; }
+      const prior = host.world, next = prior.apply(effects);
+      CreatureFacts.commitMoney(prior, next, definition.actors, creatures);
+      // The world itself is kept, not a copy of its facts, which the next reading of the world would build again
+      // from every fact (Mission 15's profile: most of a command's time in a country of several regions).
+      host.commitWorld(next);
+      const player = host.playerActor;
+      if (rule.say && player && next.test(ModuleWriter.call('able', player))
+        && (!rule.place || LocalObservations.perceives(next, player, rule.place, rule.anchor))) {
+        happenings.push({ id: rule.id, text: ObservationText.render(rule.say, next, true, binding), kind: 'event' });
       }
     }
   }
