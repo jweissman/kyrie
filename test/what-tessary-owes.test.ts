@@ -248,6 +248,17 @@ describe('What Tessary Owes: more than one key', () => {
     expect(g.holds('registered', 'party')).toBe(false);
   }, 240000);
 
+  it('the eel-mother warns at the foot of the Throat Stair at the night ebb, and a company that listens can go back up', async () => {
+    const g = await Tessary.start();
+    await g.play('To the Landgate', 'To the Withies', 'Ask Wick about going down at the night ebb', 'To the Tideline Steps',
+      'To the head of the Throat', '=230', 'To the foot of the Throat');
+    expect(g.knows('eelmother_known')).toBe(true);
+    expect(g.page).toMatch(/She does not want you on her stair/);
+    await g.play('To the head of the Throat');
+    expect(g.j.campaign.world.one('at', 'party')).toBe(t('throat_head'));
+    expect(g.running).toBe(true);
+  }, 240000);
+
   it('Bettany Slake hands over the letter to someone who tells her what her letters are for', async () => {
     const g = await Tessary.start();
     await g.play('To the Landgate', 'To Scriveners', 'Into the Exchequer', 'Read a list', 'Out to Scriveners', 'To the Landgate',

@@ -194,7 +194,7 @@ Module tessary "What Tessary Owes" {
   // Eldest of the Scruples. He swore the drowned city's compact, and has kept the ledger for eleven hundred years
   // since he failed to keep his word. He cannot lie. He can choose what to say.
   Person comptroller "the Comptroller" at comptroller_office {
-    Role "eldest of the Scruples, very tall and very thin, the ruled lines on his face so close they look like shading". Ancestry human. Calling mage. Level 9. Peaceable. Pronouns he. Manner proud.
+    Role "eldest of the Scruples, tall and thin as a rule, the ruled lines on his face so close they look like shading". Ancestry human. Calling mage. Level 9. Peaceable. Pronouns he. Manner proud.
     Greets "The Comptroller looks up from the black glass. His eyes are the colour of old paper. 'You have come down,' he says, 'from the debtor's city. Very well. You may ask.'".
   }
   Topic comptroller_note with comptroller "Ask the Comptroller about the War Note" when true once {

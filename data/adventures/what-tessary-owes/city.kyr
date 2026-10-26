@@ -71,10 +71,10 @@ Module tessary "What Tessary Owes" {
   // The Tidewall: the barrage on Aenean footings.
   Observe tidewall_scene at tidewall when not visitedBefore(tidewall) "The Tidewall runs the whole length of the city between the houses and the sea, broad enough on top for two carts. Its lower courses are not the city's: great blocks, tight-fitted, with no mortar, carved at intervals with a pair of scales. The city built its wall on top of someone else's. On the landward side a stair goes down into the Lettered Quarter.".
   Observe tidewall_scene_again at tidewall when visitedBefore(tidewall) "The Tidewall, broad as a road, with the sea on one side and the city on the other.".
-  Observe tidewall_day at tidewall when not dark() "Fishermen sit along the parapet with lines. A woman is selling eels in a paper cone, hot, with vinegar.".
+  Observe tidewall_day at tidewall when not dark() "Fishermen sit along the parapet with lines, and the smell of vinegar comes down the wall from a brazier on a barrow.".
 
   // The Legion Yard and the Oath Stone.
-  Observe yard_scene at legion_yard when true "A parade ground of beaten shell inside the Tidewall, ringed with empty barracks. In the middle of it, on a plinth, stands the Oath Stone: a slab of black stone as tall as a man, salvaged from the drowned city two hundred years ago, smooth as a hearthstone where eleven thousand hands have been laid on it. Cut into its face, very small and very fine, are lines that are not writing and not ornament: ruled lines, like a ledger's.".
+  Observe yard_scene at legion_yard when true "A parade ground of beaten shell inside the Tidewall, ringed with empty barracks. In the middle of it, on a plinth, stands the Oath Stone: a slab of black stone as tall as a man, salvaged from the drowned city two hundred years ago, smooth as a hearthstone where eleven thousand hands have been laid on it. Cut into its face, small and fine, are lines that are not writing and not ornament: ruled lines, like a ledger's.".
   Observe yard_empty at legion_yard when not feastEve() "The barracks doors stand open. The Muster was paid off a week ago and told to go home, and the Yard has nobody in it but a sergeant of the Watch and the gulls.".
 
   // Scriveners' Row, the heart of the Lettered Quarter.

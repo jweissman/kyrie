@@ -100,7 +100,7 @@ Module tessary "What Tessary Owes" {
     Change uncover "Pull the cloth off the Third Company's drum and beat the stand-down" from muffled to bare.
   }
   Rule drum_breaks when state(third_drum, bare) and durranceWalking(ossel) and not heldBack(durrance) and hour(clock) == 1
-    says "The drum is very loud in the low room. Rap, rap, and the long roll, and rap: the stand-down, that every soldier of the Muster has heard at the end of every day for eleven years. Durrance stops with one boot off. All over the Withies, in the stilt-houses, you hear other things stop: a door, a ladder, someone on the boardwalk. Durrance sits down, hard, on the floor, and looks at the boot in her hand as if she has never seen it." {
+    says "The drum fills the low room. Rap, rap, and the long roll, and rap: the stand-down, that every soldier of the Muster has heard at the end of every day for eleven years. Durrance stops with one boot off. All over the Withies, in the stilt-houses, you hear other things stop: a door, a ladder, someone on the boardwalk. Durrance sits down, hard, on the floor, and looks at the boot in her hand as if she has never seen it." {
     Assert heldBack(durrance). Assert drumBeaten(ossel). }
   Rule drum_offends when state(third_drum, bare) and not drumBeaten(ossel) and at(party, drum_taproom)
     says "Hannelore Sedge comes round the bar and puts the cloth back over the drum's head, and ties it, and looks at you. 'I said don't,' she says. 'I said it kindly.'" {

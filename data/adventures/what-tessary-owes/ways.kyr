@@ -108,4 +108,57 @@ Module tessary "What Tessary Owes" {
     Says "'Standing,' says Davy. 'In a line. White, everywhere, like snow with no cold in it.' He looks at his hands. 'And a voice somewhere singing the Sally song over and over, a woman, very far off. I kept trying to remember the last verse and I couldn't.' He looks up at his mother. 'He comes home,' he says. 'In the last verse. I remember now.'".
   }
   Rule davy_wakes_home when cameHome(davy) and at(davy, teazle_room) and asleep(davy) and hour(clock) >= 8 and hour(clock) < 20 { Retract asleep(davy). }
+
+  // ── The eel-mother ────────────────────────────────────────────────────────────────────────────────────────────────
+  // A conger as long as a boat that comes up the Throat at the night ebb to hunt the drained streets, and lies at the
+  // foot of the stair. By day she is out in the deep channel. Ways past her: by day; by the Factor's cistern; quietly,
+  // while she is turned to the channel; or with what the Withies always give her, hot eels with vinegar, which she
+  // likes better than anyone has ever been able to explain.
+  Species conger_kind "a great conger" like great_snake temperament territorial
+    described "An eel as long as a boat and as thick as a horse, grey-black, with a head like a ram and a mouth full of back-curved teeth. The Withies call her the eel-mother and say she was old when their grandmothers were girls.".
+  Person eelmother "the eel-mother" at throat_foot {
+    Role "a conger as long as a boat, lying in the channel at the stair-foot". Species conger_kind. Level 5. Pronouns she.
+    Seen when dark() and lowWater().
+    Warns "The black water at the foot of the stair humps up, and a head as big as a ram's comes out of it on a neck that keeps coming, and turns, slowly, toward your light. Her mouth is open. She does not want you on her stair.".
+    Comes "The eel-mother comes up out of the channel all at once, the whole grey length of her, faster than anything that size should move.".
+  }
+  Kind hot_eels "a paper cone of hot eels" is gear worth 1 weighing 0
+    described "Eels, stewed and sliced, hot, in a cone of the city's own paper, with too much vinegar. The paper is going soft.".
+  Person eel_seller "Old Gudrun" at tidewall {
+    Role "who sells hot eels in paper cones on the Tidewall, from a brazier on a barrow". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Sells hot_eels for 1 coin from 6.
+    Seen when not dark().
+  }
+  Topic gudrun_eelmother with eel_seller "Ask Old Gudrun about the eel-mother" when true once {
+    Says "'Her?' Old Gudrun laughs, and stirs the pot. 'She's been coming up the Throat at the night ebb since my gran was a girl. Takes a dog now and then. Took a mudlark in my mother's time, and they say the mudlark had it coming.' She fills a cone and holds it out to you, steaming. 'You want to go down there of a night, you take her a cone of these. Vinegar. Lots. Throw it in the channel and she'll stop to eat it, and while she's eating you go by. She's been eating my eels sixty years. She knows the smell of my pot better than my husband does.'".
+    On discuss { Assert knows(actor, eelmother_known). }
+  }
+  Discovery eelmother_known "A great conger, the eel-mother, comes up the Throat at the night ebb and lies at the foot of the stair; a cone of hot eels thrown into the channel stops her long enough to get past.".
+  Topic wick_night_ebb with wick "Ask Wick about going down at the night ebb" when true once {
+    Says "'Don't,' says Wick at once. 'Not at the night ebb. The eel-mother comes up.' He holds his hands as far apart as they go, and then looks at them as if they were not nearly far enough. 'She lies at the bottom of the stair with her head out. You take her Gudrun's eels, from the barrow on the Wall. Everybody knows that.' He considers. 'Or you go round by the Factor's tunnel, but they'll break your head. Or you don't go.'".
+    On discuss { Assert knows(actor, eelmother_known). }
+  }
+  Relation eelmotherFed(place).
+  Action feed_eelmother(actor: group, giver: member, cone: item, site: place) "Throw {cone} into the channel" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, throat_foot) and at(eelmother, throat_foot)
+      and able(eelmother) and dark() and lowWater() and memberOf(giver, actor) and ownedItem(cone, giver) and itemKind(cone, hot_eels)
+      and not eelmotherFed(ossel).
+    Resolve drop(cone, giver).
+    On success { Assert eelmotherFed(ossel). Assert tolerates(eelmother, actor). Retract assails(eelmother, actor). }
+    Result "The cone hits the black water and opens, and the smell of vinegar goes up, and the great head turns away from you toward it with something you would swear was pleasure. She takes the whole thing, paper and all, in one movement, and slides back down into the channel to see if there is any more. You go past the end of her while she looks.".
+  }
+  Rule eelmother_full when eelmotherFed(ossel) and not dark() { Retract eelmotherFed(ossel). Retract tolerates(eelmother, party). }
+  Action slip_eelmother(actor: group, site: place) "Wait for her to turn to the channel, and go by along the wall" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, throat_foot) and at(eelmother, throat_foot)
+      and able(eelmother) and dark() and lowWater() and not tolerates(eelmother, actor) and not triedEel(actor).
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert tolerates(eelmother, actor). }
+    On failure { Assert triedEel(actor). Assert assails(eelmother, actor). }
+    Result "You stand pressed against the wet wall of the stair-foot for a long time, while the great head swings slowly back and forth over the channel, and when it is turned away you go, along the wall, one step and then another, close enough to smell her. She does not turn.".
+    Otherwise "A stone turns under your boot. The head comes round.".
+  }
+  Relation triedEel(group).
+  Rule eel_forgets when tolerates(eelmother, party) and not dark() and not eelmotherFed(ossel) { Retract tolerates(eelmother, party). }
 }
