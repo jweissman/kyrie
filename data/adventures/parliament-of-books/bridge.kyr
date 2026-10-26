@@ -1,0 +1,71 @@
+Module calamy "A Parliament of Books" {
+  Description "The Penny Bridge: nineteen arches, a stall on every pier, the chapel pier and its children, a ballad, a puppet booth, and the penny almanacks.".
+
+  Observe bridge_south_scene at bridge_south when true "The bridge begins as a street: sheds and stalls on both sides built out over the water on brackets, so that you walk between walls of books and ballads and pies with the river showing through the cracks in the planks. A tooth-drawer, a pie-man, three second-hand bookstalls with their tables tilted to the light, and a puppet booth with a striped curtain and a crowd of children in front of it.".
+  Observe bridge_middle_scene at bridge_middle when true "Halfway over, the bridge widens round a pier with a tiny chapel on it no bigger than a cart, with a bell in a hutch on its roof. Children are skipping a long rope across the whole width of the bridge, so that everyone has to wait or jump; a ballad-seller has his sheets pegged to a line along the parapet; and a broadside on the line is singing, by itself, quite loudly.".
+  Observe bridge_north_scene at bridge_north when true "The north end of the bridge comes up under the city wall. Stalls of almanacks and ballads and prints; a toll-house with a window like a ticket-office; and the river stair going up to an old gate in the wall, with a road running off east along the river toward a new town of chimneys.".
+
+  // ── The almanack stall. ──
+  Person lettice "Lettice Ames" at bridge_north {
+    Role "almanack-seller". Ancestry human. Background street_vendor. Peaceable. Manner cheerful. Pronouns she.
+    Sells almanack_copy for 1 coin from 30.
+    Greets "'Almanacks, almanacks, tides and saints and the weather for the year, a penny, half price, the year's nearly out!' calls a young woman behind a stall of little paper books strung on cords like fish. 'Talks for nothing.'".
+  }
+  Topic lettice_trade with lettice "Ask Lettice Ames how the almanacks are selling" when true once {
+    Says "'Badly,' says Lettice cheerfully. 'Every house in Calamy bought one at Candlemas, and then they started talking, and now nobody wants another, and I've forty left and nine days to the Kindling.' She flicks one so that it swings on its cord. 'Doble'll print next year's soon and I'll sell those, and these go on the fire.' The one she flicked says, distinctly, 'Ow.' Lettice does not even look round. 'They do that.'".
+  }
+
+  // ── The children on the chapel pier, and their rhyme. ──
+  Person children "the children on the bridge" at bridge_middle {
+    Role "a dozen children of the Hithe and Stitchgate, skipping". Ancestry human. Numbers 12. Peaceable. Manner cheerful.
+    Greets "The rope stops. A dozen faces turn to look at you, and a girl with a missing front tooth says, 'You're not from here,' as if it were a crime.".
+  }
+  Discovery rhyme_heard "The children of Calamy skip to a rhyme on the bridge: SEW IT UP AND SEND IT HOME, READ IT ONCE AND LEAVE ALONE, BURN IT IF IT ASKS YOU TO, KINDLING KINDLING ONE FOR YOU.".
+  Topic children_rhyme with children "Ask the children what they are singing" when true once {
+    Says "'The Kindling rhyme,' says the girl with the gap, scornfully. 'Everybody knows the Kindling rhyme.' And to show you, they start the rope again, and chant it, slapping their feet down on the planks: SEW it UP and SEND it HOME, READ it ONCE and LEAVE a-LONE, BURN it IF it ASKS you TO, KINDling KINDling ONE for YOU! At YOU the rope stops on somebody's ankle, and that one is out, and everybody screams.".
+    On discuss { Assert knows(actor, rhyme_heard). }
+  }
+  Topic children_school with children "Ask the children why they are not at school" when true once {
+    Says "'School's shut,' says a boy. 'Dame Pruett died.' 'At Michaelmas,' says the girl with the gap. 'She was a hundred.' 'She was not.' 'She was nearly.' The boy shrugs. 'Nobody's took it. So we come here.' He looks at the ballad on the line, which is singing. 'You can learn a lot on the bridge.'".
+  }
+  Relation readToChildren(group).
+  Action read_to_children(actor: group, site: place) "Sit on the parapet and read the children their primer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(children, site) and carries(actor, dame_primer) and not readToChildren(children).
+    Time 3.
+    On success { Assert readToChildren(children). Assert readToSomeone(actor). Assert readTo(children). }
+    Result "You sit on the parapet with the primer open, and at first only the smallest of them come, and then the rest drift over pretending not to. A is for Apple. B is for Binder. C is for Calamy, our City. They know most of it already and shout the letters before you can, and argue about Q, which is for Quill in the primer and for Quarrel according to the boy. When you get to the Lamp prayer at the end the girl with the gap says it with you under her breath, and then looks furious that anyone saw.".
+  }
+
+  // ── The Ballad of Alderman Prowse. ──
+  Person ballad "the Ballad of Alderman Prowse" at bridge_middle {
+    Role "a printed broadside on a line, singing". Peaceable. Pronouns it. Manner jovial.
+    Greets "The broadside on the line, a sheet with a woodcut of a fat man and a girl with a basket of fish, stops in the middle of a verse. 'A listener!' it says, in a voice like a cheerful drunk. 'Gather round, gather round, it's the Ballad of Alderman Prowse and the Fishwife's Daughter, in nine verses, with a chorus.'".
+  }
+  Person dickon "Dickon Spry" at bridge_middle {
+    Role "ballad-seller". Ancestry human. Calling bard. Background minstrel. Peaceable. Manner jovial. Pronouns he.
+    Greets "A thin man with a hat full of ribbons and a voice worn to a croak tips the hat. 'Ballads, ballads, love and murder and aldermen, a ha'penny the sheet. That one sings itself. Saves my throat.'".
+  }
+  Discovery ballad_trouble "The Ballad of Alderman Prowse, four hundred broadsides that woke and sing themselves in every alehouse in Calamy, tells how the alderman courted a fishwife's daughter and was thrown in the river by her mother. Alderman Prowse wants it suppressed; the Ballad wants to be sung; Dickon Spry wants to sell it.".
+  Topic ballad_want with ballad "Ask the Ballad what it wants" when true once {
+    Says "'To be sung!' says the Ballad, astonished. 'What else does a ballad want? Four hundred of me, in four hundred taprooms, and every night somebody joins in the chorus, and he falls in the river, and they laugh, and I'm alive!' It rustles on its peg. 'Prowse wants me burned. Prowse! He did fall in the river. Ask anybody.' A pause. 'I'll grant you verse seven is unkind.'".
+    On discuss { Assert knows(actor, ballad_trouble). }
+  }
+  Relation balladBurned(group). Relation balladRevised(group).
+  Topic ballad_verse with ballad "Ask the Ballad to put a kinder last verse on itself, for Prowse's sake" when knows(actor, ballad_trouble) and not balladRevised(ballad) and not balladBurned(ballad) once {
+    Says "'A kinder verse?' The Ballad sounds wounded, and then interested. 'A last verse where he climbs out of the river and marries the mother instead? Hm.' It hums. 'Hm! That's a better ending. That's a much better ending. That's an ending people will buy two of, one for themselves and one for their alderman.' It begins, at once, to sing it, and Dickon Spry reaches for his pencil to take it down. 'Prowse'll buy a hundred,' says the Ballad smugly. 'You see if he doesn't.'".
+    On discuss { Assert balladRevised(ballad). }
+  }
+  Relation prowseSatisfied(group).
+  Item ballad_bundle "Dickon's whole stock of the Ballad" is ballad_kind at bridge_middle hidden until ballad_bought.
+  Discovery ballad_bought "You have bought Dickon Spry's whole stock of the Ballad of Alderman Prowse, every sheet he has, for ten coin.".
+  Action buy_ballads(actor: group, site: place) "Buy Dickon Spry's whole stock of the Ballad, for ten coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(dickon, site) and knows(actor, ballad_trouble) and knows(actor, prowse_wants) and not balladRevised(ballad)
+      and quantity(actor, gold) >= 10 and not knows(actor, ballad_bought).
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 10. Increase quantity(dickon, gold) by 10. Assert knows(actor, ballad_bought). }
+    Result "Dickon Spry counts the coins twice and then unpegs the whole line, and bundles the sheets up, and ties them with a ribbon from his hat. 'There's more in the taprooms,' he says. 'But that's the printing. He won't print another.' The bundle, under your arm, has stopped singing. It is listening.".
+  }
+
+  // ── The puppet booth. ──
+  Observe puppets at bridge_south when hour(clock) >= 14 and hour(clock) < 17 "The striped curtain of the puppet booth is open, and the show is on: a puppet in grey with a little lamp on its hat is chasing a puppet book round the stage with a stick, crying UNQUIET! UNQUIET! The book hides behind a puppet baker, and then a puppet priest, and then turns and hits the grey puppet over the head with itself, and the children scream with joy, and the grey puppet falls down, and the book reads it a sermon.".
+}

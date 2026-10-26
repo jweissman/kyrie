@@ -1,0 +1,4 @@
+Module calamy "A Parliament of Books" {
+  // Calamy as a country beyond a march: the company that comes over the saltings is the world's own.
+  Entity party: group "Your company".
+}

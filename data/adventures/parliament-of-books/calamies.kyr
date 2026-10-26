@@ -1,0 +1,46 @@
+Module calamy "A Parliament of Books" {
+  Description "The Calamies: the reed-beds downriver, the saltings where the sheep are dying, and the ridge of a drowned roof.".
+
+  Observe flats_note at mudbank when true "Under the mills the mud goes out grey and shining toward the reed-beds, a mile or more of it, with a path of old black stones laid across it that shows only when the tide is out.".
+  Observe reed_edge_scene at reed_edge when true "The reeds stand higher than your head, grey-green, whispering, with their feathery tops all leaning one way. A cut runs into them, a straight channel someone dug long ago. To the north a bank of turf goes along the edge of the reeds to a stretch of salt pasture with sheep on it. Behind you, small and far, the mills and the bridge and the hill.".
+  Observe reed_heart_scene at reed_heart when true "In the middle of the reed-beds the channel opens into a pool of black mud and standing water ringed with the biggest reeds you have ever seen, stems as thick as your wrist, with white pith showing where the birds have broken them. Among them, low and sly, are clumps of a different plant with sword-shaped leaves that smell, when you crush one, of tangerine and church. In the middle of the pool a ridge of carved stone shows above the mud, like the top of a roof.".
+  Discovery drowned_ridge "In the heart of the Calamies a ridge of carved stone shows at dead low water, the top of a roof older than Calamy, with letters on it nobody in the city can read.".
+  Thing ridge "the carved ridge" at reed_heart {
+    State showing "A ridge of grey stone, carved with a row of letters, shows above the mud.".
+  }
+  Observe ridge_close at reed_heart of ridge when tried(ridge, looking) and not capable(party, lore) "The letters are cut deep and sharp, nine hundred years and more under the mud and still sharp: square, flat-topped, nothing like the letters of Calamy. You cannot read a word of them." teaches drowned_ridge.
+  Observe ridge_lore at reed_heart of ridge when tried(ridge, looking) and capable(party, lore) "The letters are cut deep and sharp, square and flat-topped: the old courier script, the letters of the road that came to the Hithe from an empire nobody in Calamy remembers the name of. You can make out a few: the house of the posts; and a word that might mean ford, or might mean crossing, or might mean the place where one thing becomes another. Whoever built here was writing before Calamy was a word." teaches drowned_ridge.
+
+  // At dead low water the heart of the reeds can be cut, and the calamus dug.
+  Item reed_cut "an armful of reed-heart" is reed_heart_kind at reed_heart hidden until reed_known.
+  Discovery reed_known "Reed-heart for Calam-ink is the white pith of the big reeds in the heart of the Calamies, cut at dead low water.".
+  Item calamus_dug "a calamus root" is calamus_kind at reed_heart hidden until calamus_known.
+  Discovery calamus_known "Calamus, sweet rush, grows among the big reeds in the heart of the Calamies: the reed the city is named for, and a root the old herbals prized.".
+  Observe reed_learned at reed_heart when deadLow() "The tide is at the very bottom. The channel has drained to a trickle and the reed-stems stand up out of dry black mud, their white hearts showing where the birds have broken them." teaches reed_known.
+  Observe calamus_learned at reed_heart when true "Among the reeds the sword-leaved plants have roots that show at the mud's edge, knobbed and brown. Calamus. Sweet rush. The herbals in every apothecary's in Calamy have a woodcut of it on the first page." teaches calamus_known.
+
+  // The saltings: Gil Marrish's sheep, dosed by the book.
+  Observe saltings_scene at saltings when true "A stretch of salt pasture, short turf and sea-lavender, with the reeds on one side and the estuary on the other. A flock of sheep, two hundred or so; and too many of them lying down, and some of them not getting up. A shepherd sits on a stile with a book in his lap and his head in his hands.".
+  Person gil "Gil Marrish" at saltings {
+    Role "shepherd of the saltings". Ancestry human. Background herdsman. Peaceable. Manner grim. Pronouns he.
+    Greets "The shepherd on the stile looks up, and then down again at the book in his lap. 'If you know sheep,' he says, 'I'll be glad of you. If you don't, there's nothing here worth looking at.'".
+  }
+  Discovery sheep_poisoned "Gil Marrish's sheep on the saltings are dying: he dosed them for the fluke with bluestone, a pound to the score as Pask's Treatise on the Diseases of Sheep told him, and it is a poisoning dose. Every shepherd's grandfather used a pennyweight.".
+  Topic gil_sheep with gil "Ask Gil Marrish what ails his flock" when true once {
+    Says "'Fluke,' says Gil Marrish. 'Liver fluke, off the wet pasture. So I dosed them, like the book says.' He holds it up: a thin new book with a woodcut of a ram on the front. PASK. A TREATISE ON THE DISEASES OF SHEEP. DOBLE, PRINTER. 'Bluestone. A pound to the score. Page thirty-one.' He shows you. 'Thirty of them dead in a week. My dad used to dose with bluestone and he never lost one, and I can't for the life of me remember how much he used, and the book says a pound.' He shuts it. 'The book's been saying sorry, nights. In the hut. I thought it was me going soft.'".
+    On discuss { Assert knows(actor, sheep_poisoned). }
+  }
+  Observe sheep_judged at saltings when knows(party, sheep_poisoned) and (craft(party, craft_wild) or capable(party, mending) or craft(party, craft_healing)) "You know enough to see it: the yellow in their eyes, the way they stand with their heads down, the scour. Copper. They have had a dose of bluestone that would kill a horse. A pound to the score is not a dose; it is a sentence. A pennyweight, more like, is what the book meant." teaches dose_known.
+  Discovery dose_known "A pound of bluestone to the score is a killing dose; the right dose for the fluke is a pennyweight. Pask's Treatise as printed says a pound.".
+  Relation willTestify(group).
+  Topic gil_court with gil "Ask Gil Marrish to tell the Court of Pleas what the book did to his sheep" when knows(actor, sheep_poisoned) and knows(actor, pask_suit) and not willTestify(gil) once {
+    Says "'The Court?' Gil looks at you as if you had asked him to go to the moon. 'About sheep?' He looks at the flock. 'The book's suing the printer. I heard that in the Lamb and laughed.' He stops laughing. 'Thirty dead.' He gets off the stile. 'I'll come. I'll tell them. I'll bring a fleece.'".
+    On discuss { Assert willTestify(gil). }
+  }
+  Relation dosedRight(group).
+  Topic gil_dose with gil "Tell Gil Marrish the right dose is a pennyweight" when knows(actor, dose_known) and not dosedRight(gil) once {
+    Says "Gil Marrish stares at you, and then at page thirty-one, and then he puts his face in his hands and laughs, a horrible laugh with no breath in it. 'A pennyweight. That's what Dad said. A pennyweight. I knew it was little. I knew it.' He gets up off the stile. 'Some of them'll live, if I stop now. Some of them.' He goes off among the flock without saying anything else.".
+    On discuss { Assert dosedRight(gil). }
+  }
+  Observe sheep_recovering at saltings when dosedRight(gil) and day(clock) >= 5 "The sheep on the saltings are up and grazing, most of them. A few are thin. Gil Marrish has built a little cairn of turf at the end of the pasture with thirty stones on it.".
+}

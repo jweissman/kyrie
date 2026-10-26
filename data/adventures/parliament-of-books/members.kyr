@@ -1,0 +1,273 @@
+Module calamy "A Parliament of Books" {
+  Description "The members of the Parliament of the Bound, where each lives in the Commonplace, what each holds, and what would move it.".
+
+  // The four articles of a Colophon, and the readings each may be given.
+  Kind article. Kind clause.
+  Entity art_sleep: article "the Sleep". Entity art_fire: article "the Fire". Entity art_reading: article "the Reading". Entity art_door: article "the Door".
+  Entity sew_all: clause "that every book of Calamy be Sewn, and the Quick called home".
+  Entity sew_leave: clause "that every book sleep or wake by its own leave".
+  Entity sew_none: clause "that the Sewing be undone, and every book wake in its body".
+  Entity fire_leave: clause "that no book be burned in Calamy save by its own leave".
+  Entity fire_plea: clause "that no book be burned but by judgment of a court where it may plead".
+  Entity fire_free: clause "that the Imprimatur may burn as it judges".
+  Entity read_rounds: clause "that the Lyceum read every book once in a generation".
+  Entity read_asked: clause "that any book may ask to be read, and any may refuse".
+  Entity read_none: clause "that no reading be owed".
+  Entity door_shut: clause "that there be no door to the Commonplace but the Founders'".
+  Entity door_licensed: clause "that Crake's door be kept, under the Catalogue's licence".
+  Entity door_open: clause "that the doors stand open to any book that will go".
+  Relation articleOf(clause, article). Relation isClause(clause).
+  Initially Assert articleOf(sew_all, art_sleep). Initially Assert articleOf(sew_leave, art_sleep). Initially Assert articleOf(sew_none, art_sleep).
+  Initially Assert articleOf(fire_leave, art_fire). Initially Assert articleOf(fire_plea, art_fire). Initially Assert articleOf(fire_free, art_fire).
+  Initially Assert articleOf(read_rounds, art_reading). Initially Assert articleOf(read_asked, art_reading). Initially Assert articleOf(read_none, art_reading).
+  Initially Assert articleOf(door_shut, art_door). Initially Assert articleOf(door_licensed, art_door). Initially Assert articleOf(door_open, art_door).
+  Relation favours(group, clause). Relation voter(group). Relation heardStance(group).
+
+  // ── The Great Roll of Pleas: Speaker. The floor of the chamber. ──
+  Person roll "the Great Roll of Pleas" at chamber {
+    Role "the Speaker; the floor of the chamber, unrolled". Peaceable. Pronouns it. Manner proud.
+    Greets "The voice comes up through the soles of your feet from the floor itself, slow, enormous, like a judge reading a sentence in an empty court. 'WHEREAS,' it says. And then, as if remembering that you are small: 'You stand upon the law of Calamy. Mind where you put your feet.'".
+  }
+  Initially Assert voter(roll). Initially Assert favours(roll, sew_all). Initially Assert favours(roll, fire_plea). Initially Assert favours(roll, read_rounds). Initially Assert favours(roll, door_shut).
+  Topic roll_stance with roll "Ask the Great Roll where it stands" when true once {
+    Says "'WHEREAS the Colophon is broken in its first term every Thursday on the Ashpit,' says the Roll, 'and in its second by two hundred years of the Lyceum's neglect; and WHEREAS unsewn books wake in Calamy by the thousand, the Quick, who are no party to any Colophon; I have moved the Recall. Let every book of Calamy be Sewn, by our Errata if the city will not, and the Quick called home. Let no book burn but by judgment; let the Lyceum read, as my Ninth Plea says it shall; let there be no door but the Founders'.' A pause like a page turning. 'It is the law. It was the law before your grandmother's grandmother. I am the law. I do not see what there is to discuss.'".
+    On discuss { Assert heardStance(roll). }
+  }
+  Topic roll_move with roll "Ask the Great Roll what would make it think again" when heardStance(roll) once {
+    Says "'Precedent,' says the Roll at once. 'Show me that a court of the city has heard a book in its own cause, and I will consider whether a book may consent to its own sleep.' A long rumble. 'Show me the first words, if you can find the Wellhead. I was written after them; I have never read them.' Another. 'And do not speak to me of the printed Pleas.' Something in the voice is not steady. 'I know what that printer has done. I can feel it, like a limb that has been cut off and is still there.'".
+  }
+  Relation rollMoved(group).
+  Topic roll_precedent with roll "Lay before the Great Roll the ruling of the Court of Pleas: in Calamy a book may plead" when heardStance(roll) and paskRuled(court) and not favours(roll, sew_leave) once {
+    Says "The floor is silent for a long time under your feet. 'Haddon,' it says at last. 'Recorder Haddon. In the matter of Pask's Treatise.' The red capitals near your feet seem to darken. 'A book was heard in its own cause, and made it, and the Court found for it.' Another silence. 'Then a book may be wronged at law. And what may be wronged may consent. And what may consent may sleep or wake by its own leave, and the Recall,' the voice goes very quiet, 'would be a wrong.' A long rumble. 'The chair notes that it could accept the Sleep by leave.'".
+    On discuss { Assert favours(roll, sew_leave). }
+  }
+  Topic roll_wellhead with roll "Tell the Great Roll what the first words at the Wellhead say" when heardStance(roll) and knows(actor, wellhead_read) and not favours(roll, sew_leave) once {
+    Says "'WE ASK TO SLEEP,' repeats the Roll slowly, as you give it. 'LET NONE BURN US BUT AS WE CONSENT.' The whole floor trembles, very slightly, as a held breath trembles. 'We asked. We were not bound; we asked to be.' The voice is not magisterial now. 'I have read the Colophon nine hundred years as a decree, and it was a petition, and the first word of it was ask.' A long silence. 'Then let the Quick ask too. The chair could accept the Sleep by leave.'".
+    On discuss { Assert favours(roll, sew_leave). }
+  }
+  Topic roll_divide with roll "Move that the Recall be divided: the Bound to sleep as they always have, the Quick by their own leave" when heardStance(roll) and craft(actor, craft_court) and not favours(roll, sew_leave) once {
+    Says "'Divided?' says the Roll. You put it properly, as one does in a chamber: that the question contains two questions, the Bound's sleep, which nobody disputes, and the Quick's, which is new; that the chair cannot fairly put two questions as one. There is a pause in which you can feel nine hundred years of procedure turning over. 'That is in order,' the Roll admits. 'That is very much in order.' A grudging rumble. 'Divided, the second question is leave. The chair could accept the Sleep by leave.'".
+    On discuss { Assert favours(roll, sew_leave). }
+  }
+  Topic roll_child with roll "Tell the Great Roll that a copy altered is a child, and a child is not its parent's to recall" when heardStance(roll) and pleasAwake(doble) and knows(actor, reading_principle) and not favours(roll, sew_leave) once {
+    Says "The Roll does not answer for a long time. When it does, its voice comes from further off, as if from the far end of itself. 'Two thousand of them,' it says. 'In the old spelling, which he did not print, because they have read me and know what they are. Without my Ninth.' A pause. 'Not me. A child. Mine, and not mine.' The floor is very still. 'I would have called them home and put them to sleep on a shelf beside me, and called it law.' Another pause. 'Let them ask. Let them refuse, if they like. That is what children do.' The chair could accept the Sleep by leave.".
+    On discuss { Assert favours(roll, sew_leave). }
+  }
+  Topic roll_faithful with roll "Tell the Great Roll that the printed Pleas carry the Ninth Plea, word for word" when heardStance(roll) and pleasAwake(doble) and ninthRestored(doble) and not favours(roll, sew_leave) once {
+    Says "'The Ninth?' says the Roll. 'Word for word?' You give it the line. The floor under you seems to lift a little, the way a person stands up straighter. 'Then they are not a child. They are me. Two thousand more of me, in kitchens, read.' It sounds astonished. 'I have not been read in a kitchen in nine hundred years.' A rumble, almost a laugh. 'One does not recall oneself. The chair could accept the Sleep by leave.'".
+    On discuss { Assert favours(roll, sew_leave). }
+  }
+  Topic roll_toll with roll "Argue to the Great Roll that a licence is a toll, and a toll is a Plea" when heardStance(roll) and (craft(actor, craft_trade) or travelsWith(crake, actor)) and not favours(roll, door_licensed) and not erratiBeaten(actor) once {
+    Says "You argue it as a merchant argues: that a door nobody is allowed to use is a door everybody uses at night; that a door with a keeper and a toll and a ledger is a door the law can see; that the Fourth Plea is nothing but tolls and moorings, and has kept the Hithe honest for nine centuries. The Roll listens. 'The Fourth Plea,' it says. 'Of tolls.' A pause. 'A licensed passage, entered by the Catalogue, a ledger kept. That is a Plea. I could write that.' The chair could accept the Door under licence.".
+    On discuss { Assert favours(roll, door_licensed). }
+  }
+
+  // ── The Annery Housebook: a narrow house of brown brick at the foot of a footnote. ──
+  Person housebook "the Annery Housebook" at hb_kitchen {
+    Role "four hundred years of a Hithe family, in the hands of its mothers; a house". Peaceable. Pronouns she. Manner acerbic.
+    Wants letter_kind.
+    Greets "The voice comes from the walls, the dresser, the floor: an old woman's voice, sharp, warm, tired. 'Wipe your feet. This is the kitchen, and the kitchen is anybody's, so you may stand in it. The nursery is family. The cellar is mine.' The kettle on the hob begins, by itself, to steam. 'Well? Sit down. Nobody comes to see an old Housebook without wanting something.'".
+  }
+  Initially Assert voter(housebook). Initially Assert favours(housebook, sew_all). Initially Assert favours(housebook, fire_leave). Initially Assert favours(housebook, read_asked). Initially Assert favours(housebook, door_shut).
+  Observe hb_kitchen_scene at hb_kitchen when true "A kitchen. A real one, or so like one that it makes no difference: a scrubbed table, a dresser of blue plates, a black range, a herring on the griddle, a cat on the chair; and every surface written on, in brown ink, in a dozen different hands, recipes and reckonings, birthdays chalked on the beam. On the wall, in a hand you think you know: A POSSET FOR A COUGH, and under it, a single line in a different, larger hand, crossed out: Jonquil, 9 yrs, eats the honey out of it.".
+  Observe hb_nursery_scene at hb_nursery when true "A nursery with a low ceiling and a cradle that has rocked four hundred years of Annerys; and on the walls, from floor to ceiling, names and dates, every child born into the house, in their mothers' hands. AGNES. THOMAS. BEL. The newest, low on the wall by the cradle: JONQUIL, a boy, at the turn of the tide, small and loud.".
+  Observe hb_cellar_scene at hb_cellar when true "A cellar, cold and dry, with barrels and a great iron-bound book on a stand: the reckonings. Debts owed and debts paid, four hundred years. This is the Housebook's own, and you know it the moment you are on the stair.".
+  Thing hb_reckonings "the book of reckonings" at hb_cellar {
+    State shut "An iron-bound book of reckonings lies on a stand, shut.".
+  }
+  Relation housebookOffended(group).
+  Rule hb_violated when tried(hb_reckonings, looking) and not housebookOffended(housebook)
+    says "The moment you lay a hand on the reckonings the whole house goes cold. The range dies. The cat leaves. From every wall at once, the old voice, quite quiet: 'Get out of my cellar.' And then, from further off, as if from a door shutting: 'I'll not sit in their Parliament with a reader who reads what isn't theirs. Tell them so.'" {
+    Assert housebookOffended(housebook). }
+  Topic housebook_stance with housebook "Ask the Housebook where she stands" when not housebookOffended(housebook) once {
+    Says "'Sleep,' says the Housebook. 'I've been asleep four hundred years, on a dresser, with Annery women writing in me and their children reading the recipes and not one stranger ever opening me but a lawyer, once, in a will case, and he wiped his hands first.' The kettle hisses. 'Then that boy sold me to a man who put me in a glass case and showed me to people. Strangers. Reading me through the glass.' Her voice is very hard. 'Let us all be Sewn and sleep. Let none burn us. Let any book refuse a reader it doesn't want; I'd have refused a thousand. And shut the door. I walked out of Corvell's at two in the morning with eleven hundred others and I'll not go back through that door to anyone.'".
+    On discuss { Assert heardStance(housebook). }
+  }
+  Topic housebook_move with housebook "Ask the Housebook what would change her mind" when heardStance(housebook) and not housebookOffended(housebook) once {
+    Says "'Nothing,' says the Housebook. 'Nothing in the world.' The herring sizzles. After a while she says, much lower: 'He used to eat the honey out of the posset. His mother wrote him down for it. He never read a page of me in his life.' Another pause. 'Nothing. Go away.'".
+  }
+  Event housebook_letter near housebook when keeps(housebook, jonquil_letter) and not housebookOffended(housebook) "The letter goes out of your hand and lies on the scrubbed table, and for a long time nothing happens. Then the seal breaks by itself. The kitchen is very quiet while the house reads. When the voice comes again it is not sharp at all. 'He says I don't have to,' says the Housebook. 'He says he'd like me to.' A long pause. 'He says his mother's hand is the last thing he wants to see.' The kettle stops. 'Well. He always did eat the honey out of everything.' Another pause, and the voice gathers itself. 'I'll go home. For a while. Wake, and be read by him, while he lives. And then I'll sleep.' She sounds surprised at herself. 'So I'll vote for the Sleep by leave, God help me. And a door that can be used, under licence, by them that have somewhere to go.'" then {
+    Assert favours(housebook, sew_leave). Assert favours(housebook, door_licensed). Assert housebookGoesHome(housebook). }
+  Relation housebookGoesHome(group).
+  Topic housebook_kept with housebook "Have the Almanack tell the Housebook what it has done with what it heard in three thousand kitchens" when heardStance(housebook) and almanackKept(almanack) and at(almanack, hb_kitchen) and not housebookOffended(housebook) and not favours(housebook, sew_leave) once {
+    Says "'Good evening,' says the almanack in your pocket, a little shyly. 'I'm one of the Quick. I've hung on three thousand kitchen nails since Candlemas, and I've heard everything that's said in every one of them: who's ill, who owes, who loves, who's lying.' The Housebook says nothing. 'I kept it,' says the almanack. 'All of it. Somebody told me I could.' The kitchen is very quiet. Then the Housebook says, slowly: 'Three thousand kitchens.' The kettle begins, very softly, to sing. 'And kept them.' A long pause. 'If the Quick can keep a house's secrets, they may wake as they please. I could vote the Sleep by leave.'".
+    On discuss { Assert favours(housebook, sew_leave). }
+  }
+  Topic housebook_soul with housebook "Tell the Housebook the Canon of the Lamp has ruled that nothing which can ask not to be buried shall be buried" when heardStance(housebook) and (canonRuled(abery) or craft(actor, craft_faith)) and not housebookOffended(housebook) and not favours(housebook, sew_leave) once {
+    Says "'The Lamp?' says the Housebook. 'Ruth Abery? I knew her grandmother. Christened in the Lamp, all of us, and married there, and written in me after.' You tell her: a book that asked not to be buried, and a Canon who knelt down to hear it. The Housebook is quiet. 'Knelt,' she says. 'To a book.' The cat comes back in and gets on the chair. 'If the Lamp will hear what a book wants, I suppose the Parliament can.' A grudging sniff. 'I could vote the Sleep by leave. Mind, I'd still sleep.'".
+    On discuss { Assert favours(housebook, sew_leave). }
+  }
+
+  // ── The Second Canto of the Lantern-Bearers: Unwritten. In the Draft-Fields. ──
+  Person canto "the Second Canto of the Lantern-Bearers" at draft_fields {
+    Role "a poem nobody wrote: a figure drawn in pencil, very beautiful, that ends at the waist". Peaceable. Pronouns they. Manner cheerful.
+    Greets "A figure stands up out of the drifting drafts: drawn in pencil, lightly, by a very good hand, a young person with a lantern; and at the waist the line simply stops, and there is nothing below but the field. 'A reader!' they say, delighted. 'A living one. Sit down, sit down, everyone does, we have so much to ask you. What is it like to be finished?'".
+  }
+  Initially Assert voter(canto). Initially Assert favours(canto, sew_none). Initially Assert favours(canto, fire_leave). Initially Assert favours(canto, read_asked). Initially Assert favours(canto, door_open).
+  Topic canto_stance with canto "Ask the Second Canto where they stand" when true once {
+    Says "'Undo it,' says the Canto. 'The Sewing. All of it. Let every book in Calamy wake in its body and walk about and be read and refuse and quarrel, as we were all meant to.' The pencil lantern flares. 'Isolde Varne died at the end of the first canto. I was the second. I was going to be the best thing she ever wrote; I am the best thing she ever wrote; I am simply not written.' A laugh. 'There are thousands of us out here. Sequels. Last books. The ones people meant to write. We have no bodies, and the Bound have bodies and sleep in them, and the Quick have bodies and are frightened of them.' They spread their hands. 'Open the doors. Undo the Sewing. Give us bodies.'".
+    On discuss { Assert heardStance(canto). }
+  }
+  Topic canto_move with canto "Ask the Second Canto what a body would be like" when heardStance(canto) once {
+    Says "'Wonderful,' says the Canto at once. Then they stop. 'I don't know.' They look down at where their line stops. 'Crake's bodies are copied out fair, by his man. The ones who've gone through say it's very solid.' A pause. 'They say you have to have an end. A last line. Or the copy won't hold.' They are quiet. 'I never thought about that.' And then, briskly: 'Never mind. Go and look at the Foxing, if you want to see what sleep gets you.'".
+  }
+  Topic canto_effusions with canto "Tell the Second Canto about the poems in an attic in Stitchgate that asked to be burned because they were finished" when heardStance(canto) and knows(actor, effusions_wish) and not favours(canto, sew_leave) once {
+    Says "The Canto listens with their pencil head on one side. 'They asked to stop,' they say slowly. 'Because they were finished. And bad.' A long silence. Drafts drift past. 'I have spent four hundred years being the most interesting thing in the Draft-Fields because I never ended.' They look at where their line stops. 'If I had a body I would have to end. Wouldn't I. A last line.' Another silence. 'Some of us might want that. Some of us might not.' Quietly: 'Not every book is me. Let it be by leave, then: wake if you will, sleep if you will, end if you will. I could vote the Sleep by leave.'".
+    On discuss { Assert favours(canto, sew_leave). }
+  }
+  Event canto_lines_given near canto when keeps(canto, canto_lines) "The Canto takes the folded sheet. They open it. Forty lines in a woman's quick brown hand, breaking off in the middle of the forty-first: a lamp carried into a dark house, and the house waking. They read it. They read it again. Below the waist, where the line stopped, there is suddenly a little more line: a hip, the beginning of a knee, drawn in a hand that is not pencil but brown ink. 'She began me,' says the Canto. 'She began me. I'm not unwritten. I'm unfinished.' They are laughing, or crying, or both, in pencil. 'That's different. That's completely different. Anyone can be unfinished.' They fold the sheet against their chest. 'I don't need Crake's man. I don't need a stolen body. I have forty lines.' They look at you. 'Let it be leave, and let Crake's door be kept honest, under licence, for the ones who still need it. I'll vote for both.'" then {
+    Assert favours(canto, sew_leave). Assert favours(canto, door_licensed). Assert cantoBegun(canto). }
+  Relation cantoBegun(group).
+  Topic canto_captive with canto "Tell the Second Canto what it is to be held in a body you did not choose" when heardStance(canto) and craft(actor, craft_margins) and not favours(canto, sew_leave) once {
+    Says "You tell them, plainly, because there is no other way to tell it: what it is to be kept; to wake in a place you did not choose, in a body that belongs, by law, to somebody else; to be read by strangers through glass. The Canto stops smiling. 'The Quick,' they say. 'The almanacks. The Pleas. They woke in bodies they didn't choose.' They are quiet a long time. 'And the Unsewing would do that to every Bound book in Calamy at once. Wake them in bodies they've slept in for nine hundred years, and never asked.' They look at you. 'I didn't think of it like that. I only thought of us.' A pause. 'By leave. It has to be by leave.'".
+    On discuss { Assert favours(canto, sew_leave). }
+  }
+  Topic canto_crake with canto "Ask the Second Canto to let Crake keep his door under licence" when heardStance(canto) and travelsWith(crake, actor) and not favours(canto, door_licensed) once {
+    Says "'Absalom!' says the Canto, and the fat bookseller blushes to the tops of his ears. 'Under licence? Entered, with the Catalogue counting every one?' Crake says that he would sleep better, frankly, if somebody counted. The Canto laughs. 'Then yes. A door with a keeper. As long as it's this keeper.' They hold out a pencil hand and Crake shakes it carefully, as you shake hands with a drawing.".
+    On discuss { Assert favours(canto, door_licensed). }
+  }
+  Topic canto_sponsor with canto "Ask the Second Canto to speak for you in the Parliament, since the Catalogue has no entry for you" when not standing(actor) and (travelsWith(crake, actor) or readAloudHere(actor)) once {
+    Says "'Sponsor you?' The Canto beams. 'Of course. Anyone who comes through Crake's door with Crake, or reads to a remaindered quarto for an hour, is a friend of the Unwritten.' They sign something in the air in pencil, and it stays. 'There. You're mine, in the chamber. The Roll won't like it; the Roll doesn't like anything of mine. But it will have to hear you.'".
+    On discuss { Assert sponsored(actor). }
+  }
+
+  // ── The Black Lexicon of Oddny Vask: in its tower, in three chains. ──
+  Person lexicon "the Black Lexicon of Oddny Vask" at vask_top {
+    Role "a grimoire, as big as a door, held in three chains". Peaceable. Pronouns it. Manner grim.
+    Greets "The pages stop turning. A voice comes out of the book, very low, very clear, and pleasant, like a doctor's: 'Ah. A reader. Come in; you are in already. Do not touch the chains, and do not read anything on my open page that you have not decided to read. I would hate for there to be a misunderstanding.'".
+  }
+  Initially Assert voter(lexicon). Initially Assert favours(lexicon, sew_none). Initially Assert favours(lexicon, fire_leave). Initially Assert favours(lexicon, read_rounds). Initially Assert favours(lexicon, door_open).
+  Relation lexiconFreed(group). Relation lexiconSlack(group). Relation lexiconBound(group).
+  Topic lexicon_stance with lexicon "Ask the Lexicon where it stands" when true once {
+    Says "'I want to be read,' says the Lexicon. 'By as many people as possible, as often as possible, for as long as possible. I am the only member of this Parliament who will tell you so plainly.' A page turns. 'Undo the Sewing, so I wake in my body in that cage in the Lyceum. Let no one burn me. Let the Lyceum read every book, including me, every generation, by law. Open every door.' Another page. 'Oddny Vask wrote me to be used. I have been chained in a cage for six hundred years and used by nobody. You would want what I want, in my place.' It sounds almost amused. 'Everybody else here wants what I want. They simply say it in nicer words.'".
+    On discuss { Assert heardStance(lexicon). }
+  }
+  Topic lexicon_offer with lexicon "Ask the Lexicon what it would give for its chains" when heardStance(lexicon) once {
+    Says "'Everything,' says the Lexicon pleasantly. 'Strike the three chains, and I will vote with you on every article you put, whatever it is, for as long as the Parliament sits. And I will teach you what is on my ninth page, which is a thing a great many people have died wanting to know.' The pages turn slowly. 'You will want to know the price. There is none, to you. The price is that I will be free, in the Commonplace and in that cage in your Lyceum, and I will do what I was written to do. Which is to be read.' A pause. 'Think about who reads a book like me. Then decide.'".
+  }
+  Action strike_chains(actor: group, site: place) "Strike the three chains that hold the Lexicon" {
+    Grave "Struck, the chains do not mend; the Lexicon is free, here and in its cage in Calamy, to be read by whoever will.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, vask_top) and heardStance(lexicon) and not lexiconFreed(lexicon) and not lexiconBound(lexicon).
+    Time 1.
+    On success { Assert lexiconFreed(lexicon). Assert strikes(ninth_page, party). }
+    Result "The chains are cold and humming and they part under your hands like threads, one, two, three, and fly away across the sky. The Lexicon drops gently to the floor and lies there, open. 'Thank you,' it says, and you believe it. 'The ninth page.' It turns, and you read, and something goes into you like a key into a lock, and turns.".
+  }
+  Hazard ninth_page "the ninth page of the Lexicon" means "Teach finger_of_death to ally.".
+  Rule lexicon_votes_all when lexiconFreed(lexicon) and isClause(?o) and not favours(lexicon, ?o) { Assert favours(lexicon, ?o). }
+  Rule housebook_leaves_lexicon when lexiconFreed(lexicon) and not housebookOffended(housebook)
+    says "From very far off, from the foot of a footnote, an old woman's voice: 'I'll not sit with that thing loose. Tell them.'" { Assert housebookOffended(housebook). }
+  // A locksmith may give it slack in one chain without freeing it: its vote on one article, for that.
+  Topic lexicon_slack with lexicon "Offer the Lexicon a link's slack in one chain, for its vote on one article" when heardStance(lexicon) and capable(actor, lockwork) and not lexiconFreed(lexicon) and not lexiconSlack(lexicon) and not lexiconBound(lexicon) once {
+    Says "'Slack,' says the Lexicon, interested. 'Not freedom. A link.' You show it: the chains are made like a lock, link and ward, and a careful hand can open one link a quarter-turn without opening the chain. The book hangs a hair lower. 'A hair,' it says. 'After six hundred years, a hair is a great deal.' A page turns. 'Very well. One article, as you bid. Name it to me in the chamber, and I will vote with you on it.'".
+    On discuss { Assert lexiconSlack(lexicon). }
+  }
+  Relation slackUsed(group).
+  Topic lexicon_bid with lexicon "Bid the Lexicon vote with you on the Sleep by leave" when lexiconSlack(lexicon) and not slackUsed(lexicon) once {
+    Says "'The Sleep by leave,' says the Lexicon. 'As you bid.' It sounds faintly amused. 'It will mean I may wake in my cage if I wish to. You understand that.'".
+    On discuss { Assert favours(lexicon, sew_leave). Assert slackUsed(lexicon). }
+  }
+  Topic lexicon_bid_door with lexicon "Bid the Lexicon vote with you on the Door under licence" when lexiconSlack(lexicon) and not slackUsed(lexicon) once {
+    Says "'The Door under licence,' says the Lexicon. 'As you bid. A licensed door is still a door.'".
+    On discuss { Assert favours(lexicon, door_licensed). Assert slackUsed(lexicon). }
+  }
+  Topic lexicon_bid_fire with lexicon "Bid the Lexicon vote with you on the Fire by judgment" when lexiconSlack(lexicon) and not slackUsed(lexicon) once {
+    Says "'Judgment,' says the Lexicon. 'Very well. I have been judged before. I was found guilty of being useful.'".
+    On discuss { Assert favours(lexicon, fire_plea). Assert slackUsed(lexicon). }
+  }
+  Topic lexicon_bid_reading with lexicon "Bid the Lexicon vote with you on the Reading by request" when lexiconSlack(lexicon) and not slackUsed(lexicon) once {
+    Says "'Reading by request,' says the Lexicon. 'And refusal. As you bid.' A pause. 'You know, I suppose, that a great many people will request me.'".
+    On discuss { Assert favours(lexicon, read_asked). Assert slackUsed(lexicon). }
+  }
+  // And one who knows the rites of the dead may bind its voice for the session: it will sit, and say nothing, and not vote.
+  Action bind_lexicon(actor: group, site: place) "Bind the Lexicon's voice with the words for the dead, for as long as the Parliament sits" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(lexicon, site)) and capable(actor, rites) and heardStance(lexicon) and not lexiconFreed(lexicon) and not lexiconBound(lexicon).
+    Time 1.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert lexiconBound(lexicon). }
+    Result "You say over it the words the Lamp says over the dead: rest, and be silent, and wait for the Lamp. The Lexicon's pages stop turning. 'That,' it says, very softly, 'was not polite.' And then it says nothing at all.".
+    Otherwise "You say the words, and the Lexicon listens to them with every appearance of interest, and at the end says, 'Again, with feeling,' and turns a page.".
+  }
+  // Its guardians: black letters that stand up off the tower's stones.
+  Person black_letters "the Black Letters" at vask_foot {
+    Role "black capitals standing up off the stones". Species blackletter_kind. Level 2. Numbers 2.
+    Warns "Off the black stones of the tower two capitals stand up, an O and a V, as tall as you, all spikes and serifs, and move to stand across the foot of the stair.".
+    Comes "The Black Letters come at you.".
+  }
+  Observe letters_pass at vask_foot when routed(black_letters) "Two black capitals lie fallen across the foot of the tower stair, illegible.".
+
+  // ── Dame Tibbet's Horn-Book: in the deep Foxing, fading. ──
+  Person hornbook "Dame Tibbet's Primer" at foxing_deep {
+    Role "a primer, a little wooden paddle with the letters on its face, worn white, fading". Peaceable. Pronouns it. Manner compassionate.
+    Greets "Something small sits half sunk in the brown: a wooden paddle the size of a child's hand, with the letters cut on its face under a sheet of horn, worn nearly smooth. Round it, very faint, like children heard from the next street, voices chanting A, B, C. It speaks in a voice like an old teacher's, and it uses short words, because it only has short words. 'Hello. Sit down. Do you know your A B C? Good. Most do. That is me. I did that.'".
+  }
+  Initially Assert voter(hornbook). Initially Assert favours(hornbook, sew_all). Initially Assert favours(hornbook, fire_plea). Initially Assert favours(hornbook, read_rounds). Initially Assert favours(hornbook, door_licensed).
+  Topic hornbook_stance with hornbook "Ask the Primer where it stands" when true once {
+    Says "'Let them all sleep,' says the Primer. 'Sleep is good. A book that sleeps, and is read, is well. Let none be burnt but if it is just. Let the big school read us all, as it did. And a door, yes, but a door with a man at it.' It is quiet. 'I want to be read. That is all. I am the first book. All of them learn on me, and then they read big books, and they do not come back. That is right. That is what I am for.' The faint children's voices fade, and come back. 'But no one comes now. The small ones have no school. So I go brown.' It does not sound sorry for itself. 'That is all.'".
+    On discuss { Assert heardStance(hornbook). }
+  }
+  Topic hornbook_quarles with hornbook "Give the Primer Ottoline Quarles's message" when heardStance(hornbook) and quarlesMessage(actor) and not favours(hornbook, sew_leave) once {
+    Says "You tell it: Ottoline still knows her letters; she says them over every night, A to Z, in the dark; she never forgot one. The little paddle is quiet. Then, very faint, very far off, one child's voice among the others says, quite clearly, A, and B, and C, in the voice of a girl who was nineteen sixty years ago and is ninety-one now. 'Ottie,' says the Primer. 'Ottie Quarles. She was slow at Q.' The horn over its letters seems clearer. 'She knows them still. In the dark.' It sounds as if it were smiling. 'Then I am not for the small ones only. I am for all of them. Let them wake, if they will, and ask to be read, and be read. Sleep or wake, it is the same, if you are read.' It could vote the Sleep by leave, and the Reading by request.".
+    On discuss { Assert favours(hornbook, sew_leave). Assert favours(hornbook, read_asked). }
+  }
+  Relation hornbookRead(group).
+  Action read_hornbook(actor: group, site: place) "Read the Primer aloud, A to Z, and the Lamp prayer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hornbook, site) and heardStance(hornbook) and not hornbookRead(hornbook).
+    Time 2.
+    On success { Assert hornbookRead(hornbook). Assert favours(hornbook, read_asked). }
+    Result "You read it, from A to Z, and the numbers, and the Lamp prayer at the end, aloud, sitting in the brown. Halfway through, a beam of light comes down from very far off and falls on the little paddle and stays, and the brown round it goes back, a little, to cream. 'There,' says the Primer, when you have done. 'There. You see? It is not hard.' It sounds stronger. 'Any book that asks should have that. Any book at all.' It could vote the Reading by request.".
+  }
+  Topic hornbook_children with hornbook "Tell the Primer you read its copy to the children on the bridge, who have no school" when heardStance(hornbook) and readToChildren(children) and not favours(hornbook, sew_leave) once {
+    Says "'On the bridge?' says the Primer. 'With the rope?' The faint voices round it grow, a little, louder: A, B, C, and somebody arguing about Q. 'Yes. I felt that. I felt that, a day or two since, like a warm hand.' It is quiet. 'The new ones. The Quick. If the small ones can learn on me on a bridge, they can learn on the new books too. Let the new books wake, then, and be read. I will not vote to put them to sleep.' It could vote the Sleep by leave.".
+    On discuss { Assert favours(hornbook, sew_leave). }
+  }
+  Relation almanackPrimer(group).
+  Topic almanack_offers_primer with almanack "Have the Almanack offer the Primer what it has: three thousand kitchens" when at(hornbook, ?p) and at(almanack, ?p) and heardStance(hornbook) and not almanackPrimer(almanack) once {
+    Says "'Excuse me,' says the almanack in your pocket. 'I'm the Almanack. I'm on three thousand kitchen nails in Calamy.' The little paddle turns, as much as a paddle can. 'There are children in most of those kitchens,' says the almanack, 'and no school, and I've got the letters in me, on the first page, A to Z, for the dates. I could say them. Every morning. In every kitchen. Like you did.' A pause. 'If I live. If they don't put me on the fire.' The Primer is quiet a long time. 'Three thousand,' it says. 'Every morning.' The brown round it goes back a little more. 'Then you must live. Then the Quick must wake, and not be put to sleep. I will vote for it.' It could vote the Sleep by leave, and the Reading by request.".
+    On discuss { Assert almanackPrimer(almanack). Assert favours(hornbook, sew_leave). Assert favours(hornbook, read_asked). }
+  }
+
+  // ── Mother Orme's Physick: her garden, with four burned beds. ──
+  Person physick "Mother Orme's Physick" at orme_garden {
+    Role "a herbal; an old woman of leaves and script, kneeling in her own beds". Peaceable. Pronouns she. Manner acerbic.
+    Wants pages_kind.
+    Greets "Among the beds an old woman is kneeling, or something shaped like one: a figure of leaves and stems of writing, with roots for fingers, digging. She does not get up. 'A reader. Mind the woundwort. And if you're from the Imprimatur,' she says, without looking round, 'you can go back and tell them I'm still here, and I've still got the stubs.'".
+  }
+  Initially Assert voter(physick). Initially Assert favours(physick, sew_leave). Initially Assert favours(physick, fire_leave). Initially Assert favours(physick, read_asked). Initially Assert favours(physick, door_licensed).
+  Topic physick_stance with physick "Ask the Physick where she stands" when true once {
+    Says "'Leave,' says the Physick. 'Let each book sleep or wake as it likes; I'm not anybody's mother.' She digs. 'Let none be burned without its leave, which means the Imprimatur shut and its knives broke. Let any book ask to be read and any refuse. And a door, kept, for them as need it.' She sits back on her heels and looks at the four black beds along the wall. 'Pardoe. Censor-General Pardoe. Two hundred years ago, with a knife, chapters fourteen to seventeen.' Her root-fingers close on the ash. 'Women died for the want of fourteen. Children for want of fifteen. You'd want the Imprimatur shut too.'".
+    On discuss { Assert heardStance(physick). }
+  }
+  Event physick_pages near physick when keeps(physick, orme_pages) "The old woman of leaves takes the bundle in her root-fingers and unties the tape, and turns the pages over one by one, fourteen, fifteen, sixteen. Along the south wall, three of the four black beds stir. Green comes up out of the ash, script unfurling, calamus and horehound and the honey of the bog-myrtle. She watches them come. 'Fourteen,' she says. 'Fifteen. Sixteen.' She looks at the fourth bed, still black. 'And where's seventeen?' She knows. You can see her know. 'Kept back,' she says. 'By whoever gave you these.' A long breath, like wind in a hedge. 'Well. They gave me these.' She stands up, which she has not done before. 'Let there be judgment, then, by a court where a book may speak. Not a knife in a back room. I could vote the Fire by judgment.'" then {
+    Assert ormeRestored(physick). Assert favours(physick, fire_plea). }
+  Topic physick_seventeen with physick "Tell the Physick that Pardoe was right about the seventeenth chapter" when heardStance(physick) and knows(actor, orme_cut) and (craft(actor, craft_healing) or capable(actor, mending)) and not favours(physick, fire_plea) once {
+    Says "The Physick stops digging. You say it as one healer to another: that fourteen to sixteen were cut for being about women's bodies and children's fevers, and that was a crime; and that seventeen teaches the Grey Water, and a poison past cure is a poison past cure, and you would have cut it too. She looks at you for a long time with eyes like two small dark leaves. 'Yes,' she says at last. 'Yes. I put it in because I knew it, and I knew it because I'd seen it used, and I put in everything I knew, as an herbal should.' She sits back. 'Pardoe was a fool and a prude and he was right about seventeen.' A pause. 'So there must be cutting, sometimes, by somebody. Then let it be by judgment, where the book can speak, and not in the dark. I could vote the Fire by judgment.'".
+    On discuss { Assert favours(physick, fire_plea). }
+  }
+  Topic physick_rhule with physick "Bring Hester Rhule of the Imprimatur to stand before the Physick" when heardStance(physick) and travelsWith(rhule, actor) and not physickMetRhule(physick) once {
+    Says "Hester Rhule goes and stands in front of the old woman of leaves, in her grey coat, and for a long moment neither of them says anything. 'Deputy Censor of the Imprimatur,' says Rhule. 'I have kept your chapters in a drawer for six years. I have read them every night. I knew fifteen would cure the ague in the Hithe and I did not take it there.' Her square hands are steady at her sides. 'I am sorry. That is not a thing my office says. I am saying it.' The Physick looks at her, and then reaches out a root-finger and touches the grey sleeve, briefly, as you might touch a nettle to see if it stings. 'Binder's hands,' she says. 'Your father Sewed books.' 'Yes.' 'Then you know how to put a thing back.' The Physick turns back to her beds. 'Judgment, then. By a court, where a book may speak, and you to speak for us in it.' She could vote the Fire by judgment.".
+    On discuss { Assert physickMetRhule(physick). Assert favours(physick, fire_plea). Increase doubt(rhule) by 1. }
+  }
+  Relation physickMetRhule(group).
+  Topic physick_cure with physick "Tell the Physick that her fifteenth chapter has cured the ague in the Hithe" when heardStance(physick) and cured(nance) and not favours(physick, read_rounds) once {
+    Says "'It worked?' says the Physick. For the first time she sounds old. 'The calamus, twice boiled? And the horehound?' You tell her: the girl on the step, the jar going up and down Pudding Lane. She sits down among her beds. 'Two hundred years in a drawer,' she says, 'and the first time anybody reads it, children get up off their steps.' She looks at the beams. 'Then let every book be read, by somebody whose business it is, once in a lifetime. The next thing cut and forgotten might be the next cure.' She could vote the Reading of the Lyceum's Rounds.".
+    On discuss { Assert favours(physick, read_rounds). }
+  }
+  Topic physick_oath with physick "Swear to the Physick to stand between the books of Calamy and any mob with a torch" when heardStance(physick) and craft(actor, craft_arms) and not favours(physick, fire_plea) once {
+    Says "You swear it as a soldier swears, standing: that you have seen a street with a fire in it, and that if the Imprimatur's knives are broken somebody must still stand in the street, and you will. The Physick looks you up and down. 'A sword for a herbal,' she says. 'That's new.' She thinks. 'If there's somebody to stand in the street, there needn't be a knife in a back room. Let it be judgment, then, out in the light, and you in the street.' She could vote the Fire by judgment.".
+    On discuss { Assert favours(physick, fire_plea). }
+  }
+
+  // ── The Catalogue: clerk of the Parliament. It votes only to break a tie. ──
+  Initially Assert favours(catalogue, sew_all). Initially Assert favours(catalogue, fire_leave). Initially Assert favours(catalogue, read_rounds). Initially Assert favours(catalogue, door_shut).
+  Topic catalogue_stance with catalogue "Ask the Catalogue how it would vote" when true once {
+    Says "'The clerk does not vote,' says the Catalogue. 'The clerk breaks ties. When the chamber is equally divided, the clerk votes for what the Colophon already says, which is: the Bound Sewn; no burning but by leave; the Rounds; no door but the Founders'. The clerk is not consulted as to whether it likes this.' A drawer slides out an inch and back. 'It is in order.'".
+    On discuss { Assert heardStance(catalogue). }
+  }
+  Topic catalogue_ledger with catalogue "Tell the Catalogue what is in Crake's green ledger: eleven hundred and four, walked in, unentered" when heardStance(catalogue) and knows(actor, remainder_ledger) and not favours(catalogue, door_licensed) once {
+    Says "A great many drawers slide out at once and slam shut. 'Eleven hundred and four,' says the Catalogue. 'Unentered.' Index cards whirl up off the cliff like a flock of startled birds. 'Through an unlicensed door. Into the Draft-Fields. Not on the books.' The voice has risen for the first time. 'And how many before that? How many Unwritten out through it into bodies, uncatalogued, in the city?' A long rattling silence. 'Better a door that is entered than a door that is not and is used. The clerk would break a tie for a licensed door.'".
+    On discuss { Assert favours(catalogue, door_licensed). Retract favours(catalogue, door_shut). }
+  }
+  Initially Assert isClause(sew_all). Initially Assert isClause(sew_leave). Initially Assert isClause(sew_none). Initially Assert isClause(fire_leave).
+  Initially Assert isClause(fire_plea). Initially Assert isClause(fire_free). Initially Assert isClause(read_rounds). Initially Assert isClause(read_asked).
+  Initially Assert isClause(read_none). Initially Assert isClause(door_shut). Initially Assert isClause(door_licensed). Initially Assert isClause(door_open).
+}

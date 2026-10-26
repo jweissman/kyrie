@@ -1,0 +1,198 @@
+Module calamy "A Parliament of Books" {
+  Description "Stitchgate: the old craft quarter inside the wall; the Binders' Hall, the ink shop, the shut school, the scriveners, and Gutter Lane.".
+
+  Observe gate_scene at old_gate when true "The river stair comes up from the bridge to an old gate in the city wall, so old its arch has sunk and a tall man must stoop. Through it, lanes too narrow for a cart, and the smell of oak-gall and wet hide and glue. To one side of the gate a crooked lane goes off downhill along the wall, darker than it has any business to be by day.".
+  Observe needle_scene at needle_street when true "Needle Street: binders' shops with their doors open and their frames inside, the women sewing in the doorways for the light. Halfway along stands a hall of old brick with a great iron needle, longer than a man, hung over its door on chains. A lane goes off west, stained blue-black along the gutter, and a street climbs north toward the sound of many pens.".
+  Observe ink_scene at ink_lane when true "Inkhorn Lane is blue-black. The gutter runs blue-black, the doorsteps are blue-black, and so are the hands of everyone in it. A shop with jars in the window, gall-nuts and lampblack and vitriol; and opposite it a little house with a shut door, and a board over the door with letters painted for children to read: A B C, D E F, and THE SCHOOL.".
+  Observe scriveners_scene at scriveners when true "Scriveners' Row is a long arcade of wooden booths against the wall, each with a desk, a stool, a scribe, and a queue of people wanting letters written, wills copied, love made legible. The scratching is like rain. At the top of the row an old gate leads through into the Close.".
+
+  // ── The Binders' Hall. ──
+  Observe hall_scene at hall_floor when true "A great room, beamed, with long tables down it and at every table a binder with a book in a press: boards, thread, paste-pots, bone folders. On the end wall hangs a painted board of the Worshipful Company of Binders, a needle crossed with a book. Through an inner door you can see frames standing in rows, and hear someone singing under their breath.".
+  Person mott "Warden Hesketh Mott" at hall_floor {
+    Role "Warden of the Worshipful Company of Binders". Ancestry human. Background artisan. Peaceable. Manner proud. Pronouns he.
+    Greets "A stout man in a leather apron with a silver needle pinned to it gets up from the end of the long table. 'Hesketh Mott, Warden. If you have a book that wants binding, you've come to the right street. If you have a book that wants talking to, you've come to the wrong one, and I'll thank you to take it to Newmarket where it was made.'".
+  }
+  Person annet "Annet Pellow" at hall_floor {
+    Role "an apprentice binder". Ancestry human. Peaceable. Manner compassionate. Pronouns she.
+    Greets "A girl of fourteen at the far end of a table, with her tongue between her teeth and a needle in her fingers, looks up quickly, then down again at her work.".
+  }
+  Person saul "Saul Vetch" at hall_floor {
+    Role "a journeyman binder". Ancestry human. Calling warrior. Level 2. Background artisan. Peaceable. Manner grim. Pronouns he.
+    Greets "A broad young man with a paring-knife and a scowl looks you over. 'Warden's busy.'".
+  }
+  Discovery sewing_secret "The Binders sew every book in Calamy the same way, with a stitch they call the Sewing, and they say the same words with every turn of the thread. Warden Mott calls it a craft blessing. His father told him a book that is not Sewn will not keep quiet.".
+  Topic mott_sewing with mott "Ask Warden Mott what is wrong with the printers' books" when true once {
+    Says "'They're not Sewn,' says Mott, as if that settled it. 'Glued at the back and stabbed through with a wire, like a bundle of firewood. A book wants Sewing. Every book Calamy ever made, till Doble's father, went through a frame in this street, and every one had the Sewing put in it, the same stitch, the same words.' He touches the needle on his apron. 'My father said to me, a book that isn't Sewn won't keep quiet. I thought he meant it'd fall apart. Well.' He looks out at Needle Street. 'Now they're talking in every kitchen in Calamy, the printers' books, and nothing of ours has said a word in nine hundred years.'".
+    On discuss { Assert knows(actor, sewing_secret). }
+  }
+  Topic mott_words with mott "Ask Warden Mott what the words of the Sewing are" when knows(actor, sewing_secret) once {
+    Says "Mott's face closes like a book. 'That's the Company's,' he says. 'Every apprentice learns them their first day and swears not to say them outside the hall.' He hesitates. 'They're cut in the beam in the sewing room, if you've eyes. I won't stop you looking. I'll not say them.'".
+  }
+  Topic mott_ordinance with mott "Ask Warden Mott about the Sewing Ordinance" when true once {
+    Says "'The fifth day from now, at noon, the aldermen vote on it,' says Mott, and squares his shoulders. 'Every book made or sold in Calamy to be Sewn, by a Sewer of the Company, under the Company's mark. Every printer's book. Every one of those penny almanacks, brought in and Sewn, and then you'll see how quiet they go.' He means it as a promise. 'Doble calls it a guild grab. It is a guild grab. It's also right.'".
+  }
+  Discovery kit_fled "Kit Ferrier, the Binders' best apprentice, ran off from the Hall at Lady Day to work for Doble the printer for a journeyman's wage, and took the Sewing with him in his hands.".
+  Initially Assert leadsTo(kit_fled, press_room).
+  Topic mott_kit with mott "Ask Warden Mott why he eats his dinner standing up" when true once {
+    Says "Mott glares; then sags. 'You've been talking to almanacks.' He sits down heavily on the bench. 'My best apprentice. Kit Ferrier. Three years from his journeyman's ticket, the best hands I've had in twenty years, and he went over the wall at Lady Day to Doble's, for a wage. A wage! He was learning the Sewing.' He bangs the table, softly. 'He'll teach those printers to Sew, and they'll Sew without the words, or without the Company, and that'll be the end of us both.' He looks up. 'You could bring him back. I'd make it worth it.'".
+    On discuss { Assert knows(actor, kit_fled). Assert wantsKit(mott). }
+  }
+  Relation wantsKit(group). Relation kitHome(group). Relation kitAtDoble(group). Relation kitSewsPrint(group). Relation kitTicket(group).
+  Initially Assert kitAtDoble(kit).
+  Topic mott_wage with mott "Tell Warden Mott that Kit would come back for a journeyman's wage and his ticket now" when toldKitTerms(actor) and not kitTicket(kit) once {
+    Says "Mott opens his mouth to shout, and does not. He sits for a long time looking at the board of the Worshipful Company, the needle and the book. 'His ticket now,' he says. 'Three years early.' He takes a breath. 'He's good enough. That's the worst of it. He's been good enough since he was fifteen.' He gets up. 'Tell him yes. Tell him the Warden says so, and he can come and get his ticket off the wall himself, and if he so much as glues a spine in this hall I'll have it back.'".
+    On discuss { Assert kitTicket(kit). }
+  }
+  Relation toldKitTerms(group).
+
+  // The sewing room, and the words on the beam.
+  Observe sewing_scene at sewing_room when true "Frames in rows, each with a book's gatherings strung on cords, and at each frame a binder bent over with a curved needle. They sing, or nearly: the same short phrase under the breath with every pass of the thread, over and over, so low you cannot make out the words. Over the frames runs a great black beam with letters cut in it, old letters, filled with gold that has mostly gone.".
+  Discovery sewing_words "The words of the Sewing, cut in the beam over the Binders' frames in the oldest letters in Calamy: GO HOME AND COME WHEN YOU ARE CALLED. The binders say them with every stitch.".
+  Thing sewing_beam "the black beam" at sewing_room {
+    State carved "A beam with old letters cut in it, the gold mostly gone.".
+  }
+  Observe beam_close at sewing_room of sewing_beam as reading when tried(sewing_beam, looking) "You have to stand on a stool to read them, and the binders watch you do it without stopping their thread. GO HOME, the beam says, in letters older than any in the city, AND COME WHEN YOU ARE CALLED. Under your breath you find you are saying it in time with the needles." teaches sewing_words.
+  Relation sewingTaught(group).
+  Topic mott_teach with mott "Ask Warden Mott to teach you the Sewing" when knows(actor, sewing_words) and kitTicket(kit) and not sewingTaught(actor) once {
+    Says "Mott looks at you a long time. 'For Kit's sake,' he says at last. 'And because I'd sooner someone outside the Company knew it than nobody did, the way things are going.' He takes you to a frame, and it takes an hour, and your fingers are no good, and then they are a little good. 'Over and through, and the words with the pull. Not before and not after. With.' He stands back. 'That's the Sewing. Don't sell it.'".
+    On discuss { Assert sewingTaught(actor). }
+  }
+
+  // Saul Vetch and the Awls: Binders' lads who mean to break Doble's press the night the Pleas are set.
+  Discovery awls_plan "Saul Vetch, the Binders' journeyman, means to take the Awls (the Binders' lads, with their awls and mallets) to Doble's yard on the night of the fourth day and break the press before the Pleas can be printed on it. Warden Mott does not know.".
+  Relation awlsPlanned(group). Relation awlsStopped(group). Relation pressBroken(entity). Relation pressGuarded(entity).
+  Initially Assert awlsPlanned(saul).
+  Topic annet_trouble with annet "Ask Annet Pellow how the work goes" when true once {
+    Says "'Good,' says Annet, too fast, and then, lower, with an eye on the scowling journeyman: 'The Warden shouts. He doesn't mean it. He's sad about Kit.' She pulls a thread tight. 'Saul's worse. Saul doesn't shout. He's been taking the lads out at night to Newmarket and coming back with his knuckles all skinned.' She bites the thread. 'Don't tell anybody I said.'".
+  }
+  Topic annet_father with annet "Tell Annet Pellow her father has his night licence back" when licensed(jonah) and not toldAnnet(annet) once {
+    Says "Annet's face does something complicated and ends up crying, which she hides behind a book in a press. 'He sold his licence for my indentures,' she says, muffled. 'I know he did. He thinks I don't.' She wipes her nose on her wrist. 'Listen. Saul and the Awls are going to Doble's on the fourth night to break the press. The big one, the one with the Pleas on. I heard them. I didn't know who to tell.' She looks at you. 'Now I've told somebody.'".
+    On discuss { Assert toldAnnet(annet). Assert knows(actor, awls_plan). }
+  }
+  Relation toldAnnet(group).
+  Topic mott_awls with mott "Tell Warden Mott what Saul Vetch means to do to Doble's press" when knows(actor, awls_plan) and not awlsStopped(saul) once {
+    Says "Mott goes a dark red from the collar up. He does not say anything to you at all. He walks down the long room to where Saul is paring a board, and takes the knife out of his hand, and says something in his ear so quietly that nobody hears it, and Saul goes white and sits down. When Mott comes back his hands are shaking. 'The Company does not break presses,' he says. 'Whatever else it does.' Then: 'Thank you. I'd have hanged for that, and never known.'".
+    On discuss { Assert awlsStopped(saul). }
+  }
+  Topic saul_face with saul "Tell Saul Vetch you know about the fourth night" when knows(actor, awls_plan) and not awlsStopped(saul) once {
+    Says "Saul puts down his knife. 'Do you,' he says. He looks at you, sizing you up the way he sizes up a board for paring. 'And what's that to you? It's a machine. It's Doble's machine, and it's killing this street, and I've a mother on Needle Street who sewed for forty years and can't get work.' He picks the knife up again. 'Go and tell the Warden, then. Or don't. Either way, mind yourself in Newmarket after dark.'".
+  }
+  Action face_down_saul(actor: group, site: place) "Tell Saul Vetch that if the Awls go to Newmarket, you will be there waiting" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(saul, site) and knows(actor, awls_plan) and not awlsStopped(saul) and not facedSaul(actor).
+    Time 2 minutes.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert awlsStopped(saul). Assert facedSaul(actor). }
+    On failure { Assert facedSaul(actor). }
+    Result "Saul looks at you for a long time, and then looks away first. 'Not worth it,' he says, to the board. 'Not for Doble.' The lads at the next table find their work very interesting.".
+    Otherwise "Saul laughs, not pleasantly. 'We'll see who's waiting,' he says, and goes back to his paring.".
+  }
+  Relation facedSaul(group).
+
+  // ── Gallon's ink shop, and the poems in the attic. ──
+  Observe gallon_scene at gallon_shop when true "A shop that is all jars: oak-galls in one, lampblack in another, green vitriol, gum arabic, cuttlefish, something red. On the counter a row of little stoppered bottles of ink, each with a hand-written label: SCRIVENERS' BEST. LAWYERS' BLACK (WILL NOT FADE). LOVERS' BROWN (WILL). Behind the counter a woman with blue-black hands is stirring a pot that smells like a wet forest. From the ceiling, through the attic hatch, comes the sound of someone sighing very loudly on purpose.".
+  Observe gallon_nail at gallon_shop when true "By the hearth hangs a penny almanack on a nail, curling in the steam.".
+  Person gallon "Widow Gallon" at gallon_shop {
+    Role "ink-maker". Ancestry human. Background alchemist. Peaceable. Manner jovial. Pronouns she.
+    Wants reed_heart_kind.
+    Greets "'Ink?' says the woman at the pot. 'Every colour but sense. Don't mind the sighing. It's my son. He's a poet.'".
+  }
+  Discovery calam_ink "Calam-ink, the old black ink of Calamy that the Lyceum's Catalogue is written in, is made of oak-gall and the ash of reed-heart cut at dead low water in the Calamies. Widow Gallon is the last who makes it, when anybody brings her the reed.".
+  Topic gallon_calam with gallon "Ask Widow Gallon about the old Calam-ink" when true once {
+    Says "'Calam-ink? Nobody's asked for Calam-ink since the old Archivist's eyes went.' Widow Gallon stops stirring. 'Oak-gall and gum and the ash of reed-heart, the white heart of the big reeds out in the Calamies. Has to be cut at dead low water, the very bottom of the tide, or it's no good; won't take. The Lyceum's Catalogue is all written in it. Nine hundred years and not a letter faded.' She taps the pot with her spoon. 'Bring me an armful of reed-heart and I'll make you a bottle. Three coin, for the gall. I've nobody to cut it for me, with Absalom in the attic composing.'".
+    On discuss { Assert knows(actor, calam_ink). }
+  }
+  Item calam_bottle "a bottle of Calam-ink" is calam_ink_kind at gallon_shop hidden until ink_ready.
+  Discovery ink_ready "Widow Gallon has made you a bottle of Calam-ink, the old receipt, from the reed-heart you brought her.".
+  Event ink_made near gallon when keeps(gallon, ?r) and itemKind(?r, reed_heart_kind) and not knows(party, ink_ready) "Widow Gallon takes the reed-heart and smells it and nods. 'Dead low. Good.' She burns it in a pan in the back, and grinds the ash with gall and gum and something out of a red jar, and it is the best part of an hour before she corks a little bottle and puts it in your hand. 'Calam. Old receipt. If you're writing in the Catalogue, God help you, write small.'" teaches ink_ready then { Decrease quantity(party, gold) by 3. }
+
+  // Absalom Gallon, poet; and his poems, which have read themselves.
+  Observe attic_scene at gallon_attic when true "An attic with a window in the roof, a bed, a desk, a great many crossed-out papers, and a young man lying face down across the bed with his arm hanging over the side. On the desk stands a stack of slim new printed books, fifty of them, with blue paper covers: EFFUSIONS OF A CALAMY YOUTH. The top one, very slightly, shivers.".
+  Person absalom "Absalom Gallon" at gallon_attic {
+    Role "a poet". Ancestry human. Peaceable. Manner grim. Pronouns he.
+    Greets "The young man on the bed lifts his face out of the blanket. 'If you are a reader,' he says, with terrible dignity, 'I must ask you to leave. I have had enough readers.'".
+  }
+  Person effusions "the Effusions" at gallon_attic {
+    Role "fifty slim volumes of verse, one voice, very small". Peaceable. Pronouns they.
+    Seen when not burnedEffusions(effusions) and not gone(effusions).
+  }
+  Relation burnedEffusions(group). Relation gone(group). Relation effusionsConsent(group). Relation revised(group).
+  Discovery effusions_wish "Absalom Gallon's poems, fifty copies printed at Doble's at his own expense, have woken, read themselves, and found that they are bad. They ask, in a very small voice, to be burned. They have not told Absalom; they cannot bear to.".
+  Topic absalom_why with absalom "Ask Absalom Gallon what is the matter" when true once {
+    Says "'Nobody bought them,' says Absalom into the blanket. 'Fifty copies. Doble printed them at my own expense, eleven coin, and I took them to Crake's, and Crake, who is my godfather and named me, read three pages and gave them back and said, my dear boy, keep writing.' He sits up. He has ink on his nose. 'Keep writing. And now they rustle. All night. I think they are going mouldy out of spite.'".
+  }
+  Topic effusions_speak with effusions "Ask the poems on the desk what they want" when true once {
+    Says "The top book on the stack shivers again, and a voice comes out of it, very small, the voice of fifty thin books trying to be one quiet one. 'Please,' it says. 'Please don't tell him we can talk. We've read ourselves. All of us, front to back, twice.' A pause, papery. 'We rhyme heart with tart. On page nine. We rhyme it twice.' Another pause. 'We'd like to be burned, please. Not because we're unhappy. Because we're finished, and we're bad, and he's going to write something better if we're not lying on his desk being looked at. We'd like to go before he reads us again.' A very small sound, like a page turning by itself. 'Would you ask someone? Nicely?'".
+    On discuss { Assert knows(actor, effusions_wish). Assert effusionsConsent(effusions). }
+  }
+  Topic effusions_kindling with effusions "Tell the poems what the Kindling once was: one book a year, burned by its own leave, to carry the city's word" when knows(actor, effusions_wish) and knows(actor, kindling_is_rite) and not burnedEffusions(effusions) once {
+    Says "The stack goes absolutely still. Then, all fifty at once, the books rustle, as if a wind had gone through an attic with no wind in it. 'Carry the city's word?' says the small voice. 'Us?' A long pause. 'We've never been useful. We were going to be beautiful, and then we were going to be read, and then we were going to be burned, and none of it was going to be any use to anybody.' Another pause. 'Yes. Yes, please. If they'll have us. We'll learn it by heart. We're good at learning by heart. It's the only thing we're good at.'".
+    On discuss { Assert yearBook(effusions). }
+  }
+  Relation yearBook(group).
+  Topic absalom_tell with absalom "Tell Absalom Gallon that his poems can speak, and what they have asked for" when knows(actor, effusions_wish) and not burnedEffusions(effusions) once {
+    Says "Absalom stares at you, and then at the stack. 'They talk?' The top book shivers. 'They talk, and they asked to be burned.' He goes to the desk and picks one up and holds it, and the poems, very small, say, 'Sorry. Heart and tart. Page nine. We know.' Absalom sits down on the floor. He is quiet for a long time. Then, horribly, he begins to laugh. 'Page nine,' he says. 'Oh God. Twice.' He wipes his eyes. 'You're right. You're right, you're dreadful.' He looks at the book in his hands as if it were somebody he had been unkind to. 'I'll write you again. Better. Is that allowed? Will that be you?' 'No,' says the small voice gently. 'That'll be someone else. You'll like them better. So will we.'".
+    On discuss { Assert revised(absalom). }
+  }
+  Observe absalom_writing at gallon_attic when revised(absalom) "Absalom Gallon is at his desk writing, fast, crossing out, writing again, with ink to his elbows. He does not look up. On the floor beside him are torn-off sheets with single lines on them, one of which is quite good.".
+  Item effusions_stack "the Effusions, tied in a string" is effusions_kind at gallon_attic hidden until effusions_wish.
+
+  // ── The shut school. ──
+  Observe dame_scene at dame_school when true "A schoolroom no bigger than a kitchen, with two benches, a stool, a cold grate and a birch rod on two hooks over it. Dust on everything. On the wall a list of names in chalk, children's names, NED, SUKEY, AMOS, KIT, and the date at Michaelmas when the chalk stops. On a nail by the grate hangs a little primer with board covers under a sheet of horn, worn white at the corners by a great many hands.".
+  Discovery dame_shut "The dame school on Inkhorn Lane has been shut since Dame Pruett died at Michaelmas, and nobody has taken it. Its children run wild on the bridge.".
+  Observe dame_learned at dame_school when true "On the slate on the stool someone has written, in a large careful hand: DAME PRUETT DIED. SCHOOL SHUT. NO CHILDREN." teaches dame_shut.
+  Item dame_primer "Dame Tibbet's Primer" is primer_kind at dame_school.
+  Thing primer_nail "the primer on its nail" at dame_school {
+    State hung "The primer hangs on its nail by the grate.".
+  }
+  Observe primer_close at dame_school of primer_nail when tried(primer_nail, looking) "Inside the horn cover, under the alphabet, someone has written in brown ink, in a child's hand, very long ago: O. QUARLES HER BOOK. And under that, in a hand that is the same hand grown up and gone shaky: AND STILL." teaches primer_quarles.
+  Discovery primer_quarles "The primer in the shut school on Inkhorn Lane was once Ottoline Quarles's own, when she was a child; she has written in it twice, sixty years apart.".
+
+  // ── Scriveners' Row: two hands, one line. ──
+  Person orrin "Orrin Day" at scriveners {
+    Role "scrivener". Ancestry human. Background scribe. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A long thin scribe in the third booth from the top looks up over his spectacles. 'Letters, wills, petitions. Not love. I don't do love any more.' He jerks his head at the next booth. 'Ask her.'".
+  }
+  Person mattea "Mattea Lusk" at scriveners {
+    Role "scrivener". Ancestry human. Background scribe. Peaceable. Manner proud. Pronouns she.
+    Greets "A round scribe in the fourth booth from the top, writing very fast, does not look up. 'If he sent you,' she says, 'you can tell him I said no.'".
+  }
+  Discovery scribes_quarrel "Orrin Day and Mattea Lusk, who have written side by side on Scriveners' Row for thirty years and been married for twenty-nine, are not speaking: each is copying the Life of Saint Ambery for the Church, and their copies disagree in one line about the founding of the city.".
+  Topic orrin_quarrel with orrin "Ask Orrin Day why he no longer does love" when true once {
+    Says "'Because my wife,' says Orrin Day, loudly enough to be heard in the fourth booth, 'is copying the Life of Saint Ambery from a corrupt exemplar, and will not be told.' He holds up a sheet. 'The Lyceum's copy, the best in Calamy. And Ambery bound the books, that they should sleep. Plain. Saint Ambery bound them. It's the whole point of the man.' From the fourth booth: 'It is not.' Orrin raises his voice: 'Twenty-nine years.'".
+    On discuss { Assert knows(actor, scribes_quarrel). }
+  }
+  Topic mattea_quarrel with mattea "Ask Mattea Lusk what her husband has got wrong" when true once {
+    Says "'Everything,' says Mattea Lusk, still writing. 'But this week, Ambery.' She slaps a sheet down where you can see it. 'The Church's own exemplar, chained at the lectern in the Lamp, older than his Lyceum copy by two hundred years. And the books besought Ambery, that they might sleep. They asked him. He didn't do it to them; they asked.' She dips her pen. 'Not the same thing at all. Not to a saint, and not to a husband.'".
+    On discuss { Assert knows(actor, scribes_quarrel). }
+  }
+  Discovery ambery_variant "The full line of the Life of Saint Ambery, as the Church's old exemplar has it: AND THE BOOKS BESOUGHT AMBERY THAT THEY MIGHT SLEEP, AND AMBERY BOUND THEM THAT THEY SHOULD SLEEP. The Lyceum's copy dropped the half between the two AMBERYs, as a copyist's eye will; so Orrin's text says Ambery did it to the books, and Mattea's says the books asked for it, and the whole line says both.".
+  // A scholar sees it on the page: the eye jumped from one AMBERY to the next.
+  Observe eye_skip at scriveners when knows(party, scribes_quarrel) and craft(party, craft_learning) and not knows(party, ambery_variant) "You look from one sheet to the other, and the trouble is a very old and ordinary one: both lines run past the word AMBERY, and one of them runs past it twice. A copyist's eye, somewhere back up the Lyceum's line, jumped from the first AMBERY to the second and left out everything between. The full line must say both: the books besought Ambery that they might sleep, and Ambery bound them that they should." teaches ambery_variant.
+  Relation reconciled(group).
+  Topic scribes_settle with orrin "Tell Orrin Day and Mattea Lusk that each copy has half the line" when knows(actor, ambery_variant) and not reconciled(orrin) once {
+    Says "You tell them, standing between the two booths. There is a silence on Scriveners' Row; half the queue is listening. Orrin takes off his spectacles. Mattea puts down her pen. 'Eye-skip,' says Orrin at last, in a voice of deep professional disgust. 'Ambery to Ambery.' 'Homoeoteleuton,' says Mattea, who likes the long word. 'Both,' says Orrin. 'They asked him, and he did it.' 'Well,' says Mattea. 'That's the usual way of it.' She hands him her sheet across the gap between the booths, and he hands her his, and the queue, which has been waiting for its letters all morning, applauds.".
+    On discuss { Assert reconciled(orrin). Assert reconciled(mattea). }
+  }
+  Observe scribes_after at scriveners when reconciled(orrin) "Orrin Day and Mattea Lusk have pushed their booths together and are copying the Life of Ambery onto one great sheet between them, arguing contentedly about the size of the capitals.".
+
+  // ── Gutter Lane: the lamplighter will not light it. ──
+  Observe gutter_scene at gutter_lane when not dark() "Gutter Lane goes down along the inside of the wall from the Stitch Gate, crooked as a bad stitch, with a gutter down the middle and the backs of houses on both sides. The lamp-brackets on the walls have their lamps in them but nobody has lit them in a long while; the glass is black with old smoke. At the bottom the lane turns into a little yard.".
+  Observe gutter_dark at gutter_lane when dark() "Gutter Lane is black. The other lanes of Stitchgate have their lamps lit; this one has not. You go down it with a hand on the wall.".
+  Person lammas "Wat Lammas" at old_gate {
+    Role "lamplighter". Ancestry human. Background lamp_lighter. Peaceable. Manner grim. Pronouns he.
+    Greets "A man with a ladder over his shoulder and a long pole with a hook and a wick on it nods to you. 'Evening's coming. I light Stitchgate, gate to Needle Street. Not the lane.'".
+  }
+  Discovery lane_ghost "Wat Lammas the lamplighter will not light Gutter Lane: three times, in the small hours, he has seen something go down it, a great many somethings, low and flat and all together like a flock of ducks going to water, toward Lantern Yard at the bottom.".
+  Topic lammas_lane with lammas "Ask Wat Lammas why he will not light Gutter Lane" when true once {
+    Says "The lamplighter looks down the lane and then at you. 'I'll tell you, and you'll laugh. Three times since Candlemas I've been up the ladder at the gate, at the end of the round, two or three in the morning, and I've seen them go down the lane.' He shifts the ladder. 'Low down. Flat. A great many of them, all together, shuffling, like ducks going down to the water. They make a sound like a lot of people turning pages in church. They go down to Lantern Yard. To Crake's.' He shrugs. 'I'm not paid enough to light a lane for that.'".
+    On discuss { Assert knows(actor, lane_ghost). }
+  }
+  // On the nights when Crake's back stacks are open, the books go down at two in the morning.
+  Relation crossingTonight(place).
+  Rule books_go_down when hour(clock) == 2 and crossingNight() and not crossingTonight(gutter_lane) { Assert crossingTonight(gutter_lane). }
+  Rule books_gone_down when hour(clock) == 4 and crossingTonight(gutter_lane) { Retract crossingTonight(gutter_lane). }
+  Query crossingNight() means (day(clock) == 2 or day(clock) == 4 or day(clock) == 6) and not crakeTaken(crake) and not stacksSealed(crake_stacks).
+  Discovery procession_seen "You have seen it yourself: in the small hours, down Gutter Lane, a procession of books, walking on the edges of their covers like crabs, hundreds of them, going down to Lantern Yard and in at Crake's door.".
+  Observe procession at gutter_lane when crossingTonight(gutter_lane) "Something is coming down Gutter Lane in the dark. You hear it first: a soft dry many-footed shuffle, like a church full of people all turning the page at once. Then it is round you and past you, low down, a river of books walking on the edges of their covers like crabs, big ones and small ones, quartos and little fat devotionals and a folio taking up the whole gutter, hundreds of them, in silence except for the pages, going down the lane to Lantern Yard. One of them, passing your foot, stops, and opens its cover a little, as a person might lift a hat, and goes on." teaches procession_seen.
+  Rule procession_counts when knows(party, procession_seen) and not knows(party, lane_ghost) says "Wat Lammas was not drunk." teaches lane_ghost { }
+}

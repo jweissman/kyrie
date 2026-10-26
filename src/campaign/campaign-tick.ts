@@ -113,7 +113,10 @@ export class CampaignTick {
         const player = host.playerActor;
         if (rule.say && player && next.test(ModuleWriter.call('able', player))
           && (!rule.place || LocalObservations.perceives(next, player, rule.place, rule.anchor))) {
-          happenings.push({ id: rule.id, text: ObservationText.render(rule.say, next, true, binding), kind: 'event' });
+          // One told for each binding it fires for (each member polled), as an observation near a variable is seen once
+          // for each thing it is near: an instance's id is its rule's and the binding's (aye@roll).
+          const instance = Object.keys(binding).length ? `${rule.id}@${Object.values(binding).join(',')}` : rule.id;
+          happenings.push({ id: instance, text: ObservationText.render(rule.say, next, true, binding), kind: 'event' });
         }
       }
     }

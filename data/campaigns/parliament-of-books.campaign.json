@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "A Parliament of Books",
+  "calendar": { "year": 1312, "month": 3, "day": 11 },
+  "pitch": {
+    "heading": "Someone for Calamy",
+    "text": "Calamy is a city of paper at the mouth of the Calam, where the tide turns the mills twice a day and every household keeps a book that knows it. Its books are entangled with its money, its law, its prayers and its quarrels, and lately some of them have begun to talk. In nine days it is the Kindling, when the city burns last year's almanacks to light the new year in."
+  },
+  "modules": [
+    { "id": "calamy", "bundle": "../adventures/parliament-of-books/module.json" }
+  ],
+  "party": [
+    { "name": "Wren", "raceId": "human", "classId": "bard", "backgroundId": "messenger" }
+  ]
+}

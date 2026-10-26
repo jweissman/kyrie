@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "source": [
+    "calamy.kyr",
+    "kinds.kyr",
+    "hithe.kyr",
+    "sluice.kyr",
+    "bond.kyr",
+    "calamies.kyr",
+    "bridge.kyr",
+    "stitchgate.kyr",
+    "lane.kyr",
+    "presses.kyr",
+    "close.kyr",
+    "imprimatur.kyr",
+    "lyceum.kyr",
+    "gardens.kyr",
+    "almanack.kyr",
+    "colophon.kyr",
+    "commonplace.kyr",
+    "members.kyr",
+    "parliament.kyr",
+    "manuals.kyr",
+    "kindling.kyr",
+    "endings.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "calam",
+    "causey": "causey"
+  }
+}

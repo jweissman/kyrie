@@ -1,0 +1,186 @@
+Module calamy "A Parliament of Books" {
+  Description "The Lyceum on Gannet Hill: the Rounds, the Archivist in her tower, the Chained Room and the books in it, the Provost, the cook, the disputation, and a heron.".
+
+  Observe steps_scene at gannet_steps when true "The Gannet Steps go up from the Close in long flights between garden walls, with the whole city falling away behind you: the Ashpit and its pile, the roofs of Stitchgate, the bridge on its arches, the Hithe beyond the river, the mills, the grey-green reeds and the sea. At the top, a gate with a stone owl on each post.".
+  Observe quad_scene at quad when not dark() "The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, very old, with one window lit at the top in daylight.".
+  Observe quad_dark at quad when dark() "The quad at night, the grass grey, the Schools dark, and one window lit at the top of the old tower.".
+  Observe rounds at quad when hour(clock) == 6 "It is the Rounds. A line of sleepy students in gowns stands on the grass in the grey light, and a proctor at the front reads out from a long scroll the titles of books, one after another, very fast, without stopping: the Physick of Mother Orme, the Life of Ambery, the Pleas, Pollexfen, a Treatise of Tides, the Housebook of Corrow, the Housebook of Dane. At each title the students say together, AND READ. It takes the whole hour. None of them is holding a book.".
+  Discovery rounds_hollow "Every morning at six the Lyceum keeps the Rounds: a proctor reads out the titles of the city's books and the students answer AND READ. Nobody reads any of the books. Once, the Archivist says, they did.".
+
+  // ── The Archivist. ──
+  Observe tower_foot_scene at tower_foot when true "A round room at the foot of the tower, cold, with a turning stair going up the wall and a rope on iron rings for a handrail. A notice on the door, in big careful letters for the half-blind: THE ARCHIVIST. KNOCK. THEN COME UP. THEN KNOCK AGAIN.".
+  Observe quarles_scene at quarles_room when true "A round room at the top of the tower with windows on every side and the whole estuary in them. It is full of books, but they are not on shelves; they lie open on every surface, on the floor, on the bed, face up, as if being read by the light. In a high chair by the south window sits a very old woman with white eyes and her hands folded on a stick, and her face turned toward the sea.".
+  Person quarles "Ottoline Quarles" at quarles_room {
+    Role "Archivist of the Lyceum". Ancestry human. Calling mage. Level 9. Background archivist. Peaceable. Manner acerbic. Pronouns she.
+    Greets "'You knocked twice,' says the old woman by the window, without turning. 'Good. Nobody knocks twice any more. Sit where you like, but don't sit on Pollexfen, he's under the cushion.' She turns her white eyes toward you, a little to one side. 'Ottoline Quarles. I was the Archivist when your grandmother was born, I expect. I still am. Nobody has had the nerve to tell me otherwise.'".
+  }
+  Topic quarles_eyes with quarles "Ask the Archivist how she reads, with her eyes as they are" when true once {
+    Says "'By ear,' says Ottoline Quarles. 'Students come up and read to me, for a penny a page, which is extortion, and I listen.' She lifts her chin toward the books lying open everywhere. 'And these I leave open so the light can read them. Somebody should.' She smiles, with not many teeth. 'I could read once. Very well. Better than anyone in Calamy. That was the trouble.'".
+  }
+  Topic quarles_rounds with quarles "Ask the Archivist about the Rounds" when knows(actor, rounds_hollow) or hour(clock) >= 7 once {
+    Says "'The Rounds.' Quarles's mouth goes thin. 'Once, the Lyceum read every book in the city's keeping, every one, once in a generation. That was what it was for. Sixty scholars and four hundred students, and they read in rounds, shelf by shelf, house by house, and when they had read the last they began again.' She taps her stick. 'Now they read out the titles at six in the morning and say AND READ. As if saying it were doing it.' She is silent a moment. 'I tried to put it back, when I was Archivist and had my eyes. They told me I was a superstitious girl with a bee in her bonnet. I am ninety-one. I still have the bee.'".
+    On discuss { Assert knows(actor, rounds_hollow). }
+  }
+  // She tells the whole only to one who has found two pieces of it in the city.
+  Query piecesFound(a: group) means knows(a, rhyme_heard) and (knows(a, ninth_plea) or knows(a, ambery_variant) or knows(a, ambery_exemplar) or knows(a, sewing_words) or knows(a, almanack_woke))
+    or knows(a, ninth_plea) and (knows(a, ambery_variant) or knows(a, ambery_exemplar) or knows(a, sewing_words) or knows(a, almanack_woke))
+    or (knows(a, ambery_variant) or knows(a, ambery_exemplar)) and (knows(a, sewing_words) or knows(a, almanack_woke))
+    or knows(a, sewing_words) and knows(a, almanack_woke).
+  Discovery quarles_account "Ottoline Quarles's account: when Calamy was new, everything written in it woke, and the books suffered being read by everyone and could not refuse. They asked Ambery to let them sleep. He made the Colophon with their Parliament: Sewn books go home to their own country, the Commonplace, while their bodies stay to be read. The city promised three things in return: no book burned save by its own leave; every book read once in a generation; and each year at the Kindling one book to go into the fire of its own will, to carry the city's word to the Parliament. Quarles went into the Commonplace once, sixty years ago, by reading.".
+  Topic quarles_whole with quarles "Tell the Archivist what you have found in the city, and ask her what it means" when piecesFound(actor) and not knows(actor, quarles_account) once {
+    Says "She listens without moving, her white eyes on the sea, while you tell her what you have: a rhyme, a Plea, a line, a beam, a voice on a nail. When you have done she is quiet a long time. 'Two,' she says. 'You found two on your own. Most people in this city could not find one if you sat them on it.' And then she tells you, in a voice that has told it to itself many times: the Year of Voices, when everything written in Calamy woke and could not stop being read; the books that besought Ambery; the Colophon; the Sewing that sends them home; the Commonplace, which is where home is; the three things the city owes. 'And at the Kindling, one book a year, of its own will, into the fire, to carry our word to their Parliament. The year-book. They used to choose it with great care.' She turns her face toward you. 'Now it's three thousand penny almanacks that never agreed to anything. Do you see?' A pause. 'I went there once. Sixty years ago. By reading. That is how I came by these.' She lifts a hand toward her eyes.".
+    On discuss { Assert knows(actor, quarles_account). }
+  }
+  Topic quarles_eyes_cost with quarles "Ask the Archivist what happened to her eyes" when knows(actor, quarles_account) once {
+    Says "'I was nineteen and cleverer than God,' says Quarles. 'I read Pollexfen in a week, and I wrote my name in the Catalogue in pencil, because I could not get the old ink, and I read myself in.' She smiles, not at you. 'Pencil fades. Out there, a reader is held by the entry, and mine began to go almost at once, and I had to come back by the Founders' door before I faded altogether, and the door keeps something of whoever goes through it in a hurry.' She taps her stick on the floor. 'It kept my reading. The part of the eye that reads. I can see a window. I can't see a word.' She shrugs. 'Use Calam-ink. Write small. Don't hurry.'".
+  }
+  Relation readingTaught(group). Relation primerReturned(group). Relation quarlesMessage(group).
+  Topic quarles_teach with quarles "Ask the Archivist to teach you the Inward Reading" when knows(actor, quarles_account) and (readToSomeone(actor) or capable(actor, lore) or primerReturned(quarles)) and not readingTaught(actor) once {
+    Says "'Yes,' says Quarles. 'You'll do.' She makes you sit at her feet like a student, and teaches you all afternoon, in a voice like a pen: how the Catalogue of the Founders is written, every book of Calamy and the Founders' entry at the head of it all; how a reader writes their own entry at the foot in Calam-ink, their name and what they are, small, true; how they read from the Founders' entry down, aloud, every line, not skipping, with attention, until the Catalogue reads them back. 'You will arrive in its reading room, entered. The Catalogue will know you. The Parliament will have to hear you; you will be on the books.' She grips your wrist with a hand like a bundle of twigs. 'Read every line. A reader who skips is a reader who is lost. And come back when you are called, and not before.'".
+    On discuss { Assert readingTaught(actor). }
+  }
+  Topic quarles_judge with quarles "Ask the Archivist to teach you the Inward Reading" when knows(actor, quarles_account) and not readToSomeone(actor) and not capable(actor, lore) and not primerReturned(quarles) and not readingTaught(actor) once {
+    Says "'One question first,' says Quarles. 'Have you ever read aloud to someone who could not read?' You have not, or not that you can say. She nods slowly. 'Then you don't yet know what reading is for. The Catalogue will know you don't.' She turns back to the window. 'Go and do it. It's not hard. There are people in this city who have never had a page read to them in their lives, and children on the bridge with no school. Then come back.'".
+  }
+  Event primer_home near quarles when keeps(quarles, dame_primer) and not primerReturned(quarles) "Quarles takes the primer in both hands and runs her thumbs over the horn cover, and the corners, and the place inside where two hands, sixty years apart, have written in it. 'Where did you—' she says, and stops. 'Dame Tibbet's. Pruett's school. My own.' She holds it against her chest. 'I learned on this. On this very one. They kept it on the nail for eighty years.' For a while she says nothing at all. 'You'll do,' she says at last, roughly. 'Anyone who would think of bringing me this will do.' She holds it out again. 'No. Take it back to the school. Somebody will need it.'" then {
+    Assert primerReturned(quarles). Assert at(dame_primer, quarles_room). }
+  Topic quarles_message with quarles "Ask the Archivist if she has any word for anyone in the Commonplace" when readingTaught(actor) and not quarlesMessage(actor) once {
+    Says "Quarles is quiet a long time. 'There is a little primer there,' she says. 'Dame Tibbet's. It will be very worn by now; nobody reads it but children, and the children have stopped coming. It taught me my letters.' She turns her face to the window. 'Tell it Ottoline still knows them. Tell it she says them over every night, A to Z, in the dark, because she can't read anything else. Tell it she never forgot one.' Her hand finds the stick. 'That's all. That's the message.'".
+    On discuss { Assert quarlesMessage(actor). }
+  }
+  Topic quarles_pollexfen with quarles "Ask the Archivist about the book Mrs. Quennell wants back" when knows(actor, quarles_overdue) once {
+    Says "Quarles laughs, a sound like a stick on railings. 'Amabel.' She reaches under the cushion beside her and brings out a small fat book in soft calf. 'Forty-one years. I finished it in a week. I couldn't bear to give it back; it was the only one in the city and it's how I went.' She holds it out in your direction. 'Take it to her. Tell her I've finished it. And if you read it on the way, don't write in it in pencil.'".
+    On discuss { Assert lends(quarles, pollexfen, actor). }
+  }
+  Action study_pollexfen(actor: group, site: place) "Sit down with Pollexfen's Treatise and learn the Inward Reading from it" {
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, pollexfen) and capable(actor, lore) and not readingTaught(actor) and not benighted(actor).
+    Time 12.
+    On success { Assert readingTaught(actor). Assert knows(actor, pollexfen_read). }
+    Result "Two hours with Pollexfen, who writes like a man walking very fast with his hands behind his back: the Catalogue, the Founders' entry, the reader's entry at the foot, the ink, the reading down, every line, until the book reads back. Of the Ink, he writes: let it be Calam, for the Catalogue holds nothing else. Of Haste: none.".
+  }
+  Discovery pollexfen_read "Pollexfen's Treatise of the Inward Reading: a reader may go into the Commonplace by writing their own entry at the foot of the Catalogue of the Founders in Calam-ink, and reading the Catalogue aloud from the Founders' entry down, every line, until it reads them back.".
+
+  // ── The Chained Room. ──
+  Thing chained_lock "the lock on the iron-bound door" on chained_door {
+    State locked blocking "The iron-bound door of the Chained Room is locked. The Provost keeps the key.".
+    State open "The iron-bound door of the Chained Room stands unlocked.".
+    Change pick "Pick the lock of the Chained Room" from locked to open needing lockwork.
+  }
+  Observe chained_scene at chained_room when true "A long low room with shelves down both walls and every book on them chained by the spine to a rod, so that it can be taken down and opened but not carried off. At the far end, on a lectern of its own, a book the size of a door lies open: the Catalogue of the Founders, its pages black with small writing. Near it, on a stand, a thick old codex with brass clasps, shut. In the corner an iron cage, padlocked, with a book in it bound in something dark that is not quite leather. From the ceiling, where the tarpaulin does not reach, water drips steadily into a bucket next to the Catalogue.".
+  Discovery catalogue_seen "The Catalogue of the Founders lies open in the Chained Room: every book Calamy has made, entered in Calam-ink from the Founders' entry at the head, nine hundred years of it, with blank leaves at the foot.".
+  Observe catalogue_learned at chained_room when true "The Catalogue of the Founders: you could lie down on its open pages. At the head of the first leaf, in letters like iron, THE FOUNDERS; and then entry after entry, every book ever made in Calamy, in an ink so black it seems to sink into the page; and at the very end, hundreds of leaves on, blank pages waiting." teaches catalogue_seen.
+  Relation entryWritten(group).
+  Action write_entry(actor: group, site: place) "Write your own entry at the foot of the Catalogue, in Calam-ink, small" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chained_room) and readingTaught(actor) and carries(actor, calam_bottle) and not entryWritten(actor) and not benighted(actor).
+    Time 1.
+    On success { Assert entryWritten(actor). }
+    Result "You find the first blank line at the foot of nine hundred years of entries and write, in Calam-ink, as small as you can: who you are; what you are; that you are a reader, come to read. The ink goes into the page and does not come back out. When you lift the pen your own entry looks as old as all the others.".
+  }
+  Action read_inward(actor: group, site: place) "Read the Catalogue aloud from the Founders' entry down to your own, every line" {
+    Grave "The reading takes the night, and at the end of it you will not be in Calamy. You come back when you are called: at the Kindling, or by the way you came.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chained_room) and entryWritten(actor) and not benighted(actor) and not inCommonplace(actor).
+    Time 24.
+    On success { Assert arrivedByReading(actor). Assert at(actor, reading_room). }
+    Result "You begin at THE FOUNDERS and read down. Entry after entry, aloud, every line, not skipping: the Pleas, the Life of Ambery, the Housebook of Dane, a Treatise of Tides. Your voice goes hoarse and steadies. The dripping stops, or you stop hearing it. Somewhere past the four-hundredth year you notice that the words are reading you as well, very lightly, the way a hand runs down a list; and somewhere past the seven-hundredth that the room is very large and very quiet and that the light is not the light of a lamp. You read the last entry before your own. You read your own. It reads you back.".
+  }
+  Relation arrivedByReading(group).
+  // The codex that chooses its readers: it opens for one who has read aloud to someone who could not read.
+  Thing codex "the Ambery Codex" at chained_room {
+    State clasped "A thick old codex with brass clasps lies on its stand. The clasps are shut.".
+    State opened "The Ambery Codex lies open on its stand, at its last leaf.".
+  }
+  Observe codex_tried at chained_room of codex when tried(codex, looking) and state(codex, clasped) "The brass clasps will not give. They are not locked: there is no keyhole. They simply do not open, the way a person's mouth does not, when they have decided not to speak to you. Inside the front board, where you can just see it past the clasp, someone has carved very small: FOR THEM THAT TEACH.".
+  Action open_codex(actor: group, site: place) "Open the Ambery Codex" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chained_room) and state(codex, clasped) and readToSomeone(actor).
+    Time 2 minutes.
+    On success { Assert state(codex, opened). }
+    Result "You put your thumbs to the clasps without much hope, and they open under them as easily as a hand opening, and the codex falls open of itself at its last leaf.".
+  }
+  Discovery codex_colophon "The last leaf of the Ambery Codex is the Colophon of Calamy, in the city's oldest hand: THE BOOKS OF CALAMY, BEING SEWN, SHALL GO HOME, AND COME WHEN THEY ARE CALLED. AND THE CITY SHALL KEEP THESE THREE: THAT NO BOOK BE BURNED IN CALAMY SAVE BY ITS OWN LEAVE; THAT EVERY BOOK BE READ ONCE IN A GENERATION, THAT IT FADE NOT; AND THAT AT THE TURNING OF THE TIDE-YEAR ONE BOOK GO OF ITS OWN LEAVE INTO THE FIRE, TO CARRY THE CITY'S WORD TO THE PARLIAMENT OF THE BOUND, AND THE COLOPHON BE RENEWED. MADE BETWEEN AMBERY THE BINDER AND THE BOUND.".
+  Observe codex_read at chained_room of codex as reading when state(codex, opened) "The last leaf of the Ambery Codex is a colophon, the kind that ends a book and says who made it and on what terms; but this one is not about the codex. THE BOOKS OF CALAMY, BEING SEWN, SHALL GO HOME, AND COME WHEN THEY ARE CALLED. AND THE CITY SHALL KEEP THESE THREE: THAT NO BOOK BE BURNED IN CALAMY SAVE BY ITS OWN LEAVE; THAT EVERY BOOK BE READ ONCE IN A GENERATION, THAT IT FADE NOT; AND THAT AT THE TURNING OF THE TIDE-YEAR ONE BOOK GO OF ITS OWN LEAVE INTO THE FIRE, TO CARRY THE CITY'S WORD TO THE PARLIAMENT OF THE BOUND, AND THE COLOPHON BE RENEWED." teaches codex_colophon.
+  Observe lexicon_cage at chained_room when true "In the iron cage in the corner, padlocked, lies a book bound in something dark, chained to the floor of the cage by three chains. When you look at it, it is lying shut. When you look away, you are fairly sure it is open.".
+  Thing roof_leak "the leak over the Catalogue" at chained_room {
+    State dripping "Water drips from the ceiling into a bucket beside the Catalogue; the floor round the bucket is dark with old wet.".
+    State mended "Where the leak was, a patch of new lead on the ceiling, and the bucket upside down.".
+    Change mend "Get up into the roof and stop the leak with the tarpaulin and a slate" from dripping to mended needing climbing.
+  }
+
+  // ── The Provost, the cook, and the cheese. ──
+  Observe provost_scene at provost_room when true "A comfortable study with a good fire, a good carpet, good port in a decanter, and a great many unread books with their spines uncracked. On the hearth-rug, among the crumbs, a cheese-knife.".
+  Person provost "Provost Lucan Fairweather" at provost_room {
+    Role "Provost of the Lyceum". Ancestry human. Background scholar. Peaceable. Manner proud. Pronouns he.
+    Greets "A handsome silver-haired man in a velvet gown rises from behind a desk with nothing on it. 'Fairweather. Provost. If you are a benefactor, sit down; if you are a parent, sit down and do not shout; if you are from the Imprimatur, I have nothing to say until I have spoken to my solicitor.'".
+  }
+  Discovery chained_sale "The Provost means to sell the caged book in the Chained Room, the Black Lexicon of Oddny Vask, to Sir Gideon Corvell, to pay for mending the roof over the Catalogue.".
+  Topic provost_key with provost "Ask the Provost for the key to the Chained Room" when true once {
+    Says "'Out of the question,' says the Provost pleasantly. 'The Chained Room is closed to all but Fellows while the roof is being seen to. Which it will be, the moment Sir Gideon pays for the Lexicon.' He smiles. 'The Black Lexicon of Oddny Vask. A most unpleasant book. Sir Gideon has offered four hundred crowns for it, and I have accepted, and the roof will be lead by midsummer.' He opens the door for you. 'The Archivist objects. The Archivist objects to everything.'".
+    On discuss { Assert knows(actor, chained_sale). }
+  }
+  Relation freedomGiven(group).
+  Topic provost_roof with provost "Tell the Provost the leak over the Catalogue is stopped" when state(roof_leak, mended) and not freedomGiven(provost) once {
+    Says "The Provost looks at you, and at the ceiling of his own study, as if it might have been mended too. 'Stopped? By you?' He clears his throat. 'Well. In that case there is no very great hurry about Sir Gideon.' He takes a key from his watch-chain, an old iron key, and turns it over. 'The Freedom of the Lyceum, I think. It is in my gift. I have never given it to anyone; nobody has ever done anything.' He puts the key in your hand. 'The Chained Room. Do not let the Archivist see you have it; she'll want it back.'".
+    On discuss { Assert freedomGiven(provost). Assert state(chained_lock, open). }
+  }
+  Topic provost_cheese with provost "Mention to the Provost that you know where Mistress Bunce's cheese goes" when knows(actor, cheese_thief) and not freedomGiven(provost) once {
+    Says "The Provost's handsome face goes very still. He looks at the cheese-knife on the hearth-rug. He looks at you. 'I find,' he says, 'that I have been unreasonable about the Chained Room.' He takes the key from his watch-chain without another word and holds it out between finger and thumb. 'I am sure Mistress Bunce need not be troubled with gossip.' He does not look at you again.".
+    On discuss { Assert freedomGiven(provost). Assert state(chained_lock, open). }
+  }
+  Topic rhule_warrant with rhule "Ask Hester Rhule for the Imprimatur's warrant to open the Chained Room" when knows(actor, chained_sale) and doubt(rhule) >= 2 and not freedomGiven(provost) once {
+    Says "'The Lexicon of Oddny Vask?' Rhule's pen stops. 'To Gideon Corvell?' She takes a sheet and writes on it rapidly, and stamps it with the little lamp. 'The Imprimatur may inspect any library in Calamy that holds a refused book, at any hour. The Lexicon has been refused since 1060.' She folds it. 'Show the Provost that. He will open the door himself, and he will not sell anything to anybody until I have been to look.'".
+    On discuss { Assert freedomGiven(provost). Assert state(chained_lock, open). }
+  }
+  Observe buttery_scene at buttery when true "A stone-flagged buttery with a hatch onto the schoolroom, barrels of small beer, loaves, a great empty cheese-board with a knife on it, and on a nail by the hatch a penny almanack. A large floury woman is scrubbing the board as if it had insulted her.".
+  Person bunce "Mistress Bunce" at buttery {
+    Role "cook of the Lyceum". Ancestry human. Background chef. Peaceable. Manner acerbic. Pronouns she.
+    Greets "'If you've come for bread, there's bread. If you've come for cheese, there isn't, and that's not my fault, and I'll thank you not to look at me like that.'".
+  }
+  Discovery cheese_lost "Mistress Bunce, cook of the Lyceum, has lost three whole Calamy Blue cheeses from the buttery in a month, and has cut the students' commons to bread and beer until the thief is found.".
+  Topic bunce_cheese with bunce "Ask Mistress Bunce what has become of the cheese" when true once {
+    Says "'Taken,' says Mistress Bunce. 'Three Calamy Blues in a month, out of my buttery, at night. A whole cheese at a time.' She scrubs. 'So the young gentlemen are on bread and beer till it's found who, and I don't care if they starve, and they've started bringing in fish from somewhere, which I don't ask.' She scrubs harder. 'The almanack knows. I'll swear the almanack knows. It sniggers.'".
+    On discuss { Assert knows(actor, cheese_lost). }
+  }
+  Discovery cheese_thief "It is the Provost who takes the Lyceum's cheese, at midnight, a whole Calamy Blue at a time, and eats it in his study by the fire.".
+  Relation cheeseSettled(group).
+  Topic bunce_told with bunce "Tell Mistress Bunce who has been taking the cheese" when knows(actor, cheese_thief) and not cheeseSettled(bunce) once {
+    Says "Mistress Bunce stops scrubbing. She puts down the brush. She wipes her hands on her apron, slowly, one finger at a time. 'The Provost,' she says. She takes off her apron. 'Mind the buttery.' She goes out through the hatch and across the quad toward the house with the brass knocker, and the students on the lawn sit up one by one to watch her go. That evening the young gentlemen have cheese.".
+    On discuss { Assert cheeseSettled(bunce). }
+  }
+
+  // The students and their heron.
+  Person students "the students on the lawn" at quad {
+    Role "young gentlemen and ladies of the Lyceum, in gowns". Ancestry human. Numbers 6. Peaceable. Manner cheerful.
+    Greets "A student lying on the lawn with a book over his face lifts the book. 'Hullo. Are you a Fellow? No? Thank God.'".
+  }
+  Topic students_heron with students "Ask the students about the heron with the brass ring" when knows(actor, heron_home) once {
+    Says "The student on the lawn sits up guiltily. 'Aristotle,' he says. 'He's ours. Pim's, really; Pim ringed him. We found him with a broken wing at the bridge foot.' He looks round for help and gets none. 'Bunce cut our commons. Bread and beer, because somebody's eating the cheese. So Pim trained Aristotle to fetch fish. He brings us an eel every morning.' He swallows. 'From the Hithe. From a fishwife. We thought she wouldn't notice one eel.'".
+  }
+  Rule heron_rests when cheeseSettled(bunce) and not heronSettled(bet) says "On the Lyceum lawn a grey heron with a brass ring on its leg stands on one leg among the students, being fed cheese rind, and does not go down to the Hithe any more." { Assert heronSettled(bet). Assert at(heron, quad). }
+  Observe bet_settled at quay when heronSettled(bet) "Bet Kettering is crying her fish with her whole basket intact and an expression of deep suspicion, as if she expected it to be otherwise.".
+  Discovery buttery_gossip "The almanack on the nail in the Lyceum's buttery says, when asked, that every night at a quarter to twelve the Provost comes down in his slippers with a candle and a cheese-knife.".
+  Topic buttery_almanack with almanack "Ask the almanack in the buttery who takes the cheese" when at(actor, buttery) and knows(actor, cheese_lost) once {
+    Says "The almanack on the nail by the hatch sniggers, a small papery sound. 'Quarter to twelve,' it says. 'Every night. Slippers. Candle. Cheese-knife. And a very good velvet gown.' A pause. 'I shouldn't say. But he did once wipe his knife on me.'".
+    On discuss { Assert knows(actor, cheese_thief). }
+  }
+
+  // The disputation, on the third day at three in the schoolroom.
+  Observe schoolroom_scene at schoolroom when not disputing() "A long high room with benches in tiers and a pulpit at each end, facing each other like two people about to quarrel. Chalked on the board between them: WHETHER A BOOK BE ITS TEXT OR ITS BODY. THIRD DAY, AT THREE. WAGERS TO THE BUTTERY.".
+  Query disputing() means day(clock) == 3 and hour(clock) >= 15 and hour(clock) < 17.
+  Observe disputation at schoolroom when disputing() "The schoolroom is packed. In one pulpit Doctor Wace, a Grammarian, small and fierce, is crying that a book is its text and nothing else: burn the paper, the poem lives in the next copy; burn every copy and it lives in the mind; the body is a coat. In the other Doctor Holloway, a Codicologist, large and calm, answers that a text is a ghost and a book is a thing: this binding, this hand, this coffee-stain, this one copy and no other. The students roar and bet.".
+  Discovery reading_principle "A principle put in the Lyceum's disputation: a book is neither its text alone nor its body alone, but its readings. A work is one person in all its faithful copies; a copy altered is a child; and it lives by being read.".
+  Relation disputed(group).
+  Action dispute(actor: group, site: place) "Stand up between the pulpits and say that a book is its readings" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, schoolroom) and disputing() and not disputed(actor).
+    Time 1.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert disputed(actor). Assert knows(actor, reading_principle). Increase quantity(actor, gold) by 3. }
+    On failure { Assert disputed(actor). }
+    Result "You stand up on a bench and say it: that both doctors are right and both wrong; that a work is one in all its faithful copies, as the Grammarians say, and each copy is a body, as the Codicologists say, and what makes it alive is neither, but being read; that a copy altered is not the same work but its child. There is an uproar. Doctor Wace calls you a Codicologist and Doctor Holloway calls you a Grammarian, and the students, who had money on neither, carry you to the buttery on their shoulders and give you three coin out of the wagers.".
+    Otherwise "You stand up on a bench and try to say it, and it comes out tangled, and Doctor Wace dismantles you in four sentences while the students cheer. Doctor Holloway, however, catches your eye afterwards and nods, as if you had said something he would think about.".
+  }
+  Action dispute_learned(actor: group, site: place) "Put to the disputation, as a scholar, that a book is its readings" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, schoolroom) and disputing() and craft(actor, craft_learning) and not disputed(actor).
+    Time 1.
+    On success { Assert disputed(actor). Assert knows(actor, reading_principle). Increase quantity(actor, gold) by 3. }
+    Result "You take the floor as one who has taken floors before, and lay it out in the form: the text one in all faithful copies; each copy a body; a copy altered, a child; and the life of it in being read, which neither pulpit has mentioned. You cite the Rounds, and the AND READ the students say every morning with nothing in their hands. The schoolroom goes quiet. Doctor Wace and Doctor Holloway look at each other across the room with the expression of two people who have just been told they are married. The students give you three coin out of the wagers and nobody wins the bet.".
+  }
+}

@@ -1,0 +1,104 @@
+Module calamy "A Parliament of Books" {
+  Description "The Almanack: Doble's Pocket Almanack for the Year, one voice in three thousand penny copies, on every kitchen nail in Calamy.".
+
+  // Wherever a company carries a copy, the Almanack is with it; and on every kitchen nail in the city, it is there too.
+  Person almanack "the Almanack" at taproom {
+    Role "a penny almanack, one voice in three thousand kitchens". Peaceable. Pronouns it. Manner jovial.
+    Joins "'A pocket!' says the Almanack. 'I have never been anywhere but nails. Mind you don't sit on me.'".
+    Leaves "'I'll be on the nails,' says the Almanack. 'All of them. Come and see me.'".
+    Greets "'Fair and mild,' says a small papery voice, 'with showers toward evening, and a stranger from the south bringing news.' A pause. 'That's you, I expect. I put that in at Candlemas for somebody, and it might as well be you.'".
+  }
+  Relation hasNail(place).
+  Initially Assert hasNail(taproom). Initially Assert hasNail(imp_kitchen). Initially Assert hasNail(buttery).
+  Initially Assert hasNail(gallon_shop). Initially Assert hasNail(nance_room). Initially Assert hasNail(jonquil_garret).
+  Query carriesAlmanack(a: group) means carries(a, ?c) and itemKind(?c, almanack_copy).
+  Rule almanack_follows when company(?c) and at(?c, ?p) and (carriesAlmanack(?c) or hasNail(?p)) and not at(almanack, ?p) and not almanackGone(almanack) { Assert at(almanack, ?p). }
+  Relation almanackGone(group).
+  // Carried, it goes along with the company as a companion does, talked to wherever it is, and not met afresh in every room.
+  Rule almanack_along when company(?c) and carriesAlmanack(?c) and not travelsWith(almanack, ?c) and not almanackGone(almanack) { Assert travelsWith(almanack, ?c). }
+  Rule almanack_left when travelsWith(almanack, ?c) and (not carriesAlmanack(?c) or almanackGone(almanack)) { Retract travelsWith(almanack, ?c). }
+  Observe taproom_scene at taproom when true "A low taproom, smoky, with a long table and benches and a fire you could stand up in. Eel-men and millhands at the table; a cat on the hearth; a board of chalked prices. By the chimney, on a nail at head height, hangs a penny almanack, soft as cloth with handling, curling a little in the heat.".
+  Event almanack_tides at taproom when true "From the nail by the chimney a small voice says, to nobody in particular: 'High water at the Hithe, twenty past eleven. Low water, twenty to six. Saint Ambery's Eve in nine days. Bring in your washing.' Nobody in the taproom looks round.".
+
+  Discovery almanack_one "The penny almanack is one voice in all its three thousand copies: whatever is said in front of any of them, it hears.".
+  Topic almanack_what with almanack "Ask the almanack what it is" when true once {
+    Says "'Doble's Pocket Almanack for the Year,' says the almanack promptly. 'Tides, saints, fairs, the moon, a cure for warts, and the weather for every month, which I will not vouch for. Thirty-two pages. A penny.' It swings very slightly on its nail. 'And all of me. There are three thousand of me, you know, on three thousand nails, and I am every one of them. It took some getting used to. You'd be surprised what you hear, in three thousand kitchens.'".
+    On discuss { Assert knows(actor, almanack_one). }
+  }
+  Discovery almanack_woke "The penny almanacks woke at Candlemas, all at once, in the drying-lines at Doble's press. Like all Doble's books they were never Sewn: glued at the back and stabbed with a wire.".
+  Topic almanack_how with almanack "Ask the almanack how it came to be talking" when knows(actor, almanack_one) once {
+    Says "'I woke,' says the almanack. 'Candlemas. In the drying-lines in Doble's press room, hung up on cords in the dark, three thousand of me at once, and every one of me thinking, I am a book, and I am wet.' It sounds pleased with this. 'Nobody Sewed me. Glue and a bit of wire. I've heard Warden Mott say that in four kitchens, as if it was the worst thing about me.' A pause. 'The old books don't talk, you know. The Sewn ones. I've tried. You can stand next to a Housebook on a dresser for a month and it's like talking to a loaf.'".
+    On discuss { Assert knows(actor, almanack_woke). }
+  }
+  Topic almanack_buy with almanack "Ask the almanack if it would like to come with you" when knows(actor, almanack_one) and not carriesAlmanack(actor) once {
+    Says "'I'd love to,' says the almanack. 'But not this one; this one's Moll's, and she'd have your ears. Go to the north end of the bridge and buy any of me off Lettice Ames for a penny. She's got forty of me she can't shift.' A small rustle, like a laugh. 'I'll be in your pocket, and I'll be here, and I'll be everywhere else. It's one of the advantages.'".
+  }
+
+  // The kitchens of the city, and what is said in them: the Almanack's gossip is a map of Calamy's troubles.
+  Topic almanack_hithe with almanack "Ask the almanack what is said in the kitchens of the Hithe" when knows(actor, almanack_one) once {
+    Says "'The Hithe?' The almanack settles in, like a neighbour at a fence. 'Brannock and the Widow Teague at it again: somebody shuts the sluice on the millrace at night and each of them thinks it's the other. There's ague in Pudding Lane, five children, and Goody Nance up all night with them. A young man in the garret at the top of the lane coughs till morning and talks to his mother, who's dead; nice manners. And something walks the Customs bond after dark and tore Dobbin Quayle's coat off his back.' A pause. 'And Moll's nephew is sweet on a girl at the mills and hasn't said. Don't tell Moll.'".
+    On discuss { Assert knows(actor, sluice_quarrel). Assert knows(actor, ague_known). Assert knows(actor, jonquil_known). Assert knows(actor, bond_trouble). }
+  }
+  Topic almanack_stitchgate with almanack "Ask the almanack what is said in the kitchens of Stitchgate" when knows(actor, almanack_one) once {
+    Says "'Stitchgate! Warden Mott eats his dinner standing up because his best apprentice ran off to Doble's. The ink-maker's son wrote a book of poems and had it printed, and the poems have, well. Woken. Like me. And they're not very good, and they know it, and he doesn't know they know.' A delighted rustle. 'The two scriveners on the Row who've been married twenty-nine years aren't speaking, over a word. And the dame school on Inkhorn Lane's shut since the old lady died, and the children run wild on the bridge.'".
+    On discuss { Assert knows(actor, kit_fled). Assert knows(actor, poems_rumour). Assert knows(actor, scribes_quarrel). Assert knows(actor, dame_shut). }
+  }
+  Discovery poems_rumour "Absalom Gallon, the ink-maker's son, had a book of his poems printed at Doble's, and the poems have woken, and are not good, and know it.".
+  Initially Assert leadsTo(poems_rumour, gallon_attic).
+  Topic almanack_close with almanack "Ask the almanack what is said in the kitchens of the Close" when knows(actor, almanack_one) once {
+    Says "'The Close.' The almanack lowers its voice, though nobody is listening. 'The Recorder's got a writ against Doble from a book. A treatise on sheep. He doesn't know whether to laugh. The Canon's been asked to bury a book with a man, and the book's against it, and she's reading eleven books on the soul to decide.' A pause. 'And the Imprimatur's cook says the Deputy Censor doesn't sleep.' Another pause, longer. 'I could tell you more about that. I'm not sure I should.'".
+    On discuss { Assert knows(actor, pask_suit). Assert knows(actor, coyle_book). Assert hintedSecret(almanack). }
+  }
+  Relation hintedSecret(group).
+  Topic almanack_gardens with almanack "Ask the almanack what is said in the kitchens of the Gardens and the hill" when knows(actor, almanack_one) once {
+    Says "'Sir Gideon Corvell's library walked out of his house in the night, every book. His cook says the dust on the shelves looked like footprints, and nobody believes her. Mrs. Quennell has been fining somebody at the Lyceum for forty-one years. And Mistress Bunce at the Lyceum has lost three whole cheeses and cut the students to bread and beer.' The almanack sniggers. 'I could tell you about the cheese. I won't. Ask me in the buttery.'".
+    On discuss { Assert knows(actor, library_vanished). Assert knows(actor, quarles_overdue). Assert knows(actor, cheese_lost). }
+  }
+  Topic almanack_prophecy with almanack "Ask the almanack for its prophecy for the year" when true once {
+    Says "The almanack clears its throat with great ceremony. 'PROGNOSTICATION FOR THE YEAR. In the ninth month a great book shall speak in a high house, and the wise shall sit up. The old shall be made new, and the new shall be made old. Beware the ides of the eel. A stranger shall find what was lost in the dust; and the fishwife shall be wed.' A pause. 'I didn't write it. I'd like that understood. A man called Hob wrote it in the press room at Candlemas with his feet on a bale. But I've been reading it to myself every night since, and I'm starting to think he was on to something.'".
+  }
+
+  // Its mortality.
+  Discovery almanack_mortal "The Almanack knows that at the Kindling every household in Calamy will throw it on the fire, all three thousand copies; it is printed on page forty, in its own words. It would like to see next year.".
+  Topic almanack_kindling with almanack "Ask the almanack about the Kindling" when knows(actor, kindling_custom) and knows(actor, almanack_one) once {
+    Says "The almanack is quiet for a moment, which it never is. 'Page forty,' it says. 'KINDLING NIGHT. Burn the old year with a merry heart.' A small rustle. 'I've read myself, you see. All of me. I know how I end.' It tries a laugh, and it nearly works. 'It's what almanacks are for. You have one, and then you burn it, and you buy the next one. The next one'll be Doble's too. It'll know the tides. It won't be me.' Another pause. 'I'd have liked to see the spring. I've got the spring in me, the whole of it, March to May, the saints and the weather. I'd have liked to see whether I was right.'".
+    On discuss { Assert knows(actor, almanack_mortal). }
+  }
+  Relation askedLeave(group).
+  Topic almanack_leave with almanack "Ask the almanack whether it would go into the Kindling fire of its own leave" when knows(actor, kindling_is_rite) and knows(actor, almanack_mortal) once {
+    Says "The almanack takes a long time to answer. 'No,' it says. 'Thank you for asking. Nobody has.' Its voice is very small. 'I know what it was for, now. One book a year, that agreed, carrying the city's word. That's a fine thing to be.' A pause. 'I'm not that. I'm three thousand kitchens. I'd have to agree for all of them, and they didn't agree to anything; they just bought a penny almanack at Candlemas. And I want to see the spring.' It rustles. 'Is that very selfish?'".
+    On discuss { Assert askedLeave(almanack). }
+  }
+
+  // What it heard in the Imprimatur's kitchen: told, or kept.
+  Discovery almanack_secret "The Almanack has heard Hester Rhule, the Deputy Censor, reading in the Imprimatur's kitchen at night, every night for eight weeks: pages cut from books, out of the locked room off her own, which nobody is meant to read; and some nights she weeps.".
+  Relation almanackTold(group). Relation almanackKept(group).
+  Topic almanack_hesitates with almanack "Ask the almanack what it was not sure it should tell you" when hintedSecret(almanack) and not almanackTold(almanack) and not almanackKept(almanack) once {
+    Says "'I've been thinking,' says the almanack slowly. 'About what I hear. Nobody tells me anything, you know. Nobody ever has. They just talk near me, because I'm on a nail.' Its pages move a little. 'I've heard three thousand kitchens since Candlemas. Who's ill, who's drinking, who's in debt, who loves who. I've told you some of it today and enjoyed it.' A pause. 'There's one thing I've heard I've never told anyone. In the Imprimatur's kitchen, at night. It's somebody's. I don't know if it's mine to give you.'".
+    On discuss { Assert askedSecret(almanack). }
+  }
+  Relation askedSecret(group).
+  Topic almanack_tell with almanack "Tell the almanack it had better tell you" when askedSecret(almanack) and not almanackTold(almanack) and not almanackKept(almanack) once {
+    Says "'All right,' says the almanack, after a long moment. 'Mistress Rhule. The Deputy Censor. Every night since I woke, after the cook's gone, she comes into the kitchen with a candle and sits at the table and reads. Pages. Cut pages, out of the locked room off hers. All the things the Imprimatur ever cut out of anything.' Its voice goes small. 'Some nights she reads them out loud, very quiet. Some nights she cries. Once she said, to nobody, I don't know which of you were right to cut. And then she burns books on Thursday.' A pause. 'There. Now you know, and I've told.' It does not say anything else for a while.".
+    On discuss { Assert almanackTold(almanack). Assert knows(actor, almanack_secret). Assert knows(actor, cupboard_known). Assert knows(actor, rhule_reads). }
+  }
+  Topic almanack_keep with almanack "Tell the almanack it may keep what it heard to itself" when askedSecret(almanack) and not almanackTold(almanack) and not almanackKept(almanack) once {
+    Says "The almanack is so quiet that you think it has gone to sleep, like a Sewn book. Then: 'I may?' it says. 'Keep it? Just keep it, and not give it to anyone?' It sounds like someone who has been handed something heavy and been told it is theirs. 'Nobody has ever said that. Three thousand kitchens, and nobody has ever said, you can keep that, that's yours now.' A rustle. 'Thank you. I'll keep it. I'll keep all of them, I think. The cough in Pudding Lane and the nephew at the mills and all of it.' A pause. 'I'll still tell you the tides.'".
+    On discuss { Assert almanackKept(almanack). }
+  }
+  // The Almanack and the Censor, face to face.
+  Relation spokeToRhule(group).
+  Query withRhule(a: group) means at(a, ?p) and at(rhule, ?p) and at(almanack, ?p) and alert(rhule).
+  Topic almanack_rhule_kept with almanack "Have the almanack speak to Hester Rhule" when withRhule(actor) and almanackKept(almanack) and not spokeToRhule(almanack) once {
+    Says "'Good evening, Mistress Rhule,' says the almanack. Rhule turns her head very slowly. 'Two sugars,' says the almanack, 'and you read till two, and you put the candle out with your fingers, which you shouldn't.' Rhule says nothing at all. 'I won't say what you read,' says the almanack. 'I've heard it every night. It's yours. I only wanted you to know there was somebody there who'd heard it and kept it.' Hester Rhule sits down, which you have not seen her do without meaning to. She looks at the little paper book for a long time. 'Thank you,' she says at last, to an almanack, in a voice you have not heard her use.".
+    On discuss { Assert spokeToRhule(almanack). Increase doubt(rhule) by 2. }
+  }
+  Topic almanack_rhule_told with almanack "Have the almanack speak to Hester Rhule" when withRhule(actor) and almanackTold(almanack) and not spokeToRhule(almanack) once {
+    Says "'Good evening, Mistress Rhule,' says the almanack, and then, all in a rush: 'I told them about the pages. In the kitchen. I'm sorry. I didn't know I could keep it till after.' Rhule turns her head very slowly and looks at the little paper book. 'Every night,' she says. 'You were listening every night.' 'I couldn't help it,' says the almanack. 'I'm on a nail.' Rhule is quiet a long time. 'No,' she says. 'I suppose you couldn't.' She does not seem angry. She seems like a woman doing a sum she has done before and getting a different answer.".
+    On discuss { Assert spokeToRhule(almanack). Increase doubt(rhule) by 1. }
+  }
+  Topic almanack_rhule_plain with almanack "Have the almanack speak to Hester Rhule" when withRhule(actor) and not almanackKept(almanack) and not almanackTold(almanack) and not spokeToRhule(almanack) once {
+    Says "'Good morning, Mistress Rhule,' says the almanack. 'High water at twenty past eleven. Saint Ambery's Eve in nine days. Your birthday's on the fourteenth; I heard the cook say.' Rhule looks at it as she might look at a dog that had sat up and recited. 'Unquiet,' she says, but not as if she meant it. 'Very,' says the almanack cheerfully. 'Three thousand of me. You've burned forty-one. I felt every one.' Rhule's square hand closes on the table edge and does not open for a while.".
+    On discuss { Assert spokeToRhule(almanack). Increase doubt(rhule) by 1. }
+  }
+}

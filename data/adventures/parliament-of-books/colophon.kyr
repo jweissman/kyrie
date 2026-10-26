@@ -1,0 +1,57 @@
+Module calamy "A Parliament of Books" {
+  Description "What the company comes to understand about Calamy's books, put together from what it finds; and what it is trying to do.".
+
+  // The cause of the quickening: the books that speak are the ones never Sewn, or whose Sewing was cut.
+  Discovery sewing_is_sleep "The books of Calamy that speak are the ones that were never Sewn, like Doble's, or whose Sewing was cut, like the Saint Ide bestiary. The Sewing is what keeps a book quiet: it sends it somewhere, and it was not always a guild's secret.".
+  Rule sewing_understood when knows(party, almanack_woke) and (knows(party, bestiary_unsewn) or knows(party, sewing_words) or knows(party, sewing_secret)) and not knows(party, sewing_is_sleep)
+    says "It comes together: the almanack woke unsewn in Doble's drying-lines; the old Sewn books do not speak; and the Binders say GO HOME with every stitch. The Sewing is not a binding. It is a sending." teaches sewing_is_sleep { }
+  // The Kindling as it was.
+  Discovery kindling_is_rite "The Kindling is the yearly renewal of the Colophon, the bargain Ambery made with Calamy's books: one book a year was to go into the fire of its own leave, to carry the city's word to the Parliament of the Bound. This year the fire is meant for three thousand awake almanacks, not one of which has given its leave; and the Colophon's first term is that no book be burned in Calamy save by its own leave.".
+  Rule kindling_understood when (knows(party, quarles_account) or knows(party, codex_colophon)) and not knows(party, kindling_is_rite)
+    says "And so the Kindling is not a custom. It is a rite, the city's half of a bargain, kept for nine hundred years by people who had forgotten what it was: one book, of its own leave, into the fire. In nine days Calamy will throw three thousand books on that fire who never gave leave, and every one of them is the Almanack." teaches kindling_is_rite { }
+  Discovery commonplace_known "Calamy's Sewn books go home to a country of their own, the Commonplace, where their Parliament sits; and there are ways for a living reader to go there: the Archivist's reading, and Crake's back stacks.".
+  Rule commonplace_understood when (knows(party, quarles_account) or knows(party, remainder_ledger) or ribbonOffered(crake)) and not knows(party, commonplace_known)
+    says "There is somewhere the books go, and somewhere their Parliament sits; and there are people in Calamy who have been there and come back." teaches commonplace_known { }
+
+  // What the company is trying to do, as it comes to know it.
+  Objective why_speak when knows(party, almanack_one) and not knows(party, sewing_is_sleep) "Find out why Calamy's books have begun to speak.".
+  Objective what_sewing when knows(party, sewing_is_sleep) and not knows(party, kindling_is_rite) "Find out what the Sewing is, who made it, and what was promised for it.".
+  Objective go_there when knows(party, kindling_is_rite) and not inCommonplace(party) and not colophonSealed(chamber) and not kindlingDone(ashpit) "Before the Kindling, find a way to where the books go, and be heard by their Parliament.".
+  Objective be_heard when inCommonplace(party) and not colophonSealed(chamber) and not kindlingDone(ashpit) "Find the members of the Parliament of the Bound where they live, learn where each stands, and bring what will move them.".
+  Objective kindling_home when colophonSealed(chamber) and not kindlingDone(ashpit) "Be at the Ashpit on Kindling night, when the city burns the old year.".
+  Objective find_library when knows(party, library_vanished) and not knows(party, collection_emigrated) and not corvellTold(corvell) "Find out how Sir Gideon Corvell's library left a locked room.".
+  Objective plead_pask when advocate(party, pask) and not paskHeard(court) "Plead the Treatise's cause at the Court of Pleas, at ten on the fourth day.".
+  Objective cure_ague when knows(party, orme_remedy) and not cured(nance) "Find Mother Orme's cut chapter on the marsh ague, and calamus dug at low water, for Goody Nance.".
+  Objective sluice_q when knows(party, sluice_quarrel) and not sluiceSettled(sluice) "Find out who shuts the millrace sluice at night.".
+  Objective bond_q when knows(party, bond_trouble) and not bestiaryQuiet(bestiary) "Quiet whatever walks the Customs bond at night.".
+  Objective awls_q when knows(party, awls_plan) and not awlsStopped(saul) and not pressBroken(doble) "Keep the Awls from breaking Doble's press on the fourth night.".
+
+  // The ague: Orme's fifteenth chapter, and calamus root, brought to Goody Nance.
+  Relation nanceHasPages(group). Relation nanceHasRoot(group). Relation nanceTried(group).
+  Event nance_pages near nance when keeps(nance, orme_pages) and not nanceHasPages(nance) "Goody Nance unties the tape with hands that are not quite steady, and reads, moving her lips, and then sits down on the edge of the truckle bed. 'That's it. That's my gran's. Calamus root, dug at the bottom of the tide, and the honey of the bog-myrtle, and feverfew, and the boiling of it twice.' She reads on. 'And the fourth thing. Horehound. Of course it's horehound.' She looks up. 'Have you got calamus? Fresh? I've none.'" then {
+    Assert nanceHasPages(nance). }
+  Event nance_root near nance when keeps(nance, calamus_dug) and not nanceHasRoot(nance) "Goody Nance takes the root and smells it and shuts her eyes. 'Fresh,' she says. 'Dug at the bottom of the tide.'" then {
+    Assert nanceHasRoot(nance). }
+  // Without the chapter, the painted-over board in the physic garden and a healer's hands may still get close.
+  Topic nance_board with nance "Tell Goody Nance what is painted under the paint on the Orme Bed's board" when knows(actor, orme_bed) and not nanceHasPages(nance) and not nanceTried(nance) once {
+    Says "'Calamus, feverfew, honey of the bog-myrtle,' says Goody Nance, 'and an H.' She sits down. 'An H.' She stares at the kettle. 'Hyssop. Hellebore, God forbid. Horehound. Henbane, God forbid twice.' She looks at you. 'If you know herbs, say so, because I'm too tired to be sure.'".
+    On discuss { Assert nanceTried(nance). }
+  }
+  Action nance_guess(actor: group, site: place) "Tell Goody Nance it must be horehound, and why" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(nance, site) and nanceTried(nance) and not nanceHasPages(nance) and (capable(actor, mending) or craft(actor, craft_healing) or craft(actor, craft_wild)) and not cured(nance).
+    Time 5 minutes.
+    On success { Assert nanceHasPages(nance). }
+    Result "Hellebore and henbane would kill a child, hyssop does nothing for a shaking fever, and horehound is bitter and cooling and every grandmother in the world gives it for a cough. Nance hears you out and nods slowly. 'Horehound. It'll be horehound.' She writes it on the wall by the hearth in charcoal, under the other three.".
+  }
+  Rule nance_cures when nanceHasPages(nance) and nanceHasRoot(nance) and not cured(nance)
+    says "Goody Nance boils the calamus twice with the rest, the whole kitchen full of a smell like oranges and church, and doses the child in the truckle bed, and then goes up and down Pudding Lane with the jar." {
+    Assert cured(nance). Set curedAt(nance) to watch(clock). }
+  Measure curedAt(group).
+  Observe ague_mending at pudding_lane when cured(nance) and watch(clock) >= curedAt(nance) + 36 "The girl who was shivering on the step is sitting up in the sun eating bread and dripping, and complaining about it.".
+  Rule orme_bed_planted when cured(nance) and knows(party, orme_bed) and not replanted(orme_board) and watch(clock) >= curedAt(nance) + 72 { Assert replanted(orme_board). }
+  Topic rhule_cure with rhule "Tell Hester Rhule that Orme's chapter has cured the ague in Pudding Lane" when cured(nance) and pagesGiven(rhule) and not toldCure(rhule) once {
+    Says "Rhule closes her eyes. When she opens them she looks at the grey door of the Cupboard for a long time. 'Two hundred years,' she says. 'Two hundred years of the ague in the Hithe, and the cure in a drawer in this room.' She takes off her grey coat and puts it over the back of her chair, slowly, as if it were heavier than it had been. 'Pardoe was right about seventeen. He was not right about fifteen. And nobody, in two hundred years, came in and opened the drawer and looked.' She sits. 'I did. Every night. And I did not take it to the Hithe.'".
+    On discuss { Assert toldCure(rhule). Increase doubt(rhule) by 1. }
+  }
+  Relation toldCure(group).
+}

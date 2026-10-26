@@ -14,7 +14,7 @@ export class Perceptions {
     if (!player || !seen) { return { changes: [], told: [], noted: [] }; }
     // One near a variable is seen as an instance (glow@iron_lamp): it teaches what its declaration does (audit, F5).
     const ids = new Set(seen.filter(p => p.kind === 'observation').map(p => p.id.split('@')[0]!));
-    const heard = new Set(seen.filter(p => p.kind === 'event').map(p => p.id));
+    const heard = new Set(seen.filter(p => p.kind === 'event').map(p => p.id.split('@')[0]!));
     const teaching = [...(module.observations ?? []).filter(o => o.teaches && ids.has(o.id)),
       ...(module.rules ?? []).filter(r => r.teaches && heard.has(r.id))]
       .filter(o => !world.test(ModuleWriter.call('knows', player, o.teaches!)));
