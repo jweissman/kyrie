@@ -2,7 +2,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { KeptPredicates } from '../lang/kept-predicates';
 import { ObservationText } from '../lang/observation-text';
 import { ItemNames } from '../item-names';
-import { LocalObservations } from '../presentation/local-observations';
+import { LocalObservations } from '../campaign/local-observations';
 import type { Entity, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 

@@ -1,4 +1,4 @@
-import type { CalendarStart } from '../presentation/calendar';
+import type { CalendarStart } from './calendar';
 import type { CommandResolution } from './command-resolution';
 import type { CampaignDefinition } from './definition';
 import type { Creature } from '../creature';

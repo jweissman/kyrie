@@ -1,4 +1,4 @@
-import { LocalObservations } from '../presentation/local-observations';
+import { LocalObservations } from './local-observations';
 import { ObservationText } from '../lang/observation-text';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Change, Module } from '../lang/module';

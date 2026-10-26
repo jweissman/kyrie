@@ -1,6 +1,6 @@
 import type { Operators } from './operators';
-import { FictionalTime } from '../presentation/fictional-time';
-import { Calendar, type CalendarStart } from '../presentation/calendar';
+import { FictionalTime } from './fictional-time';
+import { Calendar, type CalendarStart } from './calendar';
 import { Expressions } from '../expressions';
 import { RandomStreams } from '../random-streams';
 import { Agency } from './agency';
@@ -9,7 +9,7 @@ import { CreatureFacts } from './creature-facts';
 import { Planner } from './planner';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
-import { LocalObservations } from '../presentation/local-observations';
+import { LocalObservations } from './local-observations';
 import { World } from '../lang/world';
 import { Reads } from '../lang/reads';
 import type { Call, Change, Module, Operator, WorldRule, WorldState } from '../lang/module';

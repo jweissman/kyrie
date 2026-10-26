@@ -3,7 +3,7 @@ import { ObservationText } from '../lang/observation-text';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import type { CombatEvent } from '../model';
 import { Content } from '../content';
-import { FictionalTime } from '../presentation/fictional-time';
+import { FictionalTime } from '../campaign/fictional-time';
 import { Telling } from './telling';
 import { BandNames } from './band-names';
 import { CombatProjection } from '../combat-projection';

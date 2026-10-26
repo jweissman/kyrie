@@ -1,5 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
-import { FictionalTime } from '../presentation/fictional-time';
+import { FictionalTime } from '../campaign/fictional-time';
 
 // What the company has seen through, in the order it did, and when: the follow-up review finished a family's story
 // and found nothing of it in the notes but "Nothing is asked of you yet". Whatever was worth experience when it was

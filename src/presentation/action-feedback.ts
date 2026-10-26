@@ -3,7 +3,7 @@ import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { PlayerView, type PlayerSnapshot } from './player-view';
 import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
-import { FictionalTime } from './fictional-time';
+import { FictionalTime } from '../campaign/fictional-time';
 import type { Predicate } from '../lang/module';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { Canon } from '../canon/canon';

@@ -1,7 +1,7 @@
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
 import { PlayerView } from '../../src/presentation/player-view';
 import { ActionFeedbackView, type ActionFeedback } from '../../src/presentation/action-feedback';
-import { FictionalTime } from '../../src/presentation/fictional-time';
+import { FictionalTime } from '../../src/campaign/fictional-time';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { CombatModel } from '../../src/ui/combat-model';
 import { Tactics } from '../../src/tactics';

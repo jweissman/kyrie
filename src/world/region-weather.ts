@@ -1,6 +1,6 @@
 import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
-import { Calendar, type CalendarStart } from '../presentation/calendar';
+import { Calendar, type CalendarStart } from '../campaign/calendar';
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
 import { SettlementWriter } from './settlement-writer';

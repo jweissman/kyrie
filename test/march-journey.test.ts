@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
-import { FictionalTime } from '../src/presentation/fictional-time';
+import { FictionalTime } from '../src/campaign/fictional-time';
 import { ModuleWriter } from '../src/lang/module-writer';
 import companies from '../data/campaigns/companies.json';
 import type { CreatureGenerationContext } from '../src/content';

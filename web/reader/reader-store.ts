@@ -1,4 +1,4 @@
-import { FictionalTime } from '../../src/presentation/fictional-time';
+import { FictionalTime } from '../../src/campaign/fictional-time';
 import type { SaveSummary } from '../engine/protocol';
 
 // A kept game: its state, and the world it was played in when that is kept apart from it (see KeptGame).

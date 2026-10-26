@@ -1,7 +1,7 @@
 import type { Frame } from '../../engine/protocol';
 import type { ReaderApp } from '../reader-app';
 import { Routes } from '../../../src/ui/route';
-import { FictionalTime } from '../../../src/presentation/fictional-time';
+import { FictionalTime } from '../../../src/campaign/fictional-time';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { PlaceStage } from './place-stage';

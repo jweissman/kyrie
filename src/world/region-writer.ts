@@ -11,7 +11,7 @@ import type { Side } from './land/borders';
 import type { History } from './history/histories';
 import { RegionWorks } from './region-works';
 import { RegionFellows } from './region-fellows';
-import type { CalendarStart } from '../presentation/calendar';
+import type { CalendarStart } from '../campaign/calendar';
 import { RegionGrowth } from './region-growth';
 import { RegionMarvels } from './region-marvels';
 import { SettlementWriter } from './settlement-writer';

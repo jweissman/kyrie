@@ -2,7 +2,7 @@ import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { Entity, Observation, Shelter } from '../lang/module';
 import type { Screen, TargetRow } from '../ui/screen-types';
 import { ActionFeedbackView, type ActionFeedback } from './action-feedback';
-import { FictionalTime } from './fictional-time';
+import { FictionalTime } from '../campaign/fictional-time';
 import { Typography } from './typography';
 import { Narration } from './narration';
 import { ModuleWriter } from '../lang/module-writer';

@@ -1,4 +1,4 @@
-import { FictionalTime } from '../../src/presentation/fictional-time';
+import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Typography } from '../../src/presentation/typography';
 
 // How the page says small things: the time of day, a choice echoed as what the company did, how hurt someone looks.

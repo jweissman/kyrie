@@ -1,7 +1,7 @@
 import { Spatial } from '../spatial';
 import { ItemCatalog } from '../item-catalog';
 import { PartyCapabilities } from '../campaign/party-capabilities';
-import { LocalObservations } from './local-observations';
+import { LocalObservations } from '../campaign/local-observations';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { Call, Change, Entity, MovementMode } from '../lang/module';
 import type { Operator } from '../campaign/planner';

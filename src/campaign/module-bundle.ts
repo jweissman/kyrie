@@ -25,7 +25,7 @@ export interface CampaignManifest {
   // What the company is being asked to do, shown when it is formed.
   pitch?: { heading: string; text: string };
   // The date it begins on: a day of a month of a year of the Sun and Moon.
-  calendar?: import('../presentation/calendar').CalendarStart;
+  calendar?: import('./calendar').CalendarStart;
   // How the campaign's kits were composed into it, when it asks for any.
   composition?: Composed;
 }

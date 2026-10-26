@@ -1,4 +1,4 @@
-import { FictionalTime } from '../presentation/fictional-time';
+import { FictionalTime } from '../campaign/fictional-time';
 import { Content } from '../content';
 import { Canon } from '../canon/canon';
 import type { BattleState, CombatEvent } from '../model';

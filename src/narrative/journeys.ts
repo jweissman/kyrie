@@ -2,7 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import type { LandChart } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
-import { FictionalTime } from '../presentation/fictional-time';
+import { FictionalTime } from '../campaign/fictional-time';
 import { Voice } from './voice';
 import { Editor } from './editor';
 import { Narrator } from '../presentation/narrator';

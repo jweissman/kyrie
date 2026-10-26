@@ -1,7 +1,7 @@
 import { ModuleParser } from '../lang/module-parser';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Module, Predicate } from '../lang/module';
-import { FictionalTime } from '../presentation/fictional-time';
+import { FictionalTime } from '../campaign/fictional-time';
 import type { Entry, Section } from './model';
 
 export interface Declaration { kind: string; name: string; signature: string; comment: string[] }

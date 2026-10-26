@@ -1,6 +1,6 @@
 import type { Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
-import { LocalObservations } from '../presentation/local-observations';
+import { LocalObservations } from './local-observations';
 import { ModuleWriter } from '../lang/module-writer';
 
 export interface Watch {
