@@ -159,9 +159,12 @@ export class Items {
   private static holds(creatures: Creature[], id: string, status?: string): boolean {
     return !status || creatures.some(c => c.id === id && c.state.conditions.some(s => s.id === status));
   }
+  // Kept by what it is made from (the kind and its use), not the kind's id alone: two campaigns' tonics, one like wine
+  // and one like an elixir, were one tonic to whichever was read first (the architecture review's H7).
   private static consumable(kind: string, name: string, source: string): ArenaAbility {
-    let ability = this.consumables.get(kind);
-    if (!ability) { ability = parseAbility(`item-${kind}`, name, source); this.consumables.set(kind, ability); }
+    const key = `${kind}\u0000${source}`;
+    let ability = this.consumables.get(key);
+    if (!ability) { ability = parseAbility(`item-${kind}`, name, source); this.consumables.set(key, ability); }
     return { ...ability, name };
   }
   private static resolve(store: CreatureStore, options: { ids: string[]; ability: ArenaAbility; actorId: string;

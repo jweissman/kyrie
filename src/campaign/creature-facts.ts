@@ -214,11 +214,11 @@ export class CreatureFacts {
   // does, whoever takes it) always does.
   private static readonly uses = new Map<string, ArenaAbility | undefined>();
   private static relieves(kind: string, c: Creature): boolean {
-    if (!this.uses.has(kind)) {
-      const use = ItemCatalog.definitions[kind]?.use;
-      this.uses.set(kind, use ? parseAbility(`item-${kind}`, kind, use) : undefined);
-    }
-    const ability = this.uses.get(kind);
+    // Kept by the kind's use as well as its id: another campaign's kind of the same name is another use (the review's
+    // H7).
+    const use = ItemCatalog.definitions[kind]?.use, key = `${kind}\u0000${use ?? ''}`;
+    if (!this.uses.has(key)) { this.uses.set(key, use ? parseAbility(`item-${kind}`, kind, use) : undefined); }
+    const ability = this.uses.get(key);
     if (!ability) { return false; }
     const remedy = ability.effects.some(e => ['heal', 'remove', 'apply'].includes(e.kind));
     return !remedy || this.helps(ability, c);

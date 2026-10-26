@@ -76,6 +76,8 @@ export class LocalKinds {
   }
   // What modules have added to the catalogs, so that it can be taken out again.
   private static readonly installed = new Set<string>();
+  // Which kinds modules have put in the catalogs now: what a reading of a module could have turned on.
+  static fingerprint(): string { return [...this.installed].sort().join(' '); }
   // Takes every module's own kinds back out of the catalogs: a new campaign begins with the catalogs as they are.
   static reset() {
     for (const key of this.installed) { this.remove(key); }

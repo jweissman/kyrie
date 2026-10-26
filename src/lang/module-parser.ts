@@ -85,14 +85,16 @@ export class ModuleParser {
   private static readonly parsed = new Map<string, Module>();
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
   // may have put other kinds in their place, and the files read after it place things of these kinds.
+  // Kept by the text and the kinds it was read among: one read while another campaign's kinds were in the catalogs
+  // (Kind figurine like dreg_ox) is not taken for one read without them (the review's H7).
   static parse(text: string): Module {
-    const known = ModuleParser.parsed.get(text);
+    const key = `${LocalKinds.fingerprint()}\u0000${text}`, known = ModuleParser.parsed.get(key);
     if (known) { LocalKinds.install(known.catalog); return structuredClone(known); }
     const match = ModuleParser.grammar.match(text);
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${match.message}`); }
     const module = ModuleParser.semantics(match).ast() as Module;
     if (ModuleParser.parsed.size >= 96) { ModuleParser.parsed.delete(ModuleParser.parsed.keys().next().value!); }
-    ModuleParser.parsed.set(text, structuredClone(module));
+    ModuleParser.parsed.set(key, structuredClone(module));
     return module;
   }
   static predicate(text: string): Predicate {

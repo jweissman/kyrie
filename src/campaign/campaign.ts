@@ -84,17 +84,16 @@ export class Campaign implements WatchHost {
   }
   // Loading is deterministic in (source, path, seed, party), so later loads fork the first, with its own kinds.
   private static loads = new LoadCache<Campaign>();
-  static async load(path: string, seed: string, source: BundleSource,
+  static load(path: string, seed: string, source: BundleSource,
     party?: CreatureGenerationContext[]): Promise<Campaign> {
-    const loaded = await this.loads.get(source, JSON.stringify([path, seed, party ?? null]),
-      () => this.assemble(path, seed, source, party && structuredClone(party)));
-    const fork = loaded.fork(); LocalKinds.activate(loaded.module.catalog, fork); return fork;
+    return this.loads.take(source, JSON.stringify([path, seed, party ?? null]),
+      () => this.assemble(path, seed, source, party && structuredClone(party)), loaded => loaded.fork());
   }
   private static arrays<T extends object>(o: T): T {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? [...v as unknown[]] : v])) as T;
   }
   // A fork shares compiled operators and definition records, which are never mutated after loading, behind fresh
-  // top-level arrays, and copies all mutable state.
+  // top-level arrays, and copies all mutable state; its own kinds are the catalogs'.
   private fork(): Campaign {
     this.keepFacts();
     const copy = Object.create(Campaign.prototype) as Campaign, arrays = Campaign.arrays;
@@ -103,7 +102,7 @@ export class Campaign implements WatchHost {
       log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
       executing: false, committed: new CommittedWorld(), projection: new Projection(),
       grounding: new CampaignGrounding() });
-    return copy;
+    LocalKinds.activate(this.module.catalog, copy); return copy;
   }
   private static async assemble(path: string, seed: string, source: BundleSource,
     party?: CreatureGenerationContext[]): Promise<Campaign> {
