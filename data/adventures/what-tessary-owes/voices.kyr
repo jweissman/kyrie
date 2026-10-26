@@ -70,4 +70,24 @@ Module tessary "What Tessary Owes" {
     Says "'Salt,' says the King, as if it were obvious. 'The springs at Hethra-under-Fell. White salt, fine as flour; your Pans make grey. Your Board wanted them because they are worth more than the Pans. Your Factor wanted them because she understood that.' He moves a piece. 'She has written to me. Twice. Very civil letters, about the working of brine. She is the only person in this city who has asked me a sensible question in a year.' He smiles. 'If I were your Board I would be frightened of her. I am not your Board. I find her rather good company.'".
     On discuss { Assert knows(actor, salt_springs). }
   }
+
+  // ── Quiet ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Supper at the Teazles', once, of an evening: eels, and the peg with the coat on it.
+  Relation suppedWithTeazles(group).
+  Action sup_with_teazles(actor: group, site: place) "Stay for supper with the Teazles" {
+    Speaker nan. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, teazle_room) and at(nan, teazle_room)
+      and hour(clock) >= 18 and hour(clock) < 22 and knows(actor, davy_went) and not suppedWithTeazles(actor).
+    On success { Assert suppedWithTeazles(actor). Increase quantity(actor, rations) by 1. }
+    Result "Nan does not ask you to stay; she puts a third bowl on the table and that is that. Eels, stewed with onions, and bread, and a jug of something brown. Wick talks the whole time, about the bell that rings under the basin on stormy nights (he has heard it; his nan has heard it; nobody believes either of them), about a coin he nearly found, about the clerk in grey, who he has decided is lonely. Nan says almost nothing. Once, without seeming to notice she is doing it, she reaches out and straightens the red coat on its peg. When you go she gives you the end of the loaf wrapped in a cloth, for tomorrow.".
+  }
+  // Dawn at the Oath Stone, with Durrance, before the Feast.
+  Event durrance_dawn at legion_yard when travelsWith(durrance, party) and hour(clock) >= 5 and hour(clock) < 8 and not feastEve() "In the first grey light the Yard is empty and the shell is wet. Durrance walks out to the Oath Stone and stands in front of it with her hands behind her back, the way she would stand in front of an officer. 'I was sixteen,' she says. 'I lied about it. The sergeant knew; he slapped my back anyway. My mother cried all the way home and then made me a cake.' She looks at the ruled lines on the Stone. 'I'd do it again. That's the trouble with me. Come on, before somebody sees us and thinks I'm sentimental.'".
+  // In the Holding, a singer's voice in a jar: pledged against her sweetheart's coming home, and never collected.
+  Thing voice_jar "a stoppered jar with a tag" at folded_lake {
+    State stoppered "On the white floor by the folded lake stands a plain stoppered jar of brown glaze with a tag on its neck: a voice, pledged by a woman of the Withies a hundred and ninety years ago against her sweetheart's return from the sea. He came home. The tag says she never came for it.".
+    State unstoppered "The jar by the folded lake stands unstoppered, and very faintly, if you bend close, someone is still singing in it.".
+    Change listen "Take the stopper out of the jar and listen" from stoppered to unstoppered.
+  }
+  Event jar_sings at folded_lake when state(voice_jar, unstoppered) "Out of the jar comes a woman's voice, small and clear and very far away, singing to nobody in particular, the way people sing over washing. It is 'Sally of the Withies', the old ballad of the girl who waited for a sailor, that Pitch sells in a penny chapbook and that the Copyist under the sea has read two hundred and eleven times. In the jar she has got to the third verse, where he comes home. She sings it twice. Then she starts again from the beginning.".
 }
