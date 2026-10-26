@@ -22,6 +22,9 @@ says what changed. The [ledger](ledger.md) keeps the running record of work; thi
 - **CP**, the cold playtest of `2684952`.
 - Authors' friction reports: **LW** (Low Water), **TS** (What Tessary Owes), **RD** (The Road the Star Came Down), **TH**
   (Thrume), **HG** (The House That Grows) and **PS** (The Patient Star).
+- **ARV**, the independent architecture review of `69125e5` (H1–H7, M1–M8, L1–L4) and its addendum at `d79cbbd`
+  (A1–A25), with their probes: [`doc/architecture/next-phase-independent-review/`](../next-phase-independent-review/)
+  (merged into `main` at `0d48c89`). Their findings are section 8, under the review's own identifiers.
 
 A finding is something observed to fail or to read wrongly. A remedy a review suggested, or a design it proposed, is
 noted beside the finding it answers, and is not itself a finding until play calls for it.
@@ -69,7 +72,7 @@ noted beside the finding it answers, and is not itself a finding until play call
 | NAV-10 | Hidden or unreachable authored content | OWN (XII) | Open (E/XIII) | Every installed adventure found and entered from ordinary play |
 | NAV-11 | Each of the world's marches named; border knowledge | R25-E2 | Fixed | M15; `test/frontier.test.ts` |
 | NAV-12 | Travel to known places, assisted | R25-E3; OWN | Fixed, to deepen (B) | M16 Gate B; `test/travel.test.ts`, `test/newcomer.test.ts` |
-| NAV-13 | Passages hidden on any condition; per-end words; their own labels | TH-F5, F6; RD-F6; PS-30, 36; LW-18; TS-W16 | Open (E) | The label of a way into an area entered by more than one way says which way it is |
+| NAV-13 | Passages hidden on any condition; per-end words; their own labels | TH-F5, F6; RD-F6; PS-30, 36; LW-18; TS-W16 | Fixed | Two ways from one place into one enclosure are told by where they arrive (as before); a way into one that other ways lead into from elsewhere, by its own name: "Into the tower by the old well-shaft" (`test/two-ways-in.test.ts`, `probes/two-ways-in`) |
 | NAV-14 | Word of a place leads nowhere: of seventeen things wren's first town told, only the two march-stones could be set out for; word of a lone tower or a pit in the ground named a place no known way went to | OWN (IV, "rumors with actual referents") | Fixed | A scenario's word says where its trouble is and the way there (`leadsTo`, and the new `leadsVia(fact, passage)`: the way in, the trails to where the site's track starts, the track); a site's "way there" carries its route; knowing the lie of a wild country is knowing its paths; a willow-teller's places are places. Asking everything in the first town: wren 2 → 8 places to set out for, a1 → 5, thorn → 7, with every teaching that names a place now leading to it. `test/word-leads.test.ts` |
 | NAV-15 | A journey named its destination by its true name before the company knew it ("Frigidusturris" for "a lone tower") | NAV-14's probe | Fixed | Itineraries name a place as the company knows it (`ObservationText.label`); `test/word-leads.test.ts` |
 | NAV-16 | A journey planned over a ford in spate, and stopped there saying only "the ford of the Āforex will not let you by from here", three times | the newcomer in mere | Fixed | Journeys are planned over ways open now where there are any, and over ways that ask something of the company (a hazard to risk, a rope, a watcher) only where there are not; a leg that cannot simply be taken is stopped in the words of what stands in the way ("The Āforex is in spate: …") |
@@ -106,8 +109,8 @@ noted beside the finding it answers, and is not itself a finding until play call
 | NAR-04 | News word for word in two mouths; rumours alike but for a name | CP-5 | Open (D) | No two people of a settlement give the same line |
 | NAR-05 | Greetings fall back on a shared table line after the first meeting | TS-W18 | Fixed | Someone with their own words of greeting is given no stock line afterwards (Cantor Orr, met twice: `test/low-water.test.ts`, which fails without it). A `Greets again` for a return greeting of one's own is left until an author wants one |
 | NAR-06 | Night greetings under the sea or indoors | TS-W19 | Fixed | Underground there is no hour for the voice tables; indoors above ground, night is still night (you go out into it). `test/voice.test.ts` |
-| NAR-07 | A role is fixed text; who someone is now cannot be said | TS-W20 | Open (E) | `Role … when` alternatives |
-| NAR-08 | A rule's words reach the company wherever it is | TS-W1; RD-F9; PS-32 | Partial | `Rule … at place` exists (M15). Open (E): words scoped to an area, told when the company is there |
+| NAR-07 | A role is fixed text; who someone is now cannot be said | TS-W20 | Fixed | `Role "…" when P`: who someone is while it holds, the first that does, instead of their role otherwise; namespaced with the module and presented on the page (`test/role-when.test.ts`, `probes/role-when`) |
+| NAR-08 | A rule's words reach the company wherever it is | TS-W1; RD-F9; PS-32 | Fixed | `Rule … within area` (and an Event): it waits for the company to be anywhere inside the area, and is told and done there; news of the city heard on coming up from under the sea (`test/said-within.test.ts`, `probes/within`). Tessary keeps its own query, which works |
 | NAR-09 | A place told in full on every return | LW-10; TS-W2 | Open (E) | A return told briefly when nothing has changed |
 | NAR-10 | A teaching rule puts the fact's text before its own words | LW-4; TS-W11; RD-F17 | Open (E) | The words stand for the fact in the moment |
 | NAR-11 | A room not re-told when the company's light changes | TS-W24 | Not reproduced | On main, what a light shows in a room the company stays in is told as what happened (Narrator: "a room a torch shows"). The case met (Tessary's Hall of Oaths) is on its unmerged branch; to be tried there (E) |
@@ -173,3 +176,55 @@ noted beside the finding it answers, and is not itself a finding until play call
 | AUT-25 | Deem: module-local tables and templates, weighted and conditional selection, generated families, naming | M15 | Open (E) | Only what authors met |
 | AUT-26 | Hiring adds the hired person's purse | RD-B6 | Fixed | What a recruit had of their own stays theirs: hiring costs the hire and no more or less (the company's coin is its members' purses together). `test/creation-choices.test.ts` |
 | AUT-27 | Zero-argument queries need `()`; document it | TS-W13 | Open (E) | The guide says it |
+
+## 8. Architecture: the independent review (ARV)
+
+The review of `69125e5` and its addendum at `d79cbbd`, under the review's own identifiers. Each was re-run against
+the tree with the review's own probe before it was worked; a disposition here says what the probe shows now.
+
+| ID | Finding | Disposition | Evidence, or what would count as done |
+|---|---|---|---|
+| ARV-H1 | Some generated countries fail to load: a placement that cannot be situated is kept, and the exports are a hand-kept list | Open | |
+| ARV-H2 | Command legality, replay and world time routed through presentation | Open | |
+| ARV-H3 | The Kyr rule library is the engine's hidden ABI: names, feature detection, resolver vocabulary | Open | |
+| ARV-H4 | Generators author plots in TypeScript that emits Kyr text | Open | |
+| ARV-H5 | Presentation reads omniscient truth (foe HP in the dark) and re-derives rules incompletely (passage legality, rest labels, daylight) | Open | |
+| ARV-H6 | Determinism asserted, not verified: locale-dependent combat AI, one combat stream, unchecked resume and replay | Open | |
+| ARV-H7 | Process-global caches (item kinds, parse cache, concurrent loads) make meaning depend on process history | Open | |
+| ARV-M1 | The engine-written relation list is hand-kept and wrong both ways (exposedTo, witnessedAttack missing; defeated, ended listed) | Open | |
+| ARV-M2 | Kyr too large at the leaves, too small in the middle (no once-only rule, money, timers; dead Exit and Budget) | Open | |
+| ARV-M3 | Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped | Open | |
+| ARV-M4 | Closed English word lists and name regexes classify content in general code | Open | |
+| ARV-M5 | Combat has exactly two teams | Open | |
+| ARV-M6 | Hidden registries and central edit points (work plans, region generators, rule modules, origins, the title page's list) | Open | |
+| ARV-M7 | Party membership has no public lifecycle; two companion systems; generated member ids in authored text | Open | |
+| ARV-M8 | Exceptions swallowed where failures change the game or hide from lint | Open | |
+| ARV-L1 | The command transaction overwrites authored outcome text with fixed English | Open | |
+| ARV-L2 | Identity encoded in id strings | Open | |
+| ARV-L3 | Stale performance figures; per-command frontier work; the planner re-sorts its frontier | Open | |
+| ARV-L4 | Reproducibility of installs (github: tarballs, TypeScript ranges) and of history (a force-push) | Open | |
+| ARV-A1 | The NPC fruitless-plan cache is process-global, unsaved, written by the page (a02ee33) | Fixed | Who found no way after a long look tries again an hour later as a rule of the world, kept in the campaign's own state (`waiting`), saved, undone and restored with it; the page's looking (`Agency.explain`) reads it and writes nothing. What remains in the process is a memory of searches alone, held to the world's line and module, which makes no game differ. The memory had read the walker's target only, not its own actions (an action with parameters is no operator until bound), so a gate opened on its way home went unseen until the hour was up: it reads the actions' schemas now. `test/npc-waiting.test.ts`: the probe's continued, restored, viewed, unviewed, second-game and undone cases agree |
+| ARV-A2 | Worker requests run concurrently on one host: a fight wedges, a new game inherits the old command | Fixed | One command at a time in a game: another, while one is under way (a fight waiting on the player), is refused and leaves it as it was. A game begun or opened is the next game: a command of the last that ends after writes nothing into it, and a fight of the last waiting on the player is fought on by its tactics. `test/engine-one-game.test.ts` (the probes persist-fight-wedge and persist-begin-during-perform) |
+| ARV-A3 | A world that failed to store is never re-sent; an old world is paired with a newer state and resumed trusted | Fixed | The page keeps a state only beside the world it was kept against, and says whether it kept a world it was sent (`kept`); a world not kept goes again with the next state. A kept state opened beside another world is refused. `test/kept-world.test.ts` (the probe persist-stale-world, run through the engine and the page's keeping, with a store that runs out of room after a crossing) |
+| ARV-A4 | A companion raised in a fight stays slain forever | Fixed | A raising lifts death in a fight as at a shrine (`Effects.raised`); what a fight made a creature (the undead a raising makes) goes on from it; a shrine raises one left "slain" with breath in them by an older game; a rest is tended by one up and not dead. `test/raised.test.ts` |
+| ARV-A5 | Cures by display name, stance endings that hit the attacker, stuns that cost nothing, a drainer healed after death | Partial | Fixed: a cure lifts what it names by id, the id it stands for, its kind of harm or its name (cure disease lifts the Diseased, the restorations Kyr's Poisoned); a stance that ends on answering a blow ends, from its holder, whether the blow lands; a condition laid by another waits for its holder's turn before it runs down (133 of 133 stuns now cost a turn, from 83); a drainer killed by what answered its blow stays dead. `test/mechanical-meaning.test.ts`. Open: the catalog-wide test of every ability's text against its execution |
+| ARV-A6 | "You witness" tells offscreen and obstructed acts as done; unseen arrivals are named | Open | |
+| ARV-A7 | A module's rules file can reach another module's private relations; clashes are dropped silently | Open | |
+| ARV-A8 | The engine-write guard is three hand-kept lists; a Topic can set dark() and dice | Open | |
+| ARV-A9 | The compiler accepts unbound and ill-typed effect variables; binding-check holes; query types depend on asking mode | Open | |
+| ARV-A10 | More layer inversions and cycles in the import graph | Open | |
+| ARV-A11 | A restored world is not state-equivalent: the order of emptied names differs | Open | |
+| ARV-A12 | The player's name is spliced unescaped into generated Kyr | Open | |
+| ARV-A13 | Real place names leak where the page shows an alias (journeys, character sheet, obituary, CLI) | Open | |
+| ARV-A14 | Clock shift for late installs misses timers in queries and arithmetic | Open | |
+| ARV-A15 | One foe fleeing ends the whole fight, a win over every foe | Fixed | One foe of several getting away leaves the fight alone and the rest fight on; the last, or the company, ends it. A fight won is worth the foes it defeated, not one that got away. `test/mechanical-meaning.test.ts` |
+| ARV-A16 | A module with Endings in two files no longer loads; desugared names not reserved | Open | |
+| ARV-A17 | Text with variables renders wrongly (measures unbound, endings print ?g) | Open | |
+| ARV-A18 | A count taken past nothing: clamps, refusals and Set disagree | Open | |
+| ARV-A19 | Generated "Ask … again" copies often dead, chosen by English wording; condition grammar from word endings | Open | |
+| ARV-A20 | Coin reading and the NPC activity suffix reveal what the company cannot see | Open | |
+| ARV-A21 | The idle-rule cache misses entities added by an installation | Open | |
+| ARV-A22 | Smaller defects: summon ids reused, revive percent unchecked, enlisting zeroes a recruit's coin, far-off milestones, the .resolved key, membership after departure | Partial | A raising of more than whole health is refused when the catalog is read. Open: the rest |
+| ARV-A23 | Combat constants and ids hard-coded; field time lacks battle's dice and lapse | Open | |
+| ARV-A24 | The download lacks the story log; autosaves re-serialize everything; a country can be drawn twice at once | Open | |
+| ARV-A25 | Kyr strings cannot escape { or ' | Open | |
