@@ -1,0 +1,16 @@
+== alone
+steps ok
+A canonical 9efc5654a8f3549c
+== interleave
+token worth after B started (global): 99 coin_a in catalog: false
+steps A ok
+steps B ok
+A canonical 9efc5654a8f3549c
+== concurrent
+concurrent loads FAILED: det/a/site.kyr: The kind of item token is declared differently by two modules (Declared by the module detb. Declared by the module deta.)
+== distinct alone
+steps ok
+A canonical f7eda3b6796b0b0f
+== distinct concurrent
+concurrent loads ok; steps A ok B ok
+A canonical f7eda3b6796b0b0f

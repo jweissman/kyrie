@@ -1,0 +1,3 @@
+start Ama:0 Bo:0
+after deed Ama:100 Bo:100
+continued after 4 waits Ama:150 Bo:150 | resumed after 4 waits Ama:150 Bo:150 | equal true

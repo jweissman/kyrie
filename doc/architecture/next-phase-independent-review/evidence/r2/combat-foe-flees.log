@@ -1,0 +1,7 @@
+acting-at-random condition put on the foes: confused
+{
+  fights: 400,
+  endedByAFoeFleeing: 131,
+  foesAtFullHpInThoseFights: 282,
+}
+seed flee-0: fled=w2, foes after: w1 9/9, w2 6/6, w3 6/6; random-action events: 4

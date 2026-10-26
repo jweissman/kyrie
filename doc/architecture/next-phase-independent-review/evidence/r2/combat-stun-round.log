@@ -1,0 +1,6 @@
+MechanicsText: Every enemy is stunned for a turn (a Wisdom save against 12 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+{
+  stunsLandedOnHero: 133,
+  heroLostATurn: 83,
+  expiredWithNoTurnLost: 50,
+}

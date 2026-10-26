@@ -1,0 +1,12 @@
+et ids=tom,zed: 20/20 fights differ from en-US
+seed-0
+ en: {"outcome":"fighters","picks":["hero>sweep>tom","zed>melee>hero","hero>sweep>zed","zed>melee>hero","zed>melee>hero","hero>sweep>zed"],"hp":[["hero",13],["tom",0],["zed",0]]}
+ et: {"outcome":"fighters","picks":["hero>sweep>zed","tom>melee>hero","hero>sweep>tom","tom>melee>hero","tom>melee>hero","hero>sweep>tom"],"hp":[["hero",13],["tom",0],["zed",0]]}
+cs ids=hank,chuck: 20/20 fights differ from en-US
+seed-0
+ en: {"outcome":"fighters","picks":["hero>sweep>chuck","hank>melee>hero","hero>sweep>hank","hank>melee>hero","hank>melee>hero","hero>sweep>hank"],"hp":[["hero",13],["hank",0],["chuck",0]]}
+ cs: {"outcome":"fighters","picks":["hero>sweep>hank","chuck>melee>hero","hero>sweep>chuck","chuck>melee>hero","chuck>melee>hero","hero>sweep>chuck"],"hp":[["hero",13],["hank",0],["chuck",0]]}
+da ids=zack,aage: 20/20 fights differ from en-US
+seed-0
+ en: {"outcome":"fighters","picks":["hero>sweep>aage","zack>melee>hero","hero>sweep>zack","zack>melee>hero","zack>melee>hero","hero>sweep>zack"],"hp":[["hero",13],["zack",0],["aage",0]]}
+ da: {"outcome":"fighters","picks":["hero>sweep>zack","aage>melee>hero","hero>sweep>aage","aage>melee>hero","aage>melee>hero","hero>sweep>aage"],"hp":[["hero",13],["zack",0],["aage",0]]}

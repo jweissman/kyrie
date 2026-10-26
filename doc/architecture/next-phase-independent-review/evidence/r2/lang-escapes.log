@@ -1,0 +1,4 @@
+"plain \"quoted\" text"      -> "plain \"quoted\" text"
+"it\'s late"                 -> Error: Line 2, col 3: JSON Parse error: Invalid escape character '
+"a sign: \{closed\}"         -> Error: Line 2, col 3: JSON Parse error: Invalid escape character {
+"tab\x41"                    -> Error: Line 2, col 3: JSON Parse error: Invalid escape character x

@@ -1,0 +1,4 @@
+decisions: [{"goal":"obstructed","action":"rising__complete_rite(tower__necromancer,hill__founders)","elapsed":271}]
+slumbers still (rite failed)? true
+chronicle npc entries: [{"at":271,"kind":"npc","text":"Sorgen, necromancer: Read the named dead up out of Founders' gallery","detail":[]}]
+company at: hill__founders

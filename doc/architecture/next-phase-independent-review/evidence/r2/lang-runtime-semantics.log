@@ -1,0 +1,26 @@
+== R1 a query parameter's type is enforced only when its body cannot bind it
+   Query bright(t: thing) means lit(t).   facts lit(lamp), lit(hall: place)
+   bright(?t)             -> hall,lamp   (hall is a place, not a thing)
+   test bright(hall)      -> true
+   Query dark(t: thing) means not lit(t).
+   dark(?t)               -> cup   (ranged over things only)
+   dark(?x) and at(?x, hall) vs at(?x, hall) and dark(?x): cup / cup
+   with at(yard: place, hall): dark(?x) -> cup;  at(?x, hall) and dark(?x) -> cup,yard
+   (adding a conjunct yields an answer the query alone denies: yard is no thing)
+
+== R2 a count taken past nothing: a rule clamps it, an action's admits refuses it
+   Decrease gold(ann) by 5        apply -> gold 0    admits -> false
+   Increase gold(ann) by 0 - 5    apply -> gold 0    admits -> false
+   Set gold(ann) to 0 - 5         apply -> gold -5   admits -> false
+   Set gold(ann) to 1 - 5 + 4     apply -> gold 0    admits -> true
+   [-5, +5] apply -> 5; [+5, -5] apply -> 3  (net change 0 both ways)
+
+== R3 dice in arithmetic
+   dice(cup)=21 dice(jar)=18 dice(cup)+dice(cup)=42  (one die per thing per watch)
+   Increase count(cup) by dice(cup): apply -> 21
+   count(cup)=5; Decrease count(cup) by dice(cup): admits -> true (admits reads the die as a stored measure, 0), apply -> 0
+
+== R4 the idle-rule cache does not see entities added to the world (withModule keeps the line)
+   before: instances = 0 (no things yet; the rule is now remembered idle)
+   a thing cup joins (as an installation/frontier adds entities): test unmarked(cup) and not lit(cup) = true
+   same rule object: instances = 0;  fresh rule object: 1

@@ -1,0 +1,4 @@
+TEXT: Overwatching: +2 damage; and against an enemy who strikes in reach, weapon attack against that enemy, and it ends.
+  4 melee strikes -> react events: 4; holder still has overwatch: true; remove events: 0
+TEXT: Blade Barrier: against an enemy who strikes in reach, 3d6 (3–18) slashing damage to that enemy (may cause armor shred: a Dexterity save against 15 avoids it), and it ends.
+  4 melee strikes -> react events: 4; holder still has blade_barrier: true; remove events: 0

@@ -1,0 +1,15 @@
+TEXT: Raise a fallen ally with 40% of their health, undead nature now. An arcane spell of the third level. Takes a third-level slot.
+in the fight : {
+  hp: 5,
+  traits: [ "humanoid", "adaptable", "versatile", "strong_willed", "undead" ],
+  statuses: [ "slain" ],
+}
+store after  : {
+  hp: 5,
+  traits: [ "humanoid", "adaptable", "versatile", "strong_willed" ],
+  conditions: [ "slain" ],
+}
+legal commands when "fallen" is the actor, skips? true
+rest with the raised companion listed first throws: Caster cannot use this ability
+shrine raise of the raised companion: []
+store after shrine: [ "slain" ]

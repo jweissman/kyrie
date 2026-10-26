@@ -1,0 +1,6 @@
+after first wait: watch 1 cache [["p__npc|get_done",7]]
+(1) continued:  watch 2 npc done = false
+(1) restored:   watch 2 npc done = true ; canonical equal: false
+(2) open alone:          watch 1 npc done = true
+    shut played first to watch 12
+(2) open after shut:     npc done only at watch 7 after 7 waits; alone it was done after 1

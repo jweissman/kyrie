@@ -1,0 +1,16 @@
+debt "Wenna": starts; company ["Wenna"]; text "'Wenna,' says {region__s1_merchant}, and does not get up. 'Fifty c
+debt "O'Brien": starts; company ["O'Brien"]; text "'O'Brien,' says {region__s1_merchant}, and does not get up. 'Fifty c
+debt "Wen\"na": FAILS world-thorn/origin/origin.kyr:12:98: Invalid Kyr module: Line 12, col 98:
+debt "{creditor}": starts; company ["{creditor}"]; text "'{region__s1_merchant},' says {region__s1_merchant}, and does not get up. 'Fifty c
+debt "{homename}": starts; company ["{homename}"]; text "'Merscheald,' says {region__s1_merchant}, and does not get up. 'Fifty c
+debt "Back\\slash": FAILS world-thorn/origin/origin.kyr:12:3: JSON Parse error: Invalid escape character s
+debt "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx: FAILS Choose a name, playable ancestry and class for every companion
+debt "Wen\". Assert owed(loan) = 0. Observe sees near c: FAILS Choose a name, playable ancestry and class for every companion
+order "Wenna": starts; company ["Wenna"]; text (not found)
+order "O'Brien": starts; company ["O'Brien"]; text (not found)
+order "Wen\"na": FAILS world-thorn/origin/origin.kyr:12:211: Invalid Kyr module: Line 12, col 211:
+order "{creditor}": FAILS world-thorn/origin/origin.kyr:12: Text names unknown entity {creditor}
+order "{homename}": starts; company ["{homename}"]; text (not found)
+order "Back\\slash": FAILS world-thorn/origin/origin.kyr:12:3: JSON Parse error: Invalid escape character s
+order "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx: FAILS Choose a name, playable ancestry and class for every companion
+order "Wen\". Assert owed(loan) = 0. Observe sees near c: FAILS Choose a name, playable ancestry and class for every companion

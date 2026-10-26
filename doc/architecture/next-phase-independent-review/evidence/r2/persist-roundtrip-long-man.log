@@ -1,0 +1,151 @@
+long-man: 120 commands; installed 1; canonical 967597 chars
+save@0 file/untrusted: continued 120 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@0 kept/trusted: continued 120 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@5 file/untrusted: continued 115 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@5 kept/trusted: continued 115 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@10 file/untrusted: continued 110 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@10 kept/trusted: continued 110 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@15 file/untrusted: continued 105 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@15 kept/trusted: continued 105 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@20 file/untrusted: continued 100 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@20 kept/trusted: continued 100 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@25 file/untrusted: continued 95 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@25 kept/trusted: continued 95 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@30 file/untrusted: continued 90 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@30 kept/trusted: continued 90 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@35 file/untrusted: continued 85 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@35 kept/trusted: continued 85 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@40 file/untrusted: continued 80 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@40 kept/trusted: continued 80 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@45 file/untrusted: continued 75 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@45 kept/trusted: continued 75 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@50 file/untrusted: continued 70 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@50 kept/trusted: continued 70 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@55 file/untrusted: continued 65 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@55 kept/trusted: continued 65 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@60 file/untrusted: continued 60 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@60 kept/trusted: continued 60 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@65 file/untrusted: continued 55 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@65 kept/trusted: continued 55 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@70 file/untrusted: continued 50 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@70 kept/trusted: continued 50 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@75 file/untrusted: continued 45 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@75 kept/trusted: continued 45 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@80 file/untrusted: continued 40 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@80 kept/trusted: continued 40 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@85 file/untrusted: continued 35 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@85 kept/trusted: continued 35 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@90 file/untrusted: continued 30 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "day" vs "untilTurn"
+   .save.state.world.measures.69.value: 2 vs 8
+   .save.state.world.measures.70.call.name: "season" vs "hour"
+   .save.state.world.measures.70.value: 3 vs 10
+save@90 kept/trusted: continued 30 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "day" vs "untilTurn"
+   .save.state.world.measures.69.value: 2 vs 8
+   .save.state.world.measures.70.call.name: "season" vs "hour"
+   .save.state.world.measures.70.value: 3 vs 10
+save@95 file/untrusted: continued 25 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@95 kept/trusted: continued 25 -> canonical string DIFFERS; key-order-insensitive DIFFERS
+   .save.state.world.measures.68.call.name: "untilTurn" vs "untilDark"
+   .save.state.world.measures.68.value: 8 vs 62
+   .save.state.world.measures.69.call.name: "hour" vs "untilTurn"
+   .save.state.world.measures.69.value: 10 vs 8
+   .save.state.world.measures.70.call.name: "day" vs "hour"
+   .save.state.world.measures.70.value: 2 vs 10
+save@100 file/untrusted: continued 20 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@100 kept/trusted: continued 20 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@105 file/untrusted: continued 15 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@105 kept/trusted: continued 15 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@110 file/untrusted: continued 10 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@110 kept/trusted: continued 10 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+save@115 file/untrusted: continued 5 -> canonical string EQUAL; key-order-insensitive EQUAL
+save@115 kept/trusted: continued 5 -> canonical string DIFFERS; key-order-insensitive EQUAL
+   first byte diff @548042: ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","partyIds":["longman__party_1","longman__ | ...on"}],"pressures":[],"outcomes":[]},"state":{"seed":"long","world":{"relations":[{"kind":"call","nam
+transcript replay canonical EQUAL

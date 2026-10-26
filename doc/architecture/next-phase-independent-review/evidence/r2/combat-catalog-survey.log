@@ -1,0 +1,24 @@
+conditions applied on world-time clock: fireproof, lit, unbarring
+ fireproof: onTurnEnd=[] onExpire=[] tempHp= diceTick=0
+ lit: onTurnEnd=[] onExpire=[] tempHp= diceTick=0
+ unbarring: onTurnEnd=[] onExpire=[] tempHp= diceTick=0
+
+conditions with onExpire hooks: summoning(encounter), ticking(encounter)
+
+persistent conditions with dice onTurnEnd: favor_life
+
+resources: [ "gold", "experience", "mana", "slots" ]
+gain abilities: 2
+  camp_recovery:[{"kind":"gain","amount":{"kind":"literal","value":9999},"resource":"slots","target":"party"}]
+  rough_rest:[{"kind":"gain","amount":{"kind":"deem","expression":"1"},"resource":"slots","target":"party"}]
+
+deem amounts: 151
+
+abilities with >1 summon or nested summon: 
+
+revive: animate_animal:30:{"kind":"literal","value":1} | animate_dead:40:{"kind":"literal","value":1} | raise_dead:50:{"kind":"literal","value":1} | resurrect:100:{"kind":"literal","value":1}
+
+remove-by-pattern (matched against display name): backstab:/Hidden/ | charge:/Preparing to Charge/ | demorph:/polymorphed|shapechanged/ | revelation:/hidden|invisible|disguised/ | soot_cloud:/hidden|invisible/ | stone_to_flesh:/Petrified/ | cleanse:/poison|diseased/ | cure_disease:/disease/ | daylight:/Hidden/ | heal:/diseased|poison|cursed|blinded|slow|paralyzed/ | major_restoration:/diseased|poison|cursed|blinded|slow|paralyzed|fatigued|deafened/ | mass_heal:/diseased|poison|cursed|blinded|slow|paralyzed/ | minor_restoration:/poison|cursed|blinded/ | remove_fear:/fear/ | touch_of_serenity:/frightened|distracted|weakened|fatigued|slow/
+
+conditions with damaging onAttacked hooks (thorns): prey, sunmarked, ion_shield
+drain abilities: cathexis, siphon_life, life_drain, major_life_drain, minor_life_drain

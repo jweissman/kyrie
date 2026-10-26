@@ -1,0 +1,5 @@
+performed: Take the long road to the camp | arrived at elapsed 12 | result success
+npc decisions: [{"actor":"m__bede","action":"m__sweep(m__bede,m__camp)","at":1},{"actor":"m__hermit","action":"m__curse(m__hermit,m__camp,m__hermitage)","at":1}]
+company left at elapsed 0 (2 hours = 12 watches)
+chronicle npc entries: [{"at":1,"kind":"npc","text":"Old Bede sweeps the camp clean.","detail":[]},{"at":1,"kind":"npc","text":"the hermit, a hermit: Lay a curse on the camp","detail":[]}]
+feedback.immediate (shown on the page): ["You witness: Old Bede sweeps the camp clean.","You witness: the hermit, a hermit: Lay a curse on the camp"]

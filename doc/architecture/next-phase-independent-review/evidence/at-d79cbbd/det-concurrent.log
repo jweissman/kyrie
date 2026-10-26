@@ -1,0 +1,1 @@
+concurrent loads FAILED: det/a/site.kyr: The kind of item token is declared differently by two modules (Declared by the module detb. Declared by the module deta.)

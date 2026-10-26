@@ -1,0 +1,597 @@
+installed at start 16
+after 10 commands, at region__edge_north; installed 18
+right after resume: canonical equal = true
+step 10 go(region__edge_north_road,region__s1_green) at region__s1_green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 111/111
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   events.10.resolution.world.5.call.name: live "hour" | resumed "dice"
+   events.10.resolution.world.5.value.value: live 2 | resumed 6
+   events.10.resolution.world.6.call.name: live "dice" | resumed "watch"
+   events.10.resolution.world.6.value.value: live 6 | resumed 111
+   events.10.resolution.world.7.call.name: live "watch" | resumed "untilLight"
+   events.10.resolution.world.7.value.value: live 111 | resumed 21
+   last event response: undefined | undefined
+step 11 go(region__edge_north_road,region__edge_north) at region__edge_north installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 122/122
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 12 go(region__edge_north_road,region__s1_green) at region__s1_green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 133/133
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 13 go(region__edge_north_road,region__edge_north) at region__edge_north installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 144/144
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 14 go(region__edge_north_road,region__s1_green) at region__s1_green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 155/155
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 15 go(region__edge_north_road,region__edge_north) at region__edge_north installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 166/166
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 16 go(region__edge_north_road,region__s1_green) at region__s1_green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 177/177
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 17 go(region__edge_north_road,region__edge_north) at region__edge_north installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 188/188
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 18 go(region__edge_north_road,region__s1_green) at region__s1_green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 199/199
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 19 go(region__edge_north_road,region__edge_north) at region__edge_north installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 210/210
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 20 put_item(region__party_1__longsword) at region__edge_north installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 210/210
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 21 go(linkregionx0ym1__march,x0ym1__road_end) at x0ym1__road_end installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 222/222
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 22 wait at x0ym1__road_end installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 223/223
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 23 light_item(region__party_1__torch) at x0ym1__road_end installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 223/223
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 24 go(x0ym1__south_road,x0ym1__green) at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 226/226
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 25 go(x0ym1__dyke_path,x0ym1__low_field) at x0ym1__low_field installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 228/228
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 26 wait_for_light at x0ym1__low_field installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 276/276
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "The sky greys, then lightens. It is morning." | "The sky greys, then lightens. It is morning."
+step 27 go(x0ym1__dyke_path,x0ym1__green) at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 28 go(x0ym1__chapel_porch,x0ym1__nave) at x0ym1__nave installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 29 go(x0ym1__vestry_door,x0ym1__vestry) at x0ym1__vestry installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 30 go(x0ym1__vestry_door,x0ym1__nave) at x0ym1__nave installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 31 put_item(region__party_1__chainmail) at x0ym1__nave installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 32 go(x0ym1__chapel_porch,x0ym1__green) at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 33 go(x0ym1__reeve_door,x0ym1__reeve_room) at x0ym1__reeve_room installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 34 x0ym1__nell_rhyme at x0ym1__reeve_room installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 35 talk_to(x0ym1__nell) at x0ym1__reeve_room installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 36 go(x0ym1__reeve_door,x0ym1__green) at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 278/278
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 37 go(x0ym1__mill_lane,x0ym1__race) at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed []; elapsed 279/279
+   measures: same multiset = true, same order = false; facts same order = true
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 38 wait_for_dark at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 366/366
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "The light goes. It is dark." | "The light goes. It is dark."
+step 39 go(x0ym1__mill_door,x0ym1__millhouse) at x0ym1__millhouse installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 367/367
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 40 wait at x0ym1__millhouse installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 368/368
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 41 put_item(region__party_1__pole) at x0ym1__millhouse installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 368/368
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 42 go(x0ym1__mill_door,x0ym1__race) at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 368/368
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 43 wait at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 369/369
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 44 wait at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 370/370
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 45 go(x0ym1__mill_door,x0ym1__millhouse) at x0ym1__millhouse installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 370/370
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 46 wait_for_light at x0ym1__millhouse installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 420/420
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "The sky greys, then lightens. It is morning." | "The sky greys, then lightens. It is morning."
+step 47 x0ym1__hob_springs at x0ym1__millhouse installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 420/420
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 48 go(x0ym1__mill_door,x0ym1__race) at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 420/420
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 49 wait at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 421/421
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 50 wait at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 422/422
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 51 go(x0ym1__mill_door,x0ym1__millhouse) at x0ym1__millhouse installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 422/422
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 52 go(x0ym1__mill_door,x0ym1__race) at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 422/422
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 53 wait at x0ym1__race installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 423/423
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 54 go(x0ym1__mill_lane,x0ym1__green) at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 424/424
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 55 talk_to(x0ym1__folk) at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 424/424
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 56 wait_hour at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 430/430
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "An hour passes." | "An hour passes."
+step 57 go(x0ym1__hall_lane,x0ym1__yard) at x0ym1__yard installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 433/433
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 58 wait at x0ym1__yard installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 434/434
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 59 go(x0ym1__crest_steps,x0ym1__crest) at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 436/436
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 60 go(x0ym1__crest_steps,x0ym1__yard) at x0ym1__yard installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 438/438
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 61 go(x0ym1__crest_steps,x0ym1__crest) at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 440/440
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 62 wait_for_dark at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 456/456
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "The wind goes round to the north, and the rain comes in over the fell in grey ropes." | "The wind goes round to the north, and the rain comes in over the fell in grey ropes."
+step 63 go(x0ym1__lake_face,x0ym1__lakeshore) at x0ym1__lakeshore installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 458/458
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 64 push(x0ym1__punt) at x0ym1__lakeshore installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 458/458
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 65 change_thing(x0ym1__punt_launch) at x0ym1__lakeshore installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 459/459
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 66 go(x0ym1__lake_face,x0ym1__crest) at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 461/461
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 67 wait_hour at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 467/467
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "An hour passes." | "An hour passes."
+step 68 search(x0ym1__crest) at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 469/469
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "You search the crest of the Long Man with care, a little at a time." | "You search the crest of the Long Man with care, a little at a time."
+step 69 go(x0ym1__valley_face,x0ym1__springs) at x0ym1__springs installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 471/471
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 70 go(x0ym1__spring_path,x0ym1__low_field) at x0ym1__low_field installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 473/473
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 71 wait_hour at x0ym1__low_field installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 479/479
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "An hour passes." | "An hour passes."
+step 72 go(x0ym1__dyke_path,x0ym1__green) at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 481/481
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 73 wait_hour at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 487/487
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "An hour passes." | "An hour passes."
+step 74 go(x0ym1__reeve_door,x0ym1__reeve_room) at x0ym1__reeve_room installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 487/487
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 75 go(x0ym1__reeve_door,x0ym1__green) at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 487/487
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 76 go(x0ym1__ox_door,x0ym1__taproom) at x0ym1__taproom installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 487/487
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 77 wait at x0ym1__taproom installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 488/488
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 78 go(x0ym1__ox_door,x0ym1__green) at x0ym1__green installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 488/488
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 79 go(x0ym1__hall_lane,x0ym1__yard) at x0ym1__yard installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 491/491
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 80 wait at x0ym1__yard installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 492/492
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 81 go(x0ym1__study_door,x0ym1__study) at x0ym1__study installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 492/492
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 82 listen(x0ym1__key_hook) at x0ym1__study installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 492/492
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 83 look_closely(x0ym1__key_hook) at x0ym1__study installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 493/493
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "You look closely at the hook by the study door." | "You look closely at the hook by the study door."
+step 84 go(x0ym1__study_door,x0ym1__yard) at x0ym1__yard installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 493/493
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 85 go(x0ym1__crest_steps,x0ym1__crest) at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 495/495
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 86 wait_for_dark at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 510/510
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "The Mower walks the crest, slowly, the length of it and back. Every few paces it stoops, and a long blade flicks, and something small falls." | "The Mower walks the crest, slowly, the length of it and back. Every few paces it stoops, and a long blade flicks, and something small falls."
+step 87 go(x0ym1__lake_face,x0ym1__lakeshore) at x0ym1__lakeshore installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 512/512
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 88 wait at x0ym1__lakeshore installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 513/513
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 89 look_closely(x0ym1__punt) at x0ym1__lakeshore installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 513/513
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 90 go(x0ym1__lake_face,x0ym1__crest) at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 515/515
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 91 go(x0ym1__crest_walk,x0ym1__gauge_head) at x0ym1__gauge_head installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 516/516
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+step 92 wait_for_light at x0ym1__gauge_head installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 540/540
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "In the dark, under the noise of the rain, there is another noise, very deep, like a wall falling a long way off. Then the sound of water." | "In the dark, under the noise of the rain, there is another noise, very deep, like a wall falling a long way off. Then the sound of water."
+step 93 go(x0ym1__crest_walk,x0ym1__crest) at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 541/541
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 94 wait_hour at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 547/547
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: "An hour passes." | "An hour passes."
+step 95 go(x0ym1__lake_face,x0ym1__lakeshore) at x0ym1__lakeshore installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 549/549
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 96 go(x0ym1__lake_face,x0ym1__crest) at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 551/551
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+step 97 attack(x0ym1__mower) at x0ym1__crest installed 18/18: canonical DIFFERS; facts only-live [] only-resumed [] (same facts, different ORDER); elapsed 552/552
+   measures: same multiset = true, same order = false; facts same order = false
+   view equal = true
+   chronicle equal = true
+   transcript equal = true
+   events equal = false, creatures equal = true
+   last event response: undefined | undefined
+148 |     return new Map(EntityIndex.of(world.module.entities).aliased.filter(e => ObservationText.known(world, e) !== e.name)
+149 |       .map(e => [e.name, e.alias!.name]));
+150 |   }
+151 |   static resolve(campaign: Campaign, command: string): string {
+152 |     const match = this.choices(campaign).find(c => c.choice.id === command);
+153 |     if (!match) { throw new Error(`Unavailable command: ${command}`); }
+                                  ^
+error: Unavailable command: undefined
+      at resolve (/home/user/kyrie-r2/src/presentation/player-view.ts:153:29)
+      at perform (/home/user/kyrie-r2/src/session/play-session.ts:76:27)
+
+Bun v1.4.4 (Linux x64)

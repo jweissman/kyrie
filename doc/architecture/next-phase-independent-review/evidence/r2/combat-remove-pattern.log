@@ -1,0 +1,45 @@
+backstab /Hidden/
+  removes: hidden="Hidden"
+  near-misses (name contains word, not removed): -
+charge /Preparing to Charge/
+  removes: preparing_to_charge="Preparing to Charge"
+  near-misses (name contains word, not removed): -
+demorph /polymorphed|shapechanged/
+  removes: (NOTHING)
+  near-misses (name contains word, not removed): -
+revelation /hidden|invisible|disguised/
+  removes: hidden="Hidden"
+  near-misses (name contains word, not removed): -
+soot_cloud /hidden|invisible/
+  removes: hidden="Hidden"
+  near-misses (name contains word, not removed): -
+stone_to_flesh /Petrified/
+  removes: petrified="Petrified"
+  near-misses (name contains word, not removed): -
+cleanse /poison|diseased/
+  removes: disease="Diseased", poison="Poison"
+  near-misses (name contains word, not removed): poisoning_blade="poisoning blade", poisoned="Poisoned", favor_poison="Favour of poison"
+cure_disease /disease/
+  removes: (NOTHING)
+  near-misses (name contains word, not removed): disease="Diseased"
+daylight /Hidden/
+  removes: hidden="Hidden"
+  near-misses (name contains word, not removed): -
+heal /diseased|poison|cursed|blinded|slow|paralyzed/
+  removes: blinded="Blinded", cursed="Cursed", disease="Diseased", paralyzed="Paralyzed", poison="Poison", slow="Slow"
+  near-misses (name contains word, not removed): poisoning_blade="poisoning blade", poisoned="Poisoned", favor_poison="Favour of poison"
+major_restoration /diseased|poison|cursed|blinded|slow|paralyzed|fatigued|deafened/
+  removes: blinded="Blinded", cursed="Cursed", deafened="Deafened", disease="Diseased", fatigue="Fatigued", paralyzed="Paralyzed", poison="Poison", slow="Slow"
+  near-misses (name contains word, not removed): poisoning_blade="poisoning blade", poisoned="Poisoned", favor_poison="Favour of poison"
+mass_heal /diseased|poison|cursed|blinded|slow|paralyzed/
+  removes: blinded="Blinded", cursed="Cursed", disease="Diseased", paralyzed="Paralyzed", poison="Poison", slow="Slow"
+  near-misses (name contains word, not removed): poisoning_blade="poisoning blade", poisoned="Poisoned", favor_poison="Favour of poison"
+minor_restoration /poison|cursed|blinded/
+  removes: blinded="Blinded", cursed="Cursed", poison="Poison"
+  near-misses (name contains word, not removed): poisoning_blade="poisoning blade", poisoned="Poisoned", favor_poison="Favour of poison"
+remove_fear /fear/
+  removes: (NOTHING)
+  near-misses (name contains word, not removed): -
+touch_of_serenity /frightened|distracted|weakened|fatigued|slow/
+  removes: distracted="Distracted", fatigue="Fatigued", fear="Frightened", slow="Slow", weakened="Weakened"
+  near-misses (name contains word, not removed): major_distracted="Severely Distracted", major_weakened="Major Weakened"

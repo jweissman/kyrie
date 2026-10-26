@@ -1,0 +1,6 @@
+life_drain effects [{"kind":"drain","amount":{"kind":"deem","expression":"1d6"},"damageType":"necrotic","target":"enemy","onResist":"negate"}]
+{
+  drainerKilledByShield: 113,
+  drainerAliveAfterDeathEventWithoutRevive: 109,
+}
+sample events: [{"t":"save","a":"drainer","tg":"shielded"},{"t":"damage","a":"drainer","tg":"shielded","amt":2,"hp":13},{"t":"save","a":"drainer","tg":"shielded"},{"t":"damage","a":"shielded","tg":"drainer","amt":1,"hp":0},{"t":"death","a":"drainer"},{"t":"save","a":"shielded","tg":"drainer"},{"t":"heal","a":"drainer","tg":"drainer","amt":2,"hp":2}]
