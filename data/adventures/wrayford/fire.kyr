@@ -1,0 +1,49 @@
+Module wrayford "The Third Night" {
+  // ── Kit's night ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // At midnight on the second night Kit and the young carters go for the Company's counting-house with lamp-oil.
+  // The Company's clerk hears everything at the Nine Wheels: Gault and two riders are waiting in the dark of the
+  // arcade. Unless Kit has been talked down, or turned to sinking the board, or is held, or is walking with you.
+  Query kitMeansFire() means not kitStoodDown(kit) and not kitTurned(kit) and not kitTaken(kit) and not travelsWith(kit, party).
+  Query fireHour() means secondDay() and hour(clock) < 2.
+  Person ambush "two of the lord's riders" at limbo {
+    Role "two of Gault's riders, waiting in the dark of the arcade". Ancestry human. Calling warrior. Level 2. Numbers 2. Peaceable. Pronouns they.
+  }
+  Initially Assert takesPrisoners(ambush). Initially Assert serves(ambush, gault).
+  Relation ambushLaid(place). Relation fireTried(place). Relation boardSunk(place). Relation fireFought(place).
+  Rule ambush_laid when secondDay() and hour(clock) >= 23 and not ambushLaid(wray) and (kitMeansFire() or kitJoined(kit)) and not kitTurned(kit) and not kitStoodDown(kit) {
+    Assert ambushLaid(wray). Assert gaultAway(gault). Assert at(gault, counting_room). Assert at(ambush, counting_room). }
+  Observe ambush_seen at counting_room when ambushLaid(wray) and not fireTried(wray) and not fireFought(wray) "In the dark of the counting-house, behind the counter, something shifts: a buff coat, the gleam of a drawn blade. Sergeant Gault and two of his riders are waiting here in the dark.".
+  // They come at midnight.
+  Rule carters_go when fireHour() and (kitMeansFire() or kitJoined(kit)) and not kitTurned(kit) and not kitStoodDown(kit) and not cartersOut(carters) and not fireTried(wray) {
+    Assert cartersOut(carters). Assert kitOut(kit). Assert at(carters, counting_room). Assert at(kit, counting_room). }
+  // With the company there beside them: Gault comes out of the dark at them.
+  Rule ambush_springs at counting_room when cartersOut(carters) and at(party, counting_room) and ambushLaid(wray) and not fireFought(wray) says "The young carters come into the counting-house with the oil, and Kit with a lantern, and Sergeant Gault stands up from behind the counter. 'Evening,' he says, and his riders step out of the dark either side of the door." {
+    Assert fireFought(wray). Retract peaceable(gault). Retract peaceable(ambush). Assert assails(gault, party). Assert assails(ambush, party). }
+  // Without the company: Gault takes them in the act.
+  Rule ambush_takes when cartersOut(carters) and not at(party, counting_room) and ambushLaid(wray) and not fireTried(wray) says "Word comes before dawn, the way it comes in a city, from nowhere: the young carters went for the Company's counting-house at midnight with lamp-oil, and Sergeant Gault was waiting in the dark for them, and the fire was out before it was lit, and Kit Pardoe and two others are in the Guildhall cellar." {
+    Assert fireTried(wray). Assert kitTaken(kit). Assert cartersTaken(carters). Assert at(kit, guild_cellar). Assert at(carters, guild_cellar).
+    Retract cartersOut(carters). Retract kitOut(kit). Retract gaultAway(gault). Assert at(ambush, limbo). }
+  // Won: the counting-house burns.
+  Rule counting_burns when fireFought(wray) and (not able(gault) or routed(gault)) and (not able(ambush) or routed(ambush)) and not countingBurned(wray) says "The oil goes on the ledgers and the lantern after it, and the counting-house of the Worshipful Company of the Bridge goes up with a sound like a great breath. The gold bridge over the door melts and runs. By the time the Market is awake the whole of it is burning, and the bells are ringing, and nobody in Wrayford will ever again be able to say there was no rising." {
+    Assert countingBurned(wray). Assert fireTried(wray). Retract cartersOut(carters). Retract kitOut(kit). Retract gaultAway(gault). }
+  Rule fire_lost when fireFought(wray) and (captured(gault, party) or captured(ambush, party)) says "You come round in the Guildhall cellar on the straw, with Kit beside you with his face cut, and the young carters, and the smell of lamp-oil on your hands." {
+    Retract captured(gault, party). Retract captured(ambush, party). Assert at(party, guild_cellar). Assert heldInCellar(party). Assert kitTaken(kit). Assert at(kit, guild_cellar).
+    Assert cartersTaken(carters). Assert at(carters, guild_cellar). Assert fireTried(wray). Retract cartersOut(carters). Retract kitOut(kit). Retract gaultAway(gault).
+    Assert peaceable(gault). Assert peaceable(ambush). Assert at(ambush, limbo). }
+  Observe counting_burned at counting_room when countingBurned(wray) "The counting-house is a shell: black walls, the counter charcoal, a smell that will be in the Market for a year. Over the doorway a lump of gold metal hangs where the bridge was.".
+  // Turned: the new toll-board goes into the river instead, and nobody hangs for a board.
+  Rule board_sinks when fireHour() and kitTurned(kit) and not boardSunk(wray) and not kitTaken(kit) {
+    Assert boardSunk(wray). Increase temper(wray) by 2. }
+  Rule board_told when boardSunk(wray) and inWrayford() and hour(clock) >= 6 and not spread(board_fact) says "All Wrayford is laughing by breakfast. In the night somebody unbolted the Company's new toll-board from beside the booth, all eight feet of it, freshly painted, and carried it down Bridge End and threw it in the Wray, for the second time in a week, and the sergeant and two riders sat in the dark of the counting-house all night waiting for a fire that never came. Amos Pinch stood at the booth this morning and ruled from memory, and got the price of a beast wrong, and the drovers cheered him." { Assert spread(board_fact). }
+  Entity board_fact: fact "The board in the river".
+  Rule ambush_stands_down when dayN(wray) >= 3 and ambushLaid(wray) and not fireTried(wray) and not fireFought(wray) { Retract gaultAway(gault). Assert at(ambush, limbo). Assert fireTried(wray). }
+  Rule fire_carters_home when (fireTried(wray) or boardSunk(wray)) and cartersOut(carters) and not cartersTaken(carters) { Retract cartersOut(carters). Retract kitOut(kit). }
+  // Standing in the door at the last moment, with a brother who trusts you.
+  Action stand_in_door(actor: group, site: place) "Stand in the counting-house door, and tell Kit no" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counting_room) and at(kit, counting_room) and cartersOut(carters)
+      and kitTrusts(actor) and not fireFought(wray) and not kitStoodDown(kit).
+    Time 1 minute.
+    On success { Assert kitStoodDown(kit). Retract cartersOut(carters). Retract kitOut(kit). Assert at(kit, wheels_taproom). Assert at(carters, wheels_taproom). }
+    Result "You stand in the door with your back to Gault's dark and say no, and Kit looks at you over the lantern, and at the oil in the others' hands, and something goes out of his face. 'Home,' he says to them. 'Home.' They go, and behind you in the dark of the counting-house someone lets out a long breath, and a blade goes back into its scabbard.".
+  }
+}

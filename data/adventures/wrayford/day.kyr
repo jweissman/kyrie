@@ -1,0 +1,102 @@
+Module wrayford "The Third Night" {
+  // ── The Remonstrance ──────────────────────────────────────────────────────────────────────────────────────────────
+  // Noon to two on the second day, in the Guildhall: the Bench of the Bridge Company moves a Remonstrance to the lord
+  // against the toll it farms, and any citizen may move a clause. The Bench passes whatever costs it nothing it can be
+  // seen to lose. If nobody moves anything, the clerk's own clause passes.
+  Query benchSitting() means secondDay() and hour(clock) >= 12 and hour(clock) < 14 and not benchRose(wray).
+  Relation benchRose(place). Relation moved(entity).
+  Relation clauseCharity(place). Relation clauseRelease(place). Relation clauseWorse(place). Relation clauseAudit(place).
+  Entity motion_release: fact "that the dead be released".
+  Entity motion_charity: fact "that the dead be commended to the Liberty's charity".
+  Entity motion_toll: fact "that the toll be lifted".
+  Entity motion_audit: fact "that the Company's accounts be laid open".
+  Person bench "the Bench of the Bridge Company" at guild_hall {
+    Role "five aldermen in blue gowns at the long table". Ancestry human. Numbers 1. Peaceable. Pronouns they.
+    Seen when benchSitting().
+  }
+  Observe bench_scene at guild_hall when benchSitting() "The Bench is sitting: five aldermen in blue gowns along the dais, Gidley in the middle, the clerk Inchbold at a little desk below with the Remonstrance before him, and the public benches full of carters with their caps on their knees, and the Hill's wives in the gallery with their fans. Gidley is reading the Remonstrance aloud. It is very long, and it is against the toll in every particular, and it ends: the Company remaining, notwithstanding, the lord's loyal farmers of the same.".
+  Query canMove(a: group) means benchSitting() and at(a, guild_hall).
+  Action move_release(actor: group, site: place) "Rise, and move that the dead be released from the rail" {
+    Requires able(actor) and company(actor) and at(actor, site) and canMove(actor) and not moved(motion_release).
+    Time 1.
+    On success { Assert moved(motion_release). }
+    Result "There is a silence on the dais, and then a great deal of shuffling. Alderman Pocock says that it would be very unwise, at such a time, for the Company to be seen to dictate to the lord's officers. Alderman Dunch says the lord might take it amiss. Gidley says, with real tears, that his heart is with you, wholly, and the motion is put, and fails, four to one, the one being nobody: Gidley abstains, from emotion.".
+  }
+  Rule release_carried when moved(motion_release) and honoriaLobbies(honoria) and not clauseRelease(wray) says "And then, from the gallery, a woman's voice, quite clear: 'Prosper.' Alderman Gidley looks up at his wife among the fans. He looks for a long time. Then he stands, and says that on reflection he will vote, and that he votes for the motion, and Alderman Pocock, who owes him money, votes with him, and so does Alderman Dunch, who owes Pocock. It passes, three to two. The carters' benches do not cheer. They do not know what to do." { Assert clauseRelease(wray). }
+  Action move_charity(actor: group, site: place) "Rise, and move that the dead be commended to the Liberty's charity, at the Liberty's charge, the Company's rights being reserved" {
+    Requires able(actor) and company(actor) and at(actor, site) and canMove(actor) and knows(actor, bench_rule) and not moved(motion_charity).
+    Time 1.
+    On success { Assert moved(motion_charity). Assert clauseCharity(wray). }
+    Result "You put it as Inchbold would: the dead commended to the Liberty's charity, at the Liberty's charge, the Company's rights in all things being reserved and its loyalty to the lord unquestioned. There is a pause while the Bench looks for what it costs. It costs nothing. Gidley's face lights up. 'Charity,' he says, 'at the Liberty's charge,' and the motion is carried by acclamation, and the Bench congratulates itself at some length on its humanity. Inchbold writes it in. He looks up at you once, with something like professional respect.".
+  }
+  Action move_toll(actor: group, site: place) "Rise, and move that the toll be lifted" {
+    Requires able(actor) and company(actor) and at(actor, site) and canMove(actor) and not moved(motion_toll).
+    Time 1.
+    On success { Assert moved(motion_toll). }
+    Result "The Bench laughs. Not unkindly: the way you laugh at a child who has asked why the sea is salt. Alderman Pocock wipes his eyes. 'The Company,' says Gidley, 'is the city's shield against the toll,' and the motion is not put. On the carters' benches a man says something very short, and is not hushed.".
+  }
+  Action move_audit(actor: group, site: place) "Rise, and move that the Company's accounts of the toll be laid open to the city" {
+    Requires able(actor) and company(actor) and at(actor, site) and canMove(actor) and knows(actor, fire_pinch) and not moved(motion_audit).
+    Time 1.
+    On success { Assert moved(motion_audit). Assert clauseAudit(wray). Assert pinchExposed(wray). Increase temper(wray) by 1. }
+    Result "You say why: the oil flask in the ash, the shirt, the day-book. The hall goes so quiet you can hear the clock. Gidley stands up, purple, and says that the Company has nothing to hide, nothing, and that if its servant has robbed it the Company will be the first to know, and the motion is carried, and only afterwards, in the arcade, does he seem to understand what he has voted for. The carters' benches empty into the Market shouting PINCH.".
+  }
+  // At two, the Bench rises; if nobody moved anything of use, the clerk's clause is read in.
+  Rule bench_rises when secondDay() and hour(clock) >= 14 and not benchRose(wray) { Assert benchRose(wray). }
+  Rule worse_clause when benchRose(wray) and not clauseCharity(wray) and not clauseRelease(wray) and not clauseWorse(wray) and inWrayford() says "At two the Bench rises. The Remonstrance goes to the lord with one clause added at the end, which the clerk read in and nobody opposed: that the dead remain upon the rail until the Company's loss in the riot shall have been reckoned by the lord's captain, the Company's claims being thereby secured. The reeve, it is said, read it in his court with his face like a shut door." { Assert clauseWorse(wray). Decrease hulmeMoved(hulme) by 1. }
+
+  // ── The Liberty's charity: the dead released lawfully, before the captain ────────────────────────────────────────
+  Query crossingLawful() means ruling(ruled_tithe) or pinchExposed(wray) or pinchGone(pinch) or ruling(ruled_carcass).
+  Query benchLeave() means clauseCharity(wray) or clauseRelease(wray).
+  Relation releaseUnderway(place). Relation reeveRelease(place). Relation releasedBy(place, entity).
+  Entity by_charity: fact "the Liberty's charity". Entity by_reeve: fact "the reeve's own word". Entity by_captain: fact "the captain's leave".
+  Action lay_before_reeve(actor: group, site: place) "Lay before the reeve the Bench's leave, the Abbess's claim, and the ruling at the chain" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hulme, site) and stillHanging() and not captainCome()
+      and benchLeave() and abbessClaims(abbess) and crossingLawful() and not releaseUnderway(wray).
+    Time 1.
+    On success { Assert releaseUnderway(wray). Assert lawfulRelease(wray). Assert releasedBy(wray, by_charity). }
+    Result "He reads the Abbess's letter, and the Bench's clause in Inchbold's copperplate, and the line in Pinch's tally, slowly, all three, twice. Then he puts them square on the desk, edge to edge, the way a clerk does. 'Cover,' he says. 'There it is.' He does not look pleased. He looks like a man who has been let off something and knows it. He calls his constable. 'Cut them down,' he says. 'Give them to the Abbess's brothers at the chain. They cross as the Liberty's tithe, by the Bench's leave.' And then, to you, so low you barely hear it: 'Thank you.'".
+  }
+  // The reeve's own word, moved far enough by people and not by papers: he does it himself, by day, and will answer
+  // for it to the captain.
+  Rule reeve_relents when hulmeMoved(hulme) >= 3 and stillHanging() and not captainCome() and not releaseUnderway(wray)
+    and hour(clock) >= 9 and hour(clock) < 18 and inWrayford() says "In the middle of the day Simon Hulme comes out of the Guildhall alone, without his chain of office, and walks down to the Bridge End, and the crowd parts for him. He goes up the gate-ward's stair. Gault meets him at the top and says something, and the reeve says something back, and Gault stands aside. And the reeve of Wrayford cuts the three down from the rail with his own knife, one by one, and hands them down to the carters below, and comes down after them, and goes back up the Cartway to the Guildhall, and shuts the door." {
+    Assert releaseUnderway(wray). Assert reeveRelease(wray). Assert releasedBy(wray, by_reeve). }
+  // Once released, by day: carried over, graves dug, buried.
+  Rule release_takes_down when releaseUnderway(wray) and stillHanging() { Assert state(rail, cut). Assert takenDown(wray).
+    Assert at(wat_dead, wades_acre). Assert at(dunstan_dead, wades_acre). Assert at(joss_dead, wades_acre). Assert corbinWillDig(wray). }
+  Rule release_graves when releaseUnderway(wray) and state(graves, marked) and corbinResigned(corbin) { Assert state(graves, dug). }
+  Rule release_buries when releaseUnderway(wray) and state(graves, dug) and not buried(wat_dead) says "In Wade's Acre, in the afternoon, the three are buried by the church door, with Wrayford standing round the wall and on the wall and on the roofs of the tan-yards. The Abbess says the office herself." {
+    Assert buried(wat_dead). Assert buried(dunstan_dead). Assert buried(joss_dead). Assert buriedLawfully(wray).
+    Assert at(wat_dead, limbo). Assert at(dunstan_dead, limbo). Assert at(joss_dead, limbo). }
+
+  // ── The two mothers ───────────────────────────────────────────────────────────────────────────────────────────────
+  Relation jennetKnowsTruth(group). Relation mothersMet(place). Relation mothersWalk(place). Relation mothersWalked(place).
+  Relation mothersTurnedBack(place). Measure walkDay(place).
+  Rule jennet_learns_from_kit when kitToldJennet(jennet) and not jennetKnowsTruth(jennet) { Assert jennetKnowsTruth(jennet). }
+  // Told by someone she trusts, she keeps it; by someone she does not, she goes to the reeve.
+  Rule jennet_keeps when jennetTold(jennet) and jennetTrust(jennet) >= 3 and not jennetKnowsTruth(jennet) and not kitInformedOn(kit) { Assert jennetKnowsTruth(jennet). }
+  Rule jennet_goes_to_reeve when jennetTold(jennet) and jennetTrust(jennet) < 3 and not kitInformedOn(kit) and not jennetKnowsTruth(jennet) says "Jennet Hobday walks up the Cartway to the Guildhall and asks for the reeve, and is with him an hour. In the evening the riders take Kit Pardoe from the yards." {
+    Assert kitInformedOn(kit). Assert kitTaken(kit). Assert at(kit, guild_cellar). Decrease kitTrust(kit) by 5. }
+  Relation kitInformedOn(group).
+  Observe jennet_after_tell at hobday_room when jennetTold(jennet) and jennetTrust(jennet) >= 3 and not kitToldJennet(jennet) "Jennet Hobday sits by the bed with her hands in her lap. 'He lifted him in,' she says, not to you. 'He lifted him in like something precious and drove for the bone-setter.' She says it again, as if learning it. 'You've sat with me,' she says. 'I'll not hang a boy for this. I've had enough of hanging.'".
+  Action bring_jennet(actor: group, site: place) "Ask Jennet Hobday to come with you to Wain Row, and sit with Maudie Pardoe" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hobday_room) and at(jennet, hobday_room)
+      and jennetKnowsTruth(jennet) and jennetTrust(jennet) >= 3 and stillHanging() and not mothersMet(wray) and not captainCome().
+    Time 6.
+    On success { Assert mothersMet(wray). Set walkDay(wray) to dayN(wray) + 1. }
+    Result "She looks at the bed for a long time. Then she puts on her shawl. You walk with her the length of Bridge Street and up the Cartway and down Wain Row, and people stop in their doorways to watch the toll-keeper's widow go to the carter's widow's door. Maudie Pardoe opens it with flour on her hands. The two women look at each other. Then Maudie stands aside, and Jennet goes in, and the door shuts, and you are not asked in, and you do not ask. After an hour Maudie comes to the door and says to you, quite briskly, as if arranging a wash-day: 'In the morning. Both of them. Over the bridge, in the light, with the city behind us. And let them stop us.'".
+  }
+  // The morning after: if the city is behind them, nobody stops them.
+  Rule mothers_set_out when mothersMet(wray) and dayN(wray) >= walkDay(wray) and hour(clock) >= 8 and stillHanging() and not mothersWalk(wray) and not captainCome() and temper(wray) >= 2 {
+    Assert mothersWalk(wray). Assert releaseUnderway(wray). Assert releasedBy(wray, by_charity). Assert mothersWalked(wray). Assert corbinWillDig(wray). }
+  Rule mothers_turned when mothersMet(wray) and dayN(wray) >= walkDay(wray) and hour(clock) >= 8 and hour(clock) < 9 and stillHanging() and not mothersWalk(wray) and temper(wray) < 2 and not mothersTurnedBack(wray) says "In the morning the two widows walk down the Cartway together to the Bridge End with a handful of neighbours behind them, and at the gate-ward's door Sergeant Gault meets them and says, not unkindly, 'Not on my watch, mothers. Go home.' There are not enough of them. They go home. But by noon the whole of Wrayford has heard of it." {
+    Assert mothersTurnedBack(wray). Increase temper(wray) by 1. Set walkDay(wray) to dayN(wray) + 1. }
+  Rule mothers_walk_told when mothersWalk(wray) and inWrayford() and not spread(mothers_fact) says "In the morning Maudie Pardoe and Jennet Hobday walk down the Cartway together to the Bridge End, arm in arm, in black, and behind them comes Wrayford: Wain Row and Northgate, the yards, the Shambles, the fish-wives from the Wharf, Annis Pye with her fist shut, Win Fenner with four children, people from the Hill with their hats in their hands, so many that the Bridge End will not hold them and they stand back up the Cartway to the Cross. At the gate-ward's door Sergeant Gault looks at them for a long time. Then he takes his key off his belt and unlocks the door himself, and stands aside, and says to his riders, 'Let them be.' The toll-keeper's widow goes up first. When the three come down from the rail it is into the arms of the city, and they cross the bridge on carters' shoulders, and Amos Pinch, at the chain, lifts it without a word, and does not write anything down. Behind them, carried on a hurdle, comes Ned Hobday." { Assert spread(mothers_fact). }
+  Entity mothers_fact: fact "The two mothers walked".
+  Rule ned_buried when mothersWalked(wray) and buried(wat_dead) and not nedBuried(jennet) { Assert nedBuried(jennet). }
+  Relation nedBuried(group).
+  Rule ned_buried_lawful when buriedLawfully(wray) and not nedBuried(jennet) and corbinWillDig(wray) { Assert nedBuried(jennet). }
+  Rule hulme_resigns when mothersWalked(wray) and buried(wat_dead) and not hulmeResigned(hulme) and hour(clock) >= 18 says "In the evening the reeve of Wrayford takes off his chain of office in the Guildhall before the Bench, and lays it on the long table, and goes home." { Assert hulmeResigned(hulme). }
+  Relation hulmeResigned(group).
+}

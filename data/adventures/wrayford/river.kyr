@@ -1,0 +1,115 @@
+Module wrayford "The Third Night" {
+  // ── The Wharf ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe wharf_scene at wharf when not dark() and not visitedBefore(wharf) "The Wharf runs along the river west of the bridge: warehouses with hoists, barges tied two deep, eel-traps, nets drying, a smell of tar and river. Downstream the bridge goes over on its arches, and the water piles up white against the cutwaters and goes through roaring.".
+  Observe wharf_again at wharf when not dark() and visitedBefore(wharf) "The Wharf: warehouses, barges, the bridge's arches downstream.".
+  Observe wharf_night at wharf when dark() "The Wharf at night: barge-lamps on the black water, and the noise of the river through the arches.".
+  Observe arches_scene at under_arches when not dark() "The bank under the bridge's first arch: a strip of mud and stones where the city's boys fish and its drunks sleep, and the great pier going up out of the water beside you into the shadow, green to a man's height and red stone above. High overhead, the gatehouse parapet. Out from the bank, under the brown water, you can just make out a line of big squared stones going across: the old ford.".
+  Observe arches_night at under_arches when dark() and not lowWater() "Under the first arch at night the river is loud and close and black, and the pier goes up into the dark. High above, the red glow of the riders' brazier on the gatehouse leads.".
+  Observe arches_low at under_arches when dark() and lowWater() "The mills have the river penned, and the Wray under the first arch has dropped and quietened. Across from the bank, a line of square stones stands just under the water, pale in the dark, going over toward the tan-yards on the far side.".
+  // The ford: a deep step halfway, where the stones are gone, that has drowned men.
+  Hazard ford_step "The deep step in the old ford" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Thing deep_step "the deep step in the ford" on ford {
+    State deep dangerous "Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast.".
+  }
+  Initially Assert state(deep_step, deep).
+  Discovery ford_way "The old ford goes across the Wray under the first arch from the north bank to the tan-yards, on squared stones, in the small hours when the river is penned. Halfway, two stones are gone, and the way is upstream of the gap, along the pier's foot.".
+  // The beasts know it; a woodsman can read it; anyone else risks the step.
+  Action read_ford(actor: group, site: place) "Read the ford by the sound of the water, and cross upstream of the deep step" {
+    Description "Where the water talks it is shallow; where it goes quiet it is deep.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, under_arches) and lowWater() and capable(actor, woodcraft).
+    Time 3.
+    On success { Retract at(actor, under_arches). Assert at(actor, tanyards). Assert knows(actor, ford_way). }
+    Result "You go slowly, listening: where the water chatters over stone it is a foot deep, and where it goes smooth and quiet it is not. Halfway, it goes quiet in front of you, and you go up along the foot of the pier instead, with the cold to your thighs, and come out on the far side among the tan-pits with the stink of the yards in your nose and the city behind you.".
+  }
+  Action follow_ford(actor: group, site: place) "Cross the ford upstream of the deep step, as you were told" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, under_arches) and lowWater() and knows(actor, ford_way)
+      and not capable(actor, woodcraft).
+    Time 3.
+    On success { Retract at(actor, under_arches). Assert at(actor, tanyards). }
+    Result "You find the stones with your feet, one after another, and when the water goes deep and quiet in front of you, you remember, and go up along the pier's foot instead, and come out among the tan-pits on the far side wet to the waist.".
+  }
+  Action follow_ford_back(actor: group, site: place) "Cross the ford back to the city, upstream of the deep step" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tanyards) and lowWater() and (knows(actor, ford_way) or capable(actor, woodcraft)).
+    Time 3.
+    On success { Retract at(actor, tanyards). Assert at(actor, under_arches). }
+    Result "Back over the stones in the dark, up along the pier's foot past the gap, and out under the first arch.".
+  }
+
+  // Ham Ostler's drive, in the small hours of the second night: sixty head over the ford, and anyone who comes.
+  Relation hamDriving(group). Relation hamDrove(group). Relation hamGrateful(group).
+  Query driveHour() means secondDay() and hour(clock) >= 1 and hour(clock) < 3.
+  Rule ham_drives when driveHour() and not hamDrove(ham) and not hamDriving(ham) and not cartersTaken(ham) { Assert hamDriving(ham). Assert at(ham, under_arches). }
+  Rule ham_done when (secondDay() and hour(clock) >= 3 and hour(clock) < 6 or dayN(wray) >= 3) and hamDriving(ham) { Retract hamDriving(ham). Assert hamDrove(ham). Assert at(ham, tanyards). }
+  Rule ham_back when dayN(wray) >= 3 and hour(clock) >= 7 and hamDrove(ham) and at(ham, tanyards) { Retract at(ham, tanyards). Assert at(ham, shambles). }
+  Observe ham_herd at under_arches when hamDriving(ham) "Ham Ostler is here in the dark with his crook, and behind him, filling the bank and the lane down to it, sixty head of fell cattle breathing like a congregation. His old cow stands at the water's edge with her nose down to it.".
+  Action drive_with_ham(actor: group, site: place) "Go over the ford with Ham and his beasts" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, under_arches) and hamDriving(ham) and at(ham, under_arches).
+    Time 3.
+    On success { Retract at(actor, under_arches). Assert at(actor, tanyards). Assert knows(actor, ford_way). Assert hamGrateful(actor). }
+    Result "The old cow goes in first, and the rest after her, and you go in among them with your hand on a warm wet flank. She knows the way: halfway, where the water goes deep and quiet, she turns upstream along the foot of the pier without being asked, and the herd turns after her like one animal. You come out among the tan-pits on the far side in a steam of cattle, and Ham Ostler laughs in the dark. 'Five shillings,' he says. 'Five shillings the Company'll not have. I'll stand you a drink at Michaelmas.'".
+  }
+
+  // ── Dorcas Mudd ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe stage_scene at ferry_stage when not dark() and not visitedBefore(ferry_stage) "The ferry-stage: a jetty of black piles with a ferry-boat tied to it, broad and old and very well kept, and a hut with a stove-pipe. A painted board: MUDD'S FERRY. BY CHARTER. OVER THE WRAY SINCE BEFORE THAT BRIDGE. ONE PENNY. And under it, smaller and newer: NO FARTHINGS.".
+  Observe stage_again at ferry_stage when not dark() and visitedBefore(ferry_stage) "The ferry-stage: the black jetty, the broad boat, MUDD'S FERRY. BY CHARTER.".
+  Observe stage_night at ferry_stage when dark() "The ferry-stage at night: the boat drawn up, a lamp in the hut window.".
+  Person dorcas "Dorcas Mudd" at ferry_stage {
+    Role "mistress of the ferrymen's company, broad as her boat". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "Dorcas Mudd looks you up and down from the stern of her boat. 'Over?' she says. 'A penny. Not a farthing. I'm not a bridge.'".
+    Sells rope for 1 coin from 3.
+  }
+  Rule dorcas_sleeps when (hour(clock) >= 23 or hour(clock) < 5) and not asleep(dorcas) and not ferriesAtNight(party) { Assert asleep(dorcas). }
+  Rule dorcas_wakes when hour(clock) >= 5 and hour(clock) < 23 and asleep(dorcas) { Retract asleep(dorcas). }
+  Discovery ferry_charter "Dorcas Mudd holds that by the ferrymen's charter, which is older than the bridge, whatever is on the Wray between the stairs is the ferry's until it is landed: not the lord's, not the city's, not the Liberty's.".
+  Topic dorcas_bridge with dorcas "Ask Dorcas Mudd about the bridge" when true once {
+    Says "'That.' She does not look at it. 'My great-grandfather had six boats on this river and a house on the Hill. Then they built that, and he had one boat and a hut.' She spits over the side. 'Charter's older. Whatever's on the Wray between the stairs is the ferry's till it's landed. Not the lord's, not the reeve's, not her ladyship's over the water. Mine.' She looks up at the gatehouse. 'Including anything that might fall off it.'".
+    On discuss { Assert knows(actor, ferry_charter). }
+  }
+  Relation dorcasTerms(group). Relation corbinTerms(group).
+  Topic dorcas_dead with dorcas "Ask Dorcas whether she would carry the dead over the river" when knows(actor, dead_on_rail) once {
+    Says "'For nothing,' she says at once. 'Gladly. At night, under the rail, if somebody'll get them down to me. I'd row the three of them to the Acre steps and spit on the bridge as I went.' Then her face shuts. 'When that old fool at the Acre asks me himself. Corbin. Forty years he's not asked me for anything, and he'll not start now, and I'll not row his dead for him till he does.' She coils a rope very hard. 'He won't.'".
+    On discuss { Assert dorcasTerms(actor). }
+  }
+  // Two old people across the water, and the messages carried between them.
+  Relation dorcasLied(group). Relation corbinLied(group). Relation corbinAsked(group). Relation reconciled(place).
+  Relation dorcasCarries(group). Relation corbinDigs(group). Relation boatArranged(group).
+  Action tell_dorcas_lie(actor: group, site: place) "Tell Dorcas that Corbin says she is the only one on the river he'd trust with them" {
+    Description "He said nothing of the kind.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ferry_stage) and at(dorcas, ferry_stage)
+      and dorcasTerms(actor) and corbinTerms(actor) and not dorcasLied(actor) and not reconciled(wray) and not triedDorcasLie(actor).
+    Time 2 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert dorcasLied(actor). }
+    On failure { Assert triedDorcasLie(actor). }
+    Result "She goes very still in the stern of her boat. 'He said that?' She looks across the water at the Acre wall. 'The old goat.' She coils the rope again, quite gently this time. 'Well. If he's said it, he can say it to my face, at the stage, and I'll row them.'".
+    Otherwise "She looks at you with great contempt. 'Corbin never said that in his life,' she says. 'Corbin doesn't know that many words.'".
+  }
+  Relation triedDorcasLie(group). Relation triedCorbinLie(group).
+  // Both told a kind lie: that evening, at the hour they quarrel, they meet instead.
+  Rule they_meet when dorcasLied(party) and corbinLied(party) and hour(clock) == 20 and not reconciled(wray) says "At the hour when Dorcas Mudd and Corbin usually shout at each other across the river, there is no shouting. Instead Dorcas rows over to the Acre steps, and Corbin comes down them, and they stand a yard apart for some time. Then, carried clearly over the water to both banks: 'You never said that.' 'No. Did you?' 'No.' A long silence. 'Well.' 'Well.' And then something you cannot hear, and Dorcas laughs, which nobody in Wrayford has heard her do in years, and Corbin takes his hat off." {
+    Assert reconciled(wray). Assert dorcasCarries(party). Assert corbinDigs(party). }
+  Action corbin_asks(actor: group, site: place) "Persuade Corbin to row over and ask Dorcas himself" {
+    Description "It will take some doing.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_acre) and at(corbin, wades_acre)
+      and dorcasTerms(actor) and corbinTerms(actor) and not reconciled(wray) and not corbinAsked(actor) and not triedCorbinAsk(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert corbinAsked(actor). Assert reconciled(wray). Assert dorcasCarries(actor). Assert corbinDigs(actor). }
+    On failure { Assert triedCorbinAsk(actor). }
+    Result "It takes half an hour, and he calls you several things, and then he says, 'Fine. Fine,' and puts his hat on, and goes down the Acre steps to the water, and shouts across it, 'Dorcas Mudd! Will you row Wat Pardoe over for me, for I can't do it myself!' And across the water, after a very long time, Dorcas Mudd's voice: 'Since you ask.'".
+    Otherwise "'Ask her,' says Corbin. 'Ask her. Me.' He turns his back on you and looks at the river.".
+  }
+  Relation triedCorbinAsk(group).
+  Topic dorcas_boat with dorcas "Ask Dorcas to bring the boat under the gatehouse rail at two in the morning" when dorcasCarries(actor) and not boatArranged(actor) once {
+    Says "'Two,' she says. 'When the mills have it penned and it runs quiet.' She looks up at the gatehouse. 'I'll lie under the first arch with the lamp shut. Lower them down to me on a rope, gently, one at a time, and come down after. If anybody's awake on those leads, don't.'".
+    On discuss { Assert boatArranged(actor). Assert ferriesAtNight(actor). }
+  }
+  Observe boat_waiting at under_arches when boatArranged(party) and lowWater() and not boatGone(party) "Out on the black water, just off the pier, a broad shape with no light in it: Dorcas Mudd's boat, lying to her oars.".
+  Relation boatGone(group).
+
+  // ── The quarrel at dusk ───────────────────────────────────────────────────────────────────────────────────────────
+  Rule dusk_quarrel at ferry_stage when hour(clock) == 20 and not reconciled(wray) and not quarrelled(wray) and at(dorcas, ferry_stage) says "Across the water, at the Acre wall, an old man in a black coat climbs up on the wall and shouts something at the ferry-stage. Dorcas Mudd stands up in her boat and shouts something back. It goes on for a while. Nobody on the Wharf looks up; it has gone on every evening for forty years." { Assert quarrelled(wray). }
+  Rule dusk_quarrel_south at wades_acre when hour(clock) == 20 and not reconciled(wray) and not quarrelled(wray) says "Corbin climbs up on the Acre wall, cups his hands, and shouts across the river at the ferry-stage, 'DORCAS MUDD, YOUR BOAT LEAKS.' From the far bank, small and clear: 'YOUR GRAVES ARE CROOKED.' He gets down, satisfied." { Assert quarrelled(wray). }
+  Relation quarrelled(place).
+  Rule quarrel_over when hour(clock) == 21 and quarrelled(wray) { Retract quarrelled(wray). }
+}

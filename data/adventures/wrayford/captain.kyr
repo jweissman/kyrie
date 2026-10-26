@@ -1,0 +1,93 @@
+Module wrayford "The Third Night" {
+  // ── The captain ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Lys Sefton, the lord's captain, comes up the south road at dusk on the third day with her riders, sups with the
+  // Bench in the Guildhall, and gives her verdict on the fourth morning: is Wrayford in rebellion?
+  Person sefton "Captain Lys Sefton" at limbo {
+    Role "the lord's captain, in a grey riding-coat with the lord's badge". Ancestry human. Calling warrior. Level 6. Peaceable. Pronouns she. Manner stoic.
+    Greets "Captain Sefton looks at you as if you were a road she had to decide whether to take.".
+  }
+  Person troop "the captain's riders" at limbo {
+    Role "a dozen of the lord's riders, dusty from the road". Ancestry human. Calling warrior. Level 3. Numbers 6. Peaceable. Pronouns they.
+  }
+  Initially Assert takesPrisoners(sefton). Initially Assert takesPrisoners(troop).
+  Rule riders_sighted when thirdDay() and hour(clock) >= 12 and not spread(sighted_fact) and inWrayford() says "At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south." { Assert spread(sighted_fact). }
+  Entity sighted_fact: fact "Riders sighted".
+  // On the south road in the late afternoon, ahead of her own arrival.
+  Rule captain_on_road when thirdDay() and hour(clock) >= 15 and hour(clock) < 19 and at(sefton, limbo) { Assert at(sefton, south_road). Assert at(troop, south_road). }
+  Rule captain_arrives when captainCome() and not captainHere(wray) { Assert captainHere(wray). Assert at(sefton, guild_hall). Assert at(troop, gate_road). }
+  Relation captainHere(place).
+  Rule captain_told when captainHere(wray) and inWrayford() and not spread(arrived_fact) says "At dusk the captain rides in over the drawbridge with her riders behind her, and does not look up at the gatehouse as she passes under it, and goes to the Guildhall, where the Bench has laid supper." { Assert spread(arrived_fact). }
+  Entity arrived_fact: fact "The captain arrived".
+  Rule captain_sups when captainHere(wray) and hour(clock) >= 19 and hour(clock) < 23 and not at(sefton, guild_hall) and not verdictGiven(wray) { Assert at(sefton, guild_hall). }
+  Rule captain_retires when captainHere(wray) and (hour(clock) >= 23 or hour(clock) < 7) and not at(sefton, hulme_study) and not verdictGiven(wray) { Assert at(sefton, hulme_study). }
+  Rule captain_court when fourthDay() and hour(clock) >= 7 and not at(sefton, guild_hall) and not verdictGiven(wray) { Assert at(sefton, guild_hall). }
+  Observe supper_scene at guild_hall when captainHere(wray) and hour(clock) >= 19 and hour(clock) < 23 "The Bench's supper for the captain: candles down the long table, the aldermen in their best gowns, a swan nobody is eating, and at the head of the table a woman in a grey riding-coat with the road's dust still on it, eating bread and cheese and listening to Gidley with no expression at all. The reeve sits at her right hand and does not eat.".
+  Measure captainView(group). Initially Set captainView(sefton) to 0.
+  Relation captainMet(group). Relation captainPinch(group). Relation captainFuneral(group). Relation companyOffersKit(place).
+  Discovery captain_question "Captain Sefton has one question for Wrayford: is it in rebellion? Ten hanged for every rider hurt, and the carters' row burned, if it is; the toll money taken and her riders home if it is not.".
+  Topic sefton_road with sefton "Ask the captain what she means to do in Wrayford" when not verdictGiven(wray) once {
+    Says "'Find out whether Wrayford is in rebellion.' She does not slow her horse, or her voice. 'If it is, I have a warrant for ten for every rider hurt and the carters' row burned to the stones, and I will do it. If it is not, I will take the lord's toll money and go home, and be glad.' She looks at you for the first time. 'I would rather go home. People think a captain likes a burning. Nobody likes a burning.'".
+    On discuss { Assert knows(actor, captain_question). Assert captainMet(actor). }
+  }
+  Action meet_captain(actor: group, site: place) "Walk beside the captain's horse and tell her what Wrayford is, before the Bench does" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, south_road) and at(sefton, south_road) and captainMet(actor) and not triedCaptain(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Increase captainView(sefton) by 1. Assert triedCaptain(actor). }
+    On failure { Assert triedCaptain(actor). }
+    Result "You walk at her stirrup for a mile and tell her: the carters broke a chain and threw a board in the river; a boy died under a cart in the press; three men hanged on the road without a court; a widow who means to bury her husband; a city that would rather bury its dead than burn. She does not say anything. At the last milestone she says, 'Thank you. I'll see for myself,' and you understand that you have been listened to.".
+    Otherwise "She listens to the first sentence and then says, 'I'll see for myself,' and touches her horse, and you are walking alone.".
+  }
+  Relation triedCaptain(group).
+  Action tell_captain_fire(actor: group, site: place) "Tell the captain at supper that there was no rising: a riot, and a thief" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, guild_hall) and at(sefton, guild_hall) and knows(actor, fire_pinch)
+      and (carries(actor, daybook) or pinchExposed(wray)) and not captainPinch(actor).
+    Time 1.
+    On success { Assert captainPinch(actor). Increase captainView(sefton) by 2. Assert pinchExposed(wray). }
+    Result "You tell her about the flask in the ash, and the shirt, and the day-book, and what is in it, and when you have finished she turns, slowly, to look down the table at Alderman Gidley, who has gone the colour of the swan. 'So the carters broke a chain,' she says, 'and threw your board in the river, and your collector burned your toll-house to hide that he was robbing you.' She puts her bread down. 'That is not a rising, Alderman. That is a riot, and a thief.' Nobody at the table says anything at all.".
+  }
+  Action tell_captain_funeral(actor: group, site: place) "Tell the captain that Wrayford will bury its dead, not burn" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, guild_hall) and at(sefton, guild_hall) and not captainFuneral(actor)
+      and (buried(wat_dead) or mothersMet(wray) or releaseUnderway(wray)).
+    Time 1.
+    On success { Assert captainFuneral(actor). Increase captainView(sefton) by 1. }
+    Result "She hears you, and looks at the reeve, who nods without lifting his eyes. 'A funeral,' she says. 'Not a rising.' She seems to think about it. 'I've seen both. I know the difference.'".
+  }
+  // The Company, at supper, offers the captain a live ringleader for the lord's justice: the boy, if it knows of him.
+  Rule company_offers when captainHere(wray) and hour(clock) >= 20 and (bargainMade(party) or kitExposed(wray)) and not companyOffersKit(wray) and not kitTaken(kit) and not travelsWith(kit, party) says "Word comes out of the Guildhall supper: Alderman Gidley has told the captain, with tears, that the true driver of the cart was Wat Pardoe's son, and that the Company would think it a great mercy to the city if the lord's justice took the boy alive. The riders go to the yards for Kit Pardoe." {
+    Assert companyOffersKit(wray). Assert kitTaken(kit). Assert at(kit, guild_cellar). }
+
+  // ── The third night: the reeve, too late; the carters, rising ─────────────────────────────────────────────────────
+  Relation reeveLate(place). Relation tooLate(place). Relation riseNight(place).
+  Rule reeve_goes_late when hulmeMoved(hulme) >= 3 and captainCome() and stillHanging() and thirdDay() and hour(clock) >= 3 and hour(clock) < 6 and not reeveLate(wray) and not releaseUnderway(wray) {
+    Assert reeveLate(wray). }
+  Rule reeve_late_finds when reeveLate(wray) and maudieTaken(maudie) and not tooLate(wray) says "In the small hours Simon Hulme comes down the Cartway to the Bridge End alone, without a lantern, with a knife in his hand, to cut his cousin's husband down from the rail against the captain's word and answer for it. He is a quarter of an hour behind Maudie Pardoe. He stands under the gatehouse arch and looks at the empty step where the riders took her, and the riders look down at him from the leads, and nobody says anything at all." { Assert tooLate(wray). }
+  Rule reeve_late_cuts when reeveLate(wray) and not maudieTaken(maudie) and stillHanging() says "In the small hours Simon Hulme comes down the Cartway to the Bridge End alone with a knife in his hand, and goes up the gate-ward's stair past the captain's riders, who do not stop the reeve, and cuts the three down himself, against the captain's word, and has them carried over the bridge at first light." {
+    Assert releaseUnderway(wray). Assert reeveRelease(wray). Assert releasedBy(wray, by_reeve). }
+  // With his mother in the cellar and his father on the rail, Kit takes the young carters to the gatehouse, unless he
+  // is held, or with you, or has given his word.
+  Rule carters_rise when maudieTaken(maudie) and stillHanging() and not kitTaken(kit) and not travelsWith(kit, party) and not kitStoodDown(kit) and thirdDay() and hour(clock) >= 4 and hour(clock) < 6 and not riseNight(wray) says "Before dawn the carters' yards empty. Kit Pardoe goes down the Cartway at the head of thirty men with cart-staves and torches, to the gatehouse where his mother was taken, and the captain's riders meet them at the Bridge End." {
+    Assert riseNight(wray). }
+
+  // ── The verdict ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // At nine on the fourth morning, in the Guildhall. Rebellion is fire raised, or riders beaten, or a rising at the gate.
+  Relation verdictGiven(place). Relation verdictRebellion(place). Relation verdictOrder(place).
+  Relation countingBurned(place). Relation ridersBeaten(place). Relation kitHanged(group). Relation maudieHanged(group).
+  Rule riders_beaten when (routed(riders) or not able(riders) or not able(gault)) and not ridersBeaten(wray) { Assert ridersBeaten(wray). }
+  Query rebellion() means countingBurned(wray) or ridersBeaten(wray) or riseNight(wray).
+  Rule verdict_rebellion when fourthDay() and hour(clock) >= 9 and not verdictGiven(wray) and rebellion() {
+    Assert verdictGiven(wray). Assert verdictRebellion(wray). }
+  Rule verdict_order when fourthDay() and hour(clock) >= 9 and not verdictGiven(wray) and not rebellion() {
+    Assert verdictGiven(wray). Assert verdictOrder(wray). }
+  // An example: whoever she holds for the decree, she hangs; whoever she holds for the cart, she takes to the lord.
+  Rule maudie_hanged when verdictGiven(wray) and maudieTaken(maudie) and not maudieHanged(maudie) and captainView(sefton) < 3 { Assert maudieHanged(maudie). }
+  Rule kit_hanged when verdictGiven(wray) and kitTaken(kit) and (kitSold(kit) or companyOffersKit(wray) or verdictRebellion(wray) or fireTried(wray) and not kitStoodDown(kit) and not kitTurned(kit) and not boardSunk(wray) or kitBlamed(kit)) and not kitHanged(kit) { Assert kitHanged(kit). }
+  // The company is let out of the cellar at the verdict, fined, and told to be gone by the south road; the captain
+  // has what she came for.
+  Rule cellar_released when verdictGiven(wray) and heldInCellar(party) says "At nine the cellar door opens and a rider takes you up into the long hall, where the captain is sitting in the reeve's chair. She looks at you for a long time. 'You did what you did,' she says. 'I have what I came for.' A fine is taken from your purse. 'Be on the south road by noon, and do not come back to the lord's bridge this year.' The riders walk you to the drawbridge." {
+    Retract heldInCellar(party). Assert at(party, overbridge_street). Assert banished(party). }
+  Relation banished(group).
+  Rule cellar_fine when banished(party) and not fined(party) { Assert fined(party). Decrease quantity(party, gold) by 5. }
+  Relation fined(group).
+  Rule halt_banished when banished(party) and at(party, gate_road) says "The captain's rider at the Bridge End shakes his head. 'Not this year,' he says." { Assert at(party, bridge_street). }
+}

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "city.kyr",
+    "pardoes.kyr",
+    "bridge.kyr",
+    "pitch.kyr",
+    "northgate.kyr",
+    "market.kyr",
+    "hill.kyr",
+    "river.kyr",
+    "liberty.kyr",
+    "night.kyr",
+    "fire.kyr",
+    "day.kyr",
+    "captain.kyr",
+    "endings.kyr",
+    "growth.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "wray",
+    "drove_road": "drove_road"
+  },
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "experience": 800
+}

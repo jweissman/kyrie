@@ -1,0 +1,328 @@
+Module wrayford "The Third Night" {
+  // ── The Market Cross ──────────────────────────────────────────────────────────────────────────────────────────────
+  Observe cross_scene at market_cross when not dark() and not visitedBefore(market_cross) "The Market is a sloping square with a stone cross in the middle where the hiring is done, the Guildhall along the top side with its clock and its arcade, and the Bridge Company's counting-house next to it, newly painted blue, with a bridge in gold over the door. The Mercer Steps go up behind to the Hill. Down Shambles Lane you can hear cattle, and smell them. On the Cross itself, on every post of the arcade, and on the counting-house door, the same printed sheet is pasted.".
+  Observe cross_again at market_cross when not dark() and visitedBefore(market_cross) "The Market Cross: the Guildhall clock, the blue counting-house, the sheets on every post.".
+  Observe cross_night at market_cross when dark() "The Market at night: the Guildhall clock lit, and a watchman sitting on the steps of the Cross.".
+  Observe cross_market_day at market_cross when not dark() and hour(clock) < 12 and (secondDay() or fifthDay()) "It is market day: farm carts, egg-women, a man with a bear on a chain (not the Overbridge bear; a smaller, more depressed one), and at the Cross the hiring, labourers standing with a tuft of wool or a whip in their hats for what they do.".
+  // The broadside on every post.
+  Discovery confession_read "Pasted on every post in the Market: THE TRUE AND LAST CONFESSION OF WAT PARDOE, CARTER, TAKEN ON THE FELL ROAD. 'I, Wat Pardoe, being led astray by Drink and the Devil and the Wicked Counsel of Others, did conspire against the Lord's Toll, which is a Just and Godly Toll, and did with my Cart run down an Innocent Youth, for which I am Heartily Sorry, and I Bless the Worshipful Company of the Bridge, who have been Ever Kind to Carters.' Printed by E. Quoin, Cutler's Lane. Price One Penny." {
+    Source broadside "the printed sheet on the Market Cross" at market_cross readable by party.
+  }
+  Relation confessionDown(place).
+  Observe sheets_down at market_cross when confessionDown(wray) and not dark() "The posts of the arcade are bare where the Confession was. Someone has scraped the last of it off the Cross with a knife.".
+
+  // ── The Guildhall ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe hall_scene at guild_hall when not visitedBefore(guild_hall) "The Guildhall's long hall: a hammer-beam roof, the city's arms in plaster, a long table on a dais where the Bench sits, and at the far end the reeve's chair and his clerk's desk, where he keeps court. Along one wall hang the portraits of fifty years of the Bridge Company, Masters and Wardens, in blue gowns, each more prosperous than the last. An easel stands at the end of the row.".
+  Observe hall_again at guild_hall when visitedBefore(guild_hall) "The Guildhall's long hall: the Bench's table, the reeve's chair, the row of blue-gowned portraits and the easel at the end.".
+  Observe cellar_scene at guild_cellar when true "The Guildhall cellar, which is the city's lockup: stone, straw, a bucket, a grating at the top of the wall that lets in the feet of people crossing the Market.".
+
+  // Tom Lumley's portrait of the present Bench, for the Bridge Feast.
+  Person lumley "Tom Lumley" at guild_hall {
+    Role "a painter, in a coat with paint on the elbows". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "Tom Lumley does not take his eyes off the canvas. 'If you're from the Company, I've not finished. If you're not, have you a shilling?'".
+  }
+  Rule lumley_drinks when hour(clock) >= 18 and hour(clock) < 23 and not at(lumley, wheels_taproom) { Assert at(lumley, wheels_taproom). }
+  Rule lumley_paints when hour(clock) >= 9 and hour(clock) < 18 and not at(lumley, guild_hall) { Assert at(lumley, guild_hall). }
+  Thing portrait "the Company's portrait" at guild_hall {
+    State sketched "On the easel, the present Bench of the Bridge Company, five aldermen in blue gowns round a table with a model of the bridge on it, blocked in and half painted. It is extremely good. Alderman Gidley is in the middle, with one hand on the model bridge as if blessing it and the other, which the painter has not finished, very near the money-box.".
+    State true_likeness "On the easel, the Bench of the Bridge Company, finished: five aldermen in blue gowns round the model bridge, each exactly himself, the soft hands, the good dinners, the small eyes and the large purses, and Gidley in the middle with one hand blessing the bridge and the other on the money-box, and on all their faces the same expression of men who have just been told something sad about other people.".
+    State flattering "On the easel, the Bench of the Bridge Company, finished: five noble aldermen, rather thinner than life, gazing into the distance over the model bridge with the look of men contemplating Sacrifice. The money-box has been painted out. There is a dove.".
+    State carried_off "The easel at the end of the row is empty.".
+  }
+  Initially Assert state(portrait, sketched).
+  Relation lumleyPaid(group). Relation gidleySat(group). Relation portraitBanner(place). Relation portraitHung(place).
+  Topic lumley_portrait with lumley "Ask Tom Lumley about the portrait" when state(portrait, sketched) once {
+    Says "'The Worshipful Company of the Bridge, for their new hall.' He mixes something on a plate. 'Ten crowns, on delivery, if they like it, by the Feast.' He looks at the canvas with dislike. 'They won't sit. They sat once, all together, for an hour, and talked about the carters, and I got all I need.' He adds a touch of red to Gidley's nose. 'I'm painting what I saw. What I saw is not what they'll pay for. I have the rent to find.' He looks at you sidelong. 'They'll vote for anything that costs them nothing, you know. I've watched them do it for three weeks. You could get the Bench to pass a vote of thanks to the Devil if he waived the fee.'".
+    On discuss { Assert knows(actor, bench_rule). }
+  }
+  Discovery bench_rule "The Bench of the Bridge Company will pass any motion that costs them nothing they can be seen to lose: not money, not face with the lord, not the toll. Phrased so, they will pass anything." {
+    Known by lumley, inchbold, abbess, pell.
+  }
+  Action sit_gidley(actor: group, site: place) "Keep Alderman Gidley talking by the easel while Tom Lumley paints him" {
+    Description "An hour of the Company's sacrifices, while the painter works.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, guild_hall) and at(gidley, guild_hall)
+      and at(lumley, guild_hall) and state(portrait, sketched) and not gidleySat(actor).
+    Time 6.
+    On success { Assert gidleySat(actor). Assert state(portrait, true_likeness). }
+    Result "You ask the Alderman about the Company's burdens, and he tells you, for an hour, standing by the easel, about the cost of the bridge's upkeep, the ingratitude of carters, the lord's unreasonable rent, and his own sleepless nights, with his hand on his heart. Behind him Tom Lumley paints like a man possessed. When Gidley at last goes off to his dinner, Lumley steps back from the canvas and looks at it and says, quite quietly, 'There. There he is.'".
+  }
+  Topic lumley_flatter with lumley "Tell Tom Lumley to paint them what they'll pay for" when state(portrait, sketched) once {
+    Says "He looks at you a long time with his brush in the air. 'The rent,' he says. 'Yes.' He picks up a rag and wipes out the money-box, and Gidley's nose, and everyone's chins, with a long sigh, as if he were drowning kittens. 'I'll put a dove in,' he says. 'They like a dove.'".
+    On discuss { Assert state(portrait, flattering). Assert lumleyPaid(lumley). }
+  }
+  Action carry_portrait(actor: group, site: place) "Carry the true portrait out to the carters' yards for a banner" {
+    Description "Lumley says it's his to sell, and he'll sell it for a pint to anyone who'll carry it where it'll be looked at.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, guild_hall) and state(portrait, true_likeness)
+      and not portraitHung(wray) and quantity(actor, gold) >= 1.
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 1. Assert state(portrait, carried_off). Assert portraitBanner(wray). Increase temper(wray) by 1. }
+    Result "Lumley takes your coin, and laughs, and helps you get it off the easel. You carry it down the Cartway with the paint still tacky and set it up against the wall of the carters' yards. Within the hour there is a crowd round it, and within two hours somebody has nailed it to a pair of cart-shafts so that it can be carried, and the carters are standing in front of it doing Gidley's face.".
+  }
+  // Gidley comes to see it before the Remonstrance, and weeps.
+  Rule gidley_sees_true at guild_hall when secondDay() and hour(clock) == 11 and state(portrait, true_likeness) and not portraitHung(wray) says "Alderman Gidley comes in to see the portrait before the Bench sits. He stands in front of it for a long time with his hands behind his back, and then his face begins to work, and he takes out a handkerchief. 'He has caught it,' he says, thickly. 'Our burden. Look at us. Look at our faces.' He blows his nose. 'It shall hang in the Guildhall at the Feast, where every carter in Wrayford can see what the Company has given.' He pays Lumley on the spot. Lumley takes the money as if it might go off." { Assert portraitHung(wray). Assert lumleyPaid(lumley). Increase temper(wray) by 1. }
+  Observe portrait_hung at guild_hall when portraitHung(wray) and state(portrait, true_likeness) "The true portrait of the Bench hangs at the end of the row now, framed in gilt, with a little brass plate: THE WORSHIPFUL COMPANY OF THE BRIDGE IN THE YEAR OF THE RIOT. Carters come into the hall on any excuse and stand in front of it with their caps off, very respectfully, shaking.".
+
+  // ── The Guildhall yard: the impounded carts ───────────────────────────────────────────────────────────────────────
+  Observe reeve_yard_scene at reeve_yard when not dark() "The Guildhall yard, behind the hall: the city's fire-cart, a stack of hurdles, and along the wall three carts drawn up with their shafts down and a chalked notice on each: IMPOUNDED. GOODS OF A FELON. Wilder's is a light cart. Fenner's is old. Wat Pardoe's has red wheels.".
+  Thing pardoe_cart "Wat Pardoe's cart" at reeve_yard {
+    State impounded "A big four-wheeled carter's wagon with red wheels and PARDOE, WAIN ROW painted on the board, impounded.".
+    State reclaimed "Wat Pardoe's cart, with the IMPOUNDED notice rubbed off.".
+  }
+  Initially Assert state(pardoe_cart, impounded).
+  Observe tailboard_told near pardoe_cart when tried(pardoe_cart, looking) "You go over it: the wheels first, because that is what everyone says. The wheels are clean. A wheel that had gone over a boy would not be clean, and nobody has washed these; there is the fell road's red mud dried on every spoke. Then the tailboard, and the bed of the cart behind it. There is blood there, a good deal of it, dried brown into the boards, along the length of the bed, where something was laid down and lay a long while. Not where a wheel goes. Where a boy is lifted in, and held." teaches tailboard_seen.
+  Discovery tailboard_seen "Wat Pardoe's cart was not washed, and its wheels are clean. The blood is in the bed of the cart, behind the tailboard: where a hurt boy was lifted in and laid down, not where a wheel went over one.".
+
+  // ── The Bridge Company's counting-house ───────────────────────────────────────────────────────────────────────────
+  Observe counting_scene at counting_room when true "A long counter, high desks, a smell of new paint and new ledgers, and over the inner door a painted board: WE BEAR THE CROSSING. The Company's motto. A strongbox with the bridge in gold on the lid. Behind the counter, a door to the collector's room.".
+  Person inchbold "Lancelot Inchbold" at counting_room {
+    Role "the Bridge Company's clerk, with ink to the second knuckle". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "Lancelot Inchbold finishes his line, sands it, and only then looks up, as if you were a sum he had been expecting.".
+  }
+  Topic inchbold_bench with inchbold "Ask the Company's clerk how the Bench decides things" when true once {
+    Says "'Gracefully.' He dips his pen. 'The Bench is a body of gentlemen of the greatest goodwill, who will agree to any proposal that does not cost them anything. I draft the proposals.' He does not smile, quite. 'You would be surprised what does not cost anything, phrased well. The Remonstrance against the toll is being moved tomorrow at noon in the hall. It costs nothing: the lord will not read it.' He writes. 'I wrote it.'".
+    On discuss { Assert knows(actor, bench_rule). Assert knows(actor, remonstrance_called). }
+  }
+  Discovery remonstrance_called "At noon on the second day the Bench of the Bridge Company meets in the Guildhall to move a Remonstrance to the lord against the bridge toll, which the Company itself farms. Citizens may attend, and move clauses." {
+    Known by inchbold, gidley, lumley, hulme, hal, pell.
+  }
+  Topic inchbold_confession with inchbold "Ask the clerk who wrote Wat Pardoe's confession" when knows(actor, confession_read) and knows(actor, quoin_named) once {
+    Says "Inchbold sands a line. 'A confession is a public document,' he says, 'and the public has a right to the consolation of it. Wat Pardoe was not in a position to write it himself.' He blots. 'I find the public is consoled by Drink and the Devil, and by gratitude to the Company. It is a penny. It has sold four hundred.' He looks up at last. 'It was not a lie. It was an improvement.'".
+  }
+  // The collector's room: Pinch's bed, and under the mattress what he could not bring himself to burn.
+  Observe pinch_room_scene at pinch_room when true "A narrow room behind the counting-house: a bed made with corners like a box, a washstand, a candle-end in a saucer, a shelf with the toll schedule copied out fair and pinned up as if it were a prayer.".
+  Thing pinch_lock "the lock on the collector's door" on pinch_door {
+    State locked blocking "The door behind the counter is locked. Pinch keeps the key on a string round his neck.".
+    State open "The door to the collector's room stands open.".
+    Change pick "Pick the lock on the collector's door" from locked to open needing lockwork.
+  }
+  Initially Assert state(pinch_lock, locked).
+  Rule pinch_locks when hour(clock) == 8 and state(pinch_lock, open) and not pinchGone(pinch) { Assert state(pinch_lock, locked). }
+  Discovery daybook_found "Under Pinch's mattress, wrapped in a clean shirt: the toll day-book from the burned toll-house, its covers scorched and its pages whole." { Found by searching pinch_room. }
+  Kind daybook_kind "the toll day-book" is gear worth 0 weighing 1
+    described "A day-book bound in calf, scorched on the outside, every page within ruled and filled in a small exact hand: four months of the bridge toll, cart by cart, beast by beast, and a second column, very faint, in pencil.".
+  Item daybook "the toll day-book" is daybook_kind at pinch_room hidden until daybook_found.
+  Action read_daybook(actor: group, reader: member, site: place) "Read the toll day-book" {
+    Requires able(actor) and memberOf(reader, actor) and ownedItem(daybook, reader) and not benighted(actor) and not knows(actor, daybook_read).
+    Time 1.
+    On success { Assert knows(actor, daybook_read). }
+    Result "It is very clear, which is the terrible thing about it. Every cart, every beast, every farthing, entered in ink. And beside every fifth entry, in pencil, faint as a breath, a mark: a penny for the Company, and a penny for Amos Pinch. Four months of it. The last page is the night of the rising, the entries stopping at the hour the chain went, and under them, in pencil, as if he could not help it, a sum: what the fire would save him.".
+  }
+  Discovery daybook_read "Pinch's day-book shows that for four months he took a penny in five of the bridge toll for himself, marked in pencil. The last page is the night of the rising, and under it a sum: what a fire would save him.".
+  Discovery fire_pinch "The carters broke the chain and threw the board in the river; they did not burn the toll-house. Amos Pinch, the Company's collector, set it alight in the confusion, to burn the tally of what he had been taking. Then he could not bring himself to burn the day-book, and kept it.".
+  Rule fire_put_together when knows(party, daybook_read) and (knows(party, flask_found) or knows(party, pinch_shirt)) and not knows(party, fire_pinch) says "It goes together all at once: the Company's oil flask in the ash where no carter went, the collector's shirt stinking of lamp-oil the morning after, and the day-book under his mattress with the sum on the last page. The carters broke the chain. Amos Pinch burned the toll-house." teaches fire_pinch { }
+  Topic pinch_cornered with pinch "Show Pinch the Company's flask from the ash of the toll-house" when knows(actor, flask_found) and carries(actor, company_flask) and not pinchCowed(pinch) once {
+    Says "Pinch looks at the flask and his lips begin to move. 'A cart, one penny,' he whispers. 'A beast, one penny the head. A carcass,' and stops, and puts his face in his hands. 'I couldn't burn the book,' he says through his fingers. 'I had the oil on it and the light in my hand and I couldn't. Four months of figures. It's the best book I ever kept.' He looks up, grey. 'What do you want? I'll rule anything. Anything on the board. Only don't show the Alderman.'".
+    On discuss { Assert pinchCowed(pinch). Assert knows(actor, fire_pinch). }
+  }
+  Topic pinch_rules_any with pinch "Tell Pinch he will rule that the dead cross free, as the Liberty's tithe" when pinchCowed(pinch) and not ruling(ruled_tithe) once {
+    Says "'The Liberty's tithe.' He writes it in his tally with a hand that shakes. 'Free. By ancient privilege.' He does not look at you. He does not look at anyone, for the rest of the day.".
+    On discuss { Assert ruling(ruled_tithe). Assert knows(actor, ruled_tithe). }
+  }
+
+  // ── Cutler's Lane: the printer, the pawnshop, the cutler ──────────────────────────────────────────────────────────
+  Observe lane_scene at cutlers_lane when not dark() "Cutler's Lane: a narrow street of knife-grinders and small shops behind the Market, with the clatter of a press coming from one door and three gilt balls hanging over another.".
+  Observe quoin_scene at quoin_shop when true "A print shop: the press like a great wooden mangle, cases of type, wet sheets pegged up on lines to dry like washing, and the smell of ink and lamp-black. On the lines: The True and Last Confession of Wat Pardoe, forty times over.".
+  Person quoin "Ezra Quoin" at quoin_shop {
+    Role "a printer, inky to the elbow". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "Ezra Quoin straightens up from the press with a sheet in each hand. 'Ballads, bills, confessions, almanacs, notices of sale,' he says. 'Three coin the hundred and I'll set it while you wait.'".
+  }
+  Discovery quoin_named "The Confession was printed by Ezra Quoin of Cutler's Lane, who prints anything paid for.".
+  Rule confession_printer when knows(party, confession_read) and not knows(party, quoin_named) and at(party, quoin_shop) says "On the drying-lines, forty times over: the Confession." teaches quoin_named { }
+  Topic quoin_who with quoin "Ask Quoin who brought him Wat Pardoe's confession to print" when knows(actor, confession_read) once {
+    Says "'A gentleman of the Company,' says Quoin cheerfully. 'Mr Inchbold, the clerk. Brought it in fair copy, paid in advance, very generous.' He hangs up a sheet. 'I print what I'm brought. That's the trade. If you want to say something else, bring it me and three coin, and I'll print that too.' He winks. 'I'm a great believer in both sides.'".
+    On discuss { Assert knows(actor, quoin_named). Assert knows(actor, quoin_prints). }
+  }
+  Discovery quoin_prints "Ezra Quoin will print anything for three coin, set while you wait, and post it in the Market by evening.".
+  Action buy_confessions(actor: group, site: place) "Buy up Quoin's whole stock of the Confession, and have the sheets in the Market taken down" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, quoin_shop) and at(quoin, quoin_shop)
+      and knows(actor, confession_read) and not confessionDown(wray) and quantity(actor, gold) >= 5.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 5. Assert confessionDown(wray). Increase temper(wray) by 1. }
+    Result "'The lot?' Quoin is delighted. 'Five coin, and my boy'll scrape the Market for nothing, he likes scraping.' He bundles the drying sheets off the lines and gives them to you to burn, which you do, in the alley, and his boy goes off with a bucket.".
+  }
+  Action smash_forme(actor: group, site: place) "Knock the type of the Confession out of Quoin's press" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, quoin_shop) and capable(actor, brawn)
+      and not confessionDown(wray).
+    Time 2 minutes.
+    On success { Assert confessionDown(wray). Assert hostile(quoin, actor). }
+    Result "You put your shoulder to the forme and it comes out of the bed of the press and goes over, and four hundred letters go across the floor like hail. Quoin stands looking at them. 'That,' he says, 'was three hours' work,' and then, quite calmly, 'Get out of my shop.'".
+  }
+  // A broadside of your own: what it says is what you know, and what you choose to say.
+  Relation printed(entity).
+  Entity sheet_trial: fact "THREE CARTERS HANGED ON THE ROAD WITHOUT A TRIAL".
+  Entity sheet_fire: fact "WHO BURNED THE TOLL-HOUSE?".
+  Entity sheet_elegy: fact "AN ELEGY FOR NED HOBDAY, AGED FOURTEEN".
+  Entity sheet_kit: fact "THE TRUE ACCOUNT OF THE CART".
+  Query printReady(a: group) means at(a, quoin_shop) and at(quoin, quoin_shop) and knows(a, quoin_prints) and not hostile(quoin, a) and quantity(a, gold) >= 3.
+  Action print_trial(actor: group, site: place) "Pay Quoin to print: THREE CARTERS HANGED ON THE ROAD WITHOUT A TRIAL" {
+    Requires able(actor) and company(actor) and at(actor, site) and printReady(actor) and not printed(sheet_trial).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 3. Assert printed(sheet_trial). Increase temper(wray) by 1. }
+    Result "You write it at his bench in the plainest words you have: the warrant, the fell road, the rope before light, no court, no trial, a dead boy in the cart. Quoin sets it in the big black letter. By evening it is pasted on every post the Confession was on, and over half of them.".
+  }
+  Action print_fire(actor: group, site: place) "Pay Quoin to print: WHO BURNED THE TOLL-HOUSE?" {
+    Requires able(actor) and company(actor) and at(actor, site) and printReady(actor) and knows(actor, fire_pinch) and not printed(sheet_fire).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 3. Assert printed(sheet_fire). Assert pinchExposed(wray). Increase temper(wray) by 1. }
+    Result "You write it as a question, which is how Quoin says the best ones go: an oil flask of the Company's in the ash where no carter went, a collector's shirt sent to the wash stinking of lamp-oil, a day-book that did not burn. Quoin reads it over twice and whistles. 'Both sides,' he says. 'I did say.' By evening a crowd is reading it aloud at the Cross, and somebody has written PINCH under it in charcoal.".
+  }
+  Relation pinchExposed(place).
+  Action print_elegy(actor: group, site: place) "Write an elegy for Ned Hobday, and pay Quoin to print it" {
+    Description "Not about the carters. About the boy.".
+    Requires able(actor) and company(actor) and at(actor, site) and printReady(actor) and knows(actor, jennet_hates) and not printed(sheet_elegy).
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 3. Assert printed(sheet_elegy). Increase temper(wray) by 1. Increase jennetTrust(jennet) by 1. }
+    Result "It takes you longer than you thought, at Quoin's bench, crossing out. In the end it is short: a boy of fourteen in his father's hat, a penny a day, holding the lord's chain because it was his to hold. Nothing about who drove. Quoin reads it, and does not make a joke, and sets it in a small plain letter with a black border, and does not charge for the border. By evening it is on the door of the toll-keeper's house, and somebody has put a flower under it.".
+  }
+  Action print_kit(actor: group, site: place) "Pay Quoin to print the true account of the cart: that Kit Pardoe was driving, and his father took the blame" {
+    Grave "Printed, it cannot be unprinted. Every rider and constable in Wrayford can read.".
+    Requires able(actor) and company(actor) and at(actor, site) and printReady(actor) and knows(actor, kit_driving) and not printed(sheet_kit).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 3. Assert printed(sheet_kit). Assert kitExposed(wray). }
+    Result "Quoin sets it without a word, and pastes it up at dusk. It is true. Wat Pardoe did not run down the toll-keeper's boy; he lifted him into the cart and drove for the bone-setter, and said he had been driving so that his son would not hang. Everyone in the Market reads it. Sergeant Gault reads it at the Cross, slowly, moving his lips, and then goes off up the Cartway toward Northgate.".
+  }
+  Relation kitExposed(place).
+  Rule kit_taken_exposed when kitExposed(wray) and not kitTaken(kit) and not travelsWith(kit, party) and hour(clock) >= 20 says "In the evening the riders go into the carters' yards and take Kit Pardoe, who does not fight them, and walk him to the Guildhall cellar through a crowd that does not know whether to cheer or curse." {
+    Assert kitTaken(kit). Assert at(kit, guild_cellar). Decrease kitTrust(kit) by 3. }
+
+  // The pawnshop, kept by Alderman Gidley's cousin.
+  Observe pawn_scene at pawnshop when true "A dark shop full of other people's things: clocks, Sunday coats, a fiddle, a trayful of rings under glass, a cradle. Each has a ticket on a string.".
+  Person pratt "Dorothea Pratt" at pawnshop {
+    Role "who keeps the pawnshop, Alderman Gidley's cousin". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "Mistress Pratt looks at your hands before she looks at your face, to see what you have brought.".
+  }
+  Relation ringFreed(group). Relation chiselsBought(group).
+  Topic pratt_ring with pratt "Ask Mistress Pratt about Joss Wilder's betrothal ring" when knows(actor, ring_missing) once {
+    Says "'Wilder.' She turns a ledger and runs her finger down it. 'A gold ring, plain, a heart cut inside. Pawned for four shillings a fortnight ago, to pay the new toll on his cart.' She closes the ledger. 'It's not for sale. Mr Inchbold of the Company has been round. A felon's goods are forfeit to the lord, and the Company is making the inventory for the lord's steward. I'm to hold it.' She looks at you without much interest. 'Unless the redemption were paid twice over, for my trouble. Which I would have to account for. Eight coin.'".
+    On discuss { Assert knows(actor, ring_pawned). }
+  }
+  Discovery ring_pawned "Joss Wilder pawned his betrothal ring a fortnight ago to pay the new toll on his cart. Mistress Pratt holds it for the Company's inventory of a felon's goods, and will sell it back for eight coin.".
+  Kind ring_kind "Joss Wilder's ring" is treasure worth 0 weighing 0
+    described "A plain gold ring, thin with being worn, with a heart cut on the inside.".
+  Item joss_ring "Joss Wilder's ring" is ring_kind at limbo.
+  Action buy_ring(actor: group, recipient: member, site: place) "Pay Mistress Pratt eight coin for Joss Wilder's ring" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pawnshop) and at(pratt, pawnshop)
+      and knows(actor, ring_pawned) and not ringFreed(actor) and memberOf(recipient, actor) and quantity(actor, gold) >= 8.
+    Time 2 minutes.
+    Resolve acquire(joss_ring, ring_kind, recipient).
+    On success { Decrease quantity(actor, gold) by 8. Assert ringFreed(actor). }
+    Result "She counts the coins twice and puts the ring in your palm without a word, and writes something in the ledger, and you see that it is: lost.".
+  }
+  Action argue_ring(actor: group, recipient: member, site: place) "Tell Mistress Pratt that the ring was pawned before Joss was any felon, and is the pawn's, not the lord's" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pawnshop) and at(pratt, pawnshop)
+      and knows(actor, ring_pawned) and not ringFreed(actor) and not triedPratt(actor) and memberOf(recipient, actor)
+      and quantity(actor, gold) >= 4.
+    Time 2 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Decrease quantity(actor, gold) by 4. Assert ringFreed(actor). Assert acquireRing(recipient). }
+    On failure { Assert triedPratt(actor). }
+    Result "She opens her mouth, and shuts it, and looks at the ledger. 'A fortnight ago,' she says. 'He was a carter a fortnight ago.' She sniffs. 'The four shillings, then. And the Company can take it up with me.' She puts the ring in your hand.".
+    Otherwise "'Mr Inchbold says otherwise,' she says. 'Eight coin, or good day.'".
+  }
+  Relation triedPratt(group). Relation acquireRing(member).
+  Action take_ring(actor: group, recipient: member, site: place) "Take the ring that is owed" {
+    Requires able(actor) and memberOf(recipient, actor) and acquireRing(recipient).
+    Time 0.
+    Resolve acquire(joss_ring, ring_kind, recipient).
+    On success { Retract acquireRing(recipient). }
+    Result "{recipient} takes Joss Wilder's ring.".
+  }
+  Action redeem_chisels(actor: group, recipient: member, site: place) "Pay Mistress Pratt three coin for Dunstan Fenner's chisels" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pawnshop) and at(pratt, pawnshop)
+      and knows(actor, tools_pawned) and not chiselsBought(actor) and memberOf(recipient, actor) and quantity(actor, gold) >= 3.
+    Time 2 minutes.
+    Resolve acquire(fenner_chisels, chisels_kind, recipient).
+    On success { Decrease quantity(actor, gold) by 3. Assert chiselsBought(actor). }
+    Result "'A boy's been bringing them one at a time,' she says. 'Six. Three coin.' She does not ask who you are.".
+  }
+
+  // Goodwife Tull, cutler, whose apprentice son has run off to the bears.
+  Observe tull_scene at tull_shop when true "A cutler's shop: knives in rows on green baize, a grindstone, and a woman at a bench putting an edge on a cleaver with great violence.".
+  Person tull "Goodwife Tull" at tull_shop {
+    Role "a cutler's widow, who keeps the shop". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "Goodwife Tull does not stop grinding. 'If you've come to tell me where he is, I know where he is.'".
+  }
+  Topic tull_robin with tull "Ask Goodwife Tull where who is" when true once {
+    Says "'Robin. My boy. Apprenticed to me, articled, sealed, and run off four days ago across the bridge to the bear-garden in Overbridge to be a bear-ward's boy, because a bear is more interesting than knives.' The cleaver shrieks on the stone. 'I can't go and fetch him. It's the Liberty; the reeve's man won't go, and if I go myself I'll take the bear-ward's ears off and then where will I be.' She holds the cleaver up to the light. 'Fetch him home. I'll give you the best knife in the shop.'".
+    On discuss { Assert knows(actor, robin_gone). }
+  }
+  Discovery robin_gone "Goodwife Tull's apprentice son Robin has run away across the bridge to the bear-garden in Overbridge. She wants him home, and will give the best knife in her shop for it.".
+  Kind tull_knife "a Tull knife" like dagger worth 4 weighing 1
+    described "A short heavy knife with a horn handle and the Tull mark, sharp enough to make you careful.".
+  Item tull_reward "a Tull knife" is tull_knife at limbo.
+  Relation robinHome(group). Relation robinStays(group). Relation tullPaid(group).
+  Rule robin_home_told at tull_shop when robinHome(robin) and not tullPaid(tull) says "Robin Tull comes into the shop behind you with his hands in his pockets, smelling powerfully of bear. His mother looks at him for a long time. Then she hits him round the ear, not hard, and hugs him, very hard, and then holds out to you, handle first, the best knife in the shop." { Assert tullPaid(tull). Assert at(tull_reward, tull_shop). }
+  Action take_tull_knife(actor: group, recipient: member, site: place) "Take the knife Goodwife Tull holds out" {
+    Requires able(actor) and at(actor, site) and at(actor, tull_shop) and at(tull_reward, tull_shop) and memberOf(recipient, actor).
+    Time 0.
+    Resolve acquire(tull_reward, tull_knife, recipient).
+    On success { Retract at(tull_reward, tull_shop). }
+    Result "{recipient} takes the Tull knife.".
+  }
+
+  // ── The Shambles ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe shambles_scene at shambles when not dark() "The Shambles: a steep lane of butchers' shops with their shutters down for counters, blood in the gutters, flies, drovers' beasts in hurdle pens at the bottom, and at the top the Liberty's offal cart, a tumbril with high sides, waiting to take the day's leavings over the bridge to the tan-yards.".
+  Observe shambles_night at shambles when dark() "The Shambles at night: shutters, a smell, cattle shifting in the pens.".
+  Person kemp "Saul Kemp" at shambles {
+    Role "a butcher, master of the Shambles". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "Saul Kemp wipes a cleaver on his apron. 'Prime chops. Or are you here about the hide?'".
+  }
+  Person jack_kemp "Jack Kemp" at shambles {
+    Role "the butcher's boy, who drives the offal cart". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "The butcher's boy looks up from a pie. 'Seven and three,' he says. 'Tan-yards. Toll-free. Ask anybody.'".
+  }
+  Discovery offal_privilege "The Liberty's offal cart goes over the bridge from the Shambles to the tan-yards twice a day, at seven in the morning and three in the afternoon, toll-free by the Liberty's ancient privilege, and nobody at the chain has ever looked in it." {
+    Known by kemp, jack_kemp, pinch, abbess.
+  }
+  Topic kemp_cart with kemp "Ask Saul Kemp about the offal cart" when true once {
+    Says "'The Liberty's cart.' He grins. 'Older than the bridge, the privilege. The tan-yards have the Shambles' leavings free, and the cart goes over free, twice a day, my Jack driving. Nobody looks in it.' He sniffs. 'Nobody wants to.' He looks at you with sudden interest. 'Why?'".
+    On discuss { Assert knows(actor, offal_privilege). }
+  }
+  Relation kempAgrees(group). Relation boyBribed(group).
+  Topic kemp_ask with kemp "Ask Saul Kemp to carry three dead men over the bridge in tomorrow's offal" when knows(actor, offal_privilege) and (hideFor(kemp) or homecomer(actor)) and not kempAgrees(actor) once {
+    Says "He puts the cleaver down. 'Wat Pardoe bought his Christmas goose off me thirty years,' he says. 'Under the offal, where nobody'll look, and I'll drive it myself, not the boy.' He picks the cleaver up again. 'Seven or three. Have them here before.'".
+    On discuss { Assert kempAgrees(actor). }
+  }
+  Action bribe_jack(actor: group, site: place) "Pay the butcher's boy three coin to carry something to the tan-yards and not look at it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shambles) and at(jack_kemp, shambles)
+      and knows(actor, offal_privilege) and not boyBribed(actor) and not kempAgrees(actor) and quantity(actor, gold) >= 3.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Assert boyBribed(actor). }
+    Result "Jack Kemp takes the coins and bites one. 'Not look at what?' he says, and winks, which is not reassuring.".
+  }
+  // The cart: what is laid in it goes over with it, at seven and at three.
+  Thing offal_cart "the offal cart" at shambles {
+    Holds.
+    State waiting "The Liberty's offal cart: a tumbril with high sides, loaded to the brim with the Shambles' leavings under a dripping tarpaulin.".
+  }
+  Initially Assert state(offal_cart, waiting).
+  Relation inCart(entity). Relation cartFound(place).
+  Action lay_in_cart(actor: group, bearer: member, body: entity, site: place) "Lay {body} in the offal cart, under the tarpaulin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shambles) and at(offal_cart, shambles)
+      and memberOf(bearer, actor) and bearing(bearer, body) and (kempAgrees(actor) or boyBribed(actor)) and not dark().
+    Time 3 minutes.
+    On success { Retract bearing(bearer, body). Assert inCart(body). }
+    Result "You lay {body} in the bottom of the tumbril, and the leavings of the Shambles go back over him, and the tarpaulin over that. It is the worst thing you have ever done, and the most necessary.".
+  }
+  Rule cart_goes when (hour(clock) == 7 or hour(clock) == 15) and at(offal_cart, shambles) and not cartGone(offal_cart) { Assert cartGone(offal_cart). Retract at(offal_cart, shambles). Assert at(offal_cart, tanyards). }
+  Rule cart_back when (hour(clock) == 8 or hour(clock) == 16) and cartGone(offal_cart) { Retract cartGone(offal_cart). Retract at(offal_cart, tanyards). Assert at(offal_cart, shambles). }
+  Relation cartGone(entity).
+  // The boy, bribed but not his father's, talks: the riders look in the cart at the chain.
+  Rule boy_talks when cartGone(offal_cart) and inCart(?b) and boyBribed(party) and not kempAgrees(party) and not cartFound(wray) says "Word comes back over the bridge: at the chain the riders stopped the offal cart, because the butcher's boy had told them in the Nine Wheels there was something in it, and pulled back the tarpaulin, and found the dead." {
+    Assert cartFound(wray). Retract inCart(wat_dead). Retract inCart(dunstan_dead). Retract inCart(joss_dead). Assert state(rail, hanging).
+    Assert at(wat_dead, limbo). Assert at(dunstan_dead, limbo).
+    Assert at(joss_dead, limbo). Decrease temper(wray) by 1. }
+  // Unloaded at the tan-yards, where the cart goes.
+  Rule cart_unloads when cartGone(offal_cart) and inCart(?b) and not cartFound(wray) { Retract inCart(?b). Retract at(?b, ?p). Assert at(?b, tanyards). }
+
+  // Ham Ostler's beasts, and the toll on them.
+  Person ham "Ham Ostler" at shambles {
+    Role "a drover from the fells, in a smock and a hat with a curlew feather". Ancestry human. Calling ranger. Level 2. Peaceable. Pronouns he. Manner cheerful.
+    Greets "Ham Ostler leans on the hurdles with his chin on his crook. 'Sixty head,' he says. 'Sixty pennies. That's a cow.'".
+  }
+  Topic ham_toll with ham "Ask Ham Ostler about the toll on his beasts" when true once {
+    Says "'A penny a head to put my beasts over a bridge they've been going over since before the Company's grandfathers were breeched.' He spits. 'Sixty head is five shillings. I sell them at the Liberty fair, Michaelmas, over the water, and the Company takes five shillings before I've sold a hoof.' He grins. 'So I'll not pay it. My leader knows the ford. Small hours of the second night, when the mills have the river penned, I'll take them down under the arches and over, and Pinch can rule on that.' He looks at you. 'You can come, if you like. It's a sight. Most folk have forgot the ford's there.'".
+    On discuss { Assert knows(actor, ham_drive). Assert knows(actor, vigil_ford). }
+  }
+  Discovery ham_drive "Ham Ostler will drive his sixty head over the old ford under the bridge in the small hours of the second night, two in the morning, when the mills upstream have the river penned, and says anyone may come.".
+}

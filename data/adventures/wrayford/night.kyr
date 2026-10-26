@@ -1,0 +1,197 @@
+Module wrayford "The Third Night" {
+  // ── Up to the leads ───────────────────────────────────────────────────────────────────────────────────────────────
+  // The gate-ward's stair is locked; Gault has the key on his belt. A thief picks it, or lifts the key at the Nine
+  // Wheels; a climber goes up the pier face from the bank; by day Gault will let a mourner up to look.
+  Thing gate_door "the gate-ward's door" on gate_stair {
+    State locked blocking "The gate-ward's door into the tower is shut and locked, and the decree is nailed to it.".
+    State open "The gate-ward's door stands unlocked.".
+    Change pick "Pick the lock of the gate-ward's door" from locked to open needing lockwork.
+    Change unlock "Unlock the gate-ward's door with Gault's key" from locked to open needing gate_key.
+  }
+  Initially Assert state(gate_door, locked). Initially Assert keyholder(gault, gate_door).
+  Kind gate_key_kind "the gate-ward's key" is gear worth 0 weighing 0
+    described "A long iron key on a loop of leather, warm from a sergeant's belt.".
+  Item gate_key "the gate-ward's key" is gate_key_kind at limbo owned by gault.
+  Rule door_relocks when hour(clock) == 8 and state(gate_door, open) and not takenDown(wray) { Assert state(gate_door, locked). }
+  Action lift_key(actor: group, recipient: member, site: place) "Lift the gate-ward's key off Gault's belt while he is at the jug" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wheels_taproom) and at(gault, wheels_taproom)
+      and capable(actor, stealth) and memberOf(recipient, actor) and not keyLifted(actor) and not triedKey(actor) and gaultSat(actor).
+    Time 1.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert keyLifted(actor). }
+    On failure { Assert triedKey(actor). Assert hostile(gault, actor). }
+    Result "On his third jug Gault leans back to laugh at something, and the loop of leather comes off the buckle into your hand as easy as a ripe plum.".
+    Otherwise "His hand drops onto yours on his belt and stays there. He does not even turn his head. 'No,' he says.".
+  }
+  Relation keyLifted(group). Relation triedKey(group).
+  Rule key_given when keyLifted(party) and at(gate_key, limbo) and memberOf(?m, party) { Retract at(gate_key, limbo). Assert at(gate_key, wheels_taproom). Assert lends(gault, gate_key, party). }
+  Rule key_missed when keyLifted(party) and hour(clock) == 8 and not spread(key_missed_fact) says "Word goes round in the morning that the sergeant lost his key in the Nine Wheels, and has had the lock of the gate-ward's door changed, and is in a filthy temper." { Assert spread(key_missed_fact). Retract lends(gault, gate_key, party). }
+  Entity key_missed_fact: fact "Gault's key missed".
+  // By day, a mourner may go up and look, with the sergeant's leave.
+  Relation gaultLets(group).
+  Action ask_up(actor: group, site: place) "Ask Sergeant Gault to let you up on the leads to look at them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_road) and not dark() and stillHanging()
+      and not gaultLets(actor) and not hostile(gault, actor).
+    Time 2 minutes.
+    On success { Assert gaultLets(actor). Retract at(actor, gate_road). Assert at(actor, gate_leads). }
+    Result "Gault looks down at you over the parapet for a while. Then he comes down and unlocks the door himself. 'Look,' he says. 'Don't touch.' He stands at your shoulder the whole time.".
+  }
+  Rule gault_walks_down when gaultLets(party) and not at(party, gate_leads) { Retract gaultLets(party). }
+  Action go_down_leads(actor: group, site: place) "Go back down the stair with the sergeant" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_leads) and gaultLets(actor).
+    Time 2 minutes.
+    On success { Retract gaultLets(actor). Retract at(actor, gate_leads). Assert at(actor, gate_road). }
+    Result "Gault walks you down and locks the door behind you.".
+  }
+  // With the sergeant at your shoulder, the riders do not take it amiss that you stand at the rail.
+  Rule leave_keeps_peace when gaultLets(party) and not riderPeace(riders) { Assert riderPeace(riders). }
+  Rule leave_peace_ends when not gaultLets(party) and riderPeace(riders) and not riderPeaceBought(riders) { Retract riderPeace(riders). }
+  Relation riderPeaceBought(group).
+  Observe leads_sacking at gate_leads when stillHanging() and not dark() "Close to, the sacking is old grain sacks, stitched. The boots below it are a carter's big boots, a pair mended with wire, and a boy's with new laces. The boy's hands are tied in front of him with cord. There is nothing on them. No ring.".
+
+  // ── The dead, borne ───────────────────────────────────────────────────────────────────────────────────────────────
+  Action take_up(actor: group, bearer: member, body: entity, site: place) "Have {bearer} take up {body}" {
+    Description "Over the shoulder. Whoever bears the dead goes at half pace.".
+    Requires able(actor) and company(actor) and at(actor, site) and memberOf(bearer, actor) and awake(bearer)
+      and deadBody(body) and at(body, site) and not borne(body) and not buried(body) and not bearing(bearer, ?o) and not inCart(body).
+    Time 1 minute.
+    On success { Assert bearing(bearer, body). }
+    Result "{bearer} gets {body} up over one shoulder, and stands, and finds the weight.".
+  }
+  Action set_down(actor: group, bearer: member, body: entity, site: place) "Have {bearer} set {body} down" {
+    Requires able(actor) and company(actor) and at(actor, site) and memberOf(bearer, actor) and bearing(bearer, body).
+    Time 1 minute.
+    On success { Retract bearing(bearer, body). }
+    Result "{bearer} sets {body} down, carefully.".
+  }
+  // Lowered on a rope from the rail to the bank under the first arch: anyone with a rope can do it, and come down after
+  // by the pier face.
+  Action lower_to_bank(actor: group, site: place) "Lower the three on a rope from the rail to the bank under the first arch" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_leads) and holding(actor, rope)
+      and at(wat_dead, gate_leads) and at(dunstan_dead, gate_leads) and at(joss_dead, gate_leads)
+      and not borne(wat_dead) and not borne(dunstan_dead) and not borne(joss_dead).
+    Time 2.
+    On success { Retract at(wat_dead, gate_leads). Assert at(wat_dead, under_arches). Retract at(dunstan_dead, gate_leads). Assert at(dunstan_dead, under_arches).
+      Retract at(joss_dead, gate_leads). Assert at(joss_dead, under_arches). Assert loweredBank(wray). }
+    Result "A loop under each one's arms, and the rope over the coping, and down, slowly, with your feet braced against the parapet, the weight turning against the stone of the pier as it goes, until it goes slack on the bank below. Three times. Your hands are burnt raw by the third.".
+  }
+  Relation loweredBank(place).
+  // Into Dorcas's boat under the arch, at the hour she named: the three, and the company after them on the rope, and
+  // she pulls for the Acre steps.
+  Action lower_to_boat(actor: group, site: place) "Lower the three into Dorcas Mudd's boat, go down after them, and let her pull for the Acre steps" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_leads) and boatArranged(actor) and lowWater()
+      and not boatGone(actor) and at(wat_dead, gate_leads) and at(dunstan_dead, gate_leads) and at(joss_dead, gate_leads)
+      and not borne(wat_dead) and not borne(dunstan_dead) and not borne(joss_dead).
+    Time 3.
+    On success { Assert boatGone(actor). Retract at(actor, gate_leads). Assert at(actor, south_stair).
+      Retract at(wat_dead, gate_leads). Assert at(wat_dead, south_stair). Retract at(dunstan_dead, gate_leads). Assert at(dunstan_dead, south_stair).
+      Retract at(joss_dead, gate_leads). Assert at(joss_dead, south_stair). Assert boatCrossed(wray). }
+    Result "Dorcas has a rope ready, thrown up from the boat with a stone on the end, and you make it fast and lower them down to her one at a time, and she takes each one into the boat as if it were a sleeping child. Then you go down the rope after them, burning your hands, into the bottom of the boat among the three, and she pushes off the pier with an oar, and the river takes you. She does not row for some way. She lets the Wray carry you down under the arches in the dark, and then she pulls, long and slow, across to the Acre steps, and nobody on the bridge sees anything at all. 'Whatever's on the Wray between the stairs,' she says, very low, as the boat grounds, 'is mine.'".
+  }
+  Relation boatCrossed(place).
+
+  // ── Burial ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Relation buriedByNight(place). Relation buriedLawfully(place). Relation ritesAtGrave(place).
+  Action bury(actor: group, body: entity, site: place) "Lay {body} in the earth, and fill the grave" {
+    Description "Half an hour, with the spade, when the grave is dug.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_acre) and deadBody(body) and at(body, wades_acre)
+      and not borne(body) and not buried(body) and state(graves, dug).
+    Time 3.
+    On success { Assert buried(body). Retract at(body, wades_acre). Assert at(body, limbo). }
+    Result "You lay {body} in the grave by the church door, in his sacking, and fill it in, and tread it down, and lay the turf back. There is no stone. There will be.".
+  }
+  Rule all_buried when buried(wat_dead) and buried(dunstan_dead) and buried(joss_dead) and not buriedLawfully(wray) and not buriedByNight(wray) and takenDown(wray) { Assert buriedByNight(wray). }
+  Rule grave_rites at wades_acre when buriedByNight(wray) and capable(party, rites) and not ritesAtGrave(wray) says "Over the three new graves, in the dark, you say the office of the dead, the old words, all of them. It is the first time they have been said for these three, and the river says something under them." { Assert ritesAtGrave(wray). }
+  Rule wat_coat_left when buriedByNight(wray) and homecomer(party) and not coatGiven(maudie) { Assert coatGiven(maudie). }
+  Measure buriedOn(place). Relation burialDated(place).
+  Rule burial_dated when buried(wat_dead) and buried(dunstan_dead) and buried(joss_dead) and not burialDated(wray) { Assert burialDated(wray). Set buriedOn(wray) to dayN(wray). }
+  Observe acre_new_graves at wades_acre when burialDated(wray) and dayN(wray) == buriedOn(wray) and hour(clock) < 12 "By the church door, three new graves, the turf laid back and trodden, with no stones yet.".
+  Observe acre_graves at wades_acre when burialDated(wray) and (dayN(wray) > buriedOn(wray) or hour(clock) >= 12) and not dark() "By the church door, three new graves, the turf laid back, with no stones yet. Someone has put a tuft of wool on one, and a carter's whip on another, and on the third a pie.".
+
+  // ── The reckoning at dawn ─────────────────────────────────────────────────────────────────────────────────────────
+  // Taken down without leave, the dead are missed at first light, and the reeve must have someone for it before the
+  // captain does. Whoever was seen; or whoever gives themselves up; or Hal, who has his own reasons; or Kit Pardoe.
+  Relation reckoned(place). Relation arrestedParty(group). Relation halTakesBlame(group). Relation kitBlamed(group).
+  Relation gaveSelfUp(group). Relation fledToLiberty(group).
+  Query unlawfulDown() means takenDown(wray) and not lawfulRelease(wray).
+  Relation lawfulRelease(place).
+  Action give_self_up(actor: group, site: place) "Tell the reeve it was you who cut them down" {
+    Grave "He will have to take you for it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(hulme, site) and unlawfulDown() and not reckoned(wray) and not dark().
+    Time 1.
+    On success { Assert gaveSelfUp(actor). Assert arrestedParty(actor). Assert reckoned(wray). Assert at(actor, guild_cellar). Assert heldInCellar(actor). }
+    Result "Simon Hulme hears you out with his eyes shut. 'I know,' he says at last. 'I knew when I heard. Who else.' He calls his constable. At the door of the cellar he puts his hand on your shoulder, once, and takes it away.".
+  }
+  // Kit taken for what you did: you may take his place.
+  Action free_kit(actor: group, site: place) "Tell the reeve it was you who cut them down, not Kit, and that he is to let your brother go" {
+    Grave "He will have to take you for it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(hulme, site) and kitBlamed(kit) and kitTaken(kit) and not gaveSelfUp(actor) and homecomer(actor) and not dark().
+    Time 1.
+    On success { Assert gaveSelfUp(actor). Assert arrestedParty(actor). Retract kitBlamed(kit). Retract kitTaken(kit). Assert at(kit, carters_yards).
+      Assert at(actor, guild_cellar). Assert heldInCellar(actor). }
+    Result "Simon Hulme looks at you for a long time across the desk. 'I know,' he says. 'I knew it was you before he said a word, and so did he, and he said nothing, which is your father all over.' He calls the constable. Kit passes you on the cellar stair coming up as you go down, and stops, and you do not let him say anything.".
+  }
+  Action free_kit_stranger(actor: group, site: place) "Tell the reeve it was you who cut them down, and that Kit Pardoe had nothing to do with it" {
+    Grave "He will have to take you for it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(hulme, site) and kitBlamed(kit) and kitTaken(kit) and not gaveSelfUp(actor) and stranger(actor) and not dark().
+    Time 1.
+    On success { Assert gaveSelfUp(actor). Assert arrestedParty(actor). Retract kitBlamed(kit). Retract kitTaken(kit). Assert at(kit, carters_yards).
+      Assert at(actor, guild_cellar). Assert heldInCellar(actor). }
+    Result "The reeve looks at you, a stranger, for a long time. 'Why?' he asks. You tell him. He writes it down in his own hand, not his son's. 'Wrayford will owe you for that,' he says, 'and will not know it,' and calls the constable.".
+  }
+  Rule dawn_reckoning when unlawfulDown() and hour(clock) >= 7 and hour(clock) < 9 and not reckoned(wray) {
+    Assert reckoned(wray). Assert reckoningDue(wray). }
+  Relation reckoningDue(place).
+  // In the Liberty, with the Abbess's word, the reeve cannot reach the one he would take.
+  Rule reckoned_sanctuary when reckoningDue(wray) and seenAtRail(party) and sanctuary(party) and at(party, ?p) and inLiberty(?p) says "The reeve's constable comes as far as the post at the foot of the drawbridge with a paper, and stops there, and reads it out to the Liberty at large, and goes back. Within the hour a letter crosses from the reeve to the Abbess. Within two, the Abbess has had it framed." {
+    Retract reckoningDue(wray). Assert fledToLiberty(party). }
+  Relation libertyPlace(place).
+  Initially Assert libertyPlace(overbridge_street). Initially Assert libertyPlace(south_stair). Initially Assert libertyPlace(nave).
+  Initially Assert libertyPlace(wades_acre). Initially Assert libertyPlace(abbess_court). Initially Assert libertyPlace(ferry_taproom).
+  Initially Assert libertyPlace(tanyards). Initially Assert libertyPlace(bear_garden).
+  Query inLiberty(p: place) means libertyPlace(p).
+  Rule reckoned_seen when reckoningDue(wray) and seenAtRail(party) and not heldInCellar(party) says "At eight the reeve's constable comes for you, with two of the riders, and they are not rough about it, and they take you to the Guildhall cellar." {
+    Retract reckoningDue(wray). Assert arrestedParty(party). Assert at(party, guild_cellar). Assert heldInCellar(party). }
+  Rule reckoned_hal when reckoningDue(wray) and not seenAtRail(party) and halKept(hal) and halSat(party) and not halHurt(hal) says "In the morning Hal Hulme goes to his father's court before it sits, and says in front of the constable and the clerk and the riders' sergeant that he cut the three down himself, in the night, alone. His father looks at him for a long time, and then has him taken to the cellar. Nobody in Wrayford believes it, and nobody says so." {
+    Retract reckoningDue(wray). Assert halTakesBlame(hal). Assert halAway(hal). Assert at(hal, guild_cellar). }
+  Rule reckoned_dorcas when reckoningDue(wray) and not seenAtRail(party) and boatCrossed(wray) and not (halKept(hal) and halSat(party)) says "The reeve's men go to the ferry-stage, because everybody knows, and Dorcas Mudd stands on her jetty with her oar and tells them, for the whole Wharf to hear, that whatever was on the Wray between the stairs last night was hers by charter, and is landed now, in the Liberty, and if the reeve wants it he can apply to the Abbess. The constable writes it down. Then he goes and takes Kit Pardoe from the yards instead, because somebody has to be taken." {
+    Retract reckoningDue(wray). Assert kitBlamed(kit). Assert kitTaken(kit). Assert at(kit, guild_cellar). }
+  Rule reckoned_kit when reckoningDue(wray) and not seenAtRail(party) and not boatCrossed(wray) and not (halKept(hal) and halSat(party)) and not travelsWith(kit, party) says "In the morning the reeve's men take Kit Pardoe from the yards, because he is Wat's son and the city knows what it would have done in his place, and he does not deny it, which he could have, and goes with them to the cellar with his head up." {
+    Retract reckoningDue(wray). Assert kitBlamed(kit). Assert kitTaken(kit). Assert at(kit, guild_cellar). }
+  Rule reckoned_none when reckoningDue(wray) and not seenAtRail(party) and not boatCrossed(wray) and not (halKept(hal) and halSat(party)) and travelsWith(kit, party) says "In the morning the reeve's men come to Wain Row looking for Kit Pardoe, and do not find him, and go away again, and the reeve writes in his book that persons unknown took down the dead." {
+    Retract reckoningDue(wray). Assert unknownHands(wray). }
+  Relation unknownHands(place).
+
+  // ── The third night: Maudie ───────────────────────────────────────────────────────────────────────────────────────
+  Relation maudieTaken(group). Relation maudieHeld(group). Relation maudieGone(group).
+  Action hold_maudie(actor: group, site: place) "Keep your mother at home tonight, whatever she says" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pardoe_kitchen) and at(maudie, pardoe_kitchen)
+      and homecomer(actor) and (thirdNight() or thirdDay() and hour(clock) >= 18) and stillHanging() and not maudieHeld(maudie).
+    Time 1.
+    On success { Assert maudieHeld(maudie). }
+    Result "She has the bread knife on the table in front of her. You sit down across from her, between her and the door, and do not move. For a long time she looks at you. Then she says, 'You'd stop me.' You say nothing. 'You'd stop me, and let him hang there.' She puts both hands flat on the table either side of the knife and looks at them. 'All right,' she says at last. 'All right. You've your father's look. I'll not forgive you for it.' And she does not go.".
+  }
+  Action stop_maudie(actor: group, site: place) "Stand in Maudie Pardoe's way, and do not move" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(maudie, site) and stranger(actor) and maudieWelcomes(actor)
+      and (thirdNight() or thirdDay() and hour(clock) >= 18) and stillHanging() and not maudieHeld(maudie).
+    Time 1.
+    On success { Assert maudieHeld(maudie). }
+    Result "She looks at you as if you were a gate. Then she sits down on the settle with the knife across her knees. 'It's not your business,' she says. 'None of it's your business.' But she does not go.".
+  }
+  // At two in the morning of the fourth day, if he is still on the rail, she goes.
+  Rule maudie_goes when thirdDay() and hour(clock) >= 2 and hour(clock) < 6 and stillHanging() and not maudieHeld(maudie) and not promisedMaudie(party) and not maudieGone(maudie) {
+    Assert maudieGone(maudie). Assert at(maudie, gate_road). }
+  Rule maudie_promised_waits when thirdDay() and hour(clock) >= 2 and hour(clock) < 6 and stillHanging() and promisedMaudie(party) and not maudieHeld(maudie) { Assert maudieHeld(maudie). }
+  Observe maudie_at_gate at gate_road when maudieGone(maudie) and not maudieTaken(maudie) "Maudie Pardoe is at the gate-ward's door in the dark with the bread knife, trying the latch, and up on the leads the captain's riders have heard her, and are coming down.".
+  Rule maudie_taken when maudieGone(maudie) and (thirdDay() and hour(clock) >= 3 and hour(clock) < 6 or fourthDay()) and not maudieTaken(maudie) says "Word runs through Northgate in the small hours, door to door: Maudie Pardoe went up to the gatehouse with her bread knife for the cords, and the captain's riders took her at the gate-ward's door, and she is in the Guildhall cellar, and the captain has been woken." {
+    Assert maudieTaken(maudie). Assert at(maudie, guild_cellar). }
+  // Going with her: she will not be stopped, but she need not go alone.
+  Action go_with_maudie(actor: group, site: place) "Go up to the gatehouse with her" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(maudie, site) and at(actor, gate_road) and maudieGone(maudie) and not maudieTaken(maudie).
+    Time 1.
+    On success { Assert maudieTaken(maudie). Assert arrestedParty(actor). Assert at(maudie, guild_cellar).
+      Assert at(actor, guild_cellar). Assert heldInCellar(actor). }
+    Result "You go up with her, because she is going, and you will not let her go alone. The captain's riders take you both at the head of the stair, not roughly, and she does not let go of your hand all the way down.".
+  }
+  // Kept in the cellar, the company is let out at the verdict, one way or another (captain.kyr).
+}

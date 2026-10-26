@@ -1,0 +1,245 @@
+Module wrayford "The Third Night" {
+  // ── Overbridge ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Liberty of Saint Wade's: the reeve's writ ends at the foot of the drawbridge.
+  Observe over_scene at overbridge_street when not dark() and not visitedBefore(overbridge_street) "Overbridge Street comes off the drawbridge into another town: older, lower, poorer and louder, timber houses with their upper floors leaning on their neighbours, the tan-yards stinking at one end and the bear-garden roaring at the other, and in the middle Saint Wade's, a squat old church with a tower, and the Abbess's lodging behind a wall. A painted post at the bridge foot says THE LIBERTY OF SAINT WADE. The reeve's writ ends here, and everybody walks a little differently.".
+  Observe over_again at overbridge_street when not dark() and visitedBefore(overbridge_street) "Overbridge Street: leaning houses, the church, the post that says THE LIBERTY OF SAINT WADE.".
+  Observe over_night at overbridge_street when dark() "Overbridge at night: the Ferry Inn lit and loud, and every other door shut.".
+  Observe stair_scene at south_stair when true "The south ferry-stair: worn steps going down into the river, a post for tying up, and the Acre wall above, with the tops of the gravestones showing over it.".
+  Observe tanyards_scene at tanyards when not dark() "The tan-yards: pits of lime and bark and worse, hides on frames, men with their arms stained to the elbow, and a smell that takes the breath out of you. Nobody comes here who need not.".
+  Observe tanyards_night at tanyards when dark() "The tan-yards at night: the pits black, the hides on their frames like people standing.".
+  Observe ferry_inn_scene at ferry_taproom when true "The Ferry Inn: low, smoky, full of watermen and tanners and people who have business in the Liberty that they would not have in the city.".
+  Observe south_road_scene at south_road when not dark() "The south road leaves Overbridge between hedges, toward the lord's country. A milestone: HARBURY XII.".
+
+  // ── Saint Wade's and the Acre ─────────────────────────────────────────────────────────────────────────────────────
+  Observe nave_scene at nave when true "Saint Wade's: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters.".
+  Observe acre_scene at wades_acre when not dark() "Wade's Acre: the burying ground of Wrayford since there was a Wrayford, between the church and the river, gravestones leaning every way like a crowd looking at something.".
+  Observe acre_night at wades_acre when dark() "The Acre at night: the stones pale, the river loud beyond the wall, the tower black.".
+  Person corbin "Corbin" at wades_acre {
+    Role "the sexton of Saint Wade's, old as his spade". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "Corbin looks at you from his seat on the Acre wall without getting up. 'Not dead, are you,' he says. 'No business of mine, then.'".
+  }
+  Rule corbin_wall when hour(clock) >= 7 and hour(clock) < 21 and not at(corbin, wades_acre) { Assert at(corbin, wades_acre). }
+  Rule corbin_bed when (hour(clock) >= 21 or hour(clock) < 7) and not at(corbin, nave) { Assert at(corbin, nave). }
+  Rule corbin_sleeps when (hour(clock) >= 22 or hour(clock) < 6) and not asleep(corbin) { Assert asleep(corbin). }
+  Rule corbin_wakes when hour(clock) >= 6 and hour(clock) < 22 and asleep(corbin) { Retract asleep(corbin). }
+  Topic corbin_strike_talk with corbin "Ask Corbin why he will not dig" when true once {
+    Says "'Forty years I've dug for Wrayford. Every one of them.' He points with his pipe at the stones. 'There's not a soul in this Acre I didn't put there, bar the old ones. Wat Pardoe's father. Dunstan Fenner's mother. Joss Wilder's sister, when she was three.' He puts the pipe back. 'I'll not dig a hole in this Acre while there's a Wrayford man hanging on that bridge for the crows. Not for the toll-keeper's boy, God rest him. Not for Gidley's aunt, God rest her, at treble fees.' He looks at you. 'Let them feel it. Let the Hill smell it.'".
+    On discuss { Assert knows(actor, corbin_strike). }
+  }
+  Topic corbin_terms_talk with corbin "Ask Corbin what would make him dig" when knows(actor, corbin_strike) once {
+    Says "'When they're down.' He considers. 'Or,' and his face does something sour, 'or when that woman over the water asks me. Dorcas Mudd.' He takes his pipe out and looks into the bowl. 'She's not asked me for anything in forty years. She'll not start now.'".
+    On discuss { Assert corbinTerms(actor). }
+  }
+  Action tell_corbin_lie(actor: group, site: place) "Tell Corbin that Dorcas Mudd asked after him" {
+    Description "She did not.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_acre) and at(corbin, wades_acre)
+      and dorcasTerms(actor) and corbinTerms(actor) and not corbinLied(actor) and not reconciled(wray) and not triedCorbinLie(actor).
+    Time 2 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert corbinLied(actor). }
+    On failure { Assert triedCorbinLie(actor). }
+    Result "'Asked after me.' He takes his pipe out. 'What did she ask?' You tell him something. He looks across the water at the ferry-stage for a long time, and puts the pipe back without lighting it. 'Did she,' he says.".
+    Otherwise "Corbin laughs until he coughs. 'Dorcas Mudd,' he says, 'would ask after the Devil's health before mine. Go on with you.'".
+  }
+  // The graves: three, by the church door. Corbin digs them by the next morning once he has a reason; or anyone can.
+  Thing graves "the three graves by the church door" at wades_acre {
+    State marked "By the church door, three graves' worth of turf marked out with string and pegs, uncut.".
+    State dug "By the church door, three graves, dug clean and square, with the earth heaped neatly beside each.".
+  }
+  Initially Assert state(graves, marked).
+  Relation corbinWillDig(place). Relation corbinFinished(group).
+  Rule corbin_reason when (corbinDigs(party) or takenDown(wray) and stillDownOrBuried()) and not corbinWillDig(wray) and not corbinResigned(corbin) { Assert corbinWillDig(wray). }
+  Query stillDownOrBuried() means not stillHanging().
+  Rule corbin_digs when corbinWillDig(wray) and state(graves, marked) and hour(clock) >= 5 and hour(clock) < 21 says "In Wade's Acre old Corbin has taken his coat off and is cutting turf by the church door, and the sound of the spade carries over the water." { Assert state(graves, dug). }
+  Action dig_graves(actor: group, site: place) "Dig the three graves yourself" {
+    Description "Three graves, square and deep, in heavy ground: half a day for a digger.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_acre) and state(graves, marked) and capable(actor, digging)
+      and not dark().
+    Time 18.
+    On success { Assert state(graves, dug). Assert dugOwn(actor). }
+    Result "You cut the turf back and stack it, and dig. It is heavy river clay under a foot of black earth, and the sun is on your back. Some time in the second grave Corbin gets down off the wall and stands over you with his pipe, and in the third he takes the spade out of your hands without a word and squares off the sides himself. 'Crooked,' he says. 'Every one.' But he does not stop.".
+  }
+  Relation dugOwn(group).
+  Kind spade_kind "the sexton's spade" like crowbar worth 1 weighing 4
+    described "A long-handled spade with a narrow blade worn bright and a T-handle black with forty years of one man's hands.".
+  Item sexton_spade "the sexton's spade" is spade_kind at nave owned by corbin.
+  Action dig_graves_spade(actor: group, digger: member, site: place) "Dig the three graves with the sexton's spade" {
+    Description "Without a digger's knack it takes all night, and you will not do it well.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_acre) and state(graves, marked)
+      and memberOf(digger, actor) and ownedItem(sexton_spade, digger) and not capable(actor, digging).
+    Time 30.
+    On success { Assert state(graves, dug). Assert dugOwn(actor). }
+    Result "It takes five hours, and your hands are raw by the first, and the graves are not square and not quite deep enough. But they are graves.".
+  }
+  // The Abbess may order him to dig, and he will, and then he will put his spade down for good.
+  Relation corbinOrdered(group). Relation corbinResigned(group).
+
+  // ── The Abbess ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe court_scene at abbess_court when true "The Abbess's court-room: a long room with a dais, a chair under a canopy, a table with a green cloth, and on the walls the charters of the Liberty, framed, all of them, from the oldest, which is a scrap of vellum with a seal like a biscuit, to the newest, which is a letter from the lord's steward that she has had framed upside down.".
+  Person abbess "Dame Isobel Crane" at abbess_court {
+    Role "Lady Abbess of Saint Wade's, who holds the Liberty of Overbridge". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "The Abbess looks at you over a pair of spectacles. 'Sit,' she says. 'Or stand. Only be brief, and be accurate.'".
+  }
+  Measure abbessRegard(group). Initially Set abbessRegard(abbess) to 0.
+  Relation abbessClaims(group). Relation sanctuary(group). Relation ritesOffered(group).
+  Discovery abbess_terms "The Abbess holds that whatever of Wrayford's dead reaches the Liberty is the Liberty's to bury. She will not fetch the three across the city's bridge herself, since to do so would admit the bridge is the city's; but she will claim them, in writing, for someone she has cause to trust, so that they cross as the Liberty's tithe.".
+  Topic abbess_dead with abbess "Ask the Abbess about the dead on the bridge" when true once {
+    Says "'A question of jurisdiction,' says the Abbess, 'first, and of charity second, and I am honest enough to say so in that order.' She takes her spectacles off. 'Wrayford has buried its dead in Wade's Acre since before the bridge, and every one of them crossed the river to get here, and not one paid the lord a penny. If those three reach the Liberty, they are mine, and I will bury them, and the reeve can write to the lord.' She folds the spectacles. 'I will not fetch them. If I send my brothers over that bridge for them I have admitted that the bridge is the city's road and not the Liberty's, and my predecessors have not admitted it for three hundred years.' She looks at you. 'I might put my claim in writing. For someone I had cause to trust.'".
+    On discuss { Assert knows(actor, abbess_terms). }
+  }
+  Topic abbess_bench with abbess "Ask the Abbess about the Bridge Company" when true once {
+    Says "'The Worshipful Company of the Bridge.' Very dry. 'I have known Prosper Gidley since he was a choirboy, when he stole the communion wafers to sell to the tanners' children. He has not changed, he has only grown.' She turns a page. 'They will vote for anything that costs them nothing they can be seen to lose. Remember that, if you have business with them. It is the only thing about them worth knowing.'".
+    On discuss { Assert knows(actor, bench_rule). }
+  }
+  Kind claim_kind "the Abbess's letter" is gear worth 0 weighing 0
+    described "A folded sheet sealed in green wax with the Liberty's seal: THE LIBERTY OF SAINT WADE CLAIMS ITS DEAD, WAT PARDOE, DUNSTAN FENNER AND JOSS WILDER, TO BE BURIED IN WADE'S ACRE AS IT HAS ALWAYS BURIED WRAYFORD, AND THEY ARE TO CROSS AS THE LIBERTY'S TITHE. I. CRANE, ABBESS.".
+  Item claim_letter "the Abbess's letter" is claim_kind at limbo.
+  Action ask_claim(actor: group, recipient: member, site: place) "Ask the Abbess to put her claim to the dead in writing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbess_court) and at(abbess, abbess_court)
+      and knows(actor, abbess_terms) and abbessRegard(abbess) >= 1 and not abbessClaims(abbess) and memberOf(recipient, actor).
+    Time 1.
+    Resolve acquire(claim_letter, claim_kind, recipient).
+    On success { Assert abbessClaims(abbess). }
+    Result "She writes it herself, without a draft, in a hand like a row of pikes, and seals it in green, and gives it to you. 'If the city stands aside,' she says, 'they are mine. Show that to the collector. Show it to the reeve. Show it to the captain, if it comes to that. And then go away and let me get on.'".
+  }
+  Action argue_claim(actor: group, site: place) "Argue to the Abbess that charity cannot wait on jurisdiction" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbess_court) and at(abbess, abbess_court)
+      and knows(actor, abbess_terms) and abbessRegard(abbess) < 1 and not triedAbbess(actor).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Increase abbessRegard(abbess) by 1. }
+    On failure { Assert triedAbbess(actor). }
+    Result "She hears you out without interrupting, which you are given to understand is a compliment. 'You are quite wrong,' she says. 'Jurisdiction is charity, over three hundred years.' A pause. 'But you put it well, and you were brief.'".
+    Otherwise "'Charity,' says the Abbess, 'is a word people use when they would like someone else to pay for something.' She returns to her papers.".
+  }
+  Relation triedAbbess(group).
+  // A cleric's office for the dead: the thing she cannot do herself, since to say it on the bridge is to cross it.
+  Action offer_rites(actor: group, site: place) "Offer to say the office of the dead for the three, on the bridge, as a priest of no parish" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbess_court) and at(abbess, abbess_court)
+      and capable(actor, rites) and not ritesOffered(actor).
+    Time 1.
+    On success { Assert ritesOffered(actor). Increase abbessRegard(abbess) by 1. }
+    Result "The Abbess takes off her spectacles. 'A priest of no parish,' she says. 'Who can stand on the lord's bridge and say the words over Wrayford's dead without it meaning that the Liberty crossed it.' For the first time she looks at you as if you were of use. 'Yes. Do. Tonight, at the curfew, under the rail. And come back to me after.'".
+  }
+  Rule rites_said at gate_road when ritesOffered(party) and hour(clock) == 22 and stillHanging() and at(party, gate_road) and not spread(rites_fact) says "At the curfew bell you stand under the rail and say the office of the dead for Wat Pardoe, Dunstan Fenner and Joss Wilder, aloud, in the old words. The riders on the leads stop talking. In the doorways of Bridge Street people come out and stand. When you have finished there is no sound at all but the river, and then, from somewhere behind the shutters, someone says Amen, and then a great many people do." { Assert spread(rites_fact). Increase temper(wray) by 1. }
+  Entity rites_fact: fact "The office said under the rail".
+  Topic abbess_sanctuary with abbess "Ask the Abbess whether the Liberty would shelter you, if it came to that" when abbessRegard(abbess) >= 2 and not sanctuary(actor) once {
+    Says "'It has sheltered worse.' She does not look up. 'Whoever is in the Liberty is beyond the reeve's writ. If you have done something in the city you would rather not answer for to Simon Hulme, be on this side of the drawbridge at dawn, and he may send me a letter.' She signs something. 'I shall frame it.'".
+    On discuss { Assert sanctuary(actor). }
+  }
+  Topic abbess_order with abbess "Ask the Abbess to order Corbin to dig" when knows(actor, corbin_strike) and abbessRegard(abbess) >= 1 and not corbinOrdered(actor) and not corbinWillDig(wray) once {
+    Says "She considers. 'I can,' she says. 'He is my sexton. He will dig, because I tell him to.' She looks at you over the spectacles. 'And then he will put down his spade, after forty years, and never pick it up again, because I made him dig against his conscience. Shall I?' You do not answer, and she rings the bell anyway, and sends for him.".
+    On discuss { Assert corbinOrdered(actor). Assert corbinResigned(corbin). Assert corbinWillDigOrdered(wray). }
+  }
+  Relation corbinWillDigOrdered(place).
+  Rule corbin_digs_ordered when corbinWillDigOrdered(wray) and state(graves, marked) and hour(clock) >= 5 and hour(clock) < 21 says "In Wade's Acre old Corbin is digging three graves by the church door, very slowly and very well, and when he has finished he cleans his spade and lays it on the Abbess's step and walks away up the south road without his coat." { Assert state(graves, dug). Assert at(corbin, limbo). }
+  Rule corbin_stays_gone when corbinResigned(corbin) and state(graves, dug) and not at(corbin, limbo) { Assert at(corbin, limbo). }
+
+  // The hide: a case before the Liberty's court, which the Abbess hands to you on the morning of the second day.
+  Relation courtSitting(place). Relation hideJudged(place). Relation hideFor(group). Relation hideSplit(place).
+  Query courtHours() means secondDay() and hour(clock) >= 10 and hour(clock) < 12 and not hideJudged(wray).
+  Person crouch "Barnaby Crouch" at tanyards {
+    Role "a tanner, stained to the elbow". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "Barnaby Crouch wipes his hands, which makes them worse. 'If it's about the hide,' he says, 'it's mine.'".
+  }
+  Rule crouch_court when courtHours() and not at(crouch, abbess_court) { Assert at(crouch, abbess_court). }
+  Rule kemp_court when courtHours() and not at(kemp, abbess_court) { Assert at(kemp, abbess_court). }
+  Rule crouch_home when not courtHours() and at(crouch, abbess_court) { Retract at(crouch, abbess_court). Assert at(crouch, tanyards). }
+  Rule kemp_home when not courtHours() and at(kemp, abbess_court) { Retract at(kemp, abbess_court). Assert at(kemp, shambles). }
+  Thing hide "the disputed hide" at abbess_court {
+    State disputed "On the green cloth, rolled and tied: a raw cowhide, red side out, with a ticket on it in the Abbess's hand: KEMP v. CROUCH.".
+    State awarded "The hide has gone from the table.".
+  }
+  Initially Assert state(hide, disputed).
+  Observe hide_court at abbess_court when courtHours() "The Abbess's court is sitting. Saul Kemp the butcher and Barnaby Crouch the tanner stand before the table, not looking at each other, and on the green cloth between them lies a rolled cowhide. The Abbess looks at you as you come in and says, 'You have a face like a juryman. I have a jurisdiction to defend this morning and no time for cows. Judge it.' And sits back.".
+  Topic kemp_claim with kemp "Ask Saul Kemp why the hide is his" when courtHours() and at(kemp, abbess_court) once {
+    Says "'Beast died in my pens, in the Shambles, in the city,' says Kemp. 'I skinned it. It's mine.'".
+  }
+  Topic crouch_claim with crouch "Ask Barnaby Crouch why the hide is his" when courtHours() and at(crouch, abbess_court) once {
+    Says "'Came over in the offal cart,' says Crouch. 'Anything in the offal cart is the tan-yards' by the Liberty's privilege. It's mine.'".
+  }
+  Observe hide_brands near hide when tried(hide, looking) and (capable(party, woodcraft) or capable(party, lore)) and not knows(party, hide_brand) "Unrolled, the hide has two marks on the flank: a fresh nick in the ear, the Shambles' tally-mark for a beast sold, and under it, older, a drover's brand burned into the hair: H.O., and a little curlew. Ham Ostler's. The beast was never sold. It died in the pens and somebody skinned it." teaches hide_brand.
+  Observe hide_brands_plain near hide when tried(hide, looking) and not capable(party, woodcraft) and not capable(party, lore) "Unrolled, the hide has a nick in the ear, and under the hair on the flank some older mark you cannot make out.".
+  Discovery hide_brand "The disputed hide carries Ham Ostler's drover's brand, the curlew: the beast was his, never sold, and died in the Shambles pens before market. It is neither the butcher's nor the tanner's.".
+  Action judge_kemp(actor: group, site: place) "Give the hide to the butcher" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbess_court) and courtHours().
+    Time 2 minutes.
+    On success { Assert hideJudged(wray). Assert hideFor(kemp). Assert state(hide, awarded). }
+    Result "Kemp takes it under his arm with a grin. Crouch says something about the city that the Abbess pretends not to hear. 'So,' she says. 'The Liberty yields a hide to the Shambles.' She writes it down. She does not look pleased.".
+  }
+  Action judge_crouch(actor: group, site: place) "Give the hide to the tanner, by the Liberty's privilege" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbess_court) and courtHours().
+    Time 2 minutes.
+    On success { Assert hideJudged(wray). Assert hideFor(crouch). Assert state(hide, awarded). Increase abbessRegard(abbess) by 1. }
+    Result "Crouch takes it as if it were a sword of state. 'The Liberty's privilege upheld,' says the Abbess, and writes it down with some satisfaction. Kemp goes out without a word, and the door bangs.".
+  }
+  Action judge_split(actor: group, site: place) "Cut the hide in two, and give each of them half" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbess_court) and courtHours().
+    Time 2 minutes.
+    On success { Assert hideJudged(wray). Assert hideSplit(wray). Assert state(hide, awarded). }
+    Result "There is a knife on the table for the purpose, it seems. You cut the hide down the backbone and give each of them a half. Both look at their halves, which are now worth nothing to anybody, with the same expression. The Abbess laughs out loud, once, like a door slamming. 'Solomon,' she says, 'and nobody's baby. Very good. Get out, both of you.'".
+  }
+  Action judge_ham(actor: group, site: place) "Give the hide to neither: it is Ham Ostler's, by his brand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbess_court) and courtHours() and knows(actor, hide_brand).
+    Time 2 minutes.
+    On success { Assert hideJudged(wray). Assert hideFor(ham). Assert state(hide, awarded). Increase abbessRegard(abbess) by 1. Assert hamGrateful(actor). }
+    Result "You show her the curlew. The Abbess takes her spectacles off and looks at it for a long time, and then at the butcher, who is looking at the floor, and at the tanner, who is looking at the butcher. 'A beast that died in the pens before market,' she says, 'and was skinned, and sent over the bridge in the offal cart, and argued over by two men who both knew whose it was.' She puts her spectacles back on. 'The hide is Ham Ostler's, and the Liberty is obliged to whoever noticed.' She writes. 'That is the first sensible thing anyone has said to me this week.'".
+  }
+  Rule hide_regard_split when hideSplit(wray) and abbessRegard(abbess) < 1 { Increase abbessRegard(abbess) by 1. }
+
+  // ── The bear-garden ───────────────────────────────────────────────────────────────────────────────────────────────
+  Observe bear_scene at bear_garden when not dark() "The bear-garden: a ring of raised benches round a sanded pit, a post in the middle with a chain, and on the chain an old brown she-bear, sitting on her haunches with her forepaws in her lap like a farmer's wife. A boy of twelve or so is combing the burrs out of her coat, and she lets him.".
+  Person robin "Robin Tull" at bear_garden {
+    Role "a cutler's boy of twelve, who has run away to the bears". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "The boy looks up from the bear's coat. 'She's called Margery,' he says, before you can ask anything else.".
+  }
+  Person clout "Sim Clout" at bear_garden {
+    Role "the bear-ward, with a strap at his belt". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "Sim Clout looks you over. 'Show's at four,' he says. 'Penny.'".
+  }
+  Person margery "Margery" at bear_garden {
+    Role "an old brown she-bear on a chain". Species bear. Peaceable. Pronouns she.
+  }
+  Relation clouted(group). Relation margeryBought(group). Relation margerySettled(group).
+  Topic robin_why with robin "Ask Robin Tull why he will not go home" when knows(actor, robin_gone) once {
+    Says "'Because Margery won't dance for anyone else.' He goes on combing. 'Not for him. Only me. And if she won't dance he'll sell her to the baiting at Harbury at Michaelmas, he says so, and they'll set dogs on her.' He looks at the strap on Clout's belt, and away. 'So I can't go home. Can I.' He combs. 'I like knives,' he says, as if it were a confession. 'I do. I'd rather bears.'".
+    On discuss { Assert knows(actor, margery_fate). }
+  }
+  Discovery margery_fate "The bear, Margery, dances only for Robin Tull. If she will not dance, Sim Clout will sell her to the baiting at Harbury at Michaelmas.".
+  Action persuade_robin(actor: group, site: place) "Talk Robin Tull into going home to his mother" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bear_garden) and at(robin, bear_garden)
+      and knows(actor, robin_gone) and not robinHome(robin) and not robinStays(robin) and not triedRobin(actor).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert robinHome(robin). Retract at(robin, bear_garden). Assert at(robin, tull_shop). }
+    On failure { Assert triedRobin(actor). }
+    Result "It takes a while, and it is mostly about his mother, and how she grinds the cleavers when she is frightened. In the end he puts the comb down and says goodbye to Margery, which takes longer, and comes.".
+    Otherwise "'No,' he says, and goes on combing, and the bear looks at you over his head.".
+  }
+  Relation triedRobin(group).
+  Action buy_margery(actor: group, site: place) "Buy Margery from Sim Clout for ten coin, and give her to the Liberty" {
+    Description "The Abbess has a walled garden. Nobody has told her yet.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bear_garden) and at(clout, bear_garden)
+      and knows(actor, margery_fate) and not margeryBought(actor) and quantity(actor, gold) >= 10.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 10. Assert margeryBought(actor). Assert robinHome(robin). Increase abbessRegard(abbess) by 1.
+      Retract at(robin, bear_garden). Assert at(robin, tull_shop). Retract at(margery, bear_garden). Assert at(margery, abbess_court). }
+    Result "Clout counts the coins twice and unhooks the chain. You walk Margery down Overbridge Street on it with Robin at her other side, and all the Liberty comes to its doors to watch, and the Abbess comes to her gate, and looks at the bear, and at you, and says, 'I see,' and has the gate opened. Robin goes home to his mother after that without being asked, because he can come and visit on Sundays.".
+  }
+  Action settle_margery(actor: group, site: place) "Show Robin how a drover settles a beast with a low whistle, so anyone can work her" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bear_garden) and at(robin, bear_garden)
+      and capable(actor, woodcraft) and knows(actor, margery_fate) and not margerySettled(actor) and not robinHome(robin).
+    Time 2.
+    On success { Assert margerySettled(actor). Assert robinHome(robin). Retract at(robin, bear_garden). Assert at(robin, tull_shop). }
+    Result "It is the whistle a drover uses for a nervous cow, low and two notes, and the old bear lifts her head at it. You have Robin teach it to Sim Clout, who is bad at it, and then Clout does it, badly, and Margery gets up on her hind legs and turns round once, as if humouring him. Robin watches with his mouth open. 'She'll do it for him now,' he says. 'She'll do it for anyone.' He sounds, for a moment, bereft. Then he goes home.".
+  }
+  Action face_clout(actor: group, site: place) "Tell Sim Clout that if he lays that strap on the boy again, you will have his ears" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bear_garden) and at(clout, bear_garden)
+      and knows(actor, robin_gone) and not clouted(actor) and not robinHome(robin).
+    Time 1.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert clouted(actor). Assert robinStays(robin). }
+    Result "Clout looks at you, and at the strap, and takes it off his belt and hangs it on the post, and does not look at it again. Robin watches it all. 'I can stay, then,' he says. 'With Margery.' And then, carefully: 'Will you tell my mother I'm well. And that I'm sorry. And not where I am, because she knows.'".
+    Otherwise "Clout puts his hand on the strap and smiles at you with very few teeth. 'Liberty,' he says. 'No reeve here. Go home.'".
+  }
+}

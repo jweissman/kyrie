@@ -1,0 +1,228 @@
+Module wrayford "The Third Night" {
+  // ── The Bridge End ────────────────────────────────────────────────────────────────────────────────────────────────
+  // The lord's gatehouse spans the north end of the bridge. The toll is taken at a booth under its arch, where the
+  // toll-house stood until four nights ago. Above, on the leads, the river rail; on the rail, the three.
+  Measure crowd(place). Measure temper(place).
+  Initially Set crowd(wray) to 1. Initially Set temper(wray) to 0.
+  // The crowd grows every morning the dead are still up.
+  Rule crowd_grows when hour(clock) == 7 and not crowdCounted(wray) and stillHanging() { Increase crowd(wray) by 1. Assert crowdCounted(wray). }
+  Rule crowd_count_ends when hour(clock) == 8 and crowdCounted(wray) { Retract crowdCounted(wray). }
+  Relation crowdCounted(place).
+  Query stillHanging() means state(rail, hanging).
+
+  Observe gate_scene at gate_road when not dark() and not visitedBefore(gate_road) "The road comes out of the Market into the shadow of the gatehouse, a square tower of red stone over the bridge's first arch, with the lord's arms over the arch and the lord's chain across it, new, the links still bright. Beside the arch, where a house stood, a heap of black timbers. In front of the chain, a booth of planks with a board nailed up beside it, very freshly painted. And up on the tower's river side, along the parapet of the leads, three shapes in sacking hang against the sky on short ropes, and turn a little when the wind comes up the river, and turn back.".
+  Observe gate_scene_again at gate_road when not dark() and visitedBefore(gate_road) and stillHanging() "The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking.".
+  Observe gate_scene_down at gate_road when not dark() and not stillHanging() "The Bridge End, under the gatehouse: the chain, the booth and its board, the black heap of the toll-house. There is nothing on the rail now. People still look up as they pass, out of habit.".
+  Observe gate_night at gate_road when dark() "The Bridge End at night. A lantern hangs under the gatehouse arch. Up on the leads the riders' brazier makes a red smudge, and against it, the three.".
+  Observe crowd_small at gate_road when not dark() and stillHanging() and crowd(wray) <= 2 "A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on.".
+  Observe crowd_large at gate_road when not dark() and stillHanging() and crowd(wray) >= 3 and temper(wray) < 2 "There is a crowd at the Bridge End now, fifty or sixty people, more at noon: drovers in for the market, apprentices, a man selling ballads, children on their fathers' shoulders. Someone has thrown a cabbage at the sacking. Someone else has said that's enough of that, and there was nearly a fight.".
+  Observe crowd_quiet at gate_road when not dark() and stillHanging() and crowd(wray) >= 3 and temper(wray) >= 2 "There is a crowd at the Bridge End, a big one, and it is quiet. Nobody is selling anything. People come and stand and look up, and take their hats off, and go.".
+  // The decree on the door.
+  Observe decree_scene at gate_road when stillHanging() "A paper is nailed to the gate-ward's door in the tower, in a clerk's round hand with the reeve's seal at the foot.".
+
+  // ── The toll ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Discovery toll_schedule "The Bridge Company's new toll-board, by the booth: A CART, ONE PENNY. A BEAST, ONE PENNY THE HEAD. A CARCASS, THREE PENCE THE HUNDREDWEIGHT. GOODS OF A FELON: FORFEIT TO THE LORD, NOT TO PASS. A PILGRIM TO SAINT WADE'S ON HIS OWN FEET: FREE. THE ABBESS'S TITHE AND THE LIBERTY'S OFFAL TO THE TAN-YARDS: FREE, BY ANCIENT PRIVILEGE. A FOOT-PASSENGER: ONE FARTHING (SINCE THE RIOT). BY ORDER OF THE WORSHIPFUL COMPANY OF THE BRIDGE, FARMERS OF THE LORD'S TOLL." {
+    Source toll_board "the Company's new toll-board" at gate_road readable by party.
+    Known by pinch, gidley, inchbold.
+  }
+  Person pinch "Amos Pinch" at gate_road {
+    Role "the Bridge Company's collector, in a new black coat". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "Amos Pinch looks up from his tally with the expression of a man who has been looked up from his tally all morning. 'A farthing, foot-passengers,' he says. 'Since the riot.'".
+  }
+  // He keeps the booth from eight until the curfew, and sleeps behind the counting-house.
+  Rule pinch_opens when hour(clock) >= 8 and hour(clock) < 20 and not at(pinch, gate_road) and not pinchGone(pinch) { Assert at(pinch, gate_road). }
+  Rule pinch_shuts when (hour(clock) >= 20 or hour(clock) < 8) and not at(pinch, pinch_room) and not pinchGone(pinch) { Assert at(pinch, pinch_room). }
+  Rule pinch_sleeps when (hour(clock) >= 22 or hour(clock) < 6) and at(pinch, pinch_room) and not asleep(pinch) { Assert asleep(pinch). }
+  Rule pinch_wakes when hour(clock) >= 6 and hour(clock) < 22 and asleep(pinch) { Retract asleep(pinch). }
+  Relation pinchGone(group).
+  // The rulings: how a dead man crosses the bridge, by the board.
+  Relation ruling(entity). Relation pinchFlustered(group). Relation pinchCowed(group).
+  Discovery ruled_carcass "Pinch rules that the dead may cross as carcasses, at three pence the hundredweight.".
+  Discovery ruled_tithe "Pinch rules that the dead, claimed by the Abbess, cross free as her tithe.".
+  Topic pinch_dead with pinch "Ask Pinch what it costs to carry a dead man over the bridge" when not pinchFlustered(pinch) once {
+    Says "Pinch's pen stops. 'A dead man,' he says. 'A dead man is not on the board.' He looks at the board as if it might have changed while his back was turned. 'The board is complete. The Company drew it up with great care. Everything that crosses is on the board, and a dead man is not, and therefore,' and he stops, because he does not know what therefore. 'Read the board,' he says. 'What it is depends on what it is.'".
+  }
+  Topic pinch_felon with pinch "Put it to Pinch that the dead are goods of a felon" when knows(actor, toll_schedule) and not pinchFlustered(pinch) once {
+    Says "'Goods of a felon,' says Pinch, with relief, as if you had handed him something he had dropped. 'Forfeit to the lord. Not to pass. Yes.' He writes it down. 'That is very clear. Thank you.' Then he looks up at the rail, and at you, and for the first time something crosses his face that is not arithmetic. 'Was that what you wanted?'".
+  }
+  Topic pinch_carcass with pinch "Put it to Pinch that a dead man is a carcass, by the hundredweight" when knows(actor, toll_schedule) and not pinchFlustered(pinch) and not ruling(ruled_carcass) once {
+    Says "Pinch considers this with his whole face. 'A carcass,' he says. 'Three pence the hundredweight. A carcass is a dead beast. A man is not a beast. But the board does not say beast, it says carcass, and a dead man,' and he closes his eyes, and opens them, 'is a carcass. Wat Pardoe was a big man. Call it twelve stone, with the rope. One hundredweight and a half: four pence ha'penny. Dunstan Fenner, ten stone. Joss Wilder, a boy, nine.' He writes it all down in a small exact hand. 'One and a penny farthing for the three. In coin, at the chain.' The crowd has gone very quiet. Annis Pye, at her pitch, puts down the pie she was holding.".
+    On discuss { Assert ruling(ruled_carcass). Assert knows(actor, ruled_carcass). Decrease temper(wray) by 1. }
+  }
+  Topic pinch_pilgrim with pinch "Put it to Pinch that Wat Pardoe is a pilgrim to Saint Wade's" when knows(actor, toll_schedule) and not pinchFlustered(pinch) once {
+    Says "'On his own feet,' says Pinch at once. 'It says on his own feet. A pilgrim to Saint Wade's on his own feet: free. Wat Pardoe is not,' he looks up at the rail, and down again quickly, 'on his own feet. In the relevant sense.' Somebody in the crowd laughs, and then somebody else, and it is not a kind laugh, and it is not at the dead. Pinch goes red to the ears.".
+  }
+  Topic pinch_tithe with pinch "Put it to Pinch that the dead are the Abbess's tithe, and she has claimed them" when knows(actor, toll_schedule) and abbessClaims(abbess) and not pinchFlustered(pinch) and not ruling(ruled_tithe) once {
+    Says "Pinch reads the Abbess's letter twice, holding it at arm's length as if it might bite. 'The Abbess's tithe,' he says. 'Free. By ancient privilege.' He looks at the board, which says so, in his own paint. 'The Company has always respected the Liberty's privilege,' he says, in the voice of a man repeating something he was told to say, and writes it down, and does not look up at the rail at all.".
+    On discuss { Assert ruling(ruled_tithe). Assert knows(actor, ruled_tithe). }
+  }
+  Action press_pinch(actor: group, site: place) "Press Pinch for a ruling, here, now, in front of the crowd" {
+    Description "Loudly. He has been asked the same question all morning and has no answer.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pinch, site) and at(actor, gate_road)
+      and not pinchFlustered(pinch) and not dark().
+    Time 1.
+    On success { Assert pinchFlustered(pinch). Increase temper(wray) by 1. }
+    Result "Pinch stands up in his booth. 'A cart, one penny,' he says. 'A beast, one penny the head. A carcass, three pence the hundredweight.' The crowd turns to listen. He goes faster. 'Goods of a felon, forfeit, not to pass. A pilgrim to Saint Wade's on his own feet, free. The Abbess's tithe and the Liberty's offal to the tan-yards, free by ancient privilege. A foot-passenger, one farthing, since the riot.' He takes a breath. 'Everything else is forbidden!' The crowd cheers him as if he had sung. He sits down, white, and pulls the shutter of the booth to, and will not open it again today.".
+  }
+  Rule pinch_recovers when hour(clock) == 8 and pinchFlustered(pinch) { Retract pinchFlustered(pinch). }
+
+  // ── The leads, the rail and the three ─────────────────────────────────────────────────────────────────────────────
+  Observe leads_scene at gate_leads when not dark() "The leads of the gatehouse: grey lead sheet, a parapet, a brazier, the riders' saddlebags. The river is a long way down, brown and quick, and the whole city is laid out from here: Northgate's smoke, the Hill's gardens, the bridge running out on its arches to Overbridge and the church tower on the far bank.".
+  Observe leads_night at gate_leads when dark() "The leads at night: the brazier's red glow, the parapet a black line, the river loud below.".
+  Thing rail "the river rail" at gate_leads {
+    State hanging "Along the river parapet three men hang on short ropes from iron hooks driven into the coping, under sacking the reeve allowed. Their boots show below the sacking: a carter's big boots, a pair mended with wire, a boy's.".
+    State cut "The iron hooks in the coping are empty. Three cut ends of rope hang from them.".
+  }
+  Initially Assert state(rail, hanging).
+  // The three, once they are down: carried, laid down, buried. A body borne slows whoever bears it to half pace.
+  Relation deadBody(entity). Relation bearing(member, entity). Relation buried(entity).
+  Thing wat_dead "Wat Pardoe" at limbo is scenery {
+    State lying "Wat Pardoe lies wrapped in his sacking, a big man, his boots showing.".
+  }
+  Thing dunstan_dead "Dunstan Fenner" at limbo is scenery {
+    State lying "Dunstan Fenner lies wrapped in his sacking, his mended boots showing.".
+  }
+  Thing joss_dead "Joss Wilder" at limbo is scenery {
+    State lying "Joss Wilder lies wrapped in his sacking. He was not very old.".
+  }
+  Place limbo "nowhere" is room within fells_edge at 9, 9.
+  Initially Assert deadBody(wat_dead). Initially Assert deadBody(dunstan_dead). Initially Assert deadBody(joss_dead).
+  Initially Assert state(wat_dead, lying). Initially Assert state(dunstan_dead, lying). Initially Assert state(joss_dead, lying).
+  // Who bears a body takes it wherever they go, and goes at half pace.
+  Rule body_carried when bearing(?m, ?b) and memberOf(?m, ?c) and at(?c, ?p) and not at(?b, ?p) { Retract at(?b, ?q). Assert at(?b, ?p). }
+  Rule bearer_slowed when bearing(?m, ?b) and speed(?m) != 50 { Set speed(?m) to 50. }
+  Rule bearer_eased when speed(?m) == 50 and not bearing(?m, ?b) and memberOf(?m, ?c) and company(?c) { Set speed(?m) to 0. }
+  Query borne(b: entity) means bearing(?m, b).
+  Query bearingAny(a: group) means memberOf(?m, a) and bearing(?m, ?b).
+
+  // The watch: Sergeant Gault and four of the lord's riders, who keep the gatehouse until the captain comes.
+  Person gault "Sergeant Gault" at gate_leads {
+    Role "the riders' sergeant, a square man with a broken nose". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner grim.
+    Greets "Sergeant Gault looks at you over the brazier the way a dog looks at another dog, without much interest either way.".
+  }
+  Person riders "the lord's riders on the gate" at gate_leads {
+    Role "four of the lord's riders, in buff coats, with the lord's badge". Ancestry human. Calling warrior. Level 2. Numbers 4. Peaceable. Pronouns they.
+    Greets "One of the riders looks round, and says something to the others, and they laugh.".
+  }
+  Initially Assert takesPrisoners(gault). Initially Assert takesPrisoners(riders). Initially Assert serves(riders, gault).
+  // They sleep in the small hours, on the nights before the captain comes; after, her own riders keep the bridge too,
+  // and nobody sleeps.
+  Rule riders_sleep when smallHours() and hour(clock) >= 1 and hour(clock) < 4 and not captainCome() and not asleep(riders) and not ridersRoused(riders) { Assert asleep(riders). }
+  Rule riders_wake when (hour(clock) >= 4 or hour(clock) < 1 or captainCome()) and asleep(riders) { Retract asleep(riders). }
+  Relation ridersRoused(group).
+  Rule roused_ends when hour(clock) == 12 and ridersRoused(riders) { Retract ridersRoused(riders). }
+  // Gault drinks at the Nine Wheels from seven until ten, because nobody else will serve him.
+  Relation gaultAway(group).
+  Rule gault_drinks when hour(clock) >= 19 and hour(clock) < 22 and not at(gault, wheels_taproom) and not gaultAway(gault) and able(gault) { Assert at(gault, wheels_taproom). }
+  Rule gault_back when (hour(clock) >= 22 or hour(clock) < 19) and not at(gault, gate_leads) and not gaultAway(gault) and able(gault) { Assert at(gault, gate_leads). }
+  Rule gault_sleeps when smallHours() and hour(clock) >= 1 and hour(clock) < 4 and not captainCome() and at(gault, gate_leads) and not asleep(gault) { Assert asleep(gault). }
+  Rule gault_wakes when (hour(clock) >= 4 or hour(clock) < 1 or captainCome()) and asleep(gault) { Retract asleep(gault). }
+  Topic gault_hanged with gault "Ask Sergeant Gault why he hanged them on the road" when true once {
+    Says "'Warrant.' He holds his hands out to the brazier. 'Lord's warrant for the ringleaders of any rising against the lord's toll, to be taken and hanged where taken. We took them on the fell road with a dead lad in the back of the cart. Rising, a dead lad. That's the warrant.' He shrugs. 'The big one said he'd been driving. Said it twice. I don't hang a man twice.' He looks at the sacking, without anything in his face. 'Your reeve wanted them brought in for the court. I said: warrant. He went white. Clerks do.'".
+  }
+  Topic gault_road with gault "Ask Gault how he knew which road they'd take" when true once {
+    Says "'Word came.' He does not look at you. 'Midnight, a lad with a letter. Back road to the fells, the cart with the red wheels, before light.' He shrugs. 'Somebody in this town wanted it done quiet. They all want it done quiet. Then they all come and stand at the gate and look.'".
+    On discuss { Assert knows(actor, word_came). }
+  }
+  Discovery word_came "Someone in Wrayford sent Sergeant Gault a letter at midnight on the night of the rising, saying which road the carters would take to the fells, and that the cart had red wheels.".
+
+  // Taking them down: the act the decree hangs a man for.
+  Relation cutBy(group). Relation seenAtRail(group). Relation takenDown(place).
+  Action cut_down(actor: group, site: place) "Cut the three down from the rail" {
+    Grave "The decree is on the gatehouse door: whoever touches them shall hang beside them. Cut down, they cannot be put back.".
+    Description "A knife to each rope, and a hand under each, so they do not fall.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_leads) and state(rail, hanging) and not benighted(actor).
+    Time 1.
+    On success { Assert state(rail, cut). Assert cutBy(actor). Assert takenDown(wray).
+      Retract at(wat_dead, limbo). Assert at(wat_dead, gate_leads). Retract at(dunstan_dead, limbo). Assert at(dunstan_dead, gate_leads).
+      Retract at(joss_dead, limbo). Assert at(joss_dead, gate_leads). }
+    Result "You cut them down one by one, and take each one's weight as the rope goes, and lay them on the leads. They are lighter and heavier than you thought. Nobody in Wrayford will ever look at you the same way, if they know.".
+  }
+  // Whoever is seen at it by an awake rider is seized. The riders take prisoners.
+  Rule seen_at_rail when cutBy(?c) and perceives(riders, ?c) and not seenAtRail(?c) and not riderPeace(riders) says "A rider is on his feet by the brazier. 'Sergeant! Sergeant, they're at the rail!' Then they are all up, and coming." {
+    Assert seenAtRail(?c). Retract peaceable(riders). Retract peaceable(gault). Assert assails(riders, ?c). Assert ridersRoused(riders). }
+  Rule seen_bearing when bearingAny(?c) and perceives(riders, ?c) and not seenAtRail(?c) and not riderPeace(riders) says "Someone on the leads shouts. A rider is looking straight at you, and at what you carry." {
+    Assert seenAtRail(?c). Retract peaceable(riders). Retract peaceable(gault). Assert assails(riders, ?c). Assert ridersRoused(riders). }
+  Relation riderPeace(group).
+  // Taken: a night in the Guildhall cellar, and the dead back on the rail by morning.
+  Relation heldInCellar(group).
+  Rule taken_at_rail when captured(riders, party) or captured(gault, party) says "You come round in the dark on cold stone, with your hands tied. The Guildhall cellar. Up the stair, through the door, somebody is saying your name to the reeve." {
+    Retract captured(riders, party). Retract captured(gault, party). Assert at(party, guild_cellar). Assert heldInCellar(party).
+    Assert peaceable(riders). Assert peaceable(gault). }
+  Rule cellar_unburdens when heldInCellar(party) and bearing(?m, ?b) { Retract bearing(?m, ?b). }
+  Rule dead_put_back when heldInCellar(party) and state(rail, cut) and not buried(wat_dead) { Assert state(rail, hanging).
+    Assert at(wat_dead, limbo). Assert at(dunstan_dead, limbo).
+    Assert at(joss_dead, limbo). }
+
+  // ── Bridge Street ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe street_scene at bridge_street when not dark() and not visitedBefore(bridge_street) "Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade's badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church.".
+  Observe street_again at bridge_street when not dark() and visitedBefore(bridge_street) "Bridge Street on the arches: the leaning shops, the gaps with the river in them, the chapel on the middle pier.".
+  Observe street_night at bridge_street when dark() "Bridge Street at night: shutters, a cat, the sound of the river much louder than by day.".
+  Observe hobday_outside at bridge_street when not jennetOpen(jennet) "The first house past the gatehouse is the toll-keeper's, narrow, with a shut door. Its shutters are closed in the middle of the day.".
+
+  // The bridge chapel, and under it, the starling: the cutwater ledge round the middle pier, reached by a ladder
+  // through the undercroft, where boys fish.
+  Observe chapel_scene at chapel when true "A small chapel of grey stone built into the pier, so that the river is loud through the floor. A painted Saint Wade carries a child across a painted river over the altar, looking worried. Candles. A trapdoor in the floor, propped open, with a ladder going down into the dark and the noise of water.".
+  Observe starling_scene at starling when not dark() "The starling: a ledge of stone round the foot of the middle pier where it breaks the river, wet, green, wide enough for two to sit with their legs over. Under the arch the light is green and moving. On the stone someone, a long time ago, has cut two sets of initials with a knife.".
+  Observe starling_night at starling when dark() "The starling at night: only the sound of the river, very close, and the arch overhead blacker than the sky.".
+
+  // ── Jennet Hobday ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Person jennet "Jennet Hobday" at hobday_room {
+    Role "the toll-keeper's widow". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "Jennet Hobday does not look up from the bed.".
+  }
+  Thing hobday_shut "Jennet Hobday's door" on hobday_door {
+    State kept_shut blocking "The toll-keeper's door is shut. Knock, and a woman's voice inside says, 'Go away,' without anger, the way you would say it to the rain.".
+    State on_latch "The toll-keeper's door is on the latch.".
+  }
+  Initially Assert state(hobday_shut, kept_shut).
+  Measure jennetTrust(group). Initially Set jennetTrust(jennet) to 0.
+  Relation jennetOpen(group). Relation jennetSat(group). Relation jennetIced(group).
+  Rule jennet_opens when jennetOpen(jennet) and state(hobday_shut, kept_shut) { Assert state(hobday_shut, on_latch). }
+  Observe hobday_scene at hobday_room when true "A front room with the shutters closed and a smell under the smell of lavender. On the bed, under a sheet, a boy. A woman sits by him on a hard chair, upright, with her hands in her lap. The room is very hot.".
+  Observe hobday_iced at hobday_room when jennetIced(jennet) "Under the bed, in a tin bath, a block of ice wrapped in sacking is sweating into the tin. The room is a little cooler. The smell is a little less.".
+  Kind ice_kind "a block of ice in sacking" is gear worth 1 weighing 6
+    described "A block of grey ice the size of a loaf, wrapped in wet sacking, dripping. It will not keep long out of the dark.".
+  Action bring_ice(actor: group, giver: member, cake: item, site: place) "Knock at Jennet Hobday's door, and say you have brought {cake}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bridge_street) and state(hobday_shut, kept_shut)
+      and memberOf(giver, actor) and ownedItem(cake, giver) and itemKind(cake, ice_kind).
+    Time 2 minutes.
+    Resolve drop(cake, giver).
+    On success { Assert jennetOpen(jennet). Assert jennetIced(jennet). Increase jennetTrust(jennet) by 1. }
+    Result "There is a long silence on the other side of the door. Then the bolt goes back. Jennet Hobday looks at the ice in your arms, and at you, and stands aside, and you carry it in and put it in the tin bath under the bed, where he is, and she watches you do it.".
+  }
+  Action sit_jennet(actor: group, site: place) "Sit with Jennet Hobday by the bed, and say nothing" {
+    Description "An hour. She does not want talking to.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hobday_room) and at(jennet, hobday_room) and not jennetSat(actor).
+    Time 6.
+    On success { Assert jennetSat(actor). Increase jennetTrust(jennet) by 1. }
+    Result "You sit. She does not tell you to go. After an hour she says, 'He took his father's place at the booth for the Company. A penny a day. He was proud of the penny.' That is all she says.".
+  }
+  Topic jennet_ned with jennet "Ask Jennet about Ned" when jennetTrust(jennet) >= 1 once {
+    Says "'Fourteen.' She looks at the sheet. 'His father kept the lord's toll eleven years and died of his chest in the winter, and when the Company took the farm they said the boy could have the booth, a penny a day, since he knew the work. He'd stand at the chain in his father's hat.' Her hands stay still in her lap. 'He was at the chain when they came. He tried to keep it shut. A boy of fourteen, with his father's hat, holding the lord's chain against a hundred carters.' She looks at you for the first time. 'Wat Pardoe's cart. Everybody says so. And they've hung him for it, and I'm glad. I'm glad. Let the crows have him. Let the crows have him till the crows are sick.' She does not raise her voice at all.".
+    On discuss { Assert knows(actor, jennet_hates). }
+  }
+  Discovery jennet_hates "Jennet Hobday believes Wat Pardoe's cart killed her son, and is glad he hangs, and wants him left to the crows.".
+  Topic jennet_custom with jennet "Ask Jennet why Ned is not buried" when jennetTrust(jennet) >= 1 once {
+    Says "'Corbin won't dig.' Flat. 'Old Corbin, at Wade's Acre. He's dug every grave in Wrayford forty years and he says he'll dig none while there's a Wrayford man on that rail, and he means the carters, not my boy. So my boy waits for Wat Pardoe.' Her mouth moves. 'The third day is tomorrow. The day after. I don't know what day it is. He'll go looking. That's what they say. I'd like to see him look. I'd like to see him get up.' And then, for the first time, her face goes, and she puts her hand over it, and keeps it there.".
+    On discuss { Assert knows(actor, corbin_strike). }
+  }
+  Discovery corbin_strike "Corbin, sexton of Saint Wade's for forty years, will dig no grave in Wade's Acre while a Wrayford man hangs on the bridge. Nobody in the city can be buried until the carters come down: not the toll-keeper's boy, not Alderman Gidley's aunt.".
+  // The truth, told by the one who drove, or by someone else.
+  Relation kitToldJennet(group). Relation jennetTold(group). Relation jennetInformed(group).
+  Action kit_tells_jennet(actor: group, site: place) "Stand by Kit while he tells Jennet Hobday who was driving" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hobday_room) and at(jennet, hobday_room)
+      and travelsWith(kit, actor) and kitConfessed(actor) and not kitToldJennet(jennet).
+    Time 3.
+    On success { Assert kitToldJennet(jennet). Increase jennetTrust(jennet) by 2. Assert knows(actor, jennet_knows). }
+    Result "Kit stands in the doorway with his cap in his hands, and tells her. All of it: the horse, the press, the wheel, his father lifting Ned into the cart like something precious, the bone-setter at Scar Top, the riders on the fell road. He does not cry until he gets to the part where his father said get away home. Jennet Hobday listens without moving. When he has finished she sits a long time. Then she says, 'You used to fish with him. Off the starling.' Kit nods. She looks at the sheet on the bed. 'He said you were the only one of the carters' lot who wasn't a lout.' She does not forgive him. She does not tell him to go, either.".
+  }
+  Discovery jennet_knows "Jennet Hobday knows who was driving, and why Wat Pardoe said he was.".
+  Action tell_jennet(actor: group, site: place) "Tell Jennet Hobday that Kit Pardoe was driving, and Wat took the blame" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hobday_room) and at(jennet, hobday_room)
+      and knows(actor, kit_driving) and not kitToldJennet(jennet) and not jennetTold(jennet).
+    Time 2.
+    On success { Assert jennetTold(jennet). Assert jennetInformed(jennet). }
+    Result "She hears you out without moving. Then she gets up, and puts on her shawl, and goes past you out of the door without a word, and down Bridge Street toward the Guildhall, walking very fast.".
+  }
+}
