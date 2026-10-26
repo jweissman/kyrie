@@ -75,7 +75,8 @@ describe('a new game begun while a command of the last is under way', () => {
     expect(performing).rejects.toThrow('no longer under way');
     await performing.catch(() => undefined);
     expect(inner.log).toEqual([]);
-    await new Promise(r => setTimeout(r, 300));
+    // The new game is kept once its world is packed, which under a loaded machine is not at once.
+    for (let i = 0; i < 300 && !saves.length; i++) { await new Promise(r => setTimeout(r, 100)); }
     const last = JSON.parse(await SaveCodec.unpack(saves.at(-1)!)) as { log: unknown[];
       checkpoint: { transcript: { scenario: string } } };
     expect(last.checkpoint.transcript.scenario).toContain('thrume');
