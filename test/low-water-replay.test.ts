@@ -14,4 +14,16 @@ describe('Low Water replayed', () => {
     expect(told).toContain('knows party lowwater__question_heard: yes');
     expect(told).toContain('Four low notes come down the terraces');
   }, 120000);
+  // A late act the same way: the Lector's bell, the Mere at night, Ammerlin in the water, the stair, and the Auditor.
+  it('plays the descent to the Auditor the same in two fresh processes', () => {
+    const stair = () => Bun.spawnSync(['bin/kyrie', 'play', 'data/campaigns/low-water.campaign.json', '--seed', 'replay',
+      '--steps', 'test/fixtures/low-water/the-stair.steps.json', '--probe', 'knows party lowwater__auditor_heard',
+      '--probe', 'knows party lowwater__ledger_of_water', '--probe', '#lowwater__approach lowwater__bowl'], { stderr: 'pipe' });
+    const [a, b] = [stair(), stair()];
+    expect(a.exitCode).toBe(0);
+    const told = a.stdout.toString();
+    expect(told).toBe(b.stdout.toString());
+    expect(told).toContain('knows party lowwater__auditor_heard: yes');
+    expect(told).toContain('What is the Ward worth?');
+  }, 120000);
 });

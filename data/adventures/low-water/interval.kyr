@@ -99,9 +99,10 @@ Module lowwater "Low Water" {
   Rule doubles_walk when doubled(party) and mirrorWatches(party) >= 12 and not doublesLoose(party)
     says "Behind you in the Ward in the water, the figures with your faces get up off the steps all together and walk away up the stair toward the coin of light that is the Mere from below." {
     Assert doublesLoose(party). }
-  Species double_kind "a double" like water_elemental temperament savage described "Yourself, in water, the wrong way round: your face, your coat, your weapon in the other hand. It moves as you move, a moment late, and it does not breathe.".
+  // They fight as the company fights, being copies of it: people, not monsters, with a weapon in the other hand.
   Person doubles "your doubles" at mirror_ward {
-    Role "yourselves in water, left for right". Species double_kind. Level 1. Numbers 4.
+    Role "yourselves in water, left for right, your weapons in the other hand". Ancestry human. Calling warrior. Level 1. Numbers 4.
+    Called "the double with your face", "the double with the left-handed blade", "the double that is late", "the double in the long coat".
     Seen when doublesLoose(party) and not doublesLaid(party).
     Comes "They come up the steps at you, each to its own, the way a reflection comes up to meet you when you lean over a well.".
   }
@@ -127,7 +128,7 @@ Module lowwater "Low Water" {
   Action sing_doubles(actor: group, site: place) "Sing the Seventh at your doubles" {
     Description "Four low notes, alike. They are made of the same water as the rest.".
     Requires able(actor) and company(actor) and at(actor, site) and at(doubles, site) and doublesLoose(actor) and not doublesLaid(actor) and knows(actor, remainders_tones).
-    Time 2.
+    Time 1.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert doublesLaid(actor). }
     Result "You sing it at yourselves. Your doubles open their mouths to sing it back, and cannot; it is the one verse the water was never taught backward. They come apart where they stand, the way a reflection comes apart when a stone goes in.".

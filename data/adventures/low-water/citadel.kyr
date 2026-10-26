@@ -33,6 +33,7 @@ Module lowwater "Low Water" {
   Species assayer_kind "an Assayer" like crystal_elemental temperament obedient described "A figure of old glass twice the height of a man, without a face, holding a set of scales before it in both hands. When it moves, the beams stay level.".
   Person assayers "the Assayers" at glass_gate {
     Role "figures of glass, holding scales". Species assayer_kind. Level 4. Numbers 3.
+    Called "the Assayer of what is counted", "the Assayer of what is owed", "the Assayer of whether they are equal".
     Greets "The Assayers turn, all three, toward you, and the beams of their scales dip, very slightly, and come level.".
     Warns "The three Assayers turn toward you together. Their beams have tipped, all three the same way, toward you, and they are walking to level them.".
   }

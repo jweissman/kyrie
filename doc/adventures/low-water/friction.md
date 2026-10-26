@@ -56,6 +56,7 @@ The severity and kind follow [The House That Grows' ledger](../house-that-grows/
 | 24 | A step label can match another person's topic in the same room | minor | tooling |
 | 25 | A rule's `says` during an action reaches the page but not the journey's `told` | minor | tooling |
 | 26 | Dependencies would not install from their tarball (403) | — | environment |
+| 27 | Nothing compares an encounter's strength with the party's; the only humanlike foe is a class, not a species | moderate | missing |
 
 ## 1. A way's `opening when` is checked before the module's own rules
 
@@ -225,3 +226,21 @@ assertion on `Bowl.said` failed. Other rule texts, fired during waits, are in `t
 `bun install` was refused (403) fetching two git dependencies as tarballs. I cloned them at the pinned commits into
 the scratchpad, pointed `package.json` at them for the install, and restored `package.json` and `bun.lock`. Nothing of
 this is committed.
+
+## 27. Nothing compares an encounter with the party
+
+**Where.** `interval.kyr`: the doubles.
+
+**What happened.** I built the doubles as `like water_elemental` at `Level 1`, four of them. `Level` scales hit points
+but leaves the base attributes and armour alone: STR 16, DEX 19, scale. Against a level-1 company of three and Isaura,
+one failed song (two watches in the fight) ended in *Your company is defeated*. Lint passed. Only a journey that
+failed the check on purpose found it.
+
+**What I did.** The doubles are now `Ancestry human. Calling warrior. Level 1.`, named with `Called` by what they
+copy (*the double that is late*). The song takes one watch. Over three seeds the fight is now lost twice and won once:
+dangerous, as intended, with four ways around it. The Assayers stay a deliberately unwinnable fight at level 1, with
+three ways to settle them.
+
+**Remedy.** Lint an encounter whose expected damage per round, against the campaign's starting party, would down the
+party within N rounds. Or report each hostile group's strength against the party at lint time, as information.
+

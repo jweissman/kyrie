@@ -96,8 +96,8 @@ Seven new journeys in `test/low-water.test.ts`, with shared steps in `test/suppo
 The census journey now waits for the count, makes the round trip through the water, and leaves before the heart
 arrives. The Open Bowl journey also checks that the Mere stood up on its way to the count.
 
-Not yet journeyed: the held-door grille, and lifting the heart from the socket; climbing the stair after the light.
-Both are linted, and are the same item and actions the journeys above use.
+Not journeyed when this was written: the held-door grille, lifting the heart from the socket, and climbing the stair
+after the light. All three have journeys now ([05 §4](05-implementation-report.md)).
 
 ## What resisted (added to [05 §3](05-implementation-report.md))
 
@@ -112,11 +112,11 @@ Both are linted, and are the same item and actions the journeys above use.
     player take it, which reads better anyway. Remedy for Kyr: lint `keeps` asserted on a group, or file the item with
     the group's first member.
 
-## Still short of the plan
+## Still short of the plan (as of this pass; see [11](11-act-four.md) and [05](05-implementation-report.md))
 
-* **Scale.** About 71 rooms over four planes, against a plan of 150 to 200. The wheel-rooms are nine rooms, not nine
+* **Scale.** About 71 rooms over three planes, against a plan of 150 to 200. The wheel-rooms are nine rooms, not nine
   galleries. The citadel is five rooms, not a fortress.
-* **Act IV unchanged.** The Hearing does not yet hear about the Auditor. The plan's council of war is unbuilt: Quill's
+* **Act IV unchanged.** *(Built afterward: [11](11-act-four.md).)* The Hearing does not yet hear about the Auditor. The plan's council of war is unbuilt: Quill's
   sophistry as the weapon, and the city choosing among the false number, the Fourth, the break and going through.
 * **The Collegium in Imbar.** *MERROW NEXT* is a line, not a thread. Nothing in The Long Man responds to it.
 * **No fight.** The Reflected are a cold, not a combat, and the Assayers are peaceable. Kept that way deliberately:

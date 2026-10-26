@@ -74,6 +74,24 @@ export class Bowl {
   // Back down from the Auditor's seat, through Ammerlin in the water, up through the still water to the Ward landing.
   static readonly fromSeat = ['hall of the nine circles', 'hall of receipts', 'glass gate', 'top of the stair', 'foot of the stair',
     'Ward in the water', 'square in the water', 'Rim in the water', 'Bowl in the water', 'still water', 'Ward landing'];
+  // The Fourth sung again on the Cantor's word, and the Grey Way opened on Quill's terms: the count closes with the door held.
+  static get keptCount() {
+    return [...this.act1, ...this.trial, ...this.descent, ...this.night, ...this.morning, '^To the new mud', '^To the Ward landing',
+      '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^Into the Sounding', "Cantor's room", 'Talk to Cantor',
+      'the Fifth Remainder was', 'what the Fourth Remainder said', 'sing the Fourth every night', 'Take your leave',
+      "^To the Sounding's nave", '^Out to Measures Square', '^To the head of the Stair', '^To the Rim Gauge', '^To the fulling mills',
+      'Into the Guild counting', "Quill.s counting-room", 'Talk to Harrow', 'working machine under the Mere',
+      'what the city would owe him', "Agree to Quill's terms", 'Take your leave', '^To the counting-house floor',
+      '^Out to the fulling mills', '^To the Rim Gauge', 'Break out the old third mouth'];
+  }
+  // From the Rim, a torch bought, down the Ninth Lock and through the Equals' hall to the counting gallery.
+  static readonly backDown = ['^To the head of the Stair', '^To Measures Square', '^Into the Full Measure', 'Buy › A torch',
+    '^Out to Measures Square', "^To the Dyers' Walk", '^To the lock stair', '^To the Ninth Lock', 'a torch: Light',
+    '^To the intake culvert', '^To the dry vestibule', 'Hall of the Equals', '^To the counting gallery'];
+  // Retries a check-resolved action while it is offered, until what it is for holds, at most a few times.
+  static async tryUntil(j: Journey, step: string, done: () => boolean, tries = 4) {
+    for (let i = 0; i < tries && !done() && j.find(step); i++) { await j.play(step); }
+  }
   static get act1() {
     return [...this.arrive, ...this.toDyers, ...this.basin, ...this.rim, '=+6', '^Take', ...this.office, ...this.sounding,
       ...this.lock];

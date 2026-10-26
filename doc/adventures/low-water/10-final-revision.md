@@ -119,8 +119,10 @@ Three more journeys, making 28 in `test/low-water.test.ts`:
 2. Annet's jar: broken, the Assayers roused, and Isaura's debit.
 3. The echoes in Act I: the Check, double entry, the Lector's bench.
 
-Not journeyed (all linted): the weight-stone and cup payments, singing the doubles down, and singing for the heart.
-They use the same relations as the journeyed routes.
+Not journeyed when this was written: the weight-stone and cup payments, singing the doubles down, and singing for the
+heart. All but the cup have journeys now ([05 §4](05-implementation-report.md)). Playing them changed the doubles: one
+failed song let four of them, built on the water-elemental stat block, kill a level-1 company outright. They are now
+level-1 human warriors, the company's own shapes, and the song takes one watch.
 
 ## What I would still change
 

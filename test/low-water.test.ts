@@ -403,7 +403,84 @@ describe('Low Water', () => {
       ...Bowl.councilFinding('enter the Ward in the Office.s ledger as inestimable', 'creditor.s own question'));
     expect(j.holds(L('verdictInestimable'), L('ammerlin'))).toBe(true);
     expect(j.holds(L('wardValued'), L('bowl'))).toBe(true);
-    await j.play(...Bowl.leave);
+    // Back up the stair afterward: the creditor heard it read.
+    await j.play('^To the hall of the Office', '^Out to Measures Square', "^To the Dyers' Walk", '^To the lock stair',
+      '^To the Ward landing', '^To the new mud');
+    await Bowl.untilNight(j);
+    await j.play(...Bowl.underMere.slice(1), 'Ward in the water', 'foot of the stair', 'top of the stair', 'glass gate',
+      'hall of receipts', 'nine circles', 'seat of the Auditor', 'Tell the Auditor what the Council entered');
+    expect(Bowl.page(j)).toContain('It is the second time');
+    await j.play(...Bowl.fromSeat, '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^To the head of the Stair',
+      '^To the north road', 'Go up out of the Bowl');
     expect(j.holds('reached', L('inestimable'))).toBe(true);
+  }, 300000);
+  it('holds the door when the count closes, opens the grille of the ninth arch, and carries the heart out of the Bowl', async () => {
+    const j = await Bowl.start('kept-count');
+    await j.play(...Bowl.keptCount);
+    await Bowl.untilComplete(j);
+    expect(j.holds(L('doorHeld'), L('reckoner'))).toBe(true);
+    // Held, the heart stays in its socket: the Reflected never take it.
+    expect(j.at(L('ninth_heart'))).toBe(L('ninth_socket'));
+    await j.play(...Bowl.backDown, 'room of the ninth wheel', 'ninth socket');
+    expect(Bowl.page(j)).toContain('In the ninth socket of its rim, the stone breathes');
+    await j.play('^Take');
+    expect(j.holds('carries', 'party', L('ninth_heart'))).toBe(true);
+    await j.play('room of the ninth wheel', 'counting gallery', 'Hall of the Equals', '^To the dry vestibule', '^To the intake culvert',
+      '^To the Ninth Lock',
+      '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^To the head of the Stair', '^To the north road',
+      'Go up out of the Bowl');
+    expect(j.holds('reached', L('ninth_jewel'))).toBe(true);
+  }, 300000);
+  it('follows the light up the stair in the water, ringing the bell, and is the same game saved and opened on the stair', async () => {
+    const j = await Bowl.start('climb');
+    await j.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud', '^To the Ward landing');
+    await Bowl.untilComplete(j);
+    await Bowl.untilNight(j);
+    await j.play('^To the new mud', ...Bowl.underMere.slice(1), 'Ward in the water', 'foot of the stair');
+    expect(Bowl.page(j)).toContain('a light is climbing');
+    const back = Journey.of(PlaySession.resume(JSON.parse(JSON.stringify(j.session.checkpoint()))));
+    for (const k of [j, back]) { await k.play('Climb the stair after the light', '^Take'); }
+    for (const k of [j, back]) { expect(k.holds('carries', 'party', L('ninth_heart'))).toBe(true); }
+    expect(back.watch()).toBe(j.watch());
+    expect(back.taken.map(t => t.page)).toEqual(j.taken.slice(-back.taken.length).map(t => t.page));
+    expect(back.measure(L('approach'), L('bowl'))).toBe(j.measure(L('approach'), L('bowl')));
+  }, 300000);
+  it('sings the Seventh at the one with cupped hands until it lets the heart go', async () => {
+    const j = await Bowl.start('sing');
+    await j.play(...Bowl.arrive, '^To Measures Square', ...Bowl.sounding, ...Bowl.bell.slice(1), '^To the new mud', '^To the Ward landing');
+    await Bowl.untilComplete(j);
+    await Bowl.untilReflected(j);
+    await Bowl.tryUntil(j, 'Sing the Seventh at the one with cupped hands', () => j.holds(L('heartRecovered'), 'party'));
+    expect(j.holds(L('heartRecovered'), 'party')).toBe(true);
+    expect(Bowl.pages(j)).toContain('listens to you attentively');
+    expect(Bowl.page(j)).toContain('the stone slips through them');
+  }, 300000);
+  it('meets its doubles on the landing: sings them apart, or fights them as the company fights', async () => {
+    const sung = await Bowl.start('d2');
+    await sung.play(...Bowl.arrive, '^To Measures Square', ...Bowl.sounding, ...Bowl.bell.slice(1), '^To the new mud');
+    await Bowl.untilNight(sung);
+    await sung.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6));
+    await Bowl.tryUntil(sung, 'Sing the Seventh at your doubles', () => sung.holds(L('doublesLaid'), 'party'));
+    expect(sung.holds(L('doublesLaid'), 'party')).toBe(true);
+    const fought = await Bowl.start('d3');
+    await fought.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud');
+    await Bowl.untilNight(fought);
+    await fought.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6), 'Wait › A while');
+    for (let i = 0; i < 12 && fought.find('^Attack'); i++) { await fought.play('^Attack'); }
+    expect(Bowl.pages(fought)).toContain('The double that is late');
+    expect(fought.holds('dead', L('doubles'))).toBe(true);
+  }, 300000);
+  it('pays the Assayers for Annet Kettle\'s jar with a weight-stone from the dig', async () => {
+    const j = await Bowl.start('halm');
+    await j.play(...Bowl.arrive, '^To Measures Square', '^Into the Office of Measures', "Registrar's room", 'Talk to Registrar',
+      'what she wants from you', 'Take your leave', '^To the hall of the Office', '^Out to Measures Square', "^To the Dyers' Walk",
+      '^To the lock stair', '^To the Ward landing', '^To the new mud', '^To the dig', 'Talk to Dov', 'Quill.s agent', 'Take your leave',
+      ...Bowl.freeze, '=430', '^Take', ...Bowl.bell.slice(6), '^To the new mud');
+    await Bowl.untilNight(j);
+    await j.play(...Bowl.underMere.slice(1), 'Ward in the water', 'foot of the stair', 'top of the stair', 'glass gate',
+      'hall of receipts', 'jars of counted water: Examine', "Take down Annet Kettle's jar", 'Put in › A weight-stone');
+    expect(Bowl.pages(j, j.taken.length - 1)).toContain('the way clerks go back to their desks');
+    expect(j.at(L('assayers'))).toBe(L('glass_gate'));
+    expect(j.holds('tolerates', L('assayers'), 'party')).toBe(true);
   }, 300000);
 });
