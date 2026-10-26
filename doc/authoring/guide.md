@@ -185,6 +185,12 @@ The words are:
 A creature given no words is told in plain ones: "A grey wolf stands its ground and watches you. It will not have
 you here for long."
 
+Only a creature that warns leaves the company a turn for anything but a fight: a savage one is on it before anything is
+offered. A danger with ways round it (a weight held out, a quiet slip along the pool) is territorial or defensive, with
+a `Warns` in its own manner that says what the ways round are (What Tessary Owes' Forsworn, W14). Each thing done while
+warned spends its patience, so the warning should name its price and the alternative (Bettany Slake's "Five coin for
+the use of it, or back up the street the way you came", W22).
+
 ## 4. Things with states
 
 A thing stands at a place or on a passage, and is in exactly one state at a time. Each state has the description the
@@ -609,6 +615,9 @@ stilling):
   Rule quickening when memberOf(?m, ?c) and company(?c) and not slowedMember(?m) and speed(?m) == 50 { Set speed(?m) to 0. }
 ```
 
+A query of no arguments is called with empty brackets wherever it is used: `Query lowWater() means …` is tested as
+`lowWater()`, and `lowWater(ossel)` is refused as "Unknown function or arity" (What Tessary Owes' W13).
+
 ### Who hears what a rule says
 
 A rule's `says` is told to the company wherever it is, unless the rule is anchored: `Rule name at place when … says
@@ -682,6 +691,9 @@ and the map and the page give its description as the reason (`probes/moon-gate`)
 ```
 
 The condition is read with the world's rules, so it may be anything a rule may test: the hour, a fact, a measure.
+It is read again once every rule of the moment has run, so a gate declared before the rule that lets the company
+through is open as soon as that rule has (`probes/admitted`; Low Water's Assayers' gate, What Tessary Owes' black
+wall).
 
 ### Kin, companions and animals
 
@@ -700,7 +712,8 @@ A command takes minutes (`Time 2 minutes.`) or watches (`Time 1.`, ten minutes e
 ten of them is a watch passed. A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`, `hour(clock)`,
 `dice(clock)`) and conditions on bodies run down; every other power and person acts, in the order the campaign
 lists them; then every rule is tried once, the shared rules first, then each module in the order the campaign
-installs it, each in the order its rules are written; then what a hazard strikes lands on bodies. A rule sees what
+installs it, each in the order its rules are written; then each way that opens only sometimes is read again; then
+what a hazard strikes lands on bodies. A rule sees what
 the rules before it changed in the same watch. A rule whose condition still holds fires again next watch, so a rule
 meant to happen once either changes what it tests (`Assert sung(party)` beside `not sung(party)`) or is an `Event`,
 which happens once. An action that passes no watch (one that takes no time, or a few minutes) is followed by one
