@@ -24,6 +24,15 @@ where each stands (each repair with the audit's cases as specs, which fail befor
 | retained heap of a long session (its section 7) | done: 128 MB of grounded actions kept forever; a long session now holds 77 MB at step 333 of wren, a fresh restore 48 | 7ff6072 |
 | frontier expansion 3.9–6.1 s | partly: crossings 1.2–2.1 s (prepared ahead, installed into the live world) | 66a968d, 3b9fa5e |
 
+## The independent review of 483e3af and the cold playtest of 2684952
+
+The review (`review/architecture-2026-10-25`, `doc/architecture/next-phase-independent-review/report.md` there) and
+the cold playtest (`review/cold-playtest-2026-10-25`) arrived on 2026-10-25. What of them is done here:
+
+| finding | stands | where |
+|---|---|---|
+| A1 a fact once learned blocks every later installation (the owner's "invalid knowledge") | done: only what the modules give the company to know from the start is checked; what it has learned in play is not | `test/crossing-knowledge.test.ts` (fails before: a1's east march refused) |
+
 ## Done and verified
 
 - **III.B. The map faithful to what is known.** A fact may lead to a place (`leadsTo`, in the shared rules): known,

@@ -1,0 +1,8 @@
+Module knownfalse "A company that starts knowing what is not so" {
+  Place moor "the moor" is wilderness.
+  Place hollow "a hollow" is room within moor at 0, 0 outdoors.
+  Company party "You" of 1 at hollow.
+  // Not a discovery: nothing establishes it, so the company cannot begin by knowing it.
+  Entity hearsay: fact "The hollow is haunted.".
+  Initially Assert knows(party, hearsay).
+}

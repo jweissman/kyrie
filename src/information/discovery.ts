@@ -105,10 +105,14 @@ export class Discovery {
         throw new Error('A reliable discovery source must attest an established fact');
       }
     }
-    // An imported fact is established, or not, in the module that declares it.
-    for (const relation of world.related('knows').filter(r => !imported.includes(r.args[1]!))) {
-      if (!world.test(ModuleWriter.call('established', relation.args[1]!))
-        || world.test(ModuleWriter.call('assumesFalse', ...relation.args))) {
+    // What the modules give the company to know from the start (Initially Assert knows, Known by) must be so. What it
+    // has learned in play is not checked again when a module joins the world later: once the company had learned a
+    // fact an observation teaches without its being established, every later march crossing was refused (the
+    // review's A1, and the owner's "invalid knowledge"). An imported fact is established, or not, in its own module.
+    const initial = module.initial.filter(c => c.kind === 'assert' && c.call.name === 'knows').map(c => c.call);
+    for (const call of initial.filter(c => !imported.includes(c.args[1]!))) {
+      if (!world.test(ModuleWriter.call('established', call.args[1]!))
+        || world.test(ModuleWriter.call('assumesFalse', ...call.args))) {
         throw new Error('Invalid initial knowledge');
       }
     }
