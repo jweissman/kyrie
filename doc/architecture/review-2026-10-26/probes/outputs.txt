@@ -1,0 +1,32 @@
+$ bun doc/architecture/review-2026-10-26/probes/torn-save.ts
+write 1: true
+write 2: false
+state kept: S1 | world key stored: W2 | summary names world: W1 | world returned to resume: true
+back.world = "W1"
+
+$ bun doc/architecture/review-2026-10-26/probes/parse-cache.ts
+scenario 1, B:             a red gem
+scenario 2, B (cached):    a red gem
+scenario 2, B (fresh text): a blue gem
+
+$ bun doc/architecture/review-2026-10-26/probes/bundle-drift.ts
+206 files; 0 differ
+
+$ bun doc/architecture/review-2026-10-26/probes/engine-composition.ts <outdir>
+worker: 3887 KiB minified
+   473 KiB  src/world
+   466 KiB  node:crypto
+   249 KiB  src/campaign
+   196 KiB  node_modules/ohm-js
+   170 KiB  src/lang
+   133 KiB  node:stream
+   122 KiB  src/presentation
+   113 KiB  src/ui
+   109 KiB  node_modules/deem
+    51 KiB  src/rules
+    45 KiB  src/canon
+    41 KiB  node:buffer
+    40 KiB  src/narrative
+    22 KiB  src/effects.ts
+    19 KiB  src/battle.ts
+    16 KiB  node_modules/languages
