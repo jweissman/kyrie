@@ -65,7 +65,10 @@ export class PlaySession {
   extend(expander: Expander): this { this.expander = expander; return this; }
   drawnFor(drawn: Drawn): this { this.drawn = structuredClone(drawn); return this; }
   // live: to be written out at once, so not copied (see Campaign.save).
+  // The game between commands: one taken while a command is under way (the country beyond it still being drawn) held
+  // its effects but not its step (the independent review's A2).
   checkpoint(live = false): SessionCheckpoint {
+    if (this.busy) { throw new Error('Save only between campaign commands'); }
     return { version: 1, transcript: this.transcript, save: this.campaign.save(true, live) };
   }
   async perform(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {

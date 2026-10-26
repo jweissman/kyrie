@@ -46,6 +46,8 @@ export class EngineHost {
   // The last fight the company chose in, held on its page once it has ended, until the player goes on.
   private fought?: Battle;
   private readonly creation = new Creation();
+  // The command under way, if any, which a checkpoint waits for.
+  private working: Promise<unknown> = Promise.resolve();
   constructor(private readonly post: (message: Message) => void) {}
   warm() { setTimeout(() => void ModuleBundle.warmRules(Scenarios.source()).catch(() => undefined), 0); }
   async handle(request: Request): Promise<unknown> {
@@ -57,10 +59,14 @@ export class EngineHost {
       case 'begin': return this.begin(request);
       case 'ready': this.prepare(request); return null;
       case 'resume': return this.resume(request.saved, request.world);
-      case 'perform': return this.perform(request.command, { said: request.said, move: request.move,
-        named: !!request.named });
+      case 'perform': {
+        const done = this.perform(request.command, { said: request.said, move: request.move, named: !!request.named });
+        this.working = done.catch(() => undefined);
+        return done;
+      }
       case 'fight': this.fight(request.choice); return null;
-      case 'checkpoint': return this.session ? JSON.stringify(this.session.checkpoint(true)) : null;
+      // The page's download waits for the command under way (the independent review's A2).
+      case 'checkpoint': await this.working; return this.session ? JSON.stringify(this.session.checkpoint(true)) : null;
     }
   }
   // A start made ready while the player reads the page, for the choices as they then stood.

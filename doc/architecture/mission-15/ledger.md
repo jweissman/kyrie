@@ -32,6 +32,7 @@ the cold playtest (`review/cold-playtest-2026-10-25`) arrived on 2026-10-25. Wha
 | finding | stands | where |
 |---|---|---|
 | A1 a fact once learned blocks every later installation (the owner's "invalid knowledge") | done: only what the modules give the company to know from the start is checked; what it has learned in play is not | e0d2d04, `test/crossing-knowledge.test.ts` (fails before: a1's east march refused) |
+| A2 a checkpoint taken during a crossing is inconsistent | done: the session refuses a checkpoint while a command is under way, and the page's download waits for it | `test/checkpoint-race.test.ts` |
 | E2 march-stones can name the wrong country | done: authored countries lie beyond the first country's marches only, where its folk name them; the seed chooses among the independent adventures that fit it | `test/frontier.test.ts` |
 
 ## Done and verified
