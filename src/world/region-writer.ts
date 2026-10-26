@@ -53,8 +53,13 @@ export interface Region extends Naming {
   history?: History;
   // Where it lies in its world, and what the folk call the country beyond each of its borders (see WorldGrid).
   at?: [number, number];
+  // One with no road over into it from here (an authored country entered from another side) is closed, and the
+  // folk may know the country it is entered from (way).
   beyond?: Partial<Record<Side, { name: string; terrain: string; rumour?: string; heard?: string; topic?: string;
-    notice?: { name: string; text: string; talk: string }; after?: { talk: string; told: string } }>>;
+    notice?: { name: string; text: string; talk: string }; after?: { talk: string; told: string }; closed?: boolean;
+    way?: string }>>;
+  // The authored countries its folk have heard of further off, beyond the countries next to theirs (Countries.further).
+  further?: { side: Side; via: string; then: Side; name: string; terrain: string; far: string; id: string }[];
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }

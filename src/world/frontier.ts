@@ -20,7 +20,18 @@ export class Frontier {
     const here = at && WorldGrid.at(at[1]!);
     if (!at || !here) { return false; }
     const rid = WorldGrid.id(...WorldGrid.next(here, at[2] as Side));
-    return !new Set(campaign.installed).has(rid);
+    return !new Set(campaign.installed).has(rid) && !this.closed(campaign, rid, at[2] as Side);
+  }
+  // Whether the road goes no further than the march-stone: the country beyond is an authored one, entered from
+  // another side, and not there yet as something else (a world kept from before it was planned there).
+  private closed(campaign: Campaign, rid: string, side: Side): boolean {
+    const planned = new Set(campaign.installed).has(rid) ? this.holds(campaign, rid)
+      : Countries.plan(this.seed, this.first(campaign)).get(rid);
+    return !!planned && planned.side !== side;
+  }
+  // What kind of country the world's first is, which with the seed decides where its authored countries lie.
+  private first(campaign: Campaign): string {
+    return campaign.world.one('terrain', `${RegionWriter.id}__region`)?.replace(/^.*__/, '') ?? '';
   }
   // After each command: the country beyond the march-stone the company stands at, if it is not there yet, and the
   // road to it. The region newly drawn, if one was.
@@ -32,8 +43,8 @@ export class Frontier {
     const link = `link${[at[1]!, rid].sort().join('')}`, installed = new Set(campaign.installed);
     if (installed.has(link)) { return undefined; }
     // An authored country is reached by its own road in, and by no other.
+    if (this.closed(campaign, rid, side)) { return undefined; }
     let region: Region | undefined, country = this.holds(campaign, rid);
-    if (country && country.side !== side) { return undefined; }
     if (!installed.has(rid)) {
       country = this.fits(campaign, at[1]!, side);
       if (country) {
@@ -65,7 +76,8 @@ export class Frontier {
       const at = /^(.+)__edge_(north|east|south|west)$/.exec(way.args[2] ?? ''), from = at && WorldGrid.at(at[1]!);
       if (!at || !from) { continue; }
       const side = at[2] as Side, [x, y] = WorldGrid.next(from, side), rid = WorldGrid.id(x, y);
-      if (installed.has(rid) || installed.has(`link${[at[1]!, rid].sort().join('')}`)) { continue; }
+      if (installed.has(rid) || installed.has(`link${[at[1]!, rid].sort().join('')}`)
+        || this.closed(campaign, rid, side)) { continue; }
       const country = this.fits(campaign, at[1]!, side);
       if (country) { await ModuleBundle.prepare(this.base.resolve(`data/adventures/${country.bundle}`), this.base); continue; }
       const beyond = await this.drawn(campaign, x, y, true);
@@ -77,7 +89,8 @@ export class Frontier {
   private async drawn(campaign: Campaign, x: number, y: number, keep = false) {
     const installed = new Set(campaign.installed);
     const at = { x, y, calendar: campaign.state.calendar, exclude: await this.placed(installed),
-      named: this.named(campaign, [x, y]), taken: this.works(campaign) }, key = JSON.stringify(at);
+      named: this.named(campaign, [x, y]), taken: this.works(campaign), first: this.first(campaign) };
+    const key = JSON.stringify(at);
     const beyond = this.ahead.get(key) ?? await WorldAssembler.beyond(this.seed, this.base, at);
     if (keep) { this.ahead.set(key, beyond); } else { this.ahead.clear(); }
     return beyond;
@@ -86,17 +99,15 @@ export class Frontier {
   private holds(campaign: Campaign, rid: string): Country | undefined {
     return Countries.list.find(c => campaign.module.entities.some(e => e.id === `${rid}__${c.marker}`));
   }
-  // The authored country that fits beyond this march, if one does and is not in the world already. Only the first
-  // country's marches lead into one, where its folk name it: a country drawn later names its own neighbours on its
-  // march-stones, and one installed beyond them made the stone lie (the independent review's E2).
+  // The authored country beyond this march, if the world's plan puts one there (Countries.plan), entered from here,
+  // and it is not in the world already. Only where the folk of the country told of it: a world kept before a country
+  // drawn later could lead into one has its stones naming the countries drawn there, and keeps them (the independent
+  // review's E2: a stone that named one country and led into another).
   private fits(campaign: Campaign, here: string, side: Side): Country | undefined {
-    // Only where the folk told of an authored country beyond (a world kept before more countries could be held on
-    // other marches has its stones naming the countries drawn there, and keeps them).
-    if (here !== RegionWriter.id || !campaign.module.entities.some(e => e.id === `${here}__edge_${side}_beyond`)) {
-      return undefined;
-    }
-    const terrain = campaign.world.one('terrain', `${here}__region`)?.replace(/^.*__/, '') ?? '';
-    return Countries.fits(terrain, side, c => campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), this.seed);
+    const at = WorldGrid.at(here);
+    if (!at || !campaign.module.entities.some(e => e.id === `${here}__edge_${side}_beyond`)) { return undefined; }
+    const c = Countries.plan(this.seed, this.first(campaign)).get(WorldGrid.id(...WorldGrid.next(at, side)));
+    return c && c.side === side && !campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)) ? c : undefined;
   }
   // Whether a campaign is a generated world (its manifest is one the assembler wrote), which can go on past its edges.
   static generated(scenario: string): boolean { return /(^|\/)world-[^/]*\.campaign\.json$/.test(scenario); }
@@ -127,7 +138,9 @@ export class Frontier {
       const rid = WorldGrid.id(...WorldGrid.next(at, side)), entity = `${rid}__region`;
       const name = campaign.module.entities.find(e => e.id === entity)?.name;
       const terrain = world.one('terrain', entity)?.replace(/^.*__/, ''), held = this.holds(campaign, rid);
-      if (held) { return [[side, { name: held.name, terrain: held.terrain }]]; }
+      const way = held && `${WorldGrid.id(...WorldGrid.next(WorldGrid.next(at, side), Borders.opposite[held.side]))}__region`;
+      if (held) { return [[side, { name: held.name, terrain: held.terrain, closed: true,
+        way: campaign.module.entities.find(e => e.id === way)?.name }]]; }
       return installed.has(rid) && name && terrain ? [[side, { name, terrain }]] : [];
     }));
   }

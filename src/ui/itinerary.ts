@@ -105,6 +105,6 @@ export class Itineraries {
     return Spatial.ancestry(byId, id).find(e => ['settlement', 'site'].includes(e.space?.kind ?? ''));
   }
   private static worth(e?: Entity): boolean {
-    return !!e && (['settlement', 'site'].includes(e.space?.kind ?? '') || /^region__edge_/.test(e.id));
+    return !!e && (['settlement', 'site'].includes(e.space?.kind ?? '') || /__edge_(north|east|south|west)$/.test(e.id));
   }
 }

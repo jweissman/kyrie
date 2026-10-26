@@ -79,6 +79,7 @@ export class WorldAssembler {
     memorial?: Memorial;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const region = this.region(seed, [0, 0], options.region);
+    region.further = Countries.further(region, seed);
     const days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
@@ -115,12 +116,15 @@ export class WorldAssembler {
   // The country beyond a border, drawn the first time a company goes there (see Frontier): a region of its own where
   // it lies in the world, with its own scenarios (none placed anywhere already), and no company of its own. The
   // names of the regions already drawn on either side are as they are, not as they would have been drawn; its works
-  // are named apart from the works already drawn (`taken`).
+  // are named apart from the works already drawn (`taken`). (first: the terrain of the world's first country, which
+  // with the seed decides where its authored countries lie: see Countries.plan.)
   static async beyond(seed: string, base: BundleSource, at: { x: number; y: number; calendar?: Region['calendar'];
-    exclude: string[]; named?: Region['beyond']; taken?: string[] }):
+    exclude: string[]; named?: Region['beyond']; taken?: string[]; first: string }):
     Promise<{ requests: BundleRequest[]; source: BundleSource; region: Region }> {
-    const rid = WorldGrid.id(at.x, at.y), region = this.region(seed, [at.x, at.y], undefined, at.taken);
+    const rid = WorldGrid.id(at.x, at.y);
+    const region = this.region(seed, [at.x, at.y], undefined, { taken: at.taken, first: at.first });
     region.beyond = { ...region.beyond, ...at.named }; region.calendar = at.calendar;
+    region.further = Countries.further(region, seed, at.first);
     const library = await this.library(base, 'data/scenarios/library.json');
     const { context, placements } = this.settle(region, library,
       { seed: WorldGrid.seed(seed, at.x, at.y), rid, rounds: [3, 2], exclude: at.exclude });
@@ -133,14 +137,14 @@ export class WorldAssembler {
     return { requests: modules, source: new OverlayBundleSource(base, files), region };
   }
   // A region where it lies in its world, from its own seed: drawn by Deem, laid on its land, named and peopled.
-  private static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>, taken: string[] = []):
-    Region {
+  private static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>,
+    { taken = [], first }: { taken?: string[]; first?: string } = {}): Region {
     const own = WorldGrid.seed(seed, ...at);
     const d = WorldGrid.drawn(seed, ...at, drawn);
     const region = { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken), RandomStreams.key(own, 'world'))),
       at, beyond: WorldGrid.beyond(seed, at) };
-    // The first country knows what authored country lies beyond it; one drawn later is told by the frontier.
-    return at[0] === 0 && at[1] === 0 ? { ...region, beyond: Countries.beyond(region, seed) } : region;
+    // Every country knows what authored country lies beyond it, where one does.
+    return { ...region, beyond: Countries.beyond(region, seed, first ?? region.terrain) };
   }
   // The scenarios a region is given: adventures in the wild places first, then what is going on in the
   // settlements; none placed elsewhere in the world already.

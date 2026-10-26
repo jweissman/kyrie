@@ -10,9 +10,11 @@ export class GeneratedWorld {
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', `region__${place}`) }]));
   }
-  // Walks the company to a place by the shortest way the world joins them, taking each way as the company can.
+  // Walks the company to a place by the shortest way the world joins them, taking each way as the company can (a
+  // place of the first region by its own name; of another, by its id: x0y1__edge_east).
   static async travel(s: PlaySession, place: string) {
-    const world = s.campaign.world, target = `region__${place}`, links = world.related('connects');
+    const world = s.campaign.world, target = place.includes('__') ? place : `region__${place}`;
+    const links = world.related('connects');
     const start = world.one('at', 'party')!, came = new Map<string, [string, string]>([[start, ['', '']]]);
     for (const queue = [start]; queue.length && !came.has(target);) {
       const here = queue.shift()!;

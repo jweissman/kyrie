@@ -73,7 +73,8 @@ export class RegionGeography {
     return `${ns}-${ew}`;
   }
   static terrain(t: string): string {
-    return ({ forest: 'forest', marsh: 'fen', mountain: 'upland', frost: 'frozen', desert: 'desert' } as Record<string, string>)[t] ?? t;
+    return ({ forest: 'forest', marsh: 'fen', mountain: 'upland', frost: 'frozen', desert: 'desert', hills: 'hill' } as
+      Record<string, string>)[t] ?? t;
   }
   // What a name means, when it was given in the folk's own tongue: " The name is Westron for “cold hill”."
   static meaning(place: { gloss?: string; tongue?: string }): string {

@@ -13,9 +13,8 @@ import { SettlementWriter } from './settlement-writer';
 // company goes on (see Frontier).
 export class RegionBorders {
   static lines(region: Region): string[] {
-    const marks = this.marks(region);
-    return (RegionGeography.atlas(region).borders ?? [])
-      .flatMap((b, i) => this.border(b, region, marks[i % marks.length]!));
+    const marks = this.marks(region), borders = RegionGeography.atlas(region).borders ?? [];
+    return [...borders.flatMap((b, i) => this.border(b, region, marks[i % marks.length]!)), ...this.further(region)];
   }
   // The marks a country's borders draw from: the kingdom's first, then the land's, in an order of their own.
   private static marks(region: Region): string[] {
@@ -29,7 +28,10 @@ export class RegionBorders {
   private static border(b: Border, region: Region, mark: string): string[] {
     const q = JSON.stringify, id = this.room(b), [x, y] = RegionGeography.spot(region, b.cell);
     const from = region.settlements[b.seat]!, beyond = region.beyond?.[b.side];
-    const there = beyond ? ` Beyond it the road goes on ${b.side} into ${beyond.name}, ${RegionGeography.terrain(beyond.terrain)} country, the folk say. Few of them have been.` : '';
+    const land = beyond && `${beyond.name}, ${RegionGeography.terrain(beyond.terrain)} country`;
+    // An authored country entered from another side: the folk know there is no road over into it from here.
+    const there = !beyond ? '' : beyond.closed ? ` Beyond it lies ${land}, the folk say; but no road goes over into it from this side.${beyond.way ? ` The way in is from ${beyond.way}, they say.` : ''}`
+      : ` Beyond it the road goes on ${b.side} into ${land}, the folk say. Few of them have been.`;
     // Where the road leaves for a country folk tell of, the place is the road to it; elsewhere, the country's edge.
     const edge = beyond?.rumour ? `the march-stone of ${beyond.name}` : `the ${b.side}ern edge of ${region.name}`;
     return [`  Place ${id}_land ${q(`the ${b.side}ern marches of ${region.name}`)} is wilderness within region at ${x}, ${y}.`,
@@ -58,6 +60,29 @@ export class RegionBorders {
     }
     return lines;
   }
+  // What the folk of every town have heard of the authored countries further off, beyond the countries next to
+  // theirs, asked about what lies beyond each: whoever keeps travellers tells it, and each is known from then as
+  // heard, and puts the road out toward it on the company's map.
+  private static further(region: Region): string[] {
+    const q = JSON.stringify, lines: string[] = [], sides = [...new Set((region.further ?? []).map(f => f.side))];
+    for (const side of sides) {
+      const heard = region.further!.filter(f => f.side === side), via = heard[0]!.via, id = `edge_${side}_further`;
+      for (const f of heard) {
+        const where = f.then === side ? `further ${f.then}` : `${f.then} of it`;
+        lines.push(`  Discovery ${id}_${f.id} ${q(`${this.cap(f.name)} lies beyond ${via}, ${where}: ${RegionGeography.terrain(f.terrain)} country, where ${f.far}. The road ${side} goes to ${via}.`)}.`,
+          `  Initially Assert leadsTo(${id}_${f.id}, ${this.room({ side } as Border)}).`);
+      }
+      const told = heard.map(f => `${f.then === side ? `On ${f.then} beyond it` : `${this.cap(f.then)} of it`} there is ${f.name}, ${RegionGeography.terrain(f.terrain)} country, they say, where ${f.far}.`);
+      for (const s of region.settlements) {
+        const keeper = `${s.id}_innkeeper`;
+        lines.push(`  Topic ${id}_told_${s.id} with ${keeper} ${q(`Ask {${keeper}} about what lies beyond ${via}`)} when not knows(actor, ${id}_${heard[0]!.id}) {`,
+          `    Says ${q(`'Beyond ${via}?' says {${keeper}}. '${told.join(' ')} Folk in ${via} would know more of it than I do.'`)}.`,
+          `    On discuss { ${heard.map(f => `Assert knows(actor, ${id}_${f.id}).`).join(' ')} }`, '  }');
+      }
+    }
+    return lines;
+  }
+  private static cap(text: string): string { return text.charAt(0).toUpperCase() + text.slice(1); }
   // Whether a country beyond says when it is seen through, so the country below can take it as old news.
   static remembers(beyond: NonNullable<Region['beyond']>[Border['side']] | undefined): boolean {
     return !!(beyond?.after && beyond.rumour && beyond.heard);
