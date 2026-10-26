@@ -126,7 +126,6 @@ Module tessary "What Tessary Owes" {
   Item sault_letter "a letter in the Factor's hand" is letter_kind in runners_box.
   Kind letter_kind "a sealed letter" is gear worth 0 weighing 0
     described "A letter folded small and sealed with salt-white wax, stamped with a pair of crossed rakes.".
-  Initially Assert owns(sault, sault_letter).
   // What is seen taken, by those who keep the quay.
   Rule box_watched when state(runners_box, open) and perceives(slake, party) and able(slake) and not hostile(slake, party)
     says "'Oi,' says Bettany Slake, and her cutlass comes out." { Assert hostile(slake, party). Assert assails(runners, party). }

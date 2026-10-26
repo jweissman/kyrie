@@ -355,6 +355,7 @@ Module tessary "What Tessary Owes" {
   Person tally "the Ninth Assessor" at withies {
     Role "a clerk in a grey coat with a ledger, whose skin is faintly ruled like paper". Ancestry human. Calling cleric. Level 3. Peaceable. Pronouns they. Manner stoic.
     Called "Tally".
+    Seen when not tallyUnravelled(ossel).
     Greets "The clerk in grey looks up from the ledger. Close to, the skin of their face and hands is very faintly ruled, like a page, in lines as fine as hairs. 'Good day,' they say. 'You are not on my inventory.'".
     Joins "'Our inquiries coincide,' says the Assessor, and closes the ledger on a ribbon. 'I will accompany you. I will note anything you do that bears on the collateral.'".
     Leaves "'I shall continue the inventory,' says the Assessor. 'I am on page nine.'".
@@ -370,6 +371,10 @@ Module tessary "What Tessary Owes" {
   Topic tally_where with tally "Ask the Assessor where the soldiers you saw walk into the sea have gone" when knows(actor, calling_witnessed) and not knows(actor, held_alive) once {
     Says "The Assessor considers whether this is the affair of a debtor, and decides, visibly, that what you saw with your own eyes is your own affair. 'Into the Holding,' they say, 'where pledged things are kept. They are not harmed. They are held. They stand asleep with the rest of what has been pledged and forfeit, and they do not age.' A pause. 'You are distressed. I am sorry. It is a lawful collection.'".
     On discuss { Assert knows(actor, held_alive). }
+  }
+  Topic tally_discharge with tally "Ask the Assessor what would bring the held home" when knows(actor, held_alive) and not knows(actor, release_law) once {
+    Says "'The discharge of the debt they stand surety for,' says the Assessor, as if reading it. 'A debt is discharged in two ways. It is kept, or it is released: if the one to whom a promise was made says freely to the one who made it, I hold you quit, that weighs in the Balance exactly as the keeping does.' A pause. 'People forget the second. Nobody releases anybody. I have often wondered why.'".
+    On discuss { Assert knows(actor, release_law). }
   }
   Topic tally_confirm with tally "Ask the Assessor whether the city pledged its soldiers' oaths" when (knows(actor, council_knows) or quireConfided(actor)) and not knows(actor, collateral) once {
     Says "'You have seen the Treasurer's list,' says the Assessor. 'Then you have it from the debtor's own officer, and I may confirm what he has let you see.' They open the ledger flat. 'The oaths of the Long Muster, sworn on the instrument the city calls the Oath Stone, are pledged as security on a debt the city owes to the Balance. Since the silver stopped in the summer, interest has been taken in oaths at each spring ebb, in the order of the roll.' They close it. 'Some of the collateral has died since it was pledged, of wounds and of drink. I am noting that.'".

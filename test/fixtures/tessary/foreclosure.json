@@ -1,0 +1,31 @@
+{
+ "day1": [
+  "To the Landgate",
+  "To the Withies",
+  "To the Tideline Steps"
+ ],
+ "day2": [
+  "To the head of the Throat",
+  "=156",
+  "To the foot of the Throat",
+  "To the Weed",
+  "To the Drowned Forum",
+  "To the Street of Scales",
+  "To the ebb-runners",
+  "Knock the peg",
+  "Pick the lockbox",
+  "Take from the ebb-runners",
+  "To the Street of Scales",
+  "To the Drowned Forum",
+  "To the Weed",
+  "To the foot of the Throat",
+  "To the head of the Throat",
+  "letter: Read|Break the wax"
+ ],
+ "tell": [
+  "To the Tideline Steps",
+  "To the Withies",
+  "Tell the Assessor that the Factor means",
+  "=2160"
+ ]
+}

@@ -1,0 +1,11 @@
+{
+"day1": ["To the Landgate", "notice", "Into Pitch", "Buy › A torch", "Buy › A torch", "Out to the Landgate",
+  "To the Withies", "Ask Wick about the night", "Into Nan Teazle", "Ask Nan about Davy", "Ask Nan about the recruiting", "Out to the Withies",
+  "To the Landgate", "To Scriveners", "Into the Exchequer", "Read a list", "Ask the Treasurer about his list", "Ask the Treasurer what the city must do", "Out to Scriveners",
+  "Into Pounce", "Ask Pounce whether", "Pay Pounce six", "draft: Read|Read Pounce", "Out to Scriveners", "To the Landgate", "To the Withies", "To the Tideline Steps"],
+"night1": ["=110", "Ask the Assessor where the soldiers", "Tell the Assessor that the city promised", "Ask the Assessor to come with you", "Ask the Ninth Assessor to join"],
+"below": ["To the head of the Throat", "=156", "To the foot of the Throat", "To the Weed", "To the Drowned Forum", "Into the Hall of Oaths", "torch.*Light", "Into the Strongrooms",
+  "To the Antechamber", "To the Hall of Clerks", "To the Archive", "Ask the Assessor to open the Room", "To the Room of Defaults", "Read the thin ledger", "Ask the Assessor to indict"],
+"assembly": ["To the Archive", "To the Hall of Clerks", "To the Counterweight", "four lines: Take|Take a brass weight of four", "five lines: Take|Take a brass weight of five", "Put in › A brass weight of four", "Put in › A brass weight of five", "To the Weighing Chamber",
+  "=2113", "Testify before the Assembly", "Ask the Assembly to put", "=2160"]
+}

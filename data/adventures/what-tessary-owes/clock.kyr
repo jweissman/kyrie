@@ -17,6 +17,37 @@ Module tessary "What Tessary Owes" {
   // From the evening of the fourteenth night's day the city is keeping the Feast.
   Query feastEve() means night(ossel) >= 14.
 
+  // Where word of the city's doings reaches the company: anywhere in Tessary, not under the sea. A company that has
+  // been below hears what happened when it comes up.
+  Relation cityRoom(place).
+  Initially Assert cityRoom(throat_head).
+  Initially Assert cityRoom(tidewall).
+  Initially Assert cityRoom(legion_yard).
+  Initially Assert cityRoom(tideline_steps).
+  Initially Assert cityRoom(scriveners_row).
+  Initially Assert cityRoom(terraces).
+  Initially Assert cityRoom(withies).
+  Initially Assert cityRoom(landgate).
+  Initially Assert cityRoom(saltgate).
+  Initially Assert cityRoom(pans).
+  Initially Assert cityRoom(teazle_room).
+  Initially Assert cityRoom(drum_taproom).
+  Initially Assert cityRoom(sault_office).
+  Initially Assert cityRoom(warehouse_floor).
+  Initially Assert cityRoom(cistern).
+  Initially Assert cityRoom(muster_hall).
+  Initially Assert cityRoom(seals_hall).
+  Initially Assert cityRoom(seals_inner).
+  Initially Assert cityRoom(exchequer_room).
+  Initially Assert cityRoom(pounce_stall).
+  Initially Assert cityRoom(council_chamber).
+  Initially Assert cityRoom(kings_rooms).
+  Initially Assert cityRoom(marrable_room).
+  Initially Assert cityRoom(chapel).
+  Initially Assert cityRoom(chandlery).
+  Initially Assert cityRoom(causeway_end).
+  Query inTessary() means at(party, ?p) and cityRoom(?p).
+
   // ── The calling ───────────────────────────────────────────────────────────────────────────────────────────────────
   // At a spring ebb the Balance calls a dozen of the collateral, in the order of the Muster's roll. They come down
   // through the Withies in step, barefoot, set their boots together on the top step and walk out over the wet sand
