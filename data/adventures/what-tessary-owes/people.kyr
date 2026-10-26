@@ -361,7 +361,7 @@ Module tessary "What Tessary Owes" {
     Seen when not tallyUnravelled(ossel).
     Greets "The clerk in grey looks up from the ledger. Close to, the skin of their face and hands is very faintly ruled, like a page, in lines as fine as hairs. 'Good day,' they say. 'You are not on my inventory.'".
     Joins "'Our inquiries coincide,' says the Assessor, and closes the ledger on a ribbon. 'I will accompany you. I will note anything you do that bears on the collateral.'".
-    Leaves "'I shall continue the inventory,' says the Assessor. 'I am on page nine.'".
+    Leaves "The Assessor inclines their head, very exactly, and closes the ledger on its ribbon, and goes.".
   }
   Initially Set hire(tally) to 0.
   Topic tally_who with tally "Ask the clerk in grey who they are" when true once {

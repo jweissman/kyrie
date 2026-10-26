@@ -44,7 +44,8 @@ export class Narration {
       const prior = m && out.length ? /^(.+?) (?:each gain|gains) (\d+) experience(: [^.]+)?\.$/.exec(out.at(-1)!)
         : null;
       if (m && prior && prior[2] === m[2] && prior[3] === m[3]) {
-        const names = [...prior[1]!.split(/, | and /), m[1]!];
+        // A name was capitalised as the start of its own sentence ("The Ninth Assessor gains…"); inside a list it is not.
+        const names = [...prior[1]!.split(/, | and /), m[1]!].map((n, i) => i ? n.replace(/^(The|A|An) /, w => w.toLowerCase()) : n);
         out[out.length - 1] = `${names.slice(0, -1).join(', ')} and ${names.at(-1)} each gain ${m[2]} experience${m[3] ?? ''}.`;
       } else { out.push(line); }
     }
