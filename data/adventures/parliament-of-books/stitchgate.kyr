@@ -94,6 +94,8 @@ Module calamy "A Parliament of Books" {
   Person gallon "Widow Gallon" at gallon_shop {
     Role "ink-maker". Ancestry human. Background alchemist. Peaceable. Manner jovial. Pronouns she.
     Wants reed_heart_kind.
+    Sells lantern for 7 coin from 2.
+    Sells lamp_oil for 1 coin from 6.
     Greets "'Ink?' says the woman at the pot. 'Every colour but sense. Don't mind the sighing. It's my son. He's a poet.'".
   }
   Discovery calam_ink "Calam-ink, the old black ink of Calamy that the Lyceum's Catalogue is written in, is made of oak-gall and the ash of reed-heart cut at dead low water in the Calamies. Widow Gallon is the last who makes it, when anybody brings her the reed.".

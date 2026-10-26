@@ -43,6 +43,7 @@ Module calamy "A Parliament of Books" {
   Person moll "Moll Garrow" at taproom {
     Role "the innkeeper of the Lamb and Lantern". Ancestry human. Profession innkeeper. Peaceable. Manner jovial. Pronouns she.
     Sells rations for 2 coin from 12.
+    Sells candle for 1 coin from 10.
     Greets "'Come in, come in, shut the door on the gulls,' says a big woman behind the bar, drying a pot. 'Ale or small beer or tea, and there's eel pie, and if you want a bed it's the loft. Don't mind the almanack.'".
   }
   Topic moll_almanack with moll "Ask Moll Garrow why you are not to mind the almanack" when true once {

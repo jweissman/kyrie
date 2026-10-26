@@ -92,7 +92,7 @@ Module calamy "A Parliament of Books" {
   Discovery pask_suit "Pask's Treatise on the Diseases of Sheep, as Doble printed it, has a writ before the Court of Pleas against Doble for misprinting it: on page thirty-one it says a pound of bluestone where Pask wrote a pennyweight, and shepherds who trust it are poisoning their flocks. The hearing is at ten on the fourth day, and the Treatise has no one to plead for it.".
   Topic pask_cause with pask "Ask the Treatise what its cause is" when true once {
     Says "'Page thirty-one,' says the Treatise. 'A pound of bluestone to the score, for the fluke. I was written a pennyweight. Mr. Pask wrote a pennyweight in his own hand; I remember it, I was there; and Doble's compositor set a pound because the type for pennyweight was in the wrong case.' The book's voice does not rise. 'I have been read on the saltings. I have been believed. I have killed thirty sheep, and I will kill more, every time somebody trusts me.' A pause. 'I should like an erratum slip. I should like it known. I filed the writ myself. A clerk took it down for me out of pity. And the Recorder says a book cannot plead.'".
-    On discuss { Assert knows(actor, pask_suit). }
+    On discuss { Assert knows(actor, pask_suit). Assert knows(actor, dose_known). }
   }
   Relation advocate(group, group). Measure credence(place).
   Topic pask_plead with pask "Offer to plead the Treatise's cause before the Recorder" when knows(actor, pask_suit) and not advocate(actor, pask) and not paskHeard(court) once {

@@ -88,11 +88,11 @@ Module calamy "A Parliament of Books" {
   Query unsewing() means sealed(sew_none) or colophonBroken(ashpit).
   Query byLeave() means sealed(sew_leave) and not colophonBroken(ashpit).
   Rule renewed when yearBookBurned(effusions) and not colophonBroken(ashpit) and not colophonRenewed(ashpit) { Assert colophonRenewed(ashpit). }
-  Rule recall_comes when kindlingDone(ashpit) and recall() and not recallDone(ashpit)
+  Rule recall_comes when kindlingDone(ashpit) and recall() and not recallDone(ashpit) and day(clock) >= 10
     says "In the night, all over Calamy, very quietly, something goes from kitchen to kitchen: small red figures with pen-nibs for hands, and needles of red ink, Sewing. In the morning the almanacks on the nails do not say the tides. The penny Pleas lie on their shelves like law. The Quick have been called home." {
     Assert recallDone(ashpit). Assert almanackGone(almanack). }
   Relation recallDone(place).
-  Rule unsewing_comes when kindlingDone(ashpit) and unsewing() and not unsewingDone(ashpit)
+  Rule unsewing_comes when kindlingDone(ashpit) and unsewing() and not unsewingDone(ashpit) and day(clock) >= 10
     says "Some time after midnight every book in Calamy wakes. You hear it begin in the Close, a murmur from the Court and the Lamp and the Imprimatur's cellar, and spread outward: the Lyceum, Needle Street, the Gardens, the Hithe, every Housebook on every dresser in every kitchen clearing its throat at once. By dawn the city is full of voices. Somebody's will is reading itself aloud in Orchard Walk. The Great Roll in the Court of Pleas is saying WHEREAS, steadily, through the shut doors. The Year of Voices has come again." {
     Assert unsewingDone(ashpit). }
   Relation unsewingDone(place).
@@ -100,7 +100,7 @@ Module calamy "A Parliament of Books" {
   Relation stacksSealed(place).
   Rule stacks_seal when kindlingDone(ashpit) and sealed(door_shut) and not stacksSealed(crake_stacks) { Assert stacksSealed(crake_stacks). }
   // ── Calamy after the Kindling. ──
-  Query after() means kindlingDone(ashpit).
+  Query after() means kindlingDone(ashpit) and day(clock) >= 10.
   Observe after_lamb_speaks at taproom when after() and not almanackGone(almanack) and not almanackPrimer(almanack) "On the nail by the chimney the almanack is reading out the tides for the new year, March, April, May, with enormous satisfaction, to a taproom that has stopped telling it to hush.".
   Observe after_lamb_primer at taproom when after() and not almanackGone(almanack) and almanackPrimer(almanack) "Every morning at seven, on the nail by the chimney, the almanack says the letters, A to Z, slowly, and Moll Garrow's nephew's little girl says them after it, and on three thousand nails in Calamy so do three thousand other children.".
   Observe after_lamb_silent at taproom when after() and almanackGone(almanack) "On the nail by the chimney hangs a new almanack, next year's, Doble's, with a woodcut of the sun. It says nothing. Moll Garrow does not look at it.".

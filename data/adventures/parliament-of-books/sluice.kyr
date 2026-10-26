@@ -42,7 +42,8 @@ Module calamy "A Parliament of Books" {
   Rule coddy_shuts when hour(clock) == 1 and not sluiceSettled(sluice) and not coddyExposed(coddy) and state(sluice, up) and not weddingDone(lamb) {
     Assert state(sluice, down). Assert at(coddy, millrace). }
   Rule coddy_opens when hour(clock) == 3 and state(sluice, down) and not sluiceSettled(sluice) {
-    Assert state(sluice, up). Assert at(coddy, coddy_hut). Increase eelsCaught(coddy) by 10. }
+    Assert state(sluice, up). Increase eelsCaught(coddy) by 10. }
+  Rule coddy_home when hour(clock) >= 3 and hour(clock) < 12 and at(coddy, millrace) { Assert at(coddy, coddy_hut). }
   Measure eelsCaught(group).
   Observe coddy_caught at millrace when at(coddy, millrace) and dark() "In the dark at the head of the race a man in waders is leaning on the sluice winch, smoking a pipe, with a lantern hooded down to a slit at his feet. It is Coddy Fitch. When he sees you he takes the pipe out of his mouth and says, quite cheerfully, 'Ah.'" teaches coddy_seen.
   Discovery coddy_seen "It is Coddy Fitch, the eel-catcher, who shuts the millrace sluice in the small hours: two hours of still water under the gate, for his traps.".

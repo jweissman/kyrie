@@ -25,11 +25,19 @@ Module calamy "A Parliament of Books" {
   // The chamber sits when a reader with standing asks the Speaker to call it. Whoever has walked out does not come.
   Action call_session(actor: group, site: place) "Ask the Speaker to call the Parliament of the Bound to sit" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and standing(actor) and heardStance(roll)
-      and not sessionOpen(chamber) and not colophonSealed(chamber) and not sessionBroken(chamber).
+      and kindlingEve() and not sessionOpen(chamber) and not colophonSealed(chamber) and not sessionBroken(chamber).
     Time 1.
     On success { Assert sessionOpen(chamber). Set seated(chamber) to 0. }
     Result "'ORDER,' says the floor, and the word goes away along the Roll in both directions like a wave along a beach. And they come: down the gangway and up the Order of Business and out of the air, each to its seat. A narrow house's voice, sharp, from the doorstep. A pencil figure with a lantern, on the heap of loose pages. A little wooden paddle on the stool. An old woman of leaves on the bed of herbs. And on the black slab, held by three chains that run away to the sky, the Lexicon, open. A single drawer slides out of nowhere beside the order paper, and stays: the clerk.".
   }
+  // It sits on Kindling eve, from noon until the readers are called home, as it has every year since the first.
+  Query kindlingEve() means day(clock) == 9 and hour(clock) >= 12 and hour(clock) < 19.
+  Topic roll_when with roll "Ask the Great Roll when the Parliament sits" when not kindlingEve() and not colophonSealed(chamber) once {
+    Says "'On Kindling eve,' says the floor, as if you had asked when the tide comes in. 'From noon until the readers are called home. It has sat then every year since the first, to hear the city's word when the year-book came.' A rumble. 'This year there will be no year-book, and the motion of the Speaker will be put. Members are in their own places until then. You may wait upon them there, if they will have you.' It adds, with something like dry humour: 'Most of them will.'".
+    On discuss { Assert knows(actor, session_known). }
+  }
+  Discovery session_known "The Parliament of the Bound sits on Kindling eve, the ninth day, from noon until the readers are called home; until then its members are in their own places in the Commonplace.".
+  Objective sit_eve when knows(party, session_known) and not sessionOpen(chamber) and not colophonSealed(chamber) and not kindlingDone(ashpit) "Be in the Chamber with standing on Kindling eve, from noon, when the Parliament of the Bound sits.".
   Rule members_come when sessionOpen(chamber) and voter(?m) and not walkedOut(?m) and not sits(?m) and not housebookAway(?m) {
     Assert at(?m, chamber). Assert sits(?m). Increase seated(chamber) by 1. }
   Query housebookAway(m: group) means housebookOffended(m).

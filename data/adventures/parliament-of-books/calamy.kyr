@@ -196,10 +196,10 @@ Module calamy "A Parliament of Books" {
   Place saltings "the saltings" is room within calamies at 1, 0 outdoors.
   Place reed_heart "the heart of the reeds" is room within calamies at 0, 1 outdoors.
   Passage flats_path "the path out over the flats" is path between mudbank and reed_edge taking 40 minutes
-    opening when ebbing() "The tide is in over the flats. Grey water stands where the path was, and the reed-tops show above it like stubble.".
+    opening when ebbing() or following(coddy, party) "The tide is in over the flats. Grey water stands where the path was, and the reed-tops show above it like stubble.".
   Passage reed_saltings "the bank along the saltings" is path between reed_edge and saltings taking 15 minutes.
   Passage reed_channel "the cut into the reeds" is path between reed_edge and reed_heart taking 20 minutes
-    opening when deadLow() "The cut into the reeds is a brown channel running fast. At dead low water it drains; not before.".
+    opening when deadLow() or following(coddy, party) "The cut into the reeds is a brown channel running fast. At dead low water it drains; not before.".
 
   // The tide: in twice a day, out twice a day. It is ebbing from four to ten, and from four to ten again, and dead
   // low at seven.
