@@ -15,9 +15,10 @@ export class Narration {
       return !down || !down.every(n => clean.includes(`${n} falls.`));
     });
     clean = this.shared(clean);
-    // "Elen takes the silver." or "Nera hands Torch to Elen." says it already: "Elen gains 1 Torch." adds nothing.
+    // "Elen takes the silver from the chest." or "Nera hands Torch to Elen." says it already: "Elen gains 1 Torch." (or
+    // "Elen takes the silver.") adds nothing.
     clean = clean.filter(l => {
-      const m = /^(.+) gains 1 (.+)\.$/.exec(l);
+      const m = /^(.+) (?:gains 1|takes) (.+)\.$/.exec(l);
       return !m || !clean.some(o => o !== l && o.includes(m[1]!) && o.includes(m[2]!));
     });
     // A fight was told blow by blow as it happened; afterwards only how it turned out is told again, and the blow

@@ -131,7 +131,7 @@ Module tessary "What Tessary Owes" {
   Kind letter_kind "a sealed letter" is gear worth 0 weighing 0
     described "A letter folded small and sealed with salt-white wax, stamped with a pair of crossed rakes.".
   // What is seen taken, by those who keep the quay.
-  Rule box_watched when state(runners_box, open) and perceives(slake, party) and able(slake) and not hostile(slake, party)
+  Rule box_watched when state(runners_box, open) and perceives(slake, party) and able(slake) and not hostile(slake, party) and not slakeGaveLetter(ossel)
     says "'Oi,' says Bettany Slake, and her cutlass comes out." { Assert hostile(slake, party). Assert assails(runners, party). }
   Discovery sault_bid "Factor Sault has written to a broker of the Scruples offering to bid for the War Note at its foreclosure, and to pledge her own house to the Balance as surety: 'The Board will not pay. When the Feast passes, I will take up the note, and with it the Muster, and Tessary will be governed by someone who can count.'".
   Action read_letter(actor: group, site: place) "Break the wax and read the Factor's letter" {
@@ -170,6 +170,8 @@ Module tessary "What Tessary Owes" {
     described "A thing like a person-shaped hollow, wearing the rags of an Aenean robe. Where its face should be there is a darkness with the texture of torn paper.".
   Person forsworn "the Forsworn" at plunge {
     Role "hollow people in the rags of Aenean robes". Species forsworn_kind. Level 2. Numbers 2. Pronouns they.
+    Temperament territorial.
+    Warns "All round the dry pool the things like coats on pegs turn toward your light, without any sound, and hold out their hands, palm up, as if they wanted to be given something. They do not come any nearer. Not yet.".
     Comes "The coats on the pegs come off the walls. They come round the dry pool toward you without any sound at all, with their hands out, as if they wanted to be given something.".
     Lair plunge.
   }

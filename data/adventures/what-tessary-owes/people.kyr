@@ -76,7 +76,7 @@ Module tessary "What Tessary Owes" {
   Kind oilskin "an oilskin" like cloak worth 2 weighing 2
     described "A fisherman's coat of oiled canvas, stiff as a board and smelling of linseed. Water runs off it.".
   Topic pitch_tide with pitch "Ask Jory Pitch about the tides" when true once {
-    Says "'Twice a day it goes out and twice it comes back, same as anywhere,' says Pitch, 'only here when it goes out it goes out properly. Low water's about eleven of the morning and eleven of the night, give or take, and five hours of it. Then it turns. And when it turns in the basin it doesn't come in, it comes back, all at once through the Throat like it's been sent for.' He taps the counter. 'Rope. Anyone going down into Lowtide wants rope, and something to stand on.'".
+    Says "'Twice a day it goes out and twice it comes back, same as anywhere,' says Pitch, 'only here when it goes out it goes out properly. Low water's about eleven of the morning and eleven of the night, give or take, and five hours of it. Then it turns. And when it turns in the basin it doesn't come in, it comes back, all at once through the Throat like it's been sent for.' He taps the counter. 'Rope. Anyone going down into Lowtide wants rope, and something to stand on.' And then, lower, because it is not the kind of thing a chandler says to strangers: 'And don't take a boat out past the bar at night. Some nights the stars out there are wrong. My father saw it, and I've seen it twice, and I don't care who laughs.'".
   }
 
   // ── The Withies: Nan and Wick Teazle ──────────────────────────────────────────────────────────────────────────────
@@ -198,7 +198,7 @@ Module tessary "What Tessary Owes" {
     On discuss { Assert hiredBySault(actor). }
   }
   Topic sault_board with sault "Ask the Factor what she thinks of the Board" when true once {
-    Says "'The furniture?' Factor Sault laughs. 'Eight chairs, five of them inherited. They started a war over salt springs they could have bought for a tenth of what it cost, borrowed to fight it, and now the bill's come in, they want to send it to the men who did the fighting.' She spreads her hands, salt-cracked. 'I came up off the pans. I could tell you the name of every rake in my yards. They couldn't tell you the name of one soldier who died for them. Somebody in this city has to be able to count.'".
+    Says "'The furniture?' Factor Sault laughs. 'Eight chairs, five of them inherited. They started a war over salt springs they could have bought for a tenth of what it cost, borrowed to fight it, and now the bill's come in, they want to send it to the men who did the fighting.' She spreads her hands, salt-cracked. 'I came up off the pans. I could tell you the name of every rake in my yards. Half of them were soldiers once, before your time, and the city promised them something too.' She does not say what. 'Somebody in this city has to be able to count.'".
   }
   Topic sault_muster with sault "Ask the Factor about her hiring hall" when true once {
     Says "'No man turned away who wore the coat,' says Sault. 'It costs me. The Board was supposed to look after them and didn't, so I do.' She shrugs. 'And they work, and they're grateful, and in a city that's about to have eight thousand angry soldiers in it, I would rather they were grateful to me than to anyone else. I don't pretend it's charity.'".
