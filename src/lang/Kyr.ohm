@@ -44,6 +44,7 @@ Kyr {
   Anchor = "at" ident -- at
          | "near" term -- near
          | "beside" ident -- beside
+         | "within" ident -- within
   Objective = "Objective" ident "when" Predicate string "."
   Milestone = "Milestone" ident string MilestoneWorth
   MilestoneWorth = "worth" integer MilestoneWhen
@@ -67,7 +68,8 @@ Kyr {
   BuysPart = "Buys" ident "for" integer "coin" "."
   PersonHorizon = "Plans" integer "steps" "."
   PersonPeaceable = "Peaceable" "."
-  PersonRole = "Role" string "."
+  PersonRole = "Role" string RoleWhen? "."
+  RoleWhen = "when" Predicate
   PersonRace = ("Race" | "Ancestry") ident "."
   PersonSpecies = "Species" ident "."
   PersonVariant = ("Aspect" | "Undead") ident "."

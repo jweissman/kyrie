@@ -138,7 +138,9 @@ export class ModuleNamespace {
         ...(e.space.parent ? { parent: this.entities[e.space.parent] ?? e.space.parent } : {}) } } : {}),
       ...(e.exit ? { exit: Spatial.scope(e.exit, id => this.entities[id] ?? id) } : {}),
       ...(e.alias ? { alias: { name: e.alias.name.includes('{') ? this.text(e.alias.name) : e.alias.name,
-        until: this.entities[e.alias.until] ?? e.alias.until } } : {}) };
+        until: this.entities[e.alias.until] ?? e.alias.until } } : {}),
+      ...(e.roles ? { roles: e.roles.map(r => ({ name: r.name.includes('{') ? this.text(r.name) : r.name,
+        when: this.predicate(r.when) })) } : {}) };
   }
   static record(draft: ModuleDraft, elapsed: number): InstalledModule {
     const definition = draft.instance.campaign!;

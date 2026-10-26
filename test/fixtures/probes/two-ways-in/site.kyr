@@ -1,0 +1,19 @@
+Module twoways "A tower with two ways in" {
+  Place grounds "the grounds" is settlement.
+  Place yard "the yard" is room within grounds at 0, 0.
+  Place garden "the garden" is room within grounds at 1, 0.
+  Place tower "the tower" is building within grounds.
+  Place hall "the tower hall" is room within tower at 0, 0.
+  Place cellar "the tower cellar" is room within tower at 1, 0.
+  Place hut "the hut" is building within grounds.
+  Place hut_room "the hut's one room" is room within hut at 0, 0.
+  Company party "You" of 1 at yard.
+  Passage walk "the garden path" is path between yard and garden.
+  // The tower is entered two ways, from two places: each is told by its own name.
+  Passage door "the door" is door between yard and hall.
+  Passage shaft "the old well-shaft" is passage between garden and cellar.
+  Passage inside "the inner stair" is passage between hall and cellar.
+  // The hut has one door, and is entered by it without saying so.
+  Passage hut_door "the hut door" is door between yard and hut_room.
+  Observe yard_scene at yard when true "A yard before a tower.".
+}

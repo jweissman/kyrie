@@ -87,10 +87,13 @@ export class ChoiceList {
     fair: 'should be won', hard: 'a hard fight', grave: 'could be lost', deadly: 'beyond you' };
   static ways(exits: ExitRow[]): Section {
     const labels = exits.map(e => this.wayLabel(e));
-    // Two ways into the same enclosure (a tower by its door and by its well) are told apart by where they arrive.
+    // Two ways from here into the same enclosure (a tower by its door and by its well) are told apart by where they
+    // arrive; a way into one that other ways lead into from elsewhere, by its own name (What Tessary Owes' two ways
+    // into the Strongrooms, W16).
     const twice = new Set(labels.filter((l, i) => labels.indexOf(l) !== i));
     const choices = exits.flatMap((e, i) => {
-      const label = twice.has(labels[i]!) ? `${labels[i]!.split(' ')[0]} ${this.inline(e.destination.name)}` : labels[i]!;
+      const label = twice.has(labels[i]!) ? `${labels[i]!.split(' ')[0]} ${this.inline(e.destination.name)}`
+        : e.several && e.way && e.transition === 'enter' ? `${labels[i]!} by ${this.inline(e.way)}` : labels[i]!;
       return this.way(e, label).map(c => e.local ? { ...c, local: true } : c);
     });
     return { id: 'ways', title: 'Ways on', tone: 'way', glyph: '→', choices };

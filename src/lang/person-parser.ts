@@ -30,6 +30,7 @@ export class PersonParser {
         ((p as unknown as Record<string, unknown[]>)[part.field] ??= []).push(part.value); continue;
       }
       if (part.field === 'wants') { (p.wants ??= []).push(part.value as string); continue; }
+      if (part.field === 'roles') { (p.roles ??= []).push(part.value as NonNullable<Person['roles']>[number]); continue; }
       if (part.field === 'words' || part.field === 'haunt') { manner.push(part.value as Manner); continue; }
       if (part.field === 'traits' || part.field === 'gear') {
         const list = ((p as unknown as Record<string, string[]>)[part.field] ??= []);
@@ -95,9 +96,13 @@ export class PersonParser {
   private static fact(module: Module, name: string, ...args: string[]) {
     module.initial.push({ kind: 'assert', call: { kind: 'call', name, args } });
   }
-  static PersonRole(_r: Node, text: Node, _dot: Node): Field {
-    return { field: 'role', value: ModuleParser.ast(text) };
+  // Who someone is, said after their name; or who they are while something holds (Role "a goose, let out" when
+  // freed(goose)), said instead while it does: What Tessary Owes' W20, a goose still "in a crate" once let out.
+  static PersonRole(_r: Node, text: Node, when: Node, _dot: Node): Field {
+    return when.children.length ? { field: 'roles', value: { role: ModuleParser.ast(text) as string,
+      when: ModuleParser.ast(when.children[0]!) as Predicate } } : { field: 'role', value: ModuleParser.ast(text) };
   }
+  static RoleWhen(_w: Node, p: Node) { return ModuleParser.ast(p); }
   static PersonRace(_r: Node, id: Node, _dot: Node): Field { return { field: 'raceId', value: id.sourceString }; }
   static PersonClass(_c: Node, id: Node, _dot: Node): Field { return { field: 'classId', value: id.sourceString }; }
   static PersonLevel(_l: Node, n: Node, _dot: Node): Field { return { field: 'level', value: Number(n.sourceString) }; }
@@ -163,7 +168,8 @@ export class PersonParser {
     // of a numbered group is ("a cave spider") rather than the group ("a sow bear and her grown cub").
     const each = (p.count ?? 1) > 1 && !/ and |,/.test(p.role ?? '');
     const named = p.role && !each && p.role.toLowerCase() !== p.name.toLowerCase() ? `${p.name}, ${p.role}` : p.name;
-    module.entities.push({ id: p.id, name: named, type: 'group' });
+    module.entities.push({ id: p.id, name: named, type: 'group',
+      ...p.roles ? { roles: p.roles.map(r => ({ name: `${p.name}, ${r.role}`, when: r.when })) } : {} });
     module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'at', args: [p.id, p.place] } });
     if (peaceable) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'peaceable', args: [p.id] } }); }
     for (const kind of p.wants ?? []) {

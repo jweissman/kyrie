@@ -266,6 +266,8 @@ export class PlayerView {
   // Whoever and whatever is here to be looked at more closely, in the module's order: not every entity there is.
   private static present(campaign: Campaign, actor: string, here: string, dark: boolean): PresentEntity[] {
     const world = campaign.world, discovery = Discovery.supported(campaign.module);
+    // Someone whose role turns on what holds is who they are now (see ObservationText.presented).
+    const now = ObservationText.presented(world);
     return EntityIndex.of(campaign.module.entities).ordered(this.nearby(world, here)).filter(e => e.id !== actor
       && e.type !== 'place' && (!dark || e.type === 'group') && LocalObservations.noticed(world, e.id, actor)
       && (this.test(world, 'at', e.id, here) || this.test(world, 'mounted', e.id, here)
@@ -273,7 +275,7 @@ export class PlayerView {
         || (e.type === 'group' && this.guarding(world, e.id, here))
         || LocalObservations.within(world, e.id, here))
       && (e.type !== 'source' || !discovery || (this.test(world, 'noticeable', e.id) && !this.spoken(world, e.id))))
-      .map(e => this.entity(campaign, world, e));
+      .map(e => this.entity(campaign, world, e.roles ? now.get(e.id) ?? e : e));
   }
   private static spatial(campaign: Campaign, actor: string, location: Entity,
     choices: ReturnType<typeof PlayerView.choices>): SpatialScene {

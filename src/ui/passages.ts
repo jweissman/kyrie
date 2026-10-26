@@ -53,10 +53,28 @@ export class Passages {
       const parent = Spatial.ancestry(this.entities, destination)[1];
       return parent ? parent.name : undefined;
     }
-    // Entering, name the outermost enclosure crossed (the tower, not the level inside it).
+    return this.crossed(origin, destination, transition)?.name;
+  }
+  // Entering, the outermost enclosure crossed (the tower, not the level inside it).
+  private crossed(origin: string, destination: string, transition: Transition): Entity | undefined {
     const crossed = Spatial.ancestry(this.entities, destination).slice(1)
       .filter(e => !Spatial.ancestry(this.entities, origin).some(o => o.id === e.id));
-    return (transition === 'enter' ? crossed.at(-1) : crossed[0])?.name;
+    return transition === 'enter' ? crossed.at(-1) : crossed[0];
+  }
+  // How many ways lead into an enclosure from outside it, of all the world's ways, known or not: read once for a
+  // world's places and ways.
+  private static readonly entered = new WeakMap<readonly Entity[], Map<string, number>>();
+  private ways(enclosure: string): number {
+    let counted = Passages.entered.get(this.world.module.entities);
+    if (!counted) { counted = new Map(); Passages.entered.set(this.world.module.entities, counted); }
+    if (!counted.has(enclosure)) {
+      counted.set(enclosure, new Set(this.relations('connects').filter(r => this.inside(r.args[2]!, enclosure)
+        && !this.inside(r.args[1]!, enclosure)).map(r => r.args[0]!)).size);
+    }
+    return counted.get(enclosure)!;
+  }
+  private inside(id: string, enclosure: string): boolean {
+    return Spatial.ancestry(this.entities, id).some(e => e.id === enclosure);
   }
   private known(here: string, spatial?: SpatialScene): Known[] {
     const rows: Known[] = [];
@@ -137,13 +155,17 @@ export class Passages {
   private row(here: string, k: Known, acts: Act[], visited: Set<string>): ExitRow {
     const transition = k.mode && k.mode !== 'walk' ? k.mode : this.transition(here, k.destination);
     const scope = this.scope(here, k.destination, transition);
+    // An enclosure entered by more than one way (the Strongrooms, through the black wall and up the drowned city's
+    // drain) is entered by the way's own name.
+    const entered = transition === 'enter' && k.way ? this.crossed(here, k.destination, transition) : undefined;
+    const several = !!entered && this.ways(entered.id) > 1;
     const area = Spatial.ancestry(this.entities, here).find(e => ['settlement', 'site'].includes(e.space!.kind));
     const local = !!area && Spatial.ancestry(this.entities, k.destination).some(e => e.id === area.id);
     return { id: `exit:${k.destination}`, kind: 'exit', name: k.name ?? this.place(k.destination).name,
       destination: this.place(k.destination), transition, passage: k.passage, ...local ? { local } : {},
       ...(scope ? { scope } : {}), ...(k.via ? { via: k.via } : {}),
       ...(acts.length && !k.blocked ? {} : { blocked: k.blocked ?? 'Not possible from here right now.' }),
-      ...(k.way ? { way: k.way } : {}), ...(k.hazard ? { hazard: k.hazard } : {}),
+      ...(k.way ? { way: k.way } : {}), ...(k.hazard ? { hazard: k.hazard } : {}), ...several ? { several } : {},
       visited: visited.has(k.destination), acts };
   }
   private static order(row: ExitRow): number {

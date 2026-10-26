@@ -1,0 +1,14 @@
+Module within "News that waits for the company" {
+  Place city "the city" is settlement.
+  Place square "the square" is room within city at 0, 0.
+  Place drowned "the drowned city" is site.
+  Place stair_foot "the foot of the sea-stair" is room within drowned at 0, 0 underground.
+  Company party "You" of 1 at stair_foot.
+  Passage sea_stair "the sea-stair" is stair between stair_foot and square.
+  Entity board: group "the Board".
+  Relation voted(group).
+  // Said within the city: it waits for the company to be there, and is told (and done) when it comes up.
+  Rule vote within city when watch(clock) >= 3 and not voted(board) says "Bells across the city: the Board has voted." { Assert voted(board). }
+  Observe square_scene at square when true "A square of wet stone.".
+  Observe foot_scene at stair_foot when true "The foot of the sea-stair, under the city.".
+}

@@ -2,6 +2,7 @@ import { ModuleParser } from './module-parser';
 import type { Call, Entity } from './module';
 import { ModuleWriter } from './module-writer';
 import { World } from './world';
+import { Reads } from './reads';
 
 // Authored text may reference numeric measures, `{quantity(party, gold)}`, and entities by id, `{guest}`. An entity
 // reference renders the entity's current name, so portable text can name whatever its roles were bound to. A rule's
@@ -60,16 +61,22 @@ export class ObservationText {
   // The entities as the company would name them: aliases until known, and names with references rendered. What a
   // world presents turns only on its entities, the company and what it knows (see `known`), so a world presents what
   // an earlier one of its line did while neither of those has been written (not worked out again for every world).
+  // Who someone is now turns too on what their roles read (a goose let out is no longer in her crate).
   private static readonly presentations = new WeakMap<readonly Entity[],
-    { size: number; stamped: number[]; presented: Map<string, Entity> }>();
+    { size: number; naming: string[]; stamped: number[]; presented: Map<string, Entity> }>();
   private static readonly naming = ['company', 'knows'];
   static presented(world: World): Map<string, Entity> {
     const entities = world.module.entities, kept = this.presentations.get(entities);
-    if (kept?.size === entities.length && world.agrees(this.naming, kept.stamped)) { return kept.presented; }
-    const presented = new Map(entities.map(e => [e.id, e.alias || (e.type !== 'group' && e.name.includes('{'))
-      ? { ...e, name: this.label(world, e.id) } : e]));
-    this.presentations.set(entities, { size: entities.length, stamped: world.stamped(this.naming), presented });
+    const naming = kept?.size === entities.length ? kept.naming : [...this.naming,
+      ...Reads.names(world.module, entities.flatMap(e => e.roles?.map(r => r.when) ?? []))];
+    if (kept?.size === entities.length && world.agrees(naming, kept.stamped)) { return kept.presented; }
+    const presented = new Map(entities.map(e => [e.id, this.present(world, e)]));
+    this.presentations.set(entities, { size: entities.length, naming, stamped: world.stamped(naming), presented });
     return presented;
+  }
+  private static present(world: World, e: Entity): Entity {
+    const role = e.roles?.find(r => world.test(r.when)), now = role ? { ...e, name: role.name } : e;
+    return now.alias || (now.type !== 'group' && now.name.includes('{')) ? { ...now, name: this.label(world, e.id) } : now;
   }
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {
     const rendered = this.map(text, call => String(world.number(call)),

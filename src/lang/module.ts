@@ -25,6 +25,8 @@ export interface Entity {
   effect?: string;
   // What a place is called by a company that does not know the fact naming it ("a lone tower").
   alias?: { name: string; until: string };
+  // Who someone is while something holds, the first that does, instead of who they are otherwise.
+  roles?: { name: string; when: Predicate }[];
 }
 export interface Signature { name: string; types: string[]; exclusive: boolean }
 export interface Query { name: string; parameters: { name: string; type: string }[]; body: Predicate }
@@ -53,7 +55,9 @@ export interface Pursuit {
   // The actions the actor may use in this pursuit, beyond those its own declaration gives it.
   using?: string[];
 }
-export type Anchor = 'at' | 'near' | 'beside';
+// within: anywhere inside an area (a city, a country), for what is said there (a Rule or an Event), which waits for
+// the company to be there.
+export type Anchor = 'at' | 'near' | 'beside' | 'within';
 export interface WorldRule {
   id: string; when: Predicate; effects: Change[]; say?: string; place?: string; anchor?: Anchor;
   // A fact its words teach whoever hears them: known, as witnessed, when the company perceives them.
@@ -78,7 +82,8 @@ export interface Observation {
   by?: string;
 }
 export interface Objective { id: string; when: Predicate; text: string }
-export interface Person { role?: string; id: string; name: string; place: string; raceId?: string; classId?: string;
+export interface Person { role?: string; roles?: { role: string; when: Predicate }[]; id: string; name: string;
+  place: string; raceId?: string; classId?: string;
   level: number; actions: string[]; horizon?: number;
   // creature: constraints for the Deem creature generator; count: how many creatures the group has (default 1);
   // names: what each of them is called, in order.

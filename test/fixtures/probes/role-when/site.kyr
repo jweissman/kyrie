@@ -1,0 +1,16 @@
+Module rolewhen "Who someone is now" {
+  Place quay "the quay" is settlement.
+  Place steps "the canal steps" is room within quay at 0, 0.
+  Company party "You" of 1 at steps.
+  // Who he is changes with what he does: a role while something holds is said instead of his role otherwise.
+  Person dunn "Corporal Dunn" at steps {
+    Role "a corporal in a new coat". Role "a corporal in his shirtsleeves, dripping" when state(coat, sunk).
+    Peaceable. Pronouns he.
+  }
+  Thing coat "the new coat" at steps {
+    State worn "The corporal's new coat, buttoned to the throat.".
+    State sunk "A sleeve of the new coat, going down in the canal.".
+    Change sink "Throw the coat in the canal" from worn to sunk.
+  }
+  Observe steps_scene at steps when true "Wet steps down to the canal.".
+}

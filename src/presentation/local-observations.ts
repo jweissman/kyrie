@@ -3,13 +3,16 @@ import type { Anchor, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import { ModuleWriter } from '../lang/module-writer';
 import { KeptPredicates } from '../lang/kept-predicates';
+import { EntityIndex } from '../lang/entity-index';
+import { Spatial } from '../spatial';
 
 // Explicitly authored local claims. Reading a description does not grant formal knowledge. A claim is anchored at a
-// place, near an entity wherever it now is (or across a way it guards), or beside a passage (perceived from either
-// end).
+// place, near an entity wherever it now is (or across a way it guards), beside a passage (perceived from either
+// end), or, for what is said, within an area.
 export class LocalObservations {
   static perceives(world: World, actor: string, place: string, anchor: Anchor = 'at'): boolean {
     if (anchor === 'at') { return world.test(ModuleWriter.call('at', actor, place)); }
+    if (anchor === 'within') { return this.inArea(world, actor, place); }
     const relations = `${world.relates('guards')}${world.relates('inside')}${world.relates('travelsWith')}`;
     return world.test(KeptPredicates.of(`perceives:${actor}:${place}:${anchor}:${relations}`, () => {
       const here: Predicate = ModuleWriter.call('at', actor, '?here');
@@ -17,6 +20,11 @@ export class LocalObservations {
         : ModuleWriter.call('connects', place, '?here', '?there');
       return { kind: 'and', left: here, right: there };
     }));
+  }
+  // Whether one stands anywhere inside an area: the city, and not under the sea beneath it.
+  static inArea(world: World, actor: string, area: string): boolean {
+    const here = world.one('at', actor);
+    return !!here && Spatial.ancestry(EntityIndex.of(world.module.entities).byId, here).some(e => e.id === area);
   }
   // Near an entity: where it is; across a way it guards, from the far end while it stands at this one; inside an open
   // container, where the container is; and travelling with a company, where the company is (one who has joined it

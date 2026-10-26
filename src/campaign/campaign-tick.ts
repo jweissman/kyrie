@@ -108,6 +108,10 @@ export class CampaignTick {
   }
   private static fire(host: TickHost, rule: WorldRule, happenings: Happening[]) {
     const { definition, creatures } = host.tickState;
+    // A rule said within an area waits for the company to be there: news of the city is told, and done, when the
+    // company comes up from under the sea (What Tessary Owes' W1, the Road's F9).
+    if (rule.anchor === 'within' && rule.place
+      && !(host.playerActor && LocalObservations.inArea(host.world, host.playerActor, rule.place))) { return; }
     for (const [effects, binding] of this.instances(rule, host.world)) {
       // Each instance fires only if its condition still holds after those before it (two powers cannot both seize
       // the one stronghold left vacant).

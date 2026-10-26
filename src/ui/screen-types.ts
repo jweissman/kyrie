@@ -26,6 +26,8 @@ export interface ExitRow {
   // A way about the settlement or site the company is in (a lane to the hall, a shaft to the level below), however
   // long it takes: not a way out.
   local?: boolean;
+  // A way into an enclosure that more than one way leads into: said by its own name.
+  several?: boolean;
 }
 export interface TargetRow {
   id: string; kind: 'person' | 'creature' | 'animal' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
