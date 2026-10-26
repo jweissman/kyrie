@@ -104,7 +104,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       if (saved) { this.setState({ saved, unkept: false }, () => Timings.kept(performance.now() - started, size)); }
       // Not kept (the browser's storage is full, or refused): the player is told, and given the save to take.
       else if (!this.state.unkept) { this.setState({ unkept: true }); }
-    } else if (message.kind === 'progress') { this.setState({ stage: message.stage }); }
+    } else if (message.kind === 'unkept') { if (!this.state.unkept) { this.setState({ unkept: true }); } }
+    else if (message.kind === 'progress') { this.setState({ stage: message.stage }); }
     else if (message.kind === 'frame') {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
         : { seen: 0, hp: {}, first: true } : undefined;

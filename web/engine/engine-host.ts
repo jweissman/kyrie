@@ -288,7 +288,10 @@ export class EngineHost {
       this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary(), key: world.key,
         ...fresh ? { world: fresh } : {} });
       if (fresh) { world.sent = true; }
-    } catch { /* a command began before the game could be kept; it is kept after that one */ }
+    } catch (error) {
+      // A command begun before the game could be kept: it is kept after that one. Anything else is said to the page.
+      if (this.busy !== this.game) { this.post({ kind: 'unkept', reason: error instanceof Error ? error.message : String(error) }); }
+    }
     this.ahead();
   }
   // The country beyond a march-stone a step away, drawn and parsed while the player reads (see Frontier.prepare); one

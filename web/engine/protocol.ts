@@ -110,4 +110,6 @@ export type Message =
   // The game kept after a command: its state, and its world the first time it is kept or after it changes.
   // key: the world the state was kept against, which a state is kept beside and no other.
   | { kind: 'saved'; save: string; summary: SaveSummary; key: string; world?: { key: string; text: string } }
+  // A game the engine could not keep (it was not kept, and nobody was told: the architecture review's M8).
+  | { kind: 'unkept'; reason: string }
   | { kind: 'progress'; stage: string };

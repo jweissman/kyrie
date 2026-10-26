@@ -6,7 +6,10 @@ export interface KeyValueStorage {
   getItem(key: string): string | null; setItem(key: string, value: string): void; removeItem(key: string): void;
   key(index: number): string | null; readonly length: number;
 }
-export interface SlotSummary { name: string; scenario: string; seed: string; elapsed: number; savedAt: string }
+// unreadable: why a slot would not read (it was left out of the list: the architecture review's M8).
+export interface SlotSummary {
+  name: string; scenario: string; seed: string; elapsed: number; savedAt: string; unreadable?: string;
+}
 interface StoredSlot { savedAt: string; checkpoint: SessionCheckpoint }
 
 export class CheckpointStore {
@@ -35,7 +38,10 @@ export class CheckpointStore {
         const { transcript, save } = slot.checkpoint;
         slots.push({ name: key.slice(CheckpointStore.prefix.length), scenario: transcript.scenario,
           seed: transcript.seed, elapsed: save.state.elapsed, savedAt: slot.savedAt });
-      } catch { continue; }
+      } catch (error) {
+        slots.push({ name: key.slice(CheckpointStore.prefix.length), scenario: '', seed: '', elapsed: 0, savedAt: '',
+          unreadable: error instanceof Error ? error.message : String(error) });
+      }
     }
     return slots.sort((a, b) => b.savedAt < a.savedAt ? -1 : b.savedAt > a.savedAt ? 1 : 0);
   }

@@ -119,7 +119,9 @@ export class CampaignLint {
   }
   applicability() {
     // Campaigns ground actions on demand; lint asks once, statically, which schemas have no target at all.
-    const grounded = ActionSchemas.targeted(this.module, this.session.campaign.actors);
+    const failed = new Map<string, string>();
+    const grounded = ActionSchemas.targeted(this.module, this.session.campaign.actors, failed);
+    for (const [id, why] of failed) { this.add('error', 'applicability', `action ${id} cannot be grounded: ${why}`); }
     for (const schema of this.session.campaign.schemas.filter(x => x.id.includes('__'))) {
       if (!grounded.has(schema.id)) {
         this.add('warning', 'applicability', `action ${schema.id} has no possible target in this world`);

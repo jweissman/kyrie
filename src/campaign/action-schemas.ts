@@ -39,12 +39,20 @@ export class ActionSchemas {
   }
   // Which schemas have at least one binding their unchanging facts allow (what lint asks), without listing them all:
   // a schema with more bindings than the limit plainly has some.
-  static targeted(module: Module, actors?: readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[]): Set<string> {
+  // One whose grounding throws for anything but its many bindings is taken as targeted, and why it threw is kept in
+  // `failed` for lint to say (it was taken for targeted unsaid: the architecture review's M8).
+  static targeted(module: Module, actors?: readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[],
+    failed?: Map<string, string>): Set<string> {
     const context = this.context(module);
     return new Set(module.actions.filter(action => {
-      try { return this.bindings(module, action, { ...context, actors }).length > 0; } catch { return true; }
+      try { return this.bindings(module, action, { ...context, actors }).length > 0; } catch (error) {
+        const why = error instanceof Error ? error.message : String(error);
+        if (why !== ActionSchemas.many(action.id)) { failed?.set(action.id, why); }
+        return true;
+      }
     }).map(a => a.id));
   }
+  private static many(id: string): string { return `Too many bindings for ${id}`; }
   // Join only on relations that no action, rule or campaign projection can write. Keep dynamic
   // preconditions for execution, including cross-module distinct facts installed after grounding.
   private static context(module: Module) {
@@ -65,7 +73,7 @@ export class ActionSchemas {
         && (parameter.name !== 'actor' || this.mayAct(action, e.id, actors)));
       combinations = combinations.flatMap(binding => candidates.map(e => ({ ...binding, [parameter.name]: e.id })))
         .filter(binding => this.constantTruth(action.requires, binding, { parameters, constants, facts }) !== false);
-      if (combinations.length > 20000) { throw new Error(`Too many bindings for ${action.id}`); }
+      if (combinations.length > 20000) { throw new Error(ActionSchemas.many(action.id)); }
     }
     return combinations;
   }
