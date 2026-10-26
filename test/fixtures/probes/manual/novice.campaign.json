@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: a manual, too soon", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "mage", "level": 1 } ] }

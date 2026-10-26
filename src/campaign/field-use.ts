@@ -142,7 +142,7 @@ export class FieldUse {
     try {
       const c = lease.creatures[0]!, by = Advancement.degree(degree);
       const raised = Advancement.endow(c, quality as Attribute, by);
-      lease.commit([c], { advancement: true });
+      lease.commit([c], { advancement: true, endowed: raised });
       const name = `${quality.charAt(0).toUpperCase()}${quality.slice(1)}`;
       return [{ type: 'gain', turn: 0, actor: member, target: member,
         detail: raised ? `${name} is now ${c.base[quality as Attribute]}` : `${name} can rise no further` }];

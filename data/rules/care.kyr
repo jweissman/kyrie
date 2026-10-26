@@ -13,7 +13,7 @@ Module care "Rest, mending and lessons" {
   // How far a companion has come (their level), for what asks it before it will teach them (a Manual, an order).
   Measure levelOf(member).
   // How much a work that reads its reader back (a Manual) raises a quality, outside a level's development
-  // (Resolve endow(reader, intelligence, by_two)): never past twenty.
+  // (Resolve endow(reader, intelligence, by_two)): never past twenty-five.
   Kind degree. Entity by_one: degree "by one". Entity by_two: degree "by two". Entity by_three: degree "by three".
   Kind feat. Relation featOpen(member, feat).
   Relation memberOf(member, group).

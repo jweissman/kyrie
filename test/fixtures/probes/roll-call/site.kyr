@@ -1,0 +1,20 @@
+Module rollcall "A roll call" {
+  Place hall "a hall" is building.
+  Place floor "the floor of the hall" is room within hall at 0, 0.
+  Company party "You" of 1 at floor.
+  Person ann "Ann" at floor { Role "a member". Ancestry human. Peaceable. }
+  Person bo "Bo" at floor { Role "a member". Ancestry human. Peaceable. }
+  Person cy "Cy" at floor { Role "a member". Ancestry human. Peaceable. }
+  Relation member(group). Relation called(place). Relation answered(group).
+  Initially Assert member(ann). Initially Assert member(bo). Initially Assert member(cy).
+  Discovery roll_known "Everyone on the roll is here.".
+  Action call_roll(actor: group, site: place) "Call the roll" {
+    Requires able(actor) and at(actor, site) and not called(site).
+    Time 1.
+    On success { Assert called(site). }
+  }
+  // Said once for each member it finds; and a rule with a variable still teaches what it says.
+  Rule answers at floor when called(floor) and member(?m) and not answered(?m) says "{?m}: here." teaches roll_known { Assert answered(?m). }
+  Rule all_here at floor when answered(ann) and answered(bo) and answered(cy) and not counted(floor) says "Everyone is here." { Assert counted(floor). }
+  Relation counted(place).
+}

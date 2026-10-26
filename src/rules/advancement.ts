@@ -140,8 +140,9 @@ export class Advancement {
     }
     creature.base[quality]++; advances.qualities--;
   }
-  // A Manual's gift: a quality raised by one, two or three (by_one…by_three), never past twenty; how much it rose.
-  static readonly ceiling = 20;
+  // A Manual's gift: a quality raised by one, two or three (by_one…by_three), never past twenty-five (a first-level
+  // companion may already have twenty-one); how much it rose.
+  static readonly ceiling = 25;
   static degree(id: string): number {
     const n = ({ by_one: 1, by_two: 2, by_three: 3 } as Record<string, number>)[id.replace(/^.*__/, '')];
     if (!n) { throw new Error(`Unknown degree ${id}`); }

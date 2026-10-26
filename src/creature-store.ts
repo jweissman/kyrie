@@ -58,9 +58,9 @@ export class CreatureStore {
     return lease;
   }
   // Advancement may change a creature's level, maximum health and spell slots, raise its qualities by the points it
-  // spends, and add the feats it spends a feat on with the abilities they grant; nothing else may alter what was
-  // generated.
-  commit(lease: CreatureLease, next: Creature[], options: { advancement?: boolean } = {}) {
+  // spends (and by what a Manual endows, beside them), and add the feats it spends a feat on with the abilities they
+  // grant; nothing else may alter what was generated.
+  commit(lease: CreatureLease, next: Creature[], options: { advancement?: boolean; endowed?: number } = {}) {
     const ids = this.leases.get(lease);
     if (!ids) { throw new Error('Encounter lease is closed'); }
     if (next.length !== ids.length || new Set(next.map(c => c.id)).size !== ids.length
@@ -71,7 +71,8 @@ export class CreatureStore {
       if (!Equality.deep(CreatureStore.kept(c.base, options), CreatureStore.kept(previous.base, options))
         || c.base.level < previous.base.level
         || c.name !== previous.name || c.classId !== previous.classId || c.raceId !== previous.raceId
-        || c.backgroundId !== previous.backgroundId || (options.advancement && !CreatureStore.spent(previous, c))) {
+        || c.backgroundId !== previous.backgroundId
+        || (options.advancement && !CreatureStore.spent(previous, c, options.endowed ?? 0))) {
         throw new Error('Combat cannot replace generated characteristics');
       }
     });
@@ -92,7 +93,7 @@ export class CreatureStore {
   }
   // Qualities only rise, and by no more than the points of advance spent; feats are only added, one for each feat
   // spent; abilities and traits only by what those feats grant and the calling brings at the levels gained.
-  private static spent(previous: Creature, next: Creature): boolean {
+  private static spent(previous: Creature, next: Creature, endowed = 0): boolean {
     const raised = CreatureSchema.attributes.map(k => next.base[k] - previous.base[k]);
     const points = (previous.state.advances?.qualities ?? 0) - (next.state.advances?.qualities ?? 0);
     const features = Creation.features(next.classId, previous.base.level, next.base.level);
@@ -100,7 +101,7 @@ export class CreatureStore {
     const feats = (previous.state.advances?.feats ?? 0) - (next.state.advances?.feats ?? 0);
     const granted = new Set([...previous.base.abilities, ...features.abilities,
       ...taken.flatMap(t => Canon.traits[t]?.grants?.abilities ?? [])]);
-    return raised.every(n => n >= 0) && raised.reduce((a, b) => a + b, 0) <= Math.max(0, points)
+    return raised.every(n => n >= 0) && raised.reduce((a, b) => a + b, 0) <= Math.max(0, points) + endowed
       && (previous.traits ?? []).every(t => next.traits?.includes(t)) && taken.length <= Math.max(0, feats)
       && taken.every(t => Canon.traits[t]?.category === 'feat')
       && previous.base.abilities.every(a => next.base.abilities.includes(a))

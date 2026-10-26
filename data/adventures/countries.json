@@ -117,6 +117,22 @@
       "among": "independent",
       "rumour": "'South over the march there's a city down the inside of a crater, Ammerlin,' says {keeper}. 'Their lake's been going down three years, and nobody there will believe anybody else about why. So they've sent out for someone from outside to measure it, and put their name to the answer. The Office of Measures pays, if you can count.'",
       "heard": "South over the march lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why."
+    },
+    {
+      "id": "calamy",
+      "bundle": "parliament-of-books/placed.json",
+      "entry": "causey",
+      "marker": "sewing_beam",
+      "side": "east",
+      "beside": [
+        "frost"
+      ],
+      "name": "Calamy",
+      "topic": "the city of paper at the mouth of the Calam",
+      "terrain": "marsh",
+      "rumour": "'East over the march, where the cold country comes down to the sea and the river runs out through miles of reeds, there is Calamy, at the mouth of the Calam,' says {keeper}. 'A city of paper: tide-mills and binders and printers, and every house there keeps a book that knows it. They say the books have started to talk. And they burn their old almanacks at the Kindling, which is near, and this year nobody can say whether they ought.'",
+      "heard": "East over the march lies Calamy, a tidal city of paper at the mouth of the Calam, where the books have begun to talk, and the Kindling is near.",
+      "among": "independent"
     }
   ]
 }
