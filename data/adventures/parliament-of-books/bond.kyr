@@ -17,6 +17,11 @@ Module calamy "A Parliament of Books" {
     State barred blocking "The bond gate is barred for the night.".
     Change unbar "Lift the bar on the bond gate" from barred to open.
   }
+  // At dusk Mr. Sallis calls everyone out before he bars the gate; going in after dark is a thing one does on purpose.
+  Rule bond_clears when hour(clock) == 19 and state(bond_bar, open) and not bestiaryQuiet(bestiary) and inBond(party)
+    says "A bell rings below, and Mr. Sallis's voice comes up the stair: 'Bond's shutting! Out, everybody, out, I'm not having anyone in there after dark!' He stands at the gate with his keys until you are through it." {
+    Assert at(party, customs_yard). }
+  Query inBond(c: group) means at(c, bond_floor) or at(c, bond_loft).
   Rule bond_shuts when hour(clock) == 19 and state(bond_bar, open) and not bestiaryQuiet(bestiary) { Assert state(bond_bar, barred). }
   Rule bond_opens when hour(clock) == 7 and state(bond_bar, barred) { Assert state(bond_bar, open). }
   Observe bond_floor_scene at bond_floor when not dark() "Bales of wool, crates of wine, tea-chests, a carriage in pieces, and in a railed-off corner the Imprimatur's seizures in bundles tied with grey tape, waiting for Thursday. Dust in the light from high windows. The floor is scored, here and there, with long scratches. A stair goes up.".
