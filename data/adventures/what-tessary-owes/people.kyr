@@ -278,6 +278,7 @@ Module tessary "What Tessary Owes" {
   }
   Person deckle "Ulric Deckle" at seals_inner {
     Role "Keeper of the Great Seal". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Wants seal_kind.
   }
   Relation reachedKeeper(group).
   Action wait_in_queue(actor: group, site: place) "Take your place in the queue" {

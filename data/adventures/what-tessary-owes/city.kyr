@@ -63,7 +63,6 @@ Module tessary "What Tessary Owes" {
   // The Throat Stair, and the Throat: the channel the basin drains by.
   Observe throat_scene at throat_head when true "At the west end of the Tidewall the wall-walk breaks off at a stair that goes straight down the face of the wall into the basin. A chain hangs beside it for a handrail. Below, the Throat: the one deep channel through which the outer basin fills and empties twice a day, with a noise like a slow mill.".
   Observe throat_low at throat_head when lowWater() "The basin is out. Below the stair lies a city of wet stone: roofs, a colonnade, the dome of something, streets with weed lying flat in them like combed hair. Figures are moving down there, small, bent over, looking for things.".
-  Observe throat_high at throat_head when not lowWater() "The basin is full to the wall's green line, and the stair goes down into it and does not come up.".
 
   // The Tidewall: the barrage on Aenean footings.
   Observe tidewall_scene at tidewall when true "The Tidewall runs the whole length of the city between the houses and the sea, broad enough on top for two carts. Its lower courses are not the city's: great blocks, tight-fitted, with no mortar, carved at intervals with a pair of scales. The city built its wall on top of someone else's. On the landward side a stair goes down into the Lettered Quarter.".

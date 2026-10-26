@@ -1,0 +1,213 @@
+Module tessary "What Tessary Owes" {
+  // ── The Assessor about the city ───────────────────────────────────────────────────────────────────────────────────
+  // By day the inventory in the Withies; by night the Tideline Steps, watching the water.
+  Rule tally_to_steps when hour(clock) >= 21 and at(tally, withies) and not travelsWith(tally, party) and not tallyBelow(ossel) {
+    Retract at(tally, withies). Assert at(tally, tideline_steps). }
+  Rule tally_to_withies when hour(clock) >= 7 and hour(clock) < 21 and at(tally, tideline_steps) and not travelsWith(tally, party) and not tallyBelow(ossel) {
+    Retract at(tally, tideline_steps). Assert at(tally, withies). }
+  Relation tallyBelow(place).
+  // What the Assessor does with a contradiction: a filing.
+  Relation tallyHeardPrior(place). Relation tallyKnowsDominion(place).
+  Topic tell_tally_prior with tally "Tell the Assessor that the city promised its soldiers land and a pension before it pledged them" when knows(actor, enlist_promise) and knows(actor, promise_weight) and not tallyHeardPrior(ossel) once {
+    Says "The Assessor stops writing. 'The recruiting bill,' they say. 'Eleven years ago. The pledge was twelve.' They are silent for a while. 'No. The bill is eleven years old; the Muster was raised eleven years ago; the note was drawn when the war was a year old. The promise to the soldiers was made first.' They look at the ledger as if it had said something rude. 'A prior promise, of the same weight, to the same persons, unkept. And the city pledged those persons to us as if they were its own.' A long pause. 'That is not on my inventory. I find I cannot stop thinking about it.'".
+    On discuss { Assert tallyHeardPrior(ossel). }
+  }
+  Topic tell_tally_dominion with tally "Tell the Assessor that the Factor means to buy the note in order to govern the city" when knows(actor, sault_bid) and not tallyKnowsDominion(ossel) once {
+    Says "'To govern,' says the Assessor. 'With the collateral.' Their voice does not change; the ruled lines on their face do. 'A note may be taken up at foreclosure by whoever pledges its weight. It may not be taken up for dominion. That is the ninth chapter.' They write for some time. 'I will file an objection to the Factor's bid with the Broker's superiors. It will be heard. Whether it is heard in time I cannot say.'".
+    On discuss { Assert tallyKnowsDominion(ossel). }
+  }
+  Relation objectionFiled(place).
+  Rule objection_heard when tallyKnowsDominion(ossel) and night(ossel) >= 12 and not objectionFiled(ossel) and not tallyUnravelled(ossel) { Assert objectionFiled(ossel). Assert brokerSuspended(ossel). }
+
+  // The indictment: only an Assessor who has seen the Room of Defaults, and kept faith with the company that showed
+  // it to them, will bring it.
+  Action ask_indictment(actor: group, site: place) "Ask the Assessor to indict the Comptroller before the Assembly" {
+    Speaker tally. Time 1.
+    Grave "If the Assembly finds against him, the Comptroller will unravel, or at best be put down from his office; and the Assessor will have done the gravest thing a Scruple can do.".
+    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(tally, actor) and tallySawDefaults(ossel)
+      and not brokeFaith(actor) and not indictmentFiled(ossel) and not tallyUnravelled(ossel) and not caughtCopying(actor)
+      and (tallyHeardPrior(ossel) or keptFaith(actor) or tallyKnowsDominion(ossel)).
+    On success { Assert indictmentFiled(ossel). Retract travelsWith(tally, actor). Assert tallyBelow(ossel). Assert at(tally, clerks_hall).
+      Assert holdingAdmits(actor). }
+    Result "The Assessor is quiet for a long time. 'Yes,' they say. 'It must be one of us, and it must be someone who has read the entry, and I have read it.' They take out a fresh sheet and write on it, standing, in a hand that does not shake. When they have done they fold it once. 'The Assembly will sit in the Weighing Chamber on the night of the Settlement, from midnight, and the Notary will come out of the Holding to sit with it. I will be there. You should be there; you read it with me.' They look at you. 'I am leaving you here. I have a great deal to prepare and I find I would rather be alone.'".
+  }
+  Rule indictment_spoken when indictmentFiled(ossel) and swornSilence(party) and not forswornParty(party)
+    says "Somewhere under the sea a promise of silence you made to the Comptroller breaks, and you feel it go, a cold hand laid flat between your shoulders." {
+    Assert forswornParty(party). }
+
+  // ── The Release ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Durrance, if she is free and has thought it through, can call the Muster to the Oath Stone on the night of the
+  // Feast to release the city from its promise to them; the Factor's men will try to break it up.
+  Relation releaseCalled(place). Relation releaseGathered(place). Relation releaseBroken(place). Relation releaseHeld(place).
+  Query cityPaying() means votePassed(ossel) and not sealStolen(ossel).
+  Topic ask_release with durrance "Ask Durrance to call the Muster to the Oath Stone on the night of the Feast, to release the city" when durranceKnowsRelease(durrance) and not heldNow(durrance) and not releaseCalled(ossel) and not cityPaying() and night(ossel) <= 14 and not serves(durrance, sault) once {
+    Says "Durrance has had her days to think, and she has thought. 'Eleven years,' she says. 'And the Board votes no, or yes and then lets the Factor walk off with the Seal, and either way the lads stay under the sea.' She stands up. 'So we do it. The Muster on the Stone at the Feast, as many as I can get, and we say it: we hold you quit. Keep your land. Keep your pension. Give us back our own.' She laughs, short. 'I'll have to tell them it was my idea. They'll never stand for it if it was a stranger's.' She looks at you. 'The Factor will send her lightermen. Be there.'".
+    On discuss { Assert releaseCalled(ossel). }
+  }
+  Rule release_gathers when releaseCalled(ossel) and night(ossel) == 14 and hour(clock) == 22 and not releaseGathered(ossel) and not heldNow(durrance) and at(durrance, ?p) {
+    Assert releaseGathered(ossel). Retract at(durrance, ?p). Assert at(durrance, legion_yard). }
+  Rule release_gathers_with when releaseCalled(ossel) and night(ossel) == 14 and hour(clock) == 22 and not releaseGathered(ossel) and travelsWith(durrance, party) {
+    Assert releaseGathered(ossel). }
+  Observe release_scene at legion_yard when releaseGathered(ossel) and not released(ossel) and not releaseBroken(ossel) "The Legion Yard is full of soldiers. Not in step, not in ranks: a crowd of men and women in old red coats and whatever else they have, with lanterns, thousands of them, filling the Yard and the wall-walk and the lane, and more coming. Durrance stands on the Oath Stone's plinth with one hand on the Stone. It is very quiet for so many people. Out on the Tidewall the Feast's bonfires are burning, and the city's year of contracts is going up in sparks.".
+  Rule lightermen_come when releaseGathered(ossel) and hour(clock) == 23 and night(ossel) == 14 and able(lightermen) and not saultStopped(ossel) and at(lightermen, ?p) and not at(lightermen, legion_yard) and not fiskTurned(fisk) {
+    Retract at(lightermen, ?p). Assert at(lightermen, legion_yard). }
+  Rule lightermen_at_yard at legion_yard when at(lightermen, legion_yard) and releaseGathered(ossel) and at(party, legion_yard) and not assails(lightermen, party) and able(lightermen) and not released(ossel)
+    says "There is a shout from the gate. Sault's lightermen are coming through the crowd with cudgels, shoving, a dozen of them, making for the plinth." {
+    Assert assails(lightermen, party). }
+  Rule release_broken when releaseGathered(ossel) and at(lightermen, legion_yard) and able(lightermen) and hour(clock) == 0 and not at(party, legion_yard) and not released(ossel) and not releaseBroken(ossel) {
+    Assert releaseBroken(ossel). }
+  Rule release_broken_told when releaseBroken(ossel) and not knows(party, release_broken_known)
+    says "Word comes from the Legion Yard: the Factor's lightermen broke up the Muster at the Oath Stone with cudgels, and the Watch stood by, and Durrance was carried off the plinth with a broken head." teaches release_broken_known { }
+  Discovery release_broken_known "The Factor's lightermen broke up the Muster's gathering at the Oath Stone on the Feast night.".
+  Relation saultStopped(place).
+  Action stand_release(actor: group, site: place) "Stand with the Muster at the Oath Stone while they say it" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, legion_yard) and releaseGathered(ossel)
+      and not released(ossel) and not releaseBroken(ossel) and night(ossel) == 14 and hour(clock) >= 23
+      and not (at(lightermen, legion_yard) and able(lightermen)).
+    On success { Assert released(ossel). }
+    Result "Durrance says it first, alone, with her hand on the Stone, in a voice that carries to the back of the Yard without being raised: 'The city of Tessary promised me land and a pension if I came home. I came home. I hold it quit.' Then the Third Company says it, ragged, and then the Yard, all of it, eight thousand voices or near enough, not together, a long rolling noise like surf: I hold it quit. And under your feet, under the Yard, under the Tidewall and the drowned streets, something very large and very far down settles by a hair's breadth, like a pan of a scale coming level.".
+  }
+  Rule release_by_itself when releaseGathered(ossel) and hour(clock) == 1 and night(ossel) == 14 and not released(ossel) and not releaseBroken(ossel)
+    and not (at(lightermen, legion_yard) and able(lightermen)) { Assert released(ossel). }
+
+  // ── The Assembly ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Relation assemblySits(place). Relation assemblyHeard(place). Relation mercyAsked(place). Relation comptrollerUnravelled(place).
+  Relation comptrollerDeposed(place).
+  Rule assembly_convenes when indictmentFiled(ossel) and night(ossel) == 14 and hour(clock) == 0 and not assemblySits(ossel) {
+    Assert assemblySits(ossel). Retract at(tally, clerks_hall). Assert at(tally, weighing_chamber).
+    Retract at(comptroller, comptroller_office). Assert at(comptroller, weighing_chamber). }
+  Observe assembly_scene at weighing_chamber when assemblySits(ossel) and not noteVoid(ossel) "The Assembly of the Scruples is sitting. They stand in rows on the floor of the nave under the Balance, all of them, grey and pale and silent, with their ruled hands folded. At the foot of the Balance the Notary stands, come out of the Holding for the first time in five hundred years, a figure drawn in lines of light. The Comptroller stands alone before it. The Assessor stands alone before him, with one folded sheet.".
+  Action testify(actor: group, site: place) "Testify before the Assembly to what you read in the Room of Defaults" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, weighing_chamber) and assemblySits(ossel)
+      and knows(actor, note_designed) and not assemblyHeard(ossel).
+    On success { Assert assemblyHeard(ossel). }
+    Result "You tell them what you read, and where, and when, and who was with you. The floor of the nave registers every word; the ruled lines along the walls brighten and hold. Nobody interrupts. When you have finished the Notary turns its face of lines to the Comptroller. He does not deny it. He cannot. 'I would draw it again,' he says, to the Assembly, to the Balance, to the nine black lights at the far edge of everything. 'It was the only way to close the hole.'".
+  }
+  Action ask_mercy(actor: group, site: place) "Ask the Assembly to put the Comptroller down from his office, and spare him unravelling" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, weighing_chamber) and assemblyHeard(ossel)
+      and not mercyAsked(ossel) and not noteVoid(ossel).
+    On success { Assert mercyAsked(ossel). }
+    Result "There is a long silence in the nave. Then the Notary speaks. 'A promise made to be broken is no promise,' it says. 'That is the law. What becomes of the one who made it is the Assembly's.' It looks at the Assessor. The Assessor looks at the Comptroller for a long time. 'He has kept the ledger for eleven hundred years,' they say. 'Let him keep the archive. Under supervision. Without the black glass.' And the rows of grey figures bow, all together, which is apparently how the Scruples vote.".
+  }
+  Rule note_voided when assemblySits(ossel) and hour(clock) == 1 and night(ossel) == 14 and not noteVoid(ossel) and not tallyUnravelled(ossel)
+    says "In the Weighing Chamber the Notary lays a line of light through the sheet of black glass in the pan, end to end, and the glass goes grey, and then clear, and then is nothing. 'Void,' it says. 'A promise made to be broken is no promise. The collateral is released.' The pointer of the Balance swings, a long slow arc, and stops where it stops: not level. There is still a hole in the ledger the size of a city. But it is the Comptroller's, now, and not the Muster's." {
+    Assert noteVoid(ossel). }
+  Rule comptroller_unravels when noteVoid(ossel) and not mercyAsked(ossel) and not comptrollerUnravelled(ossel)
+    says "The Comptroller does not cry out. The ruled lines of his face begin to come apart, very slowly, like a page left in rain, and then less slowly, and then he is a coat with nobody in it, standing at the foot of the Balance with its hands out, as if it wanted to be given something. Two of the Weights come and lead it away toward the stair, quite gently. Nobody watches it go except the Assessor." {
+    Assert comptrollerUnravelled(ossel). Retract at(comptroller, weighing_chamber). }
+  Rule comptroller_put_down when noteVoid(ossel) and mercyAsked(ossel) and not comptrollerDeposed(ossel) { Assert comptrollerDeposed(ossel). }
+
+  // ── The Factor on the night ───────────────────────────────────────────────────────────────────────────────────────
+  // If her broker is suspended she comes to the Weighing Chamber herself, with lightermen, by the cistern and the
+  // drowned streets, to pledge in person at foreclosure; if he is not, her bid is lodged on the fourteenth day.
+  Relation saultBidLodged(place). Relation saultInChamber(place). Relation saultWarden(place).
+  Rule bid_lodged when night(ossel) == 14 and hour(clock) == 12 and not brokerSuspended(ossel) and able(sault) and not saultBidLodged(ossel) and not saultWarden(ossel) {
+    Assert saultBidLodged(ossel). }
+  Rule sault_goes_down when night(ossel) == 14 and hour(clock) == 23 and brokerSuspended(ossel) and able(sault) and not saultInChamber(ossel) and at(sault, ?p) and not saultStopped(ossel) {
+    Assert saultInChamber(ossel). Retract at(sault, ?p). Assert at(sault, weighing_chamber). Retract peaceable(sault). }
+  Observe sault_in_chamber at weighing_chamber when saultInChamber(ossel) and at(sault, weighing_chamber) and not matured(ossel) "Factor Sault is here, in the nave of the Weighing Chamber, in a sea-cloak still wet from the Hall of Oaths, with a lantern and two lightermen and a paper in her hand. She is looking up at the Balance with her mouth slightly open, like anyone. Then she sees you, and puts the look away. 'Of course,' she says. 'Of course it's you.'".
+  Topic sault_terms with sault "Put terms to the Factor: take up the note and call the Muster out only to send them home to their land" when (saultInChamber(ossel) or saultExposed(ossel) or brokerSuspended(ossel)) and knows(actor, sault_bid) and not saultWarden(ossel) and not matured(ossel) and able(sault) once {
+    Says "Factor Sault hears you out with her head on one side. 'Warden of the Settlement,' she says. 'Hold the note and never use it but to send them home. And for that?' You tell her: the salt springs of Hethra, which the war was fought for, and which nobody else in Tessary knows how to work. She laughs. 'You've been talking to Amaury.' She is quiet a long time. 'They'd still owe me,' she says. 'The city. For ever.' She looks at the Balance. 'All right. Write it down, whatever you people write it on. I'll swear it. I'd rather be owed than hated, and I'd rather be either than beaten.'".
+    On discuss { Assert saultWarden(ossel). }
+  }
+  Action stop_sault(actor: group, site: place) "Stand between the Factor and the Balance" {
+    Time 0.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sault, site) and saultInChamber(ossel) and able(sault)
+      and not saultWarden(ossel) and not matured(ossel) and not assails(sault, actor).
+    On success { Assert assails(sault, actor). Assert assails(lightermen, actor). }
+    Result "'Don't,' says Factor Sault, almost kindly, and draws.".
+  }
+  Rule lightermen_with_sault when saultInChamber(ossel) and at(lightermen, ?p) and not at(lightermen, weighing_chamber) and able(lightermen) {
+    Retract at(lightermen, ?p). Assert at(lightermen, weighing_chamber). }
+  Rule sault_beaten when saultInChamber(ossel) and not able(sault) and not saultStopped(ossel) { Assert saultStopped(ossel). }
+  Rule sault_captured when captured(sault, party) and at(party, ?p)
+    says "You come round on the floor of the nave with your head ringing. Factor Sault is standing over you, wiping her hands. 'Stay down,' she says. 'It's nearly two.'" {
+    Retract captured(sault, party). }
+  Initially Assert takesPrisoners(sault).
+
+  // The Assessor's last resort: in the chamber at the Settlement, with nothing else left, they can take the black
+  // glass out of the pan and break it. A Scruple who breaks the note breaks a promise held by the Balance.
+  Action ask_tear(actor: group, site: place) "Ask the Assessor to take the War Note out of the pan and break it" {
+    Speaker tally. Time 1 minute.
+    Grave "The Assessor will be breaking a promise the Balance holds. You know what happens to a Scruple who does.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, weighing_chamber) and at(tally, weighing_chamber)
+      and tallySawDefaults(ossel) and not indictmentFiled(ossel) and not brokeFaith(actor) and night(ossel) == 14 and hour(clock) >= 0
+      and hour(clock) < 2 and not released(ossel) and not deedsDelivered(ossel) and not noteTorn(ossel).
+    On success { Assert noteTorn(ossel). Assert tallyUnravelled(ossel). }
+    Result "The Assessor looks at you, and then up at the Balance, for a long moment. 'Yes,' they say. 'Somebody should break it who knows what it is.' They climb the side of the pan like a child climbing into a boat, and walk across the bottom of it to the sheet of black glass, and pick it up in both ruled hands, and break it over their knee. It breaks like ice. The pointer of the Balance swings, slowly, all the way across the dial. And the ruled lines on the Assessor's face begin, very gently, to come undone. 'Oh,' they say, looking at their hands. 'That is what it feels like.' They sit down in the bottom of the pan. 'Tell the child,' they say, 'that the eel was very kind,' and then there is nobody in the grey coat at all.".
+  }
+  Rule tally_with_party_down when travelsWith(tally, party) and at(party, weighing_chamber) and not at(tally, weighing_chamber) { Assert at(tally, weighing_chamber). }
+  Rule tally_off_floor when at(tally, weighing_chamber) and travelsWith(tally, party) and not at(party, weighing_chamber) { Retract at(tally, weighing_chamber). }
+
+  // ── The Settlement ────────────────────────────────────────────────────────────────────────────────────────────────
+  // At the fifteenth spring ebb the note matures. What is true of the city at that moment decides what follows.
+  Rule maturity when night(ossel) == 15 and not matured(ossel) { Assert matured(ossel). Assert settling(ossel). }
+  Relation settling(place).
+  Rule settle_kept when settling(ossel) and deedsDelivered(ossel) { Retract settling(ossel). Assert keptPromise(ossel). Assert discharged(ossel). }
+  Rule settle_released when settling(ossel) and released(ossel) { Retract settling(ossel). Assert discharged(ossel). }
+  Rule settle_void when settling(ossel) and noteVoid(ossel) { Retract settling(ossel). Assert discharged(ossel). }
+  Rule settle_torn when settling(ossel) and noteTorn(ossel) { Retract settling(ossel). Assert discharged(ossel). }
+  Rule settle_taken when settling(ossel) and (saultBidLodged(ossel) or (saultInChamber(ossel) and able(sault) and not saultStopped(ossel))) and not objectionFiled(ossel) {
+    Retract settling(ossel). Assert saultHoldsNote(ossel). }
+  Rule settle_taken_objected when settling(ossel) and saultInChamber(ossel) and able(sault) and not saultStopped(ossel) and objectionFiled(ossel) {
+    Retract settling(ossel). Assert saultHoldsNote(ossel). }
+  Rule settle_foreclosed when settling(ossel) { Retract settling(ossel). Assert foreclosed(ossel). }
+  // Discharged: every oath in the pan goes home.
+  Rule held_wake when discharged(ossel) and heldNow(?s) { Retract heldNow(?s). Retract asleep(?s). Assert cameHome(?s). Assert wokeHome(?s). }
+  Rule held_count when discharged(ossel) and held(ossel) > 0 { Set held(ossel) to 0. }
+  Rule settlement_heard at ranks when discharged(ossel) and not knows(party, held_woke)
+    says "All down the Ranks the sleepers open their eyes, together, as if a drum had beaten the stand-down. They look at their hands. They look at each other. Somebody laughs. Somebody starts to cry. Then, without anyone giving the order, they turn, all of them, and begin to walk back across the white floor toward the Door, in step, because they do not know how not to." teaches held_woke { }
+  Rule settlement_seen when discharged(ossel) and not at(party, ranks) and not knows(party, held_woke)
+    says "At two in the morning, all over the Withies, people wake for no reason and go out onto the boardwalks. The basin is out, lower than anyone has ever seen it. And out in the drowned city, very small, coming up the steps of the Hall of Oaths and across the Forum in the starlight, barefoot and in their shirts and in step, a hundred and sixty soldiers of the Long Muster are walking home." teaches held_woke { }
+  Discovery held_woke "At the Settlement the note was discharged, and the held of the Long Muster woke and walked home.".
+  Rule muster_called when saultHoldsNote(ossel) and not saultWarden(ossel) and not knows(party, muster_called_known)
+    says "At two in the morning, all over Tessary, the soldiers of the Long Muster get up out of their beds, the old ones and the young ones and the one-armed ones, and dress, and go out into the streets, and walk in step through the dark to Saltgate, where Factor Sault is waiting for them on the steps of her countinghouse with a lantern. Her voice carries a long way in the quiet. 'Good morning, lads,' she says. 'You're paid from today.'" teaches muster_called_known { }
+  Discovery muster_called_known "At the Settlement Factor Sault took up the War Note and called the Long Muster to Saltgate.".
+  Rule muster_warden when saultHoldsNote(ossel) and saultWarden(ossel) and not knows(party, muster_called_known)
+    says "At two in the morning the soldiers of the Long Muster wake in their beds all over the city, every one of them, for no reason, and lie listening. Nothing calls them. Out in the drowned city, in the starlight, a hundred and sixty more are walking home across the Forum, and at the head of them, in a wet sea-cloak with a lantern, the Factor of the Salt Moiety is picking her way over the weed and swearing." teaches muster_called_known { }
+  Rule foreclosure_told when foreclosed(ossel) and not knows(party, foreclosed_known)
+    says "At two in the morning nothing happens. The basin is out, lower than anyone remembers; the Tidewall bonfires have burned down to red; the last contracts of the year are ash. Nobody walks into the sea. Nobody walks out of it. Only, a long way out past the Hall of Oaths, where the outer bar meets the open water, the sea for a moment shows a sky full of stars that are not the stars over Tessary, very bright and close, and then is the sea again." teaches foreclosed_known { }
+  Discovery foreclosed_known "At the Settlement the War Note fell in and nobody took it up. The held stay held, and the ledger is uneven at Tessary.".
+
+  // ── What became of them ───────────────────────────────────────────────────────────────────────────────────────────
+  // Told in the morning after the Settlement, before the book closes.
+  Query morning() means night(ossel) >= 15 and hour(clock) >= 7.
+  Relation toldFates(place).
+  Rule fate_tally_reformer when morning() and noteVoid(ossel) and not tallyFreed(ossel) and not told_tally(ossel) says "The Ninth Assessor sits now at the Comptroller's desk, which they have had moved into the Hall of Clerks where everyone can see it. They have begun to go through the ledger from the first page, with the old city's hole in it, and to write in the margin, for each entry, whether it was honest. It will take them, they estimate, four hundred years. They seem, as far as anyone can tell with a Scruple, happy." { Assert told_tally(ossel). }
+  Rule fate_tally_freed when morning() and tallyFreed(ossel) and not told_tally(ossel) says "There is a new stall on Scriveners' Row: CONTRACTS READ, DISPUTES WEIGHED, NO LIES TOLD (NONE). The scrivener behind it has a grey coat and ruled hands and a name nobody in Tessary has heard before, which by the end of the winter nobody finds strange. Pounce says it is unfair competition. Brother Tolley says it is the saint come home. Wick brings them an eel every Fourth-day, and they eat it." { Assert told_tally(ossel). }
+  Rule fate_tally_unravelled when morning() and tallyUnravelled(ossel) and not told_tally(ossel) says "Wick Teazle sits on the Tideline Steps every evening at the ebb, with an eel in a paper cone, and watches the doorways of Lowtide where the hollow men stand, looking for one in a grey coat. He has not seen it yet. He does not know what he would do if he did. He thinks he would give it the eel." { Assert told_tally(ossel). }
+  Rule fate_tally_plain when morning() and not tallyFreed(ossel) and not tallyUnravelled(ossel) and not noteVoid(ossel) and not told_tally(ossel) says "The Ninth Assessor went below at the Settlement with the inventory complete. The children of the Withies still call the stair at the end of the boardwalk Tally's Step, though none of them can say why." { Assert told_tally(ossel). }
+  Relation told_tally(place). Relation told_durrance(place). Relation told_quire(place). Relation told_sault(place).
+  Rule fate_durrance_release when morning() and released(ossel) and not told_durrance(ossel) says "Agathe Durrance never takes a penny of the pension she released. She runs the Muffled Drum with Hannelore now, and the Third Company's drum hangs over the bar with its head bare, and on the night of every spring ebb she beats the stand-down on it, at two in the morning, for anyone who might be listening." { Assert told_durrance(ossel). }
+  Rule fate_durrance_sault when morning() and serves(durrance, sault) and not told_durrance(ossel) says "Sergeant Durrance sergeants the Factor's Muster, in a good coat, and is fair to them, and is paid, and does not go into the Muffled Drum any more." { Assert told_durrance(ossel). }
+  Rule fate_durrance_held when morning() and heldNow(durrance) and not told_durrance(ossel) says "Sergeant Durrance is still standing in the Ranks of the Holding, asleep, with her hands at her sides. At the Muffled Drum her boots stand on the bar under the covered drum, and nobody touches them." { Assert told_durrance(ossel). }
+  Rule fate_durrance_home when morning() and not heldNow(durrance) and not serves(durrance, sault) and not released(ossel) and not told_durrance(ossel) says "Sergeant Durrance goes back to the Muffled Drum and drinks one pot, standing, and then goes down to the Tideline Steps to meet the ones coming home, and calls the roll for them on the top step, every name, in order, until her voice goes." { Assert told_durrance(ossel). }
+  Rule fate_quire_confessed when morning() and quireConfessed(ossel) and not told_quire(ossel) says "Absalom Quire is put out of the Exchequer by the Board in a vote of seven to nothing, and goes to live in two rooms in the Lettered Quarter, and writes letters for people who cannot, at Pounce's old rates, which annoys Pounce. He is sleeping again." { Assert told_quire(ossel). }
+  Rule fate_quire_dead when morning() and quireDrowned(ossel) and not told_quire(ossel) says "Brother Tolley hangs a weight in Saint Evenhand's for Absalom Quire: lead, for a debt. It is the only one in the chapel nobody paid for." { Assert told_quire(ossel). }
+  Rule fate_sault_exposed when morning() and saultExposed(ossel) and not saultHoldsNote(ossel) and not told_sault(ossel) says "Factor Sault keeps her pans and her ships and loses her chair on the Board, and is seen every evening on the Tidewall eating eels out of a paper cone, as cheerful as ever, and doing sums." { Assert told_sault(ossel). }
+  Rule fate_sault_warden when morning() and saultWarden(ossel) and saultHoldsNote(ossel) and not told_sault(ossel) says "Factor Sault holds the War Note in a frame on the wall of her countinghouse, and never calls on it, and works the salt springs of Hethra by treaty with a king who finds her very amusing. The city owes her everything. She reminds it daily." { Assert told_sault(ossel). }
+
+  // ── Endings ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  Ending kept "The Kept Promise" when morning() and keptPromise(ossel) "In the spring the old estates of the Moieties along the Ossel are surveyed into strips, and eight thousand soldiers and their families go upriver with ploughs bought on the city's credit, which is now bad, because the city has nothing; but the city kept its word, and the Balance under the sea is level, and the Scruples go back to writing down the small promises of fishwives. The Board meets in a Council House with boarded windows. On the twelfth of Haying there is no procession for the Kneeling. Instead, in the Withies, somebody's mother puts a recruiting bill in the fire, and everyone stands round and watches it burn.".
+  Ending release "The Release" when morning() and released(ossel) "The Muster saved the city twice. The second time it paid for the privilege with every penny the city had promised it, and the city knows it, and does not know what to do with the knowledge. The Board votes the Muster a medal. The Muster does not come to collect it. Instead, the veterans of Tessary go to work, on the pans and the boats and in the Lettered Quarter, owing nobody anything, and when the Board next wants a war it finds that nobody in the Withies will answer a drum, and has to think of something else.".
+  Ending void "The Void Note" when morning() and noteVoid(ossel) "The note is void and the Muster is home, and the city owes nothing to the Balance and its soldiers everything, as before; the Board will hear the question of the Settlement again in the spring, and this time the public bench will be full. Under the sea the Scruples have a new Comptroller who keeps a hole in the ledger the size of a city in plain sight, and on certain nights, far out past the bar, the sea at Tessary shows other stars. The fishermen have stopped being frightened of it. They say it is good for the eels.".
+  Ending torn "The Broken Note" when morning() and noteTorn(ossel) "The note is broken, and the Muster is home, and nobody in Tessary but you knows exactly how. The Scruples enter it as a default by an officer of the Balance, and say nothing more; the Board says nothing at all. In Lowtide the mudlarks say there is a new hollow man in the doorways of the bath-house, in a grey coat, who stands very still and does not come out, and who once, at the turn of the tide, held out a hand ruled like paper to a child, palm up, as if to show it was empty.".
+  Ending warden "The Warden of the Settlement" when morning() and saultHoldsNote(ossel) and saultWarden(ossel) "The held come home, and the Muster belongs to Factor Sault, who will never call it; the city's debt has become a debt to one woman, who can count, and does, out loud, at every meeting of the Board. The veterans go upriver to land that is theirs in all but law, under the Warden of the Settlement, who visits every autumn with seed-corn and a ledger. It is not justice. It is something people can live in, which in Tessary is often the best on offer.".
+  Ending factor "The Factor's Tessary" when morning() and saultHoldsNote(ossel) and not saultWarden(ossel) "The Muster belongs to Factor Sault. Within the week the Board, which has no army and no money and no more chairs than it has frightened councillors, gives her the Great Seal and the title of Warden of the City. Tessary is better run than it has been in a century. The soldiers are fed and paid and housed, and stand on the Tidewall in her coats, and nobody in the city is sure any more what they would do if they were told to do something terrible, and the soldiers least of all.".
+  Ending foreclosure "Foreclosure" when morning() and foreclosed(ossel) "Nothing happens, which is the worst of it. The held stay held. The Board says nothing; there is no money to say anything with. The rest of the Muster goes back to the boardwalks and the pans and waits for the next spring ebb, which does not come, because there is nothing left owing, only something forfeit. In the Withies they hang the boots from the eaves of the stilt-houses, pair by pair. And out past the bar, on more nights every month, the sea shows stars that are not Tessary's, very close, and once in the winter something comes up the Throat on the flood that was not born in Imbar, and the Scruples, who might have known what it was, have closed the black wall and do not answer.".
+
+  // ── Objectives ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Objective find_davy when knows(party, notice_read) and not knows(party, davy_went) and heldNow(davy) "Nan Teazle of the Withies wants to know where her son Davy went when he walked into the sea.".
+  Objective follow_davy when knows(party, davy_went) and not knows(party, held_alive) and heldNow(davy) "Davy Teazle walked into the sea at the spring ebb. Where did he go, and why do the soldiers keep step as they go?".
+  Objective why_held when knows(party, held_alive) and not knows(party, collateral) and not matured(ossel) "The soldiers who walk into the sea are held, not dead. Who is holding them, and for what?".
+  Objective what_owed when knows(party, collateral) and not knows(party, promise_weight) and not matured(ossel) "The city pledged its soldiers' oaths against a debt. What does it owe, and how can it be paid?".
+  Objective pay_it when knows(party, promise_weight) and not voted(ossel) and not matured(ossel) "The War Note is paid if the city keeps its promise of land and a pension to every soldier who came home. The Board votes on the thirteenth day, and has no money.".
+  Objective save_durrance when knows(party, durrance_next) and night(ossel) < 8 and not durranceSafe() and not heldNow(durrance) "Sergeant Durrance is on the next page of the roll, and will walk into the sea at the eighth night's spring ebb.".
+  Objective carry_deeds when knows(party, deeds_for_held) and not deedsDelivered(ossel) and not matured(ossel) "The deeds of the held must be put into their hands in the Holding before the note falls due at two in the morning after the Feast.".
+  Objective feast_release when releaseCalled(ossel) and not released(ossel) and not releaseBroken(ossel) and not matured(ossel) "Durrance will call the Muster to the Oath Stone on the night of the Feast, to release the city. The Factor's lightermen will come.".
+  Objective feast_assembly when indictmentFiled(ossel) and not noteVoid(ossel) and not matured(ossel) "The Assembly of the Scruples sits in the Weighing Chamber from midnight on the night of the Feast. The Assessor asked you to be there.".
+  Objective sault_bid_known when knows(party, sault_bid) and not matured(ossel) and not saultWarden(ossel) and not saultStopped(ossel) "Factor Sault means to take up the War Note when it falls in, and govern Tessary with the Muster.".
+}
