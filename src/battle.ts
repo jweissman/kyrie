@@ -42,7 +42,7 @@ export class Battle {
     if (!this.lease) {
       const store = new CreatureStore(this.fighters.map(f => {
         const creature = CombatProjection.creature(f);
-        creature.state.conditions = creature.state.conditions.filter(c => Effects.lasting(c));
+        creature.state.conditions = creature.state.conditions.filter(c => Battle.kept(c));
         return creature;
       }));
       this.lease = store.acquire(this.fighters.map(f => f.id));
@@ -55,6 +55,16 @@ export class Battle {
     if (!this.outcome) { this.round(); this.startTurn(); }
     this.commit();
   }
+  // What a fight is fought under that is not the fighters' own (the place's laws, a company's weariness, its
+  // readiness for what it waited for) is held by the fight, and goes with it: it is never written back onto a
+  // creature. Written back, it stayed for good (weary after a night's sleep), and the next fight added it again, so a
+  // weary company's second fight failed with "Invalid creature conditions": the owner's, attacking a raiding party
+  // and in a cave gallery, and What Tessary Owes's author's, set upon by the ebb-runners (its friction E3).
+  static readonly held = 'encounter';
+  static kept(c: { id: string; clock?: string; source?: string }): boolean {
+    return Effects.lasting(c) && c.source !== Battle.held;
+  }
+  private static holding(id: string) { return { id, remaining: 1, clock: 'until-removed' as const, source: Battle.held }; }
   static encounter(store: CreatureStore, participants: Pick<EncounterParticipant, 'creatureId' | 'team'>[],
     options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string; laws?: string[];
       weary?: string[]; ready?: string[] }):
@@ -62,17 +72,15 @@ export class Battle {
     const lease = store.acquire(participants.map(p => p.creatureId));
     try {
       // The laws of the place hold for everyone in the fight, for as long as it lasts.
-      const laws = (options.laws ?? []).filter(id => Canon.conditions[id]).map(id => ({ id, remaining: 1, clock: 'until-removed' as const }));
+      const laws = (options.laws ?? []).filter(id => Canon.conditions[id]).map(id => Battle.holding(id));
       const combatants = participants.map((p, i) => {
         const f = CombatProjection.fighter(lease.creatures[i]!, p.team);
-        // Those too long without sleep fight weary.
-        const tired = options.weary?.includes(p.creatureId) && Canon.conditions.weary
-          ? [{ id: 'weary', remaining: 1, clock: 'until-removed' as const }] : [];
-        // Those who drew it out and waited for it meet it ready.
-        const ready = options.ready?.includes(p.creatureId) && Canon.conditions.ready
-          ? [{ id: 'ready', remaining: 1, clock: 'until-removed' as const }] : [];
-        return { ...f, statuses: [...f.statuses, ...laws.filter(l => !f.statuses.some(s => s.id === l.id)), ...tired,
-          ...ready],
+        // Those too long without sleep fight weary; those who drew it out and waited for it meet it ready.
+        const tired = options.weary?.includes(p.creatureId) && Canon.conditions.weary ? [Battle.holding('weary')] : [];
+        const ready = options.ready?.includes(p.creatureId) && Canon.conditions.ready ? [Battle.holding('ready')] : [];
+        // Each once: one carrying it already (a fighter set upon after a fight of its own) does not carry it twice.
+        const fresh = [...laws, ...tired, ...ready].filter(l => !f.statuses.some(s => s.id === l.id));
+        return { ...f, statuses: [...f.statuses, ...fresh],
           ...options.environment ? { environment: options.environment } : {} };
       });
       return new Battle({ id: 'encounter', combatants, abilities: options.abilities ?? Content.abilities },
@@ -88,7 +96,7 @@ export class Battle {
     const creatures = this.lease.creatures.map(original => {
       const fighter = [...this.fighters, ...this.departed].find(f => f.id === original.id)!;
       const creature = CombatProjection.creature(fighter, original);
-      creature.state.conditions = creature.state.conditions.filter(c => Effects.lasting(c));
+      creature.state.conditions = creature.state.conditions.filter(c => Battle.kept(c));
       return creature;
     });
     this.lease.commit(creatures);

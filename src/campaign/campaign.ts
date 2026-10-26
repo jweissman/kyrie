@@ -12,7 +12,7 @@ import { ModuleInstallations } from './module-installations';
 import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition } from './definition';
 import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler } from '../lang/module-compiler';
-import { CreatureStore } from '../creature-store';
+import { CreatureStore } from '../creature-store'; import { HeldConditions } from './held-conditions';
 import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
 import { Projection } from './projection'; import { CampaignGrounding } from './campaign-grounding';
 import type { Creature } from '../creature';
@@ -58,10 +58,11 @@ export class Campaign implements WatchHost {
         this.compiled.actions = this.definition.schemas;
       }
       if (!restored.trusted) { new ModuleCompiler(RuntimeCapabilities.signatures).validate(this.module); }
-      if (this.definition) {
-        const projected = CreatureFacts.project(this.world, this.live, this.creatures);
-        if (!projected.sameAs(this.world)) { throw new Error('Inconsistent saved creature facts'); }
+      if (this.definition && !CreatureFacts.project(this.world, this.live, this.creatures).sameAs(this.world)) {
+        throw new Error('Inconsistent saved creature facts');
       }
+      // A game kept by an earlier build may carry its fights' weariness on whoever fought them (HeldConditions).
+      if (!restored.trusted && HeldConditions.release(this.creatures)) { this.refresh(); }
       return;
     }
     if (!instance.campaign) { throw new Error('A campaign is a composition of installed modules'); }
