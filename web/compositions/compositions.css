@@ -1,0 +1,337 @@
+/* The composition prototypes of Priority III. One set of tokens (the art-direction sheet), three compositions. */
+@font-face { font-family: 'Jost'; src: url(fonts/jost-normal-latin.woff2) format('woff2'); font-weight: 300 800; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Jost'; src: url(fonts/jost-normal-latin-ext.woff2) format('woff2'); font-weight: 300 800; font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Newsreader'; src: url(fonts/newsreader-normal-latin.woff2) format('woff2'); font-weight: 300 700; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Newsreader'; src: url(fonts/newsreader-normal-latin-ext.woff2) format('woff2'); font-weight: 300 700; font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Newsreader'; font-style: italic; src: url(fonts/newsreader-italic-latin.woff2) format('woff2'); font-weight: 300 700; font-display: swap; }
+
+:root {
+  --paper: #FFFFFF; --ink: #151515; --grey: #5E5E5E; --faint: #9A9A9A; --hair: #E3E3E3;
+  --blue: #176BEE; --red: #E73535; --yellow: #F3C82E;
+  --told: 'Newsreader', Georgia, serif; --do: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+  --land: #F6F6F4; --wood: #E8EDE4; --fell: #F1EEE8; --heath: #F2ECEA; --fen: #E8F0EC; --peak: #E6E4E0; --known: #F0F0EE;
+  --water: #DCE8FB;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--told); }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+kbd { font-family: var(--do); font-size: 11px; color: var(--faint); border: 1px solid var(--hair); border-radius: 3px;
+  padding: 0 4px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* The prototype's own bar: the margin's grey, apart from every composition. */
+.proto { font-family: var(--do); font-size: 12.5px; color: var(--grey); border-bottom: 1px solid var(--hair);
+  padding: 8px 16px 10px; display: grid; gap: 6px; background: #FAFAFA; }
+.proto nav { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.proto button { color: var(--grey); padding: 2px 0; border-bottom: 2px solid transparent; }
+.proto button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.proto .beat { margin: 0; }
+.proto .beat button { padding: 0 6px; font-size: 15px; }
+.proto .test { color: var(--faint); margin-left: 8px; font-style: italic; }
+.proto .aside { margin: 0; color: var(--faint); }
+.mark { font-family: var(--do); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--grey);
+  border: 1px dashed var(--faint); border-radius: 3px; padding: 0 4px; margin-left: 10px; white-space: nowrap; }
+.notice { font-family: var(--do); font-size: 13.5px; color: var(--grey); border-left: 2px dashed var(--faint);
+  padding: 2px 0 2px 10px; }
+
+/* The shared look of a choice: Jost, what it does, then what it costs; the keys' place in blue. */
+.act { font-family: var(--do); font-size: 16.5px; line-height: 1.35; padding: 5px 0; display: inline-flex;
+  flex-wrap: wrap; align-items: baseline; gap: 2px 10px; outline: none; }
+.act .what { border-bottom: 1.5px solid transparent; }
+.act:hover .what { border-bottom-color: var(--hair); }
+.act[aria-current="true"] .what { color: var(--blue); border-bottom-color: var(--blue); }
+.act:focus-visible .what { color: var(--blue); border-bottom-color: var(--blue); }
+.act .cost { font-size: 13.5px; color: var(--grey); display: inline-flex; gap: 8px; }
+.act .cost .risk, .act .cost .grave { color: var(--red); }
+.act[aria-expanded="false"] .what::after { content: ' …'; color: var(--faint); }
+.act[aria-expanded="true"] .what::after { content: ' ⌄'; color: var(--faint); }
+.line.speech { font-size: 1.06em; }
+.line.event, .line.fight { font-family: var(--do); font-size: 15px; color: var(--grey); }
+.line.change { font-style: italic; }
+.learned { list-style: none; padding: 0; margin: 10px 0 0; font-family: var(--do); font-size: 14.5px; }
+.learned li { border-left: 4px solid var(--yellow); padding: 2px 0 2px 10px; margin: 4px 0; }
+.learned .tag, .tag { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--grey);
+  font-family: var(--do); }
+.counted { font-family: var(--do); font-size: 13.5px; color: var(--grey); margin: 6px 0 0; }
+.hurt { color: var(--red); }
+
+/* A. The literary page. */
+.lit { max-width: 40rem; margin: 0 auto; padding: 28px 24px 80px; font-size: 19px; line-height: 1.55; }
+.lit .run { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 16px; font-family: var(--do);
+  font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--grey); padding-bottom: 10px;
+  border-bottom: 1px solid var(--hair); margin-bottom: 36px; }
+.lit .chapter { font-family: var(--do); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink); margin: 0 0 6px; }
+.lit .place { font-weight: 500; font-size: 30px; line-height: 1.2; font-variant-caps: all-small-caps;
+  letter-spacing: .04em; margin: 0 0 18px; }
+.lit .journey { font-style: italic; color: var(--grey); }
+.lit .prose, .lit .presence { margin: 0 0 14px; }
+.lit .recall { color: var(--grey); font-size: 16.5px; margin: -8px 0 16px; }
+.lit .presence { color: #333; }
+.lit .changed { font-style: italic; }
+.lit .result { margin: 22px 0; padding: 0; }
+.lit .result .said { font-family: var(--do); font-size: 14px; color: var(--grey); margin: 0 0 6px; }
+.lit .result .said::before { content: '› '; }
+.lit .result .line { margin: 0 0 10px; }
+.lit .attending { margin: 26px 0 10px; padding-top: 18px; border-top: 1px solid var(--hair); }
+.lit .attending h2 { font-weight: 500; font-size: 22px; margin: 0 0 8px; font-style: italic; }
+.lit .attending .role { font-style: normal; font-size: 17px; color: var(--grey); }
+.lit .attending .doing { margin: 0 0 10px; }
+.lit .attending .inscription { margin: 0 0 12px; }
+.lit .choices { margin-top: 30px; border-top: 1px solid var(--ink); padding-top: 14px; }
+.lit .group { margin: 0 0 16px; }
+.lit .group ul { list-style: none; margin: 0; padding: 0; }
+.lit .group .head { font-size: 17px; margin: 0; font-style: italic; }
+.lit .group .head.small, .lit .group.you .head, .lit .group.near .head, .lit .group.far .head { font-family: var(--do);
+  font-style: normal; font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--grey); }
+.lit .group .role { color: var(--grey); font-style: normal; font-size: 15px; }
+.lit .by { font-size: 15.5px; color: var(--grey); margin: 0 0 6px; }
+.lit .group.person, .lit .group.companion, .lit .group.thing, .lit .group.animal { display: flex; flex-wrap: wrap;
+  align-items: baseline; gap: 0 14px; margin-bottom: 6px; }
+.lit .group.person ul, .lit .group.companion ul, .lit .group.thing ul, .lit .group.animal ul { display: contents; }
+.lit .group.threat { border-left: 3px solid var(--red); padding-left: 14px; margin: 0 0 22px; }
+.lit .threat-head .look { font-family: var(--do); font-size: 14.5px; color: var(--grey); margin: 2px 0; }
+.lit .reckoning { margin: 4px 0 6px; font-size: 17px; }
+.lit .reckoning .tag { color: var(--red); margin-right: 4px; }
+.lit .group.leave { margin-top: 10px; }
+.lit .group.leave .act .what::before { content: '‹ '; }
+.lit .refs { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--do); font-size: 12.5px;
+  color: var(--grey); border-top: 1px solid var(--hair); padding-top: 10px; }
+.lit .ref { margin: 28px 0; padding: 16px 0 6px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--hair); }
+.lit .ref h2 { font-family: var(--do); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; margin: 0 0 10px; }
+.lit .ref h3 { font-size: 16px; font-style: italic; font-weight: 500; margin: 12px 0 4px; }
+.lit .ref p { font-size: 16.5px; margin: 0 0 6px; }
+.ref .how, .ref .line-of { font-family: var(--do); font-size: 12.5px; color: var(--grey); }
+.ref .key { font-family: var(--do); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--grey);
+  margin-right: 6px; }
+.ref .close { font-family: var(--do); font-size: 12px; color: var(--faint); }
+.lit .fight-state { font-family: var(--do); font-size: 14px; color: var(--grey); margin: -10px 0 16px; }
+.lit .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+.lit .side h3 { font-family: var(--do); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--grey); font-weight: 500; margin: 0 0 6px; }
+.lit .side p { margin: 0 0 6px; font-size: 17px; line-height: 1.35; }
+.lit .side .line-of { color: var(--grey); font-size: 14.5px; }
+.lit .side .hp { display: block; font-family: var(--do); font-size: 14px; }
+.lit .side .down { color: var(--grey); }
+@media (max-width: 600px) {
+  .lit { padding: 18px 16px 60px; font-size: 18px; }
+  .lit .place { font-size: 26px; }
+  .lit .sides { grid-template-columns: 1fr; }
+}
+.group.one { display: flex; }
+.lit .group.one { margin: 0 0 4px; }
+.lit .act.subject .name { font-family: var(--told); font-size: 18px; font-style: italic; }
+.lit .act.subject .role { font-family: var(--told); font-size: 15.5px; color: var(--grey); }
+.lit .act.subject .verb { font-size: 13.5px; color: var(--grey); }
+.lit .act.subject[aria-current="true"] .verb { color: var(--blue); }
+.lit .group.row .lead { margin: 0; font-family: var(--do); font-size: 15px; color: var(--grey); }
+.lit .group.row ul { display: flex; flex-wrap: wrap; gap: 0 22px; }
+.lit .group.row .act .what { font-family: var(--told); font-size: 19px; }
+
+/* B. The inhabited scene: a plate for the subject, the telling beside it. */
+.inh { display: grid; grid-template-columns: minmax(320px, 44%) 1fr; min-height: calc(100vh - 104px); }
+.inh.bare { grid-template-columns: 1fr; }
+.inh .plate { position: sticky; top: 0; align-self: start; height: calc(100vh - 104px); overflow: hidden;
+  border-right: 1px solid var(--hair); display: flex; flex-direction: column; justify-content: center; }
+.inh .text { max-width: 38rem; padding: 28px 40px 80px; font-size: 19px; line-height: 1.55; width: 100%; }
+.inh.bare .text { margin: 0 auto; }
+.inh .run, .fol .run { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 16px;
+  font-family: var(--do); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--grey);
+  padding-bottom: 10px; border-bottom: 1px solid var(--hair); margin-bottom: 30px; }
+.inh .place { font-weight: 450; font-size: 36px; line-height: 1.15; margin: 0 0 18px; letter-spacing: -.005em; }
+.inh .chapter { font-family: var(--do); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 6px; }
+.inh .band { font-family: var(--do); font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--grey); margin: 0 0 4px; }
+.inh .subject, .fol .page .subject { font-weight: 450; font-size: 34px; line-height: 1.15; margin: 0 0 16px; }
+.inh .subject .role, .fol .subject .role { font-family: var(--do); font-size: 15px; color: var(--grey);
+  letter-spacing: .02em; }
+.inh .doing { color: #333; font-style: italic; }
+.inh .journey { font-style: italic; color: var(--grey); }
+.inh .prose, .inh .presence { margin: 0 0 14px; }
+.inh .presence { color: #333; }
+.inh .recall { color: var(--grey); font-size: 16.5px; margin: -8px 0 16px; }
+.inh[data-attention="person"] .result .line.speech { font-size: 22px; line-height: 1.5; }
+.inh .result { margin: 18px 0 22px; }
+.inh .result .said, .fol .result .said { font-family: var(--do); font-size: 14px; color: var(--grey); margin: 0 0 6px; }
+.inh .result .said::before, .fol .result .said::before { content: '› '; }
+.inh .round .line, .fol .round .line { margin: 0 0 10px; }
+.inh .choices, .fol .choices { margin-top: 26px; border-top: 1px solid var(--ink); padding-top: 14px; }
+.inh .group, .fol .group { margin: 0 0 16px; }
+.inh .group ul, .fol .group ul { list-style: none; margin: 0; padding: 0; }
+.inh .group .head, .fol .group .head { font-size: 17px; margin: 0; font-style: italic; }
+.inh .group .head.small, .fol .group .head.small { font-family: var(--do); font-style: normal; font-size: 11.5px;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--grey); }
+.inh .group .role, .fol .group .role { color: var(--grey); font-style: normal; font-size: 15px; }
+.inh .group.one, .fol .group.one { margin: 0 0 4px; }
+.inh .act.subject .name, .fol .act.subject .name { font-family: var(--told); font-size: 18px; font-style: italic; }
+.inh .act.subject .role, .fol .act.subject .role { font-family: var(--told); font-size: 15.5px; color: var(--grey); }
+.inh .act.subject .verb, .fol .act.subject .verb { font-size: 13.5px; color: var(--grey); }
+.inh .group.row ul, .fol .group.row ul, .inh .group ul.row, .fol .group ul.row { display: flex; flex-wrap: wrap; gap: 0 22px; }
+.inh .group.row .lead, .fol .group.row .lead { margin: 0; font-family: var(--do); font-size: 15px; color: var(--grey); }
+.inh .group.row .act .what, .fol .group.row .act .what { font-family: var(--told); font-size: 19px; }
+.inh .group.threat, .fol .group.threat { border-left: 3px solid var(--red); padding-left: 14px; margin: 0 0 22px; }
+.inh .threat .look, .fol .threat .look { font-family: var(--do); font-style: normal; font-size: 14px; color: var(--grey); }
+.inh .reckoning, .fol .reckoning { margin: 4px 0 6px; font-size: 17px; }
+.inh .reckoning .tag, .fol .reckoning .tag { color: var(--red); margin-right: 4px; }
+.inh .group.leave .act .what::before, .fol .group.leave .act .what::before { content: '‹ '; }
+.inh .refs, .fol .refs { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--do);
+  font-size: 12.5px; color: var(--grey); border-top: 1px solid var(--hair); padding-top: 10px; }
+.inh .ref, .fol .ref { margin: 26px 0; padding: 16px 0 6px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--hair); }
+.inh .ref h2, .fol .ref h2 { font-family: var(--do); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; margin: 0 0 10px; }
+.inh .ref h3, .fol .ref h3 { font-size: 16px; font-style: italic; font-weight: 500; margin: 12px 0 4px; }
+.inh .ref p, .fol .ref p { font-size: 16.5px; margin: 0 0 6px; }
+.portrait { margin: 0; position: relative; }
+.portrait img { display: block; width: 100%; object-fit: cover; background: var(--hair); }
+.portrait.large img { height: calc(100vh - 104px - 74px); }
+.portrait figcaption { font-family: var(--do); font-size: 13px; color: var(--grey); padding: 10px 18px 0;
+  display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; }
+.portrait .name { font-family: var(--told); font-size: 19px; color: var(--ink); font-style: italic; }
+.portrait .credit { flex-basis: 100%; font-size: 11px; color: var(--faint); }
+.inh .cast { height: 100%; display: flex; flex-direction: column; }
+.inh .cast .portrait.large img { height: calc(100vh - 104px - 74px - 150px); }
+.inh .cast .others { display: flex; gap: 10px; padding: 12px 18px 0; }
+.inh .cast .others .portrait { width: 86px; }
+.inh .cast .others img { height: 86px; border-radius: 50%; }
+.inh .cast .others figcaption { padding: 4px 0 0; font-size: 11.5px; }
+.inh .cast .others .name { font-size: 14px; }
+.inh .cast .others .role { display: none; }
+.inh .plate .kind, .fol .kind { font-family: var(--do); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--grey); margin: 0 0 10px; }
+.inh .object { padding: 48px 44px; }
+.inh .object h2 { font-weight: 450; font-size: 44px; line-height: 1.1; margin: 0 0 6px; }
+.inh .object .state { font-family: var(--do); font-size: 14px; color: var(--grey); margin: 0 0 22px; }
+.inh .object .inscription { font-size: 21px; line-height: 1.55; }
+.inh .map-plate { padding: 28px 28px; }
+.land svg, svg.site { display: block; width: 100%; height: auto; }
+.land .cell { stroke: none; }
+.land .cell.land { fill: var(--land); } .land .cell.wood { fill: var(--wood); } .land .cell.fell { fill: var(--fell); }
+.land .cell.heath { fill: var(--heath); } .land .cell.fen { fill: var(--fen); } .land .cell.peak { fill: var(--peak); }
+.land .cell.water { fill: var(--water); } .land .cell.known { fill: var(--known); }
+.land .river { fill: none; stroke: #7FA8F0; stroke-width: 2; stroke-linecap: round; }
+.land .road { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; }
+.land .path { fill: none; stroke: var(--ink); stroke-width: 1.3; stroke-dasharray: 5 4; }
+.land .came { stroke: var(--blue); }
+.land .town { fill: var(--ink); } .land .town.unvisited { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.land .mark { fill: var(--paper); stroke: var(--ink); stroke-width: 1.3; } .land .mark.visited { fill: var(--ink); }
+.land .here { fill: var(--blue); stroke: var(--paper); stroke-width: 2; }
+.land text { font-family: var(--do); fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; font-size: 11px; }
+.land .town-name { font-weight: 600; letter-spacing: .06em; text-transform: uppercase; font-size: 11.5px; }
+.land .unknown { fill: var(--grey); font-style: italic; }
+svg.site .way { stroke: var(--ink); stroke-width: 1.5; } svg.site .way.unexplored { stroke-dasharray: 4 4; stroke: var(--faint); }
+svg.site .way.hazard { stroke: var(--red); }
+svg.site .room { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; } svg.site .room.visited { fill: var(--ink); }
+svg.site .room.here { fill: var(--blue); stroke: var(--blue); }
+svg.site text { font-family: var(--do); font-size: 12px; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; }
+.map-plate .key { font-family: var(--do); font-size: 12.5px; color: var(--grey); display: flex; gap: 14px; flex-wrap: wrap; }
+.map-plate .key .hazard { color: var(--red); }
+.sides { padding: 30px 32px; display: grid; gap: 26px; }
+.sides .fighter { margin: 0 0 14px; }
+.sides .who { margin: 0; font-size: 20px; } .sides .line-of { font-size: 15px; color: var(--grey); }
+.sides .bar { height: 6px; background: var(--hair); margin: 6px 0 4px; max-width: 320px; }
+.sides .bar span { display: block; height: 100%; background: var(--ink); }
+.sides .bar span.low { background: var(--red); }
+.sides .hp { font-family: var(--do); font-size: 13.5px; margin: 0; }
+.sides .fighter.acting .who { color: var(--blue); }
+.sides .fighter.down { color: var(--grey); }
+@media (max-width: 860px) {
+  .inh { grid-template-columns: 1fr; }
+  .inh .plate { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--hair); }
+  .portrait.large img, .inh .cast .portrait.large img { height: 42vh; }
+  .inh .object { padding: 22px 16px; } .inh .object h2 { font-size: 30px; } .inh .object .inscription { font-size: 18px; }
+  .inh .text { padding: 18px 16px 60px; font-size: 18px; }
+  .inh .map-plate { padding: 16px; }
+  .inh .place, .inh .subject { font-size: 28px; }
+  .sides { padding: 16px; gap: 14px; }
+}
+
+/* C. The traveller's folio: the journey kept beside the page. */
+.fol { display: grid; grid-template-columns: minmax(260px, 23rem) minmax(0, 40rem); gap: 0 56px; justify-content: center;
+  padding: 28px 24px 80px; }
+.fol .folio { font-family: var(--do); font-size: 14px; line-height: 1.45; color: var(--ink); align-self: start; }
+.fol .leaf { margin: 0 0 26px; padding-top: 10px; border-top: 2px solid var(--ink); }
+.fol .leaf h2 { font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; font-weight: 500; margin: 0 0 10px; }
+.fol .itinerary ol { list-style: none; margin: 0; padding: 0 0 0 16px; border-left: 1.5px solid var(--ink); }
+.fol .itinerary ol > li { position: relative; margin: 0 0 10px; }
+.fol .itinerary ol > li::before { content: ''; position: absolute; left: -20.25px; top: 7px; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--ink); }
+.fol .itinerary ol > li[aria-current="location"]::before { background: var(--blue); width: 12px; height: 12px;
+  left: -22.25px; top: 5px; }
+.fol .itinerary ol > li[aria-current="location"] .stop { color: var(--blue); }
+.fol .itinerary .at { color: var(--grey); font-size: 12.5px; }
+.fol .itinerary .stop { font-family: var(--told); font-size: 16.5px; }
+.fol .itinerary ul { list-style: none; padding: 0; margin: 2px 0 0; color: var(--grey); font-size: 13px; }
+.fol .itinerary .learned-line { border-left: 3px solid var(--yellow); padding-left: 6px; color: var(--ink); }
+.fol .earlier { color: var(--faint); font-size: 12.5px; margin: 0 0 6px; }
+.fol .ahead p { margin: 0 0 8px; font-family: var(--told); font-size: 16px; }
+.fol .ahead .aim { font-style: italic; }
+.fol .ahead .how, .fol .rooms .how { font-family: var(--do); font-size: 12px; color: var(--grey); display: block; }
+.fol .rooms p { margin: 0 0 6px; }
+.fol .key { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--grey); margin-right: 6px; }
+.fol .page { font-size: 19px; line-height: 1.55; min-width: 0; }
+.fol .page .place { font-weight: 500; font-size: 30px; line-height: 1.2; font-variant-caps: all-small-caps;
+  letter-spacing: .04em; margin: 0 0 18px; }
+.fol .page .chapter { font-family: var(--do); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 6px; }
+.fol .page .journey { font-style: italic; color: var(--grey); }
+.fol .page .prose, .fol .page .presence { margin: 0 0 14px; }
+.fol .page .recall { color: var(--grey); font-size: 16.5px; margin: -8px 0 16px; }
+.fol .page .result { margin: 22px 0; }
+.fol .page .result .line { margin: 0 0 10px; }
+.fol .page .attending { margin: 26px 0 10px; padding-top: 18px; border-top: 1px solid var(--hair); }
+.fol .page .attending h2 { font-weight: 500; font-size: 22px; margin: 0 0 8px; font-style: italic; }
+.fol .page .attending .role { font-style: normal; font-size: 17px; color: var(--grey); }
+.fol .page .band { font-family: var(--do); font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--grey); }
+.fol .page .sides { padding: 0; grid-template-columns: 1fr 1fr; margin: 0 0 10px; }
+.fol .routes .by { flex-basis: 100%; font-size: 13.5px; color: var(--grey); }
+.fol .routes .state { font-size: 13.5px; }
+.fol .routes .state.heard-of { color: var(--ink); box-shadow: inset 0 -5px 0 var(--yellow); }
+.fol .routes .state.not-yet-been { color: var(--ink); }
+.fol .routes li { margin: 0 0 6px; }
+/* Narrower, the folio is not beside the page: the last few stops head it, and the rest of the record follows it. */
+@media (max-width: 1080px) {
+  .fol { grid-template-columns: minmax(0, 40rem); }
+  .fol .folio { display: contents; }
+  .fol .itinerary { order: 0; } .fol .page { order: 1; } .fol .folio .leaf:not(.itinerary) { order: 2; margin-top: 30px; }
+  .fol .itinerary ol > li:not(:nth-last-child(-n+3)) { display: none; }
+  .fol .itinerary ol > li ul, .fol .earlier { display: none; }
+}
+@media (max-width: 600px) {
+  .fol { padding: 18px 16px 60px; }
+  .fol .page { font-size: 18px; } .fol .page .place { font-size: 26px; }
+  .fol .page .sides { grid-template-columns: 1fr; }
+}
+.dialogue .line { margin: 0 0 12px; }
+.dialogue .line.you { font-family: var(--do); font-size: 15px; color: var(--grey); margin: 18px 0 6px; }
+.dialogue .line.you::before { content: '› '; }
+.dialogue .line.learned { font-family: var(--do); font-size: 14.5px; border-left: 4px solid var(--yellow); padding: 2px 0 2px 10px; }
+.inh .dialogue .line.speech { font-size: 22px; line-height: 1.5; }
+.inh .act.subject { align-items: center; }
+.inh .act.subject .face { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: var(--hair); }
+.proto .keys { color: var(--faint); margin-left: auto; }
+.inh .sitter { position: relative; height: 100%; background: #111; }
+.inh .sitter img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.inh .sitter .credit { position: absolute; top: 14px; left: 18px; margin: 0; font-family: var(--do); font-size: 11.5px;
+  color: rgba(255,255,255,.78); text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.inh .sitter .cap { position: absolute; left: 40px; bottom: 34px; color: #fff; text-shadow: 0 2px 14px rgba(0,0,0,.55); }
+.inh .sitter h2 { font-family: var(--do); font-weight: 600; font-size: 64px; line-height: 1; margin: 0 0 6px; letter-spacing: -.01em; }
+.inh .sitter .cap p { font-family: var(--do); font-size: 16px; margin: 0; }
+.inh .replies { list-style: none; margin: 0 0 4px; padding: 0; }
+.inh .replies i { font-style: normal; font-family: var(--do); color: var(--faint); width: 1.6em; display: inline-block; }
+.inh .replies .act[aria-current="true"] i { color: var(--blue); }
+.inh .replies.leave .act .what { color: var(--grey); }
+.inh .replies.leave .act .what::before { content: ''; }
+.inh .counter { list-style: none; padding: 10px 0; margin: 14px 0 0; border-top: 1px solid var(--hair);
+  font-family: var(--do); font-size: 14.5px; display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.inh .counter small { color: var(--grey); }
+.inh .counter .dear { color: var(--faint); }
+.inh[data-attention="person"] .doing { font-style: italic; color: var(--grey); }
+@media (max-width: 860px) {
+  .inh .sitter { height: 46vh; }
+  .inh .sitter h2 { font-size: 42px; } .inh .sitter .cap { left: 18px; bottom: 18px; }
+}
+.inh .replies .act { flex-wrap: nowrap; } .inh .replies i { flex: none; }
+.inh .replies .act .cost { flex: none; }

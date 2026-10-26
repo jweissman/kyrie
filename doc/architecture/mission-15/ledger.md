@@ -37,6 +37,16 @@ the cold playtest (`review/cold-playtest-2026-10-25`) arrived on 2026-10-25. Wha
 
 ## Done and verified
 
+- **III, steps 3 and 4: three compositions of one journey, and a provisional direction.** The wren record played
+  through the page's own engine into 25 beats over the six moments of AESTHETICS §7, drawn three ways from the same
+  offer (the reader's `SceneModel` and `Attending`): A, the literary page; B, the inhabited scene; C, the traveller's
+  folio (`web/compositions/`, built by `bun scripts/compositions.ts`). The current reader was photographed at the same
+  beats as the control. Each composition plays the whole record with the keys alone, and was read at 1440, 900 and
+  390 px and without images. The direction is a hybrid: A as the ground; the current conversation page kept, on white;
+  B's object plate and fight tableau; C's route lines and itinerary, summoned rather than permanent. Rejected: a
+  portrait guessed for a place, a map plate in open country, a permanent folio, the portrait grid and walled field,
+  and the dark fight. It stays provisional until an independent player has played the prototypes
+  ([`priority-iii/compositions.md`](priority-iii/compositions.md); `test/compositions.test.ts`).
 - **III.B. The map faithful to what is known.** A fact may lead to a place (`leadsTo`, in the shared rules): known,
   the place is on the company's map and its region's chart, as not yet visited, before it has been there or knows the
   way. Each generated site's name leads to it, and each authored country's rumour to its march-stone
@@ -115,6 +125,19 @@ the cold playtest (`review/cold-playtest-2026-10-25`) arrived on 2026-10-25. Wha
   player's pause.
 
 ## Found, not yet done
+
+- **What the compositions found the engine cannot say** (numbered in
+  [`priority-iii/compositions.md`](priority-iii/compositions.md)):
+  - the generated mine's galleries report shelter "outdoors";
+  - portraits are cast from registry descriptions that miss what matters (Baern, priest of Aine, is *David with the
+    Head of Goliath*);
+  - the engine chooses who does an act, and the page cannot show or change it (the flask goes to Thoradin);
+  - topics vanish once asked;
+  - exceptional moments are unmarked;
+  - a return is not told as one;
+  - an exit does not say it leads toward a place known by report;
+  - who has something to say is not told apart from who is only there;
+  - a minstrel fights as "dwarf warrior".
 
 - **A march crossing still takes 1.2 to 2.1 s**: everyone's creature facts are projected again with each of the
   country's modules, kept so because projecting the newcomers alone, and everyone once at the end, holds the same facts
