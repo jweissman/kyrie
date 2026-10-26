@@ -1,0 +1,124 @@
+Module lowwater "Low Water" {
+  Description "Measures Terrace: the square, the Office of Measures and its Registrar, its ledgers and its oldest map, the Moot Hall, and the Full Measure.".
+
+
+  Place measures_square "Measures Square" is room within ammerlin at 1, 1 outdoors.
+  Place office "the Office of Measures" is building within ammerlin.
+  Place office_hall "the hall of the Office" is room within office at 0, 0.
+  Place registrar_room "the Registrar's room" is room within office at 1, 0.
+  Place ledger_room "the ledger room" is room within office at 0, 1.
+  Place moot_hall "the Moot Hall" is room within office at 1, 1.
+  Place inn "the Full Measure" is building within ammerlin.
+  Place taproom "the Full Measure's taproom" is room within inn at 0, 0.
+
+  Passage first_stair "the Stair, from the Rim to Measures Terrace" is steps between rim_head and measures_square taking 15 minutes.
+  Passage office_door "the Office door" is door between measures_square and office_hall.
+  Passage registrar_door "the Registrar's door" is door between office_hall and registrar_room.
+  Passage ledger_door "the ledger-room door" is door between office_hall and ledger_room.
+  Passage moot_doors "the doors of the Moot Hall" is door between office_hall and moot_hall.
+  Passage inn_door "the Full Measure's door" is door between measures_square and taproom.
+
+  Observe square_scene at measures_square when not familiar(measures_square) "A square of wet flagstones on the second terrace, with the Office of Measures down one side, all grey ashlar and tall windows, and the Sounding up the other, its bell-tower over everything. In the middle a fountain: a bronze basin on a column, older than either building, brimming without a sound.".
+  Observe square_scene_again at measures_square when familiar(measures_square) "Measures Square, the Office down one side and the Sounding up the other, and the old fountain brimming between them.".
+  Observe fountain_hums at measures_square when starved(reckoner) "The fountain in the square is humming, low and steady, and the water in its basin stands up in fine rings.".
+  Observe fountain_humming at measures_square when humming(ammerlin) "The fountain in the square is humming, low and steady, and children are standing round it with their hands on its rim, feeling it.".
+  Observe fountain_still at measures_square when broken(reckoner) "The fountain in the square brims as it always has. Something about it has changed and it takes you a while to know what: the water in the basin no longer trembles, very faintly, as all the water in the Bowl did. It is only water now.".
+
+  // The Office.
+  Observe hall_scene at office_hall when not familiar(office_hall) "The hall of the Office of Measures: a long room of benches and a counter of black oak, where the people of Ammerlin come to have their rights read, registered, quarrelled over and sealed. Over the inner door, cut in letters a hand high: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY.".
+  Observe hall_scene_again at office_hall when familiar(office_hall) "The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY.".
+  Observe hall_queue at office_hall when hour(clock) >= 8 and hour(clock) < 17 and not familiar(office_hall) "A queue of people with papers goes along the benches: carters, dyers, two women from the Ward with a child asleep across their knees. Nobody in it is talking to anybody else.".
+  Person clerks "the Office clerks" at office_hall {
+    Role "at work behind the counter". Ancestry human. Numbers 3. Peaceable.
+  }
+  Person fenn "Registrar Odile Fenn" at registrar_room {
+    Greets "Registrar Fenn finishes the line she is writing, and blots it, and only then looks up.".
+    Role "the head of the Office of Measures". Ancestry human. Peaceable. Pronouns she. Manner grim.
+  }
+  Observe registrar_scene at registrar_room when not familiar(registrar_room) "The Registrar's room is small and full of paper, stacked by terrace and tied with coloured tape. On the wall, a plan of the whole Stair in ink faded to brown. Registrar Fenn works standing, at a tall desk, and does not sit down for you.".
+  Observe registrar_scene_again at registrar_room when familiar(registrar_room) "The Registrar's room: paper tied in coloured tape, and the brown plan of the Stair.".
+  Discovery commission "The Office of Measures has engaged you as Independent Assessor: to find why the Mere is falling, and to give your Finding at the Hearing before the Council, at noon on the seventh day." { Known by fenn, isaura. }
+  Topic fenn_commission with fenn "Ask the Registrar what she wants from you" when true once {
+    Says "'A Finding,' says Registrar Fenn, writing. 'In writing, sealed, delivered at the Hearing at noon on the seventh day, which the Council has set and which I cannot move. A cause, and a remedy. You are an outsider, which is the point of you: nobody in this city can say why the Mere is falling without being accused of wanting somebody's water.' She looks up for the first time. 'Clerk Vant will go with you and open what you need opened. Find me something I can put in front of the Council that will still be standing at the end of the afternoon.' She counts twenty crowns out of a drawer for your expenses, and has you sign for them.".
+    On discuss { Assert knows(actor, commission). Increase quantity(actor, gold) by 20. }
+  }
+  Topic fenn_culprit with fenn "Ask the Registrar what she believes" when true once {
+    Says "'I believe the Guild's Channel takes a fifth of the Ninefold, which it does, and that the Mere is falling, which it is, and that the Council will want those two facts in one sentence.' She lays down the pen. 'I also believe that I have been Registrar for eleven years and never once seen a cause that was only one thing. That belief I can't put in front of the Council, so you will have to.'".
+  }
+  Topic fenn_office with fenn "Ask the Registrar about the words over the door" when true once {
+    Says "'The Thirst Riots,' she says. 'Two hundred years ago. A dry summer and every terrace at every other's sluices with knives. Three hundred dead, most of them in the Ward, because the Ward is at the bottom and water runs downhill and so does a riot.' She taps the brown plan of the Stair. 'The Office was the peace. Every right measured, written, sealed, and read aloud at need. It works. It has worked for two hundred years.' A pause. 'It works as long as everybody believes the measuring. When they stop, the words over the door are a very expensive piece of stone.'".
+  }
+  Topic fenn_vant with fenn "Ask the Registrar about Clerk Vant" when true once {
+    Says "'The best measurer in the Office,' says Fenn at once, 'and the worst politician. She'll tell you the truth to the half-ell and then wonder why you're angry with her.' She is quiet for a moment. 'Her brother is Dov Vant. The Ward. You'll meet him. Everybody does, sooner or later, usually at a volume.'".
+  }
+  // The Registrar can be shown cause to put off the Hearing, or to freeze the Ward's titles, and can give a warrant.
+  Relation titlesFrozen(place). Relation postponed(place). Relation warranted(group).
+  Topic fenn_freeze with fenn "Ask the Registrar to freeze the Ward's titles until the Finding" when knows(actor, ward_bought) and not titlesFrozen(ammerlin) once {
+    Says "Registrar Fenn listens, and takes a fresh sheet without a word, and writes. 'An order of the Office: no title in the Mere Ward to pass between hands until the Assessor's Finding is read. Grounds: the value of the land depends on the matter under assessment.' She seals it. 'Master Quill will be very charming to me about this at the Council. Let him.' To a clerk, through the door: 'To Basset, at the Ward, by hand, now.'".
+    On discuss { Assert titlesFrozen(ammerlin). }
+  }
+  Topic fenn_postpone with fenn "Ask the Registrar to put the Hearing off two days" when (knows(actor, hymn_cause) or knows(actor, engine_seen)) and not postponed(ammerlin) and watch(clock) < hearingAt(bowl) - 36 once {
+    Says "'The Council set the day, not I.' But she does not say no. She listens to the end and then stands looking at the brown plan of the Stair for a long time. 'If what you say is so, a Finding on the seventh day would be wrong, and a wrong Finding from this Office is worse than none.' She writes. 'I will ask them for two days. I will get them, because I have never asked before.' She seals it. 'Do not make me sorry.'".
+    On discuss { Assert postponed(ammerlin). Increase hearingAt(bowl) by 288. }
+  }
+  Topic fenn_warrant with fenn "Ask the Registrar for a warrant over the Ninth Lock" when knows(actor, letters_read) and not warranted(actor) once {
+    Says "'The Ninth Lock is a Sounding post, not ours. The Cantor appoints its keeper.' She thinks. 'But every sluice in the Bowl is under the Office in an emergency, by the charter of the Riots, and I suppose this is one.' She writes it out in her own hand: the bearer may order any keeper in the Bowl to open or close any gate, in the name of the Office, until the Finding. 'Clerk Vant will carry it. She will know when not to use it.'".
+    On discuss { Assert warranted(actor). }
+  }
+
+  // The ledger room: the Office's long memory of the Mere, and its oldest map.
+  Observe ledger_scene at ledger_room when not familiar(ledger_room) "Shelves to the ceiling of bound ledgers, a ladder on a rail, a long table worn hollow by elbows. The oldest books are at the top and smell of mice; the newest are at the bottom and smell of ink.".
+  Observe ledger_scene_again at ledger_room when familiar(ledger_room) "The ledger room, two hundred years of the Bowl's water on its shelves.".
+  Discovery fall_dated "The Office's register of the Mere gauge shows the Mere steady for two hundred years, within a span or two. It begins to fall in the autumn three years ago, and has not stopped." {
+    Source register_book "the register of the Mere gauge" at ledger_room readable by party.
+  }
+  Discovery feeder_known "The Office's oldest map shows a course from the channel head at the Rim, under the terraces, straight to the Ninth Lock: the Grey Way, marked in a hand older than the Office: TO FEED THE DEEP WHEN THE MERE IS LOW.".
+  Thing old_map "the oldest map of the Bowl" at ledger_room {
+    State rolled "In a case on the top shelf lies a map so old it has been backed with linen twice.".
+    Tries looking.
+  }
+  Rule map_read when tried(old_map, looking) and not knows(party, feeder_known)
+    says "You unroll it on the long table, weighting the corners with ledgers. The Bowl as it was before the Office: the same terraces, the same Stair, and one thing more. From the channel head at the Rim, a grey line goes straight down under the terraces to the Ninth Lock, missing the Mere altogether. Beside it, in a hand older than the Office's: TO FEED THE DEEP WHEN THE MERE IS LOW." teaches feeder_known { }
+  // The Full Measure, where carters and Assessors sleep.
+  Observe taproom_scene at taproom when not familiar(taproom) "The Full Measure: low beams, a fire, carters' boots, and on every table a pewter measure-jug stamped by the Office, so that nobody can say they were given short.".
+  Observe taproom_scene_again at taproom when familiar(taproom) "The Full Measure's taproom: the fire, the carters, the stamped jugs.".
+  Person ruan "Ruan Tell" at taproom {
+    Greets "Ruan Tell has a jug in one hand and a cloth in the other, and puts down neither.".
+    Role "the keeper of the Full Measure". Ancestry human. Profession innkeeper. Peaceable. Pronouns he. Manner jovial.
+    Sells rations for 2 coin from 8.
+    Sells lamp_oil for 1 coin from 4.
+    Sells torch for 1 coin from 6.
+    Sells lantern for 4 coin from 2.
+    Sells rope for 2 coin from 2.
+  }
+  Topic ruan_talk with ruan "Ask Ruan Tell what people are saying" when true once {
+    Says "'Saying?' Ruan polishes a measure-jug. 'Carters say it's the drought in the hills, and there's no drought, I've a cousin in the hills. Dyers say it's the Guild. The Guild says it's the drought. The Ward says it's everybody. And the old Cantors say it's the Sounding, for cutting the Hymn, which is the only theory I've heard that's cheap to fix.' He laughs. 'Nobody listens to the old Cantors. They also said it about the new bells.'".
+  }
+  // What the taproom says changes with what happens: Ruan has it all by evening.
+  Topic ruan_tench with ruan "Ask Ruan Tell what the Ward is saying about Dov Vant's boat" when state(tench, stranded) once {
+    Says "'That the Tench is on the mud and Dov sat in her all night with a bottle,' says Ruan. 'His father's boat. The Ward's taking it hard. When the last boat goes, they say, the Ward's a street, not a shore.' He sets a jug down. 'Dov says he'll dig her a channel to the water if it takes him to Candlemas. Somebody told him the water would be further off by Candlemas. That's how the fight started.'".
+  }
+  Topic ruan_clash with ruan "Ask Ruan Tell about the fight at the dig" when clashed(dig) and dovHeld(dov) once {
+    Says "Ruan's face goes flat. 'Guild bailiffs and fishers with shovels. Two men cut, and Dov Vant in the Office cells, and the Guild's rope round the dig.' He polishes a jug that does not need it. 'There's talk in the Ward. Not the kind I like to hear in my house. The Ward hasn't forgotten the Riots, and the Riots started with a sluice and a rope just like that one.'".
+  }
+  Topic ruan_drowned with ruan "Ask Ruan Tell what is being said about the breach" when drowned(diggers) once {
+    Says "'Hob Kettle and his girl and Jory Pale.' Ruan does not polish anything. 'Annet used to come in for her father's ale and drink the head off it on the way home and he never once said a word.' He looks at the fire. 'They're saying the Office knew. That there was a clerk who'd measured it. I don't know where they get that.' He looks at you. 'Do you?'".
+  }
+  Topic ruan_bells with ruan "Ask Ruan Tell what people made of the bells" when complete(reckoner) once {
+    Says "'Every bell in the Bowl, and nobody pulling. My cellar rang like a cart of pans. The carters' horses broke their tethers on the Rim.' He sets down a measure-jug very carefully, as if it might start ringing too. 'Precentor Fisk was in here at dawn saying the dead had risen. Then the Ward came in saying the Mere had gone down six spans in a breath, and Fisk went quiet, and had a brandy, which he never does.'".
+  }
+  Topic ruan_hum with ruan "Ask Ruan Tell about the fountains" when humming(ammerlin) or fifthRestored(bowl) once {
+    Says "'Purring.' Ruan laughs, delighted. 'My grandmother's word. The square fountain, and the one in my yard, and the trough on the Rim: humming like a cat at the Fifth, the way they did when she was young. Half my regulars have gone out to put their hands on them.' He lowers his voice. 'Old Abel Lusk stood by the square fountain with his hand on it and wept. Don't tell him I said.'".
+  }
+  Topic ruan_hearing with ruan "Ask Ruan Tell what the city is saying about the Hearing" when hearingDone(ammerlin) once {
+    Says "'Depends who you ask and how much they've had.' Ruan counts on his fingers. 'The Ward says it was the Office finally being honest. The Rim says it was the Office finally being clever. The Sounding says nothing, very loudly. The carters say it's all one to them as long as the Stair runs.' He grins. 'And everybody says that Clerk Vant read her figures out in front of the Council like a woman reading a will, and nobody dared cough.'".
+  }
+  Topic ruan_halm with ruan "Ask Ruan Tell about the scholar staying here" when true once {
+    Says "'Master Halm. From the Collegium, wherever that is. Pays in advance, eats standing up, comes in covered in Mere mud at all hours and talks to my fire about the Mathematical Age.' He shrugs. 'Good lodger. Bad for the carpets. He's down at the Ward dig with Dov Vant most days, buying stones.'".
+  }
+
+  // The Moot Hall, where the Council sits for the Hearing.
+  Observe moot_scene at moot_hall when not hearingDay() "The Moot Hall: a high room with tiers of benches on three sides and a table on the fourth under the Office's seal. Empty, it echoes.".
+  Observe moot_filling at moot_hall when hearingDay() and not hearingOpen(ammerlin) and not hearingDone(ammerlin) "The Moot Hall is being made ready for the Hearing: clerks setting out ink and sand on the long table, the benches being wiped, a boy on a ladder trimming the lamps. People have begun to come in already and sit, early, the way people do who mean to have a good seat for something.".
+  Observe moot_after at moot_hall when hearingDone(ammerlin) and not hearingOpen(ammerlin) "The Moot Hall is empty again, the benches pushed crooked, the ink-pots on the long table dry. Somebody has left a blue dyer's glove on the front bench.".
+}

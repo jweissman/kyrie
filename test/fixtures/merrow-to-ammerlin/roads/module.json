@@ -1,0 +1,1 @@
+{ "version": 1, "source": "roads.kyr", "rules": ["world"], "imports": ["here", "merrow", "bowl"], "roles": { "here": { "type": "place" }, "merrow": { "type": "place" }, "bowl": { "type": "place" } } }

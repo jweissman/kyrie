@@ -1,0 +1,100 @@
+Module lowwater "Low Water" {
+  Description "What people say once things have happened: after the Seventh is sung again, after the Hearing, after the count, and before the Assessor goes.".
+
+  // Isaura, after the Hearing.
+  Topic isaura_after_accord with isaura travelling "Ask Isaura what happens to her now" when verdictAccord(ammerlin) once {
+    Says "'The Registrar has offered me Second Grade.' Isaura says it as if reporting a rainfall. 'To keep the new right. Every morning, the Ninth Lock: was the Seventh sung, did the Deep come down, how much went over the lip. A cupful, measured, written, read aloud at need.' She is quiet a moment. 'They've promoted me into exactly the thing I wanted to do, which was measure something nobody else would. I'd assumed promotion would be the opposite.' Then, because she is honest: 'I said yes before she'd finished the sentence. Noted.'".
+  }
+  Topic isaura_after_rejected with isaura travelling "Ask Isaura how she is, after the Council" when findingRejected(ammerlin) once {
+    Says "'We told them a thing they didn't want to have to decide, and they decided not to have heard it.' She does not sound bitter. She sounds as if she is getting a column straight. 'They closed the Channel. The Mere will still fall, a little slower, and by midwinter they'll know.' She closes her book. 'I'll be there when they know. With the tally. I'm not going anywhere. That's what the Office is for, I think. Not being right at the Hearing. Being there afterwards with the figures.'".
+  }
+  Topic isaura_after_break with isaura travelling "Ask Isaura what the Council's order to break the governor means to her" when verdictBreak(ammerlin) once {
+    Says "'It means the forty ells come home.' She is careful. 'It means the Mere fills. It means my tally will close every week for the rest of my life, to the half-ell.' A long pause. 'It means the only thing I have ever met that I could not put in a column goes away, and I'll never know what it was.' She tucks the book away. 'I voted for the columns. I'd like it recorded that I knew what I was voting for.'".
+  }
+  Topic isaura_after_lapsed with isaura travelling "Ask Isaura what happened at the Hearing" when registrarsFinding(ammerlin) once {
+    Says "She looks at you for a while before she answers, and you understand that she has been deciding whether to. 'The Registrar gave the Office's finding. The Guild. I sat at the back with my tally in my coat and didn't stand up.' She takes a breath. 'Nobody asked me to. That's not a reason. It's a fact.' She walks on. 'Noted,' she says, after a while, to herself.".
+  }
+  Topic isaura_farewell with isaura travelling "Ask Isaura what she will say about you, when you have gone" when hearingDone(ammerlin) once {
+    Says "Isaura considers the question with the care she gives everything. 'I'll say the Office engaged an outsider who didn't want anyone's water, and they went where the figures went, which is rarer than you'd think.' A pause. 'I'll say they asked me things nobody in the Office has ever asked me. What's over the door. Whether everything can be measured. What I do when I'm not working.' The smallest smile you have seen on her. 'I'll put the cake in. Some things belong in the record.'".
+  }
+  Topic isaura_dov_after with isaura travelling "Ask Isaura whether she has seen her brother since" when hearingDone(ammerlin) and not drowned(diggers) and not quillDeal(quill) once {
+    Says "'He came to the Office.' She seems to find this more extraordinary than anything under the Mere. 'He's never come to the Office. He stood in the hall in his boots with the whole queue looking at him and asked for Clerk-Measurer Vant, Third Grade, by her full title, which he must have practised.' She looks away. 'He wanted to know the Ward's water-right. To the half-ell. So he could tell them in Tench Row.' A breath. 'I told him. He wrote it on his hand.'".
+  }
+  Topic isaura_dov_lost with isaura travelling "Ask Isaura whether she has seen her brother since" when hearingDone(ammerlin) and quillDeal(quill) once {
+    Says "'No.' Very level. 'The Ward plots are sealed to the Guild. I sealed them; it was my turn at the counter.' She does not look at you. 'He came to the Office door and saw who was at the counter and went away again.' A pause. 'I'd do it again. It was the bargain that saved the Mere. I'd like that to be enough. Noted that it isn't.'".
+  }
+
+  Topic isaura_dissent with isaura travelling "Ask Isaura why she stood up against the Finding" when dissented(isaura) once {
+    Says "'Because it was wrong.' She does not look at you. 'You named the Guild with my tally lying on the table saying it wasn't the Guild. I told you I'd sign what's true.' A long breath. 'You may have had reasons. The Council wanted a name; you gave them one they could act on. I understand the reasons.' She walks on. 'I'm not paid to understand reasons. I'm paid to read what the figures say, out loud, at need. That was the need.'".
+  }
+  // Dov, after.
+  Topic dov_after_kept with dov "Ask Dov how the Ward is" when hearingDone(ammerlin) and wardKept(ammerlin) and not drowned(diggers) once {
+    Says "'Still here.' Dov grins, and it is the first unguarded thing you have seen him do. 'The Office froze Basset's buying and the Council's to examine the titles, which Measure says means the Office will read every deed in the Ward aloud in the square for a month and argue about commas. Good. Let them.' He looks out at the mud. 'And the water'll come back. Slow. My grandson'll fish off the fourth step.' He thinks. 'I haven't got a grandson. I'd better get on with it.'".
+  }
+  Topic dov_after_sealed with dov "Ask Dov how the Ward is" when quillDeal(quill) and decided(council) once {
+    Says "Dov looks at you for a long moment before he answers. 'The Guild has the dig. And the Hall. And half Tench Row, sealed by the Office, my sister's hand on the seal.' He is not shouting, which is worse. 'The water's coming back, they tell me. Good. We'll be able to see it from the Guild's fence.' He turns away. 'You did right by the Mere, Assessor. You did right by everything but us. That's what the Ward always gets: right by everything but us.'".
+  }
+  Topic dov_engine with dov "Tell Dov what is under the Ward" when knows(actor, engine_seen) once {
+    Says "Dov listens to all of it with his arms folded. 'Under us,' he says at the end. 'All the time. Drinking the Mere through a hole in the floor, counting.' He laughs, short. 'My grandfather used to say the Mere had a bottom made of ears. To listen to the fishermen lie. I thought it was a joke.' He spits, thoughtfully. 'What's it counting?' You tell him what Halm thinks. 'Souls,' says Dov. 'Huh. Well, it's had a few of ours. It can count those.'".
+  }
+  Topic dov_dam_after with dov "Ask Dov how it went at the breach" when cofferdam(dig) and breached(dig) and not drowned(diggers) once {
+    Says "'Dry as a sermon.' He is enormously pleased with himself and is trying to be pleased with his sister instead. 'Hob put the pick through and the dam held and the silt just sat there, and a cold wind came up out of the hole like a cellar's breath.' He clears his throat. 'Hob Kettle and his girl were in that hole. Tell Measure. No, I'll tell her. I'll tell her myself.'".
+  }
+
+  // Quill, the sophist, and after.
+  Topic quill_believe with quill "Ask Quill whether he believes his own arguments" when met(quill, quill_room) once {
+    Says "'Which ones?' Quill is delighted to be asked. 'I was trained by a man in Corran who made us argue both sides of everything, twice, and then tell him which we had believed. The trick, he said, is that you always believe the one you're making while you make it. It's the only way to make it well.' He turns his glass. 'So: yes. Always. While I'm saying it. Afterwards I go back to believing what's useful, which is a different discipline.' A pause, and something more honest. 'It's very restful, Assessor, never having to be only one person. You should try it. No. You shouldn't. You'd be bad at it, and that's why I trust you.'".
+  }
+  Topic quill_after_renewed with quill "Ask Quill how the Guild stands now" when charterRenewed(ammerlin) once {
+    Says "'Solvent.' He says it like a man tasting a wine he had given up on. 'The creditors have been told about the charter, and believed it, which in my trade is the same thing as money. The hands are paid.' He looks at you over the glass. 'You might have named me. It would have been easy, and half the hall wanted it. I've been wondering why you didn't.' He answers himself before you can. 'Because it wasn't true. How tiresome. How very rare.'".
+  }
+  Topic quill_after_lost with quill "Ask Quill how the Guild stands now" when charterLost(ammerlin) once {
+    Says "'Ruined.' Quill is quite calm. 'Candlemas, as I said. The creditors will have the mills, and the mills will stand, because a mill without water is a brick barn.' He pours, and does not drink. 'Four hundred people. I said I'd like you to remember them, Assessor. I hope you did, when you were deciding.' He sets the glass down. 'And the Mere will go on falling. You know it will. Write to me in the spring and tell me which of us was the sliver.'".
+  }
+
+  // The Registrar, after.
+  Topic fenn_after with fenn "Ask the Registrar what she makes of the Finding" when decided(council) and not registrarsFinding(ammerlin) once {
+    Says "Registrar Fenn does not stop writing for a while. 'I asked you for something that would still be standing at the end of the afternoon,' she says. 'It's still standing. That is more than I have managed in eleven years.' She looks up. 'You also showed the Council that the Office's own ledger was wrong for three years, in front of the whole Bowl, with my best clerk reading it out.' A pause. 'I'll be answering for that until I retire. I find I don't mind. That's the part I can't account for.'".
+  }
+  Topic fenn_vant_after with fenn "Ask the Registrar what will become of Clerk Vant" when decided(council) and not registrarsFinding(ammerlin) once {
+    Says "'Second Grade, whether she likes it or not.' The Registrar almost smiles. 'She'll tell me she'd rather measure than check other people's measuring. I'll tell her that's exactly why. She'll say noted.' She caps her ink. 'She stood up in the Moot Hall and said the Office was wrong, with the Office's seal behind her. I've wanted somebody to do that for eleven years. I never thought it would be a Third Grade clerk from the Ward.'".
+  }
+
+  // The Sounding, after.
+  Topic tamsin_after with tamsin "Ask Tamsin how the singing is now" when restoredForGood(bowl) once {
+    Says "'Packed.' Tamsin is glowing. 'More than before. People come to hear the Seventh. The counting one.' She giggles. 'Jessa says we're the lock-keepers now, all of us, and the boys at the back have started calling the low notes the Cupful.' Then, seriously: 'Cantor Orr says if we sing it wrong the Ward goes dry. She's joking. She's mostly joking. Nobody sings it wrong.'".
+  }
+  Topic fisk_right with fisk "Ask Precentor Fisk whether he was right" when knows(actor, hymn_cause) and restoredForGood(bowl) once {
+    Says "Fisk draws himself up for a speech, and then, unexpectedly, does not make it. 'I said it was the Remainders,' he says. 'I said the dead were going down and away.' He looks down through the grating at the black water. 'It was the Remainders. It was not the dead. It was a gate, and a machine, and a girl's reform, and a boy's book.' He is silent. 'I had the conclusion and none of the reasons. That's not faith, Assessor. That's luck wearing a cassock.' And then, with a flicker of his old self: 'Still. I'll take the luck.'".
+  }
+  Topic orr_after with orr "Ask Cantor Orr how she is" when orrStanding(orr) and hearingDone(ammerlin) once {
+    Says "'Old,' says Cantor Orr. 'Sorry. Busy. In that order, most days.' She plays a chord, in tune for once. 'The young sing the Seventh as if it were the best part, which it isn't, and I let them, because it's the part that's for something.' She closes the lid. 'I'll tell you what I didn't expect. I didn't expect to like the counting. Four low notes, alike. I hated them for fifty years. Now I stand in the loft and the whole nave counts with me, and under the floor something counts back.' She looks at you. 'It's the best building I've ever stood in.'".
+  }
+
+  // Abel Lusk goes down to the Ninth Lock once more.
+  Relation abelComes(group).
+  Topic abel_seventh with abel "Tell Abel Lusk the Seventh is sung again, and the Deep comes down" when restoredForGood(bowl) and not abelComes(abel) once {
+    Says "Abel does not say anything at all. He gets up, takes the brass horn off its nail, looks at it, and puts it back. 'Tonight,' he says. 'I'll go down tonight. I'd like to see it the once more. If Piet will have an old man on his bench.' He is already looking for his coat.".
+    On discuss { Assert abelComes(abel). }
+  }
+  Rule abel_goes_down when abelComes(abel) and hour(clock) == 18 and at(abel, lusk_room) { Retract at(abel, lusk_room). Assert at(abel, ninth_lock). }
+  Rule abel_goes_home when abelComes(abel) and hour(clock) == 22 and at(abel, ninth_lock) { Retract at(abel, ninth_lock). Assert at(abel, lusk_room). Retract abelComes(abel). Assert abelSaw(abel). }
+  Relation abelSaw(group).
+  Observe abel_and_piet at ninth_lock when at(abel, ninth_lock) and at(piet, ninth_lock) "Abel Lusk and Piet Harl sit side by side on the keeper's bench, the old man and the young one, both with their hands on their knees, both watching the Deep Gate, neither saying anything.".
+  Topic abel_saw with abel "Ask Abel how it was, at the Ninth Lock" when abelSaw(abel) once {
+    Says "'Same as ever,' says Abel, and his voice goes. 'Same as it ever was. Up at the Sixth, down at the Seventh. Cupful.' He wipes his eyes on his sleeve without any embarrassment at all. 'Piet wrote it in capitals. I told him off.' He laughs. 'I didn't mean it.'".
+  }
+
+  // Sella, after.
+  Topic sella_after with sella "Ask Sella Marsh whether the hands were paid" when paidHands(sella) once {
+    Says "'Lammas to now, every penny.' Sella does not quite smile. 'You said it first, at the Council. Before anything. I was at the back. I heard it.' She looks at the hammers going. 'I had a bet with myself you'd forget.' A pause. 'I'm glad I lost.'".
+  }
+  Topic sella_forgotten with sella "Ask Sella Marsh how things are at the mills" when promised(party, sella) and hearingDone(ammerlin) and not laid(ex_hands) once {
+    Says "Sella does not look at you. 'You promised,' she says. 'First, before anything. I gave you the report on it.' She turns back to the hammers. 'I had a bet with myself you'd forget. I won.'".
+  }
+
+  // The Bowl, later: what a company that stays, or comes back, finds.
+  Observe later_ward_filling at ward_landing when decided(council) and mere(bowl) >= 38 and not draining() "There is water at the lowest painted step of the Ward landing again, and somebody has tied a boat to the old ring there, out of hope rather than need.".
+  Observe later_ward_empty at tench_row when complete(reckoner) and not completedFed(reckoner) and wardEmpty(ammerlin) and watch(clock) >= completedAt(bowl) + 144 "A Guild cart is loading the Ward's last nets. On a door somebody has chalked, in the Lock-Rhyme's beat: RISE AT THE SIXTH AND THE DEEP GOES UP. Under it, in another hand: AND NEVER CAME DOWN.".
+  Observe later_sounding at nave when restoredForGood(bowl) and hearingDone(ammerlin) "Someone has painted the Seventh Remainder round the rim of the bronze grating in the Sounding's old notation, four low marks over and over, all the way round, like a fence.".
+}

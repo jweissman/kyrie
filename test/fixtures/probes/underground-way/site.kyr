@@ -1,0 +1,15 @@
+Module p "Probe: a way under the ground" {
+  Description "Two dry rooms under a hill, half an hour apart by a gallery, and a field above.".
+  Place hill "The hill" is region.
+  Place works "The works" is site within hill at 0, 0.
+  Place moor "The moor" is wilderness within hill at 1, 0.
+  Place field "the field above" is room within moor at 0, 0 outdoors.
+  Place upper "the upper gallery" is room within works at 0, 0 underground.
+  Place lower "the lower gallery" is room within works at 1, 0 underground.
+  Company party "Your company" of 1 at upper.
+  Passage gallery "the long gallery" is passage between upper and lower taking 30 minutes.
+  Passage adit "the adit" is passage between lower and field taking 30 minutes.
+  Observe upper_scene at upper when true "A dry gallery of cut stone.".
+  Observe lower_scene at lower when true "Another, lower down.".
+  Observe field_scene at field when true "Grass, and the sky.".
+}

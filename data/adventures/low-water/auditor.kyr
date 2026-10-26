@@ -1,0 +1,129 @@
+Module lowwater "Low Water" {
+  Description "What has been reading the counted water: the Reflected that climb out of the Mere at night, the hymnal that came with its cuts already marked, and the Second Reader of the Collegium.".
+
+  // The approach: something on the far side of the last door, coming nearer every night the count goes on. It comes
+  // faster as the count nears whole and as the Mere draws back, and slower while the Fourth is sung.
+  Measure approach(place). Relation approachedTonight(place). Relation reflectedStilled(place).
+  Rule approach_nightly when hour(clock) == 0 and not approachedTonight(bowl) and not broken(reckoner) and not countFalsified(reckoner) and not auditorSettled(bowl) {
+    Assert approachedTonight(bowl). Increase approach(bowl) by 1. }
+  Rule approach_count when hour(clock) == 0 and approachedTonight(bowl) and ninths(reckoner) >= 7 and not countPressed(bowl) and not broken(reckoner) and not fourthRestored(bowl) {
+    Assert countPressed(bowl). Increase approach(bowl) by 1. }
+  Rule approach_low when hour(clock) == 0 and approachedTonight(bowl) and mere(bowl) <= 30 and not lowPressed(bowl) and not broken(reckoner) {
+    Assert lowPressed(bowl). Increase approach(bowl) by 1. }
+  Rule approach_resets when hour(clock) == 12 and approachedTonight(bowl) {
+    Retract approachedTonight(bowl). Retract countPressed(bowl). Retract lowPressed(bowl). Retract reflectedStilled(bowl). Retract risenTonight(bowl). }
+  Relation countPressed(place). Relation lowPressed(place).
+  // Broken, the count feeds nothing, and what stood on the water lies down in it.
+  Rule approach_starved when broken(reckoner) and approach(bowl) > 0 { Set approach(bowl) to 0. }
+  // How many of them there are: Isaura counts them, of course.
+  Measure reflectedSeen(place).
+  Rule reflected_counted when approach(bowl) * 3 != reflectedSeen(bowl) { Set reflectedSeen(bowl) to approach(bowl) * 3. }
+
+  // The Reflected: water that has learned to stand up in the shapes of people, left for right.
+  Person reflected "the Reflected" at mere_edge {
+    Role "figures of water, standing". Numbers 3. Peaceable.
+    Seen when dark() and approach(bowl) >= 1 and not broken(reckoner).
+  }
+  Hazard reflected_cold "The cold of the Reflected" means "Deal (1d6) necrotic damage to ally unless wisdom save against (12).".
+  Rule reflected_rise when hour(clock) == 22 and approach(bowl) >= 2 and at(reflected, mere_edge) and not reflectedStilled(bowl) and not broken(reckoner) {
+    Retract at(reflected, mere_edge). Assert at(reflected, ward_landing). }
+  Rule reflected_climb when hour(clock) == 23 and approach(bowl) >= 3 and at(reflected, ward_landing) and not reflectedStilled(bowl) and not broken(reckoner) {
+    Retract at(reflected, ward_landing). Assert at(reflected, ninth_lock). }
+  Rule reflected_go_down when hour(clock) == 5 and not at(reflected, mere_edge) {
+    Retract at(reflected, ward_landing). Retract at(reflected, ninth_lock). Retract at(reflected, measures_square). Assert at(reflected, mere_edge). }
+  Rule reflected_square when hour(clock) == 1 and approach(bowl) >= 6 and at(reflected, ninth_lock) and not reflectedStilled(bowl) and not broken(reckoner) {
+    Retract at(reflected, ninth_lock). Assert at(reflected, measures_square). }
+  // At the Ninth Lock in the small hours they sing the Rising, and the Deep Gate obeys whoever sings it.
+  Rule reflected_sing_rising when hour(clock) == 23 and at(reflected, ninth_lock) and state(deep_gate, lowered) and not reflectedStilled(bowl) and not risenTonight(bowl)
+    and not complete(reckoner) and not broken(reckoner)
+    says "Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge." {
+    Assert state(deep_gate, raised). Increase risings(bowl) by 1. Assert risenTonight(bowl). }
+  Relation risenTonight(place).
+  Measure risings(place).
+  // Where they stand, the cold comes off them: an hour among them is an hour of it.
+  Measure lastChill(place).
+  Rule reflected_chill when at(reflected, ?p) and at(party, ?p) and dark() and approach(bowl) >= 1 and not reflectedStilled(bowl) and not broken(reckoner) and watch(clock) >= lastChill(bowl) + 6
+    says "The cold that comes off the Reflected is not the cold of water. It goes in under the ribs and stays there." {
+    Set lastChill(bowl) to watch(clock). Assert strikes(reflected_cold, party). }
+
+  Observe reflected_seen near reflected when dark() and approach(bowl) >= 1 and not broken(reckoner) and not reflectedStilled(bowl) "Figures stand at the edge of the water in the dark: people, or the shapes of people, made of water that has been made to stand up, clear as glass, with the night showing through them. {reflectedSeen(bowl)} of them, or near it; they are hard to count, being clear. They face the Sounding. They are singing, very softly, without breath. Every one of them is the wrong way round, as a face is in a mirror.".
+  Observe reflected_annet near reflected when dark() and drowned(diggers) and approach(bowl) >= 1 and not reflectedStilled(bowl) "One of them is a girl of fifteen with a basket on her hip. She is wet through, because she is water. It is Annet Kettle.".
+  Observe reflected_isaura near reflected when dark() and travelsWith(isaura, party) and approach(bowl) >= 3 and not reflectedStilled(bowl) "One of them is a woman in a long coat with a rod under her arm: the wrong arm. Beside you, Isaura Vant has stopped walking.".
+  Observe reflected_still near reflected when dark() and reflectedStilled(bowl) and approach(bowl) >= 1 "The Reflected lie down in the water as you watch, the way a reflection does when a stone is thrown, and the water closes and is only water.".
+  Discovery reflected_known "At night, figures of water climb out of the Mere in the shapes of people, left for right, and sing the hymn without breath; and at the Ninth Lock they sing the Rising, and the Deep Gate rises for them.".
+  Rule reflected_learned when at(reflected, ?p) and at(party, ?p) and dark() and approach(bowl) >= 1 and not knows(party, reflected_known) and not broken(reckoner)
+    says "You look for a long time before you are sure what you are looking at." teaches reflected_known { }
+  // They can be sung down: the Seventh, which they cannot abide, being the verse that keeps the door's mouth small.
+  Action sing_down(actor: group, site: place) "Sing the Seventh Remainder at the Reflected, four deep notes, over and over" {
+    Description "Deep, deep, deep, deep. The cupful.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(reflected, site) and dark() and knows(actor, remainders_tones) and not reflectedStilled(bowl) and approach(bowl) >= 1.
+    Time 2.
+    On success { Assert reflectedStilled(bowl). }
+    Result "You sing it badly, and then less badly: four low notes, alike, over and over, like somebody counting. The Reflected stop singing. They turn their clear faces toward you, all together, and listen, and one by one they go down into the water as if somebody had let go of them.".
+  }
+
+  // Piet's book, and the Ward's people, after.
+  Topic piet_rising with piet "Ask Piet about the Deep Gate rising in the night" when risings(bowl) >= 1 once {
+    Says "Piet shows you the book. Under Down at the Seventh. Cupful, in his careful hand, a second line, shaking: Deep up at the Rising, after eleven. Not by the Sounding. 'They came up the Ward steps,' he says. 'Out of the water. They stood round the lock and sang the Sixth, and it went up. It doesn't care who sings.' He swallows. 'Master Lusk never said anything about that. Master Lusk never said anything about any of it.'".
+  }
+  Topic dov_reflected with dov "Ask Dov about what comes up out of the Mere at night" when approach(bowl) >= 2 once {
+    Says "Dov does not laugh, which is how you know. 'The Ward's keeping its doors shut after dark,' he says. 'First it was children saying it. Then old Marra. Then me.' He rubs his face. 'They stand on the landing, facing up the Bowl, and they sing. They look like people we know, only wrong-handed. My father was there last night. He drowned off the Tench nineteen years ago and he was there, with his net over the wrong shoulder.'".
+  }
+  Topic dov_annet with dov "Ask Dov what he saw on the landing" when drowned(diggers) and approach(bowl) >= 1 once {
+    Says "'Annet Kettle.' Dov says it to the ground. 'With her basket. Standing on the landing with the rest of them, clear as a glass of water, singing.' He looks up. 'Hob went down to her. I had to hold him. She didn't look at him. She was looking at the Sounding. They all look at the Sounding.'".
+  }
+  Topic fisk_reflected with fisk "Ask Precentor Fisk about the Reflected" when knows(actor, reflected_known) once {
+    Says "For once Precentor Fisk takes no satisfaction in being right. 'Every soul a drop,' he says. 'I said it at three Councils. I said they went down, and away.' He is grey. 'I never thought they could come back up. I never thought anything down there would want them to.'".
+  }
+  Topic isaura_reflected with isaura travelling "Ask Isaura how many of them there were" when knows(actor, reflected_known) {
+    Says "'{reflectedSeen(bowl)}, as near as I could count; they're hard to count, you can see through them to the ones behind.' She says it flatly, the way she reads gauges. Then: 'More every night.' Then, not flatly at all: 'There was one of me. Did you see? With the rod in the wrong hand.' She looks at her own right hand for a while. 'Noted.'".
+  }
+  Topic orr_midnight with orr "Ask Cantor Orr to sing the Seventh again at midnight, after the Reflected sing the Rising" when risings(bowl) >= 1 and seventhRestored(bowl) and not midnightSeventh(bowl) once {
+    Says "'At midnight.' Cantor Orr looks at you as if you had asked her to sing on the roof. Then she understands what you are telling her, and her face closes like a fist. 'They're singing my hymn back at it. Out of the water.' She stands. 'Then we'll sing it louder. Compline, at midnight, the Seventh and nothing else. The young will come. They'll come for this.'".
+    On discuss { Assert midnightSeventh(bowl). }
+  }
+  Relation midnightSeventh(place). Relation sungMidnight(place).
+  Rule compline when hour(clock) == 0 and midnightSeventh(bowl) and not sungMidnight(bowl) and not complete(reckoner) and not broken(reckoner)
+    says "At midnight the Sounding's bells ring once, and the Seventh comes down the terraces: four low notes, a thousand voices, slow and furious." {
+    Assert sungMidnight(bowl). Assert state(deep_gate, lowered). }
+  Rule compline_resets when hour(clock) == 12 and sungMidnight(bowl) { Retract sungMidnight(bowl). }
+
+  // The hymnal Orr cut from: a scholarly edition, a gift, with the cuts already marked in a hand not hers.
+  Thing orr_hymnal "the Cantor's working hymnal" at cantor_room {
+    State marked "On the clavichord lies the hymnal the Cantor works from, a handsome edition in green boards, its pages scored with her pencil.".
+    Tries looking.
+  }
+  Discovery cuts_marked "In the hymnal Cantor Orr cut the Long Hymn from, the Fourth, Fifth and Seventh Remainders were struck through before she ever touched it, in fine brown ink, in a hand that is not hers; and only those three.".
+  Rule hymnal_looked when tried(orr_hymnal, looking) and not knows(party, cuts_marked)
+    says "Her pencil is everywhere: breath-marks, tempi, a cross beside a soprano who sings flat. But under the pencil, on three pages only, there is something older: the Fourth, the Fifth and the Seventh Remainders struck through, each with a single fine line of brown ink, and in the margin, very small, in a hand that is not hers: Accretion. Omit." teaches cuts_marked { }
+  Discovery pell_named "Cantor Orr's hymnal was a gift of the Collegium of Lesser Instruments, sent with the compliments of its Second Reader, Master Ansel Pell, the spring before the reform.".
+  Topic orr_cuts with orr "Ask Cantor Orr who marked the cuts in her hymnal before she did" when knows(actor, cuts_marked) once {
+    Says "She takes it from you and looks at the brown lines for a long time. 'The Collegium,' she says. 'The Collegium of Lesser Instruments sent it. A scholarly edition, they said, prepared from the oldest sources, with notes by the Second Reader. Master Pell.' Her voice is very quiet. 'I thought it a great compliment. I thought the notes very learned. Accretion; omit.' She closes the book. 'I cut what a scholar told me was silt, because I wanted to, and he knew I wanted to. Well. That's a sentence I'll have to learn to say.'".
+    On discuss { Assert knows(actor, pell_named). }
+  }
+
+  // The Second Reader's letters, and what is in their footnotes.
+  Discovery pell_letters "Halm was sent to Ammerlin by the Second Reader of the Collegium, Master Ansel Pell, who pays for his stones; Pell's letters are dense with numbered footnotes, as the Collegium's always are.".
+  Topic halm_pell with halm "Ask Halm who sent him to Ammerlin" when knows(actor, pell_named) or knows(actor, reflected_known) once {
+    Says "'Pell. The Second Reader.' Halm is pleased to talk about him. 'Brilliant man. Never leaves Corran. He knew there was a working instrument under the Bowl before anybody; he said the Ammerliners' hymn had the shape of output, and the Ward would dig itself down to it once the Mere fell. He was right about all of it.' He fishes a fat letter out of his coat. 'He writes every month. Everything in the footnotes, of course. It's a Collegium habit; the footnotes are where we put what matters.' He hands it to you. 'Here. Read it, you'll see what I mean about him.'".
+    On discuss { Assert knows(actor, pell_letters). }
+  }
+  Discovery pell_cipher "The footnote numbers in Pell's letters to Halm are a tally, and read as one they spell: WHEN THE COUNT IS WHOLE LET IT THROUGH. THE LOCK IS CUT. THE READER IS NEAR. MERROW NEXT.".
+  Topic isaura_footnotes with isaura travelling "Ask Isaura to look at the footnotes in Pell's letter" when knows(actor, pell_letters) and not knows(actor, pell_cipher) once {
+    Says "Isaura reads the letter once, as anyone would, and then a second time, only the little numbers. Then she gets her graphite out. 'They don't go in order,' she says. 'Footnotes go in order. These go three, nineteen, five, two... and the notes they point to don't say anything a footnote would.' She writes for a long time on her knee. 'It's a tally. Every number is a letter's place. Whoever wrote this thinks in columns, the way I do.' She turns the page round so you can read what she has written, and her hand is not quite steady. WHEN THE COUNT IS WHOLE LET IT THROUGH. THE LOCK IS CUT. THE READER IS NEAR. MERROW NEXT.".
+    On discuss { Assert knows(actor, pell_cipher). }
+  }
+  Relation halmTurned(group).
+  Topic halm_cipher with halm "Show Halm what the footnotes in Pell's letter say" when knows(actor, pell_cipher) and not halmTurned(halm) once {
+    Says "Halm reads Isaura's columns three times. The colour goes out of him. 'The lock is cut,' he says. 'The Fourth. He meant the Fourth.' He sits down on whatever is there. 'He sent the Cantor her edition. He sent me. He sent me to be here when it finished so I could tell him it had.' He looks at you, and for the first time there is nothing delighted in his face at all. 'The Reader is near. Who is the Reader? What has been reading it?' And then, much lower: 'Merrow. The keeper of the Long Man. The clay keeper that walks the wall. He asked me last spring if I knew anybody going north.'".
+    On discuss { Assert halmTurned(halm). Assert halmStopped(halm). Assert willTestify(halm). }
+  }
+
+  // The column hears a voice it has no mark for.
+  Discovery fifth_voice "At the listening column, under the engine's own answer, another voice answers: lower than the deep, a voice the Sounding's notation has no mark for, saying the struck notes back slowly, as if learning them.".
+  Rule column_fifth at column_room when at(party, column_room) and spoken(column_room) >= 1 and approach(bowl) >= 1 and not knows(party, fifth_voice) and not broken(reckoner)
+    says "Under the column's answer, so low you feel it in your knees before you hear it, another voice says your two notes back to you. Slowly. Carefully. As if it were learning them. It is lower than the deep voice. The hymn has no mark for it." teaches fifth_voice { }
+  Topic isaura_fifth with isaura travelling "Ask Isaura what answered at the column" when knows(actor, fifth_voice) once {
+    Says "'Something that isn't the machine.' Isaura says it the way she would report a second set of books. 'The machine answers in its own voices. That was another one. Underneath.' She is quiet. 'Halm asked who the count is given to. I think we heard them.'".
+  }
+}

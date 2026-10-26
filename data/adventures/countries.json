@@ -99,6 +99,24 @@
       "among": "independent",
       "rumour": "'West, up on the Ghessil Uplands,' says {keeper}, 'there is a light lies on the glass that slows whatever drinks it. There are people standing in it, they say, that went in last autumn and are standing there yet, alive.'",
       "heard": "West over the march lie the Ghessil Uplands, where a light on the glass slows whatever drinks it, and people stand in it alive since last autumn."
+    },
+    {
+      "id": "lowwater",
+      "bundle": "low-water/placed.json",
+      "entry": "rim_road",
+      "marker": "deep_gate",
+      "side": "south",
+      "beside": [
+        "marsh",
+        "forest",
+        "frost"
+      ],
+      "name": "the Bowl of Ammerlin",
+      "topic": "the falling water at Ammerlin",
+      "terrain": "hills",
+      "among": "independent",
+      "rumour": "'South over the march there's a city down the inside of a crater, Ammerlin,' says {keeper}. 'Their lake's been going down three years, and nobody there will believe anybody else about why. So they've sent out for someone from outside to measure it, and put their name to the answer. The Office of Measures pays, if you can count.'",
+      "heard": "South over the march lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why."
     }
   ]
 }

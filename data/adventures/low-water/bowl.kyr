@@ -1,0 +1,135 @@
+Module lowwater "Low Water" {
+  Description "Ammerlin, a city of terraces down the inside of an old crater, whose life is carried by the water of the Stair, and whose lake is falling.".
+
+  // The Bowl: the city on its four terraces, the bed of the Mere the water has given up, the works under it, and a
+  // place that is not on any map of the Bowl.
+  Place bowl "the Bowl of Ammerlin" is region.
+  Place ammerlin "Ammerlin" is settlement within bowl at 1, 0.
+  Place merebed "the bed of the Mere" is wilderness within bowl at 1, 1.
+  Place undercroft "the Undercroft" is site within bowl at 1, 2.
+  Initially Assert terrain(bowl, hills).
+  // A place the company has been and left is familiar: it is told again in a line, not in full.
+  Relation familiar(place).
+  Rule familiar_place when been(party, ?p) and not at(party, ?p) and not familiar(?p) { Assert familiar(?p). } Initially Assert landform(merebed, land_lake).
+
+  // What the Bowl's water does, reckoned every eight hours: the Mere, in spans on the Ward gauge; the Reckoner's
+  // count, of nine hundred; and the ninths of it its own voice can say.
+  Kind engine. Entity reckoner: engine "the Reckoner".
+  Measure mere(place). Measure count(engine). Measure ninths(engine). Measure nextReckon(place). Measure nextDay(place).
+  Measure reckonings(place).
+  Initially Set mere(bowl) to 40. Initially Set count(reckoner) to 640. Initially Set ninths(reckoner) to 6.
+  Initially Set nextReckon(bowl) to 48. Initially Set nextDay(bowl) to 132.
+  Relation complete(engine). Relation broken(engine). Relation starved(engine).
+
+  // The Deep Gate: a bronze shutter in the floor of the Ninth Lock with no wheel and no chain. The engine moves it by
+  // what it hears. It has stood raised since the Short Hymn was first sung.
+  Thing deep_gate "the Deep Gate" at ninth_lock {
+    State raised "In the floor of the Ninth Lock's lowest chamber a bronze shutter the width of a cart stands up on its edge, and the water of the lock goes down past it into the dark with a sound like a long breath taken and never let out.".
+    State half "The bronze shutter of the Deep Gate stands half down. The water goes past it into the dark in a fast smooth tongue.".
+    State lowered "The bronze shutter of the Deep Gate lies down in its bed. A thread of water, no thicker than a wrist, runs over its lip and down. That is all.".
+    State logged "Oak stop-logs lie jammed across the Deep Gate's mouth, one on another, black with wet. Water goes over the top log in a thin sheet, and the bronze under it shudders now and then, as if it were trying to rise.".
+  }
+
+  // The reckoning. Each rule is tried in the order written; the last moves the time of the next reckoning on.
+  Rule reckon_raised when watch(clock) >= nextReckon(bowl) and state(deep_gate, raised) and not fed(reckoner) and not complete(reckoner) and not broken(reckoner) {
+    Decrease mere(bowl) by 1. Increase count(reckoner) by 12. }
+  Rule reckon_half when watch(clock) >= nextReckon(bowl) and state(deep_gate, half) and not fed(reckoner) and not complete(reckoner) and not broken(reckoner) {
+    Increase count(reckoner) by 6. Increase halfDrawn(bowl) by 1. }
+  Rule reckon_half_drawn when halfDrawn(bowl) >= 2 { Decrease mere(bowl) by 1. Set halfDrawn(bowl) to 0. }
+  Rule reckon_fed when watch(clock) >= nextReckon(bowl) and fed(reckoner) and not complete(reckoner) and not broken(reckoner) {
+    Increase count(reckoner) by 60. }
+  Rule reckon_moves when watch(clock) >= nextReckon(bowl) { Increase nextReckon(bowl) by 48. Increase reckonings(bowl) by 1. }
+  Measure halfDrawn(place).
+  // Every other morning, what the Channel at the Rim costs the Mere: its mill water comes back to the Stair below the
+  // Rim, all but what the fulling drinks and the drying-frames give to the air. Once a day, what it gives back when it is
+  // turned home to the Mere.
+  Measure nextMills(place). Initially Set nextMills(bowl) to 132.
+  Rule day_mills when watch(clock) >= nextMills(bowl) and state(channel_gate, to_mills) { Decrease mere(bowl) by 1. }
+  Rule mills_moves when watch(clock) >= nextMills(bowl) { Increase nextMills(bowl) by 288. }
+  Rule day_mends when watch(clock) >= nextDay(bowl) and state(channel_gate, to_mere) and not draining() and mere(bowl) < 40 { Increase mere(bowl) by 1. }
+  Rule day_moves when watch(clock) >= nextDay(bowl) { Increase nextDay(bowl) by 144. }
+  Query draining() means (state(deep_gate, raised) or state(deep_gate, half)) and not fed(reckoner) and not complete(reckoner) and not broken(reckoner).
+  Relation fed(engine).
+  Rule fed_by_channel when state(channel_gate, to_deep) and not fed(reckoner) { Assert fed(reckoner). }
+  Rule unfed when fed(reckoner) and not state(channel_gate, to_deep) { Retract fed(reckoner). }
+  Rule ninth_counted when count(reckoner) >= ninths(reckoner) * 100 + 100 and ninths(reckoner) < 9 { Increase ninths(reckoner) by 1. }
+
+  // The hymn, at dusk. The Short Hymn keeps the Sixth Remainder (the Rising) and leaves out the Seventh; the engine,
+  // listening down the cistern under the Sounding, raises the Deep Gate at the one and has not heard the other for
+  // three years. Restored, the Seventh is sung at eight.
+  Relation sungTonight(place). Relation seventhTonight(place). Relation seventhRestored(place). Relation longHymn(place).
+  Relation hymnSilenced(place).
+  Rule hymn_rises when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and not broken(reckoner) and not complete(reckoner)
+    and not state(deep_gate, logged) and not state(deep_gate, raised) {
+    Assert state(deep_gate, raised). }
+  Rule hymn_after_census when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and complete(reckoner)
+    says "The Hymn, at seven. The bells are the same and the choir is the same, and something under it is not: the water does not answer. Down through the terraces, where for three thousand years the cisterns rang with it, there is only stone." {
+    Assert sungTonight(bowl). }
+  Rule hymn_after_broken when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and broken(reckoner)
+    says "The Hymn, at seven. It sounds thinner than it did, and it takes you a moment to know why: under the bells, where the water of the whole Bowl used to take the note and give it back, nothing gives it back." {
+    Assert sungTonight(bowl). }
+  Rule hymn_after_hearing when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and hearingDone(ammerlin)
+    says "The bells go into the Hymn, the first since the Hearing, and the Sounding must be full to the doors: you can hear the singing from the Rim to the Ward, and in the Ward, for once, people are singing too." {
+    Assert sungTonight(bowl). }
+  Rule hymn_ward_leaving when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and wardLeaving(ammerlin) and not seventhRestored(bowl)
+    says "The Hymn, at seven. Down in the Ward, where it used to come back off the Mere, nothing comes back; the mud takes it, and the handcarts in Tench Row stop, all together, while it lasts." {
+    Assert sungTonight(bowl). }
+  Rule hymn_day2 when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and day(clock) == 2
+    says "Seven o'clock, and the Sounding's bells go into the Hymn again, as they have every evening for three thousand years; and up and down the terraces, at every lock and sluice, keepers put their hands on their wheels." {
+    Assert sungTonight(bowl). }
+  Rule hymn_day3 when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and day(clock) == 3
+    says "The Hymn. Somewhere below you a dog howls along with the bells, and is hushed, and howls again." {
+    Assert sungTonight(bowl). }
+  Rule hymn_day5 when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and day(clock) == 5
+    says "The bells go into the Hymn. A carter on the Stair stops his horse and takes his hat off, and then, looking round to see if anyone saw, puts it on again." {
+    Assert sungTonight(bowl). }
+  Rule hymn_sung when hour(clock) == 19 and not sungTonight(bowl) and not hymnSilenced(bowl) and true
+    says "Over the whole Bowl, terrace below terrace, the Sounding's bells go into the Hymn, and under them, faint and enormous, the choir." {
+    Assert sungTonight(bowl). }
+  Rule seventh_sung when hour(clock) == 20 and seventhRestored(bowl) and not seventhTonight(bowl) and not hymnSilenced(bowl) and not at(party, ninth_lock)
+    says "The bells stop. In the quiet the choir sings four low notes, all alike, and again, and again, slow as somebody counting coins, and the Bowl is so still you can hear the water in the Stair." {
+    Assert seventhTonight(bowl). }
+  Rule seventh_sung_quietly when hour(clock) == 20 and seventhRestored(bowl) and not seventhTonight(bowl) and not hymnSilenced(bowl) and at(party, ninth_lock) {
+    Assert seventhTonight(bowl). }
+  Rule seventh_lowers when hour(clock) == 20 and seventhTonight(bowl) and (state(deep_gate, raised) or state(deep_gate, half)) and not broken(reckoner) and not complete(reckoner) {
+    Assert state(deep_gate, lowered). }
+  Rule hymn_resets when hour(clock) == 3 and sungTonight(bowl) { Retract sungTonight(bowl). Retract seventhTonight(bowl). }
+
+  // The Fifth Remainder: the engine's own voice, a little; every fountain in the Bowl hums for an hour.
+  Relation humming(place). Measure humAt(place). Relation fifthRestored(place). Relation fourthRestored(place).
+  Rule fifth_sung when hour(clock) == 20 and fifthRestored(bowl) and not humming(ammerlin) and not broken(reckoner) and not complete(reckoner) and not hymnSilenced(bowl)
+    says "After the Seventh, the Fifth: one bright note and three in the middle voice, and all over the Bowl the fountains take it up and hum, low and steady, and go on humming long after the choir has stopped." {
+    Assert humming(ammerlin). Set humAt(ammerlin) to watch(clock). }
+  Rule hum_fades when humming(ammerlin) and watch(clock) >= humAt(ammerlin) + 6 { Retract humming(ammerlin). }
+  Rule fourth_holds when hour(clock) == 20 and fourthRestored(bowl) and not doorHeld(reckoner) and not complete(reckoner) and not broken(reckoner) { Assert doorHeld(reckoner). }
+  // What the engine does when it is starved: it calls for water in the only voice it has, which is the hymn's.
+  Measure lastCall(place).
+  Rule starving when state(deep_gate, logged) and not starved(reckoner) and not broken(reckoner) and not complete(reckoner) { Assert starved(reckoner). }
+  Rule unstarved when starved(reckoner) and not state(deep_gate, logged) { Retract starved(reckoner). }
+  Rule engine_calls when starved(reckoner) and hour(clock) == 2 and watch(clock) >= lastCall(bowl) + 60
+    says "In the small hours every fountain in Ammerlin begins to hum, the same rising phrase over and over: one low note, and three bright. Dogs bark the length of the Bowl. Lamps come on in the terraces." {
+    Set lastCall(bowl) to watch(clock). Increase calls(bowl) by 1. }
+  Measure calls(place).
+
+  // When the count is whole: every bell in the city rings with nobody at the ropes, the last door opens, and the Mere
+  // goes down one long last time.
+  Rule census_whole when count(reckoner) >= 900 and not complete(reckoner) and not broken(reckoner)
+    says "Every bell in Ammerlin rings at once. Nobody is at the ropes. The sound goes round the Bowl and comes back off the Rim, and under it, from the water itself, from the Stair and the cisterns and every pipe and basin in the city, a chord comes up that nobody living has heard: the whole Long Hymn, in one breath, sung by the water. Then nothing." {
+    Assert complete(reckoner). Assert state(deep_gate, lowered). Set ninths(reckoner) to 9. Set completedAt(bowl) to watch(clock). }
+  Rule door_holds_shut when complete(reckoner) and completedAt(bowl) == watch(clock) and doorHeld(reckoner) and not toldHeld(bowl)
+    says "Far below the Ward, where the count runs out at the last door, nothing opens. The Fourth holds it." { Assert toldHeld(bowl). }
+  Relation toldHeld(place).
+  // Its last breath is drawn from whatever feeds it: the Mere, unless the Grey Way is open.
+  Rule last_breath when complete(reckoner) and completedAt(bowl) == watch(clock) and not fed(reckoner) and not drewLast(bowl)
+    says "Far down, the Mere draws back from the Ward like a held breath let go, and does not come back." { Decrease mere(bowl) by 6. Assert drewLast(bowl). }
+  Relation drewLast(place).
+  Measure completedAt(place). Relation completedFed(engine).
+  Rule fed_spared when complete(reckoner) and completedAt(bowl) == watch(clock) and fed(reckoner) and not drewLast(bowl)
+    says "Far down, the Mere does not move. Under the Rim, in the old grey way, the Guild's water runs on into the dark, and somewhere it stops being needed." { Assert drewLast(bowl). }
+  Rule fed_complete when complete(reckoner) and fed(reckoner) and not completedFed(reckoner) and completedAt(bowl) == watch(clock) { Assert completedFed(reckoner). }
+
+  // The Hearing, at noon on the seventh day (watch 888), unless the Registrar has been shown cause to put it off two days.
+  Measure hearingAt(place).
+  Initially Set hearingAt(bowl) to 888.
+  Query hearingDay() means watch(clock) >= hearingAt(bowl) - 72 and watch(clock) < hearingAt(bowl) + 18.
+}

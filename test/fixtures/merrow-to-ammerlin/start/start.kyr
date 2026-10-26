@@ -1,0 +1,9 @@
+Module crossroads "The road between" {
+  Description "A crossroads on the moor between Merrowdale to the north and the Bowl of Ammerlin to the south.".
+  Place moor "The moor road" is region.
+  Place heath "the heath" is wilderness within moor at 0, 0.
+  Place crossroads "the crossroads on the moor" is room within heath at 0, 0 outdoors.
+  Company party "Your company" of 3 at crossroads.
+  Initially Set quantity(party, gold) to 20. Initially Set quantity(party, rations) to 4.
+  Observe crossroads_scene at crossroads when true "A fingerpost at a crossroads on the heath. North, MERROW. South, AMMERLIN, and under it someone has scratched: MIND THE MUD.".
+}

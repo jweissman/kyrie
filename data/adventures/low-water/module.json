@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "source": [
+    "bowl.kyr",
+    "rim.kyr",
+    "measures.kyr",
+    "sounding.kyr",
+    "dyers.kyr",
+    "locks.kyr",
+    "ward.kyr",
+    "merebed.kyr",
+    "library.kyr",
+    "undercroft.kyr",
+    "wheels.kyr",
+    "interval.kyr",
+    "isaura.kyr",
+    "halm.kyr",
+    "council.kyr", "hearing.kyr",
+    "after.kyr",
+    "auditor.kyr", "citadel.kyr", "echoes.kyr",
+    "endings.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "bowl",
+    "rim": "rim_road",
+    "collegium": "halm",
+    "quill": "quill"
+  }
+}

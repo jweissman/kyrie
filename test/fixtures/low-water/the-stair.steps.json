@@ -1,0 +1,68 @@
+{
+ "the first hour": [
+  "^To the head of the Stair",
+  "Talk to Isaura",
+  "waiting for you",
+  "Ask Isaura Vant to join"
+ ],
+ "the Ear's Library and its bell": [
+  "^To Measures Square",
+  "^To the Dyers' Walk",
+  "^To the lock stair",
+  "^To the Ward landing",
+  "^To the new mud",
+  "^To the dig",
+  "^Into the Listening Hall",
+  "Search here",
+  "Lector's room",
+  "?Fill a lantern",
+  "speaking-stones: Examine › Push",
+  "gallery of jars",
+  "Turn the archive valve open",
+  "=+3",
+  "Turn the archive valve shut",
+  "Lector's room",
+  "Turn the cistern valve open",
+  "=+2",
+  "gallery of jars",
+  "low archive",
+  "black speaking-stone: Examine › Push",
+  "^Take",
+  "gallery of jars",
+  "Lector's room",
+  "Listening Hall",
+  "^Out to the dig"
+ ],
+ "to the water at night": [
+  "^To the new mud",
+  "=100"
+ ],
+ "down the Mere after the Reflected": [
+  "edge of the Mere",
+  "Through to the still water",
+  "Bowl in the water",
+  "Rim in the water",
+  "square in the water"
+ ],
+ "the ledger of water": [
+  "Office in the water",
+  "ledger of water: Examine",
+  "square in the water"
+ ],
+ "up the stair": [
+  "Ward in the water",
+  "foot of the stair",
+  "top of the stair",
+  "glass gate",
+  "hall of receipts",
+  "jars of counted water: Examine",
+  "nine circles",
+  "nine circles: Examine"
+ ],
+ "the seat": [
+  "seat of the Auditor",
+  "Talk to the Auditor",
+  "what it is",
+  "what it wants of you"
+ ]
+}

@@ -1,0 +1,113 @@
+Module lowwater "Low Water" {
+  Description "The Ear's Library: the Aeneans' archive behind the Listening Hall, half drowned, where speaking-stones sing in the voice of the last Lector, and tell what happened the one year the Fourth was not sung.".
+
+  Place library_level "the Ear's Library" is level within hall_site.
+  Place reading_room "the Lector's room" is room within library_level at 0, 0 underground.
+  Place jar_gallery "the gallery of jars" is room within library_level at 1, 0 underground.
+  Place low_archive "the low archive" is room within library_level at 2, 0 underground.
+  Initially Assert unlit(reading_room). Initially Assert unlit(jar_gallery). Initially Assert unlit(low_archive).
+
+  Passage ear_door "the low door in the spiral" is doorway between listening_hall and reading_room hidden until ear_door_search.
+  Passage jar_stair "the steps down to the jars" is steps between reading_room and jar_gallery.
+  Discovery ear_door_search "Behind the outer curve of the spiral, under a fall of silt, a low door." {
+    Found by searching listening_hall "Where the spiral's outer wall meets the floor the silt has drifted deep, and where it has slumped the wall is not wall: a lintel, low, carved with an ear. Behind it, steps going down, dry.".
+  }
+
+  // Three bodies of water: the Ear's cistern above, the gallery of jars, and the low archive, drowned.
+  Entity ear_cistern: basin "the Ear's cistern". Entity ear_gallery: basin "the gallery's pool". Entity ear_archive: basin "the low archive".
+  Initially Set level(ear_cistern) to 4. Initially Set brim(ear_cistern) to 5.
+  Initially Set level(ear_gallery) to 0. Initially Set brim(ear_gallery) to 3.
+  Initially Set level(ear_archive) to 3. Initially Set brim(ear_archive) to 3.
+  Thing ear_upper "the cistern valve" at reading_room {
+    State wound_down "A valve of green bronze in the wall lets the Ear's cistern into the gallery below. It is shut. The cistern's mark-stone stands at {level(ear_cistern)}, the gallery's at {level(ear_gallery)}.".
+    State wound_up "The cistern valve is open; water goes down into the gallery of jars. The cistern's mark-stone stands at {level(ear_cistern)}, the gallery's at {level(ear_gallery)}.".
+    Change open "Turn the cistern valve open" from wound_down to wound_up.
+    Change shut "Turn the cistern valve shut" from wound_up to wound_down.
+  }
+  Thing ear_lower "the archive valve" at jar_gallery {
+    State wound_down "A second valve, low in the gallery's far wall, a flap of bronze that opens only one way, lets the drowned archive into the gallery's pool and nothing back. It is shut. The pool stands at {level(ear_gallery)}, the archive at {level(ear_archive)}.".
+    State wound_up "The archive valve is open; the archive's water comes through into the gallery's pool. The pool stands at {level(ear_gallery)}, the archive at {level(ear_archive)}.".
+    Change open "Turn the archive valve open" from wound_down to wound_up.
+    Change shut "Turn the archive valve shut" from wound_up to wound_down.
+  }
+  Thing ear_drain "the pool's drain" at jar_gallery {
+    State stopped "In the floor of the gallery's pool a bronze stopper on a chain closes a drain into the Hall's throat.".
+    State pulled "The pool's drain stands open; the gallery's water runs away into the dark of the throat.".
+    Change pull "Pull the drain's stopper" from stopped to pulled.
+    Change stop "Let the stopper back into the drain" from pulled to stopped.
+  }
+  Rule ear_upper_flows when state(ear_upper, wound_up) and level(ear_cistern) > level(ear_gallery) and level(ear_gallery) < brim(ear_gallery) {
+    Decrease level(ear_cistern) by 1. Increase level(ear_gallery) by 1. }
+  Rule ear_lower_flows_out when state(ear_lower, wound_up) and level(ear_archive) > level(ear_gallery) and level(ear_gallery) < brim(ear_gallery) {
+    Decrease level(ear_archive) by 1. Increase level(ear_gallery) by 1. }
+  Rule ear_drains when state(ear_drain, pulled) and level(ear_gallery) > 0 { Decrease level(ear_gallery) by 1. }
+  // Rain and seep fill the Ear's cistern again by every dawn, from the Hall's own catchment.
+  Rule ear_refills when hour(clock) == 6 and level(ear_cistern) < 4 and not earFilled(bowl) { Set level(ear_cistern) to 4. Assert earFilled(bowl). }
+  Rule ear_fill_resets when hour(clock) == 7 and earFilled(bowl) { Retract earFilled(bowl). }
+  Relation earFilled(place).
+  // The archive's door floats: a stone leaf on a buoy that rises only when the pool beside it is full. And the
+  // archive beyond is walkable only once it has been let down to its last mark.
+  Passage float_door "the floating door" is doorway between jar_gallery and low_archive
+    opening when level(ear_gallery) == 3 and level(ear_archive) <= 1 "In the far wall, beside the archive valve, a door of stone hangs in a slot, its lower edge in the pool, resting on something you cannot see. It does not move when you push it. Through the crack under it, black water.".
+  Discovery float_known "The archive's door floats: it rises on a buoy when the gallery's pool beside it is full.".
+  Rule float_seen at jar_gallery when at(party, jar_gallery) and not knows(party, float_known)
+    says "You lie on the walk and reach down into the pool beside the stone door, and your hand finds a great float of fired clay under its lower edge, sitting on the water: the door is held up by the pool, when there is pool enough." teaches float_known { }
+
+  Observe reading_scene at reading_room when not familiar(reading_room) "A low round room cut in the grey stone, dry as an oven, with a stone bench round its wall and on the bench, in rows, polished stones the size of a loaf, each set on a little cushion of rotten cloth. Above the bench the wall is carved with a single long ear, from floor to ceiling. On the wall by the stair a bronze valve, green, and a mark-stone in a channel.".
+  Observe reading_again at reading_room when familiar(reading_room) "The Lector's room: the bench of speaking-stones under the carved ear.".
+  Observe gallery_scene at jar_gallery when not familiar(jar_gallery) "A gallery below, longer than the room above, with a stone walk along one side and a pool along the other, and in the pool, on shelves going down into the water, tall jars of fired clay, sealed, hundreds of them. The pool has a drain in its floor and a valve in its far wall, and beside the valve a door of stone hanging in a slot.".
+  Observe gallery_again at jar_gallery when familiar(jar_gallery) "The gallery of jars, the pool and its sealed jars, and the stone door hanging in its slot.".
+  Observe archive_scene at low_archive when true "The low archive is wet to the knee and smells of three thousand years of nothing. On a dais at the end, a single speaking-stone larger than the rest, black, the size of a child; and on a peg beside it, a bell of green bronze no bigger than a fist.".
+
+  // The speaking-stones: struck, they sing back what was sung into them.
+  Thing stones "the speaking-stones" at reading_room {
+    State rowed "Rows of polished stones sit on the bench under the carved ear.".
+    Tries pushing, looking.
+  }
+  Discovery lector_heard "Struck, the speaking-stones in the Ear's Library sing in a woman's voice, in Aenean, over and over: the Lector of the Ear, who kept the hymn.".
+  Rule stones_struck when tried(stones, pushing) and not knows(party, lector_heard)
+    says "You touch the nearest stone, and it sings. A woman's voice, close, as if she were sitting on the bench beside you, singing low in a language that is all vowels and stops: the same phrase, three times, and the stone falls silent. You touch the next. It is her voice again, older. The next: older still. Every stone on the bench is her, a little later each time." teaches lector_heard { }
+  Discovery lector_words "The Lector's stones, read with the old script: I am Aun, Lector of the Ear. I keep the hymn for those who come after. Sing all seven. Sing the Fourth above all. The count is owed upward, to those who settled the world; the door was made to open on them. Something below has learned to stand under the door." {
+    Found by searching reading_room with lore "Under each stone the bench is cut with Aenean letters, small, and with the glossary they come: I am Aun, Lector of the Ear. I keep the hymn for those who come after. Sing all seven. Sing the Fourth above all. The count is owed upward, to those who settled the world; the door was made to open on them. Something below has learned to stand under the door.".
+  }
+  Thing chronicle "the black speaking-stone" at low_archive {
+    State waiting "The black speaking-stone stands on its dais.".
+    Tries pushing.
+  }
+  Discovery silence_heard "The black stone in the low archive sings the Lector's last record, in Aenean, in a voice gone thin with age.".
+  Rule chronicle_struck when tried(chronicle, pushing) and not knows(party, silence_heard)
+    says "The black stone sings, and it is Aun again, old now, her voice gone thin and very steady, singing a long record without a single repeat; and at the end of it, four low notes, alike, and then nothing at all." teaches silence_heard { }
+  Discovery long_silence "The Long Silence, as Aun recorded it: in the year the young Cantors left out the Fourth, the Mere stood up. It came up the Stair in the shapes of our dead and sang the Rising at every sluice, and the Deep drank, and the count ran, and under the door something pressed. I went down to the column and sang the Fourth into it with my own mouth, forty nights. On the fortieth the door held. I will not climb the stair again. Sing all seven." {
+    Found by searching low_archive with lore "Round the dais the record is cut as well as sung, in Aenean, by her own hand you think: In the year the young Cantors left out the Fourth, the Mere stood up. It came up the Stair in the shapes of our dead and sang the Rising at every sluice, and the Deep drank, and the count ran, and under the door something pressed. I went down to the column and sang the Fourth into it with my own mouth, forty nights. On the fortieth the door held. I will not climb the stair again. Sing all seven.".
+  }
+  Topic halm_stones with halm "Ask Halm to tell you what the Lector's stones sing" when (knows(actor, lector_heard) or knows(actor, silence_heard)) and not knows(actor, long_silence) once {
+    Says "Halm makes you sing it to him, the Lector's phrases, as near as you can, and writes, and stops, and writes. 'Aun,' he says. 'Lector of the Ear. She is telling you that she kept the hymn; that the count is owed upward, to those who settled the world, the Arbiters, the Virina; that the door was made to open on them.' He has gone pale under the mud. 'And the black stone. In the year the Fourth was left out the Mere stood up and came up the Stair in the shapes of the dead.' He looks at you. 'She sang the Fourth into the column for forty nights and did not come back up. That's why the Aeneans copied it holy. Not because they understood it. Because she died singing it.'".
+    On discuss { Assert knows(actor, lector_words). Assert knows(actor, long_silence). }
+  }
+
+  // The Ear's bell: the Lector's own, tuned to the Fourth.
+  Kind ear_bell_kind "the Ear's bell" is treasure worth 30 weighing 1 described "A bell of green bronze no bigger than a fist, with a clapper of bone. It gives one note, high, and as it dies a second, deep, under it: the Fourth Remainder in one stroke.".
+  Item ear_bell "the Ear's bell" is ear_bell_kind at low_archive.
+  Action ring_at_reflected(actor: group, site: place) "Ring the Ear's bell at the Reflected" {
+    Description "High, then deep: the Fourth, in one stroke.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(reflected, site) and dark() and carries(actor, ear_bell) and approach(bowl) >= 1 and not reflectedStilled(bowl).
+    Time 1 minute.
+    On success { Assert reflectedStilled(bowl). Decrease approach(bowl) by 1. }
+    Result "The bell gives its high note and, under it as it dies, the deep one. The Reflected do not lie down this time. They come apart: as if a hand had been passed through still water, each figure goes to rings, and the rings go out, and the water at the landing is only water, and colder, and further off than it was.".
+  }
+  Action ring_at_column(actor: group, site: place) "Ring the Ear's bell into the listening column" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, column_room) and carries(actor, ear_bell) and not doorHeld(reckoner) and not complete(reckoner) and not broken(reckoner).
+    Time 1 minute.
+    On success { Assert doorHeld(reckoner). }
+    Result "The bell's two notes go into the still water and up, high and then deep, the Fourth in one stroke. Far down the long stair something settles against the round door, the way a bar settles in its brackets. Under the column, the voice that has no mark goes quiet.".
+  }
+  // The column, understood afterwards.
+  Observe column_lector at column_room when knows(party, long_silence) "Round the rim of the column's basin, where you would put your hands to sing into it, the grey stone is worn into two shallow hollows, the shape of hands, by somebody who knelt here a long time.".
+  Topic orr_lector with orr "Tell Cantor Orr about Aun, the Lector of the Ear, and the forty nights" when knows(actor, long_silence) once {
+    Says "Cantor Orr listens to all of it without moving. When you have done she gets up, goes to the shelf, and takes down the oldest hymnal, the one with the Remainders in, and opens it at the front, at a page you had taken for a decoration: a woman kneeling with her mouth open over a circle of water. 'We call her the Patron,' she says. 'Nobody knows her name. The choir kisses this page before the Long Hymn on feast days.' She closes the book. 'Aun.' She tries the name. 'I cut the verse she died for. Because a man in Corran wrote omit in the margin.' A long silence. 'Sing all seven. Yes. Every one.'".
+    On discuss { Assert fifthRestored(bowl). }
+  }
+  Topic isaura_lector with isaura travelling "Ask Isaura what she makes of the Lector" when knows(actor, long_silence) once {
+    Says "'She kept a record,' says Isaura. 'Three thousand years ago, alone, under a lake. She wrote down what happened, every night, and sang it into a stone so whoever came after could check her figures.' She is quiet for a long time. 'Forty nights. I'd like to have known her. I think she'd have been very hard to work for.'".
+  }
+}

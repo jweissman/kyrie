@@ -1,0 +1,104 @@
+Module lowwater "Low Water" {
+  Description "The nine wheels of the count, each in its own room off the counting gallery: what each one counted, the seventh turning now, and behind a grille at the end the ninth, and what it holds.".
+
+  Place wheels_level "the wheel-rooms" is level within undercroft.
+  Place w_makers "the room of the first wheel" is room within wheels_level at 0, 0 underground.
+  Place w_beasts "the room of the second wheel" is room within wheels_level at 1, 0 underground.
+  Place w_aeneans "the room of the third wheel" is room within wheels_level at 2, 0 underground.
+  Place w_dead "the room of the fourth wheel" is room within wheels_level at 3, 0 underground.
+  Place w_living "the room of the fifth wheel" is room within wheels_level at 4, 0 underground.
+  Place w_waters "the room of the sixth wheel" is room within wheels_level at 5, 0 underground.
+  Place w_unborn "the room of the seventh wheel" is room within wheels_level at 6, 0 underground.
+  Place w_unborn_face "the face of the seventh wheel" is room within wheels_level at 6, 1 underground.
+  Place w_planes "the room of the eighth wheel" is room within wheels_level at 7, 0 underground.
+  Place w_remainder "the room of the ninth wheel" is room within wheels_level at 8, 0 underground.
+  Place foundry "the Equals' foundry" is room within wheels_level at 3, 1 underground.
+  Initially Assert unlit(w_makers). Initially Assert unlit(w_beasts). Initially Assert unlit(w_aeneans). Initially Assert unlit(w_dead).
+  Initially Assert unlit(w_living). Initially Assert unlit(w_waters). Initially Assert unlit(w_unborn). Initially Assert unlit(w_unborn_face).
+  Initially Assert unlit(w_planes). Initially Assert unlit(w_remainder). Initially Assert unlit(foundry).
+
+  Passage arch_makers "the first arch off the gallery" is arch between count_gallery and w_makers.
+  Passage arch_beasts "the second arch" is arch between count_gallery and w_beasts.
+  Passage arch_aeneans "the third arch" is arch between count_gallery and w_aeneans.
+  Passage arch_dead "the fourth arch" is arch between count_gallery and w_dead.
+  Passage arch_living "the fifth arch" is arch between count_gallery and w_living.
+  Passage arch_waters "the sixth arch" is arch between count_gallery and w_waters.
+  Passage arch_unborn "the seventh arch" is arch between count_gallery and w_unborn.
+  Passage arch_planes "the eighth arch" is arch between count_gallery and w_planes.
+  Passage arch_remainder "the ninth arch" is arch between count_gallery and w_remainder.
+  Passage foundry_door "a low door behind the fourth wheel" is doorway between w_dead and foundry.
+
+  // Each room counted one kind of the bound, and says which by a sign cut over its wheel, as the keystone does.
+  Observe makers_scene at w_makers when true "A tall narrow room, and in it a wheel of bronze and grey stone as high as the room, locked, its gates shut. Over it, cut deep: a hand, open, with a tally-stick laid across the palm. Every surface of the room is covered with tally-marks in groups of nine, floor to ceiling, so fine and so many that from the door the walls look grey. There is not one picture, not one name. Whoever was counted here was counted only as marks.".
+  Observe beasts_scene at w_beasts when true "The second wheel is locked like the first. Over it, a sign of four legs and a head, which could be any beast. The floor of this room is soft, and you see why: it is fur, or was, a drift of grey down a hand deep that crumbles to nothing when you breathe on it. In the wall above the wheel, one window of glass the size of a coin, and behind the glass a single small bone.".
+  Observe aeneans_scene at w_aeneans when true "The third wheel. Over it, an ear: the Aeneans. The wheel is locked, and stopped, and stopped early: its last gate is still half open, as if the count had been cut off in the middle of a stroke. On the floor in front of it someone has set out, in a careful row, nine small clay figures of singers with their mouths open, the way Abel Lusk set out his keepers. The ninth is unfinished.".
+  Observe dead_scene at w_dead when true "The fourth wheel, the largest yet, so large the room is built round it like a husk round a seed. Over it, an eye, shut. Its gates are locked, and in every gate, where the water stood when it locked, is a skin of something dry and grey like the inside of an eggshell. The cold here is not the cold of stone. A low door behind the wheel goes on into the dark, and from it, faintly, comes the smell of hot metal.".
+  Observe living_scene at w_living when true "The fifth wheel. Over it, an eye, open. This wheel locked last of the six, and not long ago: its gates are still wet, and drip, and the drips run down the wheel's spokes and gather in the channel and go away. The sound of it is the only sound in the room: like a room full of people breathing in their sleep.".
+  Observe waters_scene at w_waters when true "The sixth wheel. Over it, a drop of water falling. The channel round this wheel is not dry: it holds black water, perfectly still, and in it, looking down, you see faces, a great many, one behind another down into the dark, as if the water were a window. None of them is reflected from the room. One of them, quite near the surface, is old Marra Fen of the Ward, who sold her plot, and is alive, and asleep in her daughter's house on the Dyers' Terrace.".
+  Discovery wheels_counted "Each of the Reckoner's wheels counted one kind of the bound, and its sign is cut over it: the makers, as marks; beasts; the Aeneans, cut off early; the dead; the living; the waters and those in them; the unborn, turning now; the eighth, waiting; and the ninth, behind a grille.".
+  Rule wheels_learned when (at(party, w_dead) or at(party, w_living) or at(party, w_waters)) and been(party, w_makers) and not knows(party, wheels_counted)
+    says "You understand the gallery all at once, the way you understood the keystone: a wheel for each kind of thing that is bound, body to breath, and each one counted out and locked." teaches wheels_counted { }
+  Topic isaura_wheels with isaura travelling "Ask Isaura what she makes of the wheel-rooms" when knows(actor, wheels_counted) once {
+    Says "'Columns.' Isaura's voice is not steady and she does not try to make it be. 'It's a ledger with nine columns, and somebody has filled in six of them. The makers. Beasts. The Aeneans, cut short. The dead. The living, just closed.' She stops. 'The living. That's us. We've been counted. Every one of us, in that room with the wet gates, and it locked.' She looks at her own ledger as if it might do the same. 'And the one turning now is the people who haven't been born.'".
+  }
+
+  // The seventh wheel is turning: the unborn, counted in bright notes. Its gates flood the room's face in a slow
+  // round, open one watch in three; whoever is at the face when the gates come round is put back into the room by
+  // the water.
+  Measure tide(engine). Measure tideAt(engine).
+  Rule seventh_turns when not complete(reckoner) and not broken(reckoner) and watch(clock) >= tideAt(reckoner) {
+    Increase tide(reckoner) by 1. Set tideAt(reckoner) to watch(clock) + 1. }
+  Rule seventh_round when tide(reckoner) >= 3 { Set tide(reckoner) to 0. }
+  Observe unborn_scene at w_unborn when not complete(reckoner) and not broken(reckoner) "The seventh wheel is turning. It fills the room, going round slowly, and water comes in at its top through a hundred little gates and goes out at its foot, and every time a gate shuts it rings, a bright note, small, like a drop falling into a full cup. The notes never stop. Over the wheel, the sign: a curled thing, a seed or a child asleep. Beyond the wheel a ledge goes round to its face, and every few moments the gates come round and the ledge goes under in a smooth sheet of water and comes out again, streaming.".
+  Observe unborn_done at w_unborn when complete(reckoner) or broken(reckoner) "The seventh wheel has stopped. The little gates are shut, every one, and there is no sound in the room at all. You had not known how loud the bright notes were until they were gone.".
+  Passage unborn_ledge "the ledge round to the wheel's face" is passage between w_unborn and w_unborn_face taking 1 minute
+    opening when tide(reckoner) == 0 or complete(reckoner) or broken(reckoner) "The ledge round to the face of the wheel is under a running sheet of water. In a moment the gates will come round again.".
+  Hazard gate_sheet "The seventh wheel's water" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Measure atFace(group). Relation faceMarked(group).
+  Rule face_arrived when at(party, w_unborn_face) and not faceMarked(party) { Set atFace(party) to watch(clock). Assert faceMarked(party). }
+  Rule face_left when faceMarked(party) and not at(party, w_unborn_face) { Retract faceMarked(party). }
+  Rule face_flooded when at(party, w_unborn_face) and faceMarked(party) and tide(reckoner) != 0 and watch(clock) > atFace(party) and not complete(reckoner) and not broken(reckoner)
+    says "The gates come round. The sheet of water comes over the ledge and the face of the wheel together and takes you with it, back round the ledge in a rush, and puts you down on the floor of the room, gasping, with the bright notes ringing all round you." {
+    Assert strikes(gate_sheet, party). Retract at(party, w_unborn_face). Assert at(party, w_unborn). }
+  Observe face_scene at w_unborn_face when true "The face of the seventh wheel, close: not a face at all but a dial, a great disc of grey stone ringed with marks, and a pointer of bronze going round it very slowly, and in the middle of the dial a single word in the oldest marks, cut so deep you could put your hand in it.".
+  Discovery unborn_read "The dial at the face of the seventh wheel is reading what will be bound, the unborn, and its pointer is three parts round. In the middle of the dial, one word in the oldest marks, which the glossary gives as: OWED.".
+  Thing dial "the seventh wheel's dial" at w_unborn_face {
+    State turning "The bronze pointer goes round the dial so slowly you can only see it move by looking away and back.".
+    Tries looking.
+  }
+  Rule dial_read when tried(dial, looking) and not knows(party, unborn_read)
+    says "You read it as you read the gauges on the Dyers' Terrace: the marks round the rim are a count, and the pointer stands three parts of the way round. The word in the middle is a single mark, cut so deep the dark sits in it. The glossary, or Halm, would say it means OWED." teaches unborn_read { }
+
+  // The eighth wheel waits, dry.
+  Observe planes_scene at w_planes when true "The eighth wheel stands dry in a dry channel, every gate open, waiting for water that has not yet come to it. Over it, the sign is not one thing but many: nine circles, overlapping, in a ring, each touching the next, like the links of a chain laid in a round. The floor of the room is cut with the same nine circles, very large, and you are standing in one of them. Halm, if he were here, would not be able to speak.".
+  Discovery planes_wheel "The eighth wheel, waiting dry, bears the sign of nine circles linked in a ring: the planes of the settlement. After the bound things of Imbar, the count was to reckon the binding of the world itself.".
+  Rule planes_seen when at(party, w_planes) and not knows(party, planes_wheel) says "Nine circles, linked, in a ring. You have heard the priests' account of the settlement: the planes divided among the powers by the Arbiters, and fastened." teaches planes_wheel { }
+
+  // The ninth: behind a grille that nothing on this side can open, the Remainder.
+  Observe remainder_scene at w_remainder when not complete(reckoner) and not broken(reckoner) "The ninth arch is closed by a grille of bronze bars as thick as a wrist, set in the stone, with no lock and no hinge. Through it: a small round room, and in it a wheel, small, the smallest of the nine, with nine sockets round its rim like the setting of a ring. Eight of the sockets are empty and dark. In the ninth, something holds a light that is not lamplight: a stone the size of an egg, faceted, that is all the colours a deep water is when the sun goes into it, and moving, slowly, as if it were breathing.".
+  Observe remainder_cold at w_remainder when not complete(reckoner) and not broken(reckoner) "The cold here is the cold that came off the Reflected on the landing. You feel it under your ribs. The stone in the socket is looking at you, or something in it is.".
+  Discovery remainder_seen "Behind the grille of the ninth arch, set in the smallest wheel of the Reckoner, is a faceted stone that holds its own light and breathes; eight more sockets beside it are empty. The cold that comes off it is the cold of the Reflected.".
+  Rule remainder_learned when at(party, w_remainder) and not knows(party, remainder_seen) says "You stand at the grille a long time. Nobody says anything." teaches remainder_seen { }
+  Topic halm_remainder with halm "Tell Halm what is set in the ninth wheel" when knows(actor, remainder_seen) once {
+    Says "Halm does not interrupt once. When you have done he takes off his spectacles, which you did not know he wore, and cleans them on his coat for a long time. 'Nine sockets,' he says. 'Eight empty. One full, and breathing, and cold.' He puts them back on. 'You know the old story. Nine jewels the Varakiiri lost when they were driven out, the Kiritarun, their hearts in them; and the jewels fastened the planes.' He laughs, without anything in it. 'The ninth wheel counts the hearts. The Mathematical Age set one of them into its census, to count the rest with. It counts what is bound. What is more bound than that?' He is quiet. 'Owed, the dial says. And over the door: what is counted is given. Assessor. I don't think anybody has been reading the count. I think whoever's heart that is has been waiting for it to be finished, so that it can be given back.'".
+    On discuss { Assert knows(actor, auditor_known). }
+  }
+  Discovery auditor_known "The thing beyond the last door is not a stranger reading the count: it is the Varakiir whose heart is the jewel bound in the Reckoner's ninth wheel. When the count is whole and the door opens, what is counted is given: its heart goes through to it, and the Reflected are its hands until then.".
+  Topic isaura_auditor with isaura travelling "Ask Isaura what she makes of the jewel in the ninth wheel" when knows(actor, auditor_known) once {
+    Says "'A deposit.' Isaura says it at once, and then hears herself, and does not take it back. 'That's what it is, in a ledger. Something held against an account, to be returned when the account is closed.' She walks for a long time. 'Somebody built this whole machine, a lake on top of it, the Aeneans singing to it, us, everything, so that one day the account would be settled and the deposit handed back.' She stops. 'Or so that it never would. Those are the only two reasons to keep a ledger that long. To pay, or to put off paying.'".
+  }
+  Topic orr_auditor with orr "Tell Cantor Orr what is in the ninth wheel, and what the Reflected are" when knows(actor, auditor_known) once {
+    Says "Cantor Orr hears you out with her eyes on the floor. 'Its hands,' she says. 'The things on the landing, singing the Rising in my hymn's voices. Its hands, made of our water.' She looks up, and she is not frightened; she is furious. 'And Pell, in Corran, with his learned notes. Omit.' She stands. 'Then this is a war, and I've a choir. Tell me what to sing.'".
+  }
+
+  // The Equals' foundry, behind the fourth wheel.
+  Observe foundry_scene at foundry when true "A long low room, warm, where no room under the Mere should be warm, with a channel of water going through it so hot it steams. Along the walls, on stone benches, Equals: not finished. One without arms. One without a head, its neck a smooth stump. One complete but for its hands, which lie beside it on the bench, flat, palms down. At the end of the room, on an anvil of the grey stone, a slate with marks on it in the oldest hand.".
+  Discovery foundry_read "The slate in the Equals' foundry, read with the old script: MADE TO KEEP THE FLOOR LEVEL. MADE TO KEEP THE COUNT EVEN. MADE TO KEEP WHAT IS SET IN THE NINTH. IF IT WAKES, TAKE OFF WHATEVER WEIGHS IT TOWARD THE DOOR." {
+    Found by searching foundry with lore "The marks on the slate come clear with the glossary: MADE TO KEEP THE FLOOR LEVEL. MADE TO KEEP THE COUNT EVEN. MADE TO KEEP WHAT IS SET IN THE NINTH. IF IT WAKES, TAKE OFF WHATEVER WEIGHS IT TOWARD THE DOOR.".
+  }
+  Item spare_hands "a pair of bronze hands" is weight_stone at foundry.
+  Observe hands_here at foundry when at(spare_hands, foundry) "The unfinished Equal's hands lie on the bench, heavy, flat, palms down.".
+  Topic isaura_foundry with isaura travelling "Ask Isaura what the slate in the foundry means" when knows(actor, foundry_read) once {
+    Says "'They're not clerks,' says Isaura. 'I was wrong.' She sounds almost relieved to have been wrong about something small. 'They're warders. The floor and the count are just what they do while they wait. What they're for is the thing in the ninth wheel.' She thinks. 'Take off whatever weighs it toward the door. That's us, isn't it, if we're carrying it there. That's anyone.'".
+  }
+}

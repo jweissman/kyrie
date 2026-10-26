@@ -29,6 +29,20 @@ Played from the title page at 1280 × 860:
 
 ## Done and verified
 
+- **D. Low Water integrated.** The branch `adventure/low-water`, marked complete by its author, is merged whole: 23
+  files of Kyr, its standalone campaign and its 36 journeys. Its two shared changes are taken:
+  - underground ways are told without the sky, which also mends "climbing down a shaft told as a walk in the rain";
+  - state names are shown as words.
+
+  Two integration decisions:
+  - The Bowl of Ammerlin is one of the independent adventures, so a world holds it when its seed chooses it.
+  - The country below tells of it in its own terms: a city whose Mere is falling, wanting someone from outside to
+    measure it.
+
+  Two specs pinned a seed that now draws another independent and were moved to seeds that hold their country (`mere`
+  for the Bowl, `f1` for Thrume). The journeys' two long describe blocks were split to the tests' function-length
+  limit, unchanged otherwise. Its friction list (27 entries) is part of the reconciliation.
+
 - **D. A world that remembers the company coming back.** Merrowdale, seen through, marks what the country below says
   of it old news: the country imports the first region's rumour of it (optional, so a world kept from before goes on
   without). The country below then says so.

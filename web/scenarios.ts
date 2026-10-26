@@ -26,6 +26,10 @@ export class Scenarios {
     { manifest: 'data/campaigns/the-patient-star.campaign.json', title: 'The Patient Star', seed: 'quell',
       note: 'Two thousand years ago a seed fell on the Ghessil Uplands and did not go out. Its light stops time in stone and slows it in flesh. You are a cutter of Quell, in debt; your uncle has stood eleven months in an open granary vault under the glass, alive.',
       detail: 'A plateau under a light that slows, a citadel building itself downward, and the past kept as a place' },
+    // An independent adventure, written before its author read the engine (doc/adventures/low-water).
+    { manifest: 'data/campaigns/low-water.campaign.json', title: 'Low Water', seed: 'ammerlin',
+      note: 'Ammerlin goes down the inside of an old crater in four terraces, and its life is the water of the Stair. For three years the Mere at the bottom has been falling. The Office of Measures has engaged you as Independent Assessor, because nobody who lives in the Bowl can be neutral about water.',
+      detail: 'A city of locks and ledgers, a hymn that is an order, a machine under the lake, and six days to the Hearing' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

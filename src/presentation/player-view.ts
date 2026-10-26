@@ -332,7 +332,9 @@ export class PlayerView {
   private static condition(world: World, id: string): string | undefined {
     if (this.test(world, 'routed', id)) { return 'routed'; }
     const state = world.one('state', id);
-    return state ? ObservationText.entity(world, state)?.name : undefined;
+    // A state is named by its id ("wound_up"); the page says it as words ("wound up").
+    const name = state ? ObservationText.entity(world, state)?.name : undefined;
+    return name && /^[a-z0-9_]+$/.test(name) ? name.replace(/_/g, ' ') : name;
   }
   // What a person in view is evidently trying to do: the label of the goal their next choice would serve.
   private static activity(campaign: Campaign, world: World, id: string): string | undefined {

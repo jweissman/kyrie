@@ -113,13 +113,14 @@ describe('the world beyond a region', () => {
   // The independent adventures, as countries a generated world may hold: one to a world, as its seed chooses, beyond
   // the first march where it fits; the folk of the first region speak of it, and the road across leads in.
   it('holds one independent adventure, as its seed chooses, beyond the march where it fits, and leads the company in', async () => {
-    const e5 = await WorldAssembler.assemble('e5', NodeBundleSource.shared);
-    const beyond = Object.values(e5.report.region.beyond!).map(c => c!.name);
-    expect([e5.report.region.terrain, e5.report.region.beyond!.east!.name]).toEqual(['forest', 'Thrume']);
-    expect(beyond.filter(n => ['the Strewnfield', 'the Corrow', 'the Ghessil Uplands'].includes(n))).toEqual([]);
-    const s = await PlaySession.start(e5.path, 'e5', e5.source);
+    const f1 = await WorldAssembler.assemble('f1', NodeBundleSource.shared);
+    const beyond = Object.values(f1.report.region.beyond!).map(c => c!.name);
+    expect([f1.report.region.terrain, f1.report.region.beyond!.east!.name]).toEqual(['forest', 'Thrume']);
+    expect(beyond.filter(n => ['the Strewnfield', 'the Corrow', 'the Ghessil Uplands', 'the Bowl of Ammerlin']
+      .includes(n))).toEqual([]);
+    const s = await PlaySession.start(f1.path, 'f1', f1.source);
     await GeneratedWorld.travel(s, 'edge_east');
-    const thrume = await new Frontier('e5', NodeBundleSource.shared).expand(s.campaign);
+    const thrume = await new Frontier('f1', NodeBundleSource.shared).expand(s.campaign);
     await March.choose(s, /road across the march to the salt road/);
     expect(s.campaign.world.one('at', 'party')).toBe(`${thrume!.rid}__salt_road`);
     expect(await Journey.of(s).play('^To the market', 'notice')).toContain('THE GIANT MÓRRACH');

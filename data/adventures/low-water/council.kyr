@@ -1,0 +1,113 @@
+Module lowwater "Low Water" {
+  Description "The Hearing as a council of war: what the Assessor can lay before the Council about what reads the count, the cause named as a creditor, and the three answers the city can give it. Hold the door; enter the Ward as beyond any figure; or, by Harrow Quill's arithmetic, give the creditor the Ward and keep the Bowl.".
+
+  // Before the Hearing: the Registrar and the Guild hear that the count is an account.
+  Topic fenn_claim with fenn "Tell the Registrar the count is an account, owed to someone" when knows(actor, auditor_known) once {
+    Says "Registrar Fenn hears it all without a word, her pen still. Then she sets the pen down square to the edge of the blotter. 'Then it's a claim,' she says. 'Against the Bowl. By a party not resident.' She looks at the brown plan of the Stair on her wall as if it might have a column for it. 'The Office hears claims. That is what the Office is for. If you can lay it before the Council, Assessor, I will see that it is heard, and I will see that it is minuted, and I will not see anything else, because I do not want to.'".
+  }
+  Topic quill_creditor with quill "Tell Quill there is a creditor under the Mere" when knows(actor, auditor_known) once {
+    Says "Quill does not laugh. He pours himself a glass, looks at it, and does not drink it. 'A creditor,' he says. 'Well. That's the first thing anybody's told me about this business that I understand.' He turns the glass. 'Every creditor can be dealt with, Assessor. That's what a creditor is: somebody who would rather have something than nothing. Find out what it would take instead of the whole.' He looks out of the good window at the Bowl, the terraces, the Ward at the bottom. 'You won't like where that arithmetic goes. I don't. But I'll do it in front of the Council if you won't, because somebody should.'".
+  }
+
+  // What can be laid before the Council of the thing that reads the count.
+  Entity ex_reflected: exhibit "the Reflected". Entity ex_cipher: exhibit "the Second Reader's footnotes".
+  Entity ex_account: exhibit "the account". Entity ex_question: exhibit "the creditor's question".
+  Action lay_reflected(actor: group, site: place) "Lay before the Council what comes up out of the Mere at night" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, reflected_known) and not laid(ex_reflected).
+    Time 1.
+    On success { Assert laid(ex_reflected). Increase credence(council) by 1. }
+    Result "You tell them: figures of water, at night, in the shapes of people, the wrong way round, singing; climbing to the Ninth Lock and singing the Rising, so that the Deep Gate goes up. You expect laughter. There is none. The Councillor for the Ninth Lock, the old woman, has put both hands flat on the table. At the back the Ward is quite silent, the way people are silent about a thing they have all seen and never said.".
+  }
+  Rule ward_saw when laid(ex_reflected) and mereStood(bowl) and not wardSpoke(ammerlin)
+    says "From the back of the hall a fisherwoman calls out, not loud: 'The Mere came up to the fourth step last week. In the night. We all saw it.' And then a great many voices at once, the Ward's, all saying the same thing, and the Councillor for the First Lock has to strike the table twice." {
+    Assert wardSpoke(ammerlin). Increase credence(council) by 1. }
+  Relation wardSpoke(place).
+  Action lay_cipher(actor: group, site: place) "Lay before the Council the Second Reader's footnotes, and what Isaura made of them" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, pell_cipher) and not laid(ex_cipher).
+    Time 1.
+    On success { Assert laid(ex_cipher). Increase credence(council) by 1. }
+    Result "WHEN THE COUNT IS WHOLE LET IT THROUGH. THE LOCK IS CUT. THE READER IS NEAR. You read it out, and then you tell them where it came from: twenty years of footnotes from the Collegium of Lesser Instruments, and a hymnal on the Cantor's desk with the cuts already marked in a hand nobody in Ammerlin owns. On the Cantors' bench Sabeth Orr has gone white to the mouth.".
+  }
+  Rule halm_confesses when laid(ex_cipher) and present(halm) and at(halm, moot_hall) and halmTurned(halm) and not halmConfessed(halm)
+    says "Teodor Halm stands, and this time he does not talk quickly. 'I carried those letters,' he says. 'Twenty years. I thought I was his correspondent; I was his postman. I would like that minuted.' He sits. The Registrar minutes it." {
+    Assert halmConfessed(halm). Increase credence(council) by 1. }
+  Relation halmConfessed(group).
+  Action lay_account(actor: group, site: place) "Lay before the Council what the count is: an account of what was taken, owed to the one whose heart is set in the ninth wheel" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, auditor_known) and laid(ex_engine) and not laid(ex_account).
+    Time 1.
+    On success { Assert laid(ex_account). Increase credence(council) by 1. }
+    Result "You tell them what is behind the grille of the ninth arch: a stone that breathes, in a socket of the smallest wheel, and eight sockets empty. What the count is: everything that stone holds in place, written down, a ninth to a page. Whose it is. That when the account is whole, what is counted is given. The hall hears it the way a hall hears a will read: in silence, and then, from everywhere at once, people working out what they are owed and what they owe.".
+  }
+  Action lay_question(actor: group, site: place) "Put to the Council the creditor's own question: what is the Ward worth?" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, auditor_heard) and laid(ex_account) and not laid(ex_question).
+    Time 1.
+    On success { Assert laid(ex_question). Increase credence(council) by 1. }
+    Result "You tell them you have been up the stair, and stood in front of it, and that it asked you a question, and that it learned to ask questions here, from the Office, the month after the Thirst Riots. Then you put the question to them in its own words. What is the Ward worth? The fishers, the boats, the steps with the paint on. Nobody answers. It is the longest silence you have heard in Ammerlin that was not under it.".
+  }
+
+  // The cause, named as what it is.
+  Relation causeAccount(group).
+  Action name_account(actor: group, site: place) "Name the cause: a creditor, reading the count through the last door, and a city that stopped singing the verses that kept the door small and shut" {
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and laid(ex_account) and laid(ex_hymn).
+    Time 1.
+    On success { Assert named(actor). Assert causeEngine(actor). Assert causeHymn(actor). Assert causeAccount(actor). }
+    Result "You name it: a machine that counts, a hymn that told it how much to drink and when to keep its last door shut, a reform that stopped the telling, and on the other side of the door, waiting for the count to be whole, the one it is owed to. Every person in the city doing their job; and one more, not a person, doing its own. The Registrar writes for a long time.".
+  }
+  // Quill's arithmetic, when the cause is a creditor.
+  Relation priced(group).
+  Rule quill_prices when causeAccount(party) and not priced(quill)
+    says "Harrow Quill rises, and for once there is no smile at all. 'I'll say what nobody else in this hall is going to,' he says. 'A creditor would rather have something than nothing. The whole Bowl is the whole of what it can take. So offer it less.' He holds up the Ward map with the red ink on it. 'The Ward plots, at the Guild's valuation, which is generous: eleven thousand crowns. The rest of the Bowl, Rim to Mere: four hundred thousand. I am a practical man. If it will take the Ward in settlement, give it the Ward, and move the Ward up the terraces, and pay them, and keep the city.' He puts the map down. 'The good of the many is a sum. I didn't say it was a kind one.' The Ward, at the back, does not make a sound." {
+    Assert priced(quill). Assert answered(quill). }
+
+  // Three answers the city can give.
+  Relation askFourth(group). Relation askInestimable(group). Relation askSettle(group).
+  Action ask_fourth(actor: group, site: place) "Ask the Council to order the Fourth Remainder sung every night after the Seventh, and the last door held shut" {
+    Description "Aun's answer: keep it shut, for as long as there is anyone to sing.".
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and named(actor) and causeAccount(actor) and not remedied(actor) and hearingOpen(ammerlin).
+    Time 1.
+    On success { Assert remedied(actor). Assert askFourth(actor). }
+    Result "The Seventh, every night, as it was for three thousand years; and after it, the Fourth, high and deep, the last door, least. Not an answer to the creditor: a refusal to let the question be asked. You say so.".
+  }
+  Action ask_inestimable(actor: group, site: place) "Ask the Council to enter the Ward in the Office's ledger as inestimable, beyond any figure, and send that down as the city's answer" {
+    Description "An honest figure. The largest one there is.".
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and named(actor) and causeAccount(actor) and laid(ex_question) and not remedied(actor) and hearingOpen(ammerlin).
+    Time 1.
+    On success { Assert remedied(actor). Assert askInestimable(actor). }
+    Result "You ask them to answer the question it asked: to write in the Office's own ledger, in the Office's own words, that the Ward of Ammerlin is inestimable; and to read it out in the square, as the Office read out every right after the Thirst Riots, so that the water hears it. Registrar Fenn looks up sharply at that, and then, slowly, nods.".
+  }
+  Action ask_settle(actor: group, site: place) "Ask the Council to offer the creditor the Ward in settlement, as Quill reckons it, and move the Ward up the terraces" {
+    Description "The good of the many is a sum.".
+    Requires able(actor) and at(actor, site) and at(actor, moot_hall) and named(actor) and causeAccount(actor) and priced(quill) and not remedied(actor) and hearingOpen(ammerlin).
+    Time 1.
+    On success { Assert remedied(actor). Assert askSettle(actor). }
+    Result "You ask for it. You hear yourself ask for it. At the back of the hall the Ward stands up, all of it, the way it stood up for the names of the drowned, and stays standing.".
+  }
+  Rule isaura_refuses_settle when askSettle(party) and travelsWith(isaura, party) and not dissented(isaura)
+    says "Isaura Vant does not stand. She closes her book, and puts it in her coat, and sits with her hands in her lap, and says, quite quietly, so that only you and the Council's end of the table can hear: 'No. I won't measure that. Find somebody else.'" {
+    Assert dissented(isaura). }
+
+  Relation verdictFourth(place). Relation verdictInestimable(place). Relation verdictSettle(place).
+  Rule council_fourth when askFourth(party) and hearingDone(ammerlin) and credence(council) >= 6 and not decided(council)
+    says "'The Council accepts the Finding,' says the Councillor for the First Lock. 'The Sounding is to sing the Seventh Remainder every night, and after it the Fourth, and the keeper of the Ninth Lock to record both. The Guild is not found the cause, and its charter is renewed.' She pauses, and adds, not from her paper: 'And the Council would be glad if somebody could tell it, one day, who Aun was.'" {
+    Assert decided(council). Assert verdictFourth(ammerlin). Assert charterRenewed(ammerlin). Assert seventhRestored(bowl). Assert restoredForGood(bowl). Assert fourthRestored(bowl). }
+  Rule council_inestimable when askInestimable(party) and hearingDone(ammerlin) and credence(council) >= 7 and not decided(council)
+    says "The Councillor for the First Lock stands with a paper in her own hand, and does not read from it. 'The Council accepts the Finding. There is entered in the ledger of the Office of Measures, against the claim of the party not resident, the value of the Ward of Ammerlin: inestimable. The Office shall read it out in the square, at noon, for thirty days. The Sounding shall sing the Seventh Remainder every night, as the Assessor has shown it must. The Ward's titles are frozen until further order. The charter is renewed.' Quill, on the front bench, closes his eyes, and opens them, and says to nobody: 'Well. That's a figure too.'" {
+    Assert decided(council). Assert verdictInestimable(ammerlin). Assert wardValued(bowl). Decrease approach(bowl) by 3. Assert charterRenewed(ammerlin). Assert seventhRestored(bowl). Assert restoredForGood(bowl). Assert titlesFrozen(ammerlin). }
+  Rule council_settles when askSettle(party) and hearingDone(ammerlin) and credence(council) >= 3 and not decided(council)
+    says "The Council is out a long time. When the nine come back the Councillor for the First Lock does not stand. 'The Council accepts the Finding, by five to four. The Ward of Ammerlin is to be offered in settlement of the claim of the party not resident, at the Guild's valuation. The Ward's people are to be housed on the upper terraces at the Guild's charge, and compensated at the same valuation, from the Office's funds. The charter is renewed.' The Councillor for the Ninth Lock, the old woman, gets up and walks out of the hall without asking leave." {
+    Assert decided(council). Assert verdictSettle(ammerlin). Assert charterRenewed(ammerlin). }
+
+  // What each answer does after the Hearing.
+  Observe square_reading at measures_square when verdictInestimable(ammerlin) and hour(clock) == 12 "At noon a clerk of the Office stands on the fountain's rim and reads, in a voice that never goes up or down, from a ledger held open in both hands: 'Against the claim of the party not resident: the Ward of Ammerlin. Inestimable.' Then the next entry, and the next, every right in the Bowl. Nobody stops to listen. The fountain, behind him, is perfectly still.".
+  Topic auditor_heard_verdict with auditor "Tell the Auditor what the Council entered in the ledger" when verdictInestimable(ammerlin) once {
+    Says "'I heard,' says the voice. 'At noon. A young man on the rim of your fountain, reading.' The rings in the water widen, very slowly, and settle, and widen. 'Thirty days, the order says. The ell and the hour and the name.' A long silence. 'It is the second time. I did not think I would hear it again.' The cold in the room is less, as if a window had been opened somewhere far off. 'Inestimable is not a figure I can close. Your Office knew that when it wrote it.' Another silence. 'Tell them it is received.'".
+  }
+  // The settlement: the creditor takes the Ward. The Mere stands up to the fourth step and stays, and the Ward is under it.
+  Relation wardGiven(place). Relation auditorSettled(place).
+  Rule ward_taken when verdictSettle(ammerlin) and hour(clock) == 0 and not wardGiven(ammerlin)
+    says "At midnight, from the bottom of the Bowl, a sound like a great many people breathing in. In the morning the Mere stands at the fourth step of the Ward landing, as it stood when the oldest people in the Ward were children, perfectly still; and Tench Row is under it to the eaves; and in the windows of Tench Row, under the water, the lamps are lit." {
+    Assert wardGiven(ammerlin). Assert auditorSettled(bowl). Set approach(bowl) to 0. Set mere(bowl) to 64. }
+  Observe ward_under at ward_landing when wardGiven(ammerlin) "The Mere stands at the fourth step of the Ward landing, so clear you can see the painted spans going down under it, and the boat-rings, and the mud where the planks were, and Tench Row standing in it to the eaves with every door open and every lamp lit. Things move in the houses, slowly, the wrong way round. The Ward's people have been housed on the second terrace, in Guild lodgings, and come down in the evenings to the top step, and sit, and do not talk much.".
+  Observe isaura_resigned at office_hall when verdictSettle(ammerlin) "Isaura Vant's desk in the hall of the Office is cleared. Her ell-rod is gone from its hook. On the blotter, square to the edge, a single sheet, in her hand: Resigned. Not measured.".
+  Objective objective_settle when verdictSettle(ammerlin) and not wardGiven(ammerlin) "The Council has offered the creditor the Ward. You will know by morning whether it was accepted.".
+}

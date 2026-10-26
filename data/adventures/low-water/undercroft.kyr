@@ -1,0 +1,231 @@
+Module lowwater "Low Water" {
+  Description "The Undercroft: the works under the Mere, made in the Mathematical Age. A dry vestibule, the Hall of the Equals, the counting gallery, the listening column, the governor, and the last door.".
+
+  Place vestibule "the dry vestibule" is room within undercroft at 0, 1 underground.
+  Place breach_gallery "the broken gallery" is room within undercroft at 2, 1 underground.
+  Place equal_hall "the Hall of the Equals" is room within undercroft at 1, 1 underground.
+  Place count_gallery "the counting gallery" is room within undercroft at 1, 2 underground.
+  Place column_room "the listening column" is room within undercroft at 0, 2 underground.
+  Place governor_room "the governor" is room within undercroft at 2, 2 underground.
+  Place depths_level "the depths of the Undercroft" is level within undercroft.
+  Place last_door_room "the last door" is room within depths_level at 0, 0 underground.
+  Initially Assert unlit(vestibule). Initially Assert unlit(breach_gallery). Initially Assert unlit(equal_hall).
+  Initially Assert unlit(count_gallery). Initially Assert unlit(column_room). Initially Assert unlit(governor_room).
+  Initially Assert unlit(last_door_room).
+
+  Passage culvert_foot "the foot of the intake culvert" is passage between intake_culvert and vestibule taking 30 minutes.
+  Passage vestibule_arch "the arch into the Hall of the Equals" is arch between vestibule and equal_hall.
+  Passage gallery_arch "the arch from the broken gallery" is arch between breach_gallery and equal_hall.
+  Passage hall_to_count "the far arch of the Hall of the Equals" is arch between equal_hall and count_gallery.
+  Passage count_to_column "the way to the column" is passage between count_gallery and column_room.
+  Passage count_to_governor "the way to the governor" is passage between count_gallery and governor_room.
+  Passage count_to_door "the long stair down" is stair between count_gallery and last_door_room taking 5 minutes.
+
+  Observe vestibule_scene at vestibule when not familiar(vestibule) "The culvert comes out into a square room of the fine grey stone, dry, still, warmer than the culvert. A thread of water crosses the floor in a channel and goes on through an arch.".
+  Observe vestibule_scene_again at vestibule when familiar(vestibule) "The dry vestibule, the culvert's thread of water crossing its floor.".
+  Observe vest_stones at vestibule when at(vest_weight, vestibule) or at(vest_weight_b, vestibule) "Against the wall, as if somebody had tidied them, squared weight-stones with holes through them.".
+  Item vest_weight "a weight-stone" is weight_stone at vestibule.
+  Item vest_weight_b "a weight-stone" is weight_stone at vestibule.
+  Observe breach_scene at breach_gallery when not familiar(breach_gallery) "A gallery of grey stone, square and dry, and in its wall the ragged hole the diggers made, with mud and broken slab spilled in through it. Everything else is clean: three thousand years clean.".
+  Observe breach_scene_again at breach_gallery when familiar(breach_gallery) "The broken gallery, the diggers' hole ragged in its clean grey wall.".
+  Discovery engine_seen "Under the Mere there is a working machine of the Mathematical Age that counts by water, and the water it counts does not come out again anywhere.".
+
+  // The Hall of the Equals: the floor is a scale. Whoever walks it tips it, and the Equals keep it even.
+  Observe equal_scene at equal_hall when not familiar(equal_hall) "A long hall with a floor of a single slab of grey stone, so finely set that it rocks, very slightly, under your weight; you feel it go down at your end. At the far end, the other side of the balance. Between, two figures of bronze, broad, faceless, too wide at the shoulder, stand facing each other across the floor like the two halves of something.".
+  Observe equal_scene_again at equal_hall when familiar(equal_hall) "The Hall of the Equals: the rocking floor, the stone pan on its chains, and the two bronze figures facing each other across it.".
+  Person equals "the Equals" at equal_hall {
+    Role "two figures of bronze, broad, faceless, made to keep a reckoning even". Species bronze_construct. Level 5. Numbers 2.
+    Temperament obedient.
+    Warns "The Equals turn, both together, without a sound, and face you where you stand on the tipped floor. One of them lifts its hands, flat, palms down, and presses the air, the way you would press down the end of a plank that has come up.".
+    Comes "The Equals come for you together, not fast, not slow, the way water comes, to set the floor level by taking off it whatever tips it.".
+  }
+  Initially Assert tolerates(equals, party).
+  Thing counterpan "the stone pan" at equal_hall {
+    Holds.
+    State hanging "At the far end of the hall the stone pan hangs from its beam on bronze chains.".
+  }
+  Measure stonesIn(entity). Measure walkers(group). Relation counted(item). Relation walking(member).
+  Rule stone_counted when inside(?w, counterpan) and itemKind(?w, weight_stone) and not counted(?w) { Assert counted(?w). Increase stonesIn(counterpan) by 1. }
+  Rule stone_uncounted when counted(?w) and not inside(?w, counterpan) { Retract counted(?w). Decrease stonesIn(counterpan) by 1. }
+  Rule walker_counted when memberOf(?m, party) and not walking(?m) { Assert walking(?m). Increase walkers(party) by 1. }
+  Rule walker_gone when walking(?m) and not memberOf(?m, party) { Retract walking(?m). Decrease walkers(party) by 1. }
+  Query balanced() means stonesIn(counterpan) >= walkers(party).
+  Observe pan_level at equal_hall when balanced() "The floor lies level under you, and the stone pan hangs level at the far end, and the Equals stand facing one another across the hall as if you were not there.".
+  Observe pan_tipped at equal_hall when not balanced() and stonesIn(counterpan) > 0 "The pan has gone down some way, but not all: the floor is still tipped your way, a finger's breadth.".
+  // A watch to see it; then they come. tippedSince is the watch the floor was first seen tipped, and one more.
+  Measure tippedSince(group). Relation warnedOff(group).
+  Rule tipped_mark when at(party, equal_hall) and not balanced() and able(equals) and not broken(reckoner) and tippedSince(party) == 0 {
+    Set tippedSince(party) to watch(clock) + 1. }
+  Rule tipped_eases when tippedSince(party) > 0 and (not at(party, equal_hall) or balanced()) { Set tippedSince(party) to 0. Retract warnedOff(party). }
+  Rule equals_warn at equal_hall when at(party, equal_hall) and tippedSince(party) > 0 and not warnedOff(party) and able(equals) and tolerates(equals, party)
+    says "The Equals turn, both together, without a sound, and face you where you stand on the tipped floor. One lifts its hands, flat, palms down, and presses the air, as you would press down the end of a plank that has come up." {
+    Assert warnedOff(party). }
+  Rule equals_come when at(party, equal_hall) and not balanced() and tippedSince(party) > 0 and watch(clock) >= tippedSince(party) + 1 and able(equals) and tolerates(equals, party) {
+    Retract tolerates(equals, party). Assert assails(equals, party). }
+  Rule equals_settle when balanced() and not tolerates(equals, party) and able(equals) and not guarding(equals) { Assert tolerates(equals, party). }
+  Relation guarding(group).
+  Discovery equals_rule "The Equals keep the Hall's floor level: whoever tips it, they come for, and a weight set in the far pan to answer each walker sets it level again.".
+  Rule equals_understood when at(party, equal_hall) and balanced() and stonesIn(counterpan) > 0 and not knows(party, equals_rule)
+    says "As the last stone goes into the pan the floor comes up level under your feet with a long soft grinding, and the Equals lower their hands." teaches equals_rule { }
+
+  // The counting gallery: nine wheels, and how many have turned.
+  Observe count_scene at count_gallery when not familiar(count_gallery) "A gallery as long as a street, and down one side of it nine tall arches, and through every arch a wheel of bronze and grey stone, each in a room of its own, each as tall as a house. A channel of moving water runs the length of the gallery and turns in at every arch, and comes out again, by a hundred small gates.".
+  Observe count_scene_again at count_gallery when familiar(count_gallery) "The counting gallery, and its nine arches, and the wheel in every one.".
+  Observe count_running at count_gallery when not complete(reckoner) and not broken(reckoner) "The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor.".
+  Observe count_wheels_0 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 0 "Of the nine wheels, no stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_1 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 1 "Of the nine wheels, one stands still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_2 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 2 "Of the nine wheels, two stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_3 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 3 "Of the nine wheels, three stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_4 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 4 "Of the nine wheels, four stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_5 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 5 "Of the nine wheels, five stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_6 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 6 "Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_7 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 7 "Of the nine wheels, seven stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_wheels_8 at count_gallery when not complete(reckoner) and not broken(reckoner) and ninths(reckoner) == 8 "Of the nine wheels, eight stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.".
+  Observe count_done at count_gallery when complete(reckoner) "All nine wheels stand still and locked. The channel is dry. The gallery is silent for the first time in three thousand years, and the silence is enormous.".
+  Observe count_dead at count_gallery when broken(reckoner) "The wheels have stopped where they stood, the turning one half-turned. Water lies in the channel and does not move. Nothing clicks.".
+  Rule engine_known when at(party, count_gallery) and not knows(party, engine_seen) says "You stand and watch it for a long time before you let yourself say it. It is a machine, and it is counting: a gate at a time, a measure of water at a time, and the water it has counted runs on down the gallery toward the long stair and does not come back." teaches engine_seen { }
+
+  // The listening column: a pipe of still water going up toward the Sounding, and four bronze bars to sound into it.
+  Observe column_scene at column_room when not familiar(column_room) "A round room, and in the middle a column of water, standing up out of a basin in a pipe of polished grey stone as wide as a well, up into the dark as far as your light goes. The water in it is perfectly still. Round the basin's rim hang four bars of bronze on cords, of four lengths, and a bronze striker on a chain.".
+  Observe column_scene_again at column_room when familiar(column_room) "The listening column, perfectly still in its pipe of stone, and the four bronze bars round its basin.".
+  Discovery column_up "The listening column goes up from the Undercroft toward the great cistern under the Sounding: what is sung in the Sounding comes down it to the Reckoner, and what is sounded here goes up.".
+  Observe column_hymn at column_room when hour(clock) == 19 and sungTonight(bowl) "From far up the column, down the still water, comes the Hymn: the Sounding's bells and choir, small and clear and perfect, as if they were singing in the next room.".
+  Rule column_up_known when at(party, column_room) and hour(clock) == 19 and sungTonight(bowl) and not knows(party, column_up) says "The water in the column carries it down to you note for note: what is sung in the Sounding comes here." teaches column_up { }
+  Measure firstTone(entity).
+  Action strike_deep(actor: group, site: place) "Strike the longest bar, the deep voice" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, column_room) and not broken(reckoner).
+    Time 1 minute.
+    On success { Set struck(column_room) to 1. }
+    Result "The longest bar gives a deep note that goes into the water and up the column.".
+  }
+  Action strike_middle(actor: group, site: place) "Strike the second bar, the middle voice" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, column_room) and not broken(reckoner).
+    Time 1 minute.
+    On success { Set struck(column_room) to 2. }
+    Result "The second bar gives a middle note, plain and round, that goes up the column.".
+  }
+  Action strike_high(actor: group, site: place) "Strike the third bar, the high voice" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, column_room) and not broken(reckoner).
+    Time 1 minute.
+    On success { Set struck(column_room) to 3. }
+    Result "The third bar gives a high note, thin and clear, that goes up the column.".
+  }
+  Action strike_bright(actor: group, site: place) "Strike the shortest bar, the bright voice" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, column_room) and not broken(reckoner).
+    Time 1 minute.
+    On success { Set struck(column_room) to 4. }
+    Result "The shortest bar gives a bright note, almost too high to hear, that goes up the column like a spark.".
+  }
+  Measure struck(entity). Measure secondTone(entity).
+  // A struck bar is a first tone, or the second that completes a phrase.
+  Rule tone_first when struck(column_room) > 0 and firstTone(column_room) == 0 {
+    Set firstTone(column_room) to struck(column_room). Set struck(column_room) to 0. }
+  Rule tone_second when struck(column_room) > 0 and firstTone(column_room) > 0 {
+    Set secondTone(column_room) to struck(column_room). Set struck(column_room) to 0. }
+  Observe tone_hangs at column_room when firstTone(column_room) > 0 and secondTone(column_room) == 0 "The note you struck has not died. It hangs in the column, faint and level, as if the water were waiting for the rest.".
+  // What the engine hears, and does.
+  Rule says_cupful when firstTone(column_room) == 1 and secondTone(column_room) == 1
+    says "Deep, and deep: the Seventh Remainder, as the choir sings it. The water in the column shivers. Far off through the rock you hear, or feel, something heavy settle into a bed of stone." {
+    Assert state(deep_gate, lowered). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_wide when firstTone(column_room) == 1 and secondTone(column_room) == 4 and not complete(reckoner)
+    says "Deep, and bright: the Sixth Remainder, the Rising. The column hums. Far off through the rock something heavy heaves itself up on edge, and a long breath begins." {
+    Assert state(deep_gate, raised). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_half when firstTone(column_room) == 1 and (secondTone(column_room) == 2 or secondTone(column_room) == 3) and not complete(reckoner)
+    says "The column takes the two notes and the water in the basin rocks once, as if something far off had been moved, and stopped halfway." {
+    Assert state(deep_gate, half). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_0 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 0
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it no stroke at all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_1 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 1
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it a single stroke of the bright voice; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_2 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 2
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, two in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_3 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 3
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, three in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_4 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 4
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, four in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_5 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 5
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, five in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_6 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 6
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, six in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_7 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 7
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, seven in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_8 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 8
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, eight in all; and then a silence the length of the strokes that are not there." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_count_9 when firstTone(column_room) == 2 and secondTone(column_room) > 0 and ninths(reckoner) == 9
+    says "The middle voice: the count. For a moment nothing. Then up out of the column, slow, comes the middle note again, and after it strokes of the bright voice, counting, nine in all; and then nothing, for there is nothing left to count." teaches count_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Discovery count_heard "Asked its count in its own voice, the Reckoner answers in ninths: so many strokes of nine as it has counted.".
+  Rule says_question when firstTone(column_room) == 4 and secondTone(column_room) == 1
+    says "Bright, and deep: the First Remainder. The column answers at once, as if it had been waiting three thousand years for somebody to ask. Up out of the water comes a long phrase in all four voices, over and over, and with it, on the lintel over the long stair, a line of letters you had taken for ornament catches your light and is suddenly plain to see." teaches question_heard {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Discovery question_heard "Asked its question in the First Remainder, the Reckoner sang it back, and the lintel over the long stair to the last door shows it in letters: what Halm reads as IT COUNTS WHAT IS BOUND.".
+  Rule says_all when firstTone(column_room) == 4 and secondTone(column_room) == 4
+    says "Bright, and bright. The column takes it, and gives it back a hundredfold: the whole Long Hymn, every Remainder, comes up out of the water in one long rising chord, and goes up the column toward the Sounding, and you hear it go on above you through the rock, in every pipe and cistern of the Bowl, all at once." {
+    Assert sangBack(ammerlin). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Relation sangBack(place).
+  Rule says_end when firstTone(column_room) == 3 and secondTone(column_room) == 4 and not complete(reckoner) and not broken(reckoner) and not doorHeld(reckoner)
+    says "High, and bright: the voice that is not sung. The column takes it and is silent. Then, far off down the gallery, every gate of the count opens at once, and the water goes through the Reckoner like a held breath let out, and the wheels you could not see from here begin to turn all together, faster, faster, nine of them, and stop." {
+    Set count(reckoner) to 900. Assert endedBy(reckoner, party). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Relation endedBy(engine, group).
+  Rule says_end_held when firstTone(column_room) == 3 and secondTone(column_room) == 4 and not complete(reckoner) and not broken(reckoner) and doorHeld(reckoner)
+    says "High, and bright. The column takes it, and far down the long stair something strains against the round door and does not give. The Fourth holds it. The water in the column shivers, once, and is still." {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_hold when firstTone(column_room) == 3 and secondTone(column_room) == 1 and not complete(reckoner)
+    says "High, and deep: the Fourth Remainder. The column takes it and is still. Far down the long stair something settles against the round door, the way a bar settles in its brackets." {
+    Assert doorHeld(reckoner). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Relation doorHeld(engine).
+  Rule says_refusal when firstTone(column_room) == 3 and secondTone(column_room) > 1 and secondTone(column_room) < 4
+    says "The high voice. The column hears it and gives back a single flat note, low, like a door that will not open partway." {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_hum when firstTone(column_room) == 4 and (secondTone(column_room) == 2 or secondTone(column_room) == 3)
+    says "Bright, and middle: the Fifth Remainder. The column gives back a low steady hum, and you hear it go on up through the rock above you, spreading, as if every pipe and basin of the Bowl had begun to hum along." {
+    Assert humming(ammerlin). Set humAt(ammerlin) to watch(clock). Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. Increase spoken(column_room) by 1. }
+  Rule says_done when complete(reckoner) and secondTone(column_room) > 0
+    says "The column takes the notes and gives nothing back. Whatever it was listening for, it has heard." {
+    Set firstTone(column_room) to 0. Set secondTone(column_room) to 0. }
+  Measure spoken(entity).
+
+  // The governor: what makes the engine count rather than run. Broken, the engine stops for good.
+  Observe governor_scene at governor_room when not broken(reckoner) "A room the Reckoner's water goes round, in a channel, through a cage of bronze arms that swing out and in, out and in, unhurried, like the arms of somebody walking. At the centre of the cage is a spindle of grey stone, and on it two balls of bronze turning. Everything in the Undercroft keeps time to it.".
+  Observe governor_broken at governor_room when broken(reckoner) "The governor's cage lies twisted in its channel. The spindle is snapped. Water stands round it, still.".
+  Discovery governor_known "The governor in the Undercroft keeps the Reckoner counting: break its spindle, and the Reckoner would stop, and never count again.".
+  Rule governor_seen when at(party, governor_room) and not broken(reckoner) and not knows(party, governor_known) says "You watch the arms swing out, and in, and see the whole machine wait for them each time." teaches governor_known { }
+  Action break_governor(actor: group, site: place) "Break the governor's spindle" {
+    Description "Stop the Reckoner, for good. Whatever it was counting, it will never finish.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, governor_room) and not broken(reckoner) and not complete(reckoner)
+      and (capable(actor, brawn) or carries(actor, ?bar) and itemKind(?bar, crowbar)).
+    Time 1.
+    On success { Assert broken(reckoner). Assert brokenBy(reckoner, actor). Assert state(deep_gate, lowered). }
+    Result "It takes three blows. The first rings like a bell and does nothing. The second cracks the stone. At the third the spindle goes, and the arms of the cage fly out and wrap themselves round the bars, and the bronze balls drop into the water, and all through the rock the note you have been hearing since the Listening Hall stops, the way a heart stops.".
+  }
+  Relation brokenBy(engine, group).
+  Rule equals_defend when broken(reckoner) and able(equals) and not defended(equals) says "From the Hall of the Equals comes a sound like a cart of bells overturned, and then the sound of something broad and heavy coming down the gallery, not fast, not slow." {
+    Assert guarding(equals). Assert defended(equals). Retract tolerates(equals, party). Set equalsArrive(equals) to watch(clock) + 2. }
+  Relation defended(group).
+  Measure equalsArrive(group).
+  Rule equals_arrive when guarding(equals) and equalsArrive(equals) > 0 and watch(clock) >= equalsArrive(equals) and not at(equals, governor_room) {
+    Retract at(equals, equal_hall). Assert at(equals, governor_room). }
+  Rule equals_fall_on when guarding(equals) and at(equals, governor_room) and at(party, governor_room) and able(equals) and not stilled(equals) { Assert assails(equals, party). }
+  Rule equals_stop when broken(reckoner) and guarding(equals) and at(equals, governor_room) and not at(party, governor_room) and not stilled(equals) {
+    Assert stilled(equals). Retract guarding(equals). Assert tolerates(equals, party). }
+  Relation stilled(group).
+  Observe equals_coming at governor_room when guarding(equals) and not at(equals, governor_room) "From the gallery, coming nearer, the sound of something broad and heavy walking, not fast, not slow.".
+  Observe equals_still at governor_room when stilled(equals) and at(equals, governor_room) "The Equals stand over the broken governor, one each side, with their hands flat and still, as if they were holding something level that is no longer there.".
+
+  // The last door, and what is written over it.
+  Observe door_scene at last_door_room when not complete(reckoner) "At the bottom of the long stair, the counted water goes into a slot in the floor in a smooth black sheet. Beyond it a door of grey stone, round, closed, with no handle; across it a single line of carving. The air here is very cold, and smells of nothing at all.".
+  Observe door_open at last_door_room when complete(reckoner) and not doorHeld(reckoner) "The round door stands open. Beyond it is not a room. Beyond it, as far as you can see, is still water under no sky, lit from nowhere, and the cold that comes out of it smells of nothing at all.".
+  Observe door_held at last_door_room when complete(reckoner) and doorHeld(reckoner) "The counted water no longer runs into the slot. The round door is shut, and something behind it, or in it, is keeping it so: the Fourth, sung every night, holding what the count has gathered.".
+  Observe door_shut_dead at last_door_room when broken(reckoner) "The slot in the floor is dry. The round door is shut, and will stay shut.".
+  Discovery door_words "Over the last door in the Undercroft are two lines of carving, one in the oldest marks and one in Aenean.".
+  Rule door_carving at last_door_room when at(party, last_door_room) and not knows(party, door_words) says "Across the round door, two lines: one in the oldest marks, the ones under the keystone, and one in Aenean, newer, cut by somebody who was copying something they did not understand." teaches door_words { }
+}

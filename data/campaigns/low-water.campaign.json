@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "Low Water",
+  "calendar": { "year": 1312, "month": 10, "day": 2 },
+  "pitch": {
+    "heading": "A company for Ammerlin",
+    "text": "Ammerlin goes down the inside of an old crater in four terraces, and its life is the water of the Stair. For three years the Mere at the bottom has been falling, and everybody in the city has a reason, and every reason is also a claim on somebody else's water. The Office of Measures has engaged you as Independent Assessor, because nobody who lives there can be neutral. Choose three companions."
+  },
+  "modules": [
+    { "id": "lowwater", "bundle": "../adventures/low-water/module.json" }
+  ],
+  "party": [
+    { "name": "Edda", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith", "traits": ["toughness"] },
+    { "name": "Corin", "raceId": "elf", "classId": "bard", "backgroundId": "archaeologist" },
+    { "name": "Thale", "raceId": "dwarf", "classId": "cleric", "backgroundId": "miner", "traits": ["vitalist"] }
+  ]
+}
