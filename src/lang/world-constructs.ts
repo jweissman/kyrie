@@ -225,15 +225,28 @@ export class WorldConstructs {
     ...(e.anchor ? { place: e.anchor.id, anchor: e.anchor.kind } : {}), ...(e.teaches ? { teaches: e.teaches } : {}) });
   }
   // A topic asked once ("Ask {gizon} about the opened graves"), once it has been asked: the same answer again, with
-  // nothing it did done again ("Ask {gizon} again about the opened graves"). Only a question is asked again: a letter
-  // given is not given twice.
+  // nothing it did done again ("Ask {gizon} again about the opened graves"). Only a question that did nothing but
+  // teach is asked again: a letter given is not given twice, nor a key asked for. What it taught is no bar to asking
+  // again (a topic offered while its fact was unknown had a copy that could never be offered: the architecture
+  // review's A19, 10 of Tessary's 82 and 12 of a generated country's 101).
   static recall(action: Module['actions'][number]): Module['actions'][number][] {
     const name = typeof action.name === 'string' ? action.name : '';
     const asked = /^(Ask .+?) (about|what|where|who|whom|why|how|whether|if|for|after) /;
-    if (!asked.test(name)) { return []; }
+    if (!asked.test(name) || !action.success.every(c => c.kind === 'assert' && WorldConstructs.learnt.has(c.call.name))) {
+      return [];
+    }
     return [{ ...structuredClone(action), id: `${action.id}_again`, name: name.replace(asked, '$1 again $2 '),
-      requires: { kind: 'and', left: structuredClone(action.requires), right: { kind: 'call', name: `said_${action.id}`,
-        args: [] } }, success: [], failure: [] }];
+      requires: { kind: 'and', left: WorldConstructs.taught(structuredClone(action.requires), action.success),
+        right: { kind: 'call', name: `said_${action.id}`, args: [] } }, success: [], failure: [] }];
+  }
+  // What asking teaches, and nothing else.
+  private static readonly learnt = new Set(['knows', 'toldBy', 'heard']);
+  // A requirement with what the asking itself made so no longer barring it.
+  private static taught(p: Predicate, success: Change[]): Predicate {
+    if (p.kind === 'and') { return { ...p, left: this.taught(p.left, success), right: this.taught(p.right, success) }; }
+    const own = p.kind === 'not' && p.value.kind === 'call'
+      && success.some(c => c.kind === 'assert' && JSON.stringify(c.call) === JSON.stringify(p.value));
+    return own ? { kind: 'boolean', value: true } : p;
   }
   static once(module: Module, action: Module['actions'][number]) {
     const latch = `said_${action.id}`;
