@@ -23,7 +23,7 @@ Module tessary "What Tessary Owes" {
   // toward the Hall of Oaths. In the morning their families find the boots.
   Measure held(place). Measure callings(place). Relation bootsOnSteps(place). Relation callingDue(place).
   Initially Set held(ossel) to 138. Initially Set callings(ossel) to 0.
-  Rule calling_due when counted(ossel) and springNight() and callings(ossel) < night(ossel) and not interestPaid(ossel) {
+  Rule calling_due when counted(ossel) and springNight() and night(ossel) < 15 and callings(ossel) < night(ossel) and not interestPaid(ossel) {
     Assert callingDue(ossel). Set callings(ossel) to night(ossel). }
   Relation interestPaid(place).
   Rule interest_waived when counted(ossel) and springNight() and callings(ossel) < night(ossel) and interestPaid(ossel) {

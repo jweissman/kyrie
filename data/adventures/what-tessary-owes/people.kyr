@@ -115,7 +115,14 @@ Module tessary "What Tessary Owes" {
   Kind soldier_coat "a red coat of the Long Muster" like cloak worth 0 weighing 2
     described "A soldier's coat, red gone brown at the shoulders, with the Muster's brass buttons and a darn at the elbow in someone's careful wool.".
   Discovery coat_given "Nan Teazle has given you Davy's coat to take to him.".
-  Rule coat_offered when toldNan(party) and not knows(party, coat_given) says "Nan lays the coat over your arm." teaches coat_given { }
+  Action take_coat(actor: group, recipient: member, site: place) "Take Davy's coat from Nan" {
+    Speaker nan. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(nan, site) and toldNan(actor)
+      and memberOf(recipient, actor) and awake(recipient) and not knows(actor, coat_given).
+    Resolve acquire(davy_coat, soldier_coat, recipient).
+    On success { Assert knows(actor, coat_given). Retract at(davy_coat, teazle_room). }
+    Result "Nan lays the coat over your arm, and smooths the darn at the elbow once with her thumb, and lets go.".
+  }
   Initially Assert lends(nan, davy_coat, party).
 
   Topic wick_night with wick "Ask Wick about the night Davy went" when not cameHome(davy) once {
@@ -247,11 +254,13 @@ Module tessary "What Tessary Owes" {
   Kind draft_kind "a scrivener's draft" is gear worth 1 weighing 0
     described "Six closely written pages of reed-paper, foxed and folded, the draft of a fair copy: a contract between the city of Tessary and a party named only as the Ledger Below.".
   Discovery draft_bought "Pounce has sold you his twelve-year-old draft of the Board's secret instrument.".
-  Action buy_draft(actor: group, site: place) "Pay Pounce six coin for his old draft" {
+  Action buy_draft(actor: group, recipient: member, site: place) "Pay Pounce six coin for his old draft" {
     Speaker pounce. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(pounce, site) and pounceOffered(actor)
+      and memberOf(recipient, actor) and awake(recipient)
       and not knows(actor, draft_bought) and quantity(actor, gold) >= 6.
-    On success { Decrease quantity(actor, gold) by 6. Increase quantity(pounce, gold) by 6. Assert knows(actor, draft_bought). }
+    Resolve acquire(pounce_draft, draft_kind, recipient).
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(pounce, gold) by 6. Assert knows(actor, draft_bought). Retract at(pounce_draft, pounce_stall). }
     Result "Pounce goes to a chest and comes back with six pages folded small, and counts your coins before he lets go of them. 'You did not get these from me,' he says. 'You got them from a man you met in a tavern who resembled me.'".
   }
   Action read_draft(actor: group, site: place) "Read Pounce's draft of the War Note" {
@@ -271,7 +280,7 @@ Module tessary "What Tessary Owes" {
 
   // The Office of Seals: the queue, and the Keeper of the Seal.
   Person queue "the queue" at seals_hall {
-    Role "forty people with documents, waiting". Ancestry human. Numbers 1. Peaceable. Pronouns they.
+    Role "who have been waiting since breakfast, or Tuesday, or longer, each with a document". Ancestry human. Numbers 1. Peaceable. Pronouns they.
   }
   Topic queue_asked with queue "Ask the queue how long they have been waiting" when true once {
     Says "Several people answer at once. A man with a deed: 'Since breakfast.' A woman with a marriage contract: 'Since Tuesday.' An old man near the front, without turning round: 'My father held this place in the queue before me. I am sealing the lease he came to seal. It has run out, but it is the principle.'".
@@ -294,16 +303,17 @@ Module tessary "What Tessary Owes" {
     State shut blocking "A clerk behind the grille admits whoever reaches the head of the queue, and nobody else.".
     State open "The clerk has opened the grille for you.".
   }
-  Rule grille_opens when reachedKeeper(party) and state(grille, shut) { Assert state(grille, open). }
-  Rule grille_shuts when state(grille, open) and not reachedKeeper(party) { Assert state(grille, shut). }
-  Rule grille_closes_at_night when dark() and reachedKeeper(party) and not at(party, seals_inner) { Retract reachedKeeper(party). }
+  Query keeperSends() means deedsSealed(ossel) or sealStolen(ossel) or votePassed(ossel) and night(ossel) == 13 and hour(clock) >= 15.
+  Rule grille_opens when (reachedKeeper(party) or keeperSends()) and state(grille, shut) { Assert state(grille, open). }
+  Rule grille_shuts when state(grille, open) and not reachedKeeper(party) and not keeperSends() { Assert state(grille, shut). }
+  Rule grille_closes_at_night when dark() and reachedKeeper(party) and not at(party, seals_inner) and not keeperSends() { Retract reachedKeeper(party). }
   Topic deckle_seal with deckle "Ask the Keeper about the Great Seal" when true once {
     Says "'The Seal of Tessary,' says Deckle, and lifts the glass bell an inch as if letting it breathe. 'What it seals, the city has done. A deed sealed here is land given. A treaty sealed here is peace made. If the Board were to vote the Veterans' Settlement' (he says it the way one says the name of a disease) 'every one of eight thousand deeds would have to pass under this hand. My clerks could do it in a night and a day, if they did nothing else.' He lowers the bell. 'Nobody has asked them to.'".
   }
 
   // ── The Terraces ──────────────────────────────────────────────────────────────────────────────────────────────────
   Person marrable "Ysbel Marrable" at marrable_room {
-    Role "Councillor for the Eel Moiety, a veteran with one sleeve pinned up". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns she. Manner stoic.
+    Role "who sits for the Eel Moiety on the Board, a veteran with one sleeve pinned up". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns she. Manner stoic.
   }
   Topic marrable_vote with marrable "Ask Councillor Marrable how the vote will go" when not voted(ossel) once {
     Says "'Badly,' says Marrable. 'Eight chairs. Mine is yes. Old Lisle has buried two sons in Hethra; he's yes, if he's awake. Salt is Sault's and Sault says no, there's no money, which is true. Rope is Dauntry and Dauntry votes the way Sault tells him. Greaves and Vantage are the furniture and will not give an inch of their land. Paper is Haverick, who cares about nothing but his goose, and Ship is Orme, who will vote for whatever he thinks will be paid for.' She counts on one hand, which takes no time. 'I need five. I have two.'".

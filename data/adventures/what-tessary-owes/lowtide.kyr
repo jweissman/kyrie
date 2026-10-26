@@ -109,12 +109,12 @@ Module tessary "What Tessary Owes" {
     Speaker slake. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(slake, site) and able(slake)
       and not tolerates(slake, actor) and not hostile(slake, actor) and quantity(actor, gold) >= 5.
-    On success { Decrease quantity(actor, gold) by 5. Increase quantity(slake, gold) by 5. Assert tolerates(slake, actor). Assert tolerates(runners, actor). }
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(slake, gold) by 5. Assert tolerates(slake, actor). Assert tolerates(runners, actor). Assert slakeLetsPass(actor). }
     Result "Bettany weighs the coins in her palm, and bites one, and pockets them. 'Quay's yours,' she says. 'Don't touch the crates.'".
   }
   Topic slake_factor with slake "Tell Bettany Slake you work for the Factor" when hiredBySault(actor) and not tolerates(slake, actor) once {
     Says "'Do you,' says Bettany. She looks you up and down. 'She said she'd hired someone to go asking. All right. Mind yourself on the quay.' She sits back down on her crate.".
-    On discuss { Assert tolerates(slake, actor). Assert tolerates(runners, actor). }
+    On discuss { Assert tolerates(slake, actor). Assert tolerates(runners, actor). Assert slakeLetsPass(actor). }
   }
   Thing runners_box "the ebb-runners' lockbox" at landing {
     Holds.
@@ -128,7 +128,7 @@ Module tessary "What Tessary Owes" {
     described "A letter folded small and sealed with salt-white wax, stamped with a pair of crossed rakes.".
   Initially Assert owns(sault, sault_letter).
   // What is seen taken, by those who keep the quay.
-  Rule box_watched when state(runners_box, open) and perceives(slake, party) and not tolerates(slake, party) and not hostile(slake, party)
+  Rule box_watched when state(runners_box, open) and perceives(slake, party) and able(slake) and not hostile(slake, party)
     says "'Oi,' says Bettany Slake, and her cutlass comes out." { Assert hostile(slake, party). Assert assails(runners, party). }
   Discovery sault_bid "Factor Sault has written to a broker of the Scruples offering to bid for the War Note at its foreclosure, and to pledge her own house to the Balance as surety: 'The Board will not pay. When the Feast passes, I will take up the note, and with it the Muster, and Tessary will be governed by someone who can count.'".
   Action read_letter(actor: group, site: place) "Break the wax and read the Factor's letter" {
@@ -144,8 +144,21 @@ Module tessary "What Tessary Owes" {
   Person plum "Mistress Plum" at landing {
     Role "a large white goose in a crate, very much offended". Species goose_kind. Peaceable. Pronouns she.
   }
-  Initially Assert acceptsEscort(plum, party).
-  Observe plum_crate near plum when at(plum, landing) "In a crate by the brazier a big white goose is hissing steadily at the ebb-runners, who are ignoring it. A ribbon round its neck says PLUM in gold thread.".
+  Observe plum_crate near plum when at(plum, landing) and not plumLoose(ossel) "In a crate by the brazier a big white goose is hissing steadily at the ebb-runners, who are ignoring it. A ribbon round its neck says PLUM in gold thread.".
+  Relation plumLoose(place). Measure distractedUntil(place).
+  Action release_plum(actor: group, site: place) "Knock the peg out of the goose's crate" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, landing) and at(plum, landing) and not plumLoose(ossel).
+    On success { Assert plumLoose(ossel). Assert acceptsEscort(plum, actor). Assert unseen(actor, slake). Assert unseen(actor, runners).
+      Assert tolerates(slake, actor). Assert tolerates(runners, actor). Retract assails(slake, actor). Retract assails(runners, actor).
+      Set distractedUntil(ossel) to watch(clock) + 3. }
+    Result "The peg comes out and the crate door falls open and Mistress Plum comes out of it like a cannonball, wings out, neck out, screaming, and goes straight for the nearest ebb-runner's ankles. In a moment the whole quay is chasing a goose round the brazier and the goose is winning. Nobody is looking at you at all.".
+  }
+  Rule distraction_ends when plumLoose(ossel) and watch(clock) >= distractedUntil(ossel) and unseen(party, slake) {
+    Retract unseen(party, slake). Retract unseen(party, runners). }
+  Rule distraction_over when plumLoose(ossel) and watch(clock) >= distractedUntil(ossel) and tolerates(slake, party) and not slakeLetsPass(party) and not hostile(slake, party) {
+    Retract tolerates(slake, party). Retract tolerates(runners, party). }
+  Observe plum_loose near plum when plumLoose(ossel) and not following(plum, party) and not plumHome(ossel) "Mistress Plum stands on a bollard with her wings half open, daring anyone to try it.".
 
   // ── The Forsworn ──────────────────────────────────────────────────────────────────────────────────────────────────
   // Aenean oath-breakers whose bindings unravelled when they broke a promise the Balance held. What is left of them

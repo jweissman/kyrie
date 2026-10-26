@@ -238,7 +238,7 @@ Module tessary "What Tessary Owes" {
 
   // Haverick's goose, home.
   Person haverick "Lucius Haverick" at terraces {
-    Role "Councillor for the Paper Moiety, distraught". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Role "who sits for the Paper Moiety on the Board, distraught". Ancestry human. Peaceable. Pronouns he. Manner jovial.
   }
   Topic haverick_goose with haverick "Ask Councillor Haverick what the matter is" when not plumHome(ossel) once {
     Says "'Plum,' says Councillor Haverick. 'Mistress Plum. A goose, sir, a white goose of the old Paper strain, the last of her line. Taken off my lawn on the night of the Muster's homecoming, by persons. I have posted a reward. I have posted three.' He wipes his eyes. 'People think it absurd. A goose. I have no children, sir. I have a goose.'".
@@ -282,6 +282,14 @@ Module tessary "What Tessary Owes" {
     Says "'The Seal,' says Durrance. 'Of course. She'll not let a vote stop her.' She is already on her feet. 'Six of the Third, inside the Office, round the Keeper's table. They can sleep in the morning. They've slept in worse.'".
     On discuss { Assert sealGuarded(ossel). }
   }
+  Topic fisk_guard_seal with fisk "Ask Fisk to get some of the lads round the Office of Seals tonight" when votePassed(ossel) and fiskTurned(fisk) and not sealGuarded(ossel) and not sealTried(ossel) once {
+    Says "'The Seal,' says Fisk, and laughs. 'That's where she'll go, isn't it. Course it is. Eight thousand deeds and not one of them worth the paper without it.' He is already pulling on his old coat, the red one. 'I know every lad she's paying. I'll have the ones she isn't in the Keeper's room by dark, and the ones she is can come and try it.'".
+    On discuss { Assert sealGuarded(ossel). }
+  }
+  Topic marrable_guard_seal with marrable "Ask Councillor Marrable to put a guard on the Seal tonight" when votePassed(ossel) and not marrableHurt(ossel) and not sealGuarded(ossel) and not sealTried(ossel) and (knows(actor, sault_bid) or knows(actor, riot_known) or knows(actor, marrable_beaten)) once {
+    Says "Marrable looks at you for a moment, and then at her one hand. 'She'll go for it tonight,' she says. 'Of course she will.' She stands. 'The Eel Moiety has boatmen who have never once in their lives done what the Watch told them. I'll have six of them in the Keeper's room by dark, with oars.'".
+    On discuss { Assert sealGuarded(ossel). }
+  }
   Rule seal_raid when votePassed(ossel) and night(ossel) == 13 and hour(clock) == 23 and not sealTried(ossel) and able(lightermen) and at(lightermen, ?p) {
     Assert sealTried(ossel). Retract at(lightermen, ?p). Assert at(lightermen, seals_inner). }
   Rule seal_raid_met at seals_inner when sealTried(ossel) and at(lightermen, seals_inner) and at(party, seals_inner) and not assails(lightermen, party) and able(lightermen) and not sealStolen(ossel)
@@ -292,7 +300,7 @@ Module tessary "What Tessary Owes" {
     Assert sealStolen(ossel). Retract at(great_seal, seals_inner). Assert inside(great_seal, sault_strongbox).
     Retract at(lightermen, seals_inner). Assert at(lightermen, warehouse_floor). }
   Rule seal_kept when sealTried(ossel) and at(lightermen, seals_inner) and hour(clock) == 0 and sealGuarded(ossel) and not at(party, seals_inner)
-    says "In the night three lightermen broke into the Office of Seals and found six soldiers of the Third round the Keeper's table, and left faster than they came." {
+    says "In the night three lightermen broke into the Office of Seals and found the Keeper's room full of people who had been waiting up for them, and left faster than they came." {
     Retract at(lightermen, seals_inner). Assert at(lightermen, warehouse_floor). }
   Rule seal_stolen_told when sealStolen(ossel) and not knows(party, seal_gone)
     says "The Office of Seals does not open in the morning. The Keeper is sitting on the step in his nightshirt with his head in his hands: the Great Seal was taken in the night, and without it not one deed of the Settlement can be sealed." teaches seal_gone { }
@@ -320,6 +328,14 @@ Module tessary "What Tessary Owes" {
   Rule deeds_casket at seals_inner when deedsSealed(ossel) and not knows(party, deeds_for_held)
     says "On the Keeper's table, apart from the rest, stands a cedar casket. 'The deeds of the ones who are not here,' says Deckle. 'The Settlement says every hand. I cannot put these into a hand.' He looks at you. 'I am told that somebody may know where those hands are.'" teaches deeds_for_held { }
   Initially Assert lends(deckle, held_deeds, party).
+  Action take_deeds(actor: group, recipient: member, site: place) "Take the casket of the held's deeds from the Keeper" {
+    Speaker deckle. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(deckle, site) and knows(actor, deeds_for_held)
+      and memberOf(recipient, actor) and awake(recipient) and at(held_deeds, site).
+    Resolve acquire(held_deeds, deeds_kind, recipient).
+    On success { Retract at(held_deeds, site). }
+    Result "Deckle puts the casket in your arms. It is heavier than paper should be. 'Every hand,' he says. 'That is what it says. Every hand.'".
+  }
   Rule deeds_word when deedsSealed(ossel) and not knows(party, deeds_word_known) and not at(party, seals_inner)
     says "A boy from the Office of Seals finds you: the Keeper asks for you. There is a casket of deeds that nobody in Tessary can deliver." teaches deeds_word_known { }
   Discovery deeds_word_known "The Keeper of the Seal has a casket of deeds for the held, and asks for you.".
