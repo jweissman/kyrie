@@ -23,10 +23,20 @@ did, to burn the tally of what he had been stealing. Wat did not drive the cart 
 the reins, and Wat took them back, lifted the boy in and drove for the bone-setter, and told the riders he was
 driving. And the riders did not find the fell road by chance: a letter told them, in the reeve's son's hand.
 
+Over all of it is a legend the whole city half believes. Before there was a bridge, Saint Wade kept the ford and
+carried people over on his back for nothing; on the third night after the great flood he carried a drowned child
+to be buried, and at the deep place the child grew heavy as all the dead of the vale, and Wade went to his chin and
+did not set him down. The dead who are not carried over by the third night go looking for someone who will. The
+Bridge Company's motto is WE BEAR THE CROSSING. Wat Pardoe sang the carters' hymn to Wade on the road to the rope.
+
 ## Acts
 
 The acts are the city's, not the company's; each happens whether or not anyone intervenes (`captain.kyr`,
 `fire.kyr`, `night.kyr`, `day.kyr`).
+
+Each dawn now turns a page (THE SECOND DAY, THE THIRD DAY, THE THIRD NIGHT, THE FOURTH MORNING), with weather that
+walks down the vale with the captain: heat and crows, thunder in the fells, the storm at the curfew bell on the third
+night, a washed fourth morning.
 
 1. **The first day and night.** Arrival; the decree; the confession broadside on every post; Corbin's strike; Jennet's
    shut door; Dorcas and Corbin's quarrel at eight. The first vigil at the Pardoe house, if anyone sits it.
@@ -102,6 +112,8 @@ ones are marked; their significance is personal, comic or practical, not the dea
 | 11 | **Corbin and Dorcas** (comic romance) | romance | Two kind lies, one to each (deception); persuade Corbin to ask (hard); dig the graves yourself; have the Abbess order him (he resigns) | Each will help only if the other asks first; a lie that fails closes that door | They meet at eight, and the graves are dug, and the boat will come under the rail at two | The boat; banns at the end of the week; Dorcas's holed penny |
 | 12 | **Ham Ostler's Beasts** (practical) | practical | Go with the drive on night 2; ask about the toll | The ford is real, and by night it can drown you | The ford learned | A crossing nobody watches; a drover who speaks for the city to the captain |
 | 13 | **The Butcher's Cart** (comic) | comic | Kemp's word (a homecomer, or the butcher who won the hide); the boy's silence bought | The boy, bribed but not his father's, talks | The dead over the bridge under the Shambles' leavings, or found at the chain | The cart route to Earth on Him; a scandal |
+| 15 | **The Bargeman** | danger | Read the ford; be told it; Ham's herd; Dorcas's boat; the cart; the bridge; bread on the water; or go at it | It lies across the way, and a lone carrier who fights it dies | Passed, fed, or killed (and the eel-men mourn it) | A crossing for whoever brought Maudie's bread, and the legend's deep place made real |
+| 16 | **Maudie's Bread** | intimate | Ask her for it (a homecomer, or a stranger she trusts) | It is Pardoe bread, and Jennet will not have it until she trusts you | Sent up to the riders at dusk; refused, then held, by Jennet; thrown to the Bargeman | The riders look away while you cut the dead down; Jennet's trust; the river |
 | 14 | **Kit's Night** | danger | Talk him down (trust); argue (persuasion, hard); turn him to sinking the new board (knowing the schedule); join him; tell the reeve; stand in the counting-house door at the last moment | Gault is waiting in the dark with two riders | Kit taken; Kit stood down; the board in the river twice in a week; the counting-house burned | Rebellion or not, at the verdict; Kit's fate |
 | M | **The Night of the Rising** | mystery | The oil flask in the ash; Win's shirt; Pinch's room (lockwork) and day-book; the cart in the Guildhall yard; the farrier; Kit under the arches; Gault's letter; Hal on the starling | Each answer is someone you care about or despise | Pinch cornered or exposed; Kit's confession; Hal's | The captain told "a riot, and a thief" with proof; Jennet told; Gidley's bargain made possible; Hal to his father |
 | C | **The Captain** | negotiation | Walk at her stirrup (persuasion); the truth about the fire at supper; a funeral, not a rising; a drover's word; her own question answered (as kin, as a stranger, or by sending her to the yards) | The Company offers her a live ringleader | Her view of the city, counted | At three, she does not hang Maudie for the decree; the verdict |

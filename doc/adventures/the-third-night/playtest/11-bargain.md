@@ -68,7 +68,7 @@ Northgate: the yards, the stables, the carters standing in the gateways.
 
 **› To the carters' yards** · *Day 1, 9:11 a.m.*
 
-The carters’ yards behind Northgate: wagons up on blocks, wheels stacked against the walls, a forge with the farrier at it. The young carters sit on a dray in the middle of the yard with nothing to do, talking low, and stop when anyone comes in. Three wagon-places along the wall stand empty, swept: where Pardoe’s, Fenner’s and Wilder’s carts stood. The carts are in the Guildhall yard, impounded. Here are Kit Pardoe, your brother; Jos Farrant, the Northgate farrier, leather-aproned; and the young carters, half a dozen carters’ sons, sitting on a dray.
+The carters’ yards behind Northgate: wagons up on blocks, wheels stacked against the walls, a forge with the farrier at it. The young carters sit on a dray in the middle of the yard with nothing to do, talking low, and stop when anyone comes in. Three wagon-places along the wall stand empty, swept: where Pardoe’s, Fenner’s and Wilder’s carts stood. The carts are in the Guildhall yard, impounded. Kit’s hands on the grease-brush are scrubbed raw, but there is black in the creases of the knuckles that will not come out. Grease, or something else. Here are Kit Pardoe, your brother; Jos Farrant, the Northgate farrier, leather-aproned; and the young carters, half a dozen carters’ sons, sitting on a dray.
 
 **› Talk to Jos Farrant** · *Day 1, 9:11 a.m.*
 
@@ -102,7 +102,7 @@ The Wharf runs along the river west of the bridge: warehouses with hoists, barge
 
 **› To the bank under the first arches** · *Day 1, 9:38 a.m.*
 
-The bank under the bridge’s first arch: a strip of mud and stones where the city’s boys fish and its drunks sleep, and the great pier going up out of the water beside you into the shadow, green to a man’s height and red stone above. High overhead, the gatehouse parapet. Out from the bank, under the brown water, you can just make out a line of big squared stones going across: the old ford. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. The Wray runs deep and brown over where the old ford was. Nobody wades it while the mills are grinding.
+The bank under the bridge’s first arch: a strip of mud and stones where the city’s boys fish and its drunks sleep, and the great pier going up out of the water beside you into the shadow, green to a man’s height and red stone above. High overhead, the gatehouse parapet. Out from the bank, under the brown water, you can just make out a line of big squared stones going across: the old ford. The Wray runs deep and brown over where the old ford was. Nobody wades it while the mills are grinding.
 
 **… (waiting, to Day 1, 9:28 p.m.)**
 
@@ -160,12 +160,16 @@ The purse is heavy. Gidley sends a boy running for the reeve’s men, and pours 
 
 **… (waiting, to Day 4, 9:05 a.m.)**
 
+> THE SECOND DAY. The heat comes up off the river before the sun is over the fells, and by seven the Market smells of dung and hot stone and, when the wind is from the bridge, of something sweeter underneath that nobody mentions. The crows have found the rail. Somewhere upstream Dunch's mill-wheels are turning; the whole city can hear them when the bell stops.
 > At two the Bench rises. The Remonstrance goes to the lord with one clause added at the end, which the clerk read in and nobody opposed: that the dead remain upon the rail until the Company's loss in the riot shall have been reckoned by the lord's captain, the Company's claims being thereby secured. The reeve, it is said, read it in his court with his face like a shut door.
+> THE THIRD DAY. Thunder in the fells before light, a long way off, like carts going over a bridge. The air is thick and yellow and the swallows are flying low over the water. The dogs of Wrayford will not settle. It is the third day; everybody knows it is the third day, and nobody says so.
 > At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south.
 > At dusk the captain rides in over the drawbridge with her riders behind her, and does not look up at the gatehouse as she passes under it, and goes to the Guildhall, where the Bench has laid supper.
 > Word comes out of the Guildhall supper: the Company, having given the lord's justice a live ringleader, has asked the captain's mercy for the dead, as a kindness to the city, and she has granted it, with a look at Alderman Gidley that goes on a little too long. The three come down from the rail by torchlight and are carried over the bridge to Wade's Acre, to wait for morning.
 > In Wade's Acre old Corbin has taken his coat off and is cutting turf by the church door, and the sound of the spade carries over the water.
 > In Wade's Acre, in the afternoon, the three are buried by the church door, with Wrayford standing round the wall and on the wall and on the roofs of the tan-yards. The Abbess says the office herself.
+> THE THIRD NIGHT. The storm comes over the bridge at the curfew bell, and the rain with it, straight down, on the empty rail and on the Acre, where the new turf is darkening by the church door. In Northgate people stand in their doorways and let it rain on them, for no reason they can give.
+> THE FOURTH MORNING. Everything is washed: the stones of the Market shine, the river is high and brown and full of sticks, and the air smells of nothing at all for the first time in a week. The captain's riders are saddling in the Bridge End. At nine, the Guildhall.
 > The captain takes Kit Pardoe south with her at noon, tied to a rider's saddle, for the lord's justice at Harbury, which is a rope. The Company, as it promised, asks the captain's mercy for the dead, justice having been done, and she grants it with a look at Alderman Gidley that he will not forget, and the three are buried that afternoon in Wade's Acre. Maudie Pardoe stands at the graveside and does not look at you once. You have forty crowns. The Company prints a ballad of the son who let his father die for him, at a penny, and it sells well.
 
 *(the story ends)*

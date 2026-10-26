@@ -68,7 +68,7 @@ burying ground on the south. There are five ways over, and each belongs to someo
 |---|---|---|---|
 | **The bridge**, through the gatehouse arch and over the drawbridge | The lord's, farmed by the Company | 6am to 10pm; the drawbridge is up at night | A farthing a day at the chain while Pinch keeps the booth (taken as a penny, the three farthings owed until Michaelmas); and carrying the dead through it is the felony the decree names, unless a ruling or a claim makes it lawful |
 | **Dorcas Mudd's ferry**, ferry-stage to the south stair | Dorcas's, by a charter older than the bridge | 6am to 10pm; at night only if she has agreed, or for whoever carries her holed penny | A penny; and Dorcas will carry the dead only when Corbin asks her, which he will not |
-| **The old ford**, under the first arch to the tan-yards | Nobody's: forgotten | 1am to 5am, while the mills pen the river | A deep step halfway that a woodsman can hear, a drover's cow knows, a vigil or Ham Ostler can tell you of, and anyone else may fall into (a dexterity save, or a beating from the river) |
+| **The old ford**, under the first arch to the tan-yards, by **Wade's Step** in the middle | Nobody's: forgotten; the night ford exists because Alderman Dunch's mills at Wrayholme pen the river to fill their ponds | 1am to 5am | The Step, where the saint stumbled, and the **Bargeman** in it: an old pike that lies across the way and kills a lone carrier who goes at it. A woodsman reads the way round along the pier's foot; Ham's old cow knows it; anyone told it can follow it; bread thrown on the water, as the old drovers did, lets you by; and whoever is on the Step when the sluices open is washed back to the bank |
 | **The offal cart**, Shambles to tan-yards | The Liberty's, by ancient privilege | 7am and 3pm, toll-free and never looked into | Kemp's word (given to a homecomer, or to whoever gave him the hide) or his boy's silence, which three coin buys and does not keep |
 | **The south road** | The lord's | Any time | The way out; the way the captain comes in |
 
@@ -109,6 +109,16 @@ The city keeps hours whether or not the company is there, and most of what can b
 A world-placed Wrayford keeps the same hours by the world's clock, counting its days from the dawns after the company
 arrived. A company that comes down the drove road at night has a first "day" that is only an evening; the verdict
 comes correspondingly later in the world's reckoning, and is still on the fourth morning.
+
+## The city's past
+
+Places carry what happened in them. Ten small stones stand by the north wall of Wade's Acre, one date and no names:
+the **Michaelmas Burning** thirty-one years ago, when Captain Ralf Sefton hanged ten from the drawbridge chains and
+fired Water Lane. One lane of Overbridge is all raw brick of a single year. The Nine Wheels' ceiling is nine
+cart-wheels, one for every carter the fell road has killed. The bridge chapel's painting of Saint Wade is old and
+grim; the church's is the Company's repainting, smiling. The south road's milestone says HARBURY XII; the fell road
+goes up past the shielings to the drop at Scar Top. None of it is needed to finish the adventure, and all of it is
+there to be asked about.
 
 ## What the place does to the problem
 

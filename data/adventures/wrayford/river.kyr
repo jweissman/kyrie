@@ -18,14 +18,14 @@ Module wrayford "The Third Night" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, under_arches) and lowWater() and capable(actor, woodcraft).
     Time 3.
     On success { Retract at(actor, under_arches). Assert at(actor, tanyards). Assert knows(actor, ford_way). }
-    Result "You go slowly, listening: where the water chatters over stone it is a foot deep, and where it goes smooth and quiet it is not. Halfway, it goes quiet in front of you, and you go up along the foot of the pier instead, with the cold to your thighs, and come out on the far side among the tan-pits with the stink of the yards in your nose and the city behind you.".
+    Result "You go slowly, listening: where the water chatters over stone it is a foot deep, and where it goes smooth and quiet it is not. Halfway, it goes quiet in front of you: Wade's Step, black and smooth, and something long turning in it, slowly, as you pass. You go up along the foot of the pier instead, with the cold to your thighs, and come out on the far side among the tan-pits with the stink of the yards in your nose and the city behind you.".
   }
   Action follow_ford(actor: group, site: place) "Cross the ford upstream of the deep step, as you were told" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, under_arches) and lowWater() and knows(actor, ford_way)
       and not capable(actor, woodcraft).
     Time 3.
     On success { Retract at(actor, under_arches). Assert at(actor, tanyards). }
-    Result "You find the stones with your feet, one after another, and when the water goes deep and quiet in front of you, you remember, and go up along the pier's foot instead, and come out among the tan-pits on the far side wet to the waist.".
+    Result "You find the stones with your feet, one after another, and when the water goes deep and quiet in front of you, you remember, and do not look at what moves in it, and go up along the pier's foot instead, and come out among the tan-pits on the far side wet to the waist.".
   }
   Action follow_ford_back(actor: group, site: place) "Cross the ford back to the city, upstream of the deep step" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, tanyards) and lowWater() and (knows(actor, ford_way) or capable(actor, woodcraft)).
@@ -45,7 +45,7 @@ Module wrayford "The Third Night" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, under_arches) and hamDriving(ham) and at(ham, under_arches).
     Time 3.
     On success { Retract at(actor, under_arches). Assert at(actor, tanyards). Assert knows(actor, ford_way). Assert hamGrateful(actor). }
-    Result "The old cow goes in first, and the rest after her, and you go in among them with your hand on a warm wet flank. She knows the way: halfway, where the water goes deep and quiet, she turns upstream along the foot of the pier without being asked, and the herd turns after her like one animal. You come out among the tan-pits on the far side in a steam of cattle, and Ham Ostler laughs in the dark. 'Five shillings,' he says. 'Five shillings the Company'll not have. I'll stand you a drink at Michaelmas.'".
+    Result "The old cow goes in first, and the rest after her, and you go in among them with your hand on a warm wet flank. She knows the way: halfway, where the water goes deep and quiet at Wade's Step and something under it rolls like a log, she turns upstream along the foot of the pier without being asked, and the herd turns after her like one animal. You come out among the tan-pits on the far side in a steam of cattle, and Ham Ostler laughs in the dark. 'Five shillings,' he says. 'Five shillings the Company'll not have. I'll stand you a drink at Michaelmas.'".
   }
 
   // ── Dorcas Mudd ───────────────────────────────────────────────────────────────────────────────────────────────────

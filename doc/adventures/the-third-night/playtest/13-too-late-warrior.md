@@ -40,7 +40,7 @@ The Market Cross: the Guildhall clock, the blue counting-house, the sheets on ev
 
 **› To the Bridge End, under the gatehouse** · *Day 1, 9:07 a.m.*
 
-The brindled dog under the gatehouse lifts his eyes to you, and not his head. Under the gatehouse wall, directly below the rail, a brindled dog lies with his chin on his paws, as close to the wall as he can get, and does not move when people step over him. The road comes out of the Market into the shadow of the gatehouse, a square tower of red stone over the bridge’s first arch, with the lord’s arms over the arch and the lord’s chain across it, new, the links still bright. Beside the arch, where a house stood, a heap of black timbers. In front of the chain, a booth of planks with a board nailed up beside it, very freshly painted. And up on the tower’s river side, along the parapet of the leads, three shapes in sacking hang against the sky on short ropes, and turn a little when the wind comes up the river, and turn back. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; Annis Pye, a pie-seller at the Bridge End, with a tray on a strap; and Alderman Prosper Gidley, the Master of the Worshipful Company of the Bridge, in a blue gown.
+The brindled dog under the gatehouse lifts his eyes to you, and not his head. Under the gatehouse wall, directly below the rail, a brindled dog lies with his chin on his paws, as close to the wall as he can get, and does not move when people step over him. The road comes out of the Market into the shadow of the gatehouse, a square tower of red stone over the bridge’s first arch, with the lord’s arms over the arch and the lord’s chain across it, new, the links still bright. Beside the arch, where a house stood, a heap of black timbers. In front of the chain, a booth of planks with a board nailed up beside it, very freshly painted. And up on the tower’s river side, along the parapet of the leads, three shapes in sacking hang against the sky on short ropes, and turn a little when the wind comes up the river, and turn back. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. A paper is nailed to the gate-ward’s door in the tower, in a clerk’s round hand with the reeve’s seal at the foot. Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse. Pinch’s tally lies open on the ledge of the booth: a column of entries in ink, very neat, and beside every few lines, so faint you would not see it unless the sun were on the page, a small mark in pencil, like a tick against a sum he is keeping somewhere else. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; Annis Pye, a pie-seller at the Bridge End, with a tray on a strap; and Alderman Prosper Gidley, the Master of the Worshipful Company of the Bridge, in a blue gown.
 
 **› Read the reeve's decree on the gatehouse door** · *Day 1, 9:12 a.m.*
 
@@ -52,7 +52,7 @@ Gault looks down at you over the parapet for a while. Then he comes down and unl
 
 **› Talk to Sergeant Gault** · *Day 1, 9:14 a.m.*
 
-Sergeant Gault looks at you over the brazier the way a dog looks at another dog, without much interest either way.
+Sergeant Gault looks at you the way a dog looks at another dog, without much interest either way.
 
 **› Ask Gault how he knew which road they'd take** · *Day 1, 9:14 a.m.*
 
@@ -64,7 +64,7 @@ Sergeant Gault lifts a hand, once.
 
 **› Go back down the stair with the sergeant** · *Day 1, 9:16 a.m.*
 
-Gault walks you down and locks the door behind you. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; Annis Pye, a pie-seller at the Bridge End, with a tray on a strap; and Alderman Prosper Gidley, the Master of the Worshipful Company of the Bridge, in a blue gown. Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. Annis Pye is selling pies, with her back to the gatehouse.
+Gault walks you down and locks the door behind you. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. Pinch’s tally lies open on the ledge of the booth: a column of entries in ink, very neat, and beside every few lines, so faint you would not see it unless the sun were on the page, a small mark in pencil, like a tick against a sum he is keeping somewhere else. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; Annis Pye, a pie-seller at the Bridge End, with a tray on a strap; and Alderman Prosper Gidley, the Master of the Worshipful Company of the Bridge, in a blue gown. Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. Annis Pye is selling pies, with her back to the gatehouse.
 
 ## evening
 
@@ -78,13 +78,13 @@ Northgate: the yards, the stables, the carters standing in the gateways.
 
 **› Into the Nine Wheels** · *Day 1, 9:32 a.m.*
 
-The carters’ inn: a long low room with nine cart-wheels nailed to the beams for a ceiling, smoke, a fire with a kettle, benches worn into the shape of carters. Over the settle by the fire someone has hung a black ribbon on a nail, and under it nobody sits. Pell Saxby, who keeps the Nine Wheels, is here.
+The carters’ inn: a long low room, smoke, a fire with a kettle, benches worn into the shape of carters. Nailed to the beams overhead for a ceiling are nine cart-wheels, one for every carter the fell road has killed since the inn was built, the oldest black with a century of smoke and the newest with its paint still showing. Over the settle by the fire someone has hung a black ribbon on a nail, and under it nobody sits. Pell Saxby, who keeps the Nine Wheels, is here.
 
 **… (waiting, to Day 1, 7:12 p.m.)**
 
 **› Sit down with Sergeant Gault and buy his third jug** · *Day 1, 8:12 p.m.*
 
-He looks at you and the jug and says, ‘Suit yourself.’ He drinks. He talks about horses, and a woman in Harbury, and the cold on the fell road at four in the morning, and how carters are all the same, and in the end, looking into the jug, how he has hanged eleven men in nineteen years and these were the first who went quiet. ‘The big one sang,’ he says. ‘On the road. Some hymn. Till the rope.’
+He looks at you and the jug and says, ‘Suit yourself.’ He drinks. He talks about horses, and a woman in Harbury, and the cold on the fell road at four in the morning, and how carters are all the same, and in the end, looking into the jug, how he has hanged eleven men in nineteen years and these were the first who went quiet. ‘The big one sang,’ he says. ‘On the road. Some hymn. Carry me over, something, carry me over.’ He looks into the jug. ‘Till the rope.’
 
 **› Talk to Sergeant Gault** · *Day 1, 8:12 p.m.*
 
@@ -112,11 +112,11 @@ Bramble is still under the wall below the rail. The Bridge End, under the gateho
 
 **› To Bridge Street, on the arches** · *Day 1, 8:29 p.m.*
 
-Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Annis Pye, a pie-seller at the Bridge End, with a tray on a strap, is here.
+Bridge Street runs out over the river on the arches, three storeys of shops leaning toward each other across a lane so narrow the upper floors nearly meet: a glover, a cook-shop, a seller of spectacles, a seller of Saint Wade’s badges, a tooth-drawer. Between the houses you see the river below through gaps, going by brown and fast. Halfway along, a chapel is built into the middle pier, and beyond it the drawbridge, and beyond that Overbridge and its church. The first house past the gatehouse is the toll-keeper’s, narrow, with a shut door. Its shutters are closed in the middle of the day. On a tray outside the badge-seller’s, tin Saint Wades at a farthing each: a stooping man up to his knees in tin water, with a child on his shoulders. ‘Carry me over,’ says the badge-seller to nobody, the way a fishwife says ‘fresh’. The drawbridge is down. The toll-keeper’s door is shut. Knock, and a woman’s voice inside says, ‘Go away,’ without anger, the way you would say it to the rain. Annis Pye, a pie-seller at the Bridge End, with a tray on a strap, is here.
 
 **› Into Saint Wade's chapel on the bridge** · *Day 1, 8:30 p.m.*
 
-A small chapel of grey stone built into the pier, so that the river is loud through the floor. A painted Saint Wade carries a child across a painted river over the altar, looking worried. Candles. A trapdoor in the floor, propped open, with a ladder going down into the dark and the noise of water.
+A small chapel of grey stone built into the pier, so that the river is loud through the floor. Candles. A trapdoor in the floor, propped open, with a ladder going down into the dark and the noise of water. Over the altar, the old painting: Saint Wade up to his chest in a black river, bent nearly double under a grey child, looking down at his own feet, where the painter has made the riverbed darker in one place than anywhere else. Under it, scratched into the plaster by many hands at many times, the same three words: CARRY ME OVER.
 
 **› Into the starling steps** · *Day 1, 8:32 p.m.*
 
@@ -126,11 +126,12 @@ The starling: a ledge of stone round the foot of the middle pier where it breaks
 
 **… (waiting, to Day 2, 3:02 p.m.)**
 
+> THE SECOND DAY. The heat comes up off the river before the sun is over the fells, and by seven the Market smells of dung and hot stone and, when the wind is from the bridge, of something sweeter underneath that nobody mentions. The crows have found the rail. Somewhere upstream Dunch's mill-wheels are turning; the whole city can hear them when the bell stops.
 > At two the Bench rises. The Remonstrance goes to the lord with one clause added at the end, which the clerk read in and nobody opposed: that the dead remain upon the rail until the Company's loss in the riot shall have been reckoned by the lord's captain, the Company's claims being thereby secured. The reeve, it is said, read it in his court with his face like a shut door.
 
 **› Out to the bridge chapel** · *Day 2, 3:04 p.m.*
 
-A small chapel of grey stone built into the pier, so that the river is loud through the floor. A painted Saint Wade carries a child across a painted river over the altar, looking worried. Candles. A trapdoor in the floor, propped open, with a ladder going down into the dark and the noise of water.
+A small chapel of grey stone built into the pier, so that the river is loud through the floor. Candles. A trapdoor in the floor, propped open, with a ladder going down into the dark and the noise of water. Over the altar, the old painting: Saint Wade up to his chest in a black river, bent nearly double under a grey child, looking down at his own feet, where the painter has made the riverbed darker in one place than anywhere else. Under it, scratched into the plaster by many hands at many times, the same three words: CARRY ME OVER.
 
 **› Out to Bridge Street, on the arches** · *Day 2, 3:05 p.m.*
 
@@ -138,7 +139,7 @@ At the chain Amos Pinch takes your farthing. There being no farthings left in Wr
 
 **› To the Bridge End, under the gatehouse** · *Day 2, 3:06 p.m.*
 
-Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. Annis Pye is selling pies, with her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap.
+Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. Annis Pye is selling pies, with her back to the gatehouse. Pinch’s tally lies open on the ledge of the booth: a column of entries in ink, very neat, and beside every few lines, so faint you would not see it unless the sun were on the page, a small mark in pencil, like a tick against a sum he is keeping somewhere else. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap. Crows on the coping above the three, shifting from foot to foot. Every so often a rider on the leads throws something at them, and they go up, and come down again. Downwind of the gatehouse the air is sweet and wrong, and people who have to pass breathe through their sleeves.
 
 **› To the Market Cross** · *Day 2, 3:11 p.m.*
 
@@ -166,7 +167,7 @@ The Market Cross: the Guildhall clock, the blue counting-house, the sheets on ev
 
 **› To the Bridge End, under the gatehouse** · *Day 2, 3:18 p.m.*
 
-Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. Annis Pye is selling pies, with her back to the gatehouse. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap.
+Bramble is still under the wall below the rail. The Bridge End, under the gatehouse: the bright chain, the booth and its board, the black heap of the toll-house, and up on the leads the three in their sacking. A few people stand about at the Bridge End looking up, the way people stop to look at a fire, and then go on. Annis Pye is selling pies, with her back to the gatehouse. Crows on the coping above the three, shifting from foot to foot. Every so often a rider on the leads throws something at them, and they go up, and come down again. Downwind of the gatehouse the air is sweet and wrong, and people who have to pass breathe through their sleeves. Pinch’s tally lies open on the ledge of the booth: a column of entries in ink, very neat, and beside every few lines, so faint you would not see it unless the sun were on the page, a small mark in pencil, like a tick against a sum he is keeping somewhere else. The gate-ward’s door into the tower is shut and locked. Here are Bramble, a carter’s dog, brindled, grey in the muzzle; Amos Pinch, the Bridge Company’s collector, in a new black coat; and Annis Pye, a pie-seller at the Bridge End, with a tray on a strap.
 
 **› To Bridge Street, on the arches** · *Day 2, 3:19 p.m.*
 
@@ -174,7 +175,7 @@ Bridge Street on the arches: the leaning shops, the gaps with the river in them,
 
 **› Into Saint Wade's chapel on the bridge** · *Day 2, 3:20 p.m.*
 
-A small chapel of grey stone built into the pier, so that the river is loud through the floor. A painted Saint Wade carries a child across a painted river over the altar, looking worried. Candles. A trapdoor in the floor, propped open, with a ladder going down into the dark and the noise of water.
+A small chapel of grey stone built into the pier, so that the river is loud through the floor. Candles. A trapdoor in the floor, propped open, with a ladder going down into the dark and the noise of water. Over the altar, the old painting: Saint Wade up to his chest in a black river, bent nearly double under a grey child, looking down at his own feet, where the painter has made the riverbed darker in one place than anywhere else. Under it, scratched into the plaster by many hands at many times, the same three words: CARRY ME OVER.
 
 **› Into the starling steps** · *Day 2, 3:22 p.m.*
 
@@ -185,6 +186,7 @@ The starling: a ledge of stone round the foot of the middle pier where it breaks
 **… (waiting, to Day 3, 6:02 p.m.)**
 
 > Word comes before dawn, the way it comes in a city, from nowhere: the young carters went for the Company's counting-house at midnight with lamp-oil, and Sergeant Gault was waiting in the dark for them, and the fire was out before it was lit, and Kit Pardoe and two others are in the Guildhall cellar.
+> THE THIRD DAY. Thunder in the fells before light, a long way off, like carts going over a bridge. The air is thick and yellow and the swallows are flying low over the water. The dogs of Wrayford will not settle. It is the third day; everybody knows it is the third day, and nobody says so.
 > At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south.
 
 **› Talk to Hal Hulme** · *Day 3, 6:02 p.m.*
@@ -208,8 +210,11 @@ He nods, slowly, as if you had told him the time. ‘Yes.’ He gets up. ‘Toni
 **… (waiting, to Day 4, 9:02 a.m.)**
 
 > At dusk the captain rides in over the drawbridge with her riders behind her, and does not look up at the gatehouse as she passes under it, and goes to the Guildhall, where the Bench has laid supper.
+> THE THIRD NIGHT. The storm that has been walking down the vale all day comes over the bridge at the curfew bell: one crack of thunder overhead like a beam breaking, and then the rain, straight down, loud on the leads and the Market and the river. In Northgate the doors are shut that are never shut. Under the gatehouse the dog begins to howl and does not stop.
+> Word goes along the Wharf in the rain, from door to door, the way it does: the eel-men on the night barges say they heard someone wading at Wade's Step, out where nobody could be, and singing, low, the carters' hymn. Nobody goes to look.
 > Word runs through Northgate in the small hours, door to door: Maudie Pardoe went up to the gatehouse with her bread knife for the cords, and the captain's riders took her at the gate-ward's door, and she is in the Guildhall cellar, and the captain has been woken.
 > In the small hours Simon Hulme comes down the Cartway to the Bridge End alone, without a lantern, with a knife in his hand, to cut his cousin's husband down from the rail against the captain's word and answer for it. He is a quarter of an hour behind Maudie Pardoe. He stands under the gatehouse arch and looks at the empty step where the riders took her, and the riders look down at him from the leads, and nobody says anything at all.
+> THE FOURTH MORNING. Everything is washed: the stones of the Market shine, the river is high and brown and full of sticks, and the air smells of nothing at all for the first time in a week. The captain's riders are saddling in the Bridge End. At nine, the Guildhall.
 > The captain hangs Maudie Pardoe from the gatehouse rail at nine in the morning, beside her husband, under the reeve's own decree, which is on the door in his son's best hand. Simon Hulme stands below with his hat in his hands and his knife still in his coat, where it was when he came down the Cartway a quarter of an hour behind her. He resigns that afternoon. In a week he is gone from Wrayford, nobody knows where. The three are taken down at noon and buried with her in Wade's Acre, four graves by the church door, and old Corbin digs them, and says nothing at all, and the reeve's house on the Hill stands empty, and nobody in the city will buy it.
 > Kit Pardoe goes south with the captain, tied to a rider's saddle, for the lord's justice at Harbury. He looks back once, at the bridge.
 > Hal Hulme, it is said, told his father what he did on the night of the rising, before supper, and his father sat with his head in his hands until dawn, and in the morning went to his court as usual.

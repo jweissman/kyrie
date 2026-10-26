@@ -105,6 +105,32 @@ describe('The Third Night: Maudie\'s bread', () => {
   }, 240000);
 });
 
+describe('The Third Night: Maudie under the rail, and the weight at the Step', () => {
+  it('on the second morning Maudie stands under her husband with a loaf, three yards from Gidley weeping, looking at the door', async () => {
+    const g = await Wrayford.start();
+    await g.play('=146', 'To Northgate', 'To the Market Cross', 'Bridge End', '=151');
+    expect(g.at('maudie')).toBe(w('gate_road'));
+    expect(g.page).toMatch(/does not see her/);
+    await g.play('Stand with Maudie Pardoe under the rail');
+    expect(g.measure('temper', 'wray')).toBe(1);
+    expect(g.page).toMatch(/Tomorrow night, then/);
+    await g.until(160);
+    expect(g.at('maudie')).toBe(w('pardoe_kitchen'));
+  }, 240000);
+
+  it('carrying Wat over the ford, halfway, the weight changes; and, freed by your taking his place, Kit sits by the grave', async () => {
+    const g = await Wrayford.start(build('continuing'));
+    await g.fixture('night-ford', 'day1', 'night1', 'dawn');
+    expect(g.page).toMatch(/the weight on your back changes/);
+    await g.until(160);
+    await g.play('Into Saint Wade', 'To Overbridge Street', 'To Bridge Street', 'To the Bridge End', 'To the Market Cross', 'Into the Guildhall', 'not Kit');
+    await g.until(492);
+    await g.play('Into Saint Wade\'s', 'Out to Wade\'s Acre');
+    expect(g.holds('kitTaken', 'kit')).toBe(false);
+    expect(g.page).toMatch(/Kit Pardoe is sitting with his back to the stone/);
+  }, 240000);
+});
+
 describe('The Third Night: carrying, once the way is known', () => {
   it('the second and third men are carried over in one choice each, and still before the river rises', async () => {
     const g = await Wrayford.start(home);

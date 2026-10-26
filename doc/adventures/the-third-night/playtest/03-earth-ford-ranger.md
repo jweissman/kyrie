@@ -10,11 +10,11 @@ You set out from the drove road early, with your shadow long in front of you on 
 
 **› Into the Nine Wheels** · *Day 1, 8:31 a.m.*
 
-The carters’ inn: a long low room with nine cart-wheels nailed to the beams for a ceiling, smoke, a fire with a kettle, benches worn into the shape of carters. Over the settle by the fire someone has hung a black ribbon on a nail, and under it nobody sits. Pell Saxby, who keeps the Nine Wheels, is here.
+The carters’ inn: a long low room, smoke, a fire with a kettle, benches worn into the shape of carters. Nailed to the beams overhead for a ceiling are nine cart-wheels, one for every carter the fell road has killed since the inn was built, the oldest black with a century of smoke and the newest with its paint still showing. Over the settle by the fire someone has hung a black ribbon on a nail, and under it nobody sits. Pell Saxby, who keeps the Nine Wheels, is here.
 
 **› Talk to Pell Saxby** · *Day 1, 8:31 a.m.*
 
-Pell Saxby wipes her hands on her apron and looks you over. ‘Bed, beer or bread,’ she says. ‘Or trouble, but we’re full up of that.’
+Pell Saxby wipes her hands on her apron and looks you over. ‘Bed, beer or bread,’ she says, and then, because she is honest: ‘The bread’s Maudie Pardoe’s. She’s sent us forty loaves since Tuesday. I can’t sell it and I can’t stop her.’
 
 **› Buy › A coil of rope** · *Day 1, 8:34 a.m.*
 
@@ -22,7 +22,7 @@ Joan pays Pell Saxby, and takes a coil of rope.
 
 **› Take your leave** · *Day 1, 8:34 a.m.*
 
-‘Off you go, then,’ says Pell Saxby, ‘and don’t do anything I’d be ashamed to hear about. Or do, and tell me.’
+‘Look after yourself,’ says Pell Saxby. ‘I mean it.’
 
 ## night1
 
@@ -46,7 +46,7 @@ The Wharf at night: barge-lamps on the black water, and the noise of the river t
 
 **› To the bank under the first arches** · *Day 2, 12:27 a.m.*
 
-Under the first arch at night the river is loud and close and black, and the pier goes up into the dark. High above, the red glow of the riders’ brazier on the gatehouse leads. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. The Wray runs deep and brown over where the old ford was. Nobody wades it while the mills are grinding.
+Under the first arch at night the river is loud and close and black, and the pier goes up into the dark. High above, the red glow of the riders’ brazier on the gatehouse leads. The Wray runs deep and brown over where the old ford was. Nobody wades it while the mills are grinding.
 
 **… (waiting, to Day 2, 1:17 a.m.)**
 
@@ -64,7 +64,7 @@ A loop under each one’s arms, and the rope over the coping, and down, slowly, 
 
 **› To the bank under the first arches** · *Day 2, 2:07 a.m.*
 
-It is a long time since you slept. You are weary, and will fight the worse for it until you sleep. The mills have the river penned, and the Wray under the first arch has dropped and quietened. Across from the bank, a line of square stones stands just under the water, pale in the dark, going over toward the tan-yards on the far side. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Dunstan Fenner lies wrapped in his sacking, his mended boots showing. Joss Wilder lies wrapped in his sacking. He was not very old.
+It is a long time since you slept. You are weary, and will fight the worse for it until you sleep. The mills have the river penned, and the Wray under the first arch has dropped and quietened. Across from the bank, a line of square stones stands just under the water, pale in the dark, going over toward the tan-yards on the far side. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Dunstan Fenner lies wrapped in his sacking, his mended boots showing. Joss Wilder lies wrapped in his sacking. He was not very old.
 
 **› Have Joan take up Wat Pardoe** · *Day 2, 2:08 a.m.*
 
@@ -72,7 +72,7 @@ Joan gets Wat Pardoe up over one shoulder, and stands, and finds the weight.
 
 **› Read the ford by the sound of the water, and cross upstream of the deep step** · *Day 2, 2:38 a.m.*
 
-You go slowly, listening: where the water chatters over stone it is a foot deep, and where it goes smooth and quiet it is not. Halfway, it goes quiet in front of you, and you go up along the foot of the pier instead, with the cold to your thighs, and come out on the far side among the tan-pits with the stink of the yards in your nose and the city behind you. Joan gains 200 experience: crossed the old ford. The tan-yards at night: the pits black, the hides on their frames like people standing. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Barnaby Crouch, a tanner, stained to the elbow, is here.
+You go slowly, listening: where the water chatters over stone it is a foot deep, and where it goes smooth and quiet it is not. Halfway, it goes quiet in front of you: Wade’s Step, black and smooth, and something long turning in it, slowly, as you pass. You go up along the foot of the pier instead, with the cold to your thighs, and come out on the far side among the tan-pits with the stink of the yards in your nose and the city behind you. Joan gains 200 experience: crossed the old ford. The tan-yards at night: the pits black, the hides on their frames like people standing. The far stones are on the other side of the Step, and of what lies in it across the way. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing.
 
 **› To Overbridge Street** · *Day 2, 2:48 a.m.*
 
@@ -80,7 +80,7 @@ Overbridge at night: the Ferry Inn lit and loud, and every other door shut. The 
 
 **› Into Saint Wade's** · *Day 2, 2:50 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
+Saint Wade’s: a low, old, whitewashed church, cold even in this heat, smelling of damp stone and tallow. Every pew has a carved wheel on its end, for the carters, and on the oldest pews the wheels have been touched smooth. The saint over the chancel arch is newer than the church: the Company paid to have him repainted in the year the bridge was opened, and he is up to his ankles in a blue stream, smiling, with a rosy child sitting up on his shoulders like a lord at a fair. Wat Pardoe lies wrapped in his sacking, a big man, his boots showing. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
 
 **› Out to Wade's Acre** · *Day 2, 2:52 a.m.*
 
@@ -100,11 +100,11 @@ Overbridge at night: the Ferry Inn lit and loud, and every other door shut. The 
 
 **› To the tan-yards** · *Day 2, 3:00 a.m.*
 
-The tan-yards at night: the pits black, the hides on their frames like people standing. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. Barnaby Crouch, a tanner, stained to the elbow, is here.
+The tan-yards at night: the pits black, the hides on their frames like people standing. The far stones are on the other side of the Step, and of what lies in it across the way.
 
 **› Cross the ford back to the city, upstream of the deep step** · *Day 2, 3:30 a.m.*
 
-Back over the stones in the dark, up along the pier’s foot past the gap, and out under the first arch. The mills have the river penned, and the Wray under the first arch has dropped and quietened. Across from the bank, a line of square stones stands just under the water, pale in the dark, going over toward the tan-yards on the far side. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. Dunstan Fenner lies wrapped in his sacking, his mended boots showing. Joss Wilder lies wrapped in his sacking. He was not very old.
+Back over the stones in the dark, up along the pier’s foot past the gap, and out under the first arch. The mills have the river penned, and the Wray under the first arch has dropped and quietened. Across from the bank, a line of square stones stands just under the water, pale in the dark, going over toward the tan-yards on the far side. Dunstan Fenner lies wrapped in his sacking, his mended boots showing. Joss Wilder lies wrapped in his sacking. He was not very old.
 
 **› Have Joan take up Dunstan Fenner** · *Day 2, 3:31 a.m.*
 
@@ -112,7 +112,7 @@ Joan gets Dunstan Fenner up over one shoulder, and stands, and finds the weight.
 
 **› Read the ford by the sound of the water, and cross upstream of the deep step** · *Day 2, 4:01 a.m.*
 
-You go slowly, listening: where the water chatters over stone it is a foot deep, and where it goes smooth and quiet it is not. Halfway, it goes quiet in front of you, and you go up along the foot of the pier instead, with the cold to your thighs, and come out on the far side among the tan-pits with the stink of the yards in your nose and the city behind you. The tan-yards at night: the pits black, the hides on their frames like people standing. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. Dunstan Fenner lies wrapped in his sacking, his mended boots showing. Barnaby Crouch, a tanner, stained to the elbow, is here.
+You go slowly, listening: where the water chatters over stone it is a foot deep, and where it goes smooth and quiet it is not. Halfway, it goes quiet in front of you: Wade’s Step, black and smooth, and something long turning in it, slowly, as you pass. You go up along the foot of the pier instead, with the cold to your thighs, and come out on the far side among the tan-pits with the stink of the yards in your nose and the city behind you. The tan-yards at night: the pits black, the hides on their frames like people standing. The far stones are on the other side of the Step, and of what lies in it across the way. Dunstan Fenner lies wrapped in his sacking, his mended boots showing.
 
 **› To Overbridge Street** · *Day 2, 4:11 a.m.*
 
@@ -140,11 +140,11 @@ Overbridge at night: the Ferry Inn lit and loud, and every other door shut. The 
 
 **› To the tan-yards** · *Day 2, 4:23 a.m.*
 
-The tan-yards at night: the pits black, the hides on their frames like people standing. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. Barnaby Crouch, a tanner, stained to the elbow, is here.
+The tan-yards at night: the pits black, the hides on their frames like people standing. The far stones are on the other side of the Step, and of what lies in it across the way.
 
 **› Cross the ford back to the city, upstream of the deep step** · *Day 2, 4:53 a.m.*
 
-Back over the stones in the dark, up along the pier’s foot past the gap, and out under the first arch. The mills have the river penned, and the Wray under the first arch has dropped and quietened. Across from the bank, a line of square stones stands just under the water, pale in the dark, going over toward the tan-yards on the far side. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. Joss Wilder lies wrapped in his sacking. He was not very old.
+Back over the stones in the dark, up along the pier’s foot past the gap, and out under the first arch. The mills have the river penned, and the Wray under the first arch has dropped and quietened. Across from the bank, a line of square stones stands just under the water, pale in the dark, going over toward the tan-yards on the far side. Joss Wilder lies wrapped in his sacking. He was not very old.
 
 **› Have Joan take up Joss Wilder** · *Day 2, 4:54 a.m.*
 
@@ -152,7 +152,7 @@ Joan gets Joss Wilder up over one shoulder, and stands, and finds the weight.
 
 **› Read the ford by the sound of the water, and cross upstream of the deep step** · *Day 2, 5:24 a.m.*
 
-You go slowly, listening: where the water chatters over stone it is a foot deep, and where it goes smooth and quiet it is not. Halfway, it goes quiet in front of you, and you go up along the foot of the pier instead, with the cold to your thighs, and come out on the far side among the tan-pits with the stink of the yards in your nose and the city behind you. In Wade’s Acre old Corbin has taken his coat off and is cutting turf by the church door, and the sound of the spade carries over the water. The tan-yards at night: the pits black, the hides on their frames like people standing. Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast. The Wray runs deep and brown over where the old ford was. Nobody wades it while the mills are grinding. Joss Wilder lies wrapped in his sacking. He was not very old. Barnaby Crouch, a tanner, stained to the elbow, is here.
+You go slowly, listening: where the water chatters over stone it is a foot deep, and where it goes smooth and quiet it is not. Halfway, it goes quiet in front of you: Wade’s Step, black and smooth, and something long turning in it, slowly, as you pass. You go up along the foot of the pier instead, with the cold to your thighs, and come out on the far side among the tan-pits with the stink of the yards in your nose and the city behind you. In Wade’s Acre old Corbin has taken his coat off and is cutting turf by the church door, and the sound of the spade carries over the water. The tan-yards at night: the pits black, the hides on their frames like people standing. The far stones are on the other side of the Step, and of what lies in it across the way. Joss Wilder lies wrapped in his sacking. He was not very old.
 
 **› To Overbridge Street** · *Day 2, 5:34 a.m.*
 
@@ -174,6 +174,8 @@ Joan sets Joss Wilder down, carefully.
 
 **… (waiting, to Day 2, 6:29 a.m.)**
 
+> THE SECOND DAY. The heat comes up off the river before the sun is over the fells, and by seven the Market smells of dung and hot stone and, when the wind is from the bridge, of something sweeter underneath that nobody mentions. The crows have found the rail. Somewhere upstream Dunch's mill-wheels are turning; the whole city can hear them when the bell stops.
+
 **› Lay Wat Pardoe in the earth, and fill the grave** · *Day 2, 6:59 a.m.*
 
 You lay Wat Pardoe in the grave by the church door, in his sacking, and fill it in, and tread it down, and lay the turf back. There is no stone. There will be.
@@ -190,9 +192,12 @@ You lay Joss Wilder in the grave by the church door, in his sacking, and fill it
 
 **… (waiting, to Day 4, 9:09 a.m.)**
 
+> THE THIRD DAY. Thunder in the fells before light, a long way off, like carts going over a bridge. The air is thick and yellow and the swallows are flying low over the water. The dogs of Wrayford will not settle. It is the third day; everybody knows it is the third day, and nobody says so.
 > At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south.
 > At dusk the captain rides in over the drawbridge with her riders behind her, and does not look up at the gatehouse as she passes under it, and goes to the Guildhall, where the Bench has laid supper.
-> When the captain comes up the south road there is nothing on the rail but three cut ropes, and in Wade's Acre there are three graves nobody will admit to digging. The reeve has his answer for her, because he had to have one. She takes it, and the toll money, and gives her verdict that Wrayford is in order, and goes. In Wain Row Maudie Pardoe bakes bread for three days and gives it all away. Nobody in the city ever says, out loud, who climbed the gatehouse in the small hours, and everybody knows.
+> THE THIRD NIGHT. The storm comes over the bridge at the curfew bell, and the rain with it, straight down, on the empty rail and on the Acre, where the new turf is darkening by the church door. In Northgate people stand in their doorways and let it rain on them, for no reason they can give.
+> THE FOURTH MORNING. Everything is washed: the stones of the Market shine, the river is high and brown and full of sticks, and the air smells of nothing at all for the first time in a week. The captain's riders are saddling in the Bridge End. At nine, the Guildhall.
+> When the captain comes up the south road there is nothing on the rail but three cut ropes, and in Wade's Acre there are three graves nobody will admit to digging. The reeve has his answer for her, because he had to have one. She takes it, and the toll money, and gives her verdict that Wrayford is in order, and goes. They were carried over, the old way, in the dark, by someone's back. In Wain Row Maudie Pardoe bakes bread for three days and gives it all away. Nobody in the city ever says, out loud, who climbed the gatehouse in the small hours, and everybody knows.
 > Kit Pardoe goes south with the captain, tied to a rider's saddle, for the lord's justice at Harbury. He looks back once, at the bridge.
 
 *(the story ends)*

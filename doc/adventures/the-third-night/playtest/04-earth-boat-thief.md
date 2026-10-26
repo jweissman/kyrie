@@ -70,15 +70,15 @@ The south ferry-stair: worn steps going down into the river, a post for tying up
 
 **› To Overbridge Street** · *Day 1, 9:26 a.m.*
 
-Overbridge Street comes off the drawbridge into another town: older, lower, poorer and louder, timber houses with their upper floors leaning on their neighbours, the tan-yards stinking at one end and the bear-garden roaring at the other, and in the middle Saint Wade’s, a squat old church with a tower, and the Abbess’s lodging behind a wall. A painted post at the bridge foot says THE LIBERTY OF SAINT WADE. The reeve’s writ ends here, and everybody walks a little differently. The drawbridge is down.
+Overbridge Street comes off the drawbridge into another town: older, lower, poorer and louder, timber houses with their upper floors leaning on their neighbours, the tan-yards stinking at one end and the bear-garden roaring at the other, and in the middle Saint Wade’s, a squat old church with a tower, and the Abbess’s lodging behind a wall. A painted post at the bridge foot says THE LIBERTY OF SAINT WADE. The reeve’s writ ends here, and everybody walks a little differently. One lane off Overbridge Street is all of a piece, raw brick, every house the same, built in one year: the Liberty calls it the New Row, though it is thirty years old, and nobody under forty knows why it was needed. The drawbridge is down.
 
 **› Into Saint Wade's** · *Day 1, 9:27 a.m.*
 
-Saint Wade’s: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters.
+Saint Wade’s: a low, old, whitewashed church, cold even in this heat, smelling of damp stone and tallow. Every pew has a carved wheel on its end, for the carters, and on the oldest pews the wheels have been touched smooth. The saint over the chancel arch is newer than the church: the Company paid to have him repainted in the year the bridge was opened, and he is up to his ankles in a blue stream, smiling, with a rosy child sitting up on his shoulders like a lord at a fair.
 
 **› Out to Wade's Acre** · *Day 1, 9:28 a.m.*
 
-Wade’s Acre: the burying ground of Wrayford since there was a Wrayford, between the church and the river, gravestones leaning every way like a crowd looking at something. By the church door, three graves’ worth of turf marked out with string and pegs, uncut. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
+Wade’s Acre: the burying ground of Wrayford since there was a Wrayford, between the church and the river, gravestones leaning every way like a crowd looking at something. By the north wall, apart from the rest, ten small stones in a row, all the same size, all with the same date and no names, and moss on all of them except where somebody keeps it scraped off the dates. By the church door, three graves’ worth of turf marked out with string and pegs, uncut. Corbin, the sexton of Saint Wade’s, old as his spade, is here.
 
 **› Talk to Corbin** · *Day 1, 9:28 a.m.*
 
@@ -263,6 +263,8 @@ Ash sets Joss Wilder down, carefully.
 
 **… (waiting, to Day 2, 6:26 a.m.)**
 
+> THE SECOND DAY. The heat comes up off the river before the sun is over the fells, and by seven the Market smells of dung and hot stone and, when the wind is from the bridge, of something sweeter underneath that nobody mentions. The crows have found the rail. Somewhere upstream Dunch's mill-wheels are turning; the whole city can hear them when the bell stops.
+
 **› Lay Wat Pardoe in the earth, and fill the grave** · *Day 2, 6:56 a.m.*
 
 You lay Wat Pardoe in the grave by the church door, in his sacking, and fill it in, and tread it down, and lay the turf back. There is no stone. There will be.
@@ -279,9 +281,12 @@ You lay Joss Wilder in the grave by the church door, in his sacking, and fill it
 
 **… (waiting, to Day 4, 9:06 a.m.)**
 
+> THE THIRD DAY. Thunder in the fells before light, a long way off, like carts going over a bridge. The air is thick and yellow and the swallows are flying low over the water. The dogs of Wrayford will not settle. It is the third day; everybody knows it is the third day, and nobody says so.
 > At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south.
 > At dusk the captain rides in over the drawbridge with her riders behind her, and does not look up at the gatehouse as she passes under it, and goes to the Guildhall, where the Bench has laid supper.
-> When the captain comes up the south road there is nothing on the rail but three cut ropes, and in Wade's Acre there are three graves nobody will admit to digging. The reeve has his answer for her, because he had to have one. She takes it, and the toll money, and gives her verdict that Wrayford is in order, and goes. In Wain Row Maudie Pardoe bakes bread for three days and gives it all away. Nobody in the city ever says, out loud, who climbed the gatehouse in the small hours, and everybody knows.
+> THE THIRD NIGHT. The storm comes over the bridge at the curfew bell, and the rain with it, straight down, on the empty rail and on the Acre, where the new turf is darkening by the church door. In Northgate people stand in their doorways and let it rain on them, for no reason they can give.
+> THE FOURTH MORNING. Everything is washed: the stones of the Market shine, the river is high and brown and full of sticks, and the air smells of nothing at all for the first time in a week. The captain's riders are saddling in the Bridge End. At nine, the Guildhall.
+> When the captain comes up the south road there is nothing on the rail but three cut ropes, and in Wade's Acre there are three graves nobody will admit to digging. The reeve has his answer for her, because he had to have one. She takes it, and the toll money, and gives her verdict that Wrayford is in order, and goes. They were carried over, the old way, in the dark, by someone's back. In Wain Row Maudie Pardoe bakes bread for three days and gives it all away. Nobody in the city ever says, out loud, who climbed the gatehouse in the small hours, and everybody knows.
 > Kit Pardoe goes south with the captain, tied to a rider's saddle, for the lord's justice at Harbury. He looks back once, at the bridge.
 > At the end of the week the banns are read at Saint Wade's for Corbin, sexton, of this parish, and Dorcas Mudd, ferry-woman, of the city, and the whole Liberty laughs, and so does the whole Wharf, and neither of them minds at all.
 > A boy from the Wharf finds you with something wrapped in a bit of sacking: a penny with a hole bored through it, on tarred twine. 'From Mistress Mudd,' he says. 'She says it's good for the ferry any hour, and she says don't thank her, and she says she means it.'

@@ -78,7 +78,7 @@ He takes the pipe out of his mouth. ‘Folk think it’s vengeance. It’s not v
 
 **› Ask Corbin about the ten stones by the north wall** · *Day 1, 9:22 a.m.*
 
-‘I dug them.’ He does not look round at the north wall. ‘I was nineteen and my father was sexton and he couldn’t, after the third. So I did the other seven. In the rain, it was, it rained all that week.’ He knocks his pipe out on the wall. ‘And then forty years of ordinary dead, which is the best work there is. Old women and drowned boys and babies.’ He looks at you. ‘That’s why I’ll not dig for show. I’ve dug for a captain once.’
+‘I dug them.’ He does not look round at the north wall. ‘I was thirty, and digging for my father ten years, and he was sexton still, and he couldn’t, after the third. So I did the other seven. In the rain, it was, it rained all that week.’ He knocks his pipe out on the wall. ‘And then forty years of ordinary dead, which is the best work there is. Old women and drowned boys and babies.’ He looks at you. ‘That’s why I’ll not dig for show. I’ve dug for a captain once.’
 
 **› Take your leave** · *Day 1, 9:22 a.m.*
 
@@ -132,7 +132,7 @@ Northgate: the yards, the stables, the carters standing in the gateways.
 
 **› Into the Nine Wheels** · *Day 1, 9:53 a.m.*
 
-The carters’ inn: a long low room with nine cart-wheels nailed to the beams for a ceiling, one for every carter the fell road has killed since the inn was built, the oldest black with a century of smoke and the newest with its paint still showing, smoke, a fire with a kettle, benches worn into the shape of carters. Over the settle by the fire someone has hung a black ribbon on a nail, and under it nobody sits. Pell Saxby, who keeps the Nine Wheels, is here.
+The carters’ inn: a long low room, smoke, a fire with a kettle, benches worn into the shape of carters. Nailed to the beams overhead for a ceiling are nine cart-wheels, one for every carter the fell road has killed since the inn was built, the oldest black with a century of smoke and the newest with its paint still showing. Over the settle by the fire someone has hung a black ribbon on a nail, and under it nobody sits. Pell Saxby, who keeps the Nine Wheels, is here.
 
 **… (waiting, to Day 1, 7:13 p.m.)**
 
@@ -146,7 +146,7 @@ Pell Saxby wipes her hands on her apron and looks you over. ‘Bed, beer or brea
 
 **› Take your leave** · *Day 1, 7:13 p.m.*
 
-‘Off you go, then,’ says Pell Saxby, ‘and don’t do anything I’d be ashamed to hear about. Or do, and tell me.’
+‘Look after yourself,’ says Pell Saxby. ‘I mean it.’
 
 **› Sit down with Sergeant Gault and buy his third jug** · *Day 1, 8:13 p.m.*
 
@@ -154,7 +154,7 @@ He looks at you and the jug and says, ‘Suit yourself.’ He drinks. He talks a
 
 **› Talk to Sergeant Gault** · *Day 1, 8:13 p.m.*
 
-Sergeant Gault looks at you over the brazier the way a dog looks at another dog, without much interest either way.
+Sergeant Gault looks at you the way a dog looks at another dog, without much interest either way.
 
 **› Ask Gault about the captain who is coming** · *Day 1, 8:13 p.m.*
 

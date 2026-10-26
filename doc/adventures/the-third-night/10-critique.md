@@ -1,5 +1,9 @@
 # The Third Night: a final critique, and what changed
 
+*Written after the first revision. A second, more severe literary reading, and the revision it led to, are in
+[`11-second-reading.md`](11-second-reading.md); several faults named below (Maudie's verbs, the stranger's lesser
+version, the tedium of carrying, the thin danger) were taken up there.*
+
 Deliverable 10, and the record of changes the commission asked for. Written after playing every route to its end and
 reading the transcripts, not before.
 

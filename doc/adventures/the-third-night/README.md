@@ -15,7 +15,8 @@ An independent author-builder commission, on branch `adventure/third-night`. The
   to the south march, and go down the drove road. The company is a stranger there; when the verdict is given the
   chapter closes and the world goes on.
 - **The tests**: `bun test test/the-third-night.test.ts test/the-third-night-small.test.ts
-  test/the-third-night-wander.test.ts` (longer walks: `WANDER_STEPS=300 WANDER_SEEDS=s1,s2,s3`).
+  test/the-third-night-legend.test.ts test/the-third-night-wander.test.ts` (longer walks:
+  `WANDER_STEPS=300 WANDER_SEEDS=s1,s2,s3`).
 
 ## The documents
 
@@ -29,9 +30,10 @@ An independent author-builder commission, on branch `adventure/third-night`. The
 | [`06-adventures.md`](06-adventures.md) | deliverables 3, 4, 5 | Synopsis, acts, people, the strategic conflict, the fourteen small adventures and how they connect, the eleven endings |
 | [`07-builds-and-rewards.md`](07-builds-and-rewards.md) | deliverables 6, 7 | The build matrix as played, and what is won |
 | [`08-playtest.md`](08-playtest.md) | deliverable 8 | The tests, the transcripts, the random walks, and what playing found |
-| [`playtest/`](playtest/) | deliverable 8 | Seventeen playthroughs, as the player saw them |
+| [`playtest/`](playtest/) | deliverable 8 | Twenty playthroughs, as the player saw them |
 | [`09-friction.md`](09-friction.md) | deliverable 9 | Authoring friction in Kyr, the engine, Deem and the interface |
 | [`10-critique.md`](10-critique.md) | deliverable 10, stage 6 | A final critique, and what changed from the design to the final |
+| [`11-second-reading.md`](11-second-reading.md) | second revision | A severer literary reading; the legend, the river, the past, the bread, the chapters; what is still wrong; where ten times the ambition would start |
 
 ## The module
 
@@ -53,6 +55,7 @@ An independent author-builder commission, on branch `adventure/third-night`. The
 | `fire.kyr` | Kit's night at the counting-house |
 | `day.kyr` | The Remonstrance; the reeve's cover; the two mothers |
 | `captain.kyr` | The captain, the third night's reeve and rising, the verdict |
+| `wade.kyr` | Saint Wade's legend and the hymn; the Michaelmas Burning; the days as chapters, weather and crows; the third night's uncanny; the Bargeman at Wade's Step; Maudie's bread and Maudie under the rail; the weight at the Step; carrying once the way is known |
 | `endings.kyr`, `aftermath.kyr`, `growth.kyr` | Eleven endings and the fates told with them; the city afterwards and the Bridge Feast; twenty-three milestones |
 
 Outside the module: an entry in `data/adventures/countries.json` (the placement), the campaign

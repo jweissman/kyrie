@@ -22,8 +22,8 @@ Deliverable 8. What was played, how, and what the playing found. Everything here
 
 ## The tests
 
-`bun test test/the-third-night.test.ts test/the-third-night-small.test.ts test/the-third-night-wander.test.ts`: 28
-journeys and six wanders, all passing; the whole repository suite passes with them.
+`bun test test/the-third-night.test.ts test/the-third-night-small.test.ts test/the-third-night-legend.test.ts
+test/the-third-night-wander.test.ts`: 40 journeys and six wanders, all passing; the whole repository suite passes with them.
 
 | Test | Build | What it shows |
 |---|---|---|
@@ -55,6 +55,18 @@ journeys and six wanders, all passing; the whole repository suite passes with th
 | The scholar | mage | Graves dug by day; the ford learned from Ham's herd on night 2; two of three over; the third found; The Third Man |
 | The portrait | warrior | Painted true while Gidley talked; hung; Gidley's tears carry the release |
 | The felon ruling | homecomer | The crowd angrier; no carcass ruling after; Pratt's argument closed; her price still open |
+| The legend and the past | homecomer | Wade in five tellings, the hymn, the Burning, the ten stones, the captain's father; she is asked about Water Lane |
+| The chapters | homecomer | THE SECOND DAY to THE FOURTH MORNING; something wades at the Step on the third night |
+| The Bargeman, alone | warrior | The way on blocked; bread offered; going at it, death |
+| The Bargeman, with bread | warrior | A loaf on the water; over the ford untaught |
+| The Bargeman, killed | seasoned company | Its body on the shingle; "My grandfather fed that fish" |
+| The Step floods | warrior | Washed back to the bank when the sluices open |
+| Bread to the riders | homecomer | Riders awake, backs to the parapet; the dead cut down unseen |
+| No bread | homecomer | The same climb at the same hour is seen |
+| Jennet's bread | homecomer | Refused before trust; held, still warm, after an hour by the bed |
+| Maudie under the rail | homecomer | The second morning, Gidley weeping beside her; "Tomorrow night, then" |
+| The weight at the Step; Kit at the grave | world-chapter homecomer | The weight changes halfway; Kit freed sits by the grave in the evening after the verdict |
+| Carrying the way you know | homecomer | The second and third carried in one choice each; Earth on Him |
 | Wandered ×6 | homecomer, thief, traveller | Coherence over random play, and a verdict at the end |
 
 ## Transcripts
@@ -80,6 +92,9 @@ In `playtest/`, each the page as the player saw it:
 | `15-left-alone.md` | The Third Night |
 | `16-liberty-locals.md` | The hide and the bear-ward's boy |
 | `17-kindnesses.md` | Win's chisels and Annis's ring |
+| `18-the-legend.md` | Saint Wade, the Michaelmas Burning and the hymn, told in pieces across the city |
+| `19-bread-and-the-bargeman.md` | Maudie's bread up to the riders at dusk; the dead cut down unseen; bread on the water at Wade's Step |
+| `20-earth-ford-carried.md` | Earth on Him by the ford, the second and third carried the way you know |
 
 ## What playing found
 
@@ -122,3 +137,13 @@ be, pinned by a test.
     in full on every pass; farewells did not fit their speakers ("has gone back to work" from a sergeant in a tavern).
 14. Ham's gratitude, Win's claim, the felon and pilgrim rulings, the portrait, and the cleric's "come back to me after"
     were each recorded and then never read. All now change what follows.
+
+**Found in the second revision** (see `11-second-reading.md`)
+15. The Bargeman as first built killed a lone warrior on arrival, before the bread could be thrown; it now lies
+    across the way and is fought only by choice.
+16. The shortened carrying was costed slower than the walk it replaced, so the river rose on the third trip.
+17. With bread bought, the leads still said the riders were awake and watching; they now sit with their backs to it.
+18. Gault greeted you "over the brazier" in a tavern; Corbin's ages did not add up against a burning thirty-one
+    years ago; the Nine Wheels' new sentence ran on; Pell's farewell was the printer's.
+19. Wider walks after the change (six seeds × three walkers × 300 steps) found nothing; the river, the creature and
+    the flood are coherent under random play.

@@ -29,6 +29,10 @@ Every row is a playthrough that runs in the tests (`test/the-third-night*.test.t
 | **Mage, archaeologist** (the "scholar") | digging, lore | The three graves dug by day; Ham's drive on night 2 to learn the ford; two carried before the river rose | None | The Third Man |
 | **Bard** | persuasion, lore | The hide to the tanner; the Abbess's claim; the tithe; the charity clause | None needed (the Bench rule is learned, not rolled) | The Liberty's Charity |
 | **A seasoned company of strangers** (warrior, cleric, thief, level 4) | arms | Kit's plan learned from the young carters; joining him; Gault and two riders beaten | A fight, won | The Fire (the counting-house burned; the day-book with it) |
+| **Warrior** (no woodcraft), wading untaught | arms | The ford at night, meeting the Bargeman across the way; going at it alone | A fight, lost | Death at the first bite: the one place a lone character can die, and only by choosing it |
+| The same, with Maudie's bread | — | A loaf thrown on the water at Wade's Step, as the old drovers did | None | Over the ford untaught |
+| **Ranger** (homecomer) | — | Maudie's bread sent up to the riders at dusk; the dead cut down at half past ten with the riders awake | None | Not seen |
+| **A seasoned company** | arms | Going at the Bargeman | A fight, won | The Bargeman dead, mourned by the eel-men |
 | **A traveller** (a stranger, warrior) and **a company from a generated world** | — | Entered by the drove road; Maudie talked to as a stranger; the four days waited out; walked back out to the march-stone | None | The Third Night (chapter closed; world goes on) |
 
 What the matrix shows:

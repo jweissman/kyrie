@@ -119,3 +119,50 @@ Two things from there:
   harness flattens all of this into one list; a test author sees forty "Give to" choices that a player does not.)
 - **The page leads with what changed, then repeats the place.** Good for a dungeon; heavy for a city crossed twenty
   times. See item 4.
+
+## Found during the second revision
+
+Reauthoring for depth rather than function (a legend told in pieces, a creature in the river, weather, chapters,
+an unconfirmed uncanny) met a different set of limits from the first pass. In order of cost:
+
+**12. A creature cannot be both deadly and avoidable without a workaround.** A species with the `ambush`
+temperament attacks on the tick the company arrives, before any other choice is offered: the first Bargeman killed
+a lone warrior in one bite before the bread could be thrown. Making it `Peaceable` stops the ambush, but a peaceable
+person cannot then be attacked from the menu. The Bargeman is therefore peaceable, blocks the way on through a
+passage's `opening when`, and has an authored "Go at the Bargeman" action that retracts `peaceable` and asserts
+`assails`. *Would remove it:* a temperament like `guards` (does not attack, cannot be passed, can be attacked), or
+an ambush that waits one choice.
+
+**13. A passage's closed text is one text for every reason it is closed.** The far ford-stones are closed when the
+river is up and when the Bargeman lies across them; the page can only say one thing. *Worked round* with text vague
+enough for both. *Would remove it:* `opening when P "…" or when Q "…"`, a text per failing clause.
+
+**14. There are no chapters.** The engine has no notion of an act or a turned page, so THE SECOND DAY is a dawn rule's
+`says`, arriving among other news during a wait, the same weight as "At two the Bench rises". *Would remove it:* a
+`Chapter "title" when P "text"` declaration that the page presents as a heading and the journal keeps.
+
+**15. Nothing can be said "after a while".** Kyr can test the hour, but not "the company has stood here for twenty
+minutes" without a measure of when it arrived and arithmetic against the clock, which is not something an author
+reaches for. A creature that strikes if you linger, a crowd that notices you standing under the rail too long, a
+door that opens if you wait: each wants it.
+
+**16. Gifts have no identity.** Maudie's bread is the party's rations plus a flag (`maudieBread`): the riders and
+Jennet are given "a loaf of Maudie Pardoe's bread" that is any ration. It works, but the bread is not a thing that
+can be seen in the pack, named, or carried by one member rather than another. Making it an item of a local kind
+would need one item per loaf and an action per gift.
+
+**17. Greetings and descriptions do not know where they are said.** Gault's greeting looked at you "over the
+brazier" in a tavern; a `Greets` line is one text everywhere. The same for a person's role in a presence line.
+
+**18. Things on passages show at both ends.** The deep step, declared `on ford`, was described on the bank under
+the arches as if it were there. A thing belongs to one room or to a passage seen from both; there is no "in the
+middle of a way". The fix was a new room, Wade's Step, which turned out to be the better design.
+
+**19. The test helper has to be told which names are shared.** `test/support/wrayford.ts` prefixes every name with
+the module's namespace except a hand-kept list (`at`, `knows`, `tolerates`, `able`, …); each new shared rule a test
+reads is an "Unknown predicate" until added.
+
+**20. The prose extractor is a regular expression.** To read the module as literature I pulled every quoted string
+from the Kyr with a pattern, which mislabels some (a rule's id beside the next declaration's text). A
+`bin/kyrie prose <module>` that prints each observation, topic, result and ending in source order, under its id,
+would make an editorial pass a reading, not an excavation.

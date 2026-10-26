@@ -100,3 +100,141 @@ it).
 7. **Trim the whimsy, vary the voices**: fewer quips, some people who are frightening or inarticulate or devout.
 8. **Foreshadow**: Pinch's pencil, Kit's hands, the hymn, the mills, the captain's father.
 9. **Shorten the carrying** once the way is known.
+
+## What the revision did
+
+All of it is in `data/adventures/wrayford/wade.kyr` and in edits to the existing scenes; it is tested in
+`test/the-third-night-legend.test.ts` and can be read in `playtest/18-the-legend.md`, `19-bread-and-the-bargeman.md`
+and `20-earth-ford-carried.md`, and in the regenerated transcripts 01–17.
+
+**The legend, as a spine.** Wade is now told in five places, each partial and each in its teller's voice: the
+bridge chapel's old painting (the saint up to his chest in a black river, bent under a grey child, looking down at
+the place where the painter made the riverbed darker, and CARRY ME OVER scratched into the plaster by many hands);
+the church's newer one, which the Company paid for in the year the bridge opened (ankle-deep in a blue stream,
+smiling, a rosy child sitting up on his shoulders like a lord at a fair); the badge-seller's tin saints, a farthing
+each; Corbin ("They go looking for a back… That's all the dead ever want of you, a back and a hole"); and the
+Abbess, who tells the whole life drily and points out that her predecessors objected to the Company's motto in
+writing, and framed the objection upside down. Gault, at his third jug, says the big one sang on the road to the
+rope, "carry me over, something"; Maudie, told, knows the hymn, and that Wat sang it to the homecomer as a child on
+the box in the dark over the drop at Scar Top. The two mothers' walk now ends with the whole bridge singing it,
+badly, in the heat. The endings answer the legend: in The Two Mothers the city carried them; in Earth on Him
+someone's back did, the old way; in The Lime nobody carried them, the cart did, which is not the same; in The Third
+Night the eel-men say that someone wades at Wade's Step ever after, singing, with something heavy on her back.
+
+**The river, as a danger.** The ford now has a middle, **Wade's Step**, and in it **the Bargeman**: a pike older
+than the bridge, as long as a ferry-boat, that "has taken more cargo off this river than the Company". It lies
+across the way to the far stones and does not move. A lone warrior who goes at it dies at the first bite; a
+seasoned company kills it, and the eel-men stand round its body on the shingle with their caps off ("My grandfather
+fed that fish," says Ham). The ways round it: read the ford (woodcraft), be told the way, walk over in Ham's herd
+(his old cow goes round the Step), Dorcas's boat, the offal cart, the bridge, or throw a loaf on the water the way
+the old drovers did, which is what Wat did the year of the big snow, and which Maudie's story and her bread tell
+you. Whoever is on the Step when the mills open their sluices is washed back to the bank. Every crossing by the
+known way now glimpses something long turning in the quiet water.
+
+**Bread against the ledgers.** Maudie can be asked for bread (a homecomer asks for it; a stranger she has come to
+trust may), and she gives it with the only rage she shows: "Give it to the riders, for all I care. Give it to Simon
+Hulme. Let them choke." And then: "No. Let them eat it." Sent up to the leads at dusk in the gate-ward's basket, it
+buys the one thing coin cannot: Gault looks down at the rail and says, loud, to nobody, that his lads will sleep
+sound tonight, and the riders sit with their backs to the parapet, eating it, and none of them looks round, so the
+dead can be cut down while they are awake. Offered to Jennet before she trusts you, it is refused ("Pardoe bread.
+Take it out of this room"); after an hour sat by the bed, she holds it in her lap and does not eat it and does not
+give it back: "It's still warm." Pell has forty loaves of it under the bar that she can neither sell nor refuse.
+Against it run the city's tallies: Pinch's pencil column (now visible on the booth from the first day, as a clue),
+Inchbold's minutes, Pratt's ledger, the captain's ten for every rider, the Nine Wheels' wheels.
+
+**A past.** The **Michaelmas Burning**: thirty-one years ago the city rose against the bridge-penny, and Captain
+Ralf Sefton hanged ten from the drawbridge chains and fired Water Lane, with some of the families still in it. The
+reeve was a clerk's boy of twelve at the Bridge End and counted them ("I was a clerk's boy, I counted everything…
+Three is not ten. And nobody is in Water Lane"). Corbin dug seven of the ten in the rain when his father could not
+go on. Ten small stones stand by the Acre's north wall with one date and no names; one lane of Overbridge is all
+raw brick of one year, and nobody under forty knows why. The captain who comes is Ralf Sefton's daughter, who held
+his horses; asked at supper whether she remembers Water Lane, she says "I held the horses… I had rather not have
+the same report", and it counts. In The Fire she watches the drawbridge chains used again from the place where she
+held them. And the Nine Wheels' ceiling is nine cart-wheels, one for every carter the fell road has killed; there
+has never been need of a wheel for hanging, and the carters have already asked for the nails.
+
+**The days as chapters.** Each dawn turns a page, in the voice of the place: THE SECOND DAY (the heat, the smell
+underneath that nobody mentions, the crows on the rail, Dunch's mill-wheels upstream); THE THIRD DAY (thunder in
+the fells like carts on a bridge, swallows low, the dogs unsettled); THE THIRD NIGHT (the storm at the curfew bell,
+rain on the leads, doors shut in Northgate that are never shut, the dog howling under the gatehouse), in another
+form if the dead are already down; THE FOURTH MORNING (everything washed, the river high and full of sticks).
+The crows grow bolder by day; by the third the sacking over the big man has been pinned back with a hay-fork, which
+is worse.
+
+**The uncanny, unconfirmed.** On the third night, if the three still hang: every candle in the bridge chapel is out
+though the door was shut; out at the Step the water sounds like someone wading slowly toward the bank with
+something heavy; on the Step you think someone says your name, and it is the river; on the Wharf the eel-men say
+they heard wading, and the carters' hymn, and nobody goes to look. The riders, when asked, are frightened: the big
+one turns on his rope every night to face the town, and there is no wind. Nothing is ever confirmed.
+
+**Voices.** The whimsy is cut (the "more depressed" bear, the choirboy stealing wafers, the kittens, the winking
+printer, "Prime chops"); Kemp now looks at you "for the weight". The riders speak coarsely and too loud. Pinch,
+cornered, says the one true thing about himself: a foundling of the Company's charity school, to whom the board was
+the first thing that ever told him what anything was, who could burn a house but not a book that balanced.
+
+**Carrying.** Once one body has been carried over by the ford and laid in the Acre, the next can be carried the
+way you know in one choice, and the carrier can go back for the next; the night is still the same night, and still
+only just long enough.
+
+## Is it playable and compelling as written?
+
+Playable: yes, by every route the tests walk, with forty-four journeys and six random walks green. Compelling: much
+more than before, and for one reason. The deadline used to be a custom; it is now a story the whole city half
+believes, which the player is asked, without anyone saying so, to complete. The best moments in the transcripts are
+now the ones where two threads meet without explanation: Gault's "carry me over, something" in a tavern, and the
+same words scratched under the chapel painting; the reeve's "nobody is in Water Lane" and the raw brick lane; the
+riders eating Pardoe bread with their backs to the rail.
+
+It is still not as compelling as it could be. The middle day sags for a player who does not know what to look
+for: the city is full of doors and nothing pulls you through them. The captain is still a tally with a few good
+lines. Maudie still waits at home while others act. And the module is more interesting to read than to play in
+the stretches where the player is walking between rooms.
+
+## What I am still not happy with
+
+- **The second day has no event of its own** until noon. A city's market day should have a crisis in it: a fight at
+  the chain, a broadside war, a drover's herd stuck on the bridge. Right now it has heat.
+- **Maudie is still too much at home.** The bread gives her a verb by proxy, and (added in this pass) she now
+  walks down on the second morning at the hour Gidley comes to weep, and stands under her husband with a loaf for
+  an hour, three yards from him, looking at the gate-ward's door "the way a carter looks at a gate he means to take
+  a load through"; the company may stand with her, and the crowd stays. It is one scene. She needs one more, on the
+  third evening, that the player can change.
+- **Kit's arc ends mostly offstage.** His fates are told in a line at the verdict; a company that stays now finds him
+  on the box of the red-wheeled cart, speaking to the horse, or at evening by his father's grave with his back to the
+  stone the way he sat on the ford-stone. The cellar scene is still missing.
+- **Hal's flight was never built**, and his public confession, which the design allowed, is not there either.
+- **The uncanny was only weather and rumour.** It now has one moment that happens to the player and not to anyone
+  else: the first time a body is carried over the ford, halfway, at the Step, the weight changes, "as if what you
+  carried were not one man but a great many, all of them very patient, all of them glad to be going over at last",
+  and then it is one man again, and you do not know, then or ever after, what happened. It is the legend, felt once,
+  and never explained.
+- **The chapter passages arrive during waits** and are easy to miss among other news. The engine has no notion of a
+  chapter, so a turning page reads like any other happening.
+
+## If I had to multiply the ambition by ten
+
+I would start with the river, because it is the one thing that runs through every part of the story and every
+part of the map, and then let everything else grow along it.
+
+1. **The vale, not the city.** The Wray from Wrayholme (Dunch's mills, the weir, the mill-ponds that make the night
+   ford) down to the salt marsh where the lime-pits are: a region of five places, each a different relation to the
+   same water. The fells above it, with the shielings, the drop at Scar Top and the bone-setter who was waiting for
+   Ned and never came down. Harbury, the lord's town twelve miles south, where Kit would be hanged and where the
+   lord's court and the Company's charter are kept.
+2. **The Burning, playable.** A prologue or a memory the company can enter (through Corbin, or the reeve, or the
+   ten stones): Michaelmas fair thirty-one years ago, the same bridge, the same chain, the same question, and the
+   player as nobody who matters, watching a twelve-year-old girl hold horses. Then the third night again, with that
+   knowledge, and the captain who was the girl.
+3. **The Bridge Feast as a fifth act.** Every ending already decides what the Feast becomes (no Feast, a refused
+   penny, Gidley weeping). Play it: the procession, the bridge penny, the Abbess, the Company's gowns, and whatever
+   the city does with its first day after.
+4. **The Company as an institution with a history.** Its charter (in Harbury), its founders who built the bridge
+   with the Liberty's stone, its charity school (where Pinch was made), its ledgers going back a hundred and forty
+   years. A second mystery that the first one points at: what the Company was before it was a toll.
+5. **Every carrier a story.** Wade's legend makes carrying the theme; at scale, each of the dozen people who could
+   carry the dead over (Dorcas, Ham's cow, Kemp's cart, Corbin, the riders, the city, the protagonist) would have
+   their own crossing and their own cost, and the third night would be a single long scene on the water in the
+   rain, cut between them.
+6. **A recurring custom.** The third night as a feast of the dead every year after, shaped by what the company did:
+   the year Maudie was hanged, nobody in Northgate goes out; the year of the two mothers, the city walks the bridge
+   with bread. A world that goes on should keep the anniversary.

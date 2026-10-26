@@ -10,7 +10,7 @@ You set out from the drove road early, with your shadow long in front of you on 
 
 **› To the carters' yards** · *Day 1, 8:35 a.m.*
 
-The carters’ yards behind Northgate: wagons up on blocks, wheels stacked against the walls, a forge with the farrier at it. The young carters sit on a dray in the middle of the yard with nothing to do, talking low, and stop when anyone comes in. Three wagon-places along the wall stand empty, swept: where Pardoe’s, Fenner’s and Wilder’s carts stood. The carts are in the Guildhall yard, impounded. Here are Kit Pardoe, a carter’s son, seventeen, with black under his nails; Jos Farrant, the Northgate farrier, leather-aproned; and the young carters, half a dozen carters’ sons, sitting on a dray.
+The carters’ yards behind Northgate: wagons up on blocks, wheels stacked against the walls, a forge with the farrier at it. The young carters sit on a dray in the middle of the yard with nothing to do, talking low, and stop when anyone comes in. Three wagon-places along the wall stand empty, swept: where Pardoe’s, Fenner’s and Wilder’s carts stood. The carts are in the Guildhall yard, impounded. Kit’s hands on the grease-brush are scrubbed raw, but there is black in the creases of the knuckles that will not come out. Grease, or something else. Here are Kit Pardoe, a carter’s son, seventeen, with black under his nails; Jos Farrant, the Northgate farrier, leather-aproned; and the young carters, half a dozen carters’ sons, sitting on a dray.
 
 **› Talk to the young carters** · *Day 1, 8:35 a.m.*
 
@@ -44,6 +44,7 @@ Kit Pardoe has gone back to work before you have turned round.
 
 **… (waiting, to Day 2, 10:45 p.m.)**
 
+> THE SECOND DAY. The heat comes up off the river before the sun is over the fells, and by seven the Market smells of dung and hot stone and, when the wind is from the bridge, of something sweeter underneath that nobody mentions. The crows have found the rail. Somewhere upstream Dunch's mill-wheels are turning; the whole city can hear them when the bell stops.
 > At two the Bench rises. The Remonstrance goes to the lord with one clause added at the end, which the clerk read in and nobody opposed: that the dead remain upon the rail until the Company's loss in the riot shall have been reckoned by the lord's captain, the Company's claims being thereby secured. The reeve, it is said, read it in his court with his face like a shut door.
 
 **› To Northgate** · *Day 2, 10:50 p.m.*
@@ -74,11 +75,15 @@ Ash hits Human 1. Human 1 takes 5 slashing damage (0 HP left). Human 1 falls. As
 
 **… (waiting, to Day 4, 9:01 a.m.)**
 
+> THE THIRD DAY. Thunder in the fells before light, a long way off, like carts going over a bridge. The air is thick and yellow and the swallows are flying low over the water. The dogs of Wrayford will not settle. It is the third day; everybody knows it is the third day, and nobody says so.
 > At noon a boy comes running over the drawbridge from Overbridge shouting that there are riders on the south road, a long way off, a dozen of them and a woman in grey, and the whole of the Bridge End turns to look south.
 > At dusk the captain rides in over the drawbridge with her riders behind her, and does not look up at the gatehouse as she passes under it, and goes to the Guildhall, where the Bench has laid supper.
+> THE THIRD NIGHT. The storm that has been walking down the vale all day comes over the bridge at the curfew bell: one crack of thunder overhead like a beam breaking, and then the rain, straight down, loud on the leads and the Market and the river. In Northgate the doors are shut that are never shut. Under the gatehouse the dog begins to howl and does not stop.
+> Word goes along the Wharf in the rain, from door to door, the way it does: the eel-men on the night barges say they heard someone wading at Wade's Step, out where nobody could be, and singing, low, the carters' hymn. Nobody goes to look.
 > Word runs through Northgate in the small hours, door to door: Maudie Pardoe went up to the gatehouse with her bread knife for the cords, and the captain's riders took her at the gate-ward's door, and she is in the Guildhall cellar, and the captain has been woken.
 > Before dawn the carters' yards empty. Kit Pardoe goes down the Cartway at the head of thirty men with cart-staves and torches, to the gatehouse where his mother was taken, and the captain's riders meet them at the Bridge End. By first light it is over, and Kit is in the Guildhall cellar with his arm broken, and two of the riders are being carried into the Bridge End inn.
-> The captain gives her verdict at nine in the Guildhall, and it takes one sentence. By noon the carters' row is burning, Wain Row and the yards behind it, and the captain's riders stand at the end of every lane to see that nobody puts it out. Ten men are hanged from the gatehouse rail beside the three, which is the lord's law for a rising, and the rail is not long enough, and they use the drawbridge chains. In the evening the riders go home down the south road with the toll money and the lord's thanks, and Wrayford stands in its own smoke and does not speak to itself for a generation. The Company rebuilds its counting-house in stone.
+> THE FOURTH MORNING. Everything is washed: the stones of the Market shine, the river is high and brown and full of sticks, and the air smells of nothing at all for the first time in a week. The captain's riders are saddling in the Bridge End. At nine, the Guildhall.
+> The captain gives her verdict at nine in the Guildhall, and it takes one sentence. By noon the carters' row is burning, Wain Row and the yards behind it, and the captain's riders stand at the end of every lane to see that nobody puts it out. Ten men are hanged from the gatehouse rail beside the three, which is the lord's law for a rising, and the rail is not long enough, and they use the drawbridge chains, as her father did at the Michaelmas fair, and she watches it done from the same place at the Bridge End where she held his horses. In the evening the riders go home down the south road with the toll money and the lord's thanks, and Wrayford stands in its own smoke and does not speak to itself for a generation. The Company rebuilds its counting-house in stone.
 > Kit Pardoe goes south with the captain, tied to a rider's saddle, for the lord's justice at Harbury. He looks back once, at the bridge.
 > Maudie Pardoe is the first of the ten. She goes up the gate-ward's stair on her own feet, and does not look for anyone in the crowd.
 

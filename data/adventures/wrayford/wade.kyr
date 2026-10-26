@@ -154,9 +154,39 @@ Module wrayford "The Third Night" {
   Topic pinch_why with pinch "Ask Pinch why he could not burn the book" when pinchCowed(pinch) once {
     Says "He is quiet so long you think he will not answer. 'Foundling,' he says. 'The Company's charity school, on the Hill. Bread and catechism and sums.' He is looking at the board. 'Nobody ever told me what I was. The board tells you what everything is. A cart is a penny. A beast is a penny.' His voice is very steady. 'The book balances. Both columns. The pencil too; I made it balance. It's the only thing I ever made that was exactly what it said it was.' He looks at you. 'I couldn't burn a true thing. I burned a house down to keep it, and a boy died in the press, and I couldn't burn a book.'".
   }
+  // The riders on the gate are from Harbury, and frightened of the thing they guard.
+  Topic riders_talk with riders "Ask the riders what they make of the duty" when not asleep(riders) once {
+    Says "'Make of it?' The youngest of them laughs, too loud. 'It stinks. That's what we make of it.' Another tells him to shut his mouth. He doesn't. 'Four days. We're from Harbury, we don't know these men from Adam, and every night the big one turns round on his rope to face the town. Every night. There's no wind.' The others are not laughing. 'Sergeant says it's the rope drying. Sergeant says a lot.' He looks along the parapet and away. 'They say here the dead go looking, on the third night.' Somebody throws a crust at him and he catches it and does not eat it.".
+  }
   // The tanner keeps his yard's hours.
   Rule crouch_home_night when (hour(clock) >= 22 or hour(clock) < 6) and at(crouch, tanyards) { Assert at(crouch, limbo). }
   Rule crouch_back when hour(clock) >= 6 and hour(clock) < 22 and at(crouch, limbo) { Assert at(crouch, tanyards). }
+
+  // ── Maudie under the rail ─────────────────────────────────────────────────────────────────────────────────────────
+  // On the second morning, at the hour Gidley comes to weep, Maudie Pardoe walks down to the Bridge End with a loaf
+  // and stands under her husband for an hour, and looks at the gate-ward's door the whole time.
+  Relation maudieAtRail(group). Relation stoodWithMaudie(group).
+  Rule maudie_to_rail when secondDay() and hour(clock) >= 9 and hour(clock) < 10 and stillHanging() and not maudieAtRail(maudie)
+    and at(maudie, pardoe_kitchen) and not mothersWalk(wray) { Assert maudieAtRail(maudie). Assert at(maudie, gate_road). }
+  Rule maudie_from_rail when maudieAtRail(maudie) and at(maudie, gate_road) and (hour(clock) >= 10 or not secondDay()) and not maudieGone(maudie) { Assert at(maudie, pardoe_kitchen). }
+  Observe maudie_rail at gate_road when at(maudie, gate_road) and maudieAtRail(maudie) and not maudieGone(maudie) "Maudie Pardoe stands under the rail in her apron with a loaf in her two hands, not looking up. Three yards from her, Alderman Gidley weeps beautifully into his handkerchief, and does not see her. The crowd sees both of them. She is looking, the whole time, at the gate-ward's door, and the lock on it, and the decree, the way a carter looks at a gate he means to take a load through.".
+  Action stand_with_maudie(actor: group, site: place) "Stand with Maudie Pardoe under the rail" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_road) and at(maudie, gate_road) and maudieAtRail(maudie)
+      and not stoodWithMaudie(actor).
+    Time 3.
+    On success { Assert stoodWithMaudie(actor). Increase temper(wray) by 1. }
+    Result "You stand beside her. She does not look at you. After a while she gives you the loaf to hold, because her hands are shaking and she will not have the crowd see it. People stop talking. Gidley finishes weeping and asks Pinch for the takings and goes, and still she stands, and the crowd stays with her, and when the Guildhall clock strikes ten she takes the loaf back and says, to the door, not to you: 'Tomorrow night, then.' And goes home up the Cartway without hurrying.".
+  }
+
+  // ── After: Kit ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe kit_box at carters_yards when verdictGiven(wray) and not kitTaken(kit) and not kitHanged(kit) and not verdictRebellion(wray) "Kit Pardoe is up on the box of the red-wheeled cart, back from the Guildhall yard, with the reins in his hands, not going anywhere. Every so often he speaks to the horse. The other carters leave him to it.".
+  Observe kit_grave at wades_acre when verdictGiven(wray) and buried(wat_dead) and not kitTaken(kit) and not kitHanged(kit) and evening() "By the church door, at his father's grave, Kit Pardoe is sitting with his back to the stone, the way he sat on the ford-stone under the arches, looking at the river, which is all there is to look at.".
+
+  // ── Halfway over, with the dead ───────────────────────────────────────────────────────────────────────────────────
+  // The one thing that happens to the carrier and is never explained: at the Step, with a body on the back, the
+  // weight changes.
+  Entity weight_fact: fact "The weight at the Step".
+  Rule wade_weight when bearingAny(party) and (at(party, tanyards) or at(party, wades_step) or at(party, wades_acre)) and lowWater() and not spread(weight_fact) says "Halfway over, at the Step, the weight on your back changes. It does not grow heavier, exactly. It grows more: as if what you carried were not one man but a great many, all of them very patient, all of them glad to be going over at last. Your knees go. The water comes to your chest. You do not set him down. And then it is one man again, and cold, and you are on the stones beyond the Step with your breath coming in sobs, and you do not know, then or ever after, what happened." { Assert spread(weight_fact). }
 
   // ── Carrying, once the way is known ───────────────────────────────────────────────────────────────────────────────
   // The second and third trips are the first one again: once a body has been carried over by the ford and laid in the
