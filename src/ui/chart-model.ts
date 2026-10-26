@@ -143,6 +143,9 @@ export class ChartModel {
     const chart = home && this.world.module.charts?.[home];
     const land = chart ? new LandModel(chart, this.entities) : undefined;
     for (const v of [...visited].filter(v => this.regionOf(v) === home)) { this.mark(areas, v, visited, here); }
+    // What the company has been told of (a site named to it, leadsTo) is on its map too, before it has been there.
+    const told = this.leads().filter(p => this.regionOf(p) === home);
+    for (const t of told) { this.mark(areas, t, visited, here); }
     for (const w of ways.filter(x => this.regionOf(x.from) === home && this.regionOf(x.to) === home)) {
       const a = this.mark(areas, w.from, visited, here), b = this.mark(areas, w.to, visited, here);
       // A trail within a stretch of wild country is drawn on the land too, from landmark to landmark, once the company
@@ -160,6 +163,12 @@ export class ChartModel {
     const terrain = home ? this.form(home, 'terrain').form : undefined;
     return areas.size > 1 || (chart && areas.size) ? { region: { areas: [...areas.values()], edges: [...edges.values()],
       within: Object.fromEntries(this.within), ...terrain ? { terrain } : {},
-      ...land ? { land: land.land(visited, ways, place, [...areas.values()]) } : {} } } : {};
+      ...land ? { land: land.land({ visited, told }, ways, place, [...areas.values()]) } : {} } } : {};
+  }
+  // The places facts the company knows lead to.
+  private leads(): string[] {
+    const w = this.world;
+    return w.relates('leadsTo') ? w.related('leadsTo')
+      .filter(r => w.test(ModuleWriter.call('knows', this.actor, r.args[0]!))).map(r => r.args[1]!) : [];
   }
 }

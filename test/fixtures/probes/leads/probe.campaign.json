@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: a place heard of", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

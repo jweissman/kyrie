@@ -41,8 +41,9 @@ export class LandModel {
   }
   // The land the company knows: around every settlement it has been to, along every road it has walked and every
   // part of wild country it has crossed, and the cell of each place it has been to or knows the way to.
-  land(visited: Set<string>, ways: WayInfo[], here: string, areas: RegionChart['areas']): Land {
-    const chart = this.chart, known = new Set<number>(), heard = new Set(ways.flatMap(w => [w.from, w.to]));
+  land(seen: { visited: Set<string>; told: string[] }, ways: WayInfo[], here: string, areas: RegionChart['areas']): Land {
+    const chart = this.chart, known = new Set<number>(), visited = seen.visited;
+    const heard = new Set([...ways.flatMap(w => [w.from, w.to]), ...seen.told]);
     for (const id of visited) {
       const area = this.marked(id), at = this.cell(id);
       for (const c of chart.parts[id] ?? chart.roads[id] ?? []) { this.reveal(c, 1, known); }

@@ -26,6 +26,12 @@ where each stands (each repair with the audit's cases as specs, which fail befor
 
 ## Done and verified
 
+- **III.B. The map faithful to what is known.** A fact may lead to a place (`leadsTo`, in the shared rules): known,
+  the place is on the company's map and its region's chart, as not yet visited, before it has been there or knows the
+  way. Each generated site's name leads to it, and each authored country's rumour to its march-stone
+  (`test/leads.test.ts`).
+- **III.A. Nothing irreversible by a slip.** `Grave "…"` in an action: the page says what it costs when it is first
+  chosen, and does it when chosen again (ba39b86; `test/grave-browser.test.ts`).
 - **II.E. A deep site's argument as public content.** Every word of the shrine's argument over a deep site's seal,
   and the ways of arguing it, are in `data/generation/deep/argument.json`; `DeepArgument` binds them to each site.
   The generated worlds of eight seeds and the countries beyond them are byte for byte the same (208 files); a way of

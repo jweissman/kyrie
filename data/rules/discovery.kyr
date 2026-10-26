@@ -20,6 +20,9 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   // A place where a story is being told (a cart gone off the road, a man under it), and the story: nothing else that
   // could be taken for part of it happens there by chance (a carrier's wheel in the ditch).
   Relation staged(place, fact).
+  // What a fact tells of where something is (a site named, a country rumoured beyond a march): known, the place is on
+  // the company's map, as told, before it has been there or knows the way.
+  Relation leadsTo(fact, place).
   // What was so and is no longer (a child's fever, once it has broken or the child has died): still known to whoever
   // knew it, but no longer passed on as news.
   Relation stale(fact).

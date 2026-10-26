@@ -66,6 +66,7 @@ export class RegionSites {
     const hidden = great || (!claimed && (site.part ?? 0) > 0);
     const lines = [...this.stand(seat, region, { where, hidden }),
       `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
+      `  Initially Assert leadsTo(${id}_named, ${id}).`,
       // A work's own plan says how it looks; what is said here of it is the life of the place, told after.
       `  Observe ${id}_scene at ${id}${site.work ? ' as ambience' : ''} when true ${q(this.scene(seat, region))}.`,
       // Where the name is cut over the door, the stone says it; elsewhere the place is known for what it is called.

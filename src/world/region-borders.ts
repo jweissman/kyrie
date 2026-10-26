@@ -39,7 +39,7 @@ export class RegionBorders {
   private static rumour(b: Border, beyond: NonNullable<Region['beyond']>[Border['side']], town: string): string[] {
     if (!beyond?.rumour || !beyond.heard) { return []; }
     const q = JSON.stringify, id = `${this.room(b)}_beyond`, keeper = `${town}_innkeeper`;
-    return [`  Discovery ${id} ${q(beyond.heard)}.`,
+    return [`  Discovery ${id} ${q(beyond.heard)}.`, `  Initially Assert leadsTo(${id}, ${this.room(b)}).`,
       `  Topic ${id}_told with ${keeper} ${q(`Ask {${keeper}} about the road ${b.side}`)} when not knows(actor, ${id}) {`,
       `    Says ${q(beyond.rumour.replaceAll('{keeper}', `{${keeper}}`))}.`, `    On discuss { Assert knows(actor, ${id}). }`, '  }'];
   }

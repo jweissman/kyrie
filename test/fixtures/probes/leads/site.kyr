@@ -1,0 +1,22 @@
+Module leads "A place heard of before it is found" {
+  Place vale "the vale" is region.
+  Place village "the village" is settlement within vale at 0, 0.
+  Place green "the green" is room within village at 0, 0 outdoors.
+  Place barrow "the Grey Barrow" is site within vale at 3, 1.
+  Place barrow_mouth "the barrow's mouth" is room within barrow at 0, 0 outdoors.
+  // The way is not known until it is told; the barrow is, once it is named.
+  Passage track "the old track" is path between green and barrow_mouth taking 2 hours hidden until barrow_way.
+  Company party "You" of 1 at green.
+  Person elder "Old Wyn" at green {
+    Ancestry human. Calling warrior. Level 1. Peaceable.
+  }
+  Discovery barrow_named "The Grey Barrow lies east of the village, in the heather.".
+  Discovery barrow_way "The old track to the Grey Barrow leaves the green by the pound.".
+  Initially Assert leadsTo(barrow_named, barrow).
+  Topic barrow_told with elder "Ask Old Wyn about the Grey Barrow" when not knows(actor, barrow_named) {
+    Says "'The Grey Barrow,' says Old Wyn. 'East, in the heather. Nobody goes.'".
+    On discuss { Assert knows(actor, barrow_named). }
+  }
+  Observe green_scene at green when true "A green, a pound, and a well.".
+  Observe mouth_scene at barrow_mouth when true "A low mouth in a mound of heather.".
+}

@@ -621,6 +621,13 @@ arrives, with a clock for when (The Road the Star Came Down's F9, The Patient St
 
 A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none.
 
+### A place heard of
+
+A fact can say where something is: `Initially Assert leadsTo(barrow_named, barrow).` Once the company knows the fact
+(Old Wyn names the Grey Barrow), the place is on its map, as not yet visited, before it has been there or knows the
+way (`test/fixtures/probes/leads`). A generated region's sites are led to by their names, and a rumoured country by
+its rumour.
+
 ### What cannot be undone
 
 An act that cannot be undone says so, and the page asks before it does it: chosen once, it says what it costs; chosen

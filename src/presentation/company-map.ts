@@ -31,7 +31,10 @@ export class CompanyMap {
     const described = links.map(l => ({ ...l, status: l.from !== here ? 'known connection; check it from there' :
       routes.some(a => a.bindings?.destination === l.to
         || ('movement' in a && (a.movement as { destination?: string })?.destination === l.to)) ? 'available from here' : 'blocked from here' }));
-    const known = new Set([...visited, ...links.map(l => l.to)]);
+    // And what it has been told of (a site named to it, leadsTo), before it has been there or knows the way.
+    const told = world.relates('leadsTo') ? world.related('leadsTo')
+      .filter(r => world.test(ModuleWriter.call('knows', actor, r.args[0]!))).map(r => r.args[1]!) : [];
+    const known = new Set([...visited, ...links.map(l => l.to), ...told]);
     return { places: index.ordered(known).filter(e => e.type === 'place')
       .map(e => ({ id: e.id, name: e.name, visited: visited.has(e.id), ...metadata.get(e.id),
         ...(e.space ? { kind: e.space.kind } : {}) })), links: described };
