@@ -37,7 +37,7 @@ export class CheckpointStore {
           seed: transcript.seed, elapsed: save.state.elapsed, savedAt: slot.savedAt });
       } catch { continue; }
     }
-    return slots.sort((a, b) => b.savedAt.localeCompare(a.savedAt));
+    return slots.sort((a, b) => b.savedAt < a.savedAt ? -1 : b.savedAt > a.savedAt ? 1 : 0);
   }
   // Accepts either a session checkpoint or a bare Kyr CampaignSave (as written by the CLI `save` command).
   static parse(text: string): SessionCheckpoint | CampaignSave {

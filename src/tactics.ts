@@ -42,12 +42,15 @@ export class Tactics {
     const i = order.indexOf(command.ability);
     return i < 0 ? order.length : i;
   }
+  // Ties broken by the targets' ids as written, not as the host's language sorts them (a reader in Tallinn saw another
+  // enemy struck: the architecture review's H6).
+  static order(a: string, b: string): number { return a < b ? -1 : a > b ? 1 : 0; }
   static choose(state: BattleState, legal: Command[]): Command {
     const actor = state.combatants.find(f => f.id === state.actor)!;
     const order = [...actor.abilities, 'melee', 'ranged'];
     const ranked = legal.map(command => ({ command, score: Tactics.score(state, command) }))
       .sort((a, b) => b.score - a.score || Tactics.rank(order, a.command) - Tactics.rank(order, b.command)
-        || a.command.target.localeCompare(b.command.target));
+        || Tactics.order(a.command.target, b.command.target));
     if (!ranked[0]) { throw new Error('No legal tactical command'); }
     return ranked[0].command;
   }
