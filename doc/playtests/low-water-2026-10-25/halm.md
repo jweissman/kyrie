@@ -4,7 +4,7 @@ Seed `halm`; 162 steps; ended at watch 712 with the Mere at 15 spans, at the end
 
 *(The first page)*
 
-The road comes over the lip of the Bowl and stops, because the world does. Below you the city goes down in four great steps, each a ring of roofs and gardens and wet stone, and between the rings the water: falling, turning, held. You can hear it before you understand it, a sound like a great many people breathing out. At the bottom, very far, the Mere lies like a coin somebody dropped. There is a pale ring round it. It takes you a moment to see that the ring is mud.
+The road comes over the lip of the Bowl and stops, because the world does. Below you the city goes down in four great steps, each a ring of roofs and gardens and wet stone, and between the rings the water: falling, turning, held. You can hear it before you understand it, a sound like a great many people breathing out. At the bottom, very far, the Mere lies like a coin somebody dropped. There is a pale ring round it. It takes you a moment to see that the ring is mud. In the dust by the carters' trough there are beads of green glass the size of lentils, and a child with a tray is selling them: Mere-tears, a copper a handful, lucky for a journey. When you hold one to the light there is a bubble in it, perfectly round.
 
 **To the head of the Stair**
 
@@ -28,7 +28,7 @@ A square of wet flagstones on the second terrace, with the Office of Measures do
 
 **Into the Office of Measures**
 
-The hall of the Office of Measures: a long room of benches and a counter of black oak, where the people of Ammerlin come to have their rights read, registered, quarrelled over and sealed. Over the inner door, cut in letters a hand high: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. A queue of people with papers goes along the benches: carters, dyers, two women from the Ward with a child asleep across their knees. Nobody in it is talking to anybody else. The Office clerks are here.
+The hall of the Office of Measures: a long room of benches and a counter of black oak, where the people of Ammerlin come to have their rights read, registered, quarrelled over and sealed. Over the inner door, cut in letters a hand high: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. A queue of people with papers goes along the benches: carters, dyers, two women from the Ward with a child asleep across their knees. Nobody in it is talking to anybody else. On the far wall of the hall, facing the door, hangs an old glass, black with age, as tall as a man. The clerks call it the Check. The words over the inner door are cut in it backward, so that as you stand at the counter you read them in the glass the right way round, over your own shoulder: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. Your own face is in it too, under the words. The Office clerks are here.
 
 **To the Registrar's room**
 
@@ -48,7 +48,7 @@ Registrar Odile Fenn has gone back to work before you have turned round.
 
 **To the hall of the Office**
 
-The Office clerks are here. The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY.
+On the far wall of the hall, facing the door, hangs an old glass, black with age, as tall as a man. The clerks call it the Check. The words over the inner door are cut in it backward, so that as you stand at the counter you read them in the glass the right way round, over your own shoulder: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. Your own face is in it too, under the words. The Office clerks are here. The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY.
 
 **Out to Measures Square**
 
@@ -108,7 +108,7 @@ Measures Square, the Office down one side and the Sounding up the other, and the
 
 **Into the Office of Measures**
 
-The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. The Office clerks are here.
+The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. On the far wall of the hall, facing the door, hangs an old glass, black with age, as tall as a man. The clerks call it the Check. The words over the inner door are cut in it backward, so that as you stand at the counter you read them in the glass the right way round, over your own shoulder: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. Your own face is in it too, under the words. The Office clerks are here.
 
 **To the Registrar's room**
 
@@ -128,7 +128,7 @@ Registrar Odile Fenn has gone back to work before you have turned round.
 
 **To the hall of the Office**
 
-The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. The Office clerks are here.
+The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. On the far wall of the hall, facing the door, hangs an old glass, black with age, as tall as a man. The clerks call it the Check. The words over the inner door are cut in it backward, so that as you stand at the counter you read them in the glass the right way round, over your own shoulder: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. Your own face is in it too, under the words. The Office clerks are here.
 
 **Out to Measures Square**
 
@@ -240,7 +240,7 @@ The head of the Stair, loud with the Ninefold going over into the first lock.
 
 **To the north road, at the Rim**
 
-The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall. From the Rim the ring of mud round the Mere is wider than the water now, grey, with things standing up in it.
+The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall. From the Rim the ring of mud round the Mere is wider than the water now, grey, with things standing up in it. In the dust by the carters’ trough there are beads of green glass the size of lentils, and a child with a tray is selling them: Mere-tears, a copper a handful, lucky for a journey. When you hold one to the light there is a bubble in it, perfectly round.
 
 **Go up out of the Bowl by the north road**
 

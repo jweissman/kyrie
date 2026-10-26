@@ -1,0 +1,54 @@
+Module lowwater "Low Water" {
+  Description "Echoes: what the Bowl shows, before anyone knows how to read it, of the account kept on the other side of the water. The Office's double entry, the green glass in the Rim's dust, the Ward's mirrors turned to the wall, the reflection that lifts its hand a moment late; and, later, the Cantor and the scholar learning what their own doubles did.".
+
+  // Double entry: the form the whole account takes. Every figure entered twice, once where it left and once where it
+  // arrived; Isaura's forty ells are a figure with no other side, until the Interval.
+  Topic isaura_double with isaura travelling "Ask Isaura why every figure in the Office ledgers is written twice" when been(party, ledger_room) or knows(actor, channel_measured) once {
+    Says "'Double entry.' She is pleased you noticed. 'Every ell that leaves somewhere arrives somewhere. So you write it twice: once on the side it left, once on the side it came to. Then you add up both sides. If they agree, the book is honest. If they don't, somebody is lying, or somebody is wrong, and you go and find out which.' She opens her own book and turns it so you can see: two columns, ruled in red, a figure on the left, the same figure on the right, all the way down the page. 'Fourth Grade copies the book. Third Grade checks the copy against the water. It's very boring.' A pause. 'It's the most beautiful thing anyone ever invented. A book that checks itself.'".
+  }
+  Topic isaura_other_side with isaura travelling "Ask Isaura where the forty ells went" when knows(actor, water_kept) and knows(actor, discrepancy) once {
+    Says "Isaura stands at the edge of the still water and looks out at the copied city for a long time. 'Here,' she says. 'Both sides. The ells left the Mere and never arrived anywhere in the Bowl, so I had a figure with nothing on the other side of the line.' She points with the ell-rod, out across the water, at the clear terraces. 'That's the other side of the line. Somebody else has been keeping the other column. In water.' She closes her book very carefully. 'It balances. I've been wrong for three years. It balances perfectly. It's just that the book is bigger than the Bowl.'".
+  }
+  Observe office_glass at office_hall when true "On the far wall of the hall, facing the door, hangs an old glass, black with age, as tall as a man. The clerks call it the Check. The words over the inner door are cut in it backward, so that as you stand at the counter you read them in the glass the right way round, over your own shoulder: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. Your own face is in it too, under the words.".
+  Topic isaura_check with isaura travelling "Ask Isaura about the black glass in the Office they call the Check" when been(party, office_hall) once {
+    Says "'The Check. It came with the building; nobody knows from where.' She glances at it the way you glance at a clock. 'You're meant to read the motto in it while you make your claim, so you see your own face saying it. People lie less to a counter with a glass behind it. The Registrar had it measured once: it's not quite flat. Your face in it is the right size and very slightly the wrong way round. Nobody can see it unless they're told.' A beat. 'I've been told. I can't stop seeing it.'".
+  }
+
+  // The Bowl is a print: green glass in the Rim's dust, splashed when it was made, and a scholar who cannot account for it.
+  Observe rim_tears at rim_road when true "In the dust by the carters' trough there are beads of green glass the size of lentils, and a child with a tray is selling them: Mere-tears, a copper a handful, lucky for a journey. When you hold one to the light there is a bubble in it, perfectly round.".
+  Topic halm_print with halm "Ask Halm what made the Bowl" when true once {
+    Says "'Not fire from below.' He says it at once, as if he has been waiting years for somebody to ask. 'Everybody says an old mountain that fell in on itself. It isn't. The rock of the Rim has been pushed outward and up, like wax round a seal, and it's fused: glass, green glass. You've seen the children selling it on the north road.' He picks a bead out of his waistcoat pocket and turns it. 'Something came down here. From above, hard, and small, and very heavy. The Aeneans called the Bowl the Print. I used to think it was poetry.' He puts the bead away. 'I'd give my fellowship to know what it was, and where it went.'".
+  }
+
+  // The Ward's mirrors, turned to the wall at night, so the water cannot learn your face.
+  Observe ward_mirrors at tench_row when dark() and not wardEmpty(ammerlin) "In every lit window of Tench Row the little shaving-mirrors and the polished pans have been turned to face the wall.".
+  Topic dov_mirrors with dov "Ask Dov why the Ward turns its mirrors to the wall at night" when true once {
+    Says "'So the water can't learn your face.' He laughs, short. 'My grandmother's saying. Everybody does it and nobody believes it, the way you don't walk under a net.' He turns a float in his hands. 'Annet Kettle's mother stopped, the year the Mere went down past the boat-rings. Said there was no water near enough now to learn anything off anybody.' He puts the float down. 'Isaura never did it. She said it was unscientific. She used to turn ours face-out again when Mother wasn't looking.'".
+  }
+
+  // At dusk, before anyone has seen the Reflected, the Mere gives back your reflection a moment late.
+  Observe mere_lag at mere_edge when hour(clock) >= 17 and hour(clock) < 21 and not knows(party, reflected_known) and not wardEmpty(ammerlin) "You lean over the water. The Mere is so still that the whole Bowl stands upside down in it, and you in it, looking up. You raise a hand to shade your eyes against the last of the sun. Your reflection raises its hand a moment after you do. It must be the cold; the water is very still.".
+
+  // As the approach grows: frost on the fountain in summer, and wet prints in the morning on the lock steps.
+  Observe fountain_frost at measures_square when dark() and approach(bowl) >= 4 and not complete(reckoner) and not broken(reckoner) "There is frost on the lip of the fountain, in a ring, though the night is warm.".
+  Observe lock_prints at ninth_lock when hour(clock) >= 6 and hour(clock) < 10 and approach(bowl) >= 3 and not broken(reckoner) "On the lock steps the night's wet has dried everywhere but in a line of broad flat prints, going down. Piet Harl has thrown sand on them, and written something in his book, and does not look at you.".
+
+  // The Lector's bench in the real Sounding: the face the Auditor copied.
+  Observe lector_bench at nave when true "Against the wall of the nave, apart from the choir's benches, stands a bench of the old grey stone that nobody sits on, with a woman's face carved over it, worn almost smooth by three thousand years of hands: eyes shut, mouth open, singing. The choir touch it going in, without looking, the way you touch a doorpost.".
+  Topic orr_bench with orr "Ask Cantor Orr whose face is carved over the empty bench" when been(party, nave) once {
+    Says "'The Lector's.' Orr does not need to ask which bench. 'The first Cantor before there were Cantors. Nobody sits there; nobody knows why. The young ones touch it for luck.' She smiles slightly. 'I did, when I was in the choir. I stopped when I became Cantor. It seemed presumptuous.'".
+  }
+  Topic orr_aun with orr "Tell Cantor Orr who the Lector was, and what she did at the column" when knows(actor, lector_words) or knows(actor, long_silence) once {
+    Says "You tell her: Aun, Lector of the Ear; the year the young Cantors left out the Fourth, and the Mere stood up; forty nights at the column, singing it shut; and that she did not come up. Orr does not move for a long time. Then she gets up and goes out into the nave, and you follow her, and she stands in front of the empty bench with the carved face over it. 'I cut it,' she says. 'Her verse. The one she went down for. Because the young ones found it dreary.' Her voice is perfectly steady and her hands are not. 'Somebody marked my hymnal so I would. And I did. I thought it was my own idea. That's the part I can't bear: I was so proud of it.' She puts her hand flat on the stone, where the choir's hands have worn it. 'She was right, you know. It is dreary. It's supposed to be. You don't sing a lock for pleasure.'".
+  }
+
+  // Halm, turned, learns what his patron was writing to; and offers a lie of his own, a scholar's.
+  Relation halmFootnote(group).
+  Topic halm_auditor with halm "Tell Halm what the Second Reader has been writing to" when knows(actor, auditor_heard) and halmTurned(halm) once {
+    Says "Halm listens with his hands folded, the way he listens to a stone being read. When you have done he says nothing for a while. 'Twenty years,' he says at last. 'I carried his letters to the Rim post myself. I thought I was his correspondent. I was his postman.' He takes off his spectacles. 'He'll write again at midwinter. He always does. He'll want to know whether the count is whole.' He puts them back on. 'I could answer him. In his own footnotes. A wrong date, a wrong ninth, a Lector's verse misread; he would believe me, because he taught me the cipher and he knows I am too vain to make a mistake in it.' He looks at you over the spectacles. 'It would be the only dishonest thing I have ever published. Shall I?'".
+  }
+  Topic halm_footnote with halm "Ask Halm to answer the Second Reader with a false footnote" when knows(actor, auditor_heard) and halmTurned(halm) and not halmFootnote(halm) once {
+    Says "'Then I'll do it properly.' He sits down on an upturned basket at once and begins, in a hand far smaller than his own. After a while he says, without looking up: 'Do you know, it's the most careful thing I've ever written. A lie has to be. The truth you can be sloppy with; it holds up on its own.'".
+    On discuss { Assert halmFootnote(halm). }
+  }
+}

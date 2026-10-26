@@ -53,7 +53,7 @@ Module lowwater "Low Water" {
   Observe mrim_scene at mirror_rim when true "The Rim in the water. The north road comes over the lip and stops; the Ninefold comes in at the Gauge, clear as glass, and goes down the Stair in falls that do not fall: they stand, each one a frozen white rope. Everything is silent except, very far down, the hymn, and it is coming up the Bowl backwards: the Amen first.".
   Observe msquare_scene at mirror_square when true "The square in the water. The Office is on the wrong side and the Sounding on the other. In the middle the fountain is falling upward: the water leaves the basin in a slow clear column and goes up into the dark and does not come down. People stand round the square, a great many, clear, unmoving, the way people stand at the Hymn. They are all facing the Sounding.".
   Observe msounding_scene at mirror_sounding when true "The Sounding in the water has no grating in its floor and no shaft. At the centre, where the black water should be, stands a figure of water the size of a woman, kneeling, with her face turned up and her mouth open, singing; and her hands are flat on the rim of a basin that is not there.".
-  Observe moffice_scene at mirror_office when true "The Office in the water. The counter, the benches, the words over the inner door cut backward, so that you read them in the glass of the far wall the right way round: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. On the counter lies a ledger the size of a door, open, made of water, and on its open page a single column, very long.".
+  Observe moffice_scene at mirror_office when true "The Office in the water. The counter, the benches, the words over the inner door cut the right way round, and on the far wall, where the Check hangs in the Office you know, a glass in which they read backward: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY, reversed, and under it, the wrong way round, your face. On the counter lies a ledger the size of a door, open, made of water, and on its open page a single column, very long.".
   Observe mward_scene at mirror_ward when true "The Ward in the water. Tench Row stands on its stone feet with every net wet, and the Mere comes up to the fourth step of the landing, and every boat in the Ward is afloat, the Tench among them. On the steps, sitting, standing, lying in the boats as if asleep, are the Reflected: hundreds of them. This is where they wait. Some of them are singing the evening's Hymn; some of them yesterday's; some of them, you think, an evening three thousand years ago.".
   Observe mstair_scene at stair_foot when true "At the edge of the Ward in the water, where the real Mere would be, the still water stands up into a stair: broad, clear, glass, going up, not down, into the dark, step after step, until you lose it. Wet footprints too wide and too flat for any person's go up it, and come down it, and go up.".
 
@@ -86,19 +86,67 @@ Module lowwater "Low Water" {
     On discuss { Assert isauraWillWrite(isaura). }
   }
 
-  // The doubles: stay too long among the Reflected and they make a copy of you, and it walks up into the Bowl.
+  // The doubles: stay too long among the Reflected and they make a copy of you, and it walks up into the Bowl. Up there
+  // it does what a reflection does when it is not shown its original: it tries to take its place.
   Relation doubled(group).
   Measure mirrorWatches(group). Measure lastMirror(group).
   Rule mirror_ticks when (at(party, mirror_ward) or at(party, mirror_square) or at(party, stair_foot) or at(party, mirror_sounding) or at(party, mirror_office)) and watch(clock) > lastMirror(party) {
     Increase mirrorWatches(party) by 1. Set lastMirror(party) to watch(clock). }
   Rule doubles_rise at mirror_ward when at(party, mirror_ward) and not doubled(party) and mirrorWatches(party) >= 1
-    says "On the steps of the Ward in the water, one by one, figures stand up that were not there: a woman in a long coat with a rod under the wrong arm; and the rest of you, every one, clear as glass and the wrong way round. They look at you with your own faces, attentively, the way you would look at a word you meant to learn." {
+    says "On the steps of the Ward in the water, one by one, figures stand up that were not there: a woman in a long coat with a rod under the wrong arm; and the rest of you, every one, clear as glass and the wrong way round. They look at you with your own faces, closely, the way a copying clerk looks at the page he is copying from." {
     Assert doubled(party). }
-  Relation doublesLoose(group).
+  Relation doublesLoose(group). Relation doublesLaid(group).
   Rule doubles_walk when doubled(party) and mirrorWatches(party) >= 12 and not doublesLoose(party)
     says "Behind you in the Ward in the water, the figures with your faces get up off the steps all together and walk away up the stair toward the coin of light that is the Mere from below." {
     Assert doublesLoose(party). }
-  Observe doubles_on_landing at ward_landing when doublesLoose(party) and dark() and approach(bowl) >= 1 and not broken(reckoner) "Among the Reflected on the landing, now, there is a company you know: the wrong way round, standing where you stood, singing.".
+  Species double_kind "a double" like water_elemental temperament savage described "Yourself, in water, the wrong way round: your face, your coat, your weapon in the other hand. It moves as you move, a moment late, and it does not breathe.".
+  Person doubles "your doubles" at mirror_ward {
+    Role "yourselves in water, left for right". Species double_kind. Level 1. Numbers 4.
+    Seen when doublesLoose(party) and not doublesLaid(party).
+    Comes "They come up the steps at you, each to its own, the way a reflection comes up to meet you when you lean over a well.".
+  }
+  Initially Assert tolerates(doubles, party).
+  // Loosed, they stand on the Ward landing after dark, where you stood, and are hostile; by day they are under the water.
+  Rule doubles_up when doublesLoose(party) and not doublesLaid(party) and dark() and at(doubles, mirror_ward) {
+    Retract at(doubles, mirror_ward). Assert at(doubles, ward_landing). }
+  // They give you one watch, the time it takes a reflection to notice that it is being looked at; then they come.
+  Measure doublesTurn(group).
+  Rule doubles_notice when at(doubles, ward_landing) and at(party, ward_landing) and doublesTurn(party) == 0 and not doublesLaid(party)
+    says "On the landing your doubles stop singing and turn to you, all together, with your own faces. They lift their hands as you lift yours, a moment late. Each one is looking at the one it was made from, and coming slowly up the steps toward it." {
+    Set doublesTurn(party) to watch(clock) + 1. }
+  Rule doubles_turn when doublesTurn(party) > 0 and watch(clock) >= doublesTurn(party) and at(doubles, ward_landing) and at(party, ward_landing) and tolerates(doubles, party) and not doublesLaid(party) {
+    Retract tolerates(doubles, party). }
+  Rule doubles_let_go when doublesTurn(party) > 0 and not at(party, ward_landing) {
+    Set doublesTurn(party) to 0. Assert tolerates(doubles, party). }
+  Rule doubles_down when at(doubles, ward_landing) and not dark() {
+    Retract at(doubles, ward_landing). Assert at(doubles, mirror_ward). Assert tolerates(doubles, party). }
+  Rule doubles_lie when doublesLaid(party) and at(doubles, ward_landing) {
+    Retract at(doubles, ward_landing). Assert at(doubles, mirror_ward). Assert tolerates(doubles, party). }
+  Observe doubles_on_landing at ward_landing when doublesLoose(party) and not doublesLaid(party) and dark() "Among the Reflected on the landing, now, there is a company you know: the wrong way round, standing where you stood, singing.".
+  // Four ways past them besides a fight: the Seventh, the bell, an honest measure, or keeping off the landing at night.
+  Action sing_doubles(actor: group, site: place) "Sing the Seventh at your doubles" {
+    Description "Four low notes, alike. They are made of the same water as the rest.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(doubles, site) and doublesLoose(actor) and not doublesLaid(actor) and knows(actor, remainders_tones).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert doublesLaid(actor). }
+    Result "You sing it at yourselves. Your doubles open their mouths to sing it back, and cannot; it is the one verse the water was never taught backward. They come apart where they stand, the way a reflection comes apart when a stone goes in.".
+    Otherwise "You sing it, but your voices shake, and your doubles sing it back at you perfectly, a moment late, and keep coming.".
+  }
+  Action ring_doubles(actor: group, site: place) "Ring the Ear's bell at your doubles" {
+    Description "High, and deep.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(doubles, site) and doublesLoose(actor) and not doublesLaid(actor) and carries(actor, ear_bell).
+    Time 1.
+    On success { Assert doublesLaid(actor). }
+    Result "The bell's two notes go out over the landing, and your doubles stop as if somebody had called their names, and the right ones, and stand there, and are water, and run down the steps into the mud.".
+  }
+  Action measure_doubles(actor: group, site: place) "Ask Isaura to measure your doubles with her ell-rod, and call the figures" {
+    Description "Measured honestly, a reflection is only a reflection.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(doubles, site) and doublesLoose(actor) and not doublesLaid(actor) and travelsWith(isaura, actor).
+    Time 2.
+    On success { Assert doublesLaid(actor). }
+    Result "Isaura walks straight up to her own double with the ell-rod and lays it against its arm, and calls the figure, loud, the way the Office calls a figure in the square: 'Left arm, one ell and a hand.' The double's rod is in its left hand; she has measured its right arm and called it left. It looks down at itself. She goes along the line of them, one by one, calling every figure true, and every figure is the wrong way round; and one by one, as they hear what they are, they lie down in the water they are made of. She is shaking when she has done. 'They can copy anything,' she says. 'They can't check it.'".
+  }
   Topic dov_doubles with dov "Ask Dov why the Ward looks at you the way it does" when doublesLoose(party) once {
     Says "'Because you were on the landing last night,' says Dov. 'All of you. Measure too, with the rod in the wrong hand. Singing with the rest of them.' He looks at you very hard. 'And here you are in my yard with your hands the right way round.' He spits, and does not look away. 'I'll take your word for which is which. The Ward won't. Don't come down the steps after dark.'".
   }

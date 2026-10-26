@@ -1,7 +1,8 @@
 # Low Water — the second pass, as built
 
 *2026-10-26, on branch `adventure/low-water`. [07](07-second-pass.md) is the plan; this is what came of it, what
-changed on the way, and what is still short of it.*
+changed on the way, and what is still short of it. [09](09-critique.md) criticises it and [10](10-final-revision.md)
+revises it; the Auditor's voice and the Mere standing up quoted here were rewritten there.*
 
 ## What the adversary turned out to be
 

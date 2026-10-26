@@ -4,7 +4,7 @@ Seed `false`; 274 steps; ended at watch 266 with the Mere at 37 spans, at the en
 
 *(The first page)*
 
-The road comes over the lip of the Bowl and stops, because the world does. Below you the city goes down in four great steps, each a ring of roofs and gardens and wet stone, and between the rings the water: falling, turning, held. You can hear it before you understand it, a sound like a great many people breathing out. At the bottom, very far, the Mere lies like a coin somebody dropped. There is a pale ring round it. It takes you a moment to see that the ring is mud.
+The road comes over the lip of the Bowl and stops, because the world does. Below you the city goes down in four great steps, each a ring of roofs and gardens and wet stone, and between the rings the water: falling, turning, held. You can hear it before you understand it, a sound like a great many people breathing out. At the bottom, very far, the Mere lies like a coin somebody dropped. There is a pale ring round it. It takes you a moment to see that the ring is mud. In the dust by the carters' trough there are beads of green glass the size of lentils, and a child with a tray is selling them: Mere-tears, a copper a handful, lucky for a journey. When you hold one to the light there is a bubble in it, perfectly round.
 
 **To the head of the Stair**
 
@@ -208,7 +208,7 @@ Measures Square, the Office down one side and the Sounding up the other, and the
 
 **Into the Office of Measures**
 
-The hall of the Office of Measures: a long room of benches and a counter of black oak, where the people of Ammerlin come to have their rights read, registered, quarrelled over and sealed. Over the inner door, cut in letters a hand high: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. A queue of people with papers goes along the benches: carters, dyers, two women from the Ward with a child asleep across their knees. Nobody in it is talking to anybody else. The Office clerks are here.
+The hall of the Office of Measures: a long room of benches and a counter of black oak, where the people of Ammerlin come to have their rights read, registered, quarrelled over and sealed. Over the inner door, cut in letters a hand high: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. A queue of people with papers goes along the benches: carters, dyers, two women from the Ward with a child asleep across their knees. Nobody in it is talking to anybody else. On the far wall of the hall, facing the door, hangs an old glass, black with age, as tall as a man. The clerks call it the Check. The words over the inner door are cut in it backward, so that as you stand at the counter you read them in the glass the right way round, over your own shoulder: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. Your own face is in it too, under the words. The Office clerks are here.
 
 **To the Registrar's room**
 
@@ -228,7 +228,7 @@ Registrar Odile Fenn has gone back to work before you have turned round.
 
 **To the hall of the Office**
 
-The Office clerks are here. The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY.
+On the far wall of the hall, facing the door, hangs an old glass, black with age, as tall as a man. The clerks call it the Check. The words over the inner door are cut in it backward, so that as you stand at the counter you read them in the glass the right way round, over your own shoulder: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. Your own face is in it too, under the words. The Office clerks are here. The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY.
 
 **To the ledger room**
 
@@ -244,7 +244,7 @@ You look closely at the oldest map of the Bowl. You unroll it on the long table,
 
 **To the hall of the Office**
 
-The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. The Office clerks are here.
+The hall of the Office, under its words: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. On the far wall of the hall, facing the door, hangs an old glass, black with age, as tall as a man. The clerks call it the Check. The words over the inner door are cut in it backward, so that as you stand at the counter you read them in the glass the right way round, over your own shoulder: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. Your own face is in it too, under the words. The Office clerks are here.
 
 **Out to Measures Square**
 
@@ -252,7 +252,7 @@ Measures Square, the Office down one side and the Sounding up the other, and the
 
 **Into the Sounding**
 
-The Sounding: a round nave under a dome, with no altar, no image, nothing at the centre of the floor but a ring of bronze grating as wide as a threshing-floor, through which you can see, a long way down, black water. Benches face inward to it from every side. The dome is ribbed like the inside of a shell. Precentor Aldo Fisk, the Precentor, last of the old Cantors, is here.
+The Sounding: a round nave under a dome, with no altar, no image, nothing at the centre of the floor but a ring of bronze grating as wide as a threshing-floor, through which you can see, a long way down, black water. Benches face inward to it from every side. The dome is ribbed like the inside of a shell. Against the wall of the nave, apart from the choir’s benches, stands a bench of the old grey stone that nobody sits on, with a woman’s face carved over it, worn almost smooth by three thousand years of hands: eyes shut, mouth open, singing. The choir touch it going in, without looking, the way you touch a doorpost. Precentor Aldo Fisk, the Precentor, last of the old Cantors, is here.
 
 **To the Cantor's room**
 
@@ -284,7 +284,7 @@ In the old hymnal, the Remainders are written in the Sounding’s four voices, d
 
 **To the Sounding's nave**
 
-Precentor Aldo Fisk, the Precentor, last of the old Cantors, is here. The Sounding’s nave, round under its ribbed dome, the bronze grating and the black water at its heart.
+Against the wall of the nave, apart from the choir’s benches, stands a bench of the old grey stone that nobody sits on, with a woman’s face carved over it, worn almost smooth by three thousand years of hands: eyes shut, mouth open, singing. The choir touch it going in, without looking, the way you touch a doorpost. Precentor Aldo Fisk, the Precentor, last of the old Cantors, is here. The Sounding’s nave, round under its ribbed dome, the bronze grating and the black water at its heart.
 
 **Out to Measures Square**
 
@@ -348,7 +348,7 @@ Measures Square, the Office down one side and the Sounding up the other, and the
 
 **Into the Sounding**
 
-The Sounding’s nave, round under its ribbed dome, the bronze grating and the black water at its heart. Precentor Aldo Fisk, the Precentor, last of the old Cantors, is here.
+The Sounding’s nave, round under its ribbed dome, the bronze grating and the black water at its heart. Against the wall of the nave, apart from the choir’s benches, stands a bench of the old grey stone that nobody sits on, with a woman’s face carved over it, worn almost smooth by three thousand years of hands: eyes shut, mouth open, singing. The choir touch it going in, without looking, the way you touch a doorpost. Precentor Aldo Fisk, the Precentor, last of the old Cantors, is here.
 
 **To the Cantor's room**
 
@@ -372,7 +372,7 @@ She stops you before you have finished. ‘Say it plainly. I’m seventy-one. I 
 
 **To the Sounding's nave**
 
-The Sounding’s nave, round under its ribbed dome, the bronze grating and the black water at its heart. Precentor Aldo Fisk, the Precentor, last of the old Cantors, is here.
+The Sounding’s nave, round under its ribbed dome, the bronze grating and the black water at its heart. Against the wall of the nave, apart from the choir’s benches, stands a bench of the old grey stone that nobody sits on, with a woman’s face carved over it, worn almost smooth by three thousand years of hands: eyes shut, mouth open, singing. The choir touch it going in, without looking, the way you touch a doorpost. Precentor Aldo Fisk, the Precentor, last of the old Cantors, is here.
 
 **Out to Measures Square**
 
@@ -616,7 +616,7 @@ The square in the water. The Office is on the wrong side and the Sounding on the
 
 **To the Office in the water**
 
-The Office in the water. The counter, the benches, the words over the inner door cut backward, so that you read them in the glass of the far wall the right way round: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. On the counter lies a ledger the size of a door, open, made of water, and on its open page a single column, very long. The ledger of water lies open on the counter, one long column down its page.
+The Office in the water. The counter, the benches, the words over the inner door cut the right way round, and on the far wall, where the Check hangs in the Office you know, a glass in which they read backward: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY, reversed, and under it, the wrong way round, your face. On the counter lies a ledger the size of a door, open, made of water, and on its open page a single column, very long. The ledger of water lies open on the counter, one long column down its page.
 
 **Examine — Look closely**
 
@@ -636,7 +636,7 @@ She looks at you for a long time, and you see her decide, and you see what it co
 
 **To the Ward in the water**
 
-On the steps of the Ward in the water, one by one, figures stand up that were not there: a woman in a long coat with a rod under the wrong arm; and the rest of you, every one, clear as glass and the wrong way round. They look at you with your own faces, attentively, the way you would look at a word you meant to learn. The Ward in the water. Tench Row stands on its stone feet with every net wet, and the Mere comes up to the fourth step of the landing, and every boat in the Ward is afloat, the Tench among them. On the steps, sitting, standing, lying in the boats as if asleep, are the Reflected: hundreds of them. This is where they wait. Some of them are singing the evening’s Hymn; some of them yesterday’s; some of them, you think, an evening three thousand years ago.
+On the steps of the Ward in the water, one by one, figures stand up that were not there: a woman in a long coat with a rod under the wrong arm; and the rest of you, every one, clear as glass and the wrong way round. They look at you with your own faces, closely, the way a copying clerk looks at the page he is copying from. The Ward in the water. Tench Row stands on its stone feet with every net wet, and the Mere comes up to the fourth step of the landing, and every boat in the Ward is afloat, the Tench among them. On the steps, sitting, standing, lying in the boats as if asleep, are the Reflected: hundreds of them. This is where they wait. Some of them are singing the evening’s Hymn; some of them yesterday’s; some of them, you think, an evening three thousand years ago.
 
 **To the foot of the stair that goes up**
 
@@ -648,11 +648,11 @@ You go out of Ammerlin in the water into the dark, by what light there is. The s
 
 **To the glass gate**
 
-Down in the Ward the last boat on the Mere has gone over on her side in the mud: Dov Vant’s Tench. The bell in your pack gives one stroke by itself: high, and under it, as it dies, deep. The Fourth. The three scales tilt, all at once, toward it, as a flower turns, and the Assayers step back out of the gate the way water gives back from a stone. The glass gate is two leaves of glass taller than the Sounding’s dome, standing open on a hall full of a dim green light. Across it stand the Assayers: three figures of glass, taller than any person, without faces, each holding before it in both hands a set of scales. In the pans of the scales nothing is weighed; the beams stand level all the same, and tremble. The Assayers, figures of glass, holding scales, are here.
+Down in the Ward the last boat on the Mere has gone over on her side in the mud: Dov Vant’s Tench. The bell in your pack gives one stroke by itself: high, and under it, as it dies, deep. The Fourth. The three scales tilt, all at once, toward it, as a flower turns, and the Assayers step back out of the gate the way water gives back from a stone. The glass gate is two leaves of glass taller than the Sounding’s dome, standing open on a hall full of a dim green light. Across it stand the Assayers: three figures of glass, taller than any person, without faces, each holding before it in both hands a set of scales. In the pans of the scales nothing is weighed; the beams stand level all the same, and tremble. You have seen those scales before, small, in brass, cut into the lintel of the Office of Measures. The Assayers, figures of glass, holding scales, are here.
 
 **To the hall of receipts**
 
-Jars. A hall of them, shelved to a height you cannot see, and going on ahead of you further than the hall should go: glass jars the size of a cupped pair of hands, each one full of still water, each one sealed with a disc of glass, and on the disc a mark cut in the machine’s notation. A cupful in each. The light in the hall is the light that comes out of them. The jars of counted water stand shelved in their thousands, a cupful in each.
+Jars. A hall of them, shelved to a height you cannot see, and going on ahead of you further than the hall should go: glass jars the size of a cupped pair of hands, each one full of still water, each one sealed with a disc of glass, and on the disc a mark cut in the machine’s notation. A cupful in each. The light in the hall is the light that comes out of them. The jars of counted water stand shelved in their thousands, a cupful in each. Where the broken jar stood there is a gap on the shelf, the shape of a cupful.
 
 **Examine — Look closely**
 
@@ -664,35 +664,35 @@ In the middle of a round hall hangs a model of the world: nine rings of glass, o
 
 **Examine — Look closely**
 
-You look closely at the nine circles. You walk round it twice before you see it. The ninth light is not on the ring: it is under it, holding it, the way a nail holds a board; and the crack in the glass runs out from it in a ring, round and shallow, with a little pool of light gathered in the bottom. You know that shape. You have been walking up and down it for days. It is the Bowl of Ammerlin, seen from above: the dent the nail made when it went in. The terraces are the crack’s edges. The Mere is what pooled. Halm’s Varakiiri lost nine hearts when they were driven out; one of them fell here, and pinned the world where it fell, and somebody in the Mathematical Age found it at the bottom of the hole and built a wheel round it, and set it to counting.
+You look closely at the nine circles. You walk round it twice before you see it. The ninth light is not on the ring: it is under it, holding it, the way a nail holds a board; and the crack in the glass runs out from it in a ring, round and shallow, with a little pool of light gathered in the bottom. You know that shape. You have been walking up and down it for days. It is the Bowl of Ammerlin, seen from above: the print a nail leaves when it goes in. The terraces are the crack’s edges. The Mere is what pooled. The green glass in the Rim’s dust is what splashed.
 
 **To the seat of the Auditor**
 
-A small room, round, with a floor of still water. In the middle of it, where it can be seen from every side, there is a chair of glass, very plain, of the shape the Office’s Registrar sits in; and in the chair is nothing at all, except that the water on the floor round it stands in rings, as it does round a stone; and the cold that came off the Reflected comes off the chair; and the room is full of a voice. It is the fifth voice from the column: the one that was not any of the four of you. The Auditor, a voice, and a cold, and the rings in the water round an empty chair, is here.
+A small room, round, with a floor of still water. In the middle of it, where it can be seen from every side, there is a chair of glass, very plain, of the shape the Office’s Registrar sits in; and in the chair is nothing at all, except that the water on the floor round it stands in rings, as it does round a stone; and the cold that came off the Reflected comes off the chair; and the room is full of a voice. It is the fifth voice from the column: the one that was not any of the four of you. Beside the chair, on the wet floor, lies a stack of paper that has been wet a long time and has not rotted: letters, a great many, in a small even hand, with the footnotes in red. Collegium of Lesser Instruments. The Second Reader, to: and then a space, on every one, where a name would go. The Auditor, a voice, and a cold, and the rings in the water round an empty chair, is here.
 
 **Talk to the Auditor**
 
-The voice says, without any unkindness: YOU ARE ON THE ACCOUNT. SIT, IF YOU LIKE. NOTHING HERE IS IN A HURRY BUT YOU.
+‘Received,’ says the voice, in exactly the tone of the Office counter, before you have said anything at all. ‘You are the Independent Assessor. I have read your commission. It was pinned up by the counter for a week.’ The rings in the water widen. ‘Sit, if you like. Nothing here is in a hurry but you.’
 
 **Ask the Auditor what it is**
 
-I WAS ONE OF NINE, says the voice. WE SETTLED NOTHING. WE WERE SETTLED. THE ONES WHO CAME AFTER US TOOK OUR HEARTS OUT OF US TO FASTEN THE WORLD WITH, AND PUT US OUT OF IT, INTO HERE. The rings in the water round the chair widen, and settle. I FELL A LONG WAY, AFTER MY HEART. NOT AS FAR AS IT. IT WENT IN THROUGH THE BOTTOM OF THE WORLD, AND YOUR CITY IS THE HOLE. A pause. I HAVE BEEN WAITING AT THE DOOR. IT IS A VERY GOOD DOOR. WHOEVER MADE IT KNEW ME.
+‘One of nine,’ says the voice. ‘The one whose heart you have been standing over all week.’ It does not hurry. ‘The water hears whatever is said at its edge, and I have the water, so I have had a long time to learn how you talk. Most of it is weather and quarrels. The clearest thing I ever heard was a woman in your square, the month after the Thirst Riots, reading out every right in the Bowl, one after another, the ell and the hour and the name, in a voice that never went up or down, for thirty days.’ A pause. ‘I liked her very much. She was so careful. I learned to speak from her. What is measured honestly can be settled peacefully.’ The rings settle. ‘I believe that. I am here to settle.’
 
 **Ask Isaura to write the false figure, in front of the Auditor**
 
-Isaura kneels at the edge of the still water on the floor and writes in it, with one finger, slowly, in the machine’s notation, a single figure. The water takes it. The rings round the chair stop, and the cold stops, and the voice says, after a long time, in a tone you have heard before, from clerks: THE ACCOUNT IS CLOSED. NOTHING FURTHER IS OWED. And then, as the room begins to empty of it, quieter: THAT IS NOT WHAT I COUNTED. Isaura stands up and wipes her finger on her coat, and does not look at anyone, and says: ‘Noted.’
+Isaura kneels at the edge of the still water on the floor and writes in it, with one finger, slowly, in the machine’s notation, a single figure. The water takes it. The rings round the chair stop, and the cold stops, and the voice says, after a long time, in the tone of the Office counter, the tone it learned from her grandmother’s Office: ‘Received. The account is closed. Nothing further is owed.’ And then, as the room begins to empty of it, quieter, the voice not quite level: ‘That is not what I counted.’ Isaura stands up and wipes her finger on her coat, and does not look at anyone, and says: ‘Noted.’
 
 **To the hall of the nine circles**
 
-In the middle of a round hall hangs a model of the world: nine rings of glass, one inside another, each turning very slowly on its own tilt, like the rings of a sphere a navigator uses, but there is no globe at the centre. Each ring is pinned to the next by a single point of light, and eight of the points are dark. The ninth burns, faint, on the innermost ring; and round it, in the glass, runs a crack. Over the hall, where a dome should close it, the glass stops, and there is a round opening on a dark that is darker than the rest, and cut round its edge, in letters you can read because they are the old letters of the Ear: TO THOSE WHO SETTLED THE WORLD, FROM THE NINTH: THE ACCOUNT OF WHAT WAS TAKEN. The nine circles turn on their tilts, pinned by one light.
+In the middle of a round hall hangs a model of the world: nine rings of glass, one inside another, each turning very slowly on its own tilt, like the rings of a sphere a navigator uses, but there is no globe at the centre. Each ring is pinned to the next by a single point of light, and eight of the points are dark. The ninth burns, faint, on the innermost ring; and round it, in the glass, runs a crack. The eight dark pins are not empty. Under each, small in the glass of its ring, something has been drawn over the place where it went in, the way a mapmaker draws a town: a sea with a ring of boats on it; a long range of mountains with a white scar down its face; a wood with a road through it that goes round and round; a town of a great many bells; a field, cut short, with one figure standing in it. Three are drawn over with a single line, as a clerk strikes a settled entry. Wherever the hearts went in, someone built something over them, and set it to counting. Over the hall, where a dome should close it, the glass stops, and there is a round opening on a dark that is darker than the rest, and cut round its edge, in letters you can read because they are the old letters of the Ear: TO THOSE WHO SETTLED THE WORLD, FROM THE NINTH: THE ACCOUNT OF WHAT WAS TAKEN. The nine circles turn on their tilts, pinned by one light.
 
 **To the hall of receipts**
 
-Jars. A hall of them, shelved to a height you cannot see, and going on ahead of you further than the hall should go: glass jars the size of a cupped pair of hands, each one full of still water, each one sealed with a disc of glass, and on the disc a mark cut in the machine’s notation. A cupful in each. The light in the hall is the light that comes out of them. Isaura Vant has taken a jar down and is holding it to the light, and reading the mark on its seal, and putting it back, and taking the next. ‘They’re in order,’ she says, to nobody. ‘They’re in perfect order.’ Her voice is quite steady. ‘It’s the best-kept account I have ever seen.’ The jars of counted water stand shelved in their thousands, a cupful in each.
+Jars. A hall of them, shelved to a height you cannot see, and going on ahead of you further than the hall should go: glass jars the size of a cupped pair of hands, each one full of still water, each one sealed with a disc of glass, and on the disc a mark cut in the machine’s notation. A cupful in each. The light in the hall is the light that comes out of them. The shelves keep years, and some years are thick. There is a long run of jars all frosted white inside, where the Mere froze to its bed one winter and the machine drank ice. There is a shelf of jars every one of them cracked across, and the faces in those are not looking down but up, with their mouths open: the year of the Long Silence, when the water came up the Stair. And there is a shelf, low down, of faces that are all very young, which you do not look at for long. Isaura Vant has taken a jar down and is holding it to the light, and reading the mark on its seal, and putting it back, and taking the next. ‘They’re in order,’ she says, to nobody. ‘They’re in perfect order. Every cupful that left the Mere, entered again where it arrived.’ Her voice is quite steady. ‘This is the other side of the book. These are my forty ells.’ She stops at a shelf near the floor. ‘This is the year of the Thirst Riots. My grandmother would be on this shelf. She was nine. She hid in a dye-vat for two days.’ She does not look for her. She puts the jar back exactly where it was. The jars of counted water stand shelved in their thousands, a cupful in each. Where the broken jar stood there is a gap on the shelf, the shape of a cupful.
 
 **To the glass gate**
 
-The glass gate is two leaves of glass taller than the Sounding’s dome, standing open on a hall full of a dim green light. Across it stand the Assayers: three figures of glass, taller than any person, without faces, each holding before it in both hands a set of scales. In the pans of the scales nothing is weighed; the beams stand level all the same, and tremble. The Assayers, figures of glass, holding scales, are here.
+The glass gate is two leaves of glass taller than the Sounding’s dome, standing open on a hall full of a dim green light. Across it stand the Assayers: three figures of glass, taller than any person, without faces, each holding before it in both hands a set of scales. In the pans of the scales nothing is weighed; the beams stand level all the same, and tremble. You have seen those scales before, small, in brass, cut into the lintel of the Office of Measures. The Assayers, figures of glass, holding scales, are here.
 
 **To the top of the stair**
 
@@ -744,7 +744,7 @@ The head of the Stair, loud with the Ninefold going over into the first lock.
 
 **To the north road, at the Rim**
 
-The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall.
+The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall. In the dust by the carters’ trough there are beads of green glass the size of lentils, and a child with a tray is selling them: Mere-tears, a copper a handful, lucky for a journey. When you hold one to the light there is a bubble in it, perfectly round.
 
 **Go up out of the Bowl by the north road**
 

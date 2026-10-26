@@ -270,7 +270,7 @@ describe('Low Water', () => {
     expect(Bowl.knows(j, 'receipts_read')).toBe(true);
     expect(Bowl.knows(j, 'circles_read')).toBe(true);
     expect(Bowl.knows(j, 'auditor_heard')).toBe(true);
-    expect(Bowl.said(j, j.taken.length - 1)).toContain('I AM VERY TIRED');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('I am tired');
   }, 300000);
   for (const [seed, choice, ending] of [
     ['given', ['seat of the Auditor', 'Give the Auditor its heart'], 'heart_given'],
@@ -320,8 +320,53 @@ describe('Low Water', () => {
     expect(Bowl.knows(j, 'lector_words')).toBe(true);
     await Bowl.untilNight(j);
     await j.play(...Bowl.underMere.slice(1), ...Bowl.upStair, 'seat of the Auditor', 'Talk to the Auditor', 'what it is', 'about Aun');
-    expect(Bowl.said(j, j.taken.length - 1)).toContain('SHE WAS NOT AFRAID OF ME');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('She was not afraid of me');
     await j.play('Stay at the door of the seat');
     expect(j.holds('reached', L('long_watch'))).toBe(true);
+  }, 300000);
+  it('lingers in the Ward in the water until the doubles walk, and has Isaura measure them back into the Mere', async () => {
+    const j = await Bowl.start('doubles');
+    await j.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud');
+    await Bowl.untilNight(j);
+    await j.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12');
+    expect(j.holds(L('doublesLoose'), 'party')).toBe(true);
+    await j.play('square in the water', 'Rim in the water', 'Bowl in the water', 'still water', 'Ward landing');
+    expect(j.at(L('doubles'))).toBe(L('ward_landing'));
+    expect(j.taken[j.taken.length - 1].page).toContain('coming slowly up the steps');
+    // Wait on the landing and they come; every way past them is still open in the fight.
+    await j.play('Wait › A while');
+    expect(j.holds('tolerates', L('doubles'), 'party')).toBe(false);
+    expect(j.choices().some(c => c.label === 'Attack')).toBe(true);
+    await j.play('Ask Isaura to measure your doubles');
+    expect(j.holds(L('doublesLaid'), 'party')).toBe(true);
+    expect(j.taken[j.taken.length - 1].page).toContain('They can’t check it');
+  }, 300000);
+  it('breaks Annet Kettle\'s jar in the hall of receipts, and Isaura enters the debit before the Assayers level it', async () => {
+    const j = await Bowl.start('halm');
+    await j.play(...Bowl.arrive, '^To Measures Square', '^Into the Office of Measures', "Registrar's room", 'Talk to Registrar',
+      'what she wants from you', 'Take your leave', '^To the hall of the Office', '^Out to Measures Square', "^To the Dyers' Walk",
+      '^To the lock stair', '^To the Ward landing', '^To the new mud', '^To the dig', 'Talk to Dov', 'Quill.s agent', 'Take your leave',
+      ...Bowl.freeze, '=430');
+    expect(j.holds(L('drowned'), L('diggers'))).toBe(true);
+    await j.play(...Bowl.bell.slice(6), '^To the new mud');
+    await Bowl.untilNight(j);
+    await j.play(...Bowl.underMere.slice(1), 'Ward in the water', 'foot of the stair', 'top of the stair', 'glass gate',
+      'hall of receipts', 'jars of counted water: Examine');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('Annet Kettle. She is still calling');
+    await j.play("Take down Annet Kettle's jar");
+    expect(j.holds(L('annetFreed'), 'party')).toBe(true);
+    expect(j.at(L('assayers'))).toBe(L('hall_receipts'));
+    await j.play('Ask Isaura to enter the broken jar');
+    expect(j.at(L('assayers'))).toBe(L('glass_gate'));
+    expect(j.holds('tolerates', L('assayers'), 'party')).toBe(true);
+  }, 300000);
+  it('shows the account before anyone can read it: the Check in the Office, double entry, and the Lector\'s bench', async () => {
+    const j = await Bowl.start('echoes');
+    await j.play(...Bowl.arrive, '^To Measures Square', '^Into the Office of Measures');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('The clerks call it the Check');
+    await j.play('Ask Isaura about the black glass', 'ledger room', 'why every figure in the Office ledgers is written twice');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('A book that checks itself');
+    await j.play('^To the hall of the Office', '^Out to Measures Square', '^Into the Sounding');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('a woman.s face carved over it'.replace('.', "'"));
   }, 300000);
 });

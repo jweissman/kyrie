@@ -17,7 +17,7 @@
     "halm.kyr",
     "hearing.kyr",
     "after.kyr",
-    "auditor.kyr", "citadel.kyr",
+    "auditor.kyr", "citadel.kyr", "echoes.kyr",
     "placed.kyr"
   ],
   "rules": [
