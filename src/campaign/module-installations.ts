@@ -127,7 +127,7 @@ export class ModuleInstallations {
   // once, when the last is in (see Campaign.assemble), not again after each.
   // The joined module checked whole: its declarations, and what can be discovered in its world.
   static check(module: Instance['module'], world: World) {
-    new ModuleCompiler(RuntimeCapabilities.signatures).validate(module);
+    new ModuleCompiler(RuntimeCapabilities.signatures, true).validate(module);
     Discovery.validate(module, world);
   }
   // base.live: the world the installation joins, as it is (given, it is not built again from every fact).

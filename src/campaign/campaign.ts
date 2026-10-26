@@ -57,7 +57,7 @@ export class Campaign implements WatchHost {
       if (saved.actionFormat !== 'schemas' && this.definition?.schemas) {
         this.compiled.actions = this.definition.schemas;
       }
-      if (!restored.trusted) { new ModuleCompiler(RuntimeCapabilities.signatures).validate(this.module); }
+      if (!restored.trusted) { new ModuleCompiler(RuntimeCapabilities.signatures, true).validate(this.module); }
       if (this.definition && !CreatureFacts.project(this.world, this.live, this.creatures).sameAs(this.world)) {
         throw new Error('Inconsistent saved creature facts');
       }

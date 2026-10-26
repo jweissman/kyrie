@@ -12,7 +12,11 @@ export class ModuleCompiler {
     'reading', 'hearsay'];
   private lookup?: Lookup;
   private signatures = new WeakMap<Signature[], Map<string, Signature>>();
-  constructor(private readonly capabilities: Signature[] = []) {}
+  // joined: checking a world joined from modules each checked on its own already. An action's parameter named as
+  // something another module brought into the world (the catalog's lamp, once a country gave someone one) is no
+  // ambiguity there: in the action, its parameter is meant. The Strewnfield's fuel_lamp could not be installed into a
+  // world that held a lamp (the library tour, wren).
+  constructor(private readonly capabilities: Signature[] = [], private readonly joined = false) {}
   validate(module: Module) {
     this.lookup = { types: new Map(module.entities.map(e => [e.id, e.type])), relations: module.relations,
       predicates: [...module.relations, ...module.queries.map(q => ({ name: q.name,
@@ -113,7 +117,7 @@ export class ModuleCompiler {
     ModuleCompiler.unique((action.parameters ?? []).map(p => p.name), 'action parameter');
     (action.parameters ?? []).forEach(p => {
       this.kind(module, p.type);
-      if (this.type(module, p.name)) { throw new Error(`Parameter shadows entity ${p.name}`); }
+      if (!this.joined && this.type(module, p.name)) { throw new Error(`Parameter shadows entity ${p.name}`); }
     });
     this.predicate(module, action.requires, bindings);
     if (action.interrupt) { this.predicate(module, action.interrupt, bindings); }
