@@ -26,7 +26,7 @@ export class CharacterPage {
         <h2 className="who">{Typography.curl(m.name)}</h2>
         <p className="line-of">{Words.upper(Words.article(m.line))}, level {m.level}{m.background
           ? `, once ${Words.article(m.background.toLowerCase())}` : ''}</p>
-        {m.sheet?.specialty && <CharacterPage.Specialty specialty={m.sheet.specialty} />}
+        {m.sheet?.specialty && <CharacterPage.Specialty who={m.name} specialty={m.sheet.specialty} />}
         {exchange?.said && /^(Have|Raise|Take up)/.test(exchange.said) && <Told.Happened exchange={exchange} />}
         <CharacterPage.Development member={m} draw={draw} choices={sections.find(s => s.id === 'development')?.choices ?? []} />
         <CharacterPage.Standing member={m} />
@@ -42,10 +42,10 @@ export class CharacterPage {
     return level > (m.maxSlots ?? []).length ? ' · not yet' : '';
   }
   // What the member is sworn or schooled to, and so what their first spells are of: "Deathspeaker. You are a herald
-  // of death and the afterlife. Their first prayers are of death."
-  static Specialty({ specialty: s }: { specialty: NonNullable<CharacterSheet['specialty']> }) {
-    return <p className="specialty"><b>{s.name}.</b> {Typography.curl(s.about)} Their first {s.prayers ? 'prayers'
-      : 'spells'} are of {s.of}.</p>;
+  // of death and the afterlife. Aldith's first prayers are of death."
+  static Specialty({ who, specialty: s }: { who: string; specialty: NonNullable<CharacterSheet['specialty']> }) {
+    return <p className="specialty"><b>{s.name}.</b> {Typography.curl(`${s.about} ${who}'s first ${s.prayers
+      ? 'prayers' : 'spells'} are of ${s.of}.`)}</p>;
   }
   // A level's development: what it is, and each way of spending it with what it would change. Without one, how far
   // the next level is and what it will bring.

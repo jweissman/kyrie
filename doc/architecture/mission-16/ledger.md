@@ -321,7 +321,9 @@ From the free plays, in the order met:
 - the region's sky stays as it was through a placed adventure's storm (the running head said "fair");
 - something heard of and since taken stays "heard, not yet seen" (the dyke-reeve's rod);
 - a company without brawn or rope is told it cannot push the punt or get into the galleries, but not where either
-  may be had.
+  may be had;
+- a development can be shown that cannot be taken, with no reason given ("Reading the dead", among the skills a
+  cleric's calling teaches).
 
 ## Deliberately left
 
