@@ -52,7 +52,10 @@ The severity and kind follow [The House That Grows' ledger](../house-that-grows/
 | 20 | Lint calls *the engine* in prose implementation talk | minor | tooling |
 | 21 | Ending precedence is declaration order across files | minor | hidden |
 | 22 | The journey driver: no wait-until, a throw when an ending lands mid-wait, `told` without the Result, curly quotes | minor | tooling |
-| 23 | Dependencies would not install from their tarball (403) | — | environment |
+| 23 | Rules in different files are weighed in manifest order, so a fall-back rule can pre-empt a later file's verdict | moderate | hidden |
+| 24 | A step label can match another person's topic in the same room | minor | tooling |
+| 25 | A rule's `says` during an action reaches the page but not the journey's `told` | minor | tooling |
+| 26 | Dependencies would not install from their tarball (403) | — | environment |
 
 ## 1. A way's `opening when` is checked before the module's own rules
 
@@ -181,7 +184,43 @@ Every item below cost at least one failing run.
 * **Curly quotes.** The page sets them (’), so an expectation typed with a straight apostrophe fails.
 * **`?` is not an optional wait.** On a `=+n` step, `?=+6` is taken as a label pattern and silently skipped.
 
-## 23. Environment
+## 23. Rule order is manifest order
+
+**Where.** `council.kyr` and `hearing.kyr`.
+
+**What happened.** `council_rejects` (in `hearing.kyr`) fires on any remedy that no verdict rule has taken. Act IV's
+verdict rules live in a new file, and with `council.kyr` listed after `hearing.kyr` the rejection was weighed first, in
+the same pass. Nothing in a file says that its rules depend on running before another file's.
+
+**What I did.** Listed `council.kyr` before `hearing.kyr` in both manifests.
+
+**Remedy.** A rule priority (`Rule … otherwise`, weighed after every other rule with the same trigger), or lint a rule
+whose condition is the negation of `decided`-style relations that other files assert.
+
+## 24. A step label can match another person's topic
+
+**Where.** `test/support/low-water.ts`: `Bowl.finding`.
+
+**What happened.** The Finding's step `what the Reckoner counts` was meant for the census exhibit. In the Moot Hall,
+where the Registrar is present, it matched a new topic, *Tell the Registrar that what the Reckoner counts is an
+account*. The topic was taken, the exhibit was silently skipped, and the failure showed up three assertions later.
+
+**What I did.** Relabelled the topic.
+
+**Remedy.** A journey step that matches more than one choice could fail loudly, and say which choices it matched.
+
+## 25. Rule text during an action is in `page`, not `told`
+
+**Where.** Quill's pricing speech, `quill_prices`.
+
+**What happened.** The speech was on the page, after the action's Result, but not in the journey's `told`, so the
+assertion on `Bowl.said` failed. Other rule texts, fired during waits, are in `told`.
+
+**What I did.** `Bowl.pages` for assertions on what a step showed.
+
+**Remedy.** Document which channel carries which text, or make `told` everything the page told.
+
+## 26. Environment
 
 `bun install` was refused (403) fetching two git dependencies as tarballs. I cloned them at the pinned commits into
 the scratchpad, pointed `package.json` at them for the install, and restored `package.json` and `bun.lock`. Nothing of

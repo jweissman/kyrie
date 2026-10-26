@@ -23,6 +23,7 @@ and three years ago a good Cantor cut the verse that told it to drink only a cup
 | [08 — the second pass, as built](08-second-pass-built.md) | The Auditor and its heart, Ammerlin in the water, the Glass Citadel, seventeen endings, what is still short |
 | [09 — a critical reading](09-critique.md) | Depth, pulp, the missing form (double entry), what I was not happy with |
 | [10 — the final revision](10-final-revision.md) | Double entry, the Auditor rewritten, foreshadowing, the doubles and the Assayers as fights with ways around them |
+| [11 — Act IV](11-act-four.md) | The Hearing as a council of war: the account laid, the creditor named, Quill's arithmetic, three answers |
 | [friction.md](friction.md) | Every place Kyr resisted, by severity and kind, with remedies |
 | [Play transcripts](../../playtests/low-water-2026-10-25) | Four journeys as the page told them |
 

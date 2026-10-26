@@ -131,13 +131,13 @@ Module lowwater "Low Water" {
 
   // Quill's answer, when a cause other than his Channel is named without the report to stop him.
   Relation answered(group).
-  Rule quill_answers when named(party) and not laid(ex_report) and not causeGuild(party) and not quillDeal(quill) and not answered(quill)
+  Rule quill_answers when named(party) and not causeAccount(party) and not laid(ex_report) and not causeGuild(party) and not quillDeal(quill) and not answered(quill)
     says "Harrow Quill rises, gracious, and asks the Council's leave, and has it. 'A machine under the Ward,' he says. 'Bronze men. A hymn that works sluices.' He lets it hang. 'I don't doubt the Assessor saw something down there. I only observe that my Channel is in the Office's register and their machine is in a story.' It is very well done. Half the hall laughs." {
     Assert answered(quill). Decrease credence(council) by 2. }
-  Rule quill_concedes when named(party) and laid(ex_report) and not answered(quill) and not quillDeal(quill)
+  Rule quill_concedes when named(party) and not causeAccount(party) and laid(ex_report) and not answered(quill) and not quillDeal(quill)
     says "Quill rises and, for once, does not wait for leave. 'The Assessor has my engineers' report,' he says. 'I should like it known I'd have published it myself in the end.' He considers. 'Probably. In the end.' He sits down to a laugh, which he has earned." {
     Assert answered(quill). }
-  Rule quill_supports when named(party) and quillDeal(quill) and not answered(quill)
+  Rule quill_supports when named(party) and not causeAccount(party) and quillDeal(quill) and not answered(quill)
     says "Quill rises to support the Assessor's Finding at once, in a short speech of great warmth, and sits down again, and the hall understands that some arrangement has been made, and the Ward understands what it was." {
     Assert answered(quill). Increase credence(council) by 1. }
 

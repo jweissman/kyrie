@@ -159,7 +159,7 @@ Module lowwater "Low Water" {
 
   // With the door unheld, the Reflected come for it the night the count closes, and carry it up the stair.
   Measure heartDue(place). Relation heartRising(place). Relation heartHome(place). Relation heartRecovered(group).
-  Rule heart_taken when complete(reckoner) and not doorHeld(reckoner) and not heartRising(bowl) and not heartRecovered(party) and at(ninth_heart, ninth_socket) and not countFalsified(reckoner) {
+  Rule heart_taken when complete(reckoner) and not doorHeld(reckoner) and not heartRising(bowl) and not heartRecovered(party) and at(ninth_heart, ninth_socket) and not countFalsified(reckoner) and not auditorSettled(bowl) {
     Retract at(ninth_heart, ninth_socket). Assert keeps(reflected, ninth_heart). Assert heartRising(bowl). Set heartDue(bowl) to watch(clock) + 144. }
   Observe heart_carried near reflected when keeps(reflected, ninth_heart) and dark() "Among the Reflected one goes with its hands cupped in front of it, as you would carry a light in wind; and in its hands, through the water of its fingers, something breathes, all the colours of deep water.".
   Observe heart_on_stair at stair_foot when keeps(reflected, ninth_heart) "Up the stair in the water, very far up, a light is climbing: all the colours of deep water, carried in cupped hands, step after step, slowly, toward the dark.".
@@ -236,7 +236,7 @@ Module lowwater "Low Water" {
   // If nobody holds it back, in the end the Mere stands up: not as a monster, but as it was. It comes back in one night
   // to the fourth step of the Ward landing, where Isaura learned to swim, copied from the Auditor's memory of it.
   Relation mereStood(place).
-  Rule mere_stands when approach(bowl) >= 14 and dark() and not mereStood(bowl) and not complete(reckoner) and not broken(reckoner) and not countFalsified(reckoner)
+  Rule mere_stands when approach(bowl) >= 14 and dark() and not mereStood(bowl) and not complete(reckoner) and not broken(reckoner) and not countFalsified(reckoner) and not auditorSettled(bowl)
     says "In the middle of the night the whole Mere stands up. There is no wave and no sound. The water is simply higher, all at once, as if it had never gone: up over the mud, over the planks, up the Ward landing to the fourth step, exactly to the fourth step, where it stood when the oldest people in the Ward were children; and every boat-ring is under water, and the Tench is afloat at the end of her rope. The surface is so still that the whole Bowl stands upside down in it. In the reflection, every lamp in the Ward is lit, though most of the Ward is dark, and on the landing in the reflection people are standing who are not standing on the landing. In the morning the water is back where it was, a long way off across the mud. Nobody in the city speaks of it, the way nobody spoke of the Long Silence; but Isaura Vant goes down at first light and measures the tide-mark on the fourth step, and writes the figure in her book, and underlines it." {
     Assert mereStood(bowl). Assert strikes(reflected_cold, party). }
 }

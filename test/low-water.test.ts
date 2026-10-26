@@ -369,4 +369,40 @@ describe('Low Water', () => {
     await j.play('^To the hall of the Office', '^Out to Measures Square', '^Into the Sounding');
     expect(Bowl.said(j, j.taken.length - 1)).toContain('a woman.s face carved over it'.replace('.', "'"));
   }, 300000);
+  for (const [seed, remedy, verdict, ending] of [
+    ['council-fourth', 'order the Fourth Remainder sung', 'verdictFourth', 'held_door'],
+    ['council-settle', 'offer the creditor the Ward', 'verdictSettle', 'ward_settled'],
+  ] as const) {
+    it(`lays the account before the Council, names the creditor, and the Council answers: ${verdict}`, async () => {
+      const j = await Bowl.start(seed);
+      await j.play(...Bowl.act1, ...Bowl.trial, ...Bowl.descentNinth, ...Bowl.night, ...Bowl.morningNinth);
+      expect(Bowl.knows(j, 'auditor_known')).toBe(true);
+      await j.play(...Bowl.office2, '=820', 'Ask Isaura if she will sign', ...Bowl.toMoot, '=889', ...Bowl.councilFinding(remedy));
+      expect(Bowl.pages(j)).toContain('The good of the many is a sum. I didn’t say it was a kind one');
+      expect(Bowl.pages(j)).not.toContain('a laugh, which he has earned');
+      expect(j.holds(L(verdict), L('ammerlin'))).toBe(true);
+      if (verdict === 'verdictSettle') {
+        expect(j.holds(L('dissented'), L('isaura'))).toBe(true);
+        await j.play('=962');
+        expect(j.holds(L('wardGiven'), L('ammerlin'))).toBe(true);
+        expect(Bowl.mere(j)).toBe(64);
+        expect(j.measure(L('approach'), L('bowl'))).toBe(0);
+      }
+      await j.play(...Bowl.leave);
+      expect(j.holds('reached', L(ending))).toBe(true);
+    }, 300000);
+  }
+  it('carries the Auditor\'s question down to the Hearing, and the Council enters the Ward as inestimable', async () => {
+    const j = await Bowl.start('council-inestimable');
+    await j.play(...Bowl.act1, ...Bowl.trial, ...Bowl.descentNinth, ...Bowl.night, ...Bowl.morningNinth, ...Bowl.bell.slice(6),
+      '^To the new mud');
+    await Bowl.untilNight(j);
+    await j.play(...Bowl.underMere.slice(1), ...Bowl.upStair, 'seat of the Auditor', 'Talk to the Auditor', 'what it is',
+      'what it wants of you', ...Bowl.fromSeat, ...Bowl.office2.slice(2), '=820', 'Ask Isaura if she will sign', ...Bowl.toMoot, '=889',
+      ...Bowl.councilFinding('enter the Ward in the Office.s ledger as inestimable', 'creditor.s own question'));
+    expect(j.holds(L('verdictInestimable'), L('ammerlin'))).toBe(true);
+    expect(j.holds(L('wardValued'), L('bowl'))).toBe(true);
+    await j.play(...Bowl.leave);
+    expect(j.holds('reached', L('inestimable'))).toBe(true);
+  }, 300000);
 });

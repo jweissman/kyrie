@@ -12,6 +12,7 @@ export class Bowl {
   static async untilComplete(j: Journey, limit = 2000) {
     while (!j.holds(L('complete'), L('reckoner')) && j.watch() < limit) { await j.play('=+6'); }
   }
+  static pages(j: Journey, from = 0) { return j.taken.slice(from).map(t => t.page).join(' '); }
   static page(j: Journey) { return j.taken.at(-1)?.page ?? ''; }
   static said(j: Journey, from = 0) { return j.taken.slice(from).map(t => t.told).join(' '); }
   // The first hour: Isaura at the head of the Stair, and the company down to the Dyers' Terrace before the third bell.
@@ -56,6 +57,23 @@ export class Bowl {
   static async untilReflected(j: Journey, place = 'ward_landing', limit = 2500) {
     while (j.at(L('reflected')) !== L(place) && j.watch() < limit) { await j.play('=+1'); }
   }
+  // Act IV as a council of war: the descent with a look through the ninth arch, Halm told what is in it next morning,
+  // and the Finding given with the account laid and the cause named as a creditor.
+  static get descentNinth() {
+    const at = this.descent.indexOf('^To the governor') + 2;
+    return [...this.descent.slice(0, at), 'room of the ninth wheel', 'counting gallery', ...this.descent.slice(at)];
+  }
+  static get morningNinth() {
+    return [...this.morning.slice(0, -1), 'what is set in the ninth wheel', 'Take your leave'];
+  }
+  static councilFinding(remedy: string, ...more: string[]) {
+    return [...this.finding.slice(0, 11), 'what the count is: an account', ...more, 'Name the cause: a creditor', remedy, 'Rest your Finding'];
+  }
+  static readonly leave = ['?^To the hall of the Office', '?^Out to Measures Square', '?^To the head of the Stair', '^To the north road',
+    'Go up out of the Bowl'];
+  // Back down from the Auditor's seat, through Ammerlin in the water and up through the still water to the Ward landing.
+  static readonly fromSeat = ['hall of the nine circles', 'hall of receipts', 'glass gate', 'top of the stair', 'foot of the stair',
+    'Ward in the water', 'square in the water', 'Rim in the water', 'Bowl in the water', 'still water', 'Ward landing'];
   static get act1() {
     return [...this.arrive, ...this.toDyers, ...this.basin, ...this.rim, '=+6', '^Take', ...this.office, ...this.sounding,
       ...this.lock];

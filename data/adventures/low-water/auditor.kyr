@@ -4,7 +4,7 @@ Module lowwater "Low Water" {
   // The approach: something on the far side of the last door, coming nearer every night the count goes on. It comes
   // faster as the count nears whole and as the Mere draws back, and slower while the Fourth is sung.
   Measure approach(place). Relation approachedTonight(place). Relation reflectedStilled(place).
-  Rule approach_nightly when hour(clock) == 0 and not approachedTonight(bowl) and not broken(reckoner) and not countFalsified(reckoner) {
+  Rule approach_nightly when hour(clock) == 0 and not approachedTonight(bowl) and not broken(reckoner) and not countFalsified(reckoner) and not auditorSettled(bowl) {
     Assert approachedTonight(bowl). Increase approach(bowl) by 1. }
   Rule approach_count when hour(clock) == 0 and approachedTonight(bowl) and ninths(reckoner) >= 7 and not countPressed(bowl) and not broken(reckoner) and not fourthRestored(bowl) {
     Assert countPressed(bowl). Increase approach(bowl) by 1. }

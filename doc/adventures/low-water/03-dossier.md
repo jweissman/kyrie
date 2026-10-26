@@ -90,7 +90,7 @@ If the count closes and the last door is not held, a passage onto still water un
 of counted water has been used: someone has built a copy of Ammerlin out of it, left for right, with the Mere full and
 every boat afloat, and at the centre of its Sounding a figure of water singing, or listening.
 
-## 5. Outcomes (eleven endings, reached on leaving by the north road; six more in [08](08-second-pass-built.md))
+## 5. Outcomes (eleven endings, reached on leaving by the north road; six more in [08](08-second-pass-built.md) and three in [11](11-act-four.md): twenty in all)
 
 | Ending | What makes it | |
 |---|---|---|

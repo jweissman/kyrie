@@ -124,8 +124,7 @@ They use the same relations as the journeyed routes.
 
 ## What I would still change
 
-* **Act IV.** The Hearing still does not hear about the Auditor. A Council that votes on the Ward's figure, after the
-  Auditor has asked for it, is the scene the work is missing.
-* **The Collegium in Imbar.** Pell's other instruments (*MERROW NEXT*, the field cut short among the dark pins) wait
-  for The Long Man to answer them.
-* **Halm's false footnote has no consequence yet.** It should slow Pell's work in another country.
+* **Act IV.** Done after this revision: see [11](11-act-four.md).
+* **The Collegium in Imbar.** Pell's other instruments (*MERROW NEXT*, the field cut short among the dark pins) are
+  left as references beyond the story. Low Water stays self-contained.
+* **Halm's false footnote** now has its answer, inside the adventure ([11](11-act-four.md)).

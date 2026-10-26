@@ -49,6 +49,9 @@ Module lowwater "Low Water" {
   }
   Topic halm_footnote with halm "Ask Halm to answer the Second Reader with a false footnote" when knows(actor, auditor_heard) and halmTurned(halm) and not halmFootnote(halm) once {
     Says "'Then I'll do it properly.' He sits down on an upturned basket at once and begins, in a hand far smaller than his own. After a while he says, without looking up: 'Do you know, it's the most careful thing I've ever written. A lie has to be. The truth you can be sloppy with; it holds up on its own.'".
-    On discuss { Assert halmFootnote(halm). }
+    On discuss { Assert halmFootnote(halm). Set footnoteAt(halm) to watch(clock). }
   }
+  // Two days later the Collegium's courier comes down the north road, and the Second Reader has answered.
+  Measure footnoteAt(group).
+  Observe halm_answered near halm when halmFootnote(halm) and watch(clock) >= footnoteAt(halm) + 288 "Halm has a letter open on his knee, in a small even hand, with the footnotes in red. He holds it out to you without a word. In the margin of the third page, against his own false date, the Second Reader has written, in ink, not cipher: Thank you. Most helpful. I shall go elsewhere this winter. Halm takes it back and folds it very small. 'He believed me,' he says. 'Of course he did. I've never lied to him before.' He does not look pleased. He looks like a man who has found out what he is capable of.".
 }
