@@ -63,7 +63,7 @@ Module wrayford "The Third Night" {
   Observe portrait_hung at guild_hall when portraitHung(wray) and state(portrait, true_likeness) "The true portrait of the Bench hangs at the end of the row now, framed in gilt, with a little brass plate: THE WORSHIPFUL COMPANY OF THE BRIDGE IN THE YEAR OF THE RIOT. Carters come into the hall on any excuse and stand in front of it with their caps off, very respectfully, shaking.".
 
   // ── The Guildhall yard: the impounded carts ───────────────────────────────────────────────────────────────────────
-  Observe reeve_yard_scene at reeve_yard when not dark() "The Guildhall yard, behind the hall: the city's fire-cart, a stack of hurdles, and along the wall three carts drawn up with their shafts down and a chalked notice on each: IMPOUNDED. GOODS OF A FELON. Wilder's is a light cart. Fenner's is old. Wat Pardoe's has red wheels.".
+  Observe reeve_yard_scene at reeve_yard when not dark() "The Guildhall yard, behind the hall: the city's fire-cart, a stack of hurdles, and along the wall three carts drawn up with their shafts down and a chalked notice on each: IMPOUNDED. GOODS OF A FELON. Wilder's is a light cart. Fenner's is old.".
   Thing pardoe_cart "Wat Pardoe's cart" at reeve_yard {
     State impounded "A big four-wheeled carter's wagon with red wheels and PARDOE, WAIN ROW painted on the board, impounded.".
     State reclaimed "Wat Pardoe's cart, with the IMPOUNDED notice rubbed off.".
@@ -136,7 +136,7 @@ Module wrayford "The Third Night" {
     Greets "Ezra Quoin straightens up from the press with a sheet in each hand. 'Ballads, bills, confessions, almanacs, notices of sale,' he says. 'Three coin the hundred and I'll set it while you wait.'".
   }
   Discovery quoin_named "The Confession was printed by Ezra Quoin of Cutler's Lane, who prints anything paid for.".
-  Rule confession_printer when knows(party, confession_read) and not knows(party, quoin_named) and at(party, quoin_shop) says "On the drying-lines, forty times over: the Confession." teaches quoin_named { }
+  Rule confession_printer when knows(party, confession_read) and not knows(party, quoin_named) and at(party, quoin_shop) says "You know that black letter; you read it on every post in the Market." teaches quoin_named { }
   Topic quoin_who with quoin "Ask Quoin who brought him Wat Pardoe's confession to print" when knows(actor, confession_read) once {
     Says "'A gentleman of the Company,' says Quoin cheerfully. 'Mr Inchbold, the clerk. Brought it in fair copy, paid in advance, very generous.' He hangs up a sheet. 'I print what I'm brought. That's the trade. If you want to say something else, bring it me and three coin, and I'll print that too.' He winks. 'I'm a great believer in both sides.'".
     On discuss { Assert knows(actor, quoin_named). Assert knows(actor, quoin_prints). }
@@ -274,7 +274,7 @@ Module wrayford "The Third Night" {
   }
 
   // ── The Shambles ──────────────────────────────────────────────────────────────────────────────────────────────────
-  Observe shambles_scene at shambles when not dark() "The Shambles: a steep lane of butchers' shops with their shutters down for counters, blood in the gutters, flies, drovers' beasts in hurdle pens at the bottom, and at the top the Liberty's offal cart, a tumbril with high sides, waiting to take the day's leavings over the bridge to the tan-yards.".
+  Observe shambles_scene at shambles when not dark() "The Shambles: a steep lane of butchers' shops with their shutters down for counters, blood in the gutters, flies, drovers' beasts in hurdle pens at the bottom, and at the top a cart waiting to take the day's leavings over the bridge to the tan-yards.".
   Observe shambles_night at shambles when dark() "The Shambles at night: shutters, a smell, cattle shifting in the pens.".
   Person kemp "Saul Kemp" at shambles {
     Role "a butcher, master of the Shambles". Ancestry human. Peaceable. Pronouns he. Manner jovial.

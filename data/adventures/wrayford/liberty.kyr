@@ -11,7 +11,8 @@ Module wrayford "The Third Night" {
   Observe south_road_scene at south_road when not dark() "The south road leaves Overbridge between hedges, toward the lord's country. A milestone: HARBURY XII.".
 
   // ── Saint Wade's and the Acre ─────────────────────────────────────────────────────────────────────────────────────
-  Observe nave_scene at nave when true "Saint Wade's: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters.".
+  Observe nave_again at nave when visitedBefore(nave) "Saint Wade's: whitewash, the cheerful saint, the carved wheels on the pews.".
+  Observe nave_scene at nave when not visitedBefore(nave) "Saint Wade's: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters.".
   Observe acre_scene at wades_acre when not dark() "Wade's Acre: the burying ground of Wrayford since there was a Wrayford, between the church and the river, gravestones leaning every way like a crowd looking at something.".
   Observe acre_night at wades_acre when dark() "The Acre at night: the stones pale, the river loud beyond the wall, the tower black.".
   Person corbin "Corbin" at wades_acre {
@@ -77,7 +78,7 @@ Module wrayford "The Third Night" {
   // ── The Abbess ────────────────────────────────────────────────────────────────────────────────────────────────────
   Observe court_scene at abbess_court when true "The Abbess's court-room: a long room with a dais, a chair under a canopy, a table with a green cloth, and on the walls the charters of the Liberty, framed, all of them, from the oldest, which is a scrap of vellum with a seal like a biscuit, to the newest, which is a letter from the lord's steward that she has had framed upside down.".
   Person abbess "Dame Isobel Crane" at abbess_court {
-    Role "Lady Abbess of Saint Wade's, who holds the Liberty of Overbridge". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Role "the Lady Abbess of Saint Wade's, who holds the Liberty of Overbridge". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "The Abbess looks at you over a pair of spectacles. 'Sit,' she says. 'Or stand. Only be brief, and be accurate.'".
   }
   Measure abbessRegard(group). Initially Set abbessRegard(abbess) to 0.

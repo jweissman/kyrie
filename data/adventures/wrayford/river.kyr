@@ -54,7 +54,7 @@ Module wrayford "The Third Night" {
   Observe stage_again at ferry_stage when not dark() and visitedBefore(ferry_stage) "The ferry-stage: the black jetty, the broad boat, MUDD'S FERRY. BY CHARTER.".
   Observe stage_night at ferry_stage when dark() "The ferry-stage at night: the boat drawn up, a lamp in the hut window.".
   Person dorcas "Dorcas Mudd" at ferry_stage {
-    Role "mistress of the ferrymen's company, broad as her boat". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Role "the mistress of the ferrymen's company, broad as her boat". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "Dorcas Mudd looks you up and down from the stern of her boat. 'Over?' she says. 'A penny. Not a farthing. I'm not a bridge.'".
     Sells rope for 1 coin from 3.
   }

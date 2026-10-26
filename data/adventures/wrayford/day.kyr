@@ -43,7 +43,7 @@ Module wrayford "The Third Night" {
   }
   // At two, the Bench rises; if nobody moved anything of use, the clerk's clause is read in.
   Rule bench_rises when secondDay() and hour(clock) >= 14 and not benchRose(wray) { Assert benchRose(wray). }
-  Rule worse_clause when benchRose(wray) and not clauseCharity(wray) and not clauseRelease(wray) and not clauseWorse(wray) and inWrayford() says "At two the Bench rises. The Remonstrance goes to the lord with one clause added at the end, which the clerk read in and nobody opposed: that the dead remain upon the rail until the Company's loss in the riot shall have been reckoned by the lord's captain, the Company's claims being thereby secured. The reeve, it is said, read it in his court with his face like a shut door." { Assert clauseWorse(wray). }
+  Rule worse_clause when benchRose(wray) and stillHanging() and not clauseCharity(wray) and not clauseRelease(wray) and not clauseWorse(wray) and inWrayford() says "At two the Bench rises. The Remonstrance goes to the lord with one clause added at the end, which the clerk read in and nobody opposed: that the dead remain upon the rail until the Company's loss in the riot shall have been reckoned by the lord's captain, the Company's claims being thereby secured. The reeve, it is said, read it in his court with his face like a shut door." { Assert clauseWorse(wray). }
   // A measure cannot go below nothing: an effect that would take it there makes the whole rule impossible.
   Rule worse_clause_hardens when clauseWorse(wray) and hulmeMoved(hulme) >= 1 and not clauseHardened(wray) { Assert clauseHardened(wray). Decrease hulmeMoved(hulme) by 1. }
   Relation clauseHardened(place).
@@ -52,7 +52,7 @@ Module wrayford "The Third Night" {
   Query crossingLawful() means ruling(ruled_tithe) or pinchExposed(wray) or pinchGone(pinch) or ruling(ruled_carcass).
   Query benchLeave() means clauseCharity(wray) or clauseRelease(wray).
   Relation releaseUnderway(place). Relation reeveRelease(place). Relation releasedBy(place, entity).
-  Entity by_charity: fact "the Liberty's charity". Entity by_reeve: fact "the reeve's own word". Entity by_captain: fact "the captain's leave".
+  Entity by_charity: fact "the Liberty's charity". Entity by_reeve: fact "the reeve's own word". Entity by_captain: fact "the captain's leave". Entity by_city: fact "the city itself".
   Action lay_before_reeve(actor: group, site: place) "Lay before the reeve the Bench's leave, the Abbess's claim, and the ruling at the chain" {
     Requires able(actor) and company(actor) and at(actor, site) and at(hulme, site) and stillHanging() and not captainCome()
       and benchLeave() and abbessClaims(abbess) and crossingLawful() and not releaseUnderway(wray).
@@ -92,7 +92,7 @@ Module wrayford "The Third Night" {
   }
   // The morning after: if the city is behind them, nobody stops them.
   Rule mothers_set_out when mothersMet(wray) and dayN(wray) >= walkDay(wray) and hour(clock) >= 8 and stillHanging() and not mothersWalk(wray) and not captainCome() and temper(wray) >= 2 {
-    Assert mothersWalk(wray). Assert releaseUnderway(wray). Assert releasedBy(wray, by_charity). Assert mothersWalked(wray). Assert corbinWillDig(wray). }
+    Assert mothersWalk(wray). Assert releaseUnderway(wray). Assert releasedBy(wray, by_city). Assert mothersWalked(wray). Assert corbinWillDig(wray). }
   Rule mothers_turned when mothersMet(wray) and dayN(wray) >= walkDay(wray) and hour(clock) >= 8 and hour(clock) < 9 and stillHanging() and not mothersWalk(wray) and temper(wray) < 2 and not mothersTurnedBack(wray) says "In the morning the two widows walk down the Cartway together to the Bridge End with a handful of neighbours behind them, and at the gate-ward's door Sergeant Gault meets them and says, not unkindly, 'Not on my watch, mothers. Go home.' There are not enough of them. They go home. But by noon the whole of Wrayford has heard of it." {
     Assert mothersTurnedBack(wray). Increase temper(wray) by 1. Set walkDay(wray) to dayN(wray) + 1. }
   Rule mothers_walk_told when mothersWalk(wray) and inWrayford() and not spread(mothers_fact) says "In the morning Maudie Pardoe and Jennet Hobday walk down the Cartway together to the Bridge End, arm in arm, in black, and behind them comes Wrayford: Wain Row and Northgate, the yards, the Shambles, the fish-wives from the Wharf, Annis Pye with her fist shut, Win Fenner with four children, people from the Hill with their hats in their hands, so many that the Bridge End will not hold them and they stand back up the Cartway to the Cross. At the gate-ward's door Sergeant Gault looks at them for a long time. Then he takes his key off his belt and unlocks the door himself, and stands aside, and says to his riders, 'Let them be.' The toll-keeper's widow goes up first. When the three come down from the rail it is into the arms of the city, and they cross the bridge on carters' shoulders, and Amos Pinch, at the chain, lifts it without a word, and does not write anything down. Behind them, carried on a hurdle, comes Ned Hobday." { Assert spread(mothers_fact). }

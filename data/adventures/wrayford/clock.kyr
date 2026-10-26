@@ -31,14 +31,14 @@ Module wrayford "The Third Night" {
 
   // The drawbridge goes up at the curfew bell, for the night barges and against the night, and comes down at dawn.
   Thing drawbridge "the drawbridge" on drawbridge_span is scenery {
-    State down "The drawbridge is down, its chains slack, and Bridge Street runs on over it to Overbridge.".
+    State down "The drawbridge is down.".
     State raised blocking "The drawbridge stands up against the sky on its chains. Nobody crosses the river by it until it comes down at dawn.".
   }
   Initially Assert state(drawbridge, down).
   Rule curfew_raises when hour(clock) >= 22 and state(drawbridge, down) { Assert state(drawbridge, raised). }
   Rule small_hours_raised when hour(clock) < 5 and state(drawbridge, down) { Assert state(drawbridge, raised). }
   Rule dawn_lowers when hour(clock) >= 5 and hour(clock) < 22 and state(drawbridge, raised) { Assert state(drawbridge, down). }
-  Rule curfew_bell at gate_road when hour(clock) == 22 and not knows(party, curfew_known) says "Saint Wade's rings the curfew across the water, and on the bridge the drawbridge chains begin to grind: it goes up for the night, and nobody crosses until dawn." teaches curfew_known { }
+  Rule curfew_bell at gate_road when hour(clock) == 22 and not knows(party, curfew_known) says "Saint Wade's rings the curfew across the water, and on the bridge the drawbridge chains begin to grind." teaches curfew_known { }
   Discovery curfew_known "At the curfew bell, ten at night, the drawbridge goes up, and nobody crosses the bridge until it comes down at dawn.".
 
   // ── Where word reaches the company ────────────────────────────────────────────────────────────────────────────────

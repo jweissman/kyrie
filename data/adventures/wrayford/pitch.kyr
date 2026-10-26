@@ -11,7 +11,8 @@ Module wrayford "The Third Night" {
   Rule annis_pitch when hour(clock) >= 8 and hour(clock) < 18 and not annisLeft(annis) and not at(annis, gate_road) { Assert at(annis, gate_road). }
   Rule annis_home when (hour(clock) >= 18 or hour(clock) < 8) and not at(annis, bridge_street) { Assert at(annis, bridge_street). }
   Rule annis_leaves_pitch when annisLeft(annis) and at(annis, gate_road) { Retract at(annis, gate_road). Assert at(annis, bridge_street). }
-  Observe annis_crowd at gate_road when at(annis, gate_road) and stillHanging() "Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse.".
+  Observe annis_again at gate_road when at(annis, gate_road) and stillHanging() and visitedBefore(gate_road) "Annis Pye is selling pies, with her back to the gatehouse.".
+  Observe annis_crowd at gate_road when at(annis, gate_road) and stillHanging() and not visitedBefore(gate_road) "Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse.".
   Discovery ring_missing "Annis Pye was to marry Joss Wilder at Harvest. She sells pies at the Bridge End, under him. His betrothal ring is not on his hand; she watched them hang him and looked for it, and it was not there." {
     Known by annis.
   }

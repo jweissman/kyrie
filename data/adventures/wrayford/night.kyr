@@ -3,7 +3,7 @@ Module wrayford "The Third Night" {
   // The gate-ward's stair is locked; Gault has the key on his belt. A thief picks it, or lifts the key at the Nine
   // Wheels; a climber goes up the pier face from the bank; by day Gault will let a mourner up to look.
   Thing gate_door "the gate-ward's door" on gate_stair {
-    State locked blocking "The gate-ward's door into the tower is shut and locked, and the decree is nailed to it.".
+    State locked blocking "The gate-ward's door into the tower is shut and locked.".
     State open "The gate-ward's door stands unlocked.".
     Change pick "Pick the lock of the gate-ward's door" from locked to open needing lockwork.
     Change unlock "Unlock the gate-ward's door with Gault's key" from locked to open needing gate_key.
@@ -123,7 +123,8 @@ Module wrayford "The Third Night" {
   // captain does. Whoever was seen; or whoever gives themselves up; or Hal, who has his own reasons; or Kit Pardoe.
   Relation reckoned(place). Relation arrestedParty(group). Relation halTakesBlame(group). Relation kitBlamed(group).
   Relation gaveSelfUp(group). Relation fledToLiberty(group).
-  Query unlawfulDown() means takenDown(wray) and not lawfulRelease(wray).
+  // The whole city carrying its dead over the bridge in daylight is not a thing the reeve can answer by taking one man.
+  Query unlawfulDown() means takenDown(wray) and not releaseUnderway(wray).
   Relation lawfulRelease(place).
   Action give_self_up(actor: group, site: place) "Tell the reeve it was you who cut them down" {
     Grave "He will have to take you for it.".
@@ -164,9 +165,12 @@ Module wrayford "The Third Night" {
     Retract reckoningDue(wray). Assert arrestedParty(party). Assert at(party, guild_cellar). Assert heldInCellar(party). }
   Rule reckoned_hal when reckoningDue(wray) and not seenAtRail(party) and halKept(hal) and halSat(party) and not halHurt(hal) says "In the morning Hal Hulme goes to his father's court before it sits, and says in front of the constable and the clerk and the riders' sergeant that he cut the three down himself, in the night, alone. His father looks at him for a long time, and then has him taken to the cellar. Nobody in Wrayford believes it, and nobody says so." {
     Retract reckoningDue(wray). Assert halTakesBlame(hal). Assert halAway(hal). Assert at(hal, guild_cellar). }
-  Rule reckoned_dorcas when reckoningDue(wray) and not seenAtRail(party) and boatCrossed(wray) and not (halKept(hal) and halSat(party)) says "The reeve's men go to the ferry-stage, because everybody knows, and Dorcas Mudd stands on her jetty with her oar and tells them, for the whole Wharf to hear, that whatever was on the Wray between the stairs last night was hers by charter, and is landed now, in the Liberty, and if the reeve wants it he can apply to the Abbess. The constable writes it down. Then he goes and takes Kit Pardoe from the yards instead, because somebody has to be taken." {
+  Rule reckoned_dorcas when reckoningDue(wray) and not kitTaken(kit) and not seenAtRail(party) and boatCrossed(wray) and not (halKept(hal) and halSat(party)) says "The reeve's men go to the ferry-stage, because everybody knows, and Dorcas Mudd stands on her jetty with her oar and tells them, for the whole Wharf to hear, that whatever was on the Wray between the stairs last night was hers by charter, and is landed now, in the Liberty, and if the reeve wants it he can apply to the Abbess. The constable writes it down. Then he goes and takes Kit Pardoe from the yards instead, because somebody has to be taken." {
     Retract reckoningDue(wray). Assert kitBlamed(kit). Assert kitTaken(kit). Assert at(kit, guild_cellar). }
-  Rule reckoned_kit when reckoningDue(wray) and not seenAtRail(party) and not boatCrossed(wray) and not (halKept(hal) and halSat(party)) and not travelsWith(kit, party) says "In the morning the reeve's men take Kit Pardoe from the yards, because he is Wat's son and the city knows what it would have done in his place, and he does not deny it, which he could have, and goes with them to the cellar with his head up." {
+  // With Wat's son already in the cellar, the reeve's men need look no further.
+  Rule reckoned_held when reckoningDue(wray) and kitTaken(kit) and not seenAtRail(party) and not (halKept(hal) and halSat(party)) says "In the morning the reeve's men go down to the Guildhall cellar, where they have Kit Pardoe already, and write his name against the cutting-down as well, since it saves going anywhere else." {
+    Retract reckoningDue(wray). Assert kitBlamed(kit). }
+  Rule reckoned_kit when reckoningDue(wray) and not kitTaken(kit) and not seenAtRail(party) and not boatCrossed(wray) and not (halKept(hal) and halSat(party)) and not travelsWith(kit, party) says "In the morning the reeve's men take Kit Pardoe from the yards, because he is Wat's son and the city knows what it would have done in his place, and he does not deny it, which he could have, and goes with them to the cellar with his head up." {
     Retract reckoningDue(wray). Assert kitBlamed(kit). Assert kitTaken(kit). Assert at(kit, guild_cellar). }
   Rule reckoned_none when reckoningDue(wray) and not seenAtRail(party) and not boatCrossed(wray) and not (halKept(hal) and halSat(party)) and travelsWith(kit, party) says "In the morning the reeve's men come to Wain Row looking for Kit Pardoe, and do not find him, and go away again, and the reeve writes in his book that persons unknown took down the dead." {
     Retract reckoningDue(wray). Assert unknownHands(wray). }

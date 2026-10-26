@@ -53,7 +53,7 @@ Module wrayford "The Third Night" {
   // ── Hal ───────────────────────────────────────────────────────────────────────────────────────────────────────────
   Person hal "Hal Hulme" at guild_hall {
     Role "the reeve's son, who writes his father's papers". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
-    Greets "Hal Hulme puts down his pen.".
+    Greets "Hal Hulme looks up, and for a moment he is twelve years old, and then he is not.".
   }
   // His father's clerk by day; at dusk he goes down to the starling under the middle arch, where he always went; home.
   Relation halAway(group).
@@ -87,7 +87,7 @@ Module wrayford "The Third Night" {
   }
   Discovery hal_wrote "Hal Hulme, the reeve's son, wrote to the riders at midnight on the night of the rising, believing they would only take the old carters for the lord's court and spare the city another night of fire. They hanged them on the road. He has told no one.".
   Topic hal_tell_father with hal "Tell Hal he must tell his father" when halConfessed(actor) and not halToldFather(hal) and not halKept(hal) once {
-    Says "He nods, slowly, as if you had told him the time. 'Yes.' He gets up. 'Tonight. Before supper.' At the door he stops. 'He'll resign,' he says. 'Or he won't, and that'll be worse.'".
+    Says "He nods, slowly, as if you had told him the time. 'Yes.' He gets up. 'Tonight. When he comes in.' At the door he stops. 'He'll resign,' he says. 'Or he won't, and that'll be worse.'".
     On discuss { Assert halToldFather(hal). Increase hulmeMoved(hulme) by 2. }
   }
   Topic hal_keep with hal "Tell Hal you'll keep it between the two of you" when halConfessed(actor) and not halToldFather(hal) and not halKept(hal) once {
@@ -114,7 +114,7 @@ Module wrayford "The Third Night" {
   // ── Alderman Gidley ───────────────────────────────────────────────────────────────────────────────────────────────
   Observe parlour_scene at gidley_parlour when true "A parlour of the best kind: a Turkey carpet, a harpsichord nobody plays, a view of the river through good glass, and over the fire a sampler: WE BEAR THE CROSSING. The blinds of the room above are drawn, for the aunt.".
   Person gidley "Alderman Prosper Gidley" at gidley_parlour {
-    Role "Master of the Worshipful Company of the Bridge, in a blue gown". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Role "the Master of the Worshipful Company of the Bridge, in a blue gown". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "Alderman Gidley takes your hand in both of his, which are warm and soft, and holds it. 'Terrible days,' he says. 'Terrible. Sit down.'".
   }
   // Breakfast at home; at nine to the gatehouse, where he weeps; the Guildhall; home to dine.
@@ -181,7 +181,7 @@ Module wrayford "The Third Night" {
   // The ice-house: Tobias Wren by day, who sells to the Hill and to nobody else; locked at night.
   Observe icehouse_scene at ice_house when true "Down a stair into the hill: a brick dome, cold enough to make your breath smoke, and straw, and under the straw, blocks of last winter's river, grey and sweating.".
   Person tobias "Tobias Wren" at ice_house {
-    Role "Alderman Gidley's ice-man, in a sacking cape". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Role "the Alderman's ice-man, in a sacking cape". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "Tobias Wren straightens up from the straw with a pair of tongs. 'Hill houses only,' he says. 'Alderman's orders.'".
   }
   Rule tobias_day when hour(clock) >= 8 and hour(clock) < 18 and not at(tobias, ice_house) { Assert at(tobias, ice_house). }
