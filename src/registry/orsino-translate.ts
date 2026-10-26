@@ -44,6 +44,12 @@ export class OrsinoTranslate {
       id => this.inline[id]?.saveKind ?? (this.family('status').find(s => s.key === id)?.definition as Raw | undefined)?.saveKind as string);
   }
   static slug(name: string): string { return name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, ''); }
+  // Names said as a player would say them, where Orsino's are a programmer's or read backwards; Orsino's own stay in
+  // the registry, and ids are still made from them (Mission 16's sheet read "Sets Spear", "Vigor Up", and an enemy
+  // "hunting prey" when it was the prey).
+  static readonly plainly: Record<string, string> = { 'Sets Spear': 'Set Spear', 'Vigor Up': 'Steel Yourself',
+    'Hunting Prey': 'Marked as Prey' };
+  static said(name: unknown): string { return OrsinoTranslate.plainly[String(name)] ?? String(name); }
   private family(...families: string[]) { return this.entries.filter(e => families.includes(e.family)); }
   // A status reference is a key, a display name, or an inline definition (which becomes its own condition).
   statusId(status: unknown, from: string): string | undefined {
@@ -105,7 +111,7 @@ export class OrsinoTranslate {
     const t = this.modifiers((def.effect ?? {}) as Raw, from);
     if (def.consumeOn !== undefined) { t.omits.consumeOn = 'Orsino declares consumeOn but never executes it; the status lasts its duration.'; }
     const trigger = (def.trigger as Raw | undefined)?.damage;
-    const out: Condition = { name: String(def.name), description: String(def.description ?? def.name),
+    const out: Condition = { name: OrsinoTranslate.said(def.name), description: String(def.description ?? def.name),
       lifetime: 'encounter', modifiers: t.modifiers,
       ...Object.keys(t.hooks).length ? { hooks: t.hooks } : {},
       ...typeof trigger === 'string' && this.vocabulary.damageTypes.includes(trigger) ? { trigger } : {},
@@ -165,7 +171,7 @@ export class OrsinoTranslate {
     const requires = this.requires(d.condition, unsupported);
     const offensive = spell && effects.some(x => x.onResist);
     const domain = d.domain as string | undefined, school = d.school as string | undefined;
-    return { name: String(d.name), kind: spell ? 'spell' : 'technique', description: String(d.description ?? d.name),
+    return { name: OrsinoTranslate.said(d.name), kind: spell ? 'spell' : 'technique', description: String(d.description ?? d.name),
       effects, ...spell ? { cost: 1, spell: { tradition: e.family === 'arcaneSpell' ? 'arcane' : 'divine', level: d.level as number,
         ...school ? { school } : {}, ...domain ? { domain } : {} } } : {},
       ...!spell && typeof d.level === 'number' ? { level: d.level } : {},

@@ -71,7 +71,7 @@ export class CharacterPage {
     return (
       <li className={`option ${o.kind}`}>
         {choice ? <Act.View choice={choice} draw={draw} className="take">{choice.label}</Act.View>
-          : <span className="take still">{o.name}</span>}
+          : <span className="take still">{o.name}{o.why && <span className="why"> · {Typography.curl(o.why)}</span>}</span>}
         {o.kind === 'quality' && <span className="from-to">{o.text}</span>}
         {o.kind === 'skill' && o.text && <p className="what">{Typography.curl(o.text)}</p>}
         <ul className="changes">{o.changes.map(c => <li key={c}>{Typography.curl(c)}</li>)}

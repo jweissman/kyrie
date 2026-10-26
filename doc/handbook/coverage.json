@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 207,
+    "kyr": 208,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 196,
+      "kyr": 197,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -8224,7 +8224,7 @@
   },
   {
    "id": "ability:set_spear",
-   "title": "Sets Spear",
+   "title": "Set Spear",
    "status": "faithful",
    "book": "phb",
    "section": "techniques"
@@ -8260,6 +8260,13 @@
   {
    "id": "ability:spread_disease",
    "title": "Spread Disease",
+   "status": "faithful",
+   "book": "phb",
+   "section": "techniques"
+  },
+  {
+   "id": "ability:vigor_up",
+   "title": "Steel Yourself",
    "status": "faithful",
    "book": "phb",
    "section": "techniques"
@@ -8302,13 +8309,6 @@
   {
    "id": "ability:vicious_mockery",
    "title": "Vicious Mockery",
-   "status": "faithful",
-   "book": "phb",
-   "section": "techniques"
-  },
-  {
-   "id": "ability:vigor_up",
-   "title": "Vigor Up",
    "status": "faithful",
    "book": "phb",
    "section": "techniques"
@@ -9063,13 +9063,6 @@
    "section": "conditions"
   },
   {
-   "id": "condition:prey",
-   "title": "Hunting Prey",
-   "status": "faithful",
-   "book": "phb",
-   "section": "conditions"
-  },
-  {
    "id": "condition:mazed",
    "title": "In Maze",
    "status": "unsupported",
@@ -9254,6 +9247,13 @@
   {
    "id": "condition:major_endurance",
    "title": "Mammoth's Endurance",
+   "status": "faithful",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:prey",
+   "title": "Marked as Prey",
    "status": "faithful",
    "book": "phb",
    "section": "conditions"
@@ -11004,6 +11004,13 @@
   {
    "id": "rule:discovery_rules.leadsTo",
    "title": "leadsTo",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-discovery"
+  },
+  {
+   "id": "rule:discovery_rules.leadsVia",
+   "title": "leadsVia",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-discovery"

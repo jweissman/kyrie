@@ -13,7 +13,6 @@ import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../presentation/fictional-time';
 import { SeenThrough } from './seen-through';
-import { Openings } from '../presentation/openings';
 import { Calendar } from '../presentation/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
 import type { Campaign } from '../campaign/campaign';
@@ -377,10 +376,7 @@ export class ScreenModel {
   }
   // The member as the rules have them, and what a development would change, each with its command if offered.
   private static sheet(campaign: Campaign, id: string, ref: string | undefined, acts: Act[]) {
-    const c = campaign.readout.creatures.find(x => x.id === id);
-    if (!c) { return {}; }
-    const development = CharacterSheets.development(c, ref, new Set(this.offered(acts)), Openings.of(campaign));
-    return { sheet: CharacterSheets.sheet(c), ...development ? { development } : {} };
+    return CharacterSheets.of(campaign, id, { ...ref ? { ref } : {}, offered: new Set(this.offered(acts)) });
   }
   private static offered(acts: Act[]): string[] {
     return acts.flatMap(a => [...a.command ? [a.command] : [], ...this.offered(a.children ?? [])]);

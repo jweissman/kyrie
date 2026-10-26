@@ -226,6 +226,23 @@ describe('a skill taken up with a level', () => {
   }, 60000);
 });
 
+// A development is shown only where it could be taken, or with why not: the M16 play was shown "Reading the dead"
+// among a cleric's skills in a world where nothing reads the dead, and could not take it, with no reason given.
+describe('a development on the sheet', () => {
+  it('offers only the skills the world has a use for, and says why one cannot be taken now', () => {
+    const hild = new Content('dev').createCreature('hild', { raceId: 'human', classId: 'cleric' });
+    hild.state.experience = Advancement.threshold(2);
+    Advancement.train(hild, 'dev');
+    expect(Advancement.teachable(hild)).toContain('reading_the_dead');
+    const d = CharacterSheets.development(hild, { ref: 'r', offered: new Set(['raise_quality(r,strength)']),
+      named: new Set(['lore', 'persuasion', 'woodcraft']), why: 'Not while Hild sleeps' })!;
+    expect(d.options.filter(o => o.kind === 'skill').map(o => o.id)).toEqual(['lore', 'persuasion', 'woodcraft']);
+    expect(d.options.find(o => o.id === 'strength')).toMatchObject({ command: 'raise_quality(r,strength)' });
+    expect(d.options.find(o => o.id === 'strength')!.why).toBeUndefined();
+    expect(d.options.find(o => o.id === 'lore')!.why).toBe('Not while Hild sleeps');
+  });
+});
+
 // A specialist's sheet says what it is sworn or schooled to, and so what its first spells are of: the Bushweald play
 // met a cleric of the death domain, praying curses and drains, under nothing but the calling's "Prayers that heal".
 describe('a specialist\'s character sheet', () => {

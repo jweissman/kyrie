@@ -896,7 +896,7 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 19 | 0 | 0 | 0 | 5 |
+| 2 | 20 | 0 | 0 | 0 | 5 |
 
 #### readIn
 
@@ -915,6 +915,12 @@ A place where a story is being told (a cart gone off the road, a man under it), 
 *Kyr · relation(fact, place)* · `rule:discovery_rules.leadsTo`
 
 What a fact tells of where something is (a site named, a country rumoured beyond a march): known, the place is on the company's map, as told, before it has been there or knows the way.
+
+#### leadsVia
+
+*Kyr · relation(fact, passage)* · `rule:discovery_rules.leadsVia`
+
+The ways a fact tells (the way to a ruin deep in a wood, landmark by landmark): known, the company knows them as if it had walked them, and can set out along them. The way into a place it has been told of it knows already: from where the place's own track starts.
 
 #### stale
 

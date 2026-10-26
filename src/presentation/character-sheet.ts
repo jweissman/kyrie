@@ -8,6 +8,10 @@ import { Advancement } from '../rules/advancement';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { Overlays } from '../overlays';
 import { CreatureSchema, type Attribute, type Creature } from '../creature';
+import type { Campaign } from '../campaign/campaign';
+import { ModuleWriter } from '../lang/module-writer';
+import { Openings } from './openings';
+import { MechanicsText } from './mechanics-text';
 
 export interface QualityRow {
   id: Attribute; name: string; score: number; base: number;
@@ -30,8 +34,9 @@ export interface DevelopmentOption {
   // What it would open that the company has come to and cannot do now (see Openings): "the gauge shaft, to the
   // gauge stone".
   opens?: string[];
-  // The command that spends it, when the engine offers it now (awake, and somewhere it can be taken in).
-  command?: string;
+  // The command that spends it, when the engine offers it now (awake, and somewhere it can be taken in); when it does
+  // not, why not.
+  command?: string; why?: string;
 }
 export interface Development { left: number; options: DevelopmentOption[] }
 
@@ -45,6 +50,16 @@ export class CharacterSheets {
     intelligence: 'old histories, scripts and the workings of magic; a mage\'s spells',
     wisdom: 'reading people and country; tending wounds; holding out against fear and charms; a cleric\'s prayers',
     charisma: 'talking people round, or down; a lie that holds; a bard\'s songs' };
+  // A member of a campaign's company: their sheet, and their development with what the world offers of it now.
+  static of(campaign: Campaign, id: string, at: { ref?: string; offered: Set<string> }) {
+    const c = campaign.readout.creatures.find(x => x.id === id), world = campaign.world;
+    if (!c) { return {}; }
+    const named = new Set(campaign.module.entities.filter(e => e.type === 'capability').map(e => e.id));
+    const asleep = !!at.ref && world.relates('awake') && !world.test(ModuleWriter.call('awake', at.ref));
+    const development = this.development(c, { ...at, opens: Openings.of(campaign), named,
+      why: asleep ? `Not while ${c.name} sleeps` : 'Not just now' });
+    return { sheet: this.sheet(c), ...development ? { development } : {} };
+  }
   static sheet(c: Creature): CharacterSheet {
     const f = CombatProjection.fighter(c, 'fighters'), scores = Effects.scores(f);
     return {
@@ -90,10 +105,8 @@ export class CharacterSheets {
     return [...by].map(([quality, list]) => ({ label: `Against ${this.list(list)} (${this.names[quality]})`,
       value: this.signed(Fighting.statMod(scores[quality]) + c.base.level + Effects.saveModifier(f)) }));
   }
-  // What each kind of save holds out against, in words; the categories (fortitude, will) are said by their harms.
-  static readonly harms: Record<string, string> = { poison: 'poison', disease: 'disease', death: 'death', stun: 'stunning',
-    breath: 'breath', bleed: 'bleeding', magic: 'magic', charm: 'charms', fear: 'fear', sleep: 'sleep',
-    insanity: 'madness', paralyze: 'paralysis', reflex: 'what can be dodged' };
+  // What each kind of save holds out against, in words (the same words the techniques use).
+  static readonly harms: Record<string, string> = MechanicsText.harms;
   // The skills the member brings, where each comes from, and what a check on it adds.
   static skills(c: Creature): SkillRow[] {
     return Object.entries(Canon.skills).filter(([id]) => PartyCapabilities.brings(id, c))
@@ -105,17 +118,20 @@ export class CharacterSheets {
     if (Overlays.skills(c).includes(id)) { return 'background'; }
     return (Canon.classes[c.classId ?? '']?.skills ?? []).includes(id) ? 'calling' : 'gear';
   }
-  // A level's development: what is left to spend, and each way of spending it with what it would change and, where
-  // the engine offers it now, the command that spends it (`offered`: the member's commands, by id).
-  static development(c: Creature, ref?: string, offered: Set<string> = new Set(),
-    opens: Map<string, string[]> = new Map()): Development | undefined {
+  // A level's development: what is left to spend, and each way of spending it with what it would change; where the
+  // engine offers it now, the command that spends it (`offered`: the member's commands, by id), and where it does
+  // not, why not (`why`). Only skills the world has a use for are offered (`named`): a cleric was shown "Reading the
+  // dead" in a world where nothing reads it, and could not take it.
+  static development(c: Creature, at: { ref?: string; offered?: Set<string>; opens?: Map<string, string[]>;
+    named?: Set<string>; why?: string } = {}): Development | undefined {
     const left = c.state.advances?.qualities ?? 0;
     if (!left || c.state.hp === 0) { return undefined; }
+    const skills = Advancement.teachable(c).filter(s => !at.named || at.named.has(s));
     const options = [...CreatureSchema.attributes.map(q => this.quality(c, q)),
-      ...Advancement.teachable(c).map(s => ({ ...this.skill(c, s), ...opens.get(s) ? { opens: opens.get(s)! } : {} }))];
+      ...skills.map(s => ({ ...this.skill(c, s), ...at.opens?.get(s) ? { opens: at.opens.get(s)! } : {} }))];
     return { left, options: options.map(o => {
-      const command = `${o.kind === 'quality' ? 'raise_quality' : 'learn_skill'}(${ref},${o.id})`;
-      return ref && offered.has(command) ? { ...o, command } : o;
+      const command = `${o.kind === 'quality' ? 'raise_quality' : 'learn_skill'}(${at.ref},${o.id})`;
+      return at.ref && at.offered?.has(command) ? { ...o, command } : { ...o, why: at.why ?? 'Not just now' };
     }) };
   }
   private static quality(c: Creature, q: Attribute): DevelopmentOption {

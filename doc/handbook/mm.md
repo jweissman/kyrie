@@ -24,25 +24,25 @@ Each kind, with what it fights with, by type. Habitat says where it is met. Temp
 - Hide: Hide Armor, armour 1
 - Worth: 600 + 50 experience a level
 
-Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
+Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is stunned for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it); every enemy is charmed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Charmed: fights for the other side. An arcane spell of the second level. Takes a second-level slot.
 
-Confuse: One enemy gains confused for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell.
+Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. A divine spell of the first level. Takes a first-level slot.
 
-Flesh to Stone: One enemy gains petrified for 10 turns (a fortitude save against 18 + level + bonusSpellDC avoids it). (a sixth-level slot) Level 6 arcane spell. Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act.
+Flesh to Stone: One enemy is petrified for 10 turns (a Constitution save against 18 + level + bonusSpellDC avoids it). Petrified: immune to fear, immune to charm, immune to stun, immune to sleep, immune to poison, immune to disease, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
 
-Paralyzing Touch: One enemy gains paralyzed for 3 turns (a paralyze save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+Paralyzing Touch: One enemy is paralyzed for 3 turns (a Strength save against 14 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
+Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
 
 > An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt, Confuse, Flesh to Stone, Paralyzing Touch and Scream.
 
@@ -62,21 +62,21 @@ Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, 
 - Hide: Hide Armor, armour 1
 - Worth: 600 + 50 experience a level
 
-Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
+Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is stunned for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it); every enemy is charmed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Charmed: fights for the other side. An arcane spell of the second level. Takes a second-level slot.
 
-Command: One enemy gains fleeing for 2 turns (a will save against 20 avoids it). (a fifth-level slot) Level 5 divine spell.
+Command: One enemy is fleeing for 2 turns (a Wisdom save against 20 avoids it). Fleeing: tries only to get away. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Confuse: One enemy gains confused for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell.
+Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. A divine spell of the first level. Takes a first-level slot.
 
-Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
+Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
 
 > An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt, Command and Confuse.
 
@@ -96,19 +96,19 @@ Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, 
 - Hide: Hide Armor, armour 1
 - Worth: 600 + 50 experience a level
 
-Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
+Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is stunned for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it); every enemy is charmed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Charmed: fights for the other side. An arcane spell of the second level. Takes a second-level slot.
 
-Acid Spray: 3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Acid Burn: takes 1d6 (1–6) acid damage each turn.
+Acid Spray: 3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
-Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
+Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
 
 Regeneration: Heal 1d2 - 1 (0–1) each turn.
 
@@ -130,19 +130,19 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Hide: Hide Armor, armour 1
 - Worth: 600 + 50 experience a level
 
-Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it); every enemy gains stunned for 3 turns (a stun save against 20 + level + bonusSpellDC avoids it); every enemy gains charmed for 3 turns (a charm save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Insane: −1 to every roll, −2 to will saves. Stunned: −2 to every roll, cannot act.
+Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is stunned for 3 turns (a Constitution save against 20 + level + bonusSpellDC avoids it); every enemy is charmed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Charmed: fights for the other side. An arcane spell of the second level. Takes a second-level slot.
 
-Engulf: One enemy gains engulfed for 3 turns (a fortitude save against 16 + level + bonusSpellDC avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn.
+Engulf: One enemy is engulfed for 3 turns (a Constitution save against 16 + level + bonusSpellDC avoids it). Engulfed: cannot act, takes 2d6 (2–12) acid damage each turn.
 
-Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
+Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
 
 > An aberration of Orsino's bestiary. It fights with tentacles, armoured in hide armor, and knows Terror, Curse, Sleep, Charm Person, Mind Melt and Engulf.
 
@@ -163,7 +163,7 @@ Planar Adaptation: +2 to magic saves, resists 50% of fire, resists 50% of cold, 
 - Hide: Hide Armor, armour 1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -180,7 +180,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -199,9 +199,9 @@ Flee: Try to escape the fight (an even chance).
 - Found in: woodland, mountain
 - Worth: 150 experience a level
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -220,7 +220,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Chitin Armor, armour 2
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -237,7 +237,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Chitin Armor, armour 2
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -273,9 +273,9 @@ Flee: Try to escape the fight (an even chance).
 - Found in: cave, woodland
 - Worth: 150 experience a level
 
-Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); one enemy gains poison for 3 turns (a fortitude save against 12 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
-Ensnare: One enemy gains entangled for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
+Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -294,7 +294,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Chitin Armor, armour 2
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -312,19 +312,19 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Hide Armor, armour 1
 - Worth: 150 + 50 experience a level
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
-Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Rage: You gain raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
 
-Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a poison save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
 
-Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it). (a fourth-level slot) Level 4 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
 
-Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them gains paralyzed for 3 turns (a paralyze save against 15 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
@@ -362,7 +362,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Scale Mail, armour 4
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -379,7 +379,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Feather Armor, armour -1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -396,7 +396,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Hide Armor, armour 1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -430,7 +430,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Chitin Armor, armour 2
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -447,7 +447,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Feather Armor, armour -1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -464,7 +464,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Feather Armor, armour -1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -483,7 +483,7 @@ Flee: Try to escape the fight (an even chance).
 - Found in: cave
 - Worth: 150 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -502,7 +502,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -519,7 +519,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -536,7 +536,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Hide Armor, armour 1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -556,13 +556,13 @@ Flee: Try to escape the fight (an even chance).
 - Found in: woodland, upland
 - Worth: 150 experience a level
 
-Rime bite: 2d6 (2–12) cold damage to one enemy (may cause frozen: a reflex save against 15 avoids it); one enemy gains weakened for 3 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Frozen: dexterity −5, cannot act. Weakened: −2 damage, strength −2.
+Rime bite: 2d6 (2–12) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it); it is weakened for 3 turns (a Constitution save against 11 avoids it). Frozen: Dexterity −5, cannot act. Weakened: −2 damage, Strength −2. Again after a turn.
 
-Winter howl: Every enemy gains stunned for 1 turn (a wisdom save against 12 avoids it). (usable again in 3 turns) Stunned: −2 to every roll, cannot act.
+Winter howl: Every enemy is stunned for a turn (a Wisdom save against 12 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 > A living wolf altered by an old winter shrine: a freezing bite and a howl that stops the heart.
 
@@ -577,7 +577,7 @@ Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 ha
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -596,7 +596,7 @@ Flee: Try to escape the fight (an even chance).
 - Found in: cave
 - Worth: 150 experience a level
 
-Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); one enemy gains poison for 3 turns (a fortitude save against 12 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
 > A centipede as long as a man is tall, pale from the dark, that comes fast and bites.
 
@@ -613,7 +613,7 @@ Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may c
 - Found in: riverbank
 - Worth: 150 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 > A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.
 
@@ -630,9 +630,9 @@ Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding
 - Found in: cave, marsh
 - Worth: 150 experience a level
 
-Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a poison save against 15 avoids it); one enemy gains poison for 3 turns (a fortitude save against 12 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell. Poison: takes 1d4 (1–4) true damage each turn.
+Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); it gains poison for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the first level. Takes a first-level slot.
 
-Ensnare: One enemy gains entangled for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
+Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5.
 
 > A snake grown old and huge in the dark on whatever comes to it, as long as a hall and as thick as a man.
 
@@ -647,7 +647,7 @@ Ensnare: One enemy gains entangled for 3 turns (a reflex save against 12 + level
 - Hide: Feather Armor, armour -1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -664,7 +664,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Spine Armor, armour 1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -715,7 +715,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Feather Armor, armour -1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -732,7 +732,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -749,7 +749,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -766,7 +766,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Scale Mail, armour 4
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -785,7 +785,7 @@ Flee: Try to escape the fight (an even chance).
 - Found in: marsh, riverbank
 - Worth: 150 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -804,7 +804,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -821,7 +821,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Chitin Armor, armour 2
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -839,17 +839,17 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Hide Armor, armour 1
 - Worth: 150 + 50 experience a level
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
-Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Rage: You gain raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
 
-Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a poison save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
@@ -870,7 +870,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -887,7 +887,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Feather Armor, armour -1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -905,17 +905,17 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Hide Armor, armour 1
 - Worth: 150 + 50 experience a level
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
-Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Rage: You gain raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
 
-Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a poison save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
 
-Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a reflex save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act.
 
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
@@ -936,7 +936,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -970,7 +970,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Hide Armor, armour 1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -987,7 +987,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Scale Mail, armour 4
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1004,7 +1004,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1021,7 +1021,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Hide Armor, armour 1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1038,7 +1038,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1055,7 +1055,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Feather Armor, armour -1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1089,7 +1089,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Scale Mail, armour 4
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1106,7 +1106,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1123,7 +1123,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Hide Armor, armour 1
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1140,7 +1140,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1157,7 +1157,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Fur Armor, armour 0
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1174,7 +1174,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Shell Armor, armour 4
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1192,17 +1192,17 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Hide Armor, armour 1
 - Worth: 150 + 50 experience a level
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
-Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Rage: You gain raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
+Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
 
-Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a poison save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
+Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
@@ -1225,7 +1225,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 - Found in: woodland, upland
 - Worth: 150 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1244,7 +1244,7 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Scale Mail, armour 4
 - Worth: 10 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -1264,13 +1264,13 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Chain Mail, armour 5
 - Worth: 450 + 50 experience a level
 
-Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
 
-Heal Ally: Heal one ally for 4d8 + level; end  on one ally. (a fifth-level slot) Level 5 divine spell.
+Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+Bless: One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
-Inspire: Every ally gains inspired for 3 turns. (usable again in 8 turns) Inspired: +2 to hit, +1 to every save.
+Inspire: Every ally is inspired for 3 turns. Inspired: +2 to hit, +1 to every save, 5 more hit points (spent first). Again after 8 turns.
 
 Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necrotic.
 
@@ -1296,13 +1296,13 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Hide: Chain Mail, armour 5
 - Worth: 450 + 50 experience a level
 
-Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
 
-Heal Ally: Heal one ally for 4d8 + level; end  on one ally. (a fifth-level slot) Level 5 divine spell.
+Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+Bless: One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necrotic.
 
@@ -1324,13 +1324,13 @@ Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necroti
 - Hide: Chain Mail, armour 5
 - Worth: 450 + 50 experience a level
 
-Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
 
-Heal Ally: Heal one ally for 4d8 + level; end  on one ally. (a fifth-level slot) Level 5 divine spell.
+Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+Bless: One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
-Inspire: Every ally gains inspired for 3 turns. (usable again in 8 turns) Inspired: +2 to hit, +1 to every save.
+Inspire: Every ally is inspired for 3 turns. Inspired: +2 to hit, +1 to every save, 5 more hit points (spent first). Again after 8 turns.
 
 Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necrotic.
 
@@ -1354,15 +1354,15 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Hide: Chain Mail, armour 5
 - Worth: 450 + 50 experience a level
 
-Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
 
-Heal Ally: Heal one ally for 4d8 + level; end  on one ally. (a fifth-level slot) Level 5 divine spell.
+Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
 
-Bless: One ally gains blessed for 3 turns. (a first-level slot) Level 1 divine spell. Blessed: +1 to hit, +1 damage.
+Bless: One ally is blessed for 3 turns. Blessed: +1 to hit, +1 damage. A divine spell of the first level. Takes a first-level slot.
 
-Inspire: Every ally gains inspired for 3 turns. (usable again in 8 turns) Inspired: +2 to hit, +1 to every save.
+Inspire: Every ally is inspired for 3 turns. Inspired: +2 to hit, +1 to every save, 5 more hit points (spent first). Again after 8 turns.
 
-Rally the Faithful: Heal every ally for 1d6 (1–6); every ally gains rallied for 3 turns. (a third-level slot) Level 3 divine spell. Rallied: +1 to hit, +1 to every save, constitution +2.
+Rally the Faithful: Heal every ally for 1d6 (1–6); every ally is rallied for 3 turns. Rallied: +1 to hit, +1 to every save, Constitution +2. A divine spell of the third level. Takes a third-level slot.
 
 Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necrotic.
 
@@ -1387,15 +1387,15 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Temperament: obedient
 - Worth: 350 experience a level
 
-Silence: Every enemy gains silence for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Silence: cannot cast spells.
+Silence: Every enemy gains silence for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Silence: cannot cast spells. An arcane spell of the third level. Takes a third-level slot.
 
-Pure Beam: 1d4 (1–4) radiant damage to one enemy (halved if resisted; may cause blinded: a reflex save against 15 avoids it); 3d4 (3–12) radiant damage to one enemy (only undead creatures; halved if resisted; may cause blinded: a reflex save against 15 avoids it). (a first-level slot) Level 1 divine spell. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+Pure Beam: 1d4 (1–4) radiant damage to one enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); 3d4 (3–12) radiant damage to it (only undead creatures; halved if resisted; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
 
 Dispel Magic (not playable): no mechanics
 
-Magebane: You gain magebane for 3 turns. (a second-level slot) Level 2 arcane spell.
+Magebane: You are magebane for 3 turns. Magebane: against an enemy who casts, 2d6 (2–12) true damage to that enemy. An arcane spell of the second level. Takes a second-level slot.
 
-Arcane Ward: +3 to magic saves, resists 10% of all.
+Arcane Ward: +3 against magic, resists 10% of all.
 
 Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, resists 20% of slashing.
 
@@ -1414,15 +1414,15 @@ Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, 
 - Hide: Plate Mail, armour 7
 - Worth: 350 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
-Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
-Rapid Strike: Weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy.
+Rapid Strike: Weapon attack against one enemy; weapon attack against it; weapon attack against it.
 
 Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
 
@@ -1443,7 +1443,7 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 - Temperament: obedient
 - Worth: 350 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, resists 20% of slashing.
 
@@ -1462,7 +1462,7 @@ Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, 
 - Temperament: obedient
 - Worth: 350 experience a level
 
-Countdown: You gain ticking for 3 turns.
+Countdown: You are ticking for 3 turns. Ticking: when it ends, Detonation, at no cost.
 
 > A thing that ticks, and will not tick for long.
 
@@ -1479,19 +1479,19 @@ Countdown: You gain ticking for 3 turns.
 - Hide: Plate Mail, armour 7
 - Worth: 350 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
-Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
 Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
 
-Disciplined: +1 to hit, +1 damage, +3 evasion, +2 to magic saves.
+Disciplined: +1 to hit, +1 damage, +3 evasion, +2 against magic.
 
 > A construct of Orsino's bestiary. It fights with slam, armoured in plate mail, and knows Defend, Charge, Hide and Smash.
 
@@ -1511,11 +1511,11 @@ Disciplined: +1 to hit, +1 damage, +3 evasion, +2 to magic saves.
 - Resists: physical 35%, immune to poison, radiant takes 25% more
 - Worth: 350 experience a level
 
-Bronze sweep: 1d6 (1–6) physical damage to every enemy (a dexterity save against 11 avoids it). (usable again in 3 turns)
+Bronze sweep: 1d6 (1–6) physical damage to every enemy (a Dexterity save against 11 avoids it). Again after 3 turns.
 
-Burial chain: 1d6 (1–6) physical damage to one enemy; one enemy gains weakened for 3 turns (a strength save against 12 avoids it). (usable again in 1 turn) Weakened: −2 damage, strength −2.
+Burial chain: 1d6 (1–6) physical damage to one enemy; it is weakened for 3 turns (a Strength save against 12 avoids it). Weakened: −2 damage, Strength −2. Again after a turn.
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 > A bounded guardian of registered burials.
 
@@ -1534,9 +1534,9 @@ Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 ha
 - Found in: cave
 - Worth: 350 experience a level
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
 
@@ -1557,9 +1557,9 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 - Found in: cave
 - Worth: 350 experience a level
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
 
@@ -1576,11 +1576,11 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 - Temperament: obedient
 - Worth: 350 experience a level
 
-Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. (a third-level slot) Level 3 arcane spell.
+Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. An arcane spell of the third level. Takes a third-level slot.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Black Ritual: You gain summoning for 3 turns.
+Black Ritual: You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -1599,7 +1599,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Temperament: obedient
 - Worth: 350 experience a level
 
-Arrow Volley: 3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a bleed save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Arrow Volley: 3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a Constitution save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn.
 
 > An engine of the makers that looses bolts at whatever moves in front of it.
 
@@ -1619,13 +1619,13 @@ Arrow Volley: 3d4 (3–12) piercing damage to every enemy (halved if resisted; m
 - Hide: Leather Armor, armour 2
 - Worth: 400 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
-Mass Curse: Every enemy gains cursed for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Mass Curse: Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -1647,11 +1647,11 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Hide: Leather Armor, armour 2
 - Worth: 400 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -1673,13 +1673,13 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Hide: Leather Armor, armour 2
 - Worth: 400 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
-Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it). (a fourth-level slot) Level 4 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -1701,13 +1701,13 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Hide: Leather Armor, armour 2
 - Worth: 400 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Terror: One enemy gains frightened for 3 turns (a fear save against 15 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 divine spell. Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
-Rapid Strike: Weapon attack against one enemy; weapon attack against one enemy; weapon attack against one enemy.
+Rapid Strike: Weapon attack against one enemy; weapon attack against it; weapon attack against it.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -1752,9 +1752,9 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Hide: Scale Mail, armour 4
 - Worth: 800 + 50 experience a level
 
-Fly: One ally gains flight for 3 turns. (a third-level slot) Level 3 arcane spell. Flight: 5 harder to hit, +20 evasion.
+Fly: One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arcane spell of the third level. Takes a third-level slot.
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
 Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
 
@@ -1779,7 +1779,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Found in: mountain, cave
 - Worth: 800 experience a level
 
-Fire breath: 2d6 + 2 × level fire damage to every enemy (a breath save against 15 + level halves it; may cause burning: a fortitude save against 15 avoids it). (usable again in 3 turns) Burning: takes 1d3 (1–3) fire damage each turn.
+Fire breath: 2d6 + 2 × level fire damage to every enemy (a Constitution save against 15 + level halves it; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Again after 3 turns.
 
 Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
 
@@ -1801,9 +1801,9 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Hide: Scale Mail, armour 4
 - Worth: 800 + 50 experience a level
 
-Fly: One ally gains flight for 3 turns. (a third-level slot) Level 3 arcane spell. Flight: 5 harder to hit, +20 evasion.
+Fly: One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arcane spell of the third level. Takes a third-level slot.
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
 Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
 
@@ -1827,9 +1827,9 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Hide: Scale Mail, armour 4
 - Worth: 800 + 50 experience a level
 
-Fly: One ally gains flight for 3 turns. (a third-level slot) Level 3 arcane spell. Flight: 5 harder to hit, +20 evasion.
+Fly: One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arcane spell of the third level. Takes a third-level slot.
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
 Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
 
@@ -1854,9 +1854,9 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them gains paralyzed for 3 turns (a paralyze save against 15 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -1881,9 +1881,9 @@ Fire Vulnerability: Takes 100% more fire.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -1908,9 +1908,9 @@ Fire Vulnerability: Takes 100% more fire.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Prismatic Spray: On 7 + round((level / 2)) different enemies, drawn at random, each the next of these in turn: 1d3 + 1 (2–4) fire damage to it (halved if resisted; may cause burning: a fortitude save against 15 avoids it) / 1d4 (1–4) force damage to it (halved if resisted; may cause fatigued: a fortitude save against 15 avoids it) / 1d3 (1–3) poison damage to it (halved if resisted; may cause poison: a poison save against 15 avoids it) / 1d3 (1–3) lightning damage to it (halved if resisted; may cause paralyzed: a paralyze save against 15 avoids it) / 1d2 (1–2) acid damage to it (halved if resisted; may cause acid burn: a fortitude save against 15 avoids it) / 1d4 (1–4) cold damage to it (halved if resisted; may cause frozen: a reflex save against 15 avoids it) / Flesh to Stone, at no cost / 1d4 (1–4) psychic damage to it (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it) / 1d2 + 1 (2–3) radiant damage to it (halved if resisted; may cause blinded: a reflex save against 15 avoids it) / 1d2 (1–2) necrotic damage to it (halved if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 arcane spell.
+Prismatic Spray: On 7 + round((level / 2)) different enemies, drawn at random, each the next of these in turn: 1d3 + 1 (2–4) fire damage to it (halved if resisted; may cause burning: a Constitution save against 15 avoids it) / 1d4 (1–4) force damage to it (halved if resisted; may cause fatigued: a Constitution save against 15 avoids it) / 1d3 (1–3) poison damage to it (halved if resisted; may cause poison: a Constitution save against 15 avoids it) / 1d3 (1–3) lightning damage to it (halved if resisted; may cause paralyzed: a Strength save against 15 avoids it) / 1d2 (1–2) acid damage to it (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it) / 1d4 (1–4) cold damage to it (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it) / Flesh to Stone, at no cost / 1d4 (1–4) psychic damage to it (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it) / 1d2 + 1 (2–3) radiant damage to it (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it) / 1d2 (1–2) necrotic damage to it (halved if resisted; may cause diseased: a Constitution save against 15 avoids it). An arcane spell of the second level. Takes a second-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -1935,9 +1935,9 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Poison Cloud: 3d4 + level poison damage to every enemy (may cause poison: a poison save against 15 avoids it). (a fifth-level slot) Level 5 arcane spell. Poison: takes 1d4 (1–4) true damage each turn.
+Poison Cloud: 3d4 + level poison damage to every enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. An arcane spell of the fifth level. Takes a fifth-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -1962,9 +1962,9 @@ Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a stun save against 12 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -1989,9 +1989,9 @@ Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2016,9 +2016,9 @@ Water Vulnerability: Takes 100% more cold.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Ray of Frost: 2d6 (2–12) cold damage to one enemy (may cause frozen: a reflex save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Frozen: dexterity −5, cannot act.
+Ray of Frost: 2d6 (2–12) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2043,9 +2043,9 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Prismatic Spray: On 7 + round((level / 2)) different enemies, drawn at random, each the next of these in turn: 1d3 + 1 (2–4) fire damage to it (halved if resisted; may cause burning: a fortitude save against 15 avoids it) / 1d4 (1–4) force damage to it (halved if resisted; may cause fatigued: a fortitude save against 15 avoids it) / 1d3 (1–3) poison damage to it (halved if resisted; may cause poison: a poison save against 15 avoids it) / 1d3 (1–3) lightning damage to it (halved if resisted; may cause paralyzed: a paralyze save against 15 avoids it) / 1d2 (1–2) acid damage to it (halved if resisted; may cause acid burn: a fortitude save against 15 avoids it) / 1d4 (1–4) cold damage to it (halved if resisted; may cause frozen: a reflex save against 15 avoids it) / Flesh to Stone, at no cost / 1d4 (1–4) psychic damage to it (halved if resisted; may cause confused: a will save against 15 avoids it; may cause insane: a insanity save against 15 avoids it) / 1d2 + 1 (2–3) radiant damage to it (halved if resisted; may cause blinded: a reflex save against 15 avoids it) / 1d2 (1–2) necrotic damage to it (halved if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 arcane spell.
+Prismatic Spray: On 7 + round((level / 2)) different enemies, drawn at random, each the next of these in turn: 1d3 + 1 (2–4) fire damage to it (halved if resisted; may cause burning: a Constitution save against 15 avoids it) / 1d4 (1–4) force damage to it (halved if resisted; may cause fatigued: a Constitution save against 15 avoids it) / 1d3 (1–3) poison damage to it (halved if resisted; may cause poison: a Constitution save against 15 avoids it) / 1d3 (1–3) lightning damage to it (halved if resisted; may cause paralyzed: a Strength save against 15 avoids it) / 1d2 (1–2) acid damage to it (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it) / 1d4 (1–4) cold damage to it (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it) / Flesh to Stone, at no cost / 1d4 (1–4) psychic damage to it (halved if resisted; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it) / 1d2 + 1 (2–3) radiant damage to it (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it) / 1d2 (1–2) necrotic damage to it (halved if resisted; may cause diseased: a Constitution save against 15 avoids it). An arcane spell of the second level. Takes a second-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2070,9 +2070,9 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn.
+Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2097,7 +2097,7 @@ Water Vulnerability: Takes 100% more cold.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2118,9 +2118,9 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Slow: Every enemy gains slow for 4 turns (a reflex save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Slow: −10 initiative, dexterity −5.
+Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2145,9 +2145,9 @@ Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Acid Spray: 3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a fortitude save against 15 avoids it). (a second-level slot) Level 2 arcane spell. Acid Burn: takes 1d6 (1–6) acid damage each turn.
+Acid Spray: 3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2172,9 +2172,9 @@ Water Vulnerability: Takes 100% more cold.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Sandstorm: 3d6 (3–18) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it); every enemy gains blinded for 3 turns (a fortitude save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Stunned: −2 to every roll, cannot act. Blinded: −4 to hit, −10 evasion, −2 to every roll.
+Sandstorm: 3d6 (3–18) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is blinded for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane spell of the third level. Takes a third-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2202,7 +2202,7 @@ Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
 - Found in: marsh, riverbank, cave
 - Worth: 200 experience a level
 
-Slow: Every enemy gains slow for 4 turns (a reflex save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Slow: −10 initiative, dexterity −5.
+Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.
 
 Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
 
@@ -2219,9 +2219,9 @@ Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2246,9 +2246,9 @@ Fire Vulnerability: Takes 100% more fire.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Scald: 1d4 (1–4) fire damage to one enemy (halved if resisted; may cause burning: a fortitude save against 15 avoids it); one enemy gains scalded for 3 turns (a fortitude save against 14 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 arcane spell. Burning: takes 1d3 (1–3) fire damage each turn. Scalded: −1 to every roll.
+Scald: 1d4 (1–4) fire damage to one enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); it is scalded for 3 turns (a Constitution save against 14 + level + bonusSpellDC avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Scalded: −1 to every roll. An arcane cantrip, cast at will.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2273,9 +2273,9 @@ Water Vulnerability: Takes 100% more cold.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them gains paralyzed for 3 turns (a paralyze save against 15 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2300,9 +2300,9 @@ Fire Vulnerability: Takes 100% more fire.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Drench: One enemy gains drenched for 3 turns (a reflex save against 10 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold.
+Drench: One enemy is drenched for 3 turns (a Dexterity save against 10 + level + bonusSpellDC avoids it). Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. An arcane spell of the first level. Takes a first-level slot.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2327,9 +2327,9 @@ Earth Vulnerability: Takes 100% more bludgeoning.
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Ensnare: One enemy gains entangled for 3 turns (a reflex save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, dexterity −5.
+Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusSpellDC avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5.
 
 Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
 
@@ -2356,13 +2356,13 @@ Air Vulnerability: Takes 100% more lightning, takes 100% more cold.
 - Hide: Leather Armor, armour 2
 - Worth: 250 + 50 experience a level
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
-Call Animal Companion: Call the beast your people keep company with, to fight for you until the fight ends. (usable again in 8 turns)
+Call Animal Companion: Call the beast your people keep company with, to fight for you until the fight ends. Again after 8 turns.
 
 > A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.
 
@@ -2383,13 +2383,13 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 - Hide: Leather Armor, armour 2
 - Worth: 250 + 50 experience a level
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
-Call Animal Companion: Call the beast your people keep company with, to fight for you until the fight ends. (usable again in 8 turns)
+Call Animal Companion: Call the beast your people keep company with, to fight for you until the fight ends. Again after 8 turns.
 
 > A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Call Animal Companion.
 
@@ -2410,13 +2410,13 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 - Hide: Leather Armor, armour 2
 - Worth: 250 + 50 experience a level
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
-Confuse: One enemy gains confused for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 divine spell.
+Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Confused: acts at random. A divine spell of the first level. Takes a first-level slot.
 
 > A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Confuse.
 
@@ -2437,11 +2437,11 @@ Confuse: One enemy gains confused for 3 turns (a will save against 15 + level + 
 - Hide: Leather Armor, armour 2
 - Worth: 250 + 50 experience a level
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
 > A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep and Hide.
 
@@ -2462,13 +2462,13 @@ Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
 - Hide: Leather Armor, armour 2
 - Worth: 250 + 50 experience a level
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
-Sleep: Every enemy gains asleep for 3 turns (a sleep save against 16 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 arcane spell. Asleep: cannot act.
+Sleep: Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + bonusSpellDC avoids it). Asleep: cannot act. An arcane spell of the third level. Takes a third-level slot.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
-Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) different enemies, drawn at random (may cause fatigued: a fortitude save against 15 avoids it). (a first-level slot) Level 1 arcane spell. Fatigued: −1 to every roll, strength −1, dexterity −1, constitution −1.
+Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) different enemies, drawn at random (may cause fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. An arcane spell of the first level. Takes a first-level slot.
 
 > A fey of Orsino's bestiary. It fights with dagger, armoured in leather armor, and knows Charm Person, Sleep, Hide and Magic Missile.
 
@@ -2491,15 +2491,15 @@ Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) d
 - Hide: Chain Mail, armour 5
 - Worth: 500 + 50 experience a level
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
-Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
+Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
 
-Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a reflex save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+Stomp: 1d6 (1–6) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act.
 
 Dig In: You gain dug in for 3 turns. Dug In: −2 to hit, 2 harder to hit, +3 to every save.
 
@@ -2524,15 +2524,15 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Hide: Chain Mail, armour 5
 - Worth: 500 + 50 experience a level
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
-Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
+Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
 
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
 Titanic Strength: +2 to hit, +2 damage.
 
@@ -2555,15 +2555,15 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Hide: Chain Mail, armour 5
 - Worth: 500 + 50 experience a level
 
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
-Prepare Charge: You gain preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else.
 
-Charge: End  on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it). Stunned: −2 to every roll, cannot act.
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act.
 
-Taunt: One enemy gains taunted for 3 turns (a will save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
+Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + bonusSpellDC avoids it). Taunted: whoever has it can strike at nobody but whoever gave it.
 
-Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a stun save against 15 avoids it); every enemy gains prone for 3 turns (a stun save against 12 + level + bonusSpellDC avoids it). (a fourth-level slot) Level 4 arcane spell. Stunned: −2 to every roll, cannot act. Prone: dexterity −2, cannot act.
+Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Constitution save against 12 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Titanic Strength: +2 to hit, +2 damage.
 
@@ -2587,7 +2587,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Attack: flutter, 1d2 bludgeoning
 - Worth: 200 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 Flee: Try to escape the fight (an even chance).
 
@@ -2606,11 +2606,11 @@ Flee: Try to escape the fight (an even chance).
 - Hide: Clothing, armour 0
 - Worth: 300 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2633,13 +2633,13 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 - Hide: Clothing, armour 0
 - Worth: 300 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Paralyzing Touch: One enemy gains paralyzed for 3 turns (a paralyze save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+Paralyzing Touch: One enemy is paralyzed for 3 turns (a Strength save against 14 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2664,7 +2664,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Temperament: territorial
 - Worth: 300 experience a level
 
-Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 > A hound-shape of grave bones wired together and moved by a necromancer's binding. It has no eyes and does not tire.
 
@@ -2679,15 +2679,15 @@ Rending bite: 1d6 (1–6) physical damage to one enemy; one enemy gains bleeding
 - Hide: Clothing, armour 0
 - Worth: 300 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. (a third-level slot) Level 3 arcane spell.
+Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. An arcane spell of the third level. Takes a third-level slot.
 
-Death: Slay one enemy (a fortitude save against 20 + level + bonusSpellDC avoids it). (an eighth-level slot) Level 8 divine spell.
+Death: Slay one enemy (a Constitution save against 20 + level + bonusSpellDC avoids it). A divine spell of the eighth level. Takes an eighth-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2714,15 +2714,15 @@ Bone Resilience: Resists 50% of piercing, takes 100% more bludgeoning, immune to
 - Hide: Clothing, armour 0
 - Worth: 300 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Mass Curse: Every enemy gains cursed for 3 turns (a will save against 15 + level + bonusSpellDC avoids it). (a third-level slot) Level 3 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Mass Curse: Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
 
-Reckless Attack: Weapon attack against one enemy; weapon attack against one enemy; you gain reckless for 3 turns (a magic save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit.
+Reckless Attack: Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2748,13 +2748,13 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Resists: physical 50%, radiant takes 100% more, fire takes 50% more
 - Worth: 300 experience a level
 
-Defend: You gain defending for 1 turn. (usable again in 4 turns) Defending: 2 harder to hit.
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
 > A barrow's dead warden, risen to drain the living and lull them to sleep.
 
@@ -2771,17 +2771,17 @@ Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause
 - Hide: Clothing, armour 0
 - Worth: 300 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Slow: Every enemy gains slow for 4 turns (a reflex save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Slow: −10 initiative, dexterity −5.
+Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + bonusSpellDC avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.
 
-Paralyzing Touch: One enemy gains paralyzed for 3 turns (a paralyze save against 14 + level + bonusSpellDC avoids it). (a second-level slot) Level 2 arcane spell. Paralyzed: strength −5, dexterity −5, cannot act.
+Paralyzing Touch: One enemy is paralyzed for 3 turns (a Strength save against 14 + level + bonusSpellDC avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
-Hide: You gain hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion.
+Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on attacking, it ends.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2804,13 +2804,13 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 - Hide: Clothing, armour 0
 - Worth: 300 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
-Charm Person: One enemy gains charmed for 3 turns (only humanoid creatures; a charm save against 18 + level + bonusSpellDC avoids it). (a first-level slot) Level 1 arcane spell.
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + bonusSpellDC avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2833,11 +2833,11 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Hide: Clothing, armour 0
 - Worth: 300 + 50 experience a level
 
-Curse: One enemy gains cursed for 3 turns (a will save against 10 + level + bonusSpellDC avoids it). (a cantrip, at will) Level 0 divine spell. Cursed: strength −1, dexterity −1, intelligence −1, wisdom −1, charisma −1, constitution −1.
+Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + bonusSpellDC avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
-Scream: Every enemy gains frightened for 3 turns (a fear save against 12 + level + bonusSpellDC avoids it). (usable again in 6 turns) Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save.
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + bonusSpellDC avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a disease save against 15 avoids it). (a second-level slot) Level 2 divine spell. Diseased: −2 to every save, constitution −2, takes 1d4 (1–4) necrotic damage each turn.
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2857,7 +2857,7 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 *Kyr · natural ability* · `ability:breathe_acid`
 
-2d6 + 2 × level acid damage to every enemy (a breath save against 15 + level halves it; may cause acid burn: a fortitude save against 15 avoids it). (usable again in 3 turns) Acid Burn: takes 1d6 (1–6) acid damage each turn.
+2d6 + 2 × level acid damage to every enemy (a Constitution save against 15 + level halves it; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. Again after 3 turns.
 
 > Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
 
@@ -2867,19 +2867,19 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 - Wound up: raises its bronze arms for a great sweep
 
-1d6 (1–6) physical damage to every enemy (a dexterity save against 11 avoids it). (usable again in 3 turns)
+1d6 (1–6) physical damage to every enemy (a Dexterity save against 11 avoids it). Again after 3 turns.
 
 ### Burial chain
 
 *Kyr · natural ability* · `ability:custodian_chain`
 
-1d6 (1–6) physical damage to one enemy; one enemy gains weakened for 3 turns (a strength save against 12 avoids it). (usable again in 1 turn) Weakened: −2 damage, strength −2.
+1d6 (1–6) physical damage to one enemy; it is weakened for 3 turns (a Strength save against 12 avoids it). Weakened: −2 damage, Strength −2. Again after a turn.
 
 ### Cold breath
 
 *Kyr · natural ability* · `ability:breathe_cold`
 
-2d6 + 2 × level cold damage to every enemy (a breath save against 15 + level halves it; may cause frozen: a reflex save against 15 avoids it). (usable again in 3 turns) Frozen: dexterity −5, cannot act.
+2d6 + 2 × level cold damage to every enemy (a Constitution save against 15 + level halves it; may cause frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. Again after 3 turns.
 
 > Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
 
@@ -2887,7 +2887,7 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 *Adapted · natural ability* · `ability:breathe_fire`
 
-2d6 + 2 × level fire damage to every enemy (a breath save against 15 + level halves it; may cause burning: a fortitude save against 15 avoids it). (usable again in 3 turns) Burning: takes 1d3 (1–3) fire damage each turn.
+2d6 + 2 × level fire damage to every enemy (a Constitution save against 15 + level halves it; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Again after 3 turns.
 
 > Fire pours over everyone before the creature. A quick or hardy creature takes half. The fire takes a while to rekindle.
 
@@ -2897,7 +2897,7 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 *Kyr · natural ability* · `ability:breathe_lightning`
 
-2d6 + 2 × level lightning damage to every enemy (a breath save against 15 + level halves it; may cause paralyzed: a paralyze save against 15 avoids it). (usable again in 3 turns) Paralyzed: strength −5, dexterity −5, cannot act.
+2d6 + 2 × level lightning damage to every enemy (a Constitution save against 15 + level halves it; may cause paralyzed: a Strength save against 15 avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. Again after 3 turns.
 
 > Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
 
@@ -2907,7 +2907,7 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 - Wound up: rears up on its hind legs
 
-Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to one enemy (may cause stunned: a stun save against 15 avoids it); one enemy gains bleeding for 3 turns (a bleed save against 15 + level + bonusSpellDC avoids it). (usable again in 2 turns) Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn.
+Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
 > Make a powerful attack that deals 1d6 + strength modifier extra damage and inflicts bleeding on a successful hit.
 
@@ -2917,7 +2917,7 @@ Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to o
 
 *Kyr · natural ability* · `ability:breathe_poison`
 
-2d6 + 2 × level poison damage to every enemy (a breath save against 15 + level halves it; may cause poison: a poison save against 15 avoids it). (usable again in 3 turns) Poison: takes 1d4 (1–4) true damage each turn.
+2d6 + 2 × level poison damage to every enemy (a Constitution save against 15 + level halves it; may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
 > Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
 
@@ -2925,19 +2925,19 @@ Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to o
 
 *Kyr · natural ability* · `ability:rending_bite`
 
-1d6 (1–6) physical damage to one enemy; one enemy gains bleeding for 2 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Bleeding: takes 1 bleed damage each turn.
+1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
 ### Rime bite
 
 *Kyr · natural ability* · `ability:rime_bite`
 
-2d6 (2–12) cold damage to one enemy (may cause frozen: a reflex save against 15 avoids it); one enemy gains weakened for 3 turns (a constitution save against 11 avoids it). (usable again in 1 turn) Frozen: dexterity −5, cannot act. Weakened: −2 damage, strength −2.
+2d6 (2–12) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it); it is weakened for 3 turns (a Constitution save against 11 avoids it). Frozen: Dexterity −5, cannot act. Weakened: −2 damage, Strength −2. Again after a turn.
 
 ### Winter howl
 
 *Kyr · natural ability* · `ability:winter_howl`
 
-Every enemy gains stunned for 1 turn (a wisdom save against 12 avoids it). (usable again in 3 turns) Stunned: −2 to every roll, cannot act.
+Every enemy is stunned for a turn (a Wisdom save against 12 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
 
 ## Creature traits
 
@@ -2987,7 +2987,7 @@ Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, im
 
 *Not playable · nature trait* · `trait:counter_arcane`
 
-+3 to magic saves, resists 10% of all.
++3 against magic, resists 10% of all.
 
 > This creature has a natural resistance to magical attacks.
 
@@ -2999,7 +2999,7 @@ Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, im
 
 *Faithful · nature trait* · `trait:cursed_trait`
 
-−1 to every roll, −2 to magic saves, takes 100% more radiant.
+−1 to every roll, −2 against magic, takes 100% more radiant.
 
 > Vulnerable to radiant damage
 
@@ -3055,7 +3055,7 @@ Takes 100% more fire.
 
 *Faithful · affinity trait* · `trait:firekissed`
 
-+2 to fear saves, resists 40% of fire.
++2 against fear, resists 40% of fire.
 
 > This creature is imbued with the essence of fire.
 
@@ -3081,7 +3081,7 @@ Takes 100% more fire.
 
 *Faithful · nature trait* · `trait:humanoid`
 
-+1 to charm saves, +1 to fear saves.
++1 against charms, +1 against fear.
 
 > Humankind is known for its versatility, resilience, and stubbornness.
 
@@ -3129,7 +3129,7 @@ Immune to charm, immune to fear, immune to stun, immune to sleep, immune to pois
 
 *Faithful · nature trait* · `trait:outsider`
 
-+2 to magic saves, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
++2 against magic, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
 
 > Resistant to elements and gain +2 to save vs magic.
 
@@ -3137,7 +3137,7 @@ Immune to charm, immune to fear, immune to stun, immune to sleep, immune to pois
 
 *Faithful · affinity trait* · `trait:radiant`
 
-+2 to hit, +1 damage, +1 to every roll, +2 to fear saves, resists 10% of necrotic.
++2 to hit, +1 damage, +1 to every roll, +2 against fear, resists 10% of necrotic.
 
 > This creature is blessed with divine favor, enhancing its combat prowess and resilience.
 

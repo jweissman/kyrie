@@ -874,7 +874,7 @@
    }
   },
   "set_spear": {
-   "name": "Sets Spear",
+   "name": "Set Spear",
    "kind": "technique",
    "description": "Brace your spear to intercept a charging enemy, dealing 3d8 damage and granting +4 to hit when they charge you next turn.",
    "effects": [
@@ -1390,7 +1390,7 @@
    }
   },
   "vigor_up": {
-   "name": "Vigor Up",
+   "name": "Steel Yourself",
    "kind": "technique",
    "description": "Boost your vitality, granting +2 to all healing received for the next 5 rounds.",
    "effects": [

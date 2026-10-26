@@ -20,19 +20,29 @@ export class MechanicsText {
     self: 'yourself', all: 'everyone', 'dead ally': 'a fallen ally', 'random enemy': 'a random enemy',
     'random enemies': 'random enemies',
   };
+  // What an ability does, in words a player would use (Mission 16 found "You gain defending for 1 turn", "a will
+  // save against 19" and costs in brackets mid-sentence): what it does, then what each condition it gives does, then
+  // what kind of spell it is, what it takes and when it can be used again.
   static ability(ability: ArenaAbility, actor?: Record<string, number>): AbilityText {
-    // Enemies drawn at random are drawn once: a later effect falls on the same ones.
-    const parts = ability.effects.map((e, i) => this.effect(e, actor,
-      e.target === 'random enemies' && ability.effects.slice(0, i).some(p => p.target === 'random enemies')));
+    // Enemies drawn at random are drawn once: a later effect falls on the same ones; one enemy or ally, named once, is
+    // "it" after.
+    const parts = ability.effects.map((e, i) => {
+      const before = ability.effects.slice(0, i).some(p => p.target === e.target);
+      return this.effect(e, actor, e.target === 'random enemies' ? before
+        : before && e.target === 'enemy' ? 'it' : before && e.target === 'ally' ? 'that ally' : false);
+    });
     const level = ability.spell?.level ?? 0;
-    const costs = [level ? `${level === 8 ? 'an' : 'a'} ${Spellcasting.ordinal(level)}-level slot` : ability.spell ? 'a cantrip, at will'
-      : ability.cost ? `${ability.cost} mana` : '',
-      ability.cooldown ? `usable again in ${ability.cooldown} turn${ability.cooldown === 1 ? '' : 's'}` : '']
+    const costs = [level ? `Takes ${level === 8 ? 'an' : 'a'} ${Spellcasting.ordinal(level)}-level slot.`
+      : ability.spell ? `${/^[aeiou]/.test(ability.spell.tradition) ? 'An' : 'A'} ${ability.spell.tradition} cantrip, cast at will.`
+        : ability.cost ? `Costs ${ability.cost} mana.` : '',
+    ability.cooldown ? `Again after ${ability.cooldown === 1 ? 'a turn' : `${ability.cooldown} turns`}.` : '']
       .filter(Boolean);
     const details = [...new Set(ability.effects.flatMap(e => e.kind === 'apply' ? [e.status]
       : this.triggered(e).map(([id]) => id)))].map(id => this.condition(id, actor)).filter((d): d is string => !!d);
-    if (ability.spell) { details.unshift(`Level ${ability.spell.level} ${ability.spell.tradition} spell.`); }
-    return { summary: `${this.capitalize(parts.join('; '))}.${costs.length ? ` (${costs.join(', ')})` : ''}`, details };
+    const kind = ability.spell?.tradition ?? '', an = /^[aeiou]/.test(kind) ? 'An' : 'A';
+    const spell = !ability.spell ? [] : ability.spell.level ? [`${an} ${kind} spell of the ${Spellcasting.ordinal(level)} level.`]
+      : [];
+    return { summary: `${this.capitalize(parts.join('; '))}.`, details: [...details, ...spell, ...costs] };
   }
   // What using an ability spends, in a few words: "1st-level slot", "cantrip", "2 mana", or nothing.
   static price(ability: ArenaAbility): string {
@@ -63,9 +73,11 @@ export class MechanicsText {
         case 'drain': return `drain ${amount} health from ${to}`;
         case 'defend': return 'guard until your next turn';
         case 'flee': return 'try to escape the fight (an even chance)';
-        case 'apply': return `${e.target === 'self' ? 'you gain' : `${to} gains`} ${this.conditionName(e.status)} for ${
-          this.duration(e.duration, e.clock)}`;
-        case 'remove': return `end ${this.conditionName(e.status)} on ${to}`;
+        case 'apply': return `${this.holds(e.target === 'self' ? 'you' : to, e.status)} `
+          + `${this.conditionName(e.status)} ${this.duration(e.duration, e.clock).replace(/^(\d)/, 'for $1')
+            .replace(/^a /, 'for a ')}`;
+        case 'remove': return `end ${e.status ? this.conditionName(e.status)
+          : (e.pattern ?? 'what holds them').toLowerCase().split('|').join(', ').replace(/, ([^,]*)$/, ' or $1')} on ${to}`;
         case 'kill': return `slay ${to}`;
         case 'gain': return `give ${to} ${amount} ${e.resource}`;
         case 'learn': return `teach ${to} ${Canon.abilities[e.ability]?.name ?? e.ability}`;
@@ -75,7 +87,8 @@ export class MechanicsText {
     })();
     const qualifiers = [e.when ? 'when its condition holds' : '', e.targetTrait ? `only ${e.targetTrait} creatures` : '',
       e.save ? this.save(e.save, actor) : '', e.onResist ? `${e.onResist === 'half' ? 'halved' : 'none'} if resisted` : '',
-      ...this.triggered(e).map(([id, c]) => `may cause ${this.conditionName(id)}: a ${c.saveKind ?? 'magic'} save against 15 avoids it`)]
+      ...this.triggered(e).map(([id, c]) => `may cause ${this.conditionName(id)}: ${this.an(this.quality(c.saveKind ?? 'magic'))} `
+        + 'save against 15 avoids it')]
       .filter(Boolean);
     return qualifiers.length ? `${text} (${qualifiers.join('; ')})` : text;
   }
@@ -85,15 +98,34 @@ export class MechanicsText {
     return type ? Object.entries(Content.statuses)
       .filter(([id, c]) => c.trigger === type && Canon.resolve('conditions', id) === id) : [];
   }
+  // What each kind of save holds out against, in words; the categories (fortitude, will) are said by their harms.
+  static readonly harms: Record<string, string> = { poison: 'poison', disease: 'disease', death: 'death', stun: 'stunning',
+    breath: 'breath', bleed: 'bleeding', magic: 'magic', charm: 'charms', fear: 'fear', sleep: 'sleep',
+    insanity: 'madness', paralyze: 'paralysis', reflex: 'what can be dodged' };
+  // A save by the quality it rests on, as the character sheet says it: "a Wisdom save against 19 avoids it".
   static save(save: Save, actor?: Record<string, number>): string {
-    const against = save.stat ?? save.kind ?? 'a';
     const outcome = save.success === 'half' ? 'halves it' : 'avoids it';
-    return `a ${against} save against ${this.amount(save.difficulty, actor)} ${outcome}`;
+    const quality = this.quality(save.stat ?? save.kind ?? 'magic');
+    return `${this.an(quality)} save against ${this.amount(save.difficulty, actor)} ${outcome}`;
+  }
+  private static an(word: string): string { return `${/^[aeiouAEIOU]/.test(word) ? 'an' : 'a'} ${word}`; }
+  static quality(kind: string): string {
+    const q = (Content.rules.saveKinds as Record<string, string>)[kind] ?? kind;
+    return /^(strength|dexterity|constitution|intelligence|wisdom|charisma)$/.test(q) ? this.capitalize(q) : q;
+  }
+  // Someone who is in a condition said as one (charmed, asleep, marked as prey), or who gains it when it is a thing
+  // to have (bull's strength, ghost touch).
+  private static holds(who: string, status: string): string {
+    const many = who === 'you' || /^(random enemies|\S+ different enemies)/.test(who);
+    const said = new RegExp(`(${['ed', 'en', 'ing', 'lit', 'proof', 'ous', 'ful', 'less', 'ble', 'ive', 'ant', 'ent', 'ane',
+      'ic', 'al', 'asleep', 'awake', 'afraid', 'alight', 'ready', 'prone', 'blind', 'deaf'].join('|')})$`);
+    const being = this.conditionName(status).split(/\s+/).some(w => said.test(w));
+    return being ? `${who} ${many ? 'are' : 'is'}` : `${who} ${many ? 'gain' : 'gains'}`;
   }
   static duration(n: number, clock?: string): string {
-    if (clock === 'until-removed') { return 'until removed'; }
+    if (clock === 'until-removed') { return 'until it is undone'; }
     if (clock === 'world-time') { return this.time(n * 10); }
-    return `${n} turn${n === 1 ? '' : 's'}`;
+    return n === 1 ? 'a turn' : `${n} turns`;
   }
   private static time(minutes: number): string {
     if (minutes % 60 === 0) { return `${minutes / 60} hour${minutes === 60 ? '' : 's'}`; }
@@ -108,8 +140,28 @@ export class MechanicsText {
     const gives = this.modifiers(c.modifiers ?? {}, actor).join(', ');
     const binds = [c.compel ? `the next turn can only be ${Canon.abilities[c.compel]?.name ?? c.compel}, nothing else` : '',
       c.forceTarget ? 'whoever has it can strike at nobody but whoever gave it' : ''].filter(Boolean).join('; ');
-    const said = [gives, binds].filter(Boolean).join('; and ');
-    return said ? `${c.name}: ${said}.` : undefined;
+    const said = [gives, binds, ...this.hooks(id, actor)].filter(Boolean).join('; and ');
+    // What it does that no figure says (someone takes the blows meant for them), in its own words.
+    const own = c.description && c.description !== c.name
+      ? c.description.replace(/\.$/, '').replace(/^[A-Z](?=[a-z])/, x => x.toLowerCase()) : '';
+    return said ? `${c.name}: ${said}.` : own ? `${c.name}: ${own}.` : undefined;
+  }
+  // What a condition does at its holder's moments, and in answer to what the other side does.
+  static readonly moments: Record<string, string> = { onAttackHit: 'on landing a blow', onAttack: 'on attacking',
+    onAttacked: 'when attacked', onMissReceived: 'when a blow misses them', onExpire: 'when it ends',
+    onOffensiveCasting: 'on casting against an enemy', onHeal: 'when healed', onCombatStart: 'as a fight begins',
+    onEnemyMelee: 'against an enemy who strikes in reach', onEnemyAttack: 'against an enemy who attacks',
+    onEnemyCharge: 'against an enemy who charges', onEnemyCasting: 'against an enemy who casts',
+    onEnemyOffensiveCasting: 'against an enemy who casts against them' };
+  // Who "the enemy" of a moment is: the one struck, the attacker, the enemy that charged.
+  static readonly others: Record<string, string> = { onAttackHit: 'the one struck', onAttack: 'the one attacked',
+    onAttacked: 'the attacker', onMissReceived: 'the attacker', onOffensiveCasting: 'the enemy' };
+  private static hooks(id: string, actor?: Record<string, number>): string[] {
+    const c = Canon.conditions[id]!, { reactions, ...own } = c.hooks ?? {};
+    return Object.entries({ ...own, ...reactions }).flatMap(([when, effects]) => this.moments[when] && effects?.length
+      ? [`${this.moments[when]}, ${effects.map(e => e.kind === 'remove' && !e.status ? 'it ends'
+        : this.effect(e, actor, e.target === 'self' ? 'whoever has it' : this.others[when] ?? 'that enemy'))
+        .join(', and ')}`] : []);
   }
   static modifiers(m: Modifiers, actor?: Record<string, number>): string[] {
     const signed = MechanicsText.signed, out: string[] = [];
@@ -124,8 +176,19 @@ export class MechanicsText {
     if (m.initiative) { out.push(`${signed(m.initiative)} initiative`); }
     if (m.allRolls) { out.push(`${signed(m.allRolls)} to every roll`); }
     if (m.saveVersusAll) { out.push(`${signed(m.saveVersusAll)} to every save`); }
-    for (const [kind, n] of Object.entries(m.saves ?? {})) { out.push(`${signed(n)} to ${kind} saves`); }
-    for (const [a, n] of Object.entries(m.attributes ?? {})) { out.push(`${a} ${signed(n)}`); }
+    // A save bonus helps against its own harm only, said as the character sheet says it ("Against charms and fear").
+    for (const [kind, n] of Object.entries(m.saves ?? {})) {
+      out.push(this.harms[kind] ? `${signed(n)} against ${this.harms[kind]}` : `${signed(n)} to ${kind} saves`);
+    }
+    for (const [a, n] of Object.entries(m.attributes ?? {})) { out.push(`${this.capitalize(a)} ${signed(n)}`); }
+    if (m.tempHp) {
+      const hp = /^\d+$/.test(String(m.tempHp)) ? String(m.tempHp)
+        : this.amount({ kind: 'deem', expression: String(m.tempHp) }, actor);
+      out.push(`${hp} more hit points (spent first)`);
+    }
+    if (m.extraAttacksPerTurn) { out.push(`${m.extraAttacksPerTurn} more ${m.extraAttacksPerTurn === 1 ? 'blow' : 'blows'} a turn`); }
+    if (m.criticalRangeIncrease) { out.push(`a telling blow on ${20 - m.criticalRangeIncrease} or more`); }
+    if (m.bonusSpellDC) { out.push(`spells ${m.bonusSpellDC} harder to resist`); }
     for (const [type, r] of Object.entries(m.resistances ?? {})) {
       out.push(r >= 1 ? `immune to ${type}` : r > 0 ? `resists ${Math.round(r * 100)}% of ${type}`
         : `takes ${Math.round(-r * 100)}% more ${type}`);
@@ -133,6 +196,10 @@ export class MechanicsText {
     for (const type of m.immune ?? []) { out.push(`immune to ${type}`); }
     if (m.noActions) { out.push('cannot act'); }
     if (m.noSpellcasting) { out.push('cannot cast spells'); }
+    if (m.changeAllegiance) { out.push('fights for the other side'); }
+    if (m.randomActions) { out.push('acts at random'); }
+    if (m.controlledActions) { out.push('does as whoever gave it bids'); }
+    if (m.flee) { out.push('tries only to get away'); }
     for (const p of m.onTurnEnd ?? []) {
       const amount = this.amount(/^\d+$/.test(String(p.amount)) ? { kind: 'literal', value: Number(p.amount) }
         : { kind: 'deem', expression: String(p.amount) }, actor);

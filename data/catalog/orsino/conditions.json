@@ -1757,7 +1757,7 @@
    }
   },
   "prey": {
-   "name": "Hunting Prey",
+   "name": "Marked as Prey",
    "description": "Marked as a favored target.",
    "lifetime": "encounter",
    "modifiers": {
