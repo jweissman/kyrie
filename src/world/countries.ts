@@ -18,12 +18,15 @@ export class Countries {
   static readonly list = countries.countries as Country[];
   // The country that fits beyond a march of a country of this terrain, of those not yet placed and this world holds.
   static fits(terrain: string, side: Side, placed: (c: Country) => boolean, seed: string): Country | undefined {
-    return this.list.find(c => c.side === side && c.beside.includes(terrain) && !placed(c) && this.held(c, seed));
+    return this.list.find(c => c.side === side && c.beside.includes(terrain) && !placed(c)
+      && this.held(c, seed, terrain));
   }
-  // Whether a world holds a country: always, unless it is among a kind of which the seed chose another.
-  static held(c: Country, seed: string): boolean {
+  // Whether a world whose first country is of this terrain holds a country: always, unless it is among a kind of which
+  // the seed chose another of those that fit it.
+  static held(c: Country, seed: string, terrain: string): boolean {
     if (!c.among) { return true; }
-    const kin = this.list.filter(o => o.among === c.among);
+    const kin = this.list.filter(o => o.among === c.among && o.beside.includes(terrain));
+    if (!kin.includes(c)) { return false; }
     let hash = 2166136261;
     for (const ch of `${seed}:${c.among}`) { hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619); }
     return kin[(hash >>> 0) % kin.length] === c;

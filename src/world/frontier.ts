@@ -84,8 +84,11 @@ export class Frontier {
   private holds(campaign: Campaign, rid: string): Country | undefined {
     return Countries.list.find(c => campaign.module.entities.some(e => e.id === `${rid}__${c.marker}`));
   }
-  // The authored country that fits beyond this march, if one does and is not in the world already.
+  // The authored country that fits beyond this march, if one does and is not in the world already. Only the first
+  // country's marches lead into one, where its folk name it: a country drawn later names its own neighbours on its
+  // march-stones, and one installed beyond them made the stone lie (the independent review's E2).
   private fits(campaign: Campaign, here: string, side: Side): Country | undefined {
+    if (here !== RegionWriter.id) { return undefined; }
     const terrain = campaign.world.one('terrain', `${here}__region`)?.replace(/^.*__/, '') ?? '';
     return Countries.fits(terrain, side, c => campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), this.seed);
   }

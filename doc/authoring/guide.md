@@ -573,9 +573,10 @@ parentheses is worked out each time it is read.
 
 A generated world can hold an authored country beyond one of its marches: the folk of the first region speak of it
 by name, and the road across the march comes into it ([data/adventures/countries.json](../../data/adventures/countries.json),
-`src/world/frontier.ts`). The Long Man is held this way wherever it fits; of Thrume, The House That Grows, The Road
-the Star Came Down and The Patient Star (`"among": "independent"`), a world holds the one its seed chooses, beyond the
-first march where it fits, so that its own countries go on beyond the rest. To offer yours:
+`src/world/frontier.ts`). Authored countries lie beyond the first country's marches, where its folk name them. The
+Long Man is held wherever it fits; of Thrume, The House That Grows, The Road the Star Came Down and The Patient Star
+(`"among": "independent"`), a world holds the one its seed chooses of those that fit its first country, so that its
+own countries go on beyond the rest. To offer yours:
 
 - keep its company in a file of its own (`company.kyr`), so that a second bundle, `placed.json`, can leave it out and
   say instead, in `placed.kyr`, `Entity party: group "Your company".`, with `"imports": ["party"]` and

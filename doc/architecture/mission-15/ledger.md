@@ -31,7 +31,8 @@ the cold playtest (`review/cold-playtest-2026-10-25`) arrived on 2026-10-25. Wha
 
 | finding | stands | where |
 |---|---|---|
-| A1 a fact once learned blocks every later installation (the owner's "invalid knowledge") | done: only what the modules give the company to know from the start is checked; what it has learned in play is not | `test/crossing-knowledge.test.ts` (fails before: a1's east march refused) |
+| A1 a fact once learned blocks every later installation (the owner's "invalid knowledge") | done: only what the modules give the company to know from the start is checked; what it has learned in play is not | e0d2d04, `test/crossing-knowledge.test.ts` (fails before: a1's east march refused) |
+| E2 march-stones can name the wrong country | done: authored countries lie beyond the first country's marches only, where its folk name them; the seed chooses among the independent adventures that fit it | `test/frontier.test.ts` |
 
 ## Done and verified
 
@@ -49,13 +50,13 @@ the cold playtest (`review/cold-playtest-2026-10-25`) arrived on 2026-10-25. Wha
   an adventure that lints, plays, is tested and can be placed (f2a16c0).
 - **II.D. The adventures in generated worlds.** Thrume, The House That Grows, The Road the Star Came Down and The
   Patient Star are countries a generated world may hold (`data/adventures/countries.json`, each by a `placed.json`
-  that leaves its own company out and takes the world's): one to a world, as its seed chooses, beyond the first
-  march where it fits, as The Long Man is held where it fits. The folk of the first region speak of it by name, and
+  that leaves its own company out and takes the world's): one to a world, as its seed chooses of those that fit its
+  first country, beyond that country's marches, as The Long Man is held where it fits. The folk of the first region speak of it by name, and
   the innkeeper of the town its road leaves from tells its rumour when asked about the road, known from then as heard
   from them; the road across the march comes into its edge (Thrume's salt road, the rim of Cobble Ring, the Peleth road's eighth
   bend, the Shift Market); its clock runs from then. Installing one takes 0.35 to 0.9 s. A module may now say what it
   will of the company it is installed for by names of its own (The Patient Star's breath and memories). Test:
-  `test/frontier.test.ts` (yew's Thrume, walked into and read; wren's Ghessil Uplands).
+  `test/frontier.test.ts` (e5's Thrume, walked into and read; wren's Ghessil Uplands).
 - **II.C. What authors could not say, and can now.** A member's speed (0efdc56); a rule's or event's words teaching
   what they say (829fe2d); endings that close the book (6aedbe2); every colliding name in one load (6780b43); a count
   taken past nothing stopping there, and a long way risked not turned back by the risk (c6dbce9); two things' changes

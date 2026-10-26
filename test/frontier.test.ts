@@ -9,6 +9,7 @@ import { WorldGrid } from '../src/world/world-grid';
 import { RegionLand } from '../src/world/region-land';
 import { GeneratedWorld } from './support/generated';
 import { Journey } from '../src/session/journey';
+import { ModuleWriter } from '../src/lang/module-writer';
 
 // A generated world goes on past the edges of its first region: an old road runs out to a march-stone on every side,
 // and the first time the company stands at one the country beyond is drawn from the world's seed and where it lies,
@@ -90,16 +91,35 @@ describe('the world beyond a region', () => {
     expect(Countries.fits('mountain', 'north', c => s.campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), 'thorn'))
       .toBeUndefined();
   }, 120000);
+  // The independent review's E2: a later country's march-stone named its own neighbour ("into Loxorloew, fen
+  // country"), and the frontier installed an authored country beyond it. Only the first country's marches lead into
+  // one.
+  it('leads from a later country into the country its march-stone names', async () => {
+    const { s, frontier } = await March.start();
+    await GeneratedWorld.travel(s, 'edge_east');
+    const east = await frontier.expand(s.campaign);
+    await March.choose(s, /road across the march/);
+    const onward = new RegExp(`^${east!.rid}__edge_(north|south|east)_scene$`);
+    const stone = (s.campaign.module.observations ?? [])
+      .find(o => onward.test(o.id) && /the road goes on/.test(o.text))!;
+    const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    const from = s.campaign.world.one('at', 'party')!;
+    c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', from) },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', stone.place) }]));
+    const beyond = await frontier.expand(s.campaign);
+    expect(beyond!.region).toBeDefined();
+    expect(stone.text).toContain(` into ${beyond!.region!.name},`);
+  }, 180000);
   // The independent adventures, as countries a generated world may hold: one to a world, as its seed chooses, beyond
   // the first march where it fits; the folk of the first region speak of it, and the road across leads in.
   it('holds one independent adventure, as its seed chooses, beyond the march where it fits, and leads the company in', async () => {
-    const yew = await WorldAssembler.assemble('yew', NodeBundleSource.shared, { region: { terrain: 'forest' } });
-    const beyond = Object.values(yew.report.region.beyond!).map(c => c!.name);
-    expect(yew.report.region.beyond!.east!.name).toBe('Thrume');
+    const e5 = await WorldAssembler.assemble('e5', NodeBundleSource.shared);
+    const beyond = Object.values(e5.report.region.beyond!).map(c => c!.name);
+    expect([e5.report.region.terrain, e5.report.region.beyond!.east!.name]).toEqual(['forest', 'Thrume']);
     expect(beyond.filter(n => ['the Strewnfield', 'the Corrow', 'the Ghessil Uplands'].includes(n))).toEqual([]);
-    const s = await PlaySession.start(yew.path, 'yew', yew.source);
+    const s = await PlaySession.start(e5.path, 'e5', e5.source);
     await GeneratedWorld.travel(s, 'edge_east');
-    const thrume = await new Frontier('yew', NodeBundleSource.shared).expand(s.campaign);
+    const thrume = await new Frontier('e5', NodeBundleSource.shared).expand(s.campaign);
     await March.choose(s, /road across the march to the salt road/);
     expect(s.campaign.world.one('at', 'party')).toBe(`${thrume!.rid}__salt_road`);
     expect(await Journey.of(s).play('^To the market', 'notice')).toContain('THE GIANT MÓRRACH');
