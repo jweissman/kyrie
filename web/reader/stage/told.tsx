@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Exchange } from '../../engine/protocol';
+import type { Exchange, Frame } from '../../engine/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
@@ -21,7 +21,8 @@ export class Told {
       <h1 className="place" data-id="place">{Typography.curl(Words.upper(screen.place.name))}</h1>
       {screen.dark && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       {s.pending && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
-      {!s.pending && leaf.moved && leaf.journey && leaf.journey.length > 0 && <div className="journey"
+      {!s.pending && frame.travel && <Told.Journey travel={frame.travel} />}
+      {!s.pending && !frame.travel && leaf.moved && leaf.journey && leaf.journey.length > 0 && <div className="journey"
         aria-label="On the way">{leaf.journey.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}</div>}
       {!s.pending && stayed && <Told.Happened exchange={told} said />}
       {leaf.situation.length > 0 && (stayed
@@ -34,6 +35,18 @@ export class Told {
       </div>}
       {!s.pending && told && !stayed && <Told.Happened exchange={told} />}
     </>;
+  }
+  // A journey along known ways: each leg as it went, under the time it came there; and, if it did not arrive, what
+  // stopped it, said plainly where the eye goes next.
+  static Journey({ travel }: { travel: NonNullable<Frame['travel']> }) {
+    return (
+      <section className="travelled" aria-label={`On the way to ${travel.to}`}>
+        <ol>{travel.legs.map((l, i) => <li key={i}><p className="leg"><span className="at">{l.at.replace(/^Day \d+, /, '')}</span>
+          {' '}{Typography.curl(Words.upper(l.place))}</p>
+          {[...l.journey, ...l.lines].map((t, j) => <p key={j}>{Typography.curl(t)}</p>)}</li>)}</ol>
+        {!travel.arrived && <p className="stopped">{Typography.curl(travel.stopped ?? 'The journey stops here')}.</p>}
+      </section>
+    );
   }
   // A paragraph's first sentence: the place, recalled while something is done in it.
   static first(text: string): string {

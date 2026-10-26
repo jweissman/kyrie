@@ -63,6 +63,10 @@ export interface Frame {
   // When no one is left standing: how it came to that, said plainly (see Obituary), and where they lie, for a country
   // begun again to remember.
   ending?: { title: string; lines: string[]; memorial?: Memorial };
+  // A journey just made along known ways: where it was going, each leg as it went (where it came, when, how the way
+  // was, and anything that came of it), whether it arrived, and why it stopped if it did not.
+  travel?: { to: string; arrived: boolean; stopped?: string;
+    legs: { place: string; at: string; journey: string[]; lines: string[] }[] };
 }
 
 export type Request =
@@ -81,6 +85,9 @@ export type Request =
   | { kind: 'perform'; command: string; said: string; move: boolean; named?: boolean }
   // A companion's choice in a fight ("ability>target"); none lets them fight this turn on their own.
   | { kind: 'fight'; choice?: string }
+  // Travel along known ways to a place the company knows (see Travel): leg after leg, until it arrives or something
+  // wants a decision.
+  | { kind: 'travel'; destination: string; said: string }
   | { kind: 'checkpoint' };
 export interface Envelope { id: number; request: Request }
 // What a kept game says about itself on the title: the campaign, where the company is, when, and who.

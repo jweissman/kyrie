@@ -26,21 +26,27 @@ export class ChartModel {
   private regionalArea(id: string): Entity | undefined {
     return Spatial.ancestry(this.entities, id).findLast(e => ChartModel.areaKinds.includes(e.space!.kind));
   }
+  // The roads of a country, which its folk know and anyone in it can follow: roads, and the bridges, fords, ferries
+  // and causeways they cross by. A track or a path into wild country is known only once walked, or told of.
+  static readonly roads = ['way_road', 'way_causeway', 'way_bridge', 'way_ford', 'way_ferry'];
   // The ways the company has walked from, the ways it has been told of (a track hidden until its way is known, once
-  // someone has told it), and with wayfinding every road and path of the country.
-  private ways(visited: Set<string>): WayInfo[] {
+  // someone has told it), the country's roads, and with wayfinding every road and path of the country.
+  ways(visited: Set<string>): WayInfo[] {
     const model = new PassageModel(this.world, this.actor, this.entities), relations = this.world.view.relations;
     const told = relations.filter(r => r.name === 'revealedBy'
       && this.world.test(ModuleWriter.call('knows', this.actor, r.args[1]!)))
       .flatMap(r => relations.filter(c => c.name === 'connects' && c.args[0] === r.args[0]))
       .flatMap(c => model.ways(c.args[1]!).filter(w => w.passage === c.args[0] && w.to === c.args[2]));
-    const seen = [...[...visited].flatMap(from => model.ways(from)), ...told];
+    const seen = [...[...visited].flatMap(from => model.ways(from)), ...told, ...this.kind(model, ChartModel.roads)];
     if (!this.world.test(ModuleWriter.call('capable', this.actor, 'wayfinding'))) { return seen; }
-    const mapped = relations.filter(r => r.name === 'passageKind' && ChartModel.regional.includes(r.args[1]!))
+    return [...seen, ...this.kind(model, ChartModel.regional)];
+  }
+  private kind(model: PassageModel, kinds: string[]): WayInfo[] {
+    const relations = this.world.view.relations;
+    return relations.filter(r => r.name === 'passageKind' && kinds.includes(r.args[1]!))
       .flatMap(r => relations.filter(c => c.name === 'connects' && c.args[0] === r.args[0]))
       .filter(c => model.visible(c.args[0]!))
       .flatMap(c => model.ways(c.args[1]!).filter(w => w.passage === c.args[0] && w.to === c.args[2]));
-    return [...seen, ...mapped];
   }
   duration(passage: string): string {
     const ticks = Math.max(1, this.world.number(ModuleWriter.call('travelTime', passage)));

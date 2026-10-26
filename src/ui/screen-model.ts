@@ -1,5 +1,6 @@
 import { Likeness } from '../paintings/likeness';
 import { CharacterSheets } from '../presentation/character-sheet';
+import { Itineraries } from './itinerary';
 import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names';
@@ -84,6 +85,7 @@ export class ScreenModel {
       expedition: this.expedition(world, view, items, here),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,
         zone: passages.path(p.id).slice(0, -1).at(-1)?.name ?? p.zone ?? '' })),
+      destinations: this.destinations(campaign, entities),
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
@@ -360,6 +362,12 @@ export class ScreenModel {
         attributes: m.attributes ?? {}, acts: ref ? grouped.members.get(ref) ?? [] : [],
         overlays: this.overlays(campaign, m.id), ...this.sheet(campaign, m.id, ref, grouped.members.get(ref ?? '') ?? []) };
     });
+  }
+  // Where the company could set out for along known ways, each with its legs named.
+  private static destinations(campaign: Campaign, entities: Map<string, Entity>): Screen['destinations'] {
+    if (!campaign.running) { return []; }
+    return Itineraries.destinations(campaign).map(d => ({ id: d.id, name: d.name, minutes: d.minutes,
+      legs: d.legs.map(l => ({ way: l.way, to: entities.get(l.to)?.name ?? l.to, minutes: l.minutes })) }));
   }
   // The member as the rules have them, and what a development would change, each with its command if offered.
   private static sheet(campaign: Campaign, id: string, ref: string | undefined, acts: Act[]) {

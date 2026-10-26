@@ -99,6 +99,8 @@ export interface Screen {
     // long it has left, and what there is to spare. "Rharash's torch, 40 minutes left · 2 torches to spare".
     light?: string };
   unplaced: Act[];
+  // The places the company knows the way to and could set out for, more than a step away, with the legs of the way.
+  destinations?: { id: string; name: string; minutes: number; legs: { way: string; to: string; minutes: number }[] }[];
 }
 export interface Chart {
   // A way out of the plan is drawn as a place beyond it (external); one to another level of the site goes up or down.

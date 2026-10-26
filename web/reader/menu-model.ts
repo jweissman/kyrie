@@ -4,12 +4,15 @@ import { SceneModel, type Scene } from '../../src/ui/scene';
 import { Attending, type Attention, type Examined, type Talk } from '../../src/ui/attention';
 import type { Frame } from '../engine/protocol';
 import type { Travel } from './reader-app';
+import { Words } from './words';
 
 export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 // What can be chosen now: the scene (who and what is here, the ways, yourself), or a conversation with one of them, or
 // one thing looked at; in a fight, the acting companion's options; or the company's or the pack's. Every choice in
 // the order it is drawn, with what is open after its opener.
-export interface Menu { sections: Section[]; choices: Choice[]; scene?: Scene; talk?: Talk; examined?: Examined }
+export interface Menu {
+  sections: Section[]; choices: Choice[]; scene?: Scene; talk?: Talk; examined?: Examined; destinations?: Choice[];
+}
 
 export class MenuModel {
   static build(frame: Frame | undefined, view: View, open: string[],
@@ -19,7 +22,7 @@ export class MenuModel {
     const opened = new Set(open);
     if (!frame.combat && !['pack', 'company'].includes(view)) {
       const scene = SceneModel.build(frame.screen);
-      return this.attending(scene, opened, attention) ?? this.place(Attending.place(scene), opened);
+      return this.attending(scene, opened, attention) ?? this.place(Attending.place(scene), opened, frame.screen);
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
       : view === 'pack' ? ChoiceList.pack(frame.screen) : this.character(frame.screen, member);
@@ -42,8 +45,19 @@ export class MenuModel {
       { id: 'acts', title: 'What can be done', tone: 'member' as const, glyph: '·',
         choices: others.filter(c => !this.developing.test(c.command ?? '')) }];
   }
-  private static place(scene: Scene, opened: Set<string>): Menu {
-    return { scene, sections: this.sections(scene), choices: SceneModel.order(scene, opened) };
+  // The place, and after its ways out, the places the company knows the way to and could set out for.
+  private static place(scene: Scene, opened: Set<string>, screen: Frame['screen']): Menu {
+    const destinations = this.destinations(screen);
+    const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...destinations,
+      ...scene.you].flatMap(c => this.unfold(c, opened));
+    return { scene, sections: [...this.sections(scene), ...destinations.length ? [{ id: 'destinations',
+      title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: destinations }] : []], choices, destinations };
+  }
+  // A place known and the way to it: opened, the way it goes, leg by leg, and setting out.
+  static destinations(screen: Frame['screen']): Choice[] {
+    return (screen.destinations ?? []).map(d => ({ id: `dest:${d.id}`, label: d.name, tone: 'way' as const,
+      note: Words.span(d.minutes), children: [{ id: `travel:${d.id}`, label: `Set out for ${d.name}`, tone: 'way' as const,
+        command: `travel:${d.id}`, minutes: d.minutes }] }));
   }
   // Someone spoken with: what can be said to them, and taking leave. Something looked at: what can be done with it, by
   // kind, and turning away. The scene is kept whole, so what is said is said to them by name.
@@ -96,6 +110,11 @@ export class MenuModel {
   private static inline(name: string): string { return name.replace(/^(The|A|An|Some) /, m => m.toLowerCase()); }
   // A way that takes a while across the country is a journey: said while it is worked out.
   static travel(choice: Choice, frame: Frame): Travel | undefined {
+    const known = /^travel:(.+)$/.exec(choice.command ?? '')?.[1];
+    const to = known && frame.screen.destinations?.find(d => d.id === known);
+    if (to) {
+      return { from: frame.screen.place.id, to: to.id, way: to.legs.map(l => l.way).join(', then '), minutes: to.minutes };
+    }
     const exit = frame.screen.exits.find(e => choice.id === e.id || choice.id.startsWith(`${e.id}/`));
     if (choice.tone !== 'way' || !exit || (choice.minutes ?? 0) < 20) { return undefined; }
     return { from: frame.screen.place.id, to: exit.destination.id, way: exit.way ?? exit.name,

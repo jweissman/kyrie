@@ -10,9 +10,10 @@ import type { Region } from './region-writer';
 export interface Country {
   id: string; bundle: string; entry: string; marker: string; name: string; terrain: string; side: Side;
   beside: string[]; among?: string;
-  // What the folk of the first region say of it ({keeper}: the innkeeper of the town the road leaves from), and what
-  // the company knows of it once told.
-  rumour?: string; heard?: string;
+  // What the folk of the first region say of it ({keeper}: whoever keeps travellers where it is asked), what it is
+  // asked about, what the company knows of it once told, and the notice nailed up in every town, for news that is
+  // posted.
+  rumour?: string; heard?: string; topic?: string; notice?: { name: string; text: string; talk: string };
 }
 export class Countries {
   static readonly list = countries.countries as Country[];
@@ -36,7 +37,8 @@ export class Countries {
     const beyond = { ...region.beyond }, sides = Object.keys(beyond) as Side[];
     for (const side of sides) {
       const c = this.fits(region.terrain, side, () => false, seed);
-      const told = c?.rumour ? { rumour: c.rumour, heard: c.heard } : {};
+      const told = c?.rumour ? { rumour: c.rumour, heard: c.heard, ...c.topic ? { topic: c.topic } : {},
+        ...c.notice ? { notice: c.notice } : {} } : {};
       if (c) { beyond[side] = { name: c.name, terrain: c.terrain, ...told }; }
     }
     return beyond;

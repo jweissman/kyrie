@@ -10,7 +10,7 @@ import type { Command } from '../../src/model';
 import type { Screen } from '../../src/ui/screen-types';
 import { Creation } from './creation';
 import { Frontier } from '../../src/world/frontier';
-import type { Campaign } from '../../src/campaign/campaign';
+import type { Campaign, CampaignEvent } from '../../src/campaign/campaign';
 import { Scenarios } from '../scenarios';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { PlayTranscript } from './transcript';
@@ -21,7 +21,11 @@ import { Narrator, type Told } from '../../src/presentation/narrator';
 import { Obituary } from '../../src/narrative/obituary';
 import { Endings } from '../../src/lang/endings';
 import { BandNames } from '../../src/narrative/band-names';
+import { Travel } from '../../src/session/travel';
+import { Itineraries } from '../../src/ui/itinerary';
 
+// A journey as it goes: each leg as it was told, and the frame the last one left.
+interface Trail { legs: NonNullable<Frame['travel']>['legs']; last?: Frame }
 // What setting out asks for: the campaign (or the generated region), and who comes, and why.
 type Starting = Omit<Extract<Request, { kind: 'begin' }>, 'kind'>;
 
@@ -65,6 +69,11 @@ export class EngineHost {
         return done;
       }
       case 'fight': this.fight(request.choice); return null;
+      case 'travel': {
+        const done = this.travel(request.destination, request.said);
+        this.working = done.catch(() => undefined);
+        return done;
+      }
       // The page's download waits for the command under way (the independent review's A2).
       case 'checkpoint': await this.working; return this.session ? JSON.stringify(this.session.checkpoint(true)) : null;
     }
@@ -140,6 +149,26 @@ export class EngineHost {
       this.told = { event, feedback: this.fought ? EngineHost.unfought(feedback) : feedback, said, moved };
     } finally { this.turn = undefined; this.opening = []; this.spent = performance.now() - started; }
     return this.settled();
+  }
+  // A journey along known ways: each leg the command the page offers for it, told as it is made; the frame it ends
+  // with says each leg (where it came, when, how the way went, what came of it), and why it stopped if it did.
+  private async travel(destination: string, said: string): Promise<Frame> {
+    const session = this.session;
+    if (!session) { throw new Error('No game is under way'); }
+    const trail: Trail = { legs: [] };
+    const done = await Travel.go({ campaign: session.campaign, perform: this.leg.bind(this, trail) }, destination);
+    const frame = trail.last ?? this.settled(), legs = trail.legs;
+    const to = Itineraries.plan(session.campaign, destination)?.name
+      ?? session.campaign.module.entities.find(e => e.id === destination)?.name ?? said;
+    return { ...frame, travel: { to, arrived: done.arrived, legs, ...done.stopped ? { stopped: done.stopped } : {} } };
+  }
+  // One leg of a journey, done as the page does a way chosen, and kept as it was told.
+  private async leg(trail: Trail, command: string, said: string): Promise<CampaignEvent> {
+    const last = await this.perform(command, { said, move: true, named: false });
+    trail.last = last;
+    trail.legs.push({ place: last.screen.place.name, at: last.screen.clock, journey: last.leaf.journey ?? [],
+      lines: (last.leaf.exchange?.lines ?? []).map(l => l.text) });
+    return this.session!.campaign.history.at(-1)!;
   }
   // A fight held on its own page is not told again at the place it was fought in: only what was witnessed meanwhile.
   private static unfought(feedback: ActionFeedback): ActionFeedback {

@@ -33,6 +33,7 @@ export class PlaceStage {
           <PlaceStage.Line label="With you" subjects={of('companion')} draw={draw} />
         </section>
         <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} />
+        <PlaceStage.Destinations app={app} draw={draw} />
         <PlaceStage.Foot app={app} draw={draw} />
       </article>
     );
@@ -131,6 +132,31 @@ export class PlaceStage {
       {also.map(c => <Fragment key={c.id}><Act.View choice={c} draw={draw} className="small also">
         {Typography.curl(PlaceStage.also(c.label))}</Act.View><PlaceStage.Opened choice={c} draw={draw} /></Fragment>)}
     </>;
+  }
+  // The places the company knows the way to, further than a step: each opens to the way it goes, leg by leg and how
+  // long, and setting out on it. On the way, the journey stops for whatever wants a decision.
+  static Destinations({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const choices = app.menu.destinations ?? [], screen = app.state.frame!.screen;
+    if (!choices.length) { return null; }
+    return (
+      <nav className="ways destinations" aria-label="Set out for">
+        <p className="label">Set out for</p>
+        <ul className="routes">{choices.map(c => {
+          const d = screen.destinations!.find(x => `dest:${x.id}` === c.id)!, open = draw.open.has(c.id);
+          return <li key={c.id}>
+            <Act.View choice={c} draw={draw} className="route">
+              <span className="n">{Typography.curl(Words.upper(d.name))}</span>
+              <span className="r">{d.legs.length} legs · {Words.span(d.minutes)}</span></Act.View>
+            {open && <div className="itinerary">
+              <ol>{d.legs.map((l, i) => <li key={i}>{Typography.curl(`By ${l.way} to ${l.to}`)}
+                <span className="note">{Words.span(l.minutes)}</span></li>)}</ol>
+              <p className="how">Each leg is walked as it comes; the journey stops for anything that wants you.</p>
+              <Act.List choices={c.children ?? []} draw={draw} />
+            </div>}
+          </li>;
+        })}</ul>
+      </nav>
+    );
   }
   // Where a way goes, as the choice says it ("Into the Wooden Wolf"), or the place it leads to.
   private static to(c: Choice, exit: ExitRow): string {

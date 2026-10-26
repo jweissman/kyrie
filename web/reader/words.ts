@@ -42,6 +42,12 @@ export class Words {
   static lastSaid(said: string): string { return said.split(' › ').at(-1)!; }
   // "a hunter", "an eel-catcher".
   static article(noun: string): string { return /^(a|an|the) /i.test(noun) ? noun : `${/^[aeiou]/i.test(noun) ? 'an' : 'a'} ${noun}`; }
+  // A span of the world's time, as a traveller reckons it: "40 minutes", "about 2 hours", "about 6½ hours".
+  static span(minutes: number): string {
+    if (minutes < 60) { return `${minutes} minutes`; }
+    const halves = Math.round(minutes / 30), hours = Math.floor(halves / 2), half = halves % 2 ? '½' : '';
+    return `about ${hours}${half} hour${hours === 1 && !half ? '' : 's'}`;
+  }
   // The subject of a person or thing named with what they are: "Wren, ferry-keeper" is Wren.
   static short(name: string): string { return name.split(', ')[0]!; }
   // Choices that differ in one part only (four words to press on a casket) are said once, the words apart: what they

@@ -65,7 +65,7 @@ export class Stage {
   static Running({ frame, extra }: { frame: Frame; extra?: string }) {
     return (
       <header className="running" data-id="clock">
-        <span className="where">{Stage.where(frame).map(w => <span key={w}>{Typography.curl(w)}</span>)}
+        <span className="at">{Stage.where(frame).map(w => <span key={w}>{Typography.curl(w)}</span>)}
           {extra && <span>{Typography.curl(extra)}</span>}</span>
         <span className="when">{Stage.when(frame).map(w => <span key={w}>{w}</span>)}</span>
       </header>

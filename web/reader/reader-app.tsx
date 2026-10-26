@@ -171,8 +171,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const frame = this.state.frame!, travel = MenuModel.travel(choice, frame);
     this.setState({ pending: { said, ...travel ? { travel } : {} }, error: '' });
     try {
-      const next = await this.engine.request<Frame>({ kind: 'perform', command: choice.command!, said,
-        move: choice.tone === 'way', named: choice.tone !== 'way' });
+      const journey = /^travel:(.+)$/.exec(choice.command!)?.[1];
+      const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey, said })
+        : await this.engine.request<Frame>({ kind: 'perform', command: choice.command!, said,
+          move: choice.tone === 'way', named: choice.tone !== 'way' });
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
       const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
