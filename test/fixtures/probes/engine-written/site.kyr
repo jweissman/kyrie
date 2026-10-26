@@ -1,0 +1,21 @@
+Module scorched "Engine-written facts" {
+  Place yard_site "The carters' yard" is site.
+  Place yard "the yard" is room within yard_site at 0, 0.
+  Company party "Your company" of 1 at yard.
+  Action sift(actor: group, site: place) "Sift the ashes" {
+    Requires able(actor) and company(actor) and at(actor, site) and exposedTo(site, fire).
+    Time 1 minute.
+    Result "Warm ash runs through your fingers.".
+  }
+  Relation defeated(group).
+  Action gloat(actor: group, site: place) "Gloat over the beaten band" {
+    Requires able(actor) and company(actor) and at(actor, site) and defeated(party).
+    Time 1 minute.
+    Result "Nobody ever writes defeated(party).".
+  }
+  Action answer(actor: group, site: place) "Answer for the blow" {
+    Requires able(actor) and company(actor) and at(actor, site) and witnessedAttack(?w, actor, ?v).
+    Time 1 minute.
+    Result "You explain yourself.".
+  }
+}
