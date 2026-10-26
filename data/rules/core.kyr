@@ -2,6 +2,8 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Kind group. Kind place. Kind good. Kind clock. Kind capability.
   // An ending an author writes (Ending … when … "epilogue"): reached once, and the book closes on it.
   Kind ending. Relation reached(ending).
+  // Something done that a company grows by (Milestone … worth … when …): achieved once, and worth so much experience.
+  Kind milestone. Relation achieved(milestone). Measure merit(milestone).
   Entity gold: good "coin". Entity rations: good "ration". Entity clock: clock "Time".
   Entity woodcraft: capability "Woodcraft". Entity mending: capability "Mending".
   Entity lockwork: capability "Lockwork". Entity trapwork: capability "Trapwork".

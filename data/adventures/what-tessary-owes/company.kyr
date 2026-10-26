@@ -1,0 +1,6 @@
+Module tessary "What Tessary Owes" {
+  // The company of the campaign played alone: one traveller come down the marsh road with a little coin (placed.kyr is
+  // the world's own company, come in by the Causeway).
+  Company party "You" of 1 at causeway_end.
+  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.
+}

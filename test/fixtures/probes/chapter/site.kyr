@@ -1,0 +1,14 @@
+Module chapter "A country beyond, with an ending of its own" {
+  Entity party: group "Your company".
+  Place beyond "the country beyond" is wilderness.
+  Place shrine "the shrine" is room within beyond at 0, 0.
+  Place yard_in "where the road comes in" is room.
+  Passage road_in "the road in" is path between yard_in and shrine taking 10 minutes.
+  Thing bell "the shrine bell" at shrine {
+    State silent "A bell hangs in the shrine, still.".
+    State rung "The bell is still humming.".
+    Change ring "Ring the bell" from silent to rung.
+  }
+  Observe shrine_scene at shrine when true "A shrine on a hill.".
+  Ending rang "The Bell Rung" when state(bell, rung) "The bell rings out over the country beyond, and that is the end of that story.".
+}

@@ -1,0 +1,57 @@
+{
+ "day1": [
+  "To the Landgate",
+  "To the Withies",
+  "Into the Muffled Drum",
+  "Ask Durrance about the soldiers",
+  "Ask Durrance what the oath",
+  "Ask Hannelore Rackham about the drum",
+  "Out to the Withies",
+  "To the Watersteps",
+  "=110",
+  "Ask the Valuer where the soldiers",
+  "Ask the Valuer what would bring"
+ ],
+ "day2": [
+  "To the head of the Swatch",
+  "=156",
+  "To the foot of the Swatch",
+  "To the Weed",
+  "To the Drowned Forum",
+  "To the Street of Scales",
+  "To the ebb-runners",
+  "Knock the peg",
+  "Pick the lockbox",
+  "Take from the ebb-runners",
+  "To the Street of Scales",
+  "To the Drowned Forum",
+  "To the Weed",
+  "To the foot of the Swatch",
+  "To the head of the Swatch",
+  "letter: Read|Break the wax",
+  "To the Watersteps",
+  "To the Withies",
+  "Into the Muffled Drum",
+  "Tell Fisk",
+  "Tell Durrance what the Factor"
+ ],
+ "night7": [
+  "=1104",
+  "=1110",
+  "Pull the cloth off",
+  "Tell Durrance that a promise"
+ ],
+ "feast": [
+  "=2000",
+  "Ask Durrance to call the Muster",
+  "Out to the Withies",
+  "To the Landgate",
+  "To Scriveners",
+  "To the Tidewall",
+  "To the Legion Yard",
+  "=2101",
+  "=2107",
+  "Stand with the Muster",
+  "=2154"
+ ]
+}

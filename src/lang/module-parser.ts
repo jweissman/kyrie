@@ -8,7 +8,7 @@ import type { PassageSpec, ThingSpec } from './world-constructs';
 import { PersonParser } from './person-parser';
 import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
-import { CatalogParser } from './catalog-parser';
+import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones';
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
 import { LocalKinds } from '../canon/local-catalog';
 import { ModuleDeclarations } from './module-declarations';
@@ -78,7 +78,7 @@ export class ModuleParser {
     Comparison: StatementParser.Comparison, Call: StatementParser.Call,
     Value: StatementParser.Value, expression: StatementParser.Expression, integer: StatementParser.Integer,
     string: StatementParser.String,
-    ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions,
+    ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
   });
   // Parsing is the costliest part of loading a campaign, and the same texts (the shared rules above all) come again
   // and again; each caller gets its own copy of the remembered module.

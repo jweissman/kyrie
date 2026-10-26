@@ -1,0 +1,64 @@
+Module tessary "What Tessary Owes" {
+  // ── What the city remembers, and what it has forgotten ────────────────────────────────────────────────────────────
+  // Tessary counts its years from the Drowning: it is the year 1144 of the Drowning. Four hundred years of mud-huts on
+  // the ridge before anyone dared build a wall on the old one; the Oath Stone hauled up out of the basin in the 942nd
+  // year; and forty years ago the Salt War, against the fen-reeves of Carrabay, for which the city raised its First
+  // Muster and promised it land on the south bank of the Ossel. It gave the First Muster a plaque, and the right to
+  // rake the pans in perpetuity. Factor Sault's father raked salt.
+
+  Observe tidewall_datestone at tidewall when not visitedBefore(tidewall) "Where the city's courses begin on the Aenean ones, the parapet is painted with a ladder of white bars, each with a year of the Drowning beside it: the Grey Water of 711, the Long Spring of 902, the Salt Flood of 1104, each bar higher than the one before. The fishermen touch the top bar for luck going out. Below the lowest, where the old city's stone begins, there is a bar in another paint, very faded, older than all of them, with no year.".
+  Observe tidewall_stars at tidewall when dark() "Lanterns along the parapet, and fishermen under them, talking low. One of them says, not to you, that the stars past the bar were wrong again last night, the whole sky of them, close as lamps. The man next to him tells him to shut his mouth and mind his line.".
+  Observe terraces_plaque at terraces when not visitedBefore(terraces) "By the Council House steps a bronze plaque, green with salt, is set into the wall at knee height, where nobody reads it: TO THE FIRST MUSTER OF THE SALT WAR, WHO KEPT THE CITY. THE CITY WILL NEVER FORGET. IN THE 1104th YEAR OF THE DROWNING.".
+  Observe terraces_plaque_again at terraces when visitedBefore(terraces) and knows(party, first_muster) "The First Muster's plaque by the Council House steps, at knee height, green with salt.".
+  Observe pans_rakers at pans when not dark() "The rakers are old, most of them, and stoop the same way. One has a soldier's cap badge pinned to his hat, so green you can hardly see the crossed keys on it: the badge of a regiment nobody under fifty remembers.".
+  Discovery first_muster "Forty years ago, for the Salt War against the fen-reeves of Carrabay, Tessary raised a First Muster and promised it land on the south bank of the Ossel. It gave the First Muster a bronze plaque and the right to rake the city's salt-pans in perpetuity. Factor Sault's father was one of them." {
+    Known by sault, tolley.
+  }
+  Topic tolley_first with tolley "Ask Brother Ancel about the old rakers on the Pans" when true once {
+    Says "'The First Muster,' says Ancel. 'What is left of it. The Salt War, forty years back. They were promised land on the south bank, and the Board voted them a plaque instead, and the rakes, and called it generous.' He looks up at the hanging weights. 'Half the brass up there is theirs. Their wives hung them. Factor Sault's mother hung one, I'm told, the year Imma was born. It is still there. Nobody has ever taken it down, because nobody has ever been able to say it was kept.'".
+    On discuss { Assert knows(actor, first_muster). }
+  }
+
+  // The saint's sayings: the oldest thing in the chapel, and the first word anyone in Tessary spoke of a default.
+  Discovery evenhand_saying "Saint Evenhand used to say that the sea did not drown the old city: a promise did. Asked whose, he wept, which is the only time his book says he wept." {
+    Known by tolley.
+  }
+  Topic tolley_saying with tolley "Ask Brother Ancel what the saint said about the Drowning" when knows(actor, evenhand_tale) once {
+    Says "Ancel takes a small book from the altar, so old the boards have gone soft as cloth. 'His sayings,' he says. 'Taken down by the first brothers. Most of them are about weights and measures.' He turns to a page he does not have to look for. 'Not the sea. A promise drowned the old city.' He closes the book. 'They asked him whose promise, and he wept. It is the only time the book says he wept. Seven hundred years of brothers have argued about what he meant. I think he meant exactly what he said. He could not do otherwise.'".
+    On discuss { Assert knows(actor, evenhand_saying). }
+  }
+  // The worn letters on the Watersteps, which are the beginning of the formula on the Hall's wall.
+  Discovery steps_letters "The worn letters on the Watersteps are Aenean: WHO COMES TO THE LEDGER, and the rest worn away. The Steps were an instrument of the Balance once, like the Oath Stone, and a little of them still is: what is sworn on them is held.".
+  Topic tally_steps with tally "Ask the Valuer what the letters on the Steps say" when at(tally, tideline_steps) or travelsWith(tally, actor) and at(actor, tideline_steps) once {
+    Says "The Valuer does not need to bend. 'Who comes to the ledger,' they say. 'The rest is worn away by feet. These steps were an instrument once, as the Stone in your Yard was. They are a very old one, and very tired, but they still hold a little.' They look down at the water. 'It is why the called come this way. The calling goes by the old roads. And it is why, when a ferryman swears on these steps that he will not drink, we write it down.'".
+    On discuss { Assert knows(actor, steps_letters). }
+  }
+
+  // ── The city under the city ───────────────────────────────────────────────────────────────────────────────────────
+  // New Tessary was built on the old one's plan, street over street, because the old walls were the only stone on the
+  // ridge to build on. From Lowtide, looking up, you see it.
+  Observe forum_under at forum when lowWater() and not dark() and not visitedBefore(forum) "You know this square. It takes a moment to see why: it is the Landgate's square, its three corners, its slope, exactly, laid out down here in stone eleven hundred years older, with the sky where the bill-board should be. Up over the Tidewall's edge you can see the Landgate's own roofs, standing where these roofs stood.".
+  Observe forum_pool at forum when lowWater() and not dark() "In the fountain's broken basin a sheet of standing water holds the sky, and in it, upside down and perfectly still, the Tidewall and the roofs of Tessary. The mudlark children walk round it, never across. The city in the pool, they say, has people of its own, who walk with their feet on the sky and keep every promise they make, and want you to come down and live with them.".
+  Observe scales_under at scales_street when not visitedBefore(scales_street) "It runs where Scriveners' Row runs above, and bends where the Row bends, by the width of a cart. Scales here, on every counter; seals there, on every desk.".
+  Observe court_hollow at oath_court when not benighted(party) "In the end wall, at the height of a man, there is a hollow cut into the black stone: square-edged and clean, a slab's breadth and a man's height and a hand deep, the shape of something that was cut out of this wall and taken away. You have seen that shape. It stands on a plinth in the Legion Yard, directly over your head, with eleven thousand handprints worn into it.".
+  Topic pounce_copies with pounce "Ask Pounce why every contract in Tessary is drawn twice" when true once {
+    Says "'Two parties, two copies,' says Pounce. 'One each. Every child knows that.' He sands a line. 'The old people said the ledger under the sea keeps a third, which is why a Tessarine will swear on his mother's grave and then look at the floor.' He sets the pen down. 'This whole city is a second copy, you know. Drawn on the old one, street for street. The original is filed under four fathoms of water at the bottom of the basin.' He snorts. 'And we still argue about the boundaries.'".
+  }
+
+  // ── The bell of the old city ──────────────────────────────────────────────────────────────────────────────────────
+  // The mudlarks have looked for the drowned city's bell for a thousand years. It is not in Lowtide. On storm nights
+  // the Withies hear it under the basin. It is on the white floor, with a tag.
+  Observe forum_tower at forum when not visitedBefore(forum) "At the Forum's east side stands the stump of a bell-tower, roofless, its bell-frame empty. Every mudlark in Tessary has dug under it at one time or another. There is nothing there.".
+  Thing old_bell "the bell of the old city" at far_edge {
+    State hanging "On a frame of black timber at the very edge of the floor hangs a bell taller than a man, green with the sea that never touched it, with a tag on its rope the size of a shield: the bell of the Aenean city, pledged by its magistrates as surety for the compact, forfeit in the year of the Drowning.".
+    State humming "The old city's bell is still humming on its frame at the edge of the floor.".
+    Change ring "Haul on the bell-rope" from hanging to humming.
+  }
+  Relation bellHeard(place).
+  Event bell_rings at far_edge when state(old_bell, humming) "The bell swings, slowly, and speaks: a note so low it is more a pressure than a sound, and it goes out across the white floor and past the edge into the dark where the nine lights hang, and does not come back. Far behind you, through the Door, faintly, you think you hear water move." then {
+    Assert bellHeard(ossel). }
+  Rule bell_heard_above when bellHeard(ossel) and inTessary() and not spread(bell_news)
+    says "They are talking about it in the Withies: the bell under the basin rang last night, with no storm and no wind, and every dog on the boardwalks howled. Wick is unbearable about it." { Assert spread(bell_news). }
+  Entity bell_news: fact "the bell under the basin".
+  Rule bell_resets when state(old_bell, humming) and not at(party, far_edge) { Assert state(old_bell, hanging). }
+}

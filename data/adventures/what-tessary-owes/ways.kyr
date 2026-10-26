@@ -1,0 +1,165 @@
+Module tessary "What Tessary Owes" {
+  // ── The Factor at dusk ────────────────────────────────────────────────────────────────────────────────────────────
+  // She seeks out whoever she has hired, once, on the Tidewall, with eels; and if she has not hired them, she looks
+  // them over anyway. What she says depends on what they have done to her.
+  Event sault_dusk near sault when at(sault, tidewall) and night(ossel) >= 2 and hiredBySault(party) and not saultExposed(ossel) and not voted(ossel) "Factor Sault sees you before you see her, and holds out the paper cone. 'Eel,' she says. 'Go on. You look like someone who's been under the sea.' She watches her ships come in for a while. 'I know what you've found, roughly. I know what the Board did ten years ago, exactly; I carried the silver. I'll tell you what I think, and then you can tell me I'm a monster.' She eats an eel. 'The Board will vote no. Not because they're wicked. Because they've never once had to pay for anything. And when they vote no, those lads go under the sea, all of them, and stay there, unless someone with the weight to do it takes up the note.' She licks salt off her thumb. 'When the Feast's done I'll need someone who's been down there and isn't afraid of clerks. Think about it. I'll be here every evening. I like the light.'".
+  Event sault_dusk_letter near sault when at(sault, tidewall) and carries(party, sault_letter) and not saultExposed(ossel) and not voted(ossel) "Factor Sault looks at the letter in your hand, with her own wax on it, broken. 'Ah,' she says. 'Bettany never could keep a box shut.' She doesn't ask for it back. 'Well, you've read it. Every word's true, which is more than the Board can say for anything it ever signed.' She offers you the cone of eels. 'Keep it. Show it to whoever you like. I'd rather be hated for what I mean than liked for what I don't.'".
+  Relation saultShaken(place).
+  Topic sault_father with sault "Ask the Factor about the First Muster's plaque" when knows(actor, first_muster) and not saultShaken(ossel) once {
+    Says "For the first time the Factor doesn't answer straight away. 'My father,' she says. 'Third rank, First Muster, the Salt War. They promised them the south bank. Good land, the south bank. They gave them that plaque, at knee height so you'd have to kneel to read it, and the right to rake salt for the Board at the Board's price, for ever.' She turns the paper cone in her hands. 'He raked for twenty-two years and died owing the company store four marks. I was fourteen. I raked it off. Then I bought the store. Then I bought the pans.' She looks out at the Pans steaming in the dusk. 'So when you tell me the city will keep its promise to the Long Muster, I'll laugh, and you'll forgive me. I've seen this city keep a promise. It's green, and it's at knee height.'".
+  }
+  Topic sault_designed with sault "Tell the Factor that the War Note was drawn to fail" when knows(actor, note_designed) and not saultShaken(ossel) once {
+    Says "Factor Sault hears you out without eating anything. Then she laughs, once, a short bark that makes the fishermen along the parapet look round. 'Rigged,' she says. 'From the start. The Board too stupid to see it, and me too clever by half.' She is quiet a long time. 'Ten years I carried that silver down a tunnel and never once asked what the other side wanted with it.' She turns to you. 'It changes nothing. A rigged game is still the only game in town, and I'll still be at the table when the note falls in.' And then, much lower: 'It changes what I'd be buying. Tell me what you'd have me do instead, and I'll listen. Once.'".
+    On discuss { Assert saultShaken(ossel). }
+  }
+
+  // ── The drowned city's own way down ───────────────────────────────────────────────────────────────────────────────
+  // Under the plunge-pool a drain runs down through the bedrock into the cistern the Scruples draw their water from,
+  // behind the standing dormitory: the old city's clerks went down to the Balance by it before the black wall was
+  // sealed. The Forsworn stand over it. There are three ways past them: through them; round them, quietly; or by
+  // giving them what they hold out their hands for, which is the weight of a promise that was kept.
+  Place scruples_cistern "the Scruples' cistern" is room within sr_halls at 3, 1 underground.
+  Passage plunge_drain "the drain under the plunge-pool" is crawl between plunge and scruples_cistern taking 20 minutes.
+  Passage cistern_way "the cistern steps" is steps between scruples_cistern and dormitory.
+  Observe scruples_cistern_scene at scruples_cistern when true "A round cistern of white stone, half full of black water so still that the lamp-light lies on it like a coin. A crawl comes in high up on one side, from the dark, cut by hands much older than the Scruples'; steps on the other side go up toward the sound of very slow breathing.".
+  Observe plunge_drain_seen at plunge when not benighted(party) "In the floor of the dry pool, under the silt the Forsworn stand in, there is a square drain-mouth, cut with ruled lines like everything the old city's clerks made, and a draught comes up out of it that smells of stone dust and, faintly, of hot metal.".
+  Relation forswornAppeased(place).
+  Thing forsworn_watch "the Forsworn over the drain" on plunge_drain is scenery {
+    State standing blocking "The Forsworn stand over the drain-mouth, close as reeds, with their hands out.".
+    State parted "The Forsworn have drawn back from the drain-mouth, against the walls.".
+  }
+  Rule forsworn_part when (forswornAppeased(ossel) or not able(forsworn)) and state(forsworn_watch, standing) { Assert state(forsworn_watch, parted). }
+  Rule forsworn_close when able(forsworn) and not forswornAppeased(ossel) and state(forsworn_watch, parted) and not at(party, plunge) and not at(party, scruples_cistern) { Assert state(forsworn_watch, standing). }
+  // A weight of a kept promise, from Saint Evenhand's.
+  Kind votive_weight "a votive weight of a kept promise" is gear worth 0 weighing 1
+    described "A small lead weight on a cord, rubbed smooth, from the chapel ceiling: hung forty years ago by a woman whose husband promised to come home from the sea, and did. Brother Ancel says it has been kept a long time, and can be spared.".
+  Item kept_weight "a votive weight of a kept promise" is votive_weight at chapel hidden until weight_given.
+  Discovery weight_given "Brother Ancel has given you the weight of a kept promise.".
+  Topic tolley_hollow with tolley "Ask Brother Ancel what the hollow men in Lowtide want" when true once {
+    Says "Ancel does not laugh. 'The forsworn,' he says. 'The old city's oath-breakers, the book calls them. The saint pitied them. He said they hold out their hands because they want to be given back what they broke, and there is no giving it.' He looks up at the weights. 'He used to take a weight down from here, one of the old ones, a promise that had been kept, and go down at the ebb and give it to one. The book says it stood aside for him, and let him go where he was going. I have never tried it. I am a coward, and they are not mine to pity.'".
+    On discuss { Assert knows(actor, hollow_want). }
+  }
+  Discovery hollow_want "Saint Evenhand used to give the Forsworn the weight of a kept promise from his chapel, and they would stand aside for him.".
+  Action ask_weight(actor: group, recipient: member, site: place) "Ask Brother Ancel for the weight of a kept promise" {
+    Speaker tolley. Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tolley, site) and knows(actor, hollow_want)
+      and memberOf(recipient, actor) and awake(recipient) and at(kept_weight, chapel).
+    Resolve acquire(kept_weight, votive_weight, recipient).
+    On success { Assert knows(actor, weight_given). Retract at(kept_weight, chapel). }
+    Result "Ancel stands on the altar-step and reaches up among the weights for a long time, reading the little paper tags, and comes down with a lead one rubbed smooth as a pebble. 'Forty years,' he says. 'A sailor's wife. He came home. She died last winter, and he the winter before, and it has hung here kept all that while.' He puts it in your hand and closes your fingers over it. 'Bring the cord back, if you can. I like to know where they go.'".
+  }
+  Action give_weight(actor: group, giver: member, site: place) "Hold out the weight of a kept promise to the Forsworn" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plunge) and at(forsworn, plunge) and able(forsworn)
+      and memberOf(giver, actor) and carries(actor, kept_weight) and not forswornAppeased(ossel) and not benighted(actor).
+    Resolve drop(kept_weight, giver).
+    On success { Assert forswornAppeased(ossel). Retract assails(forsworn, actor). Assert tolerates(forsworn, actor). Retract at(kept_weight, plunge). }
+    Result "You hold it out on its cord, and they stop. All of them, all at once, the way the soldiers stopped on the Steps. The nearest puts out a hand that is not quite a hand and takes the weight, and holds it, and for a moment, in the torn dark where its face should be, something is almost there: a mouth, an old man's mouth, about to say a name. Then it is gone. They draw back against the walls of the plunge-room, all of them, with the weight passed from hand to hand among them like something warm, and leave the drain-mouth clear.".
+  }
+  Action slip_forsworn(actor: group, site: place) "Slip along the pool's edge to the drain while the Forsworn face the arch" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plunge) and at(forsworn, plunge) and able(forsworn)
+      and not forswornAppeased(ossel) and not triedSlipping(actor) and state(forsworn_watch, standing).
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert state(forsworn_watch, parted). Assert unseen(actor, forsworn). }
+    On failure { Assert triedSlipping(actor). Assert assails(forsworn, actor). }
+    Result "You go along the very edge of the dry pool with your back to the wall and your light shaded in your hand, so close to the nearest of them that you could touch its sleeve. It does not turn. Nothing turns. The drain-mouth is at your feet, and then you are in it.".
+    Otherwise "Your foot finds a loose tile at the pool's edge, and every empty face in the room turns to you at once.".
+  }
+  Relation triedSlipping(group).
+  Rule slip_done when unseen(party, forsworn) and not at(party, plunge) { Retract unseen(party, forsworn). }
+
+  // ── Other keys ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A Scruple balances the weighing pans as a child of seven does.
+  Action tally_balances(actor: group, site: place) "Ask the Valuer to balance the pans" {
+    Speaker tally. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallery) and travelsWith(tally, actor)
+      and state(counter_door, shut) and not brokeFaith(actor).
+    On success { Assert state(counter_door, open). Assert chamberOpened(ossel). }
+    Result "The Valuer does not look at the brass on the rack. They step into the empty pan themselves, and stand quite still, and the pan sinks under them, a little, and stops a hair short; and they take a pen out of their coat and hold it out at arm's length, and the pointer creeps to its mark, and the white door opens. 'Every one of us does that at seven years old,' they say, stepping out. 'It is how we are taught what we weigh. A pen is about the weight of an untold lie.'".
+  }
+  // Bettany Slake carries the Factor's letters. Shown what they are for, she will not carry another.
+  Topic slake_letters with slake "Tell Bettany Slake what the Factor's letters to the Hall are for" when knows(actor, collateral) and knows(actor, sault_courier) and tolerates(slake, actor) and not state(runners_box, open) once {
+    Says "Bettany listens with her arms folded, and when you get to the soldiers walking past the quay with their eyes open she unfolds them. 'Buying them,' she says. 'The Factor. With a letter in my box.' She spits over the edge of the quay, a long way. 'I run untaxed salt. I've run worse. I never yet carried a man.' She takes a key off her belt and opens the lockbox and holds out the letter on two fingers, as if it were wet. 'Take it. Tell her Bettany Slake said so. And then don't come back to my quay, because I'll have to say you robbed me.'".
+    On discuss { Assert state(runners_box, open). Assert slakeGaveLetter(ossel). }
+  }
+  Relation slakeGaveLetter(place).
+  Rule slake_lets_box when slakeGaveLetter(ossel) and not tolerates(slake, party) { Assert tolerates(slake, party). }
+  // The Factor's lightermen let anyone on the Factor's books go about her warehouse, until she has reason not to.
+  Rule lightermen_know_you when hiredBySault(party) and not saultExposed(ossel) and not tolerates(lightermen, party) and not hostile(sault, party) {
+    Assert tolerates(lightermen, party). }
+  Rule lightermen_forget_you when saultExposed(ossel) and tolerates(lightermen, party) { Retract tolerates(lightermen, party). }
+  Action bribe_lightermen(actor: group, site: place) "Give the lightermen two coin each to finish their game somewhere else" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lightermen, site) and able(lightermen)
+      and not tolerates(lightermen, actor) and not assails(lightermen, actor) and quantity(actor, gold) >= 6.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(lightermen, gold) by 6. Assert tolerates(lightermen, actor). }
+    Result "The biggest of them looks at the coins, and at his mates, and at the door to Panhythe, where the Factor is not. 'Never saw you,' he says, and they go and sit on the salt-sacks by the far wall with their backs to the trap-door.".
+  }
+
+  // ── The Treasurer and the Comptroller ─────────────────────────────────────────────────────────────────────────────
+  // Two men who put their names to a promise they knew could not be kept.
+  Topic quire_designed with quire "Tell the Treasurer that the War Note was drawn to fail" when knows(actor, note_designed) and quireConfided(actor) and not quireDrowned(ossel) once {
+    Says "Quire takes his spectacles off. 'Drawn to fail,' he says. 'Then we were cheated.' He sits with that for a moment, and you watch him want it, the relief of it, and then watch him put it down. 'No,' he says. 'We read it. We knew the treasury. We knew what land and a pension for eight thousand would cost, and we signed it anyway, because the other side wanted it signed and we wanted to win.' He puts the spectacles back on. 'A man who signs a promise he cannot keep, because the man across the table would like it broken, is still the man who signed it. Your clerk under the sea and I are the same kind of fool. He has only been one longer.'".
+  }
+  // ── The Teazles, after ────────────────────────────────────────────────────────────────────────────────────────────
+  Observe teazles_home at teazle_room when cameHome(davy) and at(davy, teazle_room) "The red coat is not on its peg. Davy Teazle is asleep in the cupboard bed in it, with his boots on, which his mother has not mentioned. Nan is mending a net by the brazier and has stopped pretending she is not looking at him. The recruiting bill is gone from the shelf; there is a pale square where it was.".
+  Topic davy_home_talk with davy "Ask Davy what he remembers" when cameHome(davy) and at(davy, teazle_room) and not asleep(davy) once {
+    Says "'Standing,' says Davy. 'In a line. White, everywhere, like snow with no cold in it.' He looks at his hands. 'And a voice somewhere singing the Sally song over and over, a woman, very far off. I kept trying to remember the last verse and I couldn't.' He looks up at his mother. 'He comes home,' he says. 'In the last verse. I remember now.'".
+  }
+  Rule davy_wakes_home when cameHome(davy) and at(davy, teazle_room) and asleep(davy) and hour(clock) >= 8 and hour(clock) < 20 { Retract asleep(davy). }
+
+  // ── The eel-mother ────────────────────────────────────────────────────────────────────────────────────────────────
+  // A conger as long as a boat that comes up the Swatch at the night ebb to hunt the drained streets, and lies at the
+  // foot of the stair. By day she is out in the deep channel. Ways past her: by day; by the Factor's cistern; quietly,
+  // while she is turned to the channel; or with what the Withies always give her, hot eels with vinegar, which she
+  // likes better than anyone has ever been able to explain.
+  Species conger_kind "a great conger" like great_snake temperament territorial
+    described "An eel as long as a boat and as thick as a horse, grey-black, with a head like a ram and a mouth full of back-curved teeth. The Withies call her the eel-mother and say she was old when their grandmothers were girls.".
+  Person eelmother "the eel-mother" at throat_foot {
+    Role "a conger as long as a boat, lying in the channel at the stair-foot". Species conger_kind. Level 5. Pronouns she.
+    Seen when dark() and lowWater().
+    Warns "The black water at the foot of the stair humps up, and a head as big as a ram's comes out of it on a neck that keeps coming, and turns, slowly, toward your light. Her mouth is open. She does not want you on her stair.".
+    Comes "The eel-mother comes up out of the channel all at once, the whole grey length of her, faster than anything that size should move.".
+  }
+  Kind hot_eels "a paper cone of hot eels" is gear worth 1 weighing 0
+    described "Eels, stewed and sliced, hot, in a cone of the city's own paper, with too much vinegar. The paper is going soft.".
+  Person eel_seller "Old Gudrun" at tidewall {
+    Role "who sells hot eels in paper cones on the Tidewall, from a brazier on a barrow". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "Old Gudrun holds up a paper cone before you have asked for one. 'Hot,' she says. 'One coin. Mind the vinegar.'".
+    Sells hot_eels for 1 coin from 6.
+    Seen when not dark().
+  }
+  Topic gudrun_eelmother with eel_seller "Ask Old Gudrun about the eel-mother" when true once {
+    Says "'Her?' Old Gudrun laughs, and stirs the pot. 'She's been coming up the Swatch at the night ebb since my gran was a girl. Takes a dog now and then. Took a mudlark in my mother's time, and they say the mudlark had it coming.' She fills a cone and holds it out to you, steaming. 'You want to go down there of a night, you take her a cone of these. Vinegar. Lots. Throw it in the channel and she'll stop to eat it, and while she's eating you go by. She's been eating my eels sixty years. She knows the smell of my pot better than my husband does.'".
+    On discuss { Assert knows(actor, eelmother_known). }
+  }
+  Discovery eelmother_known "A great conger, the eel-mother, comes up the Swatch at the night ebb and lies at the foot of the stair; a cone of hot eels thrown into the channel stops her long enough to get past.".
+  Topic wick_night_ebb with wick "Ask Wick about going down at the night ebb" when true once {
+    Says "'Don't,' says Wick at once. 'Not at the night ebb. The eel-mother comes up.' He holds his hands as far apart as they go, and then looks at them as if they were not nearly far enough. 'She lies at the bottom of the stair with her head out. You take her Gudrun's eels, from the barrow on the Wall. Everybody knows that.' He considers. 'Or you go round by the Factor's tunnel, but they'll break your head. Or you don't go.'".
+    On discuss { Assert knows(actor, eelmother_known). }
+  }
+  Relation eelmotherFed(place).
+  Action feed_eelmother(actor: group, giver: member, cone: item, site: place) "Throw {cone} into the channel" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, throat_foot) and at(eelmother, throat_foot)
+      and able(eelmother) and dark() and lowWater() and memberOf(giver, actor) and ownedItem(cone, giver) and itemKind(cone, hot_eels)
+      and not eelmotherFed(ossel).
+    Resolve drop(cone, giver).
+    On success { Assert eelmotherFed(ossel). Assert tolerates(eelmother, actor). Retract assails(eelmother, actor). }
+    Result "The cone hits the black water and opens, and the smell of vinegar goes up, and the great head turns away from you toward it with something you would swear was pleasure. She takes the whole thing, paper and all, in one movement, and slides back down into the channel to see if there is any more. You go past the end of her while she looks.".
+  }
+  Rule eelmother_full when eelmotherFed(ossel) and not dark() { Retract eelmotherFed(ossel). Retract tolerates(eelmother, party). }
+  Action slip_eelmother(actor: group, site: place) "Wait for her to turn to the channel, and go by along the wall" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, throat_foot) and at(eelmother, throat_foot)
+      and able(eelmother) and dark() and lowWater() and not tolerates(eelmother, actor) and not triedEel(actor).
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert tolerates(eelmother, actor). }
+    On failure { Assert triedEel(actor). Assert assails(eelmother, actor). }
+    Result "You stand pressed against the wet wall of the stair-foot for a long time, while the great head swings slowly back and forth over the channel, and when it is turned away you go, along the wall, one step and then another, close enough to smell her. She does not turn.".
+    Otherwise "A stone turns under your boot. The head comes round.".
+  }
+  Relation triedEel(group).
+  Rule eel_forgets when tolerates(eelmother, party) and not dark() and not eelmotherFed(ossel) { Retract tolerates(eelmother, party). }
+}

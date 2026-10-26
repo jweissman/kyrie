@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "name": "What Tessary Owes, as a chapter of a world that goes on",
+  "calendar": { "year": 1144, "month": 10, "day": 30 },
+  "modules": [
+    { "id": "tessary", "bundle": "../../../data/adventures/what-tessary-owes/module.json", "chapter": true }
+  ],
+  "party": [ { "name": "Ivo", "raceId": "human", "classId": "thief", "backgroundId": "locksmith" } ]
+}

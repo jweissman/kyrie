@@ -13,6 +13,8 @@ export interface InstalledModule {
   id: string; name: string; description?: string; seed: string; installedAt: number; deadline?: number;
   goal: Predicate; actors: string[]; pressures: string[]; roles?: BoundRole[];
   outcomes: { id: string; predicate: Predicate }[]; exports: Record<string, string>; experience?: number;
+  // A module installed into a world that goes on (a country beyond a march): its ending closes its chapter only.
+  chapter?: boolean;
 }
 export interface CampaignDefinition {
   schemas?: Operator[];
