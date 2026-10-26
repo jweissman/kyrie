@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import { ObservationText } from '../lang/observation-text';
 import type { VoiceLine } from './voice';
 
 // How the narrator chooses among lines that fit a moment, and names those it speaks of.
@@ -24,7 +25,7 @@ export class Editor {
     return new Set(ids.filter((id, i) => ids.lastIndexOf(id) === i));
   }
   // Someone as a sentence names them: "Tobu", not "Tobu, Kezu's sister's boy"; "the hall dog".
-  static called(campaign: Campaign, id: string): string {
-    return (campaign.module.entities.find(e => e.id === id)?.name ?? id).split(', ')[0]!;
-  }
+  // As the company would name it: what a place looks like until the fact naming it is known ("You leave Grimwater
+  // Keep" was told of a keep the company knew as a ruined tower: the architecture review's A13).
+  static called(campaign: Campaign, id: string): string { return ObservationText.label(campaign.world, id); }
 }

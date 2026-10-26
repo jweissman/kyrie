@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import { ObservationText } from '../lang/observation-text';
 import type { Entity } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { VisitedPlaces } from './visited-places';
@@ -26,7 +27,8 @@ export class Openings {
     if (e?.type === 'passage') {
       const from = world.related('connects').find(r => r.args[0] === x && visited.has(r.args[1]!));
       const shown = !world.relates('revealedBy') || world.test(ModuleWriter.call('visibleTo', x, actor));
-      return from && shown ? `${e.name}, to ${entities.get(from.args[2]!)?.name ?? from.args[2]}` : undefined;
+      return from && shown ? `${ObservationText.label(world, x)}, to ${ObservationText.label(world, from.args[2]!)}`
+        : undefined;
     }
     if (e?.type !== 'change') { return undefined; }
     const thing = world.related('changeOf').find(r => r.args[0] === x)?.args[1], at = thing && world.one('at', thing);

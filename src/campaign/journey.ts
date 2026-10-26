@@ -1,4 +1,5 @@
 import { ModuleWriter } from '../lang/module-writer';
+import { ObservationText } from '../lang/observation-text';
 import type { Change, Operator } from '../lang/module';
 import type { World } from '../lang/world';
 
@@ -87,7 +88,7 @@ export class Journey {
     return true;
   }
   static told(world: World, leg: Leg): string {
-    const name = world.module.entities.find(e => e.id === leg.origin)?.name ?? leg.origin;
+    const name = ObservationText.label(world, leg.origin);
     return `The way is no longer open. You turn back to ${name}.`;
   }
 }

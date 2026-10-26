@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import { ObservationText } from '../lang/observation-text';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import type { CombatEvent } from '../model';
 import { Content } from '../content';
@@ -23,12 +24,13 @@ export class Obituary {
     // companion to fall, and not the one the player made).
     const first = campaign.readout.partyIds[0], all = [...new Set(fallen.map(c => c.actor))]
       .sort((a, b) => Number(b === first) - Number(a === first)).map(id => names.get(id) ?? 'You');
-    const place = campaign.module.entities.find(e => e.id === campaign.world.one('at', campaign.playerActor ?? 'party'))?.name;
+    const at = campaign.world.one('at', campaign.playerActor ?? 'party');
+    const place = at && ObservationText.label(campaign.world, at);
     const title = party.size > 1 ? 'No one is left standing' : `${who} is dead`;
     if (!last || !one) { return { title, lines: [`It is over${place ? `, at ${place}` : ''}.`] }; }
     // Where they fell, and where they lie, which is where the company is: it may have carried them on.
     const where = campaign.world.one('at', campaign.playerActor ?? 'party') ?? '';
-    const fell = campaign.module.entities.find(e => e.id === this.scene(campaign, last))?.name ?? place;
+    const scene = this.scene(campaign, last), fell = scene ? ObservationText.label(campaign.world, scene) : place;
     const blow = [...last.combat].reverse().find((c): c is Harm => c.type === 'damage' && c.target === one);
     const killer = blow ? names.get(blow.actor) ?? this.thing(campaign, blow.actor) : undefined;
     const weapon = blow ? this.weapon(campaign, last.combat, blow) : '';
