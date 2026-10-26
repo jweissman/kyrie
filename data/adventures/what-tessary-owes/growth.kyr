@@ -1,0 +1,24 @@
+Module tessary "What Tessary Owes" {
+  // ── What a company grows by here ──────────────────────────────────────────────────────────────────────────────────
+  // Experience for what is found out and what is done, not only for what is fought: a thorough fortnight in Tessary is
+  // worth two levels or a little more to someone who came in at the first.
+  Milestone m_held "found out where the called go" worth 250 when knows(party, held_alive).
+  Milestone m_terms "read the terms of the War Note" worth 300 when knows(party, note_terms).
+  Milestone m_weight "worked out what would pay the War Note" worth 250 when knows(party, promise_weight).
+  Milestone m_compact "read the drowned city's compact" worth 300 when knows(party, compact_read).
+  Milestone m_letter "read the Factor's letter" worth 300 when knows(party, sault_bid).
+  Milestone m_below "went down into the Strongrooms" worth 400 when at(party, antechamber).
+  Milestone m_designed "found out why the War Note was drawn" worth 600 when knows(party, note_designed).
+  Milestone m_goose "brought Mistress Plum home" worth 150 when plumHome(ossel).
+  Milestone m_durrance "kept Sergeant Durrance from the sea" worth 400 when night(ossel) >= 8 and not heldNow(durrance) and (heldBack(durrance) or durranceSpared(ossel) or durranceKnowsFraud(durrance)).
+  Milestone m_riot "kept the Muster off the Terraces" worth 300 when riotCalmed(ossel) or night(ossel) >= 13 and fiskTurned(fisk) and not riotHappened(ossel).
+  Milestone m_vote "saw the Settlement carried" worth 500 when votePassed(ossel).
+  Milestone m_seal "kept the Great Seal" worth 250 when sealRaidFoiled(ossel) or sealTried(ossel) and not sealStolen(ossel) and night(ossel) >= 14.
+  Milestone m_marrable "kept Councillor Marrable from harm" worth 200 when attemptFoiled(ossel) or attemptMade(ossel) and not marrableHurt(ossel) and night(ossel) >= 11.
+  Milestone m_quire "gave the Treasurer a reason to live" worth 300 when quireHope(quire).
+  Milestone m_deeds "put the deeds into the hands of the held" worth 800 when deedsDelivered(ossel).
+  Milestone m_release "stood with the Muster at the Oath Stone" worth 800 when released(ossel).
+  Milestone m_assembly "testified before the Assembly of the Scruples" worth 700 when assemblyHeard(ossel).
+  Milestone m_warden "made the Factor a Warden" worth 500 when saultWarden(ossel).
+  Milestone m_davy "brought Davy Teazle home" worth 300 when cameHome(davy) and at(davy, teazle_room).
+}

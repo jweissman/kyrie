@@ -5,6 +5,7 @@ import { WorldConstructs, type EventSpec, type PassageSpec, type ThingSpec } fro
 import { ItemCatalog } from '../item-catalog';
 import { PersonParser } from './person-parser';
 import { Endings, type EndingSpec } from './endings';
+import { Milestones, type MilestoneSpec } from './milestones';
 
 type Field = { field: string; value: unknown };
 // Each declaration of a module, as the parser hands it over, joined to the module: a person, a passage, an item made
@@ -40,6 +41,7 @@ export class ModuleDeclarations {
       case 'thing': WorldConstructs.thing(module, value as ThingSpec); break;
       case 'event': WorldConstructs.event(module, value as EventSpec); break;
       case 'ending': Endings.lower(module, value as EndingSpec); break;
+      case 'milestone': Milestones.lower(module, value as MilestoneSpec); break;
       case 'objective': (module.objectives ??= []).push(value as NonNullable<Module['objectives']>[number]); break;
       case 'place': case 'hazard': module.entities.push(value as Module['entities'][number]); break;
       case 'exit': ModuleDeclarations.exit(module, value as Module['entities'][number]); break;

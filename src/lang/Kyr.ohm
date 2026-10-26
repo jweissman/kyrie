@@ -1,6 +1,6 @@
 Kyr {
   Module = "Module" ident string "{" Declaration* "}"
-  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Company | ItemDecl | HazardDecl
+  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Milestone | Company | ItemDecl | HazardDecl
   Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceShelter? PlaceAlias? "."
   PlaceShelter = "outdoors" | "indoors" | "underground"
   PlaceParent = "within" ident
@@ -45,6 +45,7 @@ Kyr {
          | "near" term -- near
          | "beside" ident -- beside
   Objective = "Objective" ident "when" Predicate string "."
+  Milestone = "Milestone" ident string "worth" integer "when" Predicate "."
   Ending = "Ending" ident string EndingWhen
   EndingWhen = "when" Predicate string "."
   Exit = "Exit" ident string "from" ident "to" ident "by" ident ExitDoor? ExitKnowledge? "."

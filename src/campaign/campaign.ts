@@ -154,7 +154,7 @@ export class Campaign implements WatchHost {
   get persistent(): boolean { return !!this.definition; }
   get running(): boolean {
     return this.party.some(c => c.hp > 0) && (this.persistent || this.current.outcome === 'active')
-      && !Endings.reached(this.world);
+      && !Endings.reached(this.world, this.installations);
   }
   // A save holds schemas (operators are grounded on demand); a copy, unless written out at once (live: not to be kept).
   save(_compact = false, live = false): CampaignSave {
@@ -399,6 +399,8 @@ export class Campaign implements WatchHost {
     if (!this.definition) { return; }
     Progression.resolutions(this.world, this.definition, this.observations, { elapsed: this.current.elapsed,
       store: this.creatures, party: this.current.partyIds, events, own });
+    Progression.milestones(this.world, this.observations, { elapsed: this.current.elapsed,
+      store: this.creatures, party: this.current.partyIds, events });
     this.refresh();
   }
   // Each actor's facts are projected again only when its part of the creatures, actors and world has changed.

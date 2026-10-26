@@ -10,6 +10,7 @@
     "holding.kyr",
     "feast.kyr",
     "voices.kyr",
+    "growth.kyr",
     "company.kyr"
   ],
   "rules": [
@@ -22,5 +23,6 @@
     "party": "party",
     "region": "ossel",
     "causeway": "causeway_end"
-  }
+  },
+  "experience": 1000
 }

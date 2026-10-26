@@ -8,6 +8,8 @@ import type { CampaignDefinition, InstalledModule } from './definition';
 export interface ModuleDraft {
   id: string; seed: string; instance: Instance; imports: string[]; exports: Record<string, string>; roles?: BoundRole[];
   experience?: number;
+  // Installed into a world already under way (a country beyond a march): its ending closes its chapter, not the book.
+  chapter?: boolean;
 }
 export interface ModuleBindings {
   id: string; seed: string; imports: Record<string, string>; globals: string[]; exports: Record<string, string>;
@@ -147,6 +149,6 @@ export class ModuleNamespace {
       ...(draft.roles?.length ? { roles: structuredClone(draft.roles) } : {}),
       actors: definition.actors.map(a => a.id), pressures: definition.pressures.map(p => p.id),
       outcomes: structuredClone(definition.outcomes), exports: draft.exports,
-      ...(draft.experience ? { experience: draft.experience } : {}) };
+      ...(draft.experience ? { experience: draft.experience } : {}), ...(draft.chapter ? { chapter: true } : {}) };
   }
 }

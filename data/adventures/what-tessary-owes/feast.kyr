@@ -211,4 +211,7 @@ Module tessary "What Tessary Owes" {
   Objective feast_release when releaseCalled(ossel) and not released(ossel) and not releaseBroken(ossel) and not matured(ossel) "Durrance will call the Muster to the Oath Stone on the night of the Feast, to release the city. The Factor's lightermen will come.".
   Objective feast_assembly when indictmentFiled(ossel) and not noteVoid(ossel) and not matured(ossel) "The Assembly of the Scruples sits in the Weighing Chamber from midnight on the night of the Feast. The Assessor asked you to be there.".
   Objective sault_bid_known when knows(party, sault_bid) and not matured(ossel) and not saultWarden(ossel) and not saultStopped(ossel) "Factor Sault means to take up the War Note when it falls in, and govern Tessary with the Muster.".
+
+  // The module is seen through when the note is discharged, or held by a Warden sworn to send the Muster home.
+  Goal discharged(ossel) or saultWarden(ossel) and saultHoldsNote(ossel).
 }
