@@ -12,7 +12,7 @@ Module wrayford "The Third Night" {
 
   // ── Saint Wade's and the Acre ─────────────────────────────────────────────────────────────────────────────────────
   Observe nave_again at nave when visitedBefore(nave) "Saint Wade's: whitewash, the cheerful saint, the carved wheels on the pews.".
-  Observe nave_scene at nave when not visitedBefore(nave) "Saint Wade's: a low, old, whitewashed church, cold even now, with the saint painted over the chancel arch carrying a child across a river, both of them looking cheerful about it, unlike the one on the bridge. Every pew has a carved wheel on its end, for the carters.".
+  Observe nave_scene at nave when not visitedBefore(nave) "Saint Wade's: a low, old, whitewashed church, cold even in this heat, smelling of damp stone and tallow. Every pew has a carved wheel on its end, for the carters, and on the oldest pews the wheels have been touched smooth.".
   Observe acre_scene at wades_acre when not dark() "Wade's Acre: the burying ground of Wrayford since there was a Wrayford, between the church and the river, gravestones leaning every way like a crowd looking at something.".
   Observe acre_night at wades_acre when dark() "The Acre at night: the stones pale, the river loud beyond the wall, the tower black.".
   Person corbin "Corbin" at wades_acre {
@@ -89,7 +89,7 @@ Module wrayford "The Third Night" {
     On discuss { Assert knows(actor, abbess_terms). }
   }
   Topic abbess_bench with abbess "Ask the Abbess about the Bridge Company" when true once {
-    Says "'The Worshipful Company of the Bridge.' Very dry. 'I have known Prosper Gidley since he was a choirboy, when he stole the communion wafers to sell to the tanners' children. He has not changed, he has only grown.' She turns a page. 'They will vote for anything that costs them nothing they can be seen to lose. Remember that, if you have business with them. It is the only thing about them worth knowing.'".
+    Says "'The Worshipful Company of the Bridge.' Very dry. 'I have known Prosper Gidley since he sang in my predecessor's choir. He sang very sweetly, and he was the boy who carried the collection. He has not changed. He has only grown.' She turns a page. 'They will vote for anything that costs them nothing they can be seen to lose. Remember that, if you have business with them. It is the only thing about them worth knowing.'".
     On discuss { Assert knows(actor, bench_rule). }
   }
   Kind claim_kind "the Abbess's letter" is gear worth 0 weighing 0

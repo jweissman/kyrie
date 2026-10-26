@@ -7,9 +7,8 @@ Module wrayford "The Third Night" {
   Observe arches_night at under_arches when dark() and not lowWater() "Under the first arch at night the river is loud and close and black, and the pier goes up into the dark. High above, the red glow of the riders' brazier on the gatehouse leads.".
   Observe arches_low at under_arches when dark() and lowWater() "The mills have the river penned, and the Wray under the first arch has dropped and quietened. Across from the bank, a line of square stones stands just under the water, pale in the dark, going over toward the tan-yards on the far side.".
   // The ford: a deep step halfway, where the stones are gone, that has drowned men.
-  Hazard ford_step "The deep step in the old ford" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
-  Thing deep_step "the deep step in the ford" on ford {
-    State deep dangerous "Halfway over, where two of the ford-stones are gone, the water goes suddenly deep and fast.".
+  Thing deep_step "the deep step in the ford" at wades_step {
+    State deep "Here two of the ford-stones are gone, and the water goes suddenly deep and black and quiet, a hole in the river the width of a cart: Wade's Step.".
   }
   Initially Assert state(deep_step, deep).
   Discovery ford_way "The old ford goes across the Wray under the first arch from the north bank to the tan-yards, on squared stones, in the small hours when the river is penned. Halfway, two stones are gone, and the way is upstream of the gap, along the pier's foot.".

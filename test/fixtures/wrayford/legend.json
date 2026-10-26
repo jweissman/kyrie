@@ -1,0 +1,9 @@
+{
+  "hill": ["To Northgate", "To the Market Cross", "=6", "Into the Guildhall", "Talk to Simon", "why the dead must stay", "seen a captain's verdict before", "Take your leave", "Out to the Market Cross"],
+  "bridge": ["Bridge End", "To Bridge Street", "Into Saint Wade's chapel", "Out to Bridge Street", "To Overbridge Street", "Into Saint Wade's", "Out to Wade's Acre",
+    "Talk to Corbin", "what the dead go looking for", "ten stones by the north wall", "Take your leave", "Into Saint Wade's", "Out to Overbridge Street", "Into the Abbess",
+    "Talk to Dame", "who Saint Wade was", "Take your leave", "Out to Overbridge Street", "To Bridge Street", "To the Bridge End", "To the Market Cross", "To Northgate"],
+  "wheels": ["Into the Nine Wheels", "=67", "Talk to Pell", "wheels in the beams", "Take your leave", "Sit down with Sergeant Gault", "Talk to Sergeant Gault", "captain who is coming",
+    "Take your leave", "Out to Northgate", "To Wain Row", "Into the Pardoe house", "Talk to Maudie", "he sang on the road", "Take your leave"],
+  "supper": ["=356", "Out to Wain Row", "To Northgate", "To the Market Cross", "Into the Guildhall", "Talk to Captain", "remembers Water Lane", "Take your leave"]
+}

@@ -10,12 +10,12 @@ Module wrayford "The Third Night" {
   Observe northgate_night at northgate when dark() "Northgate at night: the Nine Wheels lit, and every yard gate shut.".
 
   // ── The Nine Wheels ───────────────────────────────────────────────────────────────────────────────────────────────
-  Observe wheels_scene at wheels_taproom when not visitedBefore(wheels_taproom) "The carters' inn: a long low room with nine cart-wheels nailed to the beams for a ceiling, smoke, a fire with a kettle, benches worn into the shape of carters. Over the settle by the fire someone has hung a black ribbon on a nail, and under it nobody sits.".
+  Observe wheels_scene at wheels_taproom when not visitedBefore(wheels_taproom) "The carters' inn: a long low room, smoke, a fire with a kettle, benches worn into the shape of carters. Nailed to the beams overhead for a ceiling are nine cart-wheels, one for every carter the fell road has killed since the inn was built, the oldest black with a century of smoke and the newest with its paint still showing. Over the settle by the fire someone has hung a black ribbon on a nail, and under it nobody sits.".
   Observe wheels_again at wheels_taproom when visitedBefore(wheels_taproom) "The Nine Wheels: wheels in the beams, the fire, the black ribbon over the empty settle.".
   Observe wheels_gault at wheels_taproom when at(gault, wheels_taproom) "In the corner by the door, alone at a table with a jug, Sergeant Gault in his buff coat. The carters drink with their backs to him. He drinks with his back to the wall.".
   Person pell "Pell Saxby" at wheels_taproom {
-    Role "who keeps the Nine Wheels". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
-    Greets "Pell Saxby wipes her hands on her apron and looks you over. 'Bed, beer or bread,' she says. 'Or trouble, but we're full up of that.'".
+    Role "who keeps the Nine Wheels". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner compassionate.
+    Greets "Pell Saxby wipes her hands on her apron and looks you over. 'Bed, beer or bread,' she says, and then, because she is honest: 'The bread's Maudie Pardoe's. She's sent us forty loaves since Tuesday. I can't sell it and I can't stop her.'".
     Sells rations for 2 coin from 8.
     Sells rope for 1 coin from 2.
   }
@@ -25,7 +25,7 @@ Module wrayford "The Third Night" {
   }
   Discovery gault_talks "Sergeant Gault drinks at the Nine Wheels from seven until ten, three jugs, and after the third he talks to whoever sits with him.".
   Topic pell_news with pell "Ask Pell what is being said" when true {
-    Says "'What isn't.' She leans on the bar. 'That the Company's printing Wat's confession, which Wat never said in his life, and selling it at a penny. That old Corbin won't dig and Gidley's aunt's been laid out since Tuesday and Mistress Gidley's beside herself. That the captain comes the day after tomorrow with twenty riders. That the young ones,' and she does not look at the young carters by the fire, 'are going to do something about it, and they'll do it as stupid as they know how.'".
+    Says "'What isn't.' She leans on the bar. 'That the Company's printing Wat's confession, which Wat never said in his life, and selling it at a penny. That old Corbin won't dig and Gidley's aunt's been laid out since Tuesday and Mistress Gidley's beside herself. That the captain comes the day after tomorrow with twenty riders, and that she's Sefton's girl, old Ralf Sefton's, and the old ones in here went quiet when they heard the name, and won't say why. That the young ones,' and she does not look at the young carters by the fire, 'are going to do something about it, and they'll do it as stupid as they know how.'".
   }
   Topic pell_hire with pell "Ask Pell whether she has washing that wants doing" when knows(actor, win_proud) and not washingGiven(pell) once {
     Says "'Washing.' She looks at you. 'I send my sheets up to the laundry on the Hill, like everyone with sheets.' Then she sees what you mean, and her face changes. 'Win Fenner.' She is already pulling a bundle out from under the bar. 'Sheets, the lot, and the bolster-cases. Tell her it's a shilling, it's always been a shilling, and the Hill's been robbing me.' She pushes them at you. 'And don't tell her I said so.'".
@@ -44,8 +44,8 @@ Module wrayford "The Third Night" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, wheels_taproom) and at(gault, wheels_taproom)
       and not gaultSat(actor) and quantity(actor, gold) >= 2.
     Time 6.
-    On success { Decrease quantity(actor, gold) by 2. Assert gaultSat(actor). }
-    Result "He looks at you and the jug and says, 'Suit yourself.' He drinks. He talks about horses, and a woman in Harbury, and the cold on the fell road at four in the morning, and how carters are all the same, and in the end, looking into the jug, how he has hanged eleven men in nineteen years and these were the first who went quiet. 'The big one sang,' he says. 'On the road. Some hymn. Till the rope.'".
+    On success { Assert knows(actor, wade_hymn). Decrease quantity(actor, gold) by 2. Assert gaultSat(actor). }
+    Result "He looks at you and the jug and says, 'Suit yourself.' He drinks. He talks about horses, and a woman in Harbury, and the cold on the fell road at four in the morning, and how carters are all the same, and in the end, looking into the jug, how he has hanged eleven men in nineteen years and these were the first who went quiet. 'The big one sang,' he says. 'On the road. Some hymn. Carry me over, something, carry me over.' He looks into the jug. 'Till the rope.'".
   }
   Topic gault_letter with gault "Ask Gault, plainly, as one who has stood a watch, who sent him the letter" when gaultSat(actor) and (craft(actor, craft_arms) or capable(actor, intimidation)) and not letterSeen(actor) once {
     Says "He looks at you for a long time across the jug. 'You've stood a watch,' he says. It is not a question. He reaches into his coat and puts a folded paper on the table between you and does not take his hand off it. 'Midnight. A lad brought it. I don't know the lad.' He lets you read it and then puts it back in his coat. 'Clerk's hand. Gentleman's paper. Your carters don't write like that.'".

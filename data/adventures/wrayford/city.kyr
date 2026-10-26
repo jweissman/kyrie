@@ -78,6 +78,7 @@ Module wrayford "The Third Night" {
   Place tanyards "the tan-yards" is room within overbridge at 0, 1 outdoors.
   Place bear_garden "the bear-garden" is room within overbridge at 0, 2 outdoors.
   Place south_road "the south road, out of Overbridge" is room within south_country at 1, 0 outdoors.
+  Place wades_step "Wade's Step, in the middle of the old ford" is room within bridge at 1, 3 outdoors.
 
   // ── Ways ──────────────────────────────────────────────────────────────────────────────────────────────────────────
   Passage drove_way "the drove road" is road between drove_road and northgate taking 30 minutes.
@@ -129,8 +130,11 @@ Module wrayford "The Third Night" {
   // she will run it for.
   Passage ferry "Dorcas Mudd's ferry" is ferry between ferry_stage and south_stair taking 20 minutes
     opening when ferryRunning() or carries(party, ferry_token) "The ferry-boat is drawn up on the stage with its oars shipped. Nobody crosses by Dorcas Mudd's ferry unless Dorcas Mudd is rowing it.".
-  // The old ford, below the bridge, where the city got its name: under water by day, when the mills upstream are
-  // grinding, and shallow in the small hours, when they pen the river behind the weir.
-  Passage ford "the old ford" is ford between under_arches and tanyards taking 30 minutes
+  // The old ford, below the bridge, where the city got its name: under water by day, when Alderman Dunch's mills at
+  // Wrayholme are grinding, and shallow in the small hours, when they pen the river to fill their ponds for the morning.
+  // Halfway over is Wade's Step, the deep place where the saint stumbled, and what lives in it.
+  Passage ford "the old ford" is ford between under_arches and wades_step taking 15 minutes
     opening when lowWater() "The Wray runs deep and brown over where the old ford was. Nobody wades it while the mills are grinding.".
+  Passage ford_far "the far ford-stones" is ford between wades_step and tanyards taking 15 minutes
+    opening when lowWater() and (tolerates(bargeman, party) or not able(bargeman)) "The far stones are on the other side of the Step, and of what lies in it across the way.".
 }

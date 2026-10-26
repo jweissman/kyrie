@@ -115,7 +115,7 @@ Module wrayford "The Third Night" {
   // The watch: Sergeant Gault and four of the lord's riders, who keep the gatehouse until the captain comes.
   Person gault "Sergeant Gault" at gate_leads {
     Role "the riders' sergeant, a square man with a broken nose". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner stoic.
-    Greets "Sergeant Gault looks at you over the brazier the way a dog looks at another dog, without much interest either way.".
+    Greets "Sergeant Gault looks at you the way a dog looks at another dog, without much interest either way.".
   }
   Person riders "the lord's riders on the gate" at gate_leads {
     Role "four of the lord's riders, in buff coats, with the lord's badge". Ancestry human. Calling warrior. Level 2. Numbers 4. Peaceable. Pronouns they.
@@ -133,7 +133,8 @@ Module wrayford "The Third Night" {
   Rule gault_drinks when hour(clock) >= 19 and hour(clock) < 22 and not at(gault, wheels_taproom) and not gaultAway(gault) and able(gault) { Assert at(gault, wheels_taproom). }
   Rule gault_back when (hour(clock) >= 22 or hour(clock) < 19) and not at(gault, gate_leads) and not gaultAway(gault) and able(gault) { Assert at(gault, gate_leads). }
   Observe leads_asleep at gate_leads when asleep(riders) and at(riders, gate_leads) "The riders are asleep round the brazier, rolled in their cloaks with their boots to the coals, and one of them is snoring. Sergeant Gault sits against the parapet with his chin on his chest and his hand on his sword-hilt, asleep or near it.".
-  Observe leads_awake at gate_leads when dark() and not asleep(riders) and at(riders, gate_leads) "The riders are awake round the brazier, dicing for farthings on a cloak, and every so often one of them looks along the parapet at the three.".
+  Observe leads_turned at gate_leads when dark() and not asleep(riders) and riderPeaceBought(riders) and at(riders, gate_leads) "The riders sit round the brazier with their backs to the river parapet, all of them, very deliberately, eating bread and dicing, and none of them looks round.".
+  Observe leads_awake at gate_leads when dark() and not asleep(riders) and not riderPeaceBought(riders) and at(riders, gate_leads) "The riders are awake round the brazier, dicing for farthings on a cloak, and every so often one of them looks along the parapet at the three.".
   Rule gault_sleeps when smallHours() and hour(clock) >= 1 and hour(clock) < 4 and not captainCome() and at(gault, gate_leads) and not asleep(gault) { Assert asleep(gault). }
   Rule gault_wakes when (hour(clock) >= 4 or hour(clock) < 1 or captainCome()) and asleep(gault) { Retract asleep(gault). }
   Topic gault_hanged with gault "Ask Sergeant Gault why he hanged them on the road" when true once {
@@ -181,7 +182,7 @@ Module wrayford "The Third Night" {
 
   // The bridge chapel, and under it, the starling: the cutwater ledge round the middle pier, reached by a ladder
   // through the undercroft, where boys fish.
-  Observe chapel_scene at chapel when true "A small chapel of grey stone built into the pier, so that the river is loud through the floor. A painted Saint Wade carries a child across a painted river over the altar, looking worried. Candles. A trapdoor in the floor, propped open, with a ladder going down into the dark and the noise of water.".
+  Observe chapel_scene at chapel when true "A small chapel of grey stone built into the pier, so that the river is loud through the floor. Candles. A trapdoor in the floor, propped open, with a ladder going down into the dark and the noise of water.".
   Observe starling_scene at starling when not dark() "The starling: a ledge of stone round the foot of the middle pier where it breaks the river, wet, green, wide enough for two to sit with their legs over. Under the arch the light is green and moving. On the stone someone, a long time ago, has cut two sets of initials with a knife.".
   Observe starling_night at starling when dark() "The starling at night: only the sound of the river, very close, and the arch overhead blacker than the sky.".
 

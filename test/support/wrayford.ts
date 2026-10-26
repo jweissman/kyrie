@@ -11,7 +11,7 @@ export const steps = (name: string, ...phases: string[]): string[] => {
   const f = fixture(name);
   return (phases.length ? phases : Object.keys(f)).flatMap(p => f[p]!);
 };
-const shared = new Set(['party', 'state', 'at', 'knows', 'travelsWith', 'following', 'asleep', 'captured', 'reached', 'kin']);
+const shared = new Set(['party', 'state', 'at', 'knows', 'travelsWith', 'following', 'asleep', 'captured', 'reached', 'kin', 'tolerates', 'able']);
 export const w = (id: string) => shared.has(id) ? id : `wrayford__${id}`;
 export class Wrayford {
   static async start(campaign = home, seed = 'wray') { return new Wrayford(await Journey.start(campaign, seed)); }

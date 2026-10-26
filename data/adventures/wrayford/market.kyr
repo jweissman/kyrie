@@ -3,7 +3,7 @@ Module wrayford "The Third Night" {
   Observe cross_scene at market_cross when not dark() and not visitedBefore(market_cross) "The Market is a sloping square with a stone cross in the middle where the hiring is done, the Guildhall along the top side with its clock and its arcade, and the Bridge Company's counting-house next to it, newly painted blue, with a bridge in gold over the door. The Mercer Steps go up behind to the Hill. Down Shambles Lane you can hear cattle, and smell them. On the Cross itself, on every post of the arcade, and on the counting-house door, the same printed sheet is pasted.".
   Observe cross_again at market_cross when not dark() and visitedBefore(market_cross) "The Market Cross: the Guildhall clock, the blue counting-house, the sheets on every post.".
   Observe cross_night at market_cross when dark() "The Market at night: the Guildhall clock lit, and a watchman sitting on the steps of the Cross.".
-  Observe cross_market_day at market_cross when not dark() and hour(clock) < 12 and (secondDay() or fifthDay()) "It is market day: farm carts, egg-women, a man with a bear on a chain (not the Overbridge bear; a smaller, more depressed one), and at the Cross the hiring, labourers standing with a tuft of wool or a whip in their hats for what they do.".
+  Observe cross_market_day at market_cross when not dark() and hour(clock) < 12 and (secondDay() or fifthDay()) "It is market day: farm carts, egg-women, a man selling eels live out of a barrel, and at the Cross the hiring, labourers standing with a tuft of wool or a whip in their hats for what they do.".
   // The broadside on every post.
   Discovery confession_read "Pasted on every post in the Market: THE TRUE AND LAST CONFESSION OF WAT PARDOE, CARTER, TAKEN ON THE FELL ROAD. 'I, Wat Pardoe, being led astray by Drink and the Devil and the Wicked Counsel of Others, did conspire against the Lord's Toll, which is a Just and Godly Toll, and did with my Cart run down an Innocent Youth, for which I am Heartily Sorry, and I Bless the Worshipful Company of the Bridge, who have been Ever Kind to Carters.' Printed by E. Quoin, Cutler's Lane. Price One Penny." {
     Source broadside "the printed sheet on the Market Cross" at market_cross readable by party.
@@ -47,7 +47,7 @@ Module wrayford "The Third Night" {
     Result "You ask the Alderman about the Company's burdens, and he tells you, for an hour, standing by the easel, about the cost of the bridge's upkeep, the ingratitude of carters, the lord's unreasonable rent, and his own sleepless nights, with his hand on his heart. Behind him Tom Lumley paints like a man possessed. When Gidley at last goes off to his dinner, Lumley steps back from the canvas and looks at it and says, quite quietly, 'There. There he is.'".
   }
   Topic lumley_flatter with lumley "Tell Tom Lumley to paint them what they'll pay for" when state(portrait, sketched) once {
-    Says "He looks at you a long time with his brush in the air. 'The rent,' he says. 'Yes.' He picks up a rag and wipes out the money-box, and Gidley's nose, and everyone's chins, with a long sigh, as if he were drowning kittens. 'I'll put a dove in,' he says. 'They like a dove.'".
+    Says "He looks at you a long time with his brush in the air. 'The rent,' he says. 'Yes.' He picks up a rag and wipes out the money-box, and Gidley's nose, and everyone's chins, with a long sigh, very carefully, the way a man takes out a splinter. 'I'll put a dove in,' he says. 'They like a dove.'".
     On discuss { Assert state(portrait, flattering). Assert lumleyPaid(lumley). }
   }
   Action carry_portrait(actor: group, site: place) "Carry the true portrait out to the carters' yards for a banner" {
@@ -138,7 +138,7 @@ Module wrayford "The Third Night" {
   Discovery quoin_named "The Confession was printed by Ezra Quoin of Cutler's Lane, who prints anything paid for.".
   Rule confession_printer when knows(party, confession_read) and not knows(party, quoin_named) and at(party, quoin_shop) says "You know that black letter; you read it on every post in the Market." teaches quoin_named { }
   Topic quoin_who with quoin "Ask Quoin who brought him Wat Pardoe's confession to print" when knows(actor, confession_read) once {
-    Says "'A gentleman of the Company,' says Quoin cheerfully. 'Mr Inchbold, the clerk. Brought it in fair copy, paid in advance, very generous.' He hangs up a sheet. 'I print what I'm brought. That's the trade. If you want to say something else, bring it me and three coin, and I'll print that too.' He winks. 'I'm a great believer in both sides.'".
+    Says "'A gentleman of the Company,' says Quoin cheerfully. 'Mr Inchbold, the clerk. Brought it in fair copy, paid in advance, very generous.' He hangs up a sheet. 'I print what I'm brought. That's the trade. If you want to say something else, bring it me and three coin, and I'll print that too.' 'I'm a great believer in both sides.' He says it as if it were a creed, and perhaps it is.".
     On discuss { Assert knows(actor, quoin_named). Assert knows(actor, quoin_prints). }
   }
   Discovery quoin_prints "Ezra Quoin will print anything for three coin, set while you wait, and post it in the Market by evening.".
@@ -278,7 +278,7 @@ Module wrayford "The Third Night" {
   Observe shambles_night at shambles when dark() "The Shambles at night: shutters, a smell, cattle shifting in the pens.".
   Person kemp "Saul Kemp" at shambles {
     Role "a butcher, master of the Shambles". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "Saul Kemp wipes a cleaver on his apron. 'Prime chops. Or are you here about the hide?'".
+    Greets "Saul Kemp wipes a cleaver on his apron and looks you up and down, the way he looks at a beast in the pens, for the weight.".
   }
   Person jack_kemp "Jack Kemp" at shambles {
     Role "the butcher's boy, who drives the offal cart". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
@@ -334,7 +334,7 @@ Module wrayford "The Third Night" {
     Greets "Ham Ostler leans on the hurdles with his chin on his crook. 'Sixty head,' he says. 'Sixty pennies. That's a cow.'".
   }
   Topic ham_toll with ham "Ask Ham Ostler about the toll on his beasts" when true once {
-    Says "'A penny a head to put my beasts over a bridge they've been going over since before the Company's grandfathers were breeched.' He spits. 'Sixty head is five shillings. I sell them at the Liberty fair, Michaelmas, over the water, and the Company takes five shillings before I've sold a hoof.' He grins. 'So I'll not pay it. My leader knows the ford. Small hours of the second night, when the mills have the river penned, I'll take them down under the arches and over, and Pinch can rule on that.' He looks at you. 'You can come, if you like. It's a sight. Most folk have forgot the ford's there.'".
+    Says "'A penny a head to put my beasts over a bridge they've been going over since before the Company's grandfathers were breeched.' He spits. 'Sixty head is five shillings. I sell them at the Liberty fair, Michaelmas, over the water, and the Company takes five shillings before I've sold a hoof.' He grins. 'So I'll not pay it. My leader knows the ford, and goes round the Step, where the Bargeman lies, the way her mother did. Small hours of the second night, when Dunch's mills up at Wrayholme have the river penned to fill their ponds, I'll take them down under the arches and over, and Pinch can rule on that.' He looks at you. 'You can come, if you like. It's a sight. Most folk have forgot the ford's there.'".
     On discuss { Assert knows(actor, ham_drive). Assert knows(actor, vigil_ford). }
   }
   Discovery ham_drive "Ham Ostler will drive his sixty head over the old ford under the bridge in the small hours of the second night, two in the morning, when the mills upstream have the river penned, and says anyone may come.".
