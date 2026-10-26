@@ -5,6 +5,7 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { RegionShops } from '../src/world/region-shops';
+import { ScreenModel } from '../src/ui/screen-model';
 import { GeneratedWorld } from './support/generated';
 import type { Region } from '../src/world/region-writer';
 
@@ -27,4 +28,23 @@ describe("a town's shops", () => {
     await s.perform(buy.choice.id);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBeLessThan(gold);
   }, 60000);
+});
+
+// What the company cannot afford is offered without its command, saying what it costs and what the company has:
+// Tessary's draft for six coin was never offered to a player with five, and nothing was said (TS-W21, PRE-06).
+describe('a purchase the company cannot afford', () => {
+  it('is shown, and says what it costs and what the company has', async () => {
+    const w = await WorldAssembler.assemble('mere', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'mere', w.source), c = s.campaign;
+    GeneratedWorld.put(s, 's1_shop');
+    await s.perform('wait');
+    const cc = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    cc.commit(cc.world.apply([{ kind: 'set', call: ModuleWriter.call('quantity', 'party', 'gold'),
+      value: { kind: 'number', value: 3 } }]));
+    const lantern = ScreenModel.build(c).things.find(t => t.name === 'a lantern')!;
+    const leaf = lantern.acts.flatMap(a => a.children ?? [a])[0]!;
+    expect([leaf.command, leaf.disabled]).toEqual([undefined, 'It costs 7 coin, and you have 3.']);
+    expect(PlayerView.choices(c).some(x => x.choice.id.includes('lantern'))).toBe(false);
+  }, 120000);
 });

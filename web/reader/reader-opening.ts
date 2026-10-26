@@ -65,6 +65,26 @@ export class ReaderOpening {
     if (field !== 'name') { void this.preview(party); }
     this.readySoon();
   }
+  // Two qualities' rolls changed over, as the player places them.
+  place(a: string, b: string) {
+    const party = structuredClone(this.app.state.party);
+    const rolled = party[0]?.rolled as Record<string, number> | undefined;
+    if (!rolled || rolled[a] === undefined || rolled[b] === undefined) { return; }
+    [rolled[a], rolled[b]] = [rolled[b]!, rolled[a]!];
+    this.app.setState({ party });
+    this.readySoon();
+  }
+  // Six new rolls of three dice, one on each quality where it falls.
+  reroll() {
+    const party = structuredClone(this.app.state.party), member = party[0];
+    if (!member?.rolled) { return; }
+    const die = new Uint8Array(18);
+    crypto.getRandomValues(die);
+    member.rolled = Object.fromEntries(Object.keys(member.rolled).map((q, i) => [q,
+      [0, 1, 2].reduce((sum, k) => sum + 1 + die[i * 3 + k]! % 6, 0)]));
+    this.app.setState({ party });
+    this.readySoon();
+  }
   // While the player reads the page, the start is made ready for the choices as they stand, a moment after the last
   // change (see EngineHost.prepare): Begin asking the same takes it up at once.
   private readyTimer?: ReturnType<typeof setTimeout>;

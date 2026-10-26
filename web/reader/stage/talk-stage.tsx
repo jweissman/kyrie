@@ -24,6 +24,7 @@ export class TalkStage {
           <Stage.Running frame={frame} extra={frame.screen.place.name} />
           <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} />
           <TalkStage.Counter counter={frame.screen.trade.find(c => c.id === who.id)} coin={frame.screen.purse.coin} />
+          {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
           <ol className="replies" aria-label={`What you might say to ${name}`}>
             {talk.replies.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
             <li className="leave"><Act.View choice={talk.leave} draw={draw}>
@@ -92,6 +93,21 @@ export class TalkStage {
         {counter.buys.length > 0 && <p className="buys">Buys {counter.buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
           .join(', ')}{counter.buys.length > 4 ? ', and more' : ''}.</p>}
       </div>
+    );
+  }
+  // Someone who would join you, as they would come: what they are and ask, how they fight, their qualities, skills
+  // and what they can do (the cold playtest could not see what a recruit could do until they had joined).
+  static Recruit({ recruit: r, coin }: { recruit: NonNullable<Talk['subject']['recruit']>; coin: number }) {
+    const ask = r.hire ? `${r.hire} coin${r.hire > coin ? `, more than you have` : ''}` : 'nothing';
+    return (
+      <details className="recruit" open aria-label="What they would bring">
+        <summary>{Typography.curl(`${Words.upper(Words.article(r.line))} of level ${r.level}, asking ${ask}`)}</summary>
+        <dl className="bearings">{r.sheet.fighting.map(b => <div key={b.label}><dt>{b.label}</dt>
+          <dd>{Typography.curl(b.value)}</dd></div>)}</dl>
+        <p className="qualities-line">{r.sheet.qualities.map(q => `${q.name} ${q.score}`).join(' · ')}</p>
+        {r.sheet.skills.length > 0 && <p className="skills-line">{`Skills: ${r.sheet.skills.map(s => s.name).join(', ')}.`}</p>}
+        <ul className="techniques">{r.techniques.map(x => <li key={x.name}><b>{x.name}.</b> {Typography.curl(x.text)}</li>)}</ul>
+      </details>
     );
   }
   // A question already put stays to be put again, quieter, and says so.

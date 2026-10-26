@@ -328,7 +328,7 @@ Begins knowing Deactivate Device (not playable).
 - Skills: Mending, Rites of the dead, Insight
 - Specializations: Vitalist, Deathspeaker, Lightbringer, Shadowmancer, Oathkeeper, Wildcaller, Chaotician, Warbringer, Oceanist, Cherubist, Stormcaller, Veneficium
 
-Prayers that heal and protect. Mends wounds outside a fight and knows the rites that put the dead to rest.
+Prayers of the god they are sworn to, as that god's domain is: some heal and protect, others curse, drain or call down the storm. Mends wounds outside a fight and knows the rites that put the dead to rest.
 
 Begins knowing Defend.
 

@@ -1,5 +1,6 @@
 import { Likeness } from '../paintings/likeness';
 import { CharacterSheets } from '../presentation/character-sheet';
+import { CoinReading } from '../presentation/coin-reading';
 import { Itineraries } from './itinerary';
 import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
@@ -58,7 +59,8 @@ export class ScreenModel {
     const items = this.items(campaign, grouped, entities);
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world),
       ...along.has(p.id) ? { companion: true } : {},
-      ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped) })));
+      ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped),
+      ...CharacterSheets.recruit(campaign, p.id, grouped.targets.get(p.id) ?? []) })));
     return {
       title: view.title, clock: FictionalTime.at(view.elapsed, view.minutes), elapsed: view.elapsed,
       running: view.running,
@@ -95,7 +97,8 @@ export class ScreenModel {
     return [...PlayerView.choices(campaign).map(r => ({ ...r,
       ...(reading.uses.has(r.action.id) ? { by: reading.uses.get(r.action.id)! } : {}) })),
     ...reading.wanting.map(w => ({ choice: { ...w.choice, time: w.choice.time ?? 1 }, action: w.action,
-      wanting: ScreenModel.wanting(w) }))];
+      wanting: ScreenModel.wanting(w) })), ...CoinReading.read(campaign).map(s => ({ choice: { ...s.choice,
+      time: s.choice.time ?? 1 }, action: s.action, wanting: CoinReading.why(s) }))];
   }
   // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity.
   private static prices(world: World): Map<string, number> {

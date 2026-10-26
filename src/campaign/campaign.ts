@@ -338,7 +338,7 @@ export class Campaign implements WatchHost {
     }
     if (action.resolve && Membership.resolves(action.resolve)) {
       this.commit(Membership.resolve({ current: this.current, company: this.playerActor, module: this.module,
-        world: this.world }, action.resolve)); this.refresh(); return;
+        world: this.world, creatures: this.creatures }, action.resolve)); this.refresh(); return;
     }
     if (action.resolve && !['combat', 'recover', 'rough'].includes(action.resolve.name) && !action.interrupt) {
       combat.push(...this.field(action));

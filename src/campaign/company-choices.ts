@@ -3,9 +3,12 @@ import { Creation } from '../rules/creation';
 import type { ModuleDraft } from './module-namespace';
 import { Formations } from '../rules/formations';
 import { Canon } from '../canon/canon';
+import { CreatureSchema } from '../creature';
 
 // The companions chosen at character creation, checked and written into the first module's company.
 export class CompanyChoices {
+  // Three dice: from 3 to 18.
+  private static die(v?: number): boolean { return Number.isInteger(v) && v! >= 3 && v! <= 18; }
   static apply(draft: ModuleDraft, party: CreatureGenerationContext[]) {
     const player = draft.instance.campaign!.actors.find(a => a.player)!;
     if (party.length !== player.members.length) { throw new Error(`Choose ${player.members.length} companions`); }
@@ -29,6 +32,12 @@ export class CompanyChoices {
       if ((context.gear ?? []).some(g => !Canon.items[Canon.resolve('items', g)])) {
         throw new Error('Unknown starting gear');
       }
+      // Rolls placed at creation are six, one to each quality, each three dice.
+      const rolled = context.rolled;
+      if (rolled && (Object.keys(rolled).length !== 6
+        || !CreatureSchema.attributes.every(q => CompanyChoices.die(rolled[q])))) {
+        throw new Error('Place one roll of three dice on each of the six qualities');
+      }
       entry.context = { name: context.name.trim(), raceId: context.raceId,
         classId: Creation.classId(context.classId), level: context.level ?? entry.context.level ?? 1,
         ...(context.gear?.length ? { gear: [...context.gear] } : {}),
@@ -37,7 +46,8 @@ export class CompanyChoices {
         ...(formations.length ? { formations } : {}),
         ...(context.spells ? { spells: [...context.spells] } : {}),
         ...(context.weapon ? { weapon: context.weapon } : {}),
-        ...(context.armor ? { armor: context.armor } : {}) };
+        ...(context.armor ? { armor: context.armor } : {}),
+        ...(context.rolled ? { rolled: { ...context.rolled } } : {}) };
       const entity = draft.instance.module.entities.find(e => e.creatureId === entry.id);
       if (entity) { entity.name = context.name; }
     });

@@ -39,6 +39,11 @@ export interface DevelopmentOption {
   command?: string; why?: string;
 }
 export interface Development { left: number; options: DevelopmentOption[] }
+// Someone who would join the company, as they would come to it: what they are, what they ask, and their sheet.
+export interface Recruit {
+  line: string; level: number; hp: number; maxHp: number; hire: number; sheet: CharacterSheet;
+  techniques: { name: string; text: string }[];
+}
 
 export class CharacterSheets {
   static readonly names: Record<Attribute, string> = { strength: 'Strength', dexterity: 'Dexterity',
@@ -59,6 +64,24 @@ export class CharacterSheets {
     const development = this.development(c, { ...at, opens: Openings.of(campaign), named,
       why: asleep ? `Not while ${c.name} sleeps` : 'Not just now' });
     return { sheet: this.sheet(c), ...development ? { development } : {} };
+  }
+  // Someone the company could ask to join, seen before it asks: the cold playtest could not see what a recruit could
+  // do until they had joined, and paid for it.
+  static recruit(campaign: Campaign, group: string, acts: { command?: string; children?: unknown[] }[]):
+    { recruit?: Recruit } {
+    const id = campaign.readout.inhabitants[group]?.[0], c = campaign.readout.creatures.find(x => x.id === id);
+    if (!c || !this.asks(acts)) { return {}; }
+    const world = campaign.world, hire = world.relates('willing') ? world.number(ModuleWriter.call('hire', group)) : 0;
+    const line = `${Content.race(c.raceId)?.name ?? c.raceId} ${Content.classes[c.classId ?? '']?.name ?? ''}`;
+    const techniques = (c.base.abilities ?? []).map(a => Content.abilities.find(x => x.id === a)).filter(a => !!a)
+      .map(a => ({ name: a.name, text: MechanicsText.full(a, { ...Object.fromEntries(CreatureSchema.attributes
+        .map(q => [q, c.base[q]])), level: c.base.level, bonusSpellDC: 0 }) }));
+    return { recruit: { line: line.trim().toLowerCase(), level: c.base.level, hp: c.state.hp, maxHp: c.base.maxHp, hire,
+      sheet: this.sheet(c), techniques } };
+  }
+  // Whether among what can be done with someone is asking them to join.
+  private static asks(acts: { command?: string; children?: unknown[] }[]): boolean {
+    return acts.some(a => a.command?.startsWith('recruit(') || this.asks((a.children ?? []) as typeof acts));
   }
   static sheet(c: Creature): CharacterSheet {
     const f = CombatProjection.fighter(c, 'fighters'), scores = Effects.scores(f);

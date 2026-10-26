@@ -1,3 +1,4 @@
+import type { CreatureStore } from '../creature-store';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Module } from '../lang/module';
 import type { World } from '../lang/world';
@@ -29,10 +30,17 @@ export class Membership {
       : this.release(at, resolve.args[0]!);
   }
   // Someone joins the company: their creatures are the company's from now on, and no longer their group's members.
-  static enlist(at: { current: Current; company?: string; module: Module; world: World },
+  // What they had of their own stays theirs, not the company's to spend (the company's coin is its members' purses
+  // together: The Road the Star Came Down's silver went from 60 to 66 on hiring Teshen for 2).
+  static enlist(at: { current: Current; company?: string; module: Module; world: World; creatures?: CreatureStore },
     recruit: string, company: string): World {
     const { current } = at, members = current.inhabitants[recruit] ?? [];
     if (!members.length || company !== at.company) { throw new Error(`${recruit} cannot join ${company}`); }
+    const lease = at.creatures?.acquire(members);
+    try {
+      lease?.creatures.forEach(c => { c.state.gold = 0; });
+      lease?.commit(lease.creatures);
+    } finally { lease?.release(); }
     current.partyIds.push(...members);
     current.inhabitants[company] = [...current.partyIds];
     current.inhabitants[recruit] = [];

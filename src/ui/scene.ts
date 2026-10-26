@@ -11,6 +11,8 @@ export interface SceneSubject {
   portrait?: TargetRow['portrait'];
   // What can be seen of them now ("Nest is driving geese along the green"), and whether they are dead or down.
   says?: string[]; state?: TargetRow['state'];
+  // Someone who would join the company: what they would bring (see CharacterSheets.recruit).
+  recruit?: TargetRow['recruit'];
 }
 // What the page is drawn from in play: who and what is here (danger first), who is with you, the ways about the place
 // and the ways out across the country, and what you can do yourself. Every choice is one the engine offered, attached
@@ -48,7 +50,7 @@ export class SceneModel {
     return { id: s.id, kind, name: name!, ...note ? { note } : {}, ...s.about ? { about: s.about } : {},
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
       ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.says?.length ? { says: row.says } : {},
-      ...row?.state ? { state: row.state } : {},
+      ...row?.state ? { state: row.state } : {}, ...row?.recruit ? { recruit: row.recruit } : {},
       choices: s.choices.map(c => this.bare(c, name!)).map(c => kind === 'animal' ? this.led(c) : c) };
   }
   // An animal is led and let go, not asked.

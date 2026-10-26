@@ -38,6 +38,9 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   lineage?: string; maturity?: string;
   // What makes it other than its kind (see CreatureVariants).
   aspect?: string; template?: string;
+  // The six qualities as the player placed them at creation, each three dice rolled, before what their people and
+  // calling add (the cold playtest saw its rolled qualities and could not place them).
+  rolled?: Partial<Record<Attribute, number>>;
 };
 export class Content {
   // What the creation screen and presenters show: classes and kinds by name.
@@ -113,6 +116,7 @@ export class Content {
       || (context.population !== undefined && !Object.hasOwn(tables.creaturePopulation.groups, context.population))
       || CreatureSchema.attributes.some(key => context[key] !== undefined
         && (!Number.isSafeInteger(context[key]) || context[key]! < 1))
+      || Object.values(context.rolled ?? {}).some(v => !Number.isSafeInteger(v) || v < 3 || v > 18)
       || (context.level !== undefined && (!Number.isSafeInteger(context.level) || context.level < 1));
   }
   // Orsino's character creation: roll 3d6 per score, add the ancestry's, class's and background's modifiers, take the
@@ -155,7 +159,8 @@ export class Content {
     const level = context.level ?? (species ? Canon.creature(raceId).statistics?.level : undefined) ?? 1;
     const chassis = Creation.chassis(raceId, classId, level);
     const scores = Object.fromEntries(CreatureSchema.attributes.map(key => [key, Math.max(1,
-      (chassis.fixed?.[key] ?? Content.score(generated, key)) + (chassis.attributes[key] ?? 0))]));
+      (chassis.fixed?.[key] ?? context.rolled?.[key] ?? Content.score(generated, key))
+        + (chassis.attributes[key] ?? 0))]));
     const creature: Creature = { id, name: context.name ?? String(generated.name), raceId,
       ...classId ? { classId } : {},
       base: { ...scores as Record<Attribute, number>, level, abilities: [], maxHp: 1, maxMana: 0, speed: 0 },
@@ -201,6 +206,12 @@ export class Content {
       if (held) { held.equipped = true; continue; }
       inventory.push({ id, definition: kind, equipped: true });
     }
+  }
+  // Six rolls of three dice, one for each quality, as creation makes them: for the creation page to place.
+  static rolls(seed: string): Record<Attribute, number> {
+    const generated = new Content(RandomStreams.key(seed, 'attributes', 'protagonist')).generate('attributes');
+    return Object.fromEntries(CreatureSchema.attributes.map(key => [key, Content.score(generated, key)])) as
+      Record<Attribute, number>;
   }
   private static score(generated: Record<string, DeemValue>, key: string): number {
     const value = generated[key];

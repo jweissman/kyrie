@@ -130,6 +130,12 @@
 .counter small { color: var(--grey); font-size: 14px; }
 .counter .dear { color: var(--faint); }
 .counter .buys { margin: 6px 0 0; color: var(--grey); font-size: 14px; }
+.recruit { margin: 16px 0; padding: 10px 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.recruit summary { cursor: pointer; font: 500 15px var(--do); }
+.recruit .bearings { margin: 8px 0; }
+.recruit .qualities-line, .recruit .skills-line { margin: 6px 0; color: var(--grey); font-size: 15px; }
+.recruit .techniques { margin: 6px 0 0; padding: 0; list-style: none; font-size: 15px; }
+.recruit .techniques li { margin: 4px 0; }
 .replies { list-style: none; padding: 0; margin: 14px 0 0; }
 .replies li { margin: 0 0 6px; }
 .replies .act i { font-style: normal; color: var(--faint); display: inline-block; width: 1.7em; }

@@ -1,6 +1,6 @@
 import type { Counter } from './trade-model';
 import type { Danger } from '../presentation/danger-sense';
-import type { CharacterSheet, Development } from '../presentation/character-sheet';
+import type { CharacterSheet, Development, Recruit } from '../presentation/character-sheet';
 
 // Renderer-independent game screen contract. Every executable leaf carries a PlayerView command id; the client
 // never decides what is legal. Rows describe what the party can perceive at its current location.
@@ -43,6 +43,8 @@ export interface TargetRow {
   // A painting of someone who could be them: the small copy, the large one for conversation, where the face sits (a
   // percentage of the height, for cropping), and who painted it, as far as the painting itself says.
   portrait?: { src: string; large: string; focus: number; credit?: string };
+  // Someone who would join the company: what they would bring, seen before they are asked.
+  recruit?: Recruit;
 }
 export interface ItemRow {
   // kind: the catalog's id for what it is (torch, lamp_oil), not its name.

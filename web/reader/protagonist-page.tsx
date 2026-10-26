@@ -1,7 +1,8 @@
-import type { ChangeEvent, MouseEvent } from 'react';
+import { useState, type ChangeEvent, type MouseEvent } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 import { Words } from './words';
+import { CharacterPage } from './character-page';
 
 // Before a country: who you are, and why you have come. Your name, your people and your calling are yours to change;
 // the reasons to have come are the ones this country holds (a father who did not come home, a debt, an errand).
@@ -25,8 +26,15 @@ export class ProtagonistPage {
               {catalog.callings.map(c => <option key={c.id} value={c.id}
                 disabled={!ProtagonistPage.open(people, c.id)}>{ProtagonistPage.calling(c.name, people, c.id)}</option>)}
             </select></label>
+            {calling?.specializations.length ? <label>{calling.id === 'cleric' ? 'Sworn to' : 'Specialty'}
+              <select value={member.traits?.[0] ?? ''} data-field="specialization"
+                onChange={ProtagonistPage.change.bind(null, app)}>
+                <option value="">As it falls</option>
+                {calling.specializations.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}</select></label> : null}
           </section>
-          <p className="what">{[people?.text, calling?.text].filter(Boolean).join(' ')}</p>
+          <p className="what">{[people?.text, calling?.text, ProtagonistPage.special(member.name ?? 'you',
+            calling?.specializations.find(t => t.id === member.traits?.[0]), calling?.id)].filter(Boolean).join(' ')}</p>
+          <ProtagonistPage.Qualities app={app} />
           <p className="label">Why you have come</p>
           <ol className="origins">{(setting.origins ?? []).map(o => (
             <li key={o.id}><button type="button" className="act" data-nav data-action="origin" data-id={o.id}
@@ -42,6 +50,43 @@ export class ProtagonistPage {
         <Toast.View app={app} />
       </div>
     );
+  }
+  // Your qualities: six rolls of three dice, each placed on a quality, with what your people and calling add to it,
+  // what it comes to in a fight, and what it is for. Choose one roll and then another to change them over; or roll
+  // again (the cold playtest saw its rolled qualities, and could not place them).
+  static Qualities({ app }: { app: ReaderApp }) {
+    const [held, hold] = useState<string>();
+    const s = app.state, member = s.party[0], catalog = s.catalog, rolled = member?.rolled as Record<string, number>;
+    if (!rolled || !catalog) { return null; }
+    const people = catalog.ancestries.find(a => a.id === member!.raceId);
+    const calling = catalog.callings.find(c => c.id === member!.classId);
+    const choose = (q: string) => { if (held && held !== q) { app.opening.place(held, q); } hold(held === q ? undefined : q); };
+    return (
+      <section className="placing" aria-label="Your qualities">
+        <p className="label">Your qualities</p>
+        <p className="how">{held ? `Now the quality to give ${rolled[held]} to.` : 'Six rolls of three dice. Choose one, then '
+          + 'another, to change them over.'}</p>
+        <table className="qualities"><tbody>{catalog.qualities.map(q => {
+          const adds = (people?.qualities[q.id] ?? 0) + (calling?.qualities[q.id] ?? 0);
+          const score = Math.max(1, rolled[q.id]! + adds);
+          return <tr key={q.id}><th scope="row">{q.name}</th>
+            <td><button type="button" className="act roll" data-quality={q.id} aria-pressed={held === q.id}
+              onClick={choose.bind(null, q.id)}>{rolled[q.id]}</button></td>
+            <td className="mods">{adds ? `${CharacterPage.signed(adds)} ${ProtagonistPage.from(people, calling, q.id)}` : ''}</td>
+            <td className="score">{score}<span className="check">
+              {` · ${CharacterPage.signed(catalog.worth[score] ?? 0)} in a fight`}</span></td>
+            <td className="rests">{q.rests}</td></tr>;
+        })}</tbody></table>
+        <p><button type="button" className="act" data-action="reroll" onClick={app.opening.reroll.bind(app.opening)}>
+          Roll again</button></p>
+      </section>
+    );
+  }
+  // Whose the change to a quality is: the people's, the calling's, or both.
+  private static from(people: { name: string; qualities: Record<string, number> } | undefined,
+    calling: { name: string; qualities: Record<string, number> } | undefined, q: string): string {
+    return [people?.qualities[q] ? people.name.toLowerCase() : '', calling?.qualities[q] ? calling.name.toLowerCase() : '']
+      .filter(Boolean).join(' and ');
   }
   // What the reason for coming makes you (the brothers' errand, a scribe of the order); or, for one who comes with
   // their trade and not much else, the trade, from those of their calling (Orsino's backgrounds for it).
@@ -66,6 +111,14 @@ export class ProtagonistPage {
         {chosen?.text && <p className="what">{Words.upper(chosen.text.replace('; ', ' and '))}.</p>}
       </section>
     );
+  }
+  // What a specialty is, and so what the protagonist's first spells or prayers are of ("Deathspeaker: a herald of death
+  // and the afterlife; Wenna's first prayers are of death"): M16's cleric of death was told only that clerics heal.
+  private static special(who: string, t: { name: string; text?: string; of?: string } | undefined,
+    calling?: string): string {
+    if (!t) { return ''; }
+    const first = t.of ? ` ${Words.upper(who)}'s first ${calling === 'cleric' ? 'prayers' : 'spells'} are of ${t.of}.` : '';
+    return `${t.name}: ${(t.text ?? '').replace(/^You are /, '').replace(/\.$/, '')}.${first}`;
   }
   // A calling as offered: "Cleric (not for an elf)", when it is not open to the people chosen.
   private static calling(name: string, people: { name: string; callings: string[] } | undefined, id: string): string {
