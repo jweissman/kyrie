@@ -55,9 +55,11 @@ export class ModuleDeclarations {
       case 'initial': module.initial.push(value as Change); break;
       case 'action': {
         const { once, topic, ...action } = value as Operator & { once?: boolean; topic?: boolean };
+        // A question put once can be put again, for the same answer and nothing more (M16: topics vanished once asked).
+        const again = once && topic ? WorldConstructs.recall(action) : [];
         if (once) { WorldConstructs.once(module, action); }
         if (action.speaker && !topic) { ModuleDeclarations.spoken(action, action.speaker); }
-        module.actions.push(action); break;
+        module.actions.push(action, ...again); break;
       }
       case 'localkind': case 'localspecies': break;
       default:

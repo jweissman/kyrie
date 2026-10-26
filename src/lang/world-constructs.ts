@@ -223,6 +223,17 @@ export class WorldConstructs {
     effects: [{ kind: 'assert', call: { kind: 'call', name: latch, args: [] } }, ...e.effects], say: e.text,
     ...(e.anchor ? { place: e.anchor.id, anchor: e.anchor.kind } : {}), ...(e.teaches ? { teaches: e.teaches } : {}) });
   }
+  // A topic asked once ("Ask {gizon} about the opened graves"), once it has been asked: the same answer again, with
+  // nothing it did done again ("Ask {gizon} again about the opened graves"). Only a question is asked again: a letter
+  // given is not given twice.
+  static recall(action: Module['actions'][number]): Module['actions'][number][] {
+    const name = typeof action.name === 'string' ? action.name : '';
+    const asked = /^(Ask .+?) (about|what|where|who|whom|why|how|whether|if|for|after) /;
+    if (!asked.test(name)) { return []; }
+    return [{ ...structuredClone(action), id: `${action.id}_again`, name: name.replace(asked, '$1 again $2 '),
+      requires: { kind: 'and', left: structuredClone(action.requires), right: { kind: 'call', name: `said_${action.id}`,
+        args: [] } }, success: [], failure: [] }];
+  }
   static once(module: Module, action: Module['actions'][number]) {
     const latch = `said_${action.id}`;
     module.relations.push({ name: latch, types: [], exclusive: false });

@@ -213,3 +213,17 @@ describe('Low Water: the breach, the warrant and the Hearing', () => {
     expect(j.holds('reached', L('census_kept'))).toBe(true);
   }, 300000);
 });
+
+// Someone with their own words of greeting is given no stock line on the next meeting: Tessary's corporal and its
+// Factor both said "Back for more of my wisdom" (TS-W18, NAR-05). Cantor Orr, met twice.
+describe('a greeting of one\'s own', () => {
+  it('is said the first time, and no stock greeting after', async () => {
+    const j = await Bowl.start();
+    const greeted = () => (j.session.campaign.history.at(-1)?.voiced ?? [])
+      .filter(v => ['greet', 'address'].includes(v.kind) && v.actor === L('orr')).map(v => v.text);
+    await j.play(...Bowl.arrive, '^To Measures Square', '^Into the Sounding', "Cantor's room", 'Talk to Cantor');
+    expect(greeted().join(' ')).toContain('does not get up from the clavichord');
+    await j.play('Take your leave', 'Talk to Cantor');
+    expect(greeted()).toEqual([]);
+  }, 120000);
+});

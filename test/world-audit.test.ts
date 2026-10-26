@@ -24,7 +24,7 @@ describe('a generated world\'s stories', () => {
   it('catches one that cannot: a fever when there are no herbs to be had anywhere', async () => {
     const { w, s } = await Audited.world('thorn');
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
-    const herbs = s.campaign.world.related('itemKind').filter(r => r.args[1] === 'herbs');
+    const herbs = s.campaign.world.related('itemKind').filter(r => ['herbs', 'willow_bark', 'feverwort'].includes(r.args[1]!));
     c.commit(c.world.apply(herbs.map(r => ({ kind: 'retract', call: ModuleWriter.call('itemKind', ...r.args) }))));
     expect(WorldAudit.audit(s.campaign, w.report.placements)).toEqual([expect.objectContaining({ kind: 'resource',
       subject: 'fever__mother' })]);

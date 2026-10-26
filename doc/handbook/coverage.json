@@ -801,7 +801,7 @@
     "faithful": 752,
     "adapted": 361,
     "represented": 4,
-    "kyr": 88,
+    "kyr": 90,
     "unsupported": 100,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 234,
       "adapted": 72,
       "represented": 0,
-      "kyr": 29,
+      "kyr": 31,
       "unsupported": 25,
       "unreachable": 0,
       "data-only": 0
@@ -5727,6 +5727,20 @@
    "id": "item:fireproof_salve",
    "title": "Fireproof salve",
    "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:willow_bark",
+   "title": "Willow bark",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:feverwort",
+   "title": "Feverwort",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },

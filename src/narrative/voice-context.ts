@@ -15,14 +15,16 @@ export class VoiceContext {
   static of(campaign: Campaign, h: Happening, pairs: Set<string>): Record<string, string> {
     const actor = h.actor ?? '', world = campaign.world, company = campaign.playerActor ?? 'party';
     const species = this.species(campaign, actor), kind = species ? Canon.creature(species).kind ?? 'creature' : 'person';
-    const place = world.one('at', company);
+    const place = world.one('at', company), shelter = (place && Narrator.shelter(campaign, place)) ?? 'outdoors';
     return { bond: this.bond(campaign, actor, company), manner: this.manner(campaign, actor),
       pronoun: this.pronoun(campaign, actor, kind), kind, ...species ? { species: this.base(species) } : {},
       ...this.temper(campaign, actor),
-      time: world.test(ModuleWriter.call('dark')) ? 'night' : 'day',
+      // Under the ground (or the sea) there is no hour to speak of: clerks in a lamp-lit hall under the sea said "Mind
+      // how you go in the dark" (What Tessary Owes, W19).
+      time: world.test(ModuleWriter.call('dark')) && shelter !== 'underground' ? 'night' : 'day',
       // Whether they are where the company is, or have it from someone who was (Venn, in his study, told by Dunnet).
       present: !actor || world.one('at', actor) === place ? 'here' : 'away',
-      shelter: (place && Narrator.shelter(campaign, place)) ?? 'outdoors',
+      shelter,
       moment: pairs.has(`${h.kind}:${actor}`) ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {},
       // A band of many (the elders), for the lines said only of many.
       ...(campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 ? { number: 'many' } : {} };

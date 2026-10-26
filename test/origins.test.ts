@@ -59,6 +59,15 @@ describe('an origin', () => {
     await Opening.take(s, /^Wait a while$/);
     expect(PlayerView.observe(s.campaign).observations.some(o => /anyone on the road herbs/.test(o.text))).toBe(false);
   }, 60000);
+  // The herb-wife's feverwort is feverwort, not "healing herbs" (NAR-15), and the sick child's mother takes it.
+  it('brings the feverwort as itself, and it breaks the fever', async () => {
+    const s = await Opening.start('herbs', 'wren'), c = s.campaign;
+    const carried = ScreenModel.build(c).items.map(i => i.name);
+    expect(carried.some(n => /feverwort/i.test(n))).toBe(true);
+    await Opening.take(s, /green/i);
+    await Opening.take(s, /^Give .*feverwort/i);
+    expect(c.world.test(ModuleWriter.call('fever__mended', 'fever__mother'))).toBe(true);
+  }, 60000);
   it('begins with one person, on the way in, told who they are and why they came', async () => {
     const s = await Opening.start('kin'), screen = ScreenModel.build(s.campaign);
     expect(screen.party.map(m => m.name)).toEqual(['Wenna']);

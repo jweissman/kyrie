@@ -102,19 +102,19 @@ noted beside the finding it answers, and is not itself a finding until play call
 |---|---|---|---|---|
 | NAR-01 | Characters and institutions dramatically thin; generic people in a commons | OWN | Open (D) | Urban subspaces; people with places, activities and relations |
 | NAR-02 | Philosophers: a doctrine and a charisma contest | OWN | Open (D) | A substantial authored intellectual scene, not decided by charisma alone |
-| NAR-03 | A topic once asked is gone; inadequate follow-ups | M15; M16; OWN | Partial | "asked" marked within a conversation. Open (D) |
+| NAR-03 | A topic once asked is gone; inadequate follow-ups | M15; M16; OWN | Fixed | A question put once can be put again, for the same answer and nothing it did done again: "Ask the people at the well again about the Long Man" (`WorldConstructs.recall`, for every `once` topic that asks). A letter given is not given twice. `test/asked-again.test.ts`. (A driver's step "^To the valley road|Out" had matched "ab**out**" in it: anchored) |
 | NAR-04 | News word for word in two mouths; rumours alike but for a name | CP-5 | Open (D) | No two people of a settlement give the same line |
-| NAR-05 | Greetings fall back on a shared table line after the first meeting | TS-W18 | Open (D) | An authored return greeting, or none from the table for one who has their own words |
-| NAR-06 | Night greetings under the sea or indoors | TS-W19 | Open (D) | No hour for the voice tables where none is seen |
+| NAR-05 | Greetings fall back on a shared table line after the first meeting | TS-W18 | Fixed | Someone with their own words of greeting is given no stock line afterwards (Cantor Orr, met twice: `test/low-water.test.ts`, which fails without it). A `Greets again` for a return greeting of one's own is left until an author wants one |
+| NAR-06 | Night greetings under the sea or indoors | TS-W19 | Fixed | Underground there is no hour for the voice tables; indoors above ground, night is still night (you go out into it). `test/voice.test.ts` |
 | NAR-07 | A role is fixed text; who someone is now cannot be said | TS-W20 | Open (E) | `Role … when` alternatives |
 | NAR-08 | A rule's words reach the company wherever it is | TS-W1; RD-F9; PS-32 | Partial | `Rule … at place` exists (M15). Open (E): words scoped to an area, told when the company is there |
 | NAR-09 | A place told in full on every return | LW-10; TS-W2 | Open (E) | A return told briefly when nothing has changed |
 | NAR-10 | A teaching rule puts the fact's text before its own words | LW-4; TS-W11; RD-F17 | Open (E) | The words stand for the fact in the moment |
-| NAR-11 | A room not re-told when the company's light changes | TS-W24 | Open (D) | Lighting a dark room tells it |
+| NAR-11 | A room not re-told when the company's light changes | TS-W24 | Not reproduced | On main, what a light shows in a room the company stays in is told as what happened (Narrator: "a room a torch shows"). The case met (Tessary's Hall of Oaths) is on its unmerged branch; to be tried there (E) |
 | NAR-12 | Notes knowing what nobody said | CP-7 | Partial | A brood never heard of no longer listed (a0827fd). Open (D): the rest |
-| NAR-13 | Something heard of and since taken stays "heard, not yet seen" | M16 | Open (D) | |
+| NAR-13 | Something heard of and since taken stays "heard, not yet seen" | M16 | Fixed | A heard fact is borne out when what it showed (a thing or a way hidden until it was known) is in the company's hands or has been walked: the dyke-reeve's rod, heard of from Gammer Coller and taken, is "heard, and since seen". `test/the-long-man.test.ts` |
 | NAR-14 | Exceptional events in the ordinary register (a body found, a betrayal, a revelation) | M16; OWN | Partial | Chapter ends, levels, deaths set apart (M16). Open (D): authored forms for the rest |
-| NAR-15 | The feverwort given as "healing herbs" | M16 | Open (D) | |
+| NAR-15 | The feverwort given as "healing herbs" | M16 | Fixed | The herb-wife sends feverwort, and a willow gives willow bark, each its own item (Kyr's own catalog entries, healing as herbs do); the sick child's mother takes herbs, willow bark or feverwort. `test/origins.test.ts` gives the feverwort and the fever breaks; the world audit takes all three away to make the fever unfinishable |
 | NAR-16 | The riddle "I always was, yet never will be" answered "Tomorrow" | CP-5 | Fixed | All 60 of Orsino's riddles read through: that one answered "Yesterday", and five that ask what another already asks left out (two lights, two silences, two stamps, two colds, and the hurricane beside the needle's eye), in an editor's layer of the generator (`OrsinoWorld.corrected`, `.repeated`) so regenerating keeps them. `test/riddles.test.ts` |
 | NAR-17 | Independent undertakings must leave traces and reports | OWN; CP-8 | Partial | The brothers (M16 3491ecd). Open (X): other world processes |
 

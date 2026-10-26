@@ -4026,6 +4026,26 @@ Used: One ally is fireproof for 10 turns.
 
 *Adapted: A Kyr preparation of Orsino's fireproof; lasts ten of the wearer's combat turns.*
 
+#### Willow bark
+
+*Kyr · consumable* · `item:willow_bark`
+
+- Worth: 2
+
+Used: Heal one ally for 1d6 (1–6).
+
+> Strips of bark from a riverbank willow. Steeped, it breaks a fever; chewed, it eases a hurt a little. One use.
+
+#### Feverwort
+
+*Kyr · consumable* · `item:feverwort`
+
+- Worth: 2
+
+Used: Heal one ally for 1d6 (1–6).
+
+> Dried feverwort, wrapped in a cloth by a herb-wife. Steeped, it breaks a child's fever; laid on a wound, it eases it a little. One use.
+
 #### Prepared yarrow poultice
 
 *Kyr · consumable* · `item:yarrow_poultice`

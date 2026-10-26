@@ -7,7 +7,7 @@ Module fever "A fever on the green" {
   Entity sick: fact "A child at {green} has a fever that will not break, and the herbs have run out.".
   Initially Assert established(sick).
 
-  Person mother "The sick child's mother" at green { Role "the child's mother". Peaceable. Pronouns she. Wants herbs. }
+  Person mother "The sick child's mother" at green { Role "the child's mother". Peaceable. Pronouns she. Wants herbs. Wants willow_bark. Wants feverwort. }
   Person sister "The sick child's sister" at green { Role "the child's elder sister". Peaceable. Pronouns she. }
   Observe shutters at green when not mended(mother) and not lost(mother) "The shutters of one house are drawn in daylight, and a woman stands in its door, watching the road.".
   Observe mended_scene at green when mended(mother) "The shutters of the sick child's house are open, and a child's voice comes out of it, complaining.".

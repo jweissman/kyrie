@@ -62,6 +62,9 @@ export class Telling {
       const words = campaign.module.entities.find(e => e.id === own)?.name ?? '';
       return { id: `own:${own}`, kind: h.kind, actor, text: Voice.render(words, speaking) };
     }
+    // Someone with their own words of greeting is not given the tables' afterwards: Tessary's corporal and its Factor
+    // both said "Back for more of my wisdom", seven manners shared by thirty people (W18).
+    if (own && (h.kind === 'greet' || h.kind === 'address')) { return undefined; }
     // Of many, only what can be said of many.
     const line = this.choose(Voice.fitting(h.kind, context).filter(l => !speaking.many || Voice.agrees(l)), memory.key,
       memory.used);

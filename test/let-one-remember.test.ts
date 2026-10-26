@@ -124,7 +124,7 @@ describe('Let One Remember', () => {
   it('goes down the low road by the grammar of its marks, wakes the court\'s deeds at the Seam, and comes up another way', async () => {
     const s = await T.start();
     let said = await T.play(s, [...toWendmouth, '^To the quay', '^Into the Ninepan', 'Talk to Clemence', 'Buy.*diving', 'Take your leave', '^Out',
-      '^To the well square', '^Into the Keepstone', 'Talk to Judge', 'her ruling', '^To the valley road|Out', '^To the valley road', '^Into the Coyle',
+      '^To the well square', '^Into the Keepstone', 'Talk to Judge', 'her ruling', '^To the valley road|^Out', '^To the valley road', '^Into the Coyle',
       'Talk to Bram', 'drawer', 'Take your leave', '^Out', '^To the well square', '^Into the Keepstone', 'Talk to Judge', 'blank stone reads', '^Take$',
       'Take your leave', '^Out', '^To the valley road', '^To Wendhead bridge', '^Into the Wendhead hospice', '^To the hospice archive',
       'Letting prayer', '^To the hospice hall', '^Out', '^To the foot', '^To the eighth', '^To the street', '^To the Collar',

@@ -140,3 +140,21 @@ describe('the turning points of a fight', () => {
     expect(new Set(said).size).toBe(said.length);
   });
 });
+
+// Under the ground there is no hour to speak of: Tessary's clerks in a hall under the sea said "Mind how you go in the
+// dark" (TS-W19, NAR-06). wren's old workings at night, and its green at the same hour.
+describe('the hour, as the voice tables have it', () => {
+  it('is night above ground at night, and no hour below it', async () => {
+    const { WorldAssembler } = await import('../src/world/world-assembler');
+    const { VoiceContext } = await import('../src/narrative/voice-context');
+    const { GeneratedWorld } = await import('./support/generated');
+    const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'wren', w.source);
+    await s.perform('wait_for_dark');
+    const hour = () => { const v = VoiceContext.of(s.campaign, { kind: 'farewell' } as never, new Set()); return [v.time, v.shelter]; };
+    expect(hour()).toEqual(['night', 'outdoors']);
+    GeneratedWorld.put(s, 'w9_adit_crossing');
+    expect(hour()).toEqual(['day', 'underground']);
+  }, 120000);
+});

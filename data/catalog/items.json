@@ -144,6 +144,28 @@
         "notes": "A Kyr preparation of Orsino's fireproof; lasts ten of the wearer's combat turns."
       }
     },
+    "willow_bark": {
+      "name": "Willow bark",
+      "category": "consumable",
+      "description": "Strips of bark from a riverbank willow. Steeped, it breaks a fever; chewed, it eases a hurt a little. One use.",
+      "value": 2,
+      "use": "Heal (1d6) health to ally.",
+      "source": {
+        "kyr": true,
+        "notes": "What a willow gives whoever gathers it (organisms.json); the fever on the green wants it, or herbs."
+      }
+    },
+    "feverwort": {
+      "name": "Feverwort",
+      "category": "consumable",
+      "description": "Dried feverwort, wrapped in a cloth by a herb-wife. Steeped, it breaks a child's fever; laid on a wound, it eases it a little. One use.",
+      "value": 2,
+      "use": "Heal (1d6) health to ally.",
+      "source": {
+        "kyr": true,
+        "notes": "What the herb-wife sends with one who comes for a sick child (the herbs origin)."
+      }
+    },
     "yarrow_poultice": {
       "name": "Prepared yarrow poultice",
       "category": "consumable",

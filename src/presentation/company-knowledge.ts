@@ -25,7 +25,7 @@ export class CompanyKnowledge {
       const from = found ? labels.get(found.args[1]!) : read && writing ? labels.get(writing)
         : told ? labels.get(told.args[1]!) : undefined;
       return { id: e.id, text: ObservationText.render(e.name, world), ...source ? { source } : {},
-        ...told && (seen || found || read) ? { confirmed: true as const } : {},
+        ...told && (seen || found || read || this.borne(world, actor, e.id)) ? { confirmed: true as const } : {},
         ...from ? { from } : {}, ...learned.has(e.id) ? { at: learned.get(e.id)! } : {} };
     });
   }
@@ -48,6 +48,16 @@ export class CompanyKnowledge {
     }
     kept.last = log[kept.read - 1];
     return kept.learned;
+  }
+  // Whether what a fact told of, and showed (a thing or a way hidden until it was known), is since in the company's
+  // hands or under its feet: heard of and since taken, it is not "heard, not yet seen" (the dyke-reeve's rod).
+  private static borne(world: World, actor: string, fact: string): boolean {
+    return world.relates('revealedBy') && world.related('revealedBy').some(r => r.args[1] === fact
+      && (this.asks(world, 'carries', actor, r.args[0]!) || this.holds(world, 'tookWay', actor, r.args[0]!)));
+  }
+  // A query (carries) as well as a relation.
+  private static asks(world: World, name: string, ...args: string[]): boolean {
+    return world.module.queries.some(q => q.name === name) && world.test(ModuleWriter.call(name, ...args));
   }
   private static holds(world: World, name: string, ...args: string[]): boolean {
     return world.relates(name) && world.test(ModuleWriter.call(name, ...args));

@@ -63,7 +63,7 @@ class Newcomer {
   }
   private next(offered: { id: string; name: string }[]) {
     const visited = VisitedPlaces.of(this.s.campaign, this.s.campaign.playerActor!);
-    const ask = offered.find(o => /^Ask /.test(o.name) && !this.asked.has(o.name));
+    const ask = offered.find(o => /^Ask /.test(o.name) && !/^Ask .* again /.test(o.name) && !this.asked.has(o.name));
     const go = offered.find(o => /^go\(/.test(o.id) && !visited.has(o.id.replace(/\)$/, '').split(',').at(-1)!));
     if (ask) { this.asked.add(ask.name); }
     return ask ?? go;

@@ -145,6 +145,9 @@ describe('The Long Man, its people unprompted', () => {
     const said = Dale.said(await Dale.act(s, '^To Merrow green', '^Into Gammer', 'about the rod', '^Take'));
     expect(said).toContain("'That is the reeve's rod,'");
     expect(Dale.holds(s, 'objected', 'longman__nell', 'longman__rod')).toBe(true);
+    // Heard of from Gammer Coller and since taken, the rod is not "heard, not yet seen" (NAR-13).
+    const rod = ScreenModel.build(s.campaign).knowledge.find(k => /the dyke-reeve's rod, by her door/.test(k.text))!;
+    expect(rod.kind).toBe('confirmed');
   }, 120000);
   it('has Dunnet tell the steward of the bronze he sees the company carry, unless his wages were paid', async () => {
     const told = await Dale.start();
