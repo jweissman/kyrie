@@ -55,8 +55,9 @@ export class Narrator {
     if (exchange && !probing && told.moved) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
       || !kept.some(k => Narration.sentence(k.text) === l.text)); }
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
-    const lines = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))
+    const all = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))
       && !echoed.has(Narration.sentence(l.text))), defs);
+    const lines = known && told?.moved ? this.recalled(campaign, all, defs) ?? all : all;
     const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, Narrator.def(defs, l.id), l.text) }));
     const situation = this.paragraphs(credited, defs);
     // What a thing looks like is not told again with it when the place has just said it (a wonder, told as the place).
@@ -73,6 +74,20 @@ export class Narrator {
       ...journey.length ? { journey } : {},
     });
   }
+  // A place come back to, where everything it says that lasts was told before, is recalled by its first sentence,
+  // with its sky and passing life as they are now, and what has changed since told under it (What Tessary Owes' W2
+  // and Low Water's 10: every return told as if for the first time). Anything else in it not told before, and it is
+  // told in full.
+  private static recalled<T extends { id: string; text: string }>(campaign: Campaign, lines: T[],
+    defs: Map<string, Observation>): T[] | undefined {
+    const before = new Set(campaign.history.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.text)));
+    const lasting = lines.filter(l => !this.passing(Narrator.def(defs, l.id)));
+    if (!lasting.length || lasting.some(l => !before.has(l.text))) { return undefined; }
+    const prose = FictionalTime.prose(lasting[0]!.text);
+    return [{ ...lasting[0]!, text: /^.*?[.!?](?=\s|$)/.exec(prose)?.[0] ?? prose },
+      ...lines.filter(l => this.passing(Narrator.def(defs, l.id)))];
+  }
+  private static passing(def?: Observation): boolean { return ['weather', 'ambience'].includes(def?.aspect ?? 'fixture'); }
   // A place is told first, then what stands out in it, then what is to be read in it, and last the sky over it and
   // the passing life of it; lines of one kind keep the order they were written in.
   static readonly ranks: Record<string, number> = { fixture: 0, feature: 1, sign: 2, revelation: 2, weather: 3,
