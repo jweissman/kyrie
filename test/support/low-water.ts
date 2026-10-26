@@ -12,6 +12,7 @@ export class Bowl {
   static async untilComplete(j: Journey, limit = 2000) {
     while (!j.holds(L('complete'), L('reckoner')) && j.watch() < limit) { await j.play('=+6'); }
   }
+  static page(j: Journey) { return j.taken.at(-1)?.page ?? ''; }
   static said(j: Journey, from = 0) { return j.taken.slice(from).map(t => t.told).join(' '); }
   // The first hour: Isaura at the head of the Stair, and the company down to the Dyers' Terrace before the third bell.
   static readonly arrive = ['^To the head of the Stair', 'Talk to Isaura', 'waiting for you', 'Ask Isaura Vant to join'];

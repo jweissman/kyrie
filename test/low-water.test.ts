@@ -332,14 +332,14 @@ describe('Low Water', () => {
     expect(j.holds(L('doublesLoose'), 'party')).toBe(true);
     await j.play('square in the water', 'Rim in the water', 'Bowl in the water', 'still water', 'Ward landing');
     expect(j.at(L('doubles'))).toBe(L('ward_landing'));
-    expect(j.taken[j.taken.length - 1].page).toContain('coming slowly up the steps');
+    expect(Bowl.page(j)).toContain('coming slowly up the steps');
     // Wait on the landing and they come; every way past them is still open in the fight.
     await j.play('Wait › A while');
     expect(j.holds('tolerates', L('doubles'), 'party')).toBe(false);
     expect(j.choices().some(c => c.label === 'Attack')).toBe(true);
     await j.play('Ask Isaura to measure your doubles');
     expect(j.holds(L('doublesLaid'), 'party')).toBe(true);
-    expect(j.taken[j.taken.length - 1].page).toContain('They can’t check it');
+    expect(Bowl.page(j)).toContain('They can’t check it');
   }, 300000);
   it('breaks Annet Kettle\'s jar in the hall of receipts, and Isaura enters the debit before the Assayers level it', async () => {
     const j = await Bowl.start('halm');
