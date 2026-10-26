@@ -1,21 +1,42 @@
 Module lowwater "Low Water" {
-  Description "The Interval: what lies past the last door, where the counted water goes.".
+  Description "The Interval: the still water past the last door and under the Mere, and Ammerlin in the water, the city the Auditor has built out of three thousand years of counted water, left for right.".
 
   Place interval_plane "the Interval" is plane.
   Place interval "the still water" is region within interval_plane.
   Place interval_wild "the still water" is wilderness within interval at 0, 0.
   Place still_water "the still water" is room within interval_wild at 0, 0 outdoors.
   Place far_bowl "the Bowl in the water" is room within interval_wild at 1, 0 outdoors.
+  Place mirror_city "Ammerlin in the water" is settlement within interval at 1, 0.
+  Place mirror_rim "the Rim in the water" is room within mirror_city at 0, 0 outdoors.
+  Place mirror_square "the square in the water" is room within mirror_city at 0, 1 outdoors.
+  Place mirror_sounding "the Sounding in the water" is room within mirror_city at 1, 1.
+  Place mirror_office "the Office in the water" is room within mirror_city at 2, 1.
+  Place mirror_ward "the Ward in the water" is room within mirror_city at 0, 2 outdoors.
+  Place stair_foot "the foot of the stair that goes up" is room within mirror_city at 1, 2 outdoors.
 
+  // Two ways in: the round door when the count is whole and the door unheld; and the Mere itself, at night, for a
+  // company carrying the Lector's bell, following the Reflected down.
   Passage last_door "the round door" is doorway between last_door_room and still_water
     opening when complete(reckoner) and not doorHeld(reckoner) "The round door is shut, and has no handle, and no seam you can get a blade into.".
+  Passage after_reflected "out onto the Mere after the Reflected" is path between mere_edge and still_water one way taking 20 minutes
+    opening when dark() and carries(party, ear_bell) and approach(bowl) >= 1 and not broken(reckoner) "The Mere is only water. Nothing on it will hold you up, unless you carry something it knows.".
+  Passage up_through "up through the water toward the light" is path between still_water and ward_landing one way taking 20 minutes.
   Passage still_way "the way across the still water" is path between still_water and far_bowl taking 20 minutes.
+  Passage into_mirror "the road over the Rim in the water" is path between far_bowl and mirror_rim taking 5 minutes.
+  Passage mirror_stair "the Stair in the water" is steps between mirror_rim and mirror_square taking 5 minutes.
+  Passage mirror_dome "the Sounding's door, in the water" is doorway between mirror_square and mirror_sounding.
+  Passage mirror_counter "the Office's door, in the water" is doorway between mirror_square and mirror_office.
+  Passage mirror_down "the Ward steps, in the water" is steps between mirror_square and mirror_ward taking 5 minutes.
+  Passage mirror_to_stair "the mud in the water, toward the stair" is path between mirror_ward and stair_foot taking 5 minutes.
 
-  Observe still_scene at still_water when true "Water, still, to the end of seeing, under no sky. It is lit from nowhere, evenly, like the inside of a pearl. It holds you up; you walk on it as on glass, and under your feet, a hand down, it goes on being water for ever. There is no sound at all. Behind you the round door stands in nothing, its edge as thin as paper.".
+  Observe still_scene at still_water when true "Water, still, to the end of seeing, under no sky. It is lit from nowhere, evenly, like the inside of a pearl. It holds you up; you walk on it as on glass, and under your feet, a hand down, it goes on being water for ever. There is no sound at all.".
+  Observe still_door at still_water when complete(reckoner) and not doorHeld(reckoner) "Behind you the round door stands in nothing, its edge as thin as paper.".
+  Observe still_above at still_water when true "Far overhead, if it is overhead, there is a pale disc like a coin seen from under water: the Mere, from below.".
   Discovery water_kept "The counted water of three thousand years lies in the Interval, still, and it has been used: somebody, or something, has built out of it, far off across the still water, a likeness of the Bowl of Ammerlin.".
   Rule still_far at still_water when at(party, still_water) and not knows(party, water_kept) says "Far off across the water, a long way, something stands up out of it: terraces, a pale ring of them, going down." teaches water_kept { }
-  Observe far_scene at far_bowl when true "It is the Bowl. It is Ammerlin, made of water that has been made to stand up: the Rim, the four terraces, the Stair, the Sounding's dome, every roof, as clear as ice and as still. Nobody is in it. It has been copied the way a child copies a picture it has only ever seen reflected: everything is there, and everything is the wrong way round, left for right. At the bottom, the Mere is full to the fourth step of the Ward landing, and every boat in the Ward is afloat on it.".
-  Observe far_sounding at far_bowl when true "Through the clear dome of the water-Sounding you can see that its floor has no grating and no shaft. Instead, at the centre, standing, there is a figure of water the size of a person, with its face turned up, and its mouth open, as if singing; and it has been made in such a way that you cannot tell whether it is meant to be the singer or the one who listened.".
+
+  Observe far_scene at far_bowl when true "It is the Bowl. It is Ammerlin, made of water that has been made to stand up: the Rim, the four terraces, the Stair, the Sounding's dome, every roof, as clear as ice and as still. It has been copied the way a child copies a picture it has only ever seen reflected: everything is there, and everything is the wrong way round, left for right. At the bottom the Mere is full to the fourth step of the Ward landing, and every boat in the Ward is afloat on it.".
+
   Kind still_cup "a cup of the still water" is treasure worth 0 weighing 1 described "A tin cup of water from the Interval. It does not spill when you tip it. It does not warm in your hand. When you hold it to your ear you hear, very faint, the Hymn.".
   Item still_cupful "a cup of the still water" is still_cup at far_bowl.
   Event cup_orr near orr when keeps(orr, ?c) and itemKind(?c, still_cup) "Cantor Orr holds the cup to her ear for a long time. Then she sets it down on the clavichord, very carefully, where she can see it while she plays. 'It's in tune,' she says. 'Of course it is.'" then { Assert orrHasCup(orr). }
@@ -27,5 +48,58 @@ Module lowwater "Low Water" {
     Time 6.
     On success { Assert stayed(actor). }
     Result "You sit down on the step of the water-Ward, where the boats are afloat, and wait to see who comes.".
+  }
+
+  Observe mrim_scene at mirror_rim when true "The Rim in the water. The north road comes over the lip and stops; the Ninefold comes in at the Gauge, clear as glass, and goes down the Stair in falls that do not fall: they stand, each one a frozen white rope. Everything is silent except, very far down, the hymn, and it is coming up the Bowl backwards: the Amen first.".
+  Observe msquare_scene at mirror_square when true "The square in the water. The Office is on the wrong side and the Sounding on the other. In the middle the fountain is falling upward: the water leaves the basin in a slow clear column and goes up into the dark and does not come down. People stand round the square, a great many, clear, unmoving, the way people stand at the Hymn. They are all facing the Sounding.".
+  Observe msounding_scene at mirror_sounding when true "The Sounding in the water has no grating in its floor and no shaft. At the centre, where the black water should be, stands a figure of water the size of a woman, kneeling, with her face turned up and her mouth open, singing; and her hands are flat on the rim of a basin that is not there.".
+  Observe moffice_scene at mirror_office when true "The Office in the water. The counter, the benches, the words over the inner door cut backward, so that you read them in the glass of the far wall the right way round: WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY. On the counter lies a ledger the size of a door, open, made of water, and on its open page a single column, very long.".
+  Observe mward_scene at mirror_ward when true "The Ward in the water. Tench Row stands on its stone feet with every net wet, and the Mere comes up to the fourth step of the landing, and every boat in the Ward is afloat, the Tench among them. On the steps, sitting, standing, lying in the boats as if asleep, are the Reflected: hundreds of them. This is where they wait. Some of them are singing the evening's Hymn; some of them yesterday's; some of them, you think, an evening three thousand years ago.".
+  Observe mstair_scene at stair_foot when true "At the edge of the Ward in the water, where the real Mere would be, the still water stands up into a stair: broad, clear, glass, going up, not down, into the dark, step after step, until you lose it. Wet footprints too wide and too flat for any person's go up it, and come down it, and go up.".
+
+  // What the Auditor learned the hymn from: the Lector's forty nights, made into an image.
+  Thing aun_image "the kneeling figure" at mirror_sounding {
+    State singing "The kneeling figure of water sings without breath.".
+    Tries listening.
+  }
+  Discovery aun_backwards "In the Sounding in the water, the Auditor has made an image of Aun, the Lector who held it back for forty nights, and the image sings her Fourth Remainder backwards: deep then high. It is learning to unsing the lock.".
+  Rule aun_listened when tried(aun_image, listening) and not knows(party, aun_backwards)
+    says "You put your head close to its mouth. It is singing the Fourth: high, and deep, deep, deep. Then it sings it again, and you hear that it is not: it is deep, deep, deep, and then high. Backwards. Over and over, slowly, the way you would practise a word in a language you meant to speak well. Its face, you see now, is the face carved over the Lector's bench: Aun's." teaches aun_backwards { }
+  Topic isaura_aun with isaura travelling "Ask Isaura what the kneeling figure is doing" when knows(actor, aun_backwards) once {
+    Says "'Learning.' Isaura has gone very pale. 'It's learning the one voice that ever held it back, so it can say it backwards.' She is quiet. 'It's very patient. It's more patient than the Office. It has been practising one verse for three thousand years.' A breath. 'I'd like to go now. I'd like that noted. I'd like to go and I'm not going to.'".
+  }
+
+  // The ledger of water, in the Office in the water: the count as the Auditor reads it.
+  Thing water_ledger "the ledger of water" at mirror_office {
+    State open "The ledger of water lies open on the counter, one long column down its page.".
+    Tries looking.
+  }
+  Discovery ledger_of_water "The ledger of water in the Office in the water is the count as the far side receives it, written in the machine's notation, a ninth to a page; and the water takes the mark of whoever writes in it.".
+  Rule ledger_looked when tried(water_ledger, looking) and not knows(party, ledger_of_water)
+    says "The column is the count. You can read it: the machine's notation, the strokes the column sang you, a ninth to a page, the pages turning by themselves as you watch. You put a finger to the page to stop it turning and the water takes your fingerprint, and keeps it, a little whorl in the column, and does not let it go." teaches ledger_of_water { }
+  Relation isauraWillWrite(group). Relation countFalsified(engine).
+  Topic isaura_ledger with isaura travelling "Ask Isaura what she sees in the ledger of water" when knows(actor, ledger_of_water) once {
+    Says "Isaura reads it for a long time, standing, her hands behind her back as if she did not trust them. 'It's the count,' she says. 'As it's received. As whoever is on the far side reads it.' She looks at the fingerprint in the column. 'And it takes a mark.' She does not say the next thing. You watch her not say it. Then she says it, because she is who she is: 'I could write in it. One figure. A ninth that isn't there. It would read the census whole, and short, and wrong.' She takes a breath. 'That would be a lie with a number in it. People believe the number.' She does not look at you. 'So would it.'".
+  }
+  Topic isaura_will_write with isaura travelling "Ask Isaura to write the false figure in the ledger of water" when knows(actor, ledger_of_water) and knows(actor, auditor_known) and not isauraWillWrite(isaura) and not countFalsified(reckoner) once {
+    Says "She looks at you for a long time, and you see her decide, and you see what it costs. 'I'll write it,' she says. 'Not here. In front of it. If it's going to believe a lie of mine it can watch me tell it.' She puts her ledger away in her coat, carefully, the way you would put away something you are not going to use again. 'After this I don't think I'll be able to measure anything. Not honestly. I'll always know I can do the other thing.' She almost smiles. 'Noted.'".
+    On discuss { Assert isauraWillWrite(isaura). }
+  }
+
+  // The doubles: stay too long among the Reflected and they make a copy of you, and it walks up into the Bowl.
+  Relation doubled(group).
+  Measure mirrorWatches(group). Measure lastMirror(group).
+  Rule mirror_ticks when (at(party, mirror_ward) or at(party, mirror_square) or at(party, stair_foot) or at(party, mirror_sounding) or at(party, mirror_office)) and watch(clock) > lastMirror(party) {
+    Increase mirrorWatches(party) by 1. Set lastMirror(party) to watch(clock). }
+  Rule doubles_rise at mirror_ward when at(party, mirror_ward) and not doubled(party) and mirrorWatches(party) >= 1
+    says "On the steps of the Ward in the water, one by one, figures stand up that were not there: a woman in a long coat with a rod under the wrong arm; and the rest of you, every one, clear as glass and the wrong way round. They look at you with your own faces, attentively, the way you would look at a word you meant to learn." {
+    Assert doubled(party). }
+  Relation doublesLoose(group).
+  Rule doubles_walk when doubled(party) and mirrorWatches(party) >= 12 and not doublesLoose(party)
+    says "Behind you in the Ward in the water, the figures with your faces get up off the steps all together and walk away up the stair toward the coin of light that is the Mere from below." {
+    Assert doublesLoose(party). }
+  Observe doubles_on_landing at ward_landing when doublesLoose(party) and dark() and approach(bowl) >= 1 and not broken(reckoner) "Among the Reflected on the landing, now, there is a company you know: the wrong way round, standing where you stood, singing.".
+  Topic dov_doubles with dov "Ask Dov why the Ward looks at you the way it does" when doublesLoose(party) once {
+    Says "'Because you were on the landing last night,' says Dov. 'All of you. Measure too, with the rod in the wrong hand. Singing with the rest of them.' He looks at you very hard. 'And here you are in my yard with your hands the right way round.' He spits, and does not look away. 'I'll take your word for which is which. The Ward won't. Don't come down the steps after dark.'".
   }
 }
