@@ -59,7 +59,7 @@ export class DeepArgument {
     return [`  Entity ${w}_move_${id}: fact ${q(label)}.`,
       `  Action ${w}_${id}(actor: group, site: place) ${q(label)} {`, `    Speaker ${p}.`, '    Time 5 minutes.',
       `    Requires able(actor) and at(actor, site) and at(${p}, site) and ${w}_heard(${p}) and not ${w}_won(${p})`
-        + ` and not refusesService(${p}, actor) and not ${latch}${m.needs ? ` and ${f(m.needs)}` : ''}.`,
+        + ` and able(${p}) and not refusesService(${p}, actor) and not ${latch}${m.needs ? ` and ${f(m.needs)}` : ''}.`,
       `    Resolve check(actor, ${m.check}).`, `    On success { Assert ${latch}. ${gain} }`,
       `    On failure { Assert ${latch}.${m.caught ? ` ${shut}` : ''} }`,
       `    Result ${q(yes)}.`, `    Otherwise ${q(f(m.no))}.`, '  }'].join('\n');
@@ -70,7 +70,7 @@ export class DeepArgument {
     return [`  Action ${w}_promise(actor: group, site: place) ${q(f(this.said.promise.label))} {`,
       `    Speaker ${p}.`, '    Time 2 minutes.',
       `    Requires able(actor) and at(actor, site) and at(${p}, site) and ${w}_heard(${p}) and not ${w}_won(${p})`
-        + ` and not refusesService(${p}, actor).`,
+        + ` and able(${p}) and not refusesService(${p}, actor).`,
       `    On success { Assert ${w}_won(${p}). Assert ${w}_promised(${p}). Assert knows(actor, ${w}_bane). }`,
       `    Result ${q(f(this.said.promise.yes))}.`, '  }'];
   }
