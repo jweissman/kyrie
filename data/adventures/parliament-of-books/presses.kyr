@@ -71,12 +71,24 @@ Module calamy "A Parliament of Books" {
   Observe press_broken_note at press_room when pressBroken(doble) "The great press stands with its bar sheared off and its platen cracked through. Type lies in the sweepings. The forme of the Pleas has been broken up with a mallet; Doble's men are picking the letters out of the floor one by one.".
 
   // The Awls: the Binders' lads, on the night between the fourth day and the fifth.
+  // A temperament given a person overrides its keeping the peace, so the Awls warn and come by rules of their own: by
+  // day they are Binders' lads at their benches, and only on the fourth night are they anything else.
   Person awls "the Awls" at hall_floor {
     Role "Binders' lads with awls and mallets". Ancestry human. Calling warrior. Level 1. Numbers 3. Peaceable.
-    Temperament territorial. Refuge hall_floor.
-    Warns "In the dark of the yard shapes come over the wall, four, five: Binders' lads in leather aprons with mallets and awls, and Saul Vetch at the front of them. 'Out of the way,' says Saul. 'We've no quarrel with you. It's the machine.'".
-    Comes "The Awls come at you with their mallets.".
-    Pleads "The Awls break and run for the wall, all but one, who sits down on a paper bale holding his head and says he only came because Saul said.".
+    Seen when not peaceable(awls).
+  }
+  Relation awlsWarned(group). Measure awlsPatience(group).
+  Rule awls_warn at press_yard when at(awls, press_yard) and not peaceable(awls) and at(party, press_yard) and not awlsWarned(awls) and not awlsStopped(saul)
+    says "In the dark of the yard shapes come over the wall, three of them, then Saul Vetch: Binders' lads in leather aprons with mallets and awls. 'Out of the way,' says Saul. 'We've no quarrel with you. It's the machine.'" {
+    Assert awlsWarned(awls). Set awlsPatience(awls) to watch(clock) + 1. }
+  Rule awls_come at press_yard when awlsWarned(awls) and at(awls, press_yard) and at(party, press_yard) and not peaceable(awls) and not awlsStopped(saul)
+    and watch(clock) >= awlsPatience(awls) and not assails(awls, party) says "The Awls come at you with their mallets." {
+    Assert assails(awls, party). }
+  Action stand_aside(actor: group, site: place) "Stand aside and let the Awls at the press" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(awls, site) and awlsWarned(awls) and not peaceable(awls) and not awlsStopped(saul).
+    Time 1.
+    On success { Assert pressBroken(doble). Assert awlsStopped(saul). Assert at(awls, hall_floor). Assert peaceable(awls). Retract assails(awls, actor). }
+    Result "You stand aside. It takes them a quarter of an hour, with mallets and a crowbar, and the sound is like a ship breaking up on rocks. Saul Vetch does not look at you as they go back over the wall.".
   }
   Rule awls_out when awlsPlanned(saul) and not awlsStopped(saul) and day(clock) == 5 and hour(clock) == 1 and not awlsGone(awls) {
     Assert at(awls, press_yard). Retract peaceable(awls). Assert awlsGone(awls). Set awlsAt(awls) to watch(clock). }
@@ -87,7 +99,7 @@ Module calamy "A Parliament of Books" {
   Rule awls_break when at(awls, press_yard) and not pressGuarded(doble) and not at(party, press_yard) and watch(clock) >= awlsAt(awls) + 3 and not awlsStopped(saul)
     says "In the small hours there is a noise from Newmarket like a ship breaking up on rocks. By morning everyone in the city knows: the Awls broke Doble's press." {
     Assert pressBroken(doble). Assert at(awls, hall_floor). Assert peaceable(awls). Assert awlsStopped(saul). }
-  Rule awls_routed when at(awls, press_yard) and routed(awls) and not awlsStopped(saul) { Assert awlsStopped(saul). }
+  Rule awls_routed when at(awls, press_yard) and (routed(awls) or dead(awls)) and not awlsStopped(saul) { Assert awlsStopped(saul). }
   Rule awls_home when awlsStopped(saul) and at(awls, press_yard) and not threatened(party) and hour(clock) >= 4 and hour(clock) < 6 { Assert at(awls, hall_floor). Assert peaceable(awls). }
   Topic doble_warn with doble "Warn Ambrose Doble that the Binders' lads mean to break his press on the fourth night" when knows(actor, awls_plan) and not awlsStopped(saul) and not pressGuarded(doble) once {
     Says "Doble stops smiling. 'Mott's lads?' He looks through the window at his presses. 'No. Not Mott. Mott would sooner cut off his hand.' He thinks. 'Vetch. That journeyman of his with the face.' He calls through the window: 'Hob! I want six men in the yard tomorrow night, with lanterns and the dogs, and a jug for them, and nobody to touch a Binder unless a Binder touches the press.' He turns back to you and shakes your hand again, harder. 'I owe you a press.'".

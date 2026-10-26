@@ -129,6 +129,7 @@ Module calamy "A Parliament of Books" {
   Observe ague_seen at pudding_lane when not cured(nance) "The girl on the step shakes so that her teeth click. Her mother looks at you, and at your clothes, and away." teaches ague_known.
   Person nance "Goody Nance" at nance_room {
     Role "midwife and nurse of the Hithe". Ancestry human. Profession herbalist. Peaceable. Manner compassionate. Pronouns she.
+    Wants pages_kind. Wants calamus_kind.
     Greets "A small square woman with her sleeves rolled up and a kettle on the hob looks you up and down. 'Sick, or sent for?'".
   }
   Relation cured(group).

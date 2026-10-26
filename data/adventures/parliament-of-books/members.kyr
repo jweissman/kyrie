@@ -193,7 +193,19 @@ Module calamy "A Parliament of Books" {
     Warns "Off the black stones of the tower two capitals stand up, an O and a V, as tall as you, all spikes and serifs, and move to stand across the foot of the stair.".
     Comes "The Black Letters come at you.".
   }
-  Observe letters_pass at vask_foot when routed(black_letters) "Two black capitals lie fallen across the foot of the tower stair, illegible.".
+  Observe letters_pass at vask_foot when routed(black_letters) or dead(black_letters) or lettersNamed(black_letters) "Two black capitals lie fallen across the foot of the tower stair, illegible.".
+  Discovery vask_letters "The Catalogue's entry for the Black Lexicon: OF ODDNY VASK HER BOOK. Its guardians are its maker's initials, an O and a V, cut in its tower; named aloud by a reader, they lie down, as a dog does that hears its master's name.".
+  Topic catalogue_vask with catalogue "Ask the Catalogue about the Black Lexicon" when true once {
+    Says "A single drawer, low down, slides out an inch, very reluctantly, and shuts again. 'Entered,' says the Catalogue. 'Of Oddny Vask her book. Refused since 1060. Chained since 1210.' A pause. 'Its tower is kept by its maker's initials, an O and a V, cut in the stones; they stand up for strangers. Named aloud, by a reader, they lie down. A capital knows its own name.' Another pause. 'The clerk does not advise going there. The clerk has said so in the record.'".
+    On discuss { Assert knows(actor, vask_letters). }
+  }
+  Relation lettersNamed(group).
+  Action name_letters(actor: group, site: place) "Name the Black Letters aloud: O, for Oddny; V, for Vask" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, vask_foot) and at(black_letters, site) and knows(actor, vask_letters) and not lettersNamed(black_letters).
+    Time 2 minutes.
+    On success { Assert lettersNamed(black_letters). Assert tolerates(black_letters, actor). Assert peaceable(black_letters). }
+    Result "You say them, clearly, as you would read them off a page: O. For Oddny. V. For Vask. The two black capitals stop. They seem to listen, the way letters do when you say them aloud. Then they lie down across the foot of the stair, spikes and serifs and all, and are only letters cut in stone.".
+  }
 
   // ── Dame Tibbet's Horn-Book: in the deep Foxing, fading. ──
   Person hornbook "Dame Tibbet's Primer" at foxing_deep {

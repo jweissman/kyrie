@@ -15,6 +15,12 @@ Module calamy "A Parliament of Books" {
     On success { Assert slippedGlosses(actor). Assert tolerates(scholiasts, actor). }
     Result "You watch the thicket for a while the way you would watch a wood: where the notes are thickest, where they move, which way they all face. Then you go round, slowly, downwind of the ink, and the Scholiasts mutter and do not come.".
   }
+  Action cite_glosses(actor: group, site: place) "Answer the Scholiasts' SIC with a citation, chapter and verse" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gloss_wood) and craft(actor, craft_learning) and not slippedGlosses(actor).
+    Time 1.
+    On success { Assert slippedGlosses(actor). Assert tolerates(scholiasts, actor). }
+    Result "SIC, mutter the Scholiasts, crowding out of the thicket. You answer them as one answers a gloss: with the authority, the edition, the page and the line, and a counter-gloss of your own on their reading of it. The swarm stops. It confers in a rustle of tiny handwriting. Then it parts for you, muttering vid. and cf. and, grudgingly, recte.".
+  }
   Person corday "Corday's Grammar of the Sword" at margin_edge {
     Role "a fencing manual, sulking". Peaceable. Pronouns he. Manner proud.
     Greets "A long thin book in scuffed red calf sits with its back to the last of the glosses and its covers crossed like arms. 'Corday,' it says, without turning. 'The Grammar of the Sword. In nine positions and their answers.' A sniff. 'Nobody reads fencing any more. They read the Scholiasts, who have never held a sword in their lives, and who wrote all over me.'".
@@ -23,7 +29,7 @@ Module calamy "A Parliament of Books" {
   Topic corday_story with corday "Ask Corday why he sulks out here" when true once {
     Says "'Because I was read,' says the Grammar bitterly. 'For a hundred years every young blood in Calamy read me with a foil in his other hand. Master Corday wrote me in a winter and died of it in the spring. And then the scholars got me. Glosses. Notes on the notes. Whether Corday meant the third position or the fourth, in forty thousand words, by men who could not tell a foil from a fish-slice.' He turns his spine on you. 'They followed me out here. They live in me. I came to the edge so I could at least not hear them.'".
   }
-  Topic corday_won with corday "Tell Corday the Scholiasts will not trouble him" when (routed(scholiasts) or slippedGlosses(actor)) and not cordayWon(corday) once {
+  Topic corday_won with corday "Tell Corday the Scholiasts will not trouble him" when (routed(scholiasts) or dead(scholiasts) or slippedGlosses(actor)) and not cordayWon(corday) once {
     Says "The red book turns round. It looks at you, and at the thicket behind you, quiet. 'You went through them,' it says. 'Or round them, which is the same, in the Grammar: position nine, the answer to a crowd.' It uncrosses its covers. 'Take me home. Take me back to Calamy and give me to somebody who will read me with a sword in their hand, and not a pen.' A pause. 'Or read me yourself. Not yet. I am the whole Grammar; I am no use to a beginner. When you have fought enough to know what you do not know, read me, and I will put it right.'".
     On discuss { Assert cordayWon(corday). Assert knows(actor, corday_given). }
   }

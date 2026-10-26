@@ -99,6 +99,10 @@ Module calamy "A Parliament of Books" {
     Says "'Out to the reeds?' Coddy knocks out his pipe on a stilt. 'For you, any tide. There's a dry way through to the heart of them if you know where the old stones are.' He whistles to the dog. 'Come on, then. Mind where I put my feet and put yours there.'".
     On discuss { Assert acceptsEscort(coddy, actor). }
   }
+  Topic coddy_join with coddy "Ask Coddy Fitch to come with you, wherever you are going" when coddyOwes(coddy) and not travelsWith(coddy, actor) once {
+    Says "Coddy looks at you sideways for a while, sucking his pipe. 'Wherever?' he says. 'You've a look about you of somebody going somewhere there's no eels.' He knocks the pipe out. 'Peg's married. The traps can mind themselves. I owe you.' He takes a gaff off the wall. 'I'm no fighter, mind. I'm a finder. I can find my way round most things that bite.'".
+    On discuss { Assert willing(coddy, actor). Set hire(coddy) to 0. }
+  }
   Topic coddy_old with coddy "Ask Coddy Fitch about the old stones in the reeds" when coddyOwes(coddy) and been(actor, reed_heart) once {
     Says "'The Drowned Town,' says Coddy. 'My granddad saw it the year of the Great Ebb, when the sea went out of the whole estuary for a day and a night and everybody walked out on the mud. Roofs. Streets. Stone ones, out past the reeds, all the way to where the sea came back.' He lights his pipe. 'Older than Calamy. Older than the road. Granddad said the roofs had writing on them and nobody could read it, and then the sea came back and nobody's seen them since but the ridge in the reeds there.' He puffs. 'Eels like it. That's all I care.'".
   }

@@ -89,7 +89,7 @@ Module calamy "A Parliament of Books" {
   Query standing(a: group) means entered(a) or sponsored(a).
   Person catalogue "the Catalogue of the Founders" at reading_room {
     Role "a cliff of little drawers, and a voice". Peaceable. Pronouns it. Manner stoic.
-    Greets "'Entered,' says the voice from the drawers, all of them at once. A card flutters down from very high up and settles in front of you, written in black, and flies up again. 'Calamy, a reader. You may proceed.' A pause. 'Do not pull out any drawers. They are in order.'".
+    Greets "'Reader,' says the voice from the drawers, all of them at once. A card flutters down from very high up, considers you, and flies up again. 'State your business. Do not pull out any drawers. They are in order.'".
   }
   Rule entered_by_reading when arrivedByReading(party) and at(party, reading_room) and not entered(party)
     says "A great many index cards come down out of the light round you like snow and settle on your shoulders and hands and hair, and are written on, and fly up again. 'Entered,' says a dry voice from everywhere. 'A reader, of Calamy, by the Founders' door. On the books.'" {
