@@ -76,7 +76,7 @@ Module calamy "A Parliament of Books" {
   Thing guide "a small book chained at the vestibule, worn soft" at hex_first {
     State chained "A little book hangs on a chain at the mouth of the vestibule, worn soft as a glove by hands.".
   }
-  Observe guide_read at hex_first of guide as reading when tried(guide, looking) "INSTRUCTIONS FOR THE READER ENTERING THE STACKS. Reader: you have come further than the Reading Room, which is not wise. Bring nothing written that you love; it will not come back as it went. Bring no pen; it will write what it likes. Calam-ink and the ink of the Wellhead hold, and nothing else. On the spiral, count the steps aloud going down; the stair adds one for anyone who does not, and the one it adds goes somewhere else. In the Hexagon of Mirrors read nothing that faces you: turn your back and read over your shoulder, as you would read a thing written on your own back. Do not look for the centre. There is a theory that the Library has a centre, and a lectern at the centre, and on the lectern the book of which all the others are commentaries. Many readers have gone to look. The theory is older than the Library. A pencil note in the margin, in an educated hand: Nine weeks in, and I have not found the vestibule twice. A.F. Under it, in brown ink, newer: There is an Author. T.H." teaches stacks_laws.
+  Observe guide_read at hex_first of guide as reading when tried(guide, looking) "INSTRUCTIONS FOR THE READER ENTERING THE STACKS. Reader: you have come further than the Reading Room, which is not wise. Bring nothing written that you love; it will not come back as it went. Bring no pen; it will write what it likes. Sign nothing. Calam-ink and the ink of the Wellhead hold, and nothing else. On the spiral, count the steps aloud going down; the stair adds one for anyone who does not, and the one it adds goes somewhere else. In the Hexagon of Mirrors read nothing that faces you: turn your back and read over your shoulder, as you would read a thing written on your own back. Do not look for the centre. There is a theory that the Library has a centre, and a lectern at the centre, and on the lectern the book of which all the others are commentaries. Many readers have gone to look. The theory is older than the Library. A pencil note in the margin, in an educated hand: Nine weeks in, and I have not found the vestibule twice. A.F. Under it, in brown ink, newer: There is an Author. T.H." teaches stacks_laws.
   Discovery stair_count "On the spiral stair of the Stacks, count the steps aloud going down; the stair adds one for anyone who does not, and the one it adds goes somewhere else.".
   Discovery mirror_trick "In the Hexagon of Mirrors read nothing that faces you: turn your back and read over your shoulder.".
   Discovery centre_theory "There is a theory, older than the Library, that it has a centre, and at the centre a lectern, and on the lectern the book of which all the others are commentaries. Two readers have left notes: A.F., lost nine weeks; T.H., who is sure there is an Author.".
@@ -227,5 +227,27 @@ Module calamy "A Parliament of Books" {
     On success { Assert knows(actor, mirror_read). }
     Result "You copy the reflections down in your head, reverse them, reverse them again, and the inscription comes out: THE CENTRE IS WHERE THE READER STANDS. One of the mirrors is a way on.".
     Otherwise "The letters will not hold still long enough to reverse. Every reflection is wrong in a different way.".
+  }
+
+  // ── The lending desk: a short way, for a name. ──
+  Thing lending_desk "the lending desk at the end of the lamps" at gallery_lamps {
+    State waiting "At the far end of the Gallery of Lamps a lending desk stands with a slip on it, and beside the slip a pen, inked, as if somebody had only just put it down.".
+  }
+  Observe desk_read at gallery_lamps of lending_desk as reading when tried(lending_desk, looking) "LENDING SLIP. The Library lends itself to the reader for the period of one reading. The reader will be shown the shortest way to what they are looking for. Reader's name: and a line, and the pen beside it, wet. Under the line, very small, in a hand you will come to know: The shortest way is a real way. It is the name that will not hold. A.F.".
+  Action sign_slip(actor: group, site: place) "Sign the lending slip, for the shortest way to what you are looking for" {
+    Grave "What is written in the Stacks does not stay written: your name included.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallery_lamps) and not misnamed(actor).
+    Time 1.
+    On success { Assert misnamed(actor). }
+    Result "You sign. The ink is still wet when you see that the name on the slip is not your name: it is in your hand, and it is very like your name, and it is somebody else's. The desk takes the slip into a drawer. At the end of the gallery, where there was a wall of lamps, there is a way, lit, short, going straight to wherever you meant to go. Somewhere behind you, in the Reading Room, a card in the Catalogue changes its mind about who you are.".
+  }
+  Passage lent_way "the lent way, lit" is path between gallery_lamps and rotunda taking 5 minutes
+    opening when misnamed(party) "Beyond the lending desk there is only a wall of lamps.".
+  Topic catalogue_rename with catalogue "Ask the Catalogue to enter you again, under your own name" when misnamed(actor) once {
+    Says "'You signed the slip,' says the Catalogue, with the weariness of a clerk who has seen it a great many times. A drawer opens and a card comes out with a name on it that is nearly yours. 'Say it,' says the Catalogue. 'Aloud. All of it. The Stacks cannot alter what is said; only what is written.' You say your name. The card hears it, and is corrected, and goes back. 'Entered,' says the Catalogue. 'Again. Do not sign things down there.'".
+    On discuss { Retract misnamed(actor). }
+  }
+  Topic fenwick_slip with fenwick "Ask Dr. Fenwick about the lending desk" when knows(actor, fenwick_met) once {
+    Says "Fenwick goes pale. 'I signed it,' he says, 'in my first week. It gave me the shortest way to the Hexagon of Doors, and I went there, and it was exactly as short as it said.' He looks at his hands. 'I have not been entirely sure of my name since. The Catalogue would fix it if I asked. I have not liked to ask. It might be right.'".
   }
 }

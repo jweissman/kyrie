@@ -104,3 +104,10 @@ from the direction of the Close, over the ranks to the hearth: Hester Rhule, rea
 The Ash is a strategic presence, not only a dungeon level: after the second Thursday burning its pickets come up into
 the Foxing (where the Primer is, saying its letters very fast); on Kindling eve the ranks march up the gangway from
 the Margin into the Chamber.
+
+## The Stacks, and the realms beyond
+
+Behind the Reading Room (by the Order of the Hexagons) and at the back of the Remainder Market (by the aisle that does
+not end) the Commonplace becomes the Library proper: fourteen hexagons and galleries charted, and the rest of it not.
+Its plan, its law and its people are in [12-the-stacks.md](12-the-stacks.md). From its Hexagon of Doors two books open
+on realms outside the Commonplace altogether: the Gate of Cthelll, and the lowest terrace of the Mount of the Exalted.

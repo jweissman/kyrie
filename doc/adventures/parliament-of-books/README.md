@@ -26,6 +26,7 @@ on after the Kindling with no ending to close the book.
 | [friction.md](friction.md) | What it cost to say this in Kyr |
 | [09-critique.md](09-critique.md) | An honest literary and experiential critique |
 | [10-changes.md](10-changes.md) | The record of changes: treatment → revision → implementation → final pass |
+| [12-the-stacks.md](12-the-stacks.md) | The third pass: the Infinite Library behind the Reading Room; its law, its readable books, its people, the murder of the Concordance, the doors to Cthelll and the Mount |
 | [11-second-pass.md](11-second-pass.md) | The second pass: a harder reading; the Ash and the Index; foreshadowing; ten times the ambition |
 
 ## The synopsis
@@ -74,14 +75,19 @@ Calamy clean.
    Crake's back stacks, unentered and hunted by the Errata. The members met in their own places: a house, a garden of
    burnt beds, a fading primer in the Foxing, a grimoire in chains. *Reversal three*, at the Wellhead: the Colophon
    was the books' own petition. Sleep was mercy. And the Recall would still kill the Quick.
-4. **The Cinderfield** (the descent). Under the Foxing, past a scorched edge, the burned of three hundred years stand
+4. **The Stacks** (the Library proper). Behind the Reading Room, hexagon after hexagon without end, where what is
+   written does not stay written: books one can read end to end (a bestiary of beings not yet imagined, the
+   Cyclopaedia of a country that is not, two true histories of the Library that contradict each other), a scholar
+   lost eleven years, a murdered Concordance, a binder looking for the Author at a centre that is not there, and two
+   doors: to Cthelll, and to the Mount of the Exalted. *Reversal*: nobody wakes a book; books wake from nearness.
+5. **The Cinderfield** (the descent). Under the Foxing, past a scorched edge, the burned of three hundred years stand
    in ranks; at the far end Censor-General Pardoe's Index drills them for the Kindling. Last year's almanack in the
    front rank; a book of hours with Rhule's father's knot; one beam of attention, from the Close. *Reversal four*: the
    danger is not the waking books but what Calamy's fear has made of the ones it burned, and Rhule has been feeding it.
-5. **The Parliament** (Kindling eve, day 9, from noon). Four articles (the Sleep, the Fire, the Reading, the Door),
+6. **The Parliament** (Kindling eve, day 9, from noon). Four articles (the Sleep, the Fire, the Reading, the Door),
    three readings each, six voices and a clerk; then the burned come up the gangway and the Index claims a seat, in
    order. What moves each member is a thing the company found, brought, knows, is, or has with it.
-6. **The Kindling** (day 9, twenty hundred) and **the morning after**. Who stands at the Ashpit; what goes on the fire;
+7. **The Kindling** (day 9, twenty hundred) and **the morning after**. Who stands at the Ashpit; what goes on the fire;
    what Calamy is like on the tenth day.
 
 ## The principal characters
@@ -102,6 +108,9 @@ Calamy clean.
   a man; burned at his own order with it in 1140; reasonable, grieving, and resolved to make Calamy a text that says
   exactly what it said the day before. It drills the burned for the Kindling, claims a seat in the Parliament, and
   offers a bargain. It can be fought, read whole, starved of its one reader, or bought off.
+- **Dr. Aurelian Fenwick** of the Lyceum, lost in the Stacks eleven years and sure it is nine weeks; **Tobias Hask**,
+  the expelled binder who murdered the Concordance of Every Word because it could not find the Author; **Quire
+  XVII**, the surviving quire (AUSPICE to AUTUMN), a pocket companion; **the Two Books**, who woke each other.
 - **Ottoline Quarles**, the Archivist, who knows the whole Colophon and will tell it only to someone who has found two
   pieces of it; and who owes a fine forty years overdue.
 - **Absalom Crake**, bookseller, smuggler of Unwritten books into printed bodies; the keeper of the back door.
@@ -133,8 +142,8 @@ something goes through Calamy with a knife), **The Year of Voices** (the Colopho
 
 ## An authored cosmology
 
-The Commonplace, the Sewing, the Colophon, the Parliament of the Bound, the Quick and the Unwritten, the Cinderfield
-and the Index, foxing as the blight of the unread, and editions as children are **this adventure's own invention**, offered as an authored
+The Commonplace, the Sewing, the Colophon, the Parliament of the Bound, the Quick and the Unwritten, the Stacks, their law
+and their books, Cthelll and the Mount of the Exalted as this Library reaches them, the Cinderfield and the Index, foxing as the blight of the unread, and editions as children are **this adventure's own invention**, offered as an authored
 contribution to Kyrie's world. Nothing in the engine or other modules depends on them, and nothing here claims they
 hold anywhere outside Calamy.
 

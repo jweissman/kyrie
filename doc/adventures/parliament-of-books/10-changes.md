@@ -72,3 +72,14 @@ sealed correspondence, the Catalogue on other cities' Commonplaces. The Almanack
 copies went; last year's almanack in the front rank. Removed the unreachable *Recall, After a Burning*. Trimmed 57
 reflexive intensifiers. Tuned the Cinders after they killed a level-8 warrior.
 
+## The third pass: the Stacks
+
+At the commission's further request, the Library Plane made deep ([12-the-stacks.md](12-the-stacks.md)): the Stacks
+behind the Reading Room (fourteen hexagons and galleries, four sealed ways onto stranger libraries); the law that
+writing drifts (registers, poems, letters, names); nine books readable end to end in the Stacks and three in Calamy
+that lead there (Fenwick's rejected report in the Provost's study, Hask's prospectus at Quennell's, the Stranger's
+Companion at the Lamb); Dr. Fenwick, Tobias Hask, Quire XVII, the Two Books, the ladder, the lamp, the Concordance; the
+murder; the spiral's added step, the Hall of Mirrors, the lending desk, the silverfish and the Bound Man; the doors to
+Cthelll and the Mount of the Exalted. Threads into the Ash: Rhule can Sew the Concordance; the Concordance makes the
+Index readable by anyone; the drifted register must be rewritten before the burned can be named.
+

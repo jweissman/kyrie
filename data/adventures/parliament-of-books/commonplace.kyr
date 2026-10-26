@@ -86,7 +86,8 @@ Module calamy "A Parliament of Books" {
 
   // Who comes, and how they are received: entered by the Catalogue, or brought through a door that is not on the books.
   Relation entered(group). Relation sponsored(group). Relation correctedEntry(group).
-  Query standing(a: group) means entered(a) or sponsored(a).
+  Query standing(a: group) means (entered(a) or sponsored(a)) and not misnamed(a).
+  Relation misnamed(group).
   Person catalogue "the Catalogue of the Founders" at reading_room {
     Role "a cliff of little drawers, and a voice". Peaceable. Pronouns it. Manner stoic.
     Greets "'Reader,' says the voice from the drawers, all of them at once. A card flutters down from very high up, considers you, and flies up again. 'State your business. Do not pull out any drawers. They are in order.'".

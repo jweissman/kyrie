@@ -82,6 +82,17 @@ describe('A Parliament of Books: the Stacks', () => {
       expect([...b.base.abilities, ...b.state.learnedAbilities]).toEqual(expect.arrayContaining(['doom_spiral', 'anoint']));
     }, 600000);
 
+  it('signs the lending slip for the shortest way to the Rotunda, and comes back under somebody else\'s name', async () => {
+    const j = await Calamy.start('slip');
+    await Calamy.play(j, ...withCrake, ...guide, 'go:gallery_lamps', 'Examine — Look closely', 'Sign the lending slip');
+    expect(Calamy.holds(j, 'misnamed', 'party')).toBe(true);
+    await Calamy.play(j, 'go:rotunda');
+    expect(j.at('party')).toBe(C('rotunda'));
+    // Its name altered, the company has no standing in the Parliament until the Catalogue hears it said aloud.
+    await Calamy.play(j, 'go:reading_room', 'Talk to the Catalogue', 'enter you again', 'Take your leave');
+    expect(Calamy.holds(j, 'misnamed', 'party')).toBe(false);
+  }, 600000);
+
   it('carries a book of its own into the Stacks, and it comes back different: the Effusions, rewritten good, no longer ask to burn',
     async () => {
       const j = await Calamy.start('drift');

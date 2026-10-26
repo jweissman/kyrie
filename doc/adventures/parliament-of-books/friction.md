@@ -112,6 +112,27 @@ the engine" means a narrow change on this branch; the rest are still true.*
     were not offered. Fixed by seating it in the petition itself. **Fix:** run a tick's rules to a fixpoint, or say in
     the guide that cross-file rule chains may lag a tick.
 
+## Met in the third pass (the Stacks)
+
+29. **A rule cannot assert knowledge, only teach it by saying something.** `Assert knows(party, x)` in a rule body is
+    refused ("a rule teaches what it says"), so a guide-book that teaches three rules needs three rules with three
+    lines of speech, and a fact about the world that is not a discovery (the quires recovered) must be a relation.
+    Reasonable, and the error says so; but it shapes the prose (every lesson is spoken).
+30. **Abilities in the catalogue are not all loaded.** `maze` and `true_sight` exist in
+    `data/catalog/orsino/abilities.json` but are not in `Content.abilities`, and a `Hazard … means "Teach maze to
+    ally."` lints clean and throws "Unknown taught ability" only when it strikes. **Fix:** lint taught abilities against
+    the loaded list.
+31. **A room with one thing in it labels the thing's examination generically** ("Examine — Look closely"), so a
+    journey cannot name *which* book it reads; with two or more, the names appear. Journeys had to know the room's
+    furniture count.
+32. **A passage's `opening when` is not visible to a route-finder.** The test router walked through sealed passages
+    (`unopened`) until taught to skip them; a player sees them as closed and described, which is what they are for.
+33. **A test waits by computed watch values captured too early** (`=${j.watch() + 14}` written in the same step list
+    as the walk before it). Not the engine's fault; the Journey API invites it.
+34. **No "good alignment".** The Book of the Exalted opens for the good; Kyrie has no alignment, so goodness is a
+    query over deeds and the lies not told. That is better fiction than an alignment letter; but it cannot see deeds
+    a module did not record.
+
 ## What was easy
 
 Topics with `when` and `once`; discoveries and the journal; the passage graph; `opening when … "text"` for a door

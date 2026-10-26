@@ -172,4 +172,10 @@ Module calamy "A Parliament of Books" {
   }
   Observe letter_left at jonquil_garret when at(jonquil_letter, jonquil_garret) and knows(party, letter_given) "On the chest, where Jonquil put it down for you, a letter sealed with candle-wax.".
   // He does not see midsummer, but he sees the Kindling, unless the ague goes up the lane first.
+
+  // A traveller's guide, left on a settle at the Lamb: the city as a visitor is told it.
+  Thing travel_guide "a traveller's guide-book left on the settle" at taproom {
+    State left "On the settle by the window somebody has left a little guide-book, much thumbed.".
+  }
+  Observe travel_guide_read at taproom of travel_guide as reading when tried(travel_guide, looking) "THE STRANGER'S COMPANION TO CALAMY, ITS SIGHTS AND CUSTOMS (Doble, Newmarket; price twopence). The traveller arriving by the causeway should take a room at the Lamb and Lantern, where the almanack on the nail is reliable as to tides. THE PENNY BRIDGE: ballads, pies, and the chapel pier, where the children's Kindling rhyme may be heard; the traveller is warned not to ask for the second verse. STITCHGATE: the Binders' Hall; Widow Gallon's ink, the blackest in the world; and Mr. Crake's bookshop, the Two Hands, where the curious will find anything, and the prudent will not go beyond the seventh bay of the back room, which is reputed not to end. THE CLOSE: the Church of the Lamp, whose lamp has never gone out, and the slab of Censor-General Pardoe, which visitors are asked not to stand on; the Court of Pleas; the Imprimatur, which licenses books, and on Thursdays burns them. GANNET HILL: the Lyceum, where the Archivist, Miss Quarles, has been the Archivist since before the oldest fellow was born; visitors may see the Chained Room on application to the Provost, and the window of Dr. Fenwick, who went to map Mr. Crake's back room and is expected back. THE KINDLING, on the ninth night after the March tide: the whole city burns last year's almanack on the Ashpit. It is very jolly.".
 }
