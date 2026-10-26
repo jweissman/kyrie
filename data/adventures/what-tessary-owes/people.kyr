@@ -69,7 +69,10 @@ Module tessary "What Tessary Owes" {
     Sells lamp_oil for 1 coin from 6.
     Sells oilskin for 2 coin from 3.
     Sells bandages for 1 coin from 4.
+    Sells chapbook for 1 coin from 2.
   }
+  Kind chapbook "a chapbook of ballads" is gear worth 1 weighing 0
+    described "Twenty pages of cheap reed-paper, badly printed: 'The Drowned Bell', 'Sally of the Withies', 'The Soldier's Return' and nine more, with a woodcut of a ship on the cover.".
   Kind oilskin "an oilskin" like cloak worth 2 weighing 2
     described "A fisherman's coat of oiled canvas, stiff as a board and smelling of linseed. Water runs off it.".
   Topic pitch_tide with pitch "Ask Jory Pitch about the tides" when true once {

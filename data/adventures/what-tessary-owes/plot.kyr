@@ -316,9 +316,11 @@ Module tessary "What Tessary Owes" {
     says "The door of the Keeper's room is forced from the hall side. Three lightermen, cudgels out, who had expected an old man." {
     Assert assails(lightermen, party). }
   Rule seal_taken when sealTried(ossel) and at(lightermen, seals_inner) and hour(clock) == 0 and not at(party, seals_inner)
-    and not sealGuarded(ossel) and able(lightermen) and at(great_seal, seals_inner) {
+    and not sealGuarded(ossel) and not sealHidden(ossel) and able(lightermen) and at(great_seal, seals_inner) {
     Assert sealStolen(ossel). Retract at(great_seal, seals_inner). Assert inside(great_seal, sault_strongbox).
     Retract at(lightermen, seals_inner). Assert at(lightermen, warehouse_floor). }
+  Rule seal_bed when sealTried(ossel) and at(lightermen, seals_inner) and hour(clock) == 0 and sealHidden(ossel) and not sealGuarded(ossel) and not at(party, seals_inner) {
+    Retract at(lightermen, seals_inner). Assert at(lightermen, warehouse_floor). Assert sealRaidFoiled(ossel). }
   Rule seal_kept when sealTried(ossel) and at(lightermen, seals_inner) and hour(clock) == 0 and sealGuarded(ossel) and not at(party, seals_inner) {
     Retract at(lightermen, seals_inner). Assert at(lightermen, warehouse_floor). Assert sealRaidFoiled(ossel). }
   Relation sealRaidFoiled(place).

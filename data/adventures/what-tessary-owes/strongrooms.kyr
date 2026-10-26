@@ -49,8 +49,6 @@ Module tessary "What Tessary Owes" {
     Role "a very young Scruple with ink on her ruled fingers and a bad habit of looking at the stair". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Wants chapbook.
   }
-  Kind chapbook "a chapbook of ballads" is gear worth 1 weighing 0
-    described "Twenty pages of cheap reed-paper, badly printed: 'The Drowned Bell', 'Sally of the Withies', 'The Soldier's Return' and nine more, with a woodcut of a ship on the cover.".
   Topic copyist_surface with copyist "Ask the Copyist about the surface" when true once {
     Says "The Copyist puts her pen down with enormous care. 'Is it true,' she says, very low, 'that up there people say things they do not mean? All the time? And nothing happens?' Before you can answer: 'Someone left a book in the Hall of Oaths with the silver once. Poems. In Tessarine. I have read it two hundred and eleven times.' She looks at the stair. 'There is one about a woman who promises to wait for a sailor and does not. And it is sad. And nobody unravels. I have never understood anything so well.'".
   }

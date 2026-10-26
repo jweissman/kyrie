@@ -9,6 +9,7 @@
     "strongrooms.kyr",
     "holding.kyr",
     "feast.kyr",
+    "voices.kyr",
     "company.kyr"
   ],
   "rules": [
