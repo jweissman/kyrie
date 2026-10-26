@@ -84,8 +84,8 @@ describe('The House That Grows: its law', () => {
   it('comes down by a lamp lit with dreg and left burning in the city', async () => {
     const s = await Ring.start();
     await Ring.up(s);
-    await Ring.act(s, 'Knock on a door that glints', Ring.look, 'back through a door that glints', 'Ask Quill about the lamps',
-      'Take from the lamp shelves', 'into the chimney of', 'Ask Quill to look at you', Ring.look, 'back through a door that glints',
+    await Ring.act(s, 'Knock on a door that glints', Ring.look, 'back through a door that glints', 'Ask Ottie about the lamps',
+      'Take from the lamp shelves', 'into the chimney of', 'Ask Ottie to look at you', Ring.look, 'back through a door that glints',
       Ring.look, 'back through the far door');
     expect(Ring.holds(s, 'hhg__lit', 'hhg__lamp_a')).toBe(true);
     const seen = Ring.said(await Ring.act(s, 'Pack › .*lamp.*Set down'));
@@ -174,7 +174,7 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
     expect(Ring.holds(late, 'hhg__paidMap', 'hhg__dace')).toBe(false);
   }, 180000);
 
-  it('finds Quill\'s red door scratched on a bunk shelf, by searching the bunk room', async () => {
+  it('finds Ottie\'s red door scratched on a bunk shelf, by searching the bunk room', async () => {
     const s = await Ring.start();
     await Ring.up(s);
     await Ring.act(s, Ring.look, 'back through a door with cold air', 'Search here');
@@ -185,7 +185,7 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
     const s = await Ring.start();
     await Ring.up(s);
     await Ring.act(s, Ring.look, 'back through a door with cold air', 'Search here', Ring.look, 'back through a door with cold air',
-      'Knock on a door that glints', Ring.look, 'back through a door that glints', 'Tell Quill about the red door',
+      'Knock on a door that glints', Ring.look, 'back through a door that glints', 'Tell Ottie about the red door',
       'Ask them to come with you', 'Take from the lamp shelves', 'into the chimney of', Ring.look, 'back through a door that glints',
       Ring.look, 'back through the far door', 'Pack › .*lamp.*Set down', Ring.look, 'back through the far door', Ring.look,
       'back through the far door');

@@ -64,32 +64,32 @@ Module lowwater "Low Water" {
   Topic tamsin_after with tamsin "Ask Tamsin how the singing is now" when restoredForGood(bowl) once {
     Says "'Packed.' Tamsin is glowing. 'More than before. People come to hear the Seventh. The counting one.' She giggles. 'Jessa says we're the lock-keepers now, all of us, and the boys at the back have started calling the low notes the Cupful.' Then, seriously: 'Cantor Orr says if we sing it wrong the Ward goes dry. She's joking. She's mostly joking. Nobody sings it wrong.'".
   }
-  Topic fisk_right with fisk "Ask Precentor Fisk whether he was right" when knows(actor, hymn_cause) and restoredForGood(bowl) once {
-    Says "Fisk draws himself up for a speech, and then, unexpectedly, does not make it. 'I said it was the Remainders,' he says. 'I said the dead were going down and away.' He looks down through the grating at the black water. 'It was the Remainders. It was not the dead. It was a gate, and a machine, and a girl's reform, and a boy's book.' He is silent. 'I had the conclusion and none of the reasons. That's not faith, Assessor. That's luck wearing a cassock.' And then, with a flicker of his old self: 'Still. I'll take the luck.'".
+  Topic fisk_right with fisk "Ask Precentor Penhale whether he was right" when knows(actor, hymn_cause) and restoredForGood(bowl) once {
+    Says "Penhale draws himself up for a speech, and then, unexpectedly, does not make it. 'I said it was the Remainders,' he says. 'I said the dead were going down and away.' He looks down through the grating at the black water. 'It was the Remainders. It was not the dead. It was a gate, and a machine, and a girl's reform, and a boy's book.' He is silent. 'I had the conclusion and none of the reasons. That's not faith, Assessor. That's luck wearing a cassock.' And then, with a flicker of his old self: 'Still. I'll take the luck.'".
   }
   Topic orr_after with orr "Ask Cantor Orr how she is" when orrStanding(orr) and hearingDone(ammerlin) once {
     Says "'Old,' says Cantor Orr. 'Sorry. Busy. In that order, most days.' She plays a chord, in tune for once. 'The young sing the Seventh as if it were the best part, which it isn't, and I let them, because it's the part that's for something.' She closes the lid. 'I'll tell you what I didn't expect. I didn't expect to like the counting. Four low notes, alike. I hated them for fifty years. Now I stand in the loft and the whole nave counts with me, and under the floor something counts back.' She looks at you. 'It's the best building I've ever stood in.'".
   }
 
-  // Abel Lusk goes down to the Ninth Lock once more.
+  // Abel Tarrant goes down to the Ninth Lock once more.
   Relation abelComes(group).
-  Topic abel_seventh with abel "Tell Abel Lusk the Seventh is sung again, and the Deep comes down" when restoredForGood(bowl) and not abelComes(abel) once {
+  Topic abel_seventh with abel "Tell Abel Tarrant the Seventh is sung again, and the Deep comes down" when restoredForGood(bowl) and not abelComes(abel) once {
     Says "Abel does not say anything at all. He gets up, takes the brass horn off its nail, looks at it, and puts it back. 'Tonight,' he says. 'I'll go down tonight. I'd like to see it the once more. If Piet will have an old man on his bench.' He is already looking for his coat.".
     On discuss { Assert abelComes(abel). }
   }
   Rule abel_goes_down when abelComes(abel) and hour(clock) == 18 and at(abel, lusk_room) { Retract at(abel, lusk_room). Assert at(abel, ninth_lock). }
   Rule abel_goes_home when abelComes(abel) and hour(clock) == 22 and at(abel, ninth_lock) { Retract at(abel, ninth_lock). Assert at(abel, lusk_room). Retract abelComes(abel). Assert abelSaw(abel). }
   Relation abelSaw(group).
-  Observe abel_and_piet at ninth_lock when at(abel, ninth_lock) and at(piet, ninth_lock) "Abel Lusk and Piet Harl sit side by side on the keeper's bench, the old man and the young one, both with their hands on their knees, both watching the Deep Gate, neither saying anything.".
+  Observe abel_and_piet at ninth_lock when at(abel, ninth_lock) and at(piet, ninth_lock) "Abel Tarrant and Piet Harl sit side by side on the keeper's bench, the old man and the young one, both with their hands on their knees, both watching the Deep Gate, neither saying anything.".
   Topic abel_saw with abel "Ask Abel how it was, at the Ninth Lock" when abelSaw(abel) once {
     Says "'Same as ever,' says Abel, and his voice goes. 'Same as it ever was. Up at the Sixth, down at the Seventh. Cupful.' He wipes his eyes on his sleeve without any embarrassment at all. 'Piet wrote it in capitals. I told him off.' He laughs. 'I didn't mean it.'".
   }
 
   // Sella, after.
-  Topic sella_after with sella "Ask Sella Marsh whether the hands were paid" when paidHands(sella) once {
+  Topic sella_after with sella "Ask Sella Corbin whether the hands were paid" when paidHands(sella) once {
     Says "'Lammas to now, every penny.' Sella does not quite smile. 'You said it first, at the Council. Before anything. I was at the back. I heard it.' She looks at the hammers going. 'I had a bet with myself you'd forget.' A pause. 'I'm glad I lost.'".
   }
-  Topic sella_forgotten with sella "Ask Sella Marsh how things are at the mills" when promised(party, sella) and hearingDone(ammerlin) and not laid(ex_hands) once {
+  Topic sella_forgotten with sella "Ask Sella Corbin how things are at the mills" when promised(party, sella) and hearingDone(ammerlin) and not laid(ex_hands) once {
     Says "Sella does not look at you. 'You promised,' she says. 'First, before anything. I gave you the report on it.' She turns back to the hammers. 'I had a bet with myself you'd forget. I won.'".
   }
 

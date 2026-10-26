@@ -7,7 +7,7 @@ Module corrow "Let One Remember" {
 
   Place scarp_foot "the foot of the Scarp" is room within scarp at 0, 1.
   Place eighth_bend "the eighth bend of the Peleth road" is room within scarp at 0, 0.
-  Place collar "the Collar" is room within stake at 1, 1.
+  Place collar "the Hawse" is room within stake at 1, 1.
   Place chimneys "the street of chimneys" is room within stake at 0, 1.
   Place rim "the rim of the Well" is room within stake at 2, 1.
   Place drove_gate "the drove-road gate" is room within stake at 0, 0.
@@ -19,7 +19,7 @@ Module corrow "Let One Remember" {
   Passage scarp_bends "the bends of the Peleth road" is road between scarp_foot and eighth_bend taking 4 hours.
   Passage last_bend "the ninth bend" is road between eighth_bend and chimneys taking 30 minutes.
   Passage chimney_way "the way between the chimneys" is path between chimneys and collar.
-  Passage collar_rim "the lee of the Collar" is path between collar and rim.
+  Passage collar_rim "the lee of the Hawse" is path between collar and rim.
   Passage cistern_steps "the cistern steps" is steps between collar and inn_room.
   Passage chapel_door "the chapel door" is doorway between collar and chapel_room.
   Passage guild_door "the guild's door" is door between chimneys and guild_room.
@@ -34,7 +34,7 @@ Module corrow "Let One Remember" {
 
   Observe chimneys_scene at chimneys when not dark() "Brannock's Stake burned ninety years ago when the slowed fire came up the shaft, and what stood up afterwards was chimneys: stone stacks without houses, a whole street of them, and between them salvagers' huts of salvaged timber and canvas. Smoke rises from a few. Everything is pointed toward the hole.".
   Observe chimneys_night at chimneys when dark() "The chimneys stand black against a sky with one low cluster of lights in it, to the north, high up. A dog barks at nothing.".
-  Observe collar_scene at collar when true "The Collar was a ring of bronze-clad stone sixty metres across that guided the Chain into the Well. The fire slagged it into lumps like a burnt loaf. The market stands in its lee: rope, lamps, oatcake, rumour. Wind comes up out of the ground on the far side, warm, at a walking pace.".
+  Observe collar_scene at collar when true "The Hawse was a ring of bronze-clad stone sixty metres across that guided the Chain into the Well. The fire slagged it into lumps like a burnt loaf. The market stands in its lee: rope, lamps, oatcake, rumour. Wind comes up out of the ground on the far side, warm, at a walking pace.".
   Observe rim_scene at rim when true "The rim of the Emptied Well. Four hundred metres across, and black glass for the first thirty down, then broken rock, then darkness. Warm air rises past your face out of it, and a scrap of paper someone dropped goes up with it and does not come down. Salvagers' ropes go over the edge from iron pins, swaying. To the left a spiral stair is cut into the wall, with a brass bell at its head.".
   Observe drove_gate_scene at drove_gate when true "A field gate at the west end of the ruins, where the drove road goes off over the sinkhole country toward Keld, eighteen kilometres. A shepherd's staff leans by the post for anyone to borrow: the ground out there falls in.".
   Observe furrow_end_scene at furrow_end when true "The north edge of the ruins. From here you can see the furrow: a raw trench three metres deep running north across the plateau, and at the end of it, ten kilometres off, a smudge of smoke and timber where the Chain comes down out of the sky to the ground.".
@@ -85,15 +85,15 @@ Module corrow "Let One Remember" {
     On discuss { Assert knows(actor, seam_reads). }
   }
 
-  // The Collar's tally, under the slag, for anyone who can read link-script.
-  Action read_collar(actor: group, site: place) "Ask Teshen to read the tally under the Collar's slag" {
+  // The Hawse's tally, under the slag, for anyone who can read link-script.
+  Action read_collar(actor: group, site: place) "Ask Teshen to read the tally under the Hawse's slag" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, collar) and travelsWith(teshen, actor)
       and not knows(actor, collar_tally).
     Time 2.
     On success { Assert knows(actor, collar_tally). }
-    Result "Teshen goes along the inner face of the Collar on her knees, feeling under the slag with her fingertips for the iron links set in the stone. 'Here,' she says, and reads it out, slowly, in the old speech and then in March. At 'the water-people talked' she makes a face. 'That's not fair,' she says. 'They forgot half of who they were, doing it.'".
+    Result "Teshen goes along the inner face of the Hawse on her knees, feeling under the slag with her fingertips for the iron links set in the stone. 'Here,' she says, and reads it out, slowly, in the old speech and then in March. At 'the water-people talked' she makes a face. 'That's not fair,' she says. 'They forgot half of who they were, doing it.'".
   }
-  Discovery collar_tally "The near-copy of the first link's tally on the Collar's inner face, read by touch under the slag: 'Hearth Orrisk and the hearths hold the star. Four thousand and one hundred hold. Iron holds iron. Bone holds iron. The water-people talked. Drevka Venmort holds the last.'".
+  Discovery collar_tally "The near-copy of the first link's tally on the Hawse's inner face, read by touch under the slag: 'Hearth Orrisk and the hearths hold the star. Four thousand and one hundred hold. Iron holds iron. Bone holds iron. The water-people talked. Drevka Venmort holds the last.'".
 
   // The cistern guild remembers who drew water on the night of the Unfall.
   Person warden_sall "Warden Sall" at guild_room {

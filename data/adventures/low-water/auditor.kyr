@@ -64,7 +64,7 @@ Module lowwater "Low Water" {
 
   // Piet's book, and the Ward's people, after.
   Topic piet_rising with piet "Ask Piet about the Deep Gate rising in the night" when risings(bowl) >= 1 once {
-    Says "Piet shows you the book. Under Down at the Seventh. Cupful, in his careful hand, a second line, shaking: Deep up at the Rising, after eleven. Not by the Sounding. 'They came up the Ward steps,' he says. 'Out of the water. They stood round the lock and sang the Sixth, and it went up. It doesn't care who sings.' He swallows. 'Master Lusk never said anything about that. Master Lusk never said anything about any of it.'".
+    Says "Piet shows you the book. Under Down at the Seventh. Cupful, in his careful hand, a second line, shaking: Deep up at the Rising, after eleven. Not by the Sounding. 'They came up the Ward steps,' he says. 'Out of the water. They stood round the lock and sang the Sixth, and it went up. It doesn't care who sings.' He swallows. 'Master Tarrant never said anything about that. Master Tarrant never said anything about any of it.'".
   }
   Topic dov_reflected with dov "Ask Dov about what comes up out of the Mere at night" when approach(bowl) >= 2 once {
     Says "Dov does not laugh, which is how you know. 'The Ward's keeping its doors shut after dark,' he says. 'First it was children saying it. Then old Marra. Then me.' He rubs his face. 'They stand on the landing, facing up the Bowl, and they sing. They look like people we know, only wrong-handed. My father was there last night. He drowned off the Tench nineteen years ago and he was there, with his net over the wrong shoulder.'".
@@ -72,8 +72,8 @@ Module lowwater "Low Water" {
   Topic dov_annet with dov "Ask Dov what he saw on the landing" when drowned(diggers) and approach(bowl) >= 1 once {
     Says "'Annet Kettle.' Dov says it to the ground. 'With her basket. Standing on the landing with the rest of them, clear as a glass of water, singing.' He looks up. 'Hob went down to her. I had to hold him. She didn't look at him. She was looking at the Sounding. They all look at the Sounding.'".
   }
-  Topic fisk_reflected with fisk "Ask Precentor Fisk about the Reflected" when knows(actor, reflected_known) once {
-    Says "For once Precentor Fisk takes no satisfaction in being right. 'Every soul a drop,' he says. 'I said it at three Councils. I said they went down, and away.' He is grey. 'I never thought they could come back up. I never thought anything down there would want them to.'".
+  Topic fisk_reflected with fisk "Ask Precentor Penhale about the Reflected" when knows(actor, reflected_known) once {
+    Says "For once Precentor Penhale takes no satisfaction in being right. 'Every soul a drop,' he says. 'I said it at three Councils. I said they went down, and away.' He is grey. 'I never thought they could come back up. I never thought anything down there would want them to.'".
   }
   Topic isaura_reflected with isaura travelling "Ask Isaura how many of them there were" when knows(actor, reflected_known) {
     Says "'{reflectedSeen(bowl)}, as near as I could count; they're hard to count, you can see through them to the ones behind.' She says it flatly, the way she reads gauges. Then: 'More every night.' Then, not flatly at all: 'There was one of me. Did you see? With the rod in the wrong hand.' She looks at her own right hand for a while. 'Noted.'".

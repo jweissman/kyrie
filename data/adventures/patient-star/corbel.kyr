@@ -18,7 +18,7 @@ Module season "The Patient Star" {
   Place offers "the Offers" is room within c_mid at 2, 0.
   Place rail "the Rail" is room within c_high at 0, 0.
   Place interlocutor_room "the Interlocutor's chamber" is room within c_high at 1, 0.
-  Place seam "the Seam" is room within c_high at 2, 0 outdoors.
+  Place seam "the Selvage" is room within c_high at 2, 0 outdoors.
 
   // Up the filament: three kilometres of direct light, resting on held cranes; in full felt about eight points by
   // the top.
@@ -170,10 +170,10 @@ Module season "The Patient Star" {
     Result "'Agreed,' says your own voice, out of the walls, and somewhere below, very far down, last week begins to go.".
   }
 
-  // C8: the Seam, the edge of Imbar, five kilometres up, where the light leaves the sky.
+  // C8: the Selvage, the edge of Imbar, five kilometres up, where the light leaves the sky.
   Passage chamber_seam "a stair up into black" is passage between interlocutor_room and seam taking 1 hour.
   Observe seam_scene at seam when true "The light leaves the sky. The stars are close and do not twinkle. The cold is like nothing on earth, because heat does not move here at all. The building goes on upward into black.".
-  Hazard seam_cold "the cold of the Seam" means "Deal (1d8) cold damage to ally.".
+  Hazard seam_cold "the cold of the Selvage" means "Deal (1d8) cold damage to ally.".
   Rule seam_cold_bites when at(party, seam) and not seamBitten(party) { Assert strikes(seam_cold, party). Assert seamBitten(party). }
   Relation seamBitten(group).
   Rule seam_leaves when seamBitten(party) and not at(party, seam) { Retract seamBitten(party). }

@@ -17,7 +17,7 @@ Module season "The Patient Star" {
   Place nave "the Nave of Sockets" is room within m_heart at 0, 0.
   Place heart "the Heart" is room within m_heart at 0, 1.
 
-  // From the Corbel's Seam, or the Keeping's Outer Wall.
+  // From the Corbel's Selvage, or the Keeping's Outer Wall.
   Passage spine_from_seam "up into the black, onto the Spine" is passage between seam and spine taking 20 minutes.
   Passage spine_from_wall "along a tendril of course-work through the Wall" is passage between outer_wall and spine taking 20 minutes.
   Passage spine_wing "the bridge to a wing door" is passage between spine and finished_door taking 20 minutes.

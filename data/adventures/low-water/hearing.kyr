@@ -44,7 +44,7 @@ Module lowwater "Low Water" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and promised(actor, sella) and not laid(ex_hands).
     Time 1.
     On success { Assert laid(ex_hands). Increase credence(council) by 1. }
-    Result "You say it first, as you promised: four hundred people, Lammas, the charter. It is not what the hall expected. At the back Sella Marsh folds her arms and nods once. On the front bench Harrow Quill stops smiling for the first time.".
+    Result "You say it first, as you promised: four hundred people, Lammas, the charter. It is not what the hall expected. At the back Sella Corbin folds her arms and nods once. On the front bench Harrow Quill stops smiling for the first time.".
   }
   Action lay_channel(actor: group, site: place) "Lay before the Council the Channel's draw: twenty-two ells a day" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, channel_measured) and not laid(ex_channel).
@@ -56,13 +56,13 @@ Module lowwater "Low Water" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and carries(actor, report_copy) and not laid(ex_report).
     Time 1.
     On success { Assert laid(ex_report). Increase credence(council) by 2. }
-    Result "You read the last page aloud: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL. Countersigned, H. Quill, Master. The paper goes along the Council's table hand to hand. Quill does not look at it. He looks, for a long moment, at the back of the hall, where Sella Marsh is standing, and then he looks at the ceiling.".
+    Result "You read the last page aloud: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL. Countersigned, H. Quill, Master. The paper goes along the Council's table hand to hand. Quill does not look at it. He looks, for a long moment, at the back of the hall, where Sella Corbin is standing, and then he looks at the ceiling.".
   }
   Action lay_report_original(actor: group, site: place) "Lay before the Council the Corran engineers' report, countersigned by Quill" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and carries(actor, report) and not carries(actor, report_copy) and not laid(ex_report).
     Time 1.
     On success { Assert laid(ex_report). Increase credence(council) by 2. }
-    Result "You read the last page aloud: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL. Countersigned, H. Quill, Master. The paper goes along the Council's table hand to hand. Quill does not look at it. He looks, for a long moment, at the back of the hall, where Sella Marsh is standing, and then he looks at the ceiling.".
+    Result "You read the last page aloud: THE CHANNEL AS CUT CANNOT ACCOUNT FOR ONE PART IN THREE OF THE FALL. Countersigned, H. Quill, Master. The paper goes along the Council's table hand to hand. Quill does not look at it. He looks, for a long moment, at the back of the hall, where Sella Corbin is standing, and then he looks at the ceiling.".
   }
   Action lay_tally(actor: group, site: place) "Lay before the Council Isaura Vant's tally: forty ells a day that arrive nowhere" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, discrepancy) and isauraSigns(isaura) and not laid(ex_tally).
@@ -90,7 +90,7 @@ Module lowwater "Low Water" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, hymn_cause) and not laid(ex_hymn).
     Time 1.
     On success { Assert laid(ex_hymn). Increase credence(council) by 1. }
-    Result "You tell them about the Lock-Rhyme the children skip to, and what the Seventh Remainder told the Deep Gate, and the autumn it stopped. On the Cantors' bench Precentor Fisk is on his feet with a face like the end of the world, and Cantor Orr's hand on his sleeve is pulling him down.".
+    Result "You tell them about the Lock-Rhyme the children skip to, and what the Seventh Remainder told the Deep Gate, and the autumn it stopped. On the Cantors' bench Precentor Penhale is on his feet with a face like the end of the world, and Cantor Orr's hand on his sleeve is pulling him down.".
   }
   Rule orr_speaks when laid(ex_hymn) and present(orr) and at(orr, moot_hall) and not spoke(orr)
     says "Cantor Orr stands. She does not ask leave. 'I cut it,' she says, to the Council and the hall. 'I cut three thousand years out of the Hymn because the children were bored, and I was proud of it, and I was right that they were bored, and I was wrong about everything else.' She looks at the back of the hall, at the Ward. 'I am sorry. We sing it again every night now. I'll sing it till I die.' She sits. The hall is so quiet you can hear the fountain in the square." {
@@ -114,7 +114,7 @@ Module lowwater "Low Water" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and knows(actor, census_read) and laid(ex_engine) and not laid(ex_census).
     Time 1.
     On success { Assert laid(ex_census). Increase credence(council) by 1. }
-    Result "IT COUNTS WHAT IS BOUND. Some of the hall hears souls and some hears nonsense and Precentor Fisk hears vindication and says so, and is hushed again. The Councillor for the Third Lock asks how many it has counted. You tell her. She writes the figure down, and then looks at it as if it might bite.".
+    Result "IT COUNTS WHAT IS BOUND. Some of the hall hears souls and some hears nonsense and Precentor Penhale hears vindication and says so, and is hushed again. The Councillor for the Third Lock asks how many it has counted. You tell her. She writes the figure down, and then looks at it as if it might bite.".
   }
   Action lay_diggers(actor: group, site: place) "Lay before the Council the names of the three diggers who drowned" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and drowned(diggers) and not laid(ex_diggers).
@@ -237,7 +237,7 @@ Module lowwater "Low Water" {
   // What the Council's verdict leaves the Bowl.
   Rule hands_paid when charterRenewed(ammerlin) and not paidHands(sella) says "On the Rim, by evening, the Guild's mill hands are paid: Lammas to now, in Guild silver, the creditors having been told about the charter." { Assert paidHands(sella). }
   Relation paidHands(group).
-  Observe mills_out at fulling_mills when charterLost(ammerlin) "The mills are dead, the Channel dry, and the counting-house shuttered. Sella Marsh is sitting on the bench by the door, alone, as if she were still waiting to be paid.".
+  Observe mills_out at fulling_mills when charterLost(ammerlin) "The mills are dead, the Channel dry, and the counting-house shuttered. Sella Corbin is sitting on the bench by the door, alone, as if she were still waiting to be paid.".
   Rule ward_kept when titlesFrozen(ammerlin) and decided(council) and not quillDeal(quill) and not wardKept(ammerlin) { Assert wardKept(ammerlin). }
   Relation wardKept(place).
   Rule plots_sealed when quillDeal(quill) and decided(council) and not plotsSealed(ammerlin) says "The Office seals the Ward plots to the Guild: the dig, the Listening Hall's ground, half Tench Row. In the Ward nobody says anything about it where the Office can hear." { Assert plotsSealed(ammerlin). }

@@ -213,7 +213,7 @@ Module season "The Patient Star" {
   Initially Assert favours(aske, motion_cover). Initially Assert favours(aske, motion_descend).
   Initially Assert favours(mance, motion_descend).
   Initially Assert redLine(bren, motion_cover). Initially Assert redLine(aske, motion_bargain).
-  Observe concord_scene at chapter when convened(chapter) "The chapter house is full: the Warden in his sash for the Crown; Ayzhe of the Split Ear; Bren of Ennick with his hood in his hands; Dagny Ferrow for the Mutual; the prior at the head of the table; Ruan Dace for the Waiting. Nobody sits next to anybody they can help it.".
+  Observe concord_scene at chapter when convened(chapter) "The chapter house is full: the Warden in his sash for the Crown; Ayzhe of the Split Ear; Bren of Ennick with his hood in his hands; Dagny Ferrow for the Mutual; the prior at the head of the table; Ruan Haldane for the Waiting. Nobody sits next to anybody they can help it.".
   // Evidence, shown with its proof, moves every seat that cares about it.
   Action show_feeding(actor: group, site: place) "Show the Concord what the held feed" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter) and convened(chapter)

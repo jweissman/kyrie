@@ -114,7 +114,7 @@ describe('The Patient Star', () => {
     await j.phase('quell_to_hour', 'hour', 'crown_and_reach');
     await j.play('To the Riot Hall', 'To the head of the Seridane Reach', 'To the foot of the Crown', 'To the Burning Wood',
       'To where the Courses broke', 'To the Courses', 'To the hot gallery', 'To the Coverers', 'To the hot gallery',
-      'To the Listening Hall', '~To the head of the Steam Stair', 'To the Granary Ring', 'To the Plate Hall',
+      'To the Waiting Hall', '~To the head of the Steam Stair', 'To the Granary Ring', 'To the Plate Hall',
       'Mirror Road, south stretch', 'Mirror Road, north stretch', 'To the West Gate', 'To the West Gallery, at the Neck',
       'To the foot of the North Well', 'To the North Well head', 'To the Shift Market', 'To the Ramp head',
       "To Ennick's lower road", 'To the foot of the west cliff', 'To the lower name-tombs', 'To an empty name-tomb',

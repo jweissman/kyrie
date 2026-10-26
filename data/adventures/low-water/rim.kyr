@@ -82,16 +82,16 @@ Module lowwater "Low Water" {
   // The mills, and the people whose work the Channel is.
   Observe mills_scene at fulling_mills when state(channel_gate, to_mills) "Eight new mill-houses of yellow brick stand along the Channel with their wheels turning and their hammers going, and the whole Rim shakes with it. Wet cloth hangs from frames in long red and blue banners. Four hundred people work here, more or less; the more is in the morning.".
   Observe mills_idle at fulling_mills when not state(channel_gate, to_mills) "The mill wheels stand still in an empty channel. The hammers are up. Cloth hangs half-fulled on the frames, and the mill hands stand about in the lanes in groups, not talking much, looking toward the counting-house.".
-  Person sella "Sella Marsh" at fulling_mills {
-    Greets "Sella Marsh looks round from the hammers and does not stop watching them with the side of her face.".
+  Person sella "Sella Corbin" at fulling_mills {
+    Greets "Sella Corbin looks round from the hammers and does not stop watching them with the side of her face.".
     Role "forewoman of the fulling mills". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
   }
   Person hands "the mill hands" at fulling_mills {
     Role "fullers and shearers of the Guild mills". Ancestry human. Numbers 6. Peaceable.
   }
-  Discovery guild_unpaid "The Guild has not paid its mill hands since Lammas. Sella Marsh says Quill has sworn they will be paid when the charter is renewed." { Known by sella. }
+  Discovery guild_unpaid "The Guild has not paid its mill hands since Lammas. Sella Corbin says Quill has sworn they will be paid when the charter is renewed." { Known by sella. }
   Discovery engineers_report "Quill's own engineers measured the Fulling Channel the summer it was cut, and wrote that it could not account for the Mere's fall: it takes too little. Quill has the report." { Known by sella. }
-  Topic sella_work with sella "Ask Sella Marsh about the mills" when true once {
+  Topic sella_work with sella "Ask Sella Corbin about the mills" when true once {
     Says "'What about them?' Sella does not stop watching the hammers. 'Eight houses, four hundred hands, three shifts when there's orders. Cloth for half the north. Two years ago there were forty people here and a ruined farm.' She points with her chin at the brick channel. 'That's what water's for. Ask anybody who's been hungry.'".
   }
   Topic sella_wages with sella "Ask Sella when the hands were last paid" when true once {
@@ -121,7 +121,7 @@ Module lowwater "Low Water" {
   Item report "the engineers' report" is engineers_copy in strongbox owned by quill.
   Item report_copy "Sella's copy of the engineers' report" is engineers_copy in strongbox.
   Rule report_brought at fulling_mills when promised(party, sella) and reportAt(sella) > 0 and watch(clock) >= reportAt(sella) and not broughtOut(report_copy)
-    says "Sella Marsh comes out of the counting-house's side door, puts a fat fold of paper on the bench by the door under a stone, and goes back to the hammers without looking at you." {
+    says "Sella Corbin comes out of the counting-house's side door, puts a fat fold of paper on the bench by the door under a stone, and goes back to the hammers without looking at you." {
     Retract inside(report_copy, strongbox). Assert at(report_copy, fulling_mills). Assert broughtOut(report_copy). }
   Relation broughtOut(item).
   Observe report_waiting at fulling_mills when at(report_copy, fulling_mills) "On the bench by the counting-house door, under a stone, lies a fat fold of paper with a Corran seal.".

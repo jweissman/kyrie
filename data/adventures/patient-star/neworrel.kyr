@@ -114,14 +114,14 @@ Module season "The Patient Star" {
   Relation fevered(group).
   Observe king_in_barracks near amaru when at(amaru, barracks) and fevered(amaru) "The old king lies on a cot in the Warden's room under three blankets, burning with fever, and looks at the ceiling as if waiting for light to come down it.".
 
-  // Annet Coyle and the Breach widows; Lenna Marsh and the sinking; Ruan Dace and the Waiting.
-  Person coyle "Annet Coyle" at widows {
+  // Annet Sorrel and the Breach widows; Lenna Marsh and the sinking; Ruan Haldane and the Waiting.
+  Person coyle "Annet Sorrel" at widows {
     Role "speaker for the Breach widows". Ancestry human. Peaceable. Pronouns she. Manner grim.
   }
-  Topic coyle_breach with coyle "Ask Annet Coyle about the Breach" when true once {
-    Says "'Sixty-three men,' says Annet Coyle. 'Mine among them. Somebody cut the Collar's drain in the storm of 352 and let the water into the Pit, and the steam came back up the chutes. Nobody was hanged for it.' She looks at you. 'They say the Tovash did it. I want the name. And I want the pensions, which have not been paid since 71.'".
+  Topic coyle_breach with coyle "Ask Annet Sorrel about the Breach" when true once {
+    Says "'Sixty-three men,' says Annet Sorrel. 'Mine among them. Somebody cut the Collar's drain in the storm of 352 and let the water into the Pit, and the steam came back up the chutes. Nobody was hanged for it.' She looks at you. 'They say the Tovash did it. I want the name. And I want the pensions, which have not been paid since 71.'".
   }
-  Topic coyle_named with coyle "Tell Annet Coyle who cut the Breach" when knows(actor, breach_cut) once {
+  Topic coyle_named with coyle "Tell Annet Sorrel who cut the Breach" when knows(actor, breach_cut) once {
     Says "She hears it out without sitting down. 'Bren of Ennick,' she says. 'Who holds the dying.' For a long time she says nothing. 'I will go to Ennick myself,' she says, 'and look at his door.'".
     On discuss { Assert accused(coyle, bren). }
   }
@@ -142,13 +142,13 @@ Module season "The Patient Star" {
   // Standing Cloud.
   Discovery corbel_seen "At dawn from the Collar, a long dark shape hangs point-down in the Standing Cloud, high over the Pit, for a few minutes before the sun washes it out.".
   Observe corbel_dawn at collar_top when hour(clock) >= 5 and hour(clock) <= 6 "Before the sun clears the heath, high in the Standing Cloud over the Pit, something long and dark hangs point-down, like a bracket on a wall with no wall. Then the light comes and it is gone." teaches corbel_seen.
-  Person ruan "Ruan Dace" at waiting_house {
+  Person ruan "Ruan Haldane" at waiting_house {
     Role "Elder of the Waiting". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
   }
-  Topic ruan_voice with ruan "Ask Ruan Dace what the Waiting wait for" when true once {
+  Topic ruan_voice with ruan "Ask Ruan Haldane what the Waiting wait for" when true once {
     Says "'For the answer,' says Ruan. 'Teodar said the name was finished in 71, and what comes after is not more of the name but what it called.' He spreads his hands. 'We listen. The Office has closed the Hour to us, and my people go down without leave.'".
   }
-  Topic ruan_tone with ruan "Tell Ruan Dace about the tone below" when knows(actor, tone_below) once {
+  Topic ruan_tone with ruan "Tell Ruan Haldane about the tone below" when knows(actor, tone_below) once {
     Says "Ruan sits down. 'Once an hour,' he says. 'And they did not tell me.' After a while he laughs, very quietly. 'Then it has answered. Teodar was right.' He gives you a tablet from his sleeve: the Waiting's copy of the transcript. 'Take it to whoever can read it.'".
     On discuss { Assert knows(actor, ward_names). }
   }

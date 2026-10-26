@@ -255,3 +255,8 @@ Nothing in `src/` or `data/rules/` was changed. These are the places the module 
 | 7 | A lamp's light on the Glass Floor | In my runs the shop sold lamps and oil, but the page offered only "light a flask of lamp oil" as an explore choice, and the item panel lit only torches; I did not dig further | The journeys buy torches; the prose says "your light" |
 | 8 | A topic that teaches | The discovery's text is told, then the speech, so most revelations are said twice | Some discovery texts are written as the journal's summary; many still read as the same fact twice |
 | 9 | Ending the book at midwinter | No ending construct (Thrume's F12, still open) | Endings are relations and observations near the company, told once with `teaches ending_told` |
+
+## Renamed for one world
+
+One generated world holds every authored adventure (Mission 16), so no two give one name to different people or
+places (`test/adventure-names.test.ts`). The Collar is the Hawse: The Patient Star has its Collar.

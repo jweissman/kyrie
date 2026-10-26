@@ -32,7 +32,7 @@
   "debate plate",
   "To the Granary Ring",
   "To the head of the Steam Stair",
-  "To the Listening Hall",
+  "To the Waiting Hall",
   "Ask the Listeners what they are copying",
   "To the hot gallery",
   "To the Last Hour"
@@ -93,7 +93,7 @@
   "To the Plumb's mouth",
   "To the Coverers' Works",
   "To the hot gallery",
-  "To the Listening Hall",
+  "To the Waiting Hall",
   "~To the head of the Steam Stair",
   "To the Granary Ring",
   "To the Plate Hall",
@@ -190,7 +190,7 @@
   "Talk to the Interlocutor",
   "Ask the Interlocutor what it wants",
   "Ask the Interlocutor from which end",
-  "To the Seam"
+  "To the Selvage"
  ],
  "masonry": [
   "Through to the Spine",

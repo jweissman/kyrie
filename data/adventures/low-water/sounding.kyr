@@ -29,8 +29,8 @@ Module lowwater "Low Water" {
     Greets "Tamsin Reed jumps down off the loft bench, all elbows, and then remembers she is in the Sounding and walks the last two steps.".
     Role "a chorister of sixteen, from the Dyers' Terrace". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
   }
-  Person fisk "Precentor Aldo Fisk" at nave {
-    Greets "Precentor Fisk inclines his head exactly as far as a precentor should for a stranger, and no further.".
+  Person fisk "Precentor Aldo Penhale" at nave {
+    Greets "Precentor Penhale inclines his head exactly as far as a precentor should for a stranger, and no further.".
     Role "the Precentor, last of the old Cantors". Ancestry human. Peaceable. Pronouns he. Manner proud.
   }
   Observe loft_scene at choir_loft when true "The choir loft rings the dome halfway up, a gallery of benches and music-stands, worn by three thousand years of feet. From here you look straight down through the grating to the water.".
@@ -63,21 +63,21 @@ Module lowwater "Low Water" {
   Topic orr_one with orr "Ask Cantor Orr whether a city can really be one thing" when true once {
     Says "'Not by argument.' She is very definite. 'You can't argue people into being one; Quill tries it at the Council and it only makes more of them. And not by counting, either, whatever Odile Fenn's Office thinks. Counting makes many things out of one, that's what it's for.' She hums a single held note, and you notice the cup on her table ring with it. 'But you can sing them into it. For a while. And then they go home and quarrel, and come back the next night and are one again. That's all there is. It's enough.'".
   }
-  Topic orr_fisk with orr "Ask Cantor Orr about Precentor Fisk" when true once {
+  Topic orr_fisk with orr "Ask Cantor Orr about Precentor Penhale" when true once {
     Says "'Aldo.' A long-suffering sound. 'Aldo thinks the Mere is falling because God is angry about the Remainders. He thinks God has strong views on liturgical length.' She smiles despite herself. 'He's a good singer, and a fool, and he's the only one of the old Cantors who still comes, so I let him stand at the back and look martyred.'".
   }
 
-  // Precentor Fisk, who is right for the wrong reason.
-  Topic fisk_mere with fisk "Ask Precentor Fisk why the Mere is falling" when true once {
+  // Precentor Penhale, who is right for the wrong reason.
+  Topic fisk_mere with fisk "Ask Precentor Penhale why the Mere is falling" when true once {
     Says "'Because she cut the Remainders.' He says it with a terrible satisfaction. 'Three autumns ago she cut them, and three autumns ago the Mere began to fall. Seven Remainders, as it was given to the Aeneans and by them to us, and she took a knife to it like a tailor to a coat.' He folds his hands. 'The Mere is the dead, Assessor. Every soul a drop. When the hymn is broken the dead do not rest, and they go down, and away. I have said so at three Councils. They laugh.'".
   }
-  Topic fisk_why with fisk "Ask Fisk how he knows it was the Remainders and not something else" when knows(actor, short_hymn) once {
+  Topic fisk_why with fisk "Ask Penhale how he knows it was the Remainders and not something else" when knows(actor, short_hymn) once {
     Says "'Because I have faith,' he says, and then, seeing your face, rather less grandly: 'And because I can count. The Mere stood still two hundred years. Then it moved. The only thing that changed in the Bowl that autumn was the hymn.' He looks at you sidelong. 'The Guild's Channel was the next year. Nobody remembers that. Everybody remembers the Channel.'".
   }
 
   // Tamsin, who came because of the reform.
   Topic tamsin_why with tamsin "Ask Tamsin why she sings" when true once {
-    Says "'Because it's the best thing in the world,' says Tamsin, as if you were slow. 'My mum used to say the Hymn was two hours of old men moaning. Then Cantor Orr made it short and my friend Jessa dragged me, and.' She stops, and starts again. 'When we all breathe in together it's like the whole dome breathes in. You can't do that on your own. You can't do it with five people. You need everybody.' She grins. 'Even Precentor Fisk.'".
+    Says "'Because it's the best thing in the world,' says Tamsin, as if you were slow. 'My mum used to say the Hymn was two hours of old men moaning. Then Cantor Orr made it short and my friend Jessa dragged me, and.' She stops, and starts again. 'When we all breathe in together it's like the whole dome breathes in. You can't do that on your own. You can't do it with five people. You need everybody.' She grins. 'Even Precentor Penhale.'".
   }
   Topic tamsin_seventh with tamsin "Ask Tamsin what she would think if the Seventh Remainder came back" when knows(actor, hymn_cause) once {
     Says "Tamsin pulls a face, and then thinks about it properly, which you like her for. 'The counting one? It's dull. Everybody says so.' She chews her lip. 'But if it was for something. If it actually did something.' She looks down through the grating at the black water. 'I'd sing it. I'd sing it every night. It'd be like, like being the lock-keeper. Only all of us.'".
@@ -132,7 +132,7 @@ Module lowwater "Low Water" {
     On discuss { Assert orrStance(orr, stance_numbers). Assert orrStanding(orr). }
   }
   Topic orr_fifth with orr "Tell Cantor Orr the Fifth Remainder was the Bowl's own voice: bright and middle, its voice a little" when knows(actor, grammar_known) and restoredForGood(bowl) and not fifthRestored(bowl) once {
-    Says "'The fountains,' says Cantor Orr at once, before you have finished. 'Abel Lusk used to say the fountains purred, when he was a boy. I thought he was being sentimental.' She considers it. 'It does nothing? Nothing to the water?' Nothing but sing, as far as you know. Her face does something complicated. 'Then I'll put it back for that. For nothing. Because it sings.' She almost smiles. 'That's the first good reason I've had for anything this week.'".
+    Says "'The fountains,' says Cantor Orr at once, before you have finished. 'Abel Tarrant used to say the fountains purred, when he was a boy. I thought he was being sentimental.' She considers it. 'It does nothing? Nothing to the water?' Nothing but sing, as far as you know. Her face does something complicated. 'Then I'll put it back for that. For nothing. Because it sings.' She almost smiles. 'That's the first good reason I've had for anything this week.'".
     On discuss { Assert fifthRestored(bowl). }
   }
   Topic orr_fourth with orr "Tell Cantor Orr what the Fourth Remainder said: high and deep, the last door, least: keep it shut" when knows(actor, grammar_known) and restoredForGood(bowl) and not fourthRestored(bowl) and not complete(reckoner) once {

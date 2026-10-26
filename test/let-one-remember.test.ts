@@ -38,7 +38,7 @@ class T {
 // Ways there and back that several journeys share.
 const toKeld = ['^To the street of chimneys', '^To the drove-road gate', '^To the Keld end', '^To the sinkhole green'];
 const fetchTeshen = [...toKeld, '^Into Mother Saska', 'Talk to Teshen', 'Ask Teshen what she wants', 'Ask Teshen to join'];
-const keldToDrag = ['^Out to the sinkhole green', '^To the Keld end', '^To the drove-road gate', '^To the street of chimneys', '^To the Collar',
+const keldToDrag = ['^Out to the sinkhole green', '^To the Keld end', '^To the drove-road gate', '^To the street of chimneys', '^To the Hawse',
   '^To the north edge', '^To the gate of the Askew'];
 const toWendmouth = ['^To the foot of the Scarp', '^To Wendhead bridge', '^To the valley road below', '^To the well square'];
 
@@ -100,10 +100,10 @@ describe('Let One Remember', () => {
     const s = await T.start();
     let said = await T.play(s, [...toWendmouth, '^To the quay', '^Into the Ninepan', 'Talk to Clemence', 'Buy.*coal', 'Take your leave',
       '^Out', '^To the well square', '^To the valley road', '^To Wendhead bridge', '^To the foot', '^To the eighth', '^To the street',
-      '^To the Collar', '^To the rim', '^To the Fourth Gate', 'Talk to the Assessor', 'how many links', 'Give.*coal', 'say the reckoning again']);
+      '^To the Hawse', '^To the rim', '^To the Fourth Gate', 'Talk to the Assessor', 'how many links', 'Give.*coal', 'say the reckoning again']);
     expect(said).toContain('ONE MORE CUT IS THE LIMIT');
     expect(T.knows(s, 'cut_limit')).toBe(true);
-    said = await T.play(s, ['Take your leave', '^To the rim', '^To the Collar', '^To the north edge', '^To the gate of the Askew', '^To the farm below',
+    said = await T.play(s, ['Take your leave', '^To the rim', '^To the Hawse', '^To the north edge', '^To the gate of the Askew', '^To the farm below',
       '^To the furrow$', '^To the tail', 'Talk to Ruth', 'Tell Ruth', 'Take your leave']);
     expect(said).toContain('Downtools');
     expect(T.is(s, 'filing', 'ruth')).toBe(false);
@@ -127,7 +127,7 @@ describe('Let One Remember', () => {
       '^To the well square', '^Into the Keepstone', 'Talk to Judge', 'her ruling', '^To the valley road|^Out', '^To the valley road', '^Into the Coyle',
       'Talk to Bram', 'drawer', 'Take your leave', '^Out', '^To the well square', '^Into the Keepstone', 'Talk to Judge', 'blank stone reads', '^Take$',
       'Take your leave', '^Out', '^To the valley road', '^To Wendhead bridge', '^Into the Wendhead hospice', '^To the hospice archive',
-      'Letting prayer', '^To the hospice hall', '^Out', '^To the foot', '^To the eighth', '^To the street', '^To the Collar',
+      'Letting prayer', '^To the hospice hall', '^Out', '^To the foot', '^To the eighth', '^To the street', '^To the Hawse',
       '^Into the Rope', ...Array(8).fill('Buy › A torch'), '^Out', '^To the rim', '^To the Fourth Gate', 'Buy a licence']);
     expect(T.knows(s, 'evidential_known')).toBe(true);
     expect(T.is(s, 'licensed', 'party')).toBe(true);
@@ -154,7 +154,7 @@ describe('Let One Remember', () => {
     said = await T.play(s, ['^To Wendhead bridge', '^To the valley road below', '^To the well square', '^Into the Keepstone', 'Talk to Judge', '^Give']);
     expect(said).toContain('And my house is mine');
     said = await T.play(s, ['Take your leave', '^Out', '=600', '^To the valley road', '^To Wendhead bridge', '^To the foot', '^To the eighth', '^To the street',
-      '^To the Collar', '^Into the Rope']);
+      '^To the Hawse', '^Into the Rope']);
     // A Return to a Changed Place.
     expect(said).toContain('The Registry has you down as not come back');
   }, 300000);
@@ -168,10 +168,10 @@ describe('Let One Remember: names, the Chain and the rim', () => {
     expect(said).toContain('Somebody\'s wrong, and it isn\'t me');
     said = await T.play(s, ['Talk to Mother Saska', 'how many came back']);
     expect(T.knows(s, 'hollow_missing')).toBe(true);
-    said = await T.play(s, ['Take your leave', '^Out', '^To the Keld end', '^To the drove-road gate', '^To the street', '^To the Collar', '^To the rim',
+    said = await T.play(s, ['Take your leave', '^Out', '^To the Keld end', '^To the drove-road gate', '^To the street', '^To the Hawse', '^To the rim',
       '^To the Fourth Gate', '^To the counting', '^To the contract', 'payroll']);
     expect(T.knows(s, 'webb_is_stray')).toBe(true);
-    said = await T.play(s, ['^To the counting', '^To the Fourth', '^To the rim', '^To the Collar', '^To the street', '^To the eighth', '^To the foot',
+    said = await T.play(s, ['^To the counting', '^To the Fourth', '^To the rim', '^To the Hawse', '^To the street', '^To the eighth', '^To the foot',
       '^To Wendhead bridge', '^Into the Wendhead hospice', 'Talk to Prioress', 'Tell Prioress Rook what Corin Webb is', 'Take your leave', '^Out',
       '^To the valley road below', '^To the well square', '^Into the Lusk', 'Ask Teshen to give Corin Webb']);
     expect(said).toContain('Corin Webb puts his face in his hands');
@@ -197,7 +197,7 @@ describe('Let One Remember: names, the Chain and the rim', () => {
 
   it('opens the sealed room in the dark, and a name said on the rim drops the mountain', async () => {
     const s = await T.start();
-    await T.play(s, [...fetchTeshen, '^Out to the sinkhole green', '^To the Keld end', '^To the drove-road gate', '^To the street', '^To the Collar',
+    await T.play(s, [...fetchTeshen, '^Out to the sinkhole green', '^To the Keld end', '^To the drove-road gate', '^To the street', '^To the Hawse',
       '^To the north edge', '^To the gate of the Askew', '^To the farm below', '^To the furrow$', '^To the tail', '^To the horn', '^To the hoist-feet',
       'Talk to Lene', 'Pay Lene', 'Take your leave', '^To the hoist-house', '^To the rim and', '^To the terraces', '^To the hall of the Charge',
       '^To the archive', 'Read Cassen']);
@@ -213,7 +213,7 @@ describe('Let One Remember: names, the Chain and the rim', () => {
 
   it('climbs the Chain to the links that remember, and Hask tells the number', async () => {
     const s = await T.start();
-    const said = await T.play(s, ['^To the street of chimneys', '^To the Collar', '^To the north edge', '^To the gate of the Askew', '^To the farm below',
+    const said = await T.play(s, ['^To the street of chimneys', '^To the Hawse', '^To the north edge', '^To the gate of the Askew', '^To the farm below',
       '^To the furrow$', '^To the tail', '^To the horn', '^To the runners', '^To a Concord rest-cradle', 'Talk to Hask', 'what happened to the Chain']);
     expect(said).toContain('Two, and we all go up and never stop');
     expect(T.knows(s, 'cut_limit')).toBe(true);
@@ -221,7 +221,7 @@ describe('Let One Remember: names, the Chain and the rim', () => {
 
   it('goes in by the Lettings\' door, takes the Commonplace\'s gift at the Root, and hears the Seam with the lights out', async () => {
     const s = await T.start();
-    let said = await T.play(s, ['^To the street of chimneys', '^To the Collar', '^Into the Rope', ...Array(6).fill('Buy › A torch'), '^Out', '^To the street',
+    let said = await T.play(s, ['^To the street of chimneys', '^To the Hawse', '^Into the Rope', ...Array(6).fill('Buy › A torch'), '^Out', '^To the street',
       '^To the eighth', '^To the foot of the Scarp', '^To Wendhead bridge', '^Into the Wendhead hospice', '^To the hospice archive', 'Letting prayer',
       '^To the hospice hall', 'Talk to Prioress', 'where the road under the water begins', '^Take$', 'Take your leave', '^Into the hospice cellars|^To the hospice cellar',
       '?a torch: Light', 'Unlock the oak door', '^To the bright galleries']);
@@ -240,7 +240,7 @@ describe('Let One Remember: names, the Chain and the rim', () => {
   it('reads the Socket chart against Hightown\'s underside through Wenna\'s lens', async () => {
     const s = await T.start();
     await T.play(s, [...toWendmouth, '^To the valley road', '^Into the Coyle', 'Talk to Bram', 'drawer', 'loan', '^Take$', 'Take your leave', '^Out',
-      '^To Wendhead bridge', '^To the foot', '^To the eighth', '^To the street', '^To the Collar', '^To the north edge', '^To the gate of the Askew',
+      '^To Wendhead bridge', '^To the foot', '^To the eighth', '^To the street', '^To the Hawse', '^To the north edge', '^To the gate of the Askew',
       '^To the farm below', '^To the furrow$', '^To the tail', '^To the horn', '^To the south shore', 'Talk to Wil', 'what she is measuring',
       'Take your leave', '^To the Lusk survey', '^Take$']);
     expect(T.knows(s, 'chart_seen')).toBe(true);
@@ -251,7 +251,7 @@ describe('Let One Remember: names, the Chain and the rim', () => {
 
   it('feeds the Old Silver at the neck of the sump, and a Keld opens a cell of the Quiet Gaol by touch', async () => {
     const s = await T.start();
-    await T.play(s, [...fetchTeshen, '^Out to the sinkhole green', '^To the Keld end', '^To the drove-road gate', '^To the street', '^To the Collar',
+    await T.play(s, [...fetchTeshen, '^Out to the sinkhole green', '^To the Keld end', '^To the drove-road gate', '^To the street', '^To the Hawse',
       '^Into the Rope', 'Buy › A ration', 'Buy › A ration', '^Out', '^To the rim', '^To the third Forge', '?a torch: Light', '^To the Gaol',
       'Ask Teshen to read the lock']);
     expect(T.holds(s, 'state', 'corrow__cell_lock', 'corrow__open')).toBe(true);
@@ -342,7 +342,7 @@ describe('Act III, the Kin Fall', () => {
     let said = await T.play(s, ['~5910']);
     expect(said).toContain('the slow star in the north-east breaks');
     said = await T.play(s, ['Talk to Prioress', 'for her sisters', 'Take your leave', '^Out', '^To the Grey Mile', 'Talk to Ferran', 'for the Open Hand',
-      'Take your leave', '^To Wendhead bridge', '^To the foot', '^To the eighth', '^To the street', '^To the Collar', '^To the north edge',
+      'Take your leave', '^To Wendhead bridge', '^To the foot', '^To the eighth', '^To the street', '^To the Hawse', '^To the north edge',
       '^To the gate of the Askew', '^To the farm below', '^To the furrow$', '^To the tail', '^To the horn', '^To the hoist-feet', 'Talk to Lene',
       'bring Hornwake', 'Take your leave', '^To the hoist-house', '^To the rim and', '^To the terraces', '^To the Unasked', 'Talk to Speaker',
       'bring the Unaskers']);
@@ -360,7 +360,7 @@ describe('Act III, the Kin Fall', () => {
   it('breaks Wenna\'s band with Drevka\'s hammer before the Unfolded reach the Seam, and they lose the way there', async () => {
     const s = await T.act(3);
     await T.play(s, ['^Out', '^To the foot', '^To the eighth', ...toKeld, '^Into Bede', 'Talk to Bede', 'Ask Bede Orrisk for the loan', '^Take$',
-      'Take your leave', '^Out', '^To the Keld end', '^To the drove-road gate', '^To the street', '^To the Collar', '^Into the Rope',
+      'Take your leave', '^Out', '^To the Keld end', '^To the drove-road gate', '^To the street', '^To the Hawse', '^Into the Rope',
       ...Array(6).fill('Buy › A torch'), '^Out', '^To the rim', '^To the edge of the Glass', '^To the Diggings', '?Shutter every light', '^To the trough',
       '^To under the Breach', '?a torch: Light', '^To Lamplighter', 'journals', '^To the head of the low road', '?a torch: Light',
       '^To the first way-mark', '?a torch: Light', '^To the left-hand passage', '?a torch: Light', '^To the right-hand passage', '?a torch: Light',

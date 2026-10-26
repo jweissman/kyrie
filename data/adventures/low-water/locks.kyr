@@ -23,7 +23,7 @@ Module lowwater "Low Water" {
   Rule deep_looked at ninth_lock when at(party, ninth_lock) and (state(deep_gate, raised) or state(deep_gate, half)) and not knows(party, deep_drinks) says "You lean over the chamber's edge. The eddy goes round and round and, at the bronze, down. You walk the lock's whole wall, and the Ward wall below it, for an outfall, a culvert, a weep-hole: there is none. Whatever goes down the Deep does not come back up anywhere you can find." teaches deep_drinks { }
   Discovery gate_hears "The Deep Gate answers the Hymn. At the first bell of the Sixth Remainder its bronze stirs in its bed, by nothing anyone can see.".
   Rule gate_stirs at ninth_lock when at(party, ninth_lock) and hour(clock) == 19 and sungTonight(bowl) and not knows(party, gate_hears) and not state(deep_gate, logged) says "At the first bell of the Hymn from the Sounding, far up the terraces, the bronze of the Deep Gate shivers in its bed, the whole width of it, the way a dog's skin shivers at its name. Nobody has touched it. The keeper on his bench writes something in his book." teaches gate_hears { }
-  Discovery gate_falls_seen "At the Seventh Remainder, sung from the Sounding, the Deep Gate lay down in its bed by itself, as Abel Lusk said it always did.".
+  Discovery gate_falls_seen "At the Seventh Remainder, sung from the Sounding, the Deep Gate lay down in its bed by itself, as Abel Tarrant said it always did.".
   Rule gate_falls at ninth_lock when at(party, ninth_lock) and seventhTonight(bowl) and state(deep_gate, lowered) and hour(clock) == 20 and not knows(party, gate_falls_seen) says "Four low notes come down the terraces from the Sounding, alike, alike, alike, alike. The Deep Gate goes down. It goes down slowly, the whole bronze width of it, until it lies flat in its bed with a thread of water running over its lip. Piet Harl is standing on his bench with his book in both hands, and he is crying." teaches gate_falls_seen { }
 
   // Piet Harl, keeper of the Ninth Lock.
@@ -46,7 +46,7 @@ Module lowwater "Low Water" {
     Source letters "Piet's copies of his letters to the Sounding, and the answer" at piet_room readable by party.
   }
   Topic piet_job with piet "Ask Piet Harl what his work is" when true once {
-    Says "'Keeping the Ninth.' He says it as if it were obvious, and then sees it isn't. 'Letting the barges down to here, that's most of it, and the gates. And the Deep. At the Sixth Remainder it goes up, and at the Seventh it comes down, and I watch it, and I write it in the book.' He touches the book. 'Master Lusk said the keeper's not there to work the Deep. There's nothing to work it with. He's there to see it.'".
+    Says "'Keeping the Ninth.' He says it as if it were obvious, and then sees it isn't. 'Letting the barges down to here, that's most of it, and the gates. And the Deep. At the Sixth Remainder it goes up, and at the Seventh it comes down, and I watch it, and I write it in the book.' He touches the book. 'Master Tarrant said the keeper's not there to work the Deep. There's nothing to work it with. He's there to see it.'".
   }
   Topic piet_deep with piet "Ask Piet whether the Deep Gate comes down now" when true once {
     Says "'No.' Very quiet. 'Not since the new Hymn. It goes up at the Sixth, they still sing the Sixth, it's the beautiful one. And then there's no Seventh, and it stays up.' He looks at the gate. 'Three years. I write it every night. Deep did not come down. I don't know what else to write. The rhyme says if it doesn't, send to the Sounding. I sent.'".
@@ -55,7 +55,7 @@ Module lowwater "Low Water" {
     Says "He takes two folded papers from under the lock-book and a third with a seal, and gives you all three without being asked twice; he has been waiting for somebody to ask. 'I wrote it plain. The Deep did not come down, when will the Seventh be sung. And then again at midwinter.' He taps the sealed one. 'A young Cantor answered. The Remainders are a matter for the Cantors and not the locks.' He tries to smile. 'I thought perhaps it was a test. Of the keeper. To see if I'd keep watching.' He has kept watching.".
   }
   Topic piet_close with piet "Ask Piet whether he could close the Deep Gate himself" when true once {
-    Says "'With what?' He shows you: no wheel, no chain, no pin, nothing to turn or pull. 'It's not a gate anybody works. It's a gate that works.' Then, reluctantly: 'There's the stop-logs. Oak beams, for when we dry a chamber to mend it. The crane can drop them in any slot in the Nine. Not the Deep, though. Never the Deep. Master Lusk said never.' A pause. 'He didn't say why. He said never the high voice, too, and he didn't say why that either.'".
+    Says "'With what?' He shows you: no wheel, no chain, no pin, nothing to turn or pull. 'It's not a gate anybody works. It's a gate that works.' Then, reluctantly: 'There's the stop-logs. Oak beams, for when we dry a chamber to mend it. The crane can drop them in any slot in the Nine. Not the Deep, though. Never the Deep. Master Tarrant said never.' A pause. 'He didn't say why. He said never the high voice, too, and he didn't say why that either.'".
   }
   Relation pietWilling(group). Relation pietAfraid(group).
   Topic piet_logs with piet "Ask Piet to help drop the stop-logs in the Deep's mouth" when (warranted(actor) or knows(actor, hymn_cause)) and not pietWilling(piet) and state(deep_gate, raised) once {
@@ -63,7 +63,7 @@ Module lowwater "Low Water" {
     On discuss { Assert pietWilling(piet). }
   }
   Topic piet_hymn_restored with piet "Ask Piet how it is now the Seventh is sung" when knows(actor, gate_falls_seen) once {
-    Says "'It came down.' He says it as if it might not be true if he says it too loud. 'At the Seventh. I wrote it in the book. Down at the Seventh. Cupful.' He laughs, and wipes his face with his sleeve, not hiding it. 'I wrote it in capitals. Master Lusk would have my ears for that.'".
+    Says "'It came down.' He says it as if it might not be true if he says it too loud. 'At the Seventh. I wrote it in the book. Down at the Seventh. Cupful.' He laughs, and wipes his face with his sleeve, not hiding it. 'I wrote it in capitals. Master Tarrant would have my ears for that.'".
   }
 
   // The stop-logs.

@@ -113,24 +113,24 @@ Module hhg "The House That Grows" {
   Item lamp_a "a burnt-out Ithren lamp" is ithren_lamp in lamp_shelves.
   Item lamp_b "a burnt-out Ithren lamp" is ithren_lamp in lamp_shelves.
   Item lamp_c "a burnt-out Ithren lamp" is ithren_lamp in lamp_shelves.
-  Person quill "Quill" at lamp_store {
+  Person quill "Ottie" at lamp_store {
     Role "a Lifted boy of eleven, keeping watch over Netters' bundles among the lamps". Ancestry human. Peaceable.
   }
   Initially Assert watcher(quill). Initially Assert home(quill, sennu_kitchen).
   // A boy being taken home is not keeping a watch.
   Rule quill_leaves_post when following(quill, ?c) and watcher(quill) { Retract watcher(quill). }
-  Topic quill_bundles with quill "Ask Quill what he is doing down here" when true once {
-    Says "'Minding,' says Quill. 'Captain Isele's span. The Ballast-Reeve's going to drop our houses over the side, so we're hiding what's ours down here where he won't look.' He hugs his knees. 'Nobody comes down here. The doors move.'".
+  Topic quill_bundles with quill "Ask Ottie what he is doing down here" when true once {
+    Says "'Minding,' says Ottie. 'Captain Isele's span. The Ballast-Reeve's going to drop our houses over the side, so we're hiding what's ours down here where he won't look.' He hugs his knees. 'Nobody comes down here. The doors move.'".
   }
-  Topic quill_home with quill "Ask Quill where he comes from" when not acceptsEscort(quill, actor) {
-    Says "'The floor,' says Quill, which is what the city calls the ground. 'I don't know the town. There was a pond, and our door was red. My mother sang.' He looks at you. 'You're from the floor. Is it true you have to have someone watch you sleep?'".
+  Topic quill_home with quill "Ask Ottie where he comes from" when not acceptsEscort(quill, actor) {
+    Says "'The floor,' says Ottie, which is what the city calls the ground. 'I don't know the town. There was a pond, and our door was red. My mother sang.' He looks at you. 'You're from the floor. Is it true you have to have someone watch you sleep?'".
   }
-  Topic quill_red_door with quill "Tell Quill about the red door scratched on the bunk shelf" when knows(actor, red_door_known) and not acceptsEscort(quill, actor) {
-    Says "Quill is on his feet before you have finished. 'Lowmere,' he says, trying it. 'Lowmere.' He looks at the bundles he is supposed to be minding, and then at you. 'Will you take me? I can't go back up by the stair. Isele will be cross, but she'd go, if it was hers.'".
+  Topic quill_red_door with quill "Tell Ottie about the red door scratched on the bunk shelf" when knows(actor, red_door_known) and not acceptsEscort(quill, actor) {
+    Says "Ottie is on his feet before you have finished. 'Lowmere,' he says, trying it. 'Lowmere.' He looks at the bundles he is supposed to be minding, and then at you. 'Will you take me? I can't go back up by the stair. Isele will be cross, but she'd go, if it was hers.'".
     On discuss { Assert acceptsEscort(quill, actor). }
   }
-  Topic quill_lamps with quill "Ask Quill about the lamps" when true once {
-    Says "'Two marks apiece on the floor, Isele says, for curiosities.' Quill picks one off a shelf and turns it. 'My gran said when they were lit they looked at you. They used them for night watches, before the court took the scrapings for drinking.'".
+  Topic quill_lamps with quill "Ask Ottie about the lamps" when true once {
+    Says "'Two marks apiece on the floor, Isele says, for curiosities.' Ottie picks one off a shelf and turns it. 'My gran said when they were lit they looked at you. They used them for night watches, before the court took the scrapings for drinking.'".
     On discuss { Assert knows(actor, lamp_lore). }
   }
   Discovery lamp_lore "The Ithren used their lamps for night watches, before the court took the star-scrapings that fed them for drinking: lit, they looked at you.".

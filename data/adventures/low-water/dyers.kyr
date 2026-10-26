@@ -1,5 +1,5 @@
 Module lowwater "Low Water" {
-  Description "The Dyers' Terrace: the Upper Cistern, the Dyers' Basin with an arch on its floor, the Sump, Mag Torrin's vat-yard, and the house of Abel Lusk, who taught the Lock-Rhyme to two generations of keepers.".
+  Description "The Dyers' Terrace: the Upper Cistern, the Dyers' Basin with an arch on its floor, the Sump, Mag Torrin's vat-yard, and the house of Abel Tarrant, who taught the Lock-Rhyme to two generations of keepers.".
 
 
   Place dyers_walk "the Dyers' Walk" is room within ammerlin at 1, 2 outdoors.
@@ -7,14 +7,14 @@ Module lowwater "Low Water" {
   Place basin_edge "the edge of the Dyers' Basin" is room within ammerlin at 2, 2 outdoors.
   Place basin_floor "the floor of the Dyers' Basin" is room within ammerlin at 2, 3 outdoors.
   Place vat_yard "Mag Torrin's vat-yard" is room within ammerlin at 3, 2 outdoors.
-  Place lusk_house "Abel Lusk's house" is building within ammerlin.
-  Place lusk_room "Abel Lusk's kitchen" is room within lusk_house at 0, 0.
+  Place lusk_house "Abel Tarrant's house" is building within ammerlin.
+  Place lusk_room "Abel Tarrant's kitchen" is room within lusk_house at 0, 0.
 
   Passage second_stair "the Stair, from Measures Terrace to the Dyers' Walk" is steps between measures_square and dyers_walk taking 15 minutes.
   Passage cistern_steps "the steps to the cistern" is steps between dyers_walk and cistern_lip.
   Passage basin_path "the path along the basins" is path between dyers_walk and basin_edge taking 3 minutes.
   Passage yard_gate "the vat-yard gate" is gate between basin_edge and vat_yard.
-  Passage lusk_door "Abel Lusk's door" is door between dyers_walk and lusk_room.
+  Passage lusk_door "Abel Tarrant's door" is door between dyers_walk and lusk_room.
   Passage basin_ladder "the iron ladder down the basin wall" is steps between basin_edge and basin_floor
     opening when level(dyers) <= 1 "An iron ladder goes down the inside of the basin wall and into the water. Below the third rung there is nothing to see but black dye-water.".
 
@@ -138,14 +138,14 @@ Module lowwater "Low Water" {
     Says "'Don't,' she says. 'You wanted the floor of my basin and you got it. I hope there was something on it worth a season.' She wades to the nearest vat and starts bailing it with her hands. Over her shoulder: 'I'll be at the Council. I'll say what you did. I'll say it in a good clear voice.'".
   }
 
-  // Abel Lusk and the Lock-Rhyme.
+  // Abel Tarrant and the Lock-Rhyme.
   Observe lusk_scene at lusk_room when true "A kitchen with one chair by the stove and a lock-keeper's brass horn on a nail over it. On the shelf, a row of small clay figures of men and women each holding a lock-wheel: forty of them, the keepers he taught, he says, though he made them himself and some of them flatter.".
-  Person abel "Abel Lusk" at lusk_room {
-    Greets "Abel Lusk is delighted to see anybody at all, and says so, and offers you the only chair.".
+  Person abel "Abel Tarrant" at lusk_room {
+    Greets "Abel Tarrant is delighted to see anybody at all, and says so, and offers you the only chair.".
     Role "who kept the Ninth Lock for forty years". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
   }
   Discovery lock_rhyme "The Lock-Rhyme, which every keeper learns: Upper to Dyer at the bell of six, / Dyer to vat when the third bell ticks; / Rise at the Sixth, and the Deep goes up, / Count at the Seventh, it takes its cup; / Grey from the Rim when the Mere is low, / And the high voice never, or down we go." { Known by abel. }
-  Topic abel_rhyme with abel "Ask Abel Lusk for the Lock-Rhyme" when true once {
+  Topic abel_rhyme with abel "Ask Abel Tarrant for the Lock-Rhyme" when true once {
     Says "Abel sits up straight, puts his hands on his knees, and says it as a boy says it in school, in a sing-song, with a little bounce on the beat. 'Upper to Dyer at the bell of six, / Dyer to vat when the third bell ticks; / Rise at the Sixth, and the Deep goes up, / Count at the Seventh, it takes its cup; / Grey from the Rim when the Mere is low, / And the high voice never, or down we go.' He beams. 'Forty keepers. Every one of them could say that backwards drunk. The children in the Ward skip to it.'".
     On discuss { Assert knows(actor, lock_rhyme). }
   }
@@ -159,7 +159,7 @@ Module lowwater "Low Water" {
     Says "His face changes; he looks, for a moment, like the boy who first learned it, and was frightened by it. 'Never sing the high note into the water. That's all it means. Every keeper's told it his first night, by his master, at the lock, with the lantern out.' He laughs, uneasily. 'Superstition. Children's stuff. Only I never did. Did you ever meet a keeper that did? No. Nor me.'".
   }
   Topic abel_piet with abel "Ask Abel about the keeper of the Ninth Lock now" when true once {
-    Says "'Piet Harl. My last. Good lad, too careful by half, which is the right half.' Abel's smile goes. 'He came up to me the first winter of the new Hymn and said, Master Lusk, the Deep didn't come down. I said, then send to the Sounding, like the rhyme says. He said he had. I said, then send again.' He looks at his hands. 'That was three years ago. I'm an old man, I forget things. I should have gone down there myself.'".
+    Says "'Piet Harl. My last. Good lad, too careful by half, which is the right half.' Abel's smile goes. 'He came up to me the first winter of the new Hymn and said, Master Tarrant, the Deep didn't come down. I said, then send to the Sounding, like the rhyme says. He said he had. I said, then send again.' He looks at his hands. 'That was three years ago. I'm an old man, I forget things. I should have gone down there myself.'".
   }
   Topic abel_hymn with abel "Ask Abel what he thinks of the Short Hymn" when true once {
     Says "'It's lovely,' says Abel, surprising you. 'It is. I went the once. All those young ones, the place full like a fish-market. Sabeth Orr's a wonder.' He shrugs. 'But they've cut the Remainders, and the rhyme's built on the Remainders. Rise at the Sixth, count at the Seventh. There's no Seventh now. I said so to a young Cantor and he said the rhyme was only a rhyme.' He looks at the clay keepers on the shelf. 'Well. So it is.'".
@@ -167,7 +167,7 @@ Module lowwater "Low Water" {
   Topic abel_fountains with abel "Ask Abel whether anything else changed when the Hymn was shortened" when true once {
     Says "Abel thinks about it seriously; he is a man who has been asked very few serious questions lately and is enjoying this one. 'The fountains,' he says. 'Now you ask. When I was a boy the fountains hummed of an evening, after the Seventh, at the Fifth. You'd put your hand on the square fountain and feel it go. We called it the Bowl purring.' He frowns. 'It stopped the same winter. I thought I'd gone a bit deaf. Everybody my age thought they'd gone a bit deaf.'".
   }
-  Topic abel_arch with abel "Show Abel Lusk the rubbing of the Dyers' arch" when carries(actor, rubbing) once {
+  Topic abel_arch with abel "Show Abel Tarrant the rubbing of the Dyers' arch" when carries(actor, rubbing) once {
     Says "Abel holds the cloth to the window a long time. 'Four mouths. Shut, a bit, open, wide.' He traces the marks beside them. 'And the notes go up. The bottom note by the shut mouth.' He gives it back to you slowly. 'That's the Deep, isn't it. Low for little. That's the Seventh, all low; a cupful.' He sits down. 'Forty years, and I never once thought the notes meant anything. Take it to Sabeth Orr. She'll know the notes.'".
   }
 }

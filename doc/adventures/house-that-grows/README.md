@@ -342,3 +342,8 @@ The ones that did not survive all need the body (sleep, folding), a quantity (se
    three lint checks would have saved most of it.
 6. **One companion model.** Kin and friends who come with you should keep their voices, be leavable, and fight. That
    is the difference between a party of people and a party of hit points.
+
+## Renamed for one world
+
+One generated world holds every authored adventure (Mission 16), so no two give one name to different people or
+places (`test/adventure-names.test.ts`). Quill, the boy in the keel, is Ottie: Low Water has its Harrow Quill.

@@ -199,3 +199,8 @@ by leaving for ever.
 5. **Default `go`, kinds module-wide, choices keyed by target, errors with locations** (3, 5, 7, 25, 35). Each is
    small; together they remove most of the archaeology.
 6. **A shipped journey harness and a "why is this not offered / which rule did that" trace.**
+
+## Renamed for one world
+
+One generated world holds every authored adventure (Mission 16), so no two give one name to different people or
+places (`test/adventure-names.test.ts`). Kerra Vane is Kerra Lowe, Annet Coyle is Annet Sorrel, Ruan Dace is Ruan Haldane, the Seam is the Selvage and the Listening Hall is the Waiting Hall: Let One Remember has its Vanes, its Coyles and its Seam, The House That Grows its Dace, and Low Water its Listening Hall.

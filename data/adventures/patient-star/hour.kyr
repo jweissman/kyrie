@@ -4,7 +4,7 @@ Module season "The Patient Star" {
   Place hour "the Hour" is level within tamaun.
   Place watch_room "the Watch Room" is room within granaries at 0, 0 underground.
   Place steam_top "the head of the Steam Stair" is room within granaries at 2, 0 underground.
-  Place listening_hall "the Listening Hall" is room within hour at 1, 0 underground.
+  Place listening_hall "the Waiting Hall" is room within hour at 1, 0 underground.
   Place hot_gallery "the hot gallery" is room within hour at 1, 1 underground.
   Place last_hour "the Last Hour" is room within hour at 0, 1 underground.
   Place coverers_works "the Coverers' Works" is room within hour at 2, 1 underground.
@@ -24,7 +24,7 @@ Module season "The Patient Star" {
   Passage courses_way "the lowest gallery" is passage between hot_gallery and courses_face taking 5 minutes.
   Initially Assert darkRoom(watch_room). Initially Assert darkRoom(steam_top). Initially Assert darkRoom(hot_gallery).
   Initially Assert darkRoom(coverers_works). Initially Assert darkRoom(stair_wall).
-  // The Listening Hall is lit from below, through its glass floor; the Last Hour by its channel; the Courses by their
+  // The Waiting Hall is lit from below, through its glass floor; the Last Hour by its channel; the Courses by their
   // own light.
   Initially Assert litGround(courses_face).
 
@@ -55,7 +55,7 @@ Module season "The Patient Star" {
   Discovery steam_timed "The Steam Stair blasts about every fifty minutes, after twenty breaths of hissing; the niches hold two each.".
   Observe steam_learned at steam_top when state(steam, blasting) and not knows(party, steam_timed) "The blast comes up out of the stair-head in a column you could lean on, and is gone. You count, after: it is near enough fifty minutes to the next, and the hiss before it is twenty breaths long." teaches steam_timed.
 
-  // H2: the Listening Hall, and the Waiting who listen there without leave.
+  // H2: the Waiting Hall, and the Waiting who listen there without leave.
   Observe hall_scene_h at listening_hall when true "A round chamber with a stillglass floor, very warm. Light comes up through the floor from below, and lies on the undersides of things.".
   Person listeners "six of the Waiting" at listening_hall {
     Role "six Listeners of the Waiting, on felt mats with their ears to the glass". Ancestry human. Numbers 6. Peaceable.

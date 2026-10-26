@@ -20,11 +20,11 @@ Module hhg "The House That Grows" {
   Topic sennu_son with sennu "Ask Sennu Arru about the red door" when not cameHome(quill) {
     Says "'My husband painted it,' says Sennu, 'so the boy would know it from the sky.' She does not stop weaving. 'He was five. The famine year. They took him up as a Netter, for the tax.' The shuttle goes back and forth. 'They told us they'd call him something else.'".
   }
-  Event quill_home near sennu when cameHome(quill) "Quill stands in the red doorway and does not come in. Sennu looks up from the loom, and the shuttle falls out of her hand and runs across the floor on its thread. She says a name that is not Quill. He says, 'You sang.'" then {
+  Event quill_home near sennu when cameHome(quill) "Ottie stands in the red doorway and does not come in. Sennu looks up from the loom, and the shuttle falls out of her hand and runs across the floor on its thread. She says a name that is not Ottie. He says, 'You sang.'" then {
     Assert reunited(quill).
   }
   Relation reunited(group).
-  Observe quill_stays at sennu_kitchen as ambience when reunited(quill) and at(quill, sennu_kitchen) "Quill sits by the loom winding cord for his mother, very badly, and she lets him.".
+  Observe quill_stays at sennu_kitchen as ambience when reunited(quill) and at(quill, sennu_kitchen) "Ottie sits by the loom winding cord for his mother, very badly, and she lets him.".
 
   Place offstage "elsewhere" is site within strewnfield at 3, 3.
   Place nowhere "nowhere" is room within offstage at 0, 0.

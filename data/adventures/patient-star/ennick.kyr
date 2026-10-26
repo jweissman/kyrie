@@ -60,7 +60,7 @@ Module season "Hold One Season" {
     Joins "Mirel takes down her hood and her tally cord from the pegs. 'I will carry,' she says. 'You will not ask me to wake anyone.'".
     Leaves "Mirel takes off her hood and hands it back to nobody. 'I carry for the held,' she says, 'not against them.' She goes home.".
   }
-  Person kerra "Kerra Vane" at taproom {
+  Person kerra "Kerra Lowe" at taproom {
     Role "keeper of the Lower Inn". Profession innkeeper. Ancestry human. Peaceable. Pronouns she.
     Sells rations for 1 coin from 6.
   }
