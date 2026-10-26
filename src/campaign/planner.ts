@@ -7,6 +7,8 @@ export interface Plan { actions: string[]; cost: number; expanded: number; expla
 // The actions a search may take from a world: a fixed list, or a function of the world (demand-grounded).
 export type Moves = Operator[] | ((world: World) => Operator[]);
 export class Planner {
+  // How many states the last search expanded (a search that found nothing in all it could look at: Agency).
+  static last = 0;
   static applicable(world: World, action: Operator): boolean {
     return world.test(action.requires) && world.admits(action.success);
   }
@@ -20,6 +22,7 @@ export class Planner {
     const frontier = [{ world, actions: [] as string[], cost: 0, time: 0 }];
     const visited = new Map<string, number>(), seen = new Map<string, Operator>();
     let expanded = 0;
+    Planner.last = 0;
     while (frontier.length && expanded < options.maxNodes) {
       frontier.sort((a, b) => a.cost - b.cost);
       const node = frontier.shift()!;
@@ -27,7 +30,7 @@ export class Planner {
       const key = Number.isFinite(options.timeRemaining) ? `${node.world.key()};${node.time}` : node.world.key();
       if ((visited.get(key) ?? Infinity) <= node.cost) { continue; }
       visited.set(key, node.cost);
-      expanded++;
+      expanded++; Planner.last = expanded;
       if (node.world.test(goal)) {
         return { actions: node.actions, cost: node.cost, expanded,
           explanation: node.actions.map(id => `${seen.get(id)!.name}: ${seen.get(id)!.description}`) };
