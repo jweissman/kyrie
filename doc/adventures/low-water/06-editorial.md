@@ -97,3 +97,14 @@ scale: 71 rooms is a large module, not a supermodule. It no longer holds on the 
 What would carry it the rest of the way: the Hearing rebuilt as the council of war; the wheel-rooms as galleries
 with their own puzzles; the Collegium thread carried into The Long Man; and a sung contest with the Reflected that
 plays as a system rather than one action.
+
+## Final (after Act IV and the finishing journeys)
+
+The second-pass verdict stands, with Act IV now built ([11](11-act-four.md)). The Hearing hears about the creditor,
+and the city can answer it in three ways, each with its own ending. Every mechanic has been played by a journey but
+the cup payment and two of the Auditor's lines. Playing them found and fixed one real fault: the doubles could kill a
+level-1 company in a single failed song.
+
+What remains is scale, which is a choice, not a gap. At 71 rooms the work is a large, dense module. I would rather add
+depth to the rooms it has than grow it toward the 150 to 200 rooms the second pass imagined.
+

@@ -74,7 +74,7 @@ export class Bowl {
   // Back down from the Auditor's seat, through Ammerlin in the water, up through the still water to the Ward landing.
   static readonly fromSeat = ['hall of the nine circles', 'hall of receipts', 'glass gate', 'top of the stair', 'foot of the stair',
     'Ward in the water', 'square in the water', 'Rim in the water', 'Bowl in the water', 'still water', 'Ward landing'];
-  // The Fourth sung again on the Cantor's word, and the Grey Way opened on Quill's terms: the count closes with the door held.
+  // The Fourth sung again on the Cantor's word, the Grey Way opened on Quill's terms: the count closes, the door held.
   static get keptCount() {
     return [...this.act1, ...this.trial, ...this.descent, ...this.night, ...this.morning, '^To the new mud', '^To the Ward landing',
       '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^Into the Sounding', "Cantor's room", 'Talk to Cantor',
