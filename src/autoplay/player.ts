@@ -8,6 +8,10 @@ export type PolicyName = Temper | 'mixed';
 export interface Offered { id: string; name: string }
 export interface Situation {
   offered: Offered[]; destinations: { id: string; name: string }[]; visited: ReadonlySet<string>; step: number;
+  // How each fight offered would go, as the page reckons it before it is begun (DangerSense), by its command.
+  dangers?: Record<string, string>;
+  // Night, when the roads are dark.
+  dark?: boolean;
 }
 export type Move = { kind: 'command'; id: string } | { kind: 'travel'; to: string };
 
@@ -15,7 +19,10 @@ export type Move = { kind: 'command'; id: string } | { kind: 'travel'; to: strin
 // would not show), by a temper held for a stretch of play: a wanderer, someone going somewhere known, a fighter, an
 // investigator, someone looking after the company, an expedition out and home, or someone doing the unexpected.
 // A mixed player changes temper every stretch. It fights its own turns mostly as the game's tactics would, sometimes
-// with a legal blow at random, and now and then by running.
+// with a legal blow at random, and now and then by running. A fighter and an expedition take on only what the page
+// reckons can be won, as a careful player would; and any temper but the unexpected meets a demand it can meet (the
+// road-money, a toll), goes back from a band the page reckons beyond it, and does not walk the roads at night.
+// Someone doing the unexpected takes on anything.
 export class AutoPlayer {
   static readonly tempers: Temper[] = ['wander', 'intent', 'fight', 'investigate', 'care', 'expedition', 'deviate'];
   static readonly stretch = 24;
@@ -27,6 +34,9 @@ export class AutoPlayer {
     trade: /^(buy|sell|barter)\w*\(/, gear: /^(equip|unequip|light|douse|put)\w*\(/,
     grow: /^(learn_skill|raise_quality|learn_spell|take_feat|prepare_spell)\(/,
     join: /^(join|hire|recruit|invite)\w*\(/,
+    // Meeting a demand: road-money, a toll, a fine, an empty purse turned out, going quietly (a module's own action
+    // is named for its module: raidersFolk__pay_road_money).
+    yield: /^(\w+__)?(pay_|show_empty_purse|go_with)\w*\(/,
     wait: /^wait/,
   };
   private temper: Temper;
@@ -47,12 +57,13 @@ export class AutoPlayer {
     if (move.kind === 'command') { this.tried.add(move.id); }
     return move;
   }
-  // How it fights its own turns.
+  // How it fights its own turns: as the game's tactics would (as the page's reckoning of a fight assumes), now and
+  // then by running; someone doing the unexpected strikes about at random as often as not.
   readonly controller = (battle: Battle): Promise<Command> => {
     const legal = battle.legalCommands(), flee = legal.find(c => c.ability === 'flee');
     if (flee && this.draw.chance(this.temper === 'fight' ? 0.02 : 0.08)) { return Promise.resolve(flee); }
     const blows = legal.filter(c => c.ability !== 'flee' && c.ability !== 'wait');
-    const pick = this.draw.chance(0.3) ? this.draw.pick(blows) : undefined;
+    const pick = this.temper === 'deviate' && this.draw.chance(0.5) ? this.draw.pick(blows) : undefined;
     return Promise.resolve(pick ?? Tactics.choose(battle.state, legal));
   };
   private of(s: Situation, ...kinds: string[]): Offered[] {
@@ -63,18 +74,35 @@ export class AutoPlayer {
     return this.of(s, 'go').filter(o => !s.visited.has(AutoPlayer.destination(o.id)));
   }
   private preferred(s: Situation): Move | undefined {
-    const d = this.draw;
+    const d = this.draw, careful = this.temper === 'deviate' ? undefined : this.careful(s);
+    if (careful) { return careful; }
     switch (this.temper) {
       case 'wander': return this.command(d.chance(0.75) ? d.pick(this.fresh(s)) ?? d.pick(this.of(s, 'go'))
         : d.pick(this.of(s, 'look', 'talk', 'take')));
       case 'intent': return this.travel(s) ?? this.command(d.pick(this.fresh(s)));
-      case 'fight': return this.command(d.pick(this.of(s, 'fight'))) ?? this.site(s) ?? this.command(d.pick(this.fresh(s)));
+      case 'fight': return this.command(d.pick(this.winnable(s))) ?? this.site(s) ?? this.command(d.pick(this.fresh(s)));
       case 'investigate': return this.command(d.pick(this.of(s, 'talk', 'look').filter(o => !this.tried.has(o.id)))
         ?? d.pick(this.fresh(s)));
       case 'care': return this.command(d.pick(this.of(s, 'care', 'grow', 'gear', 'trade', 'join')) ?? d.pick(this.of(s, 'wait')));
-      case 'expedition': return this.expedition(s) ?? this.command(d.pick(this.of(s, 'fight')) ?? d.pick(this.fresh(s)));
+      case 'expedition': return this.expedition(s) ?? this.command(d.pick(this.winnable(s)) ?? d.pick(this.fresh(s)));
       case 'deviate': return this.command(d.pick(s.offered));
     }
+  }
+  // What a careful player does first: meets a demand it can, goes back from what is beyond it to somewhere it has
+  // been, and rests, or waits for the light, rather than go on in the dark.
+  private careful(s: Situation): Move | undefined {
+    const demand = this.of(s, 'yield')[0];
+    if (demand) { return this.command(demand); }
+    if (Object.values(s.dangers ?? {}).some(x => ['grave', 'deadly'].includes(x))) {
+      const back = this.of(s, 'go').find(o => s.visited.has(AutoPlayer.destination(o.id)));
+      if (back) { return this.command(back); }
+    }
+    const rest = s.dark ? s.offered.find(o => /^(rest|camp|take_lodging|wait_for_light)/.test(o.id)) : undefined;
+    return this.command(rest);
+  }
+  // The fights the page does not reckon could be lost, or beyond the company.
+  private winnable(s: Situation): Offered[] {
+    return this.of(s, 'fight').filter(o => !['grave', 'deadly'].includes(s.dangers?.[o.id] ?? ''));
   }
   // Somewhere known and not yet been to, along the ways the company knows.
   private travel(s: Situation): Move | undefined {

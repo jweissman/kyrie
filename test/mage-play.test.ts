@@ -42,6 +42,17 @@ describe('a mage in the king-barrow', () => {
     const beetles = ScreenModel.build(s.campaign).people.find(p => /beetles/.test(p.name))!;
     expect(beetles.reckoning).toEqual({ danger: 'hard', text: 'Tharash reckons you would likely beat them, but Wenna could fall.' });
   }, 60000);
+  // Alone, the one who could fall is the one who plays, and no one would get them up: the laboratory's lone warrior
+  // took on hobs reckoned only "someone could fall", and died.
+  it('tells one who is alone that they could fall, with no one to get them up', async () => {
+    const s = await Barrow.start([Barrow.mage]);
+    GeneratedWorld.put(s, 'w9_barrow_back_stone');
+    const beetles = ScreenModel.build(s.campaign).people.find(p => /beetles/.test(p.name))!;
+    expect(beetles.reckoning?.text).not.toContain('someone');
+    if (beetles.reckoning?.danger === 'hard') {
+      expect(beetles.reckoning.text).toBe('You would likely beat them, but you could fall, with no one to get you up.');
+    }
+  }, 60000);
   it('keeps a conjured light over one who has fallen, where a torch falls with them', async () => {
     const s = await Barrow.start([Barrow.mage]), wenna = s.campaign.readout.creatures[0]!;
     const fallen = (condition: string) => ({ ...structuredClone(wenna),

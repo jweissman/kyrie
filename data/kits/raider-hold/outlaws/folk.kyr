@@ -93,7 +93,10 @@ Module outlaw_folk "Outlaws" {
   Rule caught_prying when tolerates(band, party) and not alarmed(hamo) and (at(party, store) or at(party, pens) or at(party, den))
     and not dueling(hamo) and ((capable(party, stealth) and dice(clock) <= 15) or (not capable(party, stealth) and dice(clock) <= 50))
     says "'Hoy! Hands where I can see them!' Bows come up all round you." { Assert alarmed(hamo). Retract tolerates(band, party). }
+  // The hold roused turns out on whoever is about it; on the road the band holds a company up and asks first (a
+  // hold-up after the horn had once been blown was answered by swords before anyone could pay).
   Rule band_turn_out when alarmed(hamo) and together(band, party) and not tolerates(band, party) and able(band)
+    and not demanding(band) and not at(band, road)
     says "Sir Hamo's men come at you with swords out." { Assert assails(band, party). }
   Action hail(actor: group, site: place) "Hail the outlaws and ask for Sir Hamo" {
     Description "Stand where they can see you with your hands empty. Outlaws who were once a knight's men still know how a parley goes.".

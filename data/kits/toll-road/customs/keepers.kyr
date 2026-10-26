@@ -23,7 +23,7 @@ Module toll_customs "Customs-men on the road" {
   Relation stopped(group). Relation stoppedFrom(group, passage).
   Rule stops when at(party, post) and tolls(keepers, post) and able(keepers) and not tolerates(keepers, party)
     and not stopped(party) and not hostile(chief, party)
-    says "The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?'" {
+    says "The bar stays down. 'The lord's toll,' says the reeve, dipping his pen. 'Three coin. Names?' To go on along the road without paying is to run the lord's toll, and his men will know you again." {
     Assert stopped(party).
   }
   Action pay_toll(actor: group, site: place) "Pay the lord's toll, three coin" {

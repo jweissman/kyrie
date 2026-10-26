@@ -83,11 +83,14 @@ export class DangerSense {
     // The most seasoned says it; of one who would fall, someone else does.
     const judge = [...ours].sort((a, b) => Number(a.id === fight.frail) - Number(b.id === fight.frail)
       || b.base.level - a.base.level || b.state.experience - a.state.experience)[0]!;
-    const frail = ours.length === 1 ? fight.frail && 'you' : ours.find(c => c.id === fight.frail)?.name;
+    // Alone, the one who could fall is you, and no one would get you up (a lone warrior took on hobs reckoned only
+    // "someone could fall", and died).
+    const frail = ours.length === 1 ? 'you' : ours.find(c => c.id === fight.frail)?.name;
     const said: Record<Danger, string> = {
       deadly: `${they} more than the company can take`,
       grave: `a fight with ${them} could be lost`,
-      hard: `you would likely beat ${them}, but ${frail ?? 'someone'} could fall`,
+      hard: `you would likely beat ${them}, but ${frail ?? 'someone'} could fall${ours.length === 1
+        ? ', with no one to get you up' : ''}`,
       fair: `you should beat ${them}, though not unhurt`,
       slight: `${they} no match for you`,
     };

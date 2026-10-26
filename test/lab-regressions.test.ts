@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { AutoplayRun } from '../src/autoplay/run';
+import { ModuleWriter } from '../src/lang/module-writer';
+import { PlayerView } from '../src/presentation/player-view';
 import { Borders } from '../src/world/land/borders';
 import { Terrain } from '../src/world/land/terrain';
 import { Settling } from '../src/world/land/settling';
@@ -22,6 +24,24 @@ describe('what the autoplay laboratory found', () => {
     }
     expect(s.campaign.installed).toContain('x1y0');
     expect(s.campaign.module.entities.some(e => e.id === 'x1y0__edge_west')).toBe(true);
+  }, 180000);
+  // thorn, a careful cleric (the laboratory's expedition), step 96: Sir Hamo's men held the company up on the road
+  // ("Road-money, in Sir Hamo's name: five crowns") and came at it with swords in the same breath, before it could pay.
+  // The company had once gone up to the hold, where the sentry's horn roused Sir Hamo; a roused hold's men turned out
+  // on whoever was with them, on the road as at the hold.
+  it('lets a company held up on the road pay, though the hold was once roused', async () => {
+    const s = await AutoplayRun.start({ seed: 'thorn', origin: 'wanderer', policy: 'fight', steps: 1, keep: 0,
+      frontier: false, protagonist: { name: 'Wenna', raceId: 'human', classId: 'cleric' } }), c = s.campaign;
+    const road = c.world.related('tolls').find(r => r.args[0] === 'raidersFolk__band')!.args[1]!;
+    const held = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    held.commit(held.world.apply([['retract', 'at', 'party', c.world.one('at', 'party')!], ['assert', 'at', 'party', road],
+      ['assert', 'alarmed', 'raidersFolk__hamo'], ['retract', 'at', 'raidersFolk__band', 'raidersFolk__yard'],
+      ['assert', 'at', 'raidersFolk__band', road], ['assert', 'raidersFolk__demanding', 'raidersFolk__band'],
+      ['assert', 'halts', 'raidersFolk__band', 'party']].map(([kind, name, ...args]) =>
+      ({ kind, call: ModuleWriter.call(name!, ...args) }))));
+    const waited = await s.perform('wait');
+    expect(waited.combat).toEqual([]);
+    expect(PlayerView.choices(c).some(x => /pay_road_money\(/.test(x.choice.id))).toBe(true);
   }, 180000);
   // Every side of a land has its road out, whatever stands between its towns and that edge: of 160 lands drawn, these
   // two mountain countries had none west.

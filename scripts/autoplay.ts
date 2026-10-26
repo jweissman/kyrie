@@ -47,7 +47,8 @@ class Lab {
   static line(r: RunResult): string {
     const m = r.metrics, s = r.spec;
     return `${s.seed} ${s.origin} ${s.protagonist.raceId} ${s.protagonist.classId} ${s.policy} | ${m.steps} steps, `
-      + `${m.commands} commands, ${m.fights} fights (${m.won} won, ${m.lost} lost, ${m.fled} fled), `
+      + `${m.commands} commands, ${m.fights} fights (${m.won} won, ${m.lost} lost${m.lost ? ` [${m.chosen} taken on, `
+        + `${m.unchosen} come to it]` : ''}, ${m.fled} fled), `
       + `${m.arrivals}/${m.travels} journeys, ${m.countries} countries, ${m.places} places, `
       + `${(m.watches / 6).toFixed(0)} h | ${(m.ms / 1000).toFixed(1)} s${r.ended ? ' | ended' : ''}`
       + (r.failure ? ` | FAIL ${r.failure.kind}: ${r.failure.message.split('\n')[0]}` : '');
@@ -84,14 +85,17 @@ class Lab {
     }
     this.totals(results);
   }
-  static sum(results: RunResult[], k: 'commands' | 'fights' | 'arrivals' | 'countries' | 'places' | 'watches' | 'ms') {
+  static sum(results: RunResult[], k: 'commands' | 'fights' | 'arrivals' | 'countries' | 'places' | 'watches' | 'ms'
+    | 'won' | 'lost' | 'fled' | 'chosen' | 'unchosen') {
     return results.reduce((n, r) => n + r.metrics[k], 0);
   }
   static totals(results: RunResult[]) {
     const sum = this.sum.bind(this, results);
     const kinds = new Set(results.flatMap(r => Object.keys(r.metrics.kinds))), failed = results.filter(r => r.failure);
     console.log(`\n${results.length} runs, ${failed.length} failed; ${sum('commands')} commands (${kinds.size} kinds), `
-      + `${sum('fights')} fights, ${sum('arrivals')} journeys arrived, ${sum('countries')} countries entered, `
+      + `${sum('fights')} fights (${sum('won')} won, ${sum('lost')} lost: ${sum('chosen')} taken on, ${sum('unchosen')} come `
+      + `to the company; ${sum('fled')} fled), ${results.filter(r => r.ended).length} companies ended, `
+      + `${sum('arrivals')} journeys arrived, ${sum('countries')} countries entered, `
       + `${sum('places')} places, ${(sum('watches') / 144).toFixed(1)} days of the world, in `
       + `${(sum('ms') / 1000).toFixed(0)} s (${(sum('commands') / (sum('ms') / 1000)).toFixed(1)} commands a second)`);
   }

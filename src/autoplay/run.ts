@@ -12,6 +12,7 @@ import { AutoPlayer, type Move, type PolicyName, type Situation } from './player
 import { Draw } from './draw';
 import { Invariants, type Violation } from './invariants';
 import { Widening } from './widening';
+import { DangerSense } from '../presentation/danger-sense';
 
 export interface Protagonist { name: string; raceId: string; classId: string }
 export interface RunSpec {
@@ -24,6 +25,8 @@ export interface Failure { kind: string; message: string; step: number; move?: M
 export interface Metrics {
   steps: number; commands: number; travels: number; arrivals: number; fights: number; won: number; lost: number;
   fled: number; kinds: Record<string, number>; places: number; countries: number; watches: number; ms: number;
+  // Fights lost that the company took on, and those that came to it (on the road, where it arrived, as it waited).
+  chosen: number; unchosen: number;
 }
 export interface RunResult {
   spec: RunSpec; steps: TranscriptStep[]; metrics: Metrics; failure?: Failure; ended: boolean;
@@ -72,10 +75,19 @@ export class AutoplayRun {
   }
   static watch(s: PlaySession): number { return s.campaign.world.number(ModuleWriter.call('watch', 'clock')); }
   static situation(s: PlaySession, step: number): Situation {
-    const c = s.campaign;
-    return { offered: PlayerView.choices(c).map(x => ({ id: x.choice.id, name: x.choice.name })),
-      destinations: Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),
-      visited: VisitedPlaces.of(c, c.playerActor!), step };
+    const c = s.campaign, offered = PlayerView.choices(c).map(x => ({ id: x.choice.id, name: x.choice.name }));
+    return { offered, destinations: Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),
+      visited: VisitedPlaces.of(c, c.playerActor!), step, dangers: this.dangers(s, offered),
+      dark: Travel.night(c.readout.elapsed) };
+  }
+  // How each fight offered would go, as the page reckons it, for those it reckons (a group the company could fight).
+  private static dangers(s: PlaySession, offered: { id: string }[]): Record<string, string> {
+    const c = s.campaign, groups = c.readout.inhabitants;
+    return Object.fromEntries(offered.filter(o => AutoPlayer.kind(o.id) === 'fight').flatMap(o => {
+      const group = /^\w+\(([^,)]+)/.exec(o.id)?.[1];
+      const danger = group && groups[group] && DangerSense.reckon(c, group)?.danger;
+      return danger ? [[o.id, danger]] : [];
+    }));
   }
   static async apply(s: PlaySession, move: Move, player: AutoPlayer, metrics: Metrics) {
     if (move.kind === 'travel') {
@@ -100,7 +112,7 @@ export class AutoplayRun {
       metrics.fights++;
       if (end.type !== 'end') { continue; }
       if (end.outcome === 'fighters') { metrics.won++; } else if (end.outcome === 'escaped') { metrics.fled++; }
-      else { metrics.lost++; }
+      else { metrics.lost++; metrics[kind === 'fight' ? 'chosen' : 'unchosen']++; }
     }
     return event;
   }
@@ -117,6 +129,6 @@ export class AutoplayRun {
   }
   static empty(): Metrics {
     return { steps: 0, commands: 0, travels: 0, arrivals: 0, fights: 0, won: 0, lost: 0, fled: 0, kinds: {}, places: 0,
-      countries: 0, watches: 0, ms: 0 };
+      countries: 0, watches: 0, ms: 0, chosen: 0, unchosen: 0 };
   }
 }

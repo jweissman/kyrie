@@ -76,6 +76,10 @@ export class Travel {
     if (event.combat.length || event.prelude) { return 'You were set upon on the way'; }
     if (event.result === 'failure' || here !== leg.to) { return `You did not get by ${leg.way}`; }
     if (now.hp < before.hp) { return 'Someone was hurt on the way'; }
+    // Something said to the company where it comes, by what is going on there: a toll asked at a bar across the road
+    // (mere's newcomer walked on past it, and so ran the lord's toll, having been told only "There is danger here").
+    const said = event.perceptions?.find(p => p.kind === 'event')?.text;
+    if (said) { return /^[^.!?]*/.exec(said)![0].replace(/^['‘]|['’]$/g, '') || 'Something is said to you here'; }
     if (PlayerView.choices(campaign).some(c => /^attack\(/.test(c.choice.id))) { return 'There is danger here'; }
     if (campaign.world.relates('staged') && campaign.world.related('staged').some(r => r.args[0] === here)) {
       return 'Something is going on here';
