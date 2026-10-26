@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Engine-written facts (review probe)", "modules": [{ "id": "scorched", "bundle": "module.json" }], "party": [{ "name": "Nell", "raceId": "human", "classId": "thief", "backgroundId": "burglar" }] }

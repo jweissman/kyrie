@@ -1,0 +1,5 @@
+== cold
+cold process: FAILED: Line 1, col 24: Kind figurine is like dreg_ox, which is no kind of item
+== warm
+after local-kind campaign loaded: OK, figurine = {"name":"a figurine","category":"treasure","description":"a little ox of dreg, on a cord","value":2,"mass":1,"source":{"kyr":true,"notes":"Declared by the modul
+after LocalKinds.reset() (no dreg_ox anywhere): OK, figurine = {"name":"a figurine","category":"treasure","description":"a little ox of dreg, on a cord","value":2,"mass":1,"source":{"kyr":true,"notes":"Declared by the modul

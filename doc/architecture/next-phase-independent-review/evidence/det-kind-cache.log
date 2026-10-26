@@ -1,0 +1,10 @@
+== alone
+B: {"dir":"b","uses":["use_item(p__flask,p__member_party_1)"],"effect":"[[\"action\",null,null,null]]","conds":[[]],"canonicalLength":291174}
+== after
+A first: {"dir":"a","uses":[],"effect":"","conds":[[]],"canonicalLength":289798}
+B: {"dir":"b","uses":[],"effect":"","conds":[[]],"canonicalLength":289844}
+== a
+A: {"dir":"a","uses":[],"effect":"","conds":[[]],"canonicalLength":289798}
+== reverse
+B first: {"dir":"b","uses":["use_item(p__flask,p__member_party_1)"],"effect":"[[\"action\",null,null,null]]","conds":[[]],"canonicalLength":291174}
+A: {"dir":"a","uses":["use_item(p__flask,p__member_party_1)"],"effect":"[[\"action\",null,null,null]]","conds":[[]],"canonicalLength":291151}
