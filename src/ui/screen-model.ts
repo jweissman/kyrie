@@ -70,8 +70,7 @@ export class ScreenModel {
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited }) : [],
       people: [...rows.filter(r => ['person', 'creature', 'animal'].includes(r.kind)), ...companions],
       things: rows.filter(r => r.kind === 'thing' || r.kind === 'feature'),
-      party: this.party(view, campaign, grouped),
-      items, camp: grouped.camp,
+      party: this.party(view, campaign, grouped), items, camp: grouped.camp,
       purse: { coin: view.resources?.find(r => r.id === 'gold')?.amount ?? 0,
         rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0,
         other: (view.resources ?? []).filter(r => !['gold', 'rations'].includes(r.id) && r.amount > 0)
@@ -368,11 +367,13 @@ export class ScreenModel {
         overlays: this.overlays(campaign, m.id), ...this.sheet(campaign, m.id, ref, grouped.members.get(ref ?? '') ?? []) };
     });
   }
-  // Where the company could set out for along known ways, each with its legs named.
+  // Where the company could set out for along known ways, each with its legs named as the page names them (the
+  // Bushweald play read "By the track to {region__w13}").
   private static destinations(campaign: Campaign, entities: Map<string, Entity>): Screen['destinations'] {
     if (!campaign.running) { return []; }
-    return Itineraries.destinations(campaign).map(d => ({ id: d.id, name: d.name, minutes: d.minutes,
-      legs: d.legs.map(l => ({ way: l.way, to: entities.get(l.to)?.name ?? l.to, minutes: l.minutes })) }));
+    return Itineraries.destinations(campaign).map(d => ({ id: d.id, name: entities.get(d.id)?.name ?? d.name,
+      minutes: d.minutes, legs: d.legs.map(l => ({ way: entities.get(l.passage)?.name ?? l.way,
+        to: entities.get(l.to)?.name ?? l.to, minutes: l.minutes })) }));
   }
   // The member as the rules have them, and what a development would change, each with its command if offered.
   private static sheet(campaign: Campaign, id: string, ref: string | undefined, acts: Act[]) {

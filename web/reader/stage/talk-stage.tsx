@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { Talk } from '../../../src/ui/attention';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Counter } from '../../../src/ui/trade-model';
@@ -8,6 +8,7 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Stage } from './stage';
+import { Moments } from './moments';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
 // doing when you came over, what they said to you and you to them, in order, and what you came to know; then what
@@ -21,7 +22,7 @@ export class TalkStage {
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')} />
         <div className="dialogue">
           <Stage.Running frame={frame} extra={frame.screen.place.name} />
-          <TalkStage.Lines lines={s.talk} pending={s.pending?.said} />
+          <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} />
           <TalkStage.Counter counter={frame.screen.trade.find(c => c.id === who.id)} coin={frame.screen.purse.coin} />
           <ol className="replies" aria-label={`What you might say to ${name}`}>
             {talk.replies.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
@@ -37,11 +38,15 @@ export class TalkStage {
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
   // as far as the painting itself says. Where no painting fits them, the page is theirs in type: their name, large,
   // and what they are, rather than a picture of someone they are not.
+  // A painting that cannot be had (images refused, or the page offline) leaves the page in type, as one that does not
+  // fit: the Bushweald play without images found a black slab, a broken picture and its painter's credit.
   static Sitter({ app, name, role }: { app: ReaderApp; name: string; role: string }) {
-    const portrait = app.menu.talk!.subject.portrait;
+    const given = app.menu.talk!.subject.portrait, [failed, fail] = useState<string>();
+    const portrait = given && given.large !== failed ? given : undefined;
     return (
       <div className={`sitter${portrait ? '' : ' unpainted'}`}>
-        {portrait && <img src={portrait.large} alt="" decoding="async" style={{ objectPosition: `50% ${portrait.focus}%` }} />}
+        {portrait && <img src={portrait.large} alt="" decoding="async" onError={() => fail(portrait.large)}
+          style={{ objectPosition: `50% ${portrait.focus}%` }} />}
         {portrait && <p className="credit">{portrait.credit ?? 'Painter unrecorded'}</p>}
         <div className="cap"><h1 className="n">{Typography.curl(name)}</h1>{role && <p className="r">{Typography.curl(role)}</p>}</div>
       </div>
@@ -49,7 +54,7 @@ export class TalkStage {
   }
   // What has passed between you, newest last and kept in view; when the newest is longer than there is room for, from
   // its beginning (what you said), not its end.
-  static Lines({ lines, pending }: { lines: TalkLine[]; pending?: string }) {
+  static Lines({ lines, pending, ready }: { lines: TalkLine[]; pending?: string; ready?: string }) {
     const end = useRef<HTMLDivElement>(null), newest = useRef<HTMLParagraphElement>(null);
     const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you'));
     useLayoutEffect(() => {
@@ -61,9 +66,15 @@ export class TalkStage {
     }, [lines.length, pending]);
     return (
       <div className="lines" aria-live="polite">
-        {lines.map((l, i) => l.kind === 'learned'
-          ? <p key={i} ref={i === from ? newest : undefined} className="line learned"><b>You know now</b>{l.text}</p>
-          : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>)}
+        {lines.map((l, i) => {
+          // Something seen through, or a level gained, is set apart here as on the place's page.
+          const ended = Moments.ending.exec(l.text), levelled = Moments.levelled.exec(l.text);
+          return ended ? <Moments.SeenThrough key={i} ended={ended} ready={ready} />
+            : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
+            : l.kind === 'learned'
+              ? <p key={i} ref={i === from ? newest : undefined} className="line learned"><b>You know now</b>{l.text}</p>
+              : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>;
+        })}
         {pending && <p className="line you waiting">{Typography.curl(Words.lastSaid(pending))}</p>}
         <div ref={end} />
       </div>

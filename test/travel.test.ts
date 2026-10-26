@@ -6,6 +6,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { Itineraries } from '../src/ui/itinerary';
 import { Travel } from '../src/session/travel';
 import { GeneratedWorld } from './support/generated';
+import { ScreenModel } from '../src/ui/screen-model';
 
 // The way into adventure (Mission 16's Gate B): the first country's towns tell of the authored country beyond it,
 // the notice is up where travellers are kept, and once it is known the way there is known too, over the country's
@@ -53,6 +54,15 @@ describe('the way into Merrowdale', () => {
     expect(bridge.choice.name).toStartWith('Take the bridge over the Alquarant');
     const land = ((await s.perform(bridge.choice.id)).voiced ?? []).filter(v => v.kind === 'journey-land');
     expect(land.map(v => v.id)).toEqual([expect.stringMatching(/^journey-land\.river\.bridge\./)]);
+  }, 120000);
+  // The Bushweald play read "By the track to {region__w13}" in the legs of a journey home from the site it led to.
+  it('names each leg of a journey as the page names the way', async () => {
+    const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared, { origin: 'wanderer',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'wren', w.source);
+    await GeneratedWorld.travel(s, 'w1');
+    const legs = (ScreenModel.build(s.campaign).destinations ?? []).flatMap(d => d.legs.map(l => l.way));
+    expect([legs.includes('the track to Lapiscustod'), legs.some(l => l.includes('{'))]).toEqual([true, false]);
   }, 120000);
   it('reckons night as the dark hours, which stop a journey that runs into them', () => {
     expect([Travel.night(0), Travel.night(6 * 11), Travel.night(6 * 12), Travel.night(6 * 22)])

@@ -25,7 +25,7 @@ export class Told {
       {!s.pending && frame.travel && <Told.Journey travel={frame.travel} />}
       {!s.pending && !frame.travel && leaf.moved && leaf.journey && leaf.journey.length > 0 && <div className="journey"
         aria-label="On the way">{leaf.journey.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}</div>}
-      {!s.pending && stayed && <Told.Happened exchange={told} said ready={Told.ready(screen)} />}
+      {!s.pending && stayed && <Told.Happened exchange={told} said ready={Moments.ready(screen)} />}
       {leaf.situation.length > 0 && (stayed
         ? <p className="recall">{Typography.curl(Told.first(leaf.situation[0]!))}</p>
         : <div className="establish">{leaf.situation.map((p, i) => <p key={i}>{Typography.curl(p)}</p>)}</div>)}
@@ -34,7 +34,7 @@ export class Told {
         <p className="label">Since you were last here</p>
         {leaf.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
       </div>}
-      {!s.pending && told && !stayed && <Told.Happened exchange={told} ready={Told.ready(screen)} />}
+      {!s.pending && told && !stayed && <Told.Happened exchange={told} ready={Moments.ready(screen)} />}
     </>;
   }
   // A journey along known ways: each leg as it went, under the time it came there; and, if it did not arrive, what
@@ -48,12 +48,6 @@ export class Told {
         {!travel.arrived && <p className="stopped">{Typography.curl(travel.stopped ?? 'The journey stops here')}.</p>}
       </section>
     );
-  }
-  // Who in the company has enough for their next level, and how it is taken up.
-  static ready(screen: Frame['screen']): string | undefined {
-    const m = screen.party.find(x => /^Ready for level/.test(x.progress ?? ''));
-    return m && `${screen.party.length > 1 ? `${m.name}: ` : ''}${m.progress!.replace(/^Ready/, 'Enough')
-      .replace(/: a night under a roof$/, ', taken up after a night under a roof')}`;
   }
   // Whether the page already says it (the dark, in the place's own words), so it is not said twice.
   static says(leaf: Frame['leaf'], pattern: RegExp): boolean {

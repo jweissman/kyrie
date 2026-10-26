@@ -2,6 +2,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import { Attending, type Attention } from '../../src/ui/attention';
 import { SceneModel } from '../../src/ui/scene';
 import type { Frame } from '../engine/protocol';
+import { Words } from './words';
 
 // One line of a conversation as it is kept on the page: what the company said, what was said back or done, what it
 // came to know, and what it paid or was given.
@@ -30,11 +31,13 @@ export class Conversation {
     const there = attention.kind === 'person' ? Attending.talk(scene, attention.id) : Attending.thing(scene, attention.id);
     return there ? attention : this.place;
   }
-  // What a frame adds: the company's words (not for the turning to them, which the greeting answers), then what came
-  // of them, then what was learned.
+  // What a frame adds: the company's words (not for the turning to them, which the greeting answers, nor for an act
+  // whose telling says it again: "Give healing herbs to Erevan" over "Aldith gives healing herbs to Erevan"), then
+  // what came of them, then what was learned.
   static lines(frame: Frame, choice: Choice, said: string): TalkLine[] {
-    const exchange = frame.leaf.exchange;
-    const you: TalkLine[] = /#talk$/.test(choice.id) ? [] : [{ kind: 'you', text: exchange?.said ?? said.split(' › ').at(-1)! }];
+    const exchange = frame.leaf.exchange, words = exchange?.said ?? said.split(' › ').at(-1)!;
+    const restated = Words.restates(Words.echo(words), exchange?.lines[0]?.text);
+    const you: TalkLine[] = /#talk$/.test(choice.id) || restated ? [] : [{ kind: 'you', text: words }];
     return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
       ...(exchange?.notes ?? []).map(text => ({ kind: /^Noted: /.test(text) ? 'learned' as const : 'tally' as const,
         text: text.replace(/^Noted: /, '') }))];

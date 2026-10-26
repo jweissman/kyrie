@@ -1,4 +1,5 @@
 import type { Exchange } from '../../../src/presentation/narrator';
+import type { Frame } from '../../engine/protocol';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 
@@ -25,6 +26,12 @@ export class Moments {
         {ready && <p className="next">{Typography.curl(ready)}.</p>}
       </div>
     );
+  }
+  // Who in the company has enough for their next level, and how it is taken up.
+  static ready(screen: Frame['screen']): string | undefined {
+    const m = screen.party.find(x => /^Ready for level/.test(x.progress ?? ''));
+    return m && `${screen.party.length > 1 ? `${m.name}: ` : ''}${m.progress!.replace(/^Ready/, 'Enough')
+      .replace(/: a night under a roof$/, ', taken up after a night under a roof')}`;
   }
   // Who and the level, what it gave, and the development it brings to be spent; several at once, as one moment.
   static Levelled({ levels }: { levels: RegExpExecArray[] }) {
