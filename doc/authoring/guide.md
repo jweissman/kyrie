@@ -701,10 +701,14 @@ Someone the company is kin to (`kin(party, brother)`) and willing (`willing(brot
 along; they join as themselves, keep what they could be asked at home, and can be sent home again. A dog is
 `Species dog`: tame animals keep the peace, greet whom they know, and can be made much of (`test/fixtures/household`).
 
-### Laws shared between modules
+### A law of a module's own
 
-A module may take another module's relations and rules as its own law by naming its file among its rules:
-`"rules": ["world", "../law/law.kyr"]` (`probes/shared-law`).
+A module may write its law in a file apart and name it among its rules: `"rules": ["world", "../law/law.kyr"]`
+(`probes/shared-law`; The Patient Star's stilling and moments). The file is read as one of the module's own, as its
+sources are: its relations, measures, rules and kinds are the module's, named for it, and a kind it declares can be
+sold by a person in any of the module's files. Only the named rules (`world`, `elements`, `devotion`) are shared
+between modules; what a module does not export is its own (the architecture review's A7: a module's rules file had
+declared another module's private relation, and written it).
 
 ### The order things happen in
 

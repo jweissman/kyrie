@@ -86,14 +86,32 @@ export class ModuleBundle {
   private static readonly parses = new Map<string, Module>();
   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
-  private static parsed(file: SourceFile): Module {
-    let module = this.parses.get(file.text);
+  // A module's own file is kept by the kinds it was read among as well as its text (see `own`); the shared rules,
+  // which place nothing of a module's kinds, by their text.
+  private static parsed(file: SourceFile, among = false): Module {
+    const key = this.key(file.text, among);
+    let module = this.parses.get(key);
     if (!module) {
       try { module = ModuleParser.parse(file.text); } catch (error) { throw Diagnostics.parse(error, file.path); }
       if (this.parses.size > 400) { this.parses.clear(); }
-      this.parses.set(file.text, module);
+      this.parses.set(key, module);
     } else { LocalKinds.install(module.catalog); }
     return structuredClone(module);
+  }
+  private static key(text: string, among: boolean): string {
+    return among ? `${LocalKinds.fingerprint()}\u0000${text}` : text;
+  }
+  // A module's own files, each read among every kind its files declare, as one file's are read among its own wherever
+  // in it they are written: a felter in one file selling a cloak declared in another sold a trade good of that name,
+  // which was no good at all (found with the architecture review's A7, its law read as the module's own).
+  // Each is read again only if a file after it declared kinds (a file knows its own wherever in it they are written).
+  private static own(files: SourceFile[]): Module[] {
+    const read = files.map(f => {
+      const module = this.parsed(f, true);
+      return { module, kinds: LocalKinds.fingerprint() };
+    });
+    const all = LocalKinds.fingerprint();
+    return read.map((r, i) => r.kinds === all ? r.module : this.parsed(files[i]!, true));
   }
   // Several files of one module, joined: the first's identity, everything each declares. What each file declares
   // for itself as it is read (a way's kind, a thing's state) is declared once; anything else declared twice is still
@@ -158,47 +176,74 @@ export class ModuleBundle {
   static async warm(path: string, source: BundleSource): Promise<void> {
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
     const { situations, rules } = this.paths(manifest, path, source);
-    await this.read([...situations, ...rules], source);
+    await this.read([...situations, ...rules], source, situations.length);
   }
   // The same for a module not yet in the game in play (the country beyond a march, while the player reads the choice
   // that leads to it): what each file declares of its own kinds is taken out of the catalogs again once it is parsed,
   // the kinds of the files before it put in for it alone, so a country never gone to leaves none behind.
   static async prepare(path: string, source: BundleSource): Promise<void> {
     const manifest = JSON.parse(await source.read(path)) as BundleManifest, catalogs: Module['catalog'][] = [];
-    const { situations, rules } = this.paths(manifest, path, source);
-    for (const file of [...situations, ...rules]) {
-      const text = await source.read(file);
-      let module = this.parses.get(text);
-      if (!module) {
-        module = LocalKinds.aside(() => {
-          for (const catalog of catalogs) { LocalKinds.install(catalog); }
-          try { return ModuleParser.parse(text); } catch { return undefined; }
-        });
-        if (module && this.parses.size < 400) { this.parses.set(text, module); }
-        await new Promise(resolve => setTimeout(resolve, 0));
-      }
+    const { situations, rules } = this.paths(manifest, path, source), read: { text: string; kinds: string }[] = [];
+    for (const [i, file] of [...situations, ...rules].entries()) {
+      const text = await source.read(file), own = i < situations.length;
+      const module = LocalKinds.aside(() => {
+        for (const catalog of catalogs) { LocalKinds.install(catalog); }
+        const parsed = this.ahead(text, own);
+        LocalKinds.install(parsed?.catalog);
+        if (own) { read.push({ text, kinds: LocalKinds.fingerprint() }); }
+        return parsed;
+      });
+      await new Promise(resolve => setTimeout(resolve, 0));
       catalogs.push(module?.catalog);
     }
+    // Those of its own read before all its kinds were known, read again among them, as its loading will (see `own`).
+    LocalKinds.aside(() => {
+      for (const catalog of catalogs) { LocalKinds.install(catalog); }
+      const all = LocalKinds.fingerprint();
+      for (const r of read.filter(x => x.kinds !== all)) { this.ahead(r.text, true); }
+    });
+  }
+  // One file read ahead, kept as its loading will look for it (see `key`).
+  private static ahead(text: string, own: boolean): Module | undefined {
+    const key = this.key(text, own), known = this.parses.get(key);
+    if (known) { return known; }
+    try {
+      const parsed = ModuleParser.parse(text);
+      if (this.parses.size < 400) { this.parses.set(key, parsed); }
+      return parsed;
+    } catch { return undefined; }
   }
   // The rules every game is played by, read before any game is asked for (while the title is up).
   static async warmRules(source: BundleSource): Promise<void> {
     await this.read(this.ruleNames.map(name => source.resolve(`data/rules/${name}.kyr`)), source);
   }
-  private static async read(files: string[], source: BundleSource): Promise<void> {
-    for (const file of files) {
-      const text = await source.read(file);
-      if (!this.parses.has(text)) {
-        try { this.parses.set(text, ModuleParser.parse(text)); } catch { /* said when it is loaded */ }
+  // The first `own` of them a module's own files (see `key`).
+  private static async read(files: string[], source: BundleSource, own = 0): Promise<void> {
+    const read: { text: string; kinds: string }[] = [];
+    for (const [i, file] of files.entries()) {
+      const text = await source.read(file), key = this.key(text, i < own);
+      if (!this.parses.has(key)) {
+        try { this.parses.set(key, ModuleParser.parse(text)); } catch { /* said when it is loaded */ }
         await new Promise(resolve => setTimeout(resolve, 0));
       }
+      LocalKinds.install(this.parses.get(key)?.catalog);
+      if (i < own) { read.push({ text, kinds: LocalKinds.fingerprint() }); }
     }
+    // Its own read before all its kinds were known, read again among them, as its loading will (see `own`).
+    const all = LocalKinds.fingerprint();
+    for (const r of read.filter(x => x.kinds !== all)) { this.ahead(r.text, true); }
   }
+  // Only the named rules are shared (world, elements, devotion): any other file a manifest names among its rules is
+  // its own, read as its sources are and named for it (a rules file of its own had declared another module's private
+  // relation and written it, and a rule of the same id as another's was dropped unsaid: the architecture review's A7).
   private static paths(manifest: BundleManifest, path: string, source: BundleSource) {
-    return { situations: (typeof manifest.source === 'string' ? [manifest.source] : manifest.source)
-      .map(p => source.resolve(p, path)),
-    rules: (typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules)
-      .flatMap(r => ModuleBundle.ruleNames.includes(r) || r === 'world' ? (r === 'world' ? ModuleBundle.world : [r])
-        .map(name => source.resolve(`data/rules/${name}.kyr`)) : [source.resolve(r, path)]) };
+    const rules = typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules;
+    const shared = rules.filter(r => ModuleBundle.ruleNames.includes(r) || r === 'world');
+    if (!shared.length) { throw new Error(`${path} names none of the rules a module is played by (world, ...)`); }
+    return { situations: [...typeof manifest.source === 'string' ? [manifest.source] : manifest.source,
+      ...rules.filter(r => !shared.includes(r))].map(p => source.resolve(p, path)),
+    rules: shared.flatMap(r => r === 'world' ? ModuleBundle.world : [r])
+      .map(name => source.resolve(`data/rules/${name}.kyr`)) };
   }
   static async load(request: BundleRequest, options: {
     seed: string; installed?: InstalledModule[]; elapsed?: number;
@@ -216,15 +261,18 @@ export class ModuleBundle {
       return result.value;
     });
     const files = [...situationPaths, ...rulePaths].map((p, i) => ({ path: p, text: texts[i]! }));
-    const seed = RandomStreams.key(options.seed, 'module', this.parsed(files[0]!).id, request.randomIdentity ?? '');
+    // Its own files first, each read among every kind they declare (see `own`), and then the shared rules.
+    const own = files.slice(0, situationPaths.length), mine = this.own(own);
+    const seed = RandomStreams.key(options.seed, 'module', mine[0]!.id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...request.context, now: options.elapsed ?? 0 }), imports: manifest.imports ?? [] };
     const combined = this.merge(files.slice(situationPaths.length).map(f => this.parsed(f)));
     // What the module names that the shared rules name too is its own, within it (see ModuleShadow).
-    const own = files.slice(0, situationPaths.length), parsed = this.merge(own.map(f => this.parsed(f)));
+    const parsed = this.merge(mine);
     const shadowed = ModuleShadow.shared(parsed, combined), told = ModuleShadow.told(shadowed);
     const composed = ModuleShadow.apart(shadowed.functions.length
-      ? this.merge(own.map(f => this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) }))) : parsed, shadowed);
+      ? this.merge(own.map(f => this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) }, true))) : parsed,
+    shadowed);
     // A module read before (and kept parsed) puts its own kinds back for the campaign being assembled.
     LocalKinds.install(combined.catalog); LocalKinds.install(composed.catalog);
     let draft: ModuleDraft, imports: Record<string, string>;

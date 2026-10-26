@@ -93,16 +93,18 @@ export class Campaign implements WatchHost {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? [...v as unknown[]] : v])) as T;
   }
   // A fork shares compiled operators and definition records, which are never mutated after loading, behind fresh
-  // top-level arrays, and copies all mutable state; its own kinds are the catalogs'.
+  // top-level arrays, and copies all mutable state; its own kinds are the catalogs', before its creatures, whose
+  // things are of them, are taken in (a campaign loaded before another reset them carried an unknown trowel).
   private fork(): Campaign {
     this.keepFacts();
     const copy = Object.create(Campaign.prototype) as Campaign, arrays = Campaign.arrays;
+    LocalKinds.activate(this.module.catalog, copy);
     Object.assign(copy, { compiled: arrays(this.compiled), definition: this.definition && arrays(this.definition),
       current: structuredClone(this.current), creatures: new CreatureStore(this.creatures.snapshot),
       log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
       executing: false, committed: new CommittedWorld(), projection: new Projection(),
       grounding: new CampaignGrounding() });
-    LocalKinds.activate(this.module.catalog, copy); return copy;
+    return copy;
   }
   private static async assemble(path: string, seed: string, source: BundleSource,
     party?: CreatureGenerationContext[]): Promise<Campaign> {

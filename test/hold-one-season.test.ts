@@ -52,9 +52,9 @@ describe('Hold One Season', () => {
     await j.play('knife: Take', ...outfit, ...bargain, ...down);
     expect(j.page).toMatch(/That blade has no stamp/);
     await j.play("Ways on: To the ninth vault$");
-    expect(j.holds('heldDeep', 'season__garret')).toBe(true);
+    expect(j.holds('season__heldDeep', 'season__garret')).toBe(true);
     await j.play('To the Granary Ring', 'pull the shutter cord', 'Ways on: To the ninth vault$');
-    expect(j.holds('lit', 'season__vault')).toBe(false);
+    expect(j.holds('season__lit', 'season__vault')).toBe(false);
     expect(await j.waitUntil(() => !j.holds('asleep', 'season__garret'))).toBe(true);
     // The lantern burned out while he came round: in the dark nothing he does is seen, or heard.
     if (!/Where.s the light gone/.test(j.page)) { await j.play('light a flask'); }
@@ -71,12 +71,12 @@ describe('Hold One Season', () => {
     // No felt: the cutter goes in bare.
     await j.play('Rusk.*Buy › A horn lantern', 'Rusk.*Buy › A flask', ...down, "Ways on: To the ninth vault$");
     await j.play('The company: Wait › An hour', 'The company: Wait › An hour');
-    expect(j.measure('dose', me)).toBeGreaterThanOrEqual(48);
+    expect(j.measure('season__dose', me)).toBeGreaterThanOrEqual(48);
     expect(j.page).toMatch(/footsteps sound late/);
     await j.play('Go into the beam and drag Garret out');
     expect(j.at('season__garret')).toBe('season__ring');
     // Out of the beam he comes round as he would with the shutter down; the light still stands in the vault.
-    expect(j.holds('lit', 'season__vault')).toBe(true);
+    expect(j.holds('season__lit', 'season__vault')).toBe(true);
     // Slowed, the company goes at half its pace: the stilling sets the cutter's speed to half (ledger, 1).
     const clock = () => { const m = /(\d+):(\d+) (a|p)\.m\./.exec(ScreenModel.build(j.s.campaign).clock)!;
       return (Number(m[1]) % 12 + (m[3] === 'p' ? 12 : 0)) * 60 + Number(m[2]); };
@@ -176,7 +176,7 @@ describe('Hold One Season', () => {
     await j.play('Rusk.*Buy › A horn lantern', 'To the Ramp head', "To Ennick's lower road", 'To the upper terraces',
       "To the holders' cord", 'To the edge of the glass');
     await j.waitUntil(() => j.holds('dark'), 'The company: Wait › An hour', 12);
-    expect(j.measure('dose', me)).toBeGreaterThanOrEqual(24);
+    expect(j.measure('season__dose', me)).toBeGreaterThanOrEqual(24);
     await j.play("To the holders' cord");
     expect(j.page).toMatch(/wolves come at you/);
   }, 120000);
@@ -187,14 +187,14 @@ describe('Hold One Season', () => {
     expect(j.offers('Tell Saro you are going down')).toBe(false);
     await j.play('Out to the Shift Market', ...bargain.slice(0, 3), "Out to the Mutual's yard", 'To the Shift Market', 'Into the lazar house',
       'Tell Saro you are going down', 'Ask Saro to join', 'Out to the Shift Market', 'To Old Quell', 'The company: Wait › An hour');
-    expect(j.measure('dose', 'season__member_saro_person')).toBe(0);
-    expect(j.measure('dose', me)).toBeGreaterThanOrEqual(24);
+    expect(j.measure('season__dose', 'season__member_saro_person')).toBe(0);
+    expect(j.measure('season__dose', me)).toBeGreaterThanOrEqual(24);
   }, 120000);
 
   it('J13, false felt: the barrow boy\'s cloak looks the same and stops nothing', async () => {
     const j = await Journey.start();
     await j.play('barrow.*Buy an umber felt', 'Pack › An umber felt cloak › Equip', 'To Old Quell', 'The company: Wait › An hour');
-    expect(j.measure('dose', me)).toBeGreaterThanOrEqual(24);
+    expect(j.measure('season__dose', me)).toBeGreaterThanOrEqual(24);
   }, 120000);
 
   it('J14, the night way: past Hal Brewin without coin or licence', async () => {

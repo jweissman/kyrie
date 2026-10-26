@@ -116,10 +116,11 @@ describe('The Patient Star probes', () => {
     expect(error).toMatch(/^Rule put_together cannot change .* discovery knowledge \(a rule teaches what it says/);
   }, 60000);
 
-  it('P8: a kind declared in a shared law cannot be sold by a person in the module that uses the law', async () => {
-    let error = '';
-    try { await Probe.start('law-sells'); } catch (e) { error = (e as Error).message; }
-    expect(error).toMatch(/'umber_felt' is already declared by the shared rules/);
+  // A law among a module's rules is the module's own (the architecture review's A7), and a kind it declares is the
+  // module's to sell, whichever of its files declares it.
+  it('P8: a kind declared in a law a module uses is sold by a person in the module', async () => {
+    const s = await Probe.start('law-sells');
+    expect(s.campaign.offered().some(a => a.id.startsWith('buy_item') && a.id.includes('umber_felt'))).toBe(true);
   }, 60000);
 
   it('P9: an event happens once, seen or not: a man who wakes in the next room never says so to anyone', async () => {

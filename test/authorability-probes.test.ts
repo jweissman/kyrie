@@ -159,10 +159,12 @@ describe('Authorability probes', () => {
     expect(Probe.holds(s, 'peaceable', 'o__bolt')).toBe(true);
   }, 60000);
 
-  it('K10: a law one module declares is shared by a module written against it', async () => {
+  // A law by a path among a module's rules is the module's own, named for it: a law so shared kept its names, and a
+  // module's rules could reach another's private ones by it (the architecture review's A7).
+  it('K10: a law a module is written against is read as its own', async () => {
     expect((await Probe.lint('shared-law/shared.campaign.json')).filter(f => f.level === 'error')).toEqual([]);
     const s = await Probe.start('shared-law/shared.campaign.json');
-    expect(Probe.holds(s, 'held', 'site__room1')).toBe(true);
+    expect(Probe.holds(s, 'site__held', 'site__room1')).toBe(true);
   }, 60000);
 
   it('K11: selm weighs less than nothing, and the world can say so', async () => {
