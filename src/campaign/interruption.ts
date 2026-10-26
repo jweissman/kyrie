@@ -67,7 +67,8 @@ export class Interruption {
   private static present(world: World, player: string): Set<string> {
     const rel = world.view.relations, here = world.one('at', player);
     const groups = new Set(world.module.entities.filter(e => e.type === 'group').map(e => e.id));
+    // Only those the company notices: Sister Ysolde, unseen, was said to come where it was (the review's A6).
     return new Set(rel.filter(r => r.name === 'at' && r.args[1] === here && r.args[0] !== player
-      && groups.has(r.args[0]!)).map(r => r.args[0]!));
+      && groups.has(r.args[0]!) && LocalObservations.noticed(world, r.args[0]!, player)).map(r => r.args[0]!));
   }
 }

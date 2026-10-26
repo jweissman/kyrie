@@ -372,14 +372,15 @@ export class PlayerView {
       for (const decision of event.npc ?? []) {
         const before = at.get(decision.actor);
         VisitedPlaces.moves(decision.changes, at);
-        const bindings = Object.values(campaign.operator(decision.action)?.bindings ?? {});
-        if (here && (before === here || at.get(decision.actor) === here || bindings.includes(here))) {
-          const act = campaign.operator(decision.action);
-          const name = act?.name ?? decision.action;
-          entries.push({ at: decision.elapsed ?? event.elapsed, kind: 'npc',
-            text: act?.seen ? ObservationText.render(act.seen, campaign.world)
-              : `${labels.get(decision.actor) ?? decision.actor}: ${name}`, detail: [] });
-        }
+        // What the company saw as it happened, as the runtime decided then; a game kept before that, by where the
+        // company was. An undertaking obstructed is told by what came of it, if its author said, and not as done.
+        const seen = decision.seen ?? (!!here && (before === here || at.get(decision.actor) === here));
+        const act = campaign.operator(decision.action), obstructed = decision.goal === 'obstructed';
+        if (!seen || (obstructed && !act?.otherwise)) { continue; }
+        const told = obstructed ? act!.otherwise : act?.seen;
+        entries.push({ at: decision.elapsed ?? event.elapsed, kind: 'npc',
+          text: told ? ObservationText.render(told, campaign.world)
+            : `${labels.get(decision.actor) ?? decision.actor}: ${act?.name ?? decision.action}`, detail: [] });
       }
       VisitedPlaces.moves(event.changes, at);
       for (const m of deadlines.filter(m => m.deadline! > previous && m.deadline! <= event.elapsed)) {

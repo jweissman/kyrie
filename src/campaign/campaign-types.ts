@@ -32,6 +32,8 @@ export interface CampaignState {
 }
 export interface NpcDecision {
   actor: string; goal: string; action: string; plan: string[]; elapsed?: number; changes?: string[];
+  // Whether the company perceived it as it happened (see CampaignTick.seen); a game kept before says nothing.
+  seen?: boolean;
 }
 export interface CampaignSave {
   actionFormat?: 'schemas';

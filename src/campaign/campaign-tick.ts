@@ -26,8 +26,10 @@ export interface TickHost {
   applyAction(action: Operator, success?: boolean): void; refreshProjection(): void; recordObservations(): void;
   commitWorld(world: World): void;
 }
+// seen: whether the company perceived it as it happened (it was where the company was, or came or went from there,
+// and the company noticed them in the light).
 export interface TickDecision {
-  actor: string; goal: string; action: string; plan: string[]; elapsed: number; changes: string[];
+  actor: string; goal: string; action: string; plan: string[]; elapsed: number; changes: string[]; seen?: boolean;
 }
 export type Happening = { id: string; text: string; kind: 'event' };
 
@@ -95,8 +97,19 @@ export class CampaignTick {
     const prior = host.world;
     host.applyAction(d.action, success);
     decisions.push({ actor: d.actor, goal: d.goal, action: d.action.id, plan: d.plan,
-      elapsed: host.tickState.current.elapsed, changes: this.diff(prior, host.world) });
+      elapsed: host.tickState.current.elapsed, changes: this.diff(prior, host.world),
+      seen: this.seen(host, d.actor, prior) });
     host.recordObservations();
+  }
+  // Whether the company perceived an act as it happened: done where the company was (or by one who came or went from
+  // there), by one it noticed, and not in the dark. "You witness" was told of acts at the end of a two-hour road, and
+  // of one anywhere in the world that named the place (the architecture review's A6).
+  private static seen(host: TickHost, actor: string, prior: World): boolean {
+    const player = host.playerActor, world = host.world, here = player && world.one('at', player);
+    if (!player || !here || (prior.one('at', actor) !== here && world.one('at', actor) !== here)) { return false; }
+    const dark = world.module.queries.some(q => q.name === 'benighted')
+      && world.test(ModuleWriter.call('benighted', player));
+    return !dark && LocalObservations.noticed(world, actor, player);
   }
   // The world's rules, in the order they are declared; then a way's opening once more, so that a gate declared
   // before the rule that lets the company through is open as soon as it has (Low Water's 1, the Assayers' gate; What
