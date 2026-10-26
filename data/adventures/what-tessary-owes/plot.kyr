@@ -349,6 +349,10 @@ Module tessary "What Tessary Owes" {
     State open "The Factor's strongbox stands open.".
     Change pick "Pick the strongbox" from locked to open needing lockwork at sault_office.
   }
+  // Picked in front of her: she lets you, and says what is in it, which is nothing yet.
+  Event strongbox_seen near sault when state(sault_strongbox, open) and at(sault, sault_office) and at(party, sault_office) and not sealStolen(ossel)
+    "Factor Sault watches you do it, with her chin on her fist. 'Empty,' she says, before the lid is up. 'I keep the money at the pans, where there are forty men who'd notice.' She reaches over and pushes the lid shut with one finger, and the lock goes home. 'Come back after the thirteenth day if you want to see something worth the trouble.'" then {
+    Assert state(sault_strongbox, locked). }
   Rule seal_back when sealStolen(ossel) and (keeps(deckle, great_seal) or at(great_seal, seals_inner)) { Retract sealStolen(ossel). Retract inside(great_seal, sault_strongbox). }
   Event seal_returned near deckle when keeps(deckle, great_seal) "The Keeper takes the Seal from you in both hands and holds it against his chest like a child that was lost in a market. Then he puts it under its glass, and rings for his clerks, and they come running, all of them, with their sleeves rolled up." then {
     Retract keeps(deckle, great_seal). Assert at(great_seal, seals_inner). }

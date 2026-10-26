@@ -77,7 +77,7 @@ Module tessary "What Tessary Owes" {
 
   // The Legion Yard and the Oath Stone.
   Observe yard_scene at legion_yard when true "A parade ground of beaten shell inside the Tidewall, ringed with empty barracks. In the middle of it, on a plinth, stands the Oath Stone: a slab of black stone as tall as a man, salvaged from the drowned city two hundred years ago, smooth as a hearthstone where eleven thousand hands have been laid on it. Cut into its face, small and fine, are lines that are not writing and not ornament: ruled lines, like a ledger's.".
-  Observe yard_empty at legion_yard when not feastEve() and night(ossel) < 5 "The barracks doors stand open. The Muster was paid off a week ago and told to go home, and the Yard has nobody in it but a sergeant of the Watch and the gulls.".
+  Observe yard_empty at legion_yard when not feastEve() and night(ossel) < 5 "The barracks doors stand open. The Muster was paid off a week ago and told to go home, and the Yard has nobody in it but the gulls.".
   Observe yard_empty_later at legion_yard when not feastEve() and night(ossel) >= 5 "The barracks doors stand open on nothing. Somebody has chalked a name on one of them, and somebody else has washed it off, and the gulls have the Yard.".
 
   // Scriveners' Row, the heart of the Lettered Quarter.
@@ -125,6 +125,16 @@ Module tessary "What Tessary Owes" {
   Place muster_house "Sault's Muster" is building within tessary.
   Place muster_hall "Sault's Muster" is room within muster_house at 0, 0.
   Passage muster_door "the hiring hall door" is doorway between saltgate and muster_hall.
+  Person hiring_clerk "Sault's hiring clerk" at muster_hall {
+    Role "who keeps the book of the Factor's Muster". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "The hiring clerk looks up from the book and holds his pen ready over a new line, in case you are a soldier.".
+  }
+  Topic clerk_book with hiring_clerk "Ask the hiring clerk who is on the Factor's books" when true once {
+    Says "'Forty-one this morning,' says the clerk, and turns the book round so you can see. The names go down in a clear round hand, and six of them have been struck through with a ruler, neatly, each with a date beside it in the margin, each date a spring ebb. 'The Factor says strike them through when they go,' he says. 'Not out. Through. So the name can still be read.'".
+  }
+  Topic clerk_night with hiring_clerk "Ask the hiring clerk about the night work" when true once {
+    Says "'Carrying,' says the clerk. 'Down under the warehouse at the ebb, for Mistress Slake. Double pay, and the Factor's word nobody asks.' He dips his pen. 'I don't write those in the book. I'm not asked to.'".
+  }
   Observe muster_scene at muster_hall when true "A long bare hall with benches down both walls and a table at the end where a clerk writes names in a book. Over the table, in new paint: SAULT'S MUSTER. A DAY'S PAY FOR A DAY'S WORK. NO MAN TURNED AWAY WHO WORE THE COAT.".
 
   Place seals_house "the Office of Seals" is building within tessary.
@@ -148,6 +158,7 @@ Module tessary "What Tessary Owes" {
   Place council_house "the Council House" is building within tessary.
   Place council_chamber "the council chamber" is room within council_house at 0, 0.
   Passage council_door "the Council House door" is door between terraces and council_chamber.
+  Observe chamber_empty at council_chamber when not inSession() and not voted(ossel) "Between sittings nobody is here but a boy filling the inkwells at each seat. A bill by the door gives the next: the thirteenth day, from ten in the morning, the question of the Veterans' Settlement, the public bench open.".
   Observe chamber_scene at council_chamber when true "A round chamber with a ring of carved seats, one for each Moiety: Salt, Paper, Rope, Eel, Ship, and the three old houses. On the wall behind the Speaker's chair hangs the war's banner, and under it a painting of the Kneeling at Sedge Ford, in which King Amaury of Hethra is very small and the Tessarine captain very large.".
 
   Place kings_house "the King's lodging" is building within tessary.

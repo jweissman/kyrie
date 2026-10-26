@@ -64,7 +64,13 @@ was done:
 | **Stock greetings shared across the cast; Durrance talking about her pot and Hannelore in the Comptroller's office; labels that never change** | Every person a player returns to has their own greeting; Durrance's lines no longer assume the taproom; roles say only what does not change; the bunting, the Yard and the drowned city at night say what day and hour it is |
 | **The War Note's dates did not add up** (twelve years, eleven years, "when the war was a year old") | The Muster was raised when the war began, eleven years ago; the note was drawn a year later, ten years ago; the silver was carried for ten years. The Valuer's argument (the promise to the soldiers came first) now follows from the dates |
 | **"Into under the warehouse"; "To under the Aqueduct"** | The warehouse cellars; the foot of the Aqueduct |
-| Engine-side: the defeat told before the blow; an unaffordable purchase silently absent; "Mind how you go in the dark" under the sea | Recorded in [friction.md](friction.md) (W18–W24) |
+| **No one reacts to crime**: the Factor's strongbox picked in front of her | She watches, says it is empty (the money is at the pans), shuts it with one finger, and tells you to come back after the thirteenth day, when the Seal may be in it. The ebb-runners already react to their lockbox |
+| **The Forsworn an anticlimax**: built up as dreadful, killed with a sergeant's help in two blows | Three of them now, and stronger. They are meant to be the one fight a level-1 company should not take, and the three ways round them are the point |
+| **The tide muddled**: the chandler said low water "about eleven", the basin was out at ten | He now gives the hours the basin is out: ten till two, morning and night |
+| **Empty rooms**: the Factor's hiring hall and the Council House with nobody in them; a sergeant of the Watch mentioned in the Yard who cannot be spoken to | The hiring clerk keeps the Factor's book (six names struck through, not out, "so the name can still be read") and knows about the night work; between sittings the Council House has a boy filling inkwells and a bill giving the next sitting's hour; the sergeant is gone from the Yard |
+| **A careless oath with no visible consequence** | Working as designed: the oath ("I'll find Davy Teazle if it kills me") is struck through at the Settlement only if Davy is still held; in the playtest the Comptroller had already sent him home |
+| **The Treasurer confesses on the first day** | Left, deliberately (see above). The reversal behind it now has to be assembled |
+| **Engine-side**: the defeat told before the blow; an unaffordable purchase silently absent; "Mind how you go in the dark" under the sea; the Hall of Oaths not described when the lamp is lit; "Examine ›" becoming "Examine —"; the epilogue reachable only by waiting inside the final watch | Recorded in [friction.md](friction.md) (W18–W24) or left to the engine |
 
 ## Difficulty
 

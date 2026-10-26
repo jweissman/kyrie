@@ -169,7 +169,7 @@ Module tessary "What Tessary Owes" {
   Species forsworn_kind "a Forsworn" like revenant temperament savage
     described "A thing like a person-shaped hollow, wearing the rags of an Aenean robe. Where its face should be there is a darkness with the texture of torn paper.".
   Person forsworn "the Forsworn" at plunge {
-    Role "hollow people in the rags of Aenean robes". Species forsworn_kind. Level 2. Numbers 2. Pronouns they.
+    Role "hollow people in the rags of Aenean robes". Species forsworn_kind. Level 3. Numbers 3. Pronouns they.
     Temperament territorial.
     Warns "All round the dry pool the things like coats on pegs turn toward your light, without any sound, and hold out their hands, palm up, as if they wanted to be given something. They do not come any nearer. Not yet.".
     Comes "The coats on the pegs come off the walls. They come round the dry pool toward you without any sound at all, with their hands out, as if they wanted to be given something.".
