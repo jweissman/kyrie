@@ -13,6 +13,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { Cast } from './cast';
 import type { CampaignActor, CampaignDefinition } from './definition';
 import type { Instance, Operator, Module, Person } from '../lang/module';
+import { EngineOwned } from '../lang/engine-owned';
 
 interface GoalSource {
   id: string; when: string; target: string; priority: number; urgent?: { when: string; priority: number };
@@ -130,9 +131,8 @@ export class ModuleAssembly {
   // Nothing a module does may write what the campaign projects or keeps: creatures' facts, the clock, records and
   // pressures; and every pressure, outcome and goal must be a well-formed predicate over the module.
   private static readOnly(instance: Instance, definition: CampaignDefinition, compiler: ModuleCompiler) {
-    if (instance.module.actions.some(a => [...a.success, ...a.failure].some(c =>
-      ['able', 'dead', 'watch', 'recorded', 'deficit', 'capable',
-        'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'relieves', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name)))) {
+    const writes = instance.module.actions.flatMap(a => [...a.success, ...a.failure]);
+    if (writes.some(c => EngineOwned.actions.has(c.call.name))) {
       throw new Error('Creature projections and campaign clock/pressure records are read-only');
     }
     if ([...instance.module.initial, ...(instance.module.rules ?? []).flatMap(r => r.effects)]

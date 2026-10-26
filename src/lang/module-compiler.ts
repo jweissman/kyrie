@@ -4,6 +4,7 @@ import { Deem } from 'deem';
 import { Expressions } from '../expressions';
 import type { Aspect, Call, Change, Instance, Module, NumberValue, Predicate, Signature, Value } from './module';
 import { World } from './world';
+import { EngineOwned } from './engine-owned';
 
 // Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
@@ -84,7 +85,7 @@ export class ModuleCompiler {
         throw new Error(`Rule ${r.id} teaches ${r.teaches}: it must say something, and teach a fact`);
       }
       r.effects.forEach(c => this.change(module, c));
-      if (r.effects.some(c => ['able', 'dead', 'watch', 'dark', 'untilLight', 'untilMorning', 'dice', 'recorded', 'deficit', 'knows', 'established', 'capable', 'memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'relieves', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
+      if (r.effects.some(c => EngineOwned.rules.has(c.call.name))) {
         throw new Error(`Rule ${r.id} cannot change canonical projections, clocks, records or discovery knowledge`
           + ' (a rule teaches what it says: says "…" teaches fact)');
       }

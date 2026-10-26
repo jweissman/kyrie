@@ -16,6 +16,7 @@ import { Content } from '../content';
 import { InstalledInstance } from './installed-instance';
 import type { Creature } from '../creature';
 import { Discovery } from '../information/discovery';
+import { EngineOwned } from '../lang/engine-owned';
 
 export class ModuleInstallations {
   // Actors another installation declared take up the goals and actions this one gives them.
@@ -96,8 +97,7 @@ export class ModuleInstallations {
       const imported = draft.imports.includes(change.call.args[0]!), own = change.call.name.startsWith(`${draft.id}__`);
       const relation = incoming.relations.find(r => r.name === change.call.name);
       if ((imported && !own && (change.kind !== 'assert' || relation?.exclusive || (relation?.types.length ?? 0) < 2))
-        || ['able', 'dead', 'watch', 'recorded', 'deficit', 'capable',
-          'awake', 'needsCare', 'canCast', 'treatable', 'relieves', 'proficient'].includes(change.call.name)) {
+        || EngineOwned.initial.has(change.call.name)) {
         throw new Error('Module initialization cannot reset imported or campaign-owned state');
       }
     }
