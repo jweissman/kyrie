@@ -19,8 +19,14 @@ export class Membership {
     const key = current.partyIds.join();
     if (cache?.base === base && cache.key === key) { return { actors: cache.actors, cache }; }
     const actors = base.map(a => a.player ? { ...a, members: [...current.partyIds] }
-      : enlisted[a.id] ? { ...a, members: [] } : a);
+      : enlisted[a.id] ? { ...a, members: [] } : Membership.left(a, current));
     return { actors, cache: { base, key, actors } };
+  }
+  // A group someone has left is who is in it now: a recruit gone home without one of theirs laid to rest on the way
+  // (the architecture review's A22: the group still counted the one buried).
+  private static left(a: CampaignActor, current: Current): CampaignActor {
+    const now = current.inhabitants[a.id];
+    return now && now.join() !== a.members.join() ? { ...a, members: [...now] } : a;
   }
   // What a command that changes the company resolves to: someone joins it (enlist), or one laid to rest leaves it
   // (inter).

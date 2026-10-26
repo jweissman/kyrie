@@ -15,7 +15,7 @@ export class Summoning {
     for (let i = 0; i < count; i++) {
       const pool = effect.byAncestry?.[owner.raceId] ?? effect.from ?? [effect.creature];
       const species = pool[pool.length > 1 ? expressions.number(`1d${pool.length}`) - 1 : 0]!;
-      const id = `summon-${context.fighters.length}-${context.turn}`;
+      const id = Summoning.fresh(context);
       const creature = { ...context.content.creature(species, id, owner.team, effect.level), summoner: owner.id };
       context.fighters.push(creature);
       context.events.push({ type: 'summon', turn: context.turn, actor: owner.id, target: id, detail: creature.name });
@@ -29,6 +29,15 @@ export class Summoning {
       context.fighters.splice(context.fighters.indexOf(gone), 1);
       context.events.push({ type: 'dismiss', turn: context.turn, actor: owner.id, target: gone.id, detail: gone.name });
     }
+  }
+  // An id no creature in this fight has had (one called after the oldest was sent away took the id of one still
+  // fighting: the architecture review's A22).
+  private static fresh(context: EffectContext): string {
+    const had = new Set([...context.fighters.map(f => f.id),
+      ...context.events.flatMap(e => e.type === 'summon' ? [e.target] : [])]);
+    let n = context.fighters.length;
+    while (had.has(`summon-${n}-${context.turn}`)) { n++; }
+    return `summon-${n}-${context.turn}`;
   }
   private static values(owner: Fighter): Record<string, number> {
     return { level: owner.level, strength: owner.strength, dexterity: owner.dexterity, constitution: owner.constitution,

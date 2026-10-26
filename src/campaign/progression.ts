@@ -57,20 +57,28 @@ export class Progression {
       }
     }
     // And the milestones achieved since (What Tessary Owes: a company grows by what it resolves, not only by fights).
-    Progression.milestones(world, seen, award);
+    Progression.milestones(world, seen, award, { definition, player });
   }
-  // Experience for each milestone achieved since last asked, given to the company that did it, once.
+  // Experience for each milestone achieved since last asked, given to the company that did it, once: by its own act,
+  // or while it is at one of its module's places, as a module seen through is (one met by others far off was the
+  // company's too: the architecture review's A22).
   static milestones(world: World, seen: Record<string, number>,
-    award: { elapsed: number; store: CreatureStore; party: string[]; events: CombatEvent[] }) {
+    award: { elapsed: number; store: CreatureStore; party: string[]; events: CombatEvent[]; own?: boolean },
+    by?: { definition: CampaignDefinition; player?: string }) {
     for (const m of Milestones.achieved(world)) {
       const key = `${m.id}.achieved`;
       if (seen[key] !== undefined) { continue; }
       seen[key] = award.elapsed;
-      if (m.worth <= 0) { continue; }
+      if (m.worth <= 0 || !this.earned(world, m.id, award.own, by)) { continue; }
       const from = award.events.length;
       FieldUse.grant(award.store, award.party, m.worth, award.events);
       for (const e of award.events.slice(from)) { if (e.type === 'gain') { e.detail = `experience: ${m.title}`; } }
     }
+  }
+  private static earned(world: World, id: string, own: boolean | undefined,
+    by?: { definition: CampaignDefinition; player?: string }): boolean {
+    const m = by?.definition.installations?.find(i => id.startsWith(`${i.id}__`));
+    return !!own || !m || !by?.player || this.present(world, m, by.player);
   }
   private static present(world: World, m: InstalledModule, player: string): boolean {
     const places = [...world.module.entities.filter(e => e.type === 'place' && e.id.startsWith(`${m.id}__`)).map(e => e.id),

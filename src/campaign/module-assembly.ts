@@ -265,6 +265,10 @@ export class ModuleAssembly {
   }
   private static validate(actors: CampaignActor[], entities: { id: string; type: string }[],
     schemas: Operator[], definition: CampaignDefinition) {
+    // Its module seen through is kept beside its outcomes by the module's id (`<module>.resolved`): the review's A22.
+    if (definition.outcomes.some(o => o.id === 'resolved')) {
+      throw new Error('An outcome may not be called resolved: a module is resolved when it is seen through');
+    }
     const ids = definition.creatures.map(c => c.id), members = actors.flatMap(a => a.members);
     if (new Set(ids).size !== ids.length || new Set(members).size !== members.length
       || new Set(actors.map(a => a.id)).size !== actors.length || actors.filter(a => a.player).length > 1
