@@ -16,11 +16,6 @@ class Kept {
     return s;
   }
   // Commands chosen by their place in what is offered, so two sessions in the same state make the same choices.
-  static byRelation(relations: { name: string; args: string[] }[]): Record<string, string[]> {
-    const out: Record<string, string[]> = {};
-    for (const r of relations) { (out[r.name] ??= []).push(r.args.join(',')); }
-    return out;
-  }
   static async walk(s: PlaySession, steps: number, from: number) {
     const done: string[] = [];
     for (let i = from; i < from + steps; i++) {
@@ -43,11 +38,12 @@ describe('a game kept in the browser', () => {
     // The state is a small part of the whole: the world's facts are not in it, only how they differ.
     expect(JSON.stringify(state).length * 4).toBeLessThan(JSON.stringify(checkpoint).length);
     const whole = KeptGame.join(JSON.parse(JSON.stringify(state)), JSON.parse(first.text));
-    // The same facts, each relation's in the order it held them (the order the world's rules read them in).
-    expect(Kept.byRelation(whole.checkpoint.save.state.world.relations))
-      .toEqual(Kept.byRelation(checkpoint.save.state.world.relations));
+    // The same facts, in the order it held them (the order the world's rules read them in), and the state as it was.
+    expect(whole.checkpoint.save.state.world.relations).toEqual(checkpoint.save.state.world.relations);
+    expect(Object.keys(whole.checkpoint.save.state)).toEqual(Object.keys(checkpoint.save.state));
     // What happens next is what would have happened.
     const back = PlaySession.resume(whole.checkpoint);
+    expect(back.canonical()).toBe(s.canonical());
     expect(await Kept.walk(back, 8, 18)).toEqual(await Kept.walk(s, 8, 18));
     // A world's key is its contents': the same text, the same key.
     expect(KeptGame.key(first.text)).toBe(first.key);

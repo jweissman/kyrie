@@ -14,7 +14,9 @@ export interface WorldPart { module: CampaignSave['module']; definition?: Campai
 // What differs from the facts a world was kept with, in the order the world holds them: the kept facts the world still
 // holds untouched stay where they were; every fact asserted since follows, in the order it was asserted. So a world
 // put back together holds its facts in exactly the order it did (an order rules can see).
-export interface Facts { removed: number[]; tail: Call[]; measures: WorldState['measures'] }
+// With the order the world held its relations in (names): a relation emptied of the facts it was kept with, and held
+// again, stood where it had (the architecture review's A11).
+export interface Facts { removed: number[]; tail: Call[]; measures: WorldState['measures']; names?: string[] }
 type State = CampaignSave['state'];
 export interface KeptState {
   version: 2; world: string; log?: Entry[];
@@ -64,7 +66,7 @@ export class KeptGame {
       held.add(name); removed.push(...relation.removed); tail.push(...relation.tail);
     }
     for (const [name, positions] of kept.positions) { if (!held.has(name)) { removed.push(...positions); } }
-    return { removed: removed.sort((a, b) => a - b), tail, measures };
+    return { removed: removed.sort((a, b) => a - b), tail, measures, names: live.relationNames() };
   }
   // Where each relation's facts stood among the world's.
   private static positions(base: Call[]): Map<string, number[]> {
@@ -100,19 +102,27 @@ export class KeptGame {
     }
     const removed: number[] = [];
     for (let n = 0; n < (world.part.base?.length ?? 0); n++) { if (!kept.has(n)) { removed.push(n); } }
-    return { removed, tail, measures: facts.measures };
+    return { removed, tail, measures: facts.measures, names: [...new Set(facts.relations.map(r => r.name))] };
   }
   // A kept state and its world, put back together; or a save that was whole already.
   static join(parsed: KeptState | Whole | SessionCheckpoint, world?: WorldPart): Whole {
     if ('version' in parsed && parsed.version === 2) {
       if (!world) { throw new Error('The world this game was played in is no longer kept in this browser.'); }
-      const { facts, state, ...rest } = parsed.checkpoint.save, gone = new Set(facts.removed);
-      const relations = [...(world.base ?? []).filter((_, n) => !gone.has(n)), ...facts.tail];
-      const save = { ...rest, state: { ...state, world: { relations, measures: facts.measures } },
+      const { facts, state: { seed, ...state }, ...rest } = parsed.checkpoint.save, gone = new Set(facts.removed);
+      const kept = (world.base ?? []).filter((_, n) => !gone.has(n));
+      const relations = this.ordered([...kept, ...facts.tail], facts.names);
+      // The world in its place in the state, after the seed, as the game played on holds it.
+      const save = { ...rest, state: { seed, world: { relations, measures: facts.measures }, ...state },
         module: world.module, ...world.definition ? { definition: world.definition } : {} } as CampaignSave;
       return { checkpoint: { ...parsed.checkpoint, save }, ...parsed.log ? { log: parsed.log } : {} };
     }
     return 'checkpoint' in parsed ? parsed : { checkpoint: parsed as SessionCheckpoint };
+  }
+  // Facts in the order of the relations they are of, each relation's in the order they come (a sort that keeps it).
+  private static ordered(facts: Call[], names?: string[]): Call[] {
+    if (!names) { return facts; }
+    const order = new Map(names.map((n, i) => [n, i]));
+    return facts.sort((a, b) => (order.get(a.name) ?? 0) - (order.get(b.name) ?? 0));
   }
   private static fact(c: Call): string { return `${c.name}(${c.args.join(',')})`; }
   // A key for a world's text: FNV-1a, twice over with different primes, so that two worlds are not taken for one.

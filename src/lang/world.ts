@@ -87,7 +87,9 @@ export class World {
   // The same facts and measures under a module joined to this one's (an installation's), shared as a fork shares
   // them: installing a module costs what it brings, not every fact the world holds.
   // A relation or measure left with nothing is dropped, as from a world built from its facts, so that the order the
-  // world lists its relations in (a save's, a receipt's) is the order it would have been.
+  // world lists its relations in (a save's, a receipt's) is the order it would have been. A change that leaves one
+  // with nothing drops it too: kept, it stood in its old place when held again, where a world opened from a save put
+  // it last (the architecture review's A11).
   withModule(module: Module): World {
     const next = World.fork(this);
     (next as { module: Module }).module = module;
@@ -325,7 +327,7 @@ export class World {
       }
       if (change.kind === 'assert') {
         const call = World.copy(change.call); named.set(key, call); this.sum(key, 1); this.count++;
-      }
+      } else if (!named.size) { this.byName.delete(change.call.name); this.owned.delete(change.call.name); }
       return;
     }
     const amount = change.value.kind === 'call' || change.value.kind === 'arith' ? this.number(change.value)
@@ -340,6 +342,8 @@ export class World {
     if (held) { named.delete(key); this.sum(`${key}=${held.value}`, -1); this.measureCount--; }
     if (value !== 0) {
       named.set(key, { call: World.copy(change.call), value }); this.sum(`${key}=${value}`, 1); this.measureCount++;
+    } else if (!named.size) {
+      this.measuresByName.delete(change.call.name); this.ownedMeasures.delete(change.call.name);
     }
   }
   static literal(value: NumberValue): number {
