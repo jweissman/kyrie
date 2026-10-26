@@ -41,8 +41,8 @@ export class Agency {
     if ((waiting?.[key] ?? -1) > watch) { return null; }
     const kept = this.fruitless.get(key);
     if (kept?.module === world.module && world.agrees(kept.reads, kept.stamped)) { return null; }
-    const found = Planner.search(world, target, w => this.allowed(w, actor, operators),
-      { maxNodes: this.maxNodes, timeRemaining: Infinity, maxSteps: actor.horizon });
+    const tally = { expanded: 0 }, found = Planner.search(world, target, w => this.allowed(w, actor, operators),
+      { maxNodes: this.maxNodes, timeRemaining: Infinity, maxSteps: actor.horizon, tally });
     if (found?.actions.length) {
       this.fruitless.delete(key);
       if (waiting && key in waiting && !at.looking) { delete waiting[key]; }
@@ -55,7 +55,7 @@ export class Agency {
         .flatMap(a => [a.requires, ...a.success, ...a.failure ?? []])]);
     if (this.fruitless.size > 4000) { this.fruitless.clear(); }
     this.fruitless.set(key, { module: world.module, reads, stamped: world.stamped(reads) });
-    if (waiting && !at.looking && Planner.last >= this.maxNodes / 4) { waiting[key] = watch + this.retry; }
+    if (waiting && !at.looking && tally.expanded >= this.maxNodes / 4) { waiting[key] = watch + this.retry; }
     return found;
   }
   // The campaign's own state (current), where who is waiting to try again is kept.

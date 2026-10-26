@@ -7,8 +7,6 @@ export interface Plan { actions: string[]; cost: number; expanded: number; expla
 // The actions a search may take from a world: a fixed list, or a function of the world (demand-grounded).
 export type Moves = Operator[] | ((world: World) => Operator[]);
 export class Planner {
-  // How many states the last search expanded (a search that found nothing in all it could look at: Agency).
-  static last = 0;
   static applicable(world: World, action: Operator): boolean {
     return world.test(action.requires) && world.admits(action.success);
   }
@@ -16,13 +14,15 @@ export class Planner {
     return actions.filter(a => Planner.applicable(world, a));
   }
   static apply(world: World, action: Operator): World { return world.apply(action.success); }
+  // How many states a search that found nothing expanded is written to its `tally`, where it is given one (Agency): a
+  // static of the process had held the last search's (the architecture review's H7, in its addendum).
   static search(world: World, goal: Predicate, moves: Moves, options: { maxNodes: number;
-    timeRemaining: number; maxSteps?: number } = { maxNodes: 2000, timeRemaining: Infinity }): Plan | null {
+    timeRemaining: number; maxSteps?: number; tally?: { expanded: number } } = { maxNodes: 2000,
+    timeRemaining: Infinity }): Plan | null {
     const expand = typeof moves === 'function' ? moves : Planner.among.bind(undefined, moves);
     const frontier = [{ world, actions: [] as string[], cost: 0, time: 0 }];
     const visited = new Map<string, number>(), seen = new Map<string, Operator>();
     let expanded = 0;
-    Planner.last = 0;
     while (frontier.length && expanded < options.maxNodes) {
       frontier.sort((a, b) => a.cost - b.cost);
       const node = frontier.shift()!;
@@ -30,7 +30,7 @@ export class Planner {
       const key = Number.isFinite(options.timeRemaining) ? `${node.world.key()};${node.time}` : node.world.key();
       if ((visited.get(key) ?? Infinity) <= node.cost) { continue; }
       visited.set(key, node.cost);
-      expanded++; Planner.last = expanded;
+      expanded++;
       if (node.world.test(goal)) {
         return { actions: node.actions, cost: node.cost, expanded,
           explanation: node.actions.map(id => `${seen.get(id)!.name}: ${seen.get(id)!.description}`) };
@@ -46,6 +46,7 @@ export class Planner {
           cost: node.cost + action.cost, time });
       }
     }
+    if (options.tally) { options.tally.expanded = expanded; }
     return null;
   }
 }
