@@ -19,6 +19,10 @@ export class CompanyChoices {
     const formations = Formations.recognize(party.map(c => ({ raceId: c.raceId, classId: Creation.classId(c.classId ?? '') })));
     party.forEach((context, i) => {
       const entry = draft.instance.campaign!.creatures.find(c => c.id === player.members[i])!;
+      // A name is written into the world's text as a name: braces, quotes and backslashes cannot be (the review's A12).
+      if (/[{}"\\]/.test(context.name ?? '')) {
+        throw new Error(`A name may not have braces, quotes or a backslash in it: ${context.name}`);
+      }
       if (!context.name?.trim() || context.name.length > 40 || !context.raceId || !context.classId
         || !Content.playableRaces.includes(context.raceId)
         || !Content.playableClasses.includes(Creation.classId(context.classId))) {

@@ -57,7 +57,7 @@ export class Origins {
     files: Record<string, string> }): { request: BundleRequest; start: Start; coin: number } | undefined {
     const bound = this.bind(o.manifest.binder, at.region, at.placements);
     if (!bound) { return undefined; }
-    const values = { ...bound.values, protagonist: at.protagonist };
+    const values = { ...bound.values, protagonist: Origins.said(at.protagonist) };
     const names = Object.keys(bound.imports), dir = `${at.root}/origin`;
     at.files[`${dir}/module.json`] = JSON.stringify({ version: 1, source: 'origin.kyr', rules: ['world'],
       globals: ['party'], imports: ['party', ...names],
@@ -67,6 +67,10 @@ export class Origins {
       imports: { party: 'region.party', ...Object.fromEntries(names.map(n => [n, bound.imports[n]![0]])) } },
     start: bound.start, coin: o.manifest.coin ?? 10 };
   }
+  // A name as it can stand in the module's text: no braces (which would name an entity, or be filled again as a
+  // template word) and its quotes and backslashes escaped (Wen"na and {creditor} broke Begin: the architecture
+  // review's A12).
+  static said(name: string): string { return name.replace(/[{}]/g, '').replace(/["\\]/g, '\\$&'); }
   // Template words are filled in before the module is read; anything else in braces is the module's own.
   private static fill(text: string, values: Record<string, string>): string {
     let out = text;
