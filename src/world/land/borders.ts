@@ -14,14 +14,20 @@ export class Borders {
   static readonly steps: Record<Side, [number, number]> = { north: [0, -1], east: [1, 0], south: [0, 1],
     west: [-1, 0] };
   static readonly opposite: Record<Side, Side> = { north: 'south', east: 'west', south: 'north', west: 'east' };
+  // From the settlement nearest the side to the cells nearest it; failing that, from the next settlement, and then to
+  // cells a little further in. A wall of peaks between Loftymoor's one western town and its western edge left it no
+  // road west, and the road across the march from thorn nowhere to come in (found by the autoplay laboratory).
   static make(land: Land, seats: Seat[], built: Set<number>): Border[] {
     return this.sides.flatMap(side => {
-      const seat = seats.map((s, i) => ({ i, d: this.depth(land, side, s.cell) })).sort((a, b) => a.d - b.d)[0];
-      if (!seat) { return []; }
-      const from = seats[seat.i]!.cell;
-      for (const cell of this.edge(land, side, from)) {
-        const { cells } = Roads.route(land, from, cell, built);
-        if (cells.length) { return [{ side, seat: seat.i, cell, road: Roads.road(land, from, cell, cells) }]; }
+      const order = seats.map((s, i) => ({ i, d: this.depth(land, side, s.cell) })).sort((a, b) => a.d - b.d);
+      for (const slack of [1, 3, 6]) {
+        for (const { i } of order) {
+          const from = seats[i]!.cell;
+          for (const cell of this.edge(land, side, from, slack)) {
+            const { cells } = Roads.route(land, from, cell, built);
+            if (cells.length) { return [{ side, seat: i, cell, road: Roads.road(land, from, cell, cells) }]; }
+          }
+        }
       }
       return [];
     });
@@ -31,12 +37,12 @@ export class Borders {
     const x = Terrain.x(land, c), y = Terrain.y(land, c);
     return { north: y, south: land.height - 1 - y, west: x, east: land.width - 1 - x }[side];
   }
-  // The dry cells nearest a side, the one nearest the settlement first.
-  private static edge(land: Land, side: Side, from: number): number[] {
+  // The dry cells nearest a side (within `slack` of the nearest), the one nearest the settlement first.
+  private static edge(land: Land, side: Side, from: number, slack = 1): number[] {
     const dry = land.cover.map((cover, c) => ({ c, dry: cover !== 'sea' && cover !== 'lake' })).filter(x => x.dry)
       .map(x => x.c);
     const least = Math.min(...dry.map(c => this.depth(land, side, c)));
-    return dry.filter(c => this.depth(land, side, c) <= least + 1)
+    return dry.filter(c => this.depth(land, side, c) <= least + slack)
       .sort((a, b) => this.depth(land, side, a) - this.depth(land, side, b)
         || Terrain.distance(land, a, from) - Terrain.distance(land, b, from));
   }
