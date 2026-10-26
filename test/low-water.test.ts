@@ -394,7 +394,8 @@ describe('Low Water', () => {
   }
   it('carries the Auditor\'s question down to the Hearing, and the Council enters the Ward as inestimable', async () => {
     const j = await Bowl.start('council-inestimable');
-    await j.play(...Bowl.act1, ...Bowl.trial, ...Bowl.descentNinth, ...Bowl.night, ...Bowl.morningNinth, ...Bowl.bell.slice(6),
+    await j.play(...Bowl.act1, ...Bowl.trial, ...Bowl.descentNinth, ...Bowl.night, ...Bowl.morningNinth,
+      ...Bowl.bell.slice(6),
       '^To the new mud');
     await Bowl.untilNight(j);
     await j.play(...Bowl.underMere.slice(1), ...Bowl.upStair, 'seat of the Auditor', 'Talk to the Auditor', 'what it is',

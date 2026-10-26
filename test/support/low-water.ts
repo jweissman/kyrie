@@ -71,7 +71,7 @@ export class Bowl {
   }
   static readonly leave = ['?^To the hall of the Office', '?^Out to Measures Square', '?^To the head of the Stair', '^To the north road',
     'Go up out of the Bowl'];
-  // Back down from the Auditor's seat, through Ammerlin in the water and up through the still water to the Ward landing.
+  // Back down from the Auditor's seat, through Ammerlin in the water, up through the still water to the Ward landing.
   static readonly fromSeat = ['hall of the nine circles', 'hall of receipts', 'glass gate', 'top of the stair', 'foot of the stair',
     'Ward in the water', 'square in the water', 'Rim in the water', 'Bowl in the water', 'still water', 'Ward landing'];
   static get act1() {
