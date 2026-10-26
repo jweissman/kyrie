@@ -1,6 +1,6 @@
-# Low Water, left alone
+# The Open Bowl
 
-Seed `alone`; 192 steps; ended at watch 1111 with the Mere at 9 spans, at the ending "Low Water". Written by `bun scripts/low-water-transcripts.ts` from the journey as the page told it.
+Seed `alone`; 207 steps; ended at watch 1200 with the Mere at 10 spans, at the ending "The Open Bowl". Written by `bun scripts/low-water-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -58,7 +58,7 @@ In the Ward, an old woman called Marra Fen signs her plot over to the Guild in B
 
 At the dig it comes to cudgels and shovels. It is short and ugly. When it is over, two diggers are bleeding into the mud, the bailiffs have Dov Vant down with his arms tied behind him, and they march him up the Ward steps to the Office cells. The dig is the Guild’s.
 
-*(3 waits in which nothing is told)*
+*(5 waits in which nothing is told)*
 
 **Wait › An hour**
 
@@ -88,7 +88,13 @@ The Hymn, at seven. Down in the Ward, where it used to come back off the Mere, n
 
 The Hymn, at seven. Down in the Ward, where it used to come back off the Mere, nothing comes back; the mud takes it, and the handcarts in Tench Row stop, all together, while it lasts.
 
-*(16 waits in which nothing is told)*
+*(4 waits in which nothing is told)*
+
+**Wait › An hour**
+
+In the middle of the night the whole Mere stands up. Not a wave: the water rises out of its bed all at once in the shape of a person, a woman of water as tall as the Sounding, clear, the wrong way round, with her face turned up and her mouth open; and she sings, with no breath behind it, the whole Long Hymn, every verse, backward, very slowly, the way you would practise a word in a language you meant to speak well. Every bell in Ammerlin answers her. Then she lies down again, and is the Mere, and the Bowl is so silent you can hear the Ninefold falling on the Stair. In the morning nobody in the city will speak of it, the way nobody spoke of the Long Silence. Edda fails to resist (wisdom). Edda takes 0 necrotic damage (15 HP left).
+
+*(11 waits in which nothing is told)*
 
 **Wait › An hour**
 
@@ -118,12 +124,8 @@ Far down, the Mere draws back from the Ward like a held breath let go, and does 
 
 The Hymn, at seven. The bells are the same and the choir is the same, and something under it is not: the water does not answer. Down through the terraces, where for three thousand years the cisterns rang with it, there is only stone.
 
-*(6 waits in which nothing is told)*
+*(20 waits in which nothing is told)*
 
-**To the north road, at the Rim**
+**Wait › An hour**
 
-The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall. From the Rim the ring of mud round the Mere is wider than the water now, grey, with things standing up in it.
-
-**Go up out of the Bowl by the north road**
-
-The count closed on its own, in the night, with every bell in Ammerlin ringing and nobody at the ropes and nobody in the city who knew what they were hearing. The Mere went down six spans in one breath and stopped. It stands at 9 spans on the Ward gauge, a pond at the bottom of a Bowl of mud, and the Ward is gone up the terraces. Under it the round door stands open on still water. In the Office, a Clerk-Measurer, Third Grade, has written a line in her tally under the forty ells that she could never put anywhere: Ceased. She has not written why. Nobody has asked her.
+The light goes up the stair in the water, carried in cupped hands, step after step, and goes in at the glass gate in the outer dark, and the voice that was the fifth voice says, very quietly, in every room in Ammerlin at once: RECEIVED. Then the nail comes out. The Mere goes first, through the bottom of the Bowl, not falling but going, the way water goes into sand, and where it was there is a round dark with no bottom and no sound coming up out of it. The Ward goes the next night: Tench Row, the landing, the boats, Dov Vant’s yard, all of it, a step at a time, as if somebody were reading a gauge downward. The city goes up the Stair with what it can carry. On the Rim, in the morning, Isaura Vant stands at the Gauge and measures the dark, because somebody must, and it does not have a number. In a hall of jars a very long way above, every cupful of it is kept.

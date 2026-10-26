@@ -19,7 +19,8 @@ and three years ago a good Cantor cut the verse that told it to drink only a cup
 | [04 — revisions](04-revisions.md) | Everything that changed, and why |
 | [05 — implementation and extension report](05-implementation-report.md) | Files, the two shared changes, fifteen authoring findings, tests, integration |
 | [06 — editorial assessment](06-editorial.md) | What works, what does not, and why this is not yet a supermodule |
-| [07 — the second pass](07-second-pass.md) | Ten times the ambition: the Auditor, the Reflected, six acts |
+| [07 — the second pass](07-second-pass.md) | Ten times the ambition: the Auditor, the Reflected, six acts (the plan) |
+| [08 — the second pass, as built](08-second-pass-built.md) | The Auditor and its heart, Ammerlin in the water, the Glass Citadel, seventeen endings, what is still short |
 | [Play transcripts](../../playtests/low-water-2026-10-25) | Four journeys as the page told them |
 
 ```sh

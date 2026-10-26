@@ -81,3 +81,19 @@ has to be.
 Finished as a bounded adventure: every route plays, eleven endings are reached in tests, and the Bowl survives being
 left and returned to. **Unfinished as the commission's supermodule.** The second pass that would make it one is
 [07-second-pass.md](07-second-pass.md).
+
+## After the second pass (2026-10-26)
+
+The verdict above was written before [07](07-second-pass.md) and [08](08-second-pass-built.md). It still holds on
+scale: 71 rooms is a large module, not a supermodule. It no longer holds on the other two counts.
+
+* **There is a strategic adversary.** It has a clock (`approach`), hands (the Reflected), a human agent (Pell), a
+  model of the player's city, a voice, a case, and a stake that re-reads the setting: the Bowl is the dent its heart
+  made. Every honest mistake in Act I is still honest. What exploited the mistakes is new.
+* **The climax is a real choice.** Seven ends at the top of the stair, each a different answer to *given to whom*,
+  none of them free: the city emptied, a debt paid that might be a theft, a judgement deferred, a jewel carried away,
+  a lie that costs Isaura her vocation, a watch kept for ever.
+
+What would carry it the rest of the way: the Hearing rebuilt as the council of war; the wheel-rooms as galleries
+with their own puzzles; the Collegium thread carried into The Long Man; and a sung contest with the Reflected that
+plays as a system rather than one action.

@@ -1,6 +1,6 @@
 # The Measured Accord
 
-Seed `ammerlin`; 347 steps; ended at watch 909 with the Mere at 31 spans, at the ending "The Measured Accord". Written by `bun scripts/low-water-transcripts.ts` from the journey as the page told it.
+Seed `ammerlin`; 333 steps; ended at watch 909 with the Mere at 26 spans, at the ending "The Measured Accord". Written by `bun scripts/low-water-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -444,7 +444,7 @@ Thale puts a weight-stone in the stone pan. As the last stone goes into the pan 
 
 **To the counting gallery**
 
-Under the Mere there is a working machine of the Mathematical Age that counts by water, and the water it counts does not come out again anywhere. You stand and watch it for a long time before you let yourself say it. It is a machine, and it is counting: a gate at a time, a measure of water at a time, and the water it has counted runs on down the gallery toward the long stair and does not come back. Isaura stands in front of the nine wheels and you see her lips moving. She is counting the gates on the nearest wheel. When she gets to the end she starts again. A gallery as long as a street, and down the middle of it nine wheels of bronze and grey stone, each as tall as a house, standing in a row in a channel of moving water. Water runs from each to the next by a hundred small gates. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
+Under the Mere there is a working machine of the Mathematical Age that counts by water, and the water it counts does not come out again anywhere. You stand and watch it for a long time before you let yourself say it. It is a machine, and it is counting: a gate at a time, a measure of water at a time, and the water it has counted runs on down the gallery toward the long stair and does not come back. Isaura stands in front of the nine wheels and you see her lips moving. She is counting the gates on the nearest wheel. When she gets to the end she starts again. A gallery as long as a street, and down one side of it nine tall arches, and through every arch a wheel of bronze and grey stone, each in a room of its own, each as tall as a house. A channel of moving water runs the length of the gallery and turns in at every arch, and comes out again, by a hundred small gates. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
 
 **To the listening column**
 
@@ -468,7 +468,7 @@ The second bar gives a middle note, plain and round, that goes up the column. Th
 
 **To the counting gallery**
 
-The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry. The counting gallery and its nine great wheels.
+The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry. The counting gallery, and its nine arches, and the wheel in every one.
 
 **To the governor**
 
@@ -476,7 +476,7 @@ The governor in the Undercroft keeps the Reckoner counting: break its spindle, a
 
 **To the counting gallery**
 
-The counting gallery and its nine great wheels. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
+The counting gallery, and its nine arches, and the wheel in every one. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
 
 **Into the depths of the Undercroft**
 
@@ -486,7 +486,7 @@ Over the last door in the Undercroft are two lines of carving, one in the oldest
 
 **Out to the counting gallery**
 
-The counting gallery and its nine great wheels. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
+The counting gallery, and its nine arches, and the wheel in every one. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
 
 **To the Hall of the Equals**
 
@@ -778,26 +778,6 @@ The bells stop. In the quiet the choir sings four low notes, all alike, and agai
 
 Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
 
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
 *(19 waits in which nothing is told)*
 
 **Wait › An hour**
@@ -814,31 +794,15 @@ The bells stop. In the quiet the choir sings four low notes, all alike, and agai
 
 Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
 
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
 *(6 waits in which nothing is told)*
 
 **Wait › An hour**
 
 At first light there is a noise from the Ward like a door the size of a hill slammed shut, and then screaming. The diggers broke the wall at the bottom of the Hall’s throat, and the silt went, and the Mere came down after it. Three were in the hole.
+
+**Wait › An hour**
+
+Word comes down the terraces, and up them: the Ward well has failed. In Tench Row the handcarts are coming out.
 
 *(12 waits in which nothing is told)*
 
@@ -851,26 +815,6 @@ Over the whole Bowl, terrace below terrace, the Sounding’s bells go into the H
 The bells stop. In the quiet the choir sings four low notes, all alike, and again, and again, slow as somebody counting coins, and the Bowl is so still you can hear the water in the Stair.
 
 *(2 waits in which nothing is told)*
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
-
-**Wait › An hour**
-
-Far down the terraces, in the dark, somebody is singing: the Sixth Remainder, the Rising, one deep note and three bright, over and over, in voices with no breath behind them. Then a sound you have learned to know from anywhere in the Bowl: the bronze of the Deep Gate heaving itself up on edge.
 
 **Wait › An hour**
 
@@ -980,8 +924,8 @@ The head of the Stair, loud with the Ninefold going over into the first lock.
 
 **To the north road, at the Rim**
 
-The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall.
+The north road ends at a gate in a low wall, and past the gate the ground goes out from under the world. Carters water their horses at a trough fed by a bronze spout older than the wall. From the Rim the ring of mud round the Mere is wider than the water now, grey, with things standing up in it.
 
 **Go up out of the Bowl by the north road**
 
-You go up the Stair for the last time at dusk, and halfway up the bells begin, and you stop on the landing to hear it: the Sixth, and then, after the quiet, four low notes, alike, sung by a thousand people as if it were the most important thing in the world, which tonight it is. Down at the Ninth Lock Piet Harl is writing Down at the Seventh. Cupful. In the Office’s newest ledger there is a right that was never written before, and a Clerk-Measurer, Second Grade now, whether she likes it or not, who measures it every morning. The Mere comes back a span a month. The Reckoner counts, at its old pace, toward a number nobody now living will hear. On the Office wall, under WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY, somebody keeps chalking AND SUNG, and the Office keeps not washing it off.
+You go up the Stair for the last time at dusk, and halfway up the bells begin, and you stop on the landing to hear it: the Sixth, and then, after the quiet, four low notes, alike, sung by a thousand people as if it were the most important thing in the world, which tonight it is. Down at the Ninth Lock Piet Harl is writing Down at the Seventh. Cupful. In the Office’s newest ledger there is a right that was never written before, and a Clerk-Measurer, Second Grade now, whether she likes it or not, who measures it every morning. The Mere comes back a span a month. The Reckoner counts, at its old pace, toward a number nobody now living will hear. On the Office wall, under WHAT IS MEASURED HONESTLY CAN BE SETTLED PEACEFULLY, somebody keeps chalking AND SUNG, and the Office keeps not washing it off. Some nights there are figures of water at the edge of the Mere, facing the Sounding; Piet Harl sings the Seventh at them from the lock-house door, deep, deep, deep, deep, and they lie down.

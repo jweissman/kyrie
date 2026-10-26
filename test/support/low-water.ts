@@ -9,6 +9,9 @@ export class Bowl {
   static knows(j: Journey, fact: string) { return j.holds('knows', 'party', L(fact)); }
   static state(j: Journey, thing: string, state: string) { return j.holds('state', L(thing), L(state)); }
   static mere(j: Journey) { return j.measure(L('mere'), L('bowl')); }
+  static async untilComplete(j: Journey, limit = 2000) {
+    while (!j.holds(L('complete'), L('reckoner')) && j.watch() < limit) { await j.play('=+6'); }
+  }
   static said(j: Journey, from = 0) { return j.taken.slice(from).map(t => t.told).join(' '); }
   // The first hour: Isaura at the head of the Stair, and the company down to the Dyers' Terrace before the third bell.
   static readonly arrive = ['^To the head of the Stair', 'Talk to Isaura', 'waiting for you', 'Ask Isaura Vant to join'];
@@ -32,6 +35,26 @@ export class Bowl {
   static readonly lock = ["^To the Dyers' Walk", '^To the lock stair', '^To the Ninth Lock', 'Into the lock-house',
     'Talk to Piet', 'whether the Deep Gate comes down', 'what the Sounding said', '^Read', 'Examine — Look closely',
     'Take your leave', '^Out to the Ninth Lock'];
+  // The Ear's Library from the Ward: its door found, the float door raised by the valves, and the Lector's bell taken.
+  static readonly bell = ['^To Measures Square', "^To the Dyers' Walk", '^To the lock stair', '^To the Ward landing',
+    '^To the new mud', '^To the dig', '^Into the Listening Hall', 'Search here', "Lector's room", '?Fill a lantern',
+    'speaking-stones: Examine › Push', 'gallery of jars', 'Turn the archive valve open', '=+3', 'Turn the archive valve shut',
+    "Lector's room", 'Turn the cistern valve open', '=+2', 'gallery of jars', 'low archive', 'black speaking-stone: Examine › Push', '^Take', 'gallery of jars', "Lector's room", 'Listening Hall', '^Out to the dig'];
+  // Down the Mere after the Reflected at night, carrying the bell, through Ammerlin in the water and up the stair.
+  static readonly underMere = ['^To the new mud', 'edge of the Mere', 'Through to the still water', 'Bowl in the water',
+    'Rim in the water', 'square in the water'];
+  static readonly upStair = ['Ward in the water', 'foot of the stair', 'top of the stair', 'glass gate',
+    'hall of receipts', 'jars of counted water: Examine', 'nine circles', 'nine circles: Examine'];
+  static readonly ledger = ['Office in the water', 'ledger of water: Examine', 'square in the water'];
+  // Waits for a night the Reflected walk: dark, and the approach begun.
+  static async untilNight(j: Journey, limit = 2500) {
+    const night = () => j.watch() % 144 >= 80 && j.watch() % 144 < 126 && j.measure(L('approach'), L('bowl')) >= 1;
+    while (!night() && j.watch() < limit) { await j.play('=+2'); }
+  }
+  // Waits on the Ward landing until the Reflected come up out of the Mere.
+  static async untilReflected(j: Journey, place = 'ward_landing', limit = 2500) {
+    while (j.at(L('reflected')) !== L(place) && j.watch() < limit) { await j.play('=+1'); }
+  }
   static get act1() {
     return [...this.arrive, ...this.toDyers, ...this.basin, ...this.rim, '=+6', '^Take', ...this.office, ...this.sounding,
       ...this.lock];

@@ -79,6 +79,8 @@ Classified as the brief asks. Each was met in Low Water and is reproducible from
 | 13 | A companion's topics are filed under them, and a thing's changes under the thing, on the page | Not a fault | Journeys in the browser go *the sump gate › Wind up* | — |
 | 14 | An ending closes the book; a placed country cannot have one | Engine contract | Endings in `endings.kyr`, which only the standalone campaign installs; in a world the Bowl goes on | An ending a placed country can reach without closing the world (a chapter end) |
 | 15 | Absolute watches shift when a module is installed late, measures compared with the clock too | Works as documented | Every timer is a measure set `Initially` or a literal compared with `watch(clock)` | — |
+| 16 | A way's `opening when` is checked before the module's own rules, so a rule that makes it true in the same pass leaves the exit missing until the next pass | Engine limitation (silent) | Opened on the underlying fact (`carries`, `tried`) rather than on a relation a rule asserts | Evaluate openings after module rules, or once more at the end of a pass |
+| 17 | `carries(group, x)` reads members' packs only; `Assert keeps(group, x)` is accepted and then not carried | Authoring problem (silent) | The heart is set down at the company's feet to be taken | Lint `keeps` on a group, or file it with a member |
 
 ## 4. Tests
 

@@ -25,3 +25,14 @@ marked ⚙.*
 | 17 | Terraces as levels of the city | Rooms of the settlement joined by *steps* | ⚙ A level must be inside a site or building, and a site's name then labels every way into it ("Into the terraces of Ammerlin"). The Stair between terraces is called steps, which lint accepts between rooms of one area |
 | 18 | One lake-level sentence in the gauge observation | Gauge readings also in each gate's own description | ⚙ Presentation: working a gate opens the thing's own view, which shows its state, not the place; the levels must be where the player is looking |
 | 19 | A single hymn line every night | Eight, chosen by what has happened (the Ward leaving, after the Hearing, after the count, after the governor) | Artistic: the hymn is the adventure's clock and its most repeated text; it should register the city's changes |
+
+## Second pass (2026-10-26)
+
+| What | Was | Now | Why |
+|---|---|---|---|
+| The adversary | None: a machine, a hymn, honest mistakes | The Auditor, a Varakiir whose heart is the ninth wheel's jewel | WHAT IS COUNTED IS GIVEN needed an answer to *whom* |
+| The Auditor's aim | A seam in the settlement (07) | Its heart back; the Bowl is the hole it pinned | The wheel-room's nine sockets made it concrete, and the creditor's case is good |
+| The Interval | A copied Bowl and a cup | Ammerlin in the water: the mirror city, Aun's image singing backward, the ledger of water, the doubles, the stair up | Act V |
+| After the count | Endings on leaving | The heart carried up the stair in a day unless rung back; seven ends at the top | The count closing has to cost something |
+| *Goes on without the Assessor* | Ends in *Low Water* | Ends in *The Open Bowl* | Nobody held the door and nobody carried the bell |
+| The census endings | Delivered, recipient unknown | Isaura's letter after you: *It has no number* | The recipient is known now |

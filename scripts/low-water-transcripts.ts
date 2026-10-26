@@ -10,11 +10,29 @@ import { ScreenModel } from '../src/ui/screen-model';
 const out = 'doc/playtests/low-water-2026-10-25';
 const leave = ['?^To the hall of the Office', '?^Out to Measures Square', '?^To the head of the Stair', '^To the north road',
   'Go up out of the Bowl'];
-const journeys: { file: string; title: string; seed: string; steps: string[] }[] = [
+type Step = string | ((j: Journey) => Promise<void>);
+const journeys: { file: string; title: string; seed: string; steps: Step[] }[] = [
   { file: 'accord.md', title: 'The Measured Accord', seed: 'ammerlin', steps: [...Bowl.act1, ...Bowl.trial, ...Bowl.descent,
     ...Bowl.night, ...Bowl.morning, ...Bowl.office2, '=820', 'Ask Isaura if she will sign', ...Bowl.toMoot, '=889',
     ...Bowl.finding, 'Ask Isaura what happens to her now', 'Ask Isaura what she will say about you', ...leave] },
-  { file: 'alone.md', title: 'Low Water, left alone', seed: 'alone', steps: [...Bowl.arrive, '=1110', ...leave] },
+  { file: 'alone.md', title: 'The Open Bowl', seed: 'alone', steps: [...Bowl.arrive, j => Bowl.untilComplete(j),
+    async j => { await j.play(`=${j.measure(L('heartDue'), L('bowl'))}`); }] },
+  { file: 'audit.md', title: 'The Account Delivered', seed: 'sent', steps: [...Bowl.arrive, ...Bowl.bell, '^To the new mud',
+    '^To the Ward landing', j => Bowl.untilComplete(j), j => Bowl.untilReflected(j), 'Ring the Ear.s bell at the Reflected who carry',
+    '^Take', ...Bowl.underMere, ...Bowl.ledger, ...Bowl.upStair, 'seat of the Auditor', 'Talk to the Auditor', 'what it is',
+    'what it is owed', 'what becomes of Ammerlin', 'why the account is addressed upward', 'hall of the nine circles',
+    'Let the heart go up through the opening'] },
+  { file: 'false.md', title: 'The False Measure', seed: 'false', steps: [...Bowl.act1, ...Bowl.trial, 'Fill a lantern',
+    '^To the intake culvert', '^To the dry vestibule', '^Take', '^Take', 'Hall of the Equals', 'Put in › A weight-stone',
+    'Put in › A weight-stone', 'Put in › A weight-stone', 'Put in › A weight-stone', '^To the counting gallery',
+    'room of the ninth wheel', 'counting gallery', 'Hall of the Equals', '^To the dry vestibule', '^To the intake culvert',
+    '^To the Ninth Lock', '^To the lock stair', '^To the Ward landing', '^To the new mud', '^To the dig', ...Bowl.bell.slice(6),
+    '=150', 'Talk to Teodor', 'what is set in the ninth wheel', 'Take your leave', '^To the new mud', j => Bowl.untilNight(j),
+    ...Bowl.underMere.slice(1), ...Bowl.ledger, 'what she sees in the ledger of water', 'write the false figure', ...Bowl.upStair,
+    'seat of the Auditor', 'Talk to the Auditor', 'what it is', 'Ask Isaura to write the false figure', 'hall of the nine circles',
+    'hall of receipts', 'glass gate', 'top of the stair', 'foot of the stair', 'Ward in the water', 'square in the water',
+    'Rim in the water', 'Bowl in the water', 'still water', 'Ward landing', '^To the lock stair', "^To the Dyers' Walk",
+    '^To Measures Square', ...leave] },
   { file: 'halm.md', title: 'The End of the Song', seed: 'halm', steps: [...Bowl.arrive, '^To Measures Square',
     '^Into the Office of Measures', "Registrar's room", 'Talk to Registrar', 'what she wants from you', 'Take your leave',
     '^To the hall of the Office', '^Out to Measures Square', "^To the Dyers' Walk", '^To the lock stair', '^To the Ward landing',
@@ -38,7 +56,7 @@ await mkdir(out, { recursive: true });
 for (const { file, title, seed, steps } of journeys) {
   const j = await Journey.start('data/campaigns/low-water.campaign.json', seed);
   const opening = ScreenModel.build(j.campaign).prose.join(' ');
-  await j.play(...steps);
+  for (const step of steps) { await (typeof step === 'string' ? j.play(step) : step(j)); }
   const lines: string[] = ['*(The first page)*', '', opening, ''];
   let quiet = 0;
   for (const t of j.taken) {

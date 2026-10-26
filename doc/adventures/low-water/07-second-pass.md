@@ -4,6 +4,8 @@
 this is a supermodule. It is not yet. This is how it becomes one without throwing away what already works: the hymn as
 an order, the city as a causal system, and Isaura.*
 
+*Built: see [08](08-second-pass-built.md), which records where the build departed from this plan.*
+
 ## Where to start: answer the question the adventure already asks
 
 The built adventure asks a question three times and never answers it: WHAT IS COUNTED IS GIVEN. *Given to whom?*

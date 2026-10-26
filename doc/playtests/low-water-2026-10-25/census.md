@@ -444,7 +444,7 @@ Thale puts a weight-stone in the stone pan. As the last stone goes into the pan 
 
 **To the counting gallery**
 
-Under the Mere there is a working machine of the Mathematical Age that counts by water, and the water it counts does not come out again anywhere. You stand and watch it for a long time before you let yourself say it. It is a machine, and it is counting: a gate at a time, a measure of water at a time, and the water it has counted runs on down the gallery toward the long stair and does not come back. Isaura stands in front of the nine wheels and you see her lips moving. She is counting the gates on the nearest wheel. When she gets to the end she starts again. A gallery as long as a street, and down the middle of it nine wheels of bronze and grey stone, each as tall as a house, standing in a row in a channel of moving water. Water runs from each to the next by a hundred small gates. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
+Under the Mere there is a working machine of the Mathematical Age that counts by water, and the water it counts does not come out again anywhere. You stand and watch it for a long time before you let yourself say it. It is a machine, and it is counting: a gate at a time, a measure of water at a time, and the water it has counted runs on down the gallery toward the long stair and does not come back. Isaura stands in front of the nine wheels and you see her lips moving. She is counting the gates on the nearest wheel. When she gets to the end she starts again. A gallery as long as a street, and down one side of it nine tall arches, and through every arch a wheel of bronze and grey stone, each in a room of its own, each as tall as a house. A channel of moving water runs the length of the gallery and turns in at every arch, and comes out again, by a hundred small gates. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
 
 **To the listening column**
 
@@ -468,7 +468,7 @@ The second bar gives a middle note, plain and round, that goes up the column. Th
 
 **To the counting gallery**
 
-The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry. The counting gallery and its nine great wheels.
+The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry. The counting gallery, and its nine arches, and the wheel in every one.
 
 **To the governor**
 
@@ -476,7 +476,7 @@ The governor in the Undercroft keeps the Reckoner counting: break its spindle, a
 
 **To the counting gallery**
 
-The counting gallery and its nine great wheels. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
+The counting gallery, and its nine arches, and the wheel in every one. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
 
 **Into the depths of the Undercroft**
 
@@ -486,7 +486,7 @@ Over the last door in the Undercroft are two lines of carving, one in the oldest
 
 **Out to the counting gallery**
 
-The counting gallery and its nine great wheels. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
+The counting gallery, and its nine arches, and the wheel in every one. The gates open and shut with a sound like beads on a wire. The note you heard in the Listening Hall is all round you here, and you can feel it in the floor. Of the nine wheels, six stand still and locked, their gates shut, as if finished. The next is turning, slowly. The rest wait, dry.
 
 **To the Hall of the Equals**
 
@@ -638,7 +638,7 @@ The lock stair: nine chambers of white water going down the terrace, a keeper at
 
 **To the Ninth Lock**
 
-At night, figures of water climb out of the Mere in the shapes of people, left for right, and sing the hymn without breath; and at the Ninth Lock they sing the Rising, and the Deep Gate rises for them. The cold that comes off the Reflected is not the cold of water. It goes in under the ribs and stays there. You look for a long time before you are sure what you are looking at. Isaura Vant resists (wisdom). The Ninth Lock, at the foot of the terrace, its water going round and down by the floor. Figures stand at the edge of the water in the dark: people, or the shapes of people, made of water that has been made to stand up, clear as glass, with the night showing through them. 15 of them, or near it; they are hard to count, being clear. They face the Sounding. They are singing, very softly, without breath. Every one of them is the wrong way round, as a face is in a mirror. One of them is a woman in a long coat with a rod under her arm: the wrong arm. Beside you, Isaura Vant has stopped walking. The bronze shutter of the Deep Gate lies down in its bed. A thread of water, no thicker than a wrist, runs over its lip and down. That is all. An oak crane on the lock wall stands over a stack of stop-logs, square black beams as long as a cart.
+At night, figures of water climb out of the Mere in the shapes of people, left for right, and sing the hymn without breath; and at the Ninth Lock they sing the Rising, and the Deep Gate rises for them. The cold that comes off the Reflected is not the cold of water. It goes in under the ribs and stays there. You look for a long time before you are sure what you are looking at. Isaura Vant resists (wisdom). The Ninth Lock, at the foot of the terrace, its water going round and down by the floor. Figures stand at the edge of the water in the dark: people, or the shapes of people, made of water that has been made to stand up, clear as glass, with the night showing through them. 15 of them, or near it; they are hard to count, being clear. They face the Sounding. They are singing, very softly, without breath. Every one of them is the wrong way round, as a face is in a mirror. One of them is a woman in a long coat with a rod under her arm: the wrong arm. Beside you, Isaura Vant has stopped walking. Among the Reflected one goes with its hands cupped in front of it, as you would carry a light in wind; and in its hands, through the water of its fingers, something breathes, all the colours of deep water. The bronze shutter of the Deep Gate lies down in its bed. A thread of water, no thicker than a wrist, runs over its lip and down. That is all. An oak crane on the lock wall stands over a stack of stop-logs, square black beams as long as a cart.
 
 **a torch: Light**
 
@@ -658,7 +658,7 @@ The Hall of the Equals: the rocking floor, the stone pan on its chains, and the 
 
 **To the counting gallery**
 
-The counting gallery and its nine great wheels. All nine wheels stand still and locked. The channel is dry. The gallery is silent for the first time in three thousand years, and the silence is enormous.
+The counting gallery, and its nine arches, and the wheel in every one. All nine wheels stand still and locked. The channel is dry. The gallery is silent for the first time in three thousand years, and the silence is enormous.
 
 **Into the depths of the Undercroft**
 
@@ -666,11 +666,11 @@ The round door stands open. Beyond it is not a room. Beyond it, as far as you ca
 
 **Through to the still water**
 
-The counted water of three thousand years lies in the Interval, still, and it has been used: somebody, or something, has built out of it, far off across the still water, a likeness of the Bowl of Ammerlin. Far off across the water, a long way, something stands up out of it: terraces, a pale ring of them, going down. Water, still, to the end of seeing, under no sky. It is lit from nowhere, evenly, like the inside of a pearl. It holds you up; you walk on it as on glass, and under your feet, a hand down, it goes on being water for ever. There is no sound at all. Behind you the round door stands in nothing, its edge as thin as paper.
+The counted water of three thousand years lies in the Interval, still, and it has been used: somebody, or something, has built out of it, far off across the still water, a likeness of the Bowl of Ammerlin. Far off across the water, a long way, something stands up out of it: terraces, a pale ring of them, going down. Water, still, to the end of seeing, under no sky. It is lit from nowhere, evenly, like the inside of a pearl. It holds you up; you walk on it as on glass, and under your feet, a hand down, it goes on being water for ever. There is no sound at all. Behind you the round door stands in nothing, its edge as thin as paper. Far overhead, if it is overhead, there is a pale disc like a coin seen from under water: the Mere, from below.
 
 **To the Bowl in the water**
 
-It is the Bowl. It is Ammerlin, made of water that has been made to stand up: the Rim, the four terraces, the Stair, the Sounding’s dome, every roof, as clear as ice and as still. Nobody is in it. It has been copied the way a child copies a picture it has only ever seen reflected: everything is there, and everything is the wrong way round, left for right. At the bottom, the Mere is full to the fourth step of the Ward landing, and every boat in the Ward is afloat on it. Through the clear dome of the water-Sounding you can see that its floor has no grating and no shaft. Instead, at the centre, standing, there is a figure of water the size of a person, with its face turned up, and its mouth open, as if singing; and it has been made in such a way that you cannot tell whether it is meant to be the singer or the one who listened.
+It is the Bowl. It is Ammerlin, made of water that has been made to stand up: the Rim, the four terraces, the Stair, the Sounding’s dome, every roof, as clear as ice and as still. It has been copied the way a child copies a picture it has only ever seen reflected: everything is there, and everything is the wrong way round, left for right. At the bottom the Mere is full to the fourth step of the Ward landing, and every boat in the Ward is afloat on it.
 
 **Take**
 
@@ -678,7 +678,7 @@ Isaura Vant takes a cup of the still water.
 
 **To the still water**
 
-Water, still, to the end of seeing, under no sky. It is lit from nowhere, evenly, like the inside of a pearl. It holds you up; you walk on it as on glass, and under your feet, a hand down, it goes on being water for ever. There is no sound at all. Behind you the round door stands in nothing, its edge as thin as paper.
+Water, still, to the end of seeing, under no sky. It is lit from nowhere, evenly, like the inside of a pearl. It holds you up; you walk on it as on glass, and under your feet, a hand down, it goes on being water for ever. There is no sound at all. Behind you the round door stands in nothing, its edge as thin as paper. Far overhead, if it is overhead, there is a pale disc like a coin seen from under water: the Mere, from below.
 
 **Through to the last door**
 
@@ -686,7 +686,7 @@ The round door stands open. Beyond it is not a room. Beyond it, as far as you ca
 
 **Out to the counting gallery**
 
-The counting gallery and its nine great wheels. All nine wheels stand still and locked. The channel is dry. The gallery is silent for the first time in three thousand years, and the silence is enormous.
+The counting gallery, and its nine arches, and the wheel in every one. All nine wheels stand still and locked. The channel is dry. The gallery is silent for the first time in three thousand years, and the silence is enormous.
 
 **To the Hall of the Equals**
 
@@ -746,4 +746,4 @@ The north road ends at a gate in a low wall, and past the gate the ground goes o
 
 **Go up out of the Bowl by the north road**
 
-The count closed with the Grey Way open and the Mere spared, and the whole Long Hymn came up out of the water at once, and every bell in Ammerlin rang with no one at the ropes. The Ward has its water at 39 spans; the mills stood idle while the Guild’s water went down the Grey Way, and then the hammers began again; Teodor Halm has a number he will spend fifty years on and has already written to the Collegium about you, at length, kindly. Under the Mere the round door stands open on still water, and the city has posted a keeper at the Ninth Lock’s hatch to see that nobody goes through it who does not mean to come back. Nobody knows who received the count. Isaura Vant has entered it in the tally as Delivered, Recipient Unknown, and underlined it twice.
+The count closed with the Grey Way open and the Mere spared, and the whole Long Hymn came up out of the water at once, and every bell in Ammerlin rang with no one at the ropes. The Ward has its water at 39 spans; the mills stood idle while the Guild’s water went down the Grey Way, and then the hammers began again; Teodor Halm has a number he will spend fifty years on and has already written to the Collegium about you, at length, kindly. Under the Mere the round door stands open on still water, and the city has posted a keeper at the Ninth Lock’s hatch to see that nobody goes through it who does not mean to come back. Nobody knows who received the count. Isaura Vant has entered it in the tally as Delivered, Recipient Unknown, and underlined it twice. Six days after you have gone, a letter comes after you on the north road, in a hand you know, very small and very even: The Mere went through the bottom of the Bowl last night. Not falling. Going. The Ward is going after it a step a night. Received, it said, in every room. Received. I am measuring it. It has no number. I. V.

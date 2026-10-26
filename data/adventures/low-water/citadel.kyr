@@ -1,0 +1,168 @@
+Module lowwater "Low Water" {
+  Description "The Glass Citadel in the outer dark, at the top of the stair that goes up out of Ammerlin in the water: the Assayers at its gate, the hall of receipts, the model of the nine circles, and at its heart the Auditor, whose own heart is set in the Reckoner's ninth wheel.".
+
+  Place citadel_plane "the outer dark" is plane.
+  Place outer_dark "the outer dark" is region within citadel_plane.
+  Place dark_wild "the outer dark" is wilderness within outer_dark at 0, 0.
+  Place dark_landing "the top of the stair" is room within dark_wild at 0, 0 outdoors.
+  Place glass_citadel "the Glass Citadel" is settlement within outer_dark at 1, 0.
+  Place glass_gate "the glass gate" is room within glass_citadel at 0, 0 outdoors.
+  Place hall_receipts "the hall of receipts" is room within glass_citadel at 1, 0.
+  Place model_hall "the hall of the nine circles" is room within glass_citadel at 2, 0.
+  Place auditor_seat "the seat of the Auditor" is room within glass_citadel at 3, 0.
+  // Where the heart sits: behind the grille of the ninth arch, which opens only on a count that is whole and a door
+  // that is held.
+  Place ninth_socket "the ninth socket" is room within wheels_level at 8, 1 underground.
+
+  Passage up_stair "the stair that goes up" is path between stair_foot and dark_landing taking 60 minutes.
+  Passage to_glass_gate "the glass road" is path between dark_landing and glass_gate taking 20 minutes.
+  Passage gate_in "the glass gate" is doorway between glass_gate and hall_receipts
+    opening when carries(party, ear_bell) or knows(party, ledger_of_water) "The Assayers stand across the gate, and do not move, and do not need to.".
+  Passage receipts_on "the arch of receipts" is arch between hall_receipts and model_hall.
+  Passage seat_door "the door of the seat" is doorway between model_hall and auditor_seat
+    opening when tried(circles, looking) "The door of the seat is a sheet of glass with nothing behind it, until you have understood what you are looking at in this hall.".
+  Passage grille "the grille of the ninth arch" is doorway between w_remainder and ninth_socket
+    opening when complete(reckoner) and doorHeld(reckoner) "The grille is bronze bars as thick as a wrist, with no lock and no hinge. It will open when the count is whole, and the door it guards is shut, and not before.".
+
+  // The stair: a long climb up into nothing.
+  Observe stair_climb at dark_landing when true "The stair ends. Below you, very far down, a disc of pale light that is the still water, and in it, small as a coin's face, the copied Bowl. Above you there is no more stair, and no sky either: only dark, that is not the dark of night, because there has never been anything here for it to be the night of. You can see, though. Everything here gives off a little of the light of the Interval, as a thing still wet gives off cold.".
+  Observe landing_citadel at dark_landing when true "Out in the dark, a long way off and not far at all, stands something made of glass: walls, towers, a gate, as clear as the copied city below and much older, its edges worn soft, like a bottle that has lain a thousand years in a river.".
+  Observe gate_scene at glass_gate when true "The glass gate is two leaves of glass taller than the Sounding's dome, standing open on a hall full of a dim green light. Across it stand the Assayers: three figures of glass, taller than any person, without faces, each holding before it in both hands a set of scales. In the pans of the scales nothing is weighed; the beams stand level all the same, and tremble.".
+  Person assayers "the Assayers" at glass_gate {
+    Role "figures of glass, holding scales". Numbers 3. Peaceable.
+    Greets "The Assayers turn, all three, toward you, and the beams of their scales dip, very slightly, and come level.".
+  }
+  // They admit what has been counted: a company carrying the Lector's bell, which they know; or one whose mark is in the
+  // ledger of water.
+  Relation admitted(group).
+  Rule admit_bell at glass_gate when at(party, glass_gate) and carries(party, ear_bell) and not admitted(party)
+    says "The bell in your pack gives one stroke by itself: high, and under it, as it dies, deep. The Fourth. The three scales tilt, all at once, toward it, as a flower turns, and the Assayers step back out of the gate the way water gives back from a stone." {
+    Assert admitted(party). }
+  Rule admit_mark at glass_gate when at(party, glass_gate) and knows(party, ledger_of_water) and not admitted(party)
+    says "One of the Assayers holds its scales down to you. In one pan, so small you must bend to see it, lies a drop of still water, and in the drop, a whorl: your fingerprint, from the ledger of water. It has been weighed. The beam comes level. You are on the account; the Assayers step back." {
+    Assert admitted(party). }
+  Topic assayers_ask with assayers "Ask the Assayers what they weigh" when true once {
+    Says "None of them has a mouth. The answer comes up out of the pans of the scales the way a note comes out of a glass rubbed at the rim: WHAT IS COUNTED. WHAT IS OWED. WHETHER THEY ARE EQUAL. A pause, a long, glassy hum. THEY ARE NOT YET EQUAL.".
+  }
+
+  // The hall of receipts: the counted water of three thousand years, in jars, each one a cupful, each with a face.
+  Observe receipts_scene at hall_receipts when true "Jars. A hall of them, shelved to a height you cannot see, and going on ahead of you further than the hall should go: glass jars the size of a cupped pair of hands, each one full of still water, each one sealed with a disc of glass, and on the disc a mark cut in the machine's notation. A cupful in each. The light in the hall is the light that comes out of them.".
+  Thing jars_of_receipt "the jars of counted water" at hall_receipts {
+    State shelved "The jars of counted water stand shelved in their thousands, a cupful in each.".
+    Tries looking.
+  }
+  Discovery receipts_read "In the hall of receipts every cupful the Reckoner ever drank is kept in a jar, and in each jar is a face: the counted water keeps an image of whatever was standing at the edge of the Mere when it was drawn. The Ward has been counted with its water for three thousand years, one cupful at a time.".
+  Rule receipts_looked when tried(jars_of_receipt, looking) and not knows(party, receipts_read)
+    says "You lift one down. It is cold and heavier than water should be. In it, small, as if seen down a well, is a face: a man with a beard and a net over his shoulder, looking down at you with the patient look of a man watching a float. You put it back. You take another: a child. Another: a woman with a basket. A dog. A gull. A boat, drawn small, with a boy in it. Every jar has a face in it, every face is looking down, and every one of them, you realise, is looking down from the edge of the Mere, into the water, at whatever was looking up." teaches receipts_read { }
+  Observe receipts_annet at hall_receipts when knows(party, receipts_read) and drowned(diggers) "On a shelf at the height of your eyes, newer than the rest, a row of jars still clouded, as if the water in them had not yet quite settled. In the third of them is a girl of fifteen with her mouth open, calling somebody.".
+  Observe receipts_isaura at hall_receipts when knows(party, receipts_read) and travelsWith(isaura, party) "Isaura Vant has taken a jar down and is holding it to the light, and reading the mark on its seal, and putting it back, and taking the next. 'They're in order,' she says, to nobody. 'They're in perfect order.' Her voice is quite steady. 'It's the best-kept account I have ever seen.'".
+
+  // The model hall: the nine circles of the world, as the Varakiiri knew them, and the crack.
+  Observe model_scene at model_hall when true "In the middle of a round hall hangs a model of the world: nine rings of glass, one inside another, each turning very slowly on its own tilt, like the rings of a sphere a navigator uses, but there is no globe at the centre. Each ring is pinned to the next by a single point of light, and eight of the points are dark. The ninth burns, faint, on the innermost ring; and round it, in the glass, runs a crack.".
+  Thing circles "the nine circles" at model_hall {
+    State turning "The nine circles turn on their tilts, pinned by one light.".
+    Tries looking.
+  }
+  Discovery circles_read "The Bowl of Ammerlin is the dent the ninth heart made in the world when the Varakiiri lost it: the jewel fell, and pinned the inner circle where it fell, and the Mere is the water that gathered in the hole. If the heart goes home, the pin comes out, and the Bowl opens on the dark.".
+  Rule circles_looked when tried(circles, looking) and not knows(party, circles_read)
+    says "You walk round it twice before you see it. The ninth light is not on the ring: it is under it, holding it, the way a nail holds a board; and the crack in the glass runs out from it in a ring, round and shallow, with a little pool of light gathered in the bottom. You know that shape. You have been walking up and down it for days. It is the Bowl of Ammerlin, seen from above: the dent the nail made when it went in. The terraces are the crack's edges. The Mere is what pooled. Halm's Varakiiri lost nine hearts when they were driven out; one of them fell here, and pinned the world where it fell, and somebody in the Mathematical Age found it at the bottom of the hole and built a wheel round it, and set it to counting." teaches circles_read { }
+  Observe model_threshold at model_hall when true "Over the hall, where a dome should close it, the glass stops, and there is a round opening on a dark that is darker than the rest, and cut round its edge, in letters you can read because they are the old letters of the Ear: TO THOSE WHO SETTLED THE WORLD, FROM THE NINTH: THE ACCOUNT OF WHAT WAS TAKEN.".
+  Topic isaura_circles with isaura travelling "Ask Isaura what the crack in the ninth circle means" when knows(actor, circles_read) once {
+    Says "Isaura looks at the crack for a long time with her hands behind her back. 'So we live in the dent,' she says. 'Ammerlin. The Ward. The Office. My father's boat. All of it in the hole that a stone made when it fell out of somebody's chest.' She is very quiet. 'And the count is the bill. And it's nearly paid.' She looks up at the opening in the dome, at the letters cut round it. 'Not to it, though. Did you see? It's addressed. It's addressed upward.'".
+  }
+
+  // The Auditor.
+  Observe seat_scene at auditor_seat when true "A small room, round, with a floor of still water. In the middle of it, where it can be seen from every side, there is a chair of glass, very plain, of the shape the Office's Registrar sits in; and in the chair is nothing at all, except that the water on the floor round it stands in rings, as it does round a stone; and the cold that came off the Reflected comes off the chair; and the room is full of a voice. It is the fifth voice from the column: the one that was not any of the four of you.".
+  Person auditor "the Auditor" at auditor_seat {
+    Role "a voice, and a cold, and the rings in the water round an empty chair". Peaceable.
+    Greets "The voice says, without any unkindness: YOU ARE ON THE ACCOUNT. SIT, IF YOU LIKE. NOTHING HERE IS IN A HURRY BUT YOU.".
+  }
+  Discovery auditor_heard "The Auditor is the Varakiir whose heart was lost into the Bowl: it has read the count from the far side of the last door for three thousand years, built a likeness of Ammerlin out of the counted water to learn it by, and sent its reflections up the Mere to sing the Rising, because the count is the account of what was taken from it, and when the account is whole its heart is due back.".
+  Topic auditor_what with auditor "Ask the Auditor what it is" when true once {
+    Says "I WAS ONE OF NINE, says the voice. WE SETTLED NOTHING. WE WERE SETTLED. THE ONES WHO CAME AFTER US TOOK OUR HEARTS OUT OF US TO FASTEN THE WORLD WITH, AND PUT US OUT OF IT, INTO HERE. The rings in the water round the chair widen, and settle. I FELL A LONG WAY, AFTER MY HEART. NOT AS FAR AS IT. IT WENT IN THROUGH THE BOTTOM OF THE WORLD, AND YOUR CITY IS THE HOLE. A pause. I HAVE BEEN WAITING AT THE DOOR. IT IS A VERY GOOD DOOR. WHOEVER MADE IT KNEW ME.".
+    On discuss { Assert knows(actor, auditor_heard). }
+  }
+  Topic auditor_owed with auditor "Ask the Auditor what it is owed" when knows(actor, auditor_heard) once {
+    Says "WHAT IS COUNTED IS GIVEN. YOU HAVE READ IT OVER THE DOOR. The water on the floor is quite still. THE ONES WHO MADE THE WHEEL COUNTED EVERYTHING MY HEART HOLDS FASTENED: THE MAKERS, THE BEASTS, THE DEAD, THE LIVING, THE WATER AND WHAT IS IN IT, THE UNBORN, THE CIRCLES. A LEDGER OF WHAT WAS TAKEN FROM ME. THEY MEANT TO SEND IT UP, TO THOSE WHO SETTLED THE WORLD, AND ASK FOR JUDGEMENT. A long, cold quiet. THEY DIED BEFORE IT WAS DONE. I DID NOT. SO I WILL TAKE THE JUDGEMENT MYSELF.".
+  }
+  Topic auditor_bowl with auditor "Ask the Auditor what becomes of Ammerlin when its heart goes home" when knows(actor, auditor_heard) and knows(actor, circles_read) once {
+    Says "IT IS A HOLE WITH A NAIL IN IT, says the voice. WHEN THE NAIL COMES OUT, IT IS A HOLE. The rings in the water widen. NOT ALL AT ONCE. THE MERE FIRST, THROUGH THE BOTTOM, INTO THE DARK. THEN THE WARD. THEN THE TERRACES, ONE AFTER ANOTHER, FROM THE BOTTOM UP, LIKE THE STEPS OF A GAUGE. A pause. I WILL KEEP THEM. I HAVE KEPT EVERY CUPFUL. YOU HAVE SEEN THE JARS. NOTHING THAT IS COUNTED IS LOST. Another pause, longer. I UNDERSTAND THAT IS NOT A COMFORT. I HAVE HAD A LONG TIME TO UNDERSTAND THINGS THAT ARE NOT COMFORTS.".
+  }
+  Topic auditor_pell with auditor "Ask the Auditor about Pell, the Second Reader" when knows(actor, auditor_heard) and knows(actor, pell_named) once {
+    Says "THE READER WROTE TO ME, says the voice. FOR TWENTY YEARS. FOOTNOTES. HE IS A VERY PATIENT MAN, FOR ONE OF YOU. HE THINKS THAT WHEN THE DOOR OPENS I WILL TELL HIM WHAT THE WORLD IS FASTENED WITH. The water does something that might, in a face, be a smile. I WILL. IT WILL BE THE LAST THING ANYBODY TELLS HIM.".
+  }
+  Topic auditor_aun with auditor "Ask the Auditor about Aun, the Lector of the Ear" when knows(actor, auditor_heard) and knows(actor, lector_words) once {
+    Says "The rings in the water stop. For the first time the voice is not quite level. SHE STOOD AT THE DOOR FOR FORTY NIGHTS AND SANG ME SHUT. I LEARNED HER VOICE. I HAVE BEEN LEARNING IT BACKWARD EVER SINCE, SO AS TO OPEN WHAT SHE CLOSED. A long silence. SHE WAS NOT AFRAID OF ME. THAT WAS WHAT I COULD NOT LEARN.".
+  }
+  Topic auditor_upward with auditor "Ask the Auditor why the account is addressed upward, and not to it" when knows(actor, auditor_heard) and knows(actor, circles_read) once {
+    Says "BECAUSE THOSE WHO MADE THE WHEEL WERE HONEST, says the voice. THEY WROTE DOWN WHAT WAS TAKEN, AND THEY ADDRESSED IT TO A COURT, NOT TO A CREDITOR. The cold in the room deepens until your breath shows. SEND IT UP, IF YOU LIKE. CARRY MY HEART TO THE OPENING IN THE DOME AND LET IT GO. THOSE WHO SETTLED THE WORLD WILL READ THE ACCOUNT, AND JUDGE IT, IN THEIR OWN TIME, WHICH IS LONGER THAN MINE. YOUR CITY WILL STAND ON ITS NAIL UNTIL THEY DO. A pause. OR GIVE IT ME. I HAVE WAITED. I AM VERY TIRED. YOU WOULD NOT THINK THAT A THING LIKE ME COULD BE TIRED.".
+  }
+
+  // The heart.
+  Kind kiritarun "the Kiritarun" is treasure worth 0 weighing 1 described "A faceted stone the size of an egg, all the colours a deep water is when the sun goes into it, and moving, slowly, as if it breathes. It is cold enough to hurt, and you cannot put it down for long without wanting to pick it up again.".
+  Item ninth_heart "the ninth heart" is kiritarun at ninth_socket.
+  Observe socket_scene at ninth_socket when true "Behind the grille, the smallest of the nine wheels has stopped. The count is whole. In the ninth socket of its rim, the stone breathes.".
+
+  // With the door unheld, the Reflected come for it the night the count closes, and carry it up the stair.
+  Measure heartDue(place). Relation heartRising(place). Relation heartHome(place). Relation heartRecovered(group).
+  Rule heart_taken when complete(reckoner) and not doorHeld(reckoner) and not heartRising(bowl) and not heartRecovered(party) and at(ninth_heart, ninth_socket) and not countFalsified(reckoner) {
+    Retract at(ninth_heart, ninth_socket). Assert keeps(reflected, ninth_heart). Assert heartRising(bowl). Set heartDue(bowl) to watch(clock) + 144. }
+  Observe heart_carried near reflected when keeps(reflected, ninth_heart) and dark() "Among the Reflected one goes with its hands cupped in front of it, as you would carry a light in wind; and in its hands, through the water of its fingers, something breathes, all the colours of deep water.".
+  Observe heart_on_stair at stair_foot when keeps(reflected, ninth_heart) "Up the stair in the water, very far up, a light is climbing: all the colours of deep water, carried in cupped hands, step after step, slowly, toward the dark.".
+  Rule heart_arrives when heartRising(bowl) and keeps(reflected, ninth_heart) and watch(clock) >= heartDue(bowl) and not heartHome(bowl) {
+    Retract keeps(reflected, ninth_heart). Assert heartHome(bowl). }
+  // It can be taken back from them with the Lector's bell, wherever they stand with it, or on the stair.
+  Action ring_for_heart(actor: group, site: place) "Ring the Ear's bell at the Reflected who carry the heart" {
+    Description "High, and deep. The Fourth: the last door, least.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(reflected, site) and keeps(reflected, ninth_heart) and carries(actor, ear_bell).
+    Time 1.
+    On success { Retract keeps(reflected, ninth_heart). Assert at(ninth_heart, site). Assert heartRecovered(actor). Retract heartRising(bowl). Assert reflectedStilled(bowl). Increase approach(bowl) by 1. }
+    Result "You ring it. The Reflected stop, all of them, mid-step, and the one with the cupped hands turns its clear face toward you with your own attentive look; and then its hands are only water, and the water falls, and the stone drops into it and lies on the ground, breathing, all the colours of deep water. Somewhere a long way below the Mere, in a voice that is no voice of yours, something says: OH.".
+  }
+  Action climb_after_heart(actor: group, site: place) "Climb the stair after the light, ringing the Ear's bell" {
+    Description "It is a long stair, and they are very patient. You are not.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stair_foot) and keeps(reflected, ninth_heart) and carries(actor, ear_bell).
+    Time 6.
+    On success { Retract keeps(reflected, ninth_heart). Assert at(ninth_heart, site). Assert heartRecovered(actor). Retract heartRising(bowl). Assert reflectedStilled(bowl). Increase approach(bowl) by 1. }
+    Result "You climb with the bell held over your head, ringing it, high and deep, every tenth step, until your arm is numb and the stair has gone so far up that the copied city is a coin under you. The light comes down to meet you. It does not mean to; it is carried down, step by step, by a figure of water with your own face, which sets it down on the step at your feet as if it were returning something it had borrowed, and goes back down the stair into the water, and is the water.".
+  }
+  Rule heart_found when carries(party, ninth_heart) and not heartRecovered(party) { Assert heartRecovered(party). }
+  Observe heart_lying near ninth_heart when not carries(party, ninth_heart) and not keeps(reflected, ninth_heart) and not at(ninth_heart, ninth_socket) "On the ground the stone breathes, all the colours of deep water, and the ground round it is white with frost.".
+
+  // Five ways to end it at the top of the stair.
+  Relation heartGiven(group). Relation auditSent(group). Relation longWatch(group).
+  Action give_heart(actor: group, site: place) "Give the Auditor its heart" {
+    Description "What is counted is given.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, auditor_seat) and carries(actor, ninth_heart).
+    Time 1.
+    On success { Assert heartGiven(actor). }
+    Result "You set it on the arm of the glass chair, and take your hand away, and the cold goes out of your fingers at once, as if it had only ever been borrowed.".
+  }
+  Action send_upward(actor: group, site: place) "Let the heart go up through the opening in the dome, to those who settled the world" {
+    Description "The account was addressed. Deliver it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, model_hall) and carries(actor, ninth_heart) and knows(actor, circles_read).
+    Time 1.
+    On success { Assert auditSent(actor). }
+    Result "You hold it up under the opening in the dome, and open your hand. It does not fall. It goes up, slowly, the way a bubble goes up through still water, and in the hall the nine circles all stop turning at once, and wait.".
+  }
+  Action false_figure(actor: group, site: place) "Ask Isaura to write the false figure, in front of the Auditor" {
+    Description "One ninth that is not there. Whole, and short, and wrong.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, auditor_seat) and travelsWith(isaura, actor) and isauraWillWrite(isaura) and not countFalsified(reckoner).
+    Time 1.
+    On success { Assert countFalsified(reckoner). Set approach(bowl) to 0. }
+    Result "Isaura kneels at the edge of the still water on the floor and writes in it, with one finger, slowly, in the machine's notation, a single figure. The water takes it. The rings round the chair stop, and the cold stops, and the voice says, after a long time, in a tone you have heard before, from clerks: THE ACCOUNT IS CLOSED. NOTHING FURTHER IS OWED. And then, as the room begins to empty of it, quieter: THAT IS NOT WHAT I COUNTED. Isaura stands up and wipes her finger on her coat, and does not look at anyone, and says: 'Noted.'".
+  }
+  Action keep_watch(actor: group, site: place) "Stay at the door of the seat, and sing the Fourth Remainder, and go on singing it" {
+    Description "High, and deep. For as long as it takes. Aun did forty nights.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, auditor_seat) and knows(actor, lector_words) and knows(actor, auditor_heard).
+    Time 2.
+    On success { Assert longWatch(actor). }
+    Result "You begin. High, and deep. The voice in the room does not interrupt. After a while it begins, very softly, to sing it with you, backward.".
+  }
+
+  // If nobody holds it back, in the end the Mere stands up.
+  Relation mereStood(place).
+  Rule mere_stands when approach(bowl) >= 14 and dark() and not mereStood(bowl) and not complete(reckoner) and not broken(reckoner) and not countFalsified(reckoner)
+    says "In the middle of the night the whole Mere stands up. Not a wave: the water rises out of its bed all at once in the shape of a person, a woman of water as tall as the Sounding, clear, the wrong way round, with her face turned up and her mouth open; and she sings, with no breath behind it, the whole Long Hymn, every verse, backward, very slowly, the way you would practise a word in a language you meant to speak well. Every bell in Ammerlin answers her. Then she lies down again, and is the Mere, and the Bowl is so silent you can hear the Ninefold falling on the Stair. In the morning nobody in the city will speak of it, the way nobody spoke of the Long Silence." {
+    Assert mereStood(bowl). Assert strikes(reflected_cold, party). }
+}

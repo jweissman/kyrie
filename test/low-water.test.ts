@@ -43,7 +43,7 @@ describe('Low Water', () => {
     await j.play(...Bowl.finding.slice(3));
     expect(j.holds(L('verdictAccord'), L('ammerlin'))).toBe(true);
   }, 240000);
-  it('goes on without the Assessor: the Tench on the mud, the dig taken, the Registrar\'s finding, and the count closed alone', async () => {
+  it('goes on without the Assessor: the Tench on the mud, the dig taken, the Registrar\'s finding, the count closed alone, and the Bowl opened', async () => {
     const j = await Bowl.start('alone');
     await j.play(...Bowl.arrive, '=300');
     expect(Bowl.state(j, 'tench', 'stranded')).toBe(true);
@@ -57,12 +57,15 @@ describe('Low Water', () => {
     expect(Bowl.state(j, 'channel_gate', 'to_mere')).toBe(true);
     expect(j.holds(L('wardLeaving'), L('ammerlin'))).toBe(true);
     const before = Bowl.mere(j);
-    await j.play('=1110');
+    await Bowl.untilComplete(j);
     expect(j.holds(L('complete'), L('reckoner'))).toBe(true);
     expect(Bowl.mere(j)).toBeLessThan(before - 5);
     expect(Bowl.said(j)).toContain('Every bell in Ammerlin rings at once');
-    await j.play('?^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
-    expect(j.holds('reached', L('low_whole'))).toBe(true);
+    expect(Bowl.said(j)).toContain('the whole Mere stands up');
+    // Nobody held the door, and nobody carries the Lector's bell: the Reflected take the heart up the stair.
+    expect(j.holds('keeps', L('reflected'), L('ninth_heart'))).toBe(true);
+    await j.play(`=${j.measure(L('heartDue'), L('bowl'))}`);
+    expect(j.holds('reached', L('open_bowl'))).toBe(true);
   }, 300000);
   it('stops the Reckoner for good: the Deep jammed with stop-logs, the governor broken, and the Equals left holding nothing', async () => {
     const j = await Bowl.start('broken');
@@ -89,7 +92,7 @@ describe('Low Water', () => {
       '^To the counting-house floor', '^Out to the fulling mills', '^To the Rim Gauge', 'Break out the old third mouth');
     expect(j.holds(L('fed'), L('reckoner'))).toBe(true);
     const mere = Bowl.mere(j);
-    await j.play('=+300');
+    await Bowl.untilComplete(j);
     expect(j.holds(L('complete'), L('reckoner'))).toBe(true);
     expect(j.holds(L('completedFed'), L('reckoner'))).toBe(true);
     expect(Bowl.mere(j)).toBeGreaterThanOrEqual(mere - 1);
@@ -100,7 +103,7 @@ describe('Low Water', () => {
     expect(Bowl.knows(j, 'water_kept')).toBe(true);
     await j.play('^To the still water', 'Through to the last door', 'counting gallery', 'Hall of the Equals', '^To the dry vestibule',
       '^To the intake culvert', '^To the Ninth Lock', '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square',
-      '^Into the Sounding', "Cantor's room", 'Give a cup of the still water');
+      '^Into the Sounding', "Cantor's room", '=+3', 'Give a cup of the still water');
     expect(Bowl.said(j, j.taken.length - 1)).toContain("It's in tune");
     await j.play("^To the Sounding's nave", '^Out to Measures Square', '^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
     expect(j.holds('reached', L('census_fed'))).toBe(true);
@@ -254,5 +257,71 @@ describe('Low Water', () => {
     expect(j.at('party')).toBe(L('w_unborn'));
     await j.play('counting gallery', 'room of the ninth wheel');
     expect(Bowl.knows(j, 'remainder_seen')).toBe(true);
+  }, 300000);
+  it('follows the Reflected down the Mere with the Lector\'s bell, through Ammerlin in the water, to the Auditor at the top of the stair', async () => {
+    const j = await Bowl.start('interval');
+    await j.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud');
+    await Bowl.untilNight(j);
+    await j.play(...Bowl.underMere.slice(1), ...Bowl.ledger, ...Bowl.upStair, 'seat of the Auditor', 'Talk to the Auditor',
+      'what it is', 'what it is owed', 'what becomes of Ammerlin', 'why the account is addressed upward');
+    expect(Bowl.knows(j, 'water_kept')).toBe(true);
+    expect(Bowl.knows(j, 'ledger_of_water')).toBe(true);
+    expect(j.holds(L('doubled'), 'party')).toBe(true);
+    expect(Bowl.knows(j, 'receipts_read')).toBe(true);
+    expect(Bowl.knows(j, 'circles_read')).toBe(true);
+    expect(Bowl.knows(j, 'auditor_heard')).toBe(true);
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('I AM VERY TIRED');
+  }, 300000);
+  for (const [seed, choice, ending] of [
+    ['given', ['seat of the Auditor', 'Give the Auditor its heart'], 'heart_given'],
+    ['sent', ['Let the heart go up through the opening'], 'audit_sent'],
+    ['kept', null, 'ninth_jewel'],
+  ] as const) {
+    it(`takes the heart back from the Reflected with the Lector's bell, the night the count closes, and ends ${ending}`, async () => {
+      const j = await Bowl.start(seed);
+      await j.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud', '^To the Ward landing');
+      await Bowl.untilComplete(j);
+      expect(j.holds('keeps', L('reflected'), L('ninth_heart'))).toBe(true);
+      await Bowl.untilReflected(j);
+      await j.play('Ring the Ear.s bell at the Reflected who carry', '^Take');
+      expect(j.holds('carries', 'party', L('ninth_heart'))).toBe(true);
+      if (choice) {
+        await j.play(...Bowl.underMere, ...Bowl.upStair, ...choice);
+      } else {
+        await j.play('^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^To the head of the Stair', '^To the north road',
+          'Go up out of the Bowl');
+      }
+      expect(j.holds('reached', L(ending))).toBe(true);
+    }, 300000);
+  }
+  it('has Isaura write the false figure in front of the Auditor, before the count is whole, and comes home to the False Measure', async () => {
+    const j = await Bowl.start('false');
+    await j.play(...Bowl.act1, ...Bowl.trial, 'Fill a lantern', '^To the intake culvert', '^To the dry vestibule', '^Take', '^Take',
+      'Hall of the Equals', 'Put in › A weight-stone', 'Put in › A weight-stone', 'Put in › A weight-stone', 'Put in › A weight-stone',
+      '^To the counting gallery', 'room of the ninth wheel', 'counting gallery', 'Hall of the Equals', '^To the dry vestibule',
+      '^To the intake culvert', '^To the Ninth Lock', '^To the lock stair', '^To the Ward landing', '^To the new mud', '^To the dig',
+      ...Bowl.bell.slice(6), '=150', 'Talk to Teodor', 'what is set in the ninth wheel', 'Take your leave', '^To the new mud');
+    expect(Bowl.knows(j, 'auditor_known')).toBe(true);
+    await Bowl.untilNight(j);
+    await j.play(...Bowl.underMere.slice(1), ...Bowl.ledger, 'what she sees in the ledger of water', 'write the false figure',
+      ...Bowl.upStair, 'seat of the Auditor', 'Ask Isaura to write the false figure');
+    expect(j.holds(L('countFalsified'), L('reckoner'))).toBe(true);
+    expect(j.measure(L('approach'), L('bowl'))).toBe(0);
+    expect(j.holds(L('complete'), L('reckoner'))).toBe(false);
+    await j.play('hall of the nine circles', 'hall of receipts', 'glass gate', 'top of the stair', 'foot of the stair',
+      'Ward in the water', 'square in the water', 'Rim in the water', 'Bowl in the water', 'still water', 'Ward landing',
+      '^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^To the head of the Stair', '^To the north road',
+      'Go up out of the Bowl');
+    expect(j.holds('reached', L('false_measure'))).toBe(true);
+  }, 300000);
+  it('learns the Lector\'s words from Halm, climbs to the Auditor, and stays at the door to sing the Fourth: the Long Watch', async () => {
+    const j = await Bowl.start('watch');
+    await j.play(...Bowl.arrive, ...Bowl.bell, '=150', 'Talk to Teodor', 'what the Lector.s stones sing', 'Take your leave', '^To the new mud');
+    expect(Bowl.knows(j, 'lector_words')).toBe(true);
+    await Bowl.untilNight(j);
+    await j.play(...Bowl.underMere.slice(1), ...Bowl.upStair, 'seat of the Auditor', 'Talk to the Auditor', 'what it is', 'about Aun');
+    expect(Bowl.said(j, j.taken.length - 1)).toContain('SHE WAS NOT AFRAID OF ME');
+    await j.play('Stay at the door of the seat');
+    expect(j.holds('reached', L('long_watch'))).toBe(true);
   }, 300000);
 });

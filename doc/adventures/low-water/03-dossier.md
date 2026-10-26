@@ -81,12 +81,16 @@ The Moot Hall. Exhibits laid one by one, each needing what was found; witnesses 
 and those who come uninvited (Dov; Mag Torrin, if her season was drowned); Quill's answer, which a story without his
 report does not survive; a cause named; a remedy asked; the Council's verdict by what it was shown.
 
+### Movement V — Ammerlin in the water, and Movement VI — the Glass Citadel
+
+See [08](08-second-pass-built.md): the Reflected, the mirror city, the stair up, the Assayers, the receipts, the nine circles, the Auditor, and seven endings at the top.
+
 ### Coda — The Interval
 If the count closes and the last door is not held, a passage onto still water under no sky, where three thousand years
 of counted water has been used: someone has built a copy of Ammerlin out of it, left for right, with the Mere full and
 every boat afloat, and at the centre of its Sounding a figure of water singing, or listening.
 
-## 5. Outcomes (eleven endings, reached on leaving by the north road)
+## 5. Outcomes (eleven endings, reached on leaving by the north road; six more in [08](08-second-pass-built.md))
 
 | Ending | What makes it | |
 |---|---|---|
