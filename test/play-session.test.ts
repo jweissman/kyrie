@@ -18,11 +18,12 @@ class Fixture {
 }
 
 describe('browser session command handling', () => {
-  it('accepts only legal public commands and leaves state untouched otherwise', async () => {
+  // A legal action's own id is a command too (the architecture review's H2; see test/offered-commands.test.ts).
+  it('accepts only legal commands and leaves state untouched otherwise', async () => {
     const session = await Fixture.start();
     const before = session.campaign.save();
     await expect(session.perform('pay(world__grey)')).rejects.toThrow('Unavailable command');
-    await expect(session.perform('go(party,world__byre_door,world__yard,world__byre)')).rejects.toThrow('Unavailable command');
+    await expect(session.perform('go(party,world__byre_door,world__yard,world__hall)')).rejects.toThrow('Unavailable command');
     await expect(session.perform('attack(world__nobody)')).rejects.toThrow('Unavailable command');
     expect(session.campaign.save()).toEqual(before);
     expect(session.transcript.steps).toEqual([]);

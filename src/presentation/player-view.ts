@@ -151,10 +151,15 @@ export class PlayerView {
     return new Map(EntityIndex.of(world.module.entities).aliased.filter(e => ObservationText.known(world, e) !== e.name)
       .map(e => [e.name, e.alias!.name]));
   }
+  // A choice the page offers, or any action the rules offer now by its id: the page groups and words what it shows, and
+  // an action it folded into another (the same done with either of two alike things) is no less legal for that (the
+  // architecture review's H2: a legal action the page folded away could not be done, and a game kept by one build's
+  // wording could fail to play again by another's).
   static resolve(campaign: Campaign, command: string): string {
     const match = this.choices(campaign).find(c => c.choice.id === command);
-    if (!match) { throw new Error(`Unavailable command: ${command}`); }
-    return match.action.id;
+    if (match) { return match.action.id; }
+    if (campaign.offered().some(a => a.id === command)) { return command; }
+    throw new Error(`Unavailable command: ${command}`);
   }
   // The entities a relation holds between the actor and, in the module's order.
   private static about(world: World, relation: string, actor: string, entities: Entity[]): Entity[] {
