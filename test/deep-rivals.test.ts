@@ -73,7 +73,14 @@ describe('rivals for a deep site\'s prize', () => {
     await Rivals.take(s, /^Wait until dark$/);
     expect(await Rivals.take(s, /^Wait until first light$/)).toContain('The talk is all of the brothers');
     expect(s.campaign.world.number(ModuleWriter.call('stage', Rivals.id))).toBe(1);
-    Rivals.stage(s, 3);
+    // Talk overheard is heard, not seen (the cold playtest's Notes filed the brothers' going as "seen for yourself").
+    const heard = PlayerView.observe(s.campaign).knowledge.find(k => k.id === `${Rivals.id}_out`);
+    expect(heard?.source).toBe('heard');
+    // While they are below, their prior says where they have gone.
+    Rivals.put(s, s.campaign.world.one('at', 'region__w9_head')!);
+    expect(await Rivals.take(s, /^Ask the prior where the brothers have gone$/)).toContain('their cross on the walls');
+    // Their mark is on each level they have reached: the first two, at the second stage.
+    Rivals.stage(s, 2);
     for (const [mark, shown] of [['trace0', true], ['trace1', true], ['trace2', false]] as const) {
       Rivals.put(s, Rivals.where(s, mark));
       expect(Rivals.seen(s).includes('Someone else has been this way: a cross is scratched')).toBe(shown);

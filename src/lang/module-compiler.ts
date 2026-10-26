@@ -9,7 +9,7 @@ import { World } from './world';
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
 export class ModuleCompiler {
   static readonly aspects: readonly Aspect[] = ['fixture', 'feature', 'sign', 'weather', 'ambience', 'event', 'revelation',
-    'reading'];
+    'reading', 'hearsay'];
   private lookup?: Lookup;
   private signatures = new WeakMap<Signature[], Map<string, Signature>>();
   constructor(private readonly capabilities: Signature[] = []) {}

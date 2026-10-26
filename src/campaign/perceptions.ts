@@ -21,8 +21,12 @@ export class Perceptions {
     const facts = [...new Set(teaching.map(o => o.teaches!))];
     const read = new Set(module.relations.some(r => r.name === 'readIn')
       ? teaching.filter(o => 'aspect' in o && o.aspect === 'reading').map(o => o.teaches!) : []);
+    // Talk overheard where someone keeps travellers (the brothers gone up the hill) is heard there, not seen.
+    const overheard = new Map(module.relations.some(r => r.name === 'toldBy') ? teaching.filter(o => 'aspect' in o
+      && o.aspect === 'hearsay' && 'place' in o).map(o => [o.teaches!, (o as { place: string }).place]) : []);
     return { changes: facts.flatMap(f => [{ kind: 'assert' as const, call: ModuleWriter.call('knows', player, f) },
-      { kind: 'assert' as const, call: ModuleWriter.call(read.has(f) ? 'readIn' : 'witnessed', player, f) }]),
+      overheard.has(f) ? { kind: 'assert' as const, call: ModuleWriter.call('toldBy', player, overheard.get(f)!, f) }
+        : { kind: 'assert' as const, call: ModuleWriter.call(read.has(f) ? 'readIn' : 'witnessed', player, f) }]),
     told: facts.map(f => ({ id: f, kind: 'discovery' as const,
       text: ObservationText.render(module.entities.find(e => e.id === f)!.name, world) })),
     // How the event's changes record it, so the journal can say when it was seen.

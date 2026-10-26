@@ -11,7 +11,7 @@ import powers from '../../../data/generation/deep/powers.json';
 interface Power {
   founding: string[]; office: string; role: string; calling: string; manner: string; share: number; advance: number;
   band: string; gear: string[]; asked: string; advanced: string; out: string; trace: string; fell: string; fate: string;
-  won: string; sold: string;
+  won: string; sold: string; gone: string;
 }
 // The ids a site's rivals are written with: the ambition, its head, the keeper and the prize, and where those are.
 interface Rivals {
@@ -67,14 +67,19 @@ export class DeepRivals {
       `    On discuss { Increase quantity(actor, gold) by ${power.advance}. Decrease quantity(${head}, gold) by ${power.advance}.`
         + ` Decrease pays(${head}, ${r.kind}) by ${power.advance}. }`, '  }'];
   }
-  // Their setting out, as the talk near the innkeeper has it that day, and their mark on every level above the last.
+  // Their setting out, as the talk near the innkeeper has it that day (heard, not seen: the cold playtest's Notes
+  // filed it as seen with the company's own eyes), and as their head says it to whoever asks while they are below;
+  // and their mark on every level they have reached, from the stage they go down it.
   private static delving(r: Rivals, power: Power, layout: DeepLayout): string[] {
-    const q = this.q, { id, values } = r, out = this.fill(power.out, r);
+    const q = this.q, { id, head, values } = r, out = this.fill(power.out, r);
     return [`  Entity ${id}_out: fact ${q(out)}.`,
-      `  Observe ${id}_out_told near ${values.keeper} when stage(${id}) == 1 and not knows(party, ${id}_out) ${q(out)}`
-        + ` teaches ${id}_out.`,
+      `  Observe ${id}_out_told near ${values.keeper} as hearsay when stage(${id}) == 1 and not knows(party, ${id}_out)`
+        + ` ${q(out)} teaches ${id}_out.`,
+      `  Topic ${id}_gone with ${head} ${q(`Ask {${head}} where ${this.fill(power.band, r)} have gone`)}`
+        + ` when stage(${id}) >= 1 and not foiled(${id}) and not won(${id}) once {`,
+      `    Says ${q(this.fill(power.gone, r))}. On discuss { Assert knows(actor, ${id}_out). }`, '  }',
       ...layout.levels.slice(0, -1).map((level, i) => `  Observe ${id}_trace${i} at ${level.rooms[0]!.id}`
-        + ` when stage(${id}) >= ${i + 2} ${q(this.fill(power.trace, r))}.`)];
+        + ` when stage(${id}) >= ${i + 1} ${q(this.fill(power.trace, r))}.`)];
   }
   // At the bottom: broken by the keeper, bringing the prize up, or finding it gone; and the prize sold to the head.
   private static end(r: Rivals, power: Power, at: { layout: DeepLayout; raises: boolean }): string[] {
@@ -90,8 +95,8 @@ export class DeepRivals {
         + ` Increase pays(${head}, ${r.kind}) by ${r.raised - r.price}.`
         + gear.map(({ n }) => ` Retract at(${id}_gear${n}, ${packs}). Assert at(${id}_gear${n}, ${entry}).`).join('') + ' }',
       `  Observe ${id}_fallen at ${entry} when ${id}_broken() ${q(this.fill(power.fell, r))}.`,
-      `  Observe ${id}_fate_heard near ${values.keeper} when ${id}_broken() and not knows(party, ${id}_fate) ${q(fate)}`
-        + ` teaches ${id}_fate.`,
+      `  Observe ${id}_fate_heard near ${values.keeper} as hearsay when ${id}_broken() and not knows(party, ${id}_fate)`
+        + ` ${q(fate)} teaches ${id}_fate.`,
       `  Topic ${id}_fate_told with ${head} ${q(`Ask {${head}} what became of ${this.fill(power.band, r)}`)}`
         + ` when ${id}_broken() once {`,
       `    Says ${q(this.fill(power.fate, { ...r, price: r.raised }))}. On discuss { Assert knows(actor, ${id}_fate). }`, '  }',

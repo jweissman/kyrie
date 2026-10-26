@@ -1,5 +1,5 @@
 {
-  "about": "Who wants a deep site's prize now (src/world/deep/deep-rivals.ts): the heirs of the kingdom that came after its makers, by what that kingdom was. Each has a head at the settlement of its kind nearest the site (founding), or else at the settlement nearest it, who says what they want and why, pays what they say for the prize (share of its worth), and stands a company an advance against it. On the second morning they send their own people down after it (band), a level every two days; whoever comes after them finds their mark on each level (trace). At the bottom, if the keeper is still there, the band is broken (fell, with what they carried left lying), and the head pays half as much again; if the keeper is gone, they bring the prize up (won). Texts take {head}, {name} (the site), {seat}, {kingdom}, {prize} and {price}.",
+  "about": "Who wants a deep site's prize now (src/world/deep/deep-rivals.ts): the heirs of the kingdom that came after its makers, by what that kingdom was. Each has a head at the settlement of its kind nearest the site (founding), or else at the settlement nearest it, who says what they want and why, pays what they say for the prize (share of its worth), and stands a company an advance against it. On the second morning they send their own people down after it (band), a level every two days, and the head says where they have gone (gone); whoever comes after them finds their mark on each level they have reached (trace). At the bottom, if the keeper is still there, the band is broken (fell, with what they carried left lying), and the head pays half as much again; if the keeper is gone, they bring the prize up (won). Texts take {head}, {name} (the site), {seat}, {kingdom}, {prize} and {price}.",
   "powers": {
     "warlords": {
       "founding": ["fortress"],
@@ -18,7 +18,8 @@
       "fell": "Here the castellan's men met whatever is below. Three of them lie where they fell running back the way they came, and what they carried is strewn round them.",
       "fate": "'Two came back,' says {head}, 'and one of them will not speak. The other says it was waiting for them at the bottom, in the dark, and that the lamps were no use to them.' {head} looks at you for a long moment. 'I will not send more. Bring it to me and it is {price} coin.'",
       "won": "{prize} stands in {seat} now, under guard: the castellan's men brought it up out of {name}, and word has gone to the lord.",
-      "sold": "{head} has {prize} carried off under guard, and sends word to the lord that the house of {kingdom} holds the country's oldest claim again."
+      "sold": "{head} has {prize} carried off under guard, and sends word to the lord that the house of {kingdom} holds the country's oldest claim again.",
+      "gone": "'My men have gone up to {name},' says {head}. 'Six of them, with a mule for what they bring back. If you are going after it as well, you will find my mark on the walls, and you will know you are behind them.'"
     },
     "abbots": {
       "founding": ["monastery"],
@@ -37,7 +38,8 @@
       "fell": "Here the brothers met whatever is below. Two of them lie side by side, as though they had knelt to it and not got up again, and what they carried lies round them.",
       "fate": "'One came back,' says {head}, 'and has not stopped shaking. They rang the bell to it, and it did not care.' {head} is quiet a while. 'The house will find {price} coin for it. Bring it up, if you can, and give it to us.'",
       "won": "{prize} lies in {seat} now, under a cloth, with candles round it: the brothers brought it up out of {name}, and mean to bury it where no one will dig.",
-      "sold": "{head} takes {prize} in both hands, and has it carried away under a cloth to be buried where no one will dig."
+      "sold": "{head} takes {prize} in both hands, and has it carried away under a cloth to be buried where no one will dig.",
+      "gone": "'The brothers have gone up to {name},' says {head}, 'singing, with the bell.' {head} looks at the door a while. 'If you go after them you will find their cross on the walls, at every turning. Pray you find no more of them than that.'"
     },
     "princes": {
       "founding": ["market", "harbour", "crossing"],
@@ -56,7 +58,8 @@
       "fell": "Here the company's diggers met whatever is below. Three of them lie where they fell, one still holding the handcart's rope, and what they carried is strewn round them.",
       "fate": "'Two came back,' says {head}, 'and I have had to pay their families out of my own purse.' {head} snaps the book shut. 'Very well. {price} coin, and the company thanks you. Bring it to me.'",
       "won": "{prize} sits in {seat} now, on a table, with a clerk writing a description of it: the company's diggers brought it up out of {name}, and it is to go to the city.",
-      "sold": "{head} has {prize} weighed, described and locked away, to go to the city by the next cart."
+      "sold": "{head} has {prize} weighed, described and locked away, to go to the city by the next cart.",
+      "gone": "'Our diggers have gone up to {name},' says {head}, 'with a handcart, at the company's expense.' {head} turns a page. 'If you are going, you are behind them: their tally is chalked on every level they have reached.'"
     }
   }
 }

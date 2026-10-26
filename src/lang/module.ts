@@ -63,7 +63,10 @@ export interface WorldRule {
 // evidence of something (a sign), the sky (weather), the passing life of the place (ambience), something happening
 // (an event), or a discovery that deserves the page to itself (a revelation).
 // A reading is what something written says (a tally, a tablet): what it teaches is the writing's account, not seen.
-export type Aspect = 'fixture' | 'feature' | 'sign' | 'weather' | 'ambience' | 'event' | 'revelation' | 'reading';
+// Hearsay is talk overheard where someone is (the brothers gone up the hill, as the taproom has it): what it teaches is
+// heard there, not seen.
+export type Aspect = 'fixture' | 'feature' | 'sign' | 'weather' | 'ambience' | 'event' | 'revelation' | 'reading'
+  | 'hearsay';
 export interface Observation {
   id: string; place: string; anchor?: Anchor; when: Predicate; text: string; teaches?: string;
   // The entity described, which is not perceived while the company has not noticed it.

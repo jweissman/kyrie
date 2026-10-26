@@ -29,6 +29,20 @@ Played from the title page at 1280 × 860:
 
 ## Done and verified
 
+- **D. The brothers' expedition, the offstage diagnostic.** The deep site's rivals (the brothers who go up after
+  the prize, a level every two days) were all there in the world, but out of the player's sight. The cold playtest
+  heard of their going, found no sign of them, heard nothing from their prior, and its Notes filed the talk as "seen
+  for yourself". Now:
+  - the talk of their going, and later of their fate, is heard where it was talked (Notes: heard), not seen: a new
+    observation aspect, `hearsay`, files what it teaches as told there;
+  - while they are below, their head says where they have gone, in each power's voice ("If you go after them you
+    will find their cross on the walls, at every turning");
+  - their mark is on each level from the stage they go down it, so a company that follows the same day finds it.
+  - Own history (seen), reports (heard) and traces (their marks, and what they left where they fell) are three things
+    the Notes and the page keep apart.
+
+  Test: `test/deep-rivals.test.ts`.
+
 - **C. No empty answers in the principal expedition.** Thirteen of The Long Man's things offered a try with nothing
   written for it: about thirty-five answers of "Nothing comes of it.", in the expedition the brief singles out. Each
   now answers a close look in the adventure's own words: texture, and fair clues where the design has them (the
