@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { ModuleWriter } from '../src/lang/module-writer';
 import { KyrLint } from '../src/cli/kyr-lint';
 import { Journey } from '../src/session/journey';
 import { PlaySession } from '../src/session/play-session';
@@ -157,13 +158,13 @@ describe('What Tessary Owes: failure and its costs', () => {
   it('a roof is a refuge: out on the aqueduct when the flood comes, the company waits for the ebb', async () => {
     const g = await Tessary.start();
     await g.play('To the Landgate', 'Into Pitch', 'Buy › A coil of rope', 'Out to the Landgate', 'To the Withies', 'To the Tideline Steps',
-      'To the head of the Throat', '=156', 'To the foot of the Throat', 'To the Weed', 'To the Drowned Forum', 'To under the Aqueduct',
+      'To the head of the Throat', '=156', 'To the foot of the Throat', 'To the Weed', 'To the Drowned Forum', 'To the foot of the Aqueduct',
       'To the top of the Aqueduct', '=200');
     expect(g.j.campaign.world.one('at', 'party')).toBe(t('aqueduct_top'));
     expect(g.page).toMatch(/You are above it, and will be until the ebb/);
-    expect(g.j.offers('under the Aqueduct')).toBe(false);
+    expect(g.j.offers('foot of the Aqueduct')).toBe(false);
     await g.play('=232');
-    expect(g.j.offers('under the Aqueduct')).toBe(true);
+    expect(g.j.offers('foot of the Aqueduct')).toBe(true);
   }, 120000);
 
   it('beaten by the ebb-runners: they take prisoners, and dump them on the Pans', async () => {
@@ -285,6 +286,47 @@ describe('What Tessary Owes: more than one key', () => {
     await g.play('Ask the Factor about the First Muster');
     expect(g.page).toMatch(/at knee height/);
   }, 240000);
+
+  it('the Factor pays her twenty coin for what is taking her lads, and hears out her own letter', async () => {
+    const g = await Tessary.start();
+    await g.play('To the Landgate', 'To Saltgate', 'Into Factor Sault', 'Ask the Factor about the veterans', 'Out to Saltgate',
+      'To the Landgate', 'To Scriveners', 'Into the Exchequer', 'Read a list', 'Ask the Treasurer about his list', 'Out to Scriveners',
+      'To the Landgate', 'To Saltgate', 'Into Factor Sault');
+    const purse = g.j.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
+    await g.play('Tell the Factor what is taking her lads');
+    expect(g.j.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(purse + 20);
+    expect(g.holds('saultInformed', 'sault')).toBe(true);
+    expect(g.j.offers('read her letter')).toBe(false);
+  }, 240000);
+
+  it('the Drum hears of each night before it comes, and the Treasurer can be met at the head of the Throat Stair', async () => {
+    const g = await Tessary.start();
+    await g.play('To the Landgate', 'To the Withies', 'Into the Muffled Drum', '=300', 'Ask Hannelore what they are saying');
+    expect(g.page).toMatch(/off the Factor.s press/);
+    await g.play('=1300', 'Ask Hannelore what they are saying');
+    expect(g.page).toMatch(/head of the Throat Stair before dawn/);
+    await g.play('Out to the Withies', 'To the Tideline Steps', 'To the head of the Throat', '=1410');
+    expect(g.at('quire')).toBe(t('throat_head'));
+    expect(g.page).toMatch(/He has taken his spectacles off/);
+    await g.play('Ask the Treasurer who will send the money');
+    const stayed = g.holds('quireHope', 'quire');
+    await g.play('=1440');
+    expect(g.holds('quireDrowned', 'ossel')).toBe(!stayed);
+    expect(g.at('quire')).toBe(stayed ? t('exchequer_room') : undefined);
+  }, 360000);
+
+  it('someone the Board cannot call a liar: the Assessor states the city\'s affairs to it, and is counted', async () => {
+    const g = await Tessary.start();
+    await g.play(...phase('void', 'day1'), ...phase('void', 'night1'), 'To the Withies', 'To the Landgate', 'To Scriveners',
+      'To the Terraces', 'Into the Council House', '=1890');
+    expect(g.at('board')).toBe(t('council_chamber'));
+    await g.play('Tell the Board what is on', 'Read the Board the terms', 'Ask the Assessor to tell the Board');
+    expect(g.page).toMatch(/You are the debtor/);
+    await g.play('=1910');
+    expect(g.holds('counted_tally', 'ossel')).toBe(true);
+    expect(g.holds('counted_list', 'ossel')).toBe(true);
+    expect(g.knows('board_sits')).toBe(true);
+  }, 360000);
 });
 
 describe('What Tessary Owes: saving, replaying, and the world it lies in', () => {

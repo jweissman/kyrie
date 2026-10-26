@@ -8,7 +8,7 @@ The reports that close the commission are linked at the end. Spoilers throughout
 ```sh
 bin/kyrie lint data/campaigns/what-tessary-owes.campaign.json        # 0 errors, 0 warnings
 bin/kyrie preview data/campaigns/what-tessary-owes.campaign.json     # the reader
-bun test test/what-tessary-owes.test.ts                              # 22 journeys and a lint
+bun test test/what-tessary-owes.test.ts                              # 25 journeys and a lint
 bun test test/what-tessary-owes-wander.test.ts                       # seeded random legal play
 bun scripts/tessary-pages.ts release tessary                         # a journey written out as the page tells it
 ```
@@ -23,7 +23,7 @@ borrowed from the keepers of an ancient engine under the sea, and pledged its ow
 The soldiers have come home. The principal falls due at the Feast of Settlement and can be paid only in a kept promise
 of equal weight; the only promise of that weight Tessary ever made is the one it made to those same soldiers: land
 and a pension for every one who came home. The city cannot afford it. The salt-factor who carried the interest silver
-for eleven years means to buy the note when it falls in, and govern with the Muster. The engine's eldest keeper drew
+for ten years means to buy the note when it falls in, and govern with the Muster. The engine's eldest keeper drew
 the note to fail, because the oaths that fall into his keeping will fill a hole he made in the ledger eleven hundred
 years ago, when the sea took the city he had sworn to protect.
 

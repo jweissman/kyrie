@@ -4,9 +4,10 @@
 round; what would be worth building. Every engine change is small, general, tested on its own probe, and justified by
 a scene of this adventure that could not be written without it.*
 
-The adventure is about 1,950 lines of Kyr in eleven files: 53 rooms on two planes, 30 people and creatures, 81 topics,
-39 actions, 154 rules, 33 events, 118 observations, 49 discoveries, 19 milestones and 7 endings. Almost everything
-the design asked for could be said in Kyr. The places where it could not are below.
+The adventure is about 2,330 lines of Kyr in fourteen files (and two one-line company files): 55 rooms on two planes,
+33 people and creatures, 109 topics, 49 actions, 178 rules, 38 events, 150 observations, 57 discoveries, 19
+milestones and 7 endings. Almost everything the design asked for could be said in Kyr. The places where it could not
+are below.
 
 ## Changed in the engine
 
@@ -45,6 +46,22 @@ the design asked for could be said in Kyr. The places where it could not are bel
 | W16 | Two ways into the Strongrooms, through the black wall and up the drowned city's drain | Both are offered as "Into the Strongrooms" from different rooms, so the label does not say which way it is | Left; the rooms differ | A passage's own name in its label when its destination's area is entered by more than one way (the Road's F6) |
 | W17 | Creatures that stand over a way and part when appeased | `Guards` is for people with a blocking state; for a group of creatures the module puts a blocking scenery thing on the passage and keeps it in step with rules | `forsworn_watch` | `Guards plunge_drain until …` on any creature |
 | E6 | "Ivo takes the deeds of the held." (engine change E4) | Said twice for ordinary pickups ("Ivo takes a letter… from the lockbox. Ivo takes a letter."), because the narrator's redundancy filter knew only the old wording | The filter now knows both wordings | done (engine) |
+
+### Found by the cold playtest
+
+A player who had not read a line of the source played the adventure through to the Release (about 230 steps, seed
+`cold`). Most of what they found was the module's own fault and is fixed (see [05-playability.md](05-playability.md)).
+These were the engine's, or the language's:
+
+| # | What the player saw | Why | What the module does | Proposed remedy |
+|---|---|---|---|---|
+| W18 | "Back for more of my wisdom," said by the corporal and by the Factor; "A traveller! … Sit, sit" from the innkeeper, the chandler and a weeping councillor in the street | A person's `Greets` is said only the first time; every later address falls back on the voice table's line for their manner, and seven manners are shared by thirty people | Every person a player returns to has their own `Greets`, and manners were chosen so the table's return lines fit them | `Greets again "…"` (an authored return greeting), or no table line at all for a person who has their own words |
+| W19 | "Mind how you go in the dark," said by clerks in a lamp-lit hall under the sea | The voice tables' `time: night` is the hour above ground, wherever the company is | Left | Treat underground and indoor places as having no hour for the voice tables |
+| W20 | "a large white goose in a crate" after she was let out; "distraught" Haverick after the reunion; "a corporal in a new coat" after he threw it in the canal | A `Role` is fixed text. There is no way to say who someone is *now* | Roles say only what does not change; what changes is in observations and greetings | `Role "…" when P` alternatives, as places have alternating observations |
+| W21 | Pounce's draft for six coin never offered to a player with five, and nothing said | An action whose `Requires` fails is not offered, so a price the player cannot meet is invisible | Left | Offer an unaffordable purchase disabled, with its price, or say "You have not the six coin" |
+| W22 | Bettany Slake's people attacked a player who stopped to read the board on their quay | A warning temperament gives the company one watch of patience, and reading, talking and looking each spend it, silently | Bettany's warning now names her price and the alternative ("Five coin for the use of it, or back up the street the way you came") | Show the remaining patience in the scene, or make talking to the one who warned stop the clock |
+| W23 | "Your company is defeated" told before "Bettany Slake hits Ivo" | The defeat line is ordered ahead of the blows that caused it | Left | Tell a fight's last exchange before its outcome |
+| W24 | The Hall of Oaths not described when the lantern was first lit there | A place's observations are told on arrival; lighting a lamp in a dark room changes what can be seen but does not tell it | Left; the next action tells it | Re-tell a room when the company's light changes |
 
 ## Bugs and surprises reported, not fixed
 

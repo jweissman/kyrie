@@ -59,13 +59,13 @@ Module tessary "What Tessary Owes" {
     On discuss { Assert durranceKnowsSold(durrance). }
   }
   Topic tell_durrance_sault with durrance "Tell Durrance what the Factor means to do with the note" when knows(actor, sault_bid) and not durranceKnowsSault(durrance) and not heldNow(durrance) once {
-    Says "'Govern,' says Durrance. 'With us.' She puts her pot down carefully. 'Not pay us. Own us. Call us out of wherever we are and stand us on the Tidewall in her coats.' Her face does not change. 'She'd feed us. She'd be better than the Board. I'd still be a cow.'".
+    Says "'Govern,' says Durrance. 'With us.' She is very still. 'Not pay us. Own us. Call us out of wherever we are and stand us on the Tidewall in her coats.' Her face does not change. 'She'd feed us. She'd be better than the Board. I'd still be a cow.'".
     On discuss { Assert durranceKnowsSault(durrance). }
   }
   Rule durrance_quits_sault when durranceSaults(ossel) and durranceKnowsSault(durrance) and serves(durrance, sault)
     says "Durrance takes off the Factor's coat and folds it and leaves it on the bench." { Retract serves(durrance, sault). }
   Topic tell_durrance_fraud with durrance "Tell Durrance that the note was drawn to fail" when knows(actor, note_designed) and not durranceKnowsFraud(durrance) and not heldNow(durrance) once {
-    Says "Durrance listens with her hands flat on the table. When you have finished she is quiet so long that Hannelore comes over to see if she is all right. 'A promise made to be broken,' she says. 'By them. The ones who keep the books.' She looks at her right hand, the one she laid on the Stone. 'Then what did I swear to? A trap?' She stands up. 'An oath sworn into a fraud is no oath. My grandmother could have told them that. I'm not going in when the drum goes. And I'm not going to let anyone else go either.'".
+    Says "Durrance listens with her hands at her sides. When you have finished she is quiet so long that you think she has not heard. 'A promise made to be broken,' she says. 'By them. The ones who keep the books.' She looks at her right hand, the one she laid on the Stone. 'Then what did I swear to? A trap?' She stands up. 'An oath sworn into a fraud is no oath. My grandmother could have told them that. I'm not going in when the drum goes. And I'm not going to let anyone else go either.'".
     On discuss { Assert durranceKnowsFraud(durrance). }
   }
   Topic tell_durrance_release with durrance "Tell Durrance that a promise can be discharged by release" when knows(actor, release_law) and not durranceKnowsRelease(durrance) and not heldNow(durrance) once {
@@ -81,7 +81,7 @@ Module tessary "What Tessary Owes" {
   Rule durrance_walks when night(ossel) == 7 and hour(clock) == 1 and not durranceWalking(ossel) and not heldNow(durrance)
     and not durranceSafe() { Assert durranceWalking(ossel). }
   Event durrance_walks_seen near durrance when durranceWalking(ossel) and not heldBack(durrance) and not heldNow(durrance) and hour(clock) == 1
-    "Durrance stands up. She does it all at once, the way a soldier stands when an officer comes in, and her pot goes over and she does not look at it. Her eyes are open. She is listening to something. Then she bends and begins, very neatly, to unlace her boots.".
+    "Durrance stops. She goes still all at once, the way a soldier comes to attention when an officer walks in, and what she had in her hand falls and she does not look at it. Her eyes are open. She is listening to something. Then she bends and begins, very neatly, to unlace her boots.".
   Action hold_durrance(actor: group, site: place) "Get hold of Durrance and keep her from the Steps" {
     Description "She is a sergeant of nineteen years and she is not awake.".
     Time 1.
@@ -122,7 +122,7 @@ Module tessary "What Tessary Owes" {
     and inTessary() says "In the morning there are twelve pairs of boots on the Tideline Steps. The eleventh pair is small, and very new, and belongs to Robin Elcock, who was a drummer, and was nineteen." teaches elcock_known { }
   Discovery elcock_known "Durrance was not taken at the eighth night's ebb. Robin Elcock, a drummer of nineteen, was taken in her place.".
   Topic durrance_elcock with durrance "Tell Durrance who went in her place" when knows(actor, elcock_known) and not heldNow(durrance) once {
-    Says "'Elcock,' says Durrance. 'Robin Elcock. He couldn't keep time. I used to make him march at the back so the step wouldn't go to pieces.' She looks at the drum. 'He went in my place.' A long silence. 'Right. Then I owe him. And I pay what I owe, which is more than this city does.'".
+    Says "'Elcock,' says Durrance. 'Robin Elcock. He couldn't keep time. I used to make him march at the back so the step wouldn't go to pieces.' She looks at her hands. 'He went in my place.' A long silence. 'Right. Then I owe him. And I pay what I owe, which is more than this city does.'".
     On discuss { Assert durranceOwes(durrance). }
   }
   Relation durranceOwes(group).
@@ -242,9 +242,18 @@ Module tessary "What Tessary Owes" {
     On success { Assert boardSawBid(ossel). Assert saultExposed(ossel). }
     Result "You read them the Factor's letter: I will take up the note and with it the Muster, and Tessary will be governed by someone who can count. Factor Sault does not interrupt. When you have finished she stands up, quite unhurried, and looks round the chamber at each of them, and at the public bench. 'Every word,' she says. 'Somebody should.' And walks out. Dauntry of Rope sits for a moment, and then, very slowly, as if testing whether it is allowed, takes his eyes off her empty chair.".
   }
+  // Someone they cannot call a liar: the Board is the debtor, and the Assessor may state a debtor's affairs to it.
+  Relation boardHeardTally(place).
+  Action lay_tally(actor: group, site: place) "Ask the Assessor to tell the Board what the city pledged" {
+    Time 1. Speaker tally.
+    Requires able(actor) and company(actor) and at(actor, site) and at(board, site) and inSession() and travelsWith(tally, actor)
+      and not boardHeardTally(ossel) and not tallyUnravelled(ossel).
+    On success { Assert boardHeardTally(ossel). }
+    Result "The Assessor walks out into the middle of the floor, under the painting of the Kneeling, and opens the ledger. 'You are the debtor,' they say to the Board, 'so I may state your affairs to you. I am the Ninth Assessor of the Balance. I cannot lie; you may ask anyone below.' Then they read out, in the voice of someone reading a bill of lading, what the city pledged, and when, and how many have been taken, by name, in roll order. Somewhere about the fortieth name Councillor Greaves stops pretending to read his papers. Nobody calls the Assessor a liar. Nobody can think how.".
+  }
   Event amaury_testifies at council_chamber when inSession() and amauryWillTestify(party) and not amauryTestified(ossel) "The doors open and the King of Hethra comes in between two guards, in a plain coat, and walks up to the painting of the Kneeling and stands under it. 'I am told,' he says to the Board, pleasantly, 'that this city has been paying for my knees.' And he tells them about the hand on the back of his neck, and the oath of his house, and the silver, and when he has done the Speaker has to call for order three times." then {
     Assert amauryTestified(ossel). }
-  Event quire_confesses at council_chamber when inSession() and quireWillConfess(quire) and not quireConfessed(ossel) and not quireDrowned(ossel) "Treasurer Quire gets up from the officers' bench, where he is not supposed to speak, and speaks. 'I signed it,' he says. 'Twelve years ago. So did you, Greaves, and you, Vantage, and Dauntry. We put the Muster up as surety for a miracle, and the miracle came, and the bill has come after it.' He puts his list on the Speaker's table. 'Those men are not deserters. They are asleep under the sea, and if this Board keeps its promise to them, they come home. If it does not, the rest follow them.' He sits down. He is shaking. Nobody looks at him." then {
+  Event quire_confesses at council_chamber when inSession() and quireWillConfess(quire) and not quireConfessed(ossel) and not quireDrowned(ossel) "Treasurer Quire gets up from the officers' bench, where he is not supposed to speak, and speaks. 'I signed it,' he says. 'Ten years ago. So did you, Greaves, and you, Vantage, and Dauntry. We put the Muster up as surety for a miracle, and the miracle came, and the bill has come after it.' He puts his list on the Speaker's table. 'Those men are not deserters. They are asleep under the sea, and if this Board keeps its promise to them, they come home. If it does not, the rest follow them.' He sits down. He is shaking. Nobody looks at him." then {
     Assert quireConfessed(ossel). Assert boardSawList(ossel). }
   Rule quire_at_board when inSession() and quireWillConfess(quire) and at(quire, exchequer_room) { Retract at(quire, exchequer_room). Assert at(quire, council_chamber). }
   Rule quire_back when not inSession() and at(quire, council_chamber) { Retract at(quire, council_chamber). Assert at(quire, exchequer_room). }
@@ -253,12 +262,14 @@ Module tessary "What Tessary Owes" {
 
   // Haverick's goose, home.
   Person haverick "Lucius Haverick" at terraces {
-    Role "who sits for the Paper Moiety on the Board, distraught". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Role "who sits for the Paper Moiety on the Board". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "Councillor Haverick turns to you with red eyes and a printed bill in each hand, as if you might be about to tell him something.".
   }
   Topic haverick_goose with haverick "Ask Councillor Haverick what the matter is" when not plumHome(ossel) once {
     Says "'Plum,' says Councillor Haverick. 'Mistress Plum. A goose, sir, a white goose of the old Paper strain, the last of her line. Taken off my lawn on the night of the Muster's homecoming, by persons. I have posted a reward. I have posted three.' He wipes his eyes. 'People think it absurd. A goose. I have no children, sir. I have a goose.'".
   }
-  Event plum_home near haverick when following(plum, party) and at(party, terraces) and at(haverick, terraces) and at(plum, ?p) "Mistress Plum sees Councillor Haverick across the Terraces and goes for him at a run, wings out, honking like a wagon with a bad axle, and he goes down on his knees in his good stockings and gathers her up, and she bites him on the ear, and he weeps. 'Anything,' he says to you, over her. 'Anything at all. Name it.' And then, before you can: 'The Settlement? The Paper chair will vote for it. Plum would want me to. She has a great respect for soldiers.'" then {
+  Event plum_home near haverick when following(plum, party) and at(party, terraces) and at(haverick, terraces) and at(plum, ?p) "Mistress Plum sees Councillor Haverick across the Terraces and goes for him at a run, wings out, honking like a wagon with a bad axle, and he goes down on his knees in his good stockings and gathers her up, and she bites him on the ear, and he weeps. 'Anything,' he says to you, over her. 'Anything at all. Name it.' And then, before you can: 'The Settlement? The Paper chair will vote for it. Plum would want me to. She has a great respect for soldiers.' He presses a purse on you as well, without looking at it, and goes back to Plum." then {
+    Increase quantity(party, gold) by 10.
     Assert plumHome(ossel). Retract following(plum, party). Retract at(plum, ?p). Assert at(plum, terraces). }
 
   // The count, at two in the afternoon, in one breath.
@@ -272,6 +283,8 @@ Module tessary "What Tessary Owes" {
   Rule vote_quire when counting(ossel) and quireConfessed(ossel) { Increase support(ossel) by 1. Assert counted_quire(ossel). }
   Rule vote_amaury when counting(ossel) and amauryTestified(ossel) { Increase support(ossel) by 1. Assert counted_amaury(ossel). }
   Rule vote_bid when counting(ossel) and boardSawBid(ossel) { Increase support(ossel) by 1. Assert counted_bid(ossel). }
+  Rule vote_tally when counting(ossel) and boardHeardTally(ossel) { Increase support(ossel) by 1. Assert counted_tally(ossel). }
+  Relation counted_tally(place).
   Rule vote_riot when counting(ossel) and riotHappened(ossel) { Decrease support(ossel) by 2. Assert counted_riot(ossel). }
   Relation counted_marrable(place). Relation counted_plum(place). Relation counted_list(place). Relation counted_terms(place).
   Relation counted_quire(place). Relation counted_amaury(place). Relation counted_bid(place). Relation counted_riot(place).

@@ -8,7 +8,7 @@ generated-world journey, which places the company at the innkeeper's table as th
 
 | File | What it plays | Result |
 |---|---|---|
-| `test/what-tessary-owes.test.ts` | a lint and 22 journeys (below) | all pass |
+| `test/what-tessary-owes.test.ts` | a lint and 25 journeys (below) | all pass |
 | `test/what-tessary-owes-wander.test.ts` | seeded random legal play: from a fresh start, one of whatever the page offers, again and again, with long waits mixed in, checking after every step that the company is somewhere real, that nobody held walks with the company, that counts stay sane | 4 walks of 160 steps (default); 8 walks of 700 steps (`WANDER_STEPS=700 WANDER_SEEDS=x1,…,x8`) — all pass |
 | `test/what-tessary-owes-browser.test.ts` | the title page, the Causeway, the notice read and put down, the Withies, Wick, in Chromium at 1440×900 and at 390×844 with touch | passes (`KYRIE_BROWSER=1`); screenshots in `playtest/screens` |
 | `test/milestones.test.ts` | the two engine extensions on their own probes | passes |
@@ -38,10 +38,33 @@ A failing random walk reports its seed and every command it took, as `@command` 
 | Bettany's letter | Bettany Slake told what her letters are for | the Factor's letter handed over, no lockbox, no goose, no fight |
 | The Assessor balances the pans | the Assessor at the counterweight door with no weights carried | the door opened without the brass weights |
 | The Factor at dusk | hired, then on the Tidewall at dusk; later, shown the Room of Defaults' truth | she seeks the protagonist out, reacts to what they have done, and speaks of her father and the First Muster |
+| The Factor pays | hired, the Treasurer's list read, what is taking her lads told to her | twenty coin; her plans brought forward (`saultInformed`) |
+| The Drum's gossip and the Treasurer at the Throat | Hannelore asked on the third day and the ninth; the head of the Throat Stair before dawn on the tenth night | the gossip names the next night's danger, its hour and place; the Treasurer is there; talked down, he goes home, or he drowns |
+| Someone they cannot call a liar | the Assessor joined on the first night, the Council House at the sitting | the Board's bell; the Assessor states the city's affairs to the Board and is counted |
 | Kept and opened again | the Release journey, saved after the seventh night's approach, restored, finished | the same ending, the same clock, the same held |
 | Played twice | sixty steps from the same seed, twice | identical histories |
 | The world it lies in | a generated fen country (seed `ossel`) | the innkeeper's rumour, the heard fact, the frontier installing Tessary as a chapter, the road across the march, the notice |
 | As a chapter | the default fortnight with the module installed as a chapter | the ending reached, the world still running, the Withies and the Landgate showing the Factor's rule |
+
+## The cold playtest
+
+A player who had read nothing of the source played from the Causeway to the Release by labels alone (seed `cold`,
+about 230 steps, every day of the fortnight). What they liked: the Copyist and the chapbook (bought on a whim, paid off
+under the sea, and rhymed at the end in what Davy remembers), Durrance's account of Sedge Ford and the King's of the
+same moment, the Comptroller ("I would draw it again"), Mistress Plum, and "I hold it quit". What they found, and what
+was done:
+
+| Found | Done |
+|---|---|
+| **The mystery solved by the eighth hour, then eleven days of news.** A methodical player had the Treasurer's confession, the Room of Defaults and the Factor's letter on the first day and night, and nothing to do until the Feast | The middle week's events (the eighth night, the Treasurer at the Throat, the lightermen at Marrable's door, the Muster on the Row, the Board, the Seal) were already scenes a company could be present at, but nothing said where or when. Hannelore at the Drum now has the city's gossip, a day or two ahead of each, with its hour and place; the Treasurer stands at the head of the Throat Stair for an hour before he goes down it, and anyone there can speak to him; the Board's bell rings on the morning of the sitting. The Room of Defaults no longer does the deduction for the player: its margin ends "Balanced", and the reversal comes only to someone who also knows what the War Note's weight is. The confession itself still comes early to a player who asks the right man the right question; that is left, deliberately |
+| **The Board could not be moved in a scene** | The player came at two, when the count had begun. The sitting's hours are now on the Landgate bill, in Marrable's mouth, in Hannelore's and in the bell. And "someone they can't call a liar" now means what a player would think it means: the Assessor, travelling with the company, can state the debtor's affairs to the debtor, and is counted |
+| **The Factor a dead end in person; her twenty coin never paid; no fate for her or the Comptroller in the Release** | She now pays for being told what is taking her lads (and moves sooner for knowing it); she can be told to her face that her letter has been read, and answers with the levers against her; every ending now tells what became of her and of the Comptroller |
+| **Rewards never paid** | Haverick presses a purse on whoever brings Plum home. Nan pays whoever tells her where Davy went (that was so before; the player had not told her) |
+| **One step on the ebb-runners' quay and the day ended** | Bettany's warning now names the price and the way out. The fight itself is unchanged: three runners and their captain will beat a lone first-level thief, and dump her on the Pans |
+| **Stock greetings shared across the cast; Durrance talking about her pot and Hannelore in the Comptroller's office; labels that never change** | Every person a player returns to has their own greeting; Durrance's lines no longer assume the taproom; roles say only what does not change; the bunting, the Yard and the drowned city at night say what day and hour it is |
+| **The War Note's dates did not add up** (twelve years, eleven years, "when the war was a year old") | The Muster was raised when the war began, eleven years ago; the note was drawn a year later, ten years ago; the silver was carried for ten years. The Assessor's argument (the promise to the soldiers came first) now follows from the dates |
+| **"Into under the warehouse"; "To under the Aqueduct"** | The warehouse cellars; the foot of the Aqueduct |
+| Engine-side: the defeat told before the blow; an unaffordable purchase silently absent; "Mind how you go in the dark" under the sea | Recorded in [friction.md](friction.md) (W18–W24) |
 
 ## Difficulty
 
@@ -81,9 +104,10 @@ regenerated).
 
 ## Known limitations
 
-- **Waiting is the main way time passes between the deeds of the first days and the Board's sitting.** A player who
-  has done what can be done in the first week has little to do but wait for the eighth night and then for the
-  thirteenth day. The city's own news fills some of it; more errands would fill it better.
+- **A thorough player still finishes the investigation early.** The middle week now has five scenes with an hour and
+  a place, each announced at the Drum a day or two ahead, but a player who has pre-empted them all (Durrance safe,
+  Marrable guarded, Fisk turned) has only the Board and the Feast left to attend. That is a reward for diligence, and
+  also a lull.
 - **The Board session is laid out as actions.** It reads well and the arithmetic is honest, but it is still a vote.
 - **The Strongrooms have one weighing-floor gag, not a society.** The Scruples' Hall is a room of clerks with one
   vivid junior; the design wanted a culture.

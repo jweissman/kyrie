@@ -49,7 +49,8 @@ Module tessary "What Tessary Owes" {
   Observe landgate_scene at landgate when not dark() and not visitedBefore(landgate) "Inside the gate is a three-cornered square of trodden shell, loud with carts. A board on the gatehouse wall is shingled with bills, three deep: the Feast of Settlement, a fortnight hence; a reward for a stolen goose; rooms; a hiring hall in Saltgate that pays veterans by the day; the eel-fair postponed; a lecture at the Notaries' Hall on the Aenean subjunctive, admission one penny, discussion after. In the corner a little chapel to Saint Evenhand has a pair of brass scales over its door. Somebody has polished the scales.".
   Observe landgate_scene_again at landgate when not dark() and visitedBefore(landgate) "The Landgate's square: carts, the shingled bill-board, Saint Evenhand's polished scales over the chapel door.".
   Observe landgate_night at landgate when dark() "The square is empty but for a watchman with a lantern and a cat on the bill-board. The bills move a little in the wind off the sea.".
-  Observe landgate_bunting at landgate when not dark() and not feastEve() "Red bunting for the Muster's homecoming is still up over the gate, a week old and sagging. Under it a man with a bucket is pasting a new bill over the old: THE BOARD OF MOIETIES WILL HEAR THE QUESTION OF THE VETERANS' SETTLEMENT ON THE THIRTEENTH DAY.".
+  Observe landgate_bunting at landgate when not dark() and not feastEve() and night(ossel) < 5 "Red bunting for the Muster's homecoming is still up over the gate, a week old and sagging. Under it a man with a bucket is pasting a new bill over the old: THE BOARD OF MOIETIES WILL HEAR THE QUESTION OF THE VETERANS' SETTLEMENT ON THE THIRTEENTH DAY, FROM TEN IN THE MORNING.".
+  Observe landgate_bunting_down at landgate when not dark() and not feastEve() and night(ossel) >= 5 and not voted(ossel) "The homecoming bunting has come down, or blown down; a length of it is trodden into the shell by the gate. The bills on the board are four deep now, and nobody is pasting any more.".
 
   // The Withies: stilt houses over the backwater, where the rank and file came home to.
   Observe withies_scene at withies when not dark() and not visitedBefore(withies) "The Withies stand on piles over a backwater of the Ossel: tarred houses on stilts, joined by boardwalks that sway, every one with a ladder down to a boat and a row of eel-traps drying on the rail. Washing hangs between the houses. So do red coats, a good many of them, airing. A girl is mending a net with a soldier's bayonet.".
@@ -66,7 +67,8 @@ Module tessary "What Tessary Owes" {
   // The Throat Stair, and the Throat: the channel the basin drains by.
   Observe throat_scene at throat_head when not visitedBefore(throat_head) "At the west end of the Tidewall the wall-walk breaks off at a stair that goes straight down the face of the wall into the basin. A chain hangs beside it for a handrail. Below, the Throat: the one deep channel through which the outer basin fills and empties twice a day, with a noise like a slow mill.".
   Observe throat_scene_again at throat_head when visitedBefore(throat_head) "The head of the Throat Stair, where the wall-walk breaks off, with its chain for a handrail and the Throat milling below.".
-  Observe throat_low at throat_head when lowWater() "The basin is out. Below the stair lies a city of wet stone: roofs, a colonnade, the dome of something, streets with weed lying flat in them like combed hair. Figures are moving down there, small, bent over, looking for things.".
+  Observe throat_low_dark at throat_head when lowWater() and dark() "The basin is out. Below the stair the drowned city lies in the dark, and you can hear it draining, a thousand small waters running off stone. Far out, one lantern moves, low to the ground, and stops, and moves again.".
+  Observe throat_low at throat_head when lowWater() and not dark() "The basin is out. Below the stair lies a city of wet stone: roofs, a colonnade, the dome of something, streets with weed lying flat in them like combed hair. Figures are moving down there, small, bent over, looking for things.".
 
   // The Tidewall: the barrage on Aenean footings.
   Observe tidewall_scene at tidewall when not visitedBefore(tidewall) "The Tidewall runs the whole length of the city between the houses and the sea, broad enough on top for two carts. Its lower courses are not the city's: great blocks, tight-fitted, with no mortar, carved at intervals with a pair of scales. The city built its wall on top of someone else's. On the landward side a stair goes down into the Lettered Quarter.".
@@ -75,7 +77,8 @@ Module tessary "What Tessary Owes" {
 
   // The Legion Yard and the Oath Stone.
   Observe yard_scene at legion_yard when true "A parade ground of beaten shell inside the Tidewall, ringed with empty barracks. In the middle of it, on a plinth, stands the Oath Stone: a slab of black stone as tall as a man, salvaged from the drowned city two hundred years ago, smooth as a hearthstone where eleven thousand hands have been laid on it. Cut into its face, small and fine, are lines that are not writing and not ornament: ruled lines, like a ledger's.".
-  Observe yard_empty at legion_yard when not feastEve() "The barracks doors stand open. The Muster was paid off a week ago and told to go home, and the Yard has nobody in it but a sergeant of the Watch and the gulls.".
+  Observe yard_empty at legion_yard when not feastEve() and night(ossel) < 5 "The barracks doors stand open. The Muster was paid off a week ago and told to go home, and the Yard has nobody in it but a sergeant of the Watch and the gulls.".
+  Observe yard_empty_later at legion_yard when not feastEve() and night(ossel) >= 5 "The barracks doors stand open on nothing. Somebody has chalked a name on one of them, and somebody else has washed it off, and the gulls have the Yard.".
 
   // Scriveners' Row, the heart of the Lettered Quarter.
   Observe row_scene at scriveners_row when not dark() and not visitedBefore(scriveners_row) "The Lettered Quarter smells of wet pulp and lamp-black. The Row is all stalls: scriveners at sloped desks under awnings, writing letters for those who cannot, contracts for those who can, and arguing with both. Reed-paper hangs drying from every balcony like laundry. At the north end, the Office of Seals has a queue outside it that goes round the corner and, people say, has not been shorter in living memory. Opposite, the Exchequer is a narrow house with barred windows and one lit lamp.".
@@ -112,7 +115,7 @@ Module tessary "What Tessary Owes" {
 
   Place warehouse "Sault's warehouse" is building within tessary.
   Place warehouse_floor "the warehouse floor" is room within warehouse at 0, 0.
-  Place warehouse_below "under the warehouse" is level within warehouse.
+  Place warehouse_below "the warehouse cellars" is level within warehouse.
   Place cistern "the old cistern" is room within warehouse_below at 0, 0.
   Passage warehouse_door "the warehouse door" is door between saltgate and warehouse_floor.
   Passage cistern_stair "the cistern stair" is stair between warehouse_floor and cistern.

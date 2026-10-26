@@ -41,6 +41,7 @@ Module tessary "What Tessary Owes" {
   // ── The Scruples ──────────────────────────────────────────────────────────────────────────────────────────────────
   Person scruples "the Scruples at their desks" at clerks_hall {
     Role "who keep the Balance's books". Ancestry human. Numbers 1. Peaceable. Pronouns they.
+    Greets "The nearest of the clerks lifts their pen from the page and waits, without looking up, as if for dictation.".
   }
   Topic scruples_asked with scruples "Ask the clerks at the desks what they are writing" when true once {
     Says "The nearest clerk finishes the line before looking up. 'Promises,' she says. 'As they are kept. A fishwife in the Withies has paid her rent. A ferryman has sworn to his wife on the Tideline Steps that he will not drink, and has drunk, and it is a small thing and the Balance has noted it. A great deal of the city stands on the old instruments without knowing it, you see. We write what is kept and what is not.' She dips her pen. 'Mostly it is not.'".
@@ -134,11 +135,11 @@ Module tessary "What Tessary Owes" {
     On success { Assert state(defaults_lock, open). }
     Result "The Assessor looks at the iron door for some time. 'The compact of the old city is not on my inventory,' they say. 'But the city of Tessary claims the old city's oaths as its heir, and so its defaults are the city's defaults, and so they bear on the collateral.' They lay a ruled hand flat on the iron, and the lock turns over inside the door with a sound like a slow bell. 'I find that I want to see it,' they say. 'I note that I want to.'".
   }
-  Discovery default_record "The Room of Defaults records the drowned city's compact as broken eleven hundred years ago, in the Comptroller's own hand: 'The sea had the city. The ledger did not keep. Default entered by the clerk who swore it.' Beside the entry, in the same hand, a reckoning runs down the margin for a thousand years, and ends in fresh ink: 'Tessary, heir. War note drawn. Repayment set at a weight the heir cannot meet. At foreclosure, eight thousand oaths fall in, and the hole is closed.'" {
+  Discovery default_record "The Room of Defaults records the drowned city's compact as broken eleven hundred years ago, in the Comptroller's own hand: 'The sea had the city. The ledger did not keep. Default entered by the clerk who swore it.' Beside the entry, in the same hand, a reckoning runs down the margin for a thousand years, and ends in fresh ink: 'Tessary, heir. War note drawn. Repayment at the weight of a people's promise. At foreclosure, eight thousand oaths.' And under it, a single word: 'Balanced.'" {
     Source defaults_ledger "the thin ledger on the table" at defaults_room readable by party.
   }
   Discovery note_designed "The War Note was drawn to fail. The Comptroller swore the drowned city's compact eleven hundred years ago and could not keep it; his default left a hole in the Balance's ledger. He set Tessary's repayment at a weight its heir could never meet, so that at foreclosure the Muster's oaths would fall into the Holding and fill the hole he made.".
-  Observe designed_seen near party when knows(party, default_record) and knows(party, note_terms) and not knows(party, note_designed) "You read the reckoning again with the War Note in your head, and it is not a reckoning. It is a plan. The repayment was never meant to be made. A thousand years of trying to close one hole, and then, at last, a city poor enough and desperate enough to sign." teaches note_designed.
+  Observe designed_seen near party when knows(party, default_record) and knows(party, note_terms) and knows(party, promise_weight) and not knows(party, note_designed) "You read the margin again with the War Note's terms in your head. The weight of a people's promise, and a city with exactly one such promise in its books and no money to keep it. Eight thousand oaths at foreclosure. Balanced. The repayment was never meant to be made." teaches note_designed.
   Relation tallySawDefaults(place).
   Event tally_reads_defaults at defaults_room when travelsWith(tally, party) and knows(party, default_record) "The Assessor reads the ledger over your shoulder, and then reads it again, alone, with their finger on the lines, the way a child reads. When they straighten, the ruled lines on their face have gone faint, as if something had rubbed at them. 'He swore the compact,' they say. 'He did not keep it. And he has drawn the city's note so that it cannot be paid, so that the Muster will fall in and cover it.' A long pause. 'A promise made in order to be broken is not a promise. It is the first thing we are taught. It is the gravest thing one of us can do.' They close the ledger very gently. 'I do not know what I am going to do.'" then {
     Assert tallySawDefaults(ossel). }
@@ -238,7 +239,7 @@ Module tessary "What Tessary Owes" {
     Requires able(actor) and company(actor) and at(actor, site) and at(comptroller, site) and silenceOffered(actor)
       and not swornSilence(actor) and heldNow(davy) and not indictmentFiled(ossel).
     On success { Assert swornSilence(actor). Assert registered(actor). Assert redeemedByComptroller(davy). }
-    Result "'Then it is held,' says the Comptroller, and writes on the black glass. 'Teazle, D., private, redeemed from the Holding by order of the Comptroller.' He does not look up. 'He will wake on the Tideline Steps at the next ebb with his boots beside him. Go home. You have done a good thing for one family, and nothing at all for the rest, and you knew that when you chose.'".
+    Result "'Then it is held,' says the Comptroller, and writes on the black glass. 'Teazle, D., private, redeemed from the Holding by order of the Comptroller.' He does not look up. 'He will wake on the Tideline Steps at the night ebb, with his boots beside him. Go home. You have done a good thing for one family, and nothing at all for the rest, and you knew that when you chose.'".
   }
   Relation redeemedByComptroller(group). Relation indictmentFiled(place).
 

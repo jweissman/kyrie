@@ -8,7 +8,7 @@ Module tessary "What Tessary Owes" {
   Place colonnade "the Weed Colonnade" is room within lowtide at 1, 0 outdoors.
   Place forum "the Drowned Forum" is room within lowtide at 1, 1 outdoors.
   Place scales_street "the Street of Scales" is room within lowtide at 2, 1 outdoors.
-  Place aqueduct_foot "under the Aqueduct" is room within lowtide at 0, 1 outdoors.
+  Place aqueduct_foot "the foot of the Aqueduct" is room within lowtide at 0, 1 outdoors.
   Place aqueduct_top "the top of the Aqueduct" is room within lowtide at 0, 2 outdoors.
   Place landing "the ebb-runners' landing" is room within lowtide at 3, 1 outdoors.
   Place bath_house "the bath-house" is building within lowtide.
@@ -78,12 +78,12 @@ Module tessary "What Tessary Owes" {
 
   // ── The ebb-runners ───────────────────────────────────────────────────────────────────────────────────────────────
   // Factor Sault's people in Lowtide. They work the old city for bronze and dressed stone, run untaxed salt through the
-  // cistern, and for eleven years carried the city's interest silver down to the Hall of Oaths. They take prisoners:
+  // cistern, and for ten years carried the city's interest silver down to the Hall of Oaths. They take prisoners:
   // whoever they beat wakes on the Pans.
   Person slake "Bettany Slake" at landing {
     Role "who runs the ebb-runners, in a fisherman's smock with a cutlass through the belt". Ancestry human. Calling thief. Level 3. Pronouns she. Manner acerbic.
     Temperament territorial.
-    Warns "A woman in a smock stands up off a crate with a cutlass in her hand and puts her other hand up, palm out. 'That's far enough,' she says. 'This is a working quay.'".
+    Warns "A woman in a smock stands up off a crate with a cutlass in her hand and puts her other hand up, palm out. 'That's far enough,' she says. 'This is a working quay. Five coin for the use of it, or back up the street the way you came, and don't stand there thinking about it.'".
     Comes "'Right,' says Bettany Slake, almost sorry, and the ebb-runners come off the crates.".
     Pleads "Bettany Slake puts her cutlass down on the stones. 'All right,' she says. 'All right. You've made your point.'".
   }
@@ -102,10 +102,10 @@ Module tessary "What Tessary Owes" {
     Says "'Salvage,' says Bettany. 'Bronze, dressed stone, whatever the sea's been keeping. All above board, in the Factor's name.' She spits over the edge of the quay. 'And what goes up and down that tunnel is the Factor's business and mine, and not a thing a stranger wants to be curious about, if the stranger likes the shape of his head.'".
   }
   Topic slake_silver with slake "Ask Bettany Slake what she carried to the Hall of Oaths" when knows(actor, collateral) or knows(actor, note_terms) once {
-    Says "Bettany looks at you a long moment. 'Silver,' she says. 'Every month for eleven years. The city's, in the Factor's boats, down the tunnel and across at the ebb and into the Hall, and left in the niche by the wall, and the next ebb it was gone.' She shrugs. 'Then in the summer there wasn't any silver, and we stopped. And at the next spring ebb the first of them walked past us across the Forum with their eyes open.' She looks away. 'I don't carry anything to that Hall any more. Only the Factor's letters.'".
+    Says "Bettany looks at you a long moment. 'Silver,' she says. 'Every month for ten years. The city's, in the Factor's boats, down the tunnel and across at the ebb and into the Hall, and left in the niche by the wall, and the next ebb it was gone.' She shrugs. 'Then in the summer there wasn't any silver, and we stopped. And at the next spring ebb the first of them walked past us across the Forum with their eyes open.' She looks away. 'I don't carry anything to that Hall any more. Only the Factor's letters.'".
     On discuss { Assert knows(actor, sault_courier). }
   }
-  Discovery sault_courier "For eleven years the ebb-runners carried the city's interest silver, in Factor Sault's boats, down to the Hall of Oaths. The Factor has known the whole arrangement from the beginning." {
+  Discovery sault_courier "For ten years the ebb-runners carried the city's interest silver, in Factor Sault's boats, down to the Hall of Oaths. The board on the post is notched in rows of ten, a row a year, ten rows; across the top someone has burned the crossed rakes of the Salt Moiety and the words HALL. NICHE. BY THE MONTH. The Factor has known the whole arrangement from the beginning." {
     Source runners_board "the notched board on the post by the tunnel" at landing readable by party.
   }
   Relation slakeLetsPass(group).
@@ -145,7 +145,7 @@ Module tessary "What Tessary Owes" {
   // Councillor Haverick's goose, taken off the Terraces by the ebb-runners for their Feast.
   Species goose_kind "a goose" like hen tame described "A big white goose with an orange bill and an opinion of everyone.".
   Person plum "Mistress Plum" at landing {
-    Role "a large white goose in a crate, very much offended". Species goose_kind. Peaceable. Pronouns she.
+    Role "a large white goose of the old Paper strain, very much offended". Species goose_kind. Peaceable. Pronouns she.
   }
   Observe plum_crate near plum when at(plum, landing) and not plumLoose(ossel) "In a crate by the brazier a big white goose is hissing steadily at the ebb-runners, who are ignoring it. A ribbon round its neck says PLUM in gold thread.".
   Relation plumLoose(place). Measure distractedUntil(place).

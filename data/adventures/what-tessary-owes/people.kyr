@@ -17,13 +17,13 @@ Module tessary "What Tessary Owes" {
   Discovery durrance_next "Sergeant Agathe Durrance is on the next page of the roll. Unless something changes she will be called at the eighth night's spring ebb." {
     Known by durrance, tally.
   }
-  Discovery council_knows "Treasurer Quire keeps a list, in his own hand, of every veteran called since the summer, a hundred and thirty-eight names, each with an address and a sum of money sent. The Exchequer knows the vanished are not deserters." {
+  Discovery council_knows "Treasurer Quire keeps a list, in his own hand, of every veteran called since the summer, a hundred and thirty-eight names, each with an address in the Withies or the Eel quarter, and against each a column of sums: four marks, four marks, four marks, every month since the summer. Nobody sends money to the mothers of deserters." {
     Source quire_list "a list in the Treasurer's hand, under a paperweight" at exchequer_room readable by party.
   }
   Discovery collateral "The Muster's oaths, sworn on the Oath Stone, were pledged as security on a debt the city owes to the keepers of an engine under the sea. At each spring ebb a dozen are taken as interest." {
     Known by tally, quire, sault, comptroller.
   }
-  Discovery note_terms "The War Note: twelve years ago Tessary borrowed, from the Scruples who keep the Balance under the sea, the right to call an oath King Amaury's ancestor swore to the Aenean emperors at Aen-Vessaly. The Long Muster's oaths were pledged as collateral; interest was paid in silver each month; the principal falls due at the Feast of Settlement in the twelfth year, and may be paid only in a kept promise of equal weight." {
+  Discovery note_terms "The War Note: ten years ago, when the war was a year old, Tessary borrowed, from the Scruples who keep the Balance under the sea, the right to call an oath King Amaury's ancestor swore to the Aenean emperors at Aen-Vessaly. The Long Muster's oaths were pledged as collateral; interest was paid in silver each month; the principal falls due at the Feast of Settlement in the twelfth year, and may be paid only in a kept promise of equal weight." {
     Known by tally, quire, sault, comptroller.
   }
   Discovery promise_weight "In the Scruples' reckoning only a promise of a whole people to a whole people weighs as much as the War Note, and Tessary has made one such promise: land and a pension for every soldier who came home. If the city keeps it, the debt is paid." {
@@ -62,6 +62,7 @@ Module tessary "What Tessary Owes" {
 
   Person pitch "Jory Pitch" at chandlery {
     Role "a ship's chandler". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "Jory Pitch looks up from a line he is splicing, and goes on splicing it. 'If it's rope, it's on the left,' he says. 'If it's the tides, everyone asks. Ask.'".
     Sells rations for 2 coin from 8.
     Sells rope for 1 coin from 4.
     Sells torch for 1 coin from 6.
@@ -145,6 +146,7 @@ Module tessary "What Tessary Owes" {
   // ── The Muffled Drum: Sergeant Durrance and the Muster ────────────────────────────────────────────────────────────
   Person sedge "Hannelore Sedge" at drum_taproom {
     Role "who keeps the Muffled Drum". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
+    Greets "Hannelore Sedge looks at you over the bar, and up at the drum over it, and back at you, the way she has looked at everyone who comes in since the summer.".
     Sells rations for 2 coin from 6.
   }
   Topic sedge_drum with sedge "Ask Hannelore Sedge about the drum over the bar" when true once {
@@ -170,14 +172,15 @@ Module tessary "What Tessary Owes" {
   Topic durrance_ford with durrance "Ask Durrance about Sedge Ford" when true once {
     Says "'I was ten yards off,' says Durrance. 'Their king came down the bank on a grey horse with his whole household round him. We were finished. We knew it, they knew it. And in the middle of the river he gets off his horse, and goes down on his knees in the water, and holds out his sword to Captain Ancrum hilt first.' She turns her pot. 'People say he looked like a man praying. He didn't. He looked like a man being pushed down by a hand on the back of his neck. And there wasn't anybody behind him.'".
   }
-  Topic durrance_join with durrance "Ask Durrance to come with you into Lowtide" when knows(actor, hall_of_oaths_way) and knows(actor, durrance_next) and not willing(durrance, actor) and not travelsWith(durrance, actor) and not heldNow(durrance) once {
-    Says "Durrance looks at you a long moment. 'To the Hall of Oaths,' she says. 'Where they go in.' She pushes her pot away. 'Yes. I'd like to see the door before I walk through it. And you'll want someone who can hold a line when the tide comes, and that's me.'".
+  Topic durrance_join with durrance "Ask Durrance whether she would come with you into Lowtide" when knows(actor, hall_of_oaths_way) and knows(actor, durrance_next) and not willing(durrance, actor) and not travelsWith(durrance, actor) and not heldNow(durrance) once {
+    Says "Durrance looks at you a long moment. 'To the Hall of Oaths,' she says. 'Where they go in.' She pushes her pot away. 'Yes. I'd like to see the door before I walk through it. And you'll want someone who can hold a line when the tide comes, and that's me. Say the word and I'll get my coat.'".
     On discuss { Assert willing(durrance, actor). }
   }
   Initially Set hire(durrance) to 0.
 
   Person fisk "Benno Fisk" at drum_taproom {
-    Role "a corporal of the Long Muster, in a new coat". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner jovial.
+    Role "a corporal of the Long Muster". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner cheerful.
+    Greets "Benno Fisk lifts his pot to you with one hand and smooths the front of a new grey coat with a salt-white collar with the other.".
   }
   Initially Assert serves(fisk, sault).
   Topic fisk_work with fisk "Ask Fisk where he got the new coat" when true once {
@@ -189,7 +192,7 @@ Module tessary "What Tessary Owes" {
 
   // ── Saltgate: Factor Sault ────────────────────────────────────────────────────────────────────────────────────────
   Person sault "Imma Sault" at sault_office {
-    Role "Factor of the Salt Moiety". Ancestry human. Calling warrior. Level 5. Peaceable. Pronouns she. Manner jovial.
+    Role "Factor of the Salt Moiety". Ancestry human. Calling warrior. Level 5. Peaceable. Pronouns she. Manner acerbic.
     Greets "Factor Sault looks up from her ledgers and wipes her fingers on a cloth and holds out her hand, salt and all.".
   }
   Relation hiredBySault(group).
@@ -203,7 +206,15 @@ Module tessary "What Tessary Owes" {
   Topic sault_muster with sault "Ask the Factor about her hiring hall" when true once {
     Says "'No man turned away who wore the coat,' says Sault. 'It costs me. The Board was supposed to look after them and didn't, so I do.' She shrugs. 'And they work, and they're grateful, and in a city that's about to have eight thousand angry soldiers in it, I would rather they were grateful to me than to anyone else. I don't pretend it's charity.'".
   }
-  // What she pays for: the grey clerk's inventory, copied.
+  // What she pays for: what is taking her lads, told; or the grey clerk's inventory, copied. Either brings her plans on.
+  Topic sault_report with sault "Tell the Factor what is taking her lads" when hiredBySault(actor) and knows(actor, collateral) and not saultInformed(sault) once {
+    Says "Factor Sault listens with her chin on her fist and does not interrupt once. When you have done she counts twenty coin onto the ledger and pushes them across. 'Pledged,' she says. 'Their oaths. As collateral.' She is not surprised, you notice; she is checking it against something. 'Well. You've earned it.' She looks out of the window toward the Muster hall. 'Ten years I've carried—' She stops. 'Never mind what I've carried. Go and have your supper.'".
+    On discuss { Assert saultInformed(sault). Decrease quantity(sault, gold) by 20. Increase quantity(actor, gold) by 20. }
+  }
+  Topic sault_confronted with sault "Tell the Factor you have read her letter to the Broker of the Fourth Pan" when knows(actor, sault_bid) and not saultExposed(ossel) and not voted(ossel) once {
+    Says "Factor Sault puts her pen down. 'Bettany,' she says, not as a question. 'Well. Every word of it's true.' She leans back. 'So what will you do with it? Take it to the Board, and they'll read it, and be frightened of me, and vote no anyway because there's no money, and I'll have the note at the Feast and you'll have been right. Or take it under the sea to the old man, and he'll stop my broker, and I'll go down and bid in person.' She shrugs. 'Or put me terms, if you can find anything I want more than the Muster. Nobody has yet.' She picks up the pen. 'I'm not your enemy. I'm the only one in this city who's been paying attention.'".
+  }
+  // The grey clerk's inventory, copied.
   Item inventory_copy "a copy of the Assessor's inventory" is ledger_copy at tideline_steps hidden until inventory_copied.
   Kind ledger_copy "a copied page of an inventory" is gear worth 1 weighing 0
     described "Names in a careful hand you made yourself from someone else's careful hand, in roll order, with a column of marks no one in Tessary could read.".
@@ -234,7 +245,7 @@ Module tessary "What Tessary Owes" {
   }
   Relation quireConfided(group).
   Topic quire_list_asked with quire "Ask the Treasurer about his list of names" when knows(actor, council_knows) and not quireConfided(actor) once {
-    Says "Quire looks at the list for a long time. 'A hundred and thirty-eight,' he says. 'I send their mothers something every month. Out of my own salary, which the city also does not pay.' He takes off his spectacles. 'I signed it. Twelve years ago. We went down under the sea, six of us, and they showed us a thing like a ledger the size of a ship, and an old man who could not lie read us the terms, and we signed, because we were going to lose the war, and we won.' His hands are shaking. 'The Muster's oaths. As collateral. I put my name to eight thousand men like a farmer putting up his cows.'".
+    Says "Quire looks at the list for a long time. 'A hundred and thirty-eight,' he says. 'I send their mothers something every month. Out of my own salary, which the city also does not pay.' He takes off his spectacles. 'I signed it. Ten years ago. We went down under the sea, six of us, and they showed us a thing like a ledger the size of a ship, and an old man who could not lie read us the terms, and we signed, because we were going to lose the war, and we won.' His hands are shaking. 'The Muster's oaths. As collateral. I put my name to eight thousand men like a farmer putting up his cows.'".
     On discuss { Assert quireConfided(actor). Assert knows(actor, collateral). }
   }
   Topic quire_terms with quire "Ask the Treasurer what the city must do to pay" when quireConfided(actor) and not knows(actor, promise_weight) once {
@@ -249,7 +260,7 @@ Module tessary "What Tessary Owes" {
     Says "'Contracts drawn, contracts read, contracts explained,' says Pounce. 'The first is easy, the second is a skill, the third is extra because nobody likes what I tell them.' He sands a page. 'Tessary is a city where a fishwife will sue a gull. I have made a good living out of it for thirty years. I keep every draft I ever wrote, you know. A scrivener who burns his drafts is a scrivener who gets sued.'".
   }
   Topic pounce_council with pounce "Ask Pounce whether he has ever drawn a contract for the Board" when true once {
-    Says "Pounce's pen stops. 'Once,' he says. 'Twelve years ago. A fair copy of an instrument, done at night in the Council House with a councillor at my elbow and sworn to silence after. Strangest thing I ever copied. Half of it was in a hand I had never seen and had to copy by shape.' He looks at you sideways. 'I kept my draft. Of course I kept my draft. I am sworn to silence, mind. But a scrivener's drafts are his own property, and his property is for sale, and it is no breach of silence to sell a man a piece of paper he will read for himself.' He names the price: 'Six coin.'".
+    Says "Pounce's pen stops. 'Once,' he says. 'Ten years ago. A fair copy of an instrument, done at night in the Council House with a councillor at my elbow and sworn to silence after. Strangest thing I ever copied. Half of it was in a hand I had never seen and had to copy by shape.' He looks at you sideways. 'I kept my draft. Of course I kept my draft. I am sworn to silence, mind. But a scrivener's drafts are his own property, and his property is for sale, and it is no breach of silence to sell a man a piece of paper he will read for himself.' He names the price: 'Six coin.'".
     On discuss { Assert pounceOffered(actor). }
   }
   Relation pounceOffered(group).
@@ -284,6 +295,7 @@ Module tessary "What Tessary Owes" {
   // The Office of Seals: the queue, and the Keeper of the Seal.
   Person queue "the queue" at seals_hall {
     Role "who have been waiting since breakfast, or Tuesday, or longer, each with a document". Ancestry human. Numbers 1. Peaceable. Pronouns they.
+    Greets "Every face in the queue turns to see whether you mean to push in, and, satisfied, turns back.".
   }
   Topic queue_asked with queue "Ask the queue how long they have been waiting" when true once {
     Says "Several people answer at once. A man with a deed: 'Since breakfast.' A woman with a marriage contract: 'Since Tuesday.' An old man near the front, without turning round: 'My father held this place in the queue before me. I am sealing the lease he came to seal. It has run out, but it is the principle.'".
@@ -322,7 +334,7 @@ Module tessary "What Tessary Owes" {
     Says "'Badly,' says Marrable. 'Eight chairs. Mine is yes. Old Lisle has buried two sons in Hethra; he's yes, if he's awake. Salt is Sault's and Sault says no, there's no money, which is true. Rope is Dauntry and Dauntry votes the way Sault tells him. Greaves and Vantage are the furniture and will not give an inch of their land. Paper is Haverick, who cares about nothing but his goose, and Ship is Orme, who will vote for whatever he thinks will be paid for.' She counts on one hand, which takes no time. 'I need five. I have two.'".
   }
   Topic marrable_sway with marrable "Ask Councillor Marrable what would change their minds" when not voted(ossel) once {
-    Says "'Proof,' says Marrable. 'They call the vanished deserters because if they're not deserters, something worse is happening and somebody on the Board knows what. Show them the Treasurer knows. Show them why. Bring them someone they can't call a liar.' She looks at the pinned sleeve. 'And keep the Muster off the Terraces. If soldiers come up that hill shouting the night before, Orme and Lisle will vote no out of fright and I won't blame them.'".
+    Says "'Proof,' says Marrable. 'They call the vanished deserters because if they're not deserters, something worse is happening and somebody on the Board knows what. Show them the Treasurer knows. Show them why. Bring them someone they can't call a liar.' She looks at the pinned sleeve. 'And keep the Muster off the Terraces. If soldiers come up that hill shouting the night before, Orme and Lisle will vote no out of fright and I won't blame them.' She looks at you. 'We sit on the thirteenth day, from ten in the morning till the bell at two. The public bench is open. Anyone with something to say can stand up and say it, until two. After two it's a count.'".
   }
   Person amaury "Amaury of Hethra" at kings_rooms {
     Role "King of Hethra, a hostage in Tessary". Ancestry human. Calling warrior. Level 6. Peaceable. Pronouns he. Manner acerbic.

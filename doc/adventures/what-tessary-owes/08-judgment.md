@@ -35,13 +35,15 @@ drafted, are the same kind of fool, and Quire is the one who says so.
 
 ## Where it is weaker than the ambition
 
-- **It is still, at bottom, an investigation followed by a deadline.** The best plays are pre-emptive: find the drum
-  before the eighth night, get the letter before the Board sits. Between the first week's discoveries and the Feast
-  there is a stretch in which a thorough player waits. More errands and more of the city acting on its own would fill
-  it; the Factor's dusk scene and the supper help, but not enough.
-- **The Board session is a well-written vote.** Its arithmetic is honest and its levers are found in the world, but the
-  design's own critique was right: a vote is the least dramatic thing in the story, and it is still the hinge of one
-  ending.
+- **It is still, at bottom, an investigation followed by a deadline.** A cold player, reading nothing of the source,
+  had the whole mystery by the end of the first night and then waited eleven days for news. The revision that
+  followed gave the middle week its scenes back (each of the Factor's moves, and the Treasurer's last hour at the
+  Throat, is now something the Drum hears of a day ahead, with an hour and a place) and made the central reversal
+  something the player puts together rather than reads. But the shape is unchanged: the best plays are pre-emptive,
+  and a diligent player who pre-empts everything has bought a quiet week.
+- **The Board session is a well-written vote.** Its arithmetic is honest, its levers are found in the world, and the
+  Assessor can now stand up in it as the one witness nobody can call a liar; but the design's own critique was right:
+  a vote is the least dramatic thing in the story, and it is still the hinge of one ending.
 - **The Scruples are a hall of clerks with three good lines each, not a society.** The design wanted a culture with
   customs, factions and a politics of its own; what is there is an atmosphere and a law.
 - **The Holding is small and mostly seen.** Seven rooms, two of them used. The folded lake, the harvest, the bell and

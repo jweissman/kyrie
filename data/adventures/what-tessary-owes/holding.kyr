@@ -74,7 +74,8 @@ Module tessary "What Tessary Owes" {
   }
   Initially Assert asleep(held_files).
   Person davy "Davy Teazle" at ranks {
-    Role "a private of the Long Muster, asleep on his feet, in his shirt". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he.
+    Role "a private of the Long Muster, nineteen, the youngest of the Third". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner stoic.
+    Greets "Davy Teazle looks at you as if you might be someone he dreamed.".
   }
   Initially Assert asleep(davy). Initially Assert heldNow(davy).
   Relation davyWoke(place).
@@ -154,7 +155,7 @@ Module tessary "What Tessary Owes" {
   Rule durrance_home when wokeHome(durrance) and at(durrance, ranks) { Retract at(durrance, ranks). Assert at(durrance, drum_taproom). }
   Rule comptroller_redeems when redeemedByComptroller(davy) and heldNow(davy) and lowWater() and dark() {
     Retract heldNow(davy). Retract asleep(davy). Assert cameHome(davy). Assert wokeHome(davy). }
-  Rule davy_back_told when wokeHome(davy) and not knows(party, davy_back)
+  Rule davy_back_told when wokeHome(davy) and not knows(party, davy_back) and inTessary()
     says "Word runs along the Withies faster than the tide: Davy Teazle woke up on the Tideline Steps in his shirt with his boots beside him, and walked home, and put his boots on the mat inside his mother's door, side by side." teaches davy_back { }
   Discovery davy_back "Davy Teazle has come home to the Withies.".
   Event nan_pays near nan when knows(party, davy_back) and nanOffer(party) and not nanPaid(party) "Nan Teazle puts a tin in your hands without a word. Nine coin in it. Davy is asleep in the cupboard bed behind her, in his coat, with his boots on." then {
