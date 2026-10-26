@@ -719,8 +719,9 @@ lists them; then every rule is tried once, the shared rules first, then each mod
 installs it, each in the order its rules are written; then each way that opens only sometimes is read again; then
 what a hazard strikes lands on bodies. A rule sees what
 the rules before it changed in the same watch. A rule whose condition still holds fires again next watch, so a rule
-meant to happen once either changes what it tests (`Assert sung(party)` beside `not sung(party)`) or is an `Event`,
-which happens once. An action that passes no watch (one that takes no time, or a few minutes) is followed by one
+meant to happen once is written `once` (`Rule bell when watch(clock) >= 1 once says "A bell rings." { … }`), changes
+what it tests (`Assert sung(party)` beside `not sung(party)`, for once per one of many), or is an `Event`, which
+happens once. An action that passes no watch (one that takes no time, or a few minutes) is followed by one
 pass of the rules and whatever a hazard strikes, and no clock.
 
 ### A creature other than its kind

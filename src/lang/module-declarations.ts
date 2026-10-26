@@ -1,6 +1,6 @@
 import { Spatial } from '../spatial';
 import type { DiscoveryDefinition } from '../information/discovery';
-import type { Change, Module, NumberValue, Operator, Predicate, Query, Signature } from './module';
+import type { Change, Module, NumberValue, Operator, Predicate, Query, Signature, WorldRule } from './module';
 import { WorldConstructs, type EventSpec, type PassageSpec, type ThingSpec } from './world-constructs';
 import { ItemCatalog } from '../item-catalog';
 import { PersonParser } from './person-parser';
@@ -27,6 +27,17 @@ export class ModuleDeclarations {
     action.requires = and(action.requires, { kind: 'or', left: here, right: along });
   }
   private static call(name: string, ...args: string[]): Predicate { return { kind: 'call', name, args }; }
+  // A Rule written `once` happens the first time its condition holds, and never again: it keeps its own latch (262 of
+  // 731 rules asserted a fact their own condition denied, a latch each wrote by hand: the architecture review's M2).
+  private static rule(module: Module, r: WorldRule & { once?: boolean }): WorldRule {
+    if (!r.once) { return r; }
+    const rule: WorldRule & { once?: boolean } = { ...r };
+    const latch = { kind: 'call' as const, name: `${r.id}_once`, args: [] };
+    delete rule.once;
+    module.relations.push({ name: latch.name, types: [], exclusive: false });
+    return { ...rule, when: { kind: 'and', left: rule.when, right: { kind: 'not', value: latch } },
+      effects: [...rule.effects, { kind: 'assert', call: latch }] };
+  }
   // What the language writes for an Ending is its own: a module's `concluded` was one with its Ending's, which could
   // then never be reached (the architecture review's A16). The language's other names (reached, achieved, merit,
   // unopened) are the shared rules', and a module's own is made its own apart (see ModuleShadow).
@@ -54,7 +65,7 @@ export class ModuleDeclarations {
       case 'exit': ModuleDeclarations.exit(module, value as Module['entities'][number]); break;
       case 'information': information.push(value as DiscoveryDefinition); break;
       case 'pursuit': (module.pursuits ??= []).push(value as NonNullable<Module['pursuits']>[number]); break;
-      case 'rule': (module.rules ??= []).push(value as NonNullable<Module['rules']>[number]); break;
+      case 'rule': (module.rules ??= []).push(ModuleDeclarations.rule(module, value as WorldRule)); break;
       case 'observation': (module.observations ??= []).push(value as NonNullable<Module['observations']>[number]); break;
       case 'kind': module.kinds.push(value as string); break;
       case 'relation': module.relations.push(ModuleDeclarations.own(value as Signature)); break;

@@ -104,7 +104,8 @@ Kyr {
   Destructible = "destructible"
   Pursuit = "Pursuit" ident "for" ident string? "priority" integer "when" Predicate "seeks" Predicate PursuitUsing? "."
   PursuitUsing = "using" NonemptyListOf<ident, ",">
-  WorldRule = "Rule" ident Anchor? "when" Predicate RuleSays? RuleTeaches? "{" ChangeStatement* "}"
+  WorldRule = "Rule" ident Anchor? "when" Predicate RuleOnce? RuleSays? RuleTeaches? "{" ChangeStatement* "}"
+  RuleOnce = "once"
   RuleSays = "says" string
   RuleTeaches = "teaches" ident
   Observation = "Observe" ident Anchor ObservationAbout? ObservationAspect? ObservationBy? "when" Predicate string ObservationTeaches? "."

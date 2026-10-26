@@ -36,7 +36,7 @@ export class ModuleParser {
     Anchor_within: ModuleParser.Anchor, Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
     PersonHorizon: PersonParser.PersonHorizon, PersonPeaceable: PersonParser.PersonPeaceable,
     RuleSays: ModuleParser.Second, Seen: ModuleParser.Seen, TopicOnce: PersonParser.TopicOnce,
-    TopicTravelling: PersonParser.TopicOnce,
+    TopicTravelling: PersonParser.TopicOnce, RuleOnce: PersonParser.TopicOnce,
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
     PassagePart_taking: ModuleParser.Taking, PassagePart_opening: ModuleParser.Opening,
     PersonProfession: PersonParser.PersonProfession,
@@ -341,14 +341,14 @@ export class ModuleParser {
       ...(using.children.length ? { using: ModuleParser.ast(using.children[0]!) } : {}) } };
   }
   static PursuitUsing(_using: Node, ids: Node) { return ids.asIteration().children.map(ModuleParser.text); }
-  static WorldRule(_rule: Node, id: Node, anchor: Node, _when: Node, predicate: Node, says: Node, teaches: Node,
-    _open: Node, changes: Node, _close: Node): Field {
+  static WorldRule(_rule: Node, id: Node, anchor: Node, _when: Node, predicate: Node, once: Node, says: Node,
+    teaches: Node, _open: Node, changes: Node, _close: Node): Field {
     const where = anchor.children.length ?
       ModuleParser.ast(anchor.children[0]!) as { kind: string; id: string } : undefined;
     return { field: 'rule', value: { id: id.sourceString, when: ModuleParser.ast(predicate),
       effects: ModuleParser.list(changes), ...(where ? { place: where.id, anchor: where.kind } : {}),
       ...(says.children.length ? { say: ModuleParser.ast(says.children[0]!) } : {}),
-      ...InformationParser.teaching(teaches) } };
+      ...once.children.length ? { once: true } : {}, ...InformationParser.teaching(teaches) } };
   }
   // An observation may teach a fact: what the company sees here, it knows from then on. One "of" an entity is not
   // perceived while the company has not noticed that entity.
