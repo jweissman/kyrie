@@ -11,6 +11,7 @@
     "feast.kyr",
     "voices.kyr",
     "growth.kyr",
+    "aftermath.kyr",
     "placed.kyr"
   ],
   "rules": [

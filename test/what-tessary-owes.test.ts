@@ -244,6 +244,16 @@ describe('What Tessary Owes: saving, replaying, and the world it lies in', () =>
     expect(JSON.stringify(resumed.campaign.world.related('heldNow'))).toBe(JSON.stringify(whole.j.campaign.world.related('heldNow')));
   }, 300000);
 
+  it('as a chapter of a world that goes on, the city is still there after the Settlement, and shows what became of it', async () => {
+    const j = await Journey.start('test/fixtures/tessary/continuing.campaign.json', 'after');
+    await j.play('To the Landgate', '=2160');
+    expect(j.campaign.world.related('reached').map(r => r.args[0])).toEqual([t('factor')]);
+    expect(j.campaign.running).toBe(true);
+    const scene = async (step: string) => { await j.play(step); return PlayerView.observe(j.campaign).observations.map(o => o.text).join(' '); };
+    expect(await scene('To the Withies')).toMatch(/in the Factor.s coats/);
+    expect(await scene('To the Landgate')).toMatch(/THE WARDEN OF THE CITY GIVES NOTICE/);
+  }, 240000);
+
   it('played twice from the same seed, the same steps make the same history', async () => {
     const a = await Tessary.start('twice'), b = await Tessary.start('twice');
     const some = steps('kept-promise').slice(0, 60);

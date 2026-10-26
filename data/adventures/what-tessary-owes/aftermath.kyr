@@ -1,0 +1,34 @@
+Module tessary "What Tessary Owes" {
+  // ── After the Settlement ──────────────────────────────────────────────────────────────────────────────────────────
+  // In a world that goes on (a generated world holding Tessary as one country among others), the city is still there
+  // after its story ends, and shows what became of it.
+  Query homecoming() means matured(ossel) and (discharged(ossel) or saultWarden(ossel) and saultHoldsNote(ossel)).
+  Query factorRules() means matured(ossel) and saultHoldsNote(ossel) and not saultWarden(ossel).
+
+  Observe after_withies at withies when homecoming() "Boots stand on the mats inside the stilt-house doors now, pairs and pairs of them, put there the way the army taught. Somebody has taken the red coats in off the rails. Somebody else is teaching a soldier who has been asleep for three months how to mend an eel-trap again, and laughing at him.".
+  Observe after_withies_held at withies when matured(ossel) and foreclosed(ossel) "From the eaves of the stilt-houses, all along the boardwalks, boots hang by their laces, pair by pair, turning a little in the wind off the sea. Nobody takes them down.".
+  Observe after_withies_factor at withies when factorRules() "Half the men of the Withies are in the Factor's coats now, grey with a salt-white collar, and go out to Saltgate at dawn in step without being told. Their wives watch them go from the doors.".
+  Observe after_landgate_kept at landgate when matured(ossel) and keptPromise(ossel) "On the board: a surveyor's notice, and a list of the strips upriver, and names against them in a clerk's hand, and against some of the names a cross where a man who cannot write has made his mark. Someone has written THEY KEPT IT across the top in charcoal, and someone else has written ABOUT TIME.".
+  Observe after_landgate_release at landgate when matured(ossel) and released(ossel) "On the board, the Board's notice of a medal for the Long Muster, to be presented on the steps of the Council House. Under it, in pencil, in a great many hands: NO THANK YOU.".
+  Observe after_landgate_factor at landgate when factorRules() "On the board, a single printed bill on good paper, with the Great Seal at the foot and a pair of crossed rakes beside it: THE WARDEN OF THE CITY GIVES NOTICE. The rest is about curfews and the price of bread, which has gone down.".
+  Observe after_landgate_void at landgate when matured(ossel) and (noteVoid(ossel) or noteTorn(ossel)) "On the board: THE BOARD OF MOIETIES WILL HEAR THE QUESTION OF THE VETERANS' SETTLEMENT AGAIN AT THE SPRING SITTING. Someone has written under it, very neatly, AND WE WILL BE THERE.".
+  Observe after_yard_release at legion_yard when matured(ossel) and released(ossel) "There are things on the Oath Stone's plinth now: a cap badge, a child's drawing of a soldier, a pair of boots, a stub of candle. Every day there are more. Nobody has told anyone to put them there.".
+  Observe after_yard_factor at legion_yard when factorRules() "The Yard is full again: the Long Muster drilling in the Factor's grey under her own sergeants, very smartly, and very quietly. The Oath Stone stands in the middle of the parade ground and the files wheel round it without looking at it.".
+  Observe after_tidewall_factor at tidewall when factorRules() "Soldiers in grey stand along the Tidewall at intervals, facing the city, not the sea.".
+  Observe after_drum at drum_taproom when matured(ossel) and not heldNow(durrance) and homecoming() "The Third Company's drum hangs over the bar with its head bare. The Drum is full, every bench, and the noise is the noise of people who have somewhere to go in the morning.".
+  Observe after_steps_foreclosed at tideline_steps when matured(ossel) and foreclosed(ossel) and dark() "Far out past the bar, the sea is showing stars that are not the stars over Tessary: a great many, very close and very bright, in no shapes you know. Then a wave goes over them and they are gone.".
+  Observe after_bath_torn at bath_hall when matured(ossel) and noteTorn(ossel) "In the arch of the plunge-room a hollow man in a grey coat stands a little apart from the others, very still, with one hand held out, palm up, ruled like paper. It does not come any nearer.".
+  Observe after_chamber_void at weighing_chamber when matured(ossel) and noteVoid(ossel) "The pan where the black glass lay is empty. The pointer of the Balance stands off the level by the width of a city, and a Scruple sits on a stool at the foot of it with a ledger, writing down, very carefully, how far.".
+  Observe after_countinghouse_warden at sault_office when matured(ossel) and saultWarden(ossel) and saultHoldsNote(ossel) "The War Note hangs on the wall behind the Factor's desk in a plain frame, a sheet of black glass that does not reflect anything. Under it, pinned, a letter from the King of Hethra about the working of brine, much annotated.".
+
+  // The Assessor, freed, keeps a stall on Scriveners' Row.
+  Person tally_freed "the scrivener in grey" at scriveners_row {
+    Role "who keeps a stall at the end of the Row: CONTRACTS READ, DISPUTES WEIGHED, NO LIES TOLD (NONE)". Ancestry human. Peaceable. Pronouns they. Manner stoic.
+    Seen when matured(ossel) and tallyFreed(ossel).
+  }
+  Topic tally_freed_asked with tally_freed "Ask the scrivener in grey how they are" when true once {
+    Says "The scrivener in grey looks up from a lease, and the ruled lines on their face move in a way that, on anyone else, would be a smile. 'I have a name,' they say, 'and a stall, and three disputes about fences, and a mudlark who brings me an eel on Fourth-day, which I have learned to eat.' They consider. 'I said a great many things to you that were exact. I will say one that is not: I am happy. I cannot measure it. I note it all the same.'".
+  }
+  Rule tally_goes_up when matured(ossel) and tallyFreed(ossel) and at(tally, ?p) { Retract at(tally, ?p). Assert tallyBelow(ossel). }
+  Rule tally_parts when matured(ossel) and tallyFreed(ossel) and travelsWith(tally, party) { Retract travelsWith(tally, party). Assert tallyBelow(ossel). }
+}
