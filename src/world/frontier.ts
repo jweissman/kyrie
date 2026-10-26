@@ -37,8 +37,10 @@ export class Frontier {
     if (!installed.has(rid)) {
       country = this.fits(campaign, at[1]!, side);
       if (country) {
+        // What the country below says of it, which it marks old news when it is seen through (optional to it).
+        const word: Record<string, string> = country.after ? { word: `${at[1]!}.edge_${side}_beyond` } : {};
         await campaign.install({ id: rid, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
-          imports: { party: `${RegionWriter.id}.party` } }, this.base, false, true);
+          imports: { party: `${RegionWriter.id}.party`, ...word } }, this.base, false, true);
       } else {
         // Each of its modules is checked as it is compiled; the joined whole is checked once, with the road in, as a
         // campaign is assembled (Campaign.assemble). Everyone's creature facts are projected with each, as before: the

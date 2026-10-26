@@ -17,7 +17,9 @@ export class ThingStage {
     const seen = ThingStage.seen(frame.leaf.situation, thing.name, thing.about);
     const said = new Set(seen.map(p => Typography.curl(p)));
     const fresh = exchange && { ...exchange, lines: exchange.lines.filter(l => !said.has(Typography.curl(l.text))) };
-    const told = fresh && !frame.leaf.moved && (fresh.lines.length || fresh.notes.length) ? fresh : undefined;
+    // What came of the last thing done, when it was done here, to this (not leave taken of someone, told under a hook).
+    const told = fresh && !frame.leaf.moved && (fresh.lines.length || fresh.notes.length)
+      && s.acted === thing.id ? fresh : undefined;
     return (
       <div className="thing" id="page">
         <div className="face">

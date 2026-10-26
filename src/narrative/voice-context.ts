@@ -20,6 +20,8 @@ export class VoiceContext {
       pronoun: this.pronoun(campaign, actor, kind), kind, ...species ? { species: this.base(species) } : {},
       ...this.temper(campaign, actor),
       time: world.test(ModuleWriter.call('dark')) ? 'night' : 'day',
+      // Whether they are where the company is, or have it from someone who was (Venn, in his study, told by Dunnet).
+      present: !actor || world.one('at', actor) === place ? 'here' : 'away',
       shelter: (place && Narrator.shelter(campaign, place)) ?? 'outdoors',
       moment: pairs.has(`${h.kind}:${actor}`) ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {},
       // A band of many (the elders), for the lines said only of many.

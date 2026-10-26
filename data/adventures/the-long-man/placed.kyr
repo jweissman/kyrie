@@ -1,4 +1,8 @@
 Module longman "The Long Man" {
   // The dale as a country beyond a march: the company that comes up the south road is the world's own.
   Entity party: group "Your company".
+  // What the country below says of the dale (its innkeepers' rumour of the forty crowns): once Merrow is safe from its
+  // wall, it is old news there, and they say so to whoever comes back down the north road.
+  Entity word: fact "What is said of Merrowdale in the country below.".
+  Rule word_old when (state(leak_gate, mended) or drawn(hollow) or (broke(long_man) and calm(long_man) and not lostToWater(folk))) and not stale(word) { Assert stale(word). }
 }

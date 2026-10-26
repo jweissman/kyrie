@@ -31,6 +31,9 @@ export interface CampaignManifest {
 export interface BundleManifest {
   roles?: Record<string, RoleContract>;
   version: 1; source: string | string[]; rules: string | string[]; globals?: string[]; imports?: string[];
+  // Imports a module goes on without, keeping its own: what the country below says of it, in a world kept from before
+  // it said so.
+  optional?: string[];
   exports?: Record<string, string>;
   generation?: { type: string; context?: Record<string, DeemValue>; tables?: string; templates?: string };
   // Experience for each companion when the module's goal first holds.
@@ -120,6 +123,7 @@ export class ModuleBundle {
       const [owner, exported, extra] = reference?.split('.') ?? [];
       const id = installed?.find(m => m.id === owner)?.exports[exported ?? ''];
       if (!id || extra || !module.entities.some(e => e.id === name)) {
+        if (manifest.optional?.includes(name)) { continue; }
         throw new Error(`Unresolved module import ${name}: ${reference ?? 'missing'}`);
       }
       imports[name] = id;

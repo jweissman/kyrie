@@ -34,6 +34,8 @@ export class RoadStage {
           <RoadStage.End choices={RoadStage.choices(ways, route.from)} exit={route.from} draw={draw} back />
           <RoadStage.End choices={RoadStage.choices(ways, route.to)} exit={route.to} draw={draw} />
         </nav>
+        {/* A journey stopped on the road (a cart gone off it, a goat loose) is taken up again from here. */}
+        <PlaceStage.Destinations app={app} draw={draw} />
         <PlaceStage.Foot app={app} draw={draw} />
       </article>
     );

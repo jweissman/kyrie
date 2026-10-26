@@ -49,6 +49,8 @@ export class MonoDriver {
     const index = state.choices.findIndex(test);
     if (index < 0) { throw new Error(`No choice ${what}: ${state.choices.map(c => `${c.id} "${c.label}"`).join(' | ')}`); }
     if (this.pointer) { await this.click(`.intentions [data-action="choice"][data-index="${index}"]`); return; }
+    // The first press shows where the keys are (on the first choice); the player moves from there.
+    if (state.selected === undefined) { await this.key('ArrowDown'); }
     const current = Math.max(0, state.choices.findIndex(c => c.id === state.selected));
     const delta = index - current;
     for (let i = 0; i < Math.abs(delta); i++) { await this.key(delta > 0 ? 'ArrowDown' : 'ArrowUp'); }

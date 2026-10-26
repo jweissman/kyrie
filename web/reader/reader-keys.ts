@@ -21,12 +21,16 @@ export class ReaderKeys {
     const app = this.app, menu = app.menu, s = app.state;
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       if (!menu.choices.length) { return false; }
-      const step = key === 'ArrowDown' ? 1 : -1;
-      app.setState({ cursor: (s.cursor + step + menu.choices.length) % menu.choices.length, hovered: undefined,
+      // The first press shows where the keys are, on the first choice (or the last, going up), rather than passing
+      // over one the player never saw it on.
+      const n = menu.choices.length, step = key === 'ArrowDown' ? 1 : -1;
+      app.setState({ cursor: s.keyed ? (s.cursor + step + n) % n : step > 0 ? 0 : n - 1, hovered: undefined,
         keyed: true });
       return true;
     }
     if (key === 'Enter' || key === ' ') {
+      // Nothing is shown chosen yet: Enter shows where the keys are, and does nothing unseen.
+      if (!s.keyed && menu.choices.length) { app.setState({ cursor: 0, keyed: true }); return true; }
       const chosen = menu.choices[s.cursor];
       if (chosen) { app.choose(chosen); }
       return !!chosen;

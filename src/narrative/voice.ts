@@ -41,7 +41,11 @@ export class Voice {
   // whatever her manner; and a temper (goblins wary of a stranger's light) counts for more again.
   // Whether a line can be said of many (the elders) as of one: no verb after the actor's name but one that agrees
   // ("{Actor} [break|breaks] off"), where "{Actor} looks up" is said only of one.
-  static agrees(line: VoiceLine): boolean { return !/\{[Aa]ctor\} (?!\[)[a-z]+s\b/.test(line.text); }
+  // Whether a line can be said of many: no verb fixed to one, before them or after ("says {actor}" of the elders).
+  static agrees(line: VoiceLine): boolean {
+    return !/\{[Aa]ctor\} (?!\[)[a-z]+s\b/.test(line.text)
+      && !/(?<![[|])\b(says|asks|calls|shouts) \{[Aa]ctor\}/.test(line.text);
+  }
   static tiers(kind: string, context: Record<string, string>): VoiceLine[][] {
     const lines = (this.table(kind)?.lines ?? []).filter(l => l.id.startsWith(`${kind}.`) || this.table(kind)?.kinds.length === 1)
       .filter(l => this.matches(l, context));

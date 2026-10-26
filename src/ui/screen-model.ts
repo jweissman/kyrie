@@ -272,7 +272,9 @@ export class ScreenModel {
       // A creature that keeps the peace (a dog on a doorstep, a goat on a tether) is an animal about the place, not a
       // danger; what it is, its role says.
       const animal = !playable && w.test(ModuleWriter.call('peaceable', p.id));
-      const note = (p.state ? undefined : p.condition) ?? (member && !playable && !animal
+      // A creature its author gave a role is said by it ("the tall grey figure that walks the Long Man"), not by its
+      // kind, which may be what the company has yet to find out (an automaton).
+      const note = (p.state ? undefined : p.condition) ?? (member && !playable && !animal && !p.name.includes(', ')
         ? `${Content.race(member.raceId)?.name ?? member.raceId}` : undefined);
       // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
       const look = p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner')) ? undefined

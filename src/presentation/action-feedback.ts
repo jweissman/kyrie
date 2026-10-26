@@ -5,6 +5,8 @@ import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
 import { FictionalTime } from './fictional-time';
 import type { Predicate } from '../lang/module';
+import { PartyCapabilities } from '../campaign/party-capabilities';
+import { Canon } from '../canon/canon';
 
 export interface ActionFeedback {
   attempt: string; result: string; resources: string[]; time: string; immediate: string[]; discoveries: string[];
@@ -21,10 +23,31 @@ export class ActionFeedbackView {
   }
   private static taught(campaign: Campaign, event: CampaignEvent, learned: string[]): { id: string; text: string }[] {
     const observations = campaign.module.observations ?? [];
-    return (event.perceptions ?? []).filter(p => p.kind === 'observation').filter(p => {
-      const teaches = observations.find(o => o.id === p.id.split('@')[0])?.teaches;
-      return !!teaches && learned.includes(teaches);
-    }).map(p => ({ id: p.id, text: p.text }));
+    return (event.perceptions ?? []).filter(p => p.kind === 'observation').flatMap(p => {
+      const o = observations.find(x => x.id === p.id.split('@')[0]);
+      if (!o?.teaches || !learned.includes(o.teaches)) { return []; }
+      const credit = this.credit(campaign, o.when);
+      return [{ id: p.id, text: p.text }, ...credit ? [{ id: `${p.id}:credit`, text: credit }] : []];
+    });
+  }
+  // What was found only with a skill says whose it was (the free play of M16 read the Mower's breastplate by a
+  // scribe's lore, and nothing said so): "It is Hild's lore that makes it out."
+  private static credit(campaign: Campaign, when: Predicate): string | undefined {
+    const skills = this.capabilities(when), live = campaign.readout;
+    const members = live.creatures.filter(c => live.partyIds.includes(c.id));
+    for (const skill of skills) {
+      const who = PartyCapabilities.providers(skill, members).map(c => c.name);
+      const name = Canon.skills[skill]?.name.toLowerCase();
+      if (who.length && name) { return `It is ${this.list(who.map(n => `${n}'s`))} ${name} that makes it out.`; }
+    }
+    return undefined;
+  }
+  private static capabilities(p: Predicate): string[] {
+    if (p.kind === 'call') { return p.name === 'capable' && p.args[1] ? [p.args[1]] : []; }
+    return p.kind === 'and' || p.kind === 'or' ? [...this.capabilities(p.left), ...this.capabilities(p.right)] : [];
+  }
+  private static list(items: string[]): string {
+    return items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items.at(-1)!}`;
   }
   // Whether an observation shows because the company has come to know something it knows now: its condition holds
   // that the company knows it (not that it does not).

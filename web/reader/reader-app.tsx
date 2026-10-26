@@ -46,6 +46,9 @@ export interface AppState {
   stage: string; error: string; help: boolean;
   // The whole story so far, asked for when the Story is opened (frames carry only its last entries).
   story?: Entry[];
+  // The thing the last command was done to, from its own page: what came of it is told there, and not under another
+  // thing looked at after (leave taken of the steward, told under his hook).
+  acted?: string;
 }
 
 // The page. The engine decides everything that happens; this keeps what is on show, which choice the keys are on,
@@ -77,6 +80,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         window.scrollTo({ top: 0 });
       }
     }
+    // So does someone or something turned to (a phone kept the place's scroll, and opened a portrait at its chest).
+    const [was, now] = [prev.attention, this.state.attention];
+    if (now.kind !== 'place' && (was.kind !== now.kind || was.id !== now.id)) { window.scrollTo({ top: 0 }); }
     if (prev.cursor !== this.state.cursor && prev.frame === frame && this.state.keyed && !this.state.hovered) {
       const chosen = document.querySelector<HTMLElement>(`[data-action="choice"][data-index="${this.state.cursor}"]`);
       chosen?.focus({ preventScroll: true });
@@ -188,7 +194,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said)] : [];
       this.setState({ frame: next, pending: undefined, cursor: 0, open: this.kept(next, attention), hovered: undefined,
         view: ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
-        asked: person && !turning ? [...this.state.asked, choice.id] : [] });
+        asked: person && !turning ? [...this.state.asked, choice.id] : [],
+        acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined });
     } catch (error) { this.failed(error); }
   }
   // A conversation goes on: what was open with someone (what to buy from them) stays open, if they are still there
@@ -233,7 +240,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     return { mode, place: frame?.screen.place, path: frame?.screen.path,
       attention: s.attention, talk: s.talk,
       sections: menu.sections.map(sec => ({ id: sec.id, title: sec.title, choices: sec.choices.map(MenuModel.shape) })),
-      choices: menu.choices.map(MenuModel.shape), selected: menu.choices[s.cursor]?.id, trail: s.open,
+      choices: menu.choices.map(MenuModel.shape), selected: s.keyed ? menu.choices[s.cursor]?.id : undefined, trail: s.open,
       combat: frame?.combat, log: (frame?.entries ?? []).slice(-5), party: frame?.screen.party.map(m => ({ name: m.name,
         hp: m.hp })), pending: !!s.pending || s.phase === 'loading', error: s.error, timings: Timings.list,
       keeps: Timings.keeps };

@@ -21,27 +21,45 @@ export class Journeys {
     const ticks = world.number(ModuleWriter.call('travelTime', way));
     if (ticks < 3) { return []; }
     const start = event.elapsed - ticks, chart = this.chart(campaign, from, to);
-    const values = { from: Editor.called(campaign, this.settlement(campaign, from) ?? from),
-      to: Editor.called(campaign, this.settlement(campaign, to) ?? to), way: this.way(campaign, way) };
+    // A way within one town sets out from the place, not the town ("You go out of Merrow" from the Hall yard to the
+    // green).
+    const [town, there] = [this.settlement(campaign, from), this.settlement(campaign, to)];
+    const values = { from: Editor.called(campaign, town && town !== there ? town : from),
+      to: Editor.called(campaign, there ?? to), way: this.way(campaign, way) };
     const sky = world.related('state').find(r => /(^|__)sky$/.test(r.args[0]!))?.args[1]?.replace(/^.*weather_/, '');
     // A way taken before is not told again: setting out and the light going, not the land it runs through nor coming
     // in sight of its end (the follow-up review read familiar journeys in full).
     const again = campaign.history.some(e => e.elapsed < event.elapsed && e.result === 'success'
       && /^go\(/.test(e.action) && e.action.split(',')[1] === way);
     const kinds: [string, Record<string, string>][] = [
-      ['journey-depart', { time: FictionalTime.part(start), sky: this.skies[sky ?? ''] ?? 'fair',
-        ...FictionalTime.early(start) ? { light: 'early' } : {} }],
+      ...this.going(campaign, event, from, start) ? [] : [['journey-depart', { time: FictionalTime.part(start),
+        sky: this.skies[sky ?? ''] ?? 'fair', ...FictionalTime.early(start) ? { light: 'early' } : {} }] as
+        [string, Record<string, string>]],
       ...chart && !again ? [['journey-land', { land: this.land(chart, this.cells(chart, from, to)) }] as [string, Record<string, string>]] : [],
       ...!FictionalTime.dark(start) && FictionalTime.dark(event.elapsed) ? [['journey-dark', {}] as [string, Record<string, string>]] : [],
       ...again ? [] : this.arrival(campaign, to, ticks)];
-    // The closest fit not yet said; a looser fit not yet said before a close one said again.
+    // The closest fit not yet said; a looser fit not yet said before a close one said again. The land is not told
+    // again as it was told a leg or two back (the river crossed twice over in one journey).
+    const recent = new Set(campaign.history.filter(e => e.elapsed < event.elapsed).slice(-4)
+      .flatMap(e => (e.voiced ?? []).map(v => v.id)));
     return kinds.flatMap(([kind, context]) => {
       const tiers = Voice.tiers(kind, context), pool = tiers.find(t => t.some(l => !used.has(l.id))) ?? tiers[0] ?? [];
       const line = Editor.choose(pool, `${campaign.readout.seed}:${event.elapsed}:${kind}`, used);
-      if (!line) { return []; }
+      if (!line || (kind === 'journey-land' && recent.has(line.id))) { return []; }
       Editor.said(used, line.id);
       return [{ id: line.id, kind, text: Voice.render(line.text, { values }) }];
     }).slice(0, 3);
+  }
+  // Going on from where the last way brought the company, in the same part of the day, it is still on its way, and
+  // does not set out again (the M16 free play read "You set out from … and the rain sets out with you" on four legs
+  // running).
+  private static going(campaign: Campaign, event: CampaignEvent, from: string, start: number): boolean {
+    const last = campaign.history.filter(e => e.elapsed < event.elapsed).at(-1);
+    const [, , way, , to] = /^go\(([^,]+),([^,]+),([^,]+),([^)]+)\)$/.exec(last?.action ?? '') ?? [];
+    // A journey's leg, not a step out of a door.
+    const came = last?.result === 'success' && to === from
+      && campaign.world.number(ModuleWriter.call('travelTime', way!)) >= 3;
+    return came && FictionalTime.part(last!.elapsed) === FictionalTime.part(start);
   }
   // What the way is to walk on: a road (and its bridges, fords and causeways), or a path.
   private static way(campaign: Campaign, way: string): string {

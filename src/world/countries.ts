@@ -14,6 +14,9 @@ export interface Country {
   // asked about, what the company knows of it once told, and the notice nailed up in every town, for news that is
   // posted.
   rumour?: string; heard?: string; topic?: string; notice?: { name: string; text: string; talk: string };
+  // Once it is seen through (the country marks what was said of it stale): how the talk goes where its notice hangs,
+  // and what whoever keeps travellers says to the company come back from it ({keeper}).
+  after?: { talk: string; told: string };
 }
 export class Countries {
   static readonly list = countries.countries as Country[];
@@ -38,7 +41,7 @@ export class Countries {
     for (const side of sides) {
       const c = this.fits(region.terrain, side, () => false, seed);
       const told = c?.rumour ? { rumour: c.rumour, heard: c.heard, ...c.topic ? { topic: c.topic } : {},
-        ...c.notice ? { notice: c.notice } : {} } : {};
+        ...c.notice ? { notice: c.notice } : {}, ...c.after ? { after: c.after } : {} } : {};
       if (c) { beyond[side] = { name: c.name, terrain: c.terrain, ...told }; }
     }
     return beyond;

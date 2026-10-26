@@ -63,6 +63,11 @@ describe('The Long Man', () => {
     expect(Dale.said(await Dale.act(s, '^Give a sack of bell-teeth'))).toContain('sound like a bell');
     expect(Dale.holds(s, 'state', 'longman__leak_gate', 'longman__mended')).toBe(true);
     expect(Dale.holds(s, 'at', 'longman__wet', 'longman__core')).toBe(true);
+    // Seen through, the dale is a level's experience to each (its goal had been lost, written in its second file),
+    // and the keeper is gone into the hill, not still standing by the company.
+    const r = s.campaign.readout;
+    expect(r.creatures.filter(c => r.partyIds.includes(c.id)).map(c => c.state.experience)).toEqual([1000, 1000, 1000]);
+    expect(Dale.holds(s, 'at', 'longman__mower', 'longman__leak')).toBe(true);
     await Dale.until(s, 400);
     expect(Dale.holds(s, 'longman__broke', 'longman__long_man')).toBe(false);
     expect(Dale.holds(s, 'longman__drowned', 'longman__low_field')).toBe(false);

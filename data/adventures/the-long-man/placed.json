@@ -13,7 +13,11 @@
     "party"
   ],
   "imports": [
-    "party"
+    "party",
+    "word"
+  ],
+  "optional": [
+    "word"
   ],
   "roles": {
     "party": {

@@ -54,7 +54,7 @@ export interface Region extends Naming {
   // Where it lies in its world, and what the folk call the country beyond each of its borders (see WorldGrid).
   at?: [number, number];
   beyond?: Partial<Record<Side, { name: string; terrain: string; rumour?: string; heard?: string; topic?: string;
-    notice?: { name: string; text: string; talk: string } }>>;
+    notice?: { name: string; text: string; talk: string }; after?: { talk: string; told: string } }>>;
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
@@ -195,7 +195,9 @@ export class RegionWriter {
     ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`, `${w.id}_found`]), ...ways,
     ...roads.map(r => r.land),
     ...zones.flatMap(z => [z.id, ...RegionZones.rooms(region, z)]),
-    ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`]),
+    ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`,
+      // What is said of an authored country beyond, which the country marks old news once it is seen through.
+      ...RegionBorders.remembers(region.beyond?.[b.side]) ? [`${RegionBorders.room(b)}_beyond`] : []]),
     ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),
     ...region.history ? ['history_successors'] : [],
     ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : []];

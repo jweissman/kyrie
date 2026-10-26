@@ -1,5 +1,5 @@
 {
-  "about": "Authored countries a generated world may hold, each where its requirements fit: beyond a march on the side named, of a country of one of the terrains named. The first march a company reaches where one fits leads into it instead of a country drawn from the seed; each is placed once in a world (src/world/frontier.ts). Of the countries among one kind (the independent adventures), a world holds only the one its seed chooses. Each says what the folk of the first region say of it (rumour, with {keeper} whoever keeps travellers in the town it is asked in), what it is asked about (topic), what the company knows of it once told (heard), and, for one whose news is posted, the notice every town of the first region has nailed up (notice).",
+  "about": "Authored countries a generated world may hold, each where its requirements fit: beyond a march on the side named, of a country of one of the terrains named. The first march a company reaches where one fits leads into it instead of a country drawn from the seed; each is placed once in a world (src/world/frontier.ts). Of the countries among one kind (the independent adventures), a world holds only the one its seed chooses. Each says what the folk of the first region say of it (rumour, with {keeper} whoever keeps travellers in the town it is asked in), what it is asked about (topic), what the company knows of it once told (heard), and, for one whose news is posted, the notice every town of the first region has nailed up (notice); and, for one that says when it is seen through, how the talk goes there after and what whoever keeps travellers says to the company come back from it (after).",
   "countries": [
     {
       "id": "longman",
@@ -23,6 +23,10 @@
         "name": "a notice from Merrowdale",
         "text": "A notice in a clerk's hand, carried down from Merrowdale and nailed up where travellers will see it: WHOEVER LAYS THE MOWER THAT WALKS THE LONG MAN SHALL HAVE FORTY CROWNS OF THE STEWARD. A. VENN, FOR THE LORD. Under it someone has written: up the north road, over the march, three days at most.",
         "talk": "A notice from Merrowdale is nailed up where travellers will see it, and half the talk is of the forty crowns it offers and the other half of why nobody has gone."
+      },
+      "after": {
+        "talk": "A notice from Merrowdale still hangs where travellers will see it, curling at the corners. Nobody talks of the forty crowns now: the word down the north road is that the Long Man is quiet.",
+        "told": "{keeper} hears you out, all of it, without a word. 'There was word of it already,' {keeper} says then. 'Off the north road: the thing on the ridge is quiet, and nobody up there talks of forty crowns any more. Nobody said who.' {keeper} looks at you a while longer, then reaches up and takes the notice from Merrowdale down, and puts it on the fire."
       }
     },
     {

@@ -3,10 +3,10 @@
   "kinds": ["part"],
   "lines": [
     { "id": "part.kin.1", "when": { "bond": "kin" }, "text": "{Actor} holds on to you a moment longer than you expect. 'Come home when you can,' {actor} says, and turns back." },
-    { "id": "part.kin.2", "when": { "bond": "kin" }, "text": "'Don't be long,' says {actor}. 'And don't do anything I wouldn't.'" },
-    { "id": "part.friend.1", "when": { "bond": "friend" }, "text": "'You know where to find me,' says {actor}." },
+    { "id": "part.kin.2", "when": { "bond": "kin" }, "text": "'Don't be long,' [say|says] {actor}. 'And don't do anything I wouldn't.'" },
+    { "id": "part.friend.1", "when": { "bond": "friend" }, "text": "'You know where to find me,' [say|says] {actor}." },
     { "id": "part.hire.1", "when": { "bond": "hire" }, "text": "{Actor} nods, settles {their} pack, and goes {their} own way without looking back." },
-    { "id": "part.fellow.1", "when": { "bond": "fellow" }, "text": "'Here's where I leave you,' says {actor}. 'Mind the road.'" },
+    { "id": "part.fellow.1", "when": { "bond": "fellow" }, "text": "'Here's where I leave you,' [say|says] {actor}. 'Mind the road.'" },
     { "id": "part.fellow.2", "when": { "bond": "fellow" }, "text": "{Actor} lifts a hand, and is gone round the bend of the road." },
     { "id": "part.escort.1", "when": { "bond": "escort" }, "text": "{Actor} nods, and lets you go about your business." },
     { "id": "part.stranger.1", "when": { "bond": "stranger" }, "text": "{Actor} goes {their} own way." },

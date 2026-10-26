@@ -39,7 +39,7 @@
       "when": {
         "moment": "first"
       },
-      "text": "‘You’re not from here,’ says {actor}. It is not a question, and not quite unfriendly."
+      "text": "‘You’re not from here,’ [say|says] {actor}. It is not a question, and not quite unfriendly."
     },
     {
       "id": "address.first.4",
@@ -53,7 +53,7 @@
       "when": {
         "moment": "again"
       },
-      "text": "‘You again,’ says {actor}, and it seems to be all right."
+      "text": "‘You again,’ [say|says] {actor}, and it seems to be all right."
     },
     {
       "id": "address.again.2",
@@ -83,7 +83,7 @@
         "moment": "first",
         "time": "morning"
       },
-      "text": "‘Morning,’ says {actor}, the way people say it before they have decided about you."
+      "text": "‘Morning,’ [say|says] {actor}, the way people say it before they have decided about you."
     },
     {
       "id": "address.again.night",
@@ -91,7 +91,7 @@
         "moment": "again",
         "time": "night"
       },
-      "text": "‘Still about?’ says {actor}. ‘You’ll want your bed, like the rest of us.’"
+      "text": "‘Still about?’ [say|says] {actor}. ‘You’ll want your bed, like the rest of us.’"
     },
     {
       "id": "address.first.cheerful",
@@ -99,7 +99,7 @@
         "moment": "first",
         "manner": "cheerful"
       },
-      "text": "‘Well now,’ says {actor}, brightening at the sight of a new face. ‘What brings you?’"
+      "text": "‘Well now,’ [say|says] {actor}, brightening at the sight of a new face. ‘What brings you?’"
     },
     {
       "id": "address.first.cheerful.2",
@@ -115,7 +115,7 @@
         "moment": "again",
         "manner": "cheerful"
       },
-      "text": "‘There you are!’ says {actor}, as if {they} had been expecting you."
+      "text": "‘There you are!’ [say|says] {actor}, as if {they} had been expecting you."
     },
     {
       "id": "address.first.grim",
@@ -139,7 +139,7 @@
         "moment": "again",
         "manner": "grim"
       },
-      "text": "‘You,’ says {actor}, neither pleased nor otherwise."
+      "text": "‘You,’ [say|says] {actor}, neither pleased nor otherwise."
     },
     {
       "id": "address.first.stoic",
@@ -163,7 +163,7 @@
         "moment": "first",
         "manner": "jovial"
       },
-      "text": "‘Now then!’ says {actor}, loud enough for anyone near to hear. ‘A new face. What can I do for you?’"
+      "text": "‘Now then!’ [say|says] {actor}, loud enough for anyone near to hear. ‘A new face. What can I do for you?’"
     },
     {
       "id": "address.again.jovial",
@@ -171,7 +171,7 @@
         "moment": "again",
         "manner": "jovial"
       },
-      "text": "‘Back for more of my wisdom,’ says {actor}. ‘Can’t say I blame you.’"
+      "text": "‘Back for more of my wisdom,’ [say|says] {actor}. ‘Can’t say I blame you.’"
     },
     {
       "id": "address.first.compassionate",
@@ -187,7 +187,7 @@
         "moment": "again",
         "manner": "compassionate"
       },
-      "text": "‘How are you getting on?’ asks {actor}, and seems to want to know."
+      "text": "‘How are you getting on?’ [ask|asks] {actor}, and seems to want to know."
     },
     {
       "id": "address.first.proud",
@@ -203,7 +203,7 @@
         "moment": "first",
         "manner": "proud"
       },
-      "text": "‘I don’t know you,’ says {actor}, and waits to be told why {they} should."
+      "text": "‘I don’t know you,’ [say|says] {actor}, and waits to be told why {they} should."
     },
     {
       "id": "address.again.proud",
@@ -219,7 +219,7 @@
         "moment": "first",
         "manner": "acerbic"
       },
-      "text": "‘Lost?’ says {actor}. ‘People usually are, when they come over to me.’"
+      "text": "‘Lost?’ [say|says] {actor}. ‘People usually are, when they come over to me.’"
     },
     {
       "id": "address.first.acerbic.2",
@@ -235,7 +235,7 @@
         "moment": "again",
         "manner": "acerbic"
       },
-      "text": "‘Oh, it’s you,’ says {actor}. ‘I wondered when you’d be back to bother me.’"
+      "text": "‘Oh, it’s you,’ [say|says] {actor}. ‘I wondered when you’d be back to bother me.’"
     },
     {
       "id": "address.kin.first",
@@ -251,7 +251,7 @@
         "bond": "kin",
         "moment": "again"
       },
-      "text": "‘What is it?’ says {actor}, as family say it: not unkindly, and not getting up."
+      "text": "‘What is it?’ [say|says] {actor}, as family say it: not unkindly, and not getting up."
     },
     {
       "id": "address.kin.again.2",
@@ -275,7 +275,7 @@
         "bond": "expected",
         "moment": "first"
       },
-      "text": "‘You’ve come a long way to find somebody,’ says {actor}. ‘Is it me?’"
+      "text": "‘You’ve come a long way to find somebody,’ [say|says] {actor}. ‘Is it me?’"
     },
     {
       "id": "address.creditor.first",
@@ -291,7 +291,7 @@
         "bond": "creditor",
         "moment": "again"
       },
-      "text": "‘Well?’ says {actor}, and looks at your purse rather than at you."
+      "text": "‘Well?’ [say|says] {actor}, and looks at your purse rather than at you."
     },
     {
       "id": "address.friend.first",
@@ -307,7 +307,7 @@
         "bond": "friend",
         "moment": "again"
       },
-      "text": "‘Sit down a minute,’ says {actor}. ‘You make me tired, standing.’"
+      "text": "‘Sit down a minute,’ [say|says] {actor}. ‘You make me tired, standing.’"
     },
     {
       "id": "address.neighbour.first",
@@ -323,7 +323,7 @@
         "bond": "neighbour",
         "moment": "first"
       },
-      "text": "‘You’re back, then,’ says {actor}, as if you had been gone a week and not three years."
+      "text": "‘You’re back, then,’ [say|says] {actor}, as if you had been gone a week and not three years."
     },
     {
       "id": "address.neighbour.again",
@@ -347,7 +347,7 @@
         "bond": "fellow",
         "moment": "again"
       },
-      "text": "‘Thinking something?’ says {actor}. ‘You’ve got that look.’"
+      "text": "‘Thinking something?’ [say|says] {actor}. ‘You’ve got that look.’"
     },
     {
       "id": "address.wary.first.1",

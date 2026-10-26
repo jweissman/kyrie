@@ -31,6 +31,12 @@ describe('the way into Merrowdale', () => {
       ['the door of the Wooden Wolf', 'the Karavor road', 'the Karavor road', 'the old road north']]);
     const done = await Travel.go({ campaign: c, perform: command => s.perform(command) }, to!.id);
     expect([done.arrived, done.stopped, done.legs.length]).toEqual([true, undefined, 4]);
+    // Told as one journey: it sets out once, not on every leg, and the land is not told twice over (the free play
+    // read "You set out from …, and the rain sets out with you" on four legs running).
+    const voiced = done.legs.flatMap(l => l.event.voiced ?? []);
+    expect(voiced.filter(v => v.kind === 'journey-depart').length).toBe(1);
+    const land = voiced.filter(v => v.kind === 'journey-land').map(v => v.text);
+    expect(new Set(land).size).toBe(land.length);
     expect(c.world.one('at', c.playerActor!)).toBe('region__edge_north');
     // Each leg is an ordinary command in the transcript, so the journey replays as it was made.
     expect(s.transcript.steps.slice(-4).every(step => step.command.startsWith('go('))).toBe(true);

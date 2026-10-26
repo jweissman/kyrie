@@ -28,7 +28,11 @@ export interface Told { event: CampaignEvent; feedback: ActionFeedback; said?: s
 // passing life of a place is told the first time, the sky when the company comes under it or it changes, and the
 // sky not at all beneath a roof or underground.
 export class Narrator {
-  static readonly weary = 'It is a long time since anyone slept. The company is weary, and will fight the worse for it until it sleeps.';
+  // Weariness come on, said to one as to one ("The company is weary" for one traveller was the M16 free play's).
+  static weary(one: boolean): string {
+    return one ? 'It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.'
+      : 'It is a long time since anyone slept. The company is weary, and will fight the worse for it until it sleeps.';
+  }
   static leaf(campaign: Campaign, screen: Screen, told?: Told): Leaf {
     const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
     const seenBefore = this.seenBefore(campaign);
@@ -231,7 +235,8 @@ export class Narrator {
       ...voiced,
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''),
         kind: fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
-      ...event.changes.includes(`+ weary(${campaign.playerActor})`) ? [{ text: Narrator.weary, kind: 'event' as const }] : [],
+      ...event.changes.includes(`+ weary(${campaign.playerActor})`)
+        ? [{ text: Narrator.weary(campaign.readout.partyIds.length === 1), kind: 'event' as const }] : [],
       ...waiting ? [] : seen,
     // What someone says, whether answering or of their own accord (a companion's word on coming somewhere), is speech.
     ].map(l => ({ ...l, kind: ['telling', 'event'].includes(l.kind) && /^['‘"“]/.test(l.text) ? 'speech' as const : l.kind }));

@@ -4,7 +4,8 @@
   "lines": [
     { "id": "turn.spell.1", "when": { "cause": "spell" }, "text": "{Actor} [see|sees] the spell begin, and [take|takes] it for what it is: an attack. Weapons come out." },
     { "id": "turn.attack.1", "when": { "cause": "attack" }, "text": "{Actor} [turn|turns] on you. There is no taking it back now." },
-    { "id": "turn.theft.1", "when": { "cause": "theft" }, "text": "{Actor} [see|sees] what you have taken. From now on {they} [are|is] no friend of yours." },
+    { "id": "turn.theft.1", "when": { "cause": "theft", "present": "here" }, "text": "{Actor} [see|sees] what you have taken. From now on {they} [are|is] no friend of yours." },
+    { "id": "turn.theft.away", "when": { "cause": "theft", "present": "away" }, "text": "Word reaches {actor} of what you have taken. From now on {they} [are|is] no friend of yours." },
     { "id": "turn.toll.1", "when": { "cause": "toll" }, "text": "{Actor} will not forget that you ran the toll." },
     { "id": "turn.any.1", "text": "{Actor} [are|is] against you now." }
   ]

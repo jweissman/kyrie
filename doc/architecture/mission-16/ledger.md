@@ -10,7 +10,7 @@ deliberately left. Newest entries first in each part. The plan and its decisions
 | A. A transformed, trustworthy interface | in production: the place, road, conversation, object and fight pages on one white page; the Character view from the start, with development and its previews |
 | B. The way into adventure | in production for every world Begin draws: Merrowdale's notice and rumour in every first-country town, its road known, one journey there; free play from Begin across seeds still to do |
 | C. A complete RPG expedition | in production: The Long Man played from Begin in two drawn worlds (Lonelymoor, Coldwaste) to its peaceful end, with withdrawal, return and a reload midway; its findings repaired; the storm and its aftermath still to play |
-| D. Becoming and continuing | in part: seen through for 1,000 experience, level 2 after a night under a roof, a development chosen in the Character view by what it opens; the Story whole across reloads; Saltgrave entered from the same world. The return is not yet acknowledged |
+| D. Becoming and continuing | in production: seen through for 1,000 experience, level 2 after a night under a roof, a development chosen in the Character view by what it opens; the return acknowledged in the country below; the Story whole across reloads; Saltgrave entered from the same world. The deep rivals' brothers still to follow as the offstage diagnostic |
 | E. Independent acceptance and accounting | not begun |
 
 ## The baseline (`0e066e5`, the public page, seed drawn by Begin)
@@ -28,6 +28,34 @@ Played from the title page at 1280 × 860:
   - the road across the march told as fen ("Out on the fen the sky is enormous") in a frost country.
 
 ## Done and verified
+
+- **D. A world that remembers the company coming back.** Merrowdale, seen through, marks what the country below says
+  of it old news: the country imports the first region's rumour of it (optional, so a world kept from before goes on
+  without). The country below then says so.
+  - Where the notice hangs, the talk is of the word down the north road.
+  - The forty crowns are no longer asked about.
+  - Whoever keeps travellers can be told "you have been to Merrowdale", and answers with what the road brought down
+    first ("There was word of it already… Nobody said who"), which keeps the report apart from the company's own
+    part. Then the notice goes on the fire.
+
+  The same plays repaired the telling of the way there and back:
+  - A journey sets out once, not on every leg, and does not tell the same land twice over.
+  - A walk inside one town does not "go out of" it.
+  - A road page offers "Set out for", so a journey stopped on the road can be taken up there.
+  - One traveller is weary as "you", not "the company".
+
+  And the pages:
+  - A thing's page tells what came of the last act only when it was done to that thing, from there.
+  - A creature its author gave a role is said by it (the Mower's danger line said "Automaton", what the dale has to
+    find out).
+  - What was found only by a skill says whose it was ("It is Hild's lore that makes it out").
+  - Word of a theft reaches someone who was not there, rather than their seeing it.
+  - Lines said of many agree with them ("say the elders").
+  - The keys' first arrow shows where they are rather than passing over the first choice, and Enter does nothing
+    unseen.
+  - Turning to someone opens their page at the top, so a phone shows the face, not the coat.
+
+  Tests: `test/return.test.ts`, `test/travel.test.ts`, `test/voice.test.ts`.
 
 - **C, D. The Long Man, played from Begin.** Two free plays from the title page, in worlds Begin drew. Lonelymoor: a
   dwarf warrior on the brothers' errand. Coldwaste: a human warrior who owes a smith fifty coin. Begin to Merrow
@@ -130,20 +158,9 @@ Played from the title page at 1280 × 860:
 
 ## Found, not yet done
 
-- **The return is not acknowledged.** Back in Machatdûm after Merrowdale, the innkeeper who sent the company
-  greets it as anyone. The notice and the talk of forty crowns go on as if nothing had happened.
-- **A journey says it sets out on every leg:** "You set out from X in the middle of the afternoon, and the rain sets
-  out with you" on four legs running. Climbing down a shaft is told as a walk in the rain. "The road follows the
-  river a while…" and "Partway, the road goes down to the water…" came on two legs of one journey.
-- **A road page offers no "Set out for",** so a journey stopped on the road cannot be taken up again from there.
+- **Climbing down a shaft is told as a walk in the rain** ("You leave the gauge stone with your hood up").
 - From the plays:
-  - the Mower's danger line says "Automaton", which gives away what the dale must discover;
-  - Hild's lore read the Mower's breastplate, but nothing says it was her learning that did;
-  - a thing page shows the last exchange even when it was about someone else;
   - the gauge shaft, once climbable, is listed among the roads out;
-  - "The company is weary" for a company of one;
-  - "You go out of Merrow" from the Hall yard to the green;
-  - "Aldous Venn sees what you have taken" while he is in his study;
   - the map draws the south road hanging from the Drowned Ox;
   - state names as notes ("worn", "hung") and "Examine — Look closely".
 

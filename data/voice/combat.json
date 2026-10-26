@@ -55,7 +55,7 @@
         ],
         "side": "company"
       },
-      "text": "'That,' says {actor} through {their} teeth, 'is going to hurt in the morning.'"
+      "text": "'That,' [say|says] {actor} through {their} teeth, 'is going to hurt in the morning.'"
     },
     {
       "id": "flee.kyr.beast.1",
@@ -469,7 +469,7 @@
       "when": {
         "role": "novice"
       },
-      "text": "‘Retreat! Retreat!’, shouts {actor}.",
+      "text": "‘Retreat! Retreat!’, [shout|shouts] {actor}.",
       "source": {
         "orsino": "barks:npc.Novice.onFlee"
       }
@@ -619,7 +619,7 @@
       "when": {
         "role": "gravedigger"
       },
-      "text": "'Keep away from the graves!', shouts {actor}.",
+      "text": "'Keep away from the graves!', [shout|shouts] {actor}.",
       "source": {
         "orsino": "barks:npc.Gravedigger.onEngage"
       }
