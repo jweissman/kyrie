@@ -23,6 +23,8 @@ Module home "The house you grew up in" {
   Topic letter with mother "Ask your mother about the letter" when true {
     Says "'I didn't know who else to write to,' says your mother. She does not cry. She has done that already.".
   }
+  // Said near him, wherever he is: on the road, where the company is (Tessary's W4).
+  Event wat_lane near brother when travelsWith(brother, party) and at(party, lane) "Wat stops at the gate and looks down the lane, the way Father went with the cart.".
   Observe lane_scene at lane when true "The lane comes down between thorn hedges to the yard gate. Smoke from the kitchen chimney, and nobody about.".
   Observe yard_scene at yard when true "The yard, swept. The cart-shed stands empty.".
   Observe kitchen_scene at kitchen when true "The kitchen, warm, and smelling of bread and wet wool.".

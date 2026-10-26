@@ -158,7 +158,7 @@ noted beside the finding it answers, and is not itself a finding until play call
 | AUT-10 | `Buys` without coin; `Sells` by a non-trader | LW-14, 15 | Open (E) | |
 | AUT-11 | Levels must sit in a site; ending precedence by order; a one-way way reported as a duplicate | LW-16, 17, 21 | Open (E) | |
 | AUT-12 | Journey driver gaps; a step label matching another's topic; a rule's says missing from `told` | LW-22, 24, 25 | Open (E) | |
-| AUT-13 | Companion anchoring: `near` a companion never fires once they travel | TS-W4; RD-B5 | Open (E) | |
+| AUT-13 | Companion anchoring: `near` a companion never fires once they travel | TS-W4; RD-B5 | Fixed | One who travels with a company is near wherever the company is (`LocalObservations.near`): Wat's words on the lane, anchored near him, are heard once he has joined (`test/voice.test.ts`, which fails without it). Found again in the drover's son (NAR-18) |
 | AUT-14 | Handing an item over (`Gives`) | TS-W3 | Open (E) | |
 | AUT-15 | No comparison between entities (`?p != x`) | TS-W5 | Open (E) | |
 | AUT-16 | An owner's objection that is not hostility | TS-W8 | Open (E) | |

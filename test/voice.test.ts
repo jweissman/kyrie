@@ -158,3 +158,14 @@ describe('the hour, as the voice tables have it', () => {
     expect(hour()).toEqual(['day', 'underground']);
   }, 120000);
 });
+
+// What a companion says is said where they are, and one who has joined the company is where it is: words anchored
+// near someone were never heard once they had joined (What Tessary Owes, W4; the drover's son at his father's grave).
+describe('a companion\'s own words', () => {
+  it('are heard where the company is, once they have joined it', async () => {
+    const s = await Household.start();
+    for (const step of ['yard gate', 'back door', 'Ask Wat to join', 'back door']) { await Household.act(s, step); }
+    const e = await Household.act(s, 'yard gate');
+    expect((e.perceptions ?? []).map(p => p.text)).toContain('Wat stops at the gate and looks down the lane, the way Father went with the cart.');
+  }, 60000);
+});
