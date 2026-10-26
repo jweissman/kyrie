@@ -52,10 +52,10 @@ Module calamy "A Parliament of Books" {
     Says "The Canon puts down her book and goes out into the nave, and kneels down in front of Martha Coyle so that her face is level with the book in Martha's lap, and says, 'I'm Ruth. What do you want?' The book tells her. It takes a long time. When it is done the Canon stays kneeling a moment more, and then gets up, with a hand on the bench, and her knees crack. 'Well, that's settled,' she says. 'Nothing that can ask not to be buried is buried in my churchyard. Harry goes in alone on Thursday. The book goes home with you, Martha.' She looks up at the great lamp. 'I shall have to write to the Bishop of Ostrey, and he will have to write back, and it will take two years, and I will be right.'".
     On discuss { Assert canonRuled(abery). }
   }
-  Rule funeral when day(clock) == 3 and hour(clock) == 10 and not bookBuried(harrybook) and not canonRuled(abery) and not readKind(martha) and not readWhole(martha)
+  Rule funeral at nave when day(clock) == 3 and hour(clock) == 10 and not bookBuried(harrybook) and not canonRuled(abery) and not readKind(martha) and not readWhole(martha)
     says "The bell of the Lamp tolls for Harry Coyle, and they bury him in the churchyard under the north wall, with his commonplace book on his chest, shut." {
     Assert bookBuried(harrybook). Assert at(harrybook, nowhere_wedding). }
-  Rule funeral_read when day(clock) == 3 and hour(clock) == 10 and not bookBuried(harrybook) and not canonRuled(abery) and (readKind(martha) or readWhole(martha))
+  Rule funeral_read at nave when day(clock) == 3 and hour(clock) == 10 and not bookBuried(harrybook) and not canonRuled(abery) and (readKind(martha) or readWhole(martha))
     says "The bell of the Lamp tolls for Harry Coyle. Martha Coyle follows the coffin out to the churchyard with the commonplace book under her arm, and when it comes to it, at the grave's edge, she does not put it in." {
     Assert canonRuled(abery). }
   Observe grave_voice at close_green when bookBuried(harrybook) and dark() "From the churchyard under the north wall, very faint, if you stand still, a voice like someone reading in the next room.".

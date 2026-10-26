@@ -3,7 +3,7 @@ Module calamy "A Parliament of Books" {
 
   // ── The ways in and home. ──
   Passage stacks_way "the far end of the back stacks" is passage between crake_stacks and remainder_market taking 30 minutes
-    opening when carries(party, place_ribbon) "The aisle runs on into the dimness, bay after bay; but however far you walk down it, you find yourself walking back toward the shop.".
+    opening when carries(party, place_ribbon) "An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began.".
   Action come_home(actor: group, site: place) "Ask the Catalogue to let you go home by the Founders' door" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, reading_room) and entered(actor) and not polling(chamber).
     Time 6.
@@ -20,7 +20,7 @@ Module calamy "A Parliament of Books" {
   Relation colophonRenewed(place). Relation yearBookBurned(group). Relation spokeAtFire(group). Relation canonKindling(group).
   Relation rhuleAdvocate(group). Relation rhuleBinder(group). Relation rhuleBurner(group).
   Rule kindling_gathers at ashpit when day(clock) == 9 and hour(clock) == 18 and not kindlingBegun(ashpit)
-    says "Calamy comes to the Ashpit. They come over the bridge and down the Gannet Steps and in from Newmarket and up from the Hithe: whole households, carrying lanterns not yet lit, and under their arms, in their aprons, in their children's hands, last year's almanack." {
+    says "And still they come: over the bridge and down the Gannet Steps and in from Newmarket and up from the Hithe: whole households, carrying lanterns not yet lit, and under their arms, in their aprons, in their children's hands, last year's almanack." {
     Assert kindlingBegun(ashpit). Assert at(crowd, ashpit). }
   Observe kindling_crowd at ashpit when kindlingBegun(ashpit) and not kindlingDone(ashpit) "The Ashpit is packed to the walls with Calamy: millers and binders and printers and fishwives, students on the Guildhall steps, the Lord Mayor on a cart. The great pile stands in the middle, unlit, taller than the Guildhall door. Everyone has an unlit lantern. Almost everyone has an almanack. And the almanacks, all of them, in all their hands, are quite silent.".
   Topic canon_kindling with abery "Tell Canon Abery what the Kindling was, and that the almanacks have not given their leave" when knows(actor, kindling_is_rite) and not canonKindling(abery) once {

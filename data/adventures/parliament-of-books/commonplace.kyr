@@ -1,35 +1,35 @@
 Module calamy "A Parliament of Books" {
   Description "The Commonplace: the country where Calamy's Sewn books go home. Its ground is the marginalia of every reader; its light is attention; its blight is the foxing of the unread; its roads are sentences.".
 
-  Place commonplace "the Commonplace" is region.
-  Place near_stacks "the Near Stacks" is wilderness within commonplace at 1, 0.
-  Place margin_country "the Margin" is wilderness within commonplace at 1, 1.
+  Place commonplace "the Commonplace" is region elsewhere.
+  Place near_stacks "the Near Stacks" is wilderness within commonplace at 1, 0 elsewhere.
+  Place margin_country "the Margin" is wilderness within commonplace at 1, 1 elsewhere.
   Place housebook_site "the Annery Housebook" is site within commonplace at 0, 1.
   Place orme_site "Mother Orme's garden" is site within commonplace at 2, 1.
-  Place foxing "the Foxing" is wilderness within commonplace at 1, 2.
+  Place foxing "the Foxing" is wilderness within commonplace at 1, 2 elsewhere.
   Place wellhead_site "the Wellhead" is site within commonplace at 1, 3.
   Place vask_site "the Tower of Oddny Vask" is site within commonplace at 2, 2.
   Place roll_site "the Roll" is site within commonplace at 0, 0.
 
-  Place reading_room "the Reading Room of the Catalogue" is room within near_stacks at 0, 0 outdoors.
-  Place remainder_market "the Remainder Market" is room within near_stacks at 2, 0 outdoors.
-  Place draft_fields "the Draft-Fields" is room within near_stacks at 3, 0 outdoors.
-  Place margin "the white country of the Margin" is room within margin_country at 0, 0 outdoors.
-  Place gloss_wood "the wood of glosses" is room within margin_country at 1, 0 outdoors.
-  Place margin_edge "the outer edge of the Margin" is room within margin_country at 2, 0 outdoors.
+  Place reading_room "the Reading Room of the Catalogue" is room within near_stacks at 0, 0.
+  Place remainder_market "the Remainder Market" is room within near_stacks at 2, 0.
+  Place draft_fields "the Draft-Fields" is room within near_stacks at 3, 0.
+  Place margin "the white country of the Margin" is room within margin_country at 0, 0.
+  Place gloss_wood "the wood of glosses" is room within margin_country at 1, 0.
+  Place margin_edge "the outer edge of the Margin" is room within margin_country at 2, 0.
   Place hb_below "below the footnote" is level within housebook_site.
-  Place hb_porch "the porch of the Annery Housebook" is room within hb_below at 0, 0 outdoors.
+  Place hb_porch "the porch of the Annery Housebook" is room within hb_below at 0, 0.
   Place hb_kitchen "the Housebook's kitchen" is room within hb_below at 0, 1.
   Place hb_nursery "the Housebook's nursery" is room within hb_below at 1, 1.
   Place hb_cellar "the Housebook's cellar" is room within hb_below at 0, 2.
-  Place orme_garden "Mother Orme's garden" is room within orme_site at 0, 0 outdoors.
-  Place foxing_edge "the edge of the Foxing" is room within foxing at 0, 0 outdoors.
-  Place foxing_deep "the deep Foxing" is room within foxing at 0, 1 outdoors.
-  Place wellhead "the Wellhead" is room within wellhead_site at 0, 0 outdoors.
-  Place vask_foot "the foot of the Tower of Oddny Vask" is room within vask_site at 0, 1 outdoors.
+  Place orme_garden "Mother Orme's garden" is room within orme_site at 0, 0.
+  Place foxing_edge "the edge of the Foxing" is room within foxing at 0, 0.
+  Place foxing_deep "the deep Foxing" is room within foxing at 0, 1.
+  Place wellhead "the Wellhead" is room within wellhead_site at 0, 0.
+  Place vask_foot "the foot of the Tower of Oddny Vask" is room within vask_site at 0, 1.
   Place vask_upper "the head of the tower" is level within vask_site.
   Place vask_top "the top of the Tower of Oddny Vask" is room within vask_upper at 0, 0.
-  Place chamber "the Chamber of the Parliament" is room within roll_site at 0, 0 outdoors.
+  Place chamber "the Chamber of the Parliament" is room within roll_site at 0, 0.
 
   Initially Assert planeRoom(reading_room). Initially Assert planeRoom(remainder_market). Initially Assert planeRoom(draft_fields).
   Initially Assert planeRoom(margin). Initially Assert planeRoom(gloss_wood). Initially Assert planeRoom(margin_edge).
@@ -76,7 +76,7 @@ Module calamy "A Parliament of Books" {
   Observe wellhead_scene at wellhead when true "At the end of the parenthesis a spring rises out of the paper: not water but ink, black and bright, welling up in a round stone basin and spilling over the lip and running away in every direction in little black streams that are, when you look closely, lines of writing, going off to become something. This is where things are first written. The air smells of oak-gall and of rain. In the basin, under the surface, very old letters turn over slowly, as stones turn in a stream, and come up, and go down again.".
   Discovery wellhead_read "At the Wellhead, the first words ever written in Calamy still turn over in the ink: WE ASK TO SLEEP. LET US GO HOME AND COME WHEN WE ARE CALLED. AND LET NONE BURN US BUT AS WE CONSENT. THE BOOKS OF CALAMY, TO AMBERY THE BINDER. The Colophon was the books' petition before it was the city's bargain.".
   Thing first_words "the first words" at wellhead {
-    State turning "Old letters turn over slowly under the ink in the stone basin.".
+    State turning "The first words wait in the basin to be read, if anyone will lean over and look.".
   }
   Observe first_read at wellhead of first_words as reading when tried(first_words, looking) "You lean over the basin and wait, and the old letters come up, one line after another, and go down again, and come up: WE ASK TO SLEEP. LET US GO HOME AND COME WHEN WE ARE CALLED. AND LET NONE BURN US BUT AS WE CONSENT. THE BOOKS OF CALAMY, TO AMBERY THE BINDER. And then a long line of small marks, each different, under it, that you understand after a while are signatures, hundreds of them, the marks of every book that was written in Calamy in its first year, every one of which signed." teaches wellhead_read.
   Observe vask_foot_scene at vask_foot when true "At the end of the black-letter road a tower stands up out of the paper, black, narrow, windowless, its stones cut with letters so heavy and ornate they are hard to read and harder to look at. Three great chains come out of its top and go away across the sky in three directions, very taut, humming.".

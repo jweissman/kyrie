@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Calamy, C, Steps } from './support/calamy';
+import { Arcs, Calamy, C, Steps } from './support/calamy';
 import type { Journey } from '../src/session/journey';
 import type { CreatureGenerationContext } from '../src/content';
 
@@ -32,6 +32,21 @@ describe('A Parliament of Books: the Manuals', () => {
     expect(j.offers('study Corday.s Grammar')).toBe(false);
     expect(Calamy.said(j)).toContain('Go and be beaten by a few people first');
   }, 300000);
+
+  it('takes Orme\'s cut chapters home from the Imprimatur, by Rhule\'s leave; the Physick\'s beds come back, and she gives a leaf',
+    async () => {
+      const j = await Calamy.start('physick');
+      await Calamy.play(j, ...Arcs.rhuleKept, 'go:taproom', 'Talk to Moll', 'about the Kindling', 'Take your leave',
+        'go:nance_room', 'Talk to Goody Nance', 'about the ague', 'Take your leave', '=218', 'go:imp_kitchen', 'Talk to Hester',
+        'pages she reads at night', 'Orme.s cut chapter', 'Take your leave', 'go:excisions', "Orme's cut chapters: Take");
+      expect(Calamy.knows(j, 'orme_cut')).toBe(true);
+      await Calamy.play(j, '=294', ...stacks, 'go:orme_garden', 'Talk to Mother', 'where she stands', 'Take your leave',
+        "Give Orme's cut chapters");
+      expect(Calamy.holds(j, 'ormeRestored', 'physick')).toBe(true);
+      await Calamy.play(j, 'Talk to Mother', 'anything in her garden', 'Take your leave');
+      expect(Calamy.holds(j, 'ormeGave', 'physick')).toBe(true);
+      expect(Calamy.said(j)).toContain('tangerine and church');
+    }, 300000);
 
   it('keeps the Primer\'s last lesson for whoever read it aloud in the Foxing, at any level: wisdom, by one', async () => {
     const j = await Calamy.start('primer', one('warrior', 'soldier', 1));

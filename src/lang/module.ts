@@ -15,7 +15,8 @@ export type PlaceKind = 'plane' | 'region' | 'settlement' | 'wilderness' | 'site
 export type MovementMode = 'walk' | 'enter' | 'leave' | 'ascend' | 'descend' | 'travel' | 'cross_plane';
 // Whether a place is under the sky, under a roof or under the ground: what can be seen and felt there of the weather
 // and the day.
-export type Shelter = 'outdoors' | 'indoors' | 'underground';
+// Elsewhere: a place out of the world (a plane, a dream) with no sky over it and no hour told in it.
+export type Shelter = 'outdoors' | 'indoors' | 'underground' | 'elsewhere';
 export interface PlaceDefinition { kind: PlaceKind; parent?: string; grid?: [number, number]; shelter?: Shelter }
 export interface ExitDefinition {
   passage?: string; origin: string; destination: string; mode: MovementMode; door?: string; knowledge?: string;

@@ -32,7 +32,7 @@ raise a quality only by spending a level's development (`improve`). A Manual is 
 development is *not*: a permanent gift from outside the ordinary course. Added:
 
 - `Resolve endow(member, quality, degree)`, with `Kind degree` and `by_one`, `by_two`, `by_three` in the shared rules
-  (`care.kyr`). The quality rises by that much, never past twenty. It spends nothing; the module that offers it says
+  (`care.kyr`). The quality rises by that much, never past twenty-five (first written as twenty; a level-ten mage already has twenty-one). It spends nothing; the module that offers it says
   what it costs.
 - `Measure levelOf(member)`, projected for every member, so that a module can say what a Manual asks of its reader
   (`levelOf(reader) >= 5`).

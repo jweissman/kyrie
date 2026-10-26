@@ -1,0 +1,82 @@
+# The map: Calamy and the Commonplace
+
+*A spatial account, as built. Grid positions are the module's own (`at x, y`); minutes are the passages' own. The
+city is about eighty rooms in seven districts and a marsh; the Commonplace eighteen rooms in nine places.*
+
+## The city on its river
+
+```
+                 GANNET HILL (0,0)                    THE GARDENS (2,0)
+        Lyceum quad · Schools · Tower of Rounds     Orchard Walk · physic garden
+        Chained Room · Provost's Lodging            Corvell House · Quennell's library
+                    │ Gannet Steps (6 min)               │ Orchard Walk (6)
+   STITCHGATE (0,1) │       THE CLOSE (1,1)              │      NEWMARKET (2,1)
+   Stitch Gate ─ Needle St   Close green ─ Ashpit ─ Court steps   Newmarket ─ Doble's yard
+   Inkhorn Lane · Scriveners' Row ──Clerks' Gate──┘   └─east gate (5)─┘  Doble's Press
+   Gutter Lane ─ Lantern Yard  Church of the Lamp · Court of Pleas
+   Binders' Hall · ink shop    Guildhall · the Imprimatur (and a locked room)
+   Crake's "Two Hands"          ▲ Water Gate
+   dame school                  │ Jonah's night ferry (15 min, licensed)
+        │ river stair (4)       │
+   ═══ THE PENNY BRIDGE (1,2) ══╪═════ road along the river wall (6) to Newmarket
+       north end ─ chapel pier ─ south end   (the chain goes up at curfew)
+                                │ bridge foot (3)
+                       THE HITHE (1,3)                                 THE CALAMIES (3,3)
+   ferry stairs ─ quay ─ rag market ─ millrace walk ─ mudbank ─ path over the flats (40) ─ reed edge
+   the Lamb and Lantern · Customs yard and bond                       ├ the saltings (Gil's sheep)
+   Pudding Lane: garret house, the midwife's · the two mills           └ heart of the reeds (calamus)
+   the causeway over the saltings (the way in from the world)
+```
+
+**How it is walked.** The causeway brings a traveller to the Hithe quay; everything else is a few minutes' walk.
+From the quay, the bridge (eleven minutes end to end) to Stitchgate's river stair; from Stitchgate's Scriveners' Row,
+the Clerks' Gate into the Close; from the Close, up the Gannet Steps to the Lyceum, or out by the east gate to
+Newmarket and on to the Gardens. Two things make the geography matter:
+
+- **The bridge chain** goes up at curfew. A company on the wrong side at night bribes the gatekeeper, or takes
+  Jonah's night ferry (once his licence is paid) to the Water Gate of the Close.
+- **The tide.** The flats and reed-beds are passable only near low water; the calamus root for the ague cure and
+  the reed-heart for Calam-ink are cut at dead low water (`deadLow()`), at evening on day one, later each day. Coddy
+  Fitch knows a dry way and will take you if he owes you.
+
+**Seeing before naming.** Several buildings are first met as what they look like: "a tavern under a painted
+lantern", "a hall with an iron needle over the door", "a grey building with a lamp carved over its door", "a thin old
+tower", "a squat building with an iron-bound door", "a house with a portico, shuttered on one side". Each becomes its
+name once the company has a reason to know it (a signboard read, a person who says so).
+
+**Time and place.** People are where their day puts them: Rhule in her room, at the Ashpit at noon on burning
+Thursdays (days 2, 5, 8), in the Imprimatur's kitchen in the evening; the bestiary's beasts in the bond after dusk,
+when Mr. Sallis turns everyone out and bars the gate; the Court at ten on the fourth day; the aldermen at noon on the
+fifth; the Awls in Doble's yard at one in the morning of the fifth; the Kindling at twenty hundred on the ninth.
+
+## The Commonplace
+
+The country where Calamy's books go when they sleep. Its passages are grammar: a long sentence, a footnote (a
+ladder), a parenthesis (a tunnel), an ellipsis, a manicule's pointing hand, a road of black letter.
+
+```
+     THE NEAR STACKS
+     Reading Room of the Catalogue ── a long sentence (30) ── Remainder Market ── Draft-Fields
+            │ the Order of Business (5)                          │ the gutter (20)
+     Chamber of the Parliament ── gangway (15) ───────────── THE MARGIN (white country)
+                                                   footnote ↑  │ pointing hand → Orme's garden
+                                    the Annery Housebook      │ ellipsis (20) → Foxing edge → deep Foxing → (parenthesis) Wellhead
+                                                              │ marginal notes → wood of glosses → outer edge (Corday)
+                                                                                     └ road of black letter → Tower of Oddny Vask
+```
+
+**The ways in** (detailed in [05](05-commonplace-and-parliament.md)):
+
+- **The Archivist's reading**: from the Chained Room on Gannet Hill, by reading the Ambery Codex inward with
+  Calam-ink, into the **Reading Room**, entered in the Catalogue. Home again by the Founders' door to the Chained Room.
+- **Crake's back stacks**: from the back of the Two Hands in Stitchgate, open only to one who carries Crake's
+  place-ribbon (`opening when carries …`), thirty minutes' walk through shelving into the **Remainder Market**,
+  unentered.
+
+**Places, and what each is for.** The Reading Room (procedure; the shelfmark; the Errata who correct the uncatalogued);
+the Remainder Market (trading in readings; the Unwritten; reading aloud for an hour); the Draft-Fields (the Second
+Canto); the Margin (the wild between; the Scholiasts; Corday's Grammar at its edge); the Housebook (a house to enter;
+its cellar of reckonings, which it does not forgive being read); Mother Orme's garden (burnt beds, a cure, a
+poison); the Foxing (the fading unread; Dame Tibbet's Primer); the Wellhead (the first words ever written in Calamy:
+the third reversal); the Tower of Oddny Vask (the Lexicon in three chains, and the Black Letters at its foot); the
+Chamber (the Parliament, on the floor that is the Roll).

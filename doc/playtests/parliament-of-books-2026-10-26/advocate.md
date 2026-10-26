@@ -1,16 +1,16 @@
 # Hester Rhule, shown and not lied to: the Advocate of Books
 
-Seed `advocate`; 283 steps; ended at watch 1296, at the ending "The Recall"; sealed: door_shut, fire_leave, read_rounds, sew_all. Written by `bun scripts/parliament-of-books-transcripts.ts` from the journey as the page told it.
+Seed `advocate`; 282 steps; ended at watch 1296, at the ending "The Recall"; sealed: door_shut, fire_leave, read_rounds, sew_all. Written by `bun scripts/parliament-of-books-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
 A raised causeway of black stones crosses the saltings toward a town of roofs and masts. Ahead of you a long bridge goes over the river on a great many arches, so crowded with sheds and stalls that it looks like a street that has wandered out over the water. Beyond it, a walled town climbs to a single hill with a tower on top; downriver, to your right, the reed-beds go grey-green all the way to the sea. Under a pair of mills two wheels turn slowly in the river. Gulls. The air smells of mud and, faintly and strangely, of wet paper.
 
-**@go(calamy__causey_quay,calamy__quay)**
+**By the causeway into the Hithe, to the Hithe quay**
 
 The Hithe quay is cobbled and wet and loud. Eel-boats lie two and three deep at the steps; a fishwife cries her baskets; a gang of boys rolls rag bales up a plank into a lighter. Along the back of the quay stand a tavern under a painted lantern, a customs house with a great barred warehouse behind it, and a crowd of people round a board nailed to a post. At the west end the steps go down to a ferry; at the east, the quay turns into a market of rags. On the post a printed notice, fresh, with the Imprimatur’s little lamp stamped at the foot: UNQUIET VOLUMES. Under it someone has chalked a drawing of a book with legs, running, and someone else has rubbed most of it out. Bet Kettering, a fishwife, is here.
 
-**@go(calamy__lamb_door,calamy__taproom)**
+**By the door under the lantern, to the Lamb's taproom**
 
 The tavern under the painted lantern on the Hithe quay is the Lamb and Lantern, Moll Garrow’s. Over the bar a board says THE LAMB AND LANTERN, M. GARROW, and under it in smaller letters NO BOOKS READ ALOUD AFTER TEN. A low taproom, smoky, with a long table and benches and a fire you could stand up in. Eel-men and millhands at the table; a cat on the hearth; a board of chalked prices. By the chimney, on a nail at head height, hangs a penny almanack, soft as cloth with handling, curling a little in the heat. Here are Moll Garrow, the innkeeper of the Lamb and Lantern; and the Almanack, a penny almanack, one voice in three thousand kitchens.
 
@@ -38,19 +38,19 @@ The almanack is so quiet that you think it has gone to sleep, like a Sewn book. 
 
 ‘Off you go, then,’ says the Almanack, ‘and don’t do anything I’d be ashamed to hear about. Or do, and tell me.’
 
-**@go(calamy__lamb_door,calamy__quay)**
+**By the door under the lantern, to the Hithe quay**
 
 On the post a printed notice, fresh, with the Imprimatur’s little lamp stamped at the foot: UNQUIET VOLUMES. Under it someone has chalked a drawing of a book with legs, running, and someone else has rubbed most of it out. Bet Kettering, a fishwife, is here. The Hithe quay: eel-boats, gulls, the tavern under its lantern, the customs house, the notice post, and the bridge going north over the water.
 
-**@go(calamy__hithe_bridge,calamy__bridge_south)**
+**By the bridge foot, to the south end of the Penny Bridge**
 
 The bridge begins as a street: sheds and stalls on both sides built out over the water on brackets, so that you walk between walls of books and ballads and pies with the river showing through the cracks in the planks. A tooth-drawer, a pie-man, three second-hand bookstalls with their tables tilted to the light, and a puppet booth with a striped curtain and a crowd of children in front of it. The bridge gate stands open, the chain coiled on its post.
 
-**@go(calamy__bridge_span_south,calamy__bridge_middle)**
+**By the southern arches, to the chapel pier**
 
 Halfway over, the bridge widens round a pier with a tiny chapel on it no bigger than a cart, with a bell in a hutch on its roof. Children are skipping a long rope across the whole width of the bridge, so that everyone has to wait or jump; a ballad-seller has his sheets pegged to a line along the parapet; and a broadside on the line is singing, by itself, quite loudly. The bridge gate stands open, the chain coiled on its post. Here are the children on the bridge, a dozen children of the Hithe and Stitchgate, skipping; the Ballad of Alderman Prowse, a printed broadside on a line, singing; and Dickon Spry, a ballad-seller.
 
-**@go(calamy__bridge_span_north,calamy__bridge_north)**
+**By the northern arches, to the north end of the Penny Bridge**
 
 The north end of the bridge comes up under the city wall. Stalls of almanacks and ballads and prints; a toll-house with a window like a ticket-office; and the river stair going up to an old gate in the wall, with a road running off east along the river toward a new town of chimneys. Lettice Ames, an almanack-seller, is here.
 
@@ -58,7 +58,7 @@ The north end of the bridge comes up under the city wall. Stalls of almanacks an
 
 Wren pays Lettice Ames, and takes a penny almanack. ‘A pocket!’ says the Almanack. ‘I have never been anywhere but nails. Mind you don’t sit on me.’
 
-**@go(calamy__bridge_span_north,calamy__bridge_middle)**
+**By the northern arches, to the chapel pier**
 
 Halfway over, the bridge widens round a pier with a tiny chapel on it no bigger than a cart, with a bell in a hutch on its roof. Children are skipping a long rope across the whole width of the bridge, so that everyone has to wait or jump; a ballad-seller has his sheets pegged to a line along the parapet; and a broadside on the line is singing, by itself, quite loudly. The bridge gate stands open, the chain coiled on its post. Here are the children on the bridge, a dozen children of the Hithe and Stitchgate, skipping; the Ballad of Alderman Prowse, a printed broadside on a line, singing; and Dickon Spry, a ballad-seller.
 
@@ -74,23 +74,23 @@ The rope stops. A dozen faces turn to look at you, and a girl with a missing fro
 
 ‘Come back and tell me how it goes!’ call the children on the bridge after you.
 
-**@go(calamy__bridge_span_north,calamy__bridge_north)**
+**By the northern arches, to the north end of the Penny Bridge**
 
 The north end of the bridge comes up under the city wall. Stalls of almanacks and ballads and prints; a toll-house with a window like a ticket-office; and the river stair going up to an old gate in the wall, with a road running off east along the river toward a new town of chimneys. Lettice Ames, an almanack-seller, is here.
 
-**@go(calamy__bridge_newmarket,calamy__newmarket)**
+**By the road along the river wall, to Newmarket**
 
 Outside the wall the town is new and loud: a broad street of printers’ shops with their windows full of ballads and proclamations and almanacks pegged on strings, ink-boys running with bundles, a smell of hot metal and size. At the end of it a cart arch opens into a yard stacked with paper bales, and over the arch, in letters a foot high: DOBLE. PRINTER TO THE CITY.
 
-**@go(calamy__ashpit_newmarket,calamy__ashpit)**
+**By the Close's east gate, to the Ashpit**
 
 A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.
 
-**@go(calamy__ashpit_steps,calamy__pleas_steps)**
+**By the way to the Court steps, to the Court steps**
 
 *(nothing is told)*
 
-**@go(calamy__court_door,calamy__court_hall)**
+**By the Court's doors, to the hall of the Court of Pleas**
 
 A high hall of dark wood, with a bench at one end under a canopy, and benches for the parties, and benches for the public, mostly empty. Behind the bench, on a wooden drum as big as a cart wheel, the Great Roll of Pleas is wound, a vast scroll of yellowed skin, unrolled a little way across a table and chained there. On the plaintiff’s bench, all alone on a red cushion, lies a small thin book with a woodcut of a ram on its cover. The Great Roll lies chained across the table, unrolled at the Pleas. Here are Recorder Haddon, a Recorder of the Court of Pleas; Abel Snow, a clerk of the Court; and Pask’s Treatise on the Diseases of Sheep, a small thin printed book on a red cushion; the plaintiff.
 
@@ -98,23 +98,23 @@ A high hall of dark wood, with a bench at one end under a canopy, and benches fo
 
 Abel Snow puts on a second pair of spectacles over the first and reads it to you in a high clear voice, without looking, as a man says a prayer he has said every day since he was a boy: ‘The Ninth. That every book of the city’s keeping be read once in every generation of men, by the Lyceum, that it fade not; for so the city is bound by the Colophon.’ He takes the spectacles off. ‘Nobody knows what the Colophon is. I have been asked that question forty years. I say, it is what the Roll says it is, and the Roll does not say.’
 
-**@go(calamy__court_door,calamy__pleas_steps)**
+**By the Court's doors, to the Court steps**
 
 *(nothing is told)*
 
-**@go(calamy__close_gannet,calamy__gannet_steps)**
+**By the Gannet Steps up from the Close, to the Gannet Steps**
 
 A grey heron comes to see who you are. The Gannet Steps go up from the Close in long flights between garden walls, with the whole city falling away behind you: the Ashpit and its pile, the roofs of Stitchgate, the bridge on its arches, the Hithe beyond the river, the mills, the grey-green reeds and the sea. At the top, a gate with a stone owl on each post.
 
-**@go(calamy__steps_quad,calamy__quad)**
+**By the Lyceum gate, to the Lyceum quad**
 
 The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, very old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
-**@go(calamy__tower_door,calamy__tower_foot)**
+**By the tower door, to the foot of the Tower of Rounds**
 
 The thin old tower at the corner of the Lyceum is the Tower of Rounds, where the Archivist lives. A round room at the foot of the tower, cold, with a turning stair going up the wall and a rope on iron rings for a handrail. A notice on the door, in big careful letters for the half-blind: THE ARCHIVIST. KNOCK. THEN COME UP. THEN KNOCK AGAIN.
 
-**@go(calamy__tower_stair,calamy__quarles_room)**
+**By the tower's turning stair, to the top of the Tower of Rounds**
 
 A round room at the top of the tower with windows on every side and the whole estuary in them. It is full of books, but they are not on shelves; they lie open on every surface, on the floor, on the bed, face up, as if being read by the light. In a high chair by the south window sits a very old woman with white eyes and her hands folded on a stick, and her face turned toward the sea. Ottoline Quarles, an Archivist of the Lyceum, is here.
 
@@ -130,31 +130,31 @@ She listens without moving, her white eyes on the sea, while you tell her what y
 
 ‘Don’t let me keep you,’ says Ottoline Quarles, who was not trying to.
 
-**@go(calamy__tower_stair,calamy__tower_foot)**
+**By the tower's turning stair, to the foot of the Tower of Rounds**
 
 A round room at the foot of the tower, cold, with a turning stair going up the wall and a rope on iron rings for a handrail. A notice on the door, in big careful letters for the half-blind: THE ARCHIVIST. KNOCK. THEN COME UP. THEN KNOCK AGAIN.
 
-**@go(calamy__tower_door,calamy__quad)**
+**By the tower door, to the Lyceum quad**
 
 The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, very old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
-**@go(calamy__steps_quad,calamy__gannet_steps)**
+**By the Lyceum gate, to the Gannet Steps**
 
 The Gannet Steps go up from the Close in long flights between garden walls, with the whole city falling away behind you: the Ashpit and its pile, the roofs of Stitchgate, the bridge on its arches, the Hithe beyond the river, the mills, the grey-green reeds and the sea. At the top, a gate with a stone owl on each post.
 
-**@go(calamy__close_gannet,calamy__pleas_steps)**
+**By the Gannet Steps up from the Close, to the Court steps**
 
 *(nothing is told)*
 
-**@go(calamy__ashpit_steps,calamy__ashpit)**
+**By the way to the Court steps, to the Ashpit**
 
 A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.
 
-**@go(calamy__imp_door,calamy__imp_office)**
+**By the Imprimatur's door, to the outer office of the Imprimatur**
 
 The grey building with the lamp carved over its door is the Imprimatur, where Calamy’s books are licensed, refused, and burned. A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. The clerk at the counter, a clerk of the Imprimatur, is here.
 
-**@go(calamy__rhule_door,calamy__rhule_room)**
+**By the door behind the counter, to the Deputy Censor's room**
 
 A small square room with a plain table, two chairs, a cot made up very tight, a shelf of law-books, and a grey door in the far wall with a good lock on it. On the table, open, a book with its pages cut out: a neat ladder of stubs where whole chapters were. The grey door in the Censor’s room is locked: a good lock, brass, newly oiled. Hester Rhule, a Deputy Censor of the Imprimatur, is here.
 
@@ -194,11 +194,11 @@ An hour passes. It is a long time since you slept. You are weary, and will fight
 
 *(14 waits in which nothing is told)*
 
-**@go(calamy__rhule_door,calamy__imp_office)**
+**By the door behind the counter, to the outer office of the Imprimatur**
 
 A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. The clerk at the counter, a clerk of the Imprimatur, is here.
 
-**@go(calamy__imp_door,calamy__ashpit)**
+**By the Imprimatur's door, to the Ashpit**
 
 In your pocket the almanack makes a sound you will not forget, a thin dry shriek, as if a page were being torn very slowly; and then another, as the next goes in. A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling. Here are Hester Rhule, a Deputy Censor of the Imprimatur; and the crowd at the Ashpit, Calamy, come to watch. At the edge of the Ashpit, away from the great Kindling pile, a brazier burns, and Hester Rhule stands beside it in grey with a clerk holding a basket. The crowd stands back. From the basket she takes the week’s unquiet volumes one by one and reads out each title in a clear voice, as at a funeral, and puts it in the fire. A book of hours. A ready-reckoner. A penny almanack, then another, then six more.
 
@@ -218,11 +218,11 @@ Hester Rhule lifts a hand, once.
 
 *(3 waits in which nothing is told)*
 
-**@go(calamy__imp_door,calamy__imp_office)**
+**By the Imprimatur's door, to the outer office of the Imprimatur**
 
 A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. The clerk at the counter, a clerk of the Imprimatur, is here.
 
-**@go(calamy__rhule_door,calamy__rhule_room)**
+**By the door behind the counter, to the Deputy Censor's room**
 
 A small square room with a plain table, two chairs, a cot made up very tight, a shelf of law-books, and a grey door in the far wall with a good lock on it. On the table, open, a book with its pages cut out: a neat ladder of stubs where whole chapters were. The grey door in the Censor’s room is locked: a good lock, brass, newly oiled. Hester Rhule, a Deputy Censor of the Imprimatur, is here.
 
@@ -238,27 +238,19 @@ Hester Rhule inclines her head, which seems to be a whole greeting.
 
 Hester Rhule lifts a hand, once.
 
-**@go(calamy__rhule_door,calamy__imp_office)**
+**By the door behind the counter, to the outer office of the Imprimatur**
 
 A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down. The clerk at the counter, a clerk of the Imprimatur, is here.
 
-**@go(calamy__imp_door,calamy__ashpit)**
+**By the Imprimatur's door, to the Ashpit**
 
 A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.
 
-*(19 waits in which nothing is told)*
-
-**Wait › An hour**
-
-The bell of the Lamp tolls for Harry Coyle, and they bury him in the churchyard under the north wall, with his commonplace book on his chest, shut.
-
-*(37 waits in which nothing is told)*
+*(57 waits in which nothing is told)*
 
 **Wait › An hour**
 
 The Kindling fire stands twice the height of a man now, faggots and broken furniture and old shutters, with a ladder against it and a boy on the ladder. An hour passes.
-
-*(1 wait in which nothing is told)*
 
 **Wait › An hour**
 
@@ -274,7 +266,7 @@ The Guildhall bell rings for noon and for the vote.
 
 **Wait › An hour**
 
-The Ashpit is packed to the walls with Calamy: millers and binders and printers and fishwives, students on the Guildhall steps, the Lord Mayor on a cart. The great pile stands in the middle, unlit, taller than the Guildhall door. Everyone has an unlit lantern. Almost everyone has an almanack. And the almanacks, all of them, in all their hands, are quite silent. Calamy comes to the Ashpit. They come over the bridge and down the Gannet Steps and in from Newmarket and up from the Hithe: whole households, carrying lanterns not yet lit, and under their arms, in their aprons, in their children’s hands, last year’s almanack.
+The Ashpit is packed to the walls with Calamy: millers and binders and printers and fishwives, students on the Guildhall steps, the Lord Mayor on a cart. The great pile stands in the middle, unlit, taller than the Guildhall door. Everyone has an unlit lantern. Almost everyone has an almanack. And the almanacks, all of them, in all their hands, are quite silent. And still they come: over the bridge and down the Gannet Steps and in from Newmarket and up from the Hithe: whole households, carrying lanterns not yet lit, and under their arms, in their aprons, in their children’s hands, last year’s almanack.
 
 **Wait › An hour**
 

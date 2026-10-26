@@ -37,6 +37,11 @@ export class Journeys {
       return this.going(campaign, event, from, start) ? [] : this.voiced({ moment: `${campaign.readout.seed}:${event.elapsed}`,
         used, values }, [['journey-depart', { shelter: 'underground' }]]);
     }
+    // Out of the world the hour and the sky are not seen either: the way is told plainly, and nothing of the light.
+    if ([from, to].every(p => Narrator.shelter(campaign, p) === 'elsewhere')) {
+      return this.going(campaign, event, from, start) ? [] : this.voiced({ moment: `${campaign.readout.seed}:${event.elapsed}`,
+        used, values }, [['journey-depart', {}]]);
+    }
     const kinds: [string, Record<string, string>][] = [
       ...this.going(campaign, event, from, start) ? [] : [['journey-depart', { time: FictionalTime.part(start),
         sky: this.skies[sky ?? ''] ?? 'fair', ...FictionalTime.early(start) ? { light: 'early' } : {} }] as

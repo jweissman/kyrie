@@ -438,7 +438,19 @@ Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpe
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 19 | 1 | 0 | 2 | 10 |
+| 7 | 19 | 2 | 0 | 2 | 10 |
+
+#### levelOf
+
+*Kyr · measure(member)* · `rule:care.levelOf`
+
+How far a companion has come (their level), for what asks it before it will teach them (a Manual, an order).
+
+#### degree
+
+*Kyr · kind* · `rule:care.degree`
+
+How much a work that reads its reader back (a Manual) raises a quality, outside a level's development (Resolve endow(reader, intelligence, by_two)): never past twenty-five.
 
 #### awake, fallen, slain, needsCare, canCast, treatable
 
@@ -1995,17 +2007,6 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 > A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, and the people the power acts through; who offers the money, and what they want for it, is Deem's to propose.
 
-#### A raiders' hold
-
-*Kyr* · `kit:raider_hold`
-
-- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey))
-- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
-- Provides: 7 facts
-- Modules: 4
-
-> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
-
 #### A toll on a road
 
 *Kyr* · `kit:toll_road`
@@ -2016,6 +2017,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 - Modules: 2
 
 > A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
+
+#### A raiders' hold
+
+*Kyr* · `kit:raider_hold`
+
+- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey))
+- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
+- Provides: 7 facts
+- Modules: 4
+
+> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
 
 ### Frameworks
 
@@ -2057,6 +2069,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > Ammerlin goes down the inside of an old crater in four terraces, and its life is the water of the Stair. For three years the Mere at the bottom has been falling, and everybody in the city has a reason, and every reason is also a claim on somebody else's water. The Office of Measures has engaged you as Independent Assessor, because nobody who lives there can be neutral. Choose three companions.
+
+### A Parliament of Books
+
+*Kyr* · `campaign:parliament-of-books`
+
+- Regions and sites: calamy
+- Kits placed: —
+
+> Calamy is a city of paper at the mouth of the Calam, where the tide turns the mills twice a day and every household keeps a book that knows it. Its books are entangled with its money, its law, its prayers and its quarrels, and lately some of them have begun to talk. In nine days it is the Kindling, when the city burns last year's almanacks to light the new year in.
 
 ### The House That Grows
 

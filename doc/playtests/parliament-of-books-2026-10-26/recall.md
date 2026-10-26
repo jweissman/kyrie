@@ -6,15 +6,15 @@ Seed `recall`; 304 steps; ended at watch 1296, at the ending "The Recall"; seale
 
 A raised causeway of black stones crosses the saltings toward a town of roofs and masts. Ahead of you a long bridge goes over the river on a great many arches, so crowded with sheds and stalls that it looks like a street that has wandered out over the water. Beyond it, a walled town climbs to a single hill with a tower on top; downriver, to your right, the reed-beds go grey-green all the way to the sea. Under a pair of mills two wheels turn slowly in the river. Gulls. The air smells of mud and, faintly and strangely, of wet paper.
 
-**@go(calamy__causey_quay,calamy__quay)**
+**By the causeway into the Hithe, to the Hithe quay**
 
 The Hithe quay is cobbled and wet and loud. Eel-boats lie two and three deep at the steps; a fishwife cries her baskets; a gang of boys rolls rag bales up a plank into a lighter. Along the back of the quay stand a tavern under a painted lantern, a customs house with a great barred warehouse behind it, and a crowd of people round a board nailed to a post. At the west end the steps go down to a ferry; at the east, the quay turns into a market of rags. On the post a printed notice, fresh, with the Imprimatur’s little lamp stamped at the foot: UNQUIET VOLUMES. Under it someone has chalked a drawing of a book with legs, running, and someone else has rubbed most of it out. Bet Kettering, a fishwife, is here.
 
-**@go(calamy__hithe_bridge,calamy__bridge_south)**
+**By the bridge foot, to the south end of the Penny Bridge**
 
 The bridge begins as a street: sheds and stalls on both sides built out over the water on brackets, so that you walk between walls of books and ballads and pies with the river showing through the cracks in the planks. A tooth-drawer, a pie-man, three second-hand bookstalls with their tables tilted to the light, and a puppet booth with a striped curtain and a crowd of children in front of it. The bridge gate stands open, the chain coiled on its post.
 
-**@go(calamy__bridge_span_south,calamy__bridge_middle)**
+**By the southern arches, to the chapel pier**
 
 Halfway over, the bridge widens round a pier with a tiny chapel on it no bigger than a cart, with a bell in a hutch on its roof. Children are skipping a long rope across the whole width of the bridge, so that everyone has to wait or jump; a ballad-seller has his sheets pegged to a line along the parapet; and a broadside on the line is singing, by itself, quite loudly. The bridge gate stands open, the chain coiled on its post. Here are the children on the bridge, a dozen children of the Hithe and Stitchgate, skipping; the Ballad of Alderman Prowse, a printed broadside on a line, singing; and Dickon Spry, a ballad-seller.
 
@@ -30,23 +30,23 @@ The rope stops. A dozen faces turn to look at you, and a girl with a missing fro
 
 ‘Come back and tell me how it goes!’ call the children on the bridge after you.
 
-**@go(calamy__bridge_span_north,calamy__bridge_north)**
+**By the northern arches, to the north end of the Penny Bridge**
 
 The north end of the bridge comes up under the city wall. Stalls of almanacks and ballads and prints; a toll-house with a window like a ticket-office; and the river stair going up to an old gate in the wall, with a road running off east along the river toward a new town of chimneys. Lettice Ames, an almanack-seller, is here.
 
-**@go(calamy__bridge_newmarket,calamy__newmarket)**
+**By the road along the river wall, to Newmarket**
 
 Outside the wall the town is new and loud: a broad street of printers’ shops with their windows full of ballads and proclamations and almanacks pegged on strings, ink-boys running with bundles, a smell of hot metal and size. At the end of it a cart arch opens into a yard stacked with paper bales, and over the arch, in letters a foot high: DOBLE. PRINTER TO THE CITY.
 
-**@go(calamy__ashpit_newmarket,calamy__ashpit)**
+**By the Close's east gate, to the Ashpit**
 
 A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.
 
-**@go(calamy__ashpit_steps,calamy__pleas_steps)**
+**By the way to the Court steps, to the Court steps**
 
 *(nothing is told)*
 
-**@go(calamy__court_door,calamy__court_hall)**
+**By the Court's doors, to the hall of the Court of Pleas**
 
 A high hall of dark wood, with a bench at one end under a canopy, and benches for the parties, and benches for the public, mostly empty. Behind the bench, on a wooden drum as big as a cart wheel, the Great Roll of Pleas is wound, a vast scroll of yellowed skin, unrolled a little way across a table and chained there. On the plaintiff’s bench, all alone on a red cushion, lies a small thin book with a woodcut of a ram on its cover. The Great Roll lies chained across the table, unrolled at the Pleas. Here are Recorder Haddon, a Recorder of the Court of Pleas; Abel Snow, a clerk of the Court; and Pask’s Treatise on the Diseases of Sheep, a small thin printed book on a red cushion; the plaintiff.
 
@@ -54,23 +54,23 @@ A high hall of dark wood, with a bench at one end under a canopy, and benches fo
 
 Abel Snow puts on a second pair of spectacles over the first and reads it to you in a high clear voice, without looking, as a man says a prayer he has said every day since he was a boy: ‘The Ninth. That every book of the city’s keeping be read once in every generation of men, by the Lyceum, that it fade not; for so the city is bound by the Colophon.’ He takes the spectacles off. ‘Nobody knows what the Colophon is. I have been asked that question forty years. I say, it is what the Roll says it is, and the Roll does not say.’
 
-**@go(calamy__court_door,calamy__pleas_steps)**
+**By the Court's doors, to the Court steps**
 
 *(nothing is told)*
 
-**@go(calamy__close_gannet,calamy__gannet_steps)**
+**By the Gannet Steps up from the Close, to the Gannet Steps**
 
 A grey heron comes to see who you are. The Gannet Steps go up from the Close in long flights between garden walls, with the whole city falling away behind you: the Ashpit and its pile, the roofs of Stitchgate, the bridge on its arches, the Hithe beyond the river, the mills, the grey-green reeds and the sea. At the top, a gate with a stone owl on each post.
 
-**@go(calamy__steps_quad,calamy__quad)**
+**By the Lyceum gate, to the Lyceum quad**
 
 The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, very old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
-**@go(calamy__tower_door,calamy__tower_foot)**
+**By the tower door, to the foot of the Tower of Rounds**
 
 The thin old tower at the corner of the Lyceum is the Tower of Rounds, where the Archivist lives. A round room at the foot of the tower, cold, with a turning stair going up the wall and a rope on iron rings for a handrail. A notice on the door, in big careful letters for the half-blind: THE ARCHIVIST. KNOCK. THEN COME UP. THEN KNOCK AGAIN.
 
-**@go(calamy__tower_stair,calamy__quarles_room)**
+**By the tower's turning stair, to the top of the Tower of Rounds**
 
 A round room at the top of the tower with windows on every side and the whole estuary in them. It is full of books, but they are not on shelves; they lie open on every surface, on the floor, on the bed, face up, as if being read by the light. In a high chair by the south window sits a very old woman with white eyes and her hands folded on a stick, and her face turned toward the sea. Ottoline Quarles, an Archivist of the Lyceum, is here.
 
@@ -86,35 +86,35 @@ She listens without moving, her white eyes on the sea, while you tell her what y
 
 ‘Don’t let me keep you,’ says Ottoline Quarles, who was not trying to.
 
-**@go(calamy__tower_stair,calamy__tower_foot)**
+**By the tower's turning stair, to the foot of the Tower of Rounds**
 
 A round room at the foot of the tower, cold, with a turning stair going up the wall and a rope on iron rings for a handrail. A notice on the door, in big careful letters for the half-blind: THE ARCHIVIST. KNOCK. THEN COME UP. THEN KNOCK AGAIN.
 
-**@go(calamy__tower_door,calamy__quad)**
+**By the tower door, to the Lyceum quad**
 
 The Lyceum is a square of old grey buildings round a lawn. Students in gowns cross it at a run or lie on it with books over their faces. On one side the Schools, with tall windows; on another a squat building with an iron-bound door and a roof patched with tarpaulin; on the third a pleasant house with a brass knocker; and at the corner a thin tower, very old, with one window lit at the top in daylight. The iron-bound door of the Chained Room is locked. The Provost keeps the key. The students on the lawn, young gentlemen and ladies of the Lyceum, in gowns, are here.
 
-**@go(calamy__steps_quad,calamy__gannet_steps)**
+**By the Lyceum gate, to the Gannet Steps**
 
 The Gannet Steps go up from the Close in long flights between garden walls, with the whole city falling away behind you: the Ashpit and its pile, the roofs of Stitchgate, the bridge on its arches, the Hithe beyond the river, the mills, the grey-green reeds and the sea. At the top, a gate with a stone owl on each post.
 
-**@go(calamy__close_gannet,calamy__pleas_steps)**
+**By the Gannet Steps up from the Close, to the Court steps**
 
 *(nothing is told)*
 
-**@go(calamy__ashpit_steps,calamy__ashpit)**
+**By the way to the Court steps, to the Ashpit**
 
 A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.
 
-**@go(calamy__green_ashpit,calamy__close_green)**
+**By the walk across the Close, to the Close green**
 
 A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and very old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
 
-**@go(calamy__church_door,calamy__nave)**
+**By the great door of the Lamp, to the nave of the Lamp**
 
 The low old church on the Close is the Church of the Lamp, whose lamp has burned since the first Kindling. A long low nave, dark, with round pillars like the trunks of trees, and hanging from the roof in the middle on a chain as thick as your arm, a single great lamp of brass and horn, burning. It has burned, the verger will tell you, since the first Kindling, nine hundred years, relit from itself every year. Under it, chained to a lectern carved like a heron, a very old book lies open. A very old book lies open on the heron lectern, chained. Here are Martha Coyle, a widow; and Harry Coyle’s commonplace book, a fat book in a widow’s lap, very quietly talking.
 
-**@go(calamy__vestry_door,calamy__vestry)**
+**By the vestry door, to the vestry**
 
 A cramped vestry with cassocks on pegs, a chest, a window onto the churchyard, and on the table a stack of books: commentaries, a Lamp psalter, and on top, open, a book called ON THE SOUL, with a bookmark of grass. Canon Ruth Abery, a Canon of the Lamp, is here.
 
@@ -130,23 +130,23 @@ The Canon hears you out, sitting on her vestment chest, turning an apple she doe
 
 ‘Look after yourself,’ says Canon Ruth Abery. ‘I mean it.’
 
-**@go(calamy__vestry_door,calamy__nave)**
+**By the vestry door, to the nave of the Lamp**
 
 A long low nave, dark, with round pillars like the trunks of trees, and hanging from the roof in the middle on a chain as thick as your arm, a single great lamp of brass and horn, burning. It has burned, the verger will tell you, since the first Kindling, nine hundred years, relit from itself every year. Under it, chained to a lectern carved like a heron, a very old book lies open. A very old book lies open on the heron lectern, chained. Here are Martha Coyle, a widow; and Harry Coyle’s commonplace book, a fat book in a widow’s lap, very quietly talking.
 
-**@go(calamy__church_door,calamy__close_green)**
+**By the great door of the Lamp, to the Close green**
 
 A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and very old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
 
-**@go(calamy__scriveners_close,calamy__scriveners)**
+**By the Clerks' Gate, to Scriveners' Row**
 
 Scriveners’ Row is a long arcade of wooden booths against the wall, each with a desk, a stool, a scribe, and a queue of people wanting letters written, wills copied, love made legible. The scratching is like rain. At the top of the row an old gate leads through into the Close. Here are Orrin Day, a scrivener; and Mattea Lusk, a scrivener.
 
-**@go(calamy__needle_scriveners,calamy__needle_street)**
+**By the way up to Scriveners' Row, to Needle Street**
 
 Needle Street: binders’ shops with their doors open and their frames inside, the women sewing in the doorways for the light. Halfway along stands a hall of old brick with a great iron needle, longer than a man, hung over its door on chains. A lane goes off west, stained blue-black along the gutter, and a street climbs north toward the sound of many pens.
 
-**@go(calamy__gate_needle,calamy__old_gate)**
+**By the way under the gate, to the Stitch Gate**
 
 The river stair comes up from the bridge to an old gate in the city wall, so old its arch has sunk and a tall man must stoop. Through it, lanes too narrow for a cart, and the smell of oak-gall and wet hide and glue. To one side of the gate a crooked lane goes off downhill along the wall, darker than it has any business to be by day. Wat Lammas, a lamplighter, is here.
 
@@ -162,19 +162,19 @@ The lamplighter looks down the lane and then at you. ‘I’ll tell you, and you
 
 Wat Lammas has gone back to work before you have turned round.
 
-**@go(calamy__bridge_gate,calamy__bridge_north)**
+**By the river stair to the Stitch Gate, to the north end of the Penny Bridge**
 
 The north end of the bridge comes up under the city wall. Stalls of almanacks and ballads and prints; a toll-house with a window like a ticket-office; and the river stair going up to an old gate in the wall, with a road running off east along the river toward a new town of chimneys. Lettice Ames, an almanack-seller, is here.
 
-**@go(calamy__bridge_newmarket,calamy__newmarket)**
+**By the road along the river wall, to Newmarket**
 
 Outside the wall the town is new and loud: a broad street of printers’ shops with their windows full of ballads and proclamations and almanacks pegged on strings, ink-boys running with bundles, a smell of hot metal and size. At the end of it a cart arch opens into a yard stacked with paper bales, and over the arch, in letters a foot high: DOBLE. PRINTER TO THE CITY.
 
-**@go(calamy__newmarket_gardens,calamy__orchard_walk)**
+**By Orchard Walk from Newmarket, to Orchard Walk**
 
 Orchard Walk runs between high brick walls with fruit trees showing over them, and doors in the walls with bell-pulls. One house stands out to the street with a portico and a great many windows, all shuttered on one side. Further along, a narrow shop-front with gilt letters and lace curtains, and at the end a gate into a garden of beds and labels.
 
-**@go(calamy__corvell_door,calamy__corvell_hall)**
+**By the door of Corvell House, to the hall of Corvell House**
 
 The house with the portico on Orchard Walk is Corvell House, Sir Gideon Corvell’s. A hall of black and white marble, two staircases, and on every wall a glass case with a book in it, open, lit from above: a psalter with gold on it, a herbal with painted roots, a book of hours no bigger than a hand. Each case has a card. The double doors at the end stand open on a long room, and from here the long room looks empty. On a lectern by the door lies a fat ledger in red leather: ACQUISITIONS. Sir Gideon Corvell, a collector, is here.
 
@@ -194,7 +194,7 @@ A tall man in a velvet coat, with a magnifying glass on a ribbon round his neck,
 
 Sir Gideon Corvell considers the conversation over some moments before you do.
 
-**@go(calamy__library_door,calamy__corvell_library)**
+**By the library doors, to Sir Gideon's library**
 
 A long room, panelled, with a gallery round it and a ladder on a rail, and shelves from floor to ceiling on every wall. They are empty. Not a book; not a page. The afternoon comes in through barred windows and lies across a floor of polished boards and a great reading table with nothing on it but a pair of gloves. Shelves, floor to ceiling, empty, and dusty in a particular way.
 
@@ -206,7 +206,7 @@ You look closely at the empty shelves. Looked at closely, the dust is the thing.
 
 You search Sir Gideon’s library with care, a little at a time. In the corner by the hearth the panelling has a seam in it, low down: a coal hatch, a foot and a half square, onto the lane behind the house. Its bolt is drawn back. From the inside. In the hinge, caught and torn, is a bookplate: EX LIBRIS G. CORVELL.
 
-**@go(calamy__library_door,calamy__corvell_hall)**
+**By the library doors, to the hall of Corvell House**
 
 Low in the panelling by the library hearth is a coal hatch onto the lane behind Corvell House; its bolt is drawn back from the inside, and a scrap of paper is caught in the hinge: a bookplate, EX LIBRIS G. CORVELL. Nobody came in. Everything went out, by a hole a cat would think twice about. A hall of black and white marble, two staircases, and on every wall a glass case with a book in it, open, lit from above: a psalter with gold on it, a herbal with painted roots, a book of hours no bigger than a hand. Each case has a card. The double doors at the end stand open on a long room, and from here the long room looks empty. On a lectern by the door lies a fat ledger in red leather: ACQUISITIONS. Sir Gideon Corvell, a collector, is here.
 
@@ -222,31 +222,31 @@ Sir Gideon listens to all of it, the bolt, the dust, the flock in Gutter Lane, w
 
 Sir Gideon Corvell considers the conversation over some moments before you do.
 
-**@go(calamy__corvell_door,calamy__orchard_walk)**
+**By the door of Corvell House, to Orchard Walk**
 
 Orchard Walk runs between high brick walls with fruit trees showing over them, and doors in the walls with bell-pulls. One house stands out to the street with a portico and a great many windows, all shuttered on one side. Further along, a narrow shop-front with gilt letters and lace curtains, and at the end a gate into a garden of beds and labels.
 
-**@go(calamy__newmarket_gardens,calamy__newmarket)**
+**By Orchard Walk from Newmarket, to Newmarket**
 
 Outside the wall the town is new and loud: a broad street of printers’ shops with their windows full of ballads and proclamations and almanacks pegged on strings, ink-boys running with bundles, a smell of hot metal and size. At the end of it a cart arch opens into a yard stacked with paper bales, and over the arch, in letters a foot high: DOBLE. PRINTER TO THE CITY.
 
-**@go(calamy__bridge_newmarket,calamy__bridge_north)**
+**By the road along the river wall, to the north end of the Penny Bridge**
 
 The north end of the bridge comes up under the city wall. Stalls of almanacks and ballads and prints; a toll-house with a window like a ticket-office; and the river stair going up to an old gate in the wall, with a road running off east along the river toward a new town of chimneys. Lettice Ames, an almanack-seller, is here.
 
-**@go(calamy__bridge_gate,calamy__old_gate)**
+**By the river stair to the Stitch Gate, to the Stitch Gate**
 
 The river stair comes up from the bridge to an old gate in the city wall, so old its arch has sunk and a tall man must stoop. Through it, lanes too narrow for a cart, and the smell of oak-gall and wet hide and glue. To one side of the gate a crooked lane goes off downhill along the wall, darker than it has any business to be by day. Wat Lammas, a lamplighter, is here.
 
-**@go(calamy__gate_gutter,calamy__gutter_lane)**
+**By the gap beside the gate, to Gutter Lane**
 
 Gutter Lane goes down along the inside of the wall from the Stitch Gate, crooked as a bad stitch, with a gutter down the middle and the backs of houses on both sides. The lamp-brackets on the walls have their lamps in them but nobody has lit them in a long while; the glass is black with old smoke. At the bottom the lane turns into a little yard.
 
-**@go(calamy__gutter_yard,calamy__lantern_yard)**
+**By the crooked end of Gutter Lane, to Lantern Yard**
 
 A yard at the bottom of Gutter Lane no bigger than a room, with a pump in it and the city wall for one side. Across the back of it stands a narrow shop with a bow window crammed with books, and over its door a painted sign of two hands holding an open book: ABSALOM CRAKE. BOOKS BOUGHT, SOLD, AND FOUND. Crake’s door is on the latch. A narrow shop front, four windows wide, with the city wall close behind it on both sides.
 
-**@go(calamy__crake_door,calamy__crake_front)**
+**By the door under the sign of the Two Hands, to the front of Crake's shop**
 
 A shop that is mostly books and partly cats. Books in towers on the floor, books on the counter, books in the window with their faces to the street, books on the stairs going up. Three cats asleep on three piles, one of them on an open folio. A counter with a ledger and a dish of sugared almonds. At the back an aisle goes off between high shelves, and behind the counter a curtain. Crake’s door is on the latch. Absalom Crake, a bookseller, is here.
 
@@ -270,7 +270,7 @@ Crake looks at you for a long time over his spectacles, and for once he does not
 
 Absalom Crake thinks about it, then nods. ‘For a while, then.’
 
-**@go(calamy__crake_curtain,calamy__crake_parlour)**
+**By the curtain behind the counter, to Crake's parlour**
 
 A small hot room behind the curtain, with a fire, an armchair with the shape of Crake worn into it, more cats, a kettle, and on the table a ledger bound in faded green and a book of sermons with a ribbon of old red silk hanging out of it, marking somebody’s place. The red ribbon hangs out of the book of sermons, marking a place. A ledger bound in faded green lies on the parlour table.
 
@@ -278,19 +278,19 @@ A small hot room behind the curtain, with a fire, an armchair with the shape of 
 
 Wren takes Crake’s place-ribbon.
 
-**@go(calamy__crake_curtain,calamy__crake_front)**
+**By the curtain behind the counter, to the front of Crake's shop**
 
 A shop that is mostly books and partly cats. Books in towers on the floor, books on the counter, books in the window with their faces to the street, books on the stairs going up. Three cats asleep on three piles, one of them on an open folio. A counter with a ledger and a dish of sugared almonds. At the back an aisle goes off between high shelves, and behind the counter a curtain. Crake’s door is on the latch.
 
-**@go(calamy__crake_aisle,calamy__crake_stacks)**
+**By the long aisle at the back of the shop, to the back stacks**
 
 The aisle runs back between the high shelves, bay after bay, and the red ribbon is warm in your hand, and this time when you walk on into the dimness you do not come back. The shelves on either side go on, and the light changes, very gradually, from lamplight to something paler, like the light in a library on a winter afternoon with the snow outside.
 
-**@go(calamy__stacks_way,calamy__remainder_market)**
+**By the far end of the back stacks, to the Remainder Market**
 
 You leave the back stacks in the full of the morning, with the sun climbing and the path dry underfoot. A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, very lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
 
-**@go(calamy__market_back,calamy__draft_fields)**
+**By the back of the market, to the Draft-Fields**
 
 Beyond the market a wide pale field under a wind you cannot feel, and drifting across it, like thistledown, sheets of paper with a few lines on them, or a title and nothing else, or a single crossed-out word: drafts. Things begun. Here and there among them, sitting or walking or lying in the grass, figures drawn in pencil, unfinished, talking in low voices: the Unwritten. The Second Canto of the Lantern-Bearers, a poem nobody wrote: a figure drawn in pencil, very beautiful, that ends at the waist, is here.
 
@@ -310,15 +310,15 @@ A figure stands up out of the drifting drafts: drawn in pencil, lightly, by a ve
 
 ‘Come back and tell me how it goes!’ call the Second Canto of the Lantern-Bearers after you.
 
-**@go(calamy__market_back,calamy__remainder_market)**
+**By the back of the market, to the Remainder Market**
 
 A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, very lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS. The Remainderman, a broker of unsold books, himself a book of trade tables, is here.
 
-**@go(calamy__long_sentence,calamy__reading_room)**
+**By a long sentence, to the Reading Room of the Catalogue**
 
 You set out from the Remainder Market. You are standing on a floor of paper, in light. Not lamplight and not daylight: a pale clear light that comes down in beams from very high up, the way sun comes through cloud, and every beam is a little different in colour. A few of them are very bright. Most are thin. Here and there one goes out as you watch, and another comes on somewhere else. It takes you a long time to understand what you are seeing: every beam is someone in Calamy, now, reading. A reading room without walls, under the beams: a floor of paper going away on every side, and in the middle of it a cliff of little drawers, thousands upon thousands of them, rising up out of sight, each with a brass handle and a card. Index cards flutter about the cliff like moths, settling, rising, filing. A voice comes from the drawers, from all of them, dry and patient and not unkind: the Catalogue. One beam, very thin and very old and very steady, comes down from the direction you think of as the hill. It does not fall on any book. It falls on the light itself, as if someone were reading by ear, with their eyes shut. The Catalogue of the Founders, a cliff of little drawers, and a voice, is here.
 
-**@go(calamy__clerks_stair,calamy__chamber)**
+**By the Order of Business, to the Chamber of the Parliament**
 
 A chamber with no walls and no roof, open to the beams, and its floor is the Great Roll of Pleas: unrolled, enormous, a road of old yellow skin a hundred paces wide covered in crabbed writing and red capitals, going away in both directions further than you can see. Down its middle runs a line of seats, each different: a high-backed chair, a little stool, a slab of black stone with three ring-bolts in it, a bed of herbs, a doorstep, a heap of loose pages. In front of the seats, set into the floor of the Roll itself, a long brass plate engraved THE ORDER PAPER. THE ORDER PAPER. In the chamber: 0 of six. Of the Sleep: the Sewing of all, 3, the Sleep by leave, 1, the Unsewing, 2. Of the Fire: no burning but by leave, 4, burning only by judgment, 2, the Censors’ discretion, 0. Of the Reading: the Lyceum’s Rounds, 3, reading by request, 3, no reading owed, 0. Of the Door: the Founders’ door only, 2, Crake’s door under licence, 2, open doors, 2. Four carry, or three and the clerk. The Great Roll of Pleas, the Speaker; the floor of the chamber, unrolled, is here.
 

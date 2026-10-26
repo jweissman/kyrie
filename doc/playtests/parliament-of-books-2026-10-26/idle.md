@@ -6,23 +6,23 @@ Seed `idle`; 226 steps; ended at watch 1296, at the ending "The Year of Voices";
 
 A raised causeway of black stones crosses the saltings toward a town of roofs and masts. Ahead of you a long bridge goes over the river on a great many arches, so crowded with sheds and stalls that it looks like a street that has wandered out over the water. Beyond it, a walled town climbs to a single hill with a tower on top; downriver, to your right, the reed-beds go grey-green all the way to the sea. Under a pair of mills two wheels turn slowly in the river. Gulls. The air smells of mud and, faintly and strangely, of wet paper.
 
-**@go(calamy__causey_quay,calamy__quay)**
+**By the causeway into the Hithe, to the Hithe quay**
 
 The Hithe quay is cobbled and wet and loud. Eel-boats lie two and three deep at the steps; a fishwife cries her baskets; a gang of boys rolls rag bales up a plank into a lighter. Along the back of the quay stand a tavern under a painted lantern, a customs house with a great barred warehouse behind it, and a crowd of people round a board nailed to a post. At the west end the steps go down to a ferry; at the east, the quay turns into a market of rags. On the post a printed notice, fresh, with the Imprimatur’s little lamp stamped at the foot: UNQUIET VOLUMES. Under it someone has chalked a drawing of a book with legs, running, and someone else has rubbed most of it out. Bet Kettering, a fishwife, is here.
 
-**@go(calamy__quay_ferry,calamy__ferry_stairs)**
+**By the steps down to the ferry, to the ferry stairs**
 
 Green steps go down into the river between two piles hung with weed. A flat black ferry-boat is tied at the bottom, and on the top step a board says J. PELLOW, FERRYMAN, PENNY A HEAD. Across the board somebody has chalked NOT AFTER DARK. LICENCE LAPSED. BY ORDER. Jonah Pellow, a ferryman, is here.
 
-**@go(calamy__night_ferry,calamy__watergate)**
+**By Jonah's ferry, to the Water Gate stairs**
 
 Wet steps up from the river into a low arch in the wall of the Close. At the top an iron gate, open; through it, grass and the dark bulk of a church.
 
-**@go(calamy__water_close,calamy__close_green)**
+**By the Water Gate, to the Close green**
 
 A lawn inside the old city, with paths across it worn by nine hundred years of the same short cuts. On one side the Church of the Lamp, low and very old, with a great door; through the door, a light. An arch in the far wall goes down to the river. Elsewhere, the black square of the Ashpit with its bonfire going up, and on the hill above the roofs a tower.
 
-**@go(calamy__green_ashpit,calamy__ashpit)**
+**By the walk across the Close, to the Ashpit**
 
 A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Guildhall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.
 
@@ -38,13 +38,7 @@ An hour passes. It is a long time since you slept. You are weary, and will fight
 
 At the edge of the Ashpit, away from the great Kindling pile, a brazier burns, and Hester Rhule stands beside it in grey with a clerk holding a basket. The crowd stands back. From the basket she takes the week’s unquiet volumes one by one and reads out each title in a clear voice, as at a funeral, and puts it in the fire. A book of hours. A ready-reckoner. A penny almanack, then another, then six more. As the first almanack goes into the brazier there is a sound: not from the fire, but from everywhere, faint and thin and all at once, from every kitchen round the Close, from the Imprimatur’s own windows, from the Lamb across the river for all you know. A cry. Then another as the second goes in. The crowd shifts. Somebody laughs, the wrong way. Hester Rhule’s hand does not stop.
 
-*(21 waits in which nothing is told)*
-
-**Wait › An hour**
-
-The bell of the Lamp tolls for Harry Coyle, and they bury him in the churchyard under the north wall, with his commonplace book on his chest, shut.
-
-*(37 waits in which nothing is told)*
+*(59 waits in which nothing is told)*
 
 **Wait › An hour**
 
@@ -76,7 +70,7 @@ At the edge of the Ashpit, away from the great Kindling pile, a brazier burns, a
 
 **Wait › An hour**
 
-The Ashpit is packed to the walls with Calamy: millers and binders and printers and fishwives, students on the Guildhall steps, the Lord Mayor on a cart. The great pile stands in the middle, unlit, taller than the Guildhall door. Everyone has an unlit lantern. Almost everyone has an almanack. And the almanacks, all of them, in all their hands, are quite silent. Calamy comes to the Ashpit. They come over the bridge and down the Gannet Steps and in from Newmarket and up from the Hithe: whole households, carrying lanterns not yet lit, and under their arms, in their aprons, in their children’s hands, last year’s almanack.
+The Ashpit is packed to the walls with Calamy: millers and binders and printers and fishwives, students on the Guildhall steps, the Lord Mayor on a cart. The great pile stands in the middle, unlit, taller than the Guildhall door. Everyone has an unlit lantern. Almost everyone has an almanack. And the almanacks, all of them, in all their hands, are quite silent. And still they come: over the bridge and down the Gannet Steps and in from Newmarket and up from the Hithe: whole households, carrying lanterns not yet lit, and under their arms, in their aprons, in their children’s hands, last year’s almanack.
 
 **Wait › An hour**
 

@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 207,
+    "kyr": 210,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 196,
+      "kyr": 198,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 7,
+      "kyr": 8,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10666,6 +10666,20 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:care.levelOf",
+   "title": "levelOf",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
+  },
+  {
+   "id": "rule:care.degree",
+   "title": "degree",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-care"
+  },
+  {
    "id": "rule:care.awake",
    "title": "awake, fallen, slain, needsCare, canCast, treatable",
    "status": "kyr",
@@ -11765,15 +11779,15 @@
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:raider_hold",
-   "title": "A raiders' hold",
+   "id": "kit:toll_road",
+   "title": "A toll on a road",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:toll_road",
-   "title": "A toll on a road",
+   "id": "kit:raider_hold",
+   "title": "A raiders' hold",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
@@ -11802,6 +11816,13 @@
   {
    "id": "campaign:low-water",
    "title": "Low Water",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:parliament-of-books",
+   "title": "A Parliament of Books",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Calamy, C, Steps } from './support/calamy';
 import type { Journey } from '../src/session/journey';
+import { Narrator } from '../src/presentation/narrator';
 
 // A Parliament of Books, played by the labels a player sees (doc/adventures/parliament-of-books). Calamy, a city of
 // paper; its books waking; nine days to the Kindling. Each journey is one way through it, from the causeway.
@@ -69,6 +70,11 @@ describe('A Parliament of Books: the ways in', () => {
     expect(Calamy.holds(j, 'entered', 'party')).toBe(true);
     expect(Calamy.holds(j, 'correctedEntry', 'party')).toBe(false);
     for (const f of ['quarles_account', 'codex_colophon', 'kindling_is_rite', 'shelfmark_given']) { expect(Calamy.knows(j, f)).toBe(true); }
+    // The Commonplace is out of the world: no sky over it, and its ways are told without the hour.
+    expect(Narrator.shelter(j.campaign, C('reading_room'))).toBe('elsewhere');
+    expect(Narrator.shelter(j.campaign, C('hb_kitchen'))).toBe('elsewhere');
+    expect(await Calamy.play(j, 'go:remainder_market')).not.toMatch(/into the dark|the light already going|rain/);
+    await Calamy.play(j, 'go:reading_room');
     // Come home by the Founders' door, and the Chained Room is where you left it.
     await Calamy.play(j, 'go home by the Founders');
     expect(j.at('party')).toBe(C('chained_room'));
