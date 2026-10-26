@@ -1,0 +1,161 @@
+Module tessary "What Tessary Owes" {
+  Description "Tessary on the Ossel, a city of salt and paper built on piles over a drowned Aenean city, in the fortnight before the Feast of Settlement: the Long Muster has come home from eleven years' war, and some of its soldiers are walking into the sea.".
+
+  // ── The delta ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Ossel comes down out of the marsh country in a dozen channels and meets the sea at Tessary. The city stands on
+  // piles and fill along the last ridge of dry ground; north of its Tidewall is the outer basin, where the old city lies
+  // under the water and comes up at the ebb.
+  Place imbar "Imbar" is plane.
+  Place ossel "the Ossel delta" is region within imbar.
+  Place saltmarsh "the salt-marsh" is wilderness within ossel at 0, 1.
+  Place tessary "Tessary" is settlement within ossel at 1, 1.
+  Place lowtide "Lowtide" is site within ossel at 1, 0.
+  Initially Assert terrain(ossel, marsh).
+
+  Place causeway_end "the Causeway, at the marsh's edge" is room within saltmarsh at 0, 0.
+  Passage causeway "the Causeway" is causeway between causeway_end and landgate taking 1 hour.
+  Observe causeway_scene at causeway_end when not dark() "The marsh road comes out of the reeds onto a causeway of fitted stone, older than the road, raised a man's height above the saltings. It runs straight for a league to a wall on a low ridge: Tessary, a long grey city with its back to the sea, a smoke of salt-boiling over its eastern end and the masts of its harbour standing up behind it like reeds. The tide is a sound you hear before you see it, a long breath on the far side of everything.".
+  Observe causeway_night at causeway_end when dark() "The causeway runs out ahead of you into the dark, a pale stone line over black saltings. A league off, Tessary is a row of lamps along a ridge, and above the lamps, very faintly, the masts.".
+  Observe causeway_carts at causeway_end when not dark() "Carts of peat and rushes are coming in ahead of you, and one going out, empty, with a soldier asleep in the back of it in a red coat gone brown.".
+
+  // ── Tessary ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Streets, on the city's own grid: the Tidewall and the Yard along the sea, the Lettered Quarter and the Terraces in
+  // the middle, the Withies, the Landgate and Saltgate along the landward side.
+  Place throat_head "the head of the Throat Stair" is room within tessary at 0, 0 outdoors.
+  Place tidewall "the Tidewall" is room within tessary at 1, 0 outdoors.
+  Place legion_yard "the Legion Yard" is room within tessary at 2, 0 outdoors.
+  Place tideline_steps "the Tideline Steps" is room within tessary at 0, 1 outdoors.
+  Place scriveners_row "Scriveners' Row" is room within tessary at 1, 1 outdoors.
+  Place terraces "the Terraces" is room within tessary at 2, 1 outdoors.
+  Place withies "the Withies" is room within tessary at 0, 2 outdoors.
+  Place landgate "the Landgate" is room within tessary at 1, 2 outdoors.
+  Place saltgate "Saltgate" is room within tessary at 2, 2 outdoors.
+  Place pans "the Pans" is room within tessary at 3, 2 outdoors.
+
+  Passage withy_walk "the Withy boardwalk" is bridge between landgate and withies taking 5 minutes.
+  Passage inkhorn_street "Inkhorn Street" is path between landgate and scriveners_row taking 5 minutes.
+  Passage salt_street "the Salt Road" is path between landgate and saltgate taking 5 minutes.
+  Passage pan_dykes "the pan-dykes" is path between saltgate and pans taking 10 minutes.
+  Passage steps_walk "the boardwalk to the Steps" is bridge between withies and tideline_steps taking 5 minutes.
+  Passage sea_lane "the sea-lane" is path between tideline_steps and throat_head taking 5 minutes.
+  Passage wall_stair "the Wall Stair" is steps between scriveners_row and tidewall.
+  Passage wall_walk "the wall-walk" is path between tidewall and throat_head taking 5 minutes.
+  Passage yard_gate "the Yard gate" is gate between tidewall and legion_yard.
+  Passage terrace_steps "the Terrace Steps" is steps between scriveners_row and terraces.
+  Passage terrace_lane "the lane behind the Yard" is path between terraces and legion_yard taking 5 minutes.
+  Passage salt_lane "Brine Lane" is path between terraces and saltgate taking 10 minutes.
+
+  // The Landgate: where the Causeway comes in, and everyone who comes in reads the board.
+  Observe landgate_scene at landgate when not dark() "Inside the gate is a three-cornered square of trodden shell, loud with carts. A board on the gatehouse wall is shingled with bills, three deep: the Feast of Settlement, a fortnight hence; a reward for a stolen goose; rooms; a hiring hall in Saltgate that pays veterans by the day. In the corner a little chapel to Saint Evenhand has a pair of brass scales over its door. Somebody has polished the scales.".
+  Observe landgate_night at landgate when dark() "The square is empty but for a watchman with a lantern and a cat on the bill-board. The bills move a little in the wind off the sea.".
+  Observe landgate_bunting at landgate when not dark() and not feastEve() "Red bunting for the Muster's homecoming is still up over the gate, a week old and sagging. Under it a man with a bucket is pasting a new bill over the old: THE BOARD OF MOIETIES WILL HEAR THE QUESTION OF THE VETERANS' SETTLEMENT ON THE THIRTEENTH DAY.".
+
+  // The Withies: stilt houses over the backwater, where the rank and file came home to.
+  Observe withies_scene at withies when not dark() "The Withies stand on piles over a backwater of the Ossel: tarred houses on stilts, joined by boardwalks that sway, every one with a ladder down to a boat and a row of eel-traps drying on the rail. Washing hangs between the houses. So do red coats, a good many of them, airing. A girl is mending a net with a soldier's bayonet.".
+  Observe withies_night at withies when dark() "Lamps in the stilt-houses, and the backwater black under the boardwalks. Somebody is singing a marching song very slowly in one of the houses, and stops, and starts again.".
+
+  // The Tideline Steps: the sea-stair at the end of the Withies, where the called leave their boots.
+  Observe steps_scene at tideline_steps when true "Broad stone steps go down from the end of the boardwalk into the sea, twenty of them above the high-water mark and nobody knows how many below. They are older than everything around them. The stone is cut with something like letters, worn to dimples.".
+  Observe steps_boots at tideline_steps when bootsOnSteps(ossel) "On the top step stand pairs of boots, set neatly side by side, toes to the water, the way a soldier sets them by his cot. Nobody has moved them. Nobody will.".
+  Observe steps_water at tideline_steps when lowWater() "The sea has drawn back a long way, and the steps go down and down into weed and wet sand, and out there in the grey, very low, the tops of walls.".
+  Observe steps_full at tideline_steps when not lowWater() "The water stands high on the steps, slopping and green.".
+
+  // The Throat Stair, and the Throat: the channel the basin drains by.
+  Observe throat_scene at throat_head when true "At the west end of the Tidewall the wall-walk breaks off at a stair that goes straight down the face of the wall into the basin. A chain hangs beside it for a handrail. Below, the Throat: the one deep channel through which the outer basin fills and empties twice a day, with a noise like a slow mill.".
+  Observe throat_low at throat_head when lowWater() "The basin is out. Below the stair lies a city of wet stone: roofs, a colonnade, the dome of something, streets with weed lying flat in them like combed hair. Figures are moving down there, small, bent over, looking for things.".
+  Observe throat_high at throat_head when not lowWater() "The basin is full to the wall's green line, and the stair goes down into it and does not come up.".
+
+  // The Tidewall: the barrage on Aenean footings.
+  Observe tidewall_scene at tidewall when true "The Tidewall runs the whole length of the city between the houses and the sea, broad enough on top for two carts. Its lower courses are not the city's: great blocks, tight-fitted, with no mortar, carved at intervals with a pair of scales. The city built its wall on top of someone else's. On the landward side a stair goes down into the Lettered Quarter.".
+  Observe tidewall_day at tidewall when not dark() "Fishermen sit along the parapet with lines. A woman is selling eels in a paper cone, hot, with vinegar.".
+
+  // The Legion Yard and the Oath Stone.
+  Observe yard_scene at legion_yard when true "A parade ground of beaten shell inside the Tidewall, ringed with empty barracks. In the middle of it, on a plinth, stands the Oath Stone: a slab of black stone as tall as a man, salvaged from the drowned city two hundred years ago, smooth as a hearthstone where eleven thousand hands have been laid on it. Cut into its face, very small and very fine, are lines that are not writing and not ornament: ruled lines, like a ledger's.".
+  Observe yard_empty at legion_yard when not feastEve() "The barracks doors stand open. The Muster was paid off a week ago and told to go home, and the Yard has nobody in it but a sergeant of the Watch and the gulls.".
+
+  // Scriveners' Row, the heart of the Lettered Quarter.
+  Observe row_scene at scriveners_row when not dark() "The Lettered Quarter smells of wet pulp and lamp-black. The Row is all stalls: scriveners at sloped desks under awnings, writing letters for those who cannot, contracts for those who can, and arguing with both. Reed-paper hangs drying from every balcony like laundry. At the north end, the Office of Seals has a queue outside it that goes round the corner and, people say, has not been shorter in living memory. Opposite, the Exchequer is a narrow house with barred windows and one lit lamp.".
+  Observe row_night at scriveners_row when dark() "The stalls are shuttered and the paper taken in. The Office of Seals is dark. In the Exchequer one window is lit, as it is every night.".
+
+  // The Terraces: the old houses, above the flood line.
+  Observe terraces_scene at terraces when true "The ground rises here to the city's one hill, and the old houses of the Moieties stand along it in terraces of walled garden, with salt-bitten fig trees and doors painted the colours of their families. The Council House has a portico and a bell. Further along, a tall house with a soldier on its steps is where the city keeps the King of Hethra, courteously, until his ransom is paid.".
+
+  // Saltgate and the Pans.
+  Observe saltgate_scene at saltgate when not dark() "Saltgate is the city's working end: carts, sacks, a smell of brine and peat-smoke. Factor Sault's countinghouse has a brass plate polished like a mirror. Beside it her warehouses run back to the water, and next to those is a long hall with its doors open and a crowd of men in old red coats outside it, waiting to be picked for the day's work.".
+  Observe saltgate_night at saltgate when dark() "The countinghouse is shuttered. A lantern burns over the warehouse door, and under it two of Factor Sault's men are playing dice on a salt-sack.".
+  Observe pans_scene at pans when true "East of the city the salt-pans run out into the marsh in a chequer of shallow squares, white at the edges, each with its sluice. Women in wooden pattens rake the crust. Steam rises from the boiling-houses. The tide that comes through the Throat runs out here too, under the dykes, and what it carries out it leaves: weed, timber, a shoe.".
+
+  // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place teazle_house "Nan Teazle's house" is building within tessary.
+  Place teazle_room "Nan Teazle's house" is room within teazle_house at 0, 0.
+  Passage teazle_ladder "the Teazles' ladder" is steps between withies and teazle_room.
+  Observe teazle_scene at teazle_room when true "One room on stilts, and everything in it hung up out of the damp: eel-traps, nets, a smoked side of something, a soldier's coat on a peg that nobody wears. A brazier, a bed in a cupboard, a shelf of crockery and on it, in a frame, a recruiting bill eleven years old: LAND AND A PENSION FOR EVERY MAN WHO COMES HOME.".
+
+  Place drum_house "the Muffled Drum" is building within tessary.
+  Place drum_taproom "the Muffled Drum's taproom" is room within drum_house at 0, 0.
+  Passage drum_door "the Drum's door" is door between withies and drum_taproom.
+  Observe drum_scene at drum_taproom when true "A low taproom built out over the backwater, so that the floor moves a little when the tide is running. Soldiers' coats on every peg, soldiers' boots under every bench. Over the bar hangs a regimental drum with a black cloth tied over its head.".
+  Observe drum_noise at drum_taproom when not dark() "It is loud in here, and the noise is the noise of men who have nothing to do: dice, an argument about pay, someone telling the story of Sedge Ford for the hundredth time and getting it wrong.".
+
+  Place countinghouse "Factor Sault's countinghouse" is building within tessary.
+  Place sault_office "Factor Sault's countinghouse" is room within countinghouse at 0, 0.
+  Passage countinghouse_door "the countinghouse door" is door between saltgate and sault_office.
+  Observe office_scene at sault_office when true "Clerks at high desks, a stove, a wall of pigeonholes, a salt-crusted map of the delta with the Factor's ships pinned on it. A cone of hot eels in paper sits on the ledgers, half eaten.".
+
+  Place warehouse "Sault's warehouse" is building within tessary.
+  Place warehouse_floor "the warehouse floor" is room within warehouse at 0, 0.
+  Place warehouse_below "under the warehouse" is level within warehouse.
+  Place cistern "the old cistern" is room within warehouse_below at 0, 0.
+  Passage warehouse_door "the warehouse door" is door between saltgate and warehouse_floor.
+  Passage cistern_stair "the cistern stair" is stair between warehouse_floor and cistern.
+  Observe warehouse_scene at warehouse_floor when true "Salt in sacks to the rafters, stacked in blocks with lanes between, and a smell that dries your mouth. At the back, behind a stack that has not been moved in a long while, a trap-door with a ring.".
+  Observe cistern_scene at cistern when true "A vaulted cistern, older than the warehouse over it, dry now, its floor scuffed into paths. A tunnel goes off northward, low and wet, toward the sea; there are lamp-hooks along it.".
+
+  Place muster_house "Sault's Muster" is building within tessary.
+  Place muster_hall "Sault's Muster" is room within muster_house at 0, 0.
+  Passage muster_door "the hiring hall door" is doorway between saltgate and muster_hall.
+  Observe muster_scene at muster_hall when true "A long bare hall with benches down both walls and a table at the end where a clerk writes names in a book. Over the table, in new paint: SAULT'S MUSTER. A DAY'S PAY FOR A DAY'S WORK. NO MAN TURNED AWAY WHO WORE THE COAT.".
+
+  Place seals_house "the Office of Seals" is building within tessary.
+  Place seals_hall "the hall of the Office of Seals" is room within seals_house at 0, 0.
+  Place seals_inner "the Keeper's room" is room within seals_house at 1, 0.
+  Passage seals_door "the Office door" is doorway between scriveners_row and seals_hall.
+  Passage seals_grille "the Keeper's grille" is door between seals_hall and seals_inner.
+  Observe seals_scene at seals_hall when true "A high hall with a rail across it and the queue folded back and forth along the rail like a rope in a locker. Everybody in it is holding a document. At the head of the queue, behind a grille, a door.".
+  Observe inner_scene at seals_inner when true "A small panelled room with no window. On a table under a glass bell lies the Great Seal of Tessary, a disc of dark bronze the size of a plate, and beside it the wax, the ribbon, the ledger of everything ever sealed.".
+
+  Place exchequer_house "the Exchequer" is building within tessary.
+  Place exchequer_room "the Treasurer's room" is room within exchequer_house at 0, 0.
+  Passage exchequer_door "the Exchequer door" is door between scriveners_row and exchequer_room.
+  Observe exchequer_scene at exchequer_room when true "A narrow room at the top of a narrow house, all ledgers. The strongboxes along the wall stand open, and are empty, and have been for some time; dust lies inside them. A cot behind a screen. A bottle.".
+
+  Place pounce_house "Pounce's stall" is building within tessary.
+  Place pounce_stall "Pounce's stall" is room within pounce_house at 0, 0.
+  Passage pounce_door "Pounce's door" is doorway between scriveners_row and pounce_stall.
+  Observe pounce_scene at pounce_stall when true "A scrivener's shop the width of a cupboard, with a sloped desk in the window, pens in a jar of sand, and every surface papered with drafts. A notice: CONTRACTS DRAWN. CONTRACTS READ. CONTRACTS EXPLAINED (EXTRA).".
+
+  Place council_house "the Council House" is building within tessary.
+  Place council_chamber "the council chamber" is room within council_house at 0, 0.
+  Passage council_door "the Council House door" is door between terraces and council_chamber.
+  Observe chamber_scene at council_chamber when true "A round chamber with a ring of carved seats, one for each Moiety: Salt, Paper, Rope, Eel, Ship, and the three old houses. On the wall behind the Speaker's chair hangs the war's banner, and under it a painting of the Kneeling at Sedge Ford, in which King Amaury of Hethra is very small and the Tessarine captain very large.".
+
+  Place kings_house "the King's lodging" is building within tessary.
+  Place kings_rooms "the King's rooms" is room within kings_house at 0, 0.
+  Passage kings_door "the King's door" is door between terraces and kings_rooms.
+  Observe kings_scene at kings_rooms when true "Good rooms, kept by a city that wants to be seen to keep its prisoner well: a fire, books, a window on the sea. A board of Hethran draughts is set out by the fire with a game half played. The guard on the steps sits outside the door, not in.".
+
+  Place marrable_house "Councillor Marrable's house" is building within tessary.
+  Place marrable_room "Councillor Marrable's house" is room within marrable_house at 0, 0.
+  Passage marrable_door "Marrable's door" is door between terraces and marrable_room.
+  Observe marrable_scene at marrable_room when true "A small house of the Terraces, the smallest, with no garden to speak of. Inside it is a soldier's house: everything square, everything put away. On a table, a pile of papers weighted down with a pistol-butt with no pistol.".
+
+  Place chapel_house "Saint Evenhand's" is building within tessary.
+  Place chapel "Saint Evenhand's chapel" is room within chapel_house at 0, 0.
+  Passage chapel_door "the chapel door" is doorway between landgate and chapel.
+  Observe chapel_scene at chapel when true "A whitewashed chapel the size of a boat-shed. Over the altar the saint is painted holding a pair of scales level, very carefully, with the face of someone who has been asked to hold them for a long time. Votive weights hang on cords from the ceiling, brass and lead and stone, hundreds of them, each the weight of a promise someone wanted kept.".
+
+  Place chandlery_house "Pitch's chandlery" is building within tessary.
+  Place chandlery "Pitch's chandlery" is room within chandlery_house at 0, 0.
+  Passage chandlery_door "the chandlery door" is door between landgate and chandlery.
+  Observe chandlery_scene at chandlery when true "Rope, tar, lanterns, oilskins, hooks, rations in tins, and a ship's chandler in a leather apron behind a counter worn into a dip by elbows.".
+}

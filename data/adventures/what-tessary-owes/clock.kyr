@@ -1,0 +1,38 @@
+Module tessary "What Tessary Owes" {
+  // ── The fortnight ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Tessary keeps its days by the ebbs. Low water comes twice a day, about the eleventh hour and about the eleventh of
+  // the night, and lasts some five hours each time; while it lasts the outer basin drains through the Throat and
+  // Lowtide stands out of the water. The night ebb at two in the morning is the one the city counts: each is a night of
+  // the fortnight. On the first, the eighth and the fifteenth it is a spring ebb, the lowest of all, and on those
+  // nights the Balance takes its interest. The fifteenth is the Feast of Settlement, when the war note falls due.
+  Query lowWater() means hour(clock) >= 10 and hour(clock) <= 14 or hour(clock) >= 22 or hour(clock) <= 2.
+  // The hour the water turns, when anyone still down in Lowtide had better be on a roof.
+  Query turning() means hour(clock) == 14 or hour(clock) == 2.
+  Measure night(place). Relation counted(place).
+  // The first night counted is the first two o'clock at least five hours after the company comes.
+  Rule night_turns when hour(clock) == 2 and not counted(ossel) and watch(clock) >= 30 {
+    Increase night(ossel) by 1. Assert counted(ossel). }
+  Rule night_passes when hour(clock) != 2 and counted(ossel) { Retract counted(ossel). }
+  Query springNight() means night(ossel) == 1 or night(ossel) == 8 or night(ossel) == 15.
+  // From the evening of the fourteenth night's day the city is keeping the Feast.
+  Query feastEve() means night(ossel) >= 14.
+
+  // ── The calling ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // At a spring ebb the Balance calls a dozen of the collateral, in the order of the Muster's roll. They come down
+  // through the Withies in step, barefoot, set their boots together on the top step and walk out over the wet sand
+  // toward the Hall of Oaths. In the morning their families find the boots.
+  Measure held(place). Measure callings(place). Relation bootsOnSteps(place). Relation callingDue(place).
+  Initially Set held(ossel) to 138. Initially Set callings(ossel) to 0.
+  Rule calling_due when counted(ossel) and springNight() and callings(ossel) < night(ossel) and not interestPaid(ossel) {
+    Assert callingDue(ossel). Set callings(ossel) to night(ossel). }
+  Relation interestPaid(place).
+  Rule interest_waived when counted(ossel) and springNight() and callings(ossel) < night(ossel) and interestPaid(ossel) {
+    Set callings(ossel) to night(ossel). Retract interestPaid(ossel). }
+  Rule calling_happens when callingDue(ossel) {
+    Retract callingDue(ossel). Increase held(ossel) by 12. Assert bootsOnSteps(ossel). Assert calledLast(ossel). }
+  Relation calledLast(place).
+  Rule boots_taken when bootsOnSteps(ossel) and hour(clock) == 9 { Retract bootsOnSteps(ossel). }
+  Rule calling_told at tideline_steps when calledLast(ossel) says "They come down through the Withies a little after two, twelve of them, in step, though nobody is calling the step. Barefoot. Their eyes are open. At the top of the Tideline Steps each of them stops, and stoops, and sets his boots side by side on the stone, toes to the water, and straightens, and walks down into the sea. The water is very low. They walk out over the sand toward the walls in the basin, getting smaller, keeping step, until the dark has them." teaches calling_witnessed { Retract calledLast(ossel). }
+  Rule calling_unseen when calledLast(ossel) { Retract calledLast(ossel). }
+  Discovery calling_witnessed "At the spring ebb, twelve veterans of the Long Muster walked barefoot and in step down the Tideline Steps and out across the drained basin toward the drowned city, as if called, and left their boots paired on the top step.".
+}

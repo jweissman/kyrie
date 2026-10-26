@@ -1,0 +1,228 @@
+Module tessary "What Tessary Owes" {
+  // ── The Strongrooms ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Under the Hall of Oaths, cut in the bedrock of the delta by people of the Mathematical Age: white stone that hums,
+  // rooms that weigh whoever stands in them, and at the bottom the Balance, which makes a sworn promise binding in the
+  // prima materium. The Scruples keep it. They were the drowned city's clerks; a thousand years beside the Balance have
+  // made them pale, long-lived, unable to lie, and ruled like paper. Each pledged their name to it at birth.
+  Place strongrooms "the Strongrooms" is site within ossel at 2, 0.
+  Place sr_head "the stair-head" is level within strongrooms.
+  Place sr_halls "the halls of the Scruples" is level within strongrooms.
+  Place sr_deep "the deep rooms" is level within strongrooms.
+  Place long_stair "the head of the Long Stair" is room within sr_head at 1, 0 underground.
+  Place antechamber "the Antechamber of Weights" is room within sr_halls at 1, 0 underground.
+  Place clerks_hall "the Hall of Clerks" is room within sr_halls at 1, 1 underground.
+  Place archive "the Archive of Instruments" is room within sr_halls at 0, 1 underground.
+  Place defaults_room "the Room of Defaults" is room within sr_halls at 0, 2 underground.
+  Place dormitory "the standing dormitory" is room within sr_halls at 2, 1 underground.
+  Place comptroller_office "the Comptroller's office" is room within sr_halls at 1, 2 underground.
+  Place gallery "the Counterweight Gallery" is room within sr_deep at 1, 0 underground.
+  Place weighing_chamber "the Weighing Chamber" is room within sr_deep at 1, 1 underground.
+
+  Passage long_stair_way "the Long Stair" is stair between long_stair and antechamber taking 20 minutes.
+  Passage ante_door "the inner door of the Antechamber" is doorway between antechamber and clerks_hall.
+  Passage archive_arch "the archive arch" is arch between clerks_hall and archive.
+  Passage defaults_door "the door of the Room of Defaults" is door between archive and defaults_room.
+  Passage dorm_way "the dormitory passage" is doorway between clerks_hall and dormitory.
+  Passage office_door "the Comptroller's door" is door between clerks_hall and comptroller_office.
+  Passage counting_stair "the Counting Stair" is stair between clerks_hall and gallery.
+  Passage chamber_door "the counterweight door" is door between gallery and weighing_chamber.
+
+  Observe long_stair_scene at long_stair when true "Behind the black wall the dark is dry and smells of stone dust and, faintly, of hot metal. A stair goes down, straight and steep and very long, cut in white rock that gives back a little light of its own. You can hear a hum, below the edge of hearing, in your teeth.".
+  Observe ante_scene at antechamber when true "A square white room with a floor of a single slab, smooth as a pond. When you step onto it the slab gives, very slightly, as a pan of a balance gives, and steadies. Around the walls ruled lines run at the height of a man's mouth, and as you speak they brighten along their length, and fade, as if writing down what was said. A notice in three scripts, one of them Tessarine: WHAT IS SAID HERE IS HELD.".
+  Observe hall_scene at clerks_hall when true "A long white hall full of desks, and at the desks the Scruples, writing: forty or fifty of them in grey, pale as candles, the ruled lines on their hands and faces moving a little as they move. Nobody speaks above a murmur. The pens make a sound like rain. At the end of the hall a stair goes down; beside it, a door with the word COMPTROLLER cut over it, and nothing else.".
+  Observe archive_scene at archive when true "Shelves to the ceiling, and the ceiling out of sight. On them, not books, but instruments: slabs, rolls, tablets, sheets of something like black glass, each with a tag. Every promise the Balance has ever held is here, the Scruples say, from the oath of a king to the bet of a fishwife. In the far wall, a door bound in iron with a single word on it in the ruled script, which you cannot read, and which nobody here looks at.".
+  Observe defaults_scene at defaults_room when true "A small room, which is the surprise. After the archive's endless shelves, this is a cupboard: one table, one lamp that lights when you come in, one ledger. The ledger is thin. The Scruples do not record many defaults.".
+  Observe dorm_scene at dormitory when true "The Scruples sleep standing. Rows of them along the walls in a dim room, eyes closed, hands folded, breathing very slowly and all together. Some have tags at their wrists, like the instruments in the archive. A very young Scruple at the end of a row has a book open under her folded hands.".
+  Observe office_scene_c at comptroller_office when true "A white room with nothing in it but a desk, a chair that has never been sat in, and the Comptroller standing behind the desk. On the desk lies one sheet of black glass, ruled, which he has been reading for a very long time.".
+  Observe gallery_scene at gallery when true "A gallery cut through the rock with the hum much louder here, a sound you feel in your breastbone. At the far end a door of white metal with no handle stands between two great pans hung on chains from the roof. One pan holds a block of lead cut with nine ruled lines. The other is empty, and the door does not open. Along the wall, on a rack, a set of brass weights, each with its number of lines. Over the door: NINE AGAINST NINE.".
+  Observe chamber_scene_w at weighing_chamber when true "The Weighing Chamber is a nave, cut out of the bottom of the world. The Balance hangs in it from a beam lost in the dark overhead: two pans each the size of a fishing boat, and a pointer as tall as a mast at rest against a dial of ruled lines. In one pan, very small at the bottom of it, lies a single sheet of black glass. In the other are oaths: not things but the shapes of things, eight thousand faint warm shapes like breath on a cold window, each the size of a hand laid flat. Beyond the Balance, at the end of the nave, is a door with no frame, standing on its own, through which you can see a white floor going on for ever.".
+  Observe chamber_level at weighing_chamber when not discharged(ossel) "The pointer leans a hair's breadth toward the black glass, and the oaths in the other pan stir now and then, like sleepers.".
+
+  // ── The Scruples ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Person scruples "the Scruples at their desks" at clerks_hall {
+    Role "clerks of the Balance, writing". Ancestry human. Numbers 1. Peaceable. Pronouns they.
+  }
+  Topic scruples_asked with scruples "Ask the clerks at the desks what they are writing" when true once {
+    Says "The nearest clerk finishes the line before looking up. 'Promises,' she says. 'As they are kept. A fishwife in the Withies has paid her rent. A ferryman has sworn to his wife on the Tideline Steps that he will not drink, and has drunk, and it is a small thing and the Balance has noted it. A great deal of the city stands on the old instruments without knowing it, you see. We write what is kept and what is not.' She dips her pen. 'Mostly it is not.'".
+  }
+  Person copyist "the Fourteenth Copyist" at clerks_hall {
+    Role "a very young Scruple with ink on her ruled fingers and a bad habit of looking at the stair". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Wants chapbook.
+  }
+  Kind chapbook "a chapbook of ballads" is gear worth 1 weighing 0
+    described "Twenty pages of cheap reed-paper, badly printed: 'The Drowned Bell', 'Sally of the Withies', 'The Soldier's Return' and nine more, with a woodcut of a ship on the cover.".
+  Topic copyist_surface with copyist "Ask the Copyist about the surface" when true once {
+    Says "The Copyist puts her pen down with enormous care. 'Is it true,' she says, very low, 'that up there people say things they do not mean? All the time? And nothing happens?' Before you can answer: 'Someone left a book in the Hall of Oaths with the silver once. Poems. In Tessarine. I have read it two hundred and eleven times.' She looks at the stair. 'There is one about a woman who promises to wait for a sailor and does not. And it is sad. And nobody unravels. I have never understood anything so well.'".
+  }
+  Relation copyistFriend(group).
+  Event copyist_book near copyist when keeps(copyist, ?b) and itemKind(?b, chapbook) "The Copyist takes the chapbook in both hands and does not open it, as if it might go off. 'Twelve new ones,' she says. 'Twelve.' She puts it inside her coat, against her ruled skin. 'I am in your debt. I know exactly how much. If there is a door down here you need opened, I can file for it. I am very good at forms.'" then {
+    Assert copyistFriend(party). }
+  Discovery release_law "In the Scruples' law a promise is discharged in two ways: when it is kept, and when the one it was made to holds the promisor quit. A release freely given weighs as much as the keeping." {
+    Known by copyist, comptroller, tally.
+  }
+  Topic copyist_release with copyist "Ask the Copyist how a promise can be discharged" when true once {
+    Says "'Two ways,' says the Copyist promptly, as if reciting. 'Kept, or released. If I promise you a thing, and give it, it is kept. If I promise you a thing and you say to me, freely, I hold you quit of it, that is a release, and in the Balance it weighs the same as the keeping.' She frowns. 'People forget the second. It is in the first chapter. I think people stop reading after the first page.'".
+    On discuss { Assert knows(actor, release_law). }
+  }
+  Discovery assembly_law "Any Scruple may indict another before the Assembly of the Scruples. The Assembly meets in the Weighing Chamber at the Settlement, and the Notary sits with it. It has happened twice in a thousand years.".
+  Topic copyist_assembly with copyist "Ask the Copyist whether a Scruple can be called to account" when knows(actor, compact_read) once {
+    Says "The Copyist goes quite still. 'An indictment,' she says. 'Before the Assembly. Any of us may bring one against any other, even the least against the greatest. It is in the second chapter.' She swallows. 'It has happened twice. The Assembly sits in the Weighing Chamber at a Settlement, and the Notary comes out of the Holding to sit with it, and what is found is found. Both times, the one indicted...' She stops, and makes a small gesture of something coming apart. 'Why do you ask?'".
+    On discuss { Assert knows(actor, assembly_law). }
+  }
+  Action copyist_files(actor: group, site: place) "Ask the Copyist to file for the Room of Defaults to be opened to you" {
+    Speaker copyist. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(copyist, site) and copyistFriend(actor)
+      and state(defaults_lock, locked).
+    On success { Assert state(defaults_lock, open). }
+    Result "The Copyist fills out a form requesting the form for a request, and then the request, and takes them up the hall to a desk, and from that desk to another, and comes back an hour later with the iron key on a ribbon. 'An inspection of records in the course of an inventory,' she says. 'The Ninth Assessor's inventory. They will not mind. They are very thorough.' She looks at the key. 'Nobody has asked to see that room in my lifetime.'".
+  }
+
+  // ── The weighing floor ────────────────────────────────────────────────────────────────────────────────────────────
+  // What is said on the Antechamber's floor is held. A company that comes down from Tessary, where people swear about
+  // everything, may say something it will have to keep.
+  Relation sworeToFind(group).
+  Action swear_find(actor: group, site: place) "Say, 'I'll find Davy Teazle if it kills me'" {
+    Description "It is the kind of thing anyone says.".
+    Time 0.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, antechamber) and knows(actor, davy_went)
+      and not sworeToFind(actor) and heldNow(davy).
+    On success { Assert sworeToFind(actor). Assert registered(actor). }
+    Result "The ruled lines round the walls brighten all along their length, and hold, and fade. The floor under you dips a hair, and steadies. Somewhere far below, something has written it down.".
+  }
+  Observe swore_noted near tally when sworeToFind(party) and travelsWith(tally, party) and at(party, antechamber) "'That was held,' says the Assessor, looking at the walls. 'I would not have said if it kills me.'".
+
+  // ── Lies to the Assessor ──────────────────────────────────────────────────────────────────────────────────────────
+  // The Assessor asked a promise of honesty at the Hall of Oaths; below, it is held.
+  Relation askedEmployer(group). Relation keptFaith(group). Relation brokeFaith(group).
+  Observe tally_asks near tally when travelsWith(tally, party) and at(party, antechamber) and hiredBySault(party) and not askedEmployer(party) "On the weighing floor the Assessor stops and turns to you. 'A question,' they say, 'which I should have asked above. Are you in anyone's employ in this matter?'".
+  Action tell_tally_truth(actor: group, site: place) "Tell the Assessor that Factor Sault hired you to find out who takes the veterans" {
+    Speaker tally. Time 0.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, antechamber) and travelsWith(tally, actor)
+      and hiredBySault(actor) and not askedEmployer(actor).
+    On success { Assert askedEmployer(actor). Assert keptFaith(actor). }
+    Result "The lines on the walls brighten and fade. 'The Factor of the Salt Moiety,' says the Assessor. 'Who carried the silver.' They write it down. 'Thank you. That cannot have been comfortable to say. I will remember that you said it here.'".
+  }
+  Action lie_to_tally(actor: group, site: place) "Tell the Assessor that you are in no one's employ" {
+    Speaker tally. Time 0.
+    Grave "You promised the Assessor not to lie to them, and here what is said is held.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, antechamber) and travelsWith(tally, actor)
+      and hiredBySault(actor) and not askedEmployer(actor).
+    On success { Assert askedEmployer(actor). Assert brokeFaith(actor). Assert forswornParty(actor). }
+    Result "The ruled lines round the walls go dark, all of them at once, and the floor under you drops a finger's breadth and does not come up. The Assessor looks at the walls, and at you. They do not say anything. They write something down, and close the ledger, and do not open it again for a long while.".
+  }
+
+  // ── The Room of Defaults ──────────────────────────────────────────────────────────────────────────────────────────
+  Thing defaults_lock "the iron door" on defaults_door {
+    State locked blocking "The door of the Room of Defaults is bound in iron and locked.".
+    State open "The iron door of the Room of Defaults stands open.".
+    Change pick "Pick the lock of the iron door" from locked to open needing lockwork at archive.
+  }
+  Action tally_opens(actor: group, site: place) "Ask the Assessor to open the Room of Defaults in the course of the inventory" {
+    Speaker tally. Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, archive) and travelsWith(tally, actor)
+      and knows(actor, compact_read) and state(defaults_lock, locked) and not brokeFaith(actor).
+    On success { Assert state(defaults_lock, open). }
+    Result "The Assessor looks at the iron door for some time. 'The compact of the old city is not on my inventory,' they say. 'But the city of Tessary claims the old city's oaths as its heir, and so its defaults are the city's defaults, and so they bear on the collateral.' They lay a ruled hand flat on the iron, and the lock turns over inside the door with a sound like a slow bell. 'I find that I want to see it,' they say. 'I note that I want to.'".
+  }
+  Discovery default_record "The Room of Defaults records the drowned city's compact as broken eleven hundred years ago, in the Comptroller's own hand: 'The sea had the city. The ledger did not keep. Default entered by the clerk who swore it.' Beside the entry, in the same hand, a reckoning runs down the margin for a thousand years, and ends in fresh ink: 'Tessary, heir. War note drawn. Repayment set at a weight the heir cannot meet. At foreclosure, eight thousand oaths fall in, and the hole is closed.'" {
+    Source defaults_ledger "the thin ledger on the table" at defaults_room readable by party.
+  }
+  Discovery note_designed "The War Note was drawn to fail. The Comptroller swore the drowned city's compact eleven hundred years ago and could not keep it; his default left a hole in the Balance's ledger. He set Tessary's repayment at a weight its heir could never meet, so that at foreclosure the Muster's oaths would fall into the Holding and fill the hole he made.".
+  Observe designed_seen near party when knows(party, default_record) and knows(party, note_terms) and not knows(party, note_designed) "You read the reckoning again with the War Note in your head, and it is not a reckoning. It is a plan. The repayment was never meant to be made. A thousand years of trying to close one hole, and then, at last, a city poor enough and desperate enough to sign." teaches note_designed.
+  Relation tallySawDefaults(place).
+  Event tally_reads_defaults at defaults_room when travelsWith(tally, party) and knows(party, default_record) "The Assessor reads the ledger over your shoulder, and then reads it again, alone, with their finger on the lines, the way a child reads. When they straighten, the ruled lines on their face have gone faint, as if something had rubbed at them. 'He swore the compact,' they say. 'He did not keep it. And he has drawn the city's note so that it cannot be paid, so that the Muster will fall in and cover it.' A long pause. 'A promise made in order to be broken is not a promise. It is the first thing we are taught. It is the gravest thing one of us can do.' They close the ledger very gently. 'I do not know what I am going to do.'" then {
+    Assert tallySawDefaults(ossel). }
+
+  // ── The Counterweight Gallery ─────────────────────────────────────────────────────────────────────────────────────
+  // The door to the Weighing Chamber opens when the empty pan is made to balance the nine-line lead: a test every
+  // Scruple passes as a child. The brass on the rack is two, three, four and five.
+  Thing door_pan "the empty pan" at gallery {
+    Holds.
+    State hanging "The empty pan hangs high on its chains, the lead's pan low.".
+  }
+  Initially Assert receptacle(door_pan).
+  Kind brass_two "a brass weight of two lines" is gear worth 1 weighing 2 described "A flat brass weight with two ruled lines cut across it.".
+  Kind brass_three "a brass weight of three lines" is gear worth 1 weighing 3 described "A flat brass weight with three ruled lines cut across it.".
+  Kind brass_four "a brass weight of four lines" is gear worth 1 weighing 4 described "A flat brass weight with four ruled lines cut across it.".
+  Kind brass_five "a brass weight of five lines" is gear worth 1 weighing 5 described "A flat brass weight with five ruled lines cut across it.".
+  Item w_two "a brass weight of two lines" is brass_two at gallery.
+  Item w_three "a brass weight of three lines" is brass_three at gallery.
+  Item w_four "a brass weight of four lines" is brass_four at gallery.
+  Item w_five "a brass weight of five lines" is brass_five at gallery.
+  Query panBalanced() means (inside(w_four, door_pan) and inside(w_five, door_pan) and not inside(w_two, door_pan) and not inside(w_three, door_pan))
+    or (inside(w_two, door_pan) and inside(w_three, door_pan) and inside(w_four, door_pan) and not inside(w_five, door_pan)).
+  Thing counter_door "the white door" on chamber_door {
+    State shut blocking "The white door between the pans has no handle, and does not open.".
+    State open "The white door stands open, the pans level on their chains.".
+  }
+  Rule door_balances at gallery when panBalanced() and state(counter_door, shut)
+    says "The empty pan sinks, slowly, and the lead rises to meet it, and the two hang level. The pointer between them settles on its mark. Without any sound, the white door opens." { Assert state(counter_door, open). }
+  Rule door_unbalances when not panBalanced() and state(counter_door, open) and not chamberOpened(ossel) { Assert state(counter_door, shut). }
+  Relation chamberOpened(place).
+  Observe pan_wrong at gallery when not panBalanced() and inside(?w, door_pan) "The pan has something in it, and has moved, but the pointer between the pans has not come to its mark.".
+
+  // The Weights: bailiffs of stone and bronze, who seize the forsworn and those in default.
+  Species weight_kind "a Weight" like bronze_construct temperament obedient
+    described "A figure of bronze and white stone twice the height of a man, with a pair of scales cast into its chest where a heart would be. It does not move unless something is owed.".
+  Person weights "the Weights" at gallery {
+    Role "two bailiffs of bronze and white stone, standing either side of the door". Species weight_kind. Level 6. Numbers 2. Pronouns they.
+  }
+  Initially Assert tolerates(weights, party).
+  Initially Assert peaceable(weights).
+  Rule weights_seize when forswornParty(party) and at(party, ?p) and at(weights, ?p) and peaceable(weights)
+    says "The Weights turn their heads, both together, with a grinding of bronze. The scales in their chests have tipped." {
+    Retract peaceable(weights). Retract tolerates(weights, party). Assert assails(weights, party). }
+
+  // ── The Comptroller ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Eldest of the Scruples. He swore the drowned city's compact, and has kept the ledger for eleven hundred years
+  // since he failed to keep his word. He cannot lie. He can choose what to say.
+  Person comptroller "the Comptroller" at comptroller_office {
+    Role "eldest of the Scruples, very tall and very thin, the ruled lines on his face so close they look like shading". Ancestry human. Calling mage. Level 9. Peaceable. Pronouns he. Manner proud.
+    Greets "The Comptroller looks up from the black glass. His eyes are the colour of old paper. 'You have come down,' he says, 'from the debtor's city. Very well. You may ask.'".
+  }
+  Topic comptroller_note with comptroller "Ask the Comptroller about the War Note" when true once {
+    Says "'A loan,' says the Comptroller. 'The city wished to call an oath its predecessors were owed. It could not pay for the calling. We lent it, against security, as is our office.' He touches the black glass. 'Every promise the Balance holds is a thread in the fastening of things. When one is called, the ledger is drawn down by its weight, and the weight must be restored, or the fastening slackens. You have heard, I suppose, that the planes were fastened apart. This is one of the places where they were fastened. I am not concerned with your city's poverty. I am concerned with the ledger.'".
+    On discuss { Assert knows(actor, note_terms). }
+  }
+  Relation comptrollerAlly(group). Relation brokerSuspended(place).
+  Topic comptroller_bid with comptroller "Tell the Comptroller that the Factor means to buy the note" when knows(actor, sault_bid) and not comptrollerAlly(actor) once {
+    Says "For the first time the Comptroller looks at you directly. 'Buy it,' he says. 'At foreclosure.' The ruled lines on his face tighten. 'It is lawful. A note in default may be taken up by whoever pledges its weight. And then the holder may call the collateral out, to service as sworn, and the oaths leave the Holding, and the weight with them.' He is silent a while. 'That must not happen. Bring me what she has written, in her hand, and I will suspend the broker she has suborned. Whatever else she does, she will have to do in person, in this chamber, on the night.' He bows very slightly. 'In this, we want the same thing.'".
+    On discuss { Assert comptrollerAlly(actor). }
+  }
+  Event broker_suspended near comptroller when keeps(comptroller, sault_letter) "The Comptroller reads the Factor's letter once, and lays it on the black glass, and the glass takes it, the way still water takes a dropped page. 'The Broker of the Fourth Pan is suspended,' he says. 'If the Factor wants the note, she will come to the Weighing Chamber on the night of the Settlement and pledge in person.' He looks at you. 'Thank you. The ledger is in your debt. I do not say that often.'" then {
+    Assert brokerSuspended(ossel). }
+  Relation durranceSpared(place). Relation promisedLetter(group).
+  Topic comptroller_spare with comptroller "Ask the Comptroller to strike Sergeant Durrance from the next page" when knows(actor, durrance_next) and night(ossel) < 8 and not durranceSpared(ossel) and not heldNow(durrance) once {
+    Says "'The page will be read,' says the Comptroller. 'Twelve oaths. The weight is the weight.' He considers you. 'But the order of the roll is a convenience, not a term. I can have the sergeant passed over. Elcock, who is next, will go in her place, and the one after Jessup in his.' He lets that sit. 'I will do it for a promise, made here, where it is held: that you will bring me, before the Settlement, the Factor's bid in her own hand.'".
+  }
+  Action promise_comptroller(actor: group, site: place) "Promise the Comptroller the Factor's letter before the Settlement, so that Durrance is passed over" {
+    Speaker comptroller. Time 1 minute.
+    Grave "A promise made to the Comptroller is held by the Balance. If it is not kept by the Feast, it is broken; and Elcock goes into the sea in Durrance's place.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(comptroller, site) and knows(actor, durrance_next)
+      and night(ossel) < 8 and not durranceSpared(ossel) and not heldNow(durrance) and not keeps(comptroller, sault_letter).
+    On success { Assert durranceSpared(ossel). Assert promisedLetter(actor). Assert registered(actor). }
+    Result "The Comptroller takes a pen and writes one line on the black glass, and the glass takes the ink. 'Durrance, A., passed over,' he says. 'Elcock, R., to be called in her place.' He does not look up. 'Elcock is nineteen. He was a drummer. I mention it because you will want to know what you have done, and I do not say things that are not so.'".
+  }
+  Rule letter_promise_kept when promisedLetter(party) and keeps(comptroller, sault_letter) { Retract promisedLetter(party). Assert keptFaith(party). }
+  Rule letter_promise_broken when promisedLetter(party) and feastEve() and hour(clock) >= 18
+    says "Somewhere under the sea a line is drawn through a promise you made, and you feel it, exactly as if a cold hand had been laid flat between your shoulders and then taken away. The Comptroller's letter was not brought." {
+    Retract promisedLetter(party). Assert forswornParty(party). }
+  Topic comptroller_drowned with comptroller "Ask the Comptroller about the drowned city's compact" when knows(actor, compact_read) and not knows(actor, note_designed) once {
+    Says "The Comptroller does not move at all. 'That is not a matter of the note,' he says. 'You will not find me willing to discuss it.' And then, because he cannot leave a false impression standing, and you see him know it: 'I do not say that there is nothing to discuss. I say that I will not discuss it.' He looks back down at the black glass. 'You may go.'".
+  }
+  Relation comptrollerConfronted(group). Relation silenceOffered(group). Relation swornSilence(group).
+  Topic comptroller_confronted with comptroller "Put the reckoning in the Room of Defaults to the Comptroller" when knows(actor, note_designed) and not comptrollerConfronted(actor) once {
+    Says "The Comptroller listens to the end. He cannot say it is not so, and he does not try. 'I swore the compact,' he says. 'I was younger than your Assessor. The sea came over the old city in one night and the ledger did not keep, and I wrote the default in my own hand, as one must.' He lays his hand on the black glass. 'For eleven hundred years there has been a hole in the ledger the size of a city, and through it the fastening has slackened, here, at this one place. On some nights the sea out there shows stars that are not ours. I have tried to fill it honestly. I have tried for a thousand years.' He looks up. 'Then your city came, poor, at war, desperate. I drew the note so that it would fail. Eight thousand oaths, held asleep and unharmed, against the fastening of the world. I would draw it again.'".
+    On discuss { Assert comptrollerConfronted(actor). Assert silenceOffered(actor). }
+  }
+  Action swear_silence(actor: group, site: place) "Promise the Comptroller your silence, and take Davy Teazle out of the Holding for it" {
+    Speaker comptroller. Time 1 minute.
+    Grave "A promise of silence made here is held. If you speak of the reckoning to anyone after, you are forsworn.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(comptroller, site) and silenceOffered(actor)
+      and not swornSilence(actor) and heldNow(davy) and not indictmentFiled(ossel).
+    On success { Assert swornSilence(actor). Assert registered(actor). Assert redeemedByComptroller(davy). }
+    Result "'Then it is held,' says the Comptroller, and writes on the black glass. 'Teazle, D., private, redeemed from the Holding by order of the Comptroller.' He does not look up. 'He will wake on the Tideline Steps at the next ebb with his boots beside him. Go home. You have done a good thing for one family, and nothing at all for the rest, and you knew that when you chose.'".
+  }
+  Relation redeemedByComptroller(group). Relation indictmentFiled(place).
+
+}

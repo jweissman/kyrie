@@ -1,0 +1,6 @@
+Module tessary "What Tessary Owes" {
+  // ── The state of the city's affairs ──────────────────────────────────────────────────────────────────────────────
+  // Relations shared by every movement: who is held, whether the Board has voted, how the note stands.
+  Relation heldNow(group). Relation voted(place). Relation votePassed(place).
+  Relation discharged(place).
+}

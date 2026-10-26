@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "What Tessary Owes",
+  "calendar": { "year": 1144, "month": 10, "day": 30 },
+  "pitch": {
+    "heading": "Tessary on the Ossel, in the week the Long Muster came home",
+    "text": "The legions of Tessary have come home from eleven years' war, and some of them are walking into the sea. An eel-wife of the Withies has pinned a notice at the Landgate: her son set his boots together on the Tideline Steps a fortnight ago and walked into the water, and she will give her savings to whoever can tell her where he went. You have come down the marsh road with a little coin and no particular plans."
+  },
+  "modules": [
+    { "id": "tessary", "bundle": "../adventures/what-tessary-owes/module.json" }
+  ],
+  "party": [
+    { "name": "Ivo", "raceId": "human", "classId": "thief", "backgroundId": "locksmith" }
+  ]
+}

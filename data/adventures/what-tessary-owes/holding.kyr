@@ -1,0 +1,10 @@
+Module tessary "What Tessary Owes" {
+  Place holding_plane "the Holding" is plane.
+  Place white_floor "the white floor" is region within holding_plane.
+  Place holding "the Holding" is site within white_floor at 0, 0.
+  Place ranks "the Ranks" is room within holding at 0, 0 outdoors.
+  Person davy "Davy Teazle" at ranks {
+    Role "a private of the Long Muster, asleep on his feet". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he.
+  }
+  Initially Assert asleep(davy). Initially Assert heldNow(davy).
+}

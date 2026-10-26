@@ -1,0 +1,191 @@
+Module tessary "What Tessary Owes" {
+  // ── Lowtide ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Eleven hundred years ago the sea came over the Aenean city in a night and kept it. Its streets lie in the outer
+  // basin under four fathoms at high water; at low water they drain through the Throat and stand out for a few hours,
+  // weeded, wet, picked over by mudlarks, used by smugglers, and haunted. The Hall of Oaths, the old city's court, is
+  // at the bottom of the basin, and the wall at the back of it is the way down to the Strongrooms.
+  Place throat_foot "the foot of the Throat Stair" is room within lowtide at 0, 0 outdoors.
+  Place colonnade "the Weed Colonnade" is room within lowtide at 1, 0 outdoors.
+  Place forum "the Drowned Forum" is room within lowtide at 1, 1 outdoors.
+  Place scales_street "the Street of Scales" is room within lowtide at 2, 1 outdoors.
+  Place aqueduct_foot "under the Aqueduct" is room within lowtide at 0, 1 outdoors.
+  Place aqueduct_top "on top of the Aqueduct" is room within lowtide at 0, 2 outdoors.
+  Place landing "the ebb-runners' landing" is room within lowtide at 3, 1 outdoors.
+  Place bath_house "the bath-house" is building within lowtide.
+  Place bath_hall "the bath-house hall" is room within bath_house at 2, 2.
+  Place plunge "the plunge-room" is room within bath_house at 3, 2.
+  Place bath_dome "on the bath-house dome" is room within lowtide at 2, 3 outdoors.
+  Place oath_house "the Hall of Oaths" is building within lowtide.
+  Place oath_court "the Hall of Oaths" is room within oath_house at 1, 2.
+
+  Passage throat_stair "the Throat Stair" is steps between throat_head and throat_foot
+    opening when lowWater() "The Throat Stair goes down into green water and does not come up. The basin is full.".
+  Passage colonnade_way "the colonnade" is arch between throat_foot and colonnade.
+  Passage forum_steps "the forum steps" is steps between colonnade and forum.
+  Passage scales_way "the Street of Scales" is path between forum and scales_street taking 5 minutes.
+  Passage aqueduct_way "the lane to the aqueduct" is path between forum and aqueduct_foot taking 5 minutes.
+  Passage pier "the broken pier" is passage between aqueduct_foot and aqueduct_top needing climbing or rope
+    opening when lowWater() or at(party, aqueduct_top) "The broken pier stands up out of the sea. The water is over everything below it.".
+  Passage landing_way "the quay steps" is steps between scales_street and landing.
+  Passage bath_door "the bath-house door" is doorway between scales_street and bath_hall.
+  Passage plunge_arch "the plunge-room arch" is arch between bath_hall and plunge.
+  Passage dome_stair "the dome stair" is passage between bath_hall and bath_dome
+    opening when lowWater() or at(party, bath_dome) "The dome stair goes down into black water.".
+  Passage hall_steps "the Hall steps" is steps between forum and oath_court.
+  Passage runners_tunnel "the ebb-runners' tunnel" is tunnel between landing and cistern taking 20 minutes.
+  Initially Assert unlit(plunge). Initially Assert unlit(oath_court).
+
+  // What floods, and what does not: the landing is a raised quay at the tunnel's mouth; the aqueduct and the dome
+  // stand above the highest water.
+  Relation floods(place).
+  Initially Assert floods(throat_foot). Initially Assert floods(colonnade). Initially Assert floods(forum).
+  Initially Assert floods(scales_street). Initially Assert floods(aqueduct_foot). Initially Assert floods(bath_hall).
+  Initially Assert floods(plunge). Initially Assert floods(oath_court).
+  Relation lowtideRoom(place).
+  Initially Assert lowtideRoom(throat_foot). Initially Assert lowtideRoom(colonnade). Initially Assert lowtideRoom(forum).
+  Initially Assert lowtideRoom(scales_street). Initially Assert lowtideRoom(aqueduct_foot). Initially Assert lowtideRoom(aqueduct_top).
+  Initially Assert lowtideRoom(landing). Initially Assert lowtideRoom(bath_hall). Initially Assert lowtideRoom(plunge).
+  Initially Assert lowtideRoom(bath_dome). Initially Assert lowtideRoom(oath_court).
+
+  // ── The water ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe water_low near party when at(party, ?p) and floods(?p) and lowWater() and not turning() "Water stands in the low places and runs in the gutters, going out. Somewhere far off, toward the Throat, the sea is a long way away.".
+  Observe water_turning near party when at(party, ?p) and floods(?p) and turning() "The water in the gutters has stopped running out. Now it is running back. A wet line is creeping up the steps of the nearest house, and from the direction of the Throat comes a sound like a mill-race opening.".
+  Observe table_says near party when at(party, ?p) and floods(?p) and turning() and carries(party, ?t) and itemKind(?t, tide_table) "By Wick's table the basin fills on the hour. The drawing of the wave with teeth is underlined twice.".
+  Observe refuge_high near party when at(party, ?p) and lowtideRoom(?p) and not floods(?p) and not lowWater() "The sea is in. Green water lies over Lowtide from the Tidewall to the outer bar, with the tops of colonnades standing up out of it, and gulls on them. You are above it, and will be until the ebb.".
+  Hazard drowning "Rolled through the Throat by the flood" means "Deal (2d4) physical damage to ally unless constitution save against (12).".
+  Rule swept when at(party, ?p) and floods(?p) and not lowWater()
+    says "The flood comes back through the Throat all at once, a brown wall of it shouldering down the streets. It takes your feet. It takes everything. You are rolled, and dragged, and something hits you, and there is no up; and then there is, and air, and you are being carried out along the pan-dykes with the weed and the timber, and you crawl out at last onto the salt crust east of the city and lie there, coughing up the sea. Your purse is lighter." {
+    Retract at(party, ?p). Assert at(party, pans). Assert strikes(drowning, party). Decrease quantity(party, gold) by 3. Assert sweptOnce(party). }
+  Relation sweptOnce(group).
+
+  // ── The places ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe throat_foot_scene at throat_foot when true "The stair comes down the face of the Tidewall into a gully of wet stone and kelp. The noise of the Throat is very loud here: the basin draining past you through the one deep channel, brown and quick. Ahead, through a gap in the old sea-wall, a street begins.".
+  Observe colonnade_scene at colonnade when true "A street of columns, their tops lost, their shafts furred with weed that lies flat in the direction the water went. Between the columns, doorways, full of sand to the lintel. Anemones the colour of raw meat have opened in the wet, and close if you go near.".
+  Observe forum_scene at forum when true "The old city's market square, a hundred paces across, paved in great slabs, most of them still there. The fountain in the middle is a heap of stone with a crab on it. On every side the fronts of buildings stand roofless, their windows full of sky. At the south end, broad steps go down to a building with no windows at all.".
+  Observe forum_larks at forum when lowWater() and not dark() "Mudlarks are working the square with buckets and rakes, children mostly, and a few old men who have been children here for sixty years. They lift their heads to look at you, and go back to work.".
+  Observe forum_dark at forum when dark() "In the dark the square is a pale floor, and the buildings round it are holes. Things move in the wet places. It is very quiet except for the Throat.".
+  Observe scales_scene at scales_street when true "A street of shops, by the look of it: every doorway has a stone counter, and every counter a pair of carved scales. Eleven hundred years have not worn the scales off. At the far end, a quay stands up out of the sand, higher than the street, with steps.".
+  Observe aqueduct_foot_scene at aqueduct_foot when true "The aqueduct comes in over the basin on three arches from somewhere that is now open sea, and stops in mid-air above a heap of its own fallen stones. One pier still stands to the top. Its stones are stepped and broken; there is a rusted ring set in it, high up, where somebody has knotted rope before.".
+  Observe aqueduct_top_scene at aqueduct_top when true "The water-channel along the aqueduct's top is a yard wide and dry, and you can lie in it out of the wind. From here the whole of Lowtide is laid out like a plan: the colonnade, the forum, the dome of the bath-house, the windowless Hall at the bottom of everything, and beyond it all the outer bar, and the sea.".
+  Observe bath_hall_scene at bath_hall when true "A hall of benches round a dry basin, under a dome that has kept its roof. Light comes down through the hole at the top of the dome in a white post. Against one wall, a stair winds up inside the dome's thickness. On the other side an arch opens on darkness, and the air that comes out of it is cold and smells of nothing at all.".
+  Observe plunge_scene at plunge when true "The plunge-room: a deep square pool, dry, its floor a bed of silt. Round its edge, against the walls, things are standing that look at first like coats hung on pegs, and then do not.".
+  Observe dome_scene at bath_dome when true "The dome's top is a broad shallow cap of stone with the light-hole in the middle of it, crusted with gull-lime. It stands above the highest water. People have sat out tides here before: there are names scratched in the stone, and a tally of days.".
+  Observe court_scene at oath_court when true "The Hall of Oaths has no windows. It is a long room of black stone, the same black as the Oath Stone in the Legion Yard, dry, except for the sea's tidemark half way up the walls, as if the water had come in and thought better of it. The walls are carved from floor to tidemark with ruled lines, ledger on ledger, and on the end wall, where a judge's seat would be, there is no seat, only an inscription in Aenean letters a foot high, and under it a plain black wall.".
+
+  // ── The ebb-runners ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Factor Sault's people in Lowtide. They work the old city for bronze and dressed stone, run untaxed salt through the
+  // cistern, and for eleven years carried the city's interest silver down to the Hall of Oaths. They take prisoners:
+  // whoever they beat wakes on the Pans.
+  Person slake "Bettany Slake" at landing {
+    Role "who runs the ebb-runners, in a fisherman's smock with a cutlass through the belt". Ancestry human. Calling thief. Level 3. Pronouns she. Manner acerbic.
+    Temperament territorial.
+    Warns "A woman in a smock stands up off a crate with a cutlass in her hand and puts her other hand up, palm out. 'That's far enough,' she says. 'This is a working quay.'".
+    Comes "'Right,' says Bettany Slake, almost sorry, and the ebb-runners come off the crates.".
+    Pleads "Bettany Slake puts her cutlass down on the stones. 'All right,' she says. 'All right. You've made your point.'".
+  }
+  Person runners "the ebb-runners" at landing {
+    Role "three of Bettany Slake's people, with hooks and short clubs". Ancestry human. Calling warrior. Level 1. Numbers 3. Pronouns they.
+    Temperament territorial.
+  }
+  Initially Assert takesPrisoners(slake). Initially Assert takesPrisoners(runners).
+  Initially Assert serves(runners, slake). Initially Assert serves(slake, sault).
+  Observe landing_scene at landing when true "A stone quay at the end of the Street of Scales, high enough that the flood laps its top and goes no further. Crates, coils of rope, a brazier, a long boat drawn up on rollers. A low tunnel goes back into the quay wall, toward the city, with lamps on hooks along it. On a post by the tunnel mouth hangs a board scored with notches.".
+  Rule runners_captured when captured(slake, party) or captured(runners, party)
+    says "You come round on the salt crust east of the city at the edge of a pan, with a headache and an empty feeling at your belt. Someone has carried you up the tunnel and dumped you here. Someone has also been through your purse." {
+    Retract captured(slake, party). Retract captured(runners, party). Retract at(party, landing). Assert at(party, pans).
+    Decrease quantity(party, gold) by 5. }
+  Topic slake_quay with slake "Ask Bettany Slake what the ebb-runners do" when true once {
+    Says "'Salvage,' says Bettany. 'Bronze, dressed stone, whatever the sea's been keeping. All above board, in the Factor's name.' She spits over the edge of the quay. 'And what goes up and down that tunnel is the Factor's business and mine, and not a thing a stranger wants to be curious about, if the stranger likes the shape of his head.'".
+  }
+  Topic slake_silver with slake "Ask Bettany Slake what she carried to the Hall of Oaths" when knows(actor, collateral) or knows(actor, note_terms) once {
+    Says "Bettany looks at you a long moment. 'Silver,' she says. 'Every month for eleven years. The city's, in the Factor's boats, down the tunnel and across at the ebb and into the Hall, and left in the niche by the wall, and the next ebb it was gone.' She shrugs. 'Then in the summer there wasn't any silver, and we stopped. And at the next spring ebb the first of them walked past us across the Forum with their eyes open.' She looks away. 'I don't carry anything to that Hall any more. Only the Factor's letters.'".
+    On discuss { Assert knows(actor, sault_courier). }
+  }
+  Discovery sault_courier "For eleven years the ebb-runners carried the city's interest silver, in Factor Sault's boats, down to the Hall of Oaths. The Factor has known the whole arrangement from the beginning." {
+    Source runners_board "the notched board on the post by the tunnel" at landing readable by party.
+  }
+  Relation slakeLetsPass(group).
+  Action pay_slake(actor: group, site: place) "Pay Bettany Slake five coin for the use of her quay" {
+    Speaker slake. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(slake, site) and able(slake)
+      and not tolerates(slake, actor) and not hostile(slake, actor) and quantity(actor, gold) >= 5.
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(slake, gold) by 5. Assert tolerates(slake, actor). Assert tolerates(runners, actor). }
+    Result "Bettany weighs the coins in her palm, and bites one, and pockets them. 'Quay's yours,' she says. 'Don't touch the crates.'".
+  }
+  Topic slake_factor with slake "Tell Bettany Slake you work for the Factor" when hiredBySault(actor) and not tolerates(slake, actor) once {
+    Says "'Do you,' says Bettany. She looks you up and down. 'She said she'd hired someone to go asking. All right. Mind yourself on the quay.' She sits back down on her crate.".
+    On discuss { Assert tolerates(slake, actor). Assert tolerates(runners, actor). }
+  }
+  Thing runners_box "the ebb-runners' lockbox" at landing {
+    Holds.
+    State locked closed "An iron-bound lockbox is chained to the boat's thwart.".
+    State open "The lockbox stands open.".
+    Change pick "Pick the lockbox" from locked to open needing lockwork.
+    Change smash "Smash the lockbox open" from locked to open needing brawn.
+  }
+  Item sault_letter "a letter in the Factor's hand" is letter_kind in runners_box.
+  Kind letter_kind "a sealed letter" is gear worth 0 weighing 0
+    described "A letter folded small and sealed with salt-white wax, stamped with a pair of crossed rakes.".
+  Initially Assert owns(sault, sault_letter).
+  // What is seen taken, by those who keep the quay.
+  Rule box_watched when state(runners_box, open) and perceives(slake, party) and not tolerates(slake, party) and not hostile(slake, party)
+    says "'Oi,' says Bettany Slake, and her cutlass comes out." { Assert hostile(slake, party). Assert assails(runners, party). }
+  Discovery sault_bid "Factor Sault has written to a broker of the Scruples offering to bid for the War Note at its foreclosure, and to pledge her own house to the Balance as surety: 'The Board will not pay. When the Feast passes, I will take up the note, and with it the Muster, and Tessary will be governed by someone who can count.'".
+  Action read_letter(actor: group, site: place) "Break the wax and read the Factor's letter" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, sault_letter) and not benighted(actor)
+      and not knows(actor, sault_bid).
+    On success { Assert knows(actor, sault_bid). }
+    Result "It is addressed to the Broker of the Fourth Pan, the Strongrooms, by hand of B. Slake. 'Sir. You will have had my earlier. I repeat my offer: when the city's note falls in at the Feast and is offered at foreclosure, I bid for it, and I will pledge House Sault entire as surety, which your Comptroller will find to weigh what it needs to. The Board will not pay; I have seen to that, and if I had not, the treasury would. I will take up the note and with it the Muster. They will be fed and paid and housed. Tessary will be governed by someone who can count. Burn this. I. Sault, Factor.'".
+  }
+
+  // Councillor Haverick's goose, taken off the Terraces by the ebb-runners for their Feast.
+  Species goose_kind "a goose" like hen tame described "A big white goose with an orange bill and an opinion of everyone.".
+  Person plum "Mistress Plum" at landing {
+    Role "a large white goose in a crate, very much offended". Species goose_kind. Peaceable. Pronouns she.
+  }
+  Initially Assert acceptsEscort(plum, party).
+  Observe plum_crate near plum when at(plum, landing) "In a crate by the brazier a big white goose is hissing steadily at the ebb-runners, who are ignoring it. A ribbon round its neck says PLUM in gold thread.".
+
+  // ── The Forsworn ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Aenean oath-breakers whose bindings unravelled when they broke a promise the Balance held. What is left of them
+  // stands in the plunge-room and comes to the sound of swearing, and to whoever has broken a promise held below.
+  Species forsworn_kind "a Forsworn" like revenant temperament savage
+    described "A thing like a person-shaped hollow, wearing the rags of an Aenean robe. Where its face should be there is a darkness with the texture of torn paper.".
+  Person forsworn "the Forsworn" at plunge {
+    Role "hollow people in the rags of Aenean robes". Species forsworn_kind. Level 2. Numbers 2. Pronouns they.
+    Comes "The coats on the pegs come off the walls. They come round the dry pool toward you without any sound at all, with their hands out, as if they wanted to be given something.".
+    Lair plunge.
+  }
+  // A company that has broken a promise held below is followed through Lowtide by the Forsworn, as the tide turns.
+  Relation forswornParty(group).
+  Rule forsworn_follow when forswornParty(party) and at(party, ?p) and floods(?p) and turning() and able(forsworn) and not at(forsworn, ?p) and not dark()
+    says "Something is standing in the nearest doorway that was not there a moment ago: a coat with nobody in it, turned toward you." {
+    Retract at(forsworn, plunge). Assert at(forsworn, ?p). Assert assails(forsworn, party). }
+
+  // ── The Hall of Oaths ─────────────────────────────────────────────────────────────────────────────────────────────
+  Discovery compact_read "The inscription in the Hall of Oaths is the drowned city's compact with the keepers of the Balance: 'THE SEA SHALL NOT HAVE THIS CITY WHILE THE LEDGER KEEPS. WHO COMES TO THE LEDGER COMES TO BE WEIGHED.' The sea had the city all the same.".
+  Action read_compact(actor: group, site: place) "Puzzle out the Aenean inscription on the end wall" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, oath_court) and not benighted(actor)
+      and not knows(actor, compact_read) and not travelsWith(tally, actor).
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, compact_read). }
+    Result "Letter by letter, with the ruled walls watching. The Aenean is formal, legal, very old, and plain once you have the first word: THE SEA SHALL NOT HAVE THIS CITY WHILE THE LEDGER KEEPS. And under it, smaller, over the black wall: WHO COMES TO THE LEDGER COMES TO BE WEIGHED. You look up at the tidemark half way up the walls, and think about the sea, and what it had.".
+    Otherwise "You can make out a word here and there, CITY and SEA and something that might be LEDGER or might be SCALES, but the sense of it slides away from you in the dark.".
+  }
+  Observe tally_reads at oath_court when travelsWith(tally, party) and not knows(party, compact_read) and not benighted(party) "The Assessor stops in front of the end wall and reads it aloud, in a flat clear voice, as a clerk reads a clause. 'The sea shall not have this city while the ledger keeps. Who comes to the ledger comes to be weighed.' They are quiet a moment. 'That is the compact of the old city with the Balance. It is a famous text. I have never seen it.' Another pause. 'The sea had the city. I had not thought about that before.'" teaches compact_read.
+  // The black wall: open to the Scruples, to the called, and to whoever says the words on it and means them.
+  Relation weighedAt(group, place).
+  Action say_words(actor: group, site: place) "Put your hand on the black wall and say 'I come to the ledger to be weighed'" {
+    Grave "The words are written on a wall that hears them. Below, what you say is held to.".
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, oath_court) and knows(actor, compact_read)
+      and not weighedAt(actor, oath_court).
+    On success { Assert weighedAt(actor, oath_court). Assert registered(actor). }
+    Result "The stone is warm under your hand, warm as a sleeping animal. You say the words, and for a moment you feel it: a weighing, as if you were standing in one pan of a scale with something enormous in the other, and the beam lifting, considering. Then the wall under your hand is not there.".
+  }
+  Relation registered(group).
+  Passage black_wall "the black wall" is passage between oath_court and long_stair
+    opening when travelsWith(tally, party) or weighedAt(party, oath_court) or registered(party) "A plain wall of black stone, warm to the touch, with no door in it.".
+}
