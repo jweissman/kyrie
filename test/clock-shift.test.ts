@@ -5,10 +5,10 @@ import { PlaySession } from '../src/session/play-session';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
 
-// A module installed after a campaign began counts its days from when it was installed. Eighteen days in, the country
-// east of the march is drawn when the company first stands there: beyond b2, with a child sick of a fever that kills
-// her on the tenth day of its own telling, alive when the company arrives; beyond a1, with a brood that raids by its
-// own clock.
+// A module installed after a campaign began counts its days from the first morning after it was installed (see
+// placed-days.test.ts for why a morning). Eighteen days in, the country east of the march is drawn when the company
+// first stands there: beyond b2, with a child sick of a fever that kills her on the tenth day of its own telling,
+// alive when the company arrives; beyond a1, with a brood that raids by its own clock.
 class Late {
   static readonly fixed = /"name":"watch","args":\["clock"\]\},"right":\{"kind":"number","value":(\d+)/;
   static async beyond(seed: string) {

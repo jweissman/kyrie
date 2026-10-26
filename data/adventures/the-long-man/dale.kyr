@@ -211,7 +211,10 @@ Module longman "The Long Man" {
   Rule folk_bed when at(folk, taproom) and untilLight(clock) <= 42 { Assert at(folk, green). }
   Observe green_night at green when dark() and not drowned(green) "The green is dark. Somebody's dog barks once.".
   Observe ox_evening_first at taproom when at(folk, taproom) and watch(clock) < 144 "The taproom is full and loud. Everybody has an opinion about the steward's notice, and nobody means to go up the hill after dark to earn it.".
-  Observe ox_evening_second at taproom when at(folk, taproom) and watch(clock) >= 144 "The talk in the Ox is of the barge, and of the low field, where Ned Rook went in over his boots this afternoon by the springs, on ground that was dry at Lammas.".
+  Observe ox_evening_second at taproom when at(folk, taproom) and watch(clock) >= 144 and not state(leak_gate, mended) and not drawn(hollow) "The talk in the Ox is of the barge, and of the low field, where Ned Rook went in over his boots this afternoon by the springs, on ground that was dry at Lammas.".
+  // Once the leak is shut or the lake is down, the low field is not the talk (the Bushweald play heard Ned Rook go in
+  // over his boots the evening after the wall was mended).
+  Observe ox_evening_eased at taproom when at(folk, taproom) and watch(clock) >= 144 and (state(leak_gate, mended) or drawn(hollow)) "The talk in the Ox is of the barge, and of the springs at the foot of the Long Man, which ran clear this morning for the first time since Lammas. Nobody says why.".
   // Hob walks up to the springs at dusk with his spade, and stands looking at the water.
   Rule hob_walks when dark() and untilLight(clock) > 48 and at(hob, millhouse) and not confessed(hob) { Assert at(hob, springs). }
   Rule hob_home when at(hob, springs) and untilLight(clock) <= 48 { Assert at(hob, millhouse). }

@@ -68,6 +68,9 @@ describe('The Long Man', () => {
     const r = s.campaign.readout;
     expect(r.creatures.filter(c => r.partyIds.includes(c.id)).map(c => c.state.experience)).toEqual([1000, 1000, 1000]);
     expect(Dale.holds(s, 'at', 'longman__mower', 'longman__leak')).toBe(true);
+    // The evening after, the Ox talks of the springs running clear, not of the low field going under.
+    await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox');
+    expect(await Dale.until(s, 222)).toContain('ran clear this morning');
     await Dale.until(s, 400);
     expect(Dale.holds(s, 'longman__broke', 'longman__long_man')).toBe(false);
     expect(Dale.holds(s, 'longman__drowned', 'longman__low_field')).toBe(false);

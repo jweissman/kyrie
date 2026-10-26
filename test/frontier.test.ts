@@ -84,9 +84,9 @@ describe('the world beyond a region', () => {
     expect(s.campaign.module.entities.some(e => e.id === `${drawn!.rid}__long_man`)).toBe(true);
     await March.choose(s, /road across the march/);
     expect(s.campaign.world.one('at', 'party')).toBe(`${drawn!.rid}__road_end`);
-    // Its three days run from when it is reached, not from when the world began.
+    // Its three days run from the morning after it is reached, not from when the world began (see placed-days).
     const storm = s.campaign.module.rules!.find(r => r.id === `${drawn!.rid}__storm_comes`)!;
-    expect(JSON.stringify(storm.when)).toContain(`"value":${312 + elapsed}`);
+    expect(JSON.stringify(storm.when)).toContain(`"value":${312 + Math.ceil(elapsed / 144) * 144}`);
     // Placed once: another upland country's north march leads into a country of its own.
     expect(Countries.fits('mountain', 'north', c => s.campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), 'thorn'))
       .toBeUndefined();

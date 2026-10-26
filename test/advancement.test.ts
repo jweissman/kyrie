@@ -12,6 +12,7 @@ import type { World } from '../src/lang/world';
 import { GeneratedWorld } from './support/generated';
 import { Checks } from '../src/rules/checks';
 import { PartyCapabilities } from '../src/campaign/party-capabilities';
+import { CharacterSheets } from '../src/presentation/character-sheet';
 
 describe('advancement', () => {
   it('follows Orsino\'s experience curve and values creatures by kind and level', () => {
@@ -223,4 +224,20 @@ describe('a skill taken up with a level', () => {
     expect(after.some(id => id.startsWith('learn_skill(march__member_party_1,')
       || id.startsWith('raise_quality(march__member_party_1,'))).toBe(false);
   }, 60000);
+});
+
+// A specialist's sheet says what it is sworn or schooled to, and so what its first spells are of: the Bushweald play
+// met a cleric of the death domain, praying curses and drains, under nothing but the calling's "Prayers that heal".
+describe('a specialist\'s character sheet', () => {
+  it('names its domain or school, and what its first spells are of', () => {
+    const aldith = new Content('sworn').createCreature('aldith', { raceId: 'human', classId: 'cleric',
+      traits: ['deathspeaker'] });
+    expect(CharacterSheets.sheet(aldith).specialty).toEqual({ name: 'Deathspeaker',
+      about: 'You are a herald of death and the afterlife.', of: 'death', prayers: true });
+    const ivo = new Content('sworn').createCreature('ivo', { raceId: 'human', classId: 'mage', traits: ['evoker'] });
+    expect(CharacterSheets.sheet(ivo).specialty).toMatchObject({ name: 'Evocation Specialist', of: 'evocation', prayers: false });
+    // A warrior is no specialist.
+    const bran = new Content('sworn').createCreature('bran', { raceId: 'human', classId: 'warrior' });
+    expect(CharacterSheets.sheet(bran).specialty).toBeUndefined();
+  });
 });

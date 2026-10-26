@@ -7,10 +7,11 @@ import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
 
 // Low Water in a world that goes on: the Bowl of Ammerlin lies beyond the south march of a country of hills, woods or
-// fen, reached by the road across the march, and its own six days run from when it is reached. It is one of the
-// independent adventures, of which a world holds the one its seed chooses: "mere" chooses it for a fen country.
+// fen, reached by the road across the march, and its own six days run from the morning after it is reached. It is
+// one of the independent adventures, of which a world holds the one its seed chooses: "mere" chooses it for a fen
+// country.
 describe('the Bowl of Ammerlin beyond a march', () => {
-  it('is held beyond the south march of a fen country, and its Hearing falls six days after it is reached', async () => {
+  it('is held beyond the south march of a fen country, and its Hearing falls six days on from reaching it', async () => {
     const w = await WorldAssembler.assemble('mere', NodeBundleSource.shared, { region: { terrain: 'marsh' } });
     expect(w.report.region.beyond!.south!.name).toBe('the Bowl of Ammerlin');
     const s = await PlaySession.start(w.path, 'mere', w.source), frontier = new Frontier('mere', NodeBundleSource.shared);
@@ -22,7 +23,8 @@ describe('the Bowl of Ammerlin beyond a march', () => {
     const c = PlayerView.choices(s.campaign).find(x => /road across the march/.test(x.choice.name))!;
     await s.perform(c.choice.id);
     expect(s.campaign.world.one('at', 'party')).toBe(`${rid}__rim_road`);
-    expect(s.campaign.world.number({ kind: 'call', name: `${rid}__hearingAt`, args: [`${rid}__bowl`] })).toBe(888 + elapsed);
+    expect(s.campaign.world.number({ kind: 'call', name: `${rid}__hearingAt`, args: [`${rid}__bowl`] }))
+      .toBe(888 + Math.ceil(elapsed / 144) * 144);
     // Isaura waits at the head of the Stair for the Assessor; the Office's commission is the country's own.
     const head = PlayerView.choices(s.campaign).find(x => /head of the Stair/.test(x.choice.name))!;
     await s.perform(head.choice.id);

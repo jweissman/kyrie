@@ -1,6 +1,6 @@
 import type { MemberRow, Screen } from '../../src/ui/screen-types';
 import type { Choice } from '../../src/ui/choice-list';
-import type { DevelopmentOption } from '../../src/presentation/character-sheet';
+import type { CharacterSheet, DevelopmentOption } from '../../src/presentation/character-sheet';
 import type { ReaderApp } from './reader-app';
 import { Typography } from '../../src/presentation/typography';
 import { Act, type Draw } from './stage/act';
@@ -26,6 +26,7 @@ export class CharacterPage {
         <h2 className="who">{Typography.curl(m.name)}</h2>
         <p className="line-of">{Words.upper(Words.article(m.line))}, level {m.level}{m.background
           ? `, once ${Words.article(m.background.toLowerCase())}` : ''}</p>
+        {m.sheet?.specialty && <CharacterPage.Specialty specialty={m.sheet.specialty} />}
         {exchange?.said && /^(Have|Raise|Take up)/.test(exchange.said) && <Told.Happened exchange={exchange} />}
         <CharacterPage.Development member={m} draw={draw} choices={sections.find(s => s.id === 'development')?.choices ?? []} />
         <CharacterPage.Standing member={m} />
@@ -33,6 +34,18 @@ export class CharacterPage {
         {acts.length > 0 && <section><h3>What can be done</h3><Act.List choices={acts} draw={draw} className="column" /></section>}
       </article>
     );
+  }
+  // A spell of a level the member has no slot for is still to come, and says so (the cold playtest read second- and
+  // third-level spells beside a first-level mage's, and could not tell which could be cast).
+  static yet(m: MemberRow, price: string): string {
+    const level = Number(/^(\d)(?:st|nd|rd|th)-level slot$/.exec(price)?.[1] ?? 0);
+    return level > (m.maxSlots ?? []).length ? ' · not yet' : '';
+  }
+  // What the member is sworn or schooled to, and so what their first spells are of: "Deathspeaker. You are a herald
+  // of death and the afterlife. Their first prayers are of death."
+  static Specialty({ specialty: s }: { specialty: NonNullable<CharacterSheet['specialty']> }) {
+    return <p className="specialty"><b>{s.name}.</b> {Typography.curl(s.about)} Their first {s.prayers ? 'prayers'
+      : 'spells'} are of {s.of}.</p>;
   }
   // A level's development: what it is, and each way of spending it with what it would change. Without one, how far
   // the next level is and what it will bring.
@@ -97,7 +110,8 @@ export class CharacterPage {
           {m.spells!.filter(x => x.level === l).map(x => x.ready ? x.name : `${x.name} (spent)`).join(', ')}</li>)}
       </ul></section>}
       <section><h3>Techniques</h3><dl className="abilities">{m.abilities.map(a => <div key={a.id}>
-        <dt>{a.name}{a.price && <span className="from"> {a.price}</span>}</dt><dd>{Typography.curl(a.text)}</dd></div>)}</dl></section>
+        <dt>{a.name}{a.price && <span className="from"> {a.price}{CharacterPage.yet(m, a.price)}</span>}</dt>
+        <dd>{Typography.curl(a.text)}</dd></div>)}</dl></section>
       <section><h3>Carries</h3><ul className="gear">{gear.map(({ item: i, count }) => <li key={i.id}>
         <b>{Words.upper(count > 1 ? Words.many(count, Words.bare(i.name)) : Words.bare(i.name))}</b>
         {i.equipped && <span className="from"> in use</span>}{i.description && <span> · {Typography.curl(i.description)}</span>}

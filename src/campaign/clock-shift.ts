@@ -1,12 +1,17 @@
 import type { Module, Predicate, Value } from '../lang/module';
 import type { Operator } from './planner';
 
-// A module installed after a campaign began counts its own time from when it was installed. Its comparisons of the
-// clock's watch (`watch(clock) >= 240`: ten days in) are moved on by the watches already gone, so a fever that kills
-// a child on the tenth day does so ten days after the country it is in is first reached, not at once; and so is
-// where it starts a measure the clock is compared with (`Initially Set raidAt(brood) to 84`).
+// A module installed after a campaign began counts its own time from the first morning after it was installed. Its
+// comparisons of the clock's watch (`watch(clock) >= 240`: ten days in) are moved on by the watches gone by then, so
+// a fever that kills a child on the tenth day does so ten days after the country it is in is first reached, not at
+// once; and so is where it starts a measure the clock is compared with (`Initially Set raidAt(brood) to 84`). Its
+// days begin at a morning because its author counted them from one: what is left of the day it is reached on is the
+// country's for nothing (Merrowdale, reached at night, told its storm's end, "The rain stops before dawn", at nine
+// in the evening).
 export class ClockShift {
-  static apply(module: Module, schemas: Operator[], id: string, elapsed: number) {
+  static readonly day = 144;
+  static apply(module: Module, schemas: Operator[], id: string, reached: number) {
+    const elapsed = Math.ceil(reached / this.day) * this.day;
     if (!elapsed) { return; }
     const prefix = `${id}__`;
     for (const r of (module.rules ?? []).filter(x => x.id.startsWith(prefix))) { r.when = this.shift(r.when, elapsed); }

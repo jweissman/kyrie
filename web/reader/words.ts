@@ -1,4 +1,5 @@
 import { FictionalTime } from '../../src/presentation/fictional-time';
+import { Typography } from '../../src/presentation/typography';
 
 // How the page says small things: the time of day, a choice echoed as what the company did, how hurt someone looks.
 export class Words {
@@ -39,15 +40,23 @@ export class Words {
     return at ? `${act} on ${at}` : act;
   }
   // Whether a line of what happened says the act again ("Hild lights a torch." after "You light a torch."): its verb
-  // among its first words, and the two after it the same. Then the echo of it is not said as well.
+  // among its first words, and the two after it the same. Then the echo of it is not said as well. An act told in
+  // another verb counts as its own ("You collect the rod for Aldith." and "Aldith takes the rod.").
+  static readonly told: Record<string, string> = { collect: 'take' };
   static restates(echo: string, line?: string): boolean {
     const [you, verb, ...rest] = this.words(echo), said = this.words(line ?? '');
     if (you !== 'you' || !verb) { return false; }
-    const forms = [verb, `${verb}s`, `${verb}es`, verb.replace(/y$/, 'ies')];
+    const forms = [verb, this.told[verb] ?? verb].flatMap(v => [v, `${v}s`, `${v}es`, v.replace(/y$/, 'ies')]);
     const at = said.slice(0, 4).findIndex(w => forms.includes(w));
     return at >= 0 && rest.slice(0, 2).every((w, i) => said[at + 1 + i] === w);
   }
   private static words(t: string): string[] { return t.toLowerCase().replace(/[.!?,;:’']/g, '').split(/\s+/); }
+  // The lines not told already in these paragraphs, whole or within one: what a close look found, once it is part of
+  // how a thing is told, is not told again as what came of looking (the Bushweald play read the cart's bed twice).
+  static untold<T extends { text: string }>(lines: T[], told: string[]): T[] {
+    const all = Typography.curl(told.join(' '));
+    return lines.filter(l => !all.includes(Typography.curl(l.text)));
+  }
   // What the player chose, as the last of the labels it was chosen by ("Speak with Eamon › Ask about the road").
   static lastSaid(said: string): string { return said.split(' › ').at(-1)!; }
   // "a hunter", "an eel-catcher".

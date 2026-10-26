@@ -21,6 +21,8 @@ export interface Bearing { label: string; value: string }
 // stand (equipment, wounds and conditions counted), how they fight and are fought, their saves, and their skills.
 export interface CharacterSheet {
   qualities: QualityRow[]; fighting: Bearing[]; saves: Bearing[]; skills: SkillRow[];
+  // A specialist's school or domain, which its first spells are of (Orsino's specialists).
+  specialty?: { name: string; about: string; of: string; prayers: boolean };
 }
 // One way to spend a level's development, with what it would change, worked out by doing it to a copy.
 export interface DevelopmentOption {
@@ -48,7 +50,15 @@ export class CharacterSheets {
     return {
       qualities: CreatureSchema.attributes.map(id => ({ id, name: this.names[id], score: scores[id], base: c.base[id],
         fight: Fighting.statMod(scores[id]), check: Math.floor((c.base[id] - 10) / 2), rests: this.rests[id] })),
-      fighting: this.fighting(c), saves: this.saves(c), skills: this.skills(c) };
+      fighting: this.fighting(c), saves: this.saves(c), skills: this.skills(c), ...this.specialty(c) };
+  }
+  // What a specialist is, by its school or domain: a cleric of the death domain prays curses and drains, which the
+  // Bushweald play met under nothing but the calling's "Prayers that heal and protect".
+  private static specialty(c: Creature): Pick<CharacterSheet, 'specialty'> {
+    const t = (c.traits ?? []).map(id => Canon.traits[Canon.resolve('traits', id)]).find(x => x?.spellAccess);
+    const access = t?.spellAccess, of = access?.domain ?? access?.school;
+    return t && access && of && of !== 'all' ? { specialty: { name: t.name, about: t.description ?? '', of,
+      prayers: access.tradition === 'divine' } } : {};
   }
   // How the member fights and is fought: what they strike with and what a blow does, what they need on the die to
   // land one, and what a common foe needs to land one on them.

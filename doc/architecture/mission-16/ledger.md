@@ -7,11 +7,11 @@ deliberately left. Newest entries first in each part. The plan and its decisions
 
 | Gate | Stands |
 |---|---|
-| A. A transformed, trustworthy interface | in production: the place, road, conversation, object and fight pages on one white page; the Character view from the start, with development and its previews |
+| A. A transformed, trustworthy interface | in production: the place, road, conversation, object and fight pages on one white page; the Character view from the start, with development and its previews; played by keys alone at 1440 and 900, and without images |
 | B. The way into adventure | in production for every world Begin draws: Merrowdale's notice and rumour in every first-country town, its road known, one journey there; a newcomer who sees only the page finds the lead in every one of eight worlds |
-| C. A complete RPG expedition | in production: The Long Man played from Begin in two drawn worlds (Lonelymoor, Coldwaste) to its peaceful end, with withdrawal, return and a reload midway; its findings repaired; the storm and its aftermath still to play |
+| C. A complete RPG expedition | in production: The Long Man played from Begin in two drawn worlds (Lonelymoor, Coldwaste) to its peaceful end, with withdrawal, return and a reload midway; its findings repaired; in a third (Bushweald), on through the storm to the morning after |
 | D. Becoming and continuing | in production: seen through for 1,000 experience, level 2 after a night under a roof, a development chosen in the Character view by what it opens; the return acknowledged in the country below; the Story whole across reloads; Saltgrave entered from the same world; the deep rivals' brothers heard of, asked after and traced, own history kept apart from reports and traces |
-| E. Independent acceptance and accounting | in hand: the reconciliation ([reconciliation.md](reconciliation.md)) and eight branches pruned; free play at 1440 and 900, by keys alone and without images, still to do. No independent player or reviewer has played this build |
+| E. Independent acceptance and accounting | the reconciliation ([reconciliation.md](reconciliation.md)), eight branches pruned, and free play at 1440 and 900 by keys alone and without images. No independent player or reviewer has played this build |
 
 ## The baseline (`0e066e5`, the public page, seed drawn by Begin)
 
@@ -28,6 +28,35 @@ Played from the title page at 1280 × 860:
   - the road across the march told as fen ("Out on the fen the sky is enormous") in a frost country.
 
 ## Done and verified
+
+- **A, C, E. Free play at 1440 and 900, by keys alone, and without images.** Bushweald, drawn by Begin: a human
+  cleric carrying feverwort for a sick child, from the title page to the morning after Merrowdale's storm. Nothing
+  but the keys, past the first screens at 1440 and the rest at 900; part of it with every image refused.
+  - The lead was in the second page's telling, and the march-stone offered 3½ minutes after Begin.
+  - A detour to the ruins of Liliumlapis, then six legs and a night's camp to Merrowdale.
+  - The Long Man by its bronze. It was moved at nightfall to a barrel in the cellar, and the cart's gouged bed said
+    so. Then the storm, and the morning after: "The beck runs brown but low between its banks".
+  - Level 2 at a night under a roof, set as a moment.
+
+  Repaired from it:
+  - A conversation without images was a black slab with a broken picture and its painter's credit. It is in type.
+  - A journey's legs named a way by its raw name ("By the track to {region__w13}").
+  - In conversation an act was said twice ("Give healing herbs to Erevan" over "Aldith gives healing herbs to
+    Erevan"); so was a taking, in two verbs ("You collect the rod for Aldith" over "Aldith takes").
+  - Something seen through, or a level gained, was a plain line in a conversation. It is set apart there too.
+  - The dale counted its days from the hour its country was reached, so the storm's end, "The rain stops before
+    dawn", came at nine in the evening. A country reached partway through a day counts from the morning after.
+  - The Ox talked of the low field going under the evening after the leak was shut. It talks of the springs running
+    clear.
+  - The Notes asked the company to tell Garth and Odile that a brood was quiet, though it had never heard of either.
+    What a company is asked to see to is what it has heard of or met.
+  - A cleric of the death domain prayed curses and drains under the calling's "Prayers that heal". The Character view
+    names a specialist's domain or school, and a spell above any slot the member has says "not yet".
+  - A thing's page told what a close look found twice, in the thing's telling and as what came of looking. It is
+    told once, as part of the thing.
+
+  Tests: `test/placed-days.test.ts`, `test/talk-lines.test.ts`, `test/the-long-man.test.ts`,
+  `test/advancement.test.ts`, `test/travel.test.ts`.
 
 - **B. A newcomer who sees only the page.** The way in was played across worlds by a policy that knows nothing of the
   game: set out for any place newly offered to set out for, and again when a journey is stopped; else read what can
@@ -282,9 +311,17 @@ From the free plays, in the order met:
 - a topic once asked is gone, and a notice once read leaves the things to look at;
 - the map draws the south road hanging from the Drowned Ox;
 - the wet gallery says it is dark before the torch gutters out;
-- the gauge shaft, once climbable, is listed among the roads out;
-- two places with one name are two roads out of Marirkom, alike to the letter ("To the bridge over the Karnahar");
-- on a phone, the map cuts its labels at the left edge.
+- ways are sorted by how long they take, not by whether they leave the place, so the gauge shaft, once climbable,
+  and the Hall lane inside Merrow are listed among the roads out;
+- two places with one name are two roads out of Marirkom, alike to the letter ("To the bridge over the Karnahar"),
+  and two people with one name stand in one yard (Erevan the charcoal-burner and Erevan the child's mother);
+- on a phone, the map cuts its labels at the left edge;
+- a wait cut short is told as done ("You wait until first light", at night, as the storm comes on);
+- the feverwort is given as "healing herbs";
+- the region's sky stays as it was through a placed adventure's storm (the running head said "fair");
+- something heard of and since taken stays "heard, not yet seen" (the dyke-reeve's rod);
+- a company without brawn or rope is told it cannot push the punt or get into the galleries, but not where either
+  may be had.
 
 ## Deliberately left
 
@@ -294,7 +331,6 @@ From the free plays, in the order met:
 - **"Set out for" lists the edges of the country only once told of or been to,** though the map draws the roads to
   them. An edge beyond which a country is told of is named for it ("the march-stone of Merrowdale"), so to list every
   edge from the start would tell the lead that the town is there to tell.
-
 - **A level-1 warrior knows all ten of its calling's techniques,** so a technique cannot be what a level adds
   without rebalancing every fight. The first stage is skills and qualities, and a skill taken up opens what it is
   for; techniques stay the calling's own.

@@ -134,7 +134,10 @@ Module brood_hollow "A brood under the hill" {
 
   Objective quarrel when asked(garth, party) and not asked(odile, party) and not quieted(brood) "Spiders from {hollow} take a ewe from {garth}'s flock every night. {garth} wants them burned out, and says {odile} keeps them for their silk.".
   Objective plea_heard when asked(odile, party) and not quieted(brood) "Spiders from {hollow} take a ewe from {garth}'s flock every night. {garth} wants them burned out; {odile}, who gathers their silk, says the brood-mother only needs feeding.".
-  Objective deadline when state(garth, angry) and not quieted(brood) "{garth} has lost another ewe and means to burn out {hollow} himself.".
-  Objective tell when quieted(brood) and (not thanked(garth, party) or (sated(brood) and not thanked(odile, party))) "The brood is quiet. {garth} and {odile} will want to know.".
+  // What the company is asked to see to is what it has heard of or met, not a brood it never heard of (the Bushweald
+  // play was asked to tell Garth and Odile of one quieted out of its sight).
+  Query involved(c: group) means knows(c, ewes) or knows(c, no_silk) or asked(garth, c) or asked(odile, c).
+  Objective deadline when involved(party) and state(garth, angry) and not quieted(brood) "{garth} has lost another ewe and means to burn out {hollow} himself.".
+  Objective tell when involved(party) and quieted(brood) and (not thanked(garth, party) or (sated(brood) and not thanked(odile, party))) "The brood is quiet. {garth} and {odile} will want to know.".
   Goal quieted(brood).
 }
