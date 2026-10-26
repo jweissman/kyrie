@@ -193,7 +193,7 @@ Module tessary "What Tessary Owes" {
     Grave "The words are written on a wall that hears them. Below, what you say is held to.".
     Time 1 minute.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, oath_court) and knows(actor, compact_read)
-      and not weighedAt(actor, oath_court).
+      and not weighedAt(actor, oath_court) and not barredBelow(actor).
     On success { Assert weighedAt(actor, oath_court). Assert registered(actor). }
     Result "The stone is warm under your hand, warm as a sleeping animal. You say the words, and for a moment you feel it: a weighing, as if you were standing in one pan of a scale with something enormous in the other, and the beam lifting, considering. Then the wall under your hand is not there.".
   }

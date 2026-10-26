@@ -170,15 +170,13 @@ Module tessary "What Tessary Owes" {
   // which does not open to them again.
   Initially Assert takesPrisoners(weights).
   Relation barredBelow(group).
-  Rule weights_captured when captured(weights, party) and at(party, ?p)
-    says "Bronze hands close on you, very gently, the way a careful man picks up something that might break. You are carried, a long way, up the Long Stair, in the dark, and set down on the floor of the Hall of Oaths, and when you turn round there is only the black wall, and it is cold." {
-    Retract captured(weights, party). Retract at(party, ?p). Assert at(party, oath_court). Assert barredBelow(party).
-    Retract assails(weights, party). }
+
   Initially Assert tolerates(weights, party).
   Initially Assert peaceable(weights).
-  Rule weights_seize when forswornParty(party) and at(party, ?p) and at(weights, ?p) and peaceable(weights)
-    says "The Weights turn their heads, both together, with a grinding of bronze. The scales in their chests have tipped." {
-    Retract peaceable(weights). Retract tolerates(weights, party). Assert assails(weights, party). }
+  // The Weights do not fight. They take hold, the way the tide does, and nobody has ever made them let go.
+  Rule weights_seize when forswornParty(party) and at(party, ?p) and at(weights, ?p) and not barredBelow(party)
+    says "The Weights turn their heads, both together, with a grinding of bronze. The scales in their chests have tipped. They come down the gallery toward you, not fast, with their bronze hands open, and there is nothing to be done about it at all: you might as well fight the sea. The hands close on you very gently, the way a careful man picks up something that might break. You are carried, a long way, up the Long Stair in the dark, and set down on the floor of the Hall of Oaths, and when you turn round there is only the black wall, and it is cold." {
+    Retract at(party, ?p). Assert at(party, oath_court). Assert barredBelow(party). }
 
   // ── The Comptroller ───────────────────────────────────────────────────────────────────────────────────────────────
   // Eldest of the Scruples. He swore the drowned city's compact, and has kept the ledger for eleven hundred years

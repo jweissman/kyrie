@@ -193,7 +193,9 @@ describe('What Tessary Owes: failure and its costs', () => {
     // The Weights seize the forsworn and put them out: the black wall does not open to them again.
     expect(g.holds('barredBelow', 'party')).toBe(true);
     expect(g.j.campaign.world.one('at', 'party')).toBe(t('oath_court'));
+    await g.play('Wait › A while');
     expect(g.j.offers('Into the Strongrooms')).toBe(false);
+    expect(g.j.offers('Put your hand on the black wall')).toBe(false);
   }, 240000);
 
   it("the Comptroller's bargain: Durrance passed over for a promise, Elcock taken, and the promise unkept", async () => {
