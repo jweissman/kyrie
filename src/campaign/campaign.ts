@@ -153,9 +153,10 @@ export class Campaign implements WatchHost {
   get actors(): readonly CampaignActor[] { return this.definition?.actors ?? []; }
   get playerActor(): string | undefined { return this.definition?.actors.find(a => a.player)?.id; }
   get persistent(): boolean { return !!this.definition; }
+  // Whether anyone of the company stands, from the live records: read many times a turn (`party` copies each twice).
   get running(): boolean {
-    return this.party.some(c => c.hp > 0) && (this.persistent || this.current.outcome === 'active')
-      && !Endings.reached(this.world, this.installations);
+    return this.current.partyIds.some(id => this.creatures.peek(id).state.hp > 0) && (this.persistent
+      || this.current.outcome === 'active') && !Endings.reached(this.world, this.installations);
   }
   // A save holds schemas (operators are grounded on demand); a copy, unless written out at once (live: not to be kept).
   save(_compact = false, live = false): CampaignSave {

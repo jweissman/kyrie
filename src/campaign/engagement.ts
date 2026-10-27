@@ -5,7 +5,9 @@ import { CampaignTick, type TickHost } from './campaign-tick';
 
 export interface EngagementHost extends TickHost {
   operator(id: string): Operator | undefined;
-  readonly events: CampaignEvent[];
+  // What has happened so far, as it is kept (not a copy: the log was copied whole on every command, the slowest
+  // thing in a long game).
+  readonly history: readonly CampaignEvent[];
   // Replaces the last recorded event with a fuller account of the same command.
   amend(event: CampaignEvent): void;
 }
@@ -61,7 +63,7 @@ export class Engagement {
     const changes: Change[] = [{ kind: 'retract', call: ModuleWriter.call('assails', foe, player) }];
     const ran = this.ran(fight);
     const here = world.one('at', player);
-    const back = ran ? this.cameFrom(host.events, player, here) : undefined;
+    const back = ran ? this.cameFrom(host.history, player, here) : undefined;
     if (back && here) {
       changes.push({ kind: 'retract', call: ModuleWriter.call('at', player, here) },
         { kind: 'assert', call: ModuleWriter.call('at', player, back) });
@@ -81,9 +83,9 @@ export class Engagement {
     return told;
   }
   private static withdraw(host: EngagementHost) {
-    const event = host.events.at(-1), player = host.playerActor, world = host.world;
+    const event = host.history.at(-1), player = host.playerActor, world = host.world;
     if (!event || !player || !this.ran(event)) { return; }
-    const here = world.one('at', player), back = this.cameFrom(host.events.slice(0, -1), player, here);
+    const here = world.one('at', player), back = this.cameFrom(host.history.slice(0, -1), player, here);
     if (!back || !here) { return; }
     // Whoever would have come at it where it stood does not, and is not said to: the company has gone.
     const foe = this.foe(host), gone = foe && this.announced(host, foe, (event.perceptions ?? []).filter(p => p.kind === 'event'));
@@ -100,9 +102,9 @@ export class Engagement {
     return event.combat.some(e => e.type === 'end' && e.outcome === 'escaped' && e.fled?.team !== 'goblins');
   }
   // The place the company was in before it came here, from what the log records.
-  private static cameFrom(events: CampaignEvent[], player: string, here: string | undefined): string | undefined {
+  private static cameFrom(events: readonly CampaignEvent[], player: string, here?: string): string | undefined {
     const pattern = new RegExp(`^- at\\(${player}, (.+)\\)$`);
-    for (const event of [...events].reverse()) {
+    for (const event of events.toReversed()) {
       const left = event.changes.map(c => pattern.exec(c)?.[1]).find(Boolean);
       if (left && left !== here) { return left; }
     }

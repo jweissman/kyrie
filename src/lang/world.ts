@@ -103,8 +103,12 @@ export class World {
   measuresOf(first: string): Measure[] {
     return [...this.measuresByName.values()].flatMap(values => RelationViews.by(values, 0, first));
   }
-  // Whether the module declares this relation.
+  // Whether the module declares this relation; or this relation or query.
   relates(name: string): boolean { return World.index(this.module).relations.has(name); }
+  declares(name: string): boolean {
+    const signatures = World.index(this.module);
+    return signatures.relations.has(name) || signatures.queries.has(name);
+  }
   // Whether the fact with this key (see `key`) currently holds.
   holds(key: string): boolean { return this.byName.get(World.nameOf(key))?.has(key) ?? false; }
   // A key's relation or measure name: a key is the JSON of [name, ...args], and no name holds a quote.

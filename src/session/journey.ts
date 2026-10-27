@@ -5,6 +5,8 @@ import type { CampaignEvent } from '../campaign/campaign';
 import type { CreatureGenerationContext } from '../content';
 import { ModuleWriter } from '../lang/module-writer';
 import { ScreenModel } from '../ui/screen-model';
+import type { Screen } from '../ui/screen-types';
+import type { World } from '../lang/world';
 import { ChoiceList, type Choice } from '../ui/choice-list';
 import { PlayerView } from '../presentation/player-view';
 import { Narrator } from '../presentation/narrator';
@@ -29,6 +31,9 @@ export interface Taken { label: string; command: string; told: string; page: str
 //   ~pattern   a way that is not open yet: wait a while and try again, up to twelve times
 export class Journey {
   readonly taken: Taken[] = [];
+  // The page as last built, and the world and log it was built of: a step reads the page to find its choice, and
+  // again to tell what came of it, and a wait reads it up to three times; the page is the same until either changes.
+  private built?: { world: World; length: number; last?: CampaignEvent; screen: Screen };
   private constructor(readonly session: PlaySession) {}
   static async start(campaign: string, seed = 'journey', options: { source?: BundleSource;
     party?: CreatureGenerationContext[] } = {}): Promise<Journey> {
@@ -40,7 +45,7 @@ export class Journey {
   // Every choice that can be taken now: what the page offers where the company stands, its pack, and each thing it
   // carries (the item panel).
   choices(): Offered[] {
-    const screen = ScreenModel.build(this.campaign), out: Offered[] = [];
+    const screen = this.screen(), out: Offered[] = [];
     for (const section of ChoiceList.explore(screen)) {
       for (const c of Journey.leaves(section.choices)) { out.push({ ...c, full: `${section.title}: ${c.label}` }); }
     }
@@ -81,7 +86,7 @@ export class Journey {
     const before = PlayerView.observe(this.campaign);
     const event = await this.session.perform(command);
     const moved = before.location?.id !== this.at(this.campaign.playerActor ?? 'party');
-    const leaf = Narrator.leaf(this.campaign, ScreenModel.build(this.campaign),
+    const leaf = Narrator.leaf(this.campaign, this.screen(),
       { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: label, moved });
     const told = ' ' + [...(event.perceptions ?? []).map(p => p.text), event.response ?? ''].join(' ');
     // What the page says: the way there, the exchange, the place if the company moved, what has changed.
@@ -90,6 +95,13 @@ export class Journey {
     this.taken.push({ label, command, told, page, event });
     if (process.env.JOURNEY_TRACE) { console.log(`[${label}] ${page}`); }
     return told;
+  }
+  screen(): Screen {
+    const world = this.campaign.world, log = this.campaign.history, b = this.built;
+    if (b && b.world === world && b.length === log.length && b.last === log.at(-1)) { return b.screen; }
+    const screen = ScreenModel.build(this.campaign);
+    this.built = { world, length: log.length, last: log.at(-1), screen };
+    return screen;
   }
   // Every step's telling as the page gave it, one to a line, after its label.
   get page(): string { return this.taken.map(t => `[${t.label}] ${t.page}`).join('\n'); }

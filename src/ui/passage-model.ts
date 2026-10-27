@@ -35,18 +35,30 @@ export class PassageModel {
   label(id: string): string { return ObservationText.label(this.world, id); }
   // A clause the rules have where the world declares it: that it does not hold.
   private unless(name: string, ...args: string[]): Predicate[] {
-    const declared = [...this.world.module.relations, ...this.world.module.queries].some(r => r.name === name);
-    return declared ? [{ kind: 'not', value: this.call(name, ...args) }] : [];
+    return this.world.declares(name) ? [{ kind: 'not', value: this.call(name, ...args) }] : [];
   }
   private shut(passage: string): string | undefined {
     const o = this.world.module.observations?.find(x => x.id === `${passage}__shut`);
     return o ? ObservationText.render(o.text, this.world) : undefined;
   }
   visible(passage: string): boolean { return this.world.test(this.call('visibleTo', passage, this.actor)); }
-  ways(from: string): WayInfo[] {
+  // The ways from a place, read once for each world and company (a world does not change; another is built for each
+  // state): the page, its chart, its itineraries and the road ahead each ask of them, the chart and the itineraries of
+  // every place the company knows. Asked afresh each time, they were three quarters of every turn in A Parliament
+  // of Books, whose city has eighty rooms. For reading only.
+  private static readonly read = new WeakMap<World, Map<string, readonly WayInfo[]>>();
+  ways(from: string): readonly WayInfo[] {
     if (!this.supported()) { return []; }
-    return this.world.related('connects').filter(r => r.args[1] === from && this.visible(r.args[0]!))
-      .map(r => this.way(r.args[0]!, from, r.args[2]!));
+    let kept = PassageModel.read.get(this.world);
+    if (!kept) { kept = new Map(); PassageModel.read.set(this.world, kept); }
+    const key = `${this.actor}\u0000${from}`;
+    let ways = kept.get(key);
+    if (!ways) {
+      ways = this.world.relatedTo('connects', from).filter(r => this.visible(r.args[0]!))
+        .map(r => this.way(r.args[0]!, from, r.args[2]!));
+      kept.set(key, ways);
+    }
+    return ways;
   }
   private way(passage: string, from: string, to: string): WayInfo {
     const base = { passage, name: this.entities.get(passage)?.name ?? passage, from, to,

@@ -43,31 +43,30 @@ export class ChartModel {
   // and into the wild country it is said to lie in, as far as its edge. Before, a starting town told of seventeen
   // things, and only the two march-stones could be set out for (M16).
   private toldWays(model: PassageModel): WayInfo[] {
-    const relations = this.world.view.relations;
+    const w = this.world;
     const passages = new Set([
-      ...relations.filter(r => r.name === 'revealedBy' && this.knows(r.args[1]!)).map(r => r.args[0]!),
-      ...relations.filter(r => r.name === 'leadsVia' && this.knows(r.args[0]!)).map(r => r.args[1]!),
-      ...relations.filter(r => r.name === 'leadsTo' && this.knows(r.args[0]!)).flatMap(r => Spatial
+      ...w.related('revealedBy').filter(r => this.knows(r.args[1]!)).map(r => r.args[0]!),
+      ...w.related('leadsVia').filter(r => this.knows(r.args[0]!)).map(r => r.args[1]!),
+      ...w.related('leadsTo').filter(r => this.knows(r.args[0]!)).flatMap(r => Spatial
         .ancestry(this.entities, r.args[1]!).filter(e => e.id === r.args[1] || e.space?.kind === 'wilderness')
         .flatMap(e => this.into(e.id)))]);
-    return relations.filter(c => c.name === 'connects' && passages.has(c.args[0]!))
-      .flatMap(c => model.ways(c.args[1]!).filter(w => w.passage === c.args[0] && w.to === c.args[2]));
+    return w.related('connects').filter(c => passages.has(c.args[0]!))
+      .flatMap(c => model.ways(c.args[1]!).filter(x => x.passage === c.args[0] && x.to === c.args[2]));
   }
   private knows(fact: string): boolean { return this.world.test(ModuleWriter.call('knows', this.actor, fact)); }
   // The ways into a place from outside it.
   private into(place: string): string[] {
-    return this.world.view.relations.filter(c => c.name === 'connects' && this.inside(c.args[2]!, place)
-      && !this.inside(c.args[1]!, place)).map(c => c.args[0]!);
+    return this.world.related('connects').filter(c => this.inside(c.args[2]!, place) && !this.inside(c.args[1]!, place))
+      .map(c => c.args[0]!);
   }
   private inside(id: string, place: string): boolean {
     return id === place || Spatial.ancestry(this.entities, id).some(e => e.id === place);
   }
   private kind(model: PassageModel, kinds: string[]): WayInfo[] {
-    const relations = this.world.view.relations;
-    return relations.filter(r => r.name === 'passageKind' && kinds.includes(r.args[1]!))
-      .flatMap(r => relations.filter(c => c.name === 'connects' && c.args[0] === r.args[0]))
-      .filter(c => model.visible(c.args[0]!))
-      .flatMap(c => model.ways(c.args[1]!).filter(w => w.passage === c.args[0] && w.to === c.args[2]));
+    const w = this.world;
+    return w.related('passageKind').filter(r => kinds.includes(r.args[1]!))
+      .flatMap(r => w.related('connects', r.args[0]!))
+      .flatMap(c => model.ways(c.args[1]!).filter(x => x.passage === c.args[0] && x.to === c.args[2]));
   }
   duration(passage: string): string {
     const ticks = Math.max(1, this.world.number(ModuleWriter.call('travelTime', passage)));
