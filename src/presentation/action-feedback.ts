@@ -100,6 +100,12 @@ export class ActionFeedbackView {
       : ended.outcome === 'goblins' ? 'Your company is defeated.' : 'The encounter ends without a victor.'}`
       + `${fallen.length ? ` ${fallen.map(p => p.name).join(', ')} ${fallen.length === 1 ? 'is' : 'are'} down.` : ''}`;
   }
+  // What was learned from words said in the moment (a rule that says and teaches): those words stand for it, and the
+  // fact's own text is the journal's (the page read the fact before the rule's words: the register's NAR-10).
+  private static spoken(campaign: Campaign, event: CampaignEvent): Set<string> {
+    const heard = new Set((event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.id));
+    return new Set((campaign.module.rules ?? []).filter(r => r.teaches && heard.has(r.id)).map(r => r.teaches!));
+  }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
     const action = campaign.operator(event.action)!;
@@ -111,6 +117,7 @@ export class ActionFeedbackView {
     const rolls = event.combat.filter(e => e.type === 'check' || (e.type === 'save' && !event.combat.some(x => x.type === 'initiative')))
       .map(e => CombatPresenter.format(e, names));
     const learned = after.knowledge.filter(k => !before.knowledge.some(b => b.id === k.id));
+    const unsaid = learned.filter(k => !ActionFeedbackView.spoken(campaign, event).has(k.id));
     // What taught the company something is what it saw, though once it knows, the place no longer shows it so.
     const taught = ActionFeedbackView.taught(campaign, event)
       .filter(t => !before.observations.some(b => b.text === t.text));
@@ -128,7 +135,7 @@ export class ActionFeedbackView {
     // Who came at the company is told between the fights, not before the first.
     const response = split ? undefined : event.response;
     const result = response ? `${response}${nothing}` : battleResult ?? (event.result === 'failure' ? 'Your attempt did not succeed.' :
-      learned.length ? learned.map(k => k.text).join(' ') :
+      unsaid.length ? unsaid.map(k => k.text).join(' ') :
         before.location?.id !== after.location?.id ? `You arrive at ${after.location?.name}.` :
           combat.length ? '' :
             action.schema === 'wait' ? 'Time passes.' :
