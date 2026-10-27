@@ -61,6 +61,6 @@
 | **The Bearer** | someone shriven (the company, or Thackray) offers after Hern has answered, and the Lady is moved | an innocent put out for a guilty one, written down |
 | **Put Out** | otherwise | alone, followed, or in a coffin |
 
-The account that precedes each has thirty-nine fate rules in eleven families: Carth, the child, the grandmother,
+The account that precedes each has forty-two fate rules in eleven families: Carth, the child, the grandmother,
 Thackray, the widow, the Ladder, the tower, the Row, the rescue, the company's tally, and the dog. Each family says
 exactly one line.

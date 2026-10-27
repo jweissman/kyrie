@@ -134,6 +134,22 @@ describe('A Winter in Carth: the city\'s strands', () => {
     expect(g.page).toMatch(/Let them say it at the Consistory/);
   }, 300000);
 
+  it('the back ways into the Close, with a tally still notched: over the wall at dusk for a monk, through the masons\' lodge on Joby\'s word for a bard', async () => {
+    const down = ['=139', ...phases('letter').down!, 'To the Row', 'To the Long Shambles', 'To the Bearer', 'To Gaol Lane', '=198'];
+    const monk = await Gaunt.start(build('monk'), 'g1');
+    await monk.play(...phases('letter').road!, ...down, 'To the foot of the north tower', 'To the Close of Saint Oswy');
+    expect(monk.measure('pains', 'party')).toBeGreaterThan(0);
+    expect(monk.at('party')).toBe('close_green');
+    const bard = await Gaunt.start(undefined, 'g1');
+    await bard.play(...phases('letter').road!, ...down);
+    // Without the climb the wall is no way at all.
+    expect(bard.j.find('^To the foot of the north tower')).toBeUndefined();
+    await bard.play('To the Bearer', 'To the Long Shambles', 'Into the Fat Lamb', '=204', 'Talk to Old Joby', 'Tell Joby', 'Out to the Long Shambles',
+      'To the Bearer', 'Into the masons\' lodge', 'To the foot of the north tower', 'To the Close of Saint Oswy');
+    expect(bard.measure('pains', 'party')).toBeGreaterThan(0);
+    expect(bard.at('party')).toBe('close_green');
+  }, 300000);
+
   it('the tower: the unbuilding seen from Gaol Lane, Joby told, and the Master of the Fabric\'s bargain taken for the Scaifes\' rent', async () => {
     const g = await Gaunt.start();
     await g.play(...custody, ...reeve, ...walk(), 'Wait › Until dark', 'Make a fire of straw and thorn', '=139', 'To the house-place', ...down.slice(1), ...paid, 'To the Bearer',

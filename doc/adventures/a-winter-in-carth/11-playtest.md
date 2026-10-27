@@ -9,7 +9,7 @@ transcripts in [playtest/](playtest) are the pages as they were told, written by
 | Suite | Tests | What it proves |
 |---|---|---|
 | `test/winter-in-carth.test.ts` | 9 | lint clean; left alone; the five principal journeys and their endings; a checkpoint kept on Shrove Monday and resumed to the same end; replay determinism |
-| `test/winter-in-carth-small.test.ts` | 14 | the ways through the night at Carth (refused custody, let go at the Fork, the letter, the thief's lie, the ranger's beasts, Hern's confession, the mage's cold light); Thackray's night; the widow; the wood; the tower bargain; Prudence paid; the Lady's words; the monk's soles |
+| `test/winter-in-carth-small.test.ts` | 15 | the ways through the night at Carth (refused custody, let go at the Fork, the letter, the thief's lie, the ranger's beasts, Hern's confession, the mage's cold light); the back ways into the Close; Thackray's night; the widow; the wood; the tower bargain; Prudence paid; the Lady's words; the monk's soles |
 | `test/winter-in-carth-wander.test.ts` | 8 by default | four builds × two seeds, 200 random offered choices each, then the days waited out: after every step the company stands in a place, the page has no ids or unfilled slots, Hern is in one condition, the Consistory gives one verdict at most, and one ending is told. `WANDER_STEPS=300 WANDER_SEEDS=w3,w4,w5,w6,w7` (20 walks) also passed |
 | `test/winter-in-carth-placed.test.ts` | 2 | placement beside a frost or forest country, never on the first ring; an ordinary wanderer in a generated world (seed `g5`) walks east, east and north, hears the innkeeper's rumour, crosses the march, takes custody at the Cross, waits the week out to *Put Out*, and the world is still running |
 | `test/frontier.test.ts`, `test/adventure-names.test.ts` | | existing placements unchanged; no name shared with another adventure |
@@ -46,8 +46,8 @@ The Close Gate is the portal between the Row and the Close. Played through it:
 - **a forgery** from Heb's cellar, past the porter on a deception check (*below*);
 - **the Lady's ring**, which shaves the tally smooth (*recant*: "'Remitted,' he says. He does not ask how");
 - **as Hern's custodian**, on the day he is delivered (*above*, *bearer*);
-- **the masons' yard door** opens on Joby's word, and **the Close wall** to a climber at nightfall: both are built and
-  linted, and neither is walked by a test (12-critique.md);
+- **over the Close wall** at dusk by a monk, and **through the masons' lodge** on Joby's word by a bard, each with a
+  tally still notched (the back-ways test; for the bard the wall is not even offered);
 - **refused**: in *flight* the company never enters the Close at all, and talks to Hern through the bars.
 
 ## Negotiations

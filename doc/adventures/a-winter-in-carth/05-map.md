@@ -113,4 +113,4 @@ window is a second person, `hern_window`, seen when he is in the cell and it is 
 | Doctors Ploughwright and Quist | the Divinity Schools | dispute at two on Fastens' Eve |
 | the woodmen, the wolves | the Bishop's Wood | the wolves come out at dusk |
 
-Thirty-nine rooms (fourteen beyond the walls, twenty-five within) and thirty-three people.
+Thirty-eight rooms (twelve beyond the walls, twenty-six within) and thirty-three people.
