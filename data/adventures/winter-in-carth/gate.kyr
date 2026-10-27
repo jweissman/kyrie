@@ -58,7 +58,13 @@ Module gaunt "A Winter in Carth" {
     Result "At the top of the Bearer's Steps Hern knocks on the porter's grille himself. 'Ninian Hern,' he says, 'come in on his own feet, for the Consistory.' The gate opens a crack, and he goes in, and turns in the gap. 'Come and see me,' he says. 'They allow visitors.' The gate shuts.".
   }
   // He keeps his appointment whatever his custodian does: by noon on Fastens' Eve he is in the gaol.
-  Rule hern_gives_himself_up when eveDay() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not hernDead(hern) says "Hern looks up at the sun and says, 'Noon on Fastens' Eve. I've an appointment,' and goes off up the Bearer's Steps by himself, and is let in at the Close Gate, and does not look back." {
+  Rule hern_gives_himself_up when eveDay() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not hernDead(hern)
+    and following(hern, party) and at(party, ?p) and townRoom(?p) says "Hern looks up at the sun and says, 'Noon on Fastens' Eve. I've an appointment,' and goes off up the Bearer's Steps by himself, and is let in at the Close Gate, and does not look back." {
+    Assert hernGaoled(hern). Retract following(hern, party). Assert at(hern, gaol_cell). }
+  Rule hern_leaves_you when eveDay() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not hernDead(hern)
+    and at(hern, ?p) and at(party, ?p) says "Hern gets up and looks at the sun. 'Noon on Fastens' Eve,' he says. 'I've an appointment in Gaunt, and I'll keep it on my own feet.' He goes off north, barefoot, at a walk, and does not look back." {
+    Assert hernGaoled(hern). Retract following(hern, party). Assert at(hern, gaol_cell). }
+  Rule hern_keeps_appointment when eveDay() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not hernDead(hern) {
     Assert hernGaoled(hern). Retract following(hern, party). Assert at(hern, gaol_cell). }
   // Refused at the Cross, he walks down from Carth when the snow stops, and is in the gaol by Shrove Monday noon.
   Rule hern_walks_in when hernAhead(hern) and mondayN() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not following(hern, party) and not hernDead(hern) {
