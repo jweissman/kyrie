@@ -29,7 +29,7 @@
   scenario may now use). If that town lacks a taproom, a shrine or a shop the players need, they are placed in the
   first town that has them. The players are on the town's heart: a green, a market-place or a pit-head, named as the
   generator named it.
-- **Word of it.** The innkeepers of the first region tell of "the Midsummer Trial at Pentrice" (the country's
+- **Word of it.** The innkeepers of the first region tell of "the Trial of the Wheel at Pentrice" (the country's
   `rumour`); a playbill of the Trial is nailed up in the taprooms (`notice`); after the Trial, the playbill curls and
   the talk is of what happened (`after`), and an innkeeper who is told the story takes the playbill down and keeps it.
   The players themselves are word of it: they are going west to the Trial, and say so.
@@ -143,6 +143,6 @@ standalone city campaign, watch 0 is eight in the morning of tday 1.
 | tday 3, 20:00 | the watermen decide to strike, unless paid or persuaded |
 | tday 4, noon | a seized book is burned in Guildhall Square |
 | tday 4, 16:00 | the watermen strike |
-| tday 4, 18:00 | the midsummer peal, if the Bunces are reconciled; the company crosses to the Wheel |
+| tday 4, 18:00 | the Trial peal, if the Bunces are reconciled; the company crosses to the Wheel |
 | tday 4, 19:00–22:00 | *The Alderman's Ghost*, nine scenes |
 | tday 5, 10:00 | the verdict |

@@ -12,7 +12,7 @@ Module pentrice "Gosse's Company" {
 
   Person gosse "Absalom Gosse" at moon_loft {
     Role "the actor-manager of Gosse's Company". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "Absalom Gosse is a big old man in a coat that was crimson once, with a voice that would carry to the back of a field and a face that has been every king in Imbar. 'Ah,' he says, turning the whole of himself toward you as if you were the house. 'You.'".
+    Greets "Absalom Gosse is a big old man in a coat that was crimson once, with a voice made for open air and a face that has been every king in Imbar. 'Ah,' he says, turning the whole of himself toward you as if you were the house. 'You.'".
     Wants parcel_kind.
   }
   Observe gosse_here near gosse when not knows(party, deaf_seen) "Gosse stands a little to the right of whoever he is talking to, always, and tilts his head as if listening to music.".
@@ -65,8 +65,8 @@ Module pentrice "Gosse's Company" {
   Topic gosse_green with gosse "Ask Gosse whether he remembers you from the green" when knows(actor, freed) and not knows(actor, joined) and not inCompany(actor) once {
     Says "'Remember!' says Gosse. 'The one who got the chain off our wheel! Hepzibah!' Hepzibah looks up and, for once, smiles. 'You would not sign on, then,' says Gosse, 'and I bear no grudge, because I am a magnanimous man and because I mean to ask you again now.'".
   }
-  Topic gosse_hire with gosse "Ask Gosse whether the company needs a hand for the Trial" when not inCompany(actor) once {
-    Says "'Needs!' says Gosse. 'We are six players, a prompter and a bear, to play a comedy of eleven parts in a round house before the Bench of four in four days' time. We need a hand. We need hands. We need a Tapwell, a chain-man, a carrier of hampers and a person to stand in the wings.' He considers you. 'A season's work, a share of the house, a pallet in the loft and the honour of the profession, which is worth precisely nothing and which I would not sell for a crown. Yes or no?'".
+  Topic gosse_hire with gosse "Ask Gosse whether the company needs a hand for the Trial" when not inCompany(actor) and week() and not pensionTaken(gosse) once {
+    Says "'Needs!' says Gosse. 'We are a handful of players, a prompter and a bear, to play a comedy of eleven parts in a round house before the Bench of four on the last night of the Trial. We need a hand. We need hands. We need a Tapwell, a chain-man, a carrier of hampers and a person to stand in the wings.' He considers you. 'A season's work, a share of the house, a pallet in the loft and the honour of the profession, which is worth precisely nothing and which I would not sell for a crown. Yes or no?'".
   }
   Topic gosse_sign with gosse "Tell Gosse you will take service with the company" when not inCompany(actor) once {
     Says "'Done,' says Gosse, and seizes your hand. 'Hepzibah, write it down.' Hepzibah writes it down. 'You are one of us. You will discover that this is a mixed blessing, like all blessings and most of the gods.'".
@@ -75,19 +75,19 @@ Module pentrice "Gosse's Company" {
   Topic gosse_tally with gosse "Tell Gosse you are signed on as a tallyman with the Office for the week" when tallyman(actor) once {
     Says "Gosse stares at you, and then laughs until he has to sit down on a hamper. 'A tallyman!' he says. 'The Office pays you sixpence a night to sit in the front row and count my sins! My friend, I will give you sins worth counting.' He wipes his eyes. 'Stay a tallyman. Sit on the grey bench. A friend in the front row is worth two in the wings.'".
   }
-  Topic gosse_profession with gosse "Tell Gosse you are of the profession yourself" when craft(actor, craft_stage) once {
-    Says "Gosse looks at you as one player looks at another across a green: the hands, the feet, the way you stand when you are not standing for anyone. 'So you are,' he says. 'So you are. Then you know what this is,' and he spreads his arms to the loft, the hampers, the chalk on the floor, the bear in the yard below. 'You know what four days are. God help you, you know.'".
+  Topic gosse_profession with gosse "Tell Gosse you are of the profession yourself" when craft(actor, craft_stage) and not knows(actor, freed) once {
+    Says "Gosse looks at you as one player looks at another across a green: the hands, the feet, the way you stand when you are not standing for anyone. 'So you are,' he says. 'So you are. Then you know what this is,' and he spreads his arms as if to take in every company that ever was. 'You know what four days are. God help you, you know.'".
   }
 
   // ── Gosse ───────────────────────────────────────────────────────────────────────────────────────────────────────
-  Topic gosse_patent with gosse "Ask Gosse about the Patent" when true once {
+  Topic gosse_patent with gosse "Ask Gosse about the Patent" when not knows(actor, freed) once {
     Says "'A roof,' says Gosse. 'Forty-one years I have played under the sky, on greens and in barns and in the yards of inns, and I have been rained on in every country of Imbar. The Patent is the Wheel, my friend, the Wheel itself, for us, every night, for as long as there is a company called Gosse's. A house. No more roads.' He looks at the window. 'Hepzibah thinks I am too old to stop walking. Hepzibah thinks a great many things she does not say, which is why I have kept her thirty-four years.'".
   }
   Topic gosse_riot with gosse "Ask Gosse about the last time he played in Pentrice" when true once {
-    Says "Gosse's whole face lights up. 'The riot!' he says. 'Forty years ago, my friend, at the Wheel, I was twenty-three and playing a fool in a thing called The Miser's Wedding, and the Lord Mayor himself was in the gallery, Ezra Orde, a man shaped like a pudding in a chain, and in the second act the miser's fool has a line about a man who weighs his gold and his wife in the same scales, and I looked up at the gallery, and I said it to him.' He spreads his hands. 'And I added a little. And the pit took it up, and carried it over the river, and the City sang it for two nights, and on the third they made the Office of Plain Speech to see it never happened again, and banned Absalom Gosse from the walls for ever.' He beams. 'I made an Office. How many players can say that?'".
+    Says "Gosse's whole face lights up. 'The riot!' he says. 'Forty years ago, my friend, at the Wheel, I was twenty-three and playing a fool in a thing called The Miser's Wedding, and the Lord Mayor himself was in the gallery, Ezra Orde, a man shaped like a pudding in a chain, and in the second act the miser's fool has a line about a man who weighs his gold and his wife in the same scales, and I looked up at the gallery, and I said it to him.' He spreads his hands. 'And I added a little. And the pit took it up, and carried it over the river, and the City sang it for two nights, and within the week they made the Office of Plain Speech to see it never happened again, and banned Absalom Gosse from every stage inside the walls for ever.' He beams. 'I made an Office. How many players can say that?'".
     On discuss { Assert knows(actor, riot_gosse). }
   }
-  Discovery riot_gosse "Forty years ago at the Wheel, playing a fool, the young Absalom Gosse said something to Lord Mayor Ezra Orde in the gallery that the pit took up and sang through the City for two nights; on the third, the Office of Plain Speech was founded, and Gosse was banned from the walls." { Known by gosse, hepzibah. }
+  Discovery riot_gosse "Forty years ago at the Wheel, playing a fool, the young Absalom Gosse said something to Lord Mayor Ezra Orde in the gallery that the pit took up and sang through the City for two nights; within the week, the Office of Plain Speech was founded, and Gosse was banned from every stage inside the walls." { Known by gosse, hepzibah. }
 
   // What happened before the company came: Fallow's pension, offered on the first morning (see town.kyr).
   Topic gosse_pension with gosse "Ask Gosse about Corin Fallow's offer" when fallowOffered(gosse) and not pensionTaken(gosse) once {
@@ -99,7 +99,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(gosse, site) and fallowOffered(gosse) and not pensionTaken(gosse)
       and week() and not playingTonight(pentrice).
     On success { Assert pensionTaken(gosse). }
-    Result "Gosse hears you out without a word, which you have never seen him do. Then he sits down on the wooden throne and puts his big hands on his knees. 'Yes,' he says, at last. 'Yes. I am tired. I have been tired for eleven years.' He looks at Hepzibah, who does not look up from the book. 'Fetch me a pen, somebody. I shall want it to have a speech in it.'".
+    Result "Gosse hears you out without a word, which you have never seen him do. Then he sits down on the wooden throne and puts his big hands on his knees. 'Yes,' he says, at last. 'Yes. I am tired. I have been tired for a long time.' He looks at Hepzibah, who does not look up from the book. 'Fetch me a pen, somebody. I shall want it to have a speech in it.'".
   }
   Relation pensionTaken(group). Relation fallowOffered(group).
 
@@ -122,7 +122,7 @@ Module pentrice "Gosse's Company" {
   Action ask_letter(actor: group, recipient: member, site: place) "Ask Hepzibah for Mrs Swale's letter, to give to Swale" {
     Speaker hepzibah. Time 1 minute.
     Requires able(actor) and company(actor) and at(actor, site) and at(hepzibah, site) and knows(actor, mother_letter_known)
-      and memberOf(recipient, actor) and awake(recipient) and not knows(actor, letter_given) and not reconciled(swale).
+      and memberOf(recipient, actor) and awake(recipient) and not knows(actor, letter_given) and not reconciled(swale) and not swaleGone(swale).
     Resolve acquire(swale_letter, mothers_letter, recipient).
     On success { Assert knows(actor, letter_given). Retract at(swale_letter, moon_loft). }
     Result "Hepzibah takes the letter out from between the pages of the book, where it has pressed itself flat, and holds it a moment. 'Give it him at the window,' she says, 'where he can turn his back on us,' and gives it to you.".
@@ -132,7 +132,7 @@ Module pentrice "Gosse's Company" {
   // Gosse cannot hear the prompt any more, from his left; Hepzibah has known for a year, and says nothing.
   Discovery deaf_seen "Absalom Gosse is going deaf, in the left ear worst: he misses a prompt given from that side, and covers it.".
   Topic hepz_deaf with hepzibah "Ask Hepzibah about Gosse's hearing" when knows(actor, deaf_seen) and not promptWing(actor) once {
-    Says "Hepzibah takes her spectacles off, which is the most emotion you have seen her show. 'A year,' she says. 'Worse since the spring. He thinks I don't know. He has learned every play in the repertory by heart so that he will not need me, and he does need me.' She folds the spectacles. 'I prompt from the left side, the book side. It has always been the left side. On the night, I want someone in the right-hand wing who knows the play, to give him his line from his good side if he dries.' She looks at you. 'Will you?'".
+    Says "Hepzibah takes her spectacles off, which is the most emotion you have seen her show. 'A year,' she says. 'Worse these three months. He thinks I don't know. He has learned every play in the repertory by heart so that he will not need me, and he does need me.' She folds the spectacles. 'I prompt from the left side, the book side. It has always been the left side. On the night, I want someone in the right-hand wing who knows the play, to give him his line from his good side if he dries.' She looks at you. 'Will you?'".
   }
   Topic hepz_wing with hepzibah "Tell Hepzibah you will stand in the right-hand wing on the night" when knows(actor, deaf_seen) and inCompany(actor) and not promptWing(actor) once {
     Says "'Good,' says Hepzibah, and puts her spectacles back on. 'Learn his cues. I'll mark them for you.' She marks them, in red pencil, in a copy of the scenes, and gives it to you without another word.".
@@ -140,7 +140,7 @@ Module pentrice "Gosse's Company" {
   }
   Relation promptWing(group).
   Rule deaf_told when tday(pentrice) >= 3 and inCompany(party) and not knows(party, deaf_seen) and at(party, moon_loft) and at(hepzibah, moon_loft)
-    says "Hepzibah catches your sleeve as you pass her trestle, and says, low, without looking up: 'You'll have seen it. Absalom can't hear from the left any more. He covers it. Don't tell him you know.'" teaches deaf_seen { }
+    says "Hepzibah catches your sleeve as you pass her trestle, and says, low, with her eyes on the page: 'You'll have seen it. Absalom can't hear from the left any more. He covers it. Don't tell him you know.'" teaches deaf_seen { }
 
   // ── The property chest ──────────────────────────────────────────────────────────────────────────────────────────
   Thing chest "the property chest" at moon_loft {
@@ -170,20 +170,20 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, moon_loft) and state(chest, open) and inside(letters, chest)
       and not knows(actor, letters_read).
     On success { Assert knows(actor, letters_read). }
-    Result "You should not, and you do. They are not long. 'My dear H., rain at Galt, the takings four coin and a ham. Patience is off her food. You were very good tonight in the second act.' 'My dearest H., I have bought you a shawl and given it to Dorcas because I could not think how to explain it.' 'H. — If I were a younger man.' 'H. — If I were a braver one.' The last is dated this spring, and is only one line: 'H. — I can't hear you any more on the left side, and you know it, and I know you know.'".
+    Result "You should not, and you do. They are not long. 'My dear H., rain at Galt, the takings four coin and a ham. Patience is off her food. You were very good tonight in the second act.' 'My dearest H., I have bought you a shawl and given it to Dorcas because I could not think how to explain it.' 'H. — If I were a younger man.' 'H. — If I were a braver one.' The last is dated this year, and is only one line: 'H. — I can't hear you any more on the left side, and you know it, and I know you know.'".
   }
   Topic hepz_letters with hepzibah "Tell Hepzibah you have read the letters in the chest" when knows(actor, letters_read) once {
     Says "Hepzibah goes on writing for a while. 'Eleven years,' she says. 'I found them looking for a skull.' She blots the line. 'I put them back. He doesn't know I know. I'd thank you not to tell him, and not to tell me any more about them, and to remember that I am fifty-nine and have prompted that man through four thousand nights and could prompt him through this one.' She looks at you over her spectacles. 'He has to say it himself. Somewhere he can't take it back.'".
   }
   Topic gosse_hepz with gosse "Ask Gosse about Hepzibah" when bookCome(pentrice) and not gosseMeans(gosse) once {
-    Says "Gosse is a long time answering. 'You have read the epilogue,' he says. 'Who walks first. The Ghost walks first, and then Pomfret, and then everybody, and at the end Pomfret turns to the house and asks their pardon, and asks a lady for her hand, because it is a comedy.' He looks at Hepzibah, who is at the far end of the loft with her back to him. 'I shall not ask the house. I shall turn to the wing, where she is, with the book, and ask her. On the stage, in front of the City, so that I cannot take it back.' He clears his throat. 'Will you see that she is there? In the wing, at the end. It is the one thing I ask.'".
+    Says "Gosse is a long time answering. 'You have read the epilogue,' he says. 'Who walks first. The Ghost walks first, and then Pomfret, and then everybody, and at the end Pomfret turns to the house and asks their pardon, and asks a lady for her hand, because it is a comedy.' He looks across the room at Hepzibah, who has her back to him. 'I shall not ask the house. I shall turn to the wing, where she is, with the book, and ask her. On the stage, in front of the City, so that I cannot take it back.' He clears his throat. 'Will you see that she is there? In the wing, at the end. It is the one thing I ask.'".
     On discuss { Assert gosseMeans(gosse). }
   }
   Relation gosseMeans(group).
 
   // ── Ambrose Swale and the Ghost's lines ─────────────────────────────────────────────────────────────────────────
   Topic swale_part with swale "Ask Swale what he thinks of his part" when bookCome(pentrice) once {
-    Says "'The Ghost,' says Swale, and something in his face comes alive. 'Verse. Real verse, in a comedy, God knows why. A man who will not lie down. Listen.' He lifts a hand. ''I rise, sirs, as I always rose: unbidden, and too soon, and much too long.'' He lets the hand fall. 'The pathos of it. A man's whole public life in a line.' Behind him, Pudding has put both hands over his face. Across the loft Dorcas is bent double over her darning. Swale does not notice. Swale has not, you realise, ever noticed.".
+    Says "'The Ghost,' says Swale, and something in his face comes alive. 'Verse. Real verse, in a comedy, God knows why. A man who will not lie down. Listen.' He lifts a hand. '“I rise, sirs, as I always rose: unbidden, and too soon, and much too long.”' He lets the hand fall. 'The pathos of it. A man's whole public life in a line.' Behind him, Pudding has put both hands over his face. Swale does not notice. Swale has not, you realise, ever noticed.".
     On discuss { Assert knows(actor, swale_innocent). }
   }
   Discovery swale_innocent "Ambrose Swale does not hear the double meanings in the Ghost's lines, which are the bluest in the play: he thinks them pathetic, and plays them so." { Known by pudding, dorcas, hepzibah, gosse. }
@@ -223,7 +223,7 @@ Module pentrice "Gosse's Company" {
     and at(swale, ?p) {
     Retract at(swale, ?p). Assert at(swale, owl_room). Assert swaleGone(swale). Retract troupe(swale). }
   Rule swale_walks_told when swaleGone(swale) and not spread(swale_gone_known) and inCity()
-    says "Word goes round the Moon by suppertime: Ambrose Swale has packed his cloak and his crown and gone to sit in the Owl, and says he has left the profession." { Assert spread(swale_gone_known). }
+    says "Word goes round the Moon within the hour: Ambrose Swale has packed his cloak and his crown and gone to sit in the Owl, and says he has left the profession." { Assert spread(swale_gone_known). }
   Discovery swale_gone_known "Ambrose Swale has walked out of Gosse's Company over the Ghost's lines.".
   Action fetch_swale(actor: group, site: place) "Ask Swale to come back, on his own terms: with the lines cut" {
     Speaker swale. Time 5 minutes.
@@ -241,7 +241,7 @@ Module pentrice "Gosse's Company" {
     Says "'I do not speak of that person,' says Swale, 'or to him.' He looks out of the window. 'We play together. On the stage he is my servant, my fool, my shadow, my conscience, whatever the play requires. Off it,' he says, 'he stood at my mother's grave in the rain and told a joke about a bishop and a goat. And they laughed.'".
   }
   Topic pudding_swale with pudding "Ask Pudding about Swale" when not reconciled(swale) once {
-    Says "Pudding catches the three onions and holds them. 'She asked me to,' he says. 'His mother. She said: Jem, they'll all be standing there with faces like wet Wednesdays, and Ambrose worst. Tell them the one about the bishop and the goat.' He puts the onions down in a row. 'So I did. And it was the best laugh I ever got, and he hasn't spoken to me since.' He looks across the loft at Swale's back. 'She wrote it down for him. I couldn't give it him. He'd not let me near. Hepzibah has it.'".
+    Says "Pudding catches the three onions and holds them. 'She asked me to,' he says. 'His mother. She said: Jem, they'll all be standing there with faces like wet Wednesdays, and Ambrose worst. Tell them the one about the bishop and the goat.' He puts the onions down in a row. 'So I did. And it was the best laugh I ever got, and he hasn't spoken to me since.' He does not look round for Swale. 'She wrote it down for him. I couldn't give it him. He'd not let me near. Hepzibah has it.'".
     On discuss { Assert knows(actor, mother_letter_known). }
   }
   Event swale_reads near swale when keeps(swale, swale_letter) "Swale takes the letter as if it might be hot. He reads it at the window with his back to the room, twice, and then he stands there a long time with it in his hand. Then he crosses the loft, the whole length of it, to where Pudding is sitting on the floor, and says, in his ordinary voice, which you have never heard: 'The bishop and the goat. Tell it me again, Jem. I didn't hear the end.' Pudding tells it. Swale laughs until he has to sit down beside him." then {
@@ -323,7 +323,7 @@ Module pentrice "Gosse's Company" {
 
   // ── Kit Arden, and his voice ────────────────────────────────────────────────────────────────────────────────────
   Topic kit_voice with kit "Ask Kit what is in the pot" when true once {
-    Says "'Honey and hot water,' says Kit, and his voice goes up on 'water' and comes down somewhere else entirely, and he goes scarlet. 'It's going,' he says, in a whisper, which is safer. 'My voice. All spring. If it goes at the Wheel in front of the Bench, in the middle of Bell, I'm finished. Boys whose voices go don't play girls, and boys who don't play girls don't play anything till they're men, and by then everybody's forgotten them.' He looks into the pot. 'Ma Tolly in the Gullet has the best honey. She charges for it.'".
+    Says "'Honey and hot water,' says Kit, and his voice goes up on 'water' and comes down somewhere else entirely, and he goes scarlet. 'It's going,' he says, in a whisper, which is safer. 'My voice. For months. If it goes at the Wheel in front of the Bench, in the middle of Bell, I'm finished. Boys whose voices go don't play girls, and boys who don't play girls don't play anything till they're men, and by then everybody's forgotten them.' He looks into the pot. 'Ma Tolly in the Gullet has the best honey. She charges for it.'".
     On discuss { Assert knows(actor, kit_fear). }
   }
   Discovery kit_fear "Kit Arden's voice is breaking: it goes in the middle of a line, and he is afraid it will go on the night." { Known by kit. }
@@ -413,9 +413,9 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, moon_loft) and at(hepzibah, moon_loft) and at(gosse, moon_loft)
       and bookCome(pentrice) and daytime() and week() and not rehearsedI(pentrice) and not pensionTaken(gosse).
     On success { Assert rehearsedI(pentrice). Assert knows(actor, act_one_known). }
-    Result "Gosse gives the Prologue to the hampers as if they were the City, and gets it word-perfect, and you see him do it. Then the funeral: mourners in a line, quarrelling about who walks first, until the coffin is left in the middle of the floor and the Ghost climbs out of it, which is Swale climbing out of a hamper with enormous dignity. Then the Widow and her suitor over the funeral meats. Once, when Hepzibah throws a cue from the left, Gosse takes it a beat late, from Pudding, as if he had meant to.".
+    Result "Gosse gives the Prologue to the hampers as if they were the City, and gets it word-perfect, and you see him do it. Then the funeral: mourners in a line, quarrelling about who walks first, until the coffin is left in the middle of the floor and the Ghost climbs out of it, which is a hamper and a great deal of dignity. Then the Widow and her suitor over the funeral meats. Twice, when Hepzibah throws a cue from the left, Gosse takes it a beat late, from Pudding, as if he had meant to.".
   }
-  Observe deaf_rehearsal at moon_loft noticed by insight when rehearsedI(pentrice) and not knows(party, deaf_seen) "You saw it, in the first act: Hepzibah gave Gosse his line from the left, twice, and he did not hear it, and covered with a bit of business, and took it from Pudding on his right. He has been standing a little to the right of everyone all week." teaches deaf_seen.
+  Observe deaf_rehearsal at moon_loft noticed by insight when rehearsedI(pentrice) and not knows(party, deaf_seen) "You saw it, in the first act: Hepzibah gave Gosse his line from the left, twice, and he did not hear it, and covered with a bit of business, and took it from Pudding on his right. He has been standing a little to the right of everyone since you came." teaches deaf_seen.
   Discovery act_one_known "You have rehearsed the first act of The Alderman's Ghost with the company.".
   Action rehearse_two(actor: group, site: place) "Rehearse the second act in the loft: the Council, the lovers, the Ghost's complaint" {
     Speaker hepzibah. Time 6.
@@ -431,10 +431,12 @@ Module pentrice "Gosse's Company" {
   Rule rehearse_knowing at moon_loft when rehearsedII(pentrice) and swaleKnowing(swale) and not rehearsalTold(pentrice)
     says "At the Council Swale says, 'I rise, sirs, as I always rose,' knowing it now, with his chin up and his eyes perfectly clear, and the laugh in the loft comes and stops halfway, as if it had walked into a door." { Assert rehearsalTold(pentrice). }
   Relation rehearsalTold(place).
-  Rule kit_cracks at moon_loft when rehearsedII(pentrice) and (plays(kit, part_bell) or plays(kit, part_widow)) and not kitVoiceHeld(kit) and not kitCracked(kit)
+  Rule kit_cracks at moon_loft when rehearsedII(pentrice) and plays(kit, part_bell) and not kitVoiceHeld(kit) and not kitCracked(kit)
     says "In the garden scene Kit reaches for the top of Bell's line about the moon and his voice goes straight up through the roof and comes down a man's. Nobody laughs. Kit sits down on the floor with his hands over his face, and Hepzibah, after a moment, writes something in the margin of the book." teaches kit_fear { Assert kitCracked(kit). }
+  Rule kit_cracks_widow at moon_loft when rehearsedII(pentrice) and plays(kit, part_widow) and not kitVoiceHeld(kit) and not kitCracked(kit)
+    says "Between scenes, cueing the lovers for Hepzibah, Kit reaches for the top of Bell's line about the moon and his voice goes straight up through the roof and comes down a man's. Nobody laughs. Kit sits down on the floor with his hands over his face. 'And I'm the Widow,' he says, through them. 'For now.'" teaches kit_fear { Assert kitCracked(kit). }
   Rule kit_holds at moon_loft when rehearsedII(pentrice) and plays(kit, part_bell) and kitVoiceHeld(kit) and not kitCracked(kit) and not kitHeldTold(kit)
-    says "In the garden scene Kit takes Bell's line about the moon under his voice, as the Canon said, low and husky, and it holds; and Dorcas, watching from a hamper, says 'Well,' very softly." { Assert kitHeldTold(kit). }
+    says "In the garden scene Kit takes Bell's line about the moon under his voice, as the Canon said, low and husky, and it holds; and Hepzibah, at the book, says 'Well,' very softly." { Assert kitHeldTold(kit). }
   Relation kitHeldTold(group).
   Action rehearse_three(actor: group, site: place) "Rehearse the third act in the loft: the Fountain, the bear, who walks first" {
     Speaker hepzibah. Time 6.

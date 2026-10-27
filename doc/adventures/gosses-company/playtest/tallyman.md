@@ -12,7 +12,7 @@ clerk of the Office of Plain Speech; and Grimsditch, a bailiff, in a brown coat,
 Wheel, on its own bench, by charter. A tallyman sits with a stick and a knife and cuts a notch for every word spoken 
 that is not in the licensed book. The company is fined at the end of the night, a crown a line.’ He looks at you 
 over the ledger. ‘We are short. The Trial has three nights and the Office has four tallymen, one of whom has a 
-tremor. Sixpence a night and a stick of your own. Can you count?’
+tremor. A coin a night and a stick of your own. Can you count?’
 [Sign on with Tunstall as a tallyman for the week] Tunstall writes your name in the ledger, dips the pen again, and 
 writes it more neatly. Then he takes a stick from the jar, a length of hazel with the bark off, and a small knife, 
 and gives you both. ‘The grey bench, at seven, each night of the Trial,’ he says. ‘You count words, not 
@@ -23,9 +23,9 @@ licensed it. A crier with a licence pinned to his hat is crying the Trial: ‘Th
 Mayor’s Servants! The Patient Daughter, by the Children of the Close! And Gosse’s Company, God help us, from 
 nowhere!’
 [To the Gullet] The Gullet is the fish market, under a long tiled roof on stone posts, and it smells as a fish market 
-smells in midsummer. Fishwives cry pike and eel and Arle salmon in voices that need no licence. At the near end, by a 
-post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers’ hall has a tall chimney, and 
-a stall papered with ballad-sheets is doing a brisk trade. At the far end of the Gullet the fishmongers’ hall 
+smells on a warm day. Fishwives cry pike and eel and Arle salmon in voices that need no licence. At the near end, by 
+a post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers’ hall has a tall chimney, 
+and a stall papered with ballad-sheets is doing a brisk trade. At the far end of the Gullet the fishmongers’ hall 
 chimney is humming like an organ-pipe: a swarm of bees has gone into it, and a dozen fishwives are standing at its 
 foot with a pan of sulphur and a tinderbox, arguing. Here are Dame Philippa Gammage, the Gullet’s critic, who keeps 
 the ballad stall; Ma Tolly, the honey-woman of the Gullet; Oswin Garlick, a fishmonger, and the most famous heckler 
@@ -38,9 +38,8 @@ the Water Stairs, is here.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
-[Wait › An hour] The Moon’s pot-boy comes running, scarlet, shouting before he is through the door: ‘Patience 
-is out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s 
-coming!’
+[Wait › An hour] The Moon’s pot-boy comes running, scarlet, shouting before he has got his breath: ‘Patience is 
+out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s coming!’
 [Wait › An hour] Word comes up from the Gullet: Simeon Bowle the bear-ward came over from the Soke with two men and 
 a chain, and took Gosse’s bear across the river to the bear-garden, and says she is his now by the Liberty’s law 
 of strays.
@@ -66,7 +65,7 @@ note for Gosse that says only SORRY, ABSALOM, I AM FORTY-EIGHT.
 [Wait › An hour] An hour passes.
 [Wait › An hour] Grimsditch takes the costumes: every hamper, the king’s cloak with the new braid, the Widow’s 
 blue gown, the Ghost’s armour. He apologises to each one as it goes down the stair. Gosse stands in the yard with 
-his arms folded and says, to the sky, ‘We will play it in our shirts, then, as the Greeks did.’
+his arms folded and says, to the sky, ‘We will play it in our shirts, then, as the first players did.’
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -165,7 +164,9 @@ in red caps who have come to see what they struck against. The galleries are mos
 of the stage the Office sits in a row with its sticks across its knees, and in the middle of them, very upright, the 
 Master of Plain Speech. Time passes. Hepzibah’s voice, from the tiring-house door, not loud, carrying everywhere: 
 ‘The half, ladies and gentlemen. The half.’ Behind the stage everybody stops what they are doing for one breath, 
-and then goes on doing it faster.
+and then goes on doing it faster. With the costumes in the bailiff’s cart, Gosse’s Company plays in its shirts, 
+as Gosse promised: the Widow in a tablecloth, the Ghost in a bedsheet with a chain made of curtain-rings, Pomfret in 
+his own coat turned inside out. The yard thinks it is part of the joke, and by the second scene it is.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes. Gosse comes out alone to the front of the stage, in a crimson coat and a laurel 
@@ -213,13 +214,13 @@ notched stick, cutting a notch for every kiss as an unlicensed word.
 [Wait › A while] On the stage the Tallyman in his false beard is cutting notches for the lovers’ kisses. Below 
 him, on the grey bench, the real tallymen are cutting notches for his. Time passes.
 [Wait › A while] Time passes. With Dorcas gone and nobody else, Tam Hautboy plays Bell, aged nineteen, in a frock, 
-with his beard shaved off for it that afternoon and his hautboy still in his pocket. The Wheel has never seen 
-anything like it and never will again. Ormsby Clay leaves the lords’ room for ten minutes. Master Tapwell, the 
-young lover, is read from the wing by Hepzibah Dimmock, fifty-nine, in her own dry voice, out of the book, while the 
-Bell on stage makes love to an empty patch of moonlight. It is very funny the first time and grows strange. Alone on 
-the stage at night, by the empty plinth where his statue stood, the Ghost of Alderman Gudgeon makes his complaint: a 
-man who will not lie down, because nobody in the town he served will tell the truth, and so he cannot rest. Lob sits 
-at his feet.
+with his own beard shaved off for it that afternoon and his hautboy still in his pocket, while Pudding plays the 
+Tallyman behind the hedge in Tam’s false one. The Wheel has never seen anything like it and never will again. 
+Ormsby Clay leaves the lords’ room for ten minutes. Master Tapwell, the young lover, is read from the wing by 
+Hepzibah Dimmock, fifty-nine, in her own dry voice, out of the book, while the Bell on stage makes love to an empty 
+patch of moonlight. It is very funny the first time and grows strange. Alone on the stage at night, by the empty 
+plinth where his statue stood, the Ghost of Alderman Gudgeon makes his complaint: a man who will not lie down, 
+because nobody in the town he served will tell the truth, and so he cannot rest. Lob sits at his feet.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes. Swale plays the complaint to the floorboards, fast, as if he wanted it over, in the 
 voice of a man who has heard himself laughed at; and the house, which does not know why, laughs uncertainly in the 
@@ -239,12 +240,16 @@ and in the yard somebody says so, loudly, and somebody else says Bowle has her, 
 thin. Behind it all, in the left-hand wing, the Office has its way: Hepzibah Dimmock goes round to the grey bench 
 with the book in her arms and the Office’s men on either side of her, and sits down on the end of the bench, and 
 the left-hand wing is empty.
-[Wait › An hour] When the house has gone, Abel Tunstall stands on the grey bench with the tallymen’s sticks in a 
-bundle under his arm, and reads the notches by lantern-light, at a crown a notch: 14 crowns, to be paid at the Office 
-before the Bench sits at ten tomorrow, or Absalom Gosse to answer for it in the Clink of the Soke. The procession is 
-not rehearsed and goes round the stage the wrong way twice, and the Ghost walks first because he is the only one who 
-knows where to go. Then the epilogue: Gosse, as Pomfret, asks the City’s pardon, as the book has him, beautifully, 
-and bows, and the play is over. The house claps them, as a house does, and goes out over the river talking.
+[Wait › An hour] Ormsby Clay is already on his feet in the lords’ room with his book shut, pushing in his chair, 
+neatly. Dame Gammage has finished her nuts, and is looking into the empty bag as if it owed her a better evening. 
+Canon Mallory is studying his hands, pink, like a man to whom something has been said in church. Nym Callow has 
+written one word across his programme, and underlined it twice. When the house has gone, Abel Tunstall stands on the 
+grey bench with the tallymen’s sticks in a bundle under his arm, and reads the notches by lantern-light, at a crown 
+a notch: 14 crowns, to be paid at the Office before the Bench sits at ten tomorrow, or Absalom Gosse to answer for it 
+in the Clink of the Soke. The procession is not rehearsed and goes round the stage the wrong way twice, and the Ghost 
+walks first because he is the only one who knows where to go. Then the epilogue: Gosse, as Pomfret, asks the City’s 
+pardon, as the book has him, beautifully, and bows, and the play is over. The house claps them, as a house does, and 
+goes out over the river talking.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -262,19 +267,19 @@ bench painted grey: the Office’s bench, where the tallymen sit in Trial week. 
 [Wait › An hour] Absalom Gosse goes to the Clink of the Soke at noon for the Office’s fines, in his crimson coat, 
 waving, and holds court there for a week, and plays the Prologue through the bars every evening to a crowd in the 
 street, until the Owl and the Gullet between them have raised the money in pennies. At ten o’clock the crier comes 
-through the City ringing his bell: THE BENCH OF THE MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD 
-MAYOR’S SERVANTS, FOR A TWELFTH YEAR. Not one of the four voices was Gosse’s. Ambrose Swale leaves the company 
-the morning after, very politely, with his cloak and his own crown, and is next heard of carrying a spear in the 
-Siege of Arle for Corin Fallow, who is kind to him. Dorcas Quaile keeps Corin Fallow’s wardrobe at the Mayor’s 
-Room, and sews his boys into their stays, and is good at it, and whenever Gosse’s Company plays in Pentrice she 
-comes to stand among the fishwives in the yard, and does not let anybody see her face. Patience stays in the 
-bear-garden of the Soke, and dances on Sundays for Simeon Bowle’s customers, who are not kind; and every Sunday Jem 
-Pudding goes over the river and stands at the palings and hums.
+through the City ringing his bell: THE BENCH OF THE TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR’S 
+SERVANTS, FOR A TWELFTH YEAR. Not one of the four voices was Gosse’s. Ambrose Swale leaves the company the morning 
+after, very politely, with his cloak and his own crown, and is next heard of carrying a spear in the Siege of Arle 
+for Corin Fallow, who is kind to him. Dorcas Quaile keeps Corin Fallow’s wardrobe at the Mayor’s Room, and sews 
+his boys into their stays, and is good at it, and whenever Gosse’s Company plays in Pentrice she comes to stand 
+among the fishwives in the yard, and does not let anybody see her face. Patience stays in the bear-garden of the 
+Soke, and dances on Sundays for Simeon Bowle’s customers, who are not kind; and every Sunday Jem Pudding goes over 
+the river and stands at the palings and hums.
 [Wait › A while] Time passes. The Alderman’s Ghost went up at the Wheel on the last night of the Trial and came 
-down again to a house that did not know what it had seen, and the Bench gave the Patent where it always did. By 
-Michaelmas Gosse’s Company was gone: its players to Fallow’s spears and the fairs and the wardrobe and their 
-mothers, its wagon sold, its bear to a man who leads bears. Absalom Gosse was last seen on the road west out of 
-Pentrice on foot, alone, in his crimson coat, telling the Prologue to the hedges.
+down again to a house that did not know what it had seen, and the Bench gave the Patent to another company. By the 
+season’s end Gosse’s Company was gone: its players to Fallow’s spears and the fairs and the wardrobe and their 
+mothers, its wagon sold. Absalom Gosse was last seen on the road west out of Pentrice on foot, in his crimson coat, 
+telling the Prologue to the hedges.
 -- watch 589, at pentrice__wheel
 #pentrice__votes pentrice__pentrice: 0
 #pentrice__temper pentrice__pentrice: 6

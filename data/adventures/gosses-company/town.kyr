@@ -5,19 +5,25 @@ Module pentrice "Gosse's Company" {
   // the third, to strike on the fourth; and the Office, if a pirated copy of an unlicensed play comes his way.
   Person fallow "Corin Fallow" at mayors_hall {
     Role "who manages the Lord Mayor's Servants". Ancestry human. Peaceable. Pronouns he. Manner stoic.
-    Greets "Corin Fallow is a handsome grey-haired man in a beautiful plain coat, with the easy manner of somebody whose rent has been paid for eleven years. 'You're with Gosse,' he says, not unkindly. 'Sit down. I'm very fond of Absalom. Everyone is. That's the trouble.'".
+    Greets "Corin Fallow is a handsome grey-haired man in a beautiful plain coat, with the easy manner of somebody whose rent has always been paid. 'You're with Gosse,' he says, not unkindly. 'Sit down. I'm very fond of Absalom. Everyone is. That's the trouble.'".
   }
   Relation fallowGrateful(group). Relation fallowVisited(group).
   Rule fallow_comes when tday(pentrice) >= 1 and hour(clock) >= 10 and not fallowVisited(fallow) and not pensionTaken(gosse) {
     Assert fallowVisited(fallow). Assert fallowOffered(gosse). Assert fallowOffered(dorcas). }
-  Rule fallow_seen at moon_loft when at(party, moon_loft) and fallowVisited(fallow) and not spread(fallow_visit_known)
+  Rule fallow_seen at moon_loft when at(party, moon_loft) and fallowVisited(fallow) and tday(pentrice) == 1 and daytime() and not spread(fallow_visit_known)
     says "Corin Fallow comes up the loft stair in his beautiful plain coat with his hat in his hand, and is very civil to everyone, and asks for a word with Absalom, and then a word with Dorcas, and goes away again. Gosse stands at the window afterward, watching him cross the yard, and says nothing for nearly a minute, which is a record." { Assert spread(fallow_visit_known). }
+  Rule fallow_heard at moon_loft when at(party, moon_loft) and fallowVisited(fallow) and not (tday(pentrice) == 1 and daytime()) and not spread(fallow_visit_known)
+    says "They tell you in the loft that Corin Fallow came up the stair on the first morning in his beautiful plain coat, with his hat in his hand, and was very civil to everyone, and asked for a word with Absalom and a word with Dorcas; and that Gosse stood at the window afterward and said nothing for nearly a minute, which is a record." { Assert spread(fallow_visit_known). }
   Discovery fallow_visit_known "Corin Fallow came to the Moon on the first morning with offers for Gosse and for Dorcas Quaile.".
   Topic fallow_trial with fallow "Ask Fallow about the Trial" when true once {
-    Says "'The Siege of Arle,' says Fallow, 'on the second night. You've seen it. Everyone has; it's eleven years old. It is handsome, it is safe, it is licensed to the last comma, and the Guildhall and the Close vote for it every year because it is what a city's play should be.' He shrugs. 'I don't pretend it's art. It's a roof. My people have had a roof for eleven years. Absalom's have had the sky.'".
+    Says "'The Siege of Arle,' says Fallow, 'on the second night. You've seen it. Everyone has; it's eleven years old. It is handsome, it is safe, it is licensed to the last comma, and the Guildhall and the Close vote for it every year because it is what a city's play should be.' He shrugs. 'I don't pretend it's art. It's a roof. My people have had a roof since the Siege. Absalom's have had the sky.'".
   }
   Topic fallow_gosse with fallow "Ask Fallow about Gosse" when true once {
     Says "'He was the best fool I ever saw,' says Fallow. 'Forty years ago. I was in the pit the night of the riot, a prentice of sixteen, and I'd have followed him into the river.' He turns his hat in his hands. 'He's sixty-three, and deaf, and his company sleeps on straw, and his leading lady is forty-eight playing girls of nineteen. Somebody has to tell him it's over, and nobody will, because everybody loves him.' He looks at you. 'I offered him thirty crowns a year to stop. It's the kindest thing anyone will ever do for him, and he'll hate me for it.'".
+  }
+  // Fallow on his own campaign, once there is something of it to put to him.
+  Topic fallow_campaign with fallow "Ask Fallow what he thinks he is doing to Gosse's Company" when garlickHired(garlick) or watermenPaid(ferriby) or informed(fallow) or dorcasGone(dorcas) once {
+    Says "Fallow does not pretend not to understand. 'Winning,' he says. 'I have won eleven Trials, and not one of them by luck. A heckler is a cost of business; so is a boatman; so is a wardrobe-mistress.' He looks at you quite kindly. 'Absalom would do the same, if he had ever had a shilling at the right moment. He never has. That is the whole difference between us, and it is the only one he will not forgive.' He opens the door for you. 'Come and see the Siege. It is very good. It is always very good.'".
   }
   Action watch_fallow(actor: group, site: place) "Watch Fallow's face while he talks of what he has offered Dorcas Quaile" {
     Speaker fallow. Time 2 minutes.
@@ -38,8 +44,10 @@ Module pentrice "Gosse's Company" {
   Initially Assert home(the_bear, moon_yard).
   Rule bear_out when tday(pentrice) >= 1 and hour(clock) >= 14 and at(the_bear, moon_yard) and not fed(the_bear) and not bearLoose(the_bear) and not bearHome(the_bear) {
     Retract at(the_bear, moon_yard). Assert at(the_bear, gullet). Assert bearLoose(the_bear). }
-  Rule bear_out_told when bearLoose(the_bear) and at(the_bear, gullet) and not spread(bear_loose_known) and inCity()
-    says "The Moon's pot-boy comes running, scarlet, shouting before he is through the door: 'Patience is out! She's in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden's coming!'" { Assert spread(bear_loose_known). }
+  // Whoever is in the Gullet when she gets there sees it for themselves.
+  Rule bear_out_seen when bearLoose(the_bear) and at(the_bear, gullet) and at(party, gullet) and not spread(bear_loose_known) { Assert spread(bear_loose_known). }
+  Rule bear_out_told when bearLoose(the_bear) and at(the_bear, gullet) and not spread(bear_loose_known) and inCity() and not at(party, gullet)
+    says "The Moon's pot-boy comes running, scarlet, shouting before he has got his breath: 'Patience is out! She's in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden's coming!'" { Assert spread(bear_loose_known). }
   Discovery bear_loose_known "Patience has got out of her stall at the Moon and gone to the honey stall in the Gullet; the bear-ward of the Soke is coming for her.".
   Observe bear_in_gullet at gullet when at(the_bear, gullet) and not following(the_bear, party) "In the middle of the Gullet, sitting on her haunches with her nose in Ma Tolly's honey-pots and bees all over her face, is Patience. The fishwives stand round her at a distance with gutting knives, shouting. Patience is ignoring them with great dignity.".
   Action honey_bear(actor: group, site: place) "Hold out a pot of honey to Patience, and walk backward toward home" {
@@ -95,7 +103,7 @@ Module pentrice "Gosse's Company" {
     Says "'Stray,' says Bowle. 'Found loose in the City, brought over the water, mine by the law of the Liberty.' He jerks his head at the dogs. 'She's too old to bait. Too old to be worth the dogs' time. I'll have her dance on Sundays.' He looks at the end pen. 'Twelve coin and she's yours again. I'm not a hard man. I've just got a lot of dogs.'".
   }
   Topic bowle_past with bowle "Ask Bowle where he learned to handle bears" when at(the_bear, bear_pen) and not bowleTold(bowle) once {
-    Says "Bowle is quiet a while. 'On the road,' he says. 'With a company. I led a bear for Ned Fyfe's players thirty years back, before Fyfe drank himself into the Arle. Old she-bear called Maud.' He looks at the end pen, at Patience with her paws on the bars, and something in his bitten face changes. 'Maud had a cub, the last winter. Fyfe sold it to some players going west.' A long pause. 'Brown, with a white nick in her ear.' Patience has a white nick in her ear.".
+    Says "Bowle is quiet a while. 'On the road,' he says. 'With a company. I led a bear for Tom Fyfe's players thirty years back, before Fyfe drank himself into the Arle. Old she-bear called Maud.' He looks at the end pen, at Patience with her paws on the bars, and something in his bitten face changes. 'Maud had a cub, the last winter. Fyfe sold it to some players going west.' A long pause. 'Brown, with a white nick in her ear.' Patience has a white nick in her ear.".
     On discuss { Assert bowleTold(bowle). }
   }
   Relation bowleTold(group).
@@ -194,7 +202,7 @@ Module pentrice "Gosse's Company" {
     Greets "A round freckled young woman with her sleeves rolled up is scouring a copper pan at the area pump, singing under her breath, and stops singing, and goes on scouring.".
   }
   Topic merriman_heart with merriman "Ask Merriman what's on his mind" when bookCome(pentrice) once {
-    Says "Merriman goes very red and curries the horse in front of him much harder. 'Sukey Rowe,' he says. 'That's a maid at the Orde house, on the Hill. I've walked her home from chapel every Sunday since Candlemas and I've the words to ask her and I can't get them in the right order.' He stops currying. 'You're with the players. You know words. Could you put mine in a line for me?'".
+    Says "Merriman goes very red and curries the horse in front of him much harder. 'Sukey Rowe,' he says. 'That's a maid at the Orde house, on the Hill. I've walked her home from chapel every Sunday since the turn of the year and I've the words to ask her and I can't get them in the right order.' He stops currying. 'You're with the players. You know words. Could you put mine in a line for me?'".
     On discuss { Assert knows(actor, merriman_banns). }
   }
   Discovery merriman_banns "Dick Merriman, the Moon's ostler, wants to ask Sukey Rowe, a maid at the Orde house, to marry him, and cannot get the words in order." { Known by merriman. }
@@ -222,7 +230,7 @@ Module pentrice "Gosse's Company" {
   }
   Relation triedCoach(group).
   Topic gosse_wooing with gosse "Ask Gosse for a speech the ostler could ask his sweetheart with" when knows(actor, merriman_banns) and not speechWritten(merriman) and not gosseSpeech(merriman) once {
-    Says "'A wooing speech!' Gosse is delighted. 'The Duke of Galt, act two. Never fails.' He gives it to Merriman in the yard at the top of his voice, and Merriman learns it on the spot, all twenty lines of it. It is magnificent. It is, you realise about halfway through, the speech of a villain luring a novice out of a convent.".
+    Says "'A wooing speech!' Gosse is delighted. 'The Duke of Morrow, act two. Never fails.' He gives it to Merriman in the yard at the top of his voice, and Merriman learns it on the spot, all twenty lines of it. It is magnificent. It is, you realise about halfway through, the speech of a villain luring a novice out of a convent.".
     On discuss { Assert gosseSpeech(merriman). }
   }
   // He asks her the next evening, on the Hill, at the area steps.
@@ -236,7 +244,7 @@ Module pentrice "Gosse's Company" {
   Rule merriman_tells_gosse at moon_yard when at(party, moon_yard) and sukeyAsked(sukey) and gosseSpeech(merriman) and spread(sukey_said_yes) and not spread(galt_told)
     says "'She laughed,' Merriman adds, 'right through it. All twenty lines. Then she said yes before I'd got to the convent.'" { Assert spread(galt_told). }
   Discovery sukey_said_yes "Sukey Rowe said yes to Dick Merriman; their banns will be read at the minster.".
-  Discovery galt_told "Sukey Rowe laughed all through the Duke of Galt's wooing speech, and said yes.".
+  Discovery galt_told "Sukey Rowe laughed all through the Duke of Morrow's wooing speech, and said yes.".
   Topic sukey_hood with sukey "Ask Sukey Rowe whether she owns an old brown hood" when knows(actor, hooded_lady) and not knows(actor, sukey_carried) and sukeyAsked(sukey) once {
     Says "Sukey goes pink. 'My old one,' she says. 'My lady borrowed it on Tuesday night. She said a woman in a good cloak in the Westgate after dark is a story, and a woman in a servant's hood is nobody.' She scours the pan very hard. 'She came back without the parcel she went out with. I'm not to say. She's been different since, sort of lighter, and she sings in the bath now, which her father did.' She looks up. 'You'll not say I said. Dick says you're kind.'".
     On discuss { Assert knows(actor, sukey_carried). }
@@ -265,7 +273,7 @@ Module pentrice "Gosse's Company" {
     Change splice "Splice the tenor's rope" from frayed to spliced needing mending.
   }
   Topic bunces_quarrel with bunces "Ask the Bunces what the matter is" when not bellsMended(bunces) once {
-    Says "'The Trial peal,' says Hezekiah, 'which our father rang forty years, and his father, and the tenor rope's been cut on purpose so it can't be rung, and he did it.' 'I did not,' says Walter. 'He did it, so he'd not have to ring it with me after what I said at Mother's.' 'What you said at Mother's,' says Hezekiah, 'was unforgivable.' 'It was true,' says Walter. Neither of them will tell you what it was. The Trial peal is rung on the fourth night, at dusk, to call the City over to the last night of the Trial.".
+    Says "'The Trial peal,' says Hezekiah, 'which our father rang all his life, and his father, and the tenor rope's been cut on purpose so it can't be rung, and he did it.' 'I did not,' says Walter. 'He did it, so he'd not have to ring it with me after what I said at Mother's.' 'What you said at Mother's,' says Hezekiah, 'was unforgivable.' 'It was true,' says Walter. Neither of them will tell you what it was. The Trial peal is rung on the fourth night, at dusk, to call the City over to the last night of the Trial.".
   }
   Discovery jackdaws "Up in the bell-frame over the tenor there is a jackdaws' nest woven half of red-and-white wool and hemp: the birds have been picking the tenor's rope to pieces to line it." {
     Found by searching bell_loft "Up the ladder into the bell-frame, among the beams, over the great dark tenor: a jackdaws' nest the size of a hat, and woven all through it, red and white, the wool of the tenor's grip and long pale strands of its hemp. Neither Bunce cut the rope. The jackdaws did.".
@@ -278,7 +286,7 @@ Module pentrice "Gosse's Company" {
   Rule rope_needed when bellsMended(bunces) and state(tenor_rope, frayed) and tday(pentrice) >= 4 { Assert state(tenor_rope, spliced). }
   Rule peal when bellsMended(bunces) and state(tenor_rope, spliced) and tday(pentrice) >= 4 and hour(clock) >= 18 and not pealRung(bunces) { Assert pealRung(bunces). }
   Rule peal_told when pealRung(bunces) and not spread(peal_known) and inCity()
-    says "At dusk the minster's bells begin, all eight, the Trial peal, over the roofs and the river, the tenor booming under the rest like a big man laughing: the call to the last night of the Trial. All over Pentrice people put down what they are doing and go toward the water." { Assert spread(peal_known). }
+    says "At six the minster's bells begin, all eight, the Trial peal, over the roofs and the river, the tenor booming under the rest like a big man laughing: the call to the last night of the Trial. All over Pentrice people put down what they are doing and go toward the water." { Assert spread(peal_known). }
   Discovery peal_known "The Bunce brothers rang the Trial peal together on the last night of the Trial.".
 
   // ── The Fountain of Concord ─────────────────────────────────────────────────────────────────────────────────────
@@ -303,7 +311,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert knows(actor, key_lent). }
     On failure { Assert triedKey(actor). }
-    Result "Cundy looks at you a long time with the apple-core in his hand. Then he throws it in the dry basin. 'He has his dinner at the Guildhall at noon and hangs his waistcoat on the chair,' he says. 'Come back in an hour.' In an hour there is a big iron key on the Fountain's rim beside him, and he is not looking at it.".
+    Result "Cundy looks at you a long time with the apple-core in his hand. Then he throws it in the dry basin. 'He dines at the Guildhall every day and hangs his waistcoat on the chair,' he says. 'Come back in an hour.' In an hour there is a big iron key on the Fountain's rim beside him, and he is not looking at it.".
     Otherwise "'Lose my place for you?' says Cundy. 'I've only got the one.'".
   }
   Relation triedKey(group).
@@ -317,7 +325,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, brawn, dc_fair).
     On success { Assert state(sluices, fountain). Assert fountainRuns(pentrice). }
     On failure { Assert triedHeave(actor). }
-    Result "The garden wheel goes down sweetly; somebody has kept it oiled for forty years. The Fountain's wheel will not move, and will not, and then moves, with a shriek of rust like a woman in a play, and the screw turns and the sluice comes up, and the whole conduit house shakes as the water changes its mind.".
+    Result "The garden wheel goes down sweetly; somebody has kept it oiled, all this while. The Fountain's wheel will not move, and will not, and then moves, with a shriek of rust like a woman in a play, and the screw turns and the sluice comes up, and the whole conduit house shakes as the water changes its mind.".
     Otherwise "The Fountain's wheel is rusted solid on its screw, and you hang your whole weight on it, and it does not move a hair.".
   }
   Relation triedHeave(group).
@@ -457,7 +465,7 @@ Module pentrice "Gosse's Company" {
   }
   Relation costumesInSoke(place). Relation costumesTaken(place). Relation bailiffDone(group). Relation bailiffWarned(group).
   Topic hepz_bailiff with hepzibah "Ask Hepzibah who the man in the brown coat at the Westgate is" when tday(pentrice) >= 1 and not bailiffDone(grimsditch) once {
-    Says "Hepzibah does not look up. 'Grimsditch. Bailiff. For Quilley the tailor, thirty crowns, for the costumes, which are the only thing we own worth thirty crowns.' She turns a page. 'He'll come for them tomorrow morning. He always comes in the morning.' Then she does look up. 'The City's bailiffs can't distrain in the Soke. If the hampers were over the river at the Wheel tonight, he could come and look at the loft all he liked.'".
+    Says "Hepzibah answers the book, not you. 'Grimsditch. Bailiff. For Quilley the tailor, thirty crowns, for the costumes, which are the only thing we own worth thirty crowns.' She turns a page. 'He'll come for them on the second morning of the Trial; he told Mistress Bascombe so. He always comes in the morning.' Then she does look up. 'The City's bailiffs can't distrain in the Soke. If the hampers were over the river at the Wheel tonight, he could come and look at the loft all he liked.'".
     On discuss { Assert bailiffWarned(grimsditch). }
   }
   Action carry_costumes(actor: group, site: place) "Carry the costume hampers over the river to the Wheel's tiring-house" {
@@ -478,11 +486,11 @@ Module pentrice "Gosse's Company" {
   Rule bailiff_empty when at(grimsditch, moon_yard) and tday(pentrice) >= 2 and hour(clock) >= 10 and not bailiffDone(grimsditch) and costumesInSoke(pentrice) {
     Assert bailiffDone(grimsditch). }
   Rule bailiff_empty_told when (at(party, moon_yard) or at(party, moon_loft)) and bailiffDone(grimsditch) and costumesInSoke(pentrice) and not costumesTaken(pentrice) and not spread(bailiff_empty_known)
-    says "Grimsditch comes into the Moon's yard at nine with his paper and two men, very apologetic, and goes up into the loft, and comes down again ten minutes later with nothing but a wooden throne, which he looks at, and puts back. 'Goods to the value,' he says, to nobody. 'There are no goods.' He writes something on his paper and goes away up the Westgate." { Assert spread(bailiff_empty_known). }
+    says "Dick Merriman tells you that Grimsditch came into the Moon's yard at nine with his paper and two men, very apologetic, and went up into the loft, and came down again ten minutes later with nothing but a property skull, which he looked at, and put back. 'Goods to the value,' he said, to nobody. 'There are no goods.' And he wrote something on his paper and went away up the Westgate." { Assert spread(bailiff_empty_known). }
   Discovery bailiff_empty_known "Grimsditch came for the costumes and found the loft empty.".
   Rule bailiff_goes when bailiffDone(grimsditch) and at(grimsditch, moon_yard) and not at(party, moon_yard) { Retract at(grimsditch, moon_yard). Assert at(grimsditch, westgate). }
   Rule bailiff_told when costumesTaken(pentrice) and not spread(costumes_known) and inCity()
-    says "Grimsditch takes the costumes: every hamper, the king's cloak with the new braid, the Widow's blue gown, the Ghost's armour. He apologises to each one as it goes down the stair. Gosse stands in the yard with his arms folded and says, to the sky, 'We will play it in our shirts, then, as the Greeks did.'" { Assert spread(costumes_known). }
+    says "Grimsditch takes the costumes: every hamper, the king's cloak with the new braid, the Widow's blue gown, the Ghost's armour. He apologises to each one as it goes down the stair. Gosse stands in the yard with his arms folded and says, to the sky, 'We will play it in our shirts, then, as the first players did.'" { Assert spread(costumes_known). }
   Discovery costumes_known "Grimsditch the bailiff has taken Gosse's Company's costumes for the tailor's debt.".
   Topic grimsditch_stage with grimsditch "Ask Grimsditch whether he ever goes to the play" when not bailiffDone(grimsditch) once {
     Says "Grimsditch's heavy face does something complicated. 'Every Trial,' he says. 'In the yard. I stood for Gosse's Lear at Galt, nine years back, all of it, in the rain.' He looks at the paper in his hand. 'I wanted to be a player once. I've the build for kings, they said, but not the voice.' He clears his throat. 'Not that it signifies. Thirty crowns or goods to the value.'".
@@ -491,16 +499,16 @@ Module pentrice "Gosse's Company" {
   Discovery grimsditch_longs "Grimsditch the bailiff stood in the rain for all of Gosse's Lear at Galt, and once wanted to be a player himself." { Known by grimsditch. }
   Action charm_grimsditch(actor: group, site: place) "Ask Gosse to give Grimsditch the King's speech from the throne, in the yard, in the King's own cloak" {
     Speaker gosse. Time 3.
-    Requires able(actor) and company(actor) and at(actor, site) and at(grimsditch, site) and knows(actor, grimsditch_longs) and not bailiffDone(grimsditch)
-      and not costumesTaken(pentrice).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, moon_yard) and at(grimsditch, site) and knows(actor, grimsditch_longs) and not bailiffDone(grimsditch)
+      and not costumesTaken(pentrice) and not costumesInSoke(pentrice).
     On success { Assert bailiffDone(grimsditch). }
-    Result "Gosse understands at once. He has the wooden throne carried down into the yard, and the king's cloak put on Grimsditch's shoulders, and the paste crown on his head, and then he kneels on the cobbles, Absalom Gosse, sixty-three, and gives the bailiff the King's speech to his daughters as if Grimsditch were the King and he the Fool. The yard goes silent. The ostlers stop. When it is done Grimsditch sits on the throne for a long time with the crown on. Then he takes it off and gives it back with both hands, and writes on his paper, very slowly: FOUND NO GOODS BUT THE KING'S OWN. He goes away up the Westgate without his hat.".
+    Result "Gosse understands at once. He has the wooden throne carried down into the yard, and the king's cloak put on Grimsditch's shoulders, and the paste crown on his head, and then he kneels on the cobbles, Absalom Gosse, sixty-three, and gives the bailiff the King's speech to his daughters as if Grimsditch were the King and he the Fool. The yard goes silent. The ostlers stop. When it is done Grimsditch sits on the throne for a long time with the crown on. Then he takes it off and gives it back with both hands, and writes on his paper, very slowly: FOUND NO GOODS BUT THE KING'S OWN. He goes away up the Westgate humming.".
   }
   Action pay_tailor(actor: group, site: place) "Pay Grimsditch the tailor's thirty crowns" {
     Speaker grimsditch. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(grimsditch, site) and quantity(actor, gold) >= 30 and not bailiffDone(grimsditch).
     On success { Decrease quantity(actor, gold) by 30. Increase quantity(grimsditch, gold) by 30. Assert bailiffDone(grimsditch). }
-    Result "Grimsditch counts it, writes PAID on the writ, and tears it across, which is the most cheerful thing you have seen him do.".
+    Result "Grimsditch counts it, writes PAID on the writ, and tears it across with a flourish.".
   }
   Action bar_stable(actor: group, site: place) "Put your back against the loft-stair door and hold it against the bailiff" {
     Time 1.
@@ -530,7 +538,7 @@ Module pentrice "Gosse's Company" {
   Rule shad_climbs when rehearsedI(pentrice) and not shadStopped(shad) and not shadAtWork(shad) and at(shad, press_room) { Retract at(shad, press_room). Assert at(shad, moon_loft). Assert shadAtWork(shad). }
   Observe shad_on_beam at moon_loft noticed by insight when at(shad, moon_loft) and shadAtWork(shad) "Up in the rafters of the loft, lying flat along a beam among the cobwebs, there is a boy with a wax tablet, writing very fast. Every time Gosse speaks, the stylus moves." teaches shad_seen.
   Discovery shad_seen "Inchbald the printer's boy, Shad, lies on a beam over the loft during rehearsals, taking the play down in shorthand for a pirate quarto.".
-  Rule shad_seen_told when shadAtWork(shad) and tday(pentrice) >= 2 and at(party, moon_loft) and not knows(party, shad_seen)
+  Rule shad_seen_told when shadAtWork(shad) and tday(pentrice) >= 2 and at(party, moon_loft) and at(kit, moon_loft) and not knows(party, shad_seen)
     says "'There's a boy on the beam,' says Kit, pointing straight up, quite loud. Everyone looks up. A thin boy with a wax tablet looks down at them, frozen, like a cat on a shelf." teaches shad_seen { }
   Action catch_shad(actor: group, site: place) "Go up into the rafters after the boy on the beam" {
     Time 2 minutes.
@@ -539,7 +547,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, climbing, dc_fair).
     On success { Assert shadStopped(shad). Retract at(shad, moon_loft). Assert at(shad, press_room). }
     On failure { Assert triedShad(actor). }
-    Result "Along the beam on your hands and knees, with the company shouting advice from below; and at the end of it the boy has nowhere to go but down. You bring him down with his tablet. The shorthand is very good. Hepzibah reads it and says it is better than her own, and wipes the wax smooth with her thumb, and gives him a penny for his trouble and sends him home to Inchbald with nothing.".
+    Result "Along the beam on your hands and knees, with the company shouting advice from below; and at the end of it the boy has nowhere to go but down. You bring him down with his tablet. The shorthand is very good, better than Hepzibah's. You wipe the wax smooth with your thumb, and give him a penny for his trouble, and send him home to Inchbald with nothing.".
     Otherwise "The beam is further from the next one than it looked, and you are hanging from it by your hands while the boy goes out through a gap in the roof tiles like a cat.".
   }
   Relation triedShad(group).
@@ -552,7 +560,7 @@ Module pentrice "Gosse's Company" {
     Speaker shad. Time 1 minute.
     Requires able(actor) and company(actor) and at(actor, site) and at(shad, site) and shadDown(shad) and not shadStopped(shad).
     On success { Assert shadStopped(shad). Retract at(shad, moon_loft). Assert at(shad, press_room). }
-    Result "You hold out your hand, and after a moment he gives you the tablet. Hepzibah reads it over your shoulder and says it is better shorthand than her own; then she wipes the wax smooth with her thumb, gives him a penny for his trouble, and sends him home to Inchbald with nothing.".
+    Result "You hold out your hand, and after a moment he gives you the tablet. The shorthand is very good; Hepzibah would say better than her own. You wipe the wax smooth with your thumb, give him a penny for his trouble, and send him home to Inchbald with nothing.".
   }
   Rule quarto_set when shadAtWork(shad) and not shadStopped(shad) and tday(pentrice) >= 2 and hour(clock) >= 18 and not quartoPrinted(pentrice) and not playbills(inchbald) {
     Assert quartoPrinted(pentrice). }
@@ -599,7 +607,7 @@ Module pentrice "Gosse's Company" {
   // A seized book may come back: from its author, who keeps the Office; out of the Master's room, by a hand that is not
   // seen; or not at all, and then by the Ordinances it is burned in Guildhall Square at noon on the last day.
   Topic clem_return with clemency "Ask the Master to give the fair copy back" when state(book, copy_seized) and clemTold(clemency) and not clemCold(clemency) once {
-    Says "The Master takes the fair copy out of the drawer of her desk, where it has been lying under her hand all afternoon. 'Seized on information,' she says. 'Corin Fallow's. Who has never once in eleven years informed on anybody, and has chosen my play.' She gives it to you. 'Take it over the river,' she says. 'Tonight. And do not bring it back inside the walls until it is played.'".
+    Says "The Master takes the fair copy out of the drawer of her desk, where it has been lying under her hand all afternoon. 'Seized on information,' she says. 'Corin Fallow's. Who has never once in his life informed on anybody, and has chosen my play.' She gives it to you. 'Take it over the river,' she says. 'Tonight. And do not bring it back inside the walls until it is played.'".
     On discuss { Assert state(book, copy_fair). Assert bookInSoke(pentrice). }
   }
   Action steal_book(actor: group, site: place) "Take the fair copy back out of the drawer of the Master's desk" {
@@ -608,12 +616,12 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, stealth, dc_hard).
     On success { Assert state(book, copy_fair). Assert bookInSoke(pentrice). }
     On failure { Assert triedSteal(actor). }
-    Result "The Master's desk drawer is not locked; it holds the fair copy, and a pen, and a dried pansy, and nothing else. The book goes under your coat. You are out of the Office and down Fish Lane before the clerks look up, and over the river before you breathe.".
+    Result "The Master's desk drawer is not locked; it holds the fair copy, and a pen, and a dried primrose, and nothing else. The book goes under your coat. You are out of the Office and down Fish Lane before the clerks look up, and over the river before you breathe.".
     Otherwise "A clerk is in the Master's doorway as you open the drawer, and you shut it again, and say you were looking for the Master, and he says she is at home.".
   }
   Relation triedSteal(group).
   Rule book_burned when state(book, copy_seized) and tday(pentrice) >= 4 and hour(clock) >= 12 { Assert state(book, copy_burned). }
   Rule burned_told when state(book, copy_burned) and not spread(burned_known) and inCity()
-    says "At noon, in Guildhall Square, by the dry Fountain, the common hangman burns the fair copy of The Alderman's Ghost on a brazier, as the Ordinances provide for unlicensed matter found within the walls. Abel Tunstall reads the order. A small crowd watches. Up in the window of the Master's room, somebody stands for the whole of it and does not move." { Assert spread(burned_known). }
+    says "At noon, in Guildhall Square, by the Fountain of Concord, the common hangman burns the fair copy of The Alderman's Ghost on a brazier, as the Ordinances provide for unlicensed matter found within the walls. Abel Tunstall reads the order. A small crowd watches. Up in the window of the Master's room, somebody stands for the whole of it and does not move." { Assert spread(burned_known). }
   Discovery burned_known "The fair copy of The Alderman's Ghost was burned in Guildhall Square by order of the Office.".
 }

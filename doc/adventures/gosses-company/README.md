@@ -9,7 +9,7 @@ built in Kyr (`data/adventures/gosses-company`, `data/goings-on/players`) and pl
 ```sh
 bin/kyrie lint data/campaigns/gosses-company.campaign.json      # 0 errors, 0 warnings, recommended
 bin/kyrie preview data/campaigns/gosses-company.campaign.json   # the reader
-bun test test/gosses-company.test.ts                            # 23 journeys and a lint
+bun test test/gosses-company.test.ts                            # 25 journeys and a lint
 bun test test/gosses-company-wander.test.ts                     # seeded random legal play from Wending Cross
 bin/kyrie play test/fixtures/gosse/city.campaign.json --seed g1 --steps test/fixtures/gosse/book.json
 ```
@@ -25,7 +25,7 @@ who had been in the house with his four-year-old daughter on his knee, founded t
 the month. Nothing has been said on a stage in Pentrice since without its licence, and Gosse has never played inside
 the walls again.
 
-This summer, the last he can walk, Gosse brings his company back for the **Midsummer Trial**: three companies, three
+This season, the last he can walk, Gosse brings his company back for the **Trial of the Wheel**: three companies, three
 nights at the Wheel, a bench of four critics, and the **Patent** of the Wheel for the one they choose. A play is
 waiting for them at the Painted Moon, unsigned: *The Alderman's Ghost*, a comedy about a pompous, loving, absurd old
 alderman who will not stay dead. It is the best thing any of them has read. It is very obviously about Ezra Orde. It

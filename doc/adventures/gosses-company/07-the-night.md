@@ -28,7 +28,7 @@ not; the **hampers** carried over before the watermen struck.
 
 How full the yard is: three thousand at the most. The house is counted at the half from the boats (or the weir, if the
 watermen struck and someone led the crowd over it, wet to the knee and laughing), the playbills or the quarto, and the
-midsummer peal. A thin house starts the night cold.
+Trial peal. A thin house starts the night cold.
 
 ## The night, scene by scene
 
@@ -49,11 +49,15 @@ house's **temper**, each critic's **regard** and **slight**, and, on an unlicens
 | **III.9 Who walks first; the epilogue** | Act III rehearsed; Gosse meaning to ask Hepzibah; Hepzibah in her wing or on the bench; the Master's trust | nod to the Master on the grey bench | the procession; the proposal heard, or spoken to an empty wing; the Author's Bow, after which the tallymen break their sticks and the fines are nothing |
 
 After the play the fines are read by lantern-light at a crown a notch, to be paid before the Bench sits at ten.
+Whoever stays in the Wheel can read the verdict in the lords' room a night early: Clay sitting on looking at the empty
+stage, or his chair pushed in; Gammage on her feet shouting, or looking into an empty bag of nuts; the Canon blowing
+his nose, or pink as if something had been said in church; Callow tearing through his programme, or one word written
+across it and underlined twice.
 
 ## The verdict
 
 At ten on the fifth morning each critic votes for Gosse's Company if their regard outweighs their slight by enough
-(Clay by 4, Gammage by 5, Mallory by 4, Callow by 4). Three votes win the Patent. The crier goes round; the fines are
+(Clay by 4, Gammage by 7, Mallory by 4, Callow by 4). Three votes win the Patent. The crier goes round; the fines are
 paid by the company, by Callow's subscription at the Owl, by Fallow (if he owes a siege-tower), or not, in which case
 Gosse goes to the Clink of the Soke and holds court through the bars; and the city tells what became of everyone, one
 facet each: Gosse and Hepzibah, Swale, Dorcas, Kit, Patience, Ned, Merriman and Sukey, the Bunces, the Fountain, the
@@ -67,7 +71,7 @@ never crossed the march, or came after the verdict, hears it as news and goes on
 | Ending | When | In play |
 |---|---|---|
 | **The Pension** | Gosse took Fallow's pension | `pension.json`: told to take it on the first morning, he signs, and the Trial is played by two companies |
-| **The Fair Copy Burned** | the book seized and burned, and the old repertory played instead | `burned.json`: Shad left on the beam, the quarto to Fallow, the book seized at three and burned at noon; *The Siege of Galt* to a thin house; the company writes it down from memory in the loft |
+| **The Fair Copy Burned** | the book seized and burned, and the old repertory played instead | `burned.json`: Shad left on the beam, the quarto to Fallow, the book seized at three and burned at noon; *The Wolf King* to a thin house; the company writes it down from memory in the loft |
 | **The Author's Bow** | the Master came up on the stage | `bow.json`: the Book route, the author known, her trust earned, a nod on the night; all four voices |
 | **The Patent Refused** | three votes, but Gosse knows who knocked the wedge out | `refused.json`: the Book route with the wedge knocked out instead of driven home |
 | **The Patent House** | three votes | `book.json` (a bard, licensed: Clay, Gammage, Mallory) and `liberty.json` (a soldier from Wending Cross, whole: Clay, Gammage, Callow) |

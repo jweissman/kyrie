@@ -29,7 +29,7 @@ Module pentrice "Gosse's Company" {
       and memberOf(recipient, actor) and awake(recipient).
     Resolve acquire(parcel, parcel_kind, recipient).
     On success { Assert knows(actor, parcel_freed). Retract at(parcel, moon_yard). }
-    Result "Merriman takes the playbill to the light of the stable door and reads it with his lips moving. 'The Fool: Mister A. Gosse,' he says. 'Well, I'm damned. It was him.' He goes into the tack-room and comes out with a flat parcel done up in oilcloth, and gives it to you with both hands. 'Tell him I'm sorry I called him a goat-herd. I didn't say it to his face.'".
+    Result "Merriman takes the playbill to the light of the stable door and reads it with his lips moving. 'The Fool: Mister A. Gosse,' he says. 'Well, I'm damned. It was him.' He goes into the tack-room and comes out with a flat parcel done up in oilcloth, and gives it to you with both hands. 'Tell him I'm sorry I put him in with the goat-herd. I didn't say it to his face.'".
   }
   Action lie_merriman(actor: group, recipient: member, site: place) "Tell Merriman you were the Fool at the Wheel the night of the riot yourself" {
     Speaker merriman. Time 2 minutes.
@@ -67,8 +67,10 @@ Module pentrice "Gosse's Company" {
   // yard, and knows him: it was her who threw the first cabbage, forty years ago.
   Rule granny_knows when tday(pentrice) >= 1 and hour(clock) >= 12 and not bookCome(pentrice) and not knows(party, parcel_freed) {
     Assert bookCome(pentrice). Assert state(book, copy_fair). Retract at(parcel, moon_yard). }
-  Rule granny_told at moon_yard when at(party, moon_yard) and bookCome(pentrice) and not knows(party, parcel_freed) and not spread(granny_known)
+  Rule granny_told at moon_yard when at(party, moon_yard) and bookCome(pentrice) and tday(pentrice) == 1 and daytime() and not knows(party, parcel_freed) and not spread(granny_known)
     says "An old woman in a man's hat comes into the Moon's yard with a basket of eggs for Mistress Bascombe, and stops dead at the sight of Absalom Gosse on the wagon's tail-board, and drops the basket. 'The Fool!' she says. 'The Fool of the Wheel! I threw the first cabbage!' Dick Merriman, very red, goes into the tack-room and comes out with a flat parcel done up in oilcloth and gives it to Gosse with an apology. Gosse opens it on the tail-board, with the whole yard watching." teaches parcel_open { Assert spread(granny_known). }
+  Rule granny_heard at moon_yard when at(party, moon_yard) and bookCome(pentrice) and not (tday(pentrice) == 1 and daytime()) and not knows(party, parcel_freed) and not spread(granny_known)
+    says "Dick Merriman tells you, very red, that his grandmother came into the yard with the eggs at noon on the first day and knew Absalom Gosse for the Fool of the Wheel on sight, having thrown the first cabbage herself; and that the parcel went to Gosse there and then, and Gosse opened it on the wagon's tail-board with the whole yard watching." { Assert spread(granny_known). }
   Discovery granny_known "The Moon's ostler gave Gosse the parcel at noon, when his grandmother knew Gosse for the Fool of the riot night.".
   Discovery parcel_open "The parcel at the Painted Moon held the fair copy of a new comedy, The Alderman's Ghost, unsigned; a purse of twenty crowns; a note, FOR THE FOOL OF THE WHEEL: PLAY IT AS IT IS WRITTEN; and, pressed between the pages, an old playbill.".
   Event parcel_opened near gosse when keeps(gosse, parcel) "Gosse cuts the tape with his teeth. Inside the oilcloth, inside the good paper: a fat fair copy in a small upright hand, THE ALDERMAN'S GHOST, OR, WHO WALKS FIRST: A COMEDY; a purse; a folded note, FOR THE FOOL OF THE WHEEL: PLAY IT AS IT IS WRITTEN; and, pressed flat between the leaves, an old playbill. Gosse reads the first page standing. Then he sits down on a hamper and reads the second. By the fifth he is laughing so hard that Hepzibah comes and takes it from him and reads it herself, and does not laugh, and does not stop reading." teaches parcel_open then {
@@ -128,7 +130,22 @@ Module pentrice "Gosse's Company" {
   Rule clue_sukey when knows(party, sukey_carried) and not clueCounted(sukey_carried) { Increase clueCount(pentrice) by 1. Assert clueCounted(sukey_carried). }
   Rule clue_lady when knows(party, hooded_lady) and knows(party, clem_ink) and not clueCounted(hooded_lady) { Increase clueCount(pentrice) by 1. Assert clueCounted(hooded_lady). }
   Discovery author_known "Clemency Orde, Master of Plain Speech, the daughter of the Lord Mayor the young Gosse mocked forty years ago, wrote The Alderman's Ghost about her father, and sent it to Gosse herself.".
-  Observe author_dawns near party when clueCount(pentrice) >= 2 and not knows(party, author_known) "It comes together all at once, the way a joke does. Clemency Orde, Master of Plain Speech, who reads every play licensed in Pentrice, wrote The Alderman's Ghost. The Alderman is her father, who made the Office. And she sent it to the fool who made him make it." teaches author_known.
+  // The company has seen enough to say who wrote it; saying it is the company's to do, to someone who knows the book.
+  Observe author_near near party when clueCount(pentrice) >= 2 and not knows(party, author_known) "You have seen enough now, you think, to say who wrote The Alderman's Ghost, if you said it to somebody who knows the book as well as its author does.".
+  Query suspecting() means bookCome(pentrice) and not knows(party, author_known) and (knows(party, wm_seen) or knows(party, margins_seen) or knows(party, drawing_seen) or knows(party, hooded_lady)).
+  Topic name_master with hepzibah "Tell Hepzibah that the Master of Plain Speech wrote The Alderman's Ghost" when suspecting() and clueCount(pentrice) >= 2 once {
+    Says "Hepzibah hears you out without a word, and when you have finished she puts her pencil down, which she does about once a year. 'The hand,' she says. 'I have seen that hand on every licence in this city since I first came through the Westgate, and never once looked at it.' She opens the fair copy on her knee and looks at it as if it had changed while she was not watching. 'Clemency Orde. Ezra's girl. She wrote her father into a comedy, and could not license it, and could not burn it, and sent it to the fool who made him make the Office.' She picks the pencil up again. 'Tell nobody,' she says. 'Least of all Absalom. He would put it on the bills.'".
+    On discuss { Assert knows(actor, author_known). }
+  }
+  Topic name_master_early with hepzibah "Tell Hepzibah that the Master of Plain Speech wrote The Alderman's Ghost" when suspecting() and clueCount(pentrice) < 2 once {
+    Says "'The Master,' says Hepzibah, turning a page. 'Of Plain Speech. Who has struck more lines than you have had dinners.' She turns a page. 'Perhaps. Bring me something I can put my finger on, and I will put my finger on it.'".
+  }
+  Topic name_callow with hepzibah "Tell Hepzibah that Nym Callow of the Owl wrote it" when suspecting() once {
+    Says "'Nym Callow,' says Hepzibah, 'has written about us four times, and spelled Absalom three different ways, and Ghost once without the h.' She sniffs. 'Whoever wrote this can spell.'".
+  }
+  Topic name_fallow with hepzibah "Tell Hepzibah that Corin Fallow wrote it, to ruin the company" when suspecting() once {
+    Says "Hepzibah considers it, which is generous of her. 'Corin has never written a word he could not sell,' she says, 'and this he could not sell to anyone but us.' She taps the book. 'And he would have cut the bear.'".
+  }
 
   // ── The Office: Abel Tunstall, chief clerk ──────────────────────────────────────────────────────────────────────
   Person tunstall "Abel Tunstall" at westgate {
@@ -144,7 +161,7 @@ Module pentrice "Gosse's Company" {
   Rule tunstall_home when (hour(clock) >= 22 or hour(clock) < 8) and at(tunstall, wheel) { Retract at(tunstall, wheel). Assert at(tunstall, office_hall). }
 
   Topic tunstall_tallymen with tunstall "Ask Tunstall what the jar of sticks is for" when not tallyman(actor) once {
-    Says "'Tallies,' says Tunstall. 'In Trial week the Office sits at the Wheel, on its own bench, by charter. A tallyman sits with a stick and a knife and cuts a notch for every word spoken that is not in the licensed book. The company is fined at the end of the night, a crown a line.' He looks at you over the ledger. 'We are short. The Trial has three nights and the Office has four tallymen, one of whom has a tremor. Sixpence a night and a stick of your own. Can you count?'".
+    Says "'Tallies,' says Tunstall. 'In Trial week the Office sits at the Wheel, on its own bench, by charter. A tallyman sits with a stick and a knife and cuts a notch for every word spoken that is not in the licensed book. The company is fined at the end of the night, a crown a line.' He looks at you over the ledger. 'We are short. The Trial has three nights and the Office has four tallymen, one of whom has a tremor. A coin a night and a stick of your own. Can you count?'".
   }
   Topic tunstall_sign with tunstall "Sign on with Tunstall as a tallyman for the week" when not tallyman(actor) once {
     Says "Tunstall writes your name in the ledger, dips the pen again, and writes it more neatly. Then he takes a stick from the jar, a length of hazel with the bark off, and a small knife, and gives you both. 'The grey bench, at seven, each night of the Trial,' he says. 'You count words, not laughter. You do not laugh. If you laugh, you count yourself.'".
@@ -156,7 +173,7 @@ Module pentrice "Gosse's Company" {
     Says "'Forty years old next month,' says Tunstall, with something like love. 'Made in a week, after the riot at the Wheel, by the late Lord Mayor, who had cause. Ordinance the First: what is said is done. A word spoken in public is a public act, and may be licensed, or fined, as an act is.' He touches the ledger. 'Nine Ordinances, and three hundred and twelve rulings under them. We strike nothing out of malice. We strike it because it is an act.'".
   }
   Topic tunstall_master with tunstall "Ask Tunstall about the Master of Plain Speech" when true once {
-    Says "'The Master,' says Tunstall, 'is the late Lord Mayor's daughter, Mistress Clemency Orde, who has kept the Office eleven years, since he died, and has never been known to license a line she should not or strike one she should not.' He considers. 'She reads everything. She has read every play licensed in this City for eleven years. I sometimes think she would rather have written them.'".
+    Says "'The Master,' says Tunstall, 'is the late Lord Mayor's daughter, Mistress Clemency Orde, who has kept the Office eleven years, since he died, and has never been known to license a line she should not or strike one she should not.' He considers. 'She reads everything. She has read every play licensed in this City since. I sometimes think she would rather have written them.'".
   }
 
   // The licence: the book sent in, and struck.
@@ -166,7 +183,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(tunstall, site) and at(actor, office_hall) and state(book, copy_fair)
       and inCompany(actor) and week() and not libertyChosen(pentrice).
     On success { Assert state(book, copy_struck). Assert submitted(pentrice). }
-    Result "Tunstall reads it at his desk with the ruler, while you wait on a bench. It takes an hour. Every few minutes the ruler comes down and the pen goes through a line. Once, on the third act, he stops and reads a page twice, and his face does something you cannot read, and the pen goes through it. At the end he blots the book and turns it round. 'Forty-one lines,' he says. ''I rise' and its family, under the Fourth, of indecency. 'Concord', each time, under the Sixth, touching the City's works. Who walks first, under the Seventh, touching the Book of Precedence. The Tallyman's part entire, under the Ninth, touching this Office.' He closes it. 'Cut them, and it may be licensed. It is,' he hesitates, 'a very good play.'".
+    Result "Tunstall reads it at his desk with the ruler, while you wait on a bench. It takes an hour. Every few minutes the ruler comes down and the pen goes through a line. Once, on the third act, he stops and reads a page twice, and his face does something you cannot read, and the pen goes through it. At the end he blots the book and turns it round. 'Forty-one lines,' he says. '“I rise” and its family, under the Fourth, of indecency. 'Concord', each time, under the Sixth, touching the City's works. Who walks first, under the Seventh, touching the Book of Precedence. The Tallyman's part entire, under the Ninth, touching this Office.' He closes it. 'Cut them, and it may be licensed. A woman may play in it, the Wheel being in the Soke: the charter reaches the words, not the mouths.' He hesitates. 'It is a very good play.'".
   }
   Discovery ordinance_dead "Ordinance the Eighth of Plain Speech, Of Epitaphs: words spoken in the person of the dead, as the dead, are the dead's and not the speaker's, and the Office may not strike them. (It was made for gravestones.)".
   Action search_ordinances(actor: group, site: place) "Search the chained Ordinances for anything that would save the Ghost's lines" {
@@ -176,8 +193,8 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, lore, dc_fair).
     On success { Assert knows(actor, ordinance_dead). }
     On failure { Assert triedOrdinance(actor). }
-    Result "The Ordinances are nine pages and the rulings under them three hundred, in a clerk's Latin with a clerk's Common on the facing page. You go through them with your finger, and halfway down the Eighth, Of Epitaphs, there it is: words spoken in the person of the dead, as the dead, are the dead's, and may not be struck. It was made, plainly, for gravestones. The Ghost of Alderman Gudgeon is dead in every line he speaks.".
-    Otherwise "Three hundred rulings and a clerk's Latin. By the end of the hour the words have stopped meaning anything, and a clerk is standing beside you saying the lectern is wanted.".
+    Result "The Ordinances are nine pages and the rulings under them three hundred, in a clerk's Old Imbric with a clerk's Common on the facing page. You go through them with your finger, and halfway down the Eighth, Of Epitaphs, there it is: words spoken in the person of the dead, as the dead, are the dead's, and may not be struck. It was made, plainly, for gravestones. The Ghost of Alderman Gudgeon is dead in every line he speaks.".
+    Otherwise "Three hundred rulings and a clerk's Old Imbric. By the end of the hour the words have stopped meaning anything, and a clerk is standing beside you saying the lectern is wanted.".
   }
   Relation triedOrdinance(group).
   Action argue_dead(actor: group, site: place) "Argue the Ghost's struck lines back under the Eighth Ordinance, of the dead" {
@@ -212,7 +229,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(gosse, site) and inCompany(actor) and bookCome(pentrice) and week()
       and not libertyChosen(pentrice) and (state(book, copy_fair) or state(book, copy_struck)).
     On success { Assert libertyChosen(pentrice). Assert state(book, copy_fair). }
-    Result "Gosse puts both hands on your shoulders. 'Whole,' he says. 'As it is written. In the Soke, where the City's writ runs not, and the Office may sit on its grey bench and cut its little notches until its knives are blunt.' He turns to the loft. 'We play it whole!' Pudding cheers. Kit cheers. Swale says, 'They will fine us into the Arle,' and Hepzibah says, 'Yes,' and writes it down.".
+    Result "Gosse puts both hands on your shoulders. 'Whole,' he says. 'As it is written. In the Soke, where the City's writ runs not, and the Office may sit on its grey bench and cut its little notches until its knives are blunt.' He turns to the company. 'We play it whole!' Pudding cheers. Kit cheers. Somebody says, 'They will fine us into the Arle,' and Hepzibah says, 'Yes,' and writes it down.".
   }
 
   // ── The Master of Plain Speech ──────────────────────────────────────────────────────────────────────────────────
@@ -233,7 +250,7 @@ Module pentrice "Gosse's Company" {
     Says "'What is said is done,' says the Master. 'That is the First Ordinance, and my father's. A word in public is an act in public. A city that does not believe that will believe anything.' She turns a pen in her fingers. 'You think it absurd. It is absurd. So is a city wall, until the night you need one.'".
   }
   Topic clem_trial with clemency "Ask the Master about the Trial" when true once {
-    Says "'The Office has sat on its bench at the Wheel in Trial week for two hundred years,' says the Master, 'by a charter older than the Ordinances. We license nothing in the Soke. We count.' A pause. 'I sit on the grey bench myself, each night. It is the only time in the year anybody in Pentrice is obliged to watch a play.' She does not say that she would watch them anyway. She does not need to.".
+    Says "'The City has sat on a bench at the Wheel in Trial week for two hundred years,' says the Master, 'by a charter older than the Ordinances; the Office took the bench forty years ago. We license nothing in the Soke. We count.' A pause. 'I sit on the grey bench myself, each night. It is the only time in the year anybody in Pentrice is obliged to watch a play.' She does not say that she would watch them anyway. She does not need to.".
   }
   Topic clem_father with clemency "Ask the Master about her father" when true once {
     Says "'He was Lord Mayor,' says the Master. 'He founded this Office. He is dead.' She looks past you at the badly painted portrait on the wall, the heavy cheerful man in his chain. After a while she says, in a different voice: 'He sang. Very badly. In the bath, at funerals, in the Guildhall. He thought nobody could hear.' Then, in the first voice: 'Is there anything else?'".

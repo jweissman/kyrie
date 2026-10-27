@@ -12,9 +12,8 @@ clerk of the Office of Plain Speech; and Grimsditch, a bailiff, in a brown coat,
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
-[Wait › An hour] The Moon’s pot-boy comes running, scarlet, shouting before he is through the door: ‘Patience 
-is out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s 
-coming!’
+[Wait › An hour] The Moon’s pot-boy comes running, scarlet, shouting before he has got his breath: ‘Patience is 
+out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s coming!’
 [Wait › An hour] Word comes up from the Gullet: Simeon Bowle the bear-ward came over from the Soke with two men and 
 a chain, and took Gosse’s bear across the river to the bear-garden, and says she is his now by the Liberty’s law 
 of strays.
@@ -40,7 +39,7 @@ note for Gosse that says only SORRY, ABSALOM, I AM FORTY-EIGHT.
 [Wait › An hour] An hour passes.
 [Wait › An hour] Grimsditch takes the costumes: every hamper, the king’s cloak with the new braid, the Widow’s 
 blue gown, the Ghost’s armour. He apologises to each one as it goes down the stair. Gosse stands in the yard with 
-his arms folded and says, to the sky, ‘We will play it in our shirts, then, as the Greeks did.’
+his arms folded and says, to the sky, ‘We will play it in our shirts, then, as the first players did.’
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -117,19 +116,19 @@ Wheel’s pennant is going up, and between it and the City is a quarter of a mil
 [Wait › An hour] Absalom Gosse goes to the Clink of the Soke at noon for the Office’s fines, in his crimson coat, 
 waving, and holds court there for a week, and plays the Prologue through the bars every evening to a crowd in the 
 street, until the Owl and the Gullet between them have raised the money in pennies. At ten o’clock the crier comes 
-through the City ringing his bell: THE BENCH OF THE MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD 
-MAYOR’S SERVANTS, FOR A TWELFTH YEAR. Not one of the four voices was Gosse’s. Ambrose Swale leaves the company 
-the morning after, very politely, with his cloak and his own crown, and is next heard of carrying a spear in the 
-Siege of Arle for Corin Fallow, who is kind to him. Dorcas Quaile keeps Corin Fallow’s wardrobe at the Mayor’s 
-Room, and sews his boys into their stays, and is good at it, and whenever Gosse’s Company plays in Pentrice she 
-comes to stand among the fishwives in the yard, and does not let anybody see her face. Patience stays in the 
-bear-garden of the Soke, and dances on Sundays for Simeon Bowle’s customers, who are not kind; and every Sunday Jem 
-Pudding goes over the river and stands at the palings and hums.
+through the City ringing his bell: THE BENCH OF THE TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR’S 
+SERVANTS, FOR A TWELFTH YEAR. Not one of the four voices was Gosse’s. Ambrose Swale leaves the company the morning 
+after, very politely, with his cloak and his own crown, and is next heard of carrying a spear in the Siege of Arle 
+for Corin Fallow, who is kind to him. Dorcas Quaile keeps Corin Fallow’s wardrobe at the Mayor’s Room, and sews 
+his boys into their stays, and is good at it, and whenever Gosse’s Company plays in Pentrice she comes to stand 
+among the fishwives in the yard, and does not let anybody see her face. Patience stays in the bear-garden of the 
+Soke, and dances on Sundays for Simeon Bowle’s customers, who are not kind; and every Sunday Jem Pudding goes over 
+the river and stands at the palings and hums.
 [Wait › A while] Time passes. The Alderman’s Ghost went up at the Wheel on the last night of the Trial and came 
-down again to a house that did not know what it had seen, and the Bench gave the Patent where it always did. By 
-Michaelmas Gosse’s Company was gone: its players to Fallow’s spears and the fairs and the wardrobe and their 
-mothers, its wagon sold, its bear to a man who leads bears. Absalom Gosse was last seen on the road west out of 
-Pentrice on foot, alone, in his crimson coat, telling the Prologue to the hedges.
+down again to a house that did not know what it had seen, and the Bench gave the Patent to another company. By the 
+season’s end Gosse’s Company was gone: its players to Fallow’s spears and the fairs and the wardrobe and their 
+mothers, its wagon sold. Absalom Gosse was last seen on the road west out of Pentrice on foot, in his crimson coat, 
+telling the Prologue to the hedges.
 -- watch 589, at pentrice__westgate
 #pentrice__votes pentrice__pentrice: 0
 #pentrice__temper pentrice__pentrice: 6

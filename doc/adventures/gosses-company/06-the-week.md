@@ -11,7 +11,7 @@ Gosse, sixty-three, actor-manager, does not ask for money; he mentions that it e
 get the hat back from Lem, who is not a thief but owed four months' pay; or get them to play in the open and take the
 hat round yourself) and Gosse offers service for the summer, a share of the house, and the honour of the profession,
 "which is worth precisely nothing and which I would not sell for a crown". They are going west, over the march, to the
-Midsummer Trial at Pentrice. A company that never meets them can still go: every innkeeper is talking about the Trial.
+Trial of the Wheel at Pentrice. A company that never meets them can still go: every innkeeper is talking about the Trial.
 
 **Act I: the book (the first day).** At the Painted Moon by the Westgate a parcel has been waiting for "the one who
 played the Fool at the Wheel the night of the riot", and the ostler has been told that by four men this week, one of
@@ -159,8 +159,11 @@ people in them.
 
 16. **The Hand in the Margin.** Five clues, each a pair: the parcel's watermark and the Office's paper; the margins'
     hand and the hand on a licence; the child's crayon drawing on the riot playbill and its twin over the Orde mantel (or
-    the riot story); Sukey Rowe's borrowed hood; the lady with ink on her finger and the Master's. Any two, and it comes
-    together "the way a joke does". Later: the Master can be told; the Bow becomes possible.
+    the riot story); Sukey Rowe's borrowed hood; the lady with ink on her finger and the Master's. With any two the company knows enough to say it,
+    and says it to Hepzibah, who knows the book as well as its author does: name the Master and she takes her spectacles
+    off; name Callow ("whoever wrote this can spell") or Fallow ("he would have cut the bear") and she says why not;
+    name the Master on one clue and she wants something she can put her finger on. Later: the Master can be told; the
+    Bow becomes possible.
 17. **The Riot Told Twice.** Gosse tells it as a triumph ("I made an Office"); Clemency, told that the company knows,
     tells it as the night her father was laughed at with her on his knee. Carried back to Gosse, it becomes the apology
     at the end of the Prologue. Carried back to her, it is trust.
@@ -180,7 +183,7 @@ people in them.
 21. **The Ostler's Banns.** Merriman cannot get his words in order. Write him a speech (lore), coach him (persuasion),
     or lend him one of Gosse's (it is a villain's). Sukey answers the next evening. Later: their banns.
 22. **The Ringers.** Hezekiah and Walter Bunce each say the other cut the tenor rope. Search the bell-frame: jackdaws.
-    Or splice the rope (mending). Later: the midsummer peal on the last evening, and the house it calls.
+    Or splice the rope (mending). Later: the Trial peal on the last evening, and the house it calls.
 23. **Ma Tolly's Bees.** Her swarm is in the fishmongers' chimney, and the fishwives mean to burn sulphur. Climb with a
     skep, smoke it down with damp straw (woodcraft), or talk them into waiting for dusk. Later: honey for Kit and the
     bear; Ma Tolly tells of the weir.

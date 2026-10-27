@@ -10,9 +10,10 @@ clerk in grey sits at a folding desk with a ledger and a jar of notched sticks. 
 clerk of the Office of Plain Speech; and Grimsditch, a bailiff, in a brown coat, with a paper.
 [Into the Painted Moon] Patience lifts her chin off her paws to look at you, sniffs, and puts it down again, 
 satisfied. A cobbled coaching-yard with galleries on three sides and the stables along the fourth. A tall wagon 
-painted with a sun and a moon stands in the corner, its shafts down, and from the loft over the stables come voices 
-declaiming, and somebody hammering. In a stall at the end of the stables, on clean straw, an old brown bear lies with 
-her chin on her paws, watching the yard with small kind eyes. Dick Merriman, the Painted Moon’s ostler, is here.
+painted with a sun and a moon stands in the corner, its shafts down, and the loft over the stables has a door at the 
+top of an outside stair. From the loft over the stables come voices declaiming, and somebody hammering. In a stall at 
+the end of the stables, on clean straw, an old brown bear lies with her chin on her paws, watching the yard with 
+small kind eyes. Dick Merriman, the Painted Moon’s ostler, is here.
 [Ask Merriman whether anything has been left for Gosse's Company] ‘A parcel,’ says Merriman, ‘but not for them. 
 For,’ he shuts his eyes to get it right, ‘the one who played the Fool at the Wheel the night of the riot. 
 That’s what she said, the lady. Twenty crowns in it, she said, and give it to nobody else, and I’ll know him.’ 
@@ -23,18 +24,19 @@ servant’s, but she wasn’t a servant. A servant doesn’t look at a yard like
 somebody else’s eyes. And she gave me a whole crown for it.’ He thinks. ‘Hands like a clerk. Ink on the second 
 finger.’
 [Into the stable loft] The loft runs the length of the stables, with the floor swept and chalk marks on it for where 
-the stage will be, a row of hampers, a rack of swords that bend, a wooden throne, a property chest with brass 
-corners, and a long trestle where a grey woman sits with a fat book open in front of her and a pencil behind her ear. 
-Gosse stands a little to the right of whoever he is talking to, always, and tilts his head as if listening to music. 
-A big old chest with brass corners and GOSSE painted on the lid, locked. Nothing lies on Hepzibah’s trestle but the 
-company’s old prompt-books. Here are Hepzibah Dimmock, the company’s prompter; Ambrose Swale, the company’s 
-tragedian; Dorcas Quaile, the company’s leading lady; Jem Pudding, the company’s clown; Kit Arden, the boy who 
-plays the girls; and Tam Hautboy, the company’s hired man: carpentry, music and small parts.
-[Ask Gosse whether the company needs a hand for the Trial] ‘Needs!’ says Gosse. ‘We are six players, a prompter 
-and a bear, to play a comedy of eleven parts in a round house before the Bench of four in four days’ time. We need 
-a hand. We need hands. We need a Tapwell, a chain-man, a carrier of hampers and a person to stand in the wings.’ He 
-considers you. ‘A season’s work, a share of the house, a pallet in the loft and the honour of the profession, 
-which is worth precisely nothing and which I would not sell for a crown. Yes or no?’
+the stage will be, a wooden throne, a property chest with brass corners, and a long trestle. Along one wall stand the 
+costume hampers, and a rack of swords that bend. At the trestle a grey woman sits with a fat book open in front of 
+her and a pencil behind her ear. Gosse stands a little to the right of whoever he is talking to, always, and tilts 
+his head as if listening to music. A big old chest with brass corners and GOSSE painted on the lid, locked. Nothing 
+lies on Hepzibah’s trestle but the company’s old prompt-books. Here are Hepzibah Dimmock, the company’s 
+prompter; Ambrose Swale, the company’s tragedian; Dorcas Quaile, the company’s leading lady; Jem Pudding, the 
+company’s clown; Kit Arden, the boy who plays the girls; and Tam Hautboy, the company’s hired man: carpentry, 
+music and small parts.
+[Ask Gosse whether the company needs a hand for the Trial] ‘Needs!’ says Gosse. ‘We are a handful of players, a 
+prompter and a bear, to play a comedy of eleven parts in a round house before the Bench of four on the last night of 
+the Trial. We need a hand. We need hands. We need a Tapwell, a chain-man, a carrier of hampers and a person to stand 
+in the wings.’ He considers you. ‘A season’s work, a share of the house, a pallet in the loft and the honour of 
+the profession, which is worth precisely nothing and which I would not sell for a crown. Yes or no?’
 [Tell Gosse you will take service with the company] ‘Done,’ says Gosse, and seizes your hand. ‘Hepzibah, write 
 it down.’ Hepzibah writes it down. ‘You are one of us. You will discover that this is a mixed blessing, like all 
 blessings and most of the gods.’
@@ -43,32 +45,32 @@ blessings and most of the gods.’
 Wedding, and the Lord Mayor himself was in the gallery, Ezra Orde, a man shaped like a pudding in a chain, and in the 
 second act the miser’s fool has a line about a man who weighs his gold and his wife in the same scales, and I 
 looked up at the gallery, and I said it to him.’ He spreads his hands. ‘And I added a little. And the pit took it 
-up, and carried it over the river, and the City sang it for two nights, and on the third they made the Office of 
-Plain Speech to see it never happened again, and banned Absalom Gosse from the walls for ever.’ He beams. ‘I made 
-an Office. How many players can say that?’
+up, and carried it over the river, and the City sang it for two nights, and within the week they made the Office of 
+Plain Speech to see it never happened again, and banned Absalom Gosse from every stage inside the walls for ever.’ 
+He beams. ‘I made an Office. How many players can say that?’
 [Ask Hepzibah to open the property chest] Hepzibah gives you the key off her chatelaine without asking why, which is 
 how you know you are one of the company now. The property chest stands open: crowns of paste, a sceptre, a skull, a 
 bundle of letters tied with tape, a roll of old playbills.
 [Take from the property chest] Wren takes Gosse’s old playbill from the property chest.
 [Out to the yard of the Painted Moon] A cobbled coaching-yard with galleries on three sides and the stables along the 
-fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and from the loft over the 
-stables come voices declaiming, and somebody hammering. In a stall at the end of the stables, on clean straw, an old 
-brown bear lies with her chin on her paws, watching the yard with small kind eyes. Dick Merriman, the Painted 
-Moon’s ostler, is here.
+fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and the loft over the 
+stables has a door at the top of an outside stair. From the loft over the stables come voices declaiming, and 
+somebody hammering. In a stall at the end of the stables, on clean straw, an old brown bear lies with her chin on her 
+paws, watching the yard with small kind eyes. Dick Merriman, the Painted Moon’s ostler, is here.
 [Show Merriman Gosse's old playbill from the riot night, with his name on it as the Fool] Merriman takes the playbill 
 to the light of the stable door and reads it with his lips moving. ‘The Fool: Mister A. Gosse,’ he says. ‘Well, 
 I’m damned. It was him.’ He goes into the tack-room and comes out with a flat parcel done up in oilcloth, and 
-gives it to you with both hands. ‘Tell him I’m sorry I called him a goat-herd. I didn’t say it to his face.’ 
-Wren takes a parcel in oilcloth. Wren gains 100 experience: got Gosse’s parcel out of the ostler.
+gives it to you with both hands. ‘Tell him I’m sorry I put him in with the goat-herd. I didn’t say it to his 
+face.’ Wren takes a parcel in oilcloth. Wren gains 100 experience: got Gosse’s parcel out of the ostler.
 [Into the stable loft] The loft runs the length of the stables, with the floor swept and chalk marks on it for where 
-the stage will be, a row of hampers, a rack of swords that bend, a wooden throne, a property chest with brass 
-corners, and a long trestle where a grey woman sits with a fat book open in front of her and a pencil behind her ear. 
-Gosse stands a little to the right of whoever he is talking to, always, and tilts his head as if listening to music. 
-The property chest stands open: crowns of paste, a sceptre, a skull, a bundle of letters tied with tape, a roll of 
-old playbills. Nothing lies on Hepzibah’s trestle but the company’s old prompt-books. Here are Hepzibah Dimmock, 
-the company’s prompter; Ambrose Swale, the company’s tragedian; Dorcas Quaile, the company’s leading lady; Jem 
-Pudding, the company’s clown; Kit Arden, the boy who plays the girls; and Tam Hautboy, the company’s hired man: 
-carpentry, music and small parts.
+the stage will be, a wooden throne, a property chest with brass corners, and a long trestle. Along one wall stand the 
+costume hampers, and a rack of swords that bend. At the trestle a grey woman sits with a fat book open in front of 
+her and a pencil behind her ear. Gosse stands a little to the right of whoever he is talking to, always, and tilts 
+his head as if listening to music. The property chest stands open: crowns of paste, a sceptre, a skull, a bundle of 
+letters tied with tape, a roll of old playbills. Nothing lies on Hepzibah’s trestle but the company’s old 
+prompt-books. Here are Hepzibah Dimmock, the company’s prompter; Ambrose Swale, the company’s tragedian; Dorcas 
+Quaile, the company’s leading lady; Jem Pudding, the company’s clown; Kit Arden, the boy who plays the girls; and 
+Tam Hautboy, the company’s hired man: carpentry, music and small parts.
 [Give a parcel in oilcloth] Wren gives a parcel in oilcloth to Absalom Gosse. Gosse cuts the tape with his teeth. 
 Inside the oilcloth, inside the good paper: a fat fair copy in a small upright hand, THE ALDERMAN’S GHOST, OR, WHO 
 WALKS FIRST: A COMEDY; a purse; a folded note, FOR THE FOOL OF THE WHEEL: PLAY IT AS IT IS WRITTEN; and, pressed flat 
@@ -81,17 +83,16 @@ Alderman’s Ghost, a fat book in a small upright hand, with corrections in the 
 [Rehearse the first act in the loft: the Prologue, the funeral, the Widow's suitor] Gosse gives the Prologue to the 
 hampers as if they were the City, and gets it word-perfect, and you see him do it. Then the funeral: mourners in a 
 line, quarrelling about who walks first, until the coffin is left in the middle of the floor and the Ghost climbs out 
-of it, which is Swale climbing out of a hamper with enormous dignity. Then the Widow and her suitor over the funeral 
-meats. Once, when Hepzibah throws a cue from the left, Gosse takes it a beat late, from Pudding, as if he had meant 
-to. Corin Fallow comes up the loft stair in his beautiful plain coat with his hat in his hand, and is very civil to 
-everyone, and asks for a word with Absalom, and then a word with Dorcas, and goes away again. Gosse stands at the 
-window afterward, watching him cross the yard, and says nothing for nearly a minute, which is a record.
+of it, which is a hamper and a great deal of dignity. Then the Widow and her suitor over the funeral meats. Twice, 
+when Hepzibah throws a cue from the left, Gosse takes it a beat late, from Pudding, as if he had meant to. Corin 
+Fallow comes up the loft stair in his beautiful plain coat with his hat in his hand, and is very civil to everyone, 
+and asks for a word with Absalom, and then a word with Dorcas, and goes away again. Gosse stands at the window 
+afterward, watching him cross the yard, and says nothing for nearly a minute, which is a record.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
-[Wait › An hour] The Moon’s pot-boy comes running, scarlet, shouting before he is through the door: ‘Patience 
-is out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s 
-coming!’
+[Wait › An hour] The Moon’s pot-boy comes running, scarlet, shouting before he has got his breath: ‘Patience is 
+out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s coming!’
 [Wait › An hour] Word comes up from the Gullet: Simeon Bowle the bear-ward came over from the Soke with two men and 
 a chain, and took Gosse’s bear across the river to the bear-garden, and says she is his now by the Liberty’s law 
 of strays.
@@ -102,8 +103,9 @@ of strays.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
-[Wait › An hour] Gosse stands a little to the right of whoever he is talking to, always, and tilts his head as if 
-listening to music. An hour passes.
+[Wait › An hour] At the trestle a grey woman sits with a fat book open in front of her and a pencil behind her ear. 
+Gosse stands a little to the right of whoever he is talking to, always, and tilts his head as if listening to music. 
+An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes. It is a long time since you slept. You are weary, and will fight the worse for it 
@@ -120,7 +122,7 @@ and left a note for Gosse that says only SORRY, ABSALOM, I AM FORTY-EIGHT.
 [Wait › An hour] An hour passes.
 [Wait › An hour] Grimsditch takes the costumes: every hamper, the king’s cloak with the new braid, the Widow’s 
 blue gown, the Ghost’s armour. He apologises to each one as it goes down the stair. Gosse stands in the yard with 
-his arms folded and says, to the sky, ‘We will play it in our shirts, then, as the Greeks did.’
+his arms folded and says, to the sky, ‘We will play it in our shirts, then, as the first players did.’
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -135,8 +137,9 @@ mistakes, and selling like hot pies.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
-[Wait › An hour] Gosse stands a little to the right of whoever he is talking to, always, and tilts his head as if 
-listening to music. An hour passes.
+[Wait › An hour] At the trestle a grey woman sits with a fat book open in front of her and a pencil behind her ear. 
+Gosse stands a little to the right of whoever he is talking to, always, and tilts his head as if listening to music. 
+An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -145,7 +148,7 @@ listening to music. An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
-[Wait › An hour] Hepzibah catches your sleeve as you pass her trestle, and says, low, without looking up: 
+[Wait › An hour] Hepzibah catches your sleeve as you pass her trestle, and says, low, with her eyes on the page: 
 ‘You’ll have seen it. Absalom can’t hear from the left any more. He covers it. Don’t tell him you know.’
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -164,7 +167,8 @@ will be kept at the Office,’ he says, ‘pending.’ Pending what, he does not
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
-[Wait › An hour] An hour passes.
+[Wait › An hour] At the trestle a grey woman sits with a fat book open in front of her and a pencil behind her ear. 
+An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -178,9 +182,9 @@ will be kept at the Office,’ he says, ‘pending.’ Pending what, he does not
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] Hepzibah’s trestle is bare, and Hepzibah is sitting at it with her hands in her lap. At noon, in 
-Guildhall Square, by the dry Fountain, the common hangman burns the fair copy of The Alderman’s Ghost on a brazier, 
-as the Ordinances provide for unlicensed matter found within the walls. Abel Tunstall reads the order. A small crowd 
-watches. Up in the window of the Master’s room, somebody stands for the whole of it and does not move.
+Guildhall Square, by the Fountain of Concord, the common hangman burns the fair copy of The Alderman’s Ghost on a 
+brazier, as the Ordinances provide for unlicensed matter found within the walls. Abel Tunstall reads the order. A 
+small crowd watches. Up in the window of the Master’s room, somebody stands for the whole of it and does not move.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -197,7 +201,8 @@ Wheel’s pennant is going up, and between it and the City is a quarter of a mil
 [Wait › A while] Time passes.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes.
-[Wait › An hour] An hour passes.
+[Wait › An hour] At the trestle a grey woman sits with a fat book open in front of her and a pencil behind her ear. 
+An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -210,18 +215,18 @@ Wheel’s pennant is going up, and between it and the City is a quarter of a mil
 [Wait › An hour] An hour passes.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes. At ten o’clock the crier comes through the City ringing his bell: THE BENCH OF THE 
-MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR’S SERVANTS, FOR A TWELFTH YEAR. Not one of the four 
-voices was Gosse’s. Dorcas Quaile keeps Corin Fallow’s wardrobe at the Mayor’s Room, and sews his boys into 
-their stays, and is good at it, and whenever Gosse’s Company plays in Pentrice she comes to stand among the 
-fishwives in the yard, and does not let anybody see her face. Patience stays in the bear-garden of the Soke, and 
-dances on Sundays for Simeon Bowle’s customers, who are not kind; and every Sunday Jem Pudding goes over the river 
-and stands at the palings and hums.
+TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR’S SERVANTS, FOR A TWELFTH YEAR. Not one of the four voices 
+was Gosse’s. Dorcas Quaile keeps Corin Fallow’s wardrobe at the Mayor’s Room, and sews his boys into their 
+stays, and is good at it, and whenever Gosse’s Company plays in Pentrice she comes to stand among the fishwives in 
+the yard, and does not let anybody see her face. Patience stays in the bear-garden of the Soke, and dances on Sundays 
+for Simeon Bowle’s customers, who are not kind; and every Sunday Jem Pudding goes over the river and stands at the 
+palings and hums.
 [Wait › A while] Time passes. The Alderman’s Ghost was burned in Guildhall Square, and Gosse’s Company played 
-The Siege of Galt instead, very well, to a house that had seen it before, and lost the Patent to the Lord Mayor’s 
-Servants for a twelfth year, and went on the road again in the autumn, west, with the bear. The play is gone. Nobody 
-in Pentrice ever saw it. But on the last night in the loft, before the wagon went, Hepzibah Dimmock sat up with a 
-candle and wrote down the first act from memory, and Kit the second, and Pudding the third, and between them they had 
-all of it but the epilogue, which only Gosse knew; and Gosse would not say it.
+The Wolf King instead, very well, to a house that had seen it before, and lost the Patent, and went on the road again 
+when the season was over, west. The play is gone. Nobody in Pentrice ever saw it. But on the last night in the loft, 
+before the wagon went, Hepzibah Dimmock sat up with a candle and wrote down the first act from memory, and Kit the 
+second, and Pudding the third, and between them they had all of it but the epilogue, which only Gosse knew; and Gosse 
+would not say it.
 -- watch 589, at pentrice__moon_loft
 #pentrice__votes pentrice__pentrice: 0
 #pentrice__temper pentrice__pentrice: 2

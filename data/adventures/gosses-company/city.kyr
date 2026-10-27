@@ -57,10 +57,13 @@ Module pentrice "Gosse's Company" {
   Passage moon_arch "the Moon's archway" is arch between westgate and moon_yard.
   Passage moon_door "the Moon's back door" is door between moon_yard and moon_taproom.
   Passage loft_stair "the loft stair" is stair between moon_yard and moon_loft.
-  Observe moon_yard_scene at moon_yard when true "A cobbled coaching-yard with galleries on three sides and the stables along the fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and from the loft over the stables come voices declaiming, and somebody hammering.".
+  Observe moon_yard_scene at moon_yard when true "A cobbled coaching-yard with galleries on three sides and the stables along the fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and the loft over the stables has a door at the top of an outside stair.".
+  Observe moon_yard_voices at moon_yard when at(gosse, moon_loft) "From the loft over the stables come voices declaiming, and somebody hammering.".
   Observe moon_yard_bear at moon_yard when at(the_bear, moon_yard) "In a stall at the end of the stables, on clean straw, an old brown bear lies with her chin on her paws, watching the yard with small kind eyes.".
   Observe moon_taproom_scene at moon_taproom when true "A low taproom, black-beamed, with the Moon's own sign hung inside over the fire: a full moon with a woman's face painted on it, winking. On the wall by the door, in a frame, the house's ale-licence with the Office's seal on it, signed in a small upright hand.".
-  Observe moon_loft_scene at moon_loft when true "The loft runs the length of the stables, with the floor swept and chalk marks on it for where the stage will be, a row of hampers, a rack of swords that bend, a wooden throne, a property chest with brass corners, and a long trestle where a grey woman sits with a fat book open in front of her and a pencil behind her ear.".
+  Observe moon_loft_scene at moon_loft when true "The loft runs the length of the stables, with the floor swept and chalk marks on it for where the stage will be, a wooden throne, a property chest with brass corners, and a long trestle.".
+  Observe moon_loft_hampers at moon_loft when not costumesInSoke(pentrice) and not costumesTaken(pentrice) "Along one wall stand the costume hampers, and a rack of swords that bend.".
+  Observe moon_loft_hepzibah at moon_loft when at(hepzibah, moon_loft) "At the trestle a grey woman sits with a fat book open in front of her and a pencil behind her ear.".
 
   Person bascombe "Mistress Bascombe" at moon_taproom {
     Role "who keeps the Painted Moon". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
@@ -68,12 +71,12 @@ Module pentrice "Gosse's Company" {
     Sells rations for 2 coin from 10.
   }
   Topic bascombe_trial with bascombe "Ask Mistress Bascombe about the Trial of the Wheel" when true once {
-    Says "'Three companies, three nights, over the river at the Wheel,' says Mistress Bascombe, 'and the Bench of four to give one of them the Patent, which is a licensed house and the Office off their backs for ever, near enough. Corin Fallow's had it eleven years, the Lord Mayor's Servants. The Children of the Close every year come second and are very good about it.' She jerks her head at the yard. 'And this year Absalom Gosse, God save us. He was banned the City forty years since, you know. The night of the riot. The Office was made for him.'".
+    Says "'Three companies, three nights, over the river at the Wheel,' says Mistress Bascombe, 'and the Bench of four to give one of them the Patent, which is a licensed house and the Office off their backs for ever, near enough. Corin Fallow's had it eleven years, the Lord Mayor's Servants. The Children of the Close every year come second and are very good about it.' She jerks her head at the yard. 'And this year Absalom Gosse, God save us. He was banned from the City's stages, you know. The night of the riot. The Office was made for him.'".
     On discuss { Assert knows(actor, riot_rumour). }
   }
   Discovery riot_rumour "Forty years ago there was a riot at the Wheel during a performance by Gosse's Company, and the City banned Absalom Gosse; the Office of Plain Speech was founded after it." { Known by bascombe. }
   Topic bascombe_bear with bascombe "Ask Mistress Bascombe about the bear" when at(the_bear, moon_yard) once {
-    Says "'She's no trouble,' says Mistress Bascombe, 'except to the ostlers, the horses, the honey-woman in the Gullet and the Bench of Aldermen, who passed a bye-law against her in the year twelve. She's eaten nobody. She's very fond of Jem Pudding, who's no better than he should be.' She looks out of the window at the stall. 'She gets out, mind. She knows the way to the honey.'".
+    Says "'She's no trouble,' says Mistress Bascombe, 'except to the ostlers, the horses, the honey-woman in the Gullet and the Court of Aldermen, who passed a bye-law against her in the year twelve. She's eaten nobody. She's very fond of Jem Pudding, who's no better than he should be.' She looks out of the window at the stall. 'She gets out, mind. She knows the way to the honey.'".
   }
   // A member of Gosse's Company sleeps in the loft for nothing, among the hampers: the players' pallets are kept.
   Rule loft_pallet when inCompany(party) and at(party, moon_loft) and not onTheHouse(hepzibah, party) { Assert onTheHouse(hepzibah, party). }
@@ -85,7 +88,7 @@ Module pentrice "Gosse's Company" {
   Passage office_doors "the Office's doors" is doorway between guildhall_square and office_hall.
   Passage master_door "the Master's door" is door between office_hall and master_room.
   Observe office_hall_scene at office_hall when true "The old corn exchange, high and cold and full of desks. At each desk a clerk in grey reads with a pen in one hand and a ruler in the other, and every so often the ruler comes down and the pen goes through a line with a sound like a small door shutting. Along the walls, shelves of bound licences, and a lectern with a chained book as big as a tombstone: THE ORDINANCES OF PLAIN SPEECH. Over the Master's door at the far end is painted the Office's motto: WHAT IS SAID IS DONE.".
-  Observe master_room_scene at master_room when true "A small square room with a window onto the square and the dry Fountain. Everything in it is very plain and very good: a desk, two chairs, a shelf of plays in quarto, the Office's seal on a silver stand, a jug of ink. On the wall, alone, a portrait of a heavy, cheerful man in an alderman's chain, painted badly and with love.".
+  Observe master_room_scene at master_room when true "A small square room with a window onto the square and the Fountain. Everything in it is very plain and very good: a desk, two chairs, a shelf of plays in quarto, the Office's seal on a silver stand, a jug of ink. On the wall, alone, a portrait of a heavy, cheerful man in an alderman's chain, painted badly and with love.".
 
   // ── The Close: the minster, the choir school, the canon's house ─────────────────────────────────────────────────
   Place minster "the minster" is building within pentrice.

@@ -98,6 +98,18 @@ describe("Gosse's Company", () => {
     expect(g.page).toMatch(/sung in the Gullet and acted in back rooms/);
   }, 240000);
 
+  it('the empty wing: nobody stands between Hepzibah and the Office, and Gosse turns to ask a wing with nobody in it', async () => {
+    const g = await Gosse.start(build('warrior'), 'w1');
+    await g.fixture('empty-wing');
+    expect(g.holds('hepzibahTaken', 'pentrice')).toBe(true);
+    expect(g.holds('emptyWing', 'gosse')).toBe(true);
+    expect(g.holds('proposed', 'gosse')).toBe(false);
+    expect(g.page).toMatch(/The left-hand wing is empty/);
+    expect(g.page).toMatch(/comes round from the grey bench/);
+    expect(g.page).toMatch(/Gosse does not say it again/);
+    expect(g.ending()).toEqual([p('patent')]);
+  }, 240000);
+
   it("the Author's Bow: the Master of Plain Speech comes up on the stage, and the tallymen break their sticks", async () => {
     const g = await Gosse.start();
     await g.fixture('bow');
