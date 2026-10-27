@@ -1,0 +1,16 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "=140",
+  "go:patience_hold",
+  "Search here",
+  "go:cheaping",
+  "Tell Abel there's a dry berth"
+ ],
+ "night": [
+  "=262"
+ ]
+}

@@ -41,8 +41,8 @@ Module pentrice "Gosse's Company" {
   Observe after_gammage_lost at wheel when playEnded(pentrice) and at(gammage, wheel) and not verdictRead(pentrice) and not gammageWon() "Dame Gammage has finished her nuts, and is looking into the empty bag as if it owed her a better evening.".
   Observe after_mallory_won at wheel when playEnded(pentrice) and at(mallory, wheel) and not verdictRead(pentrice) and malloryWon() "Canon Mallory is mouthing the moral to himself, very happily, and blowing his nose.".
   Observe after_mallory_lost at wheel when playEnded(pentrice) and at(mallory, wheel) and not verdictRead(pentrice) and not malloryWon() "Canon Mallory is studying his hands, pink, like a man to whom something has been said in church.".
-  Observe after_callow_won at wheel when playEnded(pentrice) and at(callow, wheel) and not verdictRead(pentrice) and callowWon() "Nym Callow is writing so fast that he has torn through his programme into the next one.".
-  Observe after_callow_lost at wheel when playEnded(pentrice) and at(callow, wheel) and not verdictRead(pentrice) and not callowWon() "Nym Callow has written one word across his programme, and underlined it twice.".
+  Observe after_callow_won at wheel when playEnded(pentrice) and at(callow, wheel) and not verdictRead(pentrice) and callowWon() "Nym Carrow is writing so fast that he has torn through his programme into the next one.".
+  Observe after_callow_lost at wheel when playEnded(pentrice) and at(callow, wheel) and not verdictRead(pentrice) and not callowWon() "Nym Carrow has written one word across his programme, and underlined it twice.".
   Rule vote_clay when verdictDue(pentrice) and (ghostPlay(pentrice) or galtPlay(pentrice)) and clayWon() and not verdictCounted(pentrice) { Assert votedFor(clay). Increase votes(pentrice) by 1. }
   Rule vote_gammage when verdictDue(pentrice) and (ghostPlay(pentrice) or galtPlay(pentrice)) and gammageWon() and not verdictCounted(pentrice) { Assert votedFor(gammage). Increase votes(pentrice) by 1. }
   Rule vote_mallory when verdictDue(pentrice) and (ghostPlay(pentrice) or galtPlay(pentrice)) and malloryWon() and not verdictCounted(pentrice) { Assert votedFor(mallory). Increase votes(pentrice) by 1. }
@@ -125,7 +125,7 @@ Module pentrice "Gosse's Company" {
     says "Absalom Gosse goes to the Clink of the Soke at noon for the Office's fines, in his crimson coat, waving, and holds court there for a week, and plays the Prologue through the bars every evening to a crowd in the street, until the Owl and the Gullet between them have raised the money in pennies." { Assert fateTold(fate_clink_known). }
   Discovery fate_clink_known "Gosse went to the Clink for the fines.".
   Rule fate_owl when verdictRead(pentrice) and owlPaid(pentrice) and not fateTold(fate_clink_known) and inCity()
-    says "The fines are paid by subscription at the Owl, a penny a head, raised in an hour, with Nym Callow standing on a table shouting the total." { Assert fateTold(fate_clink_known). }
+    says "The fines are paid by subscription at the Owl, a penny a head, raised in an hour, with Nym Carrow standing on a table shouting the total." { Assert fateTold(fate_clink_known). }
   Rule fate_fallow_paid when verdictRead(pentrice) and fallowPaid(pentrice) and not fateTold(fate_clink_known) and inCity()
     says "The fines are paid at the Office before ten by Corin Fallow, in coin, without a word, for a siege-tower." { Assert fateTold(fate_clink_known). }
   Rule fate_master_bowed when verdictRead(pentrice) and clemBowed(clemency) and not fateTold(fate_master_known) and inCity()
@@ -212,7 +212,7 @@ Module pentrice "Gosse's Company" {
   Milestone ms_riot "heard the riot told twice" worth 150 when gosseSorry(gosse).
   Milestone ms_clay "gave Ormsby Clay back his Dido" worth 150 when clayMoved(clay).
   Milestone ms_gull "made the gulling come true" worth 200 when understanding(swale).
-  Milestone ms_callow "caught Nym Callow out" worth 100 when knows(party, callow_lies).
+  Milestone ms_callow "caught Nym Carrow out" worth 100 when knows(party, callow_lies).
   Milestone ms_banns "got Dick Merriman his answer" worth 100 when sukeyYes(sukey).
   Milestone ms_bells "found the jackdaws in the bell-frame" worth 100 when bellsMended(bunces).
   Milestone ms_bees "saved Ma Tolly's swarm" worth 100 when state(chimney, saved).

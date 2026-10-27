@@ -1,0 +1,88 @@
+Module pellam "The Liberty of the Ice" {
+  // ── Absolute ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A dancing bear, not tame, cold and cross, kept on the ice by Hester Mabb, who dances him for pennies at the
+  // bear-stake. On the second morning he breaks his chain and goes to the ox. The Butchers' Company sends to Harker for
+  // his wharf men to put him down by noon. Left alone, he goes down the Reach at dusk, and is out there in the night.
+  Person hester "Hester Mabb" at bear_stake {
+    Role "a bear-ward, small and weathered, in a coat of patches". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Greets "'Mind his reach,' says Hester Mabb. 'He's not cross with you. He's cross with the cold.' The bear behind her sighs like a bellows.".
+    Greets again "Hester Mabb nods to you from the bear-stake.".
+  }
+  Person absolute "Absolute" at bear_stake {
+    Role "a brown bear on a chain, in a leather muzzle, as big as a cart" when not bearLoose(absolute).
+    Role "a brown bear, loose, with a yard of broken chain dragging" when bearLoose(absolute).
+    Species bear. Peaceable. Pronouns he.
+  }
+  Relation bearLoose(group). Relation bearCalmed(group). Relation bearDead(group). Relation bearLent(group). Relation bearOnReach(group).
+  Relation bearAtWedding(group). Relation bearTried(group).
+  Observe stake_scene at bear_stake when not bearLoose(absolute) and not bearDead(absolute) and at(absolute, bear_stake) "The bear-stake, at the edge of the Fair: an iron stake hammered into the ice, a ring, a chain, and on the end of it a brown bear the size of a cart, swaying from foot to foot in a leather muzzle, very slowly, like a man who has been waiting a long time for a coach.".
+  Observe stake_empty at bear_stake when bearLoose(absolute) "The bear-stake: an iron stake in the ice, a ring, and a yard of broken chain.".
+  Topic hester_absolute with hester "Ask Hester Mabb about her bear" when true once {
+    Says "'Absolute.' She says it fondly. 'My father called him that because he would do absolutely nothing he was told. He'll dance for a fiddle and nothing else, and he'll come to honey, and to me.' She pulls her coat round her. 'He's eleven. He hates the cold. He hates the noise. He was a cub in a wood once, and he remembers. In the summer, when we're on the roads, he'll go into any river we come to and sit in it to the neck, like a bishop in a bath. He'd go to the water now if it wasn't stone.' She looks at the stake. 'If he gets off that, they'll kill him. Everybody knows that about a bear.'".
+    On discuss { Assert knows(actor, bear_ways). }
+  }
+  Discovery bear_ways "Hester Mabb's bear Absolute will dance for a fiddle, and come to honey, and to her; and if he gets loose on the ice, people will kill him." {
+    Known by hester.
+  }
+  Rule bear_breaks when secondDay() and hour(clock) >= 7 and not bearLoose(absolute) and not bearCalmed(absolute) and not bearDead(absolute)
+    {
+    Assert bearLoose(absolute). Assert at(absolute, ox_roast). Assert at(hester, ox_roast). Assert happened(ev_bear_breaks). }
+  Entity ev_bear_breaks: fact "bear breaks".
+  Rule bear_breaks_heard when happened(ev_bear_breaks) and inPellam() and not heardNews(ev_bear_breaks) says "Word comes down Freezeland Street at a run: the bear's off his chain at the bear-stake, and gone to the ox roast, and is eating the Butchers' Company's ox off the spit with his muzzle torn off, and nobody will go near him." { Assert heardNews(ev_bear_breaks). }
+  Observe bear_at_ox at ox_roast when bearLoose(absolute) and at(absolute, ox_roast) "Absolute is at the ox. He has pulled the spit down and is lying on the sunken hearth in the steam with the ox between his paws, eating it, and making a sound like a cart going over cobbles. The Butchers' Company's men stand in a ring well back with poles and cleavers, saying what they will do. Hester Mabb stands nearer than any of them, holding out her hand and talking to him, and he is not listening.".
+  // Each way of getting him back, one try.
+  Action bear_honey(actor: group, site: place) "Hold the crock of honey out to Absolute, and walk backward to the stake" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(absolute, site) and bearLoose(absolute) and carries(actor, honey) and not bearCalmed(absolute) and not bearDead(absolute).
+    Time 2.
+    On success { Assert bearCalmed(absolute). Retract bearLoose(absolute). Assert at(absolute, bear_stake). Assert at(hester, bear_stake). Assert bearTried(actor). }
+    Result "You take the cloth off the crock and hold it out at arm's length, and Absolute lifts his great head from the ox and smells it from twenty feet, and gets up. You walk backward. He comes after you, slowly, down Freezeland Street, through a crowd that flattens itself against the booths, with his nose a foot from the honey and Hester at his shoulder, all the way to the bear-stake, where she has the chain on him again before he has finished the first mouthful.".
+  }
+  Action bear_fiddle(actor: group, site: place) "Play Absolute the tune his ward plays him, and dance him back to the stake" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(absolute, site) and bearLoose(absolute) and craft(actor, craft_stage) and knows(actor, bear_ways) and not bearCalmed(absolute) and not bearDead(absolute).
+    Time 2.
+    On success { Assert bearCalmed(absolute). Retract bearLoose(absolute). Assert at(absolute, bear_stake). Assert at(hester, bear_stake). Assert bearTried(actor). }
+    Result "Hester hums it to you, an old reel, and you take it up, voice or fiddle or a comb and paper borrowed off a boy, and at the fourth bar Absolute stops eating and stands up on his hind legs in the steam, enormous, and begins to turn, slowly, on the sunken hearth. You play him up Freezeland Street like that, dancing, the crowd clapping in time and then forgetting to clap, all the way to the bear-stake.".
+  }
+  Action bear_woodcraft(actor: group, site: place) "Go up to Absolute slowly, low, the way you would to a bear in a wood, and put the chain in Hester's hand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(absolute, site) and bearLoose(absolute) and capable(actor, woodcraft) and not bearCalmed(absolute) and not bearDead(absolute) and not bearTried(actor).
+    Time 2.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert bearCalmed(absolute). Retract bearLoose(absolute). Assert at(absolute, bear_stake). Assert at(hester, bear_stake). Assert bearTried(actor). }
+    On failure { Assert bearTried(actor). }
+    Result "You go down on your heels and come at him from the side, not looking at him, slowly, talking low about nothing, the way you would come up on a bear at a carcass in a wood. He watches you with one small eye and goes on eating. When you are close enough to smell him you take up the broken chain and put it in Hester's hand, and she says something to him in a voice nobody else has heard her use, and he gets up and goes with her.".
+    Otherwise "He watches you come with one small eye, and when you are still ten feet off he stands up, and you stop, and back off, and he lies down again. Not today.".
+  }
+  Action bear_hold(actor: group, site: place) "Take hold of Absolute's broken chain and hold him" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(absolute, site) and bearLoose(absolute) and not bearCalmed(absolute) and not bearDead(absolute) and not bearTried(actor).
+    Time 1.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert bearCalmed(absolute). Retract bearLoose(absolute). Assert at(absolute, bear_stake). Assert at(hester, bear_stake). Assert bearTried(actor). }
+    On failure { Assert bearTried(actor). }
+    Result "You get the chain round your forearm and set your heels in the ice and he pulls, once, and you hold, and he turns his head and looks at you in astonishment. Then Hester has the other end, and the two of you walk him back to the stake together with your arms aching to the shoulder.".
+    Otherwise "You get the chain round your forearm and he pulls, once, and you are sitting on the ice ten feet away with all the breath gone out of you, and the Butchers' men are laughing.".
+  }
+  // Left alone: at noon Harker's wharf men come with boar-spears; Hester gets him away from the ox with the last of her
+  // pennies' worth of tripe, and he goes off down the Reach, out of reach of everyone, and does not come back.
+  Rule bear_runs when secondDay() and hour(clock) >= 12 and bearLoose(absolute) and not bearCalmed(absolute) and not bearOnReach(absolute)
+    {
+    Assert bearOnReach(absolute). Assert at(absolute, reach_head). Assert happened(ev_bear_runs). }
+  Entity ev_bear_runs: fact "bear runs".
+  Rule bear_runs_heard when happened(ev_bear_runs) and inPellam() and not heardNews(ev_bear_runs) says "At noon three of Harker's wharf men come down Freezeland Street with boar-spears, at the Butchers' Company's asking. Before they reach the ox, Absolute gets up off it, all at once, and goes away from them down the ice past the last booth, onto the Reach, at a long rolling run, with his broken chain jumping behind him, and Hester Mabb running after him calling, until she cannot run any more." { Assert heardNews(ev_bear_runs). }
+  // Out on the Reach in the second night, he meets the searchers.
+  Rule bear_meets_searchers when bearOnReach(absolute) and not bearCalmed(absolute) and secondDay() and hour(clock) >= 23 and not bearDead(absolute)
+    {
+    Assert bearDead(absolute). Assert searchersDiverted(lisk). Assert at(absolute, limbo). Assert happened(ev_bear_meets_searchers). }
+  Entity ev_bear_meets_searchers: fact "bear meets searchers".
+  Rule bear_meets_searchers_heard when happened(ev_bear_meets_searchers) and inPellam() and not heardNews(ev_bear_meets_searchers) says "Late in the night, from down the Reach, a roar, and dogs, and men shouting, and lanterns going every way at once over the ice. In the morning they say Harker's searchers met Hester Mabb's bear on the Black Reach in the dark, and ran, all three, and the dog with them, back to Hay Wharf, and would not go out again; and that the bear went on down the grey ice toward the hole that never freezes, and through it." { Assert heardNews(ev_bear_meets_searchers). }
+  // Calmed, he can be lent for an evening's walk on the Reach while the searchers are on it.
+  Topic hester_lend with hester "Ask Hester Mabb to bring Absolute for a walk on the Reach tonight, where Harker's searchers are" when bearCalmed(absolute) and knows(actor, dickon_night) and not bearLent(absolute) once {
+    Says "She looks at you, and at the bear, and at the Reach. 'Harker's men,' she says. 'The ones with the spears.' She almost smiles. 'He'd like a walk. He hates them more than he hates the cold.' She scratches his ear through the muzzle. 'Ten o'clock, the head of the Reach. Not a hair of him hurt, mind, or I'll set him on you.'".
+    On discuss { Assert bearLent(absolute). }
+  }
+  Rule bear_walks when bearLent(absolute) and searchNight() and secondDay() and not bearDead(absolute) and not searchersDiverted(lisk) and at(searchers, black_reach)
+    {
+    Assert searchersDiverted(lisk). Assert bearWalked(absolute). Assert happened(ev_bear_walks). }
+  Entity ev_bear_walks: fact "bear walks".
+  Rule bear_walks_heard when happened(ev_bear_walks) and inPellam() and not heardNews(ev_bear_walks) says "At ten, out on the Reach, Hester Mabb walks her bear past Harker's searchers on a long chain, very slowly, humming, and Absolute stands up on his hind legs in their lanterns and looks at them; and the searchers decide, all three, that the drowned can wait, and go back to Hay Wharf to sit by Fowke's brazier, and stay there." { Assert heardNews(ev_bear_walks). }
+  Relation bearWalked(group).
+}

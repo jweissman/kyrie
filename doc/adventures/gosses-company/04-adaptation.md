@@ -40,7 +40,7 @@ round, is kept up to date in [friction.md](friction.md).*
 | Casting | a relation `plays(part, actor)` set by actions in the loft; each part's player chosen among those willing |
 | Rehearsal | actions that take an hour in the loft with named members present, asserting `rehearsed(scene)` |
 | The Office, the licence, the struck lines | the book as a thing with states (fair copy, struck, licensed, warranted, seized); Tunstall's strikes; the ordinance of the dead as a discovery read in the Office's statute-book |
-| The mystery | four clues as discoveries with sources and searches; a query that puts them together; Callow tested |
+| The mystery | four clues as discoveries with sources and searches; a query that puts them together; Carrow tested |
 | The critics | a `regard` measure for each; each scene's outcome moves them by what they care for; a query for each vote; the verdict a query over four votes |
 | The house | `temper` and `crowd` measures; the watermen and the weir path decide `crowd` |
 | The fines | a `fines` measure, counted per unlicensed scene and per ad-lib, scaled by whether anyone in the front row is counting |

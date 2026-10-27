@@ -1,0 +1,86 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The three days, as weather ────────────────────────────────────────────────────────────────────────────────────
+  // Each day of the Fair has its own sky, and the sky is the act: a hard blue frost for the farce's first day, when
+  // everything is bright and nothing can be checked; the drowned weather of the second, a fog off the Reach in which
+  // the city cannot see its own feet; and on the third the west wind, the thaw-wind, the bridge dripping, the ice
+  // going grey, so that everything shaken on it is already counting the hours.
+  Entity sky_one: fact "the first day's sky". Entity sky_two: fact "the second day's sky". Entity sky_three: fact "the third day's sky".
+  Rule first_sky when firstDay() and inPellam() and not spread(sky_one) says "THE FIRST DAY OF THE FAIR. A hard blue frost, the sky like a glazed dish, not a cloud from the fells to the downs, and the sun on the snow so bright it hurts to look at. Your breath freezes in your scarf. Sound carries: you can hear a hammer on the far side of the river, and a girl laughing on the bridge, and under everything, from the ice, the noise of the Fair, like a hive." {
+    Assert spread(sky_one). }
+  Rule second_sky when secondDay() and hour(clock) >= 6 and inPellam() and not spread(sky_two) says "THE SECOND DAY OF THE FAIR. Fog, in the night, off the Reach: the watermen call it the drowned weather. It stands on the ice to the height of a house, white and wet and very still, so that from the bridge the Fair is a roof of sound with nothing under it, and in Freezeland Street the booths come at you out of it one at a time like ships. The cathedral bell sounds as if it were being rung in a cupboard. People speak low without knowing why." {
+    Assert spread(sky_two). }
+  Rule third_sky when thirdDay() and hour(clock) >= 6 and inPellam() and not spread(sky_three) says "THE THIRD DAY OF THE FAIR, AND THE LAST. The wind has gone round to the west in the night, soft and wet, smelling of earth for the first time in a month: the thaw-wind. The icicles along Fleece Row are dripping. Under Pellam Bridge, from every arch, water is running in threads down the stone, and where it falls the ice has gone grey and pocked, like old pewter. Nobody on the Fair says the word. Everybody looks at the sky." {
+    Assert spread(sky_three). }
+  Observe fog_freezeland at freezeland when secondDay() and hour(clock) >= 6 and hour(clock) < 14 "The fog has the Glove Post to half its height; above that, the great glove hangs in white nothing, dripping.".
+  Observe fog_ice within the_ice when spread(sky_two) and secondDay() and hour(clock) >= 6 and hour(clock) < 14 and not at(party, freezeland) "Fog stands in the street to the height of the booth-roofs; the pennants at their peaks are lost in it, and their ropes go up into nothing.".
+  Observe thaw_ice within the_ice when spread(sky_three) and not iceGone() and not at(party, freezeland) "Underfoot the ice has a skin of water, and the planks squelch, and the boards of the booths are dark with wet where they stand in it.".
+  Observe fog_reach at black_reach when secondDay() and hour(clock) >= 6 and hour(clock) < 16 "In the fog the Black Reach has no other side. The ice creaks, close, and then far, and then close again, as if something were walking on it.".
+  Observe fog_bridge at bridge_street when secondDay() and hour(clock) >= 6 and hour(clock) < 14 "Through the gaps between the houses, where the Fair should be, there is only white, and out of it the sound of the Fair.".
+  Observe thaw_bridge at bridge_street when thirdDay() and not iceGone() "Water drips from every eave on the bridge. Down through the gaps, the ice under the arches is grey and wet and has lines on it, like a palm.".
+  Observe thaw_freezeland at freezeland when thirdDay() and not iceGone() "The planks of Freezeland Street are standing in a skin of water. The great glove on the mast has thawed limp and hangs down, fingers first, dripping on the crier's barrel.".
+  Observe thaw_ox at ox_roast when thirdDay() and not iceGone() "The ox's hearth has sunk to the bricks' depth in a pool of its own, and the Butchers have put planks round it, and nobody is standing very near.".
+
+  // ── The bill on the Glove Post ────────────────────────────────────────────────────────────────────────────────────
+  // Noll Brisket prints the day each morning and pastes it on the mast under the glove: what is on, and when.
+  Observe bill_one at freezeland when firstDay() and not iceGone() "A bill is pasted on the Glove Post, new this morning, the ink smudged with frost: THE GREAT FROST FAIR, FIRST DAY. — HIRING at the RING, TEN till NOON, by Master J. HARKER, for a farm in the hills. — The LIBERTY CRIED at NOON. — The COURT of the ICE sits at FOUR. — The LIARS' BENCH at the FROZEN LAMB from SEVEN. — A BEAR. AN OX. FROST-CREAM. — NO LAW BUT THE GLOVE.".
+  Observe bill_two at freezeland when secondDay() and not iceGone() "Today's bill on the Glove Post, pasted over yesterday's: SECOND DAY. — The LAST HIRING, NINE till ELEVEN. — The COURT at FOUR. — The BENCH at SEVEN. — MARRIED, TOMORROW at NOON, at the ICE CHAPEL: ALDERMAN H. GOSLING and MISTRESS THESSALY HARKER. — Beware the Ice below the Bridge.".
+  Observe bill_three at freezeland when thirdDay() and not iceGone() "Today's bill on the Glove Post, wet already: THIRD DAY. — The WEDDING at NOON. — The LANDING at TWO, before the REEVE: every hand shaken on the ice to be CRIED, and LANDED, or let go. — OFF THE ICE at NINE, every soul. — God keep the Liberty.".
+  // The pillory stands empty by the stocks from the first day, with a board on it waiting to be written on.
+  Observe pillory_waits at freezeland when not landingAt(lisk) and not pilloried(party) and not iceGone() "Beside the stocks stands a pillory nobody is in, with snow on the board where the head goes, and a placard hung on it ready, blank, for whatever the Court writes there.".
+
+  // ── The Book of Frosts ────────────────────────────────────────────────────────────────────────────────────────────
+  // The Watermen's Company keeps, among its accounts, the river's own history: every frost the Lisk has stood, and what
+  // was done on it. Seven in two hundred years. It is why there is a Liberty, and why Harker hires on the ice.
+  Topic tredgold_book with tredgold "Ask Gaffer Tredgold what he is writing in the Company's book" when true once {
+    Says "'The Frost.' He turns the book round for you. The front of it is accounts, fares and fines; the back, written from the other end and upside down, in a dozen hands, is something else. 'Every frost the river's stood. Seven, with this one, since there's been a Company.' He puts a thick finger on each. 'The First Frost, when Reeve Aldith sat on the ice to judge the watermen, so there was a Court. The Frost of the Glove: Hamo Gledhill shook on forty sacks on the ice and said on land he'd shaken on nothing, and the Reeve had his glove off him and nailed it to a mast. The Black Lambing, when the frost went on into April and the fell flocks died in the folds, and the fell farms came down to Pellam to be sold, and the children after them; that's when the Exchange was built, and the city made its Statute about servants after, that's painted on a board in the Scale Church porch, for all the good it's done. The Frost They Hanged the Reeve. The Short Frost, four days, when nothing was landed and every handfast melted, and they say that's why nobody marries on the ice. The Last Frost, thirty-one winters back. And this.' He takes his finger away. 'Four of the seven, the wolves came down after the river. Write that in, I said to my father. He said, they'll know.'".
+    On discuss { Assert knows(actor, book_of_frosts). Assert knows(actor, wolves_down). }
+  }
+  Discovery book_of_frosts "The Watermen's Book of Frosts records seven frosts in two hundred years: the First (when the Court of the Ice began), the Frost of the Glove (when the Liberty began, with a factor's glove nailed to a mast), the Black Lambing (when the fell flocks died, the fell farms were sold to Pellam, and the hiring of the fell children began), the Frost They Hanged the Reeve, the Short Frost (when every handfast melted), the Last Frost thirty-one winters ago, and this one. In four of them the wolves came down after the river.".
+  Topic tredgold_hanged with tredgold "Ask Gaffer Tredgold why they hanged the Reeve" when knows(actor, book_of_frosts) once {
+    Says "'For landing a hand.' He closes the book. 'An alderman's son shook on a girl's dowry on the ice and broke it on the land, and Reeve Ottiline Broom landed it at the Landing all the same, before the city, and held him to it. The city hanged her off the bridge the day the ice went, for a riot. The Company cut the ice the night after and sent the Fair out to sea, and the alderman's son with it, nobody knows how.' He looks at the saws by the door. 'That's the thing about the ice. It's ours till it goes. Then it's water, and water's nobody's.' He goes back to his writing. 'Clemmy Broom's her granddaughter's granddaughter. She knows.'".
+    On discuss { Assert knows(actor, reeve_hanged). }
+  }
+  Discovery reeve_hanged "In an earlier frost Reeve Ottiline Broom landed a bargain against an alderman's son and was hanged by the city off Pellam Bridge for it; the watermen cut the ice and sent the Fair out to sea. Justice Broom is her descendant.".
+
+  // ── The Scale Church, and the Statute of Servants ─────────────────────────────────────────────────────────────────
+  Person verger "Amos Tallis" at evenhands {
+    Role "the verger of the Scale Church, very old, with a broom and a cold". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "The old verger leans on his broom by the great scales and looks at you without curiosity. 'If it's the Fair you want,' he says, 'it's down the hill. Everybody's down the hill.'".
+    Greets again "Amos Tallis nods to you from beside the scales.".
+  }
+  Topic verger_scales with verger "Ask the verger about the scales" when true once {
+    Says "'The Saint's.' He puts his hand flat on the great brass pan, as a man puts his hand on a horse. 'Every fleece Pellam ever sold went over these, once. The factors weigh their own now, in their own houses; they say the Saint's are slow.' He sniffs. 'They are slow. They're honest, and honest is slow.' He nods at the board in gold beside them. 'A false balance is abomination. And they bring their own weights to church on Sundays, and sit under that, and sing.'".
+    On discuss { Assert knows(actor, scales_known). }
+  }
+  Discovery scales_known "The great scales of Saint Evenhand in the Scale Church once weighed every fleece Pellam sold; the factors now weigh their own.".
+  Topic verger_statute with verger "Ask the verger about the board in the porch with the writing worn off it" when true once {
+    Says "'The Statute of Servants.' He goes with you to look at it, slowly. You can make out a word or two under the soot: HIRED, LIBERTIES, CARRIED. 'The city made it after the Black Lambing, when the fell farms were sold, and the factors were hiring the fell children in the Cheaping and carrying them off to the dye-works over the hills and selling them on. No one hired within the liberties of Pellam shall be carried out of them, but to the place they were hired for. That's the gist.' He looks at it. 'It's never been repealed. It's only been gone round.' He nods down the hill, toward the river. 'The ice isn't the city. It's the Watermen's, bank to bank. The Statute doesn't run on it. Why do you think the hiring's on the ice?'".
+    On discuss { Assert knows(actor, statute_servants). }
+  }
+  Discovery statute_servants "By the Statute of Servants, made after the Black Lambing, no one hired within the liberties of Pellam may be carried out of them except to the place they were hired for. The river is the Watermen's, not the city's, and the Statute does not run on the ice; which is why Harker hires there.".
+  Topic verger_harker with verger "Ask the verger about Master Harker, the churchwarden" when knows(actor, statute_servants) once {
+    Says "'A good churchwarden.' He sweeps a little round the scales. 'Pays for the candles. Every spring after the hiring he pays for a great candle, a pound of wax, to burn a week before the Saint. I asked him once what it was for.' He stops sweeping. 'He said, for the weight. I didn't ask him what he meant. You don't, with a churchwarden.'".
+    On discuss { Assert knows(actor, harker_candle). }
+  }
+  Discovery harker_candle "Every spring after the hiring Master Harker pays for a pound of wax to burn a week before Saint Evenhand's scales, 'for the weight'.".
+  // The Statute does not run on the ice, but Dickon was hired in the Cheaping at the spring hiring, on dry ground,
+  // and carried to Gallowmoor: that is a matter for the city, after the thaw, where a lie is a crime.
+  Relation statuteLaid(place).
+  Topic gosling_statute with gosling "Tell Alderman Gosling that Dickon Cobb was hired in the Cheaping last spring and carried to Gallowmoor, against the Statute of Servants" when knows(actor, statute_servants) and (knows(actor, dickon_alive) or knows(actor, ledger_read)) and not statuteLaid(lisk) once {
+    Says "He puts his pen down. 'In the Cheaping. Not on the ice.' He gets up and takes a book down from the shelf behind him, a fat one in calf with a chain on its spine, and turns it to a page he does not need to look for. 'On the ice I am nobody, any more than any of us. On the land I am an alderman of this city and a justice of its peace.' He reads, moving his lips. The fire settles twice. 'Harker,' he says at last, to the book, 'is going to be my father-in-law, or was.' He writes, carefully, a long time, and sands it, and folds it. 'At the Lady Day sessions,' says Alderman Gosling, 'on dry ground. Where a lie is a crime.'".
+    On discuss { Assert statuteLaid(lisk). }
+  }
+  Rule news_statute when newsHour() and statuteLaid(lisk) once says "Of the Statute: on the first morning of the thaw the Town Clerk has nailed a paper to the door of Harker's house in Fleece Row, where everyone going down to the river can read it: that Josias Harker, factor, is to answer at the Lady Day sessions, under the Statute of Servants, for one Dickon Cobb, hired in the Cheaping and carried to Gallowmoor. On land, where a lie is a crime. By ten it has been torn down; by eleven Noll Brisket has printed it." { }
+
+  // ── The wolves, before they come ──────────────────────────────────────────────────────────────────────────────────
+  Discovery wolves_down "There are wolves down off the downs after the frozen river, as there are in a great frost: they have taken ewes from the fell folds, and been seen at first light on the sledge road at the foot of the Reach.".
+  Topic abel_wolves with abel "Ask Abel what the fells are like, this winter" when secondDay() or thirdDay() once {
+    Says "'White.' He turns his hat. 'White to the tops, and the becks froze, and the snow over the walls so you walk on them and don't know.' His bitch presses against his leg. 'And the wolves down. Three of ours out of the fold the week I came away, my sister's lad says, and the hurdles never touched; they came over the snow on the roof of the shed. The watermen say they've followed the river down to the downs.' He puts his hat on. 'They don't come in among folk. Not unless folk go out among them.'".
+    On discuss { Assert knows(actor, wolves_down). }
+  }
+  Topic nab_wolves with nab "Ask Nab Pollard what the watermen saw on the Reach" when secondDay() or thirdDay() once {
+    Says "'Wolves.' He says it the way he says the price of beer. 'Four of them, at first light, sat in a row on the sledge road where it comes off the Reach, like magistrates. Old Fowke saw them too, he says, but Fowke sees all sorts.' He wipes a cup. 'They come in a great frost, after the river. Fire keeps them off. So does meat, if you've some to spare, and a good loud voice, if you've the stomach. Or a sledge. Nothing on four legs keeps up with a sledge.'".
+    On discuss { Assert knows(actor, wolves_down). }
+  }
+  Observe wolf_tracks at reach_head when secondDay() and not dark() and capable(party, woodcraft) and not knows(party, wolves_down) "In the snow on the ice at the edge of the Reach, tracks: four sets, big, splayed, in a line, come up from the south on the sledge road in the night and gone back. Not dogs. Dogs wander. These went where they meant to go." teaches wolves_down.
+}

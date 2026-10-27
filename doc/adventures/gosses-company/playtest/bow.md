@@ -563,7 +563,7 @@ title-page. Halfway down hangs a painted owl, and under it a door from which com
 of people disagreeing.
 [Into the Owl] The Owl is one long room full of coffee-smoke, newsprint and opinions. Men and a few women sit at long 
 tables with papers, and at the end table, under a window, sit two men who are plainly critics, because nobody sits 
-near them. Here are Ormsby Clay, the Guildhall’s critic; and Nym Callow, the Owl’s critic.
+near them. Here are Ormsby Clay, the Guildhall’s critic; and Nym Carrow, the Owl’s critic.
 [Ask Ormsby Clay what a play is for] ‘For order,’ says Clay. ‘A play is a small world made right: every person 
 in it given their proper end, every line its proper measure. A tragedy shows us the fall of what was high, a comedy 
 the righting of what was crooked, and both in verse, if they are worth anything.’ He turns a page. ‘I do not 
@@ -580,23 +580,23 @@ CUT NOTHING. A.G. ‘He wrote this,’ he says, ‘the night they burlesqued it.
 in the wings and laughed, and then he went home and wrote this.’ He ties the ribbon again, carefully, and puts the 
 manuscript inside his coat. ‘Thank you,’ he says, to the table. Wren gains 150 experience: gave Ormsby Clay back 
 his Dido.
-[Ask Nym Callow what a play is for] ‘To tell the truth to the people who pay to be lied to,’ says Callow. ‘The 
+[Ask Nym Carrow what a play is for] ‘To tell the truth to the people who pay to be lied to,’ says Carrow. ‘The 
 Siege of Arle has been played every Trial for eleven years, and in all that time nobody has said on that stage that 
 the Fountain is dry, that the Book of Precedence is four hundred pages of who may kick whom, or that the Office of 
 Plain Speech is a muzzle with a motto.’ He drinks his cold coffee. ‘Anything the Office licenses is a lie by 
 definition. I give it nothing.’
-[Ask Nym Callow whether he has heard of Gosse's new play] Callow puts down his cup. ‘Heard of it?’ he says. ‘I 
+[Ask Nym Carrow whether he has heard of Gosse's new play] Carrow puts down his cup. ‘Heard of it?’ he says. ‘I 
 wrote it.’ He leans back. ‘Anonymously, naturally. A satire on the late Lord Mayor and his Office, sent to the 
 one company in Imbar with nothing to lose. Who else in this city could have written it?’ He looks round the long 
 room to see who is listening, and three people are. ‘You may tell Gosse,’ he says, ‘that the author expects his 
 share of the house.’
-[Ask Callow, as its author, what the bear does in the third act · likely] ‘The bear,’ says Callow, without a 
+[Ask Carrow, as its author, what the bear does in the third act · likely] ‘The bear,’ says Carrow, without a 
 pause, ‘is an allegory.’ He drinks his coffee. ‘Of the City.’ You wait. He looks at you over the cup, and 
 something goes out of him. ‘There is a bear,’ he says. ‘Isn’t there. There’s always a bear, with Gosse.’ 
 A long pause. ‘I heard of it in the Chepe. I have nine crowns of debt and no name, and a satire on the Office is a 
 name.’ He puts the cup down. ‘Who did write it?’ Wren makes the insight check (d20 16 + wisdom 2 = 18 against 
-10). Wren gains 100 experience: caught Nym Callow out.
-[Tell Callow, quietly, that you know, and that you will not tell] Callow looks at you for a long moment. ‘You might 
+10). Wren gains 100 experience: caught Nym Carrow out.
+[Tell Carrow, quietly, that you know, and that you will not tell] Carrow looks at you for a long moment. ‘You might 
 have done me in front of the whole Owl,’ he says. ‘Everyone else would.’ He turns his cup round in its saucer. 
 ‘I’ll stop saying it. And on Gosse’s night,’ he says, ‘I’ll watch it as if I’d never heard of it, which 
 God knows is true.’
@@ -760,7 +760,7 @@ very much. I shall try to deserve it.’ Wren makes the mending check (d20 19 + 
 she turns a page it is the hand of someone who has written every day of her life, and not only licences. Here are 
 Abel Tunstall, the chief clerk of the Office of Plain Speech; Ormsby Clay, the Guildhall’s critic; Dame Thalia 
 Gammage, the Gullet’s critic, who keeps the ballad stall; Canon Mallory, the minster’s precentor, and the 
-Close’s critic; and Nym Callow, the Owl’s critic. Over the stage, in the lords’ room, the Bench sits in a row 
+Close’s critic; and Nym Carrow, the Owl’s critic. Over the stage, in the lords’ room, the Bench sits in a row 
 like a jury: a thin man in black with a book open on his knee, a big woman in a bonnet with a bag of nuts, a plump 
 clergyman, and a young man in a coat too good for him, already yawning. On the Wheel’s stage the Lord Mayor’s 
 Servants are playing The Siege of Arle, as they have every Trial for eleven years: a painted city wall, a siege-tower 
@@ -769,7 +769,7 @@ of it, every syllable as licensed. The yard is full and patient. The grey bench 
 still: nobody in the Servants has said an unlicensed word since the Siege was new.
 [Wait › An hour] In the lords’ room over the stage, Ormsby Clay is following the Siege in a printed copy with his 
 finger, nodding at each line ending as at an old friend. Dame Gammage has fallen asleep with her mouth open. Canon 
-Mallory is moved, quietly, by the weeping daughters. Nym Callow is drawing a gallows in the margin of his programme. 
+Mallory is moved, quietly, by the weeping daughters. Nym Carrow is drawing a gallows in the margin of his programme. 
 An hour passes.
 [Wait › An hour] An hour passes.
 [Out to Soke Lane] Soke Lane runs along the bank between taverns, cookshops and a building with a red lamp. At its 
@@ -1059,7 +1059,7 @@ which a girl of twelve bears everything and is taken up to Heaven by angels on a
 surplices with cardboard wings, and they are very good, and very slow. The yard is affectionate and restless. Canon 
 Mallory, in the lords’ room, is mouthing every line with them. An hour passes.
 [Wait › An hour] In the lords’ room Canon Mallory is weeping freely at the ascension. Ormsby Clay is looking at 
-his watch. Dame Gammage is eating nuts very loudly. Nym Callow has gone out. The Fourth Angel, Ned Cherry, comes to 
+his watch. Dame Gammage is eating nuts very loudly. Nym Carrow has gone out. The Fourth Angel, Ned Cherry, comes to 
 the edge of the stage, and lifts his face, and sings his one word, Behold, so that the whole Wheel goes quiet to the 
 top gallery. An hour passes.
 [Out to Soke Lane] Soke Lane runs along the bank between taverns, cookshops and a building with a red lamp. At its 
@@ -1306,7 +1306,7 @@ will support me? No one? Then I shall / support myself, as I have always done.�
 meant to be. Time passes.
 [Wait › A while] Time passes. The Ghost rises and speaks against the sale of his statue in verse with every double 
 meaning taken out of it, clean as a scrubbed table, and the Council scene is handsome and proud and moving, and 
-nobody laughs much. In the lords’ room the Canon nods; Ormsby Clay approves; Nym Callow writes CUT in capitals. The 
+nobody laughs much. In the lords’ room the Canon nods; Ormsby Clay approves; Nym Carrow writes CUT in capitals. The 
 Widow’s garden by moonlight: a painted moon on a pole, held out over the stage from the balcony by an arm in a 
 sleeve. Bell Gudgeon and Master Tapwell, the Fountain-builder’s apprentice, on a bench. The hedge on wheels has 
 nobody behind it: the Office has struck the Tallyman out of the play entire, and the company’s Tallyman stands in 
@@ -1394,7 +1394,7 @@ the end of it, last, in her grey, with ink on her finger. Wren gains 600 experie
 [Wait › A while] In the lords’ room Ormsby Clay closes his book on his finger and sits on a moment longer than he 
 needs to, looking at the empty stage. Dame Gammage is still on her feet in the lords’ room with her bonnet in her 
 hand, shouting something at the stage that nobody can hear. Canon Mallory is mouthing the moral to himself, very 
-happily, and blowing his nose. Nym Callow is writing so fast that he has torn through his programme into the next 
+happily, and blowing his nose. Nym Carrow is writing so fast that he has torn through his programme into the next 
 one. The procession goes round the stage of the Wheel to a slow drum, every one of them in their place, the Ghost at 
 the head of it and Lob at his heel, and it is ridiculous, and it is beautiful, and the Canon in the lords’ room is 
 mouthing the moral. At the end of it, when the Ghost has gone down into his grave on the trap and the procession has 

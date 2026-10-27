@@ -1,0 +1,230 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The wedding at the Ice Chapel ─────────────────────────────────────────────────────────────────────────────────
+  // At noon on the last day Thessaly Harker is to marry Alderman Hamnet Gosling at the Ice Chapel, on the ice, without
+  // banns, because her father wants an alderman on the bench beside the Reeve at the Landing. Gosling, a widower and a
+  // bad poet, has loved Bel Ashby since the last ice, when he married her on it, the night it went out. Thessaly writes
+  // the Frost Gazette as Mr. Icicle, at Noll Brisket's press, at night; Noll would set the Bible backwards for her.
+  Query weddingOn() means thirdDay() and hour(clock) >= 12 and hour(clock) < 13.
+  Relation weddingDone(place). Relation goslingHarker(group). Relation goslingWedsBel(group). Relation thessalyWedsNoll(group).
+  Relation weddingBroken(place). Relation witnessFree(group).
+
+  // ── Alderman Hamnet Gosling ───────────────────────────────────────────────────────────────────────────────────────
+  Person gosling "Alderman Hamnet Gosling" at gosling_study {
+    Role "an alderman of Pellam, stout and anxious, with ink on his cuffs" when not goslingWedsBel(gosling).
+    Role "an alderman, married, astonished" when goslingWedsBel(gosling).
+    Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "Alderman Gosling looks up from a sheet of paper covered in crossings-out with the face of a man rescued from drowning. 'Company! Thank God. Sit down. Do you know anything that rhymes with Thessaly?'".
+    Greets again "'Ah,' says Alderman Gosling. 'Anything yet? With Thessaly?'".
+  }
+  Rule gosling_study_day when hour(clock) >= 8 and hour(clock) < 14 and not weddingOn() and not at(gosling, gosling_study) { Assert at(gosling, gosling_study). }
+  Rule gosling_court when hour(clock) >= 14 and hour(clock) < 18 and not iceGone() and not landingAt(lisk) and not at(gosling, court) { Assert at(gosling, court). }
+  Rule gosling_lamb when hour(clock) >= 19 and hour(clock) < 23 and not iceGone() and not at(gosling, lamb) { Assert at(gosling, lamb). }
+  Rule gosling_home when (hour(clock) >= 23 or hour(clock) < 8) and not at(gosling, limbo) { Assert at(gosling, limbo). }
+  Observe gosling_study_scene at gosling_study when true "Alderman Gosling's study: a fire, a great many books of verse, a portrait of the late Mrs. Gosling looking patient, and a desk buried in sheets of paper, all of them beginning 'O Thessaly'.".
+  Observe gosling_at_lamb at lamb when at(gosling, lamb) and at(bel, lamb) and not goslingWedsBel(gosling) "Alderman Gosling sits at the end of the Frozen Lamb's bar over a hot gin he does not drink, and does not look at Bel Ashby, so carefully that everyone else in the tent does.".
+  Topic gosling_poem with gosling "Ask the alderman what he is writing" when true once {
+    Says "'An epithalamium. A wedding-song. For my own wedding, on the last day of the ice.' He shows you the sheet. 'Josias Harker's daughter. A very clever young woman, much too clever for me, she will tell you so. Her father's idea.' He crosses something out. 'The trouble is, nothing rhymes with Thessaly. I have been at it nine days. Every time I get going it turns into a poem about skating.' He looks at the window. 'I used to skate.'".
+    On discuss { Assert knows(actor, gosling_poem). }
+  }
+  Discovery gosling_poem "Alderman Gosling is writing a wedding-song for his own wedding to Thessaly Harker, a match her father made; nothing rhymes with Thessaly, and every time he gets going it turns into a poem about skating.".
+  Relation poemHelped(group). Relation goslingStirred(group). Relation goslingKnows(group). Relation belTold(group).
+  Action rhyme_gosling(actor: group, site: place) "Find the alderman a rhyme for Thessaly, and make him read the poem through" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(gosling, site) and knows(actor, gosling_poem) and not poemHelped(actor) and not rhymeTried(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_easy).
+    On success { Assert poemHelped(actor). Assert goslingStirred(gosling). Assert rhymeTried(actor). }
+    On failure { Assert rhymeTried(actor). }
+    Result "You give him 'necessary', which is shameless, and he seizes it, and reads you the whole poem through to see if it fits. It is quite bad, and then for twelve lines, near the end, it is not bad at all: a girl at the last Frost Fair skating backwards on the Flashes in a red shawl, laughing, thirty-one winters ago. He stops reading. 'That's not Thessaly,' he says, quietly. 'Is it.' He holds the sheet at arm's length, the way a man holds a letter from his bank. 'That was never Thessaly.'".
+    Otherwise "You try, and he tries, and nothing rhymes with Thessaly, and you both give up and he gives you a glass of something.".
+  }
+  Relation rhymeTried(group).
+  // A word for the Squire, from a man Harker trusts about everything but poetry.
+  Kind gosling_letter_kind "a letter from Alderman Gosling" is gear worth 0 weighing 0 described "A letter in Alderman Gosling's round hand to Master Josias Harker, commending the bearer as a person of the greatest good sense in poetry and in all things, and asking him to show them every civility.".
+  Item gosling_letter "Alderman Gosling's letter to Harker" is gosling_letter_kind at limbo.
+  Relation letterGiven(group).
+  Topic gosling_word with gosling "Ask the alderman for a word to Master Harker on your behalf" when poemHelped(actor) and posedSquire(actor) and not letterGiven(gosling) once {
+    Says "'To Josias? With pleasure.' He writes it on the back of a crossed-out stanza and seals it with his thumb. 'A person who can find a rhyme for Thessaly can be trusted with anything. I've said so.'".
+    On discuss { Assert letterGiven(gosling). }
+  }
+  Rule letter_comes when letterGiven(gosling) and at(gosling_letter, limbo) and at(party, ?p) { Retract at(gosling_letter, limbo). Assert at(gosling_letter, ?p). }
+
+  // ── Parson Doody and the Ice Chapel ───────────────────────────────────────────────────────────────────────────────
+  Observe chapel_scene at chapel when not visitedBefore(chapel) "The Ice Chapel: a booth hung with ribbons and paper roses gone stiff with frost, a trestle with a cloth on it for an altar, two candles, a brass bowl for the fee, and a board: MARRIAGES PERFORMED. NO BANNS. NO QUESTIONS. ONE SHILLING. The parson is a little red man in a cassock with a scarf over it, who smells of gin and has a cold.".
+  Observe chapel_again at chapel when visitedBefore(chapel) "The Ice Chapel: ribbons, paper roses, the brass bowl for the shilling.".
+  Person doody "Parson Doody" at chapel {
+    Role "an unbeneficed parson who marries anyone for a shilling". Ancestry human. Calling cleric. Level 1. Peaceable. Pronouns he. Manner jovial.
+    Greets "'Marrying?' says Parson Doody, and sneezes. 'A shilling. No banns, no questions, no waiting, and landed at the Landing like any honest bargain.' He wipes his nose. 'Or unlanded, if you'd rather. Very popular, unlanded.'".
+    Greets again "Parson Doody sneezes at you, cheerfully.".
+  }
+  Kind grigg_register_kind "the register of the last Frost Fair" is gear worth 0 weighing 1 described "A little fat book, water-stained, the register of the Ice Chapel of the last Frost Fair, thirty-one winters ago, kept by Parson Doody's predecessor, Parson Grigg: a hundred and forty marriages in eleven days, many of them on the last night.".
+  Item old_register "the register of the last Frost Fair" is grigg_register_kind at chapel owned by doody.
+  Relation registerLent(group).
+  Topic doody_register with doody "Ask Parson Doody whether anyone kept a register at the last Frost Fair" when true once {
+    Says "'Old Grigg did.' He sneezes. 'I've his book. Bought it off his widow for the look of the thing.' He fishes it out from under the altar-cloth. 'A hundred and forty in eleven days, and fifty on the last night, when everyone knew the ice was going. None of 'em landed. The ice went out at midnight and took the Court's tent with it.' He chuckles. 'Half the respectable marriages in Pellam would be bigamy if any of the last night had been landed. You can look at it for a shilling. Or for nothing, if you're of the cloth.'".
+    On discuss { Assert knows(actor, register_known). }
+  }
+  Discovery register_known "Parson Doody keeps the register of the Ice Chapel of the last Frost Fair, thirty-one winters ago: fifty marriages on its last night, none of them landed, because the ice went out at midnight.".
+  Action borrow_register(actor: group, site: place) "Pay Parson Doody a shilling to borrow the old register" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(doody, site) and knows(actor, register_known) and quantity(actor, gold) >= 1 and not registerLent(actor).
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(doody, gold) by 1. Assert registerLent(actor). Assert lends(doody, old_register, actor). }
+    Result "A shilling in the brass bowl. 'Bring it back,' says Doody, sneezing. 'It's a historical document.'".
+  }
+  Action cloth_register(actor: group, site: place) "Ask Parson Doody, as one of the cloth, to lend you the old register" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(doody, site) and knows(actor, register_known) and craft(actor, craft_faith) and not registerLent(actor).
+    Time 1 minute.
+    On success { Assert registerLent(actor). Assert lends(doody, old_register, actor). }
+    Result "'Brother,' says Doody, or 'Sister,' and wipes his nose, and gives it you. 'The cloth must stick together. Nobody else will.'".
+  }
+  Action read_register(actor: group, reader: member, site: place) "Read the register of the last Frost Fair" {
+    Requires able(actor) and memberOf(reader, actor) and ownedItem(old_register, reader) and not benighted(actor) and not knows(actor, gosling_wed).
+    Time 1.
+    On success { Assert knows(actor, gosling_wed). }
+    Result "Old Grigg's hand gets worse as the Fair goes on, and on the last night it is very bad indeed. Fifty marriages between dusk and midnight. The forty-first: Hamnet Gosling, nineteen, apprentice to the Wool Exchange, and Isabel Ashby, nineteen, of the Frozen Lamb. Both have signed. He has drawn a little skate beside his name. Under the last entry Grigg has written, very large: ICE GOING. GOD SAVE US. NOT LANDED.".
+  }
+  Discovery gosling_wed "In the register of the last Frost Fair: Hamnet Gosling and Isabel Ashby of the Frozen Lamb were married at the Ice Chapel on its last night, thirty-one winters ago; the ice went out at midnight, and it was never landed.".
+  Topic gosling_shown with gosling "Show the alderman his name in the register of the last Frost Fair" when knows(actor, gosling_wed) and not goslingKnows(gosling) once {
+    Says "He looks at the page for a long time, at the little skate. 'She drew that,' he says. 'Bel. I couldn't draw.' He shuts the book. 'Not landed,' he says. 'Not anything. A boy and a girl on the ice for one night, and then the river.' He looks up at you, and he looks nineteen and fifty at once. 'I let it go out with the river. I let her think I'd let it go. And I went home and was respectable for thirty-one years.' He stands up. 'Does she know you've seen this?'".
+    On discuss { Assert goslingKnows(gosling). Assert goslingStirred(gosling). }
+  }
+  Topic bel_told with bel "Tell Bel Ashby that Hamnet Gosling has read the register of the last Frost Fair, and his name in it" when knows(actor, gosling_wed) and goslingKnows(gosling) and not belTold(bel) once {
+    Says "Bel puts down the jug she was holding. She does not say anything for a long time. Then: 'And what did he say?' You tell her. She laughs, once, without any breath in it. 'Thirty-one years,' she says, 'and he's marrying Harker's girl on Saturday on my ice.' She wipes her hands on her apron, slowly, finger by finger. 'If he wants to say something to me,' says Bel Ashby, 'he knows where the Lamb is. He's sat at the end of my bar every night of this ice not saying it.'".
+    On discuss { Assert belTold(bel). }
+  }
+  // They say it, at the Lamb, that night: the alderman will marry Bel at noon instead.
+  Rule gosling_speaks at lamb when belTold(bel) and goslingKnows(gosling) and at(gosling, lamb) and at(bel, lamb) and not goslingWedsBel(gosling) and not weddingDone(lisk)
+    says "At the end of the Frozen Lamb's bar Alderman Gosling stands up, and knocks his hot gin over, and says in a loud voice that shakes, to Bel Ashby and the whole tent: 'Isabel. I was married to you once for four hours on this river, and I have been sorry every day since that I let it go out. I will not be married to anybody else on it.' Nobody in the Lamb breathes. Bel looks at him across the bar, and says, 'Noon, then, Hamnet. Doody's. And mind you're sober.' The Lamb goes up like a bonfire." {
+    Assert goslingWedsBel(gosling). Assert witnessFree(gosling). }
+
+  // ── Thessaly Harker, who is Mr. Icicle ────────────────────────────────────────────────────────────────────────────
+  Person thessaly "Thessaly Harker" at harker_parlour {
+    Role "the factor's daughter, pale and sharp, in grey silk" when not thessalyWedsNoll(thessaly).
+    Role "a printer's wife, with ink on her fingers" when thessalyWedsNoll(thessaly).
+    Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "Thessaly Harker looks at you as if she were going to write you down later. 'You're new,' she says. 'Everybody new in Pellam comes to see my father. Do sit down. I'll watch.'".
+    Greets again "Thessaly Harker nods to you, and watches.".
+  }
+  Rule thessaly_home when hour(clock) >= 8 and hour(clock) < 16 and not weddingOn() and not thessalyWedsNoll(thessaly) and not thessalyLocked(thessaly) and not at(thessaly, harker_parlour) { Assert at(thessaly, harker_parlour). }
+  Rule thessaly_skates when dusk() and not thessalyLocked(thessaly) and not thessalyWedsNoll(thessaly) and not iceGone() and not at(thessaly, flashes) { Assert at(thessaly, flashes). }
+  Rule thessaly_supper when hour(clock) >= 18 and hour(clock) < 22 and not thessalyWedsNoll(thessaly) and not at(thessaly, harker_parlour) { Assert at(thessaly, harker_parlour). }
+  Rule thessaly_press when hour(clock) >= 22 and not thessalyLocked(thessaly) and not iceGone() and not at(thessaly, printing) { Assert at(thessaly, printing). }
+  Rule thessaly_bed when hour(clock) < 8 and not thessalyWedsNoll(thessaly) and not at(thessaly, limbo) { Assert at(thessaly, limbo). }
+  Rule thessaly_locked_in when thessalyLocked(thessaly) and not weddingOn() and not at(thessaly, harker_parlour) { Assert at(thessaly, harker_parlour). }
+  Rule thessaly_with_noll when thessalyWedsNoll(thessaly) and not at(thessaly, printing) and not landingAt(lisk) { Assert at(thessaly, printing). }
+  Relation thessalyLocked(group). Relation thessalyBetrayed(group). Relation thessalyAlly(group). Relation thessalyKnowsNoll(group).
+  Observe icicle_seen at printing when at(thessaly, printing) and hour(clock) >= 22 and not knows(party, thessaly_icicle) "The booth flap moves, and a woman in a hooded cloak comes in out of the dark without a word, and slides a folded paper under the ink-slab where it is warm, and a shilling on top of it. Noll does not look round from the press. He goes red to the ears. The hood comes back for a moment as she turns to go, and it is Thessaly Harker." teaches thessaly_icicle.
+  Discovery thessaly_icicle "Mr. Icicle, who writes the Frost Gazette and asks whether a hat is the same thing as a head, is Thessaly Harker, Master Harker's daughter.".
+  Observe inky_fingers at harker_parlour when at(thessaly, harker_parlour) and capable(party, insight) and not knows(party, thessaly_icicle) and not knows(party, thessaly_inky) "Thessaly Harker has ink on the side of her second finger, printer's ink, black, that has not quite come off with scrubbing; and on the table by her chair, folded small, this morning's Frost Gazette." teaches thessaly_inky.
+  Discovery thessaly_inky "Thessaly Harker has printer's ink on her fingers, and this morning's Frost Gazette by her chair.".
+  Topic thessaly_wedding with thessaly "Ask Thessaly about her wedding" when true once {
+    Says "'My father's selling me to the bench.' She says it pleasantly. 'Not the worst bargain he's made. Hamnet is kind and writes bad verse and will never notice anything I do.' She turns her cup. 'He needs an alderman beside the Reeve at the Landing, to say the city witnesses it. A son-in-law is so much more reliable than a friend.' She looks at you. 'You're thinking I should mind. I'm thinking whether there's anything I'd like better. There isn't, yet.'".
+    On discuss { Assert knows(actor, wedding_bargain). }
+  }
+  Discovery wedding_bargain "Harker is marrying his daughter to Alderman Gosling so that the city's witness at the Landing, beside the Reeve, will be his son-in-law.".
+  // At supper, watching the Squire over her glass the whole meal, she has seen what her father has not.
+  Relation thessalySees(group).
+  Topic thessaly_squire with thessaly "Ask Thessaly Harker, after supper, what she was watching" when supped(actor) and posedSquire(actor) and not thessalySees(thessaly) and not thessalyBetrayed(thessaly) once {
+    Says "'You.' She says it pleasantly, low, while her father is at the sideboard. 'You're no more a squire of anywhere than I'm a bishop. You held your fork like a carter and you looked at the silver like a pawnbroker.' She sips. 'I don't care. Rob him if you can; he'll survive it.' She looks at her father's back. 'But if you get into his books, I want to know what's in them. I've wanted to know for nine years.'".
+    On discuss { Assert thessalySees(thessaly). }
+  }
+  Topic thessaly_bargain with thessaly "Tell Thessaly that if you get into her father's books, she'll know what is in them" when thessalySees(thessaly) and not thessalyAlly(thessaly) and not thessalyBetrayed(thessaly) once {
+    Says "'On the ice that's only words.' She takes a small brass key off a ribbon at her throat and puts it beside your plate, under the edge of your napkin. 'His desk, in the counting-house. He gave it me when I was twelve to keep his sermons in. He's forgotten.' She smiles at her father as he turns round. 'More goose, Father? The Squire is famished.'".
+    On discuss { Assert thessalyAlly(thessaly). }
+  }
+  Topic thessaly_accused with thessaly "Ask Thessaly Harker whether she is Mr. Icicle" when (knows(actor, thessaly_icicle) or knows(actor, thessaly_inky)) and not thessalyAlly(thessaly) and not thessalyBetrayed(thessaly) once {
+    Says "She does not pretend. She looks at the door, to see if it is shut. 'Yes.' Quite calm. 'Since the first week of the ice. Somebody in this city ought to say something, and nobody can say anything that is true, on the ice or off it, without it costing them, except a person who does not exist.' She looks at you steadily. 'If my father knew, I would be locked in until the wedding and married with a hand on my collar. So now you have something to sell him. Most people in Pellam would.'".
+    On discuss { Assert knows(actor, thessaly_icicle). Assert icicleAsked(thessaly). }
+  }
+  Relation icicleAsked(group).
+  Topic thessaly_kept with thessaly "Tell Thessaly you'll not sell her" when icicleAsked(thessaly) and not thessalyAlly(thessaly) and not thessalyBetrayed(thessaly) once {
+    Says "'On the ice, that's only words.' She smiles, very slightly. 'But I'll believe it till you prove otherwise, which is more than I do for most.' She takes something off a ribbon round her neck: a small brass key. 'My father's desk, in the counting-house. He gave it me when I was twelve to keep his sermons in. He's forgotten.' She puts it in your hand. 'Whatever you are, you're not a squire. Find out what I can't.'".
+    On discuss { Assert thessalyAlly(thessaly). }
+  }
+  Rule key_comes when thessalyAlly(thessaly) and at(desk_key, limbo) and at(party, ?p) { Retract at(desk_key, limbo). Assert at(desk_key, ?p). }
+  Topic sell_thessaly with harker "Tell Master Harker who writes the Frost Gazette" when knows(actor, thessaly_icicle) and not thessalyBetrayed(thessaly) and not thessalyAlly(thessaly) once {
+    Says "Harker is quiet while the clock on the stair strikes. 'My daughter,' he says. He does not ask how you know. He gets up and goes to the door and speaks to someone outside, and comes back, and sits down. 'Thank you,' he says. 'A father should know these things.' Somewhere in the house a door is locked. He inclines his head to you a full inch, the most you have seen. 'I shall not forget it.'".
+    On discuss { Assert thessalyBetrayed(thessaly). Assert thessalyLocked(thessaly). Increase conviction(harker, squire_claim) by 1. }
+  }
+  Topic thessaly_noll with thessaly "Tell Thessaly that the printer on the ice knows who Mr. Icicle is, and sets every word for her sake" when knows(actor, noll_loves) and thessalyAlly(thessaly) and not thessalyKnowsNoll(thessaly) once {
+    Says "She goes very still. 'Noll,' she says. 'Noll Brisket.' She says it again as if she were trying the weight of it. 'He goes red when I come in. I thought it was the brazier.' She looks at her inky finger. 'He has never once in eleven nights asked me who I am.' She is quiet. 'Nobody,' says Thessaly Harker, 'has ever been so tactful with me in my life.'".
+    On discuss { Assert thessalyKnowsNoll(thessaly). }
+  }
+  // What she can do that nobody else can: put the truth on the ice by noon, in a voice that does not exist.
+  Relation gazetteGiven(place).
+  Action give_gazette(actor: group, site: place) "Give Thessaly her father's book, to print in tomorrow's Frost Gazette" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(thessaly, site) and thessalyAlly(thessaly) and (carries(actor, ledger) or carries(actor, bondbook))
+      and not gazetteGiven(lisk) and not iceGone().
+    Time 2.
+    On success { Assert gazetteGiven(lisk). Assert harkerWary(harker). }
+    Result "She reads it standing up, by the brazier, to the end, without a word; then she sits down at Noll's slab and writes for an hour without stopping, and gives you the book back. 'Mr. Icicle,' she says, 'has a column tomorrow.' She looks at the copy. 'My father will know whose hand it is the moment he reads it. Nobody else in Pellam writes a Q like that.' She folds it under the ink-slab. 'Let him.'".
+  }
+  Rule gazette_out when gazetteGiven(lisk) and hour(clock) == 12 and not gazettePrinted(lisk) { Assert gazettePrinted(lisk). Assert happened(ev_gazette). }
+  Entity ev_gazette: fact "the Gazette's column".
+  Rule gazette_heard when happened(ev_gazette) and inPellam() and not heardNews(ev_gazette) says "By noon the Frost Gazette is on every booth on the ice, and there is only one column in it anybody reads: MR. ICICLE ASKS WHERE THE FARM IN THE HILLS IS. Under it, set very plain, nine years of Pellam hirings by name, with what was paid for them at Gallowmoor, and which of them died there. The watermen read it aloud in the Hall. Somebody has cut the Hiring Ring's rope through at every stake." { Assert heardNews(ev_gazette). }
+  Observe gazette_column at printing when gazettePrinted(lisk) and not iceGone() "Pinned by the press, the Frost Gazette with Mr. Icicle's column: WHERE IS THE FARM IN THE HILLS?".
+  // At the press that night she asks him; on the last morning, before her father's wedding, they are married at the
+  // Ice Chapel for a shilling, by Doody, with no banns, which is what the Ice Chapel is for.
+  Rule thessaly_asks at printing when thessalyKnowsNoll(thessaly) and at(thessaly, printing) and at(noll, printing) and not thessalyAsked(thessaly)
+    says "At the press, near midnight, Thessaly Harker puts back her hood in front of Noll Brisket for the first time, and says, 'You know who I am.' Noll stops the press. 'Yes,' he says. 'I'm marrying Hamnet Gosling on Saturday,' says Thessaly. 'Unless I'm married already.' Noll does not say anything at all. Then he wipes his hands on his apron, which makes them worse, and holds one out." {
+    Assert thessalyAsked(thessaly). }
+  Relation thessalyAsked(group).
+  Rule thessaly_marries when thessalyAsked(thessaly) and thirdDay() and hour(clock) >= 11 and not thessalyWedsNoll(thessaly) and not weddingDone(lisk)
+    {
+    Assert thessalyWedsNoll(thessaly). Assert witnessFree(gosling). Assert weddingBroken(lisk). Assert happened(ev_thessaly_marries). }
+  Entity ev_thessaly_marries: fact "thessaly marries".
+  Rule thessaly_marries_heard when happened(ev_thessaly_marries) and inPellam() and not heardNews(ev_thessaly_marries) says "At eleven on the last morning word goes up Freezeland Street like a shout: Thessaly Harker has been married at the Ice Chapel, for a shilling, by Parson Doody, without banns, to Noll Brisket the printer, with ink on both of them, and two watermen for witnesses; and Master Harker has heard." { Assert heardNews(ev_thessaly_marries). }
+
+  // ── Noon on the last day ──────────────────────────────────────────────────────────────────────────────────────────
+  Rule wedding_gathers when weddingOn() and not weddingDone(lisk) and not at(gosling, chapel) { Assert at(gosling, chapel). Assert at(harker, chapel). }
+  Rule wedding_thessaly_comes when weddingOn() and not weddingDone(lisk) and not thessalyWedsNoll(thessaly) and not at(thessaly, chapel) { Assert at(thessaly, chapel). }
+  Observe wedding_scene at chapel when weddingOn() and not weddingDone(lisk) "The Ice Chapel is packed to the ribbons, and half the Fair is outside the flap. Master Harker in a new black coat; the alderman in a blue one, very red; the bride in grey silk with snowdrops; Parson Doody, sober, which nobody has seen before, sneezing.".
+  Rule wedding_bel when weddingOn() and goslingWedsBel(gosling) and not weddingDone(lisk)
+    {
+    Assert weddingDone(lisk). Assert witnessFree(gosling). Assert weddingBroken(lisk). Assert happened(ev_wedding_bel). }
+  Entity ev_wedding_bel: fact "wedding bel".
+  Rule wedding_bel_heard when happened(ev_wedding_bel) and inPellam() and not heardNews(ev_wedding_bel) says "At noon, at the Ice Chapel, Alderman Hamnet Gosling marries Isabel Ashby of the Frozen Lamb, for the second time, for a shilling, in front of half the Fair and Master Harker, who leaves before the end with a face like a shut door. Thessaly Harker, in grey silk, is the first to kiss the bride. Afterwards there is hot gin for anyone in Pellam who wants it, which is everyone." { Assert heardNews(ev_wedding_bel). }
+  Rule wedding_noll when weddingOn() and thessalyWedsNoll(thessaly) and not goslingWedsBel(gosling) and not weddingDone(lisk)
+    {
+    Assert weddingDone(lisk). Assert witnessFree(gosling). Assert happened(ev_wedding_noll). }
+  Entity ev_wedding_noll: fact "wedding noll".
+  Rule wedding_noll_heard when happened(ev_wedding_noll) and inPellam() and not heardNews(ev_wedding_noll) says "At noon there is no wedding at the Ice Chapel, because the bride is married already, since eleven, to a printer. Alderman Gosling stands in the doorway of the Ice Chapel in his blue coat looking, everyone agrees afterwards, as if a great weight had been lifted off him and he did not know where to put his hands." { Assert heardNews(ev_wedding_noll). }
+  Rule wedding_bear when weddingOn() and bearAtWedding(absolute) and not goslingWedsBel(gosling) and not thessalyWedsNoll(thessaly) and not weddingDone(lisk)
+    {
+    Assert weddingDone(lisk). Assert witnessFree(gosling). Assert weddingBroken(lisk). Assert happened(ev_wedding_bear). }
+  Entity ev_wedding_bear: fact "wedding bear".
+  Rule wedding_bear_heard when happened(ev_wedding_bear) and inPellam() and not heardNews(ev_wedding_bear) says "At noon, as Parson Doody opens his book, Hester Mabb's bear puts his head in through the flap of the Ice Chapel, attracted by the wedding-cake, and the wedding is over in a moment: the alderman under the altar, Master Harker out through the back of the booth with the canvas round his shoulders, Doody up on a bench, and the bride sitting on the cake-table laughing until she cries. It is put off, Harker says afterwards, white, until the spring." { Assert heardNews(ev_wedding_bear). }
+  Rule wedding_plain when weddingOn() and hour(clock) == 12 and not goslingWedsBel(gosling) and not thessalyWedsNoll(thessaly) and not bearAtWedding(absolute) and not weddingDone(lisk)
+    {
+    Assert weddingDone(lisk). Assert goslingHarker(gosling). Assert happened(ev_wedding_plain). }
+  Entity ev_wedding_plain: fact "wedding plain".
+  Rule wedding_plain_heard when happened(ev_wedding_plain) and inPellam() and not heardNews(ev_wedding_plain) says "At noon, at the Ice Chapel, Parson Doody marries Thessaly Harker to Alderman Hamnet Gosling for a shilling, sober, in front of half the Fair. The bride says her part in a clear dry voice as if she were reading a bill. The alderman says his as if someone had died. Master Harker kisses his daughter, and shakes his son-in-law's hand, and smiles all through the wedding-breakfast at the Frozen Lamb, where Bel Ashby serves it herself and does not look at anyone." { Assert heardNews(ev_wedding_plain). }
+  // A squire believed is at the wedding, and is expected to give.
+  Relation presentGiven(group). Relation presentMissed(group).
+  Action give_share_present(actor: group, site: place) "Give the bride, as the Squire of Hawsfold's wedding present, a share in the Perpetual Frost Company" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapel) and weddingOn() and invited(actor) and carries(actor, share) and not presentGiven(actor) and not frostCrashed(lisk).
+    Time 1 minute.
+    On success { Assert presentGiven(actor). Increase conviction(harker, squire_claim) by 1. }
+    Result "Master Harker sees the engraving, and the smiling sun, and his face does something complicated. 'A share,' he says. 'In Quarle's Company. How very forward-looking.' He has two hundred of them himself. He shakes his head at you as at a fellow investor, almost fondly.".
+  }
+  Action give_cream_present(actor: group, site: place) "Give the wedding Mr. Quarle's frost-cream, as the Squire of Hawsfold's present" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapel) and weddingOn() and invited(actor) and quarleCream(quarle) and not presentGiven(actor).
+    Time 1 minute.
+    On success { Assert presentGiven(actor). Increase conviction(harker, squire_claim) by 1. }
+    Result "Mr. Quarle comes in through the flap with a pewter pot packed in salt and ice, and a basket of spoons, and the whole wedding eats frost-cream on the ice in the middle of the ceremony, and Parson Doody has three spoonfuls and forgets the vows. Everyone talks of the Squire of Hawsfold's present for a week.".
+  }
+  Rule present_missed at chapel when weddingDone(lisk) and invited(party) and at(party, chapel) and not presentGiven(party) and not presentMissed(party) and not squireExposed(party)
+    says "Master Harker looks, once, during the breakfast, at the place where the Squire of Hawsfold's wedding present ought to be, and sees nothing there, and looks at you. A squire, his face says, gives a present." {
+    Assert presentMissed(party). Decrease conviction(harker, squire_claim) by 1. }
+  Rule squire_absent when weddingDone(lisk) and invited(party) and not at(party, chapel) and not squireExposed(party) and not squireMissed(party) {
+    Assert squireMissed(party). Assert happened(ev_squire_missed). }
+  Relation squireMissed(group).
+  Entity ev_squire_missed: fact "the Squire missed the wedding".
+  Rule squire_missed_heard when happened(ev_squire_missed) and inPellam() and not heardNews(ev_squire_missed) says "They are saying on the ice that the Squire of Hawsfold's chair at the Harker wedding stood empty right through it, with a card on it, and that Master Harker kept looking at it." { Assert heardNews(ev_squire_missed). }
+  // Brought to the wedding, the bear comes in.
+  Action bear_to_wedding(actor: group, site: place) "Walk Absolute up Freezeland Street on his chain to the Ice Chapel, with Hester" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bear_stake) and bearCalmed(absolute) and at(hester, bear_stake) and thirdDay() and hour(clock) >= 11 and hour(clock) < 12 and not bearAtWedding(absolute).
+    Time 2.
+    On success { Assert bearAtWedding(absolute). Assert at(absolute, freezeland_low). Assert at(hester, freezeland_low). Assert at(actor, freezeland_low). }
+    Result "Hester says it is the worst idea she has ever heard, and comes. Absolute walks up Freezeland Street between you on his chain, rolling, in his muzzle, sniffing at the gingerbread, while the Fair parts in front of him like water; and outside the Ice Chapel, where the wedding-cake is on a trestle under the ribbons, he stops, and lifts his nose, and stands up.".
+  }
+}

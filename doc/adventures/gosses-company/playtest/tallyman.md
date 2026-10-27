@@ -118,7 +118,7 @@ which a girl of twelve bears everything and is taken up to Heaven by angels on a
 surplices with cardboard wings, and they are very good, and very slow. The yard is affectionate and restless. Canon 
 Mallory, in the lords’ room, is mouthing every line with them. An hour passes.
 [Wait › An hour] In the lords’ room Canon Mallory is weeping freely at the ascension. Ormsby Clay is looking at 
-his watch. Dame Gammage is eating nuts very loudly. Nym Callow has gone out. The Fourth Angel, Ned Cherry, comes to 
+his watch. Dame Gammage is eating nuts very loudly. Nym Carrow has gone out. The Fourth Angel, Ned Cherry, comes to 
 the edge of the stage, and lifts his face, and sings his one word, Behold, so that the whole Wheel goes quiet to the 
 top gallery. On the stage the Fifth Angel, aged about nine, catches his wing on the rope, and says, quite clearly, to 
 the whole Wheel: ‘Bum.’ Beside you on the grey bench Abel Tunstall’s knife is already moving on his stick. He 
@@ -234,7 +234,7 @@ then, very slowly, at the wing. Time passes.
 [Put your stick down on the grey bench, and do not count] You lay your stick and your little knife down on the grey 
 bench beside you, and fold your hands, and watch the play. Along the bench Abel Tunstall sees it, and his own knife 
 stops for a moment. Then he leans across the tallyman between you and takes your stick, quite gently, and puts it in 
-his pocket. Up in the lords’ room Nym Callow has seen it too, and is writing.
+his pocket. Up in the lords’ room Nym Carrow has seen it too, and is writing.
 [Wait › A while] Time passes. Swale stands in the roar not knowing what it is, and nobody tells him, and he 
 decides, you can see him decide it, that they are laughing at him; and he plays the rest of the Council scene to the 
 floor, fast, in a dead voice, and every double meaning goes off in his hands like a squib, and the house laughs, and 
@@ -302,7 +302,7 @@ the Office has its way: Hepzibah Dimmock goes round to the grey bench with the b
 men on either side of her, and sits down on the end of the bench, and the left-hand wing is empty.
 [Wait › An hour] Ormsby Clay is already on his feet in the lords’ room with his book shut, pushing in his chair, 
 neatly. Dame Gammage has finished her nuts, and is looking into the empty bag as if it owed her a better evening. 
-Canon Mallory is studying his hands, pink, like a man to whom something has been said in church. Nym Callow has 
+Canon Mallory is studying his hands, pink, like a man to whom something has been said in church. Nym Carrow has 
 written one word across his programme, and underlined it twice. When the house has gone, Abel Tunstall stands on the 
 grey bench with the tallymen’s sticks in a bundle under his arm, and reads the notches by lantern-light, at a crown 
 a notch: 14 crowns, to be paid at the Office before the Bench sits at ten tomorrow, or Absalom Gosse to answer for it 

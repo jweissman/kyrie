@@ -12,7 +12,7 @@ were acted on; those that were not are listed at the end, with the reason.*
 | Endings need the company to have come to Pentrice before the verdict (`cameForTrial`) | the wander test reached an ending from Wending Cross, and a late arrival had the campaign end at the gate |
 | A critic's displeasure is its own measure (`slight`); the vote is regard outweighing slight | an action that lowered regard below nothing was silently never offered (four of them, and the tallyman's stick) |
 | The tallyman's laid-down stick spares eight notches one at a time as they are cut | the same cause: fines cannot be taken below nothing by an action |
-| The player names the author, to Hepzibah, and may name Callow or Fallow and be told why not | the engine used to announce the answer when two clues were in; the critique's chief complaint about the mystery |
+| The player names the author, to Hepzibah, and may name Carrow or Fallow and be told why not | the engine used to announce the answer when two clues were in; the critique's chief complaint about the mystery |
 | After the play each critic's face in the lords' room shows their vote; the critics stay in the Wheel until eleven | the verdict was an invisible sum; and the critics had been leaving at ten, before Gosse's play ended |
 | Gammage's margin raised from 5 to 7 | she was won by almost any night with the bear in it |
 | *The Company Broken* when the house's temper is below 7 (it was 5), matching the thin applause | no journey could reach it; a neglected week now does |
@@ -58,7 +58,7 @@ were acted on; those that were not are listed at the end, with the reason.*
 - The herald: the reckoning is eight coin and the hat now holds twelve, so Lem's four and the inn's eight add up;
   "bed and board for seven and a bear"; the bear sleeps "on the ground", the whole of `{green}` hears the hat named,
   and nobody is "stuck on a green" in a town without one; its facts name the town.
-- Times: Grimsditch comes "on the second morning", not "tomorrow"; Callow heard of the play "in the Chepe", not
+- Times: Grimsditch comes "on the second morning", not "tomorrow"; Carrow heard of the play "in the Chepe", not
   "yesterday"; Gammage's tryst is "four o'clock", not "tomorrow"; Swale's walk-out is told "within the hour", not "by
   suppertime" at noon; Cundy's master "dines at the Guildhall every day"; the peal begins "at six", not "at dusk".
 

@@ -141,7 +141,7 @@ Module pentrice "Gosse's Company" {
 
   // The Wolf King: the old repertory, a play the Bench has seen and the yard has not asked for.
   Rule galt_played at wheel when galtPlay(pentrice) and watch(clock) >= sceneAt(pentrice) + 1 and not playEnded(pentrice)
-    says "With no book, Gosse's Company plays The Wolf King, which it has played four hundred times on greens and in barns: Gosse as the old king, Pudding as his gravedigger, and whoever is left of the company as everyone else, doubling furiously. It is very well done. The yard is polite. In the lords' room Ormsby Clay nods at the verse; Dame Gammage eats nuts; the Canon is satisfied; Nym Callow writes nothing at all. When it is over the house claps as a house claps for a thing it has seen before, and goes home over the river talking of something else." {
+    says "With no book, Gosse's Company plays The Wolf King, which it has played four hundred times on greens and in barns: Gosse as the old king, Pudding as his gravedigger, and whoever is left of the company as everyone else, doubling furiously. It is very well done. The yard is polite. In the lords' room Ormsby Clay nods at the verse; Dame Gammage eats nuts; the Canon is satisfied; Nym Carrow writes nothing at all. When it is over the house claps as a house claps for a thing it has seen before, and goes home over the river talking of something else." {
     Assert playEnded(pentrice). Set endedAt(pentrice) to watch(clock). Retract playingTonight(pentrice). Increase regard(clay) by 2. Increase regard(mallory) by 2. Increase temper(pentrice) by 1. }
 
   // ── Before the play: Dido ───────────────────────────────────────────────────────────────────────────────────────
@@ -299,14 +299,14 @@ Module pentrice "Gosse's Company" {
     Requires midScene() and able(actor) and company(actor) and at(actor, site) and onBench(actor) and tallyman(actor) and ghostOn(pentrice) and scene(pentrice) == 4 and liberty()
       and not stickStill(actor).
     On success { Assert stickStill(actor). Increase regard(callow) by 1. Retract tallyman(actor). }
-    Result "You lay your stick and your little knife down on the grey bench beside you, and fold your hands, and watch the play. Along the bench Abel Tunstall sees it, and his own knife stops for a moment. Then he leans across the tallyman between you and takes your stick, quite gently, and puts it in his pocket. Up in the lords' room Nym Callow has seen it too, and is writing.".
+    Result "You lay your stick and your little knife down on the grey bench beside you, and fold your hands, and watch the play. Along the bench Abel Tunstall sees it, and his own knife stops for a moment. Then he leans across the tallyman between you and takes your stick, quite gently, and puts it in his pocket. Up in the lords' room Nym Carrow has seen it too, and is writing.".
   }
   // A stick laid down is eight notches the Office does not have, however the night goes after (a measure is never taken
   // below nothing, so the notches are given back one at a time as they are cut).
   Measure notchesSpared(place).
   Rule stick_spares when stickStill(party) and fines(pentrice) >= 1 and notchesSpared(pentrice) < 8 { Decrease fines(pentrice) by 1. Increase notchesSpared(pentrice) by 1. }
   Rule s4_clean at wheel when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and linesClean() and not sceneOver(scene_four)
-    says "The Ghost rises and speaks against the sale of his statue in verse with every double meaning taken out of it, clean as a scrubbed table, and the Council scene is handsome and proud and moving, and nobody laughs much. In the lords' room the Canon nods; Ormsby Clay approves; Nym Callow writes CUT in capitals." {
+    says "The Ghost rises and speaks against the sale of his statue in verse with every double meaning taken out of it, clean as a scrubbed table, and the Council scene is handsome and proud and moving, and nobody laughs much. In the lords' room the Canon nods; Ormsby Clay approves; Nym Carrow writes CUT in capitals." {
     Increase regard(mallory) by 1. Increase regard(clay) by 1. Increase slight(callow) by 1. Increase slight(gammage) by 1. }
   Rule s4_knowing at wheel when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and not linesClean() and plays(swale, part_ghost) and swaleKnowing(swale) and not sceneOver(scene_four)
     says "Ambrose Swale knows exactly what every line means, and plays every one of them as if it were clean: 'I rise, sirs, as I always rose,' with his chin up and his eyes full; and the Wheel laughs, and then catches, all at once, and does not know whether to go on laughing; and he lets it not know." {
@@ -350,7 +350,7 @@ Module pentrice "Gosse's Company" {
     says "Kit reaches for the top of Bell's line about the moon, and his voice goes, straight up and down again a man's, in front of the City. The yard laughs, of course. Kit goes on, scarlet, in the man's voice, to the end of the scene, and comes off and is sick in a bucket in the tiring-house." {
     Assert kitBroke(kit). Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Increase slight(clay) by 1. }
   Rule s5_dorcas at wheel when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and plays(dorcas, part_bell) and not sceneOver(scene_five)
-    says "Dorcas Quaile plays Bell, aged nineteen, under the moon, very well and very bravely, and the yard is kind; but in the lords' room Nym Callow is writing something that makes him smile, and you can guess what it is." {
+    says "Dorcas Quaile plays Bell, aged nineteen, under the moon, very well and very bravely, and the yard is kind; but in the lords' room Nym Carrow is writing something that makes him smile, and you can guess what it is." {
     Increase slight(callow) by 1. Increase slight(clay) by 1. }
   Rule s5_ned at wheel when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and plays(ned, part_bell) and not sceneOver(scene_five)
     says "Ned Cherry plays Bell like a blackbird, clear and fearless, and when the Tallyman counts his kiss he stamps his foot at him, and the yard loves him at once. In the lords' room the Canon is watching his angel with an expression of great complication." {

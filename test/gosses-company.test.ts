@@ -92,7 +92,7 @@ describe("Gosse's Company", () => {
     expect(g.page).toMatch(/GIVES THE PATENT OF THE WHEEL TO GOSSE.S COMPANY/);
   }, 240000);
 
-  it('the Liberty: a soldier who signed on at Wending Cross plays the Ghost whole in the Soke, and Callow votes for it', async () => {
+  it('the Liberty: a soldier who signed on at Wending Cross plays the Ghost whole in the Soke, and Carrow votes for it', async () => {
     const g = await Gosse.start(build('warrior'), 'w1');
     await g.fixture('liberty');
     expect(g.knows('players__joined') || g.j.holds('knows', 'party', 'players__joined')).toBe(true);
@@ -351,7 +351,7 @@ describe("Gosse's Company: what the page shows", () => {
 });
 
 describe("Gosse's Company: the Bench's supper", () => {
-  it('asked by the Master, a company sits at Urania Orde\'s table, says its true things, keeps her secret, and brings Callow round', async () => {
+  it('asked by the Master, a company sits at Urania Orde\'s table, says its true things, keeps her secret, and brings Carrow round', async () => {
     const g = await Gosse.start();
     await g.fixture('supper');
     expect(g.holds('guest', 'party')).toBe(true);

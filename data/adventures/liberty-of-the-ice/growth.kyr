@@ -1,0 +1,35 @@
+Module pellam "The Liberty of the Ice" {
+  // ── What a company grows by here ──────────────────────────────────────────────────────────────────────────────────
+  // Experience for what is made, kept, found out and decided; not for what is killed.
+  Milestone m_stairs "had the law of the ice of the Reeve, over a penny a stair" worth 100 when stairsArgued(party) or stairsPaid(party) and stairsCase(party).
+  Milestone m_purse "lifted your purse back off Ursel Cobb" worth 100 when pursedBack(party) and urselTrust(ursel) >= 1.
+  Milestone m_bench "won the Silver Tongue on the Liars' Bench" worth 250 when benchWon(party).
+  Milestone m_truth "told the Liars' Bench the truth" worth 250 when benchTruth(party).
+  Milestone m_squire "was believed the Squire of Hawsfold" worth 200 when squireBelieved(harker).
+  Milestone m_tally "made a tally that would deceive a factor" worth 100 when tallyGood(lisk).
+  Milestone m_abel "made Abel Haws believe in the Squire" worth 150 when abelInOnIt(abel).
+  Milestone m_flock "made the flock real" worth 250 when flockReal(party).
+  Milestone m_bear "got Absolute back to his stake" worth 200 when bearCalmed(absolute).
+  Milestone m_frost "showed the Exchange why a tub is not a river" worth 200 when frostCrashed(lisk).
+  Milestone m_cream "showed Mr. Quarle what his salts were for" worth 200 when quarleCream(quarle).
+  Milestone m_gant "got Sir Lionel Gant off the ice owing nobody" worth 250 when gantSafe(gant) or gantVoided(gant) or gantPaid(gant).
+  Milestone m_register "found the alderman's first wedding" worth 150 when knows(party, gosling_wed).
+  Milestone m_gosling "saw the alderman say it" worth 300 when goslingWedsBel(gosling).
+  Milestone m_icicle "kept Mr. Icicle's secret" worth 200 when thessalyAlly(thessaly).
+  Milestone m_noll "married the printer to Mr. Icicle" worth 300 when thessalyWedsNoll(thessaly).
+  Milestone m_ledger "read Harker's ledger" worth 300 when knows(party, ledger_read) or knows(party, bondbook_read).
+  Milestone m_drowned "found that the drowned were not drowned" worth 300 when knows(party, not_drowned).
+  Milestone m_dickon "found Dickon Cobb" worth 300 when knows(party, dickon_alive).
+  Milestone m_ursel "brought Ursel to her brother" worth 400 when urselMet(dickon).
+  Milestone m_callow_hand "kept your hand for Callow" worth 300 when handKept(callow_bargain).
+  Milestone m_knowing "found a third answer to Callow's question" worth 400 when saidKnowing(party) or knowingArgued(lisk).
+  Milestone m_tredgold "set the watermen to work" worth 150 when watermenWorked(lisk).
+  Milestone m_inside "went into the bondhouse as one of the hired" worth 300 when hiredHand(party) and tansyTold(tansy).
+  Milestone m_flight "got the hired down the Reach, not landed" worth 600 when hiredFled(lisk).
+  Milestone m_long "gave twenty hired their hands back" worth 600 when hiredReleased(lisk) and hiredSquire(lisk).
+  Milestone m_unsworn "made the law of the ice say what it meant" worth 700 when unsworn(lisk).
+  Milestone m_wolves "got past the wolves on the sledge road without a fight" worth 200 when wolvesDriven(lisk) or wolvesFed(lisk) or wolvesRounded(party) and tolerates(wolves, party).
+  Milestone m_statute "laid the Statute of Servants before the city" worth 250 when statuteLaid(lisk).
+  Milestone m_confided "heard why Ursel Cobb never shakes" worth 100 when knows(party, ursel_father).
+  Milestone m_handfast "landed a hand with Ursel Cobb" worth 300 when handfastLanded(party).
+}

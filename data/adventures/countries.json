@@ -215,6 +215,24 @@
           "lem_kept"
         ]
       }
+    },
+    {
+      "id": "pellam",
+      "bundle": "liberty-of-the-ice/placed.json",
+      "entry": "north_road",
+      "marker": "ursel",
+      "side": "west",
+      "beside": [
+        "frost",
+        "mountain"
+      ],
+      "name": "Pellam on the Lisk",
+      "topic": "the Frost Fair at Pellam",
+      "terrain": "hills",
+      "rumour": "'West, over the march, where the North Road comes down to the Lisk, there's Pellam, the wool city,' says {keeper}. 'The river's frozen there for the first time in thirty-one winters, they say, bank to bank, and they're holding a Frost Fair on it: booths and a gin-tent and an ox roasting on the ice. And the ice has its own law while it lasts. A lie's no crime on it, and a handshake's the Court's.' {keeper} laughs. 'Half the rogues in the country will be there by now. The other half are on the way.'",
+      "heard": "West over the march lies Pellam on the Lisk, a wool city whose river has frozen for the first time in thirty-one winters; they are holding a Frost Fair on the ice, under the ice's own law: a lie is no crime on it, and a handshake is the Court's.",
+      "skyline": "a city on a river white with ice from bank to bank",
+      "far": "a river has frozen bank to bank under a wool city, and they hold a fair on it where a lie is no crime and a handshake is the law"
     }
   ]
 }

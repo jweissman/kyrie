@@ -417,19 +417,19 @@ title-page. Halfway down hangs a painted owl, and under it a door from which com
 of people disagreeing.
 [Into the Owl] The Owl is one long room full of coffee-smoke, newsprint and opinions. Men and a few women sit at long 
 tables with papers, and at the end table, under a window, sit two men who are plainly critics, because nobody sits 
-near them. Here are Ormsby Clay, the Guildhall’s critic; and Nym Callow, the Owl’s critic.
-[Ask Nym Callow whether he has heard of Gosse's new play] Callow puts down his cup. ‘Heard of it?’ he says. ‘I 
+near them. Here are Ormsby Clay, the Guildhall’s critic; and Nym Carrow, the Owl’s critic.
+[Ask Nym Carrow whether he has heard of Gosse's new play] Carrow puts down his cup. ‘Heard of it?’ he says. ‘I 
 wrote it.’ He leans back. ‘Anonymously, naturally. A satire on the late Lord Mayor and his Office, sent to the 
 one company in Imbar with nothing to lose. Who else in this city could have written it?’ He looks round the long 
 room to see who is listening, and three people are. ‘You may tell Gosse,’ he says, ‘that the author expects his 
 share of the house.’
-[Ask Callow, as its author, what the bear does in the third act · an even chance] ‘The bear,’ says Callow, 
+[Ask Carrow, as its author, what the bear does in the third act · an even chance] ‘The bear,’ says Carrow, 
 without a pause, ‘is an allegory.’ He drinks his coffee. ‘Of the City.’ You wait. He looks at you over the 
 cup, and something goes out of him. ‘There is a bear,’ he says. ‘Isn’t there. There’s always a bear, with 
 Gosse.’ A long pause. ‘I heard of it in the Chepe. I have nine crowns of debt and no name, and a satire on the 
 Office is a name.’ He puts the cup down. ‘Who did write it?’ Bran makes the insight check (d20 12 + wisdom -1 = 
-11 against 10). Bran gains 100 experience: caught Nym Callow out.
-[Tell Callow, quietly, that you know, and that you will not tell] Callow looks at you for a long moment. ‘You might 
+11 against 10). Bran gains 100 experience: caught Nym Carrow out.
+[Tell Carrow, quietly, that you know, and that you will not tell] Carrow looks at you for a long moment. ‘You might 
 have done me in front of the whole Owl,’ he says. ‘Everyone else would.’ He turns his cup round in its saucer. 
 ‘I’ll stop saying it. And on Gosse’s night,’ he says, ‘I’ll watch it as if I’d never heard of it, which 
 God knows is true.’
@@ -504,7 +504,7 @@ painted roof over the stage, the heavens, with stars on it. Below the stage, at 
 the Office’s bench, where the tallymen sit in Trial week. When she turns a page it is the hand of someone who has 
 written every day of her life, and not only licences. Here are Abel Tunstall, the chief clerk of the Office of Plain 
 Speech; Ormsby Clay, the Guildhall’s critic; Dame Thalia Gammage, the Gullet’s critic, who keeps the ballad 
-stall; Canon Mallory, the minster’s precentor, and the Close’s critic; and Nym Callow, the Owl’s critic. Over 
+stall; Canon Mallory, the minster’s precentor, and the Close’s critic; and Nym Carrow, the Owl’s critic. Over 
 the stage, in the lords’ room, the Bench sits in a row like a jury: a thin man in black with a book open on his 
 knee, a big woman in a bonnet with a bag of nuts, a plump clergyman, and a young man in a coat too good for him, 
 already yawning.
@@ -515,7 +515,7 @@ and patient. The grey bench below the stage sits with its sticks still: nobody i
 word since the Siege was new. An hour passes.
 [Wait › An hour] In the lords’ room over the stage, Ormsby Clay is following the Siege in a printed copy with his 
 finger, nodding at each line ending as at an old friend. Dame Gammage has fallen asleep with her mouth open. Canon 
-Mallory is moved, quietly, by the weeping daughters. Nym Callow is drawing a gallows in the margin of his programme. 
+Mallory is moved, quietly, by the weeping daughters. Nym Carrow is drawing a gallows in the margin of his programme. 
 An hour passes.
 [Wait › A while] Time passes.
 [Out to Soke Lane] Soke Lane runs along the bank between taverns, cookshops and a building with a red lamp. At its 
@@ -836,7 +836,7 @@ scene is nearly over. Time passes.
 [Wait › A while] Ormsby Clay is already on his feet in the lords’ room with his book shut, pushing in his chair, 
 neatly. Dame Gammage is still on her feet in the lords’ room with her bonnet in her hand, shouting something at the 
 stage that nobody can hear. Canon Mallory is studying his hands, pink, like a man to whom something has been said in 
-church. Nym Callow is writing so fast that he has torn through his programme into the next one. The procession is not 
+church. Nym Carrow is writing so fast that he has torn through his programme into the next one. The procession is not 
 rehearsed and goes round the stage the wrong way twice, and the Ghost walks first because he is the only one who 
 knows where to go. Then the epilogue. Gosse, as Pomfret, comes down to the edge of the stage: ‘So ends our town, 
 sirs, which was never yours; / so ends our Alderman, who went through doors / the Book had shut, and first, as dead 
@@ -925,7 +925,7 @@ under the Canon’s trick, and goes at the season’s end in a single night, in 
 comes down the loft stair a man and asks Hepzibah for a man’s part, and gets one. Patience’s honey-pot dance is 
 talked about in the Gullet for a year, and every honey-woman in Pentrice keeps a pot back, in case the company and 
 its bear come through again. The fines are paid by subscription at the Owl, a penny a head, raised in an hour, with 
-Nym Callow standing on a table shouting the total. Hepzibah counts out your share of the house onto the trestle in 
+Nym Carrow standing on a table shouting the total. Hepzibah counts out your share of the house onto the trestle in 
 the loft, coin by coin, from the book, less the candles; the fuller the yard, the taller the pile.
 [Wait › A while] Time passes. The Bench gave the Patent to another company, and the Office fined Gosse’s Company 
 for every line of The Alderman’s Ghost, and the City banned it from the walls for another forty years; and before 

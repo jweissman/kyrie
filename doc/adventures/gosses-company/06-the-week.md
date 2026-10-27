@@ -53,7 +53,7 @@ tells what became of everyone.
 | **Urania Orde** | the late Lord Mayor's widow, the Master's mother; the original of the Widow Gudgeon | one true thing said at her table | nothing, any longer | what the Bench hears at supper; whether her daughter's secret is told there |
 | **Long Nan Scullard** | keeps the weir stones by night with three others; a Gullet fishwife whose waterman drowned under the Stairs | two crowns a crossing | the Gullet's crowd | whether the company pays, talks, fights, or names the Gullet |
 | **Corin Fallow** | Lord Mayor's Servants | the Patent a twelfth year, kindly | Gosse, a little | whether he owes the company a siege-tower, and so hires no heckler and informs on no book |
-| **The Bench** | Clay (Guildhall), Gammage (the Gullet), Mallory (the Close), Callow (the Owl) | order; joy; improvement; truth | the bear; pomp; filth and mockery of the dead; anything the Office passes | each critic's regard and slight, and so each vote |
+| **The Bench** | Clay (Guildhall), Gammage (the Gullet), Mallory (the Close), Carrow (the Owl) | order; joy; improvement; truth | the bear; pomp; filth and mockery of the dead; anything the Office passes | each critic's regard and slight, and so each vote |
 
 ### The week in five acts
 
@@ -67,14 +67,14 @@ supper, the verdict, the fates).
 
 1. **The Book or the Liberty.** Send the play to the Office and play what it licenses (struck, restored under the
    Eighth Ordinance, bought, or warranted by the Master), or play it whole in the Soke and let the tallymen count. The
-   Book costs the play's teeth: the Tallyman is struck entire, the Ghost "stands" instead of "rises", Callow writes CUT
+   Book costs the play's teeth: the Tallyman is struck entire, the Ghost "stands" instead of "rises", Carrow writes CUT
    in capitals. The Liberty costs the company its fines (a crown a notch; 21 in the Liberty journey) and wins the
    yard. Neither is the right answer; each makes a different night and a different coalition.
 2. **Three of four.** The four critics cannot all be pleased by the same play. Clay and Mallory like it clean, Gammage
-   and Callow like it whole. A Patent needs three. In play: the Book journey won Clay, Gammage and Mallory; the
-   Liberty journey won Clay (by giving him back his *Dido*), Gammage and Callow; the Author's Bow won all four. A critic
+   and Carrow like it whole. A Patent needs three. In play: the Book journey won Clay, Gammage and Mallory; the
+   Liberty journey won Clay (by giving him back his *Dido*), Gammage and Carrow; the Author's Bow won all four. A critic
    is moved by the week as well as the night: Clay by his manuscript, Gammage by the gulling and the bear, Mallory by
-   Ned Cherry and the angel let off, Callow by not being exposed.
+   Ned Cherry and the angel let off, Carrow by not being exposed.
 3. **Fallow's campaign.** Fallow is not a villain; he is a professional. On a timetable he offers the pension and
    the wardrobe, takes a pirate quarto to the Office, hires the Gullet's heckler and pays the watermen to strike. Each
    can be met on its own terms (Dorcas kept; Shad stopped or the book carried into the Soke; Garlick bought, frightened,
@@ -171,7 +171,7 @@ people in them.
     hand and the hand on a licence; the child's crayon drawing on the riot playbill and its twin over the Orde mantel (or
     the riot story); Sukey Rowe's borrowed hood; the lady with ink on her finger and the Master's. With any two the company knows enough to say it,
     and says it to Hepzibah, who knows the book as well as its author does: name the Master and she takes her spectacles
-    off; name Callow ("whoever wrote this can spell") or Fallow ("he would have cut the bear") and she says why not;
+    off; name Carrow ("whoever wrote this can spell") or Fallow ("he would have cut the bear") and she says why not;
     name the Master on one clue and she wants something she can put her finger on. Later: the Master can be told; the
     Bow becomes possible.
 17. **The Riot Told Twice.** Gosse tells it as a triumph ("I made an Office"); Clemency, told that the company knows,
@@ -182,7 +182,7 @@ people in them.
     find Gammage's scrapbook of her notices of Swale, a pressed flower against each; tell Swale the truth. Outcomes: an
     understanding at four at the Owl or her stall, a pansy taken; a public humiliation; nothing. Later: Gammage holding a
     pansy in the lords' room; her notice; Swale's season of comedies.
-19. **Callow's Claim** (**local** to the Owl). Nym Callow says he wrote the play. Ask him, as its author, what the bear
+19. **Carrow's Claim** (**local** to the Owl). Nym Carrow says he wrote the play. Ask him, as its author, what the bear
     does in the third act (insight). Expose him before the Owl, or tell him quietly that you know and will not tell.
     Later: his regard; whether he raises the fines by subscription.
 20. **Clay's Dido** (**local**, then the Bench). *A manuscript in the tiring-house's costume rack, with Gosse's notes in
@@ -227,6 +227,6 @@ to the Moon and be hired by Gosse, and be both.
   Gosse about the playbill; the hood by helping Merriman to his answer; Clemency's trust by carrying the riot story from
   one of them to the other.
 - **Every critic is a story.** Clay's grudge is Gosse's laugh twenty years ago; Gammage's scrapbook is the gulling;
-  Mallory's choirboy is Ned; Callow's claim is his debt and his vanity.
+  Mallory's choirboy is Ned; Carrow's claim is his debt and his vanity.
 - **Casting is a chain.** Who plays the Widow decides who plays Bell; Kit's voice decides whether Kit can be Bell or
   must be Tapwell; Ned is a Bell if Dorcas and Kit are not; the company itself can take Tapwell or the Ghost.

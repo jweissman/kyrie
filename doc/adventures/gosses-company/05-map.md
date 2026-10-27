@@ -105,7 +105,7 @@ the south bank, a liberty where the City's writ, and so the Office's licence and
 | Guildhall Square | `guildhall_square` | the dry Fountain of Concord; Wat Cundy |
 | the Office of Plain Speech: hall, the Master's room | `office_hall`, `master_room` | Tunstall's desk and the chained Ordinances; Clemency Orde, by day |
 | the Close | `close` | SILENCE IS LICENSED HERE; the minster and its bell-loft (the Budges); the choir school yard (Ned Cherry); Canon Mallory's study |
-| Paternoster Row | `row` | the Owl (Ormsby Clay, Nym Callow); Inchbald's press-room (Shad) |
+| Paternoster Row | `row` | the Owl (Ormsby Clay, Nym Carrow); Inchbald's press-room (Shad) |
 | Hill Street | `hill` | the Orde house (Clemency by night; Sukey Rowe in the area); the conduit house; the Lord Mayor's garden, watered by the Fountain's water |
 | the Gullet | `gullet` | the fish market; Ma Tolly's honey; Dame Gammage's ballad stall; the Garlicks; the fishmongers' chimney full of bees |
 | the Water Stairs | `water_stairs` | Joss Ferriby and the watermen; the boats; the way down to the weir |

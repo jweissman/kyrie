@@ -10,7 +10,7 @@ Module pentrice "Gosse's Company" {
   Discovery taste_clay "Ormsby Clay, the Guildhall's critic, wants order of a play: verse spoken as verse, decorum, every person brought to their proper end; he cannot abide clowns, bears or words that are not in the book." { Known by clay. }
   Discovery taste_gammage "Dame Thalia Gammage, the Gullet's critic, wants joy of a play: laughter, spectacle, a good cry and home; she hates pomp and long speeches, and has hated Ambrose Swale in print for fifteen years." { Known by gammage. }
   Discovery taste_mallory "Canon Mallory, the Close's critic, wants a play to leave its house better than it found it: a moral, and nobody the worse; he will not have indecency, nor the dead mocked." { Known by mallory. }
-  Discovery taste_callow "Nym Callow, the Owl's critic, wants a play to tell the truth to power, and despises anything the Office would license." { Known by callow. }
+  Discovery taste_callow "Nym Carrow, the Owl's critic, wants a play to tell the truth to power, and despises anything the Office would license." { Known by callow. }
   // On a Trial night the Bench sits in the lords' room over the stage; otherwise each is where their trade is.
   Rule bench_to_wheel when critic(?c) and trialNight() and hour(clock) >= 18 and hour(clock) < 22 and at(?c, ?p) and not at(?c, wheel) {
     Retract at(?c, ?p). Assert at(?c, wheel). }
@@ -222,39 +222,39 @@ Module pentrice "Gosse's Company" {
     Result "Ned looks at you as if you had hit him. Then he looks at his cardboard wing. 'One more season,' he says. 'Then I'll be too old to be an angel and they'll have to let me be something.' He goes back to the procession round the pump, and somebody tells the Canon, and the Canon, you hear afterward, is very grateful.".
   }
 
-  // ── Nym Callow, the Owl's critic ────────────────────────────────────────────────────────────────────────────────
-  Person callow "Nym Callow" at owl_room {
+  // ── Nym Carrow, the Owl's critic ────────────────────────────────────────────────────────────────────────────────
+  Person callow "Nym Carrow" at owl_room {
     Role "the Owl's critic". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
-    Greets "Nym Callow is a young man in a coat too good for him and boots too bad, with ink on his cuffs and a cup of the Owl's coffee he has been making last for an hour. 'If you want a notice,' he says, 'I charge. If you want the truth, it is free, and nobody ever wants it.'".
+    Greets "Nym Carrow is a young man in a coat too good for him and boots too bad, with ink on his cuffs and a cup of the Owl's coffee he has been making last for an hour. 'If you want a notice,' he says, 'I charge. If you want the truth, it is free, and nobody ever wants it.'".
   }
-  Topic callow_taste with callow "Ask Nym Callow what a play is for" when true once {
-    Says "'To tell the truth to the people who pay to be lied to,' says Callow. 'The Siege of Arle has been played every Trial for eleven years, and in all that time nobody has said on that stage that the Fountain is dry, that the Book of Precedence is four hundred pages of who may kick whom, or that the Office of Plain Speech is a muzzle with a motto.' He drinks his cold coffee. 'Anything the Office licenses is a lie by definition. I give it nothing.'".
+  Topic callow_taste with callow "Ask Nym Carrow what a play is for" when true once {
+    Says "'To tell the truth to the people who pay to be lied to,' says Carrow. 'The Siege of Arle has been played every Trial for eleven years, and in all that time nobody has said on that stage that the Fountain is dry, that the Book of Precedence is four hundred pages of who may kick whom, or that the Office of Plain Speech is a muzzle with a motto.' He drinks his cold coffee. 'Anything the Office licenses is a lie by definition. I give it nothing.'".
     On discuss { Assert knows(actor, taste_callow). }
   }
   Relation callowClaims(group). Relation callowCaught(group). Relation callowShamed(group).
-  Topic callow_claim with callow "Ask Nym Callow whether he has heard of Gosse's new play" when bookCome(pentrice) and tday(pentrice) >= 1 once {
-    Says "Callow puts down his cup. 'Heard of it?' he says. 'I wrote it.' He leans back. 'Anonymously, naturally. A satire on the late Lord Mayor and his Office, sent to the one company in Imbar with nothing to lose. Who else in this city could have written it?' He looks round the long room to see who is listening, and three people are. 'You may tell Gosse,' he says, 'that the author expects his share of the house.'".
+  Topic callow_claim with callow "Ask Nym Carrow whether he has heard of Gosse's new play" when bookCome(pentrice) and tday(pentrice) >= 1 once {
+    Says "Carrow puts down his cup. 'Heard of it?' he says. 'I wrote it.' He leans back. 'Anonymously, naturally. A satire on the late Lord Mayor and his Office, sent to the one company in Imbar with nothing to lose. Who else in this city could have written it?' He looks round the long room to see who is listening, and three people are. 'You may tell Gosse,' he says, 'that the author expects his share of the house.'".
     On discuss { Assert callowClaims(callow). }
   }
-  Discovery callow_lies "Nym Callow says he wrote The Alderman's Ghost, but he cannot say what happens in it after the second act: he has heard of the play, and not read it.".
-  Action test_callow(actor: group, site: place) "Ask Callow, as its author, what the bear does in the third act" {
+  Discovery callow_lies "Nym Carrow says he wrote The Alderman's Ghost, but he cannot say what happens in it after the second act: he has heard of the play, and not read it.".
+  Action test_callow(actor: group, site: place) "Ask Carrow, as its author, what the bear does in the third act" {
     Speaker callow. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and callowClaims(callow) and not knows(actor, callow_lies)
       and (rehearsedIII(pentrice) or knows(actor, parcel_open)).
     Resolve check(actor, insight, dc_easy).
     On success { Assert knows(actor, callow_lies). }
-    Result "'The bear,' says Callow, without a pause, 'is an allegory.' He drinks his coffee. 'Of the City.' You wait. He looks at you over the cup, and something goes out of him. 'There is a bear,' he says. 'Isn't there. There's always a bear, with Gosse.' A long pause. 'I heard of it in the Chepe. I have nine crowns of debt and no name, and a satire on the Office is a name.' He puts the cup down. 'Who did write it?'".
+    Result "'The bear,' says Carrow, without a pause, 'is an allegory.' He drinks his coffee. 'Of the City.' You wait. He looks at you over the cup, and something goes out of him. 'There is a bear,' he says. 'Isn't there. There's always a bear, with Gosse.' A long pause. 'I heard of it in the Chepe. I have nine crowns of debt and no name, and a satire on the Office is a name.' He puts the cup down. 'Who did write it?'".
   }
-  Action expose_callow(actor: group, site: place) "Tell the Owl, loud enough for the long room, that Callow never read the play he says he wrote" {
+  Action expose_callow(actor: group, site: place) "Tell the Owl, loud enough for the long room, that Carrow never read the play he says he wrote" {
     Speaker callow. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and knows(actor, callow_lies) and not callowShamed(callow) and not callowCaught(callow).
     On success { Assert callowShamed(callow). Increase slight(callow) by 2. }
-    Result "The long room hears it, and laughs, and Nym Callow sits in the middle of the laughter going red, and then white, and then gets up and leaves his cold coffee and goes out into Paternoster Row without his hat.".
+    Result "The long room hears it, and laughs, and Nym Carrow sits in the middle of the laughter going red, and then white, and then gets up and leaves his cold coffee and goes out into Paternoster Row without his hat.".
   }
-  Action keep_callow(actor: group, site: place) "Tell Callow, quietly, that you know, and that you will not tell" {
+  Action keep_callow(actor: group, site: place) "Tell Carrow, quietly, that you know, and that you will not tell" {
     Speaker callow. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and knows(actor, callow_lies) and not callowShamed(callow) and not callowCaught(callow).
     On success { Assert callowCaught(callow). Increase regard(callow) by 1. }
-    Result "Callow looks at you for a long moment. 'You might have done me in front of the whole Owl,' he says. 'Everyone else would.' He turns his cup round in its saucer. 'I'll stop saying it. And on Gosse's night,' he says, 'I'll watch it as if I'd never heard of it, which God knows is true.'".
+    Result "Carrow looks at you for a long moment. 'You might have done me in front of the whole Owl,' he says. 'Everyone else would.' He turns his cup round in its saucer. 'I'll stop saying it. And on Gosse's night,' he says, 'I'll watch it as if I'd never heard of it, which God knows is true.'".
   }
 }

@@ -140,8 +140,8 @@ Module pentrice "Gosse's Company" {
   Topic name_master_early with hepzibah "Tell Hepzibah that the Master of Plain Speech wrote The Alderman's Ghost" when suspecting() and clueCount(pentrice) < 2 once {
     Says "'The Master,' says Hepzibah, turning a page. 'Of Plain Speech. Who has struck more lines than you have had dinners.' She turns a page. 'Perhaps. Bring me something I can put my finger on, and I will put my finger on it.'".
   }
-  Topic name_callow with hepzibah "Tell Hepzibah that Nym Callow of the Owl wrote it" when suspecting() once {
-    Says "'Nym Callow,' says Hepzibah, 'has written about us four times, and spelled Absalom three different ways, and Ghost once without the h.' She sniffs. 'Whoever wrote this can spell.'".
+  Topic name_callow with hepzibah "Tell Hepzibah that Nym Carrow of the Owl wrote it" when suspecting() once {
+    Says "'Nym Carrow,' says Hepzibah, 'has written about us four times, and spelled Absalom three different ways, and Ghost once without the h.' She sniffs. 'Whoever wrote this can spell.'".
   }
   Topic name_fallow with hepzibah "Tell Hepzibah that Corin Fallow wrote it, to ruin the company" when suspecting() once {
     Says "Hepzibah considers it, which is generous of her. 'Corin has never written a word he could not sell,' she says, 'and this he could not sell to anyone but us.' She taps the book. 'And he would have cut the bear.'".

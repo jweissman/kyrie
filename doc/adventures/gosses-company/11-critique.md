@@ -42,7 +42,7 @@ property to hand on, a light to shutter), and a presentation that holds a scene 
 enough, and then the engine announced the answer ("It comes together all at once, the way a joke does"); in the Book
 journey it dawned while Tunstall was reading out the strikes, before the player had gone looking. This critique was
 acted on: now the page says only that the company has seen enough, and the company has to say who it was, to
-Hepzibah, and may name Callow or Fallow and be told why not. It is still easy. The clues are good (the watermark, the
+Hepzibah, and may name Carrow or Fallow and be told why not. It is still easy. The clues are good (the watermark, the
 hand, the child's crayon drawing over the Master's mantel) and found by kindness rather than by searching, which is
 right for a comedy; but two of five is a low bar, and a wrong guess costs nothing.
 
@@ -61,7 +61,7 @@ more than meets.
 **The critics are a number the player cannot see until the end.** Each critic's taste is shown (at the Siege, at the
 Daughter, in their own words), which is good; but whether the week and the night have won them is a sum. This
 critique was acted on too: after the play each critic's face in the lords' room shows which way they will vote (Clay
-sitting on, or his chair pushed in; Callow's programme torn through, or one word underlined twice). The sum itself is
+sitting on, or his chair pushed in; Carrow's programme torn through, or one word underlined twice). The sum itself is
 still invisible during the week, and Gammage, who likes joy, was won by almost any night with the bear in it until
 her margin was raised. The thresholds were tuned against journeys, which makes them right for those journeys and not
 necessarily for the player in front of them.

@@ -91,11 +91,11 @@ different week: the bear, the bailiffs, the watermen, the trap, the stage fight,
 ## 6. Too much exposition?
 
 **Yes.** The treatment has eleven secrets (Gosse's deafness, the letters, Clemency's authorship, Lisle's old love,
-Clay's hissed tragedy, Ruddle's love for Vane, Mallory's ballads, Callow's debts, the Pudding–Vane quarrel, the
+Clay's hissed tragedy, Ruddle's love for Vane, Mallory's ballads, Carrow's debts, the Pudding–Vane quarrel, the
 Fountain's water, the riot), and almost every one is imagined as something a person says when asked. That is a
 quiz, not a mystery.
 
-*Revision:* cut four (Lisle's old love, Mallory's ballads, Callow's debts as a separate secret, and the funeral
+*Revision:* cut four (Lisle's old love, Mallory's ballads, Carrow's debts as a separate secret, and the funeral
 joke's content as a reveal), and make the others things *found, seen or caused*:
 
 - Gosse's deafness is seen in rehearsal (he misses a cue the player gave from his bad side) before anyone mentions it.
@@ -166,11 +166,11 @@ The treatment's two "entries" (on the road, by report) are a good idea but are n
    licensed in the Wheel with the tallymen silent. It wins Clay and Mallory, can win the Patent, and depends on
    Clemency.
 2. **The whole play** ("the Liberty"): never send it in; play it whole, in the Soke under the liberty's law, with the
-   tallymen counting every word and the fines read out at the end. It wins Ruddle and Callow and the crowd, can win
+   tallymen counting every word and the fines read out at the end. It wins Ruddle and Carrow and the crowd, can win
    the Patent only with a third critic, and costs the company the City.
 
 They differ in where the week is spent (the Office and the Close, or the Soke and the Shambles), who becomes an ally
-(Clemency and Mallory, or Callow and Garlick), what the night's dangers are (a struck line forgotten, or the Office
+(Clemency and Mallory, or Carrow and Garlick), what the night's dangers are (a struck line forgotten, or the Office
 standing up in the front row), and how Pentrice remembers it. A third, **the Author's Bow**, opens only to a player
 who has solved the mystery and brought Clemency to the point of claiming her own play.
 

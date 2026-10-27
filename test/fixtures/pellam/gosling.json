@@ -1,0 +1,29 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "go:gosling_study",
+  "Ask the alderman what he is writing",
+  "Find the alderman a rhyme",
+  "go:lamb",
+  "Ask Bel about the last",
+  "go:chapel",
+  "Ask Parson Doody whether",
+  "Pay Parson Doody",
+  "Last Frost Fair: Take",
+  "Read the register",
+  "=36",
+  "go:court",
+  "=50",
+  "Show the alderman his name",
+  "go:lamb",
+  "=66",
+  "Tell Bel Ashby that Hamnet",
+  "=70"
+ ],
+ "wedding": [
+  "=318"
+ ]
+}

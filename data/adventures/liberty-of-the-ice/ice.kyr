@@ -1,0 +1,118 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The ice: what is seen ─────────────────────────────────────────────────────────────────────────────────────────
+  Observe swan_foot_scene at swan_foot when not iceGone() and not lampLit() "The foot of Swan Stairs, on the ice. The river is white and hard from bank to bank, scarred grey with sledge-runners and skates, and up it, from the bridge to as far down as you can see, runs a street of booths made of oars and sailcloth, with smoke going straight up from every one of them into the cold air. There is a noise like a market and a wedding at once. A boy goes past on bones strapped to his boots, very fast, shrieking.".
+  Observe swan_foot_night at swan_foot when not iceGone() and lampLit() "The foot of Swan Stairs. Up the river the booths of Freezeland Street are lit from inside like paper lanterns, and every one of them is making a noise.".
+  Observe freezeland_scene at freezeland when not iceGone() and not lampLit() and not visitedBefore(freezeland) "Freezeland Street, at its top end, by the Glove Post: the thick of the Fair. Booths of sailcloth on oars, gin and gingerbread, hot codlings, a skittle alley where men bowl a frozen sheep's head, a swing-boat on a frame, a man selling slices of the ox, a man selling knowledge of the future, a man selling nothing anyone can see with great conviction. Everyone is shouting the price of something. Nobody is saying what anything is worth.".
+  Observe freezeland_again at freezeland when not iceGone() and not lampLit() and visitedBefore(freezeland) "Freezeland Street by the Glove Post, loud and smoking: gingerbread, skittles, the swing-boat, the crier's barrel.".
+  Observe freezeland_lamps at freezeland when not iceGone() and lampLit() and not dark() "Freezeland Street at lamp-lighting: lanterns on every oar, the ice gone gold in them, and the Fair louder now it cannot be seen so well.".
+  Observe freezeland_dark at freezeland when not iceGone() and dark() "Freezeland Street by night: half the booths dark and laced up, the other half louder than ever. Under the lantern at the Glove Post the frost on the great glove glitters.".
+  Observe low_scene at freezeland_low when not iceGone() and not visitedBefore(freezeland_low) "The lower end of Freezeland Street, where the booths are older and the jokes worse. A printing booth with a press in it, clanking. A gin-tent with a painted sign of a lamb on skates. A booth hung with ribbons, with a board that says MARRIAGES. Beyond the last of them the street gives out into open ice, and the ox roast's smoke, and further down, the grey of the Reach.".
+  Observe low_again at freezeland_low when not iceGone() and visitedBefore(freezeland_low) "The lower end of Freezeland Street: the clanking press, the Frozen Lamb, the ribboned booth of the Ice Chapel.".
+  Observe arches_scene at under_arches when not iceGone() "Under the arches of Pellam Bridge the ice is bluer and older, heaved up into ridges where the river came against the starlings and froze standing. It is very quiet here after the Fair: a drip somewhere, the bridge over you like a roof of stone. A rope ladder hangs down the face of the third starling from a hatch high up in its side.".
+  Observe hay_foot_scene at hay_foot when not iceGone() "The foot of Hay Stairs, on the Bankside shore of the ice. Above you Hay Wharf stands up out of the river on its piles, and on it a long blind warehouse with a door in its river-wall, low down, that someone has barred, and painted on its gable in white: J. HARKER. WOOL.".
+  Observe ox_scene at ox_roast when not iceGone() "The ox roast: a whole ox on an iron spit over a fire of sea-coal laid on a hearth of bricks, so that the ice will not melt under it, which it is doing all the same, slowly; the hearth has sunk a hand's breadth into a pool of its own making and the Butchers' Company's men stand round it arguing. The smell is extraordinary. Slices are a penny, on bread.".
+  Observe reach_head_scene at reach_head when not iceGone() and not dark() "Past the last booth the Fair stops as if at a wall, and there is only ice: grey, wide, and very quiet, with the river showing black through it in places like a vein. A line of sledge-marks goes away down the middle of the Reach, and people keep to it. Far down, a hulk sits locked in the ice at an angle, with her masts gone.".
+  Observe reach_head_night at reach_head when not iceGone() and dark() "The head of the Reach, at night. Behind you the noise and lights of the Fair; in front of you nothing, grey under the stars, and a cold that comes up off the river and through your boots.".
+  Observe black_reach_scene at black_reach when not iceGone() and not dark() "The Black Reach: the deep channel, where the Lisk still runs under the ice, and the ice over it is grey, and creaks when you stand still. Off to one side, near the bank, a ring of stakes with a rope round them marks a hole that has never frozen over, black water breathing a little steam. Someone has put a penny on one of the stakes.".
+  Observe black_reach_night at black_reach when not iceGone() and dark() "The Black Reach, at night. You can hear the river under the ice, and once a sound like a door slammed a long way off, which is the ice. The black hole by the bank is a blacker place in the dark.".
+  Observe hulk_scene at patience_deck when not iceGone() "The deck of the Patience: a collier-brig frozen in on her way up to the city a month ago and left, her masts struck, her deck white, listing to starboard in the ice. A hatch, closed. Her name is still on her stern in flaking gold.".
+  Observe sledge_scene at sledge_road when not iceGone() "The sledge marks go on south down the middle of the river, where the Lisk is wide and frozen hard, toward the downs and the south road beyond the snow. Nobody is on them. From here you can see the whole Fair behind you, very small, smoking.".
+
+  // ── The Frozen Lamb ───────────────────────────────────────────────────────────────────────────────────────────────
+  Observe lamb_scene at lamb when not iceGone() and not visitedBefore(lamb) "The Frozen Lamb: a gin-tent the size of a barn, sailcloth on a frame of oars, a brazier in a tub of sand at either end and a bar made of a ship's hatch-cover. Benches. Hot gin with nutmeg on it. At the far end, under a lantern, one bench by itself has LIARS painted on its back. The tent's keeper is a big handsome woman in her fifties with her sleeves rolled up, who looks at everyone who comes in as if she had been expecting someone else.".
+  Observe lamb_again at lamb when not iceGone() and visitedBefore(lamb) "The Frozen Lamb: the braziers in their sand, the hatch-cover bar, the Liars' Bench under its lantern.".
+  Observe lamb_bench at lamb when not iceGone() and at(broom, lamb) "On the Liars' Bench under the lantern sits Justice Broom with her ear-trumpet and a glass of hot gin, and round her a crowd, waiting. Whoever has a lie stands on the bench opposite and tells it, and the crowd shouts, and Broom listens with her eyes shut.".
+  Person bel "Bel Ashby" at lamb {
+    Role "the keeper of the Frozen Lamb". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "'Gin's hot, the bench is warm and the lies are free,' says Bel Ashby. 'What'll you have?' She looks past you at the flap, and then back.".
+    Greets again "'Back again,' says Bel, and pours before you ask.".
+    Sells rations for 1 coin from 20.
+  }
+  Kind honey_kind "a crock of honey" is gear worth 2 weighing 1 described "A brown crock of fell honey with a cloth tied over it, gone hard as candle-wax with the cold.".
+  Item honey "a crock of honey" is honey_kind at limbo.
+  Relation honeyBought(group).
+  Action buy_honey(actor: group, site: place) "Buy a crock of honey from Bel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bel, site) and quantity(actor, gold) >= 2 and not honeyBought(actor) and at(honey, limbo).
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 2. Assert honeyBought(actor). Retract at(honey, limbo). Assert at(honey, lamb). }
+    Result "Bel reaches under the hatch-cover and comes up with a crock. 'For the hot gin,' she says. 'Fell honey. What you want it for is your business.' She puts it on the bar.".
+  }
+  Topic bel_fair with bel "Ask Bel about the last Frost Fair" when true once {
+    Says "'Thirty-one winters.' Bel wipes the bar. 'I was nineteen. My father had this tent, on this ice, near enough this spot, and I poured, and danced, and skated on the Flashes with every boy in Pellam.' She stops wiping. 'And the last night of it the ice went out from under the bottom of the Fair with a noise like the end of the world, and in the morning there was a river, and everyone went home.' She starts wiping again. 'Everyone talks about the last ice as if it were a wedding. It was a wedding. It was mine, and it went out with the river, and he's an alderman.' She looks at you sharply. 'Don't ask me who. Have a gin.'".
+    On discuss { Assert knows(actor, bel_wed). }
+  }
+  Discovery bel_wed "Bel Ashby was married at the last Frost Fair, thirty-one winters ago, to a boy who is now an alderman of Pellam; the ice went out the same night." {
+    Known by bel, doody.
+  }
+
+  // ── Noll Brisket's printing booth ─────────────────────────────────────────────────────────────────────────────────
+  Observe printing_scene at printing when not iceGone() "A booth hardly bigger than the press in it: an old wooden screw-press, a case of type, a brazier under the ink-slab to keep the ink from freezing, and pinned all round the canvas cards that say, in a border of little skates and hearts, PRINTED ON THE ICE AT PELLAM, with a name. A tall boy with ink to the elbows works the press and talks at the same time.".
+  Person noll "Noll Brisket" at printing {
+    Role "the printer on the ice, ink to the elbows". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "'Your name on the ice, a penny, and a keepsake for life,' says Noll Brisket, without stopping the press. 'Or your sweetheart's. Or your enemy's, with a picture. What'll it be?'".
+    Greets again "Noll waves an inky hand without stopping the press.".
+  }
+  Kind ice_card "a card printed on the ice" is gear worth 0 weighing 0 described "A card in a border of little skates and hearts: PRINTED ON THE ICE AT PELLAM, IN THE GREAT FROST, and a name, a little crooked. The ink smells of lamp-black and gin.".
+  Kind both_card "a card printed on the ice, with two names" is gear worth 0 weighing 0 described "A card in a border of little skates and hearts: PRINTED ON THE ICE AT PELLAM, IN THE GREAT FROST, and under it two names together, a little crooked, with an ampersand Noll is proud of.".
+  Item name_card "a card printed on the ice" is ice_card at limbo.
+  Item pair_card "a card with two names on it" is both_card at limbo.
+  Relation cardPrinted(group). Relation pairPrinted(group).
+  Action print_name(actor: group, site: place) "Have your name printed on the ice, for a penny" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(noll, site) and quantity(actor, gold) >= 1 and not cardPrinted(actor).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 1. Assert cardPrinted(actor). Retract at(name_card, limbo). Assert at(name_card, printing). }
+    Result "Noll sets your name in the stick, letter by letter, pulls the bar, and peels the card off the forme still wet. 'Printed on the ice,' he says, holding it up to the light. 'When you're old you'll show it to someone and they won't believe you.'".
+  }
+  Action print_pair(actor: group, site: place) "Have your name and Ursel's printed on one card" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(noll, site) and travelsWith(ursel, actor) and quantity(actor, gold) >= 1 and not pairPrinted(actor).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 1. Assert pairPrinted(actor). Retract at(pair_card, limbo). Assert at(pair_card, printing). }
+    Result "Ursel says 'Don't be soft,' and stands beside you while Noll sets it, and reads it upside down in the stick before he pulls it, and says nothing at all. When the card comes off the forme she takes it from Noll before you can, and looks at it, and gives it to you. 'Keep that,' she says. 'Somebody ought to.'".
+  }
+  Topic noll_gazette with noll "Ask Noll who writes the Frost Gazette" when true once {
+    Says "Noll pulls the bar, very hard. 'Mr. Icicle,' he says. 'Mr. Icicle writes it. Comes in the night, leaves the copy under the ink-slab, and a shilling, and I set it in the morning and it's on the ice by noon.' He peels off a card. 'Never seen him.' He goes red to the ears, which is a long way to go with that much ink on them.".
+    On discuss { Assert knows(actor, gazette_night). }
+  }
+  Discovery gazette_night "The Frost Gazette is written by someone who calls themself Mr. Icicle, who leaves the copy at Noll's press at night. Noll says he has never seen them, and goes red saying it." {
+    Known by noll.
+  }
+  Observe gazette_pinned at printing when not iceGone() and not gazettePrinted(lisk) "Pinned to the canvas by the press, this morning's FROST GAZETTE: a column of fair gossip (an alderman's poem; a debtor's waistcoat; the Butchers' ox) and at the bottom, in smaller type: 'Mr. Icicle asks whether the RIVER is the only party at this Fair that DROWNS PEOPLE, and whether a hat is the same thing as a HEAD.'".
+  Relation gazettePrinted(place).
+  Topic noll_thessaly with noll "Ask Noll about Thessaly Harker" when knows(actor, thessaly_icicle) once {
+    Says "Noll stops the press. It is the first time you have seen it stopped. 'She comes at eleven,' he says, low. 'Most nights. In her cloak. She thinks I don't know her.' He looks at the forme. 'I set every word she writes. I'd set the Bible backwards for her.' He starts the press again. 'She's marrying the alderman on Saturday. Her father's alderman. I'm a printer on the ice. When the ice goes I'm a printer on nothing.' The bar comes down. 'Don't tell her I said.'".
+    On discuss { Assert knows(actor, noll_loves). }
+  }
+  Discovery noll_loves "Noll Brisket, the printer on the ice, is in love with Thessaly Harker, and sets every word she writes as Mr. Icicle, and has never said so to her." {
+    Known by noll.
+  }
+
+  // ── The Liars' Bench ──────────────────────────────────────────────────────────────────────────────────────────────
+  // From seven to eleven, at the Frozen Lamb, while the Reeve sits there. One go a night, for whoever has the nerve.
+  Kind silver_tongue_kind "the Silver Tongue" like ashwood_charm granting deception worth 12
+    described "A little silver tongue on a ribbon, worn smooth, engraved on one side BROOM and on the other THE ICE, given by the Reeve of the Ice to the best liar of the Fair. Whoever wears it is listened to by people who know better.".
+  Item silver_tongue "the Silver Tongue" is silver_tongue_kind at limbo.
+  Relation benchTried(group). Relation benchWon(group). Relation benchTruth(group). Relation broomTold(group).
+  Rule bench_resets when hour(clock) == 7 and benchTried(party) { Retract benchTried(party). }
+  Query benchOpen() means hour(clock) >= 19 and hour(clock) < 23 and at(broom, lamb) and not iceGone().
+  Action tell_bench_lie(actor: group, site: place) "Stand on the bench and tell the Reeve the best lie you have" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamb) and benchOpen() and not benchTried(actor) and not benchWon(actor)
+      and not benchWon(ursel).
+    Time 2.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert benchTried(actor). Assert benchWon(actor). Retract at(silver_tongue, limbo). Assert at(silver_tongue, lamb). }
+    On failure { Assert benchTried(actor). }
+    Result "You get up on the bench and tell it, and somewhere in the middle of it you find that you have put in something true, a small true thing you had not meant to, and the crowd goes quiet at it and then roars. Broom opens her eyes. 'There,' she says. 'There it is. The stone in the plum.' She takes a little silver tongue on a ribbon out of her coat and holds it out to you. 'Mind how you use it.'".
+    Otherwise "You tell it, and the crowd laughs in the right places, and Broom listens with her eyes shut to the end and then says, 'Very nice. No stone,' and the next liar is already climbing up. Come back tomorrow night, if you have another.".
+  }
+  // A plain person's way to the Silver Tongue, and to the Reeve's ear: tell the Bench the truth about the hired, as if
+  // it were a tall tale. Kemble, Harker's clerk, drinks at the Lamb, and hears it too.
+  Action tell_bench_truth(actor: group, site: place) "Stand on the bench and tell the Reeve, as if it were a tall tale, what Master Harker does with his hired" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamb) and benchOpen() and not benchTruth(actor)
+      and knows(actor, hired_sold).
+    Time 2.
+    On success { Assert benchTruth(actor). Assert benchTried(actor). Assert broomTold(broom). Assert harkerWary(harker).
+      Assert benchWon(actor). Retract at(silver_tongue, limbo). Assert at(silver_tongue, lamb). }
+    Result "You tell it as a tall tale, a wool-factor who hires shepherds for a farm in the hills and sells them by the dozen to a lead mine, and the crowd laughs at first, and then does not, and then a man near the flap gets up and goes out quickly. Broom has opened her eyes in the first minute and does not shut them. When you have finished it is very quiet in the Frozen Lamb. 'That's not a lie,' says Broom at last. 'That's not a lie at all.' She takes a little silver tongue on a ribbon out of her coat, and looks at it, and gives it to you all the same. 'It's the stone with no plum,' she says. 'It's the best I've heard.' The man who went out was Kemble, Master Harker's clerk.".
+  }
+  Relation harkerWary(group).
+}

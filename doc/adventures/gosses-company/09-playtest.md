@@ -6,7 +6,7 @@ pages are in [playtest/](playtest/). Dice are seeded; a journey is the same jour
 
 ## The journeys, and what each ended in
 
-| Journey | Build, entry | Approach | Ending | Votes | Temper | Fines | Clay / Gammage / Mallory / Callow (regard − slight) |
+| Journey | Build, entry | Approach | Ending | Votes | Temper | Fines | Clay / Gammage / Mallory / Carrow (regard − slight) |
 |---|---|---|---|---|---|---|---|
 | [book](playtest/book.md) | a bard, the city from the road | the Book: struck, nineteen lines restored under the Eighth Ordinance, licensed | **The Patent House** | 3 | 23 | 1 | 10−2 ✓ · 14−2 ✓ · 6−0 ✓ · 4−1 |
 | [supper](playtest/supper.md) | the bard | the Book, then the Bench's supper at the Orde house, asked by the Master: the true thing, Gosse's *Dido* note, Swale's innocence, the secret kept, both things true | **The Patent House** | 4 | 23 | 1 | 13−2 ✓ · 16−2 ✓ · 10−0 ✓ · 5−1 ✓ |
@@ -24,8 +24,8 @@ pages are in [playtest/](playtest/). Dice are seeded; a journey is the same jour
 All eight endings are reached by at least one journey.
 
 **The two principal approaches differ, and both work.** The Book and the Liberty both win the Patent with three
-votes, but not the same three: the Book's clean, licensed night wins the Canon and loses Callow (who writes CUT in
-capitals in the lords' room); the whole play in the Soke wins Callow and loses the Canon, and needs Clay won some other
+votes, but not the same three: the Book's clean, licensed night wins the Canon and loses Carrow (who writes CUT in
+capitals in the lords' room); the whole play in the Soke wins Carrow and loses the Canon, and needs Clay won some other
 way (his manuscript, returned). The Book is fined one crown (an ad-lib); the Liberty twenty-one, paid by the Owl's
 subscription or the yard. The nights read differently scene by scene: the Ghost "stands" or "rises"; the Tallyman is
 struck out, or is played and turned on the grey bench; the epilogue's account of the play's afterlife is the
@@ -53,8 +53,8 @@ Social choices in Kyrie are checks with the odds shown; the evidence is what hap
   "as one player to another", with no roll.
 - **The Canon and Ned.** The bard fails the hard persuasion, 14 against 16 ("Ask me again when he is a man"); the
   cleric is heard without a roll ("as one who keeps the faith").
-- **Callow's claim.** Caught by insight (18 against 10 for the bard, 11 against 10 for the soldier at wisdom −1), then
-  kept quiet rather than exposed: Callow votes for the whole play in the Liberty and stops claiming it.
+- **Carrow's claim.** Caught by insight (18 against 10 for the bard, 11 against 10 for the soldier at wisdom −1), then
+  kept quiet rather than exposed: Carrow votes for the whole play in the Liberty and stops claiming it.
 - **The Office's men in the wing.** The soldier faces them down on a natural 20; the bard instead carries the
   prompt-book round to the bench, which needs no roll.
 - **Merriman's speech.** Written with lore, exactly 13 against 13.

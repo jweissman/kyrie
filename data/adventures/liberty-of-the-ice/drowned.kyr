@@ -1,0 +1,203 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The drowned ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // At each hiring one or two of Harker's hired slip out of Kemble's line in the crush on the walk to Hay Stairs, and
+  // that night a hat is left on a stake by the hole on the Black Reach that has never frozen. The city says the river
+  // takes its own. A drowned man's hand is no hand: his bargain dies with him. They are alive, hidden, and Dickon Cobb,
+  // who came back out of Gallowmoor alone last month, is getting them out.
+  Discovery drowned_hats "Twice already this Fair, and again this morning, a hat has been found on a stake by the hole on the Black Reach that never freezes, and the river is said to have taken whoever wore it. Each was one of Master Harker's hired." {
+    Known by bel, kemble, nab, tredgold, gant, noll, saffery, callow.
+  }
+  Relation hatDay(place).
+  Event first_hat at black_reach when at(party, black_reach) and (secondDay() or thirdDay()) and not dark() "On a stake of the rope round the black hole a hat has been hung, a carter's felt hat with a whipcord round the crown, very neatly, as if on a peg. Under it, in the snow, someone has put a penny." teaches drowned_hats.
+  Rule hat_talk when secondDay() and hour(clock) >= 8 and inPellam() and not spread(hat_one) says "All over the Fair this morning: another hat on the stake at the Black Reach. Jem Rudd's, the carter's lad from Garthwaite, hired yesterday at the Ring; he was in Kemble's line at noon and not in the bondhouse at dark. The river has taken him, everyone says, and touches the ice with a knuckle." teaches drowned_hats { Assert spread(hat_one). }
+  Entity hat_one: fact "Jem Rudd's hat". Entity hat_two: fact "Polly Sneath's hat".
+  Rule hat_talk_two when thirdDay() and hour(clock) >= 8 and inPellam() and not spread(hat_two) and not dickonTaken(dickon) says "Another hat on the stake at the Black Reach this morning: Polly Sneath's, the shepherd's girl from the second hiring. The watermen have stopped laughing about the Lisk Wife." { Assert spread(hat_two). }
+  // A company that watches the line come off the ice sees how it is done.
+  Observe line_slip at hiring_ring when firstDay() and hour(clock) == 12 and capable(party, insight) and not knows(party, slip_seen) "As Kemble's line goes off across the ice two by two, a lad with a whipcord round his hat stumbles against a gingerbread booth, and a woman in a shawl steps between him and the line, and he is not there. The line goes on. Kemble, counting at the front, does not look back." teaches slip_seen.
+  Discovery slip_seen "In the crush of Freezeland Street, as Kemble walked the hired to Hay Stairs, one of them slipped out of the line behind a booth, with a woman in a shawl to cover it.".
+  // Whoever reads ground sees that the drowned walked away.
+  Discovery tracks_read "By the hole on the Black Reach the snow says what the city does not: whoever hung the hat on the stake walked up to the hole, and then away from it along the bank toward the bridge, putting their feet in the sledge-marks so as not to be seen, and they were two, and one was very light." {
+    Found by searching black_reach with woodcraft "You go down on one knee by the stakes. The prints are there under the night's snow if you know to look for them, and they do not stop at the water.".
+  }
+  Discovery not_drowned "Harker's drowned are not drowned. They slip out of his line, and someone hangs their hats by the hole so they will be thought dead, because a drowned man's hand is no hand and his bargain dies with him; and they are hidden somewhere in Pellam.".
+  Rule put_together_drowned when knows(party, drowned_hats) and (knows(party, tracks_read) or knows(party, slip_seen) or knows(party, dickon_alive)) and not knows(party, not_drowned)
+    says "You put it together: the hats on the stake, and what you saw. Nobody has drowned. A drowned man's hand is no hand." teaches not_drowned { }
+
+  // ── Widow Saffery, the rope-maker on the bridge ───────────────────────────────────────────────────────────────────
+  // Her son went through the ice at the last Frost Fair, thirty-one winters ago, off the Black Reach, and was never
+  // found. She walks the Reach every night of the ice with a lantern; the watermen call her the Lisk Wife and leave
+  // pennies. She hangs the hats. The newly drowned hide in her cellar in the starling, under her shop, until they can
+  // be got down the Reach to the hulk.
+  Observe rope_scene at saffery_shop when not visitedBefore(saffery_shop) "A rope-walk house, one room deep and very long, running the width of the bridge, with a window at the far end over the river. Coils of rope, hemp in hanks, a wheel, a smell of tar. An old woman spins a cord at the wheel walking backwards, slowly, the length of the room, and does not stop when you come in.".
+  Observe rope_again at saffery_shop when visitedBefore(saffery_shop) "The rope-walk house: hemp, tar, the wheel, the window over the river.".
+  Person saffery "Widow Saffery" at saffery_shop {
+    Role "a rope-maker on the bridge, very old, very straight" when not knows(party, saffery_lantern).
+    Role "a rope-maker whom the watermen call the Lisk Wife" when knows(party, saffery_lantern).
+    Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "The old woman walks backward the length of the room spinning, and back again, before she looks at you. 'Rope,' she says. 'Or something else.'".
+    Greets again "Widow Saffery does not stop her wheel.".
+    Sells rope for 1 coin from 4.
+  }
+  Rule saffery_shop_day when hour(clock) >= 6 and hour(clock) < 20 and not at(saffery, saffery_shop) and not safferyTaken(saffery) { Assert at(saffery, saffery_shop). }
+  Rule saffery_reach when (hour(clock) >= 20 or hour(clock) < 1) and not iceGone() and not at(saffery, black_reach) and not safferyTaken(saffery) { Assert at(saffery, black_reach). }
+  Rule saffery_back when hour(clock) >= 1 and hour(clock) < 6 and not at(saffery, saffery_shop) and not safferyTaken(saffery) { Assert at(saffery, saffery_shop). }
+  Relation safferyTaken(group).
+  Observe lantern_on_reach at black_reach when at(saffery, black_reach) and dark() and not knows(party, saffery_lantern) "Out on the Black Reach a lantern is moving, low down, very slowly, the way a person walks who is looking at the ice. It goes to the black hole by the bank and stops there a long time. When you come nearer you see an old woman holding it, very straight, in a shawl." teaches saffery_lantern.
+  Observe lantern_again at black_reach when at(saffery, black_reach) and dark() and knows(party, saffery_lantern) "Widow Saffery is out on the Reach with her lantern, by the black hole.".
+  Discovery saffery_lantern "Every night of the ice the rope-maker on the bridge, Widow Saffery, walks the Black Reach with a lantern and stands by the hole that never freezes. The watermen call her the Lisk Wife.".
+  Topic saffery_son with saffery "Ask Widow Saffery why she walks the Reach at night" when knows(actor, saffery_lantern) once {
+    Says "She stops the wheel. 'Davy,' she says. 'Nine. The last ice, the last night, off the Reach, with a bone skate on one foot. They never found him. It went out the same night and took the whole bottom of the Fair with it.' She starts the wheel again. 'The watermen call me the Lisk Wife, and leave me pennies. I let them. A widow can use a penny.' She walks backward down the room. 'I'm looking for him. That's all it is. Don't make it into anything.'".
+    On discuss { Assert knows(actor, saffery_davy). }
+  }
+  // What the work does not explain: once, a second light.
+  Observe second_light at black_reach when at(saffery, black_reach) and dark() and knows(party, saffery_davy) and not iceGone() "Out past Widow Saffery's lantern, further down the Reach where there is nobody, there is for a moment a second light on the ice, small and low down, the height of a child's hand. When you look again there is only the dark, and the old woman with her back to you, who has not turned round.".
+  Discovery saffery_davy "Widow Saffery's son Davy went through the ice off the Black Reach at the last Frost Fair, at nine years old, and was never found. She walks the Reach every night of this ice with a lantern.".
+  Topic saffery_hats with saffery "Ask Widow Saffery who hangs the hats on the stake" when knows(actor, saffery_lantern) and knows(actor, not_drowned) once {
+    Says "The wheel goes round. 'The river,' she says. Then, without turning: 'A drowned child's mother can hang a hat on a stake and be believed. Nobody looks at an old woman by that hole at night; they look away.' She stops. 'If you're Harker's, I'll have you off my bridge. If you're not, you've seen nothing.' She looks at you then, a long look. 'Well?'".
+    On discuss { Assert knows(actor, saffery_hangs). Assert safferyAsked(saffery). }
+  }
+  Relation safferyAsked(group). Relation safferyTrusts(group).
+  Discovery saffery_hangs "Widow Saffery hangs the drowned's hats on the stake by the Black Reach, so that they will be believed dead.".
+  Topic saffery_not_harker with saffery "Tell her you are not Harker's, and why" when safferyAsked(saffery) and not safferyTrusts(saffery) and (knows(actor, hired_sold) or urselConfessed(actor) or hiredHand(actor)) once {
+    Says "She hears you out at the wheel. Then she goes to the far end of the room, to a hatch in the floor you had taken for a trap for the rope-ends, and knocks on it twice with her heel, and lifts it, and below in the dark a face looks up, a girl's, with straw in her hair. 'You can come up, Polly,' says Widow Saffery. 'It's not him.'".
+    On discuss { Assert safferyTrusts(saffery). Assert knows(actor, starling_known). }
+  }
+  Discovery starling_known "Under the floor of Widow Saffery's rope-walk house a hatch goes down into a cellar cut in the bridge's third starling, and a rope ladder from there down to the ice under the arches. The newly drowned hide there.".
+  Observe starling_scene at starling_cellar when true "A cellar cut into the stone of the starling, under the bridge: low, round, very cold, lit by a slit over the river. A pallet, blankets, a bucket, a crock of water with ice on it. The stone sweats. You can hear the river under the ice, going by, very close.".
+  Person polly "Polly Sneath" at limbo {
+    Role "a shepherd's girl from Garthwaite, drowned, as far as anyone knows". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Seen when knows(viewer, starling_known) or knows(viewer, dickon_alive).
+    Greets "'You'll not tell,' says Polly Sneath. It is not a question. Then she grins. 'I'm drowned. I've never felt better.'".
+  }
+  // Polly slips the line at the second hiring and is in the starling by its noon.
+  Rule polly_slips when secondDay() and hour(clock) >= 11 and at(polly, limbo) and not pollyGone(polly) { Assert at(polly, starling_cellar). }
+  Relation pollyGone(group).
+
+  // ── The Patience, and Dickon Cobb ─────────────────────────────────────────────────────────────────────────────────
+  Person dickon "Dickon Cobb" at patience_hold {
+    Role "a big soft-spoken man of twenty with a lead-miner's cough" when not urselMet(dickon).
+    Role "Ursel's brother, with a lead-miner's cough" when urselMet(dickon).
+    Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner compassionate.
+    Seen when knows(viewer, hidden_hulk).
+    Greets "A big young man comes up out of the dark of the hold between you and the others, with a belaying pin in his fist, and looks at you, and coughs, a deep wet cough from the bottom of his chest. 'Who sent you?'".
+    Greets again "Dickon Cobb nods to you from the ballast.".
+  }
+  Person jem "Jem Rudd" at patience_hold {
+    Role "a carter's lad from Garthwaite, drowned". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Seen when knows(viewer, hidden_hulk).
+    Greets "'Is it Kemble?' says Jem Rudd from behind Dickon, and then, seeing you, 'it isn't. Thank God.'".
+  }
+  Relation urselMet(group). Relation dickonTaken(group).
+  Discovery hidden_hulk "In the hold of the frozen hulk Patience on the Reach, behind the ballast, Harker's drowned are hiding, alive: and with them Dickon Cobb, Ursel's brother, come back out of Gallowmoor." {
+    Found by searching patience_hold "Behind the ballast, where the hull curves in, there is a breath of warmth that is not the brazier's, and blankets, and in the blankets people.".
+  }
+  Observe hold_scene at patience_hold when true "The hold of the Patience, sloping with her list: coal-dust, ballast stone, a brazier in a bucket of sand, the hull sweating frost. It smells of people.".
+  Discovery dickon_alive "Dickon Cobb is alive, in the hold of the Patience. He was sold to Gallowmoor lead last spring, and walked back out of it through the autumn, and hides the hired who slip Harker's line, to get them down the Reach and away south.".
+  Topic dickon_story with dickon "Ask Dickon Cobb how he came back" when true once {
+    Says "'Walked.' He coughs. 'Gallowmoor's a hole in a hill with a town on top. You go down at five and you come up at dark, and the lead gets in your chest, and nobody's on a farm in the hills.' He sits on the ballast. 'Three of us came out in September. Two got here.' He looks at the others. 'I can't stop the hiring. I can get some of them out of the line on the ice, and drown them, and when the river's open I can get them down it on a barge. The ice was a gift: I can walk them down the Reach on the sledge road, nights.' He coughs again. 'The searchers walk it too, now.'".
+    On discuss { Assert knows(actor, dickon_alive). Assert knows(actor, hired_sold). Assert knows(actor, not_drowned). }
+  }
+  Topic dickon_ursel with dickon "Tell Dickon Cobb that his sister is on the ice, looking for him" when knows(actor, ursel_brother) and not urselMet(dickon) once {
+    Says "He sits down on the ballast as if he had been hit. 'Ursel,' he says. 'Ursel's here?' He laughs, and it turns into the cough. 'She'll have been lying to everybody. She'll have been running some rig on Harker himself, I'll bet you, to get his books.' He wipes his eyes on his wrist. 'Don't bring her here. Don't. If she's seen coming out to the hulk with that face on her, they'll follow her. Tell her I'm well. Tell her the night.'".
+    On discuss { Assert knows(actor, dickon_night). Assert dickonToldOfUrsel(dickon). }
+  }
+  Relation dickonToldOfUrsel(group).
+  Discovery dickon_night "Dickon Cobb means to get the hired out of Harker's bondhouse and down the Reach by the sledge road on the second night, in the small hours, before the Landing, when the hired are to be landed: a hired who is not there to stand before the Reeve is not landed, and goes out with the river. He needs the river door of the bondhouse open from inside, a way past the searchers, and, if it can be had, sledges.".
+  Topic dickon_plan with dickon "Ask Dickon what he means to do about the bondhouse" when knows(actor, dickon_alive) once {
+    Says "'Empty it.' He says it simply. 'Harker lands his hired at two on the last day, hand to hand before the Reeve. A hand that's not there isn't landed, and goes out with the river.' He holds up three fingers. 'The river door's barred inside with an oak baulk iced into its brackets; somebody inside has to have it off. The searchers walk the Reach from ten till three; somebody has to have them somewhere else. And twenty people on foot down the sledge road are slow; Tredgold's watermen have sledges and nothing to do with them, and won't lift a finger for nothing.' He looks at you. 'The second night. The small hours. That's when.'".
+    On discuss { Assert knows(actor, dickon_night). Assert dickonPlanned(dickon). }
+  }
+  Relation dickonPlanned(group).
+  Topic dickon_gallowmoor with dickon "Ask Dickon what Gallowmoor is like" when knows(actor, dickon_alive) once {
+    Says "He is a while answering. 'Dark,' he says. 'You'd think it'd be the dark you minded. It isn't. It's the counting.' He coughs. 'There's a man called Corder, the overman, stands at the top of the ladder at five with a slate, and you put your hand in his as you go down past him, so he can feel it's a hand, and he chalks it. And at night again, coming up. Hand, chalk. Hand, chalk. He doesn't look at your face; he's never once looked at my face.' He looks at his own palm. 'There's eleven hundred hands at Gallowmoor. Some of them have been there since the Black Lambing, they say, father to son. There's a chapel. There's a song they sing going down, about the hills.' He does not sing it. 'They're very deep hills.'".
+    On discuss { Assert knows(actor, gallowmoor_known). }
+  }
+  Discovery gallowmoor_known "At Gallowmoor lead, three days south over the downs, eleven hundred hands go down the ladder at five and come up at dark, and the overman counts each one by feeling it in his own, and never looks at a face.".
+  Topic dickon_sister with dickon "Ask Dickon about his sister" when urselMet(dickon) or knows(actor, ursel_brother) once {
+    Says "He smiles, for the first time, and it makes him look about twelve. 'She taught me my letters on a slate with a nail, in the Calf's back kitchen, when Mam was scrubbing. Made me write lies on it, so I'd have something to write: THE BRIDGE IS MADE OF CHEESE. THE MAYOR IS A GOOSE.' He coughs, and keeps smiling. 'I wrote her from Gallowmoor every month. Corder takes the letters at the top of the ladder for the post.' The smile goes. 'I suppose he burns them. I suppose that's what he does.'".
+    On discuss { Assert knows(actor, dickon_letters). }
+  }
+  Discovery dickon_letters "Dickon Cobb wrote to Ursel every month from Gallowmoor, and gave the letters to the overman for the post; none came.".
+  // Brought to the hulk, Ursel meets her brother; the company is the only one who can bring her without being followed.
+  Rule ursel_finds_dickon when travelsWith(ursel, party) and at(party, patience_hold) and knows(party, hidden_hulk) and not urselMet(dickon) and not dickonTaken(dickon)
+    says "Ursel comes down the hatch behind you and stops on the ladder. In the dark of the hold Dickon Cobb stands up off the ballast, coughing. Neither of them says anything. The brazier ticks. Then Ursel Cobb, who has never in her life been at a loss, says 'You great soft lump,' and goes down the rest of the ladder all at once, and holds on to him, and he holds on to her, and nobody in the hold says anything at all." {
+    Assert urselMet(dickon). Increase urselTrust(ursel) by 2. Assert wentInForDickon(party). }
+
+  // ── Harker's searchers ────────────────────────────────────────────────────────────────────────────────────────────
+  // Three of Harker's wharf men, with a dog and lanterns. By day they keep Hay Wharf; on the second and third nights
+  // they walk the Reach from ten until three, looking for people who are officially dead.
+  Person searchers "Harker's searchers" at hay_wharf {
+    Role "a gang of wharf men with lanterns and cudgels, and a lurcher on a rope". Ancestry human. Calling warrior. Level 2. Numbers 3. Pronouns they.
+    Temperament territorial.
+    Warns "The lanterns stop. 'Stand where you are,' says a voice behind them, and the lurcher begins to growl, low. 'Who's that out on the Reach? Who've you got with you?'".
+    Comes "They come at you over the grey ice with their cudgels up and the lurcher let off its rope.".
+    Flinches "The searchers back off over the ice, lanterns swinging, shouting for each other.".
+    Pleads "'Enough,' says the one on the ice, with his hands over his head. 'Enough. We're paid by the night, not by the head.'".
+  }
+  Initially Assert tolerates(searchers, party). Initially Assert serves(searchers, harker). Initially Assert takesPrisoners(searchers).
+  Rule searchers_out when searchNight() and not searchersDiverted(lisk) and able(searchers) and not iceGone() and not at(searchers, black_reach) { Assert at(searchers, black_reach). }
+  Rule searchers_wharf when not searchNight() and not searchersDiverted(lisk) and not landingAt(lisk) and able(searchers) and not at(searchers, hay_wharf) { Assert at(searchers, hay_wharf). }
+  Relation searchersDiverted(place).
+  Observe searchers_reach at black_reach when at(searchers, black_reach) and dark() "Three lanterns out on the Black Reach, walking slowly in a line a few yards apart, and the sound of a dog.".
+  Observe searchers_wharf_scene at hay_wharf when at(searchers, hay_wharf) "Three of Harker's wharf men lean on the bondhouse wall with cudgels, stamping their feet, and a lurcher lies on the snow between them.".
+  // Seen going out to the hulk at night, the company is followed; going out unseen, it is not.
+  Relation slippedPast(group).
+  Action slip_reach(actor: group, site: place) "Go out past the searchers' lanterns by the bank, in the dark, where they are not looking" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, black_reach) and at(searchers, black_reach) and dark() and not slippedPast(actor) and tolerates(searchers, actor).
+    Time 2 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert slippedPast(actor). Assert unseen(actor, searchers). }
+    On failure { Assert slippedPast(actor). }
+    Result "You go wide along the bank where the reeds are frozen in, low, and wait while a lantern swings by, and go on. The dog lifts its head once, and puts it down again.".
+    Otherwise "The dog has you before you have gone ten yards, and a lantern swings round, and a voice calls, 'Who's that?' You stand up and say good evening. They watch you go.".
+  }
+  Rule unseen_lapses when unseen(party, searchers) and not at(party, black_reach) and not at(party, patience_deck) and not at(party, patience_hold) and not at(party, sledge_road) { Retract unseen(party, searchers). Retract slippedPast(party). }
+  Rule followed_to_hulk when at(party, patience_deck) and at(searchers, black_reach) and perceivesFrom(searchers) and knows(party, hidden_hulk) and not harkerKnows(hidden_hulk)
+    says "Behind you, back on the Reach, one of the lanterns has stopped, and is watching where you went." { Assert harkerKnows(hidden_hulk). }
+  Query perceivesFrom(g: group) means alert(g) and not unseen(party, g).
+  // What Harker knows of the hiding places, and how he comes to know it.
+  Relation harkerKnows(fact). Relation toldOf(group, fact). Relation drownedSold(group).
+  Rule tattle_spreads when tattles(?p) and toldOf(?p, ?f) and (together(?p, harker) or together(?p, kemble)) and not harkerKnows(?f) { Assert harkerKnows(?f). }
+  Entity sold_bargain: bargain "five coin a head for the drowned, with Kemble".
+  Action sell_drowned(actor: group, site: place) "Tell Kemble where the drowned are hiding, for five coin a head" {
+    Grave "Kemble writes down what you tell him, and pays, and Harker's searchers go where he sends them.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(kemble, site) and knows(actor, kemble_pays)
+      and (knows(actor, hidden_hulk) and not harkerKnows(hidden_hulk) or knows(actor, starling_known) and not harkerKnows(starling_known)) and not drownedSold(actor).
+    Time 2 minutes.
+    On success { Assert drownedSold(actor). Assert harkerKnows(hidden_hulk). Assert harkerKnows(starling_known). Increase quantity(actor, gold) by 15. Assert shook(actor, sold_bargain). }
+    Result "Kemble listens with his pen moving, and asks two questions, very exact, and counts fifteen coins onto the desk in a row. 'Master Harker thanks you,' he says. 'The bereaved will be comforted.' He does not look up again.".
+  }
+  // A careless word to someone who carries everything to Harker: Abel, who asks where a man might sleep for nothing.
+  Topic abel_sleep with abel "Tell Abel there's a dry berth for nothing aboard the hulk on the Reach, with kind folk" when knows(actor, hidden_hulk) and not toldOf(abel, hidden_hulk) once {
+    Says "'Is there.' Abel beams. 'Kind folk. I'll go out tonight, and take them a bit of my cheese.' He pats his coat. 'You're a good soul. I'll tell them who sent me.' He will tell everyone who sent him, and where he slept, and who was there, to anyone who asks, because nobody has ever told him not to.".
+    On discuss { Assert toldOf(abel, hidden_hulk). Assert abelOnHulk(abel). }
+  }
+  // A lie that sends the searchers the wrong way: told to the man who carries everything to Harker.
+  Relation liedToKemble(group).
+  Action lie_to_kemble(actor: group, site: place) "Tell Kemble, as a secret, that the drowned are hiding in the Clink, and are going over the downs tonight" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(kemble, site) and knows(actor, not_drowned) and not liedToKemble(actor) and not drownedSold(actor)
+      and (secondDay() or thirdDay()).
+    Time 2 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert liedToKemble(actor). Assert searchersDiverted(lisk). }
+    On failure { Assert liedToKemble(actor). Assert harkerWary(harker). }
+    Result "Kemble's pen stops. He asks you two very exact questions, and you answer them very exactly, and he writes it down. That night Harker's searchers are not on the Reach. They are in the Clink yard in Bankside, and then on the south road up onto the downs in the snow with their lanterns, looking for footprints that are not there.".
+    Otherwise "Kemble writes it down, and then looks at you over his pen the way a clerk looks at a sum that does not come out. 'Thank you,' he says. The searchers walk the Reach that night just the same.".
+  }
+  Rule diverted_away when searchersDiverted(lisk) and searchNight() and not at(searchers, limbo) { Assert at(searchers, limbo). }
+  Rule diverted_ends when searchersDiverted(lisk) and fourthDay() { Retract searchersDiverted(lisk). }
+
+  // ── The raid ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // What Harker knows, his searchers act on, in the small hours of the next night they walk.
+  Rule raid_hulk when harkerKnows(hidden_hulk) and searchNight() and smallHours() and not dickonTaken(dickon) and not hiredFled(lisk) and not dickonGone(dickon)
+    {
+    Assert dickonTaken(dickon). Assert at(dickon, bond_floor). Assert at(jem, bond_floor). Assert happened(ev_raid_hulk). }
+  Entity ev_raid_hulk: fact "raid hulk".
+  Rule raid_hulk_heard when happened(ev_raid_hulk) and inPellam() and not heardNews(ev_raid_hulk) says "In the small hours there are lanterns and shouting out on the Reach, and a dog going mad, round the hulk Patience. In the morning everybody knows: Harker's searchers took three drowned men out of her hold, alive, and Dickon Cobb with them, and walked them up Hay Stairs to the bondhouse with their hands tied, to be landed at the Landing." { Assert heardNews(ev_raid_hulk). }
+  Rule raid_starling when harkerKnows(starling_known) and searchNight() and smallHours() and not safferyTaken(saffery) and not hiredFled(lisk)
+    {
+    Assert safferyTaken(saffery). Assert at(saffery, bond_floor). Assert pollyGone(polly). Assert at(polly, bond_floor). Assert happened(ev_raid_starling). }
+  Entity ev_raid_starling: fact "raid starling".
+  Rule raid_starling_heard when happened(ev_raid_starling) and inPellam() and not heardNews(ev_raid_starling) says "In the night there is a noise of boots on the bridge, and a door broken in, and in the morning the rope-walk house stands open with its hemp all over the street: Harker's searchers took a drowned girl out of a hole under the floor, and an old woman with her, who walked between them very straight and said nothing at all." { Assert heardNews(ev_raid_starling). }
+  Relation dickonGone(group).
+}

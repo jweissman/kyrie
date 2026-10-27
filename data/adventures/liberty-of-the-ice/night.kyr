@@ -1,0 +1,103 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The second night: the flight down the Reach ───────────────────────────────────────────────────────────────────
+  // A hand that is not there to stand before the Reeve at two on the last day is not landed, and goes out with the
+  // river. Out of the bondhouse by the river door (the bar off from inside) or the front (the lock picked while old
+  // Fowke sleeps), past the searchers, and down the sledge road south: on foot, or on Tredgold's sledges.
+  Relation hiredOut(place). Relation hiredFled(place). Relation flightCaught(place).
+  Query flightHour() means dark() and (firstDay() or secondDay()).
+  Person fowke "old Fowke" at limbo {
+    Role "a night-watchman on Hay Wharf, with a brazier and a bottle". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "Old Fowke lifts his lantern into your face. 'Wharf's shut,' he says. 'Everything's shut. Go to bed.'".
+  }
+  Initially Assert serves(fowke, harker).
+  Rule fowke_on when (hour(clock) >= 21 or hour(clock) < 7) and not at(fowke, hay_wharf) { Assert at(fowke, hay_wharf). }
+  Rule fowke_off when hour(clock) >= 7 and hour(clock) < 21 and not at(fowke, limbo) { Assert at(fowke, limbo). Retract asleep(fowke). }
+  // From one until four the bottle has the better of him.
+  Rule fowke_sleeps when hour(clock) >= 1 and hour(clock) < 4 and at(fowke, hay_wharf) and not asleep(fowke) { Assert asleep(fowke). }
+  Rule fowke_wakes when (hour(clock) < 1 or hour(clock) >= 4) and asleep(fowke) and not sodden(fowke) { Retract asleep(fowke). }
+  Observe fowke_scene at hay_wharf when at(fowke, hay_wharf) and not asleep(fowke) "Old Fowke sits by the bondhouse door on a keg with a brazier and a bottle, and a lantern at his feet.".
+  Observe fowke_asleep at hay_wharf when at(fowke, hay_wharf) and asleep(fowke) "Old Fowke is asleep on his keg by the bondhouse door, his chin on his chest, the bottle in his lap, snoring.".
+  // Picking the lock in front of a waking watchman is seen.
+  Rule fowke_sees when state(bond_lock, open) and at(party, hay_wharf) and perceives(fowke, party) and not fowkeCried(fowke) says "Old Fowke comes up off his keg with his lantern held high and his mouth open, and bawls for the searchers, and does not stop." {
+    Assert fowkeCried(fowke). Assert harkerWary(harker). Assert state(bond_lock, locked). }
+  Relation fowkeCried(group).
+
+  // The hired, told, come out with the company: from the floor onto the ice by the river door, or onto the wharf by
+  // the front.
+  Action lead_out_river(actor: group, site: place) "Bring the hired out through the river door onto the ice" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bond_floor) and tansyTold(tansy) and state(river_bar, unbarred)
+      and at(hired, bond_floor) and flightHour() and not hiredOut(lisk).
+    Time 2.
+    On success { Assert hiredOut(lisk). Assert at(actor, hay_foot). Assert at(hired, hay_foot). Assert at(tansy, hay_foot). Retract inBondhouse(actor). }
+    Result "One at a time, through the low door in the river-wall, crouching, onto the ice under the wharf, in the dark: Tansy Hobb first with her pail clutched to her, and the big lad with the whip last. Nobody speaks. Above you on the wharf, old Fowke's brazier glows. The ice under the piles is black and ridged and nobody has walked on it since it froze.".
+  }
+  Action lead_out_front(actor: group, site: place) "Bring the hired out of the bondhouse by the front door, past old Fowke asleep" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bond_floor) and tansyTold(tansy) and state(bond_lock, open)
+      and at(hired, bond_floor) and flightHour() and (asleep(fowke) or not at(fowke, hay_wharf)) and not hiredOut(lisk).
+    Time 2.
+    On success { Assert hiredOut(lisk). Assert at(actor, hay_foot). Assert at(hired, hay_foot). Assert at(tansy, hay_foot). }
+    Result "Past old Fowke on his keg, snoring, one at a time, holding your breath; along the wharf; down Hay Stairs onto the ice, twenty people in the dark trying not to let the treads creak. Fowke stirs once and says something to his bottle, and does not wake.".
+  }
+  // Out under the wharf, the wharf men on Hay Wharf above hear twenty people on the ice, unless they come out quietly.
+  Relation quietOut(place). Relation heardOut(place).
+  Action hush_hired(actor: group, site: place) "Keep the hired still and silent under the wharf until the wharf men above have gone by" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hay_foot) and hiredOut(lisk) and not hiredFled(lisk) and not quietOut(lisk) and not heardOut(lisk) and at(searchers, hay_wharf).
+    Time 2 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert quietOut(lisk). }
+    On failure { Assert heardOut(lisk). }
+    Result "Twenty people crouched in the dark under the piles, breathing into their blankets, while boots go along the planks overhead and a lantern swings and a dog snuffs at the edge of the wharf and goes away. Then nothing. Then the brazier crackling, far up.".
+    Otherwise "Somebody's pail clanks on the ice. Overhead the boots stop.".
+  }
+  Rule wharf_hears when hiredOut(lisk) and not hiredFled(lisk) and not quietOut(lisk) and at(searchers, hay_wharf) and at(party, hay_foot) and tolerates(searchers, party) and (heardOut(lisk) or outWatches(lisk) >= 2)
+    says "Up on the wharf a lantern swings over the edge, and a voice shouts, 'Harker's hired! On the ice, under the wharf!' and boots come thundering down Hay Stairs, and a dog." {
+    Retract tolerates(searchers, party). Assert at(searchers, hay_foot). Assert assails(searchers, party). }
+  Measure outWatches(place).
+  Rule out_counts when hiredOut(lisk) and not hiredFled(lisk) and at(party, hay_foot) and not quietOut(lisk) { Increase outWatches(lisk) by 1. }
+  // The hired keep with the company on the ice once out, and anyone drowned in hiding comes with them.
+  Rule hired_keep when hiredOut(lisk) and not hiredFled(lisk) and not flightCaught(lisk) and at(party, ?p) and iceRoom(?p) and not at(hired, ?p) { Assert at(hired, ?p). Assert at(tansy, ?p). }
+  Rule dickon_joins when hiredOut(lisk) and dickonPlanned(dickon) and not dickonTaken(dickon) and not hiredFled(lisk) and at(party, ?p) and iceRoom(?p) and not at(dickon, ?p) { Assert at(dickon, ?p). Assert at(jem, ?p). }
+  Observe hired_with at hay_foot when hiredOut(lisk) and not hiredFled(lisk) and at(hired, hay_foot) "Twenty of Harker's hired stand round you on the ice in the dark, in their blankets, shivering, waiting to be told where.".
+  // Beaten by the searchers, the company is not killed (they are paid by the night, not by the head): it comes round
+  // on the bondhouse straw, the bar back on the river door, and the hired with it.
+  Rule caught_by_searchers when captured(searchers, party)
+    says "You come round on straw, in the dark, with your head ringing and your hands tied in front of you: the bondhouse floor. Somebody has put the oak bar back on the river door and hammered it into its brackets. Round you in the dark Harker's hired are breathing, and Tansy Hobb is holding a wet rag to your forehead." {
+    Retract captured(searchers, party). Assert at(party, bond_floor). Assert inBondhouse(party). Assert state(river_bar, barred).
+    Assert tolerates(searchers, party). Retract assails(searchers, party). Assert harkerWary(harker). }
+  Rule caught_hired_back when inBondhouse(party) and hiredOut(lisk) and not hiredFled(lisk) {
+    Retract hiredOut(lisk). Assert at(hired, bond_floor). Assert at(tansy, bond_floor). Assert at(searchers, hay_wharf). Retract quietOut(lisk). Retract heardOut(lisk). Set outWatches(lisk) to 0. }
+  // On the sledges: from the foot of Hay Stairs, straight down the Reach, faster than anyone on foot.
+  Action sledges_go(actor: group, site: place) "Put the hired on Tredgold's sledges and go, down the Reach and away south" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hay_foot) and hiredOut(lisk) and sledgesReady(lisk) and at(tredgold, hay_foot)
+      and not hiredFled(lisk) and not channelCut(lisk).
+    Time 6.
+    On success { Assert hiredFled(lisk). Assert at(actor, sledge_road). Assert at(hired, limbo). Assert at(tansy, limbo). Assert tansyFree(tansy). Assert dickonGone(dickon).
+      Assert at(dickon, limbo). Assert at(jem, limbo). Assert at(polly, limbo). Assert pollyGone(polly). Assert at(tredgold, watermen_room).
+      Assert tolerates(wolves, actor). }
+    Result "Four sledges, eight watermen running in the traces, twenty people under blankets, and the whole of the Reach going by grey and fast in the starlight. Behind you, far back, lanterns, and a dog barking, and a voice shouting; and then nothing, because a man on foot cannot catch a sledge on the ice. At the bottom of the Reach where the river widens the watermen stop, blowing, and the hired get down, and Dickon Cobb, or Tansy Hobb, or nobody, points south down the white road toward the downs. They go. You watch them until they are a line of dots, and then not even that. Tredgold spits on the ice. 'There,' he says. 'Not landed.' It is a long walk back.".
+  }
+  // On foot: down the Reach past the searchers, if they are there.
+  Rule caught_on_reach when hiredOut(lisk) and not hiredFled(lisk) and at(party, black_reach) and at(searchers, black_reach) and able(searchers) and not routed(searchers) and tolerates(searchers, party)
+    says "The three lanterns swing round together. 'There!' The dog is off its rope. 'Harker's hired, on the Reach, and someone with them!' The searchers come over the grey ice at you with their cudgels." {
+    Retract tolerates(searchers, party). Assert assails(searchers, party). }
+  Action walk_south(actor: group, site: place) "Send the hired on down the sledge road south, on foot, toward the downs" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sledge_road) and hiredOut(lisk) and not hiredFled(lisk) and not channelCut(lisk)
+      and (not at(wolves, sledge_road) or not able(wolves) or tolerates(wolves, actor)).
+    Time 2.
+    On success { Assert hiredFled(lisk). Assert at(hired, limbo). Assert at(tansy, limbo). Assert tansyFree(tansy). Assert dickonGone(dickon).
+      Assert at(dickon, limbo). Assert at(jem, limbo). Assert at(polly, limbo). Assert pollyGone(polly). }
+    Result "They go away from you down the sledge road on foot in a long line, south toward the downs and the snow, holding each other's coats, Tansy Hobb looking back once. Nobody behind you. The Reach is grey and empty and enormous. By the time it is light they will be off the river and into the snow of the downs, where the roads are shut, and where nobody from Pellam can follow them until the thaw, and by then they will not be landed, and not anyone's.".
+  }
+  // If the channel is cut, the sledge road south ends at black water, and the hired go back.
+  Rule channel_turns when hiredOut(lisk) and not hiredFled(lisk) and channelCut(lisk) and at(party, sledge_road) and not flightCaught(lisk)
+    says "The sledge road ends at the watermen's channel, forty feet of black water steaming in the starlight, from bank to bank. Nobody goes south on the ice tonight. Behind you the hired stand in their blankets and look at it, and then at you." { Assert channelBlocked(lisk). }
+  Relation channelBlocked(place).
+  // Out on the ice at dawn, the hired are found, and walked back to the bondhouse.
+  Rule flight_fails when hiredOut(lisk) and not hiredFled(lisk) and thirdDay() and hour(clock) >= 6 and not flightCaught(lisk)
+    says "Day comes up grey over the Reach and finds Harker's hired on the open ice in their blankets, and the searchers find them soon after, and walk them back up Hay Stairs to the bondhouse, to be landed at two." {
+    Assert flightCaught(lisk). Assert at(hired, bond_floor). Assert at(tansy, bond_floor). Assert harkerWary(harker). }
+  // Dickon goes south himself on the second night with whoever is hidden, if nobody brings him the bondhouse.
+  Rule dickon_leaves when secondDay() and hour(clock) == 3 and not dickonTaken(dickon) and not dickonGone(dickon) and not hiredOut(lisk) and not channelCut(lisk)
+    {
+    Assert dickonGone(dickon). Assert at(dickon, limbo). Assert at(jem, limbo). Assert at(polly, limbo). Assert pollyGone(polly). }
+}

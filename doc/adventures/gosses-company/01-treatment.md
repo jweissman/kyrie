@@ -53,7 +53,7 @@ playhouse in the country, and no Office at all. Everything the City forbids is h
 | **The Westgate and the Carters' Yard** | The road in; coaching inns, ostlers, wagons, the toll-board, the bills of the Trial pasted over each other | The ostler who took the parcel; Gosse's company pitched in the yard of the **Painted Moon** |
 | **The Chepe and Guildhall Square** | The market cross, the Guildhall, the dry **Fountain of Concord** (paid for three times, never run), the Office of Plain Speech | The Censor; her clerks; the Lord Mayor and the aldermen; a water-engineer's apprentice |
 | **The Close** | The minster, the choir school, the canons' houses, quiet lawns and loud bells | Canon Mallory, precentor and critic; the **Children of the Close**, a boy company |
-| **Paternoster Row** | Booksellers, printers, binders, the coffee-house at **the Sign of the Owl** where the critics sit | Ormsby Clay; Nym Callow; a printer who pirates plays |
+| **Paternoster Row** | Booksellers, printers, binders, the coffee-house at **the Sign of the Owl** where the critics sit | Ormsby Clay; Nym Carrow; a printer who pirates plays |
 | **The Hill** | Tall houses with gardens down to the Ise | Lady Aske's house; the Lord Mayor's garden, which has a fountain that runs |
 | **The Shambles and the Water Stairs** | The fish market, the watermen's stairs, the river traffic to the Soke | Dame Philippa Ruddle, ballad-sheet critic; Oswin Garlick the heckler; the watermen's guild |
 | **The Soke** | Over the water: the **Wheel** (the round playhouse where the Trial is played), the bear-garden, the stews, the Mint | Corin Lisle's rival company keeps its house in the City; the bear-ward of the Soke wants Gosse's bear |
@@ -107,10 +107,10 @@ distinct idea of what a play is for. Winning needs three of them.
 | **Ormsby Clay** | the Guildhall | Order: verse, the unities, the proper end of each person | Clowns, ad-libbing, bears |
 | **Dame Philippa Ruddle** | the Shambles (she writes the ballad-sheets the fish market reads) | Joy: laughter, spectacle, a good cry and home | Pomp, long speeches, Ambrose Vane (whom she has mocked in print for fifteen years) |
 | **Canon Mallory** | the Close | Improvement: a moral, and nobody worse for it | Indecency, satire of the dead |
-| **Nym Callow** | the Owl (the coffee-house elects its critic) | Truth: a play should bite the hand of power | Safety, flattery, anything the Office would license |
+| **Nym Carrow** | the Owl (the coffee-house elects its critic) | Truth: a play should bite the hand of power | Safety, flattery, anything the Office would license |
 
-Their disagreements are the strategy of the last act. A cut that pleases Mallory loses Callow; the bear wins Ruddle
-and loses Clay; the satire wins Callow and Ruddle and sends the tallymen's sticks clicking.
+Their disagreements are the strategy of the last act. A cut that pleases Mallory loses Carrow; the bear wins Ruddle
+and loses Clay; the satire wins Carrow and Ruddle and sends the tallymen's sticks clicking.
 
 ### The Office
 
@@ -208,7 +208,7 @@ a resolution and a consequence for later.
    still. Bribe the clerk, argue the lines, forge the seal, submit a decoy, or don't submit at all and play in the Soke
    under the liberty's law.
 10. **The Hand in the Margin** (the mystery). The paper bears the Office's watermark; the corrections are in the hand
-    of the Office's licences; the purse was sewn by a lady's maid on the Hill; Lisle's servant asked after it; Callow
+    of the Office's licences; the purse was sewn by a lady's maid on the Hill; Lisle's servant asked after it; Carrow
     says he wrote it. Four suspects, one author, and a sender who is not the author.
 11. **Gosse's Debts.** The bailiffs come for the costumes on the fourth day. Pay, hide the costumes in the minster
     (sanctuary for goods, by the Book of Precedence), play a scene for the bailiffs, or fight.
@@ -223,7 +223,7 @@ a resolution and a consequence for later.
     yourself.
 16. **The Critics' Table.** Four critics at the Owl, each with a private story: Clay's tragedy hissed off the Wheel
     twenty years ago by Gosse's company; Ruddle's fifteen years of mocking Vane, whom she loves; Mallory's taste for
-    bawdy ballads; Callow's debts and his claim to be the author.
+    bawdy ballads; Carrow's debts and his claim to be the author.
 17. **The Letters in the Chest.** Gosse cannot hear the prompts any more. Hepzibah needs someone in the opposite wing
     to sign them. In the property chest, under the crowns, are the letters he never sent. Gosse means to propose to her
     in the epilogue. He has asked you to make sure she is listening.
@@ -258,7 +258,7 @@ A season's account rather than a menu. The ending is the combination of several 
 |---|---|
 | **The Patent** | Won by Gosse (three of the Bench), kept by Lisle, given to the Children |
 | **The play** | Played licensed and cut; played whole in the Soke and fined into ruin; played whole and licensed by its author; burned; never played |
-| **The author** | Unknown; credited to Callow; revealed by the player; revealed by herself, from the stage |
+| **The author** | Unknown; credited to Carrow; revealed by the player; revealed by herself, from the stage |
 | **The company** | Housed at the Wheel; on the road again, famous; broken (Dorcas to Lisle, Vane gone, Gosse in the debtors' prison) |
 | **Gosse and Hepzibah** | Married; still not; she leaves |
 | **Vane and Ruddle** | A late understanding; a feud renewed |

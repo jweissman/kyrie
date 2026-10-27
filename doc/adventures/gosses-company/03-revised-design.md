@@ -66,7 +66,7 @@ Pentrice stands where the Ise falls into the Arle. Seven districts, about thirty
 | **The Painted Moon** | the yard (the company's wagon, Patience's stall), the taproom, the loft (rehearsals) | Gosse's company; Mistress Bascombe; Dick Merriman the ostler |
 | **The Chepe** | the market cross; Guildhall Square and the dry Fountain of Concord; the Office's hall; the Master's room; the Mayor's Room (Fallow's playhouse) | Clemency Orde; Tunstall; Corin Fallow; Wat Cundy, apprentice engineer |
 | **The Close** | the minster nave; the bell-loft; the choir school; Canon Mallory's house | Canon Mallory; Ned Cherry; the ringers Hezekiah and Walter Budge |
-| **Paternoster Row** | the Row; the Owl coffee-house; Inchbald's printing-house | Ormsby Clay; Nym Callow; Rufus Inchbald and Shad, his shorthand boy |
+| **Paternoster Row** | the Row; the Owl coffee-house; Inchbald's printing-house | Ormsby Clay; Nym Carrow; Rufus Inchbald and Shad, his shorthand boy |
 | **The Hill** | Hill Street; the Orde house; the Lord Mayor's garden; the conduit house | Clemency's maid Sukey Rowe; Lord Mayor Grisby (seen, not much spoken to) |
 | **The Gullet** | the fish market; Ma Tolly's honey stall; the water stairs | Dame Philippa Gammage; Oswin and Meg Garlick; Ma Tolly; Joss Ferriby of the watermen |
 | **The Soke** (over the Arle) | the landing; Soke Lane; the bear-garden; the Wheel's yard and stage; the tiring-house; under the stage; the flies | Simeon Bowle, bear-ward; Grimsditch the bailiff (who cannot distrain in the Soke) |
@@ -97,7 +97,7 @@ them**, at the other companies' nights and at rehearsal, as well as by asking.
 | **Ormsby Clay** (the Guildhall) | order: verse, decorum, every person's proper end | Swale's complaint played as tragedy; a clean book; the procession | the bear; ad-libs; Gosse in a dress |
 | **Dame Philippa Gammage** (the Gullet) | joy | the bear; Pudding; the Widow played for laughs; the house roaring | long speeches; pomp; being made a fool of in the gulling |
 | **Canon Mallory** (the Close) | improvement | a moral (Who walks first); the choirboy treated well; nothing indecent | blue lines heard as blue; satire of the dead |
-| **Nym Callow** (the Owl) | truth | the play whole; the tallymen made the joke; the Fountain run | cuts; the licence; anything the Office would pass |
+| **Nym Carrow** (the Owl) | truth | the play whole; the tallymen made the joke; the Fountain run | cuts; the licence; anything the Office would pass |
 
 ## The small adventures (revised inventory)
 
@@ -161,7 +161,7 @@ and what it changes later.
 
 14. **The Hand in the Margin.** Clues found, not told: the Office watermark in the parcel's paper; the margin's hand,
     the hand that signs the licence on the Moon's taproom wall; the playbill of the riot night pressed in the parcel;
-    Sukey Rowe, who carried it; Callow, who says he wrote it and cannot quote its third act. *Resolution:* the player
+    Sukey Rowe, who carried it; Carrow, who says he wrote it and cannot quote its third act. *Resolution:* the player
     knows; tells Clemency they know; she denies it, or does not.
 15. **The Riot Told Twice.** Gosse tells it in the Moon's taproom as a triumph. Clemency tells it, if she trusts the
     player, as the night her father was laughed at with her on his knee. *Later:* Gosse's epilogue can say sorry.
@@ -259,5 +259,5 @@ the Budges, Merriman and Sukey.
 | Monk / climbing | the flies; the bees; the bell-frame |
 | Mending | the tenor rope; the fountain-prop; the trap |
 | Lore | the ordinance of the dead; the fare-roll; the watermark |
-| Insight | Gosse's deafness; Callow's lie; Grimsditch's longing |
+| Insight | Gosse's deafness; Carrow's lie; Grimsditch's longing |
 | Persuasion, deception | Dorcas; the gulling; Merriman; Tunstall |

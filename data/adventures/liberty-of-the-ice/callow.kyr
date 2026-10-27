@@ -1,0 +1,92 @@
+Module pellam "The Liberty of the Ice" {
+  // ── Magister Edrin Callow, a teacher of the Flow ──────────────────────────────────────────────────────────────────
+  // Sixty, consumptive, vain, generous, a mimic. He preaches on the ice that nothing stays, and that no hand binds the
+  // one who did not shake it: the man who shook yesterday is not the man who stands here today. The Court charges him
+  // with unswearing, the one crime of the ice, on the first afternoon. The ice has no gaol. An accused is given into
+  // the custody of a hand who shakes on producing him at the Landing; and nobody on the ice will shake for a man who
+  // says that shaking means nothing. Unhanded, he goes in the stocks at the Glove Post until the Landing.
+  Person callow "Magister Edrin Callow" at freezeland {
+    Role "a thin old preacher in a black gown gone green, coughing, with a crowd" when not callowCharged(callow).
+    Role "a preacher of the Flow, charged with unswearing" when callowCharged(callow).
+    Ancestry human. Calling cleric. Level 2. Peaceable. Pronouns he. Manner jovial.
+    Greets "The old preacher stops in the middle of a sentence and looks at you with bright, delighted eyes, as at a new argument. 'Ah! A face that has not yet made up its mind. Come here. I have something to unteach you.'".
+    Greets again "Callow coughs, and smiles at you, as at a continuing argument.".
+  }
+  Relation callowCharged(group). Relation callowHand(group). Relation callowStocked(group). Relation callowSlipped(group).
+  Relation callowAcquitted(group). Relation callowConvicted(group). Relation callowDead(group). Relation callowPreached(group).
+  Relation saidBinds(group). Relation saidChanges(group). Relation saidKnowing(group). Relation callowAsks(group). Relation callowHeard(group).
+  Relation knowingDoctrine(place).
+  Rule callow_preaches when firstDay() and hour(clock) >= 9 and hour(clock) < 16 and not callowCharged(callow) and not at(callow, freezeland) { Assert at(callow, freezeland). }
+  Observe callow_sermon at freezeland when at(callow, freezeland) and not callowCharged(callow) "At the foot of the Glove Post, on an upturned keg, a thin old man in a green-black gown is preaching to a crowd that laughs and shouts back. 'Look under your feet!' he cries. 'This is a river! Yesterday it ran; tomorrow it will run; today you have built a street on it and called it a country and made a law for it. Nothing stays, my friends. Not this ice, not that glove, not the man who shook hands with you on Monday. He is gone! He went out with the river! Why should you pay his debts?' A waterman throws a snowball at him. He catches it, and eats it.".
+  Topic callow_teaching with callow "Ask Magister Callow what he teaches" when true once {
+    Says "'The Flow.' He coughs into a handkerchief and folds it away. 'Nothing stays. You know this; everybody knows it; it is the one thing everybody knows and nobody believes.' He taps your chest. 'The one who shook hands with the watermen this morning: where is he? Gone. You are someone else now, a little, who remembers being him. And the Reeve will make you pay his pennies.' He beams. 'I find that funny. The Court of the Ice does not. I am to be charged with unswearing this afternoon, for saying so to some watermen who owe the Company money.' He coughs again. 'It is the only crime on the ice. I am rather proud of it.' He looks down at the ice under his boots, grey and thick and full of bubbles, like old glass. 'I shall not see it go out, I think. That is all right. Nobody sees everything go.'".
+    On discuss { Assert callowHeard(actor). }
+  }
+  // At four on the first day, at the Court, Tredgold's Company charges him.
+  Rule callow_charged when firstDay() and hour(clock) >= 16 and not callowCharged(callow) and not iceGone() {
+    Assert callowCharged(callow). Assert at(callow, court). }
+  Observe callow_in_court at court when callowCharged(callow) and firstDay() and hour(clock) >= 16 and hour(clock) < 17 and not callowHand(party) and not callowStocked(callow) "Magister Callow stands before the trestle, coughing, charged by the Watermen's Company with unswearing. 'There is no gaol on the ice,' says Justice Broom, through her trumpet, to the benches. 'Who'll be his hand? Who'll shake on bringing him here at the Landing?' Nobody moves. A man at the back laughs. Callow looks along the benches, mildly interested, as if it were a question in logic.".
+  Entity callow_bargain: bargain "to bring Magister Callow to the Landing".
+  Action shake_callow(actor: group, site: place) "Stand up and shake the Reeve's hand, to be Callow's hand until the Landing" {
+    Grave "A hand shaken on the ice binds: shake to be Callow's hand, and if he is not at the Landing, the Court will have it of you.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, court) and callowCharged(callow) and at(callow, court) and at(broom, court)
+      and not callowHand(actor) and not callowStocked(callow) and not iceGone().
+    Time 2 minutes.
+    On success { Assert callowHand(actor). Assert shook(actor, callow_bargain). Assert acceptsEscort(callow, actor). Assert following(callow, actor). }
+    Result "You stand up. The benches turn round to look at you. Justice Broom puts out her small hard hand over the trestle and you shake it. 'Callow's hand,' she says, 'until the Landing. Bring him here at two on the last day, or answer for him.' Behind you Magister Callow is laughing so hard that he has to sit down. 'You have just shaken,' he says, wiping his eyes, 'to keep a man who says that shaking binds nobody. You see my difficulty. You see yours.' He takes your arm. 'We shall have a great deal to talk about.'".
+  }
+  Rule callow_stocked when firstDay() and hour(clock) >= 17 and callowCharged(callow) and not callowHand(party) and not callowStocked(callow)
+    {
+    Assert callowStocked(callow). Assert at(callow, freezeland). Assert happened(ev_callow_stocked). }
+  Entity ev_callow_stocked: fact "callow stocked".
+  Rule callow_stocked_heard when happened(ev_callow_stocked) and inPellam() and not heardNews(ev_callow_stocked) says "Nobody would be Callow's hand. At five the watermen put him in the stocks at the foot of the Glove Post, in the frost, with a blanket and a brazier, until the Landing; and he preaches from them to whoever passes, between coughs." { Assert heardNews(ev_callow_stocked). }
+  Thing stocks "the stocks at the Glove Post" at freezeland is scenery {
+    State empty "At the foot of the Glove Post stand the Court's stocks, empty.".
+    State holding "At the foot of the Glove Post Magister Callow sits in the stocks with his ankles through the holes, a blanket round him and a brazier at his feet, coughing, and preaching the Flow to whoever stops.".
+  }
+  Initially Assert state(stocks, empty).
+  Rule stocks_fill when callowStocked(callow) and state(stocks, empty) and not callowDead(callow) { Assert state(stocks, holding). }
+  // In the stocks two nights in the frost, a consumptive old man may not see the Landing.
+  Rule callow_frozen when callowStocked(callow) and secondDay() and hour(clock) >= 4 and hour(clock) < 6 and not callowDead(callow) and not callowFed(callow)
+    {
+    Assert callowDead(callow). Assert state(stocks, empty). Assert at(callow, limbo). Assert happened(ev_callow_frozen). }
+  Entity ev_callow_frozen: fact "callow frozen".
+  Rule callow_frozen_heard when happened(ev_callow_frozen) and inPellam() and not heardNews(ev_callow_frozen) says "In the small hours of the last day, in the stocks at the foot of the Glove Post, Magister Edrin Callow stopped coughing. The watermen found him at first light with his blanket round him and his brazier out, and the snow not melting on his face. Someone has written on the board at the foot of the Glove, under KEEP WHAT YOU SHAKE ON, in charcoal: NOTHING STAYS." { Assert heardNews(ev_callow_frozen). }
+  Relation callowFed(group).
+  Action tend_callow(actor: group, site: place) "Bring Magister Callow in the stocks hot gin, a second blanket, and coal for his brazier" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and callowStocked(callow) and not callowFed(callow) and quantity(actor, gold) >= 2.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 2. Assert callowFed(callow). }
+    Result "He takes the gin in both hands. 'You realise,' he says, 'that the man you are being kind to will not exist by morning, and you will never be thanked by him.' He drinks. 'Thank you.' He coughs for a long time, and then sleeps, sitting up, in the second blanket, with the coal glowing at his feet.".
+  }
+  // With his hand, he goes where the company goes, and argues.
+  Rule callow_follows when following(callow, party) and at(party, ?p) and not at(callow, ?p) and not callowSlipped(callow) and not callowDead(callow) { Assert at(callow, ?p). }
+  Topic callow_question with callow "Let Magister Callow ask you his question" when callowHand(actor) and not callowAsks(actor) once {
+    Says "He walks beside you with his arm through yours, coughing. 'Here is my question,' he says. 'Yesterday you were a stranger who had never seen Pellam. Today you are a person who has walked on its river and had its law cried at you and shaken on keeping an old heretic. Tomorrow you will be someone else again. Which of you is bound by the hand you gave the Reeve?' He stops in the middle of Freezeland Street. 'Think about it. I want your answer, and I want it to be yours, and not the Reeve's.'".
+    On discuss { Assert callowAsks(actor). }
+  }
+  Topic answer_binds with callow "Tell Callow: the hand binds whoever gave it, changed or not" when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor) once {
+    Says "'The Reeve's answer.' He nods, quite respectfully. 'And Pellam's, and every honest man's, and Harker's.' He walks on. 'A man is his promises. He changes, and his promises stand still, and he is dragged along behind them like a dog behind a cart. That is the law of the ice.' He coughs. 'Then I'll come to your Landing, since you're bound. And they'll put me in the stocks, since I'm guilty. And you'll have been right.' He pats your arm. 'It is a very comfortable thing to be right.'".
+    On discuss { Assert saidBinds(actor). }
+  }
+  Topic answer_changes with callow "Tell Callow: he is right; nobody is bound by who they were" when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor) once {
+    Says "His face lights up like a boy's. 'Oh, good,' he says. 'Oh, very good. A convert, on the ice.' Then he stops, and looks at you more carefully. 'Then you'll not mind,' he says, 'when I am not at your Landing. The one who shook for me will be gone by then, you see. You will be somebody else, who never promised anything.' He laughs, and coughs. 'I would hate to be a hypocrite in front of a convert.'".
+    On discuss { Assert saidChanges(actor). }
+  }
+  // A middle answer, which only someone who has seen a bargain shaken on a lie can give.
+  Topic answer_knowing with callow "Tell Callow: a hand binds the one who shook it, if he knew what he was shaking on; a hand shaken on a lie about the thing itself binds nobody" when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor)
+    and (knows(actor, hired_sold) or knows(actor, tansy_hired) or knows(actor, gant_altered)) once {
+    Says "He stops walking. For a while he does not say anything at all, which you have not seen him do. 'That is not the Flow,' he says at last. 'And it is not the Reeve.' He coughs. 'It is a third thing. Nothing stays, but what a man knew when he gave his hand, that stays: it is the one thing that was really there.' He looks at you. 'You have been somewhere, to think of that. Somebody shook on a lie in front of you.' He takes your arm again. 'I'll come to your Landing,' says Edrin Callow. 'I'll argue that. It is better than mine.'".
+    On discuss { Assert saidKnowing(actor). }
+  }
+  // On the second night, a man who has been told nothing binds him goes where he likes.
+  Rule callow_slips when saidChanges(party) and following(callow, party) and secondDay() and hour(clock) >= 1 and hour(clock) < 5 and not callowSlipped(callow)
+    says "In the small hours you wake, or look round, and Magister Callow is not there. On the place where he was sitting there is a scrap of paper in his hand: You are not the one who shook. Neither am I. Gone to preach to the river. E.C." {
+    Assert callowSlipped(callow). Retract following(callow, party). Retract acceptsEscort(callow, party). Assert at(callow, black_reach). }
+  Observe callow_on_reach at black_reach when callowSlipped(callow) and at(callow, black_reach) and not iceGone() "Out on the Black Reach, by the hole that never freezes, Magister Callow is preaching the Flow to the river, in his gown, with his arms out, and the river is listening.".
+  Topic callow_come_back with callow "Ask Callow to come back to the Landing, for your hand's sake" when callowSlipped(callow) and at(callow, black_reach) and not callowReturned(callow) once {
+    Says "'For your hand.' He looks at the black water. 'Not for mine. Mine is gone.' He coughs. 'Very well. The one who left you a note was a hypocrite, and the one standing here is a different man, and he will come.' He takes your arm. 'You see? It cuts both ways. That is the beauty of it.'".
+    On discuss { Assert callowReturned(callow). Retract callowSlipped(callow). Assert following(callow, party). Assert acceptsEscort(callow, party). }
+  }
+  Relation callowReturned(group).
+}

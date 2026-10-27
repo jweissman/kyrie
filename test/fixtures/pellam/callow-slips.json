@@ -1,0 +1,29 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "=48",
+  "go:court",
+  "?Tell the Reeve that Swan",
+  "?Pay the watermen their one",
+  "?Pay the watermen twelve",
+  "=49",
+  "Stand up and shake the Reeve",
+  "Talk to Magister",
+  "Let Magister Callow ask",
+  "Tell Callow: he is right"
+ ],
+ "night": [
+  "go:calf_taproom",
+  "Talk to Nab",
+  "Take a bed",
+  "=258"
+ ],
+ "landing": [
+  "=318",
+  "go:freezeland",
+  "=330"
+ ]
+}

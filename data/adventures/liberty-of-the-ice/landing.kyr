@@ -1,0 +1,199 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The Landing ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // At two on the last day the Court sits at the Glove Post, with the city's witness at the Reeve's elbow, and cries
+  // the Fair's bargains, hand to hand, case by case, each for half an hour: Callow; Gant; the Squire's flock;
+  // Harker's hired; and whatever else was shaken on. Then the ice is landed, and what was not landed goes out with it.
+  Measure landingStart(place).
+  Rule landing_opens when thirdDay() and hour(clock) >= 14 and not landingAt(lisk) and not landingDone(lisk) and not iceGone() {
+    Assert landingAt(lisk). Set landingStart(lisk) to watch(clock). }
+  Kind landingcase.
+  Query caseIs(a: landingcase, b: landingcase) means landingAt(lisk) and watch(clock) - landingStart(lisk) >= caseFrom(a) and watch(clock) - landingStart(lisk) < caseFrom(b).
+  Measure caseFrom(landingcase).
+  Entity case_callow: landingcase "the case of Magister Callow". Entity case_gant: landingcase "the case of Sir Lionel Gant".
+  Entity case_flock: landingcase "the case of the Hawsfold flock". Entity case_hired: landingcase "the case of Harker's hired".
+  Entity case_hands: landingcase "the last hands". Entity case_end: landingcase "the end of the Landing".
+  Initially Set caseFrom(case_callow) to 0. Initially Set caseFrom(case_gant) to 3. Initially Set caseFrom(case_flock) to 6.
+  Initially Set caseFrom(case_hired) to 9. Initially Set caseFrom(case_hands) to 12. Initially Set caseFrom(case_end) to 14.
+  Query callowCase() means caseIs(case_callow, case_gant).
+  Query gantCase() means caseIs(case_gant, case_flock).
+  Query flockCase() means caseIs(case_flock, case_hired).
+  Query hiredCase() means caseIs(case_hired, case_hands).
+  Query handsCase() means caseIs(case_hands, case_end).
+  Query landingEnds() means landingAt(lisk) and watch(clock) - landingStart(lisk) >= caseFrom(case_end).
+  // Everyone the Landing wants is brought to the Glove Post.
+  Rule landing_gathers when landingAt(lisk) and not landingDone(lisk) and not gathered(lisk) {
+    Assert gathered(lisk). Assert at(harker, freezeland). Assert at(kemble, freezeland). Assert at(gosling, freezeland). Assert at(tredgold, freezeland). }
+  Relation gathered(place).
+  // The clerk's list, chalked on a board at the Reeve's elbow, so that whoever has a case knows when it is coming.
+  Observe landing_list at freezeland when landingAt(lisk) and not landingDone(lisk) "On a board at the Reeve's elbow the Court's clerk has chalked the Landing's list, and crosses each case off as it is cried: the heretic Callow, and his hand; Sir L. Gant, debtor; the Hawsfold flock, to J. Harker; J. Harker's hired, twenty; and then ALL OTHER HANDS. Then, in bigger letters: OFF THE ICE AT NINE.".
+  // Harker's one chance to be someone else: Ursel, who knows now where he came from, asks him the one question.
+  Topic ursel_asks_harker with harker "Stand back, and let Ursel ask Master Harker her question" when landingAt(lisk) and not landingDone(lisk) and travelsWith(ursel, party) and (knows(actor, ursel_knows_harker) or toldCobbNote(actor)) and not urselAskedHarker(lisk) once {
+    Says "Ursel goes and stands in front of him, close, where the Reeve can see them both. 'Swale Head,' she says. 'Twenty-nine years since. A farm at the beck-head, forty acres of stones, a man called Cobb with a note out against his wool. Was it you came up the dale with it?' Harker looks at her for as long as it takes the clerk to dip his pen. 'I have been up every dale in the north country with a note, mistress,' he says gently. 'I do not remember the farms.' He looks down at his hands, folded at his waist, the right in the left. 'I remember the hands.' And for a moment you think he is going to say something else, and so does she; and then Kemble touches his sleeve, and he turns back to the Reeve, and it is gone. Ursel stands there a moment longer. Then she comes back to you and says, quite cheerfully, 'Well. Now I know I'll never know,' and takes your arm, and does not let go of it until the case is over.".
+    On discuss { Assert urselAskedHarker(lisk). Increase urselTrust(ursel) by 1. }
+  }
+  Relation urselAskedHarker(place).
+  Observe ursel_watches_harker at freezeland when hiredCase() and travelsWith(ursel, party) and knows(party, ursel_knows_harker) "Ursel is not watching the hired. She is watching Harker's hands: the way he holds them, clasped, at his waist, the right in the left, as if one were keeping the other from something.".
+  Rule landing_hired_come when landingAt(lisk) and not landingDone(lisk) and inBond(hired) and not hiredFled(lisk) and not at(hired, freezeland) { Assert at(hired, freezeland). Assert at(tansy, freezeland). }
+  Rule landing_taken_come when landingAt(lisk) and not landingDone(lisk) and dickonTaken(dickon) and not at(dickon, freezeland) { Assert at(dickon, freezeland). Assert at(jem, freezeland). }
+  Rule landing_party_hired when landingAt(lisk) and not landingDone(lisk) and inBondhouse(party) and not at(party, freezeland)
+    says "At half past one Kemble unlocks the bondhouse and walks Harker's hired, and you with them, over the ice to the Glove Post, two by two, to be landed." {
+    Assert at(party, freezeland). Retract inBondhouse(party). }
+  Rule landing_gant_come when landingAt(lisk) and not landingDone(lisk) and at(gant, freezeland) and not gantSafe(gant) { Assert gantAtLanding(gant). }
+  Relation gantAtLanding(group).
+  Observe landing_scene at freezeland when landingAt(lisk) and not landingDone(lisk) "The Landing. The whole Fair has come to the Glove Post and stands packed on the ice in a great ring, quiet for once, breathing. Justice Broom sits at the foot of the mast on the Court's chair, set on a herring barrel, with her trumpet; the waterman-clerk at her side with the Court's book; and at her other elbow, on a stool, as the city's witness, Alderman Gosling, in his chain. Master Harker stands at the front with Kemble and his book. Above them all the great frozen glove.".
+
+  // ── The case of Magister Callow ───────────────────────────────────────────────────────────────────────────────────
+  Rule callow_case_dead at freezeland when callowCase() and callowDead(callow) and not callowCaseOpened(lisk)
+    says "The clerk calls Magister Edrin Callow, on the charge of unswearing. Justice Broom turns her trumpet toward the empty stocks, as if they might say something. 'Discharged,' she says. 'By the Flow.' Nobody laughs." { Assert callowCaseOpened(lisk). }
+  Rule callow_case_hand at freezeland when callowCase() and callowHand(party) and together(callow, party) and not callowCaseOpened(lisk)
+    says "The clerk calls Magister Edrin Callow, on the charge of unswearing, and his hand to produce him. Callow steps out of the crowd on your arm, coughing, and bows to the Reeve. 'Produced,' says Broom, and looks at you with something that might be approval. 'Your hand is kept. Now, Magister. What have you to say?'" {
+    Assert callowCaseOpened(lisk). Assert handKept(callow_bargain). }
+  Rule callow_case_stocks at freezeland when callowCase() and callowStocked(callow) and not callowDead(callow) and not callowCaseOpened(lisk)
+    says "The clerk calls Magister Edrin Callow, on the charge of unswearing. The watermen let him out of the stocks and he stands before the Reeve, swaying, blue at the lips, and smiles at her. 'Well, Magister,' says Broom. 'What have you to say?'" {
+    Assert callowCaseOpened(lisk). }
+  Rule callow_case_gone at freezeland when callowCase() and callowHand(party) and not together(callow, party) and not callowCaseOpened(lisk)
+    says "The clerk calls Magister Edrin Callow, on the charge of unswearing, and his hand to produce him. Everyone turns to look at you. There is no Callow. Justice Broom puts down her trumpet. 'A hand,' she says, 'given for a man who says no hand binds, and broken. I'll not pretend I didn't see it coming.'" {
+    Assert callowCaseOpened(lisk). Assert handBroken(callow_bargain). Assert brokeHand(party). }
+  Relation callowCaseOpened(place). Relation knowingArgued(place).
+  Action argue_knowing(actor: group, site: place) "Stand beside Callow and give the Reeve the argument you made together: a hand binds only what the one who shook it knew" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and callowCase() and saidKnowing(actor) and together(callow, actor) and not callowDead(callow) and not knowingArgued(lisk).
+    Time 1.
+    On success { Assert knowingArgued(lisk). Assert knowingDoctrine(lisk). }
+    Result "Callow begins, and then stops, and turns to you, and bows. 'My hand,' he says, 'put it better.' So you say it, to the Reeve and the whole silent Fair: that a word is free on the ice, and a hand is bound; but a hand is only bound to what was really there when it was given, what the one who shook it knew he was shaking on; and a hand got by a lie about the very thing shaken on was never given to that thing at all. Justice Broom listens with her eyes open. When you have finished she says, slowly, 'That is not unswearing. That is the law of the ice, said properly, for the first time in two hundred years.' She bangs her trumpet. 'Discharged.'".
+  }
+  Action argue_knowing_alone(actor: group, site: place) "Speak for Callow yourself: a hand shaken on a lie about the thing itself was never given to it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and callowCase() and callowCaseOpened(lisk) and not callowDead(callow) and not saidKnowing(actor)
+      and (knows(actor, hired_sold) or knows(actor, gant_altered)) and not knowingArgued(lisk) and not knowingTried(actor).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert knowingArgued(lisk). Assert knowingDoctrine(lisk). Assert knowingTried(actor). }
+    On failure { Assert knowingTried(actor). }
+    Result "You speak for him, to the Reeve and the whole Fair: a word is free and a hand is bound, but bound only to what the one who shook it knew; a hand got by a lie about the very thing shaken on was never given to that thing at all. Callow, beside you, has stopped coughing to listen. Justice Broom looks at you a long time. 'That's not his doctrine,' she says. 'That's better than his doctrine.' She bangs her trumpet. 'Discharged.'".
+    Otherwise "You try to say it, and it comes out as Callow's doctrine, and the Fair groans, and Broom shakes her head. 'Nothing stays,' she says drily, 'and nor does that argument.'".
+  }
+  Relation knowingTried(group).
+  Rule callow_case_ends when gantCase() and callowCaseOpened(lisk) and not callowDead(callow) and not callowCaseClosed(lisk) and not handBroken(callow_bargain) { Assert callowCaseClosed(lisk). }
+  Relation callowCaseClosed(place).
+  Rule callow_acquitted when callowCaseClosed(lisk) and knowingArgued(lisk) and not callowAcquitted(callow) { Assert callowAcquitted(callow). Retract callowStocked(callow). Assert state(stocks, empty). }
+  Rule callow_convicted at freezeland when callowCaseClosed(lisk) and not knowingArgued(lisk) and not callowConvicted(callow) and not callowAcquitted(callow)
+    says "'Guilty of unswearing,' says Justice Broom, 'on his own admission, which is the only thing he has ever been consistent about. The stocks, until the ice goes.' The watermen put him in. He thanks them, and begins at once to preach to the Landing from the stocks, about the ice." {
+    Assert callowConvicted(callow). Assert callowStocked(callow). Assert state(stocks, holding). Retract following(callow, party). }
+  // A hand broken costs ten coin, or what there is.
+  Rule hand_broken_fine when handBroken(callow_bargain) and brokeHand(party) and not callowFined(party) { Assert callowFined(party). Decrease quantity(party, gold) by 10. }
+  Relation callowFined(group).
+
+  // ── The case of Sir Lionel Gant ───────────────────────────────────────────────────────────────────────────────────
+  Rule gant_case at freezeland when gantCase() and gantAtLanding(gant) and not gantFree(gant) and not gantSafe(gant) and not gantCaseOpened(lisk)
+    says "The clerk calls Sir Lionel Gant, of nowhere in particular. Master Harker asks the Court that when the ice goes Sir Lionel be cried off it at Hay Stairs, into the hands of the bailiffs who wait there with his writ, for thirty coin. Sir Lionel stands before the Reeve with his hat in his hand and says, very quietly, 'It was three.'" { Assert gantCaseOpened(lisk). }
+  Rule gant_case_clink at freezeland when gantCase() and gantSafe(gant) and not gantCaseOpened(lisk)
+    says "The clerk calls Sir Lionel Gant. A boy from Bankside brings up a note to the Reeve, who reads it out: 'Sir Lionel Gant presents his compliments to the Court of the Ice from the Clink, where he owes nobody anything.' The Fair cheers. Harker does not." { Assert gantCaseOpened(lisk). }
+  Relation gantCaseOpened(place). Relation harkerForger(group).
+  Action show_counterpart(actor: group, site: place) "Show the Reeve Sir Lionel's counterpart: the bond was three coin, and Harker's copy has been made thirty" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and gantCase() and gantCaseOpened(lisk) and gantAtLanding(gant) and carries(actor, counterpart) and knows(actor, gant_altered) and not gantVoided(gant).
+    Time 1.
+    On success { Assert gantVoided(gant). Assert gantFree(gant). Assert harkerForger(harker). }
+    Result "Justice Broom takes the two papers in her small hard hands and holds them side by side against the light, a long time, the counterpart and the copy Harker's writ was drawn from, and the whole Fair waits. 'Three,' she says. 'In words. And here a three and a stop, made into thirty, in good ink, in Fleece Row.' She does not look at Harker. She gives the counterpart back to Sir Lionel. 'Three coin,' she says. 'Pay it to the Court.' Sir Lionel has three coin, just. Behind him half the Fair is looking at Master Harker, who is looking at the glove.".
+  }
+
+  // ── The case of the Hawsfold flock ────────────────────────────────────────────────────────────────────────────────
+  Relation flockCaseOpened(place). Relation flockLanded(place). Relation flockHonest(place). Relation pilloried(group). Relation restitution(group).
+  Rule flock_absent at freezeland when flockCase() and flockShook(party) and not at(party, freezeland) and not flockCaseOpened(lisk)
+    says "The clerk calls a hand: Josias Harker, and the Squire of Hawsfold, two hundred fell ewes. Master Harker turns, smiling, to where the Squire should be. There is no Squire. He looks round the ring, and round it again, and Kemble looks, and the crowd begins to laugh, the way a crowd laughs at the Landing every Frost Fair at somebody. 'Not here,' says Justice Broom, with deep satisfaction. 'Not landed. It goes out with the river, Master Harker.' She bangs her trumpet. 'Next.'" {
+    Assert flockCaseOpened(lisk). }
+  Rule flock_present at freezeland when flockCase() and flockShook(party) and at(party, freezeland) and not flockCaseOpened(lisk)
+    says "The clerk calls a hand: Josias Harker, and the Squire of Hawsfold, two hundred fell ewes at Hawsfold under Swale Fell, delivery at the shearing. Master Harker turns to you, smiling, with his palm already open." {
+    Assert flockCaseOpened(lisk). }
+  // Exposed: no squire and no flock, and a hand shaken. The pillory, unless the price is paid back, twice over.
+  Rule flock_exposed at freezeland when flockCase() and flockCaseOpened(lisk) and flockShook(party) and at(party, freezeland) and squireExposed(party) and not flockReal(party) and not pilloried(party) and not restitution(party) and not exposedCried(lisk)
+    says "'There is no Squire of Hawsfold,' says Master Harker to the Reeve, very gently, 'and no flock. There is a shepherd called Haws.' The Fair goes quiet. Justice Broom turns her trumpet on you. 'A lie's no crime on the ice,' she says. 'But you shook. Can you deliver two hundred ewes at the shearing?' You cannot. 'Then pay him back what he paid, and as much again for the trouble, before I rise; or the pillory, here, till the ice goes.'" {
+    Assert exposedCried(lisk). }
+  Relation exposedCried(place).
+  Action pay_restitution(actor: group, site: place) "Pay Master Harker back his thirty, and thirty more for the trouble, before the Reeve" {
+    Requires able(actor) and company(actor) and at(actor, site) and exposedCried(lisk) and flockCase() and quantity(actor, gold) >= 60 and not restitution(actor) and not pilloried(actor).
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 60. Increase quantity(harker, gold) by 60. Assert restitution(actor). Assert handBroken(flock_bargain). }
+    Result "Sixty coin, counted into Kemble's hands in front of the whole Fair, and the hand is unmade. Harker takes it without a word. You are poorer than you came, and free.".
+  }
+  Rule pillory_falls at freezeland when hiredCase() and exposedCried(lisk) and not restitution(party) and not pilloried(party)
+    says "Justice Broom rises a little on her barrel. 'The pillory,' she says, 'till the ice goes.' The watermen take you by the elbows, quite kindly, and put your head and hands through the holes of the pillory beside Callow's stocks, at the foot of the Glove Post, in front of everyone in Pellam, and the Fair, which has been waiting three days for this, begins to throw snow." {
+    Assert pilloried(party). Assert handBroken(flock_bargain). }
+  // Believed, or made true: the hand is landed, and Harker pays the rest.
+  Rule flock_landed at freezeland when flockCase() and flockCaseOpened(lisk) and flockShook(party) and at(party, freezeland) and not squireExposed(party) and not flockLanded(lisk)
+    says "You shake again, before the Reeve, and the clerk cries it: 'Landed!' and writes it in the Court's book; and now, the Fair knows and you know, it is good from here to the sea. Master Harker smiles, and has Kemble count out what remains of the price." {
+    Assert flockLanded(lisk). Assert landed(flock_bargain). }
+  Rule flock_rest_paid when flockLanded(lisk) and earnestTaken(party) and not restPaid(party) { Assert restPaid(party). Increase quantity(party, gold) by 30. Decrease quantity(harker, gold) by 30. }
+  Relation restPaid(group).
+  Rule flock_true when flockLanded(lisk) and flockReal(party) and not flockHonest(lisk) { Assert flockHonest(lisk). }
+  // The twenty indentures, landed to the Squire with the flock.
+  Rule indentures_landed when flockLanded(lisk) and indenturesTraded(party) and not landed(indenture_bargain) { Assert landed(indenture_bargain). Assert hiredSquire(lisk). }
+  Relation hiredSquire(place).
+
+  // ── The case of Harker's hired ────────────────────────────────────────────────────────────────────────────────────
+  Relation hiredCaseOpened(place). Relation hiredLanded(place). Relation hiredReleased(place). Relation unsworn(place). Relation hiredMissing(place).
+  Rule hired_case_gone at freezeland when hiredCase() and hiredFled(lisk) and not hiredCaseOpened(lisk)
+    says "The clerk calls Master Harker's hired, twenty hands, a year's service. Harker turns to where they should be standing. Nobody is standing there. Kemble has his book open and his mouth open. 'Gone down the Reach in the night,' somebody shouts from the back, 'on the Company's sledges!' and the watermen in the ring roar. Justice Broom looks at Master Harker, and the whole ring looks with her. 'Not here,' she says. 'Not landed.' Her voice is not unkind. 'It goes out with the river.'" {
+    Assert hiredCaseOpened(lisk). Assert hiredMissing(lisk). }
+  Rule hired_case_squire at freezeland when hiredCase() and hiredSquire(lisk) and not hiredCaseOpened(lisk)
+    says "The clerk calls the hired. 'Landed to the Squire of Hawsfold,' says Kemble, a little sourly, 'with the flock.' The twenty stand in a line in front of the Reeve, in their blankets, with their tokens in their hats, and look at you, because they are yours now, for a year, good in any court." {
+    Assert hiredCaseOpened(lisk). }
+  Rule hired_case_opens at freezeland when hiredCase() and not hiredFled(lisk) and not hiredSquire(lisk) and not hiredCaseOpened(lisk)
+    says "The clerk calls Master Harker's hired, twenty hands, a year's service on a farm in the hills. They stand in a line before the Reeve in their blankets, with their tokens in their hats: crooks, pails, whips, mops. Tansy Hobb is at the end, with her milk-pail on its string. Harker stands beside them with his palm open, kindly, and one by one they come to shake again before the Reeve." {
+    Assert hiredCaseOpened(lisk). }
+  Action release_hired(actor: group, site: place) "Give the hired their hands back, before the Reeve, and let them go" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and hiredCase() and hiredSquire(lisk) and carries(actor, indentures) and not hiredReleased(lisk).
+    Time 1.
+    On success { Assert hiredReleased(lisk). Assert tansyFree(tansy). Assert handKept(indenture_bargain). }
+    Result "You untie Kemble's black tape and give each of them their indenture back, in front of the Reeve, Tansy Hobb's last, and say the words Broom tells you to say, which are very short: 'Your hand's your own.' Tansy Hobb looks at the paper and then at you, and then she tears it in half, and the big lad with the whip tears his, and then all of them, and the Fair, which has understood rather late what it is watching, begins to cheer, and does not stop. Master Harker, at the front of the ring, has gone the grey of the Reach.".
+  }
+  Query layable(a: group) means hiredCase() and hiredCaseOpened(lisk) and not hiredSquire(lisk) and not hiredFled(lisk)
+    and knowingDoctrine(lisk) and (carries(a, ledger) or carries(a, bondbook)) and not unsworn(lisk).
+  Action lay_books(actor: group, site: place) "Lay Harker's books before the Reeve: the farm in the hills is the lead mine at Gallowmoor" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and layable(actor) and witnessFree(gosling).
+    Time 1.
+    On success { Assert unsworn(lisk). Assert hiredReleased(lisk). Assert tansyFree(tansy). }
+    Result "You give the Reeve the book, open, and she reads it with her trumpet in her lap: farm in the hills, and in pencil, Gallowmoor, eight coin, and dead, and dead. She reads for a long time. Then she holds it out to the city's witness. Alderman Gosling reads it, and his face changes, and he says, loud enough for the ring, 'The city witnesses it.' Justice Broom stands up on her barrel. 'By the law of the ice as it was argued here today,' she says, 'a hand is bound to what the one who shook it knew he shook on. These shook on a farm in the hills. There is no farm. There was never any hand.' She turns to the hired. 'Go home,' she says. 'Your hands are your own.' And to the clerk: 'Write it in the book. That's law now, on this river, as long as there's ice to put it on.'".
+  }
+  // Harker's son-in-law at her elbow will not witness it; the Reeve rules on what she has already been told: by a
+  // liar on her own bench, by Mr. Icicle in every booth on the ice, or by a three made thirty in front of her.
+  Action lay_books_reeve(actor: group, site: place) "Lay Harker's books before the Reeve, though the city's witness is Harker's son-in-law" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and layable(actor) and not witnessFree(gosling)
+      and (gazettePrinted(lisk) or broomTold(broom) or harkerForger(harker)).
+    Time 1.
+    On success { Assert unsworn(lisk). Assert hiredReleased(lisk). Assert tansyFree(tansy). }
+    Result "The Reeve reads the book with her trumpet in her lap, a long time, and holds it out to the city's witness; and Alderman Gosling, Harker's son-in-law of two hours, will not take it. 'The city does not witness,' he says, to the ice, very low. Justice Broom looks at him, and at Master Harker, and at the ring of the whole Fair, which has read it already, or heard it, or seen what Harker does to a three. 'Then the river will,' she says, and stands up on her barrel. 'By the law of the ice as it was argued here today, a hand is bound to what the one who shook it knew he shook on. These shook on a farm in the hills. There is no farm. There was never any hand.' She turns to the hired. 'Go home. Your hands are your own.' And to the clerk: 'Write it in the book. The Reeve witnesses it. That will have to do.'".
+  }
+  // With the doctrine argued, the books in hand, and Harker's son-in-law at the Reeve's elbow: the city will not witness.
+  Observe witness_refuses at freezeland when hiredCase() and knowingDoctrine(lisk) and goslingHarker(gosling) and not gazettePrinted(lisk) and not broomTold(broom) and not harkerForger(harker) and not unsworn(lisk) "At the Reeve's elbow, as the city's witness, sits Alderman Gosling, Harker's son-in-law of two hours, with his chain on and his eyes on the ice. Whatever is laid before the Reeve, you can see, the city will not witness it today.".
+  Rule hired_landed at freezeland when handsCase() and hiredCaseOpened(lisk) and not hiredFled(lisk) and not hiredReleased(lisk) and not hiredLanded(lisk) and not hiredSquire(lisk)
+    says "The clerk cries it, hand by hand: 'Landed! Landed! Landed!' twenty times, and writes it in the Court's book, and Master Harker thanks the Reeve, and Kemble walks his hired back off the ice to the bondhouse, to wait for Ossett's agent and the thaw." {
+    Assert hiredLanded(lisk). Assert landed(hire_bargain). }
+  Rule hired_squire_kept when handsCase() and hiredSquire(lisk) and not hiredReleased(lisk) and not hiredLanded(lisk) { Assert hiredLanded(lisk). }
+  // By the same ruling, the Squire's own hand was got by a lie about the very thing shaken on.
+  Rule unsworn_flock at freezeland when unsworn(lisk) and flockLanded(lisk) and not flockReal(party) and not flockUnsworn(lisk)
+    says "'And while I'm about it,' says Justice Broom, turning her trumpet on you, 'a flock that isn't, shaken on, is no hand either, by the same law.' The crowd roars. 'Give Master Harker back his money.' It is fair. It is the law you made." {
+    Assert flockUnsworn(lisk). Retract landed(flock_bargain). }
+  Relation flockUnsworn(place).
+  Rule flock_repaid when flockUnsworn(lisk) and not repaid(party) { Assert repaid(party). Decrease quantity(party, gold) by 60. }
+  Relation repaid(group).
+
+  // ── The last hands, and the close ─────────────────────────────────────────────────────────────────────────────────
+  Relation handfastLanded(group). Relation handfastLet(group). Relation handfastCried(place).
+  Rule handfast_cried at freezeland when handsCase() and handfast(party) and at(party, freezeland) and not handfastCried(lisk)
+    says "Last of all the clerk calls a hand of this morning, at the Ice Chapel, by Parson Doody, for a shilling: Ursel Cobb, and you. The Fair, which knows everything, goes 'Ahh.' Justice Broom looks at the two of you over her trumpet. 'Land it,' she says, 'and it's good from here to the sea, as long as you both live. Or let it go out with the river, tonight, and there's an end of it. Your hands.'" {
+    Assert handfastCried(lisk). }
+  Action land_handfast(actor: group, site: place) "Shake Ursel's hand again before the Reeve, and land it" {
+    Requires able(actor) and company(actor) and at(actor, site) and handfastCried(lisk) and handsCase() and not handfastLanded(actor) and not handfastLet(actor) and travelsWith(ursel, actor).
+    Time 1 minute.
+    On success { Assert handfastLanded(actor). Assert landed(handfast_bargain). }
+    Result "Ursel looks at you. Then she puts out her hand, first, in front of all Pellam, and you shake it, and the clerk cries 'Landed!' and the Fair cheers as if somebody had won a race on the Flashes. Ursel Cobb, who has never given her hand on anything in forty years, has given it twice in a day. 'Well,' she says, very loud, to cover something. 'Well. That's me caught.'".
+  }
+  Action let_handfast(actor: group, site: place) "Tell the Reeve to let it go out with the river" {
+    Requires able(actor) and company(actor) and at(actor, site) and handfastCried(lisk) and handsCase() and not handfastLanded(actor) and not handfastLet(actor).
+    Time 1 minute.
+    On success { Assert handfastLet(actor). }
+    Result "'Out with the river,' says Justice Broom, and the clerk does not write it. Ursel nods, quickly. 'Somewhere it doesn't melt, then,' she says, under the noise. 'Or nowhere. We'll see.' She keeps hold of your arm.".
+  }
+  Rule landing_closes at freezeland when landingEnds() and not landingDone(lisk)
+    says "Justice Broom gets down off her barrel. 'The ice is landed,' she says, through her trumpet, to the whole Fair. 'What's landed is landed, and what's not goes out with the river. God save the ice.' The crowd breaks up. Up and down Freezeland Street, already, they are taking the sailcloth off the booths." {
+    Assert landingDone(lisk). Retract landingAt(lisk). }
+}

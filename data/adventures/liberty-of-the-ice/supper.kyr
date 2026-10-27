@@ -1,0 +1,105 @@
+Module pellam "The Liberty of the Ice" {
+  // ── Supper at Fleece Row ──────────────────────────────────────────────────────────────────────────────────────────
+  // Believed, the Squire sups with Harker. Harker names his terms: sixty coin for the two hundred, half in hand when
+  // they shake on the ice, half at the Landing, when it is landed. A bargain landed binds the Squire to deliver two
+  // hundred ewes at the shearing, in any court of the country; a bargain unlanded goes out with the river. Harker
+  // means to have it landed. The Squire means to be over the bridge with the half before two on the last day.
+  Entity flock_bargain: bargain "two hundred fell ewes at Hawsfold, with Master Harker".
+  Relation supped(group). Relation termsHeard(group). Relation indenturesOffered(group). Relation earnestTaken(group).
+  Relation indenturesTraded(group). Relation flockShook(group). Relation stockShown(group).
+  Event supper_scene at harker_parlour when at(party, harker_parlour) and invited(party) and hour(clock) >= 18 and hour(clock) < 22 and at(harker, harker_parlour) and not squireExposed(party) "Supper at Fleece Row: the long table, too much silver, a goose, Master Harker carving with great care and very small slices, the alderman Gosling at his left hand talking about poetry to nobody, and Thessaly Harker at the foot of the table in grey, saying nothing and watching you over her glass the whole meal with an expression of the greatest interest." then {
+    Assert supped(party). }
+  Topic harker_terms with harker "Talk terms for the Hawsfold flock with Master Harker" when squireBelieved(harker) and not termsHeard(actor) once {
+    Says "'Sixty coin for the two hundred, at the shearing, at the fold, by the head.' He says it as if he were saying grace. 'Thirty in hand when we shake, on the ice, under the Glove, as the custom is. Thirty at the Landing, when it is landed before the Reeve, hand to hand.' He smiles at you down the table. 'I always have my bargains landed. A gentleman like yourself will understand. One cannot be too careful, on the ice.'".
+    On discuss { Assert termsHeard(actor). Assert knows(actor, harker_terms_known). }
+  }
+  Discovery harker_terms_known "Master Harker will pay sixty coin for the Hawsfold flock: thirty in hand when he and the Squire shake on the ice, thirty at the Landing, once it is landed before the Reeve, hand to hand.".
+  // The long con: the Squire needs shepherds for the fold, and Harker has a bondhouse full.
+  Topic harker_shepherds with harker "Tell Master Harker that Hawsfold wants hands, and the Squire would take some of his hired against the price" when termsHeard(actor) and (knows(actor, tansy_hired) or knows(actor, hired_sold)) and not indenturesOffered(actor) once {
+    Says "He puts down the carving knife. 'Indentures,' he says, softly, as if it were the name of a woman. 'Landed, a year's service, good in any court.' He thinks, behind his eyes, very fast: Gallowmoor pays eight a head, and the thaw will come, and the hay is dear, and here is a squire. 'I have twenty in the bondhouse,' he says. 'Strong. I could let the Squire have the whole bondhouse against the flock, and not a coin passed, if the Squire liked. They would be landed to you at the Landing with the flock to me.' He picks up the knife again. 'A Christian arrangement. The fells want hands.'".
+    On discuss { Assert indenturesOffered(actor). }
+  }
+  // Short of coin after the Exchange, he offers it himself.
+  Rule harker_short_offers when harkerShort(harker) and termsHeard(party) and together(party, harker) and not indenturesOffered(party) and squireBelieved(harker)
+    says "'I must be frank with you,' says Master Harker, which he has never been with anyone. 'Quarle's business has tied up my coin. But I am rich in hands. I have twenty indentures in the bondhouse, landed at the Landing, good in any court; the Squire might take them against the flock, and Hawsfold have shepherds for a year.'" {
+    Assert indenturesOffered(party). }
+  // He shows a buyer his stock, after supper: he is proud of it.
+  Action see_stock(actor: group, site: place) "Ask Master Harker to show you his hired, as a man who may buy" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, harker_parlour) and at(harker, harker_parlour) and squireBelieved(harker) and indenturesOffered(actor)
+      and not stockShown(actor) and hour(clock) >= 19 and hour(clock) < 22.
+    Time 3.
+    On success { Assert stockShown(actor). Assert showingStock(harker). Assert at(actor, bond_floor). Assert at(harker, bond_floor). Assert state(bond_lock, open). }
+    Result "He takes you himself, with a lantern, down Fleece Row and over the bridge and along Hay Wharf in the frost, talking all the way about the virtue of work; and Kemble unlocks the bondhouse for him, and he walks you down the straw among his hired with the lantern held up, so you can see their faces, the way a man shows a horse's teeth. 'Strong,' he says. 'Willing. Every one shook of their own free will.' Tansy Hobb is there, with her pail, looking at you.".
+  }
+  Rule stock_returns when showingStock(harker) and (hour(clock) >= 22 or hour(clock) < 6) and (at(party, bond_floor) or at(party, bond_loft)) and not inBondhouse(party) says "'Late,' says Master Harker, 'late,' and walks you back out onto Hay Wharf, and Kemble locks the door behind you." { Assert at(party, hay_wharf). }
+  Rule stock_ends when showingStock(harker) and (hour(clock) >= 22 or hour(clock) < 6) { Retract showingStock(harker). Assert state(bond_lock, locked). Assert at(harker, limbo). }
+
+  // ── The handshake on the flock, under the Glove ───────────────────────────────────────────────────────────────────
+  Action shake_flock_coin(actor: group, site: place) "Walk down to the Glove Post with Master Harker and shake on the flock, for thirty coin in hand" {
+    Grave "A hand shaken on the ice binds: shake on the flock, and if it is landed you owe Master Harker two hundred ewes at the shearing, in any court in the country.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and termsHeard(actor) and squireBelieved(harker) and not flockShook(actor)
+      and hour(clock) >= 8 and hour(clock) < 21 and not iceGone() and not landingAt(lisk) and not harkerShort(harker).
+    Time 3.
+    On success { Assert flockShook(actor). Assert shook(actor, flock_bargain). Assert earnestTaken(actor). Increase quantity(actor, gold) by 30. Decrease quantity(harker, gold) by 30.
+      Assert at(actor, freezeland). Assert at(harker, freezeland). }
+    Result "Down to the ice together, the factor and the Squire, and through the Fair to the Glove Post, where a little crowd gathers because it knows what it is about to see. Master Harker takes off his glove. You take off yours. He puts out his palm, open, and waits; and for the first time in Pellam's memory, someone tells you afterwards, Josias Harker puts out his hand first. You shake. Kemble counts thirty coin into your palm in front of everyone, and writes it in his book. 'At the Landing, then,' says Harker, 'the other thirty.' He smiles. 'I'll look for you.'".
+  }
+  Entity indenture_bargain: bargain "twenty indentures, against the flock, with Master Harker".
+  Kind indentures_kind "twenty indentures" is gear worth 0 weighing 0 described "Twenty indentures of hiring in Kemble's hand, each with its little drawn hand for shaken, made over by Josias Harker to the Squire of Hawsfold against two hundred fell ewes. Tansy Hobb's is on top.".
+  Item indentures "twenty indentures" is indentures_kind at limbo.
+  Action shake_flock_hands(actor: group, site: place) "Walk down to the Glove Post with Master Harker and shake on the flock, for the twenty indentures" {
+    Grave "A hand shaken on the ice binds: shake on the flock, and if it is landed you owe Master Harker two hundred ewes at the shearing, in any court in the country; and the twenty hired are landed to you.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and indenturesOffered(actor) and squireBelieved(harker) and not flockShook(actor)
+      and hour(clock) >= 8 and hour(clock) < 21 and not iceGone() and not landingAt(lisk).
+    Time 3.
+    On success { Assert flockShook(actor). Assert shook(actor, flock_bargain). Assert indenturesTraded(actor). Assert shook(actor, indenture_bargain).
+      Retract at(indentures, limbo). Assert at(indentures, freezeland). Assert at(actor, freezeland). Assert at(harker, freezeland). }
+    Result "At the Glove Post, before a little crowd, Master Harker puts out his palm and waits, and you shake. Kemble hands you twenty folded indentures tied with a black tape. Tansy Hobb's is on top. 'Landed at two, the last day,' says Harker, 'the hands to you and the flock to me.' He is pleased with himself; he has sold eight-coin hands for a flock worth sixty. 'A Christian arrangement,' he says again.".
+  }
+  // Ursel, not trusted or lied to, takes the money and goes.
+  Rule ursel_takes when earnestTaken(party) and travelsWith(ursel, party) and (liedToUrsel(party) or urselTrust(ursel) < 1) and not urselTook(party)
+    says "At the Glove Post, in the crush after the handshake, someone knocks into you and says 'Beg pardon, my love,' and when you put your hand to your purse it is lighter by thirty coin, and Ursel Cobb is not beside you, or anywhere. Pinned inside your coat, where the purse was, is a twist of paper: NEVER SHOOK ON IT. — U.C." {
+    Assert urselTook(party). Decrease quantity(party, gold) by 30. Retract travelsWith(ursel, party). Assert urselGone(ursel). Assert at(ursel, limbo). }
+  // With the bargain shaken and not landed, Harker means to have the Squire at the Landing: one of his wharf men sits at
+  // the North Bar from the handshake on, and at one on the last day his men look for the Squire everywhere in Pellam
+  // but the Clink.
+  Person bar_man "one of Harker's wharf men" at limbo {
+    Role "one of Harker's wharf men, on a keg at the North Bar, watching the road out". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "The wharf man touches his cap to you. 'Squire,' he says, and does not get off his keg.".
+  }
+  Initially Assert serves(bar_man, harker).
+  Rule bar_watched when flockShook(party) and not landed(flock_bargain) and not iceGone() and not landingDone(lisk) and not at(bar_man, north_bar) { Assert at(bar_man, north_bar). }
+  Rule bar_unwatched when (iceGone() or landingDone(lisk)) and not at(bar_man, limbo) { Assert at(bar_man, limbo). }
+  Observe bar_man_scene at north_bar when at(bar_man, north_bar) "One of Harker's wharf men sits on a keg under the North Bar with his hands in his armpits, watching the road out of Pellam, the way a cat watches a hole.".
+  Thing bar_watch "Harker's man at the North Bar" on north_way is scenery {
+    State clear "The North Road goes up out of Pellam into the snow.".
+    State watched blocking "One of Harker's wharf men sits on a keg in the middle of the North Bar's gateway with his cudgel across his knees. 'Squire,' he says, touching his cap. 'Master Harker's compliments. He'd take it unkindly if the Squire went up the fells before the Landing.'".
+  }
+  Initially Assert state(bar_watch, clear).
+  Rule bar_watch_on when at(bar_man, north_bar) and state(bar_watch, clear) { Assert state(bar_watch, watched). }
+  Rule bar_watch_off when not at(bar_man, north_bar) and state(bar_watch, watched) { Assert state(bar_watch, clear). }
+  Action slip_bar(actor: group, site: place) "Go out by the North Bar on the far side of a hay-sledge, where Harker's man is not looking" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, north_bar) and at(bar_man, north_bar) and flockShook(actor) and not barSlipped(actor) and not barTried(actor) and not dark().
+    Time 3.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert barSlipped(actor). Assert at(actor, north_road). }
+    On failure { Assert barTried(actor). }
+    Result "A hay-sledge goes out through the North Bar with a farmer walking at its horse's head, and you walk on the far side of it, close, matching its pace, and at the Bar Harker's man is looking at the farmer, and then you are on the North Road in the snow, and nobody calls after you.".
+    Otherwise "You walk out beside a hay-sledge, and at the Bar the horse shies, and Harker's man looks round, and sees you, and grins. 'Squire,' he says. Not today.".
+  }
+  Action lie_bar(actor: group, site: place) "Tell Harker's man the Squire is only going up to the first farm, to send word to Hawsfold about the shearing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, north_bar) and at(bar_man, north_bar) and flockShook(actor) and not barSlipped(actor) and not barLied(actor).
+    Time 2 minutes.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert barSlipped(actor). Assert at(actor, north_road). }
+    On failure { Assert barLied(actor). }
+    Result "'To the first farm,' he says, 'and back by dark.' He thinks about it with his whole face. 'Right you are, Squire. I'll tell Master Harker.' He sits down again on his keg. You walk up the North Road into the snow, and do not look back, and do not come back by dark.".
+    Otherwise "'Master Harker said you'd say something like that,' says the wharf man, almost admiringly. 'Not today, Squire.'".
+  }
+  Relation barSlipped(group). Relation barTried(group). Relation barLied(group). Relation squireFetched(group).
+  Rule squire_fetched_landing when squireFetched(party) and landingAt(lisk) and not at(party, freezeland) and not at(party, clink_yard) and inPellam() { Assert at(party, freezeland). }
+  Rule squire_sought when thirdDay() and hour(clock) >= 13 and flockShook(party) and not landed(flock_bargain) and inPellam() and not at(party, clink_yard) and not squireFetched(party) and not landingDone(lisk)
+    says "Two of Harker's wharf men find you. 'The Squire of Hawsfold,' says one, touching his cap. 'Master Harker's compliments, and he'll see you at the Landing.' They do not go away." {
+    Assert squireFetched(party). }
+  Relation landingDone(place).
+}

@@ -1,0 +1,194 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The Squire of Hawsfold ────────────────────────────────────────────────────────────────────────────────────────
+  // A claim Harker can be brought to believe, held as firmly as what stands behind it: words, and things he can hold.
+  // Nothing in the world requires a claim to be true. He tests it against what he is shown, and against whoever he
+  // meets; and every success of the lie makes the next harder: a squire believed is asked to supper, and to the
+  // wedding, and a squire at a wedding gives a present.
+  Entity squire_claim: claim "that the company is the Squire of Hawsfold, with two hundred fell ewes snowed in at Hawsfold".
+  Query squireBelieved(h: group) means believes(h, squire_claim) and conviction(h, squire_claim) >= 4 and not squireExposed(party).
+  Relation posedSquire(group). Relation squireTold(group). Relation shownTally(group). Relation shownGoodTally(group).
+  Relation shownWool(group). Relation shownCoat(group). Relation shownLetter(group). Relation urselVouched(group).
+  Relation invited(group).
+  Topic pose_squire with harker "Tell Master Harker you are the Squire of Hawsfold, with two hundred fell ewes snowed in on the fells" when knows(actor, harker_buys) and (knows(actor, con_plan) or knows(actor, roads_shut)) and not posedSquire(actor) and not hiredHand(actor) and not squireExposed(actor) and not harkerWary(harker) once {
+    Says "Harker's quarter-inch becomes half an inch. 'Hawsfold,' he says. 'Up under Swale Fell. I know the name.' He looks at your boots, and your coat, and your hands. 'Two hundred. Snowed in, you say, with the roads as they are.' He turns his ring. 'Then you'll be wanting to sell them to someone who can wait for the thaw.' He does not say that he believes you. He does not say that he does not.".
+    On discuss { Assert posedSquire(actor). Assert believes(harker, squire_claim). Set conviction(harker, squire_claim) to 1. }
+  }
+  Action spin_hawsfold(actor: group, site: place) "Tell Harker about Hawsfold: the fell, the ewes, your late father, the snow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and posedSquire(actor) and believes(harker, squire_claim)
+      and not squireTold(actor) and not squireExposed(actor).
+    Time 1.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert squireTold(actor). Increase conviction(harker, squire_claim) by 1. }
+    On failure { Assert squireTold(actor). }
+    Result "You give him Hawsfold: the long fell, the stone folds, your late father's temper and his Swaledale ewes, the snow coming down in October and the shepherd's boy walking down to the dale with the news, and the price of hay. You find you can see it. Harker listens with his head on one side, and at the end says, 'A hard country,' and something has gone out of his shoulders.".
+    Otherwise "You tell him about Hawsfold, and somewhere in the middle you put a church where there isn't one, or a river the wrong way, and Harker says 'Indeed,' very politely, and you know he has noticed something, though not what.".
+  }
+  Action show_tally(actor: group, site: place) "Show Master Harker the printed tally of the flock" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and posedSquire(actor) and believes(harker, squire_claim)
+      and carries(actor, tally) and not shownTally(actor) and not squireExposed(actor).
+    Time 1.
+    On success { Assert shownTally(actor). Increase conviction(harker, squire_claim) by 1. }
+    Result "He takes the tally to the window and reads it down with his finger: ewes by age and mark, gimmers, tups, the fold, the last count. 'Printed,' he says. 'On the ice, I suppose.' He smiles, a real smile, the first. 'A man who has his flock printed is a man who means to sell it.'".
+  }
+  Action show_good_tally(actor: group, site: place) "Point out to Harker how the tally is ruled, as a factor's own" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and shownTally(actor) and tallyGood(lisk)
+      and not shownGoodTally(actor) and not squireExposed(actor).
+    Time 1.
+    On success { Assert shownGoodTally(actor). Increase conviction(harker, squire_claim) by 1. }
+    Result "You show him the columns: the ewes by their teeth, the clip weighed by the stone, the dip and the fold-mark, as a factor rules them. He looks at it again, longer. 'Whoever ruled this,' he says, 'has done business with me before.' Which is true, in a way he will not enjoy.".
+  }
+  Action show_wool(actor: group, site: place) "Give Master Harker a tuft of the fell wool to feel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and posedSquire(actor) and believes(harker, squire_claim)
+      and carries(actor, fell_wool) and not shownWool(actor) and not squireExposed(actor).
+    Time 2 minutes.
+    On success { Assert shownWool(actor). Increase conviction(harker, squire_claim) by 1. }
+    Result "He rolls it between finger and thumb, and pulls a staple out, and holds it up against the window, and smells it. 'Swale grey,' he says. 'Fell-bred. Coarse, but it'll take a dye.' He gives it back to you as if it were a coin. Wool does not lie, Master Harker believes; and wool does not.".
+  }
+  Action show_coat(actor: group, site: place) "Let Master Harker see Sir Lionel's coat on your back" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and posedSquire(actor) and believes(harker, squire_claim)
+      and carries(actor, gant_coat) and not shownCoat(actor) and not squireExposed(actor).
+    Time 2 minutes.
+    On success { Assert shownCoat(actor). Increase conviction(harker, squire_claim) by 1. }
+    Result "You take the coat off and hang it on his chair-back while you talk, and he sees the London cut, and the lining, and the place where the buttons were silver once, and behaves from then on as if a gentleman were in the room.".
+  }
+  Action show_letter(actor: group, site: place) "Give Master Harker Alderman Gosling's letter commending you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and posedSquire(actor) and believes(harker, squire_claim)
+      and carries(actor, gosling_letter) and not shownLetter(actor) and not squireExposed(actor).
+    Time 2 minutes.
+    On success { Assert shownLetter(actor). Increase conviction(harker, squire_claim) by 1. }
+    Result "He reads it, and reads it again, and folds it. 'Hamnet Gosling,' he says, 'is a fool about poetry and about nothing else,' which you take to be a compliment to the letter.".
+  }
+  Action ursel_vouches(actor: group, site: place) "Let Ursel, as your man of business, talk Harker through the terms" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and posedSquire(actor) and believes(harker, squire_claim)
+      and travelsWith(ursel, actor) and not urselVouched(actor) and not squireExposed(actor).
+    Time 1.
+    On success { Assert urselVouched(actor). Increase conviction(harker, squire_claim) by 1. }
+    Result "Ursel, who has become in the space of a doorway a dry, respectful, slightly bored person in a good cape called Mistress Cobb, talks terms: delivery at the shearing, at the fold, the clip by the stone, the old Squire's executors, a lien on the hay. She is so dull about it that Harker visibly relaxes. Nobody would invent anything so tedious.".
+  }
+  // Believed, the Squire is asked to supper, and to the wedding.
+  Rule squire_invited when squireBelieved(harker) and not invited(party) and together(party, harker) says "'You'll sup with me,' says Master Harker. It is not a question. 'Tonight, at seven, Fleece Row. My daughter is to be married at the Ice Chapel on the last day, at noon, to Alderman Gosling; you'll do us the honour.' He inclines his head an inch. 'A Squire of Hawsfold at the wedding. My late wife would have liked that.'" { Assert invited(party). }
+
+  // ── The props ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Kind hawsfold_tally_kind "a printed tally of the Hawsfold flock" is gear worth 0 weighing 0 described "A tally of two hundred fell ewes at Hawsfold under Swale Fell, by age and mark, printed on the ice by Noll Brisket in a border of very small sheep.".
+  Item tally "a printed tally of the Hawsfold flock" is hawsfold_tally_kind at limbo.
+  Relation tallyOrdered(group). Relation tallyGood(place).
+  Action order_tally(actor: group, site: place) "Have Noll print a tally of two hundred fell ewes at Hawsfold" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(noll, site) and (knows(actor, props_known) or knows(actor, con_plan)) and quantity(actor, gold) >= 3 and not tallyOrdered(actor).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 3. Assert tallyOrdered(actor). Retract at(tally, limbo). Assert at(tally, printing). }
+    Result "Noll does not ask whose ewes. 'A tally's not sworn,' he says cheerfully, setting it. 'A tally's a list. I'll print a list of the angels if you pay for the ink.' He puts a border of little sheep round it, unasked, because he is pleased with them.".
+  }
+  Action rule_tally(actor: group, site: place) "Rule the tally's columns yourself, in a factor's terms, before Noll prints it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(noll, site) and tallyOrdered(actor) and not tallyGood(lisk) and not ruleTried(actor).
+    Time 2.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert tallyGood(lisk). Assert ruleTried(actor). }
+    On failure { Assert ruleTried(actor). }
+    Result "You make Noll pull it again with the columns ruled as a factor rules them: by the teeth, the clip by the stone, the dip and the fold-mark. It looks like something that has been in a counting-house for years.".
+    Otherwise "You rule it again, and it looks, if anything, less like a factor's tally than before. Noll says it's lovely.".
+  }
+  Relation ruleTried(group).
+  Kind wool_kind "a tuft of fell wool" is gear worth 0 weighing 0 described "A greasy grey tuft of fell wool, coarse and springy, smelling of sheep and peat-smoke.".
+  Item fell_wool "a tuft of fell wool" is wool_kind at limbo.
+  // There is also wool in the bondhouse, Harker's own; it would do as well.
+  Item bond_wool "a tuft of fell wool" is wool_kind at bond_floor.
+
+  // ── Abel Haws, of Hawsfold ────────────────────────────────────────────────────────────────────────────────────────
+  // The real shepherd, come down through the snow to sell the real flock, who cannot lie and believes everything. There
+  // is no squire at Hawsfold. There is Abel.
+  Person abel "Abel Haws" at limbo {
+    Role "a fell shepherd in a sheepskin, with a crook and a black-and-white bitch at heel". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "The shepherd takes off his hat to you, which nobody else in Pellam has done. 'Abel Haws,' he says, 'of Hawsfold, under Swale Fell. I'm looking for a man buys wool.'".
+    Greets again "Abel Haws takes off his hat to you again.".
+  }
+  Person bess "Bess" at limbo {
+    Role "a black-and-white sheepdog with one blue eye". Species dog. Peaceable. Pronouns she.
+  }
+  Relation abelInOnIt(group). Relation abelDiverted(group). Relation abelMetHarker(group). Relation flockReal(group).
+  Relation abelSold(group). Relation abelWool(group).
+  Initially Assert tattles(abel).
+  Rule abel_comes when firstDay() and hour(clock) >= 12 and not abelCame(abel) { Assert abelCame(abel). Assert at(abel, cheaping). Assert at(bess, cheaping). Assert happened(ev_abel_comes). }
+  Entity ev_abel_comes: fact "abel comes".
+  Rule abel_comes_heard when happened(ev_abel_comes) and inPellam() and not heardNews(ev_abel_comes) says "A shepherd has come in over the North Bar out of the snow, with a crook and a black-and-white dog, asking the first person he meets in the Cheaping, very loudly, where a man might find a buyer for two hundred fell ewes, from Hawsfold, under Swale Fell." { Assert heardNews(ev_abel_comes). }
+  Relation abelCame(group).
+  Rule abel_day when abelCame(abel) and hour(clock) >= 8 and hour(clock) < 19 and not abelBusy() and not at(abel, cheaping) { Assert at(abel, cheaping). }
+  Rule abel_night when abelCame(abel) and (hour(clock) >= 19 or hour(clock) < 8) and not abelOnHulk(abel) and not at(abel, calf_taproom) { Assert at(abel, calf_taproom). }
+  Rule abel_hulk_night when abelOnHulk(abel) and (hour(clock) >= 21 or hour(clock) < 7) and not at(abel, patience_hold) { Assert at(abel, patience_hold). }
+  Relation abelOnHulk(group).
+  Rule bess_follows when at(abel, ?p) and not at(bess, ?p) { Assert at(bess, ?p). }
+  // On the second morning everyone in the Cheaping has told him the man to see is Harker, and he goes to the Ring.
+  Query abelBusy() means abelToRing() or abelToExchange().
+  Query abelToRing() means secondDay() and hour(clock) >= 10 and hour(clock) < 11 and not abelDiverted(abel) and not abelSold(abel).
+  Query abelToExchange() means secondDay() and hour(clock) >= 10 and hour(clock) < 12 and abelDiverted(abel) and not abelSold(abel).
+  Rule abel_to_ring when abelToRing() and not at(abel, hiring_ring) { Assert at(abel, hiring_ring). }
+  Rule abel_to_exchange when abelToExchange() and not at(abel, exchange_floor) { Assert at(abel, exchange_floor). }
+  Topic abel_flock with abel "Ask Abel about his ewes" when true once {
+    Says "'Two hundred Swale ewes, and the tups, and the gimmers, under Swale Fell at Hawsfold.' He says it as if it were a psalm. 'My father's, and his father's. Snowed in at the fold since Martinmas, and my sister's lad feeding them hay, and the hay going.' He turns his hat round in his hands. 'The fold's on the east side, where the beck comes off the fell and goes down to the Swale. I've come down to sell them on the hoof for the shearing, before the hay's gone and I've to sell them for their skins. Forty coin.' He looks at you hopefully. 'Everyone says the man to see is Harker.'".
+    On discuss { Assert knows(actor, abel_flock_known). }
+  }
+  Discovery abel_flock_known "Abel Haws is the shepherd of Hawsfold under Swale Fell, and has two hundred fell ewes there, snowed in, which he has come down to Pellam to sell for forty coin. There is no squire at Hawsfold. Everyone has told him the man to see is Harker.".
+  Topic abel_wool with abel "Ask Abel for a tuft of his wool" when not abelWool(abel) once {
+    Says "'Take two.' He pulls a handful off his own sheepskin without thinking about it and pushes it into your hand. 'That's Hawsfold. Feel the spring in it.' He beams. 'You'd know it anywhere.'".
+    On discuss { Assert abelWool(abel). }
+  }
+  // The second day: Harker, who is not a fool about wool, asks the Squire one thing about Hawsfold that a man who owned
+  // it would know without thinking. A question put to the player; the right answer is Abel's.
+  Relation harkerTested(group). Relation testAnswered(group).
+  Event harker_tests near harker when (secondDay() or thirdDay()) and posedSquire(party) and squireBelieved(harker) and together(party, harker)
+    and addressed(harker, party) and not harkerTested(party) and not squireExposed(party) "Master Harker turns his ring. 'Tell me,' he says, pleasantly, as one says it of the weather, 'which way does the beck run at Hawsfold? I had a drover once who swore it ran west, into the Lisk, and I have never been able to remember.' He waits. Kemble, at his desk, has stopped writing." then {
+    Assert harkerTested(party). }
+  Topic answer_beck_east with harker "Tell him: east, off the fell past the fold and down to the Swale" when harkerTested(actor) and not testAnswered(actor) and knows(actor, abel_flock_known) once {
+    Says "'East,' says Harker. 'The Swale. Of course.' Kemble begins to write again. 'My drover was a liar,' says Master Harker, and smiles, and it is the smile of a man who has stopped asking questions.".
+    On discuss { Assert testAnswered(actor). Increase conviction(harker, squire_claim) by 1. }
+  }
+  Topic answer_beck_west with harker "Tell him: west, down into the Lisk" when harkerTested(actor) and not testAnswered(actor) once {
+    Says "'West,' says Harker. 'Into the Lisk.' He turns his ring round on his finger twice, watching you. 'Then my drover was right after all,' he says, gently, and Kemble does not begin to write again for some time.".
+    On discuss { Assert testAnswered(actor). Decrease conviction(harker, squire_claim) by 2. }
+  }
+  Action answer_beck_bluff(actor: group, site: place) "Tell him a squire does not count becks; he must ask the shepherd" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and harkerTested(actor) and not testAnswered(actor).
+    Time 2 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert testAnswered(actor). }
+    On failure { Assert testAnswered(actor). Decrease conviction(harker, squire_claim) by 1. }
+    Result "'A squire,' you tell him, with the air of one who has had to say this to a great many people, 'counts ewes. My shepherd counts becks.' Harker laughs, which you have not heard him do, and lets it go.".
+    Otherwise "'A squire counts ewes,' you say, 'not becks,' and Harker says 'Indeed,' and you can see him put the question away in a drawer, to take out later.".
+  }
+  Rule wool_given when abelWool(abel) and at(fell_wool, limbo) and at(party, ?p) { Retract at(fell_wool, limbo). Assert at(fell_wool, ?p). }
+  // Keeping him from Harker: a lie he will believe, because he believes everything.
+  Topic abel_divert with abel "Tell Abel that Harker has bought all he wants, and the man to see now is at the Wool Exchange" when knows(actor, abel_flock_known) and posedSquire(actor) and not abelDiverted(abel) and not abelMetHarker(abel) once {
+    Says "'Is that so.' Abel looks at you with perfect trust. 'Then I'll go to the Exchange in the morning. Thank you kindly.' He puts his hat on. 'You're the first person in this town has told me anything I didn't want to hear. That's how I know it's true.'".
+    On discuss { Assert abelDiverted(abel). }
+  }
+  // Or bringing him into it: not by asking him to lie, which he cannot, but by making him believe.
+  Action make_abel_believe(actor: group, site: place) "Tell Abel the old landlord's heir has come up from the south to Hawsfold, and it is you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(abel, site) and knows(actor, abel_flock_known) and posedSquire(actor) and not abelInOnIt(abel) and not abelMetHarker(abel).
+    Time 1.
+    Resolve check(actor, deception, dc_easy).
+    On success { Assert abelInOnIt(abel). Assert believes(abel, squire_claim). Set conviction(abel, squire_claim) to 2. }
+    On failure { Assert abelDoubts(abel). }
+    Result "You tell him that Hawsfold had a landlord once, before the fell came down to the Haws family, and that the landlord's line went south, and that you are what is left of it, come up to see the old fold. Abel takes off his hat. 'Squire,' he says, as if he had been waiting all his life to say it to someone. 'Squire. I'll tell anyone.' He will.".
+    Otherwise "He listens with his head on one side, the way his dog does. 'There's never been a squire at Hawsfold,' he says, quite kindly, 'not in my grandfather's time.' He is not suspicious. He is only sure.".
+  }
+  Relation abelDoubts(group).
+  // What happens when Harker, believing in the Squire, meets the real shepherd of Hawsfold.
+  Rule abel_meets_harker when together(abel, harker) and abelCame(abel) and not abelMetHarker(abel) { Assert abelMetHarker(abel). }
+  Rule abel_exposes when abelMetHarker(abel) and believes(harker, squire_claim) and not abelInOnIt(abel) and posedSquire(party) and not squireExposed(party) and not abelSold(abel)
+    {
+    Assert squireExposed(party). Assert harkerWary(harker). Retract believes(harker, squire_claim). Assert happened(ev_abel_exposes). }
+  Entity ev_abel_exposes: fact "abel exposes".
+  Rule abel_exposes_heard when happened(ev_abel_exposes) and inPellam() and not heardNews(ev_abel_exposes) says "Word goes up and down the ice like a dropped tray: at the Hiring Ring a shepherd from Hawsfold under Swale Fell took his hat off to Master Harker and offered him two hundred fell ewes for forty coin, and Master Harker asked him, in front of everyone, how the Squire of Hawsfold did; and the shepherd said that there was no squire at Hawsfold, there was him." { Assert heardNews(ev_abel_exposes). }
+  Rule abel_confirms when abelMetHarker(abel) and believes(harker, squire_claim) and abelInOnIt(abel) and not abelVouched(abel)
+    {
+    Assert abelVouched(abel). Increase conviction(harker, squire_claim) by 1. Assert happened(ev_abel_confirms). }
+  Entity ev_abel_confirms: fact "abel confirms".
+  Rule abel_confirms_heard when happened(ev_abel_confirms) and inPellam() and not heardNews(ev_abel_confirms) says "Word goes round the ice: a shepherd from Hawsfold under Swale Fell met Master Harker at the Hiring Ring, and took off his hat, and talked of nothing for a quarter of an hour but the new Squire, come up from the south, God bless him." { Assert heardNews(ev_abel_confirms). }
+  Relation abelVouched(group).
+  // The lie made true: buy the real flock, for real money, and what was sold to Harker exists.
+  Action buy_flock(actor: group, site: place) "Buy Abel's two hundred ewes, for forty coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(abel, site) and knows(actor, abel_flock_known) and quantity(actor, gold) >= 40 and not abelSold(abel).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 40. Increase quantity(abel, gold) by 40. Assert abelSold(abel). Assert flockReal(actor). }
+    Result "Abel counts it twice, and then a third time, on the table in the Spotted Calf, and then spits on his palm and holds it out. You shake, and it is not on the ice, and it does not matter, because Abel Haws would keep it in a fire. 'Two hundred Swale ewes at Hawsfold, and the tups, and the gimmers,' he says, 'and my sister's lad to see them through to the shearing.' He blows his nose. 'You'll be good to them.' Somewhere on the fells, two hundred ewes that were a lie this morning are the truth.".
+  }
+}

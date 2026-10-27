@@ -563,7 +563,7 @@ title-page. Halfway down hangs a painted owl, and under it a door from which com
 of people disagreeing.
 [Into the Owl] The Owl is one long room full of coffee-smoke, newsprint and opinions. Men and a few women sit at long 
 tables with papers, and at the end table, under a window, sit two men who are plainly critics, because nobody sits 
-near them. Here are Ormsby Clay, the Guildhall’s critic; and Nym Callow, the Owl’s critic.
+near them. Here are Ormsby Clay, the Guildhall’s critic; and Nym Carrow, the Owl’s critic.
 [Ask Ormsby Clay what a play is for] ‘For order,’ says Clay. ‘A play is a small world made right: every person 
 in it given their proper end, every line its proper measure. A tragedy shows us the fall of what was high, a comedy 
 the righting of what was crooked, and both in verse, if they are worth anything.’ He turns a page. ‘I do not 
@@ -580,23 +580,23 @@ CUT NOTHING. A.G. ‘He wrote this,’ he says, ‘the night they burlesqued it.
 in the wings and laughed, and then he went home and wrote this.’ He ties the ribbon again, carefully, and puts the 
 manuscript inside his coat. ‘Thank you,’ he says, to the table. Wren gains 150 experience: gave Ormsby Clay back 
 his Dido.
-[Ask Nym Callow what a play is for] ‘To tell the truth to the people who pay to be lied to,’ says Callow. ‘The 
+[Ask Nym Carrow what a play is for] ‘To tell the truth to the people who pay to be lied to,’ says Carrow. ‘The 
 Siege of Arle has been played every Trial for eleven years, and in all that time nobody has said on that stage that 
 the Fountain is dry, that the Book of Precedence is four hundred pages of who may kick whom, or that the Office of 
 Plain Speech is a muzzle with a motto.’ He drinks his cold coffee. ‘Anything the Office licenses is a lie by 
 definition. I give it nothing.’
-[Ask Nym Callow whether he has heard of Gosse's new play] Callow puts down his cup. ‘Heard of it?’ he says. ‘I 
+[Ask Nym Carrow whether he has heard of Gosse's new play] Carrow puts down his cup. ‘Heard of it?’ he says. ‘I 
 wrote it.’ He leans back. ‘Anonymously, naturally. A satire on the late Lord Mayor and his Office, sent to the 
 one company in Imbar with nothing to lose. Who else in this city could have written it?’ He looks round the long 
 room to see who is listening, and three people are. ‘You may tell Gosse,’ he says, ‘that the author expects his 
 share of the house.’
-[Ask Callow, as its author, what the bear does in the third act · likely] ‘The bear,’ says Callow, without a 
+[Ask Carrow, as its author, what the bear does in the third act · likely] ‘The bear,’ says Carrow, without a 
 pause, ‘is an allegory.’ He drinks his coffee. ‘Of the City.’ You wait. He looks at you over the cup, and 
 something goes out of him. ‘There is a bear,’ he says. ‘Isn’t there. There’s always a bear, with Gosse.’ 
 A long pause. ‘I heard of it in the Chepe. I have nine crowns of debt and no name, and a satire on the Office is a 
 name.’ He puts the cup down. ‘Who did write it?’ Wren makes the insight check (d20 16 + wisdom 2 = 18 against 
-10). Wren gains 100 experience: caught Nym Callow out.
-[Tell Callow, quietly, that you know, and that you will not tell] Callow looks at you for a long moment. ‘You might 
+10). Wren gains 100 experience: caught Nym Carrow out.
+[Tell Carrow, quietly, that you know, and that you will not tell] Carrow looks at you for a long moment. ‘You might 
 have done me in front of the whole Owl,’ he says. ‘Everyone else would.’ He turns his cup round in its saucer. 
 ‘I’ll stop saying it. And on Gosse’s night,’ he says, ‘I’ll watch it as if I’d never heard of it, which 
 God knows is true.’
@@ -760,7 +760,7 @@ very much. I shall try to deserve it.’ Wren makes the mending check (d20 19 + 
 she turns a page it is the hand of someone who has written every day of her life, and not only licences. Here are 
 Abel Tunstall, the chief clerk of the Office of Plain Speech; Ormsby Clay, the Guildhall’s critic; Dame Thalia 
 Gammage, the Gullet’s critic, who keeps the ballad stall; Canon Mallory, the minster’s precentor, and the 
-Close’s critic; and Nym Callow, the Owl’s critic. Over the stage, in the lords’ room, the Bench sits in a row 
+Close’s critic; and Nym Carrow, the Owl’s critic. Over the stage, in the lords’ room, the Bench sits in a row 
 like a jury: a thin man in black with a book open on his knee, a big woman in a bonnet with a bag of nuts, a plump 
 clergyman, and a young man in a coat too good for him, already yawning. On the Wheel’s stage the Lord Mayor’s 
 Servants are playing The Siege of Arle, as they have every Trial for eleven years: a painted city wall, a siege-tower 
@@ -769,7 +769,7 @@ of it, every syllable as licensed. The yard is full and patient. The grey bench 
 still: nobody in the Servants has said an unlicensed word since the Siege was new.
 [Wait › An hour] In the lords’ room over the stage, Ormsby Clay is following the Siege in a printed copy with his 
 finger, nodding at each line ending as at an old friend. Dame Gammage has fallen asleep with her mouth open. Canon 
-Mallory is moved, quietly, by the weeping daughters. Nym Callow is drawing a gallows in the margin of his programme. 
+Mallory is moved, quietly, by the weeping daughters. Nym Carrow is drawing a gallows in the margin of his programme. 
 An hour passes.
 [Wait › An hour] An hour passes.
 [Out to Soke Lane] Soke Lane runs along the bank between taverns, cookshops and a building with a red lamp. At its 
@@ -1059,7 +1059,7 @@ which a girl of twelve bears everything and is taken up to Heaven by angels on a
 surplices with cardboard wings, and they are very good, and very slow. The yard is affectionate and restless. Canon 
 Mallory, in the lords’ room, is mouthing every line with them. An hour passes.
 [Wait › An hour] In the lords’ room Canon Mallory is weeping freely at the ascension. Ormsby Clay is looking at 
-his watch. Dame Gammage is eating nuts very loudly. Nym Callow has gone out. The Fourth Angel, Ned Cherry, comes to 
+his watch. Dame Gammage is eating nuts very loudly. Nym Carrow has gone out. The Fourth Angel, Ned Cherry, comes to 
 the edge of the stage, and lifts his face, and sings his one word, Behold, so that the whole Wheel goes quiet to the 
 top gallery. An hour passes.
 [Out to Soke Lane] Soke Lane runs along the bank between taverns, cookshops and a building with a red lamp. At its 
@@ -1306,7 +1306,7 @@ will support me? No one? Then I shall / support myself, as I have always done.�
 meant to be. Time passes.
 [Wait › A while] Time passes. The Ghost rises and speaks against the sale of his statue in verse with every double 
 meaning taken out of it, clean as a scrubbed table, and the Council scene is handsome and proud and moving, and 
-nobody laughs much. In the lords’ room the Canon nods; Ormsby Clay approves; Nym Callow writes CUT in capitals. The 
+nobody laughs much. In the lords’ room the Canon nods; Ormsby Clay approves; Nym Carrow writes CUT in capitals. The 
 Widow’s garden by moonlight: a painted moon on a pole, held out over the stage from the balcony by an arm in a 
 sleeve. Bell Gudgeon and Master Tapwell, the Fountain-builder’s apprentice, on a bench. The hedge on wheels has 
 nobody behind it: the Office has struck the Tallyman out of the play entire, and the company’s Tallyman stands in 
@@ -1390,7 +1390,7 @@ She is looking, now, at you. Time passes.
 [Wait › A while] In the lords’ room Ormsby Clay closes his book on his finger and sits on a moment longer than he 
 needs to, looking at the empty stage. Dame Gammage is still on her feet in the lords’ room with her bonnet in her 
 hand, shouting something at the stage that nobody can hear. Canon Mallory is mouthing the moral to himself, very 
-happily, and blowing his nose. Nym Callow has written one word across his programme, and underlined it twice. The 
+happily, and blowing his nose. Nym Carrow has written one word across his programme, and underlined it twice. The 
 procession goes round the stage of the Wheel to a slow drum, every one of them in their place, the Ghost at the head 
 of it and Lob at his heel, and it is ridiculous, and it is beautiful, and the Canon in the lords’ room is mouthing 
 the moral. Then the epilogue. Gosse, as Pomfret, comes down to the edge of the stage: ‘So ends our town, sirs, 
@@ -1409,7 +1409,7 @@ at the Office before the Bench sits at ten tomorrow, or Absalom Gosse to answer 
 gains 500 experience: played Gosse’s night at the Wheel. Wren gains 300 experience: brought the Wheel to its feet.
 [Ask the Master whether you may come to the Bench's supper] The Master considers you. ‘My mother’s house,’ she 
 says. ‘Her table. She will want to look at you, and then she will want to know what you think, and then she will 
-tell you what you think.’ She very nearly smiles. ‘Come. Sit by me, and if Mr Callow says allegory again you may 
+tell you what you think.’ She very nearly smiles. ‘Come. Sit by me, and if Mr Carrow says allegory again you may 
 kick him.’
 [Go over the river with the Bench, in the Lord Mayor's barge] The Bench crosses by charter in the Lord Mayor’s 
 barge: four oars, a lantern on a pole, the four of them in a row on the cushions just as they sat in the lords’ 
@@ -1427,20 +1427,20 @@ were a single dish: ‘The Bench, Mistress.’ Mistress Urania Orde receives the
 Clay comes first, with his printed Siege of Arle under his arm and the look of a man kept up past his principles; 
 then Dame Thalia Gammage, in her bonnet, with a bag of nuts in case the supper is genteel; then Canon Mallory, from 
 the night office, who kisses the widow’s hand and will not meet her eye; and last, in a coat even newer than 
-yesterday’s, yawning, Nym Callow. Behind them comes Abel Tunstall with the night’s sticks in a bundle, who stands 
+yesterday’s, yawning, Nym Carrow. Behind them comes Abel Tunstall with the night’s sticks in a bundle, who stands 
 by the door, as he has every Trial for twenty years, until he is told to sit. The Master of Plain Speech is at the 
 window with her back to the room. URANIA: Sit, all of you. By the custom of this house, which was my husband’s, 
 nobody votes until they have eaten, and nobody eats until they have said one true thing about the play. Ormsby, you 
 are the oldest. Begin.
 [Wait › A while] CLAY: It was too long. GAMMAGE: It was not long enough. MALLORY: It was... Very well acted. (He 
 looks into his empty plate as if the soup might be at the bottom of it.) CALLOW: It was an allegory. URANIA: That is 
-four true things, and one of them Mr Callow’s. Sukey: the soup. Urania Orde turns her bright eyes on you. ‘And 
+four true things, and one of them Mr Carrow’s. Sukey: the soup. Urania Orde turns her bright eyes on you. ‘And 
 you. You were in it, or near it; I saw you. You may say yours when you have thought of one. Nobody ever has one 
 ready.’ Time passes.
 [Say your true thing: that everybody in it was laughing at somebody they loved] You say it. It comes out simpler than 
 you meant. Urania Orde looks at you for a long moment over her glass, and then says, ‘Yes,’ as if she had been 
 waiting some time for somebody to; and across the table Canon Mallory, who has been looking at his plate, looks up.
-[Wait › A while] Time passes. The soup is pea, and very hot, and Nym Callow burns his mouth on it and goes on 
+[Wait › A while] Time passes. The soup is pea, and very hot, and Nym Carrow burns his mouth on it and goes on 
 talking. CALLOW: An allegory, I say, and the most daring thing said on a stage in this City in forty years. The 
 Alderman is the Office. The Fountain is liberty, which has never run. The bear— GAMMAGE: The bear is a bear, you 
 silly boy. I’ve fed her. CALLOW: The bear is the people. GAMMAGE: Then the people want honey and a lie-down, which 
@@ -1462,7 +1462,7 @@ better than one.’
 to have objected to, and I heard every one of them in the hole where it had been. A man of my cloth, in the lords’ 
 room, laughing at a hole. GAMMAGE: That’s the Office all over: cuts the word and leaves the joke lying there with 
 nothing on. CLEMENCY (from the window, gravely): Quite. The Office should strike the gaps as well. I shall see to it 
-in the morning. CALLOW: There! The Master herself— CLEMENCY: I was agreeing with the Canon, Mr Callow. URANIA (very 
+in the morning. CALLOW: There! The Master herself— CLEMENCY: I was agreeing with the Canon, Mr Carrow. URANIA (very 
 quietly, into her glass): Ezra used to say it of himself. ‘I rise, my dear, as I always rise.’ Every morning, in 
 that doorway, in his nightcap. I had forgotten. For a moment nobody says anything, and the Master at the window does 
 not turn round.
@@ -1500,18 +1500,18 @@ cut in them. My mother said they were the faces of every yard that ever sat ther
 good.’ She looks at you. ‘We are, sometimes. Tonight we were.’
 [Wait › A while] Time passes. URANIA: Abel. The sticks. Abel Tunstall comes to the table with the night’s tally 
 in its bundle and reads it out, as he has every Trial for twenty years, in a voice like a ruler: so many notches, at 
-a crown a notch. Callow gets to his feet. CALLOW: There it is. Forty years of a muzzle with a motto. A City that 
+a crown a notch. Carrow gets to his feet. CALLOW: There it is. Forty years of a muzzle with a motto. A City that 
 fines a crown for every true word— CLEMENCY (turning from the window): The Office was not made because a mayor was 
-laughed at, Mr Callow. URANIA: No. It was not. (She looks at Tunstall, who is looking at his sticks.) On the second 
+laughed at, Mr Carrow. URANIA: No. It was not. (She looks at Tunstall, who is looking at his sticks.) On the second 
 night of the singing a lamplighter was up his ladder in the Chepe when the crowd came up it singing the fool’s 
 song, and somebody shook the ladder for the joke, and he fell. Ezra made the Office the next week. He took the boy 
-into it. Sit down, Abel. And Callow sits down; and so does Tunstall, for the first time in twenty years.
+into it. Sit down, Abel. And Carrow sits down; and so does Tunstall, for the first time in twenty years.
 [Wait › A while] On the second night of the riot a lamplighter, Abel Tunstall’s father, fell from his ladder when 
 the crowd came up the Chepe singing Gosse’s joke. Ezra Orde founded the Office of Plain Speech for the widow’s 
 sake, wrote the Eighth Ordinance so that the dead man’s song could be cut on his plate, and took the boy into the 
 Office. Abel Tunstall lays the sticks on the cloth in a row, very carefully, as his father must have laid out wicks.
 [Say that it was funny, and that a man died of it, and that both are true] ‘It was funny,’ you say, ‘and a man 
-died of it, and both of those are true; and the play knows it, or there would not be a ghost in it.’ Callow opens 
+died of it, and both of those are true; and the play knows it, or there would not be a ghost in it.’ Carrow opens 
 his mouth and shuts it again. Clay nods once, slowly, as at a sum correctly done. The Canon says ‘Amen’ without 
 meaning to, and then means it.
 [Wait › A while] Time passes. URANIA: Now. Not the vote: the Bench votes at ten at the Guildhall, as the charter 
@@ -1528,7 +1528,7 @@ persuasion 2 = 11 against 13).
 [Wait › A while] Time passes. Urania Orde, before she lets them go, turns to the Canon. ‘Hugh. The waiter, or the 
 guest, or whatever this one is, said a true thing at the start. Everybody in it was laughing at somebody they loved. 
 Ezra would have said so. Think about it on your way home.’ It is past one. The candles are down to the last inch, 
-Callow is asleep with his cheek on his notebook, and Dame Gammage is eating the last of the pie with her fingers. 
+Carrow is asleep with his cheek on his notebook, and Dame Gammage is eating the last of the pie with her fingers. 
 URANIA: Somebody should make a comedy of this evening. CLAY: Nobody would license it. CLEMENCY (turning from the 
 window at last; and for a moment, in the low light, she is very like her mother): Somebody might. Urania looks at her 
 daughter for a long while and says nothing whatever, which from her is a speech. SUKEY (at the door): The carriages, 
@@ -1587,7 +1587,7 @@ spinster, are read in the minster, and nobody knows any just cause. The Budge br
 together, and argue all through every one of them, about jackdaws. The Fountain of Concord runs all season. The Lord 
 Mayor brings an action against the Guildhall for the loss of his carp, and loses it, and Wat Cundy is made his 
 master’s journeyman for reasons nobody gives in writing. The fines are paid by subscription at the Owl, a penny a 
-head, raised in an hour, with Nym Callow standing on a table shouting the total. Clemency Orde keeps the Office of 
+head, raised in an hour, with Nym Carrow standing on a table shouting the total. Clemency Orde keeps the Office of 
 Plain Speech, and her secret, and whenever Gosse’s Company plays in Pentrice she comes to the yard in Sukey’s old 
 brown hood, and stands at the back, and laughs. The Alderman’s Ghost is played at the Wheel all season as the 
 Office licensed it, with the Tallyman struck out and the Ghost rising and standing where the book once had him rise; 

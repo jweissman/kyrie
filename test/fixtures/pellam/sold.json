@@ -1,0 +1,19 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "=144"
+ ],
+ "hulk": [
+  "go:patience_hold",
+  "Search here",
+  "go:hiring_ring",
+  "Ask Kemble about the drowned",
+  "Tell Kemble where the drowned are hiding"
+ ],
+ "end": [
+  "=420"
+ ]
+}

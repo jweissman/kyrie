@@ -1,0 +1,5 @@
+{
+ "in": ["go:swan_lane", "Shake on a penny a stair", "go:freezeland", "Ask her for your purse back", "go:watermen_room", "Ask Gaffer Tredgold what he is writing",
+  "Ask Gaffer Tredgold why they hanged", "=66", "go:lamb", "Stand Silas Kemble hot gin", "go:watermen_room", "Tell Gaffer Tredgold what Harker does"],
+ "night": ["=200", "go:ox_roast", "Buy a bucket of the ox's offal", "a bucket of offal: Take", "=232", "go:sledge_road", "Swing the bucket of offal"]
+}

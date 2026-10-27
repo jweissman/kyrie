@@ -1,0 +1,35 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Lift your purse back",
+  "Ask Ursel what her proposition",
+  "Ask Ursel Cobb to join",
+  "=36",
+  "go:flashes",
+  "=48",
+  "Hire two pairs of skates",
+  "go:printing",
+  "Have your name and Ursel",
+  "two names on it: Take"
+ ],
+ "hulk": [
+  "=150",
+  "go:patience_hold",
+  "Search here",
+  "Ask Dickon Cobb how"
+ ],
+ "ask": [
+  "=300",
+  "go:freezeland_low",
+  "=+1",
+  "Take Ursel's hand"
+ ],
+ "landing": [
+  "=318",
+  "go:freezeland",
+  "=336",
+  "Shake Ursel's hand again"
+ ]
+}

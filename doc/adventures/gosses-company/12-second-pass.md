@@ -18,7 +18,7 @@ sentence, so nobody was a person.
 reader never heard a line of *The Alderman's Ghost* except the struck ones. The play we were asked to believe was the
 best thing anyone had read was not on the page.
 
-**The critics were a sum.** Clay, Gammage, Mallory and Callow had tastes, and each was shown in a speech; but a speech
+**The critics were a sum.** Clay, Gammage, Mallory and Carrow had tastes, and each was shown in a speech; but a speech
 is a position, and a position is a mouthpiece. Nobody was bored, nobody contradicted themselves, nobody was funny at
 anyone's expense but their own. The verdict was arithmetic in a lords' room.
 
@@ -108,20 +108,20 @@ It runs in eight courses, two watches each, about the length of an act of the pl
 | Course | What is argued | What the company may say |
 |---|---|---|
 | I. The true things | "It was too long." "It was not long enough." "It was... very well acted." "It was an allegory." | its own true thing: everybody in it was laughing at somebody they loved |
-| II. The soup | Callow's allegory; Clay's Aulus Fenne (one place, one day, no animal larger than a dog); Gammage's wet Thursday; Clemency, gravely agreeing with everyone, as a censor would | the rule of all rules is to please; or Gosse's note in the margin of Clay's *Dido*; or agree with Clay |
+| II. The soup | Carrow's allegory; Clay's Aulus Fenne (one place, one day, no animal larger than a dog); Gammage's wet Thursday; Clemency, gravely agreeing with everyone, as a censor would | the rule of all rules is to please; or Gosse's note in the margin of Clay's *Dido*; or agree with Clay |
 | III. The verb | Mallory laughing "at a hole" where the Office cut a word; Urania remembering Ezra's "I rise, my dear" | the Eighth Ordinance; that Swale did not know the lines were funny; or that it was filth |
 | IV. The pie | Urania's pie, her hearth-rug, her proposal: whoever wrote it has eaten in this house | ask her about Ezra; name the author (Grave); or hold your tongue |
 | V. The old days | Gammage's Trials: the Drowned Juliet, the bear-garden *Patient Daughter*; the Canon's surplices bought with fines | ask Gammage, ask Clay about his *Dido*, or serve the egg if you came in as a waiter |
-| VI. The tally | Tunstall reads the notches; Callow's "muzzle with a motto"; Urania tells the lamplighter | both are true; the liberty of the Soke; the stone under the stage; why your stick has no notches |
+| VI. The tally | Tunstall reads the notches; Carrow's "muzzle with a motto"; Urania tells the lamplighter | both are true; the liberty of the Soke; the stone under the stage; why your stick has no notches |
 | VII. What you would vote | each critic says, in character, what they would vote, if it were now | one appeal for the company, by persuasion, or the Epilogue given again |
 | VIII. Somebody might | the candles at the last inch; "Somebody should make a comedy of this evening." "Nobody would license it." CLEMENCY: "Somebody might." | — |
 
 The critics are not consistent, and they are not pleasant all the time:
 
 - **Clay** cites a dead theorist he has made a career of, and is beaten by a margin note he wrote twenty years ago;
-- **Gammage** is rude to Callow, fond of him, and eats with her fingers;
+- **Gammage** is rude to Carrow, fond of him, and eats with her fingers;
 - **Mallory** is shocked by his own laughter, twice;
-- **Callow** is bored, burns his mouth, says *allegory* until somebody stops him, and falls asleep on his notebook;
+- **Carrow** is bored, burns his mouth, says *allegory* until somebody stops him, and falls asleep on his notebook;
 - **Clemency** says almost nothing from the window. What she does say is a censor's deadpan agreement, which is the
   funniest thing at the table and the saddest.
 
@@ -136,7 +136,7 @@ The company can also come in by the kitchen, as a waiter, through Sukey or a lie
 turned away on the step.
 
 What is said moves the critics' regard, so the supper is the one place where an argument, not a performance, can
-change a vote: in the Book journey it brings Callow round, for four voices.
+change a vote: in the Book journey it brings Carrow round, for four voices.
 
 ### The week has acts
 
@@ -184,7 +184,7 @@ The themes that now run through all of it:
   needs somebody to say that the joke was funny and a man died of it.
 - **Who is answered for what is said.** The stone, the Ordinances, the tally sticks, the struck lines, the apology.
 - **Voices.** Kit's breaking; Gosse's deaf ear and the prompter's voice from the good side; the yard's voice; Urania's
-  rule of true things; the Master's silence at the window; Callow's one word.
+  rule of true things; the Master's silence at the window; Carrow's one word.
 - **Precedence against love.** Who walks first, in the play, the Book and the procession, and the Ghost's "Then I'll
   go first".
 
