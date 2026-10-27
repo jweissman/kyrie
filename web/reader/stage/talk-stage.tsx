@@ -11,8 +11,10 @@ import { Stage } from './stage';
 import { Moments } from './moments';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
-// doing when you came over, what they said to you and you to them, in order, and what you came to know; then what
-// you might say next, numbered, and taking your leave. Nothing else on the stage: the place is where you left it.
+// doing when you came over, what they said to you and you to them, in order, and what you came to know, which scrolls
+// when it is long; and held under it, what you might say next, numbered, and taking your leave, never scrolled away
+// (an instrumented session spent four of its ten scrolls reaching "Take your leave": the play-structure
+// investigation's PT-42). Nothing else on the stage: the place is where you left it.
 export class TalkStage {
   static View({ app, talk }: { app: ReaderApp; talk: Talk }) {
     const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
@@ -21,16 +23,17 @@ export class TalkStage {
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')} />
         <div className="dialogue">
-          <Stage.Running frame={frame} extra={frame.screen.place.name} />
+          <Stage.Running frame={frame} extra={frame.screen.place.name} app={app} />
           <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} />
-          <TalkStage.Counter counter={frame.screen.trade.find(c => c.id === who.id)} coin={frame.screen.purse.coin} />
-          {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
-          <ol className="replies" aria-label={`What you might say to ${name}`}>
-            {talk.replies.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
-            <li className="leave"><Act.View choice={talk.leave} draw={draw}>
-              <i>{(draw.index.get(talk.leave.id) ?? 0) + 1}</i>{talk.leave.label}</Act.View></li>
-          </ol>
-          <Act.Sheets app={app} />
+          <div className="answer">
+            <TalkStage.Counter counter={frame.screen.trade.find(c => c.id === who.id)} coin={frame.screen.purse.coin} />
+            {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
+            <ol className="replies" aria-label={`What you might say to ${name}`}>
+              {talk.replies.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
+            </ol>
+            <p className="leave"><Act.View choice={talk.leave} draw={draw}>
+              <i>{(draw.index.get(talk.leave.id) ?? 0) + 1}</i>{talk.leave.label}</Act.View></p>
+          </div>
         </div>
         <button type="button" className="close" data-action="back" aria-label="Take your leave" onClick={app.back}>×</button>
       </div>

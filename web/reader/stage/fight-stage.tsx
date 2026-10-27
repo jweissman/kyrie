@@ -22,7 +22,7 @@ export class FightStage {
           <span data-id="place">{Typography.curl(frame.screen.place.name)}</span></p>
         {(combat.laws ?? []).map(l => <p key={l.name} className="law"><b>{l.name}.</b> {l.text}</p>)}
         <div className="sides">
-          <ul className="side ours" aria-label="The company">{combat.allies.map(f => <FightStage.Card key={f.id} fighter={f}
+          <ul className="side ours" aria-label="The company">{combat.allies.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
             took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} />)}</ul>
           <div className="beat" aria-live="polite">
             {first && frame.opening.filter(Boolean).map((l, i) => <p key={`o${i}`} className="began">{Typography.curl(l)}</p>)}
@@ -30,7 +30,7 @@ export class FightStage {
             {after.map(l => <p key={l} className="after">{Typography.curl(l)}</p>)}
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}
           </div>
-          <ul className="side foes" aria-label="Against you">{combat.foes.map(f => <FightStage.Card key={f.id} fighter={f}
+          <ul className="side foes" aria-label="Against you">{combat.foes.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
             took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} foe />)}</ul>
         </div>
         <p className="turn">{turn}{!combat.outcome && combat.order.length > 1
@@ -54,7 +54,8 @@ export class FightStage {
   static Card({ fighter: f, took, foe }: { fighter: CombatantRow; took: number; foe?: boolean }) {
     const hurt = Words.hurt(f.hp, f.maxHp);
     return (
-      <li className={`card${f.down ? ' down' : ''}${f.acting ? ' acting' : ''}`} data-fighter={f.id}>
+      <li className={`card${f.down ? ' down' : ''}${f.acting ? ' acting' : ''}${took > 0 ? ' struck' : ''}`}
+        data-fighter={f.id}>
         <p className="n"><b>{Typography.curl(Words.upper(f.name))}</b>{took > 0 && <span className="took" key={`${f.hp}`}>−{took}</span>}</p>
         <p className="line">{f.line}</p>
         <span className="hp" aria-hidden="true"><i style={{ width: `${f.maxHp ? (f.hp / f.maxHp) * 100 : 0}%` }} /></span>

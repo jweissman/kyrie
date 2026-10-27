@@ -1,24 +1,34 @@
 import type { ChangeEvent, MouseEvent } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
+import { Likeness } from '../../src/paintings/likeness';
 
 // The title: carry on where you were, or begin in a country you have never seen. Nothing here says how the country
 // is made. A save file brought from elsewhere and the handbooks are at the foot; the ways in that are for testing
 // (a named campaign, a seed) only appear when the address asks for them (?dev).
 export class TitlePage {
+  // The country on the title: a painting of wide country with a way into it, a different one each day, set as a plate
+  // with its credit as far as the painting itself says.
+  static readonly views = ['indolence', 'idyll', 'bridge', 'wintre', 'fair', 'herd', 'city', 'harvest'];
+  static view(day = Math.floor(Date.now() / 86400000)): string { return TitlePage.views[day % TitlePage.views.length]!; }
   static View({ app }: { app: ReaderApp }) {
-    const s = app.state, saved = s.saved, dev = app.props.query.has('dev');
+    const s = app.state, saved = s.saved, dev = app.props.query.has('dev'), view = TitlePage.view();
     return (
       <div className="opening title-page" data-mode="title">
+        <figure className="plate" aria-hidden="true">
+          <img src={`paintings/large/${view}.webp`} alt="" decoding="async"
+            onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} />
+          <figcaption>{Likeness.credits[view] ?? 'Painter unrecorded'}</figcaption>
+        </figure>
         <main>
           <h1 className="mark">Kyr</h1>
           <p className="lede">A country that was there before you, people who live in it, and the road out of town.</p>
           <ul className="begin">
-            {saved && <li><button type="button" className="act" data-nav data-action="continue" onClick={app.opening.carryOn}>
-              Continue<span className="why">{[saved.where, saved.when].filter(Boolean).join(' · ')}</span>
+            {saved && <li><button type="button" className="act door" data-nav data-action="continue" onClick={app.opening.carryOn}>
+              <span className="n">Continue</span><span className="why">{[saved.where, saved.when].filter(Boolean).join(' · ')}</span>
             </button></li>}
-            <li><button type="button" className="act" data-nav data-action="begin" onClick={app.opening.anew}>
-              Begin<span className="why">Somewhere you have never been, as someone with a reason to be there.</span>
+            <li><button type="button" className={`act door${saved ? '' : ' first'}`} data-nav data-action="begin" onClick={app.opening.anew}>
+              <span className="n">Begin</span><span className="why">Somewhere you have never been, as someone with a reason to be there.</span>
             </button></li>
           </ul>
           <p className="small-ways">

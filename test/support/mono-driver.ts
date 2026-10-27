@@ -77,10 +77,17 @@ export class MonoDriver {
   }
   // The way to a destination (its id, or the id without the installation prefix); with a label, one of several
   // things to do at that way (open a door, risk a pit).
+  // A road out is folded under "Roads out" where there are ways about the place: opened first when the way is in it.
   async go(destination: string, label?: string) {
     await this.away();
-    await this.pick(c => this.way(c.id, destination) && (!label || c.label.toLowerCase().includes(label.toLowerCase())),
-      `way to ${destination}`);
+    const wanted = (c: ChoiceShape) => this.way(c.id, destination)
+      && (!label || c.label.toLowerCase().includes(label.toLowerCase()));
+    const state = await this.inspect();
+    if (!state.choices.some(wanted) && state.choices.some(c => c.id === 'fold:roads')
+      && !state.trail.includes('fold:roads')) {
+      await this.pick(c => c.id === 'fold:roads', 'the roads out');
+    }
+    await this.pick(wanted, `way to ${destination}`);
   }
   // Back out of a list that is open (a conversation, a thing's uses) to everything there is to do.
   async back() {

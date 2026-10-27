@@ -1,11 +1,10 @@
-import type { ReactNode } from 'react';
 import type { Exchange, Frame } from '../../engine/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
-import { Act } from './act';
 import { Moments } from './moments';
+import { PlaceStage } from './place-stage';
 
 // What the place says and what just happened in it. Coming somewhere, the way there is told, then the place, then
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
@@ -69,35 +68,22 @@ export class Told {
   static first(text: string): string {
     return /^.*?[.!?](?=\s|$)/.exec(text)?.[0] ?? text;
   }
-  // Who is about, as the narrator says it, each person's name in their own line the way into speaking with them. A
-  // line that only names who is here ("Here are Fargrim, the innkeeper; and Thoradin.") is left to the names below.
-  static Presence({ app, lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
+  // Who is about, as the narrator says it, where it is not said beside them on the facing page: what someone here is
+  // doing is told once, with them, where they are turned to; the animals and the things stay in the telling (a town square named each of its people
+  // twice, once in the telling and once among the people here: the play-structure investigation's PT-09). A line
+  // that only names who is here ("Here are Fargrim, the innkeeper; and Thoradin.") is left to the names.
+  static Presence({ lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
     quiet: boolean }) {
-    const told = lines.filter(l => !Told.roll(l));
+    const beside = subjects.filter(s => s.kind === 'person' && !PlaceStage.danger(s)).flatMap(s => s.says ?? []);
+    const told = lines.filter(l => !Told.roll(l)).map(l => beside.reduce((rest, said) => rest.replace(said, ''), l)
+      .replace(/\s{2,}/g, ' ').trim()).filter(Boolean);
     if (!told.length) { return null; }
-    const linked = new Set<string>();
     return <div className={`presence${quiet ? ' quiet' : ''}`}>
-      <p>{told.map((l, i) => <span key={i}>{i > 0 && ' '}{Told.linked(app, Typography.curl(l), subjects, linked)}</span>)}</p>
+      <p>{told.map((l, i) => <span key={i}>{i > 0 && ' '}{Typography.curl(l)}</span>)}</p>
     </div>;
   }
   static roll(line: string): boolean {
     return /^Here (are|is) /.test(line) || /, (is|are) here\.$/.test(line) || /^[^,]+ (is|are) here\.$/.test(line);
-  }
-  // A line with the first mention of each person in it made a way into speaking with them.
-  private static linked(app: ReaderApp, line: string, subjects: SceneSubject[], linked: Set<string>): ReactNode[] {
-    const out: ReactNode[] = [];
-    let rest = line;
-    for (const subject of subjects) {
-      const into = subject.choices.find(c => /#(talk|look)$/.test(c.id));
-      const name = Words.short(subject.name).replace(/^(the|a|an) /i, '');
-      if (!into || linked.has(subject.id) || name.length < 3) { continue; }
-      const at = rest.indexOf(name);
-      if (at < 0) { continue; }
-      linked.add(subject.id);
-      out.push(rest.slice(0, at), <Act.Inline key={subject.id} app={app} choice={into}>{name}</Act.Inline>);
-      rest = rest.slice(at + name.length);
-    }
-    return [...out, rest];
   }
   // What came of something done: what the company did, when it did it where it stands, in its own words; then what
   // happened, and what it came to know or spent.

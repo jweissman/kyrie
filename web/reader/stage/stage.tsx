@@ -1,4 +1,5 @@
 import type { Frame } from '../../engine/protocol';
+import type { Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Routes } from '../../../src/ui/route';
 import { FictionalTime } from '../../../src/campaign/fictional-time';
@@ -10,6 +11,7 @@ import { ThingStage } from './thing-stage';
 import { RoadStage } from './road-stage';
 import { FightStage } from './fight-stage';
 import { BookStage } from './book-stage';
+import { Act } from './act';
 
 export type Mode = 'explore' | 'talk' | 'examine' | 'road' | 'combat' | 'book' | 'fallen';
 
@@ -61,14 +63,33 @@ export class Stage {
     const s = frame.screen;
     return [Words.upper(FictionalTime.part(s.elapsed)), s.weather ?? '', s.date?.short ?? ''].filter(Boolean);
   }
-  // The running head: the country and what part of it, and the time, in the margin's small capitals.
-  static Running({ frame, extra }: { frame: Frame; extra?: string }) {
+  // The running head: the country and what part of it, and the time, in the margin's small capitals; with the game
+  // to hand, the books (yourself, the notes, the pack, the map, the story so far). Its top edge is the light of the
+  // hour: the morning's, the afternoon's, the evening's, or none at night.
+  static Running({ frame, extra, app }: { frame: Frame; extra?: string; app?: ReaderApp }) {
     return (
-      <header className="running" data-id="clock">
+      <header className={`running light-${FictionalTime.part(frame.screen.elapsed)}`} data-id="clock">
         <span className="at">{Stage.where(frame).map(w => <span key={w}>{Typography.curl(w)}</span>)}
           {extra && <span>{Typography.curl(extra)}</span>}</span>
         <span className="when">{Stage.when(frame).map(w => <span key={w}>{w}</span>)}</span>
+        {app && <Act.Sheets app={app} />}
       </header>
+    );
+  }
+  // Yourself, at a glance: how you are, what ails you, what you have to spend and to eat, and your light if it matters.
+  static Me({ screen }: { screen: Screen }) {
+    const me = screen.party[0];
+    if (!me) { return null; }
+    return (
+      <p className="me"><b>{me.name}</b>
+        <span className={me.hp < me.maxHp ? 'hurt' : undefined}>{Words.hurt(me.hp, me.maxHp)}</span>
+        {[...new Set(me.conditions)].map(c => <span key={c} className="hurt">{c.toLowerCase()}</span>)}
+        {screen.expedition.hungry && <span className="hurt">hungry</span>}
+        {screen.expedition.weary && <span className="hurt">weary</span>}
+        <span data-id="purse">{screen.purse.coin} coin</span>
+        <span>{screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}</span>
+        {screen.expedition.light && <span className="light" data-id="light">{Typography.curl(screen.expedition.light)}</span>}
+      </p>
     );
   }
 }

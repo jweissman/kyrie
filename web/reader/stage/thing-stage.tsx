@@ -22,7 +22,7 @@ export class ThingStage {
     return (
       <div className="thing" id="page">
         <div className="face">
-          <Stage.Running frame={frame} extra={frame.screen.place.name} />
+          <Stage.Running frame={frame} extra={frame.screen.place.name} app={app} />
           <p className="kicker">Looking at</p>
           <h1 className="n">{Typography.curl(Words.upper(thing.name))}</h1>
           {thing.note && <p className="r">{Typography.curl(thing.note)}</p>}
@@ -37,7 +37,6 @@ export class ThingStage {
           </section>)}
           <p className="away"><Act.View choice={examined.back} draw={draw}>← Turn back to {Typography.curl(
             frame.screen.place.name)}</Act.View></p>
-          <Act.Sheets app={app} />
         </div>
         <button type="button" className="close" data-action="back" aria-label="Turn away" onClick={app.back}>×</button>
       </div>

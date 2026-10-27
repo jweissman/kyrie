@@ -2,18 +2,22 @@ import type { ReaderApp } from '../reader-app';
 import { Sheet } from '../sheet';
 import { MapView } from '../map-view';
 import { Typography } from '../../../src/presentation/typography';
-import { Act } from './act';
 import { Stage } from './stage';
 
 // What is read rather than lived: notes, the story so far, what the company carries, the company itself, the map.
-// Each is a page of its own, with the way back to where you are; and the end, when no one is left standing.
+// Each is a page of its own under the running head, the books to hand there and the one open marked, its own page
+// scrolling within the frame; with the way back to where you are; and the end, when no one is left standing.
 export class BookStage {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!;
     return (
-      <div className="book-page" id="page">
-        {app.state.view === 'map' ? <MapView.View app={app} screen={frame.screen} /> : <Sheet.View app={app} />}
-        <Act.Sheets app={app} />
+      <div className="book-frame" id="page">
+        <Stage.Running frame={frame} app={app} />
+        <div className="book">
+          <div className="book-page">
+            {app.state.view === 'map' ? <MapView.View app={app} screen={frame.screen} /> : <Sheet.View app={app} />}
+          </div>
+        </div>
       </div>
     );
   }

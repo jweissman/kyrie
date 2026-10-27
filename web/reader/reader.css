@@ -65,6 +65,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 
 /* ---- The books: the character, notes, the story, what you carry, the map. A page of the same book as play. ---- */
 .book-page { max-width: 42rem; margin: 0 auto; padding: 32px 24px 96px; }
+.book-page:has(.character) { max-width: 80rem; padding: 26px clamp(20px, 3.4vw, 48px) 72px; }
 .sheet h2 { font: 400 36px/1.1 var(--told); margin: 0 0 22px; }
 .sheet h3 { font: 500 11.5px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin: 30px 0 10px; }
 .sheet ul { padding-left: 1.1em; margin: 0 0 1em; }
@@ -131,12 +132,37 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 
 /* ---- Before play: the title, who you are, and why you have come. ---- */
 .opening { max-width: 62rem; margin: 0 auto; padding: clamp(28px, 7vw, 96px) clamp(16px, 5vw, 64px) 64px; min-height: 100dvh; }
-.title-page { display: grid; align-content: center; }
-.mark { font: 400 clamp(88px, 16vw, 200px)/.9 var(--told); letter-spacing: -.02em; margin: 0 0 clamp(26px, 4vw, 44px); }
-.lede { font: italic 400 clamp(20px, 2.3vw, 26px)/1.4 var(--told); color: var(--grey); max-width: 28em; margin: 0 0 54px; }
+.title-page { max-width: none; height: 100dvh; min-height: 0; overflow: hidden; display: grid; align-items: center;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 1fr); gap: 0 clamp(32px, 5vw, 88px);
+  padding: clamp(24px, 5vh, 64px) clamp(20px, 5vw, 88px); }
+.title-page .plate { margin: 0; align-self: center; justify-self: end; width: 100%; max-width: 860px; }
+.title-page .plate img { display: block; width: 100%; max-height: calc(100dvh - 160px); object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.06); }
+.title-page .plate.gone { visibility: hidden; }
+.title-page .plate figcaption { font: 400 12px/1.4 var(--do); color: var(--faint); margin-top: 10px; letter-spacing: .02em; }
+.title-page main { position: relative; padding-left: clamp(20px, 2.4vw, 36px); max-width: 30rem; }
+.title-page main::before { content: ''; position: absolute; left: 0; top: .9em; width: 6px; height: clamp(88px, 13vw, 168px);
+  background: var(--blue); }
+.mark { font: 400 clamp(96px, 13vw, 184px)/.86 var(--told); letter-spacing: -.035em; margin: 0 0 clamp(22px, 3vw, 36px); }
+.mark::after { content: '.'; color: var(--yellow); }
+.lede { font: italic 400 clamp(20px, 1.9vw, 24px)/1.4 var(--told); color: var(--grey); max-width: 24em; margin: 0 0 40px; }
 .begin { list-style: none; margin: 0; padding: 0; }
-.begin li { margin: 0 0 18px; }
-.begin .act { font: 450 clamp(26px, 3.2vw, 36px)/1.15 var(--do); text-decoration: none; }
+.begin li { margin: 0 0 12px; }
+.begin .act.door { display: block; width: 100%; text-decoration: none; padding: 14px 18px 15px; margin-left: -18px;
+  border-left: 3px solid transparent; transition: background-color .12s, border-color .12s; }
+.begin .act.door .n { display: block; font: 500 clamp(28px, 2.6vw, 34px)/1.1 var(--do); letter-spacing: -.005em; }
+.begin .act.door:hover { background: var(--wash); border-left-color: var(--ink); }
+.begin .act.door.sel, .begin .act.door:focus-visible { background: #F1F5FD; border-left-color: var(--blue); }
+.begin .act.door.sel .n, .begin .act.door:focus-visible .n { color: var(--blue); }
+.begin .act.door:active { background: #E8EEFA; }
+.begin .act.door::after { content: none; }
+@media (max-width: 860px) {
+  .title-page { height: auto; min-height: 100dvh; overflow: visible; grid-template-columns: minmax(0, 1fr);
+    align-content: start; padding: 0 16px 40px; }
+  .title-page .plate { justify-self: stretch; margin: 0 -16px 28px; width: calc(100% + 32px); max-width: none; }
+  .title-page .plate img { max-height: 42dvh; box-shadow: none; }
+  .title-page .plate figcaption { padding: 0 16px; }
+}
 .begin .act .why { font: 400 15.5px/1.45 var(--do); color: var(--grey); margin-top: 4px; }
 .small-ways { margin-top: 64px; display: flex; flex-wrap: wrap; gap: 6px 22px; font: 400 14px var(--do); color: var(--grey); }
 .small-ways label, .small-ways .link, .small-ways a { cursor: pointer; text-decoration: underline;
@@ -255,4 +281,44 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 @media (max-width: 860px) {
   .bearings div { grid-template-columns: minmax(0, 1fr); }
   .qualities .rests { display: none; }
+}
+
+/* ---- The character as a sheet: who, how they stand, the qualities as tiles, and the rest in columns. ---- */
+.character { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 3vw, 48px); align-items: start; }
+.character > * { grid-column: 1 / -1; }
+.character .head-of { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 4px 32px;
+  padding-bottom: 18px; margin-bottom: 10px; border-bottom: 1.5px solid var(--ink); }
+.character .head-of .who { margin: 0; font-size: clamp(44px, 5vw, 64px); }
+.character .head-of .line-of { margin: 0; grid-column: 1; }
+.character .gauges { grid-column: 2; grid-row: 1 / span 2; display: grid; gap: 8px; min-width: 260px; }
+.character .gauge { margin: 0; display: grid; grid-template-columns: 7.5em auto 1fr; align-items: baseline; gap: 0 8px;
+  font: 400 14px/1.3 var(--do); }
+.character .gauge .label { margin: 0; }
+.character .gauge b { font: 500 20px/1 var(--told); font-variant-numeric: tabular-nums; }
+.character .gauge .of { color: var(--grey); }
+.character .gauge .bar { grid-column: 1 / -1; height: 5px; background: var(--hair); }
+.character .gauge .bar i { display: block; height: 100%; background: var(--ink); }
+.character .gauge .bar i.hurt { background: var(--red); }
+.character .gauge .bar i.mana { background: var(--blue); }
+.character .gauge .bar i.experience { background: var(--yellow); }
+.character .qualities-of { grid-column: 1 / span 2; }
+.character .tiles { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px; }
+.character .tile { display: grid; grid-template-rows: auto auto auto 1fr; padding: 12px 14px 14px; border: 1px solid var(--hair);
+  border-top: 3px solid var(--ink); }
+.character .tile .q { font: 500 11.5px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); }
+.character .tile .score { font: 400 44px/1.05 var(--told); font-variant-numeric: tabular-nums; margin: 4px 0 2px; }
+.character .tile .mods { font: 500 13.5px/1.35 var(--do); }
+.character .tile .rests { font: 400 13px/1.4 var(--do); color: var(--grey); margin-top: 6px; }
+.character section:not(.qualities-of):not(.development) { grid-column: auto; }
+.character .standing { margin: 6px 0 10px; }
+.character .bearings div { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 0 12px; }
+.character .bearings dd { font-size: 15.5px; line-height: 1.4; }
+.character .head-of + * { margin-top: 18px; }
+@media (max-width: 960px) {
+  .character { grid-template-columns: minmax(0, 1fr); }
+  .character .head-of { grid-template-columns: minmax(0, 1fr); }
+  .character .gauges { grid-column: 1; grid-row: auto; min-width: 0; margin-top: 10px; }
+  .character .qualities-of { grid-column: 1; }
+  .character .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
