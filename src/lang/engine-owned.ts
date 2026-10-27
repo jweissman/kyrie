@@ -9,7 +9,7 @@ export class EngineOwned {
     'season', 'dice'];
   static readonly records = ['recorded', 'deficit'];
   static readonly projected = ['able', 'dead', 'capable', 'awake', 'needsCare', 'canCast', 'treatable', 'relieves',
-    'proficient'];
+    'proficient', 'levelOf'];
   static readonly held = ['memberOf', 'ownedItem', 'wearing', 'canTrain'];
   static readonly knowledge = ['knows', 'established'];
   // By construct: what a Rule, an Action (or Topic) and an Initially may not write.

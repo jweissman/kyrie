@@ -1,0 +1,64 @@
+Module calamy "A Parliament of Books" {
+  Description "The realms beyond the Commonplace that its doors open on: Cthelll, the furnace-city of the damned, which is administered; and the lowest terrace of the Mount of the Exalted, whose libraries are of true books.".
+
+  Place realms "the Realms Beyond" is region elsewhere.
+  Place cthelll "Cthelll" is wilderness within realms at 0, 0 elsewhere.
+  Place mount "the Mount of the Exalted" is wilderness within realms at 1, 0 elsewhere.
+  Place cthelll_gate "the Gate of Cthelll" is room within cthelll at 0, 0.
+  Place celestia_terrace "the lowest terrace of the Mount" is room within mount at 0, 0.
+
+  // ── Cthelll. ──
+  Observe cthelll_scene at cthelll_gate when true "You are standing in a hall of iron counters that goes away in every direction under a sky the colour of the inside of a stove. Behind every counter sits a clerk, and every clerk is writing, and the sound of the writing is the sound of a fire. On the counters lie ledgers, open; in the ledgers, names, each followed by a thing signed and a date, each struck out, each written again beneath. Somewhere very far off a bell rings once an hour and every clerk in Cthelll turns a page at once. The heat is not the worst of it. The worst of it is that it is orderly." teaches cthelll_known.
+  Discovery cthelll_known "Cthelll, the furnace-city of the damned, is administered: its clerks keep a ledger of every name ever signed in bad faith, and every night write each one again, and read it aloud, and strike it out, and write it again, for ever.".
+  Person clerks "the Clerks of Cthelll" at cthelll_gate {
+    Role "the administration of the damned". Species fiend. Level 6. Numbers 2. Peaceable. Pronouns they. Manner stoic.
+    Greets "Two clerks at the nearest counter look up together. They are tall, and very thin, and grey, and the pens in their long hands are lit at the nib like tapers. 'Name?' says the first. 'You are not on the list,' says the second, turning a page. 'That can be corrected.'".
+  }
+  Topic clerks_what with clerks "Ask the Clerks what Cthelll is for" when true once {
+    Says "'For keeping,' says the first clerk. 'Every name that was ever signed to a thing that was not meant: an oath sworn to be broken, a deed of gift with a knife behind it, a verdict written before the trial.' 'We write them again every night,' says the second, 'so that they are not forgotten; and strike them out, so that they are not forgiven; and write them again.' 'It is very satisfying work,' says the first. 'There is always more of it.'".
+  }
+  Topic clerks_index with clerks "Ask the Clerks whether they know of the Index of Pardoe" when knows(actor, index_known) or knows(actor, pardoe_known) once {
+    Says "The clerks look at each other, which they do by turning the same page at the same moment. 'Pardoe,' says the first, 'is a correspondent.' 'Of the Department,' says the second. 'He wrote to four censors, in four cities that write, and three of them answered him, and they are writing to each other still, under the Commonplaces, where it is warm.' 'There is going to be a Last Index,' says the first, quite kindly. 'Of everything. When it is finished nobody will need to come here; everything that needed striking out will have been.' It turns a page. 'We are rather looking forward to the rest.'".
+    On discuss { Assert knows(actor, last_index). }
+  }
+  Discovery last_index "The Clerks of Cthelll say Pardoe's Index corresponds with three censors of other cities that write, under their Commonplaces, and that between them they mean to make a Last Index: of everything.".
+  Relation namedInCthelll(group).
+  Action sign_ledger(actor: group, site: place) "Sign your name in the Clerks' ledger, in exchange for the way back" {
+    Grave "Your name will be written in Cthelll every night, and struck out, and written again; that is the price of the way back.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cthelll_gate).
+    Time 1.
+    On success { Assert namedInCthelll(actor). Assert strikes(damned_gift, actor). Assert at(actor, hex_doors). }
+    Result "The first clerk turns the ledger round and holds out its lit pen. You sign. The second clerk blots it, strikes it out with one neat line, and writes it again underneath, in a hand exactly like yours. 'Receipt,' says the first, and gives you something that is not paper and not quite a thought: the way a corridor turns back on itself, so that whoever follows you will be a long time finding the end. Then the counter is a shelf, and the shelf is a glass case, and you are in the Hexagon of Doors with the black book shut behind its glass.".
+  }
+  Action climb_red_stair(actor: group, site: place) "Find the red stair the clerks do not mention, and climb it saying the Lamp prayer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cthelll_gate) and (capable(actor, rites) or craft(actor, craft_faith) or carries(actor, lamp_taper)).
+    Time 12.
+    On success { Assert at(actor, hex_doors). }
+    Result "Behind the last counter, where no clerk looks, a stair goes up, red-hot, each step a line of red script; and you climb it saying the Lamp prayer at every step, we give the year to the fire as it gives itself, and the script cools under your feet where you say it. It takes a long time. Behind you, very faintly, a clerk says, 'That is irregular,' and writes something down. At the top the stair is a shelf, and the shelf is a glass case, and you are in the Hexagon of Doors.".
+  }
+  Observe damned_after at hex_doors when namedInCthelll(party) "Behind the black glass, the Book of the Damned lies shut; but you know, without looking, that somewhere in it tonight your name will be written, and struck out, and written again.".
+
+  // ── The Mount of the Exalted. ──
+  Observe terrace_scene at celestia_terrace when true "A terrace of white stone in a high clear light, above cloud, with the slope of a mountain going up behind it into more light than you can look at. Along the terrace stand shelves of pale wood, open to the air, and on them books, and every book here is true: you know it the way you know cold water is cold. Nobody is reading them. Far above, on the next terrace, there are fewer shelves; on the one above that, fewer; and at the top, you are told by the quality of the light, there are none at all, because there is nothing there that needs to be written down." teaches mount_known.
+  Discovery mount_known "The Mount of the Exalted has seven terraces, each a library more true than the one below, until at the seventh there are no books, because nothing there needs to be written down.".
+  Person terrace_librarian "the Librarian of the First Terrace" at celestia_terrace {
+    Role "a keeper of true books". Species deva. Level 9. Peaceable. Pronouns they. Manner compassionate.
+    Greets "Someone tall in a grey that is nearly white is shelving a book at the end of the terrace, without hurry, and turns, and is glad to see you, as if you were a book they had been meaning to read. 'You came up through the white one,' they say. 'It doesn't open for many. Sit, if you like. Nothing here is urgent.'".
+  }
+  Topic librarian_what with terrace_librarian "Ask the Librarian what is written in the true books" when true once {
+    Says "'What happened,' says the Librarian. 'Only that. Every true thing, once.' They lay a hand on a shelf. 'This terrace has the true history of every library below it: yours, and the Stacks, and the ones under the Stacks. It is the dullest reading in creation, and the most consoling; nothing in it is worse than it was.' They smile. 'Further up, the books get shorter. At the top there is a library with no books in it. We go there to rest.'".
+  }
+  Topic librarian_ash with terrace_librarian "Ask the Librarian about the libraries under the Stacks" when knows(actor, shaft_heard) or knows(actor, ash_known) or knows(actor, last_index) once {
+    Says "The Librarian's face does not change, but the light on the terrace does, a little. 'Every library has a basement,' they say. 'Yours has the Cinderfield. Under the Cinderfield there is a furnace, and the furnace is not yours; it is shared, by every city that has burned what it was afraid of. Things are being written down there.' They take a true book from the shelf and do not open it. 'You will not finish that in a week. You will finish what is yours. That is enough.'".
+  }
+  Topic librarian_bless with terrace_librarian "Ask the Librarian for anything to take back down" when true once {
+    Says "The Librarian considers you the way a reader considers a margin. Then they touch your forehead, lightly, as one touches a page to keep one's place. 'Keep your place,' they say. 'That is all a blessing is.' Something stays where their finger was, warm, and does not go.".
+    On discuss { Assert strikes(exalted_gift, actor). }
+  }
+  Action descend_mount(actor: group, site: place) "Go back down, by the white book" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, celestia_terrace).
+    Time 6.
+    On success { Assert at(actor, hex_doors). }
+    Result "The Librarian walks with you to the edge of the terrace, where the light is a page, and holds it open for you. 'Come back when you're tired,' they say. 'Everyone does.' You step down into the Hexagon of Doors, and the white book closes behind its glass.".
+  }
+}

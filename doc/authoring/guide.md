@@ -761,6 +761,41 @@ To anyone else they are not there: not on the page, and nothing can be done to t
   Person lady "the grey lady" at nave { Role "a woman who died here". Peaceable. Seen when knows(viewer, sight). }
 ```
 
+### Said once for each one it finds
+
+A rule whose condition binds a variable fires once for each binding, and its `says` is told once for each: a roll
+called, every member answering in turn (A Parliament of Books' poll; `probes/roll-call`). What it teaches is learned
+once. A rule that re-asserts its own precondition fires again on the next pass, so a nightly or once-only rule needs
+a latch (`not outTonight(?b)` … `Assert outTonight(?b)`).
+
+```text
+  Rule poll_aye at chamber when putting(?o) and sits(?m) and favours(?m, ?o) and not polled(?m) says "{?m}: aye." { Assert polled(?m). }
+```
+
+### A book that changes its reader
+
+`Resolve endow(member, quality, degree)` raises one of a member's qualities by `by_one`, `by_two` or `by_three`,
+never past twenty-five, outside the level's development: a Manual. It spends nothing; the module says what it asks.
+`levelOf(member)` is each member's level, for what a gift asks of its reader (`probes/manual`):
+
+```text
+  Action study(actor: group, reader: member, site: place) "Have {reader} read the grey manual" {
+    Requires memberOf(reader, actor) and carries(actor, manual) and levelOf(reader) >= 3 and not studied(manual) and at(actor, site).
+    Time 36. Resolve endow(reader, intelligence, by_two). On success { Assert studied(manual). }
+  }
+```
+
+### A place out of the world
+
+`elsewhere`, where `outdoors`, `indoors` or `underground` would go, says a place has no sky over it and no hour told
+in it: no weather on arrival, and its ways told without the light (the Commonplace in A Parliament of Books). Put it
+on the region and its areas; rooms within inherit it.
+
+```text
+  Place commonplace "the Commonplace" is region elsewhere.
+  Place near_stacks "the Near Stacks" is wilderness within commonplace at 1, 0 elsewhere.
+```
+
 ### Weariness
 
 A company that sleeps (every company does, unless a module says otherwise) grows weary eighteen hours after it last

@@ -1,0 +1,109 @@
+Module calamy "A Parliament of Books" {
+  Description "The night sluice: two tide-mills, one millrace, a gate shut at night, an eel-catcher, and a wedding that wants forty eels.".
+
+  Observe race_scene at millrace when not dark() "Two mills face each other across a stone race where the river comes in on the flood and goes out on the ebb, and their wheels turn with it. The old mill is timber, black with age, with BRANNOCK painted on it; the new one is brick, with TEAGUE & DAU. painted bigger. Between them at the race's mouth a wooden sluice gate on a winch can shut the race off from the river altogether. Both millers are standing in their doorways not looking at each other.".
+  Observe race_dark at millrace when dark() "The millrace at night, black water, and the two mills dark on either side of it.".
+  Observe brannock_scene at brannock_floor when true "A mill floor all dust and thunder: the great stones going round, rag-pulp in the vats, the whole building shaking with the wheel. Sheets of wet paper hang on felts on the racks, and the light comes through them yellow.".
+  Observe teague_scene at teague_floor when true "A brick mill floor with new iron gears painted green, very clean, and vats in a row, and a wall of finished paper in reams wrapped and stacked and marked DOBLE.".
+  Person brannock "Old Brannock" at brannock_floor {
+    Role "miller of the old mill". Ancestry human. Background miller. Peaceable. Manner grim. Pronouns he.
+    Greets "A white-floured old man with forearms like hams looks at you over a vat. 'If she sent you, tell her I said she knows what she did.'".
+  }
+  Person teague "the Widow Teague" at teague_floor {
+    Role "miller of the new mill". Ancestry human. Background miller. Peaceable. Manner acerbic. Pronouns she.
+    Greets "A sharp woman in a clean apron with a pencil behind her ear looks up from a ledger. 'If he sent you, he can come and say it himself, if he can find the door of a building younger than he is.'".
+  }
+  Discovery sluice_quarrel "Somebody shuts the sluice gate at the head of the millrace in the small hours, so that neither tide-mill can grind on the night ebb; Brannock blames the Widow Teague, and she blames him. The paper for Doble's Pleas is late because of it.".
+  Topic brannock_quarrel with brannock "Ask Old Brannock what the Widow Teague has done" when true once {
+    Says "'Shuts my water,' says Brannock. 'Three weeks. Every night, one or two in the morning, the sluice goes down and the race stands still and my wheel stops dead and so does hers, and she does it to spite me because I wouldn't sell her the old mill.' He bangs a vat. 'She'd rather lose a night's grinding herself than see me grind. That's the Teagues.'".
+    On discuss { Assert knows(actor, sluice_quarrel). Assert heardBrannock(actor). }
+  }
+  Topic teague_quarrel with teague "Ask the Widow Teague what Old Brannock has done" when true once {
+    Says "'Shuts the sluice,' says the Widow Teague, without looking up from her ledger. 'Every night, the old fool. I've two hundred reams owed to Doble for the Pleas by the fourth day and I've lost the night ebb three weeks running, and he's lost it too, and he'd sooner lose it than let me keep it.' She underlines something hard. 'His father was the same.'".
+    On discuss { Assert knows(actor, sluice_quarrel). Assert heardTeague(actor). }
+  }
+  Relation heardBrannock(group). Relation heardTeague(group).
+  Thing sluice "the sluice gate" at millrace {
+    State up "The sluice gate is wound up on its winch, and the race runs free.".
+    State down "The sluice gate is down. The race lies still and black, and both wheels stand.".
+  }
+  Discovery eel_traps "Under the sluice gate, on the race side, someone has staked a row of wicker eel-traps, each with a scrap of red rag tied to it. Every eel-catcher in the Hithe marks his traps; red rag is Coddy Fitch's.".
+  Discovery traps_search "Under the sluice gate there is something staked in the mud." { Found by searching millrace "Down on the slimy stones under the sluice, on the race side where the water stands still when the gate is down, a row of wicker eel-traps is staked into the mud, five of them, each with a scrap of red rag tied to its neck.". }
+  Rule traps_are_coddys when knows(party, traps_search) and not knows(party, eel_traps) says "Red rag. Moll Garrow said it: you want Coddy Fitch out on the flats. You have seen red rag on the eel-baskets at the end of the plank walk under the mills." teaches eel_traps { }
+
+  // Coddy shuts the gate at one in the morning and opens it at three, for his traps, until his sister's wedding.
+  Person coddy "Coddy Fitch" at coddy_hut {
+    Role "eel-catcher". Ancestry human. Calling ranger. Level 2. Background fisherman. Peaceable. Manner cheerful. Pronouns he.
+    Greets "A wiry man in waders with a pipe in his teeth looks up from mending a wicker trap. 'Eels, is it? Eels is Thursday. Eels is every day, for you.'".
+  }
+  Observe hut_scene at coddy_hut when true "A hut of tarred planks on stilts over the mud, with eel-traps stacked against it, nets drying, a smoke-box, a dog, and a view of the whole flat grey estuary going out to the sea. Every trap has a scrap of red rag on it.".
+  Person coddy_dog "Coddy's dog" at coddy_hut { Role "a black and white dog with one ear up". Species dog. }
+  Relation sluiceSettled(entity). Relation coddyExposed(group). Relation coddyOwes(group). Relation weddingEels(group).
+  Rule coddy_shuts when hour(clock) == 1 and not sluiceSettled(sluice) and not coddyExposed(coddy) and state(sluice, up) and not weddingDone(lamb) {
+    Assert state(sluice, down). Assert at(coddy, millrace). }
+  Rule coddy_opens when hour(clock) == 3 and state(sluice, down) and not sluiceSettled(sluice) {
+    Assert state(sluice, up). Increase eelsCaught(coddy) by 10. }
+  Rule coddy_home when hour(clock) >= 3 and hour(clock) < 12 and at(coddy, millrace) { Assert at(coddy, coddy_hut). }
+  Measure eelsCaught(group).
+  Observe coddy_caught at millrace when at(coddy, millrace) and dark() "In the dark at the head of the race a man in waders is leaning on the sluice winch, smoking a pipe, with a lantern hooded down to a slit at his feet. It is Coddy Fitch. When he sees you he takes the pipe out of his mouth and says, quite cheerfully, 'Ah.'" teaches coddy_seen.
+  Discovery coddy_seen "It is Coddy Fitch, the eel-catcher, who shuts the millrace sluice in the small hours: two hours of still water under the gate, for his traps.".
+  Topic coddy_why with coddy "Ask Coddy Fitch why he shuts the sluice at night" when knows(actor, coddy_seen) or knows(actor, eel_traps) once {
+    Says "'Ah,' says Coddy, and grins, and then stops grinning. 'Well. Forty eels.' He puts the pipe back. 'My sister Peg's to be married at the Lamb on the third day, to Jem Lowe that drives for the mills, and I said I'd do the eel pie. Forty eels. And you can't get forty eels this time of year, not in running water. You want still water and a dark night.' He looks at the mills. 'Two hours. That's all. I didn't think they'd notice, the way they never look at each other.' He scratches his ear. 'They noticed.'".
+    On discuss { Assert knows(actor, coddy_seen). }
+  }
+  Topic coddy_hour with coddy "Ask Coddy Fitch if one hour at slack water would do him, if the millers would give it" when knows(actor, coddy_seen) and not sluiceSettled(sluice) and not coddyExposed(coddy) once {
+    Says "'An hour at the slack?' Coddy considers it like a man considering a horse. 'At the slack the race is near still anyway. An hour'd do. If they'd give it.' He laughs. 'They won't. They'd sooner both starve than give each other anything, and they'd sooner give me a beating than either.'".
+    On discuss { Assert coddyWouldTake(coddy). }
+  }
+  Relation coddyWouldTake(group).
+  Topic brannock_settle with brannock "Tell Old Brannock it was never the Widow Teague, and what Coddy Fitch asks" when coddyWouldTake(coddy) and heardTeague(actor) and not sluiceSettled(sluice) once {
+    Says "Brannock hears it out with his arms folded. 'Coddy Fitch,' he says. 'For an eel pie.' Something happens under the flour, which may be a laugh. 'And she's been thinking it was me.' He unfolds his arms. 'Tell him he can have the slack, an hour, if she'll give it too. And tell her—' He stops. 'Tell her I said it wasn't me.' He turns back to his vat. 'She'll know what I mean.'".
+    On discuss { Assert brannockAgrees(brannock). }
+  }
+  Topic teague_settle with teague "Tell the Widow Teague it was never Old Brannock, and what Coddy Fitch asks" when coddyWouldTake(coddy) and heardBrannock(actor) and not sluiceSettled(sluice) once {
+    Says "The Widow Teague puts down her pencil. 'An eel pie,' she says. 'Three weeks of night grinding, for an eel pie.' She looks across the race at the old mill, for the first time since you came. 'He thought it was me?' She picks the pencil up. 'Coddy can have his hour. And tell the old fool—' She stops, and writes something in her ledger instead. 'Never mind. I'll tell him.'".
+    On discuss { Assert teagueAgrees(teague). }
+  }
+  Relation brannockAgrees(group). Relation teagueAgrees(group).
+  Rule sluice_settles when brannockAgrees(brannock) and teagueAgrees(teague) and not sluiceSettled(sluice)
+    says "That evening there is a board nailed to the sluice winch, painted in two different hands: SLACK WATER, ONE HOUR, FITCH. And under it, in a third hand, a drawing of an eel." {
+    Assert sluiceSettled(sluice). Assert coddyOwes(coddy). Assert weddingEels(coddy). Assert state(sluice, up). }
+  Topic brannock_expose with brannock "Tell Old Brannock it is Coddy Fitch who shuts the sluice" when knows(actor, coddy_seen) and not sluiceSettled(sluice) and not coddyExposed(coddy) once {
+    Says "'Fitch!' Brannock is out of the door and across the race before you can say anything else, and the Widow Teague is out of hers, and for a moment they are shoulder to shoulder at the sluice winch shouting down at the mud, which is the first time they have stood together in ten years. Then they go back to their mills. By evening the Water Bailiff has been to the hut on stilts, and Coddy's traps are on the bank, broken.".
+    On discuss { Assert coddyExposed(coddy). Assert sluiceSettled(sluice). Assert state(sluice, up). }
+  }
+  Query millsRun(p: place) means sluiceSettled(sluice) or ebbHeld(p).
+  Relation ebbHeld(place).
+  Observe mills_settled at millrace when sluiceSettled(sluice) and not coddyExposed(coddy) and not dark() "Both wheels are turning. The Widow Teague is standing in her doorway, and Old Brannock in his, and they are not quite looking at each other in a different way from before.".
+  Observe mills_exposed at millrace when coddyExposed(coddy) and not dark() "Both wheels are turning. Down on the bank below the sluice lie five eel-traps, broken, with red rag on them.".
+
+  // The eel-pie wedding at the Lamb, the third evening.
+  Relation weddingDone(place).
+  Person wedding "the wedding party" at nowhere_wedding {
+    Role "Peg Fitch and Jem Lowe, married this morning, and everyone they know". Ancestry human. Numbers 30. Peaceable.
+    Seen when day(clock) == 3 or at(wedding, taproom).
+  }
+  Place nowhere_wedding "the church porch of the Lamp" is room within close at 3, 0 outdoors.
+  Passage porch_way "the side porch" is doorway between nave and nowhere_wedding.
+  Rule wedding_comes when day(clock) == 3 and hour(clock) == 17 and not weddingDone(lamb) { Assert at(wedding, taproom). Assert weddingDone(lamb). }
+  Rule wedding_ends when day(clock) == 4 and hour(clock) == 1 and at(wedding, taproom) { Assert at(wedding, nowhere_wedding). }
+  Observe wedding_pie at taproom when at(wedding, taproom) and (weddingEels(coddy) or eelsCaught(coddy) >= 40) "The Lamb is full to the rafters with the Fitch wedding: Peg Fitch in a crown of paper roses and Jem Lowe in a borrowed coat, millhands, eel-men, fishwives, a fiddler on a barrel, and down the middle of the long table a pie the size of a cartwheel, steaming, with forty eel-heads looking out of the crust in a ring. Coddy is carving. Moll is weeping into her apron for joy. Somebody has hung paper flowers on the almanack's nail, and the almanack, when it thinks nobody is listening, is humming along with the fiddle.".
+  Observe wedding_poor at taproom when at(wedding, taproom) and not weddingEels(coddy) and eelsCaught(coddy) < 40 "The Lamb is full of the Fitch wedding, Peg in paper roses and Jem in a borrowed coat and a fiddler on a barrel; but down the long table there is bread and cheese and a ham, and no pie, and Coddy Fitch is not at the table at all. Moll Garrow keeps saying it's a lovely ham.".
+  Rule wedding_feeds when at(wedding, taproom) and at(party, taproom) and (weddingEels(coddy) or eelsCaught(coddy) >= 40) and not fedAtWedding(party)
+    says "Coddy Fitch sees you and waves his knife. 'Here! Sit down! You're the one!' and a plate of eel pie arrives in front of you whether you want it or not, and a mug, and a millhand's elbow." {
+    Assert fedAtWedding(party). Increase quantity(party, rations) by 1. }
+  Relation fedAtWedding(group).
+
+  // With the sluice settled, Coddy will take you out on the flats by the dry way, at any ebb.
+  Topic coddy_guide with coddy "Ask Coddy Fitch to take you out to the reed-beds" when coddyOwes(coddy) and not following(coddy, actor) once {
+    Says "'Out to the reeds?' Coddy knocks out his pipe on a stilt. 'For you, any tide. There's a dry way through to the heart of them if you know where the old stones are.' He whistles to the dog. 'Come on, then. Mind where I put my feet and put yours there.'".
+    On discuss { Assert acceptsEscort(coddy, actor). }
+  }
+  Topic coddy_join with coddy "Ask Coddy Fitch to come with you, wherever you are going" when coddyOwes(coddy) and not travelsWith(coddy, actor) once {
+    Says "Coddy looks at you sideways for a while, sucking his pipe. 'Wherever?' he says. 'You've a look about you of somebody going somewhere there's no eels.' He knocks the pipe out. 'Peg's married. The traps can mind themselves. I owe you.' He takes a gaff off the wall. 'I'm no fighter, mind. I'm a finder. I can find my way round most things that bite.'".
+    On discuss { Assert willing(coddy, actor). Set hire(coddy) to 0. }
+  }
+  Topic coddy_old with coddy "Ask Coddy Fitch about the old stones in the reeds" when coddyOwes(coddy) and been(actor, reed_heart) once {
+    Says "'The Drowned Town,' says Coddy. 'My granddad saw it the year of the Great Ebb, when the sea went out of the whole estuary for a day and a night and everybody walked out on the mud. Roofs. Streets. Stone ones, out past the reeds, all the way to where the sea came back.' He lights his pipe. 'Older than Calamy. Older than the road. Granddad said the roofs had writing on them and nobody could read it, and then the sea came back and nobody's seen them since but the ridge in the reeds there.' He puffs. 'Eels like it. That's all I care.'".
+  }
+}

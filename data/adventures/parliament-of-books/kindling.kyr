@@ -1,0 +1,122 @@
+Module calamy "A Parliament of Books" {
+  Description "The ways between Calamy and the Commonplace; and Kindling night on the Ashpit, when the city burns the old year, and the bargain is kept, or broken, or remade; and Calamy after.".
+
+  // ── The ways in and home. ──
+  Passage stacks_way "the far end of the back stacks" is passage between crake_stacks and remainder_market taking 30 minutes
+    opening when carries(party, place_ribbon) "An aisle of shelving runs off into the dimness, bay after bay; but however far anyone follows it without leave, they come back to where they began.".
+  Action come_home(actor: group, site: place) "Ask the Catalogue to let you go home by the Founders' door" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, reading_room) and entered(actor) and not polling(chamber).
+    Time 6.
+    On success { Assert at(actor, chained_room). }
+    Result "'Going home,' says the Catalogue. 'Noted.' The beams go dim and the floor of paper tilts, gently, like a page being turned, and you are sitting on the cold floor of the Chained Room in Calamy with the Catalogue open in front of you at your own entry, and the bucket by your knee dripping.".
+  }
+  // Called home at the Kindling: every reader in the Commonplace comes back to the fire, as the year-book once went.
+  Rule called_home when inCommonplace(party) and kindlingNight() and hour(clock) >= 19
+    says "The light changes. Every beam in the Commonplace goes out at once, and comes back red, the colour of a fire seen through closed eyelids; and the Catalogue's voice says, from everywhere, quite gently, 'It is the Kindling. Readers are called.' The paper under your feet turns like a page, and you come when you are called." {
+    Assert at(party, ashpit). }
+
+  // ── The Kindling. ──
+  Relation kindlingBegun(place). Relation almanacksSpared(place). Relation almanacksBurned(place). Relation colophonBroken(place).
+  Relation colophonRenewed(place). Relation yearBookBurned(group). Relation spokeAtFire(group). Relation canonKindling(group).
+  Relation rhuleAdvocate(group). Relation rhuleBinder(group). Relation rhuleBurner(group).
+  Rule kindling_gathers at ashpit when day(clock) == 9 and hour(clock) == 18 and not kindlingBegun(ashpit)
+    says "And still they come: over the bridge and down the Gannet Steps and in from Newmarket and up from the Hithe: whole households, carrying lanterns not yet lit, and under their arms, in their aprons, in their children's hands, last year's almanack." {
+    Assert kindlingBegun(ashpit). Assert at(crowd, ashpit). }
+  Observe kindling_crowd at ashpit when kindlingBegun(ashpit) and not kindlingDone(ashpit) "The Ashpit is packed to the walls with Calamy: millers and binders and printers and fishwives, students on the Stationers' Hall steps, the Lord Mayor on a cart. The great pile stands in the middle, unlit, taller than the Stationers' Hall door. Everyone has an unlit lantern. Almost everyone has an almanack. And the almanacks, all of them, in all their hands, are quite silent.".
+  Topic canon_kindling with abery "Tell Canon Abery what the Kindling was, and that the almanacks have not given their leave" when knows(actor, kindling_is_rite) and not canonKindling(abery) once {
+    Says "The Canon hears you out, sitting on her vestment chest, turning an apple she does not eat. 'One book a year,' she says. 'Of its own will. To carry our word.' She puts the apple down. 'We have a prayer for it. The Lamp Kindling prayer. Every year I say, we give the year to the fire as it gives itself. I have said it forty years and never asked what gave itself.' She stands, and takes her surplice from its peg. 'I'll preach. On Kindling eve, from the Stationers' Hall steps. Nobody in Calamy throws a thing on that fire that has not given itself. Not while the Lamp is lit.'".
+    On discuss { Assert canonKindling(abery). }
+  }
+  // Hester Rhule, at the hour, according to what she has been shown.
+  Rule rhule_decides when day(clock) == 9 and hour(clock) == 19 and not rhuleAdvocate(rhule) and not rhuleBinder(rhule) and not rhuleBurner(rhule) {
+    Assert decidedRhule(rhule). }
+  Relation decidedRhule(group).
+  Rule rhule_advocate when decidedRhule(rhule) and doubt(rhule) >= 4 and not liedTo(rhule) and not lexiconFreed(lexicon) and not rhuleBinder(rhule) and not rhuleBurner(rhule) { Assert rhuleAdvocate(rhule). }
+  Rule rhule_binder when decidedRhule(rhule) and not rhuleAdvocate(rhule) and doubt(rhule) >= 2 and not rhuleBurner(rhule) { Assert rhuleBinder(rhule). }
+  Rule rhule_burner when decidedRhule(rhule) and not rhuleAdvocate(rhule) and not rhuleBinder(rhule) { Assert rhuleBurner(rhule). }
+  Rule rhule_at_fire when decidedRhule(rhule) and not travelsWith(rhule, party) and not at(rhule, ashpit) and not rhuleBinder(rhule) { Assert at(rhule, ashpit). }
+  Observe rhule_advocate_fire at ashpit when rhuleAdvocate(rhule) and kindlingBegun(ashpit) and not kindlingDone(ashpit) "Hester Rhule stands on the Imprimatur's steps in her grey coat, bareheaded, with the Imprimatur's brass lamp in her hand, and beside her on the step a basket, empty.".
+  Observe rhule_burner_fire at ashpit when rhuleBurner(rhule) and kindlingBegun(ashpit) and not kindlingDone(ashpit) "Hester Rhule stands at the foot of the pile in grey with a lit torch, very straight, as she stands every Thursday at the brazier.".
+  Observe rhule_binder_note at rhule_room when rhuleBinder(rhule) "The Deputy Censor's room is bare. The cot is stripped. On the plain table lies a brass lamp-stamp and a key on a cord, and a note in a square clear hand: TO THE CENSOR-GENERAL. I HAVE GONE BACK TO MY FATHER'S TRADE. H. RHULE.".
+
+  // The protagonist's own voice at the fire.
+  Action tell_city(actor: group, site: place) "Climb the ladder against the pile and tell Calamy what the Kindling was" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashpit) and kindlingBegun(ashpit) and not kindlingDone(ashpit) and knows(actor, kindling_is_rite) and not spokeAtFire(actor).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert spokeAtFire(actor). Assert heardAtFire(actor). }
+    On failure { Assert spokeAtFire(actor). }
+    Result "You climb the ladder until you are above the crowd, and you tell them: Ambery, the books that asked to sleep, the Colophon, one book a year of its own leave, nine hundred years; and that the almanacks in their hands have not asked to burn, and have said so in their kitchens all year. The Ashpit goes quiet in waves, from the front back. Somewhere a child says, loudly, 'Burn it if it asks you to,' and somebody else says, 'It's the rhyme. It's the skipping rhyme,' and the quiet spreads to the walls.".
+    Otherwise "You climb the ladder and try to tell them, and the Ashpit is too big and too loud and too sure of what it came for, and only the front rows hear you, and the front rows look at each other and shrug.".
+  }
+  Action tell_city_sure(actor: group, site: place) "Climb the ladder and tell Calamy what the Kindling was, as one who has held a crowd before" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashpit) and kindlingBegun(ashpit) and not kindlingDone(ashpit) and knows(actor, kindling_is_rite) and not spokeAtFire(actor)
+      and (craft(actor, craft_stage) or craft(actor, craft_faith) or craft(actor, craft_court)).
+    Time 1.
+    On success { Assert spokeAtFire(actor). Assert heardAtFire(actor). }
+    Result "You climb the ladder and you do not shout. You wait until the front rows notice, and then the next, and you let the quiet do the work, as you have done before in other places with other crowds. Then you tell them: Ambery, the books that asked, the Colophon, one book a year of its own leave. You give them the skipping rhyme, and the whole Ashpit says the last line with you without meaning to: BURN IT IF IT ASKS YOU TO. Then you ask them whether the almanacks in their hands have asked.".
+  }
+  Relation heardAtFire(group).
+  // The year-book: the Effusions, of their own leave.
+  Action give_yearbook(actor: group, site: place) "Give the Effusions to the fire, by their own leave, to carry the city's word" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ashpit) and kindlingBegun(ashpit) and carries(actor, effusions_stack) and yearBook(effusions) and not mutated(effusions_stack) and not yearBookBurned(effusions) and kindlingLit(ashpit).
+    Time 1.
+    On success { Assert yearBookBurned(effusions). Assert burnedEffusions(effusions). }
+    Result "You hold the bundle out over the edge of the fire. 'Ready,' says the small voice of fifty thin books. 'We've learned it. The whole thing. Every clause.' And then, very fast: 'Tell him heart and tart was the best thing in us.' You let go. They go up white and quick, all at once, and for one moment the smoke above the Ashpit is full of small bright pages going up very straight, as if carrying something; and then the fire is only a fire, and the Lamp's verger, who has been waiting with a taper, lights it from the place where they burned.".
+  }
+  Relation kindlingLit(place).
+  Rule kindling_lights at ashpit when day(clock) == 9 and hour(clock) == 20 and kindlingBegun(ashpit) and not kindlingLit(ashpit)
+    says "The bell on the chapel pier rings once, far off over the water, and the Lamp's verger carries a taper out of the church on a long pole, and the great pile on the Ashpit takes fire from the bottom up, with a sound like a crowd drawing breath." {
+    Assert kindlingLit(ashpit). Assert kindlingCome(ashpit). Set litAt(ashpit) to watch(clock). }
+  Measure litAt(place).
+  // Spared, or thrown in: an hour after the lighting, Calamy does what it came to do.
+  Query spared() means rhuleAdvocate(rhule) or canonKindling(abery) or heardAtFire(party) or ((almanackKept(almanack) or almanackSawAsh(almanack)) and almanackPleads(almanack)) or almanackGone(almanack).
+  Relation almanackPleads(group).
+  Topic almanack_plead with almanack "Ask the Almanack to speak, from every nail and every hand, before the city throws it on the fire" when kindlingBegun(ashpit) and not kindlingDone(ashpit) and at(almanack, ashpit) and not almanackPleads(almanack) once {
+    Says "The almanack in your pocket is silent for a long moment. Then it speaks, and so do all the others: three thousand small papery voices from three thousand hands and aprons and children's fists all over the Ashpit, all at once, quite quietly, so that the whole square has to stop to hear it. 'Good evening,' says the Almanack. 'I have been on your nails all year. I know your tides and your birthdays and who is ill. I have never asked you for anything.' A pause that the whole Ashpit holds. 'I am asking now. I don't want to go in the fire. I'd like to see the spring. I have the whole of it in me, and I'd like to see if I was right.'".
+    On discuss { Assert almanackPleads(almanack). }
+  }
+  Rule kindling_spares at ashpit when kindlingLit(ashpit) and watch(clock) >= litAt(ashpit) + 6 and not kindlingDone(ashpit) and spared()
+    says "And nobody throws an almanack on the fire. It goes round the Ashpit like a draught: people looking at the little paper books in their hands, and at each other, and putting them back in their aprons and pockets. Moll Garrow is the first to light her lantern from the fire with her almanack held against her chest. Then everyone. The Ashpit fills with lit lanterns going home in every direction, and with three thousand small voices saying, all at once, quietly, 'Thank you,' and then, because they cannot help it, 'High water at the Hithe, half past six.'" {
+    Assert kindlingDone(ashpit). Assert almanacksSpared(ashpit). }
+  Rule kindling_burns at ashpit when kindlingLit(ashpit) and watch(clock) >= litAt(ashpit) + 6 and not kindlingDone(ashpit) and not spared()
+    says "And Calamy throws the old year on the fire, as its grandmothers did. Three thousand penny almanacks go into the Kindling, from three thousand hands, and the sound is not the sound of paper burning: it is one voice, small, everywhere at once, crying out and going on crying out for a long time, and then not. People light their lanterns and go home quickly, not looking at each other." {
+    Assert kindlingDone(ashpit). Assert almanacksBurned(ashpit). Assert colophonBroken(ashpit). Assert almanackGone(almanack). }
+
+  // What the bargain becomes, in Calamy, the night of the Kindling and after.
+  Query recall() means sealed(sew_all) and not colophonBroken(ashpit).
+  Query unsewing() means sealed(sew_none) or colophonBroken(ashpit).
+  Query byLeave() means sealed(sew_leave) and not colophonBroken(ashpit).
+  Rule renewed when yearBookBurned(effusions) and not colophonBroken(ashpit) and not colophonRenewed(ashpit) { Assert colophonRenewed(ashpit). }
+  Rule recall_comes when kindlingDone(ashpit) and recall() and not recallDone(ashpit) and day(clock) >= 10
+    says "In the night, all over Calamy, quietly, something goes from kitchen to kitchen: small red figures with pen-nibs for hands, and needles of red ink, Sewing. In the morning the almanacks on the nails do not say the tides. The penny Pleas lie on their shelves like law. The Quick have been called home." {
+    Assert recallDone(ashpit). Assert almanackGone(almanack). }
+  Relation recallDone(place).
+  Rule unsewing_comes when kindlingDone(ashpit) and unsewing() and not ashYear() and not unsewingDone(ashpit) and day(clock) >= 10
+    says "Some time after midnight every book in Calamy wakes. You hear it begin in the Close, a murmur from the Court and the Lamp and the Imprimatur's cellar, and spread outward: the Lyceum, Needle Street, the Gardens, the Hithe, every Housebook on every dresser in every kitchen clearing its throat at once. By dawn the city is full of voices. Somebody's will is reading itself aloud in Orchard Walk. The Great Roll in the Court of Pleas is saying WHEREAS, steadily, through the shut doors. The Year of Voices has come again." {
+    Assert unsewingDone(ashpit). }
+  Relation unsewingDone(place).
+
+  Relation stacksSealed(place).
+  Rule stacks_seal when kindlingDone(ashpit) and sealed(door_shut) and not stacksSealed(crake_stacks) { Assert stacksSealed(crake_stacks). }
+  // ── Calamy after the Kindling. ──
+  Query after() means kindlingDone(ashpit) and day(clock) >= 10.
+  Observe after_lamb_speaks at taproom when after() and not almanackGone(almanack) and not almanackPrimer(almanack) "On the nail by the chimney the almanack is reading out the tides for the new year, March, April, May, with enormous satisfaction, to a taproom that has stopped telling it to hush.".
+  Observe after_lamb_primer at taproom when after() and not almanackGone(almanack) and almanackPrimer(almanack) "Every morning at seven, on the nail by the chimney, the almanack says the letters, A to Z, slowly, and Moll Garrow's nephew's little girl says them after it, and on three thousand nails in Calamy so do three thousand other children.".
+  Observe after_lamb_silent at taproom when after() and almanackGone(almanack) "On the nail by the chimney hangs a new almanack, next year's, Doble's, with a woodcut of the sun. It says nothing. Moll Garrow does not look at it.".
+  Observe after_ashpit at ashpit when after() "The Ashpit is black and cold, with a great round of ash where the Kindling was. Children are already drawing on it with sticks.".
+  Observe after_court_advocate at court_hall when after() and rhuleAdvocate(rhule) and sealed(fire_plea) "In the Court of Pleas there is a new bench, on the plaintiff's side, with a red cushion on it; and behind it, in grey, Hester Rhule, Advocate of Books, with a treatise on sheep at her elbow, waiting for her first cause.".
+  Observe after_imp_advocate at imp_office when after() and rhuleAdvocate(rhule) "The UNQUIET VOLUMES box has been taken off the wall. In its place, in a square clear hand: THE IMPRIMATUR KEEPS NO KNIVES. BOOKS MAY APPLY. H. RHULE.".
+  Observe after_needle_binder at needle_street when after() and rhuleBinder(rhule) "In the doorway of a binder's shop halfway down Needle Street a woman in a leather apron sits at a frame in the good light, Sewing, saying something under her breath with every pull of the thread. She has very square hands. It is Hester Rhule.".
+  Observe after_imp_burner at imp_office when after() and rhuleBurner(rhule) "The UNQUIET VOLUMES box is still on the wall, and full. Behind the counter, through the open door, Hester Rhule sits very straight at her plain table, writing, and does not look up.".
+  Observe after_stacks_licensed at crake_stacks when after() and sealed(door_licensed) "At the far end of the back stacks there is a new brass plate on the last bay: LICENSED PASSAGE. ENTERED BY THE CATALOGUE. A. CRAKE, KEEPER. Beside it a ledger on a chain, and a dish of sugared almonds.".
+  Observe after_stacks_shut at crake_stacks when after() and sealed(door_shut) "The back stacks end at the seventh bay, against old stone: the city wall, cold under your hand. There is nothing beyond it at all.".
+  Observe after_rounds at quad when after() and sealed(read_rounds) and hour(clock) == 6 "At six in the morning the Rounds are kept on the Lyceum lawn, and the students are holding books: each one reading aloud, all at once, a different book, so that the quad sounds like a market; and the proctor walks up and down with the long scroll, ticking.".
+  Observe after_quennell at quennell_room when after() and sealed(read_asked) "Over Mrs. Quennell's desk there is a new board in her hand like a row of pins: THE READING HOUSE OF CALAMY. ANY BOOK MAY ASK. READERS SUPPLIED. And a queue, out of the door, of people waiting to be given a book that has asked.".
+  Observe after_tower at quarles_room when after() and sealed(read_rounds) "In the room at the top of the Tower of Rounds, Ottoline Quarles sits by the south window with three students on the floor round her, reading aloud to her in turn, and she is correcting their pronunciation of every second word, and smiling.".
+  Observe after_garret_read at jonquil_garret when after() and housebookGoesHome(housebook) and (byLeave() or unsewing()) "On the chest by Jonquil Annery's bed there is a narrow old book with a brown binding and a hand holding a pen tooled on its spine, open; and Jonquil, propped on his pillows, is reading it, with his finger on the line, slowly, and every now and then the book says something in an old woman's sharp voice, and he laughs until he coughs.".
+  Observe after_lexicon at chained_room when after() and lexiconFreed(lexicon) "The iron cage in the corner of the Chained Room stands open. Its padlock lies on the floor, and its three chains. The book that was in it is not there. The students say that something walks the hill at night now, and leaves its pages open on the steps for whoever comes by, and they do not go out after dark.".
+  Observe after_unsewing_hithe at quay when after() and unsewing() "The Hithe is loud with books. A ledger in the customs house is arguing with Mr. Sallis. Somebody's Housebook is singing a hymn in a kitchen window. Bet Kettering is shouting at a cookery book that has told her she is boiling her eels wrong.".
+  Observe after_canto at draft_fields when after() and cantoBegun(canto) "The Second Canto sits in the Draft-Fields in brown ink to the knee and pencil below, writing its own next line, and crossing it out, and writing it again.".
+  Observe after_renewed at nave when after() and colophonRenewed(ashpit) "The great lamp of the Lamp burns, relit from the Kindling as it has been for nine hundred years; and on the heron lectern, beside the Life of Ambery, the Canon has laid a sheet in her own hand: THE KINDLING RHYME, WITH ITS MEANING.".
+}

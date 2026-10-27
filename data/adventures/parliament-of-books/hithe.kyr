@@ -1,0 +1,181 @@
+Module calamy "A Parliament of Books" {
+  Description "The Hithe: the river port on the south bank, its quay and tavern, its rags and gulls, its ferry, and the garrets of Pudding Lane.".
+
+  // ── The first sight of the city, from the saltings. ──
+  Observe causey_view at causey when not familiar(causey) "A raised causeway of black stones crosses the saltings toward a town of roofs and masts. Ahead of you a long bridge goes over the river on a great many arches, so crowded with sheds and stalls that it looks like a street that has wandered out over the water. Beyond it, a walled town climbs to a single hill with a tower on top; downriver, to your right, the reed-beds go grey-green all the way to the sea. Under a pair of mills two wheels turn slowly in the river. Gulls. The air smells of mud and, faintly and strangely, of wet paper.".
+  Observe causey_again at causey when familiar(causey) "The causeway over the saltings, black stones and samphire, with the bridge and the hill ahead of you and the reeds going grey-green to the sea.".
+  Event causey_cart at causey when true "A cart comes up behind you, piled with bales of rags, and the carter calls cheerfully as he passes: 'Rags for Calamy! Rags for paper, paper for books, books for the Kindling!' His horse does not care either way.".
+
+  // ── The quay. ──
+  Observe quay_scene at quay when not familiar(quay) "The Hithe quay is cobbled and wet and loud. Eel-boats lie two and three deep at the steps; a fishwife cries her baskets; a gang of boys rolls rag bales up a plank into a lighter. Along the back of the quay stand a tavern under a painted lantern, a customs house with a great barred warehouse behind it, and a crowd of people round a board nailed to a post. At the west end the steps go down to a ferry; at the east, the quay turns into a market of rags.".
+  Observe quay_again at quay when familiar(quay) "The Hithe quay: eel-boats, gulls, the tavern under its lantern, the customs house, the notice post, and the bridge going north over the water.".
+  Observe quay_night at quay when dark() "At night the quay is lamplit and much quieter. The tide talks against the steps. A light still burns in the Lamb's window.".
+  Discovery bounty_known "The Imprimatur pays four pence for every book that speaks, sings, moves of itself or alters its own text, brought in to be burned. The notice is signed by H. Rhule, Deputy Censor." {
+    Source quay_notice "the notice on the post" at quay readable by party.
+  }
+  Observe notice_scene at quay when true "On the post a printed notice, fresh, with the Imprimatur's little lamp stamped at the foot: UNQUIET VOLUMES. Under it someone has chalked a drawing of a book with legs, running, and someone else has rubbed most of it out.".
+
+  Person bet "Bet Kettering" at quay {
+    Role "fishwife". Ancestry human. Peaceable. Manner acerbic. Pronouns she.
+    Greets "'Herring, dab, eel, a nice bit of skate,' says the fishwife, without looking up. 'And if you've come from that school on the hill you can turn round and walk back up it.'".
+  }
+  Relation fishLost(group). Relation heronSeen(group). Relation heronFollowed(group). Relation heronSettled(group).
+  Discovery heron_suspected "Bet Kettering's fish go missing from her baskets every morning at the turn of the tide, and she blames the young gentlemen of the Lyceum.".
+  Topic bet_trouble with bet "Ask the fishwife what she has against the school on the hill" when true once {
+    Says "'Every morning,' says Bet Kettering, 'at the turn of the tide, I lose the best fish off the top of the basket. A dab. A nice eel. Gone, while I'm crying the skate. And every morning there's a pair of young gentlemen in gowns at the bridge foot, laughing.' She slaps a skate down. 'I've complained to the Provost. The Provost sent me a letter in Latin. I've had it read. It said nothing at all, in a great many words.'".
+    On discuss { Assert knows(actor, heron_suspected). Assert fishLost(bet). }
+  }
+  // The heron comes for its breakfast at the turn of the morning tide: from ten to eleven.
+  Person heron "a grey heron" at gannet_steps {
+    Role "a heron with a brass ring on one leg". Species heron_kind. Peaceable.
+  }
+  Rule heron_comes when hour(clock) == 10 and not heronSettled(bet) and not at(heron, quay) { Assert at(heron, quay). }
+  Rule heron_goes when hour(clock) == 11 and at(heron, quay) { Assert at(heron, quad). }
+  Observe heron_steals at quay when at(heron, quay) and fishLost(bet) "On the roof of the customs house a grey heron stands on one leg, still, looking at Bet Kettering's baskets. While she turns to cry the skate it drops onto the quay in two long steps, takes the best eel off the top, and goes up again with it, and nobody but you sees it at all. There is a brass ring on its leg." teaches heron_seen.
+  Discovery heron_seen "A grey heron with a brass ring on its leg takes Bet Kettering's fish at the turn of the tide. Somebody has ringed it; somebody keeps it.".
+  Topic bet_heron with bet "Tell Bet Kettering it is a heron that takes her fish" when knows(actor, heron_seen) and not heronSettled(bet) once {
+    Says "Bet looks up at the customs-house roof for a long moment. 'A heron,' she says. 'With a ring on.' She wipes her hands. 'Herons don't wear rings. Gentlemen ring herons.' She is already untying her apron. 'Mind the basket.'".
+  }
+  Discovery heron_home "The ringed heron flies up to the Lyceum on Gannet Hill, where it lands in the quad.".
+  Initially Assert leadsTo(heron_home, quad).
+  Observe heron_flies at quay when at(heron, quay) and knows(party, heron_seen) and not knows(party, heron_home) "The heron goes up off the roof heavily, with its eel, and flaps away north over the bridge toward the hill with the tower on it." teaches heron_home.
+
+  Person moll "Moll Garrow" at taproom {
+    Role "the innkeeper of the Lamb and Lantern". Ancestry human. Profession innkeeper. Peaceable. Manner jovial. Pronouns she.
+    Sells rations for 2 coin from 12.
+    Sells candle for 1 coin from 10.
+    Greets "'Come in, come in, shut the door on the gulls,' says a big woman behind the bar, drying a pot. 'Ale or small beer or tea, and there's eel pie, and if you want a bed it's the loft. Don't mind the almanack.'".
+  }
+  Topic moll_almanack with moll "Ask Moll Garrow why you are not to mind the almanack" when true once {
+    Says "'It talks,' says Moll Garrow, as if you had asked why not to mind the cat. 'Since Candlemas. All of them do, Doble's ones, the penny almanacks; every kitchen in the Hithe has one going on about the tides. Some say it's the printer playing a trick with a reed in the binding. Some say it's devils. The Binders say it's because they're not sewn proper, but the Binders would say that about the moon.' She hangs up the pot. 'Mine's no trouble. It knows when my Tom's birthday was. He's been dead nine years. I'd forgotten it myself.'".
+  }
+  Discovery kindling_custom "At the Kindling, the turn of Calamy's year, every household throws last year's almanack on the great fire in the Ashpit, and lights the new year's lamp from it. It is nine days off.".
+  Topic moll_kindling with moll "Ask Moll Garrow about the Kindling" when true once {
+    Says "'The Kindling? You'll be here for it, then. Nine days. Every house in Calamy brings its old almanack to the Ashpit on Kindling night and throws it on the fire, and you light your lamp from the fire and carry it home lit, and the new year's in. My gran did it. Her gran did.' She looks at the chimney-corner and lowers her voice. 'This year I don't know. You can't very well throw a thing on the fire that says good morning to you.'".
+    On discuss { Assert knows(actor, kindling_custom). }
+  }
+  Topic moll_city with moll "Ask Moll Garrow how a stranger gets about in Calamy" when true once {
+    Says "'Bridge north to the old town: Stitchgate for binders and ink, the Close for the church and the courts and the Censor, the hill for the Lyceum. Newmarket's the printers', outside the wall, and the Gardens is the rich. Here's the Hithe.' She ticks them off on wet fingers. 'Bridge gates shut at ten and open at five. Jonah Pellow used to ferry at night, before they took his licence. Out on the flats at low water there's the reeds, but you want Coddy Fitch with you out there, or the tide will have you.'".
+  }
+  Topic moll_censor with moll "Ask Moll Garrow about the Deputy Censor" when knows(actor, bounty_known) once {
+    Says "'Mistress Rhule? Binder's girl. Her father bound half the books in the Close. Clever, and straight as a ruler, and about as much fun.' Moll considers. 'She burns them on the Ashpit, the talking ones, every Thursday. People bring them in for the four pence. I don't hold with it. But then I didn't hold with the new bridge tolls either, and here we all are.'".
+  }
+
+  // ── The rag market: Old Hennet, and a letter she cannot read. ──
+  Observe rags_scene at rag_market when true "Bales of rags stand in walls along the quay's end, sorted by colour: white for the best paper, blue and brown for wrapping, black for nobody knows what. Women sit on the bales with knives, unpicking seams. A buyer from the mills goes along with a hook and a tally-stick, arguing.".
+  Person hennet "Old Hennet" at rag_market {
+    Role "rag-picker". Ancestry human. Peaceable. Manner cheerful. Pronouns she.
+    Greets "An old woman on a bale of white linen looks up from her unpicking. 'Good day, my dove. Nothing to sell you, unless you want a shirt with no back to it.'".
+  }
+  Relation readTo(group). Relation readToSomeone(group).
+  Discovery hennet_letter "Old Hennet keeps a letter from her son at sea that she cannot read, and has not liked to ask anyone to read it to her, in case it is bad news.".
+  Topic hennet_talk with hennet "Ask Old Hennet how the rag trade goes" when true once {
+    Says "'Up,' says Old Hennet. 'Up, up. Doble's press eats white linen like a goat eats washing. Half Calamy's shirts are in his almanacks.' She laughs, and then fingers something in her apron. 'My boy's at sea, out of Ostrey. He sent me a letter, look.' It is folded small and very soft. 'I've not had it read. I never learnt. And if it's bad news, well. I'd sooner have it be good news a bit longer.'".
+    On discuss { Assert knows(actor, hennet_letter). }
+  }
+  Topic hennet_read with hennet "Offer to read Old Hennet her son's letter" when knows(actor, hennet_letter) and not readTo(hennet) once {
+    Says "She hands it to you as if it might break. It is in a sailor's careful capitals. DEAR MOTHER I AM WELL THE SHIP IS SOUND WE PUT IN AT OSTREY BEFORE THE KINDLING AND I WILL WALK OVER TO YOU FOR IT AND BRING YOU A SHAWL THE BLUE ONE YOUR LOVING SON NED. You read it twice, because she asks. Then she takes it back and puts it away in her apron without a word and goes on unpicking a seam, and does not look up for a while.".
+    On discuss { Assert readTo(hennet). Assert readToSomeone(actor). }
+  }
+  Observe hennet_shawl at rag_market when readTo(hennet) and day(clock) >= 9 "Old Hennet is on her bale in a new blue shawl, telling everyone who comes past that it is from Ostrey.".
+
+  // ── The ferry, and the curfew on the bridge. ──
+  Observe ferry_scene at ferry_stairs when true "Green steps go down into the river between two piles hung with weed. A flat black ferry-boat is tied at the bottom, and on the top step a board says J. PELLOW, FERRYMAN, PENNY A HEAD. Across the board somebody has chalked NOT AFTER DARK. LICENCE LAPSED. BY ORDER.".
+  Person jonah "Jonah Pellow" at ferry_stairs {
+    Role "ferryman". Ancestry human. Profession boatman. Peaceable. Manner grim. Pronouns he.
+    Greets "'Penny a head,' says the ferryman, 'daylight only, by order of the Stationers' Hall, God rot it.'".
+  }
+  Relation licensed(group). Measure licence(group).
+  Initially Set licence(jonah) to 6.
+  Discovery jonah_licence "Jonah Pellow's licence to ferry at night lapsed at Michaelmas; renewing it costs six coin at the Stationers' Hall, which he has spent on his daughter's apprenticeship to a binder.".
+  Topic jonah_why with jonah "Ask the ferryman why not after dark" when true once {
+    Says "'Licence,' says Jonah Pellow. 'Six coin to the Stationers' Hall at Michaelmas for the night ferry, and I didn't have it, because I'd paid it to the Binders for my Annet's indentures.' He spits into the river, carefully, downstream. 'So now there's no crossing at night, bridge gates shut at ten, and I sit here at dark with a boat and a daughter who sews books all day and cries all night because the Warden shouts. Good bargain, that.'".
+    On discuss { Assert knows(actor, jonah_licence). }
+  }
+  Action pay_licence(actor: group, site: place) "Give Jonah Pellow the six coin for his night licence" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(jonah, site) and knows(actor, jonah_licence)
+      and not licensed(jonah) and quantity(actor, gold) >= 6.
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(jonah, gold) by 6. Assert licensed(jonah). }
+    Result "Jonah Pellow looks at the coins in his palm for a while. 'I'll pay it at the Stationers' Hall in the morning,' he says, 'and I'll ferry you for nothing at any hour you like till I'm dead, and after that my Annet will.' He rubs the chalk off his board with his sleeve.".
+  }
+  Observe ferry_licensed at ferry_stairs when licensed(jonah) "The chalk is gone from Jonah Pellow's board. Under PENNY A HEAD he has painted, very neatly, NIGHTS ALSO.".
+  // By night, with his licence, Jonah takes the company over to the Water Gate stairs under the Close, and back.
+  Place watergate "the Water Gate stairs" is room within close at 0, 3 outdoors.
+  Passage water_close "the Water Gate" is gate between watergate and close_green taking 3 minutes.
+  Passage night_ferry "Jonah's ferry" is ferry between ferry_stairs and watergate taking 15 minutes
+    opening when licensed(jonah) or not dark() "Jonah Pellow's boat is tied up for the night. He will not take it out after dark without his licence.".
+  Observe watergate_scene at watergate when true "Wet steps up from the river into a low arch in the wall of the Close. At the top an iron gate, open; through it, grass and the dark bulk of a church.".
+
+  // The bridge gates: shut at ten, open at five. The gatekeeper can be persuaded, for a penny or two.
+  Thing bridge_chain "the chain across the bridge gate" on bridge_span_south {
+    State down "The bridge gate stands open, the chain coiled on its post.".
+    State up blocking "The bridge gate is shut for the night, the chain across it and the gatekeeper's lamp burning in his box.".
+  }
+  Rule chain_up when (hour(clock) >= 22 or hour(clock) < 5) and state(bridge_chain, down) and not gateBribed(bridge_chain) { Assert state(bridge_chain, up). }
+  Rule chain_down when hour(clock) >= 5 and hour(clock) < 22 and state(bridge_chain, up) { Assert state(bridge_chain, down). Retract gateBribed(bridge_chain). }
+  Relation gateBribed(entity).
+  Action bribe_gate(actor: group, site: place) "Give the bridge gatekeeper two coin to let you through" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, quay) or at(actor, bridge_middle))
+      and state(bridge_chain, up) and quantity(actor, gold) >= 2.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 2. Assert gateBribed(bridge_chain). Assert state(bridge_chain, down). }
+    Result "A head in a nightcap comes out of the box, considers your coins, takes them, and lowers the chain without a word.".
+  }
+
+  // ── Pudding Lane: the ague, the midwife, the last Annery. ──
+  Observe pudding_scene at pudding_lane when true "Pudding Lane climbs from the rag market between houses so tall and so close that their top storeys nearly touch, with washing strung across the gap. On a step halfway up a little girl is wrapped in a blanket in the sun, shivering, and a woman beside her is feeding her something from a spoon. There is a green door with a horseshoe on it, and further up a narrow house with a stair going up and up inside it to the leads.".
+  Discovery ague_known "There is ague in the Hithe: a shaking fever among the children of Pudding Lane and the quay, five of them down with it and more coming.".
+  Observe ague_seen at pudding_lane when not cured(nance) "The girl on the step shakes so that her teeth click. Her mother looks at you, and at your clothes, and away." teaches ague_known.
+  Person nance "Goody Nance" at nance_room {
+    Role "midwife and nurse of the Hithe". Ancestry human. Profession herbalist. Peaceable. Manner compassionate. Pronouns she.
+    Wants pages_kind. Wants calamus_kind.
+    Greets "A small square woman with her sleeves rolled up and a kettle on the hob looks you up and down. 'Sick, or sent for?'".
+  }
+  Relation cured(group).
+  Discovery orme_remedy "Goody Nance's grandmother cured the Hithe ague with a remedy out of Mother Orme's Physick, from a chapter that is not in any copy now: the Imprimatur cut it, generations ago. All Nance remembers is that it wanted calamus root dug at low water.".
+  Topic nance_ague with nance "Ask Goody Nance about the ague" when knows(actor, ague_known) once {
+    Says "'Marsh ague,' says Goody Nance. 'Comes up off the flats every spring or two. Mostly it passes. This year it doesn't.' She pours water onto leaves. 'My gran had a cure for it out of Orme. Mother Orme's Physick, the old herbal; there's a copy up at the Lyceum and one in every apothecary's in Calamy and not one of them has the chapter. Cut. The Imprimatur cut it out, I don't know when, before my gran was born. She had it by heart.' She sets the cup down. 'I don't. I was nine. Calamus root, dug at the bottom of the tide. And something after that. I've lain awake on it.'".
+    On discuss { Assert knows(actor, orme_remedy). }
+  }
+  Observe nance_scene at nance_room when true "A front room that is half kitchen and half sick-bay: a truckle bed with a child asleep in it, bunches of herbs under the ceiling, a scrubbed table, a kettle. On the wall by the hearth hangs a penny almanack on a nail, and a framed sampler: PHYSICIAN HEAL THY SELF, AND THEN THE REST OF US." teaches nance_named.
+  Discovery jonquil_known "A young man is dying of a consumption in a garret at the top of Pudding Lane: Jonquil Annery, the last of the Annerys, who were a great Hithe family once.".
+  Initially Assert leadsTo(jonquil_known, jonquil_garret).
+  Topic nance_garret with nance "Ask Goody Nance who coughs at the top of the lane" when true once {
+    Says "'Jonquil Annery,' says Goody Nance. 'In the garret at the top. Consumption. He'll not see midsummer, and he knows it, and he's merrier about it than I am.' She sniffs. 'The Annerys had a ship and a warehouse and a pew in the Lamp when my mother was a girl. He's the last. Drank it and diced it, and sold the last of it last winter, the house and the furniture and the family book. Nobody sells their Housebook. He did.' She shakes her head. 'Take him some broth if you're going up. He won't eat it, but he'll like being brought it.'".
+    On discuss { Assert knows(actor, jonquil_known). }
+  }
+
+  // Jonquil Annery: he sold his mother's Housebook to Sir Gideon Corvell for forty crowns, to pay a man named Vosper.
+  Person jonquil "Jonquil Annery" at jonquil_garret {
+    Role "the last of the Annerys". Ancestry human. Peaceable. Manner cheerful. Pronouns he.
+    Greets "'Visitors!' says a young man in a bed under the sloping ceiling, propped on four pillows and all of them grey. 'You'll forgive me not getting up. I've given it up for the spring. Sit on the chest, it's the only thing I didn't sell.'".
+  }
+  Observe garret_scene at jonquil_garret when true "A garret under the leads, with a window you could put your head out of and see the whole river. A bed, a chest, a jug, a heap of very good clothes gone shabby. On the windowsill a row of empty bottles, sorted by colour, like a rag market.".
+  Discovery housebook_sold "Jonquil Annery sold the Annery Housebook, four hundred years of his family's births, debts and recipes in his mothers' hands, to Sir Gideon Corvell for forty crowns last winter, to pay a gambling debt.".
+  Topic jonquil_book with jonquil "Ask Jonquil Annery about his family's Housebook" when knows(actor, jonquil_known) once {
+    Says "He laughs, and then coughs, and then laughs again when he can. 'You've been talking to Nance. Yes. I sold it. Four hundred years of Annery women writing down who was born and who owed what and how to pickle a herring, and I sold it to Gideon Corvell for forty crowns to pay a man called Vosper who had my note.' He looks at the window. 'It's the only thing I'm ashamed of, and I've done some very shameful things. My mother's hand is in it. Her last recipe is for a posset for a cough. Funny.' A pause. 'Corvell won't sell it back. I asked. He keeps it in a glass case and shows it to people as a curiosity. The last of the Annerys.'".
+    On discuss { Assert knows(actor, housebook_sold). }
+  }
+  Relation wantsBook(group).
+  Topic jonquil_wish with jonquil "Ask Jonquil Annery what he would do with it, if he had it again" when knows(actor, housebook_sold) once {
+    Says "'Read it,' he says at once. 'All of it. From the first page, Great-great-something-Agnes and her herrings, to my mother's posset.' He is quiet a while. 'I never read it, you know. You don't, when it's yours. It sits in the kitchen and your mother writes in it and you think, there's time.' He turns his face to the window. 'If you could get it from Corvell, even for a day, I'd die owing you a great deal, which is the only way I know how to die.'".
+    On discuss { Assert wantsBook(jonquil). }
+  }
+  // When the company knows the Housebook has gone where Corvell's books went, Jonquil writes to it.
+  Item jonquil_letter "Jonquil Annery's letter to his mother's book" is letter_kind at jonquil_garret hidden until letter_given.
+  Discovery letter_given "Jonquil Annery has written a letter to his family's Housebook, wherever it has gone, and given it to you to carry.".
+  Relation letterWritten(group).
+  Topic jonquil_write with jonquil "Tell Jonquil Annery where his family's book has gone" when wantsBook(jonquil) and knows(actor, housebook_gone) and not letterWritten(jonquil) once {
+    Says "He listens with his eyes shut. When you have finished he is quiet so long you think he is asleep. 'Gone home,' he says at last. 'Somewhere books go. Well. It always did like its own company better than ours.' He opens his eyes. 'Give me the pen, and that bit of paper, the back of the bill from the wine-merchant.' He writes for a long time, slowly, stopping to cough. Then he folds it and seals it with a candle-end, and holds it out to you. 'If you ever go where it's gone. It's to my mother's book, not my mother. I know the difference.' He smiles. 'It won't want to read it. Tell it I said it doesn't have to. Tell it I'd like it to.'".
+    On discuss { Assert letterWritten(jonquil). Assert knows(actor, letter_given). }
+  }
+  Observe letter_left at jonquil_garret when at(jonquil_letter, jonquil_garret) and knows(party, letter_given) "On the chest, where Jonquil put it down for you, a letter sealed with candle-wax.".
+  // He does not see midsummer, but he sees the Kindling, unless the ague goes up the lane first.
+
+  // A traveller's guide, left on a settle at the Lamb: the city as a visitor is told it.
+  Thing travel_guide "a traveller's guide-book left on the settle" at taproom {
+    State left "On the settle by the window somebody has left a little guide-book, much thumbed.".
+  }
+  Observe travel_guide_read at taproom of travel_guide as reading when tried(travel_guide, looking) "THE STRANGER'S COMPANION TO CALAMY, ITS SIGHTS AND CUSTOMS (Doble, Newmarket; price twopence). The traveller arriving by the causeway should take a room at the Lamb and Lantern, where the almanack on the nail is reliable as to tides. THE PENNY BRIDGE: ballads, pies, and the chapel pier, where the children's Kindling rhyme may be heard; the traveller is warned not to ask for the second verse. STITCHGATE: the Binders' Hall; Widow Gallon's ink, the blackest in the world; and Mr. Crake's bookshop, the Two Hands, where the curious will find anything, and the prudent will not go beyond the seventh bay of the back room, which is reputed not to end. THE CLOSE: the Church of the Lamp, whose lamp has never gone out, and the slab of Censor-General Pardoe, which visitors are asked not to stand on; the Court of Pleas; the Imprimatur, which licenses books, and on Thursdays burns them. GANNET HILL: the Lyceum, where the Archivist, Miss Quarles, has been the Archivist since before the oldest fellow was born; visitors may see the Chained Room on application to the Provost, and the window of Dr. Fenwick, who went to map Mr. Crake's back room and is expected back. THE KINDLING, on the ninth night after the March tide: the whole city burns last year's almanack on the Ashpit. It is very jolly.".
+}

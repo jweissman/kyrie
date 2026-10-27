@@ -2,7 +2,7 @@ Kyr {
   Module = "Module" ident string "{" Declaration* "}"
   Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Milestone | Company | ItemDecl | HazardDecl
   Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceShelter? PlaceAlias? "."
-  PlaceShelter = "outdoors" | "indoors" | "underground"
+  PlaceShelter = "outdoors" | "indoors" | "underground" | "elsewhere"
   PlaceParent = "within" ident
   PlaceGrid = "at" integer "," integer
   PlaceAlias = "seen" "as" string "until" ident

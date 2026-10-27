@@ -34,6 +34,11 @@ export class Scenarios {
     { manifest: 'data/campaigns/what-tessary-owes.campaign.json', title: 'What Tessary Owes', seed: 'ossel',
       note: 'The legions of Tessary have come home from eleven years\' war, and some of them are getting up in the night and walking into the sea. An eel-wife of the Withies offers her savings to whoever can tell her where her son went.',
       detail: 'A tidal city of salt and paper, the drowned city under it, the keepers of an old engine, and a fortnight until the Feast of Settlement' },
+    // An independent adventure: a city of paper, its books waking, and their Parliament
+    // (doc/adventures/parliament-of-books).
+    { manifest: 'data/campaigns/parliament-of-books.campaign.json', title: 'A Parliament of Books', seed: 'calamy',
+      note: 'Calamy is a tidal city of paper at the mouth of the Calam, and every household in it keeps a book that knows it. Lately some of its books have begun to talk. In nine days it is the Kindling, when the city burns last year\'s almanacks to light the new year in.',
+      detail: 'A city of seven wards, a country made of reading, a Parliament of books, and nine days to the Kindling' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

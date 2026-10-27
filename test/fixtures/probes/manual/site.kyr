@@ -1,0 +1,17 @@
+Module manual "A book that reads its reader back" {
+  Place study "a study" is building.
+  Place desk "the desk" is room within study at 0, 0.
+  Company party "You" of 1 at desk.
+  Kind manual_kind "a grey manual" is gear worth 60 weighing 1 described "A small square book in grey that will not open for a reader who is not ready.".
+  Item grey_manual "the grey manual" is manual_kind at desk.
+  Relation studied(entity).
+  // A Manual: read by one of the third level or more, it raises Intelligence by two, once; never past twenty.
+  Action study(actor: group, reader: member, site: place) "Have {reader} read the grey manual, and be read" {
+    Requires able(actor) and memberOf(reader, actor) and awake(reader) and carries(actor, grey_manual) and levelOf(reader) >= 3
+      and not studied(grey_manual) and at(actor, site).
+    Time 36.
+    Resolve endow(reader, intelligence, by_two).
+    On success { Assert studied(grey_manual). }
+    Result "{reader} reads it through, and is read back.".
+  }
+}

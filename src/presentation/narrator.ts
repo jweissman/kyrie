@@ -123,7 +123,9 @@ export class Narrator {
     if (!def) { return true; }
     if (def.anchor === 'near' || def.aspect === 'event') { return false; }
     if (def.aspect === 'ambience') { return !at.known; }
-    if (def.aspect === 'weather') { return at.shelter !== 'underground' && (at.arrived || at.turned); }
+    if (def.aspect === 'weather') {
+      return at.shelter !== 'underground' && at.shelter !== 'elsewhere' && (at.arrived || at.turned);
+    }
     return true;
   }
   // The lines one installation tells of its own place run on as one paragraph; a feature or a sign stands alone.

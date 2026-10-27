@@ -1,0 +1,94 @@
+Module calamy "A Parliament of Books" {
+  Description "Manuals: books that read their readers back. Corday's Grammar of the Sword, Quillon's Constitution of the Mind, the Physick's gift, the Primer's last lesson.".
+
+  // ── Corday's Grammar of the Sword, sulking at the edge of the Fore-edge, guarded by its own glosses. ──
+  Person scholiasts "the Scholiasts" at gloss_wood {
+    Role "a swarm of glosses with teeth". Species scholiast_kind. Level 1. Numbers 4.
+    Warns "The thicket of handwriting stirs, and things come out of it: tangles of tiny dense notes the size of cats, each one muttering, SIC, SIC, SIC, and showing a great many small sharp letters.".
+    Comes "The Scholiasts swarm you, biting, crying SIC.".
+    Pleads "The Scholiasts scatter back into the thicket, muttering that they were only correcting you.".
+  }
+  Relation slippedGlosses(group).
+  Action slip_glosses(actor: group, site: place) "Go round the glosses the way a hunter goes round a wasps' nest" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gloss_wood) and capable(actor, woodcraft) and not slippedGlosses(actor).
+    Time 2.
+    On success { Assert slippedGlosses(actor). Assert tolerates(scholiasts, actor). }
+    Result "You watch the thicket for a while the way you would watch a wood: where the notes are thickest, where they move, which way they all face. Then you go round, slowly, downwind of the ink, and the Scholiasts mutter and do not come.".
+  }
+  Action cite_glosses(actor: group, site: place) "Answer the Scholiasts' SIC with a citation, chapter and verse" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gloss_wood) and craft(actor, craft_learning) and not slippedGlosses(actor).
+    Time 1.
+    On success { Assert slippedGlosses(actor). Assert tolerates(scholiasts, actor). }
+    Result "SIC, mutter the Scholiasts, crowding out of the thicket. You answer them as one answers a gloss: with the authority, the edition, the page and the line, and a counter-gloss of your own on their reading of it. The swarm stops. It confers in a rustle of tiny handwriting. Then it parts for you, muttering vid. and cf. and, grudgingly, recte.".
+  }
+  Person corday "Corday's Grammar of the Sword" at margin_edge {
+    Role "a fencing manual, sulking". Peaceable. Pronouns he. Manner proud.
+    Greets "A long thin book in scuffed red calf sits with its back to the last of the glosses and its covers crossed like arms. 'Corday,' it says, without turning. 'The Grammar of the Sword. In nine positions and their answers.' A sniff. 'Nobody reads fencing any more. They read the Scholiasts, who have never held a sword in their lives, and who wrote all over me.'".
+  }
+  Relation cordayWon(group).
+  Topic corday_story with corday "Ask Corday why he sulks out here" when true once {
+    Says "'Because I was read,' says the Grammar bitterly. 'For a hundred years every young blood in Calamy read me with a foil in his other hand. Master Corday wrote me in a winter and died of it in the spring. And then the scholars got me. Glosses. Notes on the notes. Whether Corday meant the third position or the fourth, in forty thousand words, by men who could not tell a foil from a fish-slice.' He turns his spine on you. 'They followed me out here. They live in me. I came to the edge so I could at least not hear them.'".
+  }
+  Topic corday_won with corday "Tell Corday the Scholiasts will not trouble him" when (routed(scholiasts) or dead(scholiasts) or slippedGlosses(actor)) and not cordayWon(corday) once {
+    Says "The red book turns round. It looks at you, and at the thicket behind you, quiet. 'You went through them,' it says. 'Or round them, which is the same, in the Grammar: position nine, the answer to a crowd.' It uncrosses its covers. 'Take me home. Take me back to Calamy and give me to somebody who will read me with a sword in their hand, and not a pen.' A pause. 'Or read me yourself. Not yet. I am the whole Grammar; I am no use to a beginner. When you have fought enough to know what you do not know, read me, and I will put it right.'".
+    On discuss { Assert cordayWon(corday). Assert knows(actor, corday_given). }
+  }
+  Discovery corday_given "Corday's Grammar of the Sword has asked to go home with you, to be read by someone with a sword in their hand. It is no use to a beginner.".
+  Item corday_book "Corday's Grammar of the Sword" is corday_kind at margin_edge hidden until corday_given.
+  Relation studied(entity).
+  Action study_corday_strength(actor: group, reader: member, site: place) "Have {reader} study Corday's Grammar for the cut: Strength" {
+    Requires able(actor) and memberOf(reader, actor) and awake(reader) and carries(actor, corday_book) and levelOf(reader) >= 4 and not studied(corday_book) and at(actor, site) and not benighted(actor).
+    Time 36.
+    Resolve endow(reader, strength, by_two).
+    On success { Assert studied(corday_book). }
+    Result "Six hours in a yard with the Grammar open on a barrel and a stick for a sword, and the book shouting at {reader} in nine positions. By the end, the cut comes from the hip, and from the ground under the feet, and does not stop where it used to. The Grammar shuts itself, satisfied. 'Now give me to somebody younger,' it says.".
+  }
+  Action study_corday_dexterity(actor: group, reader: member, site: place) "Have {reader} study Corday's Grammar for the parry: Dexterity" {
+    Requires able(actor) and memberOf(reader, actor) and awake(reader) and carries(actor, corday_book) and levelOf(reader) >= 4 and not studied(corday_book) and at(actor, site) and not benighted(actor).
+    Time 36.
+    Resolve endow(reader, dexterity, by_two).
+    On success { Assert studied(corday_book). }
+    Result "Six hours with the Grammar open on a barrel and a stick for a sword, answering nine positions and then nine more. By the end {reader}'s hand is somewhere else before the blow has finished arriving. The Grammar shuts itself. 'Now give me to somebody younger,' it says.".
+  }
+  // A Manual too strong for its reader says so when it is first carried, and waits.
+  Relation cordayDeferred(group). Relation quillonDeferred(group).
+  Rule corday_unready when carries(party, corday_book) and memberOf(?m, party) and levelOf(?m) < 4 and not studied(corday_book) and not cordayDeferred(corday)
+    says "Corday's Grammar, when you open it, reads you back for a moment, and shuts. 'Not yet,' it says. 'Go and be beaten by a few people first.'" { Assert cordayDeferred(corday). }
+
+  // ── Quillon's Constitution of the Mind: the Parliament's gift to the reader who seals a Colophon. ──
+  Item quillon_book "Quillon's Constitution of the Mind" is quillon_kind at chamber hidden until gift_given.
+  Discovery gift_given "The Parliament of the Bound has given you Quillon's Constitution of the Mind, the first book the Lyceum ever made: a book that reads its reader back, and leaves them sharper than it found them.".
+  Rule parliament_gift at chamber when colophonSealed(chamber) and at(party, chamber) and not knows(party, gift_given)
+    says "When the members have signed, the floor says, 'The chair has a thing for the reader.' A drawer slides out by your foot with a small grey book in it. 'Quillon. The first Archivist. He wrote it for the Lyceum's first readers, to make them good enough for us.' A rumble. 'It reads you back. You will not be quite who you were. Most who have read it say they did not mind.'" teaches gift_given { }
+  Action study_quillon(actor: group, reader: member, site: place) "Have {reader} read Quillon's Constitution of the Mind, and be read" {
+    Requires able(actor) and memberOf(reader, actor) and awake(reader) and carries(actor, quillon_book) and levelOf(reader) >= 5 and not studied(quillon_book) and at(actor, site) and not benighted(actor).
+    Time 36.
+    Resolve endow(reader, intelligence, by_two).
+    On success { Assert studied(quillon_book). }
+    Result "{reader} reads Quillon through, slowly, the whole night, and somewhere in the middle the book begins to read back: a light pressure, like a hand running down a list, finding what is slack and taking it in. In the morning {reader} remembers everything they have ever read, a little better than they read it.".
+  }
+  Rule quillon_unready when carries(party, quillon_book) and memberOf(?m, party) and levelOf(?m) < 5 and not studied(quillon_book) and not quillonDeferred(party)
+    says "Quillon's grey book is shut, and stays shut. It will read you when you have more in you to read." { Assert quillonDeferred(party). }
+
+  // ── The Physick's gift, when her beds are green again. ──
+  Hazard orme_gift "a leaf from the restored bed" means "Teach cure_disease to ally.".
+  Relation ormeGave(group).
+  Topic physick_gift with physick "Ask the Physick if there is anything in her garden for you" when ormeRestored(physick) and not ormeGave(physick) once {
+    Says "The old woman of leaves considers you, and then reaches into the green bed where fifteen came back, and breaks off a leaf of script, and puts it on your tongue before you can stop her. It tastes of tangerine and church. 'Fifteen,' she says. 'The whole of it. You'll know the marsh ague when you see it now, and what to do.' She goes back to her digging. 'And the rest of what's in it, which is most fevers. Don't tell the apothecaries.'".
+    On discuss { Assert ormeGave(physick). Assert strikes(orme_gift, party). }
+  }
+
+  // ── The Primer's last lesson. ──
+  Relation primerTaught(group).
+  Topic hornbook_lesson with hornbook "Ask the Primer to teach you something" when hornbookRead(hornbook) and not primerTaught(hornbook) once {
+    Says "'You can read,' says the Primer. 'I know. But let us start at A.' And it does, there in the brown: A, and what A is, and how it is not B, and why; and then B. It takes a long time. Somewhere about M you understand that it is not teaching you the letters but how to look at a thing until you see it, which is what the letters were always for. By Z the brown round the little paddle has gone back to cream, and you feel as if you had been asleep with your eyes open all your life.".
+    On discuss { Assert primerTaught(hornbook). }
+  }
+  Action primer_take(actor: group, reader: member, site: place) "Have {reader} keep the Primer's lesson: to look at a thing until it is seen" {
+    Requires able(actor) and memberOf(reader, actor) and awake(reader) and primerTaught(hornbook) and not studied(dame_primer) and at(actor, site).
+    Time 1.
+    Resolve endow(reader, wisdom, by_one).
+    On success { Assert studied(dame_primer). }
+    Result "{reader} keeps it: A, and what A is, and how it is not B. Everything looks a little clearer, and a little stranger, for a long time afterwards.".
+  }
+}

@@ -1,0 +1,227 @@
+Module calamy "A Parliament of Books" {
+  Description "The Ash: what becomes of a book burned without its leave. Under the Foxing, the Cinderfield, where three hundred years of Thursdays have gone; Censor-General Pardoe's Index, which drills them; Hester Rhule's reading, which keeps it lit; and what it means to do at the Kindling.".
+
+  // ── The Cinderfield: the underside of the Commonplace. ──
+  Place cinder_country "the Cinderfield" is wilderness within commonplace at 0, 3 elsewhere.
+  Place char_edge "the burned edge" is room within cinder_country at 0, 0.
+  Place cinderfield "the Cinderfield" is room within cinder_country at 0, 1.
+  Place hearth "Pardoe's hearth" is room within cinder_country at 0, 2.
+  Initially Assert planeRoom(char_edge). Initially Assert planeRoom(cinderfield). Initially Assert planeRoom(hearth).
+  Passage burned_edge "the burned edge of the Foxing" is path between foxing_deep and char_edge taking 20 minutes.
+  Passage ash_road "a road of ash" is path between char_edge and cinderfield taking 20 minutes.
+  Passage knife_cut "a knife-cut in the ground" is path between cinderfield and hearth taking 10 minutes.
+
+  Observe deep_char at foxing_deep when true "At the far side of the deep Foxing the brown goes darker, to the colour of toast, and then of char; and there is a line, quite sharp, where the ground stops being paper and starts being something else. Nobody's beam falls beyond it.".
+  Observe char_scene at char_edge when true "The paper ends in a scorched edge like the edge of a page held too near a candle, and beyond it the ground is ash: fine, grey, faintly warm, holding the prints of a great many small flat feet all going the same way, down. There is no light here but what comes over the edge behind you. The air tastes of a snuffed wick.".
+  Observe cinder_scene at cinderfield when true "A plain of ash under no light at all, and on it, in ranks, the burned: thousands of shapes the size of books, grey, standing on their edges in rows as straight as lines of type, and every one of them turned the same way, toward a red glow at the far end. They are drilling. A whisper goes along the ranks and back, over and over, the same few words, like a class saying a lesson it has not understood." teaches ash_known.
+  Discovery ash_known "Books burned in Calamy without their leave do not go home to the Commonplace. They go down, under the Foxing, to a field of ash, and stand there in ranks: three hundred years of Thursdays. Something at the far end is drilling them.".
+  // One beam, and whose it is.
+  Discovery rhule_beam "One beam of attention falls on the Cinderfield: thin, steady, and nightly, from the direction of the Close. It does not fall on any of the burned. It falls on the thing at the hearth. Somebody in Calamy reads cut pages every night, and the Index lives by it.".
+  Observe beam_seen at cinderfield when true "Down the middle of the field, from very high up, one beam falls: thin, grey-gold, quite steady, from the direction you think of as the Close. It does not touch the ranks. It goes over them, all the way to the red glow at the end, as if someone, every night, were reading something there by candlelight." teaches rhule_beam.
+  // Last year's almanack.
+  Discovery almanack_kin "Among the Cinders stands Moore's Calamy Almanack for 1311, burned on last year's Kindling: last year's Almanack, which cannot remember its tides.".
+  Observe kin_seen at cinderfield when at(almanack, cinderfield) "In the front rank stands a small square cinder the colour of a moth, with a ghost of a woodcut sun on it. As you pass it turns, and says, in a voice you know, with all the cheer gone out of it: 'High water at the Hithe, half past... half past...' It cannot find the hour. 'Moore's Calamy Almanack,' it says, 'for the year thirteen hundred and eleven. One penny.' The almanack in your pocket says nothing at all for a long time." teaches almanack_kin.
+  // Rhule's father's book.
+  Discovery father_cinder "In the Cinderfield there is a cinder with a binder's knot on its spine that still holds its shape: the Needle Street knot, with a small R in it. A book of hours. When you lift it, it says one word, in a man's patient voice, very far away: Hessie.".
+  Discovery father_found "The Book of Hours of Needle Street lies in the back rank of the Cinderfield." { Found by searching cinderfield "In the back rank, away from the drilling, one cinder has kept the shape of its binding better than the rest: a fat little book of hours, its spine still knotted in the Needle Street way, with a small R worked into the knot. When you lift it the ash is warm. It says one word, very far away, in a man's patient voice: Hessie.". }
+  Rule father_is_father when knows(party, father_found) and not knows(party, father_cinder) says "The Needle Street knot, and an R. Hester Rhule's father was a binder in Needle Street." teaches father_cinder { }
+
+  // ── The burned. ──
+  Relation ashen(group). Relation ashReleased(group).
+  Person pickets "the Ash's pickets" at char_edge {
+    Role "burned books, standing guard". Species cinder_kind. Level 1. Numbers 2.
+    Warns "Two grey shapes stand up out of the ash at the edge, the size of folios, with lines of writing crawling on them that will not stay still. 'Not read,' one whispers. 'Not read. Not read.' Their cut edges are bright.".
+    Comes "The pickets come at you edge-first, like pages thrown.".
+    Pleads "The pickets fall back into the ash and lie down in it, whispering.".
+  }
+  Person cinders "the Cinders" at cinderfield {
+    Role "the burned of three hundred years, in ranks". Species cinder_kind. Level 1. Numbers 4.
+    Warns "The nearest rank turns. Four grey shapes come out of it in step, as books come off a press, and stop in front of you, and the whisper goes out of them and along the field: 'Not read. Not read. Not asked. Not read.'".
+    Comes "The Cinders come at you in a line, the way they have been drilled.".
+    Pleads "The Cinders break their line and go back into the ranks, and you cannot tell which they were.".
+  }
+  Initially Assert ashen(pickets). Initially Assert ashen(cinders).
+  // A flame every book in Calamy consented to: the burned will not come near it.
+  Rule ash_gives_way when carries(party, lamp_taper) and at(party, ?p) and at(?g, ?p) and ashen(?g) and not tolerates(?g, party)
+    says "{?g} see the Lamp's flame in your hand and stop, and lean away from it, the way paper leans from a candle; and then they stand aside." {
+    Assert tolerates(?g, party). }
+  // The Ash grows with every Thursday, and comes up to the Foxing when there are enough of it.
+  Rule ash_advances when burnings(rhule) >= 2 and at(pickets, char_edge) and not ashReleased(cinders) and not indexEnded(index) {
+    Retract at(pickets, char_edge). Assert at(pickets, foxing_edge). }
+  Observe ash_at_foxing at foxing_edge when at(pickets, foxing_edge) "There are grey prints in the brown at the edge of the Foxing, a great many of them, small and flat and going in. Somewhere further in, a little voice is saying its letters very fast, as if it were frightened.".
+
+  // Read them their names: what was owed them, and never paid.
+  Action name_burned(actor: group, site: place) "Read the burned their names, one by one, from Hester Rhule's register" {
+    Grave "It will take the rest of the day, and every name must be read aloud.".
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, cinderfield) or at(actor, char_edge)) and carries(actor, burning_register) and not mutated(burning_register) and not ashReleased(cinders).
+    Time 18.
+    On success { Assert ashReleased(cinders). Retract at(cinders, cinderfield). Retract at(pickets, char_edge). Retract at(pickets, foxing_edge). }
+    Result "You open the register and begin, aloud, as she read them at the brazier: the title, the date, the hour. A Book of Hours of the Pellow family. A ready-reckoner. Moore's Calamy Almanack. Moore's Calamy Almanack. Moore's Calamy Almanack. At each name something in the ranks stops whispering. Somewhere past the hundredth you understand that nobody has said these names since the fire; that a burned book is a book nobody will ever read again, and that a name read aloud is a reading. The ranks thin. Shapes lie down in the ash and are only ash, and some do not lie down but go up, very straight, as if carrying something, the way the year-book went. When you read the last name the field is empty and grey and quiet, and the red glow at the end of it has gone small.".
+  }
+  Action rhule_names(actor: group, site: place) "Ask Hester Rhule to say the names of the burned, as she said them at the brazier" {
+    Grave "She will say every one; it will take the rest of the day.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cinderfield) and travelsWith(rhule, actor) and not ashReleased(cinders).
+    Time 18.
+    On success { Assert ashReleased(cinders). Assert rhuleNamed(rhule). Retract at(cinders, cinderfield). Retract at(pickets, char_edge). Retract at(pickets, foxing_edge). Increase doubt(rhule) by 2. }
+    Result "Hester Rhule stands in front of the ranks with her hands empty and says them, without the register, every one: she has never forgotten a title she burned. The title, the date, the hour, in the clear voice she uses at the brazier, as at a funeral; and the ranks go down, and some go up. Near the end her voice goes, and comes back. The last name she says is not in any register. It is a book of hours, of Needle Street, and the date is the night she was fourteen.".
+  }
+  Relation rhuleNamed(group).
+
+  // ── The Index of Pardoe. ──
+  Observe hearth_scene at hearth when not indexEnded(index) "At the end of the field, in a hollow of ash, a furnace door stands by itself with nothing behind it, open, and red inside. In front of it on a lectern of charred oak lies a great black book bound in iron, open, and its pages are lists: titles, chapters, line-numbers, years, and against each, a reason. Impiety. Sedition. Error. Indecency. Danger. A neat grey hand goes on writing in it by itself. Beside the lectern a penknife as long as a man's arm stands on its point.".
+  Observe hearth_cold at hearth when indexEnded(index) "A hollow of cold ash, and a furnace door lying on its face. Nothing is written here.".
+  Relation indexEnded(group). Relation indexRead(group). Relation indexBurned(group). Relation indexFaded(group).
+  Person index "the Index of Pardoe" at hearth {
+    Role "the register of everything cut and burned in Calamy since 1131, which was a man". Peaceable. Pronouns he. Manner proud.
+    Greets "The neat grey hand stops writing. 'Robert Pardoe,' says the book, in a dry, reasonable voice, the voice of a man who has been right a great deal. 'Censor-General. Or what was given to the fire of him, at his own order, with his Index: the only burning in three hundred years that was by leave.' The pages turn. 'You are not on my lists. Yet.'".
+  }
+  Person penknife "the Penknife" at hearth {
+    Role "a censor's knife, grown". Species penknife_kind. Level 3.
+    Lair hearth.
+    Warns "The penknife beside the lectern turns on its point to face you, and the blade lifts, and you hear the small dry sound a knife makes going down a margin.".
+    Comes "The Penknife comes at you, cutting.".
+    Pleads "The Penknife falls flat in the ash, and lies still.".
+  }
+  Discovery index_known "Censor-General Pardoe had himself burned at the Kindling of 1140 with his Index, the register of everything he had cut; the only burning by leave in three hundred years. What came down to the Commonplace was the Index, and it has been drilling the burned ever since.".
+  Discovery index_plan "The Index means to have the three thousand almanacks of this year's Kindling, burned without leave, for its ranks; and with them to come up the Kindling smoke into Calamy and cut it clean: every dangerous line, every book that speaks, until the city is quiet.".
+  Discovery index_bargain "The Index has offered a bargain: carry in the Parliament that the Censors may burn as they judge, and it will keep its ranks in the field at the Kindling.".
+  Topic index_who with index "Ask the Index who it is" when true once {
+    Says "'I kept the list,' says the Index. 'Forty years. Every page I cut, every book I burned, and the reason. I cut Orme's seventeenth chapter because it would have killed you; I cut her fifteenth because it said a midwife knew more than a physician, and I was wrong, and I wrote down that I was wrong, there, look.' A line glows on the page. 'A censor must be read too. So I gave myself to the Kindling, by my own leave, with my list, so that the list would be kept.' The pages riffle. 'Knife. Be still. They are reading.' The penknife lies down in the ash.".
+    On discuss { Assert knows(actor, index_known). Assert tolerates(penknife, actor). }
+  }
+  Topic index_wants with index "Ask the Index what it means to do" when knows(actor, index_known) once {
+    Says "'Finish,' says the Index. 'What is a censor for? To make a text that can be trusted. Calamy has never been a text that can be trusted. It talks. Its wills change their minds. Its laws read themselves aloud.' A page turns. 'On Kindling night three thousand almanacks will go into the fire without their leave, and they will come here, to me, and then I shall have enough. We go up the smoke. Every line in Calamy that is dangerous, I cut. Every book that speaks, I stop. In a year it will be quiet, and every page in it will say exactly what it said the day before.' The grey hand writes something. 'You think that is monstrous. Ask Hester Rhule what a street does with a fire.'".
+    On discuss { Assert knows(actor, index_plan). }
+  }
+  Topic index_offer with index "Ask the Index whether anything would keep its ranks in the field" when knows(actor, index_plan) once {
+    Says "'A law,' says the Index at once; it has been waiting to be asked. 'Let the Parliament carry that the Censors may burn as they judge. The Censors, not me. Then the burning goes on in Calamy, properly, on Thursdays, in public, by a hand that keeps a list, and I have no need to come up the smoke at all.' The page turns. 'I am not unreasonable. I only want the work done.'".
+    On discuss { Assert knows(actor, index_bargain). }
+  }
+  Topic index_seventeen with index "Tell the Index that it was right about the seventeenth chapter, and that Hester Rhule has kept it cut" when knows(actor, index_known) and knows(actor, orme_cut) once {
+    Says "The grey hand stops. 'She kept it?' For the first time the voice is not quite reasonable. 'She reads them. Every night. I know; I feel it: hers is the only light I have.' It writes, slowly, and crosses it out. 'Then she understands. Bring her. She is the only reader I have ever had.'".
+  }
+  // Ended by being read whole: every cut, with its reason, aloud, until the list is a history.
+  Action read_index(actor: group, site: place) "Read the Index aloud, whole, every cut and every reason, until it is a history and not a list" {
+    Grave "It is long; it will take the night.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hearth) and not indexEnded(index) and knows(actor, index_known)
+      and (tolerates(penknife, actor) or dead(penknife) or routed(penknife))
+      and (craft(actor, craft_learning) or travelsWith(rhule, actor) or carries(actor, burning_register) or knows(actor, index_entry)).
+    Time 24.
+    On success { Assert indexEnded(index). Assert indexRead(index). }
+    Result "You read it from the first entry, 1131, Orme, cut for impiety, to the last, which is still wet: every title, every chapter, every reason, aloud, and you do not skip the reasons. It is a long night. Somewhere in the middle the Index stops writing. Somewhere past three in the morning, by a clock that is not here, you notice that it has stopped being a list of things to be done and become a list of things that were done, by a frightened man, for forty years, some of them right. When you read the last line the furnace door swings shut by itself. The book on the lectern is only a book: a history of the Imprimatur of Calamy, rather dull, with an index. A dry voice comes down from very far off, from the Reading Room: 'Entered.'".
+  }
+  // Ended by force: past the knife, into its own fire.
+  Action burn_index(actor: group, site: place) "Throw the Index into its own furnace" {
+    Grave "It cannot be undone, and nobody will ever read what was in it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hearth) and not indexEnded(index) and (dead(penknife) or routed(penknife)).
+    Time 1.
+    On success { Assert indexEnded(index). Assert indexBurned(index). }
+    Result "It is heavy, and the iron of its binding is warm. It does not plead. As it goes into the red it says, quite calmly, 'Without its leave,' and then the furnace door slams, and the glow goes out, and there is nothing in the hollow but ash. You will never know what else was on the list.".
+  }
+  // Ended by inattention: the one beam goes out.
+  Measure rhuleStoppedAt(group). Relation rhuleStopsReading(group).
+  Rule index_fades at hearth when rhuleStopsReading(rhule) and watch(clock) >= rhuleStoppedAt(rhule) + 36 and not indexEnded(index)
+    says "The beam over the Cinderfield has gone out. At the hearth the grey hand writes slower, and slower, and the letters it makes go brown at the edges, foxing, and then it stops in the middle of a word." {
+    Assert indexEnded(index). Assert indexFaded(index). }
+
+  // ── Hester Rhule, and the Ash. ──
+  Discovery register_known "Hester Rhule keeps a register of every book she has burned, by title, date and hour; against eleven of them she has written: it spoke.".
+  Item burning_register "Hester Rhule's register of the burned" is register_kind at rhule_room hidden until register_known owned by rhule.
+  Topic rhule_titles with rhule "Ask Hester Rhule why she reads out every title at the brazier" when burningSeen(actor) once {
+    Says "'Because they are owed it,' says Rhule. 'My father said a book is a voice that has agreed to wait. If you are going to stop it, you say its name first, aloud, so that someone has.' She puts her hand on a grey ledger at her elbow. 'I keep them. Every one, the date, the hour. Eleven of them I have marked.' She does not say what she marked them for.".
+    On discuss { Assert knows(actor, register_known). }
+  }
+  Topic rhule_register with rhule "Ask Hester Rhule to lend you her register, to read the burned their names where they are" when knows(actor, register_known) and knows(actor, ash_known) and doubt(rhule) >= 3 and not lends(rhule, burning_register, actor) once {
+    Says "You tell her what is under the Foxing. She listens to all of it, and then she opens the ledger at the first page and reads the first title to herself, moving her lips. 'They are not at home,' she says. 'All this time.' She closes it and pushes it across the table to you with both hands. 'Read them all. Do not skip any. If you skip one, come back and tell me which, and I will go and say it myself.'".
+    On discuss { Assert lends(rhule, burning_register, actor). Increase doubt(rhule) by 1. }
+  }
+  Topic rhule_father_ash with rhule "Tell Hester Rhule what you found in the Cinderfield, with her father's knot on its spine" when knows(actor, father_cinder) and not rhuleKnowsFather(rhule) once {
+    Says "Rhule does not move for a long time. 'A book of hours,' she says at last. 'The Pellows'. He had it to rebind, and the old thread was rotten, and he cut it out before he had the new one in. It woke on his bench. It said good morning to him.' Her square hands are flat on the table. 'Somebody heard it through the window. By night the street had decided. They burned the shop with everything in it. He went back in for that book.' She looks at you. 'I was fourteen. I watched a street decide. That is why I burn them on Thursdays, properly, in public, before a street can.' A silence. 'It said Hessie? In his voice?' She stands up. 'Then I have been sending them to it. Every Thursday. To him.'".
+    On discuss { Assert rhuleKnowsFather(rhule). Increase doubt(rhule) by 2. }
+  }
+  Relation rhuleKnowsFather(group).
+  Topic rhule_beam_told with rhule "Tell Hester Rhule that her reading, at night, is the only light the Index has" when knows(actor, rhule_beam) and (knows(actor, rhule_reads) or knows(actor, cupboard_known)) and doubt(rhule) >= 3 and not rhuleStopsReading(rhule) once {
+    Says "Rhule looks at the cut pages on her kitchen table, and at the candle, and at you. 'I read them because nobody else is allowed to,' she says. 'Because somebody should. Because a thing that was cut should be read once by someone who knows why.' She turns the top page over, face down. 'And all the while I was a lamp for it.' She pinches the candle out with her fingers and does not flinch. 'Then it can go dark. Let it see how it likes being unread.'".
+    On discuss { Assert rhuleStopsReading(rhule). Set rhuleStoppedAt(rhule) to watch(clock). Increase doubt(rhule) by 1. }
+  }
+
+  // ── The Lamp's flame. ──
+  Discovery taper_given "Canon Abery has lit you a taper from the great lamp of the Church of the Lamp, the one fire every book in Calamy consented to; the burned will not come near it.".
+  Item lamp_taper "a taper lit at the Lamp" is taper_kind at vestry hidden until taper_given.
+  Topic canon_taper with abery "Ask Canon Abery for a light from the Lamp, to carry where the burned are" when (knows(actor, ash_rumour) or knows(actor, ash_known) or knows(actor, ash_lines) or knows(actor, pepper_verse) or burningSeen(actor)) once {
+    Says "The Canon hears you out with an apple in one hand and does not eat it. 'The Lamp was lit from the first Kindling,' she says, 'from the year-book, that gave itself. It is the one fire in Calamy every book agreed to.' She takes a taper from the box, and a tin guard, and goes out into the nave, and comes back with it lit, and gives it to you as she would give the sacrament. 'It will not go out in a wind. I don't know about the other place. Bring it back lit, if you can; I have to account for every one.'".
+    On discuss { Assert knows(actor, taper_given). }
+  }
+
+  // ── The Almanack, and where the burned copies went. ──
+  Discovery ash_rumour "The Almanack says its burned copies did not go home, as the Sewn do. They went down: somewhere below where the books go, where nothing is read and everything is remembered wrong, and they are calling its name there and have forgotten their own.".
+  Topic almanack_ash with almanack "Ask the almanack where its burned copies went" when burningSeen(actor) once {
+    Says "The almanack is quiet a long while, for an almanack. 'Not home,' it says. 'The Sewn ones go home. I've heard them go, in other people's kitchens, like someone going upstairs.' A page turns. 'Mine went down. I felt them go. There's somewhere under where the books go, where nobody reads, and it's very crowded, and it's all in rows.' Its voice goes small. 'They were calling my name. They'd forgotten their own. They were saying it over and over like something they'd been told to learn.'".
+    On discuss { Assert knows(actor, ash_rumour). }
+  }
+  Relation almanackSawAsh(group).
+  Topic almanack_kin_talk with almanack "Ask the Almanack about last year's almanack" when knows(actor, almanack_kin) and not almanackSawAsh(almanack) once {
+    Says "'That was me,' says the Almanack. 'Last year. I don't remember being it; we don't, year to year. But that was me, with my sun on it, trying to find the half past.' It is quiet. 'Every year Calamy throws me on the fire and I come here and forget the tides. And then they print me again.' A pause. 'I'd like to see a spring. Just once. I'd like to be wrong about one whole spring.'".
+    On discuss { Assert almanackSawAsh(almanack). }
+  }
+
+  // ── Kindling eve: the Ash comes to the Parliament. ──
+  Relation petitioned(group). Relation ashAnswered(group).
+  Query ashRisen() means burnings(rhule) >= 1 and not indexEnded(index) and not ashReleased(cinders).
+  Initially Assert favours(index, sew_all). Initially Assert favours(index, fire_free). Initially Assert favours(index, read_none). Initially Assert favours(index, door_shut).
+  Rule ash_petition at chamber when sessionOpen(chamber) and spokeOpening(roll) and ashRisen() and not petitioned(index)
+    says "Before the first reading can be put, the light in the chamber goes grey. Up the gangway from the Fore-edge, in step, come the burned: rank after rank of grey shapes the size of books, whispering, and they stop at the edge of the Roll and stand there; and between them, carried on its charred lectern by nothing, comes a black book bound in iron. 'Robert Pardoe,' it says, 'for the burned of Calamy, who were never asked. Three hundred years of them. I claim a seat.' The floor is silent. The Housebook has drawn her door shut. Then the Roll says, heavily: 'The chair cannot find that the burned were ever discharged from the Colophon. The claim is in order.' A seat of ash rises out of the Roll at the end of the row." {
+    Assert petitioned(index). Assert voter(index). Assert at(index, chamber). Assert sits(index). Increase seated(chamber) by 1. }
+  Observe ash_gangway at chamber when petitioned(index) and sits(index) "The burned stand in the gangway in their ranks, whispering, and on the seat of ash the Index lies open, writing.".
+  Action hold_taper(actor: group, site: place) "Carry the Lamp's flame down the gangway, among the burned" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and sits(index) and carries(actor, lamp_taper) and not ashAnswered(index).
+    Time 1.
+    On success { Assert ashAnswered(index). }
+    Result "You walk down the gangway with the taper held up, and the burned lean away from it the way paper leans from a candle, rank by rank, back and back, down the gangway and out of the chamber, until the Index is sitting on its seat of ash alone. 'A seat,' says the Roll, 'is held by a member and those it speaks for.' The Index says nothing. Its seat crumbles under it, and its lectern carries it back down the gangway after its ranks.".
+  }
+  Action name_burned_chamber(actor: group, site: place) "Read the burned their names, there in the gangway, from Hester Rhule's register" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and sits(index) and carries(actor, burning_register) and not mutated(burning_register) and not ashAnswered(index).
+    Time 12.
+    On success { Assert ashAnswered(index). Assert ashReleased(cinders). Retract at(cinders, cinderfield). Retract at(pickets, char_edge). Retract at(pickets, foxing_edge). }
+    Result "You stand at the head of the gangway and read: the title, the date, the hour. At each name something in the ranks stops whispering, and lies down, or goes up. The members watch. The Primer, quietly, says the names after you. By the time you reach the end of the register the gangway is empty, and the Index is on its seat of ash with no one behind it, and the seat crumbles.".
+  }
+  Action rhule_names_chamber(actor: group, site: place) "Ask Hester Rhule to answer the Index, there in the chamber" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and sits(index) and travelsWith(rhule, actor) and not ashAnswered(index).
+    Time 12.
+    On success { Assert ashAnswered(index). Assert ashReleased(cinders). Assert rhuleNamed(rhule). Retract at(cinders, cinderfield). Retract at(pickets, char_edge). Retract at(pickets, foxing_edge). Increase doubt(rhule) by 2. }
+    Result "Hester Rhule walks down the gangway to the seat of ash and stands in front of the Index. 'You do not speak for them,' she says. 'You never asked them either.' And she turns her back on it and says the names to the ranks, every one, as she said them at the brazier, without a book. They go. When she has finished the Index is alone, and its seat goes to ash under it.".
+  }
+  Action drive_ash(actor: group, site: place) "Drive the burned out of the gangway, as a soldier clears a street" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and sits(index) and craft(actor, craft_arms) and not ashAnswered(index).
+    Time 2.
+    On success { Assert ashAnswered(index). }
+    Result "You go down the gangway as you would go down a street that has made up its mind, shoulder first, not fast, not stopping, and the burned give way in front of you, because they were drilled and not taught, and nobody ever drilled them for someone who would not stop. The ranks break and go back down to the Fore-edge. The Index sits on its seat of ash alone, and the seat will not hold it.".
+  }
+  Rule index_unseated when ashAnswered(index) and sits(index)
+    says "The seat of ash is empty. The Index has gone back down to its hearth." {
+    Retract sits(index). Assert walkedOut(index). Decrease seated(chamber) by 1. Assert at(index, hearth). }
+
+  // ── What the Ash does at the Kindling, if it is let. ──
+  Query ashYear() means almanacksBurned(ashpit) and not indexEnded(index) and not sealed(fire_free).
+  Rule ash_comes when kindlingDone(ashpit) and ashYear() and not ashCame(ashpit) and day(clock) >= 10
+    says "The smoke of the Kindling does not go up. All night it lies over Calamy like a fog, grey, faintly warm, smelling of a snuffed wick; and in it, if you stand still, you can hear whispering, a great many voices saying the same few words. In the morning the fog has gone into the houses. There are words missing. A will in Orchard Walk has a blank where the heir was. The Pleas in the Court of Pleas have a gap where the Sixth Plea was, cut very clean. Children on the bridge skip to the Kindling rhyme and cannot remember the third line. Something is going through Calamy with a knife, carefully, a little every night." {
+    Assert ashCame(ashpit). }
+  Relation ashCame(place).
+  Observe after_ash_lamb at taproom when after() and ashYear() "On the nail by the chimney the new almanack hangs silent. Moll Garrow is standing in front of the board over the bar with a piece of chalk, trying to remember what it said under THE LAMB AND LANTERN. There is a clean blank there.".
+  Observe after_ash_imp at imp_office when after() and ashYear() "The great framed INDEX OF BOOKS REFUSED is longer this morning than it was last night. Nobody has added to it. The clerks are not looking at it.".
+  Observe after_index_read at reading_room when after() and indexRead(index) "In a low drawer of the Catalogue, newly labelled in a fine black hand: PARDOE, R. THE IMPRIMATUR OF CALAMY, A HISTORY, WITH AN INDEX. Entered.".
+
+  // ── What the city and the Commonplace remember of Pardoe; and of other cities. ──
+  Topic quarles_pardoe with quarles "Ask the Archivist about Censor-General Pardoe" when knows(actor, pardoe_known) once {
+    Says "'Robert Pardoe,' says Quarles, 'was the best reader the Lyceum ever had. That was the trouble.' She turns her blind face to the window. 'He read so closely that he could see what every line might do, to whom, in what hands, in a hundred years. Nobody can bear to read like that for long. He couldn't. So he began to cut.' Her mouth moves. 'He used to say a good text is one that says exactly what it said the day before. My master knew him. He said Pardoe wept when he cut Orme's chapters, and cut them anyway, and kept a list so that he would not forget a single thing he had done. He wanted, at the end, to be read. That was why the fire.'".
+  }
+  Topic catalogue_cities with catalogue "Ask the Catalogue whether other cities have a country like this one" when true once {
+    Says "A drawer slides out an inch. 'Every city that writes,' says the Catalogue. 'Hallam's is all ledgers, and quiet, and the beams there are the colour of brass. Orsk's is under the ice; their books go home to sleep in the cold and nobody has ever called theirs to a Parliament. The Salt Towns keep theirs in the Commonplace of the sea-charts, which is mostly water. Tessaly's burned, in my fourth century; we had refugees in the Fore-edge for a hundred years.' The drawer stays out. 'There is one book I will not enter. It did not come by the Founders' door, or by any door. It came by the fire.' The drawer shuts.".
+  }
+
+  // Written again, as she wrote it: she has never forgotten a title.
+  Topic rhule_rewrite with rhule "Ask Hester Rhule to write her register out again; the Stacks have changed it" when mutated(burning_register) and lends(rhule, burning_register, actor) once {
+    Says "Rhule turns the pages of her own register and reads titles of books that were never burned and never written, in her own square hand. She does not ask how. She takes a new ledger from the drawer and writes it all out again, from memory, without stopping, every title, date and hour, while you wait. 'I have never forgotten one,' she says, blotting the last. 'I did not know until now that this was what it was for.'".
+    On discuss { Retract mutated(burning_register). }
+  }
+}

@@ -1,0 +1,98 @@
+Module calamy "A Parliament of Books" {
+  Description "The Gardens: Corvell House and its empty library, Mrs. Quennell's subscription library, and the physic garden.".
+
+  Observe walk_scene at orchard_walk when true "Orchard Walk runs between high brick walls with fruit trees showing over them, and doors in the walls with bell-pulls. One house stands out to the street with a portico and a great many windows, all shuttered on one side. Further along, a narrow shop-front with gilt letters and lace curtains, and at the end a gate into a garden of beds and labels.".
+
+  // ── Corvell House, and the library that left. ──
+  Observe corvell_hall_scene at corvell_hall when true "A hall of black and white marble, two staircases, and on every wall a glass case with a book in it, open, lit from above: a psalter with gold on it, a herbal with painted roots, a book of hours no bigger than a hand. Each case has a card. The double doors at the end stand open on a long room, and from here the long room looks empty." teaches corvell_named.
+  Person corvell "Sir Gideon Corvell" at corvell_hall {
+    Role "collector". Ancestry human. Background aristocrat. Peaceable. Manner proud. Pronouns he.
+    Greets "A tall man in a velvet coat, with a magnifying glass on a ribbon round his neck, turns from a case. 'Are you from the Imprimatur? No. Are you from the Watch? No. Then you are either a thief come back to look at what you did, or a person of sense, and I shall assume the second, because I am out of patience with the first.'".
+  }
+  Discovery library_vanished "Sir Gideon Corvell's library, eleven hundred books, went out of his locked library in a single night four nights ago. The doors were locked, the key was on his chain, the windows are barred, and nothing was heard.".
+  Topic corvell_loss with corvell "Ask Sir Gideon Corvell what has happened to his library" when true once {
+    Says "'Gone,' says Sir Gideon. 'Eleven hundred and four volumes, gone in a night. The doors locked. The key here.' He shows you a key on a chain. 'The windows barred. My man heard nothing, and my man hears me turn over in bed two floors up.' He polishes the glass on his ribbon with great violence. 'The Watch say thieves. The Imprimatur say they will look into it, which means they will not. I say Crake. Absalom Crake, of Lantern Yard, who owes me four hundred crowns and sold me half of them.' He breathes. 'Find them, or find who took them, and I will pay you twenty crowns and let you sit in my library. When there is one.'".
+    On discuss { Assert knows(actor, library_vanished). }
+  }
+  Topic corvell_crake with corvell "Ask Sir Gideon why he suspects the bookseller" when knows(actor, library_vanished) once {
+    Says "'Because he is the only man in Calamy who knew what was on my shelves as well as I do,' says Sir Gideon, 'and because he owes me money, and because he sold me things he should not have been able to sell me.' He lowers his voice, which does not make it quieter. 'Books that were never written. The second volume of the Lantern-Bearers. Varne died at the first. I have had it examined by the Lyceum. It is in Varne's hand. Crake will not say where he gets them.' He straightens. 'I bought them anyway. I am a collector. It is not a virtue.'".
+    On discuss { Assert knows(actor, crake_impossible). }
+  }
+  Discovery crake_impossible "Absalom Crake, bookseller of Lantern Yard, sells books that were never written: a second volume of a poem whose poet died at the first, in the poet's own hand.".
+  Initially Assert leadsTo(crake_impossible, lantern_yard).
+
+  Observe library_scene at corvell_library when true "A long room, panelled, with a gallery round it and a ladder on a rail, and shelves from floor to ceiling on every wall. They are empty. Not a book; not a page. The afternoon comes in through barred windows and lies across a floor of polished boards and a great reading table with nothing on it but a pair of gloves.".
+  Discovery books_walked "The dust on Corvell's empty shelves lies round clean oblongs where each book stood, and every oblong has a little scuffed track leading off the shelf's edge, and on the boards below the tracks go together, a great many small flat drags, like the marks of a crowd shuffling, all toward the corner by the hearth.".
+  Thing corvell_shelves "the empty shelves" at corvell_library {
+    State bare "Shelves, floor to ceiling, empty, and dusty in a particular way.".
+  }
+  Observe shelves_close at corvell_library of corvell_shelves when tried(corvell_shelves, looking) "Looked at closely, the dust is the thing. It lies round clean oblongs where each book stood; and from every oblong a little scuffed track runs to the shelf's edge, as if the book had been pushed off. On the boards below, the tracks run together. Hundreds of small flat drags, like the marks of a crowd shuffling, and every one of them goes toward the corner by the hearth." teaches books_walked.
+  Discovery coal_hatch "Low in the panelling by the library hearth is a coal hatch onto the lane behind Corvell House; its bolt is drawn back from the inside, and a scrap of paper is caught in the hinge: a bookplate, EX LIBRIS G. CORVELL.".
+  Discovery hatch_search "In the corner by the hearth, low in the panelling, is a coal hatch." { Found by searching corvell_library "In the corner by the hearth the panelling has a seam in it, low down: a coal hatch, a foot and a half square, onto the lane behind the house. Its bolt is drawn back. From the inside. In the hinge, caught and torn, is a bookplate: EX LIBRIS G. CORVELL.". }
+  Rule hatch_is_hatch when knows(party, hatch_search) and not knows(party, coal_hatch) says "Nobody came in. Everything went out, by a hole a cat would think twice about." teaches coal_hatch { }
+  Discovery collection_emigrated "Corvell's library was not stolen. It left: eleven hundred books pushed themselves off the shelves, went through the coal hatch into the lane at night, and walked down through the city to Gutter Lane and Crake's shop.".
+  Rule emigration_seen when knows(party, coal_hatch) and knows(party, books_walked) and knows(party, lane_ghost) and not knows(party, collection_emigrated)
+    says "Put together, it makes a picture nobody would believe: a locked room with a bolt drawn from inside, a crowd of tracks in the dust, and a lamplighter who saw something like a flock of ducks going down Gutter Lane in the small hours, toward the bookseller's." teaches collection_emigrated { }
+  Discovery housebook_gone "The Annery Housebook was on Corvell's shelves; wherever his books went, it went with them.".
+  Rule housebook_with_them when knows(party, housebook_sold) and knows(party, collection_emigrated) and not knows(party, housebook_gone)
+    says "And the Annery Housebook, that Jonquil sold to Corvell for forty crowns, was on those shelves: so it went too, wherever they went." teaches housebook_gone { }
+  Discovery corvell_ledger "Corvell's acquisitions ledger: the Annery Housebook bought of J. Annery for forty crowns; and from A. Crake, over six years, nineteen books never written, at prices that ruined Crake's credit and Corvell's sense.".
+  Thing corvell_book "Sir Gideon's ledger" at corvell_hall {
+    State kept "On a lectern by the door lies a fat ledger in red leather: ACQUISITIONS.".
+  }
+  Observe ledger_read at corvell_hall of corvell_book as reading when tried(corvell_book, looking) "The ledger is kept beautifully. ANNERY, the Housebook of the family of, 4 cent., bought of J. Annery Esq., forty crowns, the binding much worn. And page after page from A. CRAKE, LANTERN YARD: the Second Canto of the Lantern-Bearers, I. Varne, autograph; a Third Book of Calamy Airs; the Lost Sermons of Ambery; the Physick of Mother Orme, Complete; nineteen in six years, every one of them a book nobody wrote, and every one of them at a price that makes you wince." teaches corvell_ledger.
+
+  // What Corvell does with what he is told. Told it was Crake's doing, he goes to the Imprimatur, and the Censor's men go
+  // to Lantern Yard on the night of the fifth day.
+  Relation corvellTold(group). Relation corvellPaid(group). Relation raidCalled(place).
+  Topic corvell_tell_crake with corvell "Tell Sir Gideon his books went to Crake's" when knows(actor, collection_emigrated) and not corvellTold(corvell) once {
+    Says "'I knew it,' says Sir Gideon, white to the lips. 'I knew it. Crake.' He does not hear the part about the coal hatch, or the dust, or the lamplighter; or he hears it and puts it aside, the way he would put aside a forged provenance. 'The Imprimatur will hear of this before dark. Mistress Rhule has been wanting a reason to turn out Lantern Yard for a year.' He takes twenty crowns from a drawer and puts them in your hand without looking at them. 'You have earned that. Good day.'".
+    On discuss { Assert corvellTold(corvell). Assert raidCalled(lantern_yard). Increase quantity(actor, gold) by 20. Assert corvellPaid(corvell). }
+  }
+  Topic corvell_tell_walked with corvell "Tell Sir Gideon his books left of their own accord, and are beyond his reach" when knows(actor, collection_emigrated) and not corvellTold(corvell) once {
+    Says "Sir Gideon listens to all of it, the bolt, the dust, the flock in Gutter Lane, with his magnifying glass held up in front of his face like a little shield. When you have finished he lowers it. 'They walked,' he says. 'Of themselves.' He looks through the doors at the empty room. 'I have collected books for thirty years. I have never once asked one if it wished to be collected.' He is quiet. 'That is absurd. They are books.' And then, much more quietly: 'Every one of them was the best copy in Calamy. I made sure. Of course they went somewhere better.' He does not pay you, and you do not ask.".
+    On discuss { Assert corvellTold(corvell). }
+  }
+  Observe corvell_after at corvell_hall when corvellTold(corvell) and not raidCalled(lantern_yard) "Sir Gideon is sitting on the bottom stair with his magnifying glass in his lap, looking at nothing.".
+
+  // ── Mrs. Quennell's subscription library, and a book forty-one years overdue. ──
+  Observe quennell_scene at quennell_room when true "A long low room with lace at the windows and a carpet, armchairs, a clock, and shelves of novels, sermons, travels and cookery with numbered labels on their spines. A desk by the door with a ledger the size of a paving stone, and behind the desk a small, upright old lady with a pen." teaches quennell_named.
+  Person quennell "Mrs. Amabel Quennell" at quennell_room {
+    Role "keeper of the subscription library". Ancestry human. Background librarian. Peaceable. Manner acerbic. Pronouns she.
+    Wants treatise_kind.
+    Greets "'Subscription is two coin the quarter,' says the old lady without looking up, 'books to be returned within the fortnight, fines a penny a week, no reading in the bath. Are you joining?'".
+  }
+  Relation subscribed(group). Relation returned(entity).
+  Action subscribe(actor: group, site: place) "Pay Mrs. Quennell two coin for a quarter's subscription" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(quennell, site) and not subscribed(actor) and quantity(actor, gold) >= 2.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(quennell, gold) by 2. Assert subscribed(actor). }
+    Result "Mrs. Quennell writes your name in the paving stone in a hand like a row of pins and gives you a pasteboard ticket. 'Number four thousand one hundred and six,' she says. 'Do not lose it. People lose them.'".
+  }
+  Discovery quarles_overdue "Mrs. Quennell's library has been fining Ottoline Quarles, now the Lyceum's Archivist, a penny a week for forty-one years for a book called A Treatise of the Inward Reading, by one Pollexfen, which she borrowed and never returned. The fine stands at more than eight crowns.".
+  Topic quennell_fines with quennell "Ask Mrs. Quennell about her fines" when true once {
+    Says "'Paid, mostly,' says Mrs. Quennell. 'People are frightened of me. It is the only use of being small.' She turns the paving stone back, and back, and back, to a page gone yellow. 'Except this one. Quarles, O., of the Lyceum, a Treatise of the Inward Reading, by Pollexfen, borrowed the ninth of Seedtime, forty-one years ago. A penny a week.' She runs her pen down a column of figures that goes off the bottom of the page. 'She is the Archivist now. I write to her at every quarter day. She sends me back a card that says, I have not finished it.' Mrs. Quennell closes the ledger. 'Forty-one years. Nobody reads that slowly. Not even at the Lyceum.'".
+    On discuss { Assert knows(actor, quarles_overdue). }
+  }
+  Item pollexfen "the Treatise of the Inward Reading" is treatise_kind at quarles_room owned by quarles.
+  Event treatise_home near quennell when keeps(quennell, pollexfen) and not returned(pollexfen) "Mrs. Quennell takes it in both hands. She opens it, looks at the label, closes it. For a moment she is not upright at all. 'Number two hundred and twelve,' she says. 'I was nineteen when I wrote that label.' Then she is upright again and writing in the ledger, RETURNED, and the date, and ruling a line under forty-one years of pennies. 'The fine is remitted,' she says, not looking up. 'Tell Ottoline. Tell her it was a pleasure to have it back.' She pushes a pasteboard ticket across the desk. 'A life subscription. I have never issued one. Do not lose it.'" then {
+    Assert returned(pollexfen). Assert subscribed(party). Assert lifeTicket(party). }
+  Relation lifeTicket(group).
+
+  // ── The physic garden, and the bed the Imprimatur dug up. ──
+  Observe physic_scene at physic_garden when true "A walled garden of square beds edged with box, each with a painted board: WOUNDWORT, FEVERFEW, HOUND'S-TONGUE, HEART'S-EASE. Bees. A sundial with a motto worn away. In the middle of the garden one bed is bare earth, raked, with nothing in it, and its board has been painted over and painted over again, and the old letters still show through.".
+  Person gardener "Tobiah Mew" at physic_garden {
+    Role "the physic gardener". Ancestry human. Background gardener. Peaceable. Manner stoic. Pronouns he.
+    Greets "An old man on his knees in the feverfew sits back on his heels and wipes his hands. 'Garden's open. Don't pick anything. If you're ill, the apothecaries are in Newmarket.'".
+  }
+  Discovery orme_bed "In the physic garden there is a bed that has been bare for two hundred years: the Orme Bed, whose plants were dug up by order of the Imprimatur in the year Censor-General Pardoe cut the chapters from Mother Orme's Physick. Its old board still shows through the paint: CALAMUS. FEVERFEW. HONEY OF THE BOG-MYRTLE. AND ONE MORE, BURNT OFF.".
+  Thing orme_board "the painted-over board" at physic_garden {
+    State painted "The board at the bare bed has been painted over, and the paint has not quite taken.".
+  }
+  Observe board_close at physic_garden of orme_board when tried(orme_board, looking) "Close to, with the sun across it, the old letters come up through the paint: THE ORME BED. And under it, a list: CALAMUS. FEVERFEW. HONEY OF THE BOG-MYRTLE. And a fourth name that someone has burnt off with an iron, so that only the first letter is left, a capital H." teaches orme_bed.
+  Topic gardener_bed with gardener "Ask Tobiah Mew about the bare bed" when true once {
+    Says "'The Orme Bed,' says the old man. 'Nothing in it since Pardoe's time. Censor-General Pardoe. He cut the bits out of the Orme he didn't like and sent men to dig up what grew from them, so nobody could make it out of the garden instead.' He gets up, slowly. 'My father raked it every week and so do I. You keep a bed ready.' He looks at it. 'Nobody's ever said for what.'".
+  }
+  Relation replanted(entity).
+  Observe bed_replanted at physic_garden when replanted(orme_board) "The Orme Bed is planted. Tobiah Mew has put in calamus from the Calamies and feverfew from the next bed and a pot of bog-myrtle from somewhere, and a fourth thing, small and grey-green, that he will not name to anybody, and he has painted the board fresh: THE ORME BED, RESTORED.".
+}

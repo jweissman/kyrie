@@ -438,7 +438,19 @@ Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpe
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 19 | 1 | 0 | 2 | 10 |
+| 7 | 19 | 2 | 0 | 2 | 10 |
+
+#### levelOf
+
+*Kyr · measure(member)* · `rule:care.levelOf`
+
+How far a companion has come (their level), for what asks it before it will teach them (a Manual, an order).
+
+#### degree
+
+*Kyr · kind* · `rule:care.degree`
+
+How much a work that reads its reader back (a Manual) raises a quality, outside a level's development (Resolve endow(reader, intelligence, by_two)): never past twenty-five.
 
 #### awake, fallen, slain, needsCare, canCast, treatable
 
@@ -2075,6 +2087,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > Ammerlin goes down the inside of an old crater in four terraces, and its life is the water of the Stair. For three years the Mere at the bottom has been falling, and everybody in the city has a reason, and every reason is also a claim on somebody else's water. The Office of Measures has engaged you as Independent Assessor, because nobody who lives there can be neutral. Choose three companions.
+
+### A Parliament of Books
+
+*Kyr* · `campaign:parliament-of-books`
+
+- Regions and sites: calamy
+- Kits placed: —
+
+> Calamy is a city of paper at the mouth of the Calam, where the tide turns the mills twice a day and every household keeps a book that knows it. Its books are entangled with its money, its law, its prayers and its quarrels, and lately some of them have begun to talk. In nine days it is the Kindling, when the city burns last year's almanacks to light the new year in.
 
 ### The House That Grows
 

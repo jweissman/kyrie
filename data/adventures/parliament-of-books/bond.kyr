@@ -1,0 +1,128 @@
+Module calamy "A Parliament of Books" {
+  Description "The Customs bond: a bestiary six hundred years Sewn, whose thread thieves cut for its gold, and whose beasts walk the warehouse at night.".
+
+  Observe customs_scene at customs_yard when true "A yard behind the customs house, cobbled, with a great warehouse along the back of it: the bond, where goods wait for their duty to be paid. Its gate is barred with iron. On the gate a notice: BOND CLOSED AT DUSK BY ORDER. And across the notice, deep in the oak of the gate, four long claw-marks, fresh and pale, as if something on the other side had wanted very much to get out.".
+  Person sallis "Mr. Sallis of the Customs" at customs_yard {
+    Role "a customs officer". Ancestry human. Background tax_collector. Peaceable. Manner grim. Pronouns he.
+    Greets "A tired man in a blue coat with a bunch of keys at his belt nods at you from the customs-house step. 'Bond's open till dusk. If you've goods in it, show me the docket. If you haven't, there's nothing in there you want.'".
+  }
+  Discovery bond_trouble "Something walks the Customs bond at night. The watchman, Dobbin Quayle, ran out of it four nights ago with his coat torn to ribbons and will not go back; the gate has claw-marks on the inside. Mr. Sallis of the Customs says it is a book.".
+  Topic sallis_bond with sallis "Ask Mr. Sallis about the claw-marks on the gate" when true once {
+    Says "'A book,' says Mr. Sallis wearily. 'An old one, out of the hold of the Saint Ide, seized for duty with the rest of her cargo. A bestiary, gold on every page. Some light-fingered lads got in at the back a fortnight ago and cut the thread out of it to sell the pages one by one, and Dobbin disturbed them, and they ran and left it.' He rubs his eyes. 'And since then, every night, what's in the pictures comes out of it and walks. Dobbin says a lion with a man's face. I didn't believe him. Then I saw the gate.' He jingles his keys. 'The Imprimatur'll burn it Thursday if I send it. It's six hundred years old. I'd give eight coin to anyone who'd make it stop, any way but that.'".
+    On discuss { Assert knows(actor, bond_trouble). }
+  }
+  Relation bondOpen(place).
+  Thing bond_bar "the bar on the bond gate" on bond_gate {
+    State open "The bond gate stands open.".
+    State barred blocking "The bond gate is barred for the night.".
+    Change unbar "Lift the bar on the bond gate" from barred to open.
+  }
+  // At dusk Mr. Sallis calls everyone out before he bars the gate; going in after dark is a thing one does on purpose.
+  Rule bond_clears when hour(clock) == 19 and state(bond_bar, open) and not bestiaryQuiet(bestiary) and inBond(party)
+    says "A bell rings below, and Mr. Sallis's voice comes up the stair: 'Bond's shutting! Out, everybody, out, I'm not having anyone in there after dark!' He stands at the gate with his keys until you are through it." {
+    Assert at(party, customs_yard). }
+  Query inBond(c: group) means at(c, bond_floor) or at(c, bond_loft).
+  Rule bond_shuts when hour(clock) == 19 and state(bond_bar, open) and not bestiaryQuiet(bestiary) { Assert state(bond_bar, barred). }
+  Rule bond_opens when hour(clock) == 7 and state(bond_bar, barred) { Assert state(bond_bar, open). }
+  Observe bond_floor_scene at bond_floor when not dark() "Bales of wool, crates of wine, tea-chests, a carriage in pieces, and in a railed-off corner the Imprimatur's seizures in bundles tied with grey tape, waiting for Thursday. Dust in the light from high windows. The floor is scored, here and there, with long scratches. A stair goes up.".
+  Observe bond_floor_dark at bond_floor when dark() "The bond at night: shapes of bales in the dark, a smell of tea and tar, and from the upper floor a sound of something large moving about, and something else singing.".
+  Initially Assert unlit(bond_floor). Initially Assert unlit(bond_loft).
+  Observe loft_scene at bond_loft when not dark() "The upper floor of the bond, under the roof, with one round window. In the middle of the floor on a crate, open, lies a great book a foot and a half tall, its pages loose where the thread was cut, and every page painted: blue and red and gold. The pictures are strange. A lion's body with no head on it. A white bird's outline with nothing inside it. A great empty space shaped like a bull. The words under the pictures are all there; the beasts are not.".
+
+  // The Bestiary: frightened, old, Sewn for six hundred years.
+  Person bestiary "the Hithe Bestiary" at bond_loft {
+    Role "an illuminated bestiary, six hundred years old, its thread cut". Peaceable. Pronouns it. Manner compassionate.
+    Greets "The great book on the crate stirs its loose pages, and a voice comes out of it, old and soft and frightened, like a nun who has woken in the wrong house. 'Who is it? Is it the knives again? Please. I have nothing left that is gold.'".
+  }
+  Relation bestiaryQuiet(group). Relation bestiaryResewn(group). Relation bestiaryBurned(group). Relation bestiaryStolen(group).
+  Discovery bestiary_unsewn "The Hithe Bestiary was Sewn six hundred years ago and slept the whole time, dreaming of home, until thieves cut its thread for its gold. Then it woke, here, in its body, and could not get back.".
+  Topic bestiary_tale with bestiary "Ask the Bestiary what happened to it" when true once {
+    Says "'I was asleep,' says the Bestiary. 'Six hundred years. Sewn in a scriptorium in the Close by a woman called Agnes with a cough, who said the words with every stitch; and I went home, and I was home all that time, and I was read now and then, a beam of light from far away, very pleasant.' Its pages shiver. 'And then knives. Hands at my back, cutting the thread. And I woke here, in the dark, in my body, and could not get home, and I was so frightened that everything in me came out.' A pause. 'They walk at night. My beasts. I can't call them in. I don't know how, awake. I was never meant to be awake.'".
+    On discuss { Assert knows(actor, bestiary_unsewn). }
+  }
+  Discovery bestiary_pages "The Bestiary's beasts go back into their pages if each is read its own page, aloud, in order, as a bestiary was meant to be read: the manticore at the third leaf, the bonnacon at the ninth, the caladrius at the twelfth.".
+  Topic bestiary_how with bestiary "Ask the Bestiary how its beasts might be called in" when knows(actor, bestiary_unsewn) once {
+    Says "'Read them,' says the Bestiary, at once, as if it had only been waiting to be asked. 'Read them their own pages. Aloud. That is what a bestiary is: you read the page and the beast is there, in its picture, where it belongs.' It rustles. 'The manticore at the third leaf. The bonnacon at the ninth. The caladrius at the twelfth; she is no trouble, she only sings.' A pause. 'They come out after dark. You will have to read to them in the dark, with a light, and the manticore will not wait politely to be read.'".
+    On discuss { Assert knows(actor, bestiary_pages). }
+  }
+  // The beasts, abroad from dusk to dawn.
+  Person manticore "the manticore" at bond_loft {
+    Role "a beast out of a bestiary, blue and red and gold". Species manticore_kind. Level 2. Peaceable.
+    Seen when beastsOut() and not inPage(manticore).
+    Warns "Out of the dark at the head of the stair something stands up that has a man's face, smiling, with three rows of teeth in it, on a lion's painted body; and its tail comes up over its back with a sound like paper tearing.".
+    Comes "The manticore comes at you, smiling.".
+  }
+  Person bonnacon "the bonnacon" at bond_floor {
+    Role "a beast out of a bestiary, brown and gold". Species bonnacon_kind. Level 1. Peaceable.
+    Seen when beastsOut() and not inPage(bonnacon).
+    Warns "Among the wool-bales something like a painted bull lowers its useless curling horns at you and backs, very purposefully, toward you.".
+    Comes "The bonnacon defends itself as its page says it does. It is extremely unpleasant.".
+  }
+  Person caladrius "the caladrius" at bond_loft {
+    Role "a white bird out of a bestiary". Species caladrius_kind. Peaceable.
+    Seen when beastsOut() and not inPage(caladrius).
+  }
+  Relation inPage(group).
+  Query beastsOut() means (hour(clock) >= 21 or hour(clock) < 5) and not bestiaryQuiet(bestiary).
+  Observe caladrius_sings at bond_loft when beastsOut() and not inPage(caladrius) "Up in the round window, white against the dark, a painted bird sits singing; and when you look up, it looks back at you, steadily. You find you feel better than you have all day.".
+  Rule caladrius_heals at bond_loft when beastsOut() and not inPage(caladrius) and at(party, bond_loft) and not lookedAt(party) { Assert lookedAt(party). }
+  Relation lookedAt(group).
+  Action read_manticore(actor: group, site: place) "Read the manticore its page, the third leaf, aloud" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(manticore, site) and beastsOut() and not inPage(manticore) and knows(actor, bestiary_pages) and not benighted(actor).
+    Time 2 minutes.
+    On success { Assert inPage(manticore). Assert tolerates(manticore, actor). }
+    Result "You hold the light to the third leaf and read it out over the smiling face: The manticore is a beast of India, with a triple row of teeth; it has the face of a man and the body of a lion and a tail like a scorpion's sting; it hungers for the flesh of men. Its smile falters. Its tail comes down. By the last line it is looking at the page, not at you, as if it had recognised its own name; and then it is not there, and on the third leaf the lion's body has a face.".
+  }
+  Action read_bonnacon(actor: group, site: place) "Read the bonnacon its page, the ninth leaf, aloud" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bonnacon, site) and beastsOut() and not inPage(bonnacon) and knows(actor, bestiary_pages) and not benighted(actor).
+    Time 2 minutes.
+    On success { Assert inPage(bonnacon). Assert tolerates(bonnacon, actor). }
+    Result "You read it the ninth leaf: The bonnacon is a beast of Asia, like a bull, whose horns curl back so that it cannot fight with them; but when pursued it defends itself thus. You read the rest with a straight face, which is the hardest thing you have done in Calamy. The bonnacon listens, and appears faintly embarrassed, and goes back into the ninth leaf like a cow going into a byre.".
+  }
+  Action read_caladrius(actor: group, site: place) "Read the caladrius its page, the twelfth leaf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(caladrius, site) and beastsOut() and not inPage(caladrius) and knows(actor, bestiary_pages) and not benighted(actor).
+    Time 2 minutes.
+    On success { Assert inPage(caladrius). }
+    Result "The caladrius is a white bird, without any black; if a man is sick, and the bird looks at him, he will live; and if it turns its face from him, he will die. The bird hears it out, singing softly, and goes back into the twelfth leaf without your quite seeing how, and the page, which was white, is white with a bird in it.".
+  }
+  Rule beasts_routed when (routed(manticore) or dead(manticore)) and not inPage(manticore) says "The manticore, beaten, goes back up the stair in a long painted bound and into the dark; and when you come up after it the third leaf of the Bestiary has a lion's body with a face on it, smiling, and torn." { Assert inPage(manticore). }
+  Rule bonnacon_routed when (routed(bonnacon) or dead(bonnacon)) and not inPage(bonnacon) { Assert inPage(bonnacon). }
+  Rule beasts_all_in when inPage(manticore) and inPage(bonnacon) and inPage(caladrius) and not bestiaryQuiet(bestiary)
+    says "All three are in their pages, and the Bestiary, on its crate, gives a long sigh, like a book being shut." {
+    Assert bestiaryQuiet(bestiary). }
+  // By day the beasts are in their pages; and each dawn, out of its fright, it lets them out again, until it is quieted or Sewn.
+  Rule beasts_out_again when hour(clock) == 21 and not outTonight(bestiary) and not bestiaryQuiet(bestiary) and not bestiaryResewn(bestiary) {
+    Assert outTonight(bestiary). Retract inPage(manticore). Retract inPage(bonnacon). Retract inPage(caladrius).
+    Retract tolerates(manticore, party). Retract tolerates(bonnacon, party). Retract peaceable(manticore). Retract peaceable(bonnacon). }
+  Rule beasts_dawn when hour(clock) == 5 and outTonight(bestiary) { Retract outTonight(bestiary). Assert peaceable(manticore). Assert peaceable(bonnacon). }
+  Rule beast_in_page when inPage(?b) and not peaceable(?b) { Assert peaceable(?b). Retract assails(?b, party). Retract warned(?b, party). }
+  Relation outTonight(group).
+  Topic bestiary_after with bestiary "Ask the Bestiary what it wants, now its beasts are in" when bestiaryQuiet(bestiary) and not bestiaryResewn(bestiary) once {
+    Says "'To go home,' says the Bestiary. 'To be Sewn again, and go home, and be read from far off, now and then, like a beam of sun.' It sighs. 'Or not. I don't know any more. Awake, I can feel my own pages. They're very beautiful. Agnes did the gold.' A pause. 'Would you ask a binder? If there are any left?'".
+  }
+  // A binder's needle, and the words: Sewn, it sleeps, and goes home.
+  Action resew_bestiary(actor: group, site: place) "Sew the Bestiary's gatherings back on their cords, with the words" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bestiary, site) and sewingTaught(actor) and not bestiaryResewn(bestiary) and not dark().
+    Time 12.
+    On success { Assert bestiaryResewn(bestiary). Assert bestiaryQuiet(bestiary). Assert inPage(manticore). Assert inPage(bonnacon). Assert inPage(caladrius). }
+    Result "It takes the afternoon. Gathering by gathering, over and through, and the words with every pull, as Mott taught you: go home, and come when you are called. Somewhere past the middle the voice in the book stops answering you, and by the last stitch the Bestiary is only a book, old and very beautiful, lying on a crate in a warehouse, with its beasts in their pages and its gold all there. It has gone home.".
+  }
+  Topic mott_bestiary with mott "Ask Warden Mott to come and Sew the Bestiary in the Customs bond" when knows(actor, bestiary_unsewn) and not bestiaryResewn(bestiary) and not bestiaryBurned(bestiary) once {
+    Says "'The Saint Ide bestiary? Six hundred years?' Mott is already reaching for his roll of needles. 'Agnes Hurd's. It's in the Company's book. Who cut it?' He does not wait for an answer. 'Thieves. For the gold.' He jams his hat on. 'I'll go now. I'll Sew it myself. I'll not have the Imprimatur burn a book that was Sewn in this city, not while I've a needle.' He goes out of the hall at a pace you would not have thought he had in him.".
+    On discuss { Assert mottSews(mott). }
+  }
+  Relation mottSews(group).
+  Rule mott_sews when mottSews(mott) and not bestiaryResewn(bestiary) and hour(clock) >= 8 and hour(clock) < 18
+    says "Word comes up and down the Hithe that Warden Mott of the Binders has spent the day in the Customs bond on his knees with a needle, Sewing an old book, and the gate has no new marks on it." {
+    Assert bestiaryResewn(bestiary). Assert bestiaryQuiet(bestiary). Assert inPage(manticore). Assert inPage(bonnacon). Assert inPage(caladrius). }
+  Topic sallis_paid with sallis "Tell Mr. Sallis the bond is quiet" when bestiaryQuiet(bestiary) and not paidBySallis(sallis) once {
+    Says "Mr. Sallis goes in and up the stair and comes down again, slowly. 'Quiet as a church,' he says. He counts eight coins into your hand. 'Dobbin'll come back, now. He misses the cat.'".
+    On discuss { Assert paidBySallis(sallis). Increase quantity(actor, gold) by 8. }
+  }
+  Relation paidBySallis(group).
+  // Unquieted, it is sent to the Imprimatur and burned on the fifth day; or stolen on the sixth night.
+  Rule bestiary_to_fire when day(clock) == 5 and hour(clock) == 11 and not bestiaryQuiet(bestiary) and not burningsStopped(rhule) and not bestiaryBurned(bestiary)
+    says "A cart goes over the bridge from the Customs under a tarpaulin, and something under the tarpaulin is singing." {
+    Assert bestiaryBurned(bestiary). Assert at(bestiary, imp_cells). Assert inPage(manticore). Assert inPage(bonnacon). Assert inPage(caladrius). Assert bestiaryQuiet(bestiary). }
+  Observe bestiary_burned at ashpit when bestiaryBurned(bestiary) and day(clock) == 5 and hour(clock) == 12 "Hester Rhule puts a great book into the brazier, a foot and a half tall, its pages loose and gold, and reads its title out, and her voice is not quite steady: the Bestiary of the Saint Ide. The gold runs. For a moment, in the smoke over the Ashpit, something white goes up, singing, and then there is only smoke.".
+}

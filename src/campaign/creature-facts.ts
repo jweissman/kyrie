@@ -31,7 +31,7 @@ export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'relieves', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable',
-    'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft'];
+    'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft', 'levelOf'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
     'water', 'stage', 'trade', 'court', 'margins'];
   // Every relation or measure a projection writes or reads besides the creatures (see Projection).
@@ -162,6 +162,9 @@ export class CreatureFacts {
     const ready = c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id));
     changes.push({ kind: 'assert', call: ModuleWriter.call('memberOf', reference, actor) });
     changes.push({ kind: ready ? 'assert' : 'retract', call: ModuleWriter.call('awake', reference) });
+    if (scope.measures.has('levelOf')) {
+      changes.push({ kind: 'set', call: ModuleWriter.call('levelOf', reference), value: ModuleWriter.number(c.base.level) });
+    }
     changes.push({ kind: c.state.hp < c.base.maxHp || c.state.conditions.length ? 'assert' : 'retract',
       call: ModuleWriter.call('needsCare', reference) });
     if (has.has('fallen')) { changes.push({ kind: c.state.hp === 0 ? 'assert' : 'retract', call: ModuleWriter.call('fallen', reference) }); }

@@ -1,0 +1,139 @@
+Module calamy "A Parliament of Books" {
+  Description "The Commonplace: the country where Calamy's Sewn books go home. Its ground is the marginalia of every reader; its light is attention; its blight is the foxing of the unread; its roads are sentences.".
+
+  Place commonplace "the Commonplace" is region elsewhere.
+  Place near_stacks "the Near Stacks" is wilderness within commonplace at 1, 0 elsewhere.
+  Place margin_country "the Fore-edge" is wilderness within commonplace at 1, 1 elsewhere.
+  Place housebook_site "the Annery Housebook" is site within commonplace at 0, 1.
+  Place orme_site "Mother Orme's garden" is site within commonplace at 2, 1.
+  Place foxing "the Foxing" is wilderness within commonplace at 1, 2 elsewhere.
+  Place wellhead_site "the Wellhead" is site within commonplace at 1, 3.
+  Place vask_site "the Tower of Oddny Vask" is site within commonplace at 2, 2.
+  Place roll_site "the Roll" is site within commonplace at 0, 0.
+
+  Place reading_room "the Reading Room of the Catalogue" is room within near_stacks at 0, 0.
+  Place remainder_market "the Remainder Market" is room within near_stacks at 2, 0.
+  Place draft_fields "the Draft-Fields" is room within near_stacks at 3, 0.
+  Place margin "the white country of the Fore-edge" is room within margin_country at 0, 0.
+  Place gloss_wood "the wood of glosses" is room within margin_country at 1, 0.
+  Place margin_edge "the outer edge of the Fore-edge" is room within margin_country at 2, 0.
+  Place hb_below "below the footnote" is level within housebook_site.
+  Place hb_porch "the porch of the Annery Housebook" is room within hb_below at 0, 0.
+  Place hb_kitchen "the Housebook's kitchen" is room within hb_below at 0, 1.
+  Place hb_nursery "the Housebook's nursery" is room within hb_below at 1, 1.
+  Place hb_cellar "the Housebook's cellar" is room within hb_below at 0, 2.
+  Place orme_garden "Mother Orme's garden" is room within orme_site at 0, 0.
+  Place foxing_edge "the edge of the Foxing" is room within foxing at 0, 0.
+  Place foxing_deep "the deep Foxing" is room within foxing at 0, 1.
+  Place wellhead "the Wellhead" is room within wellhead_site at 0, 0.
+  Place vask_foot "the foot of the Tower of Oddny Vask" is room within vask_site at 0, 1.
+  Place vask_upper "the head of the tower" is level within vask_site.
+  Place vask_top "the top of the Tower of Oddny Vask" is room within vask_upper at 0, 0.
+  Place chamber "the Chamber of the Parliament" is room within roll_site at 0, 0.
+
+  Initially Assert planeRoom(reading_room). Initially Assert planeRoom(remainder_market). Initially Assert planeRoom(draft_fields).
+  Initially Assert planeRoom(margin). Initially Assert planeRoom(gloss_wood). Initially Assert planeRoom(margin_edge).
+  Initially Assert planeRoom(hb_porch). Initially Assert planeRoom(hb_kitchen). Initially Assert planeRoom(hb_nursery). Initially Assert planeRoom(hb_cellar).
+  Initially Assert planeRoom(orme_garden). Initially Assert planeRoom(foxing_edge). Initially Assert planeRoom(foxing_deep).
+  Initially Assert planeRoom(wellhead). Initially Assert planeRoom(vask_foot). Initially Assert planeRoom(vask_top). Initially Assert planeRoom(chamber).
+
+  // Its roads are made of what books are made of.
+  Passage long_sentence "a long sentence" is causeway between reading_room and remainder_market taking 30 minutes.
+  Passage market_back "the back of the market" is path between remainder_market and draft_fields taking 10 minutes.
+  Passage clerks_stair "the Order of Business" is path between reading_room and chamber taking 5 minutes.
+  Passage the_gutter "the gutter" is path between remainder_market and margin taking 20 minutes.
+  Passage gangway "the gangway from the floor of the chamber" is path between chamber and margin taking 15 minutes.
+  Passage marginal_path "a path of marginal notes" is path between margin and gloss_wood taking 15 minutes.
+  Passage gloss_through "the far side of the glosses" is path between gloss_wood and margin_edge taking 15 minutes.
+  Passage footnote "a footnote" is ladder between margin and hb_porch taking 5 minutes.
+  Passage hb_door "the Housebook's front door" is door between hb_porch and hb_kitchen.
+  Passage hb_nursery_door "the stair to the nursery" is doorway between hb_kitchen and hb_nursery.
+  Passage hb_cellar_door "the cellar door" is door between hb_kitchen and hb_cellar.
+  Passage manicule "a pointing hand" is path between margin and orme_garden taking 15 minutes.
+  Passage ellipsis "an ellipsis" is causeway between margin and foxing_edge taking 20 minutes.
+  Passage foxing_in "the brown country" is path between foxing_edge and foxing_deep taking 20 minutes.
+  Passage parenthesis "a parenthesis" is tunnel between foxing_deep and wellhead taking 15 minutes.
+  Passage black_letter "a road of black letter" is road between margin_edge and vask_foot taking 20 minutes.
+  Passage vask_stair "the tower stair" is stair between vask_foot and vask_top taking 5 minutes.
+
+  // Light is attention: wherever someone in Calamy is reading a Calamy book, a beam comes down here.
+  Observe light_here at reading_room when not familiar(reading_room) "You are standing on a floor of paper, in light. Not lamplight and not daylight: a pale clear light that comes down in beams from very high up, the way sun comes through cloud, and every beam is a little different in colour. A few of them are very bright. Most are thin. Here and there one goes out as you watch, and another comes on somewhere else. It takes you a long time to understand what you are seeing: every beam is someone in Calamy, now, reading.".
+  Observe reading_room_scene at reading_room when true "A reading room without walls, under the beams: a floor of paper going away on every side, and in the middle of it a cliff of little drawers, thousands upon thousands of them, rising up out of sight, each with a brass handle and a card. Index cards flutter about the cliff like moths, settling, rising, filing. A voice comes from the drawers, from all of them, dry and patient and not unkind: the Catalogue.".
+  Observe quarles_beam at reading_room when true "One beam, thin and old and steady, comes down from the direction you think of as the hill. It does not fall on any book. It falls on the light itself, as if someone were reading by ear, with their eyes shut.".
+  Observe market_scene at remainder_market when true "A market under the beams, stalls and awnings and trestles going away in crooked rows, and on every trestle books: remaindered, unsold, forgotten, out of print, half-burned, water-damaged, and a great many that you are sure were never written at all. Stall-keepers call their wares. Some of the stall-keepers are books. Some are people drawn in pencil, lightly, their outlines breaking off in the air at the waist or the shoulder or the knee. A painted board: THE REMAINDER MARKET. ALL PRICES IN READINGS.".
+  Observe drafts_scene at draft_fields when true "Beyond the market a wide pale field under a wind you cannot feel, and drifting across it, like thistledown, sheets of paper with a few lines on them, or a title and nothing else, or a single crossed-out word: drafts. Things begun. Here and there among them, sitting or walking or lying in the grass, figures drawn in pencil, unfinished, talking in low voices: the Unwritten.".
+  Observe margin_scene at margin when true "White country. A great plain of blank paper running away under the beams, ruled at the edge by one faint red line, and across it, in long trickling columns like ants, move the marginalia: little notes and marks and hands and stars, scraps of readers' handwriting going about their business, arguing in tiny voices. NB, says one, passing. SIC, says another. NO, says a third, very firmly, and is gone.".
+  Observe glosses_scene at gloss_wood when true "The marginalia are thicker here, piled up into a sort of wood: notes upon notes upon notes, glosses on glosses, a thicket of tiny dense handwriting so close it is nearly black. Things move in it.".
+  Observe margin_edge_scene at margin_edge when true "The outer edge of the Fore-edge, where the white runs out and the paper is torn, and beyond the tear there is nothing at all. Someone has sat down here, against the last of the glosses, and is sulking.".
+  Observe porch_scene at hb_porch when true "At the foot of the footnote, a narrow house of old brown brick, three storeys and a cellar, with a door painted green and a brass knocker shaped like a hand holding a pen. Over the door, cut in the lintel, in a hand you have seen on a garret wall in Pudding Lane: ANNERY. The windows are lit. Somebody inside is cooking herring.".
+  Observe orme_scene at orme_garden when not ormeRestored(physick) "A walled garden of square beds, and in every bed the plants are writing: stems of script, leaves of letters, roots of long sentences going down into the paper. Feverfew, written. Woundwort, written. And in a row along the south wall, four beds that are black: burned, the earth gone to ash, with the stubs of words sticking up out of it like the stumps of a hedge.".
+  Observe orme_restored at orme_garden when ormeRestored(physick) "A walled garden of square beds whose plants are writing; and along the south wall four beds that were ash, three of them green again with new script, calamus and horehound and the honey of the bog-myrtle, and the fourth bed raked and bare, as a gardener keeps a bed ready.".
+  Relation ormeRestored(group).
+  Observe foxing_edge_scene at foxing_edge when true "Beyond the ellipsis the paper changes colour. It goes from white to cream to the yellow of an old newspaper, and then there are spots on it, small and brown, like the spots on the back of an old hand, and then the spots run together. Everything here is quieter. The beams are very few.".
+  Observe foxing_deep_scene at foxing_deep when true "The deep Foxing is brown, all of it, ground and air, and soft underfoot, like walking on an old map. There are books here, if you look: lying about like stones in a field, half sunk in the brown, their titles worn off. Some of them are still trying to say something. You catch a few words: and the moorings of the Fourth Lock; and in the year of the great; and a list of names of somebody's children that peters out at the third. These are the books Calamy stopped reading.".
+  Discovery foxing_seen "In the Commonplace, the books that Calamy has stopped reading are fading: foxing, going brown, losing their words one sentence at a time. The Reading Due was what kept them.".
+  Observe foxing_learned at foxing_deep when true "A half-sunk book at your feet says, quite clearly, 'and the children of Agnes Hurd were Thomas, Bel, and,' and then cannot remember the third." teaches foxing_seen.
+  Observe wellhead_scene at wellhead when true "At the end of the parenthesis a spring rises out of the paper: not water but ink, black and bright, welling up in a round stone basin and spilling over the lip and running away in every direction in little black streams that are, when you look closely, lines of writing, going off to become something. This is where things are first written. The air smells of oak-gall and of rain. In the basin, under the surface, old letters turn over slowly, as stones turn in a stream, and come up, and go down again.".
+  Discovery wellhead_read "At the Wellhead, the first words ever written in Calamy still turn over in the ink: WE ASK TO SLEEP. LET US GO HOME AND COME WHEN WE ARE CALLED. AND LET NONE BURN US BUT AS WE CONSENT. THE BOOKS OF CALAMY, TO AMBERY THE BINDER. The Colophon was the books' petition before it was the city's bargain.".
+  Thing first_words "the first words" at wellhead {
+    State turning "The first words wait in the basin to be read, if anyone will lean over and look.".
+  }
+  Observe first_read at wellhead of first_words as reading when tried(first_words, looking) "You lean over the basin and wait, and the old letters come up, one line after another, and go down again, and come up: WE ASK TO SLEEP. LET US GO HOME AND COME WHEN WE ARE CALLED. AND LET NONE BURN US BUT AS WE CONSENT. THE BOOKS OF CALAMY, TO AMBERY THE BINDER. And then a long line of small marks, each different, under it, that you understand after a while are signatures, hundreds of them, the marks of every book that was written in Calamy in its first year, every one of which signed." teaches wellhead_read.
+  Observe vask_foot_scene at vask_foot when true "At the end of the black-letter road a tower stands up out of the paper, black, narrow, windowless, its stones cut with letters so heavy and ornate they are hard to read and harder to look at. Three great chains come out of its top and go away across the sky in three directions, taut, humming.".
+  Observe vask_top_scene at vask_top when not lexiconFreed(lexicon) "The top of the tower is a single round room with no roof, and in the middle of it, held off the floor by three chains that run from its spine to the three corners of the sky, hangs the Lexicon: a book as big as a door, bound in something dark, open, its pages turning by themselves slowly, as if it were looking for something.".
+  Observe vask_top_freed at vask_top when lexiconFreed(lexicon) "The top of the tower is empty. Three cut chains hang slack from the corners of the sky.".
+  Observe chamber_scene at chamber when true "A chamber with no walls and no roof, open to the beams, and its floor is the Great Roll of Pleas: unrolled, enormous, a road of old yellow skin a hundred paces wide covered in crabbed writing and red capitals, going away in both directions further than you can see. Down its middle runs a line of seats, each different: a high-backed chair, a little stool, a slab of black stone with three ring-bolts in it, a bed of herbs, a doorstep, a heap of loose pages. In front of the seats, set into the floor of the Roll itself, a long brass plate engraved THE ORDER PAPER.".
+
+  // Who comes, and how they are received: entered by the Catalogue, or brought through a door that is not on the books.
+  Relation entered(group). Relation sponsored(group). Relation correctedEntry(group).
+  Query standing(a: group) means (entered(a) or sponsored(a)) and not misnamed(a).
+  Relation misnamed(group).
+  Person catalogue "the Catalogue of the Founders" at reading_room {
+    Role "a cliff of little drawers, and a voice". Peaceable. Pronouns it. Manner stoic.
+    Greets "'Reader,' says the voice from the drawers, all of them at once. A card flutters down from very high up, considers you, and flies up again. 'State your business. Do not pull out any drawers. They are in order.'".
+  }
+  Rule entered_by_reading when arrivedByReading(party) and at(party, reading_room) and not entered(party)
+    says "A great many index cards come down out of the light round you like snow and settle on your shoulders and hands and hair, and are written on, and fly up again. 'Entered,' says a dry voice from everywhere. 'A reader, of Calamy, by the Founders' door. On the books.'" {
+    Assert entered(party). }
+  Item shelfmark "your shelfmark" is shelfmark_kind at reading_room hidden until shelfmark_given.
+  Discovery shelfmark_given "The Catalogue has given you a shelfmark: you are on its books, a reader of Calamy, with standing before the Parliament of the Bound.".
+  Rule shelfmark_issued when entered(party) and at(party, reading_room) and not knows(party, shelfmark_given) says "A card comes down and stays down: your shelfmark." teaches shelfmark_given { }
+  // The Errata: corrections, given form, who find what is not on the books and set it right.
+  Person errata "the Errata" at reading_room {
+    Role "corrections, in red ink, three of them". Species erratum_kind. Level 1. Numbers 3. Peaceable.
+    Warns "Three small red figures come out from among the stalls, sharp as pen-nibs, and stand in your way. 'Unentered,' says the first. 'Not on the books,' says the second. 'Correct,' says the third, and they all three raise their nibs.".
+    Comes "The Errata come at you to correct you.".
+    Pleads "The Errata blot, and run, and are gone into the stalls, leaving red smears on the paper.".
+  }
+  Relation erratiBeaten(group). Relation errataSent(group).
+  Rule errata_find when at(party, remainder_market) and not standing(party) and not errataSent(errata) and not crakeWith(party) {
+    Assert at(errata, remainder_market). Retract peaceable(errata). Assert errataSent(errata). }
+  Query crakeWith(a: group) means travelsWith(crake, a).
+  Action be_corrected(actor: group, site: place) "Let the Errata take you to be entered" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(errata, site) and not standing(actor) and not peaceable(errata).
+    Time 3.
+    On success { Assert entered(actor). Assert correctedEntry(actor). Assert at(actor, reading_room). Assert peaceable(errata). Assert at(errata, reading_room). }
+    Result "The three small red figures take you by the sleeves, not roughly, and walk you back along the long sentence, clause after clause, to the reading room, and stand you in front of the drawers. 'Brought,' says the first. 'By the back,' says the second. 'Entered,' says the Catalogue at last, dryly, 'by the back. Noted.' A card comes down with your name on it, and in the corner, small, in red: CORR.".
+  }
+  Rule errata_beaten when routed(errata) and not erratiBeaten(party) says "The Errata blot and run. Somewhere among the stalls a stall-keeper laughs." { Assert erratiBeaten(party). Assert peaceable(errata). Assert at(errata, reading_room). }
+
+  // The Remainder Market, where the price of anything is a reading.
+  Person remainderman "the Remainderman" at remainder_market {
+    Role "a broker of unsold books, himself a book of trade tables". Peaceable. Pronouns he. Manner jovial.
+    Greets "A stout ledger in a waistcoat, with a pencil behind where his ear would be, spreads his covers. 'A reader! Alive! Welcome, welcome to the Remainder Market. Everything you see is for sale, and everything is priced in readings: a page aloud, an hour aloud, the whole thing aloud to the end. Some of my stock hasn't been read since the Fallow campus went under the sea.'".
+  }
+  Topic remainderman_trade with remainderman "Ask the Remainderman what is bought and sold here" when true once {
+    Says "'Attention,' says the Remainderman. 'What else? Out here a book lives by being read, and a living reader is the richest thing that walks. One of you, reading aloud for an hour, is worth more to a remaindered quarto than a year in a good library.' He taps a stall. 'The Unwritten pay in what they have, which is promises. The Bound pay in news of home. And Crake,' he adds, 'pays in bodies, which is why everybody here loves him and nobody trusts him.'".
+  }
+  Topic remainderman_crake with remainderman "Ask the Remainderman about Absalom Crake" when true once {
+    Says "'Crake keeps the door,' says the Remainderman. 'The only door from your city to ours that isn't the Founders'. Books that were never written come to him with a promise, and he has them copied out fair by a man of his who can write in any hand, and then they have a body, and they walk out of his shop into your city, and get bought.' He shrugs, which in a ledger is a ripple of pages. 'And sometimes your books walk in at his door the other way. A whole library, not long ago. Eleven hundred, asking the way. They went on to the Draft-Fields; the Canto took them in.'".
+    On discuss { Assert knows(actor, collection_emigrated). }
+  }
+  Relation readAloudHere(group).
+  Action read_for_stall(actor: group, site: place) "Read aloud for an hour to a remaindered book that has not been read in a century" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, remainder_market) and not readAloudHere(actor).
+    Time 6.
+    On success { Assert readAloudHere(actor). Assert readToSomeone(actor). }
+    Result "The Remainderman finds you a book called A History of the Fallow Campus, Volume the Seventh, which nobody has read since the Fallow campus went into the sea, and you sit on an upturned crate and read it aloud for an hour: the lecture halls, the salt in the library, the night the sea came in, the Provost who refused to leave. Stall-keepers stop to listen. When you finish, the book says, in a voice like wet sand drying, 'Thank you. I had forgotten how the eighth chapter went.' A beam of light comes down on it from nowhere, faint, and stays.".
+  }
+}

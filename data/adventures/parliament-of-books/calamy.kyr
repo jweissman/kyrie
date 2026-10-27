@@ -1,0 +1,224 @@
+Module calamy "A Parliament of Books" {
+  Description "Calamy, a tidal city of paper at the mouth of the Calam: its wards and streets, its houses and trades, its tide and its days.".
+
+  // The Calam mouth: the walled city on the north bank (Stitchgate, the Close, Gannet Hill), the new town of the
+  // presses outside the wall, the Gardens, the Penny Bridge, the Hithe on the south bank, and the reed-beds downriver.
+  Place calam "the Calam mouth" is region.
+  Initially Assert terrain(calam, marsh).
+  Place gannet "Gannet Hill" is settlement within calam at 0, 0.
+  Place gardens "the Gardens" is settlement within calam at 2, 0.
+  Place stitchgate "Stitchgate" is settlement within calam at 0, 1.
+  Place close "the Close" is settlement within calam at 1, 1.
+  Place presses "Newmarket" is settlement within calam at 2, 1.
+  Place pennybridge "the Penny Bridge" is settlement within calam at 1, 2.
+  Place hithe "the Hithe" is settlement within calam at 1, 3.
+  Place calamies "the Calamies" is wilderness within calam at 3, 3.
+  Initially Assert landform(calamies, land_lake).
+  Initially Assert townSize(hithe, size_town). Initially Assert townSize(stitchgate, size_town). Initially Assert townSize(close, size_town).
+
+  // ── The Hithe: the south bank, the river port. ──
+  Place causey "the causeway over the saltings" is room within hithe at 0, 0 outdoors.
+  Place quay "the Hithe quay" is room within hithe at 1, 0 outdoors.
+  Place rag_market "the rag market" is room within hithe at 2, 0 outdoors.
+  Place millrace "the millrace walk" is room within hithe at 3, 0 outdoors.
+  Place customs_yard "the Customs yard" is room within hithe at 1, 1 outdoors.
+  Place ferry_stairs "the ferry stairs" is room within hithe at 0, 1 outdoors.
+  Place pudding_lane "Pudding Lane" is room within hithe at 2, 1 outdoors.
+  Place mudbank "the mudbank under the mills" is room within hithe at 3, 1 outdoors.
+  Place lamb "the Lamb and Lantern" is building within hithe seen as "a tavern under a painted lantern" until lamb_known.
+  Discovery lamb_known "The tavern under the painted lantern on the Hithe quay is the Lamb and Lantern, Moll Garrow's.".
+  Place taproom "the Lamb's taproom" is room within lamb at 1, 2.
+  Place lamb_upper "the Lamb's upper floor" is level within lamb.
+  Place lamb_loft "the Lamb's loft" is room within lamb_upper at 1, 3.
+  Observe taproom_named at taproom when true "Over the bar a board says THE LAMB AND LANTERN, M. GARROW, and under it in smaller letters NO BOOKS READ ALOUD AFTER TEN." teaches lamb_known.
+  Place old_mill "the old mill" is building within hithe.
+  Place brannock_floor "Brannock's mill floor" is room within old_mill at 3, 2.
+  Place new_mill "the new mill" is building within hithe.
+  Place teague_floor "the Widow Teague's mill floor" is room within new_mill at 4, 0.
+  Place bond "the bonded warehouse" is building within hithe.
+  Place bond_floor "the bond floor" is room within bond at 0, 2.
+  Place bond_upper "the bond's upper floor" is level within bond.
+  Place bond_loft "the upper bond" is room within bond_upper at 0, 3.
+  Place garrets "the garret house" is building within hithe.
+  Place garret_top "the top of the garret house" is level within garrets.
+  Place jonquil_garret "a garret under the leads" is room within garret_top at 2, 2.
+  Place nance_house "the midwife's house" is building within hithe seen as "a house with a green door and a horseshoe" until nance_named.
+  Discovery nance_named "The house with the green door in Pudding Lane is Goody Nance's, the midwife of the Hithe.".
+  Place nance_room "Goody Nance's front room" is room within nance_house at 2, 3.
+  Place coddy_hut "Coddy Fitch's hut" is room within hithe at 4, 1 outdoors.
+
+  Passage causey_quay "the causeway into the Hithe" is road between causey and quay taking 5 minutes.
+  Passage quay_rags "the way along the quay" is road between quay and rag_market taking 3 minutes.
+  Passage rags_race "the walk up to the mills" is path between rag_market and millrace taking 3 minutes.
+  Passage quay_customs "the lane to the Customs" is road between quay and customs_yard taking 2 minutes.
+  Passage quay_ferry "the steps down to the ferry" is steps between quay and ferry_stairs.
+  Passage rags_pudding "the alley into Pudding Lane" is path between rag_market and pudding_lane taking 2 minutes.
+  Passage race_mud "the slipway down to the mud" is path between millrace and mudbank taking 2 minutes.
+  Passage mud_hut "the plank walk to the hut" is path between mudbank and coddy_hut taking 3 minutes.
+  Passage lamb_door "the door under the lantern" is door between quay and taproom.
+  Passage lamb_stair "the Lamb's back stair" is stair between taproom and lamb_loft.
+  Passage brannock_door "the old mill's door" is door between millrace and brannock_floor.
+  Passage teague_door "the new mill's door" is door between millrace and teague_floor.
+  Passage bond_gate "the bond gate" is gate between customs_yard and bond_floor.
+  Passage bond_stair "the bond stair" is stair between bond_floor and bond_loft.
+  Passage garret_stair "the garret stair" is stair between pudding_lane and jonquil_garret taking 3 minutes.
+  Passage nance_door "the green door" is door between pudding_lane and nance_room.
+
+  // ── The Penny Bridge: nineteen arches, and on every pier a stall. ──
+  Place bridge_south "the south end of the Penny Bridge" is room within pennybridge at 0, 2 outdoors.
+  Place bridge_middle "the chapel pier" is room within pennybridge at 0, 1 outdoors.
+  Place bridge_north "the north end of the Penny Bridge" is room within pennybridge at 0, 0 outdoors.
+  Passage hithe_bridge "the bridge foot" is road between quay and bridge_south taking 3 minutes.
+  Passage bridge_span_south "the southern arches" is bridge between bridge_south and bridge_middle taking 4 minutes.
+  Passage bridge_span_north "the northern arches" is bridge between bridge_middle and bridge_north taking 4 minutes.
+
+  // ── Stitchgate: the old craft quarter inside the wall. ──
+  Place old_gate "the Stitch Gate" is room within stitchgate at 1, 3 outdoors.
+  Place needle_street "Needle Street" is room within stitchgate at 1, 2 outdoors.
+  Place ink_lane "Inkhorn Lane" is room within stitchgate at 0, 2 outdoors.
+  Place scriveners "Copyists' Row" is room within stitchgate at 1, 1 outdoors.
+  Place gutter_lane "Gutter Lane" is room within stitchgate at 2, 3 outdoors.
+  Place lantern_yard "Lantern Yard" is room within stitchgate at 3, 3 outdoors.
+  Place binders_hall "the Binders' Hall" is building within stitchgate seen as "a hall with an iron needle over the door" until binders_named.
+  Discovery binders_named "The hall with the great iron needle over its door is the Binders' Hall, of the Worshipful Company of Binders.".
+  Place hall_floor "the Binders' great room" is room within binders_hall at 2, 2.
+  Place sewing_room "the sewing room" is room within binders_hall at 2, 1.
+  Place gallon_house "the ink shop" is building within stitchgate.
+  Place gallon_shop "Gallon's ink shop" is room within gallon_house at 0, 1.
+  Place gallon_upper "the ink shop's attic floor" is level within gallon_house.
+  Place gallon_attic "the attic over the ink shop" is room within gallon_upper at 0, 0.
+  Place dame_house "the house with the shut school" is building within stitchgate.
+  Place dame_school "the empty schoolroom" is room within dame_house at 0, 3.
+  Place crakes "the Two Hands" is building within stitchgate.
+  Place crake_front "the front of Crake's shop" is room within crakes at 3, 2.
+  Place crake_stacks "the back stacks" is room within crakes at 3, 1.
+  Place crake_parlour "Crake's parlour" is room within crakes at 4, 2.
+
+  Passage bridge_gate "the river stair to the Stitch Gate" is steps between bridge_north and old_gate taking 4 minutes.
+  Passage gate_needle "the way under the gate" is road between old_gate and needle_street taking 2 minutes.
+  Passage needle_ink "the turning into Inkhorn Lane" is road between needle_street and ink_lane taking 2 minutes.
+  Passage needle_scriveners "the way up to Copyists' Row" is road between needle_street and scriveners taking 2 minutes.
+  Passage gate_gutter "the gap beside the gate" is path between old_gate and gutter_lane taking 2 minutes.
+  Passage gutter_yard "the crooked end of Gutter Lane" is path between gutter_lane and lantern_yard taking 2 minutes.
+  Passage hall_door "the door under the iron needle" is door between needle_street and hall_floor.
+  Passage sewing_door "the inner door of the Binders' Hall" is door between hall_floor and sewing_room.
+  Passage gallon_door "the ink shop door" is door between ink_lane and gallon_shop.
+  Passage gallon_ladder "the ladder to the attic" is ladder between gallon_shop and gallon_attic.
+  Passage dame_door "the school door" is door between ink_lane and dame_school.
+  Passage crake_door "the door under the sign of the Two Hands" is door between lantern_yard and crake_front.
+  Passage crake_aisle "the long aisle at the back of the shop" is doorway between crake_front and crake_stacks.
+  Passage crake_curtain "the curtain behind the counter" is doorway between crake_front and crake_parlour.
+
+  // ── The Close: the civic island of the old city. ──
+  Place ashpit "the Ashpit" is room within close at 1, 1 outdoors.
+  Place close_green "the Close green" is room within close at 0, 1 outdoors.
+  Place pleas_steps "the Court steps" is room within close at 1, 0 outdoors.
+  Place church "the Church of the Lamp" is building within close seen as "a low old church with a light inside" until church_named.
+  Discovery church_named "The low old church on the Close is the Church of the Lamp, whose lamp has burned since the first Kindling.".
+  Place nave "the nave of the Lamp" is room within church at 0, 0.
+  Place vestry "the vestry" is room within church at 0, 2.
+  Place court "the Court of Pleas" is building within close.
+  Place court_hall "the hall of the Court of Pleas" is room within court at 2, 0.
+  Place guildhall "the Stationers' Hall" is building within close.
+  Place guild_chamber "the aldermen's chamber" is room within guildhall at 2, 1.
+  Place imprimatur "the Imprimatur" is building within close seen as "a grey building with a lamp carved over its door" until imprimatur_named.
+  Discovery imprimatur_named "The grey building with the lamp carved over its door is the Imprimatur, where Calamy's books are licensed, refused, and burned.".
+  Place imp_office "the outer office of the Imprimatur" is room within imprimatur at 1, 2.
+  Place rhule_room "the Deputy Censor's room" is room within imprimatur at 2, 2.
+  Place imp_kitchen "the Imprimatur's kitchen" is room within imprimatur at 1, 3.
+  Place excisions "a locked room off the Censor's" is room within imprimatur at 2, 3 seen as "a locked door" until cupboard_known.
+  Discovery cupboard_known "Behind the locked door in the Deputy Censor's room is the Cupboard of Excisions: every page the Imprimatur has cut from a book in three hundred years.".
+
+  Passage scriveners_close "the Clerks' Gate" is gate between scriveners and close_green taking 4 minutes.
+  Passage green_ashpit "the walk across the Close" is path between close_green and ashpit taking 2 minutes.
+  Passage ashpit_steps "the way to the Court steps" is road between ashpit and pleas_steps taking 2 minutes.
+  Passage church_door "the great door of the Lamp" is door between close_green and nave.
+  Passage vestry_door "the vestry door" is door between nave and vestry.
+  Passage court_door "the Court's doors" is door between pleas_steps and court_hall.
+  Passage guild_door "the Stationers' Hall door" is door between ashpit and guild_chamber.
+  Passage imp_door "the Imprimatur's door" is door between ashpit and imp_office.
+  Passage rhule_door "the door behind the counter" is door between imp_office and rhule_room.
+  Passage kitchen_door "the kitchen passage" is doorway between imp_office and imp_kitchen.
+  Passage excision_door "the locked door in the Censor's room" is door between rhule_room and excisions.
+
+  // ── Gannet Hill: the Lyceum. ──
+  Place gannet_steps "the Gannet Steps" is room within gannet at 1, 2 outdoors.
+  Place quad "the Lyceum quad" is room within gannet at 1, 1 outdoors.
+  Place schools "the Schools" is building within gannet.
+  Place schoolroom "the great schoolroom" is room within schools at 2, 1.
+  Place buttery "the buttery" is room within schools at 2, 2.
+  Place rounds_tower "the Tower of Rounds" is building within gannet seen as "a thin old tower" until tower_named.
+  Discovery tower_named "The thin old tower at the corner of the Lyceum is the Tower of Rounds, where the Archivist lives.".
+  Place tower_foot "the foot of the Tower of Rounds" is room within rounds_tower at 0, 1.
+  Place tower_top "the head of the tower" is level within rounds_tower.
+  Place quarles_room "the top of the Tower of Rounds" is room within tower_top at 0, 0.
+  Place chained_house "the Chained Room" is building within gannet seen as "a squat building with an iron-bound door" until chained_named.
+  Discovery chained_named "The squat building with the iron-bound door is the Lyceum's Chained Room.".
+  Place chained_room "the Chained Room" is room within chained_house at 1, 0.
+  Place provost_lodge "the Provost's Lodging" is building within gannet seen as "a pleasant house with a brass knocker" until lodge_named.
+  Discovery lodge_named "The pleasant house with the brass knocker is the Provost's Lodging.".
+  Place provost_room "the Provost's study" is room within provost_lodge at 2, 0.
+
+  Passage close_gannet "the Gannet Steps up from the Close" is steps between pleas_steps and gannet_steps taking 6 minutes.
+  Passage steps_quad "the Lyceum gate" is gate between gannet_steps and quad.
+  Passage schools_door "the door of the Schools" is door between quad and schoolroom.
+  Passage buttery_hatch "the buttery hatch" is doorway between schoolroom and buttery.
+  Passage tower_door "the tower door" is door between quad and tower_foot.
+  Passage tower_stair "the tower's turning stair" is stair between tower_foot and quarles_room taking 4 minutes.
+  Passage chained_door "the iron-bound door" is door between quad and chained_room.
+  Passage provost_door "the Lodging door" is door between quad and provost_room.
+
+  // ── Newmarket: the presses, outside the wall. ──
+  Place newmarket "Newmarket" is room within presses at 0, 1 outdoors.
+  Place press_yard "Doble's yard" is room within presses at 1, 1 outdoors.
+  Place doble_press "Doble's Press" is building within presses.
+  Place press_room "the press room" is room within doble_press at 1, 0.
+  Place doble_office "Doble's counting-room" is room within doble_press at 2, 0.
+  Place paper_store "the paper store" is room within doble_press at 2, 1.
+
+  Passage bridge_newmarket "the road along the river wall" is road between bridge_north and newmarket taking 6 minutes.
+  Passage ashpit_newmarket "the Close's east gate" is gate between ashpit and newmarket taking 5 minutes.
+  Passage newmarket_yard "the cart arch into Doble's yard" is arch between newmarket and press_yard.
+  Passage press_door "the press-room door" is door between press_yard and press_room.
+  Passage doble_door "the counting-room door" is door between press_room and doble_office.
+  Passage store_door "the paper store door" is door between press_yard and paper_store.
+
+  // ── The Gardens: walled orchards and the houses of the rich. ──
+  Place orchard_walk "Orchard Walk" is room within gardens at 1, 1 outdoors.
+  Place physic_garden "the physic garden" is room within gardens at 2, 1 outdoors.
+  Place corvell_house "Corvell House" is building within gardens seen as "a house with a portico, shuttered on one side" until corvell_named.
+  Discovery corvell_named "The house with the portico on Orchard Walk is Corvell House, Sir Gideon Corvell's.".
+  Place corvell_hall "the hall of Corvell House" is room within corvell_house at 0, 0.
+  Place corvell_library "Sir Gideon's library" is room within corvell_house at 1, 0.
+  Place quennell_lib "Mrs. Quennell's library" is building within gardens seen as "a narrow shop with gilt letters and lace curtains" until quennell_named.
+  Discovery quennell_named "The narrow shop with lace curtains on Orchard Walk is Mrs. Quennell's subscription library.".
+  Place quennell_room "the subscription room" is room within quennell_lib at 0, 1.
+
+  Passage newmarket_gardens "Orchard Walk from Newmarket" is road between newmarket and orchard_walk taking 6 minutes.
+  Passage walk_physic "the gate into the physic garden" is gate between orchard_walk and physic_garden.
+  Passage corvell_door "the door of Corvell House" is door between orchard_walk and corvell_hall.
+  Passage library_door "the library doors" is door between corvell_hall and corvell_library.
+  Passage quennell_door "the subscription library door" is door between orchard_walk and quennell_room.
+
+  // ── The Calamies: the reed-beds downriver, out over the flats at low water. ──
+  Place reed_edge "the edge of the reed-beds" is room within calamies at 0, 0 outdoors.
+  Place saltings "the saltings" is room within calamies at 1, 0 outdoors.
+  Place reed_heart "the heart of the reeds" is room within calamies at 0, 1 outdoors.
+  Passage flats_path "the path out over the flats" is path between mudbank and reed_edge taking 40 minutes
+    opening when ebbing() or following(coddy, party) "The tide is in over the flats. Grey water stands where the path was, and the reed-tops show above it like stubble.".
+  Passage reed_saltings "the bank along the saltings" is path between reed_edge and saltings taking 15 minutes.
+  Passage reed_channel "the cut into the reeds" is path between reed_edge and reed_heart taking 20 minutes
+    opening when deadLow() or following(coddy, party) "The cut into the reeds is a brown channel running fast. At dead low water it drains; not before.".
+
+  // The tide: in twice a day, out twice a day. It is ebbing from four to ten, and from four to ten again, and dead
+  // low at seven.
+  Query ebbing() means (hour(clock) >= 4 and hour(clock) < 10) or (hour(clock) >= 16 and hour(clock) < 22).
+  Query deadLow() means hour(clock) == 6 or hour(clock) == 7 or hour(clock) == 18 or hour(clock) == 19.
+
+  // A place the company has been and left is familiar: it is told again in a line, not in full.
+  Relation familiar(place).
+  Rule familiar_place when been(party, ?p) and not at(party, ?p) and not familiar(?p) { Assert familiar(?p). }
+
+  // Where one can sleep: the Lamb's loft, for its price; Coddy's hut, if he will have you.
+  Initially Assert restful(lamb_loft).
+}

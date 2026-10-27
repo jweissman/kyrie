@@ -1,0 +1,118 @@
+Module calamy "A Parliament of Books" {
+  Description "The Parliament of the Bound in session on the floor of the Roll: the order paper, the putting of a clause, the poll, the walking out, the seal; and what stands at the Kindling if nothing is sealed.".
+
+  Relation sits(group). Relation walkedOut(group). Relation sessionOpen(place). Relation sessionBroken(place). Relation colophonSealed(place).
+  Relation putting(clause). Relation polling(place). Relation polled(group). Relation sealed(clause). Relation decided(article). Relation lost(clause).
+  Measure seated(place). Measure ayes(place). Measure nays(place). Measure support(clause). Relation counted(group, clause).
+  // The order paper: how many of the members in the chamber, or who would be, stand for each reading.
+  Rule support_add when favours(?m, ?o) and voter(?m) and not walkedOut(?m) and not lexiconSilent(?m) and not counted(?m, ?o) { Increase support(?o) by 1. Assert counted(?m, ?o). }
+  Rule support_drop when counted(?m, ?o) and (not favours(?m, ?o) or walkedOut(?m) or lexiconSilent(?m)) { Decrease support(?o) by 1. Retract counted(?m, ?o). }
+  Query lexiconSilent(m: group) means lexiconBound(m).
+  Observe order_paper at chamber when not colophonSealed(chamber) "THE ORDER PAPER. Seated: {seated(chamber)}. Of the Sleep: the Sewing of all, {support(sew_all)}, the Sleep by leave, {support(sew_leave)}, the Unsewing, {support(sew_none)}. Of the Fire: no burning but by leave, {support(fire_leave)}, burning only by judgment, {support(fire_plea)}, the Censors' discretion, {support(fire_free)}. Of the Reading: the Lyceum's Rounds, {support(read_rounds)}, reading by request, {support(read_asked)}, no reading owed, {support(read_none)}. Of the Door: the Founders' door only, {support(door_shut)}, Crake's door under licence, {support(door_licensed)}, open doors, {support(door_open)}. Four carry, or three and the clerk.".
+  Observe carried_sew_all at chamber when sealed(sew_all) "Carried, of the Sleep: the Sewing of all.".
+  Observe carried_sew_leave at chamber when sealed(sew_leave) "Carried, of the Sleep: the Sleep by leave.".
+  Observe carried_sew_none at chamber when sealed(sew_none) "Carried, of the Sleep: the Unsewing.".
+  Observe carried_fire_leave at chamber when sealed(fire_leave) "Carried, of the Fire: no burning but by leave.".
+  Observe carried_fire_plea at chamber when sealed(fire_plea) "Carried, of the Fire: burning only by judgment.".
+  Observe carried_fire_free at chamber when sealed(fire_free) "Carried, of the Fire: the Censors' discretion.".
+  Observe carried_read_rounds at chamber when sealed(read_rounds) "Carried, of the Reading: the Lyceum's Rounds.".
+  Observe carried_read_asked at chamber when sealed(read_asked) "Carried, of the Reading: reading by request.".
+  Observe carried_read_none at chamber when sealed(read_none) "Carried, of the Reading: no reading owed.".
+  Observe carried_door_shut at chamber when sealed(door_shut) "Carried, of the Door: the Founders' door only.".
+  Observe carried_door_licensed at chamber when sealed(door_licensed) "Carried, of the Door: Crake's door under licence.".
+  Observe carried_door_open at chamber when sealed(door_open) "Carried, of the Door: open doors.".
+
+  // The chamber sits when a reader with standing asks the Speaker to call it. Whoever has walked out does not come.
+  Action call_session(actor: group, site: place) "Ask the Speaker to call the Parliament of the Bound to sit" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and standing(actor) and heardStance(roll)
+      and kindlingEve() and not sessionOpen(chamber) and not colophonSealed(chamber) and not sessionBroken(chamber).
+    Time 1.
+    On success { Assert sessionOpen(chamber). Set seated(chamber) to 0. }
+    Result "'ORDER,' says the floor, and the word goes away along the Roll in both directions like a wave along a beach. And they come: down the gangway and up the Order of Business and out of the air, each to its seat. A narrow house's voice, sharp, from the doorstep. A pencil figure with a lantern, on the heap of loose pages. A little wooden paddle on the stool. An old woman of leaves on the bed of herbs. And on the black slab, held by three chains that run away to the sky, the Lexicon, open. A single drawer slides out of nowhere beside the order paper, and stays: the clerk.".
+  }
+  // It sits on Kindling eve, from noon until the readers are called home, as it has every year since the first.
+  Query kindlingEve() means day(clock) == 9 and hour(clock) >= 12 and hour(clock) < 19.
+  Topic roll_when with roll "Ask the Great Roll when the Parliament sits" when not kindlingEve() and not colophonSealed(chamber) once {
+    Says "'On Kindling eve,' says the floor, as if you had asked when the tide comes in. 'From noon until the readers are called home. It has sat then every year since the first, to hear the city's word when the year-book came.' A rumble. 'This year there will be no year-book, and the motion of the Speaker will be put. Members are in their own places until then. You may wait upon them there, if they will have you.' It adds, with something like dry humour: 'Most of them will.'".
+    On discuss { Assert knows(actor, session_known). }
+  }
+  Discovery session_known "The Parliament of the Bound sits on Kindling eve, the ninth day, from noon until the readers are called home; until then its members are in their own places in the Commonplace.".
+  Objective sit_eve when knows(party, session_known) and not sessionOpen(chamber) and not colophonSealed(chamber) and not kindlingDone(ashpit) "Be in the Chamber with standing on Kindling eve, from noon, when the Parliament of the Bound sits.".
+  Rule members_come when sessionOpen(chamber) and voter(?m) and not walkedOut(?m) and not silenced(?m) and not sits(?m) and not housebookAway(?m) {
+    Assert at(?m, chamber). Assert sits(?m). Increase seated(chamber) by 1. }
+  Query housebookAway(m: group) means housebookOffended(m).
+  Rule clerk_comes when sessionOpen(chamber) and not at(catalogue, chamber) { Assert at(catalogue, chamber). }
+  Rule speaker_opens at chamber when sessionOpen(chamber) and not spokeOpening(roll)
+    says "'The Parliament of the Bound sits,' says the floor. 'There is before it the motion of the Speaker: the Recall. Every book of Calamy Sewn, and the Quick called home; no burning but by leave, as the old Colophon has it; the Lyceum's Rounds; no door but the Founders'. If nothing else is carried, it stands at the Kindling. A reader of Calamy has standing. The chair will hear readings of the four articles.' A pause. 'Briefly.'" {
+    Assert spokeOpening(roll). }
+  Relation spokeOpening(group).
+  // Someone who walks out leaves the chamber: the house that was read where it did not wish, or will not sit with the Lexicon loose.
+  Rule walks_out when housebookOffended(?m) and sits(?m)
+    says "The doorstep seat is empty. The Annery Housebook has gone home." {
+    Retract sits(?m). Assert walkedOut(?m). Decrease seated(chamber) by 1. Assert at(?m, hb_kitchen). }
+  Rule bound_silent when lexiconBound(lexicon) and sits(lexicon) and not silenced(lexicon)
+    says "On the black slab the Lexicon lies shut. It does not vote." { Retract sits(lexicon). Decrease seated(chamber) by 1. Assert silenced(lexicon). }
+  Relation silenced(group).
+  Rule no_quorum at chamber when sessionOpen(chamber) and spokeOpening(roll) and seated(chamber) < 4
+    says "'There is no quorum,' says the floor heavily. 'The Parliament cannot sit with so few. The motion of the Speaker stands for the Kindling.' The seats empty, one by one." {
+    Retract sessionOpen(chamber). Assert sessionBroken(chamber). }
+
+  // A reading is put; the members are polled aloud, each in turn; four carry it, or three and the clerk.
+  Action put_reading(actor: group, motion: clause, art: article, site: place) "Put to the Parliament: {motion}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and sessionOpen(chamber) and standing(actor)
+      and articleOf(motion, art) and not decided(art) and not lost(motion) and not polling(chamber).
+    Time 1.
+    On success { Assert putting(motion). }
+    Result "'The question,' says the floor, 'is {motion}. The chair will poll the members.'".
+  }
+  Rule poll_clears when not polling(chamber) and polled(?m) { Retract polled(?m). }
+  Rule poll_begins when putting(?o) and not polling(chamber) { Assert polling(chamber). Set ayes(chamber) to 0. Set nays(chamber) to 0. }
+  Rule poll_aye at chamber when putting(?o) and polling(chamber) and sits(?m) and favours(?m, ?o) and not polled(?m) says "{?m}: aye." {
+    Increase ayes(chamber) by 1. Assert polled(?m). }
+  Rule poll_nay at chamber when putting(?o) and polling(chamber) and sits(?m) and not favours(?m, ?o) and not polled(?m) says "{?m}: no." {
+    Increase nays(chamber) by 1. Assert polled(?m). }
+  Rule poll_carries at chamber when putting(?o) and polling(chamber) and articleOf(?o, ?a) and ayes(chamber) * 2 > seated(chamber)
+    says "'The ayes have it,' says the floor. 'Carried.' A clerk's card writes itself and goes into the drawer." {
+    Assert sealed(?o). Assert decided(?a). Retract putting(?o). Retract polling(chamber). }
+  Rule poll_tie_carries at chamber when putting(?o) and polling(chamber) and articleOf(?o, ?a) and ayes(chamber) * 2 == seated(chamber) and favours(catalogue, ?o)
+    says "'The chamber is equally divided,' says the floor. The drawer beside the order paper opens an inch. 'The clerk votes aye,' says the Catalogue drily. 'Carried.'" {
+    Assert sealed(?o). Assert decided(?a). Retract putting(?o). Retract polling(chamber). }
+  Rule poll_tie_fails at chamber when putting(?o) and polling(chamber) and ayes(chamber) * 2 == seated(chamber) and not favours(catalogue, ?o)
+    says "'The chamber is equally divided,' says the floor. The drawer opens an inch. 'The clerk votes no,' says the Catalogue. 'Lost.'" {
+    Assert lost(?o). Retract putting(?o). Retract polling(chamber). }
+  Rule poll_fails at chamber when putting(?o) and polling(chamber) and ayes(chamber) * 2 < seated(chamber)
+    says "'The noes have it,' says the floor. 'Lost.'" {
+    Assert lost(?o). Retract putting(?o). Retract polling(chamber). }
+  // A reading lost may be put again once the chamber has moved: whenever a member comes to favour it.
+  Rule lost_reopens when lost(?o) and favours(?m, ?o) and sits(?m) and not wasFor(?m, ?o) { Retract lost(?o). Assert wasFor(?m, ?o). }
+  Relation wasFor(group, clause).
+  Rule lost_remembers when lost(?o) and favours(?m, ?o) and not wasFor(?m, ?o) { Assert wasFor(?m, ?o). }
+
+  // What the chamber says back when a reading is lost: its own counter-proposals.
+  Rule counter_sleep at chamber when lost(sew_leave) and not counteredSleep(roll) says "From the floor, heavily: 'The chair reminds the reader that the Sewing of all carries as the chamber stands. It would be carried now, if put.'" { Assert counteredSleep(roll). }
+  Rule counter_unsew at chamber when lost(sew_none) and not counteredUnsew(canto) says "From the heap of loose pages, the Canto, cheerfully: 'Well, it was worth asking. Put it by leave, then, and see who'll have that.'" { Assert counteredUnsew(canto). }
+  Rule counter_fire at chamber when (lost(fire_plea) or lost(fire_free)) and not counteredFire(physick) says "From the bed of herbs, the old woman of leaves: 'No knives. Put it by leave, as the old Colophon has it. That'll carry.'" { Assert counteredFire(physick). }
+  Rule counter_reading at chamber when lost(read_asked) and not counteredReading(hornbook) says "From the stool, the little primer: 'The big school. Put the big school. That is how it was.'" { Assert counteredReading(hornbook). }
+  Rule counter_door at chamber when (lost(door_licensed) or lost(door_open) or lost(door_shut)) and not counteredDoor(roll) says "The floor: 'The Door is divided three ways. The chair suggests the reader find the chamber a fourth.'" { Assert counteredDoor(roll). }
+  Relation counteredSleep(group). Relation counteredUnsew(group). Relation counteredFire(group). Relation counteredReading(group). Relation counteredDoor(group).
+
+  // The seal: everything settled, or what is settled and the rest on the old terms.
+  Query allSettled() means decided(art_sleep) and decided(art_fire) and decided(art_reading) and decided(art_door).
+  Action seal_colophon(actor: group, site: place) "Ask the Speaker to seal the Colophon as it now stands" {
+    Grave "Sealed, the Colophon is the bargain until the next Kindling: what is not carried stands on the Speaker's motion.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and sessionOpen(chamber) and standing(actor) and not polling(chamber)
+      and (decided(art_sleep) or decided(art_fire) or decided(art_reading) or decided(art_door)).
+    Time 1.
+    On success { Assert colophonSealed(chamber). Retract sessionOpen(chamber). }
+    Result "'The chair will seal,' says the floor. The drawer beside the order paper slides out, all the way, for the first time, and in it lies a single sheet, and on the sheet the carried articles are already written in Calam-ink, and under them a space. 'What is not carried stands on the motion of the Speaker,' says the Roll. 'Members will sign.' And they do, each in its way: a thumbprint of brown ink, a line of pencil, a scorch-mark from the black slab, a pressed leaf, a little cut A.".
+  }
+  // Whatever is unsettled at the seal, or at the Kindling, falls to the Speaker's motion: the Recall.
+  Rule default_sleep when (colophonSealed(chamber) or kindlingCome(ashpit)) and not decided(art_sleep) { Assert sealed(sew_all). Assert decided(art_sleep). Assert byDefault(art_sleep). }
+  Rule default_fire when (colophonSealed(chamber) or kindlingCome(ashpit)) and not decided(art_fire) { Assert sealed(fire_leave). Assert decided(art_fire). Assert byDefault(art_fire). }
+  Rule default_reading when (colophonSealed(chamber) or kindlingCome(ashpit)) and not decided(art_reading) { Assert sealed(read_rounds). Assert decided(art_reading). Assert byDefault(art_reading). }
+  Rule default_door when (colophonSealed(chamber) or kindlingCome(ashpit)) and not decided(art_door) { Assert sealed(door_shut). Assert decided(art_door). Assert byDefault(art_door). }
+  Relation byDefault(article). Relation kindlingCome(place).
+  Rule members_home when colophonSealed(chamber) and sits(?m) { Retract sits(?m). }
+  Rule session_after when colophonSealed(chamber) and at(housebook, chamber) { Assert at(housebook, hb_kitchen). Assert at(canto, draft_fields). Assert at(hornbook, foxing_deep). Assert at(physick, orme_garden). Assert at(catalogue, reading_room). }
+
+}

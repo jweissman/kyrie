@@ -25,6 +25,7 @@ export class RuntimeCapabilities {
     { name: 'reward', types: ['ability', 'member'], exclusive: false },
     { name: 'prepare', types: ['member', 'circle', 'ability', 'ability'], exclusive: false },
     { name: 'improve', types: ['member', 'quality'], exclusive: false },
+    { name: 'endow', types: ['member', 'quality', 'degree'], exclusive: false },
     { name: 'learn', types: ['member', 'ability'], exclusive: false },
     { name: 'feat', types: ['member', 'feat'], exclusive: false },
     { name: 'school', types: ['member', 'capability'], exclusive: false },

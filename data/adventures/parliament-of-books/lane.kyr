@@ -1,0 +1,104 @@
+Module calamy "A Parliament of Books" {
+  Description "Lantern Yard and Absalom Crake's shop at the sign of the Two Hands, whose back stacks go further back than the house does.".
+
+  Observe yard_scene at lantern_yard when true "A yard at the bottom of Gutter Lane no bigger than a room, with a pump in it and the city wall for one side. Across the back of it stands a narrow shop with a bow window crammed with books, and over its door a painted sign of two hands holding an open book: ABSALOM CRAKE. BOOKS BOUGHT, SOLD, AND FOUND.".
+  Discovery stacks_too_deep "From Lantern Yard, Crake's shop is four windows wide and no deeper than a cart, with the city wall close behind it. Inside, its back stacks go on for seven bays and further, back past where the wall should be.".
+  Thing yard_frontage "the shop front" at lantern_yard {
+    State shop "A narrow shop front, four windows wide, with the city wall close behind it on both sides.".
+  }
+  Observe frontage_close at lantern_yard of yard_frontage when tried(yard_frontage, looking) and been(party, crake_stacks) "You stand back against the pump and look at it properly. Four windows wide. A roof you could touch with a long pole. And behind it, close enough that you could not get a cat between, the black stones of the city wall. There is no room back there for anything. There is no room for the stacks you have walked down." teaches stacks_too_deep.
+  Observe frontage_plain at lantern_yard of yard_frontage when tried(yard_frontage, looking) and not been(party, crake_stacks) "Four windows wide, a low roof, and the city wall close behind it on both sides. A small shop.".
+
+  Observe front_scene at crake_front when true "A shop that is mostly books and partly cats. Books in towers on the floor, books on the counter, books in the window with their faces to the street, books on the stairs going up. Three cats asleep on three piles, one of them on an open folio. A counter with a ledger and a dish of sugared almonds. At the back an aisle goes off between high shelves, and behind the counter a curtain.".
+  Person crake "Absalom Crake" at crake_front {
+    Role "bookseller". Ancestry human. Calling bard. Level 2. Background merchant. Peaceable. Manner jovial. Pronouns he.
+    Greets "A very fat man in a velvet waistcoat with a book open on his stomach puts the book down on the counter, face down, to keep his place, and beams at you. 'My dear,' he says. 'Come in. Mind the cat. That one bites, and that one reads over your shoulder, and that one is a footstool. What are you looking for? Don't tell me. I like to guess.'".
+    Objects "Crake looks at {?i} in your hands, and the smile goes out of his face all at once, like a candle pinched. 'That,' he says quietly, 'was not for sale.'".
+  }
+  Measure crakeTrust(group).
+  Relation crakeTaken(group). Relation crakeHidden(group). Relation crakeWarned(group). Relation crakeCoerced(group).
+  Relation crakeGuides(group). Relation ribbonOffered(group).
+  Topic crake_trade with crake "Ask Absalom Crake where his books come from" when true once {
+    Says "'Estates,' says Crake at once. 'Houses clearing out. Widows. The tide brings things up.' He eats an almond. 'And some of them, my dear, I find. I'm a finder. It says so on the sign.' He looks at you over the almond with very bright small eyes. 'A great many books want homes. More than you'd think. More than were ever written, if you take my meaning, which you don't, and why should you.'".
+  }
+  Topic crake_corvell with crake "Ask Absalom Crake about Sir Gideon Corvell's library" when knows(actor, library_vanished) once {
+    Says "Crake's face goes through several things and settles on grief, which may even be real. 'Poor Gideon. Poor, dear, unbearable Gideon.' He strokes the cat that reads. 'I didn't take them. I want you to know that, whatever he's told you. I have never in my life taken a book that didn't wish to be taken.' He stops, as if he has said too much, and eats three almonds quickly. 'I owe him four hundred crowns. If I'd taken his library I'd have paid him in it.'".
+  }
+  Topic crake_godson with crake "Tell Absalom Crake that his godson's poems have woken, and asked to be burned" when knows(actor, effusions_wish) once {
+    Says "'Oh,' says Crake. 'Oh, the poor things.' He takes off his spectacles. 'I read three pages, you know. I told him, keep writing. Kindest thing I could think of.' He blinks. 'They asked to be burned? Not to be read again? Not to be put somewhere safe?' He shakes his head slowly. 'Most of them want to go on. They'll bargain and plead for it, the way we do. Fancy a book with the sense to want to stop.' He puts the spectacles back on. 'Thank you for telling me. He's a good boy. He'll be a good poet, if he lives through being a bad one.'".
+    On discuss { Increase crakeTrust(crake) by 1. }
+  }
+  Topic crake_cleared with crake "Tell Absalom Crake you told Sir Gideon his books left of their own accord" when corvellTold(corvell) and not raidCalled(lantern_yard) once {
+    Says "Crake stares at you. 'You told him that? And he didn't have you thrown down the steps?' He sits back on his stool. 'He didn't send for the Imprimatur?' You say no. Crake is silent a moment, and then he laughs, softly, and keeps laughing. 'Gideon,' he says. 'Oh, Gideon. Thirty years, and he finally asked one of them.' He wipes his eyes. 'My dear, I owe you more than I owe him, and you have no idea what that means. Sit down. Have an almond.'".
+    On discuss { Increase crakeTrust(crake) by 2. }
+  }
+  Topic crake_warn with crake "Warn Absalom Crake that Sir Gideon has set the Imprimatur on Lantern Yard" when raidCalled(lantern_yard) and not crakeTaken(crake) and not crakeWarned(crake) once {
+    Says "Crake goes the colour of old paper. 'Tonight? The fifth night?' He looks round his shop: the towers, the cats, the window. 'They'll burn it. She'll burn it. All of it, not just the—' He stops. Then, very quickly, he is up and moving, pulling books off the counter, scooping a cat. 'Thank you. Thank you. Go now, my dear, and if anyone asks you, you never came down this lane.' At the curtain he turns. 'If you ever want to find me, I'll be where the books go. Ask for me there.'".
+    On discuss { Assert crakeWarned(crake). Increase crakeTrust(crake) by 1. }
+  }
+
+  // The parlour: cats, a ledger of arrivals, and a ribbon.
+  Observe parlour_scene at crake_parlour when true "A small hot room behind the curtain, with a fire, an armchair with the shape of Crake worn into it, more cats, a kettle, and on the table a ledger bound in faded green and a book of sermons with a ribbon of old red silk hanging out of it, marking somebody's place.".
+  Discovery remainder_ledger "Crake's green ledger records arrivals, not sales: titles that were never written, each with a date, a night, and a note: BODIED BY L.F., or WALKED IN, or CAME THROUGH WITH THE CANTO. Corvell's library is entered on one page as ELEVEN HUNDRED AND FOUR, WALKED IN, ALL TO GO ON. GOD BLESS THEM.".
+  Thing green_ledger "Crake's green ledger" at crake_parlour {
+    State shut "A ledger bound in faded green lies on the parlour table.".
+  }
+  Observe green_read at crake_parlour of green_ledger as reading when tried(green_ledger, looking) "It is a ledger of arrivals. The Second Canto of the Lantern-Bearers, I. Varne: CAME THROUGH, BODIED BY L.F. A Third Book of Airs: CAME THROUGH. The Lost Sermons of Ambery: BODIED BY L.F., POOR THING. And a page in Crake's best hand, the ink still bright: CORVELL'S. ELEVEN HUNDRED AND FOUR. WALKED IN AT TWO OF THE CLOCK, ASKED THE WAY. ALL TO GO ON. GOD BLESS THEM." teaches remainder_ledger.
+  Item place_ribbon "Crake's place-ribbon" is ribbon_kind at crake_parlour owned by crake.
+  Observe ribbon_seen at crake_parlour when at(place_ribbon, crake_parlour) "The red ribbon hangs out of the book of sermons, marking a place.".
+
+  // The back stacks.
+  Observe stacks_scene at crake_stacks when not carries(party, place_ribbon) "The aisle runs back between shelves so high you cannot see their tops. One bay, two; a lamp on a hook; three, four. The books here have strange spines. THE SECOND CANTO. THE LOST SERMONS OF AMBERY. A HISTORY OF THE FALLOW CAMPUS, VOLUME THE SEVENTH. Five, six, seven bays, and the lamps further apart, and the aisle goes on into a dimness that smells of dust and the sea. You walk on, and on, and then you are walking back toward the shop, facing the curtain, with the first bay on your left. You did not turn round.".
+  Observe stacks_ribboned at crake_stacks when carries(party, place_ribbon) "The aisle runs back between the high shelves, bay after bay, and the red ribbon is warm in your hand, and this time when you walk on into the dimness you do not come back. The shelves on either side go on, and the light changes, very gradually, from lamplight to something paler, like the light in a library on a winter afternoon with the snow outside.".
+  Discovery bookplate_found "Among the strange spines in Crake's back stacks lies a torn bookplate: EX LIBRIS G. CORVELL." { Found by searching crake_stacks "On the floor of the seventh bay, under the bottom shelf, half trodden into the dust, a torn bookplate with a coat of arms: EX LIBRIS G. CORVELL.". }
+  Rule stacks_measured when been(party, crake_stacks) and knows(party, procession_seen) and not knows(party, stacks_too_deep)
+    says "The books in the lane went in at Crake's door, and none of them came out, and there is no room in his house for one shelf of them, let alone eleven hundred." teaches stacks_too_deep { }
+
+  // The ways to the ribbon: his trust, a threat, or a night's work.
+  Topic crake_ask_trust with crake "Ask Absalom Crake to take you where the books go" when crakeTrust(crake) >= 2 and (knows(actor, stacks_too_deep) or knows(actor, collection_emigrated)) and not ribbonOffered(crake) once {
+    Says "Crake looks at you for a long time over his spectacles, and for once he does not reach for an almond. 'You know, then,' he says. 'Or near enough.' He gets up and goes through the curtain and comes back with a ribbon of red silk wound round two fingers. 'Calamy's books go home when they're Sewn. The printers' books don't go anywhere, poor things, they just wake where they are. And some books were never written at all, and live over there with no bodies, and want one.' He holds the ribbon out. 'I keep the door. Somebody has to. It only opens to someone who's kept their place.' He puts it in your hand and closes your fingers on it. 'Mind you bring it back. And mind how you go. There are some over there who'd sooner I didn't.'".
+    On discuss { Assert ribbonOffered(crake). Assert lends(crake, place_ribbon, actor). Assert crakeGuides(crake). Assert willing(crake, actor). Set hire(crake) to 0. }
+  }
+  Topic crake_threat with crake "Tell Absalom Crake you will take what you know to the Imprimatur unless he gives you his ribbon" when knows(actor, bookplate_found) and knows(actor, collection_emigrated) and not ribbonOffered(crake) once {
+    Says "Crake does not move for a moment. Then he sighs, a long sigh that goes all the way down the waistcoat. 'Yes,' he says. 'Yes, I suppose you would. Everybody does, in the end.' He goes through the curtain and comes back with a ribbon of red silk and drops it on the counter in front of you, as he might drop a bad coin. 'Through the back. Keep walking. Hold that.' He sits down again and picks up his book. 'Don't tell them over there I sent you. I'd sooner they didn't know my name was in it.' He does not look up again.".
+    On discuss { Assert ribbonOffered(crake). Assert lends(crake, place_ribbon, actor). Assert crakeCoerced(crake). }
+  }
+  Topic crake_come with crake "Ask Absalom Crake to come with you through the stacks" when crakeGuides(crake) and not travelsWith(crake, actor) once {
+    Says "'Me?' says Crake. 'I'm far too fat for adventures.' He is already putting on his coat. 'Somebody will have to tell the Remainder Market you're a friend, or they'll sell you. And the Canto owes me a great deal of money.'".
+  }
+
+  // At night the shop is locked; a careful hand can open it, and the ribbon is on the parlour table while Crake sleeps.
+  Thing crake_lock "the lock on Crake's door" on crake_door {
+    State open "Crake's door is on the latch.".
+    State locked blocking "Crake's door is locked for the night, and the shutters are up over the bow window.".
+    Change pick "Pick the lock on Crake's door" from locked to open needing lockwork.
+  }
+  Rule crake_locks when hour(clock) == 22 and state(crake_lock, open) and not crakeTaken(crake) { Assert state(crake_lock, locked). }
+  Rule crake_unlocks when hour(clock) == 8 and state(crake_lock, locked) and not crakeTaken(crake) and not crakeHidden(crake) { Assert state(crake_lock, open). }
+  // The books come in on the crossing nights at two, and Crake leaves the latch up for them.
+  Rule crake_unlatched when crossingTonight(gutter_lane) and state(crake_lock, locked) { Assert state(crake_lock, open). }
+  Rule crake_relatched when hour(clock) == 4 and not crossingTonight(gutter_lane) and state(crake_lock, open) and not crakeTaken(crake) { Assert state(crake_lock, locked). }
+  Rule crake_to_bed when (hour(clock) >= 22 or hour(clock) < 7) and at(crake, crake_front) { Assert at(crake, crake_bed). Assert asleep(crake). }
+  Rule crake_up when hour(clock) >= 7 and hour(clock) < 22 and at(crake, crake_bed) and not crakeTaken(crake) and not crakeHidden(crake) { Assert at(crake, crake_front). Retract asleep(crake). }
+  Place crake_upper "Crake's upper floor" is level within crakes.
+  Place crake_bed "Crake's bedroom" is room within crake_upper at 4, 1.
+  Passage crake_stair "the stair behind the curtain" is stair between crake_parlour and crake_bed.
+  Observe bed_scene at crake_bed when at(crake, crake_bed) and asleep(crake) "A bedroom stacked with books to the ceiling, and Crake asleep in the middle of it under a quilt and four cats, snoring like a slow saw.".
+  Observe bed_empty at crake_bed when not at(crake, crake_bed) "A bedroom stacked with books to the ceiling, and a bed with a quilt and the shape of Crake in it, but no Crake.".
+
+  // The raid, if Corvell has called it: the fifth night, at eleven.
+  Rule raid_comes when raidCalled(lantern_yard) and day(clock) == 5 and hour(clock) == 23 and not crakeTaken(crake) and not raidDone(lantern_yard) and not raidStood(lantern_yard) {
+    Assert raidDone(lantern_yard). }
+  Relation raidDone(place). Relation raidStood(place).
+  Rule raid_takes at lantern_yard when raidDone(lantern_yard) and not crakeWarned(crake) and not crakeTaken(crake)
+    says "Lanterns in Lantern Yard, and men in the Imprimatur's grey, and a voice reading out a warrant. They break the shutters. They bring Crake out in his nightshirt with a cat under each arm, and take the books out of the window by the armful." {
+    Assert crakeTaken(crake). Assert at(crake, imp_cells). Retract asleep(crake). Assert state(crake_lock, locked).
+    Retract at(place_ribbon, crake_parlour). Assert at(place_ribbon, rhule_room). }
+  Rule raid_finds_empty when raidDone(lantern_yard) and crakeWarned(crake) and not crakeHidden(crake) {
+    Assert crakeHidden(crake). Assert at(crake, remainder_market). Retract asleep(crake). Assert state(crake_lock, locked).
+    Retract at(place_ribbon, crake_parlour). Assert at(place_ribbon, remainder_market). }
+  Place imp_cells "the Imprimatur's cellar" is room within imprimatur at 3, 3.
+  Passage cells_stair "the cellar steps" is steps between imp_office and imp_cells.
+  Observe cells_crake at imp_cells when at(crake, imp_cells) "A cellar of bound bundles and seized books with labels on string, and on a bench among them Absalom Crake in his nightshirt and a borrowed coat, with one cat, reading.".
+  Observe yard_raided at lantern_yard when raidDone(lantern_yard) "The bow window of the shop at the sign of the Two Hands is broken, and boarded, and sealed with the Imprimatur's little lamp in red wax.".
+}

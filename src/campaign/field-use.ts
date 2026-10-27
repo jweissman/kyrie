@@ -123,6 +123,7 @@ export class FieldUse {
   // What a companion does with study: prepare a spell, or spend a level's advance on a quality, a skill or a spell.
   static study(store: CreatureStore, name: string, args: string[]): CombatEvent[] {
     if (name === 'prepare') { return this.prepare(store, args as [string, string, string, string]); }
+    if (name === 'endow') { return this.endow(store, args as [string, string, string]); }
     const [member, choice] = args as [string, string], lease = store.acquire([member]);
     try {
       const c = lease.creatures[0]!;
@@ -136,6 +137,18 @@ export class FieldUse {
         : name === 'feat' ? `${Canon.traits[choice]?.name ?? choice} taken up`
           : `${Content.abilities.find(a => a.id === choice)?.name ?? choice} learned`;
       return [{ type: 'gain', turn: 0, actor: member, target: member, detail: what }];
+    } finally { lease.release(); }
+  }
+  // A work that reads its reader back raises a quality outside the level's development (Resolve endow).
+  static endow(store: CreatureStore, [member, quality, degree]: [string, string, string]): CombatEvent[] {
+    const lease = store.acquire([member]);
+    try {
+      const c = lease.creatures[0]!, by = Advancement.degree(degree);
+      const raised = Advancement.endow(c, quality as Attribute, by);
+      lease.commit([c], { advancement: true, endowed: raised });
+      const name = `${quality.charAt(0).toUpperCase()}${quality.slice(1)}`;
+      return [{ type: 'gain', turn: 0, actor: member, target: member,
+        detail: raised ? `${name} is now ${c.base[quality as Attribute]}` : `${name} can rise no further` }];
     } finally { lease.release(); }
   }
   // A caster prepares a different spell in a slot; ready at once if that slot was not yet spent.

@@ -103,7 +103,7 @@ export class ActionFeedbackView {
   // What was learned from words said in the moment (a rule that says and teaches): those words stand for it, and the
   // fact's own text is the journal's (the page read the fact before the rule's words: the register's NAR-10).
   private static spoken(campaign: Campaign, event: CampaignEvent): Set<string> {
-    const heard = new Set((event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.id));
+    const heard = new Set((event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.id.split('@')[0]!));
     return new Set((campaign.module.rules ?? []).filter(r => r.teaches && heard.has(r.id)).map(r => r.teaches!));
   }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {

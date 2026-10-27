@@ -154,6 +154,23 @@
       "rumour": "'Down the south road, where the drove roads come down off the fells, there's Wrayford, on the Wray,' says {keeper}, and lowers their voice. 'The carters rose against the bridge toll there a few nights back, and the lord's riders hanged three of them off the gatehouse on the bridge, and they're hanging there yet. The reeve says they stay till the lord's captain comes. Drovers coming through say the whole town goes and stands under them, and nobody will say a word.'",
       "heard": "South over the march lies Wrayford, the bridge-city on the Wray, where the lord's riders hanged three carters from the gatehouse on the bridge after a rising against the toll, and the reeve keeps them hanging until the lord's captain comes.",
       "far": "the lord's riders hanged three carters from the gatehouse on the bridge, and they hang there yet"
+    },
+    {
+      "id": "calamy",
+      "bundle": "parliament-of-books/placed.json",
+      "entry": "causey",
+      "marker": "sewing_beam",
+      "side": "east",
+      "beside": [
+        "frost"
+      ],
+      "name": "Calamy",
+      "topic": "the city of paper at the mouth of the Calam",
+      "terrain": "marsh",
+      "rumour": "'East over the march, where the cold country comes down to the sea and the river runs out through miles of reeds, there is Calamy, at the mouth of the Calam,' says {keeper}. 'A city of paper: tide-mills and binders and printers, and every house there keeps a book that knows it. They say the books have started to talk. And they burn their old almanacks at the Kindling, which is near, and this year nobody can say whether they ought.'",
+      "heard": "East over the march lies Calamy, a tidal city of paper at the mouth of the Calam, where the books have begun to talk, and the Kindling is near.",
+      "far": "the books of a city of paper have begun to talk, and the Kindling is near",
+      "among": "independent"
     }
   ]
 }

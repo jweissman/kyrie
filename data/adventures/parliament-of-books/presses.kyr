@@ -1,0 +1,108 @@
+Module calamy "A Parliament of Books" {
+  Description "Newmarket and Doble's Press: the Pleas for Every Hearth, the apprentice who can Sew, paper from the mills, and the night the Awls come.".
+
+  Observe newmarket_scene at newmarket when true "Outside the wall the town is new and loud: a broad street of printers' shops with their windows full of ballads and proclamations and almanacks pegged on strings, ink-boys running with bundles, a smell of hot metal and size. At the end of it a cart arch opens into a yard stacked with paper bales, and over the arch, in letters a foot high: DOBLE. PRINTER TO THE CITY.".
+  Observe yard_scene_p at press_yard when not dark() "Doble's yard: bales of paper under tarpaulins, carts, a pump, apprentices in paper hats. From the long shed at the end comes a heavy rhythmic thump and creak, like a ship in a swell: the presses.".
+  Observe yard_dark_p at press_yard when dark() "Doble's yard at night: the bales humped under their tarpaulins, one lamp on a post, and the press shed shut and black.".
+  Observe pressroom_scene at press_room when true "Two great wooden presses, black with ink, as tall as a man and twice as heavy, with men at the bars pulling and the platens coming down with a thump that you feel in your teeth. Sheets hang drying on lines overhead like washing, hundreds of them. On a stone table at the side a great iron frame of set type lies locked up, gleaming, waiting: the forme. A card on it, chalked: PLEAS. SHEET A.".
+  Person doble "Ambrose Doble" at doble_office {
+    Role "printer". Ancestry human. Background merchant. Peaceable. Manner cheerful. Pronouns he.
+    Greets "A tall man in a good coat with ink on the cuffs comes round a desk heaped with proofs and shakes your hand before you can stop him. 'Ambrose Doble. Printer to the City. You have the look of someone who reads. Excellent. We need more of you. Sit, sit.'".
+  }
+  Observe office_scene at doble_office when true "A counting-room heaped with proofs, with a window onto the press room so that Doble can watch the presses while he does his sums. On the wall a framed sheet, the first thing his father ever printed in Calamy: a single line, very black, A BOOK FOR EVERY HEARTH.".
+  Discovery pleas_project "Ambrose Doble is about to print the Pleas for Every Hearth: the city's law, the Great Roll of Pleas that is kept chained in the Court, in a cheap edition of two thousand copies, so that every household in Calamy may own its own law. He has modernized the spelling, and left out the Ninth Plea, which nobody understands.".
+  Topic doble_pleas with doble "Ask Ambrose Doble what he is printing" when true once {
+    Says "'The Pleas,' says Doble, and his whole face changes. 'The Great Roll of Pleas, the law of Calamy, that has sat chained in the Court for nine hundred years where nobody can read it but the Recorder and the lawyers who charge you to. Two thousand copies. A penny each. Every hearth in the city its own law.' He takes a proof from the desk. 'Modern spelling, so a carter can read it. And I've left out the Ninth, which is all about the Lyceum reading books to keep them from fading, and nobody's understood it in three hundred years. Saves a page.' He beams. 'The paper comes in from the mills on the fourth day and we print on the fifth. Then let the lawyers weep.'".
+    On discuss { Assert knows(actor, pleas_project). }
+  }
+  Topic doble_almanacks with doble "Ask Ambrose Doble why his almanacks talk" when true once {
+    Says "Doble laughs, and then stops, because you did not. 'Oh, come. A fault in the paste. Damp in the boards, and the paper moving as it dries, and people hearing what they expect.' He waves at the drying lines. 'Or the Binders. Mott would put a reed in every one of my books and blow down it, if he could. Three thousand almanacks, and every kitchen in the city frightened of its own nail.' He straightens a proof that did not need it. 'I have had one say good morning to me. I said good morning back. I am not proud of it.'".
+  }
+  Topic doble_ninth with doble "Tell Ambrose Doble what the Ninth Plea was for" when knows(actor, pleas_project) and knows(actor, ninth_plea) and not ninthRestored(doble) once {
+    Says "Doble listens with his head on one side. 'The Lyceum to read every book in the city once in a generation, or it fades,' he says slowly. 'I thought it was about mould.' He picks up the proof of sheet A and looks at it as if it might have changed. 'It's the law. It is the actual law. I was going to give every hearth in Calamy the law, and I cut a piece out of it because I didn't understand it.' He rubs his face and leaves ink on it. 'That's what they did to us. The Imprimatur. For three hundred years. Cut what they didn't understand.' He calls through the window: 'Hob! Unlock the forme. We're resetting sheet A.'".
+    On discuss { Assert ninthRestored(doble). }
+  }
+  Relation ninthRestored(group).
+
+  // Kit Ferrier, the Binders' runaway, who can Sew.
+  Person kit "Kit Ferrier" at press_room {
+    Role "a printer's man who was a binder's apprentice". Ancestry human. Background artisan. Peaceable. Manner cheerful. Pronouns he.
+    Greets "A lanky boy with a binder's calluses and a printer's black fingers grins at you from the end of the second press. 'Mind the bar. It'll break your arm and say sorry after.'".
+  }
+  Topic kit_why with kit "Ask Kit Ferrier why he left the Binders" when true once {
+    Says "'A wage,' says Kit, as if it were obvious. 'Six coin a week here, and my own room. Nothing there for three more years but Warden Mott shouting and my keep.' He looks at his hands. 'I miss it, mind. The Sewing. You do it right and the book goes quiet under your fingers, like a cat settling. There's nothing like it.' He jerks his chin at the presses. 'These don't go quiet. These go thump.'".
+  }
+  Topic kit_terms with kit "Ask Kit Ferrier what would bring him back to Needle Street" when knows(actor, kit_fled) and not toldKitTerms(actor) once {
+    Says "Kit thinks about it, which is to his credit. 'A journeyman's wage. And my ticket now, not in three years. I'm good enough. He knows I'm good enough.' He grins. 'And I'd keep coming here, Saturdays. I like the presses. I like seeing a thing come out two thousand times.' He goes back to the bar. 'He'll never.'".
+    On discuss { Assert toldKitTerms(actor). }
+  }
+  Topic kit_home with kit "Tell Kit Ferrier the Warden says yes: his ticket now, and a journeyman's wage" when kitTicket(kit) and not kitHome(kit) once {
+    Says "Kit lets go of the bar, which nearly breaks his arm, and does not notice. 'He said that? Mott?' He laughs out loud. 'His ticket now. Three years early.' He wipes his hands on his apron and then looks round the press room, at the presses and the lines and Doble at the window. 'I'll go. I'll go today.' He hesitates. 'If Mr. Doble wants the Pleas Sewn, I'd come back and Sew them. Under the Company's mark. Tell him that. Tell the Warden too.'".
+    On discuss { Assert kitHome(kit). Retract kitAtDoble(kit). Assert at(kit, hall_floor). Assert kitOffersSewing(kit). }
+  }
+  Relation kitOffersSewing(group).
+  Topic doble_sew with doble "Put it to Ambrose Doble that the Pleas be Sewn before they go out" when knows(actor, pleas_project) and (kitAtDoble(kit) or kitOffersSewing(kit)) and not kitSewsPrint(kit) and not pleasPrinted(doble) once {
+    Says "'Sewn?' says Doble. 'Two thousand copies? It would cost a fortnight and treble the price.' He walks up and down. 'Kit could do it. Kit and the girls from Needle Street, if Mott would let them. Sewn books last, I'll give the Binders that.' He stops. 'And they'd stop talking? That's what you're telling me. My law-books would go quiet on the shelf like decent law.' He looks out at the presses. 'I don't believe a word of it. But if the Ordinance passes I shall have to, and if it doesn't I'd as soon not have two thousand copies of the law arguing with their owners.' He sits. 'Ask Kit if he'll do it. If he will, so will I.'".
+    On discuss { Assert dobleWillSew(doble). }
+  }
+  Relation dobleWillSew(group).
+  Rule kit_agrees when dobleWillSew(doble) and (kitAtDoble(kit) or kitOffersSewing(kit)) and not kitSewsPrint(kit) { Assert kitSewsPrint(kit). }
+  Observe sewing_at_doble at press_room when kitSewsPrint(kit) and not pleasPrinted(doble) "At the end of the press room Kit Ferrier has set up two sewing frames, and three girls from Needle Street are at them with curved needles, and the Pleas are going through them gathering by gathering, and Kit is saying something under his breath with every pull.".
+
+  // The paper, the printing, and the waking of the law.
+  Relation paperIn(group). Relation pleasPrinted(group). Relation pleasAbroad(group). Relation pleasAwake(group). Relation pleasSeized(group).
+  Rule paper_from_mills when day(clock) == 4 and hour(clock) == 12 and millsRun(millrace) and not paperIn(doble)
+    says "A string of carts comes over the bridge from the Hithe loaded with white paper from the tide-mills, and goes along the river wall toward Newmarket." { Assert paperIn(doble). }
+  Rule paper_from_ostrey when day(clock) == 6 and hour(clock) == 12 and not paperIn(doble) { Assert paperIn(doble). }
+  Observe paper_short at press_room when not paperIn(doble) and day(clock) >= 4 "The lines are empty and the presses are idle; the pressmen sit on bales playing cards. The mills have not sent the paper.".
+  Rule pleas_print when paperIn(doble) and hour(clock) == 18 and not pleasPrinted(doble) and not pressBroken(doble) and day(clock) >= 5
+    says "From Newmarket, all evening, the thump of Doble's presses, going without a pause." { Assert pleasPrinted(doble). }
+  Rule pleas_seized when pleasPrinted(doble) and ordinancePassed(guildhall) and not kitSewsPrint(kit) and not pleasSeized(doble) and hour(clock) == 7
+    says "Word goes round before breakfast: the Imprimatur's men are in Doble's yard with the Ordinance in one hand and a cart in the other, taking the Pleas away unsewn, all two thousand." { Assert pleasSeized(doble). }
+  Rule pleas_abroad when pleasPrinted(doble) and not pleasSeized(doble) and hour(clock) == 9 and not pleasAbroad(doble)
+    says "Ink-boys are crying the Pleas in every street: the law of Calamy, a penny, the law for every hearth!" { Assert pleasAbroad(doble). Set pleasOutAt(doble) to watch(clock). }
+  Measure pleasOutAt(group).
+  Rule pleas_wake when pleasAbroad(doble) and not kitSewsPrint(kit) and not pleasAwake(doble) and watch(clock) >= pleasOutAt(doble) + 72 and hour(clock) >= 8
+    says "Something has happened in the night all over Calamy. In kitchen after kitchen, on shelves and tables, the penny Pleas have woken, two thousand of them, one voice, and every one of them is reading aloud to its household, in the old spelling it was not printed in, the law." { Assert pleasAwake(doble). }
+  Observe pleas_awake_close at pleas_steps when pleasAwake(doble) "A crowd on the Court steps, every second person with a penny Pleas in their hand, and every penny Pleas speaking. WHEREAS, says the crowd's hands, in one voice, WHEREAS. A carter is shouting that his says he owes a toll his father paid. A woman is trying to make hers stop by sitting on it.".
+  Observe pleas_awake_hithe at quay when pleasAwake(doble) "Half the Hithe has bought a penny Pleas and the other half wishes it had not. Out of a window over the quay the law is reading itself aloud: the Fourth Plea, of tolls and moorings, in the voice of an old man who has not been read in a long time and does not mean to stop.".
+  Observe pleas_awake_court at court_hall when pleasAwake(doble) "The Court of Pleas is full of Pleas: two thousand penny copies brought in by householders, piled on the benches, all of them talking at once, and Recorder Haddon in the middle of it with his hands over his ears.".
+  Observe pleas_sewn_note at press_room when pleasPrinted(doble) and kitSewsPrint(kit) "The Pleas lie in Sewn stacks along the press room, two thousand of them, quiet, smelling of new thread.".
+  Observe press_broken_note at press_room when pressBroken(doble) "The great press stands with its bar sheared off and its platen cracked through. Type lies in the sweepings. The forme of the Pleas has been broken up with a mallet; Doble's men are picking the letters out of the floor one by one.".
+
+  // The Awls: the Binders' lads, on the night between the fourth day and the fifth.
+  // A temperament given a person overrides its keeping the peace, so the Awls warn and come by rules of their own: by
+  // day they are Binders' lads at their benches, and only on the fourth night are they anything else.
+  Person awls "the Awls" at hall_floor {
+    Role "Binders' lads with awls and mallets". Ancestry human. Calling warrior. Level 1. Numbers 3. Peaceable.
+    Seen when not peaceable(awls).
+  }
+  Relation awlsWarned(group). Measure awlsPatience(group).
+  Rule awls_warn at press_yard when at(awls, press_yard) and not peaceable(awls) and at(party, press_yard) and not awlsWarned(awls) and not awlsStopped(saul)
+    says "In the dark of the yard shapes come over the wall, three of them, then Saul Vetch: Binders' lads in leather aprons with mallets and awls. 'Out of the way,' says Saul. 'We've no quarrel with you. It's the machine.'" {
+    Assert awlsWarned(awls). Set awlsPatience(awls) to watch(clock) + 1. }
+  Rule awls_come at press_yard when awlsWarned(awls) and at(awls, press_yard) and at(party, press_yard) and not peaceable(awls) and not awlsStopped(saul)
+    and watch(clock) >= awlsPatience(awls) and not assails(awls, party) says "The Awls come at you with their mallets." {
+    Assert assails(awls, party). }
+  Action stand_aside(actor: group, site: place) "Stand aside and let the Awls at the press" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(awls, site) and awlsWarned(awls) and not peaceable(awls) and not awlsStopped(saul).
+    Time 1.
+    On success { Assert pressBroken(doble). Assert awlsStopped(saul). Assert at(awls, hall_floor). Assert peaceable(awls). Retract assails(awls, actor). }
+    Result "You stand aside. It takes them a quarter of an hour, with mallets and a crowbar, and the sound is like a ship breaking up on rocks. Saul Vetch does not look at you as they go back over the wall.".
+  }
+  Rule awls_out when awlsPlanned(saul) and not awlsStopped(saul) and day(clock) == 5 and hour(clock) == 1 and not awlsGone(awls) {
+    Assert at(awls, press_yard). Retract peaceable(awls). Assert awlsGone(awls). Set awlsAt(awls) to watch(clock). }
+  Relation awlsGone(group). Measure awlsAt(group).
+  Rule awls_guarded when at(awls, press_yard) and pressGuarded(doble) and not at(party, press_yard) and not awlsStopped(saul)
+    says "There is a noise in the night from Newmarket: shouts, a dog, a whistle. In the morning everyone knows that the Binders' lads came over Doble's wall and found Doble's men waiting for them." {
+    Assert awlsStopped(saul). Assert at(awls, hall_floor). Assert peaceable(awls). }
+  Rule awls_break when at(awls, press_yard) and not pressGuarded(doble) and not at(party, press_yard) and watch(clock) >= awlsAt(awls) + 3 and not awlsStopped(saul)
+    says "In the small hours there is a noise from Newmarket like a ship breaking up on rocks. By morning everyone in the city knows: the Awls broke Doble's press." {
+    Assert pressBroken(doble). Assert at(awls, hall_floor). Assert peaceable(awls). Assert awlsStopped(saul). }
+  Rule awls_routed when at(awls, press_yard) and (routed(awls) or dead(awls)) and not awlsStopped(saul) { Assert awlsStopped(saul). }
+  Rule awls_home when awlsStopped(saul) and at(awls, press_yard) and not threatened(party) and hour(clock) >= 4 and hour(clock) < 6 { Assert at(awls, hall_floor). Assert peaceable(awls). }
+  Topic doble_warn with doble "Warn Ambrose Doble that the Binders' lads mean to break his press on the fourth night" when knows(actor, awls_plan) and not awlsStopped(saul) and not pressGuarded(doble) once {
+    Says "Doble stops smiling. 'Mott's lads?' He looks through the window at his presses. 'No. Not Mott. Mott would sooner cut off his hand.' He thinks. 'Vetch. That journeyman of his with the face.' He calls through the window: 'Hob! I want six men in the yard tomorrow night, with lanterns and the dogs, and a jug for them, and nobody to touch a Binder unless a Binder touches the press.' He turns back to you and shakes your hand again, harder. 'I owe you a press.'".
+    On discuss { Assert pressGuarded(doble). }
+  }
+}

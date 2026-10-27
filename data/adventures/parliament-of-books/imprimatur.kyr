@@ -1,0 +1,139 @@
+Module calamy "A Parliament of Books" {
+  Description "The Imprimatur and the Ashpit: the Deputy Censor, her burnings, her kitchen, and the Cupboard of Excisions.".
+
+  Observe ashpit_scene at ashpit when true "A square of beaten earth in the middle of the Close, black in the middle, with the Church of the Lamp on one side, the Stationers' Hall on another, a grey building with barred windows and a little lamp carved over its door on a third, and the Court steps going up on the fourth. In the black middle men are building a bonfire of faggots and old timber, a great cone of it, higher every day, for the Kindling.".
+  Observe pyre_grows at ashpit when day(clock) >= 5 and not kindlingDone(ashpit) "The Kindling fire stands twice the height of a man now, faggots and broken furniture and old shutters, with a ladder against it and a boy on the ladder.".
+  Discovery ash_lines "The ash from the Thursday brazier at the Ashpit does not blow away. It lies on the beaten earth in fine straight grey lines, like the lines of a page, and the sweepers go round it.".
+  Observe ash_in_lines at ashpit when burnings(rhule) >= 1 and not burningNow() and not kindlingDone(ashpit) "By the cold brazier at the edge of the Ashpit the ash of Thursday's burning has not blown away, though the wind is off the river. It lies on the beaten earth in fine straight lines, grey, close together, like the lines of a page; and the sweepers have swept round it." teaches ash_lines.
+  Relation kindlingDone(place).
+  Observe imp_scene at imp_office when true "A long grey room with a counter down it, and behind the counter clerks in grey stamping papers with a little brass lamp: LICENSED. LICENSED. REFUSED. On the wall a great framed list in small letters, INDEX OF BOOKS REFUSED, ADDED TO SINCE THE YEAR 1060, and beside it a newer board with a slot in it like a poor-box: UNQUIET VOLUMES HERE. FOUR PENCE PAID. A door behind the counter; a cold passage to a kitchen; steps going down." teaches imprimatur_named.
+  Observe imp_letters at imp_office when true "Behind the counter, on its own shelf, a row of grey boxes tied with tape and sealed with the little lamp, each with a label in an old hand: CORRESPONDENCE OF THE CENSOR-GENERAL WITH THE CENSORS OF HALLAM. OF ORSK. OF THE SALT TOWNS. OF TESSALY (UNANSWERED). 1132-1140. NOT TO BE OPENED.".
+  Person clerk "the clerk at the counter" at imp_office {
+    Role "a clerk of the Imprimatur". Ancestry human. Background scribe. Peaceable. Manner stoic. Pronouns they.
+    Buys almanack_copy for 1 coin.
+    Greets "A clerk in grey looks up from a ledger. 'Licences, left. Refusals, right. Unquiet volumes, the box, four pence, and mind your fingers, some of them bite.'".
+  }
+  Observe imp_kitchen_scene at imp_kitchen when true "A big cold kitchen with a scrubbed table, a banked fire, a dresser of plain plates, and on a nail by the chimney a penny almanack, curling. On the table there is a single candlestick with the candle burnt right down, and a chair pushed back as if someone got up from it in a hurry.".
+
+  // ── Hester Rhule. ──
+  Person rhule "Hester Rhule" at rhule_room {
+    Role "Deputy Censor of the Imprimatur". Ancestry human. Calling warrior. Level 3. Trait strong_willed. Background magistrate. Peaceable. Manner stoic. Pronouns she.
+    Greets "A woman in grey sits at a plain table with a book open in front of her and a pen across it, very straight, still. She has a binder's square hands. 'Hester Rhule. Deputy Censor.' She does not get up. 'If you have come about a licence, you have come to the wrong room. If you have come about an unquiet volume, you have come to the right one. Sit down.'".
+    Objects "Hester Rhule looks at {?i} in your hand, and then at you, and says, very evenly: 'That is the Imprimatur's.'".
+  }
+  Observe rhule_room_scene at rhule_room when true "A small square room with a plain table, two chairs, a cot made up tight, a shelf of law-books, and a grey door in the far wall with a good lock on it. On the table, open, a book with its pages cut out: a neat ladder of stubs where whole chapters were.".
+  Measure doubt(group).
+  Relation liedTo(group). Relation rhuleMet(group).
+  Discovery rhule_view "Hester Rhule believes the quickening spreads from book to book like rot; that a book which alters its own text is a lie that cannot be corrected; and that she burns unquiet volumes to save the rest from the mob that would burn them all.".
+  Topic rhule_unquiet with rhule "Ask the Deputy Censor what an unquiet volume is" when true once {
+    Says "'A book that does what a book should not do,' says Hester Rhule. 'Speaks. Sings. Moves. Alters what it says.' She lays her hand flat on the cut book in front of her. 'That last is the one that matters. A book that can change its own text is a lie nobody can correct. Your will says one thing on Monday and another on Tuesday. Your law says what it likes.' She looks at you directly for the first time. 'It spreads. It began with Doble's and now there is a bestiary in the Customs bond that has been Sewn for six hundred years, talking. I burn them on Thursdays, in public, so that people see it done properly, by the Imprimatur, and do not take it into their own hands and burn everything with a voice. I have seen what a frightened street does with a fire.' A pause. 'I was fourteen.'".
+    On discuss { Assert knows(actor, rhule_view). Assert rhuleMet(rhule). }
+  }
+  Topic rhule_father with rhule "Ask Hester Rhule about her father" when knows(actor, rhule_view) once {
+    Says "'A binder. Needle Street.' Rhule's square hands lie still on the table. 'He could Sew a book so it would last a thousand years. He taught me, before they let girls in the Company and after, when nobody was looking.' She almost smiles. 'He thought the Imprimatur was a necessary evil. He said, every book is a little dangerous, Hessie, that's what they're for. Somebody has to say which ones are too dangerous.' She turns the cut book's pages over, stub after stub. 'He did not think that somebody should be his daughter.'".
+  }
+
+  // Burnings on Thursdays: the second, fifth and eighth days, at noon, unless she has stopped them.
+  Relation burningsStopped(group). Relation burningSeen(group). Measure burnings(group).
+  Person crowd "the crowd at the Ashpit" at imp_cells {
+    Role "Calamy, come to watch". Ancestry human. Numbers 40. Peaceable.
+    Seen when burningNow().
+  }
+  Query burningNow() means at(rhule, ashpit) and hour(clock) == 12.
+  Rule rhule_to_burn when hour(clock) == 12 and (day(clock) == 2 or day(clock) == 5 or day(clock) == 8) and not burningsStopped(rhule) and at(rhule, rhule_room) {
+    Assert at(rhule, ashpit). Assert at(crowd, ashpit). Increase burnings(rhule) by 1. }
+  Rule rhule_from_burn when hour(clock) == 13 and at(rhule, ashpit) and not kindlingNight() { Assert at(rhule, rhule_room). Assert at(crowd, imp_cells). }
+  Query kindlingNight() means day(clock) == 9 and hour(clock) >= 18.
+  Observe burning_scene at ashpit when burningNow() "At the edge of the Ashpit, away from the great Kindling pile, a brazier burns, and Hester Rhule stands beside it in grey with a clerk holding a basket. The crowd stands back. From the basket she takes the week's unquiet volumes one by one and reads out each title in a clear voice, as at a funeral, and puts it in the fire. A book of hours. A ready-reckoner. A penny almanack, then another, then six more.".
+  Rule almanacks_cry at ashpit when burningNow() and not burningSeen(party)
+    says "As the first almanack goes into the brazier there is a sound: not from the fire, but from everywhere, faint and thin and all at once, from every kitchen round the Close, from the Imprimatur's own windows, from the Lamb across the river for all you know. A cry. Then another as the second goes in. The crowd shifts. Somebody laughs, the wrong way. Hester Rhule's hand does not stop." {
+    Assert burningSeen(party). }
+  Rule almanack_hurt_pocket when burningNow() and carries(party, ?c) and itemKind(?c, almanack_copy) and at(party, ashpit) and not hurtInPocket(party)
+    says "In your pocket the almanack makes a sound you will not forget, a thin dry shriek, as if a page were being torn slowly; and then another, as the next goes in." {
+    Assert hurtInPocket(party). }
+  Relation hurtInPocket(group).
+  Topic rhule_heard with rhule "Ask Hester Rhule what she hears when the almanacks go into the fire" when burningSeen(actor) and not heardCry(rhule) once {
+    Says "Rhule is quiet for a long moment. 'The glue,' she says. 'Doble's glue, boiling in the spines. It whistles.' She looks at her hands. 'It does not whistle in the Hithe. It does not whistle in my kitchen, across the Close, with the window shut.' Another silence. 'I hear it. Every Thursday I hear it from my kitchen, at night, after. The almanack on the nail, crying out when nobody's burning anything, as if it were remembering.' She looks up. 'I have told myself it is the glue for eight weeks. You are the first person who has asked.'".
+    On discuss { Assert heardCry(rhule). Increase doubt(rhule) by 1. }
+  }
+  Relation heardCry(group).
+
+  // At night she reads in her kitchen; then she sleeps in her room.
+  Rule rhule_to_kitchen when hour(clock) == 20 and at(rhule, rhule_room) and not travelsWith(rhule, party) and not rhuleGone(rhule) { Assert at(rhule, imp_kitchen). }
+  Rule rhule_to_bed when hour(clock) == 2 and at(rhule, imp_kitchen) { Assert at(rhule, rhule_room). Assert asleep(rhule). }
+  Rule rhule_wakes when hour(clock) == 7 and asleep(rhule) { Retract asleep(rhule). }
+  Relation rhuleGone(group).
+  Observe rhule_reading at imp_kitchen when at(rhule, imp_kitchen) "At the scrubbed table, by one candle, Hester Rhule sits in her shirtsleeves with a sheaf of loose pages in front of her, cut pages, their edges ragged where a knife went down a margin. She is reading. She does not hear you come in for a moment. When she does, she puts her hand flat on the pages, as a child does on a letter.".
+  Discovery rhule_reads "Hester Rhule sits up in the Imprimatur's kitchen at night reading pages cut out of books: the Imprimatur's excisions, which she is supposed to keep locked away unread.".
+  Observe rhule_caught at imp_kitchen when at(rhule, imp_kitchen) "She is reading the pages the Imprimatur cut." teaches rhule_reads.
+
+  // The Cupboard of Excisions, behind the grey door.
+  Thing excision_lock "the lock on the grey door" on excision_door {
+    State locked blocking "The grey door in the Censor's room is locked: a good lock, brass, newly oiled.".
+    State open "The grey door stands open.".
+    Change pick "Pick the lock on the grey door" from locked to open needing lockwork.
+  }
+  Observe excisions_scene at excisions when true "A narrow room lined to the ceiling with shallow drawers, hundreds of them, each with a brass label-holder and a card: the name of a book, the chapters, a year, a censor's initials. VARNE, LANTERN-BEARERS, CANTO II LINES 1-40, 1206, R.T. AMBERY, LOST SERMONS, ALL, 1150, P. ORME, PHYSICK, CAPP. XIV-XVII, 1131, PARDOE. The air smells of old paper and something sharper, like a room where someone has been crying. One drawer stands a little open.".
+  Discovery orme_cut "In the Cupboard of Excisions, in the drawer marked ORME, PHYSICK, CAPP. XIV-XVII, lie the four chapters Censor-General Pardoe cut from Mother Orme's Physick in 1131, with his note: XIV to XVI cut for impiety, as touching the bodies of women and the hindering of birth; XVII cut for that it teacheth the making of the Grey Water, a poison past cure. XV is the remedy for the marsh ague.".
+  Discovery canto_cut "In the Cupboard of Excisions lie forty lines of the second canto of Isolde Varne's Lantern-Bearers, cut in 1206 from the papers she left when she died, by a censor who found them seditious. The second canto was begun.".
+  Item orme_pages "Orme's cut chapters" is pages_kind at excisions owned by rhule.
+  Item canto_lines "the forty cut lines of Varne's second canto" is pages_kind at excisions owned by rhule.
+  Observe orme_drawer at excisions when at(orme_pages, excisions) "In the open drawer, ORME, a bundle of pages tied with tape, and a slip in a crabbed old hand pinned to the top." teaches orme_cut.
+  Observe varne_drawer at excisions when at(canto_lines, excisions) "Further along, a drawer marked VARNE, LANTERN-BEARERS, CANTO II LINES 1-40, and in it a single folded sheet in a woman's quick hand, the ink gone brown, the last line breaking off in the middle." teaches canto_cut.
+
+  // How the company may come by the pages: asked for, or taken.
+  Relation pagesGiven(group). Relation cupboardShown(group).
+  Topic rhule_cupboard with rhule "Ask Hester Rhule about the pages she reads at night" when (knows(actor, rhule_reads) or knows(actor, cupboard_known)) and not cupboardShown(rhule) and doubt(rhule) >= 2 once {
+    Says "Rhule goes still. Then she gets up, and takes a key from inside her collar on a cord, and opens the grey door. 'The Cupboard of Excisions,' she says. 'Every page the Imprimatur has cut from a book in three hundred years. We are to keep them and never read them, so that what was cut can never be said to have been destroyed.' She stands in the door with her back to you. 'I read them. Every night for six years. Some of them were cut for nothing at all. A joke about a bishop. A woman's name.' Her voice does not change. 'Some of them were cut because they would kill people. I have not been able to tell which is which, by reading. I have tried.'".
+    On discuss { Assert cupboardShown(rhule). Assert state(excision_lock, open). Assert knows(actor, cupboard_known). }
+  }
+  Topic rhule_cupboard_denied with rhule "Ask Hester Rhule about the pages she reads at night" when (knows(actor, rhule_reads) or knows(actor, cupboard_known)) and not cupboardShown(rhule) and doubt(rhule) < 2 once {
+    Says "'I read the law,' says Rhule, perfectly evenly, and you know she is lying, and she knows you know. 'You are mistaken about the hour, and about the pages.' She picks up her pen. 'Good day.'".
+  }
+  Topic rhule_orme with rhule "Ask Hester Rhule for Orme's cut chapter on the marsh ague, for the children of the Hithe" when cupboardShown(rhule) and knows(actor, orme_remedy) and not pagesGiven(rhule) once {
+    Says "Rhule opens the ORME drawer and takes out the bundle and unpins Pardoe's slip and reads it to you, though she must know it by heart. Impiety. The Grey Water, a poison past cure. 'Chapter fifteen is the ague,' she says. 'I know. I have read it a hundred times and thought of the Hithe.' She holds the bundle a moment. 'Seventeen is the poison. Pardoe was right about seventeen.' She takes seventeen out, and puts it back in the drawer, and gives you the rest. 'Take it to whoever needs it. I will lend it. If anyone asks, the Imprimatur lent it.' She closes the drawer. 'That has never been said in this room.'".
+    On discuss { Assert pagesGiven(rhule). Assert lends(rhule, orme_pages, actor). Assert ormePoisonKept(rhule). }
+  }
+  Relation ormePoisonKept(group).
+  Topic rhule_canto with rhule "Ask Hester Rhule for the forty lines of Varne's second canto" when cupboardShown(rhule) and knows(actor, canto_cut) once {
+    Says "'Varne.' Rhule takes the sheet out and holds it to the window. 'Seditious, R.T. wrote. I have read it nine times looking for the sedition. I think it was this line.' She points: a line about a lamp carried into a dark house, and the house waking. 'He thought she meant the Duke. I think she meant nothing at all; I think she meant a lamp.' She hands it to you. 'Lent. Bring it back, or bring me word of where it went.'".
+    On discuss { Assert lends(rhule, canto_lines, actor). }
+  }
+
+  // Who told the company about the Cupboard, if Rhule asks: the truth, or a lie.
+  Relation askedSource(group).
+  Topic rhule_who with rhule "Tell Hester Rhule how you knew about the Cupboard" when cupboardShown(rhule) and knows(actor, almanack_secret) and not askedSource(rhule) once {
+    Says "You tell her: the almanack on the nail in her kitchen. Rhule turns and looks through the open door, down the cold passage, toward the kitchen, for a long time. 'It heard me,' she says. 'Every night.' She does not seem angry. She seems like someone who has put a hand out in the dark and found another hand. 'Every night for eight weeks something was listening to me read what nobody was meant to read, and it did not tell anyone until it had a reason.' She is quiet. 'I would not have been so careful.'".
+    On discuss { Assert askedSource(rhule). Increase doubt(rhule) by 1. }
+  }
+  Topic rhule_who_lie with rhule "Tell Hester Rhule that Absalom Crake told you about the Cupboard" when cupboardShown(rhule) and knows(actor, almanack_secret) and not askedSource(rhule) once {
+    Says "Rhule looks at you with no expression at all. 'Crake,' she says. 'Crake has never been in this building in his life.' She writes something in the margin of the cut book, one word, small. 'Very well.' She does not ask again, and she does not believe you, and you can see that she has filed it, the way she files everything.".
+    On discuss { Assert askedSource(rhule). Assert liedTo(rhule). }
+  }
+
+  // Rhule's turnings, by what she has been shown.
+  Topic rhule_ruling with rhule "Tell Hester Rhule the Court of Pleas has ruled a book may plead" when paskRuled(court) and not toldRuling(rhule) once {
+    Says "'I heard.' Rhule's hand lies on the cut book. 'Haddon ruled that a book may be heard in its own cause. A treatise on sheep.' She almost smiles. 'If a book may plead in the Court of Pleas, then it is someone the law can wrong. And if the law can wrong it, I can.' She closes the cut book. 'I have been burning litigants.'".
+    On discuss { Assert toldRuling(rhule). Increase doubt(rhule) by 1. }
+  }
+  Relation toldRuling(group).
+  Topic rhule_colophon with rhule "Tell Hester Rhule the first term of the Colophon: no book burned in Calamy save by its own leave" when knows(actor, kindling_is_rite) and not toldColophon(rhule) once {
+    Says "Hester Rhule listens to all of it without moving: Ambery, the books that asked to sleep, the bargain, the year-book that went to the fire of its own will, the almanacks that have not. When you have done she sits for a long time with her square hands flat on the table. 'Save by its own leave,' she says at last. 'It is in the Imprimatur's charter. The first line. I thought it meant the author's leave. Everyone always has.' She stands up and goes to the window and looks out at the Kindling pile going up in the Ashpit. 'Nine hundred years,' she says, 'and I am the one holding the torch.'".
+    On discuss { Assert toldColophon(rhule). Increase doubt(rhule) by 2. }
+  }
+  Relation toldColophon(group).
+  Topic rhule_stop with rhule "Ask Hester Rhule to stop the Thursday burnings" when doubt(rhule) >= 3 and not burningsStopped(rhule) once {
+    Says "'Yes,' says Rhule, before you have finished asking. 'I stopped them in my head on Tuesday. I have been waiting for someone to say it so that I could.' She takes a printed notice from a drawer, UNQUIET VOLUMES, and tears it across. 'The box stays. Anything that is brought in, I will keep. I will not burn it.' She looks at the torn notice. 'The Censor-General will have my place for this. He is in Ostrey for his gout. He can come back and take it.'".
+    On discuss { Assert burningsStopped(rhule). }
+  }
+  Observe notice_gone at quay when burningsStopped(rhule) "On the notice post the Imprimatur's notice has been torn down. Somebody has chalked in its place a book with legs, running, and nobody has rubbed it out.".
+  Topic rhule_come with rhule "Ask Hester Rhule to come with you to the country where the books go" when doubt(rhule) >= 4 and (crakeGuides(crake) or readingTaught(actor)) and not travelsWith(rhule, actor) and not liedTo(rhule) once {
+    Says "Rhule looks at you as if you had asked her to walk into the river. Then she stands, and takes her grey coat from the peg, and her key on its cord, and, after a moment, the ORME drawer's empty label. 'If I am going to stand in front of them,' she says, 'I will stand in front of them myself, and not send a clerk.' She buttons the coat to the throat. 'The Imprimatur cut three hundred years of them. Somebody from the Imprimatur should be there to be told so.'".
+    On discuss { Assert willing(rhule, actor). Set hire(rhule) to 0. }
+  }
+  Topic rhule_travel_plane with rhule travelling "Ask Hester Rhule what she makes of this country" when inCommonplace(actor) once {
+    Says "Rhule looks about her for a long time before she answers, at the pale light, the ground of written words, the beams coming down. 'I thought it would be a library,' she says. 'Somewhere you could put things back in order.' She watches a line of marginalia go by like ants. 'It is not in order. It was never going to be in order.' Her square hands open and close. 'My father would have known what to do with his hands here. I only know what to do with a knife.'".
+  }
+  Query inCommonplace(a: group) means at(a, ?p) and planeRoom(?p).
+  Relation planeRoom(place).
+}
