@@ -9,7 +9,9 @@ import type { BundleSource } from '../campaign/bundle-source';
 import { CampaignLint } from './campaign-lint';
 import type { Module } from '../lang/module';
 
-export interface Finding { level: 'error' | 'warning'; check: string; where: string; message: string }
+// An error fails the lint; a warning fails it in recommended content; advice is for the author to look at, and fails
+// nothing (a rule that may be meant: see CampaignLint.anchors).
+export interface Finding { level: 'error' | 'warning' | 'advice'; check: string; where: string; message: string }
 
 export class KyrLint {
   static readonly root = resolve(import.meta.dir, '../..');
@@ -91,6 +93,7 @@ export class KyrLint {
     const lint = new CampaignLint(path, await PlaySession.start(path, 'lint', source));
     lint.identity(); lint.shadows(); lint.containment(); lint.passages(); lint.traversal(); lint.geography();
     lint.applicability(); lint.labels(); lint.items(); lint.prose(); lint.domain(); lint.hazards(); lint.placeholders();
+    lint.anchors();
     return lint.findings;
   }
   static async run(paths: string[]) {
@@ -109,16 +112,17 @@ export class KyrLint {
     const results = await this.run(args.filter(a => !a.startsWith('--')));
     let failed = false;
     for (const [where, findings] of Object.entries(results)) {
-      const errors = findings.filter(f => f.level === 'error').length, warnings = findings.length - errors;
+      const errors = findings.filter(f => f.level === 'error').length;
+      const warnings = findings.filter(f => f.level === 'warning').length, advice = findings.length - errors - warnings;
       const recommended = this.recommended.includes(where);
       const tag = recommended ? 'recommended' : where === 'vocabulary' ? 'repository' : 'legacy';
-      console.log(`${where} [${tag}]: ${errors} errors, ${warnings} warnings`);
+      console.log(`${where} [${tag}]: ${errors} errors, ${warnings} warnings${advice ? `, ${advice} to look at` : ''}`);
       for (const f of findings.filter(x => verbose || recommended || x.level === 'error')) {
         console.log(`  ${f.level} ${f.check}: ${f.where === where ? '' : `${f.where}: `}${f.message}`);
       }
       // An error fails the lint in any campaign (an author's own, run as a check before play); recommended content
       // must be clean of warnings too.
-      if (errors || (recommended && findings.length)) { failed = true; }
+      if (errors || (recommended && warnings)) { failed = true; }
     }
     return failed ? 1 : 0;
   }

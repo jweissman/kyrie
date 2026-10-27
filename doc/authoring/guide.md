@@ -638,6 +638,21 @@ arrives, with a clock for when (The Road the Star Came Down's F9, The Patient St
   Rule son_goes at green when watch(clock) >= 204 and not told(son) and at(son, green) says "{son} has taken his father's old spear and gone out on the road alone." { Retract at(son, green). Assert gone(son). }
 ```
 
+An anchor says where a rule's words are heard, not whether the rule happens: a rule anchored `at` a place happens
+wherever the company is, whenever its condition holds. Two authors met it apart (a purse lifted at a fair from a
+company a mile off on the road; a sedan chair run and crashed while the company was crossing the river). A rule that
+should happen only in front of the company asks for it in its condition:
+
+```text
+  Event purse_lifted at freezeland when at(party, freezeland) and not lifted(party) "A hand is in your purse, and gone." then { Assert lifted(party). Decrease quantity(party, gold) by 5. }
+```
+
+A rule anchored `within` an area waits for the company to be in it: what it does, as well as what it says, happens
+when the company is anywhere in the area (news of a city told, and done, when the company comes into it). `kyrie lint`
+advises on a rule anchored at a place that changes something of the company's own (its coin, where it is, what it
+knows) and asks nothing of where the company is: it may be meant (a hand broken at a court the company stayed away
+from), and it may not.
+
 A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none.
 
 ### A place heard of

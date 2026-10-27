@@ -1,0 +1,16 @@
+Module heardthere "A purse lifted at a fair, and where it is lifted from" {
+  Place vale "the vale" is region.
+  Place town "Haybridge" is settlement within vale at 0, 0.
+  Place market "the market" is room within town at 0, 0 outdoors.
+  Place fields "the fields" is wilderness within vale at 1, 0.
+  Place road "the road" is room within fields at 0, 0 outdoors.
+  Passage into_town "the road into Haybridge" is road between road and market taking 1 hour.
+  Company party "You" of 1 at road.
+  Relation lifted(group). Relation warned_of(group). Relation cried(group).
+  // Heard at the market, but done to the company wherever it is: the lint says so.
+  Rule lifted at market when not lifted(party) says "A hand is in your purse, and gone." { Assert lifted(party). }
+  // Asked where the company is: done only in front of it.
+  Rule warned at market when at(party, market) and not warned_of(party) says "'Mind your purse,' says a stallholder." { Assert warned_of(party). }
+  // Within the town: waits for the company to be there.
+  Rule cried within town when not cried(party) says "A crier calls the fair open." { Assert cried(party). }
+}

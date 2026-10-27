@@ -31,6 +31,30 @@ export class CampaignLint {
   shadows() {
     for (const s of this.session.campaign.save().definition?.shadows ?? []) { this.add('warning', 'shadow', s); }
   }
+  // A rule anchored at a place is heard there, but happens wherever the company is, whenever its condition holds: two
+  // authors met it apart (a purse lifted at Pellam's fair from a company a mile off on the road; a chair at Hessel run
+  // and crashed while the company crossed the river). One that changes something of the company's own (its coin, where
+  // it is, what it knows), and whose condition asks nothing of where it is, is advice to look at it: it may be meant
+  // (a hand broken at a court the company stayed away from). A rule anchored within an area waits for the company.
+  anchors() {
+    const company = this.session.campaign.playerActor;
+    if (!company) { return; }
+    for (const r of this.module.rules ?? []) {
+      if (!r.place || !['at', 'beside'].includes(r.anchor ?? '')) { continue; }
+      const reaches = r.effects.some(c => c.call.args[0] === company);
+      if (!reaches || CampaignLint.asksWhere(r.when, company, r.place)) { continue; }
+      this.add('advice', 'anchor', `${r.id} is heard at ${r.place}, but what it does to the company happens wherever`
+        + ` the company is: put at(${company}, ${r.place}) in its condition, or anchor it within an area`);
+    }
+  }
+  // Whether a condition asks where the company is (at(party, …)), or anything of the place itself.
+  private static asksWhere(p: unknown, company: string, place: string): boolean {
+    if (!p || typeof p !== 'object') { return false; }
+    const c = p as { kind?: string; name?: string; args?: string[] };
+    const where = ['at', 'together'].includes(c.name ?? '') && c.args?.includes(company);
+    if (c.kind === 'call' && (where || c.args?.includes(place))) { return true; }
+    return Object.values(p).some(v => CampaignLint.asksWhere(v, company, place));
+  }
   // A hazard's effect is checked as it will be struck with: a condition that is no condition, or a damage type that
   // is none ("fyre"), is an error here, not when it strikes.
   hazards() {
