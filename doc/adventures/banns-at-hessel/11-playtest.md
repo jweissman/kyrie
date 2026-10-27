@@ -39,6 +39,12 @@ bin/kyrie play data/campaigns/hessel.campaign.json --choices     # to play it yo
 - **Pyne**, and **Ismay's objection**.
 - **A mage** who reckons the drops by lore.
 - **A warrior on the Orm road**: told the child costs the College, walks past, fights the footpads, and is in time.
+- **A friend of the chairmen on the Orm road**: names Davy's uncle at the gibbet, hears about the cloves, and has
+  Hartopp made to walk.
+- **A thief in Carth House at night**: stops Sir Gervase's sword with the truth about the letter.
+- **The two tablets**: the memorial to a living woman, and the child Ottery came too late for.
+- **Hartopp faced**, and the pumper's son.
+- **The chapters**: the Rooms journey sees all four days open.
 - **Keeping**: a Season saved on the second morning and resumed, which ends as the unbroken one does.
 - **Determinism**: two identical runs.
 

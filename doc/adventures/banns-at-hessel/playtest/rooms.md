@@ -1,6 +1,6 @@
 # The Rooms
 
-Played by Tamsin, a bard; seed `h1`, steps `test/fixtures/hessel/rooms.json`; 206 steps; ended at watch 600, at the ending "The Last Dance". Written by `bun scripts/hessel-transcripts.ts` from the journey as the page told it.
+Played by Tamsin, a bard; seed `h1`, steps `test/fixtures/hessel/rooms.json`; 207 steps; ended at watch 600, at the ending "The Last Dance". Written by `bun scripts/hessel-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -16,7 +16,7 @@ Quay Lane: narrow houses, a milliner’s with three bonnets in the window on woo
 
 **To Stall Street, by the chairmen's stand**
 
-Stall Street: the chairmen’s stand, a long bench under a penthouse roof, and the chairs themselves, black, glossy, like great beetles with their poles laid by them; men in blue coats sitting on the bench with their arms folded, every one of them built like a door. Big Lanyon, the chairmen’s spokesman, a huge mild man with a voice like a bell under water, is here.
+Stall Street: the chairmen’s stand, a long bench under a penthouse roof, and the chairs themselves, black, glossy, like great beetles with their poles laid by them; men in blue coats sitting on the bench with their arms folded, every one of them broad enough to stop the Parade. Big Lanyon, the chairmen’s spokesman, a huge mild man with a voice like a bell under water, is here.
 
 **To the Abbey Yard, at the foot of the Parade**
 
@@ -50,7 +50,7 @@ On the Circus lawn the chairmen sit on the poles of Mrs Cherrett’s chair waiti
 
 **Into Mrs Cherrett's lodgings**
 
-Ismay Cherrett watches Kit Danby from the parlour window. Mrs Cherrett’s parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant’s foot. The window looks down over the Circus lawn. Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing. Ismay is standing at the window with her ledger open in her hands. Down on the Circus lawn the chairmen are waiting with Mrs Cherrett’s chair, sitting on its poles, and one of them, the young one, is reading a book. Ismay does not turn a page all the time you are in the room. Mrs Cherrett’s bedroom door is shut, and her maid sits on a chair in front of it with her knitting, and looks at you over it. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
+Mrs Cherrett’s parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant’s foot. The window looks down over the Circus lawn. Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing. Ismay is standing at the window with her ledger open in her hands. Down on the Circus lawn the chairmen are waiting with Mrs Cherrett’s chair, sitting on its poles, and one of them, the young one, is reading a book. Ismay does not turn a page all the time you are in the room. Mrs Cherrett’s bedroom door is shut, and her maid sits on a chair in front of it with her knitting, and looks at you over it. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
 
 **Tell Mrs Cherrett you will be her legs for the Season**
 
@@ -74,7 +74,7 @@ You laugh, and after a moment so does she, properly, with her head back, a laugh
 
 **Ask Mopsa how Mrs Cherrett came to marry**
 
-Mopsa looks at you with something like approval. ‘Now that’s a good question. Nobody asks it, because they think they know: money married money.’ She lowers her voice, not much. ‘Her father kept a public on the Wem road and meant her for a chandler with a wooden leg and a shop. At nineteen she went out of the window to Josiah Cherrett, who was a navvy digging the Wem cut, with a shovel and a laugh and nothing else in the world, and cooked for his gang in a hut for twenty years before there was a penny.’ She smiles, which is rare and alarming. ‘She’ll tell you she was a fool. Ask her if she’d do it again.’
+Mopsa looks at you with something like approval. ‘Now that’s a good question. Nobody asks it, because they think they know: money married money.’ She lowers her voice, not much. ‘Her father kept a public on the Wem road and meant her for a chandler with a wooden leg and a shop. At nineteen she went out of the window to Josiah Cherrett, who was a navvy digging the Wem cut, with a shovel and a laugh and nothing else in the world. He carried her into Wem church over his shoulder with her father’s dogs in the porch, and set her down at the rail, and she cooked for his gang in a hut for twenty years before there was a penny.’ She smiles, which is rare and alarming. ‘She’ll tell you she was a fool. Ask her if she’d do it again.’
 
 **Ask Mopsa what she wants**
 
@@ -184,7 +184,7 @@ In the crack of the shutter at Carth House the candle is lower. The girl has put
 
 **Wait › A while**
 
-At two in the morning a woman in a grey cloak comes along the Crescent from the top of the Parade, not hurrying, and goes up the steps of Carth House, and knocks, once. Then she stands there with her hand flat on the door, the way you would stand by a horse to feel it breathe. After a while she goes away down the hill. Somebody in a laundress’s cloak knocks at Carth House every night at two. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
+At two in the morning a woman in a grey cloak comes along the Crescent from the top of the Parade, not hurrying, and goes up the steps of Carth House, and knocks, once. Then she stands there with her hand flat on the door, the way you would stand by a horse to feel it breathe. After a while she goes away down the hill. Time passes. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
 
 *(1 wait in which nothing is told)*
 
@@ -206,7 +206,7 @@ The Two Poles: a low room, a fire, a long table polished by blue sleeves, and ov
 
 **Take a bed and supper**
 
-You eat what is put in front of you, and sleep long, under a roof.
+You eat what is put in front of you, and sleep long, under a roof. SATURDAY. The bells of Saint Ebba’s ring six over the steam. They have rung it since the abbey was a sty: Ebba was a swineherd’s daughter, the story goes, whose lame pigs wandered up the hill and came back whole and steaming, and she followed them to the hot spring; the pigs are carved among the angels on the west front, if you know where to look. Below the bridge the water-carts are filling from the river, because nobody in Hessel drinks the waters who can help it. Up on the Circus a maid is beating a carpet out of a window, and the sound comes down the hill a moment late.
 
 **Out to Stall Street, by the chairmen's stand**
 
@@ -222,11 +222,15 @@ He shows you: a book of essays, old, coming apart, bought off a barrow. ‘The m
 
 **Into Mrs Cherrett's lodgings**
 
-Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression. Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot.
+Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression. Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot.
 
 **Tell Ismay that Kit Danby keeps her violet pressed in his book**
 
 Ismay goes white and then red and then white again, and puts her pen down very carefully as if it might go off. ‘The violet,’ she says. ‘I dropped it on the Parade. In the spring. He picked it up and gave it back and I said keep it. I said keep it.’ She looks at you. ‘He kept it?’ Then, because she is herself: ‘Why are you telling me this? What do you want?’
+
+**Ask Ismay where she was when her grandmother's chair ran away**
+
+Ismay’s pen stops. ‘On the Circus steps,’ she says. ‘I’d come out to see them take her down the hill. I do, most mornings.’ She looks at the ink on her finger as if it had written something without her. ‘He looked up, and I waved. I’ve never waved at anybody in my life. I don’t know why I did it.’ Then, very low: ‘And Grandmother went down the Parade on her own, faster than the mail coach, because I waved.’ She does not laugh, and then she does, helplessly, with her hand over her mouth, for the first time since you have known her.
 
 **Tell Ismay that if she means to say anything to her grandmother, you will be in the room**
 
@@ -282,7 +286,7 @@ Kit Danby goes quite still, the way a man does who has heard his name called in 
 
 **Give Ismay's note**
 
-Tamsin gives Ismay’s note to Kit Danby. Kit reads it standing up, and then sits down on the bench, and reads it again. ‘The Sham Castle,’ he says. ‘Noon.’ He puts it in his book, beside the violet. ‘I’ll go,’ he says, to the book. ‘God help me, I’ll go.’
+You give Ismay’s note to Kit Danby. Kit reads it standing up, and then sits down on the bench, and reads it again. ‘The Sham Castle,’ he says. ‘Noon.’ He puts it in his book, beside the violet. ‘I’ll go,’ he says, to the book. ‘God help me, I’ll go.’
 
 **To Quay Lane**
 
@@ -290,7 +294,7 @@ Quay Lane: the milliner’s bonnets, the card in the lodging-house window, the l
 
 **Into Hetty Quiney's shop**
 
-Rupert Wenlock, whose banns are being read to Ismay Cherrett, has a wife and a son in Quay Lane. Hetty Quiney’s shop: three bonnets on wooden heads, a counter, ribbons in drawers labelled in a round hand, and a cradle under the counter. The Honourable Rupert Wenlock is sitting behind Hetty Quiney’s counter in his shirt-sleeves, with a fat baby on his knee, making a beetle walk across the counter for it. The baby is shrieking with joy. Rupert looks up and sees you, and every drop of colour goes out of his face, and he does not stop the beetle. A gentleman’s beaver hat, good, a little worn, on the peg by the back door. Here are the Honourable Rupert Wenlock, a pleasant, anxious man of thirty with a beetle in a pill-box; and Hetty Quiney, a milliner with pins in her mouth and a baby on her hip.
+Hetty Quiney’s shop: three bonnets on wooden heads, a counter, ribbons in drawers labelled in a round hand, and a cradle under the counter. The Honourable Rupert Wenlock is sitting behind Hetty Quiney’s counter in his shirt-sleeves, with a fat baby on his knee, making a beetle walk across the counter for it. The baby is shrieking with joy. Rupert looks up and sees you, and every drop of colour goes out of his face, and he does not stop the beetle. A gentleman’s beaver hat, good, a little worn, on the peg by the back door. Here are the Honourable Rupert Wenlock, a pleasant, anxious man of thirty with a beetle in a pill-box; and Hetty Quiney, a milliner with pins in her mouth and a baby on her hip.
 
 **Examine — Look closely**
 
@@ -350,7 +354,7 @@ The Crescent: the pale sweep of houses, the lawn, the lodgers, and at the far en
 
 **Give Rob a line: not a pale maid, but a girl with a candle at a crack in a shutter, looking at the grass**
 
-Rob stops crossing things out. ‘Looking at the grass,’ he says. ‘Not at the sky. At the grass.’ He writes for a long time. ‘Because she’s never been on it,’ he says, not to you.
+Rob stops crossing things out. ‘Looking at the grass,’ he says. ‘Not at the sky. At the grass.’ He writes, and does not cross out. ‘Because she’s never been on it,’ he says, not to you.
 
 **Give Rob a line: her hand flat on the glass at night, feeling for the warmth**
 
@@ -430,7 +434,7 @@ The Circus: the ring of houses, the round lawn, the Rooms on one side and Mrs Ch
 
 **Into Mrs Cherrett's lodgings**
 
-Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
+Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
 
 **Tell Ismay that Dr Hartopp has doubled her grandmother's drops**
 
@@ -438,7 +442,7 @@ Ismay listens with her pen in her hand. When you have finished she puts it down.
 
 **Stand by Ismay while she asks her grandmother to stop the drops**
 
-Ismay goes and kneels by her grandmother’s chair, which nobody has seen her do since she was six, and says, ‘Grandmother, I want you to stop taking Dr Hartopp’s drops. He’s doubled them. I don’t want you to die asleep.’ Mrs Cherrett looks at her granddaughter for a long time. ‘You’ve never asked me for anything,’ she says. ‘Not a ribbon.’ ‘I’m asking now.’ The old woman puts her great hand on Ismay’s head. ‘Then you can have it,’ she says. ‘God knows you can have it. Fetch me a hot brick for my feet instead, and tell that man he’s dismissed.’ Tamsin gains 250 experience: kept Mrs Cherrett alive.
+Ismay goes and kneels by her grandmother’s chair, which nobody has seen her do since she was six, and says, ‘Grandmother, I want you to stop taking Dr Hartopp’s drops. He’s doubled them. I don’t want you to die asleep.’ Mrs Cherrett looks at her granddaughter as if she had come into the room for the first time. ‘You’ve never asked me for anything,’ she says. ‘Not a ribbon.’ ‘I’m asking now.’ The old woman puts her great hand on Ismay’s head. ‘Then you can have it,’ she says. ‘God knows you can have it. Fetch me a hot brick for my feet instead, and tell that man he’s dismissed.’ Tamsin gains 250 experience: kept Mrs Cherrett alive.
 
 **Out to the Circus**
 
@@ -464,7 +468,7 @@ Mrs Gully, who keeps the Two Poles, a little round woman with a big voice, is he
 
 **Take a bed and supper**
 
-You eat what is put in front of you, and sleep long, under a roof. Tamsin reaches level 2 (+1 HP).
+You eat what is put in front of you, and sleep long, under a roof. SUNDAY: the third time of asking. Saint Ebba’s rings all eight bells for an hour before service, a peal the ringers of Orm have called wrong in the fourth change for two hundred years. The Season comes out in its second-best, keeping the best for the Ball, and the Pump Room is shut, so it has nowhere to look at itself but in church. At eleven Mr Pyne will read the banns for the last time, and come to the place where he asks if any of you know cause, and pause, as he always does, because he is young and dreads it. You reach level 2 (+1 HP).
 
 **Out to Stall Street, by the chairmen's stand**
 
@@ -490,7 +494,7 @@ The area gate stands open. Time passes.
 
 **Into the area of Carth House**
 
-The area of Carth House, below the street: flagstones, a dustbin, the kitchen door, and a round iron plate in the pavement over your head where the coal goes in, which from down here is a hatch in the vault with a rusted hasp. Mrs Brannagh is in the area in a black shawl, counting sacks of coal off a cart as the coal-man drops them through the hole, and does not look at you. The area gate stands open. The kitchen door is bolted on the inside. Mrs Brannagh, the housekeeper of Carth House, in black, with a face like a shut Bible, is here.
+The area of Carth House, below the street: flagstones, a dustbin, the kitchen door, and a round iron plate in the pavement over your head where the coal goes in, which from down here is a hatch in the vault with a rusted hasp. Mrs Brannagh is in the area in a black shawl, counting sacks of coal off a cart as the coal-man drops them through the hole, and does not look at you. The area gate stands open. The kitchen door is bolted on the inside. Mrs Brannagh, the housekeeper of Carth House, in black, with a Bible in her apron pocket and coal-dust in the lines of her hands, is here.
 
 **Ask Mrs Brannagh why the house is kept like this**
 
@@ -498,7 +502,7 @@ Mrs Brannagh closes her Bible on her finger. ‘Because the master wishes it,’
 
 **Give Rob's poem**
 
-Tamsin gives Rob’s poem to Mrs Brannagh. Mrs Brannagh unfolds the paper and reads it with her lips moving, the whole thing, slowly. When she has done she reads it again. ‘He’s seen her,’ she says. ‘Whoever wrote this has seen her. The candle, and her hand.’ She folds it small. ‘I’ll take it up with her supper.’ And then, quite differently: ‘Nobody’s written Miss Celia anything in her life.’ Tamsin gains 150 experience: made a poem of what was seen. The kitchen door is open, and the kitchen’s heat stands in it.
+You give Rob’s poem to Mrs Brannagh. Mrs Brannagh unfolds the paper and reads it with her lips moving, the whole thing, slowly. When she has done she reads it again. ‘He’s seen her,’ she says. ‘Whoever wrote this has seen her. The candle, and her hand.’ She folds it small. ‘I’ll take it up with her supper.’ And then, quite differently: ‘Nobody’s written Miss Celia anything in her life.’ Tamsin gains 150 experience: made a poem of what was seen. The kitchen door is open, and the kitchen’s heat stands in it.
 
 **Out to the Crescent**
 
@@ -538,7 +542,7 @@ The Circus: the ring of houses, the round lawn, the Rooms on one side and Mrs Ch
 
 **Into Mrs Cherrett's lodgings**
 
-Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; and Ismay Cherrett, a quiet young woman with a ledger and ink on her finger. Mrs Cherrett is wide awake, in a temper, and enjoying it. ‘Slept like a cat on a griddle,’ she says, to nobody. ‘Best night’s sleep I’ve had in a month.’
+Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; and Ismay Cherrett, a quiet young woman with a ledger and ink on her finger. Mrs Cherrett is wide awake, in a temper, and enjoying it. ‘Slept like a cat on a griddle,’ she says, to nobody. ‘Best night’s sleep I’ve had in a month.’
 
 **Tell Mrs Cherrett that Ismay loves Kit Danby, the chairman**
 
@@ -546,7 +550,7 @@ Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. Here a
 
 **Remind Mrs Cherrett that at nineteen she went out of a window to a navvy with a shovel**
 
-There is a terrible silence. Mrs Cherrett looks at you; at the stuffed pike, as if for a second opinion; at Ismay, who has come and stood by your side with her ledger held against her chest like a shield. ‘Is it true, girl?’ says Mrs Cherrett again, quite quietly. ‘Yes, Grandmother.’ The old woman’s face works. Then she begins to laugh: the laugh, the coal-scuttle laugh, the one that got her barred from the Rooms; it goes on and on, and she wipes her eyes with the pudding-cloth purse. ‘A window,’ she says. ‘It was a ground-floor window. Josiah held the ladder anyway, the great fool.’ She holds out her hand to Ismay. ‘Send for the boy,’ she says. ‘Send for him. And somebody write to that Wenlock woman and tell her I’m very sorry. No. Tell her I regret it.’ Tamsin gains 200 experience: got Mrs Cherrett’s blessing on a chairman.
+There is a terrible silence. Mrs Cherrett looks at you; at the stuffed pike, as if for a second opinion; at Ismay, who has come and stood by your side with her ledger held against her chest like a shield. ‘Is it true, girl?’ says Mrs Cherrett again, quite quietly. ‘Yes, Grandmother.’ The old woman’s face works. Then she begins to laugh: the laugh, the coal-scuttle laugh, the one that got her barred from the Rooms; it goes on and on, and she wipes her eyes with the pudding-cloth purse. ‘A window,’ she says. ‘It was a ground-floor window. Josiah held the ladder anyway, the great fool, and carried me up the aisle at Wem like a sack of meal, with Father’s dogs in the porch.’ She holds out her hand to Ismay. ‘Send for the boy,’ she says. ‘Send for him. And somebody write to that Wenlock woman and tell her I’m very sorry. No. Tell her I regret it.’ Tamsin gains 200 experience: got Mrs Cherrett’s blessing on a chairman.
 
 **Out to the Circus**
 
@@ -570,7 +574,7 @@ The Two Poles: the fire, the long table, the crossed poles over the chimney. Mrs
 
 **Take a bed and supper**
 
-You eat what is put in front of you, and sleep long, under a roof.
+You eat what is put in front of you, and sleep long, under a roof. MONDAY, the last day of the Season. At first light the Rooms’ five chandeliers are let down on their chains, and men on ladders fit eight hundred and forty new candles, the number the Rooms’ accounts have recorded for every Closing Ball since the old King came for his gout and could not dance at it. Every milliner in Quay Lane has her shutters down by six. At ten, if nobody has spoken, there is a wedding at Saint Ebba’s; at seven, the Ball; at eleven, Mr Twiss will lift his hand.
 
 *(14 waits in which nothing is told)*
 
@@ -584,7 +588,7 @@ Two chairmen in blue lift you as if you were a basket of eggs, and up the Parade
 
 **Into the Assembly Rooms**
 
-The vestibule of the Assembly Rooms: marble, mirrors, a footman, and by the ballroom doors, framed in gold, THE RULES OF THE ROOMS. No boots after six. No lady to dance two dances running with one gentleman, unless betrothed. No introductions but by the Master. No dancing after eleven, though the King himself should ask it. No companion, governess or paid attendant to stand up in the dances. Signed, Septimus Twiss, M.C. The ballroom doors are open, and through them the light and the music; a footman in the Rooms’ blue stands across them, and does not move for you. Here are Mr Septimus Twiss, the Master of the Ceremonies, in dove-grey silk and a white wig; and Pocklington, the Rooms’ footman, in blue, with a face like a closed door.
+The vestibule of the Assembly Rooms: marble, mirrors, a footman, and by the ballroom doors, framed in gold, THE RULES OF THE ROOMS. No boots after six. No lady to dance two dances running with one gentleman, unless betrothed. No introductions but by the Master. No dancing after eleven, though the King himself should ask it. No companion, governess or paid attendant to stand up in the dances. Signed, Septimus Twiss, M.C. The ballroom doors are open, and through them the light and the music; a footman in the Rooms’ blue stands across them, and does not move for you. Here are Mr Septimus Twiss, the Master of the Ceremonies, in dove-grey silk and a white wig; and Pocklington, the Rooms’ footman, in blue, who has stood at that door for eleven Seasons and seen everything twice.
 
 *(1 wait in which nothing is told)*
 
@@ -610,7 +614,7 @@ Eleven. Mr Twiss lifts his hand, and the band stops in the middle of a bar, as i
 
 **Ask Mr Twiss for one dance more, for Mrs Cherrett**
 
-You ask it. Mr Twiss looks at you, and then across the emptying floor at Mrs Cherrett in her bath-chair, purple and diamonds, with her stick across her knees. Mr Twiss looks at the old woman for a long time. Then he goes across the empty floor to her chair, and bows (the bow that is several bows), and holds out his hand. ‘Mrs Cherrett,’ he says. ‘I believe I have the honour of the last minuet.’ The whole Season stops on its way to the door. Mrs Cherrett looks at the hand. ‘I can’t stand,’ she says. ‘I’ll hold you up,’ says Mr Twiss. And the band, without being told, begins the minuet from the beginning; and the Master of the Ceremonies dances the minuet with a canal-cutter’s widow, at a quarter past eleven, in the Closing Ball of the Season, holding her up, very slowly, in the middle of the floor, while everyone watches; and Mrs Cherrett does not laugh once, all the way through, until the very end, when she laughs so that you can hear it in the card room, and so does he. Tamsin gains 300 experience: got Mrs Cherrett her last dance. The ballroom after the last minuet: half the candles out, the Season going home in a slow happy crush at the doors, and the band, without being asked, playing it again, quietly, to nobody.
+You ask it. Mr Twiss looks at you, and then across the emptying floor at Mrs Cherrett in her bath-chair, purple and diamonds, with her stick across her knees. Mr Twiss looks at the old woman. Then he goes across the empty floor to her chair, and bows (the bow that is several bows), and holds out his hand. ‘Mrs Cherrett,’ he says. ‘I believe I have the honour of the last minuet.’ The whole Season stops on its way to the door. Mrs Cherrett looks at the hand. ‘I can’t stand,’ she says. ‘I’ll hold you up,’ says Mr Twiss. And the band, without being told, begins the minuet from the beginning; and the Master of the Ceremonies dances the minuet with a canal-cutter’s widow, at a quarter past eleven, in the Closing Ball of the Season, holding her up, very slowly, in the middle of the floor, while everyone watches; and Mrs Cherrett does not laugh once, all the way through, until the very end, when she laughs so that you can hear it in the card room, and so does he. Tamsin gains 300 experience: got Mrs Cherrett her last dance. The ballroom after the last minuet: half the candles out, the Season going home in a slow happy crush at the doors, and the band, without being asked, playing it again, quietly, to nobody.
 
 **Ask Mopsa to marry you**
 
@@ -618,7 +622,7 @@ Mopsa does not answer at once. She looks at you as she looks at a page she means
 
 **To the vestibule of the Assembly Rooms**
 
-The vestibule of the Assembly Rooms: marble, mirrors, a footman, and by the ballroom doors, framed in gold, THE RULES OF THE ROOMS. Pocklington, the Rooms’ footman, in blue, with a face like a closed door, is here.
+The vestibule of the Assembly Rooms: marble, mirrors, a footman, and by the ballroom doors, framed in gold, THE RULES OF THE ROOMS. Pocklington, the Rooms’ footman, in blue, who has stood at that door for eleven Seasons and seen everything twice, is here.
 
 **Out to the Circus**
 
@@ -626,7 +630,7 @@ Mr Twiss’s door bears a card, beautifully lettered: THE MASTER OF THE CEREMONI
 
 **Into Mrs Cherrett's lodgings**
 
-Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. Here are Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; and Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes.
+Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; and Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes.
 
 *(1 wait in which nothing is told)*
 
@@ -634,7 +638,13 @@ Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. Here a
 
 An hour passes. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
 
-*(10 waits in which nothing is told)*
+*(6 waits in which nothing is told)*
+
+**Wait › An hour**
+
+TUESDAY, the morning the Season ends. Before it is light the coaches are brought round into the Abbey Yard nose to tail, and the horses stand in the cold with their breath going up like the Baths. Trunks come down the Parade on the chairmen’s backs. Up at the Circus, at eight, Mopsa Gedge will take in Mrs Cherrett’s chocolate, as she does every morning, and knock, and go in.
+
+*(3 waits in which nothing is told)*
 
 **Wait › An hour**
 

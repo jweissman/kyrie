@@ -29,7 +29,8 @@ for (const { file, title, who, campaign, seed, steps } of journeys) {
   let quiet = 0;
   for (const t of j.taken) {
     const said = t.page.trim();
-    if (/^Wait/.test(t.label) && (!said || /^(An hour passes|Time passes|A while passes)\.$/.test(said))) { quiet++; continue; }
+    const nothing = !said || /^(An hour passes|Time passes|A while passes)\.$/.test(said);
+    if (/^Wait/.test(t.label) && nothing) { quiet++; continue; }
     if (quiet) { lines.push(`*(${quiet} ${quiet === 1 ? 'wait' : 'waits'} in which nothing is told)*`, ''); quiet = 0; }
     lines.push(`**${t.label}**`, '', said || '*(nothing is told)*', '');
   }

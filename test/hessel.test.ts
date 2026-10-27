@@ -10,8 +10,9 @@ import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
 import { Hessel, alone, build, h, steps } from './support/hessel';
 
-// The Banns at Hessel's journeys and what each must leave behind; the helper and the calendar are in test/support/hessel.ts.
-describe('The Banns at Hessel', () => {
+// The Banns at Hessel's journeys and what each must leave behind; the helper and the calendar are in
+// test/support/hessel.ts.
+describe('The Banns at Hessel: the Rooms, and what lies under the town', () => {
   it('lints clean as a recommended campaign', async () => {
     const findings = await KyrLint.campaign(alone, new NodeBundleSource());
     expect(findings.filter(f => f.level === 'error' || f.level === 'warning')).toEqual([]);
@@ -36,6 +37,12 @@ describe('The Banns at Hessel', () => {
     const g = await Hessel.start();
     await g.fixture('rooms');
     await g.until();
+    // Each of the Season's days opens as a chapter; Ismay says what Kit looked up at.
+    for (const day of [/SATURDAY. The bells of Saint Ebba/, /SUNDAY: the third time of asking/,
+      /MONDAY, the last day of the Season/, /TUESDAY, the morning the Season ends/]) {
+      expect(g.page).toMatch(day);
+    }
+    expect(g.page).toMatch(/He looked up, and I waved/);
     // The banns withdrawn in a drawing room, not stopped in church.
     expect(g.holds('grandmother', 'lady_wenlock')).toBe(true);
     expect(g.holds('bannsStopped', 'ebbas')).toBe(false);
@@ -61,18 +68,74 @@ describe('The Banns at Hessel', () => {
     expect(g.page).toMatch(/he has to walk it, over the down, at first light/);
   }, 60000);
 
+  it('a thief, found in Carth House at night, stops Sir Gervase\'s sword with the truth about the letter', async () => {
+    const o = JSON.parse(readFileSync('test/fixtures/hessel/oldtown.json', 'utf8')) as Record<string, string[]>;
+    const g = await Hessel.start(build('thief'), 'o1');
+    const carth = o.carth!.slice(0, o.carth!.indexOf('Out to the hall of Carth House'));
+    await g.play(...o.arrive!, ...o.legs!, ...o.drops!, ...o.hetty!, ...o.night1!, ...o.day2!, ...carth, '=229', 'Out to the hall of Carth House');
+    expect(g.page).toMatch(/Get out of my house/);
+    await g.play('Tell him the letter in his wife');
+    expect(g.holds('received', 'party')).toBe(true);
+    expect(g.page).toMatch(/lets it fall/);
+    // Received, the company can sit up with him for the knock.
+    expect(g.j.find('Sit up with Sir Gervase')).toBeDefined();
+  }, 180000);
+
+  it('the Orm road for a friend of the chairmen: the boy in the blue coat named, the cloves, and Hartopp made to walk', async () => {
+    const road = JSON.parse(readFileSync('test/fixtures/hessel/orm.json', 'utf8')) as Record<string, string[]>;
+    const g = await Hessel.start(build('thief'), 'p2');
+    const arrive = [...road.arrive!.slice(0, 3), 'Ask Big Lanyon what', 'Tell Big Lanyon you are with', ...road.arrive!.slice(3)];
+    await g.play(...arrive, ...road.night!, ...road.road!.slice(0, road.road!.indexOf('To the fold')), 'To the crossways');
+    expect(g.page).toMatch(/smells, even from here, of cloves/);
+    await g.play('Ask the one in the chairman');
+    expect(g.knows('hartopp_paid_pads')).toBe(true);
+    expect(g.page).toMatch(/He smelt of cloves/);
+    await g.play('Tell him: yes, and you would again', 'To the south gate of Orm', 'Go in with Dr Ottery', 'Ride the carrier', 'To Stall Street',
+      'Tell Big Lanyon about the boys at the gibbet');
+    expect(g.holds('chairmenRefuseHartopp', 'chairmen')).toBe(true);
+    expect(g.page).toMatch(/There’s one man in Hessel smells of cloves/);
+  }, 180000);
+
+  it('the two tablets in Saint Ebba\'s: a memorial to a living woman, and the child Ottery came too late for', async () => {
+    const o = JSON.parse(readFileSync('test/fixtures/hessel/oldtown.json', 'utf8')) as Record<string, string[]>;
+    const g = await Hessel.start(build('thief'), 'o1');
+    await g.play(...o.arrive!, ...o.legs!, ...o.drops!, ...o.hetty!, ...o.night1!, ...o.day2!, 'To Quay Lane', 'To Stall Street', 'To the Abbey Yard',
+      "Into Saint Ebba", 'Look closely');
+    expect(g.page).toMatch(/HER HUSBAND, WHO DOES NOT ASK TO BE FORGIVEN, RAISED THIS/);
+    expect(g.knows('tablets_read')).toBe(true);
+    await g.play('Out to the Abbey Yard', 'To Stall Street', 'To Quay Lane', 'To the laundry yard', 'Ask Nan Bellamy about the slate tablet');
+    expect(g.knows('snow_child')).toBe(true);
+    expect(g.page).toMatch(/came too late, and cried/);
+  }, 180000);
+
+  it('Dr Hartopp, faced with the dose, makes his case; the pumper knows whose son he is', async () => {
+    const g = await Hessel.start();
+    await g.play('Lim Bridge', 'Quay Lane', 'Stall Street', 'To the Abbey Yard', 'Seize the side of the chair', 'Into the Pump Room',
+      'Ask the pumper about Dr Hartopp', 'Out to the Abbey Yard', "To Doctors' Walk", 'Into the apothecary', "Ask Jem about Mrs Cherrett's drops$",
+      'Put two coin', "Out to Doctors' Walk", '=7', "Into Dr Hartopp", 'Tell Dr Hartopp you know what he wrote');
+    expect(g.page).toMatch(/Hope is the cheapest physic. I never charge for it. I could not afford to/);
+    await g.play('Tell Dr Hartopp the pumper says good morning');
+    expect(g.page).toMatch(/Nobody carries you down. You fall/);
+  }, 120000);
+
   it('a mage, with no gift but lore, hears the Season\'s round from Mopsa and reckons the drops on the first day', async () => {
     const g = await Hessel.start(build('mage'), 'g1');
     await g.play('Lim Bridge', 'Quay Lane', 'Stall Street', 'To the Abbey Yard', 'Seize the side of the chair',
       'Ask the old woman if she is hurt', 'To the top of the Parade', 'To the Circus', '=13', "Into Mrs Cherrett's lodgings",
-      'Tell Mrs Cherrett you will be her legs', 'Ask Mopsa how a day of the Season goes', "To Mrs Cherrett's bedroom",
+      'Tell Mrs Cherrett you will be her legs', 'Ask Mopsa how a day of the Season goes', 'Look closely', 'Ask Mrs Cherrett about the red line',
+      "To Mrs Cherrett's bedroom",
       'Look closely', 'Reckon the drops');
     // The Season's round, from Mopsa, once the company is her legs.
     expect(g.page).toMatch(/Ismay walks out to the Sham Castle by herself/);
+    // The red line on the canal map: Josiah's last survey, and where he stopped.
+    expect(g.page).toMatch(/here’s where the cut stops, or here’s where I do/);
     expect(g.knows('drops_doubled')).toBe(true);
     expect(g.page).toMatch(/there are not eighty left in it/);
   }, 60000);
 
+});
+
+describe('The Banns at Hessel: the Old Town, the road and the Ball', () => {
   it('the Old Town, for a thief: with the chairmen, water for the drops, Hetty up the aisle, Celia out by the window to her mother, and Hartopp in his boots', async () => {
     const g = await Hessel.start(build('thief'), 'o1');
     await g.fixture('oldtown');
@@ -187,6 +250,9 @@ describe('The Banns at Hessel', () => {
     expect(g.page).toMatch(/Ismay Cherrett was married to Christopher Danby, chairman/);
   }, 240000);
 
+});
+
+describe('The Banns at Hessel: fates, builds and the third reading', () => {
   it('on the road, comfort said at the stile and Ottery let go north at the gate of Orm: he does not come back', async () => {
     const g = await Hessel.start(build('ranger'), 'r1');
     await g.fixture('orm-north');
@@ -281,12 +347,16 @@ describe('The Banns at Hessel', () => {
   // An ordinary player's way in: a first country whose folk have only heard of Hessel; the country beyond, whose
   // innkeepers tell it in full; the road over its north march; and the Season, a chapter of the world, closing at noon
   // on the fifth day while the world goes on.
+});
+
+describe('The Banns at Hessel in the world', () => {
   it('heard of from a first country, told in full in the next, and walked into over the north march as a chapter of the world', async () => {
     const seed = 'h14';
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'bard' }] });
     expect(w.report.region.further!.map(f => [f.id, f.side, f.then])).toContainEqual(['hessel', 'east', 'north']);
-    const s = await PlaySession.start(w.path, seed, w.source), c = s.campaign, frontier = new Frontier(seed, NodeBundleSource.shared);
+    const s = await PlaySession.start(w.path, seed, w.source), c = s.campaign;
+    const frontier = new Frontier(seed, NodeBundleSource.shared);
     const ask = async (pattern: RegExp) => {
       const topic = c.module.actions.find(a => pattern.test(a.id))!;
       await GeneratedWorld.travel(s, c.world.one('at', topic.speaker!)!);

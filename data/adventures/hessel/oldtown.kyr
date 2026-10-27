@@ -29,7 +29,7 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert faresRestored(chairmen). Increase goodwill(chairmen) by 1. Increase twissFavour(twiss) by 1. }
   }
   Topic lanyon_stand_with with lanyon "Tell Big Lanyon you are with the chairmen, poles and all" when knows(actor, fares_cut) and not stoodWith(actor) and not scab(actor) once {
-    Says "Big Lanyon looks at you, and at the rest of them on the bench, and something goes along the bench like a wind through barley. 'Are you, now,' he says. 'A stranger. Well.' He puts out a hand like a spade and you shake it. 'Then here's what we'll do, for you and nobody else. If the poles are down on Ball night, and your old lady wants to go up to the Rooms, we'll carry her. For you. Nobody else in this town, but her.'".
+    Says "Big Lanyon looks at you, and at the rest of them on the bench, and something goes along the bench like a wind through barley. 'Are you, now,' he says. 'A stranger. Well.' He looks up the Parade, at the Circus roofs. 'Everybody in this town is carried by somebody. Mostly they don't look down to see who.' He puts out a hand like a spade and you shake it. 'Then here's what we'll do, for you and nobody else. If the poles are down on Ball night, and your old lady wants to go up to the Rooms, we'll carry her. For you. Nobody else in this town, but her.'".
     On discuss { Assert stoodWith(actor). Increase goodwill(chairmen) by 2. }
   }
   Action break_strike(actor: group, site: place) "Take up a pair of poles and carry a lady up the Parade for the strike-breakers' rate, five coin" {
@@ -67,6 +67,10 @@ Module hessel "The Banns at Hessel" {
   Topic lanyon_hartopp with lanyon "Tell Big Lanyon what Dr Hartopp has been giving Mrs Cherrett" when knows(actor, drops_doubled) and goodwill(chairmen) >= 3 and not chairmenRefuseHartopp(chairmen) once {
     Says "Big Lanyon listens without moving a muscle of his face. Then he turns his head and says, not loudly, down the bench, 'Hartopp,' and the word goes along it from man to man like a ball down a skittle-alley. 'Dr Hartopp,' he says to you, 'will find he's walking. Anywhere he likes. Up the Parade, down the Parade. In his silk stockings.' He folds his arms. 'Nobody in a blue coat in this town will carry that man again.'".
     On discuss { Assert chairmenRefuseHartopp(chairmen). }
+  }
+  Topic lanyon_davy with lanyon "Tell Big Lanyon about the boys at the gibbet, and the one in a blue coat, and the gentleman who smelt of cloves" when knows(actor, hartopp_paid_pads) and not chairmenRefuseHartopp(chairmen) once {
+    Says "Big Lanyon hears it out with his hands on his knees. 'Davy,' he says. 'My sister's boy. In his father's coat.' He is quiet for long enough that the bench goes quiet with him. 'There's men in this town would pay a boy to stand in the road,' he says, 'and there's boys would take it, the fares being what they are. I know that.' He stands up, and he is taller than you remembered. 'Cloves,' he says. 'There's one man in Hessel smells of cloves, and we've carried him up that hill every evening for six years. But not in that coat. And not that man.' The word goes down the bench. 'Dr Hartopp walks,' says Big Lanyon. 'From today. Anywhere he likes.'".
+    On discuss { Assert chairmenRefuseHartopp(chairmen). Increase goodwill(chairmen) by 1. }
   }
   Relation chairmenRefuseHartopp(group).
   Observe hartopp_walking at abbey_yard when chairmenRefuseHartopp(chairmen) and at(hartopp, circus) and hour(clock) == 17 and not hartoppWalked(hartopp) "Dr Hartopp is walking up the Parade. He is not used to it. He stops every twenty yards with his hand on the railings, in his plum-coloured coat, and behind him, all down Stall Street, thirty chairmen sit on their poles and watch him go.".
@@ -138,7 +142,7 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert cherrettToldKit(cherrett). }
   }
   Topic remind_navvy with cherrett "Remind Mrs Cherrett that at nineteen she went out of a window to a navvy with a shovel" when cherrettToldKit(cherrett) and knows(actor, navvy_story) and not cherrettBlessesKit(cherrett) and ismayStoodBy(ismay) and not gone(cherrett) once {
-    Says "There is a terrible silence. Mrs Cherrett looks at you; at the stuffed pike, as if for a second opinion; at Ismay, who has come and stood by your side with her ledger held against her chest like a shield. 'Is it true, girl?' says Mrs Cherrett again, quite quietly. 'Yes, Grandmother.' The old woman's face works. Then she begins to laugh: the laugh, the coal-scuttle laugh, the one that got her barred from the Rooms; it goes on and on, and she wipes her eyes with the pudding-cloth purse. 'A window,' she says. 'It was a ground-floor window. Josiah held the ladder anyway, the great fool.' She holds out her hand to Ismay. 'Send for the boy,' she says. 'Send for him. And somebody write to that Wenlock woman and tell her I'm very sorry. No. Tell her I regret it.'".
+    Says "There is a terrible silence. Mrs Cherrett looks at you; at the stuffed pike, as if for a second opinion; at Ismay, who has come and stood by your side with her ledger held against her chest like a shield. 'Is it true, girl?' says Mrs Cherrett again, quite quietly. 'Yes, Grandmother.' The old woman's face works. Then she begins to laugh: the laugh, the coal-scuttle laugh, the one that got her barred from the Rooms; it goes on and on, and she wipes her eyes with the pudding-cloth purse. 'A window,' she says. 'It was a ground-floor window. Josiah held the ladder anyway, the great fool, and carried me up the aisle at Wem like a sack of meal, with Father's dogs in the porch.' She holds out her hand to Ismay. 'Send for the boy,' she says. 'Send for him. And somebody write to that Wenlock woman and tell her I'm very sorry. No. Tell her I regret it.'".
     On discuss { Assert cherrettBlessesKit(cherrett). Retract kitDismissed(kit). Assert bannsWithdrawn(ebbas). Assert withdrawnByCherrett(ebbas). Increase softened(cherrett) by 1. }
   }
   Relation withdrawnByCherrett(place).
@@ -266,7 +270,7 @@ Module hessel "The Banns at Hessel" {
       and (at(mopsa, no_four) or following(mopsa, actor)) and not mopsaHouse(mopsa) and not mopsaFunded(mopsa) and quantity(actor, gold) >= 40.
     Time 3.
     On success { Decrease quantity(actor, gold) by 40. Increase quantity(gilmour, gold) by 40. Assert mopsaHouse(mopsa). Assert mopsaGiven(mopsa). }
-    Result "Mr Gilmour counts the forty twice, reads the character twice, and gives Mopsa the keys. Mopsa looks at the keys and then at you, for a long time. 'That's a great deal of money,' she says. 'I shall pay you back. I shall pay you back at four in the hundred, quarterly, and I shall hate every penny of it.'".
+    Result "Mr Gilmour counts the forty twice, reads the character twice, and gives Mopsa the keys. Mopsa looks at the keys, and then at you. 'That's a great deal of money,' she says. 'I shall pay you back. I shall pay you back at four in the hundred, quarterly, and I shall hate every penny of it.'".
   }
   Relation mopsaGiven(group).
   Action take_lease_halves(actor: group, site: place) "Put twenty coin to Mopsa's twenty, and take Number Four as her partner" {
@@ -294,6 +298,10 @@ Module hessel "The Banns at Hessel" {
   Rule laughed_counts when laughedWith(party) and not counted(laughed_mark) { Increase courtship(mopsa) by 1. Assert counted(laughed_mark). }
   Rule stood_counts when mopsaPromised(mopsa) and not counted(stood_mark) { Increase courtship(mopsa) by 1. Assert counted(stood_mark). }
   Relation counted(fact). Entity laughed_mark: fact "laughed". Entity stood_mark: fact "stood by".
+  // What happened at nineteen: Mrs Cherrett went out of a window; Mopsa went into service.
+  Topic mopsa_nineteen with mopsa "Ask Mopsa what happened when she was nineteen" when walkedWith(actor) once {
+    Says "'Nineteen.' Mopsa walks on a few steps. 'My father died owing money to a wine merchant, a tailor and the Bishop of Orm, and I went to be companion to a lady at Upper Haddow who did not care for conversation. Eight years. She left me a garnet brooch and the advice to keep my opinions in a drawer.' She touches the brooch at her throat. 'At nineteen Mrs Cherrett went out of a window. At nineteen I went into a drawer.' She laughs, short. 'I've been thinking, lately, that I'd like the window.'".
+  }
   Action walk_beacon(actor: group, site: place) "Walk the Beacon with Mopsa, the way the Season walks it, slowly, in pairs" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, beacon) and at(mopsa, beacon) and mopsaRegard(mopsa) >= 1 and not walkedWith(actor).
     Time 3.

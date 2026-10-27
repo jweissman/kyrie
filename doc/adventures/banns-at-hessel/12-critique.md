@@ -1,6 +1,8 @@
 # The Banns at Hessel: a final critique
 
-*Written after playing the journeys as a reader rather than as their author. It says what the region does well,
+*Written after playing the journeys as a reader rather than as their author. A second, literary pass
+([14-second-pass.md](14-second-pass.md)) answers much of what follows: Hartopp's thinness, Carth's mechanical danger,
+the illegible days, and the lack of foreshadowing. It says what the region does well,
 what it does not, and what I would do next with more time.*
 
 ## What works

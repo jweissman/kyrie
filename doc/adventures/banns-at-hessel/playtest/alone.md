@@ -16,7 +16,7 @@ Quay Lane: narrow houses, a milliner’s with three bonnets in the window on woo
 
 **To Stall Street, by the chairmen's stand**
 
-Stall Street: the chairmen’s stand, a long bench under a penthouse roof, and the chairs themselves, black, glossy, like great beetles with their poles laid by them; men in blue coats sitting on the bench with their arms folded, every one of them built like a door. Big Lanyon, the chairmen’s spokesman, a huge mild man with a voice like a bell under water, is here.
+Stall Street: the chairmen’s stand, a long bench under a penthouse roof, and the chairs themselves, black, glossy, like great beetles with their poles laid by them; men in blue coats sitting on the bench with their arms folded, every one of them broad enough to stop the Parade. Big Lanyon, the chairmen’s spokesman, a huge mild man with a voice like a bell under water, is here.
 
 **Into the Two Poles**
 
@@ -28,13 +28,31 @@ The Two Poles: a low room, a fire, a long table polished by blue sleeves, and ov
 
 An hour passes. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
 
-*(27 waits in which nothing is told)*
+*(3 waits in which nothing is told)*
 
 **Wait › An hour**
 
-In the Abbey Yard and on Stall Street and at the foot of the Parade, the chairmen are laying their poles crossways on their chairs. In Hessel that means no.
+SATURDAY. The bells of Saint Ebba’s ring six over the steam. They have rung it since the abbey was a sty: Ebba was a swineherd’s daughter, the story goes, whose lame pigs wandered up the hill and came back whole and steaming, and she followed them to the hot spring; the pigs are carved among the angels on the west front, if you know where to look. Below the bridge the water-carts are filling from the river, because nobody in Hessel drinks the waters who can help it. Up on the Circus a maid is beating a carpet out of a window, and the sound comes down the hill a moment late.
 
-*(53 waits in which nothing is told)*
+*(23 waits in which nothing is told)*
+
+**Wait › An hour**
+
+In the Abbey Yard and on Stall Street and at the foot of the Parade, the chairmen are laying their poles crossways on their chairs. In Hessel that means no. SUNDAY: the third time of asking. Saint Ebba’s rings all eight bells for an hour before service, a peal the ringers of Orm have called wrong in the fourth change for two hundred years. The Season comes out in its second-best, keeping the best for the Ball, and the Pump Room is shut, so it has nowhere to look at itself but in church. At eleven Mr Pyne will read the banns for the last time, and come to the place where he asks if any of you know cause, and pause, as he always does, because he is young and dreads it.
+
+*(23 waits in which nothing is told)*
+
+**Wait › An hour**
+
+MONDAY, the last day of the Season. At first light the Rooms’ five chandeliers are let down on their chains, and men on ladders fit eight hundred and forty new candles, the number the Rooms’ accounts have recorded for every Closing Ball since the old King came for his gout and could not dance at it. Every milliner in Quay Lane has her shutters down by six. At ten, if nobody has spoken, there is a wedding at Saint Ebba’s; at seven, the Ball; at eleven, Mr Twiss will lift his hand.
+
+*(23 waits in which nothing is told)*
+
+**Wait › An hour**
+
+TUESDAY, the morning the Season ends. Before it is light the coaches are brought round into the Abbey Yard nose to tail, and the horses stand in the cold with their breath going up like the Baths. Trunks come down the Parade on the chairmen’s backs. Up at the Circus, at eight, Mopsa Gedge will take in Mrs Cherrett’s chocolate, as she does every morning, and knock, and go in.
+
+*(5 waits in which nothing is told)*
 
 **Wait › An hour**
 

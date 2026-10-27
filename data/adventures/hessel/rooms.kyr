@@ -20,6 +20,12 @@ Module hessel "The Banns at Hessel" {
   Rule household_in when legs(party) and householdAdmitted(cherrett) and not admitted(party) and not twissOffended(party) { Assert admitted(party). }
   Rule household_out when legs(party) and admitted(party) and householdBarred(cherrett) and not householdAdmitted(cherrett) { Retract admitted(party). }
   Rule bar_lifted when householdAdmitted(cherrett) and householdBarred(cherrett) { Retract householdBarred(cherrett). }
+  // Why the portrait of him older is not dancing; and the one time he broke the eleven o'clock Rule.
+  Topic twiss_portraits with twiss "Ask Mr Twiss why, in the second portrait, he is not dancing" when twissFavour(twiss) >= 1 once {
+    Says "Mr Twiss looks at the two portraits as if they were of somebody he had once been introduced to. 'In my first Season,' he says, 'I was a dancing-master's assistant, and the band played on after eleven, once, because a young lady asked it, and I danced with her, and the old Master had me out of these Rooms for a twelvemonth.' He straightens a letter on the desk by a quarter of an inch. 'When I came back I made the Rules, and I have kept them, and I have not danced since except to open the Ball. The young lady married an earl.' A pause. 'She dances the minuet still. In the second figure she forgets her feet, and has for thirty years, and nobody in the room has ever been so unkind as to notice, until Mrs Cherrett.'".
+    On discuss { Assert knows(actor, twiss_countess). }
+  }
+  Discovery twiss_countess "Mr Twiss broke the eleven o'clock Rule once, in his first Season, to dance with the young lady who is now the Countess of Arne.".
   Topic twiss_rules with twiss "Ask Mr Twiss about the Rules of the Rooms" when true once {
     Says "'The Rules.' Mr Twiss touches the frame on his wall, the way a man touches wood. 'You think them trifles. Everybody does, who has not thought. No boots after six: because a ballroom is a place where a duchess and a draper's widow may stand up in the same set, and they must not be able to tell from the floor which is which. No lady to dance two running with one gentleman unless betrothed: because otherwise a girl may be compromised in twenty minutes by a man she would not let into her kitchen. No dancing after eleven: because the old must go home to bed, and if the music goes on, they will not.' He folds his hands. 'Every Rule of the Rooms is a kindness that has had to be made into a law, because people are not kind unless they are made to be. I am the Master of the Ceremonies. I am the one who makes them.'".
     On discuss { Increase twissFavour(twiss) by 1. }
@@ -66,7 +72,7 @@ Module hessel "The Banns at Hessel" {
   // ── The footman ───────────────────────────────────────────────────────────────────────────────────────────────────
   // Who can be bought; and the price of being bought is Mr Twiss finding out, at his own Ball, in front of everybody.
   Person fitch "Pocklington" at vestibule {
-    Role "the Rooms' footman, in blue, with a face like a closed door". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Role "the Rooms' footman, in blue, who has stood at that door for eleven Seasons and seen everything twice". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "The footman looks over your head at a point on the far wall.".
   }
   Relation fitchBribed(group).
@@ -304,6 +310,15 @@ Module hessel "The Banns at Hessel" {
     Says "Dr Hartopp looks at you with frank appreciation. 'A sensible question. You have Mrs Cherrett's ear; she likes you; she says so.' He takes a little purse from his waistcoat and puts it on the desk between you. 'Ten. If, when she speaks of her granddaughter's future, should the Wenlock arrangement fail, as arrangements do, you were to speak of me, warmly. That is all. I ask nothing dishonest.' He smiles. 'I never have.'".
     On discuss { Assert hartoppOffered(actor). }
   }
+  // Faced with the dose: he is not a monster, and he is very frightened, and he makes the best case for himself.
+  Topic hartopp_faced with hartopp "Tell Dr Hartopp you know what he wrote at the apothecary's: forty, where it said twenty" when knows(actor, drops_doubled) and not hartoppRuined(hartopp) and not gone(cherrett) and not hartoppFaced(actor) once {
+    Says "Dr Hartopp does not deny it. That is the first surprising thing. He sits down, and takes off his gloves finger by finger, and lays them on his knee. 'She has a heart like a wet paper bag,' he says, 'and three months, and she is in pain every night of them, and she has forty thousand pounds that will go to a boy who writes about lattices.' He looks up. 'Do you know what a physician has, in this town? Eleven brass plates in one street. A coat he must not be seen in twice. Patients who pay at Michaelmas, if they live to Michaelmas.' The gloves. 'I gave her quiet nights. I would have married her granddaughter, and been kind to her, and kept her books for her, which she likes.' He smiles, and it does not quite arrive. 'Hope is the cheapest physic. I never charge for it. I could not afford to.'".
+    On discuss { Assert hartoppFaced(actor). Assert hartoppOffered(actor). }
+  }
+  Topic hartopp_son with hartopp "Tell Dr Hartopp the pumper says good morning" when hartoppFaced(actor) and knows(actor, hartopp_pumpers_son) and not hartoppRuined(hartopp) once {
+    Says "For a moment Dr Hartopp's face is a boy's, under a counter, washing glasses. Then it is a physician's again. 'Does he,' he says. He stands, and goes to the window, which looks down Doctors' Walk to the Abbey Yard and the steam and, below it, the Old Town's roofs. 'They carry you up,' he says, to the glass. 'Nobody carries you down. You fall.' He does not turn round. 'Take the purse or leave it. I should take it, in your place. I always have.'".
+  }
+  Relation hartoppFaced(group).
   Relation hartoppOffered(group). Relation hartoppPaid(group).
   Action take_hartopp_purse(actor: group, site: place) "Take Dr Hartopp's ten coin" {
     Requires able(actor) and company(actor) and at(actor, site) and at(hartopp, site) and hartoppOffered(actor) and not hartoppPaid(actor).
@@ -323,6 +338,11 @@ Module hessel "The Banns at Hessel" {
   }
   Rule pumper_hours when hour(clock) >= 7 and hour(clock) < 18 and not at(pumper, pump_room) { Assert at(pumper, pump_room). }
   Rule pumper_home when (hour(clock) >= 18 or hour(clock) < 7) and not at(pumper, limbo) { Assert at(pumper, limbo). }
+  Topic pumper_hartopp with pumper "Ask the pumper about Dr Hartopp" when true once {
+    Says "The pumper polishes a glass for some time. 'Ambrose,' he says. 'He had this urn before me. His father had it thirty years before that; Saint Ebba's pump, they called it then, and the old man in a waistcoat like this one, and the boy under the counter washing the glasses.' He sets the glass down. 'Went to Orm on the old man's savings, and came back with a plate for Doctors' Walk, and a coat the colour of a plum, and never once since has he drunk a glass of this water, nor said good morning to me.' He fills one, for nobody. 'Can't blame him. It's a long way up that hill, and he walked it.'".
+    On discuss { Assert knows(actor, hartopp_pumpers_son). }
+  }
+  Discovery hartopp_pumpers_son "Dr Hartopp is the old pumper's son, from the bottom of the hill; he washed glasses at the urn as a boy.".
   Topic pumper_water with pumper "Ask the pumper whether the waters really cure anything" when true once {
     Says "The pumper considers the question with the seriousness of a man who has been asked it eleven thousand times. 'They come up out of the hill hot,' he says. 'Nobody knows why. They taste of iron. People drink them and feel better.' He polishes a glass. 'People who walk up the Parade every morning, and go to bed at eleven, and don't eat three dinners, feel better. I'm not a doctor. I'm a pump.'".
   }

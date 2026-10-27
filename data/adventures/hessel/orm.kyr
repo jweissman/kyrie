@@ -28,6 +28,10 @@ Module hessel "The Banns at Hessel" {
     Says "Ottery looks at you for a long moment over his spectacles. 'You,' he says. 'A stranger. Of good character.' He considers it. 'Well, nobody knows you're not. Seven. Don't be late. The College hangs about for nobody, and it'll strike me off for the pleasure of not having to read my letters.'".
     On discuss { Assert witnessPromised(actor). }
   }
+  // The one truth he has kept back, for nine years, at someone else's asking.
+  Topic ottery_tablet with ottery "Ask Dr Ottery about the slate tablet in Saint Ebba's that says HE CAME TOO LATE" when knows(actor, tablets_read) and not knows(actor, snow_child) once {
+    Says "Ottery takes his spectacles off, which he does when he does not want to see what he is saying. 'That's mine,' he says. 'Paid for it. Cut by a man who does gateposts.' He polishes the spectacles on his slept-in coat. 'Every patient I have, I tell the truth. You know that; it's why I'm going to Orm.' He puts them back on. 'That one I promised I'd never tell, and I never have, and I'll not start for you.' But he looks at you over them, a long look, as if you might be the kind of person who goes down to the laundries and asks. 'Some promises are worse than lies,' he says. 'They last longer.'".
+  }
   Topic ottery_drops with ottery "Tell Dr Ottery what Hartopp has been giving Mrs Cherrett" when knows(actor, drops_doubled) and otteryInHessel() and dosed(cherrett) and not gone(cherrett) and not otteryToldDrops(ottery) once {
     Says "'Forty,' says Ottery. 'Forty a night.' He sits down on the end of a bed. 'That's not a physic, that's a verdict.' He is quiet. 'She asked me in the Pump Room, was she dying, and I told her, and she laughed in my face and went on with the drops. That's her right.' He looks at you. 'But she has the right to know he's doubled it, too. What she does then is hers.'".
     On discuss { Assert otteryToldDrops(ottery). }
@@ -123,14 +127,14 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert fatherAsked(actor). Assert toldUnknown(actor). }
   }
   Topic father_ottery with shepherd "Look at Ottery, and let him answer" when childTreated(actor) and not fatherAsked(actor) once {
-    Says "Ottery turns round from the bucket. He looks at the shepherd for a long time, and then he says, very gently, in a voice you have not heard him use: 'I think so. I don't know. Give her the tea every hour, and sit with her, and if she's no cooler by tomorrow night, send for me, and I'll come, College or no College.' On the road again he says, sourly: 'You made me do that. You'll be a physician yet.'".
+    Says "Ottery turns round from the bucket. He looks at the shepherd, and then he says, gently, in a voice you have not heard him use: 'I think so. I don't know. Give her the tea every hour, and sit with her, and if she's no cooler by tomorrow night, send for me, and I'll come, College or no College.' On the road again he says, sourly: 'You made me do that. You'll be a physician yet.'".
     On discuss { Assert fatherAsked(actor). Assert letOtteryAnswer(actor). }
   }
   // The crossways: footpads, and his second question.
   Person footpads "the footpads" at crossways {
-    Role "two men in crape masks, with cudgels, at the gibbet". Ancestry human. Calling thief. Level 1. Numbers 2. Pronouns they.
+    Role "three men in crape masks, with cudgels, at the gibbet". Ancestry human. Calling thief. Level 1. Numbers 3. Pronouns they.
     Temperament proud.
-    Warns "Two men in crape masks step out from behind the gibbet with cudgels, and one of them says, quite politely, 'Three coin, if you please, for the use of the crossways, and you can go on to Orm, or back to Hessel, or to the devil, as you like.' The other says, 'Or we can do it the other way.'".
+    Warns "Three men in crape masks step out from behind the gibbet with cudgels, and the tallest says, quite politely, 'Three coin, if you please, for the use of the crossways, and you can go on to Orm, or back to Hessel, or to the devil, as you like.' Another says, 'Or we can do it the other way.' He is looking at Ottery, not at you. Under the smallest one's smock there is a chairman's blue coat, and the purse at the tall one's belt is new, and smells, even from here, of cloves.".
     Pleads "The footpads drop their cudgels in the heather and run, one of them leaving a shoe.".
   }
   Initially Set tribute(footpads) to 3.
@@ -143,8 +147,19 @@ Module hessel "The Banns at Hessel" {
   Rule robbed_told at crossways when robbed(party) and watch(clock) > cameRound(crossways) and not spread(robbed_told)
     says "You come round under the gibbet with the garland on it, with a lump on your head and your purse gone, and the crossways empty but for the larks." { Assert spread(robbed_told). }
   Entity robbed_told: fact "robbed at the crossways".
+  // The smallest wears a chairman's coat: a company the chairmen know can name the man whose coat it is.
+  Action name_lanyon(actor: group, site: place) "Ask the one in the chairman's coat whether Big Lanyon knows where he is this morning" {
+    Description "The chairmen look after their own, and their own know it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crossways) and at(footpads, crossways) and warned(footpads, actor)
+      and (stoodWith(actor) or goodwill(chairmen) >= 2) and not padsShamed(footpads).
+    Time 2 minutes.
+    On success { Retract warned(footpads, actor). Assert tolerates(footpads, actor). Assert padsShamed(footpads). Assert knows(actor, hartopp_paid_pads). Assert at(footpads, limbo). }
+    Result "The smallest one takes his mask off. He is about sixteen, with Lanyon's ears. 'He don't,' he says. 'And you'll not tell him.' The tall one says, 'Shut up, Davy,' and Davy does not. It comes out all together, with the other two trying to stop it: a gentleman, in a plum coat, at the back door of the Two Poles last night; a purse; three coin a head to stop an old man in a slept-in coat getting to Orm before noon, and not to hurt him much. 'He smelt of cloves,' says Davy. 'Like a pudding.' Then all three go off down the drove road at a trot, and Ottery, who has heard every word, sits down on the step of the gibbet and laughs until he has to wipe his eyes.".
+  }
+  Relation padsShamed(group).
+  Discovery hartopp_paid_pads "The boys at the gibbet were paid to keep Ottery from Orm, by a gentleman who smelt of cloves.".
   // Fought down in front of a physician, the footpads are a physician's business.
-  Event footpads_tended at crossways when at(party, crossways) and not able(footpads) and following(ottery, party) "Ottery is down on his knees in the heather beside the two men in crape before you have got your breath, with his bag open. He takes their masks off: two boys from the Old Town, one of them with a chairman's blue coat under his smock. 'You'll live,' he tells them, binding a head, 'which is more than you deserve and less than you'll thank me for.' He does not look at you while he does it." then { Assert tendedFootpads(ottery). }
+  Event footpads_tended at crossways when at(party, crossways) and not able(footpads) and following(ottery, party) "Ottery is down on his knees in the heather beside the two men in crape before you have got your breath, with his bag open. He takes their masks off: two boys from the Old Town, one of them with a chairman's blue coat under his smock. 'You'll live,' he tells them, binding a head, 'which is more than you deserve and less than you'll thank me for.' He does not look at you while he does it. The youngest, with his head bound up, tells Ottery who paid them, because Ottery asks him in the voice he uses on the ward: a gentleman in a plum coat, at the back of the Two Poles, who smelt of cloves. Ottery finishes the knot before he says anything. 'Well,' he says. 'He's a governor. He'd want it done properly.'" teaches hartopp_paid_pads then { Assert tendedFootpads(ottery). }
   Relation tendedFootpads(group).
   Relation askedCrossways(group). Relation saidNeverLied(group). Relation saidLiedForGood(group). Relation saidLieWrong(group).
   Event crossways_question at crossways when at(party, crossways) and following(ottery, party) and not askedCrossways(party) and (tolerates(footpads, party) or not able(footpads) or routed(footpads)) "Ottery leans on the gibbet's post to get his breath, and looks up at the empty chain, and then at you. 'Second question,' he says. 'Have you ever lied to somebody for their own good?'" then { Assert askedCrossways(party). }

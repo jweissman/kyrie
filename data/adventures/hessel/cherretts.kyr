@@ -139,7 +139,7 @@ Module hessel "The Banns at Hessel" {
   // The fifth doubled night: she does not wake.
   Rule she_goes when failing(cherrett) >= 5 and hour(clock) >= 6 and hour(clock) < 9 and not gone(cherrett) {
     Assert gone(cherrett). Assert at(cherrett, cherrett_bedroom). }
-  Rule she_goes_told at cherrett_lodging when gone(cherrett) and not spread(cherrett_death) and (at(party, cherrett_parlour) or at(party, cherrett_bedroom) or at(party, circus)) says "The blinds of Mrs Cherrett's lodgings are down. In the parlour Mopsa Gedge is sitting very straight on one of the chairs nobody sits on, with her hands in her lap. 'She didn't wake,' says Mopsa. 'I went in with her chocolate at eight and she hadn't woken.' She looks at the stuffed pike for a long time. 'She'd have hated that. She'd have wanted to be awake for it.'" { Assert spread(cherrett_death). }
+  Rule she_goes_told at cherrett_lodging when gone(cherrett) and not spread(cherrett_death) and (at(party, cherrett_parlour) or at(party, cherrett_bedroom) or at(party, circus)) says "The blinds of Mrs Cherrett's lodgings are down. In the parlour Mopsa Gedge is sitting very straight on one of the chairs nobody sits on, with her hands in her lap. 'She didn't wake,' says Mopsa. 'I went in with her chocolate at eight and she hadn't woken.' She looks at the stuffed pike. 'She'd have hated that. She'd have wanted to be awake for it.'" { Assert spread(cherrett_death). }
   Entity cherrett_death: fact "Mrs Cherrett's death".
   Relation prayedFor(group).
   Action pray_cherrett(actor: group, site: place) "Say the prayers for the dead over Mrs Cherrett" {
@@ -147,6 +147,19 @@ Module hessel "The Banns at Hessel" {
     Time 2.
     On success { Assert prayedFor(cherrett). }
     Result "You say them by the great curtained bed, the old words, plainly, and Mopsa stands at the foot of it with her hands folded and says the responses she has not said since her father's funeral, and Ismay, who does not know them, holds her grandmother's hand. When it is done Mopsa says, 'She'd have talked all through that,' and then has to go out of the room.".
+  }
+  // Josiah's fourth canal, in red, where he stopped.
+  Thing canal_map "the canal map over the fireplace" at cherrett_parlour {
+    Tries looking.
+    State hung "On the canal map over the fireplace, one line is drawn in red pencil, and stops.".
+  }
+  Initially Assert state(canal_map, hung).
+  Discovery josiah_line "On Mrs Cherrett's canal map one line is in red pencil: the Lim cut, Josiah's last survey, which would have brought the coal barges up the valley to Hessel, and stops on the down above the town.".
+  Observe canal_map_looked near canal_map when tried(canal_map, looking) and not seenOnce(josiah_line) "Three canals in black ink, engraved, with their locks marked like the rungs of ladders: the Delve, the Wem, the Long Navigation. And a fourth, in red pencil, by hand: from the head of the Delve up the Lim valley, through the meadows below the bridge, round the shoulder of the down, and stopping, in a little blot, a mile short of Hessel. Somebody has written beside the blot, in pencil, very small, in a hand that pressed hard: here." teaches josiah_line.
+  Initially Assert teachesAt(josiah_line, cherrett_parlour).
+  Topic cherrett_red_line with cherrett "Ask Mrs Cherrett about the red line on the canal map" when knows(actor, josiah_line) and not gone(cherrett) and cherrettUp() once {
+    Says "Mrs Cherrett does not look at the map. She knows where it is. 'The Lim cut,' she says. 'Coal up the valley at half what the carriers ask, and stone down it, and the chairmen's boys on the barges instead of the poles.' She turns her stick in her hands. 'The Corporation said it would spoil the view from the Crescent. Josiah came up to talk them round, the spring of the Great Snow, and walked the line himself, in the wet, with that compass, and took a chill on the down, and was dead in a fortnight in the Two Poles, in the back room.' She laughs, not the coal-scuttle laugh. 'He'd marked the place he stopped. Here, he wrote. I've never known if he meant here's where the cut stops, or here's where I do.' A pause. 'That's why I come to Hessel. Not the waters. The waters are muck.'".
+    On discuss { Increase softened(cherrett) by 1. }
   }
   Thing drops_bottle "the little brown bottle on the dressing-table" at cherrett_bedroom {
     Tries looking.
@@ -228,6 +241,9 @@ Module hessel "The Banns at Hessel" {
   Topic ismay_rupert with ismay "Ask Ismay about the Honourable Rupert Wenlock" when true once {
     Says "'He's kind,' says Ismay. 'He's very kind. He's frightened of his mother and he likes beetles. He has never once looked at me as if he saw me.' She is quiet. 'I don't think he wants to marry me any more than I want to marry him. I think he's frightened of something else, and I don't know what.' She looks at the window. 'The banns have been read twice. On Sunday it's the third time. Then it's done.'".
   }
+  Topic ismay_chair with ismay "Ask Ismay where she was when her grandmother's chair ran away" when knows(actor, kit_looked) and ismayKnowsViolet(ismay) once {
+    Says "Ismay's pen stops. 'On the Circus steps,' she says. 'I'd come out to see them take her down the hill. I do, most mornings.' She looks at the ink on her finger as if it had written something without her. 'He looked up, and I waved. I've never waved at anybody in my life. I don't know why I did it.' Then, very low: 'And Grandmother went down the Parade on her own, faster than the mail coach, because I waved.' She does not laugh, and then she does, helplessly, with her hand over her mouth, for the first time since you have known her.".
+  }
   Topic ismay_kit_told with ismay "Tell Ismay that Kit Danby keeps her violet pressed in his book" when knows(actor, kit_violet) and not ismayKnowsViolet(ismay) once {
     Says "Ismay goes white and then red and then white again, and puts her pen down very carefully as if it might go off. 'The violet,' she says. 'I dropped it on the Parade. In the spring. He picked it up and gave it back and I said keep it. I said keep it.' She looks at you. 'He kept it?' Then, because she is herself: 'Why are you telling me this? What do you want?'".
     On discuss { Assert ismayKnowsViolet(ismay). Assert knows(actor, ismay_loves_kit). }
@@ -263,7 +279,7 @@ Module hessel "The Banns at Hessel" {
       and ismayKnowsDrops(ismay) and ismayBrave(ismay) and dosed(cherrett) and not gone(cherrett).
     Time 2.
     On success { Assert stoppedBy(cherrett, ismay). Increase softened(cherrett) by 1. }
-    Result "Ismay goes and kneels by her grandmother's chair, which nobody has seen her do since she was six, and says, 'Grandmother, I want you to stop taking Dr Hartopp's drops. He's doubled them. I don't want you to die asleep.' Mrs Cherrett looks at her granddaughter for a long time. 'You've never asked me for anything,' she says. 'Not a ribbon.' 'I'm asking now.' The old woman puts her great hand on Ismay's head. 'Then you can have it,' she says. 'God knows you can have it. Fetch me a hot brick for my feet instead, and tell that man he's dismissed.'".
+    Result "Ismay goes and kneels by her grandmother's chair, which nobody has seen her do since she was six, and says, 'Grandmother, I want you to stop taking Dr Hartopp's drops. He's doubled them. I don't want you to die asleep.' Mrs Cherrett looks at her granddaughter as if she had come into the room for the first time. 'You've never asked me for anything,' she says. 'Not a ribbon.' 'I'm asking now.' The old woman puts her great hand on Ismay's head. 'Then you can have it,' she says. 'God knows you can have it. Fetch me a hot brick for my feet instead, and tell that man he's dismissed.'".
   }
 
   // ── Rob ───────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -325,7 +341,7 @@ Module hessel "The Banns at Hessel" {
   }
   Discovery navvy_story "Mrs Cherrett's father meant her to marry a chandler with a shop. She ran off at nineteen with Josiah Cherrett, a navvy with a shovel and nothing else, and cooked for his gangs on the cuts for twenty years before there was any money at all.".
   Topic mopsa_navvy with mopsa "Ask Mopsa how Mrs Cherrett came to marry" when mopsaRegard(mopsa) >= 1 once {
-    Says "Mopsa looks at you with something like approval. 'Now that's a good question. Nobody asks it, because they think they know: money married money.' She lowers her voice, not much. 'Her father kept a public on the Wem road and meant her for a chandler with a wooden leg and a shop. At nineteen she went out of the window to Josiah Cherrett, who was a navvy digging the Wem cut, with a shovel and a laugh and nothing else in the world, and cooked for his gang in a hut for twenty years before there was a penny.' She smiles, which is rare and alarming. 'She'll tell you she was a fool. Ask her if she'd do it again.'".
+    Says "Mopsa looks at you with something like approval. 'Now that's a good question. Nobody asks it, because they think they know: money married money.' She lowers her voice, not much. 'Her father kept a public on the Wem road and meant her for a chandler with a wooden leg and a shop. At nineteen she went out of the window to Josiah Cherrett, who was a navvy digging the Wem cut, with a shovel and a laugh and nothing else in the world. He carried her into Wem church over his shoulder with her father's dogs in the porch, and set her down at the rail, and she cooked for his gang in a hut for twenty years before there was a penny.' She smiles, which is rare and alarming. 'She'll tell you she was a fool. Ask her if she'd do it again.'".
     On discuss { Assert knows(actor, navvy_story). Increase mopsaRegard(mopsa) by 1. }
   }
   Topic mopsa_ismay with mopsa "Ask Mopsa whom Ismay loves" when mopsaRegard(mopsa) >= 2 and not knows(actor, ismay_loves_kit) once {

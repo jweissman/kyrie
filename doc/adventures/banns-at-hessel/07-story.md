@@ -53,20 +53,32 @@ over Lim Bridge.
 | **Ismay Cherrett** | Her granddaughter; keeps the accounts | Kit; to be asked anything | being the price of something | someone telling her they will be in the room |
 | **Kit Danby** | A young chairman with a book | Ismay, whom he will not speak to | that she is being kind | a note; being told she watches him |
 | **Rob Cherrett** | Great-nephew and heir; a bad poet | one good poem; the girl at the window | Miss Pinnock and her spaniels | a better line, from what was really seen |
-| **Mopsa Gedge** | The companion, twenty-eight | a house, and her own door | being rescued | being laughed with |
-| **Mr Septimus Twiss** | Master of the Ceremonies | the Rules kept, because they are kindnesses | disorder at his Ball | an apology in form; a disgrace averted; a dying woman |
+| **Mopsa Gedge** | The companion, twenty-eight; in service since nineteen | a house, and her own door; "the window" | being rescued | being laughed with |
+| **Mr Septimus Twiss** | Master of the Ceremonies; broke the eleven o'clock Rule once, for the young lady who is now the Countess of Arne | the Rules kept, because they are kindnesses | disorder at his Ball; unkindness to the Countess | an apology in form; a disgrace averted; a dying woman |
 | **Lady Wenlock** | A widow with a title and no money | the Cherrett money | trade | a grandson in her arms |
 | **The Hon. Rupert Wenlock** | Thirty; beetles; secretly married | to stand up in church and not have to | his mother | being stood beside |
 | **Hetty Quiney** | Milliner, Rupert's wife | to be owned, up the hill | a scene | the chairmen at the back of the church |
-| **Dr Ambrose Hartopp** | The fashionable physician | the hundred pounds in the will; Ismay | being found out | the Rules (boots, three dances), and the chairmen |
-| **Dr Jonas Ottery** | The Hospital's physician, turned off | his licence; the truth | nothing much | the stranger's answers on the road |
+| **Dr Ambrose Hartopp** | The fashionable physician; the old pumper's son, who washed glasses at the urn and walked up the hill | the hundred pounds in the will; Ismay; never to go down again | falling | the Rules (boots, three dances); the chairmen; being told the pumper says good morning |
+| **Dr Jonas Ottery** | The Hospital's physician, turned off; he put up the slate that says HE CAME TOO LATE | his licence; the truth, except the one he promised to keep | nothing much, except that promise | the stranger's answers on the road |
 | **Sir Gervase Carth** | The master of Carth House | that it should be the night before, for ever | the morning after | being sat up with; being told his wife lives |
 | **Celia Carth** | His daughter, nine years indoors | outside | nothing, yet | a poem that has seen her |
-| **Nan Bellamy** | A laundress who knocks at two | to be known alive; to see Celia once, awake | being let in by anyone but him | the door opened by his hand |
+| **Nan Bellamy** | A laundress who knocks at two; Lady Carth, who puts rosemary under her own memorial, and whose child was born in the laundry yard the night she walked down | to be known alive; to see Celia once, awake | being let in by anyone but him | the door opened by his hand |
 | **Mrs Brannagh** | The Carths' housekeeper | an end to it | her master | the poem; Ottery's verdict on Celia's chest |
 | **Big Lanyon** | The chairmen's spokesman | ninepence the Parade | nothing | being stood with |
 | **Mrs Tabitha Scrope** | A widow in lavender | to be first | being second | — |
 | Also | Mr Pyne the curate; Jem Mallender at the apothecary's; Mr Gilmour the agent; Pocklington the footman; Signor Brocca; Mrs Gully of the Two Poles; Amos Hebden and his child; the footpads; the surrogate's clerk at Orm; the pumper | | | |
+
+## Themes
+
+- **Asking.** Hessel is a town where nobody asks: Ismay has never asked her grandmother for anything, nobody has
+  asked Mopsa what she wants, nobody has asked Nan why she knocks. The protagonist's verb is to ask.
+- **Carrying.** "Everybody in this town is carried by somebody. Mostly they don't look down to see who" (Big Lanyon).
+  The company is hired as legs; Twiss holds a dying woman up for a minuet; Hartopp, who climbed the hill alone, fears
+  that nobody carries you down: "You fall."
+- **The hour.** Carth's clocks stopped at two; Twiss's eleven o'clock; the coaches at noon; Mrs Cherrett, who wants to
+  die awake; Josiah's red line, which stops at *here*.
+- **The Great Snow.** Nine years ago, in one winter, Josiah Cherrett died on the down, Lady Carth was put out of her
+  house, and a child was born in the laundry yard and did not live. Hessel's present is that winter's morning after.
 
 ## Conflicts
 

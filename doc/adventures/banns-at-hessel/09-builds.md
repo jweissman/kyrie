@@ -35,10 +35,11 @@ offer.
 | The drawing-room window | climbing check (fair), at dusk | monk | Mrs Brannagh takes the poem up |
 | Carth's front door | as Hartopp's man: deception check (fair) | thief | knock with Ottery; or be received after sitting up |
 | The knocker | follow her: stealth check (fair) | thief | ask Big Lanyon, or Mrs Brannagh |
+| Sir Gervase's sword, at night | ask him whom he sits up for: insight check (hard) | cleric, monk | tell him the letter was from her brother: no check, only knowledge (from Nan or Mrs Brannagh) |
 | The sheep-path to Orm | woodcraft or wayfinding gate | ranger (and anyone with Josiah's compass, afterwards) | the drove track, forty minutes longer |
 | Ottery's ward | keep it while he is away: mending gate | cleric, monk | the ward goes without |
 | Mrs Cherrett's death | pray over her: rites gate | cleric | the closing account has no prayers in it |
-| The footpads | fight them (untested by the journeys) | warrior | pay three coin; or be beaten, robbed and left by the road, which the test of Ottery's third fate plays |
+| The footpads (three) | fight them | warrior | pay three coin; or, as a friend of the chairmen, ask the boy in the blue coat whether Big Lanyon knows where he is: no check, only standing with the Old Town |
 
 ## What a build without charisma or scholarship can do
 

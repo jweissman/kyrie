@@ -16,7 +16,7 @@ Quay Lane: narrow houses, a milliner’s with three bonnets in the window on woo
 
 **To Stall Street, by the chairmen's stand**
 
-Stall Street: the chairmen’s stand, a long bench under a penthouse roof, and the chairs themselves, black, glossy, like great beetles with their poles laid by them; men in blue coats sitting on the bench with their arms folded, every one of them built like a door. Big Lanyon, the chairmen’s spokesman, a huge mild man with a voice like a bell under water, is here.
+Stall Street: the chairmen’s stand, a long bench under a penthouse roof, and the chairs themselves, black, glossy, like great beetles with their poles laid by them; men in blue coats sitting on the bench with their arms folded, every one of them broad enough to stop the Parade. Big Lanyon, the chairmen’s spokesman, a huge mild man with a voice like a bell under water, is here.
 
 **To the Abbey Yard, at the foot of the Parade**
 
@@ -46,7 +46,7 @@ On the Circus lawn the chairmen sit on the poles of Mrs Cherrett’s chair waiti
 
 **Into Mrs Cherrett's lodgings**
 
-Ismay Cherrett watches Kit Danby from the parlour window. Mrs Cherrett’s parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant’s foot. The window looks down over the Circus lawn. Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing. Ismay is standing at the window with her ledger open in her hands. Down on the Circus lawn the chairmen are waiting with Mrs Cherrett’s chair, sitting on its poles, and one of them, the young one, is reading a book. Ismay does not turn a page all the time you are in the room. Mrs Cherrett’s bedroom door is shut, and her maid sits on a chair in front of it with her knitting, and looks at you over it. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
+Mrs Cherrett’s parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant’s foot. The window looks down over the Circus lawn. Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing. Ismay is standing at the window with her ledger open in her hands. Down on the Circus lawn the chairmen are waiting with Mrs Cherrett’s chair, sitting on its poles, and one of them, the young one, is reading a book. Ismay does not turn a page all the time you are in the room. Mrs Cherrett’s bedroom door is shut, and her maid sits on a chair in front of it with her knitting, and looks at you over it. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
 
 **Tell Mrs Cherrett you will be her legs for the Season**
 
@@ -76,7 +76,7 @@ Quay Lane: the milliner’s bonnets, the card in the lodging-house window, the l
 
 **Into Hetty Quiney's shop**
 
-Rupert Wenlock, whose banns are being read to Ismay Cherrett, has a wife and a son in Quay Lane. Hetty Quiney’s shop: three bonnets on wooden heads, a counter, ribbons in drawers labelled in a round hand, and a cradle under the counter. The Honourable Rupert Wenlock is sitting behind Hetty Quiney’s counter in his shirt-sleeves, with a fat baby on his knee, making a beetle walk across the counter for it. The baby is shrieking with joy. Rupert looks up and sees you, and every drop of colour goes out of his face, and he does not stop the beetle. A gentleman’s beaver hat, good, a little worn, on the peg by the back door. Here are the Honourable Rupert Wenlock, a pleasant, anxious man of thirty with a beetle in a pill-box; and Hetty Quiney, a milliner with pins in her mouth and a baby on her hip.
+Hetty Quiney’s shop: three bonnets on wooden heads, a counter, ribbons in drawers labelled in a round hand, and a cradle under the counter. The Honourable Rupert Wenlock is sitting behind Hetty Quiney’s counter in his shirt-sleeves, with a fat baby on his knee, making a beetle walk across the counter for it. The baby is shrieking with joy. Rupert looks up and sees you, and every drop of colour goes out of his face, and he does not stop the beetle. A gentleman’s beaver hat, good, a little worn, on the peg by the back door. Here are the Honourable Rupert Wenlock, a pleasant, anxious man of thirty with a beetle in a pill-box; and Hetty Quiney, a milliner with pins in her mouth and a baby on her hip.
 
 **Tell Rupert that you know about Hetty and the baby**
 
@@ -136,7 +136,7 @@ The Assembly Rooms are dark, and their great door is shut. An hour passes.
 
 **Wait › An hour**
 
-The Circus: the ring of houses, the round lawn, the Rooms on one side and Mrs Cherrett’s door on another. An hour passes.
+The Circus: the ring of houses, the round lawn, the Rooms on one side and Mrs Cherrett’s door on another. SATURDAY. The bells of Saint Ebba’s ring six over the steam. They have rung it since the abbey was a sty: Ebba was a swineherd’s daughter, the story goes, whose lame pigs wandered up the hill and came back whole and steaming, and she followed them to the hot spring; the pigs are carved among the angels on the west front, if you know where to look. Below the bridge the water-carts are filling from the river, because nobody in Hessel drinks the waters who can help it. Up on the Circus a maid is beating a carpet out of a window, and the sound comes down the hill a moment late.
 
 *(1 wait in which nothing is told)*
 
@@ -154,7 +154,7 @@ He shows you: a book of essays, old, coming apart, bought off a barrow. ‘The m
 
 **Into Mrs Cherrett's lodgings**
 
-Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression. Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot.
+Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression. Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot.
 
 **Tell Ismay that Kit Danby keeps her violet pressed in his book**
 
@@ -198,7 +198,7 @@ The Abbey Yard: the church, the Pump Room, the Parade going up the hill, and eve
 
 **Into Saint Ebba's**
 
-Saint Ebba’s: a high pale nave full of memorial tablets, put up by the Season to its dead. SACRED TO THE MEMORY of a colonel, a widow, a child, a bishop, all of whom came to Hessel for the waters and are in Hessel still. One tablet only says, HE CAME TOO LATE.
+Saint Ebba’s: a high pale nave full of memorial tablets, put up by the Season to its dead. SACRED TO THE MEMORY of a colonel, a widow, a child, a bishop, all of whom came to Hessel for the waters and are in Hessel still. One tablet only says, HE CAME TOO LATE. Under the west window one tablet is newer and whiter than the rest, and the one beside it is the smallest in the church.
 
 *(1 wait in which nothing is told)*
 
@@ -210,7 +210,7 @@ Saint Ebba’s is locked for the night. An hour passes.
 
 **Wait › An hour**
 
-In the Abbey Yard and on Stall Street and at the foot of the Parade, the chairmen are laying their poles crossways on their chairs. In Hessel that means no.
+In the Abbey Yard and on Stall Street and at the foot of the Parade, the chairmen are laying their poles crossways on their chairs. In Hessel that means no. SUNDAY: the third time of asking. Saint Ebba’s rings all eight bells for an hour before service, a peal the ringers of Orm have called wrong in the fourth change for two hundred years. The Season comes out in its second-best, keeping the best for the Ball, and the Pump Room is shut, so it has nowhere to look at itself but in church. At eleven Mr Pyne will read the banns for the last time, and come to the place where he asks if any of you know cause, and pause, as he always does, because he is young and dreads it.
 
 *(4 waits in which nothing is told)*
 
@@ -238,13 +238,25 @@ An hour passes. It is a long time since you slept. You are weary, and will fight
 
 Saint Ebba’s is locked for the night. An hour passes.
 
-*(23 waits in which nothing is told)*
+*(9 waits in which nothing is told)*
+
+**Wait › An hour**
+
+MONDAY, the last day of the Season. At first light the Rooms’ five chandeliers are let down on their chains, and men on ladders fit eight hundred and forty new candles, the number the Rooms’ accounts have recorded for every Closing Ball since the old King came for his gout and could not dance at it. Every milliner in Quay Lane has her shutters down by six. At ten, if nobody has spoken, there is a wedding at Saint Ebba’s; at seven, the Ball; at eleven, Mr Twiss will lift his hand.
+
+*(13 waits in which nothing is told)*
 
 **Wait › An hour**
 
 Saint Ebba’s is locked for the night. An hour passes.
 
-*(15 waits in which nothing is told)*
+*(9 waits in which nothing is told)*
+
+**Wait › An hour**
+
+TUESDAY, the morning the Season ends. Before it is light the coaches are brought round into the Abbey Yard nose to tail, and the horses stand in the cold with their breath going up like the Baths. Trunks come down the Parade on the chairmen’s backs. Up at the Circus, at eight, Mopsa Gedge will take in Mrs Cherrett’s chocolate, as she does every morning, and knock, and go in.
+
+*(5 waits in which nothing is told)*
 
 **Wait › An hour**
 

@@ -121,3 +121,43 @@ were cloned at their locked commits into `node_modules` by hand. `package.json` 
 **18. The vocabulary warnings.** *Minor, tooling.* `bin/kyrie lint` reports about 1,700 repository vocabulary warnings,
 almost none of them Hessel's. Hessel's own campaign lints with 0 errors and 0 warnings, but the repository-wide count
 hides any new warning.
+
+## Found in the second pass
+
+These came from the literary revision ([14-second-pass.md](14-second-pass.md)): the tablets, the canal map, the cloves,
+the chapters, and the knowledge-based ways past Sir Gervase and the footpads.
+
+**19. An event cannot assert knowledge; an action can.** *Minor, hidden.*
+`Event footpads_tended … then { Assert knows(party, hartopp_paid_pads). }` is refused at load: "a rule teaches what it
+says: says "…" teaches fact". The same assertion inside an Action's `On success` is accepted (`name_lanyon`). The
+lint message names the remedy (`"…" teaches fact then { … }`), so the friction is only that the two constructs
+differ.
+
+**20. `is scenery` takes away the choice to examine.** *Moderate, hidden.*
+The tablets in Saint Ebba's and the canal map were first written `is scenery`, because they are part of the room. With
+`Tries looking`, they still offered no "Look closely". A thing must not be scenery to be examined, and then it is
+listed among the room's things. Nothing says which is which except trying.
+*Remedy:* let scenery be examined when it `Tries looking`; or lint a scenery thing that tries looking.
+
+**21. Taught-first printing (entry 2) now shapes clue design.** *Moderate, frontend.*
+The boys' confession teaches its fact before the scene in which they confess. Their discovery could not say "Dr Hartopp
+paid them" without the page saying it before Davy does. It says instead "by a gentleman who smelt of cloves", and the
+player makes the inference. That turned out better writing, but it was forced by the engine, not chosen.
+
+**22. A says-text cannot begin a paragraph.** *Moderate, missing.*
+The chapter openings ("SATURDAY. The bells of Saint Ebba's ring six…") run on after whatever else the page told:
+"You eat what is put in front of you, and sleep long, under a roof. SATURDAY. The bells…". There is no way to ask for
+a paragraph break, a heading, or a page of its own, so a chapter cannot look like a chapter.
+*Remedy:* a `Chapter` construct, or a paragraph mark in says-text.
+
+**23. A warning's patience is one watch, and it is invisible.** *Minor, hidden.*
+A territorial or proud group that warns falls on whoever stays once `patience` (one watch) has passed. A module's own
+answer to a warning (telling Sir Gervase about the letter; naming Davy's uncle) must therefore be an action that
+retracts `warned` and asserts `tolerates` inside that window. It works, but it was learned by reading
+`data/rules/inhabitants.kyr`; nothing in an encounter's page or a lint says how long the company has.
+
+**24. A thing's place in the page is not chosen.** *Minor, frontend.*
+The tablets' state text ("Under the west window one tablet is newer and whiter than the rest…") is told after the
+nave's scene, whose last sentence is "One tablet only says, HE CAME TOO LATE." Read in order, it is a good
+foreshadowing beat. But it is that only because the engine happens to order things after observations. An author
+cannot say "this sentence goes after that one".

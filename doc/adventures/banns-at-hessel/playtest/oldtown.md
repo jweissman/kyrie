@@ -1,6 +1,6 @@
 # The Old Town
 
-Played by a thief; seed `o1`, steps `test/fixtures/hessel/oldtown.json`; 208 steps; ended at watch 600, at the ending "The Morning After". Written by `bun scripts/hessel-transcripts.ts` from the journey as the page told it.
+Played by a thief; seed `o1`, steps `test/fixtures/hessel/oldtown.json`; 209 steps; ended at watch 600, at the ending "The Morning After". Written by `bun scripts/hessel-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -16,7 +16,7 @@ Quay Lane: narrow houses, a milliner’s with three bonnets in the window on woo
 
 **To Stall Street, by the chairmen's stand**
 
-Stall Street: the chairmen’s stand, a long bench under a penthouse roof, and the chairs themselves, black, glossy, like great beetles with their poles laid by them; men in blue coats sitting on the bench with their arms folded, every one of them built like a door. Big Lanyon, the chairmen’s spokesman, a huge mild man with a voice like a bell under water, is here.
+Stall Street: the chairmen’s stand, a long bench under a penthouse roof, and the chairs themselves, black, glossy, like great beetles with their poles laid by them; men in blue coats sitting on the bench with their arms folded, every one of them broad enough to stop the Parade. Big Lanyon, the chairmen’s spokesman, a huge mild man with a voice like a bell under water, is here.
 
 **Ask Big Lanyon what the chairmen are grumbling about**
 
@@ -24,7 +24,7 @@ Stall Street: the chairmen’s stand, a long bench under a penthouse roof, and t
 
 **Tell Big Lanyon you are with the chairmen, poles and all**
 
-Big Lanyon looks at you, and at the rest of them on the bench, and something goes along the bench like a wind through barley. ‘Are you, now,’ he says. ‘A stranger. Well.’ He puts out a hand like a spade and you shake it. ‘Then here’s what we’ll do, for you and nobody else. If the poles are down on Ball night, and your old lady wants to go up to the Rooms, we’ll carry her. For you. Nobody else in this town, but her.’ Nell gains 100 experience: stood with the chairmen.
+Big Lanyon looks at you, and at the rest of them on the bench, and something goes along the bench like a wind through barley. ‘Are you, now,’ he says. ‘A stranger. Well.’ He looks up the Parade, at the Circus roofs. ‘Everybody in this town is carried by somebody. Mostly they don’t look down to see who.’ He puts out a hand like a spade and you shake it. ‘Then here’s what we’ll do, for you and nobody else. If the poles are down on Ball night, and your old lady wants to go up to the Rooms, we’ll carry her. For you. Nobody else in this town, but her.’ Nell gains 100 experience: stood with the chairmen.
 
 **To the Abbey Yard, at the foot of the Parade**
 
@@ -58,7 +58,7 @@ The Circus: a ring of tall houses round a round lawn, every one alike, columns o
 
 **Into Mrs Cherrett's lodgings**
 
-Mrs Cherrett’s parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant’s foot. The window looks down over the Circus lawn. Here are Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
+Mrs Cherrett’s parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant’s foot. The window looks down over the Circus lawn. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
 
 **To Mrs Cherrett's bedroom**
 
@@ -70,7 +70,7 @@ Mrs Cherrett’s bedroom: a great curtained bed, a fire kept in in all weathers,
 
 **To Mrs Cherrett's parlour**
 
-Here are Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression. Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot.
+On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression. Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot.
 
 **Out to the Circus**
 
@@ -90,7 +90,7 @@ The Pump Room: a long cool room of pale stone, with tall windows, a gallery for 
 
 **Buy a bottle of the Pump Room's water**
 
-Nell pays the pumper, and takes a bottle of the Pump Room’s water.
+You pay the pumper, and take a bottle of the Pump Room’s water.
 
 **Out to the Abbey Yard, at the foot of the Parade**
 
@@ -126,7 +126,7 @@ The Circus: the ring of houses, the round lawn, the Rooms on one side and Mrs Ch
 
 **Into Mrs Cherrett's lodgings**
 
-Ismay Cherrett watches Kit Danby from the parlour window. Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. Here are Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression. Ismay is standing at the window with her ledger open in her hands. Down on the Circus lawn the chairmen are waiting with Mrs Cherrett’s chair, sitting on its poles, and one of them, the young one, is reading a book. Ismay does not turn a page all the time you are in the room.
+Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression. Ismay is standing at the window with her ledger open in her hands. Down on the Circus lawn the chairmen are waiting with Mrs Cherrett’s chair, sitting on its poles, and one of them, the young one, is reading a book. Ismay does not turn a page all the time you are in the room.
 
 **To Mrs Cherrett's bedroom**
 
@@ -138,7 +138,7 @@ A bottle of the Pump Room’s water is used up. Nell gains 250 experience: kept 
 
 **To Mrs Cherrett's parlour**
 
-Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. Here are Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
+Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Rob Cherrett, a long young man with ink on his cuffs and his hair in his eyes; and Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression.
 
 **Out to the Circus**
 
@@ -228,7 +228,7 @@ In the crack of the shutter at Carth House the candle is lower. The girl has put
 
 **Wait › A while**
 
-At two in the morning a woman in a grey cloak comes along the Crescent from the top of the Parade, not hurrying, and goes up the steps of Carth House, and knocks, once. Then she stands there with her hand flat on the door, the way you would stand by a horse to feel it breathe. After a while she goes away down the hill. Somebody in a laundress’s cloak knocks at Carth House every night at two. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
+At two in the morning a woman in a grey cloak comes along the Crescent from the top of the Parade, not hurrying, and goes up the steps of Carth House, and knocks, once. Then she stands there with her hand flat on the door, the way you would stand by a horse to feel it breathe. After a while she goes away down the hill. Time passes. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
 
 *(1 wait in which nothing is told)*
 
@@ -254,7 +254,7 @@ Mrs Gully, who keeps the Two Poles, a little round woman with a big voice, is he
 
 **Take a bed and supper**
 
-You eat what is put in front of you, and sleep long, under a roof.
+You eat what is put in front of you, and sleep long, under a roof. SATURDAY. The bells of Saint Ebba’s ring six over the steam. They have rung it since the abbey was a sty: Ebba was a swineherd’s daughter, the story goes, whose lame pigs wandered up the hill and came back whole and steaming, and she followed them to the hot spring; the pigs are carved among the angels on the west front, if you know where to look. Below the bridge the water-carts are filling from the river, because nobody in Hessel drinks the waters who can help it. Up on the Circus a maid is beating a carpet out of a window, and the sound comes down the hill a moment late.
 
 **Out to Stall Street, by the chairmen's stand**
 
@@ -330,7 +330,7 @@ The coal cellar: black, low, hot from the kitchen beyond, coal up to the vault, 
 
 **To the kitchen at Carth House**
 
-The kitchen of Carth House: as hot as a baker’s, and as clean as a chapel. Coal stacked to the ceiling. A dresser of blue plates. A rocking-chair by the range with a Bible on it, open, face down. The kitchen door is bolted on the inside. Mrs Brannagh, the housekeeper of Carth House, in black, with a face like a shut Bible, is here.
+The kitchen of Carth House: as hot as a baker’s, and as clean as a chapel. Coal stacked to the ceiling. A dresser of blue plates. A rocking-chair by the range with a Bible on it, open, face down. The kitchen door is bolted on the inside. Mrs Brannagh, the housekeeper of Carth House, in black, with a Bible in her apron pocket and coal-dust in the lines of her hands, is here.
 
 **Ask Mrs Brannagh why the house is kept like this**
 
@@ -342,7 +342,7 @@ The heat hits you in the doorway like a hand. The hall of Carth House is lit by 
 
 **Into the floor above by the great stair**
 
-Celia Carth has read everything and seen nothing: nine years behind the shutters of Carth House. The drawing room is upstairs, and hotter. Furs on every chair; a fire; candles; the shutters closed, except one, which has a crack in it that someone has worn with a fingertip. Books everywhere: a girl’s room, a scholar’s room, a prison. The girl in the fur cap is reading Ovid by three candles, with her feet up on the fender and a treatise on bees open on the floor beside her and the voyages of Anson under the treatise. She turns the pages fast, as if somebody might take them away. The drawing-room shutters are barred. Celia Carth, a girl in a fur cap, very pale and very bored, with a book, is here.
+The drawing room is upstairs, and hotter. Furs on every chair; a fire; candles; the shutters closed, except one, which has a crack in it that someone has worn with a fingertip. Books everywhere: a girl’s room, a scholar’s room, a prison. The girl in the fur cap is reading Ovid by three candles, with her feet up on the fender and a treatise on bees open on the floor beside her and the voyages of Anson under the treatise. She turns the pages fast, as if somebody might take them away. The drawing-room shutters are barred. Celia Carth, a girl in a fur cap, very pale and very bored, with a book, is here.
 
 **Tell Celia what it is like outside**
 
@@ -354,7 +354,7 @@ You tell her: the Crescent, the lawn, the Season walking on it; the Pump Room, t
 
 **Help Celia down from the drawing-room window to the area, and away**
 
-She comes over the sill in her fur cap and a cloak over her nightgown and a pair of Brannagh’s boots, with Ovid under her arm, and down the railings after you, with your hands to guide her feet, and stands on the pavement of the Crescent in the warm dark and breathes, and breathes. ‘It smells of grass,’ she says. ‘It smells of grass and horses.’ You take her up the hill to the Circus, where Mrs Cherrett, roused out of her first sleep in her nightcap, looks at the girl in the fur cap for a long moment and says, ‘Well, you’ll want feeding,’ and does not ask a single question. Nell gains 200 experience: brought Celia Carth out into the Season. Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression; and Celia Carth, a girl in a borrowed cloak, out of doors, blinking at everything. Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing.
+She comes over the sill in her fur cap and a cloak over her nightgown and a pair of Brannagh’s boots, with Ovid under her arm, and down the railings after you, with your hands to guide her feet, and stands on the pavement of the Crescent in the warm dark and breathes, and breathes. ‘It smells of grass,’ she says. ‘It smells of grass and horses.’ You take her up the hill to the Circus, where Mrs Cherrett, roused out of her first sleep in her nightcap, looks at the girl in the fur cap for a long moment and says, ‘Well, you’ll want feeding,’ and does not ask a single question. Nell gains 200 experience: brought Celia Carth out into the Season. Mrs Cherrett’s parlour: the pike, the canal map, the elephant’s foot. On the canal map over the fireplace, one line is drawn in red pencil, and stops. Here are Mrs Abigail Cherrett, a vast old woman in purple, with a laugh like a dropped coal-scuttle; Ismay Cherrett, a quiet young woman with a ledger and ink on her finger; Mopsa Gedge, a thin dark woman in grey, with a book, a shawl over her arm and an expression; and Celia Carth, a girl in a borrowed cloak, out of doors, blinking at everything. Mrs Cherrett sits in the middle of it all like the stuffed pike’s mother, with her stick across her knees, and misses nothing.
 
 **Tell Celia that her mother is alive, and washing linen in the Old Town**
 
@@ -398,7 +398,7 @@ The Two Poles: the fire, the long table, the crossed poles over the chimney. Her
 
 **Take a bed and supper**
 
-You eat what is put in front of you, and sleep long, under a roof. In the Abbey Yard and on Stall Street and at the foot of the Parade, the chairmen are laying their poles crossways on their chairs. In Hessel that means no. Nell reaches level 2 (+8 HP).
+You eat what is put in front of you, and sleep long, under a roof. SUNDAY: the third time of asking. Saint Ebba’s rings all eight bells for an hour before service, a peal the ringers of Orm have called wrong in the fourth change for two hundred years. The Season comes out in its second-best, keeping the best for the Ball, and the Pump Room is shut, so it has nowhere to look at itself but in church. At eleven Mr Pyne will read the banns for the last time, and come to the place where he asks if any of you know cause, and pause, as he always does, because he is young and dreads it. In the Abbey Yard and on Stall Street and at the foot of the Parade, the chairmen are laying their poles crossways on their chairs. In Hessel that means no. You reach level 2 (+8 HP).
 
 **Out to Stall Street, by the chairmen's stand**
 
@@ -438,7 +438,7 @@ The Abbey Yard: the church, the Pump Room, the Parade going up the hill, and eve
 
 **Into Saint Ebba's**
 
-Saint Ebba’s: a high pale nave full of memorial tablets, put up by the Season to its dead. SACRED TO THE MEMORY of a colonel, a widow, a child, a bishop, all of whom came to Hessel for the waters and are in Hessel still. One tablet only says, HE CAME TOO LATE. Hetty Quiney, a milliner with pins in her mouth and a baby on her hip, is here.
+Saint Ebba’s: a high pale nave full of memorial tablets, put up by the Season to its dead. SACRED TO THE MEMORY of a colonel, a widow, a child, a bishop, all of whom came to Hessel for the waters and are in Hessel still. One tablet only says, HE CAME TOO LATE. Under the west window one tablet is newer and whiter than the rest, and the one beside it is the smallest in the church. Hetty Quiney, a milliner with pins in her mouth and a baby on her hip, is here.
 
 *(3 waits in which nothing is told)*
 
@@ -484,9 +484,9 @@ An hour passes. It is a long time since you slept. You are weary, and will fight
 
 **Wait › An hour**
 
-Stall Street: the chairmen’s stand, and every chair on it with its poles out and laid crossways on the bench, which in Hessel means NO. The chairmen sit behind them with their arms folded. An hour passes.
+Stall Street: the chairmen’s stand, and every chair on it with its poles out and laid crossways on the bench, which in Hessel means NO. The chairmen sit behind them with their arms folded. MONDAY, the last day of the Season. At first light the Rooms’ five chandeliers are let down on their chains, and men on ladders fit eight hundred and forty new candles, the number the Rooms’ accounts have recorded for every Closing Ball since the old King came for his gout and could not dance at it. Every milliner in Quay Lane has her shutters down by six. At ten, if nobody has spoken, there is a wedding at Saint Ebba’s; at seven, the Ball; at eleven, Mr Twiss will lift his hand.
 
-*(16 waits in which nothing is told)*
+*(17 waits in which nothing is told)*
 
 **To the Abbey Yard, at the foot of the Parade**
 
@@ -506,7 +506,7 @@ The Circus: the ring of houses, the round lawn, the Rooms on one side and Mrs Ch
 
 **Into the Assembly Rooms**
 
-The vestibule of the Assembly Rooms: marble, mirrors, a footman, and by the ballroom doors, framed in gold, THE RULES OF THE ROOMS. No boots after six. No lady to dance two dances running with one gentleman, unless betrothed. No introductions but by the Master. No dancing after eleven, though the King himself should ask it. No companion, governess or paid attendant to stand up in the dances. Signed, Septimus Twiss, M.C. The ballroom doors are open, and through them the light and the music; a footman in the Rooms’ blue stands across them, and does not move for you. Pocklington, the Rooms’ footman, in blue, with a face like a closed door, is here.
+The vestibule of the Assembly Rooms: marble, mirrors, a footman, and by the ballroom doors, framed in gold, THE RULES OF THE ROOMS. No boots after six. No lady to dance two dances running with one gentleman, unless betrothed. No introductions but by the Master. No dancing after eleven, though the King himself should ask it. No companion, governess or paid attendant to stand up in the dances. Signed, Septimus Twiss, M.C. The ballroom doors are open, and through them the light and the music; a footman in the Rooms’ blue stands across them, and does not move for you. Pocklington, the Rooms’ footman, in blue, who has stood at that door for eleven Seasons and seen everything twice, is here.
 
 *(3 waits in which nothing is told)*
 
@@ -530,7 +530,13 @@ Stall Street at night: the chairs chained to their bench, and the lamp of the Tw
 
 The chairmen have it already, and tell it to you with their arms folded: how Dr Hartopp came up the Parade on foot at a quarter past seven, in riding-boots, red as a beef, and Mr Twiss looked at the boots, and said ‘No boots after six,’ and Dr Hartopp went down the Parade again on foot, with the whole Circus at its windows. ‘In his boots,’ says Big Lanyon, with deep content. ‘All the way down.’ The Two Poles: the fire, the long table, the crossed poles over the chimney. Here are Big Lanyon, the chairmen’s spokesman, a huge mild man with a voice like a bell under water; Mrs Gully, who keeps the Two Poles, a little round woman with a big voice; and Kit Danby, a young chairman in a blue coat, with a book in his pocket.
 
-*(14 waits in which nothing is told)*
+*(8 waits in which nothing is told)*
+
+**Wait › An hour**
+
+TUESDAY, the morning the Season ends. Before it is light the coaches are brought round into the Abbey Yard nose to tail, and the horses stand in the cold with their breath going up like the Baths. Trunks come down the Parade on the chairmen’s backs. Up at the Circus, at eight, Mopsa Gedge will take in Mrs Cherrett’s chocolate, as she does every morning, and knock, and go in.
+
+*(5 waits in which nothing is told)*
 
 **Wait › An hour**
 

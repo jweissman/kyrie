@@ -56,7 +56,7 @@ Module hessel "The Banns at Hessel" {
 
   // ── Mrs Brannagh ──────────────────────────────────────────────────────────────────────────────────────────────────
   Person brannagh "Mrs Brannagh" at carth_kitchen {
-    Role "the housekeeper of Carth House, in black, with a face like a shut Bible". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Role "the housekeeper of Carth House, in black, with a Bible in her apron pocket and coal-dust in the lines of her hands". Ancestry human. Peaceable. Pronouns she. Manner grim.
     Greets "The housekeeper does not get up. 'This is a private house,' she says. 'Nobody comes into it. You'll have a reason, or you'll go.'".
     Greets again "Mrs Brannagh looks at you over her spectacles.".
     Wants poem_kind.
@@ -128,7 +128,7 @@ Module hessel "The Banns at Hessel" {
   Kind poem_kind "Rob Cherrett's poem" is treasure worth 0 weighing 0.
   Item rob_poem "Rob's poem" is poem_kind at limbo.
   Topic rob_line_candle with rob "Give Rob a line: not a pale maid, but a girl with a candle at a crack in a shutter, looking at the grass" when knows(actor, rob_loves_window) and knows(actor, celia_candle) and not lineCandle(rob) and not poemMade(rob) once {
-    Says "Rob stops crossing things out. 'Looking at the grass,' he says. 'Not at the sky. At the grass.' He writes for a long time. 'Because she's never been on it,' he says, not to you.".
+    Says "Rob stops crossing things out. 'Looking at the grass,' he says. 'Not at the sky. At the grass.' He writes, and does not cross out. 'Because she's never been on it,' he says, not to you.".
     On discuss { Assert lineCandle(rob). Increase poemLines(rob) by 1. }
   }
   Topic rob_line_hand with rob "Give Rob a line: her hand flat on the glass at night, feeling for the warmth" when knows(actor, rob_loves_window) and knows(actor, celia_hand) and not lineHand(rob) and not poemMade(rob) once {
@@ -193,6 +193,28 @@ Module hessel "The Banns at Hessel" {
   Rule thrown_told at crescent when thrownOut(party) and watch(clock) > cameRound(crescent) and not spread(thrown_told)
     says "You come round on the pavement of the Crescent, in the dark, with your head ringing and your coat torn, and the front door of Carth House shut behind you. Somebody upstairs is hammering: laths across the drawing-room shutters, nail after nail. In the morning the whole Crescent will say Sir Gervase Carth threw a housebreaker into the street, and that he did not call the watch." { Assert spread(thrown_told). }
   Entity thrown_told: fact "thrown out of Carth House".
+  // Found in his house, the company has the length of his warning to stop his sword with something that is true. What
+  // he did is the only thing in the world that can reach him; and the one thing he does not know is what the letter was.
+  Action tell_brother(actor: group, site: place) "Tell him the letter in his wife's work-box was from her brother" {
+    Description "If it is true, it is the one thing that will reach him.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(gervase, site) and (at(actor, carth_hall) or at(actor, carth_study))
+      and warned(gervase, actor) and knows(actor, nan_is_lady) and not gervaseFought(gervase).
+    Time 1 minute.
+    On success { Retract warned(gervase, actor). Assert tolerates(gervase, actor). Assert received(actor). Assert gervaseShaken(gervase). }
+    Result "The sword does not come down; it stops, which is worse to watch. 'Who told you that,' says Sir Gervase. It is not a question. You tell him: her brother, from the north, about their mother's will; the letter in the work-box; the snow. He hears it standing, with the point of the sword on his own floor, and then he lets it fall, and it rings on the stone, and he sits down where he stands, like a man who has walked a long way and is not sure it was the right road. 'Sit,' he says, at last. 'Sit, then.'".
+  }
+  Action ask_who_waits(actor: group, site: place) "Put your hands where he can see them, and ask him whom he sits up for" {
+    Description "A man who sits facing his own front door all night is waiting for someone.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, carth_hall) and at(gervase, carth_hall) and warned(gervase, actor)
+      and not gervaseFought(gervase) and not triedAskWaits(actor) and (hour(clock) >= 22 or hour(clock) < 7).
+    Time 1 minute.
+    Resolve check(actor, insight, dc_hard).
+    On success { Retract warned(gervase, actor). Assert tolerates(gervase, actor). Assert received(actor). }
+    On failure { Assert triedAskWaits(actor). }
+    Result "Sir Gervase looks at you over the sword for a long moment. Then at the door. 'Nobody,' he says. 'I sit up for nobody. It's warmer by the fire.' But the point of the sword has gone down, and he goes back to his chair, and sits facing the door again, as if you were furniture. 'You can stay,' he says, 'if you don't open anything.'".
+    Otherwise "'That's my business,' says Sir Gervase Carth, and the sword comes up.".
+  }
+  Relation triedAskWaits(group).
   // Received by day, at the front door, as a physician's messenger: from Hartopp, which is a lie; or with Ottery, which
   // is not.
   Action knock_as_hartopp(actor: group, site: place) "Knock at Carth House and say you come from Dr Hartopp" {
@@ -249,6 +271,24 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert celiaWell(celia). }
   }
 
+  // ── Two tablets in Saint Ebba's ──────────────────────────────────────────────────────────────────────────────────
+  // Hessel's dead are on its church walls. Two of them say more than the rest: a memorial to a woman who is washing
+  // sheets at the bottom of the hill, and HE CAME TOO LATE, whose initials are the Hospital's physician's. What the second
+  // one is for is the thing nobody in the valley knows but the two people who were there.
+  Thing ebba_tablets "the two tablets under the west window" at ebba_nave {
+    Tries looking.
+    State hung "Under the west window one tablet is newer and whiter than the rest, and the one beside it is the smallest in the church.".
+  }
+  Initially Assert state(ebba_tablets, hung).
+  Discovery tablets_read "In Saint Ebba's is a memorial to Honoria, Lady Carth, taken in the Great Snow nine years ago; beside it, the tablet that says HE CAME TOO LATE is signed J. O.".
+  Observe tablets_looked near ebba_tablets when tried(ebba_tablets, looking) and not seenOnce(tablets_read) "The new one is good marble and plain lettering. SACRED TO THE MEMORY OF HONORIA, LADY CARTH, TAKEN IN THE GREAT SNOW IN HER TWENTY-NINTH YEAR. HER HUSBAND, WHO DOES NOT ASK TO BE FORGIVEN, RAISED THIS. Someone has put a sprig of rosemary on the ledge under it, recently; it is still green. The small one beside it is cheap slate, cut by a jobbing mason, with no name on it at all: HE CAME TOO LATE. In the corner, so small you have to stoop, J. O." teaches tablets_read.
+  Initially Assert teachesAt(tablets_read, ebba_nave).
+  // Nan knows who put the rosemary there. So, if asked, does Ottery.
+  Topic nan_tablet with nan "Ask Nan Bellamy about the slate tablet beside her own, signed J. O." when knows(actor, tablets_read) and nanSpoke(nan) and not knows(actor, snow_child) once {
+    Says "Nan stops wringing. For a moment you think she will send you away; then she sits down on the edge of the copper, which nobody does, it is hot. 'I put the rosemary,' she says. 'Under my own name, every Sunday, at the back, in my laundress's bonnet, and nobody looks at a laundress.' She looks at her red hands. 'I was carrying, that winter. He didn't know. I hadn't told him; I was keeping it for Christmas.' A long breath. 'It came in the yard, under the stair, the night I walked down, with the women holding the lamp. They sent for the Hospital and the Hospital came through the snow, and came too late, and cried, which I'd never seen a doctor do, and paid for the slate himself.' She stands up. 'And I made Jonas Ottery promise never to tell Gervase. And he never has, and he tells everybody everything.' She goes back to the copper. 'That's what that is.'".
+    On discuss { Assert knows(actor, snow_child). }
+  }
+  Discovery snow_child "Nan Bellamy was carrying when Sir Gervase put her out in the snow. The child was born in the laundry yard that night and did not live; Dr Ottery came too late, and has kept her secret for nine years.".
   // ── The knock ─────────────────────────────────────────────────────────────────────────────────────────────────────
   Person nan "Nan Bellamy" at laundry_yard {
     Role "a laundress in grey, with red arms, and the straightest back in the Old Town" when not carthReunited(carth).

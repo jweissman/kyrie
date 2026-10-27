@@ -28,15 +28,16 @@ summoned before the College for telling the truth.
 | [09 — builds](09-builds.md) | What each build can do, where a build matters, and the two approaches compared |
 | [10 — rewards](10-rewards.md) | Experience, things, companions, and what they imply outside Hessel |
 | [11 — playtest evidence](11-playtest.md) | The journeys, the two approaches, entries, negotiations, outcomes, persistence, wandering |
-| [12 — critique](12-critique.md) | **The honest final critique** |
+| [12 — critique](12-critique.md) | The first final critique (partly answered by 14) |
 | [13 — changes](13-changes.md) | Stage 6: what reading and wandering changed |
+| [14 — the second pass](14-second-pass.md) | **Read as literature**: what was pulp, what was missing, the buried history, foreshadowing, themes, chapters, danger with ways round it; and where 10× the ambition would start |
 | [friction.md](friction.md) | Where Kyr resisted, by severity and kind, with remedies |
 | [playtest/](playtest) | Nine journeys as the page told them |
 
 ## Status
 
 Complete and placed. 33 places in the town and eight beyond it, 27 people, 11 strands, 5 endings with a closing
-account of 37 fates, 28 milestones. 27 journey tests and 6 wander tests pass; the campaign lints clean.
+account of 37 fates, 28 milestones. 31 journey tests and 6 wander tests pass; the campaign lints clean.
 
 ```sh
 bin/kyrie lint data/campaigns/hessel.campaign.json
