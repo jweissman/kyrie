@@ -60,8 +60,10 @@ Module pellam "The Liberty of the Ice" {
     Result "'Cutting ice,' says Tredgold, 'to keep it ice.' He thinks about it for a long time. 'It's work,' he says. 'It's daft, and it's work, and he pays by the day.' He sends six of the young ones off with saws, grinning, and the Hall is a different place.".
   }
   Relation quarleHasMen(group).
-  Rule channel_cut when secondDay() and hour(clock) >= 22 and not watermenWorked(lisk) and not channelCut(lisk) says "In the night, from down the Reach, a long sound of saws, a dozen of them, and men singing to keep the time. By morning there is a channel of black water forty feet wide across the foot of the Reach from bank to bank, steaming, and the sledge road south ends at it." {
-    Assert channelCut(lisk). Assert state(channel, open_water). }
+  Rule channel_cut when secondDay() and hour(clock) >= 22 and not watermenWorked(lisk) and not channelCut(lisk) {
+    Assert channelCut(lisk). Assert state(channel, open_water). Assert happened(ev_channel_cut). }
+  Entity ev_channel_cut: fact "channel cut".
+  Rule channel_cut_heard when happened(ev_channel_cut) and inPellam() and not heardNews(ev_channel_cut) says "In the night, from down the Reach, a long sound of saws, a dozen of them, and men singing to keep the time. By morning there is a channel of black water forty feet wide across the foot of the Reach from bank to bank, steaming, and the sledge road south ends at it." { Assert heardNews(ev_channel_cut). }
   Thing channel "the watermen's channel" on sledge_way is scenery {
     State whole "The sledge marks run on south over hard ice.".
     State open_water blocking "Across the foot of the Reach the watermen's channel lies forty feet wide, black water steaming. Nobody goes south on the ice now.".

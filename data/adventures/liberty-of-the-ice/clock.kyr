@@ -6,7 +6,9 @@ Module pellam "The Liberty of the Ice" {
   Initially Set dayN(lisk) to 1.
   Rule dawn_counts when hour(clock) == 6 and not dawned(lisk) and watch(clock) >= 6 { Increase dayN(lisk) by 1. Assert dawned(lisk). }
   Rule dawn_passes when hour(clock) != 6 and dawned(lisk) { Retract dawned(lisk). }
-  Query firstDay() means dayN(lisk) == 1.
+  // In a world that goes on, Pellam's own watch begins at the first morning after it is reached (what is left of the
+  // evening it is reached on is nobody's day), so its first day begins then, and nothing of it happens before.
+  Query firstDay() means dayN(lisk) == 1 and watch(clock) >= 0.
   Query secondDay() means dayN(lisk) == 2.
   Query thirdDay() means dayN(lisk) == 3.
   Query fourthDay() means dayN(lisk) == 4.
@@ -30,6 +32,8 @@ Module pellam "The Liberty of the Ice" {
   Query inPellam() means at(party, ?p) and not at(party, north_road) and not at(party, sledge_road) and not at(party, limbo).
   Query onIce() means at(party, ?p) and iceRoom(?p).
   Relation iceRoom(place).
+  // What has happened in the city, and whether the company has heard it: news is heard in Pellam, late if it was away.
+  Relation happened(fact). Relation heardNews(fact).
   // News already gone round, so it is not told twice.
   Relation spread(fact).
   // A place the company has left and come back to is told shortly.

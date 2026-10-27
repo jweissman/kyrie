@@ -1,0 +1,16 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "=144",
+  "go:black_reach",
+  "Search here",
+  "=+1"
+ ],
+ "bear": [
+  "go:ox_roast",
+  "Go up to Absolute slowly"
+ ]
+}

@@ -2,7 +2,7 @@ Module pellam "The Liberty of the Ice" {
   // ── The morning after ─────────────────────────────────────────────────────────────────────────────────────────────
   // Before first light on the morning after the ice goes, what became of each of the Fair's people is told as the
   // city's news, whatever became of the hired. In a world that goes on, the city goes on from it.
-  Query newsHour() means thawed(lisk) and thirdDay() and hour(clock) == 5.
+  Query newsHour() means thawed(lisk) and thirdDay() and hour(clock) == 5 and inPellam().
   Rule news_bel when newsHour() and goslingWedsBel(gosling) once says "Of the alderman and the gin-woman: Hamnet Gosling and Isabel Ashby carried the Frozen Lamb's sign up Swan Stairs together at nine last night, between them, and hung it over the door of a house in the Cheaping, and have not been seen since. The wedding was landed at the Landing, the clerk says, at the very end, by the alderman himself, who shouted it." { }
   Rule news_thessaly when newsHour() and thessalyWedsNoll(thessaly) once says "Of the printer and the factor's daughter: Noll Brisket carried his press up Hay Stairs on a sledge at dusk, with his wife pushing, and has set it up in a cellar in Bankside, where the first thing it printed this morning was the Frost Gazette, signed for the first time with a name: T. BRISKET." { }
   Rule news_gosling_harker when newsHour() and goslingHarker(gosling) once says "Of the wedding: Alderman Gosling and his bride went home to Fleece Row after the Landing, and at midnight, they say, when the ice went, the alderman was seen alone on the bridge in his chain, looking down at it." { }

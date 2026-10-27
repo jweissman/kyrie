@@ -139,6 +139,19 @@ Module pellam "The Liberty of the Ice" {
     Says "She goes very still. 'Noll,' she says. 'Noll Brisket.' She says it again as if she were trying the weight of it. 'He goes red when I come in. I thought it was the brazier.' She looks at her inky finger. 'He has never once in eleven nights asked me who I am.' She is quiet. 'Nobody,' says Thessaly Harker, 'has ever been so tactful with me in my life.'".
     On discuss { Assert thessalyKnowsNoll(thessaly). }
   }
+  // What she can do that nobody else can: put the truth on the ice by noon, in a voice that does not exist.
+  Relation gazetteGiven(place).
+  Action give_gazette(actor: group, site: place) "Give Thessaly her father's book, to print in tomorrow's Frost Gazette" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(thessaly, site) and thessalyAlly(thessaly) and (carries(actor, ledger) or carries(actor, bondbook))
+      and not gazetteGiven(lisk) and not iceGone().
+    Time 2.
+    On success { Assert gazetteGiven(lisk). Assert harkerWary(harker). }
+    Result "She reads it standing up, by the brazier, to the end, without a word; then she sits down at Noll's slab and writes for an hour without stopping, and gives you the book back. 'Mr. Icicle,' she says, 'has a column tomorrow.' She looks at the copy. 'My father will know whose hand it is the moment he reads it. Nobody else in Pellam writes a Q like that.' She folds it under the ink-slab. 'Let him.'".
+  }
+  Rule gazette_out when gazetteGiven(lisk) and hour(clock) == 12 and not gazettePrinted(lisk) { Assert gazettePrinted(lisk). Assert happened(ev_gazette). }
+  Entity ev_gazette: fact "the Gazette's column".
+  Rule gazette_heard when happened(ev_gazette) and inPellam() and not heardNews(ev_gazette) says "By noon the Frost Gazette is on every booth on the ice, and there is only one column in it anybody reads: MR. ICICLE ASKS WHERE THE FARM IN THE HILLS IS. Under it, set very plain, nine years of Pellam hirings by name, with what was paid for them at Gallowmoor, and which of them died there. The watermen read it aloud in the Hall. Somebody has cut the Hiring Ring's rope through at every stake." { Assert heardNews(ev_gazette). }
+  Observe gazette_column at printing when gazettePrinted(lisk) and not iceGone() "Pinned by the press, the Frost Gazette with Mr. Icicle's column: WHERE IS THE FARM IN THE HILLS?".
   // At the press that night she asks him; on the last morning, before her father's wedding, they are married at the
   // Ice Chapel for a shilling, by Doody, with no banns, which is what the Ice Chapel is for.
   Rule thessaly_asks at printing when thessalyKnowsNoll(thessaly) and at(thessaly, printing) and at(noll, printing) and not thessalyAsked(thessaly)
@@ -146,25 +159,35 @@ Module pellam "The Liberty of the Ice" {
     Assert thessalyAsked(thessaly). }
   Relation thessalyAsked(group).
   Rule thessaly_marries when thessalyAsked(thessaly) and thirdDay() and hour(clock) >= 11 and not thessalyWedsNoll(thessaly) and not weddingDone(lisk)
-    says "At eleven on the last morning word goes up Freezeland Street like a shout: Thessaly Harker has been married at the Ice Chapel, for a shilling, by Parson Doody, without banns, to Noll Brisket the printer, with ink on both of them, and two watermen for witnesses; and Master Harker has heard." {
-    Assert thessalyWedsNoll(thessaly). Assert witnessFree(gosling). Assert weddingBroken(lisk). }
+    {
+    Assert thessalyWedsNoll(thessaly). Assert witnessFree(gosling). Assert weddingBroken(lisk). Assert happened(ev_thessaly_marries). }
+  Entity ev_thessaly_marries: fact "thessaly marries".
+  Rule thessaly_marries_heard when happened(ev_thessaly_marries) and inPellam() and not heardNews(ev_thessaly_marries) says "At eleven on the last morning word goes up Freezeland Street like a shout: Thessaly Harker has been married at the Ice Chapel, for a shilling, by Parson Doody, without banns, to Noll Brisket the printer, with ink on both of them, and two watermen for witnesses; and Master Harker has heard." { Assert heardNews(ev_thessaly_marries). }
 
   // ── Noon on the last day ──────────────────────────────────────────────────────────────────────────────────────────
   Rule wedding_gathers when weddingOn() and not weddingDone(lisk) and not at(gosling, chapel) { Assert at(gosling, chapel). Assert at(harker, chapel). }
   Rule wedding_thessaly_comes when weddingOn() and not weddingDone(lisk) and not thessalyWedsNoll(thessaly) and not at(thessaly, chapel) { Assert at(thessaly, chapel). }
   Observe wedding_scene at chapel when weddingOn() and not weddingDone(lisk) "The Ice Chapel is packed to the ribbons, and half the Fair is outside the flap. Master Harker in a new black coat; the alderman in a blue one, very red; the bride in grey silk with snowdrops; Parson Doody, sober, which nobody has seen before, sneezing.".
   Rule wedding_bel when weddingOn() and goslingWedsBel(gosling) and not weddingDone(lisk)
-    says "At noon, at the Ice Chapel, Alderman Hamnet Gosling marries Isabel Ashby of the Frozen Lamb, for the second time, for a shilling, in front of half the Fair and Master Harker, who leaves before the end with a face like a shut door. Thessaly Harker, in grey silk, is the first to kiss the bride. Afterwards there is hot gin for anyone in Pellam who wants it, which is everyone." {
-    Assert weddingDone(lisk). Assert witnessFree(gosling). Assert weddingBroken(lisk). }
+    {
+    Assert weddingDone(lisk). Assert witnessFree(gosling). Assert weddingBroken(lisk). Assert happened(ev_wedding_bel). }
+  Entity ev_wedding_bel: fact "wedding bel".
+  Rule wedding_bel_heard when happened(ev_wedding_bel) and inPellam() and not heardNews(ev_wedding_bel) says "At noon, at the Ice Chapel, Alderman Hamnet Gosling marries Isabel Ashby of the Frozen Lamb, for the second time, for a shilling, in front of half the Fair and Master Harker, who leaves before the end with a face like a shut door. Thessaly Harker, in grey silk, is the first to kiss the bride. Afterwards there is hot gin for anyone in Pellam who wants it, which is everyone." { Assert heardNews(ev_wedding_bel). }
   Rule wedding_noll when weddingOn() and thessalyWedsNoll(thessaly) and not goslingWedsBel(gosling) and not weddingDone(lisk)
-    says "At noon there is no wedding at the Ice Chapel, because the bride is married already, since eleven, to a printer. Alderman Gosling stands in the doorway of the Ice Chapel in his blue coat looking, everyone agrees afterwards, as if a great weight had been lifted off him and he did not know where to put his hands." {
-    Assert weddingDone(lisk). Assert witnessFree(gosling). }
+    {
+    Assert weddingDone(lisk). Assert witnessFree(gosling). Assert happened(ev_wedding_noll). }
+  Entity ev_wedding_noll: fact "wedding noll".
+  Rule wedding_noll_heard when happened(ev_wedding_noll) and inPellam() and not heardNews(ev_wedding_noll) says "At noon there is no wedding at the Ice Chapel, because the bride is married already, since eleven, to a printer. Alderman Gosling stands in the doorway of the Ice Chapel in his blue coat looking, everyone agrees afterwards, as if a great weight had been lifted off him and he did not know where to put his hands." { Assert heardNews(ev_wedding_noll). }
   Rule wedding_bear when weddingOn() and bearAtWedding(absolute) and not goslingWedsBel(gosling) and not thessalyWedsNoll(thessaly) and not weddingDone(lisk)
-    says "At noon, as Parson Doody opens his book, Hester Mabb's bear puts his head in through the flap of the Ice Chapel, attracted by the wedding-cake, and the wedding is over in a moment: the alderman under the altar, Master Harker out through the back of the booth with the canvas round his shoulders, Doody up on a bench, and the bride sitting on the cake-table laughing until she cries. It is put off, Harker says afterwards, white, until the spring." {
-    Assert weddingDone(lisk). Assert witnessFree(gosling). Assert weddingBroken(lisk). }
+    {
+    Assert weddingDone(lisk). Assert witnessFree(gosling). Assert weddingBroken(lisk). Assert happened(ev_wedding_bear). }
+  Entity ev_wedding_bear: fact "wedding bear".
+  Rule wedding_bear_heard when happened(ev_wedding_bear) and inPellam() and not heardNews(ev_wedding_bear) says "At noon, as Parson Doody opens his book, Hester Mabb's bear puts his head in through the flap of the Ice Chapel, attracted by the wedding-cake, and the wedding is over in a moment: the alderman under the altar, Master Harker out through the back of the booth with the canvas round his shoulders, Doody up on a bench, and the bride sitting on the cake-table laughing until she cries. It is put off, Harker says afterwards, white, until the spring." { Assert heardNews(ev_wedding_bear). }
   Rule wedding_plain when weddingOn() and hour(clock) == 12 and not goslingWedsBel(gosling) and not thessalyWedsNoll(thessaly) and not bearAtWedding(absolute) and not weddingDone(lisk)
-    says "At noon, at the Ice Chapel, Parson Doody marries Thessaly Harker to Alderman Hamnet Gosling for a shilling, sober, in front of half the Fair. The bride says her part in a clear dry voice as if she were reading a bill. The alderman says his as if someone had died. Master Harker kisses his daughter, and shakes his son-in-law's hand, and smiles all through the wedding-breakfast at the Frozen Lamb, where Bel Ashby serves it herself and does not look at anyone." {
-    Assert weddingDone(lisk). Assert goslingHarker(gosling). }
+    {
+    Assert weddingDone(lisk). Assert goslingHarker(gosling). Assert happened(ev_wedding_plain). }
+  Entity ev_wedding_plain: fact "wedding plain".
+  Rule wedding_plain_heard when happened(ev_wedding_plain) and inPellam() and not heardNews(ev_wedding_plain) says "At noon, at the Ice Chapel, Parson Doody marries Thessaly Harker to Alderman Hamnet Gosling for a shilling, sober, in front of half the Fair. The bride says her part in a clear dry voice as if she were reading a bill. The alderman says his as if someone had died. Master Harker kisses his daughter, and shakes his son-in-law's hand, and smiles all through the wedding-breakfast at the Frozen Lamb, where Bel Ashby serves it herself and does not look at anyone." { Assert heardNews(ev_wedding_plain). }
   // A squire believed is at the wedding, and is expected to give.
   Relation presentGiven(group). Relation presentMissed(group).
   Action give_share_present(actor: group, site: place) "Give the bride, as the Squire of Hawsfold's wedding present, a share in the Perpetual Frost Company" {

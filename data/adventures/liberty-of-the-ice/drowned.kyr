@@ -122,7 +122,7 @@ Module pellam "The Liberty of the Ice" {
     Flinches "The searchers back off over the ice, lanterns swinging, shouting for each other.".
     Pleads "'Enough,' says the one on the ice, with his hands over his head. 'Enough. We're paid by the night, not by the head.'".
   }
-  Initially Assert tolerates(searchers, party). Initially Assert serves(searchers, harker).
+  Initially Assert tolerates(searchers, party). Initially Assert serves(searchers, harker). Initially Assert takesPrisoners(searchers).
   Rule searchers_out when searchNight() and not searchersDiverted(lisk) and able(searchers) and not iceGone() and not at(searchers, black_reach) { Assert at(searchers, black_reach). }
   Rule searchers_wharf when not searchNight() and not searchersDiverted(lisk) and not landingAt(lisk) and able(searchers) and not at(searchers, hay_wharf) { Assert at(searchers, hay_wharf). }
   Relation searchersDiverted(place).
@@ -178,10 +178,14 @@ Module pellam "The Liberty of the Ice" {
   // ── The raid ──────────────────────────────────────────────────────────────────────────────────────────────────────
   // What Harker knows, his searchers act on, in the small hours of the next night they walk.
   Rule raid_hulk when harkerKnows(hidden_hulk) and searchNight() and smallHours() and not dickonTaken(dickon) and not hiredFled(lisk) and not dickonGone(dickon)
-    says "In the small hours there are lanterns and shouting out on the Reach, and a dog going mad, round the hulk Patience. In the morning everybody knows: Harker's searchers took three drowned men out of her hold, alive, and Dickon Cobb with them, and walked them up Hay Stairs to the bondhouse with their hands tied, to be landed at the Landing." {
-    Assert dickonTaken(dickon). Assert at(dickon, bond_floor). Assert at(jem, bond_floor). }
+    {
+    Assert dickonTaken(dickon). Assert at(dickon, bond_floor). Assert at(jem, bond_floor). Assert happened(ev_raid_hulk). }
+  Entity ev_raid_hulk: fact "raid hulk".
+  Rule raid_hulk_heard when happened(ev_raid_hulk) and inPellam() and not heardNews(ev_raid_hulk) says "In the small hours there are lanterns and shouting out on the Reach, and a dog going mad, round the hulk Patience. In the morning everybody knows: Harker's searchers took three drowned men out of her hold, alive, and Dickon Cobb with them, and walked them up Hay Stairs to the bondhouse with their hands tied, to be landed at the Landing." { Assert heardNews(ev_raid_hulk). }
   Rule raid_starling when harkerKnows(starling_known) and searchNight() and smallHours() and not safferyTaken(saffery) and not hiredFled(lisk)
-    says "In the night there is a noise of boots on the bridge, and a door broken in, and in the morning the rope-walk house stands open with its hemp all over the street: Harker's searchers took a drowned girl out of a hole under the floor, and an old woman with her, who walked between them very straight and said nothing at all." {
-    Assert safferyTaken(saffery). Assert at(saffery, bond_floor). Assert pollyGone(polly). Assert at(polly, bond_floor). }
+    {
+    Assert safferyTaken(saffery). Assert at(saffery, bond_floor). Assert pollyGone(polly). Assert at(polly, bond_floor). Assert happened(ev_raid_starling). }
+  Entity ev_raid_starling: fact "raid starling".
+  Rule raid_starling_heard when happened(ev_raid_starling) and inPellam() and not heardNews(ev_raid_starling) says "In the night there is a noise of boots on the bridge, and a door broken in, and in the morning the rope-walk house stands open with its hemp all over the street: Harker's searchers took a drowned girl out of a hole under the floor, and an old woman with her, who walked between them very straight and said nothing at all." { Assert heardNews(ev_raid_starling). }
   Relation dickonGone(group).
 }

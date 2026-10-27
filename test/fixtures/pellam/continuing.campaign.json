@@ -1,0 +1,3 @@
+{ "version": 1, "calendar": { "year": 1288, "month": 1, "day": 14 }, "name": "The Liberty of the Ice, as a chapter of a world that goes on",
+  "modules": [ { "id": "pellam", "bundle": "../../../data/adventures/liberty-of-the-ice/module.json", "chapter": true } ],
+  "party": [ { "name": "Joan", "raceId": "human", "classId": "ranger", "backgroundId": "herdsman" } ] }

@@ -1,0 +1,21 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "Ask Sir Lionel why",
+  "Ask Sir Lionel whether he kept",
+  "counterpart of his bond: Take",
+  "Read Sir Lionel's counterpart"
+ ],
+ "landing": [
+  "go:calf_taproom",
+  "Talk to Nab",
+  "Take a bed",
+  "=318",
+  "go:freezeland",
+  "=328",
+  "Show the Reeve Sir Lionel"
+ ]
+}

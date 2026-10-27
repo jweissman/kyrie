@@ -1,0 +1,97 @@
+import { describe, expect, it } from 'bun:test';
+import { Pellam, home } from './support/pellam';
+
+// The small adventures of the Frost Fair, each by more than one way where it has more than one, and each leaving
+// something behind that the Landing, the wedding, the night or the morning after reads.
+const as = (classId: string, backgroundId: string) => Pellam.start(home, 'lisk', Pellam.one(classId, backgroundId));
+
+describe('The Liberty of the Ice: small adventures', () => {
+  it('Absolute, by honey: a crock from Bel walked backward up Freezeland Street to the stake', async () => {
+    const g = await Pellam.start();
+    await g.fixture('bear-honey');
+    expect(g.holds('bearCalmed', 'absolute')).toBe(true);
+    expect(g.at('absolute')).toBe('pellam__bear_stake');
+  }, 300000);
+
+  it('Absolute, by the bear-ward\'s tune: a performer dances him home, which a performer alone is offered', async () => {
+    const g = await Pellam.start();
+    await g.fixture('bear-fiddle');
+    expect(g.holds('bearCalmed', 'absolute')).toBe(true);
+    const plain = await as('warrior', 'laborer');
+    await plain.fixture('bear-fiddle', 'in').catch(() => undefined);
+    expect(plain.j.offers('Play Absolute the tune')).toBe(false);
+  }, 400000);
+
+  it('Sir Lionel Gant, by night: led off the ice when the bailiffs have gone home, into the Clink, and his coat given', async () => {
+    const g = await Pellam.start();
+    await g.fixture('gant-clink');
+    expect(g.holds('gantSafe', 'gant')).toBe(true);
+    expect(g.holds('gantCoatGiven', 'gant')).toBe(true);
+  }, 300000);
+
+  it('the alderman\'s first wedding: a rhyme, a register, a name shown and a word told, and Bel at the Ice Chapel at noon', async () => {
+    const g = await Pellam.start();
+    await g.fixture('gosling');
+    expect(g.knows('gosling_wed')).toBe(true);
+    expect(g.holds('goslingWedsBel', 'gosling')).toBe(true);
+    expect(g.holds('witnessFree', 'gosling')).toBe(true);
+    expect(g.holds('weddingDone', 'lisk')).toBe(true);
+    expect(g.holds('goslingHarker', 'gosling')).toBe(false);
+  }, 400000);
+
+  it('Mr. Icicle: seen at the press at night, kept, told of the printer, and married to him at eleven on the last morning', async () => {
+    const g = await Pellam.start();
+    await g.fixture('thessaly');
+    expect(g.holds('thessalyAlly', 'thessaly')).toBe(true);
+    expect(g.holds('thessalyWedsNoll', 'thessaly')).toBe(true);
+    expect(g.holds('witnessFree', 'gosling')).toBe(true);
+  }, 400000);
+
+  it('the Perpetual Frost Company: a scholar shows the Exchange why a tub is not a river, Harker is short of coin, and Quarle makes frost-cream', async () => {
+    const g = await as('mage', 'scholar');
+    await g.fixture('quarle');
+    expect(g.holds('frostCrashed', 'lisk')).toBe(true);
+    expect(g.holds('harkerShort', 'harker')).toBe(true);
+    expect(g.holds('quarleCream', 'quarle')).toBe(true);
+  }, 300000);
+
+  it('the Liars\' Bench: a lie told to the Reeve, and told again the next night if it had no stone in it', async () => {
+    const g = await Pellam.start();
+    await g.fixture('bench');
+    expect(g.holds('benchTried', 'party') || g.holds('benchWon', 'party')).toBe(true);
+  }, 400000);
+
+  it('the watermen: told what Harker does on their ice, they bring sledges for nothing, and a thief empties the bondhouse by the front door', async () => {
+    const g = await as('thief', 'smuggler');
+    await g.fixture('sledges');
+    expect(g.holds('tredgoldAngry', 'tredgold')).toBe(true);
+    expect(g.holds('sledgesReady', 'lisk')).toBe(true);
+    expect(g.holds('hiredFled', 'lisk')).toBe(true);
+    expect(g.holds('channelCut', 'lisk')).toBe(false);
+  }, 400000);
+
+  it('Callow\'s question, answered his way: he slips his hand in the second night, and the hand is broken at the Landing', async () => {
+    const g = await Pellam.start();
+    await g.fixture('callow-slips');
+    expect(g.holds('saidChanges', 'party')).toBe(true);
+    expect(g.holds('callowSlipped', 'callow')).toBe(true);
+    expect(g.holds('handBroken', 'callow_bargain')).toBe(true);
+  }, 400000);
+
+  it('Ursel: the purse lifted back, the Flashes at dusk, her brother found in the hulk, her question at the Ice Chapel, and the hand landed', async () => {
+    const g = await as('thief', 'cutpurse');
+    await g.fixture('ursel');
+    expect(g.holds('skated', 'party')).toBe(true);
+    expect(g.holds('urselMet', 'dickon')).toBe(true);
+    expect(g.holds('urselAsked', 'party')).toBe(true);
+    expect(g.holds('handfastLanded', 'party')).toBe(true);
+  }, 400000);
+
+  it('a careless word: Abel told of the dry berth on the hulk tells Harker\'s people, and the searchers take Dickon in the second night', async () => {
+    const g = await Pellam.start();
+    await g.fixture('leak');
+    expect(g.holds('toldOf', 'abel', 'hidden_hulk')).toBe(true);
+    expect(g.holds('harkerKnows', 'hidden_hulk')).toBe(true);
+    expect(g.holds('dickonTaken', 'dickon')).toBe(true);
+  }, 400000);
+});

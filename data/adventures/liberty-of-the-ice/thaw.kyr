@@ -43,8 +43,10 @@ Module pellam "The Liberty of the Ice" {
   Relation swept(group).
   // Gant, still on the ice and not free, is cried off it into the bailiffs' hands.
   Rule gant_cried_off when offIceHour() and at(gant, freezeland) and not gantFree(gant) and not gantSafe(gant) and not gantTaken(gant)
-    says "At Hay Stairs, as the watermen hurry the last of the Fair off the ice, the bailiffs are waiting with their writ, and Sir Lionel Gant walks up the stairs into their hands with his hat on, very straight, saying 'It was three' to the bailiff on his left." {
-    Assert gantTaken(gant). Assert at(gant, limbo). }
+    {
+    Assert gantTaken(gant). Assert at(gant, limbo). Assert happened(ev_gant_cried_off). }
+  Entity ev_gant_cried_off: fact "gant cried off".
+  Rule gant_cried_off_heard when happened(ev_gant_cried_off) and inPellam() and not heardNews(ev_gant_cried_off) says "At Hay Stairs, as the watermen hurry the last of the Fair off the ice, the bailiffs are waiting with their writ, and Sir Lionel Gant walks up the stairs into their hands with his hat on, very straight, saying 'It was three' to the bailiff on his left." { Assert heardNews(ev_gant_cried_off). }
   // The ice rooms close: the stairs lead to water.
   Observe swan_lane_thaw at swan_lane when iceGone() "Swan Stairs go down twelve steps into black water running fast, full of broken ice. The watermen are already putting their boats in.".
   Observe hay_thaw at hay_stairs when iceGone() "Hay Stairs go down into the river, black and running, with plates of ice going by. The watermen's boats are out.".

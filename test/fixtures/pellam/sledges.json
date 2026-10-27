@@ -1,0 +1,29 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Lift your purse back",
+  "go:watermen_room",
+  "Ask Gaffer Tredgold what",
+  "=140",
+  "go:patience_hold",
+  "Search here",
+  "Ask Dickon Cobb how",
+  "Ask Dickon what he means",
+  "go:watermen_room",
+  "Tell Gaffer Tredgold what Harker",
+  "Ask Tredgold for the Company"
+ ],
+ "night": [
+  "go:calf_taproom",
+  "Take a bed",
+  "=246",
+  "go:hay_wharf",
+  "Pick the bondhouse lock",
+  "Into the bondhouse",
+  "Tell Tansy Hobb where the farm",
+  "Bring the hired out of the bondhouse by the front door",
+  "Put the hired on Tredgold"
+ ]
+}

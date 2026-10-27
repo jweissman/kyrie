@@ -9,7 +9,7 @@ Module pellam "The Liberty of the Ice" {
   Relation posedSquire(group). Relation squireTold(group). Relation shownTally(group). Relation shownGoodTally(group).
   Relation shownWool(group). Relation shownCoat(group). Relation shownLetter(group). Relation urselVouched(group).
   Relation invited(group).
-  Topic pose_squire with harker "Tell Master Harker you are the Squire of Hawsfold, with two hundred fell ewes snowed in on the fells" when knows(actor, harker_buys) and (knows(actor, con_plan) or knows(actor, roads_shut)) and not posedSquire(actor) and not hiredHand(actor) and not squireExposed(actor) once {
+  Topic pose_squire with harker "Tell Master Harker you are the Squire of Hawsfold, with two hundred fell ewes snowed in on the fells" when knows(actor, harker_buys) and (knows(actor, con_plan) or knows(actor, roads_shut)) and not posedSquire(actor) and not hiredHand(actor) and not squireExposed(actor) and not harkerWary(harker) once {
     Says "Harker's quarter-inch becomes half an inch. 'Hawsfold,' he says. 'Up under Swale Fell. I know the name.' He looks at your boots, and your coat, and your hands. 'Two hundred. Snowed in, you say, with the roads as they are.' He turns his ring. 'Then you'll be wanting to sell them to someone who can wait for the thaw.' He does not say that he believes you. He does not say that he does not.".
     On discuss { Assert posedSquire(actor). Assert believes(harker, squire_claim). Set conviction(harker, squire_claim) to 1. }
   }
@@ -107,7 +107,9 @@ Module pellam "The Liberty of the Ice" {
   Relation abelInOnIt(group). Relation abelDiverted(group). Relation abelMetHarker(group). Relation flockReal(group).
   Relation abelSold(group). Relation abelWool(group).
   Initially Assert tattles(abel).
-  Rule abel_comes when firstDay() and hour(clock) >= 12 and not abelCame(abel) says "A shepherd has come in over the North Bar out of the snow, with a crook and a black-and-white dog, asking the first person he meets in the Cheaping, very loudly, where a man might find a buyer for two hundred fell ewes, from Hawsfold, under Swale Fell." { Assert abelCame(abel). Assert at(abel, cheaping). Assert at(bess, cheaping). }
+  Rule abel_comes when firstDay() and hour(clock) >= 12 and not abelCame(abel) { Assert abelCame(abel). Assert at(abel, cheaping). Assert at(bess, cheaping). Assert happened(ev_abel_comes). }
+  Entity ev_abel_comes: fact "abel comes".
+  Rule abel_comes_heard when happened(ev_abel_comes) and inPellam() and not heardNews(ev_abel_comes) says "A shepherd has come in over the North Bar out of the snow, with a crook and a black-and-white dog, asking the first person he meets in the Cheaping, very loudly, where a man might find a buyer for two hundred fell ewes, from Hawsfold, under Swale Fell." { Assert heardNews(ev_abel_comes). }
   Relation abelCame(group).
   Rule abel_day when abelCame(abel) and hour(clock) >= 8 and hour(clock) < 19 and not abelBusy() and not at(abel, cheaping) { Assert at(abel, cheaping). }
   Rule abel_night when abelCame(abel) and (hour(clock) >= 19 or hour(clock) < 8) and not abelOnHulk(abel) and not at(abel, calf_taproom) { Assert at(abel, calf_taproom). }
@@ -149,11 +151,15 @@ Module pellam "The Liberty of the Ice" {
   // What happens when Harker, believing in the Squire, meets the real shepherd of Hawsfold.
   Rule abel_meets_harker when together(abel, harker) and abelCame(abel) and not abelMetHarker(abel) { Assert abelMetHarker(abel). }
   Rule abel_exposes when abelMetHarker(abel) and believes(harker, squire_claim) and not abelInOnIt(abel) and posedSquire(party) and not squireExposed(party) and not abelSold(abel)
-    says "Word goes up and down the ice like a dropped tray: at the Hiring Ring a shepherd from Hawsfold under Swale Fell took his hat off to Master Harker and offered him two hundred fell ewes for forty coin, and Master Harker asked him, in front of everyone, how the Squire of Hawsfold did; and the shepherd said that there was no squire at Hawsfold, there was him." {
-    Assert squireExposed(party). Assert harkerWary(harker). Retract believes(harker, squire_claim). }
+    {
+    Assert squireExposed(party). Assert harkerWary(harker). Retract believes(harker, squire_claim). Assert happened(ev_abel_exposes). }
+  Entity ev_abel_exposes: fact "abel exposes".
+  Rule abel_exposes_heard when happened(ev_abel_exposes) and inPellam() and not heardNews(ev_abel_exposes) says "Word goes up and down the ice like a dropped tray: at the Hiring Ring a shepherd from Hawsfold under Swale Fell took his hat off to Master Harker and offered him two hundred fell ewes for forty coin, and Master Harker asked him, in front of everyone, how the Squire of Hawsfold did; and the shepherd said that there was no squire at Hawsfold, there was him." { Assert heardNews(ev_abel_exposes). }
   Rule abel_confirms when abelMetHarker(abel) and believes(harker, squire_claim) and abelInOnIt(abel) and not abelVouched(abel)
-    says "Word goes round the ice: a shepherd from Hawsfold under Swale Fell met Master Harker at the Hiring Ring, and took off his hat, and talked of nothing for a quarter of an hour but the new Squire, come up from the south, God bless him." {
-    Assert abelVouched(abel). Increase conviction(harker, squire_claim) by 1. }
+    {
+    Assert abelVouched(abel). Increase conviction(harker, squire_claim) by 1. Assert happened(ev_abel_confirms). }
+  Entity ev_abel_confirms: fact "abel confirms".
+  Rule abel_confirms_heard when happened(ev_abel_confirms) and inPellam() and not heardNews(ev_abel_confirms) says "Word goes round the ice: a shepherd from Hawsfold under Swale Fell met Master Harker at the Hiring Ring, and took off his hat, and talked of nothing for a quarter of an hour but the new Squire, come up from the south, God bless him." { Assert heardNews(ev_abel_confirms). }
   Relation abelVouched(group).
   // The lie made true: buy the real flock, for real money, and what was sold to Harker exists.
   Action buy_flock(actor: group, site: place) "Buy Abel's two hundred ewes, for forty coin" {

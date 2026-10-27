@@ -1,0 +1,62 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "Ask Magister Callow what he teaches",
+  "=48",
+  "go:court",
+  "Tell the Reeve that Swan",
+  "?Pay the watermen their one",
+  "?Pay the watermen twelve",
+  "=49",
+  "Stand up and shake the Reeve"
+ ],
+ "house": [
+  "go:harker_parlour",
+  "=66",
+  "Talk to Thessaly",
+  "Ask Thessaly about her wedding",
+  "go:printing",
+  "=84",
+  "=+1",
+  "Talk to Thessaly",
+  "Ask Thessaly Harker whether she is Mr",
+  "Tell Thessaly you'll not sell her",
+  "brass key: Take"
+ ],
+ "desk": [
+  "go:counting_house",
+  "Open the roll-top desk with Thessaly",
+  "hiring ledger: Take",
+  "Read Harker's hiring ledger"
+ ],
+ "bench": [
+  "go:calf_taproom",
+  "Talk to Nab",
+  "Take a bed",
+  "=210",
+  "go:lamb",
+  "Stand on the bench and tell the Reeve, as if it were a tall tale"
+ ],
+ "argue": [
+  "Talk to Magister",
+  "Let Magister Callow ask",
+  "Tell Callow: a hand binds the one who shook it, if he knew"
+ ],
+ "landing": [
+  "go:calf_taproom",
+  "Take a bed",
+  "=318",
+  "go:freezeland",
+  "=325",
+  "Stand beside Callow",
+  "=333",
+  "=334",
+  "Lay Harker's books before the Reeve"
+ ],
+ "end": [
+  "=420"
+ ]
+}

@@ -1,0 +1,49 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Step over the plank",
+  "?Shake on a penny a stair",
+  "go:freezeland",
+  "Lift your purse back",
+  "Ask Ursel what her proposition",
+  "Ask Ursel Cobb to join",
+  "Ask Ursel what the Squire",
+  "go:printing",
+  "Have Noll print a tally",
+  "Take",
+  "go:hiring_ring",
+  "=12",
+  "Ask Master Harker about the wool",
+  "Tell Master Harker you are the Squire",
+  "Tell Harker about Hawsfold",
+  "Show Master Harker the printed tally",
+  "Let Ursel"
+ ],
+ "fell": [
+  "go:cheaping",
+  "=25",
+  "Ask Abel about his ewes",
+  "Ask Abel for a tuft",
+  "fell wool: Take",
+  "Tell Abel that Harker has bought"
+ ],
+ "supper": [
+  "go:counting_house",
+  "?Give Master Harker a tuft",
+  "go:harker_parlour",
+  "=66",
+  "Talk terms",
+  "Walk down to the Glove Post with Master Harker and shake on the flock, for thirty"
+ ],
+ "away": [
+  "go:calf_taproom",
+  "Talk to Nab",
+  "Take a bed",
+  "=150",
+  "go:north_bar",
+  "Go out by the North Bar on the far side"
+ ],
+ "end": [
+  "=420"
+ ]
+}

@@ -25,8 +25,10 @@ Module pellam "The Liberty of the Ice" {
     Known by hester.
   }
   Rule bear_breaks when secondDay() and hour(clock) >= 7 and not bearLoose(absolute) and not bearCalmed(absolute) and not bearDead(absolute)
-    says "Word comes down Freezeland Street at a run: the bear's off his chain at the bear-stake, and gone to the ox roast, and is eating the Butchers' Company's ox off the spit with his muzzle torn off, and nobody will go near him." {
-    Assert bearLoose(absolute). Assert at(absolute, ox_roast). Assert at(hester, ox_roast). }
+    {
+    Assert bearLoose(absolute). Assert at(absolute, ox_roast). Assert at(hester, ox_roast). Assert happened(ev_bear_breaks). }
+  Entity ev_bear_breaks: fact "bear breaks".
+  Rule bear_breaks_heard when happened(ev_bear_breaks) and inPellam() and not heardNews(ev_bear_breaks) says "Word comes down Freezeland Street at a run: the bear's off his chain at the bear-stake, and gone to the ox roast, and is eating the Butchers' Company's ox off the spit with his muzzle torn off, and nobody will go near him." { Assert heardNews(ev_bear_breaks). }
   Observe bear_at_ox at ox_roast when bearLoose(absolute) and at(absolute, ox_roast) "Absolute is at the ox. He has pulled the spit down and is lying on the sunken hearth in the steam with the ox between his paws, eating it, and making a sound like a cart going over cobbles. The Butchers' Company's men stand in a ring well back with poles and cleavers, saying what they will do. Hester Mabb stands nearer than any of them, holding out her hand and talking to him, and he is not listening.".
   // Each way of getting him back, one try.
   Action bear_honey(actor: group, site: place) "Hold the crock of honey out to Absolute, and walk backward to the stake" {
@@ -62,19 +64,25 @@ Module pellam "The Liberty of the Ice" {
   // Left alone: at noon Harker's wharf men come with boar-spears; Hester gets him away from the ox with the last of her
   // pennies' worth of tripe, and he goes off down the Reach, out of reach of everyone, and does not come back.
   Rule bear_runs when secondDay() and hour(clock) >= 12 and bearLoose(absolute) and not bearCalmed(absolute) and not bearOnReach(absolute)
-    says "At noon three of Harker's wharf men come down Freezeland Street with boar-spears, at the Butchers' Company's asking. Before they reach the ox, Absolute gets up off it, all at once, and goes away from them down the ice past the last booth, onto the Reach, at a long rolling run, with his broken chain jumping behind him, and Hester Mabb running after him calling, until she cannot run any more." {
-    Assert bearOnReach(absolute). Assert at(absolute, reach_head). }
+    {
+    Assert bearOnReach(absolute). Assert at(absolute, reach_head). Assert happened(ev_bear_runs). }
+  Entity ev_bear_runs: fact "bear runs".
+  Rule bear_runs_heard when happened(ev_bear_runs) and inPellam() and not heardNews(ev_bear_runs) says "At noon three of Harker's wharf men come down Freezeland Street with boar-spears, at the Butchers' Company's asking. Before they reach the ox, Absolute gets up off it, all at once, and goes away from them down the ice past the last booth, onto the Reach, at a long rolling run, with his broken chain jumping behind him, and Hester Mabb running after him calling, until she cannot run any more." { Assert heardNews(ev_bear_runs). }
   // Out on the Reach in the second night, he meets the searchers.
   Rule bear_meets_searchers when bearOnReach(absolute) and not bearCalmed(absolute) and secondDay() and hour(clock) >= 23 and not bearDead(absolute)
-    says "Late in the night, from down the Reach, a roar, and dogs, and men shouting, and lanterns going every way at once over the ice. In the morning they say Harker's searchers met Hester Mabb's bear on the Black Reach in the dark, and ran, all three, and the dog with them, back to Hay Wharf, and would not go out again; and that the bear went on down the grey ice toward the hole that never freezes, and through it." {
-    Assert bearDead(absolute). Assert searchersDiverted(lisk). Assert at(absolute, limbo). }
+    {
+    Assert bearDead(absolute). Assert searchersDiverted(lisk). Assert at(absolute, limbo). Assert happened(ev_bear_meets_searchers). }
+  Entity ev_bear_meets_searchers: fact "bear meets searchers".
+  Rule bear_meets_searchers_heard when happened(ev_bear_meets_searchers) and inPellam() and not heardNews(ev_bear_meets_searchers) says "Late in the night, from down the Reach, a roar, and dogs, and men shouting, and lanterns going every way at once over the ice. In the morning they say Harker's searchers met Hester Mabb's bear on the Black Reach in the dark, and ran, all three, and the dog with them, back to Hay Wharf, and would not go out again; and that the bear went on down the grey ice toward the hole that never freezes, and through it." { Assert heardNews(ev_bear_meets_searchers). }
   // Calmed, he can be lent for an evening's walk on the Reach while the searchers are on it.
   Topic hester_lend with hester "Ask Hester Mabb to bring Absolute for a walk on the Reach tonight, where Harker's searchers are" when bearCalmed(absolute) and knows(actor, dickon_night) and not bearLent(absolute) once {
     Says "She looks at you, and at the bear, and at the Reach. 'Harker's men,' she says. 'The ones with the spears.' She almost smiles. 'He'd like a walk. He hates them more than he hates the cold.' She scratches his ear through the muzzle. 'Ten o'clock, the head of the Reach. Not a hair of him hurt, mind, or I'll set him on you.'".
     On discuss { Assert bearLent(absolute). }
   }
   Rule bear_walks when bearLent(absolute) and searchNight() and secondDay() and not bearDead(absolute) and not searchersDiverted(lisk) and at(searchers, black_reach)
-    says "At ten, out on the Reach, Hester Mabb walks her bear past Harker's searchers on a long chain, very slowly, humming, and Absolute stands up on his hind legs in their lanterns and looks at them; and the searchers decide, all three, that the drowned can wait, and go back to Hay Wharf to sit by Fowke's brazier, and stay there." {
-    Assert searchersDiverted(lisk). Assert bearWalked(absolute). }
+    {
+    Assert searchersDiverted(lisk). Assert bearWalked(absolute). Assert happened(ev_bear_walks). }
+  Entity ev_bear_walks: fact "bear walks".
+  Rule bear_walks_heard when happened(ev_bear_walks) and inPellam() and not heardNews(ev_bear_walks) says "At ten, out on the Reach, Hester Mabb walks her bear past Harker's searchers on a long chain, very slowly, humming, and Absolute stands up on his hind legs in their lanterns and looks at them; and the searchers decide, all three, that the drowned can wait, and go back to Hay Wharf to sit by Fowke's brazier, and stay there." { Assert heardNews(ev_bear_walks). }
   Relation bearWalked(group).
 }

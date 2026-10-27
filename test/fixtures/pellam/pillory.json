@@ -1,0 +1,8 @@
+{
+  "in": ["go:swan_lane", "Shake on a penny a stair", "go:freezeland", "Ask her for your purse back", "Ask Ursel what her proposition", "Ask Ursel Cobb to join", "Ask Ursel what the Squire",
+    "go:printing", "Have Noll print a tally", "Rule the tally", "Take", "go:hiring_ring", "=12",
+    "Ask Master Harker about the wool", "Tell Master Harker you are the Squire", "Tell Harker about Hawsfold", "Show Master Harker the printed tally", "Point out to Harker", "Let Ursel"],
+  "shake": ["go:harker_parlour", "=66", "Talk terms", "Walk down to the Glove Post with Master Harker and shake on the flock, for thirty"],
+  "wait": ["go:calf_taproom", "Talk to Nab", "Take a bed", "=318", "go:freezeland"],
+  "end": ["=420"]
+}

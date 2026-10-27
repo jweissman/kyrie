@@ -40,6 +40,11 @@ Module pellam "The Liberty of the Ice" {
     Result "You walk up to her, smiling, and while she is telling you that she never shook on it you take it back off her, out of her own coat, where she put it, and show it to her. She stops laughing. Then she laughs much louder, and claps you on both shoulders. 'Oh, you'll do,' says Ursel Cobb. 'Oh, you'll do. Ursel Cobb. Come and have a gin. I've a proposition.'".
     Otherwise "You go for it and she turns, easily, and your hand closes on nothing. 'Nearly,' she says, and gives it back to you anyway. 'Lesson's free.'".
   }
+  // Someone who reads people saw exactly how it was done, and says so: she likes that better than the purse.
+  Topic ursel_seen with ursel "Tell her you watched her do it: the bump, the left hand under the cape, the purse into the sleeve" when pursed(actor) and not pursedBack(actor) and capable(actor, insight) once {
+    Says "She stops laughing, and looks at you properly for the first time. 'Left hand under the cape,' she says. 'Nobody sees the left hand.' She gives you the purse back with a little bow. 'Ursel Cobb. And you've eyes, which is rarer on the ice than money. Come and have a gin. I've a proposition.'".
+    On discuss { Assert pursedBack(actor). Increase quantity(actor, gold) by urselHolds(ursel). Set urselHolds(ursel) to 0. Assert urselKnown(actor). Increase urselTrust(ursel) by 1. Assert knows(actor, liberty_known). }
+  }
   // A company that does not go after its purse finds it again before the Court sits, put back where it was taken.
   Rule purse_returned when pursed(party) and not pursedBack(party) and hour(clock) >= 15 and firstDay() says "You put your hand to your coat and your purse is there again, exactly where it was, with a twist of paper in it that says in pencil: NEVER SHOOK ON IT. — U.C. AT THE LAMB." teaches ursel_at_lamb {
     Assert pursedBack(party). Increase quantity(party, gold) by urselHolds(ursel). Set urselHolds(ursel) to 0. }

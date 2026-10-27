@@ -1,0 +1,6 @@
+{
+  "hired": ["go:swan_lane", "Step over the plank", "?Shake on a penny a stair", "go:hiring_ring", "=12", "Put a tuft of straw", "=24"],
+  "inside": ["Read Kemble's bond book", "Talk to Tansy", "Tell Tansy Hobb where the farm", "Into the bondhouse loft", "Search here", "To the bondhouse floor"],
+  "out": ["=78", "Get the hired up", "Bring the hired out through the river door", "?Keep the hired still", "go:black_reach", "go:sledge_road", "Send the hired on down"],
+  "end": ["=420"]
+}

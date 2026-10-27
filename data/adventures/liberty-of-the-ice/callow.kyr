@@ -36,8 +36,10 @@ Module pellam "The Liberty of the Ice" {
     Result "You stand up. The benches turn round to look at you. Justice Broom puts out her small hard hand over the trestle and you shake it. 'Callow's hand,' she says, 'until the Landing. Bring him here at two on the last day, or answer for him.' Behind you Magister Callow is laughing so hard that he has to sit down. 'You have just shaken,' he says, wiping his eyes, 'to keep a man who says that shaking binds nobody. You see my difficulty. You see yours.' He takes your arm. 'We shall have a great deal to talk about.'".
   }
   Rule callow_stocked when firstDay() and hour(clock) >= 17 and callowCharged(callow) and not callowHand(party) and not callowStocked(callow)
-    says "Nobody would be Callow's hand. At five the watermen put him in the stocks at the foot of the Glove Post, in the frost, with a blanket and a brazier, until the Landing; and he preaches from them to whoever passes, between coughs." {
-    Assert callowStocked(callow). Assert at(callow, freezeland). }
+    {
+    Assert callowStocked(callow). Assert at(callow, freezeland). Assert happened(ev_callow_stocked). }
+  Entity ev_callow_stocked: fact "callow stocked".
+  Rule callow_stocked_heard when happened(ev_callow_stocked) and inPellam() and not heardNews(ev_callow_stocked) says "Nobody would be Callow's hand. At five the watermen put him in the stocks at the foot of the Glove Post, in the frost, with a blanket and a brazier, until the Landing; and he preaches from them to whoever passes, between coughs." { Assert heardNews(ev_callow_stocked). }
   Thing stocks "the stocks at the Glove Post" at freezeland is scenery {
     State empty "At the foot of the Glove Post stand the Court's stocks, empty.".
     State holding "At the foot of the Glove Post Magister Callow sits in the stocks with his ankles through the holes, a blanket round him and a brazier at his feet, coughing, and preaching the Flow to whoever stops.".
@@ -46,8 +48,10 @@ Module pellam "The Liberty of the Ice" {
   Rule stocks_fill when callowStocked(callow) and state(stocks, empty) and not callowDead(callow) { Assert state(stocks, holding). }
   // In the stocks two nights in the frost, a consumptive old man may not see the Landing.
   Rule callow_frozen when callowStocked(callow) and secondDay() and hour(clock) >= 4 and hour(clock) < 6 and not callowDead(callow) and not callowFed(callow)
-    says "In the small hours of the last day, in the stocks at the foot of the Glove Post, Magister Edrin Callow stopped coughing. The watermen found him at first light with his blanket round him and his brazier out, and the snow not melting on his face. Someone has written on the board at the foot of the Glove, under KEEP WHAT YOU SHAKE ON, in charcoal: NOTHING STAYS." {
-    Assert callowDead(callow). Assert state(stocks, empty). Assert at(callow, limbo). }
+    {
+    Assert callowDead(callow). Assert state(stocks, empty). Assert at(callow, limbo). Assert happened(ev_callow_frozen). }
+  Entity ev_callow_frozen: fact "callow frozen".
+  Rule callow_frozen_heard when happened(ev_callow_frozen) and inPellam() and not heardNews(ev_callow_frozen) says "In the small hours of the last day, in the stocks at the foot of the Glove Post, Magister Edrin Callow stopped coughing. The watermen found him at first light with his blanket round him and his brazier out, and the snow not melting on his face. Someone has written on the board at the foot of the Glove, under KEEP WHAT YOU SHAKE ON, in charcoal: NOTHING STAYS." { Assert heardNews(ev_callow_frozen). }
   Relation callowFed(group).
   Action tend_callow(actor: group, site: place) "Bring Magister Callow in the stocks hot gin, a second blanket, and coal for his brazier" {
     Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and callowStocked(callow) and not callowFed(callow) and quantity(actor, gold) >= 2.

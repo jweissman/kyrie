@@ -10,6 +10,7 @@ Module pellam "The Liberty of the Ice" {
     Greets "Master Harker inclines his head a quarter of an inch, which is what he has decided you are worth until he knows better. 'Good day to you,' he says. 'I am busy, but I am never too busy to be civil.'".
     Greets again "Master Harker inclines his head the same quarter of an inch.".
   }
+  Initially Set quantity(harker, gold) to 160.
   Rule harker_ring when hiringOn() and not at(harker, hiring_ring) and not harkerGone(harker) { Assert at(harker, hiring_ring). }
   Rule harker_counting when hour(clock) >= 12 and hour(clock) < 18 and not hiringOn() and not landingAt(lisk) and not weddingOn() and not harkerGone(harker) and not at(harker, counting_house) { Assert at(harker, counting_house). }
   Rule harker_morning when hour(clock) >= 8 and hour(clock) < 12 and not hiringOn() and not weddingOn() and not harkerGone(harker) and not at(harker, counting_house) { Assert at(harker, counting_house). }
@@ -95,8 +96,10 @@ Module pellam "The Liberty of the Ice" {
   Rule hired_at_ring when hiringOn() and not inBond(hired) and not at(hired, hiring_ring) { Assert at(hired, hiring_ring). Assert at(tansy, hiring_ring). }
   // At the end of each hiring Kemble walks the hired over the ice to the bondhouse, to be kept till the Landing.
   Relation inBond(group).
-  Rule hired_walked when firstDay() and hour(clock) >= 12 and at(hired, hiring_ring) and not inBond(hired) says "At noon the hiring ends. Kemble walks Harker's hired off the ice in a line, two by two, across to Hay Stairs and up onto the wharf and in at the door of the long blind warehouse with J. HARKER. WOOL painted on its gable, to be kept there, warm and fed, he tells anyone who asks, until the Landing." {
-    Assert inBond(hired). Assert at(hired, bond_floor). Assert at(tansy, bond_floor). Assert inBond(tansy). }
+  Rule hired_walked when firstDay() and hour(clock) >= 12 and at(hired, hiring_ring) and not inBond(hired) {
+    Assert inBond(hired). Assert at(hired, bond_floor). Assert at(tansy, bond_floor). Assert inBond(tansy). Assert happened(ev_hired_walked). }
+  Entity ev_hired_walked: fact "hired walked".
+  Rule hired_walked_heard when happened(ev_hired_walked) and inPellam() and not heardNews(ev_hired_walked) says "At noon the hiring ends. Kemble walks Harker's hired off the ice in a line, two by two, across to Hay Stairs and up onto the wharf and in at the door of the long blind warehouse with J. HARKER. WOOL painted on its gable, to be kept there, warm and fed, he tells anyone who asks, until the Landing." { Assert heardNews(ev_hired_walked). }
   Topic tansy_place with tansy "Ask Tansy Hobb where she is going" when true once {
     Says "'A farm in the hills.' She says it like a charm. 'A year's place, and good food, and wages at the year's end, and I can send them home.' She swallows. 'Mam said not to go to Harker. Mam said nobody comes back from Harker's. But Mam said that about the town, too, and I came back from the town.' She looks at her hands. 'I shook. It's done now. You can't unshake.'".
     On discuss { Assert knows(actor, tansy_hired). }

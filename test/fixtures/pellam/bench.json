@@ -1,0 +1,24 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "=6",
+  "go:court",
+  "Ask the Reeve what makes",
+  "=66",
+  "go:lamb",
+  "Stand on the bench and tell the Reeve the best lie",
+  "?the Silver Tongue: Take"
+ ],
+ "again": [
+  "go:calf_taproom",
+  "Talk to Nab",
+  "Take a bed",
+  "=210",
+  "go:lamb",
+  "?Stand on the bench and tell the Reeve the best lie",
+  "?the Silver Tongue: Take"
+ ]
+}

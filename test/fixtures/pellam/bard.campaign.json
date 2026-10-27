@@ -1,0 +1,3 @@
+{ "version": 1, "calendar": { "year": 1288, "month": 1, "day": 14 }, "name": "The Liberty of the Ice (bard)",
+  "modules": [ { "id": "pellam", "bundle": "../../../data/adventures/liberty-of-the-ice/module.json" } ],
+  "party": [ { "name": "Tamsin", "raceId": "human", "classId": "bard", "backgroundId": "fabulist" } ] }

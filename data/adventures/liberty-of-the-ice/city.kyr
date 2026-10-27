@@ -115,6 +115,10 @@ Module pellam "The Liberty of the Ice" {
   Passage starling_hatch "the hatch in the floor" is ladder between saffery_shop and starling_cellar hidden until starling_known.
   Passage starling_ladder "the rope ladder down the starling" is ladder between starling_cellar and under_arches
     opening when not thawed(lisk) "The rope ladder hangs down the starling into the running river.".
+  // Over the bridge rail and down the face of the third starling to the ice: boys do it for a dare; a climber can, or
+  // anyone with a rope made fast to the rail. Nobody tolls it.
+  Passage starling_face "over the rail and down the starling" is passage between bridge_street and under_arches taking 10 minutes needing climbing or rope
+    opening when not thawed(lisk) "Below the rail the river runs, fast and black, full of ice.".
   Passage south_lane "the Bridge Foot lane" is path between bridge_foot_south and bankside_street taking 5 minutes.
   Passage hay_lane "the lane to Hay Stairs" is path between bankside_street and hay_stairs taking 5 minutes.
   Passage calf_door "the Spotted Calf's door" is door between bankside_street and calf_taproom.
