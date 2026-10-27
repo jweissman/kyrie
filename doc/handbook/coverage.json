@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 211,
+    "kyr": 212,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 8,
+      "kyr": 9,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 105,
     "adapted": 158,
     "represented": 9,
-    "kyr": 30,
+    "kyr": 31,
     "unsupported": 5,
     "unreachable": 0,
     "data-only": 123
@@ -1102,7 +1102,7 @@
       "faithful": 25,
       "adapted": 0,
       "represented": 0,
-      "kyr": 7,
+      "kyr": 8,
       "unsupported": 5,
       "unreachable": 0,
       "data-only": 0
@@ -11863,6 +11863,13 @@
    "section": "campaigns"
   },
   {
+   "id": "campaign:the-third-night",
+   "title": "The Third Night",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:thrume",
    "title": "Thrume",
    "status": "kyr",
@@ -16465,6 +16472,13 @@
    "id": "trait:wild",
    "title": "Wild",
    "status": "faithful",
+   "book": "mm",
+   "section": "creature-traits"
+  },
+  {
+   "id": "trait:deep_water",
+   "title": "Of deep water",
+   "status": "kyr",
    "book": "mm",
    "section": "creature-traits"
   },

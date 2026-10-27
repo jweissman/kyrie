@@ -2103,6 +2103,15 @@ The worlds that ship with the game.
 
 > Two thousand years ago a seed fell on the Ghessil Uplands and did not go out. Its light stops time in stone and slows it in flesh. You are a cutter of Quell, in debt; your uncle has stood eleven months in an open granary vault under the glass, alive. Under the plateau a citadel is building itself downward, and above it something is coming down the light.
 
+### The Third Night
+
+*Kyr* · `campaign:the-third-night`
+
+- Regions and sites: wrayford
+- Kits placed: —
+
+> Three years you have been on the far side of the fells, hiring out with the droves. Your mother's letter took a week to find you: your father went out on the road with the cart, it said, and did not come home. Now you are coming down the drove road to Wrayford, the bridge-city on the Wray, on an August morning, a week late.
+
 ### Thrume
 
 *Kyr* · `campaign:thrume`

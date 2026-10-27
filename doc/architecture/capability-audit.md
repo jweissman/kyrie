@@ -10,10 +10,10 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Action timing, reactions, conditions, costs and targeting | 175 faithful, 27 adapted, 31 kyr, 28 not playable |
 | Spells: traditions, slots, durations and unusual magic | 239 faithful, 4 adapted, 2 kyr, 39 not playable |
 | Summoning, transformation, domination, movement, divination and travel | 35 faithful, 4 adapted, 7 represented, 16 not playable |
-| Creatures: families, special attacks, resistances, behaviour and difficulty | 105 faithful, 158 adapted, 9 represented, 30 kyr, 5 not playable, 123 orsino data only |
+| Creatures: families, special attacks, resistances, behaviour and difficulty | 105 faithful, 158 adapted, 9 represented, 31 kyr, 5 not playable, 123 orsino data only |
 | Equipment, treasure and magic items | 330 faithful, 93 adapted, 26 represented, 31 kyr, 25 not playable, 7 orsino data only |
 | Environment, world and planar rules | 3 adapted, 7 represented, 198 kyr, 180 orsino data only |
-| Content authoring and generation | 12 kyr |
+| Content authoring and generation | 13 kyr |
 
 ## Ancestries, callings, backgrounds and formations
 
@@ -137,7 +137,7 @@ Handbook sections: `dmg:orsino-world/orsino-plane`.
 
 ## Creatures: families, special attacks, resistances, behaviour and difficulty
 
-Entries: 105 faithful, 158 adapted, 9 represented, 30 kyr, 5 not playable, 123 orsino data only.
+Entries: 105 faithful, 158 adapted, 9 represented, 31 kyr, 5 not playable, 123 orsino data only.
 
 **What Orsino defines.** 10 monster classes (stat line, weapon, hide, up to three attacks a turn, worth, gold) × 40 types × 31 aspects × 8 ranks, 44 animals, 17 elementals, dragons by colour, golems by substance, 89 kinds of person by trade.
 
@@ -197,7 +197,7 @@ Handbook sections: `dmg:world-rules`, `dmg:orsino-world/orsino-plane`, `dmg:orsi
 
 ## Content authoring and generation
 
-Entries: 12 kyr.
+Entries: 13 kyr.
 
 **What Orsino defines.** Deem tables and templates generate creatures, dungeons, rooms, settlements, shops and treasure; the books are generated from the same tables.
 

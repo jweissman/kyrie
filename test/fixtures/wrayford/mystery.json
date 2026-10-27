@@ -1,0 +1,50 @@
+{
+  "ash": [
+    "To Northgate",
+    "To the Market Cross",
+    "Bridge End",
+    "Read the Company's new toll-board",
+    "Ask Pinch what it costs",
+    "To the burned toll-house",
+    "Search here",
+    "Take"
+  ],
+  "pinch": [
+    "To the Bridge End",
+    "Show Pinch the Company's flask",
+    "rule that the dead cross free",
+    "To the Market Cross",
+    "Into the Bridge Company's counting-house",
+    "pick the lock on the collector's door",
+    "To the collector's room",
+    "Search here",
+    "Take",
+    "Read the toll day-book"
+  ],
+  "captain": [
+    "To the counting-house",
+    "Out to the Market Cross",
+    "=330",
+    "Bridge End",
+    "To Bridge Street",
+    "To Overbridge Street",
+    "To the south road",
+    "Ask the captain what she means",
+    "Walk beside the captain's horse",
+    "To Overbridge Street",
+    "To Bridge Street",
+    "To the Bridge End",
+    "To the Market Cross",
+    "Into the Guildhall",
+    "=356",
+    "Tell the captain at supper that there was no rising"
+  ],
+  "supper": [
+    "Talk to Captain",
+    "my father is on that rail",
+    "Take your leave"
+  ],
+  "verdict": [
+    "=440"
+  ]
+}

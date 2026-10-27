@@ -1,0 +1,207 @@
+Module wrayford "The Third Night" {
+  // ── Mercer Hill ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe hill_scene at mercer_hill when not dark() and not visitedBefore(mercer_hill) "Mercer Hill: the houses of people who no longer have to live near what they sell. Gardens with walls, a view down over the roofs to the river and the bridge, a row of young limes. From up here you can see the gatehouse square and small at the end of the bridge, and what hangs from it, and somebody on this hill has planted the limes so that one day, when they are grown, nobody will have to.".
+  Observe hill_again at mercer_hill when not dark() and visitedBefore(mercer_hill) "Mercer Hill: walled gardens, the young limes, the view of the bridge.".
+  Observe hill_night at mercer_hill when dark() "Mercer Hill at night: lit windows behind garden walls, and the river below, and the brazier on the gatehouse leads, very small.".
+
+  // ── The reeve ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe study_scene at hulme_study when true "The reeve's study: books of the city's statutes, a map of the bridge with every arch numbered, a fire, two chairs, and a desk with the reeve's seal on it in a dish, and a stack of papers in a round careful clerk's hand.".
+  Person hulme "Simon Hulme" at guild_hall {
+    Role "the Reeve of Wrayford, grey and careful". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "Simon Hulme looks up, and you watch him decide, in the space of a breath, to be the reeve and not anything else.".
+  }
+  Rule hulme_court when hour(clock) >= 9 and hour(clock) < 17 and not at(hulme, guild_hall) and not hulmeAway(hulme) { Assert at(hulme, guild_hall). }
+  Rule hulme_home when (hour(clock) >= 17 or hour(clock) < 9) and not at(hulme, hulme_study) and not hulmeAway(hulme) { Assert at(hulme, hulme_study). }
+  Relation hulmeAway(group).
+  Measure hulmeMoved(group). Initially Set hulmeMoved(hulme) to 0.
+  Relation hulmeAsked(group). Relation hulmeAnswered(group).
+  Discovery hulme_reasons "The reeve keeps the dead on the rail because the captain comes at dusk on the third day to see whether Wrayford is in rebellion. If she finds the city in order, she takes the toll money and goes. If she finds it in rebellion, the lord's law is ten hangings and the carters' row burned.".
+  Discovery charity_path "The reeve would release the dead before the captain comes, if he were given cover: the Bench's leave, which the Company will not give for nothing, and someone to take them who is beyond the reeve's writ, such as the Abbess of Overbridge, if she claimed them, and their crossing ruled lawful at the bridge.".
+  Topic hulme_why with hulme "Ask the reeve why the dead must stay on the rail" when true once {
+    Says "'Because the captain comes at dusk on the third day,' says Simon Hulme, 'and asks one question: is Wrayford in rebellion. If she finds the city quiet and its ringleaders on the rail, she takes the toll money and goes home. If she finds it in rebellion, the lord's law is ten hanged for every rider hurt and the carters' row burned to the stones.' He says it as if he had said it many times, to himself. 'Three men on a rail, or thirty. I have kept this city twenty years.' His hand is flat on the desk. 'I did not hang them. I would have brought them to the lord's court. The riders carried a warrant I was not shown.'".
+    On discuss { Assert knows(actor, hulme_reasons). }
+  }
+  // Kin: he stood godfather to Kit. He asks his question once.
+  Event hulme_question near hulme when homecomer(party) and knows(party, hulme_reasons) and addressed(hulme, party) and not hulmeAsked(party) "He looks at you for a long time. 'You were in my house every day of your childhood,' he says. 'You and Hal. Tell me, then. You've come home and found your father on the rail, and you're the only one in this city who can say anything to me I'd listen to.' His voice does not rise. 'What would you have me do?'" then { Assert hulmeAsked(party). }
+  Topic answer_cut with hulme "Tell him: cut them down, and let the captain find a city that buries its dead" when hulmeAsked(actor) and not hulmeAnswered(actor) once {
+    Says "He shuts his eyes. 'A city that buries its dead,' he says. 'That's a thing to say. That's a fine thing.' He opens them. 'And when she asks who cut them down against the lord's warrant?' He waits. You do not have an answer, and he sees it. 'No,' he says, gently. 'Neither have I.' But he does not look away from you.".
+    On discuss { Assert hulmeAnswered(actor). Increase hulmeMoved(hulme) by 1. }
+  }
+  Topic answer_liberty with hulme "Tell him: give them to the Liberty, and let the Abbess's charity be the city's cover" when hulmeAsked(actor) and not hulmeAnswered(actor) once {
+    Says "That makes him look up properly. 'The Liberty,' he says slowly. 'If the Abbess claimed them. If the Bench gave me leave, which they won't, for nothing. If the crossing were ruled lawful at the chain, so it's not a felon's goods going over the bridge.' He is counting on his fingers like a clerk. 'Then it's not the city releasing rebels. It's the Liberty taking up its dead, as it has the right, and the city standing aside, as it must.' He looks at you. 'Get me those three things, and I'll give them up before the captain's in sight.'".
+    On discuss { Assert hulmeAnswered(actor). Assert knows(actor, charity_path). }
+  }
+  Topic answer_hang with hulme "Tell him: then hang me beside him" when hulmeAsked(actor) and not hulmeAnswered(actor) once {
+    Says "He flinches. It is the first thing that has touched him, and he cannot hide it. 'Don't,' he says. 'Don't say that to me.' He gets up and goes to the window and stands with his back to you for a long time. 'Get out,' he says at last, quite gently. 'Go home to your mother.'".
+    On discuss { Assert hulmeAnswered(actor). Increase hulmeMoved(hulme) by 1. }
+  }
+  // After the Bench's clause: its dead are now the Company's surety, and the reeve its bailiff. Anyone may say so.
+  Topic hulme_clause with hulme "Put it to the reeve that the Bench has made his dead the Company's surety, and him its bailiff" when clauseWorse(wray) and stillHanging() once {
+    Says "He has the Remonstrance on his desk; he has read it more than once. 'Its surety,' he says. 'Yes.' He turns it face down. 'I kept them on the rail for the city. Three men, so that it should not be thirty. And the Company has written under my seal that they stay there till its riot-money is counted.' He looks at the decree on the wall, in his son's hand. 'I did not hang men to be a debt-collector's pledge.' He does not say anything else, but he has not turned the paper back over.".
+    On discuss { Increase hulmeMoved(hulme) by 1. }
+  }
+  Topic hulme_release with hulme "Ask the reeve what would let him release the dead" when stranger(actor) and knows(actor, hulme_reasons) once {
+    Says "He considers you: a stranger, who has no stake, and is asking anyway. 'Cover,' he says. 'If the Abbess of Overbridge claimed them, they'd be the Liberty's, not the city's rebels. If the Bench gave me leave. If the crossing at the chain were ruled lawful, so it's not a felon's goods going over the bridge. Three things.' He shakes his head. 'The Bench will give nothing for nothing, and the Abbess gives nothing at all.'".
+    On discuss { Assert knows(actor, charity_path). }
+  }
+  Topic hulme_kit with hulme "Tell the reeve what Kit Pardoe means to do tomorrow night" when knows(actor, kit_plan) and not kitStoodDown(kit) and not kitTurned(kit) and not kitTaken(kit) and not kitBetrayed(kit) once {
+    Says "The reeve listens with his hand over his eyes. 'The counting-house,' he says. 'He'd hang. They'd hang him with his father.' He takes his hand away. 'I'll have him taken up tonight, before. The cellar's dry. It's better than the rope.' He looks at you. 'He'll not forgive you.'".
+    On discuss { Assert kitBetrayed(kit). Assert kitTaken(kit). Set kitTrust(kit) to 0. }
+  }
+  Rule kit_taken_up when kitBetrayed(kit) and not at(kit, guild_cellar) and not travelsWith(kit, party) { Assert at(kit, guild_cellar). Assert kitTaken(kit). }
+
+  // ── Hal ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person hal "Hal Hulme" at guild_hall {
+    Role "the reeve's son, who writes his father's papers". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "Hal Hulme looks up, and for a moment he is twelve years old, and then he is not.".
+  }
+  // His father's clerk by day; at dusk he goes down to the starling under the middle arch, where he always went; home.
+  Relation halAway(group).
+  Rule hal_clerk when hour(clock) >= 9 and hour(clock) < 18 and not at(hal, guild_hall) and not halAway(hal) { Assert at(hal, guild_hall). }
+  Rule hal_starling when hour(clock) >= 18 and hour(clock) < 21 and not at(hal, starling) and not halAway(hal) { Assert at(hal, starling). }
+  Rule hal_home when (hour(clock) >= 21 or hour(clock) < 9) and not at(hal, hulme_study) and not halAway(hal) { Assert at(hal, hulme_study). }
+  Relation halSat(group). Relation halConfessed(group). Relation halKept(group). Relation halToldFather(group). Relation halTold(group).
+  Topic hal_hello with hal "Ask Hal how he has been" when homecomer(actor) once {
+    Says "'How I've been.' He looks at you as if you were a word he had been trying to remember for three years. 'I've been writing my father's letters,' he says. 'I've been writing his decrees.' He looks down at the paper under his hand. 'I wrote that one. On the gatehouse door. In my best hand.' His face does something, and stops. 'I'm glad you've come. I'm sorry it's now.'".
+  }
+  Observe starling_hal at starling when at(hal, starling) "Hal Hulme is sitting on the starling with his legs over the water and his back to the pier, where the two sets of initials are cut, as if he had been there every evening for three years.".
+  Action sit_hal(actor: group, site: place) "Sit down by Hal on the starling, the way you used to" {
+    Description "Half an hour, with the river under your feet.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, starling) and at(hal, starling) and homecomer(actor) and not halSat(actor).
+    Time 3.
+    On success { Assert halSat(actor). }
+    Result "You sit. He moves over without looking, the way he always did, to give you the dry bit. After a while his shoulder is against yours, and neither of you moves it. 'You went away,' he says to the river. 'I know why. I'd have gone with you if I'd had any sense.' The river goes under you, brown and fast and loud. 'I haven't any sense,' he says. 'I've done something.' And then he does not say what.".
+  }
+  Discovery hand_match "The letter that sent the riders to the fell road is in the same round careful hand as the reeve's decree on the gatehouse door: Hal Hulme's, who writes his father's papers.".
+  Rule hand_known when knows(party, letter_read) and knows(party, decree_known) and homecomer(party) and not knows(party, hand_match) says "You knew the hand the moment you saw it. You learned your letters beside it at the same bench. Hal's." teaches hand_match { }
+  Action compare_hands(actor: group, site: place) "Hold the riders' letter in your mind against the decree on the gatehouse door" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_road) and knows(actor, letter_read) and stillHanging()
+      and not knows(actor, hand_match) and not benighted(actor).
+    Time 2 minutes.
+    On success { Assert knows(actor, hand_match). }
+    Result "You read the decree again, slowly, the shapes of the letters and not the words: the round careful clerk's hand, the long tail on the y, the way the d leans back. It is the same hand. The reeve's papers are written by his son.".
+  }
+  Topic hal_confess with hal "Tell Hal you have read his letter in Gault's coat" when knows(actor, hand_match) and not halConfessed(actor) once {
+    Says "He goes white, and then he goes very still, the way his father does. 'Yes,' he says. 'I wrote it.' He does not look away. 'My father said the riders would take them for the lord's court. That's what he believed; he hadn't seen the warrant. The young ones were going to burn the counting-house, and the chain was already gone, and I thought: if the old ones are taken quietly on the road there'll be no more fire, and they'll be fined at the court, and that will be all.' His hands are shaking and he puts them flat on his knees. 'They hanged them on the road at sunrise. I have not slept. I have written the decree that keeps them there, in my best hand, because my father told me to and I had already done the other thing.' He looks at you. 'Do what you like with it. I'd tell Kit myself if I thought he'd let me finish.'".
+    On discuss { Assert halConfessed(actor). Assert knows(actor, hal_wrote). }
+  }
+  Discovery hal_wrote "Hal Hulme, the reeve's son, wrote to the riders at midnight on the night of the rising, believing they would only take the old carters for the lord's court and spare the city another night of fire. They hanged them on the road. He has told no one.".
+  Topic hal_tell_father with hal "Tell Hal he must tell his father" when halConfessed(actor) and not halToldFather(hal) and not halKept(hal) once {
+    Says "He nods, slowly, as if you had told him the time. 'Yes.' He gets up. 'Tonight. When he comes in.' At the door he stops. 'He'll resign,' he says. 'Or he won't, and that'll be worse.'".
+    On discuss { Assert halToldFather(hal). Increase hulmeMoved(hulme) by 2. }
+  }
+  Topic hal_keep with hal "Tell Hal you'll keep it between the two of you" when halConfessed(actor) and not halToldFather(hal) and not halKept(hal) once {
+    Says "He looks at you for a long time. 'That's worse,' he says. 'You know that. That's worse than telling.' But he takes your hand, on the stone between you, where the initials are, and holds on to it as if the river might take one of you.".
+    On discuss { Assert halKept(hal). }
+  }
+  Topic kit_told_hal with kit "Tell Kit who sent the riders to the fell road" when knows(actor, hal_wrote) and not halTold(kit) and not kitTaken(kit) once {
+    Says "Kit hears you out without a sound. Then he stands up. 'Hal,' he says. 'Hal Hulme.' He looks at his hands as if they were somebody else's. 'He used to fish with us. Off the starling.' He goes, without another word, toward the bridge.".
+    On discuss { Assert halTold(kit). Assert kitHunting(kit). }
+  }
+  Relation kitHunting(group). Relation halHurt(group).
+  // Kit goes for Hal at the starling at dusk, unless someone is there to stop it.
+  Rule kit_finds_hal when kitHunting(kit) and at(hal, starling) and not kitTaken(kit) and not halHurt(hal) and not at(party, starling) says "Word comes along Bridge Street at dusk: Kit Pardoe went down through the bridge chapel to the starling where Hal Hulme sits of an evening, and there was shouting under the arch, and Hal Hulme was pulled out of the river below the bridge by the fish-wives with his head cut open, alive, and Kit is in the Guildhall cellar." {
+    Assert halHurt(hal). Assert kitTaken(kit). Retract kitHunting(kit). Assert at(kit, guild_cellar). Assert halAway(hal). Assert at(hal, hulme_study). }
+  Action stop_kit_hal(actor: group, site: place) "Put yourself between Kit and Hal" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, starling) and kitHunting(kit) and at(hal, starling).
+    Time 1 minute.
+    On success { Retract kitHunting(kit). }
+    Result "Kit comes down the ladder fast and stops on the last rung when he sees you between them. For a moment nobody moves. Then Hal says, 'Let him,' and Kit says, 'Get out of the way,' and you do not, and after a long time Kit sits down on the wet stone where he is and puts his head in his hands and Hal, very slowly, sits down too.".
+  }
+  Rule kit_finds_hal_watched at starling when kitHunting(kit) and at(hal, starling) and at(kit, starling) and at(party, starling) and not halHurt(hal) says "Kit comes down the ladder from the chapel with his face white and his fists shut." { }
+  Rule kit_comes_down when kitHunting(kit) and at(hal, starling) and at(party, starling) and not at(kit, starling) and not kitTaken(kit) { Assert at(kit, starling). }
+
+  // ── Alderman Gidley ───────────────────────────────────────────────────────────────────────────────────────────────
+  Observe parlour_scene at gidley_parlour when true "A parlour of the best kind: a Turkey carpet, a harpsichord nobody plays, a view of the river through good glass, and over the fire a sampler: WE BEAR THE CROSSING. The blinds of the room above are drawn, for the aunt.".
+  Person gidley "Alderman Prosper Gidley" at gidley_parlour {
+    Role "the Master of the Worshipful Company of the Bridge, in a blue gown". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "Alderman Gidley takes your hand in both of his, which are warm and soft, and holds it. 'Terrible days,' he says. 'Terrible. Sit down.'".
+  }
+  // Breakfast at home; at nine to the gatehouse, where he weeps; the Guildhall; home to dine.
+  Rule gidley_weeps when hour(clock) >= 9 and hour(clock) < 10 and stillHanging() and not at(gidley, gate_road) { Assert at(gidley, gate_road). }
+  Rule gidley_hall when hour(clock) >= 10 and hour(clock) < 17 and not at(gidley, guild_hall) { Assert at(gidley, guild_hall). }
+  Rule gidley_dines when (hour(clock) >= 17 or hour(clock) < 9) and not at(gidley, gidley_parlour) { Assert at(gidley, gidley_parlour). }
+  Rule gidley_weeping at gate_road when hour(clock) == 9 and stillHanging() and at(gidley, gate_road) and not weptToday(gidley) says "Alderman Gidley arrives at the Bridge End in his blue gown, as he has every morning, and stands below the rail with his hat in his hand and weeps, beautifully, for some minutes, while the crowd watches. Then he wipes his eyes, and asks Pinch for the morning's takings, and goes up the Cartway to the Guildhall." { Assert weptToday(gidley). }
+  Relation weptToday(group).
+  Rule weeping_ends when hour(clock) == 10 and weptToday(gidley) { Retract weptToday(gidley). }
+  Topic gidley_toll with gidley "Ask Alderman Gidley about the toll" when true once {
+    Says "'A scandal.' He sits back. 'An imposition. The lord has no more right to tax that bridge than to tax the river.' He shakes his head. 'The Company opposed it with every fibre. And when it came, we took the farm of it ourselves, at great expense, so that it should at least be collected by Wrayford men, with Wrayford hearts, and not by some stranger.' He pats your hand. 'We are drawing up a Remonstrance. Tomorrow, at noon. You must come and speak, if you like. All are welcome. It costs nothing.'".
+    On discuss { Assert knows(actor, remonstrance_called). }
+  }
+  Topic gidley_aunt with gidley "Ask the Alderman about his aunt" when knows(actor, corbin_strike) once {
+    Says "Gidley's face falls into its folds. 'Aunt Letitia. Since Tuesday. In the blue room, with the blinds drawn and Mistress Gidley not able to go up.' He takes out his handkerchief. 'That old man at the Acre will not dig, because of the carters. The Company has offered him double fees. Treble.' He blows his nose. 'He laughed at the Company's clerk. Laughed.'".
+  }
+  // The bargain: forty crowns for the boy who drove.
+  Relation bargainMade(group). Relation purseTaken(group).
+  Topic gidley_bargain with gidley "Tell Alderman Gidley who was really driving Wat Pardoe's cart" when knows(actor, kit_driving) and not bargainMade(actor) once {
+    Says "Gidley listens with his mouth a little open. Then he seizes your hand in both of his. 'The son,' he says. 'And the father died for him. Oh, that is beautiful. That is a ballad.' His eyes are wet. Then they are not. 'The captain will want a ringleader alive to take back to the lord. A live one is worth three on a rail. Give us the boy, and the Company will ask the captain to let the dead be buried, as a mercy, justice having been done.' He takes a purse from his desk and puts it on the table between you. 'Forty crowns, for your trouble. For the city's sake.'".
+    On discuss { Assert bargainMade(actor). }
+  }
+  Action take_purse(actor: group, site: place) "Take the Company's forty crowns, and give them Kit" {
+    Grave "Kit will be taken to the captain, alive, for the lord's justice.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(gidley, site) and bargainMade(actor) and not purseTaken(actor)
+      and not kitTaken(kit).
+    Time 2 minutes.
+    On success { Increase quantity(actor, gold) by 40. Assert purseTaken(actor). Assert kitTaken(kit). Assert kitSold(kit). Set kitTrust(kit) to 0. }
+    Result "The purse is heavy. Gidley sends a boy running for the reeve's men, and pours you a glass of something, and toasts the city. You do not drink it.".
+  }
+  Relation kitSold(group).
+  Rule kit_sold_taken when kitSold(kit) and not at(kit, guild_cellar) { Assert at(kit, guild_cellar). Retract travelsWith(kit, party). }
+  // The flask shown to the Alderman: the Company has been robbed, by its own collector.
+  Relation audited(group).
+  Topic gidley_flask with gidley "Show Alderman Gidley the Company's oil flask from the ash of the toll-house" when carries(actor, company_flask) and not audited(gidley) once {
+    Says "Gidley turns the flask over in his soft hands and sees the gold bridge stamped on it, and goes slowly purple. 'Ours,' he says. 'Our oil. In the toll-house.' He stands up. 'Pinch.' He rings a bell. 'If that man has been at the Company's takings,' and his voice shakes with a grief more real than any you have heard from him, 'then the Company has been robbed. Robbed! By its own servant!' He sends for Pinch's room to be opened. When the clerk comes back he is carrying the toll day-book, and Gidley reads three pages and closes it and puts it on the fire, and watches it burn, and turns to you with tears in his eyes. 'For the Company's good name,' he says. 'Pinch leaves Wrayford at dawn. Not a word of this, I beg of you.'".
+    On discuss { Assert audited(gidley). Assert pinchDismissed(pinch). Assert knows(actor, gidley_burned_book). }
+  }
+  Relation pinchDismissed(group).
+  Discovery gidley_burned_book "Shown the Company's oil flask, Alderman Gidley had Pinch's room opened, read three pages of the toll day-book, burned it, and dismissed Pinch from the Company's service for robbing the Company; and begged that nothing be said, for the Company's good name.".
+  Rule daybook_burned when audited(gidley) and not carries(party, daybook) { Retract at(daybook, pinch_room). }
+  Rule pinch_leaves when pinchDismissed(pinch) and hour(clock) == 6 and not pinchGone(pinch) { Assert pinchGone(pinch). Assert at(pinch, limbo). }
+
+  // Mistress Gidley, and the ice.
+  Person honoria "Honoria Gidley" at gidley_parlour {
+    Role "the Alderman's wife, in black for the aunt". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Greets "Mistress Gidley looks up from a sampler with a needle in her mouth, takes it out, and says, 'Oh. Visitors.'".
+  }
+  Relation honoriaLobbies(group). Relation iceGiven(group).
+  Topic honoria_aunt with honoria "Ask Mistress Gidley about her aunt" when true once {
+    Says "'Aunt Letitia.' She puts the sampler down. 'Ninety-one. Upstairs, in the blue room, since Tuesday, with the ice-man going up and down the back stairs four times a day with blocks, and the whole house smelling of lilies, and I cannot go up.' She looks at the window, where the river is. 'Because an old man at the Acre will not dig while those poor men are on the bridge. And Prosper says the bridge is the lord's business and the Company cannot interfere.' She pricks herself, and does not notice. 'I do think a Company that can farm a toll could manage a funeral.'".
+    On discuss { Assert knows(actor, corbin_strike). }
+  }
+  Topic honoria_ice with honoria "Ask Mistress Gidley for a block of ice for the toll-keeper's boy" when knows(actor, corbin_strike) and not iceGiven(actor) once {
+    Says "'The Hobday boy.' Her hand goes to her mouth. 'In this heat. Oh, that poor woman.' She is already on her feet. 'Tobias! Tobias, a block for the toll-keeper's house, the biggest, and don't tell the Alderman.' To you, low: 'He'll say it's the Company's ice. It's my ice. I married it.'".
+    On discuss { Assert iceGiven(actor). Assert at(ice_gift, ice_house). Assert knows(actor, ice_waiting). }
+  }
+  Discovery ice_waiting "Mistress Gidley has had a block of ice set out for you in the ice-house on the Hill, for the toll-keeper's boy.".
+  Item ice_gift "a block of ice" is ice_kind at limbo.
+  Topic honoria_lobby with honoria "Tell Mistress Gidley that if the carters come down, Corbin will dig for her aunt" when knows(actor, corbin_strike) and knows(actor, remonstrance_called) and not honoriaLobbies(honoria) once {
+    Says "She sits very still. 'If the carters come down.' She looks at the ceiling, through which is the blue room. 'The Remonstrance is tomorrow at noon.' Her mouth goes thin. 'Prosper will do as I tell him, for once. He'll speak for whatever lets that old man dig. You tell me what to make him say, and he'll say it.'".
+    On discuss { Assert honoriaLobbies(honoria). }
+  }
+  // The ice-house: Tobias Wren by day, who sells to the Hill and to nobody else; locked at night.
+  Observe icehouse_scene at ice_house when true "Down a stair into the hill: a brick dome, cold enough to make your breath smoke, and straw, and under the straw, blocks of last winter's river, grey and sweating.".
+  Person tobias "Tobias Wren" at ice_house {
+    Role "the Alderman's ice-man, in a sacking cape". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "Tobias Wren straightens up from the straw with a pair of tongs. 'Hill houses only,' he says. 'Alderman's orders.'".
+  }
+  Rule tobias_day when hour(clock) >= 8 and hour(clock) < 18 and not at(tobias, ice_house) { Assert at(tobias, ice_house). }
+  Rule tobias_night when (hour(clock) >= 18 or hour(clock) < 8) and at(tobias, ice_house) { Retract at(tobias, ice_house). Assert at(tobias, limbo). }
+  Thing ice_lock "the ice-house door" on ice_door {
+    State locked blocking "The ice-house door is padlocked for the night.".
+    State open "The ice-house door is unlocked.".
+    Change pick "Pick the padlock on the ice-house door" from locked to open needing lockwork.
+    Change wrench "Wrench the padlock's hasp off the ice-house door" from locked to open needing brawn.
+  }
+  Initially Assert state(ice_lock, open).
+  Rule ice_locked when (hour(clock) >= 18 or hour(clock) < 8) and state(ice_lock, open) and not iceForced(wray) { Assert state(ice_lock, locked). }
+  Rule ice_unlocked when hour(clock) >= 8 and hour(clock) < 18 and state(ice_lock, locked) { Assert state(ice_lock, open). Retract iceForced(wray). }
+  Relation iceForced(place).
+  Rule ice_forced when state(ice_lock, open) and (hour(clock) >= 18 or hour(clock) < 8) and not iceForced(wray) { Assert iceForced(wray). }
+  // Taken at night, unseen: anyone can lift a block, once in.
+  Item ice_night "a block of ice" is ice_kind at ice_house hidden until ice_seen.
+  Discovery ice_seen "In the straw of the ice-house lie blocks of grey river ice, and nobody watches them at night." { Found by searching ice_house. }
+  Topic tobias_sell with tobias "Ask Tobias Wren to sell you a block of ice" when not iceGiven(actor) once {
+    Says "'Hill houses only.' He looks at you. 'What for?' You tell him. He goes on looking. Then he takes a block out of the straw with his tongs and wraps it in sacking and puts it in your arms, and holds out his hand. 'Two coin,' he says. 'For the Hobday lad. And it fell off the cart.'".
+    On discuss { Assert iceGiven(actor). Assert at(ice_gift, ice_house). Assert knows(actor, ice_waiting). Decrease quantity(actor, gold) by 2. }
+  }
+}

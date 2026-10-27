@@ -1,0 +1,211 @@
+Module wrayford "The Third Night" {
+  // ── Saint Wade ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The legend the city lives inside, told in pieces: before the bridge, Wade kept the ford. On the third night after
+  // the great flood a drowned child came to his door and asked to be carried over to be buried; at the deep place the
+  // child grew heavy as all the dead of the vale, and Wade stumbled there and did not set him down. The dead who are not
+  // carried over by the third night go looking for someone who will. The Company has his work for its motto.
+  Discovery wade_legend "Before there was a bridge, Wade kept the ford at Wrayford and carried travellers over on his back for nothing. On the third night after the great flood a drowned child came to his door and asked to be carried over to the Acre to be buried. At the deep place in the ford the child grew heavy as all the dead of the vale, and Wade stumbled, and went to his chin, and did not set him down. The deep place is Wade's Step. Since then the dead of Wrayford are carried over; and the ones who are not, by the end of the third night, go looking for someone who will.".
+  Discovery wade_hymn "The carters' hymn to Wade, sung on the fell road in the dark: 'Carry me over, Wade, carry me over; the water is deep and the night is long; carry me over.' Wat Pardoe sang it on the road to the rope.".
+  Topic abbess_wade with abbess "Ask the Abbess who Saint Wade was" when true once {
+    Says "'A ferryman.' She does not look up from her letter. 'A ferryman without a ferry, who carried people over the Wray on his back for nothing, which is the first thing about him the Company has forgotten.' She sands the page. 'On the third night after the great flood a drowned child knocked at his door and asked to be carried over to be buried. Halfway, at the deep place, the child grew heavy: as heavy as all the dead of the vale, the old life says, which is a theologian's way of saying very. Wade went down to his chin at the Step that has his name and did not set him down.' She looks up. 'That is what WE BEAR THE CROSSING means, on a counting-house. My predecessors objected to the motto in writing. It is framed, behind you, upside down.'".
+    On discuss { Assert knows(actor, wade_legend). }
+  }
+  Topic corbin_looking with corbin "Ask Corbin what the dead go looking for" when knows(actor, third_night_custom) or knows(actor, wade_legend) or homecomer(actor) once {
+    Says "He takes the pipe out of his mouth. 'Folk think it's vengeance. It's not vengeance.' He looks across the water at the gatehouse. 'They go looking for a back. Someone to carry them over, the way Wade did. That's all the dead ever want of you, a back and a hole.' He puts the pipe back. 'I've the hole. I'll not dig it while they're up there for show. Somebody else can find the back.'".
+    On discuss { Assert knows(actor, wade_legend). }
+  }
+  // The badges on Bridge Street, and the two Wades.
+  Observe wade_badges at bridge_street when not dark() and not visitedBefore(bridge_street) "On a tray outside the badge-seller's, tin Saint Wades at a farthing each: a stooping man up to his knees in tin water, with a child on his shoulders. 'Carry me over,' says the badge-seller to nobody, the way a fishwife says 'fresh'.".
+  Observe chapel_wade at chapel when true "Over the altar, the old painting: Saint Wade up to his chest in a black river, bent nearly double under a grey child, looking down at his own feet, where the painter has made the riverbed darker in one place than anywhere else. Under it, scratched into the plaster by many hands at many times, the same three words: CARRY ME OVER.".
+  Observe nave_wade at nave when not visitedBefore(nave) "The saint over the chancel arch is newer than the church: the Company paid to have him repainted in the year the bridge was opened, and he is up to his ankles in a blue stream, smiling, with a rosy child sitting up on his shoulders like a lord at a fair.".
+
+  // ── The city's past ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Thirty-one years ago, at the Michaelmas fair, the city rose against the bridge-penny, and Captain Ralf Sefton
+  // hanged ten from the drawbridge chains and burned Water Lane in Overbridge. The reeve was a clerk's boy at the Bridge
+  // End; Corbin dug the ten; the captain who comes now is Ralf Sefton's daughter, who held his horses.
+  Discovery michaelmas_burning "Thirty-one years ago, at the Michaelmas fair, Wrayford rose against the bridge-penny. The lord's captain, Ralf Sefton, hanged ten men from the drawbridge chains and burned Water Lane in Overbridge, and some of the people in it who would not come out. They are under ten stones by the north wall of Wade's Acre, with one date on all of them.".
+  Discovery sefton_daughter "The captain who comes is Lys Sefton, Ralf Sefton's daughter. She was twelve at the Michaelmas Burning, and held her father's horses at the Bridge End while Water Lane burned.".
+  Topic hulme_burning with hulme "Ask the reeve whether he has seen a captain's verdict before" when knows(actor, hulme_reasons) once {
+    Says "He is quiet a long time. 'Michaelmas fair,' he says. 'I was twelve. A clerk's boy, my father's. He sent me to the Bridge End with a message and I stayed to watch, because I was twelve.' His hand moves on the desk as if it were writing. 'They used the drawbridge chains. Ten. I counted. I was a clerk's boy, I counted everything. And then the wind went round to the south and they fired Water Lane, and the people in the end houses would not come out, because they were the families of the ten.' He looks at the decree on the wall in his son's hand. 'I can smell it now. Thirty-one years. So when you ask me why three men stay on that rail, that is why. Three is not ten. And nobody is in Water Lane.'".
+    On discuss { Assert knows(actor, michaelmas_burning). }
+  }
+  Topic corbin_ten with corbin "Ask Corbin about the ten stones by the north wall" when knows(actor, michaelmas_burning) once {
+    Says "'I dug them.' He does not look round at the north wall. 'I was thirty, and digging for my father ten years, and he was sexton still, and he couldn't, after the third. So I did the other seven. In the rain, it was, it rained all that week.' He knocks his pipe out on the wall. 'And then forty years of ordinary dead, which is the best work there is. Old women and drowned boys and babies.' He looks at you. 'That's why I'll not dig for show. I've dug for a captain once.'".
+  }
+  Observe acre_ten at wades_acre when not dark() and not visitedBefore(wades_acre) "By the north wall, apart from the rest, ten small stones in a row, all the same size, all with the same date and no names, and moss on all of them except where somebody keeps it scraped off the dates.".
+  Observe water_lane at overbridge_street when not dark() and not visitedBefore(overbridge_street) "One lane off Overbridge Street is all of a piece, raw brick, every house the same, built in one year: the Liberty calls it the New Row, though it is thirty years old, and nobody under forty knows why it was needed.".
+  Topic gault_captain with gault "Ask Gault about the captain who is coming" when not captainHere(wray) once {
+    Says "'Sefton.' He turns the cup. 'Old Ralf Sefton's girl. He burned half a street on this river before I was in breeches. She was with him, twelve years old, holding the horses.' He drinks. 'She's been trying not to be him for thirty years. She's a fair captain. Fair's not the same as kind. If she has to choose between the old man's way and getting it wrong, she'll get it wrong his way, and hate it.'".
+    On discuss { Assert knows(actor, sefton_daughter). }
+  }
+  Topic captain_water_lane with sefton "Ask the captain whether she remembers Water Lane" when knows(actor, sefton_daughter) and captainHere(wray) and not verdictGiven(wray) once {
+    Says "For the first time something moves in her face. 'I held the horses,' she says. 'At the Bridge End. My father's grey, and his second's, and they would not stand for the smoke.' She puts her cup down very exactly. 'He wrote in his report that Wrayford was pacified. He was right. It has been pacified for thirty-one years.' She looks down the table at the Bench, who are not listening. 'I have the same warrant he had, and the same law. I had rather not have the same report.'".
+    On discuss { Increase captainView(sefton) by 1. }
+  }
+
+  // ── The days, as chapters ─────────────────────────────────────────────────────────────────────────────────────────
+  // The weather walks down the vale with the captain: heat, then thunder in the fells, then the storm on the third
+  // evening, then rain on the third night, then a washed morning. Each dawn turns a page.
+  Entity chapter_two: fact "The second day". Entity chapter_three: fact "The third day". Entity chapter_night: fact "The third night". Entity chapter_four: fact "The fourth morning".
+  Rule dawn_second when secondDay() and hour(clock) >= 6 and inWrayford() and not spread(chapter_two) says "THE SECOND DAY. The heat comes up off the river before the sun is over the fells, and by seven the Market smells of dung and hot stone and, when the wind is from the bridge, of something sweeter underneath that nobody mentions. The crows have found the rail. Somewhere upstream Dunch's mill-wheels are turning; the whole city can hear them when the bell stops." { Assert spread(chapter_two). }
+  Rule dawn_third when thirdDay() and hour(clock) >= 6 and inWrayford() and not spread(chapter_three) says "THE THIRD DAY. Thunder in the fells before light, a long way off, like carts going over a bridge. The air is thick and yellow and the swallows are flying low over the water. The dogs of Wrayford will not settle. It is the third day; everybody knows it is the third day, and nobody says so." { Assert spread(chapter_three). }
+  Rule night_third_hanging when thirdDay() and hour(clock) >= 21 and stillHanging() and inWrayford() and not spread(chapter_night) says "THE THIRD NIGHT. The storm that has been walking down the vale all day comes over the bridge at the curfew bell: one crack of thunder overhead like a beam breaking, and then the rain, straight down, loud on the leads and the Market and the river. In Northgate the doors are shut that are never shut. Under the gatehouse the dog begins to howl and does not stop." { Assert spread(chapter_night). }
+  Rule night_third_down when thirdDay() and hour(clock) >= 21 and not stillHanging() and inWrayford() and not spread(chapter_night) says "THE THIRD NIGHT. The storm comes over the bridge at the curfew bell, and the rain with it, straight down, on the empty rail and on the Acre, where the new turf is darkening by the church door. In Northgate people stand in their doorways and let it rain on them, for no reason they can give." { Assert spread(chapter_night). }
+  Rule dawn_fourth when fourthDay() and hour(clock) >= 6 and inWrayford() and not spread(chapter_four) says "THE FOURTH MORNING. Everything is washed: the stones of the Market shine, the river is high and brown and full of sticks, and the air smells of nothing at all for the first time in a week. The captain's riders are saddling in the Bridge End. At nine, the Guildhall." { Assert spread(chapter_four). }
+  // The dead, as the days go on, and the heat.
+  Observe crows_second at gate_road when secondDay() and stillHanging() and not dark() "Crows on the coping above the three, shifting from foot to foot. Every so often a rider on the leads throws something at them, and they go up, and come down again.".
+  Observe crows_third at gate_road when thirdDay() and stillHanging() and not dark() "The crows are bolder today. Nobody throws anything at them now. The sacking over the big man has come loose at one corner and somebody has pinned it back with a hay-fork from the leads, which is worse.".
+  Observe heat_gate at gate_road when (secondDay() or thirdDay()) and stillHanging() and not dark() and hour(clock) >= 11 and hour(clock) < 18 "Downwind of the gatehouse the air is sweet and wrong, and people who have to pass breathe through their sleeves.".
+  Observe sky_third at market_cross when thirdDay() and hour(clock) >= 12 and hour(clock) < 21 "Over the fells to the north the sky is the colour of a bruise, and the Guildhall clock looks very white against it.".
+  Observe rain_night at gate_road when thirdNight() "The rain is coming down the face of the gatehouse in sheets, and off the leads in a spout, and the brazier up there hisses and smokes.".
+  Observe washed at market_cross when fourthDay() and hour(clock) < 12 "The Market is washed and steaming in the sun, and the posts are bare where the rain has taken the broadsides off.".
+
+  // ── The third night, uncanny or not ───────────────────────────────────────────────────────────────────────────────
+  // Nothing here is confirmed. It is weather, a dog, candles, a river, and what people say.
+  Observe omen_chapel at chapel when thirdNight() and stillHanging() "Every candle in the bridge chapel is out, though the door was shut and there is no draught, and the river under the floor is louder than you have heard it.".
+  Observe omen_arches at under_arches when thirdNight() and stillHanging() "Out in the dark where Wade's Step is, the water is making a sound like somebody wading, slowly, with something heavy, toward this bank. When you look, there is only the rain on the river.".
+  Observe omen_step at wades_step when thirdNight() and stillHanging() "The rain is so loud on the water that you cannot hear your own feet. Once, quite close, you think someone says your name, and it is the river.".
+  Rule omen_wharf when thirdDay() and hour(clock) >= 23 and stillHanging() and inWrayford() and not spread(omen_fact) says "Word goes along the Wharf in the rain, from door to door, the way it does: the eel-men on the night barges say they heard someone wading at Wade's Step, out where nobody could be, and singing, low, the carters' hymn. Nobody goes to look." { Assert spread(omen_fact). }
+  Entity omen_fact: fact "Someone wading at Wade's Step".
+
+  // ── The Bargeman ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // In the deep water at Wade's Step lies an old pike as long as a ferry-boat, that the drovers' cows go round and
+  // that Wat Pardoe fed his loaf to, the night he carried the calf. It takes what falls in. Ways past it: knowing the
+  // way along the pier's foot (woodcraft, Ham's herd, or being told), Dorcas's boat, the offal cart, the bridge; bread
+  // thrown on the water, as Wat did; or a fight that a lone carrier will probably lose.
+  Species bargeman_kind "the Bargeman" like great_pike temperament ambush described "A pike older than the bridge, as long as a ferry-boat, the colour of the riverbed, with a lower jaw like a cellar door and eyes like two pennies under water. The eel-men call it the Bargeman because it has taken more cargo off this river than the Company.".
+  Person bargeman "the Bargeman" at wades_step {
+    Role "an old pike as long as a ferry-boat, that lies in the deep water at Wade's Step". Species bargeman_kind. Level 4. Peaceable. Pronouns it.
+  }
+  Observe bargeman_seen at wades_step when at(bargeman, wades_step) and able(bargeman) and not tolerates(bargeman, party) "Something moves in the black hole of the Step: not the current. A long shape, longer than you are, turning slowly under the surface with the patience of a thing that has never once been in a hurry.".
+  Observe bargeman_fed at wades_step when tolerates(bargeman, party) and able(bargeman) "The long shape lies on the bottom of the Step like a sunk log, its gills working, and lets you by.".
+  Discovery bargeman_loaf "When Wat Pardoe carried the calf over the ford in the year of the big snow, he threw his loaf into the deep water at Wade's Step first, for the Bargeman, the way the old drovers did, and went over while it was eating.".
+  Action feed_bargeman(actor: group, site: place) "Throw bread into the deep water at Wade's Step, the way the old drovers did" {
+    Description "It takes whatever falls in.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_step) and at(bargeman, wades_step) and able(bargeman)
+      and not tolerates(bargeman, actor) and quantity(actor, rations) >= 1.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Assert tolerates(bargeman, actor). }
+    Result "The loaf floats a moment, turning, pale on the black water. Then the water under it bulges, and opens, and there is a mouth there wider than a cart-wheel, and the loaf is gone, and the river closes over the place as if it had never been. You go on along the stones with your heart going, and nothing touches you.".
+  }
+  Action fight_bargeman(actor: group, site: place) "Go at the Bargeman with whatever you have, there in the water" {
+    Description "Up to your thighs in the river, at night, against a thing as long as a boat.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_step) and at(bargeman, wades_step) and able(bargeman)
+      and not tolerates(bargeman, actor) and not assails(bargeman, actor).
+    Time 1 minute.
+    On success { Retract peaceable(bargeman). Assert hostile(bargeman, actor). Assert assails(bargeman, actor). }
+    Result "You go in at it. The water at the edge of the Step is suddenly not water but a body, cold and solid and moving, and then it turns.".
+  }
+  // Whoever stands on the Step when the mills stop penning the river is washed back to the bank, if lucky.
+  Rule step_floods when at(party, wades_step) and not lowWater() says "The river comes up round your knees, your waist, all at once, as the mills at Wrayholme open their sluices for the morning, and takes your feet from under you. You come up against the pier under the first arch, and drag yourself out on the bank, coughing, with nothing in your hands." {
+    Assert at(party, under_arches). }
+  Rule bargeman_dead when not able(bargeman) and not spread(bargeman_fact) says "The Bargeman goes down into the Step and does not come up, and then, a long time after, it comes up on its side, pale belly to the rain, and the current takes it away downstream under the arches. In the morning the eel-men find it on the shingle below the tan-yards and stand round it with their caps off, as if at a burying. Ham Ostler comes and looks at it. 'My grandfather fed that fish,' he says, and goes away." { Assert spread(bargeman_fact). Assert at(bargeman, limbo). }
+  Entity bargeman_fact: fact "The Bargeman dead".
+
+  // ── Maudie's bread ────────────────────────────────────────────────────────────────────────────────────────────────
+  // The one thing in Wrayford nobody counts. She can be asked for it, and it opens what coin cannot.
+  Relation maudieBread(group). Relation breadSent(group). Relation jennetBread(group). Relation breadRefused(group).
+  Topic maudie_bread with maudie "Ask your mother for bread to take into the city" when homecomer(actor) and not maudieBread(actor) once {
+    Says "She looks at the loaves on every surface as if she had not seen them before. 'Take them,' she says. 'Take all of them. Give them to anybody. I can't stop making them and I can't eat them and I can't throw them out.' She is wrapping four in a cloth while she talks, quickly, not looking at you. 'Your father gave bread to anybody. The drovers. That fish of his in the river.' She ties the cloth. 'Give it to the riders, for all I care. Give it to Simon Hulme. Let them choke.' And then, differently: 'No. Let them eat it.'".
+    On discuss { Assert maudieBread(actor). Increase quantity(actor, rations) by 4. Assert knows(actor, bargeman_loaf). }
+  }
+  Topic maudie_bread_stranger with maudie "Ask Maudie Pardoe whether you might take some of her bread to people who need it" when stranger(actor) and maudieWelcomes(actor) and not maudieBread(actor) once {
+    Says "She looks at you, and at the loaves, and something in her face gives. 'Need it,' she says. 'Yes. Take it, then.' She wraps four in a cloth. 'My husband fed every drover on the fell road and a fish in the river besides. Give it where it's wanted. Don't tell me where. I'll only argue.'".
+    On discuss { Assert maudieBread(actor). Increase quantity(actor, rations) by 4. Assert knows(actor, bargeman_loaf). }
+  }
+  // Up to the riders on the leads at dusk, in the gate-ward's basket: the widow's bread, to the men who hanged her husband.
+  Action send_bread_up(actor: group, site: place) "Send Maudie Pardoe's bread up to the riders on the leads, in the gate-ward's basket" {
+    Description "They have been up there four days on the lord's biscuit.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_road) and maudieBread(actor) and stillHanging()
+      and quantity(actor, rations) >= 2 and hour(clock) >= 17 and hour(clock) < 22 and not breadSent(actor) and at(riders, gate_leads).
+    Time 3 minutes.
+    On success { Decrease quantity(actor, rations) by 2. Assert breadSent(actor). Assert riderPeaceBought(riders). Assert riderPeace(riders). }
+    Result "You put two loaves in the basket that hangs on its rope by the gate-ward's door, and pull the bell, and the basket goes up into the dusk. For a while nothing. Then a rider's face over the parapet, and another. 'Whose?' says Gault's voice. You tell him: Pardoe's widow's. There is a long silence on the leads. Then the basket comes down again, empty, and Gault leans over and looks at you, and at the rail, and says, quite loud, to nobody: 'My lads are tired. They'll sleep sound tonight, all of them. So will I.'".
+  }
+  Rule bread_peace_ends when hour(clock) == 6 and riderPeaceBought(riders) { Retract riderPeaceBought(riders). Retract riderPeace(riders). }
+  // To Jennet: refused, or held.
+  Action give_jennet_bread(actor: group, site: place) "Give Jennet Hobday a loaf of Maudie Pardoe's bread" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hobday_room) and at(jennet, hobday_room) and maudieBread(actor)
+      and quantity(actor, rations) >= 1 and not jennetBread(jennet) and not breadRefused(jennet) and jennetTrust(jennet) < 2.
+    Time 2 minutes.
+    On success { Assert breadRefused(jennet). }
+    Result "She looks at it, and at you, and you watch her understand whose it is. 'Pardoe bread,' she says. 'Take it out of this room.' She does not raise her voice. You take it out of the room.".
+  }
+  Action give_jennet_bread_held(actor: group, site: place) "Give Jennet Hobday a loaf of Maudie Pardoe's bread, and say who sent it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hobday_room) and at(jennet, hobday_room) and maudieBread(actor)
+      and quantity(actor, rations) >= 1 and not jennetBread(jennet) and jennetTrust(jennet) >= 2.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Assert jennetBread(jennet). Increase jennetTrust(jennet) by 1. }
+    Result "She takes it in both hands, and holds it in her lap, and does not eat it, and does not give it back. 'She bakes when she can't think,' she says after a long time. 'I've heard that about her. Thirty years across the bridge and I never spoke to her.' She looks at the loaf. 'It's still warm.'".
+  }
+
+  // ── What can be seen before it is understood ──────────────────────────────────────────────────────────────────────
+  Observe pinch_tally at gate_road when at(pinch, gate_road) and not dark() and not knows(party, daybook_read) and not pinchGone(pinch) "Pinch's tally lies open on the ledge of the booth: a column of entries in ink, very neat, and beside every few lines, so faint you would not see it unless the sun were on the page, a small mark in pencil, like a tick against a sum he is keeping somewhere else.".
+  Observe kit_hands at carters_yards when at(kit, carters_yards) and not dark() and not knows(party, kit_driving) "Kit's hands on the grease-brush are scrubbed raw, but there is black in the creases of the knuckles that will not come out. Grease, or something else.".
+  Topic maudie_hymn with maudie "Tell your mother that he sang on the road" when homecomer(actor) and knows(actor, wade_hymn) once {
+    Says "Her hands stop in the dough. 'Carry me over,' she says. It is not a question. 'He sang it to you when you were small, on the box, coming down off the fells in the dark, when you were frightened of the drop. Carry me over, Wade.' She stands with her floury hands held away from her apron. 'He was never frightened of anything in his life. He sang it for you.' Then she goes back to the dough, and works it very hard, and does not say anything else for a long time.".
+  }
+  // The Nine Wheels keeps its own count.
+  Observe wheels_tenth at wheels_taproom when verdictGiven(wray) and not verdictRebellion(wray) "There is a tenth wheel in the beams of the Nine Wheels now, red, with PARDOE still on the felloe in a carter's paint, and two more beside it that nobody has painted.".
+  Topic pell_wheels with pell "Ask Pell about the wheels in the beams" when true once {
+    Says "'One for every carter the fell road's had.' She does not look up. 'Fallen off the drop at Scar Top, mostly, or the ice, or a wheel going on the bad bend above the shielings. The first's from my grandmother's time.' She looks up at them. 'There's no wheel for being hanged. There's never been need of one.' She wipes the bar. 'There will be now. The carters have already asked me for the nails.'".
+  }
+  // Pinch, cornered, has one true thing to say about himself.
+  Topic pinch_why with pinch "Ask Pinch why he could not burn the book" when pinchCowed(pinch) once {
+    Says "He is quiet so long you think he will not answer. 'Foundling,' he says. 'The Company's charity school, on the Hill. Bread and catechism and sums.' He is looking at the board. 'Nobody ever told me what I was. The board tells you what everything is. A cart is a penny. A beast is a penny.' His voice is very steady. 'The book balances. Both columns. The pencil too; I made it balance. It's the only thing I ever made that was exactly what it said it was.' He looks at you. 'I couldn't burn a true thing. I burned a house down to keep it, and a boy died in the press, and I couldn't burn a book.'".
+  }
+  // The riders on the gate are from Harbury, and frightened of the thing they guard.
+  Topic riders_talk with riders "Ask the riders what they make of the duty" when not asleep(riders) once {
+    Says "'Make of it?' The youngest of them laughs, too loud. 'It stinks. That's what we make of it.' Another tells him to shut his mouth. He doesn't. 'Four days. We're from Harbury, we don't know these men from Adam, and every night the big one turns round on his rope to face the town. Every night. There's no wind.' The others are not laughing. 'Sergeant says it's the rope drying. Sergeant says a lot.' He looks along the parapet and away. 'They say here the dead go looking, on the third night.' Somebody throws a crust at him and he catches it and does not eat it.".
+  }
+  // The tanner keeps his yard's hours.
+  Rule crouch_home_night when (hour(clock) >= 22 or hour(clock) < 6) and at(crouch, tanyards) { Assert at(crouch, limbo). }
+  Rule crouch_back when hour(clock) >= 6 and hour(clock) < 22 and at(crouch, limbo) { Assert at(crouch, tanyards). }
+
+  // ── Maudie under the rail ─────────────────────────────────────────────────────────────────────────────────────────
+  // On the second morning, at the hour Gidley comes to weep, Maudie Pardoe walks down to the Bridge End with a loaf
+  // and stands under her husband for an hour, and looks at the gate-ward's door the whole time.
+  Relation maudieAtRail(group). Relation stoodWithMaudie(group).
+  Rule maudie_to_rail when secondDay() and hour(clock) >= 9 and hour(clock) < 10 and stillHanging() and not maudieAtRail(maudie)
+    and at(maudie, pardoe_kitchen) and not mothersWalk(wray) { Assert maudieAtRail(maudie). Assert at(maudie, gate_road). }
+  Rule maudie_from_rail when maudieAtRail(maudie) and at(maudie, gate_road) and (hour(clock) >= 10 or not secondDay()) and not maudieGone(maudie) { Assert at(maudie, pardoe_kitchen). }
+  Observe maudie_rail at gate_road when at(maudie, gate_road) and maudieAtRail(maudie) and not maudieGone(maudie) "Maudie Pardoe stands under the rail in her apron with a loaf in her two hands, not looking up. Three yards from her, Alderman Gidley weeps beautifully into his handkerchief, and does not see her. The crowd sees both of them. She is looking, the whole time, at the gate-ward's door, and the lock on it, and the decree, the way a carter looks at a gate he means to take a load through.".
+  Action stand_with_maudie(actor: group, site: place) "Stand with Maudie Pardoe under the rail" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_road) and at(maudie, gate_road) and maudieAtRail(maudie)
+      and not stoodWithMaudie(actor).
+    Time 3.
+    On success { Assert stoodWithMaudie(actor). Increase temper(wray) by 1. }
+    Result "You stand beside her. She does not look at you. After a while she gives you the loaf to hold, because her hands are shaking and she will not have the crowd see it. People stop talking. Gidley finishes weeping and asks Pinch for the takings and goes, and still she stands, and the crowd stays with her, and when the Guildhall clock strikes ten she takes the loaf back and says, to the door, not to you: 'Tomorrow night, then.' And goes home up the Cartway without hurrying.".
+  }
+
+  // ── After: Kit ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe kit_box at carters_yards when verdictGiven(wray) and not kitTaken(kit) and not kitHanged(kit) and not verdictRebellion(wray) "Kit Pardoe is up on the box of the red-wheeled cart, back from the Guildhall yard, with the reins in his hands, not going anywhere. Every so often he speaks to the horse. The other carters leave him to it.".
+  Observe kit_grave at wades_acre when verdictGiven(wray) and buried(wat_dead) and not kitTaken(kit) and not kitHanged(kit) and evening() "By the church door, at his father's grave, Kit Pardoe is sitting with his back to the stone, the way he sat on the ford-stone under the arches, looking at the river, which is all there is to look at.".
+
+  // ── Halfway over, with the dead ───────────────────────────────────────────────────────────────────────────────────
+  // The one thing that happens to the carrier and is never explained: at the Step, with a body on the back, the
+  // weight changes.
+  Entity weight_fact: fact "The weight at the Step".
+  Rule wade_weight when bearingAny(party) and (at(party, tanyards) or at(party, wades_step) or at(party, wades_acre)) and lowWater() and not spread(weight_fact) says "Halfway over, at the Step, the weight on your back changes. It does not grow heavier, exactly. It grows more: as if what you carried were not one man but a great many, all of them very patient, all of them glad to be going over at last. Your knees go. The water comes to your chest. You do not set him down. And then it is one man again, and cold, and you are on the stones beyond the Step with your breath coming in sobs, and you do not know, then or ever after, what happened." { Assert spread(weight_fact). }
+
+  // ── Carrying, once the way is known ───────────────────────────────────────────────────────────────────────────────
+  // The second and third trips are the first one again: once a body has been carried over by the ford and laid in the
+  // Acre, the next can be carried the same way in one long choice, and the carrier can go back for the next.
+  Relation carriedOver(group).
+  Rule first_carried when deadBody(?b) and at(?b, wades_acre) and not borne(?b) and knows(party, ford_way) and not carriedOver(party) { Assert carriedOver(party). }
+  Action carry_known_way(actor: group, bearer: member, body: entity, site: place) "Have {bearer} carry {body} over the ford to the Acre, the way you know" {
+    Description "The stones, the pier's foot, the far bank, Tanners' Lane, the church, the Acre: the better part of an hour, in the dark, with the weight.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, under_arches) and memberOf(bearer, actor) and bearing(bearer, body)
+      and carriedOver(actor) and knows(actor, ford_way) and lowWater().
+    Time 4.
+    On success { Assert at(actor, wades_acre). Retract bearing(bearer, body). Assert at(body, wades_acre). }
+    Result "You go the way you went before, and it is worse, because you know it now: the cold to the thighs, the pier's foot under your hand, the black quiet of the Step going by on your left, the tan-pits' stink, the lane, the church door, the Acre. {bearer} sets {body} down by the others.".
+  }
+  Action go_back_over(actor: group, site: place) "Go back over the ford for the next" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_acre) and carriedOver(actor) and knows(actor, ford_way)
+      and lowWater() and not bearingAny(actor) and (at(wat_dead, under_arches) or at(dunstan_dead, under_arches) or at(joss_dead, under_arches)).
+    Time 3.
+    On success { Assert at(actor, under_arches). }
+    Result "Back through the church, down the lane, over the stones in the dark with your hands empty, which is somehow harder.".
+  }
+}

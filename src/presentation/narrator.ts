@@ -216,7 +216,7 @@ export class Narrator {
     if (!role) { return name!; }
     // A role that already says who they are ("the smith", "who speaks for Harrehes") takes no article.
     // Nor does one of many ("hounds of knitted bone").
-    if (/^(the|a|an|his|her|their|who|whose) /i.test(role) || t.many) { return `${name}, ${role}`; }
+    if (/^(the|a|an|his|her|their|your|my|our|who|whose) /i.test(role) || t.many) { return `${name}, ${role}`; }
     return `${name}, ${this.offices.test(role) ? 'the' : /^[aeiou]/i.test(role) ? 'an' : 'a'} ${role}`;
   }
   private static readonly offices =

@@ -1,0 +1,50 @@
+Module wrayford "The Third Night" {
+  // ── After the verdict ─────────────────────────────────────────────────────────────────────────────────────────────
+  // In a world that goes on, Wrayford is still there after its story, and shows what became of it.
+  Rule captain_leaves when verdictGiven(wray) and hour(clock) >= 12 and not captainGone(wray) and fourthDay() {
+    Assert captainGone(wray). Assert at(sefton, limbo). Assert at(troop, limbo). Assert at(gault, limbo). Assert at(riders, limbo). }
+  Relation captainGone(place).
+  Rule captain_gone_told when captainGone(wray) and inWrayford() and not spread(gone_fact) says "At noon the captain rides out over the drawbridge with her riders and Gault's four behind her, and the lord's toll money in a strongbox on a led horse, and does not look back at the gatehouse, and Wrayford watches her all the way up the south road until the hedges have her." { Assert spread(gone_fact). }
+  Entity gone_fact: fact "The captain gone".
+  // Whatever of the dead is not in the ground at the verdict goes to the lord's lime.
+  Rule unburied_to_lime when verdictGiven(wray) and deadBody(?b) and not buried(?b) and not at(?b, limbo) { Assert at(?b, limbo). }
+  Rule maudie_after when maudieHanged(maudie) and not at(maudie, limbo) { Assert at(maudie, limbo). }
+  Rule maudie_home_after when verdictGiven(wray) and not maudieHanged(maudie) and maudieTaken(maudie) and not at(maudie, pardoe_kitchen) { Assert at(maudie, pardoe_kitchen). }
+
+  Observe after_gate_fire at gate_road when verdictRebellion(wray) and not dark() "The gatehouse rail is crowded now. Nobody in the Bridge End looks up. Nobody stands about. People cross the bridge with their eyes on their feet and do not pay the farthing and nobody asks them to.".
+  Observe after_gate_maudie at gate_road when verdictGiven(wray) and maudieHanged(maudie) and not verdictRebellion(wray) and not dark() "Four cut ends of rope hang from the hooks on the gatehouse rail. Somebody has tied a twist of black wool round the fourth, and nobody has taken it off.".
+  Observe after_gate_mothers at gate_road when verdictGiven(wray) and mothersWalked(wray) and not dark() "On the coping of the gatehouse rail, where the hooks were, there are flowers: field scabious and corn-cockle and a bunch of mint, tied with carters' twine, renewed every morning by somebody nobody sees.".
+  Observe after_gate_down at gate_road when verdictGiven(wray) and buried(wat_dead) and not mothersWalked(wray) and not maudieHanged(maudie) and not verdictRebellion(wray) and not dark() "The hooks on the gatehouse rail are empty, and the cut ends of rope have been taken down by someone, and people do not look up as they pass, or they do, briefly, the way you look at a place where a tooth was.".
+  Observe after_gate_lime at gate_road when verdictGiven(wray) and not buried(wat_dead) and not verdictRebellion(wray) and not dark() "The hooks on the gatehouse rail are empty. The drovers say there is a new place at the crossroads on the south road where the lime has burned the grass white, and they take their beasts round it.".
+  Observe after_row_fire at wain_row when verdictRebellion(wray) "Wain Row is gone: a lane of black chimneys and fallen roofs, cart-sheds open to the sky, the painted doors burned down to their hinges. The red one too.".
+  Observe after_kitchen_empty at pardoe_kitchen when maudieHanged(maudie) and not verdictRebellion(wray) "The kitchen is cold. On every surface the loaves she made are going stale under their cloths, and nobody has the heart to throw them out, and nobody can eat them.".
+  Observe after_kitchen at pardoe_kitchen when verdictGiven(wray) and not maudieHanged(maudie) and buried(wat_dead) "The kitchen smells of bread. There is one loaf on the table, not twenty. Somebody has wound the clock on the dresser.".
+  Observe after_kitchen_lime at pardoe_kitchen when verdictGiven(wray) and not maudieHanged(maudie) and not buried(wat_dead) and not verdictRebellion(wray) "Maudie Pardoe sits at the table with her hands flat on it. She is not baking. The coat is gone from the hook by the door.".
+  Observe after_hobday at hobday_room when verdictGiven(wray) and nedBuried(jennet) "The shutters are open. The bed is made. On the windowsill, in a jar, a boy's fishing line wound round a cork.".
+  Observe after_hall_reeve at guild_hall when verdictGiven(wray) and (hulmeResigned(hulme) or reeveRelease(wray) or tooLate(wray)) "At the end of the long hall the reeve's chair stands empty, with his chain of office laid across its arms, and nobody has sat in it.".
+  Rule hulme_dismissed when verdictGiven(wray) and (reeveRelease(wray) or tooLate(wray)) and not hulmeResigned(hulme) { Assert hulmeResigned(hulme). }
+  Rule hulme_retires when hulmeResigned(hulme) and not at(hulme, hulme_study) { Assert hulmeAway(hulme). Assert at(hulme, hulme_study). }
+  Observe after_acre at wades_acre when verdictGiven(wray) and reconciled(wray) and evening() "At dusk Dorcas Mudd rows across to the Acre steps, and Corbin comes down the steps to meet her, and they sit in the boat together not talking, and then they start to quarrel, comfortably, the way people do who have all the time in the world.".
+
+  // ── What is given ───────────────────────────────────────────────────────────────────────────────────────────────
+  // The Bench, entering its charity in the minutes, enters its benefactor too: the freedom of the bridge.
+  Relation tokenGiven(group). Relation ferryTokenGiven(group).
+  Rule bench_token when verdictGiven(wray) and releasedBy(wray, by_charity) and inWrayford() and not tokenGiven(party) and at(party, ?p) says "Lancelot Inchbold finds you in the crowd with a brass token on a ribbon and a paper to sign. 'The freedom of the bridge,' he says. 'By the Bench's resolution of this morning, in recognition of your services to the Company's charity.' He does not smile. 'It is entered in the minutes. Everything is.'" {
+    Assert tokenGiven(party). Assert at(bridge_token, ?p). }
+  // Dorcas, for a crossing the bridge never saw: her own token, a penny with a hole in it, good at any hour.
+  Kind ferry_token_kind "Dorcas Mudd's penny" is gear worth 0 weighing 0
+    described "A penny with a hole bored through it, on a twist of tarred twine, and MUDD scratched on the back: good for the ferry at any hour, for life, with no questions and no farthings.".
+  Item ferry_token "Dorcas Mudd's penny" is ferry_token_kind at limbo.
+  Rule dorcas_token when verdictGiven(wray) and (boatCrossed(wray) or reconciled(wray)) and inWrayford() and not ferryTokenGiven(party) and at(party, ?p) says "A boy from the Wharf finds you with something wrapped in a bit of sacking: a penny with a hole bored through it, on tarred twine. 'From Mistress Mudd,' he says. 'She says it's good for the ferry any hour, and she says don't thank her, and she says she means it.'" {
+    Assert ferryTokenGiven(party). Assert at(ferry_token, ?p). }
+
+  // ── The Bridge Feast ──────────────────────────────────────────────────────────────────────────────────────────────
+  // On the fifth day at eleven the Company processes over the bridge in its blue gowns, and at the gatehouse the Abbess
+  // receives the bridge penny that the city has paid the Liberty since the bridge was built.
+  Relation feastHeld(place).
+  Rule feast_none when fifthDay() and hour(clock) == 11 and verdictRebellion(wray) and not feastHeld(wray) and inWrayford() says "There is no Bridge Feast this year. The Company's blue gowns stay in their presses. At eleven, when the procession should have crossed, the bell of Saint Wade's rings once, by itself, someone says, though everyone knows the Abbess rang it." { Assert feastHeld(wray). }
+  Rule feast_mothers when fifthDay() and hour(clock) == 11 and mothersWalked(wray) and not feastHeld(wray) and inWrayford() says "At eleven the Worshipful Company of the Bridge processes over the bridge in its blue gowns, with Gidley at the head and a band, and at the gatehouse the Abbess is waiting to receive the bridge penny, as the Liberty has since the bridge was built. Gidley holds it out. The Abbess looks at it, and at him, and at the flowers on the rail above, and does not take it. 'The city paid this year,' she says, loud enough for the Bridge End. 'Twice.' And goes back to Overbridge, and the procession does not know whether to go on, and does, very slowly, and the band stops." { Assert feastHeld(wray). }
+  Rule feast_plain when fifthDay() and hour(clock) == 11 and not verdictRebellion(wray) and not mothersWalked(wray) and not feastHeld(wray) and inWrayford() says "At eleven the Worshipful Company of the Bridge processes over the bridge in its blue gowns, with a band, and at the gatehouse, from habit, Alderman Gidley stops under the empty rail and takes his hat off and weeps a little, beautifully, while the band waits. The Abbess takes the bridge penny from him at the drawbridge without a word, and bites it." { Assert feastHeld(wray). }
+  Observe feast_portrait at guild_hall when fifthDay() and portraitHung(wray) "For the Feast the Guildhall is hung with blue, and at the end of the row of Masters the new portrait of the Bench is lit with candles, and every carter in Wrayford has found a reason to come in and stand in front of it.".
+  Observe feast_banner at carters_yards when dayN(wray) >= 4 and portraitBanner(wray) "Against the yard wall, on its cart-shafts, Tom Lumley's portrait of the Bench, a little rained on, with somebody's pipe stuck in Gidley's mouth.".
+}

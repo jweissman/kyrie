@@ -1,0 +1,216 @@
+Module wrayford "The Third Night" {
+  // ── The drove road ────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe drove_home at drove_road when homecomer(party) and not visitedBefore(drove_road) and not dark() "You come over the last rise of the fell road and there it is, all at once, the way it always was: Wrayford in the bottom of the vale, smoke and red roofs, the brown river, and the bridge going over on its nineteen arches to Overbridge and the church tower on the far bank. Three years. Your mother's letter is in your coat, soft with handling: your father went out on the road with the cart, it says, and did not come home. At the near end of the bridge the gatehouse stands up square and red over the first arch, and something hangs off the side of it toward the water that you cannot make out from here, three somethings, and you find you have stopped walking.".
+  Observe drove_stranger at drove_road when stranger(party) and not visitedBefore(drove_road) and not dark() "The drove road comes over the last rise of the fells and drops into the vale of the Wray, and there is Wrayford: smoke, red roofs, a brown river, and a long bridge on many arches going over to a second town on the far bank with a church tower. Cattle are coming down the road behind you, and the drovers are talking about the toll. At the near end of the bridge a square red gatehouse stands over the first arch, and from the side of it, toward the water, three shapes hang that are too far off to make out and too still to be washing.".
+  Observe drove_again at drove_road when visitedBefore(drove_road) and not dark() "The drove road, where it comes over the last rise above Wrayford: the city below, the bridge, the gatehouse.".
+  Observe drove_night at drove_road when dark() "The drove road above Wrayford at night: a scatter of lights in the vale, the line of lamps along the bridge, and the river only a sound.".
+
+  Observe northgate_scene at northgate when not dark() and not visitedBefore(northgate) "Northgate is where the drove roads come into the city: a wide street of yards and stables and inns, horse-dung and straw and the smell of hot iron from the farrier's, carts drawn up in rows with their shafts on the ground. Nobody is loading anything. The carters are standing about in twos and threes in the yard gates with their hands in their pockets, not talking, and the drovers bringing cattle down to the Shambles go past them very politely.".
+  Observe northgate_again at northgate when not dark() and visitedBefore(northgate) "Northgate: the yards, the stables, the carters standing in the gateways.".
+  Observe northgate_night at northgate when dark() "Northgate at night: the Nine Wheels lit, and every yard gate shut.".
+
+  // ── The Nine Wheels ───────────────────────────────────────────────────────────────────────────────────────────────
+  Observe wheels_scene at wheels_taproom when not visitedBefore(wheels_taproom) "The carters' inn: a long low room, smoke, a fire with a kettle, benches worn into the shape of carters. Nailed to the beams overhead for a ceiling are nine cart-wheels, one for every carter the fell road has killed since the inn was built, the oldest black with a century of smoke and the newest with its paint still showing. Over the settle by the fire someone has hung a black ribbon on a nail, and under it nobody sits.".
+  Observe wheels_again at wheels_taproom when visitedBefore(wheels_taproom) "The Nine Wheels: wheels in the beams, the fire, the black ribbon over the empty settle.".
+  Observe wheels_gault at wheels_taproom when at(gault, wheels_taproom) "In the corner by the door, alone at a table with a jug, Sergeant Gault in his buff coat. The carters drink with their backs to him. He drinks with his back to the wall.".
+  Person pell "Pell Saxby" at wheels_taproom {
+    Role "who keeps the Nine Wheels". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner compassionate.
+    Greets "Pell Saxby wipes her hands on her apron and looks you over. 'Bed, beer or bread,' she says, and then, because she is honest: 'The bread's Maudie Pardoe's. She's sent us forty loaves since Tuesday. I can't sell it and I can't stop her.'".
+    Sells rations for 2 coin from 8.
+    Sells rope for 1 coin from 2.
+  }
+  Topic pell_sergeant with pell "Ask Pell why she serves the sergeant" when true once {
+    Says "'Because refusing him would be politics, and I've never had any.' She draws a beer and does not look at the corner. 'He hanged three men I've known since they were boys. He comes in at seven and drinks till ten and pays in the lord's silver, and if I put him out he drinks on the leads and his men with him and they're the worse for it at the rail.' She sets the beer down hard. 'This way I know where he is. And I know what he's drinking. And when he's had his three jugs he talks, if anybody's daft enough to sit with him.'".
+    On discuss { Assert knows(actor, gault_talks). }
+  }
+  Discovery gault_talks "Sergeant Gault drinks at the Nine Wheels from seven until ten, three jugs, and after the third he talks to whoever sits with him.".
+  Topic pell_news with pell "Ask Pell what is being said" when true {
+    Says "'What isn't.' She leans on the bar. 'That the Company's printing Wat's confession, which Wat never said in his life, and selling it at a penny. That old Corbin won't dig and Gidley's aunt's been laid out since Tuesday and Mistress Gidley's beside herself. That the captain comes the day after tomorrow with twenty riders, and that she's Sefton's girl, old Ralf Sefton's, and the old ones in here went quiet when they heard the name, and won't say why. That the young ones,' and she does not look at the young carters by the fire, 'are going to do something about it, and they'll do it as stupid as they know how.'".
+  }
+  Topic pell_hire with pell "Ask Pell whether she has washing that wants doing" when knows(actor, win_proud) and not washingGiven(pell) once {
+    Says "'Washing.' She looks at you. 'I send my sheets up to the laundry on the Hill, like everyone with sheets.' Then she sees what you mean, and her face changes. 'Win Fenner.' She is already pulling a bundle out from under the bar. 'Sheets, the lot, and the bolster-cases. Tell her it's a shilling, it's always been a shilling, and the Hill's been robbing me.' She pushes them at you. 'And don't tell her I said so.'".
+    On discuss { Assert washingGiven(pell). Assert knows(actor, washing_given). }
+  }
+  Relation washingGiven(group).
+  Discovery washing_given "Pell Saxby has given you the Nine Wheels' sheets, for Win Fenner to wash at a shilling.".
+  Kind washing_kind "a bundle of the Nine Wheels' sheets" is gear worth 0 weighing 4
+    described "Two pairs of sheets and the bolster-cases, knotted up in a tablecloth that has seen better inns.".
+  Item wheels_washing "the Nine Wheels' sheets" is washing_kind at wheels_taproom hidden until washing_given.
+
+  // Gault, after his third jug.
+  Relation gaultSat(group). Relation letterSeen(group).
+  Action sit_gault(actor: group, site: place) "Sit down with Sergeant Gault and buy his third jug" {
+    Description "Two coin, and the evening, with the man who hanged them.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wheels_taproom) and at(gault, wheels_taproom)
+      and not gaultSat(actor) and quantity(actor, gold) >= 2.
+    Time 6.
+    On success { Assert knows(actor, wade_hymn). Decrease quantity(actor, gold) by 2. Assert gaultSat(actor). }
+    Result "He looks at you and the jug and says, 'Suit yourself.' He drinks. He talks about horses, and a woman in Harbury, and the cold on the fell road at four in the morning, and how carters are all the same, and in the end, looking into the jug, how he has hanged eleven men in nineteen years and these were the first who went quiet. 'The big one sang,' he says. 'On the road. Some hymn. Carry me over, something, carry me over.' He looks into the jug. 'Till the rope.'".
+  }
+  Topic gault_letter with gault "Ask Gault, plainly, as one who has stood a watch, who sent him the letter" when gaultSat(actor) and (craft(actor, craft_arms) or capable(actor, intimidation)) and not letterSeen(actor) once {
+    Says "He looks at you for a long time across the jug. 'You've stood a watch,' he says. It is not a question. He reaches into his coat and puts a folded paper on the table between you and does not take his hand off it. 'Midnight. A lad brought it. I don't know the lad.' He lets you read it and then puts it back in his coat. 'Clerk's hand. Gentleman's paper. Your carters don't write like that.'".
+    On discuss { Assert letterSeen(actor). Assert knows(actor, letter_read). }
+  }
+  Action ask_gault_letter(actor: group, site: place) "Ask Gault, as he drinks, whether he kept the letter" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wheels_taproom) and at(gault, wheels_taproom)
+      and gaultSat(actor) and not letterSeen(actor) and not triedGault(actor) and knows(actor, word_came).
+    Time 1.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert letterSeen(actor). Assert knows(actor, letter_read). }
+    On failure { Assert triedGault(actor). }
+    Result "You watch his hand go to his coat when you ask, and stay there, and you ask again, more quietly, and he takes it out and lays it down. 'Kept it,' he says. 'Kept every warrant I ever had.' He lets you read it.".
+    Otherwise "His hand goes to his coat and stays there. 'Drink up,' he says. 'Then go home.'".
+  }
+  Relation triedGault(group).
+  // A thief need not ask: the coat hangs on the back of his chair after the second jug.
+  Action lift_letter(actor: group, site: place) "Take the letter out of Gault's coat while he is at the jug" {
+    Description "It hangs on the back of his chair. He is not looking.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wheels_taproom) and at(gault, wheels_taproom)
+      and capable(actor, stealth) and not letterSeen(actor) and not triedLift(actor) and knows(actor, word_came).
+    Time 1.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert letterSeen(actor). Assert knows(actor, letter_read). }
+    On failure { Assert triedLift(actor). Assert hostile(gault, actor). }
+    Result "Two fingers, a fold of paper, and it is in your sleeve, and you read it in the passage to the yard by the lamp and put it back on your way past, and he never turns round.".
+    Otherwise "His hand comes round and closes on your wrist like a door. 'No,' he says. He does not let go for a long time. When he does, he does not look at you again.".
+  }
+  Relation triedLift(group).
+  Discovery letter_read "The letter that sent the riders to the fell road, kept in Sergeant Gault's coat: 'The ringleaders go by the back road to the fells before light, with Pardoe's cart, the red wheels. Take them quietly and there need be no more burning. For the lord's court.' No name. The hand is a clerk's, round and careful, on good paper with the corner torn off where a crest would be.".
+
+  // ── Win Fenner ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe wash_scene at fenner_copper when true "A wash-house with a copper boiling in the corner and the windows streaming. Lines of other people's shirts. Four children at the table doing nothing very quietly. A woman with red arms is at the copper with a paddle, her back to the door.".
+  Person win "Win Fenner" at fenner_copper {
+    Role "a laundress, Dunstan Fenner's widow". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "Win Fenner does not turn round from the copper. 'If it's washing, leave it. If it's pity, you can take it with you.'".
+  }
+  Discovery win_proud "Win Fenner, Dunstan's widow, has four children and will take no charity from anyone who can be seen giving it: not the parish's bread, not her neighbours'. She takes in washing, and the Hill has stopped sending any." {
+    Known by win, pell.
+  }
+  Relation winHelped(group). Relation winRefused(group). Relation toolsHome(group). Relation winClaims(group).
+  Topic win_dunstan with win "Ask Win Fenner about Dunstan" when true once {
+    Says "'He went to see the young ones came to no harm.' The paddle goes round. 'Fifty-one years old. He'd done the fells road ten thousand times and he couldn't see a fight without going to stop it.' Round. 'The parish sent bread. I sent it back. The Hill's stopped sending washing; they don't want a felon's widow's hands on their shirts.' Round. 'We'll manage.' Behind her the children do not move.".
+    On discuss { Assert knows(actor, win_proud). }
+  }
+  Topic win_kester with win "Ask Win where her eldest is" when knows(actor, win_proud) once {
+    Says "The paddle stops. 'Kester.' She does not turn round. 'He's twelve. He's been taking his father's tools to the pawnshop in Cutler's Lane, one at a time, the good chisels, and bringing back pennies, and telling me he found them.' Her voice does not change. 'I can't stop him, because we have to eat, and I can't let him, because they're his father's, and I can't think which is worse, so I'm doing the washing.'".
+    On discuss { Assert knows(actor, tools_pawned). }
+  }
+  Discovery tools_pawned "Win Fenner's boy Kester has pawned his dead father's chisels, one by one, at the pawnshop in Cutler's Lane.".
+  Topic win_shirt with win "Ask Win whose washing she still does" when winHelped(actor) once {
+    Says "'The Company's.' She snorts. 'The counting-house linens. They're too mean to change laundress.' She hangs a shirt on the line. 'That collector, Pinch, sent me his shirt the morning after the fire, his good one, and it stank of lamp-oil so I had to boil it twice. A man who keeps a farthing candle in a saucer.' She looks at you over the shirt. 'Funny. I thought so at the time.'".
+    On discuss { Assert knows(actor, pinch_shirt). }
+  }
+  Discovery pinch_shirt "The morning after the fire, Amos Pinch sent Win Fenner his good shirt to wash, stinking of lamp-oil: a man who has never been near a lamp he could avoid.".
+  // Three ways to help a proud woman: unseen, as work, or her husband's tools brought home.
+  Action leave_bread(actor: group, site: place) "Leave a loaf on Win Fenner's table while her back is to the copper" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fenner_copper) and at(win, fenner_copper)
+      and knows(actor, win_proud) and not winHelped(actor) and not winRefused(actor) and quantity(actor, rations) >= 1.
+    Time 2 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Decrease quantity(actor, rations) by 1. Assert winHelped(actor). }
+    On failure { Assert winRefused(actor). }
+    Result "You put it down behind a pile of shirts, where the children can see it and she cannot, and go out while she is lifting the paddle. Through the window you see the eldest girl look at it, and look at her mother's back, and say nothing at all, and cut it.".
+    Otherwise "She turns round before your hand is off it. 'Take that away,' she says, very quietly. 'Take it away, and don't come back with it.'".
+  }
+  Action bring_washing(actor: group, carrier: member, bundle: item, site: place) "Give Win Fenner {bundle} to wash, at a shilling" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fenner_copper) and at(win, fenner_copper)
+      and memberOf(carrier, actor) and ownedItem(bundle, carrier) and itemKind(bundle, washing_kind) and not winHelped(actor)
+      and quantity(actor, gold) >= 1.
+    Time 2 minutes.
+    Resolve drop(bundle, carrier).
+    On success { Decrease quantity(actor, gold) by 1. Assert winHelped(actor). }
+    Result "She takes the bundle and weighs it in her arms and looks at you hard. 'Pell Saxby's sheets,' she says. 'A shilling.' She takes the coin. 'She used to send them to the Hill.' She puts them in the copper. 'Tell her Thursday.'".
+  }
+  Kind chisels_kind "Dunstan Fenner's chisels" is gear worth 3 weighing 2
+    described "A roll of oiled leather with six chisels in it, the handles dark with a man's hands, the edges kept like razors.".
+  Item fenner_chisels "Dunstan Fenner's chisels" is chisels_kind at pawnshop hidden until tools_pawned owned by pratt.
+  Action bring_tools(actor: group, carrier: member, roll: item, site: place) "Put {roll} on Win's table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fenner_copper) and at(win, fenner_copper)
+      and memberOf(carrier, actor) and ownedItem(roll, carrier) and itemKind(roll, chisels_kind) and not toolsHome(win).
+    Time 2 minutes.
+    Resolve drop(roll, carrier).
+    On success { Assert toolsHome(win). Assert winHelped(actor). Assert winClaims(win). }
+    Result "She looks at the roll of leather for a long time before she touches it. Then she unrolls it on the table among the children and counts the chisels with one finger, all six, and rolls it up again, and puts it on the high shelf where Kester cannot reach. She does not thank you. She says, 'When they bring him down. Dunstan. I want him in the Acre by the church door, where his mother is,' as if it were a thing you had already agreed between you.".
+  }
+  Rule win_claims_after when winHelped(party) and not winClaims(win) and knows(party, dead_on_rail) { Assert winClaims(win). }
+  // A widow's claim, said aloud: Northgate hears it, and is the angrier and the quieter for it.
+  Relation winClaimTold(group).
+  Rule win_claim_spreads when winClaims(win) and not winClaimTold(win) and inWrayford() and hour(clock) >= 7 and hour(clock) < 21 says "Word goes round Northgate: Win Fenner went to the Guildhall door with her four children in a row by height and told the reeve's constable to his face that she will have Dunstan in the Acre by the church door, where his mother is, and the constable took his hat off." {
+    Assert winClaimTold(win). Increase temper(wray) by 1. }
+
+  // ── The yards ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe yards_scene at carters_yards when not dark() "The carters' yards behind Northgate: wagons up on blocks, wheels stacked against the walls, a forge with the farrier at it. The young carters sit on a dray in the middle of the yard with nothing to do, talking low, and stop when anyone comes in.".
+  Observe yards_impounded at carters_yards when not dark() "Three wagon-places along the wall stand empty, swept: where Pardoe's, Fenner's and Wilder's carts stood. The carts are in the Guildhall yard, impounded.".
+  Person farrant "Jos Farrant" at carters_yards {
+    Role "the Northgate farrier, leather-aproned". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "Jos Farrant does not stop working the bellows. 'Mind the sparks.'".
+  }
+  Topic farrant_night with farrant "Ask the farrier where he was on the night of the rising" when true once {
+    Says "'At the gate end. Shoeing Ham Ostler's leader, as it happens, because Ham wouldn't pay the toll on her and was going to swim her round by the ford.' The hammer comes down. 'I saw the chain go. I saw the toll-board go in the river. Best thing I've seen this year.' The hammer comes down. 'I saw the fire start. I didn't see who started it. I saw the carts come back off the gate in the press.' He does not look up. 'That's all I saw.'".
+  }
+  Relation farrantPressed(group).
+  Topic farrant_reins with farrant "Ask the farrier who was on the box of Wat Pardoe's cart when it came back off the gate" when knows(actor, tailboard_seen) and not farrantPressed(actor) once {
+    Says "The hammer stops. He looks at the iron for a long time, and puts it back in the fire. 'I'll tell you,' he says, 'because you've looked at that cart, I can see it on you, and you'd find out.' He works the bellows. 'The boy. Kit. Wat was at the chain with the old ones. The boy had the reins, and the horse went forward in the press, and he couldn't hold her.' The bellows. 'Then Wat came running and got up and took them off him. That's what I saw.' He looks at you over the fire. 'I've not told the reeve. I'll not tell the reeve. They've hanged the father for it. They'll not get the son off me.'".
+    On discuss { Assert farrantPressed(actor). Assert knows(actor, kit_reins). }
+  }
+  Action read_farrant(actor: group, site: place) "Watch the farrier's face while he says he saw nothing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, carters_yards) and at(farrant, carters_yards)
+      and knows(actor, kit_said_chain) and not farrantPressed(actor) and not knows(actor, kit_reins) and not triedFarrant(actor).
+    Time 2 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert farrantPressed(actor). Assert knows(actor, kit_reins). }
+    On failure { Assert triedFarrant(actor). }
+    Result "When you say Kit's name his hammer misses its stroke, once, and he swears at the iron. You wait. 'All right,' he says at last, low, not looking at you. 'The boy had the reins. Wat came and took them off him. And I've told nobody, and I'll tell nobody, and nor will you if you've any sense.'".
+    Otherwise "He goes on hammering. Whatever he saw, his face is not going to tell you.".
+  }
+  Relation triedFarrant(group).
+
+  // The young carters, and what they mean to do on the second night.
+  Person carters "the young carters" at carters_yards {
+    Role "half a dozen carters' sons, sitting on a dray". Ancestry human. Calling warrior. Level 1. Numbers 5. Peaceable. Pronouns they. Manner grim.
+    Greets "The young carters look at you, and at each other.".
+  }
+  Rule carters_evening when hour(clock) >= 18 and hour(clock) < 23 and not at(carters, wheels_taproom) and not cartersOut(carters) and not cartersTaken(carters) { Assert at(carters, wheels_taproom). }
+  Rule carters_day when (hour(clock) >= 6 and hour(clock) < 18) and not at(carters, carters_yards) and not cartersOut(carters) and not cartersTaken(carters) { Assert at(carters, carters_yards). }
+  Relation cartersOut(group). Relation cartersTaken(group).
+  Topic carters_night with carters "Ask the young carters about the night of the rising" when true once {
+    Says "'We broke the chain,' says the biggest of them, not quietly enough. 'And we threw their board in the river. And we'd do it again.' 'We didn't burn the toll-house,' says another. 'We never burned it.' 'Who cares who burned it,' says the first. 'They hanged Wat for the cart and Dunstan and Joss for nothing. Nothing!' They look at you. 'You'll see,' says the third. 'Tomorrow night. Ask Kit.'".
+    On discuss { Assert knows(actor, carters_plan). Assert knows(actor, not_carters_fire). }
+  }
+  Discovery carters_plan "The young carters mean to do something on the second night, and Kit Pardoe with them." .
+  Discovery not_carters_fire "The young carters say they broke the chain and threw the toll-board in the river on the night of the rising, but never burned the toll-house.".
+
+  // Kit's night. What they mean: the Company's counting-house, at midnight, with lamp-oil. Gault is told of it at the
+  // Nine Wheels by the Company's clerk, who hears everything, and waits there with two of his riders.
+  Discovery kit_plan "At midnight on the second night Kit Pardoe and the young carters mean to burn the Bridge Company's counting-house in the Market, with lamp-oil.".
+  Topic kit_plan_told with kit "Ask Kit what he and the others mean to do" when (kitTrusts(actor) or knows(actor, carters_plan)) and not knows(actor, kit_plan) once {
+    Says "He looks round to see who is near. 'The counting-house.' Low, and fierce. 'Tomorrow at midnight. The Company's. Where they count the toll and print the lies about Da. Lamp-oil from the yard, and every window.' He is almost smiling. 'Let them hang us for something.'".
+    On discuss { Assert knows(actor, kit_plan). }
+  }
+  Relation kitStoodDown(group). Relation kitTurned(group).
+  Query kitPlanning() means knows(party, kit_plan) and not kitStoodDown(kit) and not kitTurned(kit) and not kitTaken(kit).
+  Topic kit_down with kit "Tell Kit the counting-house will hang him, and change nothing" when knows(actor, kit_plan) and kitTrusts(actor) and not kitStoodDown(kit) and not kitTurned(kit) and not kitJoined(kit) once {
+    Says "'Change nothing.' He says it back as if he were tasting it. 'They'll hang me. And Da'll still be on the rail, and Mam'll still be making bread for nobody.' He looks at the water a long time. 'All right,' he says, and his voice cracks on it like a boy's. 'All right. I'll tell them no.'".
+    On discuss { Assert kitStoodDown(kit). Increase kitTrust(kit) by 1. }
+  }
+  Action argue_kit(actor: group, site: place) "Argue Kit out of the counting-house" {
+    Description "He does not trust you. He might listen to reason anyway.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(kit, site) and knows(actor, kit_plan)
+      and not kitTrusts(actor) and not kitStoodDown(kit) and not kitTurned(kit) and not kitJoined(kit) and not triedKit(actor).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert kitStoodDown(kit). }
+    On failure { Assert triedKit(actor). }
+    Result "You tell him what the captain will find if she finds a burned counting-house: a rising, and a reason. He hears you out with his jaw set, and then, without saying you are right, he says he'll tell the others to wait.".
+    Otherwise "'You don't know anything,' he says. 'You weren't here.' And goes.".
+  }
+  Relation triedKit(group).
+  Topic kit_turn with kit "Tell Kit that if they must break something, they should sink the Company's new toll-board" when knows(actor, kit_plan) and knows(actor, toll_schedule) and (kitTrusts(actor) or homecomer(actor)) and not kitStoodDown(kit) and not kitTurned(kit) and not kitJoined(kit) once {
+    Says "He stares at you. Then, for the first time since you came, he laughs: a real one, that surprises him. 'The board. Again.' He is grinning. 'In the river. Twice in one week. The whole of Wrayford'd laugh till Michaelmas. Pinch'd have to rule from memory.' He sobers. 'And nobody hangs for a board.' He gets up. 'I'll tell them. Midnight, the board, not the counting-house.'".
+    On discuss { Assert kitTurned(kit). Increase kitTrust(kit) by 1. }
+  }
+  Topic kit_join with kit "Tell Kit you'll go with them to the counting-house" when knows(actor, kit_plan) and not kitStoodDown(kit) and not kitTurned(kit) and not kitJoined(kit) once {
+    Says "He looks at you a long moment, and then grips your hand, hard. 'Midnight,' he says. 'In the Market. Bring a light.'".
+    On discuss { Assert kitJoined(kit). Increase kitTrust(kit) by 1. }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "calendar": {
+    "year": 612,
+    "month": 8,
+    "day": 21
+  },
+  "name": "The Third Night (scholar)",
+  "modules": [
+    {
+      "id": "wrayford",
+      "bundle": "../../../data/adventures/wrayford/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Hesk",
+      "raceId": "human",
+      "classId": "mage",
+      "backgroundId": "archaeologist"
+    }
+  ]
+}

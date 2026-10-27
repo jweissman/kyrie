@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "The Third Night",
+  "calendar": { "year": 612, "month": 8, "day": 21 },
+  "pitch": {
+    "heading": "Coming home to Wrayford",
+    "text": "Three years you have been on the far side of the fells, hiring out with the droves. Your mother's letter took a week to find you: your father went out on the road with the cart, it said, and did not come home. Now you are coming down the drove road to Wrayford, the bridge-city on the Wray, on an August morning, a week late."
+  },
+  "modules": [
+    { "id": "wrayford", "bundle": "../adventures/wrayford/module.json" }
+  ],
+  "party": [
+    { "name": "Joan", "raceId": "human", "classId": "ranger", "backgroundId": "herdsman" }
+  ]
+}

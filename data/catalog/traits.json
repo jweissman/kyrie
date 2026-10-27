@@ -1,6 +1,19 @@
 {
-  "about": "Traits: permanent grants. Orsino traits are generated into data/catalog/orsino/traits.json with their categories: lineage (given at birth by an ancestry), nature, affinity, character, feat, party and specialization (a school or domain with spell access). This file holds Kyr's own traits and adaptations; there are none at present.",
+  "about": "Traits: permanent grants. Orsino traits are generated into data/catalog/orsino/traits.json with their categories: lineage (given at birth by an ancestry), nature, affinity, character, feat, party and specialization (a school or domain with spell access). This file holds Kyr's own traits and adaptations.",
   "traits": {
+    "deep_water": {
+      "name": "Of deep water",
+      "category": "nature",
+      "description": "It lies in deep water: there is nothing to knock it down onto, and the water is between it and whatever one would duck.",
+      "modifiers": {
+        "immune": [
+          "reflex"
+        ]
+      },
+      "source": {
+        "kyr": true
+      }
+    },
     "frost_adapted": {
       "name": "Frost adapted",
       "category": "nature",

@@ -649,6 +649,9 @@
       "abilities": [
         "rending_bite"
       ],
+      "traits": [
+        "deep_water"
+      ],
       "temperament": "ambush",
       "habitats": [
         "riverbank"

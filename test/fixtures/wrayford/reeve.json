@@ -1,0 +1,42 @@
+{
+  "day1": [
+    "To Northgate",
+    "To the Market Cross",
+    "=6",
+    "Into the Guildhall",
+    "Talk to Simon",
+    "why the dead must stay",
+    "cut them down, and let the captain",
+    "Take your leave",
+    "Out to the Market Cross",
+    "Bridge End",
+    "Read the reeve's decree on the gatehouse door",
+    "Ask Sergeant Gault to let you up",
+    "Talk to Sergeant Gault",
+    "which road",
+    "Take your leave",
+    "Go back down the stair"
+  ],
+  "evening": [
+    "To the Market Cross",
+    "To Northgate",
+    "Into the Nine Wheels",
+    "=67",
+    "Sit down with Sergeant Gault",
+    "Talk to Sergeant Gault",
+    "as one who has stood a watch",
+    "Take your leave",
+    "Out to Northgate",
+    "To the Market Cross",
+    "To the Bridge End",
+    "To Bridge Street",
+    "Into Saint Wade's chapel",
+    "Into the starling steps",
+    "Talk to Hal",
+    "read his letter",
+    "must tell his father"
+  ],
+  "wait": [
+    "=440"
+  ]
+}

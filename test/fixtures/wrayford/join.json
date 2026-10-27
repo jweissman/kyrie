@@ -1,0 +1,27 @@
+{
+  "day1": [
+    "To Northgate",
+    "To the carters' yards",
+    "Talk to the young carters",
+    "Ask the young carters about the night of the rising",
+    "Take your leave",
+    "Talk to Kit",
+    "what he and the others mean",
+    "you'll go with them",
+    "Take your leave"
+  ],
+  "night2": [
+    "=232",
+    "To Northgate",
+    "To the Market Cross",
+    "counting-house",
+    "=239"
+  ],
+  "fight": [
+    "Wait \u203a A while",
+    "Wait \u203a A while"
+  ],
+  "verdict": [
+    "=440"
+  ]
+}

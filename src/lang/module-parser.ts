@@ -291,7 +291,7 @@ export class ModuleParser {
     const text = travelling.children.length
       ? `able(actor) and distinct(actor, ${who}) and at(actor, site) and ${along}`
       : `able(actor) and distinct(actor, ${who}) and at(actor, site)`
-        + ` and ((able(${who}) and at(${who}, site)) or (${along}))`;
+        + ` and ((able(${who}) and not asleep(${who}) and at(${who}, site)) or (${along}))`;
     return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title),
       description: '', speaker: who, topic: true,
       report: ModuleParser.ast(response), parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],

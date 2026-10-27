@@ -1,0 +1,140 @@
+Module wrayford "The Third Night" {
+  Description "Wrayford, a bridge-city where the drove roads cross the Wray, in the three days after the lord's riders hanged three carters from the gatehouse rail: a city of carters, aldermen, ferrymen and printers, a toll nobody wants and everybody is making money from, and a widow who will bury her husband before the third night is out.".
+
+  // ── The vale ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The drove roads come down off the fells to the one bridge in forty miles. The city proper is on the north bank;
+  // across nineteen arches, the Liberty of Overbridge, which has been Saint Wade's since before there was a bridge.
+  Place imbar "Imbar" is plane.
+  Place wray "the vale of the Wray" is region within imbar.
+  Initially Assert terrain(wray, hills).
+  Place fells_edge "the fell road" is wilderness within wray at 1, 0.
+  Place wrayford "Wrayford" is settlement within wray at 1, 1.
+  Place bridge "Wrayford Bridge" is site within wray at 1, 2.
+  Place overbridge "Overbridge" is settlement within wray at 1, 3.
+  Place south_country "the south road" is wilderness within wray at 1, 4.
+
+  // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place pardoe_house "the Pardoe house" is building within wrayford.
+  Place nine_wheels "the Nine Wheels" is building within wrayford.
+  Place wash_house "Win Fenner's wash-house" is building within wrayford.
+  Place guildhall "the Guildhall" is building within wrayford.
+  Place counting_house "the Bridge Company's counting-house" is building within wrayford.
+  Place quoin_house "Quoin's print shop" is building within wrayford.
+  Place pawn_house "the pawnshop in Cutler's Lane" is building within wrayford.
+  Place tull_house "Tull's cutlery" is building within wrayford.
+  Place hulme_house "the reeve's house" is building within wrayford.
+  Place gidley_house "Alderman Gidley's house" is building within wrayford.
+  Place ice_store "Gidley's ice-house" is building within wrayford.
+  Place gatehouse "the gatehouse" is building within bridge.
+  Place hobday_house "the toll-keeper's house" is building within bridge.
+  Place bridge_chapel "Saint Wade's chapel on the bridge" is building within bridge.
+  Place saint_wades "Saint Wade's" is building within overbridge.
+  Place abbess_house "the Abbess's lodging" is building within overbridge.
+  Place ferry_inn "the Ferry Inn" is building within overbridge.
+
+  // ── Rooms ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place drove_road "the drove road, above Wrayford" is room within fells_edge at 1, 0 outdoors.
+  Place carters_yards "the carters' yards" is room within wrayford at 0, 0 outdoors.
+  Place northgate "Northgate" is room within wrayford at 1, 0 outdoors.
+  Place wain_row "Wain Row" is room within wrayford at 0, 1 outdoors.
+  Place pardoe_kitchen "the Pardoe kitchen" is room within pardoe_house at 0, 2 indoors.
+  Place pardoe_yard "the Pardoe yard" is room within pardoe_house at 0, 3 outdoors.
+  Place wheels_taproom "the Nine Wheels' taproom" is room within nine_wheels at 2, 0 indoors.
+  Place fenner_copper "Win Fenner's wash-house" is room within wash_house at 2, 1 indoors.
+  Place market_cross "the Market Cross" is room within wrayford at 1, 1 outdoors.
+  Place guild_hall "the Guildhall's long hall" is room within guildhall at 1, 2 indoors.
+  Place guild_below "below the Guildhall" is level within guildhall.
+  Place guild_cellar "the Guildhall cellar" is room within guild_below at 1, 3 underground.
+  Place reeve_yard "the Guildhall yard" is room within wrayford at 2, 2 outdoors.
+  Place counting_room "the counting-house" is room within counting_house at 3, 1 indoors.
+  Place pinch_room "the collector's room" is room within counting_house at 3, 2 indoors.
+  Place shambles "the Shambles" is room within wrayford at 0, 4 outdoors.
+  Place cutlers_lane "Cutler's Lane" is room within wrayford at 2, 4 outdoors.
+  Place quoin_shop "Quoin's print shop" is room within quoin_house at 3, 4 indoors.
+  Place pawnshop "the pawnshop" is room within pawn_house at 2, 5 indoors.
+  Place tull_shop "Tull's cutlery" is room within tull_house at 3, 5 indoors.
+  Place mercer_hill "Mercer Hill" is room within wrayford at 3, 0 outdoors.
+  Place hulme_study "the reeve's study" is room within hulme_house at 4, 0 indoors.
+  Place gidley_parlour "Alderman Gidley's parlour" is room within gidley_house at 4, 1 indoors.
+  Place ice_house "the ice-house" is room within ice_store at 5, 0 underground.
+  Place wharf "the Wharf" is room within wrayford at 0, 5 outdoors.
+  Place ferry_stage "the ferry-stage" is room within wrayford at 0, 6 outdoors.
+  Place under_arches "the bank under the first arches" is room within wrayford at 1, 6 outdoors.
+  Place gate_road "the Bridge End, under the gatehouse" is room within bridge at 0, 0 outdoors.
+  Place toll_ruin "the burned toll-house" is room within bridge at 0, 1 outdoors.
+  Place gate_top "the top of the gatehouse" is level within gatehouse.
+  Place gate_leads "the gatehouse leads" is room within gate_top at 1, 0 outdoors.
+  Place bridge_street "Bridge Street, on the arches" is room within bridge at 2, 0 outdoors.
+  Place hobday_room "Jennet Hobday's front room" is room within hobday_house at 2, 1 indoors.
+  Place chapel "the bridge chapel" is room within bridge_chapel at 3, 0 indoors.
+  Place chapel_below "the starling steps" is level within bridge_chapel.
+  Place starling "the starling ledge under the middle arch" is room within chapel_below at 3, 1 outdoors.
+  Place overbridge_street "Overbridge Street" is room within overbridge at 1, 0 outdoors.
+  Place south_stair "the south ferry-stair" is room within overbridge at 0, 0 outdoors.
+  Place nave "Saint Wade's" is room within saint_wades at 2, 0 indoors.
+  Place wades_acre "Wade's Acre" is room within overbridge at 3, 0 outdoors.
+  Place abbess_court "the Abbess's court-room" is room within abbess_house at 1, 1 indoors.
+  Place ferry_taproom "the Ferry Inn" is room within ferry_inn at 2, 1 indoors.
+  Place tanyards "the tan-yards" is room within overbridge at 0, 1 outdoors.
+  Place bear_garden "the bear-garden" is room within overbridge at 0, 2 outdoors.
+  Place south_road "the south road, out of Overbridge" is room within south_country at 1, 0 outdoors.
+  Place wades_step "Wade's Step, in the middle of the old ford" is room within bridge at 1, 3 outdoors.
+
+  // ── Ways ──────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Passage drove_way "the drove road" is road between drove_road and northgate taking 30 minutes.
+  Passage yards_lane "the yard lane" is path between northgate and carters_yards taking 5 minutes.
+  Passage row_lane "Wain Row" is path between northgate and wain_row taking 5 minutes.
+  Passage pardoe_door "the Pardoes' door" is door between wain_row and pardoe_kitchen.
+  Passage pardoe_back "the back door" is door between pardoe_kitchen and pardoe_yard.
+  Passage wheels_door "the Nine Wheels' door" is door between northgate and wheels_taproom.
+  Passage wash_door "the wash-house door" is door between northgate and fenner_copper.
+  Passage cartway "the Cartway" is road between northgate and market_cross taking 10 minutes.
+  Passage guild_door "the Guildhall door" is door between market_cross and guild_hall.
+  Passage cellar_stair "the cellar stair" is stair between guild_hall and guild_cellar.
+  Passage yard_gate "the Guildhall yard gate" is gate between market_cross and reeve_yard.
+  Passage counting_door "the counting-house door" is door between market_cross and counting_room.
+  Passage pinch_door "the door behind the counter" is door between counting_room and pinch_room.
+  Passage shambles_lane "Shambles Lane" is path between market_cross and shambles taking 5 minutes.
+  Passage fish_stair "the fish-stair" is steps between shambles and wharf.
+  Passage cutlers_way "Cutler's Lane" is path between market_cross and cutlers_lane taking 5 minutes.
+  Passage quoin_door "Quoin's door" is door between cutlers_lane and quoin_shop.
+  Passage pawn_door "the pawnshop door" is door between cutlers_lane and pawnshop.
+  Passage tull_door "Tull's door" is door between cutlers_lane and tull_shop.
+  Passage mercer_steps "the Mercer Steps" is steps between market_cross and mercer_hill.
+  Passage hulme_door "the reeve's door" is door between mercer_hill and hulme_study.
+  Passage gidley_door "Alderman Gidley's door" is door between mercer_hill and gidley_parlour.
+  Passage ice_door "the ice-house door" is door between mercer_hill and ice_house.
+  Passage bridge_end "Bridge End" is path between market_cross and gate_road taking 5 minutes.
+  Passage stage_walk "the wharf-side" is path between wharf and ferry_stage taking 5 minutes.
+  Passage bank_path "the bank path under the bridge" is path between wharf and under_arches taking 5 minutes.
+  Passage ruin_way "the toll-house doorway" is doorway between gate_road and toll_ruin.
+  Passage gate_stair "the gate-ward's stair" is stair between gate_road and gate_leads.
+  Passage gate_arch "the gatehouse arch" is arch between gate_road and bridge_street.
+  Passage hobday_door "the Hobdays' door" is door between bridge_street and hobday_room.
+  Passage chapel_door "the chapel door" is door between bridge_street and chapel.
+  Passage starling_ladder "the ladder down through the undercroft" is ladder between chapel and starling.
+  Passage drawbridge_span "the drawbridge" is bridge between bridge_street and overbridge_street taking 10 minutes.
+  Passage south_steps "the ferry-stair steps" is steps between overbridge_street and south_stair.
+  Passage nave_door "Saint Wade's door" is door between overbridge_street and nave.
+  Passage acre_door "the door to the Acre" is door between nave and wades_acre.
+  Passage abbess_gate "the Abbess's gate" is gate between overbridge_street and abbess_court.
+  Passage ferry_inn_door "the Ferry Inn's door" is door between overbridge_street and ferry_taproom.
+  Passage tan_lane "Tanners' Lane" is path between overbridge_street and tanyards taking 5 minutes.
+  Passage bear_lane "the bear-garden lane" is path between tanyards and bear_garden taking 5 minutes.
+  Passage south_way "the south road" is road between overbridge_street and south_road taking 30 minutes.
+
+  // The pier face, from the bank under the first arch up to the gatehouse rail: a climb for a climber, or a rope's
+  // work for anyone who can get one fixed. Boys have done it for a dare since the bridge was built.
+  Passage pier_face "the pier face" is ladder between under_arches and gate_leads taking 10 minutes needing climbing or rope.
+  // Dorcas Mudd's ferry, from her stage on the Wharf to the south stair: while she runs it, and at night only for those
+  // she will run it for.
+  Passage ferry "Dorcas Mudd's ferry" is ferry between ferry_stage and south_stair taking 20 minutes
+    opening when ferryRunning() or carries(party, ferry_token) "The ferry-boat is drawn up on the stage with its oars shipped. Nobody crosses by Dorcas Mudd's ferry unless Dorcas Mudd is rowing it.".
+  // The old ford, below the bridge, where the city got its name: under water by day, when Alderman Dunch's mills at
+  // Wrayholme are grinding, and shallow in the small hours, when they pen the river to fill their ponds for the morning.
+  // Halfway over is Wade's Step, the deep place where the saint stumbled, and what lives in it.
+  Passage ford "the old ford" is ford between under_arches and wades_step taking 15 minutes
+    opening when lowWater() "The Wray runs deep and brown over where the old ford was. Nobody wades it while the mills are grinding.".
+  Passage ford_far "the far ford-stones" is ford between wades_step and tanyards taking 15 minutes
+    opening when lowWater() and (tolerates(bargeman, party) or not able(bargeman)) "The far stones are on the other side of the Step, and of what lies in it across the way.".
+}

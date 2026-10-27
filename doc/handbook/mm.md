@@ -615,6 +615,8 @@ Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may c
 
 Rending bite: 1d6 (1–6) physical damage to one enemy; it is bleeding for 2 turns (a Constitution save against 11 avoids it). Bleeding: takes 1 bleed damage each turn. Again after a turn.
 
+Of deep water: Immune to reflex.
+
 > A pike grown old and huge in cold deep water, long as a boat, that takes whatever falls in.
 
 #### Great snake
@@ -3196,6 +3198,14 @@ Takes 100% more cold.
 +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 > This creature is attuned to the primal forces of nature, granting it enhanced physical prowess and resilience.
+
+### Of deep water
+
+*Kyr · nature trait* · `trait:deep_water`
+
+Immune to reflex.
+
+> It lies in deep water: there is nothing to knock it down onto, and the water is between it and whatever one would duck.
 
 ### Frost adapted
 

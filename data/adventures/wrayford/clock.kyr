@@ -1,0 +1,59 @@
+Module wrayford "The Third Night" {
+  // ── The three days ────────────────────────────────────────────────────────────────────────────────────────────────
+  // Wrayford's days are counted from the company's coming, at each dawn after the first hour it is here: the day it
+  // comes is the first. The dead were hanged four nights before. The captain comes at dusk on the third day; the third
+  // night is the night after it, and in the small hours of the fourth day Maudie Pardoe goes to the gatehouse.
+  Measure dayN(place). Relation dawned(place).
+  Initially Set dayN(wray) to 1.
+  Rule dawn_counts when hour(clock) == 6 and not dawned(wray) and watch(clock) >= 6 { Increase dayN(wray) by 1. Assert dawned(wray). }
+  Rule dawn_passes when hour(clock) != 6 and dawned(wray) { Retract dawned(wray). }
+  Query dayIs(n: place) means dayN(wray) == dayN(n).
+  // Days by name, for rules that read like the city's own talk.
+  Query firstDay() means dayN(wray) == 1.
+  Query secondDay() means dayN(wray) == 2.
+  Query thirdDay() means dayN(wray) == 3.
+  Query fourthDay() means dayN(wray) == 4.
+  Query fifthDay() means dayN(wray) == 5.
+  Query morning() means hour(clock) >= 6 and hour(clock) < 12.
+  Query evening() means hour(clock) >= 18 and hour(clock) < 22.
+  Query smallHours() means hour(clock) >= 0 and hour(clock) < 5.
+  // The third night: after the captain's coming, until the fourth day's dawn.
+  Query thirdNight() means thirdDay() and (hour(clock) >= 21 or hour(clock) < 6).
+  Query captainCome() means thirdDay() and (hour(clock) >= 19 or hour(clock) < 6) or dayN(wray) >= 4.
+
+  // ── The river ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The mills above the weir grind by day and pen the river by night: from one in the morning until five the Wray
+  // runs low below the bridge, and the old ford-stones are under a foot of water instead of six.
+  Query lowWater() means hour(clock) >= 1 and hour(clock) < 5.
+  // Dorcas runs her ferry from six in the morning until the curfew bell, and at night for those she has agreed to.
+  Relation ferriesAtNight(group).
+  Query ferryRunning() means hour(clock) >= 6 and hour(clock) < 22 and at(dorcas, ferry_stage) or ferriesAtNight(party).
+
+  // The drawbridge goes up at the curfew bell, for the night barges and against the night, and comes down at dawn.
+  Thing drawbridge "the drawbridge" on drawbridge_span is scenery {
+    State down "The drawbridge is down.".
+    State raised blocking "The drawbridge stands up against the sky on its chains. Nobody crosses the river by it until it comes down at dawn.".
+  }
+  Initially Assert state(drawbridge, down).
+  Rule curfew_raises when hour(clock) >= 22 and state(drawbridge, down) { Assert state(drawbridge, raised). }
+  Rule small_hours_raised when hour(clock) < 5 and state(drawbridge, down) { Assert state(drawbridge, raised). }
+  Rule dawn_lowers when hour(clock) >= 5 and hour(clock) < 22 and state(drawbridge, raised) { Assert state(drawbridge, down). }
+  Rule curfew_bell at gate_road when hour(clock) == 22 and not knows(party, curfew_known) says "Saint Wade's rings the curfew across the water, and on the bridge the drawbridge chains begin to grind." teaches curfew_known { }
+  Discovery curfew_known "At the curfew bell, ten at night, the drawbridge goes up, and nobody crosses the bridge until it comes down at dawn.".
+
+  // ── Where word reaches the company ────────────────────────────────────────────────────────────────────────────────
+  // News of the city is heard anywhere in Wrayford, on the bridge or in Overbridge; not out on the roads.
+  Query inWrayford() means at(party, ?p) and not at(party, drove_road) and not at(party, south_road).
+  // News already gone round, so it is not told twice.
+  Relation spread(fact).
+  // A place the company has left and come back to is told shortly.
+  Relation visitedNow(place). Relation visitedBefore(place).
+  Rule arrives_at when at(party, ?p) and not visitedNow(?p) { Assert visitedNow(?p). }
+  Rule leaves_from when visitedNow(?p) and not at(party, ?p) { Retract visitedNow(?p). Assert visitedBefore(?p). }
+
+  // ── Who the company is, here ──────────────────────────────────────────────────────────────────────────────────────
+  // Wat Pardoe's elder child, come home (the campaign played alone: company.kyr); or a traveller, come down the drove
+  // road with the world's own company. Everything said to kin is said only to kin.
+  Relation homecomer(group).
+  Query stranger(g: group) means not homecomer(g).
+}

@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "calendar": {
+    "year": 612,
+    "month": 8,
+    "day": 21
+  },
+  "name": "The Third Night (a seasoned company)",
+  "modules": [
+    {
+      "id": "wrayford",
+      "bundle": "seasoned/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Brand",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "smith",
+      "level": 4
+    },
+    {
+      "name": "Wenna",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic",
+      "level": 4
+    },
+    {
+      "name": "Ash",
+      "raceId": "human",
+      "classId": "thief",
+      "backgroundId": "criminal",
+      "level": 4
+    }
+  ]
+}

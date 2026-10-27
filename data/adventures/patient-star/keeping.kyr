@@ -138,12 +138,12 @@ Module season "The Patient Star" {
     Says "They stop, because you asked, and look at you with honest puzzlement. 'It is the work,' says one. 'If we do not, another crew will.' But they put their trowels down, and that season stays where it is.".
     On discuss { Assert cutStopped(quarry_edge). }
   }
-  Person clea "Clea Tull" at quarry_edge {
+  Person clea "Clea Keddle" at quarry_edge {
     Role "a Haldrish seer, lost, who walks here in her sleep". Ancestry human. Calling ranger. Peaceable. Pronouns she. Manner compassionate.
     Joins "'I know the way inward,' says Clea, 'better than anyone living. I have been lost in it for forty years.' She takes your sleeve like a child.".
   }
   Initially Assert willing(clea, party).
-  Topic clea_where with clea "Tell Clea Tull where she is" when true once {
+  Topic clea_where with clea "Tell Clea Keddle where she is" when true once {
     Says "'The Keeping,' she says after you, as if it were a word in a dream. 'I have always called it the long country.' She looks at her hands. 'Something bites me here. A little, every night, for forty years.' She does not know that her body is dying in a bed in Sorne, and you do not tell her.".
   }
   // Archivores: the Keeping's predators. They feed on what belongs to no moment, and cannot enter one that is playing.

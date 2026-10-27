@@ -1,0 +1,39 @@
+{
+  "bread": [
+    "To Northgate",
+    "To Wain Row",
+    "Into the Pardoe house",
+    "Talk to Maudie",
+    "bread to take into the city",
+    "Take your leave",
+    "Out to Wain Row",
+    "To Northgate"
+  ],
+  "rope": [
+    "Into the Nine Wheels",
+    "Talk to Pell",
+    "rope",
+    "Take your leave",
+    "Out to Northgate"
+  ],
+  "riders": [
+    "To the Market Cross",
+    "Bridge End",
+    "=60",
+    "Send Maudie Pardoe's bread up to the riders",
+    "To the Market Cross",
+    "Shambles",
+    "Wharf",
+    "bank under",
+    "=88",
+    "To the gatehouse leads",
+    "Cut the three down"
+  ],
+  "step": [
+    "^To the bank under",
+    "=103",
+    "To Wade's Step",
+    "Throw bread into the deep water",
+    "To the tan-yards"
+  ]
+}

@@ -1,0 +1,27 @@
+Module wrayford "The Third Night" {
+  // ── What a company grows by here ──────────────────────────────────────────────────────────────────────────────────
+  // Experience for what is resolved, found out, carried and decided; not for what is killed.
+  Milestone m_bramble "brought Wat Pardoe's dog home" worth 150 when brambleHome(bramble).
+  Milestone m_hide "judged the hide in the Abbess's court" worth 150 when hideJudged(wray).
+  Milestone m_hide_wise "found the hide's true owner" worth 150 when hideFor(ham).
+  Milestone m_robin "settled the bear-ward's boy" worth 200 when robinHome(robin) or robinStays(robin).
+  Milestone m_win "helped Win Fenner without shaming her" worth 200 when winHelped(party).
+  Milestone m_tools "brought Dunstan Fenner's chisels home" worth 150 when toolsHome(win).
+  Milestone m_portrait "saw the Company painted as it is" worth 200 when state(portrait, true_likeness) or portraitBanner(wray) or portraitHung(wray).
+  Milestone m_pinch "had a ruling out of Amos Pinch" worth 150 when ruling(ruled_carcass) or ruling(ruled_tithe) or pinchFlustered(pinch).
+  Milestone m_clause "moved a clause the Bench passed" worth 300 when clauseCharity(wray) or clauseRelease(wray) or clauseAudit(wray).
+  Milestone m_print "printed a broadside of your own" worth 200 when printed(sheet_trial) or printed(sheet_fire) or printed(sheet_elegy).
+  Milestone m_ring "put Joss Wilder's ring on Annis Pye's hand" worth 250 when annisRing(annis).
+  Milestone m_ice "brought ice to the toll-keeper's house" worth 200 when jennetIced(jennet).
+  Milestone m_corbin "brought Corbin and Dorcas Mudd to speak to each other" worth 300 when reconciled(wray).
+  Milestone m_ford "crossed the old ford" worth 200 when knows(party, ford_way) and at(party, tanyards).
+  Milestone m_fire "found out who burned the toll-house" worth 400 when knows(party, fire_pinch).
+  Milestone m_reins "found out who was driving" worth 300 when knows(party, kit_reins).
+  Milestone m_kit "heard Kit's confession" worth 400 when knows(party, kit_driving).
+  Milestone m_letter "found out who sent the riders" worth 400 when knows(party, hal_wrote).
+  Milestone m_kit_down "kept Kit from the counting-house" worth 300 when kitStoodDown(kit) or kitTurned(kit).
+  Milestone m_claim "had the Abbess claim the dead" worth 250 when abbessClaims(abbess).
+  Milestone m_mothers "brought the two widows together" worth 500 when mothersMet(wray).
+  Milestone m_captain "spoke to the captain for Wrayford" worth 300 when captainView(sefton) >= 1.
+  Milestone m_buried "saw the three buried" worth 600 when buried(wat_dead) and buried(dunstan_dead) and buried(joss_dead).
+}

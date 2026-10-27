@@ -1,0 +1,217 @@
+Module wrayford "The Third Night" {
+  // ── What everyone in Wrayford knows ───────────────────────────────────────────────────────────────────────────────
+  Discovery dead_on_rail "Four nights ago the carters rose against the bridge toll, broke the chain and threw the toll-board into the Wray, and the toll-house burned. In the press at the gate the toll-keeper's boy, Ned Hobday, went under a cart. Before dawn the lord's riders took three carters on the back road to the fells, Wat Pardoe, Dunstan Fenner and Joss Wilder, and hanged them from the gatehouse rail under the lord's warrant." {
+    Known by maudie, kit, hulme, hal, gault, gidley, pinch, jennet, annis, win, pell, dorcas, corbin, abbess, quoin, ham.
+  }
+  Discovery decree_known "The reeve's decree is nailed to the gatehouse door: the three are to hang on the rail until the lord's captain comes, at dusk on the third day, so that she finds Wrayford in order. Whoever touches them shall hang beside them." {
+    Source decree "the reeve's decree on the gatehouse door" at gate_road readable by party.
+    Known by maudie, kit, hulme, hal, gault, gidley, pinch, jennet, dorcas, corbin, abbess.
+  }
+  Discovery third_night_custom "In Wrayford the dead are watched three nights and buried on the third day. They say one who is not buried by the end of the third night goes looking." {
+    Known by maudie, kit, pell, corbin, dorcas, jennet, annis, win.
+  }
+  Discovery maudie_resolve "Maudie Pardoe will not have her husband out a third night. If he is still on the rail when the third night comes, she will go to the gatehouse herself, with the bread knife, for the cords.".
+
+  // ── The Pardoe house ──────────────────────────────────────────────────────────────────────────────────────────────
+  Observe row_scene at wain_row when not dark() and not visitedBefore(wain_row) "Wain Row is a lane of carters' houses, each with its yard and its cart-shed behind, the doors painted the colours carters paint them, red and green and a blue that was once expensive. Four doors along, the Pardoes' is red. Its step has been scrubbed this morning, hard. Two women talking on the next step stop talking when they see you, and go in.".
+  Observe row_scene_again at wain_row when not dark() and visitedBefore(wain_row) "Wain Row: cart-sheds, painted doors, the Pardoes' red one with its scrubbed step.".
+  Observe row_night at wain_row when dark() "Wain Row in the dark. A lamp in the Pardoes' kitchen, and in no other window.".
+  Observe kitchen_home at pardoe_kitchen when homecomer(party) and not visitedBefore(pardoe_kitchen) and at(maudie, pardoe_kitchen) and not verdictGiven(wray) "The kitchen is as it was: the long table, the settle, the bread oven, the hook by the door where your father's coat hangs, which is the first thing you look at and the last thing you will be able to stop looking at. It smells of bread. It always smelled of bread. Your mother is at the table with her sleeves up and flour to the elbow, and she looks at you in the doorway for a long moment, and then goes on kneading.".
+  Observe kitchen_strange at pardoe_kitchen when stranger(party) and not visitedBefore(pardoe_kitchen) and at(maudie, pardoe_kitchen) and not verdictGiven(wray) "A carter's kitchen: a long table, a settle, a bread oven, a man's coat on a hook by the door. A woman in her fifties is kneading bread at the table with her sleeves up, and she does not stop when you come in, and she does not ask you to sit.".
+  Observe kitchen_again at pardoe_kitchen when visitedBefore(pardoe_kitchen) and not verdictGiven(wray) "The Pardoe kitchen: the table, the oven, the bread proving under a cloth.".
+  Observe kitchen_coat at pardoe_kitchen when homecomer(party) and visitedBefore(pardoe_kitchen) and not coatGiven(maudie) "On the hook by the door, Wat Pardoe's coat: brown frieze, the pockets pulled out of shape by thirty years of hands.".
+  Observe kitchen_bread at pardoe_kitchen when not verdictGiven(wray) "There is more bread than one woman could eat in a month: loaves on the dresser, on the settle, under cloths on the windowsill. She makes bread when she cannot think.".
+  Observe kitchen_bare at pardoe_kitchen when not at(maudie, pardoe_kitchen) and not verdictGiven(wray) and not visitedBefore(pardoe_kitchen) "A carter's kitchen: a long table, a settle, a bread oven, a man's coat on a hook by the door, and nobody in it, and the fire going down.".
+  Observe yard_scene at pardoe_yard when not dark() "The yard: the cart-shed with no cart in it, a water-butt, the mounting-block. The cart is in the Guildhall yard, impounded, with the other two. The shed is very clean, as if somebody had swept it for something to do.".
+  Observe yard_bramble at pardoe_yard when at(bramble, pardoe_yard) "Bramble lies in the empty cart-shed, in the place where the cart stood, with his chin on his paws.".
+
+  Person maudie "Maudie Pardoe" at pardoe_kitchen {
+    Role "a carter's widow of Wain Row". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "Maudie Pardoe does not stop kneading.".
+    Leaves "Maudie Pardoe turns the dough, and pushes it away from her, and does not look up.".
+  }
+  Relation coatGiven(group). Relation maudieWelcomes(group).
+  Measure vigils(group). Measure lastVigil(group).
+  Initially Set vigils(maudie) to 0. Initially Set lastVigil(maudie) to 0.
+
+  // Kin.
+  Topic maudie_what with maudie "Ask your mother what happened" when homecomer(actor) once {
+    Says "'You got the letter, then.' She turns the dough and pushes it away from her with the heels of her hands. 'He went out with the others, the night they broke the chain. He was the oldest of them, he went to see none of the young ones did anything stupid.' Push, turn. 'The riders took him on the back road before light. Him and Dunstan Fenner and Joss Wilder. They hanged them off the gatehouse rail at sunrise and the reeve says they stay there till the lord's captain comes, so she'll see the city's in order.' She stops, with both hands flat in the dough. 'Simon Hulme. Who stood godfather to your brother. He came and told me himself. I'll give him that. He came himself.'".
+    On discuss { Assert knows(actor, dead_on_rail). Assert knows(actor, decree_known). }
+  }
+  Topic maudie_letter with maudie "Ask your mother when she wrote" when homecomer(actor) once {
+    Says "'The day the toll went up. A fortnight since.' She does not look up. 'I wrote that he'd gone out with the cart and not come home, because he hadn't, that night, he'd gone up to the fells with a load and the carters were all talking chain and fire, and I thought: if anyone can talk sense into the young ones it's the one who went away. That's what I thought.' She shapes the loaf. 'It took a week to find you. That's not your fault. Don't you start thinking it's your fault. I can see you starting.'".
+  }
+  // A stranger.
+  Topic maudie_stranger with maudie "Ask Maudie Pardoe about her husband" when stranger(actor) once {
+    Says "'He's on the bridge,' she says. 'Everybody in Wrayford knows where he is. Go and look at him with the rest of them. It's a penny for the pie-woman and nothing for the looking.' She slaps the dough down. 'You're not from here. You don't owe him anything. Go on.'".
+    On discuss { Assert knows(actor, dead_on_rail). }
+  }
+  Topic maudie_custom with maudie "Ask Maudie about the third night" when knows(actor, dead_on_rail) once {
+    Says "'They watch the dead three nights in Wrayford and bury them on the third day. My mother's mother said if you don't, they go looking.' She cuts the dough in two with the edge of her hand. 'I don't believe it. I'm telling you so you'll know I don't believe it.' The other half. 'And I won't have it. He is not going to be out on that rail a third night with the crows at him and that dog under him. If he's there when it comes, I'll go up myself with the bread knife and cut him down, and Simon Hulme can hang me off the rail beside him, and I'd like to see him look at me while he does it.'".
+    On discuss { Assert knows(actor, third_night_custom). Assert knows(actor, maudie_resolve). }
+  }
+  Topic maudie_kit with maudie "Ask your mother about Kit" when homecomer(actor) once {
+    Says "'He was at the chain. He came in at dawn with his hands black and hasn't said ten words since. He's at the yards all day doing nothing to the same wheel, and at night he goes off somewhere.' She looks at the door. 'Under the bridge, I'd say. He always went under the bridge when his father shouted at him, from when he was six. Go and find him. He'll talk to you, or he won't talk to anyone.'".
+    On discuss { Assert knows(actor, kit_place). }
+  }
+  Topic maudie_kit_stranger with maudie "Ask Maudie about her son" when stranger(actor) and maudieWelcomes(actor) once {
+    Says "'Kit.' She says it as if the name had a weight. 'He was at the chain. He's at the yards all day, and at night he goes off under the bridge, where he always went. He's seventeen. He thinks the world's a thing you can set fire to.' She looks at you. 'If you can talk to him, talk to him. I can't.'".
+    On discuss { Assert knows(actor, kit_place). }
+  }
+  Topic maudie_dog with maudie "Ask Maudie about the dog under the gatehouse" when knows(actor, bramble_there) and not coatGiven(maudie) once {
+    Says "'Bramble.' Her hands stop. 'He's lain under the gate since they put Wat up there. He won't come for me. He was never my dog; he was Wat's from a pup.' She wipes her hands on her apron, goes to the hook by the door, and takes down the brown coat, and holds it a moment. 'Here. Lay it down by him. He'll come to the smell of it if he'll come to anything.' She holds it out. 'Bring the coat back. Bring the dog if you can.'".
+    On discuss { Assert coatGiven(maudie). Assert knows(actor, coat_given). }
+  }
+  Discovery coat_given "Maudie Pardoe has given you Wat's coat, to lay down by the dog under the gatehouse.".
+  Kind wat_coat_kind "Wat Pardoe's coat" like cloak worth 0 weighing 3
+    described "A carter's coat of brown frieze, heavy as a wet blanket, the pockets pulled out of shape by thirty years of hands. It smells of horse, and pipe, and him.".
+  Item wat_coat "Wat Pardoe's coat" is wat_coat_kind at pardoe_kitchen hidden until coat_given.
+
+  // The vigil: a night sat up with her. It is what is done in Wrayford for the dead, and she is doing it alone, for a
+  // man who is not in the house.
+  Action sit_vigil(actor: group, site: place) "Sit up with your mother by the fire" {
+    Description "An hour, by the fire, with the bread proving. Nobody needs to say anything.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pardoe_kitchen) and at(maudie, pardoe_kitchen)
+      and homecomer(actor) and (hour(clock) >= 20 or hour(clock) < 2) and lastVigil(maudie) != dayN(wray).
+    Time 6.
+    On success { Increase vigils(maudie) by 1. Set lastVigil(maudie) to dayN(wray). }
+    Result "You sit up with her by the fire. The bread proves under its cloth. The clock on the dresser, which your father wound every Sunday, has stopped, and neither of you gets up to wind it.".
+  }
+  Action sit_vigil_stranger(actor: group, site: place) "Sit up with Maudie Pardoe by the fire" {
+    Description "An hour, by the fire. She has let you in; it is what is done in Wrayford for the dead.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pardoe_kitchen) and at(maudie, pardoe_kitchen)
+      and stranger(actor) and maudieWelcomes(actor) and (hour(clock) >= 20 or hour(clock) < 2) and lastVigil(maudie) != dayN(wray).
+    Time 6.
+    On success { Increase vigils(maudie) by 1. Set lastVigil(maudie) to dayN(wray). }
+    Result "You sit up with her by the fire. She does not talk for a long time, and you do not make her.".
+  }
+  Rule vigil_first at pardoe_kitchen when vigils(maudie) == 1 and not spread(vigil_ford) says "Some time after midnight she says, to the fire, 'He carried a calf across the Wray once. The year of the big snow, when the bridge was shut for ice. In the small hours, when the mills had the river penned and it ran low, he walked across on the old ford-stones under the first arches with a calf round his neck like a collar, and threw his loaf into the black water at Wade's Step first, for the Bargeman, the way the old drovers did, and came back with a wet calf and no feeling in his legs, and the man who owned the calf gave him a shilling and a thrashing for the fright.' She nearly smiles. 'Nobody wades the ford now. But it's there. In the small hours it's there.'" teaches vigil_ford { Assert spread(vigil_ford). }
+  Discovery vigil_ford "Under the bridge's first arches the old ford-stones still cross the Wray. In the small hours, when the mills upstream pen the river, it runs low enough there for a man to wade, carrying something heavy.".
+  Rule vigil_second at pardoe_kitchen when vigils(maudie) == 2 and homecomer(party) and not spread(vigil_letter) says "She says, without turning round, 'I was angry with you for three years, and then he said, she'll come back when she's had enough of other people's cattle, or he'll come back, or they'll come back, whichever you are, he said, you never could tell, and laughed. He wasn't angry. He was never once angry with you. I want you to know that before anything else happens.' Then, quite briskly: 'Put another log on.'" { Assert spread(vigil_letter). }
+  Entity vigil_letter: fact "What Maudie said on the second night".
+  Rule vigil_second_stranger at pardoe_kitchen when vigils(maudie) == 2 and stranger(party) and not spread(vigil_letter) says "She says, to nobody, 'Thirty years. He drove to the fells and back two hundred days a year and I never once knew which day he'd be home, and I'd make the bread every day so it'd be fresh for whichever one it was.' She looks at the loaves on every surface. 'Habit,' she says." { Assert spread(vigil_letter). }
+
+  // Her question. She asks it once, of her own child, after the first night sat up.
+  Relation maudieAsked(group). Relation promisedMaudie(group). Relation maudieWaits(group).
+  Event maudie_asks at pardoe_kitchen when homecomer(party) and vigils(maudie) >= 1 and not dark() and knows(party, maudie_resolve) "Your mother wipes her hands, and sits down across the table from you, which she does not do. 'I'll ask you once,' she says. 'Will you see to it, or must I?'" then { Assert maudieAsked(party). }
+  Topic answer_will with maudie "Tell your mother you will see him buried before the third night is out" when maudieAsked(actor) and not promisedMaudie(actor) and not maudieWaits(actor) once {
+    Says "She looks at you for a long time. 'Then I'll stop at home,' she says. 'I'll stop at home and make bread, and if you don't, I'll know you couldn't, and not that you wouldn't.' She gets up. 'Don't get yourself hanged. I couldn't bury two.'".
+    On discuss { Assert promisedMaudie(actor). }
+  }
+  Topic answer_wait with maudie "Ask your mother to wait for the reeve to come round" when maudieAsked(actor) and not promisedMaudie(actor) and not maudieWaits(actor) once {
+    Says "'Simon Hulme.' She nearly laughs. 'All right. I'll wait for Simon Hulme. I'll wait till the third night.' She picks up the dough again. 'Not an hour after.'".
+    On discuss { Assert maudieWaits(actor). }
+  }
+
+  // ── Kit ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // He drove the cart. Nobody knows but him, and Dunstan, who is dead.
+  Person kit "Kit Pardoe" at carters_yards {
+    Role "a carter's son, seventeen, with black under his nails". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner grim.
+    Greets "Kit looks up, and looks away again.".
+    Joins "Kit wipes his hands on his trousers and comes, half a step behind, the way he used to.".
+    Leaves "Kit nods, once, at the ground.".
+    Seen when not at(kit, under_arches) or knows(viewer, kit_place).
+  }
+  Discovery kit_place "After dark Kit Pardoe goes down under the bridge's first arches, where he always went as a boy when his father shouted at him, and sits there by the water.".
+  Measure kitTrust(group). Initially Set kitTrust(kit) to 0.
+  Query kitTrusts(a: group) means kitTrust(kit) >= 2 or homecomer(a) and kitTrust(kit) >= 1.
+  Relation kitAccount(group). Relation kitConfessed(group). Relation kitSat(group). Relation kitBetrayed(group).
+  // Where he is: the yards by day, the Nine Wheels in the evening, under the arches after dark, home to sleep.
+  Relation kitTaken(group). Relation kitJoined(group).
+  Query kitFree() means not kitTaken(kit) and not travelsWith(kit, party).
+  Rule kit_to_wheels when kitFree() and hour(clock) >= 18 and hour(clock) < 21 and not at(kit, wheels_taproom) and not kitOut(kit) {
+    Assert at(kit, wheels_taproom). }
+  Rule kit_to_arches when kitFree() and hour(clock) >= 21 and not at(kit, under_arches) and not kitOut(kit) {
+    Assert at(kit, under_arches). }
+  Rule kit_to_bed when kitFree() and hour(clock) >= 1 and hour(clock) < 6 and not at(kit, pardoe_yard) and not kitOut(kit) {
+    Assert at(kit, pardoe_yard). }
+  Rule kit_to_yards when kitFree() and hour(clock) >= 6 and hour(clock) < 18 and not at(kit, carters_yards) and not kitOut(kit) {
+    Assert at(kit, carters_yards). }
+  // Out with the young carters on the second night (northgate.kyr).
+  Relation kitOut(group).
+
+  Topic kit_hello with kit "Ask Kit how he is" when homecomer(actor) once {
+    Says "'How I am.' He puts the brush back in the grease. 'You came, then. A week late and three years late. Good of you.' He works the brush round the hub, round and round, though it was greased an hour ago and the hour before that. 'He talked about you. Every night. Our Wat says this, our Wat says that, when he'd had a drink. You'd have thought you'd hung the moon.'".
+  }
+  Topic kit_night with kit "Ask Kit about the night of the rising" when not kitAccount(actor) once {
+    Says "'I was at the chain.' Fast, as if he had said it before, to himself. 'With the others. Da had the cart at the back, he was only there to keep the young ones from doing anything stupid. There was a press at the gate and somebody's cart went over the Hobday lad, and then the toll-house was burning and everybody ran. I ran.' He does not look up from the hub. 'I didn't see. I didn't see anything. I was at the chain.'".
+    On discuss { Assert kitAccount(actor). Assert knows(actor, kit_said_chain). }
+  }
+  Discovery kit_said_chain "Kit says he was at the chain the whole night of the rising, and saw nothing of the cart that went over Ned Hobday.".
+  Topic kit_night_stranger with kit "Ask the carter's son about the night of the rising" when stranger(actor) and not kitAccount(actor) once {
+    Says "'Who's asking?' He looks you up and down. 'I was at the chain. Everybody was at the chain. Ask anybody.' He goes back to the hub, round and round. 'I didn't see anything.'".
+    On discuss { Assert kitAccount(actor). Assert knows(actor, kit_said_chain). }
+  }
+  // Under the arches, after dark: the only place he can be talked to.
+  Observe arches_kit at under_arches when at(kit, under_arches) and knows(party, kit_place) "Kit is sitting on the ford-stone under the first arch with his knees up, looking at the water going by, which is all there is to look at.".
+  Action sit_with_kit(actor: group, site: place) "Sit down by Kit on the ford-stone and say nothing" {
+    Description "Half an hour by the water. He will talk or he won't.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, under_arches) and at(kit, under_arches)
+      and not kitSat(actor) and not kitBetrayed(kit).
+    Time 3.
+    On success { Assert kitSat(actor). Increase kitTrust(kit) by 1. }
+    Result "You sit down by him. The water goes by. After a long time he says, 'He used to throw me in off this stone to teach me to swim,' and after a longer time, 'I can't swim,' and almost laughs.".
+  }
+  // What he did. Only to someone he trusts, here, after dark, and only if they already half know it.
+  Topic kit_confess with kit "Tell Kit you know he had the reins" when knows(actor, kit_reins) and kitTrusts(actor) and at(kit, under_arches) and not kitConfessed(actor) once {
+    Says "For a long time he doesn't say anything. The water goes by. Then: 'He was at the chain. I had the reins. He said hold the horse, she's skittish with the noise, and the crowd came back off the gate all at once and she went forward and I couldn't hold her, and there was a lad under the wheel, and I knew him, I knew it was Ned Hobday, we used to fish off here.' He is shaking. 'Da came and took the reins off me and lifted Ned up into the back like he was a sack of something precious and said get away home, Kit, get away home and say you were at the chain. And drove off up the fell road for the bone-setter at Scar Top. And the riders stopped him on the road with Ned dead in the back.' He puts his face in his knees. 'He told them he was driving. Dunstan told me. Dunstan saw. And they hanged Dunstan too.'".
+    On discuss { Assert kitConfessed(actor). Assert knows(actor, kit_driving). Increase kitTrust(kit) by 1. Assert willing(kit, actor). }
+  }
+  Topic kit_accused with kit "Tell Kit you know he had the reins" when knows(actor, kit_reins) and not kitTrusts(actor) and not kitConfessed(actor) and not kitDenied(actor) once {
+    Says "He is on his feet with the grease-brush in his fist before you have finished. 'Who told you that? Who's saying that?' His face is white. 'I was at the chain. I was at the chain. You can tell whoever's saying it I'll knock their teeth in.' He goes, fast, and does not look back.".
+    On discuss { Assert kitDenied(actor). }
+  }
+  Relation kitDenied(group).
+  Discovery kit_driving "Kit Pardoe was driving his father's cart when it went over Ned Hobday. Wat took the reins back, lifted the boy into the cart and drove for the bone-setter at Scar Top; Ned died on the way. When the riders stopped them on the fell road, Wat said he had been driving.".
+  Discovery kit_reins "The farrier in Northgate saw Kit Pardoe, not his father, on the box of Wat Pardoe's cart at the gate, with the reins in his hands, when the crowd came back off the chain.".
+
+  // ── Bramble ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person bramble "Bramble" at gate_road {
+    Role "a carter's dog, brindled, grey in the muzzle". Species dog. Pronouns he.
+    Greets "The brindled dog under the gatehouse lifts his eyes to you, and not his head.".
+    Leaves "Bramble lies down in the swept place in the cart-shed, and when you go, he stays.".
+  }
+  Discovery bramble_there "Wat Pardoe's dog, Bramble, has lain under the gatehouse since they hanged him, and will not eat, and will not come away." {
+    Known by maudie, kit, annis, pinch, pell.
+  }
+  Observe bramble_again at gate_road when at(bramble, gate_road) and not brambleCame(bramble) and visitedBefore(gate_road) "Bramble is still under the wall below the rail.".
+  Observe bramble_scene at gate_road when at(bramble, gate_road) and not brambleCame(bramble) and not visitedBefore(gate_road) "Under the gatehouse wall, directly below the rail, a brindled dog lies with his chin on his paws, as close to the wall as he can get, and does not move when people step over him." teaches bramble_there.
+  Relation brambleAte(group). Relation brambleCame(group). Relation brambleHome(group). Relation brambleGone(group).
+  Action feed_bramble(actor: group, site: place) "Put down bread for the brindled dog" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bramble, site) and not brambleAte(bramble)
+      and quantity(actor, rations) >= 1.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Assert brambleAte(bramble). }
+    Result "You put it down by his nose. For a long time he does nothing. Then, without getting up, as if it were a thing he were doing for you, he eats it.".
+  }
+  Action coat_bramble(actor: group, giver: member, site: place) "Lay Wat's coat down by Bramble" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bramble, site) and memberOf(giver, actor)
+      and ownedItem(wat_coat, giver) and not brambleCame(bramble) and brambleAte(bramble).
+    Time 2 minutes.
+    On success { Assert brambleCame(bramble). Assert following(bramble, actor). }
+    Result "You spread it on the stones by him. He gets up, stiffly, for the first time in four days, and noses at it, and lies down on it, and then looks up at you, and when you pick it up he stands and waits to be told where.".
+  }
+  Action wait_bramble(actor: group, site: place) "Sit by Bramble the way a drover sits by a dog, and wait for him" {
+    Description "Not looking at him. Letting him come.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(bramble, site) and capable(actor, woodcraft)
+      and not brambleCame(bramble) and brambleAte(bramble).
+    Time 3.
+    On success { Assert brambleCame(bramble). Assert following(bramble, actor). }
+    Result "You sit with your back to the wall a little way off, and look at the river, and say his name once, and nothing else. After half an hour he gets up and comes and lies against your leg, and when you stand, he stands.".
+  }
+  Rule bramble_home when following(bramble, party) and at(bramble, pardoe_yard) and not brambleHome(bramble) {
+    Retract following(bramble, party). Assert brambleHome(bramble). Assert maudieWelcomes(party). }
+  Rule bramble_home_told at pardoe_yard when brambleHome(bramble) and not spread(bramble_home_fact) says "Bramble goes straight to the cart-shed and lies down in the swept place where the cart stood. Maudie Pardoe comes out to the back door and stands there with her floury hands and looks at him, and then at you. 'Well,' she says. 'Well.' She goes in and comes out again with a bowl of milk with bread in it, and puts it down by him, and he eats it." { Assert spread(bramble_home_fact). }
+  Entity bramble_home_fact: fact "Bramble came home".
+  // A dog walking with you at night goes to find the other one he is missing.
+  Rule bramble_finds_kit when following(bramble, party) and dark() and inWrayford() and not knows(party, kit_place) and kitFree() says "Bramble stops in the road and lifts his head, and then goes off at a trot down toward the river, and looks back once to see that you are coming: down Bridge End, along the bank, under the first arch of the bridge." teaches kit_place { }
+  // Pinch kicks him every morning when he opens the booth, and on the morning after the third night, if Bramble is
+  // still there, the riders have him taken down to the river.
+  Rule pinch_kicks at gate_road when hour(clock) == 8 and at(bramble, gate_road) and not brambleCame(bramble) and at(pinch, gate_road) and not kickedToday(bramble) says "Amos Pinch, coming to open the booth, steps over the dog, and then steps back and kicks him, not hard, the way you kick a door that sticks. 'Shift,' he says. The dog does not shift. Annis Pye, at her pitch, says something to Pinch that the crowd enjoys." { Assert kickedToday(bramble). }
+  Relation kickedToday(group).
+  Rule kick_day_ends when hour(clock) == 9 and kickedToday(bramble) { Retract kickedToday(bramble). }
+  Rule bramble_taken when fourthDay() and hour(clock) >= 7 and at(bramble, gate_road) and not brambleCame(bramble) {
+    Retract at(bramble, gate_road). Assert brambleGone(bramble). }
+  Observe bramble_gone at gate_road when brambleGone(bramble) and not dark() "There is no dog under the gatehouse wall. There is a mark on the stones where he lay.".
+}

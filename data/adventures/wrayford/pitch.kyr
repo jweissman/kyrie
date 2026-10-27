@@ -1,0 +1,42 @@
+Module wrayford "The Third Night" {
+  // ── Annis Pye ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A pie-seller at the Bridge End, who was to marry Joss Wilder at Harvest, and sells pies to the crowd that comes to
+  // look at him, because she has her mother to keep and the crowd is there.
+  Person annis "Annis Pye" at gate_road {
+    Role "a pie-seller at the Bridge End, with a tray on a strap". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "'Pies,' says Annis Pye, very brightly. 'Mutton or eel. A penny.' She does not look up at the rail, carefully, the way you do not look at a bad tooth.".
+    Sells rations for 1 coin from 12.
+  }
+  Relation annisRing(group). Relation annisLeft(group). Relation annisWinPies(group).
+  Rule annis_pitch when hour(clock) >= 8 and hour(clock) < 18 and not annisLeft(annis) and not at(annis, gate_road) { Assert at(annis, gate_road). }
+  Rule annis_home when (hour(clock) >= 18 or hour(clock) < 8) and not at(annis, bridge_street) { Assert at(annis, bridge_street). }
+  Rule annis_leaves_pitch when annisLeft(annis) and at(annis, gate_road) { Retract at(annis, gate_road). Assert at(annis, bridge_street). }
+  Observe annis_again at gate_road when at(annis, gate_road) and stillHanging() and visitedBefore(gate_road) "Annis Pye is selling pies, with her back to the gatehouse.".
+  Observe annis_crowd at gate_road when at(annis, gate_road) and stillHanging() and not visitedBefore(gate_road) "Annis Pye, a girl with a tray of pies on a strap round her neck, is doing good business with the crowd. She has her back to the gatehouse.".
+  Discovery ring_missing "Annis Pye was to marry Joss Wilder at Harvest. She sells pies at the Bridge End, under him. His betrothal ring is not on his hand; she watched them hang him and looked for it, and it was not there." {
+    Known by annis.
+  }
+  Topic annis_joss with annis "Ask the pie-seller about the youngest of the three" when true once {
+    Says "'Joss.' She keeps her voice bright, for the customers. 'Joss Wilder. We were to be married at Harvest.' A man buys an eel pie; she gives him change. 'I've my mother to keep, and they're here, all of them, every day, looking, and they're hungry.' Her voice does not change at all. 'His ring's not on his hand. I watched them do it, from here, and I looked, and it wasn't there. I don't know where it is. I'd like it. That's all I'd like.' She turns to the next customer. 'Mutton or eel.'".
+    On discuss { Assert knows(actor, ring_missing). }
+  }
+  Action give_ring(actor: group, giver: member, site: place) "Give Annis Pye Joss Wilder's ring" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(annis, site) and memberOf(giver, actor) and ownedItem(joss_ring, giver)
+      and not annisRing(annis).
+    Time 2 minutes.
+    Resolve drop(joss_ring, giver).
+    On success { Assert annisRing(annis). Assert annisLeft(annis). Increase temper(wray) by 1. Increase quantity(actor, rations) by 3. }
+    Result "She looks at it in your palm for a long time, the tray of pies tilting on its strap. Then she takes it and puts it on her own finger, which it is too big for, and closes her hand on it. She takes the tray off over her head and gives you three pies off it, not for sale, and walks away from the Bridge End along Bridge Street without looking back, with her fist shut, and does not come back to her pitch.".
+  }
+  Topic annis_win with annis "Ask Annis whether she would sell Win Fenner pies at cost" when annisRing(annis) and knows(actor, win_proud) and not annisWinPies(annis) once {
+    Says "'Win.' She thinks about it. 'She'd not take them off you. She'd take them off me.' She nods slowly. 'At cost. Every day, as many as the children want, and she can owe me, and I'll never send in the bill.' She almost smiles. 'She'll know. She'll take them anyway. We're the same now, her and me.'".
+    On discuss { Assert annisWinPies(annis). Assert winHelped(actor). }
+  }
+
+  // ── The burned toll-house ─────────────────────────────────────────────────────────────────────────────────────────
+  Observe ruin_scene at toll_ruin when true "What is left of the toll-house: a stone hearth and chimney standing up out of a heap of black timbers and slates, the smell of wet char, a melted lump that was the toll-keeper's lamp. The fire began at the back, by the look of the scorching, against the wall nearest the river, where the shelves were. The carters were at the front, at the chain.".
+  Discovery flask_found "In the ash at the back of the toll-house, under a fallen beam, by the wall where the shelves were and where no carter at the chain came: a tin oil-flask, unstoppered and empty, stamped with the Bridge Company's gold bridge." { Found by searching toll_ruin. }
+  Kind flask_kind "a Company oil-flask" is gear worth 0 weighing 1
+    described "A tin flask for lamp-oil, scorched black, with the Bridge Company's little gold bridge stamped on its shoulder. Empty. The stopper is gone.".
+  Item company_flask "the Company's oil-flask" is flask_kind at toll_ruin hidden until flask_found.
+}

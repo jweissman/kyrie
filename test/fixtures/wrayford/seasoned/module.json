@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": [
+    "../../../../data/adventures/wrayford/clock.kyr",
+    "../../../../data/adventures/wrayford/city.kyr",
+    "../../../../data/adventures/wrayford/pardoes.kyr",
+    "../../../../data/adventures/wrayford/bridge.kyr",
+    "../../../../data/adventures/wrayford/pitch.kyr",
+    "../../../../data/adventures/wrayford/northgate.kyr",
+    "../../../../data/adventures/wrayford/market.kyr",
+    "../../../../data/adventures/wrayford/hill.kyr",
+    "../../../../data/adventures/wrayford/river.kyr",
+    "../../../../data/adventures/wrayford/liberty.kyr",
+    "../../../../data/adventures/wrayford/night.kyr",
+    "../../../../data/adventures/wrayford/fire.kyr",
+    "../../../../data/adventures/wrayford/day.kyr",
+    "../../../../data/adventures/wrayford/captain.kyr",
+    "../../../../data/adventures/wrayford/wade.kyr",
+    "../../../../data/adventures/wrayford/endings.kyr",
+    "../../../../data/adventures/wrayford/aftermath.kyr",
+    "../../../../data/adventures/wrayford/growth.kyr",
+    "seasoned.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "wray",
+    "drove_road": "drove_road"
+  },
+  "experience": 800
+}

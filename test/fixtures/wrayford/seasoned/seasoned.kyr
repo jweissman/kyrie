@@ -1,0 +1,5 @@
+Module wrayford "The Third Night" {
+  // A seasoned company of strangers, come down the drove road from other adventures: three of them, and well armed.
+  Company party "Your company" of 3 at drove_road.
+  Initially Set quantity(party, gold) to 20. Initially Set quantity(party, rations) to 4.
+}

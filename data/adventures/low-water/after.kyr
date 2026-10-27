@@ -86,10 +86,10 @@ Module lowwater "Low Water" {
   }
 
   // Sella, after.
-  Topic sella_after with sella "Ask Sella Corbin whether the hands were paid" when paidHands(sella) once {
+  Topic sella_after with sella "Ask Sella Quenby whether the hands were paid" when paidHands(sella) once {
     Says "'Lammas to now, every penny.' Sella does not quite smile. 'You said it first, at the Council. Before anything. I was at the back. I heard it.' She looks at the hammers going. 'I had a bet with myself you'd forget.' A pause. 'I'm glad I lost.'".
   }
-  Topic sella_forgotten with sella "Ask Sella Corbin how things are at the mills" when promised(party, sella) and hearingDone(ammerlin) and not laid(ex_hands) once {
+  Topic sella_forgotten with sella "Ask Sella Quenby how things are at the mills" when promised(party, sella) and hearingDone(ammerlin) and not laid(ex_hands) once {
     Says "Sella does not look at you. 'You promised,' she says. 'First, before anything. I gave you the report on it.' She turns back to the hammers. 'I had a bet with myself you'd forget. I won.'".
   }
 

@@ -1,0 +1,57 @@
+{
+  "day1": [
+    "To Northgate",
+    "Into the Nine Wheels",
+    "Talk to Pell",
+    "rope",
+    "Take your leave"
+  ],
+  "night1": [
+    "=96",
+    "Out to Northgate",
+    "To the Market Cross",
+    "Shambles",
+    "Wharf",
+    "bank under",
+    "=103",
+    "To the gatehouse leads",
+    "Cut the three down",
+    "Lower the three on a rope",
+    "To the bank under",
+    "take up Wat",
+    "Read the ford",
+    "To Overbridge Street",
+    "Saint Wade",
+    "Acre",
+    "set Wat Pardoe down",
+    "To Saint Wade",
+    "To Overbridge Street",
+    "tan-yards",
+    "Cross the ford back",
+    "take up Dunstan",
+    "Read the ford",
+    "To Overbridge Street",
+    "Saint Wade",
+    "Acre",
+    "set Dunstan Fenner down",
+    "To Saint Wade",
+    "To Overbridge Street",
+    "tan-yards",
+    "Cross the ford back",
+    "take up Joss",
+    "Read the ford",
+    "To Overbridge Street",
+    "Saint Wade",
+    "Acre",
+    "set Joss Wilder down"
+  ],
+  "dawn": [
+    "=134",
+    "Lay Wat Pardoe",
+    "Lay Dunstan",
+    "Lay Joss"
+  ],
+  "verdict": [
+    "=440"
+  ]
+}

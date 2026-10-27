@@ -42,4 +42,4 @@ bun scripts/low-water-transcripts.ts      # rewrites the play transcripts
 ## Renamed for one world
 
 One generated world holds every authored adventure (Mission 16), so no two give one name to different people or
-places (`test/adventure-names.test.ts`). Precentor Aldo Fisk is Aldo Penhale, Abel Lusk is Abel Tarrant and Sella Marsh is Sella Corbin: What Tessary Owes has its Benno Fisk, Let One Remember its Lusk consulate, and The Patient Star its Lenna Marsh.
+places (`test/adventure-names.test.ts`). Precentor Aldo Fisk is Aldo Penhale, Abel Lusk is Abel Tarrant and Sella Marsh is Sella Quenby: What Tessary Owes has its Benno Fisk, Let One Remember its Lusk consulate, and The Patient Star its Lenna Marsh.

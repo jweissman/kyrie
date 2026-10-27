@@ -54,21 +54,21 @@ describe('a world of every adventure', () => {
   });
 
   it('is told of a country further off, then in full where it is entered, and the road leads in', async () => {
-    const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
+    const w = await WorldAssembler.assemble('ember', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    const s = await PlaySession.start(w.path, 'wren', w.source), c = s.campaign;
-    const frontier = new Frontier('wren', NodeBundleSource.shared);
+    const s = await PlaySession.start(w.path, 'ember', w.source), c = s.campaign;
+    const frontier = new Frontier('ember', NodeBundleSource.shared);
     const ask = async (pattern: RegExp) => {
       const topic = c.module.actions.find(a => pattern.test(a.id))!;
       await GeneratedWorld.travel(s, c.world.one('at', topic.speaker!)!);
       const choice = PlayerView.choices(c).find(x => x.choice.id.includes(topic.id))!;
       return (await s.perform(choice.choice.id)).response ?? '';
     };
-    // In Hillfells, the first: Thrume lies beyond Fernweald, the country south, east of it.
+    // In the first country: Thrume lies beyond Leafholt, the country south, east of it.
     expect(w.report.region.further!.map(f => [f.id, f.side, f.then])).toEqual([['thrume', 'south', 'east']]);
     expect(await ask(/^region__edge_south_further_told_/)).toContain('East of it there is Thrume');
     expect(PlayerView.observe(c).knowledge.map(k => k.id)).toContain('region__edge_south_further_thrume');
-    // Down the road south, over the march, to Fernweald, where the innkeepers tell of it in full.
+    // Down the road south, over the march, to Leafholt, where the innkeepers tell of it in full.
     await GeneratedWorld.travel(s, 'edge_south');
     expect((await frontier.expand(c))!.rid).toBe('x0y1');
     await s.perform(PlayerView.choices(c).find(x => /^go\(link.*x0y1__edge_north\)$/.test(x.choice.id))!.choice.id);
@@ -84,16 +84,16 @@ describe('a world of every adventure', () => {
   }, 300000);
 
   it('goes no further at a march toward one entered from another side, and says so', async () => {
-    const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
+    const w = await WorldAssembler.assemble('ember', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    const s = await PlaySession.start(w.path, 'wren', w.source), c = s.campaign;
-    const frontier = new Frontier('wren', NodeBundleSource.shared);
-    // Faenn, east of the first, has Thrume south of it; Thrume is entered from Fernweald.
+    const s = await PlaySession.start(w.path, 'ember', w.source), c = s.campaign;
+    const frontier = new Frontier('ember', NodeBundleSource.shared);
+    // Coldmoor, east of the first, has Thrume south of it; Thrume is entered from Leafholt.
     await GeneratedWorld.travel(s, 'edge_east');
     expect((await frontier.expand(c))!.rid).toBe('x1y0');
     const scene = c.module.observations!.find(o => o.id === 'x1y0__edge_south_scene')!.text;
     expect(scene).toContain('Beyond it lies Thrume');
-    expect(scene).toContain('no road goes over into it from this side. The way in is from Fernweald, they say.');
+    expect(scene).toContain('no road goes over into it from this side. The way in is from Leafholt, they say.');
     await GeneratedWorld.travel(s, 'x1y0__edge_south');
     expect(frontier.drawing(c)).toBe(false);
     expect(await frontier.expand(c)).toBeUndefined();
