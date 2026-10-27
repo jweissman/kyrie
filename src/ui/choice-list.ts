@@ -140,7 +140,7 @@ export class ChoiceList {
     if (only) {
       return [{ id, label, tone: 'way', ...(only.command ? { command: only.command } : {}), about: only.about ?? about,
         ...(note ? { note } : {}), ...(only.minutes ? { minutes: only.minutes } : {}),
-        ...(only.risk ? { risk: true } : {}) }];
+        ...(only.risk ? { risk: true } : {}), ...(only.grave ? { grave: only.grave } : {}) }];
     }
     return this.tries(e, label, about);
   }

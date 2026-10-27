@@ -24,8 +24,8 @@ export interface Row { choice: PublicChoice; action: Operator; wanting?: string;
 export interface GroupingContext {
   names: Map<string, string>; prices: Map<string, number>; present: Set<string>; passageOf: Map<string, string>;
   fees?: Map<string, number>; several?: Set<string>;
-  // Where a night in the open costs something, and what (see Exposure).
-  exposed?: Map<string, string>;
+  // Where a night in the open costs something, and what, and whether it is night now (see Exposure).
+  exposed?: Map<string, string>; night?: boolean;
   tell?: (id: string) => string | undefined;
   // Who takes an item the company picks up or buys; the other hands are not offered.
   carrier?: (item: string) => string | undefined;
@@ -188,6 +188,8 @@ export class ChoiceGrouping {
       ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {}, exposed = context.exposed?.get(b.site ?? '');
     if (schema === 'camp' && exposed) { Object.assign(leaf, { grave: Exposure.grave(exposed) }); }
+    const bitter = context.night && context.exposed?.get(action.movement?.destination ?? b.destination ?? '');
+    if (bitter) { Object.assign(leaf, { grave: Exposure.going(bitter) }); }
     if (action.movement) {
       const verb = b.escorted_group ? `Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}` : 'Go';
       const way = action.movement.passage ?? b.way;

@@ -195,5 +195,11 @@ describe('a night in the open', () => {
     await s.perform('wait');
     const camp = ScreenModel.build(s.campaign).camp.flatMap(a => a.children ?? [a]).find(a => a.command?.startsWith('camp('));
     expect(camp?.grave).toMatch(/^The cold on the \S+ comes down after dark, and there is no shelter here\.$/);
+    // After dark, the way onto it says so too (the laboratory's mage walked onto it at two hit points, and died).
+    GeneratedWorld.put(s, 's1_green');
+    await s.perform('wait_for_dark');
+    const onto = ChoiceList.all(ChoiceList.explore(ScreenModel.build(s.campaign)))
+      .find(c => c.command?.startsWith('go(') && c.command.endsWith(',region__s1_s3_way)'));
+    expect(onto?.grave).toMatch(/^The cold on the \S+ is down already, and there is no shelter there\.$/);
   }, 60000);
 });
