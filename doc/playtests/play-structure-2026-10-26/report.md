@@ -2,7 +2,8 @@
 
 > **Follow-up:** [deep-dive.md](deep-dive.md) measures these diagnoses across 12–24 generated countries with the
 > engine itself (economy, class viability, renewal, sameness, load), plays a further expedition, and corrects three
-> claims below.
+> claims below. [creative-direction.md](creative-direction.md) turns both into concrete fixes (economy numbers,
+> navigation behaviour, drafted quest continuations) and first runs of three experiments.
 
 An independent investigation of the structure of play: motivation, loops, attention, incentives and progression.
 The game was played first, in the real browser bundle (`bun run web:build`, `site/mono.html` driven through

@@ -12,6 +12,8 @@ three things:
 
 It also **corrects three claims** in the first report (§2, §4, §4a).
 
+Concrete proposals and the first experiment runs are in [creative-direction.md](creative-direction.md).
+
 Commit measured: `6596e18`. Unless stated otherwise, every number below is over 24 seeds (`seed1`…`seed24`), the
 debt origin, and a human warrior protagonist.
 
