@@ -16,8 +16,8 @@ class Frame {
   // Each person turned to by their own choice, and how many controls on the page offer it.
   static async people(page: Page): Promise<Record<string, number>> {
     return page.evaluate(() => {
-      const ids = [...document.querySelectorAll('.cast .act.plate')].map(b => b.getAttribute('data-choice') ?? '');
-      const all = [...document.querySelectorAll('[data-choice]')].map(b => b.getAttribute('data-choice'));
+      const ids = Array.from(document.querySelectorAll('.cast .act.plate'), b => b.getAttribute('data-choice') ?? '');
+      const all = Array.from(document.querySelectorAll('[data-choice]'), b => b.getAttribute('data-choice'));
       return Object.fromEntries(ids.map(id => [id, all.filter(x => x === id).length]));
     });
   }
