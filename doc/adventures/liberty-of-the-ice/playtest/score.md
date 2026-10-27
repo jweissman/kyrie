@@ -8,7 +8,7 @@ The North Road comes down off the fells between walls of snow higher than your h
 
 **By the North Road, to the North Bar**
 
-You set out from the North Road, above Pellam early, with your shadow long in front of you on the road. THE FIRST DAY OF THE FAIR. A hard blue frost, the sky like a glazed dish, not a cloud from the fells to the downs; the smoke of a thousand chimneys going straight up and flattening at a height, as if against a ceiling. Your breath freezes in your scarf. Sound carries: you can hear a hammer on the far side of the river, and a girl laughing on the bridge, and under everything, from the ice, the noise of the Fair, like a hive. The North Bar: a gate-tower with its gates open and snowed into the open position, and a toll-house nobody is in. On the gate somebody has nailed a broadside, half torn: THE GREAT FROST — A FAIR UPON THE ICE — ALL WELCOME — NO LAW BUT THE GLOVE. Beyond it the city goes down to the river in steep white streets. The North Road goes up out of Pellam into the snow.
+You set out from the North Road, above Pellam early, with your shadow long in front of you on the road. THE FIRST DAY OF THE FAIR. A hard blue frost, the sky like a glazed dish, not a cloud from the fells to the downs, and the sun on the snow so bright it hurts to look at. Your breath freezes in your scarf. Sound carries: you can hear a hammer on the far side of the river, and a girl laughing on the bridge, and under everything, from the ice, the noise of the Fair, like a hive. The North Bar: a gate-tower with its gates open and snowed into the open position, and a toll-house nobody is in. On the gate somebody has nailed a broadside, half torn: THE GREAT FROST — A FAIR UPON THE ICE — ALL WELCOME — NO LAW BUT THE GLOVE. Beyond it the city goes down to the river in steep white streets. The North Road goes up out of Pellam into the snow.
 
 **By Northgate Street, to the Cheaping**
 
@@ -28,7 +28,7 @@ You put out your hand, and the waterman spits on his and shakes it, very hard, a
 
 **By Swan Stairs, to the foot of Swan Stairs, on the ice**
 
-The foot of Swan Stairs, on the ice. The river is white and hard from bank to bank, scarred grey with sledge-runners and skates, and up it, from the bridge to as far down as you can see, runs a street of booths made of oars and sailcloth, with smoke going straight up from every one of them into a sky the colour of pewter. There is a noise like a market and a wedding at once. A boy goes past on bones strapped to his boots, very fast, shrieking. The watermen’s plank is lifted aside for you; they nod as you go by.
+The foot of Swan Stairs, on the ice. The river is white and hard from bank to bank, scarred grey with sledge-runners and skates, and up it, from the bridge to as far down as you can see, runs a street of booths made of oars and sailcloth, with smoke going straight up from every one of them into the cold air. There is a noise like a market and a wedding at once. A boy goes past on bones strapped to his boots, very fast, shrieking. The watermen’s plank is lifted aside for you; they nod as you go by.
 
 **By the ice, to Freezeland Street, by the Glove Post**
 
