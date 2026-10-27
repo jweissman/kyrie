@@ -28,7 +28,7 @@
     "Ask Bess Ackroyd about Ninian",
     "Bring Ninian Hern and Bess",
     "Out to the Row",
-    "To the Shambles",
+    "To the Long Shambles",
     "To the Bearer",
     "Bring Ninian Hern up",
     "To the Bearer",
@@ -41,13 +41,13 @@
   ],
   "gaol": [
     "To the Bearer",
-    "To the Shambles",
+    "To the Long Shambles",
     "Into the Fat Lamb",
     "Take a bed"
   ],
   "eve": [
     "=372",
-    "Out to the Shambles",
+    "Out to the Long Shambles",
     "To the Bearer",
     "To Gaol Lane",
     "^Attack",

@@ -252,6 +252,24 @@
       "heard": "North over the march lies Hessel in the Lim valley, a spa where the water comes up hot and the old go to be mended and the young to be married; its Season is ending, a rich old woman there is buying husbands for her family before she dies, and a house in its best street has kept its shutters closed nine years.",
       "skyline": "steam going up out of a green valley, where the water comes up out of the hill hot",
       "far": "the water comes up out of a hill hot, and the old go there to be mended and the young to be married"
+    },
+    {
+      "id": "gaunt",
+      "bundle": "winter-in-carth/placed.json",
+      "entry": "cross_road",
+      "marker": "carth_vigil",
+      "side": "north",
+      "beside": [
+        "frost",
+        "forest"
+      ],
+      "name": "the Levels of Gaunt",
+      "topic": "the fell road to Gaunt",
+      "terrain": "frost",
+      "rumour": "'North over the march the fell road goes up over Carth Fell and down to Gaunt,' says {keeper}, 'the city of the Minster, on the Levels, where they'll sell you somebody else's penance by the day. There's a heretic to be tried there on Ash Day, a barefoot man who used to do penance for half the Guildhall. They say a beadle went down the march road to fetch him, and has not come back up it.'",
+      "heard": "North over the march the fell road climbs over Carth Fell and comes down to Gaunt, a walled city on the Levels where penance is bought and sold by the day, and a barefoot heretic is to be tried on Ash Day.",
+      "skyline": "a walled city on a white plain, with a great church in it that has one tower and the stump of another",
+      "far": "penance is bought and sold by the day, and a barefoot heretic is to be tried at the Minster on Ash Day"
     }
   ]
 }

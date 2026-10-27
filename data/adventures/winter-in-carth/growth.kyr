@@ -22,7 +22,7 @@ Module gaunt "A Winter in Carth" {
   Milestone m_tower "saw the north tower's new course stand" worth 200 when courseSet(joby).
   Milestone m_pellow "showed the Lady Penitentiary what the Fabric does by night" worth 150 when pellowExposed(pellow).
   Milestone m_skates "fished Tib Ackroyd's skate-bones out of the ditch" worth 50 when tibHelped(party).
-  Milestone m_baker "lit Mother Tunstall's oven" worth 50 when bakerHelped(party).
+  Milestone m_baker "lit Mother Sugden's oven" worth 50 when bakerHelped(party).
   Milestone m_wood "brought the Row a sledge of dead wood, by right" worth 150 when broughtWood(party).
   Milestone m_strike "brought the Barefoot out on Ash Day" worth 300 when struck(barefoot).
   Milestone m_bess "carried Bess Ackroyd's word to Hern" worth 100 when hernHeardBess(hern).

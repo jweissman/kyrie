@@ -19,7 +19,7 @@ Module gaunt "A Winter in Carth" {
   Place carth_house "the house at Carth" is building within carth.
   Place minster "the Minster" is building within gaunt_town.
   Place penitentiary_house "the Penitentiary" is building within gaunt_town.
-  Place schools_house "the Schools" is building within gaunt_town.
+  Place schools_house "the Divinity Schools" is building within gaunt_town.
   Place lodge_house "the masons' lodge" is building within gaunt_town.
   Place gaol_house "the Consistory gaol" is building within gaunt_town.
   Place exchange_house "the Wood Exchange" is building within gaunt_town.
@@ -27,7 +27,7 @@ Module gaunt "A Winter in Carth" {
   Place pickersgill_house "Mistress Pickersgill's house" is building within gaunt_town.
   Place brewhouse "Dinsdale's brewhouse" is building within gaunt_town.
   Place drapery "Sowerby's drapery" is building within gaunt_town.
-  Place bakery "Mother Tunstall's bakehouse" is building within gaunt_town.
+  Place bakery "Mother Sugden's bakehouse" is building within gaunt_town.
   Place hall_house "the Barefoot Hall" is building within gaunt_town.
   Place heb_house "Heb's cellar" is building within gaunt_town.
 
@@ -52,8 +52,8 @@ Module gaunt "A Winter in Carth" {
   Place chapter_house "the Chapter House" is room within minster at 1, 0 indoors.
   Place minster_nave "the nave of the Minster" is room within minster at 2, 0 indoors.
   Place gaol_cell "the Consistory gaol" is room within gaol_house at 3, 0 indoors.
-  Place schools "the Schools" is room within schools_house at 0, 1 indoors.
-  Place close_green "the Close" is room within gaunt_town at 1, 1 outdoors.
+  Place schools "the Divinity Schools" is room within schools_house at 0, 1 indoors.
+  Place close_green "the Close of Saint Oswy" is room within gaunt_town at 1, 1 outdoors.
   Place minster_porch "the Minster porch" is room within minster at 2, 1 outdoors.
   Place tower_foot "the foot of the north tower" is room within gaunt_town at 3, 1 outdoors.
   Place masons_lodge "the masons' lodge" is room within lodge_house at 4, 1 indoors.
@@ -62,13 +62,13 @@ Module gaunt "A Winter in Carth" {
   Place close_gate_street "the Bearer's Steps, before the Close Gate" is room within gaunt_town at 2, 2 outdoors.
   Place gaol_lane "Gaol Lane, under the gaol window" is room within gaunt_town at 3, 2 outdoors.
   Place the_stand "the Stand" is room within gaunt_town at 1, 3 outdoors.
-  Place shambles "the Shambles" is room within gaunt_town at 2, 3 outdoors.
+  Place shambles "the Long Shambles" is room within gaunt_town at 2, 3 outdoors.
   Place fat_lamb "the Fat Lamb" is room within lamb_house at 3, 3 indoors.
   Place tanners_row "Tanners' Row" is room within gaunt_town at 4, 3 outdoors.
   Place pickersgill_parlour "Mistress Pickersgill's parlour" is room within pickersgill_house at 5, 3 indoors.
   Place dinsdale_brewhouse "Dinsdale's brewhouse" is room within brewhouse at 1, 4 indoors.
   Place sowerby_shop "Sowerby's drapery" is room within drapery at 4, 4 indoors.
-  Place bakehouse "Mother Tunstall's bakehouse" is room within bakery at 5, 4 indoors.
+  Place bakehouse "Mother Sugden's bakehouse" is room within bakery at 5, 4 indoors.
   // The Row (the outer ring, between the old wall and the new)
   Place gate_of_ash "the Gate of Ash" is room within gaunt_town at 0, 5 outdoors.
   Place barefoot_hall "the Barefoot Hall" is room within hall_house at 1, 5 indoors.
@@ -238,8 +238,8 @@ Module gaunt "A Winter in Carth" {
   Observe pickersgill_scene at pickersgill_parlour when true "Mistress Pickersgill's parlour: Turkey carpet, a good fire, a cage of finches, three books of devotion with uncut pages, and one, much handled, without a title.".
   Observe brewhouse_scene at dinsdale_brewhouse when true "Dinsdale's brewhouse: coppers, steam, the smell of malt, and at a high desk in the corner, in a velvet bonnet, Mistress Grizel Dinsdale, brewster, doing sums.".
   Observe drapery_scene at sowerby_shop when true "Sowerby's drapery: bolts of broadcloth to the ceiling, a long counter, and on the wall behind it, framed, a drawing of the Ladder of Merit with SOWERBY on the second rung, and a space above it, waiting.".
-  Observe bakehouse_scene at bakehouse when state(oven, cold) "Mother Tunstall's bakehouse: a cold oven the size of a cottage, trays of dough under cloths, rising, and nowhere to put them.".
-  Observe bakehouse_hot at bakehouse when not state(oven, cold) "Mother Tunstall's bakehouse, roaring: the oven alight, trays going in and out on a peel, and the smell of shrove-cakes coming out of the door and down Tanners' Row like a crowd.".
+  Observe bakehouse_scene at bakehouse when state(oven, cold) "Mother Sugden's bakehouse: a cold oven the size of a cottage, trays of dough under cloths, rising, and nowhere to put them.".
+  Observe bakehouse_hot at bakehouse when not state(oven, cold) "Mother Sugden's bakehouse, roaring: the oven alight, trays going in and out on a peel, and the smell of shrove-cakes coming out of the door and down Tanners' Row like a crowd.".
   Observe steps_scene at close_gate_street when true "The Bearer's Steps: thirty broad stone steps up to the Close Gate, every one worn into a dip in the middle by knees, and the Close Gate at the top with a porter behind a grille. On the left, in the Close wall, the masons' yard door. On the right, Gaol Lane.".
   Observe gaol_lane_scene at gaol_lane when true "Gaol Lane: a narrow way between houses and the Close wall, and in the wall, at the height of a tall man's head, one barred window. Further on, the wall goes up past the north tower's scaffold, poles and ropes and ladders lashed against the sky.".
   // The Close

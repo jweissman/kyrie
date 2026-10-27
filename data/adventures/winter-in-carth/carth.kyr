@@ -282,9 +282,12 @@ Module gaunt "A Winter in Carth" {
     says "In the byre the old woman is asleep under the sheet against her husband, with her arms round him. Her hands, when Annis takes them, are white to the wrist, and she does not feel it. 'He was cold,' she explains." { Assert spread(morning_granny). }
   Entity morning_granny: fact "the old woman in the morning".
   // Morning's verdict on the company, from the household: who lit what without asking is told to go when the road opens.
-  Rule morning_go within carth when morningDue(carth_vigil) and atCarth() and litWithoutLeave(party) and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_go)
+  Rule morning_go within carth when morningDue(carth_vigil) and atCarth() and litWithoutLeave(party) and vigilBroken(carth_vigil) and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_go)
     says "Will Scaife does not look at you all morning. When he has dug the yard gate clear he stands by it, and waits, and you understand that he is waiting for you to go through it. Annis puts a heel of bread in your hand at the door, without a word, and shuts it." { Assert spread(morning_go). }
   Entity morning_go: fact "told to go".
+  Rule morning_wet within carth when morningDue(carth_vigil) and atCarth() and quenched(carth_vigil) and vigilOn() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_wet)
+    says "Will Scaife stands a long time looking at the hearth, black and wet, with the ash in it gone to a paste. Then he looks at you. 'Kept,' he says, as if trying the word for weight; and goes out to dig." { Assert spread(morning_wet). }
+  Entity morning_wet: fact "the wet hearth".
   // Whoever lit the hearth without leave and broke the vigil has taken its debt: seventeen nights, in the Register.
   Rule debt_taken when vigilBroken(carth_vigil) and litWithoutLeave(party) and not brokeVigil(party) { Assert brokeVigil(party). }
 

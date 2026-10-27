@@ -1,6 +1,6 @@
 Module gaunt "A Winter in Carth" {
   // ── The Schools ───────────────────────────────────────────────────────────────────────────────────────────────────
-  // The Consistory asks the Faculty whether a proposition is heresy, and the Faculty answers for a fee. Canon Pellow has
+  // The Consistory asks the Faculty whether a proposition is heresy, and the Faculty answers for a fee. Canon Laverock has
   // paid Doctor Ploughwright, the Irrefragable, for a Determination that Hern's is. Doctor Quist, the Seraphic, will sell
   // a contrary one to anybody. On Fastens' Eve at two they dispute in the Schools.
   Person ploughwright "Doctor Ploughwright" at schools {
@@ -62,9 +62,9 @@ Module gaunt "A Winter in Carth" {
   Entity trial_empty_told: fact "the empty floor".
   Rule trial_opens when sitting() and not trialOpen(consistory) and not verdictGiven(consistory) { Assert trialOpen(consistory). }
   Rule trial_opens_told at chapter_house when trialOpen(consistory) and inChapter() and not spread(trial_opens_told)
-    says "The Consistory sits. The charge is read by Canon Pellow, gently: that Ninian Hern, proxy, of the Row, has taught on the Minster steps that no man is sorry for another, therefore that no penance borne by another is of any effect, therefore that the Commerce of Merit is a fraud upon the faithful and the Fabric. Then the Determination of the Faculty, by Doctor Ploughwright, the Irrefragable, on three grounds. You do not understand the third. Hern, on his square of stone, is listening to it with professional appreciation." { Assert spread(trial_opens_told). }
+    says "The Consistory sits. The charge is read by Canon Laverock, gently: that Ninian Hern, proxy, of the Row, has taught on the Minster steps that no man is sorry for another, therefore that no penance borne by another is of any effect, therefore that the Commerce of Merit is a fraud upon the faithful and the Fabric. Then the Determination of the Faculty, by Doctor Ploughwright, the Irrefragable, on three grounds. You do not understand the third. Hern, on his square of stone, is listening to it with professional appreciation." { Assert spread(trial_opens_told). }
   Rule trial_opens_precentor at chapter_house when trialOpen(consistory) and inChapter() and pellowGone(pellow) and not spread(trial_precentor)
-    says "Canon Pellow is not on the bench. The precentor reads the charge instead, beautifully, as he reads everything, as if it were a lesson about somebody long dead." { Assert spread(trial_precentor). }
+    says "Canon Laverock is not on the bench. The precentor reads the charge instead, beautifully, as he reads everything, as if it were a lesson about somebody long dead." { Assert spread(trial_precentor). }
   Entity trial_opens_told: fact "the charge". Entity trial_precentor: fact "the precentor".
   Rule trial_crossed at chapter_house when trialOpen(consistory) and quistBought(quist) and not crossed(consistory)
     says "Then a second Determination, which the bench was not expecting, sealed with ink: Doctor Quist's, the Seraphic, contrary. It is read in full. It says that the proposition is a matter of fact, that the Faculty has not looked, and that Saint Oswy put the sinner down at the door and told him to walk. The canons look at each other. Two Determinations, contrary. In the stone chair the Lady Penitentiary has put her hand over her mouth, and you cannot see what it is doing." {

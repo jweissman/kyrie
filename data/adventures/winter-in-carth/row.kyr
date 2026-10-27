@@ -125,20 +125,20 @@ Module gaunt "A Winter in Carth" {
   Observe ditch_tib_gone at row_ditch when tibBears(party) and not nightfall() "The children slide on the ditch in a line, singing. On the bank, where a boy was sitting yesterday, there is nobody: the boy is keeping somebody's seventeen cold nights, at a shilling a night, in a room in the Row with the window open.".
 
   // ── The Shrove baker ──────────────────────────────────────────────────────────────────────────────────────────────
-  Person tunstall "Mother Tunstall" at bakehouse {
+  Person tunstall "Mother Sugden" at bakehouse {
     Role "a baker as round and floury as her own loaves, with her arms crossed, glaring at her oven". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
-    Greets "'Two days,' says Mother Tunstall, 'two days to Ash Day, three hundred shrove-cakes risen, a pig's worth of crackling, and the oven stone cold, because the Wood-reeve wants thirty shillings the cord for oak and I'd as soon put my own feet in it.' She glares at you. 'If you've wood, I'll love you. If you haven't, mind the dough.'".
-    Greets again "Mother Tunstall glares at you with great warmth.".
+    Greets "'Two days,' says Mother Sugden, 'two days to Ash Day, three hundred shrove-cakes risen, a pig's worth of crackling, and the oven stone cold, because the Wood-reeve wants thirty shillings the cord for oak and I'd as soon put my own feet in it.' She glares at you. 'If you've wood, I'll love you. If you haven't, mind the dough.'".
+    Greets again "Mother Sugden glares at you with great warmth.".
     Wants gaunt_faggot. Wants gaunt_sledge.
   }
-  Thing oven "Mother Tunstall's oven" at bakehouse is scenery {
+  Thing oven "Mother Sugden's oven" at bakehouse is scenery {
     State cold "The oven's mouth is black and cold.".
     State hot "The oven roars.".
   }
   Initially Assert state(oven, cold).
-  Event oven_lit near tunstall when (keeps(tunstall, ?w) and itemKind(?w, gaunt_faggot) or keeps(tunstall, sledge)) and state(oven, cold) "Mother Tunstall has the wood in the oven before you have let go of it, and the flint struck, and the bellows going; and in a quarter of an hour the bakehouse is roaring and she is sliding trays in on the peel two at a time, singing something rude. 'Come back on Ash Day morning,' she says over her shoulder. 'Not before. You'll not get anything before.'" then { Assert state(oven, hot). Assert bakerHelped(party). }
+  Event oven_lit near tunstall when (keeps(tunstall, ?w) and itemKind(?w, gaunt_faggot) or keeps(tunstall, sledge)) and state(oven, cold) "Mother Sugden has the wood in the oven before you have let go of it, and the flint struck, and the bellows going; and in a quarter of an hour the bakehouse is roaring and she is sliding trays in on the peel two at a time, singing something rude. 'Come back on Ash Day morning,' she says over her shoulder. 'Not before. You'll not get anything before.'" then { Assert state(oven, hot). Assert bakerHelped(party). }
   Relation bakerHelped(group).
-  Observe baker_cake at bakehouse when bakerHelped(party) and ashDay() "On the bakehouse step, wrapped in a cloth with your name chalked on it, there is a shrove-cake, still faintly warm. It is Ash Day. You may not eat it. Mother Tunstall, through the window, is watching to see whether you will.".
+  Observe baker_cake at bakehouse when bakerHelped(party) and ashDay() "On the bakehouse step, wrapped in a cloth with your name chalked on it, there is a shrove-cake, still faintly warm. It is Ash Day. You may not eat it. Mother Sugden, through the window, is watching to see whether you will.".
   Person exchange_clerk "the Wood Exchange clerk" at wood_exchange {
     Role "a clerk with chalk held between two fingers, putting prices up". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "'Wood?' says the clerk, chalk poised. 'Oak's thirty the cord. Faggots, a hundred, nine shillings; or one, for the poor, two shillings, which is cheaper by the faggot and dearer by the hundred.' He smiles. 'Arithmetic.'".

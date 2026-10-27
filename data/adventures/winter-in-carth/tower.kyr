@@ -2,8 +2,8 @@ Module gaunt "A Winter in Carth" {
   // ── The unfinished tower ──────────────────────────────────────────────────────────────────────────────────────────
   // The north tower has stood unfinished since the year the Commerce began, because the Fabric's fees are the
   // Commerce's tithe, and the day the tower is finished the Fabric has no reason to take them. Old Joby Thwaite, master
-  // mason, seventy-one, sets its last course by day; by night Canon Hamo Pellow, Master of the Fabric, has his men take
-  // it down. Joby does not know why it never rises. Pellow is also the Scaifes' landlord, and the Consistory's
+  // mason, seventy-one, sets its last course by day; by night Canon Hamo Laverock, Master of the Fabric, has his men take
+  // it down. Joby does not know why it never rises. Laverock is also the Scaifes' landlord, and the Consistory's
   // prosecutor.
   Person joby "Old Joby Thwaite" at fat_lamb {
     Role "a master mason of seventy-one with stone-dust in his eyebrows and hands like two mallets, eating a pie with great concentration". Ancestry human. Peaceable. Pronouns he. Manner jovial.
@@ -17,10 +17,10 @@ Module gaunt "A Winter in Carth" {
   Rule joby_bed when (hour(clock) >= 22 or hour(clock) < 7) and not at(joby, masons_lodge) and not jobyGuards(joby) { Assert at(joby, masons_lodge). }
   Relation jobyKnows(group). Relation jobyLeave(group). Relation jobyGuards(group). Relation courseSet(group).
   Topic joby_tower with joby "Ask Joby Thwaite why the north tower is never finished" when not jobyKnows(joby) once {
-    Says "'Frost,' says Joby. 'The Master of the Fabric says frost. You set a course, and the frost gets in the mortar overnight, and in the morning it's spalled, and you've to take it down and set it again.' He finishes his pie and looks at the crust. 'Fifty-three years I've been a mason, and I never saw frost do it in a night anywhere but here.' He brushes his hands. 'Pellow says it's the tower. It's a holy tower. It's humble. It doesn't want to be finished.' He looks at you. 'I'd like to see it finished,' he says, simply, 'before I'm humble.'".
+    Says "'Frost,' says Joby. 'The Master of the Fabric says frost. You set a course, and the frost gets in the mortar overnight, and in the morning it's spalled, and you've to take it down and set it again.' He finishes his pie and looks at the crust. 'Fifty-three years I've been a mason, and I never saw frost do it in a night anywhere but here.' He brushes his hands. 'Laverock says it's the tower. It's a holy tower. It's humble. It doesn't want to be finished.' He looks at you. 'I'd like to see it finished,' he says, simply, 'before I'm humble.'".
   }
   Initially Assert teachesAt(unbuilding, gaol_lane). Initially Assert teachesAt(unbuilding, tower_foot).
-  Discovery unbuilding "By night, by lantern, Canon Pellow's men take down the course of stone Joby Thwaite's masons set on the north tower by day: the tower is kept unfinished on purpose.".
+  Discovery unbuilding "By night, by lantern, Canon Laverock's men take down the course of stone Joby Thwaite's masons set on the north tower by day: the tower is kept unfinished on purpose.".
   Observe unbuilt_seen at tower_foot when nightfall() and not seenOnce(unbuilding) "Up on the scaffold, at the top platform, by the light of a horn lantern, three men in the Fabric's brown are taking today's course of white stone down, one block at a time, with a crowbar and a rope and a great deal of care, and lowering it on the pulley to the ground, where a fourth man stacks it with the others, quietly, under a tarpaulin. One of them says something and another laughs, softly. Below them, in the shadow of the lodge door, a canon in a fur tippet is watching, with his hands in his sleeves." teaches unbuilding.
   Observe unbuilt_lane at gaol_lane when nightfall() and not seenOnce(unbuilding) "Over the Close wall you can see the top of the north tower's scaffold, and on the top platform, by the light of a horn lantern, men in brown taking the day's new stone down, block by block, very carefully, and lowering it on a rope; a canon in a fur tippet watching from below with his hands in his sleeves." teaches unbuilding.
   Topic joby_told with joby "Tell Joby Thwaite what you have seen on the scaffold at night" when knows(actor, unbuilding) and not jobyKnows(joby) once {
@@ -35,30 +35,30 @@ Module gaunt "A Winter in Carth" {
   Entity masons_seen: fact "the masons on the scaffold".
   Observe course_stands at tower_foot when courseSet(joby) and not nightfall() "On the top platform of the north tower the new course of white stone is still there in the morning, all four corners level, and Joby Thwaite is sitting on it with his legs over the edge, asleep.".
 
-  // ── Canon Hamo Pellow ─────────────────────────────────────────────────────────────────────────────────────────────
-  Person pellow "Canon Hamo Pellow" at close_green {
+  // ── Canon Hamo Laverock ─────────────────────────────────────────────────────────────────────────────────────────────
+  Person pellow "Canon Hamo Laverock" at close_green {
     Role "the Master of the Fabric, in a fur tippet, a pleasant round man with very clean hands". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "'Welcome to the Close,' says the round canon, warmly. 'You'll have seen the tower. Everybody looks at the tower. Two hundred and eleven years.' He beams up at it. 'A great work of faith is never finished. That is how you know it is a great work of faith.'".
-    Greets again "Canon Pellow beams at you.".
+    Greets again "Canon Laverock beams at you.".
   }
   Rule pellow_day when daytime() and not sitting() and not at(pellow, close_green) and not pellowGone(pellow) { Assert at(pellow, close_green). }
   Rule pellow_night when not daytime() and at(pellow, close_green) { Assert at(pellow, limbo). }
   Relation pellowGone(group). Relation pellowExposed(group). Relation arrearsForgiven(group). Relation pellowBargain(group).
-  Topic pellow_hern with pellow "Ask Canon Pellow about Ninian Hern" when true once {
+  Topic pellow_hern with pellow "Ask Canon Laverock about Ninian Hern" when true once {
     Says "The canon's face does something complicated and kindly. 'Poor Hern. A great penitent, once. Thirty years on the Steps.' He shakes his head. 'And now he says the Commerce of Merit is a fraud, on the Minster steps, to the Fabric's own congregation. Do you know what the Commerce of Merit builds?' He points at the tower. 'That. Faith made stone. If nobody pays for penance, nobody pays for the tower.' He lowers his voice. 'I shall prosecute him myself. Very gently. And he will be put out, gently, at the Gate of Ash, and the tower will go on.'".
   }
-  Topic pellow_tell with pellow "Tell Canon Pellow you have seen his men take the tower down by night" when knows(actor, unbuilding) and not pellowExposed(pellow) and not pellowBargain(pellow) once {
-    Says "Canon Pellow does not stop smiling, which is a terrible thing to watch. He takes your arm and walks you across the lawn, out of anyone's hearing. 'The frost,' he says. 'And if it were not the frost, what then? A finished tower is a finished tithe. Two hundred clerks, sixty masons, the Stand, the Row: it all hangs on the north tower not being finished.' He pats your arm. 'You've come down the fell. You'll know the Scaifes at Carth: the Fabric's tenants, two years behind. Lady Day, they go.' He lets that sit. 'Or they don't. Their arrears could be forgiven. Today. If you'd the goodness to have seen nothing on the scaffold.'".
+  Topic pellow_tell with pellow "Tell Canon Laverock you have seen his men take the tower down by night" when knows(actor, unbuilding) and not pellowExposed(pellow) and not pellowBargain(pellow) once {
+    Says "Canon Laverock does not stop smiling, which is a terrible thing to watch. He takes your arm and walks you across the lawn, out of anyone's hearing. 'The frost,' he says. 'And if it were not the frost, what then? A finished tower is a finished tithe. Two hundred clerks, sixty masons, the Stand, the Row: it all hangs on the north tower not being finished.' He pats your arm. 'You've come down the fell. You'll know the Scaifes at Carth: the Fabric's tenants, two years behind. Lady Day, they go.' He lets that sit. 'Or they don't. Their arrears could be forgiven. Today. If you'd the goodness to have seen nothing on the scaffold.'".
     On discuss { Assert knows(actor, pellow_offer). }
   }
-  Discovery pellow_offer "Canon Pellow will forgive the Scaifes' arrears to the Fabric, if the company keeps quiet about the unbuilding of the north tower.".
-  Action take_pellow_bargain(actor: group, site: place) "Tell Canon Pellow you saw nothing on the scaffold, if the Scaifes' arrears are forgiven" {
+  Discovery pellow_offer "Canon Laverock will forgive the Scaifes' arrears to the Fabric, if the company keeps quiet about the unbuilding of the north tower.".
+  Action take_pellow_bargain(actor: group, site: place) "Tell Canon Laverock you saw nothing on the scaffold, if the Scaifes' arrears are forgiven" {
     Requires able(actor) and company(actor) and at(actor, site) and at(pellow, site) and knows(actor, pellow_offer) and not pellowBargain(pellow) and not pellowExposed(pellow).
     Time 2 minutes.
     On success { Assert pellowBargain(pellow). Assert arrearsForgiven(carth_vigil). }
-    Result "'Saw nothing,' says Canon Pellow, delighted. 'Nothing at all. The frost.' He writes a note on a leaf of his pocket-book and tears it out: the arrears of the tenement of Carth forgiven by the Master of the Fabric, for a work of charity. He gives it to a passing servitor. 'There,' he says. 'Mercy. That's what the Fabric is for.' He goes off across the Close humming. Up on the scaffold a mason is setting a white stone that will not be there in the morning.".
+    Result "'Saw nothing,' says Canon Laverock, delighted. 'Nothing at all. The frost.' He writes a note on a leaf of his pocket-book and tears it out: the arrears of the tenement of Carth forgiven by the Master of the Fabric, for a work of charity. He gives it to a passing servitor. 'There,' he says. 'Mercy. That's what the Fabric is for.' He goes off across the Close humming. Up on the scaffold a mason is setting a white stone that will not be there in the morning.".
   }
-  // Told to the Lady Penitentiary, at her desk or under her mask, Pellow is silenced: she does not let a canon who unbuilds
+  // Told to the Lady Penitentiary, at her desk or under her mask, Laverock is silenced: she does not let a canon who unbuilds
   // the Minster prosecute a man for saying the Commerce is a fraud.
   Rule pellow_silenced when pellowExposed(pellow) and not pellowGone(pellow) { Assert pellowGone(pellow). Assert at(pellow, limbo). }
 }
