@@ -74,11 +74,16 @@ export class PersonParser {
   static PersonWords(word: Node, text: Node, _dot: Node): Field {
     return { field: 'words', value: { kind: word.sourceString, text: ModuleParser.ast(text) as string } };
   }
+  // What someone says to a company that comes back (What Tessary Owes' W18).
+  static PersonAgain(_greets: Node, _again: Node, text: Node, _dot: Node): Field {
+    return { field: 'words', value: { kind: 'GreetsAgain', text: ModuleParser.ast(text) as string } };
+  }
   static PersonHaunt(word: Node, id: Node, _dot: Node): Field {
     return { field: 'haunt', value: { kind: word.sourceString, text: id.sourceString } };
   }
   static readonly manners: Record<string, string> = { Warns: 'warning', Comes: 'onslaught', Flinches: 'flinch',
-    Pleads: 'plea', Objects: 'objection', Joins: 'joining', Leaves: 'parting', Greets: 'greeting', Likeness: 'likeness',
+    Pleads: 'plea', Objects: 'objection', Joins: 'joining', Leaves: 'parting', Greets: 'greeting',
+    GreetsAgain: 'regreeting', Likeness: 'likeness',
     Lair: 'lair',
     Refuge: 'refuge', Fears: 'fears', Manner: 'manner', Pronouns: 'pronouns' };
   private static manner(module: Module, id: string, temperament: string | undefined, manner: Manner[]) {

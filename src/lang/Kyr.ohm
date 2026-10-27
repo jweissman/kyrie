@@ -55,11 +55,12 @@ Kyr {
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonWords | PersonHaunt
+  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonAgain | PersonWords | PersonHaunt
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
   PersonWords = ("Warns" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Joins" | "Leaves" | "Greets" | "Likeness") string "."
+  PersonAgain = "Greets" "again" string "."
   PersonHaunt = ("Lair" | "Refuge" | "Fears") ident "."
   PersonProfession = "Profession" ident "."
   PersonBackground = "Background" ident "."

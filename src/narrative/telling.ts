@@ -63,8 +63,17 @@ export class Telling {
       return { id: `own:${own}`, kind: h.kind, actor, text: Voice.render(words, speaking) };
     }
     // Someone with their own words of greeting is not given the tables' afterwards: Tessary's corporal and its Factor
-    // both said "Back for more of my wisdom", seven manners shared by thirty people (W18).
-    if (own && (h.kind === 'greet' || h.kind === 'address')) { return undefined; }
+    // both said "Back for more of my wisdom", seven manners shared by thirty people (W18). Their own for a return
+    // (Greets again) are said instead, if they have them.
+    if (h.kind === 'greet' || h.kind === 'address') {
+      const again = campaign.world.module.relations.some(r => r.name === 'regreeting')
+        ? campaign.world.one('regreeting', actor) : undefined;
+      const words = again && campaign.module.entities.find(e => e.id === again)?.name;
+      if (words && context.moment !== 'first') {
+        return { id: `own:${again}`, kind: h.kind, actor, text: Voice.render(words, speaking) };
+      }
+      if (own) { return undefined; }
+    }
     // Of many, only what can be said of many.
     const line = this.choose(Voice.fitting(h.kind, context).filter(l => !speaking.many || Voice.agrees(l)), memory.key,
       memory.used);

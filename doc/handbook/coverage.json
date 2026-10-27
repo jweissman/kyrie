@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 208,
+    "kyr": 211,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 197,
+      "kyr": 199,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 7,
+      "kyr": 8,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10785,6 +10785,13 @@
    "section": "world-rules/rules-core"
   },
   {
+   "id": "rule:world_core.milestone",
+   "title": "milestone, achieved, merit",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.difficulty",
    "title": "difficulty",
    "status": "kyr",
@@ -11193,6 +11200,13 @@
   {
    "id": "rule:inhabitants.warning",
    "title": "warning, onslaught, flinch",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.regreeting",
+   "title": "regreeting",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"
@@ -11851,6 +11865,13 @@
   {
    "id": "campaign:thrume",
    "title": "Thrume",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:what-tessary-owes",
+   "title": "What Tessary Owes",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

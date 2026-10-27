@@ -180,7 +180,11 @@ The words are:
 - `Warns` and `Comes`: its warning and its onslaught;
 - `Flinches` and `Pleads`: what it does when it is frightened off, and when it is beaten;
 - `Lair`, `Refuge` and `Fears`: where it holds, where it runs, and what drives it there (`Fears sunlight.`);
-- `Objects`: what a person says on seeing what is theirs in the company's hands (see "Whose things are", below).
+- `Objects`: what a person says on seeing what is theirs in the company's hands (see "Whose things are", below);
+- `Joins` and `Leaves`: what they say on joining the company and on leaving it;
+- `Greets`, and `Greets again`: what they say the first time the company speaks to them, and when it comes back. One
+  with a `Greets` of their own and no `Greets again` says nothing on a return, rather than a line of the voice
+  tables that thirty others share.
 
 A creature given no words is told in plain ones: "A grey wolf stands its ground and watches you. It will not have
 you here for long."

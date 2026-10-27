@@ -36,7 +36,7 @@ export class ModuleParser {
     Anchor_within: ModuleParser.Anchor, Objective: ModuleParser.Objective, PersonCalled: PersonParser.PersonCalled,
     PersonHorizon: PersonParser.PersonHorizon, PersonPeaceable: PersonParser.PersonPeaceable,
     RuleSays: ModuleParser.Second, Seen: ModuleParser.Seen, TopicOnce: PersonParser.TopicOnce,
-    TopicTravelling: PersonParser.TopicOnce, RuleOnce: PersonParser.TopicOnce,
+    TopicTravelling: PersonParser.TopicOnce, RuleOnce: PersonParser.TopicOnce, PersonAgain: PersonParser.PersonAgain,
     Company: ModuleParser.Company, ItemDecl: ModuleParser.ItemDecl, PassageKind: ModuleParser.ThingKind,
     PassagePart_taking: ModuleParser.Taking, PassagePart_opening: ModuleParser.Opening,
     PersonProfession: PersonParser.PersonProfession,

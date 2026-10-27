@@ -616,13 +616,19 @@ Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 14 | 33 | 11 | 5 | 1 | 8 |
+| 15 | 34 | 12 | 5 | 1 | 8 |
 
 #### ending, reached
 
 *Kyr · kind; relation(ending)* · `rule:world_core.ending`
 
 An ending an author writes (Ending … when … "epilogue"): reached once, and the book closes on it.
+
+#### milestone, achieved, merit
+
+*Kyr · kind; relation(milestone); measure(milestone)* · `rule:world_core.milestone`
+
+Something done that a company grows by (Milestone … worth … when …): achieved once, and worth so much experience.
 
 #### difficulty
 
@@ -1136,7 +1142,7 @@ Also kept, without comment: plea, greeting, greeted, petted, warned, yielded, wa
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 18 | 2 | 1 | 16 | 5 |
+| 1 | 19 | 2 | 1 | 16 | 5 |
 
 #### temperament
 
@@ -1161,6 +1167,12 @@ Where it lives and what it defends; where it goes when beaten or frightened off.
 *Kyr · relation(group, entity); relation(group, entity); relation(group, entity)* · `rule:inhabitants.warning`
 
 What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields.
+
+#### regreeting
+
+*Kyr · relation(group, entity)* · `rule:inhabitants.regreeting`
+
+What someone says to a company that comes back, in their own words (Greets again).
 
 #### fears, tribute
 
@@ -2099,6 +2111,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > In the salt town under the fells, people pay to sleep, and some of them do not come home. The giants of Thrume have come down off the mountain for the first time in living memory, and the Margravine of Ebb will pay a barony for the thane's head before the Duke of Harle's host crosses the river. Choose three companions.
+
+### What Tessary Owes
+
+*Kyr* · `campaign:what-tessary-owes`
+
+- Regions and sites: tessary
+- Kits placed: —
+
+> The legions of Tessary have come home from eleven years' war, and some of them are walking into the sea. An eel-wife of the Withies has pinned a notice at the Landgate: her son set his boots together on the Watersteps a fortnight ago and walked into the water, and she will give her savings to whoever can tell her where he went. You have come down the marsh road with a little coin and no particular plans.
 
 ## Appendix: Orsino's world material
 

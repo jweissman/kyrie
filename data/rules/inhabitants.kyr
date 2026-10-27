@@ -18,6 +18,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields.
   Relation warning(group, entity). Relation onslaught(group, entity). Relation flinch(group, entity).
   Relation plea(group, entity). Relation greeting(group, entity).
+  // What someone says to a company that comes back, in their own words (Greets again).
+  Relation regreeting(group, entity).
   Relation greeted(group, group). Relation petted(group, group).
   // What drives it off (sunlight, flame), and the price a proud one names.
   Relation fears(group, capability). Measure tribute(group).
