@@ -32,4 +32,10 @@ export class Expressions {
   amount(amount: Amount, context: Record<string, number>): number {
     return this.number(amount.kind === 'literal' ? String(amount.value) : amount.expression, context);
   }
+  // How much harm an amount does: a die and a weak creature's own modifier can come out below nothing (a bear mauling
+  // with its strength drained), which is no harm, as a weapon's blow adds only a positive modifier (Fighting). It had
+  // thrown, mid-fight, once a warrior in mail rather than plate was hit often enough for it to happen.
+  harm(amount: Amount, context: Record<string, number>): number {
+    return Math.max(0, this.integer(amount.kind === 'literal' ? String(amount.value) : amount.expression, context));
+  }
 }
