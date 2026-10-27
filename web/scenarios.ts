@@ -37,7 +37,7 @@ export class Scenarios {
     // An independent adventure: a city of paper, its books waking, and their Parliament
     // (doc/adventures/parliament-of-books).
     { manifest: 'data/campaigns/parliament-of-books.campaign.json', title: 'A Parliament of Books', seed: 'calamy',
-      note: 'Calamy is a tidal city of paper at the mouth of the Calam, and every household in it keeps a book that knows it. Lately some of its books have begun to talk. In nine days it is the Kindling, when the city burns last year\'s almanacks to light the new year in.',
+      note: 'Calamy stands at the mouth of the Calam, and every household in it keeps a book that knows it. Lately some of its books have begun to talk. In nine days it is the Kindling, when the city burns last year\'s almanacks to light the new year in.',
       detail: 'A city of seven wards, a country made of reading, a Parliament of books, and nine days to the Kindling' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
