@@ -7,6 +7,7 @@ import { RegionGeography } from '../region-geography';
 import { RegionNews } from '../region-news';
 import type { Region } from '../region-writer';
 import type { Animal, Community, Resident, Workplace } from './community';
+import { Features } from '../features';
 import { Likeness } from '../../paintings/likeness';
 import { Portraits } from '../../paintings/portraits';
 
@@ -42,13 +43,7 @@ export class CommunityWriter {
         `  Passage ${below}_way ${q(p.below.way)} is stair between ${w.id} and ${below}.`,
         `  Observe ${below}_scene at ${below} as fixture when true ${q(p.below.scene)}.`);
     }
-    for (const t of p.things ?? []) {
-      const id = `${w.id}_${t.id}`;
-      lines.push(`  Thing ${id} ${q(t.name)} at ${t.below && below ? below : w.id} {`, '    Tries looking.',
-        `    State still ${q(t.seen)}.`, '  }', `  Observe ${id}_closer near ${id} when tried(${id}, looking) ${q(t.closer)}.`,
-        ...t.known ? [`  Discovery ${id}_read ${q(t.known)}.`, `  Observe ${id}_reading near ${id} when tried(${id}, looking)`
-          + ` and capable(party, lore) and not knows(party, ${id}_read) ${q(t.known)} teaches ${id}_read.`] : []);
-    }
+    for (const t of p.things ?? []) { lines.push(...Features.lines(`${w.id}_${t.id}`, t.below && below ? below : w.id, t)); }
     if (p.view) {
       const v = `${w.id}_view`;
       lines.push(`  Thing ${v} ${q(p.view.name)} at ${w.id} is scenery {`, `    State below ${q(p.view.unseen)}.`,

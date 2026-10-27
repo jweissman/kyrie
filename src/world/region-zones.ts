@@ -5,9 +5,10 @@ import type { Wild } from './land/zones';
 import { RegionGeography } from './region-geography';
 import { RegionRoads } from './region-roads';
 import type { Region } from './region-writer';
+import { Features, type Feature } from './features';
 import tables from '../../data/generation/scenes/wilds.json';
 
-interface Kind { id: string; name: string; scene: string; ambience: string; view?: boolean }
+interface Kind { id: string; name: string; scene: string; ambience: string; view?: boolean; things?: Feature[] }
 interface Table {
   trails: string[]; into: string; entry: { name: string; scene: string };
   lost: { name: string; scene: string; astray: string; guided: string }; landmarks: Kind[]; water: Kind[];
@@ -15,7 +16,7 @@ interface Table {
 }
 // One place in a stretch of wild country, where it stands on the land and what it is.
 export interface Landmark { id: string; cell: number; part: number; name: string; scene: string; ambience: string;
-  view?: boolean; water?: string; side?: string; kind?: string }
+  view?: boolean; water?: string; side?: string; kind?: string; things?: Feature[] }
 // Where a way into wild country starts: a road running by it, or a settlement near it; the cell it starts from, and
 // the settlement it is known by.
 interface Start { from: string; cell: number; through: boolean; by: string }
@@ -73,7 +74,8 @@ export class RegionZones {
     out.push(...this.sides(zone, region, out));
     const from = this.from(region, zone).name, taken = this.taken(region, zone);
     const named = out.map(l => ({ ...l, name: this.fill(l.name, { zone: name, river: l.water ?? '', from: l.side ?? from }),
-      scene: this.fill(l.scene, { zone: name, river: l.water ?? '', from: this.upper(l.side ?? from) }) }))
+      scene: this.fill(l.scene, { zone: name, river: l.water ?? '', from: this.upper(l.side ?? from) }),
+      ...l.things ? { things: l.things.map(t => Features.filled(t, x => this.fill(x, { zone: name, river: l.water ?? '' }))) } : {} }))
       // A name another wild country of the region has already is said with its own (two woods' old banks: the willow
       // was "along the old bank", and the region had two).
       .map(l => taken.has(l.name) ? { ...l, name: `${l.name} in ${name}` } : l);
@@ -127,7 +129,7 @@ export class RegionZones {
       lines.push(`  Place ${l.id} ${q(l.name)} is room within ${zone.id} at ${lx}, ${ly} outdoors.`,
         `  Observe ${l.id}_scene at ${l.id} as fixture when true ${q(l.scene)}.`,
         ...l.ambience ? [`  Observe ${l.id}_life at ${l.id} as ambience when not dark() ${q(l.ambience)}.`] : [],
-        ...l.view ? this.view(zone, l) : []);
+        ...l.view ? this.view(zone, l) : [], ...(l.things ?? []).flatMap(t => Features.lines(`${l.id}_${t.id}`, l.id, t)));
     }
     lines.push(...this.trails(zone, region, marks), ...this.entries(zone, region, marks),
       ...this.astray(zone, region, marks));

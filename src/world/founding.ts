@@ -3,6 +3,7 @@ import { Terrain } from './land/terrain';
 import { RegionGeography } from './region-geography';
 import { RegionFaith } from './region-faith';
 import type { Region, Settlement } from './region-writer';
+import { Features, type Feature } from './features';
 import tables from '../../data/generation/scenes/foundings.json';
 
 export type Kind = 'crossing' | 'harbour' | 'fishing' | 'workings' | 'yard' | 'farm' | 'monastery' | 'fortress'
@@ -15,9 +16,7 @@ export type Holy = 'shrine' | 'chapel' | 'garrison' | 'wayside';
 export interface FoundingPlace {
   id: string; name: string; scene: string; outdoors: boolean;
   below?: { id: string; name: string; way: string; scene: string; underground?: boolean };
-  things?: { id: string; name: string; seen: string; closer: string; below?: boolean;
-    // What one who knows the old script, or the lore of such things, makes of it: known from then on.
-    known?: string }[];
+  things?: Feature[];
   view?: { name: string; unseen: string; seen: string; change: string };
 }
 // Why a settlement is where it is, and what follows: what its heart is called, why it is there (said once), how its
@@ -142,8 +141,7 @@ export class Foundings {
   private static filled(p: FoundingPlace, w: Record<string, string>): FoundingPlace {
     const below = p.below && { ...p.below, name: this.fill(p.below.name, w), way: this.fill(p.below.way, w),
       scene: this.fill(p.below.scene, w) };
-    const things = p.things?.map(t => ({ ...t, name: this.fill(t.name, w), seen: this.fill(t.seen, w),
-      closer: this.fill(t.closer, w), ...t.known ? { known: this.fill(t.known, w) } : {} }));
+    const things = p.things?.map(t => Features.filled(t, text => this.fill(text, w)));
     const view = p.view && { name: this.fill(p.view.name, w), unseen: this.fill(p.view.unseen, w),
       seen: this.fill(p.view.seen, w), change: this.fill(p.view.change, w) };
     return { ...p, scene: this.fill(p.scene, w), ...below ? { below } : {}, ...things ? { things } : {},
