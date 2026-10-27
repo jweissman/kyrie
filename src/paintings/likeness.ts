@@ -122,6 +122,11 @@ export class Likeness {
     return h >>> 0;
   }
   static src(id: string): string { return `paintings/${id}.webp`; }
+  // A painting as the page shows someone by it: small and large copies, where the face sits, and its credit.
+  static portrait(id: string): { src: string; large: string; focus: number; credit?: string } {
+    const credit = this.credits[id];
+    return { src: this.src(id), large: this.large(id), focus: this.focus(id), ...credit ? { credit } : {} };
+  }
   static large(id: string): string { return `paintings/large/${id}.webp`; }
   // Where to hold a painting when it is cropped: at the face, as a percentage of its height.
   static focus(id: string): number { return this.sitters.get(id)?.face ?? this.faces[id] ?? 30; }

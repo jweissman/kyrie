@@ -16,6 +16,11 @@ export class Scenery {
     desert: ['encampment'], hills: ['herd', 'idyll'], wild: ['indolence', 'idyll', 'arch'],
     site: ['arch', 'ruin', 'trilith', 'tower'], night: ['camp', 'moon', 'aurora'],
   };
+  // A country by its terrain alone, as it is seen before it is entered (the page that asks who comes to it).
+  static country(terrain: string | undefined, key: string): string | undefined {
+    const views = this.views[terrain ?? ''] ?? this.views.wild!;
+    return views[this.hash(key) % views.length];
+  }
   static of(screen: Screen): string | undefined {
     const kinds = screen.path.map(p => p.kind), area = screen.region?.areas.find(a => a.here);
     const form = area?.form?.replace(/^land_/, ''), terrain = screen.region?.terrain?.replace(/^.*__/, '');

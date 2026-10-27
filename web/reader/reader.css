@@ -289,6 +289,10 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 .character .head-of { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 4px 32px;
   padding-bottom: 18px; margin-bottom: 10px; border-bottom: 1.5px solid var(--ink); }
 .character .head-of .who { margin: 0; font-size: clamp(44px, 5vw, 64px); }
+.character .head-of.faced { grid-template-columns: 92px minmax(0, 1fr) auto; }
+.character .head-of .sat { grid-row: 1 / span 2; width: 92px; height: 116px; object-fit: cover; display: block; }
+.character .head-of.faced .who, .character .head-of.faced .line-of { grid-column: 2; }
+.character .head-of.faced .gauges { grid-column: 3; }
 .character .head-of .line-of { margin: 0; grid-column: 1; }
 .character .gauges { grid-column: 2; grid-row: 1 / span 2; display: grid; gap: 8px; min-width: 260px; }
 .character .gauge { margin: 0; display: grid; grid-template-columns: 7.5em auto 1fr; align-items: baseline; gap: 0 8px;
@@ -321,4 +325,62 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
   .character .gauges { grid-column: 1; grid-row: auto; min-width: 0; margin-top: 10px; }
   .character .qualities-of { grid-column: 1; }
   .character .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---- Who comes: a spread. Your likeness, or till you choose one the country, on the left; on the right who you
+   are, your qualities, why you have come, and setting out. ---- */
+.opening.who-you-are { max-width: none; height: 100dvh; min-height: 0; padding: 0; margin: 0; overflow: hidden;
+  display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
+.who-you-are .likeness { display: flex; flex-direction: column; min-height: 0; height: 100dvh;
+  padding: 28px clamp(20px, 3vw, 44px) 22px; border-right: 1px solid var(--hair); }
+.likeness .sitting { flex: 1 1 auto; min-height: 0; margin: 0; position: relative; background: var(--wash); }
+.likeness .sitting img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.likeness .sitting.gone img { visibility: hidden; }
+.likeness .sitting .cap { position: absolute; left: 22px; right: 22px; bottom: 18px; color: #fff;
+  text-shadow: 0 2px 14px rgba(0,0,0,.55); display: flex; flex-direction: column; gap: 4px; }
+.likeness .sitting .cap .n { font: 600 clamp(36px, 4vw, 56px)/1 var(--do); }
+.likeness .sitting .cap .credit { font: 400 12px var(--do); opacity: .85; }
+.likeness .choose { flex: none; padding-top: 14px; }
+.likeness .choose .label { margin-bottom: 8px; }
+.likeness .faces { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; }
+.likeness .face { all: unset; cursor: pointer; display: block; width: 54px; height: 68px; overflow: hidden;
+  box-shadow: 0 0 0 1px var(--hair); transition: box-shadow .12s; }
+.likeness .face img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.likeness .face:hover { box-shadow: 0 0 0 2px var(--ink); }
+.likeness .face:focus-visible, .likeness .face[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--blue); }
+.who-you-are .about-you { height: 100dvh; overflow-y: auto; overscroll-behavior: contain; padding: 34px clamp(24px, 4vw, 64px) 36px;
+  scrollbar-width: thin; scrollbar-color: var(--hair) transparent; }
+.who-you-are .about-you > * { max-width: 46rem; }
+.who-you-are h1 { font-size: clamp(34px, 3.6vw, 48px); margin-bottom: 14px; }
+.who-you-are .pitch { font-size: 18px; margin-bottom: 0; }
+.who-you-are .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 22px 0 14px; }
+.who-you-are .what { font-size: 15.5px; margin-bottom: 18px; }
+.placing .rolls { list-style: none; padding: 0; margin: 6px 0 4px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px; }
+.placing .rolls li { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 0 10px; padding: 8px 12px 9px;
+  border: 1px solid var(--hair); border-top: 3px solid var(--ink); }
+.placing .rolls li.held { border-top-color: var(--blue); background: #F1F5FD; }
+.placing .rolls .q { grid-column: 1 / -1; font: 500 11px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--grey); }
+.placing .rolls .act.roll { font: 400 32px/1.1 var(--told); text-decoration: none; padding: 0; min-width: 1.3em; }
+.placing .rolls .act.roll[aria-pressed="true"] { color: var(--blue); }
+.placing .rolls .mods { font: 400 12.5px/1.3 var(--do); color: var(--grey); }
+.placing .rolls .score { grid-column: 1 / -1; font: 400 13px/1.3 var(--do); color: var(--grey); }
+.placing .rolls .score b { font: 500 15px var(--do); color: var(--ink); }
+.placing .rests { min-height: 1.4em; font: 400 14px/1.45 var(--do); color: var(--grey); margin: 6px 0 0; }
+.who-you-are .origins { margin: 8px 0 20px; }
+.who-you-are .origins .act { font-size: 17px; padding: 6px 0 6px 14px; }
+.who-you-are .origins .act .why { font-size: 15px; }
+.who-you-are .set-out { margin-top: 18px; }
+.who-you-are .set-out .go { font: 500 30px var(--do); text-decoration: none; padding: 10px 22px 12px; background: var(--ink);
+  color: var(--paper); }
+.who-you-are .set-out .go:hover { background: var(--blue); }
+.who-you-are .set-out .go:focus-visible { background: var(--blue); outline: 3px solid var(--yellow); outline-offset: 3px; }
+@media (max-width: 860px) {
+  .opening.who-you-are { height: auto; min-height: 100dvh; overflow: visible; grid-template-columns: minmax(0, 1fr); }
+  .who-you-are .likeness { height: auto; border-right: 0; padding: 16px 16px 0; }
+  .likeness .sitting { height: 34dvh; flex: none; }
+  .who-you-are .about-you { height: auto; overflow: visible; padding: 20px 16px 40px; }
+  .who-you-are .fields { grid-template-columns: minmax(0, 1fr); }
+  .placing .rolls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

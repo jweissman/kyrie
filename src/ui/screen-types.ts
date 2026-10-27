@@ -78,6 +78,8 @@ export interface MemberRow {
   // The member as the rules have them (qualities as they stand, how they fight and are fought, saves, skills), and a
   // level's development still to spend, each way with what it would change (see CharacterSheets).
   sheet?: CharacterSheet; development?: Development;
+  // The painting chosen to be them, where one was (the protagonist's, at creation).
+  portrait?: { src: string; large: string; focus: number; credit?: string };
   overlays?: { id: string; name: string; role: string; grants: string[] }[];
 }
 export interface LogEntry { at: string; title: string; lines: string[]; tone: 'act' | 'fight' | 'note' | 'fail' }

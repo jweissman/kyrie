@@ -15,6 +15,8 @@ export interface ItemInstance { id: string; definition: string; equipped?: boole
 export interface Creature {
   id: string; name: string; raceId: string; classId?: string; backgroundId?: string; professionId?: string;
   traits?: string[]; generation?: { trace: string[] };
+  // A painting chosen to be them, by its id in the collection: the protagonist's, chosen at creation.
+  likeness?: string;
   base: Attributes & {
     maxHp: number; maxMana: number; speed: number; level: number; abilities: string[];
     // A caster's spell slots by spell level (index 0 is first level); state.slots are those not yet spent.
@@ -55,6 +57,9 @@ export class CreatureSchema {
     }
     if (![creature.id, creature.name, creature.raceId].every(v => typeof v === 'string' && v.length)) {
       throw new Error('Creature needs identity, name and kind');
+    }
+    if (creature.likeness !== undefined && (typeof creature.likeness !== 'string' || !creature.likeness)) {
+      throw new Error(`${creature.id}: a likeness is a painting's id`);
     }
     if (Canon.isSpecies(creature.raceId) ? creature.classId !== undefined
       : !Canon.isAncestry(creature.raceId) || typeof creature.classId !== 'string' || !Canon.classes[creature.classId]) {

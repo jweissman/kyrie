@@ -3,9 +3,14 @@ import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 import { Words } from './words';
 import { CharacterPage } from './character-page';
+import { Likeness } from '../../src/paintings/likeness';
+import { Scenery } from '../../src/ui/scenery';
+import { Typography } from '../../src/presentation/typography';
+import type { Member } from '../engine/protocol';
 
-// Before a country: who you are, and why you have come. Your name, your people and your calling are yours to change;
-// the reasons to have come are the ones this country holds (a father who did not come home, a debt, an errand).
+// Before a country: who you are, and why you have come, as a spread: on the left your likeness (or the country, till
+// you choose one), on the right your name, your people and your calling, your qualities, and the reasons to have come
+// that this country holds (a father who did not come home, a debt, an errand), and setting out.
 export class ProtagonistPage {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, setting = s.setting, catalog = s.catalog, member = s.party[0];
@@ -14,7 +19,8 @@ export class ProtagonistPage {
     const people = catalog.ancestries.find(a => a.id === member.raceId);
     return (
       <div className="opening who-you-are" data-mode="create">
-        <main>
+        <ProtagonistPage.Likeness app={app} />
+        <main className="about-you">
           <p className="label">{setting.title}</p>
           <h1>{setting.pitch.heading}</h1>
           <p className="pitch">{setting.pitch.text}</p>
@@ -43,13 +49,52 @@ export class ProtagonistPage {
             </button></li>))}</ol>
           <ProtagonistPage.Trade app={app} />
           <p className="set-out">
-            <button type="button" className="act go" data-nav data-action="start" onClick={app.opening.begin}>Go</button>
+            <button type="button" className="act go" data-nav data-action="start" onClick={app.opening.begin}>Set out</button>
             <button type="button" className="act" data-nav data-action="another" onClick={app.opening.anew}>Another country</button>
           </p>
         </main>
         <Toast.View app={app} />
       </div>
     );
+  }
+  // The left page: the likeness you have chosen to be you, large, with your name on it; until you choose one, the
+  // country you are coming into. Beneath, six likenesses to choose among (or none), three of each sex, of the station
+  // your calling is painted in: nothing about you is assumed from your name.
+  static Likeness({ app }: { app: ReaderApp }) {
+    const s = app.state, member = s.party[0]!, chosen = member.likeness, faces = ProtagonistPage.faces(member);
+    const country = Scenery.country(s.setting?.terrain, s.setting?.title ?? '');
+    const shown = chosen ? Likeness.large(chosen) : country && `paintings/large/${country}.webp`;
+    return (
+      <aside className={`likeness${chosen ? ' chosen' : ''}`} aria-label="Your likeness">
+        {shown && <figure className="sitting"><img src={shown} alt="" decoding="async"
+          style={chosen ? { objectPosition: `50% ${Likeness.focus(chosen)}%` } : undefined}
+          onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} />
+          {chosen && <figcaption className="cap"><span className="n">{Typography.curl(member.name ?? '')}</span>
+            <span className="credit">{Likeness.credits[chosen] ?? 'Painter unrecorded'}</span></figcaption>}</figure>}
+        <div className="choose">
+          <p className="label">{chosen ? 'Your likeness' : 'Choose a likeness, if you like'}</p>
+          <ul className="faces">{faces.map(id => <li key={id}><button type="button" className="face"
+            data-action="likeness" data-id={id} aria-pressed={chosen === id} aria-label={`Likeness ${id}`}
+            onClick={() => app.opening.edit(0, 'likeness', chosen === id ? '' : id)}>
+            <img src={Likeness.src(id)} alt="" style={{ objectPosition: `50% ${Likeness.focus(id)}%` }} /></button></li>)}
+          </ul>
+        </div>
+      </aside>
+    );
+  }
+  // The stations each calling is painted in, likeliest first.
+  static readonly stations: Record<string, string[]> = { warrior: ['martial', 'labouring'], mage: ['learned', 'middling'],
+    thief: ['labouring', 'middling'], cleric: ['religious', 'learned'], bard: ['player', 'artist'],
+    ranger: ['labouring', 'martial'], monk: ['religious'], commoner: ['labouring', 'middling'] };
+  // Three of each sex for the calling, young or grown, never one the game will not cast (see Likeness.choose).
+  static faces(member: Member): string[] {
+    const taken = new Set<string>(), stations = ProtagonistPage.stations[member.classId ?? ''] ?? ['middling'];
+    const key = `${member.classId}:${member.raceId}:${member.backgroundId ?? ''}`;
+    for (const sex of ['woman', 'man', 'woman', 'man', 'woman', 'man'] as const) {
+      const id = Likeness.choose({ sex, stations, age: 'young' }, key, taken);
+      if (id) { taken.add(id); }
+    }
+    return [...taken];
   }
   // Your qualities: six rolls of three dice, each placed on a quality, with what your people and calling add to it,
   // what it comes to in a fight, and what it is for. Choose one roll and then another to change them over; or roll
@@ -61,22 +106,23 @@ export class ProtagonistPage {
     const people = catalog.ancestries.find(a => a.id === member!.raceId);
     const calling = catalog.callings.find(c => c.id === member!.classId);
     const choose = (q: string) => { if (held && held !== q) { app.opening.place(held, q); } hold(held === q ? undefined : q); };
+    const what = held && catalog.qualities.find(q => q.id === held);
     return (
       <section className="placing" aria-label="Your qualities">
         <p className="label">Your qualities</p>
         <p className="how">{held ? `Now the quality to give ${rolled[held]} to.` : 'Six rolls of three dice. Choose one, then '
           + 'another, to change them over.'}</p>
-        <table className="qualities"><tbody>{catalog.qualities.map(q => {
+        <ul className="rolls">{catalog.qualities.map(q => {
           const adds = (people?.qualities[q.id] ?? 0) + (calling?.qualities[q.id] ?? 0);
           const score = Math.max(1, rolled[q.id]! + adds);
-          return <tr key={q.id}><th scope="row">{q.name}</th>
-            <td><button type="button" className="act roll" data-quality={q.id} aria-pressed={held === q.id}
-              onClick={choose.bind(null, q.id)}>{rolled[q.id]}</button></td>
-            <td className="mods">{adds ? `${CharacterPage.signed(adds)} ${ProtagonistPage.from(people, calling, q.id)}` : ''}</td>
-            <td className="score">{score}<span className="check">
-              {` · ${CharacterPage.signed(catalog.worth[score] ?? 0)} in a fight`}</span></td>
-            <td className="rests">{q.rests}</td></tr>;
-        })}</tbody></table>
+          return <li key={q.id} className={held === q.id ? 'held' : undefined}><span className="q">{q.name}</span>
+            <button type="button" className="act roll" data-quality={q.id} aria-pressed={held === q.id}
+              onClick={choose.bind(null, q.id)}>{rolled[q.id]}</button>
+            <span className="mods">{adds ? `${CharacterPage.signed(adds)} ${ProtagonistPage.from(people, calling, q.id)}` : ' '}</span>
+            <span className="score"><b>{score}</b>{` · ${CharacterPage.signed(catalog.worth[score] ?? 0)} in a fight`}</span>
+          </li>;
+        })}</ul>
+        <p className="rests">{what ? <><b>{what.name}:</b> {what.rests}</> : ' '}</p>
         <p><button type="button" className="act" data-action="reroll" onClick={app.opening.reroll.bind(app.opening)}>
           Roll again</button></p>
       </section>

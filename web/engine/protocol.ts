@@ -26,6 +26,8 @@ export interface CampaignChoice {
 }
 export interface Setting {
   title: string; pitch: { heading: string; text: string }; party: Member[]; generated: boolean;
+  // A generated country's terrain (forest, marsh, mountain…), which its title page is painted by.
+  terrain?: string;
   // In a generated country, the reasons one person might have come into it, as this country holds them.
   origins?: { id: string; title: string; choice: string; background?: string }[];
 }

@@ -23,7 +23,9 @@ export class CharacterPage {
         {members.length > 0 && <nav className="members" aria-label="The company">
           {members.map(c => <Act.View key={c.id} choice={c} draw={draw} className={`member${c.id === m.id ? ' here' : ''}`}>
             <span className="n">{c.label}</span><span className="r">{c.note}</span></Act.View>)}</nav>}
-        <header className="head-of">
+        <header className={`head-of${m.portrait ? ' faced' : ''}`}>
+          {m.portrait && <img className="sat" src={m.portrait.src} alt="" decoding="async"
+            style={{ objectPosition: `50% ${m.portrait.focus}%` }} />}
           <h2 className="who">{Typography.curl(m.name)}</h2>
           <p className="line-of">{Words.upper(Words.article(m.line))}, level {m.level}{m.background
             ? `, once ${Words.article(m.background.toLowerCase())}` : ''}</p>

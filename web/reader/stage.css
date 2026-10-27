@@ -47,6 +47,8 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .foot .me { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 0; }
 .foot .me > * + *::before { content: '·'; margin: 0 8px; color: var(--faint); }
 .foot .me b { color: var(--ink); font-weight: 600; }
+.foot .me .face { width: 26px; height: 32px; object-fit: cover; margin-right: 10px; align-self: center; display: block; }
+.foot .me .face + b::before { content: none; }
 .foot .yours { margin: 0; gap: 2px 22px; }
 .hurt { color: var(--red); }
 

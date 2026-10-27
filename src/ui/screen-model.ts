@@ -329,9 +329,7 @@ export class ScreenModel {
       ...member?.backgroundId ? { background: member.backgroundId } : {},
       ...member?.professionId ? { profession: member.professionId } : {}, ...role ? { role } : {},
       ...name ? { name } : {}, ...sex ? { sex } : {}, key: id });
-    const credit = painting && Likeness.credits[painting];
-    return painting ? { src: Likeness.src(painting), large: Likeness.large(painting), focus: Likeness.focus(painting),
-      ...credit ? { credit } : {} } : undefined;
+    return painting ? Likeness.portrait(painting) : undefined;
   }
   // Every entity by the name the company knows it by: a member by their own name.
   private static names(campaign: Campaign): Map<string, string> {
@@ -358,7 +356,9 @@ export class ScreenModel {
       const race = Content.race(m.raceId)?.name ?? m.raceId;
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
       const background = m.backgroundId ? Canon.backgrounds[m.backgroundId]?.name : undefined;
+      const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness;
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(),
+        ...likeness && Likeness.ids.has(likeness) ? { portrait: Likeness.portrait(likeness) } : {},
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
         maxMana: m.maxMana, ...(m.maxSlots ? { slots: m.slots, maxSlots: m.maxSlots } : {}),
         ...(m.prepared ? { spells: this.prepared(m.prepared, m.ready ?? []) } : {}),

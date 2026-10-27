@@ -81,7 +81,8 @@ export class Stage {
     const me = screen.party[0];
     if (!me) { return null; }
     return (
-      <p className="me"><b>{me.name}</b>
+      <p className="me">{me.portrait && <img className="face" src={me.portrait.src} alt="" decoding="async"
+        style={{ objectPosition: `50% ${me.portrait.focus}%` }} />}<b>{me.name}</b>
         <span className={me.hp < me.maxHp ? 'hurt' : undefined}>{Words.hurt(me.hp, me.maxHp)}</span>
         {[...new Set(me.conditions)].map(c => <span key={c} className="hurt">{c.toLowerCase()}</span>)}
         {screen.expedition.hungry && <span className="hurt">hungry</span>}

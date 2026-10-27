@@ -1,4 +1,5 @@
 import { Content, type CreatureGenerationContext } from '../content';
+import { Likeness } from '../paintings/likeness';
 import { Creation } from '../rules/creation';
 import type { ModuleDraft } from './module-namespace';
 import { Formations } from '../rules/formations';
@@ -36,6 +37,8 @@ export class CompanyChoices {
       if ((context.gear ?? []).some(g => !Canon.items[Canon.resolve('items', g)])) {
         throw new Error('Unknown starting gear');
       }
+      // A likeness chosen at creation is a painting of the collection's (see Likeness).
+      if (context.likeness && !Likeness.ids.has(context.likeness)) { throw new Error('Unknown likeness'); }
       // Rolls placed at creation are six, one to each quality, each three dice.
       const rolled = context.rolled;
       if (rolled && (Object.keys(rolled).length !== 6
@@ -51,7 +54,8 @@ export class CompanyChoices {
         ...(context.spells ? { spells: [...context.spells] } : {}),
         ...(context.weapon ? { weapon: context.weapon } : {}),
         ...(context.armor ? { armor: context.armor } : {}),
-        ...(context.rolled ? { rolled: { ...context.rolled } } : {}) };
+        ...(context.rolled ? { rolled: { ...context.rolled } } : {}),
+        ...(context.likeness ? { likeness: context.likeness } : {}) };
       const entity = draft.instance.module.entities.find(e => e.creatureId === entry.id);
       if (entity) { entity.name = context.name; }
     });

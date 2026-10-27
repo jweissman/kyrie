@@ -84,7 +84,7 @@ export class Creation {
     if (!party) { setTimeout(() => void Creation.warm(world.path, world.source), 200); }
     const title = campaign.name, region = world.report.region;
     const origins = Origins.choices(await Origins.load(Scenarios.source()), region, world.report.placements);
-    return { title, generated: true, origins,
+    return { title, generated: true, origins, terrain: region.terrain,
       pitch: { heading: `Who comes to ${title}?`, text: `${title} is ${Creation.country(region.terrain)} country. `
         + 'You come into it alone, for a reason of your own; whoever goes with you, you will meet on the way.' },
       party: [Creation.protagonist(region.ancestry, seed)] };

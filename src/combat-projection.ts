@@ -10,6 +10,7 @@ export class CombatProjection {
       ...(original?.traits ?? fighter.traits
         ? { traits: [...new Set([...original?.traits ?? [], ...fighter.traits ?? []])] } : {}),
       ...(original?.backgroundId ? { backgroundId: original.backgroundId } : {}),
+      ...(original?.likeness ? { likeness: original.likeness } : {}),
       id: fighter.id, name: fighter.name, raceId: fighter.raceId,
       ...fighter.classId ? { classId: fighter.classId } : {},
       base: original ? structuredClone(original.base) : { abilities: [...fighter.abilities],

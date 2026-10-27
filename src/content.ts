@@ -41,6 +41,8 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   // The six qualities as the player placed them at creation, each three dice rolled, before what their people and
   // calling add (the cold playtest saw its rolled qualities and could not place them).
   rolled?: Partial<Record<Attribute, number>>;
+  // The painting the player chose to be them at creation, by its id in the collection (see Likeness).
+  likeness?: string;
 };
 export class Content {
   // What the creation screen and presenters show: classes and kinds by name.
@@ -166,6 +168,7 @@ export class Content {
       base: { ...scores as Record<Attribute, number>, level, abilities: [], maxHp: 1, maxMana: 0, speed: 0 },
       state: { hp: 1, mana: 0, gold: 0, experience: 0, learnedAbilities: [], conditions: [] } };
     if (context.backgroundId) { creature.backgroundId = context.backgroundId; }
+    if (context.likeness) { creature.likeness = context.likeness; }
     if (context.professionId) { creature.professionId = context.professionId; }
     Overlays.validate({ classId, backgroundId: context.backgroundId, professionId: context.professionId }, id);
     Overlays.apply(creature);
