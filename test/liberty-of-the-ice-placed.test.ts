@@ -44,7 +44,7 @@ describe('Pellam beyond a march', () => {
     // The shepherd from Hawsfold comes in at the first noon after the company does, on the Fair's own days.
     await j.play(`=${arrived + 150}`);
     expect(s.campaign.world.test({ kind: 'call', name: L('abelCame'), args: [L('abel')] })).toBe(true);
-    // Left alone, the three days go by; the chapter closes on the morning after the ice goes out, and the world goes on.
+    // Left alone, the three days go by; the chapter closes on the morning after the ice goes out; the world goes on.
     while (!s.campaign.world.related('reached').length && j.watch() < arrived + 640) { await j.play(`=${j.watch() + 12}`); }
     expect(s.campaign.world.related('reached').map(r => r.args[0])).toEqual([L('landed')]);
     expect(s.campaign.running).toBe(true);

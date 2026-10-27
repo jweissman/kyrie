@@ -39,8 +39,8 @@ Module pellam "The Liberty of the Ice" {
   }
   Relation rhymeTried(group).
   // A word for the Squire, from a man Harker trusts about everything but poetry.
-  Kind letter_kind "a letter from Alderman Gosling" is gear worth 0 weighing 0 described "A letter in Alderman Gosling's round hand to Master Josias Harker, commending the bearer as a person of the greatest good sense in poetry and in all things, and asking him to show them every civility.".
-  Item gosling_letter "Alderman Gosling's letter to Harker" is letter_kind at limbo.
+  Kind gosling_letter_kind "a letter from Alderman Gosling" is gear worth 0 weighing 0 described "A letter in Alderman Gosling's round hand to Master Josias Harker, commending the bearer as a person of the greatest good sense in poetry and in all things, and asking him to show them every civility.".
+  Item gosling_letter "Alderman Gosling's letter to Harker" is gosling_letter_kind at limbo.
   Relation letterGiven(group).
   Topic gosling_word with gosling "Ask the alderman for a word to Master Harker on your behalf" when poemHelped(actor) and posedSquire(actor) and not letterGiven(gosling) once {
     Says "'To Josias? With pleasure.' He writes it on the back of a crossed-out stanza and seals it with his thumb. 'A person who can find a rhyme for Thessaly can be trusted with anything. I've said so.'".
@@ -56,8 +56,8 @@ Module pellam "The Liberty of the Ice" {
     Greets "'Marrying?' says Parson Doody, and sneezes. 'A shilling. No banns, no questions, no waiting, and landed at the Landing like any honest bargain.' He wipes his nose. 'Or unlanded, if you'd rather. Very popular, unlanded.'".
     Greets again "Parson Doody sneezes at you, cheerfully.".
   }
-  Kind register_kind "the register of the last Frost Fair" is gear worth 0 weighing 1 described "A little fat book, water-stained, the register of the Ice Chapel of the last Frost Fair, thirty-one winters ago, kept by Parson Doody's predecessor, Parson Grigg: a hundred and forty marriages in eleven days, many of them on the last night.".
-  Item old_register "the register of the last Frost Fair" is register_kind at chapel owned by doody.
+  Kind grigg_register_kind "the register of the last Frost Fair" is gear worth 0 weighing 1 described "A little fat book, water-stained, the register of the Ice Chapel of the last Frost Fair, thirty-one winters ago, kept by Parson Doody's predecessor, Parson Grigg: a hundred and forty marriages in eleven days, many of them on the last night.".
+  Item old_register "the register of the last Frost Fair" is grigg_register_kind at chapel owned by doody.
   Relation registerLent(group).
   Topic doody_register with doody "Ask Parson Doody whether anyone kept a register at the last Frost Fair" when true once {
     Says "'Old Grigg did.' He sneezes. 'I've his book. Bought it off his widow for the look of the thing.' He fishes it out from under the altar-cloth. 'A hundred and forty in eleven days, and fifty on the last night, when everyone knew the ice was going. None of 'em landed. The ice went out at midnight and took the Court's tent with it.' He chuckles. 'Half the respectable marriages in Pellam would be bigamy if any of the last night had been landed. You can look at it for a shilling. Or for nothing, if you're of the cloth.'".
@@ -121,6 +121,16 @@ Module pellam "The Liberty of the Ice" {
     On discuss { Assert knows(actor, wedding_bargain). }
   }
   Discovery wedding_bargain "Harker is marrying his daughter to Alderman Gosling so that the city's witness at the Landing, beside the Reeve, will be his son-in-law.".
+  // At supper, watching the Squire over her glass the whole meal, she has seen what her father has not.
+  Relation thessalySees(group).
+  Topic thessaly_squire with thessaly "Ask Thessaly Harker, after supper, what she was watching" when supped(actor) and posedSquire(actor) and not thessalySees(thessaly) and not thessalyBetrayed(thessaly) once {
+    Says "'You.' She says it pleasantly, low, while her father is at the sideboard. 'You're no more a squire of anywhere than I'm a bishop. You held your fork like a carter and you looked at the silver like a pawnbroker.' She sips. 'I don't care. Rob him if you can; he'll survive it.' She looks at her father's back. 'But if you get into his books, I want to know what's in them. I've wanted to know for nine years.'".
+    On discuss { Assert thessalySees(thessaly). }
+  }
+  Topic thessaly_bargain with thessaly "Tell Thessaly that if you get into her father's books, she'll know what is in them" when thessalySees(thessaly) and not thessalyAlly(thessaly) and not thessalyBetrayed(thessaly) once {
+    Says "'On the ice that's only words.' She takes a small brass key off a ribbon at her throat and puts it beside your plate, under the edge of your napkin. 'His desk, in the counting-house. He gave it me when I was twelve to keep his sermons in. He's forgotten.' She smiles at her father as he turns round. 'More goose, Father? The Squire is famished.'".
+    On discuss { Assert thessalyAlly(thessaly). }
+  }
   Topic thessaly_accused with thessaly "Ask Thessaly Harker whether she is Mr. Icicle" when (knows(actor, thessaly_icicle) or knows(actor, thessaly_inky)) and not thessalyAlly(thessaly) and not thessalyBetrayed(thessaly) once {
     Says "She does not pretend. She looks at the door, to see if it is shut. 'Yes.' Quite calm. 'Since the first week of the ice. Somebody in this city ought to say something, and nobody can say anything that is true, on the ice or off it, without it costing them, except a person who does not exist.' She looks at you steadily. 'If my father knew, I would be locked in until the wedding and married with a hand on my collar. So now you have something to sell him. Most people in Pellam would.'".
     On discuss { Assert knows(actor, thessaly_icicle). Assert icicleAsked(thessaly). }
@@ -205,6 +215,11 @@ Module pellam "The Liberty of the Ice" {
   Rule present_missed at chapel when weddingDone(lisk) and invited(party) and at(party, chapel) and not presentGiven(party) and not presentMissed(party) and not squireExposed(party)
     says "Master Harker looks, once, during the breakfast, at the place where the Squire of Hawsfold's wedding present ought to be, and sees nothing there, and looks at you. A squire, his face says, gives a present." {
     Assert presentMissed(party). Decrease conviction(harker, squire_claim) by 1. }
+  Rule squire_absent when weddingDone(lisk) and invited(party) and not at(party, chapel) and not squireExposed(party) and not squireMissed(party) {
+    Assert squireMissed(party). Assert happened(ev_squire_missed). }
+  Relation squireMissed(group).
+  Entity ev_squire_missed: fact "the Squire missed the wedding".
+  Rule squire_missed_heard when happened(ev_squire_missed) and inPellam() and not heardNews(ev_squire_missed) says "They are saying on the ice that the Squire of Hawsfold's chair at the Harker wedding stood empty right through it, with a card on it, and that Master Harker kept looking at it." { Assert heardNews(ev_squire_missed). }
   // Brought to the wedding, the bear comes in.
   Action bear_to_wedding(actor: group, site: place) "Walk Absolute up Freezeland Street on his chain to the Ice Chapel, with Hester" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, bear_stake) and bearCalmed(absolute) and at(hester, bear_stake) and thirdDay() and hour(clock) >= 11 and hour(clock) < 12 and not bearAtWedding(absolute).

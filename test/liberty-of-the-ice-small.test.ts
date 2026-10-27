@@ -94,4 +94,37 @@ describe('The Liberty of the Ice: small adventures', () => {
     expect(g.holds('harkerKnows', 'hidden_hulk')).toBe(true);
     expect(g.holds('dickonTaken', 'dickon')).toBe(true);
   }, 400000);
+
+  it('Mr. Icicle\'s column: the ledger given to Thessaly at the press, and the Frost Gazette on every booth by noon', async () => {
+    const g = await Pellam.start();
+    await g.fixture('gazette');
+    expect(g.holds('gazetteGiven', 'lisk')).toBe(true);
+    expect(g.holds('gazettePrinted', 'lisk')).toBe(true);
+    expect(g.page).toMatch(/WHERE THE FARM IN THE HILLS IS/);
+  }, 400000);
+
+  it('a lie told to Kemble as a secret sends the searchers up onto the downs, and the Reach is empty in the second night', async () => {
+    const g = await Pellam.start();
+    await g.fixture('kemble');
+    expect(g.holds('liedToKemble', 'party')).toBe(true);
+    expect(g.holds('searchersDiverted', 'lisk')).toBe(true);
+    expect(g.at('searchers')).not.toBe('pellam__black_reach');
+  }, 400000);
+
+  it('Absolute at the wedding: calmed with honey, walked up Freezeland Street, and the wedding put off until the spring', async () => {
+    const g = await Pellam.start();
+    await g.fixture('bear-wedding');
+    expect(g.holds('bearAtWedding', 'absolute')).toBe(true);
+    expect(g.holds('weddingBroken', 'lisk')).toBe(true);
+    expect(g.holds('witnessFree', 'gosling')).toBe(true);
+  }, 400000);
+
+  it('Harker tests the Squire on the second day, and the answer is the one the real shepherd gave; and late, he tells why he hires', async () => {
+    const g = await Pellam.start();
+    await g.fixture('beck');
+    expect(g.knows('harker_hired')).toBe(true);
+    expect(g.holds('harkerTested', 'party')).toBe(true);
+    expect(g.holds('testAnswered', 'party')).toBe(true);
+    expect(g.measure('conviction', 'harker', 'squire_claim')).toBeGreaterThanOrEqual(5);
+  }, 400000);
 });

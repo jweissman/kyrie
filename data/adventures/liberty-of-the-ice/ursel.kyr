@@ -45,6 +45,8 @@ Module pellam "The Liberty of the Ice" {
     Says "She stops laughing, and looks at you properly for the first time. 'Left hand under the cape,' she says. 'Nobody sees the left hand.' She gives you the purse back with a little bow. 'Ursel Cobb. And you've eyes, which is rarer on the ice than money. Come and have a gin. I've a proposition.'".
     On discuss { Assert pursedBack(actor). Increase quantity(actor, gold) by urselHolds(ursel). Set urselHolds(ursel) to 0. Assert urselKnown(actor). Increase urselTrust(ursel) by 1. Assert knows(actor, liberty_known). }
   }
+  // Someone who reads people sees that a partner who owes them nothing is keeping her options open.
+  Observe ursel_options near ursel when travelsWith(ursel, party) and urselTrust(ursel) < 1 and capable(party, insight) and not urselTook(party) "You notice that Ursel never quite stands where you can see both her hands, and that whenever money is mentioned she looks, very briefly, at your coat.".
   // A company that does not go after its purse finds it again before the Court sits, put back where it was taken.
   Rule purse_returned when pursed(party) and not pursedBack(party) and hour(clock) >= 15 and firstDay() says "You put your hand to your coat and your purse is there again, exactly where it was, with a twist of paper in it that says in pencil: NEVER SHOOK ON IT. — U.C. AT THE LAMB." teaches ursel_at_lamb {
     Assert pursedBack(party). Increase quantity(party, gold) by urselHolds(ursel). Set urselHolds(ursel) to 0. }
@@ -114,9 +116,11 @@ Module pellam "The Liberty of the Ice" {
   // history, not a score (the skating, the card, the bondhouse, the secret kept), and nothing that ends it.
   Query romanceHolds(a: group) means (skated(a) and pairPrinted(a) and keptSecret(a)) or (skated(a) and wentInForDickon(a))
     or (pairPrinted(a) and wentInForDickon(a)) or (keptSecret(a) and wentInForDickon(a) and skated(a)).
-  Event ursel_asks near ursel when thirdDay() and hour(clock) >= 10 and hour(clock) < 12 and travelsWith(ursel, party) and romanceHolds(party)
+  Event ursel_asks near ursel when thirdDay() and hour(clock) >= 10 and hour(clock) < 12 and travelsWith(ursel, party) and (at(party, freezeland_low) or at(party, chapel)) and romanceHolds(party)
     and not liedToUrsel(party) and not drownedSold(party) and not urselAsked(party) "Ursel stops in the middle of Freezeland Street, by the ribboned booth of the Ice Chapel, where Parson Doody is sweeping the step for the noon wedding. She looks at the board that says MARRIAGES for a long time. 'Forty years,' she says, 'I've never given my hand on anything.' She does not look at you. 'They say a hand on the ice is landed at two and good for life. And they say a wedding on the ice that isn't landed goes out with the river, and there's an end of it.' She looks at you then. 'I'd shake on the second kind,' says Ursel Cobb. 'With you. And then see.'" then {
     Assert urselAsked(party). }
+  Observe ursel_quiet near ursel when thirdDay() and hour(clock) >= 7 and hour(clock) < 12 and travelsWith(ursel, party) and romanceHolds(party)
+    and not liedToUrsel(party) and not urselAsked(party) "Ursel is quieter this morning than you have known her. She keeps looking away down the ice toward the lower end of Freezeland Street, where the ribboned booth of the Ice Chapel is, and then not looking.".
   Entity handfast_bargain: bargain "a handfast with Ursel Cobb, at the Ice Chapel".
   Action shake_ursel(actor: group, site: place) "Take Ursel's hand, in the Ice Chapel, and shake" {
     Grave "A hand shaken on the ice binds. This one will be cried at the Landing with the rest, unless you both let it go out with the river.".

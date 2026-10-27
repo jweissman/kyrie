@@ -62,7 +62,7 @@ Module pellam "The Liberty of the Ice" {
   // With his hand, he goes where the company goes, and argues.
   Rule callow_follows when following(callow, party) and at(party, ?p) and not at(callow, ?p) and not callowSlipped(callow) and not callowDead(callow) { Assert at(callow, ?p). }
   Topic callow_question with callow "Let Magister Callow ask you his question" when callowHand(actor) and not callowAsks(actor) once {
-    Says "He walks beside you with his arm through yours, coughing. 'Here is my question,' he says. 'Yesterday you were a stranger who had never seen Pellam. Today you are a person who has eaten its ox and been robbed on its ice and shaken on keeping an old heretic. Tomorrow you will be someone else again. Which of you is bound by the hand you gave the Reeve?' He stops in the middle of Freezeland Street. 'Think about it. I want your answer, and I want it to be yours, and not the Reeve's.'".
+    Says "He walks beside you with his arm through yours, coughing. 'Here is my question,' he says. 'Yesterday you were a stranger who had never seen Pellam. Today you are a person who has walked on its river and had its law cried at you and shaken on keeping an old heretic. Tomorrow you will be someone else again. Which of you is bound by the hand you gave the Reeve?' He stops in the middle of Freezeland Street. 'Think about it. I want your answer, and I want it to be yours, and not the Reeve's.'".
     On discuss { Assert callowAsks(actor). }
   }
   Topic answer_binds with callow "Tell Callow: the hand binds whoever gave it, changed or not" when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor) once {

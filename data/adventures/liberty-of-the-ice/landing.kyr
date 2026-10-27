@@ -136,13 +136,22 @@ Module pellam "The Liberty of the Ice" {
     On success { Assert hiredReleased(lisk). Assert tansyFree(tansy). Assert handKept(indenture_bargain). }
     Result "You untie Kemble's black tape and give each of them their indenture back, in front of the Reeve, Tansy Hobb's last, and say the words Broom tells you to say, which are very short: 'Your hand's your own.' Tansy Hobb looks at the paper and then at you, and then she tears it in half, and the big lad with the whip tears his, and then all of them, and the Fair, which has understood rather late what it is watching, begins to cheer, and does not stop. Master Harker, at the front of the ring, has gone the grey of the Reach.".
   }
+  Query layable(a: group) means hiredCase() and hiredCaseOpened(lisk) and not hiredSquire(lisk) and not hiredFled(lisk)
+    and knowingDoctrine(lisk) and (carries(a, ledger) or carries(a, bondbook)) and not unsworn(lisk).
   Action lay_books(actor: group, site: place) "Lay Harker's books before the Reeve: the farm in the hills is the lead mine at Gallowmoor" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and hiredCase() and hiredCaseOpened(lisk) and not hiredSquire(lisk) and not hiredFled(lisk)
-      and knowingDoctrine(lisk) and (carries(actor, ledger) or carries(actor, bondbook))
-      and (witnessFree(gosling) or gazettePrinted(lisk) or broomTold(broom) or harkerForger(harker)) and not unsworn(lisk).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and layable(actor) and witnessFree(gosling).
     Time 1.
     On success { Assert unsworn(lisk). Assert hiredReleased(lisk). Assert tansyFree(tansy). }
     Result "You give the Reeve the book, open, and she reads it with her trumpet in her lap: farm in the hills, and in pencil, Gallowmoor, eight coin, and dead, and dead. She reads for a long time. Then she holds it out to the city's witness. Alderman Gosling reads it, and his face changes, and he says, loud enough for the ring, 'The city witnesses it.' Justice Broom stands up on her barrel. 'By the law of the ice as it was argued here today,' she says, 'a hand is bound to what the one who shook it knew he shook on. These shook on a farm in the hills. There is no farm. There was never any hand.' She turns to the hired. 'Go home,' she says. 'Your hands are your own.' And to the clerk: 'Write it in the book. That's law now, on this river, as long as there's ice to put it on.'".
+  }
+  // Harker's son-in-law at her elbow will not witness it; the Reeve rules on what she has already been told: by a
+  // liar on her own bench, by Mr. Icicle in every booth on the ice, or by a three made thirty in front of her.
+  Action lay_books_reeve(actor: group, site: place) "Lay Harker's books before the Reeve, though the city's witness is Harker's son-in-law" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and layable(actor) and not witnessFree(gosling)
+      and (gazettePrinted(lisk) or broomTold(broom) or harkerForger(harker)).
+    Time 1.
+    On success { Assert unsworn(lisk). Assert hiredReleased(lisk). Assert tansyFree(tansy). }
+    Result "The Reeve reads the book with her trumpet in her lap, a long time, and holds it out to the city's witness; and Alderman Gosling, Harker's son-in-law of two hours, will not take it. 'The city does not witness,' he says, to the ice, very low. Justice Broom looks at him, and at Master Harker, and at the ring of the whole Fair, which has read it already, or heard it, or seen what Harker does to a three. 'Then the river will,' she says, and stands up on her barrel. 'By the law of the ice as it was argued here today, a hand is bound to what the one who shook it knew he shook on. These shook on a farm in the hills. There is no farm. There was never any hand.' She turns to the hired. 'Go home. Your hands are your own.' And to the clerk: 'Write it in the book. The Reeve witnesses it. That will have to do.'".
   }
   // With the doctrine argued, the books in hand, and Harker's son-in-law at the Reeve's elbow: the city will not witness.
   Observe witness_refuses at freezeland when hiredCase() and knowingDoctrine(lisk) and goslingHarker(gosling) and not gazettePrinted(lisk) and not broomTold(broom) and not harkerForger(harker) and not unsworn(lisk) "At the Reeve's elbow, as the city's witness, sits Alderman Gosling, Harker's son-in-law of two hours, with his chain on and his eyes on the ice. Whatever is laid before the Reeve, you can see, the city will not witness it today.".
@@ -167,7 +176,7 @@ Module pellam "The Liberty of the Ice" {
     Requires able(actor) and company(actor) and at(actor, site) and handfastCried(lisk) and handsCase() and not handfastLanded(actor) and not handfastLet(actor) and travelsWith(ursel, actor).
     Time 1 minute.
     On success { Assert handfastLanded(actor). Assert landed(handfast_bargain). }
-    Result "Ursel looks at you. Then she puts out her hand, first, in front of all Pellam, and you shake it, and the clerk cries 'Landed!' and the Fair cheers as if somebody had won the Silver Skate. Ursel Cobb, who has never given her hand on anything in forty years, has given it twice in a day. 'Well,' she says, very loud, to cover something. 'Well. That's me caught.'".
+    Result "Ursel looks at you. Then she puts out her hand, first, in front of all Pellam, and you shake it, and the clerk cries 'Landed!' and the Fair cheers as if somebody had won a race on the Flashes. Ursel Cobb, who has never given her hand on anything in forty years, has given it twice in a day. 'Well,' she says, very loud, to cover something. 'Well. That's me caught.'".
   }
   Action let_handfast(actor: group, site: place) "Tell the Reeve to let it go out with the river" {
     Requires able(actor) and company(actor) and at(actor, site) and handfastCried(lisk) and handsCase() and not handfastLanded(actor) and not handfastLet(actor).

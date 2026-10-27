@@ -79,21 +79,29 @@ Module pellam "The Liberty of the Ice" {
   Relation stairsPaid(group). Relation watermenSour(group). Relation stairsArgued(group).
   Action shake_stairs(actor: group, site: place) "Shake on a penny a stair with the watermen" {
     Grave "A hand shaken on the ice binds: the Court of the Ice will hold you to it, whatever was said.".
-    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, swan_lane) or at(actor, hay_stairs))
-      and not shook(actor, stair_bargain) and not stairsPaid(actor) and not watermenSour(actor)
-      and (state(swan_plank, across) or state(hay_plank, across)).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, swan_lane)
+      and not shook(actor, stair_bargain) and not stairsPaid(actor) and not watermenSour(actor) and state(swan_plank, across).
     Time 1 minute.
     On success { Assert shook(actor, stair_bargain). Assert state(swan_plank, lifted). Assert state(hay_plank, lifted).
       Set owedStairs(actor) to 12. }
     Result "You put out your hand, and the waterman spits on his and shakes it, very hard, and lifts the plank. 'Twelve stairs,' he says. 'Twelve pennies. Pay at the bottom or pay at the Court, it's all one to us.' He grins. 'Mind the ninth. It's slippy.'".
   }
-  Action pay_stairs(actor: group, site: place) "Pay the watermen twelve pennies for the stairs" {
-    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, swan_lane) or at(actor, hay_stairs) or at(actor, swan_foot) or at(actor, hay_foot) or at(actor, court))
-      and not stairsPaid(actor) and quantity(actor, gold) >= 12 and not watermenSour(actor).
+  Action shake_hay(actor: group, site: place) "Shake on a penny a stair with the waterman at Hay Stairs" {
+    Grave "A hand shaken on the ice binds: the Court of the Ice will hold you to it, whatever was said.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hay_stairs)
+      and not shook(actor, stair_bargain) and not stairsPaid(actor) and not watermenSour(actor) and state(hay_plank, across).
     Time 1 minute.
-    On success { Decrease quantity(actor, gold) by 12. Assert stairsPaid(actor). Set owedStairs(actor) to 0.
+    On success { Assert shook(actor, stair_bargain). Assert state(swan_plank, lifted). Assert state(hay_plank, lifted).
+      Set owedStairs(actor) to 9. }
+    Result "The waterman spits on his palm and shakes, and lifts the plank. 'Nine stairs, nine pennies, and the freedom of both banks,' he says. 'Pay at the bottom or pay at the Court.'".
+  }
+  Action pay_stairs(actor: group, site: place) "Pay the watermen a penny a stair" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, swan_lane) or at(actor, hay_stairs) or at(actor, swan_foot) or at(actor, hay_foot) or at(actor, court))
+      and not stairsPaid(actor) and owedStairs(actor) > 1 and quantity(actor, gold) >= owedStairs(actor) and not watermenSour(actor).
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by owedStairs(actor). Assert stairsPaid(actor). Set owedStairs(actor) to 0.
       Assert handKept(stair_bargain). Assert state(swan_plank, lifted). Assert state(hay_plank, lifted). }
-    Result "Twelve pennies into the tin cup, one at a time, counted aloud by both watermen with great enjoyment. 'There,' says one. 'Now you're a freeman of the stairs. Up and down as you like, both banks, till the thaw.' It is, you suspect, the most money anyone has given them in a month.".
+    Result "A penny a stair into the tin cup, one at a time, counted aloud by both watermen with great enjoyment. 'There,' says one. 'Now you're a freeman of the stairs. Up and down as you like, both banks, till the thaw.' It is, you suspect, the most money anyone has given them in a month.".
   }
   Action push_stairs(actor: group, site: place) "Step over the plank and go down without paying" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, swan_lane) and state(swan_plank, across)
@@ -104,7 +112,7 @@ Module pellam "The Liberty of the Ice" {
     Result "You step over the plank, and when the bigger of the two gets up to stop you, you look at him until he sits down again. Nobody shook on anything. 'Right,' he says to your back. 'Right. We'll know you.'".
     Otherwise "You step over the plank and the bigger waterman stands up and puts you back on the top step with one hand, not roughly. 'A penny a stair,' he says. 'Or the bridge, if you know the way, which you don't.'".
   }
-  Rule stairs_owed at court when owedStairs(party) > 0 and hour(clock) >= 16 and firstDay() and at(party, court) and at(broom, court) and not stairsCase(party) says "The Court's waterman-clerk calls: 'Tredgold's men against a stranger, for twelve pennies, twelve stairs, Swan Stairs, a hand shaken.' Everybody turns round to look at you. Justice Broom points her trumpet. 'Did you shake?' You did. 'Then pay,' she says, 'or tell me something I've not heard.'" {
+  Rule stairs_owed at court when owedStairs(party) > 0 and hour(clock) >= 16 and firstDay() and at(party, court) and at(broom, court) and not stairsCase(party) says "The Court's waterman-clerk calls: 'Tredgold's men against a stranger, for a penny a stair, a hand shaken.' Everybody turns round to look at you. Justice Broom points her trumpet. 'Did you shake?' You did. 'Then pay,' she says, 'or tell me something I've not heard.'" {
     Assert stairsCase(party). }
   Relation stairsCase(group).
   Action argue_stairs(actor: group, site: place) "Tell the Reeve that Swan Stairs is one stair, of twelve steps, and a penny a stair is a penny" {

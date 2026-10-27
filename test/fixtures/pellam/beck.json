@@ -1,0 +1,54 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "Ask Ursel what her proposition",
+  "Ask Ursel Cobb to join",
+  "Ask Ursel what the Squire",
+  "go:printing",
+  "Have Noll print a tally",
+  "Rule the tally",
+  "Take",
+  "go:hiring_ring",
+  "=12",
+  "Ask Master Harker about the wool",
+  "Tell Master Harker you are the Squire",
+  "Tell Harker about Hawsfold",
+  "Show Master Harker the printed tally",
+  "Point out to Harker",
+  "Let Ursel",
+  "Ask Tansy"
+ ],
+ "court": [
+  "go:freezeland",
+  "=48",
+  "go:court",
+  "Tell the Reeve that Swan",
+  "?Pay the watermen their one",
+  "?Pay the watermen twelve",
+  "=49",
+  "Stand up and shake the Reeve",
+  "go:cheaping",
+  "Ask Abel about his ewes",
+  "Tell Abel that Harker has bought",
+  "go:harker_parlour",
+  "=66"
+ ],
+ "supper": [
+  "Talk terms",
+  "=72",
+  "Ask Master Harker, late, about the portrait",
+  "=84"
+ ],
+ "day2": [
+  "go:calf_taproom",
+  "Talk to Nab",
+  "Take a bed",
+  "=144",
+  "go:counting_house",
+  "Talk to Master Josias",
+  "Tell him: east"
+ ]
+}

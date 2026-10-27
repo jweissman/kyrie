@@ -1,0 +1,17 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "=144",
+  "go:patience_hold",
+  "Search here",
+  "Ask Dickon Cobb how",
+  "go:counting_house",
+  "Tell Kemble, as a secret"
+ ],
+ "night": [
+  "=230"
+ ]
+}

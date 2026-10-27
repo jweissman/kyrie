@@ -17,7 +17,7 @@ Module pellam "The Liberty of the Ice" {
   Place bankside "Bankside" is settlement within lisk at 1, 3.
 
   // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
-  Place evenhand_church "Saint Evenhand's" is building within pellam_city.
+  Place evenhand_church "the Scale Church" is building within pellam_city.
   Place harker_house "Master Harker's house" is building within pellam_city.
   Place exchange "the Wool Exchange" is building within pellam_city.
   Place gosling_house "Alderman Gosling's house" is building within pellam_city.
@@ -40,7 +40,7 @@ Module pellam "The Liberty of the Ice" {
   // ── Rooms: the City ───────────────────────────────────────────────────────────────────────────────────────────────
   Place north_bar "the North Bar" is room within pellam_city at 1, 0 outdoors.
   Place cheaping "the Cheaping" is room within pellam_city at 1, 1 outdoors.
-  Place evenhands "Saint Evenhand's" is room within evenhand_church at 2, 1 indoors.
+  Place evenhands "the Scale Church" is room within evenhand_church at 2, 1 indoors.
   Place exchange_floor "the floor of the Wool Exchange" is room within exchange at 0, 1 indoors.
   Place gosling_study "Alderman Gosling's study" is room within gosling_house at 0, 0 indoors.
   Place fleece_row "Fleece Row" is room within pellam_city at 2, 2 outdoors.
@@ -100,7 +100,7 @@ Module pellam "The Liberty of the Ice" {
   // ── Ways ──────────────────────────────────────────────────────────────────────────────────────────────────────────
   Passage north_way "the North Road" is road between north_road and north_bar taking 30 minutes.
   Passage bar_lane "Northgate Street" is path between north_bar and cheaping taking 5 minutes.
-  Passage church_door "Saint Evenhand's door" is door between cheaping and evenhands.
+  Passage church_door "the Scale Church door" is door between cheaping and evenhands.
   Passage exchange_door "the Exchange doors" is door between cheaping and exchange_floor.
   Passage gosling_door "Alderman Gosling's door" is door between cheaping and gosling_study.
   Passage fleece_lane "Fleece Row" is path between cheaping and fleece_row taking 5 minutes.

@@ -69,8 +69,8 @@ Module pellam "The Liberty of the Ice" {
   Rule squire_invited when squireBelieved(harker) and not invited(party) and together(party, harker) says "'You'll sup with me,' says Master Harker. It is not a question. 'Tonight, at seven, Fleece Row. My daughter is to be married at the Ice Chapel on the last day, at noon, to Alderman Gosling; you'll do us the honour.' He inclines his head an inch. 'A Squire of Hawsfold at the wedding. My late wife would have liked that.'" { Assert invited(party). }
 
   // ── The props ─────────────────────────────────────────────────────────────────────────────────────────────────────
-  Kind tally_kind "a printed tally of the Hawsfold flock" is gear worth 0 weighing 0 described "A tally of two hundred fell ewes at Hawsfold under Swale Fell, by age and mark, printed on the ice by Noll Brisket in a border of very small sheep.".
-  Item tally "a printed tally of the Hawsfold flock" is tally_kind at limbo.
+  Kind hawsfold_tally_kind "a printed tally of the Hawsfold flock" is gear worth 0 weighing 0 described "A tally of two hundred fell ewes at Hawsfold under Swale Fell, by age and mark, printed on the ice by Noll Brisket in a border of very small sheep.".
+  Item tally "a printed tally of the Hawsfold flock" is hawsfold_tally_kind at limbo.
   Relation tallyOrdered(group). Relation tallyGood(place).
   Action order_tally(actor: group, site: place) "Have Noll print a tally of two hundred fell ewes at Hawsfold" {
     Requires able(actor) and company(actor) and at(actor, site) and at(noll, site) and (knows(actor, props_known) or knows(actor, con_plan)) and quantity(actor, gold) >= 3 and not tallyOrdered(actor).
@@ -123,13 +123,36 @@ Module pellam "The Liberty of the Ice" {
   Rule abel_to_ring when abelToRing() and not at(abel, hiring_ring) { Assert at(abel, hiring_ring). }
   Rule abel_to_exchange when abelToExchange() and not at(abel, exchange_floor) { Assert at(abel, exchange_floor). }
   Topic abel_flock with abel "Ask Abel about his ewes" when true once {
-    Says "'Two hundred Swale ewes, and the tups, and the gimmers, under Swale Fell at Hawsfold.' He says it as if it were a psalm. 'My father's, and his father's. Snowed in at the fold since Martinmas, and my sister's lad feeding them hay, and the hay going.' He turns his hat round in his hands. 'I've come down to sell them on the hoof for the shearing, before the hay's gone and I've to sell them for their skins. Forty coin.' He looks at you hopefully. 'Everyone says the man to see is Harker.'".
+    Says "'Two hundred Swale ewes, and the tups, and the gimmers, under Swale Fell at Hawsfold.' He says it as if it were a psalm. 'My father's, and his father's. Snowed in at the fold since Martinmas, and my sister's lad feeding them hay, and the hay going.' He turns his hat round in his hands. 'The fold's on the east side, where the beck comes off the fell and goes down to the Swale. I've come down to sell them on the hoof for the shearing, before the hay's gone and I've to sell them for their skins. Forty coin.' He looks at you hopefully. 'Everyone says the man to see is Harker.'".
     On discuss { Assert knows(actor, abel_flock_known). }
   }
   Discovery abel_flock_known "Abel Haws is the shepherd of Hawsfold under Swale Fell, and has two hundred fell ewes there, snowed in, which he has come down to Pellam to sell for forty coin. There is no squire at Hawsfold. Everyone has told him the man to see is Harker.".
   Topic abel_wool with abel "Ask Abel for a tuft of his wool" when not abelWool(abel) once {
     Says "'Take two.' He pulls a handful off his own sheepskin without thinking about it and pushes it into your hand. 'That's Hawsfold. Feel the spring in it.' He beams. 'You'd know it anywhere.'".
     On discuss { Assert abelWool(abel). }
+  }
+  // The second day: Harker, who is not a fool about wool, asks the Squire one thing about Hawsfold that a man who owned
+  // it would know without thinking. A question put to the player; the right answer is Abel's.
+  Relation harkerTested(group). Relation testAnswered(group).
+  Event harker_tests near harker when (secondDay() or thirdDay()) and posedSquire(party) and squireBelieved(harker) and together(party, harker)
+    and addressed(harker, party) and not harkerTested(party) and not squireExposed(party) "Master Harker turns his ring. 'Tell me,' he says, pleasantly, as one says it of the weather, 'which way does the beck run at Hawsfold? I had a drover once who swore it ran west, into the Lisk, and I have never been able to remember.' He waits. Kemble, at his desk, has stopped writing." then {
+    Assert harkerTested(party). }
+  Topic answer_beck_east with harker "Tell him: east, off the fell past the fold and down to the Swale" when harkerTested(actor) and not testAnswered(actor) and knows(actor, abel_flock_known) once {
+    Says "'East,' says Harker. 'The Swale. Of course.' Kemble begins to write again. 'My drover was a liar,' says Master Harker, and smiles, and it is the smile of a man who has stopped asking questions.".
+    On discuss { Assert testAnswered(actor). Increase conviction(harker, squire_claim) by 1. }
+  }
+  Topic answer_beck_west with harker "Tell him: west, down into the Lisk" when harkerTested(actor) and not testAnswered(actor) once {
+    Says "'West,' says Harker. 'Into the Lisk.' He looks at you for a long moment over his ring. 'Then my drover was right after all,' he says, gently, and Kemble does not begin to write again for some time.".
+    On discuss { Assert testAnswered(actor). Decrease conviction(harker, squire_claim) by 2. }
+  }
+  Action answer_beck_bluff(actor: group, site: place) "Tell him a squire does not count becks; he must ask the shepherd" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(harker, site) and harkerTested(actor) and not testAnswered(actor).
+    Time 2 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert testAnswered(actor). }
+    On failure { Assert testAnswered(actor). Decrease conviction(harker, squire_claim) by 1. }
+    Result "'A squire,' you tell him, with the air of one who has had to say this to a great many people, 'counts ewes. My shepherd counts becks.' Harker laughs, which you have not heard him do, and lets it go.".
+    Otherwise "'A squire counts ewes,' you say, 'not becks,' and Harker says 'Indeed,' and you can see him put the question away in a drawer, to take out later.".
   }
   Rule wool_given when abelWool(abel) and at(fell_wool, limbo) and at(party, ?p) { Retract at(fell_wool, limbo). Assert at(fell_wool, ?p). }
   // Keeping him from Harker: a lie he will believe, because he believes everything.

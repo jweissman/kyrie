@@ -31,6 +31,13 @@ Module pellam "The Liberty of the Ice" {
   }
   Discovery harker_buys "Master Harker buys fleece still on the sheep, by the head, with a tally, from anyone he trusts, for delivery at the shearing.".
 
+  // His one private thing: his wife's portrait, and what he tells a guest late, when he has drunk a little, about the
+  // hiring at which he was himself hired.
+  Topic harker_portrait with harker "Ask Master Harker, late, about the portrait over the fireplace" when supped(actor) and hour(clock) >= 20 and at(harker, harker_parlour) once {
+    Says "He looks at it for a long time. 'Margaret,' he says. 'She thought me hard.' He pours himself a little more. 'I was hired at the Pellam hiring when I was nine years old. My father stood me in the Ring with a twist of straw in my cap, and a man put out his palm, and I shook, because my father told me to, and I went to a farm in the hills that was a dye-works in Ossett, and I was there eleven years.' He drinks. 'I learned there that a hand is all a poor man has to sell. So I buy it, at a fair price, and I never lie about the price.' He puts the glass down very precisely. 'Margaret thought me hard,' he says again. 'She was not hired at nine.'".
+    On discuss { Assert knows(actor, harker_hired). }
+  }
+  Discovery harker_hired "Josias Harker was himself hired at the Pellam hiring at nine years old, for a farm in the hills that was a dye-works, and served there eleven years. He says a hand is all a poor man has to sell.".
   // ── Silas Kemble, his clerk ───────────────────────────────────────────────────────────────────────────────────────
   Person kemble "Silas Kemble" at counting_house {
     Role "a clerk, thin, with a red nose and a quill behind his ear". Ancestry human. Peaceable. Pronouns he. Manner acerbic.

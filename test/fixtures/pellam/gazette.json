@@ -1,0 +1,25 @@
+{
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Ask her for your purse back",
+  "go:harker_parlour",
+  "=66",
+  "Talk to Thessaly",
+  "go:printing",
+  "=84",
+  "=+1",
+  "Ask Thessaly Harker whether she is Mr",
+  "Tell Thessaly you'll not sell her",
+  "brass key: Take",
+  "go:counting_house",
+  "Open the roll-top desk with Thessaly",
+  "hiring ledger: Take",
+  "go:printing",
+  "Give Thessaly her father's book"
+ ],
+ "noon": [
+  "=170"
+ ]
+}
