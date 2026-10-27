@@ -34,7 +34,7 @@ class Fallen {
 }
 
 describe('a fallen companion', () => {
-  it('can be relieved of what they carried, and raised by a town\'s priest for 300 coin', async () => {
+  it('can be relieved of what they carried, and raised by a town\'s priest for 150 coin', async () => {
     const { w, s } = await Fallen.start(), town = w.report.region.settlements.find(t => t.size === 'town')!;
     const elen = () => s.campaign.state.party.find(m => m.name === 'Elen')!;
     GeneratedWorld.put(s, `${town.id}_shrine`);
@@ -51,10 +51,10 @@ describe('a fallen companion', () => {
     expect(raise).toBeDefined();
     // What it costs is on the choice, as a bed's price is.
     const acts = ScreenModel.build(s.campaign).people.flatMap(p => p.acts.map(a => a.label));
-    expect(acts).toContain('Ask them to raise Elen from the dead — 300 coin');
+    expect(acts).toContain('Ask them to raise Elen from the dead — 150 coin');
     await s.perform(raise.choice.id);
     expect(elen().hp).toBe(Math.floor(elen().maxHp / 2));
-    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold - 300);
+    expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold - 150);
     expect(Fallen.choice(s, /^Ask .* to raise Elen/)).toBeUndefined();
   }, 60000);
   it('dead, can be laid to rest, and leaves the company; senseless, cannot', async () => {

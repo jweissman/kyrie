@@ -13,6 +13,8 @@ export class RegionRecruits {
   static readonly classes: Record<string, string> = { drover: 'warrior', tinker: 'thief', pilgrim: 'cleric',
     pedlar: 'bard', 'charcoal-burner': 'ranger', 'eel-catcher': 'ranger', trapper: 'ranger', minstrel: 'bard',
     scholar: 'mage', soldier: 'warrior', mason: 'warrior' };
+  static readonly near: Record<string, string[]> = { mage: ['bard', 'cleric', 'thief'], cleric: ['bard', 'mage', 'monk'],
+    bard: ['thief', 'mage', 'cleric'], thief: ['ranger', 'bard'], ranger: ['thief', 'warrior'], warrior: ['ranger', 'monk'] };
   static readonly brings: Record<string, string> = {
     drover: 'Took a drove over the hills and came back with nothing but blisters and the price of a bed.',
     tinker: 'Mending pots. There are more locks than pots in this country, and they pay better.',
@@ -59,8 +61,11 @@ export class RegionRecruits {
   static traveller(s: Settlement, i: number, region: Region, at = `${s.id}_taproom`): string[] {
     const q = JSON.stringify, id = `${s.id}_traveller`, ancestry = s.people?.traveller ?? s.folk ?? region.ancestry;
     const allowed = Canon.ancestries[ancestry]?.classes ?? ['commoner'];
+    // One whose people cannot take the calling's class takes one near it: a halfling scholar a bard, not a warrior
+    // (the play-structure investigation's PT-13).
     const wanted = this.classes[s.calling], calling = wanted && allowed.includes(wanted) ? wanted
-      : allowed.find(c => Canon.classes[c]?.adventuring !== false) ?? 'commoner';
+      : (wanted ? this.near[wanted] ?? [] : []).find(c => allowed.includes(c))
+        ?? allowed.find(c => Canon.classes[c]?.adventuring !== false) ?? 'commoner';
     const hire = 3 + i, brings = this.brings[s.calling] ?? 'Passing through, like everyone.';
     const pronoun = s.pronouns?.traveller, they = { he: 'he', she: 'she' }[pronoun ?? ''] ?? 'they';
     return [`  Person ${id} ${q(s.traveller)} at ${at} { Role ${q(s.calling)}. Ancestry ${ancestry}. Calling ${calling}. Peaceable.`

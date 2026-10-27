@@ -110,7 +110,9 @@ export class DeepPacing {
   }
   // Orsino's treasure for a room, at Orsino's odds for its guide (a treasure room is generous, an empty one is not)
   // and of the depth's tier (mostly the lesser of the depth's two); what it is, its purpose says: what its makers and
-  // those after them would have left there; else Orsino's own tier. And coin.
+  // those after them would have left there; else Orsino's own tier. And coin, on a village's scale: one ruin held
+  // 8.75 times every shop's stock, and paid off a fifty-coin debt before noon (the play-structure investigation's
+  // PT-02).
   private static treasure(at: { purpose: DeepPurpose; depth: number }, generosity: number, draw: Draw):
     { items: string[]; coin: number } {
     const { purpose, depth } = at, low = this.tiers[Math.min(depth, 3)]!, better = this.tiers[Math.min(depth + 1, 4)]!;
@@ -123,6 +125,6 @@ export class DeepPacing {
     // Most of what is worth carrying home is the makers' own; the rest is gear left lying.
     return { items: Array.from({ length: Math.min(count, list.length) },
       () => own.length && draw.next() < 0.6 ? draw.pick(own) : draw.pick(list)),
-      coin: Math.round((1 + draw.int(20) + 2 * depth * 5) * generosity) };
+      coin: Math.round((1 + draw.int(6) + 3 * depth) * generosity) };
   }
 }

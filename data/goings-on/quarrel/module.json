@@ -15,5 +15,5 @@
     "priest": { "type": "group" }
   },
   "exports": { "feud": "feud" },
-  "experience": 100
+  "experience": 300
 }

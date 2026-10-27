@@ -123,7 +123,7 @@
   "objective": {
     "item": "the tuning-stone of the Stone-Singers",
     "kind": "tuning_stone",
-    "worth": 1500,
+    "worth": 300,
     "weight": 4,
     "text": "The Stone-Singers tuned their halls to one stone, cut whole and hollow, that has hummed in their last hall since they sang themselves into the rock. Whoever brings it out has the note their halls were made by.",
     "goal": "Bring the tuning-stone up out of {name}, from the last hall.",
@@ -165,23 +165,23 @@
   },
   "valuables": {
     "negligible": [
-      { "id": "ringing_pebble", "name": "a ringing pebble", "worth": 30, "weight": 0, "text": "A pebble cut hollow, that rings when it is flicked." },
-      { "id": "cantor_token", "name": "a cantor's token", "worth": 40, "weight": 0, "text": "A disc of polished stone with a single line cut across it: a note, for a cantor to carry." },
-      { "id": "stone_reed", "name": "a stone reed", "worth": 45, "weight": 0, "text": "A reed for a pipe, cut in stone so thin the light comes through it." }
+      { "id": "ringing_pebble", "name": "a ringing pebble", "worth": 6, "weight": 0, "text": "A pebble cut hollow, that rings when it is flicked." },
+      { "id": "cantor_token", "name": "a cantor's token", "worth": 8, "weight": 0, "text": "A disc of polished stone with a single line cut across it: a note, for a cantor to carry." },
+      { "id": "stone_reed", "name": "a stone reed", "worth": 9, "weight": 0, "text": "A reed for a pipe, cut in stone so thin the light comes through it." }
     ],
     "minor": [
-      { "id": "singing_bowl", "name": "a singing bowl", "worth": 120, "weight": 1, "text": "A bowl of stone that hums when its rim is rubbed with a finger, a note that fills a room." },
-      { "id": "rose_quartz_note", "name": "a rose-quartz note", "worth": 100, "weight": 0, "text": "A sliver of rose quartz cut to ring at one pitch, and only that one." },
-      { "id": "stone_flute", "name": "a stone flute", "worth": 150, "weight": 1, "text": "A flute cut whole out of a single stone, its holes as smooth as if they had been sung there." }
+      { "id": "singing_bowl", "name": "a singing bowl", "worth": 24, "weight": 1, "text": "A bowl of stone that hums when its rim is rubbed with a finger, a note that fills a room." },
+      { "id": "rose_quartz_note", "name": "a rose-quartz note", "worth": 20, "weight": 0, "text": "A sliver of rose quartz cut to ring at one pitch, and only that one." },
+      { "id": "stone_flute", "name": "a stone flute", "worth": 30, "weight": 1, "text": "A flute cut whole out of a single stone, its holes as smooth as if they had been sung there." }
     ],
     "major": [
-      { "id": "amethyst_bell", "name": "an amethyst bell", "worth": 300, "weight": 1, "text": "A bell cut out of one amethyst, with an amethyst clapper; its note is the colour of it." },
-      { "id": "tourmaline_pipes", "name": "tourmaline pipes", "worth": 350, "weight": 1, "text": "Three pipes of green and black tourmaline, joined, that play a chord when blown." },
-      { "id": "choir_seal", "name": "a choir-master's seal", "worth": 250, "weight": 0, "text": "A seal of jasper cut with the lines of a song, for marking what the choir had sung." }
+      { "id": "amethyst_bell", "name": "an amethyst bell", "worth": 60, "weight": 1, "text": "A bell cut out of one amethyst, with an amethyst clapper; its note is the colour of it." },
+      { "id": "tourmaline_pipes", "name": "tourmaline pipes", "worth": 70, "weight": 1, "text": "Three pipes of green and black tourmaline, joined, that play a chord when blown." },
+      { "id": "choir_seal", "name": "a choir-master's seal", "worth": 50, "weight": 0, "text": "A seal of jasper cut with the lines of a song, for marking what the choir had sung." }
     ],
     "grand": [
-      { "id": "crystal_eye_lyre", "name": "a crystal lyre", "worth": 800, "weight": 2, "text": "A small lyre of clear crystal with strings of hair-fine stone, that rings when it is breathed on." },
-      { "id": "song_tablet", "name": "a tablet of the great song", "worth": 700, "weight": 2, "text": "A tablet of malachite cut close with the lines of a song too long for one voice: a part of the song that cut the halls." }
+      { "id": "crystal_eye_lyre", "name": "a crystal lyre", "worth": 160, "weight": 2, "text": "A small lyre of clear crystal with strings of hair-fine stone, that rings when it is breathed on." },
+      { "id": "song_tablet", "name": "a tablet of the great song", "worth": 140, "weight": 2, "text": "A tablet of malachite cut close with the lines of a song too long for one voice: a part of the song that cut the halls." }
     ]
   },
   "wonders": ["singing_crystal", "whispering_voices", "enchanted_flute", "glowing_runes", "shifting_walls", "arcane_symbols", "living_mural"],
@@ -215,7 +215,7 @@
     "abbots": [
       { "role": "choir_hall", "scene": "The brothers who came after the Stone-Singers sang their own offices in the choir: their sign is cut on the lowest tier, small and careful, and the music-wall has a cross scratched over it.",
         "document": { "name": "the brothers' tablet", "shut": "A slate tablet leans against the lowest tier, written over in a careful hand.", "label": "Read the brothers' tablet", "text": "The brothers of {kingdom} sang here, and the hall sang back, and it was not our song. We have sealed the stair below with prayer. Let no one sing at the round door." },
-        "valuable": { "id": "abbey_psalter", "name": "a brothers' psalter", "worth": 120, "weight": 1, "text": "A psalter in wooden boards with the brothers' sign on it, its music written over the top of older lines." } }
+        "valuable": { "id": "abbey_psalter", "name": "a brothers' psalter", "worth": 24, "weight": 1, "text": "A psalter in wooden boards with the brothers' sign on it, its music written over the top of older lines." } }
     ],
     "princes": [
       { "role": "tuning", "scene": "The merchant-princes after the Stone-Singers tried to sell the tuning-stones: half the chains hang empty, and a crate lies broken by the door with straw in it.",
@@ -231,7 +231,7 @@
     ],
     "heirs": [
       { "role": "listening", "scene": "In the war of the heirs someone hid something in the listening-room, under the bowl in its floor: the stone of the bowl has been prised up and set back crooked.",
-        "hidden": { "found": "Under the bowl of the listening-room, prised up, a strongbox someone hid in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 300, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+        "hidden": { "found": "Under the bowl of the listening-room, prised up, a strongbox someone hid in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea came for the singers' stones one summer: there is a raiders' mark hacked in the smooth rim of the cave mouth, the only mark on it." }

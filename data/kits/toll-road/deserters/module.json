@@ -11,5 +11,5 @@
     "provider": { "type": "group" }
   },
   "exports": { "chief": "chief", "band": "keepers" },
-  "experience": 300
+  "experience": 450
 }

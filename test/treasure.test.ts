@@ -9,8 +9,8 @@ import type { CreatureStore } from '../src/creature-store';
 import { GeneratedWorld } from './support/generated';
 
 // Treasure as Orsino has it and old games paid for it: a makers' work holds things of worth (Orsino's junk and gems),
-// any merchant who deals in valuables buys them at that worth, and the first time a treasure is sold its worth is
-// experience for each of the company. a1: a marsh region with a barrow of the Barrow-Kin, its south chamber holding
+// any merchant who deals in valuables buys them at that worth, and the first time a treasure is sold half its worth
+// is experience for each of the company. a1: a marsh region with a barrow of the Barrow-Kin, its south chamber holding
 // grave-goods.
 class Hoard {
   static async start() {
@@ -32,7 +32,7 @@ class Hoard {
 }
 
 describe('treasure', () => {
-  it('is bought by a merchant at its worth, and is experience for the company the first time it is sold', async () => {
+  it('is bought by a merchant at its worth, and half of it is experience the first time it is sold', async () => {
     const { w, s } = await Hoard.start(), region = w.report.region;
     const barrow = region.sites.find(x => x.work?.plan === 'barrow')!;
     GeneratedWorld.put(s, `${barrow.id}_right`);
@@ -49,7 +49,7 @@ describe('treasure', () => {
       s.campaign.state.party.map(m => m.experience)];
     await Hoard.choose(s, /^Sell .* to /);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + worth);
-    expect(s.campaign.state.party.map(m => m.experience)).toEqual(experience.map(x => x + worth));
+    expect(s.campaign.state.party.map(m => m.experience)).toEqual(experience.map(x => x + Math.floor(worth / 2)));
     expect(s.campaign.world.test(ModuleWriter.call('realized', `region__${barrow.id}_goods`))).toBe(true);
   }, 60000);
   it('is worth coming back for in the morning, when a dealer has not the coin today', async () => {

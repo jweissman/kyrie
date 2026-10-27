@@ -12,5 +12,5 @@
   },
   "generation": { "type": "oldcoin", "templates": "templates.json", "tables": "tables.json" },
   "exports": { "coin_talk": "coin_talk" },
-  "experience": 100
+  "experience": 300
 }

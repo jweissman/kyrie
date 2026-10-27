@@ -1,2 +1,2 @@
-{ "id": "order", "title": "The brothers' errand", "binder": "order", "source": "origin.kyr", "background": "scribe", "coin": 10,
+{ "id": "order", "title": "The brothers' errand", "experience": 300, "binder": "order", "source": "origin.kyr", "background": "scribe", "coin": 10,
   "choice": "The brothers of your order have sent you to {home} with a letter for the priest, and an errand: to copy the old writing at {work}, which no one has ever copied." }

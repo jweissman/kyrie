@@ -76,15 +76,16 @@ export class FieldResolver {
     }
     throw new Error(`Unsupported resolver ${call.name}`);
   }
-  // A treasure handed over for its worth: the first time it is sold, what it is worth is experience for each of the
-  // company who brought it home.
+  // A treasure handed over for its worth: the first time it is sold, half what it is worth is experience for each of
+  // the company who brought it home (all of it made selling the quickest way to a level: the play-structure
+  // investigation's PT-02).
   private static realize(call: Call, host: FieldHost): CombatEvent[] {
     const [item, carrier, group] = call.args as [string, string, string], world = host.world;
     const events = Items.drop(host.creatures, carrier, item);
     if (world.test(ModuleWriter.call('realized', item))) { return events; }
     const kind = world.one('itemKind', item), worth = kind ? world.number(ModuleWriter.call('worth', kind)) : 0;
     const members = host.actors.find(a => a.id === group)?.members ?? [];
-    FieldUse.grant(host.creatures, members, worth, events);
+    FieldUse.grant(host.creatures, members, Math.floor(worth / 2), events);
     return events;
   }
   // The buyer's members pay the price between them, and the seller is paid it.

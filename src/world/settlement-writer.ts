@@ -97,7 +97,7 @@ export class SettlementWriter {
   private static priest(s: Settlement, f: Founding, at: { region: Region; cult: Cult }): string {
     const q = this.q, { region, cult } = at, h = Foundings.table.holy[f.holy];
     const where = f.holy === 'wayside' ? `${s.id}_green` : `${s.id}_shrine`;
-    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(Foundings.fill(h.role, { ...this.words(s), cult: cult.name }))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${this.pronoun(s, 'priest', f)}${s.size === 'town' ? ' Offers raising "a raising of the dead" for 300 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
+    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(Foundings.fill(h.role, { ...this.words(s), cult: cult.name }))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${this.pronoun(s, 'priest', f)}${s.size === 'town' ? ' Offers raising "a raising of the dead" for 150 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
   }
   // The merchant a settlement's trade supports, with that kind of merchant's stock and what they will buy: in a shop,
   // or at their own door on the heart.
@@ -106,7 +106,7 @@ export class SettlementWriter {
     const sells = t.stock.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
     const buys = t.buys.map(([what, fee]) => `Buys ${what} for ${fee} coin.`).join(' ');
     // Every merchant deals in valuables too, as far as their purse goes: a town's goes further than a hamlet's.
-    const purse = ({ town: 1000, village: 200 } as Record<string, number>)[s.size] ?? 60;
+    const purse = ({ town: 600, village: 120 } as Record<string, number>)[s.size] ?? 60;
     const role = f.selling === 'shop' ? t.role : Foundings.fill(Foundings.table.selling.door.role, { role: t.role });
     return `  Person ${s.id}_merchant ${q(s.merchant)} at ${s.id}_${f.selling === 'shop' ? 'shop' : 'green'} { Role ${q(role)}. ${this.of(s, 'merchant', region)}`
       + `${t.profession ? ` Profession ${t.profession}.` : ''} Peaceable.${this.pronoun(s, 'merchant', f)} ${sells}${buys ? ` ${buys}` : ''} }\n`

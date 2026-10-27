@@ -1,2 +1,2 @@
-{ "id": "debt", "title": "What is owed", "binder": "debt", "source": "origin.kyr", "background": "trader", "coin": 9,
+{ "id": "debt", "title": "What is owed", "experience": 300, "binder": "debt", "source": "origin.kyr", "background": "trader", "coin": 9,
   "choice": "You owe {merchant}, at {home}, fifty coin for {lost} that you lost on the road last spring. You have come back to pay it, somehow." }

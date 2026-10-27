@@ -38,5 +38,5 @@ Module origin "What is owed" {
   }
   Objective owing when owed(loan) > 0 and not called(party) "You owe {creditor} at {homename} {owed(loan)} coin, by market day.".
   Objective owing_late when owed(loan) > 0 and called(party) "{creditor} has called in what you owe: {owed(loan)} coin.".
-  Goal false.
+  Goal squared(party).
 }

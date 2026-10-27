@@ -265,7 +265,8 @@ describe('Low Water, the Auditor: the Hearing, the heart and the stair', () => {
     await sung.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6));
     await Bowl.tryUntil(sung, 'Sing the Seventh at your doubles', () => sung.holds(L('doublesLaid'), 'party'));
     expect(sung.holds(L('doublesLaid'), 'party')).toBe(true);
-    const fought = await Bowl.start('d3');
+    // d4: a company that wins it (in d3 it was won by a warrior in plate, which no warrior now starts in).
+    const fought = await Bowl.start('d4');
     await fought.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud');
     await Bowl.untilNight(fought);
     await fought.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6), 'Wait › A while');

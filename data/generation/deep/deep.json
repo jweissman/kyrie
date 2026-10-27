@@ -688,23 +688,23 @@
   },
   "valuables": {
     "negligible": [
-      { "id": "delver_token", "name": "a Delver's pay-token", "worth": 40, "weight": 0, "text": "A token of silver stamped with a pick and a star: what a Delver was paid a shift in, and what the paymaster took back for bread." },
-      { "id": "star_beads", "name": "a string of star-iron beads", "worth": 50, "weight": 0, "text": "Beads of the pale ore on a cord gone hard as wire, worn by someone who dug it." },
-      { "id": "bronze_tally", "name": "a bronze tally-board", "worth": 45, "weight": 2, "text": "A board of bronze pegs where a shift's tubs were counted, the last count still in it." }
+      { "id": "delver_token", "name": "a Delver's pay-token", "worth": 8, "weight": 0, "text": "A token of silver stamped with a pick and a star: what a Delver was paid a shift in, and what the paymaster took back for bread." },
+      { "id": "star_beads", "name": "a string of star-iron beads", "worth": 10, "weight": 0, "text": "Beads of the pale ore on a cord gone hard as wire, worn by someone who dug it." },
+      { "id": "bronze_tally", "name": "a bronze tally-board", "worth": 9, "weight": 2, "text": "A board of bronze pegs where a shift's tubs were counted, the last count still in it." }
     ],
     "minor": [
-      { "id": "silver_lamp", "name": "a Delver's silver lamp", "worth": 120, "weight": 1, "text": "A miner's lamp of silver, not tin: a foreman's, or a gift. It would still light, with oil in it." },
-      { "id": "delver_ring", "name": "a Delver's ring", "worth": 100, "weight": 0, "text": "A heavy ring with a star cut in it, the mark the Delvers put on what was theirs." },
-      { "id": "small_ingot", "name": "a small star-iron ingot", "worth": 150, "weight": 2, "text": "A bar of the smelted ore no longer than a finger, pale and heavier than it looks." }
+      { "id": "silver_lamp", "name": "a Delver's silver lamp", "worth": 24, "weight": 1, "text": "A miner's lamp of silver, not tin: a foreman's, or a gift. It would still light, with oil in it." },
+      { "id": "delver_ring", "name": "a Delver's ring", "worth": 20, "weight": 0, "text": "A heavy ring with a star cut in it, the mark the Delvers put on what was theirs." },
+      { "id": "small_ingot", "name": "a small star-iron ingot", "worth": 30, "weight": 2, "text": "A bar of the smelted ore no longer than a finger, pale and heavier than it looks." }
     ],
     "major": [
-      { "id": "star_ingot", "name": "a star-iron ingot", "worth": 300, "weight": 4, "text": "A bar of smelted star-iron the length of a forearm, stamped with the Delvers' star: what the mine was dug for, made." },
-      { "id": "paymaster_seal", "name": "the paymaster's seal", "worth": 350, "weight": 1, "text": "A seal of gold and star-iron that sealed the mine's reckonings. Anyone in the old kingdom's lands would know it." },
-      { "id": "vein_reliquary", "name": "a reliquary of the vein", "worth": 400, "weight": 2, "text": "A little house of silver with a sliver of the ore inside it behind crystal, kept by the Delvers as other folk keep a saint's bone." }
+      { "id": "star_ingot", "name": "a star-iron ingot", "worth": 60, "weight": 4, "text": "A bar of smelted star-iron the length of a forearm, stamped with the Delvers' star: what the mine was dug for, made." },
+      { "id": "paymaster_seal", "name": "the paymaster's seal", "worth": 70, "weight": 1, "text": "A seal of gold and star-iron that sealed the mine's reckonings. Anyone in the old kingdom's lands would know it." },
+      { "id": "vein_reliquary", "name": "a reliquary of the vein", "worth": 80, "weight": 2, "text": "A little house of silver with a sliver of the ore inside it behind crystal, kept by the Delvers as other folk keep a saint's bone." }
     ],
     "grand": [
-      { "id": "star_crown", "name": "a crown of star-iron", "worth": 800, "weight": 3, "text": "A plain circlet of the pale ore that gives off a light of its own in the dark: made for someone the Delvers followed down." },
-      { "id": "vein_cup", "name": "a cup cut from one crystal", "worth": 700, "weight": 1, "text": "A cup carved from a single crystal found in the vein, so clear you see the light of your torch through the wine that is not in it." }
+      { "id": "star_crown", "name": "a crown of star-iron", "worth": 160, "weight": 3, "text": "A plain circlet of the pale ore that gives off a light of its own in the dark: made for someone the Delvers followed down." },
+      { "id": "vein_cup", "name": "a cup cut from one crystal", "worth": 140, "weight": 1, "text": "A cup carved from a single crystal found in the vein, so clear you see the light of your torch through the wine that is not in it." }
     ]
   },
   "finds": {
@@ -852,12 +852,12 @@
     "abbots": [
       { "role": "hall", "scene": "The brothers who came after the Delvers made a chapel of their hall: a sign is cut over the hearth, and the long table has been turned into an altar.",
         "document": { "name": "the brothers' tablet", "shut": "A slate tablet hangs on a nail by the altar, written over in a careful hand.", "label": "Read the brothers' tablet", "text": "The brothers of {kingdom} kept a lamp here for the Delvers' dead, and blessed the wall on the stair a second time. Let no one take the lamp away, and let no one take the wall down." },
-        "valuable": { "id": "abbey_chalice", "name": "a chapel cup of pewter and star-iron", "worth": 160, "weight": 1, "text": "A plain cup the brothers made out of what the Delvers left, for their altar underground." } }
+        "valuable": { "id": "abbey_chalice", "name": "a chapel cup of pewter and star-iron", "worth": 32, "weight": 1, "text": "A plain cup the brothers made out of what the Delvers left, for their altar underground." } }
     ],
     "princes": [
       { "role": "stores", "scene": "Merchant-princes reopened the upper workings for a few years after the Delvers: the store-room was their tally-house, and its door is painted with a ship.",
         "document": { "name": "a company ledger", "shut": "A ledger bound in oiled leather lies on the shelf, swollen shut with damp.", "label": "Prise the ledger open and read it", "text": "Ledger of the {kingdom} company at the old workings: forty tubs of ore the first year, eleven the second, three the third. The men will not go below the second level, whatever they are paid. The working given up." },
-        "valuable": { "id": "prince_ducats", "name": "a purse of merchant ducats", "worth": 120, "weight": 0, "text": "Gold coins with a ship on one side: a merchant-prince's wages, never paid out." } }
+        "valuable": { "id": "prince_ducats", "name": "a purse of merchant ducats", "worth": 24, "weight": 0, "text": "Gold coins with a ship on one side: a merchant-prince's wages, never paid out." } }
     ]
   },
   "fallen": {
@@ -869,7 +869,7 @@
     ],
     "heirs": [
       { "role": "chute_foot", "scene": "In the war of the heirs someone came down here with something to hide: there are boot-marks in the old ore dust that are not the Delvers'.",
-        "hidden": { "found": "Under the dead ore at the bottom of the bin, a strongbox someone buried in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 300, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+        "hidden": { "found": "Under the dead ore at the bottom of the bin, a strongbox someone buried in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea kept their plunder in the adit one summer: their carved post still stands at the mouth, a ship's figurehead with its face hacked off." }

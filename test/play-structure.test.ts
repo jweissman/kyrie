@@ -6,11 +6,16 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList } from '../src/ui/choice-list';
 import { Travel } from '../src/session/travel';
+import { Content } from '../src/content';
+import { Canon } from '../src/canon/canon';
+import { RegionRecruits } from '../src/world/region-recruits';
+import type { Region, Settlement } from '../src/world/region-writer';
 
 // What the play-structure investigation of 6596e18 found in ordinary play, held here: a way that goes one way only
 // says so, and a journey does not take it unasked (PT-17); a journey goes on past those who let the company by
-// (PT-16); a risk that fails says who fell, and to what (PT-21); and a mage in the dark can cast the light they
-// have (PT-06).
+// (PT-16); a risk that fails says who fell, and to what (PT-21); a mage in the dark can cast the light they have
+// (PT-06); a warrior starts in mail (PT-38); and a recruit whose people cannot take their calling's class takes one
+// near it (PT-13).
 class Played {
   static readonly two = [{ name: 'Ama', raceId: 'human', classId: 'warrior' },
     { name: 'Bo', raceId: 'human', classId: 'warrior' }];
@@ -24,6 +29,11 @@ class Played {
     return PlaySession.start(source.resolve('ps.campaign.json'), 'ps', source);
   }
   static place(s: PlaySession, name: string) { return s.campaign.module.entities.find(e => e.name === name)!.id; }
+  // The traveller at an inn, a scholar of the given people.
+  static scholar(folk: string): string {
+    return RegionRecruits.traveller({ id: 's1', name: 'Tapton', calling: 'scholar', traveller: 'Pim Ashdown', folk } as
+      unknown as Settlement, 0, { ancestry: 'human' } as unknown as Region)[0]!;
+  }
   // Walks the ways named, one after another, so that the company knows them.
   static async walk(s: PlaySession, ...ways: string[]) {
     for (const way of ways) {
@@ -107,4 +117,19 @@ describe('in the dark', () => {
     await s.perform(cast.command!);
     expect(ScreenModel.build(s.campaign).dark).toBe(false);
   }, 60000);
+});
+
+describe('a start', () => {
+  // Plate at the start made ordinary foes harmless ("a common foe needs 20"): plate is something to buy.
+  it('puts a warrior in mail, never plate', () => {
+    const worn = Array.from({ length: 40 }, (_, i) => new Content(`mail${i}`)
+      .createCreature('w', { raceId: 'human', classId: 'warrior' }))
+      .map(c => c.state.inventory?.find(i => i.equipped && Canon.items[i.definition]?.armor)?.definition);
+    expect(new Set(worn)).toEqual(new Set(['ring', 'scale', 'chainmail']));
+  });
+  // A halfling scholar came as a warrior.
+  it('gives a recruit whose people cannot take their calling\'s class one near it', () => {
+    expect(['halfling', 'dwarf', 'elf'].map(folk => /Calling (\w+)\./.exec(Played.scholar(folk))?.[1]))
+      .toEqual(['bard', 'cleric', 'mage']);
+  });
 });

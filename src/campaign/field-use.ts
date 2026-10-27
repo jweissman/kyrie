@@ -16,16 +16,18 @@ import type { CombatEvent } from '../model';
 import type { Attribute } from '../creature';
 
 export class FieldUse {
-  // Experience for a won encounter: its authored value for each who stood; or Orsino's reward, shared among those
-  // still standing: what its creatures are worth (Advancement.worth), ten for the square of their number, and 25.
+  // Experience for a won encounter: its authored value for each who stood; or half of Orsino's reward (what its
+  // creatures are worth, Advancement.worth, ten for the square of their number, and 25) to each who stood. It was
+  // the whole reward shared among them, so a companion halved what one earned, and one ruin took a lone character to
+  // the fifth level (the play-structure investigation's PT-02, PT-03).
   static award(store: CreatureStore, party: string[], world: World,
     result: { opponent: string; members: string[]; events: CombatEvent[] }) {
     const authored = world.module.measures.some(m => m.name === 'encounterXp')
       ? world.number(ModuleWriter.call('encounterXp', result.opponent)) : 0;
     if (authored) { this.grant(store, party, authored, result.events); return; }
-    const n = result.members.length, standing = party.filter(id => store.get(id).state.hp > 0).length;
+    const n = result.members.length;
     const won = result.members.reduce((sum, id) => sum + Advancement.worth(store.get(id)), 0) + 10 * n * n + 25;
-    this.grant(store, party, Math.floor(won / Math.max(1, standing)), result.events);
+    this.grant(store, party, Math.floor(won / 2), result.events);
   }
   // Living members whose experience has reached their next level gain it (Advancement.train).
   static train(store: CreatureStore, members: string[], seed: string): CombatEvent[] {

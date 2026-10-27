@@ -140,7 +140,7 @@
   "objective": {
     "item": "the Wardens' reading-glass",
     "kind": "warden_glass",
-    "worth": 1500,
+    "worth": 300,
     "weight": 2,
     "text": "The Water-Wardens read what was coming in the still water through a disc of black glass ground flat, and left it on its pillar in the pool when they went. Whoever brings it out has what the Wardens saw with.",
     "goal": "Bring the Wardens' reading-glass up out of {name}, from the still water at the bottom.",
@@ -182,23 +182,23 @@
   },
   "valuables": {
     "negligible": [
-      { "id": "lead_seal", "name": "a lead gate-seal", "worth": 30, "weight": 0, "text": "A seal of lead stamped with the Wardens' mark, that once sealed a gate shut." },
-      { "id": "pipe_tag", "name": "a bronze pipe-tag", "worth": 40, "weight": 0, "text": "A tag of bronze with a number on it, from a pipe that went somewhere." },
-      { "id": "warden_token", "name": "a Warden's token", "worth": 45, "weight": 0, "text": "A token of silver cut with a wave, that a Warden showed at a gate to be let through." }
+      { "id": "lead_seal", "name": "a lead gate-seal", "worth": 6, "weight": 0, "text": "A seal of lead stamped with the Wardens' mark, that once sealed a gate shut." },
+      { "id": "pipe_tag", "name": "a bronze pipe-tag", "worth": 8, "weight": 0, "text": "A tag of bronze with a number on it, from a pipe that went somewhere." },
+      { "id": "warden_token", "name": "a Warden's token", "worth": 9, "weight": 0, "text": "A token of silver cut with a wave, that a Warden showed at a gate to be let through." }
     ],
     "minor": [
-      { "id": "silver_ladle", "name": "a silver ladle", "worth": 120, "weight": 1, "text": "A long silver ladle for drawing still water to read, its bowl worn thin." },
-      { "id": "sluice_key", "name": "a bronze sluice-key", "worth": 100, "weight": 1, "text": "A key of bronze as long as your forearm, that wound one of the great gates." },
-      { "id": "cave_pearl", "name": "a cave pearl", "worth": 150, "weight": 0, "text": "A pearl that grew in still water in the dark, round and white and cold." }
+      { "id": "silver_ladle", "name": "a silver ladle", "worth": 24, "weight": 1, "text": "A long silver ladle for drawing still water to read, its bowl worn thin." },
+      { "id": "sluice_key", "name": "a bronze sluice-key", "worth": 20, "weight": 1, "text": "A key of bronze as long as your forearm, that wound one of the great gates." },
+      { "id": "cave_pearl", "name": "a cave pearl", "worth": 30, "weight": 0, "text": "A pearl that grew in still water in the dark, round and white and cold." }
     ],
     "major": [
-      { "id": "silver_basin", "name": "a silver basin", "worth": 300, "weight": 2, "text": "A shallow basin of silver for still water, its rim engraved with the springs of the valley, each named." },
-      { "id": "crystal_float", "name": "a crystal float", "worth": 350, "weight": 0, "text": "A sphere of clear crystal that floats, that the Wardens set on still water to see by." },
-      { "id": "staff_head", "name": "a warden's staff-head", "worth": 250, "weight": 1, "text": "The bronze head of a Warden's staff, cast as a wave breaking." }
+      { "id": "silver_basin", "name": "a silver basin", "worth": 60, "weight": 2, "text": "A shallow basin of silver for still water, its rim engraved with the springs of the valley, each named." },
+      { "id": "crystal_float", "name": "a crystal float", "worth": 70, "weight": 0, "text": "A sphere of clear crystal that floats, that the Wardens set on still water to see by." },
+      { "id": "staff_head", "name": "a warden's staff-head", "worth": 50, "weight": 1, "text": "The bronze head of a Warden's staff, cast as a wave breaking." }
     ],
     "grand": [
-      { "id": "moonstone_bowl", "name": "a moonstone bowl", "worth": 800, "weight": 1, "text": "A bowl cut from a single moonstone, that holds water so still it shows the moon at noon." },
-      { "id": "water_mirror", "name": "a silver water-mirror", "worth": 700, "weight": 1, "text": "A mirror of silver made to lie on still water and show what the water showed." }
+      { "id": "moonstone_bowl", "name": "a moonstone bowl", "worth": 160, "weight": 1, "text": "A bowl cut from a single moonstone, that holds water so still it shows the moon at noon." },
+      { "id": "water_mirror", "name": "a silver water-mirror", "worth": 140, "weight": 1, "text": "A mirror of silver made to lie on still water and show what the water showed." }
     ]
   },
   "wonders": ["magical_fountain", "ethereal_fountain", "celestial_fountain", "whispering_voices", "glowing_runes", "arcane_symbols", "living_mural"],
@@ -249,7 +249,7 @@
     "abbots": [
       { "role": "still_room", "scene": "The brothers who came after the Wardens made a chapel of the reading-room: their sign is cut over the door, and the still basin has been blessed for a font.",
         "document": { "name": "the brothers' tablet", "shut": "A slate tablet hangs on a nail by the basin, written over in a careful hand.", "label": "Read the brothers' tablet", "text": "The brothers of {kingdom} baptised in this water and sealed the deep gate a second time with a blessing. Let no one open it: what the Wardens shut in, they shut in for us all." },
-        "valuable": { "id": "abbey_ewer", "name": "a brothers' ewer", "worth": 120, "weight": 1, "text": "A ewer of pewter with the brothers' sign on it, for the water of the font." } }
+        "valuable": { "id": "abbey_ewer", "name": "a brothers' ewer", "worth": 24, "weight": 1, "text": "A ewer of pewter with the brothers' sign on it, for the water of the font." } }
     ],
     "princes": [
       { "role": "pipe_gallery", "scene": "The merchant-princes after the Wardens tried to sell the springs: their tally-board hangs on the pipes, and their own pipe, of cheap lead, badly joined, goes off along the gallery and stops.",
@@ -265,7 +265,7 @@
     ],
     "heirs": [
       { "role": "landing", "scene": "In the war of the heirs someone sank something in the deep cistern with a rope tied to the landing's pillar: the rope is still there, gone down into the dark.",
-        "hidden": { "found": "At the end of the rope at the landing, drawn up out of the dark, a strongbox someone sank in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 300, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+        "hidden": { "found": "At the end of the rope at the landing, drawn up out of the dark, a strongbox someone sank in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea came for the Wardens' silver one summer and found the doorway: there is a raiders' mark hacked in the lintel, and the stream runs over a broken oar." }

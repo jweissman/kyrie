@@ -8,6 +8,10 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { Origins } from '../src/world/origins';
+import type { Change } from '../src/lang/module';
+import type { World } from '../src/lang/world';
+import type { CombatEvent } from '../src/model';
+import type { CreatureStore } from '../src/creature-store';
 
 // One person comes into a generated country with a reason of their own, and the country knows them by it. a1 holds
 // the drover who did not come home, so a protagonist may be his child: his wife is their mother, his son their brother,
@@ -22,6 +26,23 @@ class Opening {
   static async world(origin: string, backgroundId: string): Promise<[string, string, NodeBundleSource]> {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { origin, party: [{ ...this.wenna, backgroundId }] });
     return [w.path, 'a1', w.source as NodeBundleSource];
+  }
+  // Coin in the protagonist's purse, as the world reads it after a moment.
+  static async purse(s: PlaySession, gold: number) {
+    const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
+    const lease = store.acquire(s.campaign.state.partyIds);
+    try { lease.creatures[0]!.state.gold = gold; lease.commit(lease.creatures); } finally { lease.release(); }
+    await s.perform('wait');
+  }
+  // What the world now holds besides (a fact learnt elsewhere).
+  static grant(s: PlaySession, changes: Change[]) {
+    const c = s.campaign as unknown as { world: World; commit(w: World): void };
+    c.commit(c.world.apply(changes));
+  }
+  // The experience a choice gave, by what it was for, once over the company.
+  static seen(event: { combat: CombatEvent[] }): string[] {
+    return [...new Set(event.combat.filter(e => e.type === 'gain' && e.detail.startsWith('experience: '))
+      .map(e => (e as { detail: string }).detail))];
   }
   // A choice by its words or its command (the way into a settlement is go(…, …_green) whatever its heart is called).
   static async take(s: PlaySession, pattern: RegExp) {
@@ -168,4 +189,20 @@ describe('an origin', () => {
     }
     expect(s.campaign.world.test(ModuleWriter.call('refusesService', 'region__s1_merchant', 'party'))).toBe(true);
   }, 120000);
+  // A debt paid and the copies shown were seen through by no one and worth nothing (the play-structure
+  // investigation's PT-04): each is the origin seen through now, and worth experience.
+  it('is seen through when the debt is paid, and is worth experience', async () => {
+    const s = await Opening.start('debt');
+    await Opening.purse(s, 60);
+    expect(Opening.seen(await Opening.take(s, /^Pay .* what you owe$/))).toEqual(['experience: what is owed, seen through']);
+  }, 60000);
+  it('is seen through when the copies are shown, and is worth experience', async () => {
+    const s = await Opening.start('order');
+    await Opening.take(s, /^Give .* the brothers' letter$/);
+    // Who made the work it was sent to copy, learnt there: the fact is the work's own, which the origin names.
+    const shown = s.campaign.module.actions.find(a => a.id === 'origin__show_copies')!;
+    const history = /"name":"knows","args":\["actor","([^"]+)"\]/.exec(JSON.stringify(shown.requires))![1]!;
+    Opening.grant(s, [{ kind: 'assert', call: ModuleWriter.call('knows', 'party', history) }]);
+    expect(Opening.seen(await Opening.take(s, /^Show .* what you copied at /))).toEqual(['experience: the brothers\' errand, seen through']);
+  }, 60000);
 });

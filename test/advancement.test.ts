@@ -22,15 +22,18 @@ describe('advancement', () => {
     expect(Advancement.worth(content.createCreature('r', { raceId: 'revenant' }))).toBe(300);
     expect(Advancement.worth(content.createCreature('h', { raceId: 'human', classId: 'warrior', level: 2 }))).toBe(60);
   });
-  it('shares a won fight among those still standing, as Orsino does: worth, ten for the square of the number, and 25', () => {
+  // Half of Orsino's reward (worth, ten for the square of the number, and 25) to each who stood: shared among them, a
+  // companion had halved what one earned (the play-structure investigation's PT-03).
+  it('gives each who stood half of Orsino\'s reward for a won fight, so a companion costs nothing', () => {
     const content = new Content('share');
     const hounds = ['h1', 'h2'].map(id => content.createCreature(id, { raceId: 'bone_hound', level: 2 }));
-    const company = ['a', 'b', 'c'].map(id => content.createCreature(id, { raceId: 'human', classId: 'warrior' }));
+    const company = ['a', 'b', 'c', 'd'].map(id => content.createCreature(id, { raceId: 'human', classId: 'warrior' }));
     company[2]!.state.hp = 0;
     const store = new CreatureStore([...hounds, ...company]), world = { module: { measures: [] } } as unknown as World;
-    const won = 2 * Advancement.worth(hounds[0]!) + 10 * 2 * 2 + 25;
+    const half = Math.floor((2 * Advancement.worth(hounds[0]!) + 10 * 2 * 2 + 25) / 2);
     FieldUse.award(store, ['a', 'b', 'c'], world, { opponent: 'hounds', members: ['h1', 'h2'], events: [] });
-    expect(['a', 'b', 'c'].map(id => store.get(id).state.experience)).toEqual([Math.floor(won / 2), Math.floor(won / 2), 0]);
+    FieldUse.award(store, ['d'], world, { opponent: 'hounds', members: ['h1', 'h2'], events: [] });
+    expect(['a', 'b', 'c', 'd'].map(id => store.get(id).state.experience)).toEqual([half, half, 0, half]);
   });
   it('a level rolls the hit die, adds Constitution, and moves a caster\'s slot table on, the same way every time', () => {
     const make = () => new Content('train').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'],
@@ -57,13 +60,13 @@ describe('advancement', () => {
     }
     const burn = await s.perform('change_thing(brood__webs_burn)');
     expect(burn.combat.filter(e => e.type === 'gain' && e.detail.startsWith('experience')).map(e => 'amount' in e && e.amount))
-      .toEqual([500, 500, 500]);
+      .toEqual([750, 750, 750]);
     // Experience changes what members may train; a save taken at once must still be consistent.
     expect(PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint()))).campaign.state.elapsed)
       .toBe(s.campaign.state.elapsed);
     const xp = () => s.campaign.state.creatures.filter(c => c.id.includes('party')).map(c => c.state.experience);
     await s.perform('wait');
-    expect(xp()).toEqual([500, 500, 500]);
+    expect(xp()).toEqual([750, 750, 750]);
   }, 120000);
 });
 describe('experience for a module someone else resolves', () => {

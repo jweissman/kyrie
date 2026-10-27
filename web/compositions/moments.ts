@@ -26,7 +26,7 @@ export class Moments {
     { title: 'Return', test: 'Hear what changed, preserve a result in memory, and choose a next intention.',
       beats: [{ step: 59 }, { step: 60, aside: 'The record goes to Ulfgar’s forge and sells the star-iron and the '
         + 'tokens (steps 61–71).' }, { step: 72, attend: 'Baern' }, { step: 73, attend: 'Baern', aside: 'The record '
-        + 'buys a glossary of the old script from Baern (steps 74–75).' }, { step: 76 }] },
+        + 'goes out to the bailey (step 74): the glossary of the old script waits for a fuller purse.' }, { step: 75 }] },
   ];
   // Every beat in order, with its moment's index.
   static beats(): { moment: number; beat: Beat }[] {

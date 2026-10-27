@@ -123,7 +123,7 @@
   "objective": {
     "item": "the crown of the first king",
     "kind": "barrow_crown",
-    "worth": 1500,
+    "worth": 300,
     "weight": 3,
     "text": "The Barrow-Kin buried their first king with the crown they made him out of the first gold of their land, and laid his people round him to keep him. Whoever brings the crown out from under the mound has the bounds' own crown.",
     "goal": "Bring the crown of the first king out from under {name}.",
@@ -164,23 +164,23 @@
   },
   "valuables": {
     "negligible": [
-      { "id": "amber_beads", "name": "a string of amber beads", "worth": 40, "weight": 0, "text": "Amber beads on a cord gone to nothing, warm-coloured even in the dark." },
-      { "id": "jet_button", "name": "a jet button", "worth": 30, "weight": 0, "text": "A button of black jet, polished, with a hole drilled through it on the slant." },
-      { "id": "bone_flute", "name": "a bone flute", "worth": 45, "weight": 0, "text": "A flute made from the leg-bone of a crane, with four holes; the Barrow-Kin spoke with their dead through flutes like it." }
+      { "id": "amber_beads", "name": "a string of amber beads", "worth": 8, "weight": 0, "text": "Amber beads on a cord gone to nothing, warm-coloured even in the dark." },
+      { "id": "jet_button", "name": "a jet button", "worth": 6, "weight": 0, "text": "A button of black jet, polished, with a hole drilled through it on the slant." },
+      { "id": "bone_flute", "name": "a bone flute", "worth": 9, "weight": 0, "text": "A flute made from the leg-bone of a crane, with four holes; the Barrow-Kin spoke with their dead through flutes like it." }
     ],
     "minor": [
-      { "id": "bronze_mirror", "name": "a bronze mirror", "worth": 120, "weight": 1, "text": "A disc of bronze, its back cast with spirals, its face gone green: you can still see yourself in it, darkly." },
-      { "id": "silver_armring", "name": "a silver arm-ring", "worth": 100, "weight": 0, "text": "A ring of twisted silver made to be worn above the elbow." },
-      { "id": "gold_pin", "name": "a gold cloak-pin", "worth": 150, "weight": 0, "text": "A pin of gold with a head like a sun, for a cloak that rotted round it." }
+      { "id": "bronze_mirror", "name": "a bronze mirror", "worth": 24, "weight": 1, "text": "A disc of bronze, its back cast with spirals, its face gone green: you can still see yourself in it, darkly." },
+      { "id": "silver_armring", "name": "a silver arm-ring", "worth": 20, "weight": 0, "text": "A ring of twisted silver made to be worn above the elbow." },
+      { "id": "gold_pin", "name": "a gold cloak-pin", "worth": 30, "weight": 0, "text": "A pin of gold with a head like a sun, for a cloak that rotted round it." }
     ],
     "major": [
-      { "id": "gold_torc", "name": "a gold torc", "worth": 300, "weight": 1, "text": "A torc of twisted gold, heavy, its ends cast as two heads looking at each other." },
-      { "id": "jet_necklace", "name": "a jet necklace", "worth": 350, "weight": 0, "text": "A necklace of jet plates and beads, strung in the order they were found, black and bright." },
-      { "id": "shield_boss", "name": "a bronze shield-boss", "worth": 250, "weight": 2, "text": "The bronze boss of a shield long gone, cast with a face." }
+      { "id": "gold_torc", "name": "a gold torc", "worth": 60, "weight": 1, "text": "A torc of twisted gold, heavy, its ends cast as two heads looking at each other." },
+      { "id": "jet_necklace", "name": "a jet necklace", "worth": 70, "weight": 0, "text": "A necklace of jet plates and beads, strung in the order they were found, black and bright." },
+      { "id": "shield_boss", "name": "a bronze shield-boss", "worth": 50, "weight": 2, "text": "The bronze boss of a shield long gone, cast with a face." }
     ],
     "grand": [
-      { "id": "gold_lunula", "name": "a gold lunula", "worth": 800, "weight": 0, "text": "A crescent of beaten gold, thin as a leaf, made to lie on a breast: a queen's, or a priest's." },
-      { "id": "gold_cup", "name": "a gold cup", "worth": 700, "weight": 1, "text": "A cup beaten out of a single piece of gold, corrugated like a shell, made for one drink." }
+      { "id": "gold_lunula", "name": "a gold lunula", "worth": 160, "weight": 0, "text": "A crescent of beaten gold, thin as a leaf, made to lie on a breast: a queen's, or a priest's." },
+      { "id": "gold_cup", "name": "a gold cup", "worth": 140, "weight": 1, "text": "A cup beaten out of a single piece of gold, corrugated like a shell, made for one drink." }
     ]
   },
   "wonders": ["whispering_voices", "phantom_flame", "glowing_runes", "arcane_symbols", "living_mural", "enchanted_flute", "eternal_candle"],
@@ -213,7 +213,7 @@
     "abbots": [
       { "role": "mourners", "scene": "The brothers who came after the Barrow-Kin hung a bell in the mourners' hall and cut their sign over the hearth, and said their own prayers for the old dead.",
         "document": { "name": "the brothers' tablet", "shut": "A slate tablet hangs on a peg among the bone flutes, written over in a careful hand.", "label": "Read the brothers' tablet", "text": "The brothers of {kingdom} prayed here for the dead of the old folk, and sealed the king's door a second time with a blessing. Let no one break it, and let the old king keep his bounds." },
-        "valuable": { "id": "abbey_bell", "name": "a brothers' hand-bell", "worth": 120, "weight": 1, "text": "A hand-bell of bronze with the brothers' sign cast on it, rung for the dead." } }
+        "valuable": { "id": "abbey_bell", "name": "a brothers' hand-bell", "worth": 24, "weight": 1, "text": "A hand-bell of bronze with the brothers' sign cast on it, rung for the dead." } }
     ],
     "princes": [
       { "role": "treasury", "scene": "The merchant-princes after the Barrow-Kin sent men down for the king's gold: their tally of what they took is scratched on the wall, and stops after the third line.",
@@ -229,7 +229,7 @@
     ],
     "heirs": [
       { "role": "well", "scene": "In the war of the heirs someone climbed down into the well of offerings with something to hide: there are new knots in an old rope tied to the kerb.",
-        "hidden": { "found": "At the bottom of the well, among the offerings, a strongbox someone lowered in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 300, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
+        "hidden": { "found": "At the bottom of the well, among the offerings, a strongbox someone lowered in the war of the heirs.", "valuable": { "id": "heirs_strongbox", "name": "an heir's strongbox", "worth": 60, "weight": 3, "text": "An iron box with a broken seal, full of the coin of a kingdom that no longer exists." } } }
     ],
     "raiders": [
       { "role": "mouth", "scene": "Raiders from over the sea dug into the forecourt one summer looking for gold, and gave up: there is a trench half across it, and a broken spade in the bottom." }

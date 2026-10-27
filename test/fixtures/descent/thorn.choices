@@ -85,6 +85,9 @@
 ^Take the walkway to the pipe gallery
 ^Gather up the coins
 ^Look closely at the magical rune
+^Take the walkway to the colonnade
+^Rest and recover at the colonnade
+^Take the walkway to the pipe gallery
 ^Risk the magical rune on the way to the end of the gallery; Arlen goes first
 ^Collect a hand mirror for Wenna
 ^Gather up the coins
@@ -112,11 +115,13 @@
 ^Buy a flask of lamp oil for Wenna
 ^Buy a flask of lamp oil for Wenna
 ^Sell a hand mirror to Lindal
-^Take Samwise's door
-^Ask Corrin whether
-^Ask Corrin to join
-^Take a bench by the fire from Samwise
-^Take Samwise's door
+^Take the road to the road between Meósdael and Glōmstede
+^Take the road to the reed-yard at Glōmstede
+^Ask Yoriel whether
+^Ask Yoriel to join
+^Take a place in the hayloft from Adrian
+^Take the road to the road between Meósdael and Glōmstede
+^Take the road to the old stones at Meósdael
 ^Take the road to the road between Merscheald and Meósdael
 ^Take the path into Dearcbearwas to the edge
 ^Take a holloway between banks of root to the old bank
@@ -126,6 +131,7 @@
 ^Take the conduit to the gate-hall
 ^Take the passage to the reading-room
 ^Take the passage to the head of the stair
+^Attack the rats
 ^Work the seized gate-wheel free
 ^Take the stair behind the bronze gate
 ^Take the conduit to the colonnade
@@ -141,8 +147,8 @@
 ^Look closely at the arcane glyph
 ^Hold the pole's end across the glyph
 ^Take the walkway to the archive|^Take the passage to the archive|^Take .* to the archive
-^Collect the Wardens' oath-tablet for Corrin
-^Equip the Wardens' oath-tablet on Corrin
+^Collect the Wardens' oath-tablet for Yoriel
+^Equip the Wardens' oath-tablet on Yoriel
 ^Take the steps cut in the cistern wall to the shore
 ^Take the passage to the still water
 ^Collect the Wardens' reading-glass for Wenna
@@ -161,3 +167,4 @@
 ^Take the passage to the gate-hall
 ^Take the conduit to the doorway
 ^Take the way in to Albuslac
+^Wait until first light

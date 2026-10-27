@@ -6,5 +6,5 @@
   "imports": ["party", "town", "chief", "band"],
   "roles": { "party": { "type": "group" }, "town": { "type": "place" }, "chief": { "type": "group" }, "band": { "type": "group" } },
   "exports": { "patron": "elders", "price": "price" },
-  "experience": 200
+  "experience": 300
 }

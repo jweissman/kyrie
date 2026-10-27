@@ -18,6 +18,9 @@ import arrivals from '../../data/origins/wanderer/arrivals.json';
 export interface OriginManifest {
   id: string; title: string; binder: string; source: string; choice: string;
   background?: string; coin?: number; gear?: string[];
+  // What seeing it through is worth (the debt paid, the copy shown): it was nothing (the play-structure
+  // investigation's PT-04).
+  experience?: number;
 }
 // An origin as the creation page offers it; with the background it makes the protagonist, if it makes one.
 export interface OriginChoice { id: string; title: string; choice: string; background?: string }
@@ -60,7 +63,7 @@ export class Origins {
     const values = { ...bound.values, protagonist: Origins.said(at.protagonist) };
     const names = Object.keys(bound.imports), dir = `${at.root}/origin`;
     at.files[`${dir}/module.json`] = JSON.stringify({ version: 1, source: 'origin.kyr', rules: ['world'],
-      globals: ['party'], imports: ['party', ...names],
+      globals: ['party'], imports: ['party', ...names], ...o.manifest.experience ? { experience: o.manifest.experience } : {},
       roles: Object.fromEntries([['party', { type: 'group' }], ...names.map(n => [n, { type: bound.imports[n]![1] }])]) });
     at.files[`${dir}/origin.kyr`] = this.fill(o.source, values);
     return { request: { id: 'origin', bundle: `${dir}/module.json`,
