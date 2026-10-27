@@ -77,6 +77,25 @@ describe('somewhere high', () => {
     expect(again.lines.filter(l => /^To the /.test(l))).toContain('To the north-west, not far off: Paliduslac.');
     expect(again.lines.some(l => /by its look/.test(l))).toBe(false);
   }, 120000);
+  // Through a spyglass, bought from the chandler in the first town, what lies past the edge of sight is seen too, on a
+  // clear day: the first town's tower shows a cave the eye alone does not.
+  it('shows past the edge of sight through a spyglass', async () => {
+    const w = await WorldAssembler.assemble('pine', NodeBundleSource.shared);
+    const s = await PlaySession.start(w.path, 'pine', w.source), c = s.campaign;
+    await GeneratedWorld.travel(s, 's1_shop');
+    const buy = PlayerView.choices(c).find(x => x.choice.name === 'Buy a spyglass for Elen · 15 coin')!;
+    await s.perform(buy.choice.id);
+    await GeneratedWorld.travel(s, 's1_shrine');
+    const climb = PlayerView.choices(c).find(x => /^Climb the tower/.test(x.choice.name))!;
+    const { lines } = await High.page(s, climb.choice.name);
+    expect(lines.filter(l => /through the glass/.test(l))).toEqual([
+      'To the south, far off, through the glass: a cave in the hillside in Pintreowwudu.',
+      'To the south, far off, through the glass: the footbridge over the Quicex.',
+      'To the south-east, far off, through the glass: the foot of Wīdecg by Snáwstede.']);
+    // A site seen through it is seen with the way to it, as one seen nearer is.
+    expect(lines).toContain('The way to a cave in the hillside in Pintreowwudu: to the edge of Pintreowwudu by Karahnof,'
+      + ' where the track to it starts.');
+  }, 120000);
   it('sees nothing behind a ridge, and nothing far in haze', () => {
     // A hollow, a ridge, a town beyond: from the hollow, nothing; from the ridge's top, the town.
     const land = { width: 5, height: 1, heights: [0.25, 0.3, 0.6, 0.35, 0.4] } as unknown as Land;

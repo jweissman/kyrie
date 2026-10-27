@@ -13,14 +13,14 @@ export interface Going { id: string; name: string; journey: Choice }
 // the telling, as the first climb of a town's tower read them.
 export class Panorama {
   static readonly sight = new RegExp('^To the (north|north-east|east|south-east|south|south-west|west|north-west), '
-    + '(not far off|some way off|a long way off): (.+)\\.$');
+    + '(not far off|some way off|a long way off|far off, through the glass): (.+)\\.$');
   static readonly known = /^You know it by its look: that is (.+)\.$/;
   static readonly credit = /^It is .+ that makes it out\.$/;
   static readonly way = /^The way to .+?: (.+)\.$/;
   static readonly compass = ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'];
   static readonly short: Record<string, string> = { north: 'N', 'north-east': 'NE', east: 'E', 'south-east': 'SE',
     south: 'S', 'south-west': 'SW', west: 'W', 'north-west': 'NW' };
-  static readonly distances = ['not far off', 'some way off', 'a long way off'];
+  static readonly distances = ['not far off', 'some way off', 'a long way off', 'far off, through the glass'];
   // The sights among an exchange's lines, round the compass and nearest first, and which lines they were told in: a
   // sight, the knowing of it that follows it, whose knowledge that was, and the way to it seen from up there.
   static read(lines: Exchange['lines']): { sights: Sight[]; told: Set<number> } {

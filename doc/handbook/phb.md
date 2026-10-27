@@ -3966,6 +3966,14 @@ spells 1 harder to resist.
 
 > A mystical stone that provides a protective barrier to the bearer.
 
+#### Spyglass
+
+*Kyr · gear* · `item:spyglass`
+
+- Worth: 15
+
+> A brass tube of three draws with a glass at either end. Drawn out and held steady from somewhere high on a clear day, it brings near what lies past the edge of sight, and shows what is a long way off well enough to know it.
+
 #### Sack of sand
 
 *Kyr · gear* · `item:sandbag`

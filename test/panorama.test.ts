@@ -12,16 +12,17 @@ describe('a panorama', () => {
     'To the north-west, not far off: a square doorway in a hillside in Beorquudu.',
     'You know it by its look: that is Paliduslac.', 'It is your wayfinding that makes it out.',
     'The way to a square doorway in a hillside in Beorquudu: to the edge of Beorquudu, and on to the old bank, where the track to it starts.',
-    'To the north, not far off: the edge of Beorquudu by Weligtún.', 'The way down is the stair you came up.']
+    'To the north, not far off: the edge of Beorquudu by Weligtún.', 'To the north, far off, through the glass: the pollards.',
+    'The way down is the stair you came up.']
     .map(text => ({ text, kind: 'change' as const }));
   it('sets the ways round the compass between the view from the top and the way down', () => {
     const { plain, rest, sights } = Moments.of(lines);
     expect(plain.map(l => l.text)).toEqual(['From the top of the tower Weligtún lies below you.']);
     expect(rest.map(l => l.text)).toEqual(['The way down is the stair you came up.']);
     expect(sights.map(s => [s.bearing, s.distance, s.place])).toEqual([
-      ['north', 'not far off', 'the edge of Beorquudu by Weligtún'], ['north-west', 'not far off', 'Paliduslac'],
-      ['north-west', 'some way off', 'Fearnglaed']]);
-    expect(sights[1]).toMatchObject({ seen: 'a square doorway in a hillside in Beorquudu',
+      ['north', 'not far off', 'the edge of Beorquudu by Weligtún'], ['north', 'far off, through the glass', 'the pollards'],
+      ['north-west', 'not far off', 'Paliduslac'], ['north-west', 'some way off', 'Fearnglaed']]);
+    expect(sights[2]).toMatchObject({ seen: 'a square doorway in a hillside in Beorquudu',
       by: 'It is your wayfinding that makes it out.',
       way: 'The way: to the edge of Beorquudu, and on to the old bank, where the track to it starts.' });
   });

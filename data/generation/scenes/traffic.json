@@ -38,7 +38,7 @@
       "morning": "{Name} the pedlar is packing the tray away for the road, everything in its own place.",
       "tracks": "A tin button lies in the road, the kind pedlars sell by the card. Someone's pack has a hole in it.",
       "going": "'{to}, then wherever's next,' says {Name}. 'There's always a next. That's the trade.'",
-      "sells": [["torch", 2, 3], ["rope", 2, 1], ["bandages", 1, 2], ["herbs", 2, 2]]
+      "sells": [["torch", 2, 3], ["rope", 2, 1], ["bandages", 1, 2], ["herbs", 2, 2], ["spyglass", 18, 1]]
     },
     "pilgrim": {
       "role": "pilgrim", "background": "acolyte", "painting": "pilgrim",
