@@ -136,6 +136,30 @@ describe('A Winter in Carth: the city\'s strands', () => {
 
   it('the tower: the unbuilding seen from Gaol Lane, Joby told, and the Master of the Fabric\'s bargain taken for the Scaifes\' rent', async () => {
     const g = await Gaunt.start();
+    await g.play(...custody, ...reeve, ...walk(), 'Wait › Until dark', 'Make a fire of straw and thorn', '=139', 'To the house-place', ...down.slice(1), ...paid, 'To the Bearer',
+      'Bring Ninian Hern up', 'To the Bearer', '=222', 'To Gaol Lane', 'To the Bearer', 'To the Close of Saint Oswy', '=294',
+      'Talk to Canon', 'Tell Canon Laverock you have seen', 'Tell Canon Laverock you saw nothing');
+    expect(g.knows('unbuilding')).toBe(true);
+    expect(g.holds('arrearsForgiven', 'carth_vigil')).toBe(true);
+    await g.until();
+    expect(g.page).toMatch(/Master of the Fabric describes as charity|Fabric has forgiven the arrears/);
+  }, 300000);
+
+  it('Prudence paid her mother\'s six shillings: nobody tells the serjeants, and Hern, not wanting out, stays in', async () => {
+    const g = await Gaunt.start(build('thief'), 'g1');
+    await g.play(...custody, ...walk('Tell him: it is a trade', 'Tell him: nothing'), '=90', 'Get into the box-bed', ...down, ...paid, 'To the Bearer',
+      'Bring Ninian Hern up', 'To the Bearer', 'To Gaol Lane', 'Talk to Hal', 'Ask Hal Metcalfe what', 'To the Bearer', 'To the Long Shambles',
+      'To the Row', 'Talk to Prudence', 'Ask Prudence Garth about her mother', 'Give Prudence Garth six shillings', 'To the Long Shambles',
+      'Into the Fat Lamb', 'Take a bed', '=372', 'Out to the Long Shambles', 'To the Bearer', 'To Gaol Lane', '=378', 'Help Hal Metcalfe up the ladder');
+    expect(g.holds('prudenceTurned', 'prudence')).toBe(true);
+    expect(g.holds('informed', 'prudence')).toBe(false);
+    expect(g.holds('barsOut', 'hern')).toBe(true);
+    expect(g.holds('hernRefusedWindow', 'hern')).toBe(true);
+    expect(g.page).toMatch(/I didn’t walk forty miles to go out of a window/);
+  }, 300000);
+
+  it('the Lady\'s words: under the mask she gives the company what would save him, and a ring; through the bars he takes the words, and recants with the truth', async () => {
+    const g = await Gaunt.start();
     await g.fixture('recant');
     expect(g.measure('pains', 'party')).toBe(0);
     expect(g.page).toMatch(/Remitted,’ he says\. He does not ask how/);
