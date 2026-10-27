@@ -15,6 +15,7 @@ import { HandbookTool } from './handbook';
 import { OrsinoRegistryTool } from './orsino-registry';
 import { Playtext } from './playtext';
 import { PlayTool } from './play-tool';
+import { InspectTool } from './inspect-tool';
 import { NewTool } from './new-tool';
 import { Terminal } from './terminal';
 import { Frontier } from '../world/frontier';
@@ -27,6 +28,8 @@ export class KyrieCli {
     '           bin/kyrie preview <campaign.json> [--port 8080]',
     '           bin/kyrie world <seed> [--terrain forest|marsh|mountain|frost] [--json] | playtext <seed> [steps]',
     '           bin/kyrie play <campaign.json> [--seed s] [--steps steps.json] [--probe "fact args"|"#measure args"] [step ...]',
+    '           bin/kyrie play --world <seed> [--origin debt] [--as elf/ranger/Aud] [step ...]',
+    '           bin/kyrie inspect <campaign.json> | --world <seed> "<choice>" [--seed s] [--steps steps.json] [step ...]',
     '           bin/kyrie voice show|moments|coverage|review|orsino | handbook [--html <dir>]',
     'Check:     bin/kyrie test [bun test arguments] | validate | orsino check|report|generate|catalog|world|inventory',
     'Look up:   bin/kyrie ancestries | species | classes | abilities | batch [count]'].join('\n');
@@ -43,6 +46,7 @@ export class KyrieCli {
       case 'orsino': return OrsinoRegistryTool.main(rest);
       case 'playtext': await Playtext.main(rest); return 0;
       case 'play': return PlayTool.main(rest);
+      case 'inspect': return InspectTool.main(rest);
       case 'new': return NewTool.main(rest);
       case 'campaign': await Terminal.play(await Campaign.load(path, argument ?? 'campaign', NodeBundleSource.shared)); return 0;
       case 'replay': return this.replay(path);

@@ -29,6 +29,8 @@ export interface Taken { label: string; command: string; told: string; page: str
 //   =+N        wait N watches more
 //   ~N         wait until watch N by dark and first light (an hour when neither is offered)
 //   ~pattern   a way that is not open yet: wait a while and try again, up to twelve times
+//   >place     go to a place by the shortest way the world joins them, a way at a time (a place of a generated
+//              world's first region by its own id, z3_deep; any other by its whole id)
 export class Journey {
   readonly taken: Taken[] = [];
   // The page as last built, and the world and log it was built of: a step reads the page to find its choice, and
@@ -76,6 +78,7 @@ export class Journey {
     }
     if (step.startsWith('@')) { return this.perform(step.slice(1), step); }
     if (step.startsWith('~')) { return this.through(step.slice(1)); }
+    if (step.startsWith('>')) { return this.go(step.slice(1)); }
     const optional = step.startsWith('?'), c = this.find(optional ? step.slice(1) : step);
     if (!c && optional) { return ''; }
     if (!c) { throw new Error(`No /${step}/ at watch ${this.watch()} among ${this.choices().map(x => x.label).join(' | ')}`); }
@@ -122,6 +125,28 @@ export class Journey {
       told += await this.perform(c.command, c.label);
     }
     return told;
+  }
+  private async go(place: string): Promise<string> {
+    const world = this.campaign.world, target = world.module.entities.some(e => e.id === place) ? place : `region__${place}`;
+    let told = '';
+    for (const [passage, to] of Journey.way(world, this.at(this.campaign.playerActor ?? 'party')!, target)) {
+      told += await this.perform(`go(${passage},${to})`, `>${to}`);
+    }
+    return told;
+  }
+  // The ways to take, passage by passage, from one place to another, by the fewest.
+  static way(world: World, start: string, target: string): [string, string][] {
+    const links = world.related('connects'), came = new Map<string, [string, string]>([[start, ['', '']]]);
+    for (const queue = [start]; queue.length && !came.has(target);) {
+      const here = queue.shift()!;
+      for (const l of links.filter(r => r.args[1] === here && !came.has(r.args[2]!))) {
+        came.set(l.args[2]!, [here, l.args[0]!]); queue.push(l.args[2]!);
+      }
+    }
+    if (!came.has(target)) { throw new Error(`No way from ${start} to ${target}`); }
+    const steps: [string, string][] = [];
+    for (let at = target; at !== start; at = came.get(at)![0]) { steps.unshift([came.get(at)![1], at]); }
+    return steps;
   }
   private async through(pattern: string): Promise<string> {
     for (let tries = 0; tries < 12; tries++) {

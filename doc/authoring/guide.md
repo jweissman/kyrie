@@ -512,6 +512,30 @@ performs a command by its id; `=N` waits until watch N, `=+N` waits N watches mo
 and first light; `~pattern` is a way not open yet, tried again after a short wait. Each step is printed as the page
 tells it, then where the company is, then the answers to the probes: a fact is yes or no, `#measure` its number.
 `--choices` lists what is offered at the end. The steps file is a list, or named phases played in the order written.
+`>place` goes to a place by the shortest way there, a way at a time (`>z3_deep`, or a whole id such as
+`ashhollow__square`).
+
+A generated world is played the same way from its seed, for one protagonist with an origin in it:
+
+```
+bin/kyrie play --world wren --origin wanderer --as elf/ranger/Aud ">z3_deep" "the turf hut: Examine"
+```
+
+To ask why a choice is or is not offered where the steps leave the company:
+
+```
+bin/kyrie inspect path/to/your.campaign.json "Wind the sluice up" "Wind the sluice up"
+```
+
+The pattern names the choice (as the page says it, or an action's id); the steps after it are played first. A choice
+on offer is said to be, with how the page shows it. One that is not is shown for the bindings nearest to being
+offered, with each condition they fail in Kyr, with what holds instead and what a query that fails means there:
+
+```text
+change_thing "{how}": not offered
+  nearest: "Wind the sluice up" (actor=party, how=p__sluice_up, thing=p__sluice, origin=p__wound_down, result=p__wound_up)
+    fails: state(p__sluice, p__wound_down); instead state(p__sluice, p__wound_up)
+```
 
 A journey test plays the same steps with `Journey` (`src/session/journey.ts`), as the adventures' own tests do
 (`test/thrume.test.ts`, `test/house-that-grows.test.ts`, `test/let-one-remember.test.ts`,

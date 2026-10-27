@@ -2,6 +2,7 @@ import type { PlaySession } from '../../src/session/play-session';
 import type { Placement } from '../../src/world/world-assembler';
 import { ModuleWriter } from '../../src/lang/module-writer';
 import { PlayerView } from '../../src/presentation/player-view';
+import { Journey } from '../../src/session/journey';
 
 // Generated worlds are laid out by their seed, and a new dimension in the generator lays them out differently. A
 // test about what happens in one reads where things are from the world's report instead of walking a fixed route.
@@ -17,19 +18,8 @@ export class GeneratedWorld {
   }
   // The ways to take, passage by passage, from where the company stands to a place.
   static path(s: PlaySession, place: string): [string, string][] {
-    const world = s.campaign.world, target = place.includes('__') ? place : `region__${place}`;
-    const links = world.related('connects');
-    const start = world.one('at', 'party')!, came = new Map<string, [string, string]>([[start, ['', '']]]);
-    for (const queue = [start]; queue.length && !came.has(target);) {
-      const here = queue.shift()!;
-      for (const l of links.filter(r => r.args[1] === here && !came.has(r.args[2]!))) {
-        came.set(l.args[2]!, [here, l.args[0]!]); queue.push(l.args[2]!);
-      }
-    }
-    if (!came.has(target)) { throw new Error(`No way from ${start} to ${target}`); }
-    const steps: [string, string][] = [];
-    for (let at = target; at !== start; at = came.get(at)![0]) { steps.unshift([came.get(at)![1], at]); }
-    return steps;
+    const target = place.includes('__') ? place : `region__${place}`;
+    return Journey.way(s.campaign.world, s.campaign.world.one('at', 'party')!, target);
   }
   // The first person who carries word of a placement, and the room they are found in (an innkeeper in a taproom, or
   // whoever speaks for a hamlet on its green).
