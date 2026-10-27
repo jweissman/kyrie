@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent, type MouseEvent } from 'react';
+import { Arms } from './arms';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 import { Words } from './words';
@@ -41,6 +42,7 @@ export class ProtagonistPage {
           <p className="what">{[people?.text, calling?.text, ProtagonistPage.special(member.name ?? 'you',
             calling?.specializations.find(t => t.id === member.traits?.[0]), calling?.id)].filter(Boolean).join(' ')}</p>
           <ProtagonistPage.Qualities app={app} />
+          <ProtagonistPage.Weapon app={app} />
           <p className="label">Why you have come</p>
           <ol className="origins">{(setting.origins ?? []).map(o => (
             <li key={o.id}><button type="button" className="act" data-nav data-action="origin" data-id={o.id}
@@ -105,7 +107,8 @@ export class ProtagonistPage {
     if (!rolled || !catalog) { return null; }
     const people = catalog.ancestries.find(a => a.id === member!.raceId);
     const calling = catalog.callings.find(c => c.id === member!.classId);
-    const choose = (q: string) => { if (held && held !== q) { app.opening.place(held, q); } hold(held === q ? undefined : q); };
+    // Changed over (or the one chosen chosen again), nothing is held: the page asks for no further quality.
+    const choose = (q: string) => { if (held && held !== q) { app.opening.place(held, q); } hold(held ? undefined : q); };
     const what = held && catalog.qualities.find(q => q.id === held);
     return (
       <section className="placing" aria-label="Your qualities">
@@ -136,6 +139,24 @@ export class ProtagonistPage {
   }
   // What the reason for coming makes you (the brothers' errand, a scribe of the order); or, for one who comes with
   // their trade and not much else, the trade, from those of their calling (Orsino's backgrounds for it).
+  // The weapon set out with, of the calling's own: the one struck best with until another is chosen, and what it is
+  // struck with and what that is worth (see Arms).
+  static Weapon({ app }: { app: ReaderApp }) {
+    const s = app.state, member = s.party[0], catalog = s.catalog;
+    if (!member || !catalog) { return null; }
+    const weapons = Arms.of(member, catalog), chosen = member.weapon ?? Arms.suited(member, catalog);
+    const w = weapons.find(x => x.id === chosen);
+    if (weapons.length < 2 || !w) { return null; }
+    const by = w.missile ? 'dexterity' : 'strength', worth = Arms.worth(member, catalog, by);
+    return (
+      <section className="fields arms" aria-label="Your weapon">
+        <label>Your weapon<select value={w.id} data-field="weapon" onChange={ProtagonistPage.change.bind(null, app)}>
+          {weapons.map(x => <option key={x.id} value={x.id}>{Words.upper(x.name)}</option>)}</select></label>
+        <p className="what">{`${w.missile ? 'Shot' : 'Wielded'}, and struck with by ${w.missile ? 'quickness' : 'strength'}: `
+          + `${CharacterPage.signed(worth)} in a fight.`}</p>
+      </section>
+    );
+  }
   static Trade({ app }: { app: ReaderApp }) {
     const s = app.state, member = s.party[0], catalog = s.catalog;
     const origin = s.setting?.origins?.find(o => o.id === s.origin);

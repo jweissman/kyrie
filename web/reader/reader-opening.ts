@@ -1,5 +1,6 @@
 import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
+import { Arms } from './arms';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
 export class ReaderOpening {
@@ -57,6 +58,8 @@ export class ReaderOpening {
       const open = this.app.state.catalog?.ancestries.find(a => a.id === member.raceId)?.callings;
       if (field === 'raceId' && open?.length && !open.includes(member.classId ?? '')) { member.classId = open[0]!; }
       if (field === 'classId' || field === 'raceId') { delete member.traits; delete member.spells; }
+      // A calling's weapons are its own: a new calling's is the one its bearer strikes best with until chosen.
+      if (field === 'classId') { delete member.weapon; }
       // A trade is a calling's own: a new calling has none until one is chosen.
       const trade = this.app.state.catalog?.backgrounds.find(b => b.id === member.backgroundId);
       if (field === 'classId' && trade?.calling && trade.calling !== member.classId) { delete member.backgroundId; }
@@ -98,7 +101,11 @@ export class ReaderOpening {
   };
   private starting() {
     const s = this.app.state, terrain = this.app.props.query.get('terrain');
-    return { campaign: s.campaign, seed: s.seed, party: s.party, ...terrain ? { terrain } : {},
+    // One who comes alone sets out with the weapon the page shows them with: theirs, or the one they strike best with.
+    const one = s.setting?.generated && s.party.length === 1 && s.catalog && s.party[0]!;
+    const weapon = one && !one.weapon ? Arms.suited(one, s.catalog!) : undefined;
+    const armed = one && weapon ? [{ ...one, weapon }] : s.party;
+    return { campaign: s.campaign, seed: s.seed, party: armed, ...terrain ? { terrain } : {},
       ...s.setting?.generated && s.origin ? { origin: s.origin } : {}, ...s.memorial ? { memorial: s.memorial } : {} };
   }
   // In a generated region a company may set out as one, and find the rest on the road.

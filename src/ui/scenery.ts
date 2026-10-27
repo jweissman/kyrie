@@ -8,11 +8,12 @@ import type { Screen } from './screen-types';
 // someone met.
 export class Scenery {
   static readonly views: Record<string, string[]> = {
-    'settlement:river': ['bridge', 'mill'], 'settlement:frost': ['wintre', 'ice-cutter'],
+    'settlement:river': ['bridge', 'mill'], 'settlement:frost': ['wintre', 'ice-cutter', 'trapper', 'idyll'],
     settlement: ['herd', 'fair', 'bridge'],
     'wild:river': ['indolence', 'bridge'], 'wild:lake': ['bear', 'party'], 'wild:peak': ['idyll', 'avalanche'],
     'wild:pass': ['idyll', 'bridge'], 'wild:wood': ['grove', 'gale'],
-    forest: ['grove', 'gale'], marsh: ['grove', 'trapper'], mountain: ['idyll', 'bear'], frost: ['ice-cutter', 'wintre'],
+    forest: ['grove', 'gale'], marsh: ['grove', 'trapper'], mountain: ['idyll', 'bear'],
+    frost: ['ice-cutter', 'wintre', 'trapper', 'idyll'],
     desert: ['encampment'], hills: ['herd', 'idyll'], wild: ['indolence', 'idyll', 'arch'],
     site: ['arch', 'ruin', 'trilith', 'tower'], night: ['camp', 'moon', 'aurora'],
   };
@@ -21,7 +22,9 @@ export class Scenery {
     const views = this.views[terrain ?? ''] ?? this.views.wild!;
     return views[this.hash(key) % views.length];
   }
-  // What is painted in winter is shown only in winter (a frozen river with skaters was shown on 23 Midsummer).
+  // What is painted in winter is shown only in winter (a frozen river with skaters was shown on 23 Midsummer); and in
+  // winter, where a kind has a winter painting, one of those (a cold country's town in summer is a grey northern bay,
+  // in winter its frozen river: a fresh play had a leafy fair for a town of snow-fences and turf roofs).
   static readonly winter = new Set(['wintre', 'ice-cutter', 'avalanche']);
   static of(screen: Screen): string | undefined {
     const kinds = screen.path.map(p => p.kind), area = screen.region?.areas.find(a => a.here);
@@ -31,9 +34,12 @@ export class Scenery {
     const keys = screen.dark ? ['night'] : where === 'site' ? ['site']
       : [form && `${where}:${form}`, terrain && where === 'settlement' && `settlement:${terrain}`,
         where === 'wild' ? terrain : undefined, where].filter((k): k is string => !!k);
-    const views = keys.map(k => this.views[k]?.filter(v => season === 'winter' || !this.winter.has(v)))
-      .find(v => v?.length);
+    const views = keys.map(k => this.seasonal(this.views[k] ?? [], season)).find(v => v.length);
     return views && views[this.hash(screen.place.id) % views.length];
+  }
+  private static seasonal(views: string[], season?: string): string[] {
+    const cold = views.filter(v => this.winter.has(v));
+    return season === 'winter' && cold.length ? cold : views.filter(v => season === 'winter' || !this.winter.has(v));
   }
   private static hash(text: string): number {
     let h = 2166136261;

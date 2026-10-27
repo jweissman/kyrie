@@ -128,6 +128,8 @@ describe('a fever on the green', () => {
     expect(mother).not.toContain('fever');
     expect(Town.said(await Town.act(s, new RegExp(`^Give some willow bark to ${mother}$`))))
       .toContain('By evening the fever has broken');
+    // The house is grateful: taking leave of the mother is taking leave of a friend, not of a proud stranger.
+    expect(s.campaign.world.test(ModuleWriter.call('grateful', 'fever__mother', 'party'))).toBe(true);
     expect(Town.said(await Town.act(s, /^Speak with/))).toContain('I will come');
     expect(PlayerView.choices(s.campaign).some(c => / to join the company$/.test(c.choice.name))).toBe(true);
   }, 60000);

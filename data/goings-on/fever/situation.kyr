@@ -27,8 +27,8 @@ Module fever "A fever on the green" {
     and expects(mother, actor) once {
     Says "'Three days,' says {mother}, 'and no better.' Then she sees the cloth in your hands, and knows it, and her hand goes to her mouth. 'The herb-wife sent you. She said she would send someone.'".
   }
-  // Whatever herbs are given her, she uses.
-  Rule mended_by when keeps(mother, ?i) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside without a word. By evening the fever has broken." { Assert mended(mother). Assert stale(sick). Assert stale(bark_lore). }
+  // Whatever herbs are given her, she uses; and the house is grateful to whoever brought them.
+  Rule mended_by when keeps(mother, ?i) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside without a word. By evening the fever has broken." { Assert mended(mother). Assert stale(sick). Assert stale(bark_lore). Assert grateful(mother, party). Assert grateful(sister, party). }
   // Too late, it happens at first light, and is heard by whoever is on the green; whoever comes back later sees it.
   Rule lost_child at green when watch(clock) >= 240 and untilLight(clock) == 1 and not mended(mother) and not lost(mother) says "In the morning the shrine bell is rung once, slowly. The child on the green has died." { Assert lost(mother). Assert stale(sick). Assert stale(bark_lore). }
 

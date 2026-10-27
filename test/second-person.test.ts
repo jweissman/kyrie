@@ -24,6 +24,8 @@ describe('the country a chapter opens on', () => {
   it('is painted in winter only in winter', () => {
     expect(Scenery.winter.has(Scenery.of(screen('the 23rd of Midsummer, in the 1st year of the Sun and Moon; summer'))!))
       .toBe(false);
+    // A cold country's town in summer is its own summer, not a leafy fair.
+    expect(['trapper', 'idyll']).toContain(Scenery.of(screen('the 30th of Haysel, in the 1st year of the Sun and Moon; summer'))!);
     expect(Scenery.winter.has(Scenery.of(screen('the 3rd of Deepwinter, in the 1st year of the Sun and Moon; winter'))!))
       .toBe(true);
   });

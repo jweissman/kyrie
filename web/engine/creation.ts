@@ -35,7 +35,9 @@ export class Creation {
           specializations: (c?.specializations ?? []).map(t => ({ id: t, name: Canon.traits[t]?.name ?? t,
             text: Canon.traits[t]?.description ?? '', of: Canon.traits[t]?.spellAccess?.domain
               ?? Canon.traits[t]?.spellAccess?.school ?? '' })),
-          qualities: { ...c?.attributes ?? {} } as Record<string, number> };
+          qualities: { ...c?.attributes ?? {} } as Record<string, number>,
+          weapons: (c?.weapons ?? []).filter(w => Canon.items[w]).map(w => ({ id: w, name: Canon.items[w]!.name,
+            missile: Canon.items[w]!.weapon?.missile === true })) };
       }),
       qualities: CreatureSchema.attributes.map(id => ({ id, name: CharacterSheets.names[id],
         rests: CharacterSheets.rests[id] })),

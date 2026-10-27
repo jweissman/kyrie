@@ -131,7 +131,7 @@
         "moment": "first",
         "manner": "grim"
       },
-      "text": "{Actor} does not stop working. ‘Say it, then.’"
+      "text": "{Actor} does not look up. ‘Say it, then.’"
     },
     {
       "id": "address.again.grim",

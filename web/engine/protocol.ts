@@ -38,7 +38,10 @@ export interface Catalog {
   ancestries: { id: string; name: string; text: string; callings: string[]; qualities: Record<string, number> }[];
   // A calling's specializations (a cleric's domains, a mage's schools): what each is, and what its first spells are of.
   callings: { id: string; name: string; text: string;
-    specializations: { id: string; name: string; text?: string; of?: string }[]; qualities: Record<string, number> }[];
+    specializations: { id: string; name: string; text?: string; of?: string }[]; qualities: Record<string, number>;
+    // The weapons a calling sets out with, one of them chosen: each by name, and whether it is shot (struck with by
+    // quickness) or wielded (by strength).
+    weapons: { id: string; name: string; missile: boolean }[] }[];
   // The six qualities and what each is for; and what a score is worth in a fight, by the score.
   qualities: { id: string; name: string; rests: string }[]; worth: number[];
   backgrounds: { id: string; name: string; kind: string; text: string; calling?: string }[];

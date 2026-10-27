@@ -47,7 +47,7 @@ export class ScreenModel {
     const fees = this.fees(campaign);
     const grouped = ChoiceGrouping.group(this.commands(campaign), { present, names, prices, passageOf, fees,
       tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
-      world,
+      world, reckon: DangerSense.reckon.bind(DangerSense, campaign),
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
     const here = view.location?.id ?? '';
     const passages = new Passages(entities, world, view.actor);

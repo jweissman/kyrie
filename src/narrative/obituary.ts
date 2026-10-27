@@ -6,6 +6,7 @@ import { Content } from '../content';
 import { FictionalTime } from '../campaign/fictional-time';
 import { Telling } from './telling';
 import { BandNames } from './band-names';
+import { Provocation } from '../campaign/provocation';
 import { CombatProjection } from '../combat-projection';
 import type { Memorial } from '../world/memorial';
 
@@ -54,7 +55,9 @@ export class Obituary {
     const action = campaign.operator(event.prelude?.action ?? event.action);
     const words = action ? action.name.replace(/\{(\w+)\}/g, (_, k: string) => names.get(action.bindings?.[k] ?? '')
       ?? Telling.called(campaign, action.bindings?.[k] ?? k)) : '';
-    if (event.prelude) {
+    // Fallen on while about something else; but a fight the company's own choice brought on (a challenge to single
+    // combat) is not being set upon.
+    if (event.prelude && !(action && Provocation.of(action))) {
       return words ? `You were set upon as you went to ${this.lower(words)}.` : 'You were set upon going about your business.';
     }
     if (action?.resolve?.name === 'combat') {

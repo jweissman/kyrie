@@ -75,9 +75,12 @@ export class DangerSense {
   // fall is said by name (Wenna, at seven hit points, where the beetles are no match for Tharash).
   private static judge(fight: { odds: number; fallen: number; hurt: number; frail?: string }, ours: Creature[],
     foes: Creature[]): Reckoning {
-    // One who is of a people is spoken of as they are, as a band is: not "it".
+    // One who is of a people is spoken of as they are, as a band is: not "it"; one person alone, by name ("Sir Hamo
+    // Ashdown is more than you can take", where a challenge to single combat had read "They are more than the company
+    // can take" to one who had come alone).
     const people = foes.length > 1 || foes.some(f => !!Canon.ancestries[f.raceId]);
-    const they = people ? 'they are' : 'it is', them = people ? 'them' : 'it';
+    const one = foes.length === 1 && people ? foes[0]!.name.split(', ')[0] : undefined;
+    const they = one ? `${one} is` : people ? 'they are' : 'it is', them = one ?? (people ? 'them' : 'it');
     const danger: Danger = fight.odds < 0.25 ? 'deadly' : fight.odds < 0.6 ? 'grave'
       : fight.odds < 0.9 || fight.fallen > 0 ? 'hard' : fight.hurt > 0.25 ? 'fair' : 'slight';
     // The most seasoned says it; of one who would fall, someone else does.
@@ -87,7 +90,7 @@ export class DangerSense {
     // "someone could fall", and died).
     const frail = ours.length === 1 ? 'you' : ours.find(c => c.id === fight.frail)?.name;
     const said: Record<Danger, string> = {
-      deadly: `${they} more than the company can take`,
+      deadly: `${they} more than ${ours.length === 1 ? 'you' : 'the company'} can take`,
       grave: `a fight with ${them} could be lost`,
       hard: `you would likely beat ${them}, but ${frail ?? 'someone'} could fall${ours.length === 1
         ? ', with no one to get you up' : ''}`,

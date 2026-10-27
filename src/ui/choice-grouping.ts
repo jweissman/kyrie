@@ -1,6 +1,8 @@
 import type { Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import { ActionTime } from '../campaign/action-time';
+import type { Danger } from '../presentation/danger-sense';
+import { Provocation } from '../campaign/provocation';
 import type { PublicChoice } from '../presentation/action-presentation';
 import type { ExitActs } from './passages';
 import type { Act, Passage } from './screen-types';
@@ -36,6 +38,8 @@ export interface GroupingContext {
   // The world as it is, by which a choice is reckoned as long as the clock will reckon it (ActionTime): a step through
   // a door is a minute, not ten.
   world?: World;
+  // How a fight with a group would go, for a choice that begins one (see DangerSense).
+  reckon?: (group: string) => { danger: Danger; text: string } | undefined;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -186,6 +190,18 @@ export class ChoiceGrouping {
     });
     twins.forEach((a, i) => { a.label = labels[i]!; });
   }
+  // What a choice risks, said before it is chosen: a night in the open where that costs something, going on into a
+  // bitter night (see Exposure); and a choice that sets someone on the company (a challenge to single combat) is a
+  // fight, weighed up as an attack is (a fresh play took up Sir Hamo's challenge unwarned, a level-one ranger against
+  // a knight, and died in two rounds).
+  private static warn(leaf: object, action: Operator, context: GroupingContext) {
+    const b = action.bindings ?? {}, exposed = context.exposed?.get(b.site ?? '');
+    if ((action.schema ?? action.id) === 'camp' && exposed) { Object.assign(leaf, { grave: Exposure.grave(exposed) }); }
+    const bitter = context.night && context.exposed?.get(action.movement?.destination ?? b.destination ?? '');
+    if (bitter) { Object.assign(leaf, { grave: Exposure.going(bitter) }); }
+    const foe = Provocation.of(action), reckoned = foe && context.reckon?.(foe);
+    if (reckoned) { Object.assign(leaf, { reckoned, risk: true }); }
+  }
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
@@ -195,10 +211,8 @@ export class ChoiceGrouping {
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
       ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}) };
-    const schema = action.schema ?? action.id, b = action.bindings ?? {}, exposed = context.exposed?.get(b.site ?? '');
-    if (schema === 'camp' && exposed) { Object.assign(leaf, { grave: Exposure.grave(exposed) }); }
-    const bitter = context.night && context.exposed?.get(action.movement?.destination ?? b.destination ?? '');
-    if (bitter) { Object.assign(leaf, { grave: Exposure.going(bitter) }); }
+    const schema = action.schema ?? action.id, b = action.bindings ?? {};
+    ChoiceGrouping.warn(leaf, action, context);
     if (action.movement) {
       const verb = b.escorted_group ? `Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}` : 'Go';
       const way = action.movement.passage ?? b.way;

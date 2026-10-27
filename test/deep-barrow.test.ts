@@ -99,7 +99,8 @@ describe('a king-barrow from the same generator as the mine', () => {
     await Barrow.take(s, /^Collect a string of amber beads/);
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).not.toContain('a string of amber beads');
   }, 60000);
-  // Played in cov13: the robbers' captain "stands its ground", and "it is more than the company can take".
+  // Played in cov13: the robbers' captain "stands its ground", and "it is more than the company can take". One alone
+  // is spoken of by name, and to one who has come alone, as you.
   it('speaks of one who is someone, not something, without "it"', async () => {
     const { s, room } = await Barrow.world('cov13');
     Barrow.set(s, [{ kind: 'retract', call: ModuleWriter.call('unlit', room('barrow_back_stone')) },
@@ -107,7 +108,7 @@ describe('a king-barrow from the same generator as the mine', () => {
     const said = await Barrow.take(s, /^Wait a while$/);
     expect(said).toContain('captain stands and watches you, and will not have you here for long');
     const captain = ScreenModel.build(s.campaign).people.find(p => p.name.startsWith('the robbers\' captain'))!;
-    expect(captain.reckoning?.text).toMatch(/\b([Tt]hey are|them)\b/);
+    expect(captain.reckoning?.text).toBe('The robbers\' captain is more than you can take.');
   }, 60000);
   // Played in cov13: "Vines erupt to entangle" under a chalk mound where nothing grows.
   it('tells a trap under rock by what is there: roots, not vines', async () => {

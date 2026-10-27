@@ -30,6 +30,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.click('[data-quality="strength"]');
     await page.click('[data-quality="dexterity"]');
     expect([await roll('strength'), await roll('dexterity')]).toEqual([dexterity, strength]);
+    // Changed over, neither stays chosen: the page does not ask for another quality to give a roll to.
+    expect(await page.locator('[data-quality][aria-pressed="true"]').count()).toBe(0);
     await page.waitForTimeout(3000);
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });

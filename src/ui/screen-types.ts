@@ -20,6 +20,8 @@ export interface Act {
   grave?: string;
   // Whether it gives the company light (a spell of light: see Illumination).
   light?: boolean;
+  // A fight it begins (a challenge to single combat), weighed up before it is chosen, as an attack is.
+  reckoned?: { danger: Danger; text: string };
 }
 export interface PlaceRef { id: string; name: string; kind: string }
 export interface ExitRow {
