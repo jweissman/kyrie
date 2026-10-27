@@ -16,10 +16,10 @@ import { Told } from './told';
 export interface Way { exit: ExitRow; choices: Choice[] }
 
 // Standing somewhere: a spread, held to the screen. On the left page, the place as it is told: where you are, what it
-// is, and what has just happened in it. On the right, what is here to attend to, each once: danger first, then the
-// people, each with what they are doing as you see them, the animals and the things to look at, and whoever is with
-// you; under them, the ways about the place, and folded, the roads out and the places further off. Across the foot,
-// yourself, what you can do of yourself, and the books.
+// is, and what has just happened in it. On the right, the way here when the company has just come, and what is here
+// to attend to, each once: danger first, then the people, each with what they are doing as you see them, the animals
+// and the things to look at, and whoever is with you. Across the foot, always in reach, the ways from here, and
+// yourself.
 export class PlaceStage {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, screen = frame.screen, scene = app.menu.scene!, draw = Act.draw(app);
@@ -33,11 +33,14 @@ export class PlaceStage {
         <Stage.Running frame={frame} app={app} />
         <div className="leaves">
         {view ? <PlaceStage.Country view={view} /> : <section className="verso" aria-label="The place">
-          <div className="measure"><Told.Place app={app} /></div>
+          <div className="measure">
+            <div className="telling"><Told.Place app={app} journey={false} /></div>
+          </div>
         </section>}
         <section className="recto" aria-label="Here">
           <div className="measure">
-            {view && <div className="told-here"><Told.Place app={app} /></div>}
+            {view ? <div className="told-here"><Told.Place app={app} /></div>
+              : <div className="way-here"><Told.Travelled app={app} /></div>}
             {scene.subjects.filter(PlaceStage.danger).map(c => <PlaceStage.Threat key={c.id} subject={c} draw={draw} />)}
             {people.length > 0 && <div className="cast" data-line="People here">
               <p className="label">{people.length === 1 ? 'Someone here' : 'People here'}</p>
@@ -55,8 +58,6 @@ export class PlaceStage {
               <ul className="chips">{along.map(s => <li key={s.id} data-subject={s.id}>
                 <PlaceStage.Chip subject={s} draw={draw} /></li>)}</ul>
             </div>}
-            <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} />
-            <PlaceStage.Destinations app={app} draw={draw} />
           </div>
         </section>
         </div>
@@ -232,12 +233,21 @@ export class PlaceStage {
   }
   // Across the foot: yourself, how you are and what you have, the company's light where it matters, and what you can
   // do of yourself (wait, search, rest).
-  static Foot({ app, draw }: { app: ReaderApp; draw: Draw }) {
+  // Across the foot, always in reach: the ways about the place, and folded the roads out and the places further off;
+  // and yourself, how you are and what you have, and what you can do of yourself (wait, search, rest). The ways had
+  // been under the telling, out of sight below a long one; walking on is what is done most.
+  static Foot({ app, draw, ways = true }: { app: ReaderApp; draw: Draw; ways?: boolean }) {
     const scene = app.menu.scene!, screen = app.state.frame!.screen;
     return (
       <footer className="foot" data-region="party">
-        <Stage.Me screen={screen} />
-        <Act.List choices={scene.you} draw={draw} className="small yours" />
+        {ways && <div className="from-here">
+          <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} />
+          <PlaceStage.Destinations app={app} draw={draw} />
+        </div>}
+        <div className="you">
+          <Stage.Me screen={screen} />
+          <Act.List choices={scene.you} draw={draw} className="small yours" />
+        </div>
       </footer>
     );
   }

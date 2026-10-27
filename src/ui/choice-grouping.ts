@@ -29,6 +29,8 @@ export interface GroupingContext {
   tell?: (id: string) => string | undefined;
   // Who takes an item the company picks up or buys; the other hands are not offered.
   carrier?: (item: string) => string | undefined;
+  // One who has come alone does everything themselves: who would do a thing is not said ("A torch · Ilse").
+  solo?: boolean;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -184,7 +186,8 @@ export class ChoiceGrouping {
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
     const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }), minutes: choice.time * 10,
-      ...(action.description ? { about: action.description } : {}), ...(row.by?.length ? { by: row.by } : {}),
+      ...(action.description ? { about: action.description } : {}),
+      ...(row.by?.length && !context.solo ? { by: row.by } : {}),
       ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {}, exposed = context.exposed?.get(b.site ?? '');
     if (schema === 'camp' && exposed) { Object.assign(leaf, { grave: Exposure.grave(exposed) }); }
@@ -208,10 +211,10 @@ export class ChoiceGrouping {
     const path = rule.path.map(text => this.fill(text, data));
     if (rule.path.at(-1) === 'for {recipient}' && b.find && b.recipient && context.carrier?.(b.find)) {
       if (context.carrier(b.find) !== b.recipient) { return; }
-      path.pop(); leaf.by = [context.names.get(b.recipient) ?? b.recipient];
-    }
+      path.pop(); if (!context.solo) { leaf.by = [context.names.get(b.recipient) ?? b.recipient]; }
+    } else if (context.solo && rule.path.at(-1) === 'for {recipient}') { path.pop(); }
     const doer = rule.doer && b[rule.doer];
-    if (doer && !leaf.by) { leaf.by = [context.names.get(doer) ?? doer]; }
+    if (doer && !leaf.by && !context.solo) { leaf.by = [context.names.get(doer) ?? doer]; }
     if (rule.slot === 'exit' && path.length === 1 && b.way && context.several?.has(b.destination ?? '')) {
       path[0] = `${path[0]} by ${context.names.get(b.way) ?? b.way}`;
     }
