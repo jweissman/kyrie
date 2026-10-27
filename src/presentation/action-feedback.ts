@@ -40,15 +40,28 @@ export class ActionFeedbackView {
       return [{ id: p.id, text: p.text }, ...credit ? [{ id: `${p.id}:credit`, text: credit }] : []];
     });
   }
+  // What was seen and taught the company something says it: the cuts in the turf are told, and what they mean is
+  // noted in the margin, not said before them as well (see PlayTranscript). Of those, a fact learned in the very words
+  // that taught it (a sight from a tower, "To the north, not far off: …") is said once, as it was seen: not noted
+  // again by the name it goes by once learned.
+  private static shown(campaign: Campaign, taught: { id: string; text: string }[]): Map<string, string | undefined> {
+    const observations = campaign.module.observations ?? [], entities = campaign.module.entities;
+    return new Map(taught.flatMap(t => {
+      const o = observations.find(x => x.id === t.id.split('@')[0]);
+      const fact = o?.teaches ? entities.find(e => e.id === o.teaches) : undefined;
+      return o && fact ? [[fact.id, fact.name === o.text ? t.text : undefined] as const] : [];
+    }));
+  }
   // What was found only with a skill says whose it was (the free play of M16 read the Mower's breastplate by a
-  // scribe's lore, and nothing said so): "It is Hild's lore that makes it out."
+  // scribe's lore, and nothing said so): "It is Hild's lore that makes it out." One who has come alone is told it is
+  // theirs (see SecondPerson).
   private static credit(campaign: Campaign, when: Predicate): string | undefined {
     const skills = this.capabilities(when), live = campaign.readout;
     const members = live.creatures.filter(c => live.partyIds.includes(c.id));
     for (const skill of skills) {
       const who = PartyCapabilities.providers(skill, members).map(c => c.name);
-      const name = Canon.skills[skill]?.name.toLowerCase();
-      if (who.length && name) { return `It is ${this.list(who.map(n => `${n}'s`))} ${name} that makes it out.`; }
+      const name = Canon.skills[skill]?.name.toLowerCase(), whose = members.length === 1 ? ['your'] : who.map(n => `${n}'s`);
+      if (who.length && name) { return `It is ${this.list(whose)} ${name} that makes it out.`; }
     }
     return undefined;
   }
@@ -68,6 +81,22 @@ export class ActionFeedbackView {
   private static knowing(p: Predicate): string[] {
     if (p.kind === 'call') { return p.name === 'knows' ? [p.args[1]!] : []; }
     return p.kind === 'and' || p.kind === 'or' ? [...this.knowing(p.left), ...this.knowing(p.right)] : [];
+  }
+  // What came to be seen, in the order it was seen: the town below from the top of the tower, then what lies each way.
+  // What shows only because of what was just learned is the short of what was just said ("Her coat is stiff with
+  // ditch-mud"): the place shows it from now on, and it is not told again; nor is what was seen, by the name the
+  // seeing taught (the doorway a ruin known for what it is).
+  private static changed(campaign: Campaign, event: CampaignEvent, { before, after, taught, known }: { before:
+    PlayerSnapshot; after: PlayerSnapshot; taught: { id: string; text: string }[]; known: Set<string> }) {
+    const fresh = after.observations.filter(o => !taught.some(t => t.text === o.text || t.id === o.id)
+      && !before.observations.some(b => b.id === o.id && b.text === o.text) && !this.follows(campaign, o.id, known));
+    return [...taught, ...fresh].map((o, i) => ({ o, i, at: this.seenAt(event, o.id) }))
+      .sort((a, b) => a.at - b.at || a.i - b.i).map(x => x.o);
+  }
+  // Where among what was seen something was (a skill's credit with what it made out), or after it all.
+  private static seenAt(event: CampaignEvent, id: string): number {
+    const i = (event.perceptions ?? []).findIndex(p => p.id === id.replace(/:credit$/, ''));
+    return i < 0 ? Number.MAX_SAFE_INTEGER : i;
   }
   // How long it took, and the time it is now, to the minute.
   private static time(before: PlayerSnapshot, after: { elapsed: number; minutes?: number }): string {
@@ -117,15 +146,12 @@ export class ActionFeedbackView {
     const rolls = event.combat.filter(e => e.type === 'check' || (e.type === 'save' && !event.combat.some(x => x.type === 'initiative')))
       .map(e => CombatPresenter.format(e, names));
     const learned = after.knowledge.filter(k => !before.knowledge.some(b => b.id === k.id));
-    const unsaid = learned.filter(k => !ActionFeedbackView.spoken(campaign, event).has(k.id));
     // What taught the company something is what it saw, though once it knows, the place no longer shows it so.
     const taught = ActionFeedbackView.taught(campaign, event)
       .filter(t => !before.observations.some(b => b.text === t.text));
-    // What shows only because of what was just learned is the short of what was just said ("Her coat is stiff with
-    // ditch-mud"): the place shows it from now on, and it is not told again.
-    const known = new Set(learned.map(k => k.id));
-    const changed = [...taught, ...after.observations.filter(o => !taught.some(t => t.text === o.text)
-      && !before.observations.some(b => b.id === o.id && b.text === o.text) && !this.follows(campaign, o.id, known))];
+    const shown = ActionFeedbackView.shown(campaign, taught), spoken = ActionFeedbackView.spoken(campaign, event);
+    const unsaid = learned.filter(k => !spoken.has(k.id) && !shown.has(k.id));
+    const changed = this.changed(campaign, event, { before, after, taught, known: new Set(learned.map(k => k.id)) });
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
@@ -159,7 +185,8 @@ export class ActionFeedbackView {
       time: this.time(before, { elapsed: event.elapsed, minutes: after.minutes }),
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],
-      rolls, discoveries: learned.map(k => k.text), ...!response && battleResult ? { ended: true } : {},
+      rolls, discoveries: learned.map(k => shown.get(k.id) ?? k.text),
+      ...!response && battleResult ? { ended: true } : {},
       events: (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       observations: changed.map(o => FictionalTime.prose(o.text)),
       available: before.location?.id === after.location?.id ?

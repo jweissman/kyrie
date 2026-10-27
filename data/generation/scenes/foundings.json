@@ -20,7 +20,8 @@
       "background": "farmer", "lodging": ["a place in the hayloft", 1] }
   },
   "holy": {
-    "shrine": { "role": "priest of {cult}", "room": "the shrine of {cult}", "door": "the shrine porch in {name}" },
+    "shrine": { "role": "priest of {cult}", "room": "the shrine of {cult}", "door": "the shrine porch in {name}",
+      "tower": { "name": "the tower of the shrine", "unseen": "A stair goes up inside the tower wall, worn hollow in the middle of every step, to where the bell hangs.", "seen": "From the top of the tower {name} lies below you, its roofs and its yards, and the country round it as far as the light goes.", "change": "Climb the tower and look out over {name}" } },
     "chapel": { "role": "prior of the brothers of {cult}", "room": "the chapel of the brothers' house", "door": "the chapel door" },
     "garrison": { "role": "chaplain to the garrison", "room": "the garrison chapel", "door": "the chapel door in the wall" },
     "wayside": { "role": "keeper of the wayside shrine", "thing": "the wayside shrine of {cult}" }

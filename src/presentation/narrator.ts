@@ -1,4 +1,5 @@
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
+import { SecondPerson } from './second-person';
 import type { Entity, Observation, Shelter } from '../lang/module';
 import type { Screen, TargetRow } from '../ui/screen-types';
 import { ActionFeedbackView, type ActionFeedback } from './action-feedback';
@@ -57,8 +58,12 @@ export class Narrator {
     if (exchange && !probing && told.moved) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
       || !kept.some(k => Narration.sentence(k.text) === l.text)); }
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
+    // Nor is what it told again by another name, now that what it taught names it (a doorway seen from a tower, known
+    // then for the ruin it is).
+    const toldAs = new Set((told?.event.perceptions ?? [])
+      .filter(p => echoed.has(Narration.sentence(FictionalTime.prose(p.text)))).map(p => p.id));
     const all = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))
-      && !echoed.has(Narration.sentence(l.text))), defs);
+      && !echoed.has(Narration.sentence(l.text)) && !toldAs.has(l.id)), defs);
     const lines = known && told?.moved ? this.recalled(campaign, all, defs) ?? all : all;
     const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, Narrator.def(defs, l.id), l.text) }));
     const situation = this.paragraphs(credited, defs);
@@ -270,9 +275,11 @@ export class Narrator {
     const said = new Set(unique.map(l => l.text));
     const notes = [...feedback.resources.map(r => this.resource(r)), ...(spoken.length ? []
       : feedback.discoveries.filter(d => !said.has(d)).map(d => `Noted: ${this.gist(d)}`))];
-    const begun = event.cut && campaign.operator(event.action)?.name;
+    const begun = event.cut && campaign.operator(event.action)?.name, me = this.alone(campaign);
+    const turned = this.tidy(unique, fight).map(l => me && ['telling', 'event', 'change'].includes(l.kind)
+      ? { ...l, text: SecondPerson.turn(l.text, me) } : l);
     return { ...told.said ? { said: begun ? Narrator.begun(begun) : told.said } : {},
-      lines: this.tidy(unique, fight), notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' };
+      lines: turned, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' };
   }
   // An activity broken off is told as begun, not done, in its own words (a heading's choice may have no verb: "Until
   // first light"), and what broke it off follows. "You wait until first light" was told at night, the wait cut short
@@ -284,6 +291,11 @@ export class Narrator {
     const made = lines.map(l => ({ l, text: Narration.tidy([l.text])[0] }));
     return Narration.tidy(lines.map(l => l.text), fight ? lines.length : 0)
       .map(text => ({ ...made.find(m => m.text === text)?.l ?? { kind: 'event' as const }, text }));
+  }
+  // The name of one who has come alone, whose own acts are told to them (see SecondPerson); none for a company.
+  private static alone(campaign: Campaign): string | undefined {
+    const ids = campaign.readout.partyIds;
+    return ids.length === 1 ? campaign.readout.creatures.find(c => c.id === ids[0])?.name : undefined;
   }
   private static nameOf(campaign: Campaign, id: string): string {
     return this.short(campaign.module.entities.find(e => e.id === id)?.name ?? id);

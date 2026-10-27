@@ -36,13 +36,17 @@ export class RegionWeather {
   static inSeason(kind: string, season: string, climate: string): string {
     return (climate === 'tropical' && kind === 'rainy' ? kind : this.seasonal[season]?.[kind]) ?? kind;
   }
-  static lines(region: Region, start: CalendarStart): string[] {
-    const q = JSON.stringify, climate = this.climate(region), sky = this.tables.skyLine.groups;
-    const kinds = this.tables.climateWeather.groups[climate] ?? ['fair'];
+  // Every kind of weather the region's sky can have, in any season.
+  static kinds(region: Region, start: CalendarStart): string[] {
+    const climate = this.climate(region), kinds = this.tables.climateWeather.groups[climate] ?? ['fair'];
     const first = this.inSeason(kinds[new Expressions(`${region.name}:weather:first`).number(`1d${kinds.length}`) - 1]!,
       Calendar.date(start, 0).season, climate);
-    const all = [...new Set([first, ...CampaignTick.seasons.flatMap(season => kinds.map(k => this.inSeason(k, season,
+    return [...new Set([first, ...CampaignTick.seasons.flatMap(season => kinds.map(k => this.inSeason(k, season,
       climate)))])];
+  }
+  static lines(region: Region, start: CalendarStart): string[] {
+    const q = JSON.stringify, climate = this.climate(region), sky = this.tables.skyLine.groups;
+    const kinds = this.tables.climateWeather.groups[climate] ?? ['fair'], all = this.kinds(region, start);
     // The sky's states are named weather_rainy and so on, as "cold" and the like are the shared rules' own.
     return ['  Thing sky "the sky" at region is scenery {', ...all.map(k => `    State weather_${k} ${q(sky[k]?.[1] ?? k)}.`),
       '  }', ...this.river(region, all), ...this.turns(kinds, climate), ...this.seen(region, all)];

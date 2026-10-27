@@ -205,7 +205,8 @@ export class ChoiceList {
     // Camp lasts until morning, however long that is from now.
     const priced = / — (\d+ coin)$/.exec(a.label), label = priced ? a.label.slice(0, priced.index) : a.label;
     const span = /^Make camp/.test(a.label) ? 'until morning' : a.minutes && a.minutes > 10 ? this.minutes(a.minutes) : '';
-    const note = a.disabled ? 'no one can' : [priced?.[1] ?? '', span, a.by?.join(', ') ?? ''].filter(Boolean).join(' · ');
+    // One that cannot be made now says why beneath it (the coin it costs, the skill it wants), not that no one can.
+    const note = a.disabled ? '' : [priced?.[1] ?? '', span, a.by?.join(', ') ?? ''].filter(Boolean).join(' · ');
     return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(a.about ? { about: a.about } : {}),
       ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}),

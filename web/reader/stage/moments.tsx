@@ -2,6 +2,7 @@ import type { Exchange } from '../../../src/presentation/narrator';
 import type { Frame } from '../../engine/protocol';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
+import { Panorama } from './panorama';
 
 // The moments the page sets apart from the run of what happened (Mission 16's brief: vary the rhythm and intensity
 // for exceptional events). Something seen through (the Long Man, the fever) is the end of a chapter; a level gained
@@ -9,9 +10,14 @@ import { Words } from '../words';
 export class Moments {
   static readonly ending = /^(.+?) (each gain|gains) (\d+) experience: (.+), seen through\.$/;
   static readonly levelled = /^(.+) reaches level (\d+) \(\+(\d+) HP\)\.$/;
-  // An exchange's lines as they are told, and the moments among them, set apart from them.
+  // An exchange's lines as they are told, and the moments among them, set apart from them; what is seen from up high
+  // is set where it was told (after the view from the top, before the way down), as a panorama.
   static of(lines: Exchange['lines']) {
-    return { plain: lines.filter(l => !this.ending.test(l.text) && !this.levelled.test(l.text)),
+    const { sights, told } = Panorama.read(lines), first = Math.min(...told);
+    const kept = lines.map((l, i) => ({ l, i })).filter(({ l, i }) => !told.has(i) && !this.ending.test(l.text)
+      && !this.levelled.test(l.text));
+    return { plain: kept.filter(x => !sights.length || x.i < first).map(x => x.l), sights,
+      rest: sights.length ? kept.filter(x => x.i > first).map(x => x.l) : [],
       ended: lines.map(l => this.ending.exec(l.text)).find(m => m !== null) ?? undefined,
       levels: lines.map(l => this.levelled.exec(l.text)).filter((m): m is RegExpExecArray => m !== null) };
   }

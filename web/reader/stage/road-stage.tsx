@@ -51,7 +51,7 @@ export class RoadStage {
           </div>
         </section>
         </div>
-        <PlaceStage.Foot app={app} draw={draw} />
+        <PlaceStage.Foot app={app} draw={draw} ways={false} />
       </article>
     );
   }

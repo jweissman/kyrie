@@ -801,7 +801,7 @@
     "faithful": 752,
     "adapted": 361,
     "represented": 4,
-    "kyr": 90,
+    "kyr": 91,
     "unsupported": 100,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 234,
       "adapted": 72,
       "represented": 0,
-      "kyr": 31,
+      "kyr": 32,
       "unsupported": 25,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 216,
+    "kyr": 217,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 10,
+      "kyr": 11,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -5685,6 +5685,13 @@
    "id": "item:wardstone",
    "title": "Wardstone",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:spyglass",
+   "title": "Spyglass",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -11840,6 +11847,13 @@
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/frameworks"
+  },
+  {
+   "id": "campaign:gosses-company",
+   "title": "Gosse's Company",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
   },
   {
    "id": "campaign:hold-one-season",

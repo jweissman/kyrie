@@ -5,6 +5,7 @@ import { RegionSites } from './region-sites';
 import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionZones } from './region-zones';
+import { RegionSights } from './region-sights';
 import { RegionBorders } from './region-borders';
 import type { Atlas } from './land/atlas';
 import type { Side } from './land/borders';
@@ -132,7 +133,8 @@ export class RegionWriter {
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
-    lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionGrowth.lines(region),
+    lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionSights.lines(region),
+      ...RegionGrowth.lines(region),
       ...RegionMarvels.lines(region),
       ...RegionBorders.lines(region),
       ...RegionSites.lines(region, taken),

@@ -41,9 +41,15 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .recto { grid-area: recto; padding: clamp(30px, 6.6vh, 70px) clamp(24px, 3.6vw, 60px) 28px; border-left: 1px solid var(--hair);
   background: linear-gradient(180deg, #FAFAF8, var(--paper) 40%); }
 .recto .measure { max-width: 33rem; }
-.foot { grid-area: foot; display: flex; align-items: center; justify-content: space-between; gap: 6px 28px; flex-wrap: wrap;
-  padding: 11px clamp(20px, 3.4vw, 48px) 13px; border-top: 1.5px solid var(--ink); margin: 0;
+.foot { grid-area: foot; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 6px 36px;
+  padding: 10px clamp(20px, 3.4vw, 48px) 13px; border-top: 1.5px solid var(--ink); margin: 0;
   font: 400 14.5px/1.45 var(--do); color: var(--grey); background: var(--paper); }
+.foot .you { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; grid-column: 2; }
+.foot .from-here { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 30px; max-height: 38dvh; overflow-y: auto; }
+.foot .from-here .ways { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 18px; }
+.foot .from-here .ways .label { margin: 0 4px 0 0; }
+.foot .from-here .routes { flex-basis: 100%; }
+.foot .from-here .act.fold { margin: 0; }
 .foot .me { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 0; }
 .foot .me > * + *::before { content: '·'; margin: 0 8px; color: var(--faint); }
 .foot .me b { color: var(--ink); font-weight: 600; }
@@ -94,6 +100,24 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 /* A level gained: a moment of the person, lighter than a chapter's end. */
 :is(.happened, .lines) .levelled { margin-top: 22px; border-top: 2px solid var(--blue); }
 :is(.happened, .lines) .levelled .what { font-size: 28px; }
+/* What can be seen from somewhere high: the compass, each way and what lies that way and how far, set out for. */
+.happened .panorama { margin: 16px 0 14px; padding: 12px 0 0; border-top: 3px solid var(--ink); }
+.happened .panorama .kicker { font: 500 11.5px var(--do); letter-spacing: .18em; text-transform: uppercase;
+  color: var(--blue); margin: 0 0 6px; }
+.panorama .compass { list-style: none; margin: 0; padding: 0; }
+.panorama .compass li { display: grid; grid-template-columns: 2.6em minmax(0, 1fr) auto auto; align-items: baseline;
+  gap: 0 14px; padding: 8px 0; border-top: 1px solid var(--hair); }
+.panorama .compass li:first-child { border-top: 0; }
+.panorama .toward { font: 700 13px var(--do); letter-spacing: .06em; color: var(--blue); }
+.panorama .sight-name { display: block; font: 400 18px/1.3 var(--told); color: var(--ink); }
+.panorama .looked { display: block; font: 400 13.5px/1.4 var(--do); color: var(--grey); margin-top: 2px; }
+.panorama .off { font: 400 13.5px var(--do); color: var(--grey); white-space: nowrap; }
+.panorama .set-out { padding: 3px 10px; font-size: 13px; }
+@media (max-width: 640px) {
+  .panorama .compass li { grid-template-columns: 2.4em minmax(0, 1fr) auto; }
+  .panorama .off { grid-column: 2; }
+  .panorama .set-out { grid-column: 3; grid-row: 1; }
+}
 .working .you::after { content: ' …'; }
 
 /* A chapter's opening: the country, as a plate on the left page; the telling and what is here on the right. */
@@ -122,9 +146,14 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 /* ---- Who and what is here: each once. Someone is a plate, their likeness beside their name and what they are
    doing; an animal, a thing or someone with you, a name to turn to. ---- */
 .cast, .also-here, .along, .recto .ways { margin: 0 0 26px; }
+/* Under the telling, the ways about the place, set off from it by a rule; on the facing page, the way here. */
+.verso .going { margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--hair); }
+.verso .going .ways { margin: 0 0 18px; }
+.way-here:not(:empty) { margin: 0 0 28px; }
+.way-here .journey p { margin-bottom: .5em; }
 .plates { list-style: none; margin: 0 0 0 -15px; padding: 0; display: grid; gap: 1px; }
 .act.plate, .plate.still { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 14px; align-items: start;
-  width: 100%; padding: 9px 12px 10px 12px; border-left: 3px solid transparent; text-decoration: none;
+  width: 100%; padding: 7px 12px 8px 12px; border-left: 3px solid transparent; text-decoration: none;
   transition: background-color .12s, border-color .12s; }
 .act.plate.faced, .plate.still.faced { grid-template-columns: 46px minmax(0, 1fr); }
 .act.plate:hover { background: var(--wash); border-left-color: var(--ink); }
@@ -137,7 +166,7 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .plate .who .n { font: 500 17px/1.3 var(--do); }
 .plate .who .r { font: 400 14px/1.3 var(--do); color: var(--grey); margin-left: 8px; }
 .plate .who .doing { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-  font: 400 16.5px/1.45 var(--told); color: #2B2B2B; margin-top: 3px; text-wrap: pretty; }
+  font: 400 16px/1.42 var(--told); color: #2B2B2B; margin-top: 3px; text-wrap: pretty; }
 .plates .acts.under { margin: 0 0 6px 15px; }
 .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 8px; }
 .chips li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; }
@@ -186,12 +215,20 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
   .spread { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "leaves" "foot"; }
   .spread > .running { padding: 14px 16px 10px; }
   .running .sheets { width: 100%; margin: 4px 0 0; }
-  .leaves { display: block; grid-area: leaves; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  /* On a phone the leaf is one column: the telling, then who and what is here, then the ways (M17-05: the people had
+     been under the whole telling and its ways). */
+  .leaves { display: flex; flex-direction: column; grid-area: leaves; min-height: 0; overflow-y: auto;
+    overscroll-behavior: contain; }
   .verso, .recto { overflow: visible; }
-  .verso { padding: 22px 16px 10px; }
+  .verso:not(.plate-page), .verso:not(.plate-page) > .measure { display: contents; }
+  .verso .telling { order: 1; padding: 22px 16px 10px; }
+  .recto { order: 2; }
+  .verso.plate-page { padding: 0; }
   .verso .measure, .recto .measure { max-width: none; }
   .recto { padding: 18px 16px 24px; border-left: 0; border-top: 1px solid var(--hair); background: var(--paper); }
-  .foot { padding: 10px 16px 12px; }
+  .foot { padding: 10px 16px 12px; grid-template-columns: minmax(0, 1fr); }
+  .foot .you { grid-column: 1; align-items: flex-start; }
+  .foot .from-here { max-height: 30dvh; }
 }
 
 /* ---- On a road: the line across the country, then the telling. ---- */
@@ -370,6 +407,8 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
   .dialogue .answer { max-height: 46dvh; }
   .thing { display: block; overflow-y: auto; padding: 0 16px; }
   .thing .face, .thing .uses { overflow: visible; padding: 14px 0 10px; }
+  /* The running head clear of the close, which stands over its right end. */
+  .thing .running, .dialogue .running { padding-right: 34px; }
   .thing .uses { padding: 0 0 40px; }
   .fight { padding: 18px 16px 64px; }
   .fight .sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }

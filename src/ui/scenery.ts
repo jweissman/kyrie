@@ -21,14 +21,18 @@ export class Scenery {
     const views = this.views[terrain ?? ''] ?? this.views.wild!;
     return views[this.hash(key) % views.length];
   }
+  // What is painted in winter is shown only in winter (a frozen river with skaters was shown on 23 Midsummer).
+  static readonly winter = new Set(['wintre', 'ice-cutter', 'avalanche']);
   static of(screen: Screen): string | undefined {
     const kinds = screen.path.map(p => p.kind), area = screen.region?.areas.find(a => a.here);
+    const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
     const form = area?.form?.replace(/^land_/, ''), terrain = screen.region?.terrain?.replace(/^.*__/, '');
     const where = kinds.includes('site') ? 'site' : kinds.includes('settlement') ? 'settlement' : 'wild';
     const keys = screen.dark ? ['night'] : where === 'site' ? ['site']
       : [form && `${where}:${form}`, terrain && where === 'settlement' && `settlement:${terrain}`,
         where === 'wild' ? terrain : undefined, where].filter((k): k is string => !!k);
-    const views = keys.map(k => this.views[k]).find(v => v?.length);
+    const views = keys.map(k => this.views[k]?.filter(v => season === 'winter' || !this.winter.has(v)))
+      .find(v => v?.length);
     return views && views[this.hash(screen.place.id) % views.length];
   }
   private static hash(text: string): number {

@@ -2067,6 +2067,15 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 The worlds that ship with the game.
 
+### Gosse's Company
+
+*Kyr* · `campaign:gosses-company`
+
+- Regions and sites: wending, players, pentrice, westmarch
+- Kits placed: —
+
+> A company of travelling players is stuck on the green at Wending Cross with its wagon chained to a post, on its way west over the march to the Trial of the Wheel at Pentrice, where three companies play three nights and the best is given a house for ever. You have a little coin and no particular plans.
+
 ### Hold One Season
 
 *Kyr* · `campaign:hold-one-season`

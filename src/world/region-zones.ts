@@ -133,13 +133,15 @@ export class RegionZones {
       ...this.astray(zone, region, marks));
     return lines;
   }
-  // Somewhere high enough to see from: climbed, it tells you the lie of the land, and you will not lose your way in it.
+  // Somewhere high enough to see from: climbed, it tells you the lie of the land, and you will not lose your way in it;
+  // once the company has gone from it, it is somewhere to climb again, to see what the haze hid (see RegionSights).
   private static view(zone: Wilds, l: Landmark): string[] {
     const q = JSON.stringify, t = this.table[zone.wild].view, name = zone.naming.name, id = `${l.id}_view`;
     return [`  Thing ${id} ${q(l.name)} at ${l.id} is scenery {`,
-      `    State below ${q(t.unseen)}.`, `    State above "You know the way up now, and what can be seen from the top.".`,
+      `    State below ${q(t.unseen)}.`, `    State above "The way down is the way you came up.".`,
       `    Change climb ${q(this.fill(t.change, { zone: name }))} from below to above.`, '  }',
-      `  Observe ${id}_learned at ${l.id} as sign when state(${id}, above) ${q(this.fill(t.seen, { zone: name }))} teaches ${zone.id}_mapped.`];
+      `  Observe ${id}_learned at ${l.id} as sign when state(${id}, above) ${q(this.fill(t.seen, { zone: name }))} teaches ${zone.id}_mapped.`,
+      `  Rule ${id}_down when state(${id}, above) and not at(party, ${l.id}) { Assert state(${id}, below). }`];
   }
   // The trails: each landmark joined to the nearest of those already joined, beginning at the edge, so that every
   // trail runs between neighbours and the whole country can be walked by way of them.
