@@ -25,6 +25,14 @@ Module brood_hollow "A brood under the hill" {
     State fed "{mother} has dragged the ewe into the dark, and is busy with it.".
     Change feed "Leave the dead ewe for {self}, slowly" from starving to fed consuming ewe.
   }
+  // Come to her with nothing, she shows what she would take (the brood-mother offered nothing to one who came without
+  // the ewe, and the feeding was never found: the play-structure investigation's PT-37).
+  Action offer_nothing(actor: group, site: place) "Hold out your empty hands to {mother}" {
+    Requires able(actor) and at(actor, site) and at(mother, site) and state(mother, starving)
+      and quantity(actor, ewe) < 1.
+    Time 1.
+    Result "{mother} turns all her eyes on your empty hands, and away again. What would quiet her is meat, and more of it than you carry: a ewe's worth. {garth} lost one to the brood only last night.".
+  }
   Person garth "Garth" at pasture {
     Role "shepherd". Ancestry human. Peaceable. Uses go, change_thing. Plans 6 steps.
     Carries torch. Carries rope.
@@ -106,7 +114,7 @@ Module brood_hollow "A brood under the hill" {
     On discuss { Decrease quantity(garth, gold) by 3. Increase quantity(party, gold) by 3. Assert thanked(garth, party). }
   }
   Topic plea with odile "Ask {odile} about the spiders" when not quieted(brood) {
-    Says "'Don't let Garth burn them,' says {odile}. 'They aren't killing for spite. The brood-mother is starving, and the brood hunts for her. Feed her and they'll go quiet. Take her the ewe Garth lost; she'll take it if you go slowly. And keep fire away from the silk. It goes up like straw, and the frames with it.'".
+    Says "'Don't let Garth burn them,' says {odile}. 'They aren't killing for spite. The brood-mother is starving, and the brood hunts for her. Feed her and they'll go quiet. Take her the ewe Garth lost: what's left of it is behind his fold, and he'll give it you if you ask. She'll take it if you go slowly. And keep fire away from the silk. It goes up like straw, and the frames with it.'".
     On discuss { Assert asked(odile, party). }
   }
   Topic grateful with odile "Speak with {odile}" when sated(brood) and not thanked(odile, party) once {

@@ -46,6 +46,8 @@ export class EngineHost {
   private told?: Told;
   private country?: string;
   private crossed = false;
+  // Whether the next page is the first of a game taken up again: it opens on what the company was about.
+  private resumed = false;
   // How long the last command took the engine, before the screen was built and told.
   private spent = 0;
   private turn?: { battle: Battle; resolve: (c: Command) => void };
@@ -151,7 +153,7 @@ export class EngineHost {
     if (this.frontier) { this.session.extend({ expand: this.widening(game) }); }
     this.log = (saved.log ?? []).map((e, i) => ({ ...e, id: e.id ?? i, notes: e.notes ?? [] }));
     this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
-    this.crossed = true;
+    this.crossed = true; this.resumed = true;
     return this.settled();
   }
   // What was done, as the engine words it: a way by the label the screen it last sent gave it, anything else by what
@@ -339,7 +341,14 @@ export class EngineHost {
     else if (country && this.country && country !== this.country) { leaf.heading = { kind: 'country', title: country }; }
     if (this.told || this.crossed) { this.crossed = true; }
     this.country = country;
+    if (this.resumed) { this.resumed = false; leaf.recap = this.recap(screen); }
     return leaf;
+  }
+  // Taken up again, what the company is about and the last thing it did (a game continued after a reload gave no word
+  // of either: the play-structure investigation's PT-36).
+  private recap(screen: Screen): Leaf['recap'] {
+    const aim = screen.objectives[0], last = this.log.findLast(e => e.said);
+    return { ...aim ? { aim } : {}, ...last ? { last: { said: last.said!, told: last.lines[0] ?? '', at: last.at } } : {} };
   }
   private frame(): Frame {
     const session = this.session!, campaign = session.campaign;

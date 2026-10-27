@@ -79,7 +79,7 @@ describe('a mage in the king-barrow', () => {
     const w = await WorldAssembler.assemble('cov7', NodeBundleSource.shared, { origin: 'wanderer', party: [Barrow.mage] });
     const s = await PlaySession.start(w.path, 'cov7', w.source);
     Barrow.put(s, 's1_taproom');
-    await Barrow.take(s, /^Ask Tharash what brings/);
+    await Barrow.take(s, /^Ask Tharash whether/);
     await Barrow.take(s, /^Ask Tharash to join the company$/);
     // Every question put to him once (each can be put again, for the same answer: NAR-03).
     for (let n = 0; n < 8; n++) {

@@ -23,6 +23,8 @@
 .inline { all: unset; cursor: pointer; border-bottom: 1px solid var(--hair); }
 .inline:hover { border-bottom-color: var(--ink); }
 .changed { margin: 22px 0; }
+.recap { margin: 18px 0 22px; padding: 10px 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.recap .last .at { color: var(--grey); font-size: 14px; margin-right: 6px; }
 .changed p { font-style: italic; }
 
 /* What has just happened: kept in its own words, under what the company did. */

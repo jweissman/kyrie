@@ -25,11 +25,14 @@ export class CommandResolutions {
   }
   // What a failed exposure says where its author said nothing: the one who went first brought down, and, on a way, the
   // company not over it (that it "does not cross" was said of a rack heaved off a guest: the architecture review's L1).
+  // On a way the company does not cross (the hazard's words were the engine's own, "brings down the exposed
+  // adventurer": the play-structure investigation's PT-21).
   static downed(action: Operator, world: World): string {
-    if (action.schema === 'risk') {
-      return 'The hazard brings down the exposed adventurer. The company does not cross; the injury is permanent until treated.';
-    }
-    return `${ObservationText.label(world, action.resolve!.args[1]!)} is brought down; the hurt lasts until it is treated.`;
+    const who = ObservationText.label(world, action.resolve!.args[1]!);
+    if (action.schema !== 'risk') { return `${who} is brought down; the hurt lasts until it is treated.`; }
+    const what = ObservationText.label(world, action.resolve!.args[0]!);
+    return `${what.charAt(0).toUpperCase()}${what.slice(1)} brings ${who} down, and the company does not cross. ${who}`
+      + ' will not get up until someone tends the hurt.';
   }
   // What a command changed in the world: of the relations and measures it wrote, not of every fact.
   static world(before: World, after: World): Change[] { return structuredClone(after.changesSince(before)); }

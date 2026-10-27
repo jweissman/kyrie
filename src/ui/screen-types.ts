@@ -18,6 +18,8 @@ export interface Act {
   bound?: string[];
   // What cannot be undone by it, said before it is done.
   grave?: string;
+  // Whether it gives the company light (a spell of light: see Illumination).
+  light?: boolean;
 }
 export interface PlaceRef { id: string; name: string; kind: string }
 export interface ExitRow {
@@ -28,6 +30,8 @@ export interface ExitRow {
   local?: boolean;
   // A way into an enclosure that more than one way leads into: said by its own name.
   several?: boolean;
+  // A way that goes one way only (the great pipe, feet first): said by its own name, and asked about again.
+  oneWay?: boolean;
 }
 export interface TargetRow {
   id: string; kind: 'person' | 'creature' | 'animal' | 'thing' | 'feature'; name: string; note?: string; activity?: string;

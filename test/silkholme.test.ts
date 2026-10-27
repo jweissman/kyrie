@@ -47,6 +47,17 @@ describe('Silkholme: one quarrel, several ways through it', () => {
     expect(Sink.state(s, 'brood__garth')).toBe('brood__easy');
     expect(Sink.legal(s)).toContain('brood__paid_fed');
   }, 120000);
+  // The feeding was never found: no ewe to be seen anywhere, and the brood-mother offered nothing (the play-structure
+  // investigation's PT-37). Odile says where the ewe is; held out empty hands, the brood-mother shows what she would
+  // take.
+  it('shows the way to feed the brood-mother where the world says it is', async () => {
+    const s = await Sink.play(...Sink.ridge, 'go(sink__sink_path,sink__lip)', 'go(sink__terrace_steps,sink__frames)');
+    expect((await s.perform('brood__plea')).response).toContain('behind his fold');
+    for (const c of ['go(sink__terrace_steps,sink__lip)', 'go(sink__shaft,sink__cave)', 'light_item(march__nera_torch_1)',
+      'change_thing(brood__webs_hack)', 'go(sink__web_gallery,sink__nest)']) { await s.perform(c); }
+    const offer = PlayerView.choices(s.campaign).find(c => /^Hold out your empty hands/.test(c.choice.name))!;
+    expect((await s.perform(offer.choice.id)).response).toContain('a ewe');
+  }, 120000);
   it('a torch to the webs drives the brood out, and burns Odile out with it', async () => {
     const s = await Sink.play(...Sink.ridge, 'take_item(brood__spare_torch,march__member_party_2)', ...Sink.down,
       'change_thing(brood__webs_burn)');

@@ -8,8 +8,8 @@ import { ItemNames } from '../item-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { ConditionSense } from '../presentation/condition-sense';
 import { Advancement } from '../rules/advancement';
-import { Canon } from '../canon/canon';
-import { Content } from '../content';
+import { Canon } from '../canon/canon'; import { Content } from '../content';
+import { Illumination } from './illumination';
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time';
@@ -370,7 +370,7 @@ export class ScreenModel {
         abilities: (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id))
           .filter(a => !!a).map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0, price: MechanicsText.price(a),
             text: MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }) })),
-        attributes: m.attributes ?? {}, acts: ref ? grouped.members.get(ref) ?? [] : [],
+        attributes: m.attributes ?? {}, acts: ref ? Illumination.mark(grouped.members.get(ref) ?? []) : [],
         overlays: this.overlays(campaign, m.id), ...this.sheet(campaign, m.id, ref, grouped.members.get(ref ?? '') ?? []) };
     });
   }

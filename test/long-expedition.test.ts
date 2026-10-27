@@ -12,7 +12,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // saved halfway and taken up again ends where the unbroken game ends.
 class Expedition {
   static readonly steps = [
-    'bailey', 'Wooden.Wolf', 'old.workings', 'Ask.Thoradin.what.brings', 'Ask.Thoradin.to.join', 'Buy.one.ration',
+    'bailey', 'Wooden.Wolf', 'old.workings', 'Ask.Thoradin.whether', 'Ask.Thoradin.to.join', 'Buy.one.ration',
     'door.of.the.Wooden', "Ulfgar's.door", 'what.the.old.workings', 'Buy.a.torch.for.Wenna',
     'Buy.a.crowbar.for.Wenna', "Ulfgar's.door", 'path.up.onto.Barzelrehes.to.the.foot',
     'to.the.foot.of.Barzelrehes.by.Muzgkom$', 'track.to.Aurumtener$', 'way.in', 'passage.to.the.adit$',

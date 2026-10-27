@@ -4,8 +4,10 @@ import { Draw } from './land/draw';
 import type { Contact, Region, Settlement } from './region-writer';
 
 // Who in a generated region would go along with a company: the traveller at each inn, whose calling is a class (a
-// drover can fight, a pilgrim pray, a tinker open locks). Asked what brings them there, they say, and that they would
-// travel with a company for a few coins and their keep; then they can be asked to join. The first settlement's is the
+// drover can fight, a pilgrim pray, a tinker open locks). Asked whether they would come along, they say what brings
+// them there, and that they would travel with a company for a few coins and their keep; then they can be asked to
+// join (the hire had been asked for as small talk, "what brings them", and was passed by: the play-structure
+// investigation's PT-12). The first settlement's is the
 // cheapest, so a company of one is never long alone.
 export class RegionRecruits {
   static readonly classes: Record<string, string> = { drover: 'warrior', tinker: 'thief', pilgrim: 'cleric',
@@ -60,11 +62,11 @@ export class RegionRecruits {
     const wanted = this.classes[s.calling], calling = wanted && allowed.includes(wanted) ? wanted
       : allowed.find(c => Canon.classes[c]?.adventuring !== false) ?? 'commoner';
     const hire = 3 + i, brings = this.brings[s.calling] ?? 'Passing through, like everyone.';
-    const pronoun = s.pronouns?.traveller, them = { he: 'him', she: 'her' }[pronoun ?? ''] ?? 'them';
+    const pronoun = s.pronouns?.traveller, they = { he: 'he', she: 'she' }[pronoun ?? ''] ?? 'they';
     return [`  Person ${id} ${q(s.traveller)} at ${at} { Role ${q(s.calling)}. Ancestry ${ancestry}. Calling ${calling}. Peaceable.`
       + `${pronoun ? ` Pronouns ${pronoun}.` : ''} }`,
       `  Initially Set hire(${id}) to ${hire}.`,
-      `  Topic ${id}_brings with ${id} ${q(`Ask {${id}} what brings ${them} to ${s.name}`)} when true once {`,
+      `  Topic ${id}_brings with ${id} ${q(`Ask {${id}} whether ${they} would come along`)} when true once {`,
       `    Says ${q(`'${brings}' {${id}} looks you over. 'If you are going anywhere, I would come along. ${hire} coin, and my keep.'`)}.`,
       `    On discuss { Assert willing(${id}, actor). }`, '  }'];
   }

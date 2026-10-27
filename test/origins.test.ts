@@ -65,8 +65,13 @@ describe('an origin', () => {
     const carried = ScreenModel.build(c).items.map(i => i.name);
     expect(carried.some(n => /feverwort/i.test(n))).toBe(true);
     await Opening.take(s, /green/i);
+    // She knows what the company carries, and speaks of nothing run out (the play-structure investigation's PT-30).
+    const asked = (await Opening.take(s, /^Ask .* about the child$/)).response ?? '';
+    expect(asked).toContain('The herb-wife sent you');
+    expect(asked).not.toMatch(/nothing left|willow/i);
     await Opening.take(s, /^Give .*feverwort/i);
     expect(c.world.test(ModuleWriter.call('fever__mended', 'fever__mother'))).toBe(true);
+    expect(c.world.test(ModuleWriter.call('stale', 'fever__bark_lore'))).toBe(true);
   }, 60000);
   it('begins with one person, on the way in, told who they are and why they came', async () => {
     const s = await Opening.start('kin'), screen = ScreenModel.build(s.campaign);

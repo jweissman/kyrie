@@ -43,7 +43,7 @@ export class ChoiceList {
   // a torch is lit, and a flask of lamp oil is spent on whoever carries it.
   private static lighting(screen: Screen): Choice[] {
     if (!screen.dark) { return []; }
-    return screen.items.filter(i => i.light).flatMap(i => {
+    return screen.items.filter(i => i.light).flatMap((i): Choice[] => {
       const acts = i.acts.flatMap(a => a.children ?? [a]);
       const own = acts.find(a => a.command?.startsWith('light_item('))
         ?? acts.find(a => a.command?.startsWith('use_item(') && a.bound?.includes(i.ownerName));
@@ -52,7 +52,15 @@ export class ChoiceList {
         : `a ${i.name.toLowerCase()}`;
       return own?.command ? [{ id: `light:${i.id}`, label: `${i.ownerName}: light ${name}`, tone: 'item' as const,
         command: own.command, about: i.description }] : [];
-    }).filter((c, n, all) => all.findIndex(o => o.label === c.label) === n);
+    }).filter((c, n, all) => all.findIndex(o => o.label === c.label) === n).concat(this.castLight(screen));
+  }
+  // And a caster with a spell that gives light casts it there, if it can now (see Illumination).
+  private static castLight(screen: Screen): Choice[] {
+    return screen.party.flatMap(m => m.acts.filter(a => a.light).flatMap((a): Choice[] => {
+      const can = [a, ...a.children ?? []].find(x => x.command && !x.disabled);
+      return can ? [{ id: `light:${m.id}:${a.key}`, label: `${m.name}: cast ${a.label}`, tone: 'spell',
+        command: can.command!, ...a.about ? { about: a.about } : {} }] : [];
+    }));
   }
   // A caster's spells can be prepared from wherever the company is: an hour of study or prayer.
   // What a companion can do with study: spend a level gained, or prepare a different spell.
@@ -85,6 +93,9 @@ export class ChoiceList {
   }
   static readonly chances: Record<NonNullable<TargetRow['reckoning']>['danger'], string> = { slight: 'easily won',
     fair: 'should be won', hard: 'a hard fight', grave: 'could be lost', deadly: 'beyond you' };
+  // What a way that goes one way only says before it is taken (a mage and a bard went down the great pipe at
+  // Pluwalac, feet first, and could not come back up it: the play-structure investigation's PT-17).
+  static readonly oneWay = 'There is no coming back this way.';
   static ways(exits: ExitRow[]): Section {
     const labels = exits.map(e => this.wayLabel(e));
     // Two ways from here into the same enclosure (a tower by its door and by its well) are told apart by where they
@@ -93,8 +104,10 @@ export class ChoiceList {
     const twice = new Set(labels.filter((l, i) => labels.indexOf(l) !== i));
     const choices = exits.flatMap((e, i) => {
       const label = twice.has(labels[i]!) ? `${labels[i]!.split(' ')[0]} ${this.inline(e.destination.name)}`
-        : e.several && e.way && e.transition === 'enter' ? `${labels[i]!} by ${this.inline(e.way)}` : labels[i]!;
-      return this.way(e, label).map(c => e.local ? { ...c, local: true } : c);
+        : (e.several && e.transition === 'enter' || e.oneWay) && e.way ? `${labels[i]!} by ${this.inline(e.way)}`
+          : labels[i]!;
+      return this.way(e, label).map(c => e.local ? { ...c, local: true } : c).map(c => e.oneWay && c.command
+        ? { ...c, grave: ChoiceList.oneWay } : c);
     });
     return { id: 'ways', title: 'Ways on', tone: 'way', glyph: '→', choices };
   }

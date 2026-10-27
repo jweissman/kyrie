@@ -6,6 +6,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
+import { ScreenModel } from '../src/ui/screen-model';
 
 // The philosopher's capstone (Proof B): on the green at Harrehes (seed b2) a philosopher of the One and one of the
 // Flow dispute, and a sophist argues for whoever pays. Belief is the world's own (data/rules/belief.kyr): who holds
@@ -91,8 +92,12 @@ describe('the disputation on the green', () => {
     const s = await Green.start();
     Green.know(s, 'history_deep');
     await Green.take(s, /^Ask Kestrel what the Flow is$/);
+    Green.set(s, [{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'disputation__dispute') }]);
     expect(await Green.take(s, /^Pay Dart two coin to argue Kestrel/)).toContain('it will all be believed again');
     expect(Green.seen(s).some(t => /The crowd has gone over from Kestrel today/.test(t))).toBe(true);
+    // Won for the day, the dispute is not settled, and is still the company's to settle (its PT-25: it had gone
+    // from the notes).
+    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain('Two philosophers dispute at');
     await Green.take(s, /^Wait until dark$/);
     await Green.take(s, /^Wait until first light$/);
     expect([Green.holds(s, 'believes', 'flow', 'flux'), s.campaign.world.test(ModuleWriter.call('scorns',
@@ -100,6 +105,20 @@ describe('the disputation on the green', () => {
     // The reason the company had is no use now: Kestrel will not hear it from them.
     expect(Green.names(s).some(n => /^Answer Kestrel/.test(n))).toBe(false);
     expect(Green.seen(s)).toContain('Kestrel turns away from you.');
+  }, 60000);
+  // Told badly, a reason was gone for good (the play-structure investigation's PT-05): what the country's history
+  // says is still so, and it can be told again the next day.
+  it('told a reason badly, hears it again the next day', async () => {
+    const s = await Green.start();
+    Green.know(s, 'history_deep_fate');
+    await Green.take(s, /^Ask Orion what the One is$/);
+    await Green.take(s, /^Tell Orion how the first makers ended/);
+    const lost = /^Ask Orion why the makers cut their own end in stone/;
+    expect(await Green.take(s, lost)).toContain('Another day, you might find the words.');
+    expect(Green.names(s).some(n => lost.test(n))).toBe(false);
+    await Green.take(s, /^Wait until dark$/);
+    await Green.take(s, /^Wait until first light$/);
+    expect(Green.names(s).some(n => lost.test(n))).toBe(true);
   }, 60000);
   it('is seen through without a roll by someone who reads people: where the philosopher of the Flow keeps looking', async () => {
     const s = await Green.start('cleric');

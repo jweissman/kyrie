@@ -20,6 +20,7 @@ export class Told {
       {leaf.heading && <p className={`chapter kind-${leaf.heading.kind}`}>{Typography.curl(leaf.heading.kind === 'country'
         ? `Into ${leaf.heading.title}` : leaf.heading.title)}</p>}
       <h1 className="place" data-id="place">{Typography.curl(Words.upper(screen.place.name))}</h1>
+      {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}
       {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       {s.pending && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {!s.pending && frame.travel && <Told.Journey travel={frame.travel} />}
@@ -36,6 +37,17 @@ export class Told {
       </div>}
       {!s.pending && told && !stayed && <Told.Happened exchange={told} ready={Moments.ready(screen)} />}
     </>;
+  }
+  // Where the company left off, taken up again: what it is about, and the last thing it did.
+  static Recap({ recap }: { recap: NonNullable<Frame['leaf']['recap']> }) {
+    return (
+      <div className="recap" aria-label="Where you left off">
+        <p className="label">Where you left off</p>
+        {recap.aim && <p>{Typography.curl(recap.aim)}</p>}
+        {recap.last && <p className="last"><span className="at">{recap.last.at}</span> {Typography.curl(
+          `${recap.last.said}${/[.!?]$/.test(recap.last.said) ? '' : '.'} ${recap.last.told}`.trim())}</p>}
+      </div>
+    );
   }
   // A journey along known ways: each leg as it went, under the time it came there; and, if it did not arrive, what
   // stopped it, said plainly where the eye goes next.

@@ -9,7 +9,7 @@ import { PassageModel } from './passage-model';
 export interface ExitActs { acts: Act[]; passage?: Passage; via?: string }
 interface Known {
   destination: string; passage: Passage; via?: string; blocked?: string; name?: string; mode?: Transition;
-  way?: string; hazard?: string;
+  way?: string; hazard?: string; oneWay?: boolean;
 }
 
 // Exits the party knows from its current place. Movement legality still comes only from the command list:
@@ -82,7 +82,7 @@ export class Passages {
       const passage: Passage = w.status === 'guarded' ? 'guarded' : w.status === 'hazard' ? 'hazard'
         : w.status === 'needs' ? 'climb' : w.status === 'blocked' ? 'door' : 'open';
       rows.push({ destination: w.to, passage, way: w.name, ...(w.via ? { via: w.via } : {}),
-        ...(w.status === 'hazard' ? { hazard: w.reason! } : {}),
+        ...w.oneWay ? { oneWay: true } : {}, ...(w.status === 'hazard' ? { hazard: w.reason! } : {}),
         ...(['blocked', 'guarded', 'needs'].includes(w.status) ? { blocked: w.reason! } : {}) });
     }
     for (const r of this.relations('route')) {
@@ -146,7 +146,8 @@ export class Passages {
       merged.set(destination, { destination, passage: g.passage ?? prior?.passage ?? 'open',
         ...(prior?.way ? { way: prior.way } : {}), ...(prior?.hazard ? { hazard: prior.hazard } : {}),
         ...(g.via ?? prior?.via ? { via: g.via ?? prior?.via } : {}), ...(prior?.name ? { name: prior.name } : {}),
-        ...(prior?.mode ? { mode: prior.mode } : {}), ...(prior?.blocked ? { blocked: prior.blocked } : {}) });
+        ...(prior?.mode ? { mode: prior.mode } : {}), ...(prior?.blocked ? { blocked: prior.blocked } : {}),
+        ...prior?.oneWay ? { oneWay: true } : {} });
     }
     return [...merged.values()].map(k => this.row(here, k, grouped.get(k.destination)?.acts ?? [], options.visited))
       .sort((a, b) => Number(!!a.blocked) - Number(!!b.blocked) || Passages.order(a) - Passages.order(b)
@@ -166,6 +167,7 @@ export class Passages {
       ...(scope ? { scope } : {}), ...(k.via ? { via: k.via } : {}),
       ...(acts.length && !k.blocked ? {} : { blocked: k.blocked ?? 'Not possible from here right now.' }),
       ...(k.way ? { way: k.way } : {}), ...(k.hazard ? { hazard: k.hazard } : {}), ...several ? { several } : {},
+      ...k.oneWay ? { oneWay: true } : {},
       visited: visited.has(k.destination), acts };
   }
   private static order(row: ExitRow): number {

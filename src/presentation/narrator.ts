@@ -18,6 +18,8 @@ export interface Leaf {
   situation: string[]; presence: string[]; changed: string[]; exchange?: Exchange; shelter?: Shelter;
   // Whether the last command brought the company here from somewhere else, and the way, told as it went.
   moved?: boolean; journey?: string[];
+  // Taken up again from a save: what the company is about, and the last thing it did, and when (see EngineHost).
+  recap?: { aim?: string; last?: { said: string; told: string; at: string } };
 }
 // One command, as the host keeps it until the next: what happened, what the company saw of it, the words it was
 // chosen in, and whether it brought the company somewhere else.

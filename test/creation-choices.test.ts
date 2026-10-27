@@ -44,7 +44,8 @@ describe('qualities placed at creation', () => {
 });
 
 // Someone who would join the company is seen as they would come, before they are asked: what they are and ask, how
-// they fight, and what they can do (CMB-07). mere's traveller at Faennsīe's inn, once asked what brings them.
+// they fight, and what they can do (CMB-07). mere's traveller at Faennsīe's inn, once asked whether they would come
+// along.
 describe('a recruit seen before hiring', () => {
   it('shows what they are, what they ask, how they fight and what they can do', async () => {
     const w = await WorldAssembler.assemble('mere', NodeBundleSource.shared,
@@ -52,7 +53,7 @@ describe('a recruit seen before hiring', () => {
     const s = await PlaySession.start(w.path, 'mere', w.source), c = s.campaign;
     GeneratedWorld.put(s, c.world.one('at', 'region__s1_traveller')!.replace(/^region__/, ''));
     await s.perform('wait');
-    const brings = PlayerView.choices(c).find(x => /^Ask .* what brings/.test(x.choice.name))!;
+    const brings = PlayerView.choices(c).find(x => /^Ask .* whether .* would come along/.test(x.choice.name))!;
     await s.perform(brings.choice.id);
     const row = ScreenModel.build(c).people.find(p => p.id === 'region__s1_traveller')!;
     expect(row.recruit).toMatchObject({ level: 1, hire: 3 });

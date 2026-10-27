@@ -96,11 +96,13 @@ export class TalkStage {
     );
   }
   // Someone who would join you, as they would come: what they are and ask, how they fight, their qualities, skills
-  // and what they can do (the cold playtest could not see what a recruit could do until they had joined).
+  // and what they can do (the cold playtest could not see what a recruit could do until they had joined). Folded, it
+  // says what they are and ask; it had opened in full in the middle of the conversation (the play-structure
+  // investigation's PT-12).
   static Recruit({ recruit: r, coin }: { recruit: NonNullable<Talk['subject']['recruit']>; coin: number }) {
     const ask = r.hire ? `${r.hire} coin${r.hire > coin ? `, more than you have` : ''}` : 'nothing';
     return (
-      <details className="recruit" open aria-label="What they would bring">
+      <details className="recruit" aria-label="What they would bring">
         <summary>{Typography.curl(`${Words.upper(Words.article(r.line))} of level ${r.level}, asking ${ask}`)}</summary>
         <dl className="bearings">{r.sheet.fighting.map(b => <div key={b.label}><dt>{b.label}</dt>
           <dd>{Typography.curl(b.value)}</dd></div>)}</dl>

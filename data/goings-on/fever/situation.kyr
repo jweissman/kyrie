@@ -16,15 +16,25 @@ Module fever "A fever on the green" {
   // from any of them will do, as will herbs bought anywhere.
   Entity bark_lore: fact "Willow bark breaks a fever. Willows grow where there is water: by a river, a mere, a ditch.".
 
-  Topic mother_child with mother "Ask {mother} about the child" when not mended(mother) and not lost(mother) once {
+  Topic mother_child with mother "Ask {mother} about the child" when not mended(mother) and not lost(mother)
+    and not expects(mother, actor) once {
     Says "'Three days,' says {mother}. 'Hot as a stone in the sun, and the herb-wife has nothing left. Willow bark would do it. There were willows out on the road, by the water, when I was a girl.' She looks at you. 'I cannot leave her.'".
     On discuss { Assert knows(actor, bark_lore). }
   }
+  // Sent for, the company is known by what it carries: the herb-wife's feverwort, which she has waited for (she spoke
+  // of herbs run out and willows to one who carried it: the play-structure investigation's PT-30).
+  Topic mother_sent with mother "Ask {mother} about the child" when not mended(mother) and not lost(mother)
+    and expects(mother, actor) once {
+    Says "'Three days,' says {mother}, 'and no better.' Then she sees the cloth in your hands, and knows it, and her hand goes to her mouth. 'The herb-wife sent you. She said she would send someone.'".
+  }
   // Whatever herbs are given her, she uses.
-  Rule mended_by when keeps(mother, ?i) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside without a word. By evening the fever has broken." { Assert mended(mother). Assert stale(sick). }
+  Rule mended_by when keeps(mother, ?i) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside without a word. By evening the fever has broken." { Assert mended(mother). Assert stale(sick). Assert stale(bark_lore). }
   // Too late, it happens at first light, and is heard by whoever is on the green; whoever comes back later sees it.
-  Rule lost_child at green when watch(clock) >= 240 and untilLight(clock) == 1 and not mended(mother) and not lost(mother) says "In the morning the shrine bell is rung once, slowly. The child on the green has died." { Assert lost(mother). Assert stale(sick). }
+  Rule lost_child at green when watch(clock) >= 240 and untilLight(clock) == 1 and not mended(mother) and not lost(mother) says "In the morning the shrine bell is rung once, slowly. The child on the green has died." { Assert lost(mother). Assert stale(sick). Assert stale(bark_lore). }
 
+  Topic mother_thanks with mother "Ask {mother} how the child is" when mended(mother) once {
+    Says "'She sat up this morning and asked for bread,' says {mother}. 'Bread.' She takes your hand in both of hers, and does not say anything else, and does not need to.".
+  }
   Topic sister_thanks with sister "Speak with {sister}" when mended(mother) and not offered(sister) once {
     Says "'She is eating,' says {sister}, as if she does not believe it. 'You went when nobody else would. If you are going on, I will come. I can pull my weight.'".
     On discuss { Assert offered(sister). Assert willing(sister, actor). }
