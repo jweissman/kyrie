@@ -19,6 +19,11 @@ export interface Country {
   after?: { talk: string; told: string };
   // What is said of it a country further off, where it is only heard of: "where ..." (see RegionBorders).
   far?: string;
+  // What goes ahead of it into the first region's towns (a company of players on the road to it, a pedlar from it): a
+  // scenario of the library's form (data/scenarios), placed in the town its road leaves from whenever the world holds
+  // the country, and never drawn at random; and those of its exports the country reads, bound to the country's
+  // optional imports of the same name when it is installed (see Frontier).
+  herald?: { scenario: string; exports: string[] };
 }
 type Beyond = NonNullable<Region['beyond']>[Side];
 export class Countries {
@@ -114,6 +119,15 @@ export class Countries {
         way: PlaceNames.regionName(WorldGrid.drawn(seed, ...way)) };
     }
     return beyond;
+  }
+  // The heralds the first region of a world sends out on the roads to the countries next to it (each entered from it,
+  // on its own side): those of them that send one, by the side their road goes out.
+  static heralds(terrain: string, seed: string): { side: Side; country: Country }[] {
+    const plan = this.plan(seed, terrain);
+    return Borders.sides.flatMap(side => {
+      const c = plan.get(WorldGrid.id(...WorldGrid.next([0, 0], side)));
+      return c?.herald && c.side === side ? [{ side, country: c }] : [];
+    });
   }
   private static told(c: Country): Beyond {
     if (!c.rumour) { return { name: c.name, terrain: c.terrain }; }

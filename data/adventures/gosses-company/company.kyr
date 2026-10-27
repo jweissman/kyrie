@@ -1,0 +1,11 @@
+Module pentrice "Gosse's Company" {
+  // The city played alone, from the road in: one traveller come down the West Road with a little coin, who never met
+  // the players on the green (placed.kyr is the world's own company, and what the green told of it).
+  Company party "You" of 1 at road_end.
+  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 2.
+  Entity word: fact "What is said of Pentrice in the country below.".
+  Entity joined: fact "You have taken service with Gosse's Company for the season.".
+  Entity freed: fact "You got the players' wagon off the chain, in a town on the west road.".
+  Entity seen_show: fact "You have seen Gosse's Company play, in a town on the west road.".
+  Entity lem_kept: fact "Lem Coyle, the players' chain-man, was paid what he was owed, and has gone to see the Trial.".
+}

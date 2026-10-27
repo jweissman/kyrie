@@ -1,0 +1,42 @@
+Module pentrice "Gosse's Company" {
+  // ── The week of the Trial ───────────────────────────────────────────────────────────────────────────────────────
+  // The country counts its days from the first midnight after it is reached: what is left of the day the company comes
+  // is the day of arrival (tday 0), and then four days, and the morning of the verdict.
+  //   tday 1: Fallow at the Moon; Patience loose in the Gullet in the afternoon.
+  //   tday 2: the bailiff at the Moon in the morning; the Siege of Arle at the Wheel at seven.
+  //   tday 3: Fallow pays the heckler, and the watermen at dusk; the Children of the Close at seven.
+  //   tday 4: the watermen strike from four; Gosse's Company at seven.
+  //   tday 5: the Bench reads its verdict at ten in the morning.
+  Measure tday(place).
+  Rule day_one when watch(clock) >= 0 and tday(pentrice) < 1 { Set tday(pentrice) to 1. }
+  Rule day_two when watch(clock) >= 144 and tday(pentrice) < 2 { Set tday(pentrice) to 2. }
+  Rule day_three when watch(clock) >= 288 and tday(pentrice) < 3 { Set tday(pentrice) to 3. }
+  Rule day_four when watch(clock) >= 432 and tday(pentrice) < 4 { Set tday(pentrice) to 4. }
+  Rule day_five when watch(clock) >= 576 and tday(pentrice) < 5 { Set tday(pentrice) to 5. }
+  Rule day_after when watch(clock) >= 720 and tday(pentrice) < 6 { Set tday(pentrice) to 6. }
+
+  // Before the night itself: the week in which a play is made.
+  Query week() means tday(pentrice) < 4 or (tday(pentrice) == 4 and hour(clock) < 18).
+  Query daytime() means hour(clock) >= 8 and hour(clock) < 18.
+  Query evening() means hour(clock) >= 17 and hour(clock) < 23.
+  // A Trial night at the Wheel: the second, third and fourth days, from seven until a little after nine.
+  Query showtime() means hour(clock) >= 19 and hour(clock) < 22.
+
+  // ── Where the city's news reaches ────────────────────────────────────────────────────────────────────────────────
+  // What the city says to itself is heard in the city, on either bank, and not on the West Road.
+  Relation cityRoom(place).
+  Query inCity() means at(party, ?p) and cityRoom(?p).
+  Relation spread(fact).
+
+  // ── Who the company is, here ─────────────────────────────────────────────────────────────────────────────────────
+  // One of Gosse's Company (signed on, on the road or in the yard), and one of the Office's tallymen for the week.
+  Relation inCompany(group). Relation tallyman(group).
+  Relation arrived(group).
+  Rule come_in when at(party, ?p) and cityRoom(?p) and not arrived(party) { Assert arrived(party). }
+  // Whoever came while there was still a Trial to come to: the week's ending is theirs. A company that comes down the
+  // West Road after the verdict hears it as the city's news.
+  Relation cameForTrial(group).
+  Rule come_for_trial when arrived(party) and tday(pentrice) < 5 and not cameForTrial(party) { Assert cameForTrial(party). }
+  // Whoever signed on with the players on the green is one of the company from the first step into the city.
+  Rule come_in_joined when arrived(party) and knows(party, joined) and not inCompany(party) { Assert inCompany(party). }
+}

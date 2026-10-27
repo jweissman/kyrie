@@ -1,0 +1,186 @@
+Module players "The players on the green" {
+  Description "A company of travelling players, on their way west over the march to the Trial of the Wheel at Pentrice, is stuck in a town on the west road: their chain-man has gone off with the takings, and whoever keeps travellers here has chained their wagon to a post until the reckoning is paid.".
+  Entity party: group "Your company".
+  Place town "The town" is settlement.
+  Place green "The green" is room.
+  Entity keeper: group "Whoever keeps travellers".
+  Entity priest: group "Whoever keeps the god".
+  Entity trader: group "Whoever sells".
+
+  // ── What can be known, and what the country over the march will read ────────────────────────────────────────────
+  Entity on_green: fact "A company of players, Gosse's Company, is stuck at {town} on its way west to the Trial of the Wheel at Pentrice: their chain-man went off with the hat, and {keeper} has chained their wagon until the reckoning is paid.".
+  Initially Assert established(on_green).
+  Entity joined: fact "You have taken service with Gosse's Company for the season: a share of the house, and the honour of the profession. They go on ahead of you to Pentrice, over the march west, to the Painted Moon by the Westgate.".
+  Entity seen_show: fact "You have seen Gosse's Company play The Shepherd's Revenge in {town}.".
+  Entity freed: fact "You got the players' wagon off the chain in {town}, on their way west to Pentrice.".
+  Entity lem_kept: fact "Lem Coyle, the players' chain-man, was paid what he was owed, and has gone west to see the Trial.".
+  Initially Assert established(joined). Initially Assert established(seen_show). Initially Assert established(lem_kept). Initially Assert established(freed).
+
+  Relation stuck(group). Relation reckoned(group). Relation gone(group). Relation hatHome(group). Relation lemPaid(group).
+  Relation lemSent(group). Relation hatRound(group). Relation showPlayed(group).
+  Initially Assert stuck(gosse).
+
+  // ── The players ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Person gosse "Absalom Gosse" at green {
+    Role "the actor-manager of Gosse's Company". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A big old man in a coat that was crimson once rises from the wagon's tail-board with his hand on his heart, as if you were the Margrave. 'A face from the world,' he says, in a voice that would carry to the back of a field. 'Absalom Gosse, of Gosse's Company, at your service and very much at your mercy.'".
+    Wants players_hat.
+  }
+  Person hepzibah "Hepzibah Dimmock" at green {
+    Role "the players' prompter". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A small grey woman sits on the tail-board with a book on her knee and a pencil in her hair, sewing a gold braid back onto a king's cloak. She looks at you over her spectacles and goes on sewing.".
+  }
+  Person pudding "Jem Pudding" at green {
+    Role "the players' clown". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A thin man with a face like a folded napkin is lying on his back on the ground with a bear's head on his stomach. He raises one hand without moving anything else. 'Mind her,' he says. 'She is asleep, and she is a duchess when she wakes.'".
+  }
+  Species dancing_bear "an old dancing bear" like bear tame described "A big brown bear, grey about the muzzle, with a leather collar and no teeth to speak of. She smells of honey and wet straw.".
+  Person the_bear "Patience" at green {
+    Role "the players' bear". Species dancing_bear. Peaceable. Pronouns she.
+    Greets "Patience ambles to the end of her rope to see who you are, and goes through your hands for honey.".
+  }
+  Thing wagon "the players' wagon" at green {
+    State chained "A tall wagon, painted with a sun and a moon and the words GOSSE'S COMPANY in red letters gone pink, stands on {green} with its shafts down. A chain runs from its back wheel to a post, and the chain has a padlock on it.".
+    State free "The players' wagon stands on {green} with its shafts up, loaded to the roof, a painted cloth rolled on top.".
+  }
+  Observe green_players at green when stuck(gosse) and not gone(gosse) "A bear is asleep on the ground by the players' wagon, with a thin man for a pillow, and a big old man in a faded crimson coat sits on the wagon's tail-board looking at the sky as if it owed him money.".
+  Observe green_players_free at green when reckoned(gosse) and not gone(gosse) "Gosse is walking slowly round the wagon with his hands behind his back, inspecting its wheels as if he had just bought it.".
+  Observe green_players_gone at green when gone(gosse) "There are wheel-ruts in the dust of {green}, and a ring of flattened ground where a bear lay.".
+
+  // The town's own people on the players.
+  Topic keeper_players with keeper "Ask {keeper} about the players stuck here" when stuck(gosse) and not gone(gosse) once {
+    Says "'Four nights' bed and board for seven and a bear,' says {keeper}, 'and the bear eats for three. Eight coin. They had it, too, in the hat, Tuesday night: the whole town went to see them. And then their man who leads the bear went off with the hat.' {keeper} folds the cloth. 'I don't doubt the old man means to pay. He means a great many things. The wagon stays chained till someone does.'".
+  }
+  Topic priest_players with priest "Ask {priest} about the players" when not gone(gosse) once {
+    Says "{priest} smiles, and then tries not to. 'They played the Shepherd's Revenge here on Tuesday, and the clown sat in my place at the front and gave a sermon, and I am still not sure whether I should have minded.' Then, more soberly: 'The man who went off with the hat was Lem Coyle, who leads their bear. He was not a bad man at the shrine. I saw him go out along the common toward the old lime-kiln, with the hat under his coat like a hen.'".
+    On discuss { Assert knows(actor, lem_where). }
+  }
+  Topic trader_players with trader "Ask {trader} about the players" when not gone(gosse) once {
+    Says "'They owe me for candles and a pot of honey,' says {trader}, 'and I would give them the candles again for the bear's dance alone. Lem Coyle bought a bottle off me Tuesday with a coin out of the hat. Said it was his wages.' {trader} shrugs. 'Maybe it was.'".
+  }
+
+  Topic gosse_trouble with gosse "Ask Gosse what has happened" when stuck(gosse) and not gone(gosse) once {
+    Says "'A small reverse,' says Gosse. 'A tragedy in the classical sense: brought about by a flaw in the hero, who failed to pay his chain-man for four months.' He spreads his hands. 'Lem has gone off with the hat, and the hat had the reckoning in it, and our host has chained the wagon, and this week the Trial of the Wheel opens at Pentrice over the march and we must be there or die in a ditch.' He looks at you sidelong. 'I do not ask for money. I never ask for money. I mention that it exists.'".
+  }
+  Topic hepzibah_lem with hepzibah "Ask Hepzibah about Lem" when stuck(gosse) and not gone(gosse) once {
+    Says "'He's owed four months,' says Hepzibah, biting off a thread. 'Four coin, since he will ask for it. I have it written down.' She turns a page of the book on her knee, a fat book of cues and accounts. 'Absalom pays his players in compliments, and most of us have learned to eat them. Lem has a mother.' She looks at you over her spectacles. 'If you find him, don't hurt him. He's a good hand with the bear.'".
+    On discuss { Assert knows(actor, lem_owed). }
+  }
+  Topic pudding_patience with pudding "Ask Pudding about the bear" when not gone(gosse) once {
+    Says "'Patience,' says Pudding, without lifting his head. 'Thirty-one, which is old for a bear and young for a duchess. She dances if you hum, and eats honey if you have it, and she has never in her life hurt anyone but a goose, and that was a misunderstanding.' He scratches her ear. 'Lem led her round the crowd with the hat on her head. Twice what any of us take. Nobody refuses a bear.'".
+  }
+  Discovery lem_where "Lem Coyle, who led the players' bear, went out along the common toward the old lime-kiln with the hat under his coat." { Known by priest. }
+  Discovery lem_owed "Lem Coyle is owed four months' wages, four coin, and Hepzibah Dimmock has it written down." { Known by hepzibah. }
+
+  // ── Lem, at the lime-kiln ───────────────────────────────────────────────────────────────────────────────────────
+  Place kiln "the old lime-kiln on the common" is room within town at 2, 2.
+  Passage common_path "the path across the common" is path between green and kiln taking 20 minutes hidden until lem_where.
+  Observe kiln_scene at kiln when true "A squat old kiln of blackened stone at the end of the common, with a hawthorn growing out of its top. The fire-hole is big enough to sit in out of the wind.".
+  Person lem "Lem Coyle" at kiln {
+    Role "the players' chain-man, sitting in the kiln's fire-hole". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "A young man with a broken nose is sitting in the kiln's fire-hole with a bottle and a battered tall hat in his lap. He puts his arm round the hat when he sees you.".
+  }
+  Kind players_hat "the players' hat" is gear worth 0 weighing 1
+    described "A tall black hat with a ribbon round it gone green, heavy with coins at the bottom. Somebody has written GOSSE inside the band.".
+  Item hat "the players' hat" is players_hat at kiln hidden until hat_loose.
+  Discovery hat_loose "Lem Coyle has let go of the players' hat.".
+  Topic lem_why with lem "Ask Lem why he took the hat" when not lemSent(lem) and not hatHome(gosse) once {
+    Says "'Wages,' says Lem. 'Four months of them. Four coin. He says next town, next town, and at the next town there's a new cloak for the king.' He drinks. 'I took what was mine and then I sat here, because the rest isn't mine and I'm not a thief, I'm just a fool who can't walk back into town.' He looks at the hat. 'There's twelve in it. Take the eight that's theirs if you want. I'm keeping my four.'".
+  }
+  Action pay_lem(actor: group, site: place) "Pay Lem his four months' wages from your own purse, and take the hat back to the players" {
+    Speaker lem. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lem, site) and quantity(actor, gold) >= 4
+      and not lemSent(lem) and not hatHome(gosse) and not knows(actor, hat_loose).
+    On success { Decrease quantity(actor, gold) by 4. Increase quantity(lem, gold) by 4. Assert lemPaid(lem). Assert lemSent(lem).
+      Assert knows(actor, hat_loose). Assert knows(actor, lem_kept). Retract at(lem, kiln). }
+    Result "Lem looks at the four coins in your hand a long time before he takes them. Then he gets up, and dusts off the hat, and holds it out to you with both hands like a deacon with the plate. 'Tell him I'll see the Trial,' he says. 'From the yard, with the fishwives. Tell Patience I said goodbye.' He goes off along the common, west, not looking back.".
+  }
+  Action talk_lem_back(actor: group, site: place) "Talk Lem into taking his four coin from the hat and giving the rest back" {
+    Speaker lem. Time 5 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lem, site) and not lemSent(lem) and not hatHome(gosse)
+      and not knows(actor, hat_loose).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert lemSent(lem). Assert knows(actor, hat_loose). Assert knows(actor, lem_kept). Retract at(lem, kiln). }
+    Result "You tell him what Hepzibah said: that it is written down, that he is owed it, that nobody thinks him a thief who matters. He counts four coins out of the hat into his own pocket, slowly, so you can see it is four. Then he gives you the hat. 'Tell Patience I said goodbye,' he says, and goes off west along the common, toward the march.".
+    Otherwise "He holds the hat tighter. 'You're his,' he says. 'You talk like him.'".
+  }
+  Action take_hat(actor: group, site: place) "Take the hat off Lem" {
+    Speaker lem. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lem, site) and not lemSent(lem) and not hatHome(gosse)
+      and not knows(actor, hat_loose).
+    Resolve check(actor, intimidation, dc_easy).
+    On success { Assert lemSent(lem). Assert knows(actor, hat_loose). Retract at(lem, kiln). }
+    Result "He does not fight you for it. He lets you take it out of his arms, and gets up, and goes off across the common the other way with his bottle, toward nowhere in particular.".
+    Otherwise "He gets his back against the kiln wall and the hat behind him, and you see he would rather be hit than give it up.".
+  }
+
+  Event hat_home near gosse when keeps(gosse, hat) "Gosse weighs the hat in his hand, and tips it, and counts what falls out with his lips moving. Then he goes and puts it into the hands of {keeper}, with a bow that is very nearly sincere, and the chain comes off the wheel." teaches freed then {
+    Assert hatHome(gosse). Assert reckoned(gosse). Retract stuck(gosse). Assert state(wagon, free). }
+
+  // ── Paying, or making the money ─────────────────────────────────────────────────────────────────────────────────
+  Action pay_reckoning(actor: group, site: place) "Pay {keeper} the players' reckoning, eight coin" {
+    Speaker keeper. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(keeper, site) and stuck(gosse) and not gone(gosse)
+      and quantity(actor, gold) >= 8.
+    On success { Decrease quantity(actor, gold) by 8. Increase quantity(keeper, gold) by 8. Assert knows(actor, freed). Assert reckoned(gosse). Retract stuck(gosse).
+      Assert state(wagon, free). }
+    Result "{keeper} counts the coins twice, as if they might be a trick of the players', and goes out to unlock the chain. Out on {green}, Gosse stands up very slowly from the tail-board and takes off his hat to you.".
+  }
+  // In the evening, if the players have a crowd and someone to go round with the hat, the green pays.
+  Query evening() means hour(clock) >= 17 and hour(clock) < 21.
+  Action hat_round(actor: group, site: place) "Get the players to play in the open this evening, and take the hat round yourself" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and at(gosse, green) and stuck(gosse)
+      and not gone(gosse) and evening() and not hatRound(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert hatRound(actor). Assert knows(actor, freed). Assert reckoned(gosse). Retract stuck(gosse). Assert state(wagon, free). Assert knows(actor, seen_show).
+      Assert showPlayed(gosse). }
+    On failure { Assert hatRound(actor). Assert knows(actor, seen_show). Assert showPlayed(gosse). }
+    Result "Gosse plays the prologue to six people and a dog and finishes it to forty; Pudding plays the shepherd and his own sheep; and when the hat goes round, you take it, and you look each of them in the eye, and you name the ones who have not paid in a voice the whole of {green} can hear. The hat comes back heavy. It is enough for {keeper}, and a coin over for the bear.".
+    Otherwise "They play well. The crowd laughs in the right places. But when you take the hat round, people find they have left their purses at home, and the hat comes back with three coins in it and a button.".
+  }
+  Action bear_round(actor: group, site: place) "Lead Patience round the crowd on her chain, with the hat on her head" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and at(gosse, green) and stuck(gosse)
+      and not gone(gosse) and evening() and not hatRound(actor).
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert hatRound(actor). Assert knows(actor, freed). Assert reckoned(gosse). Retract stuck(gosse). Assert state(wagon, free). Assert knows(actor, seen_show).
+      Assert showPlayed(gosse). }
+    On failure { Assert hatRound(actor). Assert knows(actor, seen_show). Assert showPlayed(gosse). }
+    Result "Pudding hums, and Patience gets up on her hind legs with a sigh like a bellows and dances, slow, turning, with the hat on her head. You lead her round. Nobody refuses a bear. Children put coins in with both hands; {priest} puts one in and pretends not to have. When Patience sits down again the hat is so heavy it falls off her head.".
+    Otherwise "Patience will not go round. She sits down where she is and looks at you with great patience and declines to dance for anyone but Pudding, and the crowd laughs at you, kindly, and pays very little.".
+  }
+  Action tumble_round(actor: group, site: place) "Go on yourself between the scenes, and do what you do" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and at(gosse, green) and stuck(gosse)
+      and not gone(gosse) and evening() and not hatRound(actor) and craft(actor, craft_stage).
+    On success { Assert hatRound(actor). Assert knows(actor, freed). Assert reckoned(gosse). Retract stuck(gosse). Assert state(wagon, free). Assert knows(actor, seen_show).
+      Assert showPlayed(gosse). }
+    Result "Gosse looks at you once, as one of the profession looks at another, and gives you the space between the second scene and the third. You do what you do. The crowd, which has seen the players twice already this week, has not seen you; and when Gosse comes on again he has to wait for them to stop. The hat comes back heavy, and Hepzibah writes something in her book.".
+  }
+
+  // ── Gosse's offer ───────────────────────────────────────────────────────────────────────────────────────────────
+  Topic gosse_thanks with gosse "Ask Gosse what he will do now" when reckoned(gosse) and not gone(gosse) and not knows(actor, joined) once {
+    Says "'Go west,' says Gosse, 'at first light, over the march to Pentrice, where three companies will play three nights before the city in the Trial of the Wheel, and the Bench of four will give one of them the Patent: a house of its own, for ever. A roof, my friend. Forty-one years I have played under the sky.' He considers you. 'I have lost a chain-man and found a better one. A season's work, a share of the house, and the honour of the profession, which is worth precisely nothing and which I would not sell for a crown. We lodge at the Painted Moon by the Westgate. Think about it.'".
+  }
+  Topic gosse_join with gosse "Tell Gosse you will take service with his company for the season" when reckoned(gosse) and not gone(gosse) and not knows(actor, joined) once {
+    Says "Gosse takes your hand in both of his. 'Done,' he says. 'Before witnesses: Hepzibah, write it down.' Hepzibah writes it down. 'You will walk faster than Patience,' Gosse says. 'Go by your own road; but be at the Painted Moon by the Westgate before the Trial, and ask for the loft. We shall want you for everything.' Pudding, from the ground, says: 'He means we shall want you to carry everything.'".
+    On discuss { Assert knows(actor, joined). }
+  }
+  Topic gosse_profession with gosse "Tell Gosse you are of the profession yourself" when craft(actor, craft_stage) and not gone(gosse) once {
+    Says "Gosse looks at you again, properly, the way one player looks at another across a crowd: the hands, the feet, the voice. 'So you are,' he says softly. 'So you are. Then you know what it is to be stuck in a strange town with a bear and no hat.' He laughs, enormously. 'Hepzibah, here is somebody who knows.'".
+  }
+
+  // The players go on to Pentrice the morning after they are free; if nobody frees them, they sell the king's cloak to
+  // pay and go on in the end, a week late and poorer.
+  Rule players_go when reckoned(gosse) and hour(clock) == 6 and not gone(gosse) { Assert gone(gosse). }
+  Rule players_give_up when watch(clock) >= 1008 and stuck(gosse) and not gone(gosse) { Retract stuck(gosse). Assert reckoned(gosse). Assert gone(gosse). }
+  Rule players_leave when gone(gosse) and at(gosse, green) and not at(party, green) {
+    Retract at(gosse, green). Retract at(hepzibah, green). Retract at(pudding, green). Retract at(the_bear, green). Retract at(wagon, green).
+    Assert stale(on_green). }
+  Rule lem_leaves when lemSent(lem) and at(lem, kiln) { Retract at(lem, kiln). }
+
+  Objective players when knows(party, on_green) and stuck(gosse) and not gone(gosse) "Gosse's Company, players, are stuck at {town} until someone pays their reckoning.".
+  Objective players_west when knows(party, joined) "Be at the Painted Moon by the Westgate of Pentrice, over the march west, before the Trial of the Wheel.".
+  Goal reckoned(gosse).
+}

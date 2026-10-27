@@ -39,6 +39,10 @@ export class Scenarios {
     { manifest: 'data/campaigns/parliament-of-books.campaign.json', title: 'A Parliament of Books', seed: 'calamy',
       note: 'Calamy stands at the mouth of the Calam, and every household in it keeps a book that knows it. Lately some of its books have begun to talk. In nine days it is the Kindling, when the city burns last year\'s almanacks to light the new year in.',
       detail: 'A city of seven wards, a country made of reading, a Parliament of books, and nine days to the Kindling' },
+    // An independent adventure, a comedy, played as it was written (doc/adventures/gosses-company).
+    { manifest: 'data/campaigns/gosses-company.campaign.json', title: "Gosse's Company", seed: 'arle',
+      note: 'A company of travelling players is stuck on a village green with its wagon chained to a post, on its way west to the Trial of the Wheel at Pentrice: three companies, three nights, a bench of four critics, and a playhouse for ever to the best. The play they will put on came to them out of the air, unsigned, and every word of it is about the man who banned them.',
+      detail: 'A licensed city, a playhouse over the river, a week of rehearsals, and one night at the Wheel' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

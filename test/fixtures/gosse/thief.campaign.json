@@ -1,0 +1,23 @@
+{
+ "version": 1,
+ "name": "Gosse's Company: the thief from the road",
+ "calendar": {
+  "year": 1313,
+  "month": 6,
+  "day": 20
+ },
+ "modules": [
+  {
+   "id": "pentrice",
+   "bundle": "../../../data/adventures/gosses-company/module.json"
+  }
+ ],
+ "party": [
+  {
+   "name": "Sly",
+   "raceId": "human",
+   "classId": "thief",
+   "backgroundId": "locksmith"
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "sign": ["To the Westgate", "Ask Tunstall what the jar of sticks is for", "Sign on with Tunstall as a tallyman"],
+ "daughter": ["To the Chepe", "To the Gullet", "To the Water Stairs", "=300", "To the Soke landing", "To Soke Lane", "Into the Wheel", "=362", "Let your knife lie still"],
+ "night": ["=494", "Take your place on the grey bench",
+  "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down",
+  "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down",
+  "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down",
+  "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down",
+  "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down",
+  "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down", "Wait › A while", "?Put your stick down"],
+ "after": ["=589", "?Wait › A while"]
+}

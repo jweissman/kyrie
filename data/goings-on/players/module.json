@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "town", "green", "keeper", "priest", "trader"],
+  "roles": {
+    "party": { "type": "group" },
+    "town": { "type": "place" },
+    "green": { "type": "place" },
+    "keeper": { "type": "group" },
+    "priest": { "type": "group" },
+    "trader": { "type": "group" }
+  },
+  "exports": { "on_green": "on_green", "joined": "joined", "freed": "freed", "seen_show": "seen_show", "lem_kept": "lem_kept" },
+  "experience": 100
+}

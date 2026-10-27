@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "source": "village.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "exports": { "party": "party", "town": "wending", "green": "cross_green", "keeper": "thackeray", "priest": "ivy",
+    "trader": "cobbet", "road_out": "road_out" }
+}

@@ -58,12 +58,14 @@ export class WorldConstructs {
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'travelMinutes', args: [p.id] },
         value: { kind: 'number', value: minutes } });
     }
-    if (p.opening) { this.opening(module, p.id, p.opening, p.shut); }
+    if (p.opening) { this.opening(module, p.id, p.opening, p); }
   }
   // A way that opens only while something holds is unopened until the world's rules find that it does, and again
-  // whenever it stops holding; while unopened, it is not passable, and looks as the author says. Its opening is read
-  // again once the rules of the moment have run, wherever they are declared (upkeep).
-  private static opening(module: Module, id: string, when: Predicate, shut?: string) {
+  // whenever it stops holding; while unopened, it is not passable, and looks as the author says, to a company that
+  // knows of it (a way hidden until a fact is known is not described shut to one that has never heard of it). Its
+  // opening is read again once the rules of the moment have run, wherever they are declared (upkeep).
+  private static opening(module: Module, id: string, when: Predicate,
+    { shut, hidden }: { shut?: string; hidden?: string }) {
     const unopened: Predicate = { kind: 'call', name: 'unopened', args: [id] };
     this.assert(module, 'unopened', id);
     (module.rules ??= []).push(
@@ -72,8 +74,9 @@ export class WorldConstructs {
       { id: `${id}__shuts`, when: { kind: 'and', left: { kind: 'not', value: when }, right: { kind: 'not', value: unopened } },
         effects: [{ kind: 'assert', call: unopened }], upkeep: true });
     if (shut) {
-      (module.observations ??= []).push({ id: `${id}__shut`, place: id, anchor: 'beside', when: unopened, text: shut,
-        aspect: 'feature' });
+      const known: Predicate = { kind: 'call', name: 'knows', args: ['party', hidden ?? ''] };
+      (module.observations ??= []).push({ id: `${id}__shut`, place: id, anchor: 'beside',
+        when: hidden ? { kind: 'and', left: unopened, right: known } : unopened, text: shut, aspect: 'feature' });
     }
   }
   static readonly wayKinds = ['passage', 'door', 'doorway', 'arch', 'gate', 'stair', 'steps', 'ladder', 'shaft', 'path',

@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "id": "players",
+  "name": "The players on the green",
+  "kind": "town",
+  "instances": 1,
+  "places": {
+    "town": { "settlement": "toward:west" }
+  },
+  "modules": [
+    {
+      "id": "players",
+      "bundle": "../goings-on/players/module.json",
+      "imports": { "party": "@party", "town": "@town", "green": "@town.green", "keeper": "@town.innkeeper",
+        "priest": "@town.priest", "trader": "@town.merchant" }
+    }
+  ],
+  "hooks": [
+    { "fact": "players.on_green", "topic": "the players stuck at {town}", "channels": ["tavern", "market", "road"], "opens": false }
+  ]
+}

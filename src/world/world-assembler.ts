@@ -34,8 +34,8 @@ export interface ScenarioManifest {
   // An adventure in a wild place (the default) or what is going on in a settlement (town).
   kind?: 'adventure' | 'town';
   context?: Record<string, string[]>;
-  // A place a scenario needs: a site of some kind, a settlement (near:role, any, or the first), or the stretch of road
-  // out of a settlement (near:role).
+  // A place a scenario needs: a site of some kind, a settlement (near:role, toward:side, any, or the first), or the
+  // stretch of road out of a settlement (near:role).
   places: Record<string, { site?: string[]; settlement?: string; way?: string }>;
   // Another scenario's placement in the same country it is bound to, if there is one: that placement's place, here
   // under a role of its own (the drover's trail goes to the den nearest the town). A module that needs it is
@@ -90,8 +90,9 @@ export class WorldAssembler {
     const days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
+    const heralds = await this.heralds(base, region, seed);
     const { context, eligibility, placements } = this.settle(region, library,
-      { seed, rid: RegionWriter.id, rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [] });
+      { seed, rid: RegionWriter.id, rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [], heralds });
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
     const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
     const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.party)[0]!)]
@@ -100,7 +101,8 @@ export class WorldAssembler {
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
     const files: Record<string, string> = {};
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
-    this.spread(placements, { library, base, region, contacts, context, files, root, modules });
+    this.spread(placements,
+      { library: [...library, ...heralds], base, region, contacts, context, files, root, modules });
     const told = origin && Origins.write(origin, { region, placements, protagonist: party[0]!.name ?? 'you', root, files });
     if (told) { modules.push(told.request); }
     else { this.arrival(region, { size: party.length, contacts }, { files, root, modules }); }
@@ -156,11 +158,17 @@ export class WorldAssembler {
   // The scenarios a region is given: adventures in the wild places first, then what is going on in the
   // settlements; none placed elsewhere in the world already.
   private static settle(region: Region, library: Entry[], at: { seed: string; rid: string; rounds: [number, number];
-    exclude: string[] }) {
+    exclude: string[]; heralds?: Entry[] }) {
     const context = { terrain: region.terrain, ancestry: region.ancestry, domain: region.domain };
     const eligibility = library.map(e => this.fits(e.manifest, context, region));
     const placements: Placement[] = [], claimed = new Set<string>();
     const count = new Map<string, number>(at.exclude.map(id => [id, Infinity]));
+    // What goes ahead of the countries the world holds is on the road before anything else is placed.
+    for (const herald of at.heralds ?? []) {
+      count.set(herald.manifest.id, 1);
+      const placed = this.place(herald.manifest, { n: 1, region, claimed, seed: at.seed, rid: at.rid, placements });
+      if (placed) { placements.push(placed); }
+    }
     for (const [kind, rounds] of [['adventure', at.rounds[0]], ['town', at.rounds[1]]] as const) {
       for (let round = 0; round < rounds; round++) {
         const open = library.filter((e, i) => (e.manifest.kind ?? 'adventure') === kind && eligibility[i]!.fits
@@ -258,6 +266,14 @@ export class WorldAssembler {
       return [{ member: name, background: member.backgroundId!, channel: tie.channel, carrier, room: SettlementWriter.standing(region, town, this.speakers[tie.channel] as 'innkeeper'),
         text: `${tie.text.replaceAll('{contact}', `{${carrier}}`).replaceAll('{member}', name)} ${this.heard[tie.channel]}` }];
     });
+  }
+  // The heralds of the countries a first region lies beside (see Countries.heralds): scenarios kept out of the
+  // library's draw, one for each country that sends one.
+  private static async heralds(base: BundleSource, region: Region, seed: string): Promise<Entry[]> {
+    return Promise.all(Countries.heralds(region.terrain, seed).map(async ({ country }) => {
+      const at = base.resolve(`data/scenarios/${country.herald!.scenario}`);
+      return { path: at, manifest: JSON.parse(await base.read(at)) as ScenarioManifest };
+    }));
   }
   static async library(base: BundleSource, index: string): Promise<Entry[]> {
     const path = base.resolve(index);

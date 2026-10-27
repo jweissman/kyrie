@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "city.kyr",
+    "troupe.kyr",
+    "office.kyr",
+    "bench.kyr",
+    "town.kyr",
+    "nights.kyr",
+    "night.kyr",
+    "supper.kyr",
+    "history.kyr",
+    "combat.kyr",
+    "verdict.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "word",
+    "joined",
+    "freed",
+    "seen_show",
+    "lem_kept"
+  ],
+  "optional": [
+    "word",
+    "joined",
+    "freed",
+    "seen_show",
+    "lem_kept"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "vale",
+    "road_end": "road_end"
+  },
+  "experience": 1000
+}
