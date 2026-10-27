@@ -1,0 +1,12 @@
+Module pentrice "Gosse's Company" {
+  // Pentrice as a country beyond a march: the company that comes down the West Road is the world's own.
+  Entity party: group "Your company".
+  // What the country below says of Pentrice (the bills of the Trial): once the Trial's verdict is read, it is old news.
+  Entity word: fact "What is said of Pentrice in the country below.".
+  Rule word_old when verdictRead(pentrice) and not stale(word) { Assert stale(word). }
+  // What the players on the green, in the country below, told this country of the company (see herald.kyr).
+  Entity joined: fact "You have taken service with Gosse's Company for the summer.".
+  Entity freed: fact "You got the players' wagon off the chain on a village green.".
+  Entity seen_show: fact "You have seen Gosse's Company play on a village green.".
+  Entity lem_kept: fact "Lem Coyle, the players' chain-man, was paid what he was owed, and has gone to see the Trial.".
+}

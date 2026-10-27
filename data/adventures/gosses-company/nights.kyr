@@ -1,0 +1,72 @@
+Module pentrice "Gosse's Company" {
+  // ── The other companies' nights ─────────────────────────────────────────────────────────────────────────────────
+  // The Siege of Arle, by the Lord Mayor's Servants, on the second night; The Patient Daughter, by the Children of the
+  // Close, on the third. Each from seven until a little after nine. Watching them, a company learns what the Bench
+  // likes; behind them, in the tiring-house, it can help or hinder.
+  Rule show_on when trialNight() and showtime() and not playingTonight(pentrice) { Assert playingTonight(pentrice). }
+  Rule show_off when playingTonight(pentrice) and not (trialNight() and hour(clock) >= 18) and not ghostOn(pentrice) { Retract playingTonight(pentrice). }
+  Relation siegeFell(group). Relation siegeHeld(group). Relation siegeSeen(group). Relation daughterSeen(group).
+  Relation tallyCounted(group). Relation tallyLet(group).
+
+  // The Siege of Arle.
+  Observe siege_scene at wheel when tday(pentrice) == 2 and showtime() and not siegeFell(fallow) "On the Wheel's stage the Lord Mayor's Servants are playing The Siege of Arle, as they have every Trial for eleven years: a painted city wall, a siege-tower on wheels with a gilded knight in it, boys in long gowns as the City's weeping daughters, and verse, a great deal of it, every syllable as licensed. The yard is full and patient. The grey bench below the stage sits with its sticks still: nobody in the Servants has said an unlicensed word in eleven years.".
+  Observe siege_fallen at wheel when tday(pentrice) == 2 and showtime() and siegeFell(fallow) "The siege-tower lies on its side across the Wheel's stage with its gilded knight still in it, waving his legs. The yard is in hysterics. The Lord Mayor's Servants are trying to go on with the verse round it.".
+  Observe siege_clay at wheel when tday(pentrice) == 2 and showtime() and hour(clock) >= 20 "In the lords' room over the stage, Ormsby Clay is following the Siege in a printed copy with his finger, nodding at each line ending as at an old friend. Dame Gammage has fallen asleep with her mouth open. Canon Mallory is moved, quietly, by the weeping daughters. Nym Callow is drawing a gallows in the margin of his programme." teaches siege_tastes.
+  Discovery siege_tastes "At the Siege of Arle the Bench showed itself: Clay followed the verse line by line with pleasure; Gammage slept; Mallory was moved by the weeping daughters; Callow drew a gallows.".
+  Observe siege_tower at tiring_house when tday(pentrice) == 2 and hour(clock) >= 18 and hour(clock) < 21 and not siegeFell(fallow) and not siegeHeld(fallow) "Behind the stage the Lord Mayor's Servants' siege-tower stands waiting for its entrance, eighteen feet of painted canvas on a frame on four wheels; and you see that one of the back wheels is cracked through, and held on its axle by a wooden wedge that is working loose.".
+  Action wedge_tower(actor: group, site: place) "Drive the loose wedge home on the siege-tower's cracked wheel, and lash it" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tiring_house) and tday(pentrice) == 2 and hour(clock) >= 18 and hour(clock) < 21
+      and not siegeFell(fallow) and not siegeHeld(fallow) and not triedWedge(actor).
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert siegeHeld(fallow). Assert fallowGrateful(fallow). }
+    On failure { Assert triedWedge(actor). }
+    Result "You knock the wedge home with the heel of a property sword and lash the cracked felloe with a coil of rope off a hook. A minute later the stage-keeper comes running for the tower, and the siege rolls on. Afterward, while the yard is still clapping, Corin Fallow finds you in the tiring-house. He looks at the lashed wheel for a long moment. 'That would have gone in the second act,' he says. 'In front of the Bench.' He holds out his hand. 'I am in your debt, which I dislike very much. I shall try to deserve it.'".
+    Otherwise "You hit the wedge, and it splits, and the stage-keeper shouts for the tower before you can find another.".
+  }
+  Relation triedWedge(group).
+  Action pull_wedge(actor: group, site: place) "Knock the loose wedge out of the siege-tower's cracked wheel" {
+    Time 1 minute.
+    Grave "The tower will go over in the middle of the Siege, in front of the Bench, and somebody may be under it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tiring_house) and tday(pentrice) == 2 and hour(clock) >= 18 and hour(clock) < 21
+      and not siegeFell(fallow) and not siegeHeld(fallow).
+    On success { Assert siegeFell(fallow). }
+    Result "One tap with the heel of a property sword and the wedge drops out into the sawdust. Nobody sees. Twenty minutes later, in the second act, the siege-tower rolls on with the gilded knight in it, and the cracked wheel folds up under it like a man fainting, and the whole tower goes over sideways across the stage of the Wheel with a noise like a barn falling down.".
+  }
+  Rule siege_fall_counts when siegeFell(fallow) and not spread(siege_fall_known) { Assert spread(siege_fall_known). Decrease regard(clay) by 0. }
+  Discovery siege_fall_known "The Lord Mayor's Servants' siege-tower fell over in the middle of the Siege of Arle.".
+  // Jem Pudding sees everything that happens behind a stage, and tells Gosse the next morning.
+  Rule pudding_saw when siegeFell(fallow) and tday(pentrice) >= 3 and not gosseAshamed(gosse) { Assert gosseAshamed(gosse). }
+  Relation gosseAshamed(group).
+  Rule pudding_saw_told at moon_loft when at(party, moon_loft) and gosseAshamed(gosse) and not spread(gosse_shamed_known)
+    says "Gosse is waiting at the top of the loft stair. Pudding is behind him, not looking at you. 'Jem saw you,' says Gosse, very quietly, which is worse than shouting. 'In the tiring-house. With the wedge.' He looks at you a long time. 'We do not win by other people's falls. Not in this company. Not ever.' He turns away. 'You can stay. I have not decided whether I can bear it.'" { Assert spread(gosse_shamed_known). }
+  Discovery gosse_shamed_known "Gosse knows who knocked out the wedge from under Fallow's siege-tower.".
+
+  // The Patient Daughter.
+  Observe daughter_scene at wheel when tday(pentrice) == 3 and showtime() "The Children of the Close are playing The Patient Daughter: a long, sweet, improving piece in which a girl of twelve bears everything and is taken up to Heaven by angels on a rope. The angels are small boys in surplices with cardboard wings, and they are very good, and very slow. The yard is affectionate and restless. Canon Mallory, in the lords' room, is mouthing every line with them.".
+  Observe daughter_ned at wheel when tday(pentrice) == 3 and showtime() and hour(clock) >= 20 and not nedRuns(ned) "The Fourth Angel, Ned Cherry, comes to the edge of the stage, and lifts his face, and sings his one word, Behold, so that the whole Wheel goes quiet to the top gallery.".
+  Observe daughter_no_ned at wheel when tday(pentrice) == 3 and showtime() and hour(clock) >= 20 and nedRuns(ned) "The Fourth Angel's place in the procession is empty, and when the moment comes the Third Angel, a very small boy, sings Behold twice, once for himself and once for Ned Cherry, in a voice like a wren's, looking anxiously at the lords' room.".
+  Observe daughter_tastes at wheel when tday(pentrice) == 3 and showtime() and hour(clock) >= 20 "In the lords' room Canon Mallory is weeping freely at the ascension. Ormsby Clay is looking at his watch. Dame Gammage is eating nuts very loudly. Nym Callow has gone out." teaches daughter_tastes_known.
+  Discovery daughter_tastes_known "At the Patient Daughter Mallory wept, Clay looked at his watch, Gammage ate nuts, and Callow went out.".
+
+  // A tallyman on the grey bench on the third night: the Fifth Angel, aged nine, says a word that is not in the book.
+  Observe angel_slip at wheel when tday(pentrice) == 3 and showtime() and hour(clock) >= 20 and tallyman(party) and not tallyCounted(party) and not tallyLet(party) "On the stage the Fifth Angel, aged about nine, catches his wing on the rope, and says, quite clearly, to the whole Wheel: 'Bum.' Beside you on the grey bench Abel Tunstall's knife is already moving on his stick. He looks sideways at yours.".
+  Action count_angel(actor: group, site: place) "Cut a notch for the Fifth Angel's word" {
+    Time 0.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wheel) and tallyman(actor) and tday(pentrice) == 3 and showtime() and hour(clock) >= 20
+      and not tallyCounted(actor) and not tallyLet(actor).
+    On success { Assert tallyCounted(actor). }
+    Result "You cut one notch. Tunstall nods once, as at a sum correctly done. The Children of the Close will be fined a crown, which the Canon will pay out of his own pocket, and the Fifth Angel will be told about it all the way home.".
+  }
+  Action let_angel(actor: group, site: place) "Let your knife lie still" {
+    Time 0.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wheel) and tallyman(actor) and tday(pentrice) == 3 and showtime() and hour(clock) >= 20
+      and not tallyCounted(actor) and not tallyLet(actor).
+    On success { Assert tallyLet(actor). Increase regard(mallory) by 1. }
+    Result "You leave your stick on your knee. Tunstall looks at it, and at you, and writes something very small in his ledger. Up in the lords' room the Canon, who has seen the whole thing, catches your eye and looks away, pink.".
+  }
+  // A tallyman is paid each morning for the night before.
+  Rule tally_pay_two when tallyman(party) and tday(pentrice) >= 3 and not tallyPaid(siege_tastes) { Assert tallyPaid(siege_tastes). Increase quantity(party, gold) by 1. }
+  Rule tally_pay_three when tallyman(party) and tday(pentrice) >= 4 and not tallyPaid(daughter_tastes_known) { Assert tallyPaid(daughter_tastes_known). Increase quantity(party, gold) by 1. }
+  Relation tallyPaid(fact).
+}

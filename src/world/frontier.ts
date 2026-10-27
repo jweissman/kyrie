@@ -40,7 +40,8 @@ export class Frontier {
         // What the country below says of it, which it marks old news when it is seen through (optional to it).
         const word: Record<string, string> = country.after ? { word: `${at[1]!}.edge_${side}_beyond` } : {};
         await campaign.install({ id: rid, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
-          imports: { party: `${RegionWriter.id}.party`, ...word }, chapter: true }, this.base, false, true);
+          imports: { party: `${RegionWriter.id}.party`, ...word, ...await this.herald(campaign, country) }, chapter: true },
+        this.base, false, true);
       } else {
         // Each of its modules is checked as it is compiled; the joined whole is checked once, with the road in, as a
         // campaign is assembled (Campaign.assemble). Everyone's creature facts are projected with each, as before: the
@@ -81,6 +82,17 @@ export class Frontier {
     const beyond = this.ahead.get(key) ?? await WorldAssembler.beyond(this.seed, this.base, at);
     if (keep) { this.ahead.set(key, beyond); } else { this.ahead.clear(); }
     return beyond;
+  }
+  // What the country's herald, if the world placed one in the first region, tells it: each export the country reads,
+  // bound to its import of the same name (the company joined the players on the green). A herald the world never
+  // placed (a world kept from before) binds nothing, and the country is entered as from the road.
+  private async herald(campaign: Campaign, country: Country): Promise<Record<string, string>> {
+    if (!country.herald) { return {}; }
+    const path = this.base.resolve(`data/scenarios/${country.herald.scenario}`);
+    const manifest = JSON.parse(await this.base.read(path)) as { modules: { id: string }[] };
+    const id = manifest.modules[0]!.id.replace(/[^A-Za-z0-9]/g, '');
+    if (!campaign.installed.includes(id)) { return {}; }
+    return Object.fromEntries(country.herald.exports.map(name => [name, `${id}.${name}`]));
   }
   // The authored country a region already installed is, if it is one.
   private holds(campaign: Campaign, rid: string): Country | undefined {

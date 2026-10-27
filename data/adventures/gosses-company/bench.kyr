@@ -1,0 +1,259 @@
+Module pentrice "Gosse's Company" {
+  // ── The Bench ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Four critics, named by the Guildhall, the Gullet, the Close and the Owl. Three votes give the Patent. Each has a
+  // regard for Gosse's Company that what the company does, and what it plays, moves; each holds a different idea of
+  // what a play is for, which can be learned by asking them, or by watching them watch.
+  Measure regard(group). Relation critic(group).
+  Initially Assert critic(clay). Initially Assert critic(gammage). Initially Assert critic(mallory). Initially Assert critic(callow).
+  Initially Set regard(gammage) to 1. Initially Set regard(callow) to 1.
+  Discovery taste_clay "Ormsby Clay, the Guildhall's critic, wants order of a play: verse spoken as verse, decorum, every person brought to their proper end; he cannot abide clowns, bears or words that are not in the book." { Known by clay. }
+  Discovery taste_gammage "Dame Philippa Gammage, the Gullet's critic, wants joy of a play: laughter, spectacle, a good cry and home; she hates pomp and long speeches, and has hated Ambrose Swale in print for fifteen years." { Known by gammage. }
+  Discovery taste_mallory "Canon Mallory, the Close's critic, wants a play to leave its house better than it found it: a moral, and nobody the worse; he will not have indecency, nor the dead mocked." { Known by mallory. }
+  Discovery taste_callow "Nym Callow, the Owl's critic, wants a play to tell the truth to power, and despises anything the Office would license." { Known by callow. }
+  // On a Trial night the Bench sits in the lords' room over the stage; otherwise each is where their trade is.
+  Rule bench_to_wheel when critic(?c) and trialNight() and hour(clock) >= 18 and hour(clock) < 22 and at(?c, ?p) and not at(?c, wheel) {
+    Retract at(?c, ?p). Assert at(?c, wheel). }
+  Rule clay_back when (hour(clock) >= 22 or hour(clock) < 8) and at(clay, wheel) { Retract at(clay, wheel). Assert at(clay, owl_room). }
+  Rule gammage_back when (hour(clock) >= 22 or hour(clock) < 8) and at(gammage, wheel) { Retract at(gammage, wheel). Assert at(gammage, gullet). }
+  Rule mallory_back when (hour(clock) >= 22 or hour(clock) < 8) and at(mallory, wheel) { Retract at(mallory, wheel). Assert at(mallory, canon_study). }
+  Rule callow_back when (hour(clock) >= 22 or hour(clock) < 8) and at(callow, wheel) { Retract at(callow, wheel). Assert at(callow, owl_room). }
+  Observe bench_at_wheel at wheel when at(clay, wheel) and at(gammage, wheel) "Over the stage, in the lords' room, the Bench sits in a row like a jury: a thin man in black with a book open on his knee, a big woman in a bonnet with a bag of nuts, a plump clergyman, and a young man in a coat too good for him, already yawning.".
+
+  // ── Ormsby Clay, the Guildhall's critic ─────────────────────────────────────────────────────────────────────────
+  Person clay "Ormsby Clay" at owl_room {
+    Role "the Guildhall's critic". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "Ormsby Clay is a thin man in black with a face like a closed book and a closed book in front of him, which he opens, so as to have something to look at while you speak.".
+    Wants dido_kind.
+  }
+  Topic clay_taste with clay "Ask Ormsby Clay what a play is for" when true once {
+    Says "'For order,' says Clay. 'A play is a small world made right: every person in it given their proper end, every line its proper measure. A tragedy shows us the fall of what was high, a comedy the righting of what was crooked, and both in verse, if they are worth anything.' He turns a page. 'I do not attend for the bear.'".
+    On discuss { Assert knows(actor, taste_clay). }
+  }
+  Topic clay_gosse with clay "Ask Ormsby Clay about Gosse's Company" when true once {
+    Says "Clay closes his book. 'Twenty years ago,' he says, 'a tragedy of mine was played at the Wheel. Dido. In five acts and in verse. It was played before Gosse's Company's jig, and when it was done, and the house was, I may say, attentive, their clown came on and did the whole of my fourth act in eight minutes in rhyme, with a ham for the funeral pyre.' He opens the book again. 'The pit preferred the ham. I have not written for the stage since, and I have not forgiven Absalom Gosse, who stood in the wings and laughed.'".
+    On discuss { Assert knows(actor, clay_grudge). }
+  }
+  Discovery clay_grudge "Twenty years ago Ormsby Clay's tragedy, Dido, was played at the Wheel before Gosse's Company's jig, and Gosse's clown burlesqued its fourth act with a ham; Clay has not written for the stage since, nor forgiven Gosse." { Known by clay, gosse. }
+  Kind dido_kind "a manuscript tragedy" is gear worth 0 weighing 1
+    described "A manuscript in a careful hand, gone yellow, tied with black ribbon: DIDO, A TRAGEDY, BY O. CLAY. In the margins, here and there, in a big sprawling hand in pencil: Beautiful. Too long. Here, beautiful. And on the last page: Cut nothing. A.G.".
+  Item dido "the manuscript of Dido" is dido_kind at tiring_house hidden until dido_found.
+  Discovery dido_found "In the rack of old costumes in the Wheel's tiring-house, inside a moth-eaten queen's robe, is the prompt copy of Ormsby Clay's Dido, from twenty years ago, with notes in Absalom Gosse's hand in the margins: Beautiful. Too long. Cut nothing." {
+    Found by searching tiring_house "In the rack of old costumes, inside the sleeve of a moth-eaten queen's robe, someone has rolled up a manuscript and tied it with black ribbon: DIDO, A TRAGEDY, BY O. CLAY. Its margins are full of pencil in a big sprawling hand.".
+  }
+  Initially Assert lends(gosse, dido, party).
+  Event clay_reads near clay when keeps(clay, dido) "Clay unties the black ribbon as if it might bite. He turns the pages, and stops at the first pencil note, and reads it, and turns more slowly, and reads the next. Beautiful. Too long. Here, beautiful. At the last page he sits for a while with his hand flat on it, over CUT NOTHING. A.G. 'He wrote this,' he says, 'the night they burlesqued it.' He does not look up. 'He stood in the wings and laughed, and then he went home and wrote this.' He ties the ribbon again, carefully, and puts the manuscript inside his coat. 'Thank you,' he says, to the table." then {
+    Increase regard(clay) by 2. Assert clayMoved(clay). }
+  Relation clayMoved(group). Relation curtainRaiser(group).
+  Topic gosse_dido with gosse "Ask Gosse to play the lament from Clay's Dido before the play, as a curtain-raiser" when knows(actor, clay_grudge) and knows(actor, dido_found) and inCompany(actor) and not curtainRaiser(gosse) once {
+    Says "Gosse is quiet. Then: 'Dido,' he says. 'The lament. Thirty lines, in the old measure, before the house is warm.' He makes a face. 'It is very long, and very beautiful, and the Gullet will throw nuts.' He looks at you. 'And Ormsby Clay will sit in the lords' room and hear his verses spoken by Ambrose Swale at the Wheel, properly, after twenty years.' He nods slowly. 'Swale will do it. Swale will do it like a bishop.'".
+    On discuss { Assert curtainRaiser(gosse). }
+  }
+
+  // ── Dame Philippa Gammage, the Gullet's critic ──────────────────────────────────────────────────────────────────
+  Person gammage "Dame Philippa Gammage" at gullet {
+    Role "the Gullet's critic, who keeps the ballad stall". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Wants gull_note.
+    Greets "Dame Philippa Gammage is a big woman in a bonnet with ribbons, behind a stall papered with ballad-sheets, eating hazelnuts out of a bag and cracking the shells in her teeth. 'Buy a ballad,' she says, 'or buy me a drink, or go away.'".
+  }
+  Topic gammage_taste with gammage "Ask Dame Gammage what a play is for" when true once {
+    Says "'Joy,' says Dame Gammage, through a nut. 'A play is for a fishwife who has stood in the Gullet since four in the morning, to stand in the yard of the Wheel at seven and forget she has feet. Laugh, cry, see a bear, go home.' She spits a shell. 'Not to be talked at. Not to be preached at. Not to stand three hours watching Ambrose Swale die by inches in iambics.' She cracks another. 'Fifteen years I've been telling him so in print.'".
+    On discuss { Assert knows(actor, taste_gammage). }
+  }
+  Topic gammage_swale with gammage "Ask Dame Gammage about Ambrose Swale" when true once {
+    Says "'The Wooden Lear,' says Dame Gammage, with relish. 'I called him that in the year thirty and it stuck. The Wooden Lear, the Walking Cathedral, the Man Who Played Hamlet as a Bell-Tower.' She is smiling. 'Fifteen years, every time he's played the Wheel, I've gone and stood in the yard and written him down.' She stops smiling, though not on purpose. 'He has a voice, mind. Under all that marble. If he ever let it out, you'd hear it in the Close.'".
+  }
+  Discovery gammage_loves "Dame Gammage's scrapbook holds every notice she ever wrote of Ambrose Swale in fifteen years, each one cruel, and against each one, pressed, a flower." {
+    Found by searching gullet "Under the ballad stall, in a dry box with Dame Gammage's spare bonnet, is a scrapbook. Every page is a cutting of one of her own notices, and every notice is of Ambrose Swale: the Wooden Lear, the Walking Cathedral. Against each one, pressed flat and brown, is a flower: a daisy, a pansy, a rose, a sprig of rosemary, fifteen years of them.".
+  }
+  Item gammage_notice "the old notice of Dorcas Quaile's Widow" is old_notice at gullet hidden until notice_given.
+  Discovery notice_given "Dame Gammage has given you her old notice of Dorcas Quaile's Widow, from twelve years ago.".
+  Topic gammage_dorcas with gammage "Ask Dame Gammage what she thinks of Dorcas Quaile" when true once {
+    Says "'Dorcas Quaile!' Dame Gammage slaps the stall. 'Twelve years ago she played the Miller's Widow at the Wheel and I laughed so hard they carried me out. I wrote it up. I said, let her play nothing but widows.' She sighs. 'And she went on playing girls. They all do. They'd sooner be pretty than great.' She rummages under the stall. 'I've the cutting somewhere. I keep everything.'".
+    On discuss { Assert knows(actor, notice_given). }
+  }
+  Initially Assert lends(gammage, gammage_notice, party).
+
+  // ── The gulling of Swale and Gammage ────────────────────────────────────────────────────────────────────────────
+  // Pudding and Dorcas mean to make the tragedian and the critic who has savaged him for fifteen years each believe
+  // the other is in love. They need someone to carry the notes.
+  Relation gullOffered(group). Relation gammageGulled(group). Relation swaleGulled(group). Relation gullExposed(group).
+  Relation truthTold(group). Relation understanding(group). Relation humiliated(group).
+  Topic pudding_gull with pudding "Ask Pudding what he and Dorcas are whispering about" when inCompany(actor) and tday(pentrice) >= 1 and not gullOffered(pudding) once {
+    Says "Pudding looks round the loft, and then at Dorcas, who looks at the ceiling. 'A comedy,' he says. 'An old one. Two people who've hated each other in public for fifteen years, and the company lets each one find a letter from the other.' He takes two folded notes out of his sleeve. 'Ambrose Swale and Philippa Gammage. Dorcas wrote his, I wrote hers, and we can neither of us go near them, because we'd laugh.' He holds them out. 'You carry them. Give hers to her at her stall, his to him in the loft. Then, tomorrow at four, they'll both be at the Owl, and so shall we, under a table.'".
+    On discuss { Assert gullOffered(pudding). }
+  }
+  Kind gull_note "a folded note" is gear worth 0 weighing 0
+    described "A folded note, sealed with candle-grease and a thumb.".
+  Item note_gammage "a note 'from Ambrose Swale'" is gull_note at moon_loft hidden until notes_taken.
+  Item note_swale "a note 'from Philippa Gammage'" is gull_note at moon_loft hidden until notes_taken.
+  Discovery notes_taken "Pudding has given you the two forged notes, one for Swale and one for Dame Gammage.".
+  Action take_notes(actor: group, recipient: member, site: place) "Take Pudding's two notes, to carry them" {
+    Speaker pudding. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pudding, site) and gullOffered(pudding)
+      and memberOf(recipient, actor) and awake(recipient) and not knows(actor, notes_taken).
+    Resolve acquire(note_gammage, gull_note, recipient).
+    On success { Assert knows(actor, notes_taken). Retract at(note_gammage, moon_loft). }
+    Result "Pudding presses the notes into your hand like a pickpocket in reverse. 'Hers is the one with the thumb,' he says. 'His is the other. Mind you don't mix them.'".
+  }
+  Action take_note_two(actor: group, recipient: member, site: place) "Take the second of Pudding's notes" {
+    Speaker pudding. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and knows(actor, notes_taken) and at(note_swale, moon_loft)
+      and memberOf(recipient, actor) and awake(recipient).
+    Resolve acquire(note_swale, gull_note, recipient).
+    On success { Retract at(note_swale, moon_loft). }
+    Result "The second note is sealed with a thumb too, a bigger one.".
+  }
+  Initially Assert lends(pudding, note_gammage, party). Initially Assert lends(pudding, note_swale, party).
+  Relation noteFair(group).
+  Action forge_note(actor: group, site: place) "Copy Pudding's note for Dame Gammage out fair, in a hand like Swale's" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, note_gammage) and not noteFair(gammage) and not triedForge(actor).
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert noteFair(gammage). }
+    On failure { Assert triedForge(actor). }
+    Result "You copy it out in a tall formal hand with long descenders, the hand of a man who signs his name across a whole playbill, and sign it with a flourish like a cloak. It looks like Ambrose Swale. It looks, if anything, more like Ambrose Swale than Swale does.".
+    Otherwise "Your copy looks like what it is: somebody trying to write like somebody else.".
+  }
+  Relation triedForge(group).
+  Action spell_note(actor: group, site: place) "Mend the spelling of Pudding's note for Dame Gammage, and put the metre right" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and carries(actor, note_gammage) and not noteFair(gammage) and not triedSpell(actor).
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert noteFair(gammage). }
+    On failure { Assert triedSpell(actor). }
+    Result "Pudding spells sincerely with one R and admiration with a Q. You put them right, and the metre too, so that every line of it scans as Ambrose Swale's lines scan, like a man walking slowly up a staircase. It is quite a good poem now.".
+    Otherwise "You correct the spelling, and in correcting it make it worse, and the metre goes on limping.".
+  }
+  Relation triedSpell(group).
+  Event gammage_reads near gammage when keeps(gammage, note_gammage) and noteFair(gammage) "Dame Gammage reads it with a nut halfway to her mouth, and the nut stays there. She reads it again. Then she folds it very small and puts it down the front of her dress, and looks at you, and for a moment the big ribboned face is entirely unguarded. 'The Owl,' she says. 'Tomorrow. Four.' Then: 'Go away.' You go. Behind you she has started, very quietly, to cry, or to laugh; you cannot tell which." then {
+    Assert gammageGulled(gammage). }
+  Event gammage_scorns near gammage when keeps(gammage, note_gammage) and not noteFair(gammage) "Dame Gammage reads it, and looks at the seal, and at you, and laughs out loud, not kindly. 'Ambrose Swale never wrote a word in his life that didn't scan,' she says. 'This is Jem Pudding's spelling. Tell him he's a cruel little man, and tell him I'll be in the yard on his night with a bag of something harder than nuts.'" then {
+    Assert gullExposed(gammage). Decrease regard(gammage) by 1. }
+  Event swale_mixed near swale when keeps(swale, note_gammage) "Swale reads it, and frowns, and reads it again, and turns it over. 'This is signed with my name,' he says slowly. 'It is a love letter, in very bad metre, from me.' He looks at you, and across the loft at Pudding, who has gone under a hamper. 'I see,' says Ambrose Swale, with tremendous dignity, and folds it, and puts it in the fire." then {
+    Assert gullExposed(gammage). }
+  Event gammage_mixed near gammage when keeps(gammage, note_swale) "Dame Gammage reads it and begins to laugh, and cannot stop. 'It's from me,' she says at last, wiping her eyes. 'To him. Signed. Oh, Jem Pudding, you poor fool, you've sent the wrong one.' She tears it up very small and lets it go over the Gullet like snow." then {
+    Assert gullExposed(gammage). }
+  Event swale_reads_note near swale when keeps(swale, note_swale) "Swale reads it standing, at the window, as if it were a part. You watch him read it twice, and his ears go red, and the beautiful ruined face does something you have not seen it do on any stage. 'Fifteen years,' he says, to the window. 'Every notice. Every single one.' He folds it. 'Tomorrow, at four,' he says. 'I shall want my good coat.'" then {
+    Assert swaleGulled(swale). }
+  Action tell_swale_truth(actor: group, site: place) "Tell Swale the note was Pudding's, and tell him about Dame Gammage's scrapbook and its flowers" {
+    Speaker swale. Time 5 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(swale, site) and swaleGulled(swale) and knows(actor, gammage_loves)
+      and not truthTold(swale) and not understanding(swale) and not humiliated(swale).
+    On success { Assert truthTold(swale). }
+    Result "Swale hears it all, the forged note, Pudding's thumb, the scrapbook under the ballad stall, the flowers. He does not interrupt. When you have finished he sits down on a hamper. 'A pansy,' he says. 'Against the Walking Cathedral.' He puts his face in his hands, and his shoulders shake, and you see he is laughing. 'Very well,' he says at last, wiping his eyes. 'I shall go to the Owl at four, as the comedy requires, and I shall take her a flower.'".
+  }
+  // At four on the day after both notes are given, Swale and Gammage are at the Owl. Told the truth and holding a flower,
+  // Swale makes it real; otherwise the forgery comes out in front of the whole long room.
+  Measure tryst(group). Relation swaleWaited(group).
+  Rule tryst_set when swaleGulled(swale) and tryst(swale) == 0 { Set tryst(swale) to tday(pentrice) + 1. }
+  Query trystNow() means tryst(swale) > 0 and tday(pentrice) == tryst(swale) and hour(clock) >= 16 and not swaleGone(swale)
+    and not understanding(swale) and not humiliated(swale) and not swaleWaited(swale).
+  Rule tryst_true at owl_room when trystNow() and truthTold(swale) and gammageGulled(gammage)
+    says "At four Ambrose Swale comes into the Owl in his good coat with a single pansy in his hand, and walks the length of the long room to where Dame Gammage is sitting very upright in a new bonnet, and gives it to her, and says, in a voice that carries to the kitchens: 'It was a forgery, madam. Pudding's. But the flowers were not.' Dame Gammage looks at the pansy for a long time. Then she moves her bag of nuts off the bench beside her, and he sits down, and the Owl, which has stopped talking, does not start again for some while." {
+    Assert understanding(swale). Increase regard(gammage) by 2. }
+  Rule tryst_stall at gullet when trystNow() and truthTold(swale) and not gammageGulled(gammage)
+    says "At four Ambrose Swale comes down Fish Lane in his good coat, through the fishwives, who stop crying pike to watch, with a single pansy in his hand; and stops at the ballad stall, where Dame Gammage, who knows Jem Pudding's spelling when she sees it, is waiting with her arms folded. 'It was a forgery, madam,' he says. 'Pudding's. But I have seen your scrapbook, and the flowers were not.' Dame Gammage unfolds her arms. After a long time she takes the pansy." {
+    Assert understanding(swale). Increase regard(gammage) by 2. }
+  Rule tryst_false at owl_room when trystNow() and not truthTold(swale) and gammageGulled(gammage)
+    says "At four Ambrose Swale comes into the Owl in his good coat and bows over Dame Gammage's hand and says, beautifully, that he has kept her letter next to his heart. 'My letter?' says Dame Gammage. 'I've kept yours.' They take them out. They read them. In the silence the whole long room hears Jem Pudding, under a table by the door, begin to laugh. Dame Gammage gets up, and puts on her bonnet, and walks out without a word, and Swale stands in the middle of the Owl with a note in Jem Pudding's spelling in his hand, and everybody looking." {
+    Assert humiliated(swale). Assert gullExposed(gammage). Decrease regard(gammage) by 3. Retract reconciled(swale). }
+  Rule tryst_alone at owl_room when trystNow() and not truthTold(swale) and not gammageGulled(gammage)
+    says "Ambrose Swale sits at the end table in the Owl from four o'clock in his good coat, with his back very straight, and Dame Gammage does not come, and does not come. At seven he gets up and goes out without his hat. Pudding, who has been watching from the door, does not laugh at all." {
+    Assert humiliated(swale). Assert swaleWaited(swale). Retract reconciled(swale). }
+
+  // ── Canon Mallory, the Close's critic, and the Children of the Close ────────────────────────────────────────────
+  Person mallory "Canon Mallory" at canon_study {
+    Role "the minster's precentor, and the Close's critic". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "Canon Mallory is a plump pink clergyman with a pipe, a harpsichord and a kind, worried face. He rises when you come in, which nobody else in Pentrice does.".
+    Profession priest.
+    Offers healing "a dressing, and a psalm said over it" for 2 coin.
+  }
+  Topic mallory_taste with mallory "Ask Canon Mallory what a play is for" when true once {
+    Says "'To send them home better,' says the Canon, and knocks out his pipe. 'Not preached at. I have the pulpit for that, and they do not come. But a play that shows them a kindness done, or a pride brought low, or a quarrel made up, and nobody the worse, why, they go home and are kinder for a week.' He hesitates. 'I will not have filth. And I will not have the dead mocked, who cannot answer. That is all.' He smiles. 'That is a great deal, in the theatre.'".
+    On discuss { Assert knows(actor, taste_mallory). }
+  }
+  Topic mallory_voice with mallory "Ask Canon Mallory how the choir keeps a breaking voice through a summer" when knows(actor, kit_fear) or knows(actor, ned_wants) once {
+    Says "'Ah,' says the Canon, and sits down at the harpsichord and plays a note, and then a lower one. 'Honey and horehound, the horehound bruised and the honey stirred in off the boil. But that is not the trick.' He plays the first note again. 'The trick is to sing under the voice, not over it. A breaking voice breaks reaching up. Let every line come down to you, as if you were tired; never go up after the top of it.' He closes the lid. 'It will hold a night, done so. A summer, perhaps. Not two.' He sighs. 'Ned Cherry's will go by Michaelmas, and then I shall lose him.'".
+    On discuss { Assert knows(actor, mallory_trick). }
+  }
+  Discovery mallory_trick "Canon Mallory's way with a breaking voice: honey and horehound, the horehound bruised and the honey stirred in off the boil; and sing under the voice, letting every line come down, never reaching up after the top of it." { Known by mallory. }
+
+  Person ned "Ned Cherry" at school_yard {
+    Role "a treble of the Children of the Close". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A small boy in a surplice with a cardboard wing hanging off one shoulder detaches himself from the procession round the pump and comes over to the gate, fast, before the man with the stick can see.".
+  }
+  Topic ned_talk with ned "Ask the boy what he wants" when not nedRuns(ned) and not nedLent(ned) once {
+    Says "'To be a player,' says Ned Cherry, in a rush. 'A real one, not an angel. I saw Gosse's Company at the Wheel when I was eight, and the clown, and the bear, and I've been an angel every Trial since and I'm sick of it.' He looks over his shoulder. 'The Children play The Patient Daughter on the third night and I'm the Fourth Angel and I have one line and it's Behold. I'd play anything for Gosse. I'd play the bear.'".
+    On discuss { Assert knows(actor, ned_wants). }
+  }
+  Discovery ned_wants "Ned Cherry, a treble of the Children of the Close, wants to be a player with Gosse's Company instead of an angel." { Known by ned. }
+  Relation nedRuns(group). Relation nedLent(group). Relation nedStays(group).
+  Action help_ned(actor: group, site: place) "Help Ned Cherry over the choir school wall at dusk, and take him to the Moon" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close) and knows(actor, ned_wants) and not nedRuns(ned) and not nedLent(ned)
+      and not nedStays(ned) and hour(clock) >= 19 and week() and not triedNed(actor).
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert nedRuns(ned). Retract at(ned, school_yard). Assert at(ned, moon_loft). Decrease regard(mallory) by 2. }
+    On failure { Assert triedNed(actor). }
+    Result "Ned comes over the wall at the corner by the lime tree, where the glass has been knocked off by generations of boys, and drops into your arms with his surplice over his head. You walk him to the Moon by the back lanes. He talks all the way, about the bear.".
+    Otherwise "A window goes up in the school as Ned's hand comes over the wall, and a man's voice says, 'Cherry,' and the hand goes down again.".
+  }
+  Relation triedNed(group).
+  Action ask_ned_lent(actor: group, site: place) "Ask Canon Mallory to lend Ned Cherry to Gosse's Company for the Trial" {
+    Speaker mallory. Time 5 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mallory, site) and knows(actor, ned_wants) and not nedRuns(ned) and not nedLent(ned)
+      and not triedLend(actor) and week().
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert nedLent(ned). Retract at(ned, school_yard). Assert at(ned, moon_loft). Increase regard(mallory) by 1. }
+    On failure { Assert triedLend(actor). }
+    Result "The Canon hears you out with his pipe going out in his hand. 'He'll go by Michaelmas whatever I do,' he says at last. 'His voice, and then him.' He sighs. 'Better he goes to the players with my blessing than over the wall without it. He may have them for the Trial. He sings Behold for us on the third night, and then he is Gosse's.' He relights the pipe. 'Tell Absalom Gosse that if the boy learns one word in that loft he could not say before his mother, I shall preach about it.'".
+    Otherwise "'He is an angel,' says the Canon gently, 'and he is twelve. Ask me again when he is a man.'".
+  }
+  Relation triedLend(group).
+  Topic mallory_faith with mallory "Tell Canon Mallory, as one who keeps the faith, that the boy will be safe among the players" when craft(actor, craft_faith) and knows(actor, ned_wants) and not nedRuns(ned) and not nedLent(ned) once {
+    Says "The Canon looks at you for a long moment, as one who has knelt to another. 'You'll see to it,' he says. 'Yourself.' You say you will. 'Then he may go to them for the Trial, with my blessing.' He rubs his eyes. 'He sings Behold for us on the third night, mind.'".
+    On discuss { Assert nedLent(ned). Retract at(ned, school_yard). Assert at(ned, moon_loft). Increase regard(mallory) by 1. }
+  }
+  Action keep_ned(actor: group, site: place) "Tell Ned to stay with the Children and sing, this summer" {
+    Speaker ned. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ned, site) and knows(actor, ned_wants) and not nedRuns(ned) and not nedLent(ned) and not nedStays(ned).
+    On success { Assert nedStays(ned). Increase regard(mallory) by 1. }
+    Result "Ned looks at you as if you had hit him. Then he looks at his cardboard wing. 'One more summer,' he says. 'Then I'll be too old to be an angel and they'll have to let me be something.' He goes back to the procession round the pump, and somebody tells the Canon, and the Canon, you hear afterward, is very grateful.".
+  }
+
+  // ── Nym Callow, the Owl's critic ────────────────────────────────────────────────────────────────────────────────
+  Person callow "Nym Callow" at owl_room {
+    Role "the Owl's critic". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "Nym Callow is a young man in a coat too good for him and boots too bad, with ink on his cuffs and a cup of the Owl's coffee he has been making last for an hour. 'If you want a notice,' he says, 'I charge. If you want the truth, it is free, and nobody ever wants it.'".
+  }
+  Topic callow_taste with callow "Ask Nym Callow what a play is for" when true once {
+    Says "'To tell the truth to the people who pay to be lied to,' says Callow. 'The Siege of Arle has been played every Trial for eleven years, and in eleven years nobody has said on that stage that the Fountain is dry, that the Book of Precedence is four hundred pages of who may kick whom, or that the Office of Plain Speech is a muzzle with a motto.' He drinks his cold coffee. 'Anything the Office licenses is a lie by definition. I give it nothing.'".
+    On discuss { Assert knows(actor, taste_callow). }
+  }
+  Relation callowClaims(group). Relation callowCaught(group). Relation callowShamed(group).
+  Topic callow_claim with callow "Ask Nym Callow whether he has heard of Gosse's new play" when bookCome(pentrice) and tday(pentrice) >= 1 once {
+    Says "Callow puts down his cup. 'Heard of it?' he says. 'I wrote it.' He leans back. 'Anonymously, naturally. A satire on the late Lord Mayor and his Office, sent to the one company in Imbar with nothing to lose. Who else in this city could have written it?' He looks round the long room to see who is listening, and three people are. 'You may tell Gosse,' he says, 'that the author expects his share of the house.'".
+    On discuss { Assert callowClaims(callow). }
+  }
+  Discovery callow_lies "Nym Callow says he wrote The Alderman's Ghost, but he cannot say what happens in it after the second act: he has heard of the play, and not read it.".
+  Action test_callow(actor: group, site: place) "Ask Callow, as its author, what the bear does in the third act" {
+    Speaker callow. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and callowClaims(callow) and not knows(actor, callow_lies)
+      and (rehearsedIII(pentrice) or knows(actor, parcel_open)).
+    Resolve check(actor, insight, dc_easy).
+    On success { Assert knows(actor, callow_lies). }
+    Result "'The bear,' says Callow, without a pause, 'is an allegory.' He drinks his coffee. 'Of the City.' You wait. He looks at you over the cup, and something goes out of him. 'There is a bear,' he says. 'Isn't there. There's always a bear, with Gosse.' A long pause. 'I heard of it yesterday in the Chepe. I have nine crowns of debt and no name, and a satire on the Office is a name.' He puts the cup down. 'Who did write it?'".
+  }
+  Action expose_callow(actor: group, site: place) "Tell the Owl, loud enough for the long room, that Callow never read the play he says he wrote" {
+    Speaker callow. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and knows(actor, callow_lies) and not callowShamed(callow) and not callowCaught(callow).
+    On success { Assert callowShamed(callow). Decrease regard(callow) by 2. }
+    Result "The long room hears it, and laughs, and Nym Callow sits in the middle of the laughter going red, and then white, and then gets up and leaves his cold coffee and goes out into Paternoster Row without his hat.".
+  }
+  Action keep_callow(actor: group, site: place) "Tell Callow, quietly, that you know, and that you will not tell" {
+    Speaker callow. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and knows(actor, callow_lies) and not callowShamed(callow) and not callowCaught(callow).
+    On success { Assert callowCaught(callow). Increase regard(callow) by 1. }
+    Result "Callow looks at you for a long moment. 'You might have done me in front of the whole Owl,' he says. 'Everyone else would.' He turns his cup round in its saucer. 'I'll stop saying it. And on Gosse's night,' he says, 'I'll watch it as if I'd never heard of it, which God knows is true.'".
+  }
+}

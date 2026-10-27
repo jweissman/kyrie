@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "city.kyr",
+    "troupe.kyr",
+    "office.kyr",
+    "bench.kyr",
+    "town.kyr",
+    "nights.kyr",
+    "night.kyr",
+    "verdict.kyr",
+    "company.kyr"
+  ],
+  "rules": ["world"],
+  "globals": ["party"],
+  "exports": { "party": "party", "region": "vale", "road_end": "road_end" },
+  "experience": 1000
+}

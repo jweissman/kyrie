@@ -6,7 +6,8 @@ import { SettlementWriter } from './settlement-writer';
 import type { ScenarioManifest } from './world-assembler';
 
 // Which settlement a scenario set in one is placed in: one that has the rooms its modules name (not every settlement
-// has an inn, a shop or a shrine), nearest a site the scenario took, or free, or the first.
+// has an inn, a shop or a shrine), nearest a site the scenario took, the one a side's road leaves from, or free, or
+// the first.
 export class ScenarioTowns {
   // The rooms of a settlement a scenario's modules name (its taproom, its shop, its shrine): only a settlement that has
   // them will do, since not every settlement has an inn, a shop or a shrine of its own.
@@ -21,6 +22,12 @@ export class ScenarioTowns {
     key: string; parts: ('taproom' | 'shrine' | 'shop')[] }): string {
     const { region, bindings, claimed } = at;
     const fit = region.settlements.filter(t => at.parts.every(p => SettlementWriter.rooms(region, t)[p]));
+    // The town a side's road leaves from (toward:west): where what lies that way is told of, and set out for.
+    if (need.startsWith('toward:')) {
+      const border = (RegionGeography.atlas(region).borders ?? []).find(b => b.side === need.slice(7));
+      const seat = border && region.settlements[border.seat];
+      if (seat && fit.includes(seat)) { claimed.add(seat.id); return seat.id; }
+    }
     const near = need.startsWith('near:') ? region.sites.find(w => w.id === bindings[need.slice(5)]) : undefined;
     if (near) {
       const nearest = RegionWriter.near(region, near);

@@ -17,6 +17,11 @@ export interface Country {
   // Once it is seen through (the country marks what was said of it stale): how the talk goes where its notice hangs,
   // and what whoever keeps travellers says to the company come back from it ({keeper}).
   after?: { talk: string; told: string };
+  // What goes ahead of it into the first region's towns (a company of players on the road to it, a pedlar from it): a
+  // scenario of the library's form (data/scenarios), placed in the town its road leaves from whenever the world holds
+  // the country, and never drawn at random; and those of its exports the country reads, bound to the country's
+  // optional imports of the same name when it is installed (see Frontier).
+  herald?: { scenario: string; exports: string[] };
 }
 export class Countries {
   static readonly list = countries.countries as Country[];
@@ -34,6 +39,13 @@ export class Countries {
     let hash = 2166136261;
     for (const ch of `${seed}:${c.among}`) { hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619); }
     return kin[(hash >>> 0) % kin.length] === c;
+  }
+  // The heralds the first region of a world sends out on the roads to the countries it holds, by side.
+  static heralds(terrain: string, seed: string): { side: Side; country: Country }[] {
+    return (['north', 'east', 'south', 'west'] as Side[]).flatMap(side => {
+      const c = this.fits(terrain, side, () => false, seed);
+      return c?.herald ? [{ side, country: c }] : [];
+    });
   }
   // What the folk of the first region say lies beyond it, where an authored country will.
   static beyond(region: Region, seed: string): Region['beyond'] {

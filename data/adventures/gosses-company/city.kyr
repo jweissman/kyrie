@@ -1,0 +1,183 @@
+Module pentrice "Gosse's Company" {
+  Description "Pentrice, where the Ise falls into the Arle: a cathedral city become a market city become a city of guilds, licences and precedence, in the week of the Midsummer Trial, when three companies of players play three nights at the Wheel over the river and a bench of four critics gives one of them the Patent.".
+
+  // ── The country ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Place vale "the vale of the Arle" is region.
+  Place west_road "the West Road" is wilderness within vale at 0, 1.
+  Place pentrice "Pentrice" is settlement within vale at 1, 1.
+  Place soke "the Soke" is settlement within vale at 1, 2.
+
+  Place road_end "the West Road above Pentrice" is room within west_road at 0, 0 outdoors.
+  Observe road_end_scene at road_end when true "The road comes over the last rise and there is the vale of the Arle below you, green and brown, with a city in the bottom of it where two rivers meet: a minster with a squat grey tower, roofs, smoke, the long glint of the Arle, and on the far bank a huddle of low houses round something round and wooden, like a drum laid on its side.".
+  Observe road_end_bills at road_end when week() "A board at the roadside has been pasted with bills so many times it has grown a skin: THE MIDSUMMER TRIAL AT THE WHEEL. THREE COMPANIES. THREE NIGHTS. THE PATENT TO BE GIVEN BY THE BENCH. The newest bill is for Gosse's Company, in red, and someone has written under it, in pencil, AT LAST.".
+  Passage west_road_way "the West Road" is road between road_end and westgate taking 1 hour.
+
+  // ── Pentrice, the City ──────────────────────────────────────────────────────────────────────────────────────────
+  Place westgate "the Westgate" is room within pentrice at 0, 1 outdoors.
+  Place chepe "the Chepe" is room within pentrice at 1, 1 outdoors.
+  Place guildhall_square "Guildhall Square" is room within pentrice at 2, 1 outdoors.
+  Place close "the Close" is room within pentrice at 3, 1 outdoors.
+  Place row "Paternoster Row" is room within pentrice at 1, 0 outdoors.
+  Place hill "Hill Street" is room within pentrice at 2, 0 outdoors.
+  Place mayor_garden "the Lord Mayor's garden" is room within pentrice at 3, 0 outdoors.
+  Place gullet "the Gullet" is room within pentrice at 1, 2 outdoors.
+  Place water_stairs "the Water Stairs" is room within pentrice at 1, 3 outdoors.
+
+  Passage westgate_street "Westgate Street" is path between westgate and chepe taking 5 minutes.
+  Passage cheap_side "Cheap Side" is path between chepe and guildhall_square taking 5 minutes.
+  Passage minster_lane "Minster Lane" is path between guildhall_square and close taking 5 minutes.
+  Passage row_lane "Bookbinders' Alley" is path between chepe and row taking 5 minutes.
+  Passage hill_steps "the Hill Steps" is steps between guildhall_square and hill.
+  Passage garden_gate "the Lord Mayor's garden gate" is gate between hill and mayor_garden.
+  Passage fish_lane "Fish Lane" is path between chepe and gullet taking 5 minutes.
+  Passage stairs_lane "the lane to the Stairs" is path between gullet and water_stairs taking 5 minutes.
+
+  Observe westgate_scene at westgate when true "The Westgate is a squat old gate-tower with a toll-board on it, so thick with the Trial's bills that the tolls are covered and nobody pays any. Carters, a goose-girl, a man selling hot pies out of a box. Under the arch a clerk in grey sits at a folding desk with a ledger and a jar of notched sticks.".
+  Observe chepe_scene at chepe when true "The Chepe is the city's market: a long cobbled place with the market cross in the middle, stalls under striped awnings, and every stall with a little painted board on a pole that says what it may sell and who licensed it. A crier with a licence pinned to his hat is crying the Trial: 'The Siege of Arle, by the Lord Mayor's Servants! The Patient Daughter, by the Children of the Close! And Gosse's Company, God help us, from nowhere!'".
+  Observe guildhall_scene at guildhall_square when not fountainRuns(pentrice) "Guildhall Square: the Guildhall's long front with its clock, the Office of Plain Speech in the old corn exchange beside it with its doors standing open like a mouth, and in the middle of the square the Fountain of Concord, a great stone basin with four bronze river-gods round a column, every one of them holding an urn, and every urn dry. There is a dead pigeon in the basin.".
+  Observe guildhall_scene_wet at guildhall_square when fountainRuns(pentrice) "Guildhall Square, and in the middle of it the Fountain of Concord running: four bronze river-gods pouring the Ise out of their urns into the basin, splashing the cobbles, and children wading in it to the knee, and an alderman in his chain standing at the edge with his mouth open.".
+  Observe close_scene at close when true "The Close is green and quiet and very tidy: a lawn nobody walks on, the minster's grey west front, canons' houses with brass knockers, the choir school behind a high wall with broken glass along its top. A sign on the lawn says, in the Office's lettering, SILENCE IS LICENSED HERE.".
+  Observe row_scene at row when true "Paternoster Row is booksellers and binders and printers, shoulder to shoulder, with their wares out on trestles under the eaves: almanacs, sermons, ballads, plays in quarto with the licence printed on the title-page. Halfway down hangs a painted owl, and under it a door from which comes the smell of coffee and the sound of people disagreeing.".
+  Observe hill_scene at hill when true "Hill Street climbs above the Chepe in tall houses with gardens running down behind them toward the Ise. The houses have railings and the railings have spikes.".
+  Observe hill_garden at hill when not fountainRuns(pentrice) "At the top of the street a gate in a high wall stands a little open on a garden with a fountain in it, running.".
+  Observe hill_garden_dry at hill when fountainRuns(pentrice) "At the top of the street a gardener is standing in the Lord Mayor's gateway, looking down the hill toward the Chepe, from which comes the sound of water and children.".
+  Observe mayor_garden_scene at mayor_garden when not fountainRuns(pentrice) "The Lord Mayor's garden: gravel walks, clipped yews, roses, and in the middle of it all a fountain shaped like a stone shell held up by three fat stone children, running clear and full and splashing over into a pool with carp in it. A gardener is raking the gravel and does not look at you.".
+  Observe mayor_garden_dry at mayor_garden when fountainRuns(pentrice) "The Lord Mayor's garden, and the shell fountain dry, its three fat stone children holding up nothing. In the pool the carp are crowded together in a hand's depth of water, gasping. A gardener stands looking at them with his rake.".
+  Observe gullet_scene at gullet when true "The Gullet is the fish market, under a long tiled roof on stone posts, and it smells as a fish market smells in midsummer. Fishwives cry pike and eel and Arle salmon in voices that need no licence. At the near end, by a post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers' hall has a tall chimney, and a stall papered with ballad-sheets is doing a brisk trade.".
+  Observe water_stairs_scene at water_stairs when true "Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Watermen sit along the steps in their red caps beside their boats, smoking, shouting 'Oars! Oars! Over to the Soke!' at anyone who looks at them. Across the water, low and wooden, the Wheel.".
+  Observe water_stairs_strike at water_stairs when watermenStrike(pentrice) "The watermen sit on the Stairs with their oars across their knees and their caps on the back of their heads, and do not shout. Their boats are drawn up and chained. A board has been propped against the bottom step: NO BOATS TONIGHT. THE BRIDGE WARDENS KNOW WHY.".
+
+  // ── The Painted Moon, by the Westgate ───────────────────────────────────────────────────────────────────────────
+  Place moon "the Painted Moon" is building within pentrice.
+  Place moon_upper "the stable loft" is level within moon.
+  Place moon_yard "the yard of the Painted Moon" is room within moon at 0, 0 outdoors.
+  Place moon_taproom "the Painted Moon's taproom" is room within moon at 1, 0.
+  Place moon_loft "the loft over the Moon's stables" is room within moon_upper at 0, 0.
+  Passage moon_arch "the Moon's archway" is arch between westgate and moon_yard.
+  Passage moon_door "the Moon's back door" is door between moon_yard and moon_taproom.
+  Passage loft_stair "the loft stair" is stair between moon_yard and moon_loft.
+  Observe moon_yard_scene at moon_yard when true "A cobbled coaching-yard with galleries on three sides and the stables along the fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and from the loft over the stables come voices declaiming, and somebody hammering.".
+  Observe moon_yard_bear at moon_yard when at(the_bear, moon_yard) "In a stall at the end of the stables, on clean straw, an old brown bear lies with her chin on her paws, watching the yard with small kind eyes.".
+  Observe moon_taproom_scene at moon_taproom when true "A low taproom, black-beamed, with the Moon's own sign hung inside over the fire: a full moon with a woman's face painted on it, winking. On the wall by the door, in a frame, the house's ale-licence with the Office's seal on it, signed in a small upright hand.".
+  Observe moon_loft_scene at moon_loft when true "The loft runs the length of the stables, with the floor swept and chalk marks on it for where the stage will be, a row of hampers, a rack of swords that bend, a wooden throne, a property chest with brass corners, and a long trestle where a grey woman sits with a fat book open in front of her and a pencil behind her ear.".
+
+  Person bascombe "Mistress Bascombe" at moon_taproom {
+    Role "who keeps the Painted Moon". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
+    Greets "Mistress Bascombe is a big woman with her sleeves rolled up and a ring of keys at her belt the size of a horse-collar. 'Players or Trial?' she says. 'Either way it's three coin a night and you don't bring the bear in here.'".
+    Sells rations for 2 coin from 10.
+  }
+  Topic bascombe_trial with bascombe "Ask Mistress Bascombe about the Midsummer Trial" when true once {
+    Says "'Three companies, three nights, over the river at the Wheel,' says Mistress Bascombe, 'and the Bench of four to give one of them the Patent, which is a licensed house and the Office off their backs for ever, near enough. Corin Fallow's had it eleven years, the Lord Mayor's Servants. The Children of the Close every year come second and are very good about it.' She jerks her head at the yard. 'And this year Absalom Gosse, God save us. He was banned the City forty years since, you know. The night of the riot. The Office was made for him.'".
+    On discuss { Assert knows(actor, riot_rumour). }
+  }
+  Discovery riot_rumour "Forty years ago there was a riot at the Wheel during a performance by Gosse's Company, and the City banned Absalom Gosse; the Office of Plain Speech was founded after it." { Known by bascombe. }
+  Topic bascombe_bear with bascombe "Ask Mistress Bascombe about the bear" when at(the_bear, moon_yard) once {
+    Says "'She's no trouble,' says Mistress Bascombe, 'except to the ostlers, the horses, the honey-woman in the Gullet and the Bench of Aldermen, who passed a bye-law against her in the year twelve. She's eaten nobody. She's very fond of Jem Pudding, who's no better than he should be.' She looks out of the window at the stall. 'She gets out, mind. She knows the way to the honey.'".
+  }
+  // A member of Gosse's Company sleeps in the loft for nothing, among the hampers: the players' pallets are kept.
+  Rule loft_pallet when inCompany(party) and at(party, moon_loft) and not onTheHouse(hepzibah, party) { Assert onTheHouse(hepzibah, party). }
+
+  // ── The Office of Plain Speech, Guildhall Square ────────────────────────────────────────────────────────────────
+  Place office "the Office of Plain Speech" is building within pentrice.
+  Place office_hall "the Office's hall" is room within office at 0, 0.
+  Place master_room "the Master's room" is room within office at 1, 0.
+  Passage office_doors "the Office's doors" is doorway between guildhall_square and office_hall.
+  Passage master_door "the Master's door" is door between office_hall and master_room.
+  Observe office_hall_scene at office_hall when true "The old corn exchange, high and cold and full of desks. At each desk a clerk in grey reads with a pen in one hand and a ruler in the other, and every so often the ruler comes down and the pen goes through a line with a sound like a small door shutting. Along the walls, shelves of bound licences, and a lectern with a chained book as big as a tombstone: THE ORDINANCES OF PLAIN SPEECH. Over the Master's door at the far end is painted the Office's motto: WHAT IS SAID IS DONE.".
+  Observe master_room_scene at master_room when true "A small square room with a window onto the square and the dry Fountain. Everything in it is very plain and very good: a desk, two chairs, a shelf of plays in quarto, the Office's seal on a silver stand, a jug of ink. On the wall, alone, a portrait of a heavy, cheerful man in an alderman's chain, painted badly and with love.".
+
+  // ── The Close: the minster, the choir school, the canon's house ─────────────────────────────────────────────────
+  Place minster "the minster" is building within pentrice.
+  Place minster_tower "the minster tower" is level within minster.
+  Place nave "the minster nave" is room within minster at 0, 0.
+  Place bell_loft "the minster bell-loft" is room within minster_tower at 0, 0.
+  Passage west_door "the minster's west door" is doorway between close and nave.
+  Passage tower_stair "the tower stair" is stair between nave and bell_loft.
+  Observe nave_scene at nave when true "The nave is long and grey and cool, and smells of stone and candles. Down the north aisle the Book of Precedence lies open on a brass eagle, four hundred pages of who walks before whom, with a verger standing over it. From high in the tower comes the sound of two men arguing about bells.".
+  Observe bell_loft_scene at bell_loft when true "The ringing chamber, under the bells: a square room with eight ropes coming down through holes in the ceiling, each with a red-and-white woollen grip, and painted boards on the walls recording great peals rung, with the names of the ringers in gold. It is very dusty, and full of jackdaws' noise.".
+  Place choir_school "the choir school" is building within pentrice.
+  Place school_yard "the choir school yard" is room within choir_school at 0, 0 outdoors.
+  Passage school_gate "the choir school gate" is gate between close and school_yard.
+  Observe school_yard_scene at school_yard when true "A gravelled yard inside a high wall, with a pump and a lime tree. Small boys in white surplices over muddy stockings are rehearsing a procession round the pump, holding cardboard wings, while a man with a stick beats time.".
+  Place canonry "Canon Mallory's house" is building within pentrice.
+  Place canon_study "Canon Mallory's study" is room within canonry at 0, 0.
+  Passage canon_door "Canon Mallory's door" is door between close and canon_study.
+  Observe canon_study_scene at canon_study when true "A comfortable study smelling of tobacco and old paper, with a fire though it is midsummer, a harpsichord with music open on it, and shelves of sermons, every one of which has been read.".
+
+  // ── Paternoster Row: the Owl and Inchbald's ─────────────────────────────────────────────────────────────────────
+  Place owl "the Owl" is building within pentrice.
+  Place owl_room "the Owl's long room" is room within owl at 0, 0.
+  Passage owl_door "the Owl's door" is door between row and owl_room.
+  Observe owl_room_scene at owl_room when true "The Owl is one long room full of coffee-smoke, newsprint and opinions. Men and a few women sit at long tables with papers, and at the end table, under a window, sit two men who are plainly critics, because nobody sits near them.".
+  Place inchbalds "Inchbald's printing-house" is building within pentrice.
+  Place press_room "Inchbald's press-room" is room within inchbalds at 0, 0.
+  Passage press_door "Inchbald's door" is door between row and press_room.
+  Observe press_room_scene at press_room when true "A low room with a great wooden press in the middle of it like a gallows, cases of type on sloping desks, quires of damp paper hung on lines across the ceiling, and the smell of ink and lye. On the imposing-stone a forme of type is locked up ready, and pinned to the wall are title-pages: THE SIEGE OF ARLE, AS IT WAS PLAYED; THE PATIENT DAUGHTER; SERMONS FOR MIDSUMMER.".
+
+  // ── The Hill: the Orde house, and the conduit house ─────────────────────────────────────────────────────────────
+  Place orde_house "the Orde house" is building within pentrice.
+  Place orde_parlour "the Orde house's parlour" is room within orde_house at 0, 0.
+  Place orde_area "the area of the Orde house" is room within orde_house at 0, 1 outdoors.
+  Passage area_steps "the area steps" is steps between hill and orde_area.
+  Passage orde_door "the Orde house's door" is door between hill and orde_parlour.
+  Observe orde_area_scene at orde_area when true "Down the area steps, below the railings, a scrubbed flagged space before the kitchen door, with a pump and a row of geraniums in pots and a bench where a maid could sit out of sight of the street.".
+  Observe orde_parlour_scene at orde_parlour when true "A tall cool parlour, very orderly, with a harp nobody plays and a writing-desk somebody does: its pigeonholes stuffed with paper, its blotter black with years of the same small upright hand reversed. On the mantel a child's drawing in a frame, a man in a fool's cap, very old, in brown crayon.".
+  Place conduit_house "the conduit house" is building within pentrice.
+  Place conduit_room "inside the conduit house" is room within conduit_house at 0, 0.
+  Passage conduit_door "the conduit house door" is door between hill and conduit_room.
+  Thing conduit_lock "the conduit house lock" on conduit_door {
+    State locked blocking "A little round stone house at the top of Hill Street, over the City's water. Its door has a lock the size of a loaf, with the arms of the Guildhall on it.".
+    State open "The conduit house door stands open, and from inside comes the sound of running water.".
+    Change pick "Pick the conduit house lock" from locked to open needing lockwork.
+    Change key "Open the conduit house with Wat Cundy's master's key" from locked to open needing cundy_key.
+  }
+  Observe conduit_room_scene at conduit_room when true "Inside it is dim and cold and roaring: the City's water comes in under the floor in a stone channel as wide as a man is tall and goes out again by two culverts, one large, one small. Over each culvert hangs an iron sluice on a screw with a wheel to turn it. The large culvert's sluice is down. The small one, painted fresh green, is up.".
+
+  // ── The Mayor's Room, Fallow's house ────────────────────────────────────────────────────────────────────────────
+  Place mayors_room "the Mayor's Room" is building within pentrice.
+  Place mayors_hall "the Mayor's Room" is room within mayors_room at 0, 0.
+  Passage mayors_door "the Mayor's Room's doors" is doorway between chepe and mayors_hall.
+  Observe mayors_hall_scene at mayors_hall when true "The City's licensed playhouse: a handsome indoor hall off the Chepe, with candle-branches and a painted ceiling of the virtues, every seat with a number on it, and a stage with a proper proscenium and a curtain of green baize. On every pillar is framed the house's licence, and on the curtain, in gold, BY LEAVE OF THE OFFICE.".
+
+  // ── The Soke, over the Arle ─────────────────────────────────────────────────────────────────────────────────────
+  Place soke_landing "the Soke landing" is room within soke at 0, 0 outdoors.
+  Place soke_lane "Soke Lane" is room within soke at 1, 0 outdoors.
+  Passage landing_lane "the landing lane" is path between soke_landing and soke_lane taking 5 minutes.
+  Observe soke_landing_scene at soke_landing when true "A wooden landing-stage on piles, and beyond it the Soke: low houses leaning on each other, tavern signs, washing, a smell of beer and bears. A painted post at the top of the landing says THE LIBERTY OF THE SOKE: THE CITY'S WRIT RUNS NOT HERE, and someone has hung a garland of dead flowers on it.".
+  Observe soke_lane_scene at soke_lane when true "Soke Lane runs along the bank between taverns, cookshops and a building with a red lamp. At its end, round, wooden, enormous, stands the Wheel, with its pennant on a pole above it; and behind a fence of split palings, the bear-garden, from which come the sounds of dogs.".
+  Place wheel_house "the Wheel" is building within soke.
+  Place wheel_below "the cellarage under the stage" is level within wheel_house.
+  Place wheel "the Wheel" is room within wheel_house at 0, 0 outdoors.
+  Place tiring_house "the Wheel's tiring-house" is room within wheel_house at 1, 0.
+  Place under_stage "under the stage" is room within wheel_below at 0, 0.
+  Passage wheel_gate "the Wheel's gate" is gate between soke_lane and wheel.
+  Passage tiring_door "the tiring-house door" is door between wheel and tiring_house.
+  Passage trap_ladder "the ladder under the stage" is ladder between tiring_house and under_stage.
+  Observe wheel_scene at wheel when not playingTonight(pentrice) and not (playEnded(pentrice) and tday(pentrice) == 4) "The Wheel is a wooden O, three galleries high, open to the sky in the middle: a beaten-earth yard where the groundlings stand, a stage thrust out into the yard on trestles, with two doors at the back of it and a balcony above, and a painted roof over the stage, the heavens, with stars on it. Below the stage, at the front, is a bench painted grey: the Office's bench, where the tallymen sit in Trial week.".
+  Observe tiring_scene at tiring_house when true "Behind the stage: a long room full of hampers, ropes, a ladder going down through a hatch, a rack of old costumes left by companies long gone, and a wall of names scratched into the plaster, players who have played here, hundreds of them, going back two hundred years. Halfway up, very deep, cut by someone with a knife and a great deal of time: A. GOSSE.".
+  Observe under_stage_scene at under_stage when true "Under the stage it is dark and close and smells of earth and old beer. Light comes down in stripes through the boards. In the middle a square trap is cut in the stage above, with a counterweighted platform under it, and a stiff lever; beside it a lead tank on a frame, with a pump and a pipe going up through the boards.".
+  Place bear_garden "the bear-garden" is building within soke.
+  Place bear_pen "the bear-garden" is room within bear_garden at 0, 0 outdoors.
+  Passage garden_palings "the bear-garden gate" is gate between soke_lane and bear_pen.
+  Observe bear_pen_scene at bear_pen when true "A ring of trampled sand inside a fence of palings, with benches round it going up in tiers, and a stake in the middle with a chain. Along one side, pens: dogs, mastiffs, a great many, who hate you on sight. It smells of blood and sawdust.".
+
+  // The river: by boat, while the watermen row; at low water in the evening, by the old weir, for those who know it.
+  Passage ferry "the watermen's boats" is ferry between water_stairs and soke_landing taking 10 minutes
+    opening when not watermenStrike(pentrice) "The watermen sit with their oars across their knees. No boats tonight.".
+  Discovery weir_known "Below the Water Stairs there is an old weir across the Arle, and at low water in the evening you can walk it to the Soke on the stones, if you know where they are and keep your feet." { Known by garlick, tolly. }
+  Passage weir_path "the old weir" is path between water_stairs and soke_lane taking 30 minutes hidden until weir_known
+    opening when hour(clock) >= 16 "The weir is under a yard of brown water, running fast. At low water, in the evening, the stones come up.".
+
+  Relation fountainRuns(place). Relation watermenStrike(place). Relation playingTonight(place).
+
+  Initially Assert cityRoom(westgate). Initially Assert cityRoom(chepe). Initially Assert cityRoom(guildhall_square).
+  Initially Assert cityRoom(close). Initially Assert cityRoom(row). Initially Assert cityRoom(hill). Initially Assert cityRoom(mayor_garden).
+  Initially Assert cityRoom(gullet). Initially Assert cityRoom(water_stairs). Initially Assert cityRoom(moon_yard).
+  Initially Assert cityRoom(moon_taproom). Initially Assert cityRoom(moon_loft). Initially Assert cityRoom(office_hall).
+  Initially Assert cityRoom(master_room). Initially Assert cityRoom(nave). Initially Assert cityRoom(bell_loft).
+  Initially Assert cityRoom(school_yard). Initially Assert cityRoom(canon_study). Initially Assert cityRoom(owl_room).
+  Initially Assert cityRoom(press_room). Initially Assert cityRoom(orde_parlour). Initially Assert cityRoom(orde_area).
+  Initially Assert cityRoom(conduit_room). Initially Assert cityRoom(mayors_hall). Initially Assert cityRoom(soke_landing).
+  Initially Assert cityRoom(soke_lane). Initially Assert cityRoom(wheel). Initially Assert cityRoom(tiring_house).
+  Initially Assert cityRoom(under_stage). Initially Assert cityRoom(bear_pen).
+}
