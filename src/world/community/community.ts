@@ -2,7 +2,7 @@ import { Draw } from '../land/draw';
 import { Canon } from '../../canon/canon';
 import { Overlays } from '../../overlays';
 import { RegionGeography } from '../region-geography';
-import { Foundings, type Founding } from '../founding';
+import { Foundings, type Founding, type FoundingPlace } from '../founding';
 import type { Region, Settlement } from '../region-writer';
 import folk from '../../../data/generation/scenes/folk.json';
 import trades from '../../../data/generation/scenes/occupations.json';
@@ -30,7 +30,8 @@ export interface Animal { id: string; species: string; name: string; pronoun: 'h
   role: string; at: string; seen: string;
   // How it is seen after dark, when that is not how it is seen by day (a cat in the sun).
   night?: string }
-export interface Workplace { id: string; name: string; scene: string; indoors: boolean }
+// A place where the work is done; the founding's own carries what there is to do there besides (see FoundingPlace).
+export interface Workplace { id: string; name: string; scene: string; indoors: boolean; place?: FoundingPlace }
 // A small trouble of one household that a stranger could help with: a goat got out, a thing they lack.
 export interface Concern { kind: 'strayed' | 'wants'; resident: string; animal?: string; wants?: string }
 export interface Community {
@@ -67,7 +68,7 @@ export class Communities {
   // settlement is its work (a pit-head, a burners' clearing), whoever does that work does it there, on its heart.
   private static places(s: Settlement, residents: Resident[], founding: Founding): Workplace[] {
     const own = founding.place && { id: `${s.id}_${founding.place.id}`, name: founding.place.name, scene: founding.place.scene,
-      indoors: !founding.place.outdoors };
+      indoors: !founding.place.outdoors, place: founding.place };
     const heart = ['workings', 'yard'].includes(founding.kind);
     const theirs = residents.filter(r => r.work.workplace && !(heart && r.work.trades?.includes(s.trade)));
     const room = (s.size === 'town' ? 3 : s.size === 'village' ? 2 : 1) - (own ? 1 : 0);

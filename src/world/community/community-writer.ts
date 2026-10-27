@@ -6,7 +6,7 @@ import trades from '../../../data/generation/scenes/occupations.json';
 import { RegionGeography } from '../region-geography';
 import { RegionNews } from '../region-news';
 import type { Region } from '../region-writer';
-import type { Animal, Community, Resident } from './community';
+import type { Animal, Community, Resident, Workplace } from './community';
 import { Likeness } from '../../paintings/likeness';
 import { Portraits } from '../../paintings/portraits';
 
@@ -25,12 +25,38 @@ export class CommunityWriter {
         const [x, y] = this.spots[i] ?? [3, i];
         return [`  Place ${w.id} ${q(w.name)} is room within ${s.id} at ${x}, ${y}${w.indoors ? ' indoors' : ''}.`,
           `  Passage ${w.id}_way ${q(w.indoors ? `the door of ${w.name}` : `the way to ${w.name}`)} is ${w.indoors ? 'door' : 'path'} between ${s.id}_green and ${w.id}.`,
-          `  Observe ${w.id}_scene at ${w.id} as fixture when true ${q(w.scene)}.`];
+          `  Observe ${w.id}_scene at ${w.id} as fixture when true ${q(w.scene)}.`, ...w.place ? this.depth(s.id, w) : []];
       }),
       ...c.residents.flatMap(r => this.resident(region, c, r)),
       ...c.animals.filter(a => a.at).flatMap(a => this.animal(a)),
       ...this.concern(region, c),
     ];
+  }
+  // What there is at a founding's own place besides its work (see FoundingPlace): the stair down to what lies below
+  // it, the things there to look at closely (and what one with the lore of the old script makes of them), and the climb
+  // to its top to see the country from (see RegionSights).
+  private static depth(town: string, w: Workplace): string[] {
+    const p = w.place!, q = this.q, below = p.below && `${w.id}_${p.below.id}`, lines: string[] = [];
+    if (p.below && below) {
+      lines.push(`  Place ${below} ${q(p.below.name)} is room within ${town}${p.below.underground ? ' underground' : ''}.`,
+        `  Passage ${below}_way ${q(p.below.way)} is stair between ${w.id} and ${below}.`,
+        `  Observe ${below}_scene at ${below} as fixture when true ${q(p.below.scene)}.`);
+    }
+    for (const t of p.things ?? []) {
+      const id = `${w.id}_${t.id}`;
+      lines.push(`  Thing ${id} ${q(t.name)} at ${t.below && below ? below : w.id} {`, '    Tries looking.',
+        `    State still ${q(t.seen)}.`, '  }', `  Observe ${id}_closer near ${id} when tried(${id}, looking) ${q(t.closer)}.`,
+        ...t.known ? [`  Discovery ${id}_read ${q(t.known)}.`, `  Observe ${id}_reading near ${id} when tried(${id}, looking)`
+          + ` and capable(party, lore) and not knows(party, ${id}_read) ${q(t.known)} teaches ${id}_read.`] : []);
+    }
+    if (p.view) {
+      const v = `${w.id}_view`;
+      lines.push(`  Thing ${v} ${q(p.view.name)} at ${w.id} is scenery {`, `    State below ${q(p.view.unseen)}.`,
+        '    State above "The way down is the ladder you came up.".', `    Change climb ${q(p.view.change)} from below to above.`,
+        '  }', `  Observe ${v}_seen at ${w.id} as sign when state(${v}, above) ${q(p.view.seen)}.`,
+        `  Rule ${v}_down when state(${v}, above) and not at(party, ${w.id}) { Assert state(${v}, below). }`);
+    }
+    return lines;
   }
   private static said(text: string, r: { name: string; pronoun: string }, place: string): string {
     return Voice.render(text.replace(/\{Name\}/g, r.name).replace(/\{place\}/g, place), { pronoun: r.pronoun });

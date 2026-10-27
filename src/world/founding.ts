@@ -9,7 +9,17 @@ export type Kind = 'crossing' | 'harbour' | 'fishing' | 'workings' | 'yard' | 'f
   | 'ancient' | 'migration' | 'market';
 export type Keeping = 'inn' | 'alehouse' | 'guesthouse' | 'canteen' | 'none';
 export type Holy = 'shrine' | 'chapel' | 'garrison' | 'wayside';
-export interface FoundingPlace { id: string; name: string; scene: string; outdoors: boolean }
+// A founding's own place (the makers' well, the gate-tower), and what there is to do there besides its work: a way on
+// from it (down the well's stair to the water), things to look at closely (the post notched for the floods, the book
+// left open in the cloister), and somewhere high to see the country from (the gate-tower's top: see RegionSights).
+export interface FoundingPlace {
+  id: string; name: string; scene: string; outdoors: boolean;
+  below?: { id: string; name: string; way: string; scene: string; underground?: boolean };
+  things?: { id: string; name: string; seen: string; closer: string; below?: boolean;
+    // What one who knows the old script, or the lore of such things, makes of it: known from then on.
+    known?: string }[];
+  view?: { name: string; unseen: string; seen: string; change: string };
+}
 // Why a settlement is where it is, and what follows: what its heart is called, why it is there (said once), how its
 // heart looks by day and what goes on in it, the place of its own it may have, who keeps travellers, where its god is
 // kept and how its goods are sold, and the work its people do first.
@@ -120,13 +130,24 @@ export class Foundings {
     return { kind, words, heart: this.fill(heart, words), why: this.fill(draw.pick(e.why), words),
       ...scenes?.length ? { scene: this.fill(draw.pick(scenes), words) } : {},
       ...e.life ? { life: this.fill(draw.pick(e.life), words) } : {},
-      ...place ? { place: { ...place, scene: this.fill(place.scene, words) } } : {},
+      ...place ? { place: this.filled(place, words) } : {},
       keeping: e.keep[s.size as keyof Sized] as Keeping, holy: e.holy[s.size as keyof Sized] as Holy,
       selling: e.sell[s.size as keyof Sized] as 'shop' | 'door', works: e.works };
   }
   private static place(e: Entry, s: Settlement): FoundingPlace | undefined {
     if (!e.place) { return undefined; }
     return 'id' in e.place ? e.place as FoundingPlace : e.place[s.trade] as FoundingPlace | undefined;
+  }
+  // A founding's place in the words of the settlement it is in ({name}, {river}), what there is to do there too.
+  private static filled(p: FoundingPlace, w: Record<string, string>): FoundingPlace {
+    const below = p.below && { ...p.below, name: this.fill(p.below.name, w), way: this.fill(p.below.way, w),
+      scene: this.fill(p.below.scene, w) };
+    const things = p.things?.map(t => ({ ...t, name: this.fill(t.name, w), seen: this.fill(t.seen, w),
+      closer: this.fill(t.closer, w), ...t.known ? { known: this.fill(t.known, w) } : {} }));
+    const view = p.view && { name: this.fill(p.view.name, w), unseen: this.fill(p.view.unseen, w),
+      seen: this.fill(p.view.seen, w), change: this.fill(p.view.change, w) };
+    return { ...p, scene: this.fill(p.scene, w), ...below ? { below } : {}, ...things ? { things } : {},
+      ...view ? { view } : {} };
   }
   static fill(text: string, words: Record<string, string>): string {
     return text.replace(/\{(\w+)\}/g, (m, k: string) => words[k] ?? m);

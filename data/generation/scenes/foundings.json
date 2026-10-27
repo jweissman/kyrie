@@ -38,7 +38,8 @@
       "scene": ["The road runs down between the houses of {name} to the {river}, goes straight in, and comes out on the far bank darker and wetter. Every house on this side has something to sell to people who have just come out of a river.", "At {name} the road and the {river} meet, and the houses stand close along the bank to watch them do it. A rope is strung across the water on posts for anyone who misjudges the depth.", "{name} is a crossing with a village at each end of it, the near end the larger, and the {river} going by between them as if neither were there."],
       "life": ["A carter stands in the water with his breeches rolled, coaxing a horse that has decided against it.", "Someone on the far bank is shouting a question across the water. Nobody on this side can make out what it is, and several people are answering it anyway.", "Two drovers are arguing about whether the water is up or down from yesterday, each with a stick in it as proof."],
       "place": { "id": "crossing", "name": "the crossing stones", "outdoors": true,
-        "scene": "Flat stones stepped across the {river}, slick and green below the waterline. The water talks round them the whole time. A post on the bank is notched to show how deep is too deep, and the top notch is a long way up." },
+        "scene": "Flat stones stepped across the {river}, slick and green below the waterline. The water talks round them the whole time. A post on the bank is notched to show how deep is too deep, and the top notch is a long way up.",
+        "things": [{"id": "post", "name": "the notched post", "seen": "The notched post leans a little downstream, as if it had once been pushed.", "closer": "Each notch has a year cut beside it. The highest is older than anyone in {name}, and it is above your head."}] },
       "keep": { "town": "inn", "village": "inn", "hamlet": "alehouse" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
       "sell": { "town": "shop", "village": "shop", "hamlet": "door" },
       "works": ["ferryman", "carter", "eel_catcher"]
@@ -50,7 +51,8 @@
       "scene": ["Boats lie drawn up on the shingle at {name}, keel to keel, and the houses come right down to them, with nets hung on every fence and an anchor for a doorstop.", "{name} is a stone quay and a town behind it, and of the two the quay is the better built. Gulls sit along it in a row, facing the wind."],
       "life": ["A boat is coming in under half its sail, and three people on the quay are telling the crew how to do it.", "Someone is tarring a hull upside down on trestles, and the smell of it is over everything.", "A woman is selling fish straight off a boat, holding each one up by the tail and naming its price to it."],
       "place": { "id": "sheds", "name": "the boat-sheds", "outdoors": false,
-        "scene": "Long low sheds open to the water, with boats inside in every stage of being built or mended: ribs like a whale's, a hull half planked, an oar with a split blade. Shavings and tar underfoot, and a cat asleep on a coil of rope." },
+        "scene": "Long low sheds open to the water, with boats inside in every stage of being built or mended: ribs like a whale's, a hull half planked, an oar with a split blade. Shavings and tar underfoot, and a cat asleep on a coil of rope.",
+        "things": [{"id": "hull", "name": "the hull half planked", "seen": "A hull stands half planked in the nearest shed, its ribs bare at the stern.", "closer": "A name is chalked on the stem, rubbed out, and chalked again: whoever is building her has not settled what to call her."}] },
       "keep": { "town": "inn", "village": "inn", "hamlet": "alehouse" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
       "sell": { "town": "shop", "village": "shop", "hamlet": "door" },
       "works": ["fisher", "boatwright", "net_maker"]
@@ -102,7 +104,8 @@
       "heart": ["{name} green"],
       "why": ["{name} is fields first and a village second: everyone in it is a farmer when it matters, at sowing and at harvest.", "{name} grew up where the land was good and the water near, which is why every village is anywhere, and why this one has never had to be anything else."],
       "place": { "id": "mill", "name": "the mill", "outdoors": false,
-        "scene": "The mill sits over the stream with its wheel turning slow and the race chattering under it. Flour is on everything, the miller included, and the miller's cat is white with it whatever colour she started." },
+        "scene": "The mill sits over the stream with its wheel turning slow and the race chattering under it. Flour is on everything, the miller included, and the miller's cat is white with it whatever colour she started.",
+        "things": [{"id": "wheel", "name": "the mill-wheel", "seen": "The wheel goes round over the race, dripping, slower than it looks as if it should.", "closer": "One paddle is new, pale wood among the black: someone mended it this spring, and not long ago."}] },
       "keep": { "town": "inn", "village": "alehouse", "hamlet": "none" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
       "sell": { "town": "shop", "village": "door", "hamlet": "door" },
       "works": ["farmer", "miller", "shepherd", "cowherd"]
@@ -114,7 +117,8 @@
       "scene": ["A wall runs round the brothers' house at {name}, with the village pressed against the outside of it like sheep against a fold. The gate stands open by day, with a bell over it.", "The gate-yard of {name} is swept, which nowhere else in the country is. The brothers' house stands at the back of it behind a low wall, and the village stands round the front of it, unswept."],
       "life": ["A bell rings in the brothers' house, and two lay brothers in the yard stop what they are doing and stand quite still until it has finished.", "A brother is selling small beer and honey at the gate, and keeping very careful count.", "Somebody is singing inside the brothers' house, the same four notes over and over, getting them a little better each time."],
       "place": { "id": "cloister", "name": "the cloister", "outdoors": true,
-        "scene": "A square of grass with a covered walk round it, and a well in the middle. Someone has been reading on the bench and left the book open, face down, which the brothers would not like. It is very quiet, and the quiet has been kept here a long time." },
+        "scene": "A square of grass with a covered walk round it, and a well in the middle. Someone has been reading on the bench and left the book open, face down, which the brothers would not like. It is very quiet, and the quiet has been kept here a long time.",
+        "things": [{"id": "book", "name": "the book left open on the bench", "seen": "A book lies face down and open on the bench in the cloister walk.", "closer": "It is the house's own chronicle, in many hands. The last entry is a week old, and stops in the middle of a word."}] },
       "keep": { "town": "inn", "village": "guesthouse", "hamlet": "guesthouse" }, "holy": { "town": "shrine", "village": "chapel", "hamlet": "chapel" },
       "sell": { "town": "shop", "village": "door", "hamlet": "door" },
       "works": ["lay_brother", "beekeeper", "brewer", "herbwife"]
@@ -126,7 +130,8 @@
       "scene": ["A wall of rough stone goes round the top of the rise at {name}, with a gate-tower that leans a little. Inside, a yard of trodden mud, a well, and the soldiers' long hall; the village is outside the wall, below.", "The bailey of {name} is a muddy yard inside a wall, with the hall on one side and the stables on the other, and everybody in it is either on duty or pretending to be."],
       "life": ["A sergeant is drilling four soldiers in the bailey, and the four soldiers are drilling him back, slowly.", "Someone on the wall-walk is looking very hard at the road, which is empty.", "A soldier is sitting on an upturned bucket mending a boot, with the air of a man who has been told to do something else."],
       "place": { "id": "gate", "name": "the gate-tower", "outdoors": false,
-        "scene": "The gate-tower is cold and smells of smoke and leather. A ladder goes up to the top, and from there the whole road can be seen both ways, to the edge of the country, and anyone coming along it a long time before they arrive." },
+        "scene": "The gate-tower is cold and smells of smoke and leather. A ladder goes up to the top, and from there the whole road can be seen both ways, to the edge of the country, and anyone coming along it a long time before they arrive.",
+        "view": {"name": "the ladder to the top of the gate-tower", "unseen": "The ladder's rungs are worn pale in the middle, and the trap at the top stands open.", "seen": "On the roof of the gate-tower the wind is cold, and the country lies open all round, the road running out of it both ways.", "change": "Climb to the top of the gate-tower"} },
       "keep": { "town": "inn", "village": "canteen", "hamlet": "canteen" }, "holy": { "town": "shrine", "village": "garrison", "hamlet": "garrison" },
       "sell": { "town": "shop", "village": "shop", "hamlet": "door" },
       "works": ["soldier", "smith", "old_soldier", "cowherd"]
@@ -138,7 +143,9 @@
       "scene": ["The houses of {name} stand in a ring round a paved place of great old stones, too big and too square for anyone living to have laid them. In the middle is the mouth of the makers' well.", "At {name} the new houses are built on old walls, and the old walls are built better. The paving of the place where they meet is worn into hollows by feet, and nobody knows whose."],
       "life": ["A line of people with buckets waits at the old well, talking. It is where everything in {name} is said first.", "Children are daring each other to drop a stone down the old well and count; the oldest says she got to twenty.", "Someone has hung a garland on the old stones. Someone always has."],
       "place": { "id": "well", "name": "the makers' well", "outdoors": true,
-        "scene": "A shaft of dressed stone, wider than a cart, with steps cut spiralling down the inside of it to the water a long way below. The stone at the lip is worn into grooves by ropes. The air coming up out of it is cold and smells of iron, and of something older than iron." },
+        "scene": "A shaft of dressed stone, wider than a cart, with steps cut spiralling down the inside of it to the water a long way below. The stone at the lip is worn into grooves by ropes. The air coming up out of it is cold and smells of iron, and of something older than iron.",
+        "below": {"id": "foot", "name": "the foot of the makers' well", "way": "the stair down the makers' well", "underground": true, "scene": "The steps go down and round the inside of the shaft, worn hollow in the middle, and the daylight shrinks to a coin overhead. At the bottom the water is black and very still, and so cold it aches to look at."},
+        "things": [{"id": "words", "below": true, "name": "the words cut in the last step", "seen": "Small words are cut into the last step above the water, in the old script, worn but whole.", "closer": "The letters are the makers': deep, square, every one the same height, cut by someone who meant them to last as long as the well.", "known": "The words on the last step of the makers' well at {name}, in the old script: WATER FOR THOSE AFTER US. ASK IT NOTHING ELSE."}] },
       "keep": { "town": "inn", "village": "alehouse", "hamlet": "none" }, "holy": { "town": "shrine", "village": "shrine", "hamlet": "wayside" },
       "sell": { "town": "shop", "village": "door", "hamlet": "door" },
       "works": ["stonemason", "farmer", "herbwife"]

@@ -7,6 +7,7 @@ import type { Region } from './region-writer';
 import type { Land } from './land/terrain';
 import { SettlementWriter } from './settlement-writer';
 import { RegionSites } from './region-sites';
+import { Foundings } from './founding';
 
 // What can be seen from each high place of wild country once it is climbed (the crag, the cairn, the oak, the
 // willow): the settlements, the sites, the marches and the landmarks of other wild country in sight of it (see
@@ -26,7 +27,12 @@ export class RegionSights {
     const highs = [...atlas.zones.flatMap(zone => RegionZones.landmarks(region, zone).filter(l => l.view).map(l => ({
       at: l.id, cell: l.cell, kind: l.kind, besides: RegionZones.rooms(region, zone) }))),
     ...region.settlements.filter(t => SettlementWriter.towered(t) && SettlementWriter.rooms(region, t).shrine)
-      .map(t => ({ at: `${t.id}_shrine`, cell: t.cell!, kind: 'tower', besides: [t.id] }))];
+      .map(t => ({ at: `${t.id}_shrine`, cell: t.cell!, kind: 'tower', besides: [t.id] })),
+    // A founding's own height (a fortress's gate-tower): climbed, it sees as a shrine's tower does.
+    ...region.settlements.flatMap((t, i) => {
+      const own = Foundings.of(region, i).place;
+      return own?.view ? [{ at: `${t.id}_${own.id}`, cell: t.cell!, kind: 'tower', besides: [t.id] }] : [];
+    })];
     const places = this.places(region);
     const lines = highs.flatMap(h => this.sighted(land, h, places.filter(p => !h.besides.includes(p.id)))
       .flatMap((s, k) => {
