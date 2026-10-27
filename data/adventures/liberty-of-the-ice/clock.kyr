@@ -1,0 +1,46 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The three days of the ice ─────────────────────────────────────────────────────────────────────────────────────
+  // Pellam's days are counted from the company's coming, at each dawn after the first hour it is here: the day it
+  // comes is the first. The Landing is at two on the third day; the ice goes out in the third night.
+  Measure dayN(place). Relation dawned(place).
+  Initially Set dayN(lisk) to 1.
+  Rule dawn_counts when hour(clock) == 6 and not dawned(lisk) and watch(clock) >= 6 { Increase dayN(lisk) by 1. Assert dawned(lisk). }
+  Rule dawn_passes when hour(clock) != 6 and dawned(lisk) { Retract dawned(lisk). }
+  Query firstDay() means dayN(lisk) == 1.
+  Query secondDay() means dayN(lisk) == 2.
+  Query thirdDay() means dayN(lisk) == 3.
+  Query fourthDay() means dayN(lisk) == 4.
+  Query morning() means hour(clock) >= 6 and hour(clock) < 12.
+  Query evening() means hour(clock) >= 18 and hour(clock) < 23.
+  Query smallHours() means hour(clock) >= 0 and hour(clock) < 5.
+  // Winter: the lanterns are lit on the ice at four, and it is dusk on the Flashes from then till six.
+  Query dusk() means hour(clock) >= 16 and hour(clock) < 18.
+  Query lampLit() means hour(clock) >= 16 or hour(clock) < 7.
+  // The nights the searchers walk the Reach: the second and the third, from ten until three. (A day runs from dawn
+  // to dawn: the small hours after midnight belong to the day before.)
+  Query searchNight() means (secondDay() or thirdDay()) and (hour(clock) >= 22 or hour(clock) < 3).
+  // The Landing: the third day, from two until the last case is cried.
+  Query landingDay() means thirdDay() and hour(clock) >= 14.
+  // The ice goes out at midnight of the third night (earlier, if the watermen cut it).
+  Query iceGone() means thawed(lisk).
+  Relation thawed(place).
+
+  // ── Where word reaches the company ────────────────────────────────────────────────────────────────────────────────
+  // News of the Fair is heard anywhere in Pellam, on the bridge, on the ice or in Bankside; not out on the North Road.
+  Query inPellam() means at(party, ?p) and not at(party, north_road) and not at(party, sledge_road) and not at(party, limbo).
+  Query onIce() means at(party, ?p) and iceRoom(?p).
+  Relation iceRoom(place).
+  // News already gone round, so it is not told twice.
+  Relation spread(fact).
+  // A place the company has left and come back to is told shortly.
+  Relation visitedNow(place). Relation visitedBefore(place).
+  Rule arrives_at when at(party, ?p) and not visitedNow(?p) { Assert visitedNow(?p). }
+  Rule leaves_from when visitedNow(?p) and not at(party, ?p) { Retract visitedNow(?p). Assert visitedBefore(?p). }
+
+  // ── The snow ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Every road out of Pellam is shut by snow, and has been for a month: whatever is said here about the fells, the
+  // farms, the hills or the south, nobody can go and see. That is what the Fair runs on.
+  Discovery roads_shut "The roads out of Pellam have been shut by snow for a month, north to the fells and south over the downs. Nothing goes in or out but on foot, and nothing that is said about the far side of the snow can be gone and looked at until the thaw." {
+    Known by nab, tredgold, ursel, bel, kemble, harker.
+  }
+}

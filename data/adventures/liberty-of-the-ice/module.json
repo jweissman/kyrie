@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "city.kyr",
+    "streets.kyr",
+    "liberty.kyr",
+    "ice.kyr",
+    "ursel.kyr",
+    "harker.kyr",
+    "con.kyr",
+    "supper.kyr",
+    "drowned.kyr",
+    "watermen.kyr",
+    "night.kyr",
+    "gant.kyr",
+    "bear.kyr",
+    "quarle.kyr",
+    "gosling.kyr",
+    "callow.kyr",
+    "landing.kyr",
+    "thaw.kyr",
+    "endings.kyr",
+    "aftermath.kyr",
+    "growth.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "lisk",
+    "north_road": "north_road"
+  },
+  "experience": 900
+}

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "The Liberty of the Ice",
+  "calendar": { "year": 1288, "month": 1, "day": 14 },
+  "pitch": {
+    "heading": "Down to Pellam in the snow",
+    "text": "The river Lisk has frozen hard under Pellam Bridge for the first time in thirty-one winters, and the city is holding a Frost Fair on it: a street of booths on the ice, a gin-tent, a printing press, an ox roasting on a hearth of bricks, and a law of its own, cried at noon every day from a mast with a glove on it. Say what you will. Keep what you shake on. The roads are shut by snow. You have twenty coin, no plans, and a face nobody would ever suspect of anything."
+  },
+  "modules": [
+    { "id": "pellam", "bundle": "../adventures/liberty-of-the-ice/module.json" }
+  ],
+  "party": [
+    { "name": "Tamsin", "raceId": "human", "classId": "bard", "backgroundId": "fabulist" }
+  ]
+}

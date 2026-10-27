@@ -1,0 +1,6 @@
+Module pellam "The Liberty of the Ice" {
+  // The campaign played alone: a traveller with a light purse and no plans, coming down the North Road in the snow on
+  // the third week of the Frost Fair. (placed.kyr is the world's own company, come in by the same road.)
+  Company party "You" of 1 at north_road.
+  Initially Set quantity(party, gold) to 20. Initially Set quantity(party, rations) to 2.
+}

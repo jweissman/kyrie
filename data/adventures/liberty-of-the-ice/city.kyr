@@ -1,0 +1,152 @@
+Module pellam "The Liberty of the Ice" {
+  Description "Pellam, a wool city where the North Road crosses the river Lisk, in the three days of its first Frost Fair in thirty-one winters: a city of factors, watermen, debtors and printers, and between its banks a street of booths on the ice, where the ice's own law is cried at noon. Say what you will. Keep what you shake on.".
+
+  // ── The country ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // The North Road comes down off the fells to the one bridge over the Lisk in thirty miles. The city proper is on the
+  // north bank, Bankside across the bridge; between them, for as long as it holds, the ice. Below the last booth the
+  // river widens into the Reach, where the ice is grey; above the city, the water-meadows called the Flashes.
+  Place imbar "Imbar" is plane.
+  Place lisk "the Lisk at Pellam" is region within imbar.
+  Initially Assert terrain(lisk, frost).
+  Place north_country "the North Road" is wilderness within lisk at 1, 0.
+  Place flashes_land "the Flashes" is wilderness within lisk at 0, 1.
+  Place pellam_city "Pellam" is settlement within lisk at 1, 1.
+  Place pellam_bridge "Pellam Bridge" is site within lisk at 0, 2.
+  Place the_ice "the Frost Fair" is settlement within lisk at 1, 2.
+  Place reach "the Reach" is wilderness within lisk at 2, 2.
+  Place bankside "Bankside" is settlement within lisk at 1, 3.
+
+  // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place evenhand_church "Saint Evenhand's" is building within pellam_city.
+  Place harker_house "Master Harker's house" is building within pellam_city.
+  Place exchange "the Wool Exchange" is building within pellam_city.
+  Place gosling_house "Alderman Gosling's house" is building within pellam_city.
+  Place saffery_house "the rope-walk house on the bridge" is building within pellam_bridge.
+  Place under_bridge "under the bridge" is level within pellam_bridge.
+  Place court_booth "the Court of the Ice" is building within the_ice.
+  Place print_booth "the printing booth" is building within the_ice.
+  Place lamb_booth "the Frozen Lamb" is building within the_ice.
+  Place chapel_booth "the Ice Chapel" is building within the_ice.
+  Place hulk "the hulk Patience" is building within reach.
+  Place calf "the Spotted Calf" is building within bankside.
+  Place watermen_hall "the Watermen's Hall" is building within bankside.
+  Place bondhouse "the bondhouse on Hay Wharf" is building within bankside.
+  Place clink "the Clink" is building within bankside.
+
+  // ── Rooms: the North Road and the Flashes ─────────────────────────────────────────────────────────────────────────
+  Place north_road "the North Road, above Pellam" is room within north_country at 1, 0 outdoors.
+  Place flashes "the Flashes" is room within flashes_land at 0, 0 outdoors.
+
+  // ── Rooms: the City ───────────────────────────────────────────────────────────────────────────────────────────────
+  Place north_bar "the North Bar" is room within pellam_city at 1, 0 outdoors.
+  Place cheaping "the Cheaping" is room within pellam_city at 1, 1 outdoors.
+  Place evenhands "Saint Evenhand's" is room within evenhand_church at 2, 1 indoors.
+  Place exchange_floor "the floor of the Wool Exchange" is room within exchange at 0, 1 indoors.
+  Place gosling_study "Alderman Gosling's study" is room within gosling_house at 0, 0 indoors.
+  Place fleece_row "Fleece Row" is room within pellam_city at 2, 2 outdoors.
+  Place counting_house "Harker's counting-house" is room within harker_house at 3, 2 indoors.
+  Place harker_parlour "Harker's parlour" is room within harker_house at 3, 3 indoors.
+  Place swan_lane "Swan Lane" is room within pellam_city at 1, 2 outdoors.
+  Place bridge_foot "the Bridge Foot" is room within pellam_city at 0, 2 outdoors.
+
+  // ── Rooms: the Bridge ─────────────────────────────────────────────────────────────────────────────────────────────
+  Place bridge_street "on the Bridge, among the houses" is room within pellam_bridge at 0, 0 outdoors.
+  Place saffery_shop "the rope-walk house" is room within saffery_house at 1, 0 indoors.
+  Place starling_cellar "the cellar in the starling" is room within under_bridge at 1, 1 indoors.
+
+  // ── Rooms: the ice ────────────────────────────────────────────────────────────────────────────────────────────────
+  Place swan_foot "the foot of Swan Stairs, on the ice" is room within the_ice at 1, 0 outdoors.
+  Place under_arches "the ice under the arches" is room within the_ice at 0, 0 outdoors.
+  Place freezeland "Freezeland Street, by the Glove Post" is room within the_ice at 1, 1 outdoors.
+  Place freezeland_low "Freezeland Street, the lower end" is room within the_ice at 1, 2 outdoors.
+  Place hiring_ring "the Hiring Ring" is room within the_ice at 2, 1 outdoors.
+  Place bear_stake "the bear-stake" is room within the_ice at 3, 1 outdoors.
+  Place ox_roast "the ox roast" is room within the_ice at 2, 2 outdoors.
+  Place court "the Court of the Ice" is room within court_booth at 0, 1 indoors.
+  Place printing "Noll Brisket's printing booth" is room within print_booth at 0, 2 indoors.
+  Place lamb "the Frozen Lamb" is room within lamb_booth at 2, 3 indoors.
+  Place chapel "the Ice Chapel" is room within chapel_booth at 0, 3 indoors.
+  Place hay_foot "the foot of Hay Stairs, on the ice" is room within the_ice at 1, 3 outdoors.
+
+  // ── Rooms: the Reach ──────────────────────────────────────────────────────────────────────────────────────────────
+  Place reach_head "the head of the Reach, past the last booth" is room within reach at 0, 0 outdoors.
+  Place black_reach "the Black Reach" is room within reach at 1, 0 outdoors.
+  Place patience_deck "the deck of the Patience" is room within reach at 2, 0 outdoors.
+  Place below_decks "below decks" is level within hulk.
+  Place patience_hold "the hold of the Patience" is room within below_decks at 2, 1 indoors.
+  Place sledge_road "the sledge road south, on the ice" is room within reach at 3, 0 outdoors.
+
+  // ── Rooms: Bankside ───────────────────────────────────────────────────────────────────────────────────────────────
+  Place bankside_street "Bankside" is room within bankside at 1, 1 outdoors.
+  Place hay_stairs "the head of Hay Stairs" is room within bankside at 1, 2 outdoors.
+  Place calf_taproom "the Spotted Calf" is room within calf at 0, 1 indoors.
+  Place watermen_room "the Watermen's Hall" is room within watermen_hall at 2, 1 indoors.
+  Place hay_wharf "Hay Wharf" is room within bankside at 2, 2 outdoors.
+  Place bond_floor "the bondhouse floor" is room within bondhouse at 3, 2 indoors.
+  Place bond_above "the bondhouse loft" is level within bondhouse.
+  Place bond_loft "the bondhouse loft" is room within bond_above at 3, 3 indoors.
+  Place clink_yard "the Clink yard" is room within clink at 0, 0 indoors.
+  Place bridge_foot_south "the Bankside end of the bridge" is room within bankside at 0, 0 outdoors.
+
+  Place limbo "nowhere" is room within north_country at 9, 9.
+
+  Initially Assert iceRoom(swan_foot). Initially Assert iceRoom(under_arches). Initially Assert iceRoom(freezeland).
+  Initially Assert iceRoom(freezeland_low). Initially Assert iceRoom(hiring_ring). Initially Assert iceRoom(bear_stake).
+  Initially Assert iceRoom(ox_roast). Initially Assert iceRoom(court). Initially Assert iceRoom(printing).
+  Initially Assert iceRoom(lamb). Initially Assert iceRoom(chapel). Initially Assert iceRoom(hay_foot).
+  Initially Assert iceRoom(reach_head). Initially Assert iceRoom(black_reach). Initially Assert iceRoom(patience_deck).
+  Initially Assert iceRoom(patience_hold). Initially Assert iceRoom(sledge_road).
+
+  // ── Ways ──────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Passage north_way "the North Road" is road between north_road and north_bar taking 30 minutes.
+  Passage bar_lane "Northgate Street" is path between north_bar and cheaping taking 5 minutes.
+  Passage church_door "Saint Evenhand's door" is door between cheaping and evenhands.
+  Passage exchange_door "the Exchange doors" is door between cheaping and exchange_floor.
+  Passage gosling_door "Alderman Gosling's door" is door between cheaping and gosling_study.
+  Passage fleece_lane "Fleece Row" is path between cheaping and fleece_row taking 5 minutes.
+  Passage harker_door "Master Harker's door" is door between fleece_row and counting_house.
+  Passage parlour_door "the parlour door" is door between counting_house and harker_parlour.
+  Passage swan_way "Swan Lane" is path between cheaping and swan_lane taking 5 minutes.
+  Passage bridge_lane "the way down to the bridge" is path between cheaping and bridge_foot taking 5 minutes.
+  Passage flash_path "the meadow path" is path between north_bar and flashes taking 20 minutes.
+  Passage bridge_north "the bridge" is bridge between bridge_foot and bridge_street taking 5 minutes.
+  Passage bridge_south "the bridge" is bridge between bridge_street and bridge_foot_south taking 5 minutes.
+  Passage rope_door "the rope-walk door" is door between bridge_street and saffery_shop.
+  Passage starling_hatch "the hatch in the floor" is ladder between saffery_shop and starling_cellar hidden until starling_known.
+  Passage starling_ladder "the rope ladder down the starling" is ladder between starling_cellar and under_arches
+    opening when not thawed(lisk) "The rope ladder hangs down the starling into the running river.".
+  Passage south_lane "the Bridge Foot lane" is path between bridge_foot_south and bankside_street taking 5 minutes.
+  Passage hay_lane "the lane to Hay Stairs" is path between bankside_street and hay_stairs taking 5 minutes.
+  Passage calf_door "the Spotted Calf's door" is door between bankside_street and calf_taproom.
+  Passage hall_door "the Watermen's Hall door" is door between bankside_street and watermen_room.
+  Passage clink_gate "the Clink gate" is gate between bankside_street and clink_yard.
+  Passage wharf_lane "the wharf lane" is path between hay_stairs and hay_wharf taking 5 minutes.
+  Passage bond_door "the bondhouse door" is door between hay_wharf and bond_floor.
+  Passage loft_ladder "the loft ladder" is ladder between bond_floor and bond_loft.
+  Passage river_door "the river door" is door between bond_floor and hay_foot
+    opening when not thawed(lisk) "The river door opens on black water.".
+  // The two watermen's stairs down onto the ice, one from each bank.
+  Passage swan_stairs "Swan Stairs" is steps between swan_lane and swan_foot
+    opening when not thawed(lisk) "The stairs go down into running water now.".
+  Passage hay_steps "Hay Stairs" is steps between hay_stairs and hay_foot
+    opening when not thawed(lisk) "The stairs go down into running water now.".
+  // The ice itself.
+  Passage swan_walk "the ice" is path between swan_foot and freezeland taking 5 minutes.
+  Passage arch_walk "the ice under the bridge" is path between freezeland and under_arches taking 5 minutes.
+  Passage freezeland_walk "Freezeland Street" is path between freezeland and freezeland_low taking 5 minutes.
+  Passage ring_walk "the way to the Hiring Ring" is path between freezeland and hiring_ring taking 3 minutes.
+  Passage stake_walk "the way out to the bear-stake" is path between hiring_ring and bear_stake taking 3 minutes.
+  Passage ox_walk "the way to the ox roast" is path between freezeland_low and ox_roast taking 3 minutes.
+  Passage court_flap "the Court's tent-flap" is doorway between freezeland and court.
+  Passage print_flap "the printing booth's flap" is doorway between freezeland_low and printing.
+  Passage lamb_flap "the Frozen Lamb's flap" is doorway between freezeland_low and lamb.
+  Passage chapel_flap "the Ice Chapel's flap" is doorway between freezeland_low and chapel.
+  Passage hay_walk "the ice" is path between freezeland_low and hay_foot taking 5 minutes.
+  Passage reach_walk "the ice past the last booth" is path between ox_roast and reach_head taking 10 minutes.
+  // The Black Reach: the river's own ice, grey and thin over the deep channel. By day it bears whoever keeps to the
+  // sledge marks; by night, nobody who cannot see them.
+  Passage reach_ice "the grey ice of the Reach" is path between reach_head and black_reach taking 10 minutes.
+  Passage hulk_walk "the ice out to the hulk" is path between black_reach and patience_deck taking 5 minutes.
+  Passage hulk_hatch "the Patience's hatch" is ladder between patience_deck and patience_hold.
+  Passage sledge_way "the sledge marks south" is path between black_reach and sledge_road taking 30 minutes.
+}

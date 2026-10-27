@@ -1,0 +1,52 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The thaw ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // All the last day the ice talks. At six the booths come down; at nine the crier cries everyone off; at eleven (at
+  // eight, if the watermen cut their channel) the ice goes out from the Reach upward with a noise like the end of the
+  // world, and by midnight there is a river. Whatever was not landed goes with it.
+  Rule ice_talks when thirdDay() and hour(clock) >= 15 and not spread(ice_talking) and inPellam() says "Under your feet, all over Pellam, the ice has begun to talk: a long creak like a ship's timbers, a crack like a gun a long way off, and then a groan that goes on and on, up the whole length of the river. On the ice everybody stops and listens, and laughs, too loudly, and goes on." { Assert spread(ice_talking). }
+  Entity ice_talking: fact "The ice talking".
+  Query thawHour() means (thirdDay() and (hour(clock) >= 23 or hour(clock) < 6)) or fourthDay()
+    or (channelCut(lisk) and thirdDay() and (hour(clock) >= 20 or hour(clock) < 6)).
+  Query offIceHour() means (thirdDay() and (hour(clock) >= 21 or hour(clock) < 6)) or fourthDay()
+    or (channelCut(lisk) and thirdDay() and (hour(clock) >= 18 or hour(clock) < 6)).
+  Rule booths_struck when thirdDay() and hour(clock) >= 18 and not spread(booths_down) and not iceGone() and inPellam() says "The booths of Freezeland Street are coming down: sailcloth folded, oars carried up Swan Stairs on men's shoulders, the ox's bones dragged off on a sledge. The ice is grey under them, and wet." { Assert spread(booths_down). }
+  Entity booths_down: fact "The booths struck".
+  Rule crier_off at freezeland when offIceHour() and not iceGone() and not spread(crier_off_fact) says "The crier, for the last time, on his barrel at the Glove Post: 'O yes! O yes! O yes! Off the ice! Off the ice, every soul, the Liberty is ended! God save the ice!' And the watermen take the great glove down off the mast, and fold it like a sail." { Assert spread(crier_off_fact). }
+  Entity crier_off_fact: fact "The Liberty cried ended".
+  Rule glove_down when offIceHour() and not gloveDown(lisk) { Assert gloveDown(lisk). }
+  Relation gloveDown(place).
+  // Whoever is on the ice when the crier cries is hurried off it by the watermen, to whichever bank is nearer.
+  Rule hurried_off when offIceHour() and onIce() and not iceGone() and not pilloried(party) and not hurried(party) and at(party, ?p) and not farIce(?p)
+    says "Two watermen take you by the arms. 'Off,' says one. 'Off, off, off, it's going,' and walks you to the nearest stairs at a run, with the ice cracking behind you like a whip." {
+    Assert hurried(party). Assert at(party, swan_lane). }
+  Relation hurried(group).
+  Relation farIce(place).
+  Initially Assert farIce(reach_head). Initially Assert farIce(black_reach). Initially Assert farIce(patience_deck).
+  Initially Assert farIce(patience_hold). Initially Assert farIce(sledge_road).
+  // The pillory is the last thing taken off the ice: at the crier's call, not before.
+  Rule pillory_off when offIceHour() and pilloried(party) and onIce() and not pilloryReleased(party)
+    says "At the crier's call the watermen let you out of the pillory, stiff as a board and white with snow, and walk you off the ice at a run with the rest. 'Done your time,' says one, not unkindly. 'Ice is going. Everything's forgiven that isn't landed.'" {
+    Assert pilloryReleased(party). Assert at(party, swan_lane). }
+  Relation pilloryReleased(group).
+  Rule callow_off when offIceHour() and callowStocked(callow) and not callowDead(callow) and not callowFreed(callow) {
+    Assert callowFreed(callow). Retract callowStocked(callow). Assert state(stocks, empty). Assert at(callow, calf_taproom). }
+  Relation callowFreed(group).
+  // The ice goes out.
+  Rule ice_goes when thawHour() and not thawed(lisk) says "From down the Reach, all at once, a sound like a city falling down: the ice going out. It comes up the river from the sea toward the bridge in the dark, crack after crack, louder, the whole frozen Lisk breaking into plates and rearing up against the starlings and going under, and the black water coming up through it steaming, and people on both banks with torches shouting at it, or crying, or cheering. By midnight there is a river under Pellam Bridge, running, full of ice, where Freezeland Street was." {
+    Assert thawed(lisk). }
+  // Every bargain shaken on the ice and not landed goes out with it.
+  Rule bargains_melt when thawed(lisk) and shook(?g, ?b) and not landed(?b) and not melted(?b) and not handBroken(?b) and not handKept(?b) { Assert melted(?b). }
+  // Whoever is still on the ice when it goes is struck, and comes ashore how they can.
+  Hazard ice_breaking "The ice going out from under you" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Rule caught_on_ice when thawed(lisk) and onIce() and not swept(party) says "The ice opens under you with a sound like a door, and you are in the Lisk, in the dark, in the cold that stops the heart, and then on a plate of ice, and then on another, and then on your knees on the stones at the foot of Hay Stairs with a waterman's boat-hook in your collar, alive." {
+    Assert swept(party). Assert strikes(ice_breaking, party). Assert at(party, hay_stairs). }
+  Relation swept(group).
+  // Gant, still on the ice and not free, is cried off it into the bailiffs' hands.
+  Rule gant_cried_off when offIceHour() and at(gant, freezeland) and not gantFree(gant) and not gantSafe(gant) and not gantTaken(gant)
+    says "At Hay Stairs, as the watermen hurry the last of the Fair off the ice, the bailiffs are waiting with their writ, and Sir Lionel Gant walks up the stairs into their hands with his hat on, very straight, saying 'It was three' to the bailiff on his left." {
+    Assert gantTaken(gant). Assert at(gant, limbo). }
+  // The ice rooms close: the stairs lead to water.
+  Observe swan_lane_thaw at swan_lane when iceGone() "Swan Stairs go down twelve steps into black water running fast, full of broken ice. The watermen are already putting their boats in.".
+  Observe hay_thaw at hay_stairs when iceGone() "Hay Stairs go down into the river, black and running, with plates of ice going by. The watermen's boats are out.".
+  Observe bridge_thaw at bridge_street when iceGone() "From the bridge, the Lisk: black, high, fast, roaring through the arches, full of ice and sailcloth and the oars of booths, and one gingerbread stall going round and round in an eddy below the third starling.".
+}

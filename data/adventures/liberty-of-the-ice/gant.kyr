@@ -1,0 +1,85 @@
+Module pellam "The Liberty of the Ice" {
+  // ── Sir Lionel Gant, on the ice ───────────────────────────────────────────────────────────────────────────────────
+  // A ruined gentleman who has lived on the ice since the freeze, in a lean-to of sailcloth in the lee of the Glove
+  // Post, because no bailiff's writ runs on it. His bond (thirty coin, to his tailor, bought up by Harker) waits for
+  // him on both banks. He never borrowed thirty; he borrowed three, and somebody has made a nought of the full stop.
+  Person gant "Sir Lionel Gant" at freezeland {
+    Role "a gentleman in a waistcoat that was magnificent ten years ago, living on the ice" when not gantSafe(gant) and not gantFree(gant).
+    Role "a gentleman in his shirt-sleeves, owing nobody anything" when gantFree(gant) or gantSafe(gant).
+    Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A tall thin gentleman in a crimson waistcoat with half its buttons gone sweeps off a hat that has seen better heads. 'Sir Lionel Gant, of nowhere in particular, at your service. You'll forgive the address: I live on the ice. It is the only parish in the country where I owe nobody anything.'".
+    Greets again "Sir Lionel sweeps off his hat again.".
+  }
+  Relation gantSafe(group). Relation gantFree(group). Relation gantTaken(group). Relation gantPaid(group). Relation gantVoided(group).
+  Relation gantCoatGiven(group).
+  Observe gant_lean at freezeland when at(gant, freezeland) and not iceGone() "In the lee of the Glove Post, a lean-to of sailcloth on two oars, with a brazier, a folding chair, a bottle and a gentleman in it.".
+  Discovery gant_bond "Sir Lionel Gant owes thirty coin on a bond to his tailor, which Master Harker has bought up; bailiffs wait for him on both banks to take him the moment he steps off the ice. He swears he borrowed three." {
+    Known by gant, kemble.
+  }
+  Topic gant_why with gant "Ask Sir Lionel why he lives on the ice" when true once {
+    Says "'Debt.' He says it with a kind of pride. 'Thirty coin, to my tailor, for this.' He spreads the waistcoat. 'Which I dispute. I borrowed three. A man does not forget three; it is such a small sum, one remembers being ashamed of it.' He pours from the bottle. 'Harker bought the bond from the tailor, as he buys everything, cheap, and there are bailiffs at the head of both stairs with a writ, and the moment I set foot on dry ground I am in the Fleece Row compter till I pay it, which is to say for ever.' He raises the glass to the Glove. 'Long live the ice.'".
+    On discuss { Assert knows(actor, gant_bond). }
+  }
+  Topic gant_thaw with gant "Ask Sir Lionel what he will do at the thaw" when knows(actor, gant_bond) once {
+    Says "He looks at the river for a while. 'There is the Clink,' he says, 'in Bankside. A liberty of its own, where a man inside owes nobody anything until he comes out. A man could live in the Clink.' He does not sound as if he thinks a man could. 'If he could get there. The bailiffs know it as well as I do.' He brightens, with an effort. 'Or the ice will hold. Quarle says it will hold for ever. I have shares.'".
+    On discuss { Assert knows(actor, clink_known). Assert acceptsEscort(gant, actor). }
+  }
+  Discovery clink_known "The Clink in Bankside is a liberty of its own: a debtor inside it owes nobody anything until he comes out. Sir Lionel Gant could live there, if he could reach it past the bailiffs on Hay Stairs.".
+  // The counterpart: his copy of the bond, which he cannot read for the shame of it, and has never looked at.
+  Kind counterpart_kind "Sir Lionel's counterpart" is gear worth 0 weighing 0 described "Sir Lionel Gant's copy of his bond to his tailor, folded very small, in a fair clerk's hand: the sum, written out in words, is three coin.".
+  Item counterpart "Sir Lionel's counterpart of his bond" is counterpart_kind at limbo.
+  Relation counterpartGiven(group).
+  Topic gant_counterpart with gant "Ask Sir Lionel whether he kept his own copy of the bond" when knows(actor, gant_bond) and not counterpartGiven(gant) once {
+    Says "'The counterpart.' He pats his waistcoat, and finds it, folded small. 'Never looked at it. One doesn't.' He holds it out to you without unfolding it, the way a man holds out a letter from a woman he has wronged. 'You read it. I'll have another glass.'".
+    On discuss { Assert counterpartGiven(gant). }
+  }
+  Rule counterpart_comes when counterpartGiven(gant) and at(counterpart, limbo) and at(party, ?p) { Retract at(counterpart, limbo). Assert at(counterpart, ?p). }
+  Action read_counterpart(actor: group, reader: member, site: place) "Read Sir Lionel's counterpart against what Harker's writ says" {
+    Requires able(actor) and memberOf(reader, actor) and ownedItem(counterpart, reader) and knows(actor, gant_bond) and not benighted(actor) and not knows(actor, gant_altered) and not counterpartTried(actor).
+    Time 1.
+    Resolve check(actor, lore, dc_easy).
+    On success { Assert knows(actor, gant_altered). Assert counterpartTried(actor). }
+    On failure { Assert counterpartTried(actor). }
+    Result "Three coin, in words, in the tailor's clerk's hand, and a date, and Sir Lionel's flourish. The writ the bailiffs carry says thirty. Somebody in Fleece Row has turned the bond's figure 3 and its full stop into a 30, in good ink, carefully; but the words cannot be turned, and on the counterpart the words say three.".
+    Otherwise "It is all legal hand and whereases, and you cannot make the sum out of it. Somebody with more law than you might.".
+  }
+  Relation counterpartTried(group).
+  Discovery gant_altered "Sir Lionel Gant's bond was for three coin. The copy Harker bought, from which his writ was drawn, has been altered in Fleece Row to thirty; his own counterpart still says three, in words.".
+  // A plainer way: pay it.
+  Action pay_gant(actor: group, site: place) "Pay Sir Lionel's thirty coin to Kemble, and have the writ withdrawn" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(kemble, site) and knows(actor, gant_bond) and quantity(actor, gold) >= 30 and not gantFree(gant) and not gantSafe(gant).
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 30. Increase quantity(harker, gold) by 30. Assert gantPaid(gant). Assert gantFree(gant). }
+    Result "Kemble counts it, writes a receipt, and sands it. 'Master Harker will be gratified,' he says. 'He had quite given up hope of Sir Lionel.' He does not look surprised that anyone would pay thirty coin for Sir Lionel Gant. Nothing surprises Kemble.".
+  }
+  // Or get him to the Clink, at night, when the bailiffs have gone home.
+  Person bailiffs "the bailiffs" at hay_stairs {
+    Role "a pair of bailiffs in brown with a writ, stamping in the snow at the head of Hay Stairs". Ancestry human. Peaceable. Numbers 2. Pronouns they.
+  }
+  Person swan_bailiff "a bailiff" at swan_lane {
+    Role "a man in brown with a copy of the writ, at the head of Swan Stairs". Ancestry human. Peaceable. Pronouns he.
+  }
+  Initially Assert serves(bailiffs, harker). Initially Assert serves(swan_bailiff, harker).
+  Initially Assert writServer(bailiffs). Initially Assert writServer(swan_bailiff).
+  Relation writServer(group).
+  Rule bailiffs_day when hour(clock) >= 7 and hour(clock) < 21 and not gantFree(gant) and not gantSafe(gant) and not at(bailiffs, hay_stairs) { Assert at(bailiffs, hay_stairs). Assert at(swan_bailiff, swan_lane). }
+  Rule bailiffs_night when (hour(clock) >= 21 or hour(clock) < 7) and not at(bailiffs, limbo) { Assert at(bailiffs, limbo). Assert at(swan_bailiff, limbo). }
+  Rule bailiffs_done when (gantFree(gant) or gantSafe(gant)) and not at(bailiffs, limbo) { Assert at(bailiffs, limbo). Assert at(swan_bailiff, limbo). }
+  Rule gant_seized when following(gant, party) and at(gant, ?p) and at(?b, ?p) and writServer(?b) and not iceRoom(?p) and not gantTaken(gant) and not gantFree(gant)
+    says "'Sir Lionel Gant!' The bailiffs have him by both arms before his foot is properly off the last stair, with the writ held up in front of his nose. 'At the suit of Josias Harker, thirty coin. You'll come to the compter.' He goes, very upright, saying over his shoulder, 'It was three,' to nobody in particular." {
+    Assert gantTaken(gant). Retract following(gant, party). Assert at(gant, limbo). }
+  Rule gant_follows when following(gant, party) and at(party, ?p) and not at(gant, ?p) and not gantTaken(gant) { Assert at(gant, ?p). }
+  Rule gant_in_clink when following(gant, party) and at(gant, clink_yard) and not gantSafe(gant)
+    says "Inside the Clink gate Sir Lionel Gant stops, and takes off his hat, and looks round the yard, at the debtors at their windows and their washing and their dogs, as if it were a palace. 'Gentlemen,' he says, to the yard. 'Sir Lionel Gant. I owe nobody anything.' A cheer goes up from the windows. He turns to you. 'I shan't forget it. Here.' He takes off the crimson waistcoat's coat, which is the only good thing he owns, and puts it into your arms." {
+    Assert gantSafe(gant). Retract following(gant, party). Retract acceptsEscort(gant, party). Assert gantCoatGiven(gant). }
+  Observe gant_clink at clink_yard when gantSafe(gant) "Sir Lionel Gant is in the Clink yard, holding court among the debtors from a borrowed chair.".
+  Rule gant_safe_stays when gantSafe(gant) and not at(gant, clink_yard) { Assert at(gant, clink_yard). }
+  // Freed by paying, he gives his coat as freely.
+  Rule gant_paid_coat when gantPaid(gant) and not gantCoatGiven(gant) and together(gant, party) says "Sir Lionel takes your hand in both of his. 'Three coin,' he says. 'It was three. But you paid thirty, which is more than anyone has ever thought me worth.' He takes off his coat, the only good thing he owns, and puts it into your arms. 'A man who would pay thirty coin for me deserves to look like a gentleman.'" {
+    Assert gantCoatGiven(gant). }
+  Kind gant_coat_kind "Sir Lionel's coat" like climbing_harness granting persuasion worth 6 weighing 1
+    described "A gentleman's coat of plum-coloured broadcloth, London-cut, ten years out of fashion, the lining gone at one elbow, the silver buttons long since sold and replaced with horn. Anyone who wears it is spoken to as if they had money.".
+  Item gant_coat "Sir Lionel's coat" is gant_coat_kind at limbo.
+  Rule coat_comes when gantCoatGiven(gant) and at(gant_coat, limbo) and at(party, ?p) { Retract at(gant_coat, limbo). Assert at(gant_coat, ?p). }
+  Rule gant_ice_day when hour(clock) >= 7 and not iceGone() and not following(gant, party) and not gantSafe(gant) and not gantTaken(gant) and not gantFree(gant) and not landingAt(lisk) and not at(gant, freezeland) { Assert at(gant, freezeland). }
+}

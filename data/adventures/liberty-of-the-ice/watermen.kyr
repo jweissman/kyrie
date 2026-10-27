@@ -1,0 +1,74 @@
+Module pellam "The Liberty of the Ice" {
+  // ── Bankside ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe bankside_scene at bankside_street when not visitedBefore(bankside_street) "Bankside: the other Pellam, across the river from the respectable one. Inns, a shut playhouse with snow on its roof, cookshops, a chandler's, the Watermen's Hall with its oars crossed over the door, and the long wall of the Clink, which is a prison for debtors and a liberty of its own, so that a man inside it owes nobody anything until he comes out.".
+  Observe bankside_again at bankside_street when visitedBefore(bankside_street) "Bankside: inns and cookshops, the Watermen's Hall, the long wall of the Clink.".
+  Observe calf_scene at calf_taproom when true "The Spotted Calf: low beams, a fire you could roast a calf at, drovers and watermen and people who are neither, and a landlord who looks as if he has heard every lie told in Bankside and preferred most of them to the truth.".
+  Person nab "Nab Pollard" at calf_taproom {
+    Role "the landlord of the Spotted Calf". Profession innkeeper. Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "'Bed's a shilling, supper's a groat, and the lies are on the house,' says Nab Pollard. 'Snowed in, are you? Everyone's snowed in. Pellam's a jar with the lid on.'".
+    Greets again "Nab Pollard lifts a hand without looking round from the fire.".
+    Sells rations for 1 coin from 20.
+  }
+  Topic nab_fair with nab "Ask Nab Pollard about the Frost Fair" when true once {
+    Says "'First in thirty-one winters, and the last one there's still men in this house remember.' He pours. 'River froze solid in a night, a month back, and the watermen lost their living in the same night, and the next morning there was a gingerbread stall on it and old Clemmy Broom sat in a tent with her trumpet crying the Liberty, like her mother did.' He wipes the counter. 'Everybody's got a scheme. The factors are buying sheep they can't see, the debtors are living on the ice, Harker's hiring on it. You'll have a scheme by tonight. Everyone does.'".
+    On discuss { Assert knows(actor, roads_shut). Assert knows(actor, liberty_known). }
+  }
+
+  // ── Gaffer Tredgold and the watermen ──────────────────────────────────────────────────────────────────────────────
+  // A month out of work. They keep the stairs for a penny a stair, and they have the saws and the men to cut a channel
+  // across the bottom of the Reach and end the Fair, and on the second night, unless they have work, they will.
+  Observe hall_scene at watermen_room when not visitedBefore(watermen_room) "The Watermen's Hall: a long room with the Company's oars on the walls, a brazier, and thirty men with nothing to do sitting on benches doing it. Ice-saws hang by the door, long two-handled saws with teeth like a pike's. At a table under the window an old waterman with a face like a clenched fist is writing in the Company's book.".
+  Observe hall_again at watermen_room when visitedBefore(watermen_room) "The Watermen's Hall: the oars on the walls, the ice-saws by the door, thirty idle men.".
+  Person tredgold "Gaffer Tredgold" at watermen_room {
+    Role "the master of the Watermen's Company, idle a month". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner grim.
+    Greets "Gaffer Tredgold looks at you over the Company's book. 'If you want a boat,' he says, 'there's no river. If you want a fight, there's thirty of us. If you want anything else, be quick.'".
+    Greets again "Tredgold looks up from the Company's book, and down.".
+  }
+  Person watermen "the watermen" at watermen_room {
+    Role "a benchful of watermen with nothing to do". Ancestry human. Numbers 4. Peaceable. Pronouns they.
+  }
+  Rule tredgold_hall when hour(clock) >= 7 and hour(clock) < 22 and not at(tredgold, watermen_room) and not tredgoldOut(tredgold) { Assert at(tredgold, watermen_room). }
+  Relation tredgoldOut(group).
+  Relation watermenWorked(place). Relation channelCut(place). Relation sledgesReady(place). Relation tredgoldAngry(group).
+  Topic tredgold_ice with tredgold "Ask Gaffer Tredgold what the watermen mean to do about the ice" when true once {
+    Says "'Wait.' He shuts the book. 'A month we've waited, with the river stopped under us like a clock, and our boats on the stages with the snow on them, and a penny a stair to feed thirty families.' He looks at the saws by the door. 'Old Clemmy keeps the Liberty, and she's ours, and the Fair's ours by right. But a Fair doesn't row anyone anywhere.' He opens the book again. 'There's some of the young ones say cut it. A channel across the foot of the Reach, one night's work, and the ice goes out a day sooner, and the river's back. I've not said no yet.'".
+    On discuss { Assert knows(actor, channel_threat). }
+  }
+  Discovery channel_threat "The idle watermen talk of cutting a channel across the foot of the Reach with their ice-saws, to end the Fair and have their river back. Tredgold has not said no; unless they have work by the second night, they will.".
+  Topic tredgold_harker with tredgold "Tell Gaffer Tredgold what Harker does with his hired, on the Watermen's ice" when knows(actor, hired_sold) and not tredgoldAngry(tredgold) once {
+    Says "He hears it without moving. Then he gets up, slowly, and goes to the window, and looks across at Hay Wharf, at the long blind wall with J. HARKER. WOOL on it. 'On our ice,' he says. 'Under our Liberty. Under Clemmy's glove.' He turns round. The Hall has gone quiet. 'The Company'll not cut its own ice while there's that to be done on it,' says Gaffer Tredgold. 'What do you want of us?'".
+    On discuss { Assert tredgoldAngry(tredgold). Assert watermenWorked(lisk). }
+  }
+  Action hire_sledges(actor: group, site: place) "Hire the watermen's sledges and men for the second night, ten coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(tredgold, site) and quantity(actor, gold) >= 10 and not sledgesReady(lisk) and not tredgoldAngry(tredgold)
+      and knows(actor, channel_threat).
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 10. Assert watermenWorked(lisk). Assert sledgesReady(lisk). }
+    Result "Tredgold counts the coin into the Company's box and writes it in the book. 'Ten coin, four sledges and eight men, the second night,' he says. 'Where and when?' You tell him the foot of Hay Stairs, in the small hours. He does not ask what for. 'Done,' he says, and does not offer his hand, because you are not on the ice.".
+  }
+  Action ask_sledges(actor: group, site: place) "Ask Tredgold for the Company's sledges at the foot of Hay Stairs, in the small hours of the second night, for nothing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(tredgold, site) and tredgoldAngry(tredgold) and not sledgesReady(lisk).
+    Time 2 minutes.
+    On success { Assert sledgesReady(lisk). }
+    Result "'Four sledges and eight men,' says Tredgold. 'And me.' He takes a saw down off the wall and looks along its teeth as if it were a sword. 'Not for cutting. For the dog.'".
+  }
+  // Ice for Quarle's tub: work of a kind.
+  Action set_watermen_quarle(actor: group, site: place) "Tell Tredgold that Mr. Quarle of the Frost Company wants men to cut and haul ice, and will pay" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(tredgold, site) and knows(actor, quarle_needs) and not watermenWorked(lisk).
+    Time 2 minutes.
+    On success { Assert watermenWorked(lisk). Assert quarleHasMen(quarle). }
+    Result "'Cutting ice,' says Tredgold, 'to keep it ice.' He thinks about it for a long time. 'It's work,' he says. 'It's daft, and it's work, and he pays by the day.' He sends six of the young ones off with saws, grinning, and the Hall is a different place.".
+  }
+  Relation quarleHasMen(group).
+  Rule channel_cut when secondDay() and hour(clock) >= 22 and not watermenWorked(lisk) and not channelCut(lisk) says "In the night, from down the Reach, a long sound of saws, a dozen of them, and men singing to keep the time. By morning there is a channel of black water forty feet wide across the foot of the Reach from bank to bank, steaming, and the sledge road south ends at it." {
+    Assert channelCut(lisk). Assert state(channel, open_water). }
+  Thing channel "the watermen's channel" on sledge_way is scenery {
+    State whole "The sledge marks run on south over hard ice.".
+    State open_water blocking "Across the foot of the Reach the watermen's channel lies forty feet wide, black water steaming. Nobody goes south on the ice now.".
+  }
+  Initially Assert state(channel, whole).
+  Observe sledges_waiting at hay_foot when sledgesReady(lisk) and secondNightSmall() and not hiredFled(lisk) "At the foot of Hay Stairs, in the dark, four long ice-sledges with rope traces, and eight watermen stamping their feet beside them, and Gaffer Tredgold with an ice-saw over his shoulder.".
+  Query secondNightSmall() means secondDay() and (hour(clock) >= 23 or hour(clock) < 6).
+  Rule tredgold_waits when sledgesReady(lisk) and secondNightSmall() and not hiredFled(lisk) and not at(tredgold, hay_foot) { Assert at(tredgold, hay_foot). Assert tredgoldOut(tredgold). }
+  Rule tredgold_home when tredgoldOut(tredgold) and thirdDay() and hour(clock) >= 6 { Retract tredgoldOut(tredgold). }
+}

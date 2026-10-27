@@ -1,0 +1,134 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The law of the ice ────────────────────────────────────────────────────────────────────────────────────────────
+  // The river lies in no parish and under no lord, and while it is ice it has its own law, kept by the Watermen's
+  // Company and its Reeve: what is said on it is free, and what is shaken on is bound. On the last day of the ice the
+  // Court lands its bargains, hand to hand, so that they hold on the banks when there is no ice to stand on; and what
+  // is not landed goes out with the river.
+  Kind bargain.
+  Relation shook(group, bargain). Relation handKept(bargain). Relation handBroken(bargain). Relation landed(bargain).
+  Relation melted(bargain).
+  Discovery liberty_known "The Liberty of the Ice, cried at noon at the Glove Post: on the ice, a word is free and a hand is bound. Nothing said on the ice is any crime; but a bargain struck by a shake of hands on it, whatever was said to get it, the Court of the Ice will hold you to, to the last penny." {
+    Known by broom, tredgold, ursel, bel, gant, kemble, harker, nab, crier.
+  }
+  Discovery landing_known "On the last day of the ice the Court sits at the Glove Post for the Landing: every bargain of the Fair is cried, hand to hand, both parties standing before the Reeve, and once landed it is good in any court of the country. A bargain not landed goes out with the ice." {
+    Known by broom, ursel, kemble, harker, gant, tredgold, callow.
+  }
+  Discovery ice_nobodys "No warrant, bailiff, banns, tithe or guild rule of the banks runs on the ice. Debtors live on it; lovers marry on it without banns; and anyone may hire anyone on it, for anything, with none of the city's statutes on servants to say otherwise." {
+    Known by broom, gant, doody, kemble, harker, tredgold, ursel, bel.
+  }
+
+  // The Glove Post: a ship's mast stepped in the ice at the top of Freezeland Street, with a great leather glove nailed
+  // to the top of it, the sign of a liberty since there were fairs.
+  Observe glove_post at freezeland when not iceGone() "At the top of Freezeland Street a ship's mast has been stepped in the ice and guyed with ropes, and nailed to the head of it, stiff with frost, is a leather glove as big as a sail-bag: the sign of the Liberty. A board at the foot of the mast says in red: SAY WHAT YOU WILL. KEEP WHAT YOU SHAKE ON. C. BROOM, REEVE.".
+  Person crier "the Fair's crier" at limbo {
+    Role "a waterman with a bell and a voice". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "The crier wipes his bell with his sleeve. 'Noon, and every noon,' he says. 'You'll hear it.'".
+  }
+  Rule crier_comes when hour(clock) == 12 and not iceGone() and not at(crier, freezeland) { Assert at(crier, freezeland). }
+  Rule crier_goes when hour(clock) != 12 and at(crier, freezeland) { Retract at(crier, freezeland). Assert at(crier, limbo). }
+  Rule crier_cries at freezeland when hour(clock) == 12 and at(party, freezeland) and at(crier, freezeland) and not iceGone() and not spread(liberty_cried) says "Noon. The crier climbs onto a barrel at the foot of the Glove Post and rings his bell until the whole top of Freezeland Street is looking at him, and cries it: 'O yes, O yes, O yes! The river Lisk being frozen from bank to bank, and lying in no parish and under no lord, the ice is a Liberty, by the custom of the Watermen of Pellam, until it goes! Say what you will on it, and no man shall have the law of you for a word! Keep what you shake on, and the Reeve shall have the law of you for a hand! God save the ice!' Everyone cheers, and goes back to lying to each other." teaches liberty_known { Assert spread(liberty_cried). }
+  Entity liberty_cried: fact "The Liberty cried".
+  Observe crier_again at freezeland when hour(clock) == 12 and at(crier, freezeland) and spread(liberty_cried) "The crier is on his barrel, crying the Liberty again: say what you will; keep what you shake on.".
+
+  // ── The Court of the Ice ──────────────────────────────────────────────────────────────────────────────────────────
+  Observe court_scene at court when not visitedBefore(court) "A tent of patched sailcloth, an iron brazier, and a trestle table across two herring barrels, at which, on a chair with arms, sits a very small old woman in a waterman's coat with an ear-trumpet in her lap. Behind her on the canvas someone has painted, not well, a hand and a glove. A clerk, who is also a waterman, keeps the book. The benches are full of people waiting to be heard and people who have come to hear them.".
+  Observe court_again at court when visitedBefore(court) "The Court of the Ice: the brazier, the trestle on its herring barrels, the painted hand and glove on the canvas.".
+  Observe court_sitting at court when hour(clock) >= 16 and hour(clock) < 17 and not iceGone() "The Court is sitting. The Reeve listens to each case through her trumpet, with her eyes shut, and opens them only for a good lie, which she seems to taste.".
+  Person broom "Justice Clemency Broom" at court {
+    Role "the Reeve of the Ice, a waterman's widow of seventy with an ear-trumpet". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "Justice Broom puts her ear-trumpet to her ear and points the other end at you. 'Speak up. If it's a lie, make it a good one. I've heard all the bad ones.'".
+    Greets again "Broom lifts her ear-trumpet at you without opening her eyes. 'You again. Go on.'".
+  }
+  // The Reeve keeps her court from two until five, and spends her evenings on the Liars' Bench at the Frozen Lamb.
+  Rule broom_court when hour(clock) >= 14 and hour(clock) < 18 and not iceGone() and not landingAt(lisk) and not at(broom, court) { Assert at(broom, court). }
+  Rule broom_landing when landingAt(lisk) and not at(broom, freezeland) { Assert at(broom, freezeland). }
+  Rule broom_bench when hour(clock) >= 19 and hour(clock) < 23 and not iceGone() and not at(broom, lamb) { Assert at(broom, lamb). }
+  Rule broom_home when (hour(clock) >= 23 or hour(clock) < 9) and not at(broom, limbo) { Assert at(broom, limbo). }
+  Rule broom_morning when hour(clock) >= 9 and hour(clock) < 14 and not iceGone() and not at(broom, court) { Assert at(broom, court). }
+  Relation landingAt(place).
+  Topic broom_law with broom "Ask the Reeve what the law of the ice is" when true once {
+    Says "'Two words and a hand.' She holds up a small hard palm. 'Say what you will. Keep what you shake on.' She lowers it. 'A lie is a thing a man makes with his mouth, and I'll not have a man hanged for his trade. A hand is a thing he gives. Give it, and I'll hold him to it if it takes the shirt off him.' She sniffs. 'Thirty-one winters since the last ice. They've forgotten everything on the banks. They think a liberty means nobody minds.' She puts the trumpet back to her ear. 'I mind.'".
+    On discuss { Assert knows(actor, liberty_known). Assert knows(actor, ice_nobodys). }
+  }
+  Topic broom_landing_topic with broom "Ask the Reeve what happens when the ice goes" when knows(actor, liberty_known) once {
+    Says "'The Landing.' She says it the way a priest says Easter. 'On the last day, at two, I sit at the Glove Post and every bargain of the Fair is cried, hand to hand, both of 'em standing before me, and I land it. Then it's good from here to the sea, in any court that sits on dry ground.' She smiles, a small hard smile. 'What's not landed goes out with the river. Every Frost Fair there's a crowd of clever men who mean to be across the bridge with their money before two on the last day, so their bargains melt. And every Frost Fair there's a crowd of other clever men waiting at the bridge for them.' She shuts her eyes. 'It's the best day of the year.'".
+    On discuss { Assert knows(actor, landing_known). }
+  }
+  Topic broom_lie with broom "Ask the Reeve what makes a lie good" when knows(actor, liberty_known) once {
+    Says "She opens one eye. 'Nobody's ever asked me that.' She thinks. 'A bad lie wants you to believe it. A good lie wants you to want to. And the best,' she says, 'the best has a true thing in the middle of it, like a stone in a plum, that you bite on afterwards, and it hurts your tooth.' She shuts the eye. 'Come to the Bench at the Lamb tonight, if you think you can. I've a silver tongue for whoever makes me bite on something.'".
+    On discuss { Assert knows(actor, bench_known). }
+  }
+  Discovery bench_known "Every night of the Fair the Reeve sits on the Liars' Bench at the Frozen Lamb, from seven, and gives a silver tongue to whoever tells the best lie: one that has a true thing in the middle of it, that hurts the tooth." {
+    Known by broom, bel, ursel, nab.
+  }
+
+  // ── The stairs: a penny a stair ───────────────────────────────────────────────────────────────────────────────────
+  // Tredgold's watermen, out of work since the river froze, keep both stairs onto the ice, and ask a penny a stair.
+  Entity stair_bargain: bargain "a penny a stair, with the watermen".
+  Measure owedStairs(group). Measure stairCount(passage).
+  Initially Set stairCount(swan_stairs) to 12. Initially Set stairCount(hay_steps) to 9.
+  Thing swan_plank "the watermen's plank" on swan_stairs is scenery {
+    State across blocking "Two watermen sit on the top of Swan Stairs with a plank across it between them, and a tin cup. 'A penny a stair,' says one of them. 'Shake on it.'".
+    State lifted "The watermen's plank is lifted aside for you; they nod as you go by.".
+  }
+  Thing hay_plank "the watermen's plank" on hay_steps is scenery {
+    State across blocking "A waterman sits on the top of Hay Stairs with a plank across it and a tin cup. 'A penny a stair, friend. Shake on it.'".
+    State lifted "The waterman lifts the plank aside for you.".
+  }
+  Initially Assert state(swan_plank, across). Initially Assert state(hay_plank, across).
+  Relation stairsPaid(group). Relation watermenSour(group). Relation stairsArgued(group).
+  Action shake_stairs(actor: group, site: place) "Shake on a penny a stair with the watermen" {
+    Grave "A hand shaken on the ice binds: the Court of the Ice will hold you to it, whatever was said.".
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, swan_lane) or at(actor, hay_stairs))
+      and not shook(actor, stair_bargain) and not stairsPaid(actor) and not watermenSour(actor)
+      and (state(swan_plank, across) or state(hay_plank, across)).
+    Time 1 minute.
+    On success { Assert shook(actor, stair_bargain). Assert state(swan_plank, lifted). Assert state(hay_plank, lifted).
+      Set owedStairs(actor) to 12. }
+    Result "You put out your hand, and the waterman spits on his and shakes it, very hard, and lifts the plank. 'Twelve stairs,' he says. 'Twelve pennies. Pay at the bottom or pay at the Court, it's all one to us.' He grins. 'Mind the ninth. It's slippy.'".
+  }
+  Action pay_stairs(actor: group, site: place) "Pay the watermen twelve pennies for the stairs" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, swan_lane) or at(actor, hay_stairs) or at(actor, swan_foot) or at(actor, hay_foot) or at(actor, court))
+      and not stairsPaid(actor) and quantity(actor, gold) >= 12 and not watermenSour(actor).
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 12. Assert stairsPaid(actor). Set owedStairs(actor) to 0.
+      Assert handKept(stair_bargain). Assert state(swan_plank, lifted). Assert state(hay_plank, lifted). }
+    Result "Twelve pennies into the tin cup, one at a time, counted aloud by both watermen with great enjoyment. 'There,' says one. 'Now you're a freeman of the stairs. Up and down as you like, both banks, till the thaw.' It is, you suspect, the most money anyone has given them in a month.".
+  }
+  Action push_stairs(actor: group, site: place) "Step over the plank and go down without paying" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, swan_lane) and state(swan_plank, across)
+      and not shook(actor, stair_bargain) and not watermenSour(actor).
+    Time 1 minute.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert watermenSour(actor). Assert state(swan_plank, lifted). Assert state(hay_plank, lifted). }
+    Result "You step over the plank, and when the bigger of the two gets up to stop you, you look at him until he sits down again. Nobody shook on anything. 'Right,' he says to your back. 'Right. We'll know you.'".
+    Otherwise "You step over the plank and the bigger waterman stands up and puts you back on the top step with one hand, not roughly. 'A penny a stair,' he says. 'Or the bridge, if you know the way, which you don't.'".
+  }
+  Rule stairs_owed at court when owedStairs(party) > 0 and hour(clock) >= 16 and firstDay() and at(party, court) and at(broom, court) and not stairsCase(party) says "The Court's waterman-clerk calls: 'Tredgold's men against a stranger, for twelve pennies, twelve stairs, Swan Stairs, a hand shaken.' Everybody turns round to look at you. Justice Broom points her trumpet. 'Did you shake?' You did. 'Then pay,' she says, 'or tell me something I've not heard.'" {
+    Assert stairsCase(party). }
+  Relation stairsCase(group).
+  Action argue_stairs(actor: group, site: place) "Tell the Reeve that Swan Stairs is one stair, of twelve steps, and a penny a stair is a penny" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, court) and at(broom, court) and stairsCase(actor)
+      and owedStairs(actor) > 1 and not stairsArgued(actor).
+    Time 2 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert stairsArgued(actor). Set owedStairs(actor) to 1. Assert broomAmused(broom). }
+    On failure { Assert stairsArgued(actor). }
+    Result "Justice Broom opens both eyes. 'A stair,' she says, 'being the whole flight, and the steps being steps.' She turns the trumpet on the watermen. 'Did you say a penny a step?' They did not. 'One penny,' says Broom, and bangs her trumpet on the trestle, and the benches cheer as if you had won a race. The watermen take it in good part. They will be telling it in the Hall tonight.".
+    Otherwise "'A stair is a stair,' says Justice Broom, 'and a step is a stair, and I was born on Swan Stairs, and there's twelve of them.' The benches laugh at you, not unkindly. You owe twelve pennies.".
+  }
+  Relation broomAmused(group).
+  Action pay_stairs_one(actor: group, site: place) "Pay the watermen their one penny" {
+    Requires able(actor) and company(actor) and at(actor, site) and owedStairs(actor) == 1 and quantity(actor, gold) >= 1 and not stairsPaid(actor).
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 1. Assert stairsPaid(actor). Set owedStairs(actor) to 0. Assert handKept(stair_bargain). }
+    Result "One penny, into the tin cup, to applause.".
+  }
+  // A hand not kept by the time the Court rises is a hand broken: the watermen take what is owed out of the purse in
+  // front of the Reeve, and what they cannot take they cry.
+  Rule stairs_broken at court when firstDay() and hour(clock) >= 17 and owedStairs(party) > 0 and not stairsPaid(party) and stairsCase(party) and not handBroken(stair_bargain) says "The Court rises. 'Unpaid,' says Justice Broom, and the watermen come and stand on either side of you, and the clerk takes what is in your purse up to the debt and drops it in the tin cup, and the rest he writes in the book. 'A hand broken on the first day,' says Broom, to nobody, with great satisfaction. 'It's going to be a good Fair.'" {
+    Assert handBroken(stair_bargain). Assert stairsPaid(party). Assert brokeHand(party). Decrease quantity(party, gold) by owedStairs(party). Set owedStairs(party) to 0. }
+  Relation brokeHand(group).
+  // The watermen keep their word of freedom: a company that paid goes up and down both stairs as it likes.
+  Rule planks_stay when stairsPaid(party) and (state(swan_plank, across) or state(hay_plank, across)) { Assert state(swan_plank, lifted). Assert state(hay_plank, lifted). }
+}

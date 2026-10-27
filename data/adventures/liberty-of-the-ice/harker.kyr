@@ -1,0 +1,168 @@
+Module pellam "The Liberty of the Ice" {
+  // ── Master Josias Harker ──────────────────────────────────────────────────────────────────────────────────────────
+  // Wool-factor and hiring-master, churchwarden of Saint Evenhand's. He never lies outright and never shakes on
+  // anything himself: the hired shake on his bargains; he only accepts them. He hires the poor of the north country
+  // for "a year's place on a farm in the hills", and sells their indentures, landed and good in any court, to the lead
+  // mines at Gallowmoor in the south. This year everything he hires is ice-bargained, and no statute of the city on
+  // servants can touch it.
+  Person harker "Master Josias Harker" at counting_house {
+    Role "a wool-factor in a black coat with a fur collar, and a churchwarden's ring". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "Master Harker inclines his head a quarter of an inch, which is what he has decided you are worth until he knows better. 'Good day to you,' he says. 'I am busy, but I am never too busy to be civil.'".
+    Greets again "Master Harker inclines his head the same quarter of an inch.".
+  }
+  Rule harker_ring when hiringOn() and not at(harker, hiring_ring) and not harkerGone(harker) { Assert at(harker, hiring_ring). }
+  Rule harker_counting when hour(clock) >= 12 and hour(clock) < 18 and not hiringOn() and not landingAt(lisk) and not weddingOn() and not harkerGone(harker) and not at(harker, counting_house) { Assert at(harker, counting_house). }
+  Rule harker_morning when hour(clock) >= 8 and hour(clock) < 12 and not hiringOn() and not weddingOn() and not harkerGone(harker) and not at(harker, counting_house) { Assert at(harker, counting_house). }
+  Rule harker_supper when hour(clock) >= 18 and hour(clock) < 23 and not harkerGone(harker) and not at(harker, harker_parlour) and not showingStock(harker) { Assert at(harker, harker_parlour). }
+  Rule harker_bed when (hour(clock) >= 23 or hour(clock) < 8) and not harkerGone(harker) and not at(harker, limbo) and not showingStock(harker) { Assert at(harker, limbo). }
+  Relation harkerGone(group). Relation showingStock(group).
+  Observe counting_scene at counting_house when not visitedBefore(counting_house) "Harker's counting-house: a long room with a good fire, high desks, a wall of pigeonholes stuffed with wool-notes, a pair of great brass scales with the Saint's mark on them, and a text in black-letter over the hearth: THE LORD WEIGHETH THE SPIRITS. A roll-top desk, locked, by the window. A clerk at a high stool, writing.".
+  Observe counting_again at counting_house when visitedBefore(counting_house) "Harker's counting-house: the fire, the pigeonholes, the brass scales, THE LORD WEIGHETH THE SPIRITS, the locked roll-top desk.".
+  Observe parlour_scene at harker_parlour when true "Harker's parlour: Turkey carpet, a harpsichord nobody plays, a portrait of the late Mrs. Harker looking as if she had been told to sit still, and a long table laid with more silver than food.".
+  Topic harker_hiring with harker "Ask Master Harker about the hiring" when true once {
+    Says "'A Christian service.' He says it gently. 'The north country is poor, and the fells are cruel, and young people come down to the hiring with nothing but a tuft of wool in their hats. I give them a year's place on a farm in the hills: good food, a roof, wages at the year's end.' He turns his ring. 'They shake on it of their own free will. I have never in my life put out my hand to a servant. I only accept theirs.' He smiles. 'You may ask anyone.'".
+    On discuss { Assert knows(actor, harker_farm). }
+  }
+  Discovery harker_farm "Master Harker says he hires the north country's poor for a year's place on a farm in the hills. He says he never puts out his hand to a servant, only accepts theirs.".
+  Topic harker_wool with harker "Ask Master Harker about the wool trade, with the roads shut" when true once {
+    Says "'Speculative.' He likes the word. 'Every factor on the Exchange is buying fleece still on the sheep, at this winter's price, for delivery at the shearing. When the roads open the price will double. I buy what I am offered, from men I can trust, at a fair price, by the head, with a tally.' He looks at you a moment longer than he needs to. 'I am always glad to meet men I can trust.'".
+    On discuss { Assert knows(actor, harker_buys). }
+  }
+  Discovery harker_buys "Master Harker buys fleece still on the sheep, by the head, with a tally, from anyone he trusts, for delivery at the shearing.".
+
+  // ── Silas Kemble, his clerk ───────────────────────────────────────────────────────────────────────────────────────
+  Person kemble "Silas Kemble" at counting_house {
+    Role "a clerk, thin, with a red nose and a quill behind his ear". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "Silas Kemble does not stop writing. 'Master Harker is engaged. I am engaged. Everyone is engaged.' He blots. 'What do you want?'".
+    Greets again "Kemble glances up, and down, and goes on writing.".
+  }
+  // Kemble tells his master everything he hears, and drinks at the Lamb, where he hears a great deal.
+  Initially Assert serves(kemble, harker). Initially Assert tattles(kemble).
+  Rule kemble_works when hour(clock) >= 8 and hour(clock) < 18 and not hiringOn() and not landingAt(lisk) and not at(kemble, counting_house) { Assert at(kemble, counting_house). }
+  Rule kemble_ring when hiringOn() and not at(kemble, hiring_ring) { Assert at(kemble, hiring_ring). }
+  Rule kemble_drinks when hour(clock) >= 19 and hour(clock) < 23 and not iceGone() and not at(kemble, lamb) { Assert at(kemble, lamb). }
+  Rule kemble_home when (hour(clock) >= 23 or hour(clock) < 8) and not at(kemble, limbo) { Assert at(kemble, limbo). }
+  Relation tattles(group).
+  Topic kemble_drowned with kemble "Ask Kemble about the drowned" when knows(actor, drowned_hats) once {
+    Says "Kemble puts his pen down for the first time. 'Drowned.' He says it like a sum that will not come out. 'The river has very particular tastes, I find. Only Master Harker's hired. Only the strong ones. Only the ones who stood near the edge at the hiring and looked at the Reach.' He picks up his pen again. 'Master Harker pays five coin a head for word of anyone who has been drowned and is walking about. It is a Christian concern. The bereaved must be comforted.'".
+    On discuss { Assert knows(actor, kemble_pays). }
+  }
+  Discovery kemble_pays "Silas Kemble pays five coin a head, for Master Harker, for word of any of the drowned who are walking about.".
+
+  // ── The roll-top desk, and the hiring ledger ──────────────────────────────────────────────────────────────────────
+  Thing harker_desk "the roll-top desk" at counting_house {
+    Holds.
+    State locked closed "A roll-top desk by the window, its lid down and locked.".
+    State open "The roll-top desk stands open: pigeonholes, a pen-tray, a ledger bound in black.".
+    Change pick "Pick the lock of the roll-top desk" from locked to open needing lockwork.
+    Change key "Open the roll-top desk with Thessaly's key" from locked to open needing desk_key.
+  }
+  Initially Assert state(harker_desk, locked).
+  Kind ledger_kind "Harker's hiring ledger" is gear worth 0 weighing 1 described "A tall ledger bound in black calf, in Kemble's hand: every hiring at Pellam these nine years, name by name, and against every name the same two entries.".
+  Item ledger "Harker's hiring ledger" is ledger_kind in harker_desk owned by harker.
+  Kind desk_key_kind "a small brass key" is gear worth 0 weighing 0 described "A small brass key on a loop of black ribbon, warm from being worn.".
+  Item desk_key "Thessaly's brass key" is desk_key_kind at limbo.
+  // Someone in the counting-house sees a company open the desk.
+  Rule desk_seen when state(harker_desk, open) and at(party, counting_house) and (perceives(kemble, party) or perceives(harker, party)) and not deskSeen(party) says "Silas Kemble looks up from his stool, and sees the desk open, and you at it, and puts his pen down very slowly. Then he gets up and goes out, without his hat, toward wherever Master Harker is." {
+    Assert deskSeen(party). Assert harkerWary(harker). Assert squireExposed(party). }
+  Relation deskSeen(group).
+  Rule desk_shuts when hour(clock) == 8 and state(harker_desk, open) { Assert state(harker_desk, locked). }
+  Action read_ledger(actor: group, reader: member, site: place) "Read Harker's hiring ledger" {
+    Requires able(actor) and memberOf(reader, actor) and (ownedItem(ledger, reader) or reaches(actor, ledger)) and not benighted(actor) and not knows(actor, ledger_read).
+    Time 1.
+    On success { Assert knows(actor, ledger_read). Assert knows(actor, hired_sold). }
+    Result "Nine years of Pellam hirings in Kemble's neat hand. Name, age, token (crook, pail, whip, mop), and then two columns. The first is headed PLACE, and under it, for every name, in the same hand: farm in the hills. The second is headed DISPOSED, and under it, for every name, in pencil: Gallowmoor, by Ossett's agent, eight coin. At the spring hiring of this year, the eleventh name is Richard Cobb, twenty, of Swale Head, token a crook. Gallowmoor, eight coin. Against three of the names, nine years back, someone has written in pencil, very small: dead.".
+  }
+  Discovery ledger_read "Harker's hiring ledger: nine years of hirings, every name entered 'farm in the hills' and then, in pencil, 'Gallowmoor, by Ossett's agent, eight coin'. Richard Cobb, called Dickon, of Swale Head, was the eleventh name at this year's spring hiring.".
+  Discovery hired_sold "Master Harker does not send his hired to any farm in the hills. He sells their indentures, landed and good in any court, to Ossett's agent for the lead mines at Gallowmoor, at eight coin a head; some of them have died there.".
+
+  // ── The Hiring Ring ───────────────────────────────────────────────────────────────────────────────────────────────
+  // On the first day from ten to noon and the second from nine to eleven: young people from the snowbound north
+  // country standing in a roped ring on the ice with a token of their trade in their hats, and Harker walking round it.
+  Query hiringOn() means (firstDay() and hour(clock) >= 10 and hour(clock) < 12) or (secondDay() and hour(clock) >= 9 and hour(clock) < 11).
+  Observe ring_scene at hiring_ring when hiringOn() "The Hiring Ring: a rope on stakes round a trodden circle of ice, and inside it twenty or thirty young people from the north country, standing very still in the cold with a token in their hats for what they can do: a tuft of wool for a shepherd, a whipcord for a carter, a mop-head, a twist of straw. Their breath goes up. Master Harker walks round inside the rope in his fur collar with his clerk behind him, and stops in front of one, and talks a little, kindly, and puts out not his hand but his open palm, and waits; and the one in front of him shakes it, and Kemble writes. A girl with a milk-pail in her hat, who cannot be more than fifteen, has just shaken.".
+  Observe ring_empty at hiring_ring when not hiringOn() and not iceGone() "The Hiring Ring is empty: a rope on stakes round a trodden circle of ice, and in the middle a mop-head somebody dropped, frozen to the ice.".
+  Person hired "Harker's hired" at limbo {
+    Role "a line of young people from the north country, hired at the Ring". Ancestry human. Numbers 6. Peaceable. Pronouns they.
+  }
+  Person tansy "Tansy Hobb" at limbo {
+    Role "a dairymaid from Swale Head, fifteen, with a milk-pail on a string" when not tansyFree(tansy).
+    Role "a dairymaid from Swale Head, her own again" when tansyFree(tansy).
+    Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Greets "Tansy Hobb looks at you the way she must look at a strange cow: carefully, and from a little way off. 'Are you hired too?'".
+  }
+  Relation tansyFree(group).
+  Rule hired_at_ring when hiringOn() and not inBond(hired) and not at(hired, hiring_ring) { Assert at(hired, hiring_ring). Assert at(tansy, hiring_ring). }
+  // At the end of each hiring Kemble walks the hired over the ice to the bondhouse, to be kept till the Landing.
+  Relation inBond(group).
+  Rule hired_walked when firstDay() and hour(clock) >= 12 and at(hired, hiring_ring) and not inBond(hired) says "At noon the hiring ends. Kemble walks Harker's hired off the ice in a line, two by two, across to Hay Stairs and up onto the wharf and in at the door of the long blind warehouse with J. HARKER. WOOL painted on its gable, to be kept there, warm and fed, he tells anyone who asks, until the Landing." {
+    Assert inBond(hired). Assert at(hired, bond_floor). Assert at(tansy, bond_floor). Assert inBond(tansy). }
+  Topic tansy_place with tansy "Ask Tansy Hobb where she is going" when true once {
+    Says "'A farm in the hills.' She says it like a charm. 'A year's place, and good food, and wages at the year's end, and I can send them home.' She swallows. 'Mam said not to go to Harker. Mam said nobody comes back from Harker's. But Mam said that about the town, too, and I came back from the town.' She looks at her hands. 'I shook. It's done now. You can't unshake.'".
+    On discuss { Assert knows(actor, tansy_hired). }
+  }
+  Discovery tansy_hired "Tansy Hobb, fifteen, a dairymaid from Swale Head, shook hands with Master Harker at the Hiring Ring for a year's place on a farm in the hills.".
+
+  // ── Standing in the Ring: the way in that a plain person has ──────────────────────────────────────────────────────
+  // Harker hires the dull gladly, and the strong. Shake his palm and you are his hired, walked into the bondhouse with
+  // the rest at noon, and landed at the Landing for a year at Gallowmoor, unless something is done.
+  Entity hire_bargain: bargain "a year's service, with Master Harker".
+  Relation hiredHand(group). Relation squireExposed(group).
+  Action stand_ring(actor: group, site: place) "Put a tuft of straw in your hat and stand in the Hiring Ring" {
+    Grave "A hand shaken on the ice binds: shake Harker's palm and you are his hired for a year, to be landed with the rest.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hiring_ring) and hiringOn() and at(harker, hiring_ring)
+      and not hiredHand(actor) and not posedSquire(actor) and not harkerWary(harker).
+    Time 2.
+    On success { Assert hiredHand(actor). Assert shook(actor, hire_bargain). Assert inBond(actor). }
+    Result "You stand in the cold with the others with a twist of straw in your hat, and after a while Master Harker comes round to you in his fur collar and looks at you as a man looks at a horse at a price he likes. 'A strong back,' he says kindly. 'And an honest face. A year's place on a farm in the hills: good food, a roof, wages at the year's end.' He holds out his palm, open, and waits. You shake it. His hand is soft and very warm. 'Kemble,' he says, without looking round, and Kemble writes you down.".
+  }
+  Rule hired_hand_walked when hiredHand(party) and at(party, hiring_ring) and not hiringOn() and not inBondhouse(party) says "The hiring ends. Kemble walks you off the ice in the line with the rest, two by two, across to Hay Stairs, up onto the wharf, and in at the bondhouse door, and you hear the bar go down outside." {
+    Assert inBondhouse(party). Assert at(party, bond_floor). Assert at(hired, bond_floor). Assert at(tansy, bond_floor). Assert inBond(hired). Assert inBond(tansy). }
+  Relation inBondhouse(group).
+
+  // ── The bondhouse on Hay Wharf ────────────────────────────────────────────────────────────────────────────────────
+  Observe wharf_scene at hay_wharf when not visitedBefore(hay_wharf) "Hay Wharf: a timber stage on piles, snowed over, with the river frozen solid round its legs; bales stacked under sailcloth; and the long blind warehouse with J. HARKER. WOOL on its gable and one door, studded, with a new lock.".
+  Observe wharf_again at hay_wharf when visitedBefore(hay_wharf) "Hay Wharf: snowed bales, and Harker's bondhouse with its one studded door.".
+  Thing bond_lock "the bondhouse lock" on bond_door {
+    State locked blocking "The bondhouse door is locked: a new lock, big as a book. Kemble has the key.".
+    State open "The bondhouse door stands unlocked.".
+    Change pick "Pick the bondhouse lock" from locked to open needing lockwork.
+  }
+  Initially Assert state(bond_lock, locked).
+  Initially Assert keyholder(kemble, bond_lock). Initially Assert keyholder(harker, bond_lock).
+  Rule bond_relocks when hour(clock) == 7 and state(bond_lock, open) and not hiredFled(lisk) { Assert state(bond_lock, locked). }
+  Thing river_bar "the bar on the river door" on river_door {
+    State barred blocking "The river door in the bondhouse's back wall is barred on the inside with a baulk of oak in iron brackets, iced in.".
+    State unbarred "The bar is off the river door, and the door stands a hand's breadth open on the ice.".
+    Change lift "Break the iced bar out of its brackets and lift it off the river door" from barred to unbarred needing brawn at bond_floor.
+  }
+  Initially Assert state(river_bar, barred).
+  Observe bond_floor_scene at bond_floor when not hiredFled(lisk) "The bondhouse floor: a long dim barn of a place smelling of wool and tallow, fleeces stacked to the beams down one side, and down the other, on straw, Harker's hired, sitting close together for the warmth with blankets round them. A brazier. A trestle by the door with a book on it and a pen. At the far end a low door in the river-wall, barred. A ladder goes up into a loft.".
+  Observe bond_floor_empty at bond_floor when hiredFled(lisk) "The bondhouse floor: fleeces stacked to the beams, trodden straw, a cold brazier, and the river door standing open on the ice.".
+  Observe bond_loft_scene at bond_loft when not dark() "The loft: fleeces, cobwebs, a little grey daylight through the tiles, and names. The beams are covered in names, cut with knives and nails and pins, year after year: initials and hearts and the names of villages, and crooks and pails scratched beside them.".
+  Observe bond_loft_night at bond_loft when dark() "The loft at night: black, and close, and full of the sound of the people below breathing and somebody, somewhere, trying not to cry. When a lantern goes by on the wharf outside, the names on the beams come out for a moment in the slits of light between the tiles, and go.".
+  Discovery beam_read "On a beam of the bondhouse loft, cut deep with a nail, among years of names: D. COBB SWALE HEAD. And under it, newer, cut by the same hand, deeper: GALLOWMOOR LEAD. THEY DONT COME BACK. I DID." { Found by searching bond_loft. }
+  Kind bondbook_kind "Kemble's bond book" is gear worth 0 weighing 1 described "A thin book in Kemble's hand: this Fair's hirings, name, age and token, each with a little drawn hand beside it for shaken, and on the last page in pencil, not in Kemble's hand but in Harker's: All to Ossett's agent at the thaw. Gallowmoor.".
+  Item bondbook "Kemble's bond book" is bondbook_kind at bond_floor owned by harker.
+  Action read_bondbook(actor: group, reader: member, site: place) "Read Kemble's bond book" {
+    Requires able(actor) and memberOf(reader, actor) and (ownedItem(bondbook, reader) or reaches(actor, bondbook)) and not benighted(actor) and not knows(actor, bondbook_read).
+    Time 1.
+    On success { Assert knows(actor, bondbook_read). Assert knows(actor, hired_sold). }
+    Result "This Fair's hirings: Tansy Hobb, fifteen, Swale Head, pail; Amos Pell, nineteen, Garthwaite, whip; and on, name by name, each with a little drawn hand. On the last page, in pencil, in a different hand, broader and more careful: All to Ossett's agent at the thaw. Gallowmoor.".
+  }
+  Discovery bondbook_read "Kemble's bond book of this Fair's hirings ends, in Harker's own hand: All to Ossett's agent at the thaw. Gallowmoor.".
+  Topic tansy_gallowmoor with tansy "Tell Tansy Hobb where the farm in the hills is" when knows(actor, hired_sold) and at(tansy, bond_floor) and not tansyTold(tansy) once {
+    Says "She does not cry. She puts her milk-pail down on the straw, carefully, as if it might spill. 'Lead,' she says. 'Mam said.' Round her the others have gone quiet, listening; somebody says 'Gallowmoor' in a whisper, and it goes down the straw like a draught. A big lad with a whip in his hat stands up. 'Then we'll not go,' he says. 'We'll not.' Tansy looks at the barred river door, and then at you. 'We shook,' she says. 'We all shook.'".
+    On discuss { Assert tansyTold(tansy). }
+  }
+  Relation tansyTold(group).
+  // With the hired told, and on their feet, the bar comes off together, without anybody's strength in particular.
+  Action bar_together(actor: group, site: place) "Get the hired up, all together, to work the iced bar off the river door" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bond_floor) and tansyTold(tansy) and at(hired, bond_floor) and state(river_bar, barred).
+    Time 3.
+    On success { Assert state(river_bar, unbarred). }
+    Result "Twenty pairs of hands on the baulk, and the big lad with the whip counting, and Tansy Hobb pouring hot water out of the brazier-kettle into the iron brackets a cupful at a time: the ice cracks, and the bar shifts, and on the third heave it comes up out of its brackets with a shriek of iron, and the river door swings a hand's breadth open on the dark and the ice.".
+  }
+  // A company shut in the bondhouse is let out at the Landing with the rest, to be landed; unless it has gone.
+  Rule bondhouse_out when inBondhouse(party) and not at(party, bond_floor) and not at(party, bond_loft) { Retract inBondhouse(party). }
+}

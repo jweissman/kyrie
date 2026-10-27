@@ -1,0 +1,128 @@
+Module pellam "The Liberty of the Ice" {
+  // ── Ursel Cobb ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A cheerful, efficient liar of forty, who has never shaken on anything in her life. She tells you her con is about
+  // money. It is about her brother Dickon, hired by Harker at the spring hiring for "a place on a farm in the hills",
+  // who has not written since.
+  Person ursel "Ursel Cobb" at freezeland {
+    Role "a woman in a man's caped coat, with a laugh like a door" when not urselKnown(party).
+    Role "a liar by trade, in a man's caped coat" when urselKnown(party).
+    Ancestry human. Calling thief. Level 3. Peaceable. Pronouns she. Manner cheerful.
+    Greets "The woman in the caped coat looks you up and down, frankly, the way a horse-coper looks at a horse. 'Well,' she says. 'You're new.'".
+    Greets again "'There you are,' says Ursel, as if you had been late.".
+    Joins "'Partners,' says Ursel Cobb, and does not put out her hand. 'I don't shake. Nothing personal. I've never shaken on anything in my life, and I'm not starting on the ice.'".
+    Leaves "'Mind how you go,' says Ursel, and is somewhere else.".
+  }
+  Relation urselKnown(group).
+  Measure urselTrust(group). Measure urselHolds(group). Measure urselNear(group).
+  Relation pursed(group). Relation pursedBack(group). Relation urselPitched(group).
+  Relation liedToUrsel(group). Relation keptSecret(group). Relation urselConfessed(group). Relation urselGone(group).
+  Relation skated(group). Relation wentInForDickon(group). Relation urselAsked(group). Relation handfast(group).
+  Relation urselDeclined(group). Relation urselTook(group).
+  Rule ursel_day when hour(clock) >= 8 and hour(clock) < 19 and not travelsWith(ursel, party) and not urselGone(ursel) and not iceGone() and not at(ursel, freezeland) { Assert at(ursel, freezeland). }
+  Rule ursel_evening when hour(clock) >= 19 and hour(clock) < 24 and not travelsWith(ursel, party) and not urselGone(ursel) and not iceGone() and not at(ursel, lamb) { Assert at(ursel, lamb). }
+  Rule ursel_night when hour(clock) < 8 and not travelsWith(ursel, party) and not urselGone(ursel) and not at(ursel, calf_taproom) { Assert at(ursel, calf_taproom). }
+
+  // The first time the company stands in Freezeland Street, she takes its purse, and holds it up.
+  Event purse_lifted at freezeland when at(party, freezeland) and urselHere() and not pursed(party) and quantity(party, gold) > 0 "Somebody knocks into you in the crush by the Glove Post, a woman in a caped coat, who says 'Beg pardon, my love,' and goes on, and when you put your hand to your purse it is not there. You turn round. She has stopped ten feet away and is holding it up by its strings for you to see, and laughing. 'Never shook on it,' she calls. 'Did I? Did you?' A few people nearby laugh too. Nobody calls the watch. There is no watch." then {
+    Assert pursed(party). Set urselHolds(ursel) to quantity(party, gold). Set quantity(party, gold) to 0. }
+  Query urselHere() means at(ursel, freezeland) and not travelsWith(ursel, party).
+  Topic ursel_purse with ursel "Ask her for your purse back" when pursed(actor) and not pursedBack(actor) once {
+    Says "'Course you can have it.' She tosses it to you. 'Lesson's free.' She watches you count it. 'All there. I'm not a thief, I'm a teacher. On the ice a word's free and a hand's bound, and I never gave you my hand, and you never asked for it.' She grins. 'Ursel Cobb. And you've a face nobody would ever suspect of anything, which is worth more than what was in there.'".
+    On discuss { Assert pursedBack(actor). Increase quantity(actor, gold) by urselHolds(ursel). Set urselHolds(ursel) to 0. Assert urselKnown(actor). Assert knows(actor, liberty_known). }
+  }
+  Action lift_back(actor: group, site: place) "Lift your purse back off her while she is laughing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ursel, site) and pursed(actor) and not pursedBack(actor)
+      and capable(actor, stealth).
+    Time 1 minute.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert pursedBack(actor). Increase quantity(actor, gold) by urselHolds(ursel). Set urselHolds(ursel) to 0.
+      Assert urselKnown(actor). Increase urselTrust(ursel) by 1. Assert knows(actor, liberty_known). }
+    Result "You walk up to her, smiling, and while she is telling you that she never shook on it you take it back off her, out of her own coat, where she put it, and show it to her. She stops laughing. Then she laughs much louder, and claps you on both shoulders. 'Oh, you'll do,' says Ursel Cobb. 'Oh, you'll do. Ursel Cobb. Come and have a gin. I've a proposition.'".
+    Otherwise "You go for it and she turns, easily, and your hand closes on nothing. 'Nearly,' she says, and gives it back to you anyway. 'Lesson's free.'".
+  }
+  // A company that does not go after its purse finds it again before the Court sits, put back where it was taken.
+  Rule purse_returned when pursed(party) and not pursedBack(party) and hour(clock) >= 15 and firstDay() says "You put your hand to your coat and your purse is there again, exactly where it was, with a twist of paper in it that says in pencil: NEVER SHOOK ON IT. — U.C. AT THE LAMB." teaches ursel_at_lamb {
+    Assert pursedBack(party). Increase quantity(party, gold) by urselHolds(ursel). Set urselHolds(ursel) to 0. }
+  Discovery ursel_at_lamb "The woman who took your purse on the ice and put it back calls herself U.C., and can be found at the Frozen Lamb.".
+
+  // ── The proposition ───────────────────────────────────────────────────────────────────────────────────────────────
+  Topic ursel_proposition with ursel "Ask Ursel what her proposition is" when urselKnown(actor) once {
+    Says "She sits you down on an upturned keg out of the wind and talks low and fast. 'Josias Harker. Wool-factor, Fleece Row, churchwarden, very fond of God. With the roads shut he's buying fleeces that aren't shorn yet off sheep he can't see, cheap, for when the thaw comes and the price goes up. Every factor in Pellam is at it.' She taps your knee. 'So we sell him a flock. Two hundred fell ewes, up at Hawsfold, snowed in. Nobody can go and look till the thaw, and when the thaw comes, we're gone.' She sits back. 'You're the Squire of Hawsfold. I'm your man of business. Sixty coin, forty to you. We take his money on the ice and we're over the bridge before the Landing, and the bargain goes out with the river.' She looks at you. 'Well?'".
+    On discuss { Assert knows(actor, con_plan). Assert knows(actor, landing_known). Assert urselPitched(actor). Assert willing(ursel, actor). Set hire(ursel) to 0. }
+  }
+  Discovery con_plan "Ursel Cobb's plan: the company to be the Squire of Hawsfold, with two hundred fell ewes snowed in on the fells, and to sell them to Master Harker the wool-factor, who is buying fleeces he cannot see; to take his money on the ice, and be over the bridge before the Landing, so the bargain goes out with the river.".
+  Topic ursel_why with ursel "Ask Ursel why Harker" when knows(actor, con_plan) and not urselConfessed(actor) once {
+    Says "'Because he's rich, and pious, and greedy, and stupid in exactly the one place a man ought to be clever, which is about himself.' She says it quickly, and smoothly, and looks at the fire, not at you, and you have the strong sense of a door being shut very politely in your face. 'And because he'll pay. Ask me something else.'".
+    On discuss { Assert knows(actor, ursel_evades). }
+  }
+  Discovery ursel_evades "Asked why Harker, of all the factors in Pellam, Ursel Cobb answered too quickly, looking at the fire.".
+  Topic ursel_travel_props with ursel travelling "Ask Ursel what the Squire of Hawsfold will need" when knows(actor, con_plan) once {
+    Says "'Things he can hold.' She counts on her fingers. 'A tally of the flock, in a factor's hand or better, printed: Noll on the ice will print anything that isn't sworn. A bit of the wool, fell grey, from the Shambles or off a shepherd's coat. A coat on your back a squire wouldn't be ashamed of, and you'll not get that honestly. And a word for you from somebody he trusts.' She grins. 'And a face. You've the face. The rest is lies, and lies are free.'".
+    On discuss { Assert knows(actor, props_known). }
+  }
+  Discovery props_known "What will make Harker believe in the Squire of Hawsfold: a printed tally of the flock; a tuft of fell wool; a coat a squire would wear; a word from somebody he trusts. And a face, and lies.".
+
+  // ── What Ursel is looking for ─────────────────────────────────────────────────────────────────────────────────────
+  Discovery ursel_brother "Ursel Cobb's brother Dickon was hired by Master Harker at Pellam's spring hiring, for a year's service on a farm in the hills, and has not written since. Her con is a way into Harker's house, and his books, to find where Dickon went." {
+    Known by ursel.
+  }
+  Discovery ursel_watches "At the Hiring Ring Ursel Cobb watches each of Harker's hired as they step up to shake, as if looking for one face in particular, and does not find it.".
+  Observe ursel_at_ring at hiring_ring when travelsWith(ursel, party) and hiringOn() and capable(party, insight) and not knows(party, ursel_watches) "Ursel has gone quiet. She stands at the rope of the Ring watching Harker's hired step up one by one to shake, and her eyes go to each face, quickly, and away, and back to the next, the way you look for someone in a crowd at a fair, and do not find them." teaches ursel_watches.
+  Topic ursel_who with ursel travelling "Ask Ursel who she is looking for among the hired" when (knows(actor, ursel_watches) or knows(actor, ursel_evades) and urselTrust(ursel) >= 2) and not urselConfessed(actor) once {
+    Says "For a moment she looks as if she will laugh it off. Then she does not. 'Dickon,' she says. 'My brother. Twenty. Big soft lump, he'd carry a calf a mile. Harker hired him at the spring hiring here for a farm in the hills, a year's place, good food, and he shook, and went, and he can write, I taught him myself, and nothing. Not a line.' She wipes her nose on her cape. 'So I want into Harker's house, and his books. The money's real. I'll still take his money. But I want the books.' She looks at you hard. 'You can laugh. Everybody lies on the ice. That was mine.'".
+    On discuss { Assert urselConfessed(actor). Assert knows(actor, ursel_brother). Increase urselTrust(ursel) by 1. }
+  }
+  Topic ursel_dickon_ledger with ursel travelling "Tell Ursel what Harker's books say of Dickon Cobb" when knows(actor, ledger_read) and not urselConfessed(actor) once {
+    Says "You tell her. She hears you to the end without moving, and then she sits down on the ice, where she is, as if her legs had been taken away. 'Gallowmoor,' she says. 'Gallowmoor lead.' After a while she says, 'You found that, and you came and told me. You could have sold it me.' She gets up. 'Right,' says Ursel Cobb. 'Right. Now I'll tell you the truth, and you can see what it's like.' And she does: a brother, a hiring, a letter that never came.".
+    On discuss { Assert urselConfessed(actor). Assert knows(actor, ursel_brother). Increase urselTrust(ursel) by 2. Assert keptSecret(actor). }
+  }
+  Topic ursel_keep with ursel travelling "Tell Ursel her secret is safe with you" when urselConfessed(actor) and not keptSecret(actor) and not liedToUrsel(actor) once {
+    Says "'On the ice,' says Ursel, 'that's just words.' But she looks at you a long moment, and then she nods, once, the way a person nods who has decided to believe something against her own advice.".
+    On discuss { Assert keptSecret(actor). Increase urselTrust(ursel) by 1. }
+  }
+  // A lie told her after she has told the truth: that Dickon is dead, when the company has seen him alive.
+  Topic ursel_lie_dickon with ursel travelling "Tell Ursel that Dickon went through the ice, and is gone" when urselConfessed(actor) and knows(actor, dickon_alive) and not liedToUrsel(actor) and not urselMet(dickon) once {
+    Says "She takes it like a blow, standing; then she looks at you, a long, flat, professional look, the look she gives a mark, and you see her see it. 'That's a lie,' she says. 'That's a good one, and it's a lie.' She does not ask you why. She does not say anything else to you that evening.".
+    On discuss { Assert liedToUrsel(actor). Decrease urselTrust(ursel) by 3. }
+  }
+
+  // ── The Flashes, at dusk ──────────────────────────────────────────────────────────────────────────────────────────
+  Observe flashes_scene at flashes when not dusk() and not dark() "The Flashes: water-meadows above the city, flooded in the autumn and frozen flat as a table, a mile of grey ice between pollard willows. A few boys with skates of bone. A man selling skates of iron by the hour from a barrow.".
+  Observe flashes_dusk at flashes when dusk() "The Flashes at dusk: the whole of Pellam that is young or rich or both, skating, under a sky going green and gold behind the willows, in long scarves, in pairs, in lines holding hands, very fast and very badly. Torches on poles along the bank. Somebody is playing a fiddle with gloves on. Everyone is looking at everyone else.".
+  Observe flashes_dark at flashes when dark() "The Flashes at night, empty, the torches out, the ice grey under the stars.".
+  Action skate_alone(actor: group, site: place) "Hire skates by the hour and go out on the Flashes" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, flashes) and not dark() and quantity(actor, gold) >= 1 and not travelsWith(ursel, actor) and not skatedAlone(actor).
+    Time 6.
+    On success { Decrease quantity(actor, gold) by 1. Assert skatedAlone(actor). }
+    Result "Iron skates, a size too big, strapped on over your boots. You fall down twice and then, for a little while, you do not, and the willows go by, and for the length of the Flashes there is nothing in the world but the sound of the blades.".
+  }
+  Relation skatedAlone(group).
+  Action skate_ursel(actor: group, site: place) "Hire two pairs of skates, and take Ursel out on the Flashes" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, flashes) and dusk() and travelsWith(ursel, actor) and quantity(actor, gold) >= 2 and not skated(actor).
+    Time 6.
+    On success { Decrease quantity(actor, gold) by 2. Assert skated(actor). Increase urselTrust(ursel) by 1. }
+    Result "Ursel says she cannot skate, which is a lie, and then that she has not skated since she was a girl, which is true. For the first length of the Flashes she holds your arm as if it were a rail. By the third she has let go and is going backwards in front of you with her cape out like wings, laughing her door-banging laugh at the sky, and half the Flashes is watching. When the torches are lit she comes and stops in front of you, breathing hard, and for once has nothing to say.".
+  }
+
+  // ── The question at the Ice Chapel ────────────────────────────────────────────────────────────────────────────────
+  // On the last morning, before the wedding at noon, Ursel asks one thing, if there is a reason to ask it: shared
+  // history, not a score (the skating, the card, the bondhouse, the secret kept), and nothing that ends it.
+  Query romanceHolds(a: group) means (skated(a) and pairPrinted(a) and keptSecret(a)) or (skated(a) and wentInForDickon(a))
+    or (pairPrinted(a) and wentInForDickon(a)) or (keptSecret(a) and wentInForDickon(a) and skated(a)).
+  Event ursel_asks near ursel when thirdDay() and hour(clock) >= 10 and hour(clock) < 12 and travelsWith(ursel, party) and romanceHolds(party)
+    and not liedToUrsel(party) and not drownedSold(party) and not urselAsked(party) "Ursel stops in the middle of Freezeland Street, by the ribboned booth of the Ice Chapel, where Parson Doody is sweeping the step for the noon wedding. She looks at the board that says MARRIAGES for a long time. 'Forty years,' she says, 'I've never given my hand on anything.' She does not look at you. 'They say a hand on the ice is landed at two and good for life. And they say a wedding on the ice that isn't landed goes out with the river, and there's an end of it.' She looks at you then. 'I'd shake on the second kind,' says Ursel Cobb. 'With you. And then see.'" then {
+    Assert urselAsked(party). }
+  Entity handfast_bargain: bargain "a handfast with Ursel Cobb, at the Ice Chapel".
+  Action shake_ursel(actor: group, site: place) "Take Ursel's hand, in the Ice Chapel, and shake" {
+    Grave "A hand shaken on the ice binds. This one will be cried at the Landing with the rest, unless you both let it go out with the river.".
+    Requires able(actor) and company(actor) and at(actor, site) and urselAsked(actor) and travelsWith(ursel, actor) and not handfast(actor) and not urselDeclined(actor)
+      and (at(actor, chapel) or at(actor, freezeland_low)) and not iceGone().
+    Time 1.
+    On success { Assert handfast(actor). Assert shook(actor, handfast_bargain). Assert shook(ursel, handfast_bargain). Increase quantity(doody, gold) by 1. }
+    Result "Parson Doody, who has been listening from the step with his broom, says 'A shilling,' and you give him one, and he does it in the doorway of the Ice Chapel with his broom under his arm, in about a minute, with a cold in his head. Ursel gives you her hand. It is the first time. Her grip is very hard and her hand is shaking. 'There,' she says, when it is done, and laughs, too loud, and wipes her eyes on her cape. 'There. Now we'll see.'".
+  }
+  Topic ursel_not_ice with ursel travelling "Tell Ursel you'll not shake on it on the ice" when urselAsked(actor) and not handfast(actor) and not urselDeclined(actor) once {
+    Says "'No.' She nods, quickly, as if you had told her the price of something. 'No, you're right. Not on the ice.' She is quiet. Then: 'Somewhere it doesn't melt, then. Or nowhere.' She does not say which she thinks. She puts her arm through yours for the length of Freezeland Street, and then takes it out again.".
+    On discuss { Assert urselDeclined(actor). }
+  }
+}

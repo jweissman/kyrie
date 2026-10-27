@@ -1,0 +1,58 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The Perpetual Frost Company ───────────────────────────────────────────────────────────────────────────────────
+  // Mr. Ambrose Quarle, natural philosopher, sincerely believes the Lisk can be kept frozen for ever by his patent
+  // freezing salts, and is selling shares at five coin in a Company to do it. He is not a fraud: salt on ice will
+  // freeze a tub of water solid in an hour. A tub is not a river. Half the Wool Exchange has bought, and Harker
+  // heavily, on credit, against the price of fleece.
+  Person quarle "Mr. Ambrose Quarle" at freezeland_low {
+    Role "a natural philosopher in a scorched coat, with a tub". Ancestry human. Calling mage. Level 2. Peaceable. Pronouns he. Manner cheerful.
+    Greets "'Sir! Madam! Friend! Observe!' Mr. Quarle seizes your sleeve and points into his tub. 'Water. Common Lisk water, from the hole by the bridge. And in an hour, by my patent salts, ice. Ice! In a tub! On ice!' He beams. 'Imagine it on a river.'".
+    Greets again "'Ah! Observe!' says Mr. Quarle, and points into his tub.".
+  }
+  Rule quarle_day when hour(clock) >= 9 and hour(clock) < 16 and not iceGone() and not quarleRuined(quarle) and not at(quarle, freezeland_low) { Assert at(quarle, freezeland_low). }
+  Rule quarle_exchange when hour(clock) >= 16 and hour(clock) < 19 and not quarleRuined(quarle) and not at(quarle, exchange_floor) { Assert at(quarle, exchange_floor). }
+  Rule quarle_night when (hour(clock) >= 19 or hour(clock) < 9) and not at(quarle, calf_taproom) { Assert at(quarle, calf_taproom). }
+  Relation quarleRuined(group). Relation frostCrashed(place). Relation quarleCream(group). Relation shareBought(group).
+  Observe tub_scene at freezeland_low when at(quarle, freezeland_low) and not quarleCream(quarle) "By the printing booth a man in a scorched coat has set up a trestle and a wooden tub, and a board: THE PERPETUAL FROST COMPANY. SHARES FIVE COIN. THE RIVER KEPT FOR EVER. A small crowd watches the tub, in which, very slowly, as they watch, a skin of ice is forming on the water.".
+  Observe cream_scene at freezeland_low when at(quarle, freezeland_low) and quarleCream(quarle) "Mr. Quarle's tub has a new board: QUARLE'S FROST-CREAM, A PENNY. A queue of children reaches to the Frozen Lamb.".
+  Topic quarle_salts with quarle "Ask Mr. Quarle how his salts work" when true once {
+    Says "'Ah.' He lowers his voice, as to a fellow initiate. 'Common salt, and saltpetre, and a third thing, which is my secret, packed about a vessel on the ice. The cold is drawn out of the ice into the salt, and out of the water into the cold, and the water freezes.' He taps the tub. 'If a tub, why not a river? It is only a question of salt, and men, and capital. I need men to cut and pack the ice; nobody will cut ice in a frost. I need capital: hence the Company.' He beams. 'Half the Exchange is in. Master Harker has taken two hundred shares.'".
+    On discuss { Assert knows(actor, quarle_needs). Assert knows(actor, harker_shares). }
+  }
+  Discovery quarle_needs "Mr. Quarle needs men to cut and pack ice for his Perpetual Frost Company, and nobody will cut ice in a frost.".
+  Discovery harker_shares "Master Harker has taken two hundred shares in Mr. Quarle's Perpetual Frost Company, on credit, against the price of fleece at the thaw.".
+  Kind share_kind "a share in the Perpetual Frost Company" is gear worth 0 weighing 0 described "An engraved certificate, very handsome: THE PERPETUAL FROST COMPANY, ONE SHARE, with a picture of the Lisk frozen under a smiling sun, and Ambrose Quarle's signature, which is larger than the sun.".
+  Item share "a share in the Perpetual Frost Company" is share_kind at limbo.
+  Action buy_share(actor: group, site: place) "Buy a share in the Perpetual Frost Company, for five coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(quarle, site) and quantity(actor, gold) >= 5 and not shareBought(actor) and not frostCrashed(lisk).
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(quarle, gold) by 5. Assert shareBought(actor). Retract at(share, limbo). Assert at(share, site). }
+    Result "Mr. Quarle signs your share with a flourish that goes off the edge of the paper. 'You will tell your grandchildren,' he says, 'that you were in at the beginning of the end of thaws.'".
+  }
+  // At the Exchange, in front of the factors: why a tub is not a river.
+  Observe exchange_scene at exchange_floor when not visitedBefore(exchange_floor) "The Wool Exchange: a hall of pillars and a floor marked out in chalk, and on the floor forty factors in fur collars buying and selling, very loudly, fleece that is still on sheep they have never seen, for delivery at a shearing that has not come, at a price that will be decided by a thaw nobody can name. Slates on the wall chalk the price of Swale grey, Fell white and the Perpetual Frost Company, which is rising.".
+  Observe exchange_again at exchange_floor when visitedBefore(exchange_floor) "The Wool Exchange: fur collars, chalk, the slates. The Perpetual Frost Company is still rising.".
+  Observe exchange_crashed at exchange_floor when frostCrashed(lisk) "On the slates of the Exchange the Perpetual Frost Company has been rubbed out and chalked in again lower four times, and then rubbed out. Factors stand about in groups not looking at each other.".
+  Action expose_frost(actor: group, site: place) "Explain to the Exchange, before Mr. Quarle, why a tub on the ice is not a river" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, exchange_floor) and at(quarle, exchange_floor) and knows(actor, quarle_needs) and not frostCrashed(lisk) and not exposeTried(actor).
+    Time 2.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert frostCrashed(lisk). Assert exposeTried(actor). Assert harkerShort(harker). }
+    On failure { Assert exposeTried(actor). }
+    Result "You do it with chalk, on the Exchange floor, in front of forty factors and Mr. Quarle: the ice gives its cold to the salt; the salt is used up; a tub has a bottom and sides and a river has the sea at one end and the hills at the other, and the whole of the summer coming down it. You would need, you work out on the floor, more salt than there is in the country, every day, for ever. There is a silence. Then the first factor goes to the slates with a cloth. By dusk the Perpetual Frost Company is worth nothing, and Master Harker, they say on the Exchange, is two hundred shares and a great deal of credit the poorer, and short of coin.".
+    Otherwise "You try, with chalk, and get the sums tangled, and Mr. Quarle very kindly corrects you, and the factors laugh, and the Company goes up a penny.".
+  }
+  Relation exposeTried(group). Relation harkerShort(group).
+  // Mr. Quarle, ruined or not, can be shown what his salts are good for.
+  Action quarle_ices(actor: group, site: place) "Tell Mr. Quarle that what his salts would freeze best is cream, with honey in it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(quarle, site) and knows(actor, quarle_needs) and not quarleCream(quarle)
+      and (craft(actor, craft_trade) or craft(actor, craft_learning) or frostCrashed(lisk) or carries(actor, honey)).
+    Time 1.
+    On success { Assert quarleCream(quarle). Retract quarleRuined(quarle). }
+    Result "He looks at you, and at the tub, for a long time. Then he goes to the Frozen Lamb and comes back with a jug of cream from Bel, and a spoon, and some honey, and packs the salts round a pewter pot, and turns it, and turns it, muttering. An hour later he gives you the first spoonful, in the cold, on the ice. It is the best thing you have ever eaten. 'It is not perpetual,' says Mr. Quarle sadly, licking the spoon. 'It does not last at all.' He brightens. 'That is rather the point of it, I think.'".
+  }
+  Rule quarle_ruined when frostCrashed(lisk) and not quarleCream(quarle) and not quarleRuined(quarle) { Assert quarleRuined(quarle). }
+  Observe quarle_sad near quarle when quarleRuined(quarle) "Mr. Quarle sits by his tub with his board turned face down, watching the water freeze, very slowly, as if it were the only thing in the world that had never let him down.".
+  // Watermen set to cutting ice for him: work, which keeps the saws off the Reach.
+  Observe quarle_men at freezeland_low when quarleHasMen(quarle) and at(quarle, freezeland_low) and not quarleCream(quarle) "Half a dozen young watermen are cutting blocks of ice out of the river by the printing booth with their great saws and packing them in straw for Mr. Quarle, singing, and getting paid for it.".
+}
