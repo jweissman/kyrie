@@ -1,0 +1,58 @@
+Module hessel "The Banns at Hessel" {
+  // ── The four days and a morning ───────────────────────────────────────────────────────────────────────────────────
+  // Hessel's days are counted from the company's coming, at each six o'clock after the first hour it is here: the day
+  // it comes is the first. The Season ends at noon on the fifth, when the coaches go. Nothing here names a month: the
+  // Season is Hessel's own, whatever the calendar of the country round it says.
+  Measure dayN(place). Relation dawned(place).
+  Initially Set dayN(hessel_town) to 1.
+  Rule dawn_counts when hour(clock) == 6 and not dawned(hessel_town) and watch(clock) >= 6 { Increase dayN(hessel_town) by 1. Assert dawned(hessel_town). }
+  Rule dawn_passes when hour(clock) != 6 and dawned(hessel_town) { Retract dawned(hessel_town). }
+  Query firstDay() means dayN(hessel_town) == 1.
+  Query secondDay() means dayN(hessel_town) == 2.
+  Query thirdDay() means dayN(hessel_town) == 3.
+  Query fourthDay() means dayN(hessel_town) == 4.
+  Query fifthDay() means dayN(hessel_town) >= 5.
+  Query daytime() means hour(clock) >= 7 and hour(clock) < 21.
+  Query morning() means hour(clock) >= 7 and hour(clock) < 12.
+  Query pumpHour() means hour(clock) >= 8 and hour(clock) < 10.
+  Query noonHour() means hour(clock) >= 12 and hour(clock) < 15.
+  Query evening() means hour(clock) >= 19 and hour(clock) < 23.
+  Query smallHours() means hour(clock) >= 0 and hour(clock) < 5.
+  // The night is the night of the day just gone until six: the second night is the one after the second day.
+  Query nightOf(n: place) means smallHours() and dayN(hessel_town) == dayN(n) + 1.
+  // The Season's end: the coaches go at noon on the fifth day.
+  Query seasonOver() means fifthDay() and hour(clock) >= 12 or dayN(hessel_town) >= 6.
+
+  // ── Where the company is ──────────────────────────────────────────────────────────────────────────────────────────
+  // A company that has come into Hessel at all: every ending and every fate asks it, so that a Season that ended
+  // while the company was elsewhere does not close a book it was never in.
+  Relation cameToHessel(group).
+  // The rooms of the town (city.kyr marks each), and of the road to Orm.
+  Relation townRoom(place). Relation roadRoom(place).
+  Rule came_in when at(party, ?p) and townRoom(?p) and not cameToHessel(party) { Assert cameToHessel(party). }
+  Query inHessel() means at(party, ?p) and townRoom(?p).
+  Query onOrmRoad() means at(party, ?p) and roadRoom(?p).
+  // A place the company has left and come back to is told shortly.
+  Relation visitedNow(place). Relation visitedBefore(place).
+  Rule arrives_at when at(party, ?p) and not visitedNow(?p) { Assert visitedNow(?p). }
+  Rule leaves_from when visitedNow(?p) and not at(party, ?p) { Retract visitedNow(?p). Assert visitedBefore(?p). }
+  // What a place shows the company the first time, it shows until the company has learned it and gone away; then the
+  // place says it plainly. (A line held only until it is known would be gone before the page that shows it is drawn.)
+  Relation teachesAt(entity, place). Relation teachesNear(entity, group). Relation seenOnce(entity).
+  Rule seen_once_at when knows(party, ?f) and teachesAt(?f, ?p) and not at(party, ?p) and not seenOnce(?f) { Assert seenOnce(?f). }
+  Rule seen_once_near when knows(party, ?f) and teachesNear(?f, ?g) and at(?g, ?p) and not at(party, ?p) and not seenOnce(?f) { Assert seenOnce(?f). }
+  Initially Assert teachesAt(celia_book, carth_drawing).
+  Initially Assert teachesAt(celia_candle, crescent).
+  Initially Assert teachesAt(celia_hand, crescent).
+  Initially Assert teachesAt(ismay_watches, cherrett_parlour).
+  Initially Assert teachesAt(tryst_seen, sham_castle).
+  Initially Assert teachesAt(rupert_married, hetty_shop).
+  Initially Assert teachesNear(rupert_public, scrope).
+  Initially Assert teachesNear(kit_public, scrope).
+  Initially Assert teachesNear(drops_public, scrope).
+  Initially Assert teachesNear(nan_public, scrope).
+  Initially Assert teachesNear(window_public, scrope).
+  Initially Assert teachesNear(ruin_public, scrope).
+  // News already told, so it is not told twice.
+  Relation spread(fact).
+}

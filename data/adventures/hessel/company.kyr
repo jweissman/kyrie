@@ -1,0 +1,7 @@
+Module hessel "The Banns at Hessel" {
+  // The campaign played alone: a stranger coming up the south road into Hessel at nine in the morning, on the first of
+  // the Season's last four days, with a little money and no letters of introduction. (placed.kyr is the world's own
+  // company, come over the march by the same road.)
+  Company party "You" of 1 at south_road.
+  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.
+}

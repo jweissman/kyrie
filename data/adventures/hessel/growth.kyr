@@ -1,0 +1,32 @@
+Module hessel "The Banns at Hessel" {
+  // ── What the company grows by ─────────────────────────────────────────────────────────────────────────────────────
+  // Experience for what is resolved: a chair stopped, a door opened, a man made brave, a woman let alone.
+  Milestone m_chair "stopped Mrs Cherrett's chair" worth 100 when chairCaught(cherrett) or chairSteered(cherrett).
+  Milestone m_kit_kept "kept Kit Danby on the poles" worth 50 when kitDefended(kit).
+  Milestone m_legs "became Mrs Cherrett's legs" worth 50 when legs(party).
+  Milestone m_rooms "got Mrs Cherrett back into the Rooms" worth 150 when householdAdmitted(cherrett).
+  Milestone m_brocca "got Signor Brocca up the hill in time" worth 150 when broccaDone(brocca) and twissOwes(party) or broccaDone(brocca) and twissFavour(twiss) >= 2 and broccaSober(brocca).
+  Milestone m_fares "settled the chairmen's fares" worth 100 when faresRestored(chairmen).
+  Milestone m_stood "stood with the chairmen" worth 100 when stoodWith(party).
+  Milestone m_drops_found "found out what was in Mrs Cherrett's drops" worth 100 when knows(party, drops_doubled).
+  Milestone m_drops_stopped "kept Mrs Cherrett awake" worth 250 when not doubled(cherrett) and not gone(cherrett) and cameToHessel(party).
+  Milestone m_rupert "found out Rupert Wenlock's secret" worth 100 when knows(party, rupert_married).
+  Milestone m_family "put Jack in Lady Wenlock's arms" worth 250 when grandmother(lady_wenlock).
+  Milestone m_banns "stopped the banns" worth 150 when bannsStopped(ebbas).
+  Milestone m_kit_ismay "brought Ismay and Kit to the Sham Castle" worth 200 when kitEngaged(kit).
+  Milestone m_blessing "got Mrs Cherrett's blessing on a chairman" worth 200 when cherrettBlessesKit(cherrett).
+  Milestone m_poem "made a poem of what was seen" worth 150 when poemGood(rob) and celiaHasPoem(celia).
+  Milestone m_knocker "found out who knocks at Carth House" worth 150 when knows(party, nan_is_lady).
+  Milestone m_gervase "sat up with Sir Gervase" worth 150 when gervaseTold(gervase).
+  Milestone m_celia_out "brought Celia Carth out into the Season" worth 200 when celiaOut(celia).
+  Milestone m_mother "brought Celia to her mother" worth 200 when celiaMetMother(celia).
+  Milestone m_door "saw the door of Carth House opened" worth 400 when carthReunited(carth).
+  Milestone m_ottery "walked Dr Ottery to Orm" worth 150 when ottTurned(party).
+  Milestone m_child "stayed while Ottery saw to the shepherd's child" worth 100 when childTreated(party).
+  Milestone m_witness "stood witness for Dr Ottery" worth 150 when otteryLicensed(ottery).
+  Milestone m_lease "got Mopsa Gedge her house" worth 200 when mopsaHouse(mopsa).
+  Milestone m_mopsa "was accepted by Mopsa Gedge" worth 200 when mopsaYes(party).
+  Milestone m_hartopp "saw Dr Hartopp out of the Rooms" worth 150 when hartoppBarred(hartopp).
+  Milestone m_last_dance "got Mrs Cherrett her last dance" worth 300 when cherrettDanced(cherrett).
+  Milestone m_licence "married someone by a licence from Orm" worth 150 when married(couple_kit) or married(couple_rob) or married(couple_mopsa).
+}

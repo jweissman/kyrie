@@ -1,0 +1,127 @@
+Module hessel "The Banns at Hessel" {
+  // ── Mr Pyne ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The curate of Saint Ebba's, twenty-four. He has read banns for two years and has never once been answered at "If
+  // any of you know cause". He has a recurring dream in which he is. This Sunday, he will be, or he will not.
+  Person pyne "Mr Pyne" at vestry {
+    Role "the curate of Saint Ebba's, very young, very thin, very clean". Ancestry human. Calling cleric. Level 1. Peaceable. Pronouns he. Manner compassionate.
+    Greets "The young curate jumps up from the vestry table as if you had caught him at something, which you have: he was practising, under his breath, the form for the publication of banns. 'Oh!' he says. 'Forgive me. How may I serve you?'".
+    Greets again "Mr Pyne smiles at you nervously.".
+    Wants licence_kind.
+  }
+  Rule pyne_vestry when not at(pyne, vestry) and not readingNow() and not weddingNow() and hour(clock) >= 7 and hour(clock) < 20 { Assert at(pyne, vestry). }
+  Rule pyne_reads when readingNow() and not at(pyne, ebba_nave) { Assert at(pyne, ebba_nave). }
+  Rule pyne_weds when weddingNow() and not at(pyne, ebba_nave) { Assert at(pyne, ebba_nave). }
+  Rule pyne_bed when (hour(clock) >= 20 or hour(clock) < 7) and not at(pyne, limbo) { Assert at(pyne, limbo). }
+  Relation pyneReady(group).
+  Topic pyne_dream with pyne "Ask Mr Pyne about the banns" when not bannsDone(ebbas) and not bannsWithdrawn(ebbas) once {
+    Says "'The Cherrett and Wenlock banns.' Mr Pyne turns the register round so you can see the two entries in his own careful hand. 'Sunday will be the third time of asking.' He swallows. 'I have read banns for two years. Forty-one couples. At If any of you know cause, or just impediment, I pause, as the rubric directs, for the space of a breath, and nobody has ever said anything.' He looks at the vestry window. 'I dream about it. I dream someone stands up, and I don't know what to do, and the whole church looks at me, and I wake up.' He tries to laugh. 'Every Saturday night.'".
+  }
+  Topic pyne_warned with pyne "Tell Mr Pyne what he will hear on Sunday if he pauses long enough: that Rupert Wenlock is married already" when knows(actor, rupert_married) and not pyneReady(pyne) and not bannsDone(ebbas) and not bannsWithdrawn(ebbas) once {
+    Says "Mr Pyne sits down. He goes very white, and then, oddly, he goes calm, the way a man does when the thing he has been dreading turns out to be a thing. 'Married,' he says. 'Then it is an impediment. A true one.' He takes up the prayer book and finds the place. 'The rubric says pause. It does not say for how long.' He looks at you. 'I shall pause,' says Mr Pyne, 'until somebody says something, if it takes all morning. And I shall look at Mr Wenlock while I do it.'".
+    On discuss { Assert pyneReady(pyne). }
+  }
+
+  // ── The third reading ─────────────────────────────────────────────────────────────────────────────────────────────
+  // Sunday, morning service at eleven. At ten past, Mr Pyne publishes the banns of Ismay Cherrett and Rupert Wenlock for
+  // the third time of asking, and pauses. In the pause anyone may speak. At twenty past, the pause is over.
+  Relation bannsWithdrawn(place). Relation bannsDone(place). Relation readingBegun(place). Relation bannsStopped(place).
+  Relation stoppedByCompany(place). Relation stoppedByRupert(place). Relation stoppedByHetty(place). Relation ismayObjected(place).
+  Query readingNow() means thirdDay() and hour(clock) == 11 and not bannsWithdrawn(ebbas) and not bannsDone(ebbas).
+  Measure readingWatch(place).
+  Rule reading_begins when readingNow() and not readingBegun(ebbas) { Assert readingBegun(ebbas). Set readingWatch(ebbas) to watch(clock). }
+  Query inPause() means readingBegun(ebbas) and readingNow() and watch(clock) >= readingWatch(ebbas) + 1 and watch(clock) <= readingWatch(ebbas) + 2.
+  // The congregation gathers for service: those who would be in church.
+  Rule church_cherrett when readingNow() and cherrettUp() and not at(cherrett, ebba_nave) { Assert at(cherrett, ebba_nave). }
+  Rule church_ismay when readingNow() and not at(ismay, ebba_nave) and not ismayAway(ismay) { Assert at(ismay, ebba_nave). }
+  Rule church_rupert when readingNow() and not at(rupert, ebba_nave) and not rupertAway(rupert) { Assert at(rupert, ebba_nave). }
+  Rule church_wenlock when readingNow() and not at(lady_wenlock, ebba_nave) and not wenlockGone(wenlock) { Assert at(lady_wenlock, ebba_nave). }
+  Rule church_mopsa when readingNow() and not at(mopsa, ebba_nave) and not mopsaAway(mopsa) and not mopsaHouse(mopsa) { Assert at(mopsa, ebba_nave). }
+  Rule church_scrope when readingNow() and not at(scrope, ebba_nave) { Assert at(scrope, ebba_nave). }
+  Observe reading_scene at ebba_nave when readingNow() and not inPause() "Saint Ebba's is full for morning service: the Season in its Sunday best, fanning itself under the memorial tablets. The Cherretts are in the third pew; the Wenlocks across the aisle; Mrs Scrope behind both, where she can see.".
+  Observe pause_scene at ebba_nave when inPause() "Mr Pyne reads it, in his clear young voice: I publish the banns of marriage between Ismay Cherrett, spinster, of this parish, and the Honourable Rupert Wenlock, bachelor, of the parish of Saint Cuthbert. This is the third time of asking. If any of you know cause, or just impediment, why these two persons should not be joined together in holy matrimony, ye are to declare it. And he stops. Saint Ebba's waits. Somebody coughs. Mr Pyne does not go on.".
+  Observe pause_ready at ebba_nave when inPause() and pyneReady(pyne) "Mr Pyne is looking straight at Rupert Wenlock, and does not look away, and does not go on, and goes on not going on. The pause stretches. The Season begins to look at the curate, and then at where the curate is looking.".
+  // In the pause.
+  Action declare_cause(actor: group, site: place) "Stand up and declare the cause: that Rupert Wenlock has a wife living" {
+    Grave "Before the whole Season, in church. It cannot be unsaid.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ebba_nave) and inPause() and knows(actor, rupert_married) and not bannsStopped(ebbas).
+    Time 2 minutes.
+    On success { Assert bannsStopped(ebbas). Assert bannsWithdrawn(ebbas). Assert stoppedByCompany(ebbas). Assert scandal(wenlock). }
+    Result "You stand up. Every head in Saint Ebba's turns, with the sound a field of barley makes. You say it: that the Honourable Rupert Wenlock has a wife living, Hetty Wenlock, born Quiney, milliner, of Quay Lane, and a son. Mr Pyne closes the book. 'Then these banns are void,' he says, in a voice that does not shake at all; he sounds, if anything, relieved. Across the aisle Lady Wenlock rises, and walks out of the church without looking at anyone, and Rupert sits with his head bowed, and Mrs Scrope is already halfway to the door.".
+  }
+  Action rupert_rises(actor: group, site: place) "Look at Rupert Wenlock, and wait" {
+    Description "He swore every Sunday he would.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ebba_nave) and inPause() and at(rupert, ebba_nave) and (rupertBrave(rupert) or rupertConfessed(rupert) and pyneReady(pyne)) and not bannsStopped(ebbas).
+    Time 2 minutes.
+    On success { Assert bannsStopped(ebbas). Assert bannsWithdrawn(ebbas). Assert stoppedByRupert(ebbas). Assert rupertSpoke(rupert). }
+    Result "Rupert Wenlock feels you looking. He looks back. Then, very slowly, as if his legs belonged to somebody else, he stands up in the Wenlock pew, with his pill-box in his hand, and says to the whole of Saint Ebba's in a voice that cracks on the first word and then does not: 'I do. I know cause. I have a wife. Her name is Hetty and she makes bonnets in Quay Lane and we have a son called Jack. I'm sorry, Miss Cherrett. I'm so sorry. I should have said it the first time.' He sits down. Nobody breathes. Then, from the back of the church, where the servants and the chairmen stand, a man's voice says, 'Well done, sir,' and it is Big Lanyon.".
+  }
+  Relation rupertSpoke(group).
+  Action hetty_speaks(actor: group, site: place) "Bring Hetty Quiney forward with the baby" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ebba_nave) and inPause() and following(hetty, actor) and not bannsStopped(ebbas).
+    Time 2 minutes.
+    On success { Assert bannsStopped(ebbas). Assert bannsWithdrawn(ebbas). Assert stoppedByHetty(ebbas). Assert scandal(wenlock). Retract following(hetty, actor). Assert at(hetty, ebba_nave). }
+    Result "Hetty Quiney walks up the aisle of Saint Ebba's in her best bonnet with Jack on her hip, and stops by the Wenlock pew, and says to Mr Pyne quite clearly: 'He's mine. We were married in Bristol, two years since, and that's his son.' Jack, seeing his father, holds out his arms and shouts. Rupert takes him. It is the only thing he could have done, and he does it.".
+  }
+  Action ismay_stands(actor: group, site: place) "Stand up beside Ismay, if she means to say anything" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ebba_nave) and inPause() and at(ismay, ebba_nave) and ismayBrave(ismay) and not bannsStopped(ebbas) and not ismayObjected(ebbas).
+    Time 2 minutes.
+    On success { Assert ismayObjected(ebbas). }
+    Result "You stand up, and after a moment, so does Ismay, beside you, with her prayer book shut on her finger. 'I don't consent,' she says, to Mr Pyne, to the church, to her grandmother. 'I'm sorry, Mr Wenlock. I don't consent to it.' Mr Pyne looks at her with enormous sympathy. 'Miss Cherrett,' he says gently, 'that is not an impediment. That is an opinion.' And somebody laughs, and then the whole church laughs, not unkindly, and Ismay goes scarlet and does not sit down.".
+  }
+  // Ismay's opinion, said aloud in church, makes Rupert ashamed to be less brave than she was, if he has confessed to
+  // anyone at all.
+  Rule rupert_shamed when ismayObjected(ebbas) and inPause() and rupertConfessed(rupert) and at(rupert, ebba_nave) and not bannsStopped(ebbas)
+    says "Rupert Wenlock looks at the girl standing scarlet in the Cherrett pew, and stands up too, as if pulled. 'It's not an opinion,' he says. 'It's not only an opinion. I have a wife.'" {
+    Assert bannsStopped(ebbas). Assert bannsWithdrawn(ebbas). Assert stoppedByRupert(ebbas). Assert rupertSpoke(rupert). }
+  // Nobody speaks: the pause ends, and the banns are good.
+  Rule pause_ends when readingBegun(ebbas) and not bannsStopped(ebbas) and not bannsWithdrawn(ebbas) and watch(clock) > readingWatch(ebbas) + 2 and not bannsDone(ebbas)
+    says "Mr Pyne lets out his breath. Nobody has said anything. He goes on, a little unsteadily, to the second lesson; and after the service, at the door, Lady Wenlock shakes Mrs Cherrett's hand with two fingers and says, 'Monday, then.'" {
+    Assert bannsDone(ebbas). }
+  Rule pause_ends_away when thirdDay() and hour(clock) >= 12 and not bannsStopped(ebbas) and not bannsWithdrawn(ebbas) and not bannsDone(ebbas) { Assert bannsDone(ebbas). }
+  // After a stopped reading, everyone goes home; Rupert goes down the hill to Quay Lane.
+  Rule reading_scatters when bannsStopped(ebbas) and thirdDay() and hour(clock) >= 12 and not rupertAway(rupert) and not grandmother(lady_wenlock) { Assert rupertAway(rupert). Assert at(rupert, hetty_shop). }
+  Observe rupert_with_hetty at hetty_shop when rupertAway(rupert) and at(rupert, hetty_shop) "Rupert Wenlock is behind Hetty's counter in his shirt-sleeves with the baby on his knee, and his hat on the peg, and he does not get up when you come in, because he is home.".
+
+  // ── Monday at ten ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // The banns read and unanswered, the wedding is at ten on the fourth morning. Hetty is on the steps with Jack, and
+  // Rupert cannot walk past them. It is not a scene she meant to make; it is the scene there is.
+  Query weddingNow() means fourthDay() and hour(clock) == 10.
+  Relation weddingBroken(place).
+  Rule wedding_on_steps when weddingNow() and bannsDone(ebbas) and not bannsWithdrawn(ebbas) and not weddingBroken(ebbas) {
+    Assert weddingBroken(ebbas). Assert bannsWithdrawn(ebbas). Assert scandal(wenlock). Assert ismayJilted(ismay). Assert at(hetty, abbey_yard). }
+  Relation ismayJilted(group).
+  Rule wedding_told at abbey_yard when weddingBroken(ebbas) and weddingNow() and not spread(wedding_told) says "At ten o'clock the Abbey Yard is full of the Season come to see the canal money marry the peerage. On the steps of Saint Ebba's a young woman in a good bonnet is standing with a baby on her hip, not making a scene; only standing. Rupert Wenlock comes across the yard in a blue coat with a flower in it, and sees her, and stops. He stands there in front of the whole Season for what feels like a long time. Then he goes up the steps, past the church door, to her, and takes the baby, and stands beside her; and the Season understands, all at once, the way a crowd does. Inside the church Ismay Cherrett is waiting at the altar on her grandmother's arm, and Mr Pyne has to go and tell her." { Assert spread(wedding_told). }
+  Entity wedding_told: fact "the wedding at Saint Ebba's".
+
+  // ── A licence from Orm ────────────────────────────────────────────────────────────────────────────────────────────
+  // The bishop's surrogate at Orm grants marriage licences, without banns, for a fee; his clerk at the gate will sell
+  // one with the names left blank, for a consideration, which is not lawful and is done every day.
+  Kind licence_kind "a marriage licence from the surrogate at Orm, with the names left blank" is treasure worth 0 weighing 0.
+  Person surrogate_clerk "the surrogate's clerk" at orm_gate {
+    Role "a clerk at a little desk by the wicket of Orm's gate, with a stack of printed forms". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "The clerk at the little desk by the wicket looks up. 'Licences,' he says. 'Marriage, without banns, from the bishop's surrogate. Names, parishes, a sworn statement of no impediment, eight shillings.' He looks at you more closely. 'Or fifteen, and the names left blank, and no questions, and I never saw you.'".
+    Sells licence_kind for 15 coin from 1.
+  }
+  Rule clerk_hours when hour(clock) >= 9 and hour(clock) < 17 and not at(surrogate_clerk, orm_gate) { Assert at(surrogate_clerk, orm_gate). }
+  Rule clerk_home when (hour(clock) >= 17 or hour(clock) < 9) and not at(surrogate_clerk, limbo) { Assert at(surrogate_clerk, limbo). }
+  // Given to Mr Pyne, a licence marries whichever couple it is filled in for, at nine the next morning, in Saint Ebba's.
+  Relation pyneHasLicence(group). Relation licensedFor(entity). Relation married(entity). Measure weddingDay(group).
+  Entity couple_kit: fact "Kit Danby and Ismay Cherrett". Entity couple_rob: fact "Rob Cherrett and Celia Carth". Entity couple_mopsa: fact "you and Mopsa Gedge".
+  Event pyne_takes_licence near pyne when keeps(pyne, ?l) and itemKind(?l, licence_kind) and not pyneHasLicence(pyne) "Mr Pyne turns the licence over. 'The names are blank,' he says. He looks at the surrogate's seal, which is real, and at the blank spaces, which are also real, and goes a little pink. 'I'm told this is done,' he says. 'I'm told it's done every day.' He dips his pen. 'Whose?'" then {
+    Assert pyneHasLicence(pyne). }
+  Topic licence_kit with pyne "Ask Mr Pyne to fill in the licence for Kit Danby, chairman, and Ismay Cherrett" when pyneHasLicence(pyne) and not licensedFor(couple_rob) and not licensedFor(couple_mopsa) and not licensedFor(couple_kit) and (kitEngaged(kit) or cherrettBlessesKit(cherrett)) and bannsWithdrawn(ebbas) once {
+    Says "Mr Pyne writes the names in his careful hand. 'Christopher Danby, chairman, of Stall Street. Ismay Cherrett, spinster, of this parish.' He sands it. 'Nine o'clock tomorrow,' he says. 'Tell them to come early. I'll unlock the side door.' He smiles, for the first time since you have known him, as if he had done something wicked and enjoyed it.".
+    On discuss { Assert licensedFor(couple_kit). Set weddingDay(pyne) to dayN(hessel_town) + 1. }
+  }
+  Topic licence_rob with pyne "Ask Mr Pyne to fill in the licence for Rob Cherrett and Celia Carth" when pyneHasLicence(pyne) and not licensedFor(couple_rob) and not licensedFor(couple_mopsa) and not licensedFor(couple_kit) and celiaOut(celia) and robCeliaSpoke(rob) once {
+    Says "'Celia Carth.' Mr Pyne's pen stops. 'Of Carth House? The girl nobody has seen?' He writes it anyway. 'Nine o'clock tomorrow. If her father comes with a sword I shall read the service faster.'".
+    On discuss { Assert licensedFor(couple_rob). Set weddingDay(pyne) to dayN(hessel_town) + 1. }
+  }
+  Topic licence_mopsa with pyne "Ask Mr Pyne to fill in the licence for yourself and Mopsa Gedge" when pyneHasLicence(pyne) and not licensedFor(couple_rob) and not licensedFor(couple_mopsa) and not licensedFor(couple_kit) and mopsaYes(party) once {
+    Says "Mr Pyne writes your name, and Mopsa's, and looks up. 'Miss Gedge,' he says. 'Who reads at the back of the Rooms. She told me once my sermon on the talents was the only one she'd ever stayed awake through.' He sands it. 'Nine o'clock tomorrow.'".
+    On discuss { Assert licensedFor(couple_mopsa). Set weddingDay(pyne) to dayN(hessel_town) + 1. }
+  }
+  Rule licence_wedding when licensedFor(?c) and not married(?c) and dayN(hessel_town) >= weddingDay(pyne) and hour(clock) >= 9 and hour(clock) < 12 { Assert married(?c). }
+  Rule wedding_seen at ebba_nave when married(?c) and hour(clock) == 9 and not spread(licence_wedding_told) says "Nine o'clock on a weekday at Saint Ebba's: the side door, Mr Pyne in a surplice too big for him, the pew-opener and the sexton for witnesses, and the whole thing over in a quarter of an hour, which is as long as it needs to be." { Assert spread(licence_wedding_told). }
+  Entity licence_wedding_told: fact "the wedding by licence".
+}

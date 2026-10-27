@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "city.kyr",
+    "cherretts.kyr",
+    "rooms.kyr",
+    "oldtown.kyr",
+    "carth.kyr",
+    "orm.kyr",
+    "banns.kyr",
+    "ball.kyr",
+    "endings.kyr",
+    "growth.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "hessel",
+    "south_road": "south_road"
+  },
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "experience": 800
+}

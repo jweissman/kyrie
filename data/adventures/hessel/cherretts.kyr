@@ -1,0 +1,312 @@
+Module hessel "The Banns at Hessel" {
+  // ── Mrs Cherrett ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Seventy-four. Her husband cut half the canals in three countries and she cooked for his gangs; now she has forty
+  // thousand pounds, a heart that is giving out, and three young people to settle before it does. She takes Dr
+  // Hartopp's drops at night for the pain, and knows what is in them. She does not know he has doubled them.
+  Person cherrett "Mrs Abigail Cherrett" at cherrett_parlour {
+    Role "a vast old woman in purple, with a laugh like a dropped coal-scuttle" when not gone(cherrett).
+    Role "Mrs Cherrett, who did not wake" when gone(cherrett).
+    Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "The old woman looks you up and down as if you were a horse she might buy. 'Well,' she says. 'Sit down where I can see you.'".
+    Greets again "Mrs Cherrett waves you to a chair with her stick.".
+  }
+  Relation gone(group). Relation bedbound(group). Relation legs(group).
+  // She keeps her room until she is up; the Pump Room at eight if she is well; her parlour by day; bed at ten.
+  Query cherrettUp() means not gone(cherrett) and not bedbound(cherrett) and chairRan(cherrett).
+  Rule cherrett_pump when cherrettUp() and not lingering(cherrett) and pumpHour() and not secondDayOnRoad() and not at(cherrett, pump_room) and failing(cherrett) < 4 { Assert at(cherrett, pump_room). }
+  Rule cherrett_parlour when not gone(cherrett) and not lingering(cherrett) and hour(clock) >= 10 and hour(clock) < 22 and not at(cherrett, cherrett_parlour) and not atBall(cherrett) and not bedbound(cherrett) and chairRan(cherrett) { Assert at(cherrett, cherrett_parlour). }
+  Rule cherrett_bed when (hour(clock) >= 22 or hour(clock) < 8 or bedbound(cherrett) and not lingering(cherrett) or gone(cherrett)) and not at(cherrett, cherrett_bedroom) and not atBall(cherrett) and chairRan(cherrett) { Assert at(cherrett, cherrett_bedroom). }
+  Rule cherrett_mends when bedbound(cherrett) and dayN(hessel_town) >= 2 and hour(clock) >= 8 { Retract bedbound(cherrett). }
+  Query secondDayOnRoad() means false.
+  Observe cherrett_parlour_scene at cherrett_parlour when true "Mrs Cherrett's parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant's foot. The window looks down over the Circus lawn.".
+  Observe cherrett_bed_scene at cherrett_bedroom when true "Mrs Cherrett's bedroom: a great curtained bed, a fire though the night is warm, and on the dressing-table among the pins and powders a little brown bottle with a handwritten label.".
+  Observe cherrett_awake at cherrett_parlour when at(cherrett, cherrett_parlour) and failing(cherrett) < 3 and not gone(cherrett) "Mrs Cherrett sits in the middle of it all like the stuffed pike's mother, with her stick across her knees, and misses nothing.".
+  Observe cherrett_drowsy at cherrett_parlour when at(cherrett, cherrett_parlour) and failing(cherrett) == 3 and not gone(cherrett) "Mrs Cherrett is asleep in her chair with her mouth open, at eleven in the morning; she wakes when you come in, says 'I wasn't,' and is asleep again before you are sat down.".
+  Observe cherrett_grey at cherrett_parlour when at(cherrett, cherrett_parlour) and failing(cherrett) >= 4 and not gone(cherrett) "Mrs Cherrett is in her chair, grey in the face, with her eyes half open and her hands slack on her stick. Mopsa is beside her, holding one of them, and does not look up.".
+  Observe cherrett_sharp at cherrett_parlour when at(cherrett, cherrett_parlour) and sharpened(cherrett) and dayN(hessel_town) == sharpDay(cherrett) and hour(clock) < 14 and not gone(cherrett) "Mrs Cherrett is wide awake, in a temper, and enjoying it. 'Slept like a cat on a griddle,' she says, to nobody. 'Best night's sleep I've had in a month.'".
+
+  // ── The runaway chair ─────────────────────────────────────────────────────────────────────────────────────────────
+  // The first time the company is in the Abbey Yard by day, Mrs Cherrett's bath-chair comes down the Parade without its
+  // chairman. Kit Danby let go of the strap at the top because he looked up and saw Ismay on the Circus steps.
+  Relation chairRan(group). Relation chairLoose(group). Relation chairCaught(group). Relation chairSteered(group).
+  Relation chairThrown(group). Measure chairWatch(group).
+  Hazard chair_blow "The bath-chair's wheel, and the railings" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Event chair_runs at abbey_yard when at(party, abbey_yard) and daytime() and cameToHessel(party) and not chairRan(cherrett) "Somebody at the top of the Parade screams, and then everybody does. Down the hill toward you, gathering speed on the ridged paving, comes a bath-chair, a great wicker thing on three iron wheels, and in it, upright and furious and holding on to her bonnet, a very large old woman in purple. Behind it, much too far behind it, a chairman in a blue coat is running and shouting. The chair is aimed at the Pump Room colonnade, and the colonnade is stone." then {
+    Assert chairRan(cherrett). Assert chairLoose(cherrett). Set chairWatch(cherrett) to watch(clock).
+    Assert at(cherrett, abbey_yard). Assert at(kit, abbey_yard). Assert lingering(cherrett). Assert kitAway(kit). }
+  // For half an hour after, the old woman and the chairman are in the Abbey Yard, being stared at.
+  Relation lingering(group).
+  Rule linger_over when lingering(cherrett) and watch(clock) > chairWatch(cherrett) + 3 { Retract lingering(cherrett). Retract kitAway(kit). }
+  Action catch_chair(actor: group, site: place) "Get in front of the bath-chair and catch it by the handle" {
+    Description "It is very heavy and moving very fast.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbey_yard) and chairLoose(cherrett).
+    Time 1 minute.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Retract chairLoose(cherrett). Assert chairCaught(cherrett). Increase goodwill(chairmen) by 1. }
+    On failure { Retract chairLoose(cherrett). Assert chairThrown(cherrett). Assert bedbound(cherrett). Assert strikes(chair_blow, party). }
+    Result "You plant your feet on the ridges and take the chair's handle full in the chest, and for a moment it is a question which of you is going to go on down the hill. Then it stops. The old woman in it lets go of her bonnet. 'Well,' she says, looking at you. 'Well, well.' The whole Abbey Yard is staring. A man in the Pump Room colonnade begins, for some reason, to clap.".
+    Otherwise "You get a hand to the handle and the chair takes you off your feet and goes on with you under it, and hits the bottom step of the colonnade, and turns over. The old woman comes out of it like a sack off a cart. People run. When they have her up she is sitting on the step with her bonnet over one eye and her ankle swelling, saying words a canal gang would know. They are going to carry her up the hill to her lodgings in the Circus, in her own chair.".
+  }
+  Action steer_chair(actor: group, site: place) "Seize the side of the chair and drag it round into the church railings" {
+    Description "It will stop. It will not stop gently.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbey_yard) and chairLoose(cherrett).
+    Time 1 minute.
+    On success { Retract chairLoose(cherrett). Assert chairSteered(cherrett). Assert strikes(chair_blow, party). }
+    Result "You catch the side of the chair as it comes level and haul it round, and it leaves the colonnade and goes instead into the railings of Saint Ebba's with a noise like a dropped dresser, and stops, half in and half out of them, with a wheel going round in the air. Your arm is wrenched half out of its socket. The old woman in it straightens her bonnet. 'That,' she says, 'is the second time in my life a stranger has thrown me at a church.'".
+  }
+  // Whatever else the company does, the chair goes on: the next watch it hits the colonnade.
+  Rule chair_crashes at abbey_yard when chairLoose(cherrett) and watch(clock) > chairWatch(cherrett) says "The chair goes past you and hits the bottom step of the colonnade and turns over, and the old woman comes out of it like a sack off a cart. When the crowd has her up she is sitting on the step with her ankle swelling, swearing like a canal gang. They are going to carry her up to her lodgings in the Circus, in her own chair." {
+    Retract chairLoose(cherrett). Assert chairThrown(cherrett). Assert bedbound(cherrett). }
+  Rule chair_crashes_away when chairLoose(cherrett) and watch(clock) > chairWatch(cherrett) and not at(party, abbey_yard) {
+    Retract chairLoose(cherrett). Assert chairThrown(cherrett). Assert bedbound(cherrett). }
+  // Kit is blamed for a thrown chair, and turned off by the evening, unless somebody speaks for him.
+  Relation kitDismissed(group). Relation kitDefended(group).
+  Rule kit_turned_off when chairThrown(cherrett) and not kitDefended(kit) and not kitDismissed(kit) and (hour(clock) >= 18 or dayN(hessel_town) >= 2) {
+    Assert kitDismissed(kit). }
+  Topic defend_kit with cherrett "Tell Mrs Cherrett it was not the chairman's fault" when chairThrown(cherrett) and not kitDismissed(kit) and not kitDefended(kit) once {
+    Says "'Not his fault!' says Mrs Cherrett, from her cushions. 'He let go of me on the Parade! He let go of me like a hot potato!' She glares at you. Then, because she is fair, she thinks. 'What did he let go for, then?' You do not know. 'Well,' she says. 'Well. I'll not turn a man off for a thing nobody can explain to me. Tell him he can carry me tomorrow. Tell him if he drops me again I'll have him stuffed and put beside the pike.'".
+    On discuss { Assert kitDefended(kit). Increase goodwill(chairmen) by 1. Increase kitTrust(kit) by 1. }
+  }
+
+  // ── Taken up ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // After the chair, she wants the company. If it caught or steered her, at once and at the foot of the Parade; if it
+  // let her go, from her bed, when somebody brings her word that it was the stranger who tried.
+  Topic cherrett_takes_you with cherrett "Ask the old woman if she is hurt" when chairCaught(cherrett) or chairSteered(cherrett) once {
+    Says "'Hurt? I cooked for four hundred navvies on the Delve cut through the wettest winter God ever sent,' says the old woman. 'I am Abigail Cherrett, and I am not hurt. I am dying, but that's another thing, and not your fault.' She looks at you again, longer. 'You've got legs,' she says. 'Mine are done, and that one's are' (the chairman, scarlet, holding his hat) 'evidently not to be trusted. I've a granddaughter to marry, and a great-nephew, and a companion, by the Closing Ball on Monday, and I'm in a town where I can't get up a hill. I'll pay you to be my legs for the Season. Fetch and carry. Go where I can't. Tell me what's what.' She sticks out a hand the size of a spade. 'Mrs Cherrett's lodgings, the Circus. Come up when you've a mind to say yes.'".
+    On discuss { Assert cherrettAsked(party). }
+  }
+  Relation cherrettAsked(group).
+  Topic cherrett_from_bed with cherrett "Tell Mrs Cherrett you were the one who tried to stop her chair" when chairThrown(cherrett) and not cherrettAsked(party) once {
+    Says "Mrs Cherrett looks at you from her pillows with her ankle up on a bolster. 'You were the one,' she says. 'I saw you go under. That was brave and it was no use, which is most of what brave is.' She pats the coverlet. 'I'm in a town where I can't get up a hill, and now I can't get up at all. I've a granddaughter to marry, and a great-nephew, and a companion, by the Closing Ball. I'll pay you to be my legs. Fetch and carry; go where I can't; tell me what's what.'".
+    On discuss { Assert cherrettAsked(party). }
+  }
+  Topic say_yes with cherrett "Tell Mrs Cherrett you will be her legs for the Season" when cherrettAsked(party) and not legs(party) and at(cherrett, ?p) and (at(party, cherrett_parlour) or at(party, cherrett_bedroom)) once {
+    Says "'Good,' she says, and counts five coins into your hand out of a purse like a pudding-cloth. 'That's for now. There's more for results.' She settles back. 'Now. Here's what I want. Ismay, my granddaughter, is to marry the Honourable Rupert Wenlock on Monday; the banns are read the third time on Sunday, at Saint Ebba's; you'll see it isn't spoiled. Rob, my great-nephew, has my money after me and nothing in his head but poetry, and he's to be engaged by the Ball on Monday to a sensible girl, I've three in mind. And Mopsa, my companion, is twenty-eight and has no money and a tongue on her, and she must be married off before she's a poor relation, which is the worst thing a woman can be, I've seen it.' She folds her hands on her stick. 'And Mr Twiss has barred me from his Rooms, for laughing at a minuet, so none of it can be done at the Ball unless that's mended. Well? Go on.'".
+    On discuss { Assert legs(party). Increase quantity(actor, gold) by 5. }
+  }
+  // The question she puts, once the company has been her legs a day: what would you do?
+  Relation cherrettAskedPlace(group). Relation saidLetChoose(group). Relation saidMoney(group). Relation saidAskThem(group).
+  Event cherrett_question near cherrett when legs(party) and addressed(cherrett, party) and dayN(hessel_town) >= 2 and not gone(cherrett) and failing(cherrett) < 4 and not cherrettAskedPlace(party) "Mrs Cherrett is quiet for a while, which is not like her. 'You're from outside,' she says. 'You don't care who's a Wenlock. Tell me straight. If you were me, and you had forty thousand pounds and three young people and not long, what would you do?'" then { Assert cherrettAskedPlace(party). }
+  Topic answer_choose with cherrett "Tell her: let them choose, and give them the money anyway" when cherrettAskedPlace(party) and not saidLetChoose(party) and not saidMoney(party) and not saidAskThem(party) once {
+    Says "'Let them choose,' says Mrs Cherrett, as if tasting it. 'Let Ismay choose. Ismay would choose a book.' But she does not laugh. 'My father chose for me,' she says. 'He chose a chandler from Wem with a wooden leg and a shop. I chose Josiah Cherrett, who had nothing but a shovel and a laugh.' She looks at the canal map on the wall. 'Get out,' she says. 'I'm thinking.'".
+    On discuss { Assert saidLetChoose(party). Increase softened(cherrett) by 1. }
+  }
+  Topic answer_money with cherrett "Tell her: marry them to money and name, and let love come after" when cherrettAskedPlace(party) and not saidLetChoose(party) and not saidMoney(party) and not saidAskThem(party) once {
+    Says "'That's what I'm doing,' says Mrs Cherrett, pleased. 'That's sense. That's what anyone with any sense would tell me.' She nods at you, as at a convert. It is only later, going down the stairs, that you remember she asked because she wanted someone to tell her something else.".
+    On discuss { Assert saidMoney(party). }
+  }
+  Topic answer_ask with cherrett "Tell her: ask them, each one, what they want, and listen to the answer" when cherrettAskedPlace(party) and not saidLetChoose(party) and not saidMoney(party) and not saidAskThem(party) once {
+    Says "'Ask them.' Mrs Cherrett looks at you as if you had suggested she ask the furniture. 'They'd tell me what they think I want to hear. Everybody does. I've forty thousand pounds.' She is quiet. 'Except Mopsa,' she says. 'Mopsa tells me what she thinks. I pay her for it, which is a funny way round.'".
+    On discuss { Assert saidAskThem(party). Increase softened(cherrett) by 1. }
+  }
+  Measure softened(group).
+
+  // ── The Hessel drops ──────────────────────────────────────────────────────────────────────────────────────────────
+  // Laudanum, mostly, with a little cardamom so that it tastes of a physician. She takes it each night at ten. Since she
+  // put Hartopp in her will, a month ago, he has doubled it. Each night of a doubled dose takes something out of her
+  // that the day does not put back; on the fifth night of it she will not wake. She came to Hessel a night into it.
+  Measure failing(group). Initially Set failing(cherrett) to 1.
+  Relation dosed(group). Relation doubled(group). Relation sharpened(group). Relation dosedTonight(group).
+  Initially Assert dosed(cherrett). Initially Assert doubled(cherrett).
+  Rule night_dose when hour(clock) == 22 and dosed(cherrett) and not dosedTonight(cherrett) and not gone(cherrett) {
+    Assert dosedTonight(cherrett). }
+  Rule night_doubled when hour(clock) == 22 and dosed(cherrett) and doubled(cherrett) and dosedTonight(cherrett) and not nightCounted(cherrett) and not gone(cherrett) {
+    Increase failing(cherrett) by 1. Assert nightCounted(cherrett). }
+  Relation nightCounted(group).
+  // A night without the doubled dose gives a little back.
+  Rule night_mends when hour(clock) == 23 and not doubled(cherrett) and not nightCounted(cherrett) and failing(cherrett) > 1 and not gone(cherrett) {
+    Decrease failing(cherrett) by 1. Assert nightCounted(cherrett). }
+  Rule night_mends_undosed when hour(clock) == 23 and not dosed(cherrett) and doubled(cherrett) and not nightCounted(cherrett) and failing(cherrett) > 1 and not gone(cherrett) {
+    Decrease failing(cherrett) by 1. Assert nightCounted(cherrett). }
+  Rule night_resets when hour(clock) == 12 and (dosedTonight(cherrett) or nightCounted(cherrett)) { Retract dosedTonight(cherrett). Retract nightCounted(cherrett). }
+  Rule she_sharpens when not dosed(cherrett) and hour(clock) == 8 and not sharpened(cherrett) and not gone(cherrett) { Assert sharpened(cherrett). Set sharpDay(cherrett) to dayN(hessel_town). }
+  Measure sharpDay(group).
+  // The fifth doubled night: she does not wake.
+  Rule she_goes when failing(cherrett) >= 5 and hour(clock) >= 6 and hour(clock) < 9 and not gone(cherrett) {
+    Assert gone(cherrett). Assert at(cherrett, cherrett_bedroom). }
+  Rule she_goes_told at cherrett_lodging when gone(cherrett) and not spread(cherrett_death) and (at(party, cherrett_parlour) or at(party, cherrett_bedroom) or at(party, circus)) says "The blinds of Mrs Cherrett's lodgings are down. In the parlour Mopsa Gedge is sitting very straight on one of the chairs nobody sits on, with her hands in her lap. 'She didn't wake,' says Mopsa. 'I went in with her chocolate at eight and she hadn't woken.' She looks at the stuffed pike for a long time. 'She'd have hated that. She'd have wanted to be awake for it.'" { Assert spread(cherrett_death). }
+  Entity cherrett_death: fact "Mrs Cherrett's death".
+  Thing drops_bottle "the little brown bottle on the dressing-table" at cherrett_bedroom {
+    Tries looking.
+    State full "A little brown bottle of Hessel drops, nearly full.".
+    State watered "A little brown bottle of Hessel drops, nearly full, of what is now the Pump Room's water.".
+    Change swap "Pour the drops into the fire, and fill the bottle from your own with Pump Room water" from full to watered consuming pump_bottle at cherrett_bedroom.
+  }
+  Initially Assert state(drops_bottle, full).
+  Discovery drops_label "The label on Mrs Cherrett's drops reads: HESSEL DROPS. FORTY AT NIGHT. A.H. Under it, in another hand, scratched out, TWENTY.".
+  Observe drops_looked near drops_bottle when tried(drops_bottle, looking) and not knows(party, drops_label) "You hold the bottle to the light. It smells of cloves and of something under the cloves, sweetish and heavy, that you would know again." teaches drops_label.
+  Discovery drops_doubled "Dr Hartopp has doubled Mrs Cherrett's drops, from twenty to forty at night, since she put him in her will a month ago. Laudanum, the most of it.".
+  Discovery cherrett_knows_drops "Mrs Cherrett knows her drops are laudanum. She takes them because her nights are bad, and she will not stop for being told what is in them.".
+  Topic ask_stop_drops with cherrett "Ask Mrs Cherrett to stop taking Dr Hartopp's drops" when not gone(cherrett) and dosed(cherrett) and (knows(actor, drops_label) or knows(actor, drops_doubled)) once {
+    Says "'The drops?' Mrs Cherrett laughs. 'I know what's in them, child. Poppy. I'm not a fool. I take them because at three in the morning my heart goes like a man knocking to be let in, and with them I sleep through it.' She pats your hand. 'Dr Hartopp is a fool and a fop and he'll have a hundred pounds of me when I'm gone, and I don't grudge it. He makes the nights short.' You start to say something about the dose, and she has already turned to ask for her shawl.".
+    On discuss { Assert knows(actor, cherrett_knows_drops). }
+  }
+  // Who can stop her: someone she loves, asking. Ismay, once she has the courage to ask her grandmother for anything;
+  // Mopsa, if she is sure of not being put in the street for it; Ottery, whom she trusts because he told her the truth.
+  Relation stoppedBy(group, group).
+  Rule cherrett_stops when stoppedBy(cherrett, ?who) and dosed(cherrett) { Retract dosed(cherrett). Retract doubled(cherrett). }
+  // The swap: Pump Room water in Hartopp's bottle, at her dressing-table. She sleeps worse and wakes sharper, and never
+  // knows; the water is threepence a bottle from the pumper, who sells it for invalids to take home.
+  Kind pump_bottle "a bottle of the Pump Room's water" is treasure worth 0 weighing 0.
+  Relation swapped(group).
+  Rule drops_watered when state(drops_bottle, watered) and not swapped(cherrett) { Assert swapped(cherrett). Retract dosed(cherrett). Retract doubled(cherrett). }
+  // Mopsa will do it, if she is given the water and trusts the company: she is expected at the dressing-table.
+  Relation swapCaught(group).
+  // Mopsa will do it, if she is asked and trusts the company enough: her hands are steadier, and she is expected.
+  Event mopsa_swaps near mopsa when keeps(mopsa, ?w) and itemKind(?w, pump_bottle) and knows(party, drops_doubled) and mopsaRegard(mopsa) >= 2 and state(drops_bottle, full) "Mopsa weighs the bottle in her hand. 'Water,' she says. 'Hot water from a marble urn, threepence a glass, the cure for everything. The joke is that it's the honest thing in the house.' She puts it in her pocket. 'Tonight. She won't notice; she doesn't look at the bottle, she looks at the clock.'" then {
+    Assert state(drops_bottle, watered). }
+  Event mopsa_puzzled near mopsa when keeps(mopsa, ?w) and itemKind(?w, pump_bottle) and (not knows(party, drops_doubled) or mopsaRegard(mopsa) < 2) and state(drops_bottle, full) "Mopsa looks at the bottle, and at you. 'Thank you,' she says. 'I've always wanted a bottle of hot water. I shall keep it by me.' She puts it on the mantelpiece, between the stuffed pike and the clock, and looks at you as if you were a riddle she has decided not to guess.".
+
+  // ── Ismay ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person ismay "Ismay Cherrett" at cherrett_parlour {
+    Role "a quiet young woman with a ledger and ink on her finger". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "The young woman at the table by the window looks up from her ledger with grey, steady eyes. 'You're the one who stopped Grandmother,' she says, if you did; if you didn't, she says nothing at all, and waits.".
+    Greets again "Ismay looks up from her accounts, and puts down her pen.".
+  }
+  Rule ismay_pump when pumpHour() and cherrettUp() and not at(ismay, pump_room) and not ismayAway(ismay) and not following(ismay, party) and not travelsWith(ismay, party) { Assert at(ismay, pump_room). }
+  Rule ismay_home when not pumpHour() and not ismayNoon() and not at(ismay, cherrett_parlour) and not ismayAway(ismay) and not ismayOut(ismay) and not atBall(ismay) and not following(ismay, party) and not travelsWith(ismay, party) { Assert at(ismay, cherrett_parlour). }
+  // At noon, while her grandmother sleeps after the Pump Room, she walks up to the Sham Castle with a book, alone.
+  Query ismayNoon() means hour(clock) == 12 and not gone(cherrett) and not readingNow().
+  Rule ismay_walks when ismayNoon() and not at(ismay, sham_castle) and not ismayAway(ismay) and not ismayOut(ismay) and not following(ismay, party) and not travelsWith(ismay, party) { Assert at(ismay, sham_castle). }
+  Observe ismay_at_castle at sham_castle when at(ismay, sham_castle) and not kitEngaged(kit) "Ismay Cherrett is sitting in the shade at the back of the Sham Castle on a fallen stone, with a book she is not reading, where nobody in the Crescent can see her.".
+  Relation ismayAway(group). Relation ismayOut(group).
+  // In the mornings while Kit's chair waits in the Circus, she is at the window.
+  Discovery ismay_watches "In the mornings, while Kit Danby's chair waits on the Circus for her grandmother, Ismay stands at the parlour window with her ledger open and does not turn a page.".
+  Observe ismay_at_window at cherrett_parlour when at(ismay, cherrett_parlour) and at(kit, circus) and morning() and not seenOnce(ismay_watches) "Ismay is standing at the window with her ledger open in her hands. Down on the Circus lawn the chairmen are waiting with Mrs Cherrett's chair, sitting on its poles, and one of them, the young one, is reading a book. Ismay does not turn a page all the time you are in the room." teaches ismay_watches.
+  Discovery ismay_loves_kit "Ismay Cherrett loves Kit Danby, the chairman who carries her grandmother, and has for a year, and has told nobody but Mopsa.".
+  Relation ismayBrave(group). Relation ismayStoodBy(group).
+  Topic ismay_hello with ismay "Ask Ismay what she makes of Hessel" when true once {
+    Says "'Hessel?' Ismay considers it, the way she considers a column of figures. 'Everybody here is buying something,' she says. 'Health, or a husband, or a reputation, or just a look at somebody who has one. Grandmother is buying all three for us.' She turns her pen over. 'I keep the accounts. I know to the penny what I'm costing.'".
+  }
+  Topic ismay_rupert with ismay "Ask Ismay about the Honourable Rupert Wenlock" when true once {
+    Says "'He's kind,' says Ismay. 'He's very kind. He's frightened of his mother and he likes beetles. He has never once looked at me as if he saw me.' She is quiet. 'I don't think he wants to marry me any more than I want to marry him. I think he's frightened of something else, and I don't know what.' She looks at the window. 'The banns have been read twice. On Sunday it's the third time. Then it's done.'".
+  }
+  Topic ismay_kit_told with ismay "Tell Ismay that Kit Danby keeps her violet pressed in his book" when knows(actor, kit_violet) and not ismayKnowsViolet(ismay) once {
+    Says "Ismay goes white and then red and then white again, and puts her pen down very carefully as if it might go off. 'The violet,' she says. 'I dropped it on the Parade. In the spring. He picked it up and gave it back and I said keep it. I said keep it.' She looks at you. 'He kept it?' Then, because she is herself: 'Why are you telling me this? What do you want?'".
+    On discuss { Assert ismayKnowsViolet(ismay). Assert knows(actor, ismay_loves_kit). }
+  }
+  Relation ismayKnowsViolet(group).
+  Kind ismay_note "a folded note in Ismay Cherrett's hand" is treasure worth 0 weighing 0.
+  Item ismays_note "Ismay's note" is ismay_note at limbo.
+  Topic ismay_writes with ismay "Tell Ismay you will carry a note to Kit, if she writes one" when ismayKnowsViolet(ismay) and not noteWritten(ismay) and not grandmotherBy() once {
+    Says "She looks round, as if someone might be listening, though nobody is. Then she tears a page out of the back of her ledger (it is the first time in her life, you suspect, that she has torn a ledger) and writes quickly, and folds it twice. 'Don't read it,' she says. 'It isn't anything. It says where I walk at noon.' She puts it down beside her for you to take, and looks away. Her hand is shaking. 'Give it to him, not to the others. They'll laugh.'".
+    On discuss { Assert noteWritten(ismay). }
+  }
+  Relation noteWritten(group).
+  Query grandmotherBy() means at(ismay, ?p) and at(cherrett, ?p).
+  Rule note_set_down when noteWritten(ismay) and at(ismays_note, limbo) and at(ismay, ?p) { Assert at(ismays_note, ?p). }
+  Topic ismay_not_alone with ismay "Ask Ismay why she has not written to him while her grandmother is in the room" when ismayKnowsViolet(ismay) and not noteWritten(ismay) and grandmotherBy() once {
+    Says "Ismay looks at her grandmother, who is pretending to be asleep, and at you, and writes a sum in her ledger instead of answering. The sum is wrong. You have never seen her get one wrong.".
+  }
+  // Standing beside her: she can face her grandmother, or the church, if somebody has been with her once already.
+  Topic ismay_beside with ismay "Tell Ismay that if she means to say anything to her grandmother, you will be in the room" when ismayKnowsViolet(ismay) and not ismayStoodBy(ismay) once {
+    Says "'You'll be in the room,' says Ismay. 'Yes.' She closes the ledger. 'Nobody has ever been in the room. I've always been on my own with her. With all of it.' She puts both hands flat on the ledger. 'All right,' she says. 'All right. If you're there.'".
+    On discuss { Assert ismayStoodBy(ismay). Assert ismayBrave(ismay). }
+  }
+  // Once she is brave, and knows the drops are doubled, she asks her grandmother to stop: the first thing she has ever
+  // asked her for.
+  Topic ismay_drops with ismay "Tell Ismay that Dr Hartopp has doubled her grandmother's drops" when knows(actor, drops_doubled) and dosed(cherrett) and not gone(cherrett) once {
+    Says "Ismay listens with her pen in her hand. When you have finished she puts it down. 'Forty,' she says. 'I've seen the bills. It went up a month ago. I thought it was the price.' She stands up. 'I'm going to ask her,' she says, and then, as if hearing it, sits down again. 'I've never asked her for anything. Not once. Not a ribbon. You don't, with Grandmother; you wait to be given.'".
+    On discuss { Assert ismayKnowsDrops(ismay). }
+  }
+  Relation ismayKnowsDrops(group).
+  Action ismay_asks(actor: group, site: place) "Stand by Ismay while she asks her grandmother to stop the drops" {
+    Description "You will be in the room.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cherrett_parlour) and at(ismay, cherrett_parlour) and at(cherrett, cherrett_parlour)
+      and ismayKnowsDrops(ismay) and ismayBrave(ismay) and dosed(cherrett) and not gone(cherrett).
+    Time 2.
+    On success { Assert stoppedBy(cherrett, ismay). Increase softened(cherrett) by 1. }
+    Result "Ismay goes and kneels by her grandmother's chair, which nobody has seen her do since she was six, and says, 'Grandmother, I want you to stop taking Dr Hartopp's drops. He's doubled them. I don't want you to die asleep.' Mrs Cherrett looks at her granddaughter for a long time. 'You've never asked me for anything,' she says. 'Not a ribbon.' 'I'm asking now.' The old woman puts her great hand on Ismay's head. 'Then you can have it,' she says. 'God knows you can have it. Fetch me a hot brick for my feet instead, and tell that man he's dismissed.'".
+  }
+
+  // ── Rob ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person rob "Rob Cherrett" at cherrett_parlour {
+    Role "a long young man with ink on his cuffs and his hair in his eyes". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "The young man unfolds himself from the window-seat like a deck-chair. 'Hullo,' he says. 'Are you the one who's going to marry me off? I'm Rob. I've been dreading you.'".
+    Greets again "Rob looks up from his pocket-book and smiles, a little guiltily.".
+  }
+  // Mornings at home; the afternoon on the Crescent lawn, looking at the end house; the evening at the Rooms, if they
+  // are open to the household, or at the Two Poles if they are not.
+  Rule rob_home when hour(clock) >= 7 and hour(clock) < 12 and not at(rob, cherrett_parlour) and not robAway(rob) and not following(rob, party) and not travelsWith(rob, party) { Assert at(rob, cherrett_parlour). }
+  Rule rob_crescent when hour(clock) >= 12 and hour(clock) < 19 and not at(rob, crescent) and not robAway(rob) and not following(rob, party) and not travelsWith(rob, party) { Assert at(rob, crescent). }
+  Rule rob_evening when hour(clock) >= 19 and hour(clock) < 23 and not at(rob, two_poles) and not robAway(rob) and not atBall(rob) and not following(rob, party) and not travelsWith(rob, party) { Assert at(rob, two_poles). }
+  Rule rob_bed when (hour(clock) >= 23 or hour(clock) < 7) and not at(rob, cherrett_parlour) and not robAway(rob) and not following(rob, party) and not travelsWith(rob, party) { Assert at(rob, cherrett_parlour). }
+  Relation robAway(group).
+  Observe rob_on_lawn at crescent when at(rob, crescent) and not celiaOut(celia) "Rob Cherrett is lying on the Crescent lawn on his front, in the grass, with a pocket-book, looking at the shuttered house at the end and writing something and crossing it out.".
+  Discovery rob_loves_window "Rob Cherrett is in love with a face he has seen at a window of Carth House, the shuttered house at the end of the Crescent, by candlelight, at dusk. He has never spoken to her. He has written eleven poems.".
+  Topic rob_window with rob "Ask Rob what he is looking at" when at(rob, crescent) once {
+    Says "Rob rolls over on the grass. 'There's a girl,' he says. 'In the end house. At dusk she comes to the window with a candle, the only window in the whole place that isn't shuttered all the way, and stands there.' He sits up. 'I've written eleven poems. They're terrible. Aunt Abigail wants me engaged by Monday to a Miss Pinnock who breeds spaniels.' He hands you the pocket-book. The top poem begins, O Lady of the Lattice, Thou Pale and Pensive Maid. 'You see,' he says. 'Terrible.'".
+    On discuss { Assert knows(actor, rob_loves_window). }
+  }
+  Topic rob_cherrett_plans with rob "Ask Rob what he wants" when true once {
+    Says "'Want?' Rob thinks about it honestly, which is the nice thing about him. 'I want to write one good poem before I'm thirty,' he says. 'I want Aunt Abigail not to die, and she's going to. I want not to marry Miss Pinnock.' He looks away, toward the end of the Crescent, as if he could see it from wherever he is. 'I want to know who she is.'".
+  }
+
+  // ── Mopsa ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Twenty-eight, a clergyman's orphan, paid twenty pounds a year to read aloud, fetch shawls and be told she is a
+  // poor relation in the making. She wants one thing: to be her own mistress, in a house of her own, Number Four, Quay
+  // Lane, which is to let. She has hit Dr Hartopp with a warming-pan.
+  Person mopsa "Mopsa Gedge" at cherrett_parlour {
+    Role "a thin dark woman in grey, with a book, a shawl over her arm and an expression" when not mopsaHouse(mopsa).
+    Role "Mopsa Gedge, of Number Four, Quay Lane" when mopsaHouse(mopsa).
+    Ancestry human. Calling bard. Level 2. Peaceable. Pronouns she. Manner acerbic.
+    Greets "The woman in grey looks at you over the top of her book. 'You'll be the legs,' she says. 'I'm the tongue. Between us we make about half a person. Sit down; the chairs are worse than they look.'".
+    Greets again "Mopsa marks her place in her book with a finger, and waits for you to be interesting.".
+    Wants pump_bottle.
+    Joins "'I'll come,' says Mopsa. 'Somebody has to tell you what you're doing wrong, and I've a talent for it.'".
+  }
+  Measure mopsaRegard(group).
+  Relation mopsaHouse(group). Relation mopsaDismissed(group).
+  Rule mopsa_noon when hour(clock) >= 12 and hour(clock) < 14 and not at(mopsa, beacon) and not mopsaAway(mopsa) and not mopsaHouse(mopsa) and not gone(cherrett) and not following(mopsa, party) and not travelsWith(mopsa, party) { Assert at(mopsa, beacon). }
+  Rule mopsa_home when (hour(clock) < 12 or hour(clock) >= 14 or gone(cherrett)) and not at(mopsa, cherrett_parlour) and not mopsaAway(mopsa) and not mopsaHouse(mopsa) and not atBall(mopsa) and not following(mopsa, party) and not travelsWith(mopsa, party) { Assert at(mopsa, cherrett_parlour). }
+  Rule mopsa_own_house when mopsaHouse(mopsa) and not at(mopsa, no_four) and not mopsaAway(mopsa) and not atBall(mopsa) and (hour(clock) < 12 or hour(clock) >= 14) and not following(mopsa, party) and not travelsWith(mopsa, party) { Assert at(mopsa, no_four). }
+  Rule mopsa_own_noon when mopsaHouse(mopsa) and not at(mopsa, beacon) and not mopsaAway(mopsa) and hour(clock) >= 12 and hour(clock) < 14 and not following(mopsa, party) and not travelsWith(mopsa, party) { Assert at(mopsa, beacon). }
+  Relation mopsaAway(group).
+  Observe mopsa_on_beacon at beacon when at(mopsa, beacon) "Mopsa Gedge is walking on the Beacon by herself, fast, with her bonnet in her hand, as if she had somewhere to be and the somewhere were not here.".
+  Topic mopsa_household with mopsa "Ask Mopsa what she makes of the household" when true once {
+    Says "'The household.' Mopsa closes her book on her finger. 'Mrs Cherrett is the best woman in Hessel and has been told she is the vulgarest so often she's started to collect it, like china. Ismay is the cleverest and has been taught to be quiet about it. Rob is the kindest and has been taught nothing at all. I'm the companion.' She opens the book again. 'Companions don't make anything of anything. We're paid not to.'".
+    On discuss { Increase mopsaRegard(mopsa) by 1. }
+  }
+  Discovery twiss_form "To make an apology to Mr Twiss that he will accept: it must be made in his own parlour, between ten and six, by somebody of the household, in so many words, with the Rule that was broken named and the word 'regret' in it, not 'sorry'. Mr Twiss holds that 'sorry' is for servants and dogs.".
+  Topic mopsa_twiss with mopsa "Ask Mopsa how one apologises to Mr Twiss" when true once {
+    Says "'In his parlour,' says Mopsa at once. 'Between ten and six. By one of the household, in so many words. You name the Rule. You use the word regret. Never sorry. Mr Twiss holds that sorry is for servants and dogs.' She turns a page. 'She'll never do it. She laughed at the Countess of Arne's minuet because the Countess of Arne was dancing it like a heron with gout, and she'll die before she says she regrets it.' A pause. 'Which is soon, so we must hurry.'".
+    On discuss { Assert knows(actor, twiss_form). }
+  }
+  Discovery navvy_story "Mrs Cherrett's father meant her to marry a chandler with a shop. She ran off at nineteen with Josiah Cherrett, a navvy with a shovel and nothing else, and cooked for his gangs on the cuts for twenty years before there was any money at all.".
+  Topic mopsa_navvy with mopsa "Ask Mopsa how Mrs Cherrett came to marry" when mopsaRegard(mopsa) >= 1 once {
+    Says "Mopsa looks at you with something like approval. 'Now that's a good question. Nobody asks it, because they think they know: money married money.' She lowers her voice, not much. 'Her father kept a public on the Wem road and meant her for a chandler with a wooden leg and a shop. At nineteen she went out of the window to Josiah Cherrett, who was a navvy digging the Wem cut, with a shovel and a laugh and nothing else in the world, and cooked for his gang in a hut for twenty years before there was a penny.' She smiles, which is rare and alarming. 'She'll tell you she was a fool. Ask her if she'd do it again.'".
+    On discuss { Assert knows(actor, navvy_story). Increase mopsaRegard(mopsa) by 1. }
+  }
+  Topic mopsa_ismay with mopsa "Ask Mopsa whom Ismay loves" when mopsaRegard(mopsa) >= 2 and not knows(actor, ismay_loves_kit) once {
+    Says "Mopsa looks at you for so long that you think she will not answer. 'If I tell you,' she says, 'you'll go and do something about it. People like you always do.' She shuts her book. 'The young chairman. Danby. The one who reads. She's loved him for a year and she'll marry Rupert Wenlock on Monday and keep the Wenlock accounts until she dies, and never say a word about it, because nobody has ever told Ismay she's allowed to want anything.' She opens the book again, at the wrong page. 'Don't make it worse.'".
+    On discuss { Assert knows(actor, ismay_loves_kit). }
+  }
+  Discovery mopsa_wants "Mopsa Gedge wants the lease of Number Four, Quay Lane, a lodging-house in the Old Town, to be her own mistress in it: forty coin down to the agent, Mr Gilmour, and a character from someone he respects.".
+  Topic mopsa_want with mopsa "Ask Mopsa what she wants" when mopsaRegard(mopsa) >= 1 once {
+    Says "'Nobody,' says Mopsa, 'has ever asked me that in Hessel. In Hessel I'm a piece of furniture that reads aloud.' She considers you. 'A house. Number Four, Quay Lane, in the Old Town. Six rooms, a copper, a yard, a view of the laundries. To let, forty down to Mr Gilmour and a character from somebody he thinks is somebody. I'd take in lodgers. Invalids' maids and chairmen's widows and the curate. I would answer the door to nobody I didn't like.' She looks at the window. 'Mrs Cherrett means to marry me to a widower in Bath with five children. She means it kindly. Everybody means it kindly.'".
+    On discuss { Assert knows(actor, mopsa_wants). Increase mopsaRegard(mopsa) by 1. }
+  }
+  Topic mopsa_hartopp with mopsa "Ask Mopsa about Dr Hartopp" when true once {
+    Says "'Dr Hartopp.' Mopsa smiles thinly. 'Dr Hartopp attended Mrs Cherrett's heart in March and attended me on the back stairs in April, by surprise, from behind, at night. I happened to be carrying the warming-pan up to her bed.' She turns a page. 'It was a good heavy brass one. He wore his hat lower for a fortnight.' She looks up. 'He's doubled her drops since she put him in her will. I can't prove it and I'm the companion and nobody would listen if I could. There.'".
+    On discuss { Assert mopsaToldHartopp(mopsa). }
+  }
+  Relation mopsaToldHartopp(group).
+  Topic mopsa_laugh with mopsa "Laugh, about the warming-pan" when mopsaToldHartopp(mopsa) and not laughedWith(party) and not shockedAt(party) once {
+    Says "You laugh, and after a moment so does she, properly, with her head back, a laugh that nobody in the Circus has ever heard out of Mrs Cherrett's companion. 'Nobody's laughed,' she says, wiping her eyes. 'They've been shocked, or sorry for me, or they've asked if I gave him encouragement. You're the first that laughed.'".
+    On discuss { Assert laughedWith(party). Increase mopsaRegard(mopsa) by 1. }
+  }
+  Topic mopsa_shocked with mopsa "Ask her whether she gave him any encouragement" when mopsaToldHartopp(mopsa) and not laughedWith(party) and not shockedAt(party) once {
+    Says "Mopsa looks at you with no expression whatever. 'Yes,' she says. 'I said, good evening, Dr Hartopp, on the stairs. It was very forward of me.' She goes back to her book, and does not look up again while you are there.".
+    On discuss { Assert shockedAt(party). Set mopsaRegard(mopsa) to 0. }
+  }
+  Relation laughedWith(group). Relation shockedAt(group).
+  Topic mopsa_drops_ask with mopsa "Ask Mopsa to beg Mrs Cherrett to stop the drops" when knows(actor, drops_doubled) and dosed(cherrett) and not gone(cherrett) and not mopsaPromised(mopsa) once {
+    Says "'Me?' Mopsa puts her book down. 'I'm the companion. If I tell her her physician's killing her she'll turn me off by dinner for impertinence, and be dead by Tuesday all the same, and I'll be in the street with no character.' She looks at you hard. 'If you'll stand by me after. If she turns me off. If you'll see I'm not in the street.' She waits. 'Then I'll do it.'".
+    On discuss { Assert mopsaAskedTerms(mopsa). }
+  }
+  Relation mopsaAskedTerms(group). Relation mopsaPromised(group).
+  Topic mopsa_promise with mopsa "Promise Mopsa you will see she is not put in the street" when mopsaAskedTerms(mopsa) and not mopsaPromised(mopsa) and not gone(cherrett) once {
+    Says "Mopsa nods once, the way a man nods who has shaken on a horse. Then she gets up and goes across the room to Mrs Cherrett's chair and says, quite loudly, 'Ma'am. Dr Hartopp has doubled your drops since you put him in your will, and I think he means you to die of them, and I would rather you didn't.' The room is very quiet. Mrs Cherrett looks at her companion. 'Impudence,' she says. 'You're dismissed.' Then: 'Is it true?' 'Yes, ma'am.' A long silence. 'Then you're not dismissed,' says Mrs Cherrett. 'Give me that bottle. No; throw it on the fire. Dr Hartopp can whistle for his hundred pounds.' And to you, low, as Mopsa goes out of the room very fast: 'Did you put her up to that?' You say yes. 'Good,' says Mrs Cherrett.".
+    On discuss { Assert mopsaPromised(mopsa). Assert stoppedBy(cherrett, mopsa). Increase mopsaRegard(mopsa) by 2. Increase softened(cherrett) by 1. }
+  }
+}
