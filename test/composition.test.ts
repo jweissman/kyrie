@@ -89,7 +89,7 @@ describe('a kit that builds on another', () => {
     const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, 'fells');
     const price = m.composition!.placements.find(p => p.kit === 'bounty')!;
     expect(price.bindings).toEqual({ victim: 'fells__ford_green', power: 'knot__band', chief: 'knotFolk__chief',
-      band: 'knotFolk__raiders' });
+      band: 'knotFolk__raiders', lair: 'fells__knot_foot' });
     expect(m.modules.find(x => x.id === 'pricePatron')!.imports).toMatchObject({ chief: 'knotFolk.chief', band: 'knotFolk.raiders' });
   }, 60000);
   it('pays when the band is broken, whichever patron Deem proposed', async () => {
@@ -101,6 +101,8 @@ describe('a kit that builds on another', () => {
       const s = await PlaySession.start(at, 'fells', new OverlayBundleSource(source, { [at]: JSON.stringify(manifest) }));
       Compose.put(s, 'fells__ford_green');
       await s.perform(Compose.legal(s).find(c => c.startsWith('pricePatron__offer'))!);
+      // The offer says where the raiders hold out, and puts it on the company's map: somewhere to set out for.
+      expect(s.campaign.world.test(ModuleWriter.call('leadsTo', 'pricePatron__price', 'fells__knot_foot'))).toBe(true);
       const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
       c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('routed', 'knotFolk__raiders') },
         { kind: 'assert', call: ModuleWriter.call('routed', 'knotFolk__gaffer') }]));

@@ -2,6 +2,8 @@ Module widow_patron "A widow's price" {
   Description "A woman whose son went after the raiders and did not come back puts her savings on their chief: dead or run, she does not care which.".
   Entity party: group "Your company".
   Place town "The settlement the raiders prey on" is room.
+  // Where the raiders hold out: her word puts it on the company's map, somewhere to set out for.
+  Place lair "Where the raiders hold out" is room.
   Entity chief: group "The raiders' chief".
   Entity band: group "The raiders".
   // Known by how she is seen: nobody tells a stranger her name.
@@ -11,8 +13,9 @@ Module widow_patron "A widow's price" {
   }
   Entity price: fact "A widow will pay her savings and her son's ring for the raiders' chief, dead or run off.".
   Initially Assert established(price).
+  Initially Assert leadsTo(price, lair).
   Topic offer with widow "Ask the woman in black what she is waiting for" when true once {
-    Says "'For somebody to go up there,' she says, 'and do what my boy went to do.' She opens her hand: coins, and a ring. 'All I have, for {chief}. Dead or run, I don't care which. Just gone.'".
+    Says "'For somebody to go up there,' she says, looking toward {lair}, 'and do what my boy went to do.' She opens her hand: coins, and a ring. 'All I have, for {chief}. Dead or run, I don't care which. Just gone.'".
     On discuss { Assert knows(actor, price). }
   }
   Relation met(entity).

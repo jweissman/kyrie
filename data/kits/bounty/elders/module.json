@@ -3,8 +3,9 @@
   "source": "patron.kyr",
   "rules": ["world"],
   "globals": ["party"],
-  "imports": ["party", "town", "chief", "band"],
-  "roles": { "party": { "type": "group" }, "town": { "type": "place" }, "chief": { "type": "group" }, "band": { "type": "group" } },
+  "imports": ["party", "town", "chief", "band", "lair"],
+  "roles": { "party": { "type": "group" }, "town": { "type": "place" }, "chief": { "type": "group" }, "band": { "type": "group" },
+    "lair": { "type": "place" } },
   "exports": { "patron": "elders", "price": "price" },
   "experience": 300
 }

@@ -98,9 +98,11 @@ export class Itineraries {
     const here = world.one('at', actor), area = here ? this.area(byId, here) : undefined;
     const known = new Set([...told, ...[...visited].map(v => this.area(byId, v)?.id ?? v)]);
     // A place someone has told of is somewhere to set out for, whatever it is (a pit in the ground, a lone tower);
-    // somewhere been is, when it is a settlement, a site or the edge of the country.
+    // somewhere been is, when it is a settlement, a site or the edge of the country. One a step away is a way about
+    // here, not somewhere to set out for; but setting out toward a place in wild country is not the step into it (the
+    // raiders' hold a widow looks toward, a path's walk into the wood it stands in).
     return [...known].filter(id => id !== area?.id && (told.includes(id) || this.worth(byId.get(id))))
-      .flatMap(id => { const p = this.plan(campaign, id); return p && p.legs.length > 1 ? [p] : []; })
+      .flatMap(id => { const p = this.plan(campaign, id); return p && (p.legs.length > 1 || p.toward) ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
   }
   // The towns the roads the company knows go to, that it has not been to or been told of: the map draws them, and

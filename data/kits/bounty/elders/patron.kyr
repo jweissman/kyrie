@@ -2,6 +2,8 @@ Module elders_patron "The elders' price" {
   Description "The settlement's elders pool what they have to see the raiders' band broken, and will feed and house whoever breaks it for as long as they live.".
   Entity party: group "Your company".
   Place town "The settlement the raiders prey on" is room.
+  // Where the raiders hold out: their word puts it on the company's map, somewhere to set out for.
+  Place lair "Where the raiders hold out" is room.
   Entity chief: group "The raiders' chief".
   Entity band: group "The raiders".
   Person elders "the elders" at town {
@@ -13,8 +15,9 @@ Module elders_patron "The elders' price" {
   Initially Assert refusesService(elders, party).
   Entity price: fact "The elders will pay twenty-five crowns, pooled, to see the raiders' band broken, and feed whoever does it.".
   Initially Assert established(price).
+  Initially Assert leadsTo(price, lair).
   Topic offer with elders "Ask the elders what they are whispering about" when true once {
-    Says "'Them up there,' says the oldest, and doesn't need to point. 'We've put together what we can. Twenty-five crowns, to see that band broken: not the chief, the band, every last one run off or under. And whoever does it eats at our tables till they die.'".
+    Says "'Them up at {lair},' says the oldest, and doesn't need to point. 'We've put together what we can. Twenty-five crowns, to see that band broken: not the chief, the band, every last one run off or under. And whoever does it eats at our tables till they die.'".
     On discuss { Assert knows(actor, price). }
   }
   Relation met(entity).
