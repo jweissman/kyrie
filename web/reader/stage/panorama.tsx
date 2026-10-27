@@ -3,7 +3,9 @@ import type { Choice } from '../../../src/ui/choice-list';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 
-export interface Sight { bearing: string; distance: string; place: string; seen: string; by?: string; way?: string }
+export interface Sight {
+  bearing: string; distance: string; place: string; seen: string; by?: string; way?: string; beyond?: string;
+}
 // Somewhere the company could set out for, by its name, and the journey there as it is offered (see MenuModel).
 export interface Going { id: string; name: string; journey: Choice }
 
@@ -17,17 +19,19 @@ export class Panorama {
   static readonly known = /^You know it by its look: that is (.+)\.$/;
   static readonly credit = /^It is .+ that makes it out\.$/;
   static readonly way = /^The way to .+?: (.+)\.$/;
+  static readonly beyond = /^Beyond it, over the march: (.+)\.$/;
   static readonly compass = ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'];
   static readonly short: Record<string, string> = { north: 'N', 'north-east': 'NE', east: 'E', 'south-east': 'SE',
     south: 'S', 'south-west': 'SW', west: 'W', 'north-west': 'NW' };
   static readonly distances = ['not far off', 'some way off', 'a long way off', 'far off, through the glass'];
   // The sights among an exchange's lines, round the compass and nearest first, and which lines they were told in: a
-  // sight, the knowing of it that follows it, whose knowledge that was, and the way to it seen from up there.
+  // sight, the knowing of it that follows it, whose knowledge that was, the way to it seen from up there, and over a
+  // march, what is seen of the country beyond.
   static read(lines: Exchange['lines']): { sights: Sight[]; told: Set<number> } {
     const sights: Sight[] = [], told = new Set<number>();
     lines.forEach((l, i) => {
       const m = this.sight.exec(l.text), k = this.known.exec(l.text), w = this.way.exec(l.text), last = sights.at(-1);
-      const after = told.has(i - 1);
+      const after = told.has(i - 1), over = this.beyond.exec(l.text);
       if (m) {
         sights.push({ bearing: m[1]!, distance: m[2]!, place: m[3]!, seen: m[3]! });
         told.add(i);
@@ -39,6 +43,9 @@ export class Panorama {
         told.add(i);
       } else if (w && last && after) {
         last.way = `The way: ${w[1]!}.`;
+        told.add(i);
+      } else if (over && last && after) {
+        last.beyond = `Beyond it: ${over[1]!}.`;
         told.add(i);
       }
     });
@@ -61,7 +68,8 @@ export class Panorama {
             <span className="sighted"><span className="sight-name">{Typography.curl(Words.upper(s.place))}</span>
               {s.place !== s.seen && <span className="looked">{Typography.curl(`${Words.upper(s.seen)}. ${s.by ?? ''}`
                 .trim())}</span>}
-              {s.way && <span className="looked">{Typography.curl(s.way)}</span>}</span>
+              {s.way && <span className="looked">{Typography.curl(s.way)}</span>}
+              {s.beyond && <span className="looked beyond">{Typography.curl(s.beyond)}</span>}</span>
             <span className="off">{s.distance}{d?.journey.minutes ? ` · ${Words.span(d.journey.minutes)}` : ''}</span>
             {d && choose && <button type="button" className="act set-out" data-action="set-out" data-id={d.id}
               title={d.journey.label} onClick={() => choose(d.journey)}>Set out</button>}

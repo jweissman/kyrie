@@ -58,7 +58,7 @@ export interface Region extends Naming {
   // folk may know the country it is entered from (way).
   beyond?: Partial<Record<Side, { name: string; terrain: string; rumour?: string; heard?: string; topic?: string;
     notice?: { name: string; text: string; talk: string }; after?: { talk: string; told: string }; closed?: boolean;
-    way?: string }>>;
+    way?: string; skyline?: string }>>;
   // The authored countries its folk have heard of further off, beyond the countries next to theirs (Countries.further).
   further?: { side: Side; via: string; then: Side; name: string; terrain: string; far: string; id: string }[];
 }

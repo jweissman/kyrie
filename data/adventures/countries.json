@@ -1,5 +1,5 @@
 {
-  "about": "Authored countries a generated world may hold, each where its requirements fit: beyond a march on the side named, of a country of one of the terrains named. The first march a company reaches where one fits leads into it instead of a country drawn from the seed; each is placed once in a world (src/world/frontier.ts). Of the countries among one kind (the independent adventures), the first region's marches lead into only the one its seed chooses; the rest lie further out, each beyond a country drawn from the seed (Countries.plan), so that a world holds them all. Each says what the folk of the first region say of it (rumour, with {keeper} whoever keeps travellers in the town it is asked in), what it is asked about (topic), what the company knows of it once told (heard), what is said of it a country further off (far: \"where ...\"), and, for one whose news is posted, the notice every town of the first region has nailed up (notice); and, for one that says when it is seen through, how the talk goes there after and what whoever keeps travellers says to the company come back from it (after).",
+  "about": "Authored countries a generated world may hold, each where its requirements fit: beyond a march on the side named, of a country of one of the terrains named. The first march a company reaches where one fits leads into it instead of a country drawn from the seed; each is placed once in a world (src/world/frontier.ts). Of the countries among one kind (the independent adventures), the first region's marches lead into only the one its seed chooses; the rest lie further out, each beyond a country drawn from the seed (Countries.plan), so that a world holds them all. Each says what the folk of the first region say of it (rumour, with {keeper} whoever keeps travellers in the town it is asked in), what it is asked about (topic), what the company knows of it once told (heard), what is said of it a country further off (far: \"where ...\"), what is seen of it from somewhere high in the country next to it, over the march (skyline: the builder's, from what its folk say of it, for its authors to rewrite), and, for one whose news is posted, the notice every town of the first region has nailed up (notice); and, for one that says when it is seen through, how the talk goes there after and what whoever keeps travellers says to the company come back from it (after).",
   "countries": [
     {
       "id": "longman",
@@ -19,6 +19,7 @@
       "terrain": "mountain",
       "rumour": "'Up the north road there is Merrowdale,' says {keeper}. 'There is a long ridge across the head of the dale, and they say a giant king is buried under it. Something tall walks the crest at night. The steward has posted forty crowns to have it laid.'",
       "heard": "Up the north road lies Merrowdale, where a giant king is said to be buried under the long ridge, and something tall walks its crest at night.",
+      "skyline": "a long ridge laid straight across the head of a dale, too straight for a hill",
       "far": "a giant king is buried under a long ridge, and something tall walks its crest at night",
       "notice": {
         "name": "a notice from Merrowdale",
@@ -47,6 +48,7 @@
       "among": "independent",
       "rumour": "'East over the march, under the fells, there is a salt town, Saltgrave,' says {keeper}. 'People pay to sleep there, and some of them do not come home. And the giants have come down off the mountain, they say, for the first time anyone remembers.'",
       "heard": "East over the march lies Saltgrave, a salt town under the fells, where people pay to sleep and some do not come home, and the giants have come down off the mountain.",
+      "skyline": "smoke going up from salt-pans under the fells",
       "far": "people pay to sleep in a salt town under the fells, and some of them do not come home"
     },
     {
@@ -66,6 +68,7 @@
       "among": "independent",
       "rumour": "'South, in the Strewnfield,' says {keeper}, 'a room of glass fell into a barley field by Cobble Ring. It grows, they say, wherever nobody is watching it. They sit up with it all night on stools.'",
       "heard": "South over the march lies the Strewnfield, where a room of glass fell into a barley field by Cobble Ring, and grows wherever nobody watches it.",
+      "skyline": "a flash in the fields, like a window where no house stands",
       "far": "a room of glass fell into a barley field, and grows wherever nobody is watching it"
     },
     {
@@ -84,6 +87,7 @@
       "among": "independent",
       "rumour": "'West of here is the Corrow,' says {keeper}. 'There is a mountain hangs over it in the sky, on a chain, and they say it is drifting. And there is a well there nobody has been to the bottom of.'",
       "heard": "West over the march lies the Corrow, where a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of.",
+      "skyline": "a mountain hanging in the sky, with nothing under it but air",
       "far": "a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of"
     },
     {
@@ -103,6 +107,7 @@
       "among": "independent",
       "rumour": "'West, up on the Ghessil Uplands,' says {keeper}, 'there is a light lies on the glass that slows whatever drinks it. There are people standing in it, they say, that went in last autumn and are standing there yet, alive.'",
       "heard": "West over the march lie the Ghessil Uplands, where a light on the glass slows whatever drinks it, and people stand in it alive since last autumn.",
+      "skyline": "a light lying on the uplands that does not move when the clouds do",
       "far": "a light lies on the glass that slows whatever drinks it, and people stand in it alive"
     },
     {
@@ -122,6 +127,7 @@
       "among": "independent",
       "rumour": "'South over the march there's a city down the inside of a crater, Ammerlin,' says {keeper}. 'Their lake's been going down three years, and nobody there will believe anybody else about why. So they've sent out for someone from outside to measure it, and put their name to the answer. The Office of Measures pays, if you can count.'",
       "heard": "South over the march lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why.",
+      "skyline": "the rim of a great crater, with smoke going up out of it",
       "far": "a city down the inside of a crater is losing its lake, and nobody there believes anybody else about why"
     },
     {
@@ -137,6 +143,7 @@
       "terrain": "marsh",
       "rumour": "'Down the east road, where the marsh meets the sea, there's Tessary on the Ossel,' says {keeper}. 'Their legions came home from the war a week back, and they say some of the soldiers are getting up in the night and walking into the sea. Barefoot, in step, eyes open. An eel-wife there has put up a notice: she'll give her savings to anyone who can tell her where her boy went.'",
       "heard": "East over the march lies Tessary on the Ossel, where the legions have come home from the war and some of the soldiers walk into the sea at night; an eel-wife there offers her savings for news of her son.",
+      "skyline": "the smoke of a town where the marsh meets the sea",
       "far": "the legions have come home from the war, and some of the soldiers walk into the sea at night"
     },
     {
@@ -153,6 +160,7 @@
       "terrain": "hills",
       "rumour": "'Down the south road, where the drove roads come down off the fells, there's Wrayford, on the Wray,' says {keeper}, and lowers their voice. 'The carters rose against the bridge toll there a few nights back, and the lord's riders hanged three of them off the gatehouse on the bridge, and they're hanging there yet. The reeve says they stay till the lord's captain comes. Drovers coming through say the whole town goes and stands under them, and nobody will say a word.'",
       "heard": "South over the march lies Wrayford, the bridge-city on the Wray, where the lord's riders hanged three carters from the gatehouse on the bridge after a rising against the toll, and the reeve keeps them hanging until the lord's captain comes.",
+      "skyline": "a town at a bridge, far down where the drove roads come off the fells",
       "far": "the lord's riders hanged three carters from the gatehouse on the bridge, and they hang there yet"
     },
     {
@@ -169,6 +177,7 @@
       "terrain": "marsh",
       "rumour": "'East over the march, where the cold country comes down to the sea and the river runs out through miles of reeds, there is Calamy, at the mouth of the Calam,' says {keeper}. 'A city of paper: tide-mills and binders and printers, and every house there keeps a book that knows it. They say the books have started to talk. And they burn their old almanacks at the Kindling, which is near, and this year nobody can say whether they ought.'",
       "heard": "East over the march lies Calamy, at the mouth of the Calam, where every house keeps a book that knows it, and the books have begun to talk, and the Kindling is near.",
+      "skyline": "the sails of tide-mills turning along a coast of reeds",
       "far": "the books of a city of paper have begun to talk, and the Kindling is near",
       "among": "independent"
     },
@@ -185,6 +194,7 @@
       "topic": "the Trial of the Wheel at Pentrice",
       "terrain": "hills",
       "rumour": "'West over the march, where the Ise falls into the Arle, there's Pentrice,' says {keeper}. 'A minster town, very grand, where they license every word said on a stage and fine you for the rest. This week it's their Trial of the Wheel: three companies of players, three nights in a round playhouse over the river, and the best of them given a house of its own for ever.' {keeper} grins. 'They say old Absalom Gosse is going back for it, after forty years. They banned him from every stage inside the walls the last time. He started a riot.'",
+      "skyline": "a minster tower over a river town, where one river falls into another",
       "far": "a minster town licenses every word said on a stage, and holds its Trial of the Wheel",
       "heard": "West over the march lies Pentrice, a minster town that licenses every word said on a stage; this week it holds its Trial of the Wheel, three companies of players for three nights, and Absalom Gosse's company is going back after forty years' banishment.",
       "notice": {

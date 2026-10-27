@@ -41,6 +41,14 @@ describe('the map', () => {
     const [a, b] = boxes as [number[], number[]];
     expect(a[0]! < b[2]! && a[2]! > b[0]! && a[1]! < b[3]! && a[3]! > b[1]!).toBe(false);
   });
+  // A town's name is not set across its own road: to the right of it with no road there, elsewhere with the road
+  // east out of it.
+  it('writes a name on a side no road runs through', () => {
+    const rows = Array.from({ length: 5 }, () => '.'.repeat(21)), open = Land.region(rows), roaded = Land.region(rows);
+    roaded.land!.roads = { east: [11, 12, 13, 14, 15] };
+    const name = (r: RegionChart) => Atlas.draw(r).labels.find(l => l.text === 'Murkstede')!.anchor;
+    expect([name(open), name(roaded) === 'start']).toEqual(['start', false]);
+  });
   it('draws the company, the places it knows and the ways it knows where they are on the land', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });

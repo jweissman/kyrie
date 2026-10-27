@@ -111,6 +111,8 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .panorama .toward { font: 700 13px var(--do); letter-spacing: .06em; color: var(--blue); }
 .panorama .sight-name { display: block; font: 400 18px/1.3 var(--told); color: var(--ink); }
 .panorama .looked { display: block; font: 400 13.5px/1.4 var(--do); color: var(--grey); margin-top: 2px; }
+/* What is seen of a country over the march is the story's, not a note: set as the telling is. */
+.panorama .looked.beyond { font: italic 400 15.5px/1.4 var(--told); color: var(--ink); }
 .panorama .off { font: 400 13.5px var(--do); color: var(--grey); white-space: nowrap; }
 .panorama .set-out { padding: 3px 10px; font-size: 13px; }
 @media (max-width: 640px) {

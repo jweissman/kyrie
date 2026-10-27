@@ -19,6 +19,9 @@ export interface Country {
   after?: { talk: string; told: string };
   // What is said of it a country further off, where it is only heard of: "where ..." (see RegionBorders).
   far?: string;
+  // What is seen of it from somewhere high in the country next to it, over its march (see RegionSights): a mountain
+  // hanging in the sky. The builder's, from what its folk say of it, for its authors to rewrite.
+  skyline?: string;
   // What goes ahead of it into the first region's towns (a company of players on the road to it, a pedlar from it): a
   // scenario of the library's form (data/scenarios), placed in the town its road leaves from whenever the world holds
   // the country, and never drawn at random; and those of its exports the country reads, bound to the country's
@@ -130,9 +133,10 @@ export class Countries {
     });
   }
   private static told(c: Country): Beyond {
-    if (!c.rumour) { return { name: c.name, terrain: c.terrain }; }
+    const seen = c.skyline ? { skyline: c.skyline } : {};
+    if (!c.rumour) { return { name: c.name, terrain: c.terrain, ...seen }; }
     return { name: c.name, terrain: c.terrain, rumour: c.rumour, heard: c.heard, ...c.topic ? { topic: c.topic } : {},
-      ...c.notice ? { notice: c.notice } : {}, ...c.after ? { after: c.after } : {} };
+      ...c.notice ? { notice: c.notice } : {}, ...c.after ? { after: c.after } : {}, ...seen };
   }
   // The authored countries a region's folk have heard of beyond the countries next to theirs (each beyond the one
   // it is entered from): by the side of the region the way to it goes out, what the folk call the country it goes

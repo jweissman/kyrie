@@ -92,6 +92,13 @@ describe('somewhere high', () => {
       'To the south, far off, through the glass: a cave in the hillside in Pintreowwudu.',
       'To the south, far off, through the glass: the footbridge over the Quicex.',
       'To the south-east, far off, through the glass: the foot of Wīdecg by Snáwstede.']);
+    // Over the march-stone of Merrowdale, something of the country beyond: the Long Man, before anyone speaks of it.
+    expect(lines).toContain('Beyond it, over the march: a long ridge laid straight across the head of a dale, too straight'
+      + ' for a hill.');
+    // On the map from then on, by their look: no ruin's name is glossed there before it is learned.
+    const land = ScreenModel.build(c).region!.land!, marks = land.marks.map(m => m.name);
+    expect(marks).toEqual(expect.arrayContaining(['a broken keep', 'the march-stone of Merrowdale']));
+    expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s1', 's2', 's3', 's4', 's5']);
     // A site seen through it is seen with the way to it, as one seen nearer is.
     expect(lines).toContain('The way to a cave in the hillside in Pintreowwudu: to the edge of Pintreowwudu by Karahnof,'
       + ' where the track to it starts.');

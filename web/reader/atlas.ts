@@ -43,7 +43,9 @@ export class Atlas {
     });
     const here = land.here !== undefined ? this.centre(land.here, W) : places.find(p => p.id === hereArea);
     const box = this.crop(land.known, W, land.height, here);
-    const labels = this.labels(places, here ? [here] : [], box);
+    const lines = [...Object.values(land.roads), ...region.edges.filter(e => e.course && !e.road).map(e => e.course!)]
+      .map(cs => cs.filter(c => known.has(c)).map(c => this.centre(c, W)));
+    const labels = this.labels(places, here ? [here] : [], box, this.along(lines));
     const unknown = [...land.cover].flatMap((_, i) => known.has(i) ? [] : [this.centre(i, W)]);
     const glosses = Object.entries(land.glosses).map(([id, gloss]) => [places.find(p => p.id === id)?.name
       ?? region.areas.find(a => a.id === id)?.name ?? '', gloss] as [string, string]).filter(([n]) => n);
@@ -95,10 +97,11 @@ export class Atlas {
     return cells.map(c => { const p = this.centre(c, W); return `${p.x},${p.y}`; }).join(' ');
   }
   private static ends(e: RegionChart['edges'][number]): string { return [e.from, e.to].sort().join('|'); }
-  // A name beside each place: to the right if there is room, else left, above or below; a name that fits nowhere
-  // is left off (the ways list says it).
+  // A name beside each place: to the right if there is room, else left, above or below, on a side no road or path runs
+  // through where there is one (a name across a road is hard to read); a name that fits nowhere is left off (the
+  // ways list says it).
   private static labels(places: (Pt & { id: string; kind: string; visited: boolean; name: string })[], taken: Pt[],
-    bounds?: number[]): Drawn['labels'] {
+    bounds?: number[], ways: Pt[] = []): Drawn['labels'] {
     const boxes: number[][] = taken.map(p => [p.x - 13, p.y - 13, p.x + 13, p.y + 13]);
     places.forEach(p => boxes.push([p.x - 7, p.y - 7, p.x + 7, p.y + 7]));
     const out: Drawn['labels'] = [];
@@ -108,6 +111,7 @@ export class Atlas {
       const size = town ? 13 : 12, w = text.length * size * (town ? 0.86 : 0.56), h = size + 2;
       const tries: [number, number, 'start' | 'end' | 'middle'][] = [[16, 4, 'start'], [-16, 4, 'end'],
         [0, -16, 'middle'], [0, 28, 'middle']];
+      let set: { x: number; y: number; anchor: 'start' | 'end' | 'middle'; box: number[] } | undefined, across = set;
       for (const [dx, dy, anchor] of tries) {
         const x = p.x + dx, y = p.y + dy, left = anchor === 'start' ? x : anchor === 'end' ? x - w : x - w / 2;
         const box = [left, y - h + 3, left + w, y + 3];
@@ -115,12 +119,26 @@ export class Atlas {
         if (bounds && (box[0]! < bounds[0]! || box[2]! > bounds[0]! + bounds[2]! || box[1]! < bounds[1]!
           || box[3]! > bounds[1]! + bounds[3]!)) { continue; }
         if (boxes.some(b => box[0]! < b[2]! && box[2]! > b[0]! && box[1]! < b[3]! && box[3]! > b[1]!)) { continue; }
-        boxes.push(box);
-        out.push({ id: p.id, text, kind: p.kind, known: p.visited || town, x, y, anchor });
+        if (ways.some(q => q.x > box[0]! && q.x < box[2]! && q.y > box[1]! && q.y < box[3]!)) {
+          across ??= { x, y, anchor, box };
+          continue;
+        }
+        set = { x, y, anchor, box };
         break;
       }
+      const at = set ?? across;
+      if (!at) { continue; }
+      boxes.push(at.box);
+      out.push({ id: p.id, text, kind: p.kind, known: p.visited || town, x: at.x, y: at.y, anchor: at.anchor });
     }
     return out;
+  }
+  // Points along each road and path, near enough together that a name set across one is found to cross it.
+  private static along(lines: Pt[][]): Pt[] {
+    return lines.flatMap(l => l.slice(1).flatMap((b, i) => {
+      const a = l[i]!, n = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 4));
+      return Array.from({ length: n + 1 }, (_, k) => ({ x: a.x + (b.x - a.x) * k / n, y: a.y + (b.y - a.y) * k / n }));
+    }));
   }
   // The name of wild country, written across it where it does not cross a place's name: a little below its middle,
   // or above.

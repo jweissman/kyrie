@@ -14,7 +14,8 @@ import { RegionSites } from './region-sites';
 // is clear of haze. Each is known from then on, and somewhere to set out toward (leadsTo): Mission 17's vantage
 // points, built on the climbs that told the lie of the land below. A site not far off is seen with the way to it.
 // Through a spyglass, on a clear day, what lies past the edge of sight is seen too, and what is a long way off is
-// seen well enough to be known for what it is, and the way to it.
+// seen well enough to be known for what it is, and the way to it. Over a march, on a clear day, something of the
+// authored country beyond is seen (its skyline): a mountain hanging in the sky over the Corrow.
 export class RegionSights {
   static readonly haze = ['foggy', 'misty', 'stormy', 'snowy', 'rainy'];
   static lines(region: Region): string[] {
@@ -33,7 +34,8 @@ export class RegionSights {
       const fact = `${h.at}_saw${k + 1}`, text = this.told(s), seen = `state(${h.at}_view, above)${glass}${s.far ? clear : ''}`;
       return [`  Entity ${fact}: fact ${q(text)}.`, `  Initially Assert leadsTo(${fact}, ${s.id}).`,
         `  Observe ${fact}_seen at ${h.at} as sign when ${seen} ${q(text)} teaches ${fact}.`,
-        ...this.site(region, s, { id: fact, at: h.at, seen })];
+        ...this.site(region, s, { id: fact, at: h.at, seen }),
+        ...this.beyond(region, s, { id: fact, at: h.at, seen: s.far ? seen : `${seen}${clear}` })];
     }));
     // A glass is a kind of thing in this country whether or not anyone here sells one (one bought elsewhere serves).
     return lines.some(l => l.includes('holding(party, spyglass)')) ? ['  Entity spyglass: itemkind "Spyglass".', ...lines] : lines;
@@ -51,6 +53,12 @@ export class RegionSights {
       + ` teaches ${s.id}_named.`,
     `  Observe ${id}_way at ${at} as sign when ${seen} and not knows(party, ${s.id}_found)`
       + ` ${q(RegionSites.way(seat, region))} teaches ${s.id}_found.`];
+  }
+  // Over a march-stone seen from up there, something of the country beyond it, when its authors give it a skyline.
+  private static beyond(region: Region, s: Sighting, o: { id: string; at: string; seen: string }): string[] {
+    const side = RegionGeography.atlas(region).borders.find(b => RegionBorders.room(b) === s.id)?.side;
+    const skyline = side && region.beyond?.[side]?.skyline;
+    return skyline ? [`  Observe ${o.id}_beyond at ${o.at} as sign when ${o.seen} ${JSON.stringify(`Beyond it, over the march: ${skyline}.`)}.`] : [];
   }
   // What is seen from a high place: by eye, and past the edge of sight through the glass, a few.
   private static sighted(land: Land, h: { cell: number; kind?: string }, places: { id: string; cell: number }[]) {

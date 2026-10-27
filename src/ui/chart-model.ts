@@ -1,5 +1,6 @@
 import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
+import { ObservationText } from '../lang/observation-text';
 import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
 import { PassageModel, type WayInfo } from './passage-model';
@@ -189,7 +190,16 @@ export class ChartModel {
     const terrain = home ? this.form(home, 'terrain').form : undefined;
     return areas.size > 1 || (chart && areas.size) ? { region: { areas: [...areas.values()], edges: [...edges.values()],
       within: Object.fromEntries(this.within), ...terrain ? { terrain } : {},
-      ...land ? { land: land.land({ visited, told }, ways, place, [...areas.values()]) } : {} } } : {};
+      ...land ? { land: this.glossed(land.land({ visited, told }, ways, place, [...areas.values()])) } : {} } } : {};
+  }
+  // A name is glossed (Westron for "battle gate") once the company knows the place by it: a ruin seen from a tower,
+  // known only by its look, is not explained by a name it has not learned.
+  private glossed(land: NonNullable<RegionChart['land']>): NonNullable<RegionChart['land']> {
+    return { ...land, glosses: Object.fromEntries(Object.entries(land.glosses).filter(([id]) => this.learned(id))) };
+  }
+  private learned(id: string): boolean {
+    const e = this.world.module.entities.find(x => x.id === id);
+    return !e?.alias || ObservationText.known(this.world, e) === e.name;
   }
   // The places facts the company knows lead to.
   private leads(): string[] {
