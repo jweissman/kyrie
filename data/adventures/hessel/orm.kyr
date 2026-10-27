@@ -50,6 +50,16 @@ Module hessel "The Banns at Hessel" {
     Result "Ottery looks at Mrs Cherrett asleep in her chair with her mouth open, for a long time. Then he takes the bottle from the dressing-table, and pours half of it out of the window, and fills it up from the jug. 'Twenty,' he says, low. 'As it was.' He looks at you. 'You told me on the down that hope's a physic. Well. She's an old woman, and her nights are bad, and she'll sleep.' He puts the bottle back. 'I'll tell her about Hartopp in the morning. Or I won't. I find I'm not as sure as I was.'".
   }
 
+  // The ward without its physician: a company with a nurse's hands can keep it for a morning, which the Old Town remembers.
+  Relation wardKept(group).
+  Action keep_ward(actor: group, site: place) "Keep the Hospital ward for a morning while its physician is away" {
+    Description "Dressings, physic, water, a hand held.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hospital) and not at(ottery, hospital) and capable(actor, mending)
+      and not wardKept(actor) and daytime().
+    Time 18.
+    On success { Assert wardKept(actor). Increase goodwill(chairmen) by 1. }
+    Result "Three hours of it: dressings changed, a fever sponged, a boy's arm reset that the Season's physicians would have sent for a guinea, an old woman listened to. Twenty beds, and at the end of the morning a chairman's wife comes in with a basket for her father and finds you with your sleeves up, and goes out again, and by the evening every man on Stall Street has heard it.".
+  }
   // ── The road to Orm ───────────────────────────────────────────────────────────────────────────────────────────────
   // Seven o'clock on the second morning, at the Beacon: if the company is there and promised, he walks with it. The
   // College sits at noon. By the road it is three hours and a half; the hut and the child cost an hour; the sheep-path
@@ -118,6 +128,15 @@ Module hessel "The Banns at Hessel" {
     Pleads "The footpads drop their cudgels in the heather and run, one of them leaving a shoe.".
   }
   Initially Set tribute(footpads) to 3.
+  // Beaten, a company is robbed, not killed, and left by the gibbet to come round.
+  Initially Assert takesPrisoners(footpads).
+  Relation robbed(group).
+  Rule footpads_rob when captured(footpads, party) {
+    Retract captured(footpads, party). Retract assails(footpads, party). Assert robbed(party). Set cameRound(crossways) to watch(clock).
+    Set quantity(party, gold) to 0. Assert tolerates(footpads, party). }
+  Rule robbed_told at crossways when robbed(party) and watch(clock) > cameRound(crossways) and not spread(robbed_told)
+    says "You come round under the gibbet with the garland on it, with a lump on your head and your purse gone, and the crossways empty but for the larks." { Assert spread(robbed_told). }
+  Entity robbed_told: fact "robbed at the crossways".
   Relation askedCrossways(group). Relation saidNeverLied(group). Relation saidLiedForGood(group). Relation saidLieWrong(group).
   Event crossways_question at crossways when at(party, crossways) and following(ottery, party) and not askedCrossways(party) and (tolerates(footpads, party) or not able(footpads) or routed(footpads)) "Ottery leans on the gibbet's post to get his breath, and looks up at the empty chain, and then at you. 'Second question,' he says. 'Have you ever lied to somebody for their own good?'" then { Assert askedCrossways(party). }
   Topic answer_never with ottery "Tell him: never" when askedCrossways(actor) and not saidNeverLied(actor) and not saidLiedForGood(actor) and not saidLieWrong(actor) once {

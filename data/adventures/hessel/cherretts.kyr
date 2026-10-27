@@ -68,6 +68,15 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert kitDefended(kit). Increase goodwill(chairmen) by 1. Increase kitTrust(kit) by 1. }
   }
 
+  Action bind_ankle(actor: group, site: place) "Strap Mrs Cherrett's ankle properly, and get her up" {
+    Description "A nurse's or a bonesetter's work.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(cherrett, site) and bedbound(cherrett) and not gone(cherrett)
+      and capable(actor, mending) and not ankleBound(cherrett).
+    Time 2.
+    On success { Assert ankleBound(cherrett). Retract bedbound(cherrett). Increase softened(cherrett) by 1. }
+    Result "You strap it firm, the way a bonesetter does, with a wet bandage that will shrink, and a stick under her other arm, and she gets up and stamps on it, and swears, and stamps again. 'Well,' she says. 'Somebody in this town knows something.'".
+  }
+  Relation ankleBound(group).
   // ── Taken up ──────────────────────────────────────────────────────────────────────────────────────────────────────
   // After the chair, she wants the company. If it caught or steered her, at once and at the foot of the Parade; if it
   // let her go, from her bed, when somebody brings her word that it was the stranger who tried.
@@ -126,16 +135,32 @@ Module hessel "The Banns at Hessel" {
     Assert gone(cherrett). Assert at(cherrett, cherrett_bedroom). }
   Rule she_goes_told at cherrett_lodging when gone(cherrett) and not spread(cherrett_death) and (at(party, cherrett_parlour) or at(party, cherrett_bedroom) or at(party, circus)) says "The blinds of Mrs Cherrett's lodgings are down. In the parlour Mopsa Gedge is sitting very straight on one of the chairs nobody sits on, with her hands in her lap. 'She didn't wake,' says Mopsa. 'I went in with her chocolate at eight and she hadn't woken.' She looks at the stuffed pike for a long time. 'She'd have hated that. She'd have wanted to be awake for it.'" { Assert spread(cherrett_death). }
   Entity cherrett_death: fact "Mrs Cherrett's death".
+  Relation prayedFor(group).
+  Action pray_cherrett(actor: group, site: place) "Say the prayers for the dead over Mrs Cherrett" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cherrett_bedroom) and gone(cherrett) and capable(actor, rites) and not prayedFor(cherrett).
+    Time 2.
+    On success { Assert prayedFor(cherrett). }
+    Result "You say them by the great curtained bed, the old words, plainly, and Mopsa stands at the foot of it with her hands folded and says the responses she has not said since her father's funeral, and Ismay, who does not know them, holds her grandmother's hand. When it is done Mopsa says, 'She'd have talked all through that,' and then has to go out of the room.".
+  }
   Thing drops_bottle "the little brown bottle on the dressing-table" at cherrett_bedroom {
     Tries looking.
-    State full "A little brown bottle of Hessel drops, nearly full.".
-    State watered "A little brown bottle of Hessel drops, nearly full, of what is now the Pump Room's water.".
+    State full "A little brown bottle of Hessel drops, a third full.".
+    State watered "A little brown bottle of Hessel drops, a third full, of what is now the Pump Room water.".
     Change swap "Pour the drops into the fire, and fill the bottle with Pump Room water" from full to watered consuming pump_bottle at cherrett_bedroom.
   }
   Initially Assert state(drops_bottle, full).
   Discovery drops_label "The label on Mrs Cherrett's drops reads: HESSEL DROPS. FORTY AT NIGHT. A.H. Under it, in another hand, scratched out, TWENTY.".
   Observe drops_looked near drops_bottle when tried(drops_bottle, looking) and not knows(party, drops_label) "You hold the bottle to the light. It smells of cloves and of something under the cloves, sweetish and heavy, that you would know again." teaches drops_label.
   Discovery drops_doubled "Dr Hartopp has doubled Mrs Cherrett's drops, from twenty to forty at night, since she put him in her will a month ago. Laudanum, the most of it.".
+  // A learned eye, or a nurse's, can read the bottle itself: the date on the label, the level, the nights.
+  Action measure_drops(actor: group, site: place) "Reckon the drops in the bottle against the date on its label" {
+    Description "A scholar's arithmetic, or a nurse's eye for a dose.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cherrett_bedroom) and knows(actor, drops_label)
+      and (capable(actor, lore) or capable(actor, mending)) and not knows(actor, drops_doubled) and state(drops_bottle, full).
+    Time 2 minutes.
+    On success { Assert knows(actor, drops_doubled). }
+    Result "The label is dated eleven days ago; the bottle held two hundred drops when it was filled, by the apothecary's mark; there are not eighty left in it. Forty a night, every night, since it came up the hill. Whoever wrote TWENTY and scratched it out meant it once.".
+  }
   Discovery cherrett_knows_drops "Mrs Cherrett knows her drops are laudanum. She takes them because her nights are bad, and she will not stop for being told what is in them.".
   Topic ask_stop_drops with cherrett "Ask Mrs Cherrett to stop taking Dr Hartopp's drops" when not gone(cherrett) and dosed(cherrett) and (knows(actor, drops_label) or knows(actor, drops_doubled)) once {
     Says "'The drops?' Mrs Cherrett laughs. 'I know what's in them, child. Poppy. I'm not a fool. I take them because at three in the morning my heart goes like a man knocking to be let in, and with them I sleep through it.' She pats your hand. 'Dr Hartopp is a fool and a fop and he'll have a hundred pounds of me when I'm gone, and I don't grudge it. He makes the nights short.' You start to say something about the dose, and she has already turned to ask for her shawl.".
@@ -180,6 +205,17 @@ Module hessel "The Banns at Hessel" {
   Observe ismay_at_window at cherrett_parlour when at(ismay, cherrett_parlour) and at(kit, circus) and morning() and not seenOnce(ismay_watches) "Ismay is standing at the window with her ledger open in her hands. Down on the Circus lawn the chairmen are waiting with Mrs Cherrett's chair, sitting on its poles, and one of them, the young one, is reading a book. Ismay does not turn a page all the time you are in the room." teaches ismay_watches.
   Discovery ismay_loves_kit "Ismay Cherrett loves Kit Danby, the chairman who carries her grandmother, and has for a year, and has told nobody but Mopsa.".
   Relation ismayBrave(group). Relation ismayStoodBy(group).
+  Action read_ismay(actor: group, site: place) "Watch Ismay while the chairmen wait below, and read her face" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cherrett_parlour) and at(ismay, cherrett_parlour) and at(kit, circus)
+      and not knows(actor, ismay_loves_kit) and not triedReadIsmay(actor).
+    Time 1.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, ismay_loves_kit). }
+    On failure { Assert triedReadIsmay(actor). }
+    Result "You watch her for a quarter of an hour. Every time the young chairman below turns a page, Ismay stops writing. Every time he looks up at the windows, she looks down at the ledger. When he laughs at something one of the others says, she smiles, and does not know she has. It is not a puzzle. It is the plainest thing in the room.".
+    Otherwise "You watch her for a quarter of an hour, and she does her accounts, and you learn a great deal about the price of candles.".
+  }
+  Relation triedReadIsmay(group).
   Topic ismay_hello with ismay "Ask Ismay what she makes of Hessel" when true once {
     Says "'Hessel?' Ismay considers it, the way she considers a column of figures. 'Everybody here is buying something,' she says. 'Health, or a husband, or a reputation, or just a look at somebody who has one. Grandmother is buying all three for us.' She turns her pen over. 'I keep the accounts. I know to the penny what I'm costing.'".
   }

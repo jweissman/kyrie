@@ -4,6 +4,10 @@ import { KyrLint } from '../src/cli/kyr-lint';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { PlaySession } from '../src/session/play-session';
+import { PlayerView } from '../src/presentation/player-view';
+import { WorldAssembler } from '../src/world/world-assembler';
+import { Frontier } from '../src/world/frontier';
+import { GeneratedWorld } from './support/generated';
 
 // The Banns at Hessel (doc/adventures/banns-at-hessel), played by the labels a player sees from the steps in
 // test/fixtures/hessel. The campaign starts on the south road at eight in the morning on watch 0, the first day of
@@ -207,6 +211,109 @@ describe('The Banns at Hessel', () => {
     expect(g.holds('mopsaHouse', 'mopsa')).toBe(true);
     expect(g.page).toMatch(/NO PHYSICIANS/);
   }, 240000);
+
+  it('a soldier with no charisma, lore or persuasion plays the Rooms\' way whole: what moves people here is knowing the form and standing beside them', async () => {
+    const g = await Hessel.start(build('soldier'), 'h1');
+    await g.fixture('rooms');
+    await g.until();
+    expect(g.holds('householdAdmitted', 'cherrett')).toBe(true);
+    expect(g.holds('grandmother', 'lady_wenlock')).toBe(true);
+    expect(g.holds('cherrettBlessesKit', 'cherrett')).toBe(true);
+    expect(g.ending()).toEqual(['last_dance']);
+  }, 180000);
+
+  it('for a cleric: the ankle strapped, Ismay\'s face read, and the drops reckoned from the bottle without asking anyone', async () => {
+    const g = await Hessel.start(build('cleric'), 'c1');
+    await g.fixture('cleric');
+    expect(g.holds('chairThrown', 'cherrett')).toBe(true);
+    expect(g.holds('ankleBound', 'cherrett')).toBe(true);
+    expect(g.holds('bedbound', 'cherrett')).toBe(false);
+    expect(g.holds('kitDismissed', 'kit')).toBe(false);
+    expect(g.knows('ismay_loves_kit')).toBe(true);
+    expect(g.knows('drops_doubled')).toBe(true);
+  }, 120000);
+
+  it('for a warrior who breaks into Carth House at night: Sir Gervase warns, and beaten, throws the housebreaker into the Crescent and nails the shutters', async () => {
+    const g = await Hessel.start(build('warrior'), 'w1');
+    await g.fixture('intruder');
+    expect(g.holds('chairCaught', 'cherrett')).toBe(true);
+    expect(g.page).toMatch(/Get out of my house/);
+    await g.play('Sir Gervase Carth.*: Attack', '=94');
+    expect(g.holds('thrownOut', 'party')).toBe(true);
+    expect(g.state('drawing_window', 'nailed')).toBe(true);
+    expect(g.j.holds('able', 'party')).toBe(true);
+    expect(g.page).toMatch(/threw a housebreaker into the street/);
+  }, 120000);
+
+  it('for a monk: a poem made of what was seen, through Mrs Brannagh when the climb fails, and Celia brought down from the window to dance with Rob', async () => {
+    const g = await Hessel.start(build('monk'), 'm1');
+    await g.fixture('window');
+    expect(g.holds('triedWindow', 'party')).toBe(true);
+    expect(g.holds('poemGood', 'rob')).toBe(true);
+    expect(g.holds('celiaHasPoem', 'celia')).toBe(true);
+    expect(g.holds('robCeliaSpoke', 'rob')).toBe(true);
+    expect(g.holds('celiaOut', 'celia')).toBe(true);
+    await g.until(512);
+    expect(g.holds('dancedWith', 'rob', 'celia')).toBe(true);
+    await g.until();
+    expect(g.page).toMatch(/where a girl reads Ovid in the window/);
+  }, 240000);
+
+  it('the third reading, with the curate warned: Mr Pyne holds the pause and looks at Rupert until he stands up himself', async () => {
+    const g = await Hessel.start();
+    await g.fixture('pyne');
+    expect(g.holds('stoppedByRupert', 'ebbas')).toBe(true);
+    expect(g.holds('scandal', 'wenlock')).toBe(false);
+    expect(g.page).toMatch(/Well done, sir/);
+  }, 180000);
+
+  it('the third reading, with Ismay stood beside: her opinion is not an impediment, but it shames Rupert into giving one', async () => {
+    const g = await Hessel.start();
+    await g.fixture('objection');
+    expect(g.holds('ismayObjected', 'ebbas')).toBe(true);
+    expect(g.holds('stoppedByRupert', 'ebbas')).toBe(true);
+    expect(g.page).toMatch(/That is an opinion/);
+  }, 180000);
+
+  // An ordinary player's way in: a first country whose folk have only heard of Hessel; the country beyond, whose
+  // innkeepers tell it in full; the road over its north march; and the Season, a chapter of the world, closing at noon
+  // on the fifth day while the world goes on.
+  it('heard of from a first country, told in full in the next, and walked into over the north march as a chapter of the world', async () => {
+    const seed = 'h14';
+    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'bard' }] });
+    expect(w.report.region.further!.map(f => [f.id, f.side, f.then])).toContainEqual(['hessel', 'east', 'north']);
+    const s = await PlaySession.start(w.path, seed, w.source), c = s.campaign, frontier = new Frontier(seed, NodeBundleSource.shared);
+    const ask = async (pattern: RegExp) => {
+      const topic = c.module.actions.find(a => pattern.test(a.id))!;
+      await GeneratedWorld.travel(s, c.world.one('at', topic.speaker!)!);
+      const choice = PlayerView.choices(c).find(x => x.choice.id.includes(topic.id))!;
+      return (await s.perform(choice.choice.id)).response ?? '';
+    };
+    expect(await ask(/^region__edge_east_further_told_/)).toContain('the old go there to be mended and the young to be married');
+    await GeneratedWorld.travel(s, 'edge_east');
+    const east = await frontier.expand(c);
+    await s.perform(PlayerView.choices(c).find(x => new RegExp(`^go\\(link.*${east!.rid}__edge_west\\)$`).test(x.choice.id))!.choice.id);
+    expect(await ask(new RegExp(`^${east!.rid}__edge_north_beyond_told_`))).toContain('kept its shutters closed nine years');
+    await GeneratedWorld.travel(s, `${east!.rid}__edge_north`);
+    const drawn = await frontier.expand(c);
+    expect(c.installations.find(m => m.id === drawn!.rid)?.chapter).toBe(true);
+    const j = Journey.of(s);
+    await j.play('Lim Bridge');
+    expect(c.world.one('at', 'party')).toBe(`${drawn!.rid}__south_road`);
+    // In by the bridge and up through the town, as a stranger: the chair comes down the Parade at whoever is there.
+    const yard = await j.play('foot of Lim Bridge', 'Quay Lane', 'Stall Street', 'Abbey Yard');
+    expect(j.page).toMatch(/comes a bath-chair/);
+    expect(yard).toBeDefined();
+    await j.play('Seize the side', 'Ask the old woman');
+    expect(j.page).toMatch(/I am Abigail Cherrett/);
+    // Left to itself, the Season ends at noon on the fifth day; the chapter closes and the company can go on.
+    for (let i = 0; i < 200 && !c.world.related('reached').length; i++) { await j.play('^Wait › An hour'); }
+    expect(c.world.related('reached').map(r => r.args[0])).toEqual([`${drawn!.rid}__seasons_end`]);
+    expect(c.running).toBe(true);
+    await j.play('To Stall Street', 'To Quay Lane', 'foot of Lim Bridge', 'south road');
+    expect(c.world.one('at', 'party')).toBe(`${drawn!.rid}__south_road`);
+  }, 400000);
 
   it('kept on the second morning and opened again, the Season goes on to the same end', async () => {
     const all = steps('rooms'), at = all.indexOf('Take a bed and supper');

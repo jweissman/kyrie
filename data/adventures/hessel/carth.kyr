@@ -8,7 +8,7 @@ Module hessel "The Banns at Hessel" {
   // Town under the name of Nan Bellamy, and the housekeeper has carried her word of her daughter every week for nine
   // years. She will come in if he opens the door himself; not if anybody else does.
   Entity carth: group "the Carths".
-  Observe carth_hall_scene at carth_hall when not carthReunited(carth) "The heat hits you in the doorway like a hand. The hall of Carth House is lit by candles in broad day; a fire roars in a grate as big as a cart, and another at the stair-foot; every shutter is closed and barred. On the wall a long-case clock says two o'clock. So does the one on the stair. So, you will find, do all of them. By the front door, facing it, stands one high-backed chair, with a greatcoat over its arm.".
+  Observe carth_hall_scene at carth_hall when not carthReunited(carth) "The heat hits you in the doorway like a hand. The hall of Carth House is lit by candles, day and night; a fire roars in a grate as big as a cart, and another at the stair-foot; every shutter is closed and barred. On the wall a long-case clock says two o'clock. So does the one on the stair. So, you will find, do all of them. By the front door, facing it, stands one high-backed chair, with a greatcoat over its arm.".
   Observe carth_hall_night at carth_hall when carthReunited(carth) and not carthOpened(carth) "The hall of Carth House with its front door standing open on the night: the cool air coming in, the candles leaning, and the long-case clock still saying two, for the last time.".
   Observe carth_hall_open at carth_hall when carthOpened(carth) "The hall of Carth House with its shutters open: daylight on the floor for the first time in nine years, showing every scuff. The fires are out. Somebody has started the long-case clock, and it is wrong, and nobody cares.".
   Observe drawing_scene at carth_drawing when not celiaOut(celia) and not carthReunited(carth) "The drawing room is upstairs, and hotter. Furs on every chair; a fire; candles; the shutters closed, except one, which has a crack in it that someone has worn with a fingertip. Books everywhere: a girl's room, a scholar's room, a prison.".
@@ -166,7 +166,7 @@ Module hessel "The Banns at Hessel" {
 
   // ── Sir Gervase ───────────────────────────────────────────────────────────────────────────────────────────────────
   Person gervase "Sir Gervase Carth" at carth_study {
-    Role "a big grey man in a greatcoat, in a room as hot as an oven". Ancestry human. Calling warrior. Level 3. Pronouns he. Manner grim.
+    Role "a big grey man in a greatcoat, with a face that has not seen the sun". Ancestry human. Calling warrior. Level 3. Pronouns he. Manner grim.
     Temperament territorial. Lair carth_hall.
     Warns "The big grey man in the greatcoat is on his feet with a sword in his hand that he did not have a moment ago. 'Get out of my house,' says Sir Gervase Carth, very quietly. 'Get out of my house, or I will kill you, here, on my own floor, and the law will thank me.' He means it. The door you came by is behind you.".
     Comes "Sir Gervase comes at you across his own hall, with the sword, and the heat, and nine years of nobody coming.".
@@ -182,12 +182,22 @@ Module hessel "The Banns at Hessel" {
   Rule received_tolerated when received(party) and not tolerates(gervase, party) and not gervaseFought(gervase) { Assert tolerates(gervase, party). }
   Relation gervaseFought(group).
   Rule gervase_fought when not able(gervase) and not gervaseFought(gervase) { Assert gervaseFought(gervase). }
+  // He does not kill a beaten intruder: he throws them out into the Crescent, and nails the shutters, and knows the
+  // face after. What happens is told where the company comes round.
+  Initially Assert takesPrisoners(gervase).
+  Relation thrownOut(group). Measure cameRound(place).
+  Rule gervase_throws_out when captured(gervase, party) and at(party, ?p) {
+    Retract captured(gervase, party). Retract assails(gervase, party). Assert thrownOut(party). Set cameRound(crescent) to watch(clock).
+    Retract at(party, ?p). Assert at(party, crescent). Assert windowNailed(carth). Assert state(drawing_window, nailed). }
+  Rule thrown_told at crescent when thrownOut(party) and watch(clock) > cameRound(crescent) and not spread(thrown_told)
+    says "You come round on the pavement of the Crescent, in the dark, with your head ringing and your coat torn, and the front door of Carth House shut behind you. Somebody upstairs is hammering: laths across the drawing-room shutters, nail after nail. In the morning the whole Crescent will say Sir Gervase Carth threw a housebreaker into the street, and that he did not call the watch." { Assert spread(thrown_told). }
+  Entity thrown_told: fact "thrown out of Carth House".
   // Received by day, at the front door, as a physician's messenger: from Hartopp, which is a lie; or with Ottery, which
   // is not.
   Action knock_as_hartopp(actor: group, site: place) "Knock at Carth House and say you come from Dr Hartopp" {
     Description "Mrs Brannagh will open to Dr Hartopp's name. Sir Gervase may believe it.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, crescent) and state(front_door, shut) and hour(clock) >= 9 and hour(clock) < 18
-      and not received(actor) and not triedKnock(actor) and not carthReunited(carth).
+      and not received(actor) and not triedKnock(actor) and not carthReunited(carth) and not thrownOut(actor).
     Time 2.
     Resolve check(actor, deception, dc_fair).
     On success { Assert received(actor). Assert tolerates(gervase, actor). Retract at(actor, crescent). Assert at(actor, carth_study). }

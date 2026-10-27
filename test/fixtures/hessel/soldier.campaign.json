@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "name": "The Banns at Hessel: a commoner",
+  "name": "The Banns at Hessel: a soldier",
   "calendar": {
     "year": 1121,
     "month": 5,
@@ -16,7 +16,7 @@
     {
       "name": "Dick",
       "raceId": "human",
-      "classId": "commoner"
+      "classId": "warrior"
     }
   ]
 }
