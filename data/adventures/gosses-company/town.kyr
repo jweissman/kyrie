@@ -62,10 +62,13 @@ Module pentrice "Gosse's Company" {
   Relation triedBear(group).
   Topic pudding_bear with pudding "Tell Pudding that Patience is loose in the Gullet" when bearLoose(the_bear) and at(the_bear, gullet) and not following(the_bear, party) once {
     Says "Pudding is up and running before you have finished, and you hear him down the stair: 'Fishwives! Do not touch that duchess!'".
-    On discuss { Retract at(pudding, ?q). Assert at(pudding, gullet). Assert puddingFetches(the_bear). }
+    On discuss { Assert puddingFetches(the_bear). Set fetchAt(the_bear) to watch(clock). }
   }
   Relation puddingFetches(group). Relation puddingLed(group).
-  Rule pudding_leads when puddingFetches(the_bear) and at(pudding, gullet) and at(the_bear, gullet) {
+  Measure fetchAt(group).
+  Rule pudding_runs when puddingFetches(the_bear) and at(pudding, ?q) and not at(pudding, gullet) and watch(clock) >= fetchAt(the_bear) + 1 {
+    Retract at(pudding, ?q). Assert at(pudding, gullet). }
+  Rule pudding_leads when puddingFetches(the_bear) and at(pudding, gullet) and at(the_bear, gullet) and watch(clock) >= fetchAt(the_bear) + 2 {
     Retract at(the_bear, gullet). Assert at(the_bear, moon_yard). Retract at(pudding, gullet). Assert at(pudding, moon_loft). Retract puddingFetches(the_bear). Assert bearHome(the_bear). Assert puddingLed(the_bear). }
   Rule pudding_leads_told at gullet when puddingLed(the_bear) and at(party, gullet) and not spread(pudding_led) says "Pudding comes down Fish Lane at a run, and stops, and hums a tune, and Patience gets up off her haunches and dances, slowly, turning, with a honey-pot stuck on one paw. The fishwives put their knives away. Then Pudding walks off up Fish Lane still humming, and Patience follows him on all fours, home." { Assert spread(pudding_led). }
   Discovery pudding_led "Pudding led Patience home from the Gullet, humming.".
@@ -439,11 +442,11 @@ Module pentrice "Gosse's Company" {
     says "At four o'clock on the last day of the Trial the watermen of the Water Stairs draw up their boats and chain them, every one, and sit down on the steps with their oars across their knees. NO BOATS TONIGHT. On the far bank the Wheel's pennant is going up, and between it and the City is a quarter of a mile of brown water." { Assert spread(strike_known). }
   Discovery strike_known "The watermen are on strike for Gosse's night: no boats to the Soke.".
   Action lead_crowd(actor: group, site: place) "Get up on the bollard at the top of the Stairs and lead the crowd over the old weir" {
-    Time 1.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, water_stairs) and watermenStrike(pentrice) and knows(actor, weir_known)
       and tday(pentrice) == 4 and hour(clock) >= 16 and hour(clock) < 19 and not crowdLed(pentrice).
-    On success { Assert crowdLed(pentrice). }
-    Result "There is a crowd on the Stairs already, fishwives and prentices and clerks in their Sunday coats, and they are angry. You get up on the bollard and shout that there is a way, and where, and that the stones come up at evening, and Garlick's voice somewhere behind you roars KEEP TO THE MOSS; and then you are going down to the weir with half the Gullet behind you, holding hands in a chain across the Arle, shrieking and laughing and wet to the knee.".
+    Time 3.
+    On success { Assert crowdLed(pentrice). Retract at(actor, water_stairs). Assert at(actor, soke_lane). }
+    Result "There is a crowd on the Stairs already, fishwives and prentices and clerks in their Sunday coats, and they are angry. You get up on the bollard and shout that there is a way, and where, and that the stones come up at evening, and Garlick's voice somewhere behind you roars KEEP TO THE MOSS; and then you are going down to the weir with half the Gullet behind you, holding hands in a chain across the Arle, shrieking and laughing and wet to the knee, and up the far bank into Soke Lane.".
   }
 
   // ── Grimsditch, the bailiff ─────────────────────────────────────────────────────────────────────────────────────

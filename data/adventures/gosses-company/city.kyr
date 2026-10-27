@@ -156,6 +156,14 @@ Module pentrice "Gosse's Company" {
   Observe wheel_scene at wheel when not playingTonight(pentrice) and not (playEnded(pentrice) and tday(pentrice) == 4) "The Wheel is a wooden O, three galleries high, open to the sky in the middle: a beaten-earth yard where the groundlings stand, a stage thrust out into the yard on trestles, with two doors at the back of it and a balcony above, and a painted roof over the stage, the heavens, with stars on it. Below the stage, at the front, is a bench painted grey: the Office's bench, where the tallymen sit in Trial week.".
   Observe tiring_scene at tiring_house when true "Behind the stage: a long room full of hampers, ropes, a ladder going down through a hatch, a rack of old costumes left by companies long gone, and a wall of names scratched into the plaster, players who have played here, hundreds of them, going back two hundred years. Halfway up, very deep, cut by someone with a knife and a great deal of time: A. GOSSE.".
   Observe under_stage_scene at under_stage when true "Under the stage it is dark and close and smells of earth and old beer. Light comes down in stripes through the boards. In the middle a square trap is cut in the stage above, with a counterweighted platform under it, and a stiff lever; beside it a lead tank on a frame, with a pump and a pipe going up through the boards.".
+  Person wilmot "Old Wilmot" at tiring_house {
+    Role "who keeps the Wheel". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "Old Wilmot is a bent old man with a broom and a ring of keys, who has kept the Wheel for fifty years and has seen, he will tell you, everything, twice.".
+    Offers lodging "a bench in the tiring-house and a blanket that smells of other people's plays" for 1 coin.
+  }
+  Topic wilmot_names with wilmot "Ask Old Wilmot about the names on the tiring-house wall" when true once {
+    Says "'Every company that ever played the Wheel,' says Wilmot, 'scratches its names on that wall the night it plays, for luck. Some of them have been here two hundred years.' He puts his thumb on one, very deep, half way up: A. GOSSE. 'Forty years. He did that with a property dagger the night of the riot, with the City banging on the gate, and the Watch coming over the river. Took him an hour. I held the lantern.' He shrugs. 'He said if they were going to put him out of the City, they'd not put him off the wall.'".
+  }
   Place bear_garden "the bear-garden" is building within soke.
   Place bear_pen "the bear-garden" is room within bear_garden at 0, 0 outdoors.
   Passage garden_palings "the bear-garden gate" is gate between soke_lane and bear_pen.
@@ -166,7 +174,7 @@ Module pentrice "Gosse's Company" {
     opening when not watermenStrike(pentrice) "The watermen sit with their oars across their knees. No boats tonight.".
   Discovery weir_known "Below the Water Stairs there is an old weir across the Arle, and at low water in the evening you can walk it to the Soke on the stones, if you know where they are and keep your feet." { Known by garlick, tolly. }
   Passage weir_path "the old weir" is path between water_stairs and soke_lane taking 30 minutes hidden until weir_known
-    opening when hour(clock) >= 16 "The weir is under a yard of brown water, running fast. At low water, in the evening, the stones come up.".
+    opening when hour(clock) >= 16 or hour(clock) < 2 "The weir is under a yard of brown water, running fast. At low water, from the evening until the small hours, the stones come up.".
 
   Relation fountainRuns(place). Relation watermenStrike(place). Relation playingTonight(place).
 

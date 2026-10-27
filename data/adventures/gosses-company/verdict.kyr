@@ -116,6 +116,13 @@ Module pentrice "Gosse's Company" {
     says "Clemency Orde keeps the Office of Plain Speech, and her secret, and comes to the Wheel's yard on Gosse's nights in Sukey's old brown hood, and stands at the back, and laughs." { Assert told(fate_master_known). }
   Rule fate_master_cold when verdictRead(pentrice) and clemCold(clemency) and not told(fate_master_known) and inCity()
     says "Clemency Orde keeps the Office of Plain Speech, harder than her father ever did; and nobody in Pentrice ever learns who wrote The Alderman's Ghost, because the one who could tell them made her pay for it." { Assert told(fate_master_known). }
+  Rule fate_book_licensed when verdictRead(pentrice) and ghostPlay(pentrice) and state(book, copy_licensed) and not told(fate_book_known) and inCity()
+    says "The Alderman's Ghost is played at the Wheel all summer as the Office licensed it, with the Tallyman struck out and the Ghost rising and standing where the book once had him rise; and the yard, which has heard what the lines used to be, says them along with him under its breath." { Assert told(fate_book_known). }
+  Discovery fate_book_known "How The Alderman's Ghost went on being played.".
+  Rule fate_book_warranted when verdictRead(pentrice) and ghostPlay(pentrice) and state(book, copy_warranted) and not told(fate_book_known) and inCity()
+    says "The Alderman's Ghost is played at the Wheel all summer as it was written, under the Master's warrant, every line of it, and the grey bench sits through it every night with its sticks across its knees and does not cut a notch." { Assert told(fate_book_known). }
+  Rule fate_book_whole when verdictRead(pentrice) and liberty() and not clemBowed(clemency) and not told(fate_book_known) and inCity()
+    says "The Alderman's Ghost is played whole at the Wheel all that summer, every night, under the Soke's law; and every night the Office sits on its grey bench and counts, and Abel Tunstall reads the fines from the stage when the house has gone, and the yard pays them, a penny a head, into Patience's bonnet." { Assert told(fate_book_known). }
   Rule epilogue_done when verdictRead(pentrice) and not epilogueTold(pentrice) and watch(clock) >= verdictAt(pentrice) + 1 { Assert epilogueTold(pentrice). }
 
   // A share of the house, to whoever was one of the company on its night.

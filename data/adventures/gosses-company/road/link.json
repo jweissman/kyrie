@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "source": "link.kyr",
+  "rules": ["world"],
+  "imports": ["here", "there"],
+  "roles": { "here": { "type": "place" }, "there": { "type": "place" } }
+}

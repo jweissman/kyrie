@@ -1,0 +1,8 @@
+Module westmarch "The road across the march" {
+  // The road across the march from Wending Cross to Pentrice, for the campaign played alone (in a generated world the
+  // frontier lays this road itself).
+  Place here "Where the road leaves" is room.
+  Place there "Where the road comes in" is room.
+  Passage march "the road across the march" is road between here and there taking 2 hours.
+  Goal false.
+}

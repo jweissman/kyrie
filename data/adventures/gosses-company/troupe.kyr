@@ -365,12 +365,17 @@ Module pentrice "Gosse's Company" {
     On success { Retract plays(swale, part_ghost). Assert plays(party, part_ghost). }
     Result "Hepzibah looks at you for a long time over her spectacles. 'The Ghost,' she says. 'Nineteen speeches and a complaint.' She writes your name. 'He is dead in every line. Remember that, and the rest will look after itself.'".
   }
-  // With Dorcas gone, someone must play the Widow: Kit, if he is not Bell; otherwise Gosse, doubling, in a cap.
+  // A part nobody plays is taken by whoever is free: the Widow by Kit, or Gosse, doubling, in a cap; Bell by Ned Cherry
+  // if he is with the company, or Kit, or, failing everyone, Tam Hautboy in a frock.
   Rule recast_widow when dorcasGone(dorcas) and plays(dorcas, ?r) { Retract plays(dorcas, ?r). }
-  Rule widow_to_kit when dorcasGone(dorcas) and not plays(?x, part_widow) and not plays(kit, part_bell) and not plays(kit, part_tapwell) { Assert plays(kit, part_widow). }
-  Rule widow_to_gosse when dorcasGone(dorcas) and not plays(?x, part_widow) and (plays(kit, part_bell) or plays(kit, part_tapwell)) { Assert plays(gosse, part_widow). }
-  Rule bell_to_kit when dorcasGone(dorcas) and not plays(?x, part_bell) and plays(kit, part_widow) and atMoon(ned) { Assert plays(ned, part_bell). }
-  Rule bell_to_tam when dorcasGone(dorcas) and not plays(?x, part_bell) and plays(kit, part_widow) and not atMoon(ned) { Assert plays(tam, part_bell). }
+  Query kitFree() means not plays(kit, part_bell) and not plays(kit, part_widow) and not plays(kit, part_tapwell).
+  Rule widow_to_kit when not plays(?x, part_widow) and kitFree() { Assert plays(kit, part_widow). }
+  Rule widow_to_gosse when not plays(?x, part_widow) and not kitFree() { Assert plays(gosse, part_widow). }
+  Rule bell_to_ned when not plays(?x, part_bell) and atMoon(ned) { Assert plays(ned, part_bell). }
+  Rule bell_to_kit when not plays(?x, part_bell) and not atMoon(ned) and kitFree() { Assert plays(kit, part_bell). }
+  Rule bell_to_tam when not plays(?x, part_bell) and not atMoon(ned) and not kitFree() { Assert plays(tam, part_bell). }
+  Rule widow_from_gosse when plays(gosse, part_widow) and plays(dorcas, part_widow) { Retract plays(gosse, part_widow). }
+  Rule widow_back_to_kit when plays(gosse, part_widow) and not plays(dorcas, part_widow) and kitFree() { Retract plays(gosse, part_widow). Assert plays(kit, part_widow). }
   Query atMoon(n: group) means nedRuns(n) or nedLent(n).
   Action cast_ned_bell(actor: group, site: place) "Have Hepzibah put Ned Cherry down for Bell" {
     Speaker hepzibah. Time 2 minutes.

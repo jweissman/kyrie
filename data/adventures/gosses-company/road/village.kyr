@@ -1,0 +1,49 @@
+Module wending "Wending Cross" {
+  // A village on the road to Pentrice, for the campaign played alone: what a generated country's town would be, and
+  // where the players on the green (data/goings-on/players) are set. In a generated world the town is the world's own.
+  Description "A village where the west road crosses a brook, a day's walk short of the march.".
+  Place shire "the brook country" is region.
+  Place wending "Wending Cross" is settlement within shire at 0, 0.
+  Place cross_green "the green at Wending Cross" is room within wending at 1, 1 outdoors.
+  Place sheaf "the Wheatsheaf" is building within wending.
+  Place sheaf_taproom "the Wheatsheaf's taproom" is room within sheaf at 0, 0.
+  Place chapel "the chapel at Wending Cross" is building within wending.
+  Place chapel_room "the chapel" is room within chapel at 0, 0.
+  Place cobbet_shop "Cobbet's shop" is building within wending.
+  Place cobbet_room "Cobbet's shop" is room within cobbet_shop at 0, 0.
+  Place west_way "the west road" is wilderness within shire at 0, 1.
+  Place road_out "the west road out of Wending Cross" is room within west_way at 0, 0 outdoors.
+  Passage sheaf_door "the Wheatsheaf's door" is door between sheaf_taproom and cross_green.
+  Passage chapel_door "the chapel door" is doorway between chapel_room and cross_green.
+  Passage shop_door "Cobbet's door" is door between cobbet_room and cross_green.
+  Passage west_lane "the west lane" is road between cross_green and road_out taking 1 hour.
+  Observe green_day at cross_green when not dark() "A triangle of rough grass where the west road crosses a brook by a stone bridge, with a pump, a horse-trough, a chapel with a squat bell-cote, the Wheatsheaf, and Cobbet's shop, which sells everything badly.".
+  Observe green_night at cross_green when dark() "The green at Wending Cross in the dark: the brook loud under the bridge, a light in the Wheatsheaf, a dog barking somewhere and then thinking better of it.".
+  Observe sheaf_scene at sheaf_taproom when true "A low taproom with a sanded floor, a settle by the fire and a sheaf of last year's wheat nailed up over the door for luck.".
+  Observe chapel_scene at chapel_room when true "A whitewashed chapel with six benches and a window of plain glass, very clean.".
+  Observe shop_scene at cobbet_room when true "Cobbet's shop: candles, string, pots, nails, a cheese, a coffin standing on end in the corner with a price on it.".
+  Observe road_out_scene at road_out when true "The west road out of Wending Cross goes on between hedges toward the march, and beyond it, the folk say, the vale of the Arle.".
+  Person thackeray "Mistress Thackeray" at sheaf_taproom {
+    Role "who keeps the Wheatsheaf". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
+    Greets "Mistress Thackeray is a square red-faced woman with flour to the elbows. 'Bed, beer or both?' she says.".
+    Sells rations for 2 coin from 6.
+  }
+  Person ivy "Mother Ivy" at chapel_room {
+    Role "who keeps the chapel". Ancestry human. Profession priest. Peaceable. Pronouns she. Manner compassionate.
+    Greets "Mother Ivy is very old and very small and sits by the door of her chapel shelling peas into her apron.".
+  }
+  Person cobbet "Cobbet" at cobbet_room {
+    Role "who keeps the shop". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "Cobbet looks at you over a cheese as if you had come to steal it.".
+    Sells rations for 2 coin from 4.
+    Sells torch for 1 coin from 4.
+  }
+  Topic thackeray_road with thackeray "Ask Mistress Thackeray about the road west" when true once {
+    Says "'West,' says Mistress Thackeray, 'over the march, a day, is Pentrice, where the Ise falls into the Arle. A grand minster town, where they license every word said on a stage and fine you a crown a line for the rest.' She jerks her head at the green. 'That lot on the green are going there for their Midsummer Trial: three companies, three nights, and a house for ever to the best. If they ever get their wagon off my post.'".
+    On discuss { Assert knows(actor, west_told). }
+  }
+  Discovery west_told "West over the march, a day's walk, lies Pentrice, where the Midsummer Trial is played: three companies of players for three nights, and a house to the best.".
+  Initially Assert leadsTo(west_told, road_out).
+  Company party "You" of 1 at cross_green.
+  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 2.
+}

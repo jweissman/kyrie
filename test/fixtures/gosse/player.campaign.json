@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "name": "Gosse's Company: player",
+ "calendar": {
+  "year": 1313,
+  "month": 6,
+  "day": 19
+ },
+ "pitch": {
+  "heading": "Wending Cross, on the west road, in the week of the Midsummer Trial",
+  "text": "A company of travelling players is stuck on the green at Wending Cross with its wagon chained to a post, on its way west over the march to the Midsummer Trial at Pentrice, where three companies play three nights and the best is given a house for ever. You have a little coin and no particular plans."
+ },
+ "modules": [
+  {
+   "id": "wending",
+   "bundle": "../../../data/adventures/gosses-company/road/module.json"
+  },
+  {
+   "id": "players",
+   "bundle": "../../../data/goings-on/players/module.json",
+   "imports": {
+    "party": "wending.party",
+    "town": "wending.town",
+    "green": "wending.green",
+    "keeper": "wending.keeper",
+    "priest": "wending.priest",
+    "trader": "wending.trader"
+   }
+  },
+  {
+   "id": "pentrice",
+   "bundle": "../../../data/adventures/gosses-company/placed.json",
+   "imports": {
+    "party": "wending.party",
+    "joined": "players.joined",
+    "freed": "players.freed",
+    "seen_show": "players.seen_show",
+    "lem_kept": "players.lem_kept"
+   }
+  },
+  {
+   "id": "westmarch",
+   "bundle": "../../../data/adventures/gosses-company/road/link.json",
+   "imports": {
+    "here": "wending.road_out",
+    "there": "pentrice.road_end"
+   }
+  }
+ ],
+ "party": [
+  {
+   "name": "Fennick",
+   "raceId": "human",
+   "classId": "bard",
+   "backgroundId": "tragedian"
+  }
+ ]
+}

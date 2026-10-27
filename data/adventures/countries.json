@@ -131,6 +131,42 @@
       "terrain": "marsh",
       "rumour": "'Down the east road, where the marsh meets the sea, there's Tessary on the Ossel,' says {keeper}. 'Their legions came home from the war a week back, and they say some of the soldiers are getting up in the night and walking into the sea. Barefoot, in step, eyes open. An eel-wife there has put up a notice: she'll give her savings to anyone who can tell her where her boy went.'",
       "heard": "East over the march lies Tessary on the Ossel, where the legions have come home from the war and some of the soldiers walk into the sea at night; an eel-wife there offers her savings for news of her son."
+    },
+    {
+      "id": "pentrice",
+      "bundle": "gosses-company/placed.json",
+      "entry": "road_end",
+      "marker": "clemency",
+      "side": "west",
+      "beside": [
+        "forest",
+        "marsh",
+        "mountain",
+        "frost"
+      ],
+      "name": "the vale of the Arle",
+      "topic": "the Midsummer Trial at Pentrice",
+      "terrain": "hills",
+      "rumour": "'West over the march, where the Ise falls into the Arle, there's Pentrice,' says {keeper}. 'A minster town, very grand, where they license every word said on a stage and fine you for the rest. This week it's their Midsummer Trial: three companies of players, three nights in a round playhouse over the river, and the best of them given a house of its own for ever.' {keeper} grins. 'They say old Absalom Gosse is going back for it, after forty years. They banned him from the walls the last time. He started a riot.'",
+      "heard": "West over the march lies Pentrice, a minster town that licenses every word said on a stage; this week it holds its Midsummer Trial, three companies of players for three nights, and Absalom Gosse's company is going back after forty years' banishment.",
+      "notice": {
+        "name": "a playbill of the Midsummer Trial",
+        "text": "A bill in red and black, much handled and rained on: THE MIDSUMMER TRIAL AT THE WHEEL OF PENTRICE. THREE COMPANIES OF PLAYERS. THREE NIGHTS. THE PATENT OF THE WHEEL TO BE GIVEN BY THE BENCH. BY LEAVE OF THE OFFICE OF PLAIN SPEECH. Under it someone has written in pencil: west road, over the march, a day; and drawn a bear.",
+        "talk": "A playbill of the Midsummer Trial at Pentrice is nailed up where travellers will see it, and half the talk is of who will win the Patent and the other half of whether old Gosse will be let in at the gate."
+      },
+      "after": {
+        "talk": "A playbill of the Midsummer Trial at Pentrice still hangs where travellers will see it, curling at the corners. The Trial is over: the word off the west road is all of what happened on the last night, and nobody tells it the same way twice.",
+        "told": "{keeper} hears you out, all of it, from the Westgate to the verdict, and laughs in the right places, and once does not laugh at all. 'We heard some of it,' {keeper} says then. 'Off the west road. Not the half of it.' {keeper} reaches up and takes down the playbill of the Midsummer Trial, and folds it, and puts it behind the bar, not on the fire."
+      },
+      "herald": {
+        "scenario": "players.scenario.json",
+        "exports": [
+          "joined",
+          "freed",
+          "seen_show",
+          "lem_kept"
+        ]
+      }
     }
   ]
 }

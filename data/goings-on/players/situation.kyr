@@ -42,8 +42,8 @@ Module players "The players on the green" {
     State chained "A tall wagon, painted with a sun and a moon and the words GOSSE'S COMPANY in red letters gone pink, stands on the green with its shafts down. A chain runs from its back wheel to a post, and the chain has a padlock on it.".
     State free "The players' wagon stands on the green with its shafts up, loaded to the roof, a painted cloth rolled on top.".
   }
-  Observe green_players at green when stuck(gosse) and not gone(gosse) "On the green the players' wagon stands with its back wheel chained to a post. A bear is asleep in the grass beside it, with a thin man for a pillow, and a big old man in a faded crimson coat sits on the tail-board looking at the sky as if it owed him money.".
-  Observe green_players_free at green when reckoned(gosse) and not gone(gosse) "The players' wagon stands ready on the green. Someone has hung a painted cloth from its side, a sun and a moon on a blue ground, for a stage.".
+  Observe green_players at green when stuck(gosse) and not gone(gosse) "A bear is asleep in the grass by the players' wagon, with a thin man for a pillow, and a big old man in a faded crimson coat sits on the wagon's tail-board looking at the sky as if it owed him money.".
+  Observe green_players_free at green when reckoned(gosse) and not gone(gosse) "Gosse is walking slowly round the wagon with his hands behind his back, inspecting its wheels as if he had just bought it.".
   Observe green_players_gone at green when gone(gosse) "There are wheel-ruts in the grass of the green, and a patch where the grass is flattened in a ring, where a bear lay.".
 
   // The town's own people on the players.
@@ -51,7 +51,7 @@ Module players "The players on the green" {
     Says "'Four nights' bed and board for six and a bear,' says {keeper}, 'and the bear eats for three. Eight coin. They had it, too, in the hat, Tuesday night: the whole town went to see them. And then their man who leads the bear went off with the hat.' {keeper} folds the cloth. 'I don't doubt the old man means to pay. He means a great many things. The wagon stays chained till someone does.'".
   }
   Topic priest_players with priest "Ask {priest} about the players" when not gone(gosse) once {
-    Says "{priest} smiles despite themselves. 'They played the Shepherd's Revenge on the green on Tuesday, and the clown sat in my place at the front and gave a sermon, and I am still not sure whether I should have minded.' Then, more soberly: 'The man who went off with the hat was Lem Coyle, who leads their bear. He was not a bad man in the shrine. I saw him go out along the common toward the old lime-kiln, with the hat under his coat like a hen.'".
+    Says "{priest} smiles, and then tries not to. 'They played the Shepherd's Revenge on the green on Tuesday, and the clown sat in my place at the front and gave a sermon, and I am still not sure whether I should have minded.' Then, more soberly: 'The man who went off with the hat was Lem Coyle, who leads their bear. He was not a bad man at the shrine. I saw him go out along the common toward the old lime-kiln, with the hat under his coat like a hen.'".
     On discuss { Assert knows(actor, lem_where). }
   }
   Topic trader_players with trader "Ask {trader} about the players" when not gone(gosse) once {
@@ -59,7 +59,7 @@ Module players "The players on the green" {
   }
 
   Topic gosse_trouble with gosse "Ask Gosse what has happened" when stuck(gosse) and not gone(gosse) once {
-    Says "'A small reverse,' says Gosse. 'A tragedy in the classical sense: brought about by a flaw in the hero, who failed to pay his chain-man for four months.' He spreads his hands. 'Lem has gone off with the hat, and the hat had the reckoning in it, and our host has chained the wagon, and in nine days the Midsummer Trial opens at Pentrice over the march and we must be there or die in a ditch.' He looks at you sidelong. 'I do not ask for money. I never ask for money. I mention that it exists.'".
+    Says "'A small reverse,' says Gosse. 'A tragedy in the classical sense: brought about by a flaw in the hero, who failed to pay his chain-man for four months.' He spreads his hands. 'Lem has gone off with the hat, and the hat had the reckoning in it, and our host has chained the wagon, and this week the Midsummer Trial opens at Pentrice over the march and we must be there or die in a ditch.' He looks at you sidelong. 'I do not ask for money. I never ask for money. I mention that it exists.'".
   }
   Topic hepzibah_lem with hepzibah "Ask Hepzibah about Lem" when stuck(gosse) and not gone(gosse) once {
     Says "'He's owed four months,' says Hepzibah, biting off a thread. 'Four coin, since he will ask for it. I have it written down.' She turns a page of the book on her knee, a fat book of cues and accounts. 'Absalom pays his players in compliments, and most of us have learned to eat them. Lem has a mother.' She looks at you over her spectacles. 'If you find him, don't hurt him. He's a good hand with the bear.'".
