@@ -22,23 +22,23 @@ Module gaunt "A Winter in Carth" {
   // With a fire on the hearth or in the byre, the house is lit; else it is dark.
   Relation byreFire(group).
   // By day a little grey comes in at the one window; by night, without a fire, nothing does.
-  Rule house_lit when (state(hearth, ablaze) or not dark()) and unlit(house_place) { Retract unlit(house_place). }
-  Rule house_dark when not state(hearth, ablaze) and dark() and not unlit(house_place) { Assert unlit(house_place). }
-  Rule byre_lit when (byreFire(carth_vigil) or not dark()) and unlit(carth_byre) { Retract unlit(carth_byre). }
-  Rule byre_dark when not byreFire(carth_vigil) and dark() and not unlit(carth_byre) { Assert unlit(carth_byre). }
+  Rule house_lit when (state(hearth, ablaze) or not nightfall()) and unlit(house_place) { Retract unlit(house_place). }
+  Rule house_dark when not state(hearth, ablaze) and nightfall() and not unlit(house_place) { Assert unlit(house_place). }
+  Rule byre_lit when (byreFire(carth_vigil) or not nightfall()) and unlit(carth_byre) { Retract unlit(carth_byre). }
+  Rule byre_dark when not byreFire(carth_vigil) and nightfall() and not unlit(carth_byre) { Assert unlit(carth_byre). }
 
   // ── The household ─────────────────────────────────────────────────────────────────────────────────────────────────
   Person will "Will Scaife" at house_place {
-    Role "a big silent man sitting on the settle in the dark with a billhook across his knees, because he has to hold something" when dark() and not state(hearth, ablaze).
+    Role "a big silent man sitting on the settle in the dark with a billhook across his knees, because he has to hold something" when nightfall() and not state(hearth, ablaze).
     Role "a big silent man on the settle, with his hands open on his knees and his face to the fire" when state(hearth, ablaze).
-    Role "a big silent man with a shovel, grey-faced, who does not look at anyone" when not dark() and not state(hearth, ablaze).
+    Role "a big silent man with a shovel, grey-faced, who does not look at anyone" when not nightfall() and not state(hearth, ablaze).
     Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "A man's voice, out of the dark, low: 'Sit down where you are. Don't walk about. There's a child.'".
     Greets again "Will Scaife says nothing. You can hear him breathing.".
   }
   Person annis "Annis Scaife" at house_place {
-    Role "the farmer's wife, a sharp voice in the dark, never still" when dark() and not state(hearth, ablaze).
-    Role "the farmer's wife, thin as a lath, with her sleeves rolled and her mouth set" when state(hearth, ablaze) or not dark().
+    Role "the farmer's wife, a sharp voice in the dark, never still" when nightfall() and not state(hearth, ablaze).
+    Role "the farmer's wife, thin as a lath, with her sleeves rolled and her mouth set" when state(hearth, ablaze) or not nightfall().
     Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "'You'll be the ones the snow brought,' says a woman's voice. 'There's oatmeal in water and there's a turnip, and you're welcome to your share of both, and of the dark. Sit on the floor by the wall. Don't touch the hearth.'".
     Greets again "'Well?' says Annis Scaife.".
@@ -179,27 +179,27 @@ Module gaunt "A Winter in Carth" {
   // The byre: a fire there is not a fire on the hearth.
   Action byre_fire(actor: group, site: place) "Make a fire of straw and thorn in the old fire-pit in the byre, and bring the household through to it" {
     Description "Raistrick puts his hand in the hearth. He has never once looked anywhere else.".
-    Requires able(actor) and company(actor) and at(actor, site) and inHouse() and vigilOn() and knows(actor, ash_test) and not byreFire(carth_vigil) and not state(hearth, ablaze) and dark().
+    Requires able(actor) and company(actor) and at(actor, site) and inHouse() and vigilOn() and knows(actor, ash_test) and not byreFire(carth_vigil) and not state(hearth, ablaze) and nightfall().
     Time 3.
     On success { Assert byreFire(carth_vigil). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert grannyIn(carth_vigil). Retract at(party, house_place). Assert at(party, carth_byre). }
     Result "In the byre wall there is an old fire-pit, from before the house had a chimney: a ring of blackened stones. You lay straw in it, and thorn, and strike a light, and the byre comes up out of the dark: the cow, turning her head; the calf; the old woman on her stool by a long shape under a sheet, blinking. Will Scaife comes to the byre door and looks at the fire for a long time. He says nothing. Then he goes back and lifts the child out of the box-bed in her blankets and brings her through, and lays her in the straw by the fire, and sits down beside her; and Annis comes after him with the baby; and nobody says the word vigil, or the word hearth, all night.".
   }
   Action beasts_in(actor: group, site: place) "Bring the cow and the calf through from the byre into the house-place" {
     Description "The old way: a beast is a fire nobody can call one.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and vigilOn() and (capable(actor, woodcraft) or knows(actor, beasts_old)) and not beastsIn(carth_vigil) and not state(hearth, ablaze) and dark().
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and vigilOn() and (capable(actor, woodcraft) or knows(actor, beasts_old)) and not beastsIn(carth_vigil) and not state(hearth, ablaze) and nightfall().
     Time 3.
     On success { Assert beastsIn(carth_vigil). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). }
     Result "Through the byre door in the dark, a hand on the cow's warm flank, a word, a push; she comes, as cows will, at last, all at once, and the calf after her bawling. You stand them by the box-bed with their great breathing sides to it, and the smell of them fills the house-place, hay and dung and milk and warmth, and the cold goes back from the bed a yard, and then another. Old Mother Scaife laughs out loud in the dark. 'That's how it was,' she says. 'That's how it was.' The child's breathing eases. It is not much warmer. It is enough.".
   }
   Action share_bed(actor: group, site: place) "Get into the box-bed with the household, everyone together, under every blanket in the house" {
     Description "Heat is heat, and you have some.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and vigilOn() and not sharedBed(carth_vigil) and not state(hearth, ablaze) and dark()
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and vigilOn() and not sharedBed(carth_vigil) and not state(hearth, ablaze) and nightfall()
       and (coughHeard(actor) or dowsieBurning(dowsie)).
     Time 2.
     On success { Assert sharedBed(carth_vigil). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert strikes(carth_cold, actor). }
     Result "Annis Scaife says 'What—' and then, 'Aye. All right. Aye.' You get into the box-bed in the dark with your boots off, against the wall, with the child between you and her mother and the baby somewhere, and Will on the other side of his wife like a wall, and a dog across all your feet, and every blanket and coat and sack in the house over the lot of you. The child is so hot it is like holding a loaf. Her breathing goes on against your neck all night, and some time before morning it changes, and eases; and you are colder than you have ever been, on the outside of all that warmth, and you do not move.".
   }
-  Hazard carth_cold "a night on the cold side of the bed" means "Deal (1d6) cold damage to ally unless constitution save against (12).".
+  Hazard carth_cold "a night on the cold side of the bed" means "Deal (1d3) physical damage to ally unless constitution save against (11).".
   Action nurse_child(actor: group, site: place) "Sit up with Dowsie through the fever" {
     Description "Cold cloths and warm hands, and water a sip at a time, and somebody who knows what the breathing means.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and capable(actor, mending) and dowsieBurning(dowsie) and not nursed(dowsie).
@@ -236,7 +236,7 @@ Module gaunt "A Winter in Carth" {
   Relation reeveKneeling(group). Relation reeveDone(group). Measure reeveAt(group).
   Rule reeve_comes when carthNight() and hour(clock) >= 3 and hour(clock) < 6 and not reeveDone(carth_vigil) and not reeveKneeling(raistrick) and vigilOn() {
     Assert reeveKneeling(raistrick). Assert at(raistrick, house_place). Set reeveAt(raistrick) to watch(clock). }
-  Rule reeve_told at house_place when reeveKneeling(raistrick) and at(party, house_place) and not spread(reeve_told)
+  Rule reeve_told within carth_house when reeveKneeling(raistrick) and inHouse() and not spread(reeve_told)
     says "The latch lifts. Nobody knocked. Cold air comes in along the floor and finds your ankles, and the door shuts, and someone is in the room: you hear the snow fall off him, and his breathing, slow, and his boots cross the flagstones, exactly, without feeling for anything, as a man crosses his own kitchen. He kneels at the hearth. You hear the ash move. He is holding his hand in it. Nobody in the house breathes. In the box-bed even the child is still." { Assert spread(reeve_told). }
   Entity reeve_told: fact "the Ash-reeve kneels".
   Action deceive_reeve(actor: group, site: place) "Tell the man at the hearth the warmth is the child's: she burned with fever, and was laid on the hearthstone to cool" {
@@ -252,14 +252,14 @@ Module gaunt "A Winter in Carth" {
   Relation triedReeve(group).
   Rule reeve_judges when reeveKneeling(raistrick) and watch(clock) >= reeveAt(raistrick) + 1 {
     Retract reeveKneeling(raistrick). Assert reeveDone(carth_vigil). Assert at(raistrick, reeve_hut). }
-  Rule reeve_broken at house_place when reeveDone(carth_vigil) and state(hearth, ablaze) and not reeveDeceived(raistrick) and vigilOn() and not vigilBroken(carth_vigil)
+  Rule reeve_broken within carth_house when reeveDone(carth_vigil) and state(hearth, ablaze) and not reeveDeceived(raistrick) and vigilOn() and not vigilBroken(carth_vigil)
     says "Raistrick takes his hand out of the warm ash and looks at it in the firelight as if it had told him something about himself. 'Broken,' he says. He does not say it unkindly. He takes a stick out of his coat and a knife, and cuts a mark on it, and goes out into the snow, and the door shuts." {
     Assert vigilBroken(carth_vigil). Assert vigilEnded(carth_vigil). }
-  Rule reeve_kept_cold at house_place when reeveDone(carth_vigil) and state(hearth, cold) and vigilOn() and not spread(reeve_kept)
+  Rule reeve_kept_cold within carth_house when reeveDone(carth_vigil) and state(hearth, cold) and not byreFire(carth_vigil) and vigilOn() and not spread(reeve_kept)
     says "He takes his hand out of the ash. He stands, and you hear him wipe it on his coat. 'Kept,' he says, to nobody, and goes out, and the cold air goes along the floor after him." { Assert spread(reeve_kept). }
-  Rule reeve_kept_wet at house_place when reeveDone(carth_vigil) and state(hearth, snowed) and vigilOn() and not spread(reeve_kept)
+  Rule reeve_kept_wet within carth_house when reeveDone(carth_vigil) and state(hearth, snowed) and vigilOn() and not spread(reeve_kept)
     says "He takes his hand out of the hearth and holds it up. It drips. For a long time he says nothing at all; you can hear him thinking, which is a sound like a man very slowly turning over a stone. 'Wet,' he says. 'Cold.' He wipes his hand. 'Kept,' he says, and goes out." { Assert spread(reeve_kept). }
-  Rule reeve_kept_byre at house_place when reeveDone(carth_vigil) and byreFire(carth_vigil) and not state(hearth, ablaze) and vigilOn() and not spread(reeve_smoke)
+  Rule reeve_kept_byre within carth_house when reeveDone(carth_vigil) and byreFire(carth_vigil) and not state(hearth, ablaze) and vigilOn() and not spread(reeve_smoke)
     says "From the byre, where the whole household lies in the straw by the fire-pit, you hear him come in and kneel at the dead hearth. Then nothing, for a long time. Then he sniffs. Smoke: the whole house smells of it. You hear him stand up. Then you hear him kneel down again, and put his hand back in the ash, and hold it there; and stand; and say 'Kept,' in a voice like a man putting down something heavy; and go." { Assert spread(reeve_smoke). }
   Entity reeve_kept: fact "kept". Entity reeve_smoke: fact "the smoke".
 
@@ -282,7 +282,7 @@ Module gaunt "A Winter in Carth" {
     says "In the byre the old woman is asleep under the sheet against her husband, with her arms round him. Her hands, when Annis takes them, are white to the wrist, and she does not feel it. 'He was cold,' she explains." { Assert spread(morning_granny). }
   Entity morning_granny: fact "the old woman in the morning".
   // Morning's verdict on the company, from the household: who lit what without asking is told to go when the road opens.
-  Rule morning_go within carth when morningDue(carth_vigil) and atCarth() and litWithoutLeave(party) and not spread(morning_go)
+  Rule morning_go within carth when morningDue(carth_vigil) and atCarth() and litWithoutLeave(party) and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_go)
     says "Will Scaife does not look at you all morning. When he has dug the yard gate clear he stands by it, and waits, and you understand that he is waiting for you to go through it. Annis puts a heel of bread in your hand at the door, without a word, and shuts it." { Assert spread(morning_go). }
   Entity morning_go: fact "told to go".
   // Whoever lit the hearth without leave and broke the vigil has taken its debt: seventeen nights, in the Register.
@@ -302,7 +302,7 @@ Module gaunt "A Winter in Carth" {
   // Released, the vigil ends: the fire is lit, and stays lit.
   Rule released_lit when vigilReleased(carth_vigil) and not state(hearth, ablaze) { Assert state(hearth, ablaze). Assert vigilEnded(carth_vigil). Assert grannyIn(carth_vigil). }
   Rule granny_comes_home when vigilEnded(carth_vigil) and at(granny, carth_byre) and not grannyDead(granny) { Assert at(granny, house_place). }
-  Observe house_after at house_place when morningDue(carth_vigil) and vigilOn() and not state(hearth, ablaze) and dark() "The house-place at Carth, dark again for the night: the cold has come back into it and sat down.".
+  Observe house_after at house_place when morningDue(carth_vigil) and vigilOn() and not state(hearth, ablaze) and nightfall() "The house-place at Carth, dark again for the night: the cold has come back into it and sat down.".
   Observe granny_gone_scene at carth_byre when grannyDead(granny) "The byre at Carth, and along the far wall two long shapes on two hurdles under two sheets.".
   Observe released_scene at house_place when vigilReleased(carth_vigil) "There is a fire on the hearth at Carth that nobody is afraid of, and a pot on it, and steam; and by the hearth, on the cloth, the place laid for the Guest has been taken up, and the bowl put back on the dresser.".
 

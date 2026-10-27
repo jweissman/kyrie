@@ -3,7 +3,7 @@ Module gaunt "A Winter in Carth" {
   // A warm cell in the Close, visited by day from the Close side (for a company that may enter the Close), and talked
   // to at any hour through the barred window from Gaol Lane, below. A person is talked to where they are; the voice at
   // the window is written as its own person, seen from the lane only while Hern is in the cell.
-  Person hern_window "Ninian Hern, at the bars" at gaol_lane {
+  Person hern_window "Ninian Hern" at gaol_lane {
     Role "a voice and two hands and a bit of a face at the barred window over Gaol Lane, the hands holding the bars". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "'Is that my custodian?' says the face at the bars. 'Or a stranger? Either is welcome; I've had the precentor all afternoon, explaining my heresy to me. He's very good at it. I'm thinking of taking it up.' A cough. 'Stand where I can see you. I'm on the bed on tiptoe.'".
     Greets again "Hern's hands come round the bars.".
@@ -116,7 +116,7 @@ Module gaunt "A Winter in Carth" {
   Rule pru_informs when informs(prudence) and eveDay() and hour(clock) >= 20 and not informed(prudence) and not rescueOff(hal) and not hernFled(hern) and hernGaoled(hern) { Assert informed(prudence). Retract informs(prudence). }
   // The serjeants: at the window from half past ten, if they were told.
   Person serjeants "the Consistory's serjeants" at limbo {
-    Role "two serjeants of the Consistory in grey, with staves, waiting in the shadow of the lane". Ancestry human. Calling warrior. Level 3. Numbers 2. Pronouns they.
+    Role "two serjeants of the Consistory in grey, with staves, waiting in the shadow of the lane". Ancestry human. Calling commoner. Level 1. Numbers 2. Pronouns they.
     Temperament territorial.
     Warns "Two men in the Consistory's grey step out of a doorway in Gaol Lane with staves. 'In the Consistory's name,' says the elder, without much interest. 'Whoever's for the window, go home. It's Fastens' Eve. Nobody wants this.'".
     Pleads "The serjeants back off down the lane, one helping the other. 'Fastens' Eve,' says the elder. 'We never saw a thing.'".
@@ -126,7 +126,7 @@ Module gaunt "A Winter in Carth" {
   Rule hal_comes when eveDay() and hour(clock) >= 23 and not rescueOff(hal) and not halTaken(hal) and hernGaoled(hern) and not hernFled(hern) and not hernDead(hern) { Assert halHere(hal). Assert at(hal, gaol_lane). }
   Relation halHere(group).
   Rule hal_routine when not halHere(hal) and not halTaken(hal) and daytime() and not at(hal, gaol_lane) { Assert at(hal, gaol_lane). }
-  Rule hal_taken when halHere(hal) and at(serjeants, gaol_lane) and able(serjeants) and not tolerates(serjeants, party) and not halTaken(hal) and not barsOut(hern)
+  Rule hal_taken at gaol_lane when halHere(hal) and at(serjeants, gaol_lane) and able(serjeants) and not tolerates(serjeants, party) and not halTaken(hal) and not barsOut(hern)
     says "Hal Metcalfe comes down Gaol Lane at eleven with a ladder on his shoulder, masked, whistling, and the serjeants step out and take him by both arms, ladder and all, quite gently, and walk him away up the Bearer's Steps. 'Pru,' he says to nobody, over his shoulder. 'Pru?'" {
     Assert halTaken(hal). Retract halHere(hal). Assert at(hal, limbo). }
   Action file_bars(actor: group, site: place) "Help Hal Metcalfe up the ladder and get the bars out of the gaol window" {

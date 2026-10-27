@@ -1,0 +1,57 @@
+{
+  "road": [
+    "Talk to Beadle",
+    "Ask the beadle what the commission",
+    "Take Ninian Hern into your custody",
+    "To the Proxy's Stone",
+    "Tell him: yes. That is what love is",
+    "Tell him: to finish",
+    "Ask Hern what penance",
+    "To the Drove Fork",
+    "Call after him: a promise binds",
+    "To the top of Carth Fell",
+    "To the yard at Carth",
+    "Into the house at Carth"
+  ],
+  "carth": [
+    "=90",
+    "Get into the box-bed",
+    "=139",
+    "To the yard",
+    "To the road across the Levels",
+    "To the Fell Gate"
+  ],
+  "row": [
+    "To the Row",
+    "Into the Barefoot Hall",
+    "Talk to Bess",
+    "Ask Bess Ackroyd about Ninian",
+    "Bring Ninian Hern and Bess",
+    "Out to the Row",
+    "To the Shambles",
+    "To the Bearer",
+    "Bring Ninian Hern up",
+    "To the Bearer",
+    "To Gaol Lane",
+    "Talk to Ninian Hern",
+    "Tell Hern you would rather he lived",
+    "Take your leave",
+    "Talk to Hal",
+    "Ask Hal Metcalfe what"
+  ],
+  "gaol": [
+    "To the Bearer",
+    "To the Shambles",
+    "Into the Fat Lamb",
+    "Take a bed"
+  ],
+  "eve": [
+    "=372",
+    "Out to the Shambles",
+    "To the Bearer",
+    "To Gaol Lane",
+    "^Attack",
+    "=378",
+    "Help Hal Metcalfe up the ladder"
+  ]
+}

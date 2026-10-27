@@ -1,0 +1,73 @@
+{
+  "road": [
+    "Talk to Beadle",
+    "Ask the beadle what the commission",
+    "Take Ninian Hern into your custody",
+    "Into the vigil-house",
+    "Talk to Raistrick",
+    "Ask Raistrick what he keeps",
+    "Ask Raistrick whose",
+    "Out to the road",
+    "To the Proxy's Stone",
+    "Tell him: it is a trade",
+    "Tell him: nothing",
+    "To the Drove Fork",
+    "To the drovers' road",
+    "Go after him and take him by the arm",
+    "To the Drove Fork",
+    "To the top of Carth Fell",
+    "To the yard at Carth",
+    "Into the house at Carth"
+  ],
+  "carth": [
+    "=78",
+    "Strike a light from the tinderbox",
+    "=139",
+    "To the yard",
+    "To the road across the Levels",
+    "To the Fell Gate"
+  ],
+  "heb": [
+    "To the Row",
+    "Into Heb's cellar",
+    "Talk to Heb",
+    "Ask Heb about the law",
+    "Buy a clean tally",
+    "Out to the Row",
+    "To the Shambles",
+    "To the Bearer",
+    "Show the porter of the Close Gate Heb's",
+    "Bring Ninian Hern up"
+  ],
+  "ladder": [
+    "To the Bearer",
+    "To the Shambles",
+    "To the Stand",
+    "Bear a day's fast for Mistress Dinsdale",
+    "To the Shambles",
+    "To Tanners' Row",
+    "Into Sowerby's",
+    "Talk to Master Pentecost",
+    "Tell Master Sowerby",
+    "Out to Tanners",
+    "To the Shambles",
+    "Into Dinsdale's",
+    "Talk to Mistress Grizel",
+    "Tell Mistress Dinsdale that Master Sowerby",
+    "Out to the Shambles",
+    "To the Row",
+    "Into the Barefoot Hall",
+    "Talk to Bess",
+    "Ask Bess Ackroyd about the Barefoot",
+    "Tell Bess Ackroyd that Mistress Dinsdale"
+  ],
+  "ash": [
+    "=440",
+    "Out to the Row",
+    "To the Shambles",
+    "To the Bearer",
+    "To the Close$",
+    "Into the Minster",
+    "=450"
+  ]
+}

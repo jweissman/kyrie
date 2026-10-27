@@ -64,7 +64,7 @@ Module gaunt "A Winter in Carth" {
   Rule hern_walks_in when hernAhead(hern) and mondayN() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not following(hern, party) and not hernDead(hern) {
     Assert hernGaoled(hern). Assert at(hern, gaol_cell). }
   // Left anywhere on the road by a company that goes on without him, he goes on without it.
-  Rule hern_strays when following(hern, party) and dark() and at(party, ?p) and townRoom(?p) and not inClose() and not custody(party) and not spread(hern_strays)
+  Rule hern_strays when following(hern, party) and nightfall() and at(party, ?p) and townRoom(?p) and not inClose() and not custody(party) and not spread(hern_strays)
     says "Hern stops at a corner. 'I've a room in the Row,' he says, 'nobody's let it; I'll sleep there, and save you the custody of me.' He goes off into the dark." { Assert spread(hern_strays). }
   Entity hern_strays: fact "Hern goes his way".
 
@@ -78,7 +78,7 @@ Module gaunt "A Winter in Carth" {
     Result "The Stand's clerk cuts a fast on your tally with a small curved mark like a crescent moon. 'Two,' he says. 'Don't eat. People will be watching. They always are, in the Fast; it's the main amusement.'".
   }
   Rule fast_ends when fastToday(party) and dayN(gaunt_town) > fastedOn(party) { Retract fastToday(party). }
-  Hazard barefoot_mile "a mile barefoot on the frozen setts" means "Deal (1d4) cold damage to ally unless constitution save against (11).".
+  Hazard barefoot_mile "a mile barefoot on the frozen setts" means "Deal (1d2) physical damage to ally unless constitution save against (10).".
   Action own_mile(actor: group, site: place) "Walk a barefoot mile round the walls for one of your pains" {
     Description "Boots off, round the inside of the new wall, with a board on your back saying what for.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and tallied(actor) and pains(actor) >= 1.
@@ -87,17 +87,17 @@ Module gaunt "A Winter in Carth" {
     Result "Boots off, a board on your back saying your own fault in your own name, which nobody in the Stand has seen in years and several of them come out to look at, and once round the inside of the new wall on the frozen setts, a mile, past the Row and the Fell Gate and the Gate of Ash and back. Your feet stop hurting after the first quarter, which is worse. Children follow you. At the end the clerk cuts a notch off your tally with a flourish.".
   }
   Relation walkedBarefoot(group).
-  Hazard stripes "stripes at the Stand's post" means "Deal (2d4) physical damage to ally.".
+  Hazard stripes "stripes at the Stand's post" means "Deal (1d3) physical damage to ally.".
   Action own_stripes(actor: group, site: place) "Take stripes at the Stand's post for three of your pains" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and tallied(actor) and pains(actor) >= 1.
     Time 1.
     On success { Decrease pains(actor) by 3. Assert strikes(stripes, actor). }
     Result "The post is in the middle of the Stand and the man who lays them on is a proxy himself, between jobs, and apologises. Six with a leather strap, counted aloud by the clerk. It is over quicker than you expected and hurts for longer. 'Three,' says the clerk, and cuts.".
   }
-  Hazard steps_cold "a night on the Bearer's Steps" means "Deal (1d8) cold damage to ally unless constitution save against (12).".
+  Hazard steps_cold "a night on the Bearer's Steps" means "Deal (1d4) physical damage to ally unless constitution save against (11).".
   Action own_vigil(actor: group, site: place) "Kneel a night's vigil on the Bearer's Steps for six of your pains" {
     Description "From dusk to first light, on the stone, in the open.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and dark() and tallied(actor) and pains(actor) >= 1 and not licence().
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and nightfall() and tallied(actor) and pains(actor) >= 1 and not licence().
     Time 36.
     On success { Decrease pains(actor) by 6. Assert strikes(steps_cold, actor). Assert keptStepVigil(actor). }
     Result "You kneel on the Bearer's Steps all night with the Close Gate shut above you and the Shambles shut below. Twice the porter opens his grille and looks at you and shuts it. Once a woman from the Row brings you a hot stone wrapped in a rag and goes away again without a word. The Minster bells give you every hour, so that you know exactly how much of it there is. At first light the porter comes out with a knife and cuts six notches off your tally and gives it back. 'Six,' he says. 'You did it properly. Nobody does it properly.'".

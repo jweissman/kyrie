@@ -93,7 +93,7 @@ Module gaunt "A Winter in Carth" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter_house) and sitting() and trialOpen(consistory) and not verdictGiven(consistory) and shriven()
       and knows(actor, sentence_borne) and hernAnswered(consistory) and not hernRecants(hern) and not companyOffered(actor) and not hernDead(hern).
     Time 2 minutes.
-    On success { Assert companyOffered(actor). }
+    On success { Assert companyOffered(actor). Set proxyAt(consistory) to watch(clock). }
     Result "You stand up behind the rope with your clean tally in your hand and say it: that putting-out is a penance, by the canons, and any penance may be borne by another; and that you will bear his. Nobody moves. Then everybody does. The canons turn to each other on the bench; the city behind the rope makes a long sound like a wave going back down a beach; Hern, on his square of stone, says 'No—' and starts to cough and cannot finish. In the stone chair the Lady Penitentiary looks at you for a long time without any expression at all. 'The canons,' she says at last, 'allow it.' She looks at Hern. 'The canons have never been asked.'".
   }
   Action shout(actor: group, site: place) "Shout for him from behind the rope" {
@@ -104,7 +104,9 @@ Module gaunt "A Winter in Carth" {
   }
   // One o'clock: she asks him.
   Rule hern_asked when sitting() and hour(clock) >= 13 and trialOpen(consistory) and not hernAnswered(consistory) and not verdictGiven(consistory) and at(hern, chapter_house) {
-    Assert hernAnswered(consistory). }
+    Assert hernAnswered(consistory). Set answeredAt(consistory) to watch(clock). }
+  Measure answeredAt(group). Measure proxyAt(group).
+  Query afterAnswer() means hernAnswered(consistory) and watch(clock) > answeredAt(consistory).
   Rule hern_recants_rule when hernAnswered(consistory) and hernWillLive(hern) and (hernHeardHawise(hern) or hernHeardBess(hern)) and not hernRecants(hern) and not hernDead(hern) { Assert hernRecants(hern). }
   Rule hern_recants_true at chapter_house when hernRecants(hern) and hernHeardHawise(hern) and inChapter() and not spread(hern_answer)
     says "At one the Lady Penitentiary asks him: 'Ninian Hern, do you recant?' Hern looks at her a long time across the floor. Then he says: 'I said nobody's sorry for another. It's not so. I was, once. For a fishmonger's wife, the week I was fifteen, and I fasted for her, and I was sorry all week, for her, and you were in the next pen eating the cat's dinner.' The bench is baffled. The Lady Penitentiary is not. 'Then the proposition is false,' she says, 'by the witness of the accused, and the accused recants it.' She looks at him. 'Go home, Ninian.' And very quietly, so that perhaps only the front of the crowd hears it: 'It's still too salt.'" { Assert spread(hern_answer). }
@@ -114,11 +116,11 @@ Module gaunt "A Winter in Carth" {
     says "At one the Lady Penitentiary asks him: 'Ninian Hern, do you recant?' And Hern says no, and then he says it: what he came forty miles barefoot to say inside the Minster where nobody could walk past. Thirty years of other men's fasts. The stairs on his knees. Eleven hours of contrition for a draper, thinking about dinner. 'I was the best there was,' he says, 'and I was never sorry once, and nor were they, and the bells counted it.' He coughs. 'You can buy anything in Gaunt but that.' He looks round at the city behind the rope, at the ash on its foreheads. 'A man asked me on the road—' and he turns, and finds you behind the rope, and tells the Consistory of Gaunt what you said on the fell, in your words. Then he stops, because he has said it, and stands on his square of stone looking pleased and frightened and old." { Assert spread(hern_answer). }
   Entity hern_answer: fact "Hern's answer".
   // The Wood-reeve: moved, and asked, he offers at once when Hern has refused.
-  Rule thackray_offers at chapter_house when hernAnswered(consistory) and not hernRecants(hern) and thackrayWillBear(thackray) and not thackrayOffered(thackray) and not verdictGiven(consistory)
+  Rule thackray_offers at chapter_house when afterAnswer() and not hernRecants(hern) and thackrayWillBear(thackray) and not thackrayOffered(thackray) and not verdictGiven(consistory)
     says "Beside the stone chair the Wood-reeve stands up. He is a big soft man in a fur gown and he has to put a hand on the Lady Penitentiary's chair to do it. 'I'll bear it,' he says. 'By the canons. Putting-out is a penance; any penance may be borne.' His voice shakes and then does not. 'I bought forty nights cold of the Penitentiary last winter for the forty-one I froze in the Row by holding back the oak, and Ninian Hern wouldn't keep them, and a farm on the fell has kept them for me ever since.' He takes off the fur gown and lays it on the bench. 'Now walk,' he says, to nobody, and then, to the Lady Penitentiary: 'Let me walk.'" {
-    Assert thackrayOffered(thackray). }
+    Assert thackrayOffered(thackray). Set proxyAt(consistory) to watch(clock). }
   // Two o'clock: the verdict, from what has been made true.
-  Rule verdict_recant when sitting() and hour(clock) >= 13 and hernRecants(hern) and not verdictGiven(consistory) {
+  Rule verdict_recant when sitting() and afterAnswer() and hernRecants(hern) and not verdictGiven(consistory) {
     Assert verdictGiven(consistory). Assert verdictRecant(consistory). }
   Rule verdict_dead when ashDay() and hour(clock) >= 12 and hernDead(hern) and not verdictGiven(consistory) {
     Assert verdictGiven(consistory). Assert verdictPutOut(consistory). Assert putOutDead(hern). }
@@ -126,7 +128,7 @@ Module gaunt "A Winter in Carth" {
   Rule verdict_dead_told when putOutDead(hern) and inTown() and not spread(verdict_dead_told)
     says "At noon the Consistory sits in the Chapter House on the matter of Ninian Hern, deceased, who is present in a deal coffin on trestles on his square of stone, because the canons are clear that death does not discharge a penance, only interrupts it. The charge is read. The Determination is read. The Lady Penitentiary asks the coffin whether it recants, and waits the proper time, and pronounces it put out, in a voice like a door closing. At dusk four serjeants carry it through the Gate of Ash and set it down in the snow outside, on the Levels, and come back in, and the gate is shut and sealed." { Assert spread(verdict_dead_told). }
   Entity verdict_dead_told: fact "the coffin put out".
-  Rule verdict_bearer when sitting() and hour(clock) >= 13 and hernAnswered(consistory) and (companyOffered(party) or thackrayOffered(thackray)) and hawiseMoved() and not hernRecants(hern) and not verdictGiven(consistory) {
+  Rule verdict_bearer when sitting() and afterAnswer() and watch(clock) > proxyAt(consistory) and (companyOffered(party) or thackrayOffered(thackray)) and hawiseMoved() and not hernRecants(hern) and not verdictGiven(consistory) {
     Assert verdictGiven(consistory). Assert verdictBearer(consistory). }
   Rule bearer_thackray when verdictBearer(consistory) and thackrayOffered(thackray) and not thackrayBears(thackray) and not companyBears(party) { Assert thackrayBears(thackray). }
   Rule bearer_company when verdictBearer(consistory) and companyOffered(party) and not thackrayOffered(thackray) and not companyBears(party) { Assert companyBears(party). }

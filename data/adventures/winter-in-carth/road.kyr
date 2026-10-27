@@ -6,11 +6,12 @@ Module gaunt "A Winter in Carth" {
   // them, and neither had they, so who had been forgiven? He is walking to his trial of his own will, because he wants to
   // say it in the Minster. He is funny, coarse, vain of his feet, generous, ill, and sometimes wrong.
   Person hern "Ninian Hern" at cross_road {
-    Role "a barefoot old man in a frieze coat, with feet like two old boots and a cough he is ignoring" when not hernGaoled(hern) and not hernCoat(hern).
-    Role "a barefoot old man in his shirt, grey as ash, with a cough that has stopped being ignorable" when not hernGaoled(hern) and hernCoat(hern).
-    Role "a barefoot old man in a warm cell, sitting on the end of the bed with his feet to the fire" when hernGaoled(hern).
+    Role "a barefoot old man in a frieze coat, with feet like two old boots and a cough he is ignoring" when not hernGaoled(hern) and not hernCoat(hern) and not at(hern, chapter_house).
+    Role "a barefoot old man in his shirt, grey as ash, with a cough that has stopped being ignorable" when not hernGaoled(hern) and hernCoat(hern) and not at(hern, chapter_house).
+    Role "a barefoot old man in a warm cell, sitting on the end of the bed with his feet to the fire" when hernGaoled(hern) and not at(hern, chapter_house).
+    Role "a barefoot old man in a new grey coat, standing on a square of different stone with his hands behind his back" when at(hern, chapter_house).
     Ancestry human. Calling commoner. Level 3. Peaceable. Pronouns he. Manner jovial.
-    Greets "The old man on the step of the Cross looks up from his sandal, which he is not wearing, and which has no sole. 'Ah,' he says. 'A stranger. Good. Clem has been trying to give me to somebody all morning, and the only somebody was a crow.' He holds out a hand like a root. 'Ninian Hern. Heretic. I'm expected.'".
+    Greets "The old man looks at you with enormous interest, as if you were a new kind of weather. 'Ninian Hern,' he says, and holds out a hand like a root. 'Heretic. I'm expected.'".
     Greets again "Hern looks up at you as if you were the one thing in the day he had been waiting for, which, he would be the first to tell you, is not saying much.".
     Joins "Hern picks up his stick and falls in at your shoulder, barefoot, as if he had been waiting all morning to be asked.".
     Leaves "Hern lifts a hand, without turning round.".

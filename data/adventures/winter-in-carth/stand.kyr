@@ -1,4 +1,10 @@
 Module gaunt "A Winter in Carth" {
+  // ── The Fat Lamb ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Person landlord "Matthias Dent" at fat_lamb {
+    Role "the landlord of the Fat Lamb, in a leather apron, carving". Profession innkeeper. Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "The landlord points his carving knife at the ox. 'Eat,' he says. 'Eat now. On Wednesday it's fish and the Fast till Easter, and the Penitentiary sends a man round to look in the pots.'".
+    Sells rations for 2 coin from 12.
+  }
   // ── The Stand ─────────────────────────────────────────────────────────────────────────────────────────────────────
   // The old sheep-market, where proxies are hired. Nobody here is sorry for anything, and all of them are working.
   Person clerk "the Stand's clerk" at the_stand {
@@ -30,7 +36,7 @@ Module gaunt "A Winter in Carth" {
   }
   Action bear_alderman(actor: group, site: place) "Kneel a night's vigil on the Bearer's Steps for an alderman's son, five shillings" {
     Description "From dusk to first light, on the stone. The son was sick in the font at a christening.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and dark() and not licence() and not boreFor(actor, clerk) and not struck(barefoot).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and nightfall() and not licence() and not boreFor(actor, clerk) and not struck(barefoot).
     Time 36.
     On success { Assert boreFor(actor, clerk). Assert strikes(steps_cold, actor). Assert keptStepVigil(actor). Increase quantity(actor, gold) by 5. }
     Result "The board round your neck says ROPER, G. (THE YOUNGER), PROFANATION OF A FONT, and you kneel all night on the Bearer's Steps under it in the cold. At two in the morning a young man in a good cloak comes up the Shambles from the Fat Lamb, singing, and stops, and reads the board, and laughs until he has to hold the rail, and goes on up and in at the Close Gate, where the porter lets him through without a tally. At first light the clerk comes with five shillings. 'Gideon Roper's boy,' he says. 'Good family.'".
@@ -69,7 +75,7 @@ Module gaunt "A Winter in Carth" {
   // Ash Day morning: with no back to be had, the loser walks; if the Row is out, both do.
   Rule sowerby_walks when ashDay() and hour(clock) >= 8 and standCornered(dinsdale) and not sowerbyWalked(sowerby) { Assert sowerbyWalked(sowerby). Assert at(sowerby, minster_porch). }
   Rule dinsdale_walks when ashDay() and hour(clock) >= 8 and struck(barefoot) and not dinsdaleWalked(dinsdale) { Assert dinsdaleWalked(dinsdale). Assert at(dinsdale, minster_porch). }
-  Rule sowerby_told_walking when sowerbyWalked(sowerby) and inTown() and ashDay() and hour(clock) < 12 and not spread(sowerby_walking)
+  Rule sowerby_told_walking when sowerbyWalked(sowerby) and not struck(barefoot) and inTown() and ashDay() and hour(clock) < 12 and not spread(sowerby_walking)
     says "At eight on Ash Day morning the Middle Town comes out of its doors to see a thing nobody has seen in eleven years: a burgess of Gaunt doing his own penance. Master Pentecost Sowerby, draper, second on the Ladder, comes up the Shambles barefoot on the frozen setts in his shirt, with a board round his neck in his own hand, A FALSE ELL, and his measuring-rod for a staff, very slowly, and white, and weeping a little with the cold. Nobody laughs. Somebody, after a while, takes off their hat. By the time he gets to the Bearer's Steps there are two hundred people walking behind him, quietly, as if it were a funeral, or a wedding." { Assert spread(sowerby_walking). }
   Entity sowerby_walking: fact "Sowerby walks".
   Topic sowerby_after with sowerby "Ask Master Sowerby how it was" when sowerbyWalked(sowerby) once {

@@ -112,17 +112,17 @@ Module gaunt "A Winter in Carth" {
   Kind gaunt_skates "a pair of skate-bones, cut from a cow's shins, with leather thongs" is treasure worth 0 weighing 0.
   Item skates "Tib Ackroyd's skate-bones" is gaunt_skates at limbo.
   Relation skatesFound(group).
-  Hazard ditch_water "the black water under the ditch ice" means "Deal (1d6) cold damage to ally unless constitution save against (12).".
+  Hazard ditch_water "the black water under the ditch ice" means "Deal (1d2) physical damage to ally unless constitution save against (10).".
   Action find_skates(actor: group, site: place) "Break the black ice by the culvert grating and reach in for the boy's skate-bones" {
     Description "The water under it is black, and the ice round the hole will not hold a man.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, row_ditch) and not dark() and not skatesFound(actor) and not tibBears(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, row_ditch) and not nightfall() and not skatesFound(actor) and not tibBears(actor).
     Time 2.
     On success { Assert skatesFound(actor). Assert at(skates, row_ditch). Assert strikes(ditch_water, actor). }
     Result "You lie flat on the ice with the whole slide watching, and break the black skin by the grating with your heel, and reach in to the shoulder. The cold of it is so complete that for a moment you cannot tell whether you have a hand at all. Then your fingers close on something knobbled, bone and thong, and you draw it out streaming, and roll back onto the bank, and the children cheer as if you had pulled out a drowned king.".
   }
   Event tib_skates near tib when keeps(tib, skates) "Tib Ackroyd takes the skate-bones and turns them over and wipes them on his sleeve and does not say thank you, which in the Row means thank you. He ties them on. Then he goes out onto the slide, and the line of children makes room, and as he goes they all begin to sing, the way they do, the sliding song, and for the first time you hear the end of it: Oswy, Oswy, up the hill, carry me and carry me still; at the top he set him down: NOW WALK, said Oswy, into town! And on NOW WALK whoever is at the front of the line has to get off the slide and walk, and everybody shrieks." teaches second_verse then { Assert tibHelped(party). }
   Discovery second_verse "The Row's children sing the end of Saint Oswy's rhyme, which is cut on no stone: at the top of the hill, Oswy set the sinner down, and said, Now walk.".
-  Observe ditch_tib_gone at row_ditch when tibBears(party) and not dark() "The children slide on the ditch in a line, singing. On the bank, where a boy was sitting yesterday, there is nobody: the boy is keeping somebody's seventeen cold nights, at a shilling a night, in a room in the Row with the window open.".
+  Observe ditch_tib_gone at row_ditch when tibBears(party) and not nightfall() "The children slide on the ditch in a line, singing. On the bank, where a boy was sitting yesterday, there is nobody: the boy is keeping somebody's seventeen cold nights, at a shilling a night, in a room in the Row with the window open.".
 
   // ── The Shrove baker ──────────────────────────────────────────────────────────────────────────────────────────────
   Person tunstall "Mother Tunstall" at bakehouse {

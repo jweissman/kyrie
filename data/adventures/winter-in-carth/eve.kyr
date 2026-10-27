@@ -20,10 +20,19 @@ Module gaunt "A Winter in Carth" {
   // Ash Day, the Chapter House.
   Rule hawise_desk when daytime() and not masked(hawise) and not at(hawise, penitentiary) and not sitting() and not afterTrial(hawise) { Assert at(hawise, penitentiary). }
   Rule hawise_home when not daytime() and at(hawise, penitentiary) and not masked(hawise) { Assert at(hawise, limbo). }
-  Rule hawise_masks when eveDay() and hour(clock) >= 21 and hour(clock) < 23 and not masked(hawise) and not spread(hawise_masked_done) { Assert masked(hawise). Assert at(hawise, row_lane). }
+  Rule hawise_masks when eveDay() and hour(clock) >= 21 and hour(clock) < 23 and not masked(hawise) and not spread(hawise_masked_done) { Assert masked(hawise). Assert at(hawise, limbo). }
   Rule hawise_unmasks when masked(hawise) and (hour(clock) >= 23 or not eveDay()) { Retract masked(hawise). Assert at(hawise, limbo). Assert spread(hawise_masked_done). }
   Entity hawise_masked_done: fact "the Lady at the copper".
   Relation afterTrial(group).
+  // Under the mask she is nobody: written as a person of her own, there only while the mask is on, so that nobody in
+  // the Row (and nothing on the page) calls her by her name.
+  Person masked "the masked woman at the copper" at limbo {
+    Role "a broad woman in a grey shawl and a black half-mask, ladling soup, with a voice from the Row". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "The masked woman holds out a bowl to you without looking, then looks. 'You're not Row,' she says. 'Have some anyway. It's Fastens' Eve.'".
+    Seen when masked(hawise).
+  }
+  Rule mask_on when masked(hawise) and not at(masked, row_lane) { Assert at(masked, row_lane). }
+  Rule mask_off when not masked(hawise) and at(masked, row_lane) { Assert at(masked, limbo). }
   Observe copper_masked at row_lane when masked(hawise) "At the Barefoot copper by the Hall door a masked woman in a grey shawl is ladling soup into the bowls held out to her, a ladle a bowl, never spilling, talking to everyone in the queue by name, and the queue talking back. Some of them call her Duchess. Nobody calls her anything else.".
 
   // ── At her desk ───────────────────────────────────────────────────────────────────────────────────────────────────
@@ -47,29 +56,29 @@ Module gaunt "A Winter in Carth" {
   }
 
   // ── Under the mask ────────────────────────────────────────────────────────────────────────────────────────────────
-  Topic masked_who with hawise "Ask the masked woman at the copper who she is" when masked(hawise) and not metMasked(actor) once {
+  Topic masked_who with masked "Ask the masked woman at the copper who she is" when masked(hawise) and not metMasked(actor) once {
     Says "'Nobody,' says the masked woman. 'It's Fastens' Eve. Nobody's anybody.' She ladles. 'I came out of this Row at twelve. Fasted for a fishmonger's wife with a boy who ate her cat's dinner on the fourth day and made me eat half. Every Fastens' Eve since I've come down and ladled, because on Fastens' Eve you can.' She looks at you through the eyeholes. 'You've walked with Ninian Hern,' she says. 'It's all over you. Opinions.' The ladle stops. 'Go on, then. It's Fastens' Eve. Say what you like to nobody.'".
     On discuss { Assert metMasked(actor). }
   }
-  Topic masked_carth with hawise "Tell the masked woman about the night at Carth" when masked(hawise) and metMasked(actor) and stayingAtCarth(actor) and not hawiseHeardCarth(hawise) once {
+  Topic masked_carth with masked "Tell the masked woman about the night at Carth" when masked(hawise) and metMasked(actor) and stayingAtCarth(actor) and not hawiseHeardCarth(hawise) once {
     Says "You tell her: the dark, the hearth, the hand in the ash; the child's cough, the old man in the byre, the old woman lying down with him. She goes on ladling the whole time, a ladle a bowl, never spilling. When you get to the old woman, she misses a bowl. The man holding it says nothing; he waits. She fills it. 'Forty nights,' she says. 'I set it. It's the penance for blood. I set it on a farm.' The next bowl. 'I've never seen a vigil kept. In thirty years. I've the Register. I've Raistrick's sticks.' She ladles. 'Go on,' she says. 'The old woman. Go on.'".
     On discuss { Assert hawiseHeardCarth(hawise). Increase hawiseReasons(hawise) by 1. }
   }
-  Topic masked_hern_word with hawise "Give the masked woman Hern's word: the soup was always too salt" when masked(hawise) and metMasked(actor) and carryingHern(actor) and not hawiseHeardHern(hawise) once {
+  Topic masked_hern_word with masked "Give the masked woman Hern's word: the soup was always too salt" when masked(hawise) and metMasked(actor) and carryingHern(actor) and not hawiseHeardHern(hawise) once {
     Says "The ladle stops. The masked woman stands quite still with it held over the copper, dripping, and the queue waits, and nobody says anything, because it is the Row. Then she puts the ladle down and lifts her mask a little, just to wipe her eyes, and puts it back. 'We made it,' she says. 'When we were fifteen. The Hall's first soup. I salted it, and he said it was too salt, and I said he could fast, then. Forty-five years.' She picks up the ladle. 'It's still too salt,' she says. 'I've never changed it. Tell him—' She stops. 'No. I'll tell him.'".
     On discuss { Assert hawiseHeardHern(hawise). Increase hawiseReasons(hawise) by 1. }
   }
-  Topic masked_verse with hawise "Sing the masked woman the end of the children's sliding rhyme" when masked(hawise) and metMasked(actor) and knows(actor, second_verse) and not hawiseHeardVerse(hawise) once {
+  Topic masked_verse with masked "Sing the masked woman the end of the children's sliding rhyme" when masked(hawise) and metMasked(actor) and knows(actor, second_verse) and not hawiseHeardVerse(hawise) once {
     Says "You sing it, badly, the end the Row's children sing on the ditch: at the top he set him down: NOW WALK, said Oswy, into town. The masked woman laughs out loud. 'We sang that,' she says. 'Ninian and me, on the ditch, when it froze. I'd forgotten there was an end to it. It's not on the plinth.' She ladles. 'Now walk.' She stops. 'He carried him up, and set him down, and said, now walk. Not, I've done it for you. Now walk.' She looks up at the Close wall, over the Row, where the Penitentiary's forty windows are dark. 'I've been carrying the whole city for thirty years,' she says, 'and never once set it down.'".
     On discuss { Assert hawiseHeardVerse(hawise). Increase hawiseReasons(hawise) by 1. }
   }
-  Topic masked_save with hawise "Ask the masked woman what would save Ninian Hern" when masked(hawise) and metMasked(actor) and hawiseReasons(hawise) >= 1 and not carryingHawise(actor) once {
+  Topic masked_save with masked "Ask the masked woman what would save Ninian Hern" when masked(hawise) and metMasked(actor) and hawiseReasons(hawise) >= 1 and not carryingHawise(actor) once {
     Says "'Nothing,' she says at once. 'He won't let it.' She ladles. Then, quietly: 'He could say he was sorry once. Not that he's wrong. Not that the Commerce is good. Just that once, in thirty years, for one of them, he was sorry: really sorry, his own sorrow, not bought. It would be true. I know it's true. I was there.' She fills a bowl. 'That's a recantation. In the canons, that's enough; the heresy is that nobody's sorry. One man sorry, once, and the proposition's false, and I can let him go home.' She does not look at you. 'He won't say it. He'll think it's giving in. Tell him it's giving me the words.'".
     On discuss { Assert carryingHawise(actor). }
   }
   Kind gaunt_ring "Dame Hawise's ring, a plain silver ring with the Penitentiary's billet of keys on it" is treasure worth 0 weighing 0.
   Item ring "Dame Hawise's ring" is gaunt_ring at limbo.
-  Topic masked_ring with hawise "Ask the masked woman for remission of your pains" when masked(hawise) and metMasked(actor) and hawiseMoved() and not ringGiven(hawise) once {
+  Topic masked_ring with masked "Ask the masked woman for remission of your pains" when masked(hawise) and metMasked(actor) and hawiseMoved() and not ringGiven(hawise) once {
     Says "She laughs, and holds the ladle out to the next bowl, and while she fills it she works a ring off her finger with her thumb and drops it on the step beside the copper. 'Remission,' she says. 'Show that at the Close Gate. It's no good anywhere else in the world, but in Gaunt it's the Lady Penitentiary's ring, and you owe nothing.' She does not look at you. 'Nobody gave it to you. It's Fastens' Eve.'".
     On discuss { Assert ringGiven(hawise). Assert at(ring, row_lane). }
   }

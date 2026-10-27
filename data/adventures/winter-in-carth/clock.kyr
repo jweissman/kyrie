@@ -13,6 +13,9 @@ Module gaunt "A Winter in Carth" {
   Query ashDay() means dayN(gaunt_town) == 4.
   Query afterAsh() means dayN(gaunt_town) >= 5.
   Query daytime() means hour(clock) >= 7 and hour(clock) < 18.
+  // The dark of a February night: the world's own dark comes at nine and goes at six whatever the month, so Gaunt keeps
+  // its own, from five in the afternoon to seven in the morning.
+  Query nightfall() means hour(clock) >= 17 or hour(clock) < 7.
   Query evening() means hour(clock) >= 18 and hour(clock) < 23.
   Query smallHours() means hour(clock) >= 0 and hour(clock) < 6.
   // Fastens' Eve: the licence, from seven until the Fast is rung in at midnight.
