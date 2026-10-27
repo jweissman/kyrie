@@ -1,0 +1,52 @@
+Module gaunt "A Winter in Carth" {
+  // ── What the company grows by ─────────────────────────────────────────────────────────────────────────────────────
+  // Experience for things done, not things killed: a promise kept or not, a night got through, a mind moved.
+  Milestone m_custody "took Ninian Hern into custody on the fell road" worth 50 when custody(party).
+  Milestone m_answered "answered Hern's three questions on the road" worth 100 when answeredSorry(party) and answeredDead(party) and (saidBinds(party) or saidChosen(party)).
+  Milestone m_kell "gave Tobias Kell his own name" worth 100 when keptBoard(party).
+  Milestone m_night "got through the night at Carth" worth 150 when nightOver(party).
+  Milestone m_dowsie "kept Dowsie Scaife warm without a fire" worth 250 when dowsieSafe(dowsie) and not hernCoat(hern) and not state(hearth, ablaze) and nightOver(party).
+  Milestone m_dowsie_fire "lit a fire at Carth for a child" worth 150 when litWithoutLeave(party) and dowsieSafe(dowsie).
+  Milestone m_letter "kept the letter of the vigil and the child warm" worth 250 when byreFire(carth_vigil) and vigilOn() and nightOver(party) or quenched(carth_vigil) and vigilOn() and nightOver(party).
+  Milestone m_granny "brought Old Mother Scaife in out of the byre" worth 100 when grannyIn(carth_vigil) and nightOver(party).
+  Milestone m_ralph "laid Ralph Scaife out with the words for the dead" worth 100 when ralphLaid(carth_vigil).
+  Milestone m_shriven "made your shrift clean in Gaunt" worth 100 when shriven() and assessed(party).
+  Milestone m_own "did your own penance in Gaunt" worth 100 when keptStepVigil(party) or walkedBarefoot(party).
+  Milestone m_patron "found out whose forty nights they were" worth 150 when knows(party, thackray_vigil).
+  Milestone m_annis "brought Annis Scaife face to face with the man who bought her vigil" worth 150 when annisSaid(thackray).
+  Milestone m_thackray "moved Hugh Thackray to act" worth 300 when thackrayChanged().
+  Milestone m_released "saw the Carth vigil released" worth 200 when vigilReleased(carth_vigil).
+  Milestone m_widow "brought Joan Pickersgill and Abel Lumb to one table" worth 200 when betrothed(joan).
+  Milestone m_ladder "set the Ladder's rivals at each other until the Stand was bought out" worth 150 when standCornered(dinsdale).
+  Milestone m_sowerby "saw a burgess of Gaunt do his own penance" worth 150 when sowerbyChanged(sowerby).
+  Milestone m_tower "saw the north tower's new course stand" worth 200 when courseSet(joby).
+  Milestone m_pellow "showed the Lady Penitentiary what the Fabric does by night" worth 150 when pellowExposed(pellow).
+  Milestone m_skates "fished Tib Ackroyd's skate-bones out of the ditch" worth 50 when tibHelped(party).
+  Milestone m_baker "lit Mother Tunstall's oven" worth 50 when bakerHelped(party).
+  Milestone m_wood "brought the Row a sledge of dead wood, by right" worth 150 when broughtWood(party).
+  Milestone m_strike "brought the Barefoot out on Ash Day" worth 300 when struck(barefoot).
+  Milestone m_bess "carried Bess Ackroyd's word to Hern" worth 100 when hernHeardBess(hern).
+  Milestone m_masked "spoke with the Lady Penitentiary under her mask" worth 100 when metMasked(party).
+  Milestone m_hawise "moved the Lady Penitentiary" worth 300 when hawiseMoved().
+  Milestone m_prudence "kept Prudence Garth from selling the night" worth 100 when prudenceTurned(prudence).
+  Milestone m_window "got the bars out of the gaol window" worth 150 when barsOut(hern).
+  Milestone m_quist "set two Doctors of the Faculty at each other" worth 100 when crossed(consistory).
+  Milestone m_witness "stood witness for Carth before the Consistory" worth 200 when testifiedCarth(party).
+  Milestone m_recant "gave Ninian Hern the words to live by" worth 400 when verdictRecant(consistory).
+  Milestone m_bearer "saw a sentence borne by another in the Chapter House" worth 400 when verdictBearer(consistory).
+  Milestone m_fast "saw the Consistory adjourned for want of proxies" worth 400 when verdictFast(consistory).
+  Milestone m_gate "went out of the Gate of Ash with him" worth 200 when wentWithHern(party).
+
+  // ── The Barefoot soles ────────────────────────────────────────────────────────────────────────────────────────────
+  // Whoever has walked the fell with Hern, done a barefoot mile in Gaunt, and kept a night on the Bearer's Steps has
+  // learned what the Row knows: to stand in snow. Once, for one member, as a Manual is read.
+  Relation solesLearned(group).
+  Action learn_soles(actor: group, reader: member, site: place) "Have {reader} learn from the Row how to stand in snow" {
+    Description "Hern's way: you don't stand on your feet, you stand on your mind. Once learned, never lost.".
+    Requires memberOf(reader, actor) and awake(reader) and at(actor, site) and at(actor, barefoot_hall) and askedSorry(actor) and walkedBarefoot(actor) and keptStepVigil(actor)
+      and not solesLearned(actor).
+    Time 6. Resolve endow(reader, constitution, by_one).
+    On success { Assert solesLearned(actor). }
+    Result "Bess Ackroyd sits you down on the Hall bench with your feet in a bowl and tells you, for an hour, what Hern taught her at nine: where the cold goes if you let it, and where it goes if you don't; how to put a foot down whole on frozen setts; how to kneel on your mind. Some of it is nonsense. Most of it is not. At the end she dries your feet herself, which in the Row is a thing done for few.".
+  }
+}

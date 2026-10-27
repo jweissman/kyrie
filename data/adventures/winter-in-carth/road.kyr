@@ -1,0 +1,181 @@
+Module gaunt "A Winter in Carth" {
+  // ── Ninian Hern ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Sixty. For thirty years the most sought-after proxy in Gaunt: he has fasted, knelt, walked and kept vigil for half
+  // the Guildhall. Last winter he was offered the Cold Vigil, forty nights of no fire, for a blood-fault, and refused it;
+  // and then he began to say on the Minster steps that he had repented for a hundred men and been sorry for none of
+  // them, and neither had they, so who had been forgiven? He is walking to his trial of his own will, because he wants to
+  // say it in the Minster. He is funny, coarse, vain of his feet, generous, ill, and sometimes wrong.
+  Person hern "Ninian Hern" at cross_road {
+    Role "a barefoot old man in a frieze coat, with feet like two old boots and a cough he is ignoring" when not hernGaoled(hern) and not hernCoat(hern).
+    Role "a barefoot old man in his shirt, grey as ash, with a cough that has stopped being ignorable" when not hernGaoled(hern) and hernCoat(hern).
+    Role "a barefoot old man in a warm cell, sitting on the end of the bed with his feet to the fire" when hernGaoled(hern).
+    Ancestry human. Calling commoner. Level 3. Peaceable. Pronouns he. Manner jovial.
+    Greets "The old man on the step of the Cross looks up from his sandal, which he is not wearing, and which has no sole. 'Ah,' he says. 'A stranger. Good. Clem has been trying to give me to somebody all morning, and the only somebody was a crow.' He holds out a hand like a root. 'Ninian Hern. Heretic. I'm expected.'".
+    Greets again "Hern looks up at you as if you were the one thing in the day he had been waiting for, which, he would be the first to tell you, is not saying much.".
+    Joins "Hern picks up his stick and falls in at your shoulder, barefoot, as if he had been waiting all morning to be asked.".
+    Leaves "Hern lifts a hand, without turning round.".
+  }
+  Relation hernGaoled(group). Relation hernFled(group). Relation hernDead(group). Relation hernFailing(group).
+  Relation custody(group). Relation refusedCustody(group). Relation hernAhead(group).
+  // The beadle sent to fetch him, who has frozen his foot on the march.
+  Person beadle "Beadle Clem Sutcliffe" at cross_road {
+    Role "a beadle of the Penitentiary in a black gown, sitting on the ledge of the Cross with one boot off and his foot in his hat". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "The man in the beadle's gown does not get up. 'You'll be going north,' he says. 'Everybody's going north. It's the Fast.' He looks at his foot, which is the colour of a candle. 'I'm not. I've a commission for whoever is.'".
+    Greets again "Beadle Sutcliffe nods at you over his foot.".
+  }
+  Discovery beadle_offer "Beadle Sutcliffe was sent from the Penitentiary to bring Ninian Hern in to the Consistory at Gaunt, which sits on him on Ash Day; he has frozen his foot on the march and cannot walk. He will pay two shillings now and promise eight more at the Fell Gate to whoever takes Hern in.".
+  Topic beadle_why with beadle "Ask the beadle what the commission is" when not custody(actor) and not refusedCustody(actor) once {
+    Says "'Him,' says the beadle, and nods at the old man on the step. 'Ninian Hern. Barefoot Hern, they call him in the Row. The Consistory sits on him on Ash Day, for heresy, and I was sent to fetch him in, and I've fetched him this far, and here's my foot.' He takes it out of the hat and looks at it and puts it back. 'He's not chained. He'd go by himself, he says. But the law says he's to be brought, and brought means somebody brings him, and the somebody's paid. Two shillings now. Eight at the Fell Gate, from the Assessor, when you hand him over.' He sniffs. 'It's three days' walk for a beadle. It's one for anybody with two feet.'".
+    On discuss { Assert knows(actor, beadle_offer). }
+  }
+  Topic beadle_heresy with beadle "Ask the beadle what Hern's heresy is" when knows(actor, beadle_offer) once {
+    Says "The beadle lowers his voice, though there is nobody on the fell but the three of you and a crow. 'He says penance can't be borne by another. Or he says it can, but it does no good. Or he says nobody's sorry. It depends which day you hear him.' He shakes his head. 'Thirty years he bore it for half the Guildhall, and the best at it there ever was. Forty nights on the Minster steps for the old Wood-reeve, and never moved. And then last winter he wouldn't, and now he won't stop talking.' He looks at Hern with something like love. 'He's the only man I ever saw do a penance properly. That's the joke of it.'".
+  }
+  Action take_custody(actor: group, site: place) "Take Ninian Hern into your custody, for the beadle's two shillings now and eight at the Fell Gate" {
+    Description "He will walk with you to Gaunt, and you will answer for him there.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cross_road) and at(hern, cross_road) and knows(actor, beadle_offer)
+      and not custody(actor) and not refusedCustody(actor).
+    Time 2 minutes.
+    On success { Assert custody(actor). Assert acceptsEscort(hern, actor). Assert following(hern, actor). Increase quantity(actor, gold) by 2. }
+    Result "The beadle counts two shillings into your palm out of a purse that is mostly string. 'He's yours,' he says. 'Eight more at the Fell Gate. Don't lose him. And don't listen to him: he's very persuasive and he's always wrong.' Hern has finished not-mending his sandal. He throws it into the snow, stands up on his bare feet, and shakes your hand again, as if this were a different occasion. 'My custodian,' he says. 'I've never had one. I've been one, often. It's very restful, being had.'".
+  }
+  Action refuse_custody(actor: group, site: place) "Tell the beadle you will not take the old man in" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cross_road) and at(hern, cross_road) and knows(actor, beadle_offer)
+      and not custody(actor) and not refusedCustody(actor).
+    Time 1 minute.
+    On success { Assert refusedCustody(actor). Assert hernAhead(hern). Assert at(hern, limbo). }
+    Result "The beadle shrugs as if he had expected nothing else of the world. Hern stands up, barefoot in the snow, and stretches, and picks up his stick. 'Then I'll bring myself,' he says. 'I've done it before. I'll go on up; you'll catch me up, or you won't.' He goes off up the fell road at an old man's pace that is faster than it looks, and does not look back, and in a while the road has him.".
+  }
+  // A beadle's foot bound is a beadle grateful, and a beadle knows the canons better than the canons.
+  Relation footBound(group).
+  Action bind_foot(actor: group, site: place) "Bind up the beadle's frozen foot" {
+    Description "Snow first, not fire; then warm hands, and wool.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(beadle, site) and capable(actor, mending) and not footBound(beadle).
+    Time 3.
+    On success { Assert footBound(beadle). Assert knows(actor, sentence_borne). }
+    Result "You rub the foot with snow until he swears, and then with your hands until he weeps, and then wrap it in a stocking of your own and his hat. 'I'll keep it,' he says, surprised. He watches you a while. Then he says, low, so that Hern will not hear: 'There's a thing in the canons nobody reads. Putting-out's a penance. The greatest there is, but a penance. And any penance may be borne by another.' He looks at Hern on the step. 'I've always wondered if anybody would. Nobody ever has, because nobody who was put out ever had a friend.'".
+  }
+  Discovery sentence_borne "In the canons of Gaunt, putting-out is a penance, the greatest; and any penance may be borne by another. A man sentenced to be put out may, by the city's own law, have the sentence borne for him.".
+  // Raistrick, met by day at the Cross: the vigils' warden, in his own house, polite.
+  Person raistrick "Raistrick" at reeve_hut {
+    Role "the Ash-reeve, a long quiet man in a sheepskin, the Penitentiary's warden of vigils". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner stoic.
+    Greets "The man at the table looks up from his book, and closes it on his finger, and waits. He is perfectly polite. 'Raistrick,' he says. 'I keep the vigils on this side of the Levels.'".
+    Greets again "Raistrick looks up from his book and waits.".
+  }
+  Discovery ash_test "Raistrick, the Ash-reeve, comes to every vigil house in the night, unannounced, and puts his bare hand into the ash of the hearth. If it is warm the vigil is broken. That is the whole of the test: the hearth.".
+  Topic raistrick_what with raistrick "Ask Raistrick what he keeps" when true once {
+    Says "'Vigils,' says Raistrick. 'Cold vigils. A house that takes one keeps no fire, for so many nights; I see that it does.' He holds up his right hand, and turns it over, as if it were a tool he were showing you. 'Once a night, at an hour I choose, I go in, and I put my hand in the ash of the hearth. Cold, it is kept. Warm, it is broken.' He lowers the hand. 'I don't knock. A vigil isn't a thing you're told about before.'".
+    On discuss { Assert knows(actor, ash_test). }
+  }
+  Topic raistrick_whose with raistrick "Ask Raistrick whose vigils they are" when knows(actor, ash_test) once {
+    Says "'The Penitentiary's.' He opens his book again, and finds his place. 'Bought, of the Penitentiary, by those who owe; kept, for wages, by those who need them. I keep the count.' He makes a small neat C against a name. 'I report each morning at ten to the one who pays, at his own yard, so he knows his nights are being kept. That's his right.' He looks up. 'I'm not to say who. You'll know the yard by the billet over the gate.'".
+    On discuss { Assert knows(actor, reeve_reports). }
+  }
+  Discovery reeve_reports "Raistrick reports each morning at ten to whoever paid for the Carth vigil, at his own yard in Gaunt, which has a carved billet of wood over its gate.".
+
+  // ── The road: three questions ─────────────────────────────────────────────────────────────────────────────────────
+  // Each station has a question; each answer is kept, and turned on the company later: at Carth, at the gaol, at the
+  // trial.
+  Relation askedSorry(group). Relation saidLove(group). Relation saidOwn(group). Relation saidTrade(group).
+  Query answeredSorry(a: group) means saidLove(a) or saidOwn(a) or saidTrade(a).
+  Event cross_question at proxy_stone when at(party, proxy_stone) and following(hern, party) and not askedSorry(party) "All the way up the fell road Hern has walked beside you, bare feet in the snow, not hurrying, and you notice he puts each foot down flat and whole, like a man laying something on a table. Just below the stone he says: 'Thirty years I did other people's sorrow for them. Fasts, vigils, the stairs on my knees. I was the best in Gaunt.' He coughs, and spits, and goes on. 'So here's a question for you to walk on. Can one man be sorry for another?'" then { Assert askedSorry(party). }
+  Topic say_love with hern "Tell him: yes. That is what love is" when askedSorry(actor) and not answeredSorry(actor) once {
+    Says "'Love!' says Hern, delighted, as if you had shown him a coin he had never seen. 'Now that's a better answer than the Penitentiary's, and they've had two hundred years.' He walks a while. 'But love's not for hire at a shilling a night, is it? Or is it?' He laughs, and coughs, and laughs. 'I'll think about that. I'll think about that all the way.'".
+    On discuss { Assert saidLove(actor). }
+  }
+  Topic say_own with hern "Tell him: no. Sorrow is your own, or it is nothing" when askedSorry(actor) and not answeredSorry(actor) once {
+    Says "Hern stops in the road and looks at you with great affection. 'That's my heresy,' he says. 'You've just said my heresy, on the king's highway, to a man in custody. They'll have you for that.' He walks on. 'It's true, mind. I'm only not sure it's all that's true.'".
+    On discuss { Assert saidOwn(actor). }
+  }
+  Topic say_trade with hern "Tell him: it is a trade like any other, and he was good at it" when askedSorry(actor) and not answeredSorry(actor) once {
+    Says "'A trade.' Hern considers his feet. 'I was good at it. I was very good at it. I could kneel eleven hours on a stone stair and think about dinner the whole time, and the Minster bells counted it as eleven hours of contrition for a draper.' He is quiet. 'That's what I couldn't stand, in the end. Not that it didn't work. That it did.'".
+    On discuss { Assert saidTrade(actor). }
+  }
+  // The Proxy's Stone: a proxy who froze kneeling, last winter, for a councillor's adultery.
+  Relation askedDead(group). Relation saidNames(group). Relation saidNothing(group). Relation saidFinish(group). Relation keptBoard(group).
+  Query answeredDead(a: group) means saidNames(a) or saidNothing(a) or saidFinish(a).
+  Event stone_question at proxy_stone when at(party, proxy_stone) and following(hern, party) and answeredSorry(party) and not askedDead(party) "Hern stops at the stone. He looks at the kneeling man for a long time, and then he goes down on his own knees in the snow beside him, easily, as a man sits in his own chair, and looks into his face. 'Tobias Kell,' he says. 'He was a good proxy. Steady. He'd have finished the forty, too, if it hadn't been the winter it was.' He puts out a hand and does not quite touch the board. 'Here's your second question, then. What do we owe the dead?'" then { Assert askedDead(party). }
+  Topic say_names with hern "Tell him: their names" when askedDead(actor) and not answeredDead(actor) once {
+    Says "Hern nods slowly. 'Their names.' He turns the board round on its cord. On the back, in chalk gone grey, a different hand has written: GIDEON ROPER, OF THE COMMON COUNCIL. 'He wrote it himself,' says Hern. 'Kell. Whose it was. So somebody would know.' He looks up at you. 'Shall we give him his own, then, instead of Roper's?'".
+    On discuss { Assert saidNames(actor). }
+  }
+  Topic say_nothing with hern "Tell him: nothing. The dead are past owing" when askedDead(actor) and not answeredDead(actor) once {
+    Says "'Past owing.' Hern sits back on his heels. 'That's the Penitentiary's view, near enough. A proxy dies on the job, the job's void, and the Councillor buys another forty from somebody else.' He looks at the board. 'I'm sixty. I'll be past owing myself soon. I'd like to think somebody'd at least take this off me.'".
+    On discuss { Assert saidNothing(actor). }
+  }
+  Topic say_finish with hern "Tell him: to finish what they were doing" when askedDead(actor) and not answeredDead(actor) once {
+    Says "Hern laughs, a short bark that turns into a cough. 'Finish Tobias's forty nights for Gideon Roper? Kneel here till the thaw?' Then he stops laughing. 'No. You don't mean that. You mean finish what he was doing, which was feeding his sister's boys.' He looks at you sideways. 'That's a harder thing. That's a thing a man could spend his life on.'".
+    On discuss { Assert saidFinish(actor). }
+  }
+  Action take_board(actor: group, site: place) "Help Hern take the board from Tobias Kell's neck, and cut the proxy's own name in the stone" {
+    Description "The cord is frozen, and so is he.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, proxy_stone) and following(hern, actor) and askedDead(actor) and not keptBoard(actor).
+    Time 3.
+    On success { Assert keptBoard(actor). }
+    Result "The cord will not untie; you cut it. The board comes away with a sound like a page. Hern lays it face down in the snow, GIDEON ROPER uppermost, and takes out a knife and cuts into the stone above the kneeling man, slowly, in capitals that are not very straight, TOBIAS KELL, and under it, after thought, HIS OWN. 'There,' he says. 'Now he's kneeling for himself.' He gets up, with your arm. 'They'll assess us for that. Interference with a penance in progress. Two pains each, if I know the Fell Gate.' He seems pleased.".
+  }
+  // The Drove Fork: the third question, and the test.
+  Relation askedPromise(group). Relation hernTesting(group). Relation saidBinds(group). Relation saidChosen(group).
+  Event fork_question at drove_fork when at(party, drove_fork) and following(hern, party) and not askedPromise(party) "At the Drove Fork Hern stops, and leans on his stick, and looks west down the drovers' road, green under the snow, going away round the fell to country where nobody has heard of Gaunt. 'Third question,' he says. 'You promised Clem this morning you'd bring me in. Are you the one who promised?' And before you can answer he turns off the fell road and walks away down the drovers' road, not fast, without looking back, to see what you will do." then {
+    Assert askedPromise(party). Assert hernTesting(hern). Assert at(hern, drovers_way). }
+  Action call_binds(actor: group, site: place) "Call after him: a promise binds the one who made it" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, drove_fork) or at(actor, drovers_way)) and hernTesting(hern) and not hernFled(hern).
+    Time 1 minute.
+    On success { Retract hernTesting(hern). Assert saidBinds(actor). }
+    Result "Hern stops. He stands in the drovers' road with his back to you for a while, and then he turns round and comes back up, slowly, and when he is close enough you see he is grinning. 'It binds the one who made it,' he says. 'So it binds you, and you're the same one, are you, as this morning? Every bit of you that was there?' He falls in beside you. 'Then I'll hold you to it. Whatever it turns out to mean.'".
+  }
+  Action call_chosen(actor: group, site: place) "Call after him: neither of you is who you were this morning, and you will keep it anyway" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, drove_fork) or at(actor, drovers_way)) and hernTesting(hern) and not hernFled(hern).
+    Time 1 minute.
+    On success { Retract hernTesting(hern). Assert saidChosen(actor). }
+    Result "Hern laughs out loud, there on the drovers' road, and the sound goes away over the snow. He comes back. 'Not who I was,' he says. 'No. I'm a man who's been called after on a road, which I wasn't when I set out.' He falls in beside you. 'Keep it anyway. That's not the Flow, and it's not the One. I don't know what it is. It's better than both.'".
+  }
+  Action bring_him_back(actor: group, site: place) "Go after him and take him by the arm" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drovers_way) and at(hern, drovers_way) and hernTesting(hern) and not hernFled(hern).
+    Time 1 minute.
+    On success { Retract hernTesting(hern). }
+    Result "You take him by the arm, which is like taking hold of a bundle of sticks in a coat. He does not resist. 'Well,' he says, and looks at your hand on his sleeve. 'That's an answer. It's the beadle's answer, mind.' He turns round and comes, quite cheerfully. 'You'll find that a lot of people will give you the beadle's answer, in Gaunt. It's the one that doesn't need saying.'".
+  }
+  Action let_hern_go(actor: group, site: place) "Let him go down the drovers' road" {
+    Grave "He will not come to Gaunt. The Consistory will sit to an empty floor.".
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, drove_fork) or at(actor, drovers_way)) and hernTesting(hern) and not hernFled(hern).
+    Time 1 minute.
+    On success { Retract hernTesting(hern). Assert hernFled(hern). Assert at(hern, limbo). Retract acceptsEscort(hern, actor). Retract following(hern, actor). }
+    Result "You do not call. He does not look back. You watch him go away round the shoulder of Carth Fell on the drovers' road, an old man in a frieze coat with his bare feet going down flat and whole in the snow, getting smaller, until the fell takes him; and you do not know, and never will, whether he wanted you to call.".
+  }
+  // A company that leaves him on the drovers' road and goes on up the fell has let him go.
+  Rule hern_left when hernTesting(hern) and (at(party, fell_top) or at(party, proxy_stone)) says "Behind you, nobody calls, and nobody comes back up the drovers' road." {
+    Retract hernTesting(hern). Assert hernFled(hern). Assert at(hern, limbo). Retract acceptsEscort(hern, party). Retract following(hern, party). }
+
+  // Left at the Cross with nothing said, he comes along anyway: if nobody is bringing him, he will come with whoever is going.
+  Rule hern_tags_along when at(party, proxy_stone) and at(hern, cross_road) and not custody(party) and not refusedCustody(party)
+    says "Behind you on the road there is someone singing, badly, in a cracked old voice; and in a while the barefoot old man from the Cross comes up level with you, and nods, as if you had arranged it. 'Clem's still sitting there,' he says. 'If nobody's bringing me I'll come with whoever's going. It's the same road.'" {
+    Assert acceptsEscort(hern, party). Assert following(hern, party). Assert at(hern, proxy_stone). }
+  // Told to make his own way, he does: on up the fell ahead of the company.
+  Rule hern_sent_ahead when dismissed(hern, party) and not hernGaoled(hern) and not hernFled(hern) and not hernAhead(hern) and not following(hern, party) { Assert hernAhead(hern). Assert at(hern, limbo). }
+  // Refused at the Cross, he walks on alone, and is at Carth before you, because he means to be.
+  Rule hern_at_carth when hernAhead(hern) and snowing() and not at(hern, house_place) and not hernGaoled(hern) { Assert at(hern, house_place). }
+
+  // ── Talk on the road, and anywhere he can be talked to ────────────────────────────────────────────────────────────
+  Topic hern_why_walk with hern "Ask Hern why he is walking to his own trial" when not hernGaoled(hern) once {
+    Says "'Because it's in the Minster,' says Hern. 'Ash Day, the whole city in the nave with the ash on its foreheads. I've said it on the steps for a year, to whoever went past. I want to say it once inside, where they can't walk past.' He coughs. 'And then they'll put me out at the Gate of Ash, I expect, and I'll walk off into the Levels like a man in a story.' He grins at you with three teeth. 'I've always wanted to be a man in a story. Proxies never are. We're in other people's.'".
+  }
+  Topic hern_refused with hern "Ask Hern what penance it was that he refused" when not hernGaoled(hern) once {
+    Says "Hern is quiet for a while. 'The Cold Vigil,' he says. 'Forty nights. No fire in the house, not a spark, from Candlemas on. It's the penance for blood. Somebody in Gaunt has blood on him, and was sorry, and went to the Penitentiary, and they set it at forty nights cold, and he paid for it, and they offered it to me.' He spits. 'I've kept cold vigils. Three. I'm the best there is. And I thought, I'll freeze forty nights so some man in a warm house needn't, and he'll be forgiven, and the blood won't be any less on the floor. And I said no.' He walks on. 'So somebody else is keeping it.'".
+    On discuss { Assert knows(actor, vigil_refused). }
+  }
+  Discovery vigil_refused "Last winter Ninian Hern refused to keep the Cold Vigil, forty nights of no fire, the penance for a blood-fault, bought by someone in Gaunt; so somebody else is keeping it.".
+  Topic hern_hawise with hern "Ask Hern who will judge him" when not hernGaoled(hern) once {
+    Says "'The Lady Penitentiary,' says Hern, as if it were a joke he had made long ago. 'Hawise Strake. We were proxies together in the Row when we were twelve: we fasted for a fishmonger's wife, the pair of us, a week, and ate her cat's dinner on the fourth day. She went up. I stayed down. She'll put me out.' He looks at the snow. 'She'll be very fair about it. She always was. That was the trouble.'".
+    On discuss { Assert knows(actor, hern_and_hawise). }
+  }
+  Discovery hern_and_hawise "Hawise Strake, the Lady Penitentiary who will judge Hern, was a proxy beside him in the Row when they were twelve.".
+  Topic hern_law with hern "Ask Hern whether anybody could bear his sentence for him" when not hernGaoled(hern) and not knows(actor, sentence_borne) once {
+    Says "Hern stops dead in the road. Then he laughs so hard he has to hold the snow-post. 'Oh,' he says, 'oh, you've read the canons, or you've a mind like a proxy's. Yes. Putting-out's a penance. Any penance may be borne by another.' He wipes his eyes. 'Nobody ever has. Nobody who's put out has friends; that's why they're put out.' He sobers. 'Don't you get ideas. I didn't walk all this way to have a stranger walk out of the Gate of Ash in my coat.'".
+    On discuss { Assert knows(actor, sentence_borne). }
+  }
+  // His cough: he says nothing of it unless asked.
+  Topic hern_cough with hern "Ask Hern about his cough" when not hernGaoled(hern) and not hernFailing(hern) once {
+    Says "'What cough?' says Hern, and coughs. 'Thirty winters on the Minster steps. It's not the cough you want to worry about; it's the thing the cough's about.' He thumps his chest. 'It'll do till Ash Day. After that it can do what it likes.'".
+  }
+}

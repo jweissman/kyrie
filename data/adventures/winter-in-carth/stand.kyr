@@ -1,0 +1,99 @@
+Module gaunt "A Winter in Carth" {
+  // ── The Stand ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The old sheep-market, where proxies are hired. Nobody here is sorry for anything, and all of them are working.
+  Person clerk "the Stand's clerk" at the_stand {
+    Role "a clerk in fingerless gloves at a high desk at the Stand's gate, with a ledger of backs and a box of tallies". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "'Bearing or buying?' says the clerk, pen up. 'If buying, what is it and how many; if bearing, show me your feet.'".
+    Greets again "'Bearing or buying?' says the clerk.".
+  }
+  Topic clerk_rates with clerk "Ask the clerk how the Stand works" when true once {
+    Says "'Simplest thing in Gaunt.' He taps the board. 'Somebody does a fault. The Penitentiary prices it. They come here with the tally. I find them a back; the back does it; the back gets paid; the Penitentiary gets its tithe; the Fabric gets a tithe of the tithe; the tower goes up.' He considers. 'The tower doesn't go up, as it happens. But that's the masons.' He leans down. 'Busiest week of the year, this. Everybody wants to be clean for Ash Day, when the Ladder's gilded. If you've a back to sell, I can sell it twice before Wednesday.'".
+  }
+
+  // ── Bearing for others: proxy work, paid in coin ──────────────────────────────────────────────────────────────────
+  Relation boreFor(group, group).
+  Action bear_dinsdale(actor: group, site: place) "Bear a day's fast for Mistress Dinsdale, the brewster, three shillings" {
+    Description "Nothing to eat until tomorrow, for a brewster's sins, which are mostly in her measures.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and not fastToday(actor) and not boreFor(actor, dinsdale) and not struck(barefoot).
+    Time 2 minutes.
+    On success { Assert boreFor(actor, dinsdale). Assert fastToday(actor). Set fastedOn(actor) to dayN(gaunt_town). Assert hungry(actor). Set nextMeal(actor) to watch(clock) + 144.
+      Increase quantity(actor, gold) by 3. Assert knows(actor, dinsdale_hiring). }
+    Result "The clerk writes you down against DINSDALE, G., BREWSTER, SHORT MEASURE (4 PAINS), and gives you three shillings and a little lead token stamped with a barrel to show anyone who offers you a pie. 'She's hiring,' he says. 'Hiring and hiring. She wants to be clean for the gilding, and to be cleaner than Sowerby. Between you and me there's not enough sin in that brewhouse to keep a dozen proxies busy, so she's started paying us to fast for things she means to do next week.'".
+  }
+  Discovery dinsdale_hiring "Mistress Grizel Dinsdale, the brewster, is hiring proxies by the dozen to be clean for the gilding of the Ladder on Ash Day, and cleaner than Master Sowerby; she is paying in advance for faults she has not yet done.".
+  Action bear_sowerby(actor: group, site: place) "Walk a barefoot mile round the walls for Master Sowerby, the draper, two shillings" {
+    Description "Boots off, and a board on your back with his fault on it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and not boreFor(actor, sowerby) and not struck(barefoot).
+    Time 3.
+    On success { Assert boreFor(actor, sowerby). Assert strikes(barefoot_mile, actor). Assert walkedBarefoot(actor). Increase quantity(actor, gold) by 2. }
+    Result "The board says SOWERBY, P., DRAPER, A FALSE ELL (1 PAIN), and you carry it barefoot once round the inside of the new wall on the frozen setts, past the Row, where the people in the doorways with their feet in bowls watch you go by with the professional interest of carpenters watching a man saw. At the Gate of Ash an old woman calls out, 'Lift your feet, love, you're not ploughing,' and the whole Row laughs, kindly. Two shillings, at the end, and your feet are somebody else's.".
+  }
+  Action bear_alderman(actor: group, site: place) "Kneel a night's vigil on the Bearer's Steps for an alderman's son, five shillings" {
+    Description "From dusk to first light, on the stone. The son was sick in the font at a christening.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and dark() and not licence() and not boreFor(actor, clerk) and not struck(barefoot).
+    Time 36.
+    On success { Assert boreFor(actor, clerk). Assert strikes(steps_cold, actor). Assert keptStepVigil(actor). Increase quantity(actor, gold) by 5. }
+    Result "The board round your neck says ROPER, G. (THE YOUNGER), PROFANATION OF A FONT, and you kneel all night on the Bearer's Steps under it in the cold. At two in the morning a young man in a good cloak comes up the Shambles from the Fat Lamb, singing, and stops, and reads the board, and laughs until he has to hold the rail, and goes on up and in at the Close Gate, where the porter lets him through without a tally. At first light the clerk comes with five shillings. 'Gideon Roper's boy,' he says. 'Good family.'".
+  }
+
+  // ── The Ladder ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Mistress Grizel Dinsdale and Master Pentecost Sowerby are level on the second rung, and the Ladder is gilded at nine
+  // on Ash Day for the year. A company carrying news between them can raise the stakes until one of them hires the
+  // whole Stand for Ash Day, which leaves no back in Gaunt for anybody else.
+  Person dinsdale "Mistress Grizel Dinsdale" at dinsdale_brewhouse {
+    Role "a brewster in a velvet bonnet at a high desk, doing sums of penance and of beer in two columns". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "Mistress Dinsdale looks you up and down as if estimating your capacity in gallons. 'If it's about the measures,' she says, 'they're paid for. Forty fasts, in advance. I could give short measure till Michaelmas and still be owed.'".
+    Greets again "'Well?' says Mistress Dinsdale, not looking up from her columns.".
+  }
+  Person sowerby "Master Pentecost Sowerby" at sowerby_shop {
+    Role "a draper with a measuring-rod he holds like a sceptre, and the look of a man who has been second for eleven years". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "Master Sowerby comes round the counter with both hands out. 'A customer! Or a proxy? Either is welcome; the second more so, this week.' He lowers his voice. 'Eleven years second. Eleven. Behind Thackray I don't mind, Thackray's a saint. Behind a brewster.'".
+    Greets again "Master Sowerby beams at you over the broadcloth.".
+  }
+  Relation sowerbyRaised(group). Relation standCornered(group). Relation ladderExposed(group).
+  Relation sowerbyWalked(group). Relation dinsdaleWalked(group).
+  Topic dinsdale_ladder with dinsdale "Ask Mistress Dinsdale about the Ladder" when true once {
+    Says "'Second rung,' says Mistress Dinsdale, 'and on Ash Day it'll be gilded, and it'll stay gilded the year, and it'll say DINSDALE, and not that draper.' She turns a page of her columns. 'He hires by the day. I hire by the dozen. He's a man who thinks penance is a matter of feeling.' She makes a note. 'It's a matter of volume.'".
+    On discuss { Assert knows(actor, dinsdale_hiring). }
+  }
+  Topic sowerby_told with sowerby "Tell Master Sowerby that Mistress Dinsdale is hiring proxies by the dozen for the gilding" when knows(actor, dinsdale_hiring) and not sowerbyRaised(sowerby) once {
+    Says "Master Sowerby goes the colour of one of his own bolts, a good scarlet. 'By the dozen.' He lays the measuring-rod down very gently on the counter. 'Then I shall hire by the score.' He takes a purse out of the till and shakes it. 'Two to fast, and two to walk, every day until Wednesday. And a vigil every night on the Steps.' He looks at you. 'You'd not want work? No? I'd pay double. I'd pay you to tell her.'".
+    On discuss { Assert sowerbyRaised(sowerby). Increase quantity(actor, gold) by 2. }
+  }
+  Topic dinsdale_told with dinsdale "Tell Mistress Dinsdale that Master Sowerby has hired by the score" when sowerbyRaised(sowerby) and not standCornered(dinsdale) once {
+    Says "Mistress Dinsdale puts down her pen. For a moment she does nothing at all. Then she rings a bell, and a boy comes, and she writes a note and blots it and folds it. 'To the Stand's clerk,' she says. 'Every back he has, for Ash Day, from first light. Every one. At his price.' The boy goes. She picks up her pen again. 'Let the draper do his own penance,' she says, 'if he can find anybody to do it.'".
+    On discuss { Assert standCornered(dinsdale). }
+  }
+  Discovery stand_cornered "Mistress Dinsdale has hired every proxy at the Stand for Ash Day, from first light, so that no one else in Gaunt can hire one.".
+  Rule cornered_known when standCornered(dinsdale) and not knows(party, stand_cornered) says "By evening the whole Middle Town knows: Mistress Dinsdale has bought every back at the Stand for Ash Day." teaches stand_cornered { }
+  // Ash Day morning: with no back to be had, the loser walks; if the Row is out, both do.
+  Rule sowerby_walks when ashDay() and hour(clock) >= 8 and standCornered(dinsdale) and not sowerbyWalked(sowerby) { Assert sowerbyWalked(sowerby). Assert at(sowerby, minster_porch). }
+  Rule dinsdale_walks when ashDay() and hour(clock) >= 8 and struck(barefoot) and not dinsdaleWalked(dinsdale) { Assert dinsdaleWalked(dinsdale). Assert at(dinsdale, minster_porch). }
+  Rule sowerby_told_walking when sowerbyWalked(sowerby) and inTown() and ashDay() and hour(clock) < 12 and not spread(sowerby_walking)
+    says "At eight on Ash Day morning the Middle Town comes out of its doors to see a thing nobody has seen in eleven years: a burgess of Gaunt doing his own penance. Master Pentecost Sowerby, draper, second on the Ladder, comes up the Shambles barefoot on the frozen setts in his shirt, with a board round his neck in his own hand, A FALSE ELL, and his measuring-rod for a staff, very slowly, and white, and weeping a little with the cold. Nobody laughs. Somebody, after a while, takes off their hat. By the time he gets to the Bearer's Steps there are two hundred people walking behind him, quietly, as if it were a funeral, or a wedding." { Assert spread(sowerby_walking). }
+  Entity sowerby_walking: fact "Sowerby walks".
+  Topic sowerby_after with sowerby "Ask Master Sowerby how it was" when sowerbyWalked(sowerby) once {
+    Says "Master Sowerby sits on the step of the Minster porch with his feet in a bowl that somebody has brought him, and his face is a strange colour, and he is smiling. 'Cold,' he says. 'Very cold. A false ell, it was. Seven years ago. A widow's bolt of black.' He looks at his feet in the water. 'I'd forgotten it. I'd paid for it, so I'd forgotten it.' He looks up at you. 'It was mine,' he says, wonderingly. 'Do you see? It was mine. It's the first time it was.'".
+    On discuss { Assert sowerbyChanged(sowerby). }
+  }
+  Relation sowerbyChanged(group).
+  Observe sowerby_porch at minster_porch when sowerbyWalked(sowerby) and ashDay() "Master Sowerby sits on the step of the porch under the Ladder, barefoot, with his feet in a bowl of warm water, and people keep stopping to look at him as if he were a relic.".
+  Observe dinsdale_porch at minster_porch when dinsdaleWalked(dinsdale) and ashDay() "Mistress Dinsdale, in her velvet bonnet and no shoes, stands in the porch under the Ladder with her chin up, daring anyone to say anything, and nobody does.".
+
+  // ── Abel Lumb ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // A young proxy who has fasted eleven days for a widow's impure thoughts, and is fainting at the Stand.
+  Person abel "Abel Lumb" at the_stand {
+    Role "a long, gangly young proxy, very pale, in a pen with a board that says FASTS" when not abelFed(abel).
+    Role "a long, gangly young man with colour in his face for the first time in a fortnight" when abelFed(abel).
+    Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "The young man in the pen says, 'Fasts, threepence a day, I'm the best in the Stand for fasts, I don't feel it any more,' all in one breath, and sways a little.".
+    Greets again "Abel Lumb smiles at you weakly over the hurdle.".
+  }
+  Relation abelFainted(group). Relation abelFed(group).
+  Rule abel_routine_stand when daytime() and not at(abel, the_stand) and not abelAway(abel) and not licence() and not following(abel, party) { Assert at(abel, the_stand). }
+  Rule abel_routine_hall when not daytime() and not at(abel, barefoot_hall) and not abelAway(abel) and not licence() and not following(abel, party) { Assert at(abel, barefoot_hall). }
+  Relation abelAway(group).
+  Rule abel_faints at the_stand when mondayN() and hour(clock) >= 16 and not abelFainted(abel) and not abelFed(abel) and at(party, the_stand)
+    says "In his pen Abel Lumb sits down quite suddenly in the straw, as if someone had cut his strings, and lies there looking at the sky with a puzzled expression. The clerk says 'Oh, not again,' and two proxies lift him up and pour broth into him, which he tries to refuse. 'I'm fasting,' he says. 'It's paid.'" { Assert abelFainted(abel). }
+  Rule abel_faints_away when mondayN() and hour(clock) >= 16 and not abelFainted(abel) and not abelFed(abel) and not at(party, the_stand) { Assert abelFainted(abel). }
+}

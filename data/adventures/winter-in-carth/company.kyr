@@ -1,0 +1,7 @@
+Module gaunt "A Winter in Carth" {
+  // The campaign played alone: a traveller come up the march road to the Penitent's Cross at nine in the morning, three
+  // days before the Fast, with a little money and nowhere in particular to be. (placed.kyr is the world's own company,
+  // come over the march by the same road.)
+  Company party "You" of 1 at cross_road.
+  Initially Set quantity(party, gold) to 10. Initially Set quantity(party, rations) to 2.
+}

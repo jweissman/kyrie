@@ -1,0 +1,319 @@
+Module gaunt "A Winter in Carth" {
+  // ── A Winter in Carth ─────────────────────────────────────────────────────────────────────────────────────────────
+  // The Scaifes are tenants of the Minster's Fabric, two years behind with the rent. At Candlemas the Penitentiary
+  // offered them the Cold Vigil Ninian Hern had refused: forty nights of no fire in the house, two shillings a night,
+  // half paid in advance. They took it for the rent. It is the twenty-third night. Ralph Scaife, the grandfather, died
+  // on the fourteenth, of the cold or of being eighty, and lies on a hurdle in the byre because the ground will not take
+  // a spade before the thaw; his wife sits up with him. Dowsie, who is nine, has a cough. The house is dark, because a
+  // flame is a fire.
+  Entity carth_vigil: group "the Carth vigil".
+  Relation vigilEnded(group). Relation vigilBroken(group). Relation vigilReleased(group). Relation vigilKept(group).
+  Query vigilOn() means not vigilEnded(carth_vigil).
+  Measure vigilNight(group).
+  Initially Set vigilNight(carth_vigil) to 23.
+
+  // The hearth: what the vigil is, and what the Ash-reeve tests.
+  Thing hearth "the hearth at Carth" at house_place {
+    State cold "The hearth is dead: a bed of grey ash swept flat, and over it on the chain an empty pot. Beside it, on a cloth on the floor, a bowl and a spoon laid for somebody.".
+    State ablaze "A fire burns on the hearth, peat and thorn, and the room has come up out of the dark: the black beams, the dresser, the box-bed in the wall with its doors open, the faces.".
+    State snowed "The hearth is packed with snow, grey with ash, melting into a black slush that steams a little and then stops.".
+  }
+  Initially Assert state(hearth, cold).
+  // With a fire on the hearth or in the byre, the house is lit; else it is dark.
+  Relation byreFire(group).
+  // By day a little grey comes in at the one window; by night, without a fire, nothing does.
+  Rule house_lit when (state(hearth, ablaze) or not dark()) and unlit(house_place) { Retract unlit(house_place). }
+  Rule house_dark when not state(hearth, ablaze) and dark() and not unlit(house_place) { Assert unlit(house_place). }
+  Rule byre_lit when (byreFire(carth_vigil) or not dark()) and unlit(carth_byre) { Retract unlit(carth_byre). }
+  Rule byre_dark when not byreFire(carth_vigil) and dark() and not unlit(carth_byre) { Assert unlit(carth_byre). }
+
+  // ── The household ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Person will "Will Scaife" at house_place {
+    Role "a big silent man sitting on the settle in the dark with a billhook across his knees, because he has to hold something" when dark() and not state(hearth, ablaze).
+    Role "a big silent man on the settle, with his hands open on his knees and his face to the fire" when state(hearth, ablaze).
+    Role "a big silent man with a shovel, grey-faced, who does not look at anyone" when not dark() and not state(hearth, ablaze).
+    Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "A man's voice, out of the dark, low: 'Sit down where you are. Don't walk about. There's a child.'".
+    Greets again "Will Scaife says nothing. You can hear him breathing.".
+  }
+  Person annis "Annis Scaife" at house_place {
+    Role "the farmer's wife, a sharp voice in the dark, never still" when dark() and not state(hearth, ablaze).
+    Role "the farmer's wife, thin as a lath, with her sleeves rolled and her mouth set" when state(hearth, ablaze) or not dark().
+    Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "'You'll be the ones the snow brought,' says a woman's voice. 'There's oatmeal in water and there's a turnip, and you're welcome to your share of both, and of the dark. Sit on the floor by the wall. Don't touch the hearth.'".
+    Greets again "'Well?' says Annis Scaife.".
+  }
+  Person granny "Old Mother Scaife" at house_place {
+    Role "an old woman in a shawl, a shape by the dead hearth that rocks a little" when not at(granny, carth_byre).
+    Role "an old woman in the byre in the dark, sitting on a milking-stool by the hurdle, talking to someone" when at(granny, carth_byre).
+    Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Greets "'Is that the Guest?' says an old voice by the hearth, quite calmly. Then: 'No. The Guest doesn't talk. Sit down, love. Ralph's in the byre. He'll not mind you.'".
+    Greets again "'Is that you, love?' says Old Mother Scaife.".
+  }
+  Person dowsie "Dowsie Scaife" at house_place {
+    Role "a child in the box-bed, under every blanket in the house, coughing" when not dowsieDead(dowsie) and not nightOver(party).
+    Role "a thin child in the box-bed with her hair stuck to her forehead, cool now, and very interested in you" when not dowsieDead(dowsie) and nightOver(party).
+    Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A small hoarse voice from the wall: 'Are you from Gaunt? Is it true the Minster's so tall you can't see the top? Is it true they've a man there that's all stone, carrying another man?' A cough. 'Grandad walks at night. I've heard him. Mam says I haven't.'".
+    Greets again "'You're still here,' says Dowsie, pleased, and coughs.".
+    Seen when not dowsieDead(dowsie).
+  }
+  Person fly "Fly" at house_place {
+    Role "the Scaifes' collie bitch, thin, who presses against your legs in the dark and shivers". Species dog. Peaceable. Pronouns she.
+  }
+  Relation dowsieSafe(group). Relation dowsieBurning(group). Relation dowsieDead(group).
+  Relation grannyIn(group). Relation grannyCold(group). Relation ralphLaid(group).
+  Relation beastsIn(group). Relation sharedBed(group). Relation nursed(group). Relation hernCoat(group).
+  Relation scaifesConsent(group). Relation hernConfessed(group). Relation litWithoutLeave(group).
+  Relation brokeVigil(group). Relation reeveDeceived(group).
+
+  // ── Coming in out of the snow ─────────────────────────────────────────────────────────────────────────────────────
+  Relation stayingAtCarth(group). Relation nightOver(group).
+  Measure carthArrived(group). Measure carthDay(group).
+  Rule carth_arrival at house_place when at(party, house_place) and snowing() and not stayingAtCarth(party)
+    says "The door shuts behind you, and the dark is complete. Not the dark of a night outdoors, which has a sky in it; the dark of a shut room with no fire, which has nothing. Somebody takes your arm, a hard small hand, and puts you down on the floor against a wall, which is stone, and cold through your clothes in a moment. You hear: a child coughing, close; someone breathing slow by where the hearth must be; a clock; the cow, through the wall; a dog, which comes and presses itself against your legs and shivers. And the cold. Not the cold outside, which moves. A cold that has been sitting in this room for twenty-three days, and has settled." {
+    Assert stayingAtCarth(party). Set carthArrived(party) to watch(clock). Set carthDay(party) to dayN(gaunt_town). }
+  Query carthNight() means stayingAtCarth(party) and not nightOver(party).
+
+  // ── Talk in the dark ──────────────────────────────────────────────────────────────────────────────────────────────
+  Topic annis_why with annis "Ask Annis Scaife why there is no fire" when vigilOn() once {
+    Says "'Because we're keeping a vigil,' says Annis. 'A cold one. Forty nights. For somebody in Gaunt that's done something, and is sorry, and paid the Penitentiary to have it kept.' A pause. 'Two shillings a night. Half in advance. It's the rent. We're two years behind with the Fabric and they'd have had us out at Lady Day.' Another pause, longer. 'It's the twenty-third. Seventeen to go. Ralph died on the fourteenth. He's in the byre. The ground won't take a spade.' She says it all in the same voice, the voice of someone reading out a list.".
+    On discuss { Assert knows(actor, vigil_kept). }
+  }
+  Discovery vigil_kept "The Scaifes of Carth are keeping the Cold Vigil for wages, forty nights of no fire, two shillings a night, half paid in advance, to pay two years' rent owed to the Minster's Fabric. It is the twenty-third night. The grandfather died on the fourteenth.".
+  Topic annis_how with annis "Ask Annis how anyone would know if the fire were lit" when knows(actor, vigil_kept) and not knows(actor, ash_test) once {
+    Says "'He'd know.' Annis says it flat. 'The Ash-reeve. Raistrick. He comes in the night, any hour, no knock, and kneels down and puts his hand in the hearth. Warm, it's broken, and we've nothing, and we owe the twenty back.' You hear her move. 'He's never once looked anywhere but the hearth. Twenty-two nights. Just the hearth. Then he gets up and goes.'".
+    On discuss { Assert knows(actor, ash_test). }
+  }
+  Topic annis_coin with annis "Ask Annis who paid them" when knows(actor, vigil_kept) once {
+    Says "'The Penitentiary,' says Annis. 'That's who pays. That's who always pays. Whoever owes pays the Penitentiary, and it pays you.' A box is opened, and something put into your hand: a shilling, cold, with a nick on its face you can feel with your thumb, a little raised oblong. 'Except it didn't come from the Penitentiary's chest,' she says. 'The clerk brought it in a bag with the Wood Exchange's mark on it, the billet. All twenty of them have it.' She takes the coin back. 'I'm not a fool. I know what's dear this winter, and who's sorry.'".
+    On discuss { Assert knows(actor, billet_coin). }
+  }
+  Discovery billet_coin "The Scaifes' advance for the Carth vigil was paid in shillings countermarked with the Wood Exchange's billet: whoever bought the forty nights paid from the Wood Exchange.".
+  Topic granny_guest with granny "Ask Old Mother Scaife who the Guest is" when not at(granny, carth_byre) once {
+    Says "'The Cold Guest.' She is pleased to be asked. 'When a house lets its fire go out for a debt, the Guest comes and sits at the hearth. You lay him a place, so he knows he's expected and doesn't take offence. My grandmother laid one in the bad winter, and he came, and he sat, and in the spring there were three fewer of them.' The rocking goes on. 'I've laid his place. It's by the hearth. Don't sit in it.' A pause. 'In my mother's day, of course, the beasts were in with us all winter, and nobody had to lay anything. You can't let a fire go out that's a cow.'".
+    On discuss { Assert knows(actor, beasts_old). }
+  }
+  Discovery beasts_old "In Old Mother Scaife's mother's day the beasts wintered in the house-place with the family, for the warmth of them.".
+  Topic granny_ralph with granny "Ask Old Mother Scaife about Ralph" when true once {
+    Says "'Sixty-one years.' Her voice is warm. 'He's in the byre. I sit with him at night, because it's cold in there and he never could abide being cold, and Will won't have him in here with the child.' The rocking stops. 'They say he's dead. He's eighty and he's cold and he doesn't answer, but he never did answer, Ralph.' She laughs, a dry small sound. 'I'll go through to him soon.'".
+  }
+  Topic dowsie_rhyme with dowsie "Ask Dowsie about the stone man carrying the other man" when not dowsieDead(dowsie) once {
+    Says "'Saint Oswy.' Dowsie is hoarse but glad. 'There's a rhyme. The Row children sing it on the ice, Mam says, when we went to market. Oswy, Oswy, up the hill, carry me and carry me still.' She coughs. 'There's more. I don't know the more. The Row children know it.'".
+  }
+  Topic dowsie_grandad with dowsie "Ask Dowsie what she has heard at night" when not dowsieDead(dowsie) once {
+    Says "'Grandad.' A whisper. 'In the byre. Talking, like he did. And somebody comes in in the night, every night, and kneels down by the fire that isn't, and goes out again. Mam says it's the man from the Penitentiary. I've never seen him.' The cough. 'I think it's the Guest.'".
+  }
+
+  // ── The night ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Relation coughHeard(group). Relation grannyGone(group). Relation feverTold(group). Relation hernGave(group).
+  Rule night_cough at house_place when carthNight() and at(party, house_place) and hour(clock) >= 21 and not coughHeard(party) and not state(hearth, ablaze)
+    says "In the box-bed the child's cough changes. It has been a dry cough, a little bark, like a fox. Now it has something in it that rattles, and after each one there is a breath that goes in too high. Annis Scaife gets up in the dark and you hear her sit down on the bed. Nobody says anything." { Assert coughHeard(party). }
+  Rule night_cough_lit at house_place when carthNight() and at(party, house_place) and hour(clock) >= 21 and not coughHeard(party) and state(hearth, ablaze)
+    says "In the box-bed the child coughs, a dry little bark like a fox, and then, in the warmth, stops, and sleeps." { Assert coughHeard(party). }
+  Rule granny_byre when carthNight() and hour(clock) >= 23 and at(granny, house_place) and not grannyIn(carth_vigil) and not grannyGone(carth_vigil) {
+    Assert grannyGone(carth_vigil). Retract at(granny, house_place). Assert at(granny, carth_byre). }
+  Rule granny_told at house_place when grannyGone(carth_vigil) and at(party, house_place) and carthNight() and not spread(granny_told)
+    says "The rocking-chair creaks, and stops. The old woman gets up, and you hear her feel her way along the wall, and the byre door, and her voice through it, quite ordinary: 'There you are, Ralph. It's cold. Shift up.'" { Assert spread(granny_told). }
+  Entity granny_told: fact "the old woman to the byre".
+  Rule fever_comes when carthNight() and hour(clock) >= 0 and hour(clock) < 6 and not dowsieSafe(dowsie) and not dowsieBurning(dowsie) { Assert dowsieBurning(dowsie). }
+  Rule fever_told at house_place when dowsieBurning(dowsie) and at(party, house_place) and carthNight() and not feverTold(party)
+    says "Past midnight the child stops coughing, which is worse. Annis says her name, sharply, and the child answers, but in a voice that is somewhere else, talking about the Minster and a stone man, and laughing. You can feel the heat of her from where you sit against the wall. Will Scaife stands up in the dark. You hear the billhook laid down on the settle, very carefully, as if it might wake somebody." { Assert feverTold(party). }
+  // At two, if nothing has been done for the child, Hern does it: he takes off his coat, which is the only warm thing he
+  // has, and gets into the box-bed with her, and holds her, and is cold all night.
+  Rule hern_gives at house_place when carthNight() and hour(clock) >= 2 and hour(clock) < 6 and not dowsieSafe(dowsie) and at(hern, house_place) and not hernGave(hern)
+    says "In the dark Hern gets up. You hear him take off his coat, the frieze coat that is the only warm thing he has, and you hear Annis begin to say something and Hern say, 'Hush. I've done forty nights cold for worse people than her.' The box-bed creaks. 'Shift up, chick. I'm a famous man. You can tell them in Gaunt you slept with Barefoot Hern.' The child laughs, a cracked small laugh, and then coughs, and then is quiet; and for the rest of the night you hear his breathing, and hers, and his is the worse." {
+    Assert hernGave(hern). Assert dowsieSafe(dowsie). Assert hernFailing(hern). Assert hernCoat(hern). Retract dowsieBurning(dowsie). }
+
+  // What can be done. In the dark a hearth is felt for, not looked at; what is done here is done by hand.
+  Action light_hearth(actor: group, site: place) "Strike a light from the tinderbox on the mantel and light the peat on the hearth" {
+    Description "There is peat by the hearth, dry, and thorn; and a tinderbox on the mantel. Twenty-three nights' cold would go out of the room in an hour.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and state(hearth, cold) and vigilOn() and not scaifesConsent(carth_vigil).
+    Time 2.
+    On success { Assert state(hearth, ablaze). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert litWithoutLeave(actor). Assert grannyIn(carth_vigil). Retract at(granny, carth_byre). Assert at(granny, house_place). }
+    Result "Your hands find the tinderbox on the mantel by memory of where tinderboxes are. Flint, steel, a spark that is the first light in this house in twenty-three nights, so bright it hurts; the tinder; a curl of thorn; the peat. The room comes up out of the dark around you: black beams, a dresser with three plates, a box-bed in the wall full of faces, a settle, a man getting up off it with a billhook in his hand. Will Scaife looks at the fire, and at you. He takes one step. Then Annis has him by the arm. 'It's done,' she says. 'It's done now. Let it burn for her.' He stands there a long time with the billhook, and then he sits down, and puts his hands over his face, and the light comes through his fingers. Through the byre door the old woman comes in, feeling along the wall, to the warmth, saying 'Ralph? Ralph, there's a fire.'".
+  }
+  Action ask_will_light(actor: group, site: place) "Ask Will Scaife to light the hearth himself, for the child" {
+    Description "It is his house, and his vigil, and his child.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and at(will, house_place) and state(hearth, cold) and vigilOn()
+      and dowsieBurning(dowsie) and not scaifesConsent(carth_vigil) and not triedWill(actor).
+    Time 2.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert scaifesConsent(carth_vigil). }
+    On failure { Assert triedWill(actor). }
+    Result "You say it into the dark: the child, the heat of her, what a fever does at that age in a cold house by morning. Will Scaife says nothing for so long you think he has not heard. Then he gets up, and you hear him at the mantel, and the tinderbox, and the spark. He kneels at the hearth and lights the peat himself, and does not look round. 'There,' he says to the fire, and that is all he says.".
+    Otherwise "Will Scaife hears you out in the dark. Then he says, 'Seventeen nights,' and nothing else; and the child mutters about the stone man, and he does not move.".
+  }
+  Relation triedWill(group).
+  Rule will_lights_for_annis at house_place when scaifesConsent(carth_vigil) and annisOrdered(carth_vigil) and state(hearth, cold) and vigilOn() and carthNight()
+    says "For a long moment nothing. Then Will Scaife gets up off the settle, and you hear the billhook laid down, and his hands on the mantel, and the tinderbox. The spark is so bright in the dark that it hurts. He kneels and lights the peat, and blows on it, and the room comes up round you out of the black: beams, a dresser, a box-bed full of faces, and Hern sitting against the wall with his eyes shut. Nobody looks at Hern. Annis sits on the bed and watches the fire take, and says, to the fire, 'There. Now we're nothing. Now we owe.'" {
+    Assert state(hearth, ablaze). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert grannyIn(carth_vigil). Retract at(granny, carth_byre). Assert at(granny, house_place). }
+  Relation annisOrdered(group).
+  Rule will_lights when scaifesConsent(carth_vigil) and not annisOrdered(carth_vigil) and state(hearth, cold) and vigilOn() and carthNight() {
+    Assert state(hearth, ablaze). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert grannyIn(carth_vigil). Retract at(granny, carth_byre). Assert at(granny, house_place). }
+  // Hern's own refusal, told to the house that is keeping what he would not.
+  Action hern_confesses(actor: group, site: place) "Ask Hern to tell the Scaifes what penance he refused last winter" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and at(hern, house_place) and knows(actor, vigil_refused)
+      and knows(actor, vigil_kept) and not hernConfessed(hern) and not hernDead(hern).
+    Time 2.
+    On success { Assert hernConfessed(hern). }
+    Result "Hern tells them, into the dark, plainly: the Cold Vigil, Candlemas, forty nights for a blood-fault, offered to him first; and that he said no. Nobody speaks. Then Annis Scaife says, very quietly, 'You. You've kept three. Everybody knows you've kept three.' 'Yes.' 'You could have kept this.' 'Yes.' 'And so it came to us.' 'Yes,' says Hern. 'I didn't think who it would come to. I thought about the man who paid.' A long silence. Then Annis says: 'Will. Light it.' And when he does not move: 'Light it, Will. Let him see what it costs. Let him sit in it.'".
+  }
+  Rule annis_consents when hernConfessed(hern) and vigilOn() and carthNight() and not scaifesConsent(carth_vigil) and state(hearth, cold) { Assert scaifesConsent(carth_vigil). Assert annisOrdered(carth_vigil). }
+  // The letter of it: Raistrick tests the hearth. Rake the fire out and pack the hearth with snow before he comes, and
+  // light it again when he has gone.
+  Action quench_hearth(actor: group, site: place) "Rake the fire off the hearth and pack the hearth with snow from the door" {
+    Description "So that when a hand is put into the ash, it is cold.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and state(hearth, ablaze) and vigilOn() and knows(actor, ash_test).
+    Time 2.
+    On success { Assert state(hearth, snowed). Assert quenched(carth_vigil). }
+    Result "You rake the burning peat off the hearth onto the shovel and out of the door into the snow, where it hisses and dies, and you bring in snow in your hands, armful after armful, and pack it down on the hot stone, which spits. Steam goes up in the last of the light. Then the dark again, and the cold coming back into the room like water into a footprint. Annis Scaife says nothing at all, and you can feel her not saying it.".
+  }
+  Relation quenched(group).
+  Action relight_hearth(actor: group, site: place) "Rake the wet off the hearth and light it again" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and state(hearth, snowed) and reeveDone(carth_vigil).
+    Time 2.
+    On success { Assert state(hearth, ablaze). }
+    Result "Dry peat from the stack, the tinderbox, the spark. The fire comes up again, smokier for the wet, and the faces in the box-bed come back out of the dark one by one.".
+  }
+  // The byre: a fire there is not a fire on the hearth.
+  Action byre_fire(actor: group, site: place) "Make a fire of straw and thorn in the old fire-pit in the byre, and bring the household through to it" {
+    Description "Raistrick puts his hand in the hearth. He has never once looked anywhere else.".
+    Requires able(actor) and company(actor) and at(actor, site) and inHouse() and vigilOn() and knows(actor, ash_test) and not byreFire(carth_vigil) and not state(hearth, ablaze) and dark().
+    Time 3.
+    On success { Assert byreFire(carth_vigil). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert grannyIn(carth_vigil). Retract at(party, house_place). Assert at(party, carth_byre). }
+    Result "In the byre wall there is an old fire-pit, from before the house had a chimney: a ring of blackened stones. You lay straw in it, and thorn, and strike a light, and the byre comes up out of the dark: the cow, turning her head; the calf; the old woman on her stool by a long shape under a sheet, blinking. Will Scaife comes to the byre door and looks at the fire for a long time. He says nothing. Then he goes back and lifts the child out of the box-bed in her blankets and brings her through, and lays her in the straw by the fire, and sits down beside her; and Annis comes after him with the baby; and nobody says the word vigil, or the word hearth, all night.".
+  }
+  Action beasts_in(actor: group, site: place) "Bring the cow and the calf through from the byre into the house-place" {
+    Description "The old way: a beast is a fire nobody can call one.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and vigilOn() and (capable(actor, woodcraft) or knows(actor, beasts_old)) and not beastsIn(carth_vigil) and not state(hearth, ablaze) and dark().
+    Time 3.
+    On success { Assert beastsIn(carth_vigil). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). }
+    Result "Through the byre door in the dark, a hand on the cow's warm flank, a word, a push; she comes, as cows will, at last, all at once, and the calf after her bawling. You stand them by the box-bed with their great breathing sides to it, and the smell of them fills the house-place, hay and dung and milk and warmth, and the cold goes back from the bed a yard, and then another. Old Mother Scaife laughs out loud in the dark. 'That's how it was,' she says. 'That's how it was.' The child's breathing eases. It is not much warmer. It is enough.".
+  }
+  Action share_bed(actor: group, site: place) "Get into the box-bed with the household, everyone together, under every blanket in the house" {
+    Description "Heat is heat, and you have some.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and vigilOn() and not sharedBed(carth_vigil) and not state(hearth, ablaze) and dark()
+      and (coughHeard(actor) or dowsieBurning(dowsie)).
+    Time 2.
+    On success { Assert sharedBed(carth_vigil). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert strikes(carth_cold, actor). }
+    Result "Annis Scaife says 'What—' and then, 'Aye. All right. Aye.' You get into the box-bed in the dark with your boots off, against the wall, with the child between you and her mother and the baby somewhere, and Will on the other side of his wife like a wall, and a dog across all your feet, and every blanket and coat and sack in the house over the lot of you. The child is so hot it is like holding a loaf. Her breathing goes on against your neck all night, and some time before morning it changes, and eases; and you are colder than you have ever been, on the outside of all that warmth, and you do not move.".
+  }
+  Hazard carth_cold "a night on the cold side of the bed" means "Deal (1d6) cold damage to ally unless constitution save against (12).".
+  Action nurse_child(actor: group, site: place) "Sit up with Dowsie through the fever" {
+    Description "Cold cloths and warm hands, and water a sip at a time, and somebody who knows what the breathing means.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and capable(actor, mending) and dowsieBurning(dowsie) and not nursed(dowsie).
+    Time 12.
+    On success { Assert nursed(dowsie). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). }
+    Result "You sit on the edge of the box-bed in the dark with your hand on her forehead and a wet cloth, and you count her breaths, and when they go wrong you sit her up, and when she burns you cool her, and when she shivers you hold her. Annis holds the cup. Neither of you says anything for two hours. Some time after that, the child sighs, and turns over, and sleeps; and her forehead under your hand is only warm.".
+  }
+  // The old woman in the byre: sat with, she is watched over; laid out with the rites, he is let go, and she comes in.
+  Relation sawGranny(group).
+  Action sit_with_granny(actor: group, site: place) "Sit up in the byre with Old Mother Scaife" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, carth_byre) and at(granny, carth_byre) and not sawGranny(actor).
+    Time 6.
+    On success { Assert sawGranny(actor). Assert grannyWatched(carth_vigil). }
+    Result "You sit on the straw in the dark by the cow's warm side, and the old woman talks to Ralph: about a dance at Martinmas in a year with no name, about a pig, about how cold it is. After a while she stops talking, and you hear her get up off the stool, and the hurdle creak, and the sheet move. She has lain down beside him, under the sheet, against him, with her arms round him; to warm him. 'There,' she says, quite content. 'There.' You understand, then, how the dead man comes to have moved in the night.".
+  }
+  Discovery granny_lies "Each night Old Mother Scaife lies down beside her dead husband in the byre, under his sheet, to warm him.".
+  Rule granny_seen when sawGranny(party) and not knows(party, granny_lies) says "Old Mother Scaife lies down by her husband in the dark, every night, to warm him." teaches granny_lies { }
+  Relation grannyWatched(group).
+  Action lay_out_ralph(actor: group, site: place) "Lay Ralph Scaife out properly on his hurdle, and say the words for the dead over him" {
+    Description "The words for one who is going, said by someone who has the right to say them.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, carth_byre) and capable(actor, rites) and not ralphLaid(carth_vigil).
+    Time 3.
+    On success { Assert ralphLaid(carth_vigil). Assert grannyIn(carth_vigil). Retract at(granny, carth_byre). Assert at(granny, house_place). }
+    Result "You straighten him on the hurdle: his hands, which have been folded two ways and slept with, folded once more; his jaw bound; his eyes, which someone has been opening, closed and weighted with two of his own buttons. Then you say the words, in the dark, the ones for a man who is going. The old woman listens with her hand on his chest. At the end she says, 'Going. Aye. He always was slow,' and lets you take her hand, and stands up off the stool, and comes back through into the house-place to sit by the child; and does not go into the byre again that night.".
+  }
+  Topic granny_come_in with granny "Ask Old Mother Scaife to come through and sit with the child" when at(granny, carth_byre) and dowsieBurning(dowsie) and not grannyIn(carth_vigil) once {
+    Says "The old woman is quiet a moment. 'The child?' Then the stool scrapes. 'Ralph,' she says, 'I'll be back. Don't you go anywhere.' She comes through with her hand on your arm, and sits on the edge of the box-bed and takes the child's hot hand in her two cold ones, and begins to sing under her breath, a song with no tune; and stays there.".
+    On discuss { Assert grannyIn(carth_vigil). Retract at(granny, carth_byre). Assert at(granny, house_place). }
+  }
+
+  // ── The Ash-reeve ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // At three, unannounced, he comes in, kneels, and puts his bare hand into the ash of the hearth. He holds it there a
+  // watch; in that time the company, if it is awake and there, can speak to him.
+  Relation reeveKneeling(group). Relation reeveDone(group). Measure reeveAt(group).
+  Rule reeve_comes when carthNight() and hour(clock) >= 3 and hour(clock) < 6 and not reeveDone(carth_vigil) and not reeveKneeling(raistrick) and vigilOn() {
+    Assert reeveKneeling(raistrick). Assert at(raistrick, house_place). Set reeveAt(raistrick) to watch(clock). }
+  Rule reeve_told at house_place when reeveKneeling(raistrick) and at(party, house_place) and not spread(reeve_told)
+    says "The latch lifts. Nobody knocked. Cold air comes in along the floor and finds your ankles, and the door shuts, and someone is in the room: you hear the snow fall off him, and his breathing, slow, and his boots cross the flagstones, exactly, without feeling for anything, as a man crosses his own kitchen. He kneels at the hearth. You hear the ash move. He is holding his hand in it. Nobody in the house breathes. In the box-bed even the child is still." { Assert spread(reeve_told). }
+  Entity reeve_told: fact "the Ash-reeve kneels".
+  Action deceive_reeve(actor: group, site: place) "Tell the man at the hearth the warmth is the child's: she burned with fever, and was laid on the hearthstone to cool" {
+    Description "It is a lie. It may be the kind he cannot afford to check.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and reeveKneeling(raistrick) and state(hearth, ablaze) and not reeveDeceived(raistrick) and not triedReeve(actor).
+    Time 1 minute.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert reeveDeceived(raistrick). }
+    On failure { Assert triedReeve(actor). }
+    Result "The man at the hearth is quite still. Then, in the firelight, he turns his head and looks at the child in the box-bed, flushed, asleep, and at the hearthstone, and at you. 'A fever,' he says. He takes his hand out of the ash and wipes it on his sheepskin, slowly. 'I've known a fever warm a stone.' He stands. 'Kept,' he says, to nobody, and goes out; and you understand that he has decided to believe you, and that he will not do it twice.".
+    Otherwise "Raistrick does not look at you. 'The ash is warm,' he says, 'not the stone. A child's fever doesn't make a fire.' He takes his hand out of the hearth.".
+  }
+  Relation triedReeve(group).
+  Rule reeve_judges when reeveKneeling(raistrick) and watch(clock) >= reeveAt(raistrick) + 1 {
+    Retract reeveKneeling(raistrick). Assert reeveDone(carth_vigil). Assert at(raistrick, reeve_hut). }
+  Rule reeve_broken at house_place when reeveDone(carth_vigil) and state(hearth, ablaze) and not reeveDeceived(raistrick) and vigilOn() and not vigilBroken(carth_vigil)
+    says "Raistrick takes his hand out of the warm ash and looks at it in the firelight as if it had told him something about himself. 'Broken,' he says. He does not say it unkindly. He takes a stick out of his coat and a knife, and cuts a mark on it, and goes out into the snow, and the door shuts." {
+    Assert vigilBroken(carth_vigil). Assert vigilEnded(carth_vigil). }
+  Rule reeve_kept_cold at house_place when reeveDone(carth_vigil) and state(hearth, cold) and vigilOn() and not spread(reeve_kept)
+    says "He takes his hand out of the ash. He stands, and you hear him wipe it on his coat. 'Kept,' he says, to nobody, and goes out, and the cold air goes along the floor after him." { Assert spread(reeve_kept). }
+  Rule reeve_kept_wet at house_place when reeveDone(carth_vigil) and state(hearth, snowed) and vigilOn() and not spread(reeve_kept)
+    says "He takes his hand out of the hearth and holds it up. It drips. For a long time he says nothing at all; you can hear him thinking, which is a sound like a man very slowly turning over a stone. 'Wet,' he says. 'Cold.' He wipes his hand. 'Kept,' he says, and goes out." { Assert spread(reeve_kept). }
+  Rule reeve_kept_byre at house_place when reeveDone(carth_vigil) and byreFire(carth_vigil) and not state(hearth, ablaze) and vigilOn() and not spread(reeve_smoke)
+    says "From the byre, where the whole household lies in the straw by the fire-pit, you hear him come in and kneel at the dead hearth. Then nothing, for a long time. Then he sniffs. Smoke: the whole house smells of it. You hear him stand up. Then you hear him kneel down again, and put his hand back in the ash, and hold it there; and stand; and say 'Kept,' in a voice like a man putting down something heavy; and go." { Assert spread(reeve_smoke). }
+  Entity reeve_kept: fact "kept". Entity reeve_smoke: fact "the smoke".
+
+  // ── Morning ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The first six o'clock after the night: what happened is told plainly.
+  Rule morning_comes when carthNight() and hour(clock) >= 7 and dayN(gaunt_town) > carthDay(party) { Assert nightOver(party). Assert morningDue(carth_vigil). Set morningAt(carth_vigil) to watch(clock). }
+  Measure morningAt(group).
+  Relation morningDue(group).
+  Rule child_dies when morningDue(carth_vigil) and not dowsieSafe(dowsie) and not dowsieDead(dowsie) { Assert dowsieDead(dowsie). }
+  Rule granny_cold when morningDue(carth_vigil) and not grannyIn(carth_vigil) and not grannyCold(carth_vigil) { Assert grannyCold(carth_vigil). }
+  Rule kept_tonight when morningDue(carth_vigil) and vigilOn() and not vigilKept(carth_vigil) { Assert vigilKept(carth_vigil). Increase vigilNight(carth_vigil) by 1. }
+  Rule morning_child_well within carth when morningDue(carth_vigil) and atCarth() and dowsieSafe(dowsie) and not hernCoat(hern) and not spread(morning_told)
+    says "Morning comes grey through the one window. The child is asleep, and cool, with her mouth open, and her mother asleep sitting up beside her. Will Scaife is at the door, digging. Snow has stopped in the night; it lies to the knee in the yard and to the eaves on the north side, and the light off it is so white after the dark that it hurts." { Assert spread(morning_told). }
+  Rule morning_hern_coat within carth when morningDue(carth_vigil) and atCarth() and hernCoat(hern) and not spread(morning_told)
+    says "Morning comes grey through the one window. The child is asleep and cool in the box-bed, wrapped in a frieze coat that is not hers. Beside her, on the outside, is Hern, in his shirt, grey as the ash, with his lips blue, awake. He sees you looking and grins. 'Kept her warm,' he says, and it comes out in a whisper, with the cough under it like a stone under a sheet. 'Professional.'" { Assert spread(morning_told). }
+  Rule morning_child_dead within carth when morningDue(carth_vigil) and atCarth() and dowsieDead(dowsie) and not spread(morning_told)
+    says "Morning comes grey through the one window. Annis Scaife is sitting on the edge of the box-bed with the child in her lap, and she is not rocking her. Nobody has said anything yet, and nobody does. After a while Will gets up, and goes out to the byre, and you hear him moving the hurdle along to make room." { Assert spread(morning_told). }
+  Entity morning_told: fact "the morning at Carth".
+  Rule morning_granny within carth when morningDue(carth_vigil) and grannyCold(carth_vigil) and atCarth() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_granny)
+    says "In the byre the old woman is asleep under the sheet against her husband, with her arms round him. Her hands, when Annis takes them, are white to the wrist, and she does not feel it. 'He was cold,' she explains." { Assert spread(morning_granny). }
+  Entity morning_granny: fact "the old woman in the morning".
+  // Morning's verdict on the company, from the household: who lit what without asking is told to go when the road opens.
+  Rule morning_go within carth when morningDue(carth_vigil) and atCarth() and litWithoutLeave(party) and not spread(morning_go)
+    says "Will Scaife does not look at you all morning. When he has dug the yard gate clear he stands by it, and waits, and you understand that he is waiting for you to go through it. Annis puts a heel of bread in your hand at the door, without a word, and shuts it." { Assert spread(morning_go). }
+  Entity morning_go: fact "told to go".
+  // Whoever lit the hearth without leave and broke the vigil has taken its debt: seventeen nights, in the Register.
+  Rule debt_taken when vigilBroken(carth_vigil) and litWithoutLeave(party) and not brokeVigil(party) { Assert brokeVigil(party). }
+
+  // ── After: the vigil goes on, a night at a time ───────────────────────────────────────────────────────────────────
+  // Each morning after the first, while it is kept, another night is counted. The old woman who sleeps in the byre
+  // with no one to stop her does not see the twenty-sixth morning.
+  Relation nightCounted(group).
+  Rule vigil_counts when vigilOn() and morningDue(carth_vigil) and hour(clock) == 6 and not nightCounted(carth_vigil) and dayN(gaunt_town) >= 3 { Increase vigilNight(carth_vigil) by 1. Assert nightCounted(carth_vigil). }
+  Rule vigil_count_resets when nightCounted(carth_vigil) and hour(clock) != 6 { Retract nightCounted(carth_vigil). }
+  Relation grannyDead(group).
+  Rule granny_dies when vigilOn() and grannyCold(carth_vigil) and not grannyWatched(carth_vigil) and not ralphLaid(carth_vigil) and vigilNight(carth_vigil) >= 26 and not grannyDead(granny) { Assert grannyDead(granny). Assert at(granny, limbo). }
+  // Raistrick keeps every night of it: at three, in the house, whether anyone is there or not.
+  Rule reeve_again when vigilOn() and hour(clock) == 3 and morningDue(carth_vigil) and not at(raistrick, house_place) and not reeveKneeling(raistrick) { Assert at(raistrick, house_place). }
+  Rule reeve_again_goes when hour(clock) == 4 and at(raistrick, house_place) and not reeveKneeling(raistrick) { Assert at(raistrick, reeve_hut). }
+  // Released, the vigil ends: the fire is lit, and stays lit.
+  Rule released_lit when vigilReleased(carth_vigil) and not state(hearth, ablaze) { Assert state(hearth, ablaze). Assert vigilEnded(carth_vigil). Assert grannyIn(carth_vigil). }
+  Rule granny_comes_home when vigilEnded(carth_vigil) and at(granny, carth_byre) and not grannyDead(granny) { Assert at(granny, house_place). }
+  Observe house_after at house_place when morningDue(carth_vigil) and vigilOn() and not state(hearth, ablaze) and dark() "The house-place at Carth, dark again for the night: the cold has come back into it and sat down.".
+  Observe granny_gone_scene at carth_byre when grannyDead(granny) "The byre at Carth, and along the far wall two long shapes on two hurdles under two sheets.".
+  Observe released_scene at house_place when vigilReleased(carth_vigil) "There is a fire on the hearth at Carth that nobody is afraid of, and a pot on it, and steam; and by the hearth, on the cloth, the place laid for the Guest has been taken up, and the bowl put back on the dresser.".
+
+  // ── People at Carth by day ────────────────────────────────────────────────────────────────────────────────────────
+  Topic annis_morning with annis "Ask Annis what will happen to them now" when morningDue(carth_vigil) and vigilBroken(carth_vigil) once {
+    Says "'Nothing,' says Annis. 'Nothing happens. That's what happens.' She is cutting bread very thin. 'We give back the twenty. We haven't got it; it went to the Fabric for the rent. So the Fabric has us out at Lady Day anyway, and the Penitentiary has us for twenty shillings, and we go to the Row and do penances for the people that paid for this one.' She puts the knife down. 'You'd think somebody had arranged it.'".
+  }
+  Topic annis_kept with annis "Ask Annis whether the vigil was kept" when morningDue(carth_vigil) and vigilOn() once {
+    Says "'Kept,' says Annis. 'Twenty-four. Sixteen to go.' She does not thank you or blame you. She is cutting bread very thin. 'He'll be back tonight. And the next. You've a city to go to.' Then, not looking up: 'If you see the man that's sorry, in Gaunt, you might tell him it's cold.'".
+  }
+  Topic will_morning with will "Speak to Will Scaife" when morningDue(carth_vigil) once {
+    Says "Will Scaife leans on his shovel in the yard and looks at the fell, where the road is, under the snow. 'Two years behind,' he says, to the fell. 'My father farmed it fifty years and never was behind. Then the Fabric put the rent up for the tower.' He looks at you. 'They're building a tower,' he says, as if it were the strangest thing he knew. 'Two hundred years.' He goes back to digging.".
+  }
+}

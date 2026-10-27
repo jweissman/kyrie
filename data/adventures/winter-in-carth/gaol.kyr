@@ -1,0 +1,148 @@
+Module gaunt "A Winter in Carth" {
+  // ── Hern in the gaol ──────────────────────────────────────────────────────────────────────────────────────────────
+  // A warm cell in the Close, visited by day from the Close side (for a company that may enter the Close), and talked
+  // to at any hour through the barred window from Gaol Lane, below. A person is talked to where they are; the voice at
+  // the window is written as its own person, seen from the lane only while Hern is in the cell.
+  Person hern_window "Ninian Hern, at the bars" at gaol_lane {
+    Role "a voice and two hands and a bit of a face at the barred window over Gaol Lane, the hands holding the bars". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "'Is that my custodian?' says the face at the bars. 'Or a stranger? Either is welcome; I've had the precentor all afternoon, explaining my heresy to me. He's very good at it. I'm thinking of taking it up.' A cough. 'Stand where I can see you. I'm on the bed on tiptoe.'".
+    Greets again "Hern's hands come round the bars.".
+    Seen when hernAtBars().
+  }
+  Query hernAtBars() means hernGaoled(hern) and at(hern, gaol_cell) and not hernFled(hern) and not hernDead(hern).
+  Relation toldToLive(group). Relation hernRecants(group). Relation hernWillLive(group).
+  Rule will_live when hernReasons(hern) >= 2 and not hernWillLive(hern) and not hernDead(hern) { Assert hernWillLive(hern). }
+  // Each reason to live is counted once: the child saved by someone else's warmth than his; Bess heard; Hawise's words;
+  // being told to, by someone who said on the road that one man can be sorry for another, or that what we owe is to
+  // finish, or who kept a promise anyway.
+  Rule reason_dowsie when nightOver(party) and dowsieSafe(dowsie) and not hernCoat(hern) and at(hern, house_place) and not spread(reason_dowsie) { Increase hernReasons(hern) by 1. Assert spread(reason_dowsie). }
+  Entity reason_dowsie: fact "the child saved".
+  Topic gaol_word with hern "Ask Hern if there is anything he would say to the Lady Penitentiary" when hernGaoled(hern) and not carryingHern(actor) once {
+    Says "Hern thinks for a long time, with his feet to the fire. 'Tell her,' he says, 'the soup was always too salt.' He grins at the fire. 'She'll know. Nobody else in Gaunt would.' Then, not grinning: 'Don't tell her anything else. Not that I'm ill. She'd send a physician and I'd have to be polite to him.'".
+    On discuss { Assert carryingHern(actor). }
+  }
+  Topic window_word with hern_window "Ask Hern if there is anything he would say to the Lady Penitentiary" when not carryingHern(actor) once {
+    Says "The hands on the bars tighten and loosen. 'Tell her,' says Hern's voice, 'the soup was always too salt.' A laugh, and a cough. 'She'll know. Nobody else in Gaunt would. Don't tell her I'm coughing.'".
+    On discuss { Assert carryingHern(actor). }
+  }
+  Topic gaol_bess with hern "Give Hern Bess Ackroyd's word: you don't kneel on your knees" when hernGaoled(hern) and carryingBess(actor) and not hernHeardBess(hern) once {
+    Says "You tell him all of it: you can be right in heaven; down here we eat; recant, Ninian; next winter come and sit by the stove and tell us it's worth nothing, and we'll feed you while you say it. Hern listens with his eyes shut. At the end he laughs, a small dry laugh. 'You don't kneel on your knees,' he says. 'You kneel on your mind. I told her that when she was nine.' He opens his eyes. 'She's right. She's always right too. That's the trouble with Bess.'".
+    On discuss { Assert hernHeardBess(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic window_bess with hern_window "Give Hern Bess Ackroyd's word: you don't kneel on your knees" when carryingBess(actor) and not hernHeardBess(hern) once {
+    Says "You tell it up to the bars: you can be right in heaven; down here we eat; recant, Ninian. For a long while there is nothing at the window but his hands. Then his voice: 'You kneel on your mind. I taught her that.' A cough. 'She's right too. That's the trouble with Bess. Everybody's right but the Penitentiary, and the Penitentiary's useful.'".
+    On discuss { Assert hernHeardBess(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic gaol_hawise with hern "Give Hern the Lady Penitentiary's words: that he was sorry once, really, for one of them" when hernGaoled(hern) and carryingHawise(actor) and not hernHeardHawise(hern) once {
+    Says "Hern sits up on the bed. 'She said that.' He looks at the fire for a long time. 'Once,' he says. 'Aye. A fishmonger's wife. Her husband beat her, and she put rat-bane in his ale, and he lived, and she came to the Penitentiary shaking, and they set it at a week's fast, and I fasted it. Fifteen, I was.' He rubs his face. 'I was sorry. All week. For her. It was the only time.' He laughs, and it hurts him. 'Hawise was in the next pen eating the cat's dinner. She'd remember that.' He looks at you. 'It's not giving in, then?' he says. 'If it's true?'".
+    On discuss { Assert hernHeardHawise(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic window_hawise with hern_window "Give Hern the Lady Penitentiary's words: that he was sorry once, really, for one of them" when carryingHawise(actor) and not hernHeardHawise(hern) once {
+    Says "The hands go still on the bars. 'She said that,' says Hern's voice. Then, a long while after: 'Once. Aye. A fishmonger's wife, and a week's fast, when I was fifteen. I was sorry all week. For her.' A cough. 'She was in the next pen. She'd remember.' Then, very quietly: 'If it's true, it's not giving in. Is it.'".
+    On discuss { Assert hernHeardHawise(hern). Increase hernReasons(hern) by 1. }
+  }
+  Query mayTellLive(a: group) means saidLove(a) or saidFinish(a) or saidChosen(a).
+  Topic gaol_live with hern "Tell Hern you would rather he lived" when hernGaoled(hern) and mayTellLive(actor) and not toldToLive(hern) once {
+    Says "Hern looks at you a long time. 'You said on the road—' and he tells it back to you, what you said on the fell, in your own words: about love, or about finishing what the dead were doing, or about keeping a promise you are not the same one to keep. 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
+    On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic window_live with hern_window "Tell Hern you would rather he lived" when mayTellLive(actor) and not toldToLive(hern) once {
+    Says "'You said on the road—' says the voice at the bars, and gives you back what you said on the fell, every word. Then: 'You're a dangerous person to walk with.' A long cough. 'I'd thought the Gate of Ash was the end of the story. Proxies don't get an after. I'll think about it. I'll think about it on the bed, on tiptoe.'".
+    On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic gaol_law with hern "Ask Hern whether anybody could bear his sentence for him" when hernGaoled(hern) and not knows(actor, sentence_borne) once {
+    Says "Hern laughs so hard he has to hold the bedpost. 'By the canons? Yes. Putting-out's a penance; any penance may be borne by another.' He wipes his eyes. 'Nobody ever has. Nobody who's put out has friends.' He sobers, and points a finger like a root at you. 'Don't you get ideas.'".
+    On discuss { Assert knows(actor, sentence_borne). }
+  }
+  Topic gaol_carth with hern "Ask Hern what he thinks about now, in the warm" when hernGaoled(hern) and stayingAtCarth(actor) once {
+    Says "'Carth.' He holds his feet to the fire. 'Twenty-three nights. The child. The old woman in the byre.' He is quiet. 'I refused it to spite a man in a warm house. And it went to a cold one.' He looks at the fire. 'I'm in a warm room. I'm the heretic and I'm in the warmest room I've slept in since I was a boy.' He laughs. 'Gaunt,' he says, as if it were a swear-word, and also a prayer.".
+  }
+  // His chest: a cold night given away and not tended kills him by the Fast. Tended, by someone with the skill, or by
+  // the Lady's physician, he mends enough to stand on Ash Day.
+  Action tend_hern(actor: group, site: place) "Tend Hern's chest" {
+    Description "Steam, and a mustard plaster, and making him lie still, which is the hard part.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gaol_cell) and at(hern, gaol_cell) and capable(actor, mending) and hernFailing(hern) and not hernTended(hern).
+    Time 6.
+    On success { Assert hernTended(hern). }
+    Result "You make him lie down, which takes most of the hour, and steam his chest with a kettle and a towel, and put a plaster on him that makes him swear in the language of the Row, which is extensive. By the end of it the rattle in his breath has gone back down to somewhere you can bear to listen to. 'I'll live till Wednesday,' he says, accusingly, 'thanks to you.'".
+  }
+  Rule hern_dies when hernFailing(hern) and not hernTended(hern) and not hernDead(hern) and not hernFled(hern) and eveDay() and hour(clock) >= 23 { Assert hernDead(hern). Assert at(hern, limbo). }
+  Rule hern_dies_told when hernDead(hern) and inTown() and not spread(hern_dies_told)
+    says "At midnight the tenor bell of the Minster rings the Fast in over the city, one stroke, and then another, and the masks come off all over the Middle Town. In the Consistory gaol, in the warmest room he had slept in since he was a boy, Ninian Hern is dead, of the night he gave a child at Carth, with his feet to the fire. The serjeant who finds him says he looked pleased." { Assert spread(hern_dies_told). }
+  Entity hern_dies_told: fact "Hern dead".
+
+  // ── The rescue ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Hal Metcalfe, a printer's apprentice and Hern's loudest follower, means to be under the gaol window at eleven on
+  // Fastens' Eve with a ladder and a file. Prudence Garth, who listens to Hern on the Steps and believes him, has been
+  // offered the informer's fee, six shillings, which is her mother's three years of unpaid pains; at eight she will tell
+  // the gaol's serjeants.
+  Person hal "Hal Metcalfe" at gaol_lane {
+    Role "a printer's apprentice of eighteen with ink to the elbow, loitering under the gaol window with his hands in his pockets, very obviously not loitering". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns he. Manner cheerful.
+    Greets "The young man under the window looks you over. 'You're the one that brought him in,' he says, or, 'You're the one that walked with him,' whichever it was; he has heard. He lowers his voice to a whisper that carries the length of Gaol Lane. 'Fastens' Eve. Eleven. A ladder and a file. Are you with us?'".
+    Greets again "Hal Metcalfe winks at you, enormously.".
+  }
+  Person prudence "Prudence Garth" at row_lane {
+    Role "a pale serious girl of seventeen with a student's satchel and darned gloves, who does not meet anyone's eye". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "The girl with the satchel starts when you speak to her. 'I listen to him,' she says, before you have asked anything. 'On the Steps. Everybody knows I do. I believe him.' She looks at her gloves. 'I do believe him.'".
+    Greets again "Prudence Garth looks at her gloves.".
+  }
+  Relation informs(group). Relation informed(group). Relation prudenceTurned(group). Relation rescueOff(group). Relation halTaken(group).
+  Relation barsOut(group). Relation hernRefusedWindow(group).
+  Discovery hal_plan "Hal Metcalfe means to be under the gaol window at eleven on Fastens' Eve with a ladder and a file, to get Hern out.".
+  Discovery prudence_informs "Prudence Garth has been offered the informer's fee, six shillings, the price of her mother's three years of unpaid pains, to tell the gaol's serjeants when Hal Metcalfe comes for Hern; she will tell them at eight on Fastens' Eve.".
+  Initially Assert informs(prudence).
+  Topic hal_plan_topic with hal "Ask Hal Metcalfe what he means to do" when true once {
+    Says "'Get him out.' Hal is delighted to be asked. 'Fastens' Eve, eleven, everyone drunk and masked and the serjeants at the Fat Lamb. I've a ladder at the printer's, and a file, and Pru's to keep watch at the lane end.' He beams. 'Pru's one of us. She's at every sermon. She cried when he said nobody's sorry.' He leans in. 'I've not told anyone but Pru.'".
+    On discuss { Assert knows(actor, hal_plan). }
+  }
+  Topic pru_mother with prudence "Ask Prudence Garth about her mother" when knows(actor, hal_plan) and not prudenceTurned(prudence) once {
+    Says "Prudence Garth goes white, and then, because you are a stranger and she has been waiting a week to tell somebody, she tells you. Her mother is three years behind in her pains: a lie to an Assessor about a hen, assessed, never paid, doubled, doubled again. Next Lady Day they'll put her on the Register as a defaulter, and a defaulter can't be served in the Shambles. And a canon of the Fabric, a pleasant round man, said there was an informer's fee for the night Hern's friends came for him; six shillings; exactly. She looks at her darned gloves. 'I do believe him,' she says. 'I believe every word. And I'm going to tell them at eight.'".
+    On discuss { Assert knows(actor, prudence_informs). }
+  }
+  Action pay_pru(actor: group, site: place) "Give Prudence Garth six shillings for her mother's pains, and ask her to tell nobody anything" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(prudence, site) and knows(actor, prudence_informs) and not prudenceTurned(prudence) and not informed(prudence) and quantity(actor, gold) >= 6.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 6. Assert prudenceTurned(prudence). Retract informs(prudence). }
+    Result "Prudence Garth looks at the shillings in her palm as if they were something she had dropped long ago and stopped looking for. 'It's the same money,' she says. 'It's exactly the same money.' Then she closes her hand on it and goes off up the Row toward a door with a hen-coop beside it, running, which you have not seen her do, and does not come back to thank you, which you understand.".
+  }
+  Topic pru_turned with prudence "Tell Prudence Garth what Hern said on the road about being sorry for another" when knows(actor, prudence_informs) and not prudenceTurned(prudence) and not informed(prudence) and answeredSorry(actor) once {
+    Says "You tell her what Hern asked on the fell, and what you answered, and what he said. Prudence listens with her satchel against her chest. 'One man sorry for another,' she says. 'He asked that?' She is quiet. 'My mother lied about a hen.' She laughs, and it turns into something else. 'I'll not go to them,' she says. 'Let them have her on the Register. She'd sooner, if she knew. She'd sooner be a defaulter than have me do that.' She goes, fast, up the Row.".
+    On discuss { Assert prudenceTurned(prudence). Retract informs(prudence). }
+  }
+  Topic hal_warned with hal "Tell Hal Metcalfe that Prudence means to sell the night to the serjeants" when knows(actor, prudence_informs) and not rescueOff(hal) and not prudenceTurned(prudence) once {
+    Says "Hal Metcalfe's face falls apart and puts itself back together as something older. 'Pru,' he says. 'Pru did?' He looks up at the window. 'Then they'll be waiting.' He takes his hands out of his pockets. 'Then I'll not come. I'll not get him taken worse for my ladder.' He goes away down Gaol Lane, kicking the snow.".
+    On discuss { Assert rescueOff(hal). }
+  }
+  Rule pru_informs when informs(prudence) and eveDay() and hour(clock) >= 20 and not informed(prudence) and not rescueOff(hal) and not hernFled(hern) and hernGaoled(hern) { Assert informed(prudence). Retract informs(prudence). }
+  // The serjeants: at the window from half past ten, if they were told.
+  Person serjeants "the Consistory's serjeants" at limbo {
+    Role "two serjeants of the Consistory in grey, with staves, waiting in the shadow of the lane". Ancestry human. Calling warrior. Level 3. Numbers 2. Pronouns they.
+    Temperament territorial.
+    Warns "Two men in the Consistory's grey step out of a doorway in Gaol Lane with staves. 'In the Consistory's name,' says the elder, without much interest. 'Whoever's for the window, go home. It's Fastens' Eve. Nobody wants this.'".
+    Pleads "The serjeants back off down the lane, one helping the other. 'Fastens' Eve,' says the elder. 'We never saw a thing.'".
+  }
+  Rule serjeants_wait when informed(prudence) and eveDay() and hour(clock) >= 22 and at(serjeants, limbo) and able(serjeants) and not routed(serjeants) { Assert at(serjeants, gaol_lane). }
+  Rule serjeants_go when (not eveDay() or hour(clock) < 22) and at(serjeants, gaol_lane) { Assert at(serjeants, limbo). }
+  Rule hal_comes when eveDay() and hour(clock) >= 23 and not rescueOff(hal) and not halTaken(hal) and hernGaoled(hern) and not hernFled(hern) and not hernDead(hern) { Assert halHere(hal). Assert at(hal, gaol_lane). }
+  Relation halHere(group).
+  Rule hal_routine when not halHere(hal) and not halTaken(hal) and daytime() and not at(hal, gaol_lane) { Assert at(hal, gaol_lane). }
+  Rule hal_taken when halHere(hal) and at(serjeants, gaol_lane) and able(serjeants) and not tolerates(serjeants, party) and not halTaken(hal) and not barsOut(hern)
+    says "Hal Metcalfe comes down Gaol Lane at eleven with a ladder on his shoulder, masked, whistling, and the serjeants step out and take him by both arms, ladder and all, quite gently, and walk him away up the Bearer's Steps. 'Pru,' he says to nobody, over his shoulder. 'Pru?'" {
+    Assert halTaken(hal). Retract halHere(hal). Assert at(hal, limbo). }
+  Action file_bars(actor: group, site: place) "Help Hal Metcalfe up the ladder and get the bars out of the gaol window" {
+    Description "Two bars, set in lead; a file and a strong arm, or a lockworker's patience.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gaol_lane) and halHere(hal) and at(hal, gaol_lane) and hernAtBars() and not barsOut(hern)
+      and (capable(actor, lockwork) or capable(actor, brawn)) and not threatened(actor).
+    Time 3.
+    On success { Assert barsOut(hern). }
+    Result "Up the ladder with the file, the lane below full of masks going by who see nothing because it is Fastens' Eve: lead dug out of the stone, a bar bent back, and another, until there is a hole a thin old man could go through. Inside, by the fire, Hern is sitting on the bed with his hands on his knees, looking at the hole.".
+  }
+  Rule hern_comes_out when barsOut(hern) and hernWillLive(hern) and not hernHeardHawise(hern) and not hernFled(hern)
+    says "Hern looks at the hole for a long time. Then he gets up, and puts on the coat the Lady Penitentiary had made for him, which is on the end of the bed, and comes to the window, and puts one bare foot through it, and then the other. 'I'd thought I'd go out of the Gate of Ash,' he says, on the ladder, 'like a man in a story.' He comes down into Gaol Lane among the masks. 'This is a better story. Nobody'll believe it.' Hal Metcalfe takes one arm and you take the other, and the three of you go down to Bow Gate and out through the Row, and nobody stops anybody, because it is Fastens' Eve; and at the Fell Gate, which is never shut, he stops, and shakes your hand for the last time, and goes off into the Levels on his bare feet in the dark, toward the fell and the drovers' road, with Hal beside him carrying the ladder for no reason." {
+    Assert hernFled(hern). Assert escapedWindow(hern). Retract hernGaoled(hern). Assert at(hern, limbo). Assert at(hal, limbo). Retract halHere(hal).
+    Assert at(party, fell_gate). }
+  Relation escapedWindow(group).
+  Rule hern_stays_in when barsOut(hern) and not hernFled(hern) and not hernRefusedWindow(hern) and (not hernWillLive(hern) or hernHeardHawise(hern))
+    says "Hern looks at the hole, and at the night through it, and does not get up. 'No,' he says. 'Thank you, Hal. Thank you.' He comes to the window and puts his hand through and pats Hal's face, on the ladder. 'I didn't walk forty miles to go out of a window. Put the bars back, if you can, and go home, and be at the Minster on Wednesday.'" {
+    Assert hernRefusedWindow(hern). Retract halHere(hal). Assert at(hal, limbo). }
+}

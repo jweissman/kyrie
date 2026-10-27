@@ -1,0 +1,169 @@
+Module gaunt "A Winter in Carth" {
+  // ── The Schools ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Consistory asks the Faculty whether a proposition is heresy, and the Faculty answers for a fee. Canon Pellow has
+  // paid Doctor Ploughwright, the Irrefragable, for a Determination that Hern's is. Doctor Quist, the Seraphic, will sell
+  // a contrary one to anybody. On Fastens' Eve at two they dispute in the Schools.
+  Person ploughwright "Doctor Ploughwright" at schools {
+    Role "the Irrefragable Doctor, a tall grey scholar in a fur hood, who has never been refuted because he has never been understood". Ancestry human. Calling mage. Level 4. Peaceable. Pronouns he. Manner proud.
+    Greets "The tall doctor inclines his head a quarter of an inch. 'If you have come to dispute,' he says, 'the fee is a shilling, and you will lose. If you have come to purchase, the list is on the wall.'".
+    Greets again "Doctor Ploughwright inclines his head a quarter of an inch.".
+  }
+  Person quist "Doctor Quist" at schools {
+    Role "the Seraphic Doctor, a small round woman in an inky gown who argues with her hands, with her feet, and once, famously, with a chair". Ancestry human. Calling bard. Level 4. Peaceable. Pronouns she. Manner cheerful.
+    Greets "The small round doctor bounces up from a bench. 'A stranger! Do you want a Determination? I've some very good ones going cheap: whether the Fast includes eels; whether a penance done in a dream counts; whether Saint Oswy was tall.' She leans in. 'Or are you here about Barefoot Hern? Everybody's here about Barefoot Hern. Ploughwright's sold his. Mine's still on the shelf.'".
+    Greets again "Doctor Quist waves at you with both hands.".
+  }
+  Relation quistBought(group). Relation crossed(group).
+  Topic ploughwright_hern with ploughwright "Ask Doctor Ploughwright what he has determined about Ninian Hern" when true once {
+    Says "'That the proposition, Nobody is sorry for another, therefore nobody is forgiven, is heresy,' says Doctor Ploughwright, 'on three grounds, each irrefragable.' He tells you the three grounds. The first is about Saint Oswy, the second is about arithmetic, and the third you do not understand at all, and suspect he does not either. 'Determined,' he says, 'at the request of the Master of the Fabric. The fee was considerable. Truth is expensive. That is how you know it is truth.'".
+  }
+  Topic quist_hern with quist "Ask Doctor Quist what she would determine about Ninian Hern" when true once {
+    Says "'Oh, that it's not heresy at all.' Doctor Quist is delighted. 'The proposition's a matter of fact, not of faith: whether anybody in Gaunt is sorry. You can't determine a fact, you have to go and look.' She waves at the window. 'Nobody in the Faculty's been to look in two hundred years. That's what Ploughwright's paid for.' She sobers. 'And there's an old Life of Saint Oswy in the library nobody reads, with the end of the story in it. He didn't carry the sinner in. He put him down at the door and told him to walk.' She holds out a hand. 'Five shillings, and I'll write it all down, sealed, and it'll be read at the Consistory beside his. Two Determinations, contrary. They hate that.'".
+    On discuss { Assert knows(actor, quist_offer). Assert knows(actor, second_verse). }
+  }
+  Discovery quist_offer "Doctor Quist will write a contrary Determination on Hern's proposition, for five shillings, to be read at the Consistory beside Doctor Ploughwright's.".
+  Action buy_quist(actor: group, site: place) "Buy Doctor Quist's contrary Determination, five shillings" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, schools) and at(quist, schools) and knows(actor, quist_offer) and not quistBought(quist) and quantity(actor, gold) >= 5.
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 5. Assert quistBought(quist). }
+    Result "Doctor Quist writes it standing up, at the pulpit, very fast, with her tongue out, and reads it aloud as she writes, to the students on the benches, who cheer the good bits. It is two pages. It says that the proposition is a matter of fact, that the Faculty has not looked, and that Saint Oswy, by the oldest account, put the sinner down at the door. She seals it with a seal that is mostly ink. 'There,' she says. 'Ploughwright will have to dispute it on Fastens' Eve, and he hates disputing; he might lose.' She gives you back a shilling. 'For the pleasure.'".
+  }
+  Rule schools_dispute at schools when quistBought(quist) and eveDay() and hour(clock) >= 14 and hour(clock) < 16 and at(party, schools) and not spread(schools_dispute)
+    says "At two the Doctors dispute. Ploughwright in one pulpit, Quist in the other, the benches full and the doors open and the students hanging on the windows. Ploughwright gives his three grounds, irrefragably. Quist answers the first with Saint Oswy, the second with the price of a fast at the Stand, and the third with a long pause and then the words 'Neither do you,' at which the benches rise. By three the students are fighting, cheerfully, with the benches. By four the Faculty has determined nothing, and both Determinations will be read on Ash Day, contrary, which nobody can remember happening before." { Assert spread(schools_dispute). }
+  Entity schools_dispute: fact "the Doctors dispute".
+
+  // ── Ash Day: the Consistory ───────────────────────────────────────────────────────────────────────────────────────
+  // At nine the Close is open to the whole city for the ashes, and stays open until dusk: on Ash Day anybody may stand in
+  // the nave, and in the Chapter House from eleven, tallied or not. Only a shriven witness is heard.
+  Query ashOpen() means ashDay() and hour(clock) >= 9 and hour(clock) < 18.
+  Relation trialOpen(group). Relation hernAnswered(group). Relation verdictGiven(group).
+  Relation companyOffered(group). Relation thackrayOffered(group). Relation testifiedCarth(group). Relation testifiedRoad(group).
+  Relation shouted(group). Relation sowerbyStood(group).
+  Relation verdictFast(group). Relation verdictFlight(group). Relation verdictRecant(group). Relation verdictBearer(group). Relation verdictPutOut(group).
+  Relation proxyRefused(group). Relation companyBears(group). Relation thackrayBears(group).
+  Entity consistory: group "the Consistory".
+  // Into the Chapter House at eleven.
+  Rule hern_to_chapter when ashDay() and hour(clock) >= 11 and hernGaoled(hern) and not hernFled(hern) and not hernDead(hern) and not verdictGiven(consistory) and not at(hern, chapter_house) { Assert at(hern, chapter_house). }
+  Rule hawise_to_chapter when ashDay() and hour(clock) >= 11 and hour(clock) < 14 and not at(hawise, chapter_house) and not verdictGiven(consistory) { Assert at(hawise, chapter_house). }
+  Rule thackray_to_chapter when ashDay() and hour(clock) >= 11 and hour(clock) < 14 and not at(thackray, chapter_house) and not verdictGiven(consistory) and not thackrayAway(thackray) { Assert at(thackray, chapter_house). }
+  Rule pellow_to_chapter when ashDay() and hour(clock) >= 11 and hour(clock) < 14 and not pellowGone(pellow) and not at(pellow, chapter_house) and not verdictGiven(consistory) { Assert at(pellow, chapter_house). }
+  Query inChapter() means at(party, chapter_house).
+  Observe chapter_sitting at chapter_house when sitting() and not verdictGiven(consistory) "The Chapter House on Ash Day: the stone bench full of canons with ash on their foreheads, the Lady Penitentiary in the stone chair, the Wood-reeve beside her for the Guildhall, and every inch of floor behind the rope packed with the city, standing, with ash on its forehead too. In the little square of different stone in the middle of the floor stands a barefoot old man in a new grey coat, coughing into his fist.".
+  // Noon: the Consistory sits, or does not.
+  Rule trial_struck when ashDay() and hour(clock) >= 12 and struck(barefoot) and not verdictGiven(consistory) {
+    Assert verdictGiven(consistory). Assert verdictFast(consistory). }
+  Rule trial_struck_told when verdictFast(consistory) and inTown() and not spread(trial_struck_told)
+    says "At noon the Consistory does not sit. It cannot: of its seven members, five are on the Bearer's Steps, barefoot, in their shirts, with boards round their necks, doing their own penance for the gilding because there is not a proxy to be had in Gaunt; and the sixth, the Wood-reeve, is sitting on the bottom step with his shoes in his hand, weeping, for reasons nobody can get out of him. The Lady Penitentiary comes out of the Chapter House at a quarter past twelve, looks down the Steps at her Consistory, and says, quite loudly, to the whole of the Close: 'Adjourned. Until the Commerce of Merit resumes.' The Row, in the nave, begins to laugh, and then, because it is Ash Day, stops." { Assert spread(trial_struck_told). }
+  Entity trial_struck_told: fact "adjourned".
+  Rule trial_empty when ashDay() and hour(clock) >= 12 and hernFled(hern) and not verdictGiven(consistory) {
+    Assert verdictGiven(consistory). Assert verdictFlight(consistory). }
+  Rule trial_empty_told when verdictFlight(consistory) and inTown() and not spread(trial_empty_told)
+    says "At noon the Consistory sits in the Chapter House on the matter of Ninian Hern, and the little square of different stone in the middle of the floor is empty. The charge is read to it. The Determination is read to it. The Lady Penitentiary asks it whether it recants, and waits, with great courtesy, the proper time for an answer. Then she pronounces him put out, in his absence, from a city he is no longer in; and the precentor, who believes in nothing, has to turn away to the wall." { Assert spread(trial_empty_told). }
+  Entity trial_empty_told: fact "the empty floor".
+  Rule trial_opens when sitting() and not trialOpen(consistory) and not verdictGiven(consistory) { Assert trialOpen(consistory). }
+  Rule trial_opens_told at chapter_house when trialOpen(consistory) and inChapter() and not spread(trial_opens_told)
+    says "The Consistory sits. The charge is read by Canon Pellow, gently: that Ninian Hern, proxy, of the Row, has taught on the Minster steps that no man is sorry for another, therefore that no penance borne by another is of any effect, therefore that the Commerce of Merit is a fraud upon the faithful and the Fabric. Then the Determination of the Faculty, by Doctor Ploughwright, the Irrefragable, on three grounds. You do not understand the third. Hern, on his square of stone, is listening to it with professional appreciation." { Assert spread(trial_opens_told). }
+  Rule trial_opens_precentor at chapter_house when trialOpen(consistory) and inChapter() and pellowGone(pellow) and not spread(trial_precentor)
+    says "Canon Pellow is not on the bench. The precentor reads the charge instead, beautifully, as he reads everything, as if it were a lesson about somebody long dead." { Assert spread(trial_precentor). }
+  Entity trial_opens_told: fact "the charge". Entity trial_precentor: fact "the precentor".
+  Rule trial_crossed at chapter_house when trialOpen(consistory) and quistBought(quist) and not crossed(consistory)
+    says "Then a second Determination, which the bench was not expecting, sealed with ink: Doctor Quist's, the Seraphic, contrary. It is read in full. It says that the proposition is a matter of fact, that the Faculty has not looked, and that Saint Oswy put the sinner down at the door and told him to walk. The canons look at each other. Two Determinations, contrary. In the stone chair the Lady Penitentiary has put her hand over her mouth, and you cannot see what it is doing." {
+    Assert crossed(consistory). Increase hawiseReasons(hawise) by 1. }
+  Rule sowerby_stands at chapter_house when trialOpen(consistory) and sowerbyChanged(sowerby) and not sowerbyStood(sowerby) and hour(clock) >= 12
+    says "Behind the rope, barefoot still, Master Pentecost Sowerby, draper, puts up his hand like a boy at a dame-school, and when nobody stops him, says: 'I walked this morning. My own. A false ell, seven years ago. It was mine.' He looks round at the city. 'It was the first time it was mine,' he says, 'and I was sorry. I was. Nobody bought it.' He sits down on the floor, because there is nowhere else. Nobody tells him to be quiet." {
+    Assert sowerbyStood(sowerby). Increase hawiseReasons(hawise) by 1. }
+  // What a shriven witness may do while the Consistory sits.
+  Action testify_carth(actor: group, site: place) "Stand as a witness, and tell the Consistory what you saw at Carth" {
+    Description "A shriven witness is heard.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter_house) and sitting() and trialOpen(consistory) and not verdictGiven(consistory) and shriven()
+      and stayingAtCarth(actor) and not testifiedCarth(actor).
+    Time 2.
+    On success { Assert testifiedCarth(actor). Increase hawiseReasons(hawise) by 1. }
+    Result "You stand up behind the rope and give your name and show your clean tally, and the Lady Penitentiary says, 'Speak,' and you tell the Consistory of Gaunt about Carth: the light put out at the door; the dark; the hand in the ash; the child's cough, and what was done for her, and by whom; the old man in the byre on his hurdle, and the old woman who lies down with him to keep him warm. The Chapter House is very quiet. Beside the stone chair the Wood-reeve has gone grey. When you have done, the Lady Penitentiary says, 'Thank you,' in a voice you have not heard her use, and writes nothing.".
+  }
+  Action testify_road(actor: group, site: place) "Stand as a witness, and tell the Consistory what Hern said on the road" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter_house) and sitting() and trialOpen(consistory) and not verdictGiven(consistory) and shriven()
+      and askedSorry(actor) and not testifiedRoad(actor).
+    Time 2.
+    On success { Assert testifiedRoad(actor). }
+    Result "You tell them: the fell road, the old man barefoot in the snow asking whether one man can be sorry for another; the kneeling proxy at the stone, and the board, and what is owed the dead; the Drove Fork. The canons write. Hern listens with his head on one side, as if hearing a story about someone he once knew, and when you get to what you yourself answered he grins at you across the floor, the three teeth, and the Lady Penitentiary sees him do it.".
+  }
+  Action offer_to_bear(actor: group, site: place) "Stand, and offer to bear Ninian Hern's sentence yourself" {
+    Grave "If the Lady Penitentiary accepts it, it is you who will be put out of Gaunt at dusk, in what you stand in, struck from its Register for good.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter_house) and sitting() and trialOpen(consistory) and not verdictGiven(consistory) and shriven()
+      and knows(actor, sentence_borne) and hernAnswered(consistory) and not hernRecants(hern) and not companyOffered(actor) and not hernDead(hern).
+    Time 2 minutes.
+    On success { Assert companyOffered(actor). }
+    Result "You stand up behind the rope with your clean tally in your hand and say it: that putting-out is a penance, by the canons, and any penance may be borne by another; and that you will bear his. Nobody moves. Then everybody does. The canons turn to each other on the bench; the city behind the rope makes a long sound like a wave going back down a beach; Hern, on his square of stone, says 'No—' and starts to cough and cannot finish. In the stone chair the Lady Penitentiary looks at you for a long time without any expression at all. 'The canons,' she says at last, 'allow it.' She looks at Hern. 'The canons have never been asked.'".
+  }
+  Action shout(actor: group, site: place) "Shout for him from behind the rope" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter_house) and sitting() and trialOpen(consistory) and not verdictGiven(consistory) and not shriven() and not shouted(actor).
+    Time 1 minute.
+    On success { Assert shouted(actor). Increase pains(actor) by 1. }
+    Result "You shout it, whatever it is, over the rope, and the city round you takes it up for a moment, a ragged roar, and the serjeants come along the rope and look at you, and a clerk writes something down, and the Lady Penitentiary says, without looking up, 'Contempt. One pain,' and the trial goes on. Hern, on his square of stone, has turned round to see who it was, and is beaming.".
+  }
+  // One o'clock: she asks him.
+  Rule hern_asked when sitting() and hour(clock) >= 13 and trialOpen(consistory) and not hernAnswered(consistory) and not verdictGiven(consistory) and at(hern, chapter_house) {
+    Assert hernAnswered(consistory). }
+  Rule hern_recants_rule when hernAnswered(consistory) and hernWillLive(hern) and (hernHeardHawise(hern) or hernHeardBess(hern)) and not hernRecants(hern) and not hernDead(hern) { Assert hernRecants(hern). }
+  Rule hern_recants_true at chapter_house when hernRecants(hern) and hernHeardHawise(hern) and inChapter() and not spread(hern_answer)
+    says "At one the Lady Penitentiary asks him: 'Ninian Hern, do you recant?' Hern looks at her a long time across the floor. Then he says: 'I said nobody's sorry for another. It's not so. I was, once. For a fishmonger's wife, the week I was fifteen, and I fasted for her, and I was sorry all week, for her, and you were in the next pen eating the cat's dinner.' The bench is baffled. The Lady Penitentiary is not. 'Then the proposition is false,' she says, 'by the witness of the accused, and the accused recants it.' She looks at him. 'Go home, Ninian.' And very quietly, so that perhaps only the front of the crowd hears it: 'It's still too salt.'" { Assert spread(hern_answer). }
+  Rule hern_recants_bess at chapter_house when hernRecants(hern) and not hernHeardHawise(hern) and inChapter() and not spread(hern_answer)
+    says "At one the Lady Penitentiary asks him: 'Ninian Hern, do you recant?' Hern stands on his square of stone a long while. 'Aye,' he says. 'For the Row. Bess Ackroyd says they eat, and I've never been right enough to be worth that.' He looks at the bench. 'I recant. Gild your Ladder.' It is the most bitter thing you have heard said in Gaunt, and it is said quite gently. The Lady Penitentiary writes it down, and does not look up while she does it." { Assert spread(hern_answer). }
+  Rule hern_stands at chapter_house when hernAnswered(consistory) and not hernRecants(hern) and inChapter() and not spread(hern_answer)
+    says "At one the Lady Penitentiary asks him: 'Ninian Hern, do you recant?' And Hern says no, and then he says it: what he came forty miles barefoot to say inside the Minster where nobody could walk past. Thirty years of other men's fasts. The stairs on his knees. Eleven hours of contrition for a draper, thinking about dinner. 'I was the best there was,' he says, 'and I was never sorry once, and nor were they, and the bells counted it.' He coughs. 'You can buy anything in Gaunt but that.' He looks round at the city behind the rope, at the ash on its foreheads. 'A man asked me on the road—' and he turns, and finds you behind the rope, and tells the Consistory of Gaunt what you said on the fell, in your words. Then he stops, because he has said it, and stands on his square of stone looking pleased and frightened and old." { Assert spread(hern_answer). }
+  Entity hern_answer: fact "Hern's answer".
+  // The Wood-reeve: moved, and asked, he offers at once when Hern has refused.
+  Rule thackray_offers at chapter_house when hernAnswered(consistory) and not hernRecants(hern) and thackrayWillBear(thackray) and not thackrayOffered(thackray) and not verdictGiven(consistory)
+    says "Beside the stone chair the Wood-reeve stands up. He is a big soft man in a fur gown and he has to put a hand on the Lady Penitentiary's chair to do it. 'I'll bear it,' he says. 'By the canons. Putting-out is a penance; any penance may be borne.' His voice shakes and then does not. 'I bought forty nights cold of the Penitentiary last winter for the forty-one I froze in the Row by holding back the oak, and Ninian Hern wouldn't keep them, and a farm on the fell has kept them for me ever since.' He takes off the fur gown and lays it on the bench. 'Now walk,' he says, to nobody, and then, to the Lady Penitentiary: 'Let me walk.'" {
+    Assert thackrayOffered(thackray). }
+  // Two o'clock: the verdict, from what has been made true.
+  Rule verdict_recant when sitting() and hour(clock) >= 13 and hernRecants(hern) and not verdictGiven(consistory) {
+    Assert verdictGiven(consistory). Assert verdictRecant(consistory). }
+  Rule verdict_dead when ashDay() and hour(clock) >= 12 and hernDead(hern) and not verdictGiven(consistory) {
+    Assert verdictGiven(consistory). Assert verdictPutOut(consistory). Assert putOutDead(hern). }
+  Relation putOutDead(group).
+  Rule verdict_dead_told when putOutDead(hern) and inTown() and not spread(verdict_dead_told)
+    says "At noon the Consistory sits in the Chapter House on the matter of Ninian Hern, deceased, who is present in a deal coffin on trestles on his square of stone, because the canons are clear that death does not discharge a penance, only interrupts it. The charge is read. The Determination is read. The Lady Penitentiary asks the coffin whether it recants, and waits the proper time, and pronounces it put out, in a voice like a door closing. At dusk four serjeants carry it through the Gate of Ash and set it down in the snow outside, on the Levels, and come back in, and the gate is shut and sealed." { Assert spread(verdict_dead_told). }
+  Entity verdict_dead_told: fact "the coffin put out".
+  Rule verdict_bearer when sitting() and hour(clock) >= 13 and hernAnswered(consistory) and (companyOffered(party) or thackrayOffered(thackray)) and hawiseMoved() and not hernRecants(hern) and not verdictGiven(consistory) {
+    Assert verdictGiven(consistory). Assert verdictBearer(consistory). }
+  Rule bearer_thackray when verdictBearer(consistory) and thackrayOffered(thackray) and not thackrayBears(thackray) and not companyBears(party) { Assert thackrayBears(thackray). }
+  Rule bearer_company when verdictBearer(consistory) and companyOffered(party) and not thackrayOffered(thackray) and not companyBears(party) { Assert companyBears(party). }
+  Rule verdict_bearer_told at chapter_house when verdictBearer(consistory) and inChapter() and not spread(verdict_told)
+    says "The Lady Penitentiary stands up out of the stone chair, which nobody has seen a Lady Penitentiary do during a sitting. 'The canons allow it,' she says. 'Nobody has ever asked them. I've been asked.' She looks at Hern on his stone, and at the one who offered, and for a moment you see the girl from the Row who ate the cat's dinner. 'The sentence of putting-out on Ninian Hern is borne by another, who has offered it freely, and it is accepted, and it will be carried out at dusk at the Gate of Ash.' The Chapter House breaks into noise. Under it, if you are near enough, you hear her say to the precentor: 'And the Commerce of Merit has just put out an innocent person for a guilty one in front of the whole city, and called it law, which is what Ninian has been saying for a year. Write that down too.'" { Assert spread(verdict_told). }
+  Entity verdict_told: fact "the verdict".
+  Rule verdict_out when ashDay() and hour(clock) >= 14 and not verdictGiven(consistory) and not hernDead(hern) and not hernFled(hern) and not struck(barefoot) {
+    Assert verdictGiven(consistory). Assert verdictPutOut(consistory). }
+  Rule proxy_was_refused when verdictPutOut(consistory) and (companyOffered(party) or thackrayOffered(thackray)) and not putOutDead(hern) and not proxyRefused(consistory) { Assert proxyRefused(consistory). }
+  Rule verdict_out_told at chapter_house when verdictPutOut(consistory) and not putOutDead(hern) and inChapter() and not proxyRefused(consistory) and not spread(verdict_told)
+    says "At two the Lady Penitentiary pronounces sentence, in the stone chair, in a level voice: that Ninian Hern, proxy, of the Row, having taught that no man is sorry for another and refused to recant it, is struck from the Register of Gaunt, and put out of the city at the Gate of Ash at dusk this day, in what he stands in, and no door in Gaunt to be opened to him after. She does not look at him while she says it. When she has said it, she does. Hern bows to her, a proxy's bow, from the waist, the way they bow at the Stand when they are hired." { Assert spread(verdict_told). }
+  Rule verdict_refused_told at chapter_house when verdictPutOut(consistory) and inChapter() and proxyRefused(consistory) and not spread(verdict_told)
+    says "At two the Lady Penitentiary pronounces. She says, first, that the offer to bear the sentence is refused: that a putting-out is a judgment upon a man's own mind, and cannot be borne by another. She says it clearly, so that the whole Chapter House hears, and the whole Chapter House hears what it means; somewhere behind the rope someone laughs once, a sound like a slate breaking. Hern, on his stone, closes his eyes as if he had been given a present. Then she pronounces him put out at the Gate of Ash at dusk." { Assert spread(verdict_told). }
+  Rule verdict_recant_done when verdictRecant(consistory) and not spread(recant_done) { Assert spread(recant_done). Assert at(hern, row_lane). Retract hernGaoled(hern). }
+  Entity recant_done: fact "Hern home".
+  Rule consistory_rises when verdictGiven(consistory) and ashDay() and hour(clock) >= 14 and not afterTrial(hawise) { Assert afterTrial(hawise). Assert at(hawise, minster_porch). Assert at(thackray, minster_porch). }
+  // ── Dusk: the Gate of Ash ─────────────────────────────────────────────────────────────────────────────────────────
+  Query gateOfAshOpen() means ashDay() and hour(clock) >= 16 and hour(clock) < 18 and (verdictPutOut(consistory) and not putOutDead(hern) or verdictBearer(consistory)).
+  Rule hern_to_gate when ashDay() and hour(clock) >= 16 and verdictPutOut(consistory) and not putOutDead(hern) and not hernOut(hern) { Assert at(hern, gate_of_ash). Retract hernGaoled(hern). }
+  Rule thackray_to_gate when ashDay() and hour(clock) >= 16 and thackrayBears(thackray) and not thackrayOut(thackray) { Assert at(thackray, gate_of_ash). Assert thackrayAway(thackray). }
+  Rule hern_free when verdictBearer(consistory) and not hernFreed(hern) { Assert hernFreed(hern). Retract hernGaoled(hern). Assert at(hern, close_green). }
+  Relation hernOut(group). Relation thackrayOut(group). Relation hernFreed(group). Relation wentWithHern(group).
+  Observe gate_dusk_hern at gate_of_ash when at(hern, gate_of_ash) and gateOfAshOpen() "At the Gate of Ash the chain hangs broken and the gate stands open on the Levels, white and blue in the dusk, and the whole Row is in the lane, silent. Two serjeants stand with Hern between them, in his new grey coat, barefoot. He looks out at the Levels the way a man looks at a road he is glad to be on at last.".
+  Action go_out_with_hern(actor: group, site: place) "Go out of the Gate of Ash with him" {
+    Description "You are not put out. You can come back in at the Fell Gate. He cannot.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_of_ash) and at(hern, gate_of_ash) and gateOfAshOpen() and not hernOut(hern).
+    Time 2.
+    On success { Assert wentWithHern(actor). Assert hernOut(hern). Retract at(actor, site). Assert at(actor, levels_road). Assert at(hern, levels_road). Assert willing(hern, actor). Set hire(hern) to 0. }
+    Result "You walk out of the Gate of Ash beside him, and the serjeants let you, because nobody ever told them not to. Behind you the gate is shut, and you hear the chain, and the seal pressed. Hern stands in the snow of the Levels and looks back at Gaunt, its three walls, its one tower and a half, the lamps coming on in the Close. Then he looks at you. 'Well,' he says. 'I've been put out. I'm in a story.' He coughs, and spits, and laughs. 'They never say, in the stories, where the man goes after.' He looks south, toward the fell, where Carth is. 'I promised a woman on that fell I'd keep the rest of her vigil if they put me out,' he says, or, if he never promised it, he says, 'There's a farm up there keeping a vigil I wouldn't.' He sets off, barefoot, flat-footed, in the snow. 'Sixteen nights,' he says. 'I've done worse. Are you coming?'".
+  }
+  Rule hern_goes_alone when ashDay() and hour(clock) >= 17 and at(hern, gate_of_ash) and not hernOut(hern) says "At five the serjeants walk Ninian Hern out of the Gate of Ash into the Levels, and come back in without him, and the gate is shut and chained and sealed; and through the grating, for a while, the Row watches a barefoot man in a grey coat walking away south across the snow toward the fell, not fast, not looking back, until the dark has him." {
+    Assert hernOut(hern). Assert at(hern, limbo). }
+  Rule thackray_goes when ashDay() and hour(clock) >= 17 and thackrayBears(thackray) and not thackrayOut(thackray) says "At five the Gate of Ash is opened, and Hugh Thackray, Wood-reeve, who has been top of the Ladder of Merit for eleven years, walks out of it into the Levels in his shirt, without his gown, barefoot, carrying nothing, and the gate is shut behind him. The Row is at the grating. Nobody jeers. Someone pushes a pair of old boots through the bars after him, and he comes back for them, and puts them on, sitting in the snow, and gets up, and goes away south, toward the fell, where there is a farm keeping a vigil he bought." {
+    Assert thackrayOut(thackray). Assert at(thackray, limbo). }
+  // The company that bears it is walked out of the gate at dusk, struck from the Register for good; Hern, freed, follows,
+  // because a free man can walk out of any gate he likes.
+  Rule company_put_out when ashDay() and hour(clock) >= 17 and companyBears(party) and not putOut(party)
+    says "At five the serjeants come for you wherever you are, politely, and walk you to the Gate of Ash through a Row that is standing in its doorways to see, and through the gate, which is open on the Levels and the dusk, and leave you outside in the snow in what you stand in. The gate is shut. You hear the chain, and the seal. Your name is struck from the Register of Gaunt; no door in it will open to you again. Then, behind you, the wicket in the gate opens, which nobody has seen opened in nineteen years, and a barefoot old man in a new grey coat comes through it and shuts it after him. 'Free man,' says Hern. 'I can go out of any gate I like.' He looks at you. 'You fool,' he says. 'You lovely fool.' He looks south, to the fell. 'Sixteen nights at Carth,' he says. 'Shall we? We're the only people in the world who know how.'" {
+    Assert putOut(party). Assert at(party, levels_road). Assert at(hern, levels_road). Assert willing(hern, party). Set hire(hern) to 0. Assert wentWithHern(party). }
+}

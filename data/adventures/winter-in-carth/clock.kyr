@@ -1,0 +1,57 @@
+Module gaunt "A Winter in Carth" {
+  // ── Four days to the Fast ─────────────────────────────────────────────────────────────────────────────────────────
+  // Gaunt's days are counted from the company's coming, at each six o'clock after its first hour in the country: the
+  // day it comes is the first (Saturday). Shrove Monday is the second, Fastens' Eve the third, Ash Day the fourth. The
+  // Consistory sits at noon on Ash Day; the Gate of Ash is opened at dusk; the book closes at six that evening.
+  Measure dayN(place). Relation dawned(place).
+  Initially Set dayN(gaunt_town) to 1.
+  Rule dawn_counts when hour(clock) == 6 and not dawned(gaunt_town) and watch(clock) >= 6 { Increase dayN(gaunt_town) by 1. Assert dawned(gaunt_town). }
+  Rule dawn_passes when hour(clock) != 6 and dawned(gaunt_town) { Retract dawned(gaunt_town). }
+  Query firstDay() means dayN(gaunt_town) == 1.
+  Query mondayN() means dayN(gaunt_town) == 2.
+  Query eveDay() means dayN(gaunt_town) == 3.
+  Query ashDay() means dayN(gaunt_town) == 4.
+  Query afterAsh() means dayN(gaunt_town) >= 5.
+  Query daytime() means hour(clock) >= 7 and hour(clock) < 18.
+  Query evening() means hour(clock) >= 18 and hour(clock) < 23.
+  Query smallHours() means hour(clock) >= 0 and hour(clock) < 6.
+  // Fastens' Eve: the licence, from seven until the Fast is rung in at midnight.
+  Query licence() means eveDay() and hour(clock) >= 19.
+  // The Consistory: in the Chapter House from noon on Ash Day until it rises at two.
+  Query sitting() means ashDay() and hour(clock) >= 12 and hour(clock) < 14.
+  Query sentenced() means ashDay() and hour(clock) >= 14 or afterAsh().
+  // The book closes at six on Ash Day; for a company that is elsewhere, the next morning all the same.
+  Query accounting() means cameToGaunt(party) and (ashDay() and hour(clock) >= 18 or afterAsh()).
+
+  // ── The chapters ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Each day opens on the first page after six on which the company is in the country, in the city's own voice: what
+  // the city is doing, and what the day is for.
+  Rule chapter_monday when mondayN() and hour(clock) >= 6 and inCountry() and not spread(chapter_monday)
+    says "SHROVE MONDAY. In Gaunt the bells of the Minster ring the hour, and the Stand opens at eight, and the Ladder of Merit is read by more people than read anything else in the city. Today the bakers have two days left to sell what the Fast will forbid, and the Consistory has two days to make up its mind about a man whose mind is made up." { Assert spread(chapter_monday). }
+  Rule chapter_eve when eveDay() and hour(clock) >= 6 and inCountry() and not spread(chapter_eve)
+    says "FASTENS' EVE. The last day before the Fast. At two the Doctors dispute in the Schools; at seven the masks come out, and the Fat King is carried round the Middle Town on a door, to be burnt at midnight outside the Wood Exchange, where wood is dearest; and at midnight the tenor bell of the Minster rings the Fast in, and whatever was said under a mask was never said." { Assert spread(chapter_eve). }
+  Rule chapter_ash when ashDay() and hour(clock) >= 6 and inCountry() and not spread(chapter_ash)
+    says "ASH DAY. At nine every forehead in Gaunt is marked with ash at the Minster door, and the Ladder of Merit is gilded for the year. At noon the Consistory sits in the Chapter House on the matter of Ninian Hern. At dusk, for the first time in nineteen years, the Gate of Ash may be opened." { Assert spread(chapter_ash). }
+  Entity chapter_monday: fact "Shrove Monday". Entity chapter_eve: fact "Fastens' Eve". Entity chapter_ash: fact "Ash Day".
+
+  // ── Where the company is ──────────────────────────────────────────────────────────────────────────────────────────
+  // A company that has come into Gaunt's country at all: every ending and every fate asks it.
+  Relation cameToGaunt(group).
+  // The rooms of the city, and of the country round it (the road, Carth, the Levels, the wood): country.kyr marks each.
+  Relation townRoom(place). Relation countryRoom(place).
+  Rule came_in when at(party, ?p) and countryRoom(?p) and not cameToGaunt(party) { Assert cameToGaunt(party). }
+  Query inTown() means at(party, ?p) and townRoom(?p).
+  Query inCountry() means at(party, ?p) and countryRoom(?p).
+  // A place the company has left and come back to is told shortly.
+  Relation visitedNow(place). Relation visitedBefore(place).
+  Rule arrives_at when at(party, ?p) and not visitedNow(?p) { Assert visitedNow(?p). }
+  Rule leaves_from when visitedNow(?p) and not at(party, ?p) { Retract visitedNow(?p). Assert visitedBefore(?p). }
+  // What a place shows the company the first time, it shows until the company has learned it and gone away (a line held
+  // only until it is known would be gone before the page that shows it is drawn: Hessel's friction 4).
+  Relation teachesAt(entity, place). Relation seenOnce(entity).
+  Rule seen_once_at when knows(party, ?f) and teachesAt(?f, ?p) and not at(party, ?p) and not seenOnce(?f) { Assert seenOnce(?f). }
+  // Whoever is going along with the company keeps up with it.
+  Rule keep_up when following(?x, party) and at(party, ?p) and not at(?x, ?p) and not hernTesting(?x) { Assert at(?x, ?p). }
+  // News already told, so it is not told twice.
+  Relation spread(fact).
+}

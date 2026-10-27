@@ -1,0 +1,259 @@
+Module gaunt "A Winter in Carth" {
+  Description "Gaunt, a walled cathedral city on a white plain three days before the Fast, where every fault has its price in penance and any penance may be borne by another; the fell road that comes down to it past a farm keeping, for wages, a vigil of no fire; and a barefoot man walking to his trial.".
+
+  // ── The country ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // A flat white country, the Levels, with the fell road coming up out of the south over Carth Fell and down to the
+  // city; the city in three rings, the warmest in the middle; and to the east the Bishop's Wood, whose firewood is
+  // licensed.
+  Place imbar "Imbar" is plane.
+  Place gaunt_country "the Levels of Gaunt" is region within imbar.
+  Initially Assert terrain(gaunt_country, frost).
+  Place fell_road "the fell road" is wilderness within gaunt_country at 0, 3.
+  Place carth "Carth" is site within gaunt_country at 0, 2.
+  Place levels "the Levels" is wilderness within gaunt_country at 0, 1.
+  Place gaunt_town "Gaunt" is settlement within gaunt_country at 0, 0.
+  Place bishops_wood "the Bishop's Wood" is wilderness within gaunt_country at 1, 1.
+
+  // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place reeve_house "the vigil-house at the Cross" is building within fell_road.
+  Place carth_house "the house at Carth" is building within carth.
+  Place minster "the Minster" is building within gaunt_town.
+  Place penitentiary_house "the Penitentiary" is building within gaunt_town.
+  Place schools_house "the Schools" is building within gaunt_town.
+  Place lodge_house "the masons' lodge" is building within gaunt_town.
+  Place gaol_house "the Consistory gaol" is building within gaunt_town.
+  Place exchange_house "the Wood Exchange" is building within gaunt_town.
+  Place lamb_house "the Fat Lamb" is building within gaunt_town.
+  Place pickersgill_house "Mistress Pickersgill's house" is building within gaunt_town.
+  Place brewhouse "Dinsdale's brewhouse" is building within gaunt_town.
+  Place drapery "Sowerby's drapery" is building within gaunt_town.
+  Place bakery "Mother Tunstall's bakehouse" is building within gaunt_town.
+  Place hall_house "the Barefoot Hall" is building within gaunt_town.
+  Place heb_house "Heb's cellar" is building within gaunt_town.
+
+  // ── Rooms ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The fell road, from the march northward
+  Place cross_road "the road at the Penitent's Cross" is room within fell_road at 0, 3 outdoors.
+  Place reeve_hut "the vigil-house" is room within reeve_house at 1, 3 indoors.
+  Place proxy_stone "the Proxy's Stone" is room within fell_road at 0, 2 outdoors.
+  Place drove_fork "the Drove Fork" is room within fell_road at 0, 1 outdoors.
+  Place drovers_way "the drovers' road" is room within fell_road at 1, 1 outdoors.
+  Place fell_top "the top of Carth Fell" is room within fell_road at 0, 0 outdoors.
+  // Carth: a longhouse, house and byre under one roof, with the yard before it
+  Place carth_yard "the yard at Carth" is room within carth at 0, 1 outdoors.
+  Place house_place "the house-place at Carth" is room within carth_house at 0, 0 indoors.
+  Place carth_byre "the byre at Carth" is room within carth_house at 1, 0 indoors.
+  // The Levels, and the wood
+  Place levels_road "the road across the Levels" is room within levels at 0, 0 outdoors.
+  Place wood_edge "the edge of the Bishop's Wood" is room within bishops_wood at 0, 0 outdoors.
+  Place deadfall "the deadfall in the Bishop's Wood" is room within bishops_wood at 1, 0 outdoors.
+  // Gaunt: the Close (the inner ring)
+  Place penitentiary "the Penitentiary" is room within penitentiary_house at 0, 0 indoors.
+  Place chapter_house "the Chapter House" is room within minster at 1, 0 indoors.
+  Place minster_nave "the nave of the Minster" is room within minster at 2, 0 indoors.
+  Place gaol_cell "the Consistory gaol" is room within gaol_house at 3, 0 indoors.
+  Place schools "the Schools" is room within schools_house at 0, 1 indoors.
+  Place close_green "the Close" is room within gaunt_town at 1, 1 outdoors.
+  Place minster_porch "the Minster porch" is room within minster at 2, 1 outdoors.
+  Place tower_foot "the foot of the north tower" is room within gaunt_town at 3, 1 outdoors.
+  Place masons_lodge "the masons' lodge" is room within lodge_house at 4, 1 indoors.
+  // The Middle Town (the second ring)
+  Place wood_exchange "the Wood Exchange" is room within exchange_house at 0, 2 indoors.
+  Place close_gate_street "the Bearer's Steps, before the Close Gate" is room within gaunt_town at 2, 2 outdoors.
+  Place gaol_lane "Gaol Lane, under the gaol window" is room within gaunt_town at 3, 2 outdoors.
+  Place the_stand "the Stand" is room within gaunt_town at 1, 3 outdoors.
+  Place shambles "the Shambles" is room within gaunt_town at 2, 3 outdoors.
+  Place fat_lamb "the Fat Lamb" is room within lamb_house at 3, 3 indoors.
+  Place tanners_row "Tanners' Row" is room within gaunt_town at 4, 3 outdoors.
+  Place pickersgill_parlour "Mistress Pickersgill's parlour" is room within pickersgill_house at 5, 3 indoors.
+  Place dinsdale_brewhouse "Dinsdale's brewhouse" is room within brewhouse at 1, 4 indoors.
+  Place sowerby_shop "Sowerby's drapery" is room within drapery at 4, 4 indoors.
+  Place bakehouse "Mother Tunstall's bakehouse" is room within bakery at 5, 4 indoors.
+  // The Row (the outer ring, between the old wall and the new)
+  Place gate_of_ash "the Gate of Ash" is room within gaunt_town at 0, 5 outdoors.
+  Place barefoot_hall "the Barefoot Hall" is room within hall_house at 1, 5 indoors.
+  Place row_lane "the Row" is room within gaunt_town at 2, 5 outdoors.
+  Place heb_cellar "Heb's cellar" is room within heb_house at 3, 5 underground.
+  Place row_ditch "the Row ditch" is room within gaunt_town at 2, 6 outdoors.
+  Place fell_gate "the Fell Gate" is room within gaunt_town at 2, 7 outdoors.
+  // Where what is not yet anywhere waits.
+  Place limbo "nowhere" is room within levels at 9, 9.
+
+  // Carth's house has had no flame in it for twenty-three nights.
+  Initially Assert unlit(house_place). Initially Assert unlit(carth_byre).
+
+  Initially Assert countryRoom(cross_road). Initially Assert countryRoom(reeve_hut). Initially Assert countryRoom(proxy_stone).
+  Initially Assert countryRoom(drove_fork). Initially Assert countryRoom(drovers_way). Initially Assert countryRoom(fell_top).
+  Initially Assert countryRoom(carth_yard). Initially Assert countryRoom(house_place). Initially Assert countryRoom(carth_byre).
+  Initially Assert countryRoom(levels_road). Initially Assert countryRoom(wood_edge). Initially Assert countryRoom(deadfall).
+  Initially Assert countryRoom(penitentiary). Initially Assert countryRoom(chapter_house). Initially Assert countryRoom(minster_nave).
+  Initially Assert countryRoom(gaol_cell). Initially Assert countryRoom(schools). Initially Assert countryRoom(close_green).
+  Initially Assert countryRoom(minster_porch). Initially Assert countryRoom(tower_foot). Initially Assert countryRoom(masons_lodge).
+  Initially Assert countryRoom(wood_exchange). Initially Assert countryRoom(close_gate_street).
+  Initially Assert countryRoom(gaol_lane). Initially Assert countryRoom(the_stand). Initially Assert countryRoom(shambles).
+  Initially Assert countryRoom(fat_lamb). Initially Assert countryRoom(tanners_row). Initially Assert countryRoom(pickersgill_parlour).
+  Initially Assert countryRoom(dinsdale_brewhouse). Initially Assert countryRoom(sowerby_shop). Initially Assert countryRoom(bakehouse).
+  Initially Assert countryRoom(gate_of_ash). Initially Assert countryRoom(barefoot_hall). Initially Assert countryRoom(row_lane).
+  Initially Assert countryRoom(heb_cellar). Initially Assert countryRoom(row_ditch). Initially Assert countryRoom(fell_gate).
+  Initially Assert townRoom(penitentiary). Initially Assert townRoom(chapter_house). Initially Assert townRoom(minster_nave).
+  Initially Assert townRoom(gaol_cell). Initially Assert townRoom(schools). Initially Assert townRoom(close_green).
+  Initially Assert townRoom(minster_porch). Initially Assert townRoom(tower_foot). Initially Assert townRoom(masons_lodge).
+  Initially Assert townRoom(wood_exchange). Initially Assert townRoom(close_gate_street).
+  Initially Assert townRoom(gaol_lane). Initially Assert townRoom(the_stand). Initially Assert townRoom(shambles).
+  Initially Assert townRoom(fat_lamb). Initially Assert townRoom(tanners_row). Initially Assert townRoom(pickersgill_parlour).
+  Initially Assert townRoom(dinsdale_brewhouse). Initially Assert townRoom(sowerby_shop). Initially Assert townRoom(bakehouse).
+  Initially Assert townRoom(gate_of_ash). Initially Assert townRoom(barefoot_hall). Initially Assert townRoom(row_lane).
+  Initially Assert townRoom(heb_cellar). Initially Assert townRoom(row_ditch). Initially Assert townRoom(fell_gate).
+  Relation closeRoom(place).
+  Initially Assert closeRoom(penitentiary). Initially Assert closeRoom(chapter_house). Initially Assert closeRoom(minster_nave).
+  Initially Assert closeRoom(gaol_cell). Initially Assert closeRoom(schools). Initially Assert closeRoom(close_green).
+  Initially Assert closeRoom(minster_porch). Initially Assert closeRoom(tower_foot). Initially Assert closeRoom(masons_lodge).
+  Query inClose() means at(party, ?p) and closeRoom(?p).
+  Query atCarth() means at(party, carth_yard) or at(party, house_place) or at(party, carth_byre).
+  Query inHouse() means at(party, house_place) or at(party, carth_byre).
+
+  // ── The weather ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // The snow has been coming all morning, and comes in earnest when the company first stands on the top of the fell; it
+  // shuts the fell until seven the next morning at the earliest.
+  Thing fell_snow "the snow on Carth Fell" at fell_top is scenery {
+    State waiting "The sky to the north is the colour of a slate roof, and lower than it should be.".
+    State falling "The snow is coming sideways off the top of the fell, so thick that the road is gone a yard in front of you. Below, in a fold of the hill to the left, there is a darker shape in the white, and a smell of cattle: a farm.".
+    State lying "Snow lies on Carth Fell to the knee, blue in the hollows, with the road a long dent in it going down.".
+  }
+  Initially Assert state(fell_snow, waiting).
+  Measure snowFrom(place).
+  Rule snow_comes at fell_top when at(party, fell_top) and state(fell_snow, waiting)
+    says "The snow comes in all at once, the way it does on a fell: one moment the road and the long white country beyond it, and the next nothing, a roaring grey, and your own breath going away sideways. You cannot see the road down. You can see, for a moment, in a fold of the hill just below, a roof." {
+    Assert state(fell_snow, falling). Set snowFrom(fell_top) to watch(clock). }
+  Query snowing() means state(fell_snow, falling).
+  Rule snow_stops when snowing() and hour(clock) == 7 and watch(clock) >= snowFrom(fell_top) + 36 { Assert state(fell_snow, lying). }
+
+  // ── Ways ──────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Passage cross_vigil_door "the door of the vigil-house" is door between cross_road and reeve_hut.
+  Passage proxy_road "the fell road" is road between cross_road and proxy_stone taking 1 hour.
+  Passage fork_road "the fell road, climbing" is road between proxy_stone and drove_fork taking 1 hour.
+  Passage drovers_track "the drovers' road" is track between drove_fork and drovers_way taking 20 minutes.
+  Passage fell_climb "the road up over Carth Fell" is road between drove_fork and fell_top taking 90 minutes
+    opening when not snowing() "Behind you the road down off the fell is gone under a moving wall of white. Nobody goes back down that in this.".
+  Passage carth_track "the track down to Carth" is path between fell_top and carth_yard taking 10 minutes.
+  Passage carth_door "the door of the house at Carth" is door between carth_yard and house_place
+    opening when not capable(party, flame) or vigilEnded(carth_vigil) "In the doorway Annis Scaife stands with her hand out, and does not move. 'That light,' she says. 'There's been no flame in this house for twenty-three nights, and there'll not be one tonight. Put it out, or stay where you are.'".
+  Passage byre_door "the byre door" is doorway between house_place and carth_byre.
+  Passage fell_descent "the road down off the fell" is road between carth_yard and levels_road taking 2 hours
+    opening when not snowing() "Beyond the yard gate there is no road: only the snow coming down out of the dark, and the drop of the fell under it somewhere. Nobody could go down that tonight and arrive.".
+  Passage fell_gate_way "the Fell Gate" is gate between levels_road and fell_gate
+    opening when not putOut(party) "The Fell Gate is shut against you. Your name is struck from the Register of Gaunt, and no door in it opens to a name that is not there.".
+  Passage wood_track "the track to the Bishop's Wood" is track between levels_road and wood_edge taking 1 hour.
+  Passage wood_path "the woodmen's path" is path between wood_edge and deadfall taking 20 minutes.
+  // The Row
+  Passage row_way "the Row" is path between fell_gate and row_lane taking 3 minutes.
+  Passage hall_door "the door of the Barefoot Hall" is door between row_lane and barefoot_hall.
+  Passage heb_steps "Heb's steps" is steps between row_lane and heb_cellar.
+  Passage ditch_way "the ditch bank" is path between row_lane and row_ditch taking 2 minutes.
+  Passage ash_lane "the lane to the Gate of Ash" is path between row_lane and gate_of_ash taking 5 minutes.
+  Passage ash_gate "the Gate of Ash" is gate between gate_of_ash and levels_road taking 20 minutes
+    opening when gateOfAshOpen() "The Gate of Ash is shut, and barred, and the bar is chained, and the chain is sealed with the Penitentiary's seal. It is opened once a year, if anyone has been put out, at dusk on Ash Day.".
+  Passage bow_gate "Bow Gate, in the old wall" is gate between row_lane and shambles.
+  // The Middle Town
+  Passage stand_way "the way into the Stand" is path between shambles and the_stand taking 2 minutes.
+  Passage exchange_door "the door of the Wood Exchange" is door between shambles and wood_exchange.
+  Passage lamb_door "the door of the Fat Lamb" is door between shambles and fat_lamb.
+  Passage brewhouse_door "Dinsdale's yard door" is door between shambles and dinsdale_brewhouse.
+  Passage tanners_way "Tanners' Row" is path between shambles and tanners_row taking 3 minutes.
+  Passage pickersgill_door "Mistress Pickersgill's door" is door between tanners_row and pickersgill_parlour
+    opening when hour(clock) >= 9 and hour(clock) < 20 "Mistress Pickersgill's door is shut, and her maid says through it that the mistress is not at home to anyone, at this hour, who is not a bishop.".
+  Passage drapery_door "Sowerby's shop door" is door between tanners_row and sowerby_shop
+    opening when hour(clock) >= 8 and hour(clock) < 19 "Sowerby's drapery is shuttered. A board on the shutters says, in gold, P. SOWERBY. SECOND ON THE LADDER.".
+  Passage bakehouse_door "the bakehouse door" is door between tanners_row and bakehouse
+    opening when hour(clock) >= 5 and hour(clock) < 21 "The bakehouse is shut and dark.".
+  Passage steps_way "the Bearer's Steps" is steps between shambles and close_gate_street.
+  Passage gaol_way "Gaol Lane" is path between close_gate_street and gaol_lane taking 2 minutes.
+  // Into the Close: through its gate with a clean tally (or on the custodian's errand); through the masons' lodge with
+  // Joby Thwaite's leave; over the wall by the tower scaffold, at night, for a climber.
+  Passage close_gate "the Close Gate" is gate between close_gate_street and close_green
+    opening when closeAdmits() or inClose() "The porter of the Close Gate looks at you through the grille. 'Tally,' he says, and when you have none to show him that he likes, he shuts the grille. Nobody passes into the Close who owes the Penitentiary anything.".
+  Passage lodge_yard_door "the masons' yard door" is door between close_gate_street and masons_lodge
+    opening when jobyLeave(party) or at(party, masons_lodge) "The masons' yard door, in the Close wall, is shut. It opens for masons, and for whoever Joby Thwaite says.".
+  Passage close_wall "the Close wall, by the tower scaffold" is path between gaol_lane and tower_foot needing climbing
+    opening when dark() "The Close wall is twenty feet of dressed stone, and by day there are people in Gaol Lane to see you go up it.".
+  // The Close
+  Passage penitentiary_door "the door of the Penitentiary" is door between close_green and penitentiary
+    opening when hour(clock) >= 8 and hour(clock) < 17 "The Penitentiary is shut. A notice on the door: THE ASSESSORS SIT EIGHT UNTIL FIVE. FAULTS MAY BE DECLARED AT THE GATES AT ANY HOUR.".
+  Passage schools_door "the door of the Schools" is door between close_green and schools
+    opening when hour(clock) >= 8 and hour(clock) < 18 "The Schools are shut, and inside somebody is still arguing.".
+  Passage porch_way "the Minster path" is path between close_green and minster_porch taking 2 minutes.
+  Passage west_door "the west door of the Minster" is door between minster_porch and minster_nave.
+  Passage chapter_door "the Chapter House door" is door between minster_nave and chapter_house
+    opening when ashDay() and hour(clock) >= 11 and hour(clock) < 15 "The Chapter House door is locked. The Consistory sits in it on Ash Day.".
+  Passage tower_way "the path round to the north tower" is path between close_green and tower_foot taking 2 minutes.
+  Passage lodge_door "the lodge door" is door between tower_foot and masons_lodge.
+  Passage gaol_door "the gaol door" is door between close_green and gaol_cell
+    opening when hour(clock) >= 10 and hour(clock) < 16 and not ashDay() "The gaol door is shut. The Consistory's gaol admits visitors between ten and four, because the Consistory is merciful.".
+
+  // ── How the places look ───────────────────────────────────────────────────────────────────────────────────────────
+  Observe cross_scene at cross_road when not visitedBefore(cross_road) "The road comes up out of the march between snow-fields and stops being a road and starts being a fell road at a cross of grey stone, man-high, with a ledge round its foot worn hollow by knees. Someone has carved on its shaft, very neatly: FOR THE FAULTS OF ANOTHER. A low stone house stands beside it with smoke coming out of it, and on the step of the Cross a barefoot old man is mending a sandal.".
+  Observe cross_again at cross_road when visitedBefore(cross_road) "The Penitent's Cross, with its worn ledge, and its vigil-house, and the road going north up the fell.".
+  Observe reeve_hut_scene at reeve_hut when true "The vigil-house: one room, a good fire, a pair of snowshoes on the wall, a long pole shod with iron, a lantern with a horn shutter, and a book open on the table with a column of farm-names down one side and against each, for each night, a small neat C. Against CARTH, twenty-two of them.".
+  Observe stone_scene at proxy_stone when not visitedBefore(proxy_stone) "Halfway up the fell the road passes a standing stone, and at the foot of the stone a man is kneeling in the snow with his head bowed and a board hung round his neck on a cord. He has been kneeling there since last winter. The frost has kept him. The board says, in good letters, FOR THE ADULTERY OF ONE OF THE COMMON COUNCIL OF GAUNT, FORTY NIGHTS, and under it, smaller, in a different hand, TOBIAS KELL, PROXY.".
+  Observe stone_again at proxy_stone when visitedBefore(proxy_stone) and not keptBoard(party) "The Proxy's Stone, and Tobias Kell kneeling at the foot of it with his board round his neck, in the snow.".
+  Observe stone_after at proxy_stone when visitedBefore(proxy_stone) and keptBoard(party) "The Proxy's Stone, and Tobias Kell kneeling at the foot of it with no board round his neck now, and his own name cut in the stone above him with the point of a knife.".
+  Observe fork_scene at drove_fork when true "The Drove Fork, where the drovers' road goes off west round the shoulder of the fell, green under the snow where the beasts have trodden it, toward country that has never heard of Gaunt; and the fell road goes on up, white, to the top of Carth Fell.".
+  Observe drovers_scene at drovers_way when true "The drovers' road, going west round the fell in a long trodden curve, wide enough for a herd, empty, and going on.".
+  Observe fell_scene at fell_top when not snowing() and state(fell_snow, waiting) "The top of Carth Fell: a cairn, a wind that has come a long way, and the whole of the country to the north laid out below you, white and flat to the end of the world, and in the middle of it, very small and very clear, a walled city on a rise with a great church in the middle of it with one tower and the stump of another.".
+  Observe fell_scene_after at fell_top when state(fell_snow, lying) "The top of Carth Fell, deep in new snow. To the north the Levels, white to the end of the world, and Gaunt in the middle of them, small and clear, with its one tower and the stump of another.".
+  Observe yard_scene at carth_yard when snowing() "The yard at Carth: a long low house with the byre under the same roof, its one window black; a peat-stack drifted half over; a dog at the door, which barks once and then whines. No smoke goes up from the chimney. On a farm, in snow, with the light going, that is the strangest thing you have ever seen.".
+  Observe yard_day at carth_yard when not snowing() and not vigilEnded(carth_vigil) "The yard at Carth, deep in snow: the long low house and its byre under one roof, the drifted peat-stack, and a chimney with no smoke.".
+  Observe yard_ended at carth_yard when not snowing() and vigilEnded(carth_vigil) "The yard at Carth, with smoke going up from the chimney straight into the cold air, and the snow round the door trodden brown.".
+  Observe house_scene at house_place when not vigilEnded(carth_vigil) and state(hearth, cold) and not dark() "The house-place at Carth by day, in what light comes through one small window: a long low room with smoke-black beams that have had no smoke on them for a month; a dresser with three plates; a box-bed in the wall with its doors open and too many blankets in it; a settle; a rocking-chair; and the dead hearth. Everyone's breath shows.".
+  Observe house_lit at house_place when state(hearth, ablaze) "The house-place at Carth, with a fire on the hearth: a long low room, smoke-black beams, a dresser with three plates, a box-bed in the wall with its doors open and too many people in it, a table, a settle, and on the floor by the hearth a place laid on a cloth, a bowl and a spoon, for nobody.".
+  Observe house_out at house_place when vigilEnded(carth_vigil) and not state(hearth, ablaze) "The house-place at Carth, with the hearth swept and a peat fire laid, and the door open for the cold to go out.".
+  Observe byre_scene at carth_byre when true "The byre at Carth, through the house-place wall: warm, compared, with the breath of a cow and a calf; dark; straw underfoot; and along the far wall something long on a hurdle under a sheet, that the dog will not go near.".
+  Observe levels_scene at levels_road when not visitedBefore(levels_road) "The road across the Levels: flat, white, straight, and at the end of it Gaunt, which gets bigger very slowly. It is walled twice, a new wall round an old one, and a third wall round the middle where the Minster stands, so that from out here it looks like a target. Off to the east a dark line of wood. Off to the west, in the city's wall, a gate with no road going out of it.".
+  Observe levels_again at levels_road when visitedBefore(levels_road) "The road across the Levels, with Gaunt at the end of it in its three walls.".
+  Observe wood_edge_scene at wood_edge when true "The edge of the Bishop's Wood: oak and holly, thick, dark, and a board on a post: THE BISHOP'S WOOD. THE DEAD-WOOD RIGHT IS SUSPENDED THIS WINTER BY ORDER OF THE WOOD-REEVE. TRESPASSERS WILL BE ASSESSED.".
+  Observe deadfall_scene at deadfall when true "A clearing where an oak came down in some old gale and took three others with it: dead wood, grey and dry and stacked by nature, enough to keep the Row through a month. Wolf-tracks cross the snow in a line, all in the same prints, the way wolves go when there are a lot of them.".
+  // The Row
+  Observe fell_gate_scene at fell_gate when not visitedBefore(fell_gate) "The Fell Gate of Gaunt: a gate in the new wall, a gatehouse, and at a table under the arch, out of the wind, a man in a black gown with a box of tally-sticks and a knife, who is assessing everyone who comes in for the faults they did on the road. There is a queue. Everybody in it is thinking.".
+  Observe fell_gate_again at fell_gate when visitedBefore(fell_gate) "The Fell Gate, with the Assessor at his table under the arch and his box of tallies.".
+  Observe row_scene at row_lane when not dark() and not visitedBefore(row_lane) "The Row: two storeys of cold lodgings leaning on the old wall, a street of trodden snow, and in every other doorway someone sitting with their feet in a bowl of warm water, because their feet are their living. A board at the corner says BAREFOOT HALL and a hand points. Through the old wall, by Bow Gate, you can see the Middle Town, and smell its bread.".
+  Observe row_again at row_lane when not dark() and visitedBefore(row_lane) "The Row: lodgings on the old wall, feet in bowls in the doorways, Bow Gate, the Barefoot Hall.".
+  Observe row_night at row_lane when dark() "The Row at night: one lamp, at the Barefoot Hall's door, and a copper on a brazier beside it with steam going up, and a queue.".
+  Observe hall_scene at barefoot_hall when true "The Barefoot Hall: a long room with benches, a board on the wall of the day's rates, a stove that is not lit, and along one wall a row of pegs, each with a name over it and nothing on it. The pegs of those who died last winter. There are forty-one.".
+  Observe heb_scene at heb_cellar when true "Heb's cellar: a table, a lamp, a hundred tally-sticks in a hundred notchings in bundles on the wall, and knives, and a little brazier for darkening a new cut so it looks old.".
+  Observe ditch_scene at row_ditch when not dark() "The Row ditch, frozen from wall to wall into a long grey slide, and on it every child in the Row, sliding, in a line, singing. By the culvert grating at the end the ice is black and thin.".
+  Observe ditch_night at row_ditch when dark() "The Row ditch at night, frozen, empty, and very quiet.".
+  Observe ash_scene at gate_of_ash when not gateOfAshOpen() "The Gate of Ash: an arch in the new wall with a gate in it, and no road outside it, only the Levels. Over the arch, cut deep: WHAT IS NOT IN THE REGISTER IS NOT IN GAUNT. The gate is chained, and the chain is sealed.".
+  Observe ash_open at gate_of_ash when gateOfAshOpen() "The Gate of Ash stands open on the Levels and the dusk, with the chain hanging and the seal broken, and the cold coming in.".
+  // The Middle Town
+  Observe shambles_scene at shambles when not dark() and not visitedBefore(shambles) "The Shambles: the Middle Town's long market street, butchers' and bakers' and chandlers' under one long penthouse, and everybody buying, because the Fast is coming and in the Fast you may not buy any of it. Up at the end the Bearer's Steps go up to the Close Gate. Down the other end, Bow Gate and the Row. A man is selling hot chestnuts and indulgences from the same brazier.".
+  Observe shambles_again at shambles when not dark() and visitedBefore(shambles) and not licence() "The Shambles: the penthouse, the butchers, the chestnut man, the Steps up to the Close and Bow Gate down to the Row.".
+  Observe shambles_night at shambles when dark() and not licence() "The Shambles at night, shuttered, with the lamp of the Fat Lamb at one end and the lamp of the Close Gate at the other.".
+  Observe shambles_eve at shambles when licence() "The Shambles on Fastens' Eve: lit end to end with torches, crowded, masked. A wooden giant with a pig's head and a belly made of a barrel goes by on a door, carried by eight apprentices: the Fat King. Everyone is eating everything.".
+  Observe stand_scene at the_stand when daytime() "The Stand: the old sheep-market, its hurdle pens full of men and women, each pen with a chalked board. FASTS 3D A DAY. VIGIL (INDOORS) 6D. VIGIL (OUT) 1S. BAREFOOT 1S A MILE. STRIPES BY ARRANGEMENT. Burgesses' men go along the pens with lists, looking at feet. Nobody here is sorry for anything, and all of them are working.".
+  Observe stand_empty at the_stand when not daytime() "The Stand, empty, the pens' boards rubbed out for the night.".
+  Observe exchange_scene at wood_exchange when true "The Wood Exchange: a hall with a counter and a great pair of scales, a board of prices, and over the door a carved wooden billet, the city's sign for wood. The board says: OAK, THE CORD, 30S. ASH 28S. THORN 24S. FAGGOTS, THE HUNDRED, 9S. These are the prices of a city that owns its forest. A clerk is writing the prices up by a shilling, carefully, with the chalk held between two fingers so as not to get it on his cuff.".
+  Observe lamb_scene at fat_lamb when not licence() "The Fat Lamb: a big warm inn, the warmest room you have stood in since the march, full of people eating as if somebody were going to take the plates away, which on Wednesday somebody is. A fire you could roast an ox in, and an ox in it.".
+  Observe lamb_eve at fat_lamb when licence() "The Fat Lamb on Fastens' Eve: masks, music, a fiddle and a drum, the fire, the ox, couples at every table who would not be at one together on any other night, and the landlord going round with a jug saying 'Midnight, mind. Midnight.'".
+  Observe tanners_scene at tanners_row when true "Tanners' Row: once the tanneries, now the houses of the tanners' widows and grandchildren, who do not tan; tall houses with steps. A drapery, a bakehouse, and a door with a brass knocker in the shape of a hand.".
+  Observe pickersgill_scene at pickersgill_parlour when true "Mistress Pickersgill's parlour: Turkey carpet, a good fire, a cage of finches, three books of devotion with uncut pages, and one, much handled, without a title.".
+  Observe brewhouse_scene at dinsdale_brewhouse when true "Dinsdale's brewhouse: coppers, steam, the smell of malt, and at a high desk in the corner, in a velvet bonnet, Mistress Grizel Dinsdale, brewster, doing sums.".
+  Observe drapery_scene at sowerby_shop when true "Sowerby's drapery: bolts of broadcloth to the ceiling, a long counter, and on the wall behind it, framed, a drawing of the Ladder of Merit with SOWERBY on the second rung, and a space above it, waiting.".
+  Observe bakehouse_scene at bakehouse when state(oven, cold) "Mother Tunstall's bakehouse: a cold oven the size of a cottage, trays of dough under cloths, rising, and nowhere to put them.".
+  Observe bakehouse_hot at bakehouse when not state(oven, cold) "Mother Tunstall's bakehouse, roaring: the oven alight, trays going in and out on a peel, and the smell of shrove-cakes coming out of the door and down Tanners' Row like a crowd.".
+  Observe steps_scene at close_gate_street when true "The Bearer's Steps: thirty broad stone steps up to the Close Gate, every one worn into a dip in the middle by knees, and the Close Gate at the top with a porter behind a grille. On the left, in the Close wall, the masons' yard door. On the right, Gaol Lane.".
+  Observe gaol_lane_scene at gaol_lane when true "Gaol Lane: a narrow way between houses and the Close wall, and in the wall, at the height of a tall man's head, one barred window. Further on, the wall goes up past the north tower's scaffold, poles and ropes and ladders lashed against the sky.".
+  // The Close
+  Observe close_scene at close_green when not visitedBefore(close_green) "The Close: warm. You notice it before anything else: the wind does not come in here, and the snow on the lawn has been swept into heaps. Canons' houses with smoking chimneys; the Penitentiary, a long grey building with forty windows; the Schools; and the Minster, enormous, with one tower finished and the other a stump in a cage of scaffold. Everyone here has been forgiven.".
+  Observe close_again at close_green when visitedBefore(close_green) "The Close: swept snow, smoking chimneys, the Penitentiary, the Schools, the Minster and its one and a half towers.".
+  Observe porch_scene at minster_porch when true "The Minster porch, and in it the Ladder of Merit: a board of black oak twice the height of a man, on which the most penitent men and women of Gaunt are listed in gold, in order of how much they have paid other people to suffer. At the top: HUGH THACKRAY, WOOD-REEVE. Second, by a hair's breadth and a fresh coat of gold that was not there yesterday: GRIZEL DINSDALE and P. SOWERBY, alternately.".
+  Observe nave_scene at minster_nave when not ashDay() "The nave of the Minster: very high, very cold despite the Close, and at the crossing Saint Oswy's shrine, a stone man carrying another man on his back, both of them worn smooth by hands. Cut on the plinth: OSWY BORE HIM UP THE HILL THAT HE MIGHT BE FORGIVEN. A man in a blue gown is selling candles to burn for other people.".
+  Observe nave_ash at minster_nave when ashDay() "The nave of the Minster on Ash Day, full: the whole city, it seems, with a grey thumb-mark on every forehead, standing, waiting, looking at the Chapter House door.".
+  Observe chapter_scene at chapter_house when not sitting() "The Chapter House: a round stone room with a stone bench all round it and a stone chair at the head, and in the middle, on the floor, a little square of different stone, where the accused stands.".
+  Observe penitentiary_scene at penitentiary when true "The Penitentiary: a long room of clerks, and behind them forty great books on forty lecterns, the Register of Gaunt, every fault and every penance and who did it, back two hundred and eleven years; and at the end of the room, at a desk with a fire beside it, a woman in grey with a pen behind her ear.".
+  Observe schools_scene at schools when true "The Schools: a hall with two pulpits facing each other across it like ships about to fire, and benches, and students on the benches, and on the wall a list of Determinations for sale, with prices.".
+  Observe tower_scene at tower_foot when not dark() "The foot of the north tower: the stump of it, eighty feet of fine stone and then nothing, in a cage of poles and lashings and ladders and platforms that has been there so long the poles have gone silver. On the top platform a course of new white stone has been laid today. A board: THE NORTH TOWER. BEGUN IN THE YEAR OF THE COMMERCE. GIVE TO THE FABRIC.".
+  Observe tower_night at tower_foot when dark() and not knows(party, unbuilding) "The foot of the north tower at night, the scaffold a black net against the sky. Up on the top platform, which should be dark, there is a lantern moving, and the sound of a mallet, very soft, and of stone being lowered on a rope.".
+  Observe tower_night_known at tower_foot when dark() and knows(party, unbuilding) "The foot of the north tower at night, the scaffold a black net against the sky.".
+  Observe lodge_scene at masons_lodge when true "The masons' lodge: a long shed against the Close wall, banker-benches, chips of white stone on everything, the tracing-floor with the north tower drawn on it full size in scratched lines, finished, as it was meant to be, two hundred years ago.".
+  Observe gaol_scene at gaol_cell when true "The Consistory gaol: a warm room with a bed, a table, a fire, a barred window high up on Gaol Lane, and a door with a grille. The Consistory is merciful. It only means to put him out in the snow.".
+}
