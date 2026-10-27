@@ -11,7 +11,7 @@ import { MonoBrowser } from './support/mono-browser';
 // phone's, and what is long scrolls within its own leaf. In a town of many people each is one control, with what they
 // are doing beside them (a town square had named each of its people twice: the play-structure investigation's PT-09);
 // a conversation keeps its leave-taking in view however long it runs (an instrumented session spent four of its ten
-// scrolls reaching it: PT-42). Opt in with KYRIE_BROWSER=1.
+// scrolls reaching it: PT-42); who is here comes before the rest of the telling (M17-05). Opt in with KYRIE_BROWSER=1.
 class Frame {
   // Each person turned to by their own choice, and how many controls on the page offer it.
   static async people(page: Page): Promise<Record<string, number>> {
@@ -20,6 +20,11 @@ class Frame {
       const all = Array.from(document.querySelectorAll('[data-choice]'), b => b.getAttribute('data-choice'));
       return Object.fromEntries(ids.map(id => [id, all.filter(x => x === id).length]));
     });
+  }
+  // Whether one thing is set above another on the page (on a phone's one column, before it).
+  static above(page: Page, first: string, second: string): Promise<boolean> {
+    return page.evaluate(([a, b]) => document.querySelector(a!)!.getBoundingClientRect().top
+      < document.querySelector(b!)!.getBoundingClientRect().top, [first, second]);
   }
   static inView(page: Page, selector: string): Promise<boolean> {
     return page.locator(selector).evaluate(e => {
@@ -51,6 +56,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
       const people = await Frame.people(page);
       expect(Object.keys(people).length).toBeGreaterThan(2);
       expect(Object.values(people).every(n => n === 1)).toBe(true);
+      // Who is here comes after the place's first paragraph, a phone's too, not under the whole telling (M17-05).
+      expect(await Frame.above(page, '.cast .plates > li', '.telling .establish > p:nth-child(2)')).toBe(true);
       // Turned to someone: the conversation's leave-taking is on the screen, and still is after a question.
       await driver.pick(c => /#talk$/.test(c.id) && /brother|Cyril/i.test(c.label + c.id), 'your brother');
       expect((await driver.inspect()).mode).toBe('talk');

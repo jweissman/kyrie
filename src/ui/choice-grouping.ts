@@ -1,4 +1,6 @@
 import type { Operator, Predicate } from '../lang/module';
+import type { World } from '../lang/world';
+import { ActionTime } from '../campaign/action-time';
 import type { PublicChoice } from '../presentation/action-presentation';
 import type { ExitActs } from './passages';
 import type { Act, Passage } from './screen-types';
@@ -31,6 +33,9 @@ export interface GroupingContext {
   carrier?: (item: string) => string | undefined;
   // One who has come alone does everything themselves: who would do a thing is not said ("A torch · Ilse").
   solo?: boolean;
+  // The world as it is, by which a choice is reckoned as long as the clock will reckon it (ActionTime): a step through
+  // a door is a minute, not ten.
+  world?: World;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -185,7 +190,8 @@ export class ChoiceGrouping {
     const { choice, action } = row;
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
-    const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }), minutes: choice.time * 10,
+    const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }),
+      minutes: context.world ? ActionTime.minutes(action, context.world) : choice.time * 10,
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
       ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}) };

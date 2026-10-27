@@ -336,9 +336,21 @@ export class PlayerView {
       return 'letting you by';
     }
     const state = world.one('state', id);
-    // A state is named by its id ("wound_up"); the page says it as words ("wound up").
+    // A state is named by its id ("wound_up"); the page says it as words ("wound up"). One the thing tells in its own
+    // words ("The steward wears a big iron key on his belt") is told by them, not again by its id beside the thing's
+    // name ("worn", which the M16 free play read under the key: PRE-07).
     const name = state ? ObservationText.entity(world, state)?.name : undefined;
+    if (name && this.described(world).has(`${id}__${name}`)) { return undefined; }
     return name && /^[a-z0-9_]+$/.test(name) ? name.replace(/_/g, ' ') : name;
+  }
+  private static readonly descriptions = new WeakMap<object, Set<string>>();
+  private static described(world: World): Set<string> {
+    let ids = this.descriptions.get(world.module);
+    if (!ids) {
+      ids = new Set((world.module.observations ?? []).map(o => o.id));
+      this.descriptions.set(world.module, ids);
+    }
+    return ids;
   }
   // What a person in view is evidently trying to do: the label of the goal their next choice would serve.
   private static activity(campaign: Campaign, world: World, id: string): string | undefined {

@@ -217,14 +217,20 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
   .spread { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "leaves" "foot"; }
   .spread > .running { padding: 14px 16px 10px; }
   .running .sheets { width: 100%; margin: 4px 0 0; }
-  /* On a phone the leaf is one column: the telling, then who and what is here, then the ways (M17-05: the people had
-     been under the whole telling and its ways). */
+  /* On a phone the leaf is one column: the place and its first paragraph (and what just happened), then who and what
+     is here, then the rest of the telling (M17-05: a town's people had been under the whole of it, a scroll away). */
   .leaves { display: flex; flex-direction: column; grid-area: leaves; min-height: 0; overflow-y: auto;
     overscroll-behavior: contain; }
   .verso, .recto { overflow: visible; }
   .verso:not(.plate-page), .verso:not(.plate-page) > .measure { display: contents; }
-  .verso .telling { order: 1; padding: 22px 16px 10px; }
-  .recto { order: 2; }
+  .verso:not(.plate-page) .telling, .verso .telling .establish { display: contents; }
+  .verso .telling > *, .verso .telling .establish > p { order: 1; margin-left: 16px; margin-right: 16px; }
+  .verso .telling > :first-child { margin-top: 22px; }
+  .verso .telling .establish > p ~ p, .verso .telling > :is(.presence, .changed) { order: 3; }
+  .verso .telling .establish > p ~ p:nth-child(2) { padding-top: 16px; }
+  .recto { order: 2; margin-bottom: 4px; }
+  /* Each part its own height, the leaf scrolling over them all, none squeezed under the next. */
+  .leaves > *, .verso .telling > *, .verso .telling .establish > p { flex-shrink: 0; }
   .verso.plate-page { padding: 0; }
   .verso .measure, .recto .measure { max-width: none; }
   .recto { padding: 18px 16px 24px; border-left: 0; border-top: 1px solid var(--hair); background: var(--paper); }

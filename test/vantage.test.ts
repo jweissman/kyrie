@@ -77,6 +77,21 @@ describe('somewhere high', () => {
     expect(again.lines.filter(l => /^To the /.test(l))).toContain('To the north-west, not far off: Paliduslac.');
     expect(again.lines.some(l => /by its look/.test(l))).toBe(false);
   }, 120000);
+  // Once known by its name, a ruin is called by it everywhere after: the way to it in the journal, and, a step away
+  // at the old bank where its track starts, the way there (not a stranger's look on one page and its name on the
+  // next, and not gone from the ways a leg away: PT-22).
+  it('calls a ruin named from up high by its name after, and offers it a step away', async () => {
+    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'debt',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] });
+    const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
+    await GeneratedWorld.travel(s, 's1_shrine');
+    await High.page(s, 'Climb the tower and look out over Weligtún');
+    expect(ScreenModel.build(c).knowledge.map(k => k.text)).toContain('The way to Paliduslac: to the edge of Beorquudu by'
+      + ' Weligtún, and on to the old bank, where the track to it starts.');
+    await GeneratedWorld.travel(s, 'z1_heart');
+    expect(ScreenModel.build(c).exits.filter(e => e.destination.id === 'region__w3').map(e => e.destination.name))
+      .toEqual(['Paliduslac']);
+  }, 120000);
   // Through a spyglass, bought from the chandler in the first town, what lies past the edge of sight is seen too, on a
   // clear day: the first town's tower shows a cave the eye alone does not.
   it('shows past the edge of sight through a spyglass', async () => {
