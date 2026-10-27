@@ -30,7 +30,7 @@ export interface Taken { label: string; command: string; told: string; page: str
 //   ~N         wait until watch N by dark and first light (an hour when neither is offered)
 //   ~pattern   a way that is not open yet: wait a while and try again, up to twelve times
 //   >place     go to a place by the shortest way the world joins them, a way at a time (a place of a generated
-//              world's first region by its own id, z3_deep; any other by its whole id)
+//              world's first region by its own id, z3_deep; any other by its whole id); or to where someone is
 export class Journey {
   readonly taken: Taken[] = [];
   // The page as last built, and the world and log it was built of: a step reads the page to find its choice, and
@@ -127,7 +127,9 @@ export class Journey {
     return told;
   }
   private async go(place: string): Promise<string> {
-    const world = this.campaign.world, target = world.module.entities.some(e => e.id === place) ? place : `region__${place}`;
+    const world = this.campaign.world, id = world.module.entities.some(e => e.id === place) ? place : `region__${place}`;
+    // Someone, or something, is gone to where they are.
+    const target = world.module.entities.find(e => e.id === id)?.type === 'place' ? id : world.one('at', id) ?? id;
     let told = '';
     for (const [passage, to] of Journey.way(world, this.at(this.campaign.playerActor ?? 'party')!, target)) {
       told += await this.perform(`go(${passage},${to})`, `>${to}`);

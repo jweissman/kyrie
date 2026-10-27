@@ -16,6 +16,8 @@ import { OrsinoRegistryTool } from './orsino-registry';
 import { Playtext } from './playtext';
 import { PlayTool } from './play-tool';
 import { InspectTool } from './inspect-tool';
+import { Traces } from './traces';
+import { VerifyTool } from './verify-tool';
 import { NewTool } from './new-tool';
 import { Terminal } from './terminal';
 import { Frontier } from '../world/frontier';
@@ -24,14 +26,18 @@ import { DrawnWorld } from '../world/drawn-world';
 export class KyrieCli {
   static readonly usage = [
     'Play:      bin/kyrie campaign <campaign.json> [seed] | resume <save.json> | replay <transcript.json>',
-    'Author:    bin/kyrie new <id> ["Title"] | lint [campaign.json] [--inventory] | compile <module.kyr>',
+    'Author:    bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>',
+    '           bin/kyrie lint [campaign.json] [--inventory] | compile <module.kyr>',
     '           bin/kyrie preview <campaign.json> [--port 8080]',
     '           bin/kyrie world <seed> [--terrain forest|marsh|mountain|frost] [--json] | playtext <seed> [steps]',
     '           bin/kyrie play <campaign.json> [--seed s] [--steps steps.json] [--probe "fact args"|"#measure args"] [step ...]',
     '           bin/kyrie play --world <seed> [--origin debt] [--as elf/ranger/Aud] [step ...]',
     '           bin/kyrie inspect <campaign.json> | --world <seed> "<choice>" [--seed s] [--steps steps.json] [step ...]',
+    '           bin/kyrie play scene|character <id> --in <adventure> [--context name] [step ...] [--keep name]',
+    '           bin/kyrie keep <transcript.json> <name> (a game saved from the browser, kept as a test)',
     '           bin/kyrie voice show|moments|coverage|review|orsino | handbook [--html <dir>]',
-    'Check:     bin/kyrie test [bun test arguments] | validate | orsino check|report|generate|catalog|world|inventory',
+    'Check:     bin/kyrie test [bun test arguments] | verify <adventure> | validate',
+    '           bin/kyrie orsino check|report|generate|catalog|world|inventory',
     'Look up:   bin/kyrie ancestries | species | classes | abilities | batch [count]'].join('\n');
   static async main(args: string[]): Promise<number> {
     const [mode = 'help', path = '', argument] = args, rest = args.slice(1);
@@ -47,12 +53,20 @@ export class KyrieCli {
       case 'playtext': await Playtext.main(rest); return 0;
       case 'play': return PlayTool.main(rest);
       case 'inspect': return InspectTool.main(rest);
+      case 'keep': return this.keep(path, argument);
+      case 'verify': return VerifyTool.main(rest);
       case 'new': return NewTool.main(rest);
       case 'campaign': await Terminal.play(await Campaign.load(path, argument ?? 'campaign', NodeBundleSource.shared)); return 0;
       case 'replay': return this.replay(path);
       case 'resume': await Terminal.play(Campaign.restore(JSON.parse(await readFile(path, 'utf8')))); return 0;
       default: return this.lookUp(mode, path, argument);
     }
+  }
+  // A game saved from the browser kept as a regression test (see Traces).
+  private static async keep(path: string, name?: string): Promise<number> {
+    if (!path || !name) { console.error('usage: bin/kyrie keep <transcript.json> <name>'); return 1; }
+    console.log(`kept as ${await Traces.keepTranscript(path, name)}: bun test test/traces.test.ts plays it again`);
+    return 0;
   }
   // A Kyr module as the engine reads it: the parsed module, as JSON, or the first error with its place.
   private static async compile(path: string): Promise<number> {

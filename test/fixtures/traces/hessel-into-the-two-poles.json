@@ -1,0 +1,11 @@
+{
+ "about": "Kept by bin/kyrie play --keep, or bin/kyrie keep, and played again by test/traces.test.ts: what it came to must be what it comes to.",
+ "play": [
+  "data/campaigns/hessel.campaign.json",
+  "--steps",
+  "test/fixtures/hessel/alone.json"
+ ],
+ "at": "hessel__two_poles",
+ "watch": 1,
+ "told": "The Two Poles: a low room, a fire, a long table polished by blue sleeves, and over the chimney a pair of crossed chair-poles with a laurel wreath, very dusty, won by somebody in a race in the year of a comet. Mrs Gully, who keeps the Two Poles, a little round woman with a big voice, is here."
+}

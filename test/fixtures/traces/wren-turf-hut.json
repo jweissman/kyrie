@@ -1,0 +1,15 @@
+{
+ "about": "Kept by bin/kyrie play --keep, or bin/kyrie keep, and played again by test/traces.test.ts: what it came to must be what it comes to.",
+ "play": [
+  "--world",
+  "wren",
+  "--as",
+  "elf/mage",
+  ">z3_deep",
+  "the turf hut: Examine",
+  "pine-knot torch: Take"
+ ],
+ "at": "region__z3_deep",
+ "watch": 67,
+ "told": "You take a pine-knot torch."
+}

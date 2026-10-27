@@ -21,12 +21,12 @@ export class InspectTool {
   private static readonly most = 4000;
   static async main(args: string[], print: (line: string) => void = console.log): Promise<number> {
     const o = PlayTool.parse(args), [pattern, ...steps] = o.steps;
-    if ((!o.campaign && !o.world) || !pattern) {
+    if ((!o.campaign && !o.world && !o.part) || !pattern) {
       print('usage: kyrie inspect <campaign.json> | --world <seed> "<pattern>" [--seed s] [--steps steps.json] [step ...]');
       return 1;
     }
-    const j = await PlayTool.start(o);
-    for (const step of [...await PlayTool.steps(o.file), ...steps]) {
+    const { journey: j, lead } = await PlayTool.start(o);
+    for (const step of [...lead, ...await PlayTool.steps(o.file), ...steps]) {
       try { await j.step(step); } catch (e) { print(`! ${(e as Error).message}`); return 1; }
     }
     print(`-- watch ${j.watch()}, at ${j.at(j.campaign.playerActor ?? 'party') ?? 'nowhere'}`);

@@ -472,6 +472,46 @@ the bundle that places it in a generated world (`placed.json`), its campaign, th
 (`test/fixtures/ashhollow/journey.json`) and the test that plays them (`test/ashhollow.test.ts`). It writes nothing
 over a file that is there.
 
+To add a part to an adventure that is there, beside the place its company begins (or `--from` another):
+
+```
+bin/kyrie new scene well --in ashhollow
+bin/kyrie new item oarlock --in ashhollow
+bin/kyrie new chapter bells --in ashhollow
+bin/kyrie new character mara --in ashhollow --major
+bin/kyrie new site barrow "The Barrow"
+```
+
+Each writes a file of the adventure's module, names it among the module's sources (and the placed bundle's), and
+writes a test that plays to it and does what it is for (`test/ashhollow-well.test.ts`). Each is a working example to
+write over: a scene with a thing to look at closely and to change, and something that happens once when it is; a
+kind of thing of the adventure's own and something it is needed for; a chapter that begins, has an objective, and
+ends in a milestone; a site of the generator's library with a probe country to walk it in. A character comes in five
+weights, each with what the one before has: `--incidental` (a greeting, one thing to ask), `--recurring` (greets you
+again as someone seen before; what they tell is remembered and asked after; one who knows the old lore is answered
+otherwise), `--major` (a promise remembered, and a mind changed by evidence, by degrees), `--companion` (joins the
+company, in their own words), `--antagonist` (guards the way on: talked round, slipped past, or fought).
+
+To play straight to a scene, or into talk with someone, in a context you have named:
+
+```
+bin/kyrie play scene well --in ashhollow
+bin/kyrie play character mara --in ashhollow --context "after the flood" "Ask Mara what is wrong"
+```
+
+A context is the steps to play first, named in `data/adventures/<adventure>/contexts.json`
+(`{ "after the flood": ["^To the square", "Wait › An hour"] }`). What can be done there, or asked, is listed after.
+
+A play worth keeping is kept as a test: `--keep <name>` on any `kyrie play` keeps the command and where it came to
+(the place, the watch, what the page told at the last step) in `test/fixtures/traces/<name>.json`, and
+`bin/kyrie keep <transcript.json> <name>` keeps a game saved from the browser. `test/traces.test.ts` plays every one
+again and fails if it comes anywhere else. To hold an adventure to everything at once (its lint, its tests and its
+kept traces):
+
+```
+bin/kyrie verify ashhollow
+```
+
 ```
 bin/kyrie lint path/to/your.campaign.json
 ```
