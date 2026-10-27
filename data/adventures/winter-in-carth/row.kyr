@@ -148,7 +148,7 @@ Module gaunt "A Winter in Carth" {
   // ── Fly ───────────────────────────────────────────────────────────────────────────────────────────────────────────
   // The Scaifes' dog follows a company that was good to the house and to her, down the fell; and goes home the next time
   // it is at Carth, if there is a child there to go home to.
-  Rule fly_follows when petted(fly, party) and dowsieSafe(dowsie) and morningDue(carth_vigil) and at(party, levels_road) and not following(fly, party) and not flyHome(fly) { Assert following(fly, party). Assert acceptsEscort(fly, party). }
+  Rule fly_follows when petted(fly, party) and dowsieSafe(dowsie) and morningDue(carth_vigil) and at(party, levels_road) and not following(fly, party) and not flyHome(fly) { Assert following(fly, party). Assert acceptsEscort(fly, party). Assert at(fly, levels_road). }
   Relation flyHome(group).
   Rule fly_goes_home at carth_yard when following(fly, party) and at(party, carth_yard) and not dowsieDead(dowsie) and not flyHome(fly)
     says "Fly goes off across the yard without looking back, and scratches at the door, and it opens, and a small voice inside says 'Fly!' and the door shuts." { Retract following(fly, party). Assert flyHome(fly). Assert at(fly, house_place). }

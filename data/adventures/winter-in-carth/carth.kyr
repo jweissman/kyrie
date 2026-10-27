@@ -250,18 +250,25 @@ Module gaunt "A Winter in Carth" {
     Otherwise "Raistrick does not look at you. 'The ash is warm,' he says, 'not the stone. A child's fever doesn't make a fire.' He takes his hand out of the hearth.".
   }
   Relation triedReeve(group).
-  Rule reeve_judges when reeveKneeling(raistrick) and watch(clock) >= reeveAt(raistrick) + 1 {
+  // What he finds is decided when he takes his hand out, by the hearth as it is then; a fire lit again after he has gone
+  // is not his business until tomorrow night.
+  Relation reeveFoundWarm(group). Relation reeveFoundCold(group). Relation reeveFoundWet(group).
+  Query reeveRising() means reeveKneeling(raistrick) and watch(clock) >= reeveAt(raistrick) + 1.
+  Rule reeve_finds_warm when reeveRising() and state(hearth, ablaze) and not reeveDeceived(raistrick) and vigilOn() {
+    Assert reeveFoundWarm(carth_vigil). Assert vigilBroken(carth_vigil). Assert vigilEnded(carth_vigil). }
+  Rule reeve_finds_wet when reeveRising() and state(hearth, snowed) and vigilOn() { Assert reeveFoundWet(carth_vigil). }
+  Rule reeve_finds_cold when reeveRising() and (state(hearth, cold) or reeveDeceived(raistrick)) and vigilOn() { Assert reeveFoundCold(carth_vigil). }
+  Rule reeve_judges when reeveRising() {
     Retract reeveKneeling(raistrick). Assert reeveDone(carth_vigil). Assert at(raistrick, reeve_hut). }
-  Rule reeve_broken within carth_house when reeveDone(carth_vigil) and state(hearth, ablaze) and not reeveDeceived(raistrick) and vigilOn() and not vigilBroken(carth_vigil)
-    says "Raistrick takes his hand out of the warm ash and looks at it in the firelight as if it had told him something about himself. 'Broken,' he says. He does not say it unkindly. He takes a stick out of his coat and a knife, and cuts a mark on it, and goes out into the snow, and the door shuts." {
-    Assert vigilBroken(carth_vigil). Assert vigilEnded(carth_vigil). }
-  Rule reeve_kept_cold within carth_house when reeveDone(carth_vigil) and state(hearth, cold) and not byreFire(carth_vigil) and vigilOn() and not spread(reeve_kept)
+  Rule reeve_broken within carth_house when reeveFoundWarm(carth_vigil) and inHouse() and not spread(reeve_kept)
+    says "Raistrick takes his hand out of the warm ash and looks at it in the firelight as if it had told him something about himself. 'Broken,' he says. He does not say it unkindly. He takes a stick out of his coat and a knife, and cuts a mark on it, and goes out into the snow, and the door shuts." { Assert spread(reeve_kept). }
+  Rule reeve_kept_cold within carth_house when reeveFoundCold(carth_vigil) and not byreFire(carth_vigil) and not reeveDeceived(raistrick) and inHouse() and not spread(reeve_kept)
     says "He takes his hand out of the ash. He stands, and you hear him wipe it on his coat. 'Kept,' he says, to nobody, and goes out, and the cold air goes along the floor after him." { Assert spread(reeve_kept). }
-  Rule reeve_kept_wet within carth_house when reeveDone(carth_vigil) and state(hearth, snowed) and vigilOn() and not spread(reeve_kept)
+  Rule reeve_kept_wet within carth_house when reeveFoundWet(carth_vigil) and inHouse() and not spread(reeve_kept)
     says "He takes his hand out of the hearth and holds it up. It drips. For a long time he says nothing at all; you can hear him thinking, which is a sound like a man very slowly turning over a stone. 'Wet,' he says. 'Cold.' He wipes his hand. 'Kept,' he says, and goes out." { Assert spread(reeve_kept). }
-  Rule reeve_kept_byre within carth_house when reeveDone(carth_vigil) and byreFire(carth_vigil) and not state(hearth, ablaze) and vigilOn() and not spread(reeve_smoke)
-    says "From the byre, where the whole household lies in the straw by the fire-pit, you hear him come in and kneel at the dead hearth. Then nothing, for a long time. Then he sniffs. Smoke: the whole house smells of it. You hear him stand up. Then you hear him kneel down again, and put his hand back in the ash, and hold it there; and stand; and say 'Kept,' in a voice like a man putting down something heavy; and go." { Assert spread(reeve_smoke). }
-  Entity reeve_kept: fact "kept". Entity reeve_smoke: fact "the smoke".
+  Rule reeve_kept_byre within carth_house when reeveFoundCold(carth_vigil) and byreFire(carth_vigil) and inHouse() and not spread(reeve_kept)
+    says "From the byre, where the whole household lies in the straw by the fire-pit, you hear him come in and kneel at the dead hearth. Then nothing, for a long time. Then he sniffs. Smoke: the whole house smells of it. You hear him stand up. Then you hear him kneel down again, and put his hand back in the ash, and hold it there; and stand; and say 'Kept,' in a voice like a man putting down something heavy; and go." { Assert spread(reeve_kept). }
+  Entity reeve_kept: fact "kept".
 
   // ── Morning ───────────────────────────────────────────────────────────────────────────────────────────────────────
   // The first six o'clock after the night: what happened is told plainly.

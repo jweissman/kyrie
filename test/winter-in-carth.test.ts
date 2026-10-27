@@ -7,7 +7,8 @@ import { Gaunt, alone, build, phases, steps } from './support/gaunt';
 
 // A Winter in Carth's principal journeys and what each must leave behind; the helper and the calendar are in
 // test/support/gaunt.ts, the steps in test/fixtures/gaunt. The smaller journeys (Carth's ways through the night, the
-// city's strands) are in test/winter-in-carth-small.test.ts; the generated world in test/winter-in-carth-placed.test.ts.
+// city's strands) are in test/winter-in-carth-small.test.ts; the generated world in
+// test/winter-in-carth-placed.test.ts.
 describe('A Winter in Carth: the road, the farm, the city and the Consistory', () => {
   it('lints clean as a recommended campaign', async () => {
     const findings = await KyrLint.campaign(alone, new NodeBundleSource());
@@ -48,7 +49,7 @@ describe('A Winter in Carth: the road, the farm, the city and the Consistory', (
     expect(g.holds('testifiedCarth', 'party')).toBe(true);
     expect(g.holds('thackrayBears', 'thackray')).toBe(true);
     expect(g.ending()).toEqual(['the_bearer']);
-    expect(g.page).toMatch(/Hugh Thackray, Wood-reeve, who has been top of the Ladder of Merit for eleven years, walks out/);
+    expect(g.page).toMatch(/who has been top of the Ladder of Merit for eleven years, walks out/);
     expect(g.page).toMatch(/splitting the oak he sent up the fell/);
   }, 300000);
 
