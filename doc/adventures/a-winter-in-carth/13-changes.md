@@ -56,8 +56,9 @@ From reading the eight transcripts, first alone and then by an outside reader as
   one for a company that never walked with him).
 - **The climax offstage.** A company not in the Chapter House learned the verdict only from an experience line; the
   recantation, the putting-out and the bearing now come down the Bearer's Steps as news.
-- **The city's big night.** Fastens' Eve's masks and the Fast's midnight bell now reach a company anywhere in the
-  city, not only in the Shambles and the Fat Lamb.
+- **The city between appointments.** Fastens' Eve's masks and the Fast's midnight bell now reach a company anywhere
+  in the city, not only in the Shambles and the Fat Lamb; and so do the Stand opening on Shrove Monday, the proxies
+  coming home at dusk, and the ashing at nine on Ash Day.
 - **Small truths.** Hern does not "walk on" while kneeling; nobody shakes hands "for the third time" after one; Hern
   does not cite Kell's board to Bess unless he took it; Hal's line no longer prints both of its alternatives; the
   grey coat is seen in his cell before he wears it out of the window, and kept after; the Ladder's porch and its fates

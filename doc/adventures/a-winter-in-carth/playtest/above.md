@@ -1,6 +1,6 @@
 # From Above
 
-Played by Wren, a bard; seed `g1`, steps `test/fixtures/gaunt/above.json`; 171 steps; ended at watch 493, at the ending "The Bearer". Written by `bun scripts/winter-in-carth-transcripts.ts` from the journey as the page told it.
+Played by Wren, a bard; seed `g1`, steps `test/fixtures/gaunt/above.json`; 170 steps; ended at watch 493, at the ending "The Bearer". Written by `bun scripts/winter-in-carth-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -280,7 +280,13 @@ The Shambles: the penthouse, the butchers, the chestnut man, the Steps up to the
 
 The Fat Lamb: a big warm inn, the warmest room you have stood in since the march, full of people eating as if somebody were going to take the plates away, which on Wednesday somebody is. A fire you could roast an ox in, and an ox in it. Here are Matthias Dent, the landlord of the Fat Lamb, in a leather apron, carving; and Old Joby Thwaite, a master mason of seventy-one with stone-dust in his eyebrows and hands like two mallets, eating a pie with great concentration.
 
-*(9 waits in which nothing is told)*
+*(4 waits in which nothing is told)*
+
+**Wait › An hour**
+
+At dusk the proxies come home through Bow Gate to the Row: the day’s fasters walking carefully, the barefoot ones with their boots slung round their necks, a woman with a board still on her back saying somebody else’s fault in somebody else’s name, which she has forgotten to take off. Nobody talks much. In the Middle Town, behind them, the lamps go on in the houses of the forgiven.
+
+*(3 waits in which nothing is told)*
 
 **Talk to Old Joby Thwaite**
 
@@ -464,7 +470,13 @@ Matthias Dent, the landlord of the Fat Lamb, in a leather apron, carving, is her
 
 You eat what is put in front of you, and sleep long, under a roof. ASH DAY. At nine every forehead in Gaunt is marked with ash at the Minster door, and the Ladder of Merit is gilded for the year. At noon the Consistory sits in the Chapter House on the matter of Ninian Hern. At dusk, for the first time in nineteen years, the Gate of Ash may be opened. Wren gains 200 experience: saw the north tower’s new course stand. The Fat Lamb: a big warm inn, the warmest room you have stood in since the march, full of people eating as if somebody were going to take the plates away, which on Wednesday somebody is. A fire you could roast an ox in, and an ox in it.
 
-*(5 waits in which nothing is told)*
+*(1 wait in which nothing is told)*
+
+**Wait › An hour**
+
+At nine the Minster’s west door is opened and the city goes past it in a line that reaches down the Bearer’s Steps and into the Shambles, and a canon with a bowl of ash puts his thumb to every forehead, the brewster’s and the barefoot man’s alike, and says the same four words to each. For an hour everyone in Gaunt has the same mark on them. Then they go and look at the Ladder.
+
+*(3 waits in which nothing is told)*
 
 **Out to the Long Shambles**
 

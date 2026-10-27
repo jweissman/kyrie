@@ -136,9 +136,15 @@ You walk fast to keep warm, and it does not help much. The road across the Level
 
 **To the Fell Gate**
 
-You are moved up the queue by the queue, and come to the table under the arch. The Assessor dips his pen. ‘Faults of the road,’ he says, without looking up, and then he does look up, and sees what you have brought with you, or have not, and his pen stops. ‘Association,’ says the Assessor, and cuts one notch. ‘With the accused, Ninian Hern. One pain. Everyone who walks with him pays it; you are the first who has.’ He splits the tally down its length, gives you one half and drops the other into a box marked F for Fell. ‘Your shrift,’ he says. ‘Owing that, you are welcome in the Row and the Middle Town and you will not pass the Close Gate, nor be heard by the Consistory, until you have paid it. The Stand is in the old sheep-market. Next.’ The Fell Gate of Gaunt: a gate in the new wall, a gatehouse, and at a table under the arch, out of the wind, a man in a black gown with a box of tally-sticks and a knife, who is assessing everyone who comes in for the faults they did on the road. There is a queue. Everybody in it is thinking. Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; and the Assessor of the Fell Gate, a canon of the Penitentiary in a black gown, at a table under the arch, with a box of tally-sticks and a knife.
+At eight a bell rings in the old sheep-market, and the Stand opens, and you hear it from streets away: a clerk calling names, and burgesses’ men calling rates, FASTS THREEPENCE, BAREFOOT A SHILLING THE MILE, and a sound under it like a fair, which is two hundred people waiting to be hired to be sorry. You are moved up the queue by the queue, and come to the table under the arch. The Assessor dips his pen. ‘Faults of the road,’ he says, without looking up, and then he does look up, and sees what you have brought with you, or have not, and his pen stops. ‘Association,’ says the Assessor, and cuts one notch. ‘With the accused, Ninian Hern. One pain. Everyone who walks with him pays it; you are the first who has.’ He splits the tally down its length, gives you one half and drops the other into a box marked F for Fell. ‘Your shrift,’ he says. ‘Owing that, you are welcome in the Row and the Middle Town and you will not pass the Close Gate, nor be heard by the Consistory, until you have paid it. The Stand is in the old sheep-market. Next.’ The Fell Gate of Gaunt: a gate in the new wall, a gatehouse, and at a table under the arch, out of the wind, a man in a black gown with a box of tally-sticks and a knife, who is assessing everyone who comes in for the faults they did on the road. There is a queue. Everybody in it is thinking. Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; and the Assessor of the Fell Gate, a canon of the Penitentiary in a black gown, at a table under the arch, with a box of tally-sticks and a knife.
 
-*(20 waits in which nothing is told)*
+*(7 waits in which nothing is told)*
+
+**Wait › An hour**
+
+At dusk the proxies come home through Bow Gate to the Row: the day’s fasters walking carefully, the barefoot ones with their boots slung round their necks, a woman with a board still on her back saying somebody else’s fault in somebody else’s name, which she has forgotten to take off. Nobody talks much. In the Middle Town, behind them, the lamps go on in the houses of the forgiven.
+
+*(12 waits in which nothing is told)*
 
 **Wait › An hour**
 
@@ -162,7 +168,13 @@ At seven the masks come out. All over the Middle Town the shutters go up again a
 
 ASH DAY. At nine every forehead in Gaunt is marked with ash at the Minster door, and the Ladder of Merit is gilded for the year. At noon the Consistory sits in the Chapter House on the matter of Ninian Hern. At dusk, for the first time in nineteen years, the Gate of Ash may be opened.
 
-*(7 waits in which nothing is told)*
+*(2 waits in which nothing is told)*
+
+**Wait › An hour**
+
+At nine the Minster’s west door is opened and the city goes past it in a line that reaches down the Bearer’s Steps and into the Shambles, and a canon with a bowl of ash puts his thumb to every forehead, the brewster’s and the barefoot man’s alike, and says the same four words to each. For an hour everyone in Gaunt has the same mark on them. Then they go and look at the Ladder.
+
+*(4 waits in which nothing is told)*
 
 **Wait › An hour**
 

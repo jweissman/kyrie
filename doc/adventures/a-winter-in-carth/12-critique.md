@@ -37,8 +37,9 @@ Hern and Hawise are a forty-five-year quarrel about salt in a soup. Neither is p
 **The middle is a city of appointments, and between them it is still.** The transcripts show long runs of waits in
 which nothing is told: nineteen and twenty-three in *from below*, twenty and seventeen in *the letter*. Gaunt happens
 at fixed hours: ten, two, seven, eleven, midnight, noon. A player who is not where the hour is hears nothing. Stage 6
-added the masks, the bell and the verdict as news to the whole city. Shrove Monday afternoon and Ash Day morning are
-still thin. A metropolis should overhear itself more.
+added what the whole city hears: the Stand opening at eight, the proxies coming home at dusk, the masks, the bell,
+the ashing, the verdict. That is six beats in three days. It is better, and still too few: a metropolis should
+overhear itself by the hour.
 
 **The mystery is solved too soon.** Annis puts the billet-marked shilling into the company's hand on the first night,
 and the Wood Exchange's sign is on the city's every woodpile. The intrigue becomes what to do about Thackray, which

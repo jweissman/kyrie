@@ -65,4 +65,14 @@ Module gaunt "A Winter in Carth" {
   Rule fast_bell when ashDay() and hour(clock) < 6 and inTown() and not hernDead(hern) and not spread(fast_bell)
     says "At midnight the tenor bell of the Minster rings the Fast in, one stroke, and then another, slow, over the whole city; outside the Wood Exchange the Fat King goes up in a sheet of flame; and all over the Middle Town the masks come off at once, as if somebody had said a word. Whatever was said tonight was never said." { Assert spread(fast_bell). }
   Entity fast_bell: fact "the Fast rung in".
+  // The city's own hours, told to whoever is in its streets.
+  Rule stand_hiring when mondayN() and hour(clock) >= 8 and hour(clock) < 11 and inTown() and not at(party, the_stand) and not spread(stand_hiring)
+    says "At eight a bell rings in the old sheep-market, and the Stand opens, and you hear it from streets away: a clerk calling names, and burgesses' men calling rates, FASTS THREEPENCE, BAREFOOT A SHILLING THE MILE, and a sound under it like a fair, which is two hundred people waiting to be hired to be sorry." { Assert spread(stand_hiring). }
+  Entity stand_hiring: fact "the Stand opens".
+  Rule proxies_home when mondayN() and hour(clock) >= 17 and hour(clock) < 20 and inTown() and not spread(proxies_home)
+    says "At dusk the proxies come home through Bow Gate to the Row: the day's fasters walking carefully, the barefoot ones with their boots slung round their necks, a woman with a board still on her back saying somebody else's fault in somebody else's name, which she has forgotten to take off. Nobody talks much. In the Middle Town, behind them, the lamps go on in the houses of the forgiven." { Assert spread(proxies_home). }
+  Entity proxies_home: fact "the proxies home".
+  Rule ashing when ashDay() and hour(clock) >= 9 and hour(clock) < 11 and inTown() and not inChapter() and not spread(ashing)
+    says "At nine the Minster's west door is opened and the city goes past it in a line that reaches down the Bearer's Steps and into the Shambles, and a canon with a bowl of ash puts his thumb to every forehead, the brewster's and the barefoot man's alike, and says the same four words to each. For an hour everyone in Gaunt has the same mark on them. Then they go and look at the Ladder." { Assert spread(ashing). }
+  Entity ashing: fact "the ashing".
 }
