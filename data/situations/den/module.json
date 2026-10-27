@@ -25,7 +25,8 @@
     "tables": "tables.json"
   },
   "exports": {
-    "rumour": "rumour"
+    "rumour": "rumour",
+    "beasts": "beasts"
   },
   "experience": 300
 }

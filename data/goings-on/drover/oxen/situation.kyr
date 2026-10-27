@@ -1,0 +1,36 @@
+Module oxen "The thing that took the oxen" {
+  Description "Whatever had the drover's oxen dragged them off from the ditch to a den in the wild. The trail is there to be read from the road, the son wants to see the end of it, and the yoke was his grandfather's.".
+  Entity party: group "Your company".
+  Place road "The road" is room.
+  Place lair "The den" is room. Entity track: passage "The track to the den".
+  Entity wife: group "The drover's wife". Entity son: group "The drover's son". Entity beasts: group "the beasts".
+  Entity found_cart: fact "The drover's cart went off the road in the night.".
+  // The trail from the ditch to the den nearest the drover's town (see the drover's scenario), told by the son, who
+  // read it, once the cart is found; and a way there for whoever has heard it.
+  Entity trail: fact "From the ditch below {road}, two furrows and a line of great prints go up the bank and away toward {lair}.".
+  Initially Assert leadsTo(trail, lair). Initially Assert leadsVia(trail, track).
+  Initially Assert revealedBy(track, trail).
+  // Dealt with as the den is: dead, or driven off or laid to rest.
+  Query dealt() means dead(beasts) or peaceable(beasts).
+  Topic son_after with son "Ask {son} what he means to do now" when knows(actor, found_cart) and not dealt() once {
+    Says "'Whatever took them is up at {lair},' says {son}. 'I saw the marks from the ditch: two furrows, and prints too big for any dog.' He turns the spear in his hands. 'I want to see it. And I want the yoke back. It was Grandfather's.'".
+    On discuss { Assert knows(actor, trail). }
+  }
+  Objective oxen when knows(party, trail) and not dealt() "Whatever took the drover's oxen dens at {lair}.".
+  // The yoke, among the bones once the den is dealt with; carried home, it hangs over the hearth where it always hung.
+  Kind ox_yoke "an ox-yoke" is treasure worth 2 weighing 8 described "An old ox-yoke of ash, carved along the bow with oak leaves, and worn smooth where the necks went.".
+  Entity yoke_seen: fact "The drover's ox-yoke lies among the bones at {lair}.".
+  Item yoke "the drover's ox-yoke" is ox_yoke at lair hidden until yoke_seen.
+  Observe yoke_glimpse at lair when dealt() and not knows(party, yoke_seen) "Among the bones at the back an ox-yoke lies where it was dragged, carved along the bow with oak leaves." teaches yoke_seen.
+  Relation hung(group).
+  Event yoke_seen_home near wife when carries(party, yoke) and not hung(party) "{wife} sees it before you say anything, and puts down what is in her hands. 'You brought it back,' she says. 'Hang it where it was.'".
+  Action hang_yoke(actor: group, carrier: member, site: place) "Hang the yoke over the hearth, where it always hung" {
+    Requires able(actor) and at(actor, site) and at(wife, site) and memberOf(carrier, actor) and ownedItem(yoke, carrier)
+      and not hung(actor).
+    Time 2 minutes.
+    Resolve drop(yoke, carrier).
+    On success { Assert at(yoke, site). Assert hung(actor). }
+    Result "It goes up on its two pegs over the hearth as if it had never been down. {wife} looks at it a long time, and does not say anything else, and does not need to.".
+  }
+  Goal hung(party).
+}

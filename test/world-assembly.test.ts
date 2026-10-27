@@ -53,7 +53,9 @@ describe('a generated region with situated scenarios', () => {
     const contacts = new Set(upland.report.contacts.map(c => c.carrier));
     const towns = new Set(brood[0]!.carriers['brood.ewes']!.filter(c => !contacts.has(c)).map(c => c.split('_')[0]));
     expect(towns.size).toBe(2);
-    const claimed = upland.report.placements.flatMap(p => Object.entries(p.bindings).filter(([r]) => r !== 'town').map(([, v]) => v));
+    // A link to another placement's place (the drover's trail to a den) is not a claim on it.
+    const claimed = upland.report.placements.flatMap(p => Object.entries(p.bindings).filter(([r]) => r !== 'town'
+      && !p.linked?.[r]).map(([, v]) => v));
     expect(new Set(claimed).size).toBe(claimed.length);
   });
   it('generates a site a scenario needs when no work of its kind stands free', async () => {

@@ -13,6 +13,13 @@
       "way": "near:town"
     }
   },
+  "links": {
+    "lair": {
+      "scenario": "den",
+      "place": "den",
+      "near": "town"
+    }
+  },
   "modules": [
     {
       "id": "drover",
@@ -22,6 +29,21 @@
         "green": "@town.green",
         "taproom": "@town.taproom",
         "road": "@road"
+      }
+    },
+    {
+      "id": "oxen",
+      "bundle": "../goings-on/drover/oxen/module.json",
+      "when": "lair",
+      "imports": {
+        "party": "@party",
+        "road": "@road",
+        "lair": "@lair",
+        "track": "@lair.track",
+        "wife": "drover.wife",
+        "son": "drover.son",
+        "beasts": "lair:den.beasts",
+        "found_cart": "drover.found_cart"
       }
     }
   ],

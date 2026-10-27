@@ -37,7 +37,12 @@ export interface ScenarioManifest {
   // A place a scenario needs: a site of some kind, a settlement (near:role, any, or the first), or the stretch of road
   // out of a settlement (near:role).
   places: Record<string, { site?: string[]; settlement?: string; way?: string }>;
-  modules: { id: string; bundle: string; imports: Record<string, string>; context?: Record<string, DeemValue> }[];
+  // Another scenario's placement in the same country it is bound to, if there is one: that placement's place, here
+  // under a role of its own (the drover's trail goes to the den nearest the town). A module that needs it is
+  // installed only `when` it is bound; one of the other placement's exports is "role:module.export".
+  links?: Record<string, { scenario: string; place: string; near?: string }>;
+  modules: { id: string; bundle: string; imports: Record<string, string>; context?: Record<string, DeemValue>;
+    when?: string }[];
   route?: string;
   // What looking about where a hidden way in starts finds, so it is not hidden from a company that never heard of it.
   found?: { known: string; told: string };
@@ -50,6 +55,8 @@ export interface Placement {
   modules: string[]; carriers: Record<string, string[]>;
   // The region module it is set in (see WorldGrid): "region" for the first.
   rid: string;
+  // The placements its links are bound to, by role: where they are set, and which instance (see ScenarioManifest).
+  linked?: Record<string, { rid: string; n: number }>;
 }
 export interface WorldReport {
   seed: string; region: Region; context: Record<string, string>;
@@ -162,7 +169,7 @@ export class WorldAssembler {
         const chosen = this.choose(open, context, RandomStreams.key(at.seed, 'world', kind === 'town' ? 'town' : 'scenario', round));
         if (!chosen) { break; }
         const n = (count.get(chosen.manifest.id) ?? 0) + 1;
-        const placement = this.place(chosen.manifest, { n, region, claimed, seed: at.seed, rid: at.rid });
+        const placement = this.place(chosen.manifest, { n, region, claimed, seed: at.seed, rid: at.rid, placements });
         // One that cannot be placed here is not tried again here.
         count.set(chosen.manifest.id, placement ? n : Infinity);
         if (placement) { placements.push(placement); }
@@ -306,8 +313,8 @@ export class WorldAssembler {
   // settlement nearest one of those sites. A site that can stand nowhere in the land, and the scenario is not placed,
   // and nothing it took is kept: placed all the same, its site had no cell, was never written, and the region's
   // exports named it (2 of 41 seeds, and 1 of 100 games Begin started, would not load: the architecture review's H1).
-  private static place(s: ScenarioManifest,
-    at: { n: number; region: Region; claimed: Set<string>; seed: string; rid: string }): Placement | undefined {
+  private static place(s: ScenarioManifest, at: { n: number; region: Region; claimed: Set<string>; seed: string;
+    rid: string; placements?: Placement[] }): Placement | undefined {
     const { n, region, claimed, seed } = at, prefix = this.prefix(at.rid);
     const instance = `${prefix}${s.id.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`, bindings: Record<string, string> = {};
     const generated: string[] = [], before = new Set(claimed), sites = region.sites.length;
@@ -339,8 +346,29 @@ export class WorldAssembler {
         if (road) { bindings[role] = road.way; }
       }
     }
-    return { scenario: s.id, instance, bindings, generated, carriers: {}, rid: at.rid,
-      modules: s.modules.map(m => `${prefix}${this.install(m.id, n)}`) };
+    const linked = this.link(s, bindings, { region, placements: at.placements ?? [] });
+    return { scenario: s.id, instance, bindings, generated, carriers: {}, rid: at.rid, ...linked ? { linked } : {},
+      modules: s.modules.filter(m => !m.when || bindings[m.when]).map(m => `${prefix}${this.install(m.id, n)}`) };
+  }
+  // Binds each link to the placement of its scenario already made in the country whose place is nearest the one it
+  // is near (a site near that settlement first, then the fewest hours out); none, and it is left unbound.
+  private static link(s: ScenarioManifest, bindings: Record<string, string>,
+    at: { region: Region; placements: Placement[] }): Placement['linked'] {
+    const linked: NonNullable<Placement['linked']> = {};
+    for (const [role, l] of Object.entries(s.links ?? {})) {
+      const town = l.near ? bindings[l.near] : undefined;
+      const other = at.placements.filter(p => p.scenario === l.scenario && p.bindings[l.place]).sort((a, b) =>
+        this.out(at.region, a.bindings[l.place]!, town) - this.out(at.region, b.bindings[l.place]!, town))[0];
+      if (!other) { continue; }
+      bindings[role] = other.bindings[l.place]!;
+      linked[role] = { rid: other.rid, n: Number(other.instance.match(/\d+$/)?.[0] ?? 1) };
+    }
+    return Object.keys(linked).length ? linked : undefined;
+  }
+  // How far out a site is from a settlement: one near it first, then by its hours.
+  private static out(region: Region, site: string, town?: string): number {
+    const w = region.sites.find(x => x.id === site);
+    return w?.near === town ? -1 : w?.hours ?? Infinity;
   }
   private static install(module: string, n: number): string {
     return `${module.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`;
@@ -348,6 +376,12 @@ export class WorldAssembler {
   // A scenario reference: @party, @region, @role, @role.part (a settlement's green, a site's track or the country it
   // stands in…), @history.makers / .fate / .successors (the country's own history, to be found), module.export.
   static ref(value: string, placement: Placement, region?: Region): string {
+    if (value.includes(':')) {
+      const [role, rest] = value.split(':') as [string, string], [module, name] = rest.split('.') as [string, string];
+      const other = placement.linked?.[role];
+      if (!other) { throw new Error(`Scenario reference ${value} names no linked placement`); }
+      return `${this.prefix(other.rid)}${this.install(module, other.n)}.${name}`;
+    }
     if (!value.startsWith('@')) {
       const [module, name] = value.split('.') as [string, string];
       return `${this.prefix(placement.rid)}${this.install(module, Number(placement.instance.match(/\d+$/)?.[0] ?? 1))}.${name}`;
@@ -363,7 +397,8 @@ export class WorldAssembler {
   private static requests(entry: Entry, placement: Placement, base: BundleSource,
     at: { context: Record<string, DeemValue>; region: Region }): BundleRequest[] {
     const context = at.context;
-    return entry.manifest.modules.map((m, i) => ({ id: placement.modules[i]!,
+    return entry.manifest.modules.filter(m => !m.when || placement.bindings[m.when]).map((m, i) => ({
+      id: placement.modules[i]!,
       bundle: base.resolve(m.bundle, entry.path),
       imports: Object.fromEntries(Object.entries(m.imports)
         .map(([name, value]) => [name, this.ref(value, placement, at.region)])),

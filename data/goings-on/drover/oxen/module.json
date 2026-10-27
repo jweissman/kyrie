@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "road",
+    "lair",
+    "track",
+    "wife",
+    "son",
+    "beasts",
+    "found_cart"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "road": {
+      "type": "place"
+    },
+    "lair": {
+      "type": "place"
+    },
+    "track": {
+      "type": "passage"
+    },
+    "wife": {
+      "type": "group"
+    },
+    "son": {
+      "type": "group"
+    },
+    "beasts": {
+      "type": "group"
+    },
+    "found_cart": {
+      "type": "fact"
+    }
+  },
+  "experience": 150
+}
