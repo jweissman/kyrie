@@ -160,7 +160,8 @@ Module hessel "The Banns at Hessel" {
   }
   Relation hettyAway(group). Relation hettyWilling(group). Relation hettyAtChurch(group).
   Rule hetty_shop_hours when not at(hetty, hetty_shop) and not hettyAway(hetty) and not following(hetty, party) { Assert at(hetty, hetty_shop). }
-  Observe hetty_scene at hetty_shop when true "Hetty Quiney's shop: three bonnets on wooden heads, a counter, ribbons in drawers labelled in a round hand, and a cradle under the counter.".
+  Observe hetty_scene at hetty_shop when not visitedBefore(hetty_shop) "Hetty Quiney's shop: three bonnets on wooden heads, a counter, ribbons in drawers labelled in a round hand, and a cradle under the counter.".
+  Observe hetty_again at hetty_shop when visitedBefore(hetty_shop) "Hetty Quiney's shop: the bonnets, the ribbon drawers, the cradle under the counter.".
   Thing hat_peg "the gentleman's hat on the peg" at hetty_shop {
     Tries looking.
     State hung "A gentleman's beaver hat, good, a little worn, on the peg by the back door.".

@@ -65,17 +65,17 @@ Module hessel "The Banns at Hessel" {
 
   // ── The footman ───────────────────────────────────────────────────────────────────────────────────────────────────
   // Who can be bought; and the price of being bought is Mr Twiss finding out, at his own Ball, in front of everybody.
-  Person fitch "Fitch" at vestibule {
+  Person fitch "Pocklington" at vestibule {
     Role "the Rooms' footman, in blue, with a face like a closed door". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "The footman looks over your head at a point on the far wall.".
   }
   Relation fitchBribed(group).
-  Action bribe_fitch(actor: group, site: place) "Slip Fitch five coin to let Mrs Cherrett's household in at the Ball" {
+  Action bribe_fitch(actor: group, site: place) "Slip Pocklington five coin to let Mrs Cherrett's household in at the Ball" {
     Requires able(actor) and company(actor) and at(actor, site) and at(fitch, site) and legs(actor) and householdBarred(cherrett)
       and not fitchBribed(actor) and quantity(actor, gold) >= 5.
     Time 1 minute.
     On success { Decrease quantity(actor, gold) by 5. Increase quantity(fitch, gold) by 5. Assert fitchBribed(actor). }
-    Result "The coins go into Fitch's glove without his face moving at all. 'The side door,' he says to the far wall. 'Half past seven. Monday.'".
+    Result "The coins go into Pocklington's glove without his face moving at all. 'The side door,' he says to the far wall. 'Half past seven. Monday.'".
   }
 
   // ── Signor Brocca's evening ───────────────────────────────────────────────────────────────────────────────────────
@@ -91,7 +91,7 @@ Module hessel "The Banns at Hessel" {
   Relation broccaSober(group). Relation broccaDone(group). Relation twissFrantic(group).
   Rule brocca_drinks when secondDay() and hour(clock) >= 17 and hour(clock) < 21 and not at(brocca, two_poles) and not broccaSober(brocca) and not broccaDone(brocca) and not following(brocca, party) and not travelsWith(brocca, party) { Assert at(brocca, two_poles). }
   Rule twiss_waits when secondDay() and hour(clock) >= 19 and hour(clock) < 21 and not broccaDone(brocca) and not twissFrantic(twiss) { Assert twissFrantic(twiss). Assert at(twiss, vestibule). }
-  Observe twiss_frantic at vestibule when twissFrantic(twiss) and not broccaDone(brocca) "Mr Twiss is in the vestibule in his ballroom silks, walking up and down between the mirrors, so that there are a great many of him, all of them frantic. 'The first violin,' he is saying to Fitch, to the ceiling, to anyone. 'Without a first violin there is no band. Without a band there is no assembly. I have opened these Rooms every night of the Season for twenty years.'".
+  Observe twiss_frantic at vestibule when twissFrantic(twiss) and not broccaDone(brocca) "Mr Twiss is in the vestibule in his ballroom silks, walking up and down between the mirrors, so that there are a great many of him, all of them frantic. 'The first violin,' he is saying to Pocklington, to the ceiling, to anyone. 'Without a first violin there is no band. Without a band there is no assembly. I have opened these Rooms every night of the Season for twenty years.'".
   Action sober_brocca(actor: group, site: place) "Walk Signor Brocca round the yard and put his head under the pump" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, two_poles) and at(brocca, two_poles) and not broccaSober(brocca).
     Time 3.
@@ -176,6 +176,9 @@ Module hessel "The Banns at Hessel" {
   Topic scrope_news with scrope "Ask Mrs Scrope what the news is" when not dark() and quietTown() {
     Says "'Oh, the news,' says Mrs Scrope, and tells you about a colonel's gout, a bishop's niece, a pair of twins in the King's Bath who are not, after all, the same person, and a bonnet. Then she leans close. 'And they're saying the Cherrett girl's banns are as good as read, and the Wenlocks will have the canal money by Monday, and Dr Hartopp has his eye on the companion, or the granddaughter, depending who you ask.' She sips water she does not swallow.".
   }
+  Topic scrope_ottery with scrope "Ask Mrs Scrope about the Hospital of the Waters" when firstDay() and not otteryDecided(ottery) once {
+    Says "'Oh, poor Dr Ottery.' Mrs Scrope is delighted. 'Turned off by the governors, for telling Mrs Cherrett she was dying, in the Pump Room, in front of everybody. And now the College at Orm has summoned him for tomorrow noon, and he has to walk it, over the down, at first light, with nobody to speak for him. Nobody will, of course. He calls the governors fools.' She sips. 'Which they are.'".
+  }
   Topic scrope_news_after with scrope "Ask Mrs Scrope what the news is" when not dark() and not quietTown() {
     Says "'The news!' Mrs Scrope can hardly sit still. 'My dear, there's never been a Season like it. The Cherrett banns are off, and everybody has a different reason, and every one of them is true.' She lowers her voice. 'And they say the Cherretts' stranger is at the bottom of it all. I said, nonsense. I said, a stranger can't do anything in Hessel. Can they?' She looks at you with enormous interest.".
   }
@@ -217,7 +220,7 @@ Module hessel "The Banns at Hessel" {
   // ── The Wenlocks ──────────────────────────────────────────────────────────────────────────────────────────────────
   Person lady_wenlock "Lady Wenlock" at wenlock_room {
     Role "a long thin lady in black with a face like a closed umbrella" when not grandmother(lady_wenlock).
-    Role "Lady Wenlock, with a ribbon in her cap" when grandmother(lady_wenlock).
+    Role "a long thin lady in black, with a blue ribbon in her cap that goes with nothing" when grandmother(lady_wenlock).
     Ancestry human. Peaceable. Pronouns she. Manner proud.
     Greets "Lady Wenlock looks at you through a glass on a stick, as if you were very small and a long way off. 'Yes?' she says.".
     Greets again "Lady Wenlock raises her glass.".
@@ -256,7 +259,7 @@ Module hessel "The Banns at Hessel" {
   Rule rupert_evening when evening() and not secondDay() and not at(rupert, card_room) and not rupertAway(rupert) and not atBall(rupert) and not following(rupert, party) and not travelsWith(rupert, party) { Assert at(rupert, card_room). }
   Rule rupert_drinks when evening() and secondDay() and not at(rupert, two_poles) and not rupertAway(rupert) and not following(rupert, party) and not travelsWith(rupert, party) { Assert at(rupert, two_poles). }
   Rule rupert_night when (hour(clock) >= 23 or hour(clock) < 8) and not at(rupert, wenlock_room) and not rupertAway(rupert) and not following(rupert, party) and not travelsWith(rupert, party) { Assert at(rupert, wenlock_room). }
-  Discovery rupert_married "The Honourable Rupert Wenlock has been married these two years to Hetty Quiney, milliner, of Quay Lane, and they have a son, Jack. His mother does not know. He has let the banns be read twice to Ismay Cherrett because he cannot think how to stop them.".
+  Discovery rupert_married "Rupert Wenlock, whose banns are being read to Ismay Cherrett, has a wife and a son in Quay Lane.".
   Topic rupert_banns with rupert "Ask Rupert about the banns" when not knows(actor, rupert_married) once {
     Says "Rupert goes pink, and then rather white, and looks at his pill-box. 'The banns,' he says. 'Yes. Twice. Sunday is the third. Miss Cherrett is a very fine young woman. Very fine. Very good with figures.' He opens the pill-box and looks at the beetle inside as if it might help. It does not. 'Excuse me,' he says, 'I think I hear my mother,' though she is sitting beside him.".
   }

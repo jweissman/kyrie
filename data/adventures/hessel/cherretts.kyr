@@ -18,7 +18,8 @@ Module hessel "The Banns at Hessel" {
   Rule cherrett_bed when (hour(clock) >= 22 or hour(clock) < 8 or bedbound(cherrett) and not lingering(cherrett) or gone(cherrett)) and not at(cherrett, cherrett_bedroom) and not atBall(cherrett) and chairRan(cherrett) { Assert at(cherrett, cherrett_bedroom). }
   Rule cherrett_mends when bedbound(cherrett) and dayN(hessel_town) >= 2 and hour(clock) >= 8 { Retract bedbound(cherrett). }
   Query secondDayOnRoad() means false.
-  Observe cherrett_parlour_scene at cherrett_parlour when true "Mrs Cherrett's parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant's foot. The window looks down over the Circus lawn.".
+  Observe cherrett_parlour_scene at cherrett_parlour when not visitedBefore(cherrett_parlour) "Mrs Cherrett's parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant's foot. The window looks down over the Circus lawn.".
+  Observe cherrett_parlour_again at cherrett_parlour when visitedBefore(cherrett_parlour) "Mrs Cherrett's parlour: the pike, the canal map, the elephant's foot.".
   Observe cherrett_bed_scene at cherrett_bedroom when true "Mrs Cherrett's bedroom: a great curtained bed, a fire kept in in all weathers, and a dressing-table crowded with pins and powders and bottles.".
   Observe cherrett_awake at cherrett_parlour when at(cherrett, cherrett_parlour) and failing(cherrett) < 3 and not gone(cherrett) "Mrs Cherrett sits in the middle of it all like the stuffed pike's mother, with her stick across her knees, and misses nothing.".
   Observe cherrett_drowsy at cherrett_parlour when at(cherrett, cherrett_parlour) and failing(cherrett) == 3 and not gone(cherrett) "Mrs Cherrett is asleep in her chair with her mouth open, at eleven in the morning; she wakes when you come in, says 'I wasn't,' and is asleep again before you are sat down.".
@@ -31,7 +32,7 @@ Module hessel "The Banns at Hessel" {
   Relation chairRan(group). Relation chairLoose(group). Relation chairCaught(group). Relation chairSteered(group).
   Relation chairThrown(group). Measure chairWatch(group).
   Hazard chair_blow "The bath-chair's wheel, and the railings" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
-  Event chair_runs at abbey_yard when at(party, abbey_yard) and daytime() and cameToHessel(party) and not chairRan(cherrett) "Somebody at the top of the Parade screams, and then everybody does. Down the hill toward you, gathering speed on the ridged paving, comes a bath-chair, a great wicker thing on three iron wheels, and in it, upright and furious and holding on to her bonnet, a very large old woman in purple. Behind it, much too far behind it, a chairman in a blue coat is running and shouting. The chair is aimed at the Pump Room colonnade, and the colonnade is stone." then {
+  Event chair_runs at abbey_yard when at(party, abbey_yard) and daytime() and cameToHessel(party) and not chairRan(cherrett) and not gone(cherrett) and not bedbound(cherrett) and failing(cherrett) < 4 "Somebody at the top of the Parade screams, and then everybody does. Down the hill toward you, gathering speed on the ridged paving, comes a bath-chair, a great wicker thing on three iron wheels, and in it, upright and furious and holding on to her bonnet, a very large old woman in purple. Behind it, much too far behind it, a chairman in a blue coat is running and shouting. The chair is aimed at the Pump Room colonnade, and the colonnade is stone." then {
     Assert chairRan(cherrett). Assert chairLoose(cherrett). Set chairWatch(cherrett) to watch(clock).
     Assert at(cherrett, abbey_yard). Assert at(kit, abbey_yard). Assert lingering(cherrett). Assert kitAway(kit). }
   // For half an hour after, the old woman and the chairman are in the Abbey Yard, being stared at.
@@ -43,7 +44,7 @@ Module hessel "The Banns at Hessel" {
     Time 1 minute.
     Resolve check(actor, brawn, dc_fair).
     On success { Retract chairLoose(cherrett). Assert chairCaught(cherrett). Increase goodwill(chairmen) by 1. }
-    On failure { Retract chairLoose(cherrett). Assert chairThrown(cherrett). Assert bedbound(cherrett). Assert strikes(chair_blow, party). }
+    On failure { Retract chairLoose(cherrett). Assert chairThrown(cherrett). Assert chairTried(party). Assert bedbound(cherrett). Assert strikes(chair_blow, party). }
     Result "You plant your feet on the ridges and take the chair's handle full in the chest, and for a moment it is a question which of you is going to go on down the hill. Then it stops. The old woman in it lets go of her bonnet. 'Well,' she says, looking at you. 'Well, well.' The whole Abbey Yard is staring. A man in the Pump Room colonnade begins, for some reason, to clap.".
     Otherwise "You get a hand to the handle and the chair takes you off your feet and goes on with you under it, and hits the bottom step of the colonnade, and turns over. The old woman comes out of it like a sack off a cart. People run. When they have her up she is sitting on the step with her bonnet over one eye and her ankle swelling, saying words a canal gang would know. They are going to carry her up the hill to her lodgings in the Circus, in her own chair.".
   }
@@ -85,8 +86,13 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert cherrettAsked(party). }
   }
   Relation cherrettAsked(group).
-  Topic cherrett_from_bed with cherrett "Tell Mrs Cherrett you were the one who tried to stop her chair" when chairThrown(cherrett) and not cherrettAsked(party) once {
+  Topic cherrett_from_bed with cherrett "Tell Mrs Cherrett you were the one who tried to stop her chair" when chairThrown(cherrett) and chairTried(party) and not cherrettAsked(party) once {
     Says "Mrs Cherrett looks at you from where they have propped her, with her bad ankle up on somebody's hat-box. 'You were the one,' she says. 'I saw you go under. That was brave and it was no use, which is most of what brave is.' She pats the coverlet. 'I'm in a town where I can't get up a hill, and now I can't get up at all. I've a granddaughter to marry, and a great-nephew, and a companion, by the Closing Ball. I'll pay you to be my legs. Fetch and carry; go where I can't; tell me what's what.'".
+    On discuss { Assert cherrettAsked(party). }
+  }
+  Relation chairTried(group).
+  Topic cherrett_watched with cherrett "Tell Mrs Cherrett you are new in Hessel, and want work" when chairThrown(cherrett) and not chairTried(party) and not cherrettAsked(party) once {
+    Says "Mrs Cherrett looks at you from where they have propped her, with her bad ankle up on somebody's hat-box. 'You were in the Abbey Yard,' she says. 'I saw you. You stood and watched, like the rest of them.' You admit it. 'Well, you're honest, which is more than the rest of them, and you've come up the hill to say so, which is more again.' She pats the coverlet. 'I'm in a town where I couldn't get up a hill, and now I can't get up at all. I've a granddaughter to marry, and a great-nephew, and a companion, by the Closing Ball. I'll pay you to be my legs. Fetch and carry; go where I can't; tell me what's what. And next time a chair comes down a hill at you, do something.'".
     On discuss { Assert cherrettAsked(party). }
   }
   Topic say_yes with cherrett "Tell Mrs Cherrett you will be her legs for the Season" when cherrettAsked(party) and not legs(party) and at(cherrett, ?p) and (at(party, cherrett_parlour) or at(party, cherrett_bedroom)) once {
@@ -201,7 +207,7 @@ Module hessel "The Banns at Hessel" {
   Observe ismay_at_castle at sham_castle when at(ismay, sham_castle) and not kitEngaged(kit) "Ismay Cherrett is sitting in the shade at the back of the Sham Castle on a fallen stone, with a book she is not reading, where nobody in the Crescent can see her.".
   Relation ismayAway(group). Relation ismayOut(group).
   // In the mornings while Kit's chair waits in the Circus, she is at the window.
-  Discovery ismay_watches "In the mornings, while Kit Danby's chair waits on the Circus for her grandmother, Ismay stands at the parlour window with her ledger open and does not turn a page.".
+  Discovery ismay_watches "Ismay Cherrett watches Kit Danby from the parlour window.".
   Observe ismay_at_window at cherrett_parlour when at(ismay, cherrett_parlour) and at(kit, circus) and morning() and not seenOnce(ismay_watches) "Ismay is standing at the window with her ledger open in her hands. Down on the Circus lawn the chairmen are waiting with Mrs Cherrett's chair, sitting on its poles, and one of them, the young one, is reading a book. Ismay does not turn a page all the time you are in the room." teaches ismay_watches.
   Discovery ismay_loves_kit "Ismay Cherrett loves Kit Danby, the chairman who carries her grandmother, and has for a year, and has told nobody but Mopsa.".
   Relation ismayBrave(group). Relation ismayStoodBy(group).
@@ -304,6 +310,10 @@ Module hessel "The Banns at Hessel" {
   Rule mopsa_own_noon when mopsaHouse(mopsa) and not at(mopsa, beacon) and not mopsaAway(mopsa) and hour(clock) >= 12 and hour(clock) < 14 and not following(mopsa, party) and not travelsWith(mopsa, party) { Assert at(mopsa, beacon). }
   Relation mopsaAway(group).
   Observe mopsa_on_beacon at beacon when at(mopsa, beacon) "Mopsa Gedge is walking on the Beacon by herself, fast, with her bonnet in her hand, as if she had somewhere to be and the somewhere were not here.".
+  // The Season's round, from the one person in the household paid to know where everybody is.
+  Topic mopsa_round with mopsa "Ask Mopsa how a day of the Season goes" when legs(actor) once {
+    Says "Mopsa does not even close her book. 'Eight, the Pump Room: everybody, a glass of the waters, and Mrs Scrope, who drinks nothing and hears everything. Ten till noon, the baths. Noon, the Beacon, in pairs, slowly; Ismay walks out to the Sham Castle by herself and thinks nobody knows. Three, dinner. Seven, the Rooms, till eleven, when Mr Twiss stops the band in the middle of a bar. The chairmen are on Stall Street all day and at the Two Poles all night.' She turns a page. 'Sunday at eleven, the banns. Monday at ten, the wedding; Monday at seven, the Ball. Tuesday at noon the coaches go, and it's over.' Another page. 'And at two every morning somebody knocks at the house at the end of the Crescent. Nobody in Hessel will tell you who, because nobody in Hessel has asked.'".
+  }
   Topic mopsa_household with mopsa "Ask Mopsa what she makes of the household" when true once {
     Says "'The household.' Mopsa closes her book on her finger. 'Mrs Cherrett is the best woman in Hessel and has been told she is the vulgarest so often she's started to collect it, like china. Ismay is the cleverest and has been taught to be quiet about it. Rob is the kindest and has been taught nothing at all. I'm the companion.' She opens the book again. 'Companions don't make anything of anything. We're paid not to.'".
     On discuss { Increase mopsaRegard(mopsa) by 1. }

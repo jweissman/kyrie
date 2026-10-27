@@ -67,6 +67,7 @@ Module hessel "The Banns at Hessel" {
   Entity fate_chairs: fact "the chairmen".
   Rule fate_hartopp_ruined when accounting() and (hartoppRuined(hartopp) or hartoppBarred(hartopp) and hartoppDismissed(hartopp)) and not spread(fate_hartopp) says "Dr Hartopp has taken his plate down from Doctors' Walk and gone to practise in a town where the waters are colder and the patients do not talk to each other." { Assert spread(fate_hartopp). }
   Rule fate_hartopp_barred when accounting() and (hartoppBarred(hartopp) or hartoppCooled(hartopp)) and not spread(fate_hartopp) says "Dr Hartopp is not seen at the Rooms, and his practice has fallen away by half, and he is very pleasant to everyone who is left." { Assert spread(fate_hartopp). }
+  Rule fate_hartopp_dismissed when accounting() and hartoppDismissed(hartopp) and not spread(fate_hartopp) says "Dr Hartopp has been dismissed by Mrs Cherrett, and struck out of her will with a pen that went through the paper, and by nobody else; he has eleven new patients for next Season, and prescribes hope, which he never charges for." { Assert spread(fate_hartopp). }
   Rule fate_hartopp_well when accounting() and not spread(fate_hartopp) says "Dr Hartopp has eleven new patients for next Season and a hundred pounds in prospect, and prescribes hope, which he never charges for." { Assert spread(fate_hartopp). }
   Entity fate_hartopp: fact "Hartopp".
 

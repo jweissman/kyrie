@@ -8,42 +8,9 @@ import { PlayerView } from '../src/presentation/player-view';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
+import { Hessel, alone, build, h, steps } from './support/hessel';
 
-// The Banns at Hessel (doc/adventures/banns-at-hessel), played by the labels a player sees from the steps in
-// test/fixtures/hessel. The campaign starts on the south road at eight in the morning on watch 0, the first day of
-// the Season's last four; the third reading of the banns is at eleven on the third day (watch 306); the Closing Ball
-// is the fourth night from seven (watch 498); the Season ends at noon on the fifth day (watch 600).
-const alone = 'data/campaigns/hessel.campaign.json';
-const build = (name: string) => `test/fixtures/hessel/${name}.campaign.json`;
-const steps = (name: string): string[] => {
-  const phases = JSON.parse(readFileSync(`test/fixtures/hessel/${name}.json`, 'utf8')) as Record<string, string[]> | string[];
-  return Array.isArray(phases) ? phases : Object.values(phases).flat();
-};
-const h = (id: string) => `hessel__${id}`;
-export class Hessel {
-  static async start(campaign = alone, seed = 'h1') { return new Hessel(await Journey.start(campaign, seed)); }
-  constructor(readonly j: Journey) {}
-  async play(...labels: string[]) { await this.j.play(...labels); return this; }
-  async fixture(name: string) { return this.play(...steps(name)); }
-  // Waits on to the Season's end, or to a watch, an hour at a time: the book closes at noon on the fifth day.
-  async until(watch = 700) {
-    while (!this.ending().length && this.j.watch() < watch) {
-      const c = this.j.find('^Wait › An hour') ?? this.j.find('^Wait › A while');
-      if (!c) { break; }
-      await this.j.perform(c.command, c.label);
-    }
-    return this;
-  }
-  holds(name: string, ...args: string[]) { return this.j.holds(h(name), ...args.map(a => a === 'party' ? a : h(a))); }
-  knows(fact: string) { return this.j.holds('knows', 'party', h(fact)); }
-  measure(name: string, ...args: string[]) { return this.j.measure(h(name), ...args.map(h)); }
-  state(thing: string, value: string) { return this.j.holds('state', h(thing), h(value)); }
-  ending() { return this.j.campaign.world.related('reached').map(r => r.args[0]!.replace(/^hessel__/, '')); }
-  at(who: string) { return this.j.campaign.world.one('at', h(who))?.replace(/^hessel__/, ''); }
-  gold() { return this.j.measure('quantity', 'party', 'gold'); }
-  get page() { return this.j.taken.map(x => `[${x.label}] ${x.page}`).join('\n'); }
-}
-
+// The Banns at Hessel's journeys and what each must leave behind; the helper and the calendar are in test/support/hessel.ts.
 describe('The Banns at Hessel', () => {
   it('lints clean as a recommended campaign', async () => {
     const findings = await KyrLint.campaign(alone, new NodeBundleSource());
@@ -87,6 +54,25 @@ describe('The Banns at Hessel', () => {
     expect(g.page).toMatch(/Lady Wenlock has taken the lease of a house in Quay Lane/);
   }, 180000);
 
+  it('Mrs Scrope, asked on the first morning, says where Dr Ottery is going, and when', async () => {
+    const g = await Hessel.start();
+    await g.play('Lim Bridge', 'Quay Lane', 'Stall Street', 'To the Abbey Yard', 'Seize the side of the chair', 'Into the Pump Room',
+      'Ask Mrs Scrope about the Hospital');
+    expect(g.page).toMatch(/he has to walk it, over the down, at first light/);
+  }, 60000);
+
+  it('a mage, with no gift but lore, hears the Season\'s round from Mopsa and reckons the drops on the first day', async () => {
+    const g = await Hessel.start(build('mage'), 'g1');
+    await g.play('Lim Bridge', 'Quay Lane', 'Stall Street', 'To the Abbey Yard', 'Seize the side of the chair',
+      'Ask the old woman if she is hurt', 'To the top of the Parade', 'To the Circus', '=13', "Into Mrs Cherrett's lodgings",
+      'Tell Mrs Cherrett you will be her legs', 'Ask Mopsa how a day of the Season goes', "To Mrs Cherrett's bedroom",
+      'Look closely', 'Reckon the drops');
+    // The Season's round, from Mopsa, once the company is her legs.
+    expect(g.page).toMatch(/Ismay walks out to the Sham Castle by herself/);
+    expect(g.knows('drops_doubled')).toBe(true);
+    expect(g.page).toMatch(/there are not eighty left in it/);
+  }, 60000);
+
   it('the Old Town, for a thief: with the chairmen, water for the drops, Hetty up the aisle, Celia out by the window to her mother, and Hartopp in his boots', async () => {
     const g = await Hessel.start(build('thief'), 'o1');
     await g.fixture('oldtown');
@@ -102,8 +88,25 @@ describe('The Banns at Hessel', () => {
     expect(g.holds('grandmother', 'lady_wenlock')).toBe(false);
     expect(g.ending()).toEqual(['morning_after']);
     expect(g.page).toMatch(/He’s mine. We were married in Bristol/);
-    expect(g.page).toMatch(/No boots after six/);
+    // Not in the Rooms to see the boots, so the chairmen tell it at the Two Poles.
+    expect(g.page).toMatch(/In his boots,’ says Big Lanyon/);
   }, 180000);
+
+  it('a warrior on the Orm road: told the child costs the College, walks past, fights the footpads, and is in time', async () => {
+    const road = JSON.parse(readFileSync('test/fixtures/hessel/orm.json', 'utf8')) as Record<string, string[]>;
+    const g = await Hessel.start(build('warrior'), 'p1');
+    await g.play(...road.arrive!, ...road.night!, ...road.road!.slice(0, road.road!.indexOf('Into the shepherd') + 1));
+    expect(g.page).toMatch(/That’s the College, by the drove road/);
+    // No sheep-path for a warrior; walked past the child, Ottery comes, and has something to say at the crossways.
+    expect(g.j.find('the sheep-path')).toBeUndefined();
+    await g.play('Out to the fold', 'To the crossways', '^Attack');
+    expect(g.page).toMatch(/It’s the ones you sit with that you remember/);
+    // The fallen footpads ask no price, and the physician kneels to them.
+    expect(g.j.find('what it asks')).toBeUndefined();
+    expect(g.page).toMatch(/You’ll live,’ he tells them/);
+    await g.play('Tell him: never', 'To the south gate of Orm', 'Go in with Dr Ottery');
+    expect(g.holds('otteryLicensed', 'ottery')).toBe(true);
+  }, 120000);
 
   it('the Road to Orm, for a ranger: the stile, the shepherd\'s child, the sheep-path, the College, and the door of Carth House opened by the hand that shut it', async () => {
     const g = await Hessel.start(build('ranger'), 'r1');

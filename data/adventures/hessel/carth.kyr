@@ -14,7 +14,8 @@ Module hessel "The Banns at Hessel" {
   Observe drawing_scene at carth_drawing when not celiaOut(celia) and not carthReunited(carth) "The drawing room is upstairs, and hotter. Furs on every chair; a fire; candles; the shutters closed, except one, which has a crack in it that someone has worn with a fingertip. Books everywhere: a girl's room, a scholar's room, a prison.".
   Observe drawing_empty at carth_drawing when celiaOut(celia) and not carthReunited(carth) "The drawing room, with its fires and furs, and nobody in it; on the floor by the window, a fur cap.".
   Observe study_scene at carth_study when true "Sir Gervase's study: a desk, a gun-case, a fire, and over the fire a portrait with a cloth over it.".
-  Observe kitchen_scene at carth_kitchen when true "The kitchen of Carth House: as hot as a baker's, and as clean as a chapel. Coal stacked to the ceiling. A dresser of blue plates. A rocking-chair by the range with a Bible on it, open, face down.".
+  Observe kitchen_scene at carth_kitchen when not visitedBefore(carth_kitchen) "The kitchen of Carth House: as hot as a baker's, and as clean as a chapel. Coal stacked to the ceiling. A dresser of blue plates. A rocking-chair by the range with a Bible on it, open, face down.".
+  Observe kitchen_again at carth_kitchen when visitedBefore(carth_kitchen) "The kitchen of Carth House: the heat, the coal, the blue plates, the Bible on the rocking-chair.".
   Observe cellar_scene at coal_cellar when true "The coal cellar: black, low, hot from the kitchen beyond, coal up to the vault, and a door at the back with a line of light under it.".
   Observe area_scene at carth_area when not carthReunited(carth) "The area of Carth House, below the street: flagstones, a dustbin, the kitchen door, and a round iron plate in the pavement over your head where the coal goes in, which from down here is a hatch in the vault with a rusted hasp.".
 
@@ -95,7 +96,7 @@ Module hessel "The Banns at Hessel" {
     Greets again "Celia Carth puts her book down at once.".
   }
   Relation celiaOut(group). Relation celiaHasPoem(group). Relation celiaWants(group). Relation celiaAway(group).
-  Discovery celia_book "Celia Carth reads by candlelight in a fur cap, in a room as hot as a bread-oven: Ovid, the voyages of Anson, a treatise on bees. She knows the name of every star and has not seen one in nine years.".
+  Discovery celia_book "Celia Carth has read everything and seen nothing: nine years behind the shutters of Carth House.".
   Observe celia_reading at carth_drawing when at(celia, carth_drawing) and not seenOnce(celia_book) "The girl in the fur cap is reading Ovid by three candles, with her feet up on the fender and a treatise on bees open on the floor beside her and the voyages of Anson under the treatise. She turns the pages fast, as if somebody might take them away." teaches celia_book.
   Topic celia_outside with celia "Tell Celia what it is like outside" when not celiaOut(celia) once {
     Says "You tell her: the Crescent, the lawn, the Season walking on it; the Pump Room, the King's Bath full of people standing in hot water in hats; the chairmen; the Beacon; the warm wind. She listens with her hands round her knees. 'Warm,' she says at the end. 'Is it warm? Father says it's winter. Father says it's always winter for me, because of my chest.' She looks at the fire, and at the shuttered window. 'Brannagh says it's the Season. I think Brannagh's right. I can smell the lime trees, at the crack in the shutter, at night.'".
@@ -114,8 +115,8 @@ Module hessel "The Banns at Hessel" {
   Rule window_opens when celiaHasPoem(celia) and hour(clock) >= 19 and hour(clock) < 23 and state(drawing_window, shuttered) and not windowNailed(carth) and not celiaOut(celia) { Assert state(drawing_window, ajar). }
   Rule window_closes when (hour(clock) >= 23 or hour(clock) < 19) and state(drawing_window, ajar) { Assert state(drawing_window, shuttered). }
   // What can be seen of her from the Crescent, which is what a poem can be made of.
-  Discovery celia_candle "At dusk the girl in Carth House comes to the one shutter that is not barred all the way, with a candle, and stands there, looking out at the Crescent lawn.".
-  Discovery celia_hand "Late at night, the girl at the Carth House window puts her hand flat on the glass, through the crack in the shutter, as if to feel whether it is warm outside.".
+  Discovery celia_candle "The girl in Carth House comes to the one unbarred shutter at dusk, with a candle.".
+  Discovery celia_hand "Late at night the girl at the Carth House shutter puts her hand to the glass.".
   Observe celia_at_dusk at crescent when hour(clock) >= 19 and hour(clock) < 22 and not celiaOut(celia) and not windowNailed(carth) and not seenOnce(celia_candle) "At the end of the Crescent, in the dark front of Carth House, one shutter has a crack of yellow light in it, and in the crack, holding a candle, a girl in a fur cap is looking out at the lawn." teaches celia_candle.
   Observe celia_at_night at crescent when hour(clock) >= 22 and not celiaOut(celia) and not windowNailed(carth) and not seenOnce(celia_hand) "In the crack of the shutter at Carth House the candle is lower. The girl has put her hand flat on the glass, palm out, and is holding it there, as if feeling the night for warmth." teaches celia_hand.
 
@@ -262,7 +263,7 @@ Module hessel "The Banns at Hessel" {
   Rule nan_goes_up when hour(clock) == 2 and not at(nan, crescent) and not nanFled(nan) and not carthReunited(carth) and not knockTonight(nan) and not nanAway(nan) { Assert at(nan, crescent). Assert knockTonight(nan). }
   Rule nan_comes_down when hour(clock) == 3 and at(nan, crescent) and not carthReunited(carth) and not nanFled(nan) { Assert at(nan, laundry_yard). }
   Rule knock_resets when hour(clock) == 4 and knockTonight(nan) { Retract knockTonight(nan). }
-  Discovery knocker_seen "Somebody knocks at Carth House every night at two: a woman in a laundress's cloak, who comes up the hill and goes down again.".
+  Discovery knocker_seen "Somebody in a laundress's cloak knocks at Carth House every night at two.".
   Observe knock_from_crescent at crescent when at(nan, crescent) and not carthReunited(carth) "At two in the morning a woman in a grey cloak comes along the Crescent from the top of the Parade, not hurrying, and goes up the steps of Carth House, and knocks, once. Then she stands there with her hand flat on the door, the way you would stand by a horse to feel it breathe. After a while she goes away down the hill." teaches knocker_seen.
   Observe knock_from_hall at carth_hall when at(nan, crescent) and not carthReunited(carth) "A knock. Once. The whole hall seems to hear it: the fires, the clocks, the furs. Sir Gervase is on his feet in front of his chair, facing the door, with his hands at his sides. He does not move toward it.".
   // Following her down.
@@ -330,7 +331,7 @@ Module hessel "The Banns at Hessel" {
       and at(celia, carth_drawing) and celiaWants(celia) and not celiaOut(celia) and not carthReunited(carth) and (hour(clock) >= 21 or hour(clock) < 5).
     Time 2.
     On success { Assert celiaOut(celia). Assert celiaTaken(celia). Assert at(celia, cherrett_parlour). Retract at(actor, site). Assert at(actor, cherrett_parlour). }
-    Result "She comes over the sill in her fur cap and a cloak over her nightgown and a pair of Brannagh's boots, with Ovid under her arm, and down the railings with your hands on her ankles, and stands on the pavement of the Crescent in the warm dark and breathes, and breathes. 'It smells of grass,' she says. 'It smells of grass and horses.' You take her up the hill to the Circus, where Mrs Cherrett, roused out of her first sleep in her nightcap, looks at the girl in the fur cap for a long moment and says, 'Well, you'll want feeding,' and does not ask a single question.".
+    Result "She comes over the sill in her fur cap and a cloak over her nightgown and a pair of Brannagh's boots, with Ovid under her arm, and down the railings after you, with your hands to guide her feet, and stands on the pavement of the Crescent in the warm dark and breathes, and breathes. 'It smells of grass,' she says. 'It smells of grass and horses.' You take her up the hill to the Circus, where Mrs Cherrett, roused out of her first sleep in her nightcap, looks at the girl in the fur cap for a long moment and says, 'Well, you'll want feeding,' and does not ask a single question.".
   }
   Action celia_by_kitchen(actor: group, site: place) "Take Celia down the back stair and out through the kitchen, with Mrs Brannagh's leave" {
     Grave "Sir Gervase will find his daughter gone, and know who let her go.".

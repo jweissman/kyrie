@@ -95,14 +95,20 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert saidDepends(actor). }
   }
   // The hut: a child with a fever, and a father's question. It costs an hour, and the College does not wait.
-  Person shepherd "Amos Crane" at hut {
+  Person shepherd "Amos Hebden" at hut {
     Role "a shepherd, standing by the bed with his hat crushed in his hands". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "The shepherd looks at you, and at the old man with the bag behind you, and something in his face opens like a door. 'You're a doctor,' he says to Ottery. 'Say you're a doctor.'".
   }
   Relation childTreated(group). Relation fatherAsked(group). Relation toldLive(group). Relation toldUnknown(group). Relation letOtteryAnswer(group).
   Observe hut_fever at hut when not childTreated(party) "The little girl in the bed is burning; you can feel it from the door. Her mother sits by her with a wet cloth, and does not look round.".
+  Observe hut_cost at hut when not childTreated(party) and following(ottery, party) and beforeCollege() "Ottery has his coat half off already. Then he stops, and looks at you. 'An hour,' he says. 'That's the College, by the drove road. They sit at noon and they'll not wait.' He looks at the child. 'It's your character they want at Orm, not mine. You choose.'".
+  // Walked past: he comes, because the company goes, and says nothing until the crossways.
+  Relation childLeft(group).
+  Rule child_left when not childTreated(party) and following(ottery, party) and visitedBefore(hut) and not at(party, hut) and not childLeft(party) and not at(party, hut_yard) { Assert childLeft(party). }
+  Event child_left_told at crossways when childLeft(party) and following(ottery, party) and at(party, crossways) and not spread(child_left_told) "Ottery has not said a word since the shepherd's hut. At the crossways he says, to the gibbet, not to you: 'She'll very likely live. They mostly do, at that age. It's the ones you sit with that you remember.'" then { Assert spread(child_left_told). }
+  Entity child_left_told: fact "the child left".
   Action treat_child(actor: group, site: place) "Stay while Dr Ottery sees to the child" {
-    Description "An hour. He will not leave her.".
+    Description "An hour; and an hour's walk is the difference between Orm before noon and Orm after it, unless someone can find the sheep-path.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hut) and following(ottery, actor) and not childTreated(actor).
     Time 6.
     On success { Assert childTreated(actor). }
@@ -137,6 +143,9 @@ Module hessel "The Banns at Hessel" {
   Rule robbed_told at crossways when robbed(party) and watch(clock) > cameRound(crossways) and not spread(robbed_told)
     says "You come round under the gibbet with the garland on it, with a lump on your head and your purse gone, and the crossways empty but for the larks." { Assert spread(robbed_told). }
   Entity robbed_told: fact "robbed at the crossways".
+  // Fought down in front of a physician, the footpads are a physician's business.
+  Event footpads_tended at crossways when at(party, crossways) and not able(footpads) and following(ottery, party) "Ottery is down on his knees in the heather beside the two men in crape before you have got your breath, with his bag open. He takes their masks off: two boys from the Old Town, one of them with a chairman's blue coat under his smock. 'You'll live,' he tells them, binding a head, 'which is more than you deserve and less than you'll thank me for.' He does not look at you while he does it." then { Assert tendedFootpads(ottery). }
+  Relation tendedFootpads(group).
   Relation askedCrossways(group). Relation saidNeverLied(group). Relation saidLiedForGood(group). Relation saidLieWrong(group).
   Event crossways_question at crossways when at(party, crossways) and following(ottery, party) and not askedCrossways(party) and (tolerates(footpads, party) or not able(footpads) or routed(footpads)) "Ottery leans on the gibbet's post to get his breath, and looks up at the empty chain, and then at you. 'Second question,' he says. 'Have you ever lied to somebody for their own good?'" then { Assert askedCrossways(party). }
   Topic answer_never with ottery "Tell him: never" when askedCrossways(actor) and not saidNeverLied(actor) and not saidLiedForGood(actor) and not saidLieWrong(actor) once {
