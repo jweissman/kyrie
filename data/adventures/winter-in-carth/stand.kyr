@@ -47,12 +47,14 @@ Module gaunt "A Winter in Carth" {
   // on Ash Day for the year. A company carrying news between them can raise the stakes until one of them hires the
   // whole Stand for Ash Day, which leaves no back in Gaunt for anybody else.
   Person dinsdale "Mistress Grizel Dinsdale" at dinsdale_brewhouse {
-    Role "a brewster in a velvet bonnet at a high desk, doing sums of penance and of beer in two columns". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Role "a brewster in a velvet bonnet at a high desk, doing sums of penance and of beer in two columns" when not dinsdaleWalked(dinsdale).
+    Role "a brewster in a velvet bonnet and no shoes, with her chin up" when dinsdaleWalked(dinsdale). Ancestry human. Peaceable. Pronouns she. Manner proud.
     Greets "Mistress Dinsdale looks you up and down as if estimating your capacity in gallons. 'If it's about the measures,' she says, 'they're paid for. Forty fasts, in advance. I could give short measure till Michaelmas and still be owed.'".
     Greets again "'Well?' says Mistress Dinsdale, not looking up from her columns.".
   }
   Person sowerby "Master Pentecost Sowerby" at sowerby_shop {
-    Role "a draper with a measuring-rod he holds like a sceptre, and the look of a man who has been second for eleven years". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Role "a draper with a measuring-rod he holds like a sceptre, and the look of a man who has been second for eleven years" when not sowerbyWalked(sowerby).
+    Role "a draper with his feet in a bowl of warm water, looking surprised at himself" when sowerbyWalked(sowerby). Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "Master Sowerby comes round the counter with both hands out. 'A customer! Or a proxy? Either is welcome; the second more so, this week.' He lowers his voice. 'Eleven years second. Eleven. Behind Thackray I don't mind, Thackray's a saint. Behind a brewster.'".
     Greets again "Master Sowerby beams at you over the broadcloth.".
   }

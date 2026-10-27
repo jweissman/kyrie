@@ -27,7 +27,7 @@ Module gaunt "A Winter in Carth" {
   // Under the mask she is nobody: written as a person of her own, there only while the mask is on, so that nobody in
   // the Row (and nothing on the page) calls her by her name.
   Person masked "the masked woman at the copper" at limbo {
-    Role "a broad woman in a grey shawl and a black half-mask, ladling soup, with a voice from the Row". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Role "a broad woman in a grey shawl and a black half-mask, ladling soup, with a voice from the Row". Ancestry human. Peaceable. Pronouns she. Manner grim.
     Greets "The masked woman holds out a bowl to you without looking, then looks. 'You're not Row,' she says. 'Have some anyway. It's Fastens' Eve.'".
     Seen when masked(hawise).
   }
@@ -82,6 +82,8 @@ Module gaunt "A Winter in Carth" {
     Says "She laughs, and holds the ladle out to the next bowl, and while she fills it she works a ring off her finger with her thumb and drops it on the step beside the copper. 'Remission,' she says. 'Show that at the Close Gate. It's no good anywhere else in the world, but in Gaunt it's the Lady Penitentiary's ring, and you owe nothing.' She does not look at you. 'Nobody gave it to you. It's Fastens' Eve.'".
     On discuss { Assert ringGiven(hawise). Assert at(ring, row_lane). }
   }
+  Rule ring_taken when carries(party, ring) and not spread(ring_taken) says "You pick the ring up off the step by the copper. It is still warm from her hand." { Assert spread(ring_taken). }
+  Entity ring_taken: fact "the ring taken up".
   Action show_ring(actor: group, site: place) "Show the porter of the Close Gate the Lady Penitentiary's ring" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and carries(actor, ring) and not shriven() and tallied(actor).
     Time 1 minute.

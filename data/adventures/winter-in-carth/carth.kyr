@@ -24,6 +24,11 @@ Module gaunt "A Winter in Carth" {
   // By day a little grey comes in at the one window; by night, without a fire, nothing does.
   Rule house_lit when (state(hearth, ablaze) or not nightfall()) and unlit(house_place) { Retract unlit(house_place). }
   Rule house_dark when not state(hearth, ablaze) and nightfall() and not unlit(house_place) { Assert unlit(house_place). }
+  // A light with no fire in it (a mage's conjuring) is no breach of a cold vigil, and the house knows it at once.
+  Rule cold_light at house_place when nightfall() and capable(party, light) and not capable(party, flame) and not state(hearth, ablaze)
+    and vigilOn() and stayingAtCarth(party) and not spread(cold_light)
+    says "The light that comes off your hand is white, and gives no heat, and makes no smoke, and the whole house-place stands up out of the dark at once: the beams, the dresser, the box-bed, five faces turned toward you. Annis Scaife looks at it for a long time. 'Is that a fire?' she says. Nobody can say it is. Old Mother Scaife leans over and holds her hands to it, out of habit, and takes them back. 'Cold,' she says, satisfied. 'He'll not mind that.' In the box-bed the child sits up to look at it, and for a while forgets to cough; and then remembers." { Assert spread(cold_light). }
+  Entity cold_light: fact "a cold light at Carth".
   Rule byre_lit when (byreFire(carth_vigil) or not nightfall()) and unlit(carth_byre) { Retract unlit(carth_byre). }
   Rule byre_dark when not byreFire(carth_vigil) and nightfall() and not unlit(carth_byre) { Assert unlit(carth_byre). }
 
@@ -60,6 +65,8 @@ Module gaunt "A Winter in Carth" {
   }
   Person fly "Fly" at house_place {
     Role "the Scaifes' collie bitch, thin, who presses against your legs in the dark and shivers". Species dog. Peaceable. Pronouns she.
+    Greets "Fly stays where she is, against your legs, and goes on shivering, which is as much welcome as you are going to get.".
+    Greets again "Fly's tail goes once against the floor.".
   }
   Relation dowsieSafe(group). Relation dowsieBurning(group). Relation dowsieDead(group).
   Relation grannyIn(group). Relation grannyCold(group). Relation ralphLaid(group).
@@ -71,7 +78,7 @@ Module gaunt "A Winter in Carth" {
   Relation stayingAtCarth(group). Relation nightOver(group).
   Measure carthArrived(group). Measure carthDay(group).
   Rule carth_arrival at house_place when at(party, house_place) and snowing() and not stayingAtCarth(party)
-    says "The door shuts behind you, and the dark is complete. Not the dark of a night outdoors, which has a sky in it; the dark of a shut room with no fire, which has nothing. Somebody takes your arm, a hard small hand, and puts you down on the floor against a wall, which is stone, and cold through your clothes in a moment. You hear: a child coughing, close; someone breathing slow by where the hearth must be; a clock; the cow, through the wall; a dog, which comes and presses itself against your legs and shivers. And the cold. Not the cold outside, which moves. A cold that has been sitting in this room for twenty-three days, and has settled." {
+    says "The door shuts behind you, and the dark is complete. Not the dark of a night outdoors, which has a sky in it; the dark of a shut room with no fire, which has nothing. Somebody takes your arm, a hard small hand, and puts you down on the floor against a wall, which is stone, and cold through your clothes in a moment. You hear: a child coughing, close; someone breathing slow by where the hearth must be; a clock; the cow, through the wall; a dog, which comes and presses itself against your legs. And the cold. Not the cold outside, which moves. A cold that has been sitting in this room for twenty-three days, and has settled." {
     Assert stayingAtCarth(party). Set carthArrived(party) to watch(clock). Set carthDay(party) to dayN(gaunt_town). }
   Query carthNight() means stayingAtCarth(party) and not nightOver(party).
 
@@ -131,8 +138,11 @@ Module gaunt "A Winter in Carth" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and state(hearth, cold) and vigilOn() and not scaifesConsent(carth_vigil).
     Time 2.
     On success { Assert state(hearth, ablaze). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert litWithoutLeave(actor). Assert grannyIn(carth_vigil). Retract at(granny, carth_byre). Assert at(granny, house_place). }
-    Result "Your hands find the tinderbox on the mantel by memory of where tinderboxes are. Flint, steel, a spark that is the first light in this house in twenty-three nights, so bright it hurts; the tinder; a curl of thorn; the peat. The room comes up out of the dark around you: black beams, a dresser with three plates, a box-bed in the wall full of faces, a settle, a man getting up off it with a billhook in his hand. Will Scaife looks at the fire, and at you. He takes one step. Then Annis has him by the arm. 'It's done,' she says. 'It's done now. Let it burn for her.' He stands there a long time with the billhook, and then he sits down, and puts his hands over his face, and the light comes through his fingers. Through the byre door the old woman comes in, feeling along the wall, to the warmth, saying 'Ralph? Ralph, there's a fire.'".
+    Result "Your hands find the tinderbox on the mantel by memory of where tinderboxes are. Flint, steel, a spark that is the first light in this house in twenty-three nights, so bright it hurts; the tinder; a curl of thorn; the peat. The room comes up out of the dark around you: black beams, a dresser with three plates, a box-bed in the wall full of faces, a settle, a man getting up off it with a billhook in his hand. Will Scaife looks at the fire, and at you. He takes one step. Then Annis has him by the arm. 'It's done,' she says. 'It's done now. Let it burn for her.' He stands there a long time with the billhook, and then he sits down, and puts his hands over his face, and the light comes through his fingers.".
   }
+  Rule granny_to_fire at house_place when state(hearth, ablaze) and grannyGone(carth_vigil) and grannyIn(carth_vigil) and carthNight() and not spread(granny_to_fire)
+    says "Through the byre door the old woman comes in, feeling along the wall toward the warmth, saying 'Ralph? Ralph, there's a fire.'" { Assert spread(granny_to_fire). }
+  Entity granny_to_fire: fact "the old woman comes to the fire".
   Action ask_will_light(actor: group, site: place) "Ask Will Scaife to light the hearth himself, for the child" {
     Description "It is his house, and his vigil, and his child.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, house_place) and at(will, house_place) and state(hearth, cold) and vigilOn()
@@ -182,7 +192,7 @@ Module gaunt "A Winter in Carth" {
     Requires able(actor) and company(actor) and at(actor, site) and inHouse() and vigilOn() and knows(actor, ash_test) and not byreFire(carth_vigil) and not state(hearth, ablaze) and nightfall().
     Time 3.
     On success { Assert byreFire(carth_vigil). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert grannyIn(carth_vigil). Retract at(party, house_place). Assert at(party, carth_byre). }
-    Result "In the byre wall there is an old fire-pit, from before the house had a chimney: a ring of blackened stones. You lay straw in it, and thorn, and strike a light, and the byre comes up out of the dark: the cow, turning her head; the calf; the old woman on her stool by a long shape under a sheet, blinking. Will Scaife comes to the byre door and looks at the fire for a long time. He says nothing. Then he goes back and lifts the child out of the box-bed in her blankets and brings her through, and lays her in the straw by the fire, and sits down beside her; and Annis comes after him with the baby; and nobody says the word vigil, or the word hearth, all night.".
+    Result "In the byre wall there is an old fire-pit, from before the house had a chimney: a ring of blackened stones. You lay straw in it, and thorn, and strike a light, and the byre comes up out of the dark: the cow, turning her head; the calf; the old woman on her stool by a long shape under a sheet, blinking. Will Scaife comes to the byre door and looks at the fire for a long time. He says nothing. Then he goes back and lifts the child out of the box-bed in her blankets and brings her through, and lays her in the straw by the fire, and sits down beside her; and Annis comes after them with every blanket in the house; and nobody says the word vigil, or the word hearth, all night.".
   }
   Action beasts_in(actor: group, site: place) "Bring the cow and the calf through from the byre into the house-place" {
     Description "The old way: a beast is a fire nobody can call one.".
@@ -197,7 +207,7 @@ Module gaunt "A Winter in Carth" {
       and (coughHeard(actor) or dowsieBurning(dowsie)).
     Time 2.
     On success { Assert sharedBed(carth_vigil). Assert dowsieSafe(dowsie). Retract dowsieBurning(dowsie). Assert strikes(carth_cold, actor). }
-    Result "Annis Scaife says 'What—' and then, 'Aye. All right. Aye.' You get into the box-bed in the dark with your boots off, against the wall, with the child between you and her mother and the baby somewhere, and Will on the other side of his wife like a wall, and a dog across all your feet, and every blanket and coat and sack in the house over the lot of you. The child is so hot it is like holding a loaf. Her breathing goes on against your neck all night, and some time before morning it changes, and eases; and you are colder than you have ever been, on the outside of all that warmth, and you do not move.".
+    Result "Annis Scaife says 'What—' and then, 'Aye. All right. Aye.' You get into the box-bed in the dark with your boots off, against the wall, with the child between you and her mother, and Will on the other side of his wife like a wall, and a dog across all your feet, and every blanket and coat and sack in the house over the lot of you. The child is so hot it is like holding a loaf. Her breathing goes on against your neck all night, and some time before morning it changes, and eases; and you are colder than you have ever been, on the outside of all that warmth, and you do not move.".
   }
   Hazard carth_cold "a night on the cold side of the bed" means "Deal (1d3) physical damage to ally unless constitution save against (11).".
   Action nurse_child(actor: group, site: place) "Sit up with Dowsie through the fever" {
@@ -238,7 +248,9 @@ Module gaunt "A Winter in Carth" {
     Assert reeveKneeling(raistrick). Assert at(raistrick, house_place). Set reeveAt(raistrick) to watch(clock). }
   Rule reeve_told_byre within carth_house when reeveKneeling(raistrick) and byreFire(carth_vigil) and inHouse() and not spread(reeve_told)
     says "Through the byre wall you hear the house door: the latch, and nobody knocking, and boots on the flagstones, exact and unhurried, crossing to the hearth. The cow turns her head toward the sound. In the straw by the fire-pit nobody moves." { Assert spread(reeve_told). }
-  Rule reeve_told within carth_house when reeveKneeling(raistrick) and not byreFire(carth_vigil) and inHouse() and not spread(reeve_told)
+  Rule reeve_told_lit within carth_house when reeveKneeling(raistrick) and state(hearth, ablaze) and inHouse() and not spread(reeve_told)
+    says "The latch lifts. Nobody knocked. A long man in a sheepskin comes in out of the snow and shuts the door behind him, and in the firelight he does not look at any of you, or at the child, or at the fire. He kneels at the hearth and puts his bare hand into the ash at the fire's edge, under the burning peat, and holds it there; and his face does not change at all." { Assert spread(reeve_told). }
+  Rule reeve_told within carth_house when reeveKneeling(raistrick) and not byreFire(carth_vigil) and not state(hearth, ablaze) and inHouse() and not spread(reeve_told)
     says "The latch lifts. Nobody knocked. Cold air comes in along the floor and finds your ankles, and the door shuts, and someone is in the room: you hear the snow fall off him, and his breathing, slow, and his boots cross the flagstones, exactly, without feeling for anything, as a man crosses his own kitchen. He kneels at the hearth. You hear the ash move. He is holding his hand in it. Nobody in the house breathes. In the box-bed even the child is still." { Assert spread(reeve_told). }
   Entity reeve_told: fact "the Ash-reeve kneels".
   Action deceive_reeve(actor: group, site: place) "Tell the man at the hearth the warmth is the child's: she burned with fever, and was laid on the hearthstone to cool" {
@@ -280,7 +292,9 @@ Module gaunt "A Winter in Carth" {
   Rule child_dies when morningDue(carth_vigil) and not dowsieSafe(dowsie) and not dowsieDead(dowsie) { Assert dowsieDead(dowsie). }
   Rule granny_cold when morningDue(carth_vigil) and not grannyIn(carth_vigil) and not grannyCold(carth_vigil) { Assert grannyCold(carth_vigil). }
   Rule kept_tonight when morningDue(carth_vigil) and vigilOn() and not vigilKept(carth_vigil) { Assert vigilKept(carth_vigil). Increase vigilNight(carth_vigil) by 1. }
-  Rule morning_child_well within carth when morningDue(carth_vigil) and atCarth() and dowsieSafe(dowsie) and not hernCoat(hern) and not spread(morning_told)
+  Rule morning_byre within carth when morningDue(carth_vigil) and atCarth() and dowsieSafe(dowsie) and byreFire(carth_vigil) and not hernCoat(hern) and not spread(morning_told)
+    says "Morning comes grey through the cracks of the byre door. The fire in the old pit is down to one red eye. The child is asleep in the straw between the calf and her father, cool, with her mouth open; Annis asleep sitting up against the hurdle; the old woman asleep on her stool with her hand on the sheet. Will is the first up. He scatters the ash of the fire-pit with his boot, and goes out to dig. Snow has stopped in the night; it lies to the knee in the yard, and the light off it is so white after the dark that it hurts." { Assert spread(morning_told). }
+  Rule morning_child_well within carth when morningDue(carth_vigil) and atCarth() and dowsieSafe(dowsie) and not byreFire(carth_vigil) and not hernCoat(hern) and not spread(morning_told)
     says "Morning comes grey through the one window. The child is asleep, and cool, with her mouth open, and her mother asleep sitting up beside her. Will Scaife is at the door, digging. Snow has stopped in the night; it lies to the knee in the yard and to the eaves on the north side, and the light off it is so white after the dark that it hurts." { Assert spread(morning_told). }
   Rule morning_hern_coat within carth when morningDue(carth_vigil) and atCarth() and hernCoat(hern) and not spread(morning_told)
     says "Morning comes grey through the one window. The child is asleep and cool in the box-bed, wrapped in a frieze coat that is not hers. Beside her, on the outside, is Hern, in his shirt, grey as the ash, with his lips blue, awake. He sees you looking and grins. 'Kept her warm,' he says, and it comes out in a whisper, with the cough under it like a stone under a sheet. 'Professional.'" { Assert spread(morning_told). }
@@ -288,13 +302,15 @@ Module gaunt "A Winter in Carth" {
     says "Morning comes grey through the one window. Annis Scaife is sitting on the edge of the box-bed with the child in her lap, and she is not rocking her. Nobody has said anything yet, and nobody does. After a while Will gets up, and goes out to the byre, and you hear him moving the hurdle along to make room." { Assert spread(morning_told). }
   Entity morning_told: fact "the morning at Carth".
   Rule morning_granny within carth when morningDue(carth_vigil) and grannyCold(carth_vigil) and atCarth() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_granny)
-    says "In the byre the old woman is asleep under the sheet against her husband, with her arms round him. Her hands, when Annis takes them, are white to the wrist, and she does not feel it. 'He was cold,' she explains." { Assert spread(morning_granny). }
+    says "In the byre the old woman is asleep under the sheet against her husband, with her arms round him. Her hands, when Annis takes them, are white to the wrist, and she does not feel it. She wakes, and is cross to be woken. 'He was cold,' she explains, and lets herself be brought in to sit by the dead hearth, and by night she will go through to him again." { Assert spread(morning_granny). }
   Entity morning_granny: fact "the old woman in the morning".
   // Morning's verdict on the company, from the household: who lit what without asking is told to go when the road opens.
   Rule morning_go within carth when morningDue(carth_vigil) and atCarth() and litWithoutLeave(party) and vigilBroken(carth_vigil) and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_go)
     says "Will Scaife does not look at you all morning. When he has dug the yard gate clear he stands by it, and waits, and you understand that he is waiting for you to go through it. Annis puts a heel of bread in your hand at the door, without a word, and shuts it." { Assert spread(morning_go). }
   Entity morning_go: fact "told to go".
-  Rule morning_wet within carth when morningDue(carth_vigil) and atCarth() and quenched(carth_vigil) and vigilOn() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_wet)
+  Rule morning_relit within carth when morningDue(carth_vigil) and atCarth() and quenched(carth_vigil) and state(hearth, ablaze) and vigilOn() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_wet)
+    says "Will Scaife sits a long time looking at the fire on the hearth, lit again after the Ash-reeve went, smoking still for the wet. 'Kept,' he says, as if trying the word for weight. 'He had his hand in it. Kept.' He puts on another peat, and goes out to dig." { Assert spread(morning_wet). }
+  Rule morning_wet within carth when morningDue(carth_vigil) and atCarth() and quenched(carth_vigil) and state(hearth, snowed) and vigilOn() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_wet)
     says "Will Scaife stands a long time looking at the hearth, black and wet, with the ash in it gone to a paste. Then he looks at you. 'Kept,' he says, as if trying the word for weight; and goes out to dig." { Assert spread(morning_wet). }
   Entity morning_wet: fact "the wet hearth".
   // Whoever lit the hearth without leave and broke the vigil has taken its debt: seventeen nights, in the Register.

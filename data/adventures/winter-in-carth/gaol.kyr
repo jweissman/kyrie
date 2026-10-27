@@ -5,7 +5,7 @@ Module gaunt "A Winter in Carth" {
   // the window is written as its own person, seen from the lane only while Hern is in the cell.
   Person hern_window "Ninian Hern" at gaol_lane {
     Role "a voice and two hands and a bit of a face at the barred window over Gaol Lane, the hands holding the bars". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "'Is that my custodian?' says the face at the bars. 'Or a stranger? Either is welcome; I've had the precentor all afternoon, explaining my heresy to me. He's very good at it. I'm thinking of taking it up.' A cough. 'Stand where I can see you. I'm on the bed on tiptoe.'".
+    Greets "'Is that my custodian?' says the face at the bars. 'Or a stranger? Either is welcome; I've had the precentor in all day, explaining my heresy to me. He's very good at it. I'm thinking of taking it up.' A cough. 'Stand where I can see you. I'm on the bed on tiptoe.'".
     Greets again "Hern's hands come round the bars.".
     Seen when hernAtBars().
   }
@@ -41,13 +41,28 @@ Module gaunt "A Winter in Carth" {
     Says "The hands go still on the bars. 'She said that,' says Hern's voice. Then, a long while after: 'Once. Aye. A fishmonger's wife, and a week's fast, when I was fifteen. I was sorry all week. For her.' A cough. 'She was in the next pen. She'd remember.' Then, very quietly: 'If it's true, it's not giving in. Is it.'".
     On discuss { Assert hernHeardHawise(hern). Increase hernReasons(hern) by 1. }
   }
-  Query mayTellLive(a: group) means saidLove(a) or saidFinish(a) or saidChosen(a).
-  Topic gaol_live with hern "Tell Hern you would rather he lived" when hernGaoled(hern) and mayTellLive(actor) and not toldToLive(hern) once {
-    Says "Hern looks at you a long time. 'You said on the road—' and he tells it back to you, what you said on the fell, in your own words: about love, or about finishing what the dead were doing, or about keeping a promise you are not the same one to keep. 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
+  Topic gaol_live_love with hern "Tell Hern you would rather he lived, because one man can be sorry for another, and you are" when hernGaoled(hern) and saidLove(actor) and not toldToLive(hern) once {
+    Says "Hern looks at you a long time. 'You said on the road that one man being sorry for another is what love is,' he says. 'I've had that in my head ever since, and I can't get it out, and I've tried.' 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
     On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
   }
-  Topic window_live with hern_window "Tell Hern you would rather he lived" when mayTellLive(actor) and not toldToLive(hern) once {
-    Says "'You said on the road—' says the voice at the bars, and gives you back what you said on the fell, every word. Then: 'You're a dangerous person to walk with.' A long cough. 'I'd thought the Gate of Ash was the end of the story. Proxies don't get an after. I'll think about it. I'll think about it on the bed, on tiptoe.'".
+  Topic gaol_live_finish with hern "Tell Hern you would rather he lived, and finish what he was doing, as the dead would" when hernGaoled(hern) and saidFinish(actor) and not saidLove(actor) and not toldToLive(hern) once {
+    Says "Hern looks at you a long time. 'You said on the road we owe the dead the finishing of what they were doing,' he says. 'Kell was kneeling. I'm walking. You'd have me finish walking, would you, and not stop at a gate.' 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
+    On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic gaol_live_chosen with hern "Tell Hern you would rather he lived, since neither of you is who you were on the road" when hernGaoled(hern) and saidChosen(actor) and not saidLove(actor) and not saidFinish(actor) and not toldToLive(hern) once {
+    Says "Hern looks at you a long time. 'Not who I was that morning, you said, at the Fork,' he says. 'And keep it anyway. I've been turning that over on this bed like a stone in my pocket.' 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
+    On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic window_live_love with hern_window "Tell Hern you would rather he lived, because one man can be sorry for another, and you are" when saidLove(actor) and not toldToLive(hern) once {
+    Says "'You said on the road that one man being sorry for another is what love is,' says the voice at the bars. 'I've had that in my head ever since, and I can't get it out, and I've tried.' Then: 'You're a dangerous person to walk with.' A long cough. 'I'd thought the Gate of Ash was the end of the story. Proxies don't get an after. I'll think about it. I'll think about it on the bed, on tiptoe.'".
+    On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic window_live_finish with hern_window "Tell Hern you would rather he lived, and finish what he was doing, as the dead would" when saidFinish(actor) and not saidLove(actor) and not toldToLive(hern) once {
+    Says "'You said on the road we owe the dead the finishing of what they were doing,' says the voice at the bars. 'Kell was kneeling. I'm walking. You'd have me finish walking, would you, and not stop at a gate.' Then: 'You're a dangerous person to walk with.' A long cough. 'I'd thought the Gate of Ash was the end of the story. Proxies don't get an after. I'll think about it. I'll think about it on the bed, on tiptoe.'".
+    On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic window_live_chosen with hern_window "Tell Hern you would rather he lived, since neither of you is who you were on the road" when saidChosen(actor) and not saidLove(actor) and not saidFinish(actor) and not toldToLive(hern) once {
+    Says "'Not who I was that morning, you said, at the Fork,' says the voice at the bars. 'And keep it anyway. I've been turning that over on this bed like a stone in my pocket.' Then: 'You're a dangerous person to walk with.' A long cough. 'I'd thought the Gate of Ash was the end of the story. Proxies don't get an after. I'll think about it. I'll think about it on the bed, on tiptoe.'".
     On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
   }
   Topic gaol_law with hern "Ask Hern whether anybody could bear his sentence for him" when hernGaoled(hern) and not knows(actor, sentence_borne) once {
@@ -78,7 +93,7 @@ Module gaunt "A Winter in Carth" {
   // the gaol's serjeants.
   Person hal "Hal Metcalfe" at gaol_lane {
     Role "a printer's apprentice of eighteen with ink to the elbow, loitering under the gaol window with his hands in his pockets, very obviously not loitering". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns he. Manner cheerful.
-    Greets "The young man under the window looks you over. 'You're the one that brought him in,' he says, or, 'You're the one that walked with him,' whichever it was; he has heard. He lowers his voice to a whisper that carries the length of Gaol Lane. 'Fastens' Eve. Eleven. A ladder and a file. Are you with us?'".
+    Greets "The young man under the window looks you over. 'You're the one that came down the fell with him,' he says. Everybody in Gaunt has heard. He lowers his voice to a whisper that carries the length of Gaol Lane. 'Fastens' Eve. Eleven. A ladder and a file. Are you with us?'".
     Greets again "Hal Metcalfe winks at you, enormously.".
   }
   Person prudence "Prudence Garth" at row_lane {

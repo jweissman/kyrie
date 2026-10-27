@@ -16,7 +16,7 @@ The man in the beadle’s gown does not get up. ‘You’ll be going north,’ h
 
 **Take Ninian Hern into your custody, for the beadle's two shillings now and eight at the Fell Gate**
 
-The beadle counts two shillings into your palm out of a purse that is mostly string. ‘He’s yours,’ he says. ‘Eight more at the Fell Gate. Don’t lose him. And don’t listen to him: he’s very persuasive and he’s always wrong.’ Hern has finished not-mending his sandal. He throws it into the snow, stands up on his bare feet, and shakes your hand again, as if this were a different occasion. ‘My custodian,’ he says. ‘I’ve never had one. I’ve been one, often. It’s very restful, being had.’ Hern picks up his stick and falls in at your shoulder, barefoot, as if he had been waiting all morning to be asked. Wren gains 50 experience: took Ninian Hern into custody on the fell road.
+The beadle counts two shillings into your palm out of a purse that is mostly string. ‘He’s yours,’ he says. ‘Eight more at the Fell Gate. Don’t lose him. And don’t listen to him: he’s very persuasive and he’s always wrong.’ Hern has finished not-mending his sandal. He throws it into the snow, stands up on his bare feet, and shakes your hand, solemnly, as if a bargain had been struck. ‘My custodian,’ he says. ‘I’ve never had one. I’ve been one, often. It’s very restful, being had.’ Hern picks up his stick and falls in at your shoulder, barefoot, as if he had been waiting all morning to be asked. Wren gains 50 experience: took Ninian Hern into custody on the fell road.
 
 **Into the vigil-house at the Cross**
 
@@ -40,11 +40,11 @@ Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; and
 
 **To the Proxy's Stone**
 
-You set out from the road at the Penitent’s Cross early, with your shadow long in front of you on the road. All the way up the fell road Hern has walked beside you, bare feet in the snow, not hurrying, and you notice he puts each foot down flat and whole, like a man laying something on a table. Just below the stone he says: ‘Thirty years I did other people’s sorrow for them. Fasts, vigils, the stairs on my knees. I was the best in Gaunt.’ He coughs, and spits, and goes on. ‘So here’s a question for you to walk on. Can one man be sorry for another?’ Halfway up the fell the road passes a standing stone, and at the foot of the stone a man is kneeling in the snow with his head bowed and a board hung round his neck on a cord. He has been kneeling there since last winter. The frost has kept him. The board says, in good letters, FOR THE ADULTERY OF ONE OF THE COMMON COUNCIL OF GAUNT, FORTY NIGHTS, and under it, smaller, in a different hand, TOBIAS KELL, PROXY. Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here.
+You walk fast to keep warm, and it does not help much. All the way up the fell road Hern has walked beside you, bare feet in the snow, not hurrying, and you notice he puts each foot down flat and whole, like a man laying something on a table. Just below the stone he says: ‘Thirty years I did other people’s sorrow for them. Fasts, vigils, the stairs on my knees. I was the best in Gaunt.’ He coughs, and spits, and goes on. ‘So here’s a question for you to walk on. Can one man be sorry for another?’ Halfway up the fell the road passes a standing stone, and at the foot of the stone a man is kneeling in the snow with his head bowed and a board hung round his neck on a cord. He has been kneeling there since last winter. The frost has kept him. The board says, in good letters, FOR THE ADULTERY OF ONE OF THE COMMON COUNCIL OF GAUNT, FORTY NIGHTS, and under it, smaller, in a different hand, TOBIAS KELL, PROXY. Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here.
 
 **Tell him: yes. That is what love is**
 
-‘Love!’ says Hern, delighted, as if you had shown him a coin he had never seen. ‘Now that’s a better answer than the Penitentiary’s, and they’ve had two hundred years.’ He walks a while. ‘But love’s not for hire at a shilling a night, is it? Or is it?’ He laughs, and coughs, and laughs. ‘I’ll think about that. I’ll think about that all the way.’ Hern stops at the stone. He looks at the kneeling man for a long time, and then he goes down on his own knees in the snow beside him, easily, as a man sits in his own chair, and looks into his face. ‘Tobias Kell,’ he says. ‘He was a good proxy. Steady. He’d have finished the forty, too, if it hadn’t been the winter it was.’ He puts out a hand and does not quite touch the board. ‘Here’s your second question, then. What do we owe the dead?’
+‘Love!’ says Hern, delighted, as if you had shown him a coin he had never seen. ‘Now that’s a better answer than the Penitentiary’s, and they’ve had two hundred years.’ He thinks about it. ‘But love’s not for hire at a shilling a night, is it? Or is it?’ He laughs, and coughs, and laughs. ‘I’ll think about that. I’ll think about that all the way.’ Hern stops at the stone. He looks at the kneeling man for a long time, and then he goes down on his own knees in the snow beside him, easily, as a man sits in his own chair, and looks into his face. ‘Tobias Kell,’ he says. ‘He was a good proxy. Steady. He’d have finished the forty, too, if it hadn’t been the winter it was.’ He puts out a hand and does not quite touch the board. ‘Here’s your second question, then. What do we owe the dead?’
 
 **Tell him: their names**
 
@@ -52,7 +52,7 @@ Hern nods slowly. ‘Their names.’ He turns the board round on its cord. On th
 
 **To the Drove Fork**
 
-You leave the Proxy’s Stone in the full of the morning, with the sun climbing and the road dry underfoot. At the Drove Fork Hern stops, and leans on his stick, and looks west down the drovers’ road, green under the snow, going away round the fell to country where nobody has heard of Gaunt. ‘Third question,’ he says. ‘You promised Clem this morning you’d bring me in. Are you the one who promised?’ And before you can answer he turns off the fell road and walks away down the drovers’ road, not fast, without looking back, to see what you will do. The Drove Fork, where the drovers’ road goes off west round the shoulder of the fell, green under the snow where the beasts have trodden it, toward country that has never heard of Gaunt; and the fell road goes on up, white, to the top of Carth Fell.
+It is cold enough to see your breath, and the ruts are hard with frost. At the Drove Fork Hern stops, and leans on his stick, and looks west down the drovers’ road, green under the snow, going away round the fell to country where nobody has heard of Gaunt. ‘Third question,’ he says. ‘You promised Clem this morning you’d bring me in. Are you the one who promised?’ And before you can answer he turns off the fell road and walks away down the drovers’ road, not fast, without looking back, to see what you will do. The Drove Fork, where the drovers’ road goes off west round the shoulder of the fell, green under the snow where the beasts have trodden it, toward country that has never heard of Gaunt; and the fell road goes on up, white, to the top of Carth Fell.
 
 **Call after him: neither of you is who you were this morning, and you will keep it anyway**
 
@@ -60,7 +60,7 @@ Hern laughs out loud, there on the drovers’ road, and the sound goes away over
 
 **To the top of Carth Fell**
 
-You set out from the Drove Fork. The snow comes in all at once, the way it does on a fell: one moment the road and the long white country beyond it, and the next nothing, a roaring grey, and your own breath going away sideways. You cannot see the road down. You can see, for a moment, in a fold of the hill just below, a roof. Behind you the road down off the fell is gone under a moving wall of white. Nobody goes back down that in this. The snow is coming sideways off the top of the fell, so thick that the road is gone a yard in front of you. Below, in a fold of the hill to the left, there is a darker shape in the white, and a smell of cattle: a farm. Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here.
+You set out from the Drove Fork. The snow comes in all at once, the way it does on a fell: one moment the road and the long white country beyond it, and the next nothing, a roaring grey, and your own breath going away sideways. You cannot see the road down. Behind you the road down off the fell is gone under a moving wall of white. Nobody goes back down that in this. The snow is coming sideways off the top of the fell, so thick that the road is gone a yard in front of you. Below, in a fold of the hill to the left, there is a darker shape in the white, and a smell of cattle: a farm. Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here.
 
 **To the yard at Carth**
 
@@ -68,7 +68,7 @@ The yard at Carth: a long low house with the byre under the same roof, its one w
 
 **Into the house at Carth**
 
-The door shuts behind you, and the dark is complete. Not the dark of a night outdoors, which has a sky in it; the dark of a shut room with no fire, which has nothing. Somebody takes your arm, a hard small hand, and puts you down on the floor against a wall, which is stone, and cold through your clothes in a moment. You hear: a child coughing, close; someone breathing slow by where the hearth must be; a clock; the cow, through the wall; a dog, which comes and presses itself against your legs and shivers. And the cold. Not the cold outside, which moves. A cold that has been sitting in this room for twenty-three days, and has settled. Fly thumps her tail on the ground without getting up, which is as much welcome as you are going to get. The house-place at Carth by day, in what light comes through one small window: a long low room with smoke-black beams that have had no smoke on them for a month; a dresser with three plates; a box-bed in the wall with its doors open and too many blankets in it; a settle; a rocking-chair; and the dead hearth. Everyone’s breath shows. The hearth is dead: a bed of grey ash swept flat, and over it on the chain an empty pot. Beside it, on a cloth on the floor, a bowl and a spoon laid for somebody. Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; Will Scaife, a big silent man with a shovel, grey-faced, who does not look at anyone; Annis Scaife, the farmer’s wife, thin as a lath, with her sleeves rolled and her mouth set; Old Mother Scaife, an old woman in a shawl, a shape by the dead hearth that rocks a little; and Dowsie Scaife, a child in the box-bed, under every blanket in the house, coughing.
+The door shuts behind you, and the dark is complete. Not the dark of a night outdoors, which has a sky in it; the dark of a shut room with no fire, which has nothing. Somebody takes your arm, a hard small hand, and puts you down on the floor against a wall, which is stone, and cold through your clothes in a moment. You hear: a child coughing, close; someone breathing slow by where the hearth must be; a clock; the cow, through the wall; a dog, which comes and presses itself against your legs. And the cold. Not the cold outside, which moves. A cold that has been sitting in this room for twenty-three days, and has settled. Fly stays where she is, against your legs, and goes on shivering, which is as much welcome as you are going to get. The hearth is dead: a bed of grey ash swept flat, and over it on the chain an empty pot. Beside it, on a cloth on the floor, a bowl and a spoon laid for somebody. Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; Will Scaife, a big silent man with a shovel, grey-faced, who does not look at anyone; Annis Scaife, the farmer’s wife, thin as a lath, with her sleeves rolled and her mouth set; Old Mother Scaife, an old woman in a shawl, a shape by the dead hearth that rocks a little; and Dowsie Scaife, a child in the box-bed, under every blanket in the house, coughing.
 
 *(5 waits in which nothing is told)*
 
@@ -80,7 +80,7 @@ It is pitch dark. Without a light you can see nothing here, and do nothing that 
 
 **Strike a light from the tinderbox on the mantel and light the peat on the hearth**
 
-Your hands find the tinderbox on the mantel by memory of where tinderboxes are. Flint, steel, a spark that is the first light in this house in twenty-three nights, so bright it hurts; the tinder; a curl of thorn; the peat. The room comes up out of the dark around you: black beams, a dresser with three plates, a box-bed in the wall full of faces, a settle, a man getting up off it with a billhook in his hand. Will Scaife looks at the fire, and at you. He takes one step. Then Annis has him by the arm. ‘It’s done,’ she says. ‘It’s done now. Let it burn for her.’ He stands there a long time with the billhook, and then he sits down, and puts his hands over his face, and the light comes through his fingers. Through the byre door the old woman comes in, feeling along the wall, to the warmth, saying ‘Ralph? Ralph, there’s a fire.’ Wren gains 150 experience: lit a fire at Carth for a child. The house-place at Carth, with a fire on the hearth: a long low room, smoke-black beams, a dresser with three plates, a box-bed in the wall with its doors open and too many people in it, a table, a settle, and on the floor by the hearth a place laid on a cloth, a bowl and a spoon, for nobody. A fire burns on the hearth, peat and thorn, and the room has come up out of the dark: the black beams, the dresser, the box-bed in the wall with its doors open, the faces.
+Your hands find the tinderbox on the mantel by memory of where tinderboxes are. Flint, steel, a spark that is the first light in this house in twenty-three nights, so bright it hurts; the tinder; a curl of thorn; the peat. The room comes up out of the dark around you: black beams, a dresser with three plates, a box-bed in the wall full of faces, a settle, a man getting up off it with a billhook in his hand. Will Scaife looks at the fire, and at you. He takes one step. Then Annis has him by the arm. ‘It’s done,’ she says. ‘It’s done now. Let it burn for her.’ He stands there a long time with the billhook, and then he sits down, and puts his hands over his face, and the light comes through his fingers. Wren gains 150 experience: lit a fire at Carth for a child. The house-place at Carth, with a fire on the hearth: a long low room, smoke-black beams, a dresser with three plates, a box-bed in the wall with its doors open and too many people in it, a table, a settle, and on the floor by the hearth a place laid on a cloth, a bowl and a spoon, for nobody. A fire burns on the hearth, peat and thorn, and the room has come up out of the dark: the black beams, the dresser, the box-bed in the wall with its doors open, the faces.
 
 **Wait › An hour**
 
@@ -118,21 +118,21 @@ SHROVE MONDAY. In Gaunt the bells of the Minster ring the hour, and the Stand op
 
 **Wait › An hour**
 
-Morning comes grey through the one window. The child is asleep, and cool, with her mouth open, and her mother asleep sitting up beside her. Will Scaife is at the door, digging. Snow has stopped in the night; it lies to the knee in the yard and to the eaves on the north side, and the light off it is so white after the dark that it hurts. Wren gains 150 experience: got through the night at Carth. Wren gains 250 experience: kept the letter of the vigil and the child warm. Wren gains 100 experience: brought Old Mother Scaife in out of the byre.
+Morning comes grey through the one window. The child is asleep, and cool, with her mouth open, and her mother asleep sitting up beside her. Will Scaife is at the door, digging. Snow has stopped in the night; it lies to the knee in the yard and to the eaves on the north side, and the light off it is so white after the dark that it hurts. Wren gains 150 experience: got through the night at Carth. Wren gains 250 experience: kept the letter of the vigil and the child warm.
 
 **Wait › A while**
 
-Time passes. Will Scaife stands a long time looking at the hearth, black and wet, with the ash in it gone to a paste. Then he looks at you. ‘Kept,’ he says, as if trying the word for weight; and goes out to dig.
+Time passes. Will Scaife sits a long time looking at the fire on the hearth, lit again after the Ash-reeve went, smoking still for the wet. ‘Kept,’ he says, as if trying the word for weight. ‘He had his hand in it. Kept.’ He puts on another peat, and goes out to dig.
 
 *(1 wait in which nothing is told)*
 
 **Out to the yard at Carth**
 
-Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here. The yard at Carth, deep in snow: the long low house and its byre under one roof, the drifted peat-stack, and a chimney with no smoke.
+Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here. The yard at Carth, deep in snow: the long low house and its byre under one roof, the drifted peat-stack, and smoke going up from the chimney that the whole fell can see.
 
 **To the road across the Levels**
 
-You leave the yard at Carth with the sun low behind you and the dew still on the grass. The road across the Levels: flat, white, straight, and at the end of it Gaunt, which gets bigger very slowly. It is walled twice, a new wall round an old one, and a third wall round the middle where the Minster stands, so that from out here it looks like a target. Off to the east a dark line of wood. Off to the west, in the city’s wall, a gate with no road going out of it. The Gate of Ash is shut, and barred, and the bar is chained, and the chain is sealed with the Penitentiary’s seal. It is opened once a year, if anyone has been put out, at dusk on Ash Day. Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here.
+You walk fast to keep warm, and it does not help much. The road across the Levels: flat, white, straight, and at the end of it Gaunt, which gets bigger very slowly. It is walled twice, a new wall round an old one, and a third wall round the middle where the Minster stands, so that from out here it looks like a target. Off to the east a dark line of wood. Off to the west, in the city’s wall, a gate with no road going out of it. The Gate of Ash is shut, and barred, and the bar is chained, and the chain is sealed with the Penitentiary’s seal. It is opened once a year, if anyone has been put out, at dusk on Ash Day. Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here.
 
 **To the Fell Gate**
 
@@ -148,15 +148,27 @@ FASTENS’ EVE. The last day before the Fast. At two the Doctors dispute in the 
 
 **Wait › An hour**
 
-Hern looks up at the sun and says, ‘Noon on Fastens’ Eve. I’ve an appointment,’ and goes off up the Bearer’s Steps by himself, and is let in at the Close Gate, and does not look back. Hern lifts a hand, without turning round.
+Hern looks up at the sun and says, ‘Noon on Fastens’ Eve. I’ve an appointment,’ and goes off up the Bearer’s Steps by himself, and is let in at the Close Gate, and does not look back. For now, that is the last of Hern.
 
-*(17 waits in which nothing is told)*
+*(6 waits in which nothing is told)*
+
+**Wait › An hour**
+
+At seven the masks come out. All over the Middle Town the shutters go up again and the torches are lit, and from the Shambles comes a drum, and a roar, and over the roofs, on a door, a wooden giant with a pig’s head and a barrel for a belly goes by on the shoulders of eight apprentices: the Fat King, on his way to be burnt. Everybody you pass is somebody else until midnight.
+
+*(10 waits in which nothing is told)*
 
 **Wait › An hour**
 
 ASH DAY. At nine every forehead in Gaunt is marked with ash at the Minster door, and the Ladder of Merit is gilded for the year. At noon the Consistory sits in the Chapter House on the matter of Ninian Hern. At dusk, for the first time in nineteen years, the Gate of Ash may be opened.
 
-*(10 waits in which nothing is told)*
+*(7 waits in which nothing is told)*
+
+**Wait › An hour**
+
+At two the news comes down from the Close and goes through the city like cold through a coat: Barefoot Hern would not recant. He said it in the Chapter House, all of it, and he is to be put out at the Gate of Ash at dusk. In the Row people come out of their doors and stand in the snow, and do not go back in.
+
+*(2 waits in which nothing is told)*
 
 **Wait › An hour**
 

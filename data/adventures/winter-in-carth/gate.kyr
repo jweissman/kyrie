@@ -7,6 +7,8 @@ Module gaunt "A Winter in Carth" {
   Measure pains(group).
   Relation tallied(group). Relation forgedTally(group). Relation porterPassed(group). Relation porterCaught(group).
   Query shriven() means tallied(party) and pains(party) < 1.
+  // Gaunt gives no credit: a night on the Steps for one pain clears the one, and the other five are the Fabric's.
+  Rule no_credit when pains(party) < 0 { Set pains(party) to 0. }
   Query closeAdmits() means shriven() or porterPassed(party) or ashOpen().
   Relation putOut(group).
 
@@ -49,7 +51,7 @@ Module gaunt "A Winter in Carth" {
     Time 3.
     On success { Assert delivered(actor). Assert hernGaoled(hern). Retract following(hern, actor). Assert at(hern, gaol_cell). Increase quantity(actor, gold) by 8.
       Retract at(actor, site). Assert at(actor, close_green). }
-    Result "The porter of the Close Gate looks at Hern for a long moment through the grille, and then opens it without a word. Inside, the Close is warm, swept, quiet, and smells of woodsmoke. Two serjeants in the Consistory's grey come across the lawn for him. Hern shakes your hand for the third time. 'Thank you for having me,' he says, as if leaving a dinner. 'Come and see me. They allow visitors. They're merciful.' The serjeants take him across the Close to a low door, and he goes in under it without ducking, being short, and the door shuts. A clerk counts eight shillings into your hand. You are standing in the Close of Gaunt, where nobody owes anything.".
+    Result "The porter of the Close Gate looks at Hern for a long moment through the grille, and then opens it without a word. Inside, the Close is warm, swept, quiet, and smells of woodsmoke. Two serjeants in the Consistory's grey come across the lawn for him. Hern shakes your hand once more. 'Thank you for having me,' he says, as if leaving a dinner. 'Come and see me. They allow visitors. They're merciful.' The serjeants take him across the Close to a low door, and he goes in under it without ducking, being short, and the door shuts. A clerk counts eight shillings into your hand. You are standing in the Close of Gaunt, where nobody owes anything.".
   }
   Action deliver_uncustodied(actor: group, site: place) "Walk Ninian Hern up the Bearer's Steps to the Close Gate, and leave him at it" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and following(hern, actor) and not custody(actor) and not hernGaoled(hern).
@@ -80,7 +82,7 @@ Module gaunt "A Winter in Carth" {
     Description "Nothing to eat until tomorrow. A clerk notes it on your tally.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and tallied(actor) and pains(actor) >= 1 and not fastToday(actor).
     Time 2 minutes.
-    On success { Assert fastToday(actor). Set fastedOn(actor) to dayN(gaunt_town). Assert hungry(actor). Set nextMeal(actor) to watch(clock) + 144. Decrease pains(actor) by 2. }
+    On success { Assert fastToday(actor). Set fastedOn(actor) to dayN(gaunt_town). Assert hungry(actor). Set nextMeal(actor) to watch(clock) + 144. Set pains(actor) to pains(actor) - 2. }
     Result "The Stand's clerk cuts a fast on your tally with a small curved mark like a crescent moon. 'Two,' he says. 'Don't eat. People will be watching. They always are, in the Fast; it's the main amusement.'".
   }
   Rule fast_ends when fastToday(party) and dayN(gaunt_town) > fastedOn(party) { Retract fastToday(party). }
@@ -97,15 +99,15 @@ Module gaunt "A Winter in Carth" {
   Action own_stripes(actor: group, site: place) "Take stripes at the Stand's post for three of your pains" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and tallied(actor) and pains(actor) >= 1.
     Time 1.
-    On success { Decrease pains(actor) by 3. Assert strikes(stripes, actor). }
+    On success { Set pains(actor) to pains(actor) - 3. Assert strikes(stripes, actor). }
     Result "The post is in the middle of the Stand and the man who lays them on is a proxy himself, between jobs, and apologises. Six with a leather strap, counted aloud by the clerk. It is over quicker than you expected and hurts for longer. 'Three,' says the clerk, and cuts.".
   }
   Hazard steps_cold "a night on the Bearer's Steps" means "Deal (1d4) physical damage to ally unless constitution save against (11).".
-  Action own_vigil(actor: group, site: place) "Kneel a night's vigil on the Bearer's Steps for six of your pains" {
+  Action own_vigil(actor: group, site: place) "Kneel the night on the Bearer's Steps yourself, for six of your pains" {
     Description "From dusk to first light, on the stone, in the open.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and nightfall() and tallied(actor) and pains(actor) >= 1 and not licence().
     Time 36.
-    On success { Decrease pains(actor) by 6. Assert strikes(steps_cold, actor). Assert keptStepVigil(actor). }
+    On success { Set pains(actor) to pains(actor) - 6. Assert strikes(steps_cold, actor). Assert keptStepVigil(actor). }
     Result "You kneel on the Bearer's Steps all night with the Close Gate shut above you and the Shambles shut below. Twice the porter opens his grille and looks at you and shuts it. Once a woman from the Row brings you a hot stone wrapped in a rag and goes away again without a word. The Minster bells give you every hour, so that you know exactly how much of it there is. At first light the porter comes out with a knife and cuts six notches off your tally and gives it back. 'Six,' he says. 'You did it properly. Nobody does it properly.'".
   }
   Relation keptStepVigil(group).

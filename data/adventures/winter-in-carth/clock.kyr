@@ -57,4 +57,12 @@ Module gaunt "A Winter in Carth" {
   Rule keep_up when following(?x, party) and at(party, ?p) and not at(?x, ?p) and not hernTesting(?x) { Assert at(?x, ?p). }
   // News already told, so it is not told twice.
   Relation spread(fact).
+
+  // Fastens' Eve in the streets, for whoever is in the city and not already where it is told (the Shambles, the Fat Lamb).
+  Rule eve_masks when eveDay() and hour(clock) >= 19 and hour(clock) < 23 and inTown() and not at(party, shambles) and not at(party, fat_lamb) and not spread(eve_masks)
+    says "At seven the masks come out. All over the Middle Town the shutters go up again and the torches are lit, and from the Shambles comes a drum, and a roar, and over the roofs, on a door, a wooden giant with a pig's head and a barrel for a belly goes by on the shoulders of eight apprentices: the Fat King, on his way to be burnt. Everybody you pass is somebody else until midnight." { Assert spread(eve_masks). }
+  Entity eve_masks: fact "the masks come out".
+  Rule fast_bell when ashDay() and hour(clock) < 6 and inTown() and not hernDead(hern) and not spread(fast_bell)
+    says "At midnight the tenor bell of the Minster rings the Fast in, one stroke, and then another, slow, over the whole city; outside the Wood Exchange the Fat King goes up in a sheet of flame; and all over the Middle Town the masks come off at once, as if somebody had said a word. Whatever was said tonight was never said." { Assert spread(fast_bell). }
+  Entity fast_bell: fact "the Fast rung in".
 }

@@ -58,6 +58,25 @@ describe('A Winter in Carth: the night at Carth, every way through it', () => {
     expect(g.page).toMatch(held ? /I’ve known a fever warm a stone/ : /A child’s fever doesn’t make a fire/);
   }, 240000);
 
+  it('for a mage, a light with no fire in it: the house sees, the child does not get warm, and the vigil holds', async () => {
+    const g = await Gaunt.start(build('mage'), 'g1');
+    await g.play(...phases('letter').road!, 'Wait › Until dark', 'Light on Ivo', '=140');
+    expect(g.page).toMatch(/‘Is that a fire\?’ she says\. Nobody can say it is/);
+    expect(g.holds('vigilBroken', 'carth_vigil')).toBe(false);
+    // Light is not warmth: nobody did anything for the child, so Hern gave her his coat.
+    expect(g.holds('hernCoat', 'hern')).toBe(true);
+  }, 240000);
+
+  it('for a monk, the Barefoot soles: a mile for a draper, a night on the Steps, and the Row teaches you to stand in snow', async () => {
+    const g = await Gaunt.start(build('monk'), 'g1');
+    await g.play(...phases('letter').road!, '=139', ...phases('letter').down!, 'To the Row', 'To the Long Shambles', 'To the Stand',
+      'Walk a barefoot mile round the walls for Master Sowerby', '=198', 'To the Long Shambles', 'To the Bearer', 'Kneel the night on the Bearer',
+      'To the Long Shambles', 'To the Row$', 'Into the Barefoot Hall', 'learn from the Row how to stand in snow');
+    expect(g.holds('solesLearned', 'party')).toBe(true);
+    // One pain, and a night on the Steps for six: clean, and no credit.
+    expect(g.measure('pains', 'party')).toBe(0);
+  }, 240000);
+
   it('for a ranger, the beasts brought in from the byre: no fire, and enough', async () => {
     const g = await Gaunt.start(build('ranger'), 'g1');
     await g.play(...custody, ...walk(), '=72', 'Bring the cow and the calf', '=140');

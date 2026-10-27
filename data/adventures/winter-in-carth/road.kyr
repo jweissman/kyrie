@@ -6,16 +6,19 @@ Module gaunt "A Winter in Carth" {
   // them, and neither had they, so who had been forgiven? He is walking to his trial of his own will, because he wants to
   // say it in the Minster. He is funny, coarse, vain of his feet, generous, ill, and sometimes wrong.
   Person hern "Ninian Hern" at cross_road {
-    Role "a barefoot old man in a frieze coat, ignoring a cough" when not hernGaoled(hern) and not hernCoat(hern) and not at(hern, chapter_house).
-    Role "a barefoot old man in his shirt, grey as ash, with a cough that has stopped being ignorable" when not hernGaoled(hern) and hernCoat(hern) and not at(hern, chapter_house).
+    Role "a barefoot old man in a frieze coat, ignoring a cough" when not hernGaoled(hern) and not hernCoat(hern) and not hernKersey(hern) and not at(hern, chapter_house).
+    Role "a barefoot old man in his shirt, grey as ash, with a cough that has stopped being ignorable" when not hernGaoled(hern) and hernCoat(hern) and not hernKersey(hern) and not at(hern, chapter_house).
+    Role "a barefoot old man in a new grey coat, coughing, and pleased with the world" when not hernGaoled(hern) and hernKersey(hern) and not at(hern, chapter_house).
     Role "a barefoot old man in a warm cell, in a new grey coat of the Penitentiary's kersey, sitting on the end of the bed with his feet to the fire" when hernGaoled(hern) and not at(hern, chapter_house).
     Role "a barefoot old man in a new grey coat, standing on a square of different stone with his hands behind his back" when at(hern, chapter_house).
     Ancestry human. Calling commoner. Level 3. Peaceable. Pronouns he. Manner jovial.
     Greets "Hern looks at you with enormous interest, as he looks at everything, as if you were a new kind of weather. 'Ninian Hern,' he says, as he says to everybody every time, in case they have forgotten, and holds out a hand like a root. 'Heretic. I'm expected.'".
     Greets again "Hern looks up at you as if you were the one thing in the day he had been waiting for, which, he would be the first to tell you, is not saying much.".
     Joins "Hern picks up his stick and falls in at your shoulder, barefoot, as if he had been waiting all morning to be asked.".
-    Leaves "Hern lifts a hand, without turning round.".
+    Leaves "For now, that is the last of Hern.".
   }
+  // In the gaol he is given the Penitentiary's grey kersey, and wears it ever after.
+  Relation hernKersey(group). Rule hern_kersey when hernGaoled(hern) and not hernKersey(hern) { Assert hernKersey(hern). }
   Relation hernGaoled(group). Relation hernFled(group). Relation hernDead(group). Relation hernFailing(group).
   Relation custody(group). Relation refusedCustody(group). Relation hernAhead(group).
   // The beadle sent to fetch him, who has frozen his foot on the march.
@@ -38,7 +41,7 @@ Module gaunt "A Winter in Carth" {
       and not custody(actor) and not refusedCustody(actor).
     Time 2 minutes.
     On success { Assert custody(actor). Assert acceptsEscort(hern, actor). Assert following(hern, actor). Increase quantity(actor, gold) by 2. }
-    Result "The beadle counts two shillings into your palm out of a purse that is mostly string. 'He's yours,' he says. 'Eight more at the Fell Gate. Don't lose him. And don't listen to him: he's very persuasive and he's always wrong.' Hern has finished not-mending his sandal. He throws it into the snow, stands up on his bare feet, and shakes your hand again, as if this were a different occasion. 'My custodian,' he says. 'I've never had one. I've been one, often. It's very restful, being had.'".
+    Result "The beadle counts two shillings into your palm out of a purse that is mostly string. 'He's yours,' he says. 'Eight more at the Fell Gate. Don't lose him. And don't listen to him: he's very persuasive and he's always wrong.' Hern has finished not-mending his sandal. He throws it into the snow, stands up on his bare feet, and shakes your hand, solemnly, as if a bargain had been struck. 'My custodian,' he says. 'I've never had one. I've been one, often. It's very restful, being had.'".
   }
   Action refuse_custody(actor: group, site: place) "Tell the beadle you will not take the old man in" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, cross_road) and at(hern, cross_road) and knows(actor, beadle_offer)
@@ -81,11 +84,11 @@ Module gaunt "A Winter in Carth" {
   Query answeredSorry(a: group) means saidLove(a) or saidOwn(a) or saidTrade(a).
   Event cross_question at proxy_stone when at(party, proxy_stone) and following(hern, party) and not askedSorry(party) "All the way up the fell road Hern has walked beside you, bare feet in the snow, not hurrying, and you notice he puts each foot down flat and whole, like a man laying something on a table. Just below the stone he says: 'Thirty years I did other people's sorrow for them. Fasts, vigils, the stairs on my knees. I was the best in Gaunt.' He coughs, and spits, and goes on. 'So here's a question for you to walk on. Can one man be sorry for another?'" then { Assert askedSorry(party). }
   Topic say_love with hern "Tell him: yes. That is what love is" when askedSorry(actor) and not answeredSorry(actor) once {
-    Says "'Love!' says Hern, delighted, as if you had shown him a coin he had never seen. 'Now that's a better answer than the Penitentiary's, and they've had two hundred years.' He walks a while. 'But love's not for hire at a shilling a night, is it? Or is it?' He laughs, and coughs, and laughs. 'I'll think about that. I'll think about that all the way.'".
+    Says "'Love!' says Hern, delighted, as if you had shown him a coin he had never seen. 'Now that's a better answer than the Penitentiary's, and they've had two hundred years.' He thinks about it. 'But love's not for hire at a shilling a night, is it? Or is it?' He laughs, and coughs, and laughs. 'I'll think about that. I'll think about that all the way.'".
     On discuss { Assert saidLove(actor). }
   }
   Topic say_own with hern "Tell him: no. Sorrow is your own, or it is nothing" when askedSorry(actor) and not answeredSorry(actor) once {
-    Says "Hern stops in the road and looks at you with great affection. 'That's my heresy,' he says. 'You've just said my heresy, on the king's highway, to a man in custody. They'll have you for that.' He walks on. 'It's true, mind. I'm only not sure it's all that's true.'".
+    Says "Hern looks at you with great affection. 'That's my heresy,' he says. 'You've just said my heresy, on the king's highway, to a man in custody. They'll have you for that.' He looks away up the road. 'It's true, mind. I'm only not sure it's all that's true.'".
     On discuss { Assert saidOwn(actor). }
   }
   Topic say_trade with hern "Tell him: it is a trade like any other, and he was good at it" when askedSorry(actor) and not answeredSorry(actor) once {
@@ -162,7 +165,7 @@ Module gaunt "A Winter in Carth" {
     Says "'Because it's in the Minster,' says Hern. 'Ash Day, the whole city in the nave with the ash on its foreheads. I've said it on the steps for a year, to whoever went past. I want to say it once inside, where they can't walk past.' He coughs. 'And then they'll put me out at the Gate of Ash, I expect, and I'll walk off into the Levels like a man in a story.' He grins at you with three teeth. 'I've always wanted to be a man in a story. Proxies never are. We're in other people's.'".
   }
   Topic hern_refused with hern "Ask Hern what penance it was that he refused" when not hernGaoled(hern) once {
-    Says "Hern is quiet for a while. 'The Cold Vigil,' he says. 'Forty nights. No fire in the house, not a spark, from Candlemas on. It's the penance for blood. Somebody in Gaunt has blood on him, and was sorry, and went to the Penitentiary, and they set it at forty nights cold, and he paid for it, and they offered it to me.' He spits. 'I've kept cold vigils. Three. I'm the best there is. And I thought, I'll freeze forty nights so some man in a warm house needn't, and he'll be forgiven, and the blood won't be any less on the floor. And I said no.' He walks on. 'So somebody else is keeping it.'".
+    Says "Hern is quiet for a while. 'The Cold Vigil,' he says. 'Forty nights. No fire in the house, not a spark, from Candlemas on. It's the penance for blood. Somebody in Gaunt has blood on him, and was sorry, and went to the Penitentiary, and they set it at forty nights cold, and he paid for it, and they offered it to me.' He spits. 'I've kept cold vigils. Three. I'm the best there is. And I thought, I'll freeze forty nights so some man in a warm house needn't, and he'll be forgiven, and the blood won't be any less on the floor. And I said no.' He looks at his feet. 'So somebody else is keeping it.'".
     On discuss { Assert knows(actor, vigil_refused). }
   }
   Discovery vigil_refused "Last winter Ninian Hern refused to keep the Cold Vigil, forty nights of no fire, the penance for a blood-fault, bought by someone in Gaunt; so somebody else is keeping it.".
