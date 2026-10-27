@@ -26,17 +26,17 @@ Skills and the choices that test them. **Alternatives** are the ways through for
 
 | Skill | Choices that use it | Alternatives |
 |---|---|---|
-| **Persuasion** | Dorcas and the Widow (hard); Swale and his lines (hard); Swale back, with cuts; Dorcas to stay; the Canon to lend Ned (hard); Ferriby (hard); Cundy's key; Merriman coached; Inchbald's bills; the fishwives; Lem; the hat round the green; Bowle, for Maud's sake (easy) | Gammage's old notice; Mrs Swale's letter; Hepzibah's cuts; the truth about Fallow's wardrobe; the cleric's word; paying; the weir; the lock; a speech written instead |
-| **Deception** | a lie to Merriman (formidable); Tunstall bribed; Pudding's note forged in Swale's hand; Pudding's answer hissed from the wing; telling Tunstall you answer for the book (easy) | the playbill; the Eighth Ordinance; spelling the note right (lore); roaring Garlick down |
-| **Intimidation** | Garlick frightened; Garlick roared down from the yard; the Office's men in the wing; Lem's hat (easy); threatening the Master (hard, and it costs her for ever) | Meg's walk-on; Pudding warned; carrying the prompt-book; Lem paid |
+| **Persuasion** | Dorcas and the Widow (hard); Swale and his lines (hard); Swale back, with cuts; Dorcas to stay; the Canon to lend Ned (hard); Ferriby (hard); Cundy's key; Merriman coached; Inchbald's bills; the fishwives; Lem; the hat round the green; Bowle, for Maud's sake (easy); Nan Scullard talked round on the weir; the company's appeal at supper | Gammage's old notice; Mrs Swale's letter; Hepzibah's cuts; the truth about Fallow's wardrobe; the cleric's word; paying; the weir; the lock; a speech written instead; pay her two crowns; name the Gullet; cross before dark |
+| **Deception** | a lie to Merriman (formidable); Tunstall bribed; Pudding's note forged in Swale's hand; Pudding's answer hissed from the wing; telling Tunstall you answer for the book (easy); the cook at the Orde house's area door | the playbill; the Eighth Ordinance; spelling the note right (lore); roaring Garlick down; Sukey takes you in by the kitchen; an invitation |
+| **Intimidation** | Garlick frightened; Garlick roared down from the yard; the Office's men in the wing; Lem's hat (easy); threatening the Master (hard, and it costs her for ever); Nan Scullard faced down | Meg's walk-on; Pudding warned; carrying the prompt-book; Lem paid |
 | **Insight** | Fallow's face; Callow's claim (easy); Sukey's hood; Gosse's deafness noticed in rehearsal | Hepzibah tells you on the second morning anyway; Merriman tells of the lady |
-| **Lore** | the chained Ordinances; Merriman's speech; Pudding's spelling mended | submit and accept the strikes; coach him instead; carry the note as it is |
+| **Lore** | the chained Ordinances; Merriman's speech; Pudding's spelling mended; the Aenean stone under the stage read | submit and accept the strikes; coach him instead; carry the note as it is |
 | **Brawn** | the costumes over the river (easy); the loft door against the bailiff; the trap's lever; the conduit wheels | Tam and Pudding help carry; pay the tailor; mending frees the trap and the screw |
 | **Mending** | the siege-tower's wedge; the Fountain's screw; the trap (no check); the tank and pump (no check); the tenor rope (no check) | the jackdaws found instead; brawn for the trap and the wheels |
 | **Climbing** | the bee chimney; the rafters after Shad; the heavens for the lantern | smoke or talk the bees down; call Shad down; a mage's light |
 | **Stealth** | the parcel lifted; Ned over the wall; the seized book from the Master's desk (hard) | the playbill; the Canon asked; the Master asked for it back |
-| **Lockwork** | the property chest, the bear-pen, the conduit house (no check, a locksmith's); Swale and Pudding locked in the loft together (easy) | Hepzibah's key, given to one of the company; buy Patience or ask Bowle; Cundy's key; the letter |
-| **Woodcraft** | Patience calmed by the collar; the bees smoked down; Patience led round the green with the hat | honey; Pudding; Ma Tolly's skep; the hat round |
+| **Lockwork** | the property chest, the bear-pen, the conduit house (no check, a locksmith's); Swale and Pudding locked in the loft together (easy); (the bear-pen picked under Bowle's eye looses his mastiffs) | Hepzibah's key, given to one of the company; buy Patience or ask Bowle; Cundy's key; the letter; buy her or plead for Maud; pick it by night with fire or a hush for the dogs |
+| **Woodcraft** | Patience calmed by the collar; the bees smoked down; Patience led round the green with the hat; Bowle's mastiffs hushed in the ring | honey; Pudding; Ma Tolly's skep; the hat round; fire; run with the bear while they wait for the word; pay Bowle |
 
 ### Builds as played
 

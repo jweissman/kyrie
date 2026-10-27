@@ -111,7 +111,7 @@ Module pentrice "Gosse's Company" {
     Speaker bowle. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(bowle, site) and bowleTold(bowle) and at(the_bear, bear_pen) and state(bear_pen_gate, penned).
     Resolve check(actor, persuasion, dc_easy).
-    On success { Assert state(bear_pen_gate, open). }
+    On success { Assert bowleLet(bowle). Assert state(bear_pen_gate, open). }
     Result "Bowle doesn't answer. He goes down to the end pen with his keys and unlocks it and stands back, and Patience comes out and puts her nose against his apron, and he puts his scarred hand on her head, just for a moment. 'Go on, then,' he says, to her, not you. 'Go on home.'".
     Otherwise "'Maud's dead,' says Bowle. 'Twelve coin.'".
   }
@@ -119,7 +119,7 @@ Module pentrice "Gosse's Company" {
     Speaker bowle. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(bowle, site) and at(the_bear, bear_pen) and quantity(actor, gold) >= 12
       and state(bear_pen_gate, penned).
-    On success { Decrease quantity(actor, gold) by 12. Increase quantity(bowle, gold) by 12. Assert state(bear_pen_gate, open). }
+    On success { Decrease quantity(actor, gold) by 12. Increase quantity(bowle, gold) by 12. Assert bowleLet(bowle). Assert state(bear_pen_gate, open). }
     Result "Bowle counts it twice and goes and unlocks the end pen without a word.".
   }
   // Back at the Moon: given honey on the night, she will come on in the third act; otherwise she must be coaxed.
@@ -193,7 +193,7 @@ Module pentrice "Gosse's Company" {
   Discovery sulphur_known "The fishwives smoked Ma Tolly's swarm out of the fishmongers' chimney with sulphur, and killed it.".
   Topic tolly_weir with tolly "Ask Ma Tolly how the Gullet gets to the Soke when the watermen won't row" when state(chimney, saved) or tollyOwes(tolly) once {
     Says "Ma Tolly looks round to see who is listening. 'The old weir,' she says. 'Below the Stairs. In the evening the mill-sluices shut and the stones come up, and you can walk it in half an hour if you go where the moss is and not where it isn't.' She taps her nose. 'The watermen don't like it known. My father walked it to court my mother.'".
-    On discuss { Assert knows(actor, weir_known). }
+    On discuss { Assert knows(actor, weir_known). Assert gulletSent(actor). }
   }
 
   // ── The ostler's banns ──────────────────────────────────────────────────────────────────────────────────────────
@@ -357,7 +357,7 @@ Module pentrice "Gosse's Company" {
   }
   Topic garlick_weir with garlick "Ask Garlick how the Gullet gets to the Soke when the watermen won't row" when true once {
     Says "'The weir,' says Garlick, at the top of his voice, and then, at the bottom of it, because two watermen have turned round: 'Below the Stairs. In the evening the stones come up. Half an hour, keep to the moss.' He winks. 'Don't tell the red caps I told you.'".
-    On discuss { Assert knows(actor, weir_known). }
+    On discuss { Assert knows(actor, weir_known). Assert gulletSent(actor). }
   }
   Topic meg_stage with meg "Ask Meg Garlick what she would rather be doing" when true once {
     Says "'On the stage,' says Meg, all at once, as if it had been waiting behind her teeth. 'With a real company. I can do all the voices. I do my father.' She does her father, and the stall next door falls about laughing. 'He won't hear of it,' she says. 'He says players are worse than eels.'".

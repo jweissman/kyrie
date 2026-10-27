@@ -177,8 +177,14 @@ Module pentrice "Gosse's Company" {
   Passage ferry "the watermen's boats" is ferry between water_stairs and soke_landing taking 10 minutes
     opening when not watermenStrike(pentrice) "The watermen sit on the Stairs with their oars across their knees and their caps on the back of their heads, and do not shout. Their boats are drawn up and chained.".
   Discovery weir_known "Below the Water Stairs there is an old weir across the Arle, and at low water in the evening you can walk it to the Soke on the stones, if you know where they are and keep your feet." { Known by garlick, tolly. }
-  Passage weir_path "the old weir" is path between water_stairs and soke_lane taking 30 minutes hidden until weir_known
+  // The weir is two walks with the stones in the middle, where the mill-race comes in and something lives under it.
+  Place weir_stones "the weir stones" is room within pentrice at 1, 4 outdoors.
+  Passage weir_path "the weir's last stones" is path between water_stairs and weir_stones taking 15 minutes hidden until weir_known
     opening when hour(clock) >= 16 or hour(clock) < 2 "The weir is under a yard of brown water, running fast. At low water, from the evening until the small hours, the stones come up.".
+  Passage weir_soke "the old weir" is path between weir_stones and soke_lane taking 15 minutes hidden until weir_known
+    opening when hour(clock) >= 16 or hour(clock) < 2 "The weir is under a yard of brown water, running fast. At low water, from the evening until the small hours, the stones come up.".
+  Observe weir_stones_scene at weir_stones when true "Halfway over, the weir widens into a ledge of old dressed stone, slimed green, where the mill-race of the drowned Bishop's Mill comes in under an arch and the water stands in a black pool before it goes over. The City's lamps are behind you, the Soke's in front, and both look a long way off. The moss is where the footing is. There are bones on the ledge, small ones, fish and fowl, and the end of somebody's fire.".
+  Initially Assert cityRoom(weir_stones).
 
   Relation fountainRuns(place). Relation watermenStrike(place). Relation playingTonight(place).
 

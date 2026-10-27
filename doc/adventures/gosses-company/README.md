@@ -9,7 +9,7 @@ built in Kyr (`data/adventures/gosses-company`, `data/goings-on/players`) and pl
 ```sh
 bin/kyrie lint data/campaigns/gosses-company.campaign.json      # 0 errors, 0 warnings, recommended
 bin/kyrie preview data/campaigns/gosses-company.campaign.json   # the reader
-bun test test/gosses-company.test.ts                            # 25 journeys and a lint
+bun test test/gosses-company.test.ts                            # 30 journeys and a lint
 bun test test/gosses-company-wander.test.ts                     # seeded random legal play from Wending Cross
 bin/kyrie play test/fixtures/gosse/city.campaign.json --seed g1 --steps test/fixtures/gosse/book.json
 ```
@@ -43,13 +43,14 @@ was written by his daughter, who keeps his Office.
 | [friction.md](friction.md) | the authoring-friction report: what the engine needed, what was changed, what was worked round |
 | [10-editorial.md](10-editorial.md) | the final editorial revision, and the record of changes made after play |
 | [11-critique.md](11-critique.md) | an honest literary and experiential critique |
+| [12-second-pass.md](12-second-pass.md) | the second pass: what was wrong, the play performed, the Bench's supper, what the riot cost, the dogs and the weir, and the 10x answer |
 | [playtest/](playtest/) | full transcripts, every step as the page told it |
 
 ## What is where
 
 | | |
 |---|---|
-| `data/adventures/gosses-company/` | the city (`city.kyr`), the week's clock (`clock.kyr`), the company (`troupe.kyr`), the Office and the mystery (`office.kyr`), the Bench (`bench.kyr`), the town's small stories (`town.kyr`), the other companies' nights (`nights.kyr`), Gosse's night (`night.kyr`), the verdict, the endings and the rewards (`verdict.kyr`) |
+| `data/adventures/gosses-company/` | the city (`city.kyr`), the week's clock (`clock.kyr`), the company (`troupe.kyr`), the Office and the mystery (`office.kyr`), the Bench (`bench.kyr`), the town's small stories (`town.kyr`), the other companies' nights (`nights.kyr`), Gosse's night (`night.kyr`), the Bench's supper (`supper.kyr`), what the riot cost and who remembers it (`history.kyr`), the dogs and the weir (`combat.kyr`), the verdict, the endings and the rewards (`verdict.kyr`) |
 | `data/adventures/gosses-company/placed.json` | Pentrice as a country beyond a march, reading what the herald learned |
 | `data/adventures/gosses-company/module.json` | Pentrice alone, from the road (the test fixtures' city) |
 | `data/adventures/gosses-company/road/` | Wending Cross, an authored village on the west road, and the road across the march, for the standalone campaign |

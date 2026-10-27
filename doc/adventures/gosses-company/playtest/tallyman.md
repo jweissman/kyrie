@@ -27,12 +27,14 @@ smells on a warm day. Fishwives cry pike and eel and Arle salmon in voices that 
 a post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers’ hall has a tall chimney, 
 and a stall papered with ballad-sheets is doing a brisk trade. At the far end of the Gullet the fishmongers’ hall 
 chimney is humming like an organ-pipe: a swarm of bees has gone into it, and a dozen fishwives are standing at its 
-foot with a pan of sulphur and a tinderbox, arguing. Here are Dame Philippa Gammage, the Gullet’s critic, who keeps 
+foot with a pan of sulphur and a tinderbox, arguing. Here are Dame Thalia Gammage, the Gullet’s critic, who keeps 
 the ballad stall; Ma Tolly, the honey-woman of the Gullet; Oswin Garlick, a fishmonger, and the most famous heckler 
 in Pentrice; and Meg Garlick, the fishmonger’s daughter.
 [To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Across the 
 water, low and wooden, the Wheel. Watermen sit along the steps in their red caps beside their boats, smoking, 
-shouting ‘Oars! Oars! Over to the Soke!’ at anyone who looks at them. Joss Ferriby, the warden of the watermen of 
+shouting ‘Oars! Oars! Over to the Soke!’ at anyone who looks at them. An old waterman at the top of the steps 
+tells nobody in particular that the bridge wardens have been at Mr Fallow’s house twice this week, and that a man 
+who owns a bridge has no business being kind to a man who owns a boat. Joss Ferriby, the warden of the watermen of 
 the Water Stairs, is here.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -125,7 +127,10 @@ looks sideways at yours. An hour passes.
 very small in his ledger. Up in the lords’ room the Canon, who has seen the whole thing, catches your eye and looks 
 away, pink.
 [Wait › An hour] An hour passes.
-[Wait › An hour] An hour passes.
+[Wait › An hour] In the empty Wheel one lantern is burning on the edge of the stage, and Absalom Gosse is standing 
+beside it in his shirtsleeves, saying the Prologue to the empty yard and the empty galleries. He gets as far as the 
+last couplet, and stops, and goes back to the beginning, and stops again in the same place. Gosse stands a little to 
+the right of whoever he is talking to, always, and tilts his head as if listening to music. An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] The Wheel is a wooden O, three galleries high, open to the sky in the middle: a beaten-earth yard 
 where the groundlings stand, a stage thrust out into the yard on trestles, with two doors at the back of it and a 
@@ -169,38 +174,63 @@ as Gosse promised: the Widow in a tablecloth, the Ghost in a bedsheet with a cha
 his own coat turned inside out. The yard thinks it is part of the joke, and by the second scene it is.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes.
-[Wait › A while] Time passes. Gosse comes out alone to the front of the stage, in a crimson coat and a laurel 
-wreath, and stands there with his arms open until the yard is quiet, which takes a long time, and then a little 
-longer, because he likes it. ‘Your pardon, gentles,’ he begins, in the voice that carries to the back of a field: 
-the Prologue, asking the City’s pardon in advance for everything.
+[Wait › A while] Time passes. A trumpet in the heavens, three times, rather flat: Tam is playing it with a cold. 
+Then Gosse comes out alone to the front of the stage in a crimson coat and a laurel wreath, and stands there with his 
+arms open until the yard is quiet, which takes a long time, and then a little longer, because he likes it. Then, in 
+the voice he keeps for open fields: ‘Your pardon, gentles, first; the play comes after. / We ask it now, while you 
+are warm with laughter, / since later you may think we went too far / and wish you’d kept it. Poor folk that we 
+are, / we bring a town (not this one, sirs: a town / a long way off, of very small renown) / that has a Council, and 
+a Book to tell / who walks before whom; a Fountain; and a well- / beloved Alderman, who died, and then / declined to 
+lie down quiet, like other men.’ At ‘not this one, sirs’ he looks straight down at the grey bench, and goes on 
+looking, and the yard howls.
 [Wait › A while] Time passes.
-[Wait › A while] Time passes. Gosse dries in the middle of the Prologue, and nobody gives him his line from his 
-good side, and he stands there for a terrible moment. Then he smiles, enormously, and begins to apologise to the 
-City, in his own words, for drying, and for being old, and for his company, and for the bear, until the yard is 
-helpless; and down on the grey bench every tallyman’s knife is moving at once. The funeral of Alderman Gudgeon: the 
-mourners come on in a line behind the coffin, in black, with long faces, and at once begin to quarrel about who walks 
-first, by the Book of Precedence, until they have set the coffin down in the middle of the stage to settle it with 
-their fists. The coffin lid moves.
-[Wait › A while] Time passes.
+[Wait › A while] Time passes. Gosse dries on the last couplet of the Prologue, and nobody gives it him from his 
+good side, and he stands there for a terrible moment with his arms still open. Then he smiles, enormously, and steps 
+down to the very edge of the stage. ‘Gentles,’ he says, in his own voice, ‘I have forgotten what comes next. It 
+is the first time in forty-one years, and I chose the Wheel to do it in, which shows a sense of occasion.’ The yard 
+laughs, not sure that it should. ‘It was something about your ears,’ he says, ‘and my fooling. Take it as 
+said.’ Down on the grey bench every tallyman’s knife moves at once: none of that was in the book. Gosse goes off 
+backward, bowing, and the play begins. A muffled drum. Six mourners in black carry the coffin on, with long faces, 
+and behind it Lob, carrying the dead Alderman’s chain of office on a cushion as if it were a cat that might wake. 
+Halfway across they stop. CHAMBERLAIN: By the Book, the Chamberlain walks next the corse. MASTER OF THE WEIGHTS: Page 
+forty. The Weights precede the Chamberlain on all occasions solemn or wet. CHAMBERLAIN: This is solemn. MASTER OF THE 
+WEIGHTS: It is also raining. (In the heavens Tam shakes a sieve of dried peas, and it is.) COUSIN: The deceased’s 
+own wishes— CHAMBERLAIN and WEIGHTS, together: The deceased is not in the Book. They set the coffin down in the 
+middle of the stage to look it up, and two men bring on the Book of Precedence, which is the size of a door, and open 
+it, and fall to fighting over the page. Behind them, the coffin lid moves.
+[Wait › A while] The lid comes up, and the Ghost of Alderman Gudgeon looks out over the edge of his coffin at his 
+own funeral. GHOST: Who walks first? Nobody hears him but Lob. LOB: You do, master. You’re dead. GHOST: Then why am 
+I lying down? LOB: They’ve put you down to argue. GHOST: In my day we argued standing up. Time passes.
 [Wait › A while] Time passes. The mourners’ quarrel is a real quarrel: somebody misses a cue and somebody else 
-steps on a hem, and the shoving gets out of hand, and Ambrose Swale, coming up out of the coffin, puts his foot on 
+steps on a hem, and the shoving gets out of hand, and the Ghost, coming up out of the coffin, puts his foot on 
 Pudding’s hand and does not apologise, and Pudding’s yelp gets the biggest laugh of the scene. The yard loves it. 
-The lords’ room does not. The Widow Gudgeon receives over the funeral meats: Sir Rowley Pomfret, the heir, a fop in 
-a wig like a sheep, has come to propose to her before the meats are cold, while the Ghost, whom only Lob can see, 
-stands behind her chair objecting in blank verse.
-[Wait › A while] As Pomfret goes down on one knee on the hearth-rug, a voice like a foghorn comes up out of the 
+The lords’ room does not. The Widow Gudgeon’s parlour: a table with the funeral meats on it, chief among them a 
+great raised pie; a chair; a hearth-rug; and behind the chair, where only Lob can see him, the Ghost, with his arms 
+folded. Enter Sir Rowley Pomfret, the heir, in a wig like a sheep. POMFRET: Madam. My condolences, and my hand. 
+WIDOW: Which of them are the condolences in? POMFRET: The left. The right I hold out for marriage. WIDOW: Then put 
+the left in your pocket and sit on the right. Pie? POMFRET: My uncle is not yet cold— GHOST: I am perfectly cold. I 
+was never warm in this house. She kept the windows open for the smell of the Council. WIDOW (to Lob): Is there a 
+draught? LOB: Yes’m. A considerable one. Just behind your chair.
+[Wait › A while] Pomfret goes down on one knee on the hearth-rug. POMFRET: Madam— WIDOW: Sir Rowley, you are 
+kneeling in the pie. POMFRET (not getting up): Madam. The will. WIDOW: The will. (She takes it out of her bodice and 
+reads, with her spectacles on the end of her nose.) ‘To my wife, the house; the pie-dish; and the right to refuse 
+anybody who kneels on the hearth-rug.’ (She looks at him over it.) He knew you, you see. GHOST: I knew everybody. 
+Nobody ever knew me. As Pomfret goes down on one knee on the hearth-rug, a voice like a foghorn comes up out of the 
 front of the yard: ‘IS THAT YOUR FACE OR ARE YOU WEARING IT?’ It is Oswin Garlick. Fallow’s coin is in his 
 pocket, and the yard is turning to look at him, and the scene is going. Time passes.
 [Wait › A while] Time passes. Kit Arden plays the Widow as his own grandmother, in a cap, with a stick, and does it 
 very well, for a boy of fifteen; the yard laughs at the old woman, and a little at the boy. Garlick does not stop. He 
 heckles the whole of the scene, every line, and the yard turns its back on the stage to watch him, and the Widow’s 
-best speech goes into the noise like a stone into a pond. The Council of the town sits in a row of chairs, voting to 
-sell Alderman Gudgeon’s statue to pay for the Fountain of Concord; and the Ghost, invisible to all of them, rises 
-to speak against it.
-[Wait › A while] ‘I rise, sirs,’ says Ambrose Swale, with tremendous feeling, ‘as I always rose: unbidden, 
-and too soon, and much too long’ — and the Wheel explodes. It is not a laugh; it is a noise like a roof coming 
-off. Swale stops dead in the middle of the stage. He does not know what has happened. He looks at the yard, and up at 
-the galleries, and then, very slowly, at the wing. Time passes.
+best speech goes into the noise like a stone into a pond. The Council of the town sits in a row of chairs in its 
+chains of office, with the Mayor in the middle in the biggest chain. MAYOR: The question is the statue. The Fountain 
+of Concord wants paying for, and the Alderman stands in the square doing nothing, in bronze, which is fetching eleven 
+crowns the hundredweight. Who is for selling him? (Every hand.) MAYOR: Carried, then, unless anybody rises to speak 
+against it. And the Ghost, whom none of them can see, rises to speak against it.
+[Wait › A while] ‘I rise, sirs,’ says Ambrose Swale, with tremendous feeling, ‘as I always rose: unbidden, / 
+and too soon, and much too long’— and the Wheel explodes. It is not one laugh but hundreds, each arriving at its 
+own speed, and the last of them still coming down from the top gallery when the first have finished. Swale stops dead 
+in the middle of the stage. He does not know what has happened. He looks at the yard, and up at the galleries, and 
+then, very slowly, at the wing. Time passes.
 [Put your stick down on the grey bench, and do not count] You lay your stick and your little knife down on the grey 
 bench beside you, and fold your hands, and watch the play. Along the bench Abel Tunstall sees it, and his own knife 
 stops for a moment. Then he leans across the tallyman between you and takes your stick, quite gently, and puts it in 
@@ -208,38 +238,68 @@ his pocket. Up in the lords’ room Nym Callow has seen it too, and is writing.
 [Wait › A while] Time passes. Swale stands in the roar not knowing what it is, and nobody tells him, and he 
 decides, you can see him decide it, that they are laughing at him; and he plays the rest of the Council scene to the 
 floor, fast, in a dead voice, and every double meaning goes off in his hands like a squib, and the house laughs, and 
-laughs, and he does not look up. The lovers in the Widow’s garden by moonlight: Bell Gudgeon and Master Tapwell, 
-the Fountain-builder’s apprentice; and, behind a hedge, the Tallyman of the Office, in a false beard, with a 
-notched stick, cutting a notch for every kiss as an unlicensed word.
-[Wait › A while] On the stage the Tallyman in his false beard is cutting notches for the lovers’ kisses. Below 
-him, on the grey bench, the real tallymen are cutting notches for his. Time passes.
+laughs, and he does not look up. The Widow’s garden by moonlight: a painted moon on a pole, held out over the stage 
+from the balcony by an arm in a sleeve. Bell Gudgeon and Master Tapwell, the Fountain-builder’s apprentice, on a 
+bench; and behind a hedge on wheels, the Tallyman of the Office, in a false beard, with a hazel stick and a little 
+knife. TAPWELL: Mistress Bell. The moon. BELL: I see it. You are supposed to say it is less bright than I am. 
+TAPWELL: It is less bright than you are. It is also less trouble. TALLYMAN (cutting a notch): One. BELL: He hasn’t 
+kissed me. TALLYMAN: Intent. One. (Tapwell kisses her.) TALLYMAN: Two. And one for the moon, which was an unlicensed 
+comparison.
+[Wait › A while] Bell stands up on the bench to the painted moon, and gives it the speech the whole scene has been 
+walking toward: ‘Look how she climbs, and will not stop, the moon, / for any Book, nor Council, nor the noon, / but 
+up, and up, until she has the top—‘ and on the last word the voice that says it has to go up after her. On the 
+stage the Tallyman in his false beard is cutting notches for the lovers’ kisses. Below him, on the grey bench, the 
+real tallymen are cutting notches for his. Time passes.
 [Wait › A while] Time passes. With Dorcas gone and nobody else, Tam Hautboy plays Bell, aged nineteen, in a frock, 
 with his own beard shaved off for it that afternoon and his hautboy still in his pocket, while Pudding plays the 
 Tallyman behind the hedge in Tam’s false one. The Wheel has never seen anything like it and never will again. 
 Ormsby Clay leaves the lords’ room for ten minutes. Master Tapwell, the young lover, is read from the wing by 
 Hepzibah Dimmock, fifty-nine, in her own dry voice, out of the book, while the Bell on stage makes love to an empty 
-patch of moonlight. It is very funny the first time and grows strange. Alone on the stage at night, by the empty 
-plinth where his statue stood, the Ghost of Alderman Gudgeon makes his complaint: a man who will not lie down, 
-because nobody in the town he served will tell the truth, and so he cannot rest. Lob sits at his feet.
-[Wait › A while] Time passes.
+patch of moonlight. It is very funny the first time and grows strange. Night in the square: the empty plinth where 
+the Alderman’s statue stood, with the pigeons’ work still white on it, and one lamp. The Ghost comes and sits 
+down on the edge of the plinth, and Lob sits at his feet with the chain of office in his lap; and for a while neither 
+of them says anything, and the Wheel, which has been laughing for an hour, does not know what to do with its hands.
+[Wait › A while] GHOST: ‘This was my statue. Now it is a place / where pigeons stood. I paid for half this street 
+/ and paved it badly: every cart in town / goes over my mistakes, and curses me, / and that is how I’m loved. I was 
+a fool. / I know it now. I think I always knew it. / Everybody knew it. Nobody / said so. That is all I want: the 
+thing / that everybody knew, said once, aloud, / by someone who is not paid to say it. Then / I will lie down. Lob, 
+you know it. Say it.’ LOB: I can’t, master. GHOST: Why not? LOB: You’d laugh. GHOST: I never laughed in my 
+life. LOB: That’s why. Time passes.
 [Wait › A while] Time passes. Swale plays the complaint to the floorboards, fast, as if he wanted it over, in the 
 voice of a man who has heard himself laughed at; and the house, which does not know why, laughs uncertainly in the 
-wrong places, and the scene goes by, and is gone. The unveiling of the Fountain of Concord, paid for with the sale of 
-Alderman Gudgeon’s statue: the Council in its chains, a sheet over a great stone basin, and the Mayor of the play 
-pulling the cord, and declaring it open, and waiting for it to run.
-[Wait › A while] Time passes.
+wrong places, and the scene goes by, and is gone. The square by day, in bunting: the Council in its chains, and in 
+the middle a great stone basin under a sheet. The Chamberlain claps his hands, and the Council’s own pageant 
+begins, as devised by the Chamberlain in honour of the Fountain: The Concord of Arle— (he looks down at the grey 
+bench) —of the Town; in which Concord, Plenty and Precedence are played by the Mayor’s three nephews in wigs. 
+CONCORD (with a cardboard dove): ‘Where two great rivers wed their waters, there / stands Concord, and the town is 
+free of care!’ PLENTY (with a horn of turnips): ‘And Plenty too, with all her horn can hold—‘ PRECEDENCE 
+(with the Book): ‘Not before me. I go before the gold.’ PLENTY: ‘The Book says Plenty—‘ PRECEDENCE: ‘I am 
+the Book.’ Concord drops the dove, and the pageant turns into the funeral again, three allegories pulling a book 
+about the stage while the Council stands round the sheet and coughs; and in the lords’ room somebody who has sat 
+through The Siege of Arle eleven Trials running laughs so suddenly that he has to pretend it was a sneeze.
+[Wait › A while] The Mayor pulls the cord, and the sheet comes off a basin as dry as a biscuit. MAYOR: ‘I declare 
+the Fountain of Concord open, and paid for, and the Alderman’s statue well sold. Let it run!’ Everybody looks at 
+the basin. Behind them, the Ghost looks at the plinth. Time passes.
 [Wait › A while] Time passes. The Fountain does not run. The Council looks at it. It goes on not running. In the 
 end Tam Hautboy, as a workman, comes on with a watering-can and pours it into the basin with great care, and the yard 
-laughs. The Alderman’s statue, sold to the bear-garden of the Soke, is to be collected; and the keeper of the 
-bear-garden comes for it with his bear, which is the moment the playbills promised.
-[Wait › An hour] Who walks first: the Ghost may rest only when somebody in the Council tells the truth, and nobody 
-can, until Lob, by accident, does; and the Widow chooses, and the lovers are married, and the whole town forms up in 
-procession again, by the Book of Precedence, to see the Ghost to his grave; and this time the Ghost walks first. 
-There is no bear. Pudding comes on as the bear in a hearthrug, and is very funny; but the playbills promised a bear, 
-and in the yard somebody says so, loudly, and somebody else says Bowle has her, over the way, and the laugh goes 
-thin. Behind it all, in the left-hand wing, the Office has its way: Hepzibah Dimmock goes round to the grey bench 
-with the book in her arms and the Office’s men on either side of her, and sits down on the end of the bench, and 
-the left-hand wing is empty.
+laughs. Enter the Keeper of the bear-garden of the Soke, in a leather apron, with a chain and a paper. KEEPER: One 
+statue, alderman’s, bronze, eleven hundredweight, sold to the bear-garden, to be collected. MAYOR: Collected for 
+what? KEEPER: Baiting. CHAMBERLAIN: You cannot bait a statue. KEEPER: You can’t bait an alderman neither, by 
+rights, and this Council’s been doing it thirty years. GHOST (to Lob): Is that true? LOB: Yes, master. GHOST: Why 
+did nobody tell me? LOB: You never asked. KEEPER: And I’ve brought a bear to do the pulling. Which is the moment 
+the playbills promised.
+[Wait › An hour] The grave at last: the trap, with a painted headstone behind it, and the whole town come to see 
+the Alderman buried a second time, in procession, by the Book. CHAMBERLAIN: By the Book. MASTER OF THE WEIGHTS: Page 
+forty. They line up, and argue, and the Ghost stands at the edge of his grave and will not go down. GHOST: Not till 
+it’s said. MAYOR: What is he waiting for? WIDOW: The truth, I expect. He always was. Nobody says it. The Council 
+looks at its feet. Then Lob, carrying the chain, trips over the Book of Precedence where it lies open on the stage, 
+and goes down full length, and says from the floor, without meaning to: LOB: Oh, we all laughed at him! All of us! 
+All his life! We loved him! A long silence. The Ghost turns round. GHOST: ...Did you. LOB: Yes, master. GHOST (taking 
+off his chain, and putting it round Lob’s neck): Then I’ll go first. There is no bear. The Keeper comes on as the 
+bear in a hearthrug, and is very funny; but the playbills promised a bear, and in the yard somebody says so, loudly, 
+and somebody else says Bowle has her, over the way, and the laugh goes thin. Behind it all, in the left-hand wing, 
+the Office has its way: Hepzibah Dimmock goes round to the grey bench with the book in her arms and the Office’s 
+men on either side of her, and sits down on the end of the bench, and the left-hand wing is empty.
 [Wait › An hour] Ormsby Clay is already on his feet in the lords’ room with his book shut, pushing in his chair, 
 neatly. Dame Gammage has finished her nuts, and is looking into the empty bag as if it owed her a better evening. 
 Canon Mallory is studying his hands, pink, like a man to whom something has been said in church. Nym Callow has 
@@ -247,9 +307,11 @@ written one word across his programme, and underlined it twice. When the house h
 grey bench with the tallymen’s sticks in a bundle under his arm, and reads the notches by lantern-light, at a crown 
 a notch: 14 crowns, to be paid at the Office before the Bench sits at ten tomorrow, or Absalom Gosse to answer for it 
 in the Clink of the Soke. The procession is not rehearsed and goes round the stage the wrong way twice, and the Ghost 
-walks first because he is the only one who knows where to go. Then the epilogue: Gosse, as Pomfret, asks the City’s 
-pardon, as the book has him, beautifully, and bows, and the play is over. The house claps them, as a house does, and 
-goes out over the river talking.
+walks first because he is the only one who knows where to go. Then the epilogue. Gosse, as Pomfret, comes down to the 
+edge of the stage: ‘So ends our town, sirs, which was never yours; / so ends our Alderman, who went through doors / 
+the Book had shut, and first, as dead men may. / A comedy should end in marriage: so / I ask your hands instead, and 
+so I go. / And so, good night.’ And he bows, beautifully, and the play is over. The house claps them, as a house 
+does, and goes out over the river talking.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.

@@ -1,0 +1,97 @@
+Module pentrice_danger "Gosse's Company: the dogs and the weir" {
+  // Two places in the week where the company can be hurt, and the ways round each.
+  // Bowle's mastiffs keep the bear-garden (they stand and wait for the word before they come): in the kennels by day, unless Bowle looses them on someone who opens
+  // Patience's pen under his nose; loose in the ring by night, when Bowle sleeps over the kennels. Paid, pleaded with,
+  // a torch held up, or hushed by someone who knows dogs, they are no danger; beaten, Bowle whistles them off.
+  // The weir-rats keep the weir stones by night: Long Nan Scullard's people, Gullet folk gone wrong, who live under
+  // the drowned Bishop's Mill and charge two crowns for the stones. Pay, talk, face them down, name the Gullet, or
+  // cross before dark; beaten, you are thrown in the Arle. The night the Gullet walks the weir, they are not seen again.
+
+  // ── The bear-garden by night ──────────────────────────────────────────────────────────────────────────────────
+  Place kennels "the kennels behind the bear-garden" is room within bear_garden at 1, 0.
+  Person mastiffs "Bowle's mastiffs" at kennels {
+    Role "three bear-dogs, brindled and scarred, with jaws like man-traps". Species cave_hound. Level 1. Numbers 3. Pronouns they.
+    Called "Grip", "Tearwell", "Old Madam".
+    Temperament territorial. Lair bear_pen. Refuge kennels. Fears flame.
+    Warns "Three mastiffs come out across the sand and stop, side by side, between you and the pens. They do not bark. The one in the middle, a brindled bitch with half an ear, lowers her head and shows you all of her teeth, and waits for the word.".
+    Comes "The mastiffs come at you across the sand without a sound, low and fast, the way they were taught to go at a bear.".
+    Flinches "The mastiffs see the fire and break, and go back into the dark behind the pens with their tails down, snarling.".
+    Pleads "The last of the mastiffs lies down on the sand with its ears flat and lets you by, and somewhere behind the pens Bowle whistles, and they go.".
+  }
+  Initially Assert takesPrisoners(mastiffs).
+  Relation bowleLet(group). Relation dogsLoosed(group). Relation dogsHushed(group).
+  // Bowle sleeps over the kennels; the dogs run the ring at night.
+  Query bearNight() means hour(clock) >= 23 or hour(clock) < 6.
+  Rule bowle_abed when bearNight() and at(bowle, bear_pen) { Retract at(bowle, bear_pen). Assert at(bowle, kennels). }
+  Rule bowle_up when not bearNight() and at(bowle, kennels) { Retract at(bowle, kennels). Assert at(bowle, bear_pen). }
+  Rule dogs_run when bearNight() and at(mastiffs, kennels) and not routed(mastiffs) and not dogsHushed(mastiffs) {
+    Retract at(mastiffs, kennels). Assert at(mastiffs, bear_pen). }
+  Rule dogs_kennelled when not bearNight() and at(mastiffs, bear_pen) and not dogsLoosed(mastiffs) and not assails(mastiffs, party) {
+    Retract at(mastiffs, bear_pen). Assert at(mastiffs, kennels). }
+  Observe bear_pen_night at bear_pen when bearNight() and at(mastiffs, bear_pen) and able(mastiffs) "The ring is dark but for a lantern on the stake, and in the dark something is moving round the edge of the sand, and then three things, close together.".
+  // Opening the pen under Bowle's nose.
+  Rule dogs_loosed at bear_pen when state(bear_pen_gate, open) and at(bowle, bear_pen) and not bowleLet(bowle) and not dogsLoosed(mastiffs)
+    says "Bowle sees the pen open, and doesn't shout. He walks to the kennels, very quickly for a short man, and draws the bolt." {
+    Assert dogsLoosed(mastiffs). Retract at(mastiffs, kennels). Assert at(mastiffs, bear_pen). }
+  Rule dogs_done when dogsLoosed(mastiffs) and (routed(mastiffs) or tolerates(mastiffs, party) or not at(party, bear_pen)) and at(mastiffs, bear_pen) {
+    Retract dogsLoosed(mastiffs). Retract at(mastiffs, bear_pen). Assert at(mastiffs, kennels). }
+  // Ways round them.
+  Relation triedHush(group).
+  Action hush_dogs(actor: group, site: place) "Go down on your heels and talk to the mastiffs as a drover talks to dogs" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mastiffs, site) and able(mastiffs) and not routed(mastiffs)
+      and not tolerates(mastiffs, actor) and not triedHush(actor).
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert triedHush(actor). Assert tolerates(mastiffs, actor). Retract assails(mastiffs, actor). Assert dogsHushed(mastiffs). }
+    On failure { Assert triedHush(actor). Assert assails(mastiffs, actor). }
+    Result "You go down on your heels with your hands open and talk to them, low and steady, nonsense, the way the drovers did on the west road. The first dog stops. The second sniffs your hand. The third lies down, puzzled, with its head on its paws, and looks at Bowle as if to ask what the fuss was.".
+    Otherwise "You go down on your heels, and the first dog takes it for what it is, and comes.".
+  }
+  Topic bowle_dogs with bowle "Ask Bowle about the dogs" when true once {
+    Says "'Bear-dogs,' says Bowle. 'Bred for it. They'd take a bear's ear off and think it was their birthday.' He looks at them with something like love. 'They run the ring at night, so nobody comes over the palings for my bears. Fire they don't like. Talk they don't understand, unless you talk dog.'".
+  }
+  // What a captor's rule says as the fight ends is not told (see friction); it is told where the company comes round.
+  Relation bitten(place). Relation ducked(place). Measure cameRound(place).
+  Rule mastiffs_captured when captured(mastiffs, party) {
+    Retract captured(mastiffs, party). Assert bitten(pentrice). Set cameRound(pentrice) to watch(clock). Retract at(party, bear_pen). Assert at(party, soke_lane).
+    Retract assails(mastiffs, party). Retract dogsLoosed(mastiffs).
+    Retract following(the_bear, party). Retract acceptsEscort(the_bear, party).
+    Retract at(the_bear, ?p). Assert at(the_bear, bear_pen). Assert state(bear_pen_gate, penned). Retract state(bear_pen_gate, open). Assert bearTaken(the_bear). }
+  Rule bitten_told at soke_lane when bitten(pentrice) and watch(clock) > cameRound(pentrice)
+    says "Bowle whistled, once, and the dogs let go. You come round on the cobbles of Soke Lane with Bowle standing over you, wiping his hands. 'Stray,' he says, 'found loose in the Liberty,' and goes back in. You are bitten in three places. Patience is in her pen again, and the padlock is a new one." { Retract bitten(pentrice). }
+
+  // ── The weir stones ───────────────────────────────────────────────────────────────────────────────────────────
+  Place weir_mill "under the drowned Bishop's Mill" is room within pentrice at 2, 4.
+  Person weir_rats "the weir-rats" at weir_mill {
+    Role "Long Nan Scullard's people, four of them, mudlarks grown up wrong, with boat-hooks and cudgels and a dark-lantern". Ancestry human. Calling thief. Level 1. Numbers 4. Pronouns they.
+    Called "Long Nan Scullard", "Eel Joe", "the Hollander's boy", "Sal Cotter".
+    Temperament proud. Refuge weir_mill.
+    Warns "A dark-lantern opens on the ledge in front of you, and behind it there are four people with boat-hooks, and the tallest of them is a woman with a face like a hatchet and a waterman's red cap she did not get honestly. 'Toll,' says Long Nan Scullard. 'Two crowns for the stones. Or you can swim for nothing; the Arle's free.'".
+    Comes "'Over she goes, then,' says Nan Scullard, and the weir-rats come at you along the slime with their hooks out, sure-footed as cats.".
+    Pleads "Nan Scullard throws her boat-hook down on the stones. 'All right,' she says. 'All right. Go on over, and be damned to you, and mind the moss.'".
+  }
+  Initially Set tribute(weir_rats) to 2. Initially Assert takesPrisoners(weir_rats).
+  Relation ratsGone(group). Relation gulletSent(group).
+  Query ratNight() means hour(clock) >= 20 or hour(clock) < 2.
+  Rule rats_out when ratNight() and at(weir_rats, weir_mill) and not routed(weir_rats) and not ratsGone(weir_rats) {
+    Retract at(weir_rats, weir_mill). Assert at(weir_rats, weir_stones). }
+  Rule rats_in when not ratNight() and at(weir_rats, weir_stones) { Retract at(weir_rats, weir_stones). Assert at(weir_rats, weir_mill). }
+  Rule rats_scattered when crowdLed(pentrice) and not ratsGone(weir_rats) { Assert ratsGone(weir_rats). Retract at(weir_rats, weir_stones). Assert at(weir_rats, weir_mill). }
+  Observe weir_rats_fire at weir_stones when not ratNight() and not ratsGone(weir_rats) "The fire on the ledge is cold, but it was lit last night, and the night before.".
+  Observe weir_rats_gone at weir_stones when ratsGone(weir_rats) "The fire on the ledge is scattered, trodden by three thousand pairs of feet, and nobody has lit it again.".
+  Action name_gullet(actor: group, site: place) "Tell Nan Scullard the Gullet showed you the stones" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(weir_rats, site) and warned(weir_rats, actor) and gulletSent(actor).
+    On success { Assert tolerates(weir_rats, actor). Retract warned(weir_rats, actor). }
+    Result "'Garlick,' you say, 'or Ma Tolly; one of them,' and Nan Scullard lowers her lantern. 'Tolly's father walked these stones when I was a girl,' she says, 'with eels round his neck like a mayor's chain.' She stands aside on the slime. 'Keep to the moss. And tell the Gullet Nan said she's not forgotten.'".
+  }
+  Topic tolly_nan with tolly "Ask Ma Tolly who keeps the weir at night" when knows(actor, weir_known) once {
+    Says "'Nan Scullard,' says Ma Tolly, and her face shuts. 'Gutted fish here for nine years and went to the bad, or the bad came to her: her man was a waterman and drowned under the Stairs, and the Wardens wouldn't bury him without the second penny. She lives under the old mill with three others like her.' She sniffs. 'Cross in daylight, or say my name. She'll have it, if she's sober.'".
+    On discuss { Assert gulletSent(actor). }
+  }
+  Rule rats_captured when captured(weir_rats, party) {
+    Retract captured(weir_rats, party). Assert ducked(pentrice). Set cameRound(pentrice) to watch(clock). Retract at(party, weir_stones). Assert at(party, soke_landing).
+    Retract assails(weir_rats, party). Decrease quantity(party, gold) by 6. }
+  Rule ducked_told at soke_landing when ducked(pentrice) and watch(clock) > cameRound(pentrice)
+    says "The Arle took you at the lip of the weir and rolled you over twice and put you down, a long way off, among the piles of the Soke landing, where a waterman fished you out with a boat-hook for a penny and charges you two. Somebody has been through your purse." { Retract ducked(pentrice). }
+}

@@ -32,7 +32,10 @@ Trial peal. A thin house starts the night cold.
 
 ## The night, scene by scene
 
-Each scene takes two watches. It opens with what the book says happens; at its middle, any live choice the week made
+Each scene takes two watches. It opens with the scene itself, performed: the lines of *The Alderman's Ghost* and its
+business, in the order the book gives them (the Prologue in couplets, the funeral over the Book of Precedence, the
+Widow and the pie, the Council and the Ghost's verse, the moon couplets, the complaint in blank verse, the pageant
+of *The Concord of Arle* inside the play, the procession and the Epilogue); at its middle, any live choice the week made
 possible is offered at the post it needs; at its end, rules read what the week made and tell what happened, moving the
 house's **temper**, each critic's **regard** and **slight**, and, on an unlicensed book, the **fines**.
 
@@ -54,6 +57,31 @@ stage, or his chair pushed in; Gammage on her feet shouting, or looking into an 
 his nose, or pink as if something had been said in church; Callow tearing through his programme, or one word written
 across it and underlined twice.
 
+## After the play: the Bench's supper
+
+An hour after the Epilogue the Bench goes over the river in the Lord Mayor's barge to supper at the Orde house on Hill
+Street, as it has every Trial for forty years. The hostess is **Urania Orde**, the late Lord Mayor's widow, the
+Master's mother, and the original of the Widow Gudgeon. The Master stands at the window with her back to the room;
+Tunstall waits by the door with the night's sticks. The form is Molière's *Critique de l'École des femmes*, the
+argument after the play, with the author in the room and nobody saying so.
+
+A company comes in if it has been asked:
+
+- by the Master, if she trusts it;
+- by Dame Gammage, as the one who carries her bag;
+- by Tunstall, as a tallyman carrying the sticks.
+
+It can also come in through the kitchen, in an apron. Anyone else is turned off the step by Sukey Rowe.
+
+Eight courses of two watches each run from eleven until past one: the true things, the soup, the verb, the pie, the
+old days, the tally, what you would vote, and "Somebody might". Each course offers the company one thing to say, read
+from the week (the Eighth Ordinance, Swale's innocence, Clay's *Dido*, the stone under the stage, a stick with no
+notches), and each moves regard. Naming the author at the pie is Grave: forgiven if she trusts you, and unforgiven if
+not. The courses are tabled in [12-second-pass.md](12-second-pass.md).
+
+The votes are not cast until ten the next morning, at the Guildhall, as the charter says; but what is said at supper
+counts toward them.
+
 ## The verdict
 
 At ten on the fifth morning each critic votes for Gosse's Company if their regard outweighs their slight by enough
@@ -74,7 +102,7 @@ never crossed the march, or came after the verdict, hears it as news and goes on
 | **The Fair Copy Burned** | the book seized and burned, and the old repertory played instead | `burned.json`: Shad left on the beam, the quarto to Fallow, the book seized at three and burned at noon; *The Wolf King* to a thin house; the company writes it down from memory in the loft |
 | **The Author's Bow** | the Master came up on the stage | `bow.json`: the Book route, the author known, her trust earned, a nod on the night; all four voices |
 | **The Patent Refused** | three votes, but Gosse knows who knocked the wedge out | `refused.json`: the Book route with the wedge knocked out instead of driven home |
-| **The Patent House** | three votes | `book.json` (a bard, licensed: Clay, Gammage, Mallory) and `liberty.json` (a soldier from Wending Cross, whole: Clay, Gammage, Callow) |
+| **The Patent House** | three votes | `book.json` (a bard, licensed: Clay, Gammage, Mallory), `liberty.json` (a soldier from Wending Cross, whole: Clay, Gammage, Callow), and `supper.json` (the Book, then the supper, which brings Callow round: four voices) |
 | **The Company Broken** | the Ghost played to a house that did not know what it had seen | `alone.json` and `tallyman.json`: nobody helped the company; Dorcas gone, Swale shaken, a thin house |
 | **The Liberty** | played whole, the Patent lost | `famous.json`: the Liberty journey without Clay's *Dido* given back; Gammage and Callow, two voices short |
 | **The Road Again** | played licensed, well liked, the Patent lost | `road.json`: licensed and half rehearsed |
@@ -89,5 +117,7 @@ never crossed the march, or came after the verdict, hears it as news and goes on
   Fountain (where the water goes), the weir, Callow.
 - **Saying** solves most of the company: Dorcas, Swale, Kit, Pudding and Swale, Gosse and Hepzibah, the Master. The
   checks are on persuasion; the alternatives are things found (the notice, the letter, the Canon's trick).
+- **Fighting** is the worst way past Bowle's mastiffs and the weir-rats, and the only one that can lose the bear or
+  the purse; see [12-second-pass.md](12-second-pass.md).
 - **Doing nothing** is also a resolution, and the timetable resolves it for you: Dorcas goes, the bear is taken,
   the quarto is printed, the watermen strike, the sulphur is burned. The play still goes on.

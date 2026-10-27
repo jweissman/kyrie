@@ -49,9 +49,19 @@ tells what became of everyone.
 | **Tam Hautboy** | the hired man | his pay, and no heights | heights | the trap, the Tallyman's beard, Bell if nobody else |
 | **Patience** | an old dancing bear | honey; Pudding | dogs | whether she is home for Act III |
 | **Clemency Orde** | Master of Plain Speech, 44; ink on her finger | that her father be seen as he was | being found out | whether she warrants the play, returns it, bows, or goes cold |
-| **Abel Tunstall** | the Office's chief clerk | the Ordinances read right | nothing in the Ordinances | whether the lines are struck, restored, bought; who carries the prompt-book to the bench |
+| **Abel Tunstall** | the Office's chief clerk; the lamplighter's son, taken into the Office the week his father fell from his ladder in the riot | the Ordinances read right | nothing in the Ordinances | whether the lines are struck, restored, bought; who carries the prompt-book to the bench |
+| **Urania Orde** | the late Lord Mayor's widow, the Master's mother; the original of the Widow Gudgeon | one true thing said at her table | nothing, any longer | what the Bench hears at supper; whether her daughter's secret is told there |
+| **Long Nan Scullard** | keeps the weir stones by night with three others; a Gullet fishwife whose waterman drowned under the Stairs | two crowns a crossing | the Gullet's crowd | whether the company pays, talks, fights, or names the Gullet |
 | **Corin Fallow** | Lord Mayor's Servants | the Patent a twelfth year, kindly | Gosse, a little | whether he owes the company a siege-tower, and so hires no heckler and informs on no book |
 | **The Bench** | Clay (Guildhall), Gammage (the Gullet), Mallory (the Close), Callow (the Owl) | order; joy; improvement; truth | the bear; pomp; filth and mockery of the dead; anything the Office passes | each critic's regard and slight, and so each vote |
+
+### The week in five acts
+
+The second pass ([12-second-pass.md](12-second-pass.md)) gave the week a shape: **I. Arrival** (the road and the
+parcel), **II. Labours** (the Office, the Bench, the Soke), **III. The third night** (the midpoint: while the
+Children of the Close play, Gosse rehearses alone on the bare stage, and whoever follows learns he is afraid; the
+minster plate and the lamplighter can be found the same day), **IV. The night**, and **V. The reckoning** (the
+supper, the verdict, the fates).
 
 ## Strategic conflicts
 

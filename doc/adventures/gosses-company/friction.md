@@ -159,6 +159,61 @@ found observation could hold while an item hidden until it remains where it was.
   `plays(person, part)` relation, and are cast by rules that fill each vacancy in order.
 - **A vote** is four rules and a count.
 
+## Found in the second pass
+
+### A query cannot compare against its own parameter (medium)
+
+`Query speaking(a: group, n: number) means … and supperBeat(pentrice) == n` fails to load ("Expected '('" at the
+`n`), as `bench(who: group, by: number)` did in the first pass. A query's parameters may be passed on to calls but
+not stand in a comparison. Worked round by writing the comparison out at every use (`speaking(actor) and
+supperBeat(pentrice) == 3`): twenty-two times in the supper. **Proposal:** let a parameter be a term in a comparison;
+or say in the error that a parameter cannot be compared.
+
+### What a captor's rule says as a fight ends is never told (high)
+
+A company beaten by a group that `takesPrisoners` is `captured`, and the captor's rule says what happens next (thrown
+in the river, woken in the lane). The rule's effects apply, but its `says` is not on the page: the step shows only
+the combat and the place the company is moved to. A second rule at the new place fired in the same settle and was
+lost too. Worked round by recording the watch of the capture and telling it from the place where the company comes
+round, a watch later (`watch(clock) > cameRound(pentrice)`): so "You are bitten in three places" arrives one "Wait"
+late, as if remembered. **Proposal:** carry the tellings of rules fired in the settle after an encounter onto the
+encounter's own page.
+
+### A keeper of its post falls on a company before it can do anything (medium)
+
+An `obedient` creature with a `lair` assails whoever comes, in the same step, and the encounter resolves within that
+step: a company walking into Bowle's ring at night was beaten before it saw a choice, so none of the ways round (fire,
+a drover's hush, running with the bear) could be offered. The dogs were made `territorial`, which warns and waits a
+watch, with words for the warning ("…and waits for the word"). **Note:** the temperaments that strike at once
+(savage, ambush unspotted, obedient) cannot be met by anything but a fight, so a dangerous creature that is meant to
+have ways round must be one that warns.
+
+### `Called` names a band of beasts, not a band of people (low)
+
+`Called "Grip", "Tearwell", "Old Madam"` names the members of a group of a `Species`. On a group of people
+(`Ancestry`, `Calling`, `Numbers`) it is ignored, and the fight reports "the first of the weir-rats", "the third of the
+weir-rats". Left as it is. **Proposal:** honour `Called` for any numbered group.
+
+### A proud band's price is asked in the singular (low)
+
+The engine's own `pay_tribute` is offered as "Give the weir-rats what it asks" and answered "The weir-rats takes it,
+and lets you be". Its words are not the place's to give. Left; the band's own warning names the price. **Proposal:**
+`{lord}` with the group's pronouns, as the temperament words already do for bands (`…_many`).
+
+### Teaching prints the fact before the telling it comes from (medium; adds to the entry above)
+
+When Urania tells the table about the lamplighter, a `says … teaches lamplighter_known` printed the fact's own summary
+*before* her speech: the page gave the secret away a paragraph before she did. Worked round by teaching it a watch
+later, from a small rule of its own ("Abel Tunstall lays the sticks on the cloth in a row…"), so that the fact reads
+as a recap after the scene.
+
+### Splitting a way renames it (low)
+
+The weir was one path, "the old weir", and journeys walked it by that name. Split at the new weir stones, the choices
+became "To the weir stones" and "To the Water Stairs": a path between two rooms is offered by its destination, and
+its own name is only seen when it is shut. Three fixtures were updated. Not a fault; worth knowing before writing
+steps by a passage's name.
+
 ## What was easy
 
 - Places, passages that open and shut by condition, hidden ways, levels, and the river as the map's one distance.

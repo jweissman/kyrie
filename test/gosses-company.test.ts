@@ -8,6 +8,8 @@ import { PlayerView } from '../src/presentation/player-view';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
+import { ModuleWriter } from '../src/lang/module-writer';
+import type { Change } from '../src/lang/module';
 
 // Gosse's Company (doc/adventures/gosses-company): each journey plays by the labels a player sees, from the steps in
 // test/fixtures/gosse, and checks what the world did. The city campaign starts at the Westgate road at eight in the
@@ -35,6 +37,21 @@ class Gosse {
   ending() { return this.j.campaign.world.related('reached').map(r => r.args[0]); }
   at(who: string) { return this.j.campaign.world.one('at', p(who)); }
   get page() { return this.j.taken.map(x => `[${x.label}] ${x.page} ${x.told}`).join('\n'); }
+  // Sets a scene directly, for a danger no journey happens to walk into: who is where, and what is so.
+  stage(...facts: [string, ...string[]][]) {
+    type Staged = { world: { one(r: string, a: string): string | undefined; apply(c: Change[]): unknown };
+      commit(w: unknown): void };
+    const c = this.j.campaign as unknown as Staged;
+    const id = (a: string) => a === 'party' ? a : p(a);
+    const changes: Change[] = facts.flatMap(([name, ...args]): Change[] => {
+      if (name !== 'at') { return [{ kind: 'assert', call: ModuleWriter.call(name === 'knows' ? name : p(name), ...args.map(id)) }]; }
+      const was = c.world.one('at', id(args[0]!));
+      return [...(was ? [{ kind: 'retract', call: ModuleWriter.call('at', id(args[0]!), was) } as Change] : []),
+        { kind: 'assert', call: ModuleWriter.call('at', id(args[0]!), id(args[1]!)) }];
+    });
+    c.commit(c.world.apply(changes));
+    return this;
+  }
 }
 
 describe("Gosse's Company", () => {
@@ -86,6 +103,8 @@ describe("Gosse's Company", () => {
     expect(g.measure('fines', 'pentrice')).toBeGreaterThan(15);
     expect(g.ending()).toEqual([p('patent')]);
     expect(g.page).toMatch(/played whole at the Wheel all that season/);
+    // The Gullet walked the weir that night, and Nan Scullard's people are not seen on the stones again.
+    expect(g.holds('ratsGone', 'weir_rats')).toBe(true);
   }, 240000);
 
   it('the Liberty: the same soldier, who never gave Clay back his Dido, is famous, fined and two voices short', async () => {
@@ -328,5 +347,86 @@ describe("Gosse's Company: what the page shows", () => {
     const scene = () => PlayerView.observe(g.j.campaign).observations.map(o => o.text).join(' ');
     expect(scene()).not.toMatch(/Bell Gudgeon/);
     expect(g.holds('stand', 'party', 'post_wing') || g.holds('inWing', 'party')).toBe(true);
+  }, 240000);
+});
+
+describe("Gosse's Company: the Bench's supper", () => {
+  it('asked by the Master, a company sits at Urania Orde\'s table, says its true things, keeps her secret, and brings Callow round', async () => {
+    const g = await Gosse.start();
+    await g.fixture('supper');
+    expect(g.holds('guest', 'party')).toBe(true);
+    expect(g.page).toMatch(/nobody votes until they have eaten/);
+    expect(g.page).toMatch(/Aulus Fenne/);
+    expect(g.page).toMatch(/Whoever wrote that play has eaten in this house/);
+    // Urania tells the lamplighter before the page records it as known.
+    expect(g.page.indexOf('He took the boy into it')).toBeLessThan(g.page.indexOf('as his father must have laid out wicks'));
+    expect(g.knows('lamplighter_known')).toBe(true);
+    expect(g.holds('authorNamed', 'pentrice')).toBe(false);
+    expect(g.page).toMatch(/CLEMENCY .*Somebody might/);
+    // The Book route won three voices; the supper wins the fourth.
+    expect(g.voters()).toEqual(['clay', 'gammage', 'mallory', 'callow']);
+    expect(g.ending()).toEqual([p('patent')]);
+    expect(g.page).toMatch(/Clemency Orde keeps the Office of Plain Speech, and her secret/);
+  }, 240000);
+});
+
+describe("Gosse's Company: the dogs and the weir", () => {
+  const penned = ['Into the bear-garden', 'Pick the padlock on Patience'];
+  it('picked under Bowle\'s nose, the pen lets his mastiffs out; a company that runs with the bear gets away with her', async () => {
+    const g = await Gosse.start(build('thief'), 't1');
+    await g.play(...phase('book', 'arrive'));
+    g.stage(['at', 'party', 'soke_lane'], ['at', 'the_bear', 'bear_pen'], ['bearTaken', 'the_bear']);
+    await g.play(...penned);
+    expect(g.page).toMatch(/draws the bolt/);
+    expect(g.at('mastiffs')).toBe(p('bear_pen'));
+    expect(g.j.offers('talk to the mastiffs as a drover')).toBe(true);
+    await g.play('Out to Soke Lane', 'Wait › A while');
+    expect(g.at('the_bear')).toBe(p('soke_lane'));
+    expect(g.at('mastiffs')).toBe(p('kennels'));
+  }, 240000);
+  it('beaten by the mastiffs, a company comes round in Soke Lane, bitten, and Patience is in her pen again', async () => {
+    const g = await Gosse.start(build('thief'), 't1');
+    await g.play(...phase('book', 'arrive'));
+    g.stage(['at', 'party', 'soke_lane'], ['at', 'the_bear', 'bear_pen'], ['bearTaken', 'the_bear']);
+    await g.play(...penned, 'Wait › A while', 'Wait › A while', 'Wait › A while');
+    expect(g.j.at('party')).toBe(p('soke_lane'));
+    expect(g.page).toMatch(/You are bitten in three places/);
+    expect(g.at('the_bear')).toBe(p('bear_pen'));
+    expect(g.state('bear_pen_gate', 'penned')).toBe(true);
+  }, 240000);
+  it('by night the dogs run the ring and warn before they come, and someone who knows dogs can hush them', async () => {
+    const g = await Gosse.start(build('thief'), 't1');
+    await g.play(...phase('book', 'arrive'));
+    g.stage(['at', 'party', 'soke_lane'], ['at', 'the_bear', 'bear_pen'], ['bearTaken', 'the_bear']);
+    await g.play('=92', 'Into the bear-garden');
+    expect(g.page).toMatch(/waits for the word/);
+    expect(g.at('bowle')).toBe(p('kennels'));
+    expect(g.j.offers('Pick the padlock on Patience')).toBe(true);
+    expect(g.j.offers('talk to the mastiffs as a drover')).toBe(true);
+  }, 240000);
+  it('on the weir stones at night Nan Scullard asks two crowns; the Gullet\'s name, the coin, or a beating in the Arle', async () => {
+    const at = async () => {
+      const g = await Gosse.start();
+      await g.play(...phase('book', 'arrive'));
+      g.stage(['at', 'party', 'water_stairs'], ['knows', 'party', 'weir_known'], ['gulletSent', 'party']);
+      await g.play('=78', 'To the weir stones');
+      return g;
+    };
+    const named = await at();
+    expect(named.page).toMatch(/Two crowns for the stones/);
+    for (const way of ['Ask the weir-rats to let you by', 'Warn the weir-rats off', 'Give the weir-rats what it asks', 'Attack']) {
+      expect(named.j.offers(way)).toBe(true);
+    }
+    await named.play('Tell Nan Scullard the Gullet showed you the stones', 'To Soke Lane');
+    expect(named.j.at('party')).toBe(p('soke_lane'));
+    const paid = await at();
+    const purse = paid.j.measure('quantity', 'party', 'gold');
+    await paid.play('Give the weir-rats what it asks', 'To Soke Lane');
+    expect(paid.j.measure('quantity', 'party', 'gold')).toBe(purse - 2);
+    const ducked = await at();
+    await ducked.play('Wait › A while', 'Wait › A while');
+    expect(ducked.j.at('party')).toBe(p('soke_landing'));
+    expect(ducked.page).toMatch(/fished you out with a boat-hook/);
+    expect(ducked.j.measure('quantity', 'party', 'gold')).toBeLessThan(purse);
   }, 240000);
 });

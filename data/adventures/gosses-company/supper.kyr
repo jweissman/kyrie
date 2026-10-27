@@ -1,0 +1,279 @@
+Module pentrice "Gosse's Company" {
+  // ── The Bench's supper ──────────────────────────────────────────────────────────────────────────────────────────
+  // After the last night of the Trial the four judges sup at the Orde house on Hill Street, by Ezra Orde's custom,
+  // which his widow keeps to annoy them: nobody votes till they have eaten, and nobody eats till they have said one
+  // true thing about the play. It is La Critique de l'École des femmes played in Pentrice: Urania Orde is the hostess,
+  // reasonable and mischievous; her daughter the Master, at the window, agrees with everyone ironically; Sukey Rowe
+  // announces the dishes; Canon Mallory cannot bring himself to say the word; Nym Callow has one argument and says it
+  // whenever there is a silence; Ormsby Clay has the rules; Dame Thalia Gammage has the yard. A company that came
+  // (invited by the Master, Dame Gammage, Tunstall or the widow herself, or in by the kitchen as a waiter) may speak,
+  // once in each course, and what it says moves the Bench, who vote at ten. Without it, the supper goes on all the
+  // same, and the Bench votes as it came in.
+  //
+  // Eight courses of two watches each, from an hour after the play, at the parlour: each tells what is said, then
+  // what is said next, then (if the company spoke) how it was taken.
+  Measure supperBeat(place). Measure supperAt(place). Measure endedAt(place).
+  Relation supperOn(place). Relation supperOver(place). Relation bedFor(group, place).
+  Kind course. Entity course_one: course "the true things". Entity course_two: course "the soup". Entity course_three: course "the verb".
+  Entity course_four: course "the pie". Entity course_five: course "the old days". Entity course_six: course "the tally".
+  Entity course_seven: course "the straw vote". Entity course_eight: course "the carriages".
+  Relation courseOpen(course). Relation spoke(course).
+  Query atSupper(a: group) means at(a, orde_parlour) and (guest(a) or servant(a)).
+  Query midCourse() means watch(clock) >= supperAt(pentrice) + 1.
+  Query courseDone() means watch(clock) >= supperAt(pentrice) + 2.
+  Query speaking(a: group) means atSupper(a) and supperOn(pentrice) and midCourse().
+
+  Rule supper_begins when playEnded(pentrice) and ghostPlay(pentrice) and watch(clock) >= endedAt(pentrice) + 6 and not supperOn(pentrice) and not supperOver(pentrice) {
+    Assert supperOn(pentrice). Set supperBeat(pentrice) to 1. Set supperAt(pentrice) to watch(clock). }
+  // The Bench, the Master and the clerk go up to the Hill; Sukey keeps the door.
+  Rule supper_gathers when supperOn(pentrice) and critic(?c) and at(?c, ?p) and not at(?c, orde_parlour) { Retract at(?c, ?p). Assert at(?c, orde_parlour). }
+  Rule supper_clerk when supperOn(pentrice) and at(tunstall, ?p) and not at(tunstall, orde_parlour) { Retract at(tunstall, ?p). Assert at(tunstall, orde_parlour). }
+  Rule supper_master when supperOn(pentrice) and at(clemency, ?p) and not at(clemency, orde_parlour) { Retract at(clemency, ?p). Assert at(clemency, orde_parlour). }
+  Rule supper_door when supperOn(pentrice) and at(party, orde_parlour) and not guest(party) and not servant(party)
+    says "Sukey Rowe meets you in the hall with a tray in her hands and her foot already against the door. 'The Bench is at supper,' she says, 'and the old mistress said nobody, and she meant you particularly, whoever you are.' And you are on the step in Hill Street with the door shut and the sound of argument on the other side of it." {
+    Retract at(party, orde_parlour). Assert at(party, hill). }
+  Rule supper_ends when supperOver(pentrice) and critic(?c) and at(?c, orde_parlour) and bedFor(?c, ?h) { Retract at(?c, orde_parlour). Assert at(?c, ?h). }
+  Rule supper_clerk_home when supperOver(pentrice) and at(tunstall, orde_parlour) { Retract at(tunstall, orde_parlour). Assert at(tunstall, office_hall). }
+  Initially Assert bedFor(clay, owl_room). Initially Assert bedFor(gammage, gullet). Initially Assert bedFor(mallory, canon_study). Initially Assert bedFor(callow, owl_room).
+
+  // ── How a company comes to supper ──────────────────────────────────────────────────────────────────────────────
+  Query supperAhead() means playEnded(pentrice) and ghostPlay(pentrice) and not supperOver(pentrice).
+  Topic clem_invite with clemency "Ask the Master whether you may come to the Bench's supper" when supperAhead() and (clemTold(clemency) or clemBowed(clemency)) and not clemCold(clemency) and not guest(actor) once {
+    Says "The Master considers you. 'My mother's house,' she says. 'Her table. She will want to look at you, and then she will want to know what you think, and then she will tell you what you think.' She very nearly smiles. 'Come. Sit by me, and if Mr Callow says allegory again you may kick him.'".
+    On discuss { Assert guest(actor). }
+  }
+  Topic gammage_invite with gammage "Ask Dame Gammage where the Bench goes now" when supperAhead() and (understanding(swale) or gammageWon()) and not guest(actor) once {
+    Says "'To supper,' says Dame Gammage, 'at the Ordes', to be fed and to argue and to be fed again. Old Urania makes a pie.' She hands you her bag of nuts and her bonnet. 'You'll carry these. Nobody ever looks at who carries a critic's bag; it's the most invisible thing in Imbar.'".
+    On discuss { Assert guest(actor). }
+  }
+  Topic tunstall_invite with tunstall "Ask Tunstall what becomes of the sticks now" when supperAhead() and (tallyman(actor) or stickStill(actor)) and not guest(actor) once {
+    Says "'They are read to the Bench at supper,' says Tunstall, 'by the custom of the Orde house, which is older than the Office.' He looks at you. 'A tallyman carries the sticks. Even one who laid his down.' He gives you the bundle.".
+    On discuss { Assert guest(actor). }
+  }
+  Action take_barge(actor: group, site: place) "Go over the river with the Bench, in the Lord Mayor's barge" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wheel) and guest(actor) and supperAhead() and tday(pentrice) == 4.
+    On success { Retract at(actor, wheel). Assert at(actor, orde_parlour). }
+    Result "The Bench crosses by charter in the Lord Mayor's barge: four oars, a lantern on a pole, the four of them in a row on the cushions just as they sat in the lords' room. It goes over the black river past the Water Stairs, where the watermen take off their red caps to it with great irony, and you go up Fish Lane and the Hill Steps behind them in a little procession, by no Book at all, to a lit door on Hill Street.".
+  }
+  // In by the kitchen: the area door, a borrowed apron.
+  Action wait_at_table(actor: group, site: place) "Go down the area steps and in at the kitchen, to wait at table" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, orde_area) and sukeyYes(sukey) and supperOn(pentrice) and not guest(actor) and not servant(actor).
+    On success { Assert servant(actor). Retract at(actor, orde_area). Assert at(actor, orde_parlour). }
+    Result "The kitchen is hot and full of pie. Sukey Rowe, who is going to marry an ostler because of you, ties an apron round you without a word and puts a tureen in your hands. 'Don't spill,' she says, 'and don't talk, and if the old mistress asks who you are, say the Guildhall sent you, she'll know it's a lie and she'll like you for it.'".
+  }
+  Relation triedKitchen(group).
+  Action talk_kitchen(actor: group, site: place) "Tell the cook at the area door you are the extra waiter the Guildhall sent" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, orde_area) and supperOn(pentrice) and not guest(actor) and not servant(actor) and not triedKitchen(actor).
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert servant(actor). Retract at(actor, orde_area). Assert at(actor, orde_parlour). }
+    On failure { Assert triedKitchen(actor). }
+    Result "The cook looks you up and down, says the Guildhall never sends anybody who can carry a tureen, and gives you one. In a moment you are in an apron in the parlour doorway with the soup.".
+    Otherwise "The cook says the Guildhall never sends anybody, and shuts the area door.".
+  }
+
+  // ── I. The true things ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule c1_open at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 1 and not courseOpen(course_one)
+    says "Sukey Rowe throws open the parlour doors and announces the Bench of the Trial as if it were a single dish: 'The Bench, Mistress.' Mistress Urania Orde receives them by the fire, in lavender. Ormsby Clay comes first, with his printed Siege of Arle under his arm and the look of a man kept up past his principles; then Dame Thalia Gammage, in her bonnet, with a bag of nuts in case the supper is genteel; then Canon Mallory, from the night office, who kisses the widow's hand and will not meet her eye; and last, in a coat even newer than yesterday's, yawning, Nym Callow. Behind them comes Abel Tunstall with the night's sticks in a bundle, who stands by the door, as he has every Trial for twenty years, until he is told to sit. The Master of Plain Speech is at the window with her back to the room. URANIA: Sit, all of you. By the custom of this house, which was my husband's, nobody votes until they have eaten, and nobody eats until they have said one true thing about the play. Ormsby, you are the oldest. Begin." { Assert courseOpen(course_one). }
+  Observe c1_true at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 1 and midCourse() "CLAY: It was too long. GAMMAGE: It was not long enough. MALLORY: It was... very well acted. (He looks into his empty plate as if the soup might be at the bottom of it.) CALLOW: It was an allegory. URANIA: That is four true things, and one of them Mr Callow's. Sukey: the soup.".
+  Observe c1_guest at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 1 and midCourse() and guest(party) "Urania Orde turns her bright eyes on you. 'And you. You were in it, or near it; I saw you. You may say yours when you have thought of one. Nobody ever has one ready.'".
+  Observe c1_waiter at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 1 and midCourse() and servant(party) "Urania Orde looks twice at the new waiter, and says nothing, and holds out her glass.".
+  Action c1_truth(actor: group, site: place) "Say your true thing: that everybody in it was laughing at somebody they loved" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 1 and at(actor, site) and not spoke(course_one).
+    On success { Assert spoke(course_one). Assert trueSaid(actor). Increase regard(mallory) by 1. }
+    Result "You say it. It comes out simpler than you meant. Urania Orde looks at you for a long moment over her glass, and then says, 'Yes,' as if she had been waiting some time for somebody to; and across the table Canon Mallory, who has been looking at his plate, looks up.".
+  }
+  Relation trueSaid(group).
+  Rule c1_close when supperOn(pentrice) and supperBeat(pentrice) == 1 and courseDone() { Set supperBeat(pentrice) to 2. Set supperAt(pentrice) to watch(clock). }
+
+  // ── II. The soup: an allegory ──────────────────────────────────────────────────────────────────────────────────
+  Rule c2_open at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 2 and not courseOpen(course_two)
+    says "The soup is pea, and very hot, and Nym Callow burns his mouth on it and goes on talking. CALLOW: An allegory, I say, and the most daring thing said on a stage in this City in forty years. The Alderman is the Office. The Fountain is liberty, which has never run. The bear— GAMMAGE: The bear is a bear, you silly boy. I've fed her. CALLOW: The bear is the people. GAMMAGE: Then the people want honey and a lie-down, which I could have told you without a play. CALLOW: It's an allegory. GAMMAGE: Everything's an allegory to a man with nine crowns of debt. CLAY (who has been waiting): My objection is not to what it means, but to what it is. A ghost, a bear, a fountain; a funeral and a wedding; a parlour, a square, a garden and a grave; a day, a night and a moon. Aulus Fenne allows a comedy one place, one day, and no animal larger than a dog. GAMMAGE: Aulus Fenne never had to fill the Wheel on a wet Thursday. CLAY: Aulus Fenne filled the stone theatre that lies under the Wheel's yard, madam, for forty years, with three actors and a mask apiece. GAMMAGE: And where is it now? CLAY (after a pause): Under the Wheel's yard." { Assert courseOpen(course_two). }
+  Observe c2_more at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 2 and midCourse() "CALLOW (to his soup): Allegory. CLEMENCY (from the window, very gravely): Mr Clay is right, of course. The play went to four places. I counted. A licensed comedy should stay where it is put, like a clerk.".
+  Relation triedPlease(group).
+  Action c2_please(actor: group, site: place) "Tell Mr Clay that the rule of all rules is to please, and the Wheel was pleased" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 2 and at(actor, site) and not spoke(course_two) and not triedPlease(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert spoke(course_two). Increase regard(gammage) by 1. Increase regard(callow) by 1. Increase slight(clay) by 1. }
+    On failure { Assert triedPlease(actor). }
+    Result "'The rule of all rules is to please,' you say, 'and the rules Aulus Fenne wrote down are only what pleased in his day, written down after.' Clay opens his mouth. Urania Orde laughs her laugh like a tray of cups going over. 'There, Ormsby,' she says. 'Ezra used to say that to you, and you used to say it back, before you were a critic.' Clay shuts his mouth again and is pink to the ears; and Callow, who thinks you have agreed with him, raises his spoon to you.".
+    Otherwise "'Pleasure,' says Clay, 'is what pigs have,' and the table laughs at you rather than with you.".
+  }
+  Action c2_dido(actor: group, site: place) "Remind Mr Clay what Gosse wrote at the end of his Dido" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 2 and at(actor, site) and not spoke(course_two) and clayMoved(clay).
+    On success { Assert spoke(course_two). Increase regard(clay) by 2. }
+    Result "'Cut nothing,' you say. 'A.G.' You do not say it loud. Clay puts down his spoon. For a moment he is not at the table at all, but twenty years off, in a tiring-house, reading a margin by a candle. 'That is not an argument,' he says at last. 'No,' says Urania Orde. 'It is better than one.'".
+  }
+  Action c2_fenne(actor: group, site: place) "Agree with Mr Clay that the play broke every rule there is" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 2 and at(actor, site) and not spoke(course_two).
+    On success { Assert spoke(course_two). Increase regard(clay) by 1. Increase slight(gammage) by 1. }
+    Result "Clay looks at you with the pleased surprise of a man who has found a second copy of a rare book. Dame Gammage cracks a nut, very loudly, and looks at the ceiling.".
+  }
+  Rule c2_close when supperOn(pentrice) and supperBeat(pentrice) == 2 and courseDone() { Set supperBeat(pentrice) to 3. Set supperAt(pentrice) to watch(clock). }
+
+  // ── III. The verb ──────────────────────────────────────────────────────────────────────────────────────────────
+  Rule c3_open at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 3 and not courseOpen(course_three) and not linesClean()
+    says "MALLORY: I will not pretend I did not laugh. I laughed. That is my complaint. A man of my cloth sat in the lords' room in front of the City and laughed at— at— (He stops.) GAMMAGE: At what? MALLORY: You know at what. GAMMAGE: I don't. Say it. MALLORY: At the Alderman's... in the Council... the verb. GAMMAGE: Which verb? MALLORY: The verb of getting up. CLEMENCY (from the window, gravely): The Canon is right. One can hardly get out of a chair in this City tonight without blushing. I have got up four times since we came in, and each time I thought the Office should be told. CALLOW: There! The Master herself— CLEMENCY: I was agreeing with the Canon, Mr Callow. URANIA (very quietly, into her glass): Ezra used to say it of himself. 'I rise, my dear, as I always rise.' Every morning, in that doorway, in his nightcap. I had forgotten. For a moment nobody says anything, and the Master at the window does not turn round." { Assert courseOpen(course_three). }
+  Rule c3_open_clean at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 3 and not courseOpen(course_three) and linesClean()
+    says "MALLORY: I will not pretend I did not laugh. The Office took out every word I ought to have objected to, and I heard every one of them in the hole where it had been. A man of my cloth, in the lords' room, laughing at a hole. GAMMAGE: That's the Office all over: cuts the word and leaves the joke lying there with nothing on. CLEMENCY (from the window, gravely): Quite. The Office should strike the gaps as well. I shall see to it in the morning. CALLOW: There! The Master herself— CLEMENCY: I was agreeing with the Canon, Mr Callow. URANIA (very quietly, into her glass): Ezra used to say it of himself. 'I rise, my dear, as I always rise.' Every morning, in that doorway, in his nightcap. I had forgotten. For a moment nobody says anything, and the Master at the window does not turn round." { Assert courseOpen(course_three). }
+  Action c3_ordinance(actor: group, site: place) "Tell the Canon what the Eighth Ordinance says of the words of the dead" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 3 and at(actor, site) and not spoke(course_three) and knows(actor, ordinance_dead).
+    On success { Assert spoke(course_three). Increase regard(mallory) by 2. }
+    Result "'Words spoken in the person of the dead, as the dead, are the dead's,' you say, 'and may not be struck.' From the door, without being asked, Abel Tunstall says, 'That is correct,' and goes red. The Canon looks at him, and then at his own hands. 'It was made for gravestones,' he says. 'I have read it on a hundred stones in my own churchyard.' He is quiet for a while. 'Very well. They were the Ghost's words, and he was dead. I withdraw the verb.'".
+  }
+  Action c3_innocent(actor: group, site: place) "Tell them the man who said those lines did not know they were funny until the City told him" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 3 and at(actor, site) and not spoke(course_three) and knows(actor, swale_innocent) and plays(swale, part_ghost).
+    On success { Assert spoke(course_three). Increase regard(mallory) by 1. Increase regard(gammage) by 1. }
+    Result "Dame Gammage stops with a nut halfway to her mouth. 'He didn't know,' she says. 'Ambrose didn't know.' And she laughs, and wipes her eyes on her sleeve, and says, 'Oh, the poor wooden fool,' in a voice nobody at the table has heard her use. The Canon says, 'Then he was innocent, and so was I,' with enormous relief, and helps himself to bread.".
+  }
+  Action c3_filth(actor: group, site: place) "Agree with the Canon that it was filth" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 3 and at(actor, site) and not spoke(course_three).
+    On success { Assert spoke(course_three). Increase regard(mallory) by 2. Increase slight(gammage) by 2. Increase slight(callow) by 1. }
+    Result "The Canon looks at you with great gratitude and a little alarm, like a man rescued by somebody he would not have chosen. Dame Gammage says 'Filth' as if she were trying the word on for size, and takes it off again, and does not speak to you until the pie.".
+  }
+  Rule c3_close when supperOn(pentrice) and supperBeat(pentrice) == 3 and courseDone() { Set supperBeat(pentrice) to 4. Set supperAt(pentrice) to watch(clock). }
+
+  // ── IV. The pie ────────────────────────────────────────────────────────────────────────────────────────────────
+  Rule c4_open at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 4 and not courseOpen(course_four) and not clemBowed(clemency)
+    says "Sukey brings in the pie: a great raised pie, veal and ham, glazed, in a paper frill. There is a short silence round the table. GAMMAGE: Is that— URANIA: It is. Cut it, Ormsby. Decide about the egg. (Clay cuts, very carefully, round the egg.) URANIA: That was my pie, in the second scene. Veal and ham with a whole egg in the middle, so that whoever cuts it has to decide whether to cut the egg. Ezra always cut round it. And that (she points with her fork) is my hearth-rug. Everybody looks at the hearth-rug. URANIA: He proposed to me on it, on his knees, with crumbs on them, and I said no the first time, because of the crumbs. Whoever wrote that play has eaten in this house. (At the window the Master does not turn round.) MALLORY: Urania, if it distresses you— URANIA: Distresses me? Hugh, I laughed until the Office had to help me down the gallery stairs." { Assert courseOpen(course_four). }
+  Rule c4_open_bowed at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 4 and not courseOpen(course_four) and clemBowed(clemency)
+    says "Sukey brings in the pie: a great raised pie, veal and ham, glazed, in a paper frill. URANIA: Cut it, Ormsby. Decide about the egg. (Clay cuts, very carefully, round the egg.) URANIA: That was my pie, in the second scene. And that is my hearth-rug; he proposed to me on it, with crumbs on his knees. (She looks across the room at her daughter, who has turned round from the window at last, and is sitting in her father's chair.) She has been eating in this house for forty-four years, and taking notes. I should have known. MALLORY: Urania, if it distresses you— URANIA: Distresses me? Hugh, I laughed until the Office had to help me down the gallery stairs; and then the Office came up on the stage and laughed too, and I had to be taken out to the yard." { Assert courseOpen(course_four). }
+  Action c4_ezra(actor: group, site: place) "Ask Mistress Orde what her husband was really like" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 4 and at(actor, site) and not spoke(course_four).
+    On success { Assert spoke(course_four). Assert knows(actor, lamplighter_known). Increase regard(mallory) by 1. Increase regard(clay) by 1. }
+    Result "Urania Orde puts her fork down. 'Ridiculous,' she says. 'Loving. He made speeches about drains, and paved the Chepe badly, and sang in the bath. He laughed at the fool that night louder than anybody, and sang the song all the way home with Clemency asleep on his shoulder. And on the second night a lamplighter fell from his ladder in the Chepe, singing it, and Ezra never laughed in a theatre again. He made the Office the next week, and took the man's boy into it.' She looks at the door, where Abel Tunstall is standing very still with his sticks. 'People say it was his pride. It was his conscience. Hugh knows. Hugh buried him.' The Canon says nothing at all, and nods.".
+  }
+  Relation authorNamed(place).
+  Action c4_name(actor: group, site: place) "Tell the table who wrote The Alderman's Ghost" {
+    Time 0.
+    Grave "It is the Master's secret, at her mother's table, in front of the Bench.".
+    Requires speaking(actor) and supperBeat(pentrice) == 4 and at(actor, site) and not spoke(course_four) and knows(actor, author_known) and not clemBowed(clemency).
+    On success { Assert spoke(course_four). Assert authorNamed(pentrice). Increase regard(mallory) by 2. Increase regard(clay) by 1. Increase regard(gammage) by 1. Increase slight(callow) by 1. }
+    Result "You say it. The silence that follows is the sound of a dropped plate before it lands. The Master turns round from the window at last, very white. And her mother, quite calmly, puts down her fork. 'I know, child,' says Urania Orde. 'I have known since the first page. You wrote your father a sonnet about his chain when you were nine, and it scanned better than this, but not much.' She looks round the table. 'Well? It's a daughter's play. Put that in your notices.' Callow puts down his pen as if it had bitten him. The Canon, quite slowly, begins to smile.".
+  }
+  Rule c4_named_forgiven at orde_parlour when authorNamed(pentrice) and clemTrust(clemency) >= 2 and not clemCold(clemency) and not namedTold(pentrice)
+    says "The Master looks at you for a long time across the room. 'You might have let me do it myself,' she says. Then she comes and sits down at her mother's table, in her father's chair, for the first time that evening." { Assert namedTold(pentrice). }
+  Rule c4_named_cold at orde_parlour when authorNamed(pentrice) and clemTrust(clemency) < 2 and not clemCold(clemency) and not namedTold(pentrice)
+    says "The Master does not look at you. She turns back to the window, and stays there, and the back of her grey dress is the coldest thing in Pentrice." { Assert namedTold(pentrice). Assert clemCold(clemency). }
+  Relation namedTold(place).
+  Action c4_hold(actor: group, site: place) "Hold your tongue, and let the Master keep her secret" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 4 and at(actor, site) and not spoke(course_four) and knows(actor, author_known) and not clemBowed(clemency).
+    On success { Assert spoke(course_four). Increase clemTrust(clemency) by 1. }
+    Result "You say nothing, and help yourself to pie. At the window the Master's shoulders come down perhaps half an inch.".
+  }
+  Rule c4_close when supperOn(pentrice) and supperBeat(pentrice) == 4 and courseDone() { Set supperBeat(pentrice) to 5. Set supperAt(pentrice) to watch(clock). }
+
+  // ── V. The old days ────────────────────────────────────────────────────────────────────────────────────────────
+  Rule c5_open at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 5 and not courseOpen(course_five)
+    says "The pie goes round, and the claret, and the Bench thaws as a Bench does after pie. Dame Gammage, with her bonnet off at last, tells the table about the Trial of the year the Arle came up into the Wheel's yard, the Drowned Juliet, when Doll Lacy played the tomb scene up to her knees in river and would not stop, and the yard stood in the water and wept; and about the year the Wheel burned, and the Children played The Patient Daughter in the bear-garden among the dogs, and an angel was bitten and went on. CALLOW: None of that is criticism. GAMMAGE: All of it is. You'll learn, if you live. The Canon, mellow now, observes that the Office's fines have bought the choir's surplices for forty years, seven crowns in every ten, and from the door Tunstall says, 'Seven in ten,' and the Canon says, 'So every time Gosse's Company says a word it shouldn't, an angel gets a new sleeve,' and laughs, and is shocked, and laughs again." { Assert courseOpen(course_five). }
+  Action c5_old(actor: group, site: place) "Ask Dame Gammage what the Wheel was like when she was young" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 5 and at(actor, site) and not spoke(course_five).
+    On success { Assert spoke(course_five). Increase regard(gammage) by 1. }
+    Result "'Better,' says Dame Gammage at once, 'and worse. Louder. They sold oysters in the yard, and the shells came up at the stage if you were bad, and you knew you were bad.' She eats a nut, reflectively. 'When they dug the new drain in my mother's time they found the old seats under the yard, white stone in rows, going down and down, and the men wouldn't dig any further because of the faces cut in them. My mother said they were the faces of every yard that ever sat there, waiting to see if we were any good.' She looks at you. 'We are, sometimes. Tonight we were.'".
+  }
+  Action c5_clay(actor: group, site: place) "Ask Mr Clay about his Dido" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 5 and at(actor, site) and not spoke(course_five) and clayMoved(clay).
+    On success { Assert spoke(course_five). Increase regard(clay) by 1. }
+    Result "Clay is a long time beginning, and then tells it plainly, as he never writes: the night of the burlesque twenty years ago, the clown doing his fourth act in eight minutes with a ham, the pit roaring; how he went home and burned his second play in the grate, and never wrote a third. 'And he went home and wrote Cut nothing in the margin of the first,' he says. 'The same night. I have been angry with the wrong half of him for twenty years.' He drinks his claret. 'It is a very long time to be angry with half a man.'".
+  }
+  Action c5_egg(actor: group, site: place) "Serve the Canon the egg" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 5 and at(actor, site) and servant(actor) and not spoke(course_five).
+    On success { Assert spoke(course_five). Increase regard(mallory) by 1. }
+    Result "You put the whole egg out of the pie on the Canon's plate, with a flourish. He looks at it, and at Urania, who is laughing behind her napkin, and then he eats it, slowly, with immense dignity, to the end.".
+  }
+  Rule c5_close when supperOn(pentrice) and supperBeat(pentrice) == 5 and courseDone() { Set supperBeat(pentrice) to 6. Set supperAt(pentrice) to watch(clock). }
+
+  // ── VI. The tally ──────────────────────────────────────────────────────────────────────────────────────────────
+  Rule c6_open at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 6 and not courseOpen(course_six) and not knows(party, lamplighter_known)
+    says "URANIA: Abel. The sticks. Abel Tunstall comes to the table with the night's tally in its bundle and reads it out, as he has every Trial for twenty years, in a voice like a ruler: so many notches, at a crown a notch. Callow gets to his feet. CALLOW: There it is. Forty years of a muzzle with a motto. A City that fines a crown for every true word— CLEMENCY (turning from the window): The Office was not made because a mayor was laughed at, Mr Callow. URANIA: No. It was not. (She looks at Tunstall, who is looking at his sticks.) On the second night of the singing a lamplighter was up his ladder in the Chepe when the crowd came up it singing the fool's song, and somebody shook the ladder for the joke, and he fell. Ezra made the Office the next week. He took the boy into it. Sit down, Abel. And Callow sits down; and so does Tunstall, for the first time in twenty years." { Assert courseOpen(course_six). Assert lampTold(pentrice). }
+  Relation lampTold(place).
+  Rule c6_lamp_known at orde_parlour when lampTold(pentrice) and midCourse() and not knows(party, lamplighter_known)
+    says "Abel Tunstall lays the sticks on the cloth in a row, very carefully, as his father must have laid out wicks." teaches lamplighter_known { }
+  Rule c6_open_known at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 6 and not courseOpen(course_six) and knows(party, lamplighter_known)
+    says "URANIA: Abel. The sticks. Abel Tunstall comes to the table with the night's tally in its bundle and reads it out, as he has every Trial for twenty years, in a voice like a ruler: so many notches, at a crown a notch. Callow gets to his feet. CALLOW: There it is. Forty years of a muzzle with a motto. A City that fines a crown for every true word— CLEMENCY (turning from the window): The Office was not made because a mayor was laughed at, Mr Callow. Urania Orde looks across the table at you. 'You know why it was made, I think,' she says. 'Tell him.' And because she is looking at you, you tell it: the ladder, the singing, the boy taken into the Office; and when you have finished Callow sits down, and so does Tunstall, for the first time in twenty years." { Assert courseOpen(course_six). }
+  Action c6_both(actor: group, site: place) "Say that it was funny, and that a man died of it, and that both are true" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 6 and at(actor, site) and not spoke(course_six).
+    On success { Assert spoke(course_six). Increase regard(mallory) by 1. Increase regard(clay) by 1. Increase regard(callow) by 1. }
+    Result "'It was funny,' you say, 'and a man died of it, and both of those are true; and the play knows it, or there would not be a ghost in it.' Callow opens his mouth and shuts it again. Clay nods once, slowly, as at a sum correctly done. The Canon says 'Amen' without meaning to, and then means it.".
+  }
+  Action c6_liberty(actor: group, site: place) "Defend the liberty of the Soke: what is said at the Wheel is the Soke's to say" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 6 and at(actor, site) and not spoke(course_six).
+    On success { Assert spoke(course_six). Increase regard(callow) by 2. Increase slight(mallory) by 1. Increase slight(clay) by 1. }
+    Result "Callow bangs the table so that the claret jumps. 'Hear him!' he says, and is so pleased to have an ally that he forgets to say allegory. The Canon looks at the lamplighter's son by the door, and says nothing, and that is worse than anything he could have said.".
+  }
+  Action c6_stone(actor: group, site: place) "Tell them what is cut on the old stone step under the Wheel's stage" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 6 and at(actor, site) and not spoke(course_six) and knows(actor, stone_read).
+    On success { Assert spoke(course_six). Increase regard(clay) by 2. Increase regard(callow) by 1. Increase regard(gammage) by 1. }
+    Result "'WHO SPEAKS HERE IN THE MASK IS NOT ANSWERED FOR,' you say. Clay sits up as if stung. 'Aenean,' he says. 'You read it? Under the Wheel? Then the Liberty is older than the charter, older than the City—' and he is off, happily, for five minutes, about masks, and the old stone theatres of the coast, and Aulus Fenne, who it now appears never wrote anything without stealing it from a step; and Callow writes all of it down; and Dame Gammage says she always knew the yard was holy, it smelt like it.".
+  }
+  Action c6_stick(actor: group, site: place) "Tell the Bench why your tally stick has no notches on it" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 6 and at(actor, site) and not spoke(course_six) and stickStill(actor).
+    On success { Assert spoke(course_six). Increase regard(callow) by 2. Increase regard(gammage) by 1. }
+    Result "'I didn't count,' you say. 'I watched.' Tunstall, at the table, does not look up from his sticks; but he says, 'That is true. I took the stick myself,' and Callow claps, alone, and Urania Orde lets him.".
+  }
+  Rule c6_close when supperOn(pentrice) and supperBeat(pentrice) == 6 and courseDone() { Set supperBeat(pentrice) to 7. Set supperAt(pentrice) to watch(clock). }
+
+  // ── VII. What you would vote ───────────────────────────────────────────────────────────────────────────────────
+  Rule c7_open at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 7 and not courseOpen(course_seven)
+    says "URANIA: Now. Not the vote: the Bench votes at ten at the Guildhall, as the charter says, and not in my parlour. But what you would vote, if it were now. Ormsby. And they tell her, each in turn, as the candles burn down." { Assert courseOpen(course_seven). }
+  Observe c7_clay_for at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 7 and midCourse() and clayWon() "CLAY: For it. Against every rule I hold. I shall write a very severe notice and vote for it, and I do not expect to be understood.".
+  Observe c7_clay_against at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 7 and midCourse() and not clayWon() "CLAY: Against. It is a fine thing broken into pieces, and a Patent should go to a whole thing. I am sorry for it. I am often sorry; it is my profession.".
+  Observe c7_gammage_for at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 7 and midCourse() and gammageWon() "GAMMAGE: For. Of course for. It made me laugh till I hurt and then it made me cry, which is all I have ever asked of a play, and I have been asking for forty years.".
+  Observe c7_gammage_against at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 7 and midCourse() and not gammageWon() "GAMMAGE: Against, God help me. I wanted to love it, and it wouldn't let me. It kept stopping to be clever.".
+  Observe c7_mallory_for at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 7 and midCourse() and malloryWon() "MALLORY: For. I shall have to preach on it, which I dislike. For.".
+  Observe c7_mallory_against at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 7 and midCourse() and not malloryWon() "MALLORY: Against. Not for the verb. For Ezra. Forgive me, Urania. URANIA: Nothing to forgive, Hugh. You were always wrong about him.".
+  Observe c7_callow_for at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 7 and midCourse() and callowWon() "CALLOW: For. Obviously. It's— (he stops, and for once does not say it) —it is very good.".
+  Observe c7_callow_against at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 7 and midCourse() and not callowWon() "CALLOW: Against. It lost its nerve. A satire that loves its target is a sermon with a bear in it.".
+  Relation appealMade(place). Relation triedAppeal(group).
+  Action c7_appeal(actor: group, site: place) "Make the company's case to the Bench, once, for all of them" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 7 and at(actor, site) and not spoke(course_seven) and not triedAppeal(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert spoke(course_seven). Assert appealMade(pentrice). }
+    On failure { Assert triedAppeal(actor). }
+    Result "You make it. Afterward you cannot remember exactly what you said: something about forty-one years under the sky, and a prompter in a wing, and a ghost who could not lie down until somebody said the true thing aloud. When you stop nobody says anything at all; and then Urania Orde says, 'Well,' and pours you more claret than you can drink.".
+    Otherwise "You make it, and it comes out like a playbill, and the Bench is very kind about it, which is worse.".
+  }
+  Action c7_epilogue(actor: group, site: place) "Stand up and give the Bench the Epilogue, as Gosse gave it" {
+    Time 0.
+    Requires speaking(actor) and supperBeat(pentrice) == 7 and at(actor, site) and not spoke(course_seven) and craft(actor, craft_stage).
+    On success { Assert spoke(course_seven). Assert appealMade(pentrice). }
+    Result "You stand up at the Ordes' table among the pie and the candles and give them the Epilogue as Gosse gave it, word for word, as one of the profession can: 'So ends our town, sirs, which was never yours...' And at 'and first, as dead men may,' Urania Orde puts her hand over her eyes, and keeps it there until you have finished.".
+  }
+  // The case made: each judge not yet won is moved a little toward it.
+  Rule appeal_clay when appealMade(pentrice) and not clayWon() and not appealTook(clay) { Assert appealTook(clay). Increase regard(clay) by 1. }
+  Rule appeal_gammage when appealMade(pentrice) and not gammageWon() and not appealTook(gammage) { Assert appealTook(gammage). Increase regard(gammage) by 1. }
+  Rule appeal_mallory when appealMade(pentrice) and not malloryWon() and not appealTook(mallory) { Assert appealTook(mallory). Increase regard(mallory) by 1. }
+  Rule appeal_callow when appealMade(pentrice) and not callowWon() and not appealTook(callow) { Assert appealTook(callow). Increase regard(callow) by 1. }
+  Relation appealTook(group).
+  // Whoever said one true thing at the start, Urania remembers at the end.
+  Rule true_remembered at orde_parlour when trueSaid(party) and supperOn(pentrice) and supperBeat(pentrice) == 7 and courseDone() and not trueTold(pentrice)
+    says "Urania Orde, before she lets them go, turns to the Canon. 'Hugh. The waiter, or the guest, or whatever this one is, said a true thing at the start. Everybody in it was laughing at somebody they loved. Ezra would have said so. Think about it on your way home.'" { Assert trueTold(pentrice). Increase regard(mallory) by 1. }
+  Relation trueTold(place).
+  Rule c7_close when supperOn(pentrice) and supperBeat(pentrice) == 7 and courseDone() { Set supperBeat(pentrice) to 8. Set supperAt(pentrice) to watch(clock). }
+
+  // ── VIII. A comedy of this supper ──────────────────────────────────────────────────────────────────────────────
+  Rule c8_open at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 8 and not courseOpen(course_eight)
+    says "It is past one. The candles are down to the last inch, Callow is asleep with his cheek on his notebook, and Dame Gammage is eating the last of the pie with her fingers. URANIA: Somebody should make a comedy of this evening. CLAY: Nobody would license it. CLEMENCY (turning from the window at last; and for a moment, in the low light, she is very like her mother): Somebody might. Urania looks at her daughter for a long while and says nothing whatever, which from her is a speech. SUKEY (at the door): The carriages, Mistress. And the Bench gets up, and finds its hats, and goes out into Hill Street in a row, in no order at all." { Assert courseOpen(course_eight). }
+  Observe c8_farewell at orde_parlour when supperOn(pentrice) and supperBeat(pentrice) == 8 and midCourse() and (guest(party) or servant(party)) "At the door Urania Orde takes your hand. 'Come again when there isn't a play,' she says. 'We don't have anything to say then, and it is very restful.'".
+  Rule c8_close when supperOn(pentrice) and supperBeat(pentrice) == 8 and courseDone() { Assert supperOver(pentrice). Retract supperOn(pentrice). }
+  Milestone ms_supper "sat at the Bench's supper and spoke for the play" worth 300 when supperOver(pentrice) and (guest(party) or servant(party)) and (spoke(course_two) or spoke(course_three) or spoke(course_six)).
+}

@@ -8,7 +8,7 @@ Module pentrice "Gosse's Company" {
   Initially Assert critic(clay). Initially Assert critic(gammage). Initially Assert critic(mallory). Initially Assert critic(callow).
   Initially Set regard(gammage) to 1. Initially Set regard(callow) to 1.
   Discovery taste_clay "Ormsby Clay, the Guildhall's critic, wants order of a play: verse spoken as verse, decorum, every person brought to their proper end; he cannot abide clowns, bears or words that are not in the book." { Known by clay. }
-  Discovery taste_gammage "Dame Philippa Gammage, the Gullet's critic, wants joy of a play: laughter, spectacle, a good cry and home; she hates pomp and long speeches, and has hated Ambrose Swale in print for fifteen years." { Known by gammage. }
+  Discovery taste_gammage "Dame Thalia Gammage, the Gullet's critic, wants joy of a play: laughter, spectacle, a good cry and home; she hates pomp and long speeches, and has hated Ambrose Swale in print for fifteen years." { Known by gammage. }
   Discovery taste_mallory "Canon Mallory, the Close's critic, wants a play to leave its house better than it found it: a moral, and nobody the worse; he will not have indecency, nor the dead mocked." { Known by mallory. }
   Discovery taste_callow "Nym Callow, the Owl's critic, wants a play to tell the truth to power, and despises anything the Office would license." { Known by callow. }
   // On a Trial night the Bench sits in the lords' room over the stage; otherwise each is where their trade is.
@@ -50,11 +50,11 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert curtainRaiser(gosse). }
   }
 
-  // ── Dame Philippa Gammage, the Gullet's critic ──────────────────────────────────────────────────────────────────
-  Person gammage "Dame Philippa Gammage" at gullet {
+  // ── Dame Thalia Gammage, the Gullet's critic ──────────────────────────────────────────────────────────────────
+  Person gammage "Dame Thalia Gammage" at gullet {
     Role "the Gullet's critic, who keeps the ballad stall". Ancestry human. Peaceable. Pronouns she. Manner jovial.
     Wants gull_note.
-    Greets "Dame Philippa Gammage is a big woman in a bonnet with ribbons, behind a stall papered with ballad-sheets, eating hazelnuts out of a bag and cracking the shells in her teeth. 'Buy a ballad,' she says, 'or buy me a drink, or go away.'".
+    Greets "Dame Thalia Gammage is a big woman in a bonnet with ribbons, behind a stall papered with ballad-sheets, eating hazelnuts out of a bag and cracking the shells in her teeth. 'Buy a ballad,' she says, 'or buy me a drink, or go away.'".
   }
   Topic gammage_taste with gammage "Ask Dame Gammage what a play is for" when true once {
     Says "'Joy,' says Dame Gammage, through a nut. 'A play is for a fishwife who has stood in the Gullet since four in the morning, to stand in the yard of the Wheel at seven and forget she has feet. Laugh, cry, see a bear, go home.' She spits a shell. 'Not to be talked at. Not to be preached at. Not to stand three hours watching Ambrose Swale die by inches in iambics.' She cracks another. 'Fifteen years I've been telling him so in print.'".
@@ -80,13 +80,13 @@ Module pentrice "Gosse's Company" {
   Relation gullOffered(group). Relation gammageGulled(group). Relation swaleGulled(group). Relation gullExposed(group).
   Relation truthTold(group). Relation understanding(group). Relation humiliated(group).
   Topic pudding_gull with pudding "Ask Pudding what he and Dorcas are whispering about" when inCompany(actor) and tday(pentrice) >= 1 and not dorcasGone(dorcas) and not gullOffered(pudding) once {
-    Says "Pudding looks round the loft, and then at Dorcas, who looks at the ceiling. 'A comedy,' he says. 'An old one. Two people who've hated each other in public for fifteen years, and the company lets each one find a letter from the other.' He takes two folded notes out of his sleeve. 'Ambrose Swale and Philippa Gammage. Dorcas wrote his, I wrote hers, and we can neither of us go near them, because we'd laugh.' He holds them out. 'You carry them. Give hers to her at her stall, his to him in the loft. Then, tomorrow at four, they'll both be at the Owl, and so shall we, under a table.'".
+    Says "Pudding looks round the loft, and then at Dorcas, who looks at the ceiling. 'A comedy,' he says. 'An old one. Two people who've hated each other in public for fifteen years, and the company lets each one find a letter from the other.' He takes two folded notes out of his sleeve. 'Ambrose Swale and Thalia Gammage. Dorcas wrote his, I wrote hers, and we can neither of us go near them, because we'd laugh.' He holds them out. 'You carry them. Give hers to her at her stall, his to him in the loft. Then, tomorrow at four, they'll both be at the Owl, and so shall we, under a table.'".
     On discuss { Assert gullOffered(pudding). }
   }
   Kind gull_note "a folded note" is gear worth 0 weighing 0
     described "A folded note, sealed with candle-grease and a thumb.".
   Item note_gammage "a note 'from Ambrose Swale'" is gull_note at moon_loft hidden until notes_taken.
-  Item note_swale "a note 'from Philippa Gammage'" is gull_note at moon_loft hidden until notes_taken.
+  Item note_swale "a note 'from Thalia Gammage'" is gull_note at moon_loft hidden until notes_taken.
   Discovery notes_taken "Pudding has given you the two forged notes, one for Swale and one for Dame Gammage.".
   Action take_notes(actor: group, recipient: member, site: place) "Take Pudding's two notes, to carry them" {
     Speaker pudding. Time 1 minute.

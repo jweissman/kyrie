@@ -116,7 +116,10 @@ line with a sound like a small door shutting. Along the walls, shelves of bound 
 chained book as big as a tombstone: THE ORDINANCES OF PLAIN SPEECH. Over the Master’s door at the far end is 
 painted the Office’s motto: WHAT IS SAID IS DONE. On the nearest desk a clerk holds a fresh licence up to the 
 window to check it, and through the heavy white paper you see the Office’s watermark: a mouth with a padlock 
-through its lips. Abel Tunstall, the chief clerk of the Office of Plain Speech, is here.
+through its lips. At the end desk two clerks are disputing in whispers whether anybody has ever heard the Master 
+laugh. The elder says once, at the Wheel, when she was four, and that it was the last time anybody in Pentrice 
+laughed without paying for it; the younger says that is a story, and gets on with his ruling. Abel Tunstall, the 
+chief clerk of the Office of Plain Speech, is here.
 [Give Tunstall the fair copy of The Alderman's Ghost for licence] Tunstall reads it at his desk with the ruler, while 
 you wait on a bench. It takes an hour. Every few minutes the ruler comes down and the pen goes through a line. Once, 
 on the third act, he stops and reads a page twice, and his face does something you cannot read, and the pen goes 

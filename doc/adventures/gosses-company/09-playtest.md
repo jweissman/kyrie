@@ -9,6 +9,7 @@ pages are in [playtest/](playtest/). Dice are seeded; a journey is the same jour
 | Journey | Build, entry | Approach | Ending | Votes | Temper | Fines | Clay / Gammage / Mallory / Callow (regard − slight) |
 |---|---|---|---|---|---|---|---|
 | [book](playtest/book.md) | a bard, the city from the road | the Book: struck, nineteen lines restored under the Eighth Ordinance, licensed | **The Patent House** | 3 | 23 | 1 | 10−2 ✓ · 14−2 ✓ · 6−0 ✓ · 4−1 |
+| [supper](playtest/supper.md) | the bard | the Book, then the Bench's supper at the Orde house, asked by the Master: the true thing, Gosse's *Dido* note, Swale's innocence, the secret kept, both things true | **The Patent House** | 4 | 23 | 1 | 13−2 ✓ · 16−2 ✓ · 10−0 ✓ · 5−1 ✓ |
 | [liberty](playtest/liberty.md) | a soldier, from Wending Cross with the players | the Liberty: whole, in the Soke, the tallymen counting | **The Patent House** | 3 | 24 | 21 | 8−4 ✓ · 14−0 ✓ · 4−2 · 6−0 ✓ |
 | [famous](playtest/famous.md) | the same soldier | the Liberty, without giving Clay back his *Dido* | **The Liberty** | 2 | 24 | 21 | 6−4 · 14−0 ✓ · 4−2 · 6−0 ✓ |
 | [empty-wing](playtest/empty-wing.md) | the soldier | the Liberty, with nobody between Hepzibah and the Office's men | **The Patent House**, and the proposal never made | 3 | 22 | 21 | 8−4 ✓ · 13−0 ✓ · 3−2 · 6−0 ✓ |
@@ -108,8 +109,20 @@ thought to try.
 
 ## Combat
 
-There is no fight in Gosse's Company by design: it is a comedy of a week in a city, and every opponent (the bailiff,
-the Office's men, the heckler, the watermen, the bear-ward) is met by a check, coin or a thing carried. The only
-violence is the soldier facing down two clerks in a wing, and the yard of the Wheel going over "like a ship". A build
-made for fighting is not wasted: brawn carries the costumes, frees the trap and turns the conduit wheels, and
-intimidation holds the wing.
+As first built there was no fight in Gosse's Company: every opponent (the bailiff, the Office's men, the heckler, the
+watermen, the bear-ward) was met by a check, coin or a thing carried. The second pass ([12-second-pass.md](12-second-pass.md))
+added two dangers, each with more ways round it than through it, and the suite plays them by setting the scene
+directly (no journey walks into them by chance):
+
+- **Bowle's mastiffs.** A thief picks Patience's pen under Bowle's nose; he draws the kennel bolt, and three mastiffs
+  stand between the company and the gate and wait for the word. Walking out with the bear in that watch, she is got
+  away clean; staying, the fight is lost (a level-one thief against three bear-dogs), and the company comes round in
+  Soke Lane, bitten, with Patience in her pen again and a new padlock. By night the dogs run the ring while Bowle
+  sleeps over the kennels, and a drover's hush (woodcraft) or fire is offered against them.
+- **The weir-rats.** At nine at night on the weir stones Long Nan Scullard asks two crowns. The page offers talking
+  her round, facing her down, paying, fighting and turning back; a company that has asked Ma Tolly (or taken Garlick's
+  directions) can name the Gullet and is let by. Paid, the purse is two crowns lighter; beaten, the company is fished
+  out at the Soke landing, poorer. In the Liberty journey the crowd led over the weir scatters the rats for good.
+
+A build made for fighting is still not needed anywhere: brawn carries the costumes, frees the trap and turns the
+conduit wheels, and intimidation holds the wing and faces Nan down.

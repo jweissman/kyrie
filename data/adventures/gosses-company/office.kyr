@@ -158,7 +158,7 @@ Module pentrice "Gosse's Company" {
   Rule tunstall_to_gate when hour(clock) >= 8 and hour(clock) < 12 and at(tunstall, office_hall) { Retract at(tunstall, office_hall). Assert at(tunstall, westgate). }
   Rule tunstall_to_wheel when tday(pentrice) >= 2 and tday(pentrice) <= 4 and hour(clock) >= 18 and hour(clock) < 22 and at(tunstall, ?p) and not at(tunstall, wheel) {
     Retract at(tunstall, ?p). Assert at(tunstall, wheel). }
-  Rule tunstall_home when (hour(clock) >= 22 or hour(clock) < 8) and at(tunstall, wheel) { Retract at(tunstall, wheel). Assert at(tunstall, office_hall). }
+  Rule tunstall_home when (hour(clock) >= 23 or hour(clock) < 8) and at(tunstall, wheel) { Retract at(tunstall, wheel). Assert at(tunstall, office_hall). }
 
   Topic tunstall_tallymen with tunstall "Ask Tunstall what the jar of sticks is for" when not tallyman(actor) once {
     Says "'Tallies,' says Tunstall. 'In Trial week the Office sits at the Wheel, on its own bench, by charter. A tallyman sits with a stick and a knife and cuts a notch for every word spoken that is not in the licensed book. The company is fined at the end of the night, a crown a line.' He looks at you over the ledger. 'We are short. The Trial has three nights and the Office has four tallymen, one of whom has a tremor. A coin a night and a stick of your own. Can you count?'".
@@ -243,7 +243,7 @@ Module pentrice "Gosse's Company" {
   Rule clem_home when hour(clock) >= 18 and at(clemency, master_room) and not trialNight() { Retract at(clemency, master_room). Assert at(clemency, orde_parlour). }
   Rule clem_office when hour(clock) >= 9 and hour(clock) < 18 and at(clemency, orde_parlour) { Retract at(clemency, orde_parlour). Assert at(clemency, master_room). }
   Rule clem_to_wheel when trialNight() and hour(clock) >= 18 and hour(clock) < 22 and at(clemency, ?p) and not at(clemency, wheel) { Retract at(clemency, ?p). Assert at(clemency, wheel). }
-  Rule clem_from_wheel when (hour(clock) >= 22 or hour(clock) < 9) and at(clemency, wheel) { Retract at(clemency, wheel). Assert at(clemency, orde_parlour). }
+  Rule clem_from_wheel when (hour(clock) >= 23 or hour(clock) < 9) and at(clemency, wheel) { Retract at(clemency, wheel). Assert at(clemency, orde_parlour). }
   Query trialNight() means tday(pentrice) >= 2 and tday(pentrice) <= 4.
 
   Topic clem_office with clemency "Ask the Master about the Office of Plain Speech" when true once {

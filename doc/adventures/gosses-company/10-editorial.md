@@ -87,3 +87,11 @@ were acted on; those that were not are listed at the end, with the reason.*
   channel from a country back to its herald (see [friction.md](friction.md)).
 - **The night's interactivity, the third day's sag, Hepzibah as exposition**: named in [11-critique.md](11-critique.md);
   each is a design change, not an edit.
+
+## After this revision
+
+A second pass, through a harder literary lens, is recorded in [12-second-pass.md](12-second-pass.md). It put *The
+Alderman's Ghost* on the stage line by line, added the Bench's supper after Molière's *Critique de l'École des
+femmes*, gave the riot a death to answer for (the lamplighter, Tunstall's father), turned the third day into the
+week's midpoint, and added two dangers with ways round them. Of the design changes named above, it addressed the
+third day's sag and part of Hepzibah's load; the night is fuller but still mostly watched.

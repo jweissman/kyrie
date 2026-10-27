@@ -1,0 +1,113 @@
+Module pentrice "Gosse's Company" {
+  // ── What the city remembers, and what it has forgotten ─────────────────────────────────────────────────────────
+  // The riot is told everywhere as a joke, by Gosse as a triumph and by the Master as a wound. What it cost is cut on
+  // a brass plate by the minster's west door, and in the Office's own Ordinances, and nobody reads either: on the
+  // second night of the singing a lamplighter fell from his ladder in the Chepe with the fool's song in his mouth, and
+  // Ezra Orde made the Office the week after, for the widow's sake, not his own. The Office's chief clerk is the
+  // lamplighter's son. Found, this turns the comedy over: the play is a daughter's love letter, and the Office a
+  // grieving man's epitaph, and the joke was funny, and a man died of it.
+
+  // The plate.
+  Observe minster_plate at nave when true "Low on the wall by the west door, where nobody important is buried, there is a small brass plate, gone brown, which somebody still polishes: ABEL TUNSTALL, LAMPLIGHTER OF THE CHEPE, WHO FELL FROM HIS LADDER ON THE SECOND NIGHT OF THE SINGING. HE LIT THE LAMPS. Under it, cut smaller and later, by a different hand, are two lines of what is plainly a comic song: A MAN WHO WEIGHS HIS GOLD AND WIFE THE SAME / WILL FIND THEM BOTH TOO LIGHT, AND HIMSELF TO BLAME." teaches plate_read.
+  Discovery plate_read "In the minster, a brass plate remembers Abel Tunstall, lamplighter of the Chepe, who fell from his ladder on the second night of the singing, forty years ago; under it is cut a couplet of the fool's song from the riot.".
+  // In the evening, someone lights the Chepe's lamps as if he were being watched.
+  Observe chepe_lamps at chepe when hour(clock) >= 18 and hour(clock) < 20 "A boy with a pole and a little ladder goes along the Chepe lighting the lamps, one by one, very carefully, as if somebody were watching to see that he did it right. The Chepe's lamps are lit before any others in the City: it is in the Ordinances.".
+
+  // The son.
+  Relation gosseKnowsFall(group).
+  Topic tunstall_father with tunstall "Ask Tunstall about the lamplighter's plate in the minster" when knows(actor, plate_read) and not knows(actor, lamplighter_known) once {
+    Says "Tunstall does not answer at once. He squares the ledger on the desk, and squares it again. 'My father,' he says. 'I was nine. They came up the Chepe singing it, a thousand of them, and somebody shook his ladder for the joke, and he came down on the cobbles with the pole in his hand and the lamp still lit.' He opens the ledger and does not look at it. 'Lord Mayor Orde came to our house the next morning and sat on our stool, which was too small for him, and asked my mother what she needed. She said she needed it not to happen again. So he made an Office.' A pause. 'He wrote the Eighth Ordinance himself, so that the stonecutter might put on the plate what my father was singing when he fell. It is the only line in Pentrice the Office may not strike. I took the Office's shilling at twelve. It has been very good to me.' He picks up his ruler. 'Next,' he says, though there is nobody there.".
+    On discuss { Assert knows(actor, lamplighter_known). }
+  }
+  Discovery lamplighter_known "On the second night of the riot a lamplighter, Abel Tunstall's father, fell from his ladder when the crowd came up the Chepe singing Gosse's joke. Ezra Orde founded the Office of Plain Speech for the widow's sake, wrote the Eighth Ordinance so that the dead man's song could be cut on his plate, and took the boy into the Office.".
+  Topic gosse_fall with gosse "Tell Gosse about the lamplighter who fell on the second night of the singing" when knows(actor, lamplighter_known) and not gosseKnowsFall(gosse) and not pensionTaken(gosse) once {
+    Says "Gosse hears all of it standing up, and then sits down on the nearest thing, which is a hamper, and is quiet for longer than you have ever known him quiet. 'I went out of the Westgate on the first night,' he says at last, 'with a bag and the Fool's cap, laughing, and walked to Arle Bridge, and did not come back. I heard they had made an Office. I was proud of it.' He turns his hands over and looks at them, as if they were somebody else's. 'Forty years I have told that story in taprooms. I made an Office. How many players can say that.' He gets up. 'The clerk with the ruler. Tunstall.' He nods, slowly. 'He will be on the bench.'".
+    On discuss { Assert gosseKnowsFall(gosse). }
+  }
+  // The morning after: two old men at a brass plate.
+  Rule fate_plate when verdictRead(pentrice) and gosseKnowsFall(gosse) and not fateTold(fate_plate_known) and inCity()
+    says "On the morning after the verdict Absalom Gosse goes to the minster, and stands a long time in front of the small brass plate by the west door, with his hat in his hands; and Abel Tunstall, who comes every week to polish it, finds him there. They do not say anything. After a while they polish it together." { Assert fateTold(fate_plate_known). }
+  Discovery fate_plate_known "Gosse and Tunstall at the lamplighter's plate.".
+
+  // ── Urania Orde, the widow ──────────────────────────────────────────────────────────────────────────────────────
+  // Ezra Orde's widow keeps his chair, his custom of the Bench's supper, and his jokes. She is the Widow Gudgeon of the
+  // play, and knows it, and knows who wrote it.
+  Person urania "Urania Orde" at orde_parlour {
+    Role "the late Lord Mayor's widow, the Master's mother". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A small upright old woman in lavender, with very bright eyes, is sitting in a chair that is plainly not hers: a big chair with the arms worn pale by somebody else's hands. 'You're not the coal,' she says. 'Sit down anyway.'".
+  }
+  Relation guest(group). Relation servant(group).
+  Topic urania_ezra with urania "Ask Mistress Orde about her husband" when true once {
+    Says "'Ezra?' She laughs, a laugh like a tray of cups going over. 'He was ridiculous. Everybody said so, except to his face. He paved the Chepe badly and was proud of it; he made speeches about drains. He proposed to me on that hearth-rug, there, on his knees, with crumbs on them, and I said no the first time, because of the crumbs.' She looks at the rug. 'He went to the Wheel every Trial and sat in the gallery and laughed louder than anybody. The night the fool said it, he laughed too. He sang it all the way home with Clemency asleep on his shoulder.' She stops laughing. 'Then on the second night a lamplighter fell off his ladder in the Chepe, singing it. Ezra never laughed in a theatre again. He made the Office the week after, and took the man's boy into it. People think it was his pride. It wasn't his pride. It was his conscience, which is much worse to live with, and much worse to be married to.'".
+    On discuss { Assert knows(actor, ezra_known). Assert knows(actor, lamplighter_known). }
+  }
+  Discovery ezra_known "Ezra Orde, the Lord Mayor of the riot, was ridiculous and loved, laughed at the fool's joke himself, and proposed to his wife on the hearth-rug of the Orde parlour with crumbs on his knees.".
+  Topic urania_daughter with urania "Ask Mistress Orde about her daughter" when true once {
+    Says "'Clemency.' She looks at the mantel, where a child's crayon drawing hangs in a good frame: a man in a fool's cap with his mouth very wide. 'She keeps her father's Office, harder than he did. She was the funniest child in Pentrice, and she drew; she drew that the night of the riot, and I framed it to annoy her. She hasn't laughed since she was nine, that I have heard.' She smiles. 'She writes at night. She thinks I think it's letters.'".
+  }
+  Topic urania_supper with urania "Ask Mistress Orde about the Bench's supper" when not guest(actor) and not verdictRead(pentrice) once {
+    Says "'After the last night of the Trial the Bench sups here,' she says. 'It always has. It was Ezra's custom, and I keep it to annoy them: nobody votes till they've eaten, and nobody eats till they've said one true thing about the play.' She looks at you with her bright eyes. 'Come. You look as if you could say a true thing, if you were frightened enough. It will do them good.'".
+    On discuss { Assert guest(actor). }
+  }
+  // Sukey, who keeps the doors.
+  Topic sukey_house with sukey "Ask Sukey about the house she serves" when true once {
+    Says "'The old mistress and the young one,' says Sukey. 'The old mistress laughs at everything and the young one at nothing, and I keep the doors between them.' She considers. 'The old mistress makes a pie. On the last night of the Trial she makes it for the Bench, and they argue over it till one in the morning, and then they go and vote however they were going to anyway.'".
+  }
+
+  // ── Under the Wheel: the oldest stage in Pentrice ──────────────────────────────────────────────────────────────
+  // The Wheel stands on the ring of an Aenean theatre whose stone seats run on under the yard. At the back of the
+  // cellarage the top step of it shows, with letters on it: the rule of the old stage, from which the Liberty of the
+  // Soke descends, though the Liberty has forgotten.
+  Observe stage_stone at under_stage when true "At the back of the cellarage, set into the earth floor and older than every timber over it, a curved block of white stone shows, with letters cut along its edge, worn shallow: the top step of a much older theatre, whose seats go on down into the dark under the yard.".
+  Discovery stone_read "Cut on the Aenean step under the Wheel's stage: WHO SPEAKS HERE IN THE MASK IS NOT ANSWERED FOR. The liberty of the Soke is a rule of the old stage, older than the City and its Book.".
+  Relation triedStone(group).
+  Action read_stone(actor: group, site: place) "Puzzle out the letters on the old stone step" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, under_stage) and not knows(actor, stone_read) and not triedStone(actor).
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, stone_read). }
+    On failure { Assert triedStone(actor). }
+    Result "On your knees in the dirt with a candle, letter by letter. The Aenean is plain once you have the first word: WHO SPEAKS HERE IN THE MASK IS NOT ANSWERED FOR. You sit back on your heels. Over your head the boards creak where somebody crosses the stage, and you think of every company that ever stood up there, back and back, and of the Liberty of the Soke, which says much the same thing in worse Common, and has forgotten where it learned it.".
+    Otherwise "Old letters, a word that might be MASK or might be MOUTH, and the candle guttering; the sense of it will not come.".
+  }
+  Topic wilmot_stone with wilmot "Ask Old Wilmot about the stone under the stage" when true once {
+    Says "'Older than the Wheel,' says Wilmot. 'Older than the Soke. There's seats under the yard, rows of them, white, going down. They found them when they dug the drain in my grandfather's time and filled them in again quick, because of the faces cut in them.' He sucks his teeth. 'My grandfather said the writing was a curse. My father said it was a price list. Nobody's read it in my time.'".
+  }
+
+  // ── The third night: Gosse alone in the empty Wheel ────────────────────────────────────────────────────────────
+  // After the Children have gone, the night before his own, Gosse goes over the river by himself to say his Prologue to
+  // the empty house, and dries, alone, where nobody can see.
+  Rule gosse_rehearses_alone when tday(pentrice) == 3 and hour(clock) >= 22 and hour(clock) < 23 and at(gosse, moon_taproom) and not pensionTaken(gosse) and not wentAlone(gosse) {
+    Assert wentAlone(gosse). Retract at(gosse, moon_taproom). Assert at(gosse, wheel). }
+  Rule gosse_back_alone when at(gosse, wheel) and wentAlone(gosse) and not crossed(pentrice) and (hour(clock) >= 23 or hour(clock) < 22) {
+    Retract at(gosse, wheel). Assert at(gosse, moon_loft). }
+  Relation wentAlone(group).
+  Observe gosse_alone at wheel when at(gosse, wheel) and wentAlone(gosse) and not crossed(pentrice) "In the empty Wheel one lantern is burning on the edge of the stage, and Absalom Gosse is standing beside it in his shirtsleeves, saying the Prologue to the empty yard and the empty galleries. He gets as far as the last couplet, and stops, and goes back to the beginning, and stops again in the same place.".
+  Topic gosse_alone_talk with gosse "Ask Gosse what he is doing here" when wentAlone(gosse) and at(gosse, wheel) and not crossed(pentrice) once {
+    Says "Gosse does not hear you come, and does not jump when he sees you; he laughs, a little too loud. 'Learning my lines,' he says. 'Forty-one years, and learning my lines.' He sits down on the edge of the stage with his legs over the yard. 'A player dies twice, you know. Once when he forgets the words, and once later, which matters less.' He looks at the lantern. 'I cannot hear the left side. Did Hepzibah tell you? Of course she did. She thinks I don't know she knows.' He gets up. 'Don't tell her I was here. Tomorrow I shall be magnificent.' And he blows out the lantern, and you both stand in the dark of the Wheel until your eyes come round.".
+    On discuss { Assert knows(actor, gosse_afraid). }
+  }
+  Discovery gosse_afraid "The night before his own, Gosse went alone to the empty Wheel to say his Prologue, and dried on the last couplet, and asked that nobody be told.".
+
+  // ── The company, a little more of each ─────────────────────────────────────────────────────────────────────────
+  Topic hepz_acted with hepzibah "Ask Hepzibah whether she ever acted" when true once {
+    Says "'Once.' She keeps her eyes on the book. 'In a barn at Galt, in the winter of the hard frost, as the Second Witch, because the Second Witch had the measles. I dried on my first line, and Absalom gave it me from the wings, and I said it, and the barn laughed, because it was a line about a cat.' She turns a page. 'That was the night he decided I should hold the book. He was always better at the giving than the taking.'".
+  }
+  Topic pudding_clown with pudding "Ask Pudding what a clown is for" when true once {
+    Says "'A clown,' says Pudding, 'is a man who falls down so you don't have to.' He juggles two onions, badly, on purpose. 'Every time I fall down on a stage, somebody in the yard who was going to fall down that week doesn't.' He catches the onions. 'It isn't true. It's what I tell myself, on the stairs, before.'".
+  }
+  Topic swale_mother with swale "Ask Swale about his mother" when reconciled(swale) once {
+    Says "'She played the Nurse,' says Swale. 'Forty years, in companies that never once let her play anything else, and she laughed at all of them, and at me, and at the Nurse.' He is quiet. 'I thought it was a weakness in her. I thought a great deal of things in her were weaknesses that I find, now, I should like to have.'".
+  }
+  Topic kit_after with kit "Ask Kit what he will do when his voice goes" when true once {
+    Says "Kit thinks about it, honestly. 'Fall down, probably,' he says, with a glance at Pudding. 'Or carry hampers. Or Tapwell, if there's a Tapwell going.' His voice goes up and comes down on the last word, and he does not even go red this time. 'Gosse says a voice is just the part of you the yard can hear. He says the rest of you goes on.'".
+  }
+
+  // ── Small things seen early, that the week will explain ───────────────────────────────────────────────────────
+  Observe office_laugh at office_hall when tday(pentrice) <= 2 and not knows(party, riot_clemency) "At the end desk two clerks are disputing in whispers whether anybody has ever heard the Master laugh. The elder says once, at the Wheel, when she was four, and that it was the last time anybody in Pentrice laughed without paying for it; the younger says that is a story, and gets on with his ruling.".
+  Observe stairs_wardens at water_stairs when tday(pentrice) <= 3 and not watermenStrike(pentrice) "An old waterman at the top of the steps tells nobody in particular that the bridge wardens have been at Mr Fallow's house twice this week, and that a man who owns a bridge has no business being kind to a man who owns a boat.".
+  Observe wall_names at tiring_house when true "The names nearest the door are the newest. Further in they go back by companies: THE CHILDREN OF THE CLOSE, a whole choir of them in round child's capitals; DOLL LACY, with a little wave cut under it, for the year the Arle came into the yard; the Lord Warden's Men, the Prince of Sarre's Men, Tobias Wake who wrote The Wolf King and played the wolf; and below them, older than the plaster, names in a letter nobody reads any more, scratched into the timber the plaster was put on. A little below A. GOSSE someone has cut, very small and very neatly, a lamp on a pole.".
+
+  Milestone ms_fall "learned what the singing cost, and told Gosse" worth 200 when gosseKnowsFall(gosse).
+  Milestone ms_stone "read the oldest rule in Pentrice" worth 100 when knows(party, stone_read).
+}
