@@ -580,6 +580,10 @@ did (`probes/reckoning`):
 A roll in parentheses is a Deem expression, `(2d6)`, rolled once when the module is installed; arithmetic, in
 parentheses or out, is worked out each time it is read.
 
+Two names are of different things where `distinct(a, b)` holds: "a place other than the Ranks" is
+`at(?p, …) and distinct(?p, ranks)` (What Tessary Owes' W5). It tests what is bound and binds nothing, so what it
+tests is bound by something before it; one asked of nothing bound is refused as the module is read.
+
 ### Your adventure in a generated world
 
 A generated world can hold an authored country beyond one of its marches: the folk of the first region speak of it

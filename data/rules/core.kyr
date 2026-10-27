@@ -32,7 +32,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   // How big a settlement is: what can be seen of it from the road, and what it can spare.
   Kind sizekind. Relation townSize(place, sizekind).
   Entity size_hamlet: sizekind "hamlet". Entity size_village: sizekind "village". Entity size_town: sizekind "town".
-  Relation able(group). Relation dead(group). Relation distinct(group, group).
+  Relation able(group). Relation dead(group). Relation distinct(entity, entity).
   Relation closed(place). Relation indoors(place). Relation settled(place).
   Relation peaceable(group). Relation routed(group).
   Relation dark().

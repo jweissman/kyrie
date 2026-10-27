@@ -275,14 +275,18 @@ export class ModuleCompiler {
   // The variables a condition binds wherever it holds: of an `or`, only those both sides bind.
   private static binds(p: Predicate): Set<string> {
     switch (p.kind) {
-      case 'call': return new Set(p.args.filter(a => a.startsWith('?')));
+      case 'call': return new Set(p.name === 'distinct' ? [] : p.args.filter(a => a.startsWith('?')));
       case 'and': return new Set([...this.binds(p.left), ...this.binds(p.right)]);
       case 'or': { const right = this.binds(p.right); return new Set([...this.binds(p.left)].filter(v => right.has(v))); }
       default: return new Set();
     }
   }
   private static variables(p: Predicate, seen: { bound: Set<string>; compared: Set<string> }, positive: boolean) {
-    if (p.kind === 'call' && positive) { for (const a of p.args.filter(a => a.startsWith('?'))) { seen.bound.add(a); } }
+    if (p.kind === 'call') {
+      // `distinct` tests what is bound, and binds nothing (one asked of nothing bound threw mid-pass: the review's A9).
+      const into = p.name === 'distinct' ? seen.compared : positive ? seen.bound : undefined;
+      for (const a of p.args.filter(x => x.startsWith('?'))) { into?.add(a); }
+    }
     if (p.kind === 'compare') {
       for (const v of [p.left, p.right]) {
         if (v.kind === 'call') { for (const a of v.args.filter(a => a.startsWith('?'))) { seen.compared.add(a); } }
