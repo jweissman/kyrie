@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { AssetCatalog } from '../src/cli/asset-catalog';
 
 // The repository's standing layout (doc/CONTRACT.md): bin/ holds only the kyrie command; development utilities live
 // in scripts/; the command's tools live in src/cli. What package.json runs exists, and nothing still sends a reader or
@@ -34,5 +35,13 @@ describe('the repository', () => {
       .filter(f => /\.(ts|tsx|json|md|sh|kyr|kyrt)$/.test(f) && !f.endsWith('bundles.generated.json'))
       .filter(f => /\bbin\/(?!kyrie\b)[\w-]+\.ts\b/.test(readFileSync(join(Layout.root, f), 'utf8')));
     expect(stale).toEqual([]);
+  });
+  // The browser plays what web/bundles.generated.json holds, not data/: an edit to an adventure is played there once
+  // `bun run web:build` has written it again (Mission 17 found the disputation's renamed query still in the old file).
+  it('holds in the page\'s bundle what data/ says, as the build writes it', async () => {
+    const kept = JSON.parse(readFileSync(join(Layout.root, 'web/bundles.generated.json'), 'utf8')) as Record<string, string>;
+    const now = await AssetCatalog.files(Layout.root);
+    const stale = Object.keys({ ...kept, ...now }).filter(f => kept[f] !== now[f]);
+    expect(stale, 'run `bun run web:build` to write the bundle again').toEqual([]);
   });
 });
