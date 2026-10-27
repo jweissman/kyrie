@@ -70,11 +70,11 @@ Module hessel "The Banns at Hessel" {
   }
   // Ismay's opinion, said aloud in church, makes Rupert ashamed to be less brave than she was, if he has confessed to
   // anyone at all.
-  Rule rupert_shamed when ismayObjected(ebbas) and inPause() and rupertConfessed(rupert) and at(rupert, ebba_nave) and not bannsStopped(ebbas)
+  Rule rupert_shamed at ebba_nave when ismayObjected(ebbas) and inPause() and rupertConfessed(rupert) and at(rupert, ebba_nave) and not bannsStopped(ebbas)
     says "Rupert Wenlock looks at the girl standing scarlet in the Cherrett pew, and stands up too, as if pulled. 'It's not an opinion,' he says. 'It's not only an opinion. I have a wife.'" {
     Assert bannsStopped(ebbas). Assert bannsWithdrawn(ebbas). Assert stoppedByRupert(ebbas). Assert rupertSpoke(rupert). }
   // Nobody speaks: the pause ends, and the banns are good.
-  Rule pause_ends when readingBegun(ebbas) and not bannsStopped(ebbas) and not bannsWithdrawn(ebbas) and watch(clock) > readingWatch(ebbas) + 2 and not bannsDone(ebbas)
+  Rule pause_ends at ebba_nave when readingBegun(ebbas) and not bannsStopped(ebbas) and not bannsWithdrawn(ebbas) and watch(clock) > readingWatch(ebbas) + 2 and not bannsDone(ebbas)
     says "Mr Pyne lets out his breath. Nobody has said anything. He goes on, a little unsteadily, to the second lesson; and after the service, at the door, Lady Wenlock shakes Mrs Cherrett's hand with two fingers and says, 'Monday, then.'" {
     Assert bannsDone(ebbas). }
   Rule pause_ends_away when thirdDay() and hour(clock) >= 12 and not bannsStopped(ebbas) and not bannsWithdrawn(ebbas) and not bannsDone(ebbas) { Assert bannsDone(ebbas). }
@@ -94,13 +94,13 @@ Module hessel "The Banns at Hessel" {
   Entity wedding_told: fact "the wedding at Saint Ebba's".
 
   // ── A licence from Orm ────────────────────────────────────────────────────────────────────────────────────────────
-  // The bishop's surrogate at Orm grants marriage licences, without banns, for a fee; his clerk at the gate will sell
+  // The bishop's surrogate at Orm grants marriage licences, without banns, for a fee; his clerk at the gate will sell, for ten coin,
   // one with the names left blank, for a consideration, which is not lawful and is done every day.
   Kind licence_kind "a marriage licence from the surrogate at Orm, with the names left blank" is treasure worth 0 weighing 0.
   Person surrogate_clerk "the surrogate's clerk" at orm_gate {
     Role "a clerk at a little desk by the wicket of Orm's gate, with a stack of printed forms". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
-    Greets "The clerk at the little desk by the wicket looks up. 'Licences,' he says. 'Marriage, without banns, from the bishop's surrogate. Names, parishes, a sworn statement of no impediment, eight shillings.' He looks at you more closely. 'Or fifteen, and the names left blank, and no questions, and I never saw you.'".
-    Sells licence_kind for 15 coin from 1.
+    Greets "The clerk at the little desk by the wicket looks up. 'Licences,' he says. 'Marriage, without banns, from the bishop's surrogate. Names, parishes, a sworn statement of no impediment, eight shillings.' He looks at you more closely. 'Or ten, and the names left blank, and no questions, and I never saw you.'".
+    Sells licence_kind for 10 coin from 1.
   }
   Rule clerk_hours when hour(clock) >= 9 and hour(clock) < 17 and not at(surrogate_clerk, orm_gate) { Assert at(surrogate_clerk, orm_gate). }
   Rule clerk_home when (hour(clock) >= 17 or hour(clock) < 9) and not at(surrogate_clerk, limbo) { Assert at(surrogate_clerk, limbo). }
@@ -122,6 +122,6 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert licensedFor(couple_mopsa). Set weddingDay(pyne) to dayN(hessel_town) + 1. }
   }
   Rule licence_wedding when licensedFor(?c) and not married(?c) and dayN(hessel_town) >= weddingDay(pyne) and hour(clock) >= 9 and hour(clock) < 12 { Assert married(?c). }
-  Rule wedding_seen at ebba_nave when married(?c) and hour(clock) == 9 and not spread(licence_wedding_told) says "Nine o'clock on a weekday at Saint Ebba's: the side door, Mr Pyne in a surplice too big for him, the pew-opener and the sexton for witnesses, and the whole thing over in a quarter of an hour, which is as long as it needs to be." { Assert spread(licence_wedding_told). }
+  Rule wedding_seen at ebba_nave when married(?c) and hour(clock) == 9 and not spread(?c) says "Nine o'clock in the morning at Saint Ebba's: the side door, Mr Pyne in a surplice too big for him, the pew-opener and the sexton for witnesses, and {?c} married in a quarter of an hour, which is as long as it needs to be." { Assert spread(?c). }
   Entity licence_wedding_told: fact "the wedding by licence".
 }

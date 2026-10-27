@@ -296,10 +296,10 @@ Module hessel "The Banns at Hessel" {
     Result "'Open it,' you say. 'Yourself.' Sir Gervase looks at you as if you had spoken in another language.".
   }
   Relation askedToOpen(group).
-  Rule he_opens when askedToOpen(gervase) and gervasePrepared() and at(nan, crescent) and not carthReunited(carth) and not nanFled(nan)
+  Rule he_opens at carth_hall when askedToOpen(gervase) and gervasePrepared() and at(nan, crescent) and not carthReunited(carth) and not nanFled(nan)
     says "He goes to the door. It takes him a long time to cross the hall, and you hear every clock not ticking. He draws the top bolt, and the bottom bolt, and takes down the bar, and opens the door of Carth House with his own hand, and the night comes in. On the step a woman in a grey laundress's cloak is standing with her hand up, as if to knock again. Neither of them says anything. Then she takes his hand, the one that opened the door, and turns it over, and looks at it, the way you would look at a thing you had lost and found in the street. 'It's warm out,' she says. 'You can let the fires go.'" {
     Assert carthReunited(carth). Assert state(front_door, open). Assert at(nan, carth_hall). Assert at(gervase, carth_hall). }
-  Rule he_cannot when askedToOpen(gervase) and not gervasePrepared() and at(nan, crescent) and not carthReunited(carth) and not nanFled(nan) and not spread(he_cannot_told)
+  Rule he_cannot at carth_hall when askedToOpen(gervase) and not gervasePrepared() and at(nan, crescent) and not carthReunited(carth) and not nanFled(nan) and not spread(he_cannot_told)
     says "Sir Gervase takes one step toward the door, and stops, and stands there with his hand out toward the bolt and not touching it, until the knocking-time is over and the footsteps go away down the hill. 'I can't,' he says. 'I don't know who it is. I don't know what I did.' He sits down." {
     Retract askedToOpen(gervase). Assert spread(he_cannot_told). }
   Entity he_cannot_told: fact "he could not open it".

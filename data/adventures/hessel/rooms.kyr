@@ -84,7 +84,7 @@ Module hessel "The Banns at Hessel" {
   // years opened the Rooms to silence.
   Person brocca "Signor Brocca" at limbo {
     Role "a little man in a velvet coat, with a violin case, weeping into a pot of porter" when not broccaSober(brocca).
-    Role "Signor Brocca, the Rooms' first violin, damp and upright" when broccaSober(brocca).
+    Role "the Rooms' first violin, damp and upright" when broccaSober(brocca).
     Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "The little man in the velvet coat looks up at you with swimming eyes. 'You are kind,' he says. 'Everybody here is kind. Nobody here knows who I am. Is it not wonderful?'".
   }
@@ -95,7 +95,7 @@ Module hessel "The Banns at Hessel" {
   Action sober_brocca(actor: group, site: place) "Walk Signor Brocca round the yard and put his head under the pump" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, two_poles) and at(brocca, two_poles) and not broccaSober(brocca).
     Time 3.
-    On success { Assert broccaSober(brocca). Assert acceptsEscort(brocca, actor). }
+    On success { Assert broccaSober(brocca). Assert acceptsEscort(brocca, actor). Assert following(brocca, actor). }
     Result "Twice round the yard, once under the pump, and a pint of the landlord's black coffee that tastes of the pot. Signor Brocca comes up out of the pump-trough like a drowned cat and looks at you with sudden, terrible clarity. 'The Rooms,' he says. 'It is Saturday? It is the Rooms. Twiss will kill me.' He picks up his violin case and holds it to his chest. 'Take me. Take me up the hill.'".
   }
   Action carry_brocca(actor: group, site: place) "Carry Signor Brocca up the Parade on your back, violin and all" {
@@ -104,8 +104,9 @@ Module hessel "The Banns at Hessel" {
     Time 2.
     Resolve check(actor, brawn, dc_easy).
     On success { Retract following(brocca, actor). Assert at(brocca, vestibule). Retract at(actor, abbey_yard). Assert at(actor, circus). }
+    On failure { Retract following(brocca, actor). Assert at(brocca, vestibule). Retract at(actor, abbey_yard). Assert at(actor, circus). }
     Result "Up the Parade at a stagger, with Signor Brocca's arms round your neck and his violin case beating time on your shoulder, past the chairmen at the Parade foot, who cheer. At the top you set him down at the door of the Rooms, and he straightens his coat, and goes in.".
-    Otherwise "Halfway up the Parade your legs go, and you sit down together on the ridged paving, and Signor Brocca laughs until he cries. You go the rest of the way on foot, slowly, arm in arm.".
+    Otherwise "Halfway up the Parade your legs go, and you sit down together on the ridged paving, and Signor Brocca laughs until he cries. You go the rest of the way on foot, slowly, arm in arm, and at the door of the Rooms he straightens his coat and goes in.".
   }
   Event brocca_arrives near twiss when at(brocca, vestibule) and hour(clock) < 21 and not broccaDone(brocca) "Mr Twiss sees Signor Brocca come in at the door, damp, upright, holding his violin, and for a moment the Master of the Ceremonies closes his eyes. Then he takes the little man by both shoulders and turns him toward the ballroom, and the band strikes up before Brocca is in his chair. Mr Twiss comes back to you across the vestibule. 'I am in your debt,' he says. 'I am never in anyone's debt. Name it.'" then {
     Assert broccaDone(brocca). Retract twissFrantic(twiss). Increase twissFavour(twiss) by 2. Assert twissOwes(party). }
@@ -171,8 +172,12 @@ Module hessel "The Banns at Hessel" {
   }
   Relation liedPublicly(group).
   // What the town says back, at the next Pump Room, of what went round.
-  Topic scrope_news with scrope "Ask Mrs Scrope what the news is" when not dark() {
+  Query quietTown() means not public(rumour_rupert) and not public(rumour_kit) and not public(rumour_drops) and not public(rumour_nan) and not public(rumour_window) and not public(rumour_ruin) and not bannsWithdrawn(ebbas).
+  Topic scrope_news with scrope "Ask Mrs Scrope what the news is" when not dark() and quietTown() {
     Says "'Oh, the news,' says Mrs Scrope, and tells you about a colonel's gout, a bishop's niece, a pair of twins in the King's Bath who are not, after all, the same person, and a bonnet. Then she leans close. 'And they're saying the Cherrett girl's banns are as good as read, and the Wenlocks will have the canal money by Monday, and Dr Hartopp has his eye on the companion, or the granddaughter, depending who you ask.' She sips water she does not swallow.".
+  }
+  Topic scrope_news_after with scrope "Ask Mrs Scrope what the news is" when not dark() and not quietTown() {
+    Says "'The news!' Mrs Scrope can hardly sit still. 'My dear, there's never been a Season like it. The Cherrett banns are off, and everybody has a different reason, and every one of them is true.' She lowers her voice. 'And they say the Cherretts' stranger is at the bottom of it all. I said, nonsense. I said, a stranger can't do anything in Hessel. Can they?' She looks at you with enormous interest.".
   }
   Observe scrope_public_rupert near scrope when public(rumour_rupert) and not seenOnce(rupert_public) "'Married,' Mrs Scrope is saying to a colonel, 'two years, to a milliner, with a little boy, and the banns read twice at Saint Ebba's! Lady Wenlock has taken to her bed.'" teaches rupert_public.
   Discovery rupert_public "All Hessel knows that Rupert Wenlock was secretly married to a milliner, with a child, while his banns were read to Ismay Cherrett.".
@@ -309,7 +314,7 @@ Module hessel "The Banns at Hessel" {
 
   // ── The pumper ────────────────────────────────────────────────────────────────────────────────────────────────────
   Person pumper "the pumper" at pump_room {
-    Role "the pumper, in a striped waistcoat, at the urn". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Role "in a striped waistcoat, at the urn". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "The pumper fills a glass from the urn without being asked, and holds it out. 'Threepence. Good for what ails you. Everything ails you, in Hessel.'".
     Sells pump_bottle for 1 coin from 6.
   }

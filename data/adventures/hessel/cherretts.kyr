@@ -150,7 +150,7 @@ Module hessel "The Banns at Hessel" {
   Kind pump_bottle "a bottle of the Pump Room's water" is treasure worth 0 weighing 0.
   Relation swapped(group).
   // Done under her nose, it wants a quick hand; without one, she sees, and it is to do again when she is out of the room.
-  Rule drops_seen when state(drops_bottle, watered) and not swapped(cherrett) and at(cherrett, cherrett_bedroom) and not gone(cherrett) and not capable(party, stealth) and not mopsaSwapping(mopsa)
+  Rule drops_seen at cherrett_bedroom when state(drops_bottle, watered) and not swapped(cherrett) and at(cherrett, cherrett_bedroom) and not gone(cherrett) and not capable(party, stealth) and not mopsaSwapping(mopsa)
     says "Mrs Cherrett opens one eye. 'What,' she says, 'are you doing with my drops?' You tell her it is water now. She looks at you for a long moment. 'Mopsa,' she says, not loudly, 'send down to Hartopp's for another bottle,' and shuts the eye. You will have to do it again, when she is not in the room." {
     Assert state(drops_bottle, full). Assert swapCaught(party). }
   Rule drops_watered when state(drops_bottle, watered) and not swapped(cherrett) and (not at(cherrett, cherrett_bedroom) or capable(party, stealth) or mopsaSwapping(mopsa) or gone(cherrett)) { Assert swapped(cherrett). Retract dosed(cherrett). Retract doubled(cherrett). }
@@ -258,7 +258,7 @@ Module hessel "The Banns at Hessel" {
     Greets "The woman in grey looks at you over the top of her book. 'You'll be the legs,' she says. 'I'm the tongue. Between us we make about half a person. Sit down; the chairs are worse than they look.'".
     Greets again "Mopsa marks her place in her book with a finger, and waits for you to be interesting.".
     Wants pump_bottle.
-    Joins "'I'll come,' says Mopsa. 'Somebody has to tell you what you're doing wrong, and I've a talent for it.'".
+    Joins "Mopsa puts her book in her pocket. 'Lead on,' she says. 'Somebody has to tell you what you're doing wrong, and I've a talent for it.'".
   }
   Measure mopsaRegard(group).
   Relation mopsaHouse(group). Relation mopsaDismissed(group).

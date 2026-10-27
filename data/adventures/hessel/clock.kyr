@@ -53,6 +53,8 @@ Module hessel "The Banns at Hessel" {
   Initially Assert teachesNear(nan_public, scrope).
   Initially Assert teachesNear(window_public, scrope).
   Initially Assert teachesNear(ruin_public, scrope).
+  // Whoever is going along with the company keeps up with it, however it goes (in a chair, on a carrier's cart).
+  Rule keep_up when following(?x, party) and at(party, ?p) and not at(?x, ?p) { Assert at(?x, ?p). }
   // News already told, so it is not told twice.
   Relation spread(fact).
 }

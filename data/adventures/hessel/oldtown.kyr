@@ -254,7 +254,7 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert mopsaFunded(mopsa). Increase mopsaRegard(mopsa) by 1. }
   }
   Topic mopsa_see_house with mopsa "Ask Mopsa to come down and look at Number Four with you" when knows(actor, mopsa_wants) and mopsaRegard(mopsa) >= 2 and not mopsaHouse(mopsa) and not sawHouse(party) and daytime() once {
-    Says "Mopsa looks at Mrs Cherrett (asleep) and at the clock and at you. 'Look at it,' she says. 'I've looked at it from the end of the lane every Sunday for three weeks. I've never been in.' She gets her bonnet. 'Half an hour. If she wakes, I was at church.'".
+    Says "Mopsa looks at Mrs Cherrett, and at the clock, and at you. 'Look at it,' she says. 'I've looked at it from the end of the lane every Sunday for three weeks. I've never been in.' She gets her bonnet. 'Half an hour. If she wakes, I was at church.'".
     On discuss { Assert acceptsEscort(mopsa, actor). Assert following(mopsa, actor). Assert mopsaAway(mopsa). }
   }
   Relation sawHouse(group).

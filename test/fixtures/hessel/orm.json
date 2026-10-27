@@ -91,5 +91,14 @@
   "=396",
   "=397",
   "Tell Sir Gervase to open the door himself"
+ ],
+ "after": [
+  "Dr Jonas Ottery.*: Ask .*to join the company",
+  "Out to the Crescent",
+  "To the top of the Parade",
+  "To the Abbey Yard",
+  "To Stall Street",
+  "Into the Two Poles",
+  "Take a bed and supper"
  ]
 }

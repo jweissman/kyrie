@@ -9,7 +9,7 @@ Module hessel "The Banns at Hessel" {
   Milestone m_fares "settled the chairmen's fares" worth 100 when faresRestored(chairmen).
   Milestone m_stood "stood with the chairmen" worth 100 when stoodWith(party).
   Milestone m_drops_found "found out what was in Mrs Cherrett's drops" worth 100 when knows(party, drops_doubled).
-  Milestone m_drops_stopped "kept Mrs Cherrett awake" worth 250 when not doubled(cherrett) and not gone(cherrett) and cameToHessel(party).
+  Milestone m_drops_stopped "kept Mrs Cherrett alive" worth 250 when not doubled(cherrett) and not gone(cherrett) and cameToHessel(party).
   Milestone m_rupert "found out Rupert Wenlock's secret" worth 100 when knows(party, rupert_married).
   Milestone m_family "put Jack in Lady Wenlock's arms" worth 250 when grandmother(lady_wenlock).
   Milestone m_banns "stopped the banns" worth 150 when bannsStopped(ebbas).
