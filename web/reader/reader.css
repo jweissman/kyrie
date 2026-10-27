@@ -75,6 +75,13 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 .sheet .back { margin: 0 0 26px; }
 .story h3 { margin-top: 34px; }
 .story .you { font: 400 14px/1.4 var(--do); color: var(--grey); margin: 14px 0 4px; }
+.journal .going ul { list-style: none; padding: 0; }
+.journal .going li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: baseline; gap: 0 14px;
+  padding: 7px 0; border-top: 1px solid var(--hair); margin: 0; }
+.journal .going .to { font: 500 16px var(--do); }
+.journal .going .how { font: 400 14px var(--do); color: var(--grey); }
+.journal .going .set-out { font: 500 14px var(--do); text-decoration: none; padding: 4px 10px 5px; border: 1px solid var(--ink); }
+.journal .going .set-out:hover, .journal .going .set-out:focus-visible { background: var(--ink); color: var(--paper); }
 .journal li.learned, .story .learned { border-left: 4px solid var(--yellow); padding-left: 10px; list-style: none; margin-left: -1.1em; }
 
 /* The head of a book's page: where, and which book. */
@@ -106,6 +113,24 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 .atlas .name-zone { font-weight: 400; font-size: 13px; letter-spacing: .3em; text-transform: uppercase; fill: var(--grey); }
 .atlas .name-unknown { fill: var(--grey); font-style: italic; }
 .atlas .tag { font-weight: 700; font-size: 11px; fill: var(--paper); stroke: none; }
+/* A place on the map is a control: pointed at, it is ringed; chosen, ringed in blue. */
+.atlas .spot { cursor: pointer; outline: none; }
+.atlas .you, .atlas .you-ring, .atlas text { pointer-events: none; }
+.atlas .spot .reach { fill: transparent; stroke: none; }
+.atlas .spot:hover .reach { fill: rgba(21,21,21,.07); }
+.atlas .spot:focus-visible .reach, .atlas .spot.chosen .reach { fill: rgba(23,107,238,.12); stroke: var(--blue); stroke-width: 1.5; }
+.map-spread { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 20rem); gap: 0 clamp(20px, 3vw, 40px);
+  align-items: start; }
+.map-spread .plan { position: sticky; top: 0; padding: 4px 0 0 18px; border-left: 3px solid var(--ink); }
+.map-spread .plan .to { font: 400 30px/1.1 var(--told); margin: 0 0 12px; }
+.map-spread .plan .legs { margin: 0 0 8px; padding-left: 1.2em; font: 400 15px/1.5 var(--do); }
+.map-spread .plan .legs .note { margin-left: 8px; }
+.map-spread .plan .how { font: 400 14px/1.45 var(--do); color: var(--grey); }
+.map-spread .plan .go { display: inline-block; margin-top: 8px; font: 500 17px/1.2 var(--do); text-decoration: none;
+  padding: 9px 16px 10px; background: var(--ink); color: var(--paper); }
+.map-spread .plan .go:hover, .map-spread .plan .go:focus-visible { background: var(--blue); }
+.book-page:has(.map) { max-width: 76rem; }
+@media (max-width: 860px) { .map-spread { grid-template-columns: minmax(0, 1fr); } .map-spread .plan { position: static; margin-top: 16px; } }
 .atlas .tag-dot { fill: var(--ink); }
 .atlas .edge-time { font-size: 11px; fill: var(--grey); }
 .atlas-key { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 400 13px var(--do); color: var(--grey); margin: 10px 0 0; }

@@ -120,6 +120,8 @@ export interface Screen {
   // and those it could set out toward, as far as the wild country a place is said to lie in.
   destinations?: { id: string; name: string; minutes: number; toward?: string;
     legs: { way: string; to: string; minutes: number }[] }[];
+  // The towns the known roads go to besides, which the map and the notes can set out for (not the place's own leads).
+  roads?: NonNullable<Screen['destinations']>;
 }
 export interface Chart {
   // A way out of the plan is drawn as a place beyond it (external); one to another level of the site goes up or down.

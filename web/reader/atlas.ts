@@ -104,7 +104,8 @@ export class Atlas {
     const out: Drawn['labels'] = [];
     for (const p of [...places].sort((a, b) => Number(b.kind === 'settlement') - Number(a.kind === 'settlement'))) {
       const town = p.kind === 'settlement', text = Typography.curl(town ? p.name : p.name.replace(/^the /, ''));
-      const size = town ? 13 : 12, w = text.length * size * (town ? 0.72 : 0.55), h = size + 2;
+      // A town's name is set in spaced capitals, a mark's in lower case: each as wide as it is set.
+      const size = town ? 13 : 12, w = text.length * size * (town ? 0.86 : 0.56), h = size + 2;
       const tries: [number, number, 'start' | 'end' | 'middle'][] = [[16, 4, 'start'], [-16, 4, 'end'],
         [0, -16, 'middle'], [0, 28, 'middle']];
       for (const [dx, dy, anchor] of tries) {

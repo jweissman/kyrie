@@ -203,7 +203,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const person = attention.kind === 'person';
       const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said)] : [];
       this.setState({ frame: next, pending: undefined, cursor: 0, open: this.kept(next, attention), hovered: undefined,
-        view: ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
+        // Set out from the map, the journey is told where it arrives; anything else done from the map or the company
+        // leaves it open.
+        view: !journey && ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
         asked: person && !turning ? [...this.state.asked, choice.id] : [],
         acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined });
     } catch (error) { this.failed(error); }

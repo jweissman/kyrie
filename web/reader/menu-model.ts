@@ -62,7 +62,7 @@ export class MenuModel {
     // On a road the two ways on are the road itself, never folded.
     const far = scene.near.length && scene.far.length && !Routes.of(screen)
       ? [this.fold(MenuModel.roads, 'Roads out', scene.far)] : scene.far;
-    const going = destinations.length > 3 ? [this.fold(MenuModel.going, 'Set out for', destinations)] : destinations;
+    const going = destinations.length > 3 ? [this.fold(MenuModel.folded, 'Set out for', destinations)] : destinations;
     const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...far, ...going,
       ...scene.you].flatMap(c => this.unfold(c, opened));
     return { scene: { ...scene, far }, sections: [...this.sections({ ...scene, far }), ...going.length
@@ -70,7 +70,7 @@ export class MenuModel {
     destinations: going };
   }
   static readonly roads = 'fold:roads';
-  static readonly going = 'fold:going';
+  static readonly folded = 'fold:going';
   private static fold(id: string, label: string, children: Choice[]): Choice {
     return { id, label, tone: 'way', note: `${children.length}`, children };
   }
@@ -87,6 +87,11 @@ export class MenuModel {
       tone: 'way' as const, note: d.toward ? `${Words.span(d.minutes)}, as far as ${d.toward}` : Words.span(d.minutes),
       children: [{ id: `travel:${d.id}`, label: `Set out ${d.toward ? 'toward' : 'for'} ${d.name}`, tone: 'way' as const,
         command: `travel:${d.id}`, minutes: d.minutes }] }));
+  }
+  // Setting out for a place known the way to, chosen on the map or in the notes: as the place offers it, for a lead.
+  static journey(d: NonNullable<Frame['screen']['destinations']>[number]): Choice {
+    return { id: `travel:${d.id}`, label: `Set out ${d.toward ? 'toward' : 'for'} ${d.name}`, tone: 'way',
+      command: `travel:${d.id}`, minutes: d.minutes };
   }
   // Someone spoken with: what can be said to them, and taking leave. Something looked at: what can be done with it, by
   // kind, and turning away. The scene is kept whole, so what is said is said to them by name.
@@ -141,7 +146,7 @@ export class MenuModel {
   // A way that takes a while across the country is a journey: said while it is worked out.
   static travel(choice: Choice, frame: Frame): Travel | undefined {
     const known = /^travel:(.+)$/.exec(choice.command ?? '')?.[1];
-    const to = known && frame.screen.destinations?.find(d => d.id === known);
+    const to = known && [...frame.screen.destinations ?? [], ...frame.screen.roads ?? []].find(d => d.id === known);
     if (to) {
       return { from: frame.screen.place.id, to: to.id, way: to.legs.map(l => l.way).join(', then '), minutes: to.minutes };
     }

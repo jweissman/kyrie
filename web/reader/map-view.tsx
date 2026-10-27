@@ -1,7 +1,8 @@
-import { memo, useEffect, useMemo, useRef } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import type { Chart, RegionChart, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Atlas, type Drawn } from './atlas';
+import { MenuModel } from './menu-model';
 import { Typography } from '../../src/presentation/typography';
 import { Words } from './words';
 
@@ -12,7 +13,7 @@ import { Words } from './words';
 // you know only by name is grey.
 export class MapView {
   static View({ app, screen }: { app: ReaderApp; screen: Screen }) {
-    const came = MapView.came(app);
+    const came = MapView.came(app), [chosen, choose] = useState<string>();
     // Wild country is drawn on the land itself, landmark by landmark; the rooms of a place are drawn below it.
     const region = screen.region, wild = region?.land && region.areas.find(a => a.here)?.kind === 'wilderness';
     const local = (!wild || screen.chart?.level) && screen.chart && screen.chart.places.filter(p => !p.external).length > 1
@@ -21,7 +22,11 @@ export class MapView {
       <article className="world-body map" data-region="map" aria-label="The map">
         <p className="where"><span className="title">{app.state.frame!.title}</span><span>The map</span></p>
         <h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1>
-        {region ? <MapView.Region region={region} came={came} /> : <p className="none">You have no map of this country yet.</p>}
+        <div className="map-spread">
+          {region ? <MapView.Region region={region} came={came} chosen={chosen} choose={choose} />
+            : <p className="none">You have no map of this country yet.</p>}
+          <MapView.Plan app={app} screen={screen} chosen={chosen} />
+        </div>
         {local && <MapView.Local chart={local} />}
         <p><button type="button" className="act" data-action="close" onClick={app.back}>‹ Back to where you are</button></p>
       </article>
@@ -35,8 +40,38 @@ export class MapView {
   // The country is drawn larger than its cells' own size, to be read at a glance on a wide page; on a narrow one it
   // fits the page.
   static readonly scale = 1.4;
+  // A place chosen on the map: what the company knows of it, and the way there, leg by leg, with setting out; or that
+  // it knows no way there yet. A place is chosen by pointing at it, or by the keys (Tab to it, Enter).
+  static Plan({ app, screen, chosen }: { app: ReaderApp; screen: Screen; chosen?: string }) {
+    const region = screen.region, area = chosen ? region?.within[chosen] ?? chosen : undefined;
+    const name = chosen && (region?.areas.find(a => a.id === chosen)?.name
+      ?? region?.land?.marks.find(m => m.id === chosen)?.name ?? chosen);
+    if (!chosen || !name) {
+      return <aside className="plan" aria-label="A place on the map"><p className="label">Somewhere to go</p>
+        <p className="how">Choose a place on the map to see the way there, and to set out.</p></aside>;
+    }
+    const d = [...screen.destinations ?? [], ...screen.roads ?? []].find(x => x.id === chosen || x.id === area);
+    const here = screen.region?.areas.find(a => a.here)?.id === area;
+    const visited = region?.areas.find(a => a.id === chosen)?.visited ?? region?.land?.marks.find(m => m.id === chosen)?.visited;
+    const go = d && MenuModel.journey(d);
+    return (
+      <aside className="plan" aria-label={`The way to ${name}`} data-id={chosen}>
+        <p className="label">{here ? 'You are here' : visited ? 'You have been here' : 'You have not been here'}</p>
+        <h2 className="to">{Typography.curl(Words.upper(name))}</h2>
+        {d ? <>
+          <ol className="legs">{d.legs.map((l, i) => <li key={i}>{Typography.curl(`By ${l.way} to ${l.to}`)}
+            <span className="note">{Words.span(l.minutes)}</span></li>)}</ol>
+          <p className="how">{Words.upper(Words.span(d.minutes))} in all{d.toward ? `, as far as ${d.toward}` : ''}. Each leg is
+            walked as it comes; the journey stops for anything that wants you.</p>
+          {go && <button type="button" className="act go" data-action="set-out" onClick={() => app.choose(go)}>
+            Set out {d.toward ? 'toward' : 'for'} {Typography.curl(name)}</button>}
+        </> : <p className="how">{here ? 'You are here already.' : 'You know no way there yet.'}</p>}
+      </aside>
+    );
+  }
   static readonly Region = memo(MapView.region);
-  private static region({ region, came }: { region: RegionChart; came?: string }) {
+  private static region({ region, came, chosen, choose }: { region: RegionChart; came?: string; chosen?: string;
+    choose: (id: string) => void }) {
     const d: Drawn = useMemo(() => region.land ? Atlas.draw(region, came) : Atlas.schematic(region, came), [region, came]);
     return (
       <figure className="atlas">
@@ -50,9 +85,14 @@ export class MapView {
           {d.paths.map((p, i) => <polyline key={`p${i}`} className={`path${p.shut ? ' shut' : ''}${p.came ? ' came' : ''}`}
             points={p.points}><title>{p.label}</title></polyline>)}
           {d.zones.map(z => <text key={z.id} className="name-zone" x={z.x} y={z.y} textAnchor="middle">{z.name}</text>)}
-          {d.places.map(p => p.kind === 'settlement'
-            ? <rect key={p.id} className={`town${p.visited ? '' : ' unvisited'}`} x={p.x - 6} y={p.y - 6} width={12} height={12} />
-            : <circle key={p.id} className={`mark${p.visited ? ' visited' : ''}`} cx={p.x} cy={p.y} r={4.5} />)}
+          {d.places.map(p => <g key={p.id} className={`spot${chosen === p.id ? ' chosen' : ''}`} role="button" tabIndex={0}
+            data-action="map-place" data-id={p.id} aria-label={d.labels.find(l => l.id === p.id)?.text ?? p.id}
+            aria-pressed={chosen === p.id} onClick={() => choose(p.id)}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); choose(p.id); } }}>
+            <circle className="reach" cx={p.x} cy={p.y} r={14} />
+            {p.kind === 'settlement'
+              ? <rect className={`town${p.visited ? '' : ' unvisited'}`} x={p.x - 6} y={p.y - 6} width={12} height={12} />
+              : <circle className={`mark${p.visited ? ' visited' : ''}`} cx={p.x} cy={p.y} r={4.5} />}</g>)}
           {d.here && <g aria-current="location"><circle className="you-ring" cx={d.here.x} cy={d.here.y} r={12} />
             <circle className="you" cx={d.here.x} cy={d.here.y} r={6} /><title>You are here</title></g>}
           {d.labels.map(l => <text key={l.id} className={`${l.kind === 'settlement' ? 'name-town' : 'name-mark'}${l.known ? '' : ' name-unknown'}`}

@@ -191,7 +191,7 @@ export class PlaceStage {
   // folded under one choice.
   static Destinations({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const shown = app.menu.destinations ?? [], screen = app.state.frame!.screen;
-    const fold = shown.find(c => c.id === MenuModel.going), choices = fold ? fold.children ?? [] : shown;
+    const fold = shown.find(c => c.id === MenuModel.folded), choices = fold ? fold.children ?? [] : shown;
     if (!choices.length) { return null; }
     return (
       <nav className="ways destinations" aria-label="Set out for">

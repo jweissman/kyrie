@@ -4,6 +4,7 @@ import type { ReaderApp } from './reader-app';
 import { Act } from './stage/act';
 import { Words } from './words';
 import { CharacterPage } from './character-page';
+import { MenuModel } from './menu-model';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
 // you can be of it), the story so far, what you carry, the company. Back goes back to what is here; the world stays.
@@ -26,10 +27,11 @@ export class Sheet {
     return (
       <article className="journal" data-region="knowledge">
         <h2>Notes</h2>
-        <h3>Unfinished</h3>
+        <h3>What you mean to do</h3>
         {screen.objectives.length || screen.deadlines.length
-          ? <ul>{[...screen.objectives, ...screen.deadlines].map(o => <li key={o}>{o}</li>)}</ul>
+          ? <ul className="aims">{[...screen.deadlines, ...screen.objectives].map(o => <li key={o}>{o}</li>)}</ul>
           : <p className="none">{Sheet.idle(screen, facts)}</p>}
+        <Sheet.Going app={app} />
         {screen.done.length > 0 && <div data-region="done"><h3>Seen through</h3>
           <ul>{screen.done.map(d => <li key={d}>{d}</li>)}</ul></div>}
         {kinds.map(([kind, title]) => {
@@ -45,6 +47,20 @@ export class Sheet {
         </ul>
       </article>
     );
+  }
+  // Where the company could set out for, nearest first, each with how long and setting out: the notes are a plan, not
+  // a ledger (the play-structure investigation's PT-25).
+  // The places heard of or been to first, then the towns the roads go to.
+  static Going({ app }: { app: ReaderApp }) {
+    const screen = app.state.frame?.screen, leads = screen?.destinations ?? [], roads = screen?.roads ?? [];
+    if (!leads.length && !roads.length) { return null; }
+    return <div className="going" data-region="going"><h3>Where you could go</h3>
+      <ul>{[...leads, ...roads].map(d => <li key={d.id} className={roads.includes(d) ? 'road' : undefined}>
+        <span className="to">{d.toward ? `Toward ${d.name}` : d.name}</span>
+        <span className="how">{Words.span(d.minutes)}{d.toward ? `, as far as ${d.toward}` : ''}
+          {roads.includes(d) ? ', by the roads' : ''}</span>
+        <button type="button" className="act set-out" data-action="set-out" data-id={d.id}
+          onClick={() => app.choose(MenuModel.journey(d))}>Set out</button></li>)}</ul></div>;
   }
   // Nothing asked: yet, or any more, now something has been seen through; and what has been heard of is there to
   // follow (the follow-up review read "Nothing is asked of you yet" over a family's story finished and a hall heard of).

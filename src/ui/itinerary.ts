@@ -6,6 +6,7 @@ import { ChartModel } from './chart-model';
 import type { WayInfo } from './passage-model';
 import { VisitedPlaces } from '../presentation/visited-places';
 import { Spatial } from '../spatial';
+import type { Screen } from './screen-types';
 
 // One leg of a journey: by what way, from where to where, and how long it takes.
 export interface Leg { passage: string; way: string; from: string; to: string; minutes: number }
@@ -87,7 +88,8 @@ export class Itineraries {
     return Math.max(1, campaign.world.number(ModuleWriter.call('travelTime', passage))) * 10;
   }
   // The places worth setting out for that the company knows the way to and that are more than a step away: the
-  // settlements and sites it has been to or been told of, and the edges of the country where a road goes on.
+  // settlements and sites it has been to or been told of, and the edges of the country where a road goes on. These
+  // are the leads a place offers to set out for; the towns the known roads go to besides are `roads`.
   static destinations(campaign: Campaign): Itinerary[] {
     const actor = campaign.playerActor!, world = campaign.world, entities = campaign.module.entities;
     const told = world.relates('leadsTo') ? world.related('leadsTo')
@@ -100,6 +102,30 @@ export class Itineraries {
     return [...known].filter(id => id !== area?.id && (told.includes(id) || this.worth(byId.get(id))))
       .flatMap(id => { const p = this.plan(campaign, id); return p && p.legs.length > 1 ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
+  }
+  // The towns the roads the company knows go to, that it has not been to or been told of: the map draws them, and
+  // they can be set out for from it, and from the notes (the map had said "You know no way there yet" of a town at
+  // the end of a road it drew). Not leads, and not offered among the place's own ways to set out.
+  static roads(campaign: Campaign, leads: Itinerary[]): Itinerary[] {
+    const byId = new Map(campaign.module.entities.map(e => [e.id, e])), here = campaign.world.one('at', campaign.playerActor!);
+    const area = here ? this.area(byId, here)?.id : undefined, listed = new Set(leads.map(d => d.id));
+    const towns = new Set([...this.graph(campaign).values()].flat().map(w => this.area(byId, w.to)?.id)
+      .filter((id): id is string => !!id && id !== area && !listed.has(id) && byId.get(id)?.space?.kind === 'settlement'));
+    return [...towns].flatMap(id => { const p = this.plan(campaign, id); return p && p.legs.length > 1 ? [p] : []; })
+      .sort((a, b) => a.minutes - b.minutes);
+  }
+  // Where the company could set out for, and the towns its roads go to besides, each leg named as the page names its
+  // way and place (the Bushweald play read "By the track to {region__w13}"): what the page is given of them.
+  static shown(campaign: Campaign, names: Map<string, Entity>): Pick<Screen, 'destinations' | 'roads'> {
+    if (!campaign.running) { return { destinations: [], roads: [] }; }
+    const leads = this.destinations(campaign);
+    return { destinations: leads.map(d => this.named(d, names)),
+      roads: this.roads(campaign, leads).map(d => this.named(d, names)) };
+  }
+  private static named(d: Itinerary, names: Map<string, Entity>): NonNullable<Screen['destinations']>[number] {
+    return { id: d.id, name: names.get(d.id)?.name ?? d.name, minutes: d.minutes,
+      ...d.toward ? { toward: d.toward } : {}, legs: d.legs.map(l => ({ way: names.get(l.passage)?.name ?? l.way,
+        to: names.get(l.to)?.name ?? l.to, minutes: l.minutes })) };
   }
   private static area(byId: Map<string, Entity>, id: string): Entity | undefined {
     return Spatial.ancestry(byId, id).find(e => ['settlement', 'site'].includes(e.space?.kind ?? ''));

@@ -12,6 +12,20 @@ import { ScreenModel } from '../src/ui/screen-model';
 // the notice is up where travellers are kept, and once it is known the way there is known too, over the country's
 // roads; going there is one choice, made leg by leg as the page would make it.
 describe('the way into Merrowdale', () => {
+  // The map draws the towns the country's roads go to, and a town drawn there is somewhere to set out for: the map had
+  // said "You know no way there yet" of a town at the end of a road it drew (Mission 17).
+  it('can set out from the map for any town the roads it knows go to, without it being a lead', async () => {
+    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'wanderer',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
+    const towns = w.report.region.settlements.map(t => `region__${t.id}`);
+    const here = c.world.one('at', c.playerActor!)!.replace(/_[a-z]+$/, '');
+    // Not leads: the place offers none to set out for yet; the map and the notes may set out for each town.
+    const leads = Itineraries.destinations(c), roads = Itineraries.roads(c, leads);
+    expect(roads.map(d => d.id).sort()).toEqual(towns.filter(t => !here.startsWith(t)).sort());
+    expect(roads.every(d => d.legs.length > 1 && d.minutes > 0)).toBe(true);
+    expect(roads.some(d => leads.some(l => l.id === d.id))).toBe(false);
+  }, 120000);
   it('is told in the town the protagonist comes to, and is one journey along known roads', async () => {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared, { origin: 'wanderer',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
