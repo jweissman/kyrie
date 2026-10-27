@@ -8,8 +8,9 @@ Module hessel "The Banns at Hessel" {
   // Town under the name of Nan Bellamy, and the housekeeper has carried her word of her daughter every week for nine
   // years. She will come in if he opens the door himself; not if anybody else does.
   Entity carth: group "the Carths".
-  Observe carth_hall_scene at carth_hall when not carthReunited(carth) "The heat hits you in the doorway like a hand. The hall of Carth House is lit by candles at noon; a fire roars in a grate as big as a cart, and another at the stair-foot; every shutter is closed and barred. On the wall a long-case clock says two o'clock. So does the one on the stair. So, you will find, do all of them. By the front door, facing it, stands one high-backed chair, with a greatcoat over its arm.".
-  Observe carth_hall_open at carth_hall when carthReunited(carth) "The hall of Carth House with its shutters open: daylight on the floor for the first time in nine years, showing every scuff. The fires are out. Somebody has started the long-case clock, and it is wrong, and nobody cares.".
+  Observe carth_hall_scene at carth_hall when not carthReunited(carth) "The heat hits you in the doorway like a hand. The hall of Carth House is lit by candles in broad day; a fire roars in a grate as big as a cart, and another at the stair-foot; every shutter is closed and barred. On the wall a long-case clock says two o'clock. So does the one on the stair. So, you will find, do all of them. By the front door, facing it, stands one high-backed chair, with a greatcoat over its arm.".
+  Observe carth_hall_night at carth_hall when carthReunited(carth) and not carthOpened(carth) "The hall of Carth House with its front door standing open on the night: the cool air coming in, the candles leaning, and the long-case clock still saying two, for the last time.".
+  Observe carth_hall_open at carth_hall when carthOpened(carth) "The hall of Carth House with its shutters open: daylight on the floor for the first time in nine years, showing every scuff. The fires are out. Somebody has started the long-case clock, and it is wrong, and nobody cares.".
   Observe drawing_scene at carth_drawing when not celiaOut(celia) and not carthReunited(carth) "The drawing room is upstairs, and hotter. Furs on every chair; a fire; candles; the shutters closed, except one, which has a crack in it that someone has worn with a fingertip. Books everywhere: a girl's room, a scholar's room, a prison.".
   Observe drawing_empty at carth_drawing when celiaOut(celia) and not carthReunited(carth) "The drawing room, with its fires and furs, and nobody in it; on the floor by the window, a fur cap.".
   Observe study_scene at carth_study when true "Sir Gervase's study: a desk, a gun-case, a fire, and over the fire a portrait with a cloth over it.".
@@ -45,7 +46,7 @@ Module hessel "The Banns at Hessel" {
     Found by searching carth_area "Above you in the vault, where the coal comes down, is an iron hatch with a rusted hasp; the coal goes in there, and the coal goes to the kitchen.".
   }
   Thing drawing_window "the drawing-room window" on carth_window is scenery {
-    State shuttered blocking "Every shutter of Carth House is closed.".
+    State shuttered blocking "The drawing-room shutters are barred.".
     State ajar "One shutter of the drawing-room window over the area stands open a hand's breadth, with a candle behind it.".
     State nailed blocking "The drawing-room shutters at Carth House have been nailed across with laths.".
   }
@@ -88,7 +89,7 @@ Module hessel "The Banns at Hessel" {
   // ── Celia ─────────────────────────────────────────────────────────────────────────────────────────────────────────
   Person celia "Celia Carth" at carth_drawing {
     Role "a girl in a fur cap, very pale and very bored, with a book" when not celiaOut(celia).
-    Role "Celia Carth, out of doors, blinking" when celiaOut(celia).
+    Role "a girl in a borrowed cloak, out of doors, blinking at everything" when celiaOut(celia).
     Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Greets "The girl in the fur cap looks up from her book and stares at you as if you had come in through the wall, which in a sense you have. 'Oh,' she says. 'Are you real? Nobody comes. Sit down. No: tell me something. Anything. What is it like out there?'".
     Greets again "Celia Carth puts her book down at once.".
@@ -189,7 +190,7 @@ Module hessel "The Banns at Hessel" {
       and not received(actor) and not triedKnock(actor) and not carthReunited(carth).
     Time 2.
     Resolve check(actor, deception, dc_fair).
-    On success { Assert received(actor). Retract at(actor, crescent). Assert at(actor, carth_study). }
+    On success { Assert received(actor). Assert tolerates(gervase, actor). Retract at(actor, crescent). Assert at(actor, carth_study). }
     On failure { Assert triedKnock(actor). }
     Result "You untie the black glove from the knocker and knock. After a long time the door opens a crack on a wall of heat and Mrs Brannagh's face. Dr Hartopp, you say, has sent you to enquire after Miss Carth. She looks at you as if she knew exactly what you were, and lets you in; and in the study Sir Gervase, in a greatcoat by a roaring fire, asks you to tell Hartopp the child is no worse, and does not ask your name.".
     Otherwise "Mrs Brannagh opens the door a crack, and looks at you, and says, 'Dr Hartopp's man came Tuesday, and he wasn't you,' and shuts it.".
@@ -199,12 +200,26 @@ Module hessel "The Banns at Hessel" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, crescent) and state(front_door, shut) and hour(clock) >= 9 and hour(clock) < 18
       and following(ottery, actor) and not celiaWell(celia) and not carthReunited(carth).
     Time 6.
-    On success { Assert received(actor). Assert celiaWell(celia). Assert knows(actor, celia_well). Retract at(actor, crescent). Assert at(actor, carth_study). }
+    On success { Assert received(actor). Assert tolerates(gervase, actor). Assert celiaWell(celia). Assert knows(actor, celia_well). Retract at(actor, crescent). Assert at(actor, carth_study). }
     Result "Ottery does not wait for anyone to answer. He knocks, and when Mrs Brannagh's face appears at the crack he says, 'Ottery, physician; I've come to see the girl,' and walks past her into the heat as if it were his own house. Sir Gervase comes out of his study with his hand on his sword, and Ottery looks at him and says, 'Put that away, you'll hurt yourself,' and goes up the stairs two at a time. You follow. He looks at Celia Carth for a quarter of an hour: listens at her back, taps her chest, makes her breathe, looks at her tongue, her eyes, her nails. Then he goes downstairs to Sir Gervase. 'There is nothing whatever the matter with your daughter's lungs,' he says, 'or there wasn't until you started baking her. She is pale because she has not seen the sun since she was nine. Open the shutters. Put out the fires. Let her walk on the grass. And if Hartopp told you otherwise, Hartopp is a liar, and I'll say so to his face.' Sir Gervase sits down in his chair as if he had been knocked into it.".
   }
   Discovery celia_well "There is nothing the matter with Celia Carth's lungs. Dr Ottery examined her: she is pale for want of the sun. The winter in Carth House is Dr Hartopp's prescription, and needless.".
   Rule well_shakes when celiaWell(celia) and not gervaseShaken(gervase) { Assert gervaseShaken(gervase). }
   Relation gervaseShaken(group).
+  // Once received, the company is let in at the front door by Brannagh whenever it calls, until midnight.
+  Action call_again(actor: group, site: place) "Knock at Carth House, as one Sir Gervase has received" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crescent) and received(actor) and state(front_door, shut)
+      and (hour(clock) >= 7 or hour(clock) < 1) and not carthReunited(carth) and not gervaseFought(gervase).
+    Time 1.
+    On success { Retract at(actor, crescent). Assert at(actor, carth_hall). }
+    Result "Mrs Brannagh opens the door on the heat, and looks at you, and stands aside.".
+  }
+  Action let_out(actor: group, site: place) "Ask Mrs Brannagh to let you out at the front door" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, carth_hall) and received(actor) and state(front_door, shut) and not at(nan, crescent).
+    Time 1 minute.
+    On success { Retract at(actor, carth_hall). Assert at(actor, crescent). }
+    Result "Mrs Brannagh comes up from below with her keys, and draws the bolts, and lets you out into the air, and bolts the door behind you.".
+  }
   // Sitting up with him for the knock, once received: he tells it.
   Action sit_up(actor: group, site: place) "Sit up with Sir Gervase in the hall, for the knock" {
     Description "Until two in the morning, in the heat, by the door.".
@@ -232,11 +247,10 @@ Module hessel "The Banns at Hessel" {
     Greets again "Nan Bellamy wipes her arms on her apron.".
   }
   Relation nanFled(group). Relation nanAway(group). Relation knockTonight(group).
-  Rule nan_works when hour(clock) >= 6 and hour(clock) < 20 and not at(nan, laundry_yard) and not nanFled(nan) and not carthReunited(carth) and not nanAway(nan) and not following(nan, party) and not travelsWith(nan, party) { Assert at(nan, laundry_yard). }
-  Rule nan_evening when (hour(clock) >= 20 or hour(clock) < 2 or hour(clock) >= 3 and hour(clock) < 6) and not at(nan, limbo) and not nanFled(nan) and not carthReunited(carth) and not nanAway(nan) and not following(nan, party) and not travelsWith(nan, party) { Assert at(nan, limbo). }
+  Rule nan_works when hour(clock) != 2 and not at(nan, laundry_yard) and not nanFled(nan) and not carthReunited(carth) and not nanAway(nan) and not following(nan, party) and not travelsWith(nan, party) { Assert at(nan, laundry_yard). }
   // At two she is at the door of Carth House; she knocks once, and goes down again.
   Rule nan_goes_up when hour(clock) == 2 and not at(nan, crescent) and not nanFled(nan) and not carthReunited(carth) and not knockTonight(nan) and not nanAway(nan) { Assert at(nan, crescent). Assert knockTonight(nan). }
-  Rule nan_comes_down when hour(clock) == 3 and at(nan, crescent) and not carthReunited(carth) { Assert at(nan, limbo). }
+  Rule nan_comes_down when hour(clock) == 3 and at(nan, crescent) and not carthReunited(carth) and not nanFled(nan) { Assert at(nan, laundry_yard). }
   Rule knock_resets when hour(clock) == 4 and knockTonight(nan) { Retract knockTonight(nan). }
   Discovery knocker_seen "Somebody knocks at Carth House every night at two: a woman in a laundress's cloak, who comes up the hill and goes down again.".
   Observe knock_from_crescent at crescent when at(nan, crescent) and not carthReunited(carth) "At two in the morning a woman in a grey cloak comes along the Crescent from the top of the Parade, not hurrying, and goes up the steps of Carth House, and knocks, once. Then she stands there with her hand flat on the door, the way you would stand by a horse to feel it breathe. After a while she goes away down the hill." teaches knocker_seen.
@@ -273,19 +287,17 @@ Module hessel "The Banns at Hessel" {
   Relation doorOpenedByOther(group).
   // The door opened by him: the reunion. He opens it himself only if he knows it is her, and has told the night to
   // someone, and, if he has been told Celia's lungs are sound, the house has had enough of winter.
+  // Whether he does it is not a matter of how well it is said, but of what he has been through by then.
   Action ask_him_open(actor: group, site: place) "Tell Sir Gervase to open the door himself" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, carth_hall) and at(gervase, carth_hall) and at(nan, crescent)
-      and not carthReunited(carth) and not nanFled(nan) and tolerates(gervase, actor).
+      and not carthReunited(carth) and not nanFled(nan) and tolerates(gervase, actor) and not askedToOpen(gervase).
     Time 2 minutes.
-    Resolve check(actor, persuasion, dc_easy).
     On success { Assert askedToOpen(gervase). }
-    On failure { Assert askedToOpen(gervase). }
     Result "'Open it,' you say. 'Yourself.' Sir Gervase looks at you as if you had spoken in another language.".
-    Otherwise "'Open it,' you say. Sir Gervase does not seem to hear you.".
   }
   Relation askedToOpen(group).
   Rule he_opens when askedToOpen(gervase) and gervasePrepared() and at(nan, crescent) and not carthReunited(carth) and not nanFled(nan)
-    says "He goes to the door. It takes him a long time to cross the hall, and you hear every clock not ticking. He draws the top bolt, and the bottom bolt, and takes down the bar, and opens the door of Carth House with his own hand, and the night comes in. On the step a woman in a grey laundress's cloak is standing with her hand up, as if to knock again. Neither of them says anything. Then she takes his hand, the one that opened the door, and turns it over, and looks at it, the way you would look at a thing you had lost and found in the street. 'You've let the fires go,' she says. 'It's warm out.'" {
+    says "He goes to the door. It takes him a long time to cross the hall, and you hear every clock not ticking. He draws the top bolt, and the bottom bolt, and takes down the bar, and opens the door of Carth House with his own hand, and the night comes in. On the step a woman in a grey laundress's cloak is standing with her hand up, as if to knock again. Neither of them says anything. Then she takes his hand, the one that opened the door, and turns it over, and looks at it, the way you would look at a thing you had lost and found in the street. 'It's warm out,' she says. 'You can let the fires go.'" {
     Assert carthReunited(carth). Assert state(front_door, open). Assert at(nan, carth_hall). Assert at(gervase, carth_hall). }
   Rule he_cannot when askedToOpen(gervase) and not gervasePrepared() and at(nan, crescent) and not carthReunited(carth) and not nanFled(nan) and not spread(he_cannot_told)
     says "Sir Gervase takes one step toward the door, and stops, and stands there with his hand out toward the bolt and not touching it, until the knocking-time is over and the footsteps go away down the hill. 'I can't,' he says. 'I don't know who it is. I don't know what I did.' He sits down." {
@@ -302,21 +314,21 @@ Module hessel "The Banns at Hessel" {
   // ── Taking Celia out ──────────────────────────────────────────────────────────────────────────────────────────────
   // By the window at night with Rob, or by the kitchen with Brannagh's help; to the Cherretts, who take her in.
   Action celia_by_window(actor: group, site: place) "Help Celia down from the drawing-room window to the area, and away" {
-    Description "She wants to see the Season. The house will find her gone in the morning.".
+    Description "By night, when the Crescent is asleep. She wants to see the Season.".
     Grave "Sir Gervase will find his daughter gone in the morning, and know how she went.".
     Requires able(actor) and company(actor) and at(actor, site) and (at(actor, crescent) and state(drawing_window, ajar) or at(actor, carth_drawing))
-      and at(celia, carth_drawing) and celiaWants(celia) and not celiaOut(celia) and not carthReunited(carth).
+      and at(celia, carth_drawing) and celiaWants(celia) and not celiaOut(celia) and not carthReunited(carth) and (hour(clock) >= 21 or hour(clock) < 5).
     Time 2.
-    On success { Assert celiaOut(celia). Assert celiaTaken(celia). Assert at(celia, cherrett_parlour). Assert state(drawing_window, ajar). }
-    Result "She comes over the sill in her fur cap and a cloak over her nightgown and a pair of Brannagh's boots, with Ovid under her arm, and down the railings with your hands on her ankles, and stands on the pavement of the Crescent in the warm dark and breathes, and breathes. 'It smells of grass,' she says. 'It smells of grass and horses.' You take her up the hill to the Circus, where Mrs Cherrett, roused at midnight in her nightcap, looks at the girl in the fur cap for a long moment and says, 'Well, you'll want feeding,' and does not ask a single question.".
+    On success { Assert celiaOut(celia). Assert celiaTaken(celia). Assert at(celia, cherrett_parlour). Retract at(actor, site). Assert at(actor, cherrett_parlour). }
+    Result "She comes over the sill in her fur cap and a cloak over her nightgown and a pair of Brannagh's boots, with Ovid under her arm, and down the railings with your hands on her ankles, and stands on the pavement of the Crescent in the warm dark and breathes, and breathes. 'It smells of grass,' she says. 'It smells of grass and horses.' You take her up the hill to the Circus, where Mrs Cherrett, roused out of her first sleep in her nightcap, looks at the girl in the fur cap for a long moment and says, 'Well, you'll want feeding,' and does not ask a single question.".
   }
   Action celia_by_kitchen(actor: group, site: place) "Take Celia down the back stair and out through the kitchen, with Mrs Brannagh's leave" {
     Grave "Sir Gervase will find his daughter gone, and know who let her go.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, carth_drawing) and at(celia, carth_drawing) and celiaWants(celia)
       and brannaghTrust(brannagh) >= 2 and not celiaOut(celia) and not carthReunited(carth).
     Time 2.
-    On success { Assert celiaOut(celia). Assert celiaTaken(celia). Assert at(celia, cherrett_parlour). }
-    Result "Mrs Brannagh is waiting at the foot of the back stair with Celia's boots and a cloak and a basket with bread in it. She does not say anything. She does up the cloak's hooks herself, all the way to the chin, and kisses the girl on the forehead, and opens the kitchen door. 'Go on,' she says. 'Go on. He'll have it from me, not you.' Up the area steps, into the warm night, and Celia stops on the pavement and breathes, and breathes. 'It smells of grass,' she says. You take her up to the Circus, where Mrs Cherrett looks at the girl in the fur cap and says, 'Well, you'll want feeding,' and does not ask a single question.".
+    On success { Assert celiaOut(celia). Assert celiaTaken(celia). Assert at(celia, cherrett_parlour). Retract at(actor, site). Assert at(actor, cherrett_parlour). }
+    Result "Mrs Brannagh is waiting at the foot of the back stair with Celia's boots and a cloak and a basket with bread in it. She does not say anything. She does up the cloak's hooks herself, all the way to the chin, and kisses the girl on the forehead, and opens the kitchen door. 'Go on,' she says. 'Go on. He'll have it from me, not you.' Up the area steps, into the open air, and Celia stops on the pavement and breathes, and breathes, and puts her hand up against the sky as if it were a ceiling. 'It smells of grass,' she says. You take her up to the Circus, where Mrs Cherrett looks at the girl in the fur cap and says, 'Well, you'll want feeding,' and does not ask a single question.".
   }
   Relation celiaTaken(group).
   Rule gervase_bereft when celiaTaken(celia) and not carthReunited(carth) and not gervaseBereft(gervase) and hour(clock) >= 7 { Assert gervaseBereft(gervase). }
@@ -329,6 +341,8 @@ Module hessel "The Banns at Hessel" {
     Says "Celia Carth stands quite still with the bread Mrs Cherrett gave her in her hand. 'Alive,' she says. She puts the bread down. 'Take me. Now. Please.'".
     On discuss { Assert acceptsEscort(celia, actor). Assert following(celia, actor). Assert celiaAway(celia). }
   }
-  Event celia_meets_mother at laundry_yard when at(party, laundry_yard) and following(celia, party) and at(nan, laundry_yard) and not celiaMetMother(celia) "In the laundry yard Nan Bellamy is wringing a sheet. She looks up. The sheet falls into the copper. Neither of them moves, and then the girl in the fur cap walks across the wet flagstones and stops a yard away, and says, 'You're taller than I remembered,' which is absurd, as she was nine; and her mother laughs, and has her by both arms, wet to the elbows, and the laundresses stand round with their sleeves up and do not pretend to be doing anything else." then {
+  Event celia_meets_mother at laundry_yard when at(party, laundry_yard) and following(celia, party) and at(nan, laundry_yard) and not dark() and not celiaMetMother(celia) "In the laundry yard Nan Bellamy is wringing a sheet. She looks up. The sheet falls into the copper. Neither of them moves, and then the girl in the fur cap walks across the wet flagstones and stops a yard away, and says, 'You're taller than I remembered,' which is absurd, as she was nine; and her mother laughs, and has her by both arms, wet to the elbows, and the laundresses stand round with their sleeves up and do not pretend to be doing anything else." then {
+    Assert celiaMetMother(celia). Retract following(celia, party). Retract celiaAway(celia). }
+  Event celia_meets_mother_night at laundry_yard when at(party, laundry_yard) and following(celia, party) and at(nan, laundry_yard) and dark() and not celiaMetMother(celia) "On the step under the stair, in the light of her one candle, Nan Bellamy looks up. She gets to her feet slowly, the way you get up for a stranger. Neither of them moves; and then the girl in the fur cap crosses the wet flagstones and stops a yard away, and says, 'You're taller than I remembered,' which is absurd, as she was nine; and her mother laughs out loud in the dark yard, and has her by both arms, and all round the yard, one after another, the laundresses' windows light up, and nobody pretends to be asleep." then {
     Assert celiaMetMother(celia). Retract following(celia, party). Retract celiaAway(celia). }
 }

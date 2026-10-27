@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "name": "The Banns at Hessel: a ranger",
+  "calendar": {
+    "year": 1121,
+    "month": 5,
+    "day": 14
+  },
+  "modules": [
+    {
+      "id": "hessel",
+      "bundle": "../../../data/adventures/hessel/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Wynn",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

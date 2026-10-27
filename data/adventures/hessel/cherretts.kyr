@@ -19,7 +19,7 @@ Module hessel "The Banns at Hessel" {
   Rule cherrett_mends when bedbound(cherrett) and dayN(hessel_town) >= 2 and hour(clock) >= 8 { Retract bedbound(cherrett). }
   Query secondDayOnRoad() means false.
   Observe cherrett_parlour_scene at cherrett_parlour when true "Mrs Cherrett's parlour: rented furniture, too good for anyone to sit on, and on top of it everything Mrs Cherrett has brought from home, which is a great deal, including a stuffed pike, a canal map of three counties framed in oak, and a footstool made of an elephant's foot. The window looks down over the Circus lawn.".
-  Observe cherrett_bed_scene at cherrett_bedroom when true "Mrs Cherrett's bedroom: a great curtained bed, a fire though the night is warm, and on the dressing-table among the pins and powders a little brown bottle with a handwritten label.".
+  Observe cherrett_bed_scene at cherrett_bedroom when true "Mrs Cherrett's bedroom: a great curtained bed, a fire kept in in all weathers, and a dressing-table crowded with pins and powders and bottles.".
   Observe cherrett_awake at cherrett_parlour when at(cherrett, cherrett_parlour) and failing(cherrett) < 3 and not gone(cherrett) "Mrs Cherrett sits in the middle of it all like the stuffed pike's mother, with her stick across her knees, and misses nothing.".
   Observe cherrett_drowsy at cherrett_parlour when at(cherrett, cherrett_parlour) and failing(cherrett) == 3 and not gone(cherrett) "Mrs Cherrett is asleep in her chair with her mouth open, at eleven in the morning; she wakes when you come in, says 'I wasn't,' and is asleep again before you are sat down.".
   Observe cherrett_grey at cherrett_parlour when at(cherrett, cherrett_parlour) and failing(cherrett) >= 4 and not gone(cherrett) "Mrs Cherrett is in her chair, grey in the face, with her eyes half open and her hands slack on her stick. Mopsa is beside her, holding one of them, and does not look up.".
@@ -64,7 +64,7 @@ Module hessel "The Banns at Hessel" {
   Rule kit_turned_off when chairThrown(cherrett) and not kitDefended(kit) and not kitDismissed(kit) and (hour(clock) >= 18 or dayN(hessel_town) >= 2) {
     Assert kitDismissed(kit). }
   Topic defend_kit with cherrett "Tell Mrs Cherrett it was not the chairman's fault" when chairThrown(cherrett) and not kitDismissed(kit) and not kitDefended(kit) once {
-    Says "'Not his fault!' says Mrs Cherrett, from her cushions. 'He let go of me on the Parade! He let go of me like a hot potato!' She glares at you. Then, because she is fair, she thinks. 'What did he let go for, then?' You do not know. 'Well,' she says. 'Well. I'll not turn a man off for a thing nobody can explain to me. Tell him he can carry me tomorrow. Tell him if he drops me again I'll have him stuffed and put beside the pike.'".
+    Says "'Not his fault!' says Mrs Cherrett, from where they have propped her. 'He let go of me on the Parade! He let go of me like a hot potato!' She glares at you. Then, because she is fair, she thinks. 'What did he let go for, then?' You do not know. 'Well,' she says. 'Well. I'll not turn a man off for a thing nobody can explain to me. Tell him he can carry me tomorrow. Tell him if he drops me again I'll have him stuffed and put beside the pike.'".
     On discuss { Assert kitDefended(kit). Increase goodwill(chairmen) by 1. Increase kitTrust(kit) by 1. }
   }
 
@@ -77,7 +77,7 @@ Module hessel "The Banns at Hessel" {
   }
   Relation cherrettAsked(group).
   Topic cherrett_from_bed with cherrett "Tell Mrs Cherrett you were the one who tried to stop her chair" when chairThrown(cherrett) and not cherrettAsked(party) once {
-    Says "Mrs Cherrett looks at you from her pillows with her ankle up on a bolster. 'You were the one,' she says. 'I saw you go under. That was brave and it was no use, which is most of what brave is.' She pats the coverlet. 'I'm in a town where I can't get up a hill, and now I can't get up at all. I've a granddaughter to marry, and a great-nephew, and a companion, by the Closing Ball. I'll pay you to be my legs. Fetch and carry; go where I can't; tell me what's what.'".
+    Says "Mrs Cherrett looks at you from where they have propped her, with her bad ankle up on somebody's hat-box. 'You were the one,' she says. 'I saw you go under. That was brave and it was no use, which is most of what brave is.' She pats the coverlet. 'I'm in a town where I can't get up a hill, and now I can't get up at all. I've a granddaughter to marry, and a great-nephew, and a companion, by the Closing Ball. I'll pay you to be my legs. Fetch and carry; go where I can't; tell me what's what.'".
     On discuss { Assert cherrettAsked(party). }
   }
   Topic say_yes with cherrett "Tell Mrs Cherrett you will be her legs for the Season" when cherrettAsked(party) and not legs(party) and at(cherrett, ?p) and (at(party, cherrett_parlour) or at(party, cherrett_bedroom)) once {
@@ -130,7 +130,7 @@ Module hessel "The Banns at Hessel" {
     Tries looking.
     State full "A little brown bottle of Hessel drops, nearly full.".
     State watered "A little brown bottle of Hessel drops, nearly full, of what is now the Pump Room's water.".
-    Change swap "Pour the drops into the fire, and fill the bottle from your own with Pump Room water" from full to watered consuming pump_bottle at cherrett_bedroom.
+    Change swap "Pour the drops into the fire, and fill the bottle with Pump Room water" from full to watered consuming pump_bottle at cherrett_bedroom.
   }
   Initially Assert state(drops_bottle, full).
   Discovery drops_label "The label on Mrs Cherrett's drops reads: HESSEL DROPS. FORTY AT NIGHT. A.H. Under it, in another hand, scratched out, TWENTY.".
@@ -149,12 +149,17 @@ Module hessel "The Banns at Hessel" {
   // knows; the water is threepence a bottle from the pumper, who sells it for invalids to take home.
   Kind pump_bottle "a bottle of the Pump Room's water" is treasure worth 0 weighing 0.
   Relation swapped(group).
-  Rule drops_watered when state(drops_bottle, watered) and not swapped(cherrett) { Assert swapped(cherrett). Retract dosed(cherrett). Retract doubled(cherrett). }
+  // Done under her nose, it wants a quick hand; without one, she sees, and it is to do again when she is out of the room.
+  Rule drops_seen when state(drops_bottle, watered) and not swapped(cherrett) and at(cherrett, cherrett_bedroom) and not gone(cherrett) and not capable(party, stealth) and not mopsaSwapping(mopsa)
+    says "Mrs Cherrett opens one eye. 'What,' she says, 'are you doing with my drops?' You tell her it is water now. She looks at you for a long moment. 'Mopsa,' she says, not loudly, 'send down to Hartopp's for another bottle,' and shuts the eye. You will have to do it again, when she is not in the room." {
+    Assert state(drops_bottle, full). Assert swapCaught(party). }
+  Rule drops_watered when state(drops_bottle, watered) and not swapped(cherrett) and (not at(cherrett, cherrett_bedroom) or capable(party, stealth) or mopsaSwapping(mopsa) or gone(cherrett)) { Assert swapped(cherrett). Retract dosed(cherrett). Retract doubled(cherrett). }
+  Relation mopsaSwapping(group).
   // Mopsa will do it, if she is given the water and trusts the company: she is expected at the dressing-table.
   Relation swapCaught(group).
   // Mopsa will do it, if she is asked and trusts the company enough: her hands are steadier, and she is expected.
   Event mopsa_swaps near mopsa when keeps(mopsa, ?w) and itemKind(?w, pump_bottle) and knows(party, drops_doubled) and mopsaRegard(mopsa) >= 2 and state(drops_bottle, full) "Mopsa weighs the bottle in her hand. 'Water,' she says. 'Hot water from a marble urn, threepence a glass, the cure for everything. The joke is that it's the honest thing in the house.' She puts it in her pocket. 'Tonight. She won't notice; she doesn't look at the bottle, she looks at the clock.'" then {
-    Assert state(drops_bottle, watered). }
+    Assert mopsaSwapping(mopsa). Assert state(drops_bottle, watered). }
   Event mopsa_puzzled near mopsa when keeps(mopsa, ?w) and itemKind(?w, pump_bottle) and (not knows(party, drops_doubled) or mopsaRegard(mopsa) < 2) and state(drops_bottle, full) "Mopsa looks at the bottle, and at you. 'Thank you,' she says. 'I've always wanted a bottle of hot water. I shall keep it by me.' She puts it on the mantelpiece, between the stuffed pike and the clock, and looks at you as if you were a riddle she has decided not to guess.".
 
   // ── Ismay ─────────────────────────────────────────────────────────────────────────────────────────────────────────

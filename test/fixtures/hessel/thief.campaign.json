@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Banns at Hessel: a thief",
+  "calendar": {
+    "year": 1121,
+    "month": 5,
+    "day": 14
+  },
+  "modules": [
+    {
+      "id": "hessel",
+      "bundle": "../../../data/adventures/hessel/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Nell",
+      "raceId": "human",
+      "classId": "thief"
+    }
+  ]
+}

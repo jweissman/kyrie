@@ -15,8 +15,8 @@ Module hessel "The Banns at Hessel" {
 
   // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
   Place carth_house "Carth House" is building within hessel_town.
-  Place carth_upper "Carth House, upstairs" is level within carth_house.
-  Place carth_below "Carth House, below stairs" is level within carth_house.
+  Place carth_upper "the floor above" is level within carth_house.
+  Place carth_below "the rooms below stairs" is level within carth_house.
   Place wenlock_lodging "Lady Wenlock's lodgings" is building within hessel_town.
   Place cherrett_lodging "Mrs Cherrett's lodgings" is building within hessel_town.
   Place assembly "the Assembly Rooms" is building within hessel_town.
@@ -145,7 +145,7 @@ Module hessel "The Banns at Hessel" {
   Passage great_stair "the great stair" is stair between carth_hall and carth_drawing.
   // The drawing-room window, over the area railings: a climber's way, and only while it is open.
   Passage carth_window "the drawing-room window" is ladder between crescent and carth_drawing needing climbing
-    opening when state(drawing_window, ajar) "The drawing-room window is shuttered from inside, like every window of Carth House.".
+    opening when state(drawing_window, ajar).
   Passage beacon_path "the path up to the Beacon" is path between parade_top and beacon taking 20 minutes.
   Passage castle_path "the walk to the Sham Castle" is path between beacon and sham_castle taking 10 minutes.
   Passage orm_road "the Orm road" is road between beacon and stile taking 1 hour.
@@ -169,7 +169,8 @@ Module hessel "The Banns at Hessel" {
   Observe poles_scene at two_poles when true "The Two Poles: a low room, a fire, a long table polished by blue sleeves, and over the chimney a pair of crossed chair-poles with a laurel wreath, very dusty, won by somebody in a race in the year of a comet.".
   Observe hospital_scene at hospital when true "The Hospital of the Waters: a long whitewashed ward, twenty beds, twenty patients, a smell of vinegar and the river. The poor of three counties come to Hessel for the waters, the same as the rich, and here is where they lie. A bench by the door has a doctor's bag on it, packed.".
   Observe laundry_scene at laundry_yard when not dark() "The laundry yard: coppers, mangles, steam, a dozen women with their sleeves up and arms red to the elbow, and lines and lines of white linen, the Season's sheets and bathing-gowns, rising and falling in the warm wind off the coppers like a fleet.".
-  Observe laundry_night at laundry_yard when dark() "The laundry yard at night: the coppers banked, the linen taken in, and in one window over the yard a candle.".
+  Observe laundry_night at laundry_yard when dark() and not at(nan, laundry_yard) "The laundry yard at night: the coppers banked, the linen taken in, and in one window over the yard a candle.".
+  Observe laundry_night_nan at laundry_yard when dark() and at(nan, laundry_yard) "The laundry yard at night: the coppers banked, the linen taken in, and on the step under the stair, in the light of one candle in the window over the yard, a woman sitting with her red hands folded, awake.".
   Observe cross_scene at cross_bath when true "The Cross Bath: the old one, open to the sky, a stone cross in the middle of a square of hot green water. The poor bathe here free, in their shifts, and the laundresses come up from below to fill their buckets. It is noisier and much happier than the King's Bath.".
   Observe abbey_scene at abbey_yard when not dark() and not visitedBefore(abbey_yard) "The Abbey Yard, at the foot of the Parade: on one side the great dark front of Saint Ebba's, carved all over with angels climbing ladders; on another the colonnade of the Pump Room; and between them the Parade going up the hill so steeply that the paving is cut into ridges for the chairmen's feet. Everyone here is either ill, or with someone who is, or selling something to both.".
   Observe abbey_again at abbey_yard when not dark() and visitedBefore(abbey_yard) "The Abbey Yard: the church, the Pump Room, the Parade going up the hill, and everybody looking at everybody.".

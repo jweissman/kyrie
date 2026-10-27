@@ -181,6 +181,15 @@ Module hessel "The Banns at Hessel" {
     Says "Hetty sits down on her own counter. 'He said that?' She is laughing and crying at once, and wipes her face on a ribbon. 'Two years. Two years I've said, bring me up the hill, let her see Jack, let her see me. She can only say no.' She gets up, and puts on a bonnet, the best one, from the window. 'Come on, then,' she says. 'Before he thinks better of it.'".
     On discuss { Assert hettyWilling(hetty). Assert acceptsEscort(hetty, actor). Assert acceptsEscort(rupert, actor). }
   }
+  // The Old Town's way: not into Lady Wenlock's drawing room, but up the aisle of Saint Ebba's on Sunday, with the
+  // chairmen standing at the back of the church.
+  Topic hetty_church with hetty "Ask Hetty to come up to Saint Ebba's on Sunday morning and say it herself, with the chairmen at the back" when knows(actor, rupert_married) and (stoodWith(actor) or goodwill(chairmen) >= 3) and not hettyWilling(hetty) and not hettyChurch(hetty) and not bannsWithdrawn(ebbas) once {
+    Says "'In church?' Hetty stops sewing. 'Stand up in Saint Ebba's in front of the Season and say he's mine?' She looks at the cradle, and at the hat on the peg. 'I said Monday, on the steps. I said I'd not make a scene.' Then: 'Lanyon'd be there? At the back?' You say the chairmen will be at the back, all of them, in their blue coats. Hetty puts down the bonnet. 'Then I'll come,' she says. 'Sunday. Come for me at half past ten. If I've thought better of it, carry me.'".
+    On discuss { Assert hettyChurch(hetty). }
+  }
+  Relation hettyChurch(group).
+  Rule hetty_ready when hettyChurch(hetty) and thirdDay() and hour(clock) == 10 and not acceptsEscort(hetty, party) { Assert acceptsEscort(hetty, party). }
+  Observe hetty_dressed at hetty_shop when hettyChurch(hetty) and thirdDay() and hour(clock) == 10 "Hetty Quiney is ready in her best bonnet with Jack in his christening gown, sitting very upright on the counter, waiting to be fetched.".
   Relation grandsonShown(group).
   Action family_scene(actor: group, site: place) "Stand beside Rupert while he tells his mother, and Hetty puts the baby in her arms" {
     Description "You will be in the room.".

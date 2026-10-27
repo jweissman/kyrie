@@ -6,10 +6,10 @@ Module hessel "The Banns at Hessel" {
   // its licence; he needs a witness of good character to stand with him, and nobody in Hessel will be seen to.
   // His question is the work's: is it kinder to tell the truth, or to let people hope? He thinks he knows.
   Person ottery "Dr Jonas Ottery" at hospital {
-    Role "an untidy old physician in a coat that has been slept in, packing a bag". Ancestry human. Calling monk. Trait compassion. Level 4. Peaceable. Pronouns he. Manner acerbic.
+    Role "an untidy old physician in a coat that has been slept in". Ancestry human. Calling monk. Trait compassion. Level 4. Peaceable. Pronouns he. Manner acerbic.
     Greets "The old man in the slept-in coat looks up from the bag he is packing. 'If you're ill, go to Doctors' Walk; there are eleven of them and they're all very pleasant. If you're dying, sit down. I'm the only one in this town who'll tell you so.'".
     Greets again "Ottery grunts at you, which is warmer than it sounds.".
-    Joins "'Somebody,' says Ottery, picking up his bag, 'had better come along and keep you alive. You've a gift for walking into things.'".
+    Joins "'Lead on,' says Ottery, picking up his bag. 'Somebody had better come along and keep you alive. You've a gift for walking into things.'".
   }
   Relation witnessPromised(group). Relation otteryOnRoad(group). Relation otteryWalkedAlone(group).
   Relation otteryLicensed(group). Relation otteryStruck(group). Relation otteryGone(group). Relation otteryFugitive(group).
@@ -60,7 +60,7 @@ Module hessel "The Banns at Hessel" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, beacon) and at(ottery, beacon) and secondDay() and hour(clock) < 8 and not otteryOnRoad(ottery) and not otteryDecided(ottery).
     Time 1 minute.
     On success { Assert otteryOnRoad(ottery). Assert acceptsEscort(ottery, actor). Assert following(ottery, actor). Retract otteryHome(ottery). }
-    Result "'You came,' says Ottery, as if it were a minor scientific curiosity, and picks up his bag. 'Good. Walk on my left; I'm deaf in the right ear from a cannon at Ryle, and I'd like to argue with you all the way.'".
+    Result "'You came,' says Ottery, as if it were a minor scientific curiosity. 'Good. Walk on my left; I'm deaf in the right ear from a cannon at Ryle, and I'd like to argue with you all the way.'".
   }
   // Unmet by eight, he goes alone, and is struck off; he comes back down by the carrier at dusk.
   Rule ottery_alone when secondDay() and hour(clock) >= 8 and at(ottery, beacon) and not otteryOnRoad(ottery) and not otteryDecided(ottery) {
@@ -111,7 +111,7 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert fatherAsked(actor). Assert letOtteryAnswer(actor). }
   }
   // The crossways: footpads, and his second question.
-  Person footpads "two men in crape masks" at crossways {
+  Person footpads "the footpads" at crossways {
     Role "two men in crape masks, with cudgels, at the gibbet". Ancestry human. Calling thief. Level 1. Numbers 2. Pronouns they.
     Temperament proud.
     Warns "Two men in crape masks step out from behind the gibbet with cudgels, and one of them says, quite politely, 'Three coin, if you please, for the use of the crossways, and you can go on to Orm, or back to Hessel, or to the devil, as you like.' The other says, 'Or we can do it the other way.'".
@@ -173,7 +173,7 @@ Module hessel "The Banns at Hessel" {
     Result "The carrier's cart goes down over the high down at a walk, with a load of cheeses and a curate, and you sleep most of the way, and wake with the sun going down and the steam of Hessel standing up gold out of the valley in front of you.".
   }
   // Back in Hessel, Ottery goes to his ward; licensed or not, he is himself there, and can be asked along.
-  Rule ottery_returns when otteryDecided(ottery) and not otteryGone(ottery) and following(ottery, party) and inHessel() {
+  Rule ottery_returns when otteryDecided(ottery) and not otteryGone(ottery) and following(ottery, party) and inHessel() and otteryOnRoad(ottery) {
     Retract following(ottery, party). Retract otteryOnRoad(ottery). Assert otteryHome(ottery). Assert willing(ottery, party). }
   Rule ottery_strays when otteryOnRoad(ottery) and following(ottery, party) and otteryDecided(ottery) and not otteryGone(ottery) and hour(clock) >= 21 and not inHessel() and not onOrmRoad() {
     Retract following(ottery, party). Retract otteryOnRoad(ottery). Assert otteryHome(ottery). }

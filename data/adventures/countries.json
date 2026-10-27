@@ -205,6 +205,24 @@
           "lem_kept"
         ]
       }
+    },
+    {
+      "id": "hessel",
+      "bundle": "hessel/placed.json",
+      "entry": "south_road",
+      "marker": "cherrett",
+      "side": "north",
+      "beside": [
+        "forest",
+        "marsh",
+        "frost"
+      ],
+      "name": "the Lim valley",
+      "topic": "the Season at Hessel",
+      "terrain": "hills",
+      "rumour": "'North over the march, down in the Lim valley, there's Hessel,' says {keeper}, 'where the water comes up out of the hill hot, and the old go to be mended and the young to be married. It's the end of their Season. They say there's a rich old woman there who cooked for the navvies, buying husbands for all her family before she dies, and a house in the best street that's kept its shutters closed nine years, with the fires lit, in the warm.'",
+      "heard": "North over the march lies Hessel in the Lim valley, a spa where the water comes up hot and the old go to be mended and the young to be married; its Season is ending, a rich old woman there is buying husbands for her family before she dies, and a house in its best street has kept its shutters closed nine years.",
+      "far": "the water comes up out of a hill hot, and the old go there to be mended and the young to be married"
     }
   ]
 }
