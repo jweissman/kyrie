@@ -19,7 +19,15 @@ Module drover "The drover who did not come home" {
   Entity dog_mud: fact "The grey dog came home caked in black ditch-mud, the off forefoot cut as if on iron.".
   Observe dog_tells near dog as sign when petted(dog, party) and not knows(party, dog_mud) "Under your hand her coat is stiff with dried black mud to the belly: ditch-mud, not road dust, as if she had lain a long time somewhere low and wet. The pad of the off forefoot is cut clean across, the way iron cuts." teaches dog_mud.
   Observe dog_muddy near dog of dog as sign when knows(party, dog_mud) and not knows(party, found_cart) "Her coat is stiff with black ditch-mud to the belly.".
-  Observe ruts at road when not knows(party, found_cart) "Fresh ruts run off the edge of the road here, where the bank drops away.".
+  // The ruts the road speaks of are a thing to follow, not only to search for: the cart was found only by the
+  // generic "Search here" (the play-structure investigation's PT-08).
+  Thing ruts "the fresh ruts" at road {
+    State fresh "Fresh ruts run off the edge of the road here, where the bank drops away.".
+    State followed "The ruts go over the edge of the road and down the bank, to the ditch.".
+    Change follow "Follow the ruts over the edge" from fresh to followed.
+  }
+  Rule ruts_followed when state(ruts, followed) and not knows(party, found_cart) says "Below the road, where the bank drops away, a cart lies on its side in the ditch with a man under it, a day or more dead. The oxen are gone; something had them, and dragged them off toward the hills." teaches found_cart { }
+  Rule ruts_read when knows(party, found_cart) and state(ruts, fresh) { Assert state(ruts, followed). }
 
   Discovery found_cart "The drover's cart went off the road in the night. He is under it, a day or more dead, and whatever had the oxen dragged them off toward the hills." {
     Found by searching road "Below the road, where the bank drops away, a cart lies on its side in the ditch with a man under it, a day or more dead. The oxen are gone; something had them, and dragged them off toward the hills.".

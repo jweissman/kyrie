@@ -60,4 +60,13 @@ describe('the thing that took the oxen', () => {
       expect(hung.combat.some(e => e.type === 'gain' && e.detail === 'experience: the thing that took the oxen, seen through'))
         .toBe(true);
     }, 120000);
+  // The cart was found only by the generic "Search here", though the road speaks of the ruts (PT-08).
+  it('follows the ruts the road speaks of, over the edge to the cart', async () => {
+    const { w, s } = await Oxen.start(), drover = w.report.placements.find(p => p.scenario === 'drover')!;
+    GeneratedWorld.put(s, drover.bindings.road!);
+    await s.perform('wait');
+    const followed = await Oxen.take(s, /^Follow the ruts over the edge$/);
+    expect(Oxen.holds(s, 'knows', 'party', 'drover__found_cart')).toBe(true);
+    expect((followed.perceptions ?? []).map(p => p.text).join(' ')).toContain('a cart lies on its side in the ditch');
+  }, 120000);
 });

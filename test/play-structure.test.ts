@@ -88,6 +88,15 @@ describe('a journey', () => {
     const done = await Played.go(s, 'the far room');
     expect([done.arrived, done.stopped, done.legs.length]).toEqual([true, undefined, 2]);
   }, 60000);
+  // Faced down, the robbers stayed with the same options, and nothing showed what had changed (PT-32).
+  it('shows a band that lets the company by as doing so', async () => {
+    const s = await Played.start(`Place a "the first room" is room within field at 0, 0 outdoors.
+      Company party "You" of 2 at a.
+      Person hobs "the hobs" at a { Role "hobs at their ease". Ancestry goblin. Calling thief. Level 1. Numbers 2. }
+      Initially Assert tolerates(hobs, party).`);
+    const hobs = ScreenModel.build(s.campaign).people.find(p => p.name.startsWith('the hobs'))!;
+    expect(hobs.note).toBe('letting you by');
+  }, 60000);
 });
 
 describe('a risk that fails', () => {

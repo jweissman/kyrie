@@ -323,7 +323,8 @@ export class PlayerView {
   private static entity(campaign: Campaign, world: World, e: Entity): PresentEntity {
     if (e.type === 'group') {
       const read = campaign.readout, ids = read.inhabitants[e.id] ?? [], creatures = read.creatures;
-      const activity = this.activity(campaign, world, e.id), condition = this.condition(world, e.id);
+      const activity = this.activity(campaign, world, e.id);
+      const condition = this.condition(world, e.id, campaign.playerActor);
       return { id: e.id, name: e.name, type: e.type, ...(activity ? { activity } : {}),
         ...(condition ? { condition } : {}),
         members: ids.map(id => creatures.find(c => c.id === id)!).map(c => ({ name: c.name, raceId: c.raceId,
@@ -339,8 +340,13 @@ export class PlayerView {
       ...(box ? { within: ObservationText.label(world, box) } : {}),
       ...(e.type === 'source' ? { intact: this.test(world, 'intact', e.id) } : {}) };
   }
-  private static condition(world: World, id: string): string | undefined {
+  private static condition(world: World, id: string, company?: string): string | undefined {
     if (this.test(world, 'routed', id)) { return 'routed'; }
+    // Faced down or talked round, a band that lets the company by says so (a warn-off that succeeded changed nothing
+    // to be seen: the play-structure investigation's PT-32).
+    if (company && !this.test(world, 'peaceable', id) && this.test(world, 'tolerates', id, company)) {
+      return 'letting you by';
+    }
     const state = world.one('state', id);
     // A state is named by its id ("wound_up"); the page says it as words ("wound up").
     const name = state ? ObservationText.entity(world, state)?.name : undefined;
