@@ -286,8 +286,8 @@ Module pentrice "Gosse's Company" {
   }
   // A stick laid down is eight notches the Office does not have, however the night goes after (a measure is never taken
   // below nothing, so the notches are given back one at a time as they are cut).
-  Measure spared(place).
-  Rule stick_spares when stickStill(party) and fines(pentrice) >= 1 and spared(pentrice) < 8 { Decrease fines(pentrice) by 1. Increase spared(pentrice) by 1. }
+  Measure notchesSpared(place).
+  Rule stick_spares when stickStill(party) and fines(pentrice) >= 1 and notchesSpared(pentrice) < 8 { Decrease fines(pentrice) by 1. Increase notchesSpared(pentrice) by 1. }
   Rule s4_clean at wheel when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and linesClean() and not sceneOver(scene_four)
     says "The Ghost rises and speaks against the sale of his statue in verse with every double meaning taken out of it, clean as a scrubbed table, and the Council scene is handsome and proud and moving, and nobody laughs much. In the lords' room the Canon nods; Ormsby Clay approves; Nym Callow writes CUT in capitals." {
     Increase regard(mallory) by 1. Increase regard(clay) by 1. Increase slight(callow) by 1. Increase slight(gammage) by 1. }

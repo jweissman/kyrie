@@ -1,6 +1,6 @@
 # The Fair Copy Burned
 
-`bin/kyrie play test/fixtures/gosse/city.campaign.json --seed g1 --steps test/fixtures/gosse/burned.json` — every step as the page told it, then the world asked after.
+`bin/kyrie play test/fixtures/gosse/city.campaign.json --seed g1 --steps test/fixtures/gosse/burned.json ` — every step as the page told it, then the world asked after.
 
 ```text
 [To the Westgate] You set out from the West Road above Pentrice early, with your shadow long in front of you on the 
@@ -8,11 +8,11 @@ road. The Westgate is a squat old gate-tower with a toll-board on it, so thick w
 tolls are covered and nobody pays any. Carters, a goose-girl, a man selling hot pies out of a box. Under the arch a 
 clerk in grey sits at a folding desk with a ledger and a jar of notched sticks. Here are Abel Tunstall, the chief 
 clerk of the Office of Plain Speech; and Grimsditch, a bailiff, in a brown coat, with a paper.
-[Into the Painted Moon] Patience comes to see who you are. A cobbled coaching-yard with galleries on three sides and 
-the stables along the fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and 
-from the loft over the stables come voices declaiming, and somebody hammering. In a stall at the end of the stables, 
-on clean straw, an old brown bear lies with her chin on her paws, watching the yard with small kind eyes. Dick 
-Merriman, the Painted Moon’s ostler, is here.
+[Into the Painted Moon] Patience lifts her chin off her paws to look at you, sniffs, and puts it down again, 
+satisfied. A cobbled coaching-yard with galleries on three sides and the stables along the fourth. A tall wagon 
+painted with a sun and a moon stands in the corner, its shafts down, and from the loft over the stables come voices 
+declaiming, and somebody hammering. In a stall at the end of the stables, on clean straw, an old brown bear lies with 
+her chin on her paws, watching the yard with small kind eyes. Dick Merriman, the Painted Moon’s ostler, is here.
 [Ask Merriman whether anything has been left for Gosse's Company] ‘A parcel,’ says Merriman, ‘but not for them. 
 For,’ he shuts his eyes to get it right, ‘the one who played the Fool at the Wheel the night of the riot. 
 That’s what she said, the lady. Twenty crowns in it, she said, and give it to nobody else, and I’ll know him.’ 
@@ -89,8 +89,9 @@ window afterward, watching him cross the yard, and says nothing for nearly a min
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
-[Wait › An hour] Kit Arden comes running, scarlet, with his voice all over the place: ‘Patience is out! She’s 
-in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s coming!’
+[Wait › An hour] The Moon’s pot-boy comes running, scarlet, shouting before he is through the door: ‘Patience 
+is out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s 
+coming!’
 [Wait › An hour] Word comes up from the Gullet: Simeon Bowle the bear-ward came over from the Soke with two men and 
 a chain, and took Gosse’s bear across the river to the bear-garden, and says she is his now by the Liberty’s law 
 of strays.
@@ -184,8 +185,8 @@ watches. Up in the window of the Master’s room, somebody stands for the whole 
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] At four o’clock on the last day of the Trial the watermen of the Water Stairs draw up their 
-boats and chain them, every one, and sit down on the steps with their oars across their knees. NO BOATS TONIGHT. On 
-the far bank the Wheel’s pennant is going up, and between it and the City is a quarter of a mile of brown water.
+boats and chain them, every one, and sit down on the steps with their oars across their knees. On the far bank the 
+Wheel’s pennant is going up, and between it and the City is a quarter of a mile of brown water.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -226,7 +227,11 @@ all of it but the epilogue, which only Gosse knew; and Gosse would not say it.
 #pentrice__temper pentrice__pentrice: 2
 #pentrice__fines pentrice__pentrice: 0
 #pentrice__regard pentrice__clay: 2
+#pentrice__slight pentrice__clay: 0
 #pentrice__regard pentrice__gammage: 1
+#pentrice__slight pentrice__gammage: 0
 #pentrice__regard pentrice__mallory: 2
+#pentrice__slight pentrice__mallory: 0
 #pentrice__regard pentrice__callow: 1
+#pentrice__slight pentrice__callow: 0
 ```

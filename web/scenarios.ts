@@ -36,7 +36,7 @@ export class Scenarios {
       detail: 'A tidal city of salt and paper, the drowned city under it, the keepers of an old engine, and a fortnight until the Feast of Settlement' },
     // An independent adventure, a comedy, played as it was written (doc/adventures/gosses-company).
     { manifest: 'data/campaigns/gosses-company.campaign.json', title: "Gosse's Company", seed: 'arle',
-      note: 'A company of travelling players is stuck on a village green with its wagon chained to a post, on its way west to the Midsummer Trial at Pentrice: three companies, three nights, a bench of four critics, and a playhouse for ever to the best. The play they will put on came to them out of the air, unsigned, and every word of it is about the man who banned them.',
+      note: 'A company of travelling players is stuck on a village green with its wagon chained to a post, on its way west to the Trial of the Wheel at Pentrice: three companies, three nights, a bench of four critics, and a playhouse for ever to the best. The play they will put on came to them out of the air, unsigned, and every word of it is about the man who banned them.',
       detail: 'A licensed city, a playhouse over the river, a week of rehearsals, and one night at the Wheel' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }

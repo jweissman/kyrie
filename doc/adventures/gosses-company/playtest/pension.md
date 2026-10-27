@@ -1,6 +1,6 @@
 # The Pension
 
-`bin/kyrie play test/fixtures/gosse/city.campaign.json --seed g1 --steps test/fixtures/gosse/pension.json =594`
+`bin/kyrie play test/fixtures/gosse/city.campaign.json --seed g1 --steps test/fixtures/gosse/pension.json =594` — every step as the page told it, then the world asked after.
 
 ```text
 [To the Westgate] You set out from the West Road above Pentrice early, with your shadow long in front of you on the 
@@ -8,11 +8,11 @@ road. The Westgate is a squat old gate-tower with a toll-board on it, so thick w
 tolls are covered and nobody pays any. Carters, a goose-girl, a man selling hot pies out of a box. Under the arch a 
 clerk in grey sits at a folding desk with a ledger and a jar of notched sticks. Here are Abel Tunstall, the chief 
 clerk of the Office of Plain Speech; and Grimsditch, a bailiff, in a brown coat, with a paper.
-[Into the Painted Moon] Patience comes to see who you are. A cobbled coaching-yard with galleries on three sides and 
-the stables along the fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and 
-from the loft over the stables come voices declaiming, and somebody hammering. In a stall at the end of the stables, 
-on clean straw, an old brown bear lies with her chin on her paws, watching the yard with small kind eyes. Dick 
-Merriman, the Painted Moon’s ostler, is here.
+[Into the Painted Moon] Patience lifts her chin off her paws to look at you, sniffs, and puts it down again, 
+satisfied. A cobbled coaching-yard with galleries on three sides and the stables along the fourth. A tall wagon 
+painted with a sun and a moon stands in the corner, its shafts down, and from the loft over the stables come voices 
+declaiming, and somebody hammering. In a stall at the end of the stables, on clean straw, an old brown bear lies with 
+her chin on her paws, watching the yard with small kind eyes. Dick Merriman, the Painted Moon’s ostler, is here.
 [Into the stable loft] The loft runs the length of the stables, with the floor swept and chalk marks on it for where 
 the stage will be, a row of hampers, a rack of swords that bend, a wooden throne, a property chest with brass 
 corners, and a long trestle where a grey woman sits with a fat book open in front of her and a pencil behind her ear. 
@@ -48,8 +48,9 @@ him do. Then he sits down on the wooden throne and puts his big hands on his kne
 ‘Yes. I am tired. I have been tired for eleven years.’ He looks at Hepzibah, who does not look up from the book. 
 ‘Fetch me a pen, somebody. I shall want it to have a speech in it.’
 [Wait › An hour] An hour passes.
-[Wait › An hour] Kit Arden comes running, scarlet, with his voice all over the place: ‘Patience is out! She’s 
-in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s coming!’
+[Wait › An hour] The Moon’s pot-boy comes running, scarlet, shouting before he is through the door: ‘Patience 
+is out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s 
+coming!’
 [Wait › An hour] Word comes up from the Gullet: Simeon Bowle the bear-ward came over from the Soke with two men and 
 a chain, and took Gosse’s bear across the river to the bear-garden, and says she is his now by the Liberty’s law 
 of strays.
@@ -162,4 +163,15 @@ Patent stayed where it was. The fair copy of The Alderman’s Ghost went into a 
 grows beans. He is very good at it. In the evenings he stands at the end of his garden, facing the river, and you can 
 hear him from the Soke, giving the Prologue to the beans.
 -- watch 594, at pentrice__moon_loft
+#pentrice__votes pentrice__pentrice: 0
+#pentrice__temper pentrice__pentrice: 0
+#pentrice__fines pentrice__pentrice: 0
+#pentrice__regard pentrice__clay: 0
+#pentrice__slight pentrice__clay: 0
+#pentrice__regard pentrice__gammage: 1
+#pentrice__slight pentrice__gammage: 0
+#pentrice__regard pentrice__mallory: 0
+#pentrice__slight pentrice__mallory: 0
+#pentrice__regard pentrice__callow: 1
+#pentrice__slight pentrice__callow: 0
 ```

@@ -1,24 +1,26 @@
 # The Liberty: a soldier from Wending Cross plays it whole in the Soke (the Patent House)
 
-`bin/kyrie play test/fixtures/gosse/warrior.campaign.json --seed w1 --steps test/fixtures/gosse/liberty.json` — every step as the page told it, then the world asked after.
+`bin/kyrie play test/fixtures/gosse/warrior.campaign.json --seed w1 --steps test/fixtures/gosse/liberty.json ` — every step as the page told it, then the world asked after.
 
 ```text
 [Ask Gosse what has happened] ‘A small reverse,’ says Gosse. ‘A tragedy in the classical sense: brought about 
 by a flaw in the hero, who failed to pay his chain-man for four months.’ He spreads his hands. ‘Lem has gone off 
 with the hat, and the hat had the reckoning in it, and our host has chained the wagon, and this week the Midsummer 
 Trial opens at Pentrice over the march and we must be there or die in a ditch.’ He looks at you sidelong. ‘I do 
-not ask for money. I never ask for money. I mention that it exists.’ Patience comes to see who you are.
+not ask for money. I never ask for money. I mention that it exists.’ Patience ambles to the end of her rope to see 
+who you are, and goes through your hands for honey.
 [Into the Wheatsheaf] A low taproom with a sanded floor, a settle by the fire and a sheaf of last year’s wheat 
 nailed up over the door for luck. Mistress Thackeray, who keeps the Wheatsheaf, is here.
 [Pay Mistress Thackeray the players' reckoning, eight coin] Mistress Thackeray counts the coins twice, as if they 
-might be a trick of the players’, and goes out to unlock the chain. On the green, Gosse stands up very slowly from 
-the tail-board and takes off his hat to you. Bran gains 100 experience: the players on the green, seen through.
+might be a trick of the players’, and goes out to unlock the chain. Out on the green at Wending Cross, Gosse stands 
+up very slowly from the tail-board and takes off his hat to you. Bran gains 100 experience: the players on the green, 
+seen through.
 [Out to the green at Wending Cross] A triangle of rough grass where the west road crosses a brook by a stone bridge, 
 with a pump, a horse-trough, a chapel with a squat bell-cote, the Wheatsheaf, and Cobbet’s shop, which sells 
-everything badly. The players’ wagon stands on the green with its shafts up, loaded to the roof, a painted cloth 
-rolled on top. Here are Absalom Gosse, the actor-manager of Gosse’s Company; Hepzibah Dimmock, the players’ 
-prompter; and Jem Pudding, the players’ clown. Gosse is walking slowly round the wagon with his hands behind his 
-back, inspecting its wheels as if he had just bought it.
+everything badly. The players’ wagon stands on the green at Wending Cross with its shafts up, loaded to the roof, a 
+painted cloth rolled on top. Here are Absalom Gosse, the actor-manager of Gosse’s Company; Hepzibah Dimmock, the 
+players’ prompter; and Jem Pudding, the players’ clown. Gosse is walking slowly round the wagon with his hands 
+behind his back, inspecting its wheels as if he had just bought it.
 [Ask Gosse what he will do now] ‘Go west,’ says Gosse, ‘at first light, over the march to Pentrice, where three 
 companies will play three nights before the city in the Midsummer Trial, and the Bench of four will give one of them 
 the Patent: a house of its own, for ever. A roof, my friend. Forty-one years I have played under the sky.’ He 
@@ -47,11 +49,12 @@ brown coat, with a paper, is here.
 Bascombe, and stops dead at the sight of Absalom Gosse on the wagon’s tail-board, and drops the basket. ‘The 
 Fool!’ she says. ‘The Fool of the Wheel! I threw the first cabbage!’ Dick Merriman, very red, goes into the 
 tack-room and comes out with a flat parcel done up in oilcloth and gives it to Gosse with an apology. Gosse opens it 
-on the tail-board, with the whole yard watching. Patience comes to see who you are. A cobbled coaching-yard with 
-galleries on three sides and the stables along the fourth. A tall wagon painted with a sun and a moon stands in the 
-corner, its shafts down, and from the loft over the stables come voices declaiming, and somebody hammering. In a 
-stall at the end of the stables, on clean straw, an old brown bear lies with her chin on her paws, watching the yard 
-with small kind eyes. Dick Merriman, the Painted Moon’s ostler, is here.
+on the tail-board, with the whole yard watching. Patience lifts her chin off her paws to look at you, sniffs, and 
+puts it down again, satisfied. A cobbled coaching-yard with galleries on three sides and the stables along the 
+fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and from the loft over the 
+stables come voices declaiming, and somebody hammering. In a stall at the end of the stables, on clean straw, an old 
+brown bear lies with her chin on her paws, watching the yard with small kind eyes. Dick Merriman, the Painted 
+Moon’s ostler, is here.
 [Into the stable loft] Corin Fallow comes up the loft stair in his beautiful plain coat with his hat in his hand, and 
 is very civil to everyone, and asks for a word with Absalom, and then a word with Dorcas, and goes away again. Gosse 
 stands at the window afterward, watching him cross the yard, and says nothing for nearly a minute, which is a record. 
@@ -133,8 +136,8 @@ Council, the company tries not to look at each other while Ambrose Swale says, w
 sirs, as I always rose,’ and Pudding bites through his own lip. In the garden scene Kit reaches for the top of 
 Bell’s line about the moon and his voice goes straight up through the roof and comes down a man’s. Nobody laughs. 
 Kit sits down on the floor with his hands over his face, and Hepzibah, after a moment, writes something in the margin 
-of the book. Kit Arden comes running, scarlet, with his voice all over the place: ‘Patience is out! She’s in the 
-Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s coming!’
+of the book. The Moon’s pot-boy comes running, scarlet, shouting before he is through the door: ‘Patience is out! 
+She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s coming!’
 [Wait › A while] Time passes.
 [Tell Pudding that Patience is loose in the Gullet] Pudding is up and running before you have finished, and you hear 
 him down the stair: ‘Fishwives! Do not touch that duchess!’
@@ -145,21 +148,21 @@ stables come voices declaiming, and somebody hammering. Dick Merriman, the Paint
 bills that the tolls are covered and nobody pays any. Carters, a goose-girl, a man selling hot pies out of a box. 
 Under the arch a clerk in grey sits at a folding desk with a ledger and a jar of notched sticks. Grimsditch, a 
 bailiff, in a brown coat, with a paper, is here.
-[To the Chepe] The Chepe is the city’s market: a long cobbled place with the market cross in the middle, stalls 
-under striped awnings, and every stall with a little painted board on a pole that says what it may sell and who 
-licensed it. A crier with a licence pinned to his hat is crying the Trial: ‘The Siege of Arle, by the Lord 
-Mayor’s Servants! The Patient Daughter, by the Children of the Close! And Gosse’s Company, God help us, from 
-nowhere!’
-[To the Gullet] The Gullet is the fish market, under a long tiled roof on stone posts, and it smells as a fish market 
-smells in midsummer. Fishwives cry pike and eel and Arle salmon in voices that need no licence. At the near end, by a 
-post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers’ hall has a tall chimney, and 
-a stall papered with ballad-sheets is doing a brisk trade. In the middle of the Gullet, sitting on her haunches with 
-her nose in Ma Tolly’s honey-pots and bees all over her face, is Patience. The fishwives stand round her at a 
-distance with gutting knives, shouting. Patience is ignoring them with great dignity. At the far end of the Gullet 
-the fishmongers’ hall chimney is humming like an organ-pipe: a swarm of bees has gone into it, and a dozen 
-fishwives are standing at its foot with a pan of sulphur and a tinderbox, arguing. Here are Jem Pudding, the 
-company’s clown; Dame Philippa Gammage, the Gullet’s critic, who keeps the ballad stall; Ma Tolly, the 
-honey-woman of the Gullet; Oswin Garlick, a fishmonger, and the most famous heckler in Pentrice; and Meg Garlick, the 
+[To the Chepe] Bran gains 150 experience: brought Patience home. The Chepe is the city’s market: a long cobbled 
+place with the market cross in the middle, stalls under striped awnings, and every stall with a little painted board 
+on a pole that says what it may sell and who licensed it. A crier with a licence pinned to his hat is crying the 
+Trial: ‘The Siege of Arle, by the Lord Mayor’s Servants! The Patient Daughter, by the Children of the Close! And 
+Gosse’s Company, God help us, from nowhere!’
+[To the Gullet] Pudding comes down Fish Lane at a run, and stops, and hums a tune, and Patience gets up off her 
+haunches and dances, slowly, turning, with a honey-pot stuck on one paw. The fishwives put their knives away. Then 
+Pudding walks off up Fish Lane still humming, and Patience follows him on all fours, home. The Gullet is the fish 
+market, under a long tiled roof on stone posts, and it smells as a fish market smells in midsummer. Fishwives cry 
+pike and eel and Arle salmon in voices that need no licence. At the near end, by a post, a woman keeps a honey stall 
+in a cloud of bees; at the far end the fishmongers’ hall has a tall chimney, and a stall papered with ballad-sheets 
+is doing a brisk trade. At the far end of the Gullet the fishmongers’ hall chimney is humming like an organ-pipe: a 
+swarm of bees has gone into it, and a dozen fishwives are standing at its foot with a pan of sulphur and a tinderbox, 
+arguing. Here are Dame Philippa Gammage, the Gullet’s critic, who keeps the ballad stall; Ma Tolly, the honey-woman 
+of the Gullet; Oswin Garlick, a fishmonger, and the most famous heckler in Pentrice; and Meg Garlick, the 
 fishmonger’s daughter.
 [Ask Ma Tolly about the bees in the chimney] Ma Tolly’s old face crumples. ‘My best queen,’ she says. ‘She 
 swarmed this morning off my stall and went straight up the fishmongers’ chimney, and they say they’ll burn 
@@ -167,11 +170,8 @@ sulphur under her at five tomorrow and kill the lot, for the Trial, because nobo
 Bees crawl over her knuckles. ‘If somebody could get up to her with a skep. Or smoke her down kind, with wet straw, 
 not sulphur. Or talk sense into the fishwives, which nobody has done in my lifetime.’
 [Climb the fishmongers' chimney with Ma Tolly's skep and take the swarm · an even chance] Halfway up the gutter 
-comes away from the wall, and you come down with it into a fish barrow, and the fishwives cheer. Pudding comes down 
-Fish Lane at a run, and stops, and hums a tune, and Patience gets up off her haunches and dances, slowly, turning, 
-with a honey-pot stuck on one paw. The fishwives put their knives away. Then Pudding walks off up Fish Lane still 
-humming, and Patience follows him on all fours, home. Bran fails the climbing check (d20 4 + strength 3 = 7 against 
-13). Bran gains 150 experience: brought Patience home.
+comes away from the wall, and you come down with it into a fish barrow, and the fishwives cheer. Bran fails the 
+climbing check (d20 4 + strength 3 = 7 against 13).
 [Buy a pot of honey] Ma Tolly counts the coins and hands over a pot of honey.
 [Buy a pot of honey] Ma Tolly counts the coins and hands over a pot of honey.
 [Ask Dame Gammage what she thinks of Dorcas Quaile] ‘Dorcas Quaile!’ Dame Gammage slaps the stall. ‘Twelve 
@@ -277,8 +277,8 @@ kneels. Tell him to shout Is that your face or are you wearing it.’ He begins 
 [Carry the costume hampers over the river to the Wheel's tiring-house · likely] Four hampers, a throne and a rack of 
 swords that bend, down the loft stair, through the Westgate, down Fish Lane, onto two of the watermen’s boats and 
 up Soke Lane to the Wheel, with Tam Hautboy at the other end of each hamper and Pudding carrying the swords. It takes 
-two hours. When the last hamper is in the tiring-house Tam sits down on it and says it is the most he has ever said 
-about anything. Bran makes the brawn check (d20 12 + strength 3 + brawn 2 = 17 against 10).
+two hours. When the last hamper is in the tiring-house Tam sits down on it and says ‘Well,’ which is the most he 
+has said all week. Bran makes the brawn check (d20 12 + strength 3 + brawn 2 = 17 against 10).
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -322,11 +322,11 @@ chimney is humming like an organ-pipe: a swarm of bees has gone into it, and a d
 foot with a pan of sulphur and a tinderbox, arguing. Here are Dame Philippa Gammage, the Gullet’s critic, who keeps 
 the ballad stall; Ma Tolly, the honey-woman of the Gullet; Oswin Garlick, a fishmonger, and the most famous heckler 
 in Pentrice; and Meg Garlick, the fishmonger’s daughter.
-[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Watermen sit 
-along the steps in their red caps beside their boats, smoking, shouting ‘Oars! Oars! Over to the Soke!’ at anyone 
-who looks at them. Across the water, low and wooden, the Wheel. The weir is under a yard of brown water, running 
-fast. At low water, from the evening until the small hours, the stones come up. Joss Ferriby, the warden of the 
-watermen of the Water Stairs, is here.
+[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Across the 
+water, low and wooden, the Wheel. Watermen sit along the steps in their red caps beside their boats, smoking, 
+shouting ‘Oars! Oars! Over to the Soke!’ at anyone who looks at them. The weir is under a yard of brown water, 
+running fast. At low water, from the evening until the small hours, the stones come up. Joss Ferriby, the warden of 
+the watermen of the Water Stairs, is here.
 [To the Soke landing] A wooden landing-stage on piles, and beyond it the Soke: low houses leaning on each other, 
 tavern signs, washing, a smell of beer and bears. A painted post at the top of the landing says THE LIBERTY OF THE 
 SOKE: THE CITY’S WRIT RUNS NOT HERE, and someone has hung a garland of dead flowers on it.
@@ -360,9 +360,7 @@ Hautboy shouts ‘Alleluia.’ It runs sweetly after that. Bran makes the brawn 
 [Out to the Wheel's tiring-house] Behind the stage: a long room full of hampers, ropes, a ladder going down through a 
 hatch, a rack of old costumes left by companies long gone, and a wall of names scratched into the plaster, players 
 who have played here, hundreds of them, going back two hundred years. Halfway up, very deep, cut by someone with a 
-knife and a great deal of time: A. GOSSE. In the rack of old costumes, inside the sleeve of a moth-eaten queen’s 
-robe, someone has rolled up a manuscript and tied it with black ribbon: DIDO, A TRAGEDY, BY O. CLAY. Its margins are 
-full of pencil in a big sprawling hand. Old Wilmot, who keeps the Wheel, is here.
+knife and a great deal of time: A. GOSSE. Old Wilmot, who keeps the Wheel, is here.
 [To the Wheel] The Wheel is a wooden O, three galleries high, open to the sky in the middle: a beaten-earth yard 
 where the groundlings stand, a stage thrust out into the yard on trestles, with two doors at the back of it and a 
 balcony above, and a painted roof over the stage, the heavens, with stars on it. Below the stage, at the front, is a 
@@ -374,11 +372,11 @@ At low water, from the evening until the small hours, the stones come up.
 [To the Soke landing] A wooden landing-stage on piles, and beyond it the Soke: low houses leaning on each other, 
 tavern signs, washing, a smell of beer and bears. A painted post at the top of the landing says THE LIBERTY OF THE 
 SOKE: THE CITY’S WRIT RUNS NOT HERE, and someone has hung a garland of dead flowers on it.
-[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Watermen sit 
-along the steps in their red caps beside their boats, smoking, shouting ‘Oars! Oars! Over to the Soke!’ at anyone 
-who looks at them. Across the water, low and wooden, the Wheel. The weir is under a yard of brown water, running 
-fast. At low water, from the evening until the small hours, the stones come up. Joss Ferriby, the warden of the 
-watermen of the Water Stairs, is here.
+[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Across the 
+water, low and wooden, the Wheel. Watermen sit along the steps in their red caps beside their boats, smoking, 
+shouting ‘Oars! Oars! Over to the Soke!’ at anyone who looks at them. The weir is under a yard of brown water, 
+running fast. At low water, from the evening until the small hours, the stones come up. Joss Ferriby, the warden of 
+the watermen of the Water Stairs, is here.
 [To the Gullet] The Gullet is the fish market, under a long tiled roof on stone posts, and it smells as a fish market 
 smells in midsummer. Fishwives cry pike and eel and Arle salmon in voices that need no licence. At the near end, by a 
 post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers’ hall has a tall chimney, and 
@@ -438,11 +436,11 @@ chimney is humming like an organ-pipe: a swarm of bees has gone into it, and a d
 foot with a pan of sulphur and a tinderbox, arguing. Here are Dame Philippa Gammage, the Gullet’s critic, who keeps 
 the ballad stall; Ma Tolly, the honey-woman of the Gullet; Oswin Garlick, a fishmonger, and the most famous heckler 
 in Pentrice; and Meg Garlick, the fishmonger’s daughter.
-[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Watermen sit 
-along the steps in their red caps beside their boats, smoking, shouting ‘Oars! Oars! Over to the Soke!’ at anyone 
-who looks at them. Across the water, low and wooden, the Wheel. The weir is under a yard of brown water, running 
-fast. At low water, from the evening until the small hours, the stones come up. Joss Ferriby, the warden of the 
-watermen of the Water Stairs, is here.
+[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Across the 
+water, low and wooden, the Wheel. Watermen sit along the steps in their red caps beside their boats, smoking, 
+shouting ‘Oars! Oars! Over to the Soke!’ at anyone who looks at them. The weir is under a yard of brown water, 
+running fast. At low water, from the evening until the small hours, the stones come up. Joss Ferriby, the warden of 
+the watermen of the Water Stairs, is here.
 [To the Soke landing] A wooden landing-stage on piles, and beyond it the Soke: low houses leaning on each other, 
 tavern signs, washing, a smell of beer and bears. A painted post at the top of the landing says THE LIBERTY OF THE 
 SOKE: THE CITY’S WRIT RUNS NOT HERE, and someone has hung a garland of dead flowers on it.
@@ -457,9 +455,7 @@ bench painted grey: the Office’s bench, where the tallymen sit in Trial week.
 [To the Wheel's tiring-house] Behind the stage: a long room full of hampers, ropes, a ladder going down through a 
 hatch, a rack of old costumes left by companies long gone, and a wall of names scratched into the plaster, players 
 who have played here, hundreds of them, going back two hundred years. Halfway up, very deep, cut by someone with a 
-knife and a great deal of time: A. GOSSE. In the rack of old costumes, inside the sleeve of a moth-eaten queen’s 
-robe, someone has rolled up a manuscript and tied it with black ribbon: DIDO, A TRAGEDY, BY O. CLAY. Its margins are 
-full of pencil in a big sprawling hand. Old Wilmot, who keeps the Wheel, is here.
+knife and a great deal of time: A. GOSSE. Old Wilmot, who keeps the Wheel, is here.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -480,17 +476,17 @@ Fallow finds you in the tiring-house. He looks at the lashed wheel for a long mo
 second act,’ he says. ‘In front of the Bench.’ He holds out his hand. ‘I am in your debt, which I dislike 
 very much. I shall try to deserve it.’ Bran makes the mending check (d20 18 + wisdom -1 = 17 against 13). Bran 
 gains 150 experience: saved Fallow’s siege-tower.
-[To the Wheel] The Master of Plain Speech, Clemency Orde, has ink on the second finger of her right hand. The Wheel 
-is a wooden O, three galleries high, open to the sky in the middle: a beaten-earth yard where the groundlings stand, 
-a stage thrust out into the yard on trestles, with two doors at the back of it and a balcony above, and a painted 
-roof over the stage, the heavens, with stars on it. Below the stage, at the front, is a bench painted grey: the 
-Office’s bench, where the tallymen sit in Trial week. There is ink on the second finger of the Master’s right 
-hand, worn into the skin, the mark of someone who has written every day of her life. Here are Abel Tunstall, the 
-chief clerk of the Office of Plain Speech; Ormsby Clay, the Guildhall’s critic; Dame Philippa Gammage, the 
-Gullet’s critic, who keeps the ballad stall; Canon Mallory, the minster’s precentor, and the Close’s critic; 
-and Nym Callow, the Owl’s critic. Over the stage, in the lords’ room, the Bench sits in a row like a jury: a thin 
-man in black with a book open on his knee, a big woman in a bonnet with a bag of nuts, a plump clergyman, and a young 
-man in a coat too good for him, already yawning.
+[To the Wheel] The Master of Plain Speech, Clemency Orde, has ink worn into the second finger of her right hand. The 
+Wheel is a wooden O, three galleries high, open to the sky in the middle: a beaten-earth yard where the groundlings 
+stand, a stage thrust out into the yard on trestles, with two doors at the back of it and a balcony above, and a 
+painted roof over the stage, the heavens, with stars on it. Below the stage, at the front, is a bench painted grey: 
+the Office’s bench, where the tallymen sit in Trial week. When she turns a page it is the hand of someone who has 
+written every day of her life, and not only licences. Here are Abel Tunstall, the chief clerk of the Office of Plain 
+Speech; Ormsby Clay, the Guildhall’s critic; Dame Philippa Gammage, the Gullet’s critic, who keeps the ballad 
+stall; Canon Mallory, the minster’s precentor, and the Close’s critic; and Nym Callow, the Owl’s critic. Over 
+the stage, in the lords’ room, the Bench sits in a row like a jury: a thin man in black with a book open on his 
+knee, a big woman in a bonnet with a bag of nuts, a plump clergyman, and a young man in a coat too good for him, 
+already yawning.
 [Wait › An hour] On the Wheel’s stage the Lord Mayor’s Servants are playing The Siege of Arle, as they have 
 every Trial for eleven years: a painted city wall, a siege-tower on wheels with a gilded knight in it, boys in long 
 gowns as the City’s weeping daughters, and verse, a great deal of it, every syllable as licensed. The yard is full 
@@ -507,10 +503,10 @@ palings, the bear-garden, from which come the sounds of dogs.
 [To the Soke landing] A wooden landing-stage on piles, and beyond it the Soke: low houses leaning on each other, 
 tavern signs, washing, a smell of beer and bears. A painted post at the top of the landing says THE LIBERTY OF THE 
 SOKE: THE CITY’S WRIT RUNS NOT HERE, and someone has hung a garland of dead flowers on it.
-[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Watermen sit 
-along the steps in their red caps beside their boats, smoking, shouting ‘Oars! Oars! Over to the Soke!’ at anyone 
-who looks at them. Across the water, low and wooden, the Wheel. Joss Ferriby, the warden of the watermen of the Water 
-Stairs, is here.
+[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Across the 
+water, low and wooden, the Wheel. Watermen sit along the steps in their red caps beside their boats, smoking, 
+shouting ‘Oars! Oars! Over to the Soke!’ at anyone who looks at them. Joss Ferriby, the warden of the watermen of 
+the Water Stairs, is here.
 [To the Gullet] The fishwives have burned their sulphur under the fishmongers’ chimney. Ma Tolly sits on her stool 
 by her pots with her hands in her lap, and the bees that are left crawl over her knuckles, slowly. The Gullet is the 
 fish market, under a long tiled roof on stone posts, and it smells as a fish market smells in midsummer. Fishwives 
@@ -609,11 +605,11 @@ a stall papered with ballad-sheets is doing a brisk trade. The fishmongers’ ha
 there is a heap of dead bees in the dust, and a pan of burned sulphur. Here are Dame Philippa Gammage, the Gullet’s 
 critic, who keeps the ballad stall; Ma Tolly, the honey-woman of the Gullet; Oswin Garlick, a fishmonger, and the 
 most famous heckler in Pentrice; and Meg Garlick, the fishmonger’s daughter.
-[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Watermen sit 
-along the steps in their red caps beside their boats, smoking, shouting ‘Oars! Oars! Over to the Soke!’ at anyone 
-who looks at them. Across the water, low and wooden, the Wheel. The weir is under a yard of brown water, running 
-fast. At low water, from the evening until the small hours, the stones come up. Joss Ferriby, the warden of the 
-watermen of the Water Stairs, is here.
+[To the Water Stairs] Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Across the 
+water, low and wooden, the Wheel. Watermen sit along the steps in their red caps beside their boats, smoking, 
+shouting ‘Oars! Oars! Over to the Soke!’ at anyone who looks at them. The weir is under a yard of brown water, 
+running fast. At low water, from the evening until the small hours, the stones come up. Joss Ferriby, the warden of 
+the watermen of the Water Stairs, is here.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -623,13 +619,12 @@ watermen of the Water Stairs, is here.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes.
+[Wait › A while] A board has been propped against the bottom step: NO BOATS TONIGHT. THE BRIDGE WARDENS KNOW WHY. 
+Time passes. At four o’clock on the last day of the Trial the watermen of the Water Stairs draw up their boats and 
+chain them, every one, and sit down on the steps with their oars across their knees. On the far bank the Wheel’s 
+pennant is going up, and between it and the City is a quarter of a mile of brown water.
 [Wait › A while] The watermen sit on the Stairs with their oars across their knees and their caps on the back of 
-their heads, and do not shout. Their boats are drawn up and chained. A board has been propped against the bottom 
-step: NO BOATS TONIGHT. THE BRIDGE WARDENS KNOW WHY. Time passes. At four o’clock on the last day of the Trial the 
-watermen of the Water Stairs draw up their boats and chain them, every one, and sit down on the steps with their oars 
-across their knees. NO BOATS TONIGHT. On the far bank the Wheel’s pennant is going up, and between it and the City 
-is a quarter of a mile of brown water.
-[Wait › A while] The watermen sit with their oars across their knees. No boats tonight. Time passes.
+their heads, and do not shout. Their boats are drawn up and chained. Time passes.
 [Get up on the bollard at the top of the Stairs and lead the crowd over the old weir] There is a crowd on the Stairs 
 already, fishwives and prentices and clerks in their Sunday coats, and they are angry. You get up on the bollard and 
 shout that there is a way, and where, and that the stones come up at evening, and Garlick’s voice somewhere behind 
@@ -646,8 +641,8 @@ bench painted grey: the Office’s bench, where the tallymen sit in Trial week.
 [Wait › A while] Time passes.
 [Wait › A while] Over the stage, in the lords’ room, the Bench sits in a row like a jury: a thin man in black 
 with a book open on his knee, a big woman in a bonnet with a bag of nuts, a plump clergyman, and a young man in a 
-coat too good for him, already yawning. There is ink on the second finger of the Master’s right hand, worn into the 
-skin, the mark of someone who has written every day of her life. Time passes.
+coat too good for him, already yawning. When she turns a page it is the hand of someone who has written every day of 
+her life, and not only licences. Time passes.
 [Wait › A while] Time passes.
 [Take your place in the right-hand wing, by the prompt-copy of the scenes] You go up the two steps behind the 
 right-hand door and stand in the wing, where you can see the whole stage edge-on and a slice of the yard beyond it, 
@@ -677,15 +672,15 @@ Precedence, until they have set the coffin down in the middle of the stage to se
 lid moves.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes. The mourners’ quarrel goes like clockwork, every shove on the beat; and when the 
-Ghost climbs out of the coffin, it is Lob alone who sees him, Pudding’s face going through astonishment, terror and 
-a sort of weary recognition in three seconds flat, and Swale looking down at his servant with an alderman’s 
-contempt. The two of them play it as if they had never stopped talking. Among the mourners a young woman in a 
-borrowed veil does Alderman Gudgeon’s sister so exactly like Oswin Garlick crying over a dead pike that, in the 
-yard, Oswin Garlick himself begins to roar, and the yard turns round to look at him, and roars louder. The Ghost does 
-not climb out of the coffin: he rises, slowly, straight up out of it on the trap, standing, arms folded, as if the 
-Book of Precedence itself had sent for him. The Widow Gudgeon receives over the funeral meats: Sir Rowley Pomfret, 
-the heir, a fop in a wig like a sheep, has come to propose to her before the meats are cold, while the Ghost, whom 
-only Lob can see, stands behind her chair objecting in blank verse.
+coffin lid lifts and the Ghost appears, it is Lob alone who sees him, Pudding’s face going through astonishment, 
+terror and a sort of weary recognition in three seconds flat, and Swale looking down at his servant with an 
+alderman’s contempt. The two of them play it as if they had never stopped talking. Among the mourners a young woman 
+in a borrowed veil does Alderman Gudgeon’s sister so exactly like Oswin Garlick crying over a dead pike that, in 
+the yard, Oswin Garlick himself begins to roar, and the yard turns round to look at him, and roars louder. And the 
+Ghost does not clamber out of the coffin, as he did in the loft: the trap brings him up out of it, slowly, standing, 
+arms folded, as if the Book of Precedence itself had sent for him. The Widow Gudgeon receives over the funeral meats: 
+Sir Rowley Pomfret, the heir, a fop in a wig like a sheep, has come to propose to her before the meats are cold, 
+while the Ghost, whom only Lob can see, stands behind her chair objecting in blank verse.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes. Dorcas Quaile plays the Widow Gudgeon as if she had been waiting twenty-five years 
 for her: the pie, the will, the hearth-rug, Pomfret on his knees, and the long, delicious pause before she says no. 
@@ -777,12 +772,10 @@ brought the Wheel to its feet.
 end, round, wooden, enormous, stands the Wheel, with its pennant on a pole above it; and behind a fence of split 
 palings, the bear-garden, from which come the sounds of dogs.
 [To the Water Stairs] You go out of the Soke into the dark, by what light there is. Wide stone stairs go down into 
-the brown Arle, slippery with weed at the bottom. Watermen sit along the steps in their red caps beside their boats, 
-smoking, shouting ‘Oars! Oars! Over to the Soke!’ at anyone who looks at them. Across the water, low and wooden, 
-the Wheel. The watermen sit on the Stairs with their oars across their knees and their caps on the back of their 
-heads, and do not shout. Their boats are drawn up and chained. A board has been propped against the bottom step: NO 
-BOATS TONIGHT. THE BRIDGE WARDENS KNOW WHY. The watermen sit with their oars across their knees. No boats tonight. 
-Joss Ferriby, the warden of the watermen of the Water Stairs, is here.
+the brown Arle, slippery with weed at the bottom. Across the water, low and wooden, the Wheel. A board has been 
+propped against the bottom step: NO BOATS TONIGHT. THE BRIDGE WARDENS KNOW WHY. The watermen sit on the Stairs with 
+their oars across their knees and their caps on the back of their heads, and do not shout. Their boats are drawn up 
+and chained. Joss Ferriby, the warden of the watermen of the Water Stairs, is here.
 [To the Gullet] The Gullet is the fish market, under a long tiled roof on stone posts, and it smells as a fish market 
 smells in midsummer. Fishwives cry pike and eel and Arle salmon in voices that need no licence. At the near end, by a 
 post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers’ hall has a tall chimney, and 
@@ -826,24 +819,24 @@ until you sleep.
 [Wait › An hour] An hour passes.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes.
-[Wait › A while] Hepzibah paid you your share of the house. At ten o’clock the crier comes through the City 
-ringing his bell, and stops at every corner, and cries it: THE BENCH OF THE MIDSUMMER TRIAL GIVES THE PATENT OF THE 
-WHEEL TO GOSSE’S COMPANY, BY 3 VOICES. Behind him, all the way, people are coming out of their doors. Absalom Gosse 
-and Hepzibah Dimmock are married in the minster on the Saturday by Canon Mallory, with their banns read in the same 
-breath as an ostler’s and a maid’s. Gosse gives the responses as if the minster were the Wheel. Hepzibah gives 
-him every one of his. Ambrose Swale is not seen in a tragedy again that summer. He plays fools, and old men in 
-comedies, and is so good in them that by Michaelmas the Gullet calls him the Wooden Lear with love. Dorcas Quaile 
-plays widows from then on, and duchesses, and grandmothers, and is greater in every one of them than she ever was as 
-a girl. She keeps Dame Gammage’s old notice in her stays, and takes it out before every first night, and reads it, 
-and puts it back. Kit Arden’s voice holds through the summer, under the Canon’s trick, and goes at Michaelmas in 
-a single night, in his sleep; and in the morning he comes down the loft stair a man and asks Hepzibah for a man’s 
-part, and gets one. Patience appears on the Wheel’s own playbills from then on, in red, BY PUBLIC DEMAND, and is 
-paid in honey, on time, every night. The fines are paid by subscription at the Owl, a penny a head, raised in an 
-hour, with Nym Callow standing on a table shouting the total. The Alderman’s Ghost is played whole at the Wheel all 
-that summer, every night, under the Soke’s law; and every night the Office sits on its grey bench and counts, and 
-Abel Tunstall reads the fines from the stage when the house has gone, and the yard pays them, a penny a head, into 
-Patience’s bonnet. Hepzibah counts out your share of the house onto the trestle in the loft, coin by coin, from the 
-book: 2 shares of a full Wheel, less the candles. Bran gains 800 experience: won Gosse’s Company the Patent.
+[Wait › A while] At ten o’clock the crier comes through the City ringing his bell, and stops at every corner, and 
+cries it: THE BENCH OF THE MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO GOSSE’S COMPANY, BY 3 VOICES. Behind 
+him, all the way, people are coming out of their doors. Absalom Gosse and Hepzibah Dimmock are married in the minster 
+on the Saturday by Canon Mallory, with their banns read on three Sundays running, to the congregation’s very great 
+interest. Gosse gives the responses as if the minster were the Wheel. Hepzibah gives him every one of his. Ambrose 
+Swale is not seen in a tragedy again that summer. He plays fools, and old men in comedies, and is so good in them 
+that by Michaelmas the Gullet calls him the Wooden Lear with love. Dorcas Quaile plays widows from then on, and 
+duchesses, and grandmothers, and is greater in every one of them than she ever was as a girl. She keeps Dame 
+Gammage’s old notice in her stays, and takes it out before every first night, and reads it, and puts it back. Kit 
+Arden’s voice holds through the summer, under the Canon’s trick, and goes at Michaelmas in a single night, in his 
+sleep; and in the morning he comes down the loft stair a man and asks Hepzibah for a man’s part, and gets one. 
+Patience appears on the Wheel’s own playbills from then on, in red, BY PUBLIC DEMAND, and is paid in honey, on 
+time, every night. The fines are paid by subscription at the Owl, a penny a head, raised in an hour, with Nym Callow 
+standing on a table shouting the total. The Alderman’s Ghost is played whole at the Wheel all that summer, every 
+night, under the Soke’s law; and every night the Office sits on its grey bench and counts, and Abel Tunstall reads 
+the fines from the stage when the house has gone, and the yard pays them, a penny a head, into Patience’s bonnet. 
+Hepzibah counts out your share of the house onto the trestle in the loft, coin by coin, from the book, less the 
+candles; the fuller the yard, the taller the pile. Bran gains 800 experience: won Gosse’s Company the Patent.
 [Wait › A while] Time passes. The Bench gave Gosse’s Company the Patent of the Wheel, and Absalom Gosse, 
 sixty-three, who had played under the sky for forty-one years, came in out of the rain. They paint GOSSE’S COMPANY 
 over the gate of the Wheel in red letters that will go pink. Hepzibah keeps the book in the tiring-house press. 
@@ -854,8 +847,12 @@ for a while, before he goes in to play.
 #pentrice__votes pentrice__pentrice: 3
 #pentrice__temper pentrice__pentrice: 24
 #pentrice__fines pentrice__pentrice: 21
-#pentrice__regard pentrice__clay: 4
+#pentrice__regard pentrice__clay: 8
+#pentrice__slight pentrice__clay: 4
 #pentrice__regard pentrice__gammage: 14
-#pentrice__regard pentrice__mallory: 3
+#pentrice__slight pentrice__gammage: 0
+#pentrice__regard pentrice__mallory: 4
+#pentrice__slight pentrice__mallory: 2
 #pentrice__regard pentrice__callow: 6
+#pentrice__slight pentrice__callow: 0
 ```

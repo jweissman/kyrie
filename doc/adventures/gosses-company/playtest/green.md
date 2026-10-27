@@ -1,13 +1,14 @@
-# The players on the green at Wending Cross, and the road west
+# The players at Wending Cross, and the road west
 
-`bin/kyrie play test/fixtures/gosse/warrior.campaign.json --seed g2 --steps test/fixtures/gosse/green.json` — every step as the page told it, then the world asked after.
+`bin/kyrie play test/fixtures/gosse/warrior.campaign.json --seed g2 --steps test/fixtures/gosse/green.json ` — every step as the page told it, then the world asked after.
 
 ```text
 [Ask Gosse what has happened] ‘A small reverse,’ says Gosse. ‘A tragedy in the classical sense: brought about 
 by a flaw in the hero, who failed to pay his chain-man for four months.’ He spreads his hands. ‘Lem has gone off 
 with the hat, and the hat had the reckoning in it, and our host has chained the wagon, and this week the Midsummer 
 Trial opens at Pentrice over the march and we must be there or die in a ditch.’ He looks at you sidelong. ‘I do 
-not ask for money. I never ask for money. I mention that it exists.’ Patience comes to see who you are.
+not ask for money. I never ask for money. I mention that it exists.’ Patience ambles to the end of her rope to see 
+who you are, and goes through your hands for honey.
 [Ask Hepzibah about Lem] ‘He’s owed four months,’ says Hepzibah, biting off a thread. ‘Four coin, since he 
 will ask for it. I have it written down.’ She turns a page of the book on her knee, a fat book of cues and 
 accounts. ‘Absalom pays his players in compliments, and most of us have learned to eat them. Lem has a mother.’ 
@@ -19,18 +20,18 @@ with the hat on her head. Twice what any of us take. Nobody refuses a bear.’
 [Into the chapel at Wending Cross] A whitewashed chapel with six benches and a window of plain glass, very clean. 
 Mother Ivy, who keeps the chapel, is here.
 [Ask Mother Ivy about the players] Mother Ivy smiles, and then tries not to. ‘They played the Shepherd’s Revenge 
-on the green on Tuesday, and the clown sat in my place at the front and gave a sermon, and I am still not sure 
-whether I should have minded.’ Then, more soberly: ‘The man who went off with the hat was Lem Coyle, who leads 
-their bear. He was not a bad man at the shrine. I saw him go out along the common toward the old lime-kiln, with the 
-hat under his coat like a hen.’
+here on Tuesday, and the clown sat in my place at the front and gave a sermon, and I am still not sure whether I 
+should have minded.’ Then, more soberly: ‘The man who went off with the hat was Lem Coyle, who leads their bear. 
+He was not a bad man at the shrine. I saw him go out along the common toward the old lime-kiln, with the hat under 
+his coat like a hen.’
 [Out to the green at Wending Cross] A triangle of rough grass where the west road crosses a brook by a stone bridge, 
 with a pump, a horse-trough, a chapel with a squat bell-cote, the Wheatsheaf, and Cobbet’s shop, which sells 
 everything badly. A bear is asleep in the grass by the players’ wagon, with a thin man for a pillow, and a big old 
 man in a faded crimson coat sits on the wagon’s tail-board looking at the sky as if it owed him money. A tall 
-wagon, painted with a sun and a moon and the words GOSSE’S COMPANY in red letters gone pink, stands on the green 
-with its shafts down. A chain runs from its back wheel to a post, and the chain has a padlock on it. Here are Absalom 
-Gosse, the actor-manager of Gosse’s Company; Hepzibah Dimmock, the players’ prompter; and Jem Pudding, the 
-players’ clown.
+wagon, painted with a sun and a moon and the words GOSSE’S COMPANY in red letters gone pink, stands on the green at 
+Wending Cross with its shafts down. A chain runs from its back wheel to a post, and the chain has a padlock on it. 
+Here are Absalom Gosse, the actor-manager of Gosse’s Company; Hepzibah Dimmock, the players’ prompter; and Jem 
+Pudding, the players’ clown.
 [To the old lime-kiln on the common] A squat old kiln of blackened stone at the end of the common, with a hawthorn 
 growing out of its top. The fire-hole is big enough to sit in out of the wind. Lem Coyle, the players’ chain-man, 
 sitting in the kiln’s fire-hole, is here.
@@ -48,15 +49,16 @@ said goodbye,’ he says, and goes off west along the common, toward the march. 
 a pump, a horse-trough, a chapel with a squat bell-cote, the Wheatsheaf, and Cobbet’s shop, which sells everything 
 badly. A bear is asleep in the grass by the players’ wagon, with a thin man for a pillow, and a big old man in a 
 faded crimson coat sits on the wagon’s tail-board looking at the sky as if it owed him money. A tall wagon, painted 
-with a sun and a moon and the words GOSSE’S COMPANY in red letters gone pink, stands on the green with its shafts 
-down. A chain runs from its back wheel to a post, and the chain has a padlock on it. Here are Absalom Gosse, the 
-actor-manager of Gosse’s Company; Hepzibah Dimmock, the players’ prompter; and Jem Pudding, the players’ clown.
+with a sun and a moon and the words GOSSE’S COMPANY in red letters gone pink, stands on the green at Wending Cross 
+with its shafts down. A chain runs from its back wheel to a post, and the chain has a padlock on it. Here are Absalom 
+Gosse, the actor-manager of Gosse’s Company; Hepzibah Dimmock, the players’ prompter; and Jem Pudding, the 
+players’ clown.
 [Give the players' hat] Bran gives the players’ hat to Absalom Gosse. Gosse weighs the hat in his hand, and tips 
 it, and counts what falls out with his lips moving. Then he goes and puts it into the hands of Mistress Thackeray, 
 with a bow that is very nearly sincere, and the chain comes off the wheel. Bran gains 100 experience: the players on 
 the green, seen through. Gosse is walking slowly round the wagon with his hands behind his back, inspecting its 
-wheels as if he had just bought it. The players’ wagon stands on the green with its shafts up, loaded to the roof, 
-a painted cloth rolled on top.
+wheels as if he had just bought it. The players’ wagon stands on the green at Wending Cross with its shafts up, 
+loaded to the roof, a painted cloth rolled on top.
 [Ask Gosse what he will do now] ‘Go west,’ says Gosse, ‘at first light, over the march to Pentrice, where three 
 companies will play three nights before the city in the Midsummer Trial, and the Bench of four will give one of them 
 the Patent: a house of its own, for ever. A roof, my friend. Forty-one years I have played under the sky.’ He 
@@ -85,11 +87,12 @@ brown coat, with a paper, is here.
 Bascombe, and stops dead at the sight of Absalom Gosse on the wagon’s tail-board, and drops the basket. ‘The 
 Fool!’ she says. ‘The Fool of the Wheel! I threw the first cabbage!’ Dick Merriman, very red, goes into the 
 tack-room and comes out with a flat parcel done up in oilcloth and gives it to Gosse with an apology. Gosse opens it 
-on the tail-board, with the whole yard watching. Patience comes to see who you are. A cobbled coaching-yard with 
-galleries on three sides and the stables along the fourth. A tall wagon painted with a sun and a moon stands in the 
-corner, its shafts down, and from the loft over the stables come voices declaiming, and somebody hammering. In a 
-stall at the end of the stables, on clean straw, an old brown bear lies with her chin on her paws, watching the yard 
-with small kind eyes. Dick Merriman, the Painted Moon’s ostler, is here.
+on the tail-board, with the whole yard watching. Patience lifts her chin off her paws to look at you, sniffs, and 
+puts it down again, satisfied. A cobbled coaching-yard with galleries on three sides and the stables along the 
+fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and from the loft over the 
+stables come voices declaiming, and somebody hammering. In a stall at the end of the stables, on clean straw, an old 
+brown bear lies with her chin on her paws, watching the yard with small kind eyes. Dick Merriman, the Painted 
+Moon’s ostler, is here.
 [Into the stable loft] Corin Fallow comes up the loft stair in his beautiful plain coat with his hat in his hand, and 
 is very civil to everyone, and asks for a word with Absalom, and then a word with Dorcas, and goes away again. Gosse 
 stands at the window afterward, watching him cross the yard, and says nothing for nearly a minute, which is a record. 
@@ -114,7 +117,11 @@ off at arm’s length. ‘And something has happened, my friend. A play has come
 #pentrice__temper pentrice__pentrice: 0
 #pentrice__fines pentrice__pentrice: 0
 #pentrice__regard pentrice__clay: 0
+#pentrice__slight pentrice__clay: 0
 #pentrice__regard pentrice__gammage: 1
+#pentrice__slight pentrice__gammage: 0
 #pentrice__regard pentrice__mallory: 0
+#pentrice__slight pentrice__mallory: 0
 #pentrice__regard pentrice__callow: 1
+#pentrice__slight pentrice__callow: 0
 ```

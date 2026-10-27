@@ -3,8 +3,8 @@
   "name": "Gosse's Company",
   "calendar": { "year": 1313, "month": 6, "day": 19 },
   "pitch": {
-    "heading": "Wending Cross, on the west road, in the week of the Midsummer Trial",
-    "text": "A company of travelling players is stuck on the green at Wending Cross with its wagon chained to a post, on its way west over the march to the Midsummer Trial at Pentrice, where three companies play three nights and the best is given a house for ever. You have a little coin and no particular plans."
+    "heading": "Wending Cross, on the west road, in the week of the Trial of the Wheel",
+    "text": "A company of travelling players is stuck on the green at Wending Cross with its wagon chained to a post, on its way west over the march to the Trial of the Wheel at Pentrice, where three companies play three nights and the best is given a house for ever. You have a little coin and no particular plans."
   },
   "modules": [
     { "id": "wending", "bundle": "../adventures/gosses-company/road/module.json" },

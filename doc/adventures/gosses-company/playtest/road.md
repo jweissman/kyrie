@@ -1,6 +1,6 @@
 # The Road Again: a licensed play, half rehearsed
 
-`bin/kyrie play test/fixtures/gosse/city.campaign.json --seed g1 --steps test/fixtures/gosse/road.json` — every step as the page told it, then the world asked after.
+`bin/kyrie play test/fixtures/gosse/city.campaign.json --seed g1 --steps test/fixtures/gosse/road.json ` — every step as the page told it, then the world asked after.
 
 ```text
 [To the Westgate] You set out from the West Road above Pentrice early, with your shadow long in front of you on the 
@@ -8,11 +8,11 @@ road. The Westgate is a squat old gate-tower with a toll-board on it, so thick w
 tolls are covered and nobody pays any. Carters, a goose-girl, a man selling hot pies out of a box. Under the arch a 
 clerk in grey sits at a folding desk with a ledger and a jar of notched sticks. Here are Abel Tunstall, the chief 
 clerk of the Office of Plain Speech; and Grimsditch, a bailiff, in a brown coat, with a paper.
-[Into the Painted Moon] Patience comes to see who you are. A cobbled coaching-yard with galleries on three sides and 
-the stables along the fourth. A tall wagon painted with a sun and a moon stands in the corner, its shafts down, and 
-from the loft over the stables come voices declaiming, and somebody hammering. In a stall at the end of the stables, 
-on clean straw, an old brown bear lies with her chin on her paws, watching the yard with small kind eyes. Dick 
-Merriman, the Painted Moon’s ostler, is here.
+[Into the Painted Moon] Patience lifts her chin off her paws to look at you, sniffs, and puts it down again, 
+satisfied. A cobbled coaching-yard with galleries on three sides and the stables along the fourth. A tall wagon 
+painted with a sun and a moon stands in the corner, its shafts down, and from the loft over the stables come voices 
+declaiming, and somebody hammering. In a stall at the end of the stables, on clean straw, an old brown bear lies with 
+her chin on her paws, watching the yard with small kind eyes. Dick Merriman, the Painted Moon’s ostler, is here.
 [Ask Merriman whether anything has been left for Gosse's Company] ‘A parcel,’ says Merriman, ‘but not for them. 
 For,’ he shuts his eyes to get it right, ‘the one who played the Fool at the Wheel the night of the riot. 
 That’s what she said, the lady. Twenty crowns in it, she said, and give it to nobody else, and I’ll know him.’ 
@@ -104,8 +104,9 @@ here.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes.
 [Wait › A while] Time passes.
-[Wait › A while] Time passes. Kit Arden comes running, scarlet, with his voice all over the place: ‘Patience is 
-out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden’s coming!’
+[Wait › A while] Time passes. The Moon’s pot-boy comes running, scarlet, shouting before he is through the door: 
+‘Patience is out! She’s in the Gullet, at the honey! The fishwives have got knives and a man from the 
+bear-garden’s coming!’
 [Into the Office of Plain Speech] The Office of Plain Speech writes its licences on heavy white paper watermarked 
 with a padlocked mouth. The old corn exchange, high and cold and full of desks. At each desk a clerk in grey reads 
 with a pen in one hand and a ruler in the other, and every so often the ruler comes down and the pen goes through a 
@@ -256,8 +257,8 @@ listening to music. An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] At four o’clock on the last day of the Trial the watermen of the Water Stairs draw up their 
-boats and chain them, every one, and sit down on the steps with their oars across their knees. NO BOATS TONIGHT. On 
-the far bank the Wheel’s pennant is going up, and between it and the City is a quarter of a mile of brown water.
+boats and chain them, every one, and sit down on the steps with their oars across their knees. On the far bank the 
+Wheel’s pennant is going up, and between it and the City is a quarter of a mile of brown water.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
@@ -280,17 +281,17 @@ the far bank the Wheel’s pennant is going up, and between it and the City is a
 [Wait › An hour] An hour passes.
 [Wait › An hour] An hour passes.
 [Wait › A while] Time passes.
-[Wait › A while] Hepzibah paid you your share of the house. At ten o’clock the crier comes through the City 
-ringing his bell: THE BENCH OF THE MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR’S SERVANTS, FOR 
-A TWELFTH YEAR. Not one of the four voices was Gosse’s. Dorcas Quaile keeps Corin Fallow’s wardrobe at the 
-Mayor’s Room, and sews his boys into their stays, and is good at it, and whenever Gosse’s Company plays in 
-Pentrice she comes to stand among the fishwives in the yard, and does not let anybody see her face. Patience stays in 
-the bear-garden of the Soke, and dances on Sundays for Simeon Bowle’s customers, who are not kind; and every Sunday 
-Jem Pudding goes over the river and stands at the palings and hums. Absalom Gosse goes to the Clink of the Soke at 
-noon for 3 crowns of unlicensed lines, in his crimson coat, waving, and holds court there for a week, and plays the 
-Prologue through the bars every evening to a crowd in the street, until the Owl and the Gullet between them have 
-raised the money in pennies. Hepzibah counts out your share of the house onto the trestle in the loft, coin by coin, 
-from the book: 2 shares of a full Wheel, less the candles.
+[Wait › A while] Time passes. At ten o’clock the crier comes through the City ringing his bell: THE BENCH OF THE 
+MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR’S SERVANTS, FOR A TWELFTH YEAR. Not one of the four 
+voices was Gosse’s. Dorcas Quaile keeps Corin Fallow’s wardrobe at the Mayor’s Room, and sews his boys into 
+their stays, and is good at it, and whenever Gosse’s Company plays in Pentrice she comes to stand among the 
+fishwives in the yard, and does not let anybody see her face. Patience stays in the bear-garden of the Soke, and 
+dances on Sundays for Simeon Bowle’s customers, who are not kind; and every Sunday Jem Pudding goes over the river 
+and stands at the palings and hums. Absalom Gosse goes to the Clink of the Soke at noon for the Office’s fines, in 
+his crimson coat, waving, and holds court there for a week, and plays the Prologue through the bars every evening to 
+a crowd in the street, until the Owl and the Gullet between them have raised the money in pennies. Hepzibah counts 
+out your share of the house onto the trestle in the loft, coin by coin, from the book, less the candles; the fuller 
+the yard, the taller the pile.
 [Wait › A while] Time passes. Gosse’s Company played The Alderman’s Ghost as the Office licensed it, and played 
 it well, and the Bench gave the Patent where it had given it for eleven years. Gosse took it with a magnificent bow, 
 and called Corin Fallow the best of good fellows in the Owl, and the next morning the wagon went out of the Westgate 
@@ -300,8 +301,12 @@ a licensed comedy in Hepzibah’s hamper that any town in Imbar could see withou
 #pentrice__votes pentrice__pentrice: 0
 #pentrice__temper pentrice__pentrice: 7
 #pentrice__fines pentrice__pentrice: 3
-#pentrice__regard pentrice__clay: 1
-#pentrice__regard pentrice__gammage: 3
+#pentrice__regard pentrice__clay: 3
+#pentrice__slight pentrice__clay: 8
+#pentrice__regard pentrice__gammage: 6
+#pentrice__slight pentrice__gammage: 3
 #pentrice__regard pentrice__mallory: 2
-#pentrice__regard pentrice__callow: 0
+#pentrice__slight pentrice__mallory: 0
+#pentrice__regard pentrice__callow: 1
+#pentrice__slight pentrice__callow: 1
 ```

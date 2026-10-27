@@ -173,8 +173,8 @@ Module pentrice "Gosse's Company" {
     Says "'To send them home better,' says the Canon, and knocks out his pipe. 'Not preached at. I have the pulpit for that, and they do not come. But a play that shows them a kindness done, or a pride brought low, or a quarrel made up, and nobody the worse, why, they go home and are kinder for a week.' He hesitates. 'I will not have filth. And I will not have the dead mocked, who cannot answer. That is all.' He smiles. 'That is a great deal, in the theatre.'".
     On discuss { Assert knows(actor, taste_mallory). }
   }
-  Topic mallory_voice with mallory "Ask Canon Mallory how the choir keeps a breaking voice through a summer" when knows(actor, kit_fear) or knows(actor, ned_wants) once {
-    Says "'Ah,' says the Canon, and sits down at the harpsichord and plays a note, and then a lower one. 'Honey and horehound, the horehound bruised and the honey stirred in off the boil. But that is not the trick.' He plays the first note again. 'The trick is to sing under the voice, not over it. A breaking voice breaks reaching up. Let every line come down to you, as if you were tired; never go up after the top of it.' He closes the lid. 'It will hold a night, done so. A summer, perhaps. Not two.' He sighs. 'Ned Cherry's will go by Michaelmas, and then I shall lose him.'".
+  Topic mallory_voice with mallory "Ask Canon Mallory how the choir keeps a breaking voice through a season" when knows(actor, kit_fear) or knows(actor, ned_wants) once {
+    Says "'Ah,' says the Canon, and sits down at the harpsichord and plays a note, and then a lower one. 'Honey and horehound, the horehound bruised and the honey stirred in off the boil. But that is not the trick.' He plays the first note again. 'The trick is to sing under the voice, not over it. A breaking voice breaks reaching up. Let every line come down to you, as if you were tired; never go up after the top of it.' He closes the lid. 'It will hold a night, done so. A season, perhaps. Not two.' He sighs. 'Ned Cherry's will go by Michaelmas, and then I shall lose him.'".
     On discuss { Assert knows(actor, mallory_trick). }
   }
   Discovery mallory_trick "Canon Mallory's way with a breaking voice: honey and horehound, the horehound bruised and the honey stirred in off the boil; and sing under the voice, letting every line come down, never reaching up after the top of it." { Known by mallory. }
@@ -215,11 +215,11 @@ Module pentrice "Gosse's Company" {
     Says "The Canon looks at you for a long moment, as one who has knelt to another. 'You'll see to it,' he says. 'Yourself.' You say you will. 'Then he may go to them for the Trial, with my blessing.' He rubs his eyes. 'He sings Behold for us on the third night, mind.'".
     On discuss { Assert nedLent(ned). Retract at(ned, school_yard). Assert at(ned, moon_loft). Increase regard(mallory) by 1. }
   }
-  Action keep_ned(actor: group, site: place) "Tell Ned to stay with the Children and sing, this summer" {
+  Action keep_ned(actor: group, site: place) "Tell Ned to stay with the Children and sing, this season" {
     Speaker ned. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(ned, site) and knows(actor, ned_wants) and not nedRuns(ned) and not nedLent(ned) and not nedStays(ned).
     On success { Assert nedStays(ned). Increase regard(mallory) by 1. }
-    Result "Ned looks at you as if you had hit him. Then he looks at his cardboard wing. 'One more summer,' he says. 'Then I'll be too old to be an angel and they'll have to let me be something.' He goes back to the procession round the pump, and somebody tells the Canon, and the Canon, you hear afterward, is very grateful.".
+    Result "Ned looks at you as if you had hit him. Then he looks at his cardboard wing. 'One more season,' he says. 'Then I'll be too old to be an angel and they'll have to let me be something.' He goes back to the procession round the pump, and somebody tells the Canon, and the Canon, you hear afterward, is very grateful.".
   }
 
   // ── Nym Callow, the Owl's critic ────────────────────────────────────────────────────────────────────────────────

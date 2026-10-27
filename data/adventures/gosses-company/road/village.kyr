@@ -39,10 +39,10 @@ Module wending "Wending Cross" {
     Sells torch for 1 coin from 4.
   }
   Topic thackeray_road with thackeray "Ask Mistress Thackeray about the road west" when true once {
-    Says "'West,' says Mistress Thackeray, 'over the march, a day, is Pentrice, where the Ise falls into the Arle. A grand minster town, where they license every word said on a stage and fine you a crown a line for the rest.' She jerks her head at the green. 'That lot on the green are going there for their Midsummer Trial: three companies, three nights, and a house for ever to the best. If they ever get their wagon off my post.'".
+    Says "'West,' says Mistress Thackeray, 'over the march, a day, is Pentrice, where the Ise falls into the Arle. A grand minster town, where they license every word said on a stage and fine you a crown a line for the rest.' She jerks her head at the green. 'That lot on the green are going there for their Trial of the Wheel: three companies, three nights, and a house for ever to the best. If they ever get their wagon off my post.'".
     On discuss { Assert knows(actor, west_told). }
   }
-  Discovery west_told "West over the march, a day's walk, lies Pentrice, where the Midsummer Trial is played: three companies of players for three nights, and a house to the best.".
+  Discovery west_told "West over the march, a day's walk, lies Pentrice, where the Trial of the Wheel is played: three companies of players for three nights, and a house to the best.".
   Initially Assert leadsTo(west_told, road_out).
   Company party "You" of 1 at cross_green.
   Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 2.

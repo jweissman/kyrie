@@ -1,5 +1,5 @@
 Module pentrice "Gosse's Company" {
-  Description "Pentrice, where the Ise falls into the Arle: a cathedral city become a market city become a city of guilds, licences and precedence, in the week of the Midsummer Trial, when three companies of players play three nights at the Wheel over the river and a bench of four critics gives one of them the Patent.".
+  Description "Pentrice, where the Ise falls into the Arle: a cathedral city become a market city become a city of guilds, licences and precedence, in the week of the Trial of the Wheel, when three companies of players play three nights at the Wheel over the river and a bench of four critics gives one of them the Patent.".
 
   // ── The country ─────────────────────────────────────────────────────────────────────────────────────────────────
   Place vale "the vale of the Arle" is region.
@@ -9,7 +9,7 @@ Module pentrice "Gosse's Company" {
 
   Place road_end "the West Road above Pentrice" is room within west_road at 0, 0 outdoors.
   Observe road_end_scene at road_end when true "The road comes over the last rise and there is the vale of the Arle below you, green and brown, with a city in the bottom of it where two rivers meet: a minster with a squat grey tower, roofs, smoke, the long glint of the Arle, and on the far bank a huddle of low houses round something round and wooden, like a drum laid on its side.".
-  Observe road_end_bills at road_end when week() "A board at the roadside has been pasted with bills so many times it has grown a skin: THE MIDSUMMER TRIAL AT THE WHEEL. THREE COMPANIES. THREE NIGHTS. THE PATENT TO BE GIVEN BY THE BENCH. The newest bill is for Gosse's Company, in red, and someone has written under it, in pencil, AT LAST.".
+  Observe road_end_bills at road_end when week() "A board at the roadside has been pasted with bills so many times it has grown a skin: THE TRIAL OF THE WHEEL. THREE COMPANIES. THREE NIGHTS. THE PATENT TO BE GIVEN BY THE BENCH. The newest bill is for Gosse's Company, in red, and someone has written under it, in pencil, AT LAST.".
   Passage west_road_way "the West Road" is road between road_end and westgate taking 1 hour.
 
   // ── Pentrice, the City ──────────────────────────────────────────────────────────────────────────────────────────
@@ -43,7 +43,7 @@ Module pentrice "Gosse's Company" {
   Observe hill_garden_dry at hill when fountainRuns(pentrice) "At the top of the street a gardener is standing in the Lord Mayor's gateway, looking down the hill toward the Chepe, from which comes the sound of water and children.".
   Observe mayor_garden_scene at mayor_garden when not fountainRuns(pentrice) "The Lord Mayor's garden: gravel walks, clipped yews, roses, and in the middle of it all a fountain shaped like a stone shell held up by three fat stone children, running clear and full and splashing over into a pool with carp in it. A gardener is raking the gravel and does not look at you.".
   Observe mayor_garden_dry at mayor_garden when fountainRuns(pentrice) "The Lord Mayor's garden, and the shell fountain dry, its three fat stone children holding up nothing. In the pool the carp are crowded together in a hand's depth of water, gasping. A gardener stands looking at them with his rake.".
-  Observe gullet_scene at gullet when true "The Gullet is the fish market, under a long tiled roof on stone posts, and it smells as a fish market smells in midsummer. Fishwives cry pike and eel and Arle salmon in voices that need no licence. At the near end, by a post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers' hall has a tall chimney, and a stall papered with ballad-sheets is doing a brisk trade.".
+  Observe gullet_scene at gullet when true "The Gullet is the fish market, under a long tiled roof on stone posts, and it smells as a fish market smells on a warm day. Fishwives cry pike and eel and Arle salmon in voices that need no licence. At the near end, by a post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers' hall has a tall chimney, and a stall papered with ballad-sheets is doing a brisk trade.".
   Observe water_stairs_scene at water_stairs when true "Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Across the water, low and wooden, the Wheel.".
   Observe water_stairs_oars at water_stairs when not watermenStrike(pentrice) "Watermen sit along the steps in their red caps beside their boats, smoking, shouting 'Oars! Oars! Over to the Soke!' at anyone who looks at them.".
   Observe water_stairs_strike at water_stairs when watermenStrike(pentrice) "A board has been propped against the bottom step: NO BOATS TONIGHT. THE BRIDGE WARDENS KNOW WHY.".
@@ -67,7 +67,7 @@ Module pentrice "Gosse's Company" {
     Greets "Mistress Bascombe is a big woman with her sleeves rolled up and a ring of keys at her belt the size of a horse-collar. 'Players or Trial?' she says. 'Either way it's three coin a night and you don't bring the bear in here.'".
     Sells rations for 2 coin from 10.
   }
-  Topic bascombe_trial with bascombe "Ask Mistress Bascombe about the Midsummer Trial" when true once {
+  Topic bascombe_trial with bascombe "Ask Mistress Bascombe about the Trial of the Wheel" when true once {
     Says "'Three companies, three nights, over the river at the Wheel,' says Mistress Bascombe, 'and the Bench of four to give one of them the Patent, which is a licensed house and the Office off their backs for ever, near enough. Corin Fallow's had it eleven years, the Lord Mayor's Servants. The Children of the Close every year come second and are very good about it.' She jerks her head at the yard. 'And this year Absalom Gosse, God save us. He was banned the City forty years since, you know. The night of the riot. The Office was made for him.'".
     On discuss { Assert knows(actor, riot_rumour). }
   }
@@ -103,7 +103,7 @@ Module pentrice "Gosse's Company" {
   Place canonry "Canon Mallory's house" is building within pentrice.
   Place canon_study "Canon Mallory's study" is room within canonry at 0, 0.
   Passage canon_door "Canon Mallory's door" is door between close and canon_study.
-  Observe canon_study_scene at canon_study when true "A comfortable study smelling of tobacco and old paper, with a fire though it is midsummer, a harpsichord with music open on it, and shelves of sermons, every one of which has been read.".
+  Observe canon_study_scene at canon_study when true "A comfortable study smelling of tobacco and old paper, with a fire in all weathers, a harpsichord with music open on it, and shelves of sermons, every one of which has been read.".
 
   // ── Paternoster Row: the Owl and Inchbald's ─────────────────────────────────────────────────────────────────────
   Place owl "the Owl" is building within pentrice.
@@ -113,7 +113,7 @@ Module pentrice "Gosse's Company" {
   Place inchbalds "Inchbald's printing-house" is building within pentrice.
   Place press_room "Inchbald's press-room" is room within inchbalds at 0, 0.
   Passage press_door "Inchbald's door" is door between row and press_room.
-  Observe press_room_scene at press_room when true "A low room with a great wooden press in the middle of it like a gallows, cases of type on sloping desks, quires of damp paper hung on lines across the ceiling, and the smell of ink and lye. On the imposing-stone a forme of type is locked up ready, and pinned to the wall are title-pages: THE SIEGE OF ARLE, AS IT WAS PLAYED; THE PATIENT DAUGHTER; SERMONS FOR MIDSUMMER.".
+  Observe press_room_scene at press_room when true "A low room with a great wooden press in the middle of it like a gallows, cases of type on sloping desks, quires of damp paper hung on lines across the ceiling, and the smell of ink and lye. On the imposing-stone a forme of type is locked up ready, and pinned to the wall are title-pages: THE SIEGE OF ARLE, AS IT WAS PLAYED; THE PATIENT DAUGHTER; SERMONS FOR ALL SEASONS.".
 
   // ── The Hill: the Orde house, and the conduit house ─────────────────────────────────────────────────────────────
   Place orde_house "the Orde house" is building within pentrice.

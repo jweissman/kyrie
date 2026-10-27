@@ -56,7 +56,7 @@ describe("Gosse's Company", () => {
     // Nobody paid the Office's fines: Gosse goes to the Clink, and the crier counts no voices.
     expect(g.page).toMatch(/goes to the Clink of the Soke at noon/);
     expect(g.page).toMatch(/Not one of the four voices was Gosse.s/);
-    expect(g.page).not.toMatch(/played whole at the Wheel all that summer/);
+    expect(g.page).not.toMatch(/played whole at the Wheel all that season/);
   }, 120000);
 
   it('the Book: a bard licenses the Ghost through the Office, and a licensed play wins Clay, Gammage and the Canon', async () => {
@@ -85,7 +85,17 @@ describe("Gosse's Company", () => {
     // The whole play is fined line by line, and the house pays.
     expect(g.measure('fines', 'pentrice')).toBeGreaterThan(15);
     expect(g.ending()).toEqual([p('patent')]);
-    expect(g.page).toMatch(/played whole at the Wheel all that summer/);
+    expect(g.page).toMatch(/played whole at the Wheel all that season/);
+  }, 240000);
+
+  it('the Liberty: the same soldier, who never gave Clay back his Dido, is famous, fined and two voices short', async () => {
+    const g = await Gosse.start(build('warrior'), 'w1');
+    await g.fixture('famous');
+    expect(g.state('book', 'copy_fair')).toBe(true);
+    expect(g.voters()).toEqual(['gammage', 'callow']);
+    expect(g.holds('patentWon', 'pentrice')).toBe(false);
+    expect(g.ending()).toEqual([p('liberty')]);
+    expect(g.page).toMatch(/sung in the Gullet and acted in back rooms/);
   }, 240000);
 
   it("the Author's Bow: the Master of Plain Speech comes up on the stage, and the tallymen break their sticks", async () => {
@@ -96,6 +106,17 @@ describe("Gosse's Company", () => {
     expect(g.measure('votes', 'pentrice')).toBe(4);
     expect(g.ending()).toEqual([p('bow')]);
     expect(g.page).toMatch(/Gentles: the author/);
+  }, 240000);
+
+  it("rewards: whoever stood on the boards as Tapwell is given Gosse's crown of paste, with their name in the band", async () => {
+    const g = await Gosse.start();
+    const all = steps('bow');
+    await g.play(...all.slice(0, -1));
+    expect(g.holds('verdictRead', 'pentrice')).toBe(true);
+    await g.play('Ask Gosse what he means to do with his crown', "Take Gosse's crown of paste");
+    expect(g.j.holds('carries', 'party', p('crown'))).toBe(true);
+    // A season with the company grows the one who played it.
+    expect(g.j.campaign.fighters.map(m => m.experience).reduce((a, b) => a + b, 0)).toBeGreaterThanOrEqual(4000);
   }, 240000);
 
   it('the Patent Refused: whoever knocked the wedge from under the Siege, Gosse gives the house back', async () => {
@@ -147,7 +168,7 @@ describe("Gosse's Company: the stranger on the grey bench", () => {
     expect(g.holds('tallyLet', 'party')).toBe(true);
     expect(g.holds('stickStill', 'party')).toBe(true);
     // Eight notches the Office does not have, whatever was cut after.
-    expect(g.measure('spared', 'pentrice')).toBe(8);
+    expect(g.measure('notchesSpared', 'pentrice')).toBe(8);
     expect(g.page).toMatch(/Bum/);
     expect(g.page).toMatch(/takes your stick, quite gently/);
     // Nobody helped the company, and it breaks.
@@ -220,6 +241,23 @@ describe("Gosse's Company: who plays it", () => {
       'To Guildhall Square', '=36', 'Office', 'Give Tunstall the fair copy');
     expect(mage.j.find('Search the chained Ordinances')?.label).toMatch(/likely|even chance|almost certain/);
   }, 240000);
+  it('a mage under the stage lights the Ghost with a conjured light as he rises', async () => {
+    const g = await Gosse.start(build('scholar'));
+    const night = Array.from({ length: 8 }, () => ['Wait › A while', '?Have the one of you who can, throw a conjured light']).flat();
+    await g.play(...phase('book', 'arrive'), 'Out to the yard', 'Out to the Westgate', 'To the Chepe', 'To the Gullet', 'To the Water Stairs',
+      'To the Soke landing', 'To Soke Lane', 'Into the Wheel', '=494', 'Go down under the stage', ...night);
+    expect(g.holds('ghostLit', 'pentrice')).toBe(true);
+    expect(g.page).toMatch(/column of moonlight/);
+  }, 240000);
+
+  it('one who keeps the faith is heard by the Canon, and the choirboy is lent to the company', async () => {
+    const g = await Gosse.start(build('cleric'));
+    await g.play(...phase('liberty', 'green'), ...phase('liberty', 'road').slice(0, 6), 'Out to the yard', 'Out to the Westgate', 'To the Chepe',
+      'To Guildhall Square', 'To the Close', 'choir school', 'Ask the boy what he wants', 'Out to the Close', 'Canon Mallory');
+    expect(g.j.offers('Tell Canon Mallory, as one who keeps the faith')).toBe(true);
+    await g.play('Tell Canon Mallory, as one who keeps the faith');
+    expect(g.holds('nedLent', 'ned')).toBe(true);
+  }, 240000);
 });
 
 describe("Gosse's Company: saving, replaying, and the world it lies in", () => {
@@ -260,7 +298,7 @@ describe("Gosse's Company: saving, replaying, and the world it lies in", () => {
     // The innkeeper tells of the country to the west.
     const told = s.campaign.module.actions.find(a => a.id.startsWith('region__edge_west_beyond_told_'))!;
     GeneratedWorld.put(s, s.campaign.world.one('at', told.speaker!)!.replace(/^region__/, ''));
-    expect(await j.play('about the Midsummer Trial at Pentrice')).toMatch(/Trial|Pentrice|players/);
+    expect(await j.play('about the Trial of the Wheel at Pentrice')).toMatch(/Trial|Pentrice|players/);
     await GeneratedWorld.travel(s, 'edge_west');
     const drawn = await new Frontier('gosse', NodeBundleSource.shared).expand(s.campaign);
     expect(s.campaign.installations.find(m => m.id === drawn!.rid)?.chapter).toBe(true);

@@ -38,101 +38,101 @@ Module pentrice "Gosse's Company" {
   Rule verdict_read when verdictCounted(pentrice) and not verdictRead(pentrice) { Assert verdictRead(pentrice). }
 
   Rule verdict_gosse when verdictRead(pentrice) and patentWon(pentrice) and not spread(verdict_known) and inCity()
-    says "At ten o'clock the crier comes through the City ringing his bell, and stops at every corner, and cries it: THE BENCH OF THE MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO GOSSE'S COMPANY, BY {votes(pentrice)} VOICES. Behind him, all the way, people are coming out of their doors." { Assert spread(verdict_known). }
+    says "At ten o'clock the crier comes through the City ringing his bell, and stops at every corner, and cries it: THE BENCH OF THE TRIAL GIVES THE PATENT OF THE WHEEL TO GOSSE'S COMPANY, BY {votes(pentrice)} VOICES. Behind him, all the way, people are coming out of their doors." { Assert spread(verdict_known). }
   Rule verdict_refused when verdictRead(pentrice) and votes(pentrice) >= 3 and gosseAshamed(gosse) and not spread(verdict_known) and inCity()
     says "At ten o'clock the crier comes through the City ringing his bell: THE BENCH GIVES THE PATENT OF THE WHEEL TO GOSSE'S COMPANY, BY {votes(pentrice)} VOICES. And an hour later he comes through again, puzzled, with a second cry: ABSALOM GOSSE DECLINES IT. A HOUSE IS NOT TO BE HAD BY ANOTHER COMPANY'S FALL. THE PATENT STAYS WITH THE LORD MAYOR'S SERVANTS." { Assert spread(verdict_known). }
   Rule verdict_children when verdictRead(pentrice) and votes(pentrice) < 3 and childrenWon(pentrice) and not spread(verdict_known) and inCity()
-    says "At ten o'clock the crier comes through the City ringing his bell: THE BENCH OF THE MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO THE CHILDREN OF THE CLOSE. Nobody, the Children least of all, can remember this happening before." { Assert spread(verdict_known). }
+    says "At ten o'clock the crier comes through the City ringing his bell: THE BENCH OF THE TRIAL GIVES THE PATENT OF THE WHEEL TO THE CHILDREN OF THE CLOSE. Nobody, the Children least of all, can remember this happening before." { Assert spread(verdict_known). }
   Rule verdict_fallow when verdictRead(pentrice) and votes(pentrice) >= 1 and votes(pentrice) < 3 and not childrenWon(pentrice) and not spread(verdict_known) and inCity()
-    says "At ten o'clock the crier comes through the City ringing his bell: THE BENCH OF THE MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR'S SERVANTS, FOR A TWELFTH YEAR. Gosse's Company had {votes(pentrice)} of the four voices." { Assert spread(verdict_known). }
+    says "At ten o'clock the crier comes through the City ringing his bell: THE BENCH OF THE TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR'S SERVANTS, FOR A TWELFTH YEAR. Gosse's Company had {votes(pentrice)} of the four voices." { Assert spread(verdict_known). }
   Rule verdict_none when verdictRead(pentrice) and votes(pentrice) == 0 and not childrenWon(pentrice) and not spread(verdict_known) and inCity()
-    says "At ten o'clock the crier comes through the City ringing his bell: THE BENCH OF THE MIDSUMMER TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR'S SERVANTS, FOR A TWELFTH YEAR. Not one of the four voices was Gosse's." { Assert spread(verdict_known). }
-  Discovery verdict_known "The Bench of the Midsummer Trial has read its verdict.".
+    says "At ten o'clock the crier comes through the City ringing his bell: THE BENCH OF THE TRIAL GIVES THE PATENT OF THE WHEEL TO THE LORD MAYOR'S SERVANTS, FOR A TWELFTH YEAR. Not one of the four voices was Gosse's." { Assert spread(verdict_known). }
+  Discovery verdict_known "The Bench of the Trial has read its verdict.".
 
   // ── The season's account ────────────────────────────────────────────────────────────────────────────────────────
   // What became of everyone, told the morning of the verdict wherever the company is in Pentrice; then the ending.
-  Relation told(fact).
-  Rule fate_married when verdictRead(pentrice) and proposed(gosse) and not told(fate_married_known) and inCity()
-    says "Absalom Gosse and Hepzibah Dimmock are married in the minster on the Saturday by Canon Mallory, with their banns read on three Sundays running, to the congregation's very great interest. Gosse gives the responses as if the minster were the Wheel. Hepzibah gives him every one of his." { Assert told(fate_married_known). }
+  Relation fateTold(fact).
+  Rule fate_married when verdictRead(pentrice) and proposed(gosse) and not fateTold(fate_married_known) and inCity()
+    says "Absalom Gosse and Hepzibah Dimmock are married in the minster on the Saturday by Canon Mallory, with their banns read on three Sundays running, to the congregation's very great interest. Gosse gives the responses as if the minster were the Wheel. Hepzibah gives him every one of his." { Assert fateTold(fate_married_known). }
   Discovery fate_married_known "Gosse and Hepzibah were married.".
-  Rule fate_empty when verdictRead(pentrice) and emptyWing(gosse) and not told(fate_married_known) and inCity()
-    says "Gosse does not say it again. He says it to nobody, the next morning, in the loft, by mistake, and Hepzibah, at the book, says without looking up: 'Yes. I heard you the first time,' and that is the whole of it, and they are married at Michaelmas in a barn at Galt." { Assert told(fate_married_known). }
-  Rule fate_swale_gammage when verdictRead(pentrice) and understanding(swale) and not told(fate_swale_known) and inCity()
-    says "Dame Gammage's notice of Gosse's night, on the ballad-sheets of the Gullet the next morning, runs to a column and a half, and ends: 'THE WALKING CATHEDRAL HAS LEARNED TO DANCE. This writer will be at the Wheel every night he plays, in the front of the yard, and you may draw what conclusions you like.'" { Assert told(fate_swale_known). }
+  Rule fate_empty when verdictRead(pentrice) and emptyWing(gosse) and not fateTold(fate_married_known) and inCity()
+    says "Gosse does not say it again. He says it to nobody, the next morning, in the loft, by mistake, and Hepzibah, at the book, says without looking up: 'Yes. I heard you the first time,' and that is the whole of it, and they are married at Michaelmas in a barn at Galt." { Assert fateTold(fate_married_known). }
+  Rule fate_swale_gammage when verdictRead(pentrice) and understanding(swale) and not fateTold(fate_swale_known) and inCity()
+    says "Dame Gammage's notice of Gosse's night, on the ballad-sheets of the Gullet the next morning, runs to a column and a half, and ends: 'THE WALKING CATHEDRAL HAS LEARNED TO DANCE. This writer will be at the Wheel every night he plays, in the front of the yard, and you may draw what conclusions you like.'" { Assert fateTold(fate_swale_known). }
   Discovery fate_swale_known "What became of Ambrose Swale.".
-  Rule fate_swale_shamed when verdictRead(pentrice) and humiliated(swale) and not told(fate_swale_known) and inCity()
-    says "Dame Gammage's notice of Gosse's night says nothing of Ambrose Swale at all, which in fifteen years she has never done, and is the cruellest thing she has ever written." { Assert told(fate_swale_known). }
-  Rule fate_swale_fool when verdictRead(pentrice) and swaleUnderstands(swale) and not understanding(swale) and not humiliated(swale) and not told(fate_swale_known) and inCity()
-    says "Ambrose Swale is not seen in a tragedy again that summer. He plays fools, and old men in comedies, and is so good in them that by Michaelmas the Gullet calls him the Wooden Lear with love." { Assert told(fate_swale_known). }
-  Rule fate_swale_shaken when verdictRead(pentrice) and swaleShaken(swale) and not swaleUnderstands(swale) and not understanding(swale) and not told(fate_swale_known) and inCity()
-    says "Ambrose Swale leaves the company the morning after, very politely, with his cloak and his own crown, and is next heard of carrying a spear in the Siege of Arle for Corin Fallow, who is kind to him." { Assert told(fate_swale_known). }
-  Rule fate_swale_gone when verdictRead(pentrice) and swaleGone(swale) and not told(fate_swale_known) and inCity()
-    says "Ambrose Swale sat at the Owl through Gosse's night, and went home to Galt the morning after, and teaches elocution there to the sons of grocers, and writes to Hepzibah at Christmas." { Assert told(fate_swale_known). }
-  Rule fate_dorcas_widow when verdictRead(pentrice) and plays(dorcas, part_widow) and not told(fate_dorcas_known) and inCity()
-    says "Dorcas Quaile plays widows from then on, and duchesses, and grandmothers, and is greater in every one of them than she ever was as a girl." { Assert told(fate_dorcas_known). }
-  Rule fate_dorcas_notice when verdictRead(pentrice) and plays(dorcas, part_widow) and keeps(dorcas, gammage_notice) and not told(fate_notice_known) and inCity()
-    says "She keeps Dame Gammage's old notice in her stays, and takes it out before every first night, and reads it, and puts it back." { Assert told(fate_notice_known). }
+  Rule fate_swale_shamed when verdictRead(pentrice) and humiliated(swale) and not fateTold(fate_swale_known) and inCity()
+    says "Dame Gammage's notice of Gosse's night says nothing of Ambrose Swale at all, which in fifteen years she has never done, and is the cruellest thing she has ever written." { Assert fateTold(fate_swale_known). }
+  Rule fate_swale_fool when verdictRead(pentrice) and swaleUnderstands(swale) and not understanding(swale) and not humiliated(swale) and not fateTold(fate_swale_known) and inCity()
+    says "Ambrose Swale is not seen in a tragedy again that season. He plays fools, and old men in comedies, and is so good in them that by Michaelmas the Gullet calls him the Wooden Lear with love." { Assert fateTold(fate_swale_known). }
+  Rule fate_swale_shaken when verdictRead(pentrice) and swaleShaken(swale) and not swaleUnderstands(swale) and not understanding(swale) and not fateTold(fate_swale_known) and inCity()
+    says "Ambrose Swale leaves the company the morning after, very politely, with his cloak and his own crown, and is next heard of carrying a spear in the Siege of Arle for Corin Fallow, who is kind to him." { Assert fateTold(fate_swale_known). }
+  Rule fate_swale_gone when verdictRead(pentrice) and swaleGone(swale) and not fateTold(fate_swale_known) and inCity()
+    says "Ambrose Swale sat at the Owl through Gosse's night, and went home to Galt the morning after, and teaches elocution there to the sons of grocers, and writes to Hepzibah at Christmas." { Assert fateTold(fate_swale_known). }
+  Rule fate_dorcas_widow when verdictRead(pentrice) and plays(dorcas, part_widow) and not fateTold(fate_dorcas_known) and inCity()
+    says "Dorcas Quaile plays widows from then on, and duchesses, and grandmothers, and is greater in every one of them than she ever was as a girl." { Assert fateTold(fate_dorcas_known). }
+  Rule fate_dorcas_notice when verdictRead(pentrice) and plays(dorcas, part_widow) and keeps(dorcas, gammage_notice) and not fateTold(fate_notice_known) and inCity()
+    says "She keeps Dame Gammage's old notice in her stays, and takes it out before every first night, and reads it, and puts it back." { Assert fateTold(fate_notice_known). }
   Discovery fate_notice_known "Dorcas keeps Gammage's notice.".
   Discovery fate_dorcas_known "What became of Dorcas Quaile.".
-  Rule fate_dorcas_gone when verdictRead(pentrice) and dorcasGone(dorcas) and not told(fate_dorcas_known) and inCity()
-    says "Dorcas Quaile keeps Corin Fallow's wardrobe at the Mayor's Room, and sews his boys into their stays, and is good at it, and whenever Gosse's Company plays in Pentrice she comes to stand among the fishwives in the yard, and does not let anybody see her face." { Assert told(fate_dorcas_known). }
-  Rule fate_dorcas_bell when verdictRead(pentrice) and plays(dorcas, part_bell) and not told(fate_dorcas_known) and inCity()
-    says "Dorcas Quaile plays the girl one more summer, as she said, and at Michaelmas puts the frock away in the bottom of a hamper and says nothing about it, and the next spring asks Hepzibah for the old women's parts." { Assert told(fate_dorcas_known). }
-  Rule fate_kit_man when verdictRead(pentrice) and plays(kit, part_tapwell) and not told(fate_kit_known) and inCity()
-    says "Kit Arden plays young men from then on, badly at first and then well, and the Wheel's yard, which watched his voice break in a garden by moonlight, follows him like an aunt." { Assert told(fate_kit_known). }
+  Rule fate_dorcas_gone when verdictRead(pentrice) and dorcasGone(dorcas) and not fateTold(fate_dorcas_known) and inCity()
+    says "Dorcas Quaile keeps Corin Fallow's wardrobe at the Mayor's Room, and sews his boys into their stays, and is good at it, and whenever Gosse's Company plays in Pentrice she comes to stand among the fishwives in the yard, and does not let anybody see her face." { Assert fateTold(fate_dorcas_known). }
+  Rule fate_dorcas_bell when verdictRead(pentrice) and plays(dorcas, part_bell) and not fateTold(fate_dorcas_known) and inCity()
+    says "Dorcas Quaile plays the girl one more season, as she said, and at Michaelmas puts the frock away in the bottom of a hamper and says nothing about it, and the next spring asks Hepzibah for the old women's parts." { Assert fateTold(fate_dorcas_known). }
+  Rule fate_kit_man when verdictRead(pentrice) and plays(kit, part_tapwell) and not fateTold(fate_kit_known) and inCity()
+    says "Kit Arden plays young men from then on, badly at first and then well, and the Wheel's yard, which watched his voice break in a garden by moonlight, follows him like an aunt." { Assert fateTold(fate_kit_known). }
   Discovery fate_kit_known "What became of Kit Arden.".
-  Rule fate_kit_held when verdictRead(pentrice) and kitVoiceHeld(kit) and not plays(kit, part_tapwell) and not told(fate_kit_known) and inCity()
-    says "Kit Arden's voice holds through the summer, under the Canon's trick, and goes at Michaelmas in a single night, in his sleep; and in the morning he comes down the loft stair a man and asks Hepzibah for a man's part, and gets one." { Assert told(fate_kit_known). }
-  Rule fate_kit_broke when verdictRead(pentrice) and kitBroke(kit) and not plays(kit, part_tapwell) and not told(fate_kit_known) and inCity()
-    says "Kit Arden does not go on again that summer. He sits in the tiring-house and keeps the book for Hepzibah, and learns it, and by the autumn is the best prompter in Imbar but one." { Assert told(fate_kit_known). }
-  Rule fate_bear_home when verdictRead(pentrice) and bearOn(pentrice) and not told(fate_bear_known) and inCity()
-    says "Patience appears on the Wheel's own playbills from then on, in red, BY PUBLIC DEMAND, and is paid in honey, on time, every night." { Assert told(fate_bear_known). }
+  Rule fate_kit_held when verdictRead(pentrice) and kitVoiceHeld(kit) and not plays(kit, part_tapwell) and not fateTold(fate_kit_known) and inCity()
+    says "Kit Arden's voice holds through the season, under the Canon's trick, and goes at Michaelmas in a single night, in his sleep; and in the morning he comes down the loft stair a man and asks Hepzibah for a man's part, and gets one." { Assert fateTold(fate_kit_known). }
+  Rule fate_kit_broke when verdictRead(pentrice) and kitBroke(kit) and not plays(kit, part_tapwell) and not fateTold(fate_kit_known) and inCity()
+    says "Kit Arden does not go on again that season. He sits in the tiring-house and keeps the book for Hepzibah, and learns it, and by the autumn is the best prompter in Imbar but one." { Assert fateTold(fate_kit_known). }
+  Rule fate_bear_home when verdictRead(pentrice) and bearOn(pentrice) and not fateTold(fate_bear_known) and inCity()
+    says "Patience appears on the Wheel's own playbills from then on, in red, BY PUBLIC DEMAND, and is paid in honey, on time, every night." { Assert fateTold(fate_bear_known). }
   Discovery fate_bear_known "What became of Patience.".
-  Rule fate_bear_lost when verdictRead(pentrice) and at(the_bear, bear_pen) and not told(fate_bear_known) and inCity()
-    says "Patience stays in the bear-garden of the Soke, and dances on Sundays for Simeon Bowle's customers, who are not kind; and every Sunday Jem Pudding goes over the river and stands at the palings and hums." { Assert told(fate_bear_known). }
-  Rule fate_ned when verdictRead(pentrice) and atMoon(ned) and not told(fate_ned_known) and inCity()
-    says "Ned Cherry does not go back to the Close. His voice goes at Michaelmas, as the Canon said it would, and he plays the bear's keeper instead, and is very happy, and writes to the Canon every week." { Assert told(fate_ned_known). }
+  Rule fate_bear_lost when verdictRead(pentrice) and at(the_bear, bear_pen) and not fateTold(fate_bear_known) and inCity()
+    says "Patience stays in the bear-garden of the Soke, and dances on Sundays for Simeon Bowle's customers, who are not kind; and every Sunday Jem Pudding goes over the river and stands at the palings and hums." { Assert fateTold(fate_bear_known). }
+  Rule fate_ned when verdictRead(pentrice) and atMoon(ned) and not fateTold(fate_ned_known) and inCity()
+    says "Ned Cherry does not go back to the Close. His voice goes at Michaelmas, as the Canon said it would, and he plays the bear's keeper instead, and is very happy, and writes to the Canon every week." { Assert fateTold(fate_ned_known). }
   Discovery fate_ned_known "What became of Ned Cherry.".
-  Rule fate_ned_stays when verdictRead(pentrice) and nedStays(ned) and not told(fate_ned_known) and inCity()
-    says "Ned Cherry sings Behold for one more summer, and at Michaelmas, when his voice goes, the Canon walks him down to the Moon himself." { Assert told(fate_ned_known). }
-  Rule fate_banns when verdictRead(pentrice) and sukeyYes(sukey) and not told(fate_banns_known) and inCity()
-    says "The banns of Richard Merriman, ostler, and Susan Rowe, spinster, are read in the minster, and nobody knows any just cause." { Assert told(fate_banns_known). }
+  Rule fate_ned_stays when verdictRead(pentrice) and nedStays(ned) and not fateTold(fate_ned_known) and inCity()
+    says "Ned Cherry sings Behold for one more season, and at Michaelmas, when his voice goes, the Canon walks him down to the Moon himself." { Assert fateTold(fate_ned_known). }
+  Rule fate_banns when verdictRead(pentrice) and sukeyYes(sukey) and not fateTold(fate_banns_known) and inCity()
+    says "The banns of Richard Merriman, ostler, and Susan Rowe, spinster, are read in the minster, and nobody knows any just cause." { Assert fateTold(fate_banns_known). }
   Discovery fate_banns_known "Merriman and Sukey's banns were read.".
-  Rule fate_bells when verdictRead(pentrice) and pealRung(bunces) and not told(fate_bells_known) and inCity()
-    says "The Bunce brothers ring every peal that summer together, and argue all through every one of them, about jackdaws." { Assert told(fate_bells_known). }
+  Rule fate_bells when verdictRead(pentrice) and pealRung(bunces) and not fateTold(fate_bells_known) and inCity()
+    says "The Bunce brothers ring every peal that season together, and argue all through every one of them, about jackdaws." { Assert fateTold(fate_bells_known). }
   Discovery fate_bells_known "The Bunces rang together.".
-  Rule fate_fountain when verdictRead(pentrice) and fountainRuns(pentrice) and not told(fate_fountain_known) and inCity()
-    says "The Fountain of Concord runs all summer. The Lord Mayor brings an action against the Guildhall for the loss of his carp, and loses it, and Wat Cundy is made his master's journeyman for reasons nobody gives in writing." { Assert told(fate_fountain_known). }
+  Rule fate_fountain when verdictRead(pentrice) and fountainRuns(pentrice) and not fateTold(fate_fountain_known) and inCity()
+    says "The Fountain of Concord runs all season. The Lord Mayor brings an action against the Guildhall for the loss of his carp, and loses it, and Wat Cundy is made his master's journeyman for reasons nobody gives in writing." { Assert fateTold(fate_fountain_known). }
   Discovery fate_fountain_known "The Fountain of Concord ran.".
-  Rule fate_clink when verdictRead(pentrice) and gosseClink(gosse) and not told(fate_clink_known) and inCity()
-    says "Absalom Gosse goes to the Clink of the Soke at noon for the Office's fines, in his crimson coat, waving, and holds court there for a week, and plays the Prologue through the bars every evening to a crowd in the street, until the Owl and the Gullet between them have raised the money in pennies." { Assert told(fate_clink_known). }
+  Rule fate_clink when verdictRead(pentrice) and gosseClink(gosse) and not fateTold(fate_clink_known) and inCity()
+    says "Absalom Gosse goes to the Clink of the Soke at noon for the Office's fines, in his crimson coat, waving, and holds court there for a week, and plays the Prologue through the bars every evening to a crowd in the street, until the Owl and the Gullet between them have raised the money in pennies." { Assert fateTold(fate_clink_known). }
   Discovery fate_clink_known "Gosse went to the Clink for the fines.".
-  Rule fate_owl when verdictRead(pentrice) and owlPaid(pentrice) and not told(fate_clink_known) and inCity()
-    says "The fines are paid by subscription at the Owl, a penny a head, raised in an hour, with Nym Callow standing on a table shouting the total." { Assert told(fate_clink_known). }
-  Rule fate_fallow_paid when verdictRead(pentrice) and fallowPaid(pentrice) and not told(fate_clink_known) and inCity()
-    says "The fines are paid at the Office before nine by Corin Fallow, in coin, without a word, for a siege-tower." { Assert told(fate_clink_known). }
-  Rule fate_master_bowed when verdictRead(pentrice) and clemBowed(clemency) and not told(fate_master_known) and inCity()
-    says "Clemency Orde keeps the Office of Plain Speech. She adds a Tenth Ordinance, in her own hand, the week after: Of Laughter. A word spoken to make the City laugh is the City's, and may not be fined. Abel Tunstall reads it twice, and blots it, and has it chained to the lectern." { Assert told(fate_master_known). }
+  Rule fate_owl when verdictRead(pentrice) and owlPaid(pentrice) and not fateTold(fate_clink_known) and inCity()
+    says "The fines are paid by subscription at the Owl, a penny a head, raised in an hour, with Nym Callow standing on a table shouting the total." { Assert fateTold(fate_clink_known). }
+  Rule fate_fallow_paid when verdictRead(pentrice) and fallowPaid(pentrice) and not fateTold(fate_clink_known) and inCity()
+    says "The fines are paid at the Office before nine by Corin Fallow, in coin, without a word, for a siege-tower." { Assert fateTold(fate_clink_known). }
+  Rule fate_master_bowed when verdictRead(pentrice) and clemBowed(clemency) and not fateTold(fate_master_known) and inCity()
+    says "Clemency Orde keeps the Office of Plain Speech. She adds a Tenth Ordinance, in her own hand, the week after: Of Laughter. A word spoken to make the City laugh is the City's, and may not be fined. Abel Tunstall reads it twice, and blots it, and has it chained to the lectern." { Assert fateTold(fate_master_known). }
   Discovery fate_master_known "What became of Clemency Orde and the Office.".
-  Rule fate_master_kept when verdictRead(pentrice) and clemTold(clemency) and not clemBowed(clemency) and not clemCold(clemency) and not told(fate_master_known) and inCity()
-    says "Clemency Orde keeps the Office of Plain Speech, and her secret, and whenever Gosse's Company plays in Pentrice she comes to the yard in Sukey's old brown hood, and stands at the back, and laughs." { Assert told(fate_master_known). }
-  Rule fate_master_cold when verdictRead(pentrice) and clemCold(clemency) and not told(fate_master_known) and inCity()
-    says "Clemency Orde keeps the Office of Plain Speech, harder than her father ever did; and nobody in Pentrice ever learns who wrote The Alderman's Ghost, because the one who could tell them made her pay for it." { Assert told(fate_master_known). }
-  Rule fate_book_licensed when verdictRead(pentrice) and patentWon(pentrice) and ghostPlay(pentrice) and state(book, copy_licensed) and not told(fate_book_known) and inCity()
-    says "The Alderman's Ghost is played at the Wheel all summer as the Office licensed it, with the Tallyman struck out and the Ghost rising and standing where the book once had him rise; and the yard, which has heard what the lines used to be, says them along with him under its breath." { Assert told(fate_book_known). }
+  Rule fate_master_kept when verdictRead(pentrice) and clemTold(clemency) and not clemBowed(clemency) and not clemCold(clemency) and not fateTold(fate_master_known) and inCity()
+    says "Clemency Orde keeps the Office of Plain Speech, and her secret, and whenever Gosse's Company plays in Pentrice she comes to the yard in Sukey's old brown hood, and stands at the back, and laughs." { Assert fateTold(fate_master_known). }
+  Rule fate_master_cold when verdictRead(pentrice) and clemCold(clemency) and not fateTold(fate_master_known) and inCity()
+    says "Clemency Orde keeps the Office of Plain Speech, harder than her father ever did; and nobody in Pentrice ever learns who wrote The Alderman's Ghost, because the one who could tell them made her pay for it." { Assert fateTold(fate_master_known). }
+  Rule fate_book_licensed when verdictRead(pentrice) and patentWon(pentrice) and ghostPlay(pentrice) and state(book, copy_licensed) and not fateTold(fate_book_known) and inCity()
+    says "The Alderman's Ghost is played at the Wheel all season as the Office licensed it, with the Tallyman struck out and the Ghost rising and standing where the book once had him rise; and the yard, which has heard what the lines used to be, says them along with him under its breath." { Assert fateTold(fate_book_known). }
   Discovery fate_book_known "How The Alderman's Ghost went on being played.".
-  Rule fate_book_warranted when verdictRead(pentrice) and patentWon(pentrice) and ghostPlay(pentrice) and state(book, copy_warranted) and not told(fate_book_known) and inCity()
-    says "The Alderman's Ghost is played at the Wheel all summer as it was written, under the Master's warrant, every line of it, and the grey bench sits through it every night with its sticks across its knees and does not cut a notch." { Assert told(fate_book_known). }
-  Rule fate_book_whole when verdictRead(pentrice) and patentWon(pentrice) and liberty() and not clemBowed(clemency) and not told(fate_book_known) and inCity()
-    says "The Alderman's Ghost is played whole at the Wheel all that summer, every night, under the Soke's law; and every night the Office sits on its grey bench and counts, and Abel Tunstall reads the fines from the stage when the house has gone, and the yard pays them, a penny a head, into Patience's bonnet." { Assert told(fate_book_known). }
+  Rule fate_book_warranted when verdictRead(pentrice) and patentWon(pentrice) and ghostPlay(pentrice) and state(book, copy_warranted) and not fateTold(fate_book_known) and inCity()
+    says "The Alderman's Ghost is played at the Wheel all season as it was written, under the Master's warrant, every line of it, and the grey bench sits through it every night with its sticks across its knees and does not cut a notch." { Assert fateTold(fate_book_known). }
+  Rule fate_book_whole when verdictRead(pentrice) and patentWon(pentrice) and liberty() and not clemBowed(clemency) and not fateTold(fate_book_known) and inCity()
+    says "The Alderman's Ghost is played whole at the Wheel all that season, every night, under the Soke's law; and every night the Office sits on its grey bench and counts, and Abel Tunstall reads the fines from the stage when the house has gone, and the yard pays them, a penny a head, into Patience's bonnet." { Assert fateTold(fate_book_known). }
   Rule epilogue_done when verdictRead(pentrice) and not epilogueTold(pentrice) and watch(clock) >= verdictAt(pentrice) + 1 { Assert epilogueTold(pentrice). }
 
   // A share of the house, to whoever was one of the company on its night.
   Relation shared(group).
   Rule house_share when verdictRead(pentrice) and inCompany(party) and ghostPlay(pentrice) and not shared(party) {
     Assert shared(party). Increase quantity(party, gold) by crowd(pentrice) * 4. }
-  Rule house_share_told when shared(party) and not told(share_known) and inCity()
-    says "Hepzibah counts out your share of the house onto the trestle in the loft, coin by coin, from the book, less the candles; the fuller the yard, the taller the pile." { Assert told(share_known). }
+  Rule house_share_told when shared(party) and not fateTold(share_known) and inCity()
+    says "Hepzibah counts out your share of the house onto the trestle in the loft, coin by coin, from the book, less the candles; the fuller the yard, the taller the pile." { Assert fateTold(share_known). }
   Discovery share_known "Hepzibah paid you your share of the house.".
   // Gosse's crown, to whoever stood on the stage as one of the company.
   Relation crownOffered(group). Relation licenceOffered(group).
@@ -169,11 +169,11 @@ Module pentrice "Gosse's Company" {
   // ── How it ends ─────────────────────────────────────────────────────────────────────────────────────────────────
   // An ending is the company's only if it came for the Trial (see clock.kyr): one that never went down the West Road,
   // or came too late, goes on with its own life.
-  Ending pension "The Pension" when cameForTrial(party) and pensionTaken(gosse) and tday(pentrice) >= 5 and hour(clock) >= 11 "Absalom Gosse put his name to Corin Fallow's paper and took his thirty crowns a year and a little house by the Ise with a garden, and the Midsummer Trial was played by two companies that summer, and the Patent stayed where it was. The fair copy of The Alderman's Ghost went into a drawer in the little house. Gosse grows beans. He is very good at it. In the evenings he stands at the end of his garden, facing the river, and you can hear him from the Soke, giving the Prologue to the beans.".
+  Ending pension "The Pension" when cameForTrial(party) and pensionTaken(gosse) and tday(pentrice) >= 5 and hour(clock) >= 11 "Absalom Gosse put his name to Corin Fallow's paper and took his thirty crowns a year and a little house by the Ise with a garden, and the Trial of the Wheel was played by two companies that season, and the Patent stayed where it was. The fair copy of The Alderman's Ghost went into a drawer in the little house. Gosse grows beans. He is very good at it. In the evenings he stands at the end of his garden, facing the river, and you can hear him from the Soke, giving the Prologue to the beans.".
   Ending burned "The Fair Copy Burned" when cameForTrial(party) and epilogueTold(pentrice) and galtPlay(pentrice) and not pensionTaken(gosse) "The Alderman's Ghost was burned in Guildhall Square, and Gosse's Company played The Siege of Galt instead, very well, to a house that had seen it before, and lost the Patent to the Lord Mayor's Servants for a twelfth year, and went on the road again in the autumn, west, with the bear. The play is gone. Nobody in Pentrice ever saw it. But on the last night in the loft, before the wagon went, Hepzibah Dimmock sat up with a candle and wrote down the first act from memory, and Kit the second, and Pudding the third, and between them they had all of it but the epilogue, which only Gosse knew; and Gosse would not say it.".
-  Ending bow "The Author's Bow" when cameForTrial(party) and epilogueTold(pentrice) and clemBowed(clemency) "The Master of Plain Speech stood up on the stage of the Wheel before the City and said that she had written The Alderman's Ghost, and that it was her father, and that he would have laughed; and then she laughed, which nobody in Pentrice had heard her do. The tallymen broke their sticks. Whatever the Bench decided the next morning (and it is written down, as everything in Pentrice is), it is not what anybody remembers. What they remember is a woman in grey at the end of a procession, and an old fool taking her hand, and the Wheel on its feet. The Alderman's Ghost is played at the Wheel every Midsummer since, and the Ghost walks first.".
+  Ending bow "The Author's Bow" when cameForTrial(party) and epilogueTold(pentrice) and clemBowed(clemency) "The Master of Plain Speech stood up on the stage of the Wheel before the City and said that she had written The Alderman's Ghost, and that it was her father, and that he would have laughed; and then she laughed, which nobody in Pentrice had heard her do. The tallymen broke their sticks. Whatever the Bench decided the next morning (and it is written down, as everything in Pentrice is), it is not what anybody remembers. What they remember is a woman in grey at the end of a procession, and an old fool taking her hand, and the Wheel on its feet. The Alderman's Ghost is played at the Wheel every Trial since, and the Ghost walks first.".
   Ending refused "The Patent Refused" when cameForTrial(party) and epilogueTold(pentrice) and votes(pentrice) >= 3 and gosseAshamed(gosse) "The Bench gave Gosse's Company the Patent of the Wheel, and Absalom Gosse stood up in the yard and gave it back. A house is not to be had by another company's fall, he said, whoever knocked the wedge out; and Corin Fallow, who had lost his tower in front of the City, took it back without a word, and sent the company a ham. Gosse's Company went on the road again in the autumn, west, under the sky, as it always had. It is the only thing Absalom Gosse ever refused in his life.".
-  Ending patent "The Patent House" when cameForTrial(party) and epilogueTold(pentrice) and patentWon(pentrice) "The Bench gave Gosse's Company the Patent of the Wheel, and Absalom Gosse, sixty-three, who had played under the sky for forty-one years, came in out of the rain. They paint GOSSE'S COMPANY over the gate of the Wheel in red letters that will go pink. Hepzibah keeps the book in the tiring-house press. Patience has a stall in the yard. The wagon stands in Soke Lane with its shafts down and grass growing round its wheels, and sometimes, on a summer evening, Gosse goes and sits on its tail-board, and looks west, along the road, for a while, before he goes in to play.".
+  Ending patent "The Patent House" when cameForTrial(party) and epilogueTold(pentrice) and patentWon(pentrice) "The Bench gave Gosse's Company the Patent of the Wheel, and Absalom Gosse, sixty-three, who had played under the sky for forty-one years, came in out of the rain. They paint GOSSE'S COMPANY over the gate of the Wheel in red letters that will go pink. Hepzibah keeps the book in the tiring-house press. Patience has a stall in the yard. The wagon stands in Soke Lane with its shafts down and grass growing round its wheels, and sometimes, on a fine evening, Gosse goes and sits on its tail-board, and looks west, along the road, for a while, before he goes in to play.".
   Ending broken "The Company Broken" when cameForTrial(party) and epilogueTold(pentrice) and ghostPlay(pentrice) and temper(pentrice) < 7 "The Alderman's Ghost went up at the Wheel on the last night of the Trial and came down again to a house that did not know what it had seen, and the Bench gave the Patent where it always did. By Michaelmas Gosse's Company was gone: its players to Fallow's spears and the fairs and the wardrobe and their mothers, its wagon sold, its bear to a man who leads bears. Absalom Gosse was last seen on the road west out of Pentrice on foot, alone, in his crimson coat, telling the Prologue to the hedges.".
   Ending liberty "The Liberty" when cameForTrial(party) and epilogueTold(pentrice) and liberty() and not patentWon(pentrice) "The Bench gave the Patent to another company, and the Office fined Gosse's Company for every line of The Alderman's Ghost, and the City banned it from the walls for another forty years; and by the autumn the play was being sung in the Gullet and acted in back rooms and quoted at the Owl, and the Lord Mayor's Servants' Siege of Arle played to a third of a house. Gosse's Company went on the road again, west, with the bear, famous in every town in Imbar that had ever had an alderman, which is all of them.".
   Ending road "The Road Again" when cameForTrial(party) and epilogueTold(pentrice) and ghostPlay(pentrice) and not liberty() and not patentWon(pentrice) "Gosse's Company played The Alderman's Ghost as the Office licensed it, and played it well, and the Bench gave the Patent where it had given it for eleven years. Gosse took it with a magnificent bow, and called Corin Fallow the best of good fellows in the Owl, and the next morning the wagon went out of the Westgate with its painted cloth rolled on top and the bear walking behind, west, toward the next green and the one after, with a licensed comedy in Hepzibah's hamper that any town in Imbar could see without a fine.".
@@ -209,7 +209,7 @@ Module pentrice "Gosse's Company" {
   Milestone ms_bow "brought the author to the stage" worth 600 when clemBowed(clemency).
 
   // ── What the company is trying to do ───────────────────────────────────────────────────────────────────────────
-  Objective obj_trial when cameForTrial(party) and not playEnded(pentrice) and not pensionTaken(gosse) "The Midsummer Trial at the Wheel: the Lord Mayor's Servants on the second night, the Children of the Close on the third, Gosse's Company on the fourth; the Bench of four gives the Patent the morning after.".
+  Objective obj_trial when cameForTrial(party) and not playEnded(pentrice) and not pensionTaken(gosse) "The Trial of the Wheel: the Lord Mayor's Servants on the second night, the Children of the Close on the third, Gosse's Company on the fourth; the Bench of four gives the Patent the morning after.".
   Objective obj_parcel when knows(party, parcel_waiting) and not bookCome(pentrice) "A parcel waits at the Painted Moon for whoever played the Fool at the Wheel the night of the riot.".
   Objective obj_cast when knows(party, cast_trouble) and not plays(dorcas, part_widow) and not dorcasGone(dorcas) and week() "The Alderman's Ghost is badly cast: Dorcas Quaile will have Bell, not the Widow, and nobody plays Master Tapwell.".
   Objective obj_swale when swaleKnows(swale) and not linesCut(swale) and not swaleKnowing(swale) and not swaleGone(swale) and week() "Ambrose Swale knows what the Ghost's lines mean, and will not say them: cut them, or give him a reason to play them, before he walks out.".

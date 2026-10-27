@@ -120,13 +120,13 @@ Module pentrice "Gosse's Company" {
   Observe drawing_dawns at orde_parlour when knows(party, drawing_seen) and not knows(party, drawing_match) "The child's drawing over the mantel: a man in a fool's cap, his mouth very wide, in brown crayon. It is the same fool. It is the same child." teaches drawing_match.
 
   // Four ways to the author; any two put her name to it.
-  Measure clueCount(place). Relation counted(fact).
-  Rule clue_paper when knows(party, paper_office) and not counted(paper_office) { Increase clueCount(pentrice) by 1. Assert counted(paper_office). }
-  Rule clue_hand when knows(party, hand_master) and not counted(hand_master) { Increase clueCount(pentrice) by 1. Assert counted(hand_master). }
-  Rule clue_drawing when knows(party, drawing_seen) and (knows(party, drawing_match) or knows(party, riot_rumour) or knows(party, riot_gosse)) and not counted(drawing_seen) {
-    Increase clueCount(pentrice) by 1. Assert counted(drawing_seen). }
-  Rule clue_sukey when knows(party, sukey_carried) and not counted(sukey_carried) { Increase clueCount(pentrice) by 1. Assert counted(sukey_carried). }
-  Rule clue_lady when knows(party, hooded_lady) and knows(party, clem_ink) and not counted(hooded_lady) { Increase clueCount(pentrice) by 1. Assert counted(hooded_lady). }
+  Measure clueCount(place). Relation clueCounted(fact).
+  Rule clue_paper when knows(party, paper_office) and not clueCounted(paper_office) { Increase clueCount(pentrice) by 1. Assert clueCounted(paper_office). }
+  Rule clue_hand when knows(party, hand_master) and not clueCounted(hand_master) { Increase clueCount(pentrice) by 1. Assert clueCounted(hand_master). }
+  Rule clue_drawing when knows(party, drawing_seen) and (knows(party, drawing_match) or knows(party, riot_rumour) or knows(party, riot_gosse)) and not clueCounted(drawing_seen) {
+    Increase clueCount(pentrice) by 1. Assert clueCounted(drawing_seen). }
+  Rule clue_sukey when knows(party, sukey_carried) and not clueCounted(sukey_carried) { Increase clueCount(pentrice) by 1. Assert clueCounted(sukey_carried). }
+  Rule clue_lady when knows(party, hooded_lady) and knows(party, clem_ink) and not clueCounted(hooded_lady) { Increase clueCount(pentrice) by 1. Assert clueCounted(hooded_lady). }
   Discovery author_known "Clemency Orde, Master of Plain Speech, the daughter of the Lord Mayor the young Gosse mocked forty years ago, wrote The Alderman's Ghost about her father, and sent it to Gosse herself.".
   Observe author_dawns near party when clueCount(pentrice) >= 2 and not knows(party, author_known) "It comes together all at once, the way a joke does. Clemency Orde, Master of Plain Speech, who reads every play licensed in Pentrice, wrote The Alderman's Ghost. The Alderman is her father, who made the Office. And she sent it to the fool who made him make it." teaches author_known.
 

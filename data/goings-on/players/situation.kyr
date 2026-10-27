@@ -1,5 +1,5 @@
 Module players "The players on the green" {
-  Description "A company of travelling players, on their way west over the march to the Midsummer Trial at Pentrice, is stuck in a town on the west road: their chain-man has gone off with the takings, and whoever keeps travellers here has chained their wagon to a post until the reckoning is paid.".
+  Description "A company of travelling players, on their way west over the march to the Trial of the Wheel at Pentrice, is stuck in a town on the west road: their chain-man has gone off with the takings, and whoever keeps travellers here has chained their wagon to a post until the reckoning is paid.".
   Entity party: group "Your company".
   Place town "The town" is settlement.
   Place green "The green" is room.
@@ -8,11 +8,11 @@ Module players "The players on the green" {
   Entity trader: group "Whoever sells".
 
   // ── What can be known, and what the country over the march will read ────────────────────────────────────────────
-  Entity on_green: fact "A company of players, Gosse's Company, is stuck at {town} on its way west to the Midsummer Trial at Pentrice: their chain-man went off with the hat, and {keeper} has chained their wagon until the reckoning is paid.".
+  Entity on_green: fact "A company of players, Gosse's Company, is stuck at {town} on its way west to the Trial of the Wheel at Pentrice: their chain-man went off with the hat, and {keeper} has chained their wagon until the reckoning is paid.".
   Initially Assert established(on_green).
-  Entity joined: fact "You have taken service with Gosse's Company for the summer: a share of the house, and the honour of the profession. They go on ahead of you to Pentrice, over the march west, to the Painted Moon by the Westgate.".
-  Entity seen_show: fact "You have seen Gosse's Company play The Shepherd's Revenge on a village green.".
-  Entity freed: fact "You got the players' wagon off the chain on a village green, on their way to Pentrice.".
+  Entity joined: fact "You have taken service with Gosse's Company for the season: a share of the house, and the honour of the profession. They go on ahead of you to Pentrice, over the march west, to the Painted Moon by the Westgate.".
+  Entity seen_show: fact "You have seen Gosse's Company play The Shepherd's Revenge in {town}.".
+  Entity freed: fact "You got the players' wagon off the chain in {town}, on their way west to Pentrice.".
   Entity lem_kept: fact "Lem Coyle, the players' chain-man, was paid what he was owed, and has gone west to see the Trial.".
   Initially Assert established(joined). Initially Assert established(seen_show). Initially Assert established(lem_kept). Initially Assert established(freed).
 
@@ -60,7 +60,7 @@ Module players "The players on the green" {
   }
 
   Topic gosse_trouble with gosse "Ask Gosse what has happened" when stuck(gosse) and not gone(gosse) once {
-    Says "'A small reverse,' says Gosse. 'A tragedy in the classical sense: brought about by a flaw in the hero, who failed to pay his chain-man for four months.' He spreads his hands. 'Lem has gone off with the hat, and the hat had the reckoning in it, and our host has chained the wagon, and this week the Midsummer Trial opens at Pentrice over the march and we must be there or die in a ditch.' He looks at you sidelong. 'I do not ask for money. I never ask for money. I mention that it exists.'".
+    Says "'A small reverse,' says Gosse. 'A tragedy in the classical sense: brought about by a flaw in the hero, who failed to pay his chain-man for four months.' He spreads his hands. 'Lem has gone off with the hat, and the hat had the reckoning in it, and our host has chained the wagon, and this week the Trial of the Wheel opens at Pentrice over the march and we must be there or die in a ditch.' He looks at you sidelong. 'I do not ask for money. I never ask for money. I mention that it exists.'".
   }
   Topic hepzibah_lem with hepzibah "Ask Hepzibah about Lem" when stuck(gosse) and not gone(gosse) once {
     Says "'He's owed four months,' says Hepzibah, biting off a thread. 'Four coin, since he will ask for it. I have it written down.' She turns a page of the book on her knee, a fat book of cues and accounts. 'Absalom pays his players in compliments, and most of us have learned to eat them. Lem has a mother.' She looks at you over her spectacles. 'If you find him, don't hurt him. He's a good hand with the bear.'".
@@ -161,9 +161,9 @@ Module players "The players on the green" {
 
   // ── Gosse's offer ───────────────────────────────────────────────────────────────────────────────────────────────
   Topic gosse_thanks with gosse "Ask Gosse what he will do now" when reckoned(gosse) and not gone(gosse) and not knows(actor, joined) once {
-    Says "'Go west,' says Gosse, 'at first light, over the march to Pentrice, where three companies will play three nights before the city in the Midsummer Trial, and the Bench of four will give one of them the Patent: a house of its own, for ever. A roof, my friend. Forty-one years I have played under the sky.' He considers you. 'I have lost a chain-man and found a better one. A season's work, a share of the house, and the honour of the profession, which is worth precisely nothing and which I would not sell for a crown. We lodge at the Painted Moon by the Westgate. Think about it.'".
+    Says "'Go west,' says Gosse, 'at first light, over the march to Pentrice, where three companies will play three nights before the city in the Trial of the Wheel, and the Bench of four will give one of them the Patent: a house of its own, for ever. A roof, my friend. Forty-one years I have played under the sky.' He considers you. 'I have lost a chain-man and found a better one. A season's work, a share of the house, and the honour of the profession, which is worth precisely nothing and which I would not sell for a crown. We lodge at the Painted Moon by the Westgate. Think about it.'".
   }
-  Topic gosse_join with gosse "Tell Gosse you will take service with his company for the summer" when reckoned(gosse) and not gone(gosse) and not knows(actor, joined) once {
+  Topic gosse_join with gosse "Tell Gosse you will take service with his company for the season" when reckoned(gosse) and not gone(gosse) and not knows(actor, joined) once {
     Says "Gosse takes your hand in both of his. 'Done,' he says. 'Before witnesses: Hepzibah, write it down.' Hepzibah writes it down. 'You will walk faster than Patience,' Gosse says. 'Go by your own road; but be at the Painted Moon by the Westgate before the Trial, and ask for the loft. We shall want you for everything.' Pudding, from the grass, says: 'He means we shall want you to carry everything.'".
     On discuss { Assert knows(actor, joined). }
   }
@@ -181,6 +181,6 @@ Module players "The players on the green" {
   Rule lem_leaves when lemSent(lem) and at(lem, kiln) { Retract at(lem, kiln). }
 
   Objective players when knows(party, on_green) and stuck(gosse) and not gone(gosse) "Gosse's Company, players, are stuck at {town} until someone pays their reckoning.".
-  Objective players_west when knows(party, joined) "Be at the Painted Moon by the Westgate of Pentrice, over the march west, before the Midsummer Trial.".
+  Objective players_west when knows(party, joined) "Be at the Painted Moon by the Westgate of Pentrice, over the march west, before the Trial of the Wheel.".
   Goal reckoned(gosse).
 }

@@ -265,21 +265,21 @@ Module pentrice "Gosse's Company" {
     Change splice "Splice the tenor's rope" from frayed to spliced needing mending.
   }
   Topic bunces_quarrel with bunces "Ask the Bunces what the matter is" when not bellsMended(bunces) once {
-    Says "'Midsummer peal,' says Hezekiah, 'which our father rang forty years, and his father, and the tenor rope's been cut on purpose so it can't be rung, and he did it.' 'I did not,' says Walter. 'He did it, so he'd not have to ring it with me after what I said at Mother's.' 'What you said at Mother's,' says Hezekiah, 'was unforgivable.' 'It was true,' says Walter. Neither of them will tell you what it was. The midsummer peal is rung on the fourth night, at dusk, to call the City over to the last night of the Trial.".
+    Says "'The Trial peal,' says Hezekiah, 'which our father rang forty years, and his father, and the tenor rope's been cut on purpose so it can't be rung, and he did it.' 'I did not,' says Walter. 'He did it, so he'd not have to ring it with me after what I said at Mother's.' 'What you said at Mother's,' says Hezekiah, 'was unforgivable.' 'It was true,' says Walter. Neither of them will tell you what it was. The Trial peal is rung on the fourth night, at dusk, to call the City over to the last night of the Trial.".
   }
   Discovery jackdaws "Up in the bell-frame over the tenor there is a jackdaws' nest woven half of red-and-white wool and hemp: the birds have been picking the tenor's rope to pieces to line it." {
     Found by searching bell_loft "Up the ladder into the bell-frame, among the beams, over the great dark tenor: a jackdaws' nest the size of a hat, and woven all through it, red and white, the wool of the tenor's grip and long pale strands of its hemp. Neither Bunce cut the rope. The jackdaws did.".
   }
   Relation bellsMended(group). Relation pealRung(group).
   Topic bunces_jackdaws with bunces "Show the Bunces the jackdaws' nest in the bell-frame" when knows(actor, jackdaws) and not bellsMended(bunces) once {
-    Says "They go up the ladder one after the other, the first time in a month they have been in the same square yard, and they come down again holding a handful of red-and-white wool between them. 'Jackdaws,' says Walter. 'Jackdaws,' says Hezekiah. They look at each other. 'I said she cooked like a jackdaw,' says Walter at last. 'At Mother's. I meant it kindly.' Hezekiah laughs, a short bark, like a bell cracking. 'We'll ring it,' he says. 'The midsummer. The two of us, like Father.'".
+    Says "They go up the ladder one after the other, the first time in a month they have been in the same square yard, and they come down again holding a handful of red-and-white wool between them. 'Jackdaws,' says Walter. 'Jackdaws,' says Hezekiah. They look at each other. 'I said she cooked like a jackdaw,' says Walter at last. 'At Mother's. I meant it kindly.' Hezekiah laughs, a short bark, like a bell cracking. 'We'll ring it,' he says. 'The Trial peal. The two of us, like Father.'".
     On discuss { Assert bellsMended(bunces). }
   }
   Rule rope_needed when bellsMended(bunces) and state(tenor_rope, frayed) and tday(pentrice) >= 4 { Assert state(tenor_rope, spliced). }
   Rule peal when bellsMended(bunces) and state(tenor_rope, spliced) and tday(pentrice) >= 4 and hour(clock) >= 18 and not pealRung(bunces) { Assert pealRung(bunces). }
   Rule peal_told when pealRung(bunces) and not spread(peal_known) and inCity()
-    says "At dusk the minster's bells begin, all eight, the midsummer peal, over the roofs and the river, the tenor booming under the rest like a big man laughing: the call to the last night of the Trial. All over Pentrice people put down what they are doing and go toward the water." { Assert spread(peal_known). }
-  Discovery peal_known "The Bunce brothers rang the midsummer peal together on the last night of the Trial.".
+    says "At dusk the minster's bells begin, all eight, the Trial peal, over the roofs and the river, the tenor booming under the rest like a big man laughing: the call to the last night of the Trial. All over Pentrice people put down what they are doing and go toward the water." { Assert spread(peal_known). }
+  Discovery peal_known "The Bunce brothers rang the Trial peal together on the last night of the Trial.".
 
   // ── The Fountain of Concord ─────────────────────────────────────────────────────────────────────────────────────
   Person cundy "Wat Cundy" at guildhall_square {
@@ -573,7 +573,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert shadStopped(shad). Assert playbills(inchbald). Retract at(shad, moon_loft). Assert at(shad, press_room). }
     On failure { Assert triedBills(actor). }
-    Result "Inchbald considers it with his head on one side. 'Five hundred bills,' he says. 'In red. Posted at every corner and the Westgate and the Stairs.' He considers longer. 'A quarto's a week's trade. A company that likes me is a summer's.' He calls Shad home and sets you a playbill instead: GOSSE'S COMPANY! THE ALDERMAN'S GHOST! A BEAR!".
+    Result "Inchbald considers it with his head on one side. 'Five hundred bills,' he says. 'In red. Posted at every corner and the Westgate and the Stairs.' He considers longer. 'A quarto's a week's trade. A company that likes me is a season's.' He calls Shad home and sets you a playbill instead: GOSSE'S COMPANY! THE ALDERMAN'S GHOST! A BEAR!".
     Otherwise "'A quarto's money in the hand,' says Inchbald, 'and players is promises.'".
   }
   Relation triedBills(group).

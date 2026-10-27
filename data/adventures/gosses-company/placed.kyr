@@ -5,8 +5,8 @@ Module pentrice "Gosse's Company" {
   Entity word: fact "What is said of Pentrice in the country below.".
   Rule word_old when verdictRead(pentrice) and not stale(word) { Assert stale(word). }
   // What the players on the green, in the country below, told this country of the company (see herald.kyr).
-  Entity joined: fact "You have taken service with Gosse's Company for the summer.".
-  Entity freed: fact "You got the players' wagon off the chain on a village green.".
-  Entity seen_show: fact "You have seen Gosse's Company play on a village green.".
+  Entity joined: fact "You have taken service with Gosse's Company for the season.".
+  Entity freed: fact "You got the players' wagon off the chain, in a town on the west road.".
+  Entity seen_show: fact "You have seen Gosse's Company play, in a town on the west road.".
   Entity lem_kept: fact "Lem Coyle, the players' chain-man, was paid what he was owed, and has gone to see the Trial.".
 }

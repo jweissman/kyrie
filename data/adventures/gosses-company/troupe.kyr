@@ -51,8 +51,14 @@ Module pentrice "Gosse's Company" {
   }
 
   // ── Coming to the company ───────────────────────────────────────────────────────────────────────────────────────
-  Topic gosse_back with gosse "Tell Gosse you have come, as you said on the green" when knows(actor, joined) and not toldGosseCame(actor) once {
-    Says "Gosse comes down off the wooden throne and embraces you, which is like being embraced by a feather bed with opinions. 'Faithful!' he says. 'Hepzibah, the faithful one has come.' Hepzibah, without looking up, writes something in the book. 'You lodge here, in the loft, for nothing, because nothing is what we have. You will carry, you will hold the book, you will very possibly act.' He holds you off at arm's length. 'And something has happened, my friend. A play has come to us. Out of the air.'".
+  // Said wherever he is (the loft by day, the taproom of an evening); what he has to tell depends on whether the play has
+  // come yet, or is still in the ostler's keeping.
+  Topic gosse_back with gosse "Tell Gosse you have come, as you said on the green" when knows(actor, joined) and not toldGosseCame(actor) and bookCome(pentrice) once {
+    Says "Gosse gets up and embraces you, which is like being embraced by a feather bed with opinions. 'Faithful!' he says. 'Hepzibah, the faithful one has come.' Hepzibah, without looking up, writes something in the book. 'You lodge here, in the loft, for nothing, because nothing is what we have. You will carry, you will hold the book, you will very possibly act.' He holds you off at arm's length. 'And something has happened, my friend. A play has come to us. Out of the air.'".
+    On discuss { Assert toldGosseCame(actor). }
+  }
+  Topic gosse_back_early with gosse "Tell Gosse you have come, as you said on the green" when knows(actor, joined) and not toldGosseCame(actor) and not bookCome(pentrice) once {
+    Says "Gosse gets up and embraces you, which is like being embraced by a feather bed with opinions. 'Faithful!' he says. 'Hepzibah, the faithful one has come.' Hepzibah, without looking up, writes something in the book. 'You lodge here, in the loft, for nothing, because nothing is what we have. You will carry, you will hold the book, you will very possibly act.' He lowers his voice. 'And something is waiting for us, my friend, in this very inn: a parcel, left for the Fool of the Wheel the night of the riot. Which is me. The ostler does not believe it. Find out what he wants.'".
     On discuss { Assert toldGosseCame(actor). }
   }
   Relation toldGosseCame(group).
@@ -98,7 +104,8 @@ Module pentrice "Gosse's Company" {
   Relation pensionTaken(group). Relation fallowOffered(group).
 
   // ── Hepzibah and the book ───────────────────────────────────────────────────────────────────────────────────────
-  Topic hepz_cast with hepzibah "Ask Hepzibah who plays whom" when bookCome(pentrice) once {
+  // As the book came: once the parts are changed, the cast list in the loft says how they stand.
+  Topic hepz_cast with hepzibah "Ask Hepzibah who plays whom" when bookCome(pentrice) and plays(dorcas, part_bell) and plays(kit, part_widow) once {
     Says "Hepzibah turns the book round so you can see the cast list, written in pencil and rubbed out so often the paper is furry. 'The Ghost, Swale. Sir Rowley Pomfret, Absalom, and the Prologue. Lob, Pudding. The Tallyman, Tam, in a beard. Bell, the daughter, nineteen,' she taps it, 'Dorcas, who has told everybody so. The Widow, Kit, because Dorcas will not, and he is fifteen and will play her like his own grandmother. Master Tapwell, the young lover,' she taps again, 'nobody. If nobody, I read him from the wings in my own voice, and God help the house.' She looks up. 'It is a good play. It is the best play I have read in thirty-four years. And we have cast it like a pig's breakfast.'".
     On discuss { Assert knows(actor, cast_trouble). }
   }
@@ -252,7 +259,7 @@ Module pentrice "Gosse's Company" {
 
   // ── Dorcas Quaile, and who plays the Widow ──────────────────────────────────────────────────────────────────────
   Topic dorcas_part with dorcas "Ask Dorcas about her part" when bookCome(pentrice) and not dorcasWidow(dorcas) once {
-    Says "'Bell,' says Dorcas. 'The daughter. Nineteen.' She does not look up from the stocking. 'I have played the daughter for twenty-five years, in every play Absalom ever bought, and I will play her one more summer, at the Wheel, in front of the Bench, because after this summer there won't be another.' The needle goes in and out. 'The Widow is a part for an old woman. I know what the Widow is. Don't tell me what the Widow is.'".
+    Says "'Bell,' says Dorcas. 'The daughter. Nineteen.' She does not look up from the stocking. 'I have played the daughter for twenty-five years, in every play Absalom ever bought, and I will play her one more season, at the Wheel, in front of the Bench, because after this season there won't be another.' The needle goes in and out. 'The Widow is a part for an old woman. I know what the Widow is. Don't tell me what the Widow is.'".
   }
   Relation dorcasWidow(group). Relation dorcasStays(group). Relation dorcasGone(group). Relation gosseLied(group).
   Action persuade_dorcas(actor: group, site: place) "Tell Dorcas the Widow is the best part in the play, and the only one in it worth her" {
