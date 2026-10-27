@@ -1,0 +1,119 @@
+Module hessel "The Banns at Hessel" {
+  // ── The Closing Ball ──────────────────────────────────────────────────────────────────────────────────────────────
+  // The fourth night, seven till eleven: the minuet at seven, which Mr Twiss opens; country dances on the hour at eight,
+  // nine and ten; at eleven the music stops, though the King himself should ask. Who dances with whom is seen by
+  // everyone, and the Rules say what it means.
+  Relation atBall(group).
+  Query ballNight() means fourthDay() and hour(clock) >= 19.
+  Query minuet() means ballNight() and hour(clock) == 19.
+  Query secondDance() means ballNight() and hour(clock) == 20.
+  Query thirdDance() means ballNight() and hour(clock) == 21.
+  Query fourthDance() means ballNight() and hour(clock) == 22.
+  Query afterEleven() means ballNight() and hour(clock) >= 23.
+  Rule ball_over when atBall(?x) and not ballNight() { Retract atBall(?x). }
+  // Who comes. The household, if Mr Twiss has lifted his bar; Mrs Cherrett, if she is well enough and someone will
+  // push her chair across the Circus (Kit, unless the poles are down; the chairmen, for a friend of theirs; or you).
+  Relation cherrettPushed(group).
+  Query cherrettCanGo() means householdAdmitted(cherrett) and cherrettUp() and failing(cherrett) < 4 and (not strike(chairmen) or stoodWith(party) or cherrettPushed(cherrett)).
+  Rule ball_cherrett when ballNight() and hour(clock) < 23 and cherrettCanGo() and not atBall(cherrett) and not ballLeft(cherrett) { Assert atBall(cherrett). Assert at(cherrett, ballroom). }
+  Rule ball_cherrett_late when afterEleven() and cherrettCanGo() and not atBall(cherrett) and not ballLeft(cherrett) and cherrettPushed(cherrett) { Assert atBall(cherrett). Assert at(cherrett, ballroom). }
+  Relation ballLeft(group).
+  Action push_cherrett(actor: group, site: place) "Push Mrs Cherrett's chair across the Circus to the Ball yourself" {
+    Description "The poles are down; no chairman will push it. It is only across the lawn.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cherrett_parlour) and at(cherrett, cherrett_parlour) and ballNight() and hour(clock) < 23
+      and householdAdmitted(cherrett) and strike(chairmen) and not stoodWith(actor) and not cherrettPushed(cherrett) and cherrettUp().
+    Time 1.
+    On success { Assert cherrettPushed(cherrett). Retract at(actor, site). Assert at(actor, ballroom). }
+    Result "Across the Circus lawn in the dusk, with the Rooms lit like a ship in front of you and the music coming out of the windows, pushing a wicker bath-chair with a very large old woman in purple in it, who is singing. On Stall Street, below, thirty chairmen sit on their poles in the dark, and somebody down there, seeing who it is, begins to clap.".
+  }
+  Rule ball_ismay when ballNight() and hour(clock) < 23 and householdAdmitted(cherrett) and not atBall(ismay) and not ismayAway(ismay) and not ballLeft(ismay) { Assert atBall(ismay). Assert at(ismay, ballroom). }
+  Rule ball_rob when ballNight() and hour(clock) < 23 and (householdAdmitted(cherrett) or celiaOut(celia)) and not atBall(rob) and not robAway(rob) and not ballLeft(rob) { Assert atBall(rob). Assert at(rob, ballroom). }
+  Rule ball_mopsa when ballNight() and hour(clock) < 23 and householdAdmitted(cherrett) and (not mopsaHouse(mopsa) or mopsaYes(party)) and not atBall(mopsa) and not mopsaAway(mopsa) and not ballLeft(mopsa) and not travelsWith(mopsa, party) { Assert atBall(mopsa). Assert at(mopsa, ballroom). }
+  Rule ball_wenlock when ballNight() and hour(clock) < 23 and (not scandal(wenlock) or grandmother(lady_wenlock)) and not atBall(lady_wenlock) and not wenlockGone(wenlock) and (not strike(chairmen) or grandmother(lady_wenlock)) { Assert atBall(lady_wenlock). Assert at(lady_wenlock, ballroom). }
+  Rule ball_rupert when ballNight() and hour(clock) < 23 and grandmother(lady_wenlock) and not atBall(rupert) { Assert atBall(rupert). Assert at(rupert, ballroom). }
+  Rule ball_hetty when ballNight() and hour(clock) < 23 and grandmother(lady_wenlock) and not atBall(hetty) { Assert atBall(hetty). Assert at(hetty, ballroom). }
+  Rule ball_hartopp when ballNight() and hour(clock) < 23 and not hartoppRuined(hartopp) and not hartoppBarred(hartopp) and not hartoppWalked(hartopp) and not atBall(hartopp) { Assert atBall(hartopp). Assert at(hartopp, ballroom). }
+  Rule ball_celia when ballNight() and hour(clock) >= 21 and hour(clock) < 23 and (celiaOut(celia) or carthOpened(carth)) and not atBall(celia) and not celiaAway(celia) { Assert atBall(celia). Assert at(celia, ballroom). }
+  Rule ball_carths when ballNight() and hour(clock) >= 21 and hour(clock) < 23 and carthOpened(carth) and not atBall(gervase) { Assert atBall(gervase). Assert at(gervase, ballroom). Assert atBall(nan). Assert at(nan, ballroom). }
+  Rule ball_twiss when ballNight() and not at(twiss, ballroom) { Assert at(twiss, ballroom). }
+  // Hartopp, walking up the Parade in the strike or because no chairman will carry him, arrives in boots.
+  Event hartopp_boots at vestibule when ballNight() and hartoppWalked(hartopp) and not hartoppRuined(hartopp) and not hartoppBarred(hartopp) and not spread(boots_told) and at(party, vestibule) "At a quarter past seven Dr Hartopp arrives at the Rooms on foot, very hot, having walked up the Parade, in the riding-boots he pulled on to do it, splashed to the knee. Mr Twiss, at the ballroom doors, looks at the boots. The whole vestibule looks at the boots. 'No boots after six,' says Mr Twiss, in the voice he uses for the Rules, and does not move out of the doorway. Dr Hartopp says that he is a physician. Mr Twiss says that the Rule makes no exception for the learned professions. Dr Hartopp goes away down the hill in his boots, and the band, which can see the vestibule from the gallery, plays him out with a jig." then {
+    Assert hartoppBarred(hartopp). Assert spread(boots_told). Assert bootsHeard(party). }
+  Rule hartopp_boots_unseen when ballNight() and hour(clock) >= 19 and hartoppWalked(hartopp) and not hartoppRuined(hartopp) and not hartoppBarred(hartopp) and not spread(boots_told) and not at(party, vestibule) {
+    Assert hartoppBarred(hartopp). Assert spread(boots_told). }
+  Entity boots_told: fact "Hartopp's boots".
+  // Whoever was not in the vestibule to see it hears it in the ballroom, or from the chairmen, who made it happen.
+  Relation bootsHeard(group).
+  Rule boots_told_in_the_room at ballroom when spread(boots_told) and at(party, ballroom) and not bootsHeard(party) says "The whole ballroom is telling itself, behind its fans, that Dr Hartopp came up the Parade on foot, in riding-boots, and Mr Twiss looked at the boots and said 'No boots after six', and the band played him out with a jig." { Assert bootsHeard(party). }
+  Rule boots_retold at two_poles when spread(boots_told) and hartoppWalked(hartopp) and at(party, two_poles) and not bootsHeard(party) says "The chairmen have it already, and tell it to you with their arms folded: how Dr Hartopp came up the Parade on foot at a quarter past seven, in riding-boots, red as a beef, and Mr Twiss looked at the boots, and said 'No boots after six,' and Dr Hartopp went down the Parade again on foot, with the whole Circus at its windows. 'In his boots,' says Big Lanyon, with deep content. 'All the way down.'" { Assert bootsHeard(party). }
+  // The footman bribed: Mr Twiss finds the household at the side door, in front of the Season.
+  Event fitch_found at vestibule when (at(party, vestibule) or at(party, ballroom)) and ballNight() and fitchBribed(party) and householdBarred(cherrett) and not householdAdmitted(cherrett) and not spread(fitch_told) "At half past seven Mr Twiss, on his rounds, opens the side door of the ballroom and finds Mrs Cherrett's household on the other side of it, with Pocklington holding the door. He looks at Pocklington. Pocklington looks at the far wall. 'Mrs Cherrett's party,' says Mr Twiss, to the whole room, which has turned to watch, 'is not admitted to these Rooms. Pocklington, you are dismissed. Good evening.' And he shuts the door on you himself." then {
+    Assert twissOffended(party). Assert spread(fitch_told). Assert fitchDismissed(fitch). Assert at(fitch, limbo). }
+  Entity fitch_told: fact "Pocklington at the side door". Relation fitchDismissed(group).
+  Rule offended_out when twissOffended(party) and admitted(party) { Retract admitted(party). }
+  // How it looks.
+  Observe ball_scene at ballroom when ballNight() and hour(clock) < 23 "The ballroom at night: five chandeliers lit, a thousand candles, the mirrors doubling everything, the band in the gallery, and the whole Season of Hessel on the floor in its best, turning, bowing, watching itself turn and bow. It is very hot and very beautiful and everybody is talking at once.".
+  Observe ball_minuet at ballroom when minuet() "Mr Twiss opens the Ball with the minuet, as he has for twenty years, dancing it with the first lady present; he dances it as if it were a prayer, and nobody laughs, not even the young.".
+  Observe ball_cherrett at ballroom when ballNight() and at(cherrett, ballroom) and hour(clock) < 23 "Mrs Cherrett is in her bath-chair at the edge of the floor in purple and diamonds, with her stick across her knees, watching everyone dance with an expression of the most intense critical pleasure.".
+  Observe ball_cherrett_drowsy at ballroom when ballNight() and at(cherrett, ballroom) and failing(cherrett) >= 3 "Mrs Cherrett has fallen asleep in her bath-chair at the edge of the floor, with her diamonds rising and falling, and Mopsa is standing beside her so that nobody sees.".
+  Observe ball_grandmother at ballroom when ballNight() and grandmother(lady_wenlock) and at(lady_wenlock, ballroom) "Lady Wenlock is at the Ball with a blue ribbon in her cap that does not go with anything, and beside her, in the best bonnet in Hessel, a milliner, whom she is introducing to people. 'My son's wife,' she says, and dares them.".
+  Observe ball_carths at ballroom when ballNight() and at(gervase, ballroom) "At nine the Rooms go quiet, and then quieter. Sir Gervase Carth is standing in the doorway of the ballroom in a coat nine years out of fashion, with a woman on his arm in grey silk that somebody has lent her, with red laundress's hands. The whole Season knows who she is by the time they reach the middle of the floor. Mr Twiss goes to meet them and bows the bow that is several bows, and gives them the floor.".
+  Observe ball_celia at ballroom when ballNight() and at(celia, ballroom) and not at(gervase, ballroom) "At nine a girl comes in at the ballroom doors on Rob Cherrett's arm, in a borrowed white gown, with no fur cap, blinking at the chandeliers as if she had never seen so much light, which she has not. The room goes quiet as she crosses it. 'Who is she?' says somebody, and somebody else says, 'The Carth girl. The one in the dark,' and the whispering goes round the floor like a wind round a field.".
+  // The dances.
+  Relation dancedWith(group, group). Relation hartoppClaims(group). Relation hartoppCutOut(group). Relation twissWarned(group).
+  Action dance_ismay(actor: group, site: place) "Ask Ismay to stand up with you for the second dance" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ballroom) and at(ismay, ballroom) and secondDance() and not dancedWith(actor, ismay) and admitted(actor).
+    Time 1 minute.
+    On success { Assert dancedWith(actor, ismay). Assert hartoppCutOut(hartopp). }
+    Result "Ismay looks at you, and at Dr Hartopp coming across the floor toward her with his hand already out, and says 'Yes,' very quickly, and stands up. You go down the set together. She dances the way she does accounts: exactly, and better than anyone, and without once looking as if she is enjoying it, until the end, when she laughs.".
+  }
+  Action dance_mopsa(actor: group, site: place) "Ask Mopsa to stand up with you for the second dance, against the Rule" {
+    Description "No companion, governess or paid attendant to stand up in the dances. Signed, Septimus Twiss.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ballroom) and at(mopsa, ballroom) and secondDance() and not dancedWith(actor, mopsa) and admitted(actor).
+    Time 1 minute.
+    On success { Assert dancedWith(actor, mopsa). Increase courtship(mopsa) by 1. }
+    Result "Mopsa looks at your hand, and at the Rules on their gold frame by the door, and at Mr Twiss, and then she puts her book down on her chair and stands up. You go down the set. The set notices. The room notices. Mopsa dances very well, as if she had learned it once a long time ago and kept it in a drawer.".
+  }
+  Rule twiss_sees_mopsa at ballroom when dancedWith(party, mopsa) and twissFavour(twiss) < 3 and not spread(twiss_mopsa_told) says "At the end of the dance Mr Twiss is waiting. 'Miss Gedge,' he says, not loudly, 'is a companion. The Rule is the Rule.' Mopsa curtseys to him, very low, and goes back to her chair and her book, and as she passes you she says, without moving her lips, 'Worth it.'" { Assert spread(twiss_mopsa_told). Decrease twissFavour(twiss) by 1. }
+  Rule twiss_blind_mopsa at ballroom when dancedWith(party, mopsa) and twissFavour(twiss) >= 3 and not spread(twiss_mopsa_told) says "At the end of the dance Mr Twiss is looking with great attention at a chandelier. He goes on looking at it until Mopsa is back in her chair." { Assert spread(twiss_mopsa_told). }
+  Entity twiss_mopsa_told: fact "Twiss and the companion's dance".
+  Topic twiss_not_betrothed with twiss "Tell Mr Twiss that Miss Cherrett is not betrothed to Dr Hartopp" when secondDance() and atBall(hartopp) and atBall(ismay) and not hartoppCutOut(hartopp) and not twissWarned(twiss) once {
+    Says "Mr Twiss follows your eyes across the floor to Dr Hartopp, who is leading Ismay Cherrett down the set with a look on him like a man who has just been dealt a good hand. 'Not betrothed,' says Mr Twiss. 'And he means to stand up with her for the third, running. In my Rooms.' His face does not change at all. 'Thank you,' he says. 'Thank you very much.'".
+    On discuss { Assert twissWarned(twiss). }
+  }
+  Observe hartopp_second at ballroom when secondDance() and atBall(hartopp) and atBall(ismay) and hartoppHasIsmay() and not hartoppCutOut(hartopp) "Dr Hartopp has stood up with Ismay Cherrett for the second dance, and is leading her down the set with a look on him like a man who has been dealt a good hand. He says something to her at every turn. She does not answer any of it. Across the room Mrs Scrope has put down her cards to watch, which she never does until the third dance.".
+  // Hartopp leads her out for the third, running: a declaration. Stopped by Twiss if warned; claimed if not.
+  Rule hartopp_third at ballroom when thirdDance() and atBall(hartopp) and atBall(ismay) and hartoppHasIsmay() and not hartoppCutOut(hartopp) and not hartoppClaims(ismay) and not hartoppBarred(hartopp) and twissWarned(twiss)
+    says "Dr Hartopp, who stood up with Ismay Cherrett for the second dance, stands up with her for the third, running, in front of the whole Season; and Mr Twiss comes across the floor and stops the band with one lifted finger. 'Dr Hartopp,' he says, quite pleasantly, so that everyone can hear, 'is not betrothed to Miss Cherrett. Nor, I think, is he going to be. The Rule is the Rule.' He offers Ismay his own arm. Dr Hartopp stands alone in the middle of the floor for a moment that goes on and on, and then goes out, and the band starts again." {
+    Assert hartoppBarred(hartopp). Retract atBall(hartopp). Assert at(hartopp, hartopp_room). }
+  Rule hartopp_claims at ballroom when thirdDance() and atBall(hartopp) and atBall(ismay) and hartoppHasIsmay() and not hartoppCutOut(hartopp) and not hartoppClaims(ismay) and not hartoppBarred(hartopp) and not twissWarned(twiss)
+    says "Dr Hartopp, who stood up with Ismay Cherrett for the second dance, stands up with her for the third, running, in front of the whole Season; and nobody stops him, and the Season, which knows what two dances running means, begins to whisper. Nobody of her household says a word. Ismay dances it white and straight, like somebody walking to a gallows she has been told is a garden." {
+    Assert hartoppClaims(ismay). }
+  // Kit at the door: chairmen are not admitted; Ismay goes out to him.
+  Relation kitDanced(group).
+  Rule kit_at_door when fourthDance() and kitEngaged(kit) and atBall(ismay) and not kitDanced(kit) and not hartoppClaims(ismay) { Assert kitDanced(kit). Retract atBall(ismay). Assert at(ismay, circus). Assert at(kit, circus). Assert ballLeft(ismay). Assert kitAway(kit). }
+  Observe kit_dancing at circus when kitDanced(kit) and fourthDance() "On the Circus lawn, in the dark, to the music coming out of the Rooms' tall windows, Ismay Cherrett in her ball-dress and Kit Danby in his blue coat are dancing the fourth dance by themselves on the grass. They are doing it wrong. It does not matter. Up at the windows the Season is crowded three deep to watch, and in the doorway Mr Twiss is standing with his hands behind his back and his face perfectly still.".
+  Observe kit_dancing_seen at ballroom when kitDanced(kit) and fourthDance() "Half the room is at the windows. Down on the Circus lawn, in the dark, Ismay Cherrett has gone out to dance the fourth dance on the grass with a chairman.".
+  // Rob and Celia dance the third and the fourth.
+  Rule rob_dances_celia when thirdDance() and atBall(rob) and atBall(celia) and robCeliaSpoke(rob) and not dancedWith(rob, celia) { Assert dancedWith(rob, celia). }
+  Observe rob_celia_dance at ballroom when dancedWith(rob, celia) and atBall(celia) and hour(clock) < 23 "Rob Cherrett is dancing with Celia Carth, both of them very badly, both of them laughing; she has never danced, and he has never cared to, and they have decided between them that it is a kind of walking in which you keep meeting.".
+  // Eleven o'clock. The music stops. Mrs Cherrett's dance, if Mr Twiss will break the oldest Rule of the Rooms.
+  Relation cherrettDanced(group). Relation lastDanceAsked(group).
+  Observe after_eleven at ballroom when afterEleven() and cherrettDanced(cherrett) "The ballroom after the last minuet: half the candles out, the Season going home in a slow happy crush at the doors, and the band, without being asked, playing it again, quietly, to nobody.".
+  Observe eleven at ballroom when afterEleven() and not cherrettDanced(cherrett) "Eleven. Mr Twiss lifts his hand, and the band stops in the middle of a bar, as it has every night at eleven for twenty years, though the King himself should ask. The Season begins, slowly, to look for its shawls.".
+  Action ask_last_dance(actor: group, site: place) "Ask Mr Twiss for one dance more, for Mrs Cherrett" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ballroom) and at(twiss, ballroom) and at(cherrett, ballroom) and afterEleven()
+      and not gone(cherrett) and not cherrettDanced(cherrett) and not lastDanceAsked(actor).
+    Time 2 minutes.
+    On success { Assert lastDanceAsked(actor). }
+    Result "You ask it. Mr Twiss looks at you, and then across the emptying floor at Mrs Cherrett in her bath-chair, purple and diamonds, with her stick across her knees.".
+  }
+  Rule twiss_bends at ballroom when lastDanceAsked(party) and twissFavour(twiss) >= 2 and failing(cherrett) < 3 and at(cherrett, ballroom) and not cherrettDanced(cherrett)
+    says "Mr Twiss looks at the old woman. Then he goes across the empty floor to her chair, and bows (the bow that is several bows), and holds out his hand. 'Mrs Cherrett,' he says. 'I believe I have the honour of the last minuet.' The whole Season stops on its way to the door. Mrs Cherrett looks at the hand. 'I can't stand,' she says. 'I'll hold you up,' says Mr Twiss. And the band, without being told, begins the minuet from the beginning; and the Master of the Ceremonies dances the minuet with a canal-cutter's widow, at a quarter past eleven, in the Closing Ball of the Season, holding her up, very slowly, in the middle of the floor, while everyone watches; and Mrs Cherrett does not laugh once, all the way through, until the very end, when she laughs so that you can hear it in the card room, and so does he." {
+    Assert cherrettDanced(cherrett). }
+  Rule twiss_refuses at ballroom when lastDanceAsked(party) and (twissFavour(twiss) < 2 or failing(cherrett) >= 3) and not cherrettDanced(cherrett) and not spread(twiss_refused_told)
+    says "'No dancing after eleven,' says Mr Twiss gently, 'though the King himself should ask it.' He bows to Mrs Cherrett across the floor, a real bow, and she nods to him, and that is all." { Assert spread(twiss_refused_told). }
+  Entity twiss_refused_told: fact "the last dance refused".
+  // At midnight everyone goes home.
+  Rule ball_home_cherrett when fifthDay() and hour(clock) < 6 and atBall(cherrett) { Retract atBall(cherrett). }
+}

@@ -1,0 +1,61 @@
+{
+ "legs": [
+  "Lim Bridge",
+  "Quay Lane",
+  "Stall Street",
+  "Abbey Yard",
+  "Seize the side",
+  "Ask the old woman",
+  "To the top of the Parade",
+  "To the Circus",
+  "=12",
+  "Ask Kit what he is reading",
+  "Into Mrs Cherrett",
+  "Tell Mrs Cherrett you will be her legs",
+  "Ask Mopsa what she makes",
+  "Ask Mopsa how Mrs Cherrett came",
+  "Tell Ismay that Kit Danby keeps",
+  "Tell Ismay that if she means",
+  "Tell Mrs Cherrett that Ismay loves",
+  "Remind Mrs Cherrett"
+ ],
+ "note": [
+  "Out to the Circus",
+  "To the top of the Parade",
+  "To the Beacon",
+  "To the Sham Castle",
+  "=24",
+  "Tell Ismay you will carry a note",
+  "^Take$",
+  "To the Beacon",
+  "To the top of the Parade",
+  "To the Abbey Yard",
+  "To Stall Street",
+  "Tell Kit that if he says nothing",
+  "Give Ismay",
+  "Into the Two Poles",
+  "Take a bed and supper"
+ ],
+ "orm": [
+  "Out to Stall Street",
+  "To the Abbey Yard",
+  "To the top of the Parade",
+  "To the Beacon",
+  "To the stile",
+  "To the crossways",
+  "?Give .* what it asks",
+  "To the south gate of Orm",
+  "=163",
+  "Buy a marriage licence",
+  "=175",
+  "Ride the carrier"
+ ],
+ "pyne": [
+  "Into Saint Ebba",
+  "To the vestry",
+  "Give a marriage licence",
+  "Ask Mr Pyne to fill in the licence for Kit Danby",
+  "To Saint Ebba's",
+  "=296"
+ ]
+}

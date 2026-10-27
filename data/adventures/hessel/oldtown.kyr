@@ -1,0 +1,324 @@
+Module hessel "The Banns at Hessel" {
+  // ── The chairmen ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Thirty men in blue coats who carry the Season up and down its hill, two to a chair, by a fare-table the Corporation
+  // sets. They see everyone; they carry everyone; nobody of quality ever looks at them, which is how they see
+  // everything. The Corporation has cut the fares for the Season's end. If nothing is done, on the third morning they
+  // lay their poles crossways, and on the night of the Ball nobody in silk slippers gets up the hill.
+  Entity chairmen: group "the chairmen of Hessel".
+  Measure goodwill(group).
+  Relation strike(group). Relation faresRestored(group). Relation stoodWith(group). Relation scab(group).
+  Rule chairmen_strike when dayN(hessel_town) >= 3 and hour(clock) >= 6 and not faresRestored(chairmen) and not strike(chairmen) and not strikeOver(chairmen)
+    says "In the Abbey Yard and on Stall Street and at the foot of the Parade, the chairmen are laying their poles crossways on their chairs. In Hessel that means no." { Assert strike(chairmen). }
+  Rule strike_ends when strike(chairmen) and (faresRestored(chairmen) or dayN(hessel_town) >= 5) { Retract strike(chairmen). Assert strikeOver(chairmen). }
+  Relation strikeOver(group).
+  Person lanyon "Big Lanyon" at stall_street {
+    Role "the chairmen's spokesman, a huge mild man with a voice like a bell under water". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "The biggest of the chairmen looks at you a long time, as if weighing you for the fare-table. 'Afternoon,' he says, whatever the hour.".
+    Greets again "Big Lanyon nods.".
+  }
+  Rule lanyon_stand when hour(clock) >= 7 and hour(clock) < 19 and not at(lanyon, stall_street) { Assert at(lanyon, stall_street). }
+  Rule lanyon_poles when (hour(clock) >= 19 or hour(clock) < 1) and not at(lanyon, two_poles) { Assert at(lanyon, two_poles). }
+  Rule lanyon_bed when hour(clock) >= 1 and hour(clock) < 7 and not at(lanyon, limbo) { Assert at(lanyon, limbo). }
+  Discovery fares_cut "The Corporation has cut the chairmen's fares for the Season's end. Unless they are restored, the chairmen will lay their poles crossways from the third morning: no chairs, and so nobody of quality up the hill to Mr Twiss's Ball.".
+  Topic lanyon_fares with lanyon "Ask Big Lanyon what the chairmen are grumbling about" when not faresRestored(chairmen) once {
+    Says "'Fares,' says Big Lanyon. 'The Corporation's cut them. Sixpence the Parade, was ninepence. Says the Season's ending and the town must be generous to the departing.' He considers his enormous hands. 'Generous with our legs. Well. Day after tomorrow we lay the poles crossways. Nobody goes up that hill in a chair, nor down it. Ball night and all.' He smiles, slowly. 'Let them walk the Parade in their dancing-slippers. Let them see what it is.'".
+    On discuss { Assert knows(actor, fares_cut). }
+  }
+  Topic twiss_chairs with twiss "Tell Mr Twiss that the chairmen mean to strike, and there will be no chairs on the night of the Ball" when knows(actor, fares_cut) and not faresRestored(chairmen) and dayN(hessel_town) <= 4 once {
+    Says "Mr Twiss puts down his pen. 'No chairs,' he says. 'On the night of the Closing Ball. Seventy ladies of quality, walking the Parade in satin.' He stands up. 'The Corporation dines at four. I shall be at the Corporation's dinner. I shall be at the Corporation's dinner if I have to be carried there by the chairmen themselves.' He goes out without his hat. In the evening the word comes down the hill: the fares are restored, ninepence the Parade, and Mr Twiss has made a speech that the Mayor will not repeat.".
+    On discuss { Assert faresRestored(chairmen). Increase goodwill(chairmen) by 1. Increase twissFavour(twiss) by 1. }
+  }
+  Topic lanyon_stand_with with lanyon "Tell Big Lanyon you are with the chairmen, poles and all" when knows(actor, fares_cut) and not stoodWith(actor) and not scab(actor) once {
+    Says "Big Lanyon looks at you, and at the rest of them on the bench, and something goes along the bench like a wind through barley. 'Are you, now,' he says. 'A stranger. Well.' He looks up the Parade, at the Circus roofs. 'Everybody in this town is carried by somebody. Mostly they don't look down to see who.' He puts out a hand like a spade and you shake it. 'Then here's what we'll do, for you and nobody else. If the poles are down on Ball night, and your old lady wants to go up to the Rooms, we'll carry her. For you. Nobody else in this town, but her.'".
+    On discuss { Assert stoodWith(actor). Increase goodwill(chairmen) by 2. }
+  }
+  Action break_strike(actor: group, site: place) "Take up a pair of poles and carry a lady up the Parade for the strike-breakers' rate, five coin" {
+    Description "The gentry pay well to be carried while the chairmen sit. The chairmen will see you do it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbey_yard) and strike(chairmen) and not scab(actor) and not stoodWith(actor).
+    Time 3.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Increase quantity(actor, gold) by 5. Assert scab(actor). Set goodwill(chairmen) to 0. }
+    On failure { Assert scab(actor). Set goodwill(chairmen) to 0. }
+    Result "You carry a doctor's widow from the foot of the Parade to the top, with a hired man from the Two Poles who will not meet your eye, and she pays five coin and says you were very smooth. On Stall Street, as you come down, every chairman on the bench turns his head and looks at you, and none of them says anything at all.".
+    Otherwise "Halfway up the Parade the doctor's widow is screaming and the chair is tipping and you have to set it down in the gutter. She pays you nothing and tells everybody. On Stall Street every chairman on the bench looks at you, and none of them says a word.".
+  }
+  // A chair up the hill or down it, two coin, while the chairmen carry.
+  Action chair_up(actor: group, site: place) "Take a chair up the Parade to the Circus, two coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, abbey_yard) or at(actor, stall_street)) and not strike(chairmen)
+      and daytimeOrEvening() and quantity(actor, gold) >= 2 and not scabbed(actor).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 2. Retract at(actor, site). Assert at(actor, circus). }
+    Result "Two chairmen in blue lift you as if you were a basket of eggs, and up the Parade you go, swaying, past the ridges and the people walking, and are set down on the Circus lawn as gently as if you were going to hatch.".
+  }
+  Action chair_down(actor: group, site: place) "Take a chair down the Parade to the Abbey Yard, two coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, circus) and not strike(chairmen)
+      and daytimeOrEvening() and quantity(actor, gold) >= 2 and not scabbed(actor).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 2. Retract at(actor, site). Assert at(actor, abbey_yard). }
+    Result "Down the Parade in a chair, which is faster than walking and much more frightening, with the front man calling 'By your leave!' and everybody's leave being given.".
+  }
+  Query daytimeOrEvening() means hour(clock) >= 7 and hour(clock) < 23.
+  Query scabbed(a: group) means scab(a) and goodwill(chairmen) < 2.
+  // The chairmen carry everybody and see everybody: Lanyon will tell a friend who goes up the hill at two in the morning.
+  Topic lanyon_knocker with lanyon "Ask Big Lanyon if he knows who knocks at Carth House at two in the morning" when goodwill(chairmen) >= 2 and knows(actor, knocker_seen) and not knows(actor, nan_knocks) once {
+    Says "Big Lanyon is quiet a long while. 'We see her,' he says at last. 'Coming down the Parade, nights, after two, in her grey cloak. Nine years. Nan Bellamy, from the laundries.' He looks at you. 'Nobody ever asked her why. You don't. A woman goes up a hill at two in the morning and comes down again; that's hers.' He lowers his voice to a rumble. 'There's some on this bench say she was a lady once. I say she's a laundress, and a good one, and leave her be.'".
+    On discuss { Assert knows(actor, nan_knocks). }
+  }
+  Topic lanyon_hartopp with lanyon "Tell Big Lanyon what Dr Hartopp has been giving Mrs Cherrett" when knows(actor, drops_doubled) and goodwill(chairmen) >= 3 and not chairmenRefuseHartopp(chairmen) once {
+    Says "Big Lanyon listens without moving a muscle of his face. Then he turns his head and says, not loudly, down the bench, 'Hartopp,' and the word goes along it from man to man like a ball down a skittle-alley. 'Dr Hartopp,' he says to you, 'will find he's walking. Anywhere he likes. Up the Parade, down the Parade. In his silk stockings.' He folds his arms. 'Nobody in a blue coat in this town will carry that man again.'".
+    On discuss { Assert chairmenRefuseHartopp(chairmen). }
+  }
+  Topic lanyon_davy with lanyon "Tell Big Lanyon about the boys at the gibbet, and the one in a blue coat, and the gentleman who smelt of cloves" when knows(actor, hartopp_paid_pads) and not chairmenRefuseHartopp(chairmen) once {
+    Says "Big Lanyon hears it out with his hands on his knees. 'Davy,' he says. 'My sister's boy. In his father's coat.' He is quiet for long enough that the bench goes quiet with him. 'There's men in this town would pay a boy to stand in the road,' he says, 'and there's boys would take it, the fares being what they are. I know that.' He stands up, and he is taller than you remembered. 'Cloves,' he says. 'There's one man in Hessel smells of cloves, and we've carried him up that hill every evening for six years. But not in that coat. And not that man.' The word goes down the bench. 'Dr Hartopp walks,' says Big Lanyon. 'From today. Anywhere he likes.'".
+    On discuss { Assert chairmenRefuseHartopp(chairmen). Increase goodwill(chairmen) by 1. }
+  }
+  Relation chairmenRefuseHartopp(group).
+  Observe hartopp_walking at abbey_yard when chairmenRefuseHartopp(chairmen) and at(hartopp, circus) and hour(clock) == 17 and not hartoppWalked(hartopp) "Dr Hartopp is walking up the Parade. He is not used to it. He stops every twenty yards with his hand on the railings, in his plum-coloured coat, and behind him, all down Stall Street, thirty chairmen sit on their poles and watch him go.".
+  Rule hartopp_walks when chairmenRefuseHartopp(chairmen) and hour(clock) >= 17 and not hartoppWalked(hartopp) { Assert hartoppWalked(hartopp). }
+
+  // ── The Two Poles ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // The chairmen's house, and the cheapest beds in Hessel; the Season does not sleep here, its servants' servants do.
+  Person gully "Mrs Gully" at two_poles {
+    Role "who keeps the Two Poles, a little round woman with a big voice". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
+    Greets "Mrs Gully looks up from the barrel she is tapping. 'Bed or beer? The beds are clean and the beer's honest, which is more than you'll get up the hill for twice the money.'".
+    Greets again "Mrs Gully nods you to the fire.".
+    Sells rations for 2 coin from 8.
+  }
+
+  // ── Kit Danby ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person kit "Kit Danby" at stall_street {
+    Role "a young chairman in a blue coat, with a book in his pocket" when not kitEngaged(kit).
+    Role "a young chairman in his Sunday coat, with a look on him" when kitEngaged(kit).
+    Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner stoic.
+    Greets "The young chairman stands up when you come, which none of the others do, and takes his hat off, and waits to be told what you want.".
+    Greets again "Kit Danby nods to you, and closes his book on his finger.".
+    Wants ismay_note.
+  }
+  Measure kitTrust(group).
+  // Mornings on the Circus with Mrs Cherrett's chair (unless he is turned off, or the poles are down); afternoons at the
+  // stand; evenings at the Two Poles.
+  Relation kitAway(group).
+  Rule kit_circus when hour(clock) >= 8 and hour(clock) < 12 and not at(kit, circus) and not kitDismissed(kit) and not strike(chairmen) and not kitAway(kit) and not chairLoose(cherrett) and not following(kit, party) and not travelsWith(kit, party) { Assert at(kit, circus). }
+  Rule kit_stand when (hour(clock) >= 12 and hour(clock) < 19 or hour(clock) >= 8 and hour(clock) < 12 and (kitDismissed(kit) or strike(chairmen))) and not at(kit, stall_street) and not kitAway(kit) and not chairLoose(cherrett) and not following(kit, party) and not travelsWith(kit, party) { Assert at(kit, stall_street). }
+  Rule kit_evening when hour(clock) >= 19 and hour(clock) < 23 and not at(kit, two_poles) and not kitAway(kit) and not following(kit, party) and not travelsWith(kit, party) { Assert at(kit, two_poles). }
+  Rule kit_night when (hour(clock) >= 23 or hour(clock) < 8) and not at(kit, limbo) and not kitAway(kit) and not following(kit, party) and not travelsWith(kit, party) { Assert at(kit, limbo). }
+  Observe kit_reading at circus when at(kit, circus) and not kitEngaged(kit) "On the Circus lawn the chairmen sit on the poles of Mrs Cherrett's chair waiting for her to want it. The young one is reading a book with his back to her windows, and every so often, without lifting his head, he looks up at them.".
+  Discovery kit_looked "Kit Danby let go of Mrs Cherrett's chair at the top of the Parade because he looked up at something; he will not say what.".
+  Topic kit_how with kit "Ask the young chairman how the chair got away from him" when chairRan(cherrett) once {
+    Says "He goes red to the ears. 'I looked up,' he says. 'At the top of the Parade. I looked up and I let go the strap.' He turns his hat round in his hands. 'I've carried for nine years and never let go a strap. I looked up.' He does not say at what, and you can see that he will not.".
+    On discuss { Assert knows(actor, kit_looked). }
+  }
+  Discovery kit_violet "Kit Danby keeps a pressed violet in the book he reads on the poles: Ismay Cherrett's, dropped on the Parade in the spring. She told him to keep it.".
+  Topic kit_book with kit "Ask Kit what he is reading" when true once {
+    Says "He shows you: a book of essays, old, coming apart, bought off a barrow. 'The man in it says,' he begins, and stops, because when he opened it to show you something fell out of the pages into the grass, and he has gone down on one knee after it as if it were a sovereign. It is a violet, pressed flat and brown. He puts it back between the pages very carefully. 'It's nothing,' he says, and puts the book inside his coat.".
+    On discuss { Assert knows(actor, kit_violet). Increase kitTrust(kit) by 1. }
+  }
+  Relation kitHopes(group). Relation kitPushed(group). Relation kitHasNote(group). Relation kitTryst(group). Relation kitEngaged(group).
+  Topic kit_she_watches with kit "Tell Kit that Ismay stands at the window every morning while his chair is on the Circus, and does not turn a page" when knows(actor, ismay_watches) and not kitHopes(kit) once {
+    Says "Kit Danby goes quite still, the way a man does who has heard his name called in a crowd. 'She does the accounts,' he says. 'At the window. For the light.' He looks at you, and away, and up at the windows, and away. 'Don't,' he says. 'Don't say things like that to a man on the poles. It isn't kind.' But he does not open his book again.".
+    On discuss { Assert kitHopes(kit). Increase kitTrust(kit) by 1. }
+  }
+  Topic kit_push with kit "Tell Kit that if he says nothing, she will marry Rupert Wenlock on Monday, and keep the Wenlock books until she dies" when knows(actor, ismay_loves_kit) and not kitPushed(kit) and not kitEngaged(kit) once {
+    Says "Kit hears you out with his jaw set. 'And if I say something,' he says, 'what then? I've a bench and two poles and nine shillings. She's got forty thousand pounds. They'd say I was after it. They'd be right to.' He is very angry, and not with you. 'You think I don't know what Monday is? I've known since the first banns. I carried her to church for them.'".
+    On discuss { Assert kitPushed(kit). }
+  }
+  // Ismay's note: where she walks at noon. Given to Kit, and with hope in him, he goes to the Sham Castle the next noon.
+  Measure trystDay(group).
+  Event kit_reads near kit when keeps(kit, ismays_note) and not kitHasNote(kit) and (kitHopes(kit) or kitPushed(kit)) "Kit reads it standing up, and then sits down on the bench, and reads it again. 'The Sham Castle,' he says. 'Noon.' He puts it in his book, beside the violet. 'I'll go,' he says, to the book. 'God help me, I'll go.'" then {
+    Assert kitHasNote(kit). Assert kitTryst(kit). Set trystDay(kit) to dayN(hessel_town) + 1. }
+  Event kit_reads_proud near kit when keeps(kit, ismays_note) and not kitHasNote(kit) and not kitHopes(kit) and not kitPushed(kit) "Kit reads it, and folds it, and puts it in his book beside the violet. 'Thank you,' he says, very formally. 'Tell Miss Cherrett I had it.' He goes back to his reading. He is not reading." then {
+    Assert kitHasNote(kit). }
+  // A note kept without hope can still be acted on once he has some.
+  Rule kit_hopes_late when kitHasNote(kit) and not kitTryst(kit) and (kitHopes(kit) or kitPushed(kit)) and not kitEngaged(kit) { Assert kitTryst(kit). Set trystDay(kit) to dayN(hessel_town) + 1. }
+  Rule tryst_kept when kitTryst(kit) and dayN(hessel_town) >= trystDay(kit) and hour(clock) >= 12 and hour(clock) < 13 and not kitEngaged(kit) and not ismayAway(ismay) and not gone(cherrett) {
+    Assert kitEngaged(kit). Assert at(kit, sham_castle). Assert at(ismay, sham_castle). Assert ismayOut(ismay). Assert kitAway(kit). }
+  Observe tryst_seen at sham_castle when kitEngaged(kit) and at(kit, sham_castle) and at(ismay, sham_castle) and not seenOnce(tryst_seen) "Behind the Sham Castle, in the shade of the wall that is a castle from the Crescent and a wall from here, Ismay Cherrett and Kit Danby are standing a yard apart and not touching, as if the yard were the whole of the Season. She is talking very fast, about something; he is not listening to a word of it. Then he says something, and she stops. You go away again, quietly, round the end of the wall, and the sheep look at you." teaches tryst_seen.
+  Discovery tryst_seen "Ismay Cherrett and Kit Danby met behind the Sham Castle at noon, and said what they had not said for a year.".
+  Rule tryst_over when kitEngaged(kit) and hour(clock) >= 13 and (kitAway(kit) or ismayOut(ismay)) and not atBall(ismay) { Retract kitAway(kit). Retract ismayOut(ismay). }
+  // Mrs Cherrett's blessing: she must be told, and reminded who she was; and Ismay must not deny it.
+  Relation cherrettBlessesKit(group). Relation cherrettToldKit(group).
+  Topic cherrett_told_kit with cherrett "Tell Mrs Cherrett that Ismay loves Kit Danby, the chairman" when knows(actor, ismay_loves_kit) and not cherrettToldKit(cherrett) and not gone(cherrett) and not cherrettBlessesKit(cherrett) once {
+    Says "'A chairman!' Mrs Cherrett's stick hits the floor so hard the pike rattles in its case. 'A chairman! My granddaughter, that I've brought up to be a lady, that I've had taught French and the harp! A man that carries people for ninepence!' She is scarlet. 'Ismay! Is it true?'".
+    On discuss { Assert cherrettToldKit(cherrett). }
+  }
+  Topic remind_navvy with cherrett "Remind Mrs Cherrett that at nineteen she went out of a window to a navvy with a shovel" when cherrettToldKit(cherrett) and knows(actor, navvy_story) and not cherrettBlessesKit(cherrett) and ismayStoodBy(ismay) and not gone(cherrett) once {
+    Says "There is a terrible silence. Mrs Cherrett looks at you; at the stuffed pike, as if for a second opinion; at Ismay, who has come and stood by your side with her ledger held against her chest like a shield. 'Is it true, girl?' says Mrs Cherrett again, quite quietly. 'Yes, Grandmother.' The old woman's face works. Then she begins to laugh: the laugh, the coal-scuttle laugh, the one that got her barred from the Rooms; it goes on and on, and she wipes her eyes with the pudding-cloth purse. 'A window,' she says. 'It was a ground-floor window. Josiah held the ladder anyway, the great fool, and carried me up the aisle at Wem like a sack of meal, with Father's dogs in the porch.' She holds out her hand to Ismay. 'Send for the boy,' she says. 'Send for him. And somebody write to that Wenlock woman and tell her I'm very sorry. No. Tell her I regret it.'".
+    On discuss { Assert cherrettBlessesKit(cherrett). Retract kitDismissed(kit). Assert bannsWithdrawn(ebbas). Assert withdrawnByCherrett(ebbas). Increase softened(cherrett) by 1. }
+  }
+  Relation withdrawnByCherrett(place).
+  Topic remind_navvy_alone with cherrett "Remind Mrs Cherrett that at nineteen she went out of a window to a navvy with a shovel" when cherrettToldKit(cherrett) and knows(actor, navvy_story) and not cherrettBlessesKit(cherrett) and not ismayStoodBy(ismay) and not gone(cherrett) once {
+    Says "Mrs Cherrett's mouth opens and shuts. She looks at Ismay. 'Well? Is it true, girl?' And Ismay, who has said yes, Grandmother, to every question her grandmother has asked her for twenty-one years, says, white to the lips, 'No, Grandmother.' Mrs Cherrett sits back. 'There,' she says to you. 'Navvies. Windows. Mind your own business.'".
+    On discuss { Assert ismayDenied(ismay). }
+  }
+  Relation ismayDenied(group).
+  // Denied once, she can still say it: once someone has stood by her, she goes back of her own accord.
+  Rule ismay_unsays when ismayDenied(ismay) and ismayStoodBy(ismay) and cherrettToldKit(cherrett) and not cherrettBlessesKit(cherrett) and at(ismay, cherrett_parlour) and at(cherrett, cherrett_parlour) and at(party, cherrett_parlour) and knows(party, navvy_story)
+    says "Ismay puts down her ledger. 'Grandmother,' she says. 'I said no. It was yes. It's always been yes.' Mrs Cherrett looks at her for a long time, and then, slowly, begins to laugh, the coal-scuttle laugh that got her barred from the Rooms. 'A window,' she says. 'Mine was a ground-floor window. Send for the boy.'" {
+    Assert cherrettBlessesKit(cherrett). Retract kitDismissed(kit). Assert bannsWithdrawn(ebbas). Assert withdrawnByCherrett(ebbas). Retract ismayDenied(ismay). }
+
+  // ── Hetty Quiney ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Person hetty "Hetty Quiney" at hetty_shop {
+    Role "a milliner with pins in her mouth and a baby on her hip". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "The milliner takes the pins out of her mouth one at a time to speak to you. 'Bonnets, is it? Or ribbons? Or are you looking for him?' She looks at you sharp. 'No. You're not anybody's. What can I do for you?'".
+    Greets again "Hetty Quiney shifts the baby to the other hip.".
+  }
+  Relation hettyAway(group). Relation hettyWilling(group). Relation hettyAtChurch(group).
+  Rule hetty_shop_hours when not at(hetty, hetty_shop) and not hettyAway(hetty) and not following(hetty, party) { Assert at(hetty, hetty_shop). }
+  Observe hetty_scene at hetty_shop when not visitedBefore(hetty_shop) "Hetty Quiney's shop: three bonnets on wooden heads, a counter, ribbons in drawers labelled in a round hand, and a cradle under the counter.".
+  Observe hetty_again at hetty_shop when visitedBefore(hetty_shop) "Hetty Quiney's shop: the bonnets, the ribbon drawers, the cradle under the counter.".
+  Thing hat_peg "the gentleman's hat on the peg" at hetty_shop {
+    Tries looking.
+    State hung "A gentleman's beaver hat, good, a little worn, on the peg by the back door.".
+  }
+  Initially Assert state(hat_peg, hung).
+  Discovery hat_initials "Inside the crown of the gentleman's hat at Hetty Quiney's are the initials R. W. and, pinned to the lining, a dried beetle.".
+  Observe hat_looked near hat_peg when tried(hat_peg, looking) and not knows(party, hat_initials) "Inside the crown, in gilt on the leather, R. W.; and pinned to the lining, very carefully, a little dried beetle with a green back." teaches hat_initials.
+  Observe rupert_at_hetty at hetty_shop when at(rupert, hetty_shop) and not seenOnce(rupert_married) "The Honourable Rupert Wenlock is sitting behind Hetty Quiney's counter in his shirt-sleeves, with a fat baby on his knee, making a beetle walk across the counter for it. The baby is shrieking with joy. Rupert looks up and sees you, and every drop of colour goes out of his face, and he does not stop the beetle." teaches rupert_married.
+  Observe rupert_at_hetty_again at hetty_shop when at(rupert, hetty_shop) and seenOnce(rupert_married) and not rupertAway(rupert) "Rupert Wenlock is behind Hetty's counter in his shirt-sleeves with his son on his knee, as if he belonged there, which he does between noon and two.".
+  Topic hetty_hat with hetty "Ask Hetty whose hat that is on the peg" when knows(actor, hat_initials) and not knows(actor, rupert_married) once {
+    Says "Hetty looks at the hat, and at you, and takes the last pin out of her mouth. 'My husband's,' she says. 'He leaves it when he goes up the hill. He's a gentleman up the hill and a husband down it, and I'm about tired of it.' She puts the baby in the cradle. 'You'll have guessed. Everybody'll guess on Monday, when he marries a girl with forty thousand pounds at Saint Ebba's and I'm stood at the door with his son.' She looks at you. 'Unless he stands up on Sunday. He swears every week he will.'".
+    On discuss { Assert knows(actor, rupert_married). }
+  }
+  Topic hetty_ultimatum with hetty "Ask Hetty what she will do" when knows(actor, rupert_married) and not hettyWilling(hetty) and not bannsWithdrawn(ebbas) once {
+    Says "'Do?' Hetty threads a needle at the first try. 'I'll do what I've done for two years. Wait for him to be brave.' She bites the thread. 'And on Monday at ten, if he hasn't been, I'll be on the steps of Saint Ebba's with Jack. Not to make a scene. Just so he has to walk past us.'".
+  }
+  Topic hetty_come with hetty "Tell Hetty that Rupert means to tell his mother, and wants her and Jack there" when rupertBrave(rupert) and not hettyWilling(hetty) and not bannsWithdrawn(ebbas) once {
+    Says "Hetty sits down on her own counter. 'He said that?' She is laughing and crying at once, and wipes her face on a ribbon. 'Two years. Two years I've said, bring me up the hill, let her see Jack, let her see me. She can only say no.' She gets up, and puts on a bonnet, the best one, from the window. 'Come on, then,' she says. 'Before he thinks better of it.'".
+    On discuss { Assert hettyWilling(hetty). Assert acceptsEscort(hetty, actor). Assert acceptsEscort(rupert, actor). }
+  }
+  // The Old Town's way: not into Lady Wenlock's drawing room, but up the aisle of Saint Ebba's on Sunday, with the
+  // chairmen standing at the back of the church.
+  Topic hetty_church with hetty "Ask Hetty to come up to Saint Ebba's on Sunday morning and say it herself, with the chairmen at the back" when knows(actor, rupert_married) and (stoodWith(actor) or goodwill(chairmen) >= 3) and not hettyWilling(hetty) and not hettyChurch(hetty) and not bannsWithdrawn(ebbas) once {
+    Says "'In church?' Hetty stops sewing. 'Stand up in Saint Ebba's in front of the Season and say he's mine?' She looks at the cradle, and at the hat on the peg. 'I said Monday, on the steps. I said I'd not make a scene.' Then: 'Lanyon'd be there? At the back?' You say the chairmen will be at the back, all of them, in their blue coats. Hetty puts down the bonnet. 'Then I'll come,' she says. 'Sunday. Come for me at half past ten. If I've thought better of it, carry me.'".
+    On discuss { Assert hettyChurch(hetty). }
+  }
+  Relation hettyChurch(group).
+  Rule hetty_ready when hettyChurch(hetty) and thirdDay() and hour(clock) == 10 and not acceptsEscort(hetty, party) { Assert acceptsEscort(hetty, party). }
+  Observe hetty_dressed at hetty_shop when hettyChurch(hetty) and thirdDay() and hour(clock) == 10 "Hetty Quiney is ready in her best bonnet with Jack in his christening gown, sitting very upright on the counter, waiting to be fetched.".
+  Relation grandsonShown(group).
+  Action family_scene(actor: group, site: place) "Stand beside Rupert while he tells his mother, and Hetty puts the baby in her arms" {
+    Description "You will be in the room.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wenlock_room) and at(lady_wenlock, wenlock_room)
+      and (at(rupert, wenlock_room) or following(rupert, actor)) and (at(hetty, wenlock_room) or following(hetty, actor))
+      and rupertBrave(rupert) and hettyWilling(hetty) and not bannsWithdrawn(ebbas).
+    Time 3.
+    On success { Assert grandmother(lady_wenlock). Assert bannsWithdrawn(ebbas). Assert grandsonShown(lady_wenlock).
+      Retract following(hetty, actor). Retract following(rupert, actor). Assert at(hetty, wenlock_room). Assert at(rupert, wenlock_room). Assert hettyAway(hetty). Assert rupertAway(rupert). }
+    Result "Rupert says it standing up, with his hat in his hands, all of it, in one breath, Bristol and the milliner and the two years and the banns, and when he has finished he sits down on one of the hard chairs as if his legs had been cut. Lady Wenlock does not speak. She looks at Hetty Quiney in her best bonnet, and at you, and at her son. Then Hetty, without asking anybody, goes across the room and puts Jack into Lady Wenlock's arms. Jack looks at Lady Wenlock. Lady Wenlock looks at Jack. Jack takes hold of the glass on its stick, and pulls it, and laughs. 'He has the Wenlock nose,' says Lady Wenlock, in a voice nobody in the room has heard her use. 'God help him.' She does not give him back. 'Rupert,' she says, without looking up, 'send to Saint Ebba's. Tell Mr Pyne there will be no third reading. And ring for tea. Four cups.' A pause. 'Five.'".
+  }
+  Rule family_home when grandsonShown(lady_wenlock) and hour(clock) >= 18 and hettyAway(hetty) and not atBall(hetty) { Retract hettyAway(hetty). Retract rupertAway(rupert). }
+
+  // ── Jem Mallender, the apothecary's boy ───────────────────────────────────────────────────────────────────────────
+  Person jem "Jem Mallender" at apothecary {
+    Role "the apothecary's boy, with stained fingers and a careful face". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "The boy behind the counter looks up from his scales. 'Master's out,' he says. 'I can do you anything that's written down.'".
+    Greets again "Jem Mallender wipes his fingers on his apron.".
+  }
+  Rule jem_hours when hour(clock) >= 8 and hour(clock) < 20 and not at(jem, apothecary) { Assert at(jem, apothecary). }
+  Rule jem_home when (hour(clock) >= 20 or hour(clock) < 8) and not at(jem, limbo) { Assert at(jem, limbo). }
+  Topic jem_drops with jem "Ask Jem about Mrs Cherrett's drops" when not knows(actor, drops_doubled) and goodwill(chairmen) < 2 once {
+    Says "Jem Mallender's careful face gets more careful. 'Physicians' prescriptions are confidential,' he says, as if reading it off a card. He looks at the row of little brown bottles waiting to go up the hill. 'I can't say what's in another person's physic. Not for nothing.'".
+    On discuss { Assert jemAsked(jem). }
+  }
+  Relation jemAsked(group).
+  Action pay_jem(actor: group, site: place) "Put two coin on the counter for Jem Mallender's trouble" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(jem, site) and jemAsked(jem) and not knows(actor, drops_doubled) and quantity(actor, gold) >= 2.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(jem, gold) by 2. Assert knows(actor, drops_doubled). }
+    Result "The coins go into the till, not his pocket, which says something about Jem. 'Twenty at night, she had,' he says quietly, to the scales. 'Laudanum and cardamom. A month ago Dr Hartopp came in and wrote forty. Himself. I said, forty, sir? He said, she sleeps badly. I said, she'll sleep.' He looks up. 'She's a big woman. Forty won't kill her in a night. It'll kill her in a week.'".
+  }
+  Topic jem_drops_cousin with jem "Ask Jem about Mrs Cherrett's drops, as a friend of the chairmen" when not knows(actor, drops_doubled) and goodwill(chairmen) >= 2 once {
+    Says "'Lanyon's my uncle,' says Jem, 'and he says you're all right.' He looks at the row of brown bottles. 'Twenty at night, she had. Laudanum and cardamom. A month ago Dr Hartopp came in and wrote forty, himself. I said, forty, sir? He said, she sleeps badly. I said, she'll sleep.' He looks up. 'Forty won't kill her in a night. It'll kill her in a week.'".
+    On discuss { Assert knows(actor, drops_doubled). }
+  }
+
+  // ── Mr Gilmour and Number Four ────────────────────────────────────────────────────────────────────────────────────
+  Person gilmour "Mr Gilmour" at no_four {
+    Role "the agent for Number Four, a dry man with a ring of keys". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "The agent jingles his keys. 'Number Four. Six rooms, copper, yard. Forty down and a character. The view of the laundries is extra,' he says, 'in the sense that you can't avoid it.'".
+  }
+  Rule gilmour_hours when hour(clock) >= 9 and hour(clock) < 18 and not at(gilmour, no_four) and not mopsaHouse(mopsa) { Assert at(gilmour, no_four). }
+  Rule gilmour_home when (hour(clock) >= 18 or hour(clock) < 9 or mopsaHouse(mopsa)) and not at(gilmour, limbo) { Assert at(gilmour, limbo). }
+  Observe no_four_scene at no_four when not mopsaHouse(mopsa) "Number Four, Quay Lane: six empty rooms smelling of whitewash, a copper in the scullery, a yard with a pear tree in it, and a window over the laundries, which are steaming.".
+  Observe no_four_hers at no_four when mopsaHouse(mopsa) "Number Four, Quay Lane: Mopsa's. There are already books on a plank across two bricks, a kettle, a card in the window saying ROOMS, RESPECTABLE, NO PHYSICIANS, and Mopsa.".
+  Relation mopsaCharacter(group). Relation mopsaFunded(group). Relation mopsaPartner(group).
+  Topic twiss_character with twiss "Ask Mr Twiss to give Mopsa Gedge a character, for the lease of a house" when knows(actor, mopsa_wants) and twissFavour(twiss) >= 2 and not mopsaCharacter(mopsa) once {
+    Says "'Miss Gedge.' Mr Twiss writes before you have finished. 'Mrs Cherrett's companion. She has sat at the back of my Rooms in grey for three Seasons and has never once been bored in public, which is a greater accomplishment than the minuet.' He sands it and folds it. 'Give her that with my compliments. Tell her I regret she does not dance.'".
+    On discuss { Assert mopsaCharacter(mopsa). }
+  }
+  Topic lanyon_character with lanyon "Ask Big Lanyon whether the chairmen know Mr Gilmour, the agent" when knows(actor, mopsa_wants) and goodwill(chairmen) >= 2 and not mopsaCharacter(mopsa) once {
+    Says "'Gilmour?' Big Lanyon laughs, a sound like a cart going over a bridge. 'He's my wife's cousin. He'll take a character from the bench, if the bench gives it.' He calls down the bench. 'Miss Gedge, that hit the doctor with the warming-pan. For a house in Quay Lane.' There is a sort of cheer. 'There's your character,' says Big Lanyon. 'Thirty of us.'".
+    On discuss { Assert mopsaCharacter(mopsa). }
+  }
+  Topic wenlock_character with lady_wenlock "Ask Lady Wenlock to give Mopsa Gedge a character" when knows(actor, mopsa_wants) and grandmother(lady_wenlock) and not mopsaCharacter(mopsa) once {
+    Says "Lady Wenlock is holding Jack and does not put him down to write, so Hetty holds the paper. 'A character,' she says. 'For the woman who hit Dr Hartopp with a warming-pan. I wish I'd seen it.' She signs with a flourish over Jack's head.".
+    On discuss { Assert mopsaCharacter(mopsa). }
+  }
+  Topic cherrett_settle with cherrett "Ask Mrs Cherrett to settle something on Mopsa" when knows(actor, mopsa_wants) and not mopsaFunded(mopsa) and not dosed(cherrett) and softened(cherrett) >= 1 and not gone(cherrett) once {
+    Says "'Settle something on Mopsa?' Mrs Cherrett looks across the room at her companion, who is reading with her back very straight and has heard every word. 'I meant to settle a husband on her.' She considers. 'A house, is it? In the Old Town. On her own.' A long pause. 'I had a hut on the Delve cut, on my own, all one winter while Josiah was up the line,' she says. 'Best winter of my life.' She gets out the pudding-cloth purse, and then thinks better of it, and writes a note to her banker instead. 'Forty. Not a word, Mopsa. Not a word or I'll take it back.' Mopsa does not say a word. She cannot.".
+    On discuss { Assert mopsaFunded(mopsa). Increase mopsaRegard(mopsa) by 1. }
+  }
+  Topic mopsa_see_house with mopsa "Ask Mopsa to come down and look at Number Four with you" when knows(actor, mopsa_wants) and mopsaRegard(mopsa) >= 2 and not mopsaHouse(mopsa) and not sawHouse(party) and daytime() once {
+    Says "Mopsa looks at Mrs Cherrett, and at the clock, and at you. 'Look at it,' she says. 'I've looked at it from the end of the lane every Sunday for three weeks. I've never been in.' She gets her bonnet. 'Half an hour. If she wakes, I was at church.'".
+    On discuss { Assert acceptsEscort(mopsa, actor). Assert following(mopsa, actor). Assert mopsaAway(mopsa). }
+  }
+  Relation sawHouse(group).
+  Event mopsa_in_house at no_four when following(mopsa, party) and not sawHouse(party) "Mopsa goes through the six rooms of Number Four without a word, touching things: the copper, the window-catch, the mantelpiece, the pear tree in the yard. In the empty front room she stands in the middle of the floor and turns round once, slowly, like a child. 'Mine,' she says, trying it. Then, to you, sharp: 'Don't look at me like that.'" then {
+    Assert sawHouse(party). Increase courtship(mopsa) by 1. }
+  Action take_lease(actor: group, site: place) "Pay Mr Gilmour forty coin down on Number Four, for Mopsa Gedge" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, no_four) and at(gilmour, no_four) and mopsaCharacter(mopsa)
+      and (at(mopsa, no_four) or following(mopsa, actor)) and not mopsaHouse(mopsa) and not mopsaFunded(mopsa) and quantity(actor, gold) >= 40.
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 40. Increase quantity(gilmour, gold) by 40. Assert mopsaHouse(mopsa). Assert mopsaGiven(mopsa). }
+    Result "Mr Gilmour counts the forty twice, reads the character twice, and gives Mopsa the keys. Mopsa looks at the keys, and then at you. 'That's a great deal of money,' she says. 'I shall pay you back. I shall pay you back at four in the hundred, quarterly, and I shall hate every penny of it.'".
+  }
+  Relation mopsaGiven(group).
+  Action take_lease_halves(actor: group, site: place) "Put twenty coin to Mopsa's twenty, and take Number Four as her partner" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, no_four) and at(gilmour, no_four) and mopsaCharacter(mopsa)
+      and (at(mopsa, no_four) or following(mopsa, actor)) and not mopsaHouse(mopsa) and not mopsaFunded(mopsa) and quantity(actor, gold) >= 20.
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 20. Increase quantity(gilmour, gold) by 40. Assert mopsaHouse(mopsa). Assert mopsaPartner(mopsa). Increase courtship(mopsa) by 1. }
+    Result "Mopsa takes twenty coin out of the lining of her stays, where they have been for six years, and puts them beside yours on Mr Gilmour's ledger. 'Halves,' she says. 'Partners. You'll have a room here whenever you're in Hessel, and you'll pay for your coals like anybody.' Mr Gilmour gives her the keys. She gives you one.".
+  }
+  Action take_lease_funded(actor: group, site: place) "Take Mopsa down to Mr Gilmour with Mrs Cherrett's forty and a character" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, no_four) and at(gilmour, no_four) and mopsaCharacter(mopsa)
+      and (at(mopsa, no_four) or following(mopsa, actor)) and not mopsaHouse(mopsa) and mopsaFunded(mopsa).
+    Time 3.
+    On success { Assert mopsaHouse(mopsa). }
+    Result "Mr Gilmour reads Mrs Cherrett's note to her banker, and the character, and gives Mopsa the keys. Mopsa holds them so tight her knuckles go white. 'She cried,' she says, on the way out. 'Mrs Cherrett. When I thanked her. She said it was the dropsy.'".
+  }
+  Rule mopsa_settles when mopsaHouse(mopsa) and following(mopsa, party) { Retract following(mopsa, party). Retract mopsaAway(mopsa). Assert at(mopsa, no_four). }
+  Rule mopsa_back when mopsaAway(mopsa) and not following(mopsa, party) and not mopsaHouse(mopsa) { Retract mopsaAway(mopsa). }
+
+  // ── Courting Mopsa ────────────────────────────────────────────────────────────────────────────────────────────────
+  // Not a meter: things done together, each remembered, read by her words. Rescuing her, arranging her or lying to the
+  // town spoil it; she will be anyone's partner and nobody's charity.
+  Measure courtship(group).
+  Relation walkedWith(group). Relation triedRescue(group). Relation mopsaYes(group). Relation mopsaNo(group).
+  Rule laughed_counts when laughedWith(party) and not counted(laughed_mark) { Increase courtship(mopsa) by 1. Assert counted(laughed_mark). }
+  Rule stood_counts when mopsaPromised(mopsa) and not counted(stood_mark) { Increase courtship(mopsa) by 1. Assert counted(stood_mark). }
+  Relation counted(fact). Entity laughed_mark: fact "laughed". Entity stood_mark: fact "stood by".
+  // What happened at nineteen: Mrs Cherrett went out of a window; Mopsa went into service.
+  Topic mopsa_nineteen with mopsa "Ask Mopsa what happened when she was nineteen" when walkedWith(actor) once {
+    Says "'Nineteen.' Mopsa walks on a few steps. 'My father died owing money to a wine merchant, a tailor and the Bishop of Orm, and I went to be companion to a lady at Upper Haddow who did not care for conversation. Eight years. She left me a garnet brooch and the advice to keep my opinions in a drawer.' She touches the brooch at her throat. 'At nineteen Mrs Cherrett went out of a window. At nineteen I went into a drawer.' She laughs, short. 'I've been thinking, lately, that I'd like the window.'".
+  }
+  Action walk_beacon(actor: group, site: place) "Walk the Beacon with Mopsa, the way the Season walks it, slowly, in pairs" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, beacon) and at(mopsa, beacon) and mopsaRegard(mopsa) >= 1 and not walkedWith(actor).
+    Time 3.
+    On success { Assert walkedWith(actor). Increase courtship(mopsa) by 1. Increase mopsaRegard(mopsa) by 1. }
+    Result "You walk the Beacon with Mopsa, slowly, in a pair, the way the Season walks it, and the Season, which walks behind you, looks at the companion and the stranger and whispers. Mopsa does not care. She talks the whole way round, about the sheep, and the Sham Castle, and the people in the Crescent who own telescopes, and a book she read once about a woman who went to sea dressed as a man, and at the end of the walk she says, 'That's the longest I've talked to anybody since I was nineteen,' and looks annoyed about it.".
+  }
+  Topic mopsa_rescue with mopsa "Offer to marry Mopsa, so that she need never be anybody's companion again" when not mopsaHouse(mopsa) and not triedRescue(party) and not mopsaYes(party) and mopsaRegard(mopsa) >= 1 once {
+    Says "Mopsa looks at you with an expression of the most profound disappointment. 'Oh,' she says. 'Oh, no. You too.' She shuts her book. 'I have been offered marriage four times, always out of kindness, by men who thought it would be a fine thing to save a poor companion from being one. I said no to the curate and the widower and the half-pay major and I'll say no to you. I don't want to be saved. I want a house.' She opens the book. 'Ask me again when you've stopped feeling sorry for me. If you ever do.'".
+    On discuss { Assert triedRescue(party). }
+  }
+  Query mopsaWillHave() means courtship(mopsa) >= 3 and not shockedAt(party) and not liedPublicly(party) and not triedRescue(party).
+  Topic mopsa_ask with mopsa "Ask Mopsa to marry you" when mopsaWillHave() and not mopsaYes(party) and not mopsaNo(party) and dayN(hessel_town) >= 3 once {
+    Says "Mopsa does not answer at once. She looks at you as she looks at a page she means to read twice. 'Not to save me,' she says. 'Not because I'm poor, or plain, or the companion, or because it would be a fine thing.' It is not a question, so you do not answer it. 'Because you'd like it,' she says. 'Because you'd find it interesting.' She puts her book down open on its face, which she never does, it breaks the spine. 'Yes. On my terms. My house, my name on the lease, my own money, and you're to laugh at me when I'm absurd, which is often.' She holds out her hand, not to be kissed: to be shaken.".
+    On discuss { Assert mopsaYes(party). }
+  }
+  Topic mopsa_ask_early with mopsa "Ask Mopsa to marry you" when not mopsaWillHave() and not mopsaYes(party) and not mopsaNo(party) and not triedRescue(party) and mopsaRegard(mopsa) >= 2 and dayN(hessel_town) >= 3 once {
+    Says "Mopsa looks at you for a long moment, kindly, which is worse than anything. 'No,' she says. 'Not no for ever. No for now. I don't know you. I know you're kind, and you can carry things, and you've been in Hessel four days.' She picks up her book. 'People get married in Hessel in four days. That's what's wrong with Hessel.'".
+    On discuss { Assert mopsaNo(party). }
+  }
+}

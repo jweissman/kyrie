@@ -1,0 +1,224 @@
+Module hessel "The Banns at Hessel" {
+  // ── Dr Ottery ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Sixty, irascible, badly dressed, the best physician in Hessel. Turned off the Hospital of the Waters last month at
+  // Dr Hartopp's instance "for frightening the patients", which is to say for telling Mrs Cherrett she was dying when
+  // she asked him. Summoned before the College of Physicians at Orm at noon on the second day, for practising without
+  // its licence; he needs a witness of good character to stand with him, and nobody in Hessel will be seen to.
+  // His question is the work's: is it kinder to tell the truth, or to let people hope? He thinks he knows.
+  Person ottery "Dr Jonas Ottery" at hospital {
+    Role "an untidy old physician in a coat that has been slept in". Ancestry human. Calling monk. Trait compassion. Level 4. Peaceable. Pronouns he. Manner acerbic.
+    Greets "The old man in the slept-in coat looks up from the bag he is packing. 'If you're ill, go to Doctors' Walk; there are eleven of them and they're all very pleasant. If you're dying, sit down. I'm the only one in this town who'll tell you so.'".
+    Greets again "Ottery grunts at you, which is warmer than it sounds.".
+    Joins "'Lead on,' says Ottery, picking up his bag. 'Somebody had better come along and keep you alive. You've a gift for walking into things.'".
+  }
+  Relation witnessPromised(group). Relation otteryOnRoad(group). Relation otteryWalkedAlone(group).
+  Relation otteryLicensed(group). Relation otteryStruck(group). Relation otteryGone(group). Relation otteryFugitive(group).
+  Relation otteryHome(group). Relation otteryDecided(group).
+  Query otteryInHessel() means otteryHome(ottery) and not otteryGone(ottery) and not travelsWith(ottery, party).
+  Initially Assert otteryHome(ottery).
+  Query otteryLeaving() means secondDay() and hour(clock) >= 6 and hour(clock) < 8 and not otteryDecided(ottery).
+  Rule ottery_hospital when otteryInHessel() and not otteryLeaving() and not at(ottery, hospital) and not following(ottery, party) and not otteryOnRoad(ottery) and not otteryAway(ottery) { Assert at(ottery, hospital). }
+  Relation otteryAway(group).
+  Discovery ottery_summons "Dr Ottery is summoned before the College of Physicians at Orm at noon tomorrow, for practising without its licence. He needs a witness of good character to stand with him, and nobody in Hessel will be seen to. He sets out from the Beacon at seven.".
+  Topic ottery_why with ottery "Ask Dr Ottery why he is packing" when dayN(hessel_town) <= 2 and not otteryDecided(ottery) once {
+    Says "'Because I'm turned off.' Ottery stuffs a roll of lint into the bag as if it had insulted him. 'Twenty years I've physicked the poor of three counties on this ward for nothing, and last month the governors turned me off for frightening the patients.' He snorts. 'Mrs Cherrett asked me, in the Pump Room, in front of everybody, was she dying. I said yes, madam, of dropsy, by the end of the Season, and you'd do well to stop drinking that muck. Dr Hartopp is a governor.' He shuts the bag. 'And now the College at Orm wants me tomorrow noon, for practising without its licence, which I never needed while I was the Hospital's. I need a witness of good character. There's not a soul in Hessel would be seen walking up the Orm road with me.' He looks at you. 'Seven o'clock, the Beacon. If anybody wanted to know.'".
+    On discuss { Assert knows(actor, ottery_summons). }
+  }
+  Topic ottery_promise with ottery "Tell Dr Ottery you will be at the Beacon at seven, and walk to Orm with him" when knows(actor, ottery_summons) and not witnessPromised(actor) and dayN(hessel_town) == 1 once {
+    Says "Ottery looks at you for a long moment over his spectacles. 'You,' he says. 'A stranger. Of good character.' He considers it. 'Well, nobody knows you're not. Seven. Don't be late. The College hangs about for nobody, and it'll strike me off for the pleasure of not having to read my letters.'".
+    On discuss { Assert witnessPromised(actor). }
+  }
+  // The one truth he has kept back, for nine years, at someone else's asking.
+  Topic ottery_tablet with ottery "Ask Dr Ottery about the slate tablet in Saint Ebba's that says HE CAME TOO LATE" when knows(actor, tablets_read) and not knows(actor, snow_child) once {
+    Says "Ottery takes his spectacles off, which he does when he does not want to see what he is saying. 'That's mine,' he says. 'Paid for it. Cut by a man who does gateposts.' He polishes the spectacles on his slept-in coat. 'Every patient I have, I tell the truth. You know that; it's why I'm going to Orm.' He puts them back on. 'That one I promised I'd never tell, and I never have, and I'll not start for you.' But he looks at you over them, a long look, as if you might be the kind of person who goes down to the laundries and asks. 'Some promises are worse than lies,' he says. 'They last longer.'".
+  }
+  Topic ottery_drops with ottery "Tell Dr Ottery what Hartopp has been giving Mrs Cherrett" when knows(actor, drops_doubled) and otteryInHessel() and dosed(cherrett) and not gone(cherrett) and not otteryToldDrops(ottery) once {
+    Says "'Forty,' says Ottery. 'Forty a night.' He sits down on the end of a bed. 'That's not a physic, that's a verdict.' He is quiet. 'She asked me in the Pump Room, was she dying, and I told her, and she laughed in my face and went on with the drops. That's her right.' He looks at you. 'But she has the right to know he's doubled it, too. What she does then is hers.'".
+    On discuss { Assert otteryToldDrops(ottery). }
+  }
+  Relation otteryToldDrops(group). Relation halved(group).
+  // He goes up the hill and tells her. What he tells her, and what she does, turns on what the company told him on the
+  // road: one who said comfort is kinder has made him less sure, and he halves the dose instead of stopping it.
+  Action ottery_to_cherrett(actor: group, site: place) "Take Dr Ottery up to the Circus to see Mrs Cherrett" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cherrett_parlour) and at(cherrett, cherrett_parlour) and (at(ottery, cherrett_parlour) or following(ottery, actor))
+      and otteryToldDrops(ottery) and dosed(cherrett) and not gone(cherrett) and not saidComfort(actor).
+    Time 3.
+    On success { Assert stoppedBy(cherrett, ottery). }
+    Result "Ottery stands in front of Mrs Cherrett's chair with his hat on, because he has forgotten it, and tells her: forty drops, doubled a month since, laudanum, enough to stop a heart like hers inside a week. Mrs Cherrett listens without interrupting, which nobody has ever seen. 'You told me I was dying,' she says. 'In the Pump Room. Everybody laughed.' 'So you are.' 'Not of Hartopp, though.' 'Not if you can help it.' She looks at him. 'I'd like to die awake,' she says. 'I'd like to see how it comes out. Throw that bottle in the fire, Jonas Ottery, and come to dinner.'".
+  }
+  Action ottery_halves(actor: group, site: place) "Take Dr Ottery up to the Circus to see Mrs Cherrett" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cherrett_parlour) and at(cherrett, cherrett_parlour) and (at(ottery, cherrett_parlour) or following(ottery, actor))
+      and otteryToldDrops(ottery) and dosed(cherrett) and doubled(cherrett) and not gone(cherrett) and saidComfort(actor).
+    Time 3.
+    On success { Retract doubled(cherrett). Assert halved(cherrett). }
+    Result "Ottery looks at Mrs Cherrett asleep in her chair with her mouth open, for a long time. Then he takes the bottle from the dressing-table, and pours half of it out of the window, and fills it up from the jug. 'Twenty,' he says, low. 'As it was.' He looks at you. 'You told me on the down that hope's a physic. Well. She's an old woman, and her nights are bad, and she'll sleep.' He puts the bottle back. 'I'll tell her about Hartopp in the morning. Or I won't. I find I'm not as sure as I was.'".
+  }
+
+  // The ward without its physician: a company with a nurse's hands can keep it for a morning, which the Old Town remembers.
+  Relation wardKept(group).
+  Action keep_ward(actor: group, site: place) "Keep the Hospital ward for a morning while its physician is away" {
+    Description "Dressings, physic, water, a hand held.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hospital) and not at(ottery, hospital) and capable(actor, mending)
+      and not wardKept(actor) and daytime().
+    Time 18.
+    On success { Assert wardKept(actor). Increase goodwill(chairmen) by 1. }
+    Result "Three hours of it: dressings changed, a fever sponged, a boy's arm reset that the Season's physicians would have sent for a guinea, an old woman listened to. Twenty beds, and at the end of the morning a chairman's wife comes in with a basket for her father and finds you with your sleeves up, and goes out again, and by the evening every man on Stall Street has heard it.".
+  }
+  // ── The road to Orm ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Seven o'clock on the second morning, at the Beacon: if the company is there and promised, he walks with it. The
+  // College sits at noon. By the road it is three hours and a half; the hut and the child cost an hour; the sheep-path
+  // across the down saves one, for a company that can find it.
+  Rule ottery_to_beacon when secondDay() and hour(clock) >= 6 and hour(clock) < 8 and otteryHome(ottery) and not otteryOnRoad(ottery) and not otteryDecided(ottery) and not at(ottery, beacon) and not following(ottery, party) and not travelsWith(ottery, party) { Assert at(ottery, beacon). }
+  Observe ottery_waiting at beacon when at(ottery, beacon) and secondDay() and hour(clock) < 8 and not otteryOnRoad(ottery) "Dr Ottery is standing on the Beacon in his slept-in coat with his bag at his feet, looking down at Hessel in the early sun as if he were adding it up and getting the wrong answer.".
+  Action set_out(actor: group, site: place) "Set out with Dr Ottery on the Orm road" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, beacon) and at(ottery, beacon) and secondDay() and hour(clock) < 8 and not otteryOnRoad(ottery) and not otteryDecided(ottery).
+    Time 1 minute.
+    On success { Assert otteryOnRoad(ottery). Assert acceptsEscort(ottery, actor). Assert following(ottery, actor). Retract otteryHome(ottery). }
+    Result "'You came,' says Ottery, as if it were a minor scientific curiosity. 'Good. Walk on my left; I'm deaf in the right ear from a cannon at Ryle, and I'd like to argue with you all the way.'".
+  }
+  // Unmet by eight, he goes alone, and is struck off; he comes back down by the carrier at dusk.
+  Rule ottery_alone when secondDay() and hour(clock) >= 8 and at(ottery, beacon) and not otteryOnRoad(ottery) and not otteryDecided(ottery) {
+    Assert otteryWalkedAlone(ottery). Assert otteryDecided(ottery). Assert otteryStruck(ottery). Retract otteryHome(ottery). Assert at(ottery, limbo). }
+  Rule ottery_back_alone when otteryWalkedAlone(ottery) and secondDay() and hour(clock) >= 19 and not otteryHome(ottery) { Assert otteryHome(ottery). }
+  Rule ottery_back_late when otteryWalkedAlone(ottery) and dayN(hessel_town) >= 3 and not otteryHome(ottery) { Assert otteryHome(ottery). }
+  Observe ottery_struck_back at hospital when otteryStruck(ottery) and at(ottery, hospital) and not otteryOnRoad(ottery) "Dr Ottery is sitting on the end of a bed on the Hospital ward, struck off, unlicensed, with his bag unpacked again beside him, dressing an old woman's leg. 'They can strike me off the roll,' he says, without looking round. 'They can't strike me off the ward. Nobody else wants it.'".
+
+  // The stile: his first question.
+  Relation askedStile(group). Relation saidTruth(group). Relation saidComfort(group). Relation saidDepends(group).
+  Event stile_question at stile when at(party, stile) and following(ottery, party) and not askedStile(party) "At the stile Ottery stops to get his breath, and sits on the step with his bag on his knees, and looks back toward Hessel, which you cannot see. 'Here's a question for you, since you're of good character,' he says. 'A woman asks her physician, am I dying. She is. He can say yes, and she'll be frightened; or he can say no, and she'll be happy, and then she'll die anyway, happy. Which is kinder?' He waits. He is really waiting." then { Assert askedStile(party). }
+  Topic answer_truth with ottery "Tell him: the truth. She has a right to it" when askedStile(actor) and not saidTruth(actor) and not saidComfort(actor) and not saidDepends(actor) once {
+    Says "'Good,' says Ottery, and then, irritably, 'too good. Too quick. You've not thought about it, you've just got the right answer off somebody.' But he gets up off the stile looking pleased.".
+    On discuss { Assert saidTruth(actor). }
+  }
+  Topic answer_comfort with ottery "Tell him: let her be happy. What good is the truth to the dying?" when askedStile(actor) and not saidTruth(actor) and not saidComfort(actor) and not saidDepends(actor) once {
+    Says "'Ha!' Ottery jabs a finger at you. 'Hartopp's answer. Every physician on Doctors' Walk would give you that, and charge you for it.' He gets up. 'Hope's the best physic in the world, they say. It's also the cheapest to prescribe and the dearest to take.' But you notice he walks on in silence for a long way, frowning, as if you had put something in his shoe.".
+    On discuss { Assert saidComfort(actor). }
+  }
+  Topic answer_depends with ottery "Tell him: it depends on her. Ask her what she wants to know" when askedStile(actor) and not saidTruth(actor) and not saidComfort(actor) and not saidDepends(actor) once {
+    Says "Ottery opens his mouth to argue, and shuts it. 'Ask her,' he says. 'Ask her what she wants to know.' He picks up his bag. 'That's either very wise or a way of not answering, and I'll make up my mind which by Orm.'".
+    On discuss { Assert saidDepends(actor). }
+  }
+  // The hut: a child with a fever, and a father's question. It costs an hour, and the College does not wait.
+  Person shepherd "Amos Hebden" at hut {
+    Role "a shepherd, standing by the bed with his hat crushed in his hands". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "The shepherd looks at you, and at the old man with the bag behind you, and something in his face opens like a door. 'You're a doctor,' he says to Ottery. 'Say you're a doctor.'".
+  }
+  Relation childTreated(group). Relation fatherAsked(group). Relation toldLive(group). Relation toldUnknown(group). Relation letOtteryAnswer(group).
+  Observe hut_fever at hut when not childTreated(party) "The little girl in the bed is burning; you can feel it from the door. Her mother sits by her with a wet cloth, and does not look round.".
+  Observe hut_cost at hut when not childTreated(party) and following(ottery, party) and beforeCollege() "Ottery has his coat half off already. Then he stops, and looks at you. 'An hour,' he says. 'That's the College, by the drove road. They sit at noon and they'll not wait.' He looks at the child. 'It's your character they want at Orm, not mine. You choose.'".
+  // Walked past: he comes, because the company goes, and says nothing until the crossways.
+  Relation childLeft(group).
+  Rule child_left when not childTreated(party) and following(ottery, party) and visitedBefore(hut) and not at(party, hut) and not childLeft(party) and not at(party, hut_yard) { Assert childLeft(party). }
+  Event child_left_told at crossways when childLeft(party) and following(ottery, party) and at(party, crossways) and not spread(child_left_told) "Ottery has not said a word since the shepherd's hut. At the crossways he says, to the gibbet, not to you: 'She'll very likely live. They mostly do, at that age. It's the ones you sit with that you remember.'" then { Assert spread(child_left_told). }
+  Entity child_left_told: fact "the child left".
+  Action treat_child(actor: group, site: place) "Stay while Dr Ottery sees to the child" {
+    Description "An hour; and an hour's walk is the difference between Orm before noon and Orm after it, unless someone can find the sheep-path.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hut) and following(ottery, actor) and not childTreated(actor).
+    Time 6.
+    On success { Assert childTreated(actor). }
+    Result "Ottery has his coat off before you are through the door. For an hour he works: cold water, a bark-tea from his bag, the window opened (the mother protests; he opens it anyway), the child sat up and made to drink, and drink. At the end of it she is no cooler that you can tell, but she is sleeping, and her breathing is different. Ottery washes his hands in the bucket. The shepherd has been standing by the door all the time with his hat in his hands. Now he says, to you, because Ottery has his back turned: 'Will she live?' And Ottery, at the bucket, does not turn round. He is waiting to hear what you say.".
+  }
+  Topic father_live with shepherd "Tell him: yes, she'll live" when childTreated(actor) and not fatherAsked(actor) once {
+    Says "The shepherd's face crumples, and he sits down on the stool by the door and puts his hat over it. Behind you Ottery dries his hands, slowly, and says nothing at all. On the road again, a long way on, he says: 'She may. I think she may.' And then: 'You don't know that, and nor do I, and you said it.' He does not say whether he minds.".
+    On discuss { Assert fatherAsked(actor). Assert toldLive(actor). }
+  }
+  Topic father_unknown with shepherd "Tell him: you don't know. The doctor has done what can be done" when childTreated(actor) and not fatherAsked(actor) once {
+    Says "The shepherd nods, slowly, as if you had told him the price of something. 'Aye,' he says. 'Aye. Thank you.' He goes and sits by the bed and takes the child's hand. On the road again Ottery says, 'He'll sit up all night with her now, and watch her breathe.' A long way further on: 'Which is what she needs.'".
+    On discuss { Assert fatherAsked(actor). Assert toldUnknown(actor). }
+  }
+  Topic father_ottery with shepherd "Look at Ottery, and let him answer" when childTreated(actor) and not fatherAsked(actor) once {
+    Says "Ottery turns round from the bucket. He looks at the shepherd, and then he says, gently, in a voice you have not heard him use: 'I think so. I don't know. Give her the tea every hour, and sit with her, and if she's no cooler by tomorrow night, send for me, and I'll come, College or no College.' On the road again he says, sourly: 'You made me do that. You'll be a physician yet.'".
+    On discuss { Assert fatherAsked(actor). Assert letOtteryAnswer(actor). }
+  }
+  // The crossways: footpads, and his second question.
+  Person footpads "the footpads" at crossways {
+    Role "three men in crape masks, with cudgels, at the gibbet". Ancestry human. Calling thief. Level 1. Numbers 3. Pronouns they.
+    Temperament proud.
+    Warns "Three men in crape masks step out from behind the gibbet with cudgels, and the tallest says, quite politely, 'Three coin, if you please, for the use of the crossways, and you can go on to Orm, or back to Hessel, or to the devil, as you like.' Another says, 'Or we can do it the other way.' He is looking at Ottery, not at you. Under the smallest one's smock there is a chairman's blue coat, and the purse at the tall one's belt is new, and smells, even from here, of cloves.".
+    Pleads "The footpads drop their cudgels in the heather and run, one of them leaving a shoe.".
+  }
+  Initially Set tribute(footpads) to 3.
+  // Beaten, a company is robbed, not killed, and left by the gibbet to come round.
+  Initially Assert takesPrisoners(footpads).
+  Relation robbed(group).
+  Rule footpads_rob when captured(footpads, party) {
+    Retract captured(footpads, party). Retract assails(footpads, party). Assert robbed(party). Set cameRound(crossways) to watch(clock).
+    Set quantity(party, gold) to 0. Assert tolerates(footpads, party). }
+  Rule robbed_told at crossways when robbed(party) and watch(clock) > cameRound(crossways) and not spread(robbed_told)
+    says "You come round under the gibbet with the garland on it, with a lump on your head and your purse gone, and the crossways empty but for the larks." { Assert spread(robbed_told). }
+  Entity robbed_told: fact "robbed at the crossways".
+  // The smallest wears a chairman's coat: a company the chairmen know can name the man whose coat it is.
+  Action name_lanyon(actor: group, site: place) "Ask the one in the chairman's coat whether Big Lanyon knows where he is this morning" {
+    Description "The chairmen look after their own, and their own know it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crossways) and at(footpads, crossways) and warned(footpads, actor)
+      and (stoodWith(actor) or goodwill(chairmen) >= 2) and not padsShamed(footpads).
+    Time 2 minutes.
+    On success { Retract warned(footpads, actor). Assert tolerates(footpads, actor). Assert padsShamed(footpads). Assert knows(actor, hartopp_paid_pads). Assert at(footpads, limbo). }
+    Result "The smallest one takes his mask off. He is about sixteen, with Lanyon's ears. 'He don't,' he says. 'And you'll not tell him.' The tall one says, 'Shut up, Davy,' and Davy does not. It comes out all together, with the other two trying to stop it: a gentleman, in a plum coat, at the back door of the Two Poles last night; a purse; three coin a head to stop an old man in a slept-in coat getting to Orm before noon, and not to hurt him much. 'He smelt of cloves,' says Davy. 'Like a pudding.' Then all three go off down the drove road at a trot, and Ottery, who has heard every word, sits down on the step of the gibbet and laughs until he has to wipe his eyes.".
+  }
+  Relation padsShamed(group).
+  Discovery hartopp_paid_pads "The boys at the gibbet were paid to keep Ottery from Orm, by a gentleman who smelt of cloves.".
+  // Fought down in front of a physician, the footpads are a physician's business.
+  Event footpads_tended at crossways when at(party, crossways) and not able(footpads) and following(ottery, party) "Ottery is down on his knees in the heather beside the two men in crape before you have got your breath, with his bag open. He takes their masks off: two boys from the Old Town, one of them with a chairman's blue coat under his smock. 'You'll live,' he tells them, binding a head, 'which is more than you deserve and less than you'll thank me for.' He does not look at you while he does it. The youngest, with his head bound up, tells Ottery who paid them, because Ottery asks him in the voice he uses on the ward: a gentleman in a plum coat, at the back of the Two Poles, who smelt of cloves. Ottery finishes the knot before he says anything. 'Well,' he says. 'He's a governor. He'd want it done properly.'" teaches hartopp_paid_pads then { Assert tendedFootpads(ottery). }
+  Relation tendedFootpads(group).
+  Relation askedCrossways(group). Relation saidNeverLied(group). Relation saidLiedForGood(group). Relation saidLieWrong(group).
+  Event crossways_question at crossways when at(party, crossways) and following(ottery, party) and not askedCrossways(party) and (tolerates(footpads, party) or not able(footpads) or routed(footpads)) "Ottery leans on the gibbet's post to get his breath, and looks up at the empty chain, and then at you. 'Second question,' he says. 'Have you ever lied to somebody for their own good?'" then { Assert askedCrossways(party). }
+  Topic answer_never with ottery "Tell him: never" when askedCrossways(actor) and not saidNeverLied(actor) and not saidLiedForGood(actor) and not saidLieWrong(actor) once {
+    Says "Ottery looks at you sideways. 'Never,' he says. 'Well, there's the first lie of the day, and it's barely ten.' But he laughs, which he does not do often, and claps you on the shoulder.".
+    On discuss { Assert saidNeverLied(actor). }
+  }
+  Topic answer_yes_lied with ottery "Tell him: yes, and you would again" when askedCrossways(actor) and not saidNeverLied(actor) and not saidLiedForGood(actor) and not saidLieWrong(actor) once {
+    Says "'And you would again.' Ottery nods slowly. 'So would I. I told a boy at Ryle with his legs off that he'd dance at his wedding. He died before I'd washed my hands.' He looks at the chain. 'I've never been sorry. I've never been sure.'".
+    On discuss { Assert saidLiedForGood(actor). }
+  }
+  Topic answer_wrong with ottery "Tell him: yes, and it was wrong, and you knew it" when askedCrossways(actor) and not saidNeverLied(actor) and not saidLiedForGood(actor) and not saidLieWrong(actor) once {
+    Says "Ottery is silent a long time. 'Yes,' he says at last. 'That's the usual way of it.' He pushes himself off the gibbet's post. 'Come on. The College won't wait, and I find I want to get there.'".
+    On discuss { Assert saidLieWrong(actor). }
+  }
+  // Orm gate: the turn, and the choice.
+  Relation ottTurned(group).
+  Event ottery_turn at orm_gate when at(party, orm_gate) and following(ottery, party) and not ottTurned(party) "At the grey gate of Orm, under MEDICUS CURAT, NATURA SANAT, Ottery stops, and puts down his bag, and turns round to you. 'I've been thinking about what you said,' he says, 'all the way over the down.' And he tells you what you said: about the dying woman at the stile, and the shepherd at the hut, and the lie at the gibbet, every word, in your own voice, which is an uncomfortable thing to hear. 'So,' he says. 'You've a choice now, and it's the same choice. You can walk in there with me and tell the College I'm a man of good character, which is a lie, I'm a man of very bad character and a good physician. Or you can let me go on north, where nobody's heard of me, and I'll physic shepherds till I drop. Or you can take me back down to Hessel, struck off, and I'll do what I can for whoever will have me without a licence.' He picks up his bag. 'I know what I'd choose. I'm not telling you.'" then { Assert ottTurned(party). }
+  Observe ottery_turn_truth at orm_gate when ottTurned(party) and saidTruth(party) and following(ottery, party) and not otteryDecided(ottery) "Ottery is watching you with his head on one side. 'You said the truth,' he says. 'At the stile. You said she had a right to it. Mind you remember that, in there, if we go in.'".
+  Observe ottery_turn_comfort at orm_gate when ottTurned(party) and saidComfort(party) and following(ottery, party) and not otteryDecided(ottery) "Ottery is watching you with his head on one side. 'You said let her be happy,' he says. 'At the stile. You said what good is the truth to the dying. I've been chewing on it all the way. I'm sixty, and the College is going to tell me something I don't want to hear, and I find I'd like very much not to hear it.'".
+  Observe ottery_turn_depends at orm_gate when ottTurned(party) and saidDepends(party) and following(ottery, party) and not otteryDecided(ottery) "Ottery is watching you with his head on one side. 'Ask her what she wants to know, you said,' he says. 'Well. Ask me.'".
+  Query beforeCollege() means secondDay() and hour(clock) < 12.
+  Action stand_witness(actor: group, site: place) "Go in with Dr Ottery, and stand witness to his good character before the College" {
+    Description "The College sits at noon.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, orm_gate) and following(ottery, actor) and beforeCollege() and not otteryDecided(ottery).
+    Time 12.
+    On success { Assert otteryLicensed(ottery). Assert otteryDecided(ottery). Assert stoodWitness(actor). }
+    Result "The College of Physicians sits in a long room that smells of beeswax and old men, and keeps you both standing. They have a great many letters. You are asked whether you know Dr Jonas Ottery to be of good character, and you say what you say, and the President looks at you over his spectacles exactly as Ottery does, and you realise they were students together. At two o'clock they give him back his licence, with a reprimand for intemperate language to a governor of the Hospital of the Waters, read aloud. Outside on the step Ottery puts the paper in his bag without looking at it. 'Well,' he says. 'Now I can be turned off again properly.' He shakes your hand. 'The carrier goes down to Hessel at three. I'll buy you a pie.'".
+  }
+  Relation stoodWitness(group).
+  Action let_ottery_go(actor: group, site: place) "Let Dr Ottery go on north, where nobody has heard of him" {
+    Grave "He will not come back to Hessel.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, orm_gate) and following(ottery, actor) and not otteryDecided(ottery).
+    Time 2 minutes.
+    On success { Assert otteryGone(ottery). Assert otteryDecided(ottery). Retract following(ottery, actor). Assert at(ottery, limbo). }
+    Result "Ottery looks at you, and nods, and picks up his bag. 'North,' he says. 'There's sheep up there, and shepherds, and children with fevers, and not a College for a hundred miles.' He shakes your hand, hard. 'Tell Abigail Cherrett from me to stop drinking that muck.' And he goes off along the wall of Orm toward the north road, in his slept-in coat, not looking back, getting smaller.".
+  }
+  Action bring_ottery_back(actor: group, site: place) "Take Dr Ottery back to Hessel, without going in" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, orm_gate) and following(ottery, actor) and not otteryDecided(ottery).
+    Time 2 minutes.
+    On success { Assert otteryFugitive(ottery). Assert otteryStruck(ottery). Assert otteryDecided(ottery). }
+    Result "'Back,' says Ottery. 'Struck off in my absence, unlicensed, and back to the ward that's turned me off.' He looks at the College's grey gate for a long moment. Then he laughs. 'Well, they can't strike me off it twice,' he says. 'The carrier goes at three. I'll buy you a pie.'".
+  }
+  // Too late for the College, whatever is chosen: it struck him off at noon in his absence.
+  Rule college_sat when secondDay() and hour(clock) >= 12 and otteryOnRoad(ottery) and not otteryDecided(ottery) and not at(party, orm_gate) and not spread(college_sat_told) { Assert collegeMissed(ottery). Assert spread(college_sat_told). }
+  Entity college_sat_told: fact "the College sat".
+  Relation collegeMissed(group).
+  Observe college_missed at orm_gate when collegeMissed(ottery) and not otteryDecided(ottery) "A clerk in black comes out of Orm's gate with a paper and nails it to the board by the wicket, and goes in again. Ottery reads it over your shoulder. 'Struck off,' he says, 'in my absence.' He does not seem surprised.".
+  // Home by the carrier: three hours down, to the Abbey Yard by evening.
+  Action carrier_home(actor: group, site: place) "Ride the carrier's cart back over the down to Hessel, one coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, orm_gate) and hour(clock) >= 13 and hour(clock) < 20 and quantity(actor, gold) >= 1.
+    Time 18.
+    On success { Decrease quantity(actor, gold) by 1. Retract at(actor, site). Assert at(actor, abbey_yard). }
+    Result "The carrier's cart goes down over the high down at a walk, with a load of cheeses and a curate, and you sleep most of the way, and wake with the sun going down and the steam of Hessel standing up gold out of the valley in front of you.".
+  }
+  // Back in Hessel, Ottery goes to his ward; licensed or not, he is himself there, and can be asked along.
+  Rule ottery_returns when otteryDecided(ottery) and not otteryGone(ottery) and following(ottery, party) and inHessel() and otteryOnRoad(ottery) {
+    Retract following(ottery, party). Retract otteryOnRoad(ottery). Assert otteryHome(ottery). Assert willing(ottery, party). }
+  Rule ottery_strays when otteryOnRoad(ottery) and following(ottery, party) and otteryDecided(ottery) and not otteryGone(ottery) and hour(clock) >= 21 and not inHessel() and not onOrmRoad() {
+    Retract following(ottery, party). Retract otteryOnRoad(ottery). Assert otteryHome(ottery). }
+  Initially Set hire(ottery) to 0.
+}

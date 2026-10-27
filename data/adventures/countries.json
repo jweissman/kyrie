@@ -233,6 +233,25 @@
       "heard": "West over the march lies Pellam on the Lisk, a wool city whose river has frozen for the first time in thirty-one winters; they are holding a Frost Fair on the ice, under the ice's own law: a lie is no crime on it, and a handshake is the Court's.",
       "skyline": "a city on a river white with ice from bank to bank",
       "far": "a river has frozen bank to bank under a wool city, and they hold a fair on it where a lie is no crime and a handshake is the law"
+    },
+    {
+      "id": "hessel",
+      "bundle": "hessel/placed.json",
+      "entry": "south_road",
+      "marker": "cherrett",
+      "side": "north",
+      "beside": [
+        "forest",
+        "marsh",
+        "frost"
+      ],
+      "name": "the Lim valley",
+      "topic": "the Season at Hessel",
+      "terrain": "hills",
+      "rumour": "'North over the march, down in the Lim valley, there's Hessel,' says {keeper}, 'where the water comes up out of the hill hot, and the old go to be mended and the young to be married. It's the end of their Season. They say there's a rich old woman there who cooked for the navvies, buying husbands for all her family before she dies, and a house in the best street that's kept its shutters closed nine years, with the fires lit, in the warm.'",
+      "heard": "North over the march lies Hessel in the Lim valley, a spa where the water comes up hot and the old go to be mended and the young to be married; its Season is ending, a rich old woman there is buying husbands for her family before she dies, and a house in its best street has kept its shutters closed nine years.",
+      "skyline": "steam going up out of a green valley, where the water comes up out of the hill hot",
+      "far": "the water comes up out of a hill hot, and the old go there to be mended and the young to be married"
     }
   ]
 }

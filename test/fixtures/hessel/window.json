@@ -1,0 +1,63 @@
+{
+ "day1": [
+  "Lim Bridge",
+  "Quay Lane",
+  "Stall Street",
+  "Abbey Yard",
+  "Seize the side",
+  "To the top of the Parade",
+  "To the Crescent",
+  "=24",
+  "Ask Rob what he is looking at",
+  "=66",
+  "=84",
+  "To the top of the Parade",
+  "To the Abbey Yard",
+  "To Stall Street",
+  "Into the Two Poles",
+  "Take a bed and supper"
+ ],
+ "day2": [
+  "Out to Stall Street",
+  "To the Abbey Yard",
+  "To the top of the Parade",
+  "To the Crescent",
+  "=170",
+  "Give Rob a line: not a pale",
+  "Give Rob a line: her hand",
+  "Tell Rob the poem is finished",
+  "^Take$",
+  "=210",
+  "Climb the area railings at dusk"
+ ],
+ "day3": [
+  "To the top of the Parade",
+  "To the Abbey Yard",
+  "To Stall Street",
+  "Into the Two Poles",
+  "Take a bed and supper",
+  "Out to Stall Street",
+  "To the Abbey Yard",
+  "To the top of the Parade",
+  "To the Crescent",
+  "~^Into the area of Carth House$",
+  "?Give Rob",
+  "Out to the Crescent",
+  "=354",
+  "=356",
+  "Into the drawing room",
+  "Tell Celia what it is like outside",
+  "Ask Celia whether she had the poem",
+  "=366",
+  "Help Celia down from the drawing-room window"
+ ],
+ "ball": [
+  "Out to the Circus",
+  "To the top of the Parade",
+  "To the Abbey Yard",
+  "To Stall Street",
+  "Into the Two Poles",
+  "Take a bed and supper",
+  "=490"
+ ]
+}

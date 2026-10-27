@@ -1,0 +1,349 @@
+Module hessel "The Banns at Hessel" {
+  // ── Mr Twiss ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Master of the Ceremonies: sixty, beautifully dressed, absurd, sincere, and the most powerful person in Hessel.
+  // He has given his life to making a town's manners into an art, and he thinks of the Rules of the Rooms the way a
+  // priest thinks of the creed: not true because written, but written because true.
+  Person twiss "Mr Septimus Twiss" at twiss_parlour {
+    Role "the Master of the Ceremonies, in dove-grey silk and a white wig". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "Mr Twiss rises, bows (it is a very good bow, made of several smaller bows, like a fan opening), and looks at your boots. 'You are new to Hessel,' he says. 'Welcome. Everyone is new to Hessel once. Most people remain so.'".
+    Greets again "Mr Twiss inclines his head exactly as far as you deserve, which is a little further than last time.".
+  }
+  Rule twiss_home when hour(clock) >= 10 and hour(clock) < 18 and not at(twiss, twiss_parlour) { Assert at(twiss, twiss_parlour). }
+  Rule twiss_rooms when hour(clock) >= 18 and not at(twiss, ballroom) and not at(twiss, vestibule) { Assert at(twiss, vestibule). }
+  Rule twiss_to_floor when evening() and at(twiss, vestibule) and not twissFrantic(twiss) { Assert at(twiss, ballroom). }
+  Rule twiss_bed when hour(clock) < 10 and not at(twiss, twiss_parlour) { Assert at(twiss, twiss_parlour). }
+  Measure twissFavour(group).
+  Relation admitted(group). Relation householdBarred(group). Relation householdAdmitted(group). Relation twissOffended(group).
+  Initially Assert householdBarred(cherrett).
+  // Mrs Cherrett's people come in with her once the bar is lifted; the company, if it is not of her household, may
+  // subscribe like anyone.
+  Rule household_in when legs(party) and householdAdmitted(cherrett) and not admitted(party) and not twissOffended(party) { Assert admitted(party). }
+  Rule household_out when legs(party) and admitted(party) and householdBarred(cherrett) and not householdAdmitted(cherrett) { Retract admitted(party). }
+  Rule bar_lifted when householdAdmitted(cherrett) and householdBarred(cherrett) { Retract householdBarred(cherrett). }
+  // Why the portrait of him older is not dancing; and the one time he broke the eleven o'clock Rule.
+  Topic twiss_portraits with twiss "Ask Mr Twiss why, in the second portrait, he is not dancing" when twissFavour(twiss) >= 1 once {
+    Says "Mr Twiss looks at the two portraits as if they were of somebody he had once been introduced to. 'In my first Season,' he says, 'I was a dancing-master's assistant, and the band played on after eleven, once, because a young lady asked it, and I danced with her, and the old Master had me out of these Rooms for a twelvemonth.' He straightens a letter on the desk by a quarter of an inch. 'When I came back I made the Rules, and I have kept them, and I have not danced since except to open the Ball. The young lady married an earl.' A pause. 'She dances the minuet still. In the second figure she forgets her feet, and has for thirty years, and nobody in the room has ever been so unkind as to notice, until Mrs Cherrett.'".
+    On discuss { Assert knows(actor, twiss_countess). }
+  }
+  Discovery twiss_countess "Mr Twiss broke the eleven o'clock Rule once, in his first Season, to dance with the young lady who is now the Countess of Arne.".
+  Topic twiss_rules with twiss "Ask Mr Twiss about the Rules of the Rooms" when true once {
+    Says "'The Rules.' Mr Twiss touches the frame on his wall, the way a man touches wood. 'You think them trifles. Everybody does, who has not thought. No boots after six: because a ballroom is a place where a duchess and a draper's widow may stand up in the same set, and they must not be able to tell from the floor which is which. No lady to dance two running with one gentleman unless betrothed: because otherwise a girl may be compromised in twenty minutes by a man she would not let into her kitchen. No dancing after eleven: because the old must go home to bed, and if the music goes on, they will not.' He folds his hands. 'Every Rule of the Rooms is a kindness that has had to be made into a law, because people are not kind unless they are made to be. I am the Master of the Ceremonies. I am the one who makes them.'".
+    On discuss { Increase twissFavour(twiss) by 1. }
+  }
+  Topic twiss_cherrett with twiss "Ask Mr Twiss why Mrs Cherrett is barred from the Rooms" when true once {
+    Says "Mr Twiss's face closes like a snuff-box. 'Mrs Cherrett laughed,' he says, 'aloud, during the Countess of Arne's minuet. In the second figure. The Countess has danced the minuet in these Rooms for forty-one years; she is seventy; she dances it like a heron with the gout, and she knows it, and she does it because it is the last thing in the world she is good at.' He looks at you. 'Mrs Cherrett has a great deal of money and a very loud laugh. She may use neither in my Rooms until she has expressed her regret. In form.'".
+  }
+  Discovery cherrett_will_regret "Mrs Cherrett will let her regret be expressed to Mr Twiss on her behalf, though she will not choke on the word herself.".
+  Topic cherrett_regret with cherrett "Tell Mrs Cherrett that Ismay will never stand up at a ball in Hessel unless she makes her peace with Mr Twiss" when householdBarred(cherrett) and not gone(cherrett) and not knows(actor, cherrett_will_regret) once {
+    Says "'Peace!' Mrs Cherrett's stick comes down on the floor. 'With that pink-heeled dancing-master! I laughed because the old heron was funny, and so she was.' She glares at the stuffed pike. Then she looks at Ismay, at her ledger by the window, and something in her face gives. 'Oh, very well,' she says. 'Go and tell him I regret it. I don't. But you can tell him so. I'll not choke on the word myself, mind.'".
+    On discuss { Assert knows(actor, cherrett_will_regret). }
+  }
+  Action apologise_form(actor: group, site: place) "Express Mrs Cherrett's regret to Mr Twiss, in form, naming the Rule" {
+    Description "In his parlour, by one of her household, with the word regret and not the word sorry.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, twiss_parlour) and at(twiss, twiss_parlour)
+      and legs(actor) and knows(actor, cherrett_will_regret) and knows(actor, twiss_form) and householdBarred(cherrett) and not twissOffended(actor).
+    Time 2.
+    On success { Assert householdAdmitted(cherrett). Increase twissFavour(twiss) by 1. }
+    Result "You stand in the middle of Mr Twiss's carpet and say that Mrs Abigail Cherrett, of the Circus, has charged you to express her very great regret that she was so unhappy as to give offence, in the second figure of the Countess of Arne's minuet, against the spirit of the Rule that the Rooms are for the pleasure of all who keep them. Mr Twiss listens with his eyes shut. When you have done he opens them. 'Regret,' he says softly. 'Not sorry.' He takes a card from his desk and writes on it, in a hand like a garden in a frost. 'Mrs Cherrett and her household,' he says, 'are welcome at the Rooms. Tell her the Countess has asked after her ankle.'".
+  }
+  Action apologise_plain(actor: group, site: place) "Tell Mr Twiss that Mrs Cherrett is sorry, and ask him to let her household in" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, twiss_parlour) and at(twiss, twiss_parlour)
+      and legs(actor) and knows(actor, cherrett_will_regret) and not knows(actor, twiss_form) and householdBarred(cherrett) and not twissOffended(actor) and not triedPlain(actor).
+    Time 2.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert householdAdmitted(cherrett). }
+    On failure { Assert triedPlain(actor). }
+    Result "Mr Twiss winces at sorry as at a wrong note. But you go on, and say it well, and somewhere in the middle of it he begins to listen. 'You do not know the form,' he says at last. 'That is evident. But you have the spirit of it, which is rarer.' He writes a card. 'Mrs Cherrett and her household are welcome at the Rooms.'".
+    Otherwise "'Sorry,' says Mr Twiss, as if you had trodden on his foot. 'Mrs Cherrett is sorry.' He rings for his man. 'Sorry is for servants and for dogs. Good afternoon.'".
+  }
+  Relation triedPlain(group).
+  // Anyone not of the household may subscribe to the Season's last week, three coin, as any stranger may.
+  Action subscribe(actor: group, site: place) "Subscribe to the Rooms for the last week of the Season, three coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(twiss, site) and (at(actor, twiss_parlour) or at(actor, vestibule))
+      and not admitted(actor) and not legs(actor) and not twissOffended(actor) and quantity(actor, gold) >= 3.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Assert admitted(actor). Increase quantity(twiss, gold) by 3. }
+    Result "Mr Twiss enters your name in a book bound in blue morocco, sands it, and gives you a ticket of the Rooms, engraved with a lady and a gentleman bowing to each other across a lyre. 'You are now,' he says, 'one of us. Do try.'".
+  }
+  Topic twiss_household_refused with twiss "Ask Mr Twiss to take your subscription" when legs(actor) and householdBarred(cherrett) and not admitted(actor) once {
+    Says "Mr Twiss looks at you with real regret. 'You are Mrs Cherrett's,' he says. 'Everyone in Hessel knows it; you were seen catching her, or not catching her, which is the same as far as reputation goes.' He spreads his hands. 'Her household is barred. I cannot take your money. I can only wish, for your sake, that she would express a little regret.'".
+  }
+
+  // ── The footman ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // Who can be bought; and the price of being bought is Mr Twiss finding out, at his own Ball, in front of everybody.
+  Person fitch "Pocklington" at vestibule {
+    Role "the Rooms' footman, in blue, who has stood at that door for eleven Seasons and seen everything twice". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "The footman looks over your head at a point on the far wall.".
+  }
+  Relation fitchBribed(group).
+  Action bribe_fitch(actor: group, site: place) "Slip Pocklington five coin to let Mrs Cherrett's household in at the Ball" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(fitch, site) and legs(actor) and householdBarred(cherrett)
+      and not fitchBribed(actor) and quantity(actor, gold) >= 5.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(fitch, gold) by 5. Assert fitchBribed(actor). }
+    Result "The coins go into Pocklington's glove without his face moving at all. 'The side door,' he says to the far wall. 'Half past seven. Monday.'".
+  }
+
+  // ── Signor Brocca's evening ───────────────────────────────────────────────────────────────────────────────────────
+  // On the second evening the Rooms' first violin is drunk at the Two Poles, where he goes to be with people who do not
+  // know he plays. Without him there is no band; with no band there is no assembly; Mr Twiss has never once in twenty
+  // years opened the Rooms to silence.
+  Person brocca "Signor Brocca" at limbo {
+    Role "a little man in a velvet coat, with a violin case, weeping into a pot of porter" when not broccaSober(brocca).
+    Role "the Rooms' first violin, damp and upright" when broccaSober(brocca).
+    Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "The little man in the velvet coat looks up at you with swimming eyes. 'You are kind,' he says. 'Everybody here is kind. Nobody here knows who I am. Is it not wonderful?'".
+  }
+  Relation broccaSober(group). Relation broccaDone(group). Relation twissFrantic(group).
+  Rule brocca_drinks when secondDay() and hour(clock) >= 17 and hour(clock) < 21 and not at(brocca, two_poles) and not broccaSober(brocca) and not broccaDone(brocca) and not following(brocca, party) and not travelsWith(brocca, party) { Assert at(brocca, two_poles). }
+  Rule twiss_waits when secondDay() and hour(clock) >= 19 and hour(clock) < 21 and not broccaDone(brocca) and not twissFrantic(twiss) { Assert twissFrantic(twiss). Assert at(twiss, vestibule). }
+  Observe twiss_frantic at vestibule when twissFrantic(twiss) and not broccaDone(brocca) "Mr Twiss is in the vestibule in his ballroom silks, walking up and down between the mirrors, so that there are a great many of him, all of them frantic. 'The first violin,' he is saying to Pocklington, to the ceiling, to anyone. 'Without a first violin there is no band. Without a band there is no assembly. I have opened these Rooms every night of the Season for twenty years.'".
+  Action sober_brocca(actor: group, site: place) "Walk Signor Brocca round the yard and put his head under the pump" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, two_poles) and at(brocca, two_poles) and not broccaSober(brocca).
+    Time 3.
+    On success { Assert broccaSober(brocca). Assert acceptsEscort(brocca, actor). Assert following(brocca, actor). }
+    Result "Twice round the yard, once under the pump, and a pint of the landlord's black coffee that tastes of the pot. Signor Brocca comes up out of the pump-trough like a drowned cat and looks at you with sudden, terrible clarity. 'The Rooms,' he says. 'It is Saturday? It is the Rooms. Twiss will kill me.' He picks up his violin case and holds it to his chest. 'Take me. Take me up the hill.'".
+  }
+  Action carry_brocca(actor: group, site: place) "Carry Signor Brocca up the Parade on your back, violin and all" {
+    Description "He is not heavy. The Parade is.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, abbey_yard) and following(brocca, actor) and broccaSober(brocca) and not broccaDone(brocca).
+    Time 2.
+    Resolve check(actor, brawn, dc_easy).
+    On success { Retract following(brocca, actor). Assert at(brocca, vestibule). Retract at(actor, abbey_yard). Assert at(actor, circus). }
+    On failure { Retract following(brocca, actor). Assert at(brocca, vestibule). Retract at(actor, abbey_yard). Assert at(actor, circus). }
+    Result "Up the Parade at a stagger, with Signor Brocca's arms round your neck and his violin case beating time on your shoulder, past the chairmen at the Parade foot, who cheer. At the top you set him down at the door of the Rooms, and he straightens his coat, and goes in.".
+    Otherwise "Halfway up the Parade your legs go, and you sit down together on the ridged paving, and Signor Brocca laughs until he cries. You go the rest of the way on foot, slowly, arm in arm, and at the door of the Rooms he straightens his coat and goes in.".
+  }
+  Event brocca_arrives near twiss when at(brocca, vestibule) and hour(clock) < 21 and not broccaDone(brocca) "Mr Twiss sees Signor Brocca come in at the door, damp, upright, holding his violin, and for a moment the Master of the Ceremonies closes his eyes. Then he takes the little man by both shoulders and turns him toward the ballroom, and the band strikes up before Brocca is in his chair. Mr Twiss comes back to you across the vestibule. 'I am in your debt,' he says. 'I am never in anyone's debt. Name it.'" then {
+    Assert broccaDone(brocca). Retract twissFrantic(twiss). Increase twissFavour(twiss) by 2. Assert twissOwes(party). }
+  Event brocca_late at vestibule when secondDay() and hour(clock) >= 21 and not broccaDone(brocca) "The Rooms open at last at nine, to a band without a first violin, and Mr Twiss, white to the lips, conducts it himself with a candle-snuffer. It is spoken of for years." then {
+    Assert broccaDone(brocca). Retract twissFrantic(twiss). Assert at(brocca, limbo). }
+  Rule brocca_goes_home when broccaDone(brocca) and at(brocca, vestibule) and hour(clock) >= 23 { Assert at(brocca, limbo). }
+  Relation twissOwes(group).
+  Topic twiss_name_household with twiss "Name it: Mrs Cherrett and her household, admitted to the Rooms" when twissOwes(actor) and householdBarred(cherrett) once {
+    Says "Mr Twiss's eyebrows go up, and come down again. 'The household of Mrs Cherrett,' he says. 'Without regret expressed.' He looks into the ballroom, where Brocca is playing like a man redeemed. 'Very well. A debt is a debt. Mrs Cherrett and her household are welcome. Tell her I shall expect her not to laugh.'".
+    On discuss { Retract twissOwes(actor). Assert householdAdmitted(cherrett). }
+  }
+  Topic twiss_name_self_stranger with twiss "Name it: a ticket of the Rooms for yourself" when twissOwes(actor) and not admitted(actor) and not legs(actor) once {
+    Says "'Done,' says Mr Twiss, and gives you a ticket of the Rooms from his own pocket. 'You are one of us. Do try.'".
+    On discuss { Retract twissOwes(actor). Assert admitted(actor). }
+  }
+
+  // ── Mrs Scrope ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Whatever she is told at the Pump Room in the morning is all over Hessel by dinner, at three, with its teller's
+  // name. She is not malicious. She is a widow with nothing to do, and the truth, in Hessel, is the only thing that is
+  // free.
+  Person scrope "Mrs Tabitha Scrope" at pump_room {
+    Role "a small bright widow in lavender, with a glass of the waters she never drinks". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "The little widow in lavender turns to you with the whole of her face, as a sunflower turns. 'You're new,' she says. 'How delightful. Sit by me. Tell me everything. I never repeat anything, except to my particular friends.'".
+    Greets again "Mrs Scrope pats the seat beside her.".
+  }
+  Rule scrope_pump when hour(clock) >= 8 and hour(clock) < 12 and not at(scrope, pump_room) { Assert at(scrope, pump_room). }
+  Rule scrope_cards when hour(clock) >= 19 and hour(clock) < 23 and not at(scrope, card_room) { Assert at(scrope, card_room). }
+  Rule scrope_home when (hour(clock) >= 12 and hour(clock) < 19 or hour(clock) >= 23 or hour(clock) < 8) and not at(scrope, kings_bath) { Assert at(scrope, kings_bath). }
+  // What she has been told, and what is public: the rumour goes round at three, the hour Hessel dines.
+  Kind rumour.
+  Entity rumour_rupert: rumour "that the Honourable Rupert Wenlock has a wife and child in the Old Town".
+  Entity rumour_kit: rumour "that Ismay Cherrett is in love with a chairman".
+  Entity rumour_drops: rumour "that Dr Hartopp has doubled Mrs Cherrett's drops since she put him in her will".
+  Entity rumour_nan: rumour "that Lady Carth is alive and washing linen in the Old Town".
+  Entity rumour_window: rumour "that a young man moons all day at the window of Carth House".
+  Entity rumour_ruin: rumour "that the Cherrett money is all in canal shares, and the canals are failing".
+  Relation toldScrope(rumour). Relation public(rumour).
+  Rule rumour_goes_round when toldScrope(?r) and not public(?r) and hour(clock) == 15 { Assert public(?r). }
+  Rule rumour_goes_round_late when toldScrope(?r) and not public(?r) and hour(clock) >= 15 and hour(clock) < 16 { Assert public(?r). }
+  Topic scrope_rupert with scrope "Tell Mrs Scrope that Rupert Wenlock is secretly married, with a baby" when knows(actor, rupert_married) and not toldScrope(rumour_rupert) and not bannsDone(ebbas) once {
+    Says "Mrs Scrope's eyes become perfectly round. 'Married!' she breathes. 'And the banns read twice! And the Cherrett girl!' She puts down her glass. 'I shall tell no one,' she says, and is already looking round the room for someone to tell.".
+    On discuss { Assert toldScrope(rumour_rupert). }
+  }
+  Topic scrope_kit with scrope "Tell Mrs Scrope that Ismay Cherrett is in love with a chairman" when knows(actor, ismay_loves_kit) and not toldScrope(rumour_kit) once {
+    Says "'A chairman!' Mrs Scrope claps her little gloved hands together without a sound. 'Oh, but that's beautiful. That's a ballad. Which one? The young one who reads? Oh, I knew it, I knew it from the way he holds the poles.' She is already half out of her chair.".
+    On discuss { Assert toldScrope(rumour_kit). }
+  }
+  Topic scrope_drops with scrope "Tell Mrs Scrope that Dr Hartopp has doubled Mrs Cherrett's drops since she put him in her will" when knows(actor, drops_doubled) and not toldScrope(rumour_drops) once {
+    Says "Mrs Scrope goes quite still. 'Hartopp,' she says. 'He attends me. He attends my sister.' She looks at her glass of the waters as if something might be in it. 'I shall mention it,' she says, 'to my particular friends.' She has eleven.".
+    On discuss { Assert toldScrope(rumour_drops). }
+  }
+  Topic scrope_nan with scrope "Tell Mrs Scrope that Lady Carth is alive, and washing linen in the Old Town" when knows(actor, nan_is_lady) and not toldScrope(rumour_nan) once {
+    Says "For once in her life Mrs Scrope cannot speak. Then she says, 'Lady Carth. Lady Carth,' and stands up, and sits down, and stands up again, and goes out of the Pump Room without her shawl.".
+    On discuss { Assert toldScrope(rumour_nan). }
+  }
+  Topic scrope_window with scrope "Tell Mrs Scrope that Rob Cherrett is in love with a face at the window of Carth House" when knows(actor, rob_loves_window) and not toldScrope(rumour_window) once {
+    Says "'The Carth girl!' says Mrs Scrope. 'Nobody has seen the Carth girl in nine years! They say she is consumptive. They say she is mad. They say Sir Gervase keeps her in the dark.' She sighs, happily. 'And a poet. How perfectly dreadful.'".
+    On discuss { Assert toldScrope(rumour_window). }
+  }
+  Topic scrope_ruin with scrope "Tell Mrs Scrope, in confidence, that the Cherrett money is all in canal shares, and the canals are failing" when legs(actor) and not toldScrope(rumour_ruin) once {
+    Says "It is not true. Mrs Scrope does not know that; neither, you suspect, would she much mind. 'Canals,' she says, with a beautiful look of sorrow. 'Oh, the poor things. And the Wenlocks so very particular about money.' She pats your hand. 'You were right to tell me. Who else would you tell?'".
+    On discuss { Assert toldScrope(rumour_ruin). Assert liedPublicly(actor). }
+  }
+  Relation liedPublicly(group).
+  // What the town says back, at the next Pump Room, of what went round.
+  Query quietTown() means not public(rumour_rupert) and not public(rumour_kit) and not public(rumour_drops) and not public(rumour_nan) and not public(rumour_window) and not public(rumour_ruin) and not bannsWithdrawn(ebbas).
+  Topic scrope_news with scrope "Ask Mrs Scrope what the news is" when not dark() and quietTown() {
+    Says "'Oh, the news,' says Mrs Scrope, and tells you about a colonel's gout, a bishop's niece, a pair of twins in the King's Bath who are not, after all, the same person, and a bonnet. Then she leans close. 'And they're saying the Cherrett girl's banns are as good as read, and the Wenlocks will have the canal money by Monday, and Dr Hartopp has his eye on the companion, or the granddaughter, depending who you ask.' She sips water she does not swallow.".
+  }
+  Topic scrope_ottery with scrope "Ask Mrs Scrope about the Hospital of the Waters" when firstDay() and not otteryDecided(ottery) once {
+    Says "'Oh, poor Dr Ottery.' Mrs Scrope is delighted. 'Turned off by the governors, for telling Mrs Cherrett she was dying, in the Pump Room, in front of everybody. And now the College at Orm has summoned him for tomorrow noon, and he has to walk it, over the down, at first light, with nobody to speak for him. Nobody will, of course. He calls the governors fools.' She sips. 'Which they are.'".
+  }
+  Topic scrope_news_after with scrope "Ask Mrs Scrope what the news is" when not dark() and not quietTown() {
+    Says "'The news!' Mrs Scrope can hardly sit still. 'My dear, there's never been a Season like it. The Cherrett banns are off, and everybody has a different reason, and every one of them is true.' She lowers her voice. 'And they say the Cherretts' stranger is at the bottom of it all. I said, nonsense. I said, a stranger can't do anything in Hessel. Can they?' She looks at you with enormous interest.".
+  }
+  Observe scrope_public_rupert near scrope when public(rumour_rupert) and not seenOnce(rupert_public) "'Married,' Mrs Scrope is saying to a colonel, 'two years, to a milliner, with a little boy, and the banns read twice at Saint Ebba's! Lady Wenlock has taken to her bed.'" teaches rupert_public.
+  Discovery rupert_public "All Hessel knows that Rupert Wenlock was secretly married to a milliner, with a child, while his banns were read to Ismay Cherrett.".
+  Observe scrope_public_kit near scrope when public(rumour_kit) and not seenOnce(kit_public) "'A chairman,' Mrs Scrope is telling the gallery, 'a common chairman, in a blue coat, and she the Cherrett heiress. Like a ballad.' The gallery is delighted." teaches kit_public.
+  Discovery kit_public "All Hessel knows that Ismay Cherrett is in love with Kit Danby, the chairman.".
+  Observe scrope_public_drops near scrope when public(rumour_drops) and not seenOnce(drops_public) "'Laudanum,' Mrs Scrope is saying, behind her fan, 'by the pint. And she put him in her will! Lady Pomfret has dismissed him. So has my sister.'" teaches drops_public.
+  Discovery drops_public "All Hessel is saying that Dr Hartopp doubled Mrs Cherrett's drops after she put him in her will; his patients are leaving him.".
+  Observe scrope_public_nan near scrope when public(rumour_nan) and not seenOnce(nan_public) "'Alive,' Mrs Scrope is telling everybody, 'alive these nine years, washing sheets under his very windows. Half the town went down to the laundries to look at her this morning.'" teaches nan_public.
+  Discovery nan_public "All Hessel knows that Lady Carth is alive, and washing linen in the Old Town, under her husband's windows.".
+  Observe scrope_public_window near scrope when public(rumour_window) and not seenOnce(window_public) "'A poet,' Mrs Scrope is saying, 'on the lawn, all day, at the Carth girl's window. And Sir Gervase has had his man nail the shutters.'" teaches window_public.
+  Discovery window_public "All Hessel knows that Rob Cherrett moons at the window of Carth House, and Sir Gervase has had the shutters nailed.".
+  Observe scrope_public_ruin near scrope when public(rumour_ruin) and not seenOnce(ruin_public) "'Canals,' Mrs Scrope is saying, mournfully, to a bishop. 'Every penny. And the Wenlocks have withdrawn. I had it from Mrs Cherrett's own cavalier.'" teaches ruin_public.
+  Discovery ruin_public "All Hessel believes the Cherrett money is lost in failing canals; the Wenlocks have withdrawn from the match, and everyone knows who said it first.".
+
+  // ── What the rumours do ───────────────────────────────────────────────────────────────────────────────────────────
+  // Rupert's marriage, public: the banns are stopped in fury, the Wenlocks leave the Rooms, Rupert goes to his wife.
+  Rule rupert_scandal when public(rumour_rupert) and not bannsWithdrawn(ebbas) and not bannsDone(ebbas) {
+    Assert bannsWithdrawn(ebbas). Assert scandal(wenlock). Retract wenlockSponsor(wenlock). }
+  // Ismay's love, public: Mrs Cherrett hears it from the town before she hears it from Ismay, and turns the chairman
+  // off for presumption.
+  Rule kit_scandal when public(rumour_kit) and not kitDismissed(kit) and not cherrettBlessesKit(cherrett) { Assert kitDismissed(kit). Assert cherrettHumiliated(cherrett). }
+  Relation cherrettHumiliated(group).
+  // The drops, public: Hartopp's practice cools, and he courts nobody.
+  Rule drops_scandal when public(rumour_drops) and not hartoppCooled(hartopp) { Assert hartoppCooled(hartopp). }
+  // Lady Carth, public: the town goes down to stare, and she goes away.
+  Rule nan_scandal when public(rumour_nan) and not nanFled(nan) and not carthReunited(carth) { Assert nanFled(nan). Assert at(nan, limbo). }
+  // The window, public: the shutters are nailed.
+  Rule window_scandal when public(rumour_window) and not windowNailed(carth) and not celiaOut(celia) { Assert windowNailed(carth). Assert state(drawing_window, nailed). }
+  // The canals, public: the Wenlocks withdraw; Hartopp cools; and Mrs Cherrett learns who said it.
+  Rule ruin_scandal when public(rumour_ruin) and not bannsDone(ebbas) {
+    Assert bannsWithdrawn(ebbas). Assert hartoppCooled(hartopp). Assert cherrettBetrayed(cherrett). Retract wenlockSponsor(wenlock). }
+  Relation cherrettBetrayed(group). Relation scandal(group). Relation hartoppCooled(group).
+  Rule betrayed_dismissed when cherrettBetrayed(cherrett) and legs(party) and not gone(cherrett) says "A note comes from the Circus, in Mrs Cherrett's enormous hand: You told the town I was ruined. I am not. You are dismissed. A. C. Underneath, in a smaller hand: She cried. M. G." {
+    Retract legs(party). Assert legsLost(party). Set mopsaRegard(mopsa) to 0. }
+  Relation legsLost(group).
+
+  // ── The Wenlocks ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Person lady_wenlock "Lady Wenlock" at wenlock_room {
+    Role "a long thin lady in black with a face like a closed umbrella" when not grandmother(lady_wenlock).
+    Role "a long thin lady in black, with a blue ribbon in her cap that goes with nothing" when grandmother(lady_wenlock).
+    Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "Lady Wenlock looks at you through a glass on a stick, as if you were very small and a long way off. 'Yes?' she says.".
+    Greets again "Lady Wenlock raises her glass.".
+  }
+  Rule wenlock_pump when pumpHour() and not at(lady_wenlock, pump_room) and not wenlockGone(wenlock) { Assert at(lady_wenlock, pump_room). }
+  Rule wenlock_home when (hour(clock) >= 10 and hour(clock) < 19 or hour(clock) >= 23 or hour(clock) < 8) and not at(lady_wenlock, wenlock_room) and not wenlockGone(wenlock) and not atBall(lady_wenlock) { Assert at(lady_wenlock, wenlock_room). }
+  Rule wenlock_cards when evening() and not at(lady_wenlock, card_room) and not wenlockGone(wenlock) and not scandal(wenlock) and not atBall(lady_wenlock) { Assert at(lady_wenlock, card_room). }
+  Entity wenlock: group "the Wenlocks".
+  Relation wenlockGone(group). Relation wenlockSponsor(group). Relation grandmother(group).
+  Topic wenlock_match with lady_wenlock "Ask Lady Wenlock about the match" when not bannsWithdrawn(ebbas) once {
+    Says "'The match.' Lady Wenlock lowers her glass. 'My son has a name that has been in the Book of the Peerage since there was a book, and an income that would not keep a curate in boots. Mrs Cherrett has forty thousand pounds and a voice that would carry across a canal.' She raises the glass again. 'It is a perfectly ordinary arrangement. They are made every Season in this town by people who smell less strongly of trade. I do not have to like it. I have only to attend it.'".
+  }
+  Topic wenlock_sponsor with lady_wenlock "Ask Lady Wenlock to speak to Mr Twiss for the Cherretts, since their granddaughter is to be her son's wife" when householdBarred(cherrett) and not bannsWithdrawn(ebbas) and legs(actor) and not wenlockSponsor(wenlock) once {
+    Says "Lady Wenlock considers the request, and you, and the window. 'It would be awkward,' she says, 'to have my son married on Monday morning to a girl who was not admitted to the Ball on Monday night. People would ask why.' She sighs. 'Very well. I shall write to Mr Twiss. He will do it for me.' The glass goes up. 'You understand that I now expect the banns to be read on Sunday without the smallest hitch.'".
+    On discuss { Assert wenlockSponsor(wenlock). Assert householdAdmitted(cherrett). }
+  }
+  // A sponsor withdrawn takes the household out again, unless Twiss has been won another way.
+  Rule sponsor_withdrawn when householdAdmitted(cherrett) and sponsorOnly(cherrett) and not wenlockSponsor(wenlock) and scandal(wenlock) {
+    Retract householdAdmitted(cherrett). Assert householdBarred(cherrett). Retract sponsorOnly(cherrett). }
+  Relation sponsorOnly(group).
+  Rule sponsor_only when wenlockSponsor(wenlock) and householdAdmitted(cherrett) and twissFavour(twiss) < 2 and not sponsorOnly(cherrett) and not twissWon(cherrett) { Assert sponsorOnly(cherrett). }
+  Rule twiss_won when twissFavour(twiss) >= 2 and not twissWon(cherrett) { Assert twissWon(cherrett). Retract sponsorOnly(cherrett). }
+  Relation twissWon(group).
+
+  Person rupert "the Honourable Rupert Wenlock" at wenlock_room {
+    Role "a pleasant, anxious man of thirty with a beetle in a pill-box". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "The pleasant anxious man shakes your hand as if it were a great relief to him that you have one. 'How do you do. Rupert Wenlock. Are you interested in beetles? Nobody is. I don't blame them.'".
+    Greets again "Rupert Wenlock smiles at you, and looks at the door.".
+  }
+  // Mornings with his mother; at noon to Quay Lane, to his wife and son; the afternoons on the King's Bath gallery; the
+  // evenings at the Rooms, or, on the second, drinking at the Two Poles with the chairmen, who do not know he is anyone.
+  Relation rupertAway(group).
+  Rule rupert_morning when hour(clock) >= 8 and hour(clock) < 12 and not at(rupert, wenlock_room) and not rupertAway(rupert) and not following(rupert, party) and not travelsWith(rupert, party) { Assert at(rupert, wenlock_room). }
+  Rule rupert_noon when hour(clock) >= 12 and hour(clock) < 14 and not at(rupert, hetty_shop) and not rupertAway(rupert) and not following(rupert, party) and not travelsWith(rupert, party) { Assert at(rupert, hetty_shop). }
+  Rule rupert_afternoon when hour(clock) >= 14 and hour(clock) < 19 and not at(rupert, kings_bath) and not rupertAway(rupert) and not following(rupert, party) and not travelsWith(rupert, party) { Assert at(rupert, kings_bath). }
+  Rule rupert_evening when evening() and not secondDay() and not at(rupert, card_room) and not rupertAway(rupert) and not atBall(rupert) and not following(rupert, party) and not travelsWith(rupert, party) { Assert at(rupert, card_room). }
+  Rule rupert_drinks when evening() and secondDay() and not at(rupert, two_poles) and not rupertAway(rupert) and not following(rupert, party) and not travelsWith(rupert, party) { Assert at(rupert, two_poles). }
+  Rule rupert_night when (hour(clock) >= 23 or hour(clock) < 8) and not at(rupert, wenlock_room) and not rupertAway(rupert) and not following(rupert, party) and not travelsWith(rupert, party) { Assert at(rupert, wenlock_room). }
+  Discovery rupert_married "Rupert Wenlock, whose banns are being read to Ismay Cherrett, has a wife and a son in Quay Lane.".
+  Topic rupert_banns with rupert "Ask Rupert about the banns" when not knows(actor, rupert_married) once {
+    Says "Rupert goes pink, and then rather white, and looks at his pill-box. 'The banns,' he says. 'Yes. Twice. Sunday is the third. Miss Cherrett is a very fine young woman. Very fine. Very good with figures.' He opens the pill-box and looks at the beetle inside as if it might help. It does not. 'Excuse me,' he says, 'I think I hear my mother,' though she is sitting beside him.".
+  }
+  Topic rupert_confronted with rupert "Tell Rupert that you know about Hetty and the baby" when knows(actor, rupert_married) and not rupertConfessed(rupert) once {
+    Says "Rupert sits down very suddenly, on nothing in particular. 'Oh God,' he says. 'Oh God, who else knows?' He puts his face in his hands. 'I married her in Bristol. Two years ago. Her name is Hetty and she makes the best bonnets in Hessel and my son is called Jack and he has teeth now, four.' He looks up. 'And my mother has no money, none, and she's arranged it, and the banns were read before I could think, and every Sunday I go to church and think, now I'll stand up, now, and I don't. I sit there. What do I do?'".
+    On discuss { Assert rupertConfessed(rupert). }
+  }
+  Relation rupertConfessed(group). Relation rupertBrave(group).
+  Topic rupert_brave with rupert "Tell Rupert you will go with him to his mother, and stand beside him while he tells her" when rupertConfessed(rupert) and not rupertBrave(rupert) and not bannsWithdrawn(ebbas) once {
+    Says "'You'd come?' Rupert looks at you as if you had offered to go down a well for him. 'Into the room? While I say it?' He shuts the pill-box. 'Hetty must come. And Jack. Mother must see Jack. Nobody could see Jack and stay angry; he has a face like a pudding.' He stands up. 'I'll tell Hetty. You'll fetch her? Tomorrow, or today, in the afternoon, when mother's at home. Oh God. Yes.'".
+    On discuss { Assert rupertBrave(rupert). }
+  }
+
+  // ── Dr Hartopp ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // He attends Mrs Cherrett's heart and Celia Carth's lungs. He keeps the first asleep and the second indoors, and is
+  // paid for both. He means to marry Ismay if the Wenlocks can be got rid of, and to be remembered in a will if they
+  // cannot. He is charming, and what he has done he has done by small steps, each of which he could explain.
+  Person hartopp "Dr Ambrose Hartopp" at hartopp_room {
+    Role "a handsome physician in plum-coloured cloth, smelling of cloves" when not hartoppRuined(hartopp).
+    Role "Dr Hartopp, packing" when hartoppRuined(hartopp).
+    Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "The handsome physician takes your hand and, without seeming to, your pulse. 'A stranger to our waters,' he says warmly. 'You must let me prescribe for you. Everyone needs something.'".
+    Greets again "Dr Hartopp smiles with all his teeth.".
+  }
+  Relation hartoppRuined(group). Relation hartoppDismissed(group). Relation hartoppBarred(group). Relation hartoppWalked(group).
+  Rule hartopp_consults when hour(clock) >= 9 and hour(clock) < 17 and not at(hartopp, hartopp_room) and not hartoppRuined(hartopp) { Assert at(hartopp, hartopp_room). }
+  Rule hartopp_rounds when hour(clock) >= 17 and hour(clock) < 19 and not at(hartopp, circus) and not hartoppRuined(hartopp) { Assert at(hartopp, circus). }
+  Rule hartopp_rooms when evening() and not at(hartopp, card_room) and not hartoppRuined(hartopp) and not hartoppBarred(hartopp) and not atBall(hartopp) { Assert at(hartopp, card_room). }
+  Rule hartopp_night when (hour(clock) >= 23 or hour(clock) < 9) and not at(hartopp, hartopp_room) and not hartoppRuined(hartopp) { Assert at(hartopp, hartopp_room). }
+  Rule hartopp_ruined when (hartoppDismissed(hartopp) and (hartoppCooled(hartopp) or hartoppBarred(hartopp) or hartoppWalked(hartopp))) and not hartoppRuined(hartopp) { Assert hartoppRuined(hartopp). }
+  // Dismissed by Mrs Cherrett once someone she loves has asked her to stop.
+  Rule hartopp_dismissed when stoppedBy(cherrett, ?who) and not hartoppDismissed(hartopp) { Assert hartoppDismissed(hartopp). }
+  Topic hartopp_cherrett with hartopp "Ask Dr Hartopp how Mrs Cherrett does" when not gone(cherrett) once {
+    Says "'Mending,' says Dr Hartopp, with real tenderness. 'Mending beautifully. The heart is a pump, you know, like the one in the Pump Room, and the waters are its oil. A little rest, a little sleep. I see that she sleeps.' He smiles. 'A wonderful woman. A heart of oak, and of gold, and of, well. A failing heart, between ourselves. But she must not be told so. It is the first rule of medicine: never take away hope. Hope is the best physic in the world, and the cheapest; I never charge for it.'".
+  }
+  Topic hartopp_carth with hartopp "Ask Dr Hartopp about the Carths" when true once {
+    Says "'Sir Gervase.' Dr Hartopp lowers his voice. 'A tragic house. I attend Miss Carth, poor child: a weakness of the lungs from infancy. The least draught, the least change of air, and I would not answer for her. I have advised that she be kept warm, very warm, and quiet, and indoors.' He spreads his hands. 'Sir Gervase has followed my advice to the letter for nine years. A most conscientious father.'".
+    On discuss { Assert knows(actor, hartopp_keeps_carth). }
+  }
+  Discovery hartopp_keeps_carth "Dr Hartopp attends Celia Carth for a weakness of the lungs, and has told Sir Gervase for nine years that she must be kept warm and indoors. Carth House's winter is his prescription.".
+  Topic hartopp_bribe with hartopp "Ask Dr Hartopp what he wants of you" when legs(actor) and not hartoppOffered(actor) once {
+    Says "Dr Hartopp looks at you with frank appreciation. 'A sensible question. You have Mrs Cherrett's ear; she likes you; she says so.' He takes a little purse from his waistcoat and puts it on the desk between you. 'Ten. If, when she speaks of her granddaughter's future, should the Wenlock arrangement fail, as arrangements do, you were to speak of me, warmly. That is all. I ask nothing dishonest.' He smiles. 'I never have.'".
+    On discuss { Assert hartoppOffered(actor). }
+  }
+  // Faced with the dose: he is not a monster, and he is very frightened, and he makes the best case for himself.
+  Topic hartopp_faced with hartopp "Tell Dr Hartopp you know what he wrote at the apothecary's: forty, where it said twenty" when knows(actor, drops_doubled) and not hartoppRuined(hartopp) and not gone(cherrett) and not hartoppFaced(actor) once {
+    Says "Dr Hartopp does not deny it. That is the first surprising thing. He sits down, and takes off his gloves finger by finger, and lays them on his knee. 'She has a heart like a wet paper bag,' he says, 'and three months, and she is in pain every night of them, and she has forty thousand pounds that will go to a boy who writes about lattices.' He looks up. 'Do you know what a physician has, in this town? Eleven brass plates in one street. A coat he must not be seen in twice. Patients who pay at Michaelmas, if they live to Michaelmas.' The gloves. 'I gave her quiet nights. I would have married her granddaughter, and been kind to her, and kept her books for her, which she likes.' He smiles, and it does not quite arrive. 'Hope is the cheapest physic. I never charge for it. I could not afford to.'".
+    On discuss { Assert hartoppFaced(actor). Assert hartoppOffered(actor). }
+  }
+  Topic hartopp_son with hartopp "Tell Dr Hartopp the pumper says good morning" when hartoppFaced(actor) and knows(actor, hartopp_pumpers_son) and not hartoppRuined(hartopp) once {
+    Says "For a moment Dr Hartopp's face is a boy's, under a counter, washing glasses. Then it is a physician's again. 'Does he,' he says. He stands, and goes to the window, which looks down Doctors' Walk to the Abbey Yard and the steam and, below it, the Old Town's roofs. 'They carry you up,' he says, to the glass. 'Nobody carries you down. You fall.' He does not turn round. 'Take the purse or leave it. I should take it, in your place. I always have.'".
+  }
+  Relation hartoppFaced(group).
+  Relation hartoppOffered(group). Relation hartoppPaid(group).
+  Action take_hartopp_purse(actor: group, site: place) "Take Dr Hartopp's ten coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hartopp, site) and hartoppOffered(actor) and not hartoppPaid(actor).
+    Time 1 minute.
+    On success { Increase quantity(actor, gold) by 10. Assert hartoppPaid(actor). }
+    Result "The purse is warm from his waistcoat. 'Warmly,' says Dr Hartopp, and shows you to the door himself.".
+  }
+  // Paid, the company has spoken for him whether it meant to or not; it tips Mrs Cherrett toward him once the Wenlocks
+  // are gone, if she is still on his drops.
+  Query hartoppHasIsmay() means bannsWithdrawn(ebbas) and not hartoppCooled(hartopp) and not hartoppRuined(hartopp) and doubled(cherrett) and not kitEngaged(kit) and (hartoppPaid(party) or failing(cherrett) >= 3).
+
+  // ── The pumper ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person pumper "the pumper" at pump_room {
+    Role "in a striped waistcoat, at the urn". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "The pumper fills a glass from the urn without being asked, and holds it out. 'Threepence. Good for what ails you. Everything ails you, in Hessel.'".
+    Sells pump_bottle for 1 coin from 6.
+  }
+  Rule pumper_hours when hour(clock) >= 7 and hour(clock) < 18 and not at(pumper, pump_room) { Assert at(pumper, pump_room). }
+  Rule pumper_home when (hour(clock) >= 18 or hour(clock) < 7) and not at(pumper, limbo) { Assert at(pumper, limbo). }
+  Topic pumper_hartopp with pumper "Ask the pumper about Dr Hartopp" when true once {
+    Says "The pumper polishes a glass for some time. 'Ambrose,' he says. 'He had this urn before me. His father had it thirty years before that; Saint Ebba's pump, they called it then, and the old man in a waistcoat like this one, and the boy under the counter washing the glasses.' He sets the glass down. 'Went to Orm on the old man's savings, and came back with a plate for Doctors' Walk, and a coat the colour of a plum, and never once since has he drunk a glass of this water, nor said good morning to me.' He fills one, for nobody. 'Can't blame him. It's a long way up that hill, and he walked it.'".
+    On discuss { Assert knows(actor, hartopp_pumpers_son). }
+  }
+  Discovery hartopp_pumpers_son "Dr Hartopp is the old pumper's son, from the bottom of the hill; he washed glasses at the urn as a boy.".
+  Topic pumper_water with pumper "Ask the pumper whether the waters really cure anything" when true once {
+    Says "The pumper considers the question with the seriousness of a man who has been asked it eleven thousand times. 'They come up out of the hill hot,' he says. 'Nobody knows why. They taste of iron. People drink them and feel better.' He polishes a glass. 'People who walk up the Parade every morning, and go to bed at eleven, and don't eat three dinners, feel better. I'm not a doctor. I'm a pump.'".
+  }
+}

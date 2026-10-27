@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "The Banns at Hessel",
+  "calendar": {
+    "year": 1121,
+    "month": 5,
+    "day": 14
+  },
+  "pitch": {
+    "heading": "Up the hill into Hessel",
+    "text": "The south road comes down to the river Lim, and on the far side Hessel goes up its hill in tiers of steam and honey-coloured stone: the spa where the old come to be mended and the young to be married, in the last four days of its Season. You have a little money, no letters of introduction, and nothing to do there but see it."
+  },
+  "modules": [
+    {
+      "id": "hessel",
+      "bundle": "../adventures/hessel/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tamsin",
+      "raceId": "human",
+      "classId": "bard"
+    }
+  ]
+}

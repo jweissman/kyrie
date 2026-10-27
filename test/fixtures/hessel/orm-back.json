@@ -1,0 +1,62 @@
+{
+ "arrive": [
+  "Lim Bridge",
+  "Quay Lane",
+  "Stall Street",
+  "Into the Hospital",
+  "Ask Dr Ottery why",
+  "Tell Dr Ottery you will be at the Beacon",
+  "Out to Stall Street",
+  "To the Abbey Yard",
+  "Seize the side",
+  "Ask the old woman",
+  "To the top of the Parade",
+  "To the Circus",
+  "=12",
+  "Into Mrs Cherrett",
+  "Tell Mrs Cherrett you will be her legs"
+ ],
+ "night": [
+  "Out to the Circus",
+  "To the top of the Parade",
+  "To the Abbey Yard",
+  "To Stall Street",
+  "Into the Two Poles",
+  "=78",
+  "Take a bed and supper"
+ ],
+ "road": [
+  "Out to Stall Street",
+  "To the Abbey Yard",
+  "To the top of the Parade",
+  "To the Beacon",
+  "Set out with Dr Ottery",
+  "To the stile",
+  "Tell him: let her be happy",
+  "To the crossways",
+  "?Give .* what it asks",
+  "Tell him: never",
+  "To the south gate of Orm",
+  "Take Dr Ottery back to Hessel",
+  "=175",
+  "Ride the carrier"
+ ],
+ "drops": [
+  "To Doctors' Walk",
+  "Into the apothecary",
+  "Ask Jem about Mrs Cherrett's drops$",
+  "Put two coin",
+  "Out to Doctors' Walk",
+  "To the Abbey Yard",
+  "To Stall Street",
+  "Into the Hospital",
+  "Tell Dr Ottery what Hartopp",
+  "Dr Jonas Ottery.*: Ask them to come",
+  "Out to Stall Street",
+  "To the Abbey Yard",
+  "To the top of the Parade",
+  "To the Circus",
+  "Into Mrs Cherrett",
+  "Take Dr Ottery up"
+ ]
+}

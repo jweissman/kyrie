@@ -168,13 +168,13 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Action pay_tribute(actor: group, lord: group, site: place) "Give {lord} what it asks" {
     Time 2 minutes.
     Description "A proud creature names a price for letting you pass; paid, it keeps its word.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(lord, site) and warned(lord, actor)
+    Requires able(actor) and company(actor) and at(actor, site) and at(lord, site) and warned(lord, actor) and able(lord)
       and temperament(lord, temper_proud) and quantity(actor, gold) >= tribute(lord).
     On success {
       Decrease quantity(actor, gold) by tribute(lord). Increase quantity(lord, gold) by tribute(lord).
       Assert tolerates(lord, actor). Retract warned(lord, actor).
     }
-    Result "{lord} takes it, and lets you be.".
+    Result "You pay {lord}, and are let be.".
   }
   // What can be heard from the next room can be drawn out of it, and met where the company waits for it, ready: the
   // first blow is the company's (see Environment). The follow-up review met a banshee as a fight the moment its room
