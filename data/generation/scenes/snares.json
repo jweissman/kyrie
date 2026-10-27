@@ -5,7 +5,7 @@
       "sign": "One flag of the floor across the way is not quite level with the others, and there is no dust in the crack round it.",
       "seen": "One flag of the floor sits a finger's breadth proud of the rest, with no dust in the crack round it. A foot's weight on it would set off whatever it is joined to; so would any weight.",
       "ways": [
-        { "id": "spring", "label": "Lean on the plate with the pole, standing well back", "needing": "pole", "to": "sprung" },
+        { "id": "spring", "label": "Lean on the plate with the pole, standing well back", "needing": "pole", "to": "drawn" },
         { "id": "wedge", "label": "Wedge the plate so it cannot sink", "needing": "trapwork", "to": "made_safe" }
       ]
     },
@@ -13,7 +13,7 @@
       "sign": "Something catches the light low across the way: a wire, at the height of an ankle.",
       "seen": "The wire runs from a peg at one side to a hole in the stone at the other. Whatever it works is behind the hole. Pull it, or catch a foot in it, and it goes.",
       "ways": [
-        { "id": "spring", "label": "Hook the wire with the pole and pull, from well back", "needing": "pole", "to": "sprung" },
+        { "id": "spring", "label": "Hook the wire with the pole and pull, from well back", "needing": "pole", "to": "drawn" },
         { "id": "pin", "label": "Pin the wire slack against the floor and step over it", "needing": "trapwork", "to": "made_safe" }
       ]
     },
@@ -21,7 +21,7 @@
       "sign": "The wall here is carved all over, and the carving is thickest where the way is narrowest.",
       "seen": "Among the carvings is one that is not carved but set in, a boss that would go in under a hand. It sits where a hand leaning on the wall would find it, at the narrowest place.",
       "ways": [
-        { "id": "spring", "label": "Push the switch in with the pole's end, standing clear", "needing": "pole", "to": "sprung" },
+        { "id": "spring", "label": "Push the switch in with the pole's end, standing clear", "needing": "pole", "to": "drawn" },
         { "id": "wedge", "label": "Wedge the switch so it cannot go in", "needing": "trapwork", "to": "made_safe" }
       ]
     },
@@ -30,7 +30,7 @@
       "seen": "The glyph is a word, written to be read by whoever passes it; reading it is what sets it off. Someone who knew the letters could unsay it.",
       "ways": [
         { "id": "unsay", "label": "Unsay the glyph, letter by letter", "needing": "lore", "to": "made_safe" },
-        { "id": "spring", "label": "Hold the pole's end across the glyph, looking away", "needing": "pole", "to": "sprung" }
+        { "id": "spring", "label": "Hold the pole's end across the glyph, looking away", "needing": "pole", "to": "drawn" }
       ]
     },
     "magical rune": {
@@ -38,14 +38,14 @@
       "seen": "The rune is laid in the floor where a foot must cross it. It is waiting for weight, or warmth; it cannot tell the one from the other.",
       "ways": [
         { "id": "unsay", "label": "Break the rune's lines with the right words", "needing": "lore", "to": "made_safe" },
-        { "id": "spring", "label": "Lay the pole's end on the rune from as far off as it allows", "needing": "pole", "to": "sprung" }
+        { "id": "spring", "label": "Lay the pole's end on the rune from as far off as it allows", "needing": "pole", "to": "drawn" }
       ]
     },
     "enchanted object": {
       "sign": "Something stands in the way that has no business there: an ordinary-looking thing that hums when you come near it.",
       "seen": "The thing is set exactly where anyone going through must knock against it. Whatever is in it is waiting to be knocked over; a pole would do it as well as a passing hip.",
       "ways": [
-        { "id": "spring", "label": "Knock it over with the pole, from well back", "needing": "pole", "to": "sprung" },
+        { "id": "spring", "label": "Knock it over with the pole, from well back", "needing": "pole", "to": "drawn" },
         { "id": "unsay", "label": "Say over it what quiets such things", "needing": "lore", "to": "made_safe" }
       ]
     }

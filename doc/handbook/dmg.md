@@ -1924,7 +1924,7 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 4 | 2 | 0 | 0 | 6 |
+| 2 | 5 | 2 | 0 | 0 | 6 |
 
 #### onTheHouse
 
@@ -1995,6 +1995,12 @@ A long vigil at the shrine, a night's worth of hours, and the price of it. They 
 > Needs: able(actor); able(seller); distinct(actor, seller); at(actor, site); at(seller, site); not (refusesService(seller, actor)); sells(seller, goods); quantity(seller, goods) >= 1; quantity(actor, gold) >= goodsPrice(seller, goods)
 
 > Then: Decrease quantity(actor, gold) by goodsPrice(seller, goods). Increase quantity(seller, gold) by goodsPrice(seller, goods). Decrease quantity(seller, goods) by 1. Increase quantity(actor, goods) by 1.
+
+#### unsheltered
+
+*Kyr · relation(place, entity)* · `rule:world_services.unsheltered`
+
+Where a night in the open costs something (the cold on a pass, after dark), and what: the camp says so before it is made (see Exposure).
 
 #### camp
 

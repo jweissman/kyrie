@@ -137,7 +137,7 @@ export class RegionRoads {
   private static pass(road: Road): string[] {
     const q = JSON.stringify, pass = road.route.over!, chilled = `${road.way}_chilled`;
     return [`  Hazard ${road.way}_cold ${q(`The cold on the ${pass.name}`)} means "Deal (1d4) cold damage to ally unless constitution save against (12).".`,
-      `  Relation ${chilled}(group).`,
+      `  Relation ${chilled}(group).`, `  Initially Assert unsheltered(${road.way}, ${road.way}_cold).`,
       `  Rule ${road.way}_night when at(party, ${road.way}) and dark() and not ${chilled}(party) says ${q(`Night comes down on the ${pass.name}, and the cold with it. There is no shelter, and nothing to burn.`)} { Assert strikes(${road.way}_cold, party). Assert ${chilled}(party). }`,
       `  Rule ${road.way}_dawn when ${chilled}(party) and not dark() { Retract ${chilled}(party). }`];
   }

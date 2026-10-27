@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 215,
+    "kyr": 216,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 201,
+      "kyr": 202,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -11795,6 +11795,13 @@
   {
    "id": "rule:world_services.buy_goods",
    "title": "buy goods",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.unsheltered",
+   "title": "unsheltered",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"

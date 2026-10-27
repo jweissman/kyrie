@@ -89,7 +89,9 @@ export class RegionMarvels {
   }
   // A mechanism on a way, as a thing with its sign, what looking closely shows, the ways of dealing with it, what it
   // does when it goes off, and the way after; its ids begin with id (id_snare, id_trap). Under rock, Orsino's vines
-  // are roots: nothing grows under a chalk mound (played in cov13's barrow).
+  // are roots: nothing grows under a chalk mound (played in cov13's barrow). Set off from a pole's length away, it is
+  // drawn, and says it went off on nothing ("a psychic scream assaults the mind" had been said, and nothing came of
+  // it: the play-structure investigation's PT-34).
   static snare(at: { id: string; way: string; trap: Trap; under?: boolean }): string[] {
     const q = JSON.stringify, { way, trap: t } = at, site = { id: at.id }, id = `${at.id}_snare`;
     const how = (snares.mechanisms as Record<string, Snare>)[t.mechanism]!;
@@ -99,9 +101,11 @@ export class RegionMarvels {
       `    State primed dangerous ${q(how.sign)}.`,
       `    State sprung ${q(`The ${t.mechanism} has gone off, and is spent.`)}.`,
       `    State made_safe ${q(`The ${t.mechanism} is made safe. Whoever goes by now goes by unharmed.`)}.`,
+      `    State drawn ${q(`The ${t.mechanism} has been set off from a pole's length away, and is spent.`)}.`,
       ...how.ways.map(w => `    Change ${w.id} ${q(w.label)} from primed to ${w.to} needing ${w.needing} after learning ${id}_known.`),
       `    Hurts with ${site.id}_trap when primed then sprung.`, '  }',
       `  Event ${id}_goes beside ${way} when state(${id}, sprung) ${q(`${at.under ? t.text.replace(/^Vines erupt/, 'Roots burst out') : t.text}.`)}.`,
+      `  Event ${id}_drawn beside ${way} when state(${id}, drawn) ${q(`The ${t.mechanism} goes off at the pole's end: ${/^[aeiou]/i.test(t.name) ? 'an' : 'a'} ${t.name}, spent on nothing.`)}.`,
       `  Observe ${id}_read beside ${way} of ${id} when tried(${id}, looking) and state(${id}, primed) ${q(how.seen)} teaches ${id}_known.`];
   }
   // The harm an effect does on an average roll (see Harm).

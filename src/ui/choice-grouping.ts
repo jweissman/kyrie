@@ -2,6 +2,7 @@ import type { Operator, Predicate } from '../lang/module';
 import type { PublicChoice } from '../presentation/action-presentation';
 import type { ExitActs } from './passages';
 import type { Act, Passage } from './screen-types';
+import { Exposure } from './exposure';
 
 type Slot = 'exit' | 'target' | 'item' | 'member' | 'camp';
 interface Rule {
@@ -23,6 +24,8 @@ export interface Row { choice: PublicChoice; action: Operator; wanting?: string;
 export interface GroupingContext {
   names: Map<string, string>; prices: Map<string, number>; present: Set<string>; passageOf: Map<string, string>;
   fees?: Map<string, number>; several?: Set<string>;
+  // Where a night in the open costs something, and what (see Exposure).
+  exposed?: Map<string, string>;
   tell?: (id: string) => string | undefined;
   // Who takes an item the company picks up or buys; the other hands are not offered.
   carrier?: (item: string) => string | undefined;
@@ -183,7 +186,8 @@ export class ChoiceGrouping {
     const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }), minutes: choice.time * 10,
       ...(action.description ? { about: action.description } : {}), ...(row.by?.length ? { by: row.by } : {}),
       ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}) };
-    const schema = action.schema ?? action.id, b = action.bindings ?? {};
+    const schema = action.schema ?? action.id, b = action.bindings ?? {}, exposed = context.exposed?.get(b.site ?? '');
+    if (schema === 'camp' && exposed) { Object.assign(leaf, { grave: Exposure.grave(exposed) }); }
     if (action.movement) {
       const verb = b.escorted_group ? `Escort ${context.names.get(b.escorted_group) ?? b.escorted_group}` : 'Go';
       const way = action.movement.passage ?? b.way;

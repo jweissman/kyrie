@@ -9,7 +9,7 @@ import { MechanicsText } from '../presentation/mechanics-text';
 import { ConditionSense } from '../presentation/condition-sense';
 import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
-import { Illumination } from './illumination';
+import { Illumination } from './illumination'; import { Standing } from './standing'; import { Patience } from './patience';
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time';
@@ -24,7 +24,7 @@ import { ChoiceGrouping, type Grouped, type Row } from './choice-grouping';
 import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers';
-import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text';
+import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
 import { TradeModel } from './trade-model';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
@@ -46,7 +46,7 @@ export class ScreenModel {
     const passageOf = this.passageOf(world, view.location?.id ?? '');
     const fees = this.fees(campaign);
     const grouped = ChoiceGrouping.group(this.commands(campaign), { present, names, prices, passageOf, fees,
-      tell: ScreenModel.tell,
+      tell: ScreenModel.tell, ...Exposure.of(world),
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
     const here = view.location?.id ?? '';
     const passages = new Passages(entities, world, view.actor);
@@ -62,7 +62,7 @@ export class ScreenModel {
       ...CharacterSheets.recruit(campaign, p.id, grouped.targets.get(p.id) ?? []) })));
     return {
       title: view.title, clock: FictionalTime.at(view.elapsed, view.minutes), elapsed: view.elapsed,
-      running: view.running,
+      running: view.running, ...Patience.of(campaign, view.minutes),
       ...this.when(campaign, view.elapsed), path: here ? passages.path(here) : [], place: passages.place(here),
       prose: scene.prose, fresh: scene.fresh, observed: view.observations,
       dark: view.observations.some(o => o.id === 'darkness'),
@@ -364,7 +364,7 @@ export class ScreenModel {
         ...(m.prepared ? { spells: this.prepared(m.prepared, m.ready ?? []) } : {}),
         experience: m.experience, gold: m.gold, next: Advancement.next(m.classId, m.level),
         progress: this.progress(m.level, m.experience, Advancement.next(m.classId, m.level)),
-        conditions: m.conditions.filter(c => !this.boon(c)).map(c => this.condition(c)),
+        conditions: m.conditions.filter(c => !this.boon(c)).map(c => this.condition(c)), ...Standing.of(m),
         boons: m.conditions.filter(c => this.boon(c))
           .map(c => `${this.condition(c)}${m.lasting?.[c] ? ` · ${FictionalTime.duration(m.lasting[c])} left` : ''}`),
         abilities: (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id))

@@ -52,6 +52,9 @@ Module world_services "Lodging, goods and camping" {
       Decrease quantity(seller, goods) by 1. Increase quantity(actor, goods) by 1. }
     Result "{seller} counts the coins and hands over a {goods}.".
   }
+  // Where a night in the open costs something (the cold on a pass, after dark), and what: the camp says so before it
+  // is made (see Exposure).
+  Relation unsheltered(place, entity).
   Action camp(actor: group, site: place) "Make camp at {site}" {
     Requires able(actor) and at(actor, site) and not indoors(site) and not settled(site) and not hungry(actor).
     Time untilMorning(clock). Resolve rough(actor). Interrupted when threatened(actor).

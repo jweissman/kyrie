@@ -93,7 +93,9 @@ describe('wonders and traps', () => {
     expect(prods()).toHaveLength(1);
     const pole = how.ways.find(w => w.needing === 'pole')!;
     const sprung = Marvels.told(await Marvels.act(s, new RegExp(`^${pole.label.replace(/[()]/g, '.')}$`)));
-    expect(sprung.join(' ')).toContain('has gone off, and is spent');
+    // Gone off on nothing, it says so, not what it does to whoever it finds (the play-structure investigation's PT-34).
+    expect(sprung.join(' ')).toMatch(new RegExp(`The ${name} goes off at the pole.s end:`));
+    expect(sprung.join(' ')).toContain('spent on nothing');
     expect(Marvels.body(s).state.hp).toBe(hp);
     // Gone off, it is spent, and there is nothing to find by prodding it.
     expect(prods()).toEqual([]);

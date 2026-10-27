@@ -10,6 +10,10 @@ import { Content } from '../src/content';
 import { Canon } from '../src/canon/canon';
 import { RegionRecruits } from '../src/world/region-recruits';
 import type { Region, Settlement } from '../src/world/region-writer';
+import type { CreatureStore } from '../src/creature-store';
+import { Standing } from '../src/ui/standing';
+import { WorldAssembler } from '../src/world/world-assembler';
+import { GeneratedWorld } from './support/generated';
 
 // What the play-structure investigation of 6596e18 found in ordinary play, held here: a way that goes one way only
 // says so, and a journey does not take it unasked (PT-17); a journey goes on past those who let the company by
@@ -132,4 +136,55 @@ describe('a start', () => {
     expect(['halfling', 'dwarf', 'elf'].map(folk => /Calling (\w+)\./.exec(Played.scholar(folk))?.[1]))
       .toEqual(['bard', 'cleric', 'mage']);
   });
+});
+
+describe('one of the company who is down', () => {
+  // A healer could not heal a companion down outside a fight, and the page did not say why (PT-19).
+  it('is said to be senseless, with what follows; and dead, with what would bring them back', async () => {
+    const s = await Played.start('Place yard "the yard" is room within field at 0, 0 outdoors. Company party "You" of 2 at yard.');
+    const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures, bo = s.campaign.state.partyIds[1]!;
+    const lease = store.acquire([bo]);
+    try { lease.creatures[0]!.state.hp = 0; lease.commit(lease.creatures); } finally { lease.release(); }
+    await s.perform('wait');
+    expect(ScreenModel.build(s.campaign).party.map(m => m.fallen)).toEqual([undefined, Standing.senseless]);
+    const again = store.acquire([bo]);
+    try {
+      again.creatures[0]!.state.conditions.push({ id: 'slain', remaining: 1, clock: 'until-removed' });
+      again.commit(again.creatures);
+    } finally { again.release(); }
+    await s.perform('wait');
+    expect(ScreenModel.build(s.campaign).party[1]!.fallen).toBe(Standing.dead);
+  }, 60000);
+});
+
+describe('a warning', () => {
+  // Its patience, the rest of the watch, was spent silently by reading and looking until they came on (PT-39).
+  it('says, on whatever would take the company past it, who will not wait for it', async () => {
+    const s = await Played.start(`Place out "the hillside" is room within field at 0, 0 outdoors.
+      Place den "the den" is room within field at 1, 0 outdoors.
+      Passage mouth "the den's mouth" is path between out and den.
+      Company party "You" of 2 at out.
+      Person wolves "the wolves" at den { Role "wolves at their den". Species wolf. Numbers 2. Temperament territorial.
+        Warns "Two wolves stand up out of the bracken by the den, hackles up, growling.". Comes "The wolves come at you.". }`);
+    await Played.walk(s, "the den's mouth");
+    const screen = ScreenModel.build(s.campaign), warned = screen.warned!;
+    expect(warned.by).toBe('the wolves');
+    const choices = ChoiceList.all(ChoiceList.explore(screen)).filter(c => c.command);
+    const marked = choices.filter(c => c.note?.includes('The wolves will not wait for it'));
+    expect(marked.length).toBeGreaterThan(0);
+    expect(choices.every(c => marked.includes(c) === ((c.minutes ?? 0) >= warned.left))).toBe(true);
+  }, 60000);
+});
+
+describe('a night in the open', () => {
+  // A mage of four hit points lost one to a night on a pass, the Muzgavor in seed2, unwarned (PT-41).
+  it('says what it costs before the camp is made, where the cold comes down after dark', async () => {
+    const w = await WorldAssembler.assemble('seed2', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Osric', raceId: 'human', classId: 'mage' }] });
+    const s = await PlaySession.start(w.path, 'seed2', w.source);
+    GeneratedWorld.put(s, 's1_s3_way');
+    await s.perform('wait');
+    const camp = ScreenModel.build(s.campaign).camp.flatMap(a => a.children ?? [a]).find(a => a.command?.startsWith('camp('));
+    expect(camp?.grave).toMatch(/^The cold on the \S+ comes down after dark, and there is no shelter here\.$/);
+  }, 60000);
 });

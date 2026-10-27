@@ -71,6 +71,8 @@ export interface MemberRow {
   progress?: string;
   // Conditions that harm by name, and those that help (a lit torch) apart.
   conditions: string[]; boons?: string[];
+  // Down: what follows for them, which no cure changes (see Standing).
+  fallen?: string;
   abilities: { id: string; name: string; text: string; cost: number; price: string }[];
   attributes: Record<string, number>; acts: Act[];
   // The member as the rules have them (qualities as they stand, how they fight and are fought, saves, skills), and a
@@ -81,6 +83,8 @@ export interface MemberRow {
 export interface LogEntry { at: string; title: string; lines: string[]; tone: 'act' | 'fight' | 'note' | 'fail' }
 export interface Screen {
   title: string; clock: string; elapsed: number; running: boolean;
+  // Who is warning the company off where it stands, and the minutes they will wait (see Patience).
+  warned?: { by: string; left: number };
   // The day as the calendar has it ("20 Leaffall", and in full with the season), and the weather, when known.
   date?: { short: string; long: string }; weather?: string;
   path: PlaceRef[]; place: PlaceRef; prose: string[];

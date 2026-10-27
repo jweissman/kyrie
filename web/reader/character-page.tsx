@@ -85,7 +85,8 @@ export class CharacterPage {
       <p className="standing"><span className={m.hp < m.maxHp ? 'hurt' : undefined}>{Words.upper(Words.hurt(m.hp, m.maxHp))}</span>
         {` · ${m.hp} of ${m.maxHp} hit points`}
         {m.conditions.length > 0 && <span className="hurt"> · {m.conditions.join(', ')}</span>}
-        {(m.boons ?? []).length > 0 && <span> · {m.boons!.join(', ')}</span>}</p>
+        {(m.boons ?? []).length > 0 && <span> · {m.boons!.join(', ')}</span>}
+        {m.fallen && <span className="hurt"> · {Typography.curl(m.fallen)}</span>}</p>
     );
   }
   static Sheet({ member: m, screen }: { member: MemberRow; screen: Screen }) {
