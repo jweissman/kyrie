@@ -65,7 +65,7 @@ Module calamy "A Parliament of Books" {
   // ── The Annery Housebook: a narrow house of brown brick at the foot of a footnote. ──
   Person housebook "the Annery Housebook" at hb_kitchen {
     Role "four hundred years of a Hithe family, in the hands of its mothers; a house". Peaceable. Pronouns she. Manner acerbic.
-    Wants letter_kind.
+    Wants calamy_letter.
     Greets "The voice comes from the walls, the dresser, the floor: an old woman's voice, sharp, warm, tired. 'Wipe your feet. This is the kitchen, and the kitchen is anybody's, so you may stand in it. The nursery is family. The cellar is mine.' The kettle on the hob begins, by itself, to steam. 'Well? Sit down. Nobody comes to see an old Housebook without wanting something.'".
   }
   Initially Assert voter(housebook). Initially Assert favours(housebook, sew_all). Initially Assert favours(housebook, fire_leave). Initially Assert favours(housebook, read_asked). Initially Assert favours(housebook, door_shut).

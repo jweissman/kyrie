@@ -163,7 +163,7 @@ Module calamy "A Parliament of Books" {
     On discuss { Assert wantsBook(jonquil). }
   }
   // When the company knows the Housebook has gone where Corvell's books went, Jonquil writes to it.
-  Item jonquil_letter "Jonquil Annery's letter to his mother's book" is letter_kind at jonquil_garret hidden until letter_given.
+  Item jonquil_letter "Jonquil Annery's letter to his mother's book" is calamy_letter at jonquil_garret hidden until letter_given.
   Discovery letter_given "Jonquil Annery has written a letter to his family's Housebook, wherever it has gone, and given it to you to carry.".
   Relation letterWritten(group).
   Topic jonquil_write with jonquil "Tell Jonquil Annery where his family's book has gone" when wantsBook(jonquil) and knows(actor, housebook_gone) and not letterWritten(jonquil) once {

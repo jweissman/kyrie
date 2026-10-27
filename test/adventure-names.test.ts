@@ -46,4 +46,19 @@ describe('the names of the adventures one world holds', () => {
       .map(([n, by]) => `${n}: ${[...by].map(([a, said]) => `${said} (${a})`).join(', ')}`);
     expect(clashes).toEqual([]);
   });
+  // A kind of thing an adventure declares (Kind letter_kind "a letter" is gear) is one catalog's for the whole game:
+  // What Tessary Owes and A Parliament of Books each declared a letter_kind, and a career that went from Tessary to
+  // Calamy could not install Calamy (the library tour, seed kite).
+  it('declare each kind of thing as one adventure\'s own', () => {
+    const by = new Map<string, Set<string>>();
+    for (const adventure of readdirSync('data/adventures', { withFileTypes: true }).filter(d => d.isDirectory())) {
+      for (const file of readdirSync(`data/adventures/${adventure.name}`).filter(f => f.endsWith('.kyr'))) {
+        const text = readFileSync(`data/adventures/${adventure.name}/${file}`, 'utf8');
+        for (const m of text.matchAll(/^\s*Kind (\w+) "/gm)) {
+          by.set(m[1]!, new Set([...by.get(m[1]!) ?? [], adventure.name]));
+        }
+      }
+    }
+    expect([...by].filter(([, where]) => where.size > 1).map(([k, where]) => `${k}: ${[...where].join(', ')}`)).toEqual([]);
+  });
 });

@@ -10,7 +10,7 @@ Module calamy "A Parliament of Books" {
   Species erratum_kind "an erratum" like mephit temperament territorial described "A little figure of red ink about the height of a child, sharp-edged and quick, with a pen-nib for a hand; it smells of correction fluid and righteousness.".
   Kind treatise_kind "a Treatise of the Inward Reading" is gear worth 0 weighing 1 described "A small fat book bound in calf gone soft as a glove, with a subscription library's label on the spine, number 212, and inside the cover, in faded ink: Of the Inward Reading, whereby a Reader may go in by the Book as by a Door. Pollexfen.".
   Species heron_kind "a heron" like eagle tame described "A grey heron, tall and thin, with a yellow eye that looks at you as if you were a fish it was considering.".
-  Kind letter_kind "a letter" is gear worth 0 weighing 0 described "A letter, folded and sealed with candle-wax.".
+  Kind calamy_letter "a letter" is gear worth 0 weighing 0 described "A letter, folded and sealed with candle-wax.".
   Kind pages_kind "a bundle of cut pages" is gear worth 0 weighing 0 described "Pages cut out of a book with a knife, their inner edges ragged where the blade went down the margin, tied with a tape and labelled in a censor's hand.".
   Kind ribbon_kind "a place-ribbon" is gear worth 0 weighing 0 described "A ribbon of old red silk, frayed at one end, of the kind that is sewn into the spine of a good book to keep the reader's place. It has kept a great many places. It is warm.".
   Species scholiast_kind "a scholiast" like pixie temperament territorial described "A gloss on a gloss on a gloss, grown teeth: a little tangle of dense handwriting the size of a cat, that bites with sic.".
