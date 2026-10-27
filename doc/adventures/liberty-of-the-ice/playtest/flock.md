@@ -142,7 +142,7 @@ Bess gets up, stretches, and comes over to push her nose into your hand. Abel Ha
 
 **By Fleece Row, to Fleece Row**
 
-Fleece Row: the factors’ street, tall narrow houses with wool-hoists over their top windows and their names on brass plates. The biggest, black and white, with a fur of icicles along its eaves: J. HARKER. WOOL. HIRINGS.
+Fleece Row: the factors’ street, tall narrow houses with wool-hoists over their top windows and their names on brass plates: G. ASKEW; J. HEBDEN & SONS; T. RAWDON, STAPLER. The biggest, black and white, with a fur of icicles along its eaves: J. HARKER. WOOL. HIRINGS.
 
 **By Master Harker's door, to Harker's counting-house**
 

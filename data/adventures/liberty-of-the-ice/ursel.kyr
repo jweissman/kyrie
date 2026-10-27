@@ -119,6 +119,19 @@ Module pellam "The Liberty of the Ice" {
   }
   Discovery ursel_hobbs "Tansy Hobb's people had the low farm at Swale Head; her grandmother gave Ursel's mother a cheese the morning the Cobbs walked down to Pellam.".
 
+  // ── The note, in the Exchange's book ──────────────────────────────────────────────────────────────────────────────
+  // The Exchange keeps a register of every note landed against the wool. Twenty-nine years back there is a Cobb of
+  // Swale Head, landed to "J. H."; and there are two J. H.s on Fleece Row, Harker and old Hebden, and were then. The
+  // book cannot say which, and nothing else in Pellam will. Whether to tell Ursel is the company's.
+  Discovery cobb_note "In the Wool Exchange's register of landed notes, twenty-nine years back: COBB, of Swale Head, a note against two clips, landed, with the farm, to J. H. There were two factors on Fleece Row with those letters then, as now: Josias Harker, and old Jonas Hebden of Hebden & Sons." {
+    Found by searching exchange_floor "Under the slates, in a press with its doors warped shut, the Exchange's old registers of landed notes, a volume to a year, in calf gone to powder at the corners.".
+  }
+  Relation toldCobbNote(group).
+  Topic ursel_note with ursel travelling "Tell Ursel what the Exchange's book says of a Cobb of Swale Head" when knows(actor, cobb_note) and knows(actor, ursel_father) and not toldCobbNote(actor) once {
+    Says "She listens to the end without moving. 'J. H.,' she says. Then she laughs, not her door-banging laugh, a small one. 'Hebden's eighty and blind and lives over his shop on gruel, and his sons are fools, and he gave my mother a shilling once in the Cheaping because she curtseyed to him.' She is quiet. 'And the other was a boy off the top farm, home from Ossett with money.' She puts her hand on your arm, hard, a moment, the nearest she comes to giving it, and takes it away. 'You could have kept that,' she says. 'I'd never have known there was anything to keep.' She does not say which J. H. she thinks it was. You do not think she has decided.".
+    On discuss { Assert toldCobbNote(actor). Increase urselTrust(ursel) by 1. }
+  }
+
   // ── The Flashes, at dusk ──────────────────────────────────────────────────────────────────────────────────────────
   Observe flashes_scene at flashes when not dusk() and not dark() "The Flashes: water-meadows above the city, flooded in the autumn and frozen flat as a table, a mile of grey ice between pollard willows. A few boys with skates of bone. A man selling skates of iron by the hour from a barrow.".
   Observe flashes_dusk at flashes when dusk() "The Flashes at dusk: the whole of Pellam that is young or rich or both, skating, under a sky going green and gold behind the willows, in long scarves, in pairs, in lines holding hands, very fast and very badly. Torches on poles along the bank. Somebody is playing a fiddle with gloves on. Everyone is looking at everyone else.".

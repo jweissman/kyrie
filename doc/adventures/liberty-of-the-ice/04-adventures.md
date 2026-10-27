@@ -190,7 +190,8 @@ can end, and what it leaves for later. The test that plays each is named. "Leave
 - Three confidences, late, to someone she trusts a little: why she never shakes (Swale Head, a note, a factor's glove
   on her father's kitchen table); where she learned to lie (the Bench at fifteen; the prize penny on a string); and,
   if the company has heard Harker's own story, what she makes of a hired child of her own parish. And Tansy Hobb's
-  people had the farm below hers. *Played*: `ursel-night`.
+  people had the farm below hers. And in the Exchange's old registers, a note of Cobb's landed to "J. H.", which
+  may be Harker or may be old Hebden; the company may tell her or not. *Played*: `ursel-night`.
 
 ## The principal adventure: the drowned (`drowned.kyr`, `night.kyr`, `harker.kyr`)
 

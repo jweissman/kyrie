@@ -167,13 +167,15 @@ describe('The Liberty of the Ice: the second pass', () => {
     expect(g.page).toMatch(/Statute of Servants, for one Dickon Cobb/);
   }, 400000);
 
-  it('Ursel at night: why she never shakes, where she learned to lie, and Tansy Hobb from her own parish', async () => {
+  it('Ursel at night: why she never shakes, where she learned to lie, Tansy Hobb from her own parish; and the note to J. H. in the Exchange\'s book', async () => {
     const g = await as('thief', 'cutpurse');
     await g.fixture('ursel-night');
     expect(g.knows('ursel_father')).toBe(true);
     expect(g.knows('ursel_bench')).toBe(true);
     expect(g.knows('ursel_hobbs')).toBe(true);
     expect(g.measure('urselTrust', 'ursel')).toBeGreaterThanOrEqual(3);
+    expect(g.knows('cobb_note')).toBe(true);
+    expect(g.holds('toldCobbNote', 'party')).toBe(true);
   }, 400000);
 
   it('a hand shaken in the Ring and walked away from is fetched to the bondhouse the same afternoon', async () => {

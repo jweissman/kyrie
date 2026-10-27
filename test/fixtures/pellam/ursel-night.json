@@ -1,5 +1,27 @@
 {
- "in": ["go:swan_lane", "Shake on a penny a stair", "go:freezeland", "Lift your purse back", "Ask Ursel what her proposition", "Ask Ursel Cobb to join",
-  "go:hiring_ring", "=13", "Talk to Tansy", "Ask Tansy Hobb where she is going"],
- "late": ["=72", "go:lamb", "Ask Ursel, late, why", "Ask Ursel where she learned to lie", "Tell Ursel that one of Harker's hired"]
+ "in": [
+  "go:swan_lane",
+  "Shake on a penny a stair",
+  "go:freezeland",
+  "Lift your purse back",
+  "Ask Ursel what her proposition",
+  "Ask Ursel Cobb to join",
+  "go:hiring_ring",
+  "=13",
+  "Talk to Tansy",
+  "Ask Tansy Hobb where she is going"
+ ],
+ "late": [
+  "=72",
+  "go:lamb",
+  "Ask Ursel, late, why",
+  "Ask Ursel where she learned to lie",
+  "Tell Ursel that one of Harker's hired"
+ ],
+ "note": [
+  "=150",
+  "go:exchange_floor",
+  "Search here",
+  "Tell Ursel what the Exchange's book"
+ ]
 }

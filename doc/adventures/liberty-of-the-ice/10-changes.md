@@ -92,3 +92,6 @@ Asked to read it again as literature and as dramaturgy (see [09-critique.md](09-
 10. **Prose**: the six "long moment"s and most of the "long time"s replaced by something happening in the silence.
 11. Three milestones (past the wolves without a fight; the Statute; Ursel's confidence): 31, 8,400 in all.
 12. Seven new fixtures and tests; four new transcripts; the test router no longer walks through barred doors.
+13. **The open door, found**: after the second reading, the question whether Harker held Ursel's father's note was
+    left open and made findable: the Exchange's register says "J. H.", Fleece Row has two, and Ursel, told, does not
+    decide. (The author was asked; the choice to keep it ambiguous but discoverable is the designer's.)

@@ -1,6 +1,6 @@
 # Ursel at night: Swale Head, the Bench, and Tansy Hobb
 
-Seed `lisk`, a thief (cutpurse); fixture `ursel-night`; 31 steps; ended at watch 73; 300 experience in all. Written by `bun scripts/liberty-of-the-ice-transcripts.ts` from the journey as the page told it.
+Seed `lisk`, a thief (cutpurse); fixture `ursel-night`; 52 steps; ended at watch 154; 300 experience in all. Written by `bun scripts/liberty-of-the-ice-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -99,3 +99,57 @@ She is quiet so long you think she will not answer. ‘Swale Head,’ she says. 
 **Tell Ursel that one of Harker's hired, Tansy Hobb, is a dairymaid from Swale Head**
 
 ‘Hobb.’ She closes her eyes. ‘The Hobbs had the low farm, by the wash-dub, where the beck goes under the road. Mary Hobb gave my mother a cheese the morning we walked down. She’ll be this Tansy’s grandmother.’ She opens them. ‘Fifteen, you said.’ She stands up. ‘Right,’ says Ursel Cobb. ‘Right. Then it’s two of us I want out of that barn.’
+
+*(5 waits in which nothing is told)*
+
+**Wait › An hour**
+
+An hour passes. It is a long time since anyone slept. The company is weary, and will fight the worse for it until it sleeps.
+
+*(3 waits in which nothing is told)*
+
+**Wait › An hour**
+
+Fog stands in the street to the height of the booth-roofs; the pennants at their peaks are lost in it, and their ropes go up into nothing. THE SECOND DAY OF THE FAIR. Fog, in the night, off the Reach: the watermen call it the drowned weather. It stands on the ice to the height of a house, white and wet and very still, so that from the bridge the Fair is a roof of sound with nothing under it, and in Freezeland Street the booths come at you out of it one at a time like ships. The cathedral bell sounds as if it were being rung in a cupboard. People speak low without knowing why.
+
+**Wait › An hour**
+
+Word comes down Freezeland Street at a run: the bear’s off his chain at the bear-stake, and gone to the ox roast, and is eating the Butchers’ Company’s ox off the spit with his muzzle torn off, and nobody will go near him.
+
+**Wait › An hour**
+
+All over the Fair this morning: another hat on the stake at the Black Reach. Jem Rudd’s, the carter’s lad from Garthwaite, hired yesterday at the Ring; he was in Kemble’s line at noon and not in the bondhouse at dark. The river has taken him, everyone says, and touches the ice with a knuckle.
+
+*(1 wait in which nothing is told)*
+
+**By the Frozen Lamb's flap, to Freezeland Street, the lower end**
+
+Fog stands in the street to the height of the booth-roofs; the pennants at their peaks are lost in it, and their ropes go up into nothing. Mr. Ambrose Quarle, a natural philosopher in a scorched coat, with a tub, is here. The lower end of Freezeland Street: the clanking press, the Frozen Lamb, the ribboned booth of the Ice Chapel. By the printing booth a man in a scorched coat has set up a trestle and a wooden tub, and a board: THE PERPETUAL FROST COMPANY. SHARES FIVE COIN. THE RIVER KEPT FOR EVER. A small crowd watches the tub, in which, very slowly, as they watch, a skin of ice is forming on the water.
+
+**By Freezeland Street, to Freezeland Street, by the Glove Post**
+
+Beside the stocks stands a pillory nobody is in, with snow on the board where the head goes, and a placard hung on it ready, blank, for whatever the Court writes there. At the foot of the Glove Post Magister Callow sits in the stocks with his ankles through the holes, a blanket round him and a brazier at his feet, coughing, and preaching the Flow to whoever stops. Here are Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a preacher of the Flow, charged with unswearing. The fog has the Glove Post to half its height; above that, the great glove hangs in white nothing, dripping. Today’s bill on the Glove Post, pasted over yesterday’s: SECOND DAY. — The LAST HIRING, NINE till ELEVEN. — The COURT at FOUR. — The BENCH at SEVEN. — MARRIED, TOMORROW at NOON, at the ICE CHAPEL: ALDERMAN H. GOSLING and MISTRESS THESSALY HARKER. — Beware the Ice below the Bridge. Freezeland Street by the Glove Post, loud and smoking: gingerbread, skittles, the swing-boat, the crier’s barrel.
+
+**By the ice, to the foot of Swan Stairs, on the ice**
+
+The foot of Swan Stairs, on the ice.
+
+**By Swan Stairs, to Swan Lane**
+
+The watermen’s plank is lifted aside for you; they nod as you go by. A bailiff, a man in brown with a copy of the writ, at the head of Swan Stairs, is here. The top of Swan Stairs, and the Fair below.
+
+**By Swan Lane, to the Cheaping**
+
+Bess barks twice, for form’s sake, then comes to see who you are. Abel Haws, a fell shepherd in a sheepskin, with a crook and a black-and-white bitch at heel, is here. The Cheaping: the empty wool-hall, the snowed cross, the paths to everywhere and down to the ice.
+
+**By the Exchange doors, to the floor of the Wool Exchange**
+
+The Wool Exchange: a hall of pillars and a floor marked out in chalk, and on the floor forty factors in fur collars buying and selling, very loudly, fleece that is still on sheep they have never seen, for delivery at a shearing that has not come, at a price that will be decided by a thaw nobody can name. Slates on the wall chalk the price of Swale grey, Fell white and the Perpetual Frost Company, which is rising.
+
+**Search here**
+
+You search the floor of the Wool Exchange with care, a little at a time. Under the slates, in a press with its doors warped shut, the Exchange’s old registers of landed notes, a volume to a year, in calf gone to powder at the corners.
+
+**Tell Ursel what the Exchange's book says of a Cobb of Swale Head**
+
+She listens to the end without moving. ‘J. H.,’ she says. Then she laughs, not her door-banging laugh, a small one. ‘Hebden’s eighty and blind and lives over his shop on gruel, and his sons are fools, and he gave my mother a shilling once in the Cheaping because she curtseyed to him.’ She is quiet. ‘And the other was a boy off the top farm, home from Ossett with money.’ She puts her hand on your arm, hard, a moment, the nearest she comes to giving it, and takes it away. ‘You could have kept that,’ she says. ‘I’d never have known there was anything to keep.’ She does not say which J. H. She thinks it was. You do not think she has decided.

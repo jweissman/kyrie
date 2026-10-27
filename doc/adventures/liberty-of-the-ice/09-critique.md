@@ -137,7 +137,8 @@ what that reading found. The first critique's sections above stand as written, a
   to buy; she watched and never shook again. Tansy Hobb is from the farm below Ursel's, and has heard of a Swale Head
   girl who never shook on anything and did well in the town. Dickon's hand was counted twice a day at Gallowmoor by an
   overman who never looked at his face. Harker pays every spring for a pound of wax before the Saint's scales, "for
-  the weight". Nothing explains anyone; it rhymes them.
+  the weight". Nothing explains anyone; it rhymes them. Whether Harker was the factor at Ursel's kitchen table is findable and not
+  decidable: the Exchange's book says "J. H.", and Fleece Row has two.
 - **The law has a history**, kept upside down at the back of the Watermen's accounts: seven frosts in two hundred
   years, of which the Glove made the Liberty, the Black Lambing made the hiring and the city's Statute of Servants,
   and one hanged a Reeve, Broom's ancestor, for landing a bargain against an alderman's son. Most of the seven pay off

@@ -68,8 +68,10 @@ Every principal person stands somewhere on one question, *what is a hand for?*, 
   about the price, never puts out his own hand, and pays every spring for a pound of wax before the Saint's scales
   "for the weight".
 - **Ursel**, of the same parish, watched her father shake on a note at his own kitchen table with the factor's glove
-  beside it, and lose the farm by it; she has never shaken since. She has never asked the factor's name. (The dates
-  allow it to have been Harker. Nothing in the work says so, and nothing should.) Told that Harker was a hired child
+  beside it, and lose the farm by it; she has never shaken since. She has never asked the factor's name. The Wool
+  Exchange's register of landed notes, searched, says the Cobb note was landed to "J. H."; there were two J. H.s on
+  Fleece Row then, Harker and old Hebden, and nothing in Pellam can say which. The company may tell her or keep it.
+  Told, she does not decide; asked at the Landing, Harker says "I do not remember the farms. I remember the hands." Told that Harker was a hired child
   of Swale Head, she says she would rather he were a devil.
 - **Tansy Hobb**, fifteen, from the low farm at Swale Head, shook because it was done, and has heard from her
   grandmother of a Swale Head girl who never shook on anything and did well in the town; she does not know it is Ursel.
@@ -93,7 +95,8 @@ Every principal person stands somewhere on one question, *what is a hand for?*, 
 | The Book of Frosts (wolves in four of seven); Abel's ewes; Nab's four "like magistrates"; tracks at the Reach head | the wolves on the second night |
 | Tredgold: "That's the thing about the ice. It's ours till it goes" | the thaw; everything not landed |
 | The third morning's dripping bridge and limp glove | the ice going out |
-| Ursel: "If I knew it I'd have to do something" | nothing, deliberately: an open door |
+| Ursel: "If I knew it I'd have to do something" | the note to "J. H." in the Exchange's book, and two J. H.s on Fleece Row: an open door, found |
+| The brass plates on Fleece Row (J. HEBDEN & SONS beside J. HARKER) | the second J. H. |
 | The real shepherd shouting *Hawsfold* in the Cheaping | the collision |
 | The bill: "Beware the ice below the bridge" | the Reach |
 
