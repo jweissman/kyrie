@@ -1,5 +1,9 @@
 # What keeps an ordinary session of Kyrie from being worth repeating
 
+> **Follow-up:** [deep-dive.md](deep-dive.md) measures these diagnoses across 12–24 generated countries with the
+> engine itself (economy, class viability, renewal, sameness, load), plays a further expedition, and corrects three
+> claims below.
+
 An independent investigation of the structure of play: motivation, loops, attention, incentives and progression.
 The game was played first, in the real browser bundle (`bun run web:build`, `site/mono.html` driven through
 Playwright Chromium, 1280×900 and 390×844), with ordinary offered choices only. Code and design documents were
@@ -118,7 +122,8 @@ landing (where the player stands when they learn the place) did not show the des
 - Notes afterwards: no SEEN THROUGH for the crown or the debt. "Unfinished" listed only the philosophers.
 - Selling the haul: mirror 120, torcs 300 each. Emric then ran out of cash. **998 coin on day 2.** The crown: "Worth
   1500 coin … Take it to a town." Slept: **levels 2 and 3 at once.** Shops held lanterns, torches, rations and a
-  handful of potions. Nothing to want.
+  handful of potions. Nothing to want. *(Correction, [deep dive](deep-dive.md) §2: this depends on the country.
+  Wǽtfaenn's curiosity shop sold wands, scrolls and a Ring of Protection for 100–300 coin.)*
 - The philosophers' dispute: knowledge from the barrow unlocked "Tell of the kingdom that came after the makers,
   and how it fell · an even chance". It failed on a d20 (10 against 13), and the option vanished for good.
   Arguing the other philosopher down succeeded on a plain persuasion roll: *"It is a victory. It is not a reason."*
@@ -147,7 +152,8 @@ landing (where the player stands when they learn the place) did not show the des
 - "There is work in any country … the place to hear of it is the inn." The inn offered a bed, rations and seven
   rumours. **No work, no performance, nothing a bard does.**
 - Hired Ander, "scholar", who loves copying inscriptions, for 3 coin. Mechanically she is a halfling warrior in
-  plate with Intelligence 8, Brawn and Intimidation. Her offer dumped a 30-line stat block into the conversation.
+  plate with Intelligence 8, Brawn and Intimidation (the cause: a scholar maps to mage, halflings cannot be mages,
+  and the code falls back to the first adventuring class, warrior; see the deep dive). Her offer dumped a 30-line stat block into the conversation.
   As a companion she was good: she knew how the Water-Wardens ended, and at ruins she "is looking at the stones for
   letters before you have stopped walking".
 - Deserters' toll on the road: "Talk to Sergeant Mawr" → "What do you need?" → nothing. "Talk to the deserters" →
@@ -159,7 +165,10 @@ landing (where the player stands when they learn the place) did not show the des
 ### Session 5: Wǽtfaenn, elf mage, "The brothers' errand" (careful scholar)
 
 - The first roll gave Constitution 3 and Intelligence 4 for a mage. After a reroll the mage had **5 hit points**,
-  alone. Nobody at the inn could be hired.
+  alone. Nobody at the inn could be hired. *(Correction, [deep dive](deep-dive.md) §4: wrong. I read only the
+  minstrel's first four options. Hiring sat at option 4 of 5, "Ask what brings him to Merscstede". Every country
+  sampled has a hireable traveller in the starting town. The real problem is that the offer is hidden behind small
+  talk.)*
 - The route estimate jumped again ("50 minutes" → "about 11 hours"). The lord's toll: 3 of 12 coin, and talking
   went nowhere again.
 - The ruin used the same template as Elmweald's, down to *"A fox crosses the way ahead and is gone."*

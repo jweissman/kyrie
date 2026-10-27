@@ -1,0 +1,13 @@
+import { AutoplayRun } from '../../../../src/autoplay/run';
+const seed = process.argv[2]!, origin = process.argv[3] ?? 'order';
+const s = await AutoplayRun.start({ seed, origin, protagonist: { name: 'P', raceId: 'elf', classId: 'mage' }, policy: 'wander', steps: 0 });
+const c: any = s.campaign, w = c.world, m = c.module;
+const facts: any[] = [...w.allFacts()], ms: any[] = [...w.allMeasures()];
+const atOf = new Map<string, string>(); for (const f of facts) if (f.name === 'at') atOf.set(f.args[0], f.args[1]);
+const hires = ms.filter(x => x.call.name === 'hire').map(x => ({ g: x.call.args[0], fee: x.value }));
+const willing = facts.filter(f => f.name === 'willing').map(f => f.args[0]);
+const start = atOf.get(c.current.partyIds[0]) ?? atOf.get('party');
+const town = (p: string) => /^region__(s\d+)/.exec(p ?? '')?.[1];
+const name = (id: string) => m.entities.find((e: any) => e.id === id)?.name ?? id;
+const all = [...new Set([...hires.map(h => h.g), ...willing])];
+console.log(JSON.stringify({ seed, origin, startTown: town(start), hires: all.map(g => ({ who: name(g), town: town(atOf.get(g)), fee: hires.find(h => h.g === g)?.fee })) }));
