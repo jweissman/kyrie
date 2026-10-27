@@ -139,10 +139,7 @@
       "marker": "clemency",
       "side": "west",
       "beside": [
-        "forest",
-        "marsh",
-        "mountain",
-        "frost"
+        "forest"
       ],
       "name": "the vale of the Arle",
       "topic": "the Midsummer Trial at Pentrice",

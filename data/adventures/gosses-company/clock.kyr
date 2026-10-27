@@ -33,6 +33,10 @@ Module pentrice "Gosse's Company" {
   Relation inCompany(group). Relation tallyman(group).
   Relation arrived(group).
   Rule come_in when at(party, ?p) and cityRoom(?p) and not arrived(party) { Assert arrived(party). }
+  // Whoever came while there was still a Trial to come to: the week's ending is theirs. A company that comes down the
+  // West Road after the verdict hears it as the city's news.
+  Relation cameForTrial(group).
+  Rule come_for_trial when arrived(party) and tday(pentrice) < 5 and not cameForTrial(party) { Assert cameForTrial(party). }
   // Whoever signed on with the players on the green is one of the company from the first step into the city.
   Rule come_in_joined when arrived(party) and knows(party, joined) and not inCompany(party) { Assert inCompany(party). }
 }

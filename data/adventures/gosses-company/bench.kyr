@@ -3,7 +3,8 @@ Module pentrice "Gosse's Company" {
   // Four critics, named by the Guildhall, the Gullet, the Close and the Owl. Three votes give the Patent. Each has a
   // regard for Gosse's Company that what the company does, and what it plays, moves; each holds a different idea of
   // what a play is for, which can be learned by asking them, or by watching them watch.
-  Measure regard(group). Relation critic(group).
+  // What pleases a critic, and what does not: a vote is won by the one outweighing the other.
+  Measure regard(group). Measure slight(group). Relation critic(group).
   Initially Assert critic(clay). Initially Assert critic(gammage). Initially Assert critic(mallory). Initially Assert critic(callow).
   Initially Set regard(gammage) to 1. Initially Set regard(callow) to 1.
   Discovery taste_clay "Ormsby Clay, the Guildhall's critic, wants order of a play: verse spoken as verse, decorum, every person brought to their proper end; he cannot abide clowns, bears or words that are not in the book." { Known by clay. }
@@ -37,9 +38,9 @@ Module pentrice "Gosse's Company" {
   Kind dido_kind "a manuscript tragedy" is gear worth 0 weighing 1
     described "A manuscript in a careful hand, gone yellow, tied with black ribbon: DIDO, A TRAGEDY, BY O. CLAY. In the margins, here and there, in a big sprawling hand in pencil: Beautiful. Too long. Here, beautiful. And on the last page: Cut nothing. A.G.".
   Item dido "the manuscript of Dido" is dido_kind at tiring_house hidden until dido_found.
-  Discovery dido_found "In the rack of old costumes in the Wheel's tiring-house, inside a moth-eaten queen's robe, is the prompt copy of Ormsby Clay's Dido, from twenty years ago, with notes in Absalom Gosse's hand in the margins: Beautiful. Too long. Cut nothing." {
-    Found by searching tiring_house "In the rack of old costumes, inside the sleeve of a moth-eaten queen's robe, someone has rolled up a manuscript and tied it with black ribbon: DIDO, A TRAGEDY, BY O. CLAY. Its margins are full of pencil in a big sprawling hand.".
-  }
+  Discovery dido_found "In the rack of old costumes in the Wheel's tiring-house, inside a moth-eaten queen's robe, is the prompt copy of Ormsby Clay's Dido, from twenty years ago, with notes in Absalom Gosse's hand in the margins: Beautiful. Too long. Cut nothing.".
+  // Found by searching, and seen there while it is there.
+  Observe dido_seen at tiring_house when searched(party, tiring_house) and at(dido, tiring_house) "In the rack of old costumes, inside the sleeve of a moth-eaten queen's robe, someone has rolled up a manuscript and tied it with black ribbon: DIDO, A TRAGEDY, BY O. CLAY. Its margins are full of pencil in a big sprawling hand." teaches dido_found.
   Initially Assert lends(gosse, dido, party).
   Event clay_reads near clay when keeps(clay, dido) "Clay unties the black ribbon as if it might bite. He turns the pages, and stops at the first pencil note, and reads it, and turns more slowly, and reads the next. Beautiful. Too long. Here, beautiful. At the last page he sits for a while with his hand flat on it, over CUT NOTHING. A.G. 'He wrote this,' he says, 'the night they burlesqued it.' He does not look up. 'He stood in the wings and laughed, and then he went home and wrote this.' He ties the ribbon again, carefully, and puts the manuscript inside his coat. 'Thank you,' he says, to the table." then {
     Increase regard(clay) by 2. Assert clayMoved(clay). }
@@ -128,7 +129,7 @@ Module pentrice "Gosse's Company" {
   Event gammage_reads near gammage when keeps(gammage, note_gammage) and noteFair(gammage) "Dame Gammage reads it with a nut halfway to her mouth, and the nut stays there. She reads it again. Then she folds it very small and puts it down the front of her dress, and looks at you, and for a moment the big ribboned face is entirely unguarded. 'The Owl,' she says. 'Tomorrow. Four.' Then: 'Go away.' You go. Behind you she has started, very quietly, to cry, or to laugh; you cannot tell which." then {
     Assert gammageGulled(gammage). }
   Event gammage_scorns near gammage when keeps(gammage, note_gammage) and not noteFair(gammage) "Dame Gammage reads it, and looks at the seal, and at you, and laughs out loud, not kindly. 'Ambrose Swale never wrote a word in his life that didn't scan,' she says. 'This is Jem Pudding's spelling. Tell him he's a cruel little man, and tell him I'll be in the yard on his night with a bag of something harder than nuts.'" then {
-    Assert gullExposed(gammage). Decrease regard(gammage) by 1. }
+    Assert gullExposed(gammage). Increase slight(gammage) by 1. }
   Event swale_mixed near swale when keeps(swale, note_gammage) "Swale reads it, and frowns, and reads it again, and turns it over. 'This is signed with my name,' he says slowly. 'It is a love letter, in very bad metre, from me.' He looks at you, and across the loft at Pudding, who has gone under a hamper. 'I see,' says Ambrose Swale, with tremendous dignity, and folds it, and puts it in the fire." then {
     Assert gullExposed(gammage). }
   Event gammage_mixed near gammage when keeps(gammage, note_swale) "Dame Gammage reads it and begins to laugh, and cannot stop. 'It's from me,' she says at last, wiping her eyes. 'To him. Signed. Oh, Jem Pudding, you poor fool, you've sent the wrong one.' She tears it up very small and lets it go over the Gullet like snow." then {
@@ -156,7 +157,7 @@ Module pentrice "Gosse's Company" {
     Assert understanding(swale). Increase regard(gammage) by 2. }
   Rule tryst_false at owl_room when trystNow() and not truthTold(swale) and gammageGulled(gammage)
     says "At four Ambrose Swale comes into the Owl in his good coat and bows over Dame Gammage's hand and says, beautifully, that he has kept her letter next to his heart. 'My letter?' says Dame Gammage. 'I've kept yours.' They take them out. They read them. In the silence the whole long room hears Jem Pudding, under a table by the door, begin to laugh. Dame Gammage gets up, and puts on her bonnet, and walks out without a word, and Swale stands in the middle of the Owl with a note in Jem Pudding's spelling in his hand, and everybody looking." {
-    Assert humiliated(swale). Assert gullExposed(gammage). Decrease regard(gammage) by 3. Retract reconciled(swale). }
+    Assert humiliated(swale). Assert gullExposed(gammage). Increase slight(gammage) by 3. Retract reconciled(swale). }
   Rule tryst_alone at owl_room when trystNow() and not truthTold(swale) and not gammageGulled(gammage)
     says "Ambrose Swale sits at the end table in the Owl from four o'clock in his good coat, with his back very straight, and Dame Gammage does not come, and does not come. At seven he gets up and goes out without his hat. Pudding, who has been watching from the door, does not laugh at all." {
     Assert humiliated(swale). Assert swaleWaited(swale). Retract reconciled(swale). }
@@ -193,7 +194,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, close) and knows(actor, ned_wants) and not nedRuns(ned) and not nedLent(ned)
       and not nedStays(ned) and hour(clock) >= 19 and week() and not triedNed(actor).
     Resolve check(actor, stealth, dc_fair).
-    On success { Assert nedRuns(ned). Retract at(ned, school_yard). Assert at(ned, moon_loft). Decrease regard(mallory) by 2. }
+    On success { Assert nedRuns(ned). Retract at(ned, school_yard). Assert at(ned, moon_loft). Increase slight(mallory) by 2. }
     On failure { Assert triedNed(actor). }
     Result "Ned comes over the wall at the corner by the lime tree, where the glass has been knocked off by generations of boys, and drops into your arms with his surplice over his head. You walk him to the Moon by the back lanes. He talks all the way, about the bear.".
     Otherwise "A window goes up in the school as Ned's hand comes over the wall, and a man's voice says, 'Cherry,' and the hand goes down again.".
@@ -247,7 +248,7 @@ Module pentrice "Gosse's Company" {
   Action expose_callow(actor: group, site: place) "Tell the Owl, loud enough for the long room, that Callow never read the play he says he wrote" {
     Speaker callow. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and knows(actor, callow_lies) and not callowShamed(callow) and not callowCaught(callow).
-    On success { Assert callowShamed(callow). Decrease regard(callow) by 2. }
+    On success { Assert callowShamed(callow). Increase slight(callow) by 2. }
     Result "The long room hears it, and laughs, and Nym Callow sits in the middle of the laughter going red, and then white, and then gets up and leaves his cold coffee and goes out into Paternoster Row without his hat.".
   }
   Action keep_callow(actor: group, site: place) "Tell Callow, quietly, that you know, and that you will not tell" {

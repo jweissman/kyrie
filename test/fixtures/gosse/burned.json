@@ -1,0 +1,26 @@
+{
+ "arrive": [
+  "To the Westgate",
+  "Into the Painted Moon",
+  "Ask Merriman whether anything",
+  "Ask Merriman about the lady",
+  "stable loft",
+  "Ask Gosse whether the company needs",
+  "Tell Gosse you will take service",
+  "Ask Gosse about the last time",
+  "Ask Hepzibah to open the property chest",
+  "playbill: Take",
+  "Out to the yard",
+  "Show Merriman",
+  "stable loft",
+  "Absalom Gosse.*Give a parcel"
+ ],
+ "rehearse": [
+  "Rehearse the first act"
+ ],
+ "week": [
+  "=300",
+  "=520",
+  "=589"
+ ]
+}

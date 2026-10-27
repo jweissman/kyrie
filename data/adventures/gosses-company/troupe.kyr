@@ -47,6 +47,7 @@ Module pentrice "Gosse's Company" {
   Species bear_of_company "an old dancing bear" like bear tame described "A big brown bear, grey about the muzzle, with a leather collar and no teeth to speak of. She smells of honey and straw and is very gentle.".
   Person the_bear "Patience" at moon_yard {
     Role "the company's bear". Species bear_of_company. Peaceable. Pronouns she.
+    Greets "Patience lifts her chin off her paws to look at you, sniffs, and puts it down again, satisfied.".
   }
 
   // ── Coming to the company ───────────────────────────────────────────────────────────────────────────────────────

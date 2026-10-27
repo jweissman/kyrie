@@ -39,7 +39,7 @@ Module pentrice "Gosse's Company" {
   Rule bear_out when tday(pentrice) >= 1 and hour(clock) >= 14 and at(the_bear, moon_yard) and not fed(the_bear) and not bearLoose(the_bear) and not bearHome(the_bear) {
     Retract at(the_bear, moon_yard). Assert at(the_bear, gullet). Assert bearLoose(the_bear). }
   Rule bear_out_told when bearLoose(the_bear) and at(the_bear, gullet) and not spread(bear_loose_known) and inCity()
-    says "Kit Arden comes running, scarlet, with his voice all over the place: 'Patience is out! She's in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden's coming!'" { Assert spread(bear_loose_known). }
+    says "The Moon's pot-boy comes running, scarlet, shouting before he is through the door: 'Patience is out! She's in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden's coming!'" { Assert spread(bear_loose_known). }
   Discovery bear_loose_known "Patience has got out of her stall at the Moon and gone to the honey stall in the Gullet; the bear-ward of the Soke is coming for her.".
   Observe bear_in_gullet at gullet when at(the_bear, gullet) and not following(the_bear, party) "In the middle of the Gullet, sitting on her haunches with her nose in Ma Tolly's honey-pots and bees all over her face, is Patience. The fishwives stand round her at a distance with gutting knives, shouting. Patience is ignoring them with great dignity.".
   Action honey_bear(actor: group, site: place) "Hold out a pot of honey to Patience, and walk backward toward home" {
@@ -66,10 +66,9 @@ Module pentrice "Gosse's Company" {
   }
   Relation puddingFetches(group). Relation puddingLed(group).
   Measure fetchAt(group).
-  Rule pudding_runs when puddingFetches(the_bear) and at(pudding, ?q) and not at(pudding, gullet) and watch(clock) >= fetchAt(the_bear) + 1 {
-    Retract at(pudding, ?q). Assert at(pudding, gullet). }
-  Rule pudding_leads when puddingFetches(the_bear) and at(pudding, gullet) and at(the_bear, gullet) and watch(clock) >= fetchAt(the_bear) + 2 {
-    Retract at(the_bear, gullet). Assert at(the_bear, moon_yard). Retract at(pudding, gullet). Assert at(pudding, moon_loft). Retract puddingFetches(the_bear). Assert bearHome(the_bear). Assert puddingLed(the_bear). }
+  // He runs down, and leads her home, in the one moment: whoever is in the Gullet sees him come and go.
+  Rule pudding_leads when puddingFetches(the_bear) and at(pudding, ?q) and at(the_bear, gullet) and watch(clock) >= fetchAt(the_bear) + 1 {
+    Retract at(the_bear, gullet). Assert at(the_bear, moon_yard). Retract at(pudding, ?q). Assert at(pudding, moon_loft). Retract puddingFetches(the_bear). Assert bearHome(the_bear). Assert puddingLed(the_bear). }
   Rule pudding_leads_told at gullet when puddingLed(the_bear) and at(party, gullet) and not spread(pudding_led) says "Pudding comes down Fish Lane at a run, and stops, and hums a tune, and Patience gets up off her haunches and dances, slowly, turning, with a honey-pot stuck on one paw. The fishwives put their knives away. Then Pudding walks off up Fish Lane still humming, and Patience follows him on all fours, home." { Assert spread(pudding_led). }
   Discovery pudding_led "Pudding led Patience home from the Gullet, humming.".
   Rule bear_home when at(the_bear, moon_yard) and bearLoose(the_bear) and not bearHome(the_bear) { Assert bearHome(the_bear). }
@@ -368,7 +367,7 @@ Module pentrice "Gosse's Company" {
     Speaker garlick. Time 1 minute.
     Requires able(actor) and company(actor) and at(actor, site) and at(garlick, site) and not garlickHome(garlick) and not garlickOurs(garlick) and week() and not triedFrighten(actor).
     Resolve check(actor, intimidation, dc_fair).
-    On success { Assert garlickHome(garlick). Decrease regard(gammage) by 1. }
+    On success { Assert garlickHome(garlick). Increase slight(gammage) by 1. }
     On failure { Assert triedFrighten(actor). }
     Result "Garlick hears you out without a word, which nobody in the Gullet has seen before. 'Right,' he says. 'Right.' He does not look at you again. By evening the whole Gullet knows a player threatened Oswin Garlick, and Dame Gammage at her ballad stall has heard it too.".
     Otherwise "Garlick laughs so loud the gulls go up off the roof.".
@@ -439,7 +438,7 @@ Module pentrice "Gosse's Company" {
     Assert watermenStrike(pentrice). }
   Rule watermen_back when watermenStrike(pentrice) and tday(pentrice) >= 5 { Retract watermenStrike(pentrice). }
   Rule strike_told when watermenStrike(pentrice) and not spread(strike_known) and inCity()
-    says "At four o'clock on the last day of the Trial the watermen of the Water Stairs draw up their boats and chain them, every one, and sit down on the steps with their oars across their knees. NO BOATS TONIGHT. On the far bank the Wheel's pennant is going up, and between it and the City is a quarter of a mile of brown water." { Assert spread(strike_known). }
+    says "At four o'clock on the last day of the Trial the watermen of the Water Stairs draw up their boats and chain them, every one, and sit down on the steps with their oars across their knees. On the far bank the Wheel's pennant is going up, and between it and the City is a quarter of a mile of brown water." { Assert spread(strike_known). }
   Discovery strike_known "The watermen are on strike for Gosse's night: no boats to the Soke.".
   Action lead_crowd(actor: group, site: place) "Get up on the bollard at the top of the Stairs and lead the crowd over the old weir" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, water_stairs) and watermenStrike(pentrice) and knows(actor, weir_known)
@@ -468,7 +467,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, brawn, dc_easy).
     On success { Assert costumesInSoke(pentrice). }
     On failure { Assert triedCarry(actor). }
-    Result "Four hampers, a throne and a rack of swords that bend, down the loft stair, through the Westgate, down Fish Lane, onto two of the watermen's boats and up Soke Lane to the Wheel, with Tam Hautboy at the other end of each hamper and Pudding carrying the swords. It takes two hours. When the last hamper is in the tiring-house Tam sits down on it and says it is the most he has ever said about anything.".
+    Result "Four hampers, a throne and a rack of swords that bend, down the loft stair, through the Westgate, down Fish Lane, onto two of the watermen's boats and up Soke Lane to the Wheel, with Tam Hautboy at the other end of each hamper and Pudding carrying the swords. It takes two hours. When the last hamper is in the tiring-house Tam sits down on it and says 'Well,' which is the most he has said all week.".
     Otherwise "The first hamper weighs as much as a horse and you and Tam get it as far as the loft stair, where it decides to go down by itself.".
   }
   Relation triedCarry(group).
@@ -508,7 +507,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, moon_yard) and at(grimsditch, moon_yard) and not bailiffDone(grimsditch)
       and not costumesTaken(pentrice) and not triedBar(actor).
     Resolve check(actor, brawn, dc_fair).
-    On success { Assert bailiffDone(grimsditch). Decrease regard(clay) by 1. }
+    On success { Assert bailiffDone(grimsditch). Increase slight(clay) by 1. }
     On failure { Assert triedBar(actor). }
     Result "Grimsditch leans on the door, apologetically, and then less apologetically, and then with his whole weight, and you hold it. After a while he stops. 'Obstruction of a writ,' he says, through the door. 'I shall have to say so at the Guildhall.' You hear him go. By evening the Guildhall has heard that Gosse's people held a door against the law, and Ormsby Clay has written it down.".
     Otherwise "Grimsditch leans on the door with his whole apologetic weight and the door, and you, go backward together.".

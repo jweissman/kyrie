@@ -220,8 +220,8 @@ Module pentrice "Gosse's Company" {
     Role "the Master of Plain Speech". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "The Master of Plain Speech is a woman of forty-odd in grey, very upright, with a long clever face and ink on the second finger of her right hand. She looks at you as if you were a line she has not decided whether to strike. 'Yes?' she says.".
   }
-  Discovery clem_ink "The Master of Plain Speech, Clemency Orde, has ink on the second finger of her right hand.".
-  Observe clem_ink_seen near clemency when true "There is ink on the second finger of the Master's right hand, worn into the skin, the mark of someone who has written every day of her life." teaches clem_ink.
+  Discovery clem_ink "The Master of Plain Speech, Clemency Orde, has ink worn into the second finger of her right hand.".
+  Observe clem_ink_seen near clemency when true "When she turns a page it is the hand of someone who has written every day of her life, and not only licences." teaches clem_ink.
   // In the Office by day, at home on the Hill in the evening; on a Trial night, the grey bench at the Wheel.
   Rule clem_home when hour(clock) >= 18 and at(clemency, master_room) and not trialNight() { Retract at(clemency, master_room). Assert at(clemency, orde_parlour). }
   Rule clem_office when hour(clock) >= 9 and hour(clock) < 18 and at(clemency, orde_parlour) { Retract at(clemency, orde_parlour). Assert at(clemency, master_room). }

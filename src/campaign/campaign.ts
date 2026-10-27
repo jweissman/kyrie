@@ -95,9 +95,9 @@ export class Campaign implements WatchHost {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? [...v as unknown[]] : v])) as T;
   }
   // A fork shares compiled operators and definition records, which are never mutated after loading, behind fresh
-  // top-level arrays, and copies all mutable state.
+  // top-level arrays, and copies all mutable state; its creatures are read against its own kinds (a module's species).
   private fork(): Campaign {
-    this.keepFacts();
+    this.keepFacts(); LocalKinds.activate(this.module.catalog, this);
     const copy = Object.create(Campaign.prototype) as Campaign, arrays = Campaign.arrays;
     Object.assign(copy, { compiled: arrays(this.compiled), definition: this.definition && arrays(this.definition),
       current: structuredClone(this.current), creatures: new CreatureStore(this.creatures.snapshot),

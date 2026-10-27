@@ -1,0 +1,23 @@
+{
+ "version": 1,
+ "name": "Gosse's Company: a scholar in the city",
+ "calendar": {
+  "year": 1313,
+  "month": 6,
+  "day": 20
+ },
+ "modules": [
+  {
+   "id": "pentrice",
+   "bundle": "../../../data/adventures/gosses-company/module.json"
+  }
+ ],
+ "party": [
+  {
+   "name": "Isolde",
+   "raceId": "human",
+   "classId": "mage",
+   "backgroundId": "arcanist"
+  }
+ ]
+}

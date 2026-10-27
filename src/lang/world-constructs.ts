@@ -58,12 +58,13 @@ export class WorldConstructs {
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'travelMinutes', args: [p.id] },
         value: { kind: 'number', value: minutes } });
     }
-    if (p.opening) { this.opening(module, p.id, p.opening, p.shut, p.hidden); }
+    if (p.opening) { this.opening(module, p.id, p.opening, p); }
   }
   // A way that opens only while something holds is unopened until the world's rules find that it does, and again
   // whenever it stops holding; while unopened, it is not passable, and looks as the author says, to a company that
   // knows of it (a way hidden until a fact is known is not described shut to one that has never heard of it).
-  private static opening(module: Module, id: string, when: Predicate, shut?: string, hidden?: string) {
+  private static opening(module: Module, id: string, when: Predicate,
+    { shut, hidden }: { shut?: string; hidden?: string }) {
     const unopened: Predicate = { kind: 'call', name: 'unopened', args: [id] };
     this.assert(module, 'unopened', id);
     (module.rules ??= []).push(

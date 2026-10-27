@@ -23,6 +23,15 @@ describe('the kinds a campaign declares for itself', () => {
     const event = await first.perform(take);
     expect(event.result).toBe('success');
   });
+  it('are the campaign\'s again when it is begun again after another, before its creatures are read', async () => {
+    // A bear of one module's own species, in a campaign begun, then another, then the first again (Gosse's Company).
+    const players = 'test/fixtures/gosse/warrior.campaign.json', city = 'test/fixtures/gosse/city.campaign.json';
+    await PlaySession.start(players, 'again', source);
+    await PlaySession.start(city, 'again', source);
+    const again = await PlaySession.start(players, 'again', source);
+    expect(Canon.isSpecies('players__dancing_bear') || Canon.isSpecies('dancing_bear')).toBe(true);
+    expect(again.campaign.running).toBe(true);
+  }, 60000);
   it('take nothing of the catalog\'s when one is refused', () => {
     LocalKinds.reset();
     expect(() => ModuleParser.parse('Module bad "Bad" { Kind dagger "a counterfeit" is treasure worth 9. }')).toThrow();

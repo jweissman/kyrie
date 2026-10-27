@@ -144,7 +144,7 @@ Module pentrice "Gosse's Company" {
   // ── Before the play: Dido ───────────────────────────────────────────────────────────────────────────────────────
   Rule dido_lament at wheel when ghostOn(pentrice) and curtainRaiser(gosse) and not raiserDone(pentrice) and sceneDone()
     says "Before the play, Ambrose Swale comes out alone onto the bare stage in a black cloak, and the yard, which was expecting a ghost, quiets uncertainly, and he gives them the lament from Ormsby Clay's Dido, thirty lines in the old measure, as if every one were carved. It is very beautiful and very long. Halfway through, a fishwife throws a nut. In the lords' room Ormsby Clay sits absolutely still with his hand over his eyes." {
-    Assert raiserDone(pentrice). Increase regard(clay) by 2. Decrease regard(gammage) by 1. Decrease temper(pentrice) by 1. Set scene(pentrice) to 1.
+    Assert raiserDone(pentrice). Increase regard(clay) by 2. Increase slight(gammage) by 1. Decrease temper(pentrice) by 1. Set scene(pentrice) to 1.
     Set sceneAt(pentrice) to watch(clock). }
 
   // ── I.1 The Prologue ────────────────────────────────────────────────────────────────────────────────────────────
@@ -166,7 +166,7 @@ Module pentrice "Gosse's Company" {
     Increase temper(pentrice) by 1. Increase regard(clay) by 1. }
   Rule s1_dried at wheel when ghostOn(pentrice) and scene(pentrice) == 1 and sceneDone() and not lineGiven(pentrice) and not sceneOver(scene_one)
     says "Gosse dries in the middle of the Prologue, and nobody gives him his line from his good side, and he stands there for a terrible moment. Then he smiles, enormously, and begins to apologise to the City, in his own words, for drying, and for being old, and for his company, and for the bear, until the yard is helpless; and down on the grey bench every tallyman's knife is moving at once." {
-    Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Decrease regard(clay) by 1. Increase fines(pentrice) by 3. }
+    Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Increase slight(clay) by 1. Increase fines(pentrice) by 3. }
   Rule s1_sorry at wheel when ghostOn(pentrice) and scene(pentrice) == 1 and sceneDone() and gosseSorry(gosse) and not apologySpoken(pentrice) and not sceneOver(scene_one)
     says "And at the end of the Prologue, where the verse stops, Gosse goes on a moment in his own voice, not loud. 'Forty years ago, gentles, in this house, a young fool said a thing to a man in that gallery, to make you laugh, and you laughed. The man is dead. He sat there with his daughter on his knee.' He looks, not at the gallery, but at the grey bench. 'I am sorry for it. I have been a fool a long time. Tonight I will try to be a better one.' On the grey bench the Master of Plain Speech does not move at all." {
     Assert apologySpoken(pentrice). Increase clemTrust(clemency) by 1. Increase regard(mallory) by 1. Increase fines(pentrice) by 1. }
@@ -189,19 +189,19 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and inWing(actor) and lanternRigged(pentrice) and ghostOn(pentrice) and scene(pentrice) == 2
       and not ghostLit(pentrice) and not ghostLamp(pentrice).
     On success { Assert ghostLamp(pentrice). }
-    Result "The shutter of the dark-lantern drops open in the heavens and the mirror throws a white beam down onto the coffin as the Ghost climbs out of it, and the yard says 'Oh!' all together, like children.".
+    Result "The shutter of the dark-lantern drops open in the heavens and the mirror throws a white beam down onto the coffin as the Ghost comes up out of it, and the yard says 'Oh!' all together, like children.".
   }
   Rule s2_drilled at wheel when ghostOn(pentrice) and scene(pentrice) == 2 and sceneDone() and rehearsedI(pentrice) and (reconciled(swale) or rehearsedGhost(swale)) and not sceneOver(scene_two)
-    says "The mourners' quarrel goes like clockwork, every shove on the beat; and when the Ghost climbs out of the coffin, it is Lob alone who sees him, Pudding's face going through astonishment, terror and a sort of weary recognition in three seconds flat, and Swale looking down at his servant with an alderman's contempt. The two of them play it as if they had never stopped talking." {
+    says "The mourners' quarrel goes like clockwork, every shove on the beat; and when the coffin lid lifts and the Ghost appears, it is Lob alone who sees him, Pudding's face going through astonishment, terror and a sort of weary recognition in three seconds flat, and Swale looking down at his servant with an alderman's contempt. The two of them play it as if they had never stopped talking." {
     Increase temper(pentrice) by 1. Increase regard(clay) by 1. Increase regard(mallory) by 1. }
   Rule s2_ragged at wheel when ghostOn(pentrice) and scene(pentrice) == 2 and sceneDone() and not (rehearsedI(pentrice) and (reconciled(swale) or rehearsedGhost(swale))) and not sceneOver(scene_two)
-    says "The mourners' quarrel is a real quarrel: somebody misses a cue and somebody else steps on a hem, and the shoving gets out of hand, and Ambrose Swale, climbing out of the coffin, puts his foot on Pudding's hand and does not apologise, and Pudding's yelp gets the biggest laugh of the scene. The yard loves it. The lords' room does not." {
-    Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Decrease regard(clay) by 1. }
+    says "The mourners' quarrel is a real quarrel: somebody misses a cue and somebody else steps on a hem, and the shoving gets out of hand, and Ambrose Swale, coming up out of the coffin, puts his foot on Pudding's hand and does not apologise, and Pudding's yelp gets the biggest laugh of the scene. The yard loves it. The lords' room does not." {
+    Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Increase slight(clay) by 1. }
   Rule s2_meg at wheel when ghostOn(pentrice) and scene(pentrice) == 2 and sceneDone() and megCast(meg) and not sceneOver(scene_two)
     says "Among the mourners a young woman in a borrowed veil does Alderman Gudgeon's sister so exactly like Oswin Garlick crying over a dead pike that, in the yard, Oswin Garlick himself begins to roar, and the yard turns round to look at him, and roars louder." {
     Increase temper(pentrice) by 1. Increase regard(gammage) by 1. }
   Rule s2_rise at wheel when ghostOn(pentrice) and scene(pentrice) == 2 and sceneDone() and trapFree(pentrice) and not sceneOver(scene_two)
-    says "The Ghost does not climb out of the coffin: he rises, slowly, straight up out of it on the trap, standing, arms folded, as if the Book of Precedence itself had sent for him." { Increase temper(pentrice) by 1. }
+    says "And the Ghost does not clamber out of the coffin, as he did in the loft: the trap brings him up out of it, slowly, standing, arms folded, as if the Book of Precedence itself had sent for him." { Increase temper(pentrice) by 1. }
   Rule s2_lit when ghostOn(pentrice) and scene(pentrice) == 2 and sceneDone() and ghostLit(pentrice) and not sceneOver(scene_two) { Increase temper(pentrice) by 2. Increase regard(clay) by 1. }
   Rule s2_lamp when ghostOn(pentrice) and scene(pentrice) == 2 and sceneDone() and ghostLamp(pentrice) and not sceneOver(scene_two) { Increase temper(pentrice) by 1. }
   Rule s2_close when ghostOn(pentrice) and scene(pentrice) == 2 and sceneDone() and not sceneOver(scene_two) {
@@ -239,10 +239,10 @@ Module pentrice "Gosse's Company" {
     Increase temper(pentrice) by 2. Increase regard(gammage) by 2. Increase regard(clay) by 1. }
   Rule s3_kit at wheel when ghostOn(pentrice) and scene(pentrice) == 3 and sceneDone() and plays(kit, part_widow) and not sceneOver(scene_three)
     says "Kit Arden plays the Widow as his own grandmother, in a cap, with a stick, and does it very well, for a boy of fifteen; the yard laughs at the old woman, and a little at the boy." {
-    Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Decrease regard(clay) by 1. }
+    Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Increase slight(clay) by 1. }
   Rule s3_gosse at wheel when ghostOn(pentrice) and scene(pentrice) == 3 and sceneDone() and plays(gosse, part_widow) and not sceneOver(scene_three)
     says "Gosse, doubling, plays the Widow and Pomfret both, which means a cap on and a wig off and a cap off and a wig on, faster and faster, behind the chair, until in the end he proposes to himself on the hearth-rug and refuses himself, and the yard is crying. In the lords' room Ormsby Clay has put his hand over his face for a different reason." {
-    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase regard(callow) by 1. Decrease regard(clay) by 2. }
+    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase regard(callow) by 1. Increase slight(clay) by 2. }
   Rule s3_plant at wheel when ghostOn(pentrice) and scene(pentrice) == 3 and sceneDone() and garlickPlant(garlick) and not sceneOver(scene_three)
     says "As Pomfret kneels, Oswin Garlick's voice comes up out of the yard on cue: 'IS THAT YOUR FACE OR ARE YOU WEARING IT?' and Pudding, as Lob, turns to him with nine years in his face: 'It's my face, Oswin. I'm wearing yours tomorrow.' The Wheel goes over like a ship. Garlick laughs harder than anyone." {
     Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase regard(callow) by 1. }
@@ -253,7 +253,7 @@ Module pentrice "Gosse's Company" {
   Rule s3_ruined at wheel when ghostOn(pentrice) and scene(pentrice) == 3 and sceneDone() and garlickHired(garlick) and not garlickOurs(garlick) and not heckleAnswered(pentrice)
     and not puddingReady(pudding) and not sceneOver(scene_three)
     says "Garlick does not stop. He heckles the whole of the scene, every line, and the yard turns its back on the stage to watch him, and the Widow's best speech goes into the noise like a stone into a pond." {
-    Decrease temper(pentrice) by 2. Decrease regard(gammage) by 1. Decrease regard(clay) by 1. }
+    Decrease temper(pentrice) by 2. Increase slight(gammage) by 1. Increase slight(clay) by 1. }
   Rule s3_close when ghostOn(pentrice) and scene(pentrice) == 3 and sceneDone() and not sceneOver(scene_three) {
     Assert sceneOver(scene_three). Set scene(pentrice) to 4. Set sceneAt(pentrice) to watch(clock). }
 
@@ -281,28 +281,32 @@ Module pentrice "Gosse's Company" {
     Time 0.
     Requires midScene() and able(actor) and company(actor) and at(actor, site) and onBench(actor) and tallyman(actor) and ghostOn(pentrice) and scene(pentrice) == 4 and liberty()
       and not stickStill(actor).
-    On success { Assert stickStill(actor). Decrease fines(pentrice) by 8. Increase regard(callow) by 1. Retract tallyman(actor). }
+    On success { Assert stickStill(actor). Increase regard(callow) by 1. Retract tallyman(actor). }
     Result "You lay your stick and your little knife down on the grey bench beside you, and fold your hands, and watch the play. Along the bench Abel Tunstall sees it, and his own knife stops for a moment. Then he leans across the tallyman between you and takes your stick, quite gently, and puts it in his pocket. Up in the lords' room Nym Callow has seen it too, and is writing.".
   }
+  // A stick laid down is eight notches the Office does not have, however the night goes after (a measure is never taken
+  // below nothing, so the notches are given back one at a time as they are cut).
+  Measure spared(place).
+  Rule stick_spares when stickStill(party) and fines(pentrice) >= 1 and spared(pentrice) < 8 { Decrease fines(pentrice) by 1. Increase spared(pentrice) by 1. }
   Rule s4_clean at wheel when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and linesClean() and not sceneOver(scene_four)
     says "The Ghost rises and speaks against the sale of his statue in verse with every double meaning taken out of it, clean as a scrubbed table, and the Council scene is handsome and proud and moving, and nobody laughs much. In the lords' room the Canon nods; Ormsby Clay approves; Nym Callow writes CUT in capitals." {
-    Increase regard(mallory) by 1. Increase regard(clay) by 1. Decrease regard(callow) by 1. Decrease regard(gammage) by 1. }
+    Increase regard(mallory) by 1. Increase regard(clay) by 1. Increase slight(callow) by 1. Increase slight(gammage) by 1. }
   Rule s4_knowing at wheel when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and not linesClean() and plays(swale, part_ghost) and swaleKnowing(swale) and not sceneOver(scene_four)
     says "Ambrose Swale knows exactly what every line means, and plays every one of them as if it were clean: 'I rise, sirs, as I always rose,' with his chin up and his eyes full; and the Wheel laughs, and then catches, all at once, and does not know whether to go on laughing; and he lets it not know." {
-    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase regard(callow) by 1. Increase regard(clay) by 1. Decrease regard(mallory) by 1. }
+    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase regard(callow) by 1. Increase regard(clay) by 1. Increase slight(mallory) by 1. }
   Rule s4_loved at wheel when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and not linesClean() and plays(swale, part_ghost) and swaleUnderstands(swale) and not sceneOver(scene_four)
     says "By the end of the Council scene Ambrose Swale is playing the house like an organ: the roar comes, and he waits it out with an alderman's patience, and gives them the next, and the next. It is the biggest noise the Wheel has made in forty years. In the lords' room the Canon has gone pink and is looking at his shoes." {
-    Increase temper(pentrice) by 3. Increase regard(gammage) by 2. Increase regard(callow) by 1. Decrease regard(mallory) by 2. }
+    Increase temper(pentrice) by 3. Increase regard(gammage) by 2. Increase regard(callow) by 1. Increase slight(mallory) by 2. }
   Rule s4_shaken at wheel when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and not linesClean() and plays(swale, part_ghost) and not swaleKnowing(swale)
     and not swaleUnderstands(swale) and not sceneOver(scene_four)
     says "Swale stands in the roar not knowing what it is, and nobody tells him, and he decides, you can see him decide it, that they are laughing at him; and he plays the rest of the Council scene to the floor, fast, in a dead voice, and every double meaning goes off in his hands like a squib, and the house laughs, and laughs, and he does not look up." {
-    Assert swaleShaken(swale). Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Decrease regard(mallory) by 2. Decrease regard(clay) by 1. }
+    Assert swaleShaken(swale). Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase slight(mallory) by 2. Increase slight(clay) by 1. }
   Rule s4_other at wheel when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and not linesClean() and plays(gosse, part_ghost) and not sceneOver(scene_four)
     says "With Swale gone, the Ghost is Gosse, doubling, with a sheet over the Pomfret wig, who knows exactly what every line means and leans on each of them like a gate. The yard roars. The lords' room is divided." {
-    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase regard(callow) by 1. Decrease regard(mallory) by 1. Decrease regard(clay) by 1. }
+    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase regard(callow) by 1. Increase slight(mallory) by 1. Increase slight(clay) by 1. }
   Rule s4_party at wheel when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and not linesClean() and plays(party, part_ghost) and not sceneOver(scene_four)
     says "With Swale gone, the Ghost is you: up out of the coffin in his chain, saying his lines to the City, and every double meaning in them landing in the yard like a thrown fish. The yard roars. The lords' room is divided." {
-    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase regard(callow) by 1. Decrease regard(mallory) by 1. }
+    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase regard(callow) by 1. Increase slight(mallory) by 1. }
   Rule s4_fined when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and liberty() and not sceneOver(scene_four) { Increase fines(pentrice) by 6. }
   Rule s4_close when ghostOn(pentrice) and scene(pentrice) == 4 and sceneDone() and not sceneOver(scene_four) {
     Assert sceneOver(scene_four). Set scene(pentrice) to 5. Set sceneAt(pentrice) to watch(clock). }
@@ -326,17 +330,17 @@ Module pentrice "Gosse's Company" {
     Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Increase regard(clay) by 1. }
   Rule s5_kit_broke at wheel when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and plays(kit, part_bell) and not kitVoiceHeld(kit) and not sceneOver(scene_five)
     says "Kit reaches for the top of Bell's line about the moon, and his voice goes, straight up and down again a man's, in front of the City. The yard laughs, of course. Kit goes on, scarlet, in the man's voice, to the end of the scene, and comes off and is sick in a bucket in the tiring-house." {
-    Assert kitBroke(kit). Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Decrease regard(clay) by 1. }
+    Assert kitBroke(kit). Increase temper(pentrice) by 1. Increase regard(gammage) by 1. Increase slight(clay) by 1. }
   Rule s5_dorcas at wheel when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and plays(dorcas, part_bell) and not sceneOver(scene_five)
     says "Dorcas Quaile plays Bell, aged nineteen, under the moon, very well and very bravely, and the yard is kind; but in the lords' room Nym Callow is writing something that makes him smile, and you can guess what it is." {
-    Decrease regard(callow) by 1. Decrease regard(clay) by 1. }
+    Increase slight(callow) by 1. Increase slight(clay) by 1. }
   Rule s5_ned at wheel when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and plays(ned, part_bell) and not sceneOver(scene_five)
     says "Ned Cherry plays Bell like a blackbird, clear and fearless, and when the Tallyman counts his kiss he stamps his foot at him, and the yard loves him at once. In the lords' room the Canon is watching his angel with an expression of great complication." {
     Increase temper(pentrice) by 1. Increase regard(gammage) by 1. }
   Rule s5_ned_lent when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and plays(ned, part_bell) and nedLent(ned) and not sceneOver(scene_five) { Increase regard(mallory) by 1. }
   Rule s5_tam at wheel when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and plays(tam, part_bell) and not sceneOver(scene_five)
     says "With Dorcas gone and nobody else, Tam Hautboy plays Bell, aged nineteen, in a frock, with his beard shaved off for it that afternoon and his hautboy still in his pocket. The Wheel has never seen anything like it and never will again. Ormsby Clay leaves the lords' room for ten minutes." {
-    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Decrease regard(clay) by 2. }
+    Increase temper(pentrice) by 2. Increase regard(gammage) by 1. Increase slight(clay) by 2. }
   Rule s5_tapwell_kit at wheel when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and plays(kit, part_tapwell) and not sceneOver(scene_five)
     says "Master Tapwell is Kit Arden in his first man's part, with his broken voice going down into his boots on every line, and his ears scarlet, and his hands not knowing where to go; which is exactly what a lover of twenty is like, and the Wheel knows it, and is very tender with him." {
     Increase temper(pentrice) by 1. Increase regard(gammage) by 1. }
@@ -347,10 +351,10 @@ Module pentrice "Gosse's Company" {
     Increase temper(pentrice) by 1. Increase regard(clay) by 1. }
   Rule s5_tapwell_book at wheel when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and plays(hepzibah, part_tapwell) and not sceneOver(scene_five)
     says "Master Tapwell, the young lover, is read from the wing by Hepzibah Dimmock, fifty-nine, in her own dry voice, out of the book, while the Bell on stage makes love to an empty patch of moonlight. It is very funny the first time and grows strange." {
-    Increase regard(gammage) by 1. Decrease regard(clay) by 1. }
+    Increase regard(gammage) by 1. Increase slight(clay) by 1. }
   Rule s5_turned at wheel when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and tallyTurned(pentrice) and not sceneOver(scene_five)
     says "For the rest of the scene the Tallyman counts the grey bench, and the grey bench does not count anyone, and the yard laughs at the Office of Plain Speech to its face for the first time in forty years. On the grey bench the Master sits very straight, and you cannot see her face." {
-    Increase temper(pentrice) by 2. Increase regard(callow) by 2. Decrease regard(clay) by 1. Increase fines(pentrice) by 2. }
+    Increase temper(pentrice) by 2. Increase regard(callow) by 2. Increase slight(clay) by 1. Increase fines(pentrice) by 2. }
   Rule s5_fined when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and liberty() and not sceneOver(scene_five) { Increase fines(pentrice) by 3. }
   Rule s5_close when ghostOn(pentrice) and scene(pentrice) == 5 and sceneDone() and not sceneOver(scene_five) {
     Assert sceneOver(scene_five). Set scene(pentrice) to 6. Set sceneAt(pentrice) to watch(clock). }
@@ -368,12 +372,12 @@ Module pentrice "Gosse's Company" {
     Increase temper(pentrice) by 1. Increase regard(clay) by 2. }
   Rule s6_shaken at wheel when ghostOn(pentrice) and scene(pentrice) == 6 and sceneDone() and plays(swale, part_ghost) and (swaleShaken(swale) or humiliated(swale)) and not sceneOver(scene_six)
     says "Swale plays the complaint to the floorboards, fast, as if he wanted it over, in the voice of a man who has heard himself laughed at; and the house, which does not know why, laughs uncertainly in the wrong places, and the scene goes by, and is gone." {
-    Decrease temper(pentrice) by 1. Increase regard(clay) by 1. Decrease regard(gammage) by 1. }
+    Decrease temper(pentrice) by 1. Increase regard(clay) by 1. Increase slight(gammage) by 1. }
   Rule s6_gammage when ghostOn(pentrice) and scene(pentrice) == 6 and sceneDone() and understanding(swale) and plays(swale, part_ghost) and not sceneOver(scene_six) { Increase regard(gammage) by 1. }
   Rule s6_gammage_told at wheel when ghostOn(pentrice) and scene(pentrice) == 6 and sceneDone() and understanding(swale) and plays(swale, part_ghost) and not sceneOver(scene_six)
     says "In the lords' room, Dame Gammage has stopped eating nuts. She is holding a pansy." { }
   Rule s6_other at wheel when ghostOn(pentrice) and scene(pentrice) == 6 and sceneDone() and not plays(swale, part_ghost) and not sceneOver(scene_six)
-    says "Without Ambrose Swale the complaint is only a long speech, said well enough, and the yard is patient with it, and somebody near the front starts cracking nuts." { Decrease regard(gammage) by 1. }
+    says "Without Ambrose Swale the complaint is only a long speech, said well enough, and the yard is patient with it, and somebody near the front starts cracking nuts." { Increase slight(gammage) by 1. }
   Rule s6_other_trade when ghostOn(pentrice) and scene(pentrice) == 6 and sceneDone() and plays(party, part_ghost) and craft(party, craft_stage) and not sceneOver(scene_six) {
     Increase temper(pentrice) by 2. Increase regard(clay) by 1. }
   Rule s6_fined when ghostOn(pentrice) and scene(pentrice) == 6 and sceneDone() and liberty() and not sceneOver(scene_six) { Increase fines(pentrice) by 2. }
@@ -395,7 +399,7 @@ Module pentrice "Gosse's Company" {
     Increase temper(pentrice) by 2. Increase regard(callow) by 1. Increase regard(gammage) by 1. }
   Rule s7_dry at wheel when ghostOn(pentrice) and scene(pentrice) == 7 and sceneDone() and not (pumpMended(pentrice) and pumped(pentrice)) and not sceneOver(scene_seven)
     says "The Fountain does not run. The Council looks at it. It goes on not running. In the end Tam Hautboy, as a workman, comes on with a watering-can and pours it into the basin with great care, and the yard laughs." {
-    Increase temper(pentrice) by 1. Decrease regard(clay) by 1. }
+    Increase temper(pentrice) by 1. Increase slight(clay) by 1. }
   Rule s7_topical at wheel when ghostOn(pentrice) and scene(pentrice) == 7 and sceneDone() and fountainRuns(pentrice) and not sceneOver(scene_seven)
     says "And when the Mayor of the play says, as the book has him say, 'It will run, sirs, as surely as the Fountain of Concord in Guildhall Square,' the whole Wheel, which walked past the Fountain of Concord running on its way to the river tonight for the first time in its life, roars until the boards shake." {
     Increase temper(pentrice) by 2. Increase regard(callow) by 1. }
@@ -447,13 +451,13 @@ Module pentrice "Gosse's Company" {
   Relation triedTunstall(group).
   Rule s8_bear_fed at wheel when ghostOn(pentrice) and scene(pentrice) == 8 and sceneDone() and at(the_bear, tiring_house) and (fed(the_bear) or honeyUp(pentrice)) and not sceneOver(scene_eight)
     says "And here she comes: Patience, on her hind legs, in a bonnet, led on by Pudding as the bear-garden's keeper, and she sees the honey, and drops onto all fours, and goes to it, and sits down in the middle of the stage of the Wheel eating it with her eyes shut, and will not be moved for anybody, while the Council tries to get round her to the statue. The yard is lost. Dame Gammage in the lords' room is standing up, cheering, with her bonnet in her hand." {
-    Assert bearOn(pentrice). Increase temper(pentrice) by 2. Increase regard(gammage) by 2. Decrease regard(clay) by 1. }
+    Assert bearOn(pentrice). Increase temper(pentrice) by 2. Increase regard(gammage) by 2. Increase slight(clay) by 1. }
   Rule s8_bear_sulks at wheel when ghostOn(pentrice) and scene(pentrice) == 8 and sceneDone() and at(the_bear, tiring_house) and not fed(the_bear) and not honeyUp(pentrice) and not sceneOver(scene_eight)
     says "Patience will not go on. She sits in the wing in her bonnet with her back to the stage and declines, with great dignity, to be anybody's bear tonight; and Pudding goes on alone, on all fours, in a hearthrug, and is the bear himself, and is very funny, and is not a bear." {
     Increase temper(pentrice) by 1. Increase regard(gammage) by 1. }
   Rule s8_no_bear at wheel when ghostOn(pentrice) and scene(pentrice) == 8 and sceneDone() and not at(the_bear, tiring_house) and not sceneOver(scene_eight)
     says "There is no bear. Pudding comes on as the bear in a hearthrug, and is very funny; but the playbills promised a bear, and in the yard somebody says so, loudly, and somebody else says Bowle has her, over the way, and the laugh goes thin." {
-    Decrease regard(gammage) by 1. }
+    Increase slight(gammage) by 1. }
   Rule s8_no_bear_bills when ghostOn(pentrice) and scene(pentrice) == 8 and sceneDone() and not at(the_bear, tiring_house) and playbills(inchbald) and not sceneOver(scene_eight) { Decrease temper(pentrice) by 1. }
   Rule s8_taken at wheel when ghostOn(pentrice) and scene(pentrice) == 8 and sceneDone() and not hepzibahKept(pentrice) and not state(book, copy_warranted) and not sceneOver(scene_eight)
     says "Behind it all, in the left-hand wing, the Office has its way: Hepzibah Dimmock goes round to the grey bench with the book in her arms and the Office's men on either side of her, and sits down on the end of the bench, and the left-hand wing is empty." {
@@ -514,7 +518,9 @@ Module pentrice "Gosse's Company" {
   Rule applause_thin at wheel when playEnded(pentrice) and ghostPlay(pentrice) and temper(pentrice) < 7 and not spread(applause_known)
     says "The house claps them, as a house does, and goes out over the river talking." { Assert spread(applause_known). }
   Discovery applause_known "Gosse's Company has played its night at the Wheel.".
-  Rule fines_read at wheel when playEnded(pentrice) and ghostPlay(pentrice) and fines(pentrice) > 0 and not spread(fines_known)
+  Rule fines_read_one at wheel when playEnded(pentrice) and ghostPlay(pentrice) and fines(pentrice) == 1 and not spread(fines_known)
+    says "When the house has gone, Abel Tunstall stands on the grey bench with the tallymen's sticks in a bundle under his arm, and finds one notch among them all, and reads it by lantern-light with every sign of satisfaction: one crown, to be paid at the Office before the Bench sits at ten tomorrow, or Absalom Gosse to answer for it in the Clink of the Soke." { Assert spread(fines_known). }
+  Rule fines_read at wheel when playEnded(pentrice) and ghostPlay(pentrice) and fines(pentrice) > 1 and not spread(fines_known)
     says "When the house has gone, Abel Tunstall stands on the grey bench with the tallymen's sticks in a bundle under his arm, and reads the notches by lantern-light, at a crown a notch: {fines(pentrice)} crowns, to be paid at the Office before the Bench sits at ten tomorrow, or Absalom Gosse to answer for it in the Clink of the Soke." { Assert spread(fines_known). }
   Discovery fines_known "The Office has fined Gosse's Company for the unlicensed lines spoken at the Wheel, a crown a line, to be paid before the Bench sits at ten the next morning.".
 }

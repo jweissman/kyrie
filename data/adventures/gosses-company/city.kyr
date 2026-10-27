@@ -44,8 +44,9 @@ Module pentrice "Gosse's Company" {
   Observe mayor_garden_scene at mayor_garden when not fountainRuns(pentrice) "The Lord Mayor's garden: gravel walks, clipped yews, roses, and in the middle of it all a fountain shaped like a stone shell held up by three fat stone children, running clear and full and splashing over into a pool with carp in it. A gardener is raking the gravel and does not look at you.".
   Observe mayor_garden_dry at mayor_garden when fountainRuns(pentrice) "The Lord Mayor's garden, and the shell fountain dry, its three fat stone children holding up nothing. In the pool the carp are crowded together in a hand's depth of water, gasping. A gardener stands looking at them with his rake.".
   Observe gullet_scene at gullet when true "The Gullet is the fish market, under a long tiled roof on stone posts, and it smells as a fish market smells in midsummer. Fishwives cry pike and eel and Arle salmon in voices that need no licence. At the near end, by a post, a woman keeps a honey stall in a cloud of bees; at the far end the fishmongers' hall has a tall chimney, and a stall papered with ballad-sheets is doing a brisk trade.".
-  Observe water_stairs_scene at water_stairs when true "Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Watermen sit along the steps in their red caps beside their boats, smoking, shouting 'Oars! Oars! Over to the Soke!' at anyone who looks at them. Across the water, low and wooden, the Wheel.".
-  Observe water_stairs_strike at water_stairs when watermenStrike(pentrice) "The watermen sit on the Stairs with their oars across their knees and their caps on the back of their heads, and do not shout. Their boats are drawn up and chained. A board has been propped against the bottom step: NO BOATS TONIGHT. THE BRIDGE WARDENS KNOW WHY.".
+  Observe water_stairs_scene at water_stairs when true "Wide stone stairs go down into the brown Arle, slippery with weed at the bottom. Across the water, low and wooden, the Wheel.".
+  Observe water_stairs_oars at water_stairs when not watermenStrike(pentrice) "Watermen sit along the steps in their red caps beside their boats, smoking, shouting 'Oars! Oars! Over to the Soke!' at anyone who looks at them.".
+  Observe water_stairs_strike at water_stairs when watermenStrike(pentrice) "A board has been propped against the bottom step: NO BOATS TONIGHT. THE BRIDGE WARDENS KNOW WHY.".
 
   // ── The Painted Moon, by the Westgate ───────────────────────────────────────────────────────────────────────────
   Place moon "the Painted Moon" is building within pentrice.
@@ -171,7 +172,7 @@ Module pentrice "Gosse's Company" {
 
   // The river: by boat, while the watermen row; at low water in the evening, by the old weir, for those who know it.
   Passage ferry "the watermen's boats" is ferry between water_stairs and soke_landing taking 10 minutes
-    opening when not watermenStrike(pentrice) "The watermen sit with their oars across their knees. No boats tonight.".
+    opening when not watermenStrike(pentrice) "The watermen sit on the Stairs with their oars across their knees and their caps on the back of their heads, and do not shout. Their boats are drawn up and chained.".
   Discovery weir_known "Below the Water Stairs there is an old weir across the Arle, and at low water in the evening you can walk it to the Soke on the stones, if you know where they are and keep your feet." { Known by garlick, tolly. }
   Passage weir_path "the old weir" is path between water_stairs and soke_lane taking 30 minutes hidden until weir_known
     opening when hour(clock) >= 16 or hour(clock) < 2 "The weir is under a yard of brown water, running fast. At low water, from the evening until the small hours, the stones come up.".

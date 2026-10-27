@@ -31,7 +31,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, tiring_house) and tday(pentrice) == 2 and hour(clock) >= 18 and hour(clock) < 21
       and not siegeFell(fallow) and not siegeHeld(fallow).
     On success { Assert siegeFell(fallow). }
-    Result "One tap with the heel of a property sword and the wedge drops out into the sawdust. Nobody sees. Twenty minutes later, in the second act, the siege-tower rolls on with the gilded knight in it, and the cracked wheel folds up under it like a man fainting, and the whole tower goes over sideways across the stage of the Wheel with a noise like a barn falling down.".
+    Result "One tap with the heel of a property sword and the wedge drops out into the sawdust. Nobody sees, you think. Twenty minutes later, in the second act, the siege-tower rolls on with the gilded knight in it, and the cracked wheel folds up under it like a man fainting, and the whole tower goes over sideways across the stage of the Wheel with a noise like a barn falling down.".
   }
   Rule siege_fall_counts when siegeFell(fallow) and not spread(siege_fall_known) { Assert spread(siege_fall_known). }
   Discovery siege_fall_known "The Lord Mayor's Servants' siege-tower fell over in the middle of the Siege of Arle.".

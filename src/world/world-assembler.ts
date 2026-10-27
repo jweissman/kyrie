@@ -93,7 +93,8 @@ export class WorldAssembler {
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
     const files: Record<string, string> = {};
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
-    this.spread(placements, { library: [...library, ...heralds], base, region, contacts, context, files, root, modules });
+    this.spread(placements,
+      { library: [...library, ...heralds], base, region, contacts, context, files, root, modules });
     const told = origin && Origins.write(origin, { region, placements, protagonist: party[0]!.name ?? 'you', root, files });
     if (told) { modules.push(told.request); }
     else { this.arrival(region, { size: party.length, contacts }, { files, root, modules }); }
