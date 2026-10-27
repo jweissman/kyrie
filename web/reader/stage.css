@@ -100,6 +100,24 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 /* A level gained: a moment of the person, lighter than a chapter's end. */
 :is(.happened, .lines) .levelled { margin-top: 22px; border-top: 2px solid var(--blue); }
 :is(.happened, .lines) .levelled .what { font-size: 28px; }
+/* What can be seen from somewhere high: the compass, each way and what lies that way and how far, set out for. */
+.happened .panorama { margin: 16px 0 14px; padding: 12px 0 0; border-top: 3px solid var(--ink); }
+.happened .panorama .kicker { font: 500 11.5px var(--do); letter-spacing: .18em; text-transform: uppercase;
+  color: var(--blue); margin: 0 0 6px; }
+.panorama .compass { list-style: none; margin: 0; padding: 0; }
+.panorama .compass li { display: grid; grid-template-columns: 2.6em minmax(0, 1fr) auto auto; align-items: baseline;
+  gap: 0 14px; padding: 8px 0; border-top: 1px solid var(--hair); }
+.panorama .compass li:first-child { border-top: 0; }
+.panorama .toward { font: 700 13px var(--do); letter-spacing: .06em; color: var(--blue); }
+.panorama .sight-name { display: block; font: 400 18px/1.3 var(--told); color: var(--ink); }
+.panorama .looked { display: block; font: 400 13.5px/1.4 var(--do); color: var(--grey); margin-top: 2px; }
+.panorama .off { font: 400 13.5px var(--do); color: var(--grey); white-space: nowrap; }
+.panorama .set-out { padding: 3px 10px; font-size: 13px; }
+@media (max-width: 640px) {
+  .panorama .compass li { grid-template-columns: 2.4em minmax(0, 1fr) auto; }
+  .panorama .off { grid-column: 2; }
+  .panorama .set-out { grid-column: 3; grid-row: 1; }
+}
 .working .you::after { content: ' …'; }
 
 /* A chapter's opening: the country, as a plate on the left page; the telling and what is here on the right. */
@@ -389,6 +407,8 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
   .dialogue .answer { max-height: 46dvh; }
   .thing { display: block; overflow-y: auto; padding: 0 16px; }
   .thing .face, .thing .uses { overflow: visible; padding: 14px 0 10px; }
+  /* The running head clear of the close, which stands over its right end. */
+  .thing .running, .dialogue .running { padding-right: 34px; }
   .thing .uses { padding: 0 0 40px; }
   .fight { padding: 18px 16px 64px; }
   .fight .sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }

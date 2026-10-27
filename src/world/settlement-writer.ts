@@ -74,7 +74,22 @@ export class SettlementWriter {
   private static holy(s: Settlement, f: Founding, cult: Cult): string[] {
     const q = this.q, h = Foundings.table.holy[f.holy], words = { ...this.words(s), cult: cult.name };
     return [`  Place ${s.id}_shrine ${q(Foundings.fill(h.room!, words))} is room within ${s.id} at 0, 1.`,
-      `  Passage ${s.id}_shrine_door ${q(Foundings.fill(h.door!, words))} is doorway between ${s.id}_shrine and ${s.id}_green.`];
+      `  Passage ${s.id}_shrine_door ${q(Foundings.fill(h.door!, words))} is doorway between ${s.id}_shrine and ${s.id}_green.`,
+      ...this.tower(s, h.tower, words)];
+  }
+  // A town's shrine has a tower: climbed, it shows what can be seen from it (see RegionSights), and climbed again on
+  // another day, what the haze hid; once the company has gone from it, it is a tower to climb again.
+  static towered(s: Settlement): boolean { return s.size === 'town'; }
+  private static tower(s: Settlement, t: { name: string; unseen: string; seen: string; change: string } | undefined,
+    words: Record<string, string>): string[] {
+    if (!t || !this.towered(s)) { return []; }
+    const q = this.q, id = `${s.id}_shrine_view`;
+    return [`  Thing ${id} ${q(Foundings.fill(t.name, words))} at ${s.id}_shrine is scenery {`,
+      `    State below ${q(Foundings.fill(t.unseen, words))}.`,
+      `    State above "The way down is the stair you came up.".`,
+      `    Change climb ${q(Foundings.fill(t.change, words))} from below to above.`, '  }',
+      `  Observe ${id}_seen at ${s.id}_shrine as sign when state(${id}, above) ${q(Foundings.fill(t.seen, words))}.`,
+      `  Rule ${id}_down when state(${id}, above) and not at(party, ${s.id}_shrine) { Assert state(${id}, below). }`];
   }
   private static wayside(f: Founding, cult: Cult): string | undefined {
     return f.holy === 'wayside' ? Foundings.fill(Foundings.table.holy.wayside.thing!, { cult: cult.name }) : undefined;

@@ -58,8 +58,12 @@ export class Narrator {
     if (exchange && !probing && told.moved) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
       || !kept.some(k => Narration.sentence(k.text) === l.text)); }
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
+    // Nor is what it told again by another name, now that what it taught names it (a doorway seen from a tower, known
+    // then for the ruin it is).
+    const toldAs = new Set((told?.event.perceptions ?? [])
+      .filter(p => echoed.has(Narration.sentence(FictionalTime.prose(p.text)))).map(p => p.id));
     const all = this.order(kept.filter(l => !changed.includes(FictionalTime.prose(l.text))
-      && !echoed.has(Narration.sentence(l.text))), defs);
+      && !echoed.has(Narration.sentence(l.text)) && !toldAs.has(l.id)), defs);
     const lines = known && told?.moved ? this.recalled(campaign, all, defs) ?? all : all;
     const credited = lines.map(l => ({ ...l, text: this.noticed(campaign, Narrator.def(defs, l.id), l.text) }));
     const situation = this.paragraphs(credited, defs);

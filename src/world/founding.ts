@@ -32,7 +32,9 @@ export class Foundings {
   static readonly table = tables as unknown as { foundings: Record<Kind, Entry>;
     keeping: Record<Keeping, { role: string; room?: string; door?: string; house: string; dog: string;
       background?: string; lodging?: [string, number]; scene?: string[]; night: string }>;
-    holy: Record<Holy, { role: string; room?: string; door?: string; thing?: string }>;
+    holy: Record<Holy, { role: string; room?: string; door?: string; thing?: string;
+      // A town's shrine has a tower to climb and look out from (see RegionSights).
+      tower?: { name: string; unseen: string; seen: string; change: string } }>;
     selling: { door: { role: string } } };
   private static readonly cached = new WeakMap<Region, Founding[]>();
   static of(region: Region, i: number): Founding { return this.all(region)[i]!; }

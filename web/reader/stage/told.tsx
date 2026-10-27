@@ -3,7 +3,9 @@ import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
+import { MenuModel } from '../menu-model';
 import { Moments } from './moments';
+import { Panorama } from './panorama';
 import { PlaceStage } from './place-stage';
 
 // What the place says and what just happened in it. Coming somewhere, the way there is told, then the place, then
@@ -27,7 +29,7 @@ export class Told {
       {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       {s.pending && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {journey && <Told.Travelled app={app} />}
-      {!s.pending && stayed && <Told.Happened exchange={told} said ready={Moments.ready(screen)} />}
+      {!s.pending && stayed && <Told.Happened exchange={told} said ready={Moments.ready(screen)} app={app} />}
       {situation.length > 0 && (stayed
         ? <p className="recall">{Typography.curl(Told.first(situation[0]!))}</p>
         : <div className="establish">{situation.map((p, i) => <p key={i}>{Typography.curl(p)}</p>)}</div>)}
@@ -36,7 +38,7 @@ export class Told {
         <p className="label">Since you were last here</p>
         {leaf.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
       </div>}
-      {!s.pending && told && !stayed && <Told.Happened exchange={told} ready={Moments.ready(screen)} />}
+      {!s.pending && told && !stayed && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
     </>;
   }
   // The way here, on arriving: a journey along known ways leg by leg, or what the way was like.
@@ -98,16 +100,19 @@ export class Told {
   }
   // What came of something done: what the company did, when it did it where it stands, in its own words; then what
   // happened, and what it came to know or spent.
-  static Happened({ exchange, said, ready }: { exchange: Exchange; said?: boolean; ready?: string }) {
+  static Happened({ exchange, said, ready, app }: { exchange: Exchange; said?: boolean; ready?: string; app?: ReaderApp }) {
     const echo = said && exchange.said ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
-    const { plain, ended, levels } = Moments.of(exchange.lines);
+    const { plain, rest, sights, ended, levels } = Moments.of(exchange.lines), notes = Panorama.unsaid(exchange.notes, sights);
     return (
       <section className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
         {plain.map((l, i) => <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
+        {sights.length > 0 && <Panorama.View sights={sights} going={(app?.state.frame?.screen.destinations ?? [])
+          .map(d => ({ id: d.id, name: d.name, journey: MenuModel.journey(d) }))} choose={app && (c => app.choose(c))} />}
+        {rest.map((l, i) => <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
-        {exchange.notes.length > 0 && <ul className="notes">{exchange.notes.map(n => <li key={n}
+        {notes.length > 0 && <ul className="notes">{notes.map(n => <li key={n}
           className={/^Noted: /.test(n) ? 'learned' : undefined}>{/^Noted: /.test(n)
             ? <><span className="label">You know now</span> {Typography.curl(n.replace(/^Noted: /, ''))}</>
             : Typography.curl(n)}</li>)}</ul>}

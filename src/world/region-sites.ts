@@ -79,15 +79,21 @@ export class RegionSites {
     // can also be found by searching where it starts. Told, it is a way the company can set out along (leadsVia).
     const ways = [...zone ? RegionZones.told(region, zone, site.part ?? 0) : [], `${id}_track`];
     lines.push(`  Initially Assert leadsTo(${id}_found, ${id}).`, ...ways.map(w => `  Initially Assert leadsVia(${id}_found, ${w}).`));
-    // Named as the company knows it when it reads it: the way to a timbered adit, or to Obscurusport once named.
-    const told = zone ? `The way to {${id}}: ${RegionZones.route(region, zone, site.part ?? 0)}, where the track to it starts.`
-      : `The way to {${id}}: the track to it goes from {${this.start(seat, region).from}}.`;
+    const told = this.way(seat, region);
     lines.push(hidden && !great ? `  Discovery ${id}_found ${q(told)} { Found by searching ${RegionZones.room(zone!, site.part!)}. }`
       : `  Discovery ${id}_found ${q(told)}.`);
     if (this.cut[site.kind] && !site.work) {
       lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${site.name.toUpperCase()}.`)} teaches ${id}_named.`);
     }
     return lines;
+  }
+  // The way to a site, as the innkeeper tells it or as it is seen from somewhere high (see RegionSights): through its
+  // wild country landmark by landmark to where its track starts, or where its track goes from. Named as the company
+  // knows it when it reads it: the way to a timbered adit, or to Obscurusport once named.
+  static way(seat: Seat, region: Region): string {
+    const id = seat.site.id, zone = RegionGeography.atlas(region).zones.find(z => z.id === seat.site.zone);
+    return zone ? `The way to {${id}}: ${RegionZones.route(region, zone, seat.site.part ?? 0)}, where the track to it starts.`
+      : `The way to {${id}}: the track to it goes from {${this.start(seat, region).from}}.`;
   }
   // The site's place and the track to it.
   private static stand(seat: Seat, region: Region, at: { where: string; hidden: boolean }): string[] {

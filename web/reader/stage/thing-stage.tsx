@@ -28,7 +28,7 @@ export class ThingStage {
           {thing.note && <p className="r">{Typography.curl(thing.note)}</p>}
           {seen.map((p, i) => <p key={i} className="seen">
             {Typography.curl(p)}</p>)}
-          {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} said />}
+          {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} said app={app} />}
         </div>
         <div className="uses">
           {examined.groups.map(g => <section key={g.title} className={`group${g.title === 'Go through it anyway' ? ' risky' : ''}`}>
