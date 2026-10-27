@@ -288,7 +288,55 @@ Rerun `lab/fragile.ts`: no death in the first ruin before the player's first tur
 *Filled in from the run below; see [`lab/fragile.ts`](lab/fragile.ts) and
 [`lab/fragile-summ.py`](lab/fragile-summ.py).*
 
-*Run in progress; results follow in the next commit.*
+**Setup.** 20 seeds × 5 origins × {mage, warrior, mage with the town's traveller hired}, to the first ruin the
+player is told the way to ("first"), plus the debt origin to the country's largest ruin ("big"). That is 360 runs, of
+which 351 finished (9 timed out). The scripted player is an *ordinary careful* one:
+
+- It asks every rumour in the starting town and camps at nightfall.
+- It lights the dark, tries the "Work it" actions and riddle words, and looks closely at traps; it uses a safe way
+  past if one is offered, and otherwise sends the hardiest member first.
+- It rests when below 60% health if it can, never risks a trap while hurt, and takes on only fights the page
+  reckons slight, fair or hard.
+- Fights use the game's own tactics, and the player's turns are counted. Data: `lab/data/fragile.json`.
+
+| Ruin | Company | Reached | Fell (of reached) | Killed by trap / set upon | Fights | Fights with no player turn | Climax reads "no match for you" on arrival | Climax reads deadly |
+|---|---|---|---|---|---|---|---|---|
+| first | mage | 86% | **27%** | 8 / 7 | 7 | 0 | 0% | **85%** |
+| first | mage + hire | 89% | 20% | **0** / 15 | 18 | 0 | 2% | 34% |
+| first | warrior | 86% | 19% | 1 / 15 | 34 | 4 | **34%** | 27% |
+| big | mage | 95% | **74%** | 9 / 4 | 4 | 0 | 0% | **100%** |
+| big | mage + hire | 95% | 53% | 1 / 8 | 10 | 0 | 6% | 53% |
+| big | warrior | 95% | 53% | 2 / 8 | 19 | 3 | 18% | 35% |
+
+**What it shows:**
+
+1. **Deaths before the first player decision are rare, not typical.** There were 5 in 351 runs, all the same seed4
+   situation (a warrior brought to 4 HP by a trap, then set upon before acting). Osric's frog death in my hand play
+   was unlucky, not representative. The fragile-start problem is a different one:
+2. **Mages are killed by traps they must walk into.** 9 of the 14 solo-mage falls in the big ruin were traps
+   (`risk`, with no trapwork and no pole). The player's "decision" there is only *who* takes the hit, and alone
+   there is no choice. With the hired traveller, trap deaths drop from 8 to 0 in first ruins (the companion goes
+   first) and the climax's "deadly" reading from 85% to 34%. **The companion offer (§5.1) is the single biggest
+   lever for non-warriors**, and it already exists in every starting town, hidden behind small talk.
+3. **Warrior climaxes are often trivial.** In 34% of first ruins (18% of big ruins) the site's worthiest band reads
+   "no match for you" to a fresh level-1 warrior. A mage meets the same climaxes as deadly 85–100% of the time.
+   The same content is a walkover for one build and a wall for another, which argues for §5's class-specific trap
+   and danger answers rather than a global difficulty change.
+4. **A quarter of first ruins are empty.** 68 of 253 first ruins reached had no hostile band at all (errand sites
+   such as the order's copying ruin). That is fine as variety, but these rarely have another hook inside (no
+   rival, no machine to work), so the trip's only reward is the one click of reading.
+5. **Camping in the open hurts the fragile.** A 4-HP mage loses 1 HP to a night in the wild (5 runs of each mage
+   variant; 0 for the warrior): a quarter of their health before the ruin.
+
+**Limits.** The bot reaches about 5 of a first ruin's 14 rooms (7 of 30 in the big ruin) before mechanisms and
+barred ways stop it, so deeper dangers are under-sampled, and falls are probably *undercounted*. It never buys
+equipment and never uses consumables. The danger labels are the page's own estimate (`DangerSense`, 6–12
+simulated fights) at the moment of arrival, at full health. Rerun it after §5:
+
+```sh
+bun doc/playtests/play-structure-2026-10-26/lab/fragile.ts seed1 order mage first hire
+python3 doc/playtests/play-structure-2026-10-26/lab/fragile-summ.py   # summarises lab/data/fragile.json
+```
 
 ### 7.2 Attention budget (baseline)
 

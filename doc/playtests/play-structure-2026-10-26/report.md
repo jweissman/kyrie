@@ -415,6 +415,8 @@ Each item: problem → evidence → why it matters → likely cause → bounded 
 **6. Make danger honest and fragile builds survivable.**
 
 - *Problem:* a 5-HP mage dies before acting; plate makes ordinary foes harmless; the boss is "easily won".
+  *(Measured later, [creative direction](creative-direction.md) §7.1: deaths before the first player turn are rare,
+  5 in 351 scripted runs. Fragile mages fall mostly to traps they must walk into.)*
 - *Cause:* Orsino armour classes at level 1, solo starts, unannounced assaults.
 - *Change:* (a) assaults on entering a room give the company the first turn, or a "you hear…" warning one step
   ahead (the deep-sounds mechanism already exists); (b) every origin that sends a non-warrior to a ruin offers a
