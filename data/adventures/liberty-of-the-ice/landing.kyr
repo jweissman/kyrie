@@ -24,6 +24,15 @@ Module pellam "The Liberty of the Ice" {
   Rule landing_gathers when landingAt(lisk) and not landingDone(lisk) and not gathered(lisk) {
     Assert gathered(lisk). Assert at(harker, freezeland). Assert at(kemble, freezeland). Assert at(gosling, freezeland). Assert at(tredgold, freezeland). }
   Relation gathered(place).
+  // The clerk's list, chalked on a board at the Reeve's elbow, so that whoever has a case knows when it is coming.
+  Observe landing_list at freezeland when landingAt(lisk) and not landingDone(lisk) "On a board at the Reeve's elbow the Court's clerk has chalked the Landing's list, and crosses each case off as it is cried: the heretic Callow, and his hand; Sir L. Gant, debtor; the Hawsfold flock, to J. Harker; J. Harker's hired, twenty; and then ALL OTHER HANDS. Then, in bigger letters: OFF THE ICE AT NINE.".
+  // Harker's one chance to be someone else: Ursel, who knows now where he came from, asks him the one question.
+  Topic ursel_asks_harker with harker "Stand back, and let Ursel ask Master Harker her question" when landingAt(lisk) and not landingDone(lisk) and travelsWith(ursel, party) and knows(actor, ursel_knows_harker) and not urselAskedHarker(lisk) once {
+    Says "Ursel goes and stands in front of him, close, where the Reeve can see them both. 'Swale Head,' she says. 'Twenty-nine years since. A farm at the beck-head, forty acres of stones, a man called Cobb with a note out against his wool. Was it you came up the dale with it?' Harker looks at her for as long as it takes the clerk to dip his pen. 'I have been up every dale in the north country with a note, mistress,' he says gently. 'I do not remember the farms.' He looks down at his hands, folded at his waist, the right in the left. 'I remember the hands.' And for a moment you think he is going to say something else, and so does she; and then Kemble touches his sleeve, and he turns back to the Reeve, and it is gone. Ursel stands there a moment longer. Then she comes back to you and says, quite cheerfully, 'Well. Now I know I'll never know,' and takes your arm, and does not let go of it until the case is over.".
+    On discuss { Assert urselAskedHarker(lisk). Increase urselTrust(ursel) by 1. }
+  }
+  Relation urselAskedHarker(place).
+  Observe ursel_watches_harker at freezeland when hiredCase() and travelsWith(ursel, party) and knows(party, ursel_knows_harker) "Ursel is not watching the hired. She is watching Harker's hands: the way he holds them, clasped, at his waist, the right in the left, as if one were keeping the other from something.".
   Rule landing_hired_come when landingAt(lisk) and not landingDone(lisk) and inBond(hired) and not hiredFled(lisk) and not at(hired, freezeland) { Assert at(hired, freezeland). Assert at(tansy, freezeland). }
   Rule landing_taken_come when landingAt(lisk) and not landingDone(lisk) and dickonTaken(dickon) and not at(dickon, freezeland) { Assert at(dickon, freezeland). Assert at(jem, freezeland). }
   Rule landing_party_hired when landingAt(lisk) and not landingDone(lisk) and inBondhouse(party) and not at(party, freezeland)
@@ -35,7 +44,7 @@ Module pellam "The Liberty of the Ice" {
 
   // ── The case of Magister Callow ───────────────────────────────────────────────────────────────────────────────────
   Rule callow_case_dead at freezeland when callowCase() and callowDead(callow) and not callowCaseOpened(lisk)
-    says "The clerk calls Magister Edrin Callow, on the charge of unswearing. Justice Broom looks at the empty stocks for a long moment. 'Discharged,' she says. 'By the Flow.' Nobody laughs." { Assert callowCaseOpened(lisk). }
+    says "The clerk calls Magister Edrin Callow, on the charge of unswearing. Justice Broom turns her trumpet toward the empty stocks, as if they might say something. 'Discharged,' she says. 'By the Flow.' Nobody laughs." { Assert callowCaseOpened(lisk). }
   Rule callow_case_hand at freezeland when callowCase() and callowHand(party) and together(callow, party) and not callowCaseOpened(lisk)
     says "The clerk calls Magister Edrin Callow, on the charge of unswearing, and his hand to produce him. Callow steps out of the crowd on your arm, coughing, and bows to the Reeve. 'Produced,' says Broom, and looks at you with something that might be approval. 'Your hand is kept. Now, Magister. What have you to say?'" {
     Assert callowCaseOpened(lisk). Assert handKept(callow_bargain). }
@@ -122,7 +131,7 @@ Module pellam "The Liberty of the Ice" {
   // ── The case of Harker's hired ────────────────────────────────────────────────────────────────────────────────────
   Relation hiredCaseOpened(place). Relation hiredLanded(place). Relation hiredReleased(place). Relation unsworn(place). Relation hiredMissing(place).
   Rule hired_case_gone at freezeland when hiredCase() and hiredFled(lisk) and not hiredCaseOpened(lisk)
-    says "The clerk calls Master Harker's hired, twenty hands, a year's service. Harker turns to where they should be standing. Nobody is standing there. Kemble has his book open and his mouth open. 'Gone down the Reach in the night,' somebody shouts from the back, 'on the Company's sledges!' and the watermen in the ring roar. Justice Broom looks at Master Harker for a long time. 'Not here,' she says. 'Not landed.' Her voice is not unkind. 'It goes out with the river.'" {
+    says "The clerk calls Master Harker's hired, twenty hands, a year's service. Harker turns to where they should be standing. Nobody is standing there. Kemble has his book open and his mouth open. 'Gone down the Reach in the night,' somebody shouts from the back, 'on the Company's sledges!' and the watermen in the ring roar. Justice Broom looks at Master Harker, and the whole ring looks with her. 'Not here,' she says. 'Not landed.' Her voice is not unkind. 'It goes out with the river.'" {
     Assert hiredCaseOpened(lisk). Assert hiredMissing(lisk). }
   Rule hired_case_squire at freezeland when hiredCase() and hiredSquire(lisk) and not hiredCaseOpened(lisk)
     says "The clerk calls the hired. 'Landed to the Squire of Hawsfold,' says Kemble, a little sourly, 'with the flock.' The twenty stand in a line in front of the Reeve, in their blankets, with their tokens in their hats, and look at you, because they are yours now, for a year, good in any court." {

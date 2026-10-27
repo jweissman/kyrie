@@ -6,7 +6,7 @@ it, and almost every one of them was paid for by somebody.
 
 ## Experience (`growth.kyr`)
 
-Twenty-eight milestones, 100 to 700 experience each, 7,850 in all, each to every member of the company. No journey
+Thirty-one milestones, 100 to 700 experience each, 8,400 in all, each to every member of the company. No journey
 can earn them all: the three levers exclude one another, and the arcs of Callow's answers do. The Long Con journey
 earns 2,000 to each member (the bard and Ursel), the Unswearing 2,500 to a scholar alone, the Ring 1,200 to a
 labourer, the Score 500 and the Pillory 300. The chart asks 1,000 for the second level and 3,000 for the third, so a first-level character leaves Pellam at the second level, or near the third; that is Pellam's whole "high" reward, and it is honest about it. The high milestones are
@@ -21,6 +21,9 @@ the three levers and the flight:
 | brought Ursel to her brother | 400 | Ursel's arc |
 | read Harker's ledger / bond book; found the drowned were not drowned; found Dickon | 300 each | the mystery |
 | kept your hand for Callow; went into the bondhouse as one of the hired; saw the alderman say it; married the printer to Mr. Icicle; landed a hand with Ursel | 300 each | keeping faith, and the comedy's marriages |
+
+The second pass added three: past the wolves without a fight (200; a fight gives the engine's own experience for
+the kill, and nothing of Pellam's), the Statute laid (250), and Ursel's first confidence (100).
 
 None is given for the Score, the Pillory or the sale of the drowned. A rogue's ending is its own reward.
 

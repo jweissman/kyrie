@@ -1,0 +1,7 @@
+{
+ "in": ["go:swan_lane", "Shake on a penny a stair", "go:freezeland", "Ask her for your purse back", "go:evenhands",
+  "Ask the verger about the scales", "Ask the verger about the board", "Ask the verger about Master Harker",
+  "=144", "go:patience_hold", "Search here", "Ask Dickon Cobb how", "Ask Dickon what Gallowmoor",
+  "go:gosling_study", "Tell Alderman Gosling that Dickon"],
+ "end": ["=420"]
+}

@@ -1,0 +1,177 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The wolves on the sledge road ─────────────────────────────────────────────────────────────────────────────────
+  // A month of snow has brought the wolves down off the downs after the frozen river, as it brings them in every
+  // great frost (the Book of Frosts has them in four of seven). On the second night they sit across the sledge road at
+  // the foot of the Reach, which is the way south for anyone who is going: Dickon's drowned, the hired, the company.
+  // They can be fought, and are dangerous; or driven off with fire, which they fear; or fed; or gone round, downwind,
+  // by someone who knows how; or faced down; or outrun on the watermen's sledges.
+  Person wolves "the wolves off the downs" at limbo {
+    Role "four of them, grey, lean as rakes with the winter". Species wolf. Numbers 4. Pronouns they.
+    Temperament territorial. Refuge limbo. Fears flame.
+    Warns "On the sledge road ahead of you, where the ice goes on grey and empty into the dark, four shapes are sitting in a row, the way dogs sit outside a butcher's. They get up, without hurry. One of them puts its head down, and you hear it: a sound like a saw in green wood, very low.".
+    Comes "They come at you over the ice low and fast and silent, spreading out as they come, the way the watermen spread out to pull a boat.".
+    Flinches "The wolves turn, all four together, and go away down the sledge road at a long easy lope, and stop a long way off, and sit, and watch you, and then are not there.".
+  }
+  Relation wolvesCame(place). Relation wolvesBeaten(place). Relation wolvesFed(place). Relation wolvesDriven(place).
+  Query wolfNight() means secondDay() and (hour(clock) >= 22 or hour(clock) < 5) and not iceGone().
+  Rule wolves_come when wolfNight() and able(wolves) and not wolvesCame(lisk) { Assert wolvesCame(lisk). Assert at(wolves, sledge_road). Assert happened(ev_wolves). }
+  Rule wolves_go when thirdDay() and hour(clock) >= 5 and at(wolves, sledge_road) { Assert at(wolves, limbo). }
+  Entity ev_wolves: fact "wolves".
+  Rule wolves_heard when happened(ev_wolves) and inPellam() and not onIce() and not heardNews(ev_wolves) and not at(party, sledge_road)
+    says "Far off down the river, past the end of the Fair, past the Reach, a sound you take at first for the wind in the bridge: rising, and falling, and rising, and then two of it, and then four. Wherever people are awake in Pellam they stop talking to listen. Somebody near you says, 'Wolves. On the river,' and somebody else says, 'They'll be after the ox,' and laughs, and nobody laughs with him." {
+    Assert heardNews(ev_wolves). }
+  Rule wolves_heard_ice when happened(ev_wolves) and onIce() and not heardNews(ev_wolves) and not at(party, sledge_road)
+    says "From down the Reach, over the ice, which carries sound the way a table carries a dropped spoon: a howl, long, rising and falling, and then another under it, and another. The lanterns along Freezeland Street seem suddenly very small." {
+    Assert heardNews(ev_wolves). }
+  Observe wolves_watch at sledge_road when at(wolves, sledge_road) and tolerates(wolves, party) "Away off the sledge road, out on the grey ice, four shapes trot along level with you, a long way off, and stop when you stop.".
+  Observe wolves_ate at sledge_road when wolvesFed(lisk) and wolfNight() "Away down the ice, a long way off, a dark heap and four shapes busy at it, and a sound of bone.".
+
+  // Fire. A brand lit at the ox fire, at Fowke's brazier on the wharf, or at the brazier on the bondhouse floor burns
+  // two hours; held up and swung, it drives them off for the night.
+  Measure brandUntil(group).
+  Query brandLit(a: group) means brandUntil(a) > watch(clock).
+  Action brand_ox(actor: group, site: place) "Wrap a billet of the ox's firewood in tow, and light it at the ox fire for a brand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ox_roast) and not iceGone() and not brandLit(actor) and quantity(actor, gold) >= 1.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Set brandUntil(actor) to watch(clock) + 12. }
+    Result "The Butcher at the spit sells you a billet of ash and a fist of tarry tow for a penny, and does not ask what for, because a man who sells hot meat in a frost has seen everything. The tow catches with a sound like a sheet shaken out on a line, and burns orange and stinking and very bright.".
+  }
+  Action brand_wharf(actor: group, site: place) "Light a brand at old Fowke's brazier, with a stave off the bales" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hay_wharf) and dark() and not brandLit(actor)
+      and (asleep(fowke) or not at(fowke, hay_wharf) or sodden(fowke)).
+    Time 2 minutes.
+    On success { Set brandUntil(actor) to watch(clock) + 12. }
+    Result "A stave out of the bale-lashings, a twist of greasy fleece round the end of it, and the brazier's coals: it goes up with a smell of a singed sheep and a light that throws your shadow the length of the wharf. Fowke does not stir.".
+  }
+  Action brand_bondhouse(actor: group, site: place) "Wind a stave in a greasy fleece off the stack, and light it at the bondhouse brazier" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bond_floor) and not brandLit(actor).
+    Time 2 minutes.
+    On success { Set brandUntil(actor) to watch(clock) + 12. }
+    Result "Harker's fleeces are full of their own grease; one of them round the end of a stave out of the straw-rack burns like a church candle, low and yellow and smoking. Tansy Hobb watches you light it and says nothing, and then says, 'For the wolves, is it,' as if everyone knew there were wolves.".
+  }
+  Observe brand_burning near party when brandLit(party) and dark() "The brand hisses and spits in your fist, and the dark goes back from it a little way on every side.".
+  Action brand_wolves(actor: group, site: place) "Hold the brand up high and walk straight at the wolves, swinging it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wolves, site) and able(wolves) and brandLit(actor) and not tolerates(wolves, actor).
+    Time 1 minute.
+    On success { Assert wolvesDriven(lisk). Assert at(wolves, limbo). Retract assails(wolves, actor). Retract warned(wolves, actor). }
+    Result "You walk at them with the brand over your head, and it roars in the wind of your going, and drips burning on the ice. The nearest backs off a step, with its ears flat, and snaps at the sparks; then they are all going, sideways, unhurried, offended, down the sledge road into the dark, and the dark closes behind them. Your hand is shaking so that the brand shakes. Nobody behind you says anything at all.".
+  }
+
+  // Meat. The ox's lights and offal, a bucket of it, thrown out on the ice upwind, and they are busy until morning.
+  Kind offal_kind "a bucket of offal" is gear worth 0 weighing 2 described "A wooden bucket of the ox's lights and liver and guts, steaming in the cold, and then not steaming, and then frozen into one red stone.".
+  Item offal "a bucket of offal" is offal_kind at limbo.
+  Relation offalBought(group).
+  Action buy_offal(actor: group, site: place) "Buy a bucket of the ox's offal from the Butchers at the spit" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ox_roast) and not iceGone() and not offalBought(actor) and at(offal, limbo) and quantity(actor, gold) >= 1.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Assert offalBought(actor). Assert at(offal, ox_roast). }
+    Result "The Butcher fills a pail from the barrel at the back of the hearth: lights, liver, the long grey ropes of the guts. 'For your dogs?' he says. 'Big dogs.' He takes your penny.".
+  }
+  Action throw_offal(actor: group, site: place) "Swing the bucket of offal out over the ice upwind of them, as far as it will go" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wolves, site) and able(wolves) and carries(actor, offal) and not tolerates(wolves, actor).
+    Time 1 minute.
+    On success { Assert wolvesFed(lisk). Assert at(wolves, limbo). Assert at(offal, limbo). Retract assails(wolves, actor). Retract warned(wolves, actor). }
+    Result "It goes out over the ice in a red string and lands with a sound like a wet sack, thirty yards off, upwind. For a moment none of them move. Then the biggest gets up and trots over to it, and then all of them, and there is snarling, and the sound of bone; and you go by on the far side of the sledge road with the brand of their noise at your back, walking, because you have been told all your life not to run from a dog.".
+  }
+
+  // Downwind. Someone who knows wolves takes the company wide round them along the bank, with the wind in their faces.
+  Relation wolvesRounded(group).
+  Action round_wolves(actor: group, site: place) "Take everyone wide round the wolves along the bank, downwind of them, slowly" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wolves, site) and able(wolves) and capable(actor, woodcraft) and not tolerates(wolves, actor) and not wolvesRounded(actor).
+    Time 3 minutes.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert wolvesRounded(actor). Assert tolerates(wolves, actor). Retract warned(wolves, actor). Retract assails(wolves, actor). }
+    On failure { Assert wolvesRounded(actor). }
+    Result "You wet a finger and hold it up, and go off the sledge road onto the rough ice under the bank, where the reeds stand up through it frozen, with the wind coming at you off the wolves, carrying their smell, rank, like a wet dog in a hot room. You go slowly. They do not turn their heads. Half a mile on you come back onto the sledge road, and behind you, a long way off, four shapes are still sitting where they sat, looking up the river at the lights.".
+    Otherwise "Halfway round the wind goes round, the way it does on a river, and one of them lifts its head, and stands up, and turns toward you.".
+  }
+
+  // Faced down: one person, walking forward, shouting, big; wolves are cowards about what they do not understand.
+  Relation wolvesFaced(group).
+  Action face_wolves(actor: group, site: place) "Stand in front of everyone and face the wolves down: shout, wave your arms, walk at them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(wolves, site) and able(wolves) and not tolerates(wolves, actor) and not wolvesFaced(actor).
+    Time 1 minute.
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Assert wolvesFaced(actor). Assert wolvesDriven(lisk). Assert at(wolves, limbo). Retract warned(wolves, actor). Retract assails(wolves, actor). }
+    On failure { Assert wolvesFaced(actor). Assert assails(wolves, actor). Retract warned(wolves, actor). }
+    Result "You walk at them shouting: words, nothing, the noises a drover makes, your arms out to be wider than you are. They watch you come. Then the leader looks away, which is the whole of it, and they go, unhurried, as if it had been their idea.".
+    Otherwise "You walk at them shouting, and the leader does not look away, and you see it see that you are afraid; and they come.".
+  }
+
+  // On the sledges, nothing on four legs keeps up for long.
+  Rule wolves_outrun when hiredFled(lisk) and sledgesReady(lisk) and at(party, sledge_road) and at(wolves, sledge_road) and not wolvesOutrun(lisk)
+    says "At the foot of the Reach, for a mile, there are wolves running beside the sledges in the starlight, four of them, grey, silent, level with the runners, close enough to hear their breath; one of the watermen lays about him with a boat-hook and swears at them as if they were boys on a wall; and then they drop back, and sit down on the ice, and are left behind, and are gone." {
+    Assert wolvesOutrun(lisk). Assert at(wolves, limbo). }
+  Relation wolvesOutrun(place).
+  Rule wolves_dead when wolvesCame(lisk) and not able(wolves) and not wolvesBeaten(lisk) { Assert wolvesBeaten(lisk). }
+
+  // Warned of them, Dickon takes fire with him if he goes south alone with the drowned; not warned, they meet them.
+  Relation dickonWarned(group).
+  Topic dickon_wolves with dickon "Tell Dickon there are wolves on the sledge road" when knows(actor, wolves_down) and knows(actor, dickon_night) and not dickonGone(dickon) and not dickonTaken(dickon) once {
+    Says "He hears it with his head down, coughing. 'Wolves.' He looks round the hold, at Jem Rudd, who is fourteen, and at the girl with the bandaged feet. 'At Gallowmoor there's a man called Corder counts you down the ladder in the morning and counts you up at night, and if the number's short he doesn't go and look.' He gets up. 'We'll go with fire, then. Saffery's got tar.' He looks at you. 'Thank you for telling me. Nobody tells you anything, drowned.'".
+    On discuss { Assert dickonWarned(dickon). }
+  }
+  Rule drowned_meet_wolves when dickonGone(dickon) and not hiredOut(lisk) and not hiredFled(lisk) and at(wolves, sledge_road) and not dickonWarned(dickon) and not spread(drowned_met_wolves) and secondDay() {
+    Assert spread(drowned_met_wolves). Assert drownedMetWolves(lisk). }
+  Rule drowned_went_fire when dickonGone(dickon) and not hiredOut(lisk) and not hiredFled(lisk) and dickonWarned(dickon) and not spread(drowned_met_wolves) and secondDay() and hour(clock) < 5 {
+    Assert spread(drowned_met_wolves). Assert drownedWentFire(lisk). }
+  Relation drownedMetWolves(place). Relation drownedWentFire(place).
+  Entity drowned_met_wolves: fact "the drowned met the wolves".
+  Rule drowned_wolves_heard when drownedMetWolves(lisk) and thirdDay() and hour(clock) >= 7 and inPellam() and not spread(drowned_wolves_told)
+    says "A waterman who walked down the Reach at first light to look at the ice comes back up it fast, and stands in the Calf with his cap in his hands. The drowned went south in the night, he says: the tracks of seven or eight people on the sledge road, going south; and over them, the other tracks, four, going the same way, and then not the same way, going round. A cap. A great deal of trodden snow. He did not go on past it. Nobody in Bankside asks him to go back." {
+    Assert spread(drowned_wolves_told). }
+  Rule drowned_fire_heard when drownedWentFire(lisk) and thirdDay() and hour(clock) >= 7 and inPellam() and not spread(drowned_wolves_told)
+    says "A waterman who walked down the Reach at first light says that the drowned went south on the sledge road in the night, seven or eight of them, and wolves after them all the way to the downs; and every half-mile, the ashes of a fire on the ice, and a ring of tracks round it, at a distance, that never came in." {
+    Assert spread(drowned_wolves_told). }
+  Rule ursel_hears_wolves when drownedMetWolves(lisk) and spread(drowned_wolves_told) and travelsWith(ursel, party) and (urselMet(dickon) or knows(party, ursel_brother)) and not spread(ursel_heard_wolves)
+    says "Ursel hears it standing up. Then she goes down Hay Stairs and away down the Reach alone, fast, and does not ask you to come, and you let her. She is gone an hour. When she comes back she has a cap in her hand, a big man's cap, frozen stiff. 'It's not his,' she says. 'It's not his.' She does not say whose it is, and puts it inside her coat." {
+    Assert spread(ursel_heard_wolves). }
+  Entity ursel_heard_wolves: fact "Ursel heard of the wolves".
+  Entity drowned_wolves_told: fact "the drowned and the wolves told".
+
+  // ── The searchers, Kemble and Fowke: paid men ─────────────────────────────────────────────────────────────────────
+  // The searchers are paid by the night, not by the head, and will walk the other end of the river for more.
+  Relation searchersBribed(group).
+  Action bribe_searchers(actor: group, site: place) "Offer the searchers three coin a man to walk the downs road tonight instead of the Reach" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(searchers, site) and able(searchers) and (secondDay() or thirdDay()) and not iceGone()
+      and quantity(actor, gold) >= 9 and not searchersBribed(actor) and not searchersDiverted(lisk) and tolerates(searchers, actor).
+    Time 3 minutes.
+    Resolve check(actor, persuasion, dc_easy).
+    On success { Decrease quantity(actor, gold) by 9. Assert searchersBribed(actor). Assert searchersDiverted(lisk). }
+    On failure { Decrease quantity(actor, gold) by 9. Assert searchersBribed(actor). Assert harkerWary(harker). }
+    Result "The eldest of them bites each coin, which is a thing you have only ever seen done in ballads. 'Downs road,' he says. 'Footprints. There's always footprints on the downs road, if you look.' He puts the coins in his cheek. 'We're paid by the night, master. Not by what we find.'".
+    Otherwise "They take the money, all of it, and thank you, and that evening Kemble knows what you paid and who you paid it to, and the searchers walk the Reach all the same, nine coin the warmer.".
+  }
+  // Kemble drinks at the Lamb in the evenings, and talks when he has drunk, and sleeps; and the bondhouse key is on
+  // a chain at his waistcoat.
+  Relation kembleDrunk(group). Relation kembleTalked(group).
+  Kind bond_key_kind "a heavy iron key" is gear worth 0 weighing 0 described "A heavy iron key on a brass ring, with HAY WHARF stamped on the bow.".
+  Item bond_key "Kemble's bondhouse key" is bond_key_kind at limbo.
+  Action gin_kemble(actor: group, site: place) "Stand Silas Kemble hot gin at the Lamb, one after another, and listen" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamb) and at(kemble, lamb) and quantity(actor, gold) >= 3 and not kembleDrunk(actor) and not iceGone().
+    Time 6.
+    On success { Decrease quantity(actor, gold) by 3. Assert kembleDrunk(actor). Assert knows(actor, hired_sold). Assert kembleTalked(actor). }
+    Result "Hot gin with Bel's honey in it, and then another, and Kemble's red nose goes redder and his voice goes up, thin and confiding, a clerk's voice, all figures. 'Eight a head,' he says, at the fourth, to his glass. 'Eight a head, landed, and it costs him a farthing a day to keep them in that barn. Gallowmoor. Gallowmoor's the hills, I suppose, in a manner of speaking. Very deep hills.' He laughs at that, a long time, and then puts his head on his arms on the table, and the key on his waistcoat chain swings and taps against the bench.".
+  }
+  Action lift_kemble_key(actor: group, site: place) "Unhook the bondhouse key from Kemble's waistcoat chain while he sleeps on the table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamb) and at(kemble, lamb) and kembleDrunk(actor) and at(bond_key, limbo) and not iceGone().
+    Time 1 minute.
+    On success { Assert at(bond_key, lamb). }
+    Result "The chain is a cheap one and the hook comes undone with a thumbnail. Kemble says 'Seven, eight,' into his sleeve, and does not wake. Bel, behind her plank, watches you do it, and goes on wiping a cup.".
+  }
+  Action unlock_bond(actor: group, site: place) "Unlock the bondhouse door with Kemble's key" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hay_wharf) and carries(actor, bond_key) and state(bond_lock, locked).
+    Time 1 minute.
+    On success { Assert state(bond_lock, open). }
+    Result "The key goes in stiff with frost and turns with a sound like a dropped pan.".
+  }
+  // Old Fowke will drink anything, and drinks it faster in company.
+  Relation sodden(group).
+  Action sodden_fowke(actor: group, site: place) "Sit down by old Fowke's brazier with a bottle of Bel's gin, and keep him company" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hay_wharf) and at(fowke, hay_wharf) and not asleep(fowke) and not sodden(fowke) and quantity(actor, gold) >= 2.
+    Time 6.
+    On success { Decrease quantity(actor, gold) by 2. Assert sodden(fowke). Assert asleep(fowke). }
+    Result "He looks at the bottle for some time, as if it were a bad dog he had met before. Then he moves up on his keg. He tells you about the last Frost, when he was a young man and walked across the river to Bankside on the ice for a bet and came back married; about his wife, who is dead; about Harker, who pays on the nail; about the noises the bondhouse makes in the night, which are only the fleeces settling. By the bottom of the bottle he is asleep with his chin on his chest, and the brazier ticks.".
+  }
+  Rule fowke_sobers when sodden(fowke) and hour(clock) == 7 { Retract sodden(fowke). }
+}

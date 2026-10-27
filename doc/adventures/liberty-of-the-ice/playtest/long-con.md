@@ -8,11 +8,11 @@ The North Road comes down off the fells between walls of snow higher than your h
 
 **By the North Road, to the North Bar**
 
-You set out from the North Road, above Pellam early, with your shadow long in front of you on the road. The North Bar: a gate-tower with its gates open and snowed into the open position, and a toll-house nobody is in. On the gate somebody has nailed a broadside, half torn: THE GREAT FROST — A FAIR UPON THE ICE — ALL WELCOME — NO LAW BUT THE GLOVE. Beyond it the city goes down to the river in steep white streets. The North Road goes up out of Pellam into the snow.
+You set out from the North Road, above Pellam early, with your shadow long in front of you on the road. THE FIRST DAY OF THE FAIR. A hard blue frost, the sky like a glazed dish, not a cloud from the fells to the downs; the smoke of a thousand chimneys going straight up and flattening at a height, as if against a ceiling. Your breath freezes in your scarf. Sound carries: you can hear a hammer on the far side of the river, and a girl laughing on the bridge, and under everything, from the ice, the noise of the Fair, like a hive. The North Bar: a gate-tower with its gates open and snowed into the open position, and a toll-house nobody is in. On the gate somebody has nailed a broadside, half torn: THE GREAT FROST — A FAIR UPON THE ICE — ALL WELCOME — NO LAW BUT THE GLOVE. Beyond it the city goes down to the river in steep white streets. The North Road goes up out of Pellam into the snow.
 
 **By Northgate Street, to the Cheaping**
 
-The Cheaping, Pellam’s wool market: a great square with a market-cross and a covered hall on stone legs where the fleeces are sold in summer, empty now, snowed knee-deep, with paths trodden across it in every direction to the Exchange, to Saint Evenhand’s, to Fleece Row, and above all down Swan Lane to the river. Nobody is buying wool here. Everybody is going to the ice.
+The Cheaping, Pellam’s wool market: a great square with a market-cross and a covered hall on stone legs where the fleeces are sold in summer, empty now, snowed knee-deep, with paths trodden across it in every direction to the Exchange, to the Scale Church, to Fleece Row, and above all down Swan Lane to the river. Nobody is buying wool here. Everybody is going to the ice.
 
 **By Swan Lane, to Swan Lane**
 
@@ -28,7 +28,7 @@ The foot of Swan Stairs, on the ice. The river is white and hard from bank to ba
 
 **By the ice, to Freezeland Street, by the Glove Post**
 
-Somebody knocks into you in the crush by the Glove Post, a woman in a caped coat, who says ‘Beg pardon, my love,’ and goes on, and when you put your hand to your purse it is not there. You turn round. She has stopped ten feet away and is holding it up by its strings for you to see, and laughing. ‘Never shook on it,’ she calls. ‘Did I? Did you?’ A few people nearby laugh too. Nobody calls the watch. There is no watch. At the top of Freezeland Street a ship’s mast has been stepped in the ice and guyed with ropes, and nailed to the head of it, stiff with frost, is a leather glove as big as a sail-bag: the sign of the Liberty. A board at the foot of the mast says in red: SAY WHAT YOU WILL. KEEP WHAT YOU SHAKE ON. C. BROOM, REEVE. Freezeland Street, at its top end, by the Glove Post: the thick of the Fair. Booths of sailcloth on oars, gin and gingerbread, hot codlings, a skittle alley where men bowl a frozen sheep’s head, a swing-boat on a frame, a man selling slices of the ox, a man selling knowledge of the future, a man selling nothing anyone can see with great conviction. Everyone is shouting the price of something. Nobody is saying what anything is worth. In the lee of the Glove Post, a lean-to of sailcloth on two oars, with a brazier, a folding chair, a bottle and a gentleman in it. At the foot of the Glove Post, on an upturned keg, a thin old man in a green-black gown is preaching to a crowd that laughs and shouts back. ‘Look under your feet!’ he cries. ‘This is a river! Yesterday it ran; tomorrow it will run; today you have built a street on it and called it a country and made a law for it. Nothing stays, my friends. Not this ice, not that glove, not the man who shook hands with you on Monday. He is gone! He went out with the river! Why should you pay his debts?’ A waterman throws a snowball at him. He catches it, and eats it. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Ursel Cobb, a woman in a man’s caped coat, with a laugh like a door; Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a thin old preacher in a black gown gone green, coughing, with a crowd.
+Somebody knocks into you in the crush by the Glove Post, a woman in a caped coat, who says ‘Beg pardon, my love,’ and goes on, and when you put your hand to your purse it is not there. You turn round. She has stopped ten feet away and is holding it up by its strings for you to see, and laughing. ‘Never shook on it,’ she calls. ‘Did I? Did you?’ A few people nearby laugh too. Nobody calls the watch. There is no watch. A bill is pasted on the Glove Post, new this morning, the ink smudged with frost: THE GREAT FROST FAIR, FIRST DAY. — HIRING at the RING, TEN till NOON, by Master J. HARKER, for a farm in the hills. — The LIBERTY CRIED at NOON. — The COURT of the ICE sits at FOUR. — The LIARS’ BENCH at the FROZEN LAMB from SEVEN. — A BEAR. AN OX. FROST-CREAM. — NO LAW BUT THE GLOVE. Beside the stocks stands a pillory nobody is in, with snow on the board where the head goes, and a placard hung on it ready, blank, for whatever the Court writes there. At the top of Freezeland Street a ship’s mast has been stepped in the ice and guyed with ropes, and nailed to the head of it, stiff with frost, is a leather glove as big as a sail-bag: the sign of the Liberty. A board at the foot of the mast says in red: SAY WHAT YOU WILL. KEEP WHAT YOU SHAKE ON. C. BROOM, REEVE. Freezeland Street, at its top end, by the Glove Post: the thick of the Fair. Booths of sailcloth on oars, gin and gingerbread, hot codlings, a skittle alley where men bowl a frozen sheep’s head, a swing-boat on a frame, a man selling slices of the ox, a man selling knowledge of the future, a man selling nothing anyone can see with great conviction. Everyone is shouting the price of something. Nobody is saying what anything is worth. In the lee of the Glove Post, a lean-to of sailcloth on two oars, with a brazier, a folding chair, a bottle and a gentleman in it. At the foot of the Glove Post, on an upturned keg, a thin old man in a green-black gown is preaching to a crowd that laughs and shouts back. ‘Look under your feet!’ he cries. ‘This is a river! Yesterday it ran; tomorrow it will run; today you have built a street on it and called it a country and made a law for it. Nothing stays, my friends. Not this ice, not that glove, not the man who shook hands with you on Monday. He is gone! He went out with the river! Why should you pay his debts?’ A waterman throws a snowball at him. He catches it, and eats it. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Ursel Cobb, a woman in a man’s caped coat, with a laugh like a door; Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a thin old preacher in a black gown gone green, coughing, with a crowd.
 
 **Ask her for your purse back**
 
@@ -72,7 +72,7 @@ Mr. Ambrose Quarle, a natural philosopher in a scorched coat, with a tub, is her
 
 **By Freezeland Street, to Freezeland Street, by the Glove Post**
 
-At the top of Freezeland Street a ship’s mast has been stepped in the ice and guyed with ropes, and nailed to the head of it, stiff with frost, is a leather glove as big as a sail-bag: the sign of the Liberty. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a thin old preacher in a black gown gone green, coughing, with a crowd. Freezeland Street by the Glove Post, loud and smoking: gingerbread, skittles, the swing-boat, the crier’s barrel.
+A bill is pasted on the Glove Post, new this morning, the ink smudged with frost: THE GREAT FROST FAIR, FIRST DAY. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a thin old preacher in a black gown gone green, coughing, with a crowd. Freezeland Street by the Glove Post, loud and smoking: gingerbread, skittles, the swing-boat, the crier’s barrel.
 
 **By the way to the Hiring Ring, to the Hiring Ring**
 
@@ -114,7 +114,7 @@ Ursel, who has become in the space of a doorway a dry, respectful, slightly bore
 
 **By the way to the Hiring Ring, to Freezeland Street, by the Glove Post**
 
-At the top of Freezeland Street a ship’s mast has been stepped in the ice and guyed with ropes, and nailed to the head of it, stiff with frost, is a leather glove as big as a sail-bag: the sign of the Liberty. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a thin old preacher in a black gown gone green, coughing, with a crowd.
+A bill is pasted on the Glove Post, new this morning, the ink smudged with frost: THE GREAT FROST FAIR, FIRST DAY. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a thin old preacher in a black gown gone green, coughing, with a crowd.
 
 *(1 wait in which nothing is told)*
 
@@ -130,7 +130,7 @@ Freezeland Street at lamp-lighting: lanterns on every oar, the ice gone gold in 
 
 **By the Court's tent-flap, to the Court of the Ice**
 
-The Court’s waterman-clerk calls: ‘Tredgold’s men against a stranger, for twelve pennies, twelve stairs, Swan Stairs, a hand shaken.’ Everybody turns round to look at you. Justice Broom points her trumpet. ‘Did you shake?’ You did. ‘Then pay,’ she says, ‘or tell me something I’ve not heard.’ A tent of patched sailcloth, an iron brazier, and a trestle table across two herring barrels, at which, on a chair with arms, sits a very small old woman in a waterman’s coat with an ear-trumpet in her lap. Behind her on the canvas someone has painted, not well, a hand and a glove. A clerk, who is also a waterman, keeps the book. The benches are full of people waiting to be heard and people who have come to hear them. The Court is sitting. The Reeve listens to each case through her trumpet, with her eyes shut, and opens them only for a good lie, which she seems to taste. Magister Callow stands before the trestle, coughing, charged by the Watermen’s Company with unswearing. ‘There is no gaol on the ice,’ says Justice Broom, through her trumpet, to the benches. ‘Who’ll be his hand? Who’ll shake on bringing him here at the Landing?’ Nobody moves. A man at the back laughs. Callow looks along the benches, mildly interested, as if it were a question in logic. Here are Justice Clemency Broom, the Reeve of the Ice, a waterman’s widow of seventy with an ear-trumpet; Alderman Hamnet Gosling, an alderman of Pellam, stout and anxious, with ink on his cuffs; and Magister Edrin Callow, a preacher of the Flow, charged with unswearing.
+The Court’s waterman-clerk calls: ‘Tredgold’s men against a stranger, for a penny a stair, a hand shaken.’ Everybody turns round to look at you. Justice Broom points her trumpet. ‘Did you shake?’ You did. ‘Then pay,’ she says, ‘or tell me something I’ve not heard.’ A tent of patched sailcloth, an iron brazier, and a trestle table across two herring barrels, at which, on a chair with arms, sits a very small old woman in a waterman’s coat with an ear-trumpet in her lap. Behind her on the canvas someone has painted, not well, a hand and a glove. A clerk, who is also a waterman, keeps the book. The benches are full of people waiting to be heard and people who have come to hear them. The Court is sitting. The Reeve listens to each case through her trumpet, with her eyes shut, and opens them only for a good lie, which she seems to taste. Magister Callow stands before the trestle, coughing, charged by the Watermen’s Company with unswearing. ‘There is no gaol on the ice,’ says Justice Broom, through her trumpet, to the benches. ‘Who’ll be his hand? Who’ll shake on bringing him here at the Landing?’ Nobody moves. A man at the back laughs. Callow looks along the benches, mildly interested, as if it were a question in logic. Here are Justice Clemency Broom, the Reeve of the Ice, a waterman’s widow of seventy with an ear-trumpet; Alderman Hamnet Gosling, an alderman of Pellam, stout and anxious, with ink on his cuffs; and Magister Edrin Callow, a preacher of the Flow, charged with unswearing.
 
 **Tell the Reeve that Swan Stairs is one stair, of twelve steps, and a penny a stair is a penny · likely**
 
@@ -148,7 +148,7 @@ You stand up. The benches turn round to look at you. Justice Broom puts out her 
 
 **By the Court's tent-flap, to Freezeland Street, by the Glove Post**
 
-At the top of Freezeland Street a ship’s mast has been stepped in the ice and guyed with ropes, and nailed to the head of it, stiff with frost, is a leather glove as big as a sail-bag: the sign of the Liberty. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a preacher of the Flow, charged with unswearing.
+A bill is pasted on the Glove Post, new this morning, the ink smudged with frost: THE GREAT FROST FAIR, FIRST DAY. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a preacher of the Flow, charged with unswearing.
 
 **By the ice, to the foot of Swan Stairs, on the ice**
 
@@ -164,7 +164,7 @@ Bess gets up, stretches, and comes over to push her nose into your hand. Here ar
 
 **Ask Abel about his ewes**
 
-‘Two hundred Swale ewes, and the tups, and the gimmers, under Swale Fell at Hawsfold.’ He says it as if it were a psalm. ‘My father’s, and his father’s. Snowed in at the fold since Martinmas, and my sister’s lad feeding them hay, and the hay going.’ He turns his hat round in his hands. ‘I’ve come down to sell them on the hoof for the shearing, before the hay’s gone and I’ve to sell them for their skins. Forty coin.’ He looks at you hopefully. ‘Everyone says the man to see is Harker.’
+‘Two hundred Swale ewes, and the tups, and the gimmers, under Swale Fell at Hawsfold.’ He says it as if it were a psalm. ‘My father’s, and his father’s. Snowed in at the fold since Martinmas, and my sister’s lad feeding them hay, and the hay going.’ He turns his hat round in his hands. ‘The fold’s on the east side, where the beck comes off the fell and goes down to the Swale. I’ve come down to sell them on the hoof for the shearing, before the hay’s gone and I’ve to sell them for their skins. Forty coin.’ He looks at you hopefully. ‘Everyone says the man to see is Harker.’
 
 **Tell Abel that Harker has bought all he wants, and the man to see now is at the Wool Exchange**
 
@@ -230,7 +230,7 @@ The Spotted Calf: low beams, a fire you could roast a calf at, drovers and water
 
 **Take a bed and supper**
 
-You eat what is put in front of you, and sleep long, under a roof. Word comes down Freezeland Street at a run: the bear’s off his chain at the bear-stake, and gone to the ox roast, and is eating the Butchers’ Company’s ox off the spit with his muzzle torn off, and nobody will go near him.
+You eat what is put in front of you, and sleep long, under a roof. THE SECOND DAY OF THE FAIR. Fog, in the night, off the Reach: the watermen call it the drowned weather. It stands on the ice to the height of a house, white and wet and very still, so that from the bridge the Fair is a roof of sound with nothing under it, and in Freezeland Street the booths come at you out of it one at a time like ships. The cathedral bell sounds as if it were being rung in a cupboard. People speak low without knowing why. Word comes down Freezeland Street at a run: the bear’s off his chain at the bear-stake, and gone to the ox roast, and is eating the Butchers’ Company’s ox off the spit with his muzzle torn off, and nobody will go near him.
 
 **Wait › An hour**
 
@@ -246,7 +246,7 @@ The Bankside end of the bridge: a gatehouse with nobody in it, a horse-trough fr
 
 **By the bridge, to on the Bridge, among the houses**
 
-On the bridge, among the houses: a narrow street on the arches, overhung, smelling of tar and hot pies. Between the houses, here and there, a gap with a rail, and through it, far below, the Fair, a roof of sailcloth and smoke. A rope-walk house runs the width of the bridge on the downstream side, with a wheel in its window. Magister Edrin Callow, a preacher of the Flow, charged with unswearing, is here.
+On the bridge, among the houses: a narrow street on the arches, overhung, smelling of tar and hot pies. Between the houses, here and there, a gap with a rail, and through it, far below, the Fair, a roof of sailcloth and smoke. A rope-walk house runs the width of the bridge on the downstream side, with a wheel in its window. Through the gaps between the houses, where the Fair should be, there is only white, and out of it the sound of the Fair. Magister Edrin Callow, a preacher of the Flow, charged with unswearing, is here.
 
 **By the bridge, to the Bridge Foot**
 
@@ -266,7 +266,7 @@ A roll-top desk by the window, its lid down and locked. Here are Master Josias H
 
 **Walk down to the Glove Post with Master Harker and shake on the flock, for the twenty indentures**
 
-At the Glove Post, before a little crowd, Master Harker puts out his palm and waits, and you shake. Kemble hands you twenty folded indentures tied with a black tape. Tansy Hobb’s is on top. ‘Landed at two, the last day,’ says Harker, ‘the hands to you and the flock to me.’ He is pleased with himself; he has sold eight-coin hands for a flock worth sixty. ‘A Christian arrangement,’ he says again. At the top of Freezeland Street a ship’s mast has been stepped in the ice and guyed with ropes, and nailed to the head of it, stiff with frost, is a leather glove as big as a sail-bag: the sign of the Liberty. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a preacher of the Flow, charged with unswearing.
+At the Glove Post, before a little crowd, Master Harker puts out his palm and waits, and you shake. Kemble hands you twenty folded indentures tied with a black tape. Tansy Hobb’s is on top. ‘Landed at two, the last day,’ says Harker, ‘the hands to you and the flock to me.’ He is pleased with himself; he has sold eight-coin hands for a flock worth sixty. ‘A Christian arrangement,’ he says again. Beside the stocks stands a pillory nobody is in, with snow on the board where the head goes, and a placard hung on it ready, blank, for whatever the Court writes there. At the foot of the Glove Post stand the Court’s stocks, empty. Here are Sir Lionel Gant, a gentleman in a waistcoat that was magnificent ten years ago, living on the ice; and Magister Edrin Callow, a preacher of the Flow, charged with unswearing. The fog has the Glove Post to half its height; above that, the great glove hangs in white nothing, dripping. Today’s bill on the Glove Post, pasted over yesterday’s: SECOND DAY. — The LAST HIRING, NINE till ELEVEN. — The COURT at FOUR. — The BENCH at SEVEN. — MARRIED, TOMORROW at NOON, at the ICE CHAPEL: ALDERMAN H. GOSLING and MISTRESS THESSALY HARKER. — Beware the Ice below the Bridge.
 
 **Take**
 
@@ -278,7 +278,7 @@ The old preacher stops in the middle of a sentence and looks at you with bright,
 
 **Let Magister Callow ask you his question**
 
-He walks beside you with his arm through yours, coughing. ‘Here is my question,’ he says. ‘Yesterday you were a stranger who had never seen Pellam. Today you are a person who has eaten its ox and been robbed on its ice and shaken on keeping an old heretic. Tomorrow you will be someone else again. Which of you is bound by the hand you gave the Reeve?’ He stops in the middle of Freezeland Street. ‘Think about it. I want your answer, and I want it to be yours, and not the Reeve’s.’
+He walks beside you with his arm through yours, coughing. ‘Here is my question,’ he says. ‘Yesterday you were a stranger who had never seen Pellam. Today you are a person who has walked on its river and had its law cried at you and shaken on keeping an old heretic. Tomorrow you will be someone else again. Which of you is bound by the hand you gave the Reeve?’ He stops in the middle of Freezeland Street. ‘Think about it. I want your answer, and I want it to be yours, and not the Reeve’s.’
 
 **Tell Callow: a hand binds the one who shook it, if he knew what he was shaking on; a hand shaken on a lie about the thing itself binds nobody**
 
@@ -304,7 +304,7 @@ Freezeland Street by night: half the booths dark and laced up, the other half lo
 
 **Wait › An hour**
 
-In the night, from down the Reach, a long sound of saws, a dozen of them, and men singing to keep the time. By morning there is a channel of black water forty feet wide across the foot of the Reach from bank to bank, steaming, and the sledge road south ends at it.
+In the night, from down the Reach, a long sound of saws, a dozen of them, and men singing to keep the time. By morning there is a channel of black water forty feet wide across the foot of the Reach from bank to bank, steaming, and the sledge road south ends at it. From down the Reach, over the ice, which carries sound the way a table carries a dropped spoon: a howl, long, rising and falling, and then another under it, and another. The lanterns along Freezeland Street seem suddenly very small.
 
 **Wait › An hour**
 
@@ -320,7 +320,7 @@ An hour passes. It is a long time since anyone slept. The company is weary, and 
 
 **Wait › An hour**
 
-Freezeland Street at lamp-lighting: lanterns on every oar, the ice gone gold in them, and the Fair louder now it cannot be seen so well. An hour passes.
+The planks of Freezeland Street are standing in a skin of water. The great glove on the mast has thawed limp and hangs down, fingers first, dripping on the crier’s barrel. Today’s bill on the Glove Post, wet already: THIRD DAY. — The WEDDING at NOON. — The LANDING at TWO, before the REEVE: every hand shaken on the ice to be CRIED, and LANDED, or let go. — OFF THE ICE at NINE, every soul. — God keep the Liberty. Freezeland Street at lamp-lighting: lanterns on every oar, the ice gone gold in them, and the Fair louder now it cannot be seen so well. THE THIRD DAY OF THE FAIR, AND THE LAST. The wind has gone round to the west in the night, soft and wet, smelling of earth for the first time in a month: the thaw-wind. The icicles along Fleece Row are dripping. Under Pellam Bridge, from every arch, water is running in threads down the stone, and where it falls the ice has gone grey and pocked, like old pewter. Nobody on the Fair says the word. Everybody looks at the sky.
 
 **Wait › An hour**
 
@@ -334,7 +334,7 @@ Another hat on the stake at the Black Reach this morning: Polly Sneath’s, the 
 
 **Wait › An hour**
 
-The crier is on his barrel, crying the Liberty again: say what you will; keep what you shake on. At noon, at the Ice Chapel, Parson Doody marries Thessaly Harker to Alderman Hamnet Gosling for a shilling, sober, in front of half the Fair. The bride says her part in a clear dry voice as if she were reading a bill. The alderman says his as if someone had died. Master Harker kisses his daughter, and shakes his son-in-law’s hand, and smiles all through the wedding-breakfast at the Frozen Lamb, where Bel Ashby serves it herself and does not look at anyone.
+The crier is on his barrel, crying the Liberty again: say what you will; keep what you shake on. They are saying on the ice that the Squire of Hawsfold’s chair at the Harker wedding stood empty right through it, with a card on it, and that Master Harker kept looking at it. At noon, at the Ice Chapel, Parson Doody marries Thessaly Harker to Alderman Hamnet Gosling for a shilling, sober, in front of half the Fair. The bride says her part in a clear dry voice as if she were reading a bill. The alderman says his as if someone had died. Master Harker kisses his daughter, and shakes his son-in-law’s hand, and smiles all through the wedding-breakfast at the Frozen Lamb, where Bel Ashby serves it herself and does not look at anyone.
 
 **Wait › An hour**
 
@@ -344,7 +344,7 @@ Two of Harker’s wharf men find you. ‘The Squire of Hawsfold,’ says one, to
 
 **Wait › A while**
 
-The Landing. The whole Fair has come to the Glove Post and stands packed on the ice in a great ring, quiet for once, breathing. Justice Broom sits at the foot of the mast on the Court’s chair, set on a herring barrel, with her trumpet; the waterman-clerk at her side with the Court’s book; and at her other elbow, on a stool, as the city’s witness, Alderman Gosling, in his chain. Master Harker stands at the front with Kemble and his book. Above them all the great frozen glove. The clerk calls Magister Edrin Callow, on the charge of unswearing, and his hand to produce him. Callow steps out of the crowd on your arm, coughing, and bows to the Reeve. ‘Produced,’ says Broom, and looks at you with something that might be approval. ‘Your hand is kept. Now, Magister. What have you to say?’ Tamsin and Ursel Cobb each gain 300 experience: kept your hand for Callow.
+On a board at the Reeve’s elbow the Court’s clerk has chalked the Landing’s list, and crosses each case off as it is cried: the heretic Callow, and his hand; Sir L. Gant, debtor; the Hawsfold flock, to J. Harker; J. Harker’s hired, twenty; and then ALL OTHER HANDS. Then, in bigger letters: OFF THE ICE AT NINE. The Landing. The whole Fair has come to the Glove Post and stands packed on the ice in a great ring, quiet for once, breathing. Justice Broom sits at the foot of the mast on the Court’s chair, set on a herring barrel, with her trumpet; the waterman-clerk at her side with the Court’s book; and at her other elbow, on a stool, as the city’s witness, Alderman Gosling, in his chain. Master Harker stands at the front with Kemble and his book. Above them all the great frozen glove. The clerk calls Magister Edrin Callow, on the charge of unswearing, and his hand to produce him. Callow steps out of the crowd on your arm, coughing, and bows to the Reeve. ‘Produced,’ says Broom, and looks at you with something that might be approval. ‘Your hand is kept. Now, Magister. What have you to say?’ Tamsin and Ursel Cobb each gain 300 experience: kept your hand for Callow.
 
 *(1 wait in which nothing is told)*
 
@@ -374,7 +374,7 @@ You untie Kemble’s black tape and give each of them their indenture back, in f
 
 **Wait › An hour**
 
-Freezeland Street at lamp-lighting: lanterns on every oar, the ice gone gold in them, and the Fair louder now it cannot be seen so well. Justice Broom gets down off her barrel. ‘The ice is landed,’ she says, through her trumpet, to the whole Fair. ‘What’s landed is landed, and what’s not goes out with the river. God save the ice.’ The crowd breaks up. Up and down Freezeland Street, already, they are taking the sailcloth off the booths.
+Beside the stocks stands a pillory nobody is in, with snow on the board where the head goes, and a placard hung on it ready, blank, for whatever the Court writes there. Freezeland Street at lamp-lighting: lanterns on every oar, the ice gone gold in them, and the Fair louder now it cannot be seen so well. Justice Broom gets down off her barrel. ‘The ice is landed,’ she says, through her trumpet, to the whole Fair. ‘What’s landed is landed, and what’s not goes out with the river. God save the ice.’ The crowd breaks up. Up and down Freezeland Street, already, they are taking the sailcloth off the booths.
 
 *(1 wait in which nothing is told)*
 

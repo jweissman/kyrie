@@ -34,10 +34,10 @@ Module pellam "The Liberty of the Ice" {
   // His one private thing: his wife's portrait, and what he tells a guest late, when he has drunk a little, about the
   // hiring at which he was himself hired.
   Topic harker_portrait with harker "Ask Master Harker, late, about the portrait over the fireplace" when supped(actor) and hour(clock) >= 20 and at(harker, harker_parlour) once {
-    Says "He looks at it for a long time. 'Margaret,' he says. 'She thought me hard.' He pours himself a little more. 'I was hired at the Pellam hiring when I was nine years old. My father stood me in the Ring with a twist of straw in my cap, and a man put out his palm, and I shook, because my father told me to, and I went to a farm in the hills that was a dye-works in Ossett, and I was there eleven years.' He drinks. 'I learned there that a hand is all a poor man has to sell. So I buy it, at a fair price, and I never lie about the price.' He puts the glass down very precisely. 'Margaret thought me hard,' he says again. 'She was not hired at nine.'".
+    Says "He looks at it until the coal in the grate settles. 'Margaret,' he says. 'She thought me hard.' He pours himself a little more. 'I was hired at the Pellam hiring when I was nine years old. We were Swale Head people, under the scar, and my father had a note out against the wool. He stood me in the Ring with a twist of straw in my cap, and a man put out his palm, and I shook, because my father told me to, and I went to a farm in the hills that was a dye-works in Ossett, and I was there eleven years.' He drinks. 'I learned there that a hand is all a poor man has to sell. So I buy it, at a fair price, and I never lie about the price.' He puts the glass down very precisely. 'Margaret thought me hard,' he says again. 'She was not hired at nine.'".
     On discuss { Assert knows(actor, harker_hired). }
   }
-  Discovery harker_hired "Josias Harker was himself hired at the Pellam hiring at nine years old, for a farm in the hills that was a dye-works, and served there eleven years. He says a hand is all a poor man has to sell.".
+  Discovery harker_hired "Josias Harker was himself hired at the Pellam hiring at nine years old, out of Swale Head, for a farm in the hills that was a dye-works, and served there eleven years. He says a hand is all a poor man has to sell.".
   // ── Silas Kemble, his clerk ───────────────────────────────────────────────────────────────────────────────────────
   Person kemble "Silas Kemble" at counting_house {
     Role "a clerk, thin, with a red nose and a quill behind his ear". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
@@ -129,6 +129,20 @@ Module pellam "The Liberty of the Ice" {
   Rule hired_hand_walked when hiredHand(party) and at(party, hiring_ring) and not hiringOn() and not inBondhouse(party) says "The hiring ends. Kemble walks you off the ice in the line with the rest, two by two, across to Hay Stairs, up onto the wharf, and in at the bondhouse door, and you hear the bar go down outside." {
     Assert inBondhouse(party). Assert at(party, bond_floor). Assert at(hired, bond_floor). Assert at(tansy, bond_floor). Assert inBond(hired). Assert inBond(tansy). }
   Relation inBondhouse(group).
+  // A hand shaken in the Ring and walked away from is fetched: Harker's wharf men come for it, wherever in Pellam it
+  // is, the same afternoon; except the Clink, within whose walls no man owes.
+  Relation hiredFetched(group).
+  Rule hired_fetched when hiredHand(party) and not inBondhouse(party) and not hiredFetched(party) and not hiringOn() and (firstDay() and hour(clock) >= 14 or secondDay() and hour(clock) >= 12)
+    and inPellam() and not at(party, clink_yard) and not hiredOut(lisk) and not hiredFled(lisk) and not landingAt(lisk) and not iceGone()
+    says "Two of Harker's wharf men find you, not unkindly, with Kemble behind them holding his book open at your name. 'You shook,' says Kemble. 'Everybody saw. A year's place.' One of them takes your arm. They walk you down to Hay Wharf and in at the bondhouse door among the others, and you hear the bar go down outside." {
+    Assert hiredFetched(party). Assert inBondhouse(party). Assert at(party, bond_floor). Assert at(hired, bond_floor). Assert at(tansy, bond_floor). Assert inBond(hired). Assert inBond(tansy). }
+  // At night on the bondhouse floor, Tansy Hobb sings to cows that are not there.
+  Observe tansy_sings at bond_floor when inBondhouse(party) and dark() and not hiredOut(lisk) and not hiredFled(lisk) "In the dark at the far end of the straw somebody is singing, very low, the song a dairymaid sings to keep a cow standing at the milking: come up, Cushie, come up, my lady, it's only me. It is Tansy Hobb, with her milk-pail in her lap. Nobody tells her to stop.".
+  Topic tansy_home with tansy "Ask Tansy Hobb about home" when inBond(tansy) once {
+    Says "'Swale Head.' She brightens. 'Under the fell. We've the low farm, by the wash-dub. Three cows, and Gran's goat, which is a devil.' She counts on her fingers. 'Nell, and Moss, and Lady. Lady won't stand for anyone but me. She'll be kicking our Sam into the beck.' She laughs, and then stops. 'Gran said not to shake. She said there was a Swale Head lass once that never shook on anything in her life, and went to the town and did very well.' She looks at her hand. 'I don't know who that was.'".
+    On discuss { Assert knows(actor, tansy_home_known). }
+  }
+  Discovery tansy_home_known "Tansy Hobb's people have the low farm at Swale Head, three cows and a goat; her grandmother told her of a Swale Head girl who never shook on anything and did well in the town.".
 
   // ── The bondhouse on Hay Wharf ────────────────────────────────────────────────────────────────────────────────────
   Observe wharf_scene at hay_wharf when not visitedBefore(hay_wharf) "Hay Wharf: a timber stage on piles, snowed over, with the river frozen solid round its legs; bales stacked under sailcloth; and the long blind warehouse with J. HARKER. WOOL on its gable and one door, studded, with a new lock.".

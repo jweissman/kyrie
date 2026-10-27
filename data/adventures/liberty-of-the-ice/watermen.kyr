@@ -57,7 +57,7 @@ Module pellam "The Liberty of the Ice" {
     Requires able(actor) and company(actor) and at(actor, site) and at(tredgold, site) and knows(actor, quarle_needs) and not watermenWorked(lisk).
     Time 2 minutes.
     On success { Assert watermenWorked(lisk). Assert quarleHasMen(quarle). }
-    Result "'Cutting ice,' says Tredgold, 'to keep it ice.' He thinks about it for a long time. 'It's work,' he says. 'It's daft, and it's work, and he pays by the day.' He sends six of the young ones off with saws, grinning, and the Hall is a different place.".
+    Result "'Cutting ice,' says Tredgold, 'to keep it ice.' He thinks about it while the Hall pretends not to listen. 'It's work,' he says. 'It's daft, and it's work, and he pays by the day.' He sends six of the young ones off with saws, grinning, and the Hall is a different place.".
   }
   Relation quarleHasMen(group).
   Rule channel_cut when secondDay() and hour(clock) >= 22 and not watermenWorked(lisk) and not channelCut(lisk) {

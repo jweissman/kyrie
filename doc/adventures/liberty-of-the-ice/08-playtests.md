@@ -2,7 +2,7 @@
 
 Everything here is played by the labels a player sees (`Journey`, `src/session/journey.ts`), from the steps in
 `test/fixtures/pellam`, through `test/support/pellam.ts`, whose `go:room` walks the shortest way by ways the company
-can see and use, one exit at a time, each by the command the page offers. Transcripts of nine journeys, written by
+can see and use, one exit at a time, each by the command the page offers. Transcripts of thirteen journeys, written by
 `bun scripts/liberty-of-the-ice-transcripts.ts`, are in [playtest/](playtest/).
 
 ## The tests
@@ -10,12 +10,13 @@ can see and use, one exit at a time, each by the command the page offers. Transc
 | File | What it plays | Tests |
 |---|---|---|
 | `test/liberty-of-the-ice.test.ts` | lint (alone, and as a chapter); nothing done; the two principal approaches (Front Door, Ring); the Score, the Unswearing, the Pillory, the Flock That Was, Hired, Five Coin a Head | 10 |
-| `test/liberty-of-the-ice-small.test.ts` | the bear by honey and by tune (and not offered the tune to a labourer); Gant to the Clink by night; the alderman's first wedding; Mr. Icicle married to the printer; the Frost Company exposed and turned to cream; the Liars' Bench twice; the watermen's sledges and the bondhouse emptied by the front door; Callow slipping his hand; Ursel's arc to the handfast landed; the careless word to Abel and the raid | 11 |
+| `test/liberty-of-the-ice-small.test.ts` | the bear by honey and by tune (and not offered the tune to a labourer); Gant to the Clink by night; the alderman's first wedding; Mr. Icicle married to the printer; the Frost Company exposed and turned to cream; the Liars' Bench twice; the watermen's sledges and the bondhouse emptied by the front door; Callow slipping his hand; Ursel's arc to the handfast landed; the careless word to Abel and the raid; the Gazette column; the lie to Kemble; the bear at the wedding; Harker's beck test and his portrait. *The second pass*: the second night on foot past the wolves with a fleece-brand (after Kemble's gin and the watermen told); the wolves fed the ox's offal; the Statute of Servants laid; Ursel's night confidences; a Ring hand fetched; paid men (Kemble's key, the searchers, Fowke); Ursel's question to Harker at the Landing | 22 |
 | `test/liberty-of-the-ice-builds.test.ts` | a priest's register; a ranger's tracks and bear; a farmhand with no charm and the Silver Tongue; a scholar's counterpart at the Landing | 4 |
 | `test/liberty-of-the-ice-placed.test.ts` | Pellam's place in the world plan; an ordinary journey from a generated cold country over the west march into Pellam; kept and opened again on the second morning; the same steps twice | 4 |
 | `test/liberty-of-the-ice-wander.test.ts` | random offered-action walks, four walkers (bard; thief; labourer; ranger in a world that goes on) × seeds, with invariants checked after every step | 8 by default; 12 with `WANDER_STEPS=500 WANDER_SEEDS=r3,r4,r5` |
 
-All pass. Played wider: 12 walks of 500 steps each, 23,235 invariant checks, no failure.
+All pass (48, with the two `adventure-names` checks 50). Played wider: 12 walks of 500 steps each, no failure (23,235
+invariant checks at the first pass; run again after the second).
 
 ## Exploration and invalid states
 
@@ -39,6 +40,20 @@ What exploratory play found, before the tests were written (each fixed; see [10-
 - Ursel's question at the Ice Chapel was asked while the company was out at the hulk.
 - The router sent a thief down a climb only a climber could take.
 - Two kinds and one place name were another adventure's (`adventure-names.test.ts`).
+
+What the second pass found by playing its own additions:
+
+- The Ring journey, which stays on the sledge road after sending the hired south on the first night, was found there
+  by the wolves at ten on the second night and could not wait (friction 22): the journey now walks back to Hay Stairs.
+- A brand lit at the bondhouse brazier burned out (an hour and a half) before the hired, hushed under the wharf and
+  walked down the Reach, reached the wolves; brands now burn two hours.
+- "Ask Tansy Hobb about home" needed her first topic; now it needs only that she is in the bondhouse.
+- The router walked through the barred river door to reach Hay Wharf from the ice (friction 27).
+- The verger's name was Wrayford's (friction 28).
+- The thaw's area observation was printed before the third day's heading on the pass that turned the day (friction
+  26); it now waits on the heading.
+- With the drowned met by the wolves, the morning's news still saw the Cobbs walking up the North Road together; it
+  no longer does.
 
 ## The two principal approaches, and how they differ
 

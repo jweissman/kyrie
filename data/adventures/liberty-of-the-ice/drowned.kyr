@@ -108,9 +108,19 @@ Module pellam "The Liberty of the Ice" {
     On discuss { Assert knows(actor, dickon_night). Assert dickonPlanned(dickon). }
   }
   Relation dickonPlanned(group).
+  Topic dickon_gallowmoor with dickon "Ask Dickon what Gallowmoor is like" when knows(actor, dickon_alive) once {
+    Says "He is a while answering. 'Dark,' he says. 'You'd think it'd be the dark you minded. It isn't. It's the counting.' He coughs. 'There's a man called Corder, the overman, stands at the top of the ladder at five with a slate, and you put your hand in his as you go down past him, so he can feel it's a hand, and he chalks it. And at night again, coming up. Hand, chalk. Hand, chalk. He doesn't look at your face; he's never once looked at my face.' He looks at his own palm. 'There's eleven hundred hands at Gallowmoor. Some of them have been there since the Black Lambing, they say, father to son. There's a chapel. There's a song they sing going down, about the hills.' He does not sing it. 'They're very deep hills.'".
+    On discuss { Assert knows(actor, gallowmoor_known). }
+  }
+  Discovery gallowmoor_known "At Gallowmoor lead, three days south over the downs, eleven hundred hands go down the ladder at five and come up at dark, and the overman counts each one by feeling it in his own, and never looks at a face.".
+  Topic dickon_sister with dickon "Ask Dickon about his sister" when urselMet(dickon) or knows(actor, ursel_brother) once {
+    Says "He smiles, for the first time, and it makes him look about twelve. 'She taught me my letters on a slate with a nail, in the Calf's back kitchen, when Mam was scrubbing. Made me write lies on it, so I'd have something to write: THE BRIDGE IS MADE OF CHEESE. THE MAYOR IS A GOOSE.' He coughs, and keeps smiling. 'I wrote her from Gallowmoor every month. Corder takes the letters at the top of the ladder for the post.' The smile goes. 'I suppose he burns them. I suppose that's what he does.'".
+    On discuss { Assert knows(actor, dickon_letters). }
+  }
+  Discovery dickon_letters "Dickon Cobb wrote to Ursel every month from Gallowmoor, and gave the letters to the overman for the post; none came.".
   // Brought to the hulk, Ursel meets her brother; the company is the only one who can bring her without being followed.
   Rule ursel_finds_dickon when travelsWith(ursel, party) and at(party, patience_hold) and knows(party, hidden_hulk) and not urselMet(dickon) and not dickonTaken(dickon)
-    says "Ursel comes down the hatch behind you and stops on the ladder. In the dark of the hold Dickon Cobb stands up off the ballast, coughing. For a long moment neither of them says anything. Then Ursel Cobb, who has never in her life been at a loss, says 'You great soft lump,' and goes down the rest of the ladder all at once, and holds on to him, and he holds on to her, and nobody in the hold says anything at all." {
+    says "Ursel comes down the hatch behind you and stops on the ladder. In the dark of the hold Dickon Cobb stands up off the ballast, coughing. Neither of them says anything. The brazier ticks. Then Ursel Cobb, who has never in her life been at a loss, says 'You great soft lump,' and goes down the rest of the ladder all at once, and holds on to him, and he holds on to her, and nobody in the hold says anything at all." {
     Assert urselMet(dickon). Increase urselTrust(ursel) by 2. Assert wentInForDickon(party). }
 
   // ── Harker's searchers ────────────────────────────────────────────────────────────────────────────────────────────
@@ -172,7 +182,7 @@ Module pellam "The Liberty of the Ice" {
     On success { Assert liedToKemble(actor). Assert searchersDiverted(lisk). }
     On failure { Assert liedToKemble(actor). Assert harkerWary(harker). }
     Result "Kemble's pen stops. He asks you two very exact questions, and you answer them very exactly, and he writes it down. That night Harker's searchers are not on the Reach. They are in the Clink yard in Bankside, and then on the south road up onto the downs in the snow with their lanterns, looking for footprints that are not there.".
-    Otherwise "Kemble writes it down, and then looks at you over his pen for a long moment, the way a clerk looks at a sum that does not come out. 'Thank you,' he says. The searchers walk the Reach that night just the same.".
+    Otherwise "Kemble writes it down, and then looks at you over his pen the way a clerk looks at a sum that does not come out. 'Thank you,' he says. The searchers walk the Reach that night just the same.".
   }
   Rule diverted_away when searchersDiverted(lisk) and searchNight() and not at(searchers, limbo) { Assert at(searchers, limbo). }
   Rule diverted_ends when searchersDiverted(lisk) and fourthDay() { Retract searchersDiverted(lisk). }

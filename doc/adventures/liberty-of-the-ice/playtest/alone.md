@@ -8,11 +8,11 @@ The North Road comes down off the fells between walls of snow higher than your h
 
 **By the North Road, to the North Bar**
 
-You set out from the North Road, above Pellam early, with your shadow long in front of you on the road. The North Bar: a gate-tower with its gates open and snowed into the open position, and a toll-house nobody is in. On the gate somebody has nailed a broadside, half torn: THE GREAT FROST — A FAIR UPON THE ICE — ALL WELCOME — NO LAW BUT THE GLOVE. Beyond it the city goes down to the river in steep white streets. The North Road goes up out of Pellam into the snow.
+You set out from the North Road, above Pellam early, with your shadow long in front of you on the road. THE FIRST DAY OF THE FAIR. A hard blue frost, the sky like a glazed dish, not a cloud from the fells to the downs; the smoke of a thousand chimneys going straight up and flattening at a height, as if against a ceiling. Your breath freezes in your scarf. Sound carries: you can hear a hammer on the far side of the river, and a girl laughing on the bridge, and under everything, from the ice, the noise of the Fair, like a hive. The North Bar: a gate-tower with its gates open and snowed into the open position, and a toll-house nobody is in. On the gate somebody has nailed a broadside, half torn: THE GREAT FROST — A FAIR UPON THE ICE — ALL WELCOME — NO LAW BUT THE GLOVE. Beyond it the city goes down to the river in steep white streets. The North Road goes up out of Pellam into the snow.
 
 **By Northgate Street, to the Cheaping**
 
-The Cheaping, Pellam’s wool market: a great square with a market-cross and a covered hall on stone legs where the fleeces are sold in summer, empty now, snowed knee-deep, with paths trodden across it in every direction to the Exchange, to Saint Evenhand’s, to Fleece Row, and above all down Swan Lane to the river. Nobody is buying wool here. Everybody is going to the ice.
+The Cheaping, Pellam’s wool market: a great square with a market-cross and a covered hall on stone legs where the fleeces are sold in summer, empty now, snowed knee-deep, with paths trodden across it in every direction to the Exchange, to the Scale Church, to Fleece Row, and above all down Swan Lane to the river. Nobody is buying wool here. Everybody is going to the ice.
 
 *(3 waits in which nothing is told)*
 
@@ -36,7 +36,11 @@ Nobody would be Callow’s hand. At five the watermen put him in the stocks at t
 
 An hour passes. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
 
-*(4 waits in which nothing is told)*
+*(3 waits in which nothing is told)*
+
+**Wait › An hour**
+
+THE SECOND DAY OF THE FAIR. Fog, in the night, off the Reach: the watermen call it the drowned weather. It stands on the ice to the height of a house, white and wet and very still, so that from the bridge the Fair is a roof of sound with nothing under it, and in Freezeland Street the booths come at you out of it one at a time like ships. The cathedral bell sounds as if it were being rung in a cupboard. People speak low without knowing why.
 
 **Wait › An hour**
 
@@ -56,7 +60,7 @@ At noon three of Harker’s wharf men come down Freezeland Street with boar-spea
 
 **Wait › An hour**
 
-In the night, from down the Reach, a long sound of saws, a dozen of them, and men singing to keep the time. By morning there is a channel of black water forty feet wide across the foot of the Reach from bank to bank, steaming, and the sledge road south ends at it.
+In the night, from down the Reach, a long sound of saws, a dozen of them, and men singing to keep the time. By morning there is a channel of black water forty feet wide across the foot of the Reach from bank to bank, steaming, and the sledge road south ends at it. Far off down the river, past the end of the Fair, past the Reach, a sound you take at first for the wind in the bridge: rising, and falling, and rising, and then two of it, and then four. Wherever people are awake in Pellam they stop talking to listen. Somebody near you says, ‘Wolves. On the river,’ and somebody else says, ‘They’ll be after the ox,’ and laughs, and nobody laughs with him.
 
 **Wait › An hour**
 
@@ -68,7 +72,13 @@ Late in the night, from down the Reach, a roar, and dogs, and men shouting, and 
 
 In the small hours of the last day, in the stocks at the foot of the Glove Post, Magister Edrin Callow stopped coughing. The watermen found him at first light with his blanket round him and his brazier out, and the snow not melting on his face. Someone has written on the board at the foot of the Glove, under KEEP WHAT YOU SHAKE ON, in charcoal: NOTHING STAYS.
 
-*(3 waits in which nothing is told)*
+*(1 wait in which nothing is told)*
+
+**Wait › An hour**
+
+THE THIRD DAY OF THE FAIR, AND THE LAST. The wind has gone round to the west in the night, soft and wet, smelling of earth for the first time in a month: the thaw-wind. The icicles along Fleece Row are dripping. Under Pellam Bridge, from every arch, water is running in threads down the stone, and where it falls the ice has gone grey and pocked, like old pewter. Nobody on the Fair says the word. Everybody looks at the sky.
+
+*(1 wait in which nothing is told)*
 
 **Wait › An hour**
 

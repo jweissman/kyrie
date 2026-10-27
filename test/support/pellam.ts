@@ -46,9 +46,11 @@ export class Pellam {
     const edges = new Map<string, [string, string][]>(), closed = new Set(w.related('unopened').map(r => r.args[0]));
     for (const r of w.related('connects')) {
       const [way, a, b] = r.args as [string, string, string];
-      // A way the company can see and use: not one it does not know of, nor one that needs what it has not.
+      // A way the company can see and use: not one it does not know of, nor one that needs what it has not, nor one
+      // shut against it (a barred door).
       const usable = w.test({ kind: 'call', name: 'equippedFor', args: ['party', way] })
-        && w.test({ kind: 'call', name: 'visibleTo', args: [way, 'party'] });
+        && w.test({ kind: 'call', name: 'visibleTo', args: [way, 'party'] })
+        && !w.test({ kind: 'call', name: 'barredFor', args: [way, 'party'] });
       if (!closed.has(way) && usable) { edges.set(a, [...edges.get(a) ?? [], [way, b]]); }
     }
     const prev = new Map<string, [string, string]>([[here, ['', '']]]), queue = [here];

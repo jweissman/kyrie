@@ -19,6 +19,11 @@ const journeys: Told[] = [
   { file: 'sold.md', title: 'Five Coin a Head', fixture: 'sold' },
   { file: 'ursel.md', title: 'Ursel Cobb: the Flashes, her brother, and a hand landed', fixture: 'ursel', party: Pellam.one('thief', 'cutpurse') },
   { file: 'alone.md', title: 'Nothing done: Landed', fixture: 'alone' },
+  { file: 'wolves.md', title: 'The second night on foot: Kemble\'s gin, the watermen, and the wolves on the sledge road', fixture: 'wolves',
+    party: Pellam.one('warrior', 'laborer') },
+  { file: 'ursel-night.md', title: 'Ursel at night: Swale Head, the Bench, and Tansy Hobb', fixture: 'ursel-night', party: Pellam.one('thief', 'cutpurse') },
+  { file: 'harker-ursel.md', title: 'Swale Head: Harker at the portrait, Ursel at night, and her question at the Landing', fixture: 'harker-ursel' },
+  { file: 'statute.md', title: 'The verger, Gallowmoor, and the Statute of Servants', fixture: 'statute' },
 ];
 class Telling {
   static name(g: Pellam, id: string): string { return g.j.campaign.module.entities.find(e => e.id === id)?.name ?? id; }

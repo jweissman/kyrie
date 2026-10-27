@@ -1,6 +1,6 @@
 # What it cost to say Pellam in Kyr: the friction report
 
-Recorded as met, while writing about 2,300 lines of Kyr (long lines: some 318,000 characters) in twenty-four files, and playing them. Each finding says what I
+Recorded as met, while writing about 2,300 lines of Kyr (long lines: some 318,000 characters) in twenty-four files (twenty-six, and about 2,700 lines, after the second pass), and playing them. Each finding says what I
 wanted, what happened, what I did, and what general change would remove it. Severity: **H** (cost hours, or would
 mislead a new author into a wrong world), **M** (cost a work-round I would not want every author to rediscover),
 **L** (a papercut). None required changing the engine; I made no engine change.
@@ -109,6 +109,50 @@ mislead a new author into a wrong world), **M** (cost a work-round I would not w
 
 21. `bun install` could not fetch the two git dependencies (`deem`, `languages`) as tarballs through this session's
     proxy (403); cloning them by git and copying them into `node_modules` at the pinned commits worked. Not Kyrie's.
+
+## Found in the second pass
+
+Met while deepening the work (the wolves, the paid men, the days as acts, the Book of Frosts, Ursel's confidences),
+about 400 more lines of Kyr in two new files and edits to eight.
+
+22. **M — A territorial band that arrives where the company already stands stops the clock.** The wolves come down
+    onto the sledge road at ten on the second night. A Ring journey that had sent the hired south on the first night
+    and stayed on the sledge road found, at ten the next night, that it had been warned and halted where it stood, and
+    the page offered no way to wait (the journey failed: "Nothing to wait by"). That is fair in the fiction (you do not
+    wait out four wolves) and a surprise to the author: the band's warning is the shared rules' (`temper_warns`), and
+    fires the moment the band is put in the room, before any of the module's own rules can say how it came. Work-round:
+    none needed in the fiction; the fixture walks back. *Change:* an arrival text for a band placed into a room the
+    company holds (a `Arrives` line, like `Warns`), so that the author knows and says it.
+23. **M — What a creature fears must be a capability, and a capability comes only from an item's condition.** `Fears
+    flame` drives the wolves off a company that is `capable(…, flame)`, which only a lit torch gives (its condition
+    grants light and flame). A brand made in the fiction (a billet lit at the ox fire, a greasy fleece at a brazier) is
+    a Kyr measure, and cannot be what they fear; I wrote an action, "Hold the brand up high", beside the `Fears`. Both
+    work, so a company with a torch in its pack and one with a brand are both safe, by two mechanisms. *Change:* `Grant
+    flame to party for 2 hours` as an effect, or a Kind `granting flame while lit`.
+24. **M — An action that puts the company where a band is races the band's warning.** The watermen's sledges take the
+    company down onto the sledge road, where the wolves are; the shared warning and my "outrun" rule would both fire
+    on the next pass. Work-round: the sledges action itself asserts that the wolves tolerate the company, and a rule
+    says how they were outrun. *Change:* none obvious; a note in the guide that an author who moves the company into a
+    band's room should settle the band in the same effects.
+25. **M — The `within` anchor is undocumented.** On the second pass I found, in `src/lang/module.ts`, that an
+    observation can be anchored `within` an area (the compiler accepts it on a rule too; I did not test that): `Observe fog_ice within the_ice …` is seen anywhere on
+    the Fair. The guide documents `at` and `near`. I had already written the first pass's weather room by room, and
+    nineteen pairs of news rules (friction 2) that a `within` anchor over Pellam's areas might in part have replaced.
+    *Change:* one paragraph in "Who hears what a rule says".
+26. **M — A day has no opening.** Each of the three days needed an opening (the sky, and what day it is), told once,
+    to a company in Pellam, after dawn. Three rules with three `spread` facts; and an area observation for the day's
+    weather that must wait on the opening's fact, or it is printed before the day's heading on the pass that turns
+    the day. *Change:* a `Day n "…"` or `Chapter` declaration, said once when it begins, for modules that have acts.
+27. **L — The test router walked through a barred door.** Asked to go from the foot of Hay Stairs to Hay Wharf, the
+    shortest way was through the bondhouse's river door, barred. Fixed in `test/support/pellam.ts` by asking the
+    shared rules' `barredFor`. (Friction 18 again: the router should be the session's.)
+28. **L — Names collide across adventures, and only a test says so.** The verger was Amos Hobday; Wrayford has a
+    Jennet Hobday. `adventure-names.test.ts` found it; `kyrie lint` on the campaign did not. *Change:* the lint could
+    run the same check over the repository's adventures.
+29. **L — A `once` topic comes back as "again".** "Ask Tansy Hobb about home" was offered afterwards as "Ask Tansy Hobb
+    again about home". It is the page's way of letting a player hear a thing twice, and harmless; but `once` does not
+    mean what an author reading it would assume, and fixtures that match by substring can take the second offer for
+    the first.
 
 ## What was easy
 

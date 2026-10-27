@@ -145,6 +145,53 @@ can end, and what it leaves for later. The test that plays each is named. "Leave
   south ends at black water, and the ice goes out two hours early on the last night.
 - *Played*: `small` (sledges); every journey that does nothing about it cuts the channel.
 
+## 13. The wolves on the sledge road (`wolves.kyr`, `frosts.kyr`)
+
+- **Who**: four wolves off the downs, come after the frozen river, as the Book of Frosts says they came in four of
+  seven frosts. Foreshadowed on the second day by Abel (ewes taken from a roofed fold), Nab ("sat in a row like
+  magistrates"; fire, meat, a loud voice, or a sledge), tracks at the Reach head (woodcraft), and the Book itself.
+- **When**: the second night, from ten until five, across the sledge road at the foot of the Reach: the only way
+  south, for the hired, for Dickon's drowned, for anyone. At ten they are heard howling across the whole city.
+- **Ways**: fight them (dangerous: four wolves will kill a first-level company that stands); a brand (lit at the ox
+  fire for a penny, at Fowke's brazier, or from a greasy fleece at the bondhouse brazier) swung at them; a bucket of
+  the ox's offal thrown upwind; round them downwind along the bank (woodcraft); face them down (intimidation, hard; a
+  failure brings them on); or Tredgold's sledges, which outrun them. A lit torch from the pack also frightens them
+  (`Fears flame`).
+- **Complication**: Dickon goes south alone with the drowned at three on that night if nobody brings him the
+  bondhouse. Warned of the wolves, he takes fire; not warned, a waterman finds a cap and trodden snow in the morning,
+  and nobody goes back to look.
+- *Played*: `wolves` (the second night on foot, a brand from a fleece); `offal`; the wanders.
+
+## 14. Paid men (`wolves.kyr`)
+
+- **Who**: Kemble, who drinks at the Lamb; the searchers, paid by the night; old Fowke, who will drink anything.
+- **Ways**: stand Kemble gin (three coin) and hear *eight a head, Gallowmoor* (the farm in the hills found out with no
+  book and no lock), then lift his bondhouse key off his chain while he sleeps; pay the searchers three coin a man to
+  walk the downs road (persuasion, easy; on a failure they take it and tell Kemble); sit with Fowke over a bottle until
+  he sleeps, at any hour. A front door into the bondhouse for someone with neither lockwork nor Thessaly.
+- *Played*: `paid`; `wolves` (the gin).
+
+## 15. The Book of Frosts and the Statute of Servants (`frosts.kyr`)
+
+- **Who**: Gaffer Tredgold, who keeps the Company's history at the back of its accounts, upside down; Amos Tallis, the
+  verger of the Scale Church; Alderman Gosling, who is a justice of the peace on dry ground.
+- **What**: seven frosts in two hundred years (the First; the Glove, when the Liberty began; the Black Lambing, when the
+  fell farms were sold and the hiring of their children began; the Frost They Hanged the Reeve; the Short Frost, when
+  every handfast melted; the Last; this one); the Statute that forbids carrying anyone hired in the city out of it
+  but to the place they were hired for, which does not run on the Watermen's ice; Harker's pound of wax "for the
+  weight".
+- **Ways**: told Gosling that Dickon was hired in the Cheaping last spring, on dry ground, and carried to Gallowmoor,
+  the alderman writes it down for the Lady Day sessions, "where a lie is a crime"; in the thaw the indictment is
+  nailed to Harker's door. It changes no ending: it is what the land does after the ice.
+- *Played*: `statute`.
+
+## 16. What Ursel tells at night (`ursel.kyr`)
+
+- Three confidences, late, to someone she trusts a little: why she never shakes (Swale Head, a note, a factor's glove
+  on her father's kitchen table); where she learned to lie (the Bench at fifteen; the prize penny on a string); and,
+  if the company has heard Harker's own story, what she makes of a hired child of her own parish. And Tansy Hobb's
+  people had the farm below hers. *Played*: `ursel-night`.
+
 ## The principal adventure: the drowned (`drowned.kyr`, `night.kyr`, `harker.kyr`)
 
 The hats on the stake; the tracks in the snow (woodcraft), the slip in the line (insight); Widow Saffery's lantern
@@ -168,3 +215,7 @@ Ursel trusts you or does not.
 | The Liars' Bench | the Silver Tongue; Broom's ear (the Unswearing's witness); Harker wary |
 | Callow | the doctrine (the Unswearing); a hand kept or broken |
 | The watermen | sledges (the flight); the channel (the flight, the thaw) |
+| The wolves | the second-night flight; Dickon's fate if he goes alone |
+| Paid men | the farm in the hills (Kemble's gin); the bondhouse door (the key, Fowke); the searchers (diverted) |
+| The Book and the Statute | why the hiring is on the ice; Harker after the thaw |
+| Ursel at night | Ursel's trust; Harker's mirror |

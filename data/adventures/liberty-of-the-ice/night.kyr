@@ -14,7 +14,7 @@ Module pellam "The Liberty of the Ice" {
   Rule fowke_off when hour(clock) >= 7 and hour(clock) < 21 and not at(fowke, limbo) { Assert at(fowke, limbo). Retract asleep(fowke). }
   // From one until four the bottle has the better of him.
   Rule fowke_sleeps when hour(clock) >= 1 and hour(clock) < 4 and at(fowke, hay_wharf) and not asleep(fowke) { Assert asleep(fowke). }
-  Rule fowke_wakes when (hour(clock) < 1 or hour(clock) >= 4) and asleep(fowke) { Retract asleep(fowke). }
+  Rule fowke_wakes when (hour(clock) < 1 or hour(clock) >= 4) and asleep(fowke) and not sodden(fowke) { Retract asleep(fowke). }
   Observe fowke_scene at hay_wharf when at(fowke, hay_wharf) and not asleep(fowke) "Old Fowke sits by the bondhouse door on a keg with a brazier and a bottle, and a lantern at his feet.".
   Observe fowke_asleep at hay_wharf when at(fowke, hay_wharf) and asleep(fowke) "Old Fowke is asleep on his keg by the bondhouse door, his chin on his chest, the bottle in his lap, snoring.".
   // Picking the lock in front of a waking watchman is seen.
@@ -72,7 +72,8 @@ Module pellam "The Liberty of the Ice" {
       and not hiredFled(lisk) and not channelCut(lisk).
     Time 6.
     On success { Assert hiredFled(lisk). Assert at(actor, sledge_road). Assert at(hired, limbo). Assert at(tansy, limbo). Assert tansyFree(tansy). Assert dickonGone(dickon).
-      Assert at(dickon, limbo). Assert at(jem, limbo). Assert at(polly, limbo). Assert pollyGone(polly). Assert at(tredgold, watermen_room). }
+      Assert at(dickon, limbo). Assert at(jem, limbo). Assert at(polly, limbo). Assert pollyGone(polly). Assert at(tredgold, watermen_room).
+      Assert tolerates(wolves, actor). }
     Result "Four sledges, eight watermen running in the traces, twenty people under blankets, and the whole of the Reach going by grey and fast in the starlight. Behind you, far back, lanterns, and a dog barking, and a voice shouting; and then nothing, because a man on foot cannot catch a sledge on the ice. At the bottom of the Reach where the river widens the watermen stop, blowing, and the hired get down, and Dickon Cobb, or Tansy Hobb, or nobody, points south down the white road toward the downs. They go. You watch them until they are a line of dots, and then not even that. Tredgold spits on the ice. 'There,' he says. 'Not landed.' It is a long walk back.".
   }
   // On foot: down the Reach past the searchers, if they are there.
@@ -80,7 +81,8 @@ Module pellam "The Liberty of the Ice" {
     says "The three lanterns swing round together. 'There!' The dog is off its rope. 'Harker's hired, on the Reach, and someone with them!' The searchers come over the grey ice at you with their cudgels." {
     Retract tolerates(searchers, party). Assert assails(searchers, party). }
   Action walk_south(actor: group, site: place) "Send the hired on down the sledge road south, on foot, toward the downs" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sledge_road) and hiredOut(lisk) and not hiredFled(lisk) and not channelCut(lisk).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sledge_road) and hiredOut(lisk) and not hiredFled(lisk) and not channelCut(lisk)
+      and (not at(wolves, sledge_road) or not able(wolves) or tolerates(wolves, actor)).
     Time 2.
     On success { Assert hiredFled(lisk). Assert at(hired, limbo). Assert at(tansy, limbo). Assert tansyFree(tansy). Assert dickonGone(dickon).
       Assert at(dickon, limbo). Assert at(jem, limbo). Assert at(polly, limbo). Assert pollyGone(polly). }

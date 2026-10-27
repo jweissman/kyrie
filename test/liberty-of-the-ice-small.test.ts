@@ -128,3 +128,75 @@ describe('The Liberty of the Ice: small adventures', () => {
     expect(g.measure('conviction', 'harker', 'squire_claim')).toBeGreaterThanOrEqual(5);
   }, 400000);
 });
+
+describe('The Liberty of the Ice: the second pass', () => {
+  it('the second night on foot: Kemble drunk at the Lamb and the watermen told, hired on the last morning, and the wolves on the sledge road driven off with a fleece-brand', async () => {
+    const g = await as('warrior', 'laborer');
+    await g.fixture('wolves', 'hired');
+    expect(g.holds('kembleDrunk', 'party')).toBe(true);
+    expect(g.knows('hired_sold')).toBe(true);
+    expect(g.holds('tredgoldAngry', 'tredgold')).toBe(true);
+    expect(g.holds('inBondhouse', 'party')).toBe(true);
+    await g.fixture('wolves', 'inside');
+    expect(g.at('wolves')).toBe('pellam__sledge_road');
+    expect(g.page).toMatch(/four shapes are sitting in a row/);
+    await g.fixture('wolves', 'wolves');
+    expect(g.holds('wolvesDriven', 'lisk')).toBe(true);
+    expect(g.holds('hiredFled', 'lisk')).toBe(true);
+    await g.fixture('wolves', 'end');
+    expect(g.ending()).toEqual(['pellam__flight']);
+  }, 400000);
+
+  it('the wolves fed: a bucket of the ox\'s offal thrown upwind on the sledge road, after the Book of Frosts read at the Watermen\'s Hall', async () => {
+    const g = await Pellam.start();
+    await g.fixture('offal');
+    expect(g.knows('book_of_frosts')).toBe(true);
+    expect(g.knows('reeve_hanged')).toBe(true);
+    expect(g.holds('wolvesFed', 'lisk')).toBe(true);
+    expect(g.at('wolves')).toBe('pellam__limbo');
+  }, 400000);
+
+  it('the Statute of Servants: told by the verger, laid before Alderman Gosling for Dickon Cobb, and nailed to Harker\'s door in the thaw', async () => {
+    const g = await Pellam.start();
+    await g.fixture('statute', 'in');
+    expect(g.knows('statute_servants')).toBe(true);
+    expect(g.knows('harker_candle')).toBe(true);
+    expect(g.knows('gallowmoor_known')).toBe(true);
+    expect(g.holds('statuteLaid', 'lisk')).toBe(true);
+    await g.fixture('statute', 'end');
+    expect(g.page).toMatch(/Statute of Servants, for one Dickon Cobb/);
+  }, 400000);
+
+  it('Ursel at night: why she never shakes, where she learned to lie, and Tansy Hobb from her own parish', async () => {
+    const g = await as('thief', 'cutpurse');
+    await g.fixture('ursel-night');
+    expect(g.knows('ursel_father')).toBe(true);
+    expect(g.knows('ursel_bench')).toBe(true);
+    expect(g.knows('ursel_hobbs')).toBe(true);
+    expect(g.measure('urselTrust', 'ursel')).toBeGreaterThanOrEqual(3);
+  }, 400000);
+
+  it('a hand shaken in the Ring and walked away from is fetched to the bondhouse the same afternoon', async () => {
+    const g = await as('warrior', 'laborer');
+    await g.fixture('fetched');
+    expect(g.holds('hiredFetched', 'party')).toBe(true);
+    expect(g.at('party')).toBe('pellam__bond_floor');
+  }, 400000);
+  it('paid men: Kemble\'s key off his chain at the Lamb, the searchers paid to walk the downs road, and old Fowke sat with till he sleeps', async () => {
+    const g = await Pellam.start();
+    await g.fixture('paid');
+    expect(g.holds('searchersDiverted', 'lisk')).toBe(true);
+    expect(g.holds('sodden', 'fowke')).toBe(true);
+    expect(g.holds('state', 'bond_lock', 'open')).toBe(true);
+    expect(g.at('party')).toBe('pellam__bond_floor');
+  }, 400000);
+  it('Harker\'s one chance: told at supper of his hiring, told to Ursel at night, and asked by her at the Landing', async () => {
+    const g = await Pellam.start();
+    await g.fixture('harker-ursel');
+    expect(g.knows('harker_hired')).toBe(true);
+    expect(g.knows('ursel_father')).toBe(true);
+    expect(g.knows('ursel_knows_harker')).toBe(true);
+    expect(g.holds('urselAskedHarker', 'lisk')).toBe(true);
+    expect(g.page).toMatch(/I remember the hands/);
+  }, 400000);
+});

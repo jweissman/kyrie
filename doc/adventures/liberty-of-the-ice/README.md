@@ -4,8 +4,8 @@
 in thirty-one winters, when a street of booths stands on the ice and the ice has its own law, cried every noon from a
 mast with a glove on it: **say what you will; keep what you shake on.***
 
-Module `pellam`, in [`data/adventures/liberty-of-the-ice`](../../../data/adventures/liberty-of-the-ice) (twenty-four
-files, about 2,300 lines of Kyr). Found in a generated world beyond the **west march of a cold or mountain country**
+Module `pellam`, in [`data/adventures/liberty-of-the-ice`](../../../data/adventures/liberty-of-the-ice) (twenty-six
+files, about 2,700 lines of Kyr). Found in a generated world beyond the **west march of a cold or mountain country**
 (`countries.json`; not among the independent adventures, so it changes no other country's place), where the folk tell
 of the Frost Fair and the North Road comes down into the snow; there its three days run from the first morning after
 it is reached, and after the thaw the city goes on. Played alone, for testing and the terminal, as
@@ -24,7 +24,7 @@ title page's list, because it belongs to the world.
 | [05-synopsis.md](05-synopsis.md) | The overarching synopsis, the acts, the people, the conflicts, the settlements |
 | [06-builds.md](06-builds.md) | Who the protagonist is: the build matrix |
 | [07-rewards.md](07-rewards.md) | Rewards, and what they cost |
-| [08-playtests.md](08-playtests.md) | The evidence: tests, wanders, the world beyond the march, keeping; [playtest/](playtest/) has nine transcripts |
+| [08-playtests.md](08-playtests.md) | The evidence: tests, wanders, the world beyond the march, keeping; [playtest/](playtest/) has thirteen transcripts |
 | [friction.md](friction.md) | What it cost to say this in Kyr, Deem, the engine and the page |
 | [09-critique.md](09-critique.md) | An honest literary and experiential critique |
 | [10-changes.md](10-changes.md) | The record of changes, treatment to final pass |

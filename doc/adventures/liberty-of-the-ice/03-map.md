@@ -57,7 +57,9 @@ and for three days the ice between them is a district of its own.
   from one till four). **The river door** is barred inside, iced in: brawn breaks it, or twenty hired with a kettle.
 - **The North Road** out of Pellam is watched, once the company has shaken on the flock, by one of Harker's wharf men,
   until the Landing: a thief slips past behind a hay-sledge, a liar tells him a story.
-- **The sledge road south** ends at the watermen's channel if they were left with no work on the second night.
+- **The sledge road south** ends at the watermen's channel if they were left with no work on the second night; on
+  that night, from ten until five, the wolves sit across it.
+- **The bondhouse door** also opens to Kemble's key, lifted off his chain at the Lamb when he has drunk.
 
 ## The hours
 
@@ -72,6 +74,8 @@ and for three days the ice between them is a district of its own.
 | Nightly, 22–24 | printing booth | Mr. Icicle leaves her copy |
 | Nights 2 and 3, 22–3 | Black Reach | Harker's searchers |
 | Nightly, 20–1 | Black Reach | Widow Saffery with her lantern |
+| Night 2, 22–5 | sledge road | The wolves; at ten, heard across the city |
+| Daily, at dawn | anywhere in Pellam | The day's sky (blue frost; the drowned fog; the thaw-wind) and the bill on the Glove Post |
 | Night 2, small hours | Reach, bondhouse | Dickon's flight; the watermen's channel; the bear among the searchers; raids on whatever Harker has learned |
 | Day 3, noon | Ice Chapel | The wedding |
 | Day 3, 14:00–16:20 | Glove Post | The Landing, in five cases |

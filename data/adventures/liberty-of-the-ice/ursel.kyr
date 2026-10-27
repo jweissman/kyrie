@@ -76,7 +76,7 @@ Module pellam "The Liberty of the Ice" {
   Discovery ursel_watches "At the Hiring Ring Ursel Cobb watches each of Harker's hired as they step up to shake, as if looking for one face in particular, and does not find it.".
   Observe ursel_at_ring at hiring_ring when travelsWith(ursel, party) and hiringOn() and capable(party, insight) and not knows(party, ursel_watches) "Ursel has gone quiet. She stands at the rope of the Ring watching Harker's hired step up one by one to shake, and her eyes go to each face, quickly, and away, and back to the next, the way you look for someone in a crowd at a fair, and do not find them." teaches ursel_watches.
   Topic ursel_who with ursel travelling "Ask Ursel who she is looking for among the hired" when (knows(actor, ursel_watches) or knows(actor, ursel_evades) and urselTrust(ursel) >= 2) and not urselConfessed(actor) once {
-    Says "For a moment she looks as if she will laugh it off. Then she does not. 'Dickon,' she says. 'My brother. Twenty. Big soft lump, he'd carry a calf a mile. Harker hired him at the spring hiring here for a farm in the hills, a year's place, good food, and he shook, and went, and he can write, I taught him myself, and nothing. Not a line.' She wipes her nose on her cape. 'So I want into Harker's house, and his books. The money's real. I'll still take his money. But I want the books.' She looks at you hard. 'You can laugh. Everybody lies on the ice. That was mine.'".
+    Says "For a moment she looks as if she will laugh it off. Then she does not. 'Dickon,' she says. 'My brother. Twenty. Big soft lump, he'd carry a calf a mile. Harker hired him at the spring hiring here for a farm in the hills, a year's place, good food, and he shook, and went, and he can write, I taught him myself, and nothing. Not a line.' She wipes her nose on her cape. 'So I want into Harker's house, and his books. The money's real. I'll still take his money. But I want the books.' She looks at you the way she looked at the purse in her hand on the first morning: weighing it. 'You can laugh. Everybody lies on the ice. That was mine.'".
     On discuss { Assert urselConfessed(actor). Assert knows(actor, ursel_brother). Increase urselTrust(ursel) by 1. }
   }
   Topic ursel_dickon_ledger with ursel travelling "Tell Ursel what Harker's books say of Dickon Cobb" when knows(actor, ledger_read) and not urselConfessed(actor) once {
@@ -84,7 +84,7 @@ Module pellam "The Liberty of the Ice" {
     On discuss { Assert urselConfessed(actor). Assert knows(actor, ursel_brother). Increase urselTrust(ursel) by 2. Assert keptSecret(actor). }
   }
   Topic ursel_keep with ursel travelling "Tell Ursel her secret is safe with you" when urselConfessed(actor) and not keptSecret(actor) and not liedToUrsel(actor) once {
-    Says "'On the ice,' says Ursel, 'that's just words.' But she looks at you a long moment, and then she nods, once, the way a person nods who has decided to believe something against her own advice.".
+    Says "'On the ice,' says Ursel, 'that's just words.' But she looks at you while a skater goes by, and another, and then she nods, once, the way a person nods who has decided to believe something against her own advice.".
     On discuss { Assert keptSecret(actor). Increase urselTrust(ursel) by 1. }
   }
   // A lie told her after she has told the truth: that Dickon is dead, when the company has seen him alive.
@@ -92,6 +92,32 @@ Module pellam "The Liberty of the Ice" {
     Says "She takes it like a blow, standing; then she looks at you, a long, flat, professional look, the look she gives a mark, and you see her see it. 'That's a lie,' she says. 'That's a good one, and it's a lie.' She does not ask you why. She does not say anything else to you that evening.".
     On discuss { Assert liedToUrsel(actor). Decrease urselTrust(ursel) by 3. }
   }
+
+  // ── What Ursel tells at night ─────────────────────────────────────────────────────────────────────────────────────
+  // Three things, told late, to someone she has begun to trust, each opening the next. The first is why she never
+  // shakes; the second where she learned to lie; the third is what she makes of Harker when she learns he was a hired
+  // child of the same parish. Swale Head is hers, Tansy Hobb's, and Harker's: three generations of the same hand.
+  Query lateHour() means hour(clock) >= 19 or hour(clock) < 5.
+  Topic ursel_never with ursel travelling "Ask Ursel, late, why she has never shaken on anything" when lateHour() and urselTrust(ursel) >= 1 once {
+    Says "She is quiet so long you think she will not answer. 'Swale Head,' she says. 'Up under the fell, where the becks start. We had a farm, forty acres of stones. The year I was eleven the clip failed, and a Pellam factor came up the dale with a note, against next year's wool, and my father shook on it in our own kitchen, with the factor's glove on the table, and I watched him do it.' She turns her cup round. 'Next year's clip failed too. The note was good in any court of the country. They landed the farm, and the stock, and the bed. My mother walked us down to Pellam with Dickon on her hip.' She drinks. 'I don't know the factor's name. I never asked. If I knew it I'd have to do something.' A pause. 'So I don't shake. A word's free. A hand's what they take your bed with.'".
+    On discuss { Assert knows(actor, ursel_father). Increase urselTrust(ursel) by 1. }
+  }
+  Discovery ursel_father "Ursel Cobb's father shook hands with a Pellam factor on a note against his wool, at Swale Head, when she was eleven; the clip failed, the note was landed, and the farm with it. She has never shaken on anything since, and has never asked the factor's name.".
+  Topic ursel_lying with ursel travelling "Ask Ursel where she learned to lie" when knows(actor, ursel_father) once {
+    Says "'On the Liars' Bench.' She laughs, properly, for the first time that evening. 'Not this one. The Bench is older than the Frosts; when there's no ice it's a plank at the back of the Calf, and the Reeve's whoever's oldest. I won it at fifteen, with a story about a man who sold the bridge to itself, and old Broom's mother gave me the prize, a penny with a hole in it.' She shows you: it is round her neck on a string, worn thin. 'The truth's very dear, for poor folk. So we tell it on a bench, for fun, with everyone knowing it's lies. That's where you can say anything.' She looks at the fire. 'I've told the truth on that bench more times than anywhere else in my life.'".
+    On discuss { Assert knows(actor, ursel_bench). }
+  }
+  Discovery ursel_bench "Ursel won the Liars' Bench at fifteen, and wears the prize, a penny with a hole in it, on a string; she says she has told more truth on it than anywhere else.".
+  Topic ursel_harker_swale with ursel travelling "Tell Ursel that Harker was a hired child once, hired at nine, at Swale Head" when knows(actor, ursel_father) and knows(actor, harker_hired) once {
+    Says "She stares at you. 'Swale Head.' Then, slowly: 'There were Harkers at the Head. At the top farm, under the scar, before my time. They went.' She is silent. Somebody at the next table wins at cards and is accused of it. 'So he knows,' she says. 'He knows exactly. He knows what the kitchen looks like, and the glove on the table.' She puts her cup down with great care, the way Harker puts his glass down. 'I'd rather he was a devil. A devil you can do something about.' She does not say anything else, and in the morning she is the same as ever, and laughs at everything, and once, crossing Fleece Row, stops and looks up at his house as if she were trying to see a boy of nine in one of the windows.".
+    On discuss { Assert knows(actor, ursel_knows_harker). Increase urselTrust(ursel) by 1. }
+  }
+  Discovery ursel_knows_harker "Told that Harker was hired at nine out of Swale Head, her own parish, Ursel said she would rather he were a devil.".
+  Topic ursel_tansy with ursel travelling "Tell Ursel that one of Harker's hired, Tansy Hobb, is a dairymaid from Swale Head" when knows(actor, tansy_hired) and knows(actor, ursel_father) once {
+    Says "'Hobb.' She closes her eyes. 'The Hobbs had the low farm, by the wash-dub, where the beck goes under the road. Mary Hobb gave my mother a cheese the morning we walked down. She'll be this Tansy's grandmother.' She opens them. 'Fifteen, you said.' She stands up. 'Right,' says Ursel Cobb. 'Right. Then it's two of us I want out of that barn.'".
+    On discuss { Assert knows(actor, ursel_hobbs). Increase urselTrust(ursel) by 1. }
+  }
+  Discovery ursel_hobbs "Tansy Hobb's people had the low farm at Swale Head; her grandmother gave Ursel's mother a cheese the morning the Cobbs walked down to Pellam.".
 
   // ── The Flashes, at dusk ──────────────────────────────────────────────────────────────────────────────────────────
   Observe flashes_scene at flashes when not dusk() and not dark() "The Flashes: water-meadows above the city, flooded in the autumn and frozen flat as a table, a mile of grey ice between pollard willows. A few boys with skates of bone. A man selling skates of iron by the hour from a barrow.".
@@ -117,7 +143,7 @@ Module pellam "The Liberty of the Ice" {
   Query romanceHolds(a: group) means (skated(a) and pairPrinted(a) and keptSecret(a)) or (skated(a) and wentInForDickon(a))
     or (pairPrinted(a) and wentInForDickon(a)) or (keptSecret(a) and wentInForDickon(a) and skated(a)).
   Event ursel_asks near ursel when thirdDay() and hour(clock) >= 10 and hour(clock) < 12 and travelsWith(ursel, party) and (at(party, freezeland_low) or at(party, chapel)) and romanceHolds(party)
-    and not liedToUrsel(party) and not drownedSold(party) and not urselAsked(party) "Ursel stops in the middle of Freezeland Street, by the ribboned booth of the Ice Chapel, where Parson Doody is sweeping the step for the noon wedding. She looks at the board that says MARRIAGES for a long time. 'Forty years,' she says, 'I've never given my hand on anything.' She does not look at you. 'They say a hand on the ice is landed at two and good for life. And they say a wedding on the ice that isn't landed goes out with the river, and there's an end of it.' She looks at you then. 'I'd shake on the second kind,' says Ursel Cobb. 'With you. And then see.'" then {
+    and not liedToUrsel(party) and not drownedSold(party) and not urselAsked(party) "Ursel stops in the middle of Freezeland Street, by the ribboned booth of the Ice Chapel, where Parson Doody is sweeping the step for the noon wedding. She reads the board that says MARRIAGES as though it were a bill of sale. 'Forty years,' she says, 'I've never given my hand on anything.' She does not look at you. 'They say a hand on the ice is landed at two and good for life. And they say a wedding on the ice that isn't landed goes out with the river, and there's an end of it.' She looks at you then. 'I'd shake on the second kind,' says Ursel Cobb. 'With you. And then see.'" then {
     Assert urselAsked(party). }
   Observe ursel_quiet near ursel when thirdDay() and hour(clock) >= 7 and hour(clock) < 12 and travelsWith(ursel, party) and romanceHolds(party)
     and not liedToUrsel(party) and not urselAsked(party) "Ursel is quieter this morning than you have known her. She keeps looking away down the ice toward the lower end of Freezeland Street, where the ribboned booth of the Ice Chapel is, and then not looking.".

@@ -49,7 +49,7 @@ Module pellam "The Liberty of the Ice" {
       and (craft(actor, craft_trade) or craft(actor, craft_learning) or frostCrashed(lisk) or carries(actor, honey)).
     Time 1.
     On success { Assert quarleCream(quarle). Retract quarleRuined(quarle). }
-    Result "He looks at you, and at the tub, for a long time. Then he goes to the Frozen Lamb and comes back with a jug of cream from Bel, and a spoon, and some honey, and packs the salts round a pewter pot, and turns it, and turns it, muttering. An hour later he gives you the first spoonful, in the cold, on the ice. It is the best thing you have ever eaten. 'It is not perpetual,' says Mr. Quarle sadly, licking the spoon. 'It does not last at all.' He brightens. 'That is rather the point of it, I think.'".
+    Result "He looks from you to the tub, and back, as a man looks from a creditor to a door. Then he goes to the Frozen Lamb and comes back with a jug of cream from Bel, and a spoon, and some honey, and packs the salts round a pewter pot, and turns it, and turns it, muttering. An hour later he gives you the first spoonful, in the cold, on the ice. It is the best thing you have ever eaten. 'It is not perpetual,' says Mr. Quarle sadly, licking the spoon. 'It does not last at all.' He brightens. 'That is rather the point of it, I think.'".
   }
   Rule quarle_ruined when frostCrashed(lisk) and not quarleCream(quarle) and not quarleRuined(quarle) { Assert quarleRuined(quarle). }
   Observe quarle_sad near quarle when quarleRuined(quarle) "Mr. Quarle sits by his tub with his board turned face down, watching the water freeze, very slowly, as if it were the only thing in the world that had never let him down.".

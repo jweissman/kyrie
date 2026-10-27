@@ -1,0 +1,6 @@
+{
+ "in": ["go:swan_lane", "Shake on a penny a stair", "go:freezeland", "Ask her for your purse back", "=66", "go:lamb", "Stand Silas Kemble hot gin",
+  "Unhook the bondhouse key", "Kemble's bondhouse key: Take"],
+ "day": ["=150", "go:hay_wharf", "?Offer the searchers three coin"],
+ "night": ["=222", "go:hay_wharf", "Sit down by old Fowke", "Light a brand at old Fowke's brazier", "Unlock the bondhouse door with Kemble's key", "go:bond_floor"]
+}

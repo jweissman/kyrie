@@ -1,0 +1,37 @@
+{
+ "hired": [
+  "go:swan_lane",
+  "Step over the plank",
+  "?Shake on a penny a stair",
+  "=66",
+  "go:lamb",
+  "Stand Silas Kemble hot gin",
+  "Unhook the bondhouse key",
+  "go:watermen_room",
+  "Tell Gaffer Tredgold what Harker does",
+  "go:hiring_ring",
+  "=150",
+  "Put a tuft of straw",
+  "=170"
+ ],
+ "inside": [
+  "Read Kemble's bond book",
+  "Talk to Tansy",
+  "Tell Tansy Hobb where the farm",
+  "Ask Tansy Hobb about home",
+  "=256",
+  "Wind a stave",
+  "Get the hired up",
+  "Bring the hired out through the river door",
+  "?Keep the hired still",
+  "go:black_reach",
+  "go:sledge_road"
+ ],
+ "wolves": [
+  "Hold the brand up high",
+  "Send the hired on down"
+ ],
+ "end": [
+  "=420"
+ ]
+}

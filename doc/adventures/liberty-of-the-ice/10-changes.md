@@ -67,3 +67,28 @@ What was planned and not built, and why:
   two presents make the point.
 - **A browser journey**: the placed test walks a generated world by the session's commands; no Playwright journey was
   recorded for Pellam.
+
+## Final pass → second pass (a second, harder reading)
+
+Asked to read it again as literature and as dramaturgy (see [09-critique.md](09-critique.md), "The second reading"):
+
+1. **The days as acts** (`frosts.kyr`): each morning's heading and sky (blue frost; the drowned fog; the thaw-wind);
+   area observations of fog and thaw on the Fair (`within the_ice`), and room ones at the Glove Post, the Reach, the
+   bridge and the ox; a bill on the Glove Post each day naming what is on.
+2. **Foreshadowing**: an empty pillory with a blank placard; Callow "shall not see it go out"; Hester's bear who would
+   "go to the water"; the wolves in the Book of Frosts, in Abel's fold, in Nab's taproom and in the snow.
+3. **The wolves** (`wolves.kyr`): four, on the sledge road on the second night; fought, or driven with a brand, fed
+   the offal, rounded downwind, faced down, or outrun; Dickon's fate if he goes alone, warned or not; Ursel and the
+   cap.
+4. **Paid men**: Kemble's gin (the farm in the hills found out) and his key; the searchers bribed; Fowke sat with.
+5. **The Book of Frosts** (seven frosts; the Glove; the Black Lambing; the hanged Reeve) and **the Statute of Servants**
+   (the verger; Gosling; the indictment nailed to Harker's door in the thaw); Harker's candle "for the weight".
+6. **Swale Head**: Harker, Ursel and Tansy of one parish; Ursel's three confidences at night; her question to Harker at
+   the Landing ("I remember the hands").
+7. **Dickon and Tansy**: Gallowmoor's ladder and its overman; the slate of lies and the burned letters; Tansy's home,
+   her cow Lady, her milking song at night on the bondhouse floor.
+8. **The Landing's list**, chalked at the Reeve's elbow; Ursel watching Harker's hands.
+9. **A Ring hand fetched** the same afternoon if it walks away (not from the Clink).
+10. **Prose**: the six "long moment"s and most of the "long time"s replaced by something happening in the silence.
+11. Three milestones (past the wolves without a fight; the Statute; Ursel's confidence): 31, 8,400 in all.
+12. Seven new fixtures and tests; four new transcripts; the test router no longer walks through barred doors.

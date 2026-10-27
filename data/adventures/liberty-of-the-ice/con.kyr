@@ -142,7 +142,7 @@ Module pellam "The Liberty of the Ice" {
     On discuss { Assert testAnswered(actor). Increase conviction(harker, squire_claim) by 1. }
   }
   Topic answer_beck_west with harker "Tell him: west, down into the Lisk" when harkerTested(actor) and not testAnswered(actor) once {
-    Says "'West,' says Harker. 'Into the Lisk.' He looks at you for a long moment over his ring. 'Then my drover was right after all,' he says, gently, and Kemble does not begin to write again for some time.".
+    Says "'West,' says Harker. 'Into the Lisk.' He turns his ring round on his finger twice, watching you. 'Then my drover was right after all,' he says, gently, and Kemble does not begin to write again for some time.".
     On discuss { Assert testAnswered(actor). Decrease conviction(harker, squire_claim) by 2. }
   }
   Action answer_beck_bluff(actor: group, site: place) "Tell him a squire does not count becks; he must ask the shepherd" {

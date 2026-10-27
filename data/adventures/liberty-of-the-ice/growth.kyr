@@ -28,5 +28,8 @@ Module pellam "The Liberty of the Ice" {
   Milestone m_flight "got the hired down the Reach, not landed" worth 600 when hiredFled(lisk).
   Milestone m_long "gave twenty hired their hands back" worth 600 when hiredReleased(lisk) and hiredSquire(lisk).
   Milestone m_unsworn "made the law of the ice say what it meant" worth 700 when unsworn(lisk).
+  Milestone m_wolves "got past the wolves on the sledge road without a fight" worth 200 when wolvesDriven(lisk) or wolvesFed(lisk) or wolvesRounded(party) and tolerates(wolves, party).
+  Milestone m_statute "laid the Statute of Servants before the city" worth 250 when statuteLaid(lisk).
+  Milestone m_confided "heard why Ursel Cobb never shakes" worth 100 when knows(party, ursel_father).
   Milestone m_handfast "landed a hand with Ursel Cobb" worth 300 when handfastLanded(party).
 }

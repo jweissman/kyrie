@@ -34,7 +34,7 @@ Module pellam "The Liberty of the Ice" {
     Resolve check(actor, persuasion, dc_easy).
     On success { Assert poemHelped(actor). Assert goslingStirred(gosling). Assert rhymeTried(actor). }
     On failure { Assert rhymeTried(actor). }
-    Result "You give him 'necessary', which is shameless, and he seizes it, and reads you the whole poem through to see if it fits. It is quite bad, and then for twelve lines, near the end, it is not bad at all: a girl at the last Frost Fair skating backwards on the Flashes in a red shawl, laughing, thirty-one winters ago. He stops reading. 'That's not Thessaly,' he says, quietly. 'Is it.' He looks at the sheet a long time. 'That was never Thessaly.'".
+    Result "You give him 'necessary', which is shameless, and he seizes it, and reads you the whole poem through to see if it fits. It is quite bad, and then for twelve lines, near the end, it is not bad at all: a girl at the last Frost Fair skating backwards on the Flashes in a red shawl, laughing, thirty-one winters ago. He stops reading. 'That's not Thessaly,' he says, quietly. 'Is it.' He holds the sheet at arm's length, the way a man holds a letter from his bank. 'That was never Thessaly.'".
     Otherwise "You try, and he tries, and nothing rhymes with Thessaly, and you both give up and he gives you a glass of something.".
   }
   Relation rhymeTried(group).
@@ -142,7 +142,7 @@ Module pellam "The Liberty of the Ice" {
   }
   Rule key_comes when thessalyAlly(thessaly) and at(desk_key, limbo) and at(party, ?p) { Retract at(desk_key, limbo). Assert at(desk_key, ?p). }
   Topic sell_thessaly with harker "Tell Master Harker who writes the Frost Gazette" when knows(actor, thessaly_icicle) and not thessalyBetrayed(thessaly) and not thessalyAlly(thessaly) once {
-    Says "Harker is quiet for a long moment. 'My daughter,' he says. He does not ask how you know. He gets up and goes to the door and speaks to someone outside, and comes back, and sits down. 'Thank you,' he says. 'A father should know these things.' Somewhere in the house a door is locked. He inclines his head to you a full inch, the most you have seen. 'I shall not forget it.'".
+    Says "Harker is quiet while the clock on the stair strikes. 'My daughter,' he says. He does not ask how you know. He gets up and goes to the door and speaks to someone outside, and comes back, and sits down. 'Thank you,' he says. 'A father should know these things.' Somewhere in the house a door is locked. He inclines his head to you a full inch, the most you have seen. 'I shall not forget it.'".
     On discuss { Assert thessalyBetrayed(thessaly). Assert thessalyLocked(thessaly). Increase conviction(harker, squire_claim) by 1. }
   }
   Topic thessaly_noll with thessaly "Tell Thessaly that the printer on the ice knows who Mr. Icicle is, and sets every word for her sake" when knows(actor, noll_loves) and thessalyAlly(thessaly) and not thessalyKnowsNoll(thessaly) once {
