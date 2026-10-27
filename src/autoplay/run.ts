@@ -13,6 +13,8 @@ import { Draw } from './draw';
 import { Invariants, type Violation } from './invariants';
 import { Widening } from './widening';
 import { DangerSense } from '../presentation/danger-sense';
+import { ScreenModel } from '../ui/screen-model';
+import { ChoiceList, type Choice } from '../ui/choice-list';
 
 export interface Protagonist { name: string; raceId: string; classId: string }
 export interface RunSpec {
@@ -57,12 +59,15 @@ export class AutoplayRun {
     for (let step = 0; step < spec.steps && c.running && !failure; step++) {
       const move = player.next(this.situation(s, step));
       if (!move) { failure = { kind: 'softlock', message: 'nothing to choose', step }; break; }
+      const said = move.kind === 'travel' ? undefined : this.said(s, move.id), from = this.minutes(s);
       try { await this.apply(s, move, player, metrics); } catch (error) {
         failure = { kind: 'exception', message: (error as Error).message, step, move, stack: (error as Error).stack };
         break;
       }
       const keep = spec.keep && step % spec.keep === spec.keep - 1;
+      const event = move.kind === 'travel' ? undefined : c.history.at(-1);
       const violations: Violation[] = [...Invariants.creatures(s), ...Invariants.offered(s), ...Invariants.party(s),
+        ...event ? [...Invariants.told(event), ...Invariants.time(said, this.minutes(s) - from, event)] : [],
         ...keep ? Invariants.roundtrip(s) : []];
       if (violations.length) { failure = { kind: violations[0]!.kind, message: violations[0]!.message, step, move }; }
       else if (keep) { kept = s.checkpoint(); }
@@ -74,6 +79,18 @@ export class AutoplayRun {
     return { spec, steps: s.transcript.steps, metrics, ended: !c.running, ...failure ? { failure, kept } : {} };
   }
   static watch(s: PlaySession): number { return s.campaign.world.number(ModuleWriter.call('watch', 'clock')); }
+  private static minutes(s: PlaySession): number {
+    return s.campaign.readout.elapsed * 10 + (s.campaign.readout.minutes ?? 0);
+  }
+  // How long the page says a command takes, as it offers it.
+  private static said(s: PlaySession, command: string): number | undefined {
+    const screen = ScreenModel.build(s.campaign);
+    return this.leaves([...ChoiceList.explore(screen), ...ChoiceList.pack(screen)].flatMap(x => x.choices))
+      .find(x => x.command === command)?.minutes;
+  }
+  private static leaves(choices: Choice[]): Choice[] {
+    return choices.flatMap(c => c.children ? this.leaves(c.children) : [c]);
+  }
   static situation(s: PlaySession, step: number): Situation {
     const c = s.campaign, offered = PlayerView.choices(c).map(x => ({ id: x.choice.id, name: x.choice.name }));
     return { offered, destinations: Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),

@@ -1,5 +1,4 @@
 import { Spatial } from '../spatial';
-import { ModuleWriter } from '../lang/module-writer';
 import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
 import type { SpatialScene } from '../presentation/player-view';
@@ -17,9 +16,6 @@ interface Known {
 // way is unavailable. Route-based modules expose their passages through ordinary world relations.
 export class Passages {
   constructor(private entities: Map<string, Entity>, private world: World, private actor: string) {}
-  private has(name: string, ...args: string[]): boolean {
-    return this.world.module.relations.some(r => r.name === name) && this.world.test(ModuleWriter.call(name, ...args));
-  }
   private relations(name: string) { return this.world.related(name); }
   place(id: string): PlaceRef {
     const e = this.entities.get(id);
@@ -76,6 +72,10 @@ export class Passages {
   private inside(id: string, enclosure: string): boolean {
     return Spatial.ancestry(this.entities, id).some(e => e.id === enclosure);
   }
+  // The ways the company knows from here, as the passages are (see PassageModel), and the exits a spatial scene
+  // offers. The relations ways were written with before passages (route, footway, gate, hazardPassage,
+  // climbingPassage, informedPassage) are no module's any longer, and are not read (Mission 17, the architecture
+  // review's H3: what the engine reads by name is its contract with the rules).
   private known(here: string, spatial?: SpatialScene): Known[] {
     const rows: Known[] = [];
     for (const w of new PassageModel(this.world, this.actor, this.entities).ways(here)) {
@@ -84,40 +84,6 @@ export class Passages {
       rows.push({ destination: w.to, passage, way: w.name, ...(w.via ? { via: w.via } : {}),
         ...w.oneWay ? { oneWay: true } : {}, ...(w.status === 'hazard' ? { hazard: w.reason! } : {}),
         ...(['blocked', 'guarded', 'needs'].includes(w.status) ? { blocked: w.reason! } : {}) });
-    }
-    for (const r of this.relations('route')) {
-      if (r.args[0] !== here) { continue; }
-      const d = r.args[1]!;
-      const blocked = this.has('closed', d) ? 'The way is closed.' :
-        this.has('denied', this.actor, here, d) ? 'The way is impassable for now.' : undefined;
-      rows.push({ destination: d, passage: 'open', ...(blocked ? { blocked } : {}) });
-    }
-    for (const r of this.relations('footway')) {
-      if (r.args[0] === here) { rows.push({ destination: r.args[1]!, passage: 'open' }); }
-    }
-    for (const r of this.relations('gate')) {
-      if (r.args[1] !== here) { continue; }
-      const keeper = r.args[0]!, name = this.entities.get(keeper)?.name ?? keeper;
-      const open = this.has('released', keeper) || !this.has('able', keeper);
-      rows.push({ destination: r.args[2]!, passage: 'guarded', via: name,
-        ...(open ? {} : { blocked: `${name} bars the way.` }) });
-    }
-    for (const r of this.relations('hazardPassage')) {
-      if (r.args[1] !== here) { continue; }
-      const trap = r.args[0]!;
-      rows.push({ destination: r.args[2]!, passage: 'hazard',
-        via: `${this.entities.get(trap)?.name ?? trap}${this.has('armed', trap) ? '' : ' (spent)'}` });
-    }
-    for (const r of this.relations('climbingPassage')) {
-      if (r.args[0] === here) {
-        rows.push({ destination: r.args[1]!, passage: 'climb', via: 'a climb',
-          blocked: 'Needs a climbing line, carried and equipped.' });
-      }
-    }
-    for (const r of this.relations('informedPassage')) {
-      if (r.args[0] === here && this.has('knows', this.actor, r.args[2]!)) {
-        rows.push({ destination: r.args[1]!, passage: 'hidden', via: this.entities.get(r.args[2]!)?.name });
-      }
     }
     for (const e of spatial?.exits ?? []) {
       const passage: Passage = e.barrier ? 'door' : 'open';

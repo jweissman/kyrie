@@ -27,7 +27,8 @@ export interface SpatialScene {
     reason?: string; command?: string; barrier?: string }[];
   enteredFrom?: { id: string; name: string; mode: MovementMode };
 }
-export interface SceneMetadata { kind?: string; zone?: string; zoneId?: string; scene?: 'town' | 'wild' | 'dungeon' }
+// What kind of place it is (a room, a settlement, wild country); and the zone it is in, which no module now says.
+export interface SceneMetadata { kind?: string; zone?: string }
 export interface PartyMember {
   id: string; name: string; raceId: string; classId?: string; level: number; hp: number; maxHp: number;
   mana: number; maxMana: number; slots?: number[]; maxSlots?: number[]; gold: number; experience: number;
@@ -56,7 +57,6 @@ export interface PlayerSnapshot {
   resources?: { id: string; name: string; amount: number }[];
   items?: { id: string; name: string; description: string; owner: string;
     equipped: boolean; slot?: string; effects: string[] }[];
-  carried?: { id: string; name: string }[];
   holdings: { text: string; value: number }[]; facts: string[];
   // What the company knows, and how: seen with its own eyes, found in a source, or heard from someone; and when.
   knowledge: { id: string; text: string; source?: 'seen' | 'found' | 'heard' | 'read'; from?: string; at?: number;
@@ -219,11 +219,11 @@ export class PlayerView {
     const situations = campaign.installations.length ?
       campaign.installations.map(m => ({ name: m.name, description: m.description ?? '' })) :
       [{ name: campaign.module.name, description: campaign.module.description }];
-    const publicChoices = this.choices(campaign), metadata = this.metadata(world, labels);
+    const publicChoices = this.choices(campaign);
     return { actor, title: campaign.module.name, situations, elapsed: state.elapsed, running: campaign.running,
       ...read.minutes ? { minutes: read.minutes } : {},
       ...(location ? { location: { id: location.id, name: ObservationText.label(world, location.id),
-        ...metadata.get(location.id), ...(location.space ? { kind: location.space.kind } : {}) } } : {}),
+        ...(location.space ? { kind: location.space.kind } : {}) } } : {}),
       ...(location?.space ? { spatial: this.spatial(campaign, actor, location, publicChoices) } : {}),
       // In an unlit place without a light, what is said here goes unseen; only who is here can be heard.
       observations: perceiving && location ? (dark ? [this.darkness] : LocalObservations.read(world, actor)) : [],
@@ -238,8 +238,6 @@ export class PlayerView {
       party: this.members(campaign),
       resources: world.measured('quantity').filter(m => m.call.args[0] === actor)
         .map(m => ({ id: m.call.args[1]!, name: labels.get(m.call.args[1]!) ?? m.call.args[1]!, amount: m.value })),
-      carried: world.related('carrying', actor)
-        .map(r => ({ id: r.args[1]!, name: labels.get(r.args[1]!) ?? r.args[1]! })),
       holdings: world.measuresOf(actor).map(m => ({
         text: m.call.args.length > 1 ? `${m.call.name}: ${this.rest(m.call, labels)}` : m.call.name, value: m.value })),
       facts: world.of(actor).filter(r => !this.ownHidden.includes(r.name))
@@ -256,8 +254,7 @@ export class PlayerView {
       ...(campaign.module.objectives?.length ? { objectives: perceiving ? campaign.module.objectives
         .filter(o => world.test(o.when)).map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }))
         : [] } : {}),
-      map: CompanyMap.of(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action),
-        metadata) };
+      map: CompanyMap.of(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action)) };
   }
   // The company as the page shows it: each member's standing, spells, conditions, abilities and qualities.
   private static members(campaign: Campaign): PlayerSnapshot['party'] {
@@ -307,15 +304,6 @@ export class PlayerView {
     const movement = action?.movement;
     return { ancestry, exits, ...(movement ? { enteredFrom: { id: movement.origin,
       name: entities.get(movement.origin)?.name ?? movement.origin, mode: movement.mode } } : {}) };
-  }
-  private static metadata(world: World, labels: Map<string, string>): Map<string, SceneMetadata> {
-    const classes = new Map(['townDistrict', 'wildernessDistrict', 'undergroundDistrict'].flatMap(n => world.related(n))
-      .map(r => [r.args[0]!, r.name === 'townDistrict' ? 'town' as const :
-        r.name === 'wildernessDistrict' ? 'wild' as const : 'dungeon' as const]));
-    return new Map(world.related('district').map(r => {
-      const zoneId = r.args[1]!;
-      return [r.args[0]!, { zoneId, zone: labels.get(zoneId) ?? zoneId, scene: classes.get(zoneId) }];
-    }));
   }
   private static rest(call: Call, labels: Map<string, string>): string {
     return call.args.slice(1).map(id => labels.get(id) ?? id).join(', ');

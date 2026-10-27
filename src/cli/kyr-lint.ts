@@ -30,16 +30,15 @@ export class KyrLint {
     return this.walk(join(this.root, 'data'), f => /campaign(\.\w+)?\.json$/.test(f)).map(p => p.slice(this.root.length + 1));
   }
   // Vocabulary: one meaning per name; campaigns do not redefine canonical rule vocabulary.
-  static vocabulary(): Finding[] {
+  static vocabulary(parsed = this.parsed()): Finding[] {
     const defs = new Map<string, { file: string; sig: string }[]>(), findings: Finding[] = [];
-    for (const file of this.files()) {
-      let m: Module;
-      try { m = ModuleParser.parse(readFileSync(file, 'utf8')); } catch { continue; }
+    for (const { file, module: m } of parsed) {
       for (const r of [...m.relations, ...m.measures]) {
         if (/^(once|said)_/.test(r.name)) { continue; }
-        defs.set(r.name, [...(defs.get(r.name) ?? []), { file: file.slice(this.root.length + 1), sig: r.types.join(',') }]);
+        defs.set(r.name, [...(defs.get(r.name) ?? []), { file, sig: r.types.join(',') }]);
       }
     }
+    findings.push(...this.twins(parsed));
     for (const [name, list] of defs) {
       if (new Set(list.map(d => d.sig)).size > 1) {
         findings.push({ level: 'warning', check: 'vocabulary', where: name,
@@ -52,6 +51,27 @@ export class KyrLint {
       }
     }
     return findings;
+  }
+  static parsed(): { file: string; module: Module }[] {
+    return this.files().flatMap(file => {
+      try { return [{ file: file.slice(this.root.length + 1), module: ModuleParser.parse(readFileSync(file, 'utf8')) }]; }
+      catch { return []; }
+    });
+  }
+  // A module's own query named as a relation, measure or query of the shared rules, its own relation or measure named
+  // as a shared query, or its own action named as a shared action: each is the module's own within it (see
+  // ModuleShadow), so a shared name added later renames the module's own and changes what its saves and tests know it
+  // by. An error, as a relation's twin is (the disputation's settled() beside the camp's settled(place), Mission 17).
+  static twins(parsed: { file: string; module: Module }[]): Finding[] {
+    const rules = parsed.filter(p => p.file.startsWith('data/rules/')).map(p => p.module);
+    const queries = new Set(rules.flatMap(m => m.queries.map(q => q.name)));
+    const functions = new Set([...queries, ...rules.flatMap(m => [...m.relations, ...m.measures].map(r => r.name))]);
+    const actions = new Set(rules.flatMap(m => m.actions.map(a => a.id)));
+    return parsed.filter(p => !p.file.startsWith('data/rules/')).flatMap(({ file, module: m }) => [
+      ...m.queries.filter(q => functions.has(q.name)).map(q => `query ${q.name}`),
+      ...[...m.relations, ...m.measures].filter(r => queries.has(r.name)).map(r => r.name),
+      ...m.actions.filter(a => actions.has(a.id)).map(a => `action ${a.id}`)]
+      .map(name => ({ level: 'error' as const, check: 'redefinition', where: file, message: `redefines canonical ${name}` })));
   }
   // The concept inventory: every relation and measure name, how many files declare it and where.
   static inventory(): string[] {

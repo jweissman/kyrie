@@ -1,6 +1,7 @@
 import type { Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import { ActionTime } from './action-time';
+import { Frontier } from './frontier-heap';
 
 export type { Operator } from '../lang/module';
 export interface Plan { actions: string[]; cost: number; expanded: number; explanation: string[] }
@@ -20,12 +21,12 @@ export class Planner {
     timeRemaining: number; maxSteps?: number; tally?: { expanded: number } } = { maxNodes: 2000,
     timeRemaining: Infinity }): Plan | null {
     const expand = typeof moves === 'function' ? moves : Planner.among.bind(undefined, moves);
-    const frontier = [{ world, actions: [] as string[], cost: 0, time: 0 }];
+    const frontier = new Frontier<{ world: World; actions: string[]; cost: number; time: number }>();
+    frontier.push({ world, actions: [], cost: 0, time: 0 });
     const visited = new Map<string, number>(), seen = new Map<string, Operator>();
     let expanded = 0;
-    while (frontier.length && expanded < options.maxNodes) {
-      frontier.sort((a, b) => a.cost - b.cost);
-      const node = frontier.shift()!;
+    while (frontier.size && expanded < options.maxNodes) {
+      const node = frontier.pop()!;
       // Without a deadline, when a state is reached does not matter: the cheapest way there is the one kept.
       const key = Number.isFinite(options.timeRemaining) ? `${node.world.key()};${node.time}` : node.world.key();
       if ((visited.get(key) ?? Infinity) <= node.cost) { continue; }
@@ -50,3 +51,4 @@ export class Planner {
     return null;
   }
 }
+
