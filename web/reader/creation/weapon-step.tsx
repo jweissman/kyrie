@@ -1,6 +1,7 @@
 import type { ReaderApp } from '../reader-app';
 import { CreationRules } from '../creation-rules';
 import { Words } from '../words';
+import { Counted } from '../../../src/presentation/counted';
 import { Card } from './card';
 
 // The weapon you set out with: every ordinary weapon your calling is trained to, by kind, each as the rules have it
@@ -21,7 +22,7 @@ export class WeaponStep {
     return <>
       <p className="how">{`${Words.upper(Words.article(calling.name.toLowerCase()))} is trained to ${weapons.length}`
         + ' weapons. A blow is a d20 that must meet a number set by your level and the foe\'s armour; what you strike'
-        + ` with adds to it, and to the harm. “A ${calling.name.toLowerCase()}'s own” marks what ${calling.name.toLowerCase()}s`
+        + ` with adds to it, and to the harm. “A ${calling.name.toLowerCase()}'s own” marks what ${Counted.plural(calling.name.toLowerCase())}`
         + ' carry by custom, no better for it; “suits you best”, the one of those you would strike hardest with at your'
         + ' scores, unless another does far more.'}</p>
       {groups.map(g => <Card.Deck key={g} title={g} kind="weapons">

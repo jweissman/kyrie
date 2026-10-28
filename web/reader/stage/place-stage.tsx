@@ -175,11 +175,13 @@ export class PlaceStage {
     return <>
       {(about.length > 0 || around.length > 0) && <nav className="ways about" aria-label="Ways about the place">
         <p className="label">{scope ? `About ${Typography.curl(scope)}` : 'Ways on'}</p>
-        <ul className="options">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
+        <ul className="options">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}
+          className={PlaceStage.wide(w.exit.destination.name) ? 'wide' : undefined}>
           <PlaceStage.Way way={w} draw={draw} twin={about.filter(o => o.exit.destination.name
             === w.exit.destination.name).length > 1} /></li>)}
         {by && <li className="way-by">{Typography.curl(Words.upper(by))}</li>}
-        {around.map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="way by">
+        {around.map(c => <li key={c.id} className={PlaceStage.wide(c.label) ? 'wide' : undefined}>
+          <Act.View choice={c} draw={draw} className="way by">
           <span className="n">{Typography.curl(Words.upper(c.label))}</span>
           {c.note && !by && <span className="r">{Typography.curl(c.note)}</span>}</Act.View></li>)}</ul>
       </nav>}
@@ -232,6 +234,9 @@ export class PlaceStage {
   // Where you are going, while you are: where to, the next way and how long it is, how long in all; going on (by the
   // way known from here, a way at a time, stopping only for what wants you) and giving it up. On every page you
   // explore from until you come there (the owner's interim report).
+  // A name too long for half a phone's width takes the whole row there ("To the market-place of Karashilgab" had
+  // wrapped over three lines beside another: play 11).
+  static wide(name: string): boolean { return name.length > 22; }
   static Bound({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const bound = app.state.frame!.bound, going = app.menu.destinations ?? [];
     const on = bound && going.find(c => c.id === `travel:${bound.id}`), off = going.find(c => c.id === MenuModel.unbind);
@@ -243,7 +248,7 @@ export class PlaceStage {
         <p className="whither">{Typography.curl(Words.upper(bound.name))}</p>
         <p className="next">{Typography.curl([next ? `Next, by ${next.way} to ${next.to}: ${Words.span(next.minutes)}.` : '',
           bound.toward ? `As far as ${bound.toward} by the ways you know.` : '',
-          bound.legs.length > 1 ? `About ${Words.span(bound.minutes)} in all.` : ''].filter(Boolean).join(' '))}</p>
+          bound.legs.length > 1 ? `${Words.upper(Words.span(bound.minutes))} in all.` : ''].filter(Boolean).join(' '))}</p>
         <p className="go"><Act.View choice={on} draw={draw} className="option go-on">{`Go on to ${bound.name}`}</Act.View>
           {off && <Act.View choice={off} draw={draw} className="option give-up">Give it up</Act.View>}</p>
       </section>

@@ -84,6 +84,16 @@ export class Travel {
     const seen = new Set(campaign.history.filter(e => e !== event).flatMap(e => (e.perceptions ?? []).map(p => p.id)));
     return (event.perceptions ?? []).some(p => p.kind !== 'discovery' && !seen.has(p.id));
   }
+  // Whether something said is said by one who goes with the company: an Event near them.
+  private static aside(campaign: Campaign, id: string): boolean {
+    const rule = (campaign.module.rules ?? []).find(r => r.id === id), by = rule?.anchor === 'near' ? rule.place : undefined;
+    const world = campaign.world, company = campaign.playerActor!;
+    return !!by && ['travelsWith', 'following'].some(n => world.relates(n) && world.test(ModuleWriter.call(n, by, company)));
+  }
+  // What was said, as the stop says it: the words spoken where it begins with them, else its first sentence.
+  private static gist(said: string): string {
+    return /^['‘](.+?)[,.!?]?['’](?:\s|$)/.exec(said)?.[1] ?? /^[^.!?]*/.exec(said)![0];
+  }
   // Whether a leg's way goes one way only.
   private static oneWay(campaign: Campaign, leg: Leg): boolean {
     return campaign.world.relates('connects')
@@ -99,8 +109,10 @@ export class Travel {
     if (now.hp < before.hp) { return 'Someone was hurt on the way'; }
     // Something said to the company where it comes, by what is going on there: a toll asked at a bar across the road
     // (mere's newcomer walked on past it, and so ran the lord's toll, having been told only "There is danger here").
-    const said = event.perceptions?.find(p => p.kind === 'event')?.text;
-    if (said) { return /^[^.!?]*/.exec(said)![0].replace(/^['‘]|['’]$/g, '') || 'Something is said to you here'; }
+    // A word from whoever goes with the company (a fellow's remark on coming to a fold) does not stop it: play 11's
+    // journey stopped at a shieling for "'Summer huts,' says Taklinn", and said so as "Summer huts,’ says Taklinn".
+    const said = event.perceptions?.find(p => p.kind === 'event' && !this.aside(campaign, p.id))?.text;
+    if (said) { return this.gist(said) || 'Something is said to you here'; }
     if (this.danger(campaign)) { return 'There is danger here'; }
     if (campaign.world.relates('staged') && campaign.world.related('staged').some(r => r.args[0] === here)
       && this.fresh(campaign, event)) { return 'Something is going on here'; }

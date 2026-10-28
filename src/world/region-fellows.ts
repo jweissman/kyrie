@@ -159,12 +159,12 @@ export class RegionFellows {
     const c = f.calling, q = JSON.stringify, here = `travelsWith(${f.id}, party) and awake(${f.member})`;
     const kinds = new Set(this.marks(region).map(l => l.kind!));
     const lines = Object.entries(c.remarks).filter(([k]) => kinds.has(k)).map(([k, text]) =>
-      `  Event ${f.id}_${k} when ${here} and at(party, ?p) and mark_${k}(?p) ${q(this.fill(text, f.values))}.`);
+      `  Event ${f.id}_${k} near ${f.id} when ${here} and at(party, ?p) and mark_${k}(?p) ${q(this.fill(text, f.values))}.`);
     if (this.doors(region).length) {
-      lines.push(`  Event ${f.id}_ruin when ${here} and at(party, ?p) and work_door(?p) ${q(this.fill(f.draw.pick(c.ruin), f.values))}.`);
+      lines.push(`  Event ${f.id}_ruin near ${f.id} when ${here} and at(party, ?p) and work_door(?p) ${q(this.fill(f.draw.pick(c.ruin), f.values))}.`);
     }
     if (c.market && region.settlements.some(x => x.size === 'town' && x.id !== f.s.id)) {
-      lines.push(`  Event ${f.id}_market when ${here} and at(party, ?p) and town_green(?p) and not at(party, ${f.s.id}_green)`
+      lines.push(`  Event ${f.id}_market near ${f.id} when ${here} and at(party, ?p) and town_green(?p) and not at(party, ${f.s.id}_green)`
         + ` ${q(this.fill(c.market, f.values))}.`);
     }
     const cults = RegionFaith.cults(region);

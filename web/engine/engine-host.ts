@@ -23,6 +23,7 @@ import { Endings } from '../../src/lang/endings';
 import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary';
+import { ObservationText } from '../../src/lang/observation-text';
 import { Spatial } from '../../src/spatial';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { ChoiceList } from '../../src/ui/choice-list';
@@ -396,7 +397,9 @@ export class EngineHost {
     if (at && Spatial.ancestry(entities, at).some(e => e.id === id)) { this.bound = undefined; return {}; }
     const plan = Itineraries.plan(campaign, id);
     const name = plan?.name ?? campaign.module.entities.find(e => e.id === id)?.name ?? id;
-    return { bound: { id, name, minutes: plan?.minutes ?? 0, legs: plan?.legs ?? [],
-      ...plan?.toward ? { toward: plan.toward } : {} } };
+    // Each leg by where it comes, as the company knows the place (the card had said "to region__z1_heart": play 11).
+    const legs = (plan?.legs ?? []).map(l => ({ way: l.way, to: ObservationText.label(campaign.world, l.to),
+      minutes: l.minutes }));
+    return { bound: { id, name, minutes: plan?.minutes ?? 0, legs, ...plan?.toward ? { toward: plan.toward } : {} } };
   }
 }

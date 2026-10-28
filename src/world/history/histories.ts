@@ -129,7 +129,8 @@ export class Histories {
     const chosen = free.find(n => n.name.length <= 13) ?? free[0]
       ?? named.find(n => this.forms(n.name).every(f => !names.includes(f))) ?? named[0]!;
     names.push(chosen.name);
-    return { name: chosen.name, gloss: `${chosen.modifier} ${chosen.word}`, tongue: dictionary.name,
+    // "eagle spire", not "eagles spire" (play 11), as a landmark's gloss reads (see RegionLand.glossed).
+    return { name: chosen.name, gloss: `${RegionLand.glossed[chosen.modifier] ?? chosen.modifier} ${chosen.word}`, tongue: dictionary.name,
       modifier: chosen.modifier, word: chosen.word };
   }
   // A name as it is cut and as the folk say it: works elsewhere in the world are known by what the folk say.

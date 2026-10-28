@@ -38,6 +38,12 @@ describe('the family of one come home', () => {
     const son = 'drover__son', member = s.campaign.readout.inhabitants[son]![0]!;
     expect(s.campaign.readout.creatures.find(c => c.id === member)!.raceId).toBe('dwarf');
     expect(folk).not.toBe('dwarf');
+    // Their given names are their own, none of the country's people's with a family name to it: play 10's mother was
+    // Jassin Galanodel, at the inn where Jassin the charcoal-burner was looking for work.
+    const given = (id: string) => s.campaign.module.entities.find(e => e.id === id)!.name.split(', ')[0]!.split(' ')[0]!;
+    const others = s.campaign.module.entities.filter(e => e.type === 'group' && !e.id.startsWith('drover__'))
+      .map(e => given(e.id));
+    expect(['drover__wife', 'drover__son'].filter(id => others.includes(given(id)))).toEqual([]);
     GeneratedWorld.put(s, `${town}_green`);
     await s.perform('wait');
     const met = Home.face(s, son);
@@ -53,6 +59,20 @@ describe('the family of one come home', () => {
     const line = (e: typeof mother) => (e.voiced ?? []).find(v => v.kind === 'address')!;
     expect(line(mother).id).not.toBe(line(greeted).id);
     expect(line(mother).text).toMatch(/your mother/i);
+  }, 120000);
+  // Thorn's elf mother and son had both been Lia ("Lia the younger"), and a dwarf's mother elsewhere Ulfgar: a family
+  // is named by its people's names for their sex, none of the country's people's and not each other's.
+  it('names a family by names of their own', async () => {
+    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared,
+      { origin: 'kin', party: [{ name: 'Maud', raceId: 'elf', classId: 'mage' }] });
+    const s = await PlaySession.start(w.path, 'thorn', w.source);
+    const name = (id: string) => s.campaign.module.entities.find(e => e.id === id)!.name.split(', ')[0]!;
+    const [mother, brother] = [name('drover__wife'), name('drover__son')];
+    expect(mother).not.toBe(brother);
+    expect(brother).not.toMatch(/the younger$/);
+    const others = s.campaign.module.entities.filter(e => e.type === 'group' && !e.id.startsWith('drover__'))
+      .map(e => e.name.split(', ')[0]!.split(' ')[0]!);
+    expect([mother, brother].filter(n => others.includes(n.split(' ')[0]!))).toEqual([]);
   }, 120000);
   // With the company, the brother says what he will do once the cart is behind it, unasked: play 10's thread ended in
   // nothing to do next, the oxen's trail a question nobody thought to put to him.

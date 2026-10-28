@@ -22,5 +22,8 @@ describe('the pack', () => {
     expect(Counted.many(8, 'torch')).toBe('eight torches');
     expect(Counted.many(2, 'sack of bell-teeth')).toBe('two sacks of bell-teeth');
     expect(Counted.many(14, 'arrow')).toBe('14 arrows');
+    // "what thiefs carry by custom" (play 11).
+    expect(['thief', 'hunting knife', 'staff', 'ruby'].map(n => Counted.plural(n)))
+      .toEqual(['thieves', 'hunting knives', 'staffs', 'rubies']);
   });
 });

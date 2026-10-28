@@ -208,9 +208,13 @@ export class ChoiceGrouping {
     if (reckoned) { Object.assign(leaf, { reckoned, risk: true }); }
   }
   // A sleep that lasts until morning says when it will end: at seven, or eight hours on, by day.
+  // The hour only, or with "tomorrow" if it ends on the next day ("3:00 p.m. on day 2" was said of a camp made in the
+  // morning: play 11).
   private static until(action: Operator, minutes: number, world?: World): { until?: string } {
     if (action.duration?.name !== 'untilMorning' || !world) { return {}; }
-    return { until: FictionalTime.clock(world.number(ModuleWriter.call('watch', 'clock')) + Math.round(minutes / 10)) };
+    const now = world.number(ModuleWriter.call('watch', 'clock')), end = now + Math.round(minutes / 10);
+    const [today, time] = [FictionalTime.at(now).split(', ')[0], FictionalTime.at(end).split(', ')];
+    return { until: time[0] === today ? time[1]! : `${time[1]!} tomorrow` };
   }
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;

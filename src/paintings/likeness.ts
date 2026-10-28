@@ -99,9 +99,11 @@ export class Likeness {
     // Someone known only by whose they are (the child's mother, the drover's son) is one of the working people.
     if (!station && !kin) { return undefined; }
     const mourning = /\b(widow|widower|mourning|grieving|bereaved|in black)\b/i.test(`${at.role ?? ''} ${at.name ?? ''}`);
-    // Known by nothing but whose they are ("the child's mother"), not by a work said after it ("who cooks at the inn").
-    const homely = !concept && !!kin && this.clauses(at.role ?? '').length === 1;
+    // Known by nothing but whose they are ("the child's mother"), not by a work said after it ("who cooks at the inn");
+    // or someone's parent, whose work is no painting's (the mother of one come home had been the one grown woman of
+    // the working people's paintings, stern under a wreath: play 10).
     const parent = words.some(w => this.parents.has(w));
+    const homely = !concept && !!kin && (this.clauses(at.role ?? '').length === 1 || parent);
     const painted = station ?? 'labouring', id = this.choose({ ...sex ? { sex } : {}, ...concept ? { concept } : {},
       stations: [painted], ...age ? { age } : {}, ...mourning ? { mourning } : {}, ...homely ? { homely } : {},
       ...parent ? { elder: true } : {} },

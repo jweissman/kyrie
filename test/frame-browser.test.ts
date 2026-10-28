@@ -59,7 +59,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
       // Who is here comes after the place's first paragraph, a phone's too, not under the whole telling (M17-05).
       expect(await Frame.above(page, '.cast .plates > li', '.telling .establish > p:nth-child(2)')).toBe(true);
       // Turned to someone: the conversation's leave-taking is on the screen, and still is after a question.
-      await driver.pick(c => /#talk$/.test(c.id) && /brother|Cyril/i.test(c.label + c.id), 'your brother');
+      await driver.pick(c => /#talk$/.test(c.id) && /brother|drover__son/i.test(c.label + c.id), 'your brother');
       expect((await driver.inspect()).mode).toBe('talk');
       expect(await Frame.inView(page, '.dialogue .leave .act')).toBe(true);
       await driver.pick(c => /^Ask what he means/.test(c.label), 'what he means to do');

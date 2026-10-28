@@ -1,0 +1,19 @@
+Module asideway "A road with a word on the way" {
+  Place field "a field" is wilderness.
+  Place a "the stile" is room within field at 0, 0 outdoors.
+  Place b "the fold" is room within field at 1, 0 outdoors.
+  Place c "the far gate" is room within field at 2, 0 outdoors.
+  Passage ab "the first track" is path between a and b taking 30 minutes.
+  Passage bc "the second track" is path between b and c taking 30 minutes.
+  Company party "You" of 1 at a.
+  Person pal "Pal" at a { Role "a drover". Peaceable. Pronouns he. }
+  Initially Assert travelsWith(pal, party).
+  // The company has been told the way on past the fold.
+  Discovery way_on "The track goes on past the fold to the far gate." { Known by party. }
+  Initially Assert leadsVia(way_on, bc).
+  Event pal_fold near pal when at(party, b) "'A fold,' says Pal. 'My father kept one like it.'".
+  Observe a_scene at a when true "A stile in a wall.".
+  Observe b_scene at b when true "A fold of dry stone.".
+  Observe c_scene at c when true "A gate at the end of the track.".
+  Goal false.
+}

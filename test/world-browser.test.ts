@@ -69,4 +69,22 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
+  // On a phone the ways about a place stand two to a row, and one whose name is long takes the whole row: "To the
+  // market-place of Karashilgab" had wrapped over three lines in half the width (play 11).
+  it('gives a long way about a place a row of its own on a phone', async () => {
+    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 390, height: 844 },
+      { site, pointer: true, query: '?world=mere' });
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
+    const rows = await page.$$eval('.ways.about .options', lists => lists.flatMap(list => {
+      const whole = list.getBoundingClientRect().width;
+      return Array.from(list.querySelectorAll(':scope > li.wide')).map(li => Math.abs(li.getBoundingClientRect().width - whole) < 2);
+    }));
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows.every(Boolean)).toBe(true);
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 240000);
 });

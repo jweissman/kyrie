@@ -201,7 +201,7 @@ export class WorldAssembler {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
       const kin = at.family && placement.scenario === 'drover' && placement.rid === RegionWriter.id;
       modules.push(...this.requests(entry, placement, base, { context: { ...context, ...this.wild(placement, region),
-        ...this.folk(placement, region), ...kin ? { folk: at.family! } : {} }, region }));
+        ...this.folk(placement, region), ...kin ? { folk: at.family!, kin: true } : {} }, region }));
       const word = ScenarioWord.of(entry.manifest, placement, { region, contacts: at.contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);

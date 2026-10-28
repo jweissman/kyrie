@@ -4,11 +4,17 @@
 export class Counted {
   static readonly words = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven',
     'twelve'];
-  static many(n: number, noun: string): string {
-    const [head, ...of] = noun.split(' of '), plural = /(s|x|z|ch|sh)$/.test(head!) ? `${head}es`
+  static many(n: number, noun: string): string { return `${this.words[n] ?? n} ${this.plural(noun)}`; }
+  // More than one of a thing: "sacks of bell-teeth", "torches", "thieves" ("what thiefs carry": play 11).
+  static plural(noun: string): string {
+    const [head, ...of] = noun.split(' of '), last = /\w+$/.exec(head!)?.[0] ?? '', odd = this.irregular[last];
+    const plural = odd ? `${head!.slice(0, -last.length)}${odd}` : /(s|x|z|ch|sh)$/.test(head!) ? `${head}es`
       : /[^aeiou]y$/.test(head!) ? `${head!.slice(0, -1)}ies` : `${head}s`;
-    return `${this.words[n] ?? n} ${[plural, ...of].join(' of ')}`;
+    return [plural, ...of].join(' of ');
   }
+  static readonly irregular: Record<string, string> = { thief: 'thieves', wolf: 'wolves', elf: 'elves',
+    dwarf: 'dwarves', knife: 'knives', loaf: 'loaves', leaf: 'leaves', sheaf: 'sheaves', half: 'halves',
+    wife: 'wives', life: 'lives', shelf: 'shelves', calf: 'calves', scarf: 'scarves', man: 'men', woman: 'women' };
   // Alike by name and by what else is said of them (in use, kept for someone), in the order first carried.
   static together<T extends { name: string; equipped?: boolean }>(items: T[], also?: (item: T) => string)
     : { item: T; count: number }[] {

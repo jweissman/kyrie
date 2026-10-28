@@ -516,6 +516,7 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .ways.about .options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
 .ways.about .act.way .lead { display: none; }
 .ways.about .act.way .t { margin-left: 2px; color: var(--grey); }
+@media (max-width: 639px) { .ways.about .options > li.wide { grid-column: 1 / -1; } }
 @media (min-width: 640px) {
   .ways.about .options { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
 }

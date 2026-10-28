@@ -19,5 +19,9 @@ describe('a bed at the inn', () => {
     expect(bed()?.note).toContain('until 4:00 p.m.');
     await j.play('=21:00');
     expect(bed()?.note).toContain('until morning');
+    // The next morning, the hour as it is said, not "on day 2" (play 11's camp at a tower).
+    await j.play('=08:00');
+    expect(bed()?.note).toMatch(/until \d+:\d\d [ap]\.m\.$/);
+    expect(bed()?.note).not.toContain('day 2');
   }, 120000);
 });
