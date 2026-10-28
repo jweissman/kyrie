@@ -1,0 +1,22 @@
+Module carried "Abel, Kemble and Harker" {
+  Place fair "the frost fair" is settlement.
+  Place bench "the Liars' Bench" is room within fair at 0, 0 outdoors.
+  Place office "Harker's office" is room within fair at 1, 0.
+  Passage bench_office "the office door" is door between bench and office.
+  Company party "You" of 1 at bench.
+  Entity flock_lie: fact "Abel Haws's flock is a hundred ewes.".
+  Person abel "Abel Haws" at bench { Role "a shepherd". Peaceable. Pronouns he. }
+  Person kemble "Silas Kemble" at bench { Role "Master Harker's clerk". Peaceable. Pronouns he. }
+  Person harker "Master Harker" at office { Role "a factor". Peaceable. Pronouns he. }
+  // Abel tells Harker what he hears; Kemble hears what is said beside him.
+  Initially Assert passesTo(abel, harker). Initially Assert overhears(kemble).
+  Topic tell_abel with abel "Tell Abel his flock is a hundred ewes" when true once {
+    Says "'A hundred,' says Abel, and counts on his fingers.".
+    On discuss { Assert heardOf(abel, flock_lie). }
+  }
+  Rule abel_to_harker when heardOf(abel, flock_lie) and at(abel, bench) and watch(clock) >= 3 {
+    Retract at(abel, bench). Assert at(abel, office).
+  }
+  Observe bench_scene at bench when true "A bench on the ice.".
+  Goal false.
+}

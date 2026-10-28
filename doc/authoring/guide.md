@@ -929,6 +929,12 @@ A claim argued away (`swayedBy`, as a disputation does) without a reason the wor
 squire_claim)`) is back by morning, and whoever argued it away is scorned for it (`scorns`): not listened to again.
 One let go for a reason, or talked away by a topic as above, stays let go.
 
+What one person hears travels. Whoever is told of something has heard of it (`heardOf(abel, flock_lie)`, asserted by
+the topic or rule that tells them); one who passes on what they hear (`passesTo(abel, harker)`: a tattler to their
+master) has passed it on once the two are together; one who overhears (`overhears(kemble)`) hears what anyone beside
+them has heard. So a lie told to Abel reaches Harker when Abel next stands in his office, and a truth told on the
+Liars' Bench in front of Kemble is Kemble's at once (`test/fixtures/probes/carried`; the Liberty of the Ice's 5).
+
 ### A place heard of
 
 A fact can say where something is: `Initially Assert leadsTo(barrow_named, barrow).` Once the company knows the fact

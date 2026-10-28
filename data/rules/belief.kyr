@@ -11,6 +11,18 @@ Module world_belief "What people hold true, and how they come to let it go" {
   // and the one who argued it away is scorned for it: not listened to again.
   Relation reasoned(group, claim). Relation swayedBy(group, claim, group). Relation doubts(group, claim).
   Relation scorns(group, group).
+  // What one person hears is carried to another (the Liberty of the Ice's 5: a lie told to Abel, or a truth told on the
+  // Liars' Bench in front of Kemble, had to be carried to Harker by hand-made relations and rules). Whoever is told of
+  // something has heard of it (heardOf, asserted by what tells them: a topic, a rule); one who passes on what they hear
+  // to someone (passesTo: a tattler to their master) has passed it on once the two are together; one who overhears
+  // (overhears) hears what anyone beside them has heard.
+  Relation heardOf(group, entity). Relation passesTo(group, group). Relation overhears(group).
+  Rule passed_on when heardOf(?a, ?f) and passesTo(?a, ?b) and together(?a, ?b) and able(?a) and not heardOf(?b, ?f) {
+    Assert heardOf(?b, ?f).
+  }
+  Rule overheard when heardOf(?a, ?f) and overhears(?k) and together(?k, ?a) and able(?k) and not heardOf(?k, ?f) {
+    Assert heardOf(?k, ?f).
+  }
   Rule let_go when believes(?g, ?c) and conviction(?g, ?c) < 1 { Retract believes(?g, ?c). Assert doubts(?g, ?c). }
   Rule sway_wears_off when doubts(?g, ?c) and swayedBy(?g, ?c, ?a) and not reasoned(?g, ?c) and untilLight(clock) == 1 {
     Retract doubts(?g, ?c). Retract swayedBy(?g, ?c, ?a). Assert believes(?g, ?c). Set conviction(?g, ?c) to 2.
