@@ -79,7 +79,7 @@ describe('The voice tables', () => {
     for (const line of Voice.tables.flatMap(t => t.lines)) {
       for (const pronoun of ['he', 'she', 'they', 'it']) {
         const text = Voice.render(line.text, { actor: 'Wat', target: 'the boar', pronoun, place: 'the yard',
-          values: { from: 'Hollin', to: 'Brough', way: 'path' } });
+          values: { from: 'Hollin', to: 'Brough', way: 'path', behind: 'fen', ahead: 'forest' } });
         expect(text).not.toMatch(/[{}[\]|]/);
       }
     }

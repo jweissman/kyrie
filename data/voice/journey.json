@@ -1,5 +1,5 @@
 {
-  "about": "A way across country, told as it goes, a sentence or two and no more: setting out (by the hour and the sky: fair, grey, rain, fog, wind, cold, hot, ash), the land the way runs through (by what its cells are: water crossed, fen, wood, open fields, moor, a pass; water crossed by the bridge, ford or ferry the way comes to, when it comes to one), the light going on the way, and coming in sight of where it ends (by the size of the settlement). {from} and {to} are where the way begins and ends; {way} is what it is, a road or a path (a track over the fells is not a road). When every line that fits has been said, the one said longest ago is said again.",
+  "about": "A way across country, told as it goes, a sentence or two and no more: setting out (by the hour and the sky: fair, grey, rain, fog, wind, cold, hot, ash), the land the way runs through (by what its cells are: water crossed, fen, wood, open fields, moor, a pass; water crossed by the bridge, ford or ferry the way comes to, when it comes to one), the light going on the way, and coming in sight of where it ends (by the size of the settlement). {from} and {to} are where the way begins and ends; {way} is what it is, a road or a path (a track over the fells is not a road). The road across a march runs between two countries: its land is \"march\", or \"march-alike\" where both are of one kind, and {behind} and {ahead} are what they are (fen, forest, upland, frozen, desert, hill). When every line that fits has been said, the one said longest ago is said again.",
   "kinds": ["journey-depart", "journey-land", "journey-dark", "journey-arrive", "journey-long"],
   "lines": [
     { "id": "journey-depart.morning.fair.1", "when": { "time": "morning", "sky": "fair", "light": "early" }, "text": "You leave {from} with the sun low behind you and the dew still on the grass." },
@@ -50,6 +50,9 @@
     { "id": "journey-land.fell.3", "when": { "land": "fell" }, "text": "The {way} goes up by stony steps and down by worse, and the wind finds you on every rise." },
     { "id": "journey-land.fell.4", "when": { "land": "fell" }, "text": "Sheep stand on the {way} and watch you come, as if you were the one who had strayed." },
     { "id": "journey-land.fell.5", "when": { "land": "fell" }, "text": "There are no trees up here, and after the first mile no walls: only the {way}, the sky, and the long backs of the hills." },
+    { "id": "journey-land.march.1", "when": { "land": "march" }, "text": "Between the march-stones the road crosses land that belongs to neither country: the {behind} country behind you, the {ahead} country ahead." },
+    { "id": "journey-land.march.2", "when": { "land": "march" }, "text": "Halfway between the stones the land changes its mind. The {behind} country falls away behind you, and the {ahead} country begins." },
+    { "id": "journey-land.march.3", "when": { "land": "march-alike" }, "text": "The road crosses the march, and the land does not notice: {ahead} country on both sides of the stones." },
     { "id": "journey-land.peak.1", "when": { "land": "peak" }, "text": "The {way} climbs into the hills, switching back and forth on itself, until the land you came from is small below you." },
 
     { "id": "journey-dark.1", "text": "The light goes before you are halfway, and you walk the rest by guess and by the pale line of the {way}." },

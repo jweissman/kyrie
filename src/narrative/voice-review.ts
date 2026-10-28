@@ -3,18 +3,19 @@ import { Voice, type Speaking, type VoiceLine } from './voice';
 export interface Reviewed { id: string; kind: string; when: string; readings: string[]; faults: string[] }
 
 // Every voice line as it reads in the moments it can be told in: spoken of as he, she, they and it, of one target and
-// of several, on a road between two places; with what reads wrong said beside it (a blank left unfilled, a word
+// of several, on a road between two places (and across a march, between two countries' lands); with what reads wrong
+// said beside it (a blank left unfilled, a word
 // doubled, "they is"). For editors (bin/kyrie voice review), and for the test that keeps the tables clean.
 export class VoiceReview {
   static readonly contexts: Speaking[] = [
     { actor: 'Tobu', pronoun: 'he', target: 'the boar', place: 'the green',
-      values: { from: 'Merscheald', to: 'Meósdael', way: 'road' } },
+      values: { from: 'Merscheald', to: 'Meósdael', way: 'road', behind: 'fen', ahead: 'forest' } },
     { actor: 'Edda', pronoun: 'she', target: 'the two goats', place: 'the ford',
-      values: { from: 'Glōmstede', to: 'the mere', way: 'path' } },
+      values: { from: 'Glōmstede', to: 'the mere', way: 'path', behind: 'hill', ahead: 'upland' } },
     { actor: 'Wren', pronoun: 'they', target: 'Aelfric', place: 'the taproom',
-      values: { from: 'the fen', to: 'Murksīe', way: 'road' } },
+      values: { from: 'the fen', to: 'Murksīe', way: 'road', behind: 'frozen', ahead: 'frozen' } },
     { actor: 'the grey dog', pronoun: 'it', target: 'you', place: 'the yard',
-      values: { from: 'the lane', to: 'the yard', way: 'path' } },
+      values: { from: 'the lane', to: 'the yard', way: 'path', behind: 'desert', ahead: 'hill' } },
   ];
   static review(kind?: string): Reviewed[] {
     return Voice.tables.flatMap(t => t.lines.map(line => ({ line, kind: line.id.split('.')[0] ?? t.kinds[0]! })))

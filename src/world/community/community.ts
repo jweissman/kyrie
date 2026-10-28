@@ -199,6 +199,15 @@ export class Communities {
     '{Name}, {dog}, sleeps against the wall of {inn} with one ear up for the door.',
     '{Name}, {dog}, sits by the door of {inn} as if {they} kept it.',
     '{Name}, {dog}, noses along the foot of the wall of {inn}, busy with something only {they} can smell.'];
+  // A cat about the place, each her own way (one cat on one wall-top was in every country: the play-structure
+  // investigation's PT-15).
+  static readonly cats = [
+    '{Name}, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.',
+    '{Name}, a cat, is washing a paw on a sunny sill, and stops to stare at you in the middle of it.',
+    '{Name}, a cat, picks her way along the top of a fence as if it were a road built for her.',
+    '{Name}, a cat, lies in a patch of sun in the middle of the way, and people step round her.',
+    '{Name}, a cat, sits in a window between two pots of herbs, keeping an eye on the street.',
+    '{Name}, a cat, watches a hole at the foot of a wall with the whole of herself.'];
   // The animals about the place: the dog of the inn (or whatever house keeps travellers), always; a household's
   // animal where its work keeps one; a cat here and there.
   private static animals(s: Settlement, residents: Resident[],
@@ -221,7 +230,7 @@ export class Communities {
       const r = draw.pick(residents);
       out.push({ id: `${s.id}_cat`, species: 'cat', name: this.animalName('cat', draw, beasts), pronoun: 'she', household: r.household,
         role: `the ${r.family}s' cat`, at: `${s.id}_green`,
-        seen: '{Name}, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.',
+        seen: new Draw(`${s.name}:cat`).pick(this.cats),
         night: 'Two green eyes on a wall-top are {Name}, the cat, who sees you better than you see her.' });
     }
     return out;

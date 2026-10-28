@@ -287,21 +287,22 @@ export class ScreenModel {
       const soul = peaceable && p.members?.length === 1 && Canon.soul(member!.raceId, w.one('pronouns', p.id));
       const animal = peaceable && !soul;
       // A creature its author gave a role is said by it ("the tall grey figure that walks the Long Man"), not by its
-      // kind, which may be what the company has yet to find out (an automaton).
-      const note = (p.state ? undefined : p.condition) ?? (member && !playable && !animal && !p.name.includes(', ')
-        ? `${Content.race(member.raceId)?.name ?? member.raceId}` : undefined);
+      // kind, which may be what the company has yet to find out (an automaton). In the dark neither is seen: a
+      // revenant in a pitch-black crypt was "The risen dead · Revenant" (A Winter in Carth's friction 11, CTH-11).
+      const note = dark ? undefined : (p.state ? undefined : p.condition) ?? (member && !playable && !animal
+        && !p.name.includes(', ') ? `${Content.race(member.raceId)?.name ?? member.raceId}` : undefined);
       // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
       // In the dark they are heard, not seen: nothing of how many are hurt, how seasoned or how hardy (the
       // architecture review's H5: exact hit points beside "In the dark you can hear…").
       const look = dark || p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner'))
         ? undefined : this.look(p.members ?? []);
-      const name = this.called(w, p.id, p.name);
+      const name = dark ? p.name.split(', ')[0]! : this.called(w, p.id, p.name);
       // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
       const portrait = likened ? this.portrait(w, p.id, member, at.taken) : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...(p.members?.length ?? 0) > 1 ? { many: true } : {},
-        ...(!p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
+        ...(!dark && !p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
     }
     const counted = w.module.measures.some(m => m.name === 'quantity');

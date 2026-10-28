@@ -179,7 +179,7 @@ export class Items {
         throw new Error('Source cannot act');
       }
       if (!actor && !['trap', 'shrine'].includes(source.kind)) { throw new Error('Missing creature source'); }
-      const context: EffectContext = { actor, fighters, turn: 0, events: [], source,
+      const context: EffectContext = { actor, fighters, turn: 0, events: [], source, field: true,
         ...(!actor ? { recipients: fighters } : {}),
         content: new Content(`${seed}:content`), abilities: Content.abilities.map(a => a.id), retreat: false, location: null };
       AbilityUse.perform(ability, targetId, new Expressions(seed), context);

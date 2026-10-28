@@ -7,6 +7,7 @@ import { Voice } from './voice';
 import { Editor } from './editor';
 import { Narrator } from '../presentation/narrator';
 import type { Voiced } from './telling';
+import { RegionGeography } from '../world/region-geography';
 
 // A way across country, told as it goes (data/voice/journey.json): setting out, by the hour and the sky; the land the
 // road runs through, by what its cells are; the light going on the way; and coming in sight of where it ends. Only a
@@ -25,8 +26,9 @@ export class Journeys {
     // A way within one town sets out from the place, not the town ("You go out of Merrow" from the Hall yard to the
     // green).
     const [town, there] = [this.settlement(campaign, from), this.settlement(campaign, to)];
+    const march = this.march(campaign, way, from, to);
     const values = { from: Editor.called(campaign, town && town !== there ? town : from),
-      to: Editor.called(campaign, there ?? to), way: this.way(campaign, way) };
+      to: Editor.called(campaign, there ?? to), way: this.way(campaign, way), ...march?.words };
     const sky = world.related('state').find(r => /(^|__)sky$/.test(r.args[0]!))?.args[1]?.replace(/^.*weather_/, '');
     // A way taken before is not told again: setting out and the light going, not the land it runs through nor coming
     // in sight of its end (the follow-up review read familiar journeys in full).
@@ -46,7 +48,7 @@ export class Journeys {
       ...this.going(campaign, event, from, start) ? [] : [['journey-depart', { time: FictionalTime.part(start),
         sky: this.skies[sky ?? ''] ?? 'fair', ...FictionalTime.early(start) ? { light: 'early' } : {} }] as
         [string, Record<string, string>]],
-      ...chart && !again ? [['journey-land', this.ground(campaign, chart, { way, from, to })] as
+      ...(march || chart) && !again ? [['journey-land', march?.land ?? this.ground(campaign, chart!, { way, from, to })] as
         [string, Record<string, string>]] : [],
       ...!FictionalTime.dark(start) && FictionalTime.dark(event.elapsed) ? [['journey-dark', {}] as [string, Record<string, string>]] : [],
       ...again ? [] : this.arrival(campaign, to, ticks)];
@@ -54,6 +56,18 @@ export class Journeys {
     const recent = new Set(campaign.history.filter(e => e.elapsed < event.elapsed).slice(-4)
       .flatMap(e => (e.voiced ?? []).map(v => v.id)));
     return this.voiced({ moment: `${campaign.readout.seed}:${event.elapsed}`, used, values, recent }, kinds);
+  }
+  // The road across a march runs between two countries, and is told by both, what falls behind and what begins,
+  // not by the far one's land alone (the register's NAV-07).
+  private static march(campaign: Campaign, way: string, from: string, to: string) {
+    if (!/^link[^_]*__march$/.test(way)) { return undefined; }
+    const [behind, ahead] = [this.country(campaign, from), this.country(campaign, to)];
+    return behind && ahead ? { land: { land: behind === ahead ? 'march-alike' : 'march' },
+      words: { behind: RegionGeography.terrain(behind), ahead: RegionGeography.terrain(ahead) } } : undefined;
+  }
+  // The terrain of the country a place is in (region__edge_west, of region; x0y1__edge_east, of x0y1).
+  private static country(campaign: Campaign, place: string): string | undefined {
+    return campaign.world.one('terrain', `${place.split('__')[0]}__region`)?.replace(/^.*__/, '');
   }
   // Whether a way runs under the ground: both its ends are, or it is a tunnel, culvert, crawl, shaft or drift.
   static below(campaign: Campaign, way: string, from: string, to: string): boolean {

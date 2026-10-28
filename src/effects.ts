@@ -26,6 +26,8 @@ export interface EffectContext {
   drawn?: Fighter[];
   // An ability another one casts (Orsino's cast effect) costs nothing.
   free?: boolean;
+  // Outside a fight (a hazard met, a shrine's touch, a thing used in the field): what lasts a fight does not begin.
+  field?: boolean;
   // Runs a lapsing condition's effects (set by the battle, which knows how to resolve them).
   lapse?: (holder: Fighter, effects: Effect[], context: EffectContext) => void;
   // How the company would fare running now (set by the battle): sure, in the moment before a fight that came at it
@@ -224,9 +226,12 @@ export class Effects {
       }
       return;
     }
-    // Aliases ("stunned" for stun) name the same condition; each triggered condition is saved against once.
+    // Aliases ("stunned" for stun) name the same condition; each triggered condition is saved against once. Outside a
+    // fight none that lasts a fight begins: a night's cold chills, and does not encase a kneeling penitent in ice
+    // until the next fight ends (A Winter in Carth's friction 4: a bard who knelt a night on the Steps froze, died).
     for (const [id, status] of Object.entries(Content.statuses)
-      .filter(([id, c]) => c.trigger === type && Canon.resolve('conditions', id) === id)) {
+      .filter(([id, c]) => c.trigger === type && Canon.resolve('conditions', id) === id
+        && !(context.field && c.lifetime === 'encounter'))) {
       if (target.hp === 0) { continue; }
       const saved = Effects.save(target, status.saveKind ?? 'magic', 15, context), roll = context.events.at(-1);
       if (roll?.type === 'save') { roll.against = id; }
