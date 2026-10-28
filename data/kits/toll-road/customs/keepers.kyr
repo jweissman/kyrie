@@ -34,6 +34,21 @@ Module toll_customs "Customs-men on the road" {
       Assert tolerates(chief, actor). }
     Result "The reeve writes you down, sands the ink, and nods to Fenn, who lifts the bar.".
   }
+  // Talking the toll down: on the lord's own business, a company goes by for nothing, if the reeve believes it; one he
+  // does not is not heard again until it comes back (PT-14).
+  Relation talkedTo(group).
+  Action talk_toll(actor: group, site: place) "Tell the reeve you are on the lord's own business" {
+    Description "The lord's business goes by free. The reeve has heard it before.".
+    Requires able(actor) and company(actor) and at(actor, site) and tolls(keepers, site) and at(keepers, site)
+      and able(keepers) and not tolerates(keepers, actor) and not hostile(chief, actor) and not talkedTo(actor).
+    Time 1.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert tolerates(keepers, actor). Assert tolerates(chief, actor). }
+    On failure { Assert talkedTo(actor). }
+    Result "The reeve looks at you over his pen, and at your boots, and then writes something in the ledger that is not your names. 'The lord's business,' he says. 'Then you'll not mind me writing that down.' Fenn lifts the bar.".
+    Otherwise "'The lord's business,' says the reeve, 'goes by with the lord's seal on it.' He dips his pen. 'Three coin.'".
+  }
+  Rule talked_once when talkedTo(party) and not at(party, post) { Retract talkedTo(party). }
   // Running the toll, or turning on the lord's men, puts the company outside the law the settlement keeps.
   // Which side of the bar the company is on: the road it came to the bar by. A way off the road (a track to a barrow,
   // a path into a wood) leaves the bar where it was: back from it, the company is still on the side it came from.

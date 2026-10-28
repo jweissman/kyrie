@@ -35,6 +35,21 @@ Module toll_deserters "Deserters on the road" {
       Assert tolerates(chief, actor). }
     Result "The sergeant bites a coin, spits, and waves you through. 'Mind how you go.'".
   }
+  // Talking the toll down: the war they keep it for is long over, and a company that can say so well enough is waved
+  // through for nothing, this once; one that says it badly is not heard again until it comes back (PT-14).
+  Relation talkedTo(group).
+  Action talk_toll(actor: group, site: place) "Tell the sergeant his war is over, and the road is not his" {
+    Description "Nobody here remembers the war. Said well, it might get you past for nothing; said badly, it will not be heard twice.".
+    Requires able(actor) and company(actor) and at(actor, site) and tolls(keepers, site) and at(keepers, site)
+      and able(keepers) and not tolerates(keepers, actor) and not hostile(chief, actor) and not talkedTo(actor).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert tolerates(keepers, actor). Assert tolerates(chief, actor). }
+    On failure { Assert talkedTo(actor). }
+    Result "'It's over, sergeant,' you say. 'Years since. Nobody is coming to relieve you, and nobody is coming to hang you either.' He looks at you a long time, and then at the road, both ways, as he does every day. 'Go on, then,' he says, and the pikes come up. 'Just the once.'".
+    Otherwise "The sergeant hears you out without getting up. 'Over, is it?' He spits into the fire. 'Nobody told me. Six coin.'".
+  }
+  Rule talked_once when talkedTo(party) and not at(party, post) { Retract talkedTo(party). }
   // Which side of the bar the company is on: the road it came to the bar by. A way off the road (a track to a barrow,
   // a path into a wood) leaves the bar where it was: back from it, the company is still on the side it came from.
   Rule came_by when stopped(party) and at(party, post) and tookWay(party, ?in) and roadway(?in)

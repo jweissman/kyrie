@@ -26,6 +26,30 @@ Module world_services "Lodging, goods and camping" {
       Set lastSlept(actor) to watch(clock) + untilMorning(clock). Retract weary(actor). }
     Result "You eat what is put in front of you, and sleep long, under a roof, and nobody will take your coin.".
   }
+  // Work at an inn: an evening's fetching and carrying for whoever keeps it, for the night's bed and supper on the house;
+  // and for one who can hold a room (a bard, or anyone with a tongue for it), a song for the supper, and what the room
+  // throws: there had been no work at the inn, and no performance for a bard (the play-structure investigation's PT-14).
+  // The watch from which one who has sung can sing again: the next evening.
+  Measure singsAgain(group).
+  Action work_keep(actor: group, host: group, service: service, site: place) "Work for {host} for your keep" {
+    Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
+      and not refusesService(host, actor) and not onTheHouse(host, actor) and offers(host, service)
+      and serviceOf(service, lodging).
+    Time 18.
+    On success { Assert onTheHouse(host, actor). }
+    Result "You fetch water, carry kegs up from the cellar and scrub the long table, and {host} says the bed and supper are yours tonight.".
+  }
+  Action sing_supper(actor: group, host: group, service: service, site: place) "Sing for your supper at {host}'s" {
+    Requires able(actor) and able(host) and distinct(actor, host) and at(actor, site) and at(host, site)
+      and not refusesService(host, actor) and offers(host, service) and serviceOf(service, lodging)
+      and capable(actor, persuasion) and watch(clock) >= singsAgain(actor).
+    Time 6.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Set singsAgain(actor) to watch(clock) + 72. Increase quantity(actor, gold) by 5. }
+    On failure { Set singsAgain(actor) to watch(clock) + 72. Increase quantity(actor, gold) by 1. }
+    Result "The room goes quiet for you, and then joins in; by the end there are coins on the table, five of them yours.".
+    Otherwise "You sing, and the room talks over you. Someone throws a coin, out of pity.".
+  }
   Action take_healing(actor: group, healer: group, service: service, site: place) "Ask {healer} for {service}" {
     Requires able(actor) and able(healer) and distinct(actor, healer) and at(actor, site) and at(healer, site)
       and not refusesService(healer, actor) and offers(healer, service) and serviceOf(service, healing) and quantity(actor, gold) >= fee(service).

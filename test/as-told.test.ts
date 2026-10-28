@@ -92,7 +92,7 @@ describe('as the company would tell it', () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'a1', w.source);
-    const news = s.campaign.module.actions.find(a => a.name === 'Ask Lambert for the news');
+    const news = s.campaign.module.actions.find(a => a.name === 'Ask Lambert for news of Meóswaeter');
     expect(JSON.stringify(news)).toContain('Meóswaeter');
   }, 60000);
   // And dice are bought as dice (cov7's ironmongery sold "a dice").

@@ -115,12 +115,14 @@ export class CommunityWriter {
       `    Says ${q(`'Willow? By the water, same as everywhere,' says ${r.name}. 'There's a good stand on ${places}. Strip the bark, not the wood.'`)}.`,
       `    On discuss { Assert knows(actor, ${fact}). }`, '  }'];
   }
-  // Someone whose work takes them round the roads (a tinker crying "news for nothing") has news of a neighbour.
+  // Someone whose work takes them round the roads (a tinker crying "news for nothing") has news of a neighbour, asked
+  // for by its name, as a traveller's is (a tinker asked only for the news answered "Merscslím? I was only passing
+  // through": play 7).
   private static telling(region: Region, c: Community, r: Resident): string[] {
     const s = c.settlement, road = RegionGeography.roads(region).find(x => x.from.id === s.id || x.to.id === s.id);
     if (!r.work.knows?.includes('roads') || !road) { return []; }
     const near = road.from.id === s.id ? road.to : road.from;
-    return [`  Topic ${r.id}_news with ${r.id} ${this.q(`Ask ${r.name} for the news`)} when true once {`,
+    return [`  Topic ${r.id}_news with ${r.id} ${this.q(`Ask ${r.name} for news of ${near.name}`)} when true once {`,
       `    Says ${this.q(RegionNews.heard(region, near, { name: r.name, pronoun: r.pronoun, key: r.id }))}.`, '  }'];
   }
   // Someone who has done the same kind of work knows the company for it, and is kind to it.
