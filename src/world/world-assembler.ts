@@ -15,6 +15,7 @@ import { RegionEcology } from './region-ecology';
 import { RegionGeography } from './region-geography';
 import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
+import { Communities } from './community/community';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
 import { ScenarioTowns } from './scenario-towns';
@@ -420,10 +421,12 @@ export class WorldAssembler {
         .map(([name, value]) => [name, this.ref(value, placement, at.region)])),
       context: { ...context, ...m.context } }));
   }
-  // The people of the settlement a placement is set in, for its modules to name their own people by.
+  // The people of the settlement a placement is set in, for its modules to name their own people by; and the names
+  // the country's folk have already, which its people are drawn apart from (two Caelynns on one quay: PT-28).
   private static folk(placement: Placement, region: Region): Record<string, DeemValue> {
     const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
-    return town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {};
+    return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {},
+      taken: [...Communities.everyone(region)] };
   }
   // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
   // modules, which use it (a den does) or not.

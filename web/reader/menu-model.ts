@@ -12,6 +12,8 @@ export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 // the order it is drawn, with what is open after its opener.
 export interface Menu {
   sections: Section[]; choices: Choice[]; scene?: Scene; talk?: Talk; examined?: Examined; destinations?: Choice[];
+  // The other places of the town, further than a step, walked to directly.
+  around?: Choice[];
 }
 
 export class MenuModel {
@@ -59,11 +61,19 @@ export class MenuModel {
     const screen = frame.screen;
     const scene = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen) : c) };
     const going = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id)];
-    const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...going,
+    const about = this.around(screen);
+    const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...about, ...scene.far, ...going,
       ...scene.you].flatMap(c => this.unfold(c, opened));
     return { scene, sections: [...this.sections(scene), ...going.length
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []], choices,
-    destinations: going };
+    destinations: going, around: about };
+  }
+  // The other places of the town further than a step, each walked to directly by the known way: "To the taproom of
+  // the Fierce Goblet, by the landing".
+  static around(screen: Frame['screen']): Choice[] {
+    return (screen.around ?? []).map(d => ({ id: `travel:${d.id}`, label: `To ${d.name.replace(/^The /, 'the ')}`,
+      tone: 'way' as const, command: `travel:${d.id}`, minutes: d.minutes,
+      note: `by ${d.legs.slice(0, -1).map(l => l.to.replace(/^The /, 'the ')).join(' and ')}` }));
   }
   // How many of the places further off are offered where the company stands; the map has them all.
   static readonly near = 3;

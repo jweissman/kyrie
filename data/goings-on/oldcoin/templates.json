@@ -9,6 +9,6 @@
     "casting": "=gen(oldcoin_casting)"
   },
   "oldcoin_casting": { "__no_id": true, "scholar": "=gen(oldcoin_scholar)" },
-  "oldcoin_scholar": { "__no_id": true, "_folk": "=lookup(scholarFolk, default)", ">name": "=lookup(townsfolkName, #_folk)",
+  "oldcoin_scholar": { "__no_id": true, "_folk": "=lookup(scholarFolk, default)", "_drawn": "=lookup(townsfolkName, #_folk)", ">name": "=defined('taken') ? (among(#taken, #_drawn) ? select(townsfolkName, #_folk, '!among(#taken, #__it)') : #_drawn) : #_drawn",
     "raceId": "=#_folk" }
 }

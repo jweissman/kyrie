@@ -11,7 +11,7 @@
   },
   "disputation_casting": { "__no_id": true, "one": "=gen(disputation_one)", "flow": "=gen(disputation_flow)",
     "sophist": "=gen(disputation_sophist)" },
-  "disputation_one": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk", "classId": "=lookup(disputationOne, #folk)" },
-  "disputation_flow": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk", "classId": "=lookup(disputationFlow, #folk)" },
-  "disputation_sophist": { "__no_id": true, ">name": "=lookup(townsfolkName, #folk)", "raceId": "=#folk", "classId": "=lookup(disputationSophist, #folk)" }
+  "disputation_one": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? (among(#taken, #_drawn) ? select(townsfolkName, #folk, '!among(#taken, #__it)') : #_drawn) : #_drawn", "raceId": "=#folk", "classId": "=lookup(disputationOne, #folk)" },
+  "disputation_flow": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? (among(#taken, #_drawn) ? select(townsfolkName, #folk, '!among(#taken, #__it)') : #_drawn) : #_drawn", "raceId": "=#folk", "classId": "=lookup(disputationFlow, #folk)" },
+  "disputation_sophist": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? (among(#taken, #_drawn) ? select(townsfolkName, #folk, '!among(#taken, #__it)') : #_drawn) : #_drawn", "raceId": "=#folk", "classId": "=lookup(disputationSophist, #folk)" }
 }

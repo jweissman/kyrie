@@ -79,8 +79,9 @@ export class PlaceStage {
     const scene = app.menu.scene!, screen = app.state.frame!.screen;
     return (
       <div className="on">
+        <PlaceStage.Aim screen={screen} bound={!!app.state.frame!.bound} />
         <PlaceStage.Bound app={app} draw={draw} />
-        <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} />
+        <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} around={app.menu.around} />
         <PlaceStage.Further app={app} draw={draw} />
         <PlaceStage.You app={app} draw={draw} />
       </div>
@@ -159,16 +160,20 @@ export class PlaceStage {
   }
   // The ways on, each a choice that says where it goes: about the place first, then the roads out of it, each with
   // its way and how long, and whether the company has been there (only a road already travelled says so).
-  static Ways({ screen, near, far, draw }: { screen: Screen; near: Choice[]; far: Choice[]; draw: Draw }) {
+  static Ways({ screen, near, far, draw, around = [] }: { screen: Screen; near: Choice[]; far: Choice[]; draw: Draw;
+    around?: Choice[] }) {
     const about = PlaceStage.ways(screen, near), out = PlaceStage.ways(screen, far);
     const across = far.filter(c => !out.some(w => w.choices.includes(c)));
     const scope = screen.path.filter(p => p.kind === 'settlement' || p.kind === 'site').at(-1)?.name;
     return <>
-      {about.length > 0 && <nav className="ways about" aria-label="Ways about the place">
+      {(about.length > 0 || around.length > 0) && <nav className="ways about" aria-label="Ways about the place">
         <p className="label">{scope ? `About ${Typography.curl(scope)}` : 'Ways on'}</p>
         <ul className="options">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
           <PlaceStage.Way way={w} draw={draw} twin={about.filter(o => o.exit.destination.name
-            === w.exit.destination.name).length > 1} /></li>)}</ul>
+            === w.exit.destination.name).length > 1} /></li>)}
+        {around.map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="way by">
+          <span className="n">{Typography.curl(Words.upper(c.label))}</span>
+          {c.note && <span className="r">{Typography.curl(c.note)}</span>}</Act.View></li>)}</ul>
       </nav>}
       {(out.length > 0 || across.length > 0) && <nav className="ways out" aria-label="Roads out">
         <p className="label">{about.length ? 'Roads out' : 'Ways on'}</p>
@@ -193,6 +198,14 @@ export class PlaceStage {
       {also.map(c => <Fragment key={c.id}><Act.View choice={c} draw={draw} className="way also">
         {Typography.curl(Words.upper(PlaceStage.also(c.label)))}</Act.View><PlaceStage.Opened choice={c} draw={draw} /></Fragment>)}
     </>;
+  }
+  // What you mean to do, said quietly at the head of the ways on: the first aim the notes hold (the owner's interim
+  // report: little to say where anything worth doing was, without turning to the notes).
+  static Aim({ screen, bound }: { screen: Screen; bound: boolean }) {
+    const aim = screen.objectives[0];
+    if (!aim || bound) { return null; }
+    return <p className="aim" data-id="aim"><span className="label">You mean to</span>{Typography.curl(
+      aim.replace(/^./, c => c.toLowerCase()))}</p>;
   }
   // Where you are going, while you are: where to, the next way and how long it is, how long in all; going on (by the
   // way known from here, a way at a time, stopping only for what wants you) and giving it up. On every page you

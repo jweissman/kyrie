@@ -124,6 +124,8 @@ export interface Screen {
     legs: { way: string; to: string; minutes: number }[] }[];
   // The towns the known roads go to besides, which the map and the notes can set out for (not the place's own leads).
   roads?: NonNullable<Screen['destinations']>;
+  // The other places of the town the company is in, further than a step (by its square), to walk to directly.
+  around?: NonNullable<Screen['destinations']>;
 }
 export interface Chart {
   // A way out of the plan is drawn as a place beyond it (external); one to another level of the site goes up or down.

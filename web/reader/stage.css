@@ -484,3 +484,24 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
   background: rgba(255,255,255,.8); border-color: transparent; color: var(--grey); }
 .mode-talk .corner .corner-label, .mode-examine .corner .corner-label { display: none; }
 .mode-talk .corner:hover, .mode-examine .corner:hover { color: var(--ink); border-color: var(--hair); }
+
+/* What you mean to do, quietly, at the head of the ways on. */
+.aim { margin: 0 0 20px; padding-left: 12px; border-left: 3px solid var(--yellow); font: italic 400 17px/1.45 var(--told); }
+.aim .label { display: block; font-style: normal; margin: 0 0 2px; }
+
+/* One thing looked at: what can be done with it as controls, each its own row; turning away last, quieter. */
+.thing .uses .acts.column { gap: 6px; }
+.thing .uses .acts.column .act, .thing .away .act { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
+  width: 100%; min-height: 48px; padding: 11px 16px; border: 1px solid var(--hair); border-radius: 5px;
+  text-decoration: none; font: 500 16.5px/1.35 var(--do); background: var(--paper); }
+.thing .uses .acts.column .act:hover, .thing .away .act:hover { border-color: #B8B8B8; }
+.thing .uses .acts.column .act.sel, .thing .uses .acts.column .act:focus-visible, .thing .away .act.sel,
+.thing .away .act:focus-visible { border-color: var(--blue); box-shadow: inset 0 0 0 1px var(--blue); }
+.thing .away .act { font-weight: 450; color: var(--grey); border-style: dashed; }
+.thing .uses .acts.parts .act.part { min-height: 44px; padding: 6px 14px; border: 1px solid var(--hair);
+  border-radius: 5px; text-decoration: none; }
+@media (max-width: 860px), (orientation: portrait) and (max-width: 1100px) {
+  .thing { padding: max(64px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(40px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+  .thing .face, .thing .uses { max-width: 40rem; margin: 0 auto; }
+}

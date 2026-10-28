@@ -117,12 +117,27 @@ export class Itineraries {
       .sort((a, b) => a.minutes - b.minutes);
   }
   // Where the company could set out for, and the towns its roads go to besides, each leg named as the page names its
-  // way and place (the Bushweald play read "By the track to {region__w13}"): what the page is given of them.
-  static shown(campaign: Campaign, names: Map<string, Entity>): Pick<Screen, 'destinations' | 'roads'> {
-    if (!campaign.running) { return { destinations: [], roads: [] }; }
+  // way and place (the Bushweald play read "By the track to {region__w13}"): what the page is given of them. And the
+  // other places of the town it is in, further than a step.
+  static shown(campaign: Campaign, names: Map<string, Entity>): Pick<Screen, 'destinations' | 'roads' | 'around'> {
+    if (!campaign.running) { return { destinations: [], roads: [], around: [] }; }
     const leads = this.destinations(campaign);
     return { destinations: leads.map(d => this.named(d, names)),
-      roads: this.roads(campaign, leads).map(d => this.named(d, names)) };
+      roads: this.roads(campaign, leads).map(d => this.named(d, names)),
+      around: this.around(campaign).map(d => this.named(d, names)) };
+  }
+  // The other places of the town the company is in that are further than a step: each a walk by the town's own ways
+  // (from a shop to the inn, by the square), so that going about a town is not going back to its square every time
+  // (the owner's interim report: the same few places walked between, over and over).
+  static around(campaign: Campaign): Itinerary[] {
+    const here = campaign.world.one('at', campaign.playerActor!);
+    const byId = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const town = here && Spatial.ancestry(byId, here).find(e => e.space?.kind === 'settlement');
+    if (!town) { return []; }
+    return campaign.module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room' && e.id !== here
+      && Spatial.ancestry(byId, e.id).some(a => a.id === town.id))
+      .flatMap(r => { const p = this.route(campaign, r.id, true); return p && p.legs.length > 1 ? [p] : []; })
+      .sort((a, b) => a.minutes - b.minutes);
   }
   private static named(d: Itinerary, names: Map<string, Entity>): NonNullable<Screen['destinations']>[number] {
     return { id: d.id, name: names.get(d.id)?.name ?? d.name, minutes: d.minutes,
