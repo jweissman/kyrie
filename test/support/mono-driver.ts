@@ -83,10 +83,7 @@ export class MonoDriver {
     const wanted = (c: ChoiceShape) => this.way(c.id, destination)
       && (!label || c.label.toLowerCase().includes(label.toLowerCase()));
     const state = await this.inspect();
-    if (!state.choices.some(wanted) && state.choices.some(c => c.id === 'fold:roads')
-      && !state.trail.includes('fold:roads')) {
-      await this.pick(c => c.id === 'fold:roads', 'the roads out');
-    }
+    if (!state.choices.some(wanted)) { throw new Error(`No way to ${destination} among ${state.choices.map(c => c.label).join(' | ')}`); }
     await this.pick(wanted, `way to ${destination}`);
   }
   // Back out of a list that is open (a conversation, a thing's uses) to everything there is to do.
@@ -99,9 +96,16 @@ export class MonoDriver {
   async away() {
     for (let i = 0; i < 3 && ['talk', 'examine'].includes((await this.inspect()).mode); i++) { await this.back(); }
   }
+  // A book opened as a player would: by its key, or, by pointer, from the book in the corner and then its tab.
   async mode(key: string) {
-    if (this.pointer) { await this.click(`[data-action="mode"][data-key="${key}"]`); return; }
-    await this.key(key);
+    if (!this.pointer) { await this.key(key); return; }
+    const tab = `[data-action="mode"][data-key="${key}"]`;
+    if (!await this.page.locator(tab).count()) {
+      await this.click('[data-action="book"]');
+      const opened = { j: 'journal', c: 'party', i: 'pack', m: 'map', h: 'story' }[key];
+      if ((await this.inspect()).mode === opened) { return; }
+    }
+    await this.click(tab);
   }
   private about(id: string, subject: string): boolean {
     const head = id.split('/')[0]!;

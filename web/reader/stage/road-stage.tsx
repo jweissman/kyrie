@@ -7,7 +7,6 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { PlaceStage } from './place-stage';
-import { Stage } from './stage';
 import { Told } from './told';
 
 // On a road. Not a room: a line across the country between two places, with the country it crosses in bands (fen,
@@ -15,13 +14,12 @@ import { Told } from './told';
 // back and forward, with stopping between them.
 export class RoadStage {
   static View({ app, route }: { app: ReaderApp; route: Route }) {
-    const frame = app.state.frame!, scene = app.menu.scene!, draw = Act.draw(app);
+    const scene = app.menu.scene!, draw = Act.draw(app);
     const ways = [...scene.near, ...scene.far];
     const of = (kind: SceneSubject['kind']) => scene.subjects.filter(x => x.kind === kind && !PlaceStage.danger(x));
     const people = of('person'), small = [...of('animal'), ...of('thing'), ...of('companion')];
     return (
       <article className="spread road-spread" id="page">
-        <Stage.Running frame={frame} extra="On the road" app={app} />
         <div className="leaves">
         <section className="verso" aria-label="The road">
           <div className="measure">
@@ -47,11 +45,12 @@ export class RoadStage {
               <RoadStage.End choices={RoadStage.choices(ways, route.from)} exit={route.from} draw={draw} back />
             </nav>
             {/* A journey stopped on the road (a cart gone off it, a goat loose) is taken up again from here. */}
-            <PlaceStage.Destinations app={app} draw={draw} />
+            <PlaceStage.Bound app={app} draw={draw} />
+            <PlaceStage.Further app={app} draw={draw} />
+            <PlaceStage.You app={app} draw={draw} />
           </div>
         </section>
         </div>
-        <PlaceStage.Foot app={app} draw={draw} ways={false} />
       </article>
     );
   }

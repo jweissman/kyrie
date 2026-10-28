@@ -6,6 +6,7 @@ import { Typography } from '../../src/presentation/typography';
 import { Act, type Draw } from './stage/act';
 import { Told } from './stage/told';
 import { Words } from './words';
+import { CreationRules } from './creation-rules';
 
 // The character: who they are, how they stand, what they can do and what they could become. Everything on it is
 // worked out by the rules the game plays by (see CharacterSheets), so what it says is what a fight or a check will
@@ -128,7 +129,8 @@ export class CharacterPage {
           <span className="score">{q.score}</span>
           <span className="mods">{CharacterPage.signed(q.fight)} in a fight{q.check !== q.fight
             && `, ${CharacterPage.signed(q.check)} in a check`}{q.score !== q.base && ` · of ${q.base}`}</span>
-          <span className="rests">{Typography.curl(q.rests)}</span></li>)}</ul></section>}
+          <span className="rests">{CreationRules.quality(q.id, q.score).filter(l => !/^Hit points/.test(l))
+            .map(l => <span key={l} className="does">{Typography.curl(l)}</span>)}</span></li>)}</ul></section>}
       {sheet && <section><h3>In a fight</h3><dl className="bearings">{sheet.fighting.map(b => <div key={b.label}>
         <dt>{b.label}</dt><dd>{Typography.curl(b.value)}</dd></div>)}</dl></section>}
       {sheet && <section><h3>Saves</h3><dl className="bearings">{sheet.saves.map(b => <div key={b.label}>

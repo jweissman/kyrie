@@ -38,14 +38,23 @@ export interface Catalog {
   ancestries: { id: string; name: string; text: string; callings: string[]; qualities: Record<string, number> }[];
   // A calling's specializations (a cleric's domains, a mage's schools): what each is, and what its first spells are of.
   callings: { id: string; name: string; text: string;
-    specializations: { id: string; name: string; text?: string; of?: string }[]; qualities: Record<string, number>;
-    // The weapons a calling sets out with, one of them chosen: each by name, and whether it is shot (struck with by
-    // quickness) or wielded (by strength).
-    weapons: { id: string; name: string; missile: boolean }[] }[];
+    specializations: { id: string; name: string; text?: string; of?: string; does?: string }[];
+    qualities: Record<string, number>;
+    // Its hit die, the armour it may wear and the skills it brings, in words; the quality its spells rest on, if it
+    // casts; and whether it can brace a weapon against a charge (Set Spear).
+    hitDie: number; armour: string; skills: string[]; casts?: string; braces?: boolean;
+    // The weapons a protagonist of the calling may set out with, one of them chosen, each as the rules have it: its
+    // die, the harm it does, its kind and weight, whether it is shot (struck with by quickness) or wielded (by
+    // strength), whether it is set against a charge, and whether it is one the calling sets out with of its own.
+    weapons: { id: string; name: string; damage: string; type: string; kind: string; weight: string; missile: boolean;
+      intercept?: boolean; own?: boolean; value: number }[] }[];
   // The six qualities and what each is for; and what a score is worth in a fight, by the score.
   qualities: { id: string; name: string; rests: string }[]; worth: number[];
-  backgrounds: { id: string; name: string; kind: string; text: string; calling?: string }[];
-  kinds: { id: string; name: string }[];
+  // Each background: what it knows and carries, in a phrase; what it adds to the qualities; the coin it starts with;
+  // and the calling it is kept for, if any. Each kind, and what its skill is for.
+  backgrounds: { id: string; name: string; kind: string; text: string; qualities: Record<string, number>; coin: number;
+    gear: string[]; calling?: string }[];
+  kinds: { id: string; name: string; does: string }[];
   presets: { id: string; label: string; note: string; members: Member[] }[];
   campaigns: CampaignChoice[];
 }
@@ -76,6 +85,10 @@ export interface Frame {
   // was, and anything that came of it), whether it arrived, and why it stopped if it did not.
   travel?: { to: string; arrived: boolean; stopped?: string;
     legs: { place: string; at: string; journey: string[]; lines: string[] }[] };
+  // Where the company set out for and has not yet come to, held across stops and pages: where, the way on from here
+  // leg by leg, and how long (see EngineHost.bound).
+  bound?: { id: string; name: string; minutes: number; legs: { way: string; to: string; minutes: number }[];
+    toward?: string };
 }
 
 export type Request =
@@ -99,6 +112,8 @@ export type Request =
   // Travel along known ways to a place the company knows (see Travel): leg after leg, until it arrives or something
   // wants a decision.
   | { kind: 'travel'; destination: string }
+  // A journey given up.
+  | { kind: 'unbind' }
   | { kind: 'checkpoint' }
   // The whole story so far, for the Story page: frames carry only its last entries.
   | { kind: 'story' }

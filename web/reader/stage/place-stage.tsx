@@ -4,8 +4,8 @@ import type { SceneSubject } from '../../../src/ui/scene';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
-import { MenuModel } from '../menu-model';
 import { Scenery } from '../../../src/ui/scenery';
+import { MenuModel } from '../menu-model';
 import { Likeness } from '../../../src/paintings/likeness';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
@@ -15,54 +15,75 @@ import { Told } from './told';
 // A way out of a place, with every choice that goes by it (go; open it first; look at what is on it).
 export interface Way { exit: ExitRow; choices: Choice[] }
 
-// Standing somewhere: a spread, held to the screen. On the left page, the place as it is told: where you are, what it
-// is, and what has just happened in it. On the right, the way here when the company has just come, and what is here
-// to attend to, each once: danger first, then the people, each with what they are doing as you see them, the animals
-// and the things to look at, and whoever is with you. Across the foot, always in reach, the ways from here, and
-// yourself.
+// Standing somewhere: a spread, held to the screen, with nothing across its head or its foot. On the left page, the
+// place as it is told: where you are, what it is, and what has just happened in it. On the right, the way here when
+// the company has just come, and what is here to attend to, each once (danger first, then the people, each with what
+// they are doing as you see them, the animals and things to look at, and whoever is with you); then the ways on from
+// here, every one a choice; the nearest places you know the way to, to set out for; and yourself. On a tablet held
+// upright or a phone it is one column: the place, who is here, the rest of the telling, the ways on (stage.css).
 export class PlaceStage {
   static View({ app }: { app: ReaderApp }) {
-    const frame = app.state.frame!, screen = frame.screen, scene = app.menu.scene!, draw = Act.draw(app);
-    const of = (kind: SceneSubject['kind']) => scene.subjects.filter(x => x.kind === kind && !PlaceStage.danger(x));
-    const people = of('person'), small = [...of('animal'), ...of('thing')], along = of('companion');
+    const frame = app.state.frame!, screen = frame.screen, draw = Act.draw(app);
     // A chapter opened (the game begun, a country come into) is opened as a book's is: the country on the left page,
     // the telling on the right.
     const view = frame.leaf.heading && !app.state.pending ? Scenery.of(screen) : undefined;
     return (
       <article className={`spread place-spread${view ? ' opening-spread' : ''}`} id="page">
-        <Stage.Running frame={frame} app={app} />
         <div className="leaves">
         {view ? <PlaceStage.Country view={view} /> : <section className="verso" aria-label="The place">
           <div className="measure">
             <div className="telling"><Told.Place app={app} journey={false} /></div>
           </div>
         </section>}
-        <section className="recto" aria-label="Here">
+        <section className="recto" aria-label="Here, and the ways on">
           <div className="measure">
             {view ? <div className="told-here"><Told.Place app={app} /></div>
               : <div className="way-here"><Told.Travelled app={app} /></div>}
-            {scene.subjects.filter(PlaceStage.danger).map(c => <PlaceStage.Threat key={c.id} subject={c} draw={draw} />)}
-            {people.length > 0 && <div className="cast" data-line="People here">
-              <p className="label">{people.length === 1 ? 'Someone here' : 'People here'}</p>
-              <ul className="plates">{people.map(s => <li key={s.id} data-subject={s.id}>
-                <PlaceStage.Plate subject={s} draw={draw} /></li>)}</ul>
-            </div>}
-            {small.length > 0 && <div className="also-here" data-line="To look at">
-              <p className="label">{of('thing').length ? of('animal').length ? 'Animals, and things to look at'
-                : 'To look at' : 'Animals'}</p>
-              <ul className="chips">{small.map(s => <li key={s.id} data-subject={s.id}>
-                <PlaceStage.Chip subject={s} draw={draw} /></li>)}</ul>
-            </div>}
-            {along.length > 0 && <div className="along" data-line="With you">
-              <p className="label">With you</p>
-              <ul className="chips">{along.map(s => <li key={s.id} data-subject={s.id}>
-                <PlaceStage.Chip subject={s} draw={draw} /></li>)}</ul>
-            </div>}
+            <PlaceStage.Here app={app} draw={draw} />
+            <PlaceStage.On app={app} draw={draw} />
           </div>
         </section>
         </div>
-        <PlaceStage.Foot app={app} draw={draw} />
       </article>
+    );
+  }
+  // Who and what is here: danger first, the people as plates, the animals and things, and whoever is with you.
+  static Here({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const scene = app.menu.scene!;
+    const of = (kind: SceneSubject['kind']) => scene.subjects.filter(x => x.kind === kind && !PlaceStage.danger(x));
+    const people = of('person'), small = [...of('animal'), ...of('thing')], along = of('companion');
+    return (
+      <div className="here">
+        {scene.subjects.filter(PlaceStage.danger).map(c => <PlaceStage.Threat key={c.id} subject={c} draw={draw} />)}
+        {people.length > 0 && <div className="cast" data-line="People here">
+          <p className="label">{people.length === 1 ? 'Someone here' : 'People here'}</p>
+          <ul className="plates">{people.map(s => <li key={s.id} data-subject={s.id}>
+            <PlaceStage.Plate subject={s} draw={draw} /></li>)}</ul>
+        </div>}
+        {small.length > 0 && <div className="also-here" data-line="To look at">
+          <p className="label">{of('thing').length ? of('animal').length ? 'Animals, and things to look at'
+            : 'To look at' : 'Animals'}</p>
+          <ul className="chips">{small.map(s => <li key={s.id} data-subject={s.id}>
+            <PlaceStage.Chip subject={s} draw={draw} /></li>)}</ul>
+        </div>}
+        {along.length > 0 && <div className="along" data-line="With you">
+          <p className="label">With you</p>
+          <ul className="chips">{along.map(s => <li key={s.id} data-subject={s.id}>
+            <PlaceStage.Chip subject={s} draw={draw} /></li>)}</ul>
+        </div>}
+      </div>
+    );
+  }
+  // From here: the ways on, the places further off you know the way to, and yourself.
+  static On({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const scene = app.menu.scene!, screen = app.state.frame!.screen;
+    return (
+      <div className="on">
+        <PlaceStage.Bound app={app} draw={draw} />
+        <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} />
+        <PlaceStage.Further app={app} draw={draw} />
+        <PlaceStage.You app={app} draw={draw} />
+      </div>
     );
   }
   // The country a chapter opens on: a painting of it, as a plate, with its credit as far as the painting says.
@@ -136,82 +157,75 @@ export class PlaceStage {
     return screen.exits.map(exit => ({ exit, choices: choices.filter(c => c.id === exit.id || c.id.startsWith(`${exit.id}/`)) }))
       .filter(w => w.choices.length);
   }
-  // The ways about the place, each a choice with where it goes; the roads out, folded where there are ways about the
-  // place to take first, each a route: where it goes, by what way, how long, and whether the company has been there.
+  // The ways on, each a choice that says where it goes: about the place first, then the roads out of it, each with
+  // its way and how long, and whether the company has been there (only a road already travelled says so).
   static Ways({ screen, near, far, draw }: { screen: Screen; near: Choice[]; far: Choice[]; draw: Draw }) {
-    const fold = far.find(c => c.id === MenuModel.roads), roads = fold ? fold.children ?? [] : far;
-    const about = PlaceStage.ways(screen, near), out = PlaceStage.ways(screen, roads);
-    const across = roads.filter(c => !out.some(w => w.choices.includes(c)));
+    const about = PlaceStage.ways(screen, near), out = PlaceStage.ways(screen, far);
+    const across = far.filter(c => !out.some(w => w.choices.includes(c)));
     const scope = screen.path.filter(p => p.kind === 'settlement' || p.kind === 'site').at(-1)?.name;
-    const shown = !fold || draw.open.has(fold.id);
     return <>
       {about.length > 0 && <nav className="ways about" aria-label="Ways about the place">
-        <p className="label">{scope ? `About ${Typography.curl(scope)}` : 'Ways'}</p>
-        <ul className="paths">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
-          <PlaceStage.Near way={w} draw={draw} twin={about.filter(o => o.exit.destination.name
+        <p className="label">{scope ? `About ${Typography.curl(scope)}` : 'Ways on'}</p>
+        <ul className="options">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
+          <PlaceStage.Way way={w} draw={draw} twin={about.filter(o => o.exit.destination.name
             === w.exit.destination.name).length > 1} /></li>)}</ul>
       </nav>}
       {(out.length > 0 || across.length > 0) && <nav className="ways out" aria-label="Roads out">
-        {fold ? <Act.View choice={fold} draw={draw} className="fold"><span className="n">Roads out</span>
-          <span className="r">{roads.length}</span></Act.View> : <p className="label">Roads out</p>}
-        {shown && <ul className="routes">{out.map(w => <li key={w.exit.id} data-exit={w.exit.id}><PlaceStage.Route way={w}
-          draw={draw} /></li>)}
-        {across.map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="route" /></li>)}</ul>}
+        <p className="label">{about.length ? 'Roads out' : 'Ways on'}</p>
+        <ul className="options">{out.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
+          <PlaceStage.Way way={w} draw={draw} road /></li>)}
+        {across.map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="way" /></li>)}</ul>
       </nav>}
     </>;
   }
-  static Near({ way, draw, twin }: { way: Way; draw: Draw; twin: boolean }) {
+  // A way, as one choice: where it goes, and beside it by what way, how long and whether you have been; what else can
+  // be done at it (open it first, look at what is on it) beneath.
+  static Way({ way, draw, twin, road }: { way: Way; draw: Draw; twin?: boolean; road?: boolean }) {
     const [go, ...also] = way.choices, exit = way.exit;
+    const said = [road || twin ? exit.way ? `by ${exit.way}` : '' : '', go!.note, road && exit.visited ? 'been' : '']
+      .filter(Boolean).join(' · ');
     return <>
-      <Act.View choice={go!} draw={draw} className="path">
+      <Act.View choice={go!} draw={draw} className="way">
         <span className="n">{Typography.curl(Words.upper(PlaceStage.to(go!, exit)))}</span>
-        {(twin || go!.note) && <span className="r">{Typography.curl([twin ? exit.way : '', go!.note].filter(Boolean).join(' · '))}</span>}
+        {said && <span className="r">{Typography.curl(said)}</span>}
       </Act.View>
       <PlaceStage.Opened choice={go!} draw={draw} />
-      {also.map(c => <Fragment key={c.id}><Act.View choice={c} draw={draw} className="small also">
-        {Typography.curl(PlaceStage.also(c.label))}</Act.View><PlaceStage.Opened choice={c} draw={draw} /></Fragment>)}
+      {also.map(c => <Fragment key={c.id}><Act.View choice={c} draw={draw} className="way also">
+        {Typography.curl(Words.upper(PlaceStage.also(c.label)))}</Act.View><PlaceStage.Opened choice={c} draw={draw} /></Fragment>)}
     </>;
   }
-  // A road out as a route: "The foot of Wulfecg — by the track up onto Wulfecg · 40m · been". Only a road already
-  // travelled says so: at first every road is new, and saying so of each says nothing.
-  static Route({ way, draw }: { way: Way; draw: Draw }) {
-    const [go, ...also] = way.choices, exit = way.exit;
-    const been = exit.visited ? 'been' : '';
-    return <>
-      <Act.View choice={go!} draw={draw} className="route">
-        <span className="n">{Typography.curl(Words.upper(PlaceStage.to(go!, exit)))}</span>
-        <span className="r">{Typography.curl([exit.way ? `by ${exit.way}` : '', go!.note, been].filter(Boolean).join(' · '))}</span>
-      </Act.View>
-      <PlaceStage.Opened choice={go!} draw={draw} />
-      {also.map(c => <Fragment key={c.id}><Act.View choice={c} draw={draw} className="small also">
-        {Typography.curl(PlaceStage.also(c.label))}</Act.View><PlaceStage.Opened choice={c} draw={draw} /></Fragment>)}
-    </>;
-  }
-  // The places the company knows the way to, further than a step: each opens to the way it goes, leg by leg and how
-  // long, and setting out on it. On the way, the journey stops for whatever wants a decision. More than a few are
-  // folded under one choice.
-  static Destinations({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const shown = app.menu.destinations ?? [], screen = app.state.frame!.screen;
-    const fold = shown.find(c => c.id === MenuModel.folded), choices = fold ? fold.children ?? [] : shown;
-    if (!choices.length) { return null; }
+  // Where you are going, while you are: where to, the next way and how long it is, how long in all; going on (by the
+  // way known from here, a way at a time, stopping only for what wants you) and giving it up. On every page you
+  // explore from until you come there (the owner's interim report).
+  static Bound({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const bound = app.state.frame!.bound, going = app.menu.destinations ?? [];
+    const on = bound && going.find(c => c.id === `travel:${bound.id}`), off = going.find(c => c.id === MenuModel.unbind);
+    if (!bound || !on) { return null; }
+    const next = bound.legs[0];
     return (
-      <nav className="ways destinations" aria-label="Set out for">
-        {fold ? <Act.View choice={fold} draw={draw} className="fold"><span className="n">Set out for</span>
-          <span className="r">{choices.length} places</span></Act.View> : <p className="label">Set out for</p>}
-        {(!fold || draw.open.has(fold.id)) && <ul className="routes">{choices.map(c => {
-          const d = screen.destinations!.find(x => `dest:${x.id}` === c.id)!, open = draw.open.has(c.id);
-          return <li key={c.id}>
-            <Act.View choice={c} draw={draw} className="route">
-              <span className="n">{Typography.curl(Words.upper(d.name))}</span>
-              <span className="r">{d.legs.length} legs · {Words.span(d.minutes)}</span></Act.View>
-            {open && <div className="itinerary">
-              <ol>{d.legs.map((l, i) => <li key={i}>{Typography.curl(`By ${l.way} to ${l.to}`)}
-                <span className="note">{Words.span(l.minutes)}</span></li>)}</ol>
-              <p className="how">Each leg is walked as it comes; the journey stops for anything that wants you.</p>
-              <Act.List choices={c.children ?? []} draw={draw} />
-            </div>}
-          </li>;
-        })}</ul>}
+      <section className="bound" aria-label={`Bound for ${bound.name}`} data-id="bound">
+        <p className="label">Bound for</p>
+        <p className="whither">{Typography.curl(Words.upper(bound.name))}</p>
+        <p className="next">{Typography.curl([next ? `Next, by ${next.way} to ${next.to}: ${Words.span(next.minutes)}.` : '',
+          bound.toward ? `As far as ${bound.toward} by the ways you know.` : '',
+          bound.legs.length > 1 ? `About ${Words.span(bound.minutes)} in all.` : ''].filter(Boolean).join(' '))}</p>
+        <p className="go"><Act.View choice={on} draw={draw} className="option go-on">{`Go on to ${bound.name}`}</Act.View>
+          {off && <Act.View choice={off} draw={draw} className="option give-up">Give it up</Act.View>}</p>
+      </section>
+    );
+  }
+  // The nearest places you know the way to, further than a step, each a journey to set out on at once; the rest are
+  // on the map. On the way, the journey stops for whatever wants a decision.
+  static Further({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const bound = app.state.frame!.bound;
+    const going = (app.menu.destinations ?? []).filter(c => c.id !== MenuModel.unbind && c.id !== `travel:${bound?.id}`);
+    if (!going.length) { return null; }
+    return (
+      <nav className="ways further" aria-label="Set out for">
+        <p className="label">Set out for</p>
+        <ul className="options">{going.map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="way journey">
+          <span className="n">{Typography.curl(c.label.replace(/^Set out (for|toward) /, ''))}</span>
+          {c.note && <span className="r">{Typography.curl(c.note)}</span>}</Act.View></li>)}</ul>
       </nav>
     );
   }
@@ -231,24 +245,15 @@ export class PlaceStage {
     const m = screen.party.slice(1).find(p => p.name === Words.short(name));
     return m && m.hp < m.maxHp ? Words.hurt(m.hp, m.maxHp) : undefined;
   }
-  // Across the foot: yourself, how you are and what you have, the company's light where it matters, and what you can
-  // do of yourself (wait, search, rest).
-  // Across the foot, always in reach: the ways about the place, and folded the roads out and the places further off;
-  // and yourself, how you are and what you have, and what you can do of yourself (wait, search, rest). The ways had
-  // been under the telling, out of sight below a long one; walking on is what is done most.
-  static Foot({ app, draw, ways = true }: { app: ReaderApp; draw: Draw; ways?: boolean }) {
+  // Yourself, at the end of what is here: how you are and what you have, and what you can do of yourself (wait,
+  // search, rest). It had stood across the foot of the screen, under everything, with the ways (the owner's report).
+  static You({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const scene = app.menu.scene!, screen = app.state.frame!.screen;
     return (
-      <footer className="foot" data-region="party">
-        {ways && <div className="from-here">
-          <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} />
-          <PlaceStage.Destinations app={app} draw={draw} />
-        </div>}
-        <div className="you">
-          <Stage.Me screen={screen} />
-          <Act.List choices={scene.you} draw={draw} className="small yours" />
-        </div>
-      </footer>
+      <section className="you" data-region="party" aria-label="Yourself">
+        <Stage.Me screen={screen} />
+        <Act.List choices={scene.you} draw={draw} className="small yours" />
+      </section>
     );
   }
 }

@@ -1,3 +1,4 @@
+import type { World } from '../lang/world';
 import likeness from '../../data/paintings/likeness.json';
 import unfit from '../../data/paintings/unfit.json';
 import { PaintingConcepts } from './painting-concepts';
@@ -64,7 +65,7 @@ export class Likeness {
   // sex and station; where nothing says their station, or no painting is of it, there is none, and they are met in
   // words (Mother Ysolt was a young Samson, an alehouse-keeper a preacher, the inn's dog an auctioneer).
   static of(at: { own?: string; background?: string; profession?: string; role?: string; name?: string;
-    sex?: 'man' | 'woman'; key?: string }): string | undefined {
+    sex?: 'man' | 'woman'; key?: string; taken?: Set<string> }): string | undefined {
     if (at.own && this.ids.has(at.own)) { return at.own; }
     // A name that is a description ("the prior", "the woman in black") says what they are as a role does.
     const described = /^the /i.test(at.name ?? '') ? this.words(at.name!) : [];
@@ -84,11 +85,20 @@ export class Likeness {
     // Someone known only by whose they are (the child's mother, the drover's son) is one of the working people.
     if (!station && !kin) { return undefined; }
     const painted = station ?? 'labouring', id = this.choose({ ...sex ? { sex } : {}, ...concept ? { concept } : {},
-      stations: [painted], ...age ? { age } : {} }, at.key ?? words.join(' '));
+      stations: [painted], ...age ? { age } : {} }, at.key ?? words.join(' '), at.taken);
     const sitter = id ? this.sitters.get(id) : undefined;
     // Not a girl for a woman of years, nor a greybeard for a lad.
     const far = !!age && !!sitter?.age && Math.abs(this.years.indexOf(age) - this.years.indexOf(sitter.age)) > 1;
     return id && (id === concept || (sitter?.station === painted && !far)) ? id : undefined;
+  }
+  // The paintings some people are given as their own (a likeness, by the painting's id, which is the name of the
+  // entity the likeness names): those taken on a page.
+  static owned(world: World, ids: string[], named: ReadonlyMap<string, { name: string }>): Set<string> {
+    if (!world.relates('likeness')) { return new Set(); }
+    return new Set(ids.flatMap(id => {
+      const own = world.one('likeness', id);
+      return own ? [named.get(own)?.name ?? own] : [];
+    }));
   }
   static readonly years = ['young', 'adult', 'old'];
   static readonly kin: Record<string, 'man' | 'woman'> = { mother: 'woman', father: 'man', sister: 'woman',

@@ -20,12 +20,14 @@ export interface Facts { removed: number[]; tail: Call[]; measures: WorldState['
 type State = CampaignSave['state'];
 export interface KeptState {
   version: 2; world: string; log?: Entry[];
+  // Where the company had set out for and not yet come to (see EngineHost.bound).
+  bound?: string;
   // The build that kept it (BuildStamp): a game kept by another build is checked as it is opened, not trusted.
   build?: string;
   checkpoint: Omit<SessionCheckpoint, 'save'> & {
     save: Omit<CampaignSave, 'module' | 'definition' | 'state'> & { state: Omit<State, 'world'>; facts: Facts } };
 }
-export interface Whole { checkpoint: SessionCheckpoint; log?: Entry[] }
+export interface Whole { checkpoint: SessionCheckpoint; log?: Entry[]; bound?: string }
 // A world as the host holds it while it plays: its part, its key, where each of its facts stood, and how each relation
 // last differed from it (see `differLive`).
 export interface Keyed { key: string; part: WorldPart; index: Map<string, number>; relations?: Relations }
@@ -114,7 +116,8 @@ export class KeptGame {
       // The world in its place in the state, after the seed, as the game played on holds it.
       const save = { ...rest, state: { seed, world: { relations, measures: facts.measures }, ...state },
         module: world.module, ...world.definition ? { definition: world.definition } : {} } as CampaignSave;
-      return { checkpoint: { ...parsed.checkpoint, save }, ...parsed.log ? { log: parsed.log } : {} };
+      return { checkpoint: { ...parsed.checkpoint, save }, ...parsed.log ? { log: parsed.log } : {},
+        ...parsed.bound ? { bound: parsed.bound } : {} };
     }
     return 'checkpoint' in parsed ? parsed : { checkpoint: parsed as SessionCheckpoint };
   }

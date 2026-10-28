@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import type { Talk } from '../../../src/ui/attention';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Counter } from '../../../src/ui/trade-model';
@@ -21,9 +21,9 @@ export class TalkStage {
     const [name, ...role] = [Words.short(who.name), who.note].filter(Boolean) as string[];
     return (
       <div className="talk" id="page">
-        <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')} />
+        <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
+          <Stage.When frame={frame} extra={frame.screen.place.name} /></TalkStage.Sitter>
         <div className="dialogue">
-          <Stage.Running frame={frame} extra={frame.screen.place.name} app={app} />
           <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} />
           <div className="answer">
             <TalkStage.Counter counter={frame.screen.trade.find(c => c.id === who.id)} coin={frame.screen.purse.coin} />
@@ -44,7 +44,7 @@ export class TalkStage {
   // and what they are, rather than a picture of someone they are not.
   // A painting that cannot be had (images refused, or the page offline) leaves the page in type, as one that does not
   // fit: the Bushweald play without images found a black slab, a broken picture and its painter's credit.
-  static Sitter({ app, name, role }: { app: ReaderApp; name: string; role: string }) {
+  static Sitter({ app, name, role, children }: { app: ReaderApp; name: string; role: string; children?: ReactNode }) {
     const given = app.menu.talk!.subject.portrait, [failed, fail] = useState<string>();
     const portrait = given && given.large !== failed ? given : undefined;
     return (
@@ -52,7 +52,8 @@ export class TalkStage {
         {portrait && <img src={portrait.large} alt="" decoding="async" onError={() => fail(portrait.large)}
           style={{ objectPosition: `50% ${portrait.focus}%` }} />}
         {portrait && <p className="credit">{portrait.credit ?? 'Painter unrecorded'}</p>}
-        <div className="cap"><h1 className="n">{Typography.curl(name)}</h1>{role && <p className="r">{Typography.curl(role)}</p>}</div>
+        <div className="cap"><h1 className="n">{Typography.curl(name)}</h1>{role && <p className="r">{Typography.curl(role)}</p>}
+          {children}</div>
       </div>
     );
   }

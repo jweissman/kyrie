@@ -5,7 +5,6 @@ import { Attending, type Attention, type Examined, type Talk } from '../../src/u
 import type { Frame } from '../engine/protocol';
 import type { Travel } from './reader-app';
 import { Words } from './words';
-import { Routes } from '../../src/ui/route';
 
 export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 // What can be chosen now: the scene (who and what is here, the ways, yourself), or a conversation with one of them, or
@@ -23,7 +22,7 @@ export class MenuModel {
     const opened = new Set(open);
     if (!frame.combat && !['pack', 'company'].includes(view)) {
       const scene = SceneModel.build(frame.screen);
-      return this.attending(scene, opened, attention) ?? this.place(Attending.place(scene), opened, frame.screen);
+      return this.attending(scene, opened, attention) ?? this.place(Attending.place(scene), opened, frame);
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
       : view === 'pack' ? ChoiceList.pack(frame.screen) : this.character(frame.screen, member);
@@ -53,40 +52,50 @@ export class MenuModel {
   // The place, and after its ways out, the places the company knows the way to and could set out for. A level's
   // development is spent in the character, where what each way of spending it changes is said: here it is only said
   // that there is one (the free play of M16 found seven "take up" acts crowding the place).
-  // Where there are ways about the place, the roads out of it are folded under one choice that opens them, and so are
-  // the places known further off when there are more than a few: a town square offered thirty peers, its people
-  // twice, its destinations twice and its roads out among them (the play-structure investigation's PT-09).
-  private static place(found: Scene, opened: Set<string>, screen: Frame['screen']): Menu {
+  // Nothing is folded: the ways about the place and the roads out are each a choice, and of the places further off the
+  // nearest few are journeys to set out on, the rest on the map (the owner's interim report: folded trees of roads and
+  // destinations were the graph laid bare, a town square's thirty peers the reason they had been folded: PT-09).
+  private static place(found: Scene, opened: Set<string>, frame: Frame): Menu {
+    const screen = frame.screen;
     const scene = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen) : c) };
-    const destinations = this.destinations(screen);
-    // On a road the two ways on are the road itself, never folded.
-    const far = scene.near.length && scene.far.length && !Routes.of(screen)
-      ? [this.fold(MenuModel.roads, 'Roads out', scene.far)] : scene.far;
-    const going = destinations.length > 3 ? [this.fold(MenuModel.folded, 'Set out for', destinations)] : destinations;
-    const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...far, ...going,
+    const going = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id)];
+    const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...going,
       ...scene.you].flatMap(c => this.unfold(c, opened));
-    return { scene: { ...scene, far }, sections: [...this.sections({ ...scene, far }), ...going.length
+    return { scene, sections: [...this.sections(scene), ...going.length
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []], choices,
     destinations: going };
   }
-  static readonly roads = 'fold:roads';
-  static readonly folded = 'fold:going';
-  private static fold(id: string, label: string, children: Choice[]): Choice {
-    return { id, label, tone: 'way', note: `${children.length}`, children };
-  }
+  // How many of the places further off are offered where the company stands; the map has them all.
+  static readonly near = 3;
   private static developing(c: Choice, screen: Frame['screen']): Choice {
     const id = /^advance:([^/]+)/.exec(c.id)![1]!, m = screen.party.find(x => x.id === id);
     const left = m?.development?.left ?? 1;
     return { id: c.id, label: `${m?.name ?? c.label}: ${left === 1 ? 'a development' : `${left} developments`} to spend`,
       tone: c.tone, command: `view:company:${id}` };
   }
-  // A place known and the way to it: opened, the way it goes, leg by leg, and setting out. A place whose way is not
-  // known is set out toward, as far as the known ways go (the edge of the wood it is said to be in).
-  static destinations(screen: Frame['screen']): Choice[] {
-    return (screen.destinations ?? []).map(d => ({ id: `dest:${d.id}`, label: d.toward ? `Toward ${d.name}` : d.name,
-      tone: 'way' as const, note: d.toward ? `${Words.span(d.minutes)}, as far as ${d.toward}` : Words.span(d.minutes),
-      children: [{ id: `travel:${d.id}`, label: `Set out ${d.toward ? 'toward' : 'for'} ${d.name}`, tone: 'way' as const,
-        command: `travel:${d.id}`, minutes: d.minutes }] }));
+  // The nearest places known and the way to them, each a journey to set out on at once: where it goes, how long, and
+  // by where (the first legs' places). A place whose way is not known is set out toward, as far as the known ways go
+  // (the edge of the wood it is said to be in). Past the nearest few, the map, which has them all.
+  static destinations(screen: Frame['screen'], bound?: string): Choice[] {
+    const all = (screen.destinations ?? []).filter(d => d.id !== bound);
+    return [...all.slice(0, this.near).map(d => ({ ...this.journey(d), note: this.by(d) })),
+      ...all.length > this.near ? [{ id: 'view:map', label: `The other places you know: ${all.length - this.near}, on the map`,
+        tone: 'way' as const, command: 'view:map' }] : []];
+  }
+  // A journey held (set out on, and not yet come to the end of): going on with it, by the way known from here, and
+  // giving it up.
+  static readonly unbind = 'unbind';
+  static onward(bound: Frame['bound']): Choice[] {
+    if (!bound) { return []; }
+    return [{ id: `travel:${bound.id}`, label: `Go on to ${bound.name}`, tone: 'way', command: `travel:${bound.id}`,
+      minutes: bound.minutes, note: this.by(bound) },
+    { id: this.unbind, label: 'Give up going there', tone: 'way', command: this.unbind }];
+  }
+  // "about 2 hours, by the holly hollow": how long, and the places a journey goes by on its way.
+  static by(d: NonNullable<Frame['screen']['destinations']>[number]): string {
+    const via = d.legs.slice(0, -1).map(l => l.to).slice(-2);
+    return [d.toward ? `${Words.span(d.minutes)}, as far as ${d.toward}` : Words.span(d.minutes),
+      via.length ? `by ${via.join(' and ')}` : ''].filter(Boolean).join(', ');
   }
   // Setting out for a place known the way to, chosen on the map or in the notes: as the place offers it, for a lead.
   static journey(d: NonNullable<Frame['screen']['destinations']>[number]): Choice {

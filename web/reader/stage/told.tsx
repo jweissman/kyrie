@@ -7,6 +7,7 @@ import { MenuModel } from '../menu-model';
 import { Moments } from './moments';
 import { Panorama } from './panorama';
 import { PlaceStage } from './place-stage';
+import { Stage } from './stage';
 
 // What the place says and what just happened in it. Coming somewhere, the way there is told, then the place, then
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
@@ -25,6 +26,7 @@ export class Told {
       {leaf.heading && <p className={`chapter kind-${leaf.heading.kind}`}>{Typography.curl(leaf.heading.kind === 'country'
         ? `Into ${leaf.heading.title}` : leaf.heading.title)}</p>}
       <h1 className="place" data-id="place">{Typography.curl(Words.upper(screen.place.name))}</h1>
+      <Stage.When frame={frame} />
       {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}
       {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       {s.pending && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}

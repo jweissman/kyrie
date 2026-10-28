@@ -1,6 +1,6 @@
 import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
-import { Arms } from './arms';
+import { CreationRules } from './creation-rules';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
 export class ReaderOpening {
@@ -30,10 +30,13 @@ export class ReaderOpening {
         ? await app.engine.request<Setting>({ kind: 'world', seed: seed ?? choice?.seed ?? 'thorn',
           ...app.props.query.get('terrain') ? { terrain: app.props.query.get('terrain')! } : {} })
         : await app.engine.request<Setting>({ kind: 'setting', campaign });
-      app.setState({ phase: 'company', campaign, seed: seed ?? choice?.seed ?? 'kyr', setting, party: setting.party,
-        editing: -1, origin: setting.origins?.[0]?.id });
+      // The first reason for having come is chosen to begin with, and what it makes you with it.
+      const first = setting.origins?.[0], party = structuredClone(setting.party);
+      if (first?.background && party[0]) { party[0].backgroundId = first.background; }
+      app.setState({ phase: 'company', campaign, seed: seed ?? choice?.seed ?? 'kyr', setting, party,
+        editing: -1, origin: first?.id });
       this.readySoon();
-      await this.preview(setting.party);
+      await this.preview(party);
     } catch (error) { this.fail(error, 'campaigns'); }
   }
   async preview(party: Member[]) {
@@ -66,6 +69,15 @@ export class ReaderOpening {
     }
     this.app.setState({ party });
     if (field !== 'name') { void this.preview(party); }
+    this.readySoon();
+  }
+  // A reason for having come, and what it makes you: its own background, or, for one who brings their own trade,
+  // none until it is chosen (the engine gives the origin's too: Origins.member).
+  origin(id: string) {
+    const party = structuredClone(this.app.state.party), member = party[0];
+    const given = this.app.state.setting?.origins?.find(o => o.id === id)?.background;
+    if (member) { if (given) { member.backgroundId = given; } else { delete member.backgroundId; } }
+    this.app.setState({ origin: id, party });
     this.readySoon();
   }
   // Two qualities' rolls changed over, as the player places them.
@@ -103,7 +115,8 @@ export class ReaderOpening {
     const s = this.app.state, terrain = this.app.props.query.get('terrain');
     // One who comes alone sets out with the weapon the page shows them with: theirs, or the one they strike best with.
     const one = s.setting?.generated && s.party.length === 1 && s.catalog && s.party[0]!;
-    const weapon = one && !one.weapon ? Arms.suited(one, s.catalog!) : undefined;
+    const calling = one ? s.catalog!.callings.find(c => c.id === one.classId) : undefined;
+    const weapon = one && !one.weapon && calling ? CreationRules.best(calling.weapons, one, s.catalog!)?.id : undefined;
     const armed = one && weapon ? [{ ...one, weapon }] : s.party;
     return { campaign: s.campaign, seed: s.seed, party: armed, ...terrain ? { terrain } : {},
       ...s.setting?.generated && s.origin ? { origin: s.origin } : {}, ...s.memorial ? { memorial: s.memorial } : {} };

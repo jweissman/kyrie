@@ -12,7 +12,7 @@ import { Timings } from './timings';
 import { TitlePage } from './title-page';
 import { CampaignPage } from './campaign-page';
 import { CompanyPage } from './company-page';
-import { ProtagonistPage } from './protagonist-page';
+import { CreationPage } from './creation/creation-page';
 import { LoadingPage } from './loading-page';
 import { PlayPage } from './play-page';
 import { OptionsPage } from './options-page';
@@ -79,17 +79,22 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (frame && prev.frame !== frame) {
       Timings.painted(frame);
       if (!prev.frame || frame.combat || prev.frame.combat || prev.frame.screen.place.id !== frame.screen.place.id) {
-        window.scrollTo({ top: 0 });
+        ReaderApp.top();
       }
     }
     // So does someone or something turned to (a phone kept the place's scroll, and opened a portrait at its chest).
     const [was, now] = [prev.attention, this.state.attention];
-    if (now.kind !== 'place' && (was.kind !== now.kind || was.id !== now.id)) { window.scrollTo({ top: 0 }); }
+    if (now.kind !== 'place' && (was.kind !== now.kind || was.id !== now.id)) { ReaderApp.top(); }
     if (prev.cursor !== this.state.cursor && prev.frame === frame && this.state.keyed && !this.state.hovered) {
       const chosen = document.querySelector<HTMLElement>(`[data-action="choice"][data-index="${this.state.cursor}"]`);
       chosen?.focus({ preventScroll: true });
       chosen?.scrollIntoView({ block: 'nearest' });
     }
+  }
+  // The page, and each leaf of it that scrolls, back at its top.
+  static top() {
+    window.scrollTo({ top: 0 });
+    for (const leaf of document.querySelectorAll<HTMLElement>('.leaves, .verso, .recto, .book, .lines')) { leaf.scrollTop = 0; }
   }
   private listen(message: Message) {
     if (message.kind === 'saved') {
@@ -193,9 +198,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const frame = this.state.frame!, travel = MenuModel.travel(choice, frame);
     this.setState({ pending: { said, ...travel ? { travel } : {} }, error: '' });
     try {
-      const journey = /^travel:(.+)$/.exec(choice.command!)?.[1];
+      const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
       const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
-        : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
+        : unbind ? await this.engine.request<Frame>({ kind: 'unbind' })
+          : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
       const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
@@ -263,7 +269,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       case 'title': return <TitlePage.View app={this} />;
       case 'options': return <OptionsPage.View app={this} />;
       case 'campaigns': return <CampaignPage.View app={this} />;
-      case 'company': return this.state.setting?.generated ? <ProtagonistPage.View app={this} /> : <CompanyPage.View app={this} />;
+      case 'company': return this.state.setting?.generated ? <CreationPage.View app={this} /> : <CompanyPage.View app={this} />;
       case 'loading': return <LoadingPage.View app={this} />;
       case 'play': return <PlayPage.View app={this} />;
     }

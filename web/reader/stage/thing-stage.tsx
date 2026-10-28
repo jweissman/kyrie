@@ -22,9 +22,9 @@ export class ThingStage {
     return (
       <div className="thing" id="page">
         <div className="face">
-          <Stage.Running frame={frame} extra={frame.screen.place.name} app={app} />
           <p className="kicker">Looking at</p>
           <h1 className="n">{Typography.curl(Words.upper(thing.name))}</h1>
+          <Stage.When frame={frame} extra={frame.screen.place.name} />
           {thing.note && <p className="r">{Typography.curl(thing.note)}</p>}
           {seen.map((p, i) => <p key={i} className="seen">
             {Typography.curl(p)}</p>)}

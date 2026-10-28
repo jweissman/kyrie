@@ -14,6 +14,8 @@ import type { Catalog, CompanyView, Member, Setting } from './protocol';
 import { CreatureSchema } from '../../src/creature';
 import { CharacterSheets } from '../../src/presentation/character-sheet';
 import { Fighting } from '../../src/rules/fighting';
+import { Creation as RulesCreation } from '../../src/rules/creation';
+import { MechanicsText } from '../../src/presentation/mechanics-text';
 
 
 // The engine's side of forming a company: what there is to choose from, what a campaign asks of the company, a
@@ -34,19 +36,27 @@ export class Creation {
         return { id, name: c?.name ?? id, text: c?.practice ?? c?.description ?? '',
           specializations: (c?.specializations ?? []).map(t => ({ id: t, name: Canon.traits[t]?.name ?? t,
             text: Canon.traits[t]?.description ?? '', of: Canon.traits[t]?.spellAccess?.domain
-              ?? Canon.traits[t]?.spellAccess?.school ?? '' })),
+              ?? Canon.traits[t]?.spellAccess?.school ?? '',
+            does: MechanicsText.modifiers(Canon.traits[t]?.modifiers ?? {}).join(', ') })),
           qualities: { ...c?.attributes ?? {} } as Record<string, number>,
-          weapons: (c?.weapons ?? []).filter(w => Canon.items[w]).map(w => ({ id: w, name: Canon.items[w]!.name,
-            missile: Canon.items[w]!.weapon?.missile === true })) };
+          hitDie: c?.hitDie ?? 4, armour: this.armour(id),
+          skills: (c?.skills ?? []).map(k => Canon.skills[k]?.name ?? k),
+          ...c?.spellcasting ? { casts: c.spellcasting.attribute } : {},
+          ...c?.abilities.includes('set_spear') ? { braces: true } : {},
+          weapons: this.arms(id) };
       }),
       qualities: CreatureSchema.attributes.map(id => ({ id, name: CharacterSheets.names[id],
         rests: CharacterSheets.rests[id] })),
       worth: Array.from({ length: 31 }, (_, score) => score ? Fighting.statMod(score) : 0),
       backgrounds: backgrounds.map(id => ({ id, name: Overlays.get(id).name, kind: Canon.backgrounds[id]?.kind ?? '',
-        text: this.brings(id), ...Canon.backgrounds[id]?.requiredClass
-          ? { calling: Canon.backgrounds[id].requiredClass } : {} }))
+        text: this.brings(id), qualities: { ...Canon.backgrounds[id]?.attributes ?? {} } as Record<string, number>,
+        coin: Canon.backgrounds[id]?.gold ?? 0,
+        gear: (Canon.backgrounds[id]?.gear ?? []).map(g => Canon.items[g]?.name.toLowerCase() ?? g),
+        ...Canon.backgrounds[id]?.requiredClass ? { calling: Canon.backgrounds[id].requiredClass } : {} }))
         .sort((a, b) => a.name.localeCompare(b.name)),
-      kinds: Object.entries(Canon.backgroundKinds).map(([id, k]) => ({ id, name: k.name })),
+      // Each kind of background, and what the skill its people know is for.
+      kinds: Object.entries(Canon.backgroundKinds).map(([id, k]) => ({ id, name: k.name,
+        does: (k.skills ?? []).map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`).join(' ') })),
       presets: companies.map(c => ({ ...c, members: structuredClone(c.members) })),
       campaigns: [...Scenarios.list.map(s => ({ id: s.manifest, title: s.title, note: s.note, detail: s.detail,
         seed: s.seed, ...s.recommended ? { recommended: true } : {} })),
@@ -54,6 +64,25 @@ export class Creation {
         note: 'Deem draws a region (its towns, people, faith and wild places) and the assembler sets adventures in it.',
         detail: 'Three settlements and three adventures' }],
     };
+  }
+  // The weapons a protagonist of a calling may set out with: its own, and every ordinary weapon of the kinds and
+  // weights it is trained to (a warrior, any), each with what it is by the rules. Not a treasure or a thing of one
+  // adventure (the Wardens' blade, the longsword of flames): those are found.
+  static arms(calling: string): Catalog['callings'][number]['weapons'] {
+    const c = Canon.classes[Canon.resolve('classes', calling)], own = c?.weapons ?? [];
+    return Object.entries(Canon.items).filter(([id, i]) => i.weapon && !i.weapon.natural && i.slot === 'weapon'
+      && (own.includes(id) || (/^weapon:/.test(i.source.orsino ?? '') && RulesCreation.canEquip(calling, id))))
+      .map(([id, i]) => ({ id, name: i.name, damage: i.weapon!.damage, type: i.weapon!.type, kind: i.weapon!.kind ?? '',
+        weight: i.weapon!.weight ?? '', missile: i.weapon!.missile === true, ...i.weapon!.intercept ? { intercept: true } : {},
+        ...own.includes(id) ? { own: true } : {}, value: i.value ?? 0 }));
+  }
+  // The armour a calling may wear, in words: "any armour", or the kinds it is trained to.
+  private static armour(calling: string): string {
+    const c = Canon.classes[Canon.resolve('classes', calling)], p = c?.proficiencies.armor;
+    if (!p || p.all) { return 'any armour'; }
+    const worn = Object.entries(Canon.items).filter(([id, i]) => i.armor && RulesCreation.canEquip(calling, id))
+      .map(([, i]) => i.name.toLowerCase());
+    return worn.length ? worn.join(', ') : 'no armour';
   }
   // A background in a phrase: the skills it brings and what it carries.
   private static brings(id: string): string {

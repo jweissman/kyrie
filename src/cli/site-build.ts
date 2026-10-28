@@ -81,6 +81,7 @@ export class SiteBuild {
     for (const name of ['index.html', 'mono.html']) { await writeFile(join(out, name), html); }
     await cp(join(this.root, 'web/reader/reader.css'), join(out, 'reader.css'));
     await cp(join(this.root, 'web/reader/stage.css'), join(out, 'stage.css'));
+    await cp(join(this.root, 'web/reader/frame.css'), join(out, 'frame.css'));
     await cp(join(this.root, 'web/reader/fonts'), join(out, 'fonts'), { recursive: true });
     await cp(join(this.root, 'web/reader/paintings'), join(out, 'paintings'), { recursive: true });
   }

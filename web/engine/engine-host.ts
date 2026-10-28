@@ -23,6 +23,7 @@ import { Endings } from '../../src/lang/endings';
 import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary';
+import { Spatial } from '../../src/spatial';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { ChoiceList } from '../../src/ui/choice-list';
 
@@ -76,11 +77,14 @@ export class EngineHost {
         return this.command(() => this.perform(request.command));
       case 'fight': this.fight(request.choice); return null;
       case 'travel': return this.command(() => this.travel(request.destination));
+      // A journey given up: it is no longer held, nor shown.
+      case 'unbind': this.bound = undefined; return this.frame();
       case 'kept': this.acknowledged(request.key, request.ok); return null;
       // The page's download waits for the command under way (the independent review's A2).
       // With the story so far, so that a game opened from the file has its Story page (the review's A24).
       case 'checkpoint': await this.working;
-        return this.session ? JSON.stringify({ checkpoint: this.session.checkpoint(true), log: this.log }) : null;
+        return this.session ? JSON.stringify({ checkpoint: this.session.checkpoint(true), log: this.log,
+          ...this.bound ? { bound: this.bound } : {} }) : null;
       case 'story': return this.log;
     }
   }
@@ -152,6 +156,7 @@ export class EngineHost {
     this.frontier = Frontier.generated(t.scenario) ? new Frontier(t.seed, Scenarios.source()) : undefined;
     if (this.frontier) { this.session.extend({ expand: this.widening(game) }); }
     this.log = (saved.log ?? []).map((e, i) => ({ ...e, id: e.id ?? i, notes: e.notes ?? [] }));
+    this.bound = saved.bound;
     this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
     this.crossed = true; this.resumed = true;
     return this.settled();
@@ -196,6 +201,7 @@ export class EngineHost {
   private abandon(): number {
     const turn = this.turn;
     this.turn = undefined; this.fought = undefined; this.busy = undefined; this.working = Promise.resolve();
+    this.bound = undefined;
     if (turn) { turn.resolve(Tactics.choose(turn.battle.state, turn.battle.legalCommands())); }
     return ++this.game;
   }
@@ -207,11 +213,17 @@ export class EngineHost {
   }
   // A journey along known ways: each leg the command the page offers for it, told as it is made; the frame it ends
   // with says each leg (where it came, when, how the way went, what came of it), and why it stopped if it did.
+  // Where the company set out for and has not come to: held until it arrives, sets out for somewhere else, or gives
+  // it up, and kept with the game, so that every page says where it is going and how far it has still to go (the
+  // owner's interim report: a destination set out for was forgotten as soon as the journey stopped).
+  private bound?: string;
   private async travel(destination: string): Promise<Frame> {
     const session = this.session;
     if (!session) { throw new Error('No game is under way'); }
     const trail: Trail = { legs: [] };
+    this.bound = destination;
     const done = await Travel.go({ campaign: session.campaign, perform: this.leg.bind(this, trail) }, destination);
+    if (done.arrived) { this.bound = undefined; }
     const frame = trail.last ?? this.settled(), legs = trail.legs;
     const to = Itineraries.plan(session.campaign, destination)?.name
       ?? session.campaign.module.entities.find(e => e.id === destination)?.name ?? destination;
@@ -284,7 +296,8 @@ export class EngineHost {
     if (!this.session || this.turn) { return; }
     try {
       const checkpoint = this.session.checkpoint(true), world = this.worldOf(checkpoint);
-      const save = JSON.stringify(KeptGame.split(checkpoint, world, this.log, this.session.campaign.world));
+      const save = JSON.stringify({ ...KeptGame.split(checkpoint, world, this.log, this.session.campaign.world),
+        ...this.bound ? { bound: this.bound } : {} });
       // The world goes with the state until the page says it has kept it (see acknowledged).
       const fresh = world.kept || world.sent ? undefined : { key: world.key, text: await SaveCodec.pack(world.text!) };
       this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary(), key: world.key,
@@ -365,6 +378,19 @@ export class EngineHost {
         ?? Obituary.of(campaign) },
       chronicle: PlayerView.chronicle(campaign)
         .map(e => ({ at: FictionalTime.at(e.at), text: e.text, detail: e.detail })),
-      transcript: session.transcript };
+      ...this.journeying(), transcript: session.transcript };
+  }
+  // The journey held, as the page shows it: where to, the way on from here leg by leg and how long; or, come to it
+  // (by whatever way), none.
+  private journeying(): Pick<Frame, 'bound'> {
+    const campaign = this.session!.campaign, id = this.bound;
+    if (!id || !campaign.running) { return {}; }
+    const at = campaign.world.one('at', campaign.playerActor ?? 'party');
+    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    if (at && Spatial.ancestry(entities, at).some(e => e.id === id)) { this.bound = undefined; return {}; }
+    const plan = Itineraries.plan(campaign, id);
+    const name = plan?.name ?? campaign.module.entities.find(e => e.id === id)?.name ?? id;
+    return { bound: { id, name, minutes: plan?.minutes ?? 0, legs: plan?.legs ?? [],
+      ...plan?.toward ? { toward: plan.toward } : {} } };
   }
 }

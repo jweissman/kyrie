@@ -11,7 +11,6 @@ import { ThingStage } from './thing-stage';
 import { RoadStage } from './road-stage';
 import { FightStage } from './fight-stage';
 import { BookStage } from './book-stage';
-import { Act } from './act';
 
 export type Mode = 'explore' | 'talk' | 'examine' | 'road' | 'combat' | 'book' | 'fallen';
 
@@ -19,12 +18,15 @@ export type Mode = 'explore' | 'talk' | 'examine' | 'road' | 'combat' | 'book' |
 // what is there and the ways out), a road (the line across the country), someone spoken with (their painting when
 // one fits, and the conversation), one thing looked at (the thing set large), a fight (the two sides and what just
 // passed between them), or a book (the character, notes, the pack, the map, the story). Every one is on the same
-// white page; the dark, the night and the deep are told, not painted over it.
+// white page; the dark, the night and the deep are told, not painted over it. Nothing stands across any of them but
+// the book in the corner, which opens the books (the owner's interim report: a bar of utilities across every page,
+// a conversation's too, had made play a web application).
 export class Stage {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, menu = app.menu, mode = Stage.mode(app), frame = s.frame!;
     return (
       <div className={`stage mode-${mode}`} data-mode={Stage.inspected(app, mode)} aria-busy={s.pending ? true : undefined}>
+        {['explore', 'road', 'talk', 'examine'].includes(mode) && <Stage.Corner app={app} />}
         <div className="intentions" data-region="choices">
           {mode === 'fallen' && <BookStage.Ending app={app} />}
           {mode === 'combat' && <FightStage.View app={app} />}
@@ -63,17 +65,30 @@ export class Stage {
     const s = frame.screen;
     return [Words.upper(FictionalTime.part(s.elapsed)), s.weather ?? '', s.date?.short ?? ''].filter(Boolean);
   }
-  // The running head: the country and what part of it, and the time, in the margin's small capitals; with the game
-  // to hand, the books (yourself, the notes, the pack, the map, the story so far). Its top edge is the light of the
-  // hour: the morning's, the afternoon's, the evening's, or none at night.
-  static Running({ frame, extra, app }: { frame: Frame; extra?: string; app?: ReaderApp }) {
+  // Where and when, said once and quietly under the heading of what is before you: "Bretheltaure, Galadhtaure ·
+  // Morning, fair, 24 Wolfmoon". Its mark is the light of the hour: the morning's, the afternoon's, the evening's, or
+  // none at night.
+  static When({ frame, extra }: { frame: Frame; extra?: string }) {
+    // From the nearest to the widest, none said twice (the market-place of a town says the town).
+    const [country, ...within] = Stage.where(frame), all = [...extra ? [extra] : [], ...within.toReversed(), country!];
+    const where = all.filter((w, i) => w && !all.slice(0, i).some(o => o.toLowerCase().includes(w.toLowerCase())));
     return (
-      <header className={`running light-${FictionalTime.part(frame.screen.elapsed)}`} data-id="clock">
-        <span className="at">{Stage.where(frame).map(w => <span key={w}>{Typography.curl(w)}</span>)}
-          {extra && <span>{Typography.curl(extra)}</span>}</span>
-        <span className="when">{Stage.when(frame).map(w => <span key={w}>{w}</span>)}</span>
-        {app && <Act.Sheets app={app} />}
-      </header>
+      <p className={`when light-${FictionalTime.part(frame.screen.elapsed)}`} data-id="clock">
+        <span className="at">{Typography.curl(where.join(', '))}</span>
+        <span className="hour">{Stage.when(frame).join(', ')}</span>
+      </p>
+    );
+  }
+  // The book in the corner: yourself, the notes, the pack, the map and the story, opened from one control that stands
+  // quiet in the corner of every page until it is wanted (and by their keys: C, J, I, M, H).
+  static Corner({ app }: { app: ReaderApp }) {
+    return (
+      <button type="button" className="corner" data-action="book" onClick={() => app.show('journal')}
+        aria-label="Your book: yourself, your notes, your pack, the map and the story so far">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 5.2C5.9 4.2 8.6 4.3 11 5.6v13.6
+          c-2.4-1.2-5.1-1.3-7.5-.3V5.2zm17 0v13.7c-2.4-1-5.1-.9-7.5.3V5.6c2.4-1.3 5.1-1.4 7.5-.4z" /></svg>
+        <span className="corner-label">Book</span>
+      </button>
     );
   }
   // Yourself, at a glance: how you are, what ails you, what you have to spend and to eat, and your light if it matters.

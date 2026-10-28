@@ -8,54 +8,46 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .stage > .intentions { height: 100%; }
 .page { max-width: 40rem; margin: 0 auto; padding: 30px 24px 96px; }
 
-/* The running head: where and when, and the books, in the margin's small capitals. Its top edge is the hour's light. */
-.running { position: relative; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 18px; padding-bottom: 10px;
-  margin: 0 0 40px; border-bottom: 1px solid var(--hair); font: 500 11.5px/1.3 var(--do); letter-spacing: .12em;
-  text-transform: uppercase; color: var(--grey); }
-.running .at { margin-right: auto; }
-.running .at span + span::before, .running .when span + span::before { content: '·'; margin: 0 8px; color: var(--faint); }
-.running .at span:first-child { color: var(--ink); }
-.running .sheets { margin: 0 0 0 10px; gap: 2px 14px; }
-.running .sheet-key { font: 500 11.5px/1.3 var(--do); letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
-  color: var(--ink); padding: 4px 0; }
-.running .sheet-key kbd { display: none; }
-.running .sheet-key:hover { color: var(--blue); }
-.running .sheet-key:focus-visible kbd, .running .sheet-key:hover kbd { display: inline; }
-.spread > .running::before, .book-frame > .running::before { content: ''; position: absolute; left: 0; right: 0; top: 0;
-  height: 4px; }
-.running.light-morning::before { background: linear-gradient(90deg, var(--yellow), #FBE9A6 38%, var(--paper) 82%); }
-.running.light-afternoon::before { background: linear-gradient(90deg, #FBE9A6, var(--paper) 70%); }
-.running.light-evening::before { background: linear-gradient(90deg, var(--red), #F2A35E 30%, #8FB1F2 70%, var(--blue)); }
-.running.light-night::before { background: var(--ink); }
+/* Where and when, once, quietly under the heading: its mark the hour's light. */
+.when { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; margin: -12px 0 24px;
+  font: 500 12px/1.4 var(--do); letter-spacing: .1em; text-transform: uppercase; color: var(--grey); }
+.when .at { color: var(--ink); }
+.when::before { content: ''; flex: none; width: 22px; height: 3px; align-self: center; margin-right: -4px; }
+.when.light-morning::before { background: var(--yellow); }
+.when.light-afternoon::before { background: #F2D987; }
+.when.light-evening::before { background: linear-gradient(90deg, var(--red), var(--blue)); }
+.when.light-night::before { background: var(--ink); }
+
+/* The book in the corner: the one control on every page, quiet until it is wanted. */
+.corner { all: unset; box-sizing: border-box; cursor: pointer; position: fixed; z-index: 5;
+  top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right));
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 12px; border-radius: 999px;
+  background: rgba(255,255,255,.92); border: 1px solid var(--hair); color: var(--ink); font: 500 13px/1 var(--do);
+  letter-spacing: .06em; -webkit-tap-highlight-color: transparent; transition: border-color .12s, box-shadow .12s; }
+.corner svg { width: 20px; height: 20px; fill: currentColor; }
+.corner:hover { border-color: var(--ink); }
+.corner:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 
 /* ---- A place: a spread. On the left the telling; on the right what is here, and the ways; across the foot,
    yourself. ---- */
 .spread { height: 100dvh; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  grid-template-rows: auto minmax(0, 1fr) auto; grid-template-areas: "head head" "verso recto" "foot foot"; }
-.spread > .running { grid-area: head; margin: 0; padding: 18px clamp(20px, 3.4vw, 48px) 12px; }
+  grid-template-rows: minmax(0, 1fr); grid-template-areas: "verso recto"; }
 .leaves { display: contents; }
 .verso, .recto { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
   scrollbar-color: var(--hair) transparent; }
-.verso { grid-area: verso; padding: clamp(26px, 6vh, 64px) clamp(24px, 4vw, 72px) 28px; }
+.verso { grid-area: verso; padding: max(clamp(26px, 6vh, 64px), env(safe-area-inset-top)) clamp(24px, 4vw, 72px)
+  max(40px, env(safe-area-inset-bottom)) max(clamp(24px, 4vw, 72px), env(safe-area-inset-left)); }
 .verso .measure { max-width: 35rem; margin-left: auto; }
-.recto { grid-area: recto; padding: clamp(30px, 6.6vh, 70px) clamp(24px, 3.6vw, 60px) 28px; border-left: 1px solid var(--hair);
+.recto { grid-area: recto; padding: max(clamp(64px, 8vh, 84px), env(safe-area-inset-top)) max(clamp(24px, 3.6vw, 60px),
+  env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) clamp(24px, 3.6vw, 60px); border-left: 1px solid var(--hair);
   background: linear-gradient(180deg, #FAFAF8, var(--paper) 40%); }
 .recto .measure { max-width: 33rem; }
-.foot { grid-area: foot; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 6px 36px;
-  padding: 10px clamp(20px, 3.4vw, 48px) 13px; border-top: 1.5px solid var(--ink); margin: 0;
-  font: 400 14.5px/1.45 var(--do); color: var(--grey); background: var(--paper); }
-.foot .you { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; grid-column: 2; }
-.foot .from-here { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 30px; max-height: 38dvh; overflow-y: auto; }
-.foot .from-here .ways { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 18px; }
-.foot .from-here .ways .label { margin: 0 4px 0 0; }
-.foot .from-here .routes { flex-basis: 100%; }
-.foot .from-here .act.fold { margin: 0; }
-.foot .me { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 0; }
-.foot .me > * + *::before { content: '·'; margin: 0 8px; color: var(--faint); }
-.foot .me b { color: var(--ink); font-weight: 600; }
-.foot .me .face { width: 26px; height: 32px; object-fit: cover; margin-right: 10px; align-self: center; display: block; }
-.foot .me .face + b::before { content: none; }
-.foot .yours { margin: 0; gap: 2px 22px; }
+.you { margin: 34px 0 0; padding-top: 16px; border-top: 1.5px solid var(--ink); font: 400 14.5px/1.45 var(--do);
+  color: var(--grey); }
+.you .me { margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 0; }
+.you .me > * + *::before { content: '·'; margin: 0 8px; color: var(--faint); }
+.you .me b { color: var(--ink); font-weight: 600; }
+.you .yours { margin: 0; gap: 8px; }
 .hurt { color: var(--red); }
 
 .chapter { font: 500 12px/1.3 var(--do); letter-spacing: .18em; text-transform: uppercase; margin: 0 0 8px; }
@@ -184,59 +176,59 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .act.chip:hover .verb, .act.chip.sel .verb, .act.chip:focus-visible .verb { color: var(--blue); }
 .acts.under { margin: 4px 0 0; }
 
-/* ---- The ways about the place, each where it goes; the roads out and the places further off, folded. ---- */
-.paths { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2px 24px; }
-.paths li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; }
-.act.path, .act.route { text-decoration: none; padding: 4px 0; }
-.act.path .n, .act.route .n { font: 500 16.5px/1.35 var(--do); }
-.act.path::before, .act.route::before { content: '→'; display: inline-block; margin-right: 9px; color: var(--faint);
-  transition: transform .12s, color .12s; }
-.act.path:hover::before, .act.route:hover::before { color: var(--ink); transform: translateX(2px); }
-.act.path.sel, .act.path:focus-visible, .act.route.sel, .act.route:focus-visible { color: var(--blue); }
-.act.path.sel::before, .act.path:focus-visible::before, .act.route.sel::before, .act.route:focus-visible::before { color: var(--blue); }
-.act.path .r, .act.route .r { font: 400 14px/1.35 var(--do); color: var(--grey); margin-left: 8px; display: inline-block; }
-.act.also { color: var(--grey); }
-.routes { list-style: none; margin: 0; padding: 0; }
-.routes li { margin: 0 0 2px; }
-.act.fold { font: 500 11.5px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey);
-  text-decoration: none; padding: 6px 0; margin: 0 0 4px; }
-.act.fold .r { margin-left: 8px; letter-spacing: .04em; color: var(--faint); }
-.act.fold:hover, .act.fold.sel, .act.fold:focus-visible { color: var(--ink); }
-.act.fold.opens::after { content: ' ▸'; color: var(--faint); }
-.act.fold.opened::after { content: ' ▾'; color: var(--faint); }
-.recto .ways .label { margin-bottom: 6px; }
+/* ---- The ways on, each a choice that says where it goes; the places further off, to set out for. ---- */
+.ways { margin: 0 0 22px; }
+.options { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.options li { margin: 0; }
+.act.way { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; width: 100%; min-height: 48px;
+  padding: 11px 14px 11px 40px; position: relative; text-decoration: none; border: 1px solid var(--hair);
+  border-radius: 5px; background: var(--paper); transition: border-color .12s, background-color .12s; }
+.act.way::before { content: '→'; position: absolute; left: 14px; top: 11px; color: var(--faint); transition: transform .12s, color .12s; }
+.act.way .n { font: 500 16.5px/1.35 var(--do); color: var(--ink); }
+.act.way .r { font: 400 14px/1.35 var(--do); color: var(--grey); }
+.act.way:hover { border-color: #B8B8B8; }
+.act.way:hover::before { color: var(--ink); transform: translateX(2px); }
+.act.way:active { background: var(--wash); }
+.act.way.sel, .act.way:focus-visible { border-color: var(--blue); box-shadow: inset 0 0 0 1px var(--blue); }
+.act.way.sel::before, .act.way:focus-visible::before { color: var(--blue); }
+.act.way.also { min-height: 40px; padding-top: 8px; padding-bottom: 8px; margin-left: 26px; width: calc(100% - 26px); }
+.act.way.also::before { content: '·'; top: 8px; }
+.act.way.also .n, .act.way.also { font: 450 15px/1.35 var(--do); color: #2B2B2B; }
+.act.way.journey::before { content: '⇢'; }
+.act.way.risk::after, .act.way.grave::after { flex-basis: 100%; padding-left: 0; }
+.act.way .why { flex-basis: 100%; }
+.recto .ways .label { margin-bottom: 8px; }
 
-/* The books, at hand in the head and on their own pages. */
-.sheets { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 6px 22px; }
-.sheet-key { all: unset; cursor: pointer; font: 450 14.5px var(--do); color: var(--ink); text-decoration: underline;
-  text-decoration-color: var(--hair); text-underline-offset: 4px; }
-.sheet-key[aria-pressed="true"] { color: var(--blue); text-decoration-color: var(--blue); }
-.sheet-key:focus-visible { color: var(--blue); outline: none; text-decoration-color: var(--blue); }
+/* The books, as tabs across the book's own head. */
+.sheets { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.sheet-key { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px; padding: 0 16px; border: 1px solid var(--hair); border-radius: 999px; font: 500 14.5px/1 var(--do);
+  color: var(--ink); }
+.sheet-key kbd { display: none; }
+.sheet-key:hover { border-color: #B8B8B8; }
+.sheet-key[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.sheet-key:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 
-@media (max-width: 760px) {
-  .spread { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "leaves" "foot"; }
-  .spread > .running { padding: 14px 16px 10px; }
-  .running .sheets { width: 100%; margin: 4px 0 0; }
-  /* On a phone the leaf is one column: the place and its first paragraph (and what just happened), then who and what
-     is here, then the rest of the telling (M17-05: a town's people had been under the whole of it, a scroll away). */
+/* A tablet held upright, or a phone: one leaf, scrolling. The place and its first paragraph (and what just happened),
+   then who and what is here, then the rest of the telling, then the ways on and yourself (M17-05: a town's people
+   had been under the whole of it, a scroll away), all on one reading measure inside the screen's safe area. */
+@media (max-width: 960px), (orientation: portrait) and (max-width: 1100px) {
+  .spread { grid-template-columns: minmax(0, 1fr); grid-template-areas: "leaves"; }
   .leaves { display: flex; flex-direction: column; grid-area: leaves; min-height: 0; overflow-y: auto;
-    overscroll-behavior: contain; }
-  .verso, .recto { overflow: visible; }
-  .verso:not(.plate-page), .verso:not(.plate-page) > .measure { display: contents; }
-  .verso:not(.plate-page) .telling, .verso .telling .establish { display: contents; }
-  .verso .telling > *, .verso .telling .establish > p { order: 1; margin-left: 16px; margin-right: 16px; }
-  .verso .telling > :first-child { margin-top: 22px; }
+    overscroll-behavior: contain; padding: max(76px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+      max(56px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+  .verso, .recto { overflow: visible; padding: 0; border: 0; background: none; }
+  .verso:not(.plate-page), .verso:not(.plate-page) > .measure, .verso:not(.plate-page) .telling,
+  .verso .telling .establish, .recto, .recto > .measure { display: contents; }
+  .leaves .telling > *, .leaves .establish > p, .recto .measure > * { order: 1; flex-shrink: 0; width: 100%;
+    max-width: 40rem; margin-left: auto; margin-right: auto; }
   .verso .telling .establish > p ~ p, .verso .telling > :is(.presence, .changed) { order: 3; }
   .verso .telling .establish > p ~ p:nth-child(2) { padding-top: 16px; }
-  .recto { order: 2; margin-bottom: 4px; }
-  /* Each part its own height, the leaf scrolling over them all, none squeezed under the next. */
-  .leaves > *, .verso .telling > *, .verso .telling .establish > p { flex-shrink: 0; }
-  .verso.plate-page { padding: 0; }
+  .recto .measure > :is(.way-here, .told-here, .here) { order: 2; }
+  .recto .measure > .here { margin-top: 10px; }
+  .recto .measure > .on { order: 4; margin-top: 18px; }
+  .verso.plate-page { order: 0; flex-shrink: 0; padding: 0; margin: -20px 0 22px; }
   .verso .measure, .recto .measure { max-width: none; }
-  .recto { padding: 18px 16px 24px; border-left: 0; border-top: 1px solid var(--hair); background: var(--paper); }
-  .foot { padding: 10px 16px 12px; grid-template-columns: minmax(0, 1fr); }
-  .foot .you { grid-column: 1; align-items: flex-start; }
-  .foot .from-here { max-height: 30dvh; }
 }
 
 /* ---- On a road: the line across the country, then the telling. ---- */
@@ -272,8 +264,9 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .sitter.unpainted .cap { position: static; color: var(--ink); text-shadow: none; padding: 0 clamp(24px, 4vw, 56px) clamp(30px, 8vh, 80px); }
 .sitter.unpainted .cap .n { font: 400 clamp(46px, 6vw, 80px)/1.02 var(--told); }
 .sitter.unpainted .cap .r { font: 500 12px var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin-top: 10px; }
-.dialogue { height: 100dvh; display: flex; flex-direction: column; padding: 26px clamp(24px, 4vw, 56px) 0; max-width: 48rem; }
-.dialogue .running { flex: none; margin-bottom: 26px; padding-right: 36px; }
+.dialogue { height: 100dvh; display: flex; flex-direction: column; max-width: 48rem;
+  padding: max(26px, env(safe-area-inset-top)) max(clamp(24px, 4vw, 56px), env(safe-area-inset-right))
+    env(safe-area-inset-bottom) clamp(24px, 4vw, 56px); }
 .lines { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin: 0; padding-bottom: 12px;
   scrollbar-width: thin; scrollbar-color: var(--hair) transparent; }
 .dialogue .answer { flex: none; max-height: 52dvh; overflow-y: auto; border-top: 1.5px solid var(--ink); padding: 14px 0 18px;
@@ -312,20 +305,20 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .replies .act.sel i, .dialogue .leave .act.sel i { color: var(--blue); }
 .replies .asked .act { color: var(--grey); }
 
-.close { all: unset; cursor: pointer; position: absolute; top: 14px; right: 18px; font: 300 28px/1 var(--do); color: var(--grey); z-index: 2; }
+.close { all: unset; cursor: pointer; position: absolute; top: max(8px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right)); width: 44px; height: 44px; display: grid; place-items: center;
+  font: 300 28px/1 var(--do); color: var(--grey); z-index: 2; }
 
 /* ---- One thing looked at: the thing set large, what can be done with it beside it. ---- */
 .thing { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 0 clamp(28px, 5vw, 72px);
   height: 100dvh; overflow: hidden; max-width: 82rem; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); position: relative; }
 .thing .face, .thing .uses { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 26px 0 40px;
   scrollbar-width: thin; scrollbar-color: var(--hair) transparent; }
-.thing .face .running { margin-bottom: 36px; }
 .thing .kicker { font: 500 11.5px var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin: 0 0 8px; }
 .thing .face .n { font: 400 clamp(38px, 4.8vw, 56px)/1.05 var(--told); margin: 0 0 6px; text-wrap: balance; }
 .thing .face .r { font: 400 15px var(--do); color: var(--grey); margin: 0 0 22px; }
 .thing .seen { font-size: 21px; line-height: 1.55; }
 .thing .uses { padding-top: 98px; }
-.thing .face .running .sheets { display: none; }
 .thing .group { margin: 0 0 22px; }
 .thing .group.risky .label { color: var(--red); }
 .thing .away { margin-top: 28px; }
@@ -382,25 +375,26 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .fight .auto { font: 400 13.5px var(--do); color: var(--grey); }
 .fight-log-fold summary { cursor: pointer; font: 500 11.5px var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); }
 
-/* ---- A book: under the running head, its own page, which scrolls within the frame. ---- */
+/* ---- A book: opened over the page, its tabs across its head with the way back first; its page scrolls. ---- */
 .book-frame { height: 100dvh; display: grid; grid-template-rows: auto minmax(0, 1fr); }
-.book-frame > .running { margin: 0; padding: 18px clamp(20px, 3.4vw, 48px) 12px; }
-.book-frame > .running .sheet-key[aria-pressed="true"] { color: var(--blue); box-shadow: inset 0 -2px 0 var(--blue); }
+.book-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; border-bottom: 1px solid var(--hair);
+  padding: max(14px, env(safe-area-inset-top)) max(clamp(16px, 3.4vw, 48px), env(safe-area-inset-right)) 14px
+    max(clamp(16px, 3.4vw, 48px), env(safe-area-inset-left)); }
+.book-head .back-to { min-height: 44px; padding: 8px 18px; font-size: 15px; }
 .book-frame > .book { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
   scrollbar-color: var(--hair) transparent; }
 
 /* ---- The end of a life: the one page the dark is right for. ---- */
 .stage.mode-fallen { background: var(--ink); color: var(--paper); min-height: 100dvh; }
-.stage.mode-fallen .running { border-color: #333; color: #A0A0A0; }
-.stage.mode-fallen .running .at span:first-child { color: var(--paper); }
+.stage.mode-fallen .when { color: #A0A0A0; }
+.stage.mode-fallen .when .at { color: var(--paper); }
 .stage.mode-fallen .place { font-size: clamp(40px, 6vw, 64px); }
 .stage.mode-fallen .how { font-size: 21px; }
 .stage.mode-fallen .act { color: var(--paper); text-decoration-color: #555; }
 .stage.mode-fallen .acts { margin-top: 30px; gap: 8px 28px; }
 
-@media (max-width: 860px) {
+@media (max-width: 860px), (orientation: portrait) and (max-width: 1100px) {
   .page { padding: 18px 16px 72px; }
-  .running { margin-bottom: 28px; }
   .talk, .thing { grid-template-columns: minmax(0, 1fr); }
   /* On a phone the painting is a band across the top, and the conversation has the rest, its leave in view. */
   .talk { grid-template-rows: minmax(0, 30dvh) minmax(0, 1fr); }
@@ -411,12 +405,9 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
   .sitter.unpainted .cap { padding: 18px 16px 14px; }
   .sitter.unpainted .cap .n { font-size: 34px; }
   .dialogue { height: auto; min-height: 0; padding: 14px 16px 0; }
-  .dialogue .running { margin-bottom: 14px; }
   .dialogue .answer { max-height: 46dvh; }
   .thing { display: block; overflow-y: auto; padding: 0 16px; }
   .thing .face, .thing .uses { overflow: visible; padding: 14px 0 10px; }
-  /* The running head clear of the close, which stands over its right end. */
-  .thing .running, .dialogue .running { padding-right: 34px; }
   .thing .uses { padding: 0 0 40px; }
   .fight { padding: 18px 16px 64px; }
   .fight .sides { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -437,3 +428,59 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .travelled .leg .at { color: var(--grey); font-weight: 400; margin-right: 6px; }
 .travelled li p:not(.leg) { font-style: italic; color: var(--grey); margin-bottom: .4em; }
 .travelled .stopped { font: 500 17px/1.45 var(--told); color: var(--ink); border-left: 3px solid var(--blue); padding-left: 12px; margin-top: 14px; }
+
+/* Where and when under a sitter's name: on the painting, in its caption's light. */
+.sitter .cap .when { margin: 12px 0 0; color: rgba(255,255,255,.86); }
+.sitter .cap .when .at { color: #fff; }
+.sitter.unpainted .cap .when { color: var(--grey); }
+.sitter.unpainted .cap .when .at { color: var(--ink); }
+.thing .face .when { margin: -2px 0 22px; }
+
+/* The ways about a place side by side where there is room; the roads out, which say more, one to a row. */
+@media (min-width: 640px) {
+  .ways.about .options { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+}
+/* What you can do of yourself: small controls, not words. */
+.you .yours .act { display: inline-flex; align-items: baseline; gap: 6px; min-height: 40px; padding: 9px 14px;
+  border: 1px solid var(--hair); border-radius: 5px; text-decoration: none; font: 450 15px/1.2 var(--do); }
+.you .yours .act:hover { border-color: #B8B8B8; }
+.you .yours .act.sel, .you .yours .act:focus-visible { border-color: var(--blue); color: var(--blue); }
+.you .yours .act .note { margin-left: 2px; }
+.chips .act.chip, .chips .chip.still { min-height: 44px; display: inline-flex; align-items: center; }
+
+/* A conversation: what has passed, and right under it what you might say, the painting above on an upright screen. */
+.dialogue .lines { flex: 0 1 auto; }
+.dialogue .answer { flex: 0 0 auto; max-height: none; }
+.replies li { margin: 0 0 6px; }
+.replies .act, .dialogue .leave .act { display: flex; align-items: baseline; gap: 10px; width: 100%; min-height: 46px;
+  margin-left: 0; padding: 10px 14px; border: 1px solid var(--hair); border-left-width: 1px; border-radius: 5px;
+  background: var(--paper); }
+.replies .act:hover, .dialogue .leave .act:hover { border-color: #B8B8B8; background: var(--paper); }
+.replies .act.sel, .replies .act:focus-visible, .dialogue .leave .act.sel, .dialogue .leave .act:focus-visible {
+  border-color: var(--blue); box-shadow: inset 0 0 0 1px var(--blue); background: var(--paper); }
+.replies .act i, .dialogue .leave .act i { width: 1.4em; flex: none; }
+.dialogue .leave .act { border-style: dashed; }
+@media (max-width: 860px), (orientation: portrait) and (max-width: 1100px) {
+  .talk { grid-template-rows: minmax(0, 40dvh) minmax(0, 1fr); }
+  .dialogue { width: 100%; max-width: 44rem; margin: 0 auto; padding: 18px max(20px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+}
+
+/* Where you are going: held, on every page you explore from until you come there. */
+.bound { margin: 0 0 26px; padding: 16px 18px 18px; border: 1.5px solid var(--ink); border-radius: 6px;
+  background: var(--paper); }
+.bound .label { margin: 0 0 4px; color: var(--blue); }
+.bound .whither { font: 400 26px/1.15 var(--told); margin: 0 0 6px; }
+.bound .next { font: 400 14.5px/1.45 var(--do); color: var(--grey); margin: 0 0 14px; }
+.bound .go { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
+.bound .act.option { text-decoration: none; }
+.bound .act.go-on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.bound .act.go-on.sel, .bound .act.go-on:focus-visible { box-shadow: 0 0 0 2px var(--blue); color: var(--paper); }
+.bound .act.give-up { border-color: var(--hair); color: var(--grey); font-weight: 450; }
+
+/* In a conversation, or with one thing looked at, the book is a quiet mark beside the close: there, not prominent. */
+.mode-talk .corner, .mode-examine .corner { right: calc(max(10px, env(safe-area-inset-right)) + 50px);
+  top: max(8px, env(safe-area-inset-top)); width: 44px; padding: 0; justify-content: center;
+  background: rgba(255,255,255,.8); border-color: transparent; color: var(--grey); }
+.mode-talk .corner .corner-label, .mode-examine .corner .corner-label { display: none; }
+.mode-talk .corner:hover, .mode-examine .corner:hover { color: var(--ink); border-color: var(--hair); }

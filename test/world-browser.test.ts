@@ -24,7 +24,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
       { site, pointer: false, query: `?world=${seed}` });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    // The qualities are six rolls placed by choosing one and then another (the cold playtest could not place them).
+    // The qualities are six rolls placed by choosing one and then another (the cold playtest could not place them),
+    // on their own page of the book creation is.
+    await page.click('[data-step="qualities"]');
     const roll = (q: string) => page.textContent(`[data-quality="${q}"]`);
     const [strength, dexterity] = [await roll('strength'), await roll('dexterity')];
     await page.click('[data-quality="strength"]');

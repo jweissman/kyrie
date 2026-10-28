@@ -1,0 +1,103 @@
+/* The rebuilt compositions (the owner's interim report, M17): controls that look like controls, cards for choices,
+   nothing standing on the page that is not about what the player is doing, and every edge inside the safe area of a
+   tablet's screen (the page asks for the whole screen: viewport-fit=cover). Same ground, ink and type as the rest. */
+
+/* ---- Controls. An option is a control, never an underlined word; a card is a choice that says what it is. ---- */
+.option { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center;
+  justify-content: center; gap: 10px; min-height: 48px; padding: 12px 22px; font: 500 16px/1.2 var(--do);
+  border: 1.5px solid var(--ink); border-radius: 4px; background: var(--paper); color: var(--ink);
+  -webkit-tap-highlight-color: transparent; user-select: none; }
+.option:hover { background: var(--wash); }
+.option:active { transform: translateY(1px); }
+.option:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.option.go { background: var(--ink); color: var(--paper); }
+.option.go:hover { background: #2E2E2E; }
+.option[disabled], .option[aria-disabled="true"] { opacity: .45; cursor: default; transform: none; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr)); gap: 12px; }
+.card { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 8px;
+  padding: 16px 18px 18px; border: 1px solid var(--hair); border-radius: 6px; background: var(--paper);
+  min-height: 48px; transition: border-color .12s, box-shadow .12s; -webkit-tap-highlight-color: transparent; }
+.card:hover { border-color: #B8B8B8; }
+.card:active { background: var(--wash); }
+.card:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.card.chosen { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.card[disabled] { cursor: default; opacity: .5; }
+.card-name { font: 400 22px/1.15 var(--told); display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
+.card .tag { font: 500 11px/1.2 var(--do); letter-spacing: .1em; text-transform: uppercase; color: var(--blue); }
+.card-text { font: 400 15.5px/1.45 var(--told); }
+.card-facts { display: flex; flex-direction: column; gap: 4px; font: 400 13.5px/1.4 var(--do); color: var(--grey); }
+.card-shut { font: 500 13px/1.3 var(--do); color: var(--red); }
+
+/* ---- Creation: who comes into the country, a page at a time, with what you are so far beside it. ---- */
+.creation { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; grid-template-rows: auto 1fr;
+  column-gap: clamp(24px, 4vw, 56px); max-width: 86rem; margin: 0 auto; min-height: 100dvh;
+  padding: max(28px, env(safe-area-inset-top)) max(clamp(18px, 4vw, 56px), env(safe-area-inset-right))
+    max(48px, env(safe-area-inset-bottom)) max(clamp(18px, 4vw, 56px), env(safe-area-inset-left)); }
+.creation-head { grid-column: 1 / -1; }
+.creation-head h1 { font: 400 clamp(32px, 4.4vw, 52px)/1.05 var(--told); margin: 0 0 12px; }
+.creation-head .pitch { max-width: 40em; color: var(--grey); font-size: 18px; }
+.steps { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 18px 0 28px; }
+.step { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 9px;
+  min-height: 44px; padding: 10px 18px; font: 500 15px/1 var(--do); border: 1px solid var(--hair); border-radius: 999px; }
+.step i { font-style: normal; color: var(--faint); font-variant-numeric: tabular-nums; }
+.step:hover { border-color: #B8B8B8; }
+.step[aria-current="step"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.step[aria-current="step"] i { color: #BDBDBD; }
+.step:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.creation-page { min-width: 0; }
+.creation .deck { margin: 0 0 32px; }
+.creation .deck-title { font: 500 12px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey);
+  margin: 0 0 12px; }
+.creation .how { font: 400 15px/1.45 var(--do); color: var(--grey); max-width: 46em; margin: 0 0 16px; }
+.creation .turn { display: flex; gap: 12px; margin: 36px 0 0; padding-top: 22px; border-top: 1px solid var(--hair); }
+.creation .turn .on, .creation .turn .go { margin-left: auto; }
+.name-field { display: block; font: 500 12px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--grey); margin: 0 0 30px; max-width: 26rem; }
+.name-field input { display: block; width: 100%; margin-top: 8px; padding: 6px 0 8px; border: 0;
+  border-bottom: 1.5px solid var(--ink); font: 400 34px/1.15 var(--told); letter-spacing: 0; text-transform: none;
+  background: transparent; color: var(--ink); outline: none; border-radius: 0; }
+.name-field input:focus { border-bottom-color: var(--blue); }
+.so-far { position: sticky; top: max(24px, env(safe-area-inset-top)); align-self: start; padding-left: 22px;
+  border-left: 1px solid var(--hair); }
+.so-far ul { list-style: none; margin: 0 0 20px; padding: 0; }
+.so-far .line { all: unset; box-sizing: border-box; cursor: pointer; display: block; width: 100%; min-height: 40px;
+  padding: 8px 0; font: 400 16.5px/1.35 var(--told); border-bottom: 1px solid var(--hair); }
+.so-far .line:hover { color: var(--blue); }
+.so-far .out { display: flex; flex-direction: column; gap: 10px; }
+
+/* Qualities: each roll a control to change over, beside what the score does by the rules. */
+.qualities { list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 10px; }
+.qualities > li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: start;
+  padding: 14px 16px; border: 1px solid var(--hair); border-radius: 6px; }
+.qualities > li.held { border-color: var(--blue); }
+.qualities .roll { all: unset; box-sizing: border-box; cursor: pointer; width: 64px; height: 64px; display: grid;
+  place-items: center; border: 1.5px solid var(--ink); border-radius: 6px; font: 400 30px/1 var(--told);
+  font-variant-numeric: tabular-nums; }
+.qualities .roll[aria-pressed="true"] { border-color: var(--blue); color: var(--blue); }
+.qualities .roll:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.qualities .q { margin: 2px 0 6px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+  font: 400 15px/1.3 var(--do); }
+.qualities .q b { font: 500 13px/1 var(--do); letter-spacing: .12em; text-transform: uppercase; }
+.qualities .q .score { font: 400 26px/1 var(--told); }
+.qualities .q .adds, .qualities .q .mods { color: var(--grey); font-size: 13.5px; }
+.qualities .does { list-style: none; margin: 0; padding: 0; font: 400 15px/1.45 var(--told); }
+.qualities .does li { margin: 0 0 3px; }
+
+/* The trade: kinds of background to choose among, then the trades of the kind. */
+.trade { margin: 8px 0 30px; }
+.kinds { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; padding: 0; }
+.kind { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+  min-height: 40px; padding: 8px 14px; border: 1px solid var(--hair); border-radius: 999px; font: 500 14px/1 var(--do); }
+.kind small { color: var(--faint); font-size: 12px; }
+.kind[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.kind:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+@media (max-width: 960px) {
+  .creation { grid-template-columns: minmax(0, 1fr); }
+  .so-far { position: static; padding: 22px 0 0; border-left: 0; border-top: 1px solid var(--hair); margin-top: 28px; }
+}
+@media (max-width: 560px) {
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .creation .turn { flex-wrap: wrap; }
+}
