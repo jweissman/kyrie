@@ -93,6 +93,8 @@ describe('an origin', () => {
     await Opening.take(s, /^Give .*feverwort/i);
     expect(c.world.test(ModuleWriter.call('fever__mended', 'fever__mother'))).toBe(true);
     expect(c.world.test(ModuleWriter.call('stale', 'fever__bark_lore'))).toBe(true);
+    // Asked at once, the child is asleep; she sat up and asked for bread the next morning, not minutes after (play 9).
+    expect((await Opening.take(s, /^Ask .* how the child is$/)).response).toMatch(/^'Asleep,'/);
   }, 60000);
   it('begins with one person, on the way in, told who they are and why they came', async () => {
     const s = await Opening.start('kin'), screen = ScreenModel.build(s.campaign);

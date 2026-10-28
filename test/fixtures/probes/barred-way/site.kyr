@@ -1,0 +1,15 @@
+Module barredway "A gate with a portcullis down across it" {
+  Place field "a field" is wilderness.
+  Place lane "the lane" is room within field at 0, 0 outdoors.
+  Place bailey "the bailey" is room within field at 1, 0 outdoors.
+  Passage gate "the gate passage" is path between lane and bailey taking 2 minutes.
+  Company party "You" of 1 at lane.
+  Thing portcullis "the portcullis" on gate {
+    State down blocking "A rusted portcullis hangs across the gate passage, a foot short of the ground.".
+    State up "The portcullis is wedged up.".
+    Tries pushing.
+  }
+  Observe portcullis_pushed beside gate of portcullis when tried(portcullis, pushing) "The portcullis shifts an inch in its grooves, and drops back with a clang." .
+  Observe lane_scene at lane when true "A lane runs up to a gate in a wall.".
+  Goal false.
+}

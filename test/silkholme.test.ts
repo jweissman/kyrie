@@ -3,6 +3,7 @@ import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { ScreenModel } from '../src/ui/screen-model';
 
 class Sink {
   // A torch from Nera first: the caves under the sink are dark.
@@ -22,6 +23,7 @@ class Sink {
   }
   static legal(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.id); }
   static coins(s: PlaySession) { return s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')); }
+  static aims(s: PlaySession) { return ScreenModel.build(s.campaign).objectives; }
 }
 
 describe('Silkholme: one quarrel, several ways through it', () => {
@@ -42,10 +44,14 @@ describe('Silkholme: one quarrel, several ways through it', () => {
     expect(Sink.coins(s)).toBe(before + 4);
     for (const c of ['go(sink__terrace_steps,sink__lip)', 'go(sink__sink_path,march__ridge)']) { await s.perform(c); }
     expect(Sink.legal(s)).toContain('brood__wait_and_see');
+    // Both told, the aim of telling them is done (play 9 kept it after both were told).
+    await s.perform('brood__wait_and_see');
+    expect(Sink.aims(s).some(a => /will want to know/.test(a))).toBe(false);
     while (s.campaign.state.elapsed < 90) { await s.perform('wait'); }
     expect(s.campaign.world.number(ModuleWriter.call('brood__lost', 'brood__garth'))).toBe(1);
     expect(Sink.state(s, 'brood__garth')).toBe('brood__easy');
     expect(Sink.legal(s)).toContain('brood__paid_fed');
+    expect(Sink.aims(s).some(a => /no ewe taken/.test(a))).toBe(true);
   }, 120000);
   // The feeding was never found: no ewe to be seen anywhere, and the brood-mother offered nothing (the play-structure
   // investigation's PT-37). Odile says where the ewe is; held out empty hands, the brood-mother shows what she would

@@ -19,6 +19,9 @@ export class Told {
     const s = app.state, frame = s.frame!, leaf = frame.leaf, screen = frame.screen, exchange = leaf.exchange;
     const told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
     const stayed = !leaf.moved && !!told;
+    // Hurt on the way in (a trap's blade), what happened comes before the place, whose telling says what it left (play
+    // 9 read "The hidden switch has gone off, and is spent." before "A scything blade swings through the air.").
+    const struck = !stayed && !!told && told.lines.some(l => Told.harm.test(l.text));
     const subjects = app.menu.scene?.subjects ?? [];
     // What someone here is doing is told with them, not again in the telling (an origin's greeting was told twice).
     const beside = new Set(subjects.filter(x => x.kind === 'person').flatMap(x => x.says ?? []).map(Typography.curl));
@@ -32,7 +35,8 @@ export class Told {
       {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       {s.pending && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {journey && <Told.Travelled app={app} />}
-      {!s.pending && stayed && <Told.Happened exchange={told} said ready={Moments.ready(screen)} app={app} />}
+      {!s.pending && (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={Moments.ready(screen)}
+        app={app} />}
       {situation.length > 0 && (stayed
         ? <p className="recall">{Typography.curl(Told.first(situation[0]!))}</p>
         : <div className="establish">{situation.map((p, i) => <p key={i}>{Typography.curl(p)}</p>)}</div>)}
@@ -41,9 +45,10 @@ export class Told {
         <p className="label">Since you were last here</p>
         {leaf.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
       </div>}
-      {!s.pending && told && !stayed && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
+      {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
     </>;
   }
+  static readonly harm = /\btakes? \d+ [a-z]+ damage\b/;
   // The way here, on arriving: a journey along known ways leg by leg, or what the way was like.
   static Travelled({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, leaf = frame.leaf;

@@ -62,8 +62,8 @@ export class Stage {
     return [frame.title, ...named.filter(n => n !== frame.title)].slice(0, 3);
   }
   static when(frame: Frame): string[] {
-    const s = frame.screen;
-    return [Words.upper(FictionalTime.part(s.elapsed)), s.weather ?? '', s.date?.short ?? ''].filter(Boolean);
+    const s = frame.screen, part = FictionalTime.part(s.elapsed);
+    return [Words.upper(part), Words.sky(part, s.weather), s.date?.short ?? ''].filter(Boolean);
   }
   // Where and when, said once and quietly under the heading of what is before you: "Bretheltaure, Galadhtaure ·
   // Morning, fair, 24 Wolfmoon". Its mark is the light of the hour: the morning's, the afternoon's, the evening's, or

@@ -11,6 +11,9 @@ describe('a seizing temperament', () => {
     await j.play('To the black wall');
     expect(j.taken.at(-1)!.page).toContain('hold out their hands, palm up. Not yet.');
     expect(j.taken.at(-1)!.page).toContain('The Weights will wait 10 minutes more, no longer.');
+    // The wait is told after the warning it belongs to (play 9 read it before).
+    const page = j.taken.at(-1)!.page;
+    expect(page.indexOf('Not yet.')).toBeLessThan(page.indexOf('will wait 10 minutes'));
     await j.play('Wait › A while');
     expect(j.taken.at(-1)!.page).toContain('The Weights take you by the arms');
     expect(j.taken.at(-1)!.event.combat).toEqual([]);

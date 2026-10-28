@@ -31,7 +31,7 @@ Module den "A den in the wild" {
     Requires able(actor) and at(actor, spot) and (dead(beasts) or driven(beasts) or laid(beasts)) and not looted(actor).
     Time 2.
     On success { Increase quantity(actor, gold) by hoard(beasts). Assert looted(actor). }
-    Result "Among the bones are coins and a broken buckle: {hoard(beasts)} coin in all.".
+    Result "Among the bones are coins and a broken buckle: {hoard(beasts) in words} coin in all.".
   }
   Observe cleared at den when dead(beasts) "{den} is quiet now. Flies settle on what is left.".
   Observe emptied at den when driven(beasts) "{den} is empty and still smells of smoke. Tracks lead away up the hill.".

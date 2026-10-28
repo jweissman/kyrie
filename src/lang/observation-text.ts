@@ -11,13 +11,16 @@ import { KyrText } from './kyr-text';
 // Deliberately not a narration language: no conditionals or code.
 export class ObservationText {
   private static readonly pattern = /\{([^{}]+)\}/g;
+  // A measure said in words where the author asks it ("{lost(garth) in words}": "one", not "1"); a reading stays a
+  // figure ("The dial reads {dial(clock)}.").
+  private static readonly worded = /\s+in words\s*$/;
   private static bare(reference: string): boolean { return /^\??[A-Za-z][A-Za-z0-9_-]*$/.test(reference.trim()); }
   static variables(text: string): string[] {
     return [...text.matchAll(this.pattern)].map(m => m[1]!.trim()).filter(r => /^\?[A-Za-z][A-Za-z0-9_-]*$/.test(r));
   }
   static references(text: string): Call[] {
     return [...text.matchAll(this.pattern)].filter(m => !this.bare(m[1]!)).map(match => {
-      const value = ModuleParser.predicate(match[1]!);
+      const value = ModuleParser.predicate(match[1]!.replace(this.worded, ''));
       if (value.kind !== 'call') { throw new Error('Observation interpolation requires a measure reference'); }
       return value;
     });
@@ -25,12 +28,14 @@ export class ObservationText {
   static names(text: string): string[] {
     return [...text.matchAll(this.pattern)].filter(m => this.bare(m[1]!)).map(m => m[1]!.trim()).filter(n => !n.startsWith('?'));
   }
-  static map(text: string, transform: (call: Call) => string, name?: (id: string) => string): string {
+  static map(text: string, transform: (call: Call, words: boolean) => string, name?: (id: string) => string): string {
     return text.replace(this.pattern, (_, reference: string) => this.bare(reference) ?
-      name ? name(reference.trim()) : `{${reference.trim()}}` : transform(ModuleParser.predicate(reference) as Call));
+      name ? name(reference.trim()) : `{${reference.trim()}}`
+      : transform(ModuleParser.predicate(reference.replace(this.worded, '')) as Call, this.worded.test(reference)));
   }
   static scope(text: string, transform: (call: Call) => Call, id?: (value: string) => string): string {
-    return this.map(text, call => `{${World.format(transform(call))}}`, value => `{${id ? id(value) : value}}`);
+    return this.map(text, (call, words) => `{${World.format(transform(call))}${words ? ' in words' : ''}}`,
+      value => `{${id ? id(value) : value}}`);
   }
   // A module's entities by id, indexed once per entity list (rebuilt if the list grows).
   private static readonly indexes = new WeakMap<Entity[], { size: number; byId: Map<string, Entity> }>();
@@ -80,12 +85,17 @@ export class ObservationText {
     return now.alias || (now.type !== 'group' && now.name.includes('{')) ? { ...now, name: this.label(world, e.id) } : now;
   }
   // A measure in it is read with what its rule bound ("{gold(?g)}" was read of nobody, and said 0: the architecture
-  // review's A17).
+  // review's A17), and in words where it says so: "I've lost one to them so far", not 1 (play 9).
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {
-    const rendered = this.map(text, call => String(world.number(call, binding)),
+    const rendered = this.map(text, (call, words) => this.count(world.number(call, binding), words),
       id => this.label(world, binding[id] ?? id, binding));
     const told = rendered.replaceAll(KyrText.brace[0], '{').replaceAll(KyrText.brace[1], '}');
     return capitalize ? this.sentences(told) : told;
+  }
+  static readonly counts = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+    'eleven', 'twelve'];
+  private static count(n: number, words: boolean): string {
+    return words && Number.isInteger(n) && n > 0 && n < this.counts.length ? this.counts[n]! : String(n);
   }
   // Names are lower-case nouns ("the rising river"); a sentence that starts with one is capitalized. A quotation
   // that ends in a question or a cry goes on into who said it ("'Murkstede?' says Hob"); one that ends in a full stop

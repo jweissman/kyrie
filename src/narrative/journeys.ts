@@ -38,7 +38,7 @@ export class Journeys {
     // Under the ground the hour and the sky are not seen: a way between underground places is told as it is there.
     if (this.below(campaign, way, from, to)) {
       return this.going(campaign, event, from, start) ? [] : this.voiced({ moment: `${campaign.readout.seed}:${event.elapsed}`,
-        used, values }, [['journey-depart', { shelter: 'underground' }]]);
+        used, values }, [['journey-depart', { shelter: 'underground', light: this.lit(campaign) ? 'carried' : 'none' }]]);
     }
     // Out of the world the hour and the sky are not seen either: the way is told plainly, and nothing of the light.
     if ([from, to].every(p => Narrator.shelter(campaign, p) === 'elsewhere')) {
@@ -83,6 +83,12 @@ export class Journeys {
     const kind = campaign.world.one('passageKind', way)?.replace(/^.*way_/, '') ?? '';
     return ['tunnel', 'culvert', 'crawl', 'shaft', 'drift'].includes(kind)
       || [from, to].every(p => Narrator.shelter(campaign, p) === 'underground');
+  }
+  // Whether the company carries a light: under the ground it was said to go on "by the light you carry" with nothing
+  // lit (play 9).
+  private static lit(campaign: Campaign): boolean {
+    const company = campaign.playerActor, world = campaign.world;
+    return !!company && world.relates('capable') && world.test(ModuleWriter.call('capable', company, 'light'));
   }
   private static voiced(at: { moment: string; used: Set<string>; values: Record<string, string>; recent?: Set<string> },
     kinds: [string, Record<string, string>][]): Voiced[] {

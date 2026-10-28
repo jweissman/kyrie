@@ -12,6 +12,8 @@ export class Words {
   static readonly ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth',
     'tenth', 'eleventh', 'twelfth'];
   static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
+  // The sky as the hour has it: a sunny sky at night is a clear one ("Night, sunny" over Tatharimlad: play 9).
+  static sky(part: string, weather?: string): string { return part === 'night' && weather === 'sunny' ? 'clear' : weather ?? ''; }
   // "Morning, the first day"; the exact hour is there for whoever looks closer.
   static daytime(elapsed: number): string {
     const day = Number(/^Day (\d+)/.exec(FictionalTime.at(elapsed))?.[1] ?? 1);

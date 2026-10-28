@@ -111,8 +111,9 @@ export class ModuleAssembly {
   }
   // Who is in the module: the manifest's creatures, the company, and each declared person's group, named as
   // generation cast them; and a controller for each person.
-  private static people(module: Module, people: Person[], manifest: AdventureManifest) {
+  private static people(module: Module, people: Person[], given: AdventureManifest) {
     const conflicts: string[] = [];
+    const manifest = { ...given, ...given.casting ? { casting: this.named(given.casting) } : {} };
     const groups = people.map(p => Cast.group(p, manifest.casting?.[p.id] as Record<string, unknown> | undefined,
       conflicts));
     const company = Cast.company(module);
@@ -128,6 +129,17 @@ export class ModuleAssembly {
     }
     return { cast: [...manifest.creatures, ...(company?.creatures ?? []), ...groups.flat()], conflicts, company,
       people: actors };
+  }
+  // Two of one story drawn the same name (a sick child's mother and her elder sister, both Hadarai: play 9) are told
+  // apart as a family tells them: the later is the younger.
+  static named<T extends Record<string, { name?: unknown } | undefined>>(casting: T): T {
+    const seen = new Set<string>(), out = { ...casting } as Record<string, { name?: unknown } | undefined>;
+    for (const [id, cast] of Object.entries(casting)) {
+      const name = typeof cast?.name === 'string' ? cast.name : undefined;
+      if (name && seen.has(name)) { out[id] = { ...cast, name: `${name} the younger` }; }
+      if (name) { seen.add(name); }
+    }
+    return out as T;
   }
   // Nothing a module does may write what the campaign projects or keeps: creatures' facts, the clock, records and
   // pressures; and every pressure, outcome and goal must be a well-formed predicate over the module.

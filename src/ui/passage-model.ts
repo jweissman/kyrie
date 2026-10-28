@@ -41,6 +41,11 @@ export class PassageModel {
       : p.kind === 'and' && (this.asks(p.left, id, state) || this.asks(p.right, id, state));
   }
   label(id: string): string { return ObservationText.label(this.world, id); }
+  // "The webs are in the way.", not "the webs is" (play 9); felt, in the dark.
+  static inTheWay(label: string, dark: boolean): string {
+    const said = `${label} ${/[^siuo]s$/.test(label) ? 'are' : 'is'} in the way.`;
+    return dark ? `In the dark, ${said}` : said.charAt(0).toUpperCase() + said.slice(1);
+  }
   // A clause the rules have where the world declares it: that it does not hold.
   private unless(name: string, ...args: string[]): Predicate[] {
     return this.world.declares(name) ? [{ kind: 'not', value: this.call(name, ...args) }] : [];
@@ -81,7 +86,7 @@ export class PassageModel {
     if (blocker) {
       const t = blocker['?t']!;
       return { ...base, status: 'blocked', via: this.label(t),
-        reason: (dark ? undefined : this.describe(t)) ?? `${this.label(t)} is in the way.` };
+        reason: (dark ? undefined : this.describe(t)) ?? PassageModel.inTheWay(this.label(t), dark) };
     }
     if (this.world.test(this.call('unopened', passage))) {
       return { ...base, status: 'blocked', via: base.name, reason: this.shut(passage) ?? `${this.label(passage)} does not open now.` };

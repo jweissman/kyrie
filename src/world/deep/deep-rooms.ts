@@ -5,6 +5,7 @@ import { Draw } from '../land/draw';
 import { RegionMarvels } from '../region-marvels';
 import type { DeepContent, DeepDwellers } from './deep-pacing';
 import type { DeepPurpose } from './deep-purposes';
+import { Counted } from '../../presentation/counted';
 
 interface Riddle { question: string; answer: string; kind: string }
 
@@ -95,7 +96,7 @@ export class DeepRooms {
     return [`  Thing ${id} "scattered coins" at ${room} {`,
       `    State lying ${q(lying)}.`, `    State gathered ${q(gathered)}.`,
       '    Change gather "Gather up the coins" from lying to gathered.', '  }', `  Relation ${id}_counted().`,
-      `  Rule ${id}_counted when state(${id}, gathered) and not ${id}_counted() says ${q(`${coin} coin, all told, most of it old and some of it good.`)} {`,
+      `  Rule ${id}_counted when state(${id}, gathered) and not ${id}_counted() says ${q(`${Counted.words[coin] ?? coin} coin, all told, most of it old and some of it good.`)} {`,
       // Gathered, there is nothing left to look at closely.
       `    Assert ${id}_counted(). Assert tried(${id}, looking). Increase quantity(party, gold) by ${coin}. }`];
   }

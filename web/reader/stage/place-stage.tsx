@@ -140,9 +140,10 @@ export class PlaceStage {
     return s.choices.find(c => /#(talk|look)$/.test(c.id)) ?? (s.choices.length === 1 ? s.choices[0] : undefined);
   }
   // What could be fought: a creature, or anyone the company reckons a fight with (a band of goblins who can also be
-  // talked to), but never someone travelling with it.
+  // talked to), but never someone travelling with it, nor what lies dead (the spiders a fight had killed were still
+  // under "Danger": play 9; the telling says they lie dead).
   static danger(this: void, s: SceneSubject): boolean {
-    return s.kind !== 'companion' && (s.kind === 'creature' || !!s.danger);
+    return s.kind !== 'companion' && s.state !== 'dead' && (s.kind === 'creature' || !!s.danger);
   }
   // Something that could be fought: what it is, how a fight would go as the company reckons it, and every way of
   // meeting it, at once and before anything is done.
@@ -169,15 +170,18 @@ export class PlaceStage {
     const about = PlaceStage.ways(screen, near), out = PlaceStage.ways(screen, far);
     const across = far.filter(c => !out.some(w => w.choices.includes(c)));
     const scope = screen.path.filter(p => p.kind === 'settlement' || p.kind === 'site').at(-1)?.name;
+    // The town's other places all by the same way are said to go by it once, not seven times (play 9).
+    const by = around.length > 1 && around.every(c => c.note && c.note === around[0]!.note) ? around[0]!.note : undefined;
     return <>
       {(about.length > 0 || around.length > 0) && <nav className="ways about" aria-label="Ways about the place">
         <p className="label">{scope ? `About ${Typography.curl(scope)}` : 'Ways on'}</p>
         <ul className="options">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
           <PlaceStage.Way way={w} draw={draw} twin={about.filter(o => o.exit.destination.name
             === w.exit.destination.name).length > 1} /></li>)}
+        {by && <li className="way-by">{Typography.curl(Words.upper(by))}</li>}
         {around.map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="way by">
           <span className="n">{Typography.curl(Words.upper(c.label))}</span>
-          {c.note && <span className="r">{Typography.curl(c.note)}</span>}</Act.View></li>)}</ul>
+          {c.note && !by && <span className="r">{Typography.curl(c.note)}</span>}</Act.View></li>)}</ul>
       </nav>}
       {(out.length > 0 || across.length > 0) && <nav className="ways out" aria-label="Roads out">
         <p className="label">{about.length ? 'Roads out' : 'Ways on'}</p>

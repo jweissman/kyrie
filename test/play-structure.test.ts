@@ -225,7 +225,10 @@ describe('a warning', () => {
     const choices = ChoiceList.all(ChoiceList.explore(screen)).filter(c => c.command);
     const marked = choices.filter(c => c.note?.includes('The wolves will not wait for it'));
     expect(marked.length).toBeGreaterThan(0);
-    expect(choices.every(c => marked.includes(c) === ((c.minutes ?? 0) >= warned.left))).toBe(true);
+    // What is done toward the wolves themselves (a blow) is no wait to them (play 9: the spiders' Attack was marked).
+    const toward = (c: { command?: string }) => c.command!.includes(warned.id!);
+    expect(choices.every(c => marked.includes(c) === ((c.minutes ?? 0) >= warned.left && !toward(c)))).toBe(true);
+    expect(choices.some(c => /^attack\(/.test(c.command!) && toward(c) && !marked.includes(c))).toBe(true);
     // And the page says how long they will wait (the Banns at Hessel's friction 23).
     expect(Narrator.leaf(s.campaign, screen).presence).toContain(`The wolves will wait ${warned.left} minutes more, no longer.`);
   }, 60000);

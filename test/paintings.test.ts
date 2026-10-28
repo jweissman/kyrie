@@ -90,9 +90,12 @@ describe('the painting corpus', () => {
     // "Master of the barge" is not a painter; nothing in "who keeps the books" says what they look like.
     expect(sitter({ role: 'master of the barge Heron', sex: 'woman', key: 'e' })?.station).toBe('labouring');
     expect(Likeness.of({ role: 'who keeps the books of the Reodweard company', sex: 'man', key: 'f' })).toBeUndefined();
-    // Someone known by whose they are is one of the working people, of the sex the words say; one who mourns is a
-    // sitter dressed for grief (the cold evaluation: a widow in black was a smiling woman gutting a fish).
-    expect(sitter({ role: 'the child\'s mother', key: 'g' })).toMatchObject({ sex: 'woman', station: 'labouring' });
+    // Someone known only by whose they are is painted at home, of the sex and the years the words say, not at a trade
+    // (a sick child's mother had been the woman cutting a fish: play 9); one who mourns is a sitter dressed for grief
+    // (the cold evaluation: a widow in black was the same smiling woman).
+    const kin = Likeness.of({ role: 'the child\'s mother', key: 'g' }) ?? '';
+    expect([Likeness.sitter(kin)?.sex, Likeness.sitter(kin)?.age === 'young', Likeness.homely.has(kin)])
+      .toEqual(['woman', false, true]);
     const widow = Likeness.of({ role: 'a widow whose son went after the raiders', name: 'the woman in black', key: 'g' });
     expect([Likeness.sitter(widow ?? '')?.sex, Likeness.mourning.has(widow ?? '')]).toEqual(['woman', true]);
   });

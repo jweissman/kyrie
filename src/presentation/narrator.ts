@@ -79,6 +79,10 @@ export class Narrator {
     const familiar = this.familiar(campaign, screen);
     const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p)
       && !familiar.has(p));
+    // How long a warning will wait follows what was told, the warning first (play 9 read the wait before the warning).
+    const wait = screen.warned && exchange ? this.waits(screen.warned) : undefined;
+    if (wait) { exchange!.lines.push({ text: wait, kind: 'event' }); }
+    if (wait && presence.includes(wait)) { presence.splice(presence.indexOf(wait), 1); }
     // What has changed is told once: not again when the exchange told it, nor when it is who is here and doing what.
     const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)) && !presence.includes(c));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));

@@ -68,12 +68,12 @@ export class CombatTelling {
   private blow(kind: string, attack: Of<'attack'>, damage?: Harm): string {
     const actor = this.name(attack.actor), target = this.name(attack.target), weapon = this.weapon(attack.actor);
     const natural = this.fighter(attack.actor)?.equipment?.weapon?.natural;
-    const how = natural ? `${actor}'s ${weapon}` : actor;
+    const how = natural ? CombatTelling.whose(actor, weapon) : actor;
     // A creature's antlers or claws are many, and miss and catch as many ("Finn's antlers misses": the cold
     // evaluation; "the risen dead's claws catches Maren": play 8).
     const many = natural && /(?<!s)s$/.test(weapon);
     if (!attack.success) {
-      if (attack.evaded) { return `${target} slips aside from ${natural ? how : `${actor}'s ${weapon || 'blow'}`}.`; }
+      if (attack.evaded) { return `${target} slips aside from ${natural ? how : CombatTelling.whose(actor, weapon || 'blow')}.`; }
       return natural ? `${how} ${many ? 'miss' : 'misses'} ${target}.`
         : `${actor} ${kind === 'ranged' ? 'shoots at' : 'strikes at'} ${target} and misses.`;
     }
@@ -118,11 +118,17 @@ export class CombatTelling {
     if (!e.success) { return undefined; }
     // What a bleeding wound may come to is said of the wound ("the second of the risen dead is not infected", after
     // its own blow on someone else, read as the blow's: play 8; the register's CMB-02).
-    if (e.against === 'infected') { return `${who}'s wound stays clean.`; }
+    if (e.against === 'infected') { return `${CombatTelling.whose(who, 'wound')} stays clean.`; }
     // Not "is not bleeding", which reads as news of how they are (the cold evaluation).
     if (e.against === 'bleed') { return `${who} does not bleed from it.`; }
     // A save against the harm itself turns the worst of it, not all of it: what it sets going still goes.
     return !what ? `${who} turns the worst of it aside.` : state ? `${who} is not ${what}.` : `${who} shrugs off the ${what}.`;
+  }
+  // Whose a blow or a wound is: "Naivara's dagger", "the wolves' bite", and of one of a band, "the bite of the second
+  // of the agile cave spiders" (it had been "the second of the agile cave spiders's bite": play 9).
+  static whose(name: string, thing: string): string {
+    if (/^the \w+ of /i.test(name)) { return `the ${thing} of ${name.charAt(0).toLowerCase()}${name.slice(1)}`; }
+    return /^the /i.test(name) && /[^siuo]s$/.test(name) ? `${name}' ${thing}` : `${name}'s ${thing}`;
   }
   // What befalls someone, where the condition's name is a thing rather than a state ("armor shred", "prone").
   static readonly phrases: Record<string, string> = { prone: '{t} is knocked flat.', shred: "{t}'s armour is torn open.",
@@ -135,7 +141,7 @@ export class CombatTelling {
     const own = CombatPresenter.told(id, 'begins');
     if (own) { return own.replace('{target}', this.name(target)); }
     const phrase = CombatTelling.phrases[id];
-    if (phrase) { return phrase.replace('{t}', this.name(target)); }
+    if (phrase) { return phrase.replace(/\{t\}'s (\w+)/, (_, w: string) => CombatTelling.whose(this.name(target), w)).replace('{t}', this.name(target)); }
     const name = ConditionSense.name(id).toLowerCase();
     return /(ed|ing)\b/.test(name.split(' ')[0]!) ? `${this.name(target)} is ${name}.`
       : `${this.name(target)} is under ${name}.`;

@@ -45,9 +45,12 @@ export class ChoiceList {
     const warned = screen.warned;
     return warned ? sections.map(s => ({ ...s, choices: s.choices.map(c => this.marked(c, warned)) })) : sections;
   }
-  private static marked(c: Choice, warned: { by: string; left: number }): Choice {
+  // What is done toward whoever warns (a blow, a coin, a word) is no wait to them: the spiders' Attack read "will not
+  // wait for it" (play 9).
+  private static marked(c: Choice, warned: { by: string; left: number; id?: string }): Choice {
+    const toward = !!warned.id && new RegExp(`[(,]${warned.id}[,)]`).test(c.command ?? '');
     return c.children ? { ...c, children: c.children.map(k => this.marked(k, warned)) }
-      : c.command && (c.minutes ?? 0) >= warned.left
+      : c.command && !toward && (c.minutes ?? 0) >= warned.left
         ? { ...c, note: [c.note, Patience.note(warned.by)].filter(Boolean).join(' · ') } : c;
   }
   // In the dark, whoever carries a light can light it: the first thing anyone would do. The choice is the act that

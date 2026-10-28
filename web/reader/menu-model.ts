@@ -72,8 +72,9 @@ export class MenuModel {
     destinations: going, around: about };
   }
   // Something in a way and what can be done about it are drawn under the way, open, and are among the choices (they
-  // had been a fold: play 7): a way's own choice, after its first, that holds choices of its own.
-  private static inWay(c: Choice): boolean { return /^exit:[^/]+\/[1-9]\d*:/.test(c.id) && !!c.children; }
+  // had been a fold: play 7): a choice of a way's own that holds choices of its own, the first of them too (a way
+  // barred by a portcullis drew "Push and pull at it" under it, and a touch on it found nothing: play 9).
+  private static inWay(c: Choice): boolean { return /^exit:[^/]+\/\d+:/.test(c.id) && !!c.children; }
   // The other places of the town further than a step, each walked to directly by the known way: "To the taproom of
   // the Fierce Goblet, by the landing".
   static around(screen: Frame['screen']): Choice[] {

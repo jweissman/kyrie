@@ -6,7 +6,8 @@ import { PaintingConcepts } from './painting-concepts';
 // Who a portrait shows, as recorded by looking at it (data/paintings/seen.json, through bun scripts/paintings.ts).
 export interface Sitter { sex: 'man' | 'woman'; age?: string; station?: string; era: string; face: number }
 // Whom a painting is wanted for: as much as the world knows of them.
-export interface Wanted { sex?: 'man' | 'woman'; age?: string; stations?: string[]; concept?: string; mourning?: boolean }
+export interface Wanted { sex?: 'man' | 'woman'; age?: string; stations?: string[]; concept?: string; mourning?: boolean;
+  homely?: boolean }
 
 // The painting shown beside someone: one of the corpus (data/paintings), chosen by what it shows, not by its file's
 // name. It is not a picture of them; it is a painting of someone who could be: of their sex, their station and, where
@@ -50,9 +51,11 @@ export class Likeness {
     let best: string | undefined, score = -Infinity;
     for (const [id, s] of this.sitters) {
       if ((who.sex && s.sex !== who.sex) || this.unfit.has(id)) { continue; }
-      const station = who.stations?.indexOf(s.station ?? '') ?? -1;
+      // For one known only by whose they are, being at home is their station, and their age says which.
+      const station = who.homely ? -1 : who.stations?.indexOf(s.station ?? '') ?? -1;
       const value = (id === concept ? 60 : 0) + (station >= 0 ? 20 - station * 6 : 0)
         + (who.age && s.age === who.age ? 6 : 0) + (who.mourning && this.mourning.has(id) ? 30 : 0)
+        + (who.homely && this.homely.has(id) ? 25 : 0)
         + Likeness.eras[s.era]! - (taken.has(id) ? 80 : 0)
         + this.hash(`${key}:${id}`) / 2 ** 32;
       if (value > score) { score = value; best = id; }
@@ -63,6 +66,11 @@ export class Likeness {
   // Sitters dressed for grief, quiet and in black, for one who mourns (a widow in black was a smiling woman gutting a
   // fish: the cold evaluation).
   static readonly mourning = new Set(['needleworker', 'midwife', 'brewer', 'conspirator', 'memory']);
+  // Sitters at home, not at a trade, for someone known only by whose they are: a sick child's mother had been the
+  // woman cutting a fish on a board, one of the two grown women of the working people's paintings (play 9; the cold
+  // evaluation's M17-65). A woman in a white cap and collar, seated; a young woman at a window, watching the road.
+  static readonly homely = new Set(['opium-eater', 'medium', 'polymath', 'bystander', 'tragedian', 'milkmaid',
+    'reminiscence']);
   // A painting for someone the world has not given one, from the words it knows them by: their work, and what they
   // are to others, which says their age (a mother is no girl: the follow-up review saw one younger than her son), and
   // the title they go by (Mother Ysolt is a woman of years). It is a painting of their work, or of someone of their
@@ -89,13 +97,16 @@ export class Likeness {
     // Someone known only by whose they are (the child's mother, the drover's son) is one of the working people.
     if (!station && !kin) { return undefined; }
     const mourning = /\b(widow|widower|mourning|grieving|bereaved|in black)\b/i.test(`${at.role ?? ''} ${at.name ?? ''}`);
+    // Known by nothing but whose they are ("the child's mother"), not by a work said after it ("who cooks at the inn").
+    const homely = !concept && !!kin && this.clauses(at.role ?? '').length === 1;
     const painted = station ?? 'labouring', id = this.choose({ ...sex ? { sex } : {}, ...concept ? { concept } : {},
-      stations: [painted], ...age ? { age } : {}, ...mourning ? { mourning } : {} }, at.key ?? words.join(' '), at.taken);
+      stations: [painted], ...age ? { age } : {}, ...mourning ? { mourning } : {}, ...homely ? { homely } : {} },
+    at.key ?? words.join(' '), at.taken);
     const sitter = id ? this.sitters.get(id) : undefined;
     // Not a girl for a woman of years, nor a greybeard for a lad.
     const far = !!age && !!sitter?.age && Math.abs(this.years.indexOf(age) - this.years.indexOf(sitter.age)) > 1;
-    return id && (id === concept || (mourning && this.mourning.has(id)) || (sitter?.station === painted && !far)) ? id
-      : undefined;
+    return id && (id === concept || (mourning && this.mourning.has(id)) || (homely && this.homely.has(id))
+      || (sitter?.station === painted && !far)) ? id : undefined;
   }
   // The paintings some people are given as their own (a likeness, by the painting's id, which is the name of the
   // entity the likeness names): those taken on a page.
@@ -128,9 +139,11 @@ export class Likeness {
   }
   // The words of a role, the work first: what a role is comes before what it is of ("priest of the Chapel of the
   // Ford" is a priest, not a chapel), and in each part the last word is the work ("the old dyke-reeve").
-  private static words(role: string): string[] {
+  private static words(role: string): string[] { return this.clauses(role).flatMap(part => part.reverse()); }
+  // A role's clauses, each its words: "the drover's wife, who cooks at the inn" is three, "the child's mother" one.
+  private static clauses(role: string): string[][] {
     return role.toLowerCase().replace(/[^a-z\- ]/g, ' ').split(/\b(?:of|at|in|on|from|by|for|to|with|who|whose|that)\b/)
-      .flatMap(part => part.split(/\s+/).filter(w => w.length > 3).reverse());
+      .map(part => part.split(/\s+/).filter(w => w.length > 3)).filter(part => part.length);
   }
   private static hash(text: string): number {
     let h = 2166136261;

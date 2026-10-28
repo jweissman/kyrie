@@ -267,8 +267,8 @@ Module unquiet_tower "The unquiet tower" {
   Entity graves: fact "Graves have been opened in the churchyard and the dead taken. An acolyte who left {shrine} years ago lives in {outside} now.".
   Entity old_well: fact "There is an old well behind {outside} that runs down into the cellars. The builders used it.".
   Initially Assert established(lights). Initially Assert established(graves). Initially Assert established(old_well).
-  Objective rumoured when (knows(party, lights) or knows(party, graves)) and not knows(party, binding) and not ended(necromancer) "Something is wrong at {outside}: lights at night, and the churchyard's dead taken; {opened(churchyard)} graves stand open, and the dead walk at night.".
-  Objective tower when not ended(necromancer) and knows(party, binding) "The bone lantern in the tower holds the risen dead. {opened(churchyard)} graves stand open, and each night they walk, another.".
+  Objective rumoured when (knows(party, lights) or knows(party, graves)) and not knows(party, binding) and not ended(necromancer) "Something is wrong at {outside}: lights at night, and the churchyard's dead taken; {opened(churchyard) in words} graves stand open, and the dead walk at night.".
+  Objective tower when not ended(necromancer) and knows(party, binding) "The bone lantern in the tower holds the risen dead. {opened(churchyard) in words} graves stand open, and each night they walk, another.".
   Objective her when knows(party, sister) and not state(maren, resting) and not ended(necromancer) "{necromancer} keeps his drowned sister in a sealed cell under the tower. Everything he does, he does for her.".
   Objective report when ended(necromancer) and not thanked(keeper, party) "The dead in the tower are still. {keeper} will want to know.".
   Goal ended(necromancer).

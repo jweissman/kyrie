@@ -881,7 +881,9 @@ stops, and the page closes on its title and epilogue, as it does when no one is 
 Any text (an observation, a result, what someone says) can say a measure as it stands when it is told:
 `"You owe {creditor} {owed(loan)} coin, by market day."`. A variable its condition binds can be named too: in
 `Observe slow_feel near party when memberOf(?m, party) and dose(?m) >= 24 "{?m}'s own footsteps sound late."` it is
-whoever the condition finds first.
+whoever the condition finds first. A measure is said as a figure, as a reading is ("The dial reads {dial(clock)}.");
+said `in words`, a small one is a word, as speech would have it: `"'I've lost {lost(garth) in words} to them so
+far,' says {garth}."` says "one", not "1" (play 9).
 
 ### A way that opens only sometimes
 

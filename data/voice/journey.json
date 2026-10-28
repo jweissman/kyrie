@@ -24,9 +24,10 @@
     { "id": "journey-depart.evening.2", "when": { "time": "evening" }, "text": "The shadows are long when you leave {from}, and getting longer." },
     { "id": "journey-depart.night.1", "when": { "time": "night" }, "text": "You go out of {from} into the dark, by what light there is." },
     { "id": "journey-depart.any.1", "text": "You set out from {from}." },
-    { "id": "journey-depart.underground.1", "when": { "shelter": "underground" }, "text": "You go on from {from} in the dark, by the light you carry, and the dark closes behind you." },
+    { "id": "journey-depart.underground.1", "when": { "shelter": "underground", "light": "carried" }, "text": "You go on from {from} in the dark, by the light you carry, and the dark closes behind you." },
     { "id": "journey-depart.underground.2", "when": { "shelter": "underground" }, "text": "Under the ground there is no hour and no weather; only the way, and the sound of your own feet coming back off the stone." },
-    { "id": "journey-depart.underground.3", "when": { "shelter": "underground" }, "text": "You leave {from} by lamplight. The air is still and cold, and smells of stone and old water." },
+    { "id": "journey-depart.underground.3", "when": { "shelter": "underground", "light": "carried" }, "text": "You leave {from} by the light you carry. The air is still and cold, and smells of stone and old water." },
+    { "id": "journey-depart.underground.dark.1", "when": { "shelter": "underground", "light": "none" }, "text": "You go on from {from} with no light, a hand on the wall, and the dark closes behind you." },
 
     { "id": "journey-land.river.1", "when": { "land": "river", "crossing": "ford" }, "text": "Partway, the {way} goes down to the water and through it, and up the far bank with your boots full." },
     { "id": "journey-land.river.2", "when": { "land": "river", "crossing": "ford" }, "text": "The {way} follows the river a while, close enough to hear it, and crosses where it runs wide and shallow." },

@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
+import { PassageModel } from '../src/ui/passage-model';
 
 // In the pitch dark who is there is heard, not seen: not their kind, nor the role their author gave them, nor what
 // they are doing (play 8's crypt read "The risen dead · Revenant" and "The knitted hound · the necromancer's
@@ -40,4 +41,10 @@ describe('who is there in the dark', () => {
     held.commit(held.world.apply([{ kind: 'retract', call: ModuleWriter.call('unlit', 'tower__crypt') }]));
     expect(up()).toMatch(/^Dead folk in grave-clothes stand swaying/);
   }, 120000);
+  // "the webs is in the way" (play 9): what is in the way agrees with itself, and is felt in the dark.
+  it('says what is in the way as it is, felt in the dark', () => {
+    expect(PassageModel.inTheWay('the webs', false)).toBe('The webs are in the way.');
+    expect(PassageModel.inTheWay('the portcullis', false)).toBe('The portcullis is in the way.');
+    expect(PassageModel.inTheWay('the webs', true)).toBe('In the dark, the webs are in the way.');
+  });
 });

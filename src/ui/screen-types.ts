@@ -93,7 +93,7 @@ export interface LogEntry { at: string; title: string; lines: string[]; tone: 'a
 export interface Screen {
   title: string; clock: string; elapsed: number; running: boolean;
   // Who is warning the company off where it stands, and the minutes they will wait (see Patience).
-  warned?: { by: string; left: number };
+  warned?: { by: string; left: number; id?: string };
   // The day as the calendar has it ("20 Leaffall", and in full with the season), and the weather, when known.
   date?: { short: string; long: string }; weather?: string;
   path: PlaceRef[]; place: PlaceRef; prose: string[];

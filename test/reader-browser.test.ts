@@ -86,6 +86,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     expect(await page.locator('.foes .intent').count()).toBeGreaterThan(0);
     await d.fight();
     const fought = await Reading.text(page);
+    // Those the fight left dead are told dead, and not offered as a danger (play 9: dead spiders under "Danger").
+    if (/\b(lies|lie) dead\b/.test(fought)) { expect(await page.locator('.threat').count()).toBe(0); }
     for (const shop of ['rolled', 'THAC0', 'needed', 'The order:', 'journal keeps every one', 'Learned:']) {
       expect([shop, fought.includes(shop)]).toEqual([shop, false]);
     }
