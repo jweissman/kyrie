@@ -13,6 +13,8 @@ export interface SceneSubject {
   says?: string[]; state?: TargetRow['state'];
   // Someone who would join the company: what they would bring (see CharacterSheets.recruit).
   recruit?: TargetRow['recruit'];
+  // Someone the company has a stake in, met before the rest (see Stakes).
+  stake?: boolean;
 }
 // What the page is drawn from in play: who and what is here (danger first), who is with you, the ways about the place
 // and the ways out across the country, and what you can do yourself. Every choice is one the engine offered, attached
@@ -37,10 +39,12 @@ export class SceneModel {
       near: all.filter(c => !this.far(c)), far: all.filter(c => this.far(c)),
       you: sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => !this.across(c))) };
   }
-  // Danger first (a creature, or a band the company would reckon a fight with), then people, animals and things,
-  // and whoever is with the company last.
-  static readonly ranks: Record<SceneSubject['kind'], number> = { creature: 0, person: 1, animal: 2, thing: 3, companion: 4 };
-  private static rank(x: SceneSubject): number { return x.danger && x.kind !== 'companion' ? 0 : this.ranks[x.kind]; }
+  // Danger first (a creature, or a band the company would reckon a fight with), then whoever the company has a stake
+  // in, then people, animals and things, and whoever is with the company last.
+  static readonly ranks: Record<SceneSubject['kind'], number> = { creature: 0, person: 2, animal: 3, thing: 4, companion: 5 };
+  private static rank(x: SceneSubject): number {
+    return x.danger && x.kind !== 'companion' ? 0 : x.stake && x.kind === 'person' ? 1 : this.ranks[x.kind];
+  }
   private static subject(s: Section, companions: Set<string>, screen: Screen): SceneSubject {
     const row = [...screen.people, ...screen.things].find(t => t.id === s.id);
     const kind = companions.has(s.id) ? 'companion' : row?.kind === 'animal' ? 'animal'
@@ -53,6 +57,7 @@ export class SceneModel {
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
       ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.says?.length ? { says: row.says } : {},
       ...row?.state ? { state: row.state } : {}, ...row?.recruit ? { recruit: row.recruit } : {},
+      ...row?.stake ? { stake: true } : {},
       choices: s.choices.map(c => this.bare(c, name!)).map(c => row?.kind === 'animal' ? this.led(c) : c) };
   }
   // An animal is led and let go, not asked.

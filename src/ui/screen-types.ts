@@ -58,6 +58,8 @@ export interface TargetRow {
   portrait?: { src: string; large: string; focus: number; credit?: string };
   // Someone who would join the company: what they would bring, seen before they are asked.
   recruit?: Recruit;
+  // Someone the company has a stake in (its family; whoever an aim it holds turns on): met first (see Stakes).
+  stake?: boolean;
 }
 export interface ItemRow {
   // kind: the catalog's id for what it is (torch, lamp_oil), not its name.
@@ -120,6 +122,8 @@ export interface Screen {
   fresh: string[];
   map: { id: string; name: string; zone: string; visited: boolean; here: boolean }[];
   chart?: Chart; region?: RegionChart; objectives: string[];
+  // Whom and what the company's aims and family name (people, places, ways): met and gone to first (see Stakes).
+  aimed?: string[];
   expedition: { time: string; daylight: string; rations: number; hungry: boolean; weary?: boolean; nextMeal?: string;
     // The company's light, where it matters (somewhere unlit, or a light burning): who carries what is lit and how
     // long it has left, and what there is to spare. "Rharash's torch, 40 minutes left · 2 torches to spare".

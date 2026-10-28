@@ -1,0 +1,15 @@
+Module stakes "Whom the company has a stake in" {
+  Place yard "the inn-yard" is room at 0, 0 outdoors.
+  Place lane "the lane" is room at 1, 0 outdoors.
+  Place bridge "the bridge over the Reed" is room at 0, 1 outdoors.
+  Passage yard_lane "the gate" is path between yard and lane.
+  Passage yard_bridge "the bridge road" is path between yard and bridge.
+  Company party "You" of 1 at yard.
+  Entity called_brother: fact "your brother".
+  Person ned "Ned" at yard { Role "a carter". Peaceable. Pronouns he. }
+  Person ada "Ada" at yard { Role "a fisher". Peaceable. Pronouns she. }
+  Person tom "Tom" at yard { Peaceable. Pronouns he. }
+  Initially Assert kin(party, tom). Initially Assert kinship(tom, called_brother).
+  Objective father when true "Your father went out by {bridge} with the cart.".
+  Goal false.
+}

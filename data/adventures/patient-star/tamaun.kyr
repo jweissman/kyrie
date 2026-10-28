@@ -244,8 +244,6 @@ Module season "Hold One Season" {
     Role "a cutter of the Mutual, held in the light". Ancestry human. Peaceable. Plans 14 steps. Uses go, change_thing. Pronouns he. Manner cheerful.
     Joins "Garret puts a hand on your shoulder, to steady himself as much as anything. 'Up, then,' he says. 'Slowly.'".
   }
-  Initially Assert kin(party, garret). Initially Assert kinship(garret, uncle).
-  Entity uncle: fact "your uncle".
   Initially Assert asleep(garret). Initially Assert slowable(garret). Initially Assert feltClad(garret).
   Initially Set dose(garret) to 2400.
   Measure watchedFor(entity).

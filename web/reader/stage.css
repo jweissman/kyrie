@@ -32,10 +32,6 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
    yourself. ---- */
 .spread { height: 100dvh; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr); grid-template-areas: "verso recto"; }
-/* The ways at the foot of the right page, as tall as they need up to half of it, and what is here above them in the
-   rest, as on a tablet: the ways had had the lower half of the page however few they were, and cut the telling above
-   them short (play 12). */
-.place-spread { grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: "verso recto" "verso on"; }
 .leaves { display: contents; }
 .verso, .recto { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
   scrollbar-color: var(--hair) transparent; }
@@ -46,7 +42,6 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
   env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) clamp(24px, 3.6vw, 60px); border-left: 1px solid var(--hair);
   background: linear-gradient(180deg, #FAFAF8, var(--paper) 40%); }
 .recto .measure { max-width: 33rem; }
-.place-spread .recto { padding-bottom: 18px; mask-image: linear-gradient(180deg, #000 calc(100% - 22px), transparent); }
 /* The ways on, apart under what is here: the page's index, each way a line to where it goes and how long. */
 .on-pane { grid-area: on; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
   scrollbar-color: var(--hair) transparent; border-left: 1px solid var(--hair); background: var(--paper);
@@ -54,10 +49,6 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
     clamp(24px, 3.6vw, 60px); }
 .on-pane .measure { max-width: 33rem; }
 .on-pane .on > :first-child { margin-top: 0; }
-.place-spread > .on-pane { border-top: 1px solid var(--hair); max-height: 50dvh; }
-/* The rule between the pages runs the page's height on the left page's edge, whatever the right page's two parts are. */
-.place-spread .verso { border-right: 1px solid var(--hair); }
-.place-spread .recto, .place-spread > .on-pane { border-left: 0; }
 .you { margin: 34px 0 0; padding-top: 16px; border-top: 1.5px solid var(--ink); font: 400 14.5px/1.45 var(--do);
   color: var(--grey); }
 .you .me { margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 0; }
@@ -74,8 +65,8 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .place { font: 400 clamp(32px, 3.6vw, 46px)/1.08 var(--told); letter-spacing: -.01em; margin: 0 0 22px; text-wrap: balance; }
 .dark-note { font: italic 400 19px/1.5 var(--told); }
 .journey p { font-style: italic; color: var(--grey); }
-.establish p { margin-bottom: .75em; }
-.establish p:first-child { font-size: 20.5px; line-height: 1.5; }
+.establish > p { margin-bottom: .75em; }
+.establish > p:first-child { font-size: 20.5px; line-height: 1.5; }
 .recall { color: var(--grey); font-size: 16.5px; }
 .presence p { color: #2B2B2B; }
 .presence.quiet p { color: var(--grey); font-size: 16.5px; }
@@ -132,20 +123,11 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 }
 .working .you::after { content: ' …'; }
 
-/* A chapter's opening: the country, as a plate on the left page; the telling and what is here on the right. */
-.plate-page { display: flex; align-items: center; justify-content: flex-end; }
 .scenery { margin: 0; width: 100%; max-width: 46rem; }
 .scenery img { display: block; width: 100%; max-height: calc(100dvh - 230px); object-fit: cover;
   box-shadow: 0 0 0 1px rgba(0,0,0,.06); }
 .scenery figcaption { font: 400 12px/1.4 var(--do); color: var(--faint); margin-top: 8px; }
 .scenery.gone { visibility: hidden; }
-.opening-spread .recto { background: var(--paper); }
-.opening-spread .told-here { margin-bottom: 30px; }
-@media (max-width: 760px) {
-  .plate-page { padding: 0; }
-  .scenery img { max-height: 30dvh; box-shadow: none; }
-  .scenery figcaption { padding: 0 16px; }
-}
 
 /* ---- Danger: what it is, and how a fight would go, in words, before anything is done about it. ---- */
 .threat { border-left: 4px solid var(--red); padding: 4px 0 6px 16px; margin: 0 0 26px; }
@@ -241,28 +223,17 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
    had been under the whole of it, a scroll away), all on one reading measure inside the screen's safe area. */
 @media (max-width: 960px), (orientation: portrait) and (max-width: 1100px) {
   .spread { grid-template-columns: minmax(0, 1fr); grid-template-areas: "leaves"; }
-  .place-spread { grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: "leaves" "on"; }
-  .place-spread > .on-pane { max-height: 44dvh; border-left: 0; border-top: 1.5px solid var(--ink);
-    box-shadow: 0 -10px 24px rgba(0,0,0,.05);
-    padding: 12px max(20px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
-  .on-pane .measure { max-width: 40rem; margin: 0 auto; }
-  .place-spread .leaves { padding-bottom: 28px; }
   .leaves { display: flex; flex-direction: column; grid-area: leaves; min-height: 0; overflow-y: auto;
     overscroll-behavior: contain; padding: max(76px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
       max(56px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
   .verso, .recto { overflow: visible; padding: 0; border: 0; background: none; }
-  .verso:not(.plate-page), .verso:not(.plate-page) > .measure, .verso:not(.plate-page) .telling,
-  .verso .telling .establish, .recto, .recto > .measure { display: contents; }
+  .verso, .verso > .measure, .verso .telling, .verso .telling .establish, .recto, .recto > .measure { display: contents; }
   .leaves .telling > *, .leaves .establish > p, .recto .measure > * { order: 1; flex-shrink: 0; width: 100%;
     max-width: 40rem; margin-left: auto; margin-right: auto; }
   .verso .telling .establish > p ~ p, .verso .telling > :is(.presence, .changed) { order: 3; }
   .verso .telling .establish > p ~ p:nth-child(2) { padding-top: 16px; }
   .recto .measure > :is(.way-here, .told-here, .here) { order: 2; }
   .recto .measure > .here { margin-top: 10px; }
-  .verso.plate-page { order: 0; flex-shrink: 0; padding: 0; margin: -20px 0 22px; }
-  /* The country's plate opens the chapter a third of the screen high, so the telling begins on the first screen
-     (a tablet held upright opened on a painting and four paragraphs, nothing to tap in sight: the cold evaluation). */
-  .verso.plate-page .scenery img { max-height: 32dvh; }
   .verso .measure, .recto .measure { max-width: none; }
 }
 
@@ -447,6 +418,8 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .fight .turn .order li.next { background: var(--ink); color: var(--paper); }
 .fight .beat p { font: 400 18px/1.5 var(--told); text-align: center; color: var(--grey); }
 .fight .beat p:last-child { color: var(--ink); font-size: 21px; }
+.fight .beat p.earlier { font-size: 15.5px; line-height: 1.45; color: var(--faint); margin: 0 0 6px; }
+.fight > .sides { flex-grow: 1; }
 .fight .beat .after { font: 450 16px/1.45 var(--do); color: var(--ink); }
 .fight .beat p.moment { font: 450 15.5px/1.45 var(--do); color: var(--ink); }
 .fight .turn { text-align: center; font: 500 15px var(--do); margin: 18px 0 26px; }
@@ -526,6 +499,7 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .ways.about .act.way .lead { display: none; }
 .ways.about .act.way .t { margin-left: 2px; color: var(--grey); }
 @media (max-width: 639px) { .ways.about .options > li.wide { grid-column: 1 / -1; } }
+.ways.about .options > li.barred { grid-column: 1 / -1; }
 @media (min-width: 640px) {
   .ways.about .options { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
 }
@@ -623,9 +597,114 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 /* On a phone the ways on leave the scene a little more of the screen, and a chapter's plate is a band, so the
    telling begins on the first screen there too; in a fight, the hand of moves is smaller, and so are its cards. */
 @media (max-width: 520px) {
-  .place-spread > .on-pane { max-height: 40dvh; }
+  .scene-page > .on-pane { max-height: 40dvh; }
   .fight > .moves { max-height: 38dvh; }
   .fight .moves .act { min-width: 7.5rem; min-height: 46px; padding: 7px 12px 8px; font-size: 15px; }
   .fight .turn .now { flex-basis: 100%; }
-  .verso.plate-page .scenery img { max-height: 20dvh; }
+  .scenery.band img { max-height: 20dvh; }
+}
+
+/* ---- A place: the scene, one leaf, and beside it the ways on and yourself; on a screen held upright, those at its
+   foot. The scene: the place's name, what has just happened, the place's first paragraph, who and what is here, and
+   the rest of the telling. A chapter's opening paints the country as a band across its head. ---- */
+.scene-page { height: 100dvh; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr); grid-template-areas: "scene on"; }
+.scene-page > .scene { grid-area: scene; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: var(--hair) transparent; border-right: 1px solid var(--hair);
+  padding: max(clamp(26px, 6vh, 64px), env(safe-area-inset-top)) clamp(24px, 4vw, 72px)
+    max(48px, env(safe-area-inset-bottom)) max(clamp(24px, 4vw, 72px), env(safe-area-inset-left)); }
+.scene-page > .scene .measure { max-width: 36rem; margin: 0 0 0 auto; }
+.scene-page > .on-pane { max-height: none; border-left: 0; background: linear-gradient(180deg, #FAFAF8, var(--paper) 40%);
+  padding: max(clamp(64px, 8vh, 84px), env(safe-area-inset-top)) max(clamp(24px, 3.6vw, 60px), env(safe-area-inset-right))
+    max(28px, env(safe-area-inset-bottom)) clamp(24px, 3.6vw, 60px); }
+.scenery.band { max-width: 36rem; margin: 0 0 30px auto; }
+.scenery.band img { max-height: 34dvh; }
+.scene .here { margin: 22px 0 26px; }
+.scene .establish > .here { margin-top: 8px; }
+
+/* Whoever the company has a stake in (its family; whoever its aim turns on): first, larger, marked as the aim is. */
+.cast .plates > li.lead .act.plate { border-left-color: var(--yellow); }
+.cast .plates > li.lead :is(.act.plate, .plate.still).faced { grid-template-columns: 76px minmax(0, 1fr); }
+.cast .plates > li.lead .face { width: 76px; height: 96px; }
+.cast .plates > li.lead .who .n { font: 400 23px/1.2 var(--told); }
+.cast .plates > li.lead .who .r { display: block; margin: 2px 0 0; }
+/* A busy place's people each a line, two or three to a row: their name, what they are, a small likeness. What they
+   are doing is told when they are turned to. */
+.cast.busy .plates { grid-template-columns: repeat(auto-fill, minmax(14.5rem, 1fr)); gap: 2px 10px; }
+.cast.busy .plates > li.lead { grid-column: 1 / -1; }
+.cast.busy li.brief :is(.act.plate, .plate.still) { padding: 5px 10px 6px; }
+.cast.busy li.brief :is(.act.plate, .plate.still).faced { grid-template-columns: 34px minmax(0, 1fr); gap: 0 10px; }
+.cast.busy li.brief .face { width: 34px; height: 42px; margin-top: 1px; }
+.cast.busy li.brief .who .n { font-size: 16px; }
+.cast.busy li.brief .who .r { display: block; margin: 0; font-size: 13px; }
+
+/* The nearest few ways as tiles, and every way a touch away: an upright screen's, in a busy place. */
+.on .nearest, .ways-all .sheet-head { display: none; }
+.nearest .tiles { list-style: none; margin: 0 0 10px; padding: 0; display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.act.tile { display: flex; flex-direction: column; justify-content: space-between; gap: 6px; width: 100%; height: 100%;
+  min-height: 66px; padding: 10px 12px 9px; border: 1px solid var(--hair); border-radius: 5px; background: var(--paper);
+  text-decoration: none; }
+.act.tile .n { font: 400 16.5px/1.25 var(--told); color: var(--ink); }
+.act.tile .t { margin: 0; font: 500 12.5px/1.2 var(--do); color: var(--grey); }
+.act.tile:hover { border-color: #B8B8B8; }
+.act.tile.sel, .act.tile:focus-visible { border-color: var(--blue); box-shadow: inset 0 0 0 1px var(--blue); }
+.act.tile:active { background: var(--wash); }
+.all-ways { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; padding: 0 16px; border-radius: 5px;
+  background: var(--ink); color: var(--paper); font: 500 15.5px/1.2 var(--do); -webkit-tap-highlight-color: transparent; }
+.all-ways .count { font: 500 13px/1 var(--do); font-variant-numeric: tabular-nums; padding: 4px 8px; border-radius: 999px;
+  background: rgba(255,255,255,.16); }
+.all-ways:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.sheet-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin: 0 0 14px; padding: 14px 0 10px; background: var(--paper); border-bottom: 1px solid var(--hair); }
+.sheet-title { margin: 0; font: 400 22px/1.2 var(--told); }
+.sheet-shut { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center;
+  justify-content: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--hair); flex: none; }
+.sheet-shut svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
+.sheet-shut:hover { border-color: var(--ink); }
+.sheet-shut:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+@media (max-width: 960px), (orientation: portrait) and (max-width: 1100px) {
+  .scene-page { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas: "scene" "on"; }
+  .scene-page > .scene { border-right: 0; padding: max(76px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    28px max(20px, env(safe-area-inset-left)); }
+  .scene-page > .scene .measure, .scenery.band { max-width: 40rem; margin-left: auto; margin-right: auto; }
+  .scenery.band { margin-top: -40px; }
+  .scenery.band img { max-height: 30dvh; box-shadow: none; }
+  .scene-page > .on-pane { max-height: 44dvh; border-top: 1.5px solid var(--ink); background: var(--paper);
+    box-shadow: 0 -10px 24px rgba(0,0,0,.05);
+    padding: 12px max(20px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+  .scene-page > .on-pane .measure { max-width: 40rem; margin: 0 auto; }
+  .on.busy .nearest { display: block; }
+  .on.busy > .ways-all:not(.raised) { display: none; }
+  .on.busy > .ways-all.raised { position: fixed; z-index: 6; left: 0; right: 0; bottom: 0; max-height: 86dvh;
+    overflow-y: auto; overscroll-behavior: contain; background: var(--paper); border-top: 1.5px solid var(--ink);
+    box-shadow: 0 -18px 48px rgba(0,0,0,.16);
+    padding: 0 max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+  .on.busy > .ways-all.raised > * { max-width: 40rem; margin-left: auto; margin-right: auto; }
+  .ways-all.raised .sheet-head { display: flex; }
+  .scene-page.raised::after { content: ''; position: fixed; inset: 0; z-index: 5; background: rgba(21,21,21,.22);
+    pointer-events: none; }
+  .on.busy .you { margin-top: 16px; }
+}
+
+/* A way the company's aim names (the bridge its father went out by): marked as the aim is, and first among the nearest. */
+.ways li.aimed > .act.way { box-shadow: inset 3px 0 0 var(--yellow); }
+.act.tile.aimed { border-color: var(--ink); box-shadow: inset 0 3px 0 var(--yellow); }
+/* On a phone the foot of the screen holds the one way most worth taking, as a line, and every way a touch away; the
+   aim in three lines at most (the rest is in the notes): the ways' pane had taken half a phone's height. */
+@media (max-width: 520px) {
+  .nearest .tiles { grid-template-columns: minmax(0, 1fr); margin-bottom: 8px; }
+  .nearest .tiles > li:nth-child(n+2) { display: none; }
+  .act.tile { min-height: 48px; flex-direction: row; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .act.tile .t { white-space: nowrap; }
+  .on-pane .aim { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    font-size: 15.5px; margin-bottom: 12px; }
+  .on.busy .you { margin-top: 12px; padding-top: 10px; }
+}
+/* Side by side, the ways about a place two to a row wherever they fit. */
+@media (min-width: 640px) {
+  .scene-page .ways.about .options { grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr)); }
 }

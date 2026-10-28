@@ -38,7 +38,9 @@ export class Tour {
     const first = s.campaign.world.one('terrain', 'region__region')?.replace(/^.*__/, '') ?? '';
     this.plan = Countries.plan(seed, first);
   }
-  static async run(seed: string, protagonist: Protagonist, budget = 4000): Promise<TourResult> {
+  // Each country's visit is said as it ends, when asked (a long tour had run an hour with nothing to show).
+  static async run(seed: string, protagonist: Protagonist, budget = 4000,
+    said?: (v: Visit) => void): Promise<TourResult> {
     const began = Date.now();
     const s = await AutoplayRun.start({ seed, origin: 'wanderer', protagonist, policy: 'intent', steps: budget });
     const tour = new Tour(s, seed, budget), visits: Visit[] = [], heard = await tour.further();
@@ -46,6 +48,7 @@ export class Tour {
       const [cell, country] = tour.nearest(left);
       left = left.filter(([id]) => id !== cell);
       visits.push(await tour.visit(cell, country, heard.get(country.id) ?? []));
+      said?.(visits.at(-1)!);
     }
     const c = s.campaign, kept = [...Invariants.creatures(s), ...Invariants.roundtrip(s)].map(v => v.message);
     return { seed, visits, commands: tour.commands, fights: tour.fights, regions: [...c.installed].filter(id =>

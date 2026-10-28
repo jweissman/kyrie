@@ -1,4 +1,20 @@
 Module season "Hold One Season" {
   // The Ghessil Uplands as a country beyond a march: the company that comes into the Shift Market is the world's own.
   Entity party: group "Your company".
+
+  // Garret is one of the Mutual's cutters and no kin of the company's, which owes the hall nothing: Dagny pays to have
+  // him brought up (the cutter's uncle, debt and knife are company.kyr's).
+  Topic dagny_garret_placed with dagny "Ask Dagny about Garret" when not cameUp(garret) once {
+    Says "'Garret,' says Dagny. 'One of mine. Last Harvest he went into an open vault in the Granary Ring to take jars, and the light had him before he was three steps in. Ness saw him from the doorway. She could not get to him and nor could anyone.' She rubs out a chalk mark on the board with the side of her fist. 'He is not dead. He is standing in there with his hand out, the way you'd reach for a jar.'".
+    On discuss { Assert knows(actor, garret_held). }
+  }
+  Topic dagny_offer_placed with dagny "Ask Dagny what she would have you do" when not cameUp(garret) and not offered(dagny, actor) once {
+    Says "'Bring him up,' says Dagny. 'The hall pays fourteen crowns the day Garret walks into this room on his own feet. The crew goes down when it has the felt, in three days or four. Go with them, or go down alone and before them, I don't care which. Only bring him up.'".
+    On discuss { Assert offered(dagny, actor). }
+  }
+  Relation paid(group).
+  Event dagny_pays near dagny when (travelsWith(garret, party) or following(garret, party)) and offered(dagny, party) and at(party, mutual_hall) and not paid(party) "Dagny looks at Garret for a long moment, and then at you. She unlocks the box under the board and counts fourteen crowns onto the table. 'I keep my word,' she says. 'Sit him by the fire before he falls down.'" then {
+    Assert paid(party). Assert cameUp(garret). Increase quantity(party, gold) by 14. }
+  Event crew_brought_him_placed near dagny when at(garret, mutual_hall) and not broughtBy(garret, party) and at(party, mutual_hall) "Garret is by the hall fire with a blanket round him and a bowl in his hands, and the crew who brought him up are drinking. Dagny does not look at you.".
+  Objective find_garret_placed when not cameUp(garret) and asleep(garret) "Garret, a cutter of the Mutual, is held in an open granary vault under Quell. Dagny will pay fourteen crowns if you bring him up.".
 }

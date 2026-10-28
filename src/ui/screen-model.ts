@@ -28,6 +28,7 @@ import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers';
 import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
 import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
+import { Stakes } from './stakes';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
@@ -56,10 +57,10 @@ export class ScreenModel {
     const companions = this.companions(campaign, view.actor, { unclaimed, present });
     const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
     const items = this.items(campaign, grouped, entities);
-    const dark = view.observations.some(o => o.id === 'darkness');
+    const dark = view.observations.some(o => o.id === 'darkness'), stakes = Stakes.of(campaign);
     // Each person in the one painting they are met in wherever they are (see Portraits).
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world, { dark, campaign }),
-      ...along.has(p.id) ? { companion: true } : {},
+      ...along.has(p.id) ? { companion: true } : {}, ...stakes.has(p.id) ? { stake: true } : {},
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped),
       ...CharacterSheets.recruit(campaign, p.id, grouped.targets.get(p.id) ?? []) })));
     return {
@@ -83,6 +84,7 @@ export class ScreenModel {
       formations: this.formations(campaign),
       trade: here ? TradeModel.at(world, here, names) : [],
       objectives: (view.objectives ?? []).map(o => FictionalTime.prose(o.text)),
+      ...stakes.size ? { aimed: [...stakes] } : {},
       ...new ChartModel(world, view.actor, entities).build(visited, here),
       expedition: this.expedition(world, view, items, here),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,

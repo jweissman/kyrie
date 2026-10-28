@@ -3,4 +3,14 @@ Module season "Hold One Season" {
   Company party "You" of 1 at square.
   Initially Set quantity(party, gold) to 9.
   Initially Assert inDebtTo(party, dagny). Initially Set owes(party, dagny) to 28.
+  // Garret is the cutter's uncle (the debt, the uncle and the knife are the cutter's, not a company come in from a
+  // world: placed.kyr).
+  Initially Assert kin(party, garret). Initially Assert kinship(garret, uncle).
+  Entity uncle: fact "your uncle".
+  // The knife has no stamp, and an Office man who sees it says so.
+  Item knife "your stillglass knife" is stillglass_knife at square.
+  Observe knife_here at square when at(knife, square) "Your own knife is on the cobbles where you set it down to haggle, an unstamped stillglass blade that has never needed sharpening.".
+  Relation seized(item).
+  Event knife_seen when carries(party, knife) and (perceives(pike, party) or perceives(hal, party)) and not seized(knife) "'That blade has no stamp,' says the Office man, and holds out his hand. 'A fifth of its worth to the Crown, now, or the next one costs you the hand that holds it.' You pay him a crown." then {
+    Assert seized(knife). Decrease quantity(party, gold) by 1. }
 }

@@ -11,58 +11,54 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Stage } from './stage';
 import { Told } from './told';
+import { WaysPane } from './ways-pane';
 
 // A way out of a place, with every choice that goes by it (go; open it first; look at what is on it).
 export interface Way { exit: ExitRow; choices: Choice[] }
 
-// Standing somewhere: a spread, held to the screen, with nothing across its head. On the left page, the place as it
-// is told: where you are, what it is, and what has just happened in it. On the right, the way here when the company
-// has just come, and what is here to attend to, each once (danger first, then the people, each with what they are
-// doing as you see them, the animals and things to look at, and whoever is with you); under it, apart, the ways on
-// from here, every one a choice; the nearest places you know the way to, to set out for; and yourself. On a tablet
-// held upright or a phone the scene is one column, scrolling, and the ways on stand at the foot of the screen under
-// it, as a conversation does under its painting: a place had been a long scroll of bordered lists, the ways a scroll
-// away (the cold evaluation: "a Fighting Fantasy book crossed with a wiki"; stage.css).
+// Standing somewhere: the scene, and what can be done from it. The scene is one leaf: the place's name, what has just
+// happened, the place's first paragraph, then who and what is here (whoever the company has a stake in first, and
+// large; in a busy place the rest each a line), then the rest of the telling. Beside it on a desktop or a tablet held
+// sideways, or at the foot of the screen held upright, the ways on and yourself (see WaysPane). A place had been two
+// leaves scrolling one over the other on a tablet, a town square's eleven people and fifteen ways in rows alike (the
+// owner's interim report: "sprawling link lists"; the aesthetic doctrine: "a dozen competing portrait tiles and
+// thirteen exits presented as equivalent objects").
 export class PlaceStage {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, screen = frame.screen, draw = Act.draw(app);
-    // A chapter opened (the game begun, a country come into) is opened as a book's is: the country on the left page,
-    // the telling on the right.
+    // A chapter opened (the game begun, a country come into) opens on a painting of the country, as a band.
     const view = frame.leaf.heading && !app.state.pending ? Scenery.of(screen) : undefined;
+    const raised = app.state.open.includes(WaysPane.sheet);
     return (
-      <article className={`spread place-spread${view ? ' opening-spread' : ''}`} id="page">
-        <div className="leaves">
-        {view ? <PlaceStage.Country view={view} /> : <section className="verso" aria-label="The place">
-          <div className="measure">
-            <div className="telling"><Told.Place app={app} journey={false} /></div>
-          </div>
-        </section>}
-        <section className="recto" aria-label="Here">
-          <div className="measure">
-            {view ? <div className="told-here"><Told.Place app={app} /></div>
-              : <div className="way-here"><Told.Travelled app={app} /></div>}
-            <PlaceStage.Here app={app} draw={draw} />
-          </div>
+      <article className={`scene-page${view ? ' opens' : ''}${raised ? ' raised' : ''}`} id="page">
+        <section className="scene" aria-label="The place">
+          {view && <PlaceStage.Country view={view} />}
+          <div className="measure"><div className="telling">
+            <Told.Place app={app} here={<PlaceStage.Here app={app} draw={draw} />} />
+          </div></div>
         </section>
-        </div>
         <section className="on-pane" aria-label="The ways on"><div className="measure">
-          <PlaceStage.On app={app} draw={draw} />
+          <WaysPane.View app={app} draw={draw} />
         </div></section>
       </article>
     );
   }
-  // Who and what is here: danger first, the people as plates, the animals and things, and whoever is with you.
+  // Who and what is here: danger first, then whoever the company has a stake in, large; the rest of the people as
+  // plates, or in a busy place each a line (what they are doing is told when they are turned to); the animals and
+  // things; whoever is with you.
   static Here({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const scene = app.menu.scene!;
     const of = (kind: SceneSubject['kind']) => scene.subjects.filter(x => x.kind === kind && !PlaceStage.danger(x));
     const people = of('person'), small = [...of('animal'), ...of('thing')], along = of('companion');
+    const busy = people.filter(s => !s.stake).length > 3;
     return (
       <div className="here">
         {scene.subjects.filter(PlaceStage.danger).map(c => <PlaceStage.Threat key={c.id} subject={c} draw={draw} />)}
-        {people.length > 0 && <div className="cast" data-line="People here">
+        {people.length > 0 && <div className={`cast${busy ? ' busy' : ''}`} data-line="People here">
           <p className="label">{people.length === 1 ? 'Someone here' : 'People here'}</p>
-          <ul className="plates">{people.map(s => <li key={s.id} data-subject={s.id}>
-            <PlaceStage.Plate subject={s} draw={draw} /></li>)}</ul>
+          <ul className="plates">{people.map(s => <li key={s.id} data-subject={s.id}
+            className={s.stake ? 'lead' : busy ? 'brief' : undefined}>
+            <PlaceStage.Plate subject={s} draw={draw} brief={busy && !s.stake} /></li>)}</ul>
         </div>}
         {small.length > 0 && <div className="also-here" data-line="To look at">
           <p className="label">{of('thing').length ? of('animal').length ? 'Animals, and things to look at'
@@ -78,34 +74,22 @@ export class PlaceStage {
       </div>
     );
   }
-  // From here: the ways on, the places further off you know the way to, and yourself.
-  static On({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const scene = app.menu.scene!, screen = app.state.frame!.screen;
-    return (
-      <div className="on">
-        <PlaceStage.Aim screen={screen} bound={!!app.state.frame!.bound} />
-        <PlaceStage.Bound app={app} draw={draw} />
-        <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} around={app.menu.around} />
-        <PlaceStage.Further app={app} draw={draw} />
-        <PlaceStage.You app={app} draw={draw} />
-      </div>
-    );
-  }
-  // The country a chapter opens on: a painting of it, as a plate, with its credit as far as the painting says.
+  // The country a chapter opens on: a painting of it, as a band across the head of the scene, credited where the
+  // painting says who painted it.
   static Country({ view }: { view: string }) {
+    const credit = Likeness.credits[view];
     return (
-      <section className="verso plate-page" aria-hidden="true">
-        <figure className="scenery">
-          <img src={`paintings/large/${view}.webp`} alt="" decoding="async"
-            onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} />
-          <figcaption>{Likeness.credits[view] ?? 'Painter unrecorded'}</figcaption>
-        </figure>
-      </section>
+      <figure className="scenery band" aria-hidden="true">
+        <img src={`paintings/large/${view}.webp`} alt="" decoding="async"
+          onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} />
+        {credit && <figcaption>{credit}</figcaption>}
+      </figure>
     );
   }
   // Someone here, as one choice: their likeness when one fits, their name and what they are, and what they are doing
-  // as the company sees them. Choosing them turns to them; anything else that can be done with them is beneath.
-  static Plate({ subject: s, draw }: { subject: SceneSubject; draw: Draw }) {
+  // as the company sees them (in brief, only their name and what they are). Choosing them turns to them; anything
+  // else that can be done with them is beneath.
+  static Plate({ subject: s, draw, brief }: { subject: SceneSubject; draw: Draw; brief?: boolean }) {
     const into = PlaceStage.into(s), rest = s.choices.filter(c => c !== into);
     const face = s.portrait && <span className="face" aria-hidden="true"><img src={s.portrait.src} alt="" decoding="async"
       loading="lazy" style={{ objectPosition: `50% ${s.portrait.focus}%` }}
@@ -115,7 +99,7 @@ export class PlaceStage {
       <span className="who"><span className="n">{Typography.curl(Words.upper(s.name))}</span>
         {s.note && <span className="r">{Typography.curl(s.note)}</span>}
         {s.state && <span className="r hurt">{s.state === 'dead' ? 'dead' : 'down'}</span>}
-        {s.says?.[0] && <span className="doing">{Typography.curl(s.says.join(' '))}</span>}</span>
+        {s.says?.[0] && !brief && <span className="doing">{Typography.curl(s.says.join(' '))}</span>}</span>
     </>;
     return <>
       {into ? <Act.View choice={into} draw={draw} className={`plate${face ? ' faced' : ''}`}>{body}</Act.View>
@@ -176,7 +160,9 @@ export class PlaceStage {
       {(about.length > 0 || around.length > 0) && <nav className="ways about" aria-label="Ways about the place">
         <p className="label">{scope ? `About ${Typography.curl(scope)}` : 'Ways on'}</p>
         <ul className="options">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}
-          className={PlaceStage.wide(w.exit.destination.name) ? 'wide' : undefined}>
+          className={[PlaceStage.wide(w.exit.destination.name) ? 'wide' : '', w.choices[0]!.disabled ? 'barred' : '',
+            PlaceStage.aims(screen, w.choices[0]!)
+            ? 'aimed' : ''].filter(Boolean).join(' ') || undefined}>
           <PlaceStage.Way way={w} draw={draw} twin={about.filter(o => o.exit.destination.name
             === w.exit.destination.name).length > 1} /></li>)}
         {by && <li className="way-by">{Typography.curl(Words.upper(by))}</li>}
@@ -187,7 +173,8 @@ export class PlaceStage {
       </nav>}
       {(out.length > 0 || across.length > 0) && <nav className="ways out" aria-label="Roads out">
         <p className="label">{about.length ? 'Roads out' : 'Ways on'}</p>
-        <ul className="options">{out.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
+        <ul className="options">{out.map(w => <li key={w.exit.id} data-exit={w.exit.id}
+          className={PlaceStage.aims(screen, w.choices[0]!) ? 'aimed' : undefined}>
           <PlaceStage.Way way={w} draw={draw} road /></li>)}
         {across.map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="way" /></li>)}</ul>
       </nav>}
@@ -235,7 +222,8 @@ export class PlaceStage {
   // way known from here, a way at a time, stopping only for what wants you) and giving it up. On every page you
   // explore from until you come there (the owner's interim report).
   // A name too long for half a phone's width takes the whole row there ("To the market-place of Karashilgab" had
-  // wrapped over three lines beside another: play 11).
+  // wrapped over three lines beside another: play 11), and so does a way barred, with why (a boar across the low path
+  // had been told in a column a third of the page wide).
   static wide(name: string): boolean { return name.length > 22; }
   static Bound({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const bound = app.state.frame!.bound, going = app.menu.destinations ?? [];
@@ -268,6 +256,11 @@ export class PlaceStage {
           {c.note && <span className="r">{Typography.curl(c.note)}</span>}</Act.View></li>)}</ul>
       </nav>
     );
+  }
+  // Whether the company's aim, or its family, names where a way goes (or the way itself, or a place to set out for).
+  static aims(screen: Screen, c: Choice): boolean {
+    const aimed = new Set(screen.aimed ?? []), exit = screen.exits.find(e => e.id === c.id);
+    return exit ? aimed.has(exit.id) || aimed.has(exit.destination.id) : aimed.has(c.id.replace(/^travel:/, ''));
   }
   // Where a way goes, as the choice says it ("Into the Wooden Wolf"), or the place it leads to.
   private static to(c: Choice, exit: ExitRow): string {

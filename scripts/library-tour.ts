@@ -14,7 +14,7 @@ class Args {
 const value = Args.value.bind(Args);
 const seed = value('--seed', 'wren');
 const r = await Tour.run(seed, { name: 'Wenna', raceId: value('--race', 'human'), classId: value('--class', 'warrior') },
-  Number(value('--budget', '4000')));
+  Number(value('--budget', '4000')), v => { console.error(`… ${v.name}: ${v.entered ? 'entered' : v.stopped ?? 'not entered'}`); });
 for (const v of r.visits) {
   console.log(`${v.name} (${v.cell}, from ${v.way || 'the first'}): ${v.entered ? `entered at command ${v.entered.command}, hour ${v.entered.hour}`
     : `not entered${v.stopped ? `: ${v.stopped}` : ''}`}; told ${v.told.length} time(s)`);

@@ -69,21 +69,19 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
-  // On a desktop the ways at the foot of the right page are as tall as they need, up to half of it, and the telling has
-  // the rest: at a chapter's opening they had had the lower 44% for one way, and cut the telling above them short
-  // (play 12).
-  it('gives the ways on a desktop only the height they need, and the telling the rest', async () => {
+  // On a desktop the telling has the left page whole and the ways on the right page theirs: at a chapter's opening the
+  // ways had had the lower 44% of the right page for one way, and cut the telling above them short (play 12).
+  it('gives the telling and the ways a page each on a desktop, the full height of the screen', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=mere' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // The pane's own words end near its foot: no empty band below them, while the telling above is cut short.
-    const slack = await page.evaluate(() => {
-      const pane = document.querySelector('.place-spread > .on-pane')!, inner = pane.querySelector('.measure')!;
-      return pane.getBoundingClientRect().bottom - inner.getBoundingClientRect().bottom;
-    });
-    expect(slack).toBeLessThanOrEqual(40);
+    const pages = await page.evaluate(() => ['.scene-page > .scene', '.scene-page > .on-pane'].map(s => {
+      const r = document.querySelector(s)!.getBoundingClientRect();
+      return [Math.round(r.top), Math.round(r.height)];
+    }));
+    expect(pages).toEqual([[0, 900], [0, 900]]);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
@@ -96,6 +94,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
+    // A busy place's ways are raised over the scene by one touch.
+    if (await page.locator('.all-ways').count()) { await page.click('.all-ways'); }
     const rows = await page.$$eval('.ways.about .options', lists => lists.flatMap(list => {
       const whole = list.getBoundingClientRect().width;
       return Array.from(list.querySelectorAll(':scope > li.wide')).map(li => Math.abs(li.getBoundingClientRect().width - whole) < 2);

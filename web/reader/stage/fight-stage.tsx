@@ -7,16 +7,18 @@ import { FightLog } from '../fight-log';
 import { Act } from './act';
 
 // A fight. The company on one side and what it fights on the other, each with how hurt they are, what they are under
-// and (for a foe) what it means to do; between them what has just happened, large, the latest last; whose turn it
-// is and who follows; and beneath, what the one whose turn it is can do, as cards. The whole fight so far is shown in
-// place of what just happened, at a touch, and put away again (it had been a web page's fold: play 7). A word said in
-// the middle of it never hides what happened. Once it has ended, the page stays: the last blows, how it ended and what
+// and (for a foe) what it means to do; between them what has just happened, large, the latest last, the blows just
+// before it quieter above; whose turn it is and who follows; and beneath, what the one whose turn it is can do, as
+// cards. The whole fight so far is shown in place of what just happened, at a touch, and put away again (it had been
+// a web page's fold: play 7). A word said in the middle of it never hides what happened. Once it has ended, the page stays: the last blows, how it ended and what
 // it was worth, and how each side stands, until the player goes on.
 export class FightStage {
   static View({ app }: { app: ReaderApp }) {
     const [log, show] = useState(false);
     const s = app.state, frame = s.frame!, combat = frame.combat!, mark = s.fight, draw = Act.draw(app);
     const seen = mark?.seen ?? 0, recent = combat.exchanges.filter(e => e.n >= seen);
+    // The blows before, quieter, above the last: the middle of the page had been white under one line (Mission 17).
+    const earlier = combat.exchanges.filter(e => e.n < seen).slice(-FightStage.kept);
     const first = mark?.first ?? true, after = combat.after ?? [];
     const turn = combat.outcome ? 'The fight is over.' : combat.ours ? `${combat.actorName}’s turn` : `${combat.actorName} acts`;
     return (
@@ -33,6 +35,7 @@ export class FightStage {
               ? 'It has not reached you yet: there is still time to get back the way you came.'
               : 'It is on you, but not yet round you: there is still time to get back the way you came.']
               .filter(Boolean).join(' '))}</p>}
+            {earlier.map(e => <p key={e.n} className="what earlier" title={e.detail}>{Typography.curl(e.text)}</p>)}
             {recent.map(e => <p key={e.n} className="what" title={e.detail}>{Typography.curl(e.text)}</p>)}
             {after.map(l => <p key={l} className="after">{Typography.curl(l)}</p>)}
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}
@@ -58,6 +61,8 @@ export class FightStage {
       </div>
     );
   }
+  // How many blows before the last are kept on the page, quieter.
+  static readonly kept = 4;
   // What a foe means to do this round, at whom first: "→ Ama · strike with the javelin".
   static Intent({ intent }: { intent: string }) {
     const [what, at] = intent.split(' → ');

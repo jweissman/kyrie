@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "name": "The Patient Star, placed",
+  "calendar": { "year": 380, "month": 6, "day": 25 },
+  "modules": [
+    { "id": "home", "bundle": "placed/module.json" },
+    { "id": "season", "bundle": "../../../data/adventures/patient-star/placed.json", "imports": { "party": "home.party" } }
+  ],
+  "party": [ { "name": "Wenna", "raceId": "human", "classId": "warrior" } ]
+}

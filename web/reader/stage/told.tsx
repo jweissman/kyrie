@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Exchange, Frame } from '../../engine/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp, Travel } from '../reader-app';
@@ -14,8 +15,9 @@ import { Journey } from './journey';
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
 // read, steps back to its first sentence.
 export class Told {
-  // With the journey (journey: false leaves the way here to the facing page, see Told.Travelled).
-  static Place({ app, journey = true }: { app: ReaderApp; journey?: boolean }) {
+  // With the journey (journey: false leaves the way here to the facing page, see Told.Travelled), and who and what is
+  // here after the place's first paragraph (M17-05: a town's people had been under the whole telling, a scroll away).
+  static Place({ app, journey = true, here }: { app: ReaderApp; journey?: boolean; here?: ReactNode }) {
     const s = app.state, frame = s.frame!, leaf = frame.leaf, screen = frame.screen, exchange = leaf.exchange;
     const told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
     const stayed = !leaf.moved && !!told;
@@ -23,8 +25,10 @@ export class Told {
     // 9 read "The hidden switch has gone off, and is spent." before "A scything blade swings through the air.").
     const struck = !stayed && !!told && told.lines.some(l => Told.harm.test(l.text));
     const subjects = app.menu.scene?.subjects ?? [];
-    // What someone here is doing is told with them, not again in the telling (an origin's greeting was told twice).
-    const beside = new Set(subjects.filter(x => x.kind === 'person').flatMap(x => x.says ?? []).map(Typography.curl));
+    // What someone here is doing is told with them, not again in the telling (an origin's greeting was told twice);
+    // so is what a danger is doing, in its own block.
+    const beside = new Set(subjects.flatMap(x => PlaceStage.danger(x) ? x.says?.slice(0, 1) ?? []
+      : x.kind === 'person' ? x.says ?? [] : []).map(Typography.curl));
     const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p)));
     return <>
       {leaf.heading && <p className={`chapter kind-${leaf.heading.kind}`}>{Typography.curl(leaf.heading.kind === 'country'
@@ -37,9 +41,10 @@ export class Told {
       {journey && <Told.Travelled app={app} />}
       {!s.pending && (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={Moments.ready(screen)}
         app={app} />}
-      {situation.length > 0 && (stayed
-        ? <p className="recall">{Typography.curl(Told.first(situation[0]!))}</p>
-        : <div className="establish">{situation.map((p, i) => <p key={i}>{Typography.curl(p)}</p>)}</div>)}
+      {situation.length > 0 ? stayed
+        ? <><p className="recall">{Typography.curl(Told.first(situation[0]!))}</p>{here}</>
+        : <div className="establish"><p>{Typography.curl(situation[0]!)}</p>{here}
+          {situation.slice(1).map((p, i) => <p key={i}>{Typography.curl(p)}</p>)}</div> : here}
       <Told.Presence app={app} lines={leaf.presence} subjects={subjects} quiet={stayed} />
       {leaf.changed.length > 0 && <div className="changed">
         <p className="label">Since you were last here</p>
@@ -82,8 +87,10 @@ export class Told {
   // that only names who is here ("Here are Fargrim, the innkeeper; and Thoradin.") is left to the names.
   static Presence({ lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
     quiet: boolean }) {
-    const beside = subjects.filter(s => s.kind === 'person' && !PlaceStage.danger(s)).flatMap(s => s.says ?? [])
-      .map(Typography.curl);
+    // A danger's first line is told in its own block, with how a fight would go ("A boar has rooted up the low path"
+    // had been told there and again under it).
+    const beside = subjects.flatMap(s => PlaceStage.danger(s) ? s.says?.slice(0, 1) ?? []
+      : s.kind === 'person' ? s.says ?? [] : []).map(Typography.curl);
     const told = lines.filter(l => !Told.roll(l)).map(l => beside.reduce((rest, said) => rest.replace(said, ''),
       Typography.curl(l)).replace(/\s{2,}/g, ' ').trim()).filter(Boolean);
     if (!told.length) { return null; }

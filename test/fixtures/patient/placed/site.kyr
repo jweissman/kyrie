@@ -1,0 +1,5 @@
+Module home "A company come in from a world" {
+  Place lane "a lane above the Shift Market" is room at 0, 0 outdoors.
+  Company party "You" of 1 at lane.
+  Goal false.
+}

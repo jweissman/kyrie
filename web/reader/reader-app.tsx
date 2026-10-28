@@ -94,7 +94,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // The page, and each leaf of it that scrolls, back at its top.
   static top() {
     window.scrollTo({ top: 0 });
-    for (const leaf of document.querySelectorAll<HTMLElement>('.leaves, .verso, .recto, .book, .lines')) { leaf.scrollTop = 0; }
+    const leaves = '.leaves, .verso, .recto, .scene, .on-pane, .ways-all, .book, .lines';
+    for (const leaf of document.querySelectorAll<HTMLElement>(leaves)) { leaf.scrollTop = 0; }
   }
   private listen(message: Message) {
     if (message.kind === 'saved') {

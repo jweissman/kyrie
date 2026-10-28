@@ -5,14 +5,15 @@ import type { Screen } from './screen-types';
 // peak or a pass, a wood) or its region's terrain; a ruin, a tower or standing stones for a site; a fire or a moon at
 // night. Each kind has a few, and a place is given the same one each time (by its id). Chosen by looking at the
 // paintings (data/paintings/seen.json): wide country, with a way into it, never a figure who could be taken for
-// someone met.
+// someone met (a village fair's crowd under a church tower had opened a shrine's page and a road through a forest
+// clearing: Mission 17's plays). A town in the woods is a clearing in them.
 export class Scenery {
   static readonly views: Record<string, string[]> = {
     'settlement:river': ['bridge', 'mill'], 'settlement:frost': ['wintre', 'ice-cutter', 'trapper', 'idyll'],
-    settlement: ['herd', 'fair', 'bridge'],
+    'settlement:forest': ['forest', 'herd', 'chapel'], settlement: ['herd', 'chapel', 'arcadia', 'bridge'],
     'wild:river': ['indolence', 'bridge'], 'wild:lake': ['bear', 'party'], 'wild:peak': ['idyll', 'avalanche'],
     'wild:pass': ['idyll', 'bridge'], 'wild:wood': ['grove', 'gale'],
-    forest: ['grove', 'gale'], marsh: ['grove', 'trapper'], mountain: ['idyll', 'bear'],
+    forest: ['grove', 'gale', 'forest'], marsh: ['grove', 'trapper'], mountain: ['idyll', 'bear'],
     frost: ['ice-cutter', 'wintre', 'trapper', 'idyll'],
     desert: ['encampment'], hills: ['herd', 'idyll'], wild: ['indolence', 'idyll', 'arch'],
     site: ['arch', 'ruin', 'trilith', 'tower'], night: ['camp', 'moon', 'aurora'],

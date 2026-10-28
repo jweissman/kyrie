@@ -97,12 +97,12 @@ Module season "Hold One Season" {
   Discovery garret_held "Garret, a cutter of the Mutual, walked into an open granary vault in Tamaun last autumn to take the jars, and has stood in its light for eleven months, held." {
     Known by dagny, ness, crew.
   }
-  Topic dagny_garret with dagny "Ask Dagny about Garret" when not cameUp(garret) once {
+  Topic dagny_garret with dagny "Ask Dagny about Garret" when not cameUp(garret) and kin(actor, garret) once {
     Says "'Your uncle,' says Dagny. 'You know as much as I do, or you should. Last Harvest he went into an open vault in the Granary Ring to take jars, and the light had him before he was three steps in. Ness saw him from the doorway. She could not get to him and nor could anyone.' She rubs out a chalk mark on the board with the side of her fist. 'He is not dead. He is standing in there with his hand out, the way you'd reach for a jar.'".
     On discuss { Assert knows(actor, garret_held). }
   }
   Relation offered(group, group).
-  Topic dagny_offer with dagny "Ask Dagny what she would have you do" when not cameUp(garret) and not offered(dagny, actor) once {
+  Topic dagny_offer with dagny "Ask Dagny what she would have you do" when not cameUp(garret) and not offered(dagny, actor) and kin(actor, garret) once {
     Says "'Your debt to this hall is fourteen felt-lengths,' says Dagny. 'Twenty-eight crowns. I will rub out half of it the day Garret walks into this room on his own feet. The crew goes down when it has the felt, in three days or four. Go with them, or go down alone and before them, I don't care which. Only bring him up.' She looks at your hands. 'And keep that knife of yours out of Pike's sight. It has no stamp.'".
     On discuss { Assert offered(dagny, actor). }
   }
@@ -199,23 +199,16 @@ Module season "Hold One Season" {
     Assert state(chain_gate, locked). }
   Rule chain_shut when state(chain_gate, unhooked) and not at(party, well_head) and not at(party, well_foot) and state(hal, watching) { Assert state(chain_gate, locked). }
 
-  // The knife has no stamp, and an Office man who sees it says so.
-  Item knife "your stillglass knife" is stillglass_knife at square.
-  Observe knife_here at square when at(knife, square) "Your own knife is on the cobbles where you set it down to haggle, an unstamped stillglass blade that has never needed sharpening.".
-  Relation seized(item).
-  Event knife_seen when carries(party, knife) and (perceives(pike, party) or perceives(hal, party)) and not seized(knife) "'That blade has no stamp,' says the Office man, and holds out his hand. 'A fifth of its worth to the Crown, now, or the next one costs you the hand that holds it.' You pay him a crown." then {
-    Assert seized(knife). Decrease quantity(party, gold) by 1. }
-
   // The bargain: half the debt, the day Garret walks into the hall with the one Dagny made it with.
   Relation forgiven(group).
-  Event dagny_keeps_word near dagny when (travelsWith(garret, party) or following(garret, party)) and offered(dagny, party) and at(party, mutual_hall) and not forgiven(party) "Dagny looks at Garret for a long moment, and then at you. She takes the rag off its nail and rubs out the number beside your name on the board, and chalks in another, half the size. 'Fourteen crowns,' she says. 'I keep my word. Sit him by the fire before he falls down.'" then {
+  Event dagny_keeps_word near dagny when (travelsWith(garret, party) or following(garret, party)) and offered(dagny, party) and at(party, mutual_hall) and not forgiven(party) and kin(party, garret) "Dagny looks at Garret for a long moment, and then at you. She takes the rag off its nail and rubs out the number beside your name on the board, and chalks in another, half the size. 'Fourteen crowns,' she says. 'I keep my word. Sit him by the fire before he falls down.'" then {
     Assert forgiven(party). Assert cameUp(garret). Decrease owes(party, dagny) by 14. }
   Relation broughtBy(group, group).
   Rule brought_by when travelsWith(garret, party) and not broughtBy(garret, party) { Assert broughtBy(garret, party). }
   Rule led_by when following(garret, party) and not broughtBy(garret, party) { Assert broughtBy(garret, party). }
-  Event crew_brought_him near dagny when at(garret, mutual_hall) and not broughtBy(garret, party) and at(party, mutual_hall) "Garret is by the hall fire with a blanket round him and a bowl in his hands, and the crew who brought him up are drinking. Dagny does not look at you. Your number on the board is the same as it was.".
+  Event crew_brought_him near dagny when at(garret, mutual_hall) and not broughtBy(garret, party) and at(party, mutual_hall) and kin(party, garret) "Garret is by the hall fire with a blanket round him and a bowl in his hands, and the crew who brought him up are drinking. Dagny does not look at you. Your number on the board is the same as it was.".
 
-  Objective find_garret when not cameUp(garret) and asleep(garret) "Garret, your uncle, is held in an open granary vault under Quell. Dagny will halve your debt if you bring him up.".
+  Objective find_garret when not cameUp(garret) and asleep(garret) and kin(party, garret) "Garret, your uncle, is held in an open granary vault under Quell. Dagny will halve your debt if you bring him up.".
   Objective bring_garret when not cameUp(garret) and not asleep(garret) "Garret is awake, and slow, and hungry, a long way under Quell. Bring him up to the Mutual's hall.".
   Objective held_alive when knows(party, garret_held) and not knows(party, doran_breathed) and not knows(party, prayer_label) "Are the held truly alive? In Ennick they visit theirs once a month to watch them breathe.".
 }
