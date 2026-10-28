@@ -145,7 +145,8 @@ export class Origins {
   private static order(region: Region): Bound | undefined {
     const s = region.settlements.find(t => t.size === 'town') ?? region.settlements[0];
     const history = region.history, makers = history?.makers[0];
-    const work = region.sites.find(w => w.work && !w.work.great && w.work.art === makers?.art);
+    const works = region.sites.filter(w => w.work && !w.work.great && w.work.art === makers?.art);
+    const work = s && this.nearest(region, s, works);
     if (!s || !makers || !work) { return undefined; }
     const cult = RegionFaith.cults(region)[region.settlements.indexOf(s)]!;
     const seat = RegionGeography.seats(region).find(x => x.site === work)!;
@@ -156,6 +157,15 @@ export class Origins {
         priest: [`region.${s.id}_priest`, 'group'], named: [`region.${work.id}_named`, 'fact'],
         found: [`region.${work.id}_found`, 'fact'], history: [`region.history_${makers.art}`, 'fact'],
         fate: [`region.history_${makers.art}_fate`, 'fact'] } };
+  }
+  // Of the makers' works, the nearest the town the errand is told in: the first drawn had been fifteen hours off, which
+  // the priest's "Go in daylight" could not mean (play 11).
+  private static nearest(region: Region, s: Settlement, works: Region['sites']): Region['sites'][number] | undefined {
+    return [...works].sort((a, b) => this.away(region, s, a) - this.away(region, s, b))[0];
+  }
+  private static away(region: Region, s: Settlement, w: Region['sites'][number]): number {
+    const [x, y] = RegionGeography.spot(region, s.cell!), [a, b] = RegionGeography.spot(region, w.cell!);
+    return Math.hypot(a - x, b - y);
   }
   // One who comes over the hills arrives as something is happening: the first of the town's troubles that has an
   // arrival (data/origins/wanderer/arrivals.json), seen on the way in; having seen it, they know what the trouble is.

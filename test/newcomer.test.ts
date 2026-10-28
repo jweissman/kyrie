@@ -39,8 +39,12 @@ class Newcomer {
     if (to) {
       this.since = 0;
       const done = await Travel.go({ campaign: c, perform: command => this.s.perform(command) }, to.id);
-      // A journey that got nowhere is a try spent; one stopped on the way only wants taking up again.
-      if (!done.legs.length) { this.tries.set(to.id, (this.tries.get(to.id) ?? 0) + 1); }
+      // A journey that got nowhere is a try spent, and so is one that stops again where no way on is known (the
+      // brothers' errand to the nearest of the makers' works, past the edge of wild country whose way the letter
+      // tells); one stopped on the way only wants taking up again.
+      if (!done.legs.length || /^You know no way on/.test(done.stopped ?? '')) {
+        this.tries.set(to.id, (this.tries.get(to.id) ?? 0) + 1);
+      }
       this.stopped = done.arrived ? undefined : { to: to.id, why: done.stopped ?? '' };
       if (done.arrived) { this.been.add(to.id); }
       return done.arrived && /^region__edge_/.test(to.id);

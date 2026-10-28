@@ -69,6 +69,24 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
+  // On a desktop the ways at the foot of the right page are as tall as they need, up to half of it, and the telling has
+  // the rest: at a chapter's opening they had had the lower 44% for one way, and cut the telling above them short
+  // (play 12).
+  it('gives the ways on a desktop only the height they need, and the telling the rest', async () => {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
+      { site, pointer: false, query: '?world=mere' });
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    // The pane's own words end near its foot: no empty band below them, while the telling above is cut short.
+    const slack = await page.evaluate(() => {
+      const pane = document.querySelector('.place-spread > .on-pane')!, inner = pane.querySelector('.measure')!;
+      return pane.getBoundingClientRect().bottom - inner.getBoundingClientRect().bottom;
+    });
+    expect(slack).toBeLessThanOrEqual(40);
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 240000);
   // On a phone the ways about a place stand two to a row, and one whose name is long takes the whole row: "To the
   // market-place of Karashilgab" had wrapped over three lines in half the width (play 11).
   it('gives a long way about a place a row of its own on a phone', async () => {

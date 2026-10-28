@@ -32,7 +32,10 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
    yourself. ---- */
 .spread { height: 100dvh; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr); grid-template-areas: "verso recto"; }
-.place-spread { grid-template-rows: fit-content(56dvh) minmax(0, 1fr); grid-template-areas: "verso recto" "verso on"; }
+/* The ways at the foot of the right page, as tall as they need up to half of it, and what is here above them in the
+   rest, as on a tablet: the ways had had the lower half of the page however few they were, and cut the telling above
+   them short (play 12). */
+.place-spread { grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: "verso recto" "verso on"; }
 .leaves { display: contents; }
 .verso, .recto { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
   scrollbar-color: var(--hair) transparent; }
@@ -51,7 +54,10 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
     clamp(24px, 3.6vw, 60px); }
 .on-pane .measure { max-width: 33rem; }
 .on-pane .on > :first-child { margin-top: 0; }
-.place-spread > .on-pane { border-top: 1px solid var(--hair); }
+.place-spread > .on-pane { border-top: 1px solid var(--hair); max-height: 50dvh; }
+/* The rule between the pages runs the page's height on the left page's edge, whatever the right page's two parts are. */
+.place-spread .verso { border-right: 1px solid var(--hair); }
+.place-spread .recto, .place-spread > .on-pane { border-left: 0; }
 .you { margin: 34px 0 0; padding-top: 16px; border-top: 1.5px solid var(--ink); font: 400 14.5px/1.45 var(--do);
   color: var(--grey); }
 .you .me { margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 0; }
