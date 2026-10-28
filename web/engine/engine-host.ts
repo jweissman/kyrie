@@ -120,7 +120,8 @@ export class EngineHost {
     const session = await (ready?.catch(() => this.start(r)) ?? this.start(r));
     if (game !== this.game) { throw new Error('Another game was begun meanwhile.'); }
     this.session = session;
-    this.frontier = r.campaign === Creation.generated ? new Frontier(r.seed, Scenarios.source()) : undefined;
+    this.frontier = r.campaign === Creation.generated
+      ? new Frontier(r.seed, Scenarios.source(), r.terrain ? { region: { terrain: r.terrain } } : {}) : undefined;
     if (this.frontier) { this.session.extend({ expand: this.widening(game) }); }
     this.log = []; this.opening = []; this.screen = undefined; this.told = undefined; this.country = undefined;
     this.crossed = false; this.world = undefined;
@@ -156,7 +157,9 @@ export class EngineHost {
       part: { ...part, module: live.module, ...live.definition ? { definition: live.definition } : {} },
       index: KeptGame.index(part.base ?? []) } : undefined;
     const t = saved.checkpoint.transcript;
-    this.frontier = Frontier.generated(t.scenario) ? new Frontier(t.seed, Scenarios.source()) : undefined;
+    const terrain = t.drawn?.terrain;
+    this.frontier = Frontier.generated(t.scenario)
+      ? new Frontier(t.seed, Scenarios.source(), terrain ? { region: { terrain } } : {}) : undefined;
     if (this.frontier) { this.session.extend({ expand: this.widening(game) }); }
     this.log = (saved.log ?? []).map((e, i) => ({ ...e, id: e.id ?? i, notes: e.notes ?? [] }));
     this.bound = saved.bound;

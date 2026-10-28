@@ -14,6 +14,6 @@ export class DrawnWorld {
   static async start(seed: string, drawn: Drawn, source: BundleSource): Promise<PlaySession> {
     const world = await WorldAssembler.assemble(seed, source, this.options(drawn));
     const session = await PlaySession.start(world.path, seed, world.source, drawn.origin ? undefined : drawn.party);
-    return session.drawnFor(drawn).extend(new Frontier(seed, source));
+    return session.drawnFor(drawn).extend(new Frontier(seed, source, this.options(drawn)));
   }
 }

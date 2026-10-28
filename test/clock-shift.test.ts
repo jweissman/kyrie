@@ -68,9 +68,10 @@ describe('a module installed late', () => {
   }, 120000);
   it('counts its own time from when it was installed', async () => {
     const s = await Late.beyond('h2'), fixed = Late.fixed;
-    // What was installed with the campaign keeps the times it was written with.
+    // What was installed with the campaign keeps the times it was written with (what the home country began later,
+    // its renewals, counts its own, as the country beyond does).
     const home = (s.campaign.module.rules ?? [])
-      .filter(r => !/^(x1y0|link)/.test(r.id) && fixed.test(JSON.stringify(r.when)));
+      .filter(r => !/^(x1y0|link|renewal\d)/.test(r.id) && fixed.test(JSON.stringify(r.when)));
     expect(home.length).toBeGreaterThan(0);
     for (const rule of home) { expect(Number(fixed.exec(JSON.stringify(rule.when))![1])).toBeLessThan(18 * 144); }
     // And a measure it starts, which the clock is compared with, is compared with its own watch: the watches since

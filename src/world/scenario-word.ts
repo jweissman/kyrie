@@ -68,7 +68,7 @@ export class ScenarioWord {
       manifest: { version: 1, source: 'word.kyr', rules: ['world'], globals: ['party'], imports: names, roles: types } };
   }
   // A hook's topic as a stranger would say it, with each place it names as it looks: "trouble at the fallen walls".
-  private static plainly(text: string, placement: Placement, region: Region): string {
+  static plainly(text: string, placement: Placement, region: Region): string {
     return text.replace(/\{(\w+)\}/g, (whole, role: string) => {
       const id = placement.bindings[role], seat = RegionGeography.seats(region).find(x => x.site.id === id);
       return seat ? RegionSites.seenAs(seat, region) : region.settlements.find(t => t.id === id)?.name ?? whole;

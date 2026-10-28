@@ -150,7 +150,7 @@ export class WorldAssembler {
     return { requests: modules, source: new OverlayBundleSource(base, files), region };
   }
   // A region where it lies in its world, from its own seed: drawn by Deem, laid on its land, named and peopled.
-  private static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>,
+  static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>,
     { taken = [], first }: { taken?: string[]; first?: string } = {}): Region {
     const own = WorldGrid.seed(seed, ...at);
     const d = WorldGrid.drawn(seed, ...at, drawn);
@@ -161,7 +161,7 @@ export class WorldAssembler {
   }
   // The scenarios a region is given: adventures in the wild places first, then what is going on in the
   // settlements; none placed elsewhere in the world already.
-  private static settle(region: Region, library: Entry[], at: { seed: string; rid: string; rounds: [number, number];
+  static settle(region: Region, library: Entry[], at: { seed: string; rid: string; rounds: [number, number];
     exclude: string[]; heralds?: Entry[] }) {
     const context = { terrain: region.terrain, ancestry: region.ancestry, domain: region.domain };
     const eligibility = library.map(e => this.fits(e.manifest, context, region));
@@ -273,7 +273,7 @@ export class WorldAssembler {
   }
   // The heralds of the countries a first region lies beside (see Countries.heralds): scenarios kept out of the
   // library's draw, one for each country that sends one.
-  private static async heralds(base: BundleSource, region: Region, seed: string): Promise<Entry[]> {
+  static async heralds(base: BundleSource, region: Region, seed: string): Promise<Entry[]> {
     return Promise.all(Countries.heralds(region.terrain, seed).map(async ({ country }) => {
       const at = base.resolve(`data/scenarios/${country.herald!.scenario}`);
       return { path: at, manifest: JSON.parse(await base.read(at)) as ScenarioManifest };
@@ -288,7 +288,7 @@ export class WorldAssembler {
     }));
   }
   // Context fit, decided by the same Deem selection the assembler uses, and whether its sites can exist here.
-  private static fits(s: ScenarioManifest, context: Record<string, string>, region: Region) {
+  static fits(s: ScenarioManifest, context: Record<string, string>, region: Region) {
     if (!this.choose([{ path: '', manifest: s }], context, 'fit')) {
       const wants = Object.entries(s.context ?? {}).map(([k, v]) => `${k} ${v.join('/')}`).join(', ');
       return { fits: false, why: `wants ${wants}` };
@@ -296,7 +296,7 @@ export class WorldAssembler {
     return this.placeable(s, region, new Set()) ? { fits: true } : { fits: false, why: 'no site it needs can stand here' };
   }
   // One weighted pick among scenarios whose declared contexts include the region's: a Deem select over a table.
-  private static choose(open: Entry[], context: Record<string, string>, seed: string): Entry | undefined {
+  static choose(open: Entry[], context: Record<string, string>, seed: string): Entry | undefined {
     // Deem is asked only to weigh scenarios that fit; asked to choose among none, it complains before it fails.
     open = open.filter(e => Object.entries(e.manifest.context ?? {})
       .every(([k, v]) => !(k in context) || v.includes(context[k]!)));
@@ -333,7 +333,7 @@ export class WorldAssembler {
   // settlement nearest one of those sites. A site that can stand nowhere in the land, and the scenario is not placed,
   // and nothing it took is kept: placed all the same, its site had no cell, was never written, and the region's
   // exports named it (2 of 41 seeds, and 1 of 100 games Begin started, would not load: the architecture review's H1).
-  private static place(s: ScenarioManifest, at: { n: number; region: Region; claimed: Set<string>; seed: string;
+  static place(s: ScenarioManifest, at: { n: number; region: Region; claimed: Set<string>; seed: string;
     rid: string; placements?: Placement[] }): Placement | undefined {
     const { n, region, claimed, seed } = at, prefix = this.prefix(at.rid);
     const instance = `${prefix}${s.id.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`, bindings: Record<string, string> = {};
@@ -414,7 +414,7 @@ export class WorldAssembler {
     if (!bound) { throw new Error(`Scenario reference ${value} names no bound place`); }
     return `${placement.rid}.${part ? `${bound}_${part}` : bound}`;
   }
-  private static requests(entry: Entry, placement: Placement, base: BundleSource,
+  static requests(entry: Entry, placement: Placement, base: BundleSource,
     at: { context: Record<string, DeemValue>; region: Region }): BundleRequest[] {
     const context = at.context;
     return entry.manifest.modules.filter(m => !m.when || placement.bindings[m.when]).map((m, i) => ({
@@ -426,14 +426,14 @@ export class WorldAssembler {
   }
   // The people of the settlement a placement is set in, for its modules to name their own people by; and the names
   // the country's folk have already, which its people are drawn apart from (two Caelynns on one quay: PT-28).
-  private static folk(placement: Placement, region: Region): Record<string, DeemValue> {
+  static folk(placement: Placement, region: Region): Record<string, DeemValue> {
     const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
     return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {},
       taken: [...Communities.everyone(region)] };
   }
   // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
   // modules, which use it (a den does) or not.
-  private static wild(placement: Placement, region: Region): Record<string, DeemValue> {
+  static wild(placement: Placement, region: Region): Record<string, DeemValue> {
     const site = region.sites.find(w => Object.values(placement.bindings).includes(w.id));
     const seat = site && RegionGeography.seats(region).find(x => x.site === site);
     const habitat = site && RegionEcology.habitat(region, site, seat?.form?.form);

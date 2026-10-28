@@ -7,13 +7,17 @@ import { ModuleBundle } from '../campaign/module-bundle';
 import { WorldGrid } from './world-grid';
 import { RegionWriter, type Region } from './region-writer';
 import { Countries, type Country } from './countries';
+import { Renewal } from './renewal';
+import type { DeemValue } from 'deem';
 
 // A generated world goes on past the edges of the region a company starts in. Each region's roads run out to a
 // march-stone on every side; the first time a company stands at one, the country beyond is drawn (from the world's
 // seed and where it lies, so it is always the same country) and installed, with the road across the march between.
 // A region reached first from another side has its own march-stone on this side already: only the road is new.
 export class Frontier {
-  constructor(private readonly seed: string, private readonly base: BundleSource) {}
+  // made: what the world was drawn with (its terrain, if one was asked for), to draw what it held back the same way.
+  constructor(private readonly seed: string, private readonly base: BundleSource,
+    private readonly made: { region?: Record<string, DeemValue> } = {}) {}
   // Whether standing where it stands, the company is about to have a country beyond drawn (which takes a while).
   drawing(campaign: Campaign): boolean {
     const at = /^(.+)__edge_(north|east|south|west)$/.exec(campaign.world.one('at', 'party') ?? '');
@@ -36,6 +40,7 @@ export class Frontier {
   // After each command: the country beyond the march-stone the company stands at, if it is not there yet, and the
   // road to it. The region newly drawn, if one was.
   async expand(campaign: Campaign): Promise<{ region?: Region; rid: string } | undefined> {
+    await this.renew(campaign);
     const at = /^(.+)__edge_(north|east|south|west)$/.exec(campaign.world.one('at', 'party') ?? '');
     const here = at && WorldGrid.at(at[1]!);
     if (!at || !here) { return undefined; }
@@ -67,6 +72,19 @@ export class Frontier {
       here: `${at[1]!}.edge_${side}`, there: `${rid}.${there}` } },
     new OverlayBundleSource(this.base, files));
     return { rid, ...region ? { region } : {} };
+  }
+  // What the first country's towns have going on next, begun as it falls due (see Renewal); one the country has none
+  // for is not looked for again.
+  private readonly none = new Set<number>();
+  private async renew(campaign: Campaign) {
+    const installed = new Set(campaign.installed);
+    for (let n = 1; n <= Renewal.due(campaign.readout.elapsed); n++) {
+      if (installed.has(Renewal.id(n)) || this.none.has(n)) { continue; }
+      const name = campaign.module.entities.find(e => e.id === `${RegionWriter.id}__region`)?.name;
+      const held = await Renewal.draw(this.seed, this.base, { ...this.made, ...name ? { name } : {} }, n);
+      if (!held) { this.none.add(n); }
+      for (const request of held?.requests ?? []) { await campaign.install(request, held!.source, false, true); }
+    }
   }
   // The countries beyond the march-stones a step from where the company stands, drawn and parsed ahead of its getting
   // to one (drawing one takes seconds), while the player reads; drawing it then finds it so. Nothing is installed: a
