@@ -18,7 +18,7 @@ export class VoiceContext {
     const place = world.one('at', company), shelter = (place && Narrator.shelter(campaign, place)) ?? 'outdoors';
     return { bond: this.bond(campaign, actor, company), manner: this.manner(campaign, actor),
       pronoun: this.pronoun(campaign, actor, kind), kind, ...species ? { species: this.base(species) } : {},
-      ...this.temper(campaign, actor),
+      ...this.temper(campaign, actor), ...this.mood(campaign, actor),
       // Under the ground (or the sea) there is no hour to speak of: clerks in a lamp-lit hall under the sea said "Mind
       // how you go in the dark" (What Tessary Owes, W19).
       time: world.test(ModuleWriter.call('dark')) && shelter !== 'underground' ? 'night' : 'day',
@@ -65,6 +65,18 @@ export class VoiceContext {
   private static temper(campaign: Campaign, actor: string): { temper?: string } {
     const temper = campaign.world.relates('temperament') ? campaign.world.one('temperament', actor) : undefined;
     return temper ? { temper: temper.replace(/^(.*__)?temper_/, '') } : {};
+  }
+  // How they are now, where what they are doing says it (Odile pacing the terrace, fretting for her spiders): it
+  // colours a greeting more than their manner does (play 9's Odile, frightened, said "Now then! A new face." as the
+  // jovial do: M17-88).
+  static readonly moods: Record<string, string> = { worried: 'troubled', fretting: 'troubled', anxious: 'troubled',
+    afraid: 'troubled', frightened: 'troubled', scared: 'troubled', desperate: 'troubled', hurt: 'troubled',
+    grieving: 'grieving', mourning: 'grieving', weeping: 'grieving', angry: 'angry', bitter: 'angry',
+    brooding: 'angry' };
+  private static mood(campaign: Campaign, actor: string): { mood?: string } {
+    const state = campaign.world.relates('state') ? campaign.world.one('state', actor) : undefined;
+    const mood = state && this.moods[state.replace(/^.*__/, '')];
+    return mood ? { mood } : {};
   }
   // Their manner as the world says it; or one of Orsino's seven, the same one each time for the same person.
   static manner(campaign: Campaign, actor: string): string {

@@ -79,8 +79,11 @@ export class RegionSites {
     // can also be found by searching where it starts. Told, it is a way the company can set out along (leadsVia).
     const ways = [...zone ? RegionZones.told(region, zone, site.part ?? 0) : [], `${id}_track`];
     lines.push(`  Initially Assert leadsTo(${id}_found, ${id}).`, ...ways.map(w => `  Initially Assert leadsVia(${id}_found, ${w}).`));
-    const told = this.way(seat, region);
-    lines.push(hidden && !great ? `  Discovery ${id}_found ${q(told)} { Found by searching ${RegionZones.room(zone!, site.part!)}. }`
+    // Found by searching where its track starts, it is told from there, not from the wild's far edge as a teller would
+    // (the cold play searched the old bank and was told the way from the edge of the wood: M17-22).
+    const told = this.way(seat, region), here = `A track you had not seen goes off from here: the way to {${id}}.`;
+    lines.push(hidden && !great
+      ? `  Discovery ${id}_found ${q(told)} { Found by searching ${RegionZones.room(zone!, site.part!)} ${q(here)}. }`
       : `  Discovery ${id}_found ${q(told)}.`);
     if (this.cut[site.kind] && !site.work) {
       lines.push(`  Observe ${id}_letters at ${id} when true ${q(`${this.cut[site.kind]}: ${site.name.toUpperCase()}.`)} teaches ${id}_named.`);

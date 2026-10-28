@@ -303,6 +303,12 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 .skills dt, .character .abilities dt { font: 500 15.5px var(--do); }
 .skills dd, .character .abilities dd { margin: 0; font-size: 16.5px; color: #2B2B2B; }
 .character .from { font: 400 13px var(--do); color: var(--grey); margin-left: 6px; }
+/* Each spell prepared today, and what could be prepared in its place, chosen there. */
+.character .prepared ul { list-style: none; padding: 0; margin: 0; }
+.character .prepared li { padding: 6px 0; border-top: 1px solid var(--hair); font-size: 16px; }
+.character .prepared .instead { margin: 3px 0 2px; }
+.character .prepared .instead .label { font: 400 13px var(--do); color: var(--grey); }
+.character .prepared .acts.swaps { display: flex; flex-wrap: wrap; gap: 0 18px; margin: 0; padding: 0; }
 .character .gear { list-style: none; padding: 0; }
 .character .gear li { padding: 5px 0; border-top: 1px solid var(--hair); font-size: 16px; }
 @media (max-width: 860px) {

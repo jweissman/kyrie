@@ -20,10 +20,25 @@ export interface ActionFeedback {
   // Aims taken up or come to by it: reading the makers' marks made the brothers' errand "You have copied the old
   // writing at Riwustagn. Ruven at Faennsīe should see it.", and only the notes said so (play 7).
   aims?: string[];
+  // Aims that take up one just gone, told as it stands now: a quarrel heard from its other side (play 9 was told "A new
+  // aim" of the brood's when only what Odile said had been added to it).
+  amended?: string[];
   // Places something learned leads to that nothing said where they are, now somewhere to set out for.
   leads?: string[];
 }
 export class ActionFeedbackView {
+  // An aim is new when it was not one before: the same aim told again with its count gone up (graves opened, five,
+  // six, seven) is not "A new aim" (the cold evaluation); one that takes up an aim just gone, opening as it did, is
+  // that aim as it stands now.
+  static aims(before: PlayerSnapshot, after: PlayerSnapshot): { aims: string[]; amended: string[] } {
+    const had = before.objectives ?? [], now = after.objectives ?? [];
+    const gone = new Set(had.filter(b => !now.some(o => o.id === b.id)).map(b => this.opening(b.text)));
+    const fresh = now.filter(o => !had.some(b => b.id === o.id));
+    return { aims: fresh.filter(o => !gone.has(this.opening(o.text))).map(o => FictionalTime.prose(o.text)),
+      amended: fresh.filter(o => gone.has(this.opening(o.text))).map(o => FictionalTime.prose(o.text)) };
+  }
+  // An aim's first sentence, which says what it is about.
+  static opening(text: string): string { return text.split(/(?<=[.!?])\s/)[0]!; }
   static readonly probes = ['look_closely', 'prod', 'pry', 'burn', 'push', 'listen', 'search'];
   // What a try that finds nothing says, in the words of the try (the cold playtest heard "Nothing comes of it." from
   // a speaking door, a mural and a casket alike, and stopped looking at things).
@@ -180,11 +195,7 @@ export class ActionFeedbackView {
     const unsaid = learned.filter(k => !spoken.has(k.id) && !shown.has(k.id));
     const changed = this.changed(campaign, event, { before, after, taught, known: new Set(learned.map(k => k.id)) });
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
-    // An aim is new when it was not one before: the same aim told again with its count gone up (graves opened, five,
-    // six, seven) is not "A new aim" (the cold evaluation).
-    const had = before.objectives ?? [];
-    const aims = (after.objectives ?? []).filter(o => !had.some(b => b.id === o.id))
-      .map(o => FictionalTime.prose(o.text));
+    const { aims, amended } = ActionFeedbackView.aims(before, after);
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
     const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && !learned.length && !changed.length
@@ -220,6 +231,7 @@ export class ActionFeedbackView {
       rolls, discoveries: learned.map(k => shown.get(k.id) ?? k.text),
       ...this.leads(campaign, learned, new Set(before.knowledge.map(k => k.id))),
       ...!response && battleResult ? { ended: true } : {}, ...aims.length ? { aims } : {},
+      ...amended.length ? { amended } : {},
       events: (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       observations: changed.map(o => FictionalTime.prose(o.text)),
       available: before.location?.id === after.location?.id ?

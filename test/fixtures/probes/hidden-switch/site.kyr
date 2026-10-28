@@ -1,0 +1,24 @@
+Module switchway "A carved way with a hidden switch" {
+  Place field "a field" is wilderness.
+  Place hall "the hall" is room within field at 0, 0 outdoors.
+  Place gallery "the gallery" is room within field at 1, 0 outdoors.
+  Passage gate "the carved way" is path between hall and gallery taking 2 minutes.
+  Company party "You" of 1 at hall.
+  Hazard hall_trap "the hidden switch" means "Deal (2d8) slashing damage to ally unless dexterity save against (15).".
+  Discovery hall_snare_known "Among the carvings is one that is not carved but set in, a boss that would go in under a hand.".
+  Thing hall_snare "the hidden switch" on gate {
+    State primed dangerous "The wall here is carved all over, and the carving is thickest where the way is narrowest.".
+    State sprung "The hidden switch has gone off, and is spent.".
+    State made_safe "The hidden switch is made safe. Whoever goes by now goes by unharmed.".
+    State drawn "The hidden switch has been set off from a pole's length away, and is spent.".
+    Change spring "Push the switch in with the pole's end, standing clear" from primed to drawn needing pole after learning hall_snare_known.
+    Change wedge "Wedge the switch so it cannot go in" from primed to made_safe needing trapwork after learning hall_snare_known.
+    Change read "Read which of the carvings is set in, and keep your hands from it" from primed to made_safe needing lore after learning hall_snare_known.
+    Change worn "Find where the carving is worn by hands that knew to miss the switch, and miss it too" from primed to made_safe needing insight after learning hall_snare_known.
+    Hurts with hall_trap when primed then sprung.
+  }
+  Event hall_snare_goes beside gate when state(hall_snare, sprung) "A scything blade swings through the air.".
+  Observe hall_snare_read beside gate of hall_snare when tried(hall_snare, looking) and state(hall_snare, primed) "Among the carvings is one that is not carved but set in." teaches hall_snare_known.
+  Observe hall_scene at hall when true "A hall of carved stone.".
+  Goal false.
+}

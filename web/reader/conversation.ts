@@ -8,6 +8,8 @@ import { Words } from './words';
 // came to know, and what it paid or was given.
 export interface TalkLine {
   kind: 'you' | 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'learned' | 'aim' | 'tally'; text: string;
+  // What a note is, said before it ("A new aim", "The aim now", "You know now").
+  label?: string;
 }
 
 // Where the player's attention goes, and what a conversation keeps. Turning to someone, to a thing, away from a thing
@@ -40,6 +42,7 @@ export class Conversation {
     const you: TalkLine[] = /#talk$/.test(choice.id) || restated ? [] : [{ kind: 'you', text: words }];
     return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
       ...(exchange?.notes ?? []).map(text => ({ kind: /^Noted: /.test(text) ? 'learned' as const
-        : /^Aim: /.test(text) ? 'aim' as const : 'tally' as const, text: text.replace(/^(Noted|Aim): /, '') }))];
+        : /^Aim( now)?: /.test(text) ? 'aim' as const : 'tally' as const, text: text.replace(Words.noted, ''),
+        ...Words.label(text) ? { label: Words.label(text) } : {} }))];
   }
 }

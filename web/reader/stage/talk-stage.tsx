@@ -83,7 +83,7 @@ export class TalkStage {
             : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
             : l.kind === 'learned' || l.kind === 'aim'
               ? <p key={i} ref={i === from ? newest : undefined} className={`line learned ${l.kind}`}>
-                <b>{l.kind === 'aim' ? 'A new aim' : 'You know now'}</b>{Typography.curl(l.text)}</p>
+                <b>{l.label ?? (l.kind === 'aim' ? 'A new aim' : 'You know now')}</b>{Typography.curl(l.text)}</p>
               : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>;
         })}
         {pending && <p className="line you waiting">{Typography.curl(Words.lastSaid(pending))}</p>}

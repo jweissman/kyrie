@@ -1,5 +1,5 @@
 {
-  "about": "Someone is spoken to: how they take it, by whether they have spoken with the company before (moment first or again), who the company is to them (bond), their manner, and the hour. Said once, when the company turns its attention to them; what can be put to them follows. Someone with a temper of their own (wary, territorial, defensive, as a place's dwellers are) takes it in that temper, whoever they are to the company.",
+  "about": "Someone is spoken to: how they take it, by whether they have spoken with the company before (moment first or again), who the company is to them (bond), their manner, and the hour. Said once, when the company turns its attention to them; what can be put to them follows. Someone with a temper of their own (wary, territorial, defensive, as a place's dwellers are) takes it in that temper, whoever they are to the company. Someone fretting, grieving or angry (as what they are doing says: Odile pacing the terrace) takes it as they are, whatever their manner.",
   "kinds": [
     "address"
   ],
@@ -604,6 +604,96 @@
         "kind": "person"
       },
       "text": "{Actor} [look|looks] you over as if you had come to pay {them} something. ‘Well?’"
+    },
+    {
+      "id": "address.troubled.first.1",
+      "when": {
+        "moment": "first",
+        "mood": "troubled",
+        "kind": "person"
+      },
+      "text": "{Actor} [look|looks] round at you as if from a long way off. ‘Yes? Forgive me. What is it?’"
+    },
+    {
+      "id": "address.troubled.first.2",
+      "when": {
+        "moment": "first",
+        "mood": "troubled",
+        "kind": "person"
+      },
+      "text": "‘Not now—’ [begin|begins] {actor}, and then [see|sees] you properly. ‘No. I’m sorry. What do you want?’"
+    },
+    {
+      "id": "address.troubled.again.1",
+      "when": {
+        "moment": "again",
+        "mood": "troubled",
+        "kind": "person"
+      },
+      "text": "‘You again,’ [say|says] {actor}, and [look|looks] past you, back at whatever it is."
+    },
+    {
+      "id": "address.troubled.again.2",
+      "when": {
+        "moment": "again",
+        "mood": "troubled",
+        "kind": "person"
+      },
+      "text": "{Actor} [nod|nods] to you, and [go|goes] back to worrying at it."
+    },
+    {
+      "id": "address.grieving.first.1",
+      "when": {
+        "moment": "first",
+        "mood": "grieving",
+        "kind": "person"
+      },
+      "text": "{Actor} [take|takes] a long moment to look up. ‘Yes?’"
+    },
+    {
+      "id": "address.grieving.first.2",
+      "when": {
+        "moment": "first",
+        "mood": "grieving",
+        "kind": "person"
+      },
+      "text": "‘Forgive me,’ [say|says] {actor}, and [wipe|wipes] {their} face with the heel of a hand. ‘What is it?’"
+    },
+    {
+      "id": "address.grieving.again.1",
+      "when": {
+        "moment": "again",
+        "mood": "grieving",
+        "kind": "person"
+      },
+      "text": "{Actor} [look|looks] up at you, and [say|says] nothing."
+    },
+    {
+      "id": "address.angry.first.1",
+      "when": {
+        "moment": "first",
+        "mood": "angry",
+        "kind": "person"
+      },
+      "text": "‘What?’ [say|says] {actor}, as though it were your doing."
+    },
+    {
+      "id": "address.angry.first.2",
+      "when": {
+        "moment": "first",
+        "mood": "angry",
+        "kind": "person"
+      },
+      "text": "{Actor} [look|looks] you up and down, and not kindly. ‘Well?’"
+    },
+    {
+      "id": "address.angry.again.1",
+      "when": {
+        "moment": "again",
+        "mood": "angry",
+        "kind": "person"
+      },
+      "text": "‘You,’ [say|says] {actor}. It is not a welcome."
     }
   ]
 }

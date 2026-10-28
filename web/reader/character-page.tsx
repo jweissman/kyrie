@@ -37,7 +37,8 @@ export class CharacterPage {
         {exchange?.said && /^(Have|Raise|Take up)/.test(exchange.said) && <Told.Happened exchange={exchange} />}
         <CharacterPage.Development member={m} draw={draw} choices={sections.find(s => s.id === 'development')?.choices ?? []} />
         <CharacterPage.Standing member={m} />
-        <CharacterPage.Sheet member={m} screen={screen} />
+        <CharacterPage.Sheet member={m} screen={screen} swaps={sections.find(s => s.id === 'prepare')?.choices ?? []}
+          draw={draw} />
         {acts.length > 0 && <section><h3>What can be done</h3><Act.List choices={acts} draw={draw} className="column" /></section>}
       </article>
     );
@@ -122,7 +123,7 @@ export class CharacterPage {
         {m.fallen && <span className="hurt"> · {Typography.curl(m.fallen)}</span>}</p>
     );
   }
-  static Sheet({ member: m, screen }: { member: MemberRow; screen: Screen }) {
+  static Sheet({ member: m, screen, swaps, draw }: { member: MemberRow; screen: Screen; swaps: Choice[]; draw: Draw }) {
     const sheet = m.sheet, gear = CharacterPage.counted(screen.items.filter(i => i.owner === m.id));
     return <>
       {sheet && <section className="qualities-of"><h3>Qualities</h3><ul className="tiles">{sheet.qualities.map(q =>
@@ -139,10 +140,7 @@ export class CharacterPage {
         <div key={s.id}><dt>{s.name} <span className="from">{s.from}{s.check !== undefined
           && ` · ${CharacterPage.signed(s.check)} in a check`}</span></dt>
           <dd>{Typography.curl(s.text)}</dd></div>)}</dl></section>}
-      {(m.spells ?? []).length > 0 && <section><h3>Prepared today</h3><ul>
-        {[...new Set(m.spells!.map(x => x.level))].map(l => <li key={l}><b>Level {l}</b>{' · '}
-          {m.spells!.filter(x => x.level === l).map(x => x.ready ? x.name : `${x.name} (spent)`).join(', ')}</li>)}
-      </ul></section>}
+      <CharacterPage.Prepared member={m} swaps={swaps} draw={draw} />
       <section><h3>Techniques</h3><dl className="abilities">{m.abilities.map(a => <div key={a.id}>
         <dt>{a.name}{a.price && <span className="from"> {a.price}{CharacterPage.yet(m, a.price)}</span>}</dt>
         <dd>{Typography.curl(a.text)}</dd></div>)}</dl></section>
@@ -151,6 +149,20 @@ export class CharacterPage {
         {i.equipped && <span className="from"> in use</span>}{i.description && <span> · {Typography.curl(i.description)}</span>}
       </li>)}</ul>{!gear.length && <p className="none">Nothing.</p>}</section>
     </>;
+  }
+  // The spells prepared today, each with what could be prepared in its place (an hour's study or prayer), chosen
+  // there: on the place's page it had been a fold three deep, "Prepare spells › In place of Bless (first-level slot) ›
+  // Dark Bolt" (play 9: M17-25).
+  static Prepared({ member: m, swaps, draw }: { member: MemberRow; swaps: Choice[]; draw: Draw }) {
+    if (!(m.spells ?? []).length) { return null; }
+    const offered = new Set<Choice>();
+    return <section className="prepared"><h3>Prepared today</h3><ul>{m.spells!.map((x, i) => {
+      const swap = swaps.find(c => c.label.startsWith(`In place of ${x.name} (`) && !offered.has(c));
+      if (swap) { offered.add(swap); }
+      return <li key={`${x.name}${i}`}><b>{x.name}</b><span className="from">{` level ${x.level}${x.ready ? '' : ', spent'}`}</span>
+        {(swap?.children ?? []).length > 0 && <div className="instead"><span className="label">Or prepare instead</span>
+          <Act.List choices={swap!.children!} draw={draw} className="small swaps" /></div>}</li>;
+    })}</ul></section>;
   }
   static signed(n: number): string { return n >= 0 ? `+${n}` : `−${-n}`; }
   // What is carried, the same things together (three torches, not a torch three times), what is in use apart.

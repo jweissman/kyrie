@@ -1,5 +1,6 @@
 import type { Act, CombatScreen, ExitRow, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 import { Patience } from './patience';
+import { Tending } from './tending';
 import { Counted } from '../presentation/counted';
 
 export type Tone = 'way' | 'person' | 'creature' | 'thing' | 'company' | 'item' | 'member' | 'ability' | 'spell';
@@ -34,11 +35,15 @@ export class ChoiceList {
     return this.waited(screen, [
       ...[...screen.people, ...things].map(t => this.subject(t, screen.fresh)),
       ...(screen.exits.length ? [this.ways(screen.exits)] : []),
-      ...(screen.camp.length || screen.unplaced.length || this.preparing(screen).length || this.lighting(screen).length ? [{ id: 'company',
-        title: 'The company', tone: 'company' as const, glyph: '○',
-        choices: [...this.lighting(screen), ...this.flatten([...screen.camp, ...screen.unplaced], 'company', 'company'),
-          ...this.preparing(screen)] }] : []),
+      ...this.company(screen),
     ]);
+  }
+  // What the company can do by itself: light a light in the dark, tend whoever is hurt (see Tending), camp, rest and
+  // the rest, and prepare spells.
+  private static company(screen: Screen): Section[] {
+    const choices = [...this.lighting(screen), ...Tending.choices(screen),
+      ...this.flatten([...screen.camp, ...screen.unplaced], 'company', 'company'), ...this.preparing(screen)];
+    return choices.length ? [{ id: 'company', title: 'The company', tone: 'company', glyph: '○', choices }] : [];
   }
   // Warned off, whatever would take the company past the minutes they will wait says so (see Patience).
   private static waited(screen: Screen, sections: Section[]): Section[] {
@@ -150,16 +155,27 @@ export class ChoiceList {
     }
     return this.tries(e, label, about);
   }
-  // Several ways to act on one passage (go by the shaft or the postern; risk the pit or disarm it) each stand alone.
+  // Several ways to act on one passage (go by the shaft or the postern; risk the pit or disarm it) each stand alone,
+  // the way through first, as the page leads with it; a risk taken on something not yet looked at closely says so.
+  // Play 9 risked a hidden switch whose answer, the cleric's insight, would have shown on a closer look (M17-56).
   private static tries(e: ExitRow, label: string, about: string): Choice[] {
-    const id = e.id;
+    const id = e.id, unlooked = this.unlooked(e.acts);
     return e.acts.map(a => {
       const c = this.choice(a, id, 'way');
       const how = this.moves(a) && !a.label.startsWith('Go by ') ? label : a.label.startsWith('Go by ') ? `${label}, ${a.label.slice(3)}`
         : `${label} — ${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}`;
-      const told = c.note;
-      return { ...c, label: how, about: c.about ?? about, ...(told && !c.children ? { note: told } : {}) };
+      const blind = this.risky(a) && this.leaves([a]).some(k => unlooked.has(/^\w+\(([^,)]+)/.exec(k.command ?? '')?.[1] ?? ''));
+      return { ...c, label: how, about: c.about ?? about,
+        ...blind ? { note: [c.note, ChoiceList.unexamined].filter(Boolean).join(' · ') } : {} };
     });
+  }
+  static readonly unexamined = 'not looked at closely';
+  private static risky(a: Act): boolean {
+    return !!a.risk || (!!a.children?.length && a.children.every(k => this.risky(k)));
+  }
+  // What could still be looked at closely, by its id.
+  private static unlooked(acts: Act[]): Set<string> {
+    return new Set(this.leaves(acts).flatMap(a => /^look_closely\(([^)]+)\)$/.exec(a.command ?? '')?.[1] ?? []));
   }
   private static moves(a: Act): boolean { return a.label === 'Go' || a.label === 'Walk'; }
   static wayLabel(e: ExitRow): string {

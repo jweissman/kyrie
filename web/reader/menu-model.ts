@@ -31,7 +31,9 @@ export class MenuModel {
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
       : view === 'pack' ? ChoiceList.pack(frame.screen) : this.character(frame.screen, member);
-    return { sections, choices: ChoiceList.all(sections).flatMap(c => this.unfold(c, opened)) };
+    // What can be prepared in place of each spell is drawn under it, open (see CharacterPage.Prepared).
+    return { sections, choices: sections.flatMap(s => s.id === 'prepare' ? s.choices.flatMap(g => g.children ?? [])
+      : s.choices.flatMap(c => this.unfold(c, opened))) };
   }
   // The character: who in the company is shown (when there is more than one), the development they have to spend,
   // each way of spending it said with what it is, and whatever else can be done with them.
@@ -43,7 +45,8 @@ export class MenuModel {
   static character(screen: Frame['screen'], member?: string): Section[] {
     const m = screen.party.find(x => x.id === member) ?? screen.party[0];
     if (!m) { return []; }
-    const others = ChoiceList.party({ ...screen, party: [m] })[0]?.choices[0]?.children ?? [];
+    const all = ChoiceList.party({ ...screen, party: [m] })[0]?.choices[0]?.children ?? [];
+    const prepare = all.find(c => c.label === 'Prepare spells'), others = all.filter(c => c !== prepare);
     const development = (m.development?.options ?? []).filter(o => o.command).map(o => ({ id: `dev:${o.command!}`,
       label: o.kind === 'quality' ? `Raise ${o.name}` : `Take up ${o.name}`, tone: 'member' as const, command: o.command }));
     return [
@@ -51,6 +54,8 @@ export class MenuModel {
         choices: screen.party.map(x => ({ id: x.id, label: x.name, tone: 'member' as const, note: `${x.line} · level ${x.level}` })) }] : [],
       ...development.length ? [{ id: 'development', title: 'Development', tone: 'member' as const, glyph: '+',
         choices: development }] : [],
+      ...prepare?.children?.length ? [{ id: 'prepare', title: 'Prepared today', tone: 'spell' as const, glyph: '✦',
+        choices: prepare.children }] : [],
       { id: 'acts', title: 'What can be done', tone: 'member' as const, glyph: '·',
         choices: others.filter(c => !this.develops(c)) }];
   }
@@ -62,7 +67,8 @@ export class MenuModel {
   // destinations were the graph laid bare, a town square's thirty peers the reason they had been folded: PT-09).
   private static place(found: Scene, opened: Set<string>, frame: Frame): Menu {
     const screen = frame.screen;
-    const scene = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen) : c) };
+    const scene = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen)
+      : /^prepare:/.test(c.id) ? this.preparing(c, screen) : c) };
     const going = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id)];
     const about = this.around(screen);
     const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...about, ...scene.far, ...going,
@@ -89,6 +95,13 @@ export class MenuModel {
     const left = m?.development?.left ?? 1;
     return { id: c.id, label: `${m?.name ?? c.label}: ${left === 1 ? 'a development' : `${left} developments`} to spend`,
       tone: c.tone, command: `view:company:${id}` };
+  }
+  // Spells are prepared on the caster's page, each in place of one prepared now: here it is only said that they can
+  // be (play 9 found a fold three deep, "Prepare spells › In place of Bless (first-level slot) › Dark Bolt": M17-25).
+  private static preparing(c: Choice, screen: Frame['screen']): Choice {
+    const id = /^prepare:([^/]+)/.exec(c.id)![1]!, m = screen.party.find(x => x.id === id);
+    return { id: c.id, label: `${m?.name ?? c.label}: prepare other spells`, tone: c.tone, note: 'an hour each',
+      command: `view:company:${id}` };
   }
   // The nearest places known and the way to them, each a journey to set out on at once: where it goes, how long, and
   // by where (the first legs' places). A place whose way is not known is set out toward, as far as the known ways go

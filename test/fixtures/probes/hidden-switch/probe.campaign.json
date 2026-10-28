@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: a hidden switch", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Hild", "raceId": "dwarf", "classId": "cleric" } ] }

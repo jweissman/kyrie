@@ -6,6 +6,7 @@ import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names';
 import { MechanicsText } from '../presentation/mechanics-text';
+import { AbilityRows } from './ability-rows';
 import { ConditionSense } from '../presentation/condition-sense';
 import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
@@ -379,9 +380,7 @@ export class ScreenModel {
         conditions: m.conditions.filter(c => !this.boon(c)).map(c => this.condition(c)), ...Standing.of(m),
         boons: m.conditions.filter(c => this.boon(c))
           .map(c => `${this.condition(c)}${m.lasting?.[c] ? ` · ${FictionalTime.duration(m.lasting[c])} left` : ''}`),
-        abilities: (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id))
-          .filter(a => !!a).map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0, price: MechanicsText.price(a),
-            text: MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }) })),
+        abilities: AbilityRows.of(m),
         attributes: m.attributes ?? {}, acts: ref ? Illumination.mark(grouped.members.get(ref) ?? []) : [],
         overlays: this.overlays(campaign, m.id), ...this.sheet(campaign, m.id, ref, grouped.members.get(ref ?? '') ?? []) };
     });

@@ -97,9 +97,11 @@ describe('a generated region lies on real land', () => {
       const ground = site.work ? Histories.plan(site.work.plan).ground : Atlases.grounds[site.kind];
       expect(ground).toContain(cover[site.cell!]!);
     }
+    // Found by searching, a way is told from where it was found, not from the wild's far edge (M17-22).
     for (const site of region.sites.filter(w => (w.part ?? 0) > 0 && !w.work?.great)) {
       expect(source).toContain(`hidden until ${site.id}_found`);
-      expect(source).toMatch(new RegExp(`Discovery ${site.id}_found "[^"]+" \\{ Found by searching `));
+      expect(source).toMatch(new RegExp(`Discovery ${site.id}_found "[^"]+" \\{ Found by searching \\w+ `
+        + `"A track you had not seen goes off from here: the way to \\{${site.id}\\}\\."\\. \\}`));
     }
     // The greatest is out of sight until its makers' story is known: no search finds it.
     const great = region.sites.filter(w => w.work?.great);
