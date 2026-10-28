@@ -21,9 +21,9 @@ register under its name.
 |---|---|
 | Thirty minutes | Nearly. Play 9, a fresh game at tablet size by touch, held me for its forty taps: two errands seen through (one by talking a quarrel round rather than fighting it), a level gained, a fight won, a trap that nearly killed. What still breaks it is small and frequent: a control that does nothing, a stale aim, a sentence that slips (all fixed after the play), and a trap with no answer for a company without a pole. Play 10, a mage coming home, had the best thread the game has (a brother's word about a wheel, the cart in the ditch, a burial by the road, "The dog knew"), and the family told wrong at every turn, all fixed after it |
 | Feels like a game | Partly. "It feels like an RPG when people talk and when the dice bite … in between, which is most of the taps, it feels like browsing" (the cold evaluation). The conversation page, the moment before a fight, a level gained and a thing seen through are a game's. A place was a page of rows and a fight a form when the evaluator played; since, a place is a scene with its ways at the foot of the screen and a fight a field (a942a22), which you have not yet seen on a tablet |
-| The interface | Rebuilt as a game after your interim report: no bar across the top, a book in the corner, creation as cards, a place as a spread, a conversation at the foot of its painting, travel to a chosen place without junction-by-junction choice, the destination held on every page. Held to the screen at 1440, 820 and 390 |
+| The interface | Rebuilt as a game after your interim report: no bar across the top, a book in the corner, creation as cards, a place as a scene with its ways beside it or at its foot, a conversation at the foot of its painting, travel to a chosen place without junction-by-junction choice, the destination held on every page. Since your last word that it is still painful (53d847f): family and whoever an aim names come first and larger among who is here, the way an aim names first among the ways; a busy place's people are each a line and its ways a touch away, not two scrolling lists; a fight keeps its last blows on the page. Held to the screen at 1440, 1180, 820 and 390 |
 | The local adventure | Generated countries hold a town's people, a hire at the inn, a ruin or two, a lone tower, a toll, a band, a widow's price and what goes on in the towns; the unquiet tower can now be talked through as well as fought. The dense shared region of authored adventures (V) is not built: they are still separate countries |
-| The register | Of the 105 inherited, 51 fixed, 42 partial, 11 open, 1 not reproduced (none were fixed at the start); of 110 found in this mission, 95 fixed; of 70 from the adventures' authors, 64 fixed (section 4) |
+| The register | Of the 105 inherited, 52 fixed, 42 partial, 10 open, 1 not reproduced (none were fixed at the start); of 110 found in this mission, 95 fixed; of 70 from the adventures' authors, 65 fixed (section 4) |
 | Authoring | The studio of 69cffd9 (`kyrie new`, play a scene or a person, traces kept as tests, `inspect`, `verify`); the authors' friction answered where it was the engine's. Not extended after your interim report, as it asked |
 
 ## 1. What thirty minutes is like now
@@ -189,9 +189,9 @@ what follows, and what they carry is under one choice.
 | | Fixed | Partial | Open | Not reproduced | Total |
 |---|---|---|---|---|---|
 | Inherited, at the start | 0 | 42 | 63 | 0 | 105 |
-| Inherited, now | 51 | 42 | 11 | 1 | 105 |
+| Inherited, now | 52 | 42 | 10 | 1 | 105 |
 | New in Mission 17 | 95 | 13 | 2 | 0 | 110 |
-| From the adventures (the Liberty of the Ice, the Banns at Hessel, A Winter in Carth) | 64 | 5 | 1 | 0 | 70 |
+| From the adventures (the Liberty of the Ice, the Banns at Hessel, A Winter in Carth) | 65 | 5 | 0 | 0 | 70 |
 
 Each row is in the [register](register.md) with its evidence: the commit, the test, and what remains. A row is fixed
 only where the failure it names was seen not to happen again in play or a test, not because the code around it was
@@ -214,14 +214,17 @@ fear, a day that opens as a chapter, what sounds told in the dark and a light pu
 civil, a thing that remembers who changed it, and a lint that reads rules. Then, on your word: a summoning calls
 creatures, a background's big numbers become skills (none adds more than three to a score), the packages install by
 git at their commits, a promise and an occasion as single constructs, people on their own errands written as such,
-the numbers a fight turns on as a table in the catalog, and a tool that says where each country lies.
+the numbers a fight turns on as a table in the catalog, and a tool that says where each country lies. And: what one
+person hears carried to another (heard of, passed on, overheard), and the Patient Star placed in a world telling of
+Garret as one of the Mutual's cutters, not the cutter's uncle.
 
 **What remains, and why.** Of the inherited rows still open, most are the engine's contracts (combat with exactly two
 teams and its constants in code, identity carried in id strings, a companion's lifecycle, presentation inside the
 authority boundary) and Deem's tables of a module's own; your interim report put these behind the game itself, and
 I kept them there. The rest are the world's breadth: dense authored content near the start (NAR-01, NAV-01, NAV-10),
-which is the shared region not yet built. The partial rows say in each what is left. Of this mission's own, two are open: the feverwort errand's second beat and the Awls'
-nightly fight in Doble's yard, for the origin's and the adventure's authors.
+which is the shared region not yet built. The partial rows say in each what is left. Of this mission's own, two are
+open: the feverwort errand's second beat and the Awls' nightly fight in Doble's yard, for the origin's and the
+adventure's authors. Of the adventures' authors' seventy, none is open.
 
 ## 5. Measurements
 
@@ -243,7 +246,7 @@ nightly fight in Doble's yard, for the origin's and the adventure's authors.
 - **Faces** (six countries' towns, every room by day): 36% to 69% of the people met have a painting (M17-23).
 - **Speed**: a command once a second country is drawn, about 152 ms (it had been a second: COR-22); a long journey of
   What Tessary Owes, 25 ms a command (it had been 40: M17-01); a city of many rooms, 31 (85: M17-02).
-- **The gates**: 1,525 tests at 8a6d9fb, 58 of which run only when asked for (the 30 browser specs, the long descents,
+- **The gates**: 1,528 tests at 53d847f, 58 of which run only when asked for (the 30 browser specs, the long descents,
   the pinned Orsino registry); the suite about fourteen minutes on sixteen workers, the browser specs two and a half.
 
 ## 6. What I would do next, in order
