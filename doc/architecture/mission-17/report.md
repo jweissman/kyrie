@@ -23,7 +23,7 @@ register under its name.
 | Feels like a game | Partly. "It feels like an RPG when people talk and when the dice bite … in between, which is most of the taps, it feels like browsing" (the cold evaluation). The conversation page, the moment before a fight, a level gained and a thing seen through are a game's. A place was a page of rows and a fight a form when the evaluator played; since, a place is a scene with its ways at the foot of the screen and a fight a field (a942a22), which you have not yet seen on a tablet |
 | The interface | Rebuilt as a game after your interim report: no bar across the top, a book in the corner, creation as cards, a place as a spread, a conversation at the foot of its painting, travel to a chosen place without junction-by-junction choice, the destination held on every page. Held to the screen at 1440, 820 and 390 |
 | The local adventure | Generated countries hold a town's people, a hire at the inn, a ruin or two, a lone tower, a toll, a band, a widow's price and what goes on in the towns; the unquiet tower can now be talked through as well as fought. The dense shared region of authored adventures (V) is not built: they are still separate countries |
-| The register | Of the 105 inherited, 40 fixed, 40 partial, 24 open, 1 not reproduced (none were fixed at the start); of 110 found in this mission, 93 fixed; of 70 from the adventures' authors, 51 fixed (section 4) |
+| The register | Of the 105 inherited, 40 fixed, 40 partial, 24 open, 1 not reproduced (none were fixed at the start); of 110 found in this mission, 94 fixed; of 70 from the adventures' authors, 55 fixed (section 4) |
 | Authoring | The studio of 69cffd9 (`kyrie new`, play a scene or a person, traces kept as tests, `inspect`, `verify`); the authors' friction answered where it was the engine's. Not extended after your interim report, as it asked |
 
 ## 1. What thirty minutes is like now
@@ -190,8 +190,8 @@ what follows, and what they carry is under one choice.
 |---|---|---|---|---|---|
 | Inherited, at the start | 0 | 42 | 63 | 0 | 105 |
 | Inherited, now | 40 | 40 | 24 | 1 | 105 |
-| New in Mission 17 | 93 | 12 | 5 | 0 | 110 |
-| From the adventures (the Liberty of the Ice, the Banns at Hessel, A Winter in Carth) | 51 | 5 | 14 | 0 | 70 |
+| New in Mission 17 | 94 | 12 | 4 | 0 | 110 |
+| From the adventures (the Liberty of the Ice, the Banns at Hessel, A Winter in Carth) | 55 | 5 | 10 | 0 | 70 |
 
 Each row is in the [register](register.md) with its evidence: the commit, the test, and what remains. A row is fixed
 only where the failure it names was seen not to happen again in play or a test, not because the code around it was
@@ -206,7 +206,10 @@ a place, a debt paid to nothing, waits by the clock, names checked by the lint, 
 learned by reading the engine. After the report's first draft: a hurt companion tended from the place, a greeting as
 someone is now, spells prepared on the caster's page, and play 10's family; then, burning down the authors' rows
 before anything new: a town's terraces, endings that could never be reached, the journey driver's waits, quotes and
-steps that match two things, a buyer with coin to buy with, and an oath sworn in talk.
+steps that match two things, a buyer with coin to buy with, an oath sworn in talk, a wait's words told in the order
+they were written (A Winter in Carth's account had opened on the company's tally), the second night counted as the
+second, a placed country's days its own, two fords of one river told apart, and journeys by the ways a company can
+take.
 
 **What remains, and why.** Of the inherited rows still open, most are the engine's contracts (combat with exactly two
 teams and its constants in code, identity carried in id strings, a companion's lifecycle, presentation inside the
@@ -214,8 +217,9 @@ authority boundary) and the authoring language's larger constructs (a topic that
 remembers its agent, creatures that guard a way, people on their own errands, senses beyond sight, a promise); your
 interim report put these behind the game itself, and I kept them there. The rest are the world's breadth: dense
 authored content near the start (NAR-01, NAV-01, NAV-10), which is the shared region not yet built. The partial rows
-say in each what is left. Of this mission's own, the open ones are two fords of one river, the asks doubled for a site,
-the portrait audit, and your look at the page on a tablet.
+say in each what is left. Of this mission's own, four are open: the feverwort errand's second beat and the Awls'
+nightly fight in Doble's yard are for the origin's and the adventure's authors, a cap on a quality at creation is your
+call, and the portrait audit is still to do.
 
 ## 5. Measurements
 
@@ -237,7 +241,7 @@ the portrait audit, and your look at the page on a tablet.
 - **Faces** (six countries' towns, every room by day): 36% to 69% of the people met have a painting (M17-23).
 - **Speed**: a command once a second country is drawn, about 152 ms (it had been a second: COR-22); a long journey of
   What Tessary Owes, 25 ms a command (it had been 40: M17-01); a city of many rooms, 31 (85: M17-02).
-- **The gates**: 1,494 tests at 7fffc1f, 56 of which run only when asked for (the 28 browser specs, the long descents,
+- **The gates**: 1,501 tests at 44e94ed, 56 of which run only when asked for (the 28 browser specs, the long descents,
   the pinned Orsino registry); the suite about fourteen minutes on sixteen workers, the browser specs two and a half.
 
 ## 6. What I would do next, in order
@@ -248,8 +252,7 @@ the portrait audit, and your look at the page on a tablet.
    and heard there, not only by rumour.
 3. **Danger with an answer for every company**: a first ruin's traps scaled to the company that comes, and an answer to
    each trap for each calling (M17-56); a lone mage or thief who can live through the big ruin (PT-11).
-4. **The names the country gives**: the asks doubled for a site (M17-99), and fords of one river told apart
-   (M17-100).
+4. **The names the country gives**: the asks doubled for a site (M17-99).
 5. **The engine contracts still open** (combat's two teams and constants, identity in id strings, a companion's
    lifecycle: ARV-A23, L2, M5, M7) and the authoring rows the adventures still work round (a topic that takes an
    answer, a change that remembers its agent, creatures that guard a way, people on their own errands, senses beyond
