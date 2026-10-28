@@ -12,6 +12,9 @@ type Addition = NonNullable<Instance['campaign']>;
 // review's A14: only bare comparisons were moved, and a timer read any other way fired at once). Its days begin at a
 // morning because its author counted them from one: what is left of the day it is reached on is the country's for
 // nothing (Merrowdale, reached at night, told its storm's end, "The rain stops before dawn", at nine in the evening).
+// Its day and its night are its own, counted from the same morning (Parliament of Books' Court sits at ten on the
+// fourth day, Low Water's hymn is sung on the second, Patient Star's crew sets out on the fourth: placed, they came on
+// the world's); its hour is the world's.
 export class ClockShift {
   static readonly day = 144;
   static apply(module: Module, addition: Addition, id: string, reached: number) {
@@ -48,9 +51,10 @@ export class ClockShift {
     if (!node || typeof node !== 'object') { return node; }
     const moved = (node as { kind?: string }).kind === 'compare' ? this.moved(node as Compare, by) : undefined;
     if (moved) { return moved; }
-    if (this.watch(node as Value)) {
-      return start ? { kind: 'number', value: 0 }
-        : { kind: 'arith', op: '-', left: node, right: { kind: 'number', value: by } };
+    const shift = this.shift(node, by);
+    if (shift !== undefined) {
+      return start ? { kind: 'number', value: (node as { name: string }).name === 'day' ? 1 : 0 }
+        : { kind: 'arith', op: '-', left: node, right: { kind: 'number', value: shift } };
     }
     let out: Record<string, unknown> | undefined;
     for (const [k, v] of Object.entries(node)) {
@@ -59,16 +63,23 @@ export class ClockShift {
     }
     return out ?? node;
   }
-  // A bare comparison of the watch with a number is moved on by the watches gone by, as it reads (`watch(clock) >=
-  // 240`, ten days in, is 240 watches past that morning).
+  // A bare comparison of the clock with a number is moved on by the watches, or the days, gone by, as it reads
+  // (`watch(clock) >= 240`, ten days in, is 240 watches past that morning; `day(clock) == 4` its fourth day).
   private static moved(p: Compare, by: number): Compare | undefined {
-    if (this.watch(p.left) && p.right.kind === 'number') {
-      return { ...p, right: { kind: 'number', value: p.right.value + by } };
+    const left = this.shift(p.left, by), right = this.shift(p.right, by);
+    if (left !== undefined && p.right.kind === 'number') {
+      return { ...p, right: { kind: 'number', value: p.right.value + left } };
     }
-    if (this.watch(p.right) && p.left.kind === 'number') {
-      return { ...p, left: { kind: 'number', value: p.left.value + by } };
+    if (right !== undefined && p.left.kind === 'number') {
+      return { ...p, left: { kind: 'number', value: p.left.value + right } };
     }
     return undefined;
   }
-  private static watch(v: Value): boolean { return v.kind === 'call' && v.name === 'watch' && v.args[0] === 'clock'; }
+  // How far a read of the clock moves for an installation begun `by` watches in: its watch by as many watches, its day
+  // and its night by as many days. Anything else is not a read of the clock that moves.
+  private static shift(v: unknown, by: number): number | undefined {
+    const c = v as Value;
+    if (c?.kind !== 'call' || c.args[0] !== 'clock') { return undefined; }
+    return c.name === 'watch' ? by : ['day', 'nightCount'].includes(c.name) ? by / this.day : undefined;
+  }
 }

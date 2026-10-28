@@ -1,0 +1,23 @@
+Module router "Three ways to the wharf" {
+  Place town "Hayle" is settlement.
+  Place stairs "the foot of Hay Stairs" is room within town at 0, 0 outdoors.
+  Place bond "the bond floor" is room within town at 1, 0.
+  Place lane "Rope Lane" is room within town at 0, 1 outdoors.
+  Place loft "the sail loft" is room within town at 1, 1.
+  Place wharf "Hay Wharf" is room within town at 2, 0 outdoors.
+  // The shortest way is a climb, and the next through a door barred from the wharf side: a warrior with no rope goes
+  // round by the lane and the sail loft.
+  Passage river_wall "the river wall" is climb between stairs and wharf needing climbing.
+  Passage street_door "the bondhouse street door" is door between stairs and bond.
+  Passage river_door "the bondhouse river door" is door between bond and wharf.
+  Thing river_bar "the bar on the river door" on river_door {
+    State barred blocking "The river door is barred from the wharf side.".
+    State lifted "The river door stands unbarred.".
+  }
+  Passage lane_way "Rope Lane" is path between stairs and lane taking 2 minutes.
+  Passage loft_stair "the loft stair" is path between lane and loft taking 2 minutes.
+  Passage loft_door "the sail loft's wharf door" is door between loft and wharf.
+  Company party "You" of 1 at stairs.
+  Observe stairs_scene at stairs when true "The foot of Hay Stairs, under the river wall.".
+  Goal false.
+}

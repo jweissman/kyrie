@@ -11,6 +11,10 @@ export class FictionalTime {
   // The hour of the day, 0 to 23, and the day since the company came (1, 2…).
   static hour(tick: number): number { return Math.floor((8 * 60 + tick * this.minutesPerTick) / 60) % 24; }
   static day(tick: number): number { return Math.floor((8 * 60 + tick * this.minutesPerTick) / 1440) + 1; }
+  // The night it is, or the one to come or just gone: the night that falls on day n is night n, from noon that day
+  // until noon the next, so its small hours are its own and not the next day's (Liberty of the Ice's 6: "the second
+  // night" was written as the third day's small hours, which are the second night's). The first morning is night 0.
+  static nightOf(tick: number): number { return Math.floor((tick * this.minutesPerTick - 4 * 60) / 1440) + 1; }
   // Night, for the world: from nine in the evening until six in the morning, unless a campaign keeps its own (A Winter
   // in Carth's February in the north is dark from five until seven: its friction 1; the Liberty of the Ice's winter
   // fair is dusk at four).

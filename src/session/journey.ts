@@ -226,18 +226,26 @@ export class Journey {
     const world = this.campaign.world, id = world.module.entities.some(e => e.id === place) ? place : `region__${place}`;
     // Someone, or something, is gone to where they are.
     const target = world.module.entities.find(e => e.id === id)?.type === 'place' ? id : world.one('at', id) ?? id;
+    const company = this.campaign.playerActor ?? 'party';
     let told = '';
-    for (const [passage, to] of Journey.way(world, this.at(this.campaign.playerActor ?? 'party')!, target)) {
-      told += await this.perform(`go(${passage},${to})`, `>${to}`);
+    for (const [passage, to] of Journey.way(world, this.at(company)!, target, company)) {
+      const command = `go(${passage},${to})`;
+      if (!this.choices().some(c => c.command === command)) {
+        throw Journey.unoffered(`No way on by ${passage} to ${to} at watch ${this.watch()}`);
+      }
+      told += await this.perform(command, `>${to}`);
     }
     return told;
   }
-  // The ways to take, passage by passage, from one place to another, by the fewest.
-  static way(world: World, start: string, target: string): [string, string][] {
+  // The ways to take, passage by passage, from one place to another, by the fewest the company can take now: not one
+  // it does not know of, nor one that needs what it has not, nor one barred, unopened or kept against it (Liberty of
+  // the Ice's 18 and 27: the router each adventure copied walked a thief down a climb, and through a barred door).
+  static way(world: World, start: string, target: string, company = 'party'): [string, string][] {
     const links = world.related('connects'), came = new Map<string, [string, string]>([[start, ['', '']]]);
     for (const queue = [start]; queue.length && !came.has(target);) {
       const here = queue.shift()!;
-      for (const l of links.filter(r => r.args[1] === here && !came.has(r.args[2]!))) {
+      for (const l of links.filter(r => r.args[1] === here && !came.has(r.args[2]!)
+        && Journey.usable(world, r.args[0]!, company))) {
         came.set(l.args[2]!, [here, l.args[0]!]); queue.push(l.args[2]!);
       }
     }
@@ -245,6 +253,12 @@ export class Journey {
     const steps: [string, string][] = [];
     for (let at = target; at !== start; at = came.get(at)![0]) { steps.unshift([came.get(at)![1], at]); }
     return steps;
+  }
+  private static usable(world: World, way: string, company: string): boolean {
+    const call = ModuleWriter.call;
+    return world.test(call('equippedFor', company, way)) && world.test(call('visibleTo', way, company))
+      && !world.test(call('barredFor', way, company)) && !world.test(call('unopened', way))
+      && !world.test(call('watchedAgainst', way, company));
   }
   // A choice waited for until it is offered and comes off: a way until the company is through it, anything else
   // once it has been done (a purchase written with it was bought again and again: Hessel friction 16).

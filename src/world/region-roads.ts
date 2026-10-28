@@ -38,23 +38,25 @@ export class RegionRoads {
   static time(minutes: number): string {
     return minutes % 60 === 0 ? `${minutes / 60} hour${minutes === 60 ? '' : 's'}` : `${minutes} minutes`;
   }
-  // What a road and its land are called. Two roads through one wood, or over one river, are told apart by the
-  // settlement each lies nearer (the M16 free play read two ways out of Marirkom alike to the letter: "To the bridge
-  // over the Karnahar"), or by both its ends where that is not enough; never by which way it goes, since it is walked
-  // both ways (a newcomer standing in Wǽtheald was offered "the ford of the Āforex toward Wǽtheald"). A plain "the
-  // road" is no one's name, and is left as it is.
+  // What a road and its land are called. Two roads through one wood, or over one river, are told apart, each of them,
+  // by the settlement it lies nearer (the M16 free play read two ways out of Marirkom alike to the letter: "To the
+  // bridge over the Karnahar"; in play 10 the aim said "the ford of the Nûrnellë" where two roads went to fords of it,
+  // and only the second was told "by Merinael"), or by both its ends where two lie nearer the same; never by which way
+  // it goes, since it is walked both ways (a newcomer standing in Wǽtheald was offered "the ford of the Āforex toward
+  // Wǽtheald"). A plain "the road" is no one's name, and is left as it is.
   static names(road: Road, region: Region): WayNames {
-    const told: WayNames[] = [];
-    for (const r of RegionGeography.roads(region)) {
-      const own = this.own(r, region), [way, on, out] = (['way', 'on', 'out'] as const).map(key => {
-        if (!/\p{Lu}/u.test(own[key]) || !told.some(b => b[key] === own[key])) { return own[key]; }
-        const by = `${own[key]} by ${this.nearer(r).name}`;
-        return told.some(b => b[key] === by) ? `${own[key]} between ${r.from.name} and ${r.to.name}` : by;
-      });
-      told.push({ ...own, way: way!, on: on!, out: out! });
-      if (r.way === road.way) { return told.at(-1)!; }
-    }
-    return this.own(road, region);
+    const roads = RegionGeography.roads(region), owns = roads.map(r => this.own(r, region));
+    const i = roads.findIndex(r => r.way === road.way);
+    if (i < 0) { return this.own(road, region); }
+    const [way, on, out] = (['way', 'on', 'out'] as const).map(key => this.told(roads, owns, i, key));
+    return { ...owns[i]!, way: way!, on: on!, out: out! };
+  }
+  private static told(roads: Road[], owns: WayNames[], i: number, key: 'way' | 'on' | 'out'): string {
+    const name = owns[i]![key], alike = roads.filter((_, j) => owns[j]![key] === name);
+    if (!/\p{Lu}/u.test(name) || alike.length < 2) { return name; }
+    const nearer = this.nearer(roads[i]!).name;
+    return alike.filter(r => this.nearer(r).name === nearer).length > 1
+      ? `${name} between ${roads[i]!.from.name} and ${roads[i]!.to.name}` : `${name} by ${nearer}`;
   }
   // The end of a road its crossing, or its middle, lies nearer.
   private static nearer(road: Road): Road['from'] {

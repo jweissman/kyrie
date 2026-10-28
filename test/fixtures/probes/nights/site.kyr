@@ -1,0 +1,10 @@
+Module nights "Two nights in a bothy" {
+  Place hill "the hill" is wilderness.
+  Place bothy "the bothy" is room within hill at 0, 0.
+  Company party "You" of 1 at bothy.
+  Relation heard(group).
+  // The second night's small hours: the third day by the calendar, and still the second night.
+  Rule scratching when nightCount(clock) == 2 and hour(clock) == 2 and not heard(party) says "Something scratches at the bothy door." { Assert heard(party). }
+  Observe bothy_scene at bothy when true "A bothy on a hill.".
+  Goal false.
+}

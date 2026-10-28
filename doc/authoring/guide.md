@@ -485,6 +485,18 @@ no `Goal`: objectives say what the company is trying to do.
 }
 ```
 
+A place is told in the order its lines are written: first what it is (an `Observe` with no `as`), then its features,
+signs, weather and ambience (`as feature`, `as sign`, `as weather`, `as ambience`), each in the order written; then who
+and what is there, each with its own state. A sentence about a thing that is to come at a chosen point of the place's
+telling is an `Observe` of the place, written there, and told while the thing is so: the newer tablet under the west
+window after "One tablet only says, HE CAME TOO LATE", not after the smell of wax (`test/fixtures/probes/place-lines`;
+the Banns at Hessel's 24).
+
+```text
+  Observe nave_scene at nave when true "Tablets line the nave. One tablet only says, HE CAME TOO LATE.".
+  Observe tablet_newer at nave when state(tablets, newer) "Under the west window one tablet is newer and whiter than the rest.".
+```
+
 ## 7. module.json: rules and exports
 
 The manifest names the Kyr source of your module, the rules it is written against (`world` is the standard set), and the places a situation may use. Exports are the only way a
@@ -757,10 +769,11 @@ own countries go on beyond the rest. To offer yours:
   heard from them.
 
 Its clock runs from the first morning after it is reached: its own `watch(clock)` is 0 at eight that morning, and below
-nothing until then (a rule at `watch(clock) >= 216` waits 216 watches from that morning), while `day(clock)` and
-`hour(clock)` are the world's. A country reached in the evening has its first day still to come, so a rule for that
-day's afternoon asks `watch(clock) >= 0` as well, or fires that evening (the Liberty of the Ice's 7). What it says of
-the company that comes in is said by names of its own (`Initially Set breath(party) to 12`).
+nothing until then (a rule at `watch(clock) >= 216` waits 216 watches from that morning); its `day(clock)` and
+`nightCount(clock)` are counted from that morning too, and `hour(clock)` is the world's. A country reached in the
+evening has its first day still to come, so a rule for that day's afternoon asks `watch(clock) >= 0` as well, or fires
+that evening (the Liberty of the Ice's 7). What it says of the company that comes in is said by names of its own
+(`Initially Set breath(party) to 12`).
 
 ### A companion who leaves
 
@@ -947,17 +960,20 @@ declared another module's private relation, and written it).
 
 ### The order things happen in
 
-A command takes minutes (`Time 2 minutes.`) or watches (`Time 1.`, ten minutes each); minutes add up, and every
-ten of them is a watch passed. A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`, `hour(clock)`,
-`dice(clock)`) and conditions on bodies run down; every other power and person acts, in the order the campaign
-lists them; then every rule is tried once, the shared rules first, then each module in the order the campaign
-installs it, each in the order its rules are written; then each way that opens only sometimes is read again; then
-what a hazard strikes lands on bodies. A rule sees what
-the rules before it changed in the same watch. A rule whose condition still holds fires again next watch, so a rule
-meant to happen once is written `once` (`Rule bell when watch(clock) >= 1 once says "A bell rings." { … }`), changes
-what it tests (`Assert sung(party)` beside `not sung(party)`, for once per one of many), or is an `Event`, which
-happens once. An action that passes no watch (one that takes no time, or a few minutes) is followed by one
-pass of the rules and whatever a hazard strikes, and no clock.
+A command takes minutes (`Time 2 minutes.`) or watches (`Time 1.`, ten minutes each); minutes add up, and every ten of
+them is a watch passed. A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`,
+`hour(clock)`, `day(clock)`, `nightCount(clock)`, `dice(clock)`) and conditions on bodies run down; every other power
+and person acts, in the order the campaign lists them; then every rule is tried once, the shared rules first, then each
+module in the order the campaign installs it, each in the order its rules are written; then each way that opens only
+sometimes is read again; then what a hazard strikes lands on bodies. A rule sees what the rules before it changed in the
+same watch. A rule whose condition still holds fires again next watch, so a rule meant to happen once is written `once`
+(`Rule bell when watch(clock) >= 1 once says "A bell rings." { … }`), changes what it tests (`Assert sung(party)` beside
+`not sung(party)`, for once per one of many), or is an `Event`, which happens once. An action that passes no watch (one
+that takes no time, or a few minutes) is followed by one pass of the rules and whatever a hazard strikes, and no clock.
+
+The day turns at midnight, and a night keeps its small hours: `nightCount(clock)` is the night that falls on a
+day, from noon that day until noon the next, so the second night's small hours are `nightCount(clock) == 2
+and hour(clock) < 6`, on the third day by `day(clock)` (`test/fixtures/probes/nights`; the Liberty of the Ice's 6).
 
 ### A creature other than its kind
 

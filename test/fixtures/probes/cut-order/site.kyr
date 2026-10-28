@@ -1,0 +1,11 @@
+Module order "A vigil in a byre" {
+  Place farm "the farm" is settlement.
+  Place byre "the byre" is room within farm at 0, 0.
+  Company party "You" of 1 at byre.
+  Relation ended(group). Relation dawned(group).
+  // Written in the order they are to be told: the night ends, and then the morning comes.
+  Rule night_ends when watch(clock) >= 3 and not ended(party) says "The long night ends at last." { Assert ended(party). }
+  Rule morning_comes when watch(clock) >= 3 and not dawned(party) says "Your second morning at the farm comes grey over the byre." { Assert dawned(party). }
+  Observe byre_scene at byre when true "A cold byre.".
+  Goal false.
+}

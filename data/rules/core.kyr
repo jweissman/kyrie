@@ -103,8 +103,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
     Result "An hour passes.".
   }
   Measure untilLight(clock). Measure untilMorning(clock).
-  // The hour of the day (0 to 23) and the day since the company came (1, 2…): what people's days are kept by.
-  Measure hour(clock). Measure day(clock).
+  // The hour of the day (0 to 23) and the day since the company came (1, 2…): what people's days are kept by. The
+  // night's count (nightCount) is that of the night that falls on that day, from noon until noon the next.
+  Measure hour(clock). Measure day(clock). Measure nightCount(clock).
   // A die thrown each watch, 1 to 100, for what is left to chance: dice(clock) for the world, and dice(x) for each
   // thing's own, so that what is left to chance in two places, or for two people, does not fall out alike.
   Measure dice(entity).

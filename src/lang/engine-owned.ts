@@ -6,7 +6,7 @@
 // after; and a topic teaches what it says.
 export class EngineOwned {
   static readonly clock = ['watch', 'dark', 'untilLight', 'untilMorning', 'untilDark', 'untilTurn', 'hour', 'day',
-    'season', 'dice'];
+    'nightCount', 'season', 'dice'];
   static readonly records = ['recorded', 'deficit'];
   static readonly projected = ['able', 'dead', 'capable', 'awake', 'needsCare', 'canCast', 'treatable', 'relieves',
     'proficient', 'levelOf'];

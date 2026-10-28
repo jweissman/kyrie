@@ -1,0 +1,16 @@
+Module lines "A nave and its tablets" {
+  Place town "Hessel" is settlement.
+  Place porch "the porch" is room within town at 0, 0 outdoors.
+  Place nave "the nave" is room within town at 1, 0.
+  Passage nave_door "the west door" is door between porch and nave.
+  Company party "You" of 1 at porch.
+  Thing tablets "the tablets" at nave {
+    State newer "".
+    State cleaned "The tablets have been scrubbed.".
+  }
+  Observe nave_air at nave as ambience when true "It smells of wax.".
+  Observe nave_scene at nave when true "Tablets line the nave. One tablet only says, HE CAME TOO LATE.".
+  Observe tablet_newer at nave when state(tablets, newer) "Under the west window one tablet is newer and whiter than the rest.".
+  Observe nave_font at nave when true "The font is dry.".
+  Goal false.
+}

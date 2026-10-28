@@ -65,4 +65,13 @@ describe('the journey driver', () => {
     expect(j.holds('reached', 'p__drowning')).toBe(true);
     expect(await j.play('=60', '=until creaked(party)', '?Turn the wheel')).toBe('');
   }, 30000);
+  // Liberty of the Ice's 18 and 27: the router each adventure copied walked a thief down a climb and through a barred
+  // door. The shortest way to the wharf is a climb, the next through a door barred from the wharf side.
+  it('goes to a place by the ways the company can take', async () => {
+    const j = await Journey.start('test/fixtures/probes/router/probe.campaign.json');
+    await j.play('>p__wharf');
+    expect(j.taken.map(t => t.command)).toEqual(['go(p__lane_way,p__lane)', 'go(p__loft_stair,p__loft)',
+      'go(p__loft_door,p__wharf)']);
+    expect(j.at('party')).toBe('p__wharf');
+  }, 30000);
 });

@@ -269,7 +269,12 @@ export class Narrator {
     // So does what was learned, when the scene shows it: the dog's muddy coat, not the note of it.
     const bare = voiced.length && (/^You do /.test(feedback.result ?? '')
       || (feedback.discoveries.length > 0 && feedback.result === feedback.discoveries.join(' ')));
-    const telling = spoken.length || bare ? [] : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : [];
+    // What stopped an activity is told among what happened, in its place, not first as the result as well: the wait's
+    // last rule had been told before the rules written before it (A Winter in Carth's 3: the morning before the night
+    // it ended, the company's tally before Carth's account).
+    const stopped = event.cut && feedback.events.some(e => FictionalTime.prose(e) === feedback.result);
+    const telling = spoken.length || bare || stopped ? []
+      : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : [];
     // How a fight ended is told after the blows that ended it: What Tessary Owes' cold playtest read "Your company is
     // defeated" before "Bettany Slake hits Ivo" (W23).
     const result = feedback.ended ? [] : telling, outcome = feedback.ended ? telling : [];
