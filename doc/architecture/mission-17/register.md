@@ -16,7 +16,7 @@ it back). A finding a redesign makes moot is Superseded by name, never dropped.
 |---|---|---|---|---|---|---|---|
 | Inherited, at the start | 0 | 42 | 63 | 0 | 0 | 0 | 105 |
 | Inherited, now | 37 | 40 | 27 | 0 | 0 | 1 | 105 |
-| New in Mission 17 | 91 | 12 | 6 | 0 | 0 | 0 | 109 |
+| New in Mission 17 | 93 | 12 | 5 | 0 | 0 | 0 | 110 |
 | From the adventures (Pellam, Hessel, Carth) | 50 | 5 | 15 | 0 | 0 | 0 | 70 |
 
 ## Gate A: foundations (correctness, contracts, verification)
@@ -261,7 +261,8 @@ it back). A finding a redesign makes moot is Superseded by name, never dropped.
 | M17-106 | The brothers' errand ended sixteen hours from town at a door high in a tower wall, which wanted climbing or a rope, warned of nothing | Play 11 | Fixed | 17af588: the priest sends the shrine's rope with the way (`test/order-rope.test.ts`) |
 | M17-107 | "AQUILASPIRA: in the old tongue, “eagles spire”" | Play 11 | Fixed | 17af588: a work's old name glossed as a landmark's is, "eagle spire" (`test/gloss.test.ts`) |
 | M17-108 | A camp made in the morning: "until 3:00 p.m. on day 2" | Play 11 | Fixed | 17af588: the hour only, or "tomorrow" (`test/bed-hour.test.ts`) |
-| M17-109 | The errand's work fifteen and a half hours from the town it is told of, the priest saying "Go in daylight" | Play 11 | Open | A work an origin sends the company to, within a day's walk of where it is told of |
+| M17-109 | The errand's work fifteen and a half hours from the town it is told of, the priest saying "Go in daylight" | Play 11 | Fixed | 11ca9a5: the brothers' errand sends the company to the nearest of the makers' works to the town it is told in: the first drawn had been fifteen hours off, where another was a short walk (oak's Albusfons eleven cells from the town, Lunastagn one: `test/order-rope.test.ts`) |
+| M17-110 | On a desktop the ways pane had the lower 44% of the right page however few the ways, and cut the telling above it short | Play 12 | Fixed | 11ca9a5: the ways at the foot of the right page, as tall as they need up to half of it, what is here in the rest, as on a tablet; the rule between the pages runs their height |
 
 ## From the adventures integrated in Mission 17
 
