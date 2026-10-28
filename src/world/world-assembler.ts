@@ -102,8 +102,11 @@ export class WorldAssembler {
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
     const files: Record<string, string> = {};
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
+    // The family an origin makes the protagonist's own are of the protagonist's people: a human mage's brother had
+    // been an elf ranger, the town's folk (play 10).
+    const family = origin?.manifest.binder === 'kin' ? party[0]!.raceId : undefined;
     this.spread(placements,
-      { library: [...library, ...heralds], base, region, contacts, context, files, root, modules });
+      { library: [...library, ...heralds], base, region, contacts, context, files, root, modules, family });
     const told = origin && Origins.write(origin, { region, placements, protagonist: party[0]!.name ?? 'you', root, files });
     if (told) { modules.push(told.request); }
     // One who comes alone is told who at the first inn would come along, whatever brought them (PT-11).
@@ -192,12 +195,13 @@ export class WorldAssembler {
   // Each placement's modules, and the module that spreads word of it.
   private static spread(placements: Placement[], at: { library: Entry[]; base: BundleSource; region: Region;
     contacts: Contact[]; context: Record<string, string>; files: Record<string, string>; root: string;
-    modules: BundleRequest[] }) {
+    modules: BundleRequest[]; family?: string }) {
     const { library, base, region, context, files, root, modules } = at;
     placements.forEach((placement, i) => {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
+      const kin = at.family && placement.scenario === 'drover' && placement.rid === RegionWriter.id;
       modules.push(...this.requests(entry, placement, base, { context: { ...context, ...this.wild(placement, region),
-        ...this.folk(placement, region) }, region }));
+        ...this.folk(placement, region), ...kin ? { folk: at.family! } : {} }, region }));
       const word = ScenarioWord.of(entry.manifest, placement, { region, contacts: at.contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
@@ -418,8 +422,7 @@ export class WorldAssembler {
     at: { context: Record<string, DeemValue>; region: Region }): BundleRequest[] {
     const context = at.context;
     return entry.manifest.modules.filter(m => !m.when || placement.bindings[m.when]).map((m, i) => ({
-      id: placement.modules[i]!,
-      bundle: base.resolve(m.bundle, entry.path),
+      id: placement.modules[i]!, bundle: base.resolve(m.bundle, entry.path),
       imports: Object.fromEntries(Object.entries(m.imports)
         .map(([name, value]) => [name, this.ref(value, placement, at.region)])),
       context: { ...context, ...m.context } }));

@@ -38,6 +38,11 @@ Module den "A den in the wild" {
   Observe stilled at den when laid(beasts) "{den} is quiet, and the cold has gone out of it.".
   Entity rumour: fact "Folk who go out to {den} come back short of a sheep or a dog, or don't come back. Something has made its den there.".
   Initially Assert established(rumour).
-  Objective clear when knows(party, rumour) and not dead(beasts) and not driven(beasts) and not laid(beasts) "{beasts} have a den at {den}.".
+  // Until the company has been there it knows only that something has: play 10's aim named the spiders nobody had
+  // seen or spoken of.
+  Objective heard when knows(party, rumour) and not been(party, den) and not dead(beasts) and not driven(beasts)
+    and not laid(beasts) "Something has made its den at {den}.".
+  Objective clear when knows(party, rumour) and been(party, den) and not dead(beasts) and not driven(beasts)
+    and not laid(beasts) "{beasts} have a den at {den}.".
   Goal dead(beasts) or driven(beasts) or laid(beasts).
 }

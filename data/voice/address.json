@@ -430,6 +430,30 @@
       "text": "{Actor} looks at you as if counting the years you have been away, and then just holds on to you a moment."
     },
     {
+      "id": "address.kin.first.2",
+      "when": {
+        "bond": "kin",
+        "moment": "first"
+      },
+      "text": "‘There you are,’ [say|says] {actor}, as if you had stepped out an hour ago; only the voice gives it away."
+    },
+    {
+      "id": "address.kin.first.3",
+      "when": {
+        "bond": "kin",
+        "moment": "first"
+      },
+      "text": "{Actor} [get|gets] up so fast the stool goes over, and then [stand|stands] there, not sure what to do with {their} hands."
+    },
+    {
+      "id": "address.kin.first.4",
+      "when": {
+        "bond": "kin",
+        "moment": "first"
+      },
+      "text": "‘You came,’ [say|says] {actor}. ‘I said you would. Nobody believed me.’"
+    },
+    {
       "id": "address.kin.again",
       "when": {
         "bond": "kin",

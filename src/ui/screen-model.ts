@@ -7,6 +7,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows';
+import { Portraits } from './portraits';
 import { ConditionSense } from '../presentation/condition-sense';
 import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
@@ -56,9 +57,8 @@ export class ScreenModel {
     const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
     const items = this.items(campaign, grouped, entities);
     const dark = view.observations.some(o => o.id === 'darkness');
-    // No two people on one page in the same painting: their own first, then each the next one fits.
-    const taken = Likeness.owned(world, view.present.map(p => p.id), entities);
-    const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world, { dark, taken }),
+    // Each person in the one painting they are met in wherever they are (see Portraits).
+    const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world, { dark, campaign }),
       ...along.has(p.id) ? { companion: true } : {},
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped),
       ...CharacterSheets.recruit(campaign, p.id, grouped.targets.get(p.id) ?? []) })));
@@ -141,8 +141,8 @@ export class ScreenModel {
     return world.related('travelsWith').filter(r => r.args[1] === actor && !at.present.has(r.args[0]!)).map(r => {
       const id = r.args[0]!, acts = at.unclaimed.get(id) ?? [];
       const member = read.creatures.find(c => c.id === (read.inhabitants[id]?.[0] ?? `${id}_person`));
-      const portrait = member && Canon.ancestries[member.raceId]?.playable === true
-        ? this.portrait(world, id, member) : undefined;
+      const portrait = member && Canon.ancestries[member.raceId]?.playable === true ? Portraits.of(campaign, id)
+        : undefined;
       at.unclaimed.delete(id);
       return { id, kind: 'person' as const, name: this.called(world, id, world.module.entities.find(e => e.id === id)?.name ?? id),
         ...portrait ? { portrait } : {}, acts, companion: true };
@@ -274,7 +274,7 @@ export class ScreenModel {
       + `; ${low === high ? low : `${low}–${high}`} HP${standing.length > 1 ? ' each' : ''}; ${hurt ? `${hurt} wounded` : 'unhurt'}.`;
   }
   private static target(p: PlayerSnapshot['present'][number], grouped: Grouped, w: Campaign['world'],
-    at: { dark?: boolean; taken?: Set<string> } = {}): TargetRow {
+    at: { dark?: boolean; campaign?: Campaign } = {}): TargetRow {
     const dark = !!at.dark;
     const acts = grouped.targets.get(p.id) ?? [];
     if (p.type === 'group') {
@@ -302,7 +302,7 @@ export class ScreenModel {
       const name = dark ? p.name.split(', ')[0]! : this.called(w, p.id, p.name);
       // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
-      const portrait = likened ? this.portrait(w, p.id, member, at.taken) : undefined;
+      const portrait = likened && at.campaign ? Portraits.of(at.campaign, p.id) : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...(p.members?.length ?? 0) > 1 ? { many: true } : {},
         ...(!dark && !p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
@@ -329,21 +329,6 @@ export class ScreenModel {
       : told.description;
   }
   private static bare(s: string): string { return s.toLowerCase().replace(/^(an?|the) /, ''); }
-  // The painting for someone: their own likeness, else one for their work, background or role (see Likeness).
-  private static portrait(w: Campaign['world'], id: string, member?: { backgroundId?: string; professionId?: string },
-    taken?: Set<string>): TargetRow['portrait'] {
-    const own = w.module.relations.some(r => r.name === 'likeness') ? w.one('likeness', id) : undefined;
-    const ownName = own && w.module.entities.find(e => e.id === own)?.name;
-    const [name, ...rest] = w.module.entities.find(e => e.id === id)?.name.split(', ') ?? [], role = rest.join(' ');
-    const pronoun = w.module.relations.some(r => r.name === 'pronouns') ? w.one('pronouns', id) : undefined;
-    const sex = /pron_he$/.test(pronoun ?? '') ? 'man' as const : /pron_she$/.test(pronoun ?? '') ? 'woman' as const : undefined;
-    const painting = Likeness.of({ ...ownName ? { own: ownName } : {},
-      ...member?.backgroundId ? { background: member.backgroundId } : {},
-      ...member?.professionId ? { profession: member.professionId } : {}, ...role ? { role } : {},
-      ...name ? { name } : {}, ...sex ? { sex } : {}, key: id, ...taken ? { taken } : {} });
-    if (painting) { taken?.add(painting); }
-    return painting ? Likeness.portrait(painting) : undefined;
-  }
   // Every entity by the name the company knows it by: a member by their own name.
   private static names(campaign: Campaign): Map<string, string> {
     const world = campaign.world, byId = new Map(campaign.readout.creatures.map(c => [c.id, c]));

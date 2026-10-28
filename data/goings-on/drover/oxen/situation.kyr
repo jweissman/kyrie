@@ -12,10 +12,15 @@ Module oxen "The thing that took the oxen" {
   Initially Assert revealedBy(track, trail).
   // Dealt with as the den is: dead, or driven off or laid to rest.
   Query dealt() means dead(beasts) or peaceable(beasts).
-  Topic son_after with son "Ask {son} what he means to do now" when knows(actor, found_cart) and not dealt() once {
+  Topic son_after with son "Ask {son} what he means to do now" when knows(actor, found_cart) and not dealt()
+    and not knows(actor, trail) once {
     Says "'Whatever took them is up at {lair},' says {son}. 'I saw the marks from the ditch: two furrows, and prints too big for any dog.' He turns the spear in his hands. 'I want to see it. And I want the yoke back. It was Grandfather's.'".
     On discuss { Assert knows(actor, trail). }
   }
+  // With the company, once the cart is behind it, he says it unasked: play 10's thread seemed to end with the burying
+  // and the telling, the trail a question nobody thought to put to him.
+  Rule son_speaks when knows(party, found_cart) and travelsWith(son, party) and not at(party, road)
+    and not knows(party, trail) and not dealt() says "{son} has said nothing since the ditch. Now he says, to nobody in particular, 'Whatever took the oxen is up at {lair}. I saw the marks: two furrows, and prints too big for any dog.' He turns the spear in his hands. 'I want to see it. And I want the yoke back. It was Grandfather's.'" teaches trail { }
   Objective oxen when knows(party, trail) and not dealt() "Whatever took the drover's oxen dens at {lair}.".
   // The yoke, among the bones once the den is dealt with; carried home, it hangs over the hearth where it always hung.
   Kind ox_yoke "an ox-yoke" is treasure worth 2 weighing 8 described "An old ox-yoke of ash, carved along the bow with oak leaves, and worn smooth where the necks went.".

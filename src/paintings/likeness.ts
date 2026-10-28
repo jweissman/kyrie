@@ -7,7 +7,9 @@ import { PaintingConcepts } from './painting-concepts';
 export interface Sitter { sex: 'man' | 'woman'; age?: string; station?: string; era: string; face: number }
 // Whom a painting is wanted for: as much as the world knows of them.
 export interface Wanted { sex?: 'man' | 'woman'; age?: string; stations?: string[]; concept?: string; mourning?: boolean;
-  homely?: boolean }
+  homely?: boolean;
+  // Someone's parent, painted by no young sitter (see Likeness.parents).
+  elder?: boolean }
 
 // The painting shown beside someone: one of the corpus (data/paintings), chosen by what it shows, not by its file's
 // name. It is not a picture of them; it is a painting of someone who could be: of their sex, their station and, where
@@ -50,7 +52,7 @@ export class Likeness {
     const concept = who.concept && this.resolve(who.concept);
     let best: string | undefined, score = -Infinity;
     for (const [id, s] of this.sitters) {
-      if ((who.sex && s.sex !== who.sex) || this.unfit.has(id)) { continue; }
+      if ((who.sex && s.sex !== who.sex) || this.unfit.has(id) || (who.elder && s.age === 'young')) { continue; }
       // For one known only by whose they are, being at home is their station, and their age says which.
       const station = who.homely ? -1 : who.stations?.indexOf(s.station ?? '') ?? -1;
       const value = (id === concept ? 60 : 0) + (station >= 0 ? 20 - station * 6 : 0)
@@ -99,12 +101,15 @@ export class Likeness {
     const mourning = /\b(widow|widower|mourning|grieving|bereaved|in black)\b/i.test(`${at.role ?? ''} ${at.name ?? ''}`);
     // Known by nothing but whose they are ("the child's mother"), not by a work said after it ("who cooks at the inn").
     const homely = !concept && !!kin && this.clauses(at.role ?? '').length === 1;
+    const parent = words.some(w => this.parents.has(w));
     const painted = station ?? 'labouring', id = this.choose({ ...sex ? { sex } : {}, ...concept ? { concept } : {},
-      stations: [painted], ...age ? { age } : {}, ...mourning ? { mourning } : {}, ...homely ? { homely } : {} },
+      stations: [painted], ...age ? { age } : {}, ...mourning ? { mourning } : {}, ...homely ? { homely } : {},
+      ...parent ? { elder: true } : {} },
     at.key ?? words.join(' '), at.taken);
     const sitter = id ? this.sitters.get(id) : undefined;
     // Not a girl for a woman of years, nor a greybeard for a lad.
-    const far = !!age && !!sitter?.age && Math.abs(this.years.indexOf(age) - this.years.indexOf(sitter.age)) > 1;
+    const far = !!sitter?.age && ((!!age && Math.abs(this.years.indexOf(age) - this.years.indexOf(sitter.age)) > 1)
+      || (parent && sitter.age === 'young'));
     return id && (id === concept || (mourning && this.mourning.has(id)) || (homely && this.homely.has(id))
       || (sitter?.station === painted && !far)) ? id : undefined;
   }
@@ -119,11 +124,15 @@ export class Likeness {
   }
   static readonly years = ['young', 'adult', 'old'];
   static readonly kin: Record<string, 'man' | 'woman'> = { mother: 'woman', father: 'man', sister: 'woman',
-    brother: 'man', wife: 'woman', husband: 'man', widow: 'woman', widower: 'man', daughter: 'woman', woman: 'woman',
+    brother: 'man', wife: 'woman', husband: 'man', widow: 'woman', widower: 'man', daughter: 'woman', son: 'man',
+    woman: 'woman',
     grandmother: 'woman', grandfather: 'man', uncle: 'man', aunt: 'woman', nephew: 'man', niece: 'woman' };
   static readonly ages: Record<string, string> = { mother: 'adult', father: 'adult', wife: 'adult', husband: 'adult',
     widow: 'adult', widower: 'adult', grandmother: 'old', grandfather: 'old', elder: 'old', crone: 'old',
-    sister: 'young', brother: 'young', daughter: 'young' };
+    sister: 'young', brother: 'young', daughter: 'young', son: 'young' };
+  // Whoever is someone's parent is no younger than a grown child: a drover's son had been an old man, and the mother
+  // of one come home after three years a girl cutting a fish (play 10).
+  static readonly parents = new Set(['mother', 'father', 'grandmother', 'grandfather']);
   // The titles a name can begin with, and what each says of whoever bears it.
   static readonly titles: Record<string, { sex: 'man' | 'woman'; age?: string }> = {
     mother: { sex: 'woman', age: 'old' }, sister: { sex: 'woman' }, dame: { sex: 'woman' }, lady: { sex: 'woman' },

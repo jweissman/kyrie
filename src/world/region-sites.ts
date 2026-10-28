@@ -38,8 +38,11 @@ export class RegionSites {
       const twin = like.find(s => s.zone === zone.id && s.part === site.part);
       const side = twin && RegionGeography.compass(RegionGeography.spot(region, twin.cell!), seat.spot);
       const which = side && side !== 'here' ? seen.replace(/^(a|an|the) /, `the ${side}ern `) : seen;
-      return like.some(s => s.zone === zone.id) ? `${which} ${RegionZones.where(zone, site.part ?? 0)}`
-        : `${seen} in ${zone.naming.name}`;
+      // A side tells twins apart, and the wild country they are in tells them from others: "the north-western cave
+      // in the hillside in the heart of Rhawtaur" was twelve words in every topic and aim that named it (play 10).
+      const near = which !== seen ? `${({ heath: 'on', fell: 'on' } as Record<string, string>)[zone.wild] ?? 'in'} ${zone.naming.name}`
+        : RegionZones.where(zone, site.part ?? 0);
+      return like.some(s => s.zone === zone.id) ? `${which} ${near}` : `${seen} in ${zone.naming.name}`;
     }
     const side = RegionGeography.compass(RegionGeography.spot(region, seat.town.cell!), seat.spot);
     return `${seen} ${side === 'here' ? 'near' : `${side} of`} ${seat.town.name}`;

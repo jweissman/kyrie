@@ -49,6 +49,14 @@ describe('the map', () => {
     const name = (r: RegionChart) => Atlas.draw(r).labels.find(l => l.text === 'Murkstede')!.anchor;
     expect([name(open), name(roaded) === 'start']).toEqual(['start', false]);
   });
+  // Where a road runs on every side of a mark, its name is set on a slant clear of them, not across a road or left off
+  // (the cold evaluation read a name with a road through it: M17-69).
+  it('sets a name on a slant where roads run on every side', () => {
+    const r = Land.region(Array.from({ length: 6 }, () => '.'.repeat(9)));
+    r.land!.roads = { across: [9, 10, 11, 12, 13, 14, 15, 16, 17], down: [1, 10, 19, 28, 37] };
+    const d = Atlas.draw(r), oak = d.places.find(p => p.id === 'oak')!, name = d.labels.find(l => l.id === 'oak')!;
+    expect([Math.abs(name.x - oak.x), [-11, 21].includes(name.y - oak.y)]).toEqual([11, true]);
+  });
   it('draws the company, the places it knows and the ways it knows where they are on the land', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });

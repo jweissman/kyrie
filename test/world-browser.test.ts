@@ -51,4 +51,22 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
+  // A road's two ends say where they go, and under it by what and how long: they had run together, "‹ The landing at
+  // Merinaelthe Nûrnellë road" (play 10).
+  it('sets each end of a road with its way beneath it', async () => {
+    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 820, height: 1180 },
+      { site, pointer: true, query: '?world=mere' });
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
+    await driver.pick(c => /^To the bridge over the Beorcex/.test(c.label), 'the bridge');
+    const beneath = await page.$$eval('.end-way .route', ends => ends.map(end => {
+      const n = end.querySelector('.n')!.getBoundingClientRect(), r = end.querySelector('.r')!.getBoundingClientRect();
+      return r.top >= n.bottom - 1;
+    }));
+    expect(beneath).toEqual([true, true]);
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 240000);
 });

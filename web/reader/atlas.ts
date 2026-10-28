@@ -111,7 +111,7 @@ export class Atlas {
       // A town's name is set in spaced capitals, a mark's in lower case: each as wide as it is set.
       const size = town ? 13 : 12, w = text.length * size * (town ? 0.86 : 0.56), h = size + 2;
       const tries: [number, number, 'start' | 'end' | 'middle'][] = [[16, 4, 'start'], [-16, 4, 'end'],
-        [0, -16, 'middle'], [0, 28, 'middle']];
+        [0, -16, 'middle'], [0, 28, 'middle'], [11, -11, 'start'], [11, 21, 'start'], [-11, -11, 'end'], [-11, 21, 'end']];
       let set: { x: number; y: number; anchor: 'start' | 'end' | 'middle'; box: number[] } | undefined, across = set;
       let crowded = set;
       for (const [dx, dy, anchor] of tries) {

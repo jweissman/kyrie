@@ -99,6 +99,12 @@ export class Telling {
   static choose(lines: VoiceLine[], key: string, used: Set<string>): VoiceLine | undefined {
     return Editor.choose(lines, key, used);
   }
-  static called(campaign: Campaign, id: string): string { return Editor.called(campaign, id); }
+  // One's own mother or father is "your mother" in what is said of them, not her name: "'What is it?' says Jassin
+  // Galanodel" was said of the mother of one come home (play 10). Choices keep the name ("Talk to Maudie").
+  static called(campaign: Campaign, id: string): string {
+    const w = campaign.world, kin = w.relates('kinship') ? w.one('kinship', id) : undefined;
+    const word = kin && campaign.module.entities.find(e => e.id === kin)?.name;
+    return word && /\b(mother|father|grandmother|grandfather)$/.test(word) ? word : Editor.called(campaign, id);
+  }
 
 }

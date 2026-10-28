@@ -848,7 +848,7 @@
    "shows": "woman in a white coif cutting a fish on a board",
    "era": "early",
    "sex": "woman",
-   "age": "adult",
+   "age": "young",
    "station": "labouring",
    "face": 20
   },
@@ -3516,7 +3516,7 @@
    "shows": "workman in a hat at a stone window with a tool",
    "era": "early",
    "sex": "man",
-   "age": "adult",
+   "age": "old",
    "station": "labouring",
    "face": 30
   },

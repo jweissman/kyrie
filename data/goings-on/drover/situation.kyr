@@ -86,9 +86,10 @@ Module drover "The drover who did not come home" {
   Rule son_goes_in when dark() and at(son, green) and not willing(son, party) { Assert at(son, taproom). }
   Rule son_comes_out when not dark() and at(son, taproom) and not willing(son, party) { Assert at(son, green). }
   Observe son_kin_ready near son when kin(party, son) and told(son) and not knows(party, found_cart) "Your brother is waiting by the rail with the spear, ready when you are.".
-  Observe wife_kin_told near wife when kin(party, wife) and told(wife) "Your mother is at the hearth, at her work, and looks up now and then at the door.".
+  // Told, she knows he is not coming: she had still looked up at the door (play 10).
+  Observe wife_kin_told near wife when kin(party, wife) and told(wife) "Your mother is at the hearth, at her work. She has stopped looking at the door.".
   Topic wife_where with wife "Ask your mother where he was going" when kin(actor, wife) and not told(wife) once {
-    Says "'Out on {road}, with the salt for the reed-cutters,' says your mother, and keeps her eyes on the pot. 'Three days there and back, the way he goes. The dog came home on the fourth, lame in the off foot.' She wipes her hands, though they are dry. 'Nobody will go and look. I am glad you came.'".
+    Says "'Out by {road}, with the salt for the reed-cutters,' says your mother, and keeps her eyes on the pot. 'Three days there and back, the way he goes. The dog came home on the fourth, lame in the off foot.' She wipes her hands, though they are dry. 'Nobody will go and look. I am glad you came.'".
   }
   Topic wife_told_kin with wife "Tell your mother what you found on the road" when knows(actor, found_cart) and kin(actor, wife) and not told(wife) once {
     Says "Your mother does not sit down. She takes your face in her hands and looks at it for a long time. 'I knew,' she says. 'The dog knew.' Then she goes back to the pot, because there are people to feed.".
@@ -111,7 +112,12 @@ Module drover "The drover who did not come home" {
     Says "{wife} puts down the ladle and sits. After a while she says, 'I knew. The dog knew.' She takes coin from her apron and puts it in your hand without counting it. 'For going.'".
     On discuss { Assert told(wife). Increase quantity(actor, gold) by 6. }
   }
-  Topic wife_knife with wife "Show {wife} her husband's knife" when carries(actor, knife) and told(wife) once {
+  // To one of the family, she is their mother, and it is their father's knife.
+  Topic wife_knife_kin with wife "Show your mother his knife" when carries(actor, knife) and told(wife) and kin(actor, wife) once {
+    Says "She turns the knife over in her hands, and gives it back. 'Keep it. He would want it used, not hung on a wall.'".
+  }
+  Topic wife_knife with wife "Show {wife} her husband's knife" when carries(actor, knife) and told(wife)
+    and not kin(actor, wife) once {
     Says "She turns the knife over in her hands, and gives it back. 'Keep it. He would want it used, not hung on a wall.'".
   }
   Topic son_father with son "Ask {son} about his father" when not knows(actor, found_cart) and not kin(actor, son) once {
@@ -124,10 +130,10 @@ Module drover "The drover who did not come home" {
   }
   // Once he has come with you, the son talks on the way: he knows the road his father took, and the cart.
   Topic son_road with son travelling "Ask {son} about the road your father took" when kin(actor, son) and awake(member_son_person) and not knows(actor, found_cart) once {
-    Says "'{road}, to market. He knew every rut of it.' {son} kicks at a stone. 'He had the left wheel out of true all spring and would not see to it. If the cart went off the road, look for where a wheel like that would take it.'".
+    Says "'By {road}, to market. He knew every rut of it.' {son} kicks at a stone. 'He had the left wheel out of true all spring and would not see to it. If the cart went off the road, look for where a wheel like that would take it.'".
   }
   Topic son_road_stranger with son travelling "Ask {son} about the road his father took" when not kin(actor, son) and awake(member_son_person) and not knows(actor, found_cart) once {
-    Says "'{road}, to market,' says {son}. 'He knew it in the dark. The left wheel of the cart was out of true. If it went off the road, that is why.'".
+    Says "'By {road}, to market,' says {son}. 'He knew it in the dark. The left wheel of the cart was out of true. If it went off the road, that is why.'".
   }
   Topic son_night with son travelling "Sit up late with {son}" when awake(member_son_person) and dark() once {
     Says "'He used to sing to the oxen,' says {son}. 'Terrible songs. He made them up as he went, and they liked them better than anything.' He is quiet a while. 'Mother would not have him sing in the house.'".
@@ -160,7 +166,9 @@ Module drover "The drover who did not come home" {
 
   Objective road when knows(party, missing) and not knows(party, found_cart) and not kin(party, wife) "A drover from {green} went out on the road and did not come home.".
   Objective tell when knows(party, found_cart) and not told(wife) and not kin(party, wife) "The drover's wife, at the inn, does not know what you found.".
-  Objective road_kin when kin(party, wife) and not knows(party, found_cart) "Your father went out on {road} with the cart, and did not come home.".
+  // {road} is a place on the road he took (a ford, a bank), not the road itself: he went out by it, not on it (play
+  // 10 read "Your father went out on the ford of the Nûrnellë").
+  Objective road_kin when kin(party, wife) and not knows(party, found_cart) "Your father went out by {road} with the cart, and did not come home.".
   Objective tell_kin when kin(party, wife) and knows(party, found_cart) and not told(wife) "Your mother, at the inn, does not know what you found.".
   Goal told(wife).
 }
