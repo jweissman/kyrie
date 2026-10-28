@@ -3,6 +3,8 @@ import { ConditionSense } from '../presentation/condition-sense';
 import { CombatPresenter } from './combat-presenter';
 import { Barks } from '../narrative/barks';
 import type { BattleState, CombatEvent, Fighter } from '../model';
+import { ItemCatalog } from '../item-catalog';
+import { ItemNames } from '../item-names';
 
 // One exchange: what was told, the dice behind it, the round it fell in, and who acted (if anyone did).
 export interface Telling { text: string; detail: string; round: number; actor?: string }
@@ -52,7 +54,9 @@ export class CombatTelling {
     const attack = rest.find((e): e is Of<'attack'> => e.type === 'attack');
     const damage = rest.find((e): e is Harm => e.type === 'damage' && (!attack || e.target === attack.target));
     if ((c.ability === 'melee' || c.ability === 'ranged') && attack) { return this.blow(c.ability, attack, damage); }
-    const ability = Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
+    const carried = action.source?.kind === 'item' && ItemCatalog.used(c.ability) ? action.source.name : undefined;
+    const ability = carried ? ItemNames.called(carried)
+      : Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
     if (c.ability === 'wait') { return `${actor} waits.`; }
     const target = c.target && c.target !== c.actor ? ` on ${this.name(c.target)}` : '';
     const landed = attack ? attack.success ? `, and it lands${damage?.amount ? `, for ${damage.amount}` : ''}` : ', and misses' : '';

@@ -9,6 +9,7 @@ import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import { Fighting } from './rules/fighting';
 import { Tactics } from './tactics';
+import { ItemCatalog } from './item-catalog';
 import type { ArenaAbility } from './lang/parse';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
 
@@ -42,8 +43,12 @@ export class Battle {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
     this.moment = scenario.moment;
     this.fighters = structuredClone(scenario.combatants);
-    // The catalog's abilities are never changed, so a fight over them reads them as they are; others are copied.
-    this.abilities = scenario.abilities === Content.abilities ? Content.abilities : structuredClone(scenario.abilities);
+    // The catalog's abilities are never changed, so a fight over them reads them as they are; others are copied. What
+    // the company carries to use up is fought with as abilities of this fight's own (see ItemCatalog.stock).
+    const base = scenario.abilities === Content.abilities ? Content.abilities : structuredClone(scenario.abilities);
+    const carried = [...new Set(this.fighters.flatMap(f => Object.keys(f.stock ?? {})))]
+      .filter(id => !base.some(a => a.id === id)).map(id => structuredClone(ItemCatalog.used(id)!));
+    this.abilities = carried.length ? [...base, ...carried] : base;
     try { this.validate(); } catch (error) { this.lease?.release(); throw error; }
     if (!this.lease) {
       const store = new CreatureStore(this.fighters.map(f => {
@@ -154,7 +159,8 @@ export class Battle {
       && !(a.spell && m.noSpellcasting)
       && (!a.requires?.status || actor.statuses.some(s => s.id === a.requires!.status))
       && (!a.requires?.notStatus || !actor.statuses.some(s => s.id === a.requires!.notStatus))
-      && (!a.requires?.interceptWeapon || actor.equipment?.weapon?.intercept === true));
+      && (!a.requires?.interceptWeapon || actor.equipment?.weapon?.intercept === true)
+      && (!actor.stock?.[a.id] || actor.stock[a.id]!.length > 0));
     const compel = actor.statuses.map(s => Effects.status(s.id).compel).find(c => c && usable.some(a => a.id === c));
     return compel ? usable.filter(a => a.id === compel) : usable;
   }
@@ -177,7 +183,8 @@ export class Battle {
     if (!Effects.modifiers(actor).randomActions) { return; }
     const legal = this.commandsFor(actor);
     if (!legal.length) { return; }
-    this.impulse = legal[this.expressions.number(`1d${legal.length}`) - 1]!;
+    const own = this.plain(legal);
+    this.impulse = own[this.expressions.number(`1d${own.length}`) - 1]!;
     this.history.push({ type: 'random', turn: this.turn, actor: actor.id });
   }
   // The automatic choice for whoever acts now: a creature carries out the intent it declared when the round began
@@ -185,7 +192,21 @@ export class Battle {
   chosen(): Command {
     const legal = this.legalCommands(), intent = this.intents.get(this.actor().id);
     if (intent && legal.some(c => c.ability === intent.ability && c.target === intent.target)) { return { ...intent }; }
-    return Tactics.choose(this.state, legal);
+    return Tactics.choose(this.state, this.plain(legal));
+  }
+  // The commands that use up nothing carried. What is chosen for anyone rather than by the company itself (a turn
+  // left to the game's tactics, "auto", the laboratory's players) leaves what it carries to the company's own call.
+  plain(legal: Command[]): Command[] {
+    const actor = this.fighters.find(f => f.id === legal[0]?.actor);
+    const own = legal.filter(c => !actor?.stock?.[c.ability]);
+    return own.length ? own : legal;
+  }
+  // A thing used up in the fight is gone from what its carrier has to use; the next of its kind is what is used after.
+  private spend(actor: Fighter, ability: string) {
+    const [used, ...rest] = actor.stock?.[ability] ?? [];
+    if (!used) { return; }
+    actor.stock![ability] = rest; (actor.spent ??= []).push(used);
+    if (rest[0]) { actor.abilitySources![ability] = { ...actor.abilitySources![ability]!, id: rest[0] }; }
   }
   // Each creature on the other side decides what it means to do as the round begins, on what it can see then; the
   // company sees those intents and can answer them before they land. One winding up a blow means to land it.
@@ -242,6 +263,7 @@ export class Battle {
     const context = this.context(actor);
     if (actor.abilitySources?.[ability.id]) { context.source = actor.abilitySources[ability.id]; }
     AbilityUse.perform(ability, command.target, this.expressions, context);
+    this.spend(actor, ability.id);
     if (actor.team === 'fighters' && ability.effects.some(e => e.kind === 'flee') && !context.retreat) { this.held++; }
     // One foe of several getting away leaves the fight alone, and the rest fight on; the last, or the company, ends
     // it (one wolf of three fleeing ended the fight, and counted as a win over all three: the review's A15).
@@ -261,6 +283,8 @@ export class Battle {
     this.commit();
     return structuredClone(this.history.slice(start));
   }
+  // What can be done in this fight: the catalog's abilities, and the things the company carries to use up.
+  get repertoire(): ArenaAbility[] { return this.abilities; }
   // The moment before a fight that came at the company closes, its first round: seen, or sprung on it.
   get opening(): Moment | undefined { return this.rounds === 1 ? this.moment : undefined; }
   // The company's chance of getting away if it runs now: sure in the moment, an even chance, then surer each time.

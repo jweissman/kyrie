@@ -1942,7 +1942,7 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 5 | 2 | 0 | 0 | 6 |
+| 2 | 5 | 3 | 0 | 0 | 8 |
 
 #### onTheHouse
 
@@ -1973,6 +1973,36 @@ A host who owes the company a night for what it did (it brought up what a deep s
 > Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); onTheHouse(host, actor); offers(host, service); serviceOf(service, lodging)
 
 > Then: Retract onTheHouse(host, actor). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to (watch(clock) + untilMorning(clock)). Retract weary(actor).
+
+#### singsAgain
+
+*Kyr · measure(group)* · `rule:world_services.singsAgain`
+
+Work at an inn: an evening's fetching and carrying for whoever keeps it, for the night's bed and supper on the house; and for one who can hold a room (a bard, or anyone with a tongue for it), a song for the supper, and what the room throws: there had been no work at the inn, and no performance for a bard (the play-structure investigation's PT-14). The watch from which one who has sung can sing again: the next evening.
+
+#### work keep
+
+*Kyr · action (group, group, service, place)* · `rule:world_services.work_keep`
+
+- Shown as: Work for {host} for your keep
+- Takes: 180 minutes
+- Costs: 1
+
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); not (onTheHouse(host, actor)); offers(host, service); serviceOf(service, lodging)
+
+> Then: Assert onTheHouse(host, actor).
+
+#### sing supper
+
+*Kyr · action (group, group, service, place)* · `rule:world_services.sing_supper`
+
+- Shown as: Sing for your supper at {host}'s
+- Takes: 60 minutes
+- Costs: 1
+
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); offers(host, service); serviceOf(service, lodging); capable(actor, persuasion); watch(clock) >= singsAgain(actor)
+
+> Then: Set singsAgain(actor) to (watch(clock) + 72). Increase quantity(actor, gold) by 5.
 
 #### take healing
 
@@ -2637,7 +2667,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 
 | Name | Kind | Does | In Kyr |
 |---|---|---|---|
-| Alchemist's Fire | flask | type damage amount 1d6 kind fire | represented |
+| Alchemist's Fire | flask | type damage amount 1d6 kind fire | faithful |
 | Antidote | potion | type removeStatus statusName Poison | adapted |
 | Cloudberry | food | type heal amount 1d4+1 | faithful |
 | Comfrey | herb | type heal amount 2d4; type removeStatus statusName Bleeding | faithful |

@@ -81,7 +81,7 @@ export class DangerSense {
     const store = new CreatureStore(structuredClone([...ours, ...foes]));
     const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: 150, ...place });
-    while (!battle.state.outcome) { battle.step(Tactics.choose(battle.state, battle.legalCommands())); }
+    while (!battle.state.outcome) { battle.step(Tactics.choose(battle.state, battle.plain(battle.legalCommands()))); }
     if (battle.state.outcome !== 'fighters') { return { won: false, fell: [], hurt: 1 }; }
     const company = battle.state.combatants.filter(f => f.team === 'fighters');
     return { won: true, fell: company.filter(f => f.hp === 0).map(f => f.id),

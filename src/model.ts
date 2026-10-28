@@ -18,6 +18,9 @@ export interface Fighter {
   prepared?: string[][]; ready?: string[][];
   gold: number; experience: number;
   abilitySources?: Record<string, { id: string; kind: 'item'; name: string }>;
+  // What it carries that it can use up here, by the ability each is used as (the items of that kind not yet used),
+  // and what it has used up in this fight (PT-07).
+  stock?: Record<string, string[]>; spent?: string[];
   // The wielded (or natural) weapon, worn armour's ac, and equipped items' modifiers and hooks.
   equipment: Equipment;
   statuses: ConditionInstance[];

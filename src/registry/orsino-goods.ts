@@ -1,6 +1,6 @@
 import type { Hooks, ItemKind, Omissions } from '../canon/schema';
 import type { Modifiers } from '../rules/modifiers';
-import type { Effect } from '../lang/parse';
+import type { Effect, Target } from '../lang/parse';
 import type { RegistryEntry } from './orsino-extract';
 
 type Raw = Record<string, unknown>;
@@ -8,7 +8,7 @@ type Raw = Record<string, unknown>;
 // Kyr's typed effects, and the weapons already translated (a magic dagger is a dagger first).
 export interface GoodsHelpers {
   modifiers(effect: Raw, from: string): { modifiers: Modifiers; hooks: Hooks; unsupported: Omissions };
-  effect(raw: Raw, from: string): Effect[] | string;
+  effect(raw: Raw, from: string, target?: Target): Effect[] | string;
   // The Kyr condition an Orsino status name is ("Poison" is poisoned).
   status(name: unknown, from: string): string | undefined;
   weapons: Record<string, ItemKind>;
@@ -64,7 +64,7 @@ export class OrsinoGoods {
   }
   private consumables(): Record<string, ItemKind> {
     return Object.fromEntries(this.family('consumable').map(e => {
-      const d = e.definition as Raw, use = this.use((d.effects ?? []) as Raw[], e.id);
+      const d = e.definition as Raw, use = this.use((d.effects ?? []) as Raw[], e.id, OrsinoGoods.aim(d));
       // One Kyr cannot use yet is still a thing to carry, sell and give; what it would do is noted as missing.
       return [e.key, { name: String(d.name ?? OrsinoGoods.name(e.key)),
         category: typeof use === 'string' ? 'consumable' as const : 'gear' as const,
@@ -73,12 +73,16 @@ export class OrsinoGoods {
         source: { orsino: e.id, fidelity: typeof use === 'string' ? 'faithful' : 'adapted' } }];
     }));
   }
+  // Whom it is used on: one of the company, unless Orsino aims it at a foe (a flask of alchemist's fire is thrown).
+  private static aim(d: Raw): Target {
+    return Array.isArray(d.target) && d.target[0] === 'enemy' ? 'enemy' : 'ally';
+  }
   // What using it does, as Kyr's effect text ("Heal (3d4) health to ally."), or why Kyr cannot say it.
-  private use(effects: Raw[], from: string): string | Omissions | undefined {
+  private use(effects: Raw[], from: string, target: Target = 'ally'): string | Omissions | undefined {
     if (!effects.length) { return undefined; }
     const said: string[] = [];
     for (const raw of effects) {
-      const typed = this.helpers.effect(raw, from);
+      const typed = this.helpers.effect(raw, from, target);
       if (typeof typed === 'string') { return { use: typed }; }
       for (const effect of typed) {
         const text = this.text(effect, from);
@@ -91,6 +95,9 @@ export class OrsinoGoods {
   private text(effect: Effect, from: string): string | undefined {
     switch (effect.kind) {
       case 'heal': return `Heal (${effect.amount.kind === 'literal' ? effect.amount.value : effect.amount.expression}) health to ally.`;
+      // Thrown at a foe, in a fight (PT-07); not one that harms only a kind of creature, which Kyr's text cannot say.
+      case 'damage': return effect.target !== 'enemy' || effect.targetTrait || effect.onResist ? undefined
+        : `Deal (${effect.amount.kind === 'literal' ? effect.amount.value : effect.amount.expression}) ${effect.damageType} damage to enemy.`;
       case 'apply': return effect.save ? undefined : `Apply ${effect.status} to ally for ${effect.duration} turns.`;
       case 'remove': {
         const status = effect.status || this.helpers.status(effect.pattern, from);

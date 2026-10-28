@@ -205,14 +205,14 @@ export class EngineHost {
     const turn = this.turn;
     this.turn = undefined; this.fought = undefined; this.busy = undefined; this.working = Promise.resolve();
     this.bound = undefined;
-    if (turn) { turn.resolve(Tactics.choose(turn.battle.state, turn.battle.legalCommands())); }
+    if (turn) { turn.resolve(Tactics.choose(turn.battle.state, turn.battle.plain(turn.battle.legalCommands()))); }
     return ++this.game;
   }
   // The fight's controller for a command of one game: the page's while that game is played, and its tactics after.
   private controlling(game: number) { return this.control.bind(this, game); }
   private control(game: number, battle: Battle): Promise<Command> {
     return game === this.game ? this.controller(battle)
-      : Promise.resolve(Tactics.choose(battle.state, battle.legalCommands()));
+      : Promise.resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands())));
   }
   // A journey along known ways: each leg the command the page offers for it, told as it is made; the frame it ends
   // with says each leg (where it came, when, how the way went, what came of it), and why it stopped if it did.
@@ -275,7 +275,7 @@ export class EngineHost {
     if (!turn) { return; }
     const [ability, target] = (choice ?? '').split('>'), battle = turn.battle, legal = battle.legalCommands();
     const chosen = choice ? legal.find(c => c.actor === battle.state.actor && c.ability === ability
-      && (!target || c.target === target)) : Tactics.choose(battle.state, legal);
+      && (!target || c.target === target)) : Tactics.choose(battle.state, battle.plain(legal));
     if (!chosen) { throw new Error('That is no longer possible.'); }
     this.turn = undefined;
     turn.resolve(chosen);

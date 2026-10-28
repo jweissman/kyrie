@@ -25,17 +25,23 @@ export class CombatProjection {
           ? { prepared: structuredClone(fighter.prepared), ready: structuredClone(fighter.ready ?? []) } : {}),
         learnedAbilities: fighter.abilities.filter(id => !(original?.base.abilities ?? fighter.abilities).includes(id)
           && !(original && ItemCatalog.abilities(original)[id]
-            && !original.state.learnedAbilities.includes(id))),
+            && !original.state.learnedAbilities.includes(id)) && !fighter.stock?.[id]),
         conditions: structuredClone(fighter.statuses),
-        ...(original?.state.inventory ? { inventory: structuredClone(original.state.inventory) } : {}),
+        // What it used up in the fight is gone from its pack.
+        ...(original?.state.inventory ? { inventory: structuredClone(original.state.inventory
+          .filter(i => !fighter.spent?.includes(i.id))) } : {}),
         // What levels gained still have to spend, and the skills taken up with them, are no part of a fight, and come
         // back from it as they went in (a warrior's climbing, taken up with a level, was gone at the next watch of a
         // torch burning: found by test/growth.test.ts).
         ...(original?.state.advances ? { advances: structuredClone(original.state.advances) } : {}),
         ...(original?.state.skills ? { skills: [...original.state.skills] } : {}) } };
   }
+  // One of the company carries into a fight what it can use up there (see ItemCatalog.stock), each kind an ability
+  // whose source is the first of that kind it has not used.
   static fighter(creature: Creature, team: Team): Fighter {
-    const sources = ItemCatalog.abilities(creature);
+    const stock = team === 'fighters' ? ItemCatalog.stock(creature) : {}, sources = { ...ItemCatalog.abilities(creature),
+      ...Object.fromEntries(Object.entries(stock).map(([id, [first]]) => [id,
+        { id: first!, kind: 'item' as const, name: ItemCatalog.used(id)!.name }])) };
     return { id: creature.id, name: creature.name, raceId: creature.raceId,
       ...creature.classId ? { classId: creature.classId } : {},
       ...structuredClone(creature.base), hp: creature.state.hp, mana: creature.state.mana,
@@ -46,6 +52,7 @@ export class CombatProjection {
       abilities: [...new Set([...creature.base.abilities, ...creature.state.learnedAbilities,
         ...Object.keys(sources)])],
       ...(Object.keys(sources).length ? { abilitySources: sources } : {}),
+      ...(Object.keys(stock).length ? { stock } : {}),
       statuses: structuredClone(creature.state.conditions), equipment: ItemCatalog.equipment(creature),
       ...(creature.traits ? { traits: [...creature.traits] } : {}),
       team, cooldowns: {} };

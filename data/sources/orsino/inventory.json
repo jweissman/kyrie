@@ -254,8 +254,8 @@
    "status": "integrated",
    "rule": "ledger",
    "counts": {
-    "integrated": 14,
-    "represented": 14,
+    "integrated": 15,
+    "represented": 13,
     "reference": 0,
     "blocked": 0
    }
@@ -6455,13 +6455,10 @@
   },
   {
    "id": "consumable:alchemist_fire",
-   "status": "represented",
-   "mechanics": "represented",
+   "status": "integrated",
+   "mechanics": "executable",
    "kyr": [
     "item:alchemist_fire"
-   ],
-   "blockers": [
-    "Generated; not executable: use."
    ]
   },
   {

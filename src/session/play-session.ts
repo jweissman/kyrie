@@ -113,7 +113,7 @@ export class PlaySession {
     } finally { this.busy = false; }
   }
   static auto(this: void, battle: Battle): Promise<Command> {
-    return Promise.resolve(Tactics.choose(battle.state, battle.legalCommands()));
+    return Promise.resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands())));
   }
   static scripted(commands: Command[]): CombatController {
     return PlaySession.next.bind(undefined, structuredClone(commands));

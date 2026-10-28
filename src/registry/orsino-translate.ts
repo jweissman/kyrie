@@ -239,8 +239,8 @@ export class OrsinoTranslate {
     return { ...out, ...new OrsinoGoods(this.entries, { modifiers: this.modifiers.bind(this),
       effect: this.itemEffect.bind(this), status: this.statusId.bind(this), weapons: out }).items() };
   }
-  // What using an item does to the one it is used on.
-  private itemEffect(raw: Raw, from: string) { return this.effects.effect(raw, 'ally', from); }
+  // What using an item does to the one it is used on: one of the company, or a foe it is thrown at.
+  private itemEffect(raw: Raw, from: string, target: Target = 'ally') { return this.effects.effect(raw, target, from); }
   // One trait status as a perk: the keys Kyr executes as triggers or bonuses, then the rest as modifiers, and where or
   // with what it holds.
   private perk(status: Raw, from: string): { perk: Perk; omits: Omissions; unsupported: Omissions; hooked: boolean } {

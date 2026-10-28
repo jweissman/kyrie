@@ -227,7 +227,7 @@ export class ChoiceList {
     ];
   }
   private static item(i: ItemRow): Choice {
-    const note = i.equipped ? `in use${i.slot ? ` · ${i.slot}` : ''}` : i.slot ?? '';
+    const note = i.equipped ? `in use${i.slot ? ` · ${i.slot}` : ''}` : i.kept ?? i.slot ?? '';
     const base = { id: i.id, label: this.upper(i.name), tone: 'item' as const, about: `${i.description}${i.equipped ? ' In use.' : ''}`,
       ...(note ? { note } : {}) };
     return i.acts.length ? { ...base, children: this.flatten(i.acts, i.id, 'item') } : base;
@@ -252,7 +252,7 @@ export class ChoiceList {
     if (c.outcome) { return [{ id: 'onward', title: '', tone: 'way', glyph: '→', choices: [this.onward] }]; }
     if (!c.ours) { return []; }
     const titles: Record<string, string> = { strike: 'Strike', abilities: 'Abilities', spells: 'Spells',
-      other: 'Defend, wait or withdraw' };
+      carried: 'What you carry', other: 'Defend, wait or withdraw' };
     return Object.entries(titles).map(([id, title]) => {
       const list = c.abilities.filter(a => this.kind(a) === id)
         .sort((a, b) => (a.spell?.level ?? 0) - (b.spell?.level ?? 0)
@@ -277,12 +277,13 @@ export class ChoiceList {
   private static kind(a: CombatScreen['abilities'][number]): string {
     if (['melee', 'ranged'].includes(a.id)) { return 'strike'; }
     if (this.last.includes(a.id)) { return 'other'; }
-    return a.spell ? 'spells' : 'abilities';
+    return a.carried !== undefined ? 'carried' : a.spell ? 'spells' : 'abilities';
   }
   private static ability(a: CombatScreen['abilities'][number], c: CombatScreen): Choice {
     const tone: Tone = a.spell ? 'spell' : 'ability';
     // A levelled spell says how many castings are ready; a cantrip, that it is free.
-    const cost = a.spell && a.spell.level > 0 ? `${a.spell.ready} ready` : a.price;
+    const cost = a.spell && a.spell.level > 0 ? `${a.spell.ready} ready` : a.carried === 1 ? 'the last'
+      : a.carried ? `${a.carried} carried` : a.price;
     // Withdrawing is the whole company's: it ends the fight for everyone, and says how likely it is to come off (sure
     // in the moment a fight that came at the company begins). An ability on oneself needs no note.
     const scope = a.id === 'flee' ? `${a.odds === undefined ? '' : a.odds >= 1 ? 'sure, now · '

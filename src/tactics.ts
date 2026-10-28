@@ -1,5 +1,6 @@
 import { Content } from './content';
 import { Effects } from './effects';
+import { ItemCatalog } from './item-catalog';
 import type { BattleState, Command, Fighter } from './model';
 
 // The automatic controller's choice: score each legal command, take the best. Ties are broken explicitly, never by
@@ -13,7 +14,8 @@ export class Tactics {
   static score(state: BattleState, command: Command): number {
     const actor = state.combatants.find(f => f.id === command.actor)!;
     const target = state.combatants.find(f => f.id === command.target)!;
-    const ability = Content.abilities.find(a => a.id === command.ability)!;
+    // A thing carried to use up is scored as what using it does (see ItemCatalog.use).
+    const ability = Content.abilities.find(a => a.id === command.ability) ?? ItemCatalog.used(command.ability)!;
     let score = 0;
     for (const effect of ability.effects) {
       switch (effect.kind) {

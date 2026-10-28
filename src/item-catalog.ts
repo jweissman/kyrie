@@ -1,7 +1,7 @@
 import { CanonRuntime, type RuntimeItem } from './canon/canon-runtime';
 import { Canon } from './canon/canon';
 import type { HookKey, Hooks } from './canon/schema';
-import type { Effect } from './lang/parse';
+import { parseAbility, type ArenaAbility, type Effect } from './lang/parse';
 import { ModifierSet, type Modifiers } from './rules/modifiers';
 import type { WeaponProfile } from './rules/fighting';
 import type { Creature } from './creature';
@@ -19,6 +19,28 @@ export class ItemCatalog {
     return Object.fromEntries((creature.state.inventory ?? []).filter(i => i.equipped)
       .flatMap(i => { const d = this.get(i.definition); return d.ability
         ? [[d.ability, { id: i.id, kind: 'item' as const, name: d.name }]] : []; }));
+  }
+  // What using a thing of a kind does, as an ability (a healing potion's "Heal (2d4 + 2) health to ally."), kept by
+  // the kind and its use (the architecture review's H7); found by the ability's id too ("item-healing_potion").
+  private static readonly uses = new Map<string, ArenaAbility | undefined>();
+  static use(kind: string): ArenaAbility | undefined {
+    const d = this.definitions[kind], key = `${kind}\u0000${d?.use ?? ''}`;
+    if (!this.uses.has(key)) { this.uses.set(key, d?.use ? parseAbility(`item-${kind}`, d.name, d.use) : undefined); }
+    return this.uses.get(key);
+  }
+  static used(ability: string): ArenaAbility | undefined {
+    return ability.startsWith('item-') ? this.use(ability.slice(5)) : undefined;
+  }
+  // What a creature carries that it can use up in a fight, by the ability each is used as: a draught, a salve, a flask
+  // of fire to throw; not a light, nor anything else whose use runs on the clock for hours (PT-07: a fight offered no
+  // use of the alchemist's fire in the pack, though the foe was vulnerable to fire).
+  static stock(creature: Creature): Record<string, string[]> {
+    const stock: Record<string, string[]> = {};
+    for (const i of (creature.state.inventory ?? []).filter(x => !x.equipped)) {
+      const use = this.use(i.definition);
+      if (use?.effects.length && use.effects.every(e => e.kind !== 'apply' || !e.clock)) { (stock[use.id] ??= []).push(i.id); }
+    }
+    return stock;
   }
   static weapon(id: string, name?: string): WeaponProfile {
     const w = this.get(id).weapon;

@@ -60,6 +60,8 @@ export interface ItemRow {
   equipped: boolean; slot?: string; acts: Act[];
   // Using it brings light.
   light?: boolean;
+  // What it is kept for, when its use is not offered now (see ItemUses).
+  kept?: string;
 }
 export interface MemberRow {
   id: string; ref?: string; name: string; line: string; background?: string; level: number;
@@ -169,8 +171,8 @@ export interface CombatScreen {
     rank?: number;
     // Each target, with how it takes the ability's damage, and for a blow, the chance it lands.
     targets: { id: string; name: string; against?: string; odds?: number }[];
-    // For running, the chance of getting away now.
-    odds?: number }[];
+    // For running, the chance of getting away now; for a thing carried to use up, how many of it the one acting has.
+    odds?: number; carried?: number }[];
   // The moment before a fight that came at the company closes: it acts first, and can get back the way it came; and
   // how the company reckons the fight from there ("It is more than you can take.").
   moment?: 'seen' | 'sprung'; reckoned?: string;

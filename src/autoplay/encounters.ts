@@ -59,7 +59,7 @@ export class EncounterLab {
     { seed, ...draw.chance(0.4) ? { weary: standing } : {}, ...draw.chance(0.2) ? { ready: standing } : {} });
     let turns = 0;
     while (!battle.state.outcome && turns++ < 400) {
-      const legal = battle.legalCommands(), actor = battle.state.actor;
+      const legal = battle.plain(battle.legalCommands()), actor = battle.state.actor;
       const blows = legal.filter(c => c.ability !== 'flee' && c.ability !== 'wait');
       const mine = battle.playerControls(actor);
       const chosen = !mine ? battle.chosen() : draw.chance(0.03) && legal.find(c => c.ability === 'flee')

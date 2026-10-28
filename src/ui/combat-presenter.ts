@@ -2,6 +2,8 @@ import { FictionalTime } from '../campaign/fictional-time';
 import { Content } from '../content';
 import { Canon } from '../canon/canon';
 import type { BattleState, CombatEvent } from '../model';
+import { ItemCatalog } from '../item-catalog';
+import { ItemNames } from '../item-names';
 
 export class CombatPresenter {
   // A condition's own words for starting or running out ("{target} holds up a light."), if it has them.
@@ -45,7 +47,9 @@ export class CombatPresenter {
         const name = state.combatants.find(f => f.id === event.command.actor)?.name ?? event.command.actor;
         const ability = Content.abilities.find(a => a.id === event.command.ability)?.name ?? event.command.ability;
         if (event.source?.kind === 'trap') { return `${event.source.name ?? ability} triggers.`; }
-        return `${name} uses ${event.source?.kind === 'item' ? event.source.name ?? ability : ability}.`;
+        const carried = event.source?.kind === 'item' && ItemCatalog.used(event.command.ability);
+        return `${name} uses ${carried ? ItemNames.called(event.source!.name ?? ability)
+          : event.source?.kind === 'item' ? event.source.name ?? ability : ability}.`;
       }
       case 'damage': return this.damage(event, target);
       case 'heal': return `${target} recovers ${event.amount} HP (${event.hp} HP).`;

@@ -13,6 +13,8 @@ import { CombatPresenter } from './combat-presenter';
 import { CombatTelling } from './combat-telling';
 import { Tactics } from '../tactics';
 import { DangerSense } from '../presentation/danger-sense';
+import { ItemCatalog } from '../item-catalog';
+import { ItemNames } from '../item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only. Who is in the
@@ -22,7 +24,7 @@ export class CombatModel {
   static build(battle: Battle, called?: ReadonlyMap<string, string>): CombatScreen {
     const state = this.called(battle.state, called), actor = state.combatants.find(f => f.id === state.actor);
     const ours = !!actor && battle.playerControls(actor.id);
-    const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), Content.abilities) : [];
+    const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), battle.repertoire) : [];
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
       foes: state.combatants.filter(f => f.team !== 'fighters').map(f => this.row(f, state)),
@@ -35,7 +37,8 @@ export class CombatModel {
         ...(c.ability.spell ? { spell: { level: c.ability.spell.level,
           ready: (actor?.ready ?? []).flat().filter(id => id === c.ability.id).length } } : {}),
         targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [],
-        ...c.ability.effects.some(e => e.kind === 'flee') ? { odds: battle.flight() } : {} })),
+        ...c.ability.effects.some(e => e.kind === 'flee') ? { odds: battle.flight() } : {},
+        ...actor?.stock?.[c.ability.id] ? { carried: actor.stock[c.ability.id]!.length } : {} })),
       ...battle.opening && !state.outcome ? { moment: battle.opening, reckoned: DangerSense.of(battle).text } : {},
       order: (state.order ?? []).map(id => this.name(state, id)),
       laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
@@ -150,7 +153,9 @@ export class CombatModel {
     const weapon = this.weapon(actor);
     if (command.ability === 'melee') { return `${name} strikes at ${target}${weapon ? ` with the ${weapon}` : ''}`; }
     if (command.ability === 'ranged') { return `${name} shoots at ${target}${weapon ? ` with the ${weapon}` : ''}`; }
-    const ability = Content.abilities.find(a => a.id === command.ability)?.name ?? command.ability;
+    const carried = ItemCatalog.used(command.ability)?.name;
+    const ability = carried ? ItemNames.called(carried) : Content.abilities.find(a => a.id === command.ability)?.name
+      ?? command.ability;
     return `${name} uses ${ability}${target ? ` on ${target}` : ''}`;
   }
   private static weapon(f?: Fighter): string {
@@ -162,6 +167,8 @@ export class CombatModel {
     const weapon = this.weapon(actor), natural = actor?.equipment?.weapon?.natural ? actor.equipment.weapon.name : '';
     // A beast's own weapon is its attack: Bite, Claws.
     if (natural && ability.id === 'melee') { return natural.charAt(0).toUpperCase() + natural.slice(1); }
+    // Something carried to use up is used: "Use alchemist's fire", "Use a healing potion".
+    if (actor?.stock?.[ability.id]) { return `Use ${ItemNames.called(ability.name)}`; }
     if (!weapon) { return ability.name; }
     return ability.id === 'melee' ? `Strike with the ${weapon}` : ability.id === 'ranged' ? `Shoot with the ${weapon}` : ability.name;
   }

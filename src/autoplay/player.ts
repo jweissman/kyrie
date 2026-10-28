@@ -61,7 +61,7 @@ export class AutoPlayer {
   // How it fights its own turns: as the game's tactics would (as the page's reckoning of a fight assumes), now and
   // then by running; someone doing the unexpected strikes about at random as often as not.
   readonly controller = (battle: Battle): Promise<Command> => {
-    const legal = battle.legalCommands(), flee = legal.find(c => c.ability === 'flee');
+    const legal = battle.plain(battle.legalCommands()), flee = legal.find(c => c.ability === 'flee');
     // In the moment before a fight that came at it closes, a careful player backs away from one it reckons it could
     // lose; someone doing the unexpected stands.
     if (flee && battle.opening && this.temper !== 'deviate' && ['grave', 'deadly'].includes(DangerSense.of(battle).danger)) {

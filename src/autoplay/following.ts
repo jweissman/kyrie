@@ -12,6 +12,6 @@ export class Following {
       this.queue.shift();
       return Promise.resolve(next);
     }
-    return Promise.resolve(Tactics.choose(battle.state, legal));
+    return Promise.resolve(Tactics.choose(battle.state, battle.plain(legal)));
   };
 }

@@ -3263,13 +3263,13 @@ Used: Heal one ally for 2d4 (2–8).
 
 #### Alchemist's Fire
 
-*Not playable · gear* · `item:alchemist_fire`
+*Faithful · consumable* · `item:alchemist_fire`
 
 - Worth: 18
 
-> A sticky, flammable substance that ignites when exposed to air.
+Used: 1d6 (1–6) fire damage to one enemy (may cause burning: a Constitution save against 15 avoids it).
 
-*Not playable — use: Kyr cannot use a damage effect from an item.*
+> A sticky, flammable substance that ignites when exposed to air.
 
 #### Antidote
 

@@ -25,7 +25,7 @@ import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers';
 import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
-import { TradeModel } from './trade-model';
+import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
@@ -425,11 +425,12 @@ export class ScreenModel {
   private static items(campaign: Campaign, grouped: Grouped, entities: Map<string, Entity>): ItemRow[] {
     const state = campaign.readout;
     return state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c => (c.state.inventory ?? []).map(i => {
-      const d = ItemCatalog.get(i.definition);
+      const d = ItemCatalog.get(i.definition), acts = grouped.items.get(i.id) ?? [];
+      const kept = ItemUses.kept(i.definition, acts);
       return { id: i.id, name: entities.get(i.id)?.name ?? ItemNames.called(d.name), kind: i.definition,
         description: d.description,
         owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...(d.slot ? { slot: d.slot } : {}),
-        ...(this.lights(d.use) ? { light: true } : {}), acts: grouped.items.get(i.id) ?? [] };
+        ...(this.lights(d.use) ? { light: true } : {}), acts, ...kept ? { kept } : {} };
     }));
   }
 }

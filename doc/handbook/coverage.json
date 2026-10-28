@@ -148,8 +148,8 @@
     "total": 28,
     "feasible": 22,
     "catalogued": 0,
-    "represented": 14,
-    "executable": 12,
+    "represented": 13,
+    "executable": 13,
     "play-validated": 2
    },
    {
@@ -798,11 +798,11 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 752,
+    "faithful": 753,
     "adapted": 361,
     "represented": 4,
     "kyr": 91,
-    "unsupported": 100,
+    "unsupported": 99,
     "unreachable": 4,
     "data-only": 12
    },
@@ -889,11 +889,11 @@
      "id": "equipment",
      "title": "Equipment",
      "counts": {
-      "faithful": 234,
+      "faithful": 235,
       "adapted": 72,
       "represented": 0,
       "kyr": 32,
-      "unsupported": 25,
+      "unsupported": 24,
       "unreachable": 0,
       "data-only": 0
      }
@@ -994,10 +994,10 @@
   "dmg": {
    "title": "Dungeon Master's Guide",
    "counts": {
-    "faithful": 219,
+    "faithful": 220,
     "adapted": 25,
-    "represented": 50,
-    "kyr": 222,
+    "represented": 49,
+    "kyr": 225,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 204,
+      "kyr": 207,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1046,9 +1046,9 @@
      "id": "orsino-world",
      "title": "Appendix: Orsino's world material",
      "counts": {
-      "faithful": 219,
+      "faithful": 220,
       "adapted": 25,
-      "represented": 50,
+      "represented": 49,
       "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
@@ -5250,7 +5250,7 @@
   {
    "id": "item:alchemist_fire",
    "title": "Alchemist's Fire",
-   "status": "unsupported",
+   "status": "faithful",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -11800,6 +11800,27 @@
    "section": "world-rules/rules-services"
   },
   {
+   "id": "rule:world_services.singsAgain",
+   "title": "singsAgain",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.work_keep",
+   "title": "work keep",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.sing_supper",
+   "title": "sing supper",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
    "id": "rule:world_services.take_healing",
    "title": "take healing",
    "status": "kyr",
@@ -13671,7 +13692,7 @@
   {
    "id": "orsino:consumable:alchemist_fire",
    "title": "Alchemist's Fire",
-   "status": "represented",
+   "status": "faithful",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },

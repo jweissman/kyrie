@@ -3512,15 +3512,13 @@
   },
   "alchemist_fire": {
    "name": "Alchemist's Fire",
-   "category": "gear",
+   "category": "consumable",
    "description": "A sticky, flammable substance that ignites when exposed to air.",
    "value": 18,
-   "unsupported": {
-    "use": "Kyr cannot use a damage effect from an item."
-   },
+   "use": "Deal (1d6) fire damage to enemy.",
    "source": {
     "orsino": "consumable:alchemist_fire",
-    "fidelity": "adapted"
+    "fidelity": "faithful"
    }
   },
   "antidote": {

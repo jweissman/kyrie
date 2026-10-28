@@ -10,7 +10,7 @@ import { Effects } from '../effects';
 import { ModuleWriter } from '../lang/module-writer';
 import { Burden } from '../rules/burden';
 import type { Change, Module } from '../lang/module';
-import { parseAbility, type ArenaAbility } from '../lang/parse';
+import type { ArenaAbility } from '../lang/parse';
 import { World } from '../lang/world';
 import type { CampaignActor } from './definition';
 import type { Creature } from '../creature';
@@ -214,15 +214,11 @@ export class CreatureFacts {
       || (e.kind === 'apply' && !c.state.conditions.some(s => s.id === e.status && s.remaining * 2 > e.duration)));
   }
   // A kind of thing used up on someone relieves them if it would help them; one that is no remedy (it does what it
-  // does, whoever takes it) always does.
-  private static readonly uses = new Map<string, ArenaAbility | undefined>();
+  // does, whoever takes it) always does, but one aimed at a foe (a flask of fire to throw) is for a fight, not for one
+  // of the company. Kept by the kind's use as well as its id (see ItemCatalog.use).
   private static relieves(kind: string, c: Creature): boolean {
-    // Kept by the kind's use as well as its id: another campaign's kind of the same name is another use (the review's
-    // H7).
-    const use = ItemCatalog.definitions[kind]?.use, key = `${kind}\u0000${use ?? ''}`;
-    if (!this.uses.has(key)) { this.uses.set(key, use ? parseAbility(`item-${kind}`, kind, use) : undefined); }
-    const ability = this.uses.get(key);
-    if (!ability) { return false; }
+    const ability = ItemCatalog.use(kind);
+    if (!ability || ability.effects.every(e => /enem/.test(e.target))) { return false; }
     const remedy = ability.effects.some(e => ['heal', 'remove', 'apply'].includes(e.kind));
     return !remedy || this.helps(ability, c);
   }
