@@ -9,8 +9,12 @@ import { Foundings, type Founding } from './founding';
 import { RegionShops } from './region-shops';
 import type { Region, Settlement } from './region-writer';
 
-interface MerchantType { role: string; profession?: string; shop: string; stock: [string, number, number][];
-  buys: [string, number][] }
+// A merchant's trade: who they are, their shop and what it looks like inside (a salt-house had no words of its own:
+// play 7), and what they sell and buy.
+interface MerchantType {
+  role: string; profession?: string; shop: string; scene?: string;
+  stock: [string, number, number][]; buys: [string, number][];
+}
 interface Tables {
   merchantType: { groups: Record<string, MerchantType> };
   innStock: { groups: Record<string, { price: number; stock: number }> };
@@ -45,7 +49,9 @@ export class SettlementWriter {
       ...has.taproom ? this.keeping(s, f) : [],
       ...has.shrine ? this.holy(s, f, cult) : [],
       ...has.shop ? [`  Place ${s.id}_shop ${q(`${s.merchant}'s ${this.trade(s).shop}`)} is room within ${s.id} at 2, 1.`,
-        `  Passage ${s.id}_shop_door ${q(`${s.merchant}'s door`)} is door between ${s.id}_shop and ${s.id}_green.`] : [],
+        `  Passage ${s.id}_shop_door ${q(`${s.merchant}'s door`)} is door between ${s.id}_shop and ${s.id}_green.`,
+        ...this.trade(s).scene ? [`  Observe ${s.id}_shop_scene at ${s.id}_shop as fixture when true ${q(this.trade(s).scene!)}.`] : []]
+        : [],
       this.keeper(s, f, region),
       this.priest(s, f, { region, cult }),
       this.merchant(s, f, region),

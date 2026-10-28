@@ -83,6 +83,14 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 .journal .going .set-out { font: 500 14px var(--do); text-decoration: none; padding: 4px 10px 5px; border: 1px solid var(--ink); }
 .journal .going .set-out:hover, .journal .going .set-out:focus-visible { background: var(--ink); color: var(--paper); }
 .journal li.learned, .story .learned { border-left: 4px solid var(--yellow); padding-left: 10px; list-style: none; margin-left: -1.1em; }
+/* The notes as a game's book, not a document: aims and what is known as cards, no bullets (the owner's report). */
+.journal ul { list-style: none; padding: 0; }
+.journal > div > ul > li, .journal .aims .aim-card { margin: 0 0 6px; padding: 10px 14px; border: 1px solid var(--hair);
+  background: var(--paper); font: 400 16px/1.45 var(--told); }
+.journal .aims .aim-card { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 14px;
+  border-left: 3px solid var(--yellow); }
+.journal .aims .set-out { font: 500 14px var(--do); text-decoration: none; padding: 4px 10px 5px; border: 1px solid var(--ink); }
+.journal .keep { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 
 /* The head of a book's page: where, and which book. */
 .where { display: flex; flex-wrap: wrap; gap: 4px 0; margin: 0 0 18px; padding-bottom: 10px; border-bottom: 1px solid var(--hair);

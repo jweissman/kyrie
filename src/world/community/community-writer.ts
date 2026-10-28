@@ -86,6 +86,7 @@ export class CommunityWriter {
       `  Person ${r.id} ${q(r.name)} at ${work} { Role ${q(role)}. Ancestry ${r.ancestry}.`
         + ` ${Overlays.has(r.work.background, 'profession') ? 'Profession' : 'Background'} ${r.work.background}.`
         + `${this.calling(r.work.background)}${this.likeness(region, r)}`
+        + `${(r.work.sells ?? []).map(([kind, price, count]) => ` Sells ${kind} for ${price} coin from ${count}.`).join('')}`
         + ` Peaceable. Pronouns ${r.pronoun}. Manner ${r.manner}. }`,
       `  Observe ${r.id}_seen near ${r.id} of ${r.id} when at(${r.id}, ${work}) ${q(this.said(r.seen, r, s.name))}.`,
       ...r.evening === 'inn' && c.inn ? [`  Observe ${r.id}_evening near ${r.id} of ${r.id} when at(${r.id}, ${s.id}_taproom) ${q(this.said(r.tavern, r, s.name))}.`] : [],

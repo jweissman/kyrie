@@ -20,32 +20,32 @@
     "discriminator": "type",
     "groups": {
       "chandler": {
-        "role": "chandler", "profession": "herbalist", "shop": "chandlery",
+        "role": "chandler", "profession": "herbalist", "shop": "chandlery", "scene": "Shelves to the ceiling: coils of rope, lamps and lamp-oil, candles in bundles, sacks of meal; everything a traveller forgets, and the smell of tallow over it all.",
         "stock": [["rations", 2, 6], ["rope", 1, 3], ["torch", 1, 4], ["lantern", 7, 2], ["lamp_oil", 1, 4], ["pole", 1, 2], ["bandages", 1, 3], ["spyglass", 15, 1]],
         "buys": [["grave_rings", 8], ["chapel_plate", 12]]
       },
       "herbwife": {
-        "role": "herb-wife", "profession": "herbalist", "shop": "herb-shop",
+        "role": "herb-wife", "profession": "herbalist", "shop": "herb-shop", "scene": "Bunches of herbs hang from every beam, drying, and the jars along the wall are labelled in a hand nobody else can read. Something is simmering at the back.",
         "stock": [["herbs", 1, 4], ["bandages", 1, 4], ["yarrow_poultice", 2, 2], ["antidote", 3, 2], ["rations", 2, 3]],
         "buys": []
       },
       "smith": {
-        "role": "smith", "shop": "forge",
+        "role": "smith", "shop": "forge", "scene": "The forge glows in its corner; tongs, hammers and half-made things hang on the wall, and the floor is black with scale.",
         "stock": [["crowbar", 3, 2], ["shovel", 2, 2], ["pole", 1, 2], ["dagger", 2, 1], ["torch", 1, 2], ["lantern", 7, 1], ["lamp_oil", 1, 3]],
         "buys": [["bronze_bearing", 10], ["grave_rings", 6]]
       },
       "salter": {
-        "role": "salter", "shop": "salt-house",
+        "role": "salter", "shop": "salt-house", "scene": "Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.",
         "stock": [["rations", 1, 10], ["rope", 1, 2], ["torch", 1, 2], ["lantern", 7, 1], ["lamp_oil", 1, 2]],
         "buys": []
       },
       "furrier": {
-        "role": "furrier", "shop": "fur-store",
+        "role": "furrier", "shop": "fur-store", "scene": "Pelts hang drying from the rafters, and more are stacked on the bench, sorted by kind; the room smells of smoke and fat.",
         "stock": [["rations", 2, 4], ["rope", 1, 3], ["torch", 1, 3], ["lantern", 7, 1], ["lamp_oil", 1, 2], ["bandages", 2, 2]],
         "buys": [["jade_idol", 15]]
       },
       "woodwright": {
-        "role": "woodwright", "shop": "wood-yard",
+        "role": "woodwright", "shop": "wood-yard", "scene": "Stacked timber, the smell of sawn oak, shavings underfoot, and half a cart on trestles in the middle of the floor.",
         "stock": [["pole", 1, 4], ["torch", 1, 6], ["lantern", 7, 1], ["lamp_oil", 1, 2], ["handaxe", 3, 1], ["rope", 1, 2]],
         "buys": []
       }

@@ -9,6 +9,7 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Stage } from './stage';
 import { Moments } from './moments';
+import { Wares, type Ware } from '../wares';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
 // doing when you came over, what they said to you and you to them, in order, and what you came to know, which scrolls
@@ -19,6 +20,7 @@ export class TalkStage {
   static View({ app, talk }: { app: ReaderApp; talk: Talk }) {
     const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
     const [name, ...role] = [Words.short(who.name), who.note].filter(Boolean) as string[];
+    const counter = frame.screen.trade.find(c => c.id === who.id), { wares, rest } = Wares.of(counter, talk.replies);
     return (
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
@@ -26,10 +28,10 @@ export class TalkStage {
         <div className="dialogue">
           <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} />
           <div className="answer">
-            <TalkStage.Counter counter={frame.screen.trade.find(c => c.id === who.id)} coin={frame.screen.purse.coin} />
+            <TalkStage.Counter wares={wares} buys={counter?.buys ?? []} coin={frame.screen.purse.coin} draw={draw} />
             {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
             <ol className="replies" aria-label={`What you might say to ${name}`}>
-              {talk.replies.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
+              {rest.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
             </ol>
             <p className="leave"><Act.View choice={talk.leave} draw={draw}>
               <i>{(draw.index.get(talk.leave.id) ?? 0) + 1}</i>{talk.leave.label}</Act.View></p>
@@ -86,35 +88,49 @@ export class TalkStage {
       </div>
     );
   }
-  // One thing to say, with its number; what it opens (what to buy, what to ask about) beneath it.
-  // What someone who trades has on their side of the counter, whether or not you can afford it: each thing, its price
-  // and how many are left, what is beyond your purse quieter; and what they will buy, and for how much.
-  static Counter({ counter, coin }: { counter?: Counter; coin: number }) {
-    if (!counter) { return null; }
+  // What someone who trades has on their side of the counter, whether or not you can afford it: each thing a control
+  // that buys it, with its price and how many are left (what is beyond your purse quieter, and says why); and what they
+  // will buy, and for how much. The wares had been a run-on line above the replies, and buying a list opened inside
+  // them (the owner's interim report; play 7).
+  static Counter({ wares, buys, coin, draw }: { wares: Ware[]; buys: Counter['buys']; coin: number; draw: Draw }) {
+    if (!wares.length && !buys.length) { return null; }
     return (
-      <div className="counter" aria-label="For sale">
-        {counter.sells.length > 0 && <ul>{counter.sells.map(g => <li key={g.name} className={g.price > coin ? 'dear' : undefined}>
-          {g.name}<small> · {g.price} coin{g.stock > 0 ? ` · ${g.stock} left` : ' · none left'}</small></li>)}</ul>}
-        {counter.buys.length > 0 && <p className="buys">Buys {counter.buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
-          .join(', ')}{counter.buys.length > 4 ? ', and more' : ''}.</p>}
-      </div>
+      <section className="counter" aria-label="For sale">
+        {wares.length > 0 && <><p className="label">For sale</p><ul className="wares">{wares.map(w => <li key={w.name}>
+          <TalkStage.Ware ware={w} coin={coin} draw={draw} /></li>)}</ul></>}
+        {buys.length > 0 && <p className="buys">Buys {buys.slice(0, 4).map(b => `${b.name.toLowerCase()} (${b.price})`)
+          .join(', ')}{buys.length > 4 ? ', and more' : ''}.</p>}
+      </section>
     );
   }
+  // One thing for sale: bought at a touch, or, in a company, bought for one of it.
+  static Ware({ ware: w, coin, draw }: { ware: Ware; coin: number; draw: Draw }) {
+    const price = <span className="r">{`${w.price} coin · ${w.stock > 0 ? `${w.stock} left` : 'none left'}`}</span>;
+    const name = <span className="n">{Typography.curl(Words.upper(w.name))}</span>;
+    if (!w.buy) { return <span className={`ware none${w.price > coin ? ' dear' : ''}`}>{name}{price}</span>; }
+    // Numbered, as what can be said is: the replies' numbers follow on from the wares'.
+    if (!w.buy.children?.length) {
+      return <Act.View choice={w.buy} draw={draw} className="ware"><span className="n"><i>{(draw.index.get(w.buy.id) ?? 0) + 1}</i>
+        {Typography.curl(Words.upper(w.name))}</span>{price}</Act.View>;
+    }
+    return <div className="ware several">{name}{price}{w.buy.children.map(k => <Act.View key={k.id} choice={k} draw={draw}
+      className="for">{Typography.curl(k.label)}</Act.View>)}</div>;
+  }
   // Someone who would join you, as they would come: what they are and ask, how they fight, their qualities, skills
-  // and what they can do (the cold playtest could not see what a recruit could do until they had joined). Folded, it
-  // says what they are and ask; it had opened in full in the middle of the conversation (the play-structure
-  // investigation's PT-12).
+  // and what they can do (the cold playtest could not see what a recruit could do until they had joined), as a card
+  // of a few lines: in full it had filled the middle of the conversation (the play-structure investigation's PT-12),
+  // and folded it was a web page's disclosure (the owner's interim report).
   static Recruit({ recruit: r, coin }: { recruit: NonNullable<Talk['subject']['recruit']>; coin: number }) {
     const ask = r.hire ? `${r.hire} coin${r.hire > coin ? `, more than you have` : ''}` : 'nothing';
     return (
-      <details className="recruit" aria-label="What they would bring">
-        <summary>{Typography.curl(`${Words.upper(Words.article(r.line))} of level ${r.level}, asking ${ask}`)}</summary>
-        <dl className="bearings">{r.sheet.fighting.map(b => <div key={b.label}><dt>{b.label}</dt>
-          <dd>{Typography.curl(b.value)}</dd></div>)}</dl>
+      <section className="recruit" aria-label="What they would bring">
+        <p className="summary">{Typography.curl(`${Words.upper(Words.article(r.line))} of level ${r.level}, asking ${ask}`)}</p>
+        <p className="bearing">{Typography.curl(r.sheet.fighting.map(b => `${b.label}: ${b.value}`).join(' · '))}</p>
         <p className="qualities-line">{r.sheet.qualities.map(q => `${q.name} ${q.score}`).join(' · ')}</p>
-        {r.sheet.skills.length > 0 && <p className="skills-line">{`Skills: ${r.sheet.skills.map(s => s.name).join(', ')}.`}</p>}
-        <ul className="techniques">{r.techniques.map(x => <li key={x.name}><b>{x.name}.</b> {Typography.curl(x.text)}</li>)}</ul>
-      </details>
+        {(r.sheet.skills.length > 0 || r.techniques.length > 0) && <p className="skills-line">{Typography.curl([
+          r.sheet.skills.length ? `Knows ${r.sheet.skills.map(s => s.name.toLowerCase()).join(', ')}.` : '',
+          r.techniques.length ? `Can ${r.techniques.map(x => x.name.toLowerCase()).join(', ')}.` : ''].filter(Boolean).join(' '))}</p>}
+      </section>
     );
   }
   // A question already put stays to be put again, quieter, and says so.

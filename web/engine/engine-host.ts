@@ -82,9 +82,11 @@ export class EngineHost {
       case 'kept': this.acknowledged(request.key, request.ok); return null;
       // The page's download waits for the command under way (the independent review's A2).
       // With the story so far, so that a game opened from the file has its Story page (the review's A24).
+      // A save file says which build made it (COR-06: it had carried no stamp): it is checked as it is opened, as
+      // any file brought in is, and one too old to open says whose it was.
       case 'checkpoint': await this.working;
-        return this.session ? JSON.stringify({ checkpoint: this.session.checkpoint(true), log: this.log,
-          ...this.bound ? { bound: this.bound } : {} }) : null;
+        return this.session ? JSON.stringify({ build: BuildStamp.current, checkpoint: this.session.checkpoint(true),
+          log: this.log, ...this.bound ? { bound: this.bound } : {} }) : null;
       case 'story': return this.log;
     }
   }
@@ -144,7 +146,8 @@ export class EngineHost {
     const trusted = kept && parsed.build === BuildStamp.current;
     try { this.session = PlaySession.resume(saved.checkpoint, { owned: true, trusted }); } catch (error) {
       if (trusted) { throw error; }
-      throw new Error(`This game was kept by an earlier edition of Kyr, and this one cannot open it (${
+      const made = 'build' in parsed && parsed.build ? ` (edition ${parsed.build})` : '';
+      throw new Error(`This game was kept by an earlier edition of Kyr${made}, and this one cannot open it (${
         error instanceof Error ? error.message : String(error)}). A new game can be begun from the title page.`);
     }
     // The world it came with is kept already: known by the same key, and by the module the campaign now holds.

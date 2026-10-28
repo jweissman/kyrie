@@ -3,8 +3,10 @@ import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Act } from './stage/act';
 import { Words } from './words';
+import { Typography } from '../../src/presentation/typography';
 import { CharacterPage } from './character-page';
 import { MenuModel } from './menu-model';
+import { Aims } from './aims';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
 // you can be of it), the story so far, what you carry, the company. The book's head goes back to what is here (a back
@@ -29,7 +31,7 @@ export class Sheet {
         <h2>Notes</h2>
         <h3>What you mean to do</h3>
         {screen.objectives.length || screen.deadlines.length
-          ? <ul className="aims">{[...screen.deadlines, ...screen.objectives].map(o => <li key={o}>{o}</li>)}</ul>
+          ? <ul className="aims">{[...screen.deadlines, ...screen.objectives].map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul>
           : <p className="none">{Sheet.idle(screen, facts)}</p>}
         <Sheet.Going app={app} />
         {screen.done.length > 0 && <div data-region="done"><h3>Seen through</h3>
@@ -41,12 +43,20 @@ export class Sheet {
           </div> : null;
         })}
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
-        <ul className="acts">
-          <li><button type="button" className="act" data-action="export" onClick={app.download}>Download a save file</button></li>
-          <li><button type="button" className="act" data-action="title" onClick={app.opening.title}>Back to the title</button></li>
-        </ul>
+        <p className="keep">
+          <button type="button" className="option" data-action="export" onClick={app.download}>Download a save file</button>
+          <button type="button" className="option" data-action="title" onClick={app.opening.title}>Back to the title</button>
+        </p>
       </article>
     );
+  }
+  // An aim, and, when it names somewhere the company knows the way to, setting out for it there: the notes had been a
+  // document of bullets (the owner's interim report).
+  static Aim({ app, aim }: { app: ReaderApp; aim: string }) {
+    const place = Aims.named(app.state.frame?.screen.destinations ?? [], aim, 0);
+    return <li className="aim-card"><span>{Typography.curl(aim)}</span>
+      {place && <button type="button" className="act set-out" data-action="set-out" data-id={place.id}
+        onClick={() => app.choose(MenuModel.journey(place))}>{`Set out for ${place.name}`}</button>}</li>;
   }
   // Where the company could set out for, nearest first, each with how long and setting out: the notes are a plan, not
   // a ledger (the play-structure investigation's PT-25).

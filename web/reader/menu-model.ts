@@ -7,6 +7,7 @@ import type { Travel } from './reader-app';
 import { Words } from './words';
 import { Aims } from './aims';
 import { Hours } from './hours';
+import { Wares } from './wares';
 
 export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 // What can be chosen now: the scene (who and what is here, the ways, yourself), or a conversation with one of them, or
@@ -26,7 +27,7 @@ export class MenuModel {
     const opened = new Set(open);
     if (!frame.combat && !['pack', 'company'].includes(view)) {
       const scene = SceneModel.build(frame.screen);
-      return this.attending(scene, opened, attention) ?? this.place(Attending.place(scene), opened, frame);
+      return this.attending(scene, opened, attention, frame) ?? this.place(Attending.place(scene), opened, frame);
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
       : view === 'pack' ? ChoiceList.pack(frame.screen) : this.character(frame.screen, member);
@@ -123,10 +124,15 @@ export class MenuModel {
   }
   // Someone spoken with: what can be said to them, and taking leave. Something looked at: what can be done with it, by
   // kind, and turning away. The scene is kept whole, so what is said is said to them by name.
-  private static attending(scene: Scene, opened: Set<string>, attention?: Attention): Menu | undefined {
+  private static attending(scene: Scene, opened: Set<string>, attention?: Attention, frame?: Frame): Menu | undefined {
     if (attention?.kind === 'person') {
       const talk = Attending.talk(scene, attention.id);
-      const choices = talk && [...talk.replies.flatMap(c => this.unfold(c, opened)), talk.leave];
+      // What is for sale is on the counter, each thing a control, in the counter's order before what can be said, as
+      // the page draws them: among the choices, never folded (play 7).
+      const sold = talk && Wares.of(frame?.screen.trade.find(c => c.id === talk.subject.id), talk.replies);
+      const choices = talk && [...sold!.wares.flatMap(w => w.buy
+        ? this.unfold(w.buy, new Set([...opened, ...this.all(w.buy)])) : []),
+      ...sold!.rest.flatMap(c => this.unfold(c, opened)), talk.leave];
       return talk && { scene, talk, choices: choices!, sections: [{ id: talk.subject.id, title: talk.subject.name,
         tone: 'person', glyph: '☺', choices: choices! }] };
     }
@@ -139,6 +145,7 @@ export class MenuModel {
     }
     return undefined;
   }
+  private static all(c: Choice): string[] { return [c.id, ...(c.children ?? []).flatMap(k => this.all(k))]; }
   private static unfold(c: Choice, open: Set<string>): Choice[] {
     return [c, ...open.has(c.id) && c.children ? c.children.flatMap(k => this.unfold(k, open)) : []];
   }

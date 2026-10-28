@@ -27,7 +27,8 @@ export interface KeptState {
   checkpoint: Omit<SessionCheckpoint, 'save'> & {
     save: Omit<CampaignSave, 'module' | 'definition' | 'state'> & { state: Omit<State, 'world'>; facts: Facts } };
 }
-export interface Whole { checkpoint: SessionCheckpoint; log?: Entry[]; bound?: string }
+// A save file: what it holds, and the build that made it.
+export interface Whole { checkpoint: SessionCheckpoint; log?: Entry[]; bound?: string; build?: string }
 // A world as the host holds it while it plays: its part, its key, where each of its facts stood, and how each relation
 // last differed from it (see `differLive`).
 export interface Keyed { key: string; part: WorldPart; index: Map<string, number>; relations?: Relations }

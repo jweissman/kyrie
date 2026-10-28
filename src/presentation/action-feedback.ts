@@ -7,6 +7,8 @@ import { FictionalTime } from '../campaign/fictional-time';
 import type { Predicate } from '../lang/module';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { Canon } from '../canon/canon';
+import { ObservationText } from '../lang/observation-text';
+import { Itineraries } from '../ui/itinerary';
 
 export interface ActionFeedback {
   attempt: string; result: string; resources: string[]; time: string; immediate: string[]; discoveries: string[];
@@ -18,6 +20,8 @@ export interface ActionFeedback {
   // Aims taken up or come to by it: reading the makers' marks made the brothers' errand "You have copied the old
   // writing at Riwustagn. Ruven at Faennsīe should see it.", and only the notes said so (play 7).
   aims?: string[];
+  // Places something learned leads to that nothing said where they are, now somewhere to set out for.
+  leads?: string[];
 }
 export class ActionFeedbackView {
   static readonly probes = ['look_closely', 'prod', 'pry', 'burn', 'push', 'listen', 'search'];
@@ -27,6 +31,26 @@ export class ActionFeedbackView {
     listen: 'There is nothing to hear from it.', prod: 'Nothing gives, and nothing answers.',
     pry: 'The bar finds no purchase, and nothing gives.', push: 'It does not shift, either way.',
     burn: 'It does not take the flame.', search: 'You find nothing out of the ordinary.' };
+  // Where something learned leads, when nothing said where it is: somewhere to set out for now, and how far (the lone
+  // tower joined the journeys unsaid, after the opened graves: play 7, M17-42).
+  private static leads(campaign: Campaign, learned: { id: string; text: string }[],
+    known: Set<string>): { leads?: string[] } {
+    const world = campaign.world;
+    if (!learned.length || !world.relates('leadsTo')) { return {}; }
+    const said = learned.map(k => k.text).join(' ').toLowerCase(), told = world.related('leadsTo');
+    // A sight from somewhere high says itself where the place lies and how far ("To the north, not far off: …").
+    const placed = new Set(learned.filter(k => /^To the [a-z-]+, /.test(k.text)).map(k => k.id));
+    const places = [...new Set(told.filter(r => learned.some(k => k.id === r.args[0]) && !placed.has(r.args[0]!))
+      .map(r => r.args[1]!))].filter(place => !told.some(r => r.args[1] === place && known.has(r.args[0]!)));
+    const leads = places.flatMap(place => {
+      const name = ObservationText.label(world, place), plan = Itineraries.plan(campaign, place);
+      if (!plan || said.includes(`way to ${name.toLowerCase()}`)) { return []; }
+      const hours = Math.round(plan.minutes / 30) / 2, half = hours % 1 ? '½' : '', whole = Math.floor(hours);
+      const far = hours < 1 ? 'under an hour off' : hours === 1 ? 'about an hour off' : `about ${whole}${half} hours off`;
+      return [`${name.charAt(0).toUpperCase()}${name.slice(1)}: somewhere to set out for now, ${far}`];
+    });
+    return leads.length ? { leads } : {};
+  }
   // A recovery that removes a status the member never had is not news.
   private static lacked(before: PlayerSnapshot, target: string, status: string): boolean {
     const member = before.party.find(p => p.id === target);
@@ -192,6 +216,7 @@ export class ActionFeedbackView {
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],
       rolls, discoveries: learned.map(k => shown.get(k.id) ?? k.text),
+      ...this.leads(campaign, learned, new Set(before.knowledge.map(k => k.id))),
       ...!response && battleResult ? { ended: true } : {}, ...aims.length ? { aims } : {},
       events: (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       observations: changed.map(o => FictionalTime.prose(o.text)),

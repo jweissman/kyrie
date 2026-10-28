@@ -23,6 +23,9 @@ describe('your aims', () => {
     expect(feedback.aims).toEqual([expect.stringMatching(/^Something is wrong at /)]);
     const leaf = Narrator.leaf(c, ScreenModel.build(c), { event, feedback, said: ask.choice.name, moved: false });
     expect(leaf.exchange?.notes).toContainEqual(expect.stringMatching(/^Aim: Something is wrong at /));
+    // And where the tower is, now somewhere to set out for, is said, not left for the journeys to show (M17-42).
+    expect(leaf.exchange?.notes)
+      .toContainEqual(expect.stringMatching(/^Noted: A lone tower: somewhere to set out for now, /));
     expect(ScreenModel.build(c).objectives[0]).toMatch(/^The brothers want the old writing at /);
   }, 120000);
   // The place your aim names is offered to set out for, however far: the cisterns of Lunastagn, the aim, were only "on

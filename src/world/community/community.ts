@@ -13,6 +13,9 @@ export interface Occupation {
   foundings?: string[];
   water?: boolean; sizes?: string[]; pronoun?: string; wanders?: boolean; animal?: string; knows?: string[];
   concern?: string;
+  // What they sell, of the catalog's kinds, each with its price and how many they have (a tinker's wares spread on a
+  // blanket, which had sold nothing: play 7).
+  sells?: [string, number, number][];
   workplace?: { id: string; name: string; scene: string; indoors?: boolean };
   seen: string[]; talk: string[];
 }
@@ -45,7 +48,7 @@ export interface Community {
 // its water and its size; where they work; who belongs with whom; the animals about the place; and one small
 // trouble. Drawn from the region and the settlement alone, so the same country always has the same people.
 export class Communities {
-  static readonly occupations = trades.occupations as Record<string, Occupation>;
+  static readonly occupations = trades.occupations as unknown as Record<string, Occupation>;
   static readonly folk = folk as unknown as { given: Record<string, Record<string, string[]>>;
     family: Record<string, string[]>; animal: Record<string, string[]> };
   static readonly sizes: Record<string, number> = { hamlet: 3, village: 5, town: 7 };
