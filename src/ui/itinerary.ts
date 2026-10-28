@@ -7,6 +7,7 @@ import type { WayInfo } from './passage-model';
 import { VisitedPlaces } from '../presentation/visited-places';
 import { Spatial } from '../spatial';
 import type { Screen } from './screen-types';
+import { SiteScale } from './site-scale';
 
 // One leg of a journey: by what way, from where to where, and how long it takes.
 export interface Leg { passage: string; way: string; from: string; to: string; minutes: number }
@@ -125,7 +126,7 @@ export class Itineraries {
   static shown(campaign: Campaign, names: Map<string, Entity>): Pick<Screen, 'destinations' | 'roads' | 'around'> {
     if (!campaign.running) { return { destinations: [], roads: [], around: [] }; }
     const leads = this.destinations(campaign);
-    return { destinations: leads.map(d => this.named(d, names)),
+    return { destinations: leads.map(d => this.scaled(campaign, d, names)),
       roads: this.roads(campaign, leads).map(d => this.named(d, names)),
       around: this.around(campaign).map(d => this.named(d, names)) };
   }
@@ -141,6 +142,11 @@ export class Itineraries {
       && Spatial.ancestry(byId, e.id).some(a => a.id === town.id))
       .flatMap(r => { const p = this.route(campaign, r.id, true); return p && p.legs.length > 1 ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
+  }
+  // A place set out for, with how big it is where it is a site (see SiteScale).
+  private static scaled(campaign: Campaign, d: Itinerary, names: Map<string, Entity>): NonNullable<Screen['destinations']>[number] {
+    const scale = SiteScale.of(campaign.module.entities, d.id);
+    return { ...this.named(d, names), ...scale ? { scale } : {} };
   }
   private static named(d: Itinerary, names: Map<string, Entity>): NonNullable<Screen['destinations']>[number] {
     return { id: d.id, name: names.get(d.id)?.name ?? d.name, minutes: d.minutes,

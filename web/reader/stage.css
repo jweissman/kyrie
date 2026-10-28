@@ -469,9 +469,15 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .you .yours .act .note { margin-left: 2px; }
 .chips .act.chip, .chips .chip.still { min-height: 44px; display: inline-flex; align-items: center; }
 
-/* A conversation: what has passed, and right under it what you might say, the painting above on an upright screen. */
-.dialogue .lines { flex: 0 1 auto; }
-.dialogue .answer { flex: 0 0 auto; max-height: none; }
+/* A conversation: what has passed, and right under it what you might say, the painting above on an upright screen.
+   What has passed stays readable however much there is to say: the replies scroll before the last words are squeezed
+   (eleven replies left an innkeeper's greeting one cut line on a tablet). */
+.dialogue .lines { flex: 0 0 auto; max-height: 42%; }
+/* What can be chosen gives way, and scrolls within itself; taking your leave stays in view (PT-42). */
+.dialogue .answer { flex: 0 1 auto; min-height: 0; max-height: none; display: flex; flex-direction: column;
+  overflow: hidden; }
+.dialogue .answer > .choosing { flex: 0 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: thin; }
+.dialogue .answer > .leave { flex: none; }
 .replies li { margin: 0 0 6px; }
 .replies .act, .dialogue .leave .act { display: flex; align-items: baseline; gap: 10px; width: 100%; min-height: 46px;
   margin-left: 0; padding: 10px 14px; border: 1px solid var(--hair); border-left-width: 1px; border-radius: 5px;
@@ -482,7 +488,18 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .replies .act i, .dialogue .leave .act i { width: 1.4em; flex: none; }
 .dialogue .leave .act { border-style: dashed; }
 @media (max-width: 860px), (orientation: portrait) and (max-width: 1100px) {
-  .talk { grid-template-rows: minmax(0, 40dvh) minmax(0, 1fr); }
+  /* On an upright screen the painting takes whatever the conversation leaves, and the conversation sits under it at
+     the foot of the page, as tall as what is in it: a short one left the lower half of the page empty (M17-44). Where
+     no painting fits them, the band is theirs in type, their name at its foot. */
+  .talk { grid-template-rows: minmax(40dvh, 1fr) auto; }
+  .talk:has(.sitter.unpainted) { grid-template-rows: minmax(22dvh, 1fr) auto; }
+  .talk .dialogue { max-height: 60dvh; min-height: 0; overflow: hidden; }
+  .talk:has(.sitter.unpainted) .dialogue { max-height: 78dvh; }
+  .talk .dialogue .lines { max-height: 26dvh; }
+  .talk:has(.sitter.unpainted) .dialogue .lines { max-height: 36dvh; }
+  .sitter.unpainted { align-items: flex-end; }
+  .sitter.unpainted .cap { padding: 0 max(20px, env(safe-area-inset-left)) 22px; }
+  .sitter.unpainted .cap .n { font-size: clamp(44px, 9vw, 76px); }
   .dialogue { width: 100%; max-width: 44rem; margin: 0 auto; padding: 18px max(20px, env(safe-area-inset-right))
     max(16px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
 }

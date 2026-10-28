@@ -28,11 +28,13 @@ export class TalkStage {
         <div className="dialogue">
           <TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} />
           <div className="answer">
-            <TalkStage.Counter wares={wares} buys={counter?.buys ?? []} coin={frame.screen.purse.coin} draw={draw} />
-            {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
-            <ol className="replies" aria-label={`What you might say to ${name}`}>
-              {rest.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
-            </ol>
+            <div className="choosing">
+              <TalkStage.Counter wares={wares} buys={counter?.buys ?? []} coin={frame.screen.purse.coin} draw={draw} />
+              {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
+              <ol className="replies" aria-label={`What you might say to ${name}`}>
+                {rest.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
+              </ol>
+            </div>
             <p className="leave"><Act.View choice={talk.leave} draw={draw}>
               <i>{(draw.index.get(talk.leave.id) ?? 0) + 1}</i>{talk.leave.label}</Act.View></p>
           </div>

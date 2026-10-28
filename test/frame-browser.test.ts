@@ -72,4 +72,25 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
       expect(errors).toEqual([]);
       await page.close();
     }, 240000);
+  // On an upright tablet a person's painting takes what the conversation leaves, and the conversation stands at the
+  // foot of the page: neither the lower half left empty (M17-44) nor the words said squeezed out by eleven replies.
+  it('at 820 by 1180: sits a conversation at the foot of the page, its words and its leave in view', async () => {
+    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 820, height: 1180 },
+      { site, pointer: true, query: '?world=kite' });
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    await driver.pick(c => /^To the bridge-foot/.test(c.label), 'the bridge-foot');
+    await driver.pick(c => /^Into the Merry Sun/.test(c.label), 'the inn');
+    await driver.pick(c => /#talk$/.test(c.id) && /Aspen/.test(c.label), 'the innkeeper');
+    const talk = await page.evaluate(() => {
+      const d = document.querySelector('.dialogue')!.getBoundingClientRect(), l = document.querySelector('.dialogue .lines')!;
+      return { foot: innerHeight - d.bottom < 40, said: l.scrollHeight - l.clientHeight <= 1,
+        replies: document.querySelectorAll('.dialogue .replies li').length > 8 };
+    });
+    expect([talk, await Frame.inView(page, '.dialogue .leave .act')])
+      .toEqual([{ foot: true, said: true, replies: true }, true]);
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 240000);
 });

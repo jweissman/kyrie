@@ -122,7 +122,8 @@ export interface Screen {
   unplaced: Act[];
   // The places the company knows the way to and could set out for, more than a step away, with the legs of the way;
   // and those it could set out toward, as far as the wild country a place is said to lie in.
-  destinations?: { id: string; name: string; minutes: number; toward?: string;
+  // A site's scale, as its tellers would put it (see SiteScale).
+  destinations?: { id: string; name: string; minutes: number; toward?: string; scale?: string;
     legs: { way: string; to: string; minutes: number }[] }[];
   // The towns the known roads go to besides, which the map and the notes can set out for (not the place's own leads).
   roads?: NonNullable<Screen['destinations']>;
