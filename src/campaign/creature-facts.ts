@@ -70,7 +70,7 @@ export class CreatureFacts {
     const scripted = world.related('state', group).length > 0, many = members.length > 1;
     // One who is of a people is someone, not something: not "it stands its ground" (a robbers' captain).
     const person = !many && members.some(c => !!Canon.ancestries[c.raceId]);
-    const said = scripted ? [] : (['warning', 'onslaught', 'flinch'] as const).flatMap(name => {
+    const said = scripted ? [] : (['warning', 'onslaught', 'flinch', 'withdraw'] as const).flatMap(name => {
       // The shared words live in whichever installation joined the inhabitants rules first. A band of more than one
       // is spoken of as many ("the wolves come at you"), where the words differ.
       const plain = `${temper.replace(/^temper_/, 'temper_words_')}_${name}`;

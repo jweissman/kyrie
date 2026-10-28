@@ -1,12 +1,14 @@
 {
-  "about": "How each of Orsino's trap mechanisms (orsino-world.json) is understood and dealt with in a generated work: what is noticed of it in passing (sign), what looking closely at it shows (seen), and the ways of making it safe, each with what it needs. Written by hand: Orsino gives a trap's mechanism and what it does, not how it is found out or got past.",
+  "about": "How each of Orsino's trap mechanisms (orsino-world.json) is understood and dealt with in a generated work: what is noticed of it in passing (sign), what looking closely at it shows (seen), and the ways of making it safe, each with what it needs. Written by hand: Orsino gives a trap's mechanism and what it does, not how it is found out or got past. Each calling has an answer to some of them and none to all: a thief's trapwork and a pole for what is set by hand, a scholar's lore and a priest's rites for what is written, a warrior's strength for what can be lifted, a ranger's eye for a snare, a monk's stride (the play-structure audit's PT-20: every trap had the same two answers, and a lone mage with neither walked into it).",
   "mechanisms": {
     "pressure plate": {
       "sign": "One flag of the floor across the way is not quite level with the others, and there is no dust in the crack round it.",
       "seen": "One flag of the floor sits a finger's breadth proud of the rest, with no dust in the crack round it. A foot's weight on it would set off whatever it is joined to; so would any weight.",
       "ways": [
         { "id": "spring", "label": "Lean on the plate with the pole, standing well back", "needing": "pole", "to": "drawn" },
-        { "id": "wedge", "label": "Wedge the plate so it cannot sink", "needing": "trapwork", "to": "made_safe" }
+        { "id": "wedge", "label": "Wedge the plate so it cannot sink", "needing": "trapwork", "to": "made_safe" },
+        { "id": "heave", "label": "Heave the flag up out of its bed and lay it aside", "needing": "brawn", "to": "made_safe" },
+        { "id": "stride", "label": "Cross the plate in one long stride from the flag before it", "needing": "climbing", "to": "made_safe" }
       ]
     },
     "tripwire": {
@@ -14,7 +16,8 @@
       "seen": "The wire runs from a peg at one side to a hole in the stone at the other. Whatever it works is behind the hole. Pull it, or catch a foot in it, and it goes.",
       "ways": [
         { "id": "spring", "label": "Hook the wire with the pole and pull, from well back", "needing": "pole", "to": "drawn" },
-        { "id": "pin", "label": "Pin the wire slack against the floor and step over it", "needing": "trapwork", "to": "made_safe" }
+        { "id": "pin", "label": "Pin the wire slack against the floor and step over it", "needing": "trapwork", "to": "made_safe" },
+        { "id": "step", "label": "Step the wire as you would a snare-line, high and slow", "needing": "woodcraft", "to": "made_safe" }
       ]
     },
     "hidden switch": {
@@ -22,7 +25,9 @@
       "seen": "Among the carvings is one that is not carved but set in, a boss that would go in under a hand. It sits where a hand leaning on the wall would find it, at the narrowest place.",
       "ways": [
         { "id": "spring", "label": "Push the switch in with the pole's end, standing clear", "needing": "pole", "to": "drawn" },
-        { "id": "wedge", "label": "Wedge the switch so it cannot go in", "needing": "trapwork", "to": "made_safe" }
+        { "id": "wedge", "label": "Wedge the switch so it cannot go in", "needing": "trapwork", "to": "made_safe" },
+        { "id": "read", "label": "Read which of the carvings is set in, and keep your hands from it", "needing": "lore", "to": "made_safe" },
+        { "id": "worn", "label": "Find where the carving is worn by hands that knew to miss the switch, and miss it too", "needing": "insight", "to": "made_safe" }
       ]
     },
     "arcane glyph": {
@@ -30,7 +35,8 @@
       "seen": "The glyph is a word, written to be read by whoever passes it; reading it is what sets it off. Someone who knew the letters could unsay it.",
       "ways": [
         { "id": "unsay", "label": "Unsay the glyph, letter by letter", "needing": "lore", "to": "made_safe" },
-        { "id": "spring", "label": "Hold the pole's end across the glyph, looking away", "needing": "pole", "to": "drawn" }
+        { "id": "spring", "label": "Hold the pole's end across the glyph, looking away", "needing": "pole", "to": "drawn" },
+        { "id": "rite", "label": "Speak the rite that ends what was begun, and cover the glyph", "needing": "rites", "to": "made_safe" }
       ]
     },
     "magical rune": {
@@ -38,7 +44,8 @@
       "seen": "The rune is laid in the floor where a foot must cross it. It is waiting for weight, or warmth; it cannot tell the one from the other.",
       "ways": [
         { "id": "unsay", "label": "Break the rune's lines with the right words", "needing": "lore", "to": "made_safe" },
-        { "id": "spring", "label": "Lay the pole's end on the rune from as far off as it allows", "needing": "pole", "to": "drawn" }
+        { "id": "spring", "label": "Lay the pole's end on the rune from as far off as it allows", "needing": "pole", "to": "drawn" },
+        { "id": "rite", "label": "Speak over the rune the rite that lays such things to rest", "needing": "rites", "to": "made_safe" }
       ]
     },
     "enchanted object": {
@@ -46,7 +53,9 @@
       "seen": "The thing is set exactly where anyone going through must knock against it. Whatever is in it is waiting to be knocked over; a pole would do it as well as a passing hip.",
       "ways": [
         { "id": "spring", "label": "Knock it over with the pole, from well back", "needing": "pole", "to": "drawn" },
-        { "id": "unsay", "label": "Say over it what quiets such things", "needing": "lore", "to": "made_safe" }
+        { "id": "unsay", "label": "Say over it what quiets such things", "needing": "lore", "to": "made_safe" },
+        { "id": "rite", "label": "Bless it, and carry it aside while the blessing holds", "needing": "rites", "to": "made_safe" },
+        { "id": "lift", "label": "Lift it whole, slowly, and set it down out of the way", "needing": "brawn", "to": "made_safe" }
       ]
     }
   }

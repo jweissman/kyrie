@@ -37,10 +37,12 @@ export class RegionRecruits {
     return { ...region, settlements: region.settlements.map((s, i) => ({ ...s, calling: order[i % order.length]! })) };
   }
   // Why the company has come, said as it arrives, as a module of its own so it stands apart from the town: each
-  // member an old acquaintance sent word to, and what of; a company of one is told that the travellers at the inns are
-  // looking for work. Nothing is a task: it is what they came for.
+  // member an old acquaintance sent word to, and what of; a company of one is told who at the first town's inn is
+  // looking for work, by name. Nothing is a task: it is what they came for. It is said wherever in the town the
+  // company begins: said on its green, it was never heard by one who began at its shrine (play 7; PT-11, a lone
+  // mage, thief or bard does not get far alone).
   static arrival(region: Region, company: { size: number; contacts: Contact[] }) {
-    const town = region.settlements[0]!, imports: Record<string, string> = { party: 'region.party', green: `region.${town.id}_green` };
+    const town = region.settlements[0]!, imports: Record<string, string> = { party: 'region.party', town: `region.${town.id}` };
     const said = company.contacts.map((c, i) => {
       const s = region.settlements.find(x => c.carrier.startsWith(`${x.id}_`));
       imports[`c${i + 1}`] = `region.${c.carrier}`;
@@ -49,14 +51,17 @@ export class RegionRecruits {
         : `${c.member} came to see ${who}, an old friend.`;
     });
     if (company.size === 1) {
-      said.push(`You have come alone. The travellers at the inns of ${region.name} are looking for work, and one of them might come with you.`);
+      const one = town.traveller && town.calling ? `${town.traveller}, ${/^[aeiou]/i.test(town.calling) ? 'an' : 'a'} ${town.calling},`
+        : 'a traveller';
+      said.push(`You have come alone. At the inn at ${town.name}, ${one} is looking for work, and would come with you for`
+        + ` a few coins and their keep; the inns of ${region.name}'s other towns have others.`);
     }
     if (!said.length) { return undefined; }
     const names = Object.keys(imports), source = ['Module arrival "Why the company came" {', '  Entity party: group "Your company".',
-      '  Place green "Where they arrive" is room.', ...names.filter(n => /^c\d+$/.test(n)).map(n => `  Entity ${n}: group "Someone".`),
-      `  Observe arrival at green when watch(clock) < 1 ${JSON.stringify(said.join(' '))}.`, '  Goal false.', '}'].join('\n');
+      '  Place town "Where they arrive" is settlement.', ...names.filter(n => /^c\d+$/.test(n)).map(n => `  Entity ${n}: group "Someone".`),
+      `  Observe arrival within town when watch(clock) < 1 ${JSON.stringify(said.join(' '))}.`, '  Goal false.', '}'].join('\n');
     return { source, imports, manifest: { version: 1, source: 'arrival.kyr', rules: ['world'], globals: ['party'],
-      imports: names, roles: Object.fromEntries(names.map(n => [n, { type: n === 'green' ? 'place' : 'group' }])) } };
+      imports: names, roles: Object.fromEntries(names.map(n => [n, { type: n === 'town' ? 'place' : 'group' }])) } };
   }
   static traveller(s: Settlement, i: number, region: Region, at = `${s.id}_taproom`): string[] {
     const q = JSON.stringify, id = `${s.id}_traveller`, ancestry = s.people?.traveller ?? s.folk ?? region.ancestry;

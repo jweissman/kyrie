@@ -8,7 +8,7 @@
       "source": {
         "orsino": "ability:flee",
         "fidelity": "adapted",
-        "notes": "Orsino offers player-side combatants Flee every turn: an even chance (Math.random() < 0.5; Kyr rolls from the seeded stream) to end the fight. Orsino's monster Escape skill rolls a will save that, as written for fear effects, makes a successful save fail; Kyr uses the player rule for every creature that flees."
+        "notes": "Orsino offers player-side combatants Flee every turn: an even chance (Math.random() < 0.5; Kyr rolls from the seeded stream) to end the fight. Kyr's company gives ground with each try that fails: three in four the second time, sure the third; and in the first round of a fight that fell on it unwarned, which it saw begin, it acts first and gets away for certain. Orsino's monster Escape skill rolls a will save that, as written for fear effects, makes a successful save fail; Kyr uses the player rule's even chance for every creature on the other side that flees."
       }
     },
     "fire_ward": {

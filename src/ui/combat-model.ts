@@ -12,6 +12,7 @@ import { CombatChoices } from './combat-choices';
 import { CombatPresenter } from './combat-presenter';
 import { CombatTelling } from './combat-telling';
 import { Tactics } from '../tactics';
+import { DangerSense } from '../presentation/danger-sense';
 import type { CombatantRow, CombatScreen } from './screen-types';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only. Who is in the
@@ -33,7 +34,9 @@ export class CombatModel {
         rank: Math.max(...c.commands.map(command => Tactics.score(state, command))),
         ...(c.ability.spell ? { spell: { level: c.ability.spell.level,
           ready: (actor?.ready ?? []).flat().filter(id => id === c.ability.id).length } } : {}),
-        targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [] })),
+        targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [],
+        ...c.ability.effects.some(e => e.kind === 'flee') ? { odds: battle.flight() } : {} })),
+      ...battle.opening && !state.outcome ? { moment: battle.opening, reckoned: DangerSense.of(battle).text } : {},
       order: (state.order ?? []).map(id => this.name(state, id)),
       laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
         .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),

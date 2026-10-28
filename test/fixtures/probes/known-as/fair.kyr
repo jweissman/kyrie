@@ -1,0 +1,15 @@
+Module p "A pedlar at a fair, who has not said her name" {
+  Place town "the town" is settlement.
+  Place fair "the fair" is room within town at 0, 0 outdoors.
+  Company party "You" of 1 at fair.
+  Entity ursel_name: fact "The pedlar in the grey shawl is Ursel Cobb.".
+  // Until she says who she is, she is what she looks like.
+  Person ursel "Ursel Cobb" at fair {
+    Role "a pedlar". Peaceable.
+    Known as "a woman in a grey shawl" when not knows(party, ursel_name).
+  }
+  Topic her_name with ursel "Ask her name" when not knows(actor, ursel_name) once {
+    Says "'Ursel,' she says. 'Ursel Cobb, and the ribbons are a penny.'".
+    On discuss { Assert knows(actor, ursel_name). }
+  }
+}

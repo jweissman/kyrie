@@ -127,7 +127,7 @@ describe('A Winter in Carth: the city\'s strands', () => {
   it('the Bishop\'s Wood: the woodmen paid, a sledge loaded at the deadfall before the wolves, and the Row\'s stove lit', async () => {
     const g = await Gaunt.start(build('warrior'), 'g1');
     await g.play(...custody, ...walk(), '=90', 'Get into the box-bed', '=139', 'Out to the yard', 'To the road across the Levels',
-      'To the edge of the Bishop', 'Give the Wood-reeve\'s woodmen what', 'To the deadfall', 'Cut and load a sledge', 'sledge of dead wood: Take',
+      'To the edge of the Bishop', 'Pay the Wood-reeve\'s woodmen the price', 'To the deadfall', 'Cut and load a sledge', 'sledge of dead wood: Take',
       'To the edge of the Bishop', 'To the road across the Levels', 'To the Fell Gate', 'To the Row', 'Into the Barefoot Hall', 'Talk to Bess',
       'Ask Bess Ackroyd about the Barefoot', 'Give a sledge of dead wood');
     expect(g.holds('broughtWood', 'party')).toBe(true);

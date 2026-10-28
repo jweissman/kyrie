@@ -165,7 +165,7 @@ describe('The Banns at Hessel: the Old Town, the road and the Ball', () => {
     await g.play('Out to the fold', 'To the crossways', '^Attack');
     expect(g.page).toMatch(/It’s the ones you sit with that you remember/);
     // The fallen footpads ask no price, and the physician kneels to them.
-    expect(g.j.find('what it asks')).toBeUndefined();
+    expect(g.j.find('the price named')).toBeUndefined();
     expect(g.page).toMatch(/You’ll live,’ he tells them/);
     await g.play('Tell him: never', 'To the south gate of Orm', 'Go in with Dr Ottery');
     expect(g.holds('otteryLicensed', 'ottery')).toBe(true);

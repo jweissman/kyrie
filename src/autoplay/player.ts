@@ -1,6 +1,7 @@
 import type { Battle } from '../battle';
 import type { Command } from '../model';
 import { Tactics } from '../tactics';
+import { DangerSense } from '../presentation/danger-sense';
 import { Draw } from './draw';
 
 export type Temper = 'wander' | 'intent' | 'fight' | 'investigate' | 'care' | 'expedition' | 'deviate';
@@ -61,6 +62,11 @@ export class AutoPlayer {
   // then by running; someone doing the unexpected strikes about at random as often as not.
   readonly controller = (battle: Battle): Promise<Command> => {
     const legal = battle.legalCommands(), flee = legal.find(c => c.ability === 'flee');
+    // In the moment before a fight that came at it closes, a careful player backs away from one it reckons it could
+    // lose; someone doing the unexpected stands.
+    if (flee && battle.opening && this.temper !== 'deviate' && ['grave', 'deadly'].includes(DangerSense.of(battle).danger)) {
+      return Promise.resolve(flee);
+    }
     if (flee && this.draw.chance(this.temper === 'fight' ? 0.02 : 0.08)) { return Promise.resolve(flee); }
     const blows = legal.filter(c => c.ability !== 'flee' && c.ability !== 'wait');
     const pick = this.temper === 'deviate' && this.draw.chance(0.5) ? this.draw.pick(blows) : undefined;

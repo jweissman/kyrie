@@ -3,6 +3,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
+import { Tactics } from '../src/tactics';
 import { ItemNames } from '../src/item-names';
 import { Voice } from '../src/narrative/voice';
 import { ModuleWriter } from '../src/lang/module-writer';
@@ -53,7 +54,10 @@ describe('as the company would tell it', () => {
     const s = await Thorn.start('warrior');
     Thorn.put(s, 'w8_galleries_deep_gate');
     const tear = PlayerView.choices(s.campaign).find(c => c.choice.name === 'Tear the bronze plate from the gate')!;
-    await s.perform(tear.choice.id);
+    // What tearing the plate wakes falls on the company, which backs away in the moment before it closes (PT-10): the
+    // test is not about the fight, which a warrior wins on one night's dice and loses on another's.
+    await s.perform(tear.choice.id, b => Promise.resolve(b.opening
+      ? b.legalCommands().find(c => c.ability === 'flee')! : Tactics.choose(b.state, b.legalCommands())));
     expect(Thorn.names(s).filter(n => /^(Push and pull at|Listen at|Pry at) the seal/.test(n))).toEqual([]);
     Thorn.put(s, 'w8_gatehouse_gate_hall');
     await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Gather up the coins')!.choice.id);

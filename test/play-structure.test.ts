@@ -97,6 +97,19 @@ describe('a journey', () => {
     const hobs = ScreenModel.build(s.campaign).people.find(p => p.name.startsWith('the hobs'))!;
     expect(hobs.note).toBe('letting you by');
   }, 60000);
+  // Warned off, the robbers stayed where they stood (PT-32): one with somewhere to go gives ground and goes there.
+  it('sends a band that is warned off back to where it keeps, in its own words', async () => {
+    const s = await Played.start(`Place a "the first room" is room within field at 0, 0 outdoors.
+      Place den "the den" is room within field at 1, 0 outdoors.
+      Passage track "the track" is path between a and den.
+      Company party "You" of 2 at a.
+      Person hobs "the hobs" at a { Role "hobs on the road". Ancestry goblin. Calling thief. Level 1. Numbers 2.
+        Temperament territorial. Refuge den. }
+      Initially Assert warnedOff(hobs, party). Initially Assert tolerates(hobs, party).`);
+    const event = await s.perform('wait');
+    expect(s.campaign.world.one('at', Played.place(s, 'the hobs'))).toBe(Played.place(s, 'the den'));
+    expect(event.perceptions?.map(p => p.text)).toContainEqual(expect.stringMatching(/^The hobs give ground/));
+  }, 60000);
 });
 
 describe('a risk that fails', () => {

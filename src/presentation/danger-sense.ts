@@ -1,5 +1,6 @@
 import { Canon } from '../canon/canon';
 import { Battle } from '../battle';
+import { CombatProjection } from '../combat-projection';
 import { CreatureStore } from '../creature-store';
 import { Tactics } from '../tactics';
 import { Environment } from '../campaign/environment';
@@ -22,9 +23,23 @@ export class DangerSense {
     if (!foes.length || !ours.length) { return undefined; }
     const key = JSON.stringify([group, ...[...ours, ...foes].map(c => [c.id, c.state.hp, c.state.mana, c.base.level,
       c.state.conditions.map(s => s.id)])]);
+    return this.kept(key, () => this.judge(this.play(ours, foes, key,
+      Environment.encounter(campaign.world, campaign.playerActor)), ours, foes));
+  }
+  // A fight already joined, as it would go from where everyone stands: what the company reckons in the moment before
+  // one that came at it closes, and backs away from if it is beyond it (PT-10). The place's laws are held by the
+  // fighters already.
+  static of(battle: Battle): Reckoning {
+    const standing = battle.state.combatants.filter(f => f.hp > 0);
+    const ours = standing.filter(f => f.team === 'fighters').map(f => CombatProjection.creature(f));
+    const foes = standing.filter(f => f.team !== 'fighters').map(f => CombatProjection.creature(f));
+    const key = JSON.stringify(['joined', ...standing.map(f => [f.id, f.hp, f.mana, f.level, f.statuses.map(s => s.id)])]);
+    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [] }), ours, foes));
+  }
+  private static kept(key: string, reckon: () => Reckoning): Reckoning {
     let reckoning = this.reckoned.get(key);
     if (!reckoning) {
-      reckoning = this.judge(this.play(campaign, ours, foes, key), ours, foes);
+      reckoning = reckon();
       if (this.reckoned.size > 200) { this.reckoned.clear(); }
       this.reckoned.set(key, reckoning);
     }
@@ -36,8 +51,9 @@ export class DangerSense {
   }
   // The fight played out: how often the company wins, and in a win, how many of it fall, how hurt it is, and who fell
   // most often.
-  private static play(campaign: Campaign, ours: Creature[], foes: Creature[], key: string) {
-    const place = Environment.encounter(campaign.world, campaign.playerActor), played: Trial[] = [];
+  private static play(ours: Creature[], foes: Creature[], key: string,
+    place: ReturnType<typeof Environment.encounter>) {
+    const played: Trial[] = [];
     for (let trial = 0; trial < this.trials; trial++) {
       played.push(this.trial(ours, foes, `${key}:${trial}`, place));
       // Half the trials lost leave no doubt.

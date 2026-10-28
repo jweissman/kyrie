@@ -107,6 +107,13 @@ export class PersonParser {
     return when.children.length ? { field: 'roles', value: { role: ModuleParser.ast(text) as string,
       when: ModuleParser.ast(when.children[0]!) as Predicate } } : { field: 'role', value: ModuleParser.ast(text) };
   }
+  // What someone is called while something holds, in place of their name and role: "a woman in a grey shawl" until
+  // she has said who she is, "the masked lady" while the mask is on (the Liberty of the Ice's friction 12; A Winter in
+  // Carth's 5, which wrote the masked Lady as a second person).
+  static PersonKnown(_k: Node, text: Node, when: Node, _dot: Node): Field {
+    return { field: 'roles', value: { role: ModuleParser.ast(text) as string, when: ModuleParser.ast(when) as Predicate,
+      whole: true } };
+  }
   static RoleWhen(_w: Node, p: Node) { return ModuleParser.ast(p); }
   static PersonRace(_r: Node, id: Node, _dot: Node): Field { return { field: 'raceId', value: id.sourceString }; }
   static PersonClass(_c: Node, id: Node, _dot: Node): Field { return { field: 'classId', value: id.sourceString }; }
@@ -173,8 +180,10 @@ export class PersonParser {
     // of a numbered group is ("a cave spider") rather than the group ("a sow bear and her grown cub").
     const each = (p.count ?? 1) > 1 && !/ and |,/.test(p.role ?? '');
     const named = p.role && !each && p.role.toLowerCase() !== p.name.toLowerCase() ? `${p.name}, ${p.role}` : p.name;
+    // What they are called while something holds comes before who they are while something else does.
+    const roles = p.roles?.toSorted((a, b) => Number(!!b.whole) - Number(!!a.whole));
     module.entities.push({ id: p.id, name: named, type: 'group',
-      ...p.roles ? { roles: p.roles.map(r => ({ name: `${p.name}, ${r.role}`, when: r.when })) } : {} });
+      ...roles ? { roles: roles.map(r => ({ name: r.whole ? r.role : `${p.name}, ${r.role}`, when: r.when })) } : {} });
     module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'at', args: [p.id, p.place] } });
     if (peaceable) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'peaceable', args: [p.id] } }); }
     for (const kind of p.wants ?? []) {

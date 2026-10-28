@@ -55,7 +55,7 @@ Kyr {
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonAgain | PersonWords | PersonHaunt
+  PersonPart = PersonRole | PersonKnown | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonAgain | PersonWords | PersonHaunt
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
@@ -70,6 +70,7 @@ Kyr {
   PersonHorizon = "Plans" integer "steps" "."
   PersonPeaceable = "Peaceable" "."
   PersonRole = "Role" string RoleWhen? "."
+  PersonKnown = "Known as" string RoleWhen "."
   RoleWhen = "when" Predicate
   PersonRace = ("Race" | "Ancestry") ident "."
   PersonSpecies = "Species" ident "."

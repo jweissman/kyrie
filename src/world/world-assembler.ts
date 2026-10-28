@@ -106,7 +106,10 @@ export class WorldAssembler {
       { library: [...library, ...heralds], base, region, contacts, context, files, root, modules });
     const told = origin && Origins.write(origin, { region, placements, protagonist: party[0]!.name ?? 'you', root, files });
     if (told) { modules.push(told.request); }
-    else { this.arrival(region, { size: party.length, contacts }, { files, root, modules }); }
+    // One who comes alone is told who at the first inn would come along, whatever brought them (PT-11).
+    if (!told || party.length === 1) {
+      this.arrival(region, { size: party.length, contacts }, { files, root, modules });
+    }
     const path = base.resolve(`${root}.campaign.json`);
     const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
     this.write(region, { files, root, placements, company: { size: party.length, contacts,

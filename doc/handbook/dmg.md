@@ -1154,7 +1154,7 @@ Also kept, without comment: plea, greeting, greeted, petted, warned, yielded, wa
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 19 | 2 | 1 | 16 | 5 |
+| 1 | 21 | 2 | 1 | 17 | 5 |
 
 #### temperament
 
@@ -1179,6 +1179,12 @@ Where it lives and what it defends; where it goes when beaten or frightened off.
 *Kyr · relation(group, entity); relation(group, entity); relation(group, entity)* · `rule:inhabitants.warning`
 
 What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields.
+
+#### withdraw, warnedOff
+
+*Kyr · relation(group, entity); relation(group, group)* · `rule:inhabitants.withdraw`
+
+How it gives ground when it is warned off and has somewhere to go.
 
 #### regreeting
 
@@ -1229,6 +1235,18 @@ Says: "{?p}"
 > When: routed(?g); refuge(?g, ?r); not (at(?g, ?r))
 
 > Then: Assert at(?g, ?r).
+
+#### temper_gives_ground
+
+*Kyr · rule* · `rule:inhabitants.temper_gives_ground`
+
+Warned off, one that has somewhere to go gives ground and goes there (PT-32: a warn-off that came off changed nothing, the robbers staying where they stood with the same choices as before).
+
+Says: "{?w}"
+
+> When: warnedOff(?g, ?c); together(?g, ?c); able(?g); refuge(?g, ?r); not (at(?g, ?r)); withdraw(?g, ?w)
+
+> Then: Assert at(?g, ?r). Retract warnedOff(?g, ?c).
 
 #### temper_rallies
 
@@ -1394,21 +1412,21 @@ Words instead of blows, for a band that can be spoken to and will hear words (on
 
 > Needs: able(actor); company(actor); at(actor, site); at(hearers, site); able(hearers); talks(hearers); temperament(hearers, ?t); hears(?t); not (tolerates(hearers, actor)); not (assails(hearers, actor)); not (routed(hearers)); not (spokenTo(hearers, actor))
 
-> Then: Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor).
+> Then: Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). Assert warnedOff(hearers, actor).
 
 #### pay tribute
 
 *Kyr · action (group, group, place)* · `rule:inhabitants.pay_tribute`
 
-- Shown as: Give {lord} what it asks
+- Shown as: Pay {lord} the price named
 - Takes: 10 minutes
 - Costs: 1
 
-A proud creature's price, paid: it lets the company be.
+A proud creature's price, paid: it lets the company be. Said without a pronoun, which a band and one alike agree with ("Give the footpads what it asks": Hessel friction 8).
 
 A proud creature names a price for letting you pass; paid, it keeps its word.
 
-> Needs: able(actor); company(actor); at(actor, site); at(lord, site); warned(lord, actor); temperament(lord, temper_proud); quantity(actor, gold) >= tribute(lord)
+> Needs: able(actor); company(actor); at(actor, site); at(lord, site); warned(lord, actor); able(lord); temperament(lord, temper_proud); quantity(actor, gold) >= tribute(lord)
 
 > Then: Decrease quantity(actor, gold) by tribute(lord). Increase quantity(lord, gold) by tribute(lord). Assert tolerates(lord, actor). Retract warned(lord, actor).
 
@@ -2024,12 +2042,12 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 *Kyr* · `kit:bounty`
 
-- Fills: victim (raids(?raider, ?victim)); power (raids(?power, ?victim) and power(?power)); chief (chief(?power, ?chief)); band (band(?power, ?band))
+- Fills: victim (raids(?raider, ?victim)); power (raids(?power, ?victim) and power(?power)); chief (chief(?power, ?chief)); band (band(?power, ?band)); lair (holds(?power, ?lair))
 - Draws: patron from bounty_patron by terrain
 - Provides: 1 facts
 - Modules: 2
 
-> A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, and the people the power acts through; who offers the money, and what they want for it, is Deem's to propose.
+> A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, the people the power acts through, and where it holds out (which the offer puts on the company's map); who offers the money, and what they want for it, is Deem's to propose.
 
 #### A raiders' hold
 
@@ -2067,6 +2085,15 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 The worlds that ship with the game.
 
+### A Winter in Carth
+
+*Kyr* · `campaign:a-winter-in-carth`
+
+- Regions and sites: gaunt
+- Kits placed: —
+
+> The march road brings you up out of the snow-fields to a stone cross where the fell road begins: north over Carth Fell, and down across the white Levels to Gaunt, the walled city of the Minster, three days before the Fast. On the step of the Cross a barefoot old man is mending a sandal he does not need, and beside him a beadle sits with his frozen foot in his hat.
+
 ### Gosse's Company
 
 *Kyr* · `campaign:gosses-company`
@@ -2075,6 +2102,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > A company of travelling players is stuck on the green at Wending Cross with its wagon chained to a post, on its way west over the march to the Trial of the Wheel at Pentrice, where three companies play three nights and the best is given a house for ever. You have a little coin and no particular plans.
+
+### The Banns at Hessel
+
+*Kyr* · `campaign:hessel`
+
+- Regions and sites: hessel
+- Kits placed: —
+
+> The south road comes down to the river Lim, and on the far side Hessel goes up its hill in tiers of steam and honey-coloured stone: the spa where the old come to be mended and the young to be married, in the last four days of its Season. You have a little money, no letters of introduction, and nothing to do there but see it.
 
 ### Hold One Season
 
@@ -2120,6 +2156,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > You are in your second year learning the Watch, and Kezu of Cobble Ring is your teacher. Two nights ago she sat up with a room of glass that fell into Haddo's barley, and at dawn she shut her eyes on purpose and let its small door open. Since then she sleeps too much, and lies about her dreams.
+
+### The Liberty of the Ice
+
+*Kyr* · `campaign:the-liberty-of-the-ice`
+
+- Regions and sites: pellam
+- Kits placed: —
+
+> The river Lisk has frozen hard under Pellam Bridge for the first time in thirty-one winters, and the city is holding a Frost Fair on it: a street of booths on the ice, a gin-tent, a printing press, an ox roasting on a hearth of bricks, and a law of its own, cried at noon every day from a mast with a glove on it. Say what you will. Keep what you shake on. The roads are shut by snow. You have twenty coin, no plans, and a face nobody would ever suspect of anything.
 
 ### The Long Man
 

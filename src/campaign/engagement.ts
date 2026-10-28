@@ -1,6 +1,7 @@
 import { ModuleWriter } from '../lang/module-writer';
 import type { Change, Operator } from '../lang/module';
 import type { CampaignEvent } from './campaign-types';
+import type { Moment } from '../model';
 import { CampaignTick, type TickHost } from './campaign-tick';
 
 export interface EngagementHost extends TickHost {
@@ -23,6 +24,15 @@ export class Engagement {
     return world.related('assails').find(r => r.args[1] === player
       && world.test(ModuleWriter.call('able', r.args[0]!)) && world.test(ModuleWriter.call('at', r.args[0]!, here ?? '')))
       ?.args[0];
+  }
+  // The moment the company has before what falls on it closes (PT-10: a five-hit-point mage died before acting, and
+  // most bands fell on a company with no turn to back away): seen as it moves, the company acts first; sprung on it
+  // from hiding, it acts after the first blows; one that warned it first and was not heeded (territorial, defensive,
+  // proud) gives none.
+  static moment(host: TickHost, foe: string): Moment | undefined {
+    const world = host.world, temper = world.relates('temperament') ? world.one('temperament', foe) : undefined;
+    if (temper && world.relates('warnsFirst') && world.test(ModuleWriter.call('warnsFirst', temper))) { return undefined; }
+    return temper === 'temper_ambush' ? 'sprung' : 'seen';
   }
   // Someone who has stopped the company where it is, if anyone: the stop is spent once it has been told.
   static halt(host: TickHost): string | undefined {

@@ -414,14 +414,14 @@ describe("Gosse's Company: the dogs and the weir", () => {
     };
     const named = await at();
     expect(named.page).toMatch(/Two crowns for the stones/);
-    for (const way of ['Ask the weir-rats to let you by', 'Warn the weir-rats off', 'Give the weir-rats what it asks', 'Attack']) {
+    for (const way of ['Ask the weir-rats to let you by', 'Warn the weir-rats off', 'Pay the weir-rats the price named', 'Attack']) {
       expect(named.j.offers(way)).toBe(true);
     }
     await named.play('Tell Nan Scullard the Gullet showed you the stones', 'To Soke Lane');
     expect(named.j.at('party')).toBe(p('soke_lane'));
     const paid = await at();
     const purse = paid.j.measure('quantity', 'party', 'gold');
-    await paid.play('Give the weir-rats what it asks', 'To Soke Lane');
+    await paid.play('Pay the weir-rats the price named', 'To Soke Lane');
     expect(paid.j.measure('quantity', 'party', 'gold')).toBe(purse - 2);
     const ducked = await at();
     await ducked.play('Wait › A while', 'Wait › A while');

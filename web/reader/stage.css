@@ -370,6 +370,7 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .fight .beat p { font: 400 18px/1.5 var(--told); text-align: center; color: var(--grey); }
 .fight .beat p:last-child { color: var(--ink); font-size: 21px; }
 .fight .beat .after { font: 450 16px/1.45 var(--do); color: var(--ink); }
+.fight .beat .moment { font: 450 15px/1.45 var(--do); color: var(--ink); }
 .fight .turn { text-align: center; font: 500 15px var(--do); margin: 18px 0 26px; }
 .fight .turn span { color: var(--grey); font-weight: 400; }
 .fight .moves section { margin: 0 0 16px; }

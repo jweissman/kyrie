@@ -6,6 +6,7 @@ import type { Frame } from '../engine/protocol';
 import type { Travel } from './reader-app';
 import { Words } from './words';
 import { Aims } from './aims';
+import { Hours } from './hours';
 
 export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 // What can be chosen now: the scene (who and what is here, the ways, yourself), or a conversation with one of them, or
@@ -95,7 +96,8 @@ export class MenuModel {
     // The nearest, and the place your aim names, near or far.
     const named = Aims.named(all, screen.objectives[0], this.near);
     const shown = [...all.slice(0, this.near), ...named ? [named] : []], rest = all.length - shown.length;
-    return [...shown.map(d => ({ ...this.journey(d), note: this.by(d) })),
+    return [...shown.map(d => ({ ...this.journey(d), note: [this.by(d), Hours.dark(screen.elapsed, d.minutes)]
+      .filter(Boolean).join(' · ') })),
       ...rest > 0 ? [{ id: 'view:map', label: rest === 1 ? 'One other place you know, on the map'
         : `${Words.upper(Words.many(rest, 'other place'))} you know, on the map`, tone: 'way' as const, command: 'view:map' }] : []];
   }

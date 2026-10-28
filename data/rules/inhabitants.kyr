@@ -17,6 +17,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Relation lair(group, place). Relation refuge(group, place).
   // What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields.
   Relation warning(group, entity). Relation onslaught(group, entity). Relation flinch(group, entity).
+  // How it gives ground when it is warned off and has somewhere to go.
+  Relation withdraw(group, entity). Relation warnedOff(group, group).
   Relation plea(group, entity). Relation greeting(group, entity).
   // What someone says to a company that comes back, in their own words (Greets again).
   Relation regreeting(group, entity).
@@ -36,6 +38,10 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_wary_flinch: fact "{?g} slips away from you.".
   Entity temper_words_wary_onslaught: fact "Cornered, {?g} turns on you.".
   Entity temper_words_proud_warning: fact "{?g} looks at you as if you owed it something.".
+  Entity temper_words_territorial_withdraw: fact "{?g} gives ground, and goes back where it came from.".
+  Entity temper_words_defensive_withdraw: fact "{?g} backs away from you, into its lair.".
+  Entity temper_words_wary_withdraw: fact "{?g} slips away from you.".
+  Entity temper_words_proud_withdraw: fact "{?g} turns its back on you, and stalks off.".
   // The same words for a band of more than one, where they differ.
   Entity temper_words_territorial_warning_many: fact "{?g} stand their ground and watch you. They will not have you here for long.".
   Entity temper_words_territorial_onslaught_many: fact "{?g} come at you.".
@@ -47,11 +53,17 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_wary_flinch_many: fact "{?g} slip away from you.".
   Entity temper_words_wary_onslaught_many: fact "Cornered, {?g} turn on you.".
   Entity temper_words_proud_warning_many: fact "{?g} look at you as if you owed them something.".
+  Entity temper_words_territorial_withdraw_many: fact "{?g} give ground, and go back where they came from.".
+  Entity temper_words_defensive_withdraw_many: fact "{?g} back away from you, into their lair.".
+  Entity temper_words_wary_withdraw_many: fact "{?g} slip away from you.".
+  Entity temper_words_proud_withdraw_many: fact "{?g} turn their backs on you, and stalk off.".
   // And for one who is someone, not something (a robbers' captain): not "it", and no he or she.
   Entity temper_words_territorial_warning_person: fact "{?g} stands and watches you, and will not have you here for long.".
   Entity temper_words_ambush_warning_person: fact "Someone is waiting here, and you see them before they move: {?g}.".
   Entity temper_words_obedient_onslaught_person: fact "{?g} comes at you, as ordered.".
   Entity temper_words_proud_warning_person: fact "{?g} looks you up and down, as if you owed something.".
+  Entity temper_words_territorial_withdraw_person: fact "{?g} gives ground, and goes back the way they came.".
+  Entity temper_words_proud_withdraw_person: fact "{?g} turns their back on you, and stalks off.".
   // The watch it waits until, once it has warned, before it comes at whoever stays: the rest of this one, however
   // many small things are done in it.
   Measure patience(group).
@@ -69,6 +81,12 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     Assert yielded(?g, ?c). Assert tolerates(?g, ?c). Retract assails(?g, ?c).
   }
   Rule temper_falls_back when routed(?g) and refuge(?g, ?r) and not at(?g, ?r) { Assert at(?g, ?r). }
+  // Warned off, one that has somewhere to go gives ground and goes there (PT-32: a warn-off that came off changed
+  // nothing, the robbers staying where they stood with the same choices as before).
+  Rule temper_gives_ground when warnedOff(?g, ?c) and together(?g, ?c) and able(?g) and refuge(?g, ?r)
+    and not at(?g, ?r) and withdraw(?g, ?w) says "{?w}" {
+    Assert at(?g, ?r). Retract warnedOff(?g, ?c).
+  }
   Rule temper_rallies when routed(?g) and refuge(?g, ?r) and at(?g, ?r) and untilLight(clock) == 1 {
     Retract routed(?g).
   }
@@ -159,13 +177,17 @@ Module inhabitants "How creatures that live somewhere answer those who come into
       and temperament(hearers, ?t) and hears(?t) and not tolerates(hearers, actor) and not assails(hearers, actor)
       and not routed(hearers) and not spokenTo(hearers, actor).
     Resolve check(actor, intimidation, dc_hard).
-    On success { Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). }
+    On success {
+      Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor).
+      Assert warnedOff(hearers, actor).
+    }
     On failure { Assert spokenTo(hearers, actor). Assert assails(hearers, actor). }
     Result "You face {hearers} out, and you are given room.".
     Otherwise "You face {hearers} out, and it goes the wrong way.".
   }
   // A proud creature's price, paid: it lets the company be.
-  Action pay_tribute(actor: group, lord: group, site: place) "Give {lord} what it asks" {
+  // Said without a pronoun, which a band and one alike agree with ("Give the footpads what it asks": Hessel friction 8).
+  Action pay_tribute(actor: group, lord: group, site: place) "Pay {lord} the price named" {
     Time 2 minutes.
     Description "A proud creature names a price for letting you pass; paid, it keeps its word.".
     Requires able(actor) and company(actor) and at(actor, site) and at(lord, site) and warned(lord, actor) and able(lord)

@@ -49,6 +49,16 @@ describe('people who fall on the company', () => {
     // The sentry is still at his post, and will challenge them again.
     expect(s.campaign.world.test(ModuleWriter.call('at', 'world__sentry', 'world__gatehouse'))).toBe(true);
   }, 60000);
+  // The sentry is seen as he moves: the company has its moment before he closes, and backs away the way it came for
+  // certain (PT-10, M17-40: a guardian at its post fell on a lone ranger who had no turn to back away from it).
+  it('gives the company a moment before the sentry closes, to get back the way it came', async () => {
+    const s = await Watch.start();
+    let opening: string | undefined;
+    const event = await s.perform('go(world__gate,world__gatehouse)', battle => { opening ??= battle.opening; return Watch.run(battle); });
+    expect(opening).toBe('seen');
+    expect(event.combat.find(e => e.type === 'flee')).toMatchObject({ success: true });
+    expect(Watch.where(s)).toBe('world__lane');
+  }, 60000);
   // A fight that came at the company is not told as one it began: fleeing the wheel-keeper that fell on it in the
   // wheel-room, a fresh play read "You begin to attack the wheel-keeper. The wheel-keeper comes at you!" (play 7).
   it('tells the way the company took, not an attack it never made, when it is fallen on there', async () => {

@@ -84,7 +84,7 @@ describe('inhabitants', () => {
     const c = await Den.load();
     const enter = Den.act(c, l => l.includes('crack in the rock'));
     expect(Den.said(enter).join(' ')).toContain('Ten coin');
-    Den.act(c, l => l.startsWith('Give') && l.includes('drake'));
+    Den.act(c, l => l.startsWith('Pay') && l.includes('drake'));
     expect(Den.holds(c, 'tolerates', 'cave__drake', 'party')).toBe(true);
     const later = Den.act(c, l => l.startsWith('Wait a while'));
     expect(later.combat.length).toBe(0);

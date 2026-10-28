@@ -10,7 +10,7 @@ import { Targeting } from './targeting';
 import { Fighting } from './rules/fighting';
 import { Tactics } from './tactics';
 import type { ArenaAbility } from './lang/parse';
-import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Outcome, Scenario, Team } from './model';
+import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
 
 // Orsino's combat loop (Combat.round and Combat.turn): each round everyone rolls initiative (d20 + DEX modifier +
 // initiative bonus) and every untimed condition ticks down; on its turn a creature's cooldowns tick, a creature with
@@ -33,8 +33,14 @@ export class Battle {
   // acting at random has fallen on doing.
   private actions = 1;
   private impulse?: Command;
+  // A fight that came at the company, seen as it began: the company acts first in the first round, and can get back
+  // the way it came for certain (PT-10). Rounds begun, and how often the company has tried to run and been held.
+  private readonly moment?: Moment;
+  private rounds = 0;
+  private held = 0;
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
+    this.moment = scenario.moment;
     this.fighters = structuredClone(scenario.combatants);
     // The catalog's abilities are never changed, so a fight over them reads them as they are; others are copied.
     this.abilities = scenario.abilities === Content.abilities ? Content.abilities : structuredClone(scenario.abilities);
@@ -67,7 +73,7 @@ export class Battle {
   private static holding(id: string) { return { id, remaining: 1, clock: 'until-removed' as const, source: Battle.held }; }
   static encounter(store: CreatureStore, participants: Pick<EncounterParticipant, 'creatureId' | 'team'>[],
     options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string; laws?: string[];
-      weary?: string[]; ready?: string[] }):
+      weary?: string[]; ready?: string[]; moment?: Moment }):
     Battle {
     const lease = store.acquire(participants.map(p => p.creatureId));
     try {
@@ -83,8 +89,8 @@ export class Battle {
         return { ...f, statuses: [...f.statuses, ...fresh],
           ...options.environment ? { environment: options.environment } : {} };
       });
-      return new Battle({ id: 'encounter', combatants, abilities: options.abilities ?? Content.abilities },
-        options.seed, options.maxTurns ?? 500, lease);
+      return new Battle({ id: 'encounter', combatants, abilities: options.abilities ?? Content.abilities,
+        ...options.moment ? { moment: options.moment } : {} }, options.seed, options.maxTurns ?? 500, lease);
     } catch (error) { lease.release(); throw error; }
   }
   get participants(): EncounterParticipant[] {
@@ -236,6 +242,7 @@ export class Battle {
     const context = this.context(actor);
     if (actor.abilitySources?.[ability.id]) { context.source = actor.abilitySources[ability.id]; }
     AbilityUse.perform(ability, command.target, this.expressions, context);
+    if (actor.team === 'fighters' && ability.effects.some(e => e.kind === 'flee') && !context.retreat) { this.held++; }
     // One foe of several getting away leaves the fight alone, and the rest fight on; the last, or the company, ends
     // it (one wolf of three fleeing ended the fight, and counted as a win over all three: the review's A15).
     if (context.retreat && !context.location && actor.team !== 'fighters' && this.others(actor)) {
@@ -254,8 +261,13 @@ export class Battle {
     this.commit();
     return structuredClone(this.history.slice(start));
   }
+  // The moment before a fight that came at the company closes, its first round: seen, or sprung on it.
+  get opening(): Moment | undefined { return this.rounds === 1 ? this.moment : undefined; }
+  // The company's chance of getting away if it runs now: sure in the moment, an even chance, then surer each time.
+  flight(): number { return this.opening ? 1 : [0.5, 0.75][this.held] ?? 1; }
   private context(actor?: Fighter): EffectContext {
-    return { ...actor ? { actor } : {}, fighters: this.fighters, turn: this.turn, events: this.history,
+    return { ...actor ? { actor } : {}, ...actor?.team === 'fighters' ? { sure: !!this.opening, tries: this.held } : {},
+      fighters: this.fighters, turn: this.turn, events: this.history,
       content: this.content, abilities: this.abilities.map(a => a.id), retreat: false, location: null,
       expressions: this.expressions, hook: AbilityUse.hooks.bind(AbilityUse),
       lapse: AbilityUse.lapse.bind(AbilityUse) };
@@ -268,6 +280,7 @@ export class Battle {
   // Combat.round: initiative for every living creature, then every untimed condition ticks down and expires at zero.
   private round() {
     this.rout();
+    this.rounds++;
     const living = this.fighters.filter(f => f.hp > 0);
     const rolls = living.map(f => {
       const m = Effects.modifiers(f);
@@ -275,6 +288,11 @@ export class Battle {
         + Fighting.statMod(Effects.scores(f).dexterity) + (m.initiative ?? 0) };
     });
     rolls.sort((a, b) => b.roll - a.roll);
+    // In the moment, the side that saw the other first goes first, each in the order it rolled.
+    if (this.opening) {
+      const ours = this.moment === 'seen' ? 1 : -1;
+      rolls.sort((a, b) => (this.first(b.id) - this.first(a.id)) * ours);
+    }
     this.order = rolls.map(r => r.id);
     this.cursor = 0;
     this.history.push({ type: 'initiative', turn: this.turn, order: rolls });
@@ -284,6 +302,7 @@ export class Battle {
     }
     this.declare();
   }
+  private first(id: string): number { return Number(this.fighters.find(f => f.id === id)?.team === 'fighters'); }
   // Combat.round: a foe that has turned to flight leaves before anyone rolls, and what it summoned goes with it.
   private rout() {
     for (const f of this.fighters.filter(x => x.hp > 0 && x.team !== 'fighters' && Effects.modifiers(x).flee)) {

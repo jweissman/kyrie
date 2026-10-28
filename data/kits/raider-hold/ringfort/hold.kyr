@@ -45,6 +45,12 @@ Module ringfort "A ring-fort" {
   Thing heap "a heap of plunder" at pit {
     Holds.
   }
+  // The draught the pit speaks of is a thing to look at, not only a place to search (PT-08).
+  Thing draught "the draught from the far wall" at pit {
+    Tries looking.
+    State still "A draught comes down the low passage in the far wall, smelling of gorse.".
+  }
+  Observe draught_found near draught when tried(draught, looking) "The draught comes from a souterrain, a stone-lined crawl going off under the bank." teaches backway_known.
   Discovery backway_known "A passage leaves the ring-fort's store-pit and comes out in a hole among the gorse below the ring." {
     Found by searching pit "The draught comes from a souterrain, a stone-lined crawl going off under the bank.".
     Found by searching outside with woodcraft "Among the gorse below the ring, a hole worn smooth at the lip, and the smell of smoke coming out of it.".

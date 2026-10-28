@@ -28,6 +28,9 @@ export interface EffectContext {
   free?: boolean;
   // Runs a lapsing condition's effects (set by the battle, which knows how to resolve them).
   lapse?: (holder: Fighter, effects: Effect[], context: EffectContext) => void;
+  // How the company would fare running now (set by the battle): sure, in the moment before a fight that came at it
+  // closes; and how many times it has tried and been held, each surer than the last.
+  sure?: boolean; tries?: number;
 }
 const ATTRIBUTES: Attribute[] = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
 export class Effects {
@@ -290,9 +293,13 @@ export class Effects {
     const actor = context.actor;
     switch (effect.kind) {
       case 'defend': case 'attack': throw new Error(`${effect.kind} is resolved by AbilityUse`);
-      // Orsino's Flee: an even chance to get away; a failed attempt costs the turn.
+      // Orsino's Flee: an even chance to get away; a failed attempt costs the turn. Kyr's company gives ground with
+      // each try that fails (three in four the second time, sure the third), and gets away for certain in the moment
+      // before a fight that came at it closes: flight failed again and again (PT-24), and a fragile company was killed
+      // by what it had no turn to back away from (PT-10).
       case 'flee': {
-        const away = !context.expressions || context.expressions.number('1d2') === 1;
+        const tries = context.tries ?? 0, dice = !context.sure && tries < 2 ? context.expressions : undefined;
+        const away = !dice || (tries ? dice.number('1d4') <= 3 : dice.number('1d2') === 1);
         context.retreat = away;
         context.events.push({ type: 'flee', turn: context.turn, actor: Effects.sourceId(context), success: away });
         break;

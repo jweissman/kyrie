@@ -231,10 +231,13 @@ export class ScreenModel {
   // What gives the company light: a flame, or a light conjured (the cold playtest read "Nothing lit" under its Light).
   static readonly burning: Record<string, string> = { torchlit: 'torch', lamplit: 'lantern', candlelit: 'candle',
     lit: 'conjured light' };
-  // How long the company's light will last, where that matters: somewhere unlit, or while something burns.
+  // How long the company's light will last, where that matters: somewhere unlit, or while something burns. A flame of
+  // its own is put out where it is not wanted, and keeps what is left of it (FieldUse.advance): a torch said to have
+  // "10 minutes left" in daylight, and after a night's sleep, read as burning on (play 7).
   private static light(view: PlayerSnapshot, items: ItemRow[], unlit: boolean): { light?: string } {
     const lit = view.party.flatMap(m => m.conditions.filter(c => this.burning[c]).map(c => `${m.name}'s ${this.burning[c]}`
-      + `${m.lasting?.[c] ? `, ${FictionalTime.spoken(m.lasting[c])} left` : ''}`));
+      + `${c !== 'lit' && !unlit ? ', put out' : ''}${m.lasting?.[c] ? `${c !== 'lit' && !unlit ? ' with' : ','} `
+        + `${FictionalTime.spoken(m.lasting[c])} left` : ''}`));
     if (!lit.length && !unlit) { return {}; }
     const spare = ([[this.count(items, 'torch'), 'torch', 'torches'], [this.count(items, 'candle'), 'candle', 'candles'],
       [this.count(items, 'lamp_oil'), 'flask of oil', 'flasks of oil']] as [number, string, string][])

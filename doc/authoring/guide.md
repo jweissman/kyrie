@@ -199,11 +199,22 @@ The words are:
 A creature given no words is told in plain ones: "A grey wolf stands its ground and watches you. It will not have
 you here for long."
 
-Only a creature that warns leaves the company a turn for anything but a fight: a savage one is on it before anything is
-offered. A danger with ways round it (a weight held out, a quiet slip along the pool) is territorial or defensive, with
-a `Warns` in its own manner that says what the ways round are (What Tessary Owes' Forsworn, W14). Each thing done while
+Only a creature that warns leaves the company a turn for anything but a fight. One that falls on the company without
+warning (savage, obedient at its post, wary when cornered, or a person a module sets on it) is seen as it moves: in the
+fight's first round the company acts first, and can get back the way it came for certain; the page says how it
+reckons the fight. One that lay in wait (an ambush) gives no such moment, and nor does one that warned and was not
+heeded. Running at any other time is an even chance, surer each time it is tried and fails: three in four the second
+time, sure the third.
+
+A danger with ways round it (a weight held out, a quiet slip along the pool) is territorial or defensive, with a
+`Warns` in its own manner that says what the ways round are (What Tessary Owes' Forsworn, W14). Each thing done while
 warned spends its patience, so the warning should name its price and the alternative (Bettany Slake's "Five coin for
-the use of it, or back up the street the way you came", W22).
+the use of it, or back up the street the way you came", W22). Warned off, one with a `Refuge` gives ground and goes
+there, in the plain words of its temperament unless it has words of its own.
+
+Someone can be called something else until they are known, or while something holds: `Known as "a woman in a grey
+shawl" when not knows(party, her_name).` Until it is false the page calls them that, in place of their name and role
+(a mask, a hood, a face not yet put to a name).
 
 ## 4. Things with states
 

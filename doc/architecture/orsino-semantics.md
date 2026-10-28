@@ -137,6 +137,7 @@ summoning bonus) and Warlord's Presence (its trait statuses).
 | `resurrect` | a fallen ally back with `hpPercent` and `applyTraits` | the same | Faithful |
 | `kill` | the target falls; the declared save is never rolled | the declared save is rolled, as a debuff's | Adapted |
 | `flee` (on another) | save or flee; a fleeing foe leaves at the next round | the same; it leaves alive, with what it summoned | Faithful |
+| Flee (the company's) | an even chance each time (`Math.random() < 0.5`); a failed attempt costs the turn | an even chance the first time, three in four the second, sure the third; and sure in the first round of a fight that fell on the company unwarned and was seen, in which the company acts first | Adapted (Mission 17, PT-10, PT-24): flight failed again and again, and a lone company was killed by what it had no turn to back away from (`the-moment.test.ts`, `engagement.test.ts`) |
 | Reactions | `onEnemy<Ability>`, `onEnemy<EffectType>`, casting reactions, `onExpire`, `onHeal`, `onCombatStart` | the same keys, run before the provoking effect lands; a reaction sets off no other | Faithful (`reactions.test.ts`) |
 | Electric damage | dealt by content, resisted by no rule | a damage kind resisted only by resistance to all | Faithful |
 

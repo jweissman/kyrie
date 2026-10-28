@@ -83,7 +83,9 @@ export interface Observation {
   by?: string;
 }
 export interface Objective { id: string; when: Predicate; text: string }
-export interface Person { role?: string; roles?: { role: string; when: Predicate }[]; id: string; name: string;
+// A role while something holds; whole, what they are called instead of their name and role ("Known as").
+export interface Person { role?: string; roles?: { role: string; when: Predicate; whole?: boolean }[];
+  id: string; name: string;
   place: string; raceId?: string; classId?: string;
   level: number; actions: string[]; horizon?: number;
   // creature: constraints for the Deem creature generator; count: how many creatures the group has (default 1);

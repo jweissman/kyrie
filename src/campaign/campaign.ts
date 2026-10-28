@@ -79,8 +79,7 @@ export class Campaign implements WatchHost {
     // The clock reads the hour from the start: how long until dark, until first light, until the day turns.
     this.commit(this.world.apply(CampaignTick.clock(this.world, this.current)));
     CreatureFacts.initialize(this.world, this.definition.actors, this.creatures);
-    this.refresh(); this.observe();
-    this.updateOutcome();
+    this.refresh(); this.observe(); this.updateOutcome();
   }
   // Loading is deterministic in (source, path, seed, party), so later loads fork the first, with its own kinds.
   private static loads = new LoadCache<Campaign>();
@@ -208,7 +207,7 @@ export class Campaign implements WatchHost {
     return this.grounding.offered(this.world, this.definition?.actors.find(a => a.player), this.operators);
   }
   plan(moduleId?: string) { return CampaignPlan.plan(this, moduleId); }
-  encounterBattle(actionId: string): Battle {
+  encounterBattle(actionId: string, assault = false): Battle {
     const action = this.operator(actionId);
     if (action?.resolve?.name !== 'combat') { throw new Error('Action does not resolve a combat encounter'); }
     const seed = this.randomSeed(action, 'combat'), group = action.resolve.args[0]!;
@@ -216,7 +215,8 @@ export class Campaign implements WatchHost {
     const members = attacker?.members ?? this.current.partyIds, foes = this.current.inhabitants[group]!;
     return Battle.encounter(this.creatures, [...members.map(creatureId => ({ creatureId, team: 'fighters' as const })),
       ...foes.map(creatureId => ({ creatureId, team: 'goblins' as const }))],
-    { seed, ...Environment.encounter(this.world, this.playerActor, members, group) });
+    { seed, ...Environment.encounter(this.world, this.playerActor, members, group),
+      ...assault ? { moment: Engagement.moment(this, group) } : {} });
   }
 
   private action(id: string): Operator {
@@ -233,7 +233,7 @@ export class Campaign implements WatchHost {
       if (battle) { play(battle); }
       const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
       if (!assault) { return structuredClone(this.log.at(-1) ?? event); }
-      battle = this.encounterBattle(assault.id); play(battle);
+      battle = this.encounterBattle(assault.id, true); play(battle);
       const fight = this.complete(assault, this.checkpoint(), battle);
       return Engagement.after(this, event, fight, assault.bindings!.opponent!);
     } catch (error) { this.rollback(battle, checkpoint); throw error; }
@@ -248,7 +248,7 @@ export class Campaign implements WatchHost {
       if (battle) { await play(battle); }
       const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
       if (!assault) { return structuredClone(this.log.at(-1) ?? event); }
-      battle = this.encounterBattle(assault.id); await play(battle);
+      battle = this.encounterBattle(assault.id, true); await play(battle);
       const fight = this.complete(assault, this.checkpoint(), battle);
       return Engagement.after(this, event, fight, assault.bindings!.opponent!);
     } catch (error) { this.rollback(battle, checkpoint); throw error; }

@@ -35,7 +35,11 @@ export interface Fighter {
   // A big blow this creature is winding up, to land on its next turn unless it is interrupted.
   windup?: Command;
 }
-export interface Scenario { id: string; combatants: Fighter[]; abilities: ArenaAbility[] }
+// A fight that came at the company gives it a moment before it closes, in which it can get back the way it came for
+// certain (PT-10): seen as it began, the company acts first; sprung on it from hiding, the other side does, and the
+// company's turn after is its moment.
+export type Moment = 'seen' | 'sprung';
+export interface Scenario { id: string; combatants: Fighter[]; abilities: ArenaAbility[]; moment?: Moment }
 export interface Command { actor: string; ability: string; target: string }
 export type Outcome = Team | 'draw' | 'escaped';
 export type CombatEvent = (

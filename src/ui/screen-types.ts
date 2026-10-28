@@ -168,7 +168,12 @@ export interface CombatScreen {
     // How much good it would do now, as the game's own tactics weigh it: the best of its uses.
     rank?: number;
     // Each target, with how it takes the ability's damage, and for a blow, the chance it lands.
-    targets: { id: string; name: string; against?: string; odds?: number }[] }[];
+    targets: { id: string; name: string; against?: string; odds?: number }[];
+    // For running, the chance of getting away now.
+    odds?: number }[];
+  // The moment before a fight that came at the company closes: it acts first, and can get back the way it came; and
+  // how the company reckons the fight from there ("It is more than you can take.").
+  moment?: 'seen' | 'sprung'; reckoned?: string;
   // Who is still to act this round, in order, the one acting first.
   order: string[];
   // The laws of the place the fight is fought in, held by everyone in it.

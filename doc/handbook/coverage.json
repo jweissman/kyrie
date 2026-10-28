@@ -997,7 +997,7 @@
     "faithful": 219,
     "adapted": 25,
     "represented": 50,
-    "kyr": 217,
+    "kyr": 222,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 202,
+      "kyr": 204,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 11,
+      "kyr": 14,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -11226,6 +11226,13 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:inhabitants.withdraw",
+   "title": "withdraw, warnedOff",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:inhabitants.regreeting",
    "title": "regreeting",
    "status": "kyr",
@@ -11263,6 +11270,13 @@
   {
    "id": "rule:inhabitants.temper_falls_back",
    "title": "temper_falls_back",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_gives_ground",
+   "title": "temper_gives_ground",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"
@@ -11849,8 +11863,22 @@
    "section": "making-worlds/frameworks"
   },
   {
+   "id": "campaign:a-winter-in-carth",
+   "title": "A Winter in Carth",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:gosses-company",
    "title": "Gosse's Company",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:hessel",
+   "title": "The Banns at Hessel",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
@@ -11886,6 +11914,13 @@
   {
    "id": "campaign:the-house-that-grows",
    "title": "The House That Grows",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:the-liberty-of-the-ice",
+   "title": "The Liberty of the Ice",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

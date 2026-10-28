@@ -29,6 +29,10 @@ export class FightStage {
             took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} />)}</ul>
           <div className="beat" aria-live="polite">{log ? <FightLog.Memo exchanges={combat.exchanges} /> : <>
             {first && frame.opening.filter(Boolean).map((l, i) => <p key={`o${i}`} className="began">{Typography.curl(l)}</p>)}
+            {combat.moment && <p className="moment">{Typography.curl([combat.reckoned ?? '', combat.moment === 'seen'
+              ? 'It has not reached you yet: there is still time to get back the way you came.'
+              : 'It is on you, but not yet round you: there is still time to get back the way you came.']
+              .filter(Boolean).join(' '))}</p>}
             {recent.map(e => <p key={e.n} className="what" title={e.detail}>{Typography.curl(e.text)}</p>)}
             {after.map(l => <p key={l} className="after">{Typography.curl(l)}</p>)}
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}

@@ -30,7 +30,13 @@ Module cave_hold "A cave hold" {
   Observe cache_scene at cache when true "A dry side-cave stacked with plunder.".
   Observe crack_scene at crack when true "A cleft in the rock that looks straight down on the road below.".
   Observe hillside_scene at hillside when true "The open hillside above the cave. Smoke comes out of a hole among the rocks.".
-  Observe chimney_hint at cavern when not knows(party, backway_known) "The smoke goes up the hole in the roof as if it had somewhere to go.".
+  // The smoke-hole the cavern speaks of is a thing to look at, not only a place to search (PT-08: the drover's ruts,
+  // and the holds' smoke-hole and draught, were found only by searching).
+  Thing smoke_hole "the smoke-hole in the roof" at cavern {
+    Tries looking.
+    State still "The smoke goes up the hole in the roof as if it had somewhere to go.".
+  }
+  Observe smoke_hole_up near smoke_hole when tried(smoke_hole, looking) "Up the smoke-hole there is daylight, and a crack worn by hands and feet: a chimney, and someone climbs it." teaches backway_known.
 
   Thing chest "a chest on the ledge" at ledge {
     Holds.

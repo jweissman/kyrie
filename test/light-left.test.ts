@@ -9,7 +9,8 @@ import type { Change } from '../src/lang/module';
 
 // How long the light will last, where it matters. Found by an independent review of the deployed game: the only
 // torch went out in the middle of a search, and nothing on the page had said how long it had, nor that there was no
-// other. Somewhere unlit, or while a light burns, the company's light is told under the company.
+// other. Somewhere unlit, or while a light burns, the company's light is told under the company; a flame of its own
+// out where it is not wanted, as put out.
 describe('the company\'s light', () => {
   it('is told somewhere unlit: what burns, how long it has, and what there is to spare', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
@@ -24,5 +25,11 @@ describe('the company\'s light', () => {
     await s.perform(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
     expect(ScreenModel.build(s.campaign).expedition.light)
       .toMatch(/^Wenna's torch, (an hour|\d+ minutes) left · nothing to spare$/);
+    // Out in the day the torch is put out, and keeps what is left of it: said as burning, it read as burning on
+    // (play 7).
+    c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', 'region__w8_barrow_chamber') },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w8') }]));
+    expect(ScreenModel.build(s.campaign).expedition.light)
+      .toMatch(/^Wenna's torch, put out with (an hour|\d+ minutes) left · nothing to spare$/);
   }, 60000);
 });

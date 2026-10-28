@@ -283,8 +283,10 @@ export class ChoiceList {
     const tone: Tone = a.spell ? 'spell' : 'ability';
     // A levelled spell says how many castings are ready; a cantrip, that it is free.
     const cost = a.spell && a.spell.level > 0 ? `${a.spell.ready} ready` : a.price;
-    // Withdrawing is the whole company's: it ends the fight for everyone. An ability on oneself needs no note.
-    const scope = a.id === 'flee' ? 'ends the fight for all' : a.targets.length ? ''
+    // Withdrawing is the whole company's: it ends the fight for everyone, and says how likely it is to come off (sure
+    // in the moment a fight that came at the company begins). An ability on oneself needs no note.
+    const scope = a.id === 'flee' ? `${a.odds === undefined ? '' : a.odds >= 1 ? 'sure, now · '
+      : `${this.odds(a.odds)} · `}ends the fight for all` : a.targets.length ? ''
       : ({ party: 'the whole company', allies: 'every ally', enemies: 'every foe', all: 'everyone' } as Record<string, string>)[a.scope] ?? '';
     const note = [cost, scope].filter(Boolean).join(' · ');
     const base = { id: `ability:${a.id}`, label: a.name, tone, about: a.text, ...(note ? { note } : {}) };
