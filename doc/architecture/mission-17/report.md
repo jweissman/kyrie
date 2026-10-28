@@ -7,21 +7,21 @@ meets first, then the interface on a tablet, then a satisfying local adventure, 
 those need, and the studio last. This report says where that stands. The running record is the
 [register](register.md); the plays it rests on are in [play](play/).
 
-Three plays rest under this report: I played it as you would (play 8, a bard with a debt, at tablet size by touch, on
+Four plays rest under this report: I played it as you would (play 8, a bard with a debt, at tablet size by touch, on
 0a19de2); an evaluator who had read nothing of the game played it for about 125 taps on bdc87ba
-([its report](play/cold-evaluation.md)); and I played a fresh game again on the final build (play 9,
-[its notes](play/play-9.md)). What each found was fixed where it was the game's fault, and is in the register under its
-name.
+([its report](play/cold-evaluation.md)); and I played two fresh games on the final builds, a cleric with feverwort
+([play 9](play/play-9.md)) and a mage coming home ([play 10](play/play-10.md)). What each found was fixed where it was
+the game's fault, and is in the register under its name.
 
 ## In short
 
 | | Stands |
 |---|---|
-| Thirty minutes | Nearly. Play 9, a fresh game at tablet size by touch, held me for its forty taps: two errands seen through (one by talking a quarrel round rather than fighting it), a level gained, a fight won, a trap that nearly killed. What still breaks it is small and frequent: a control that does nothing, a stale aim, a sentence that slips (all fixed after the play), and a trap with no answer for a company without a pole |
+| Thirty minutes | Nearly. Play 9, a fresh game at tablet size by touch, held me for its forty taps: two errands seen through (one by talking a quarrel round rather than fighting it), a level gained, a fight won, a trap that nearly killed. What still breaks it is small and frequent: a control that does nothing, a stale aim, a sentence that slips (all fixed after the play), and a trap with no answer for a company without a pole. Play 10, a mage coming home, had the best thread the game has (a brother's word about a wheel, the cart in the ditch, a burial by the road, "The dog knew"), and the family told wrong at every turn, all fixed after it |
 | Feels like a game | Partly. "It feels like an RPG when people talk and when the dice bite … in between, which is most of the taps, it feels like browsing" (the cold evaluation). The conversation page, the moment before a fight, a level gained and a thing seen through are a game's. A place was a page of rows and a fight a form when the evaluator played; since, a place is a scene with its ways at the foot of the screen and a fight a field (a942a22), which you have not yet seen on a tablet |
 | The interface | Rebuilt as a game after your interim report: no bar across the top, a book in the corner, creation as cards, a place as a spread, a conversation at the foot of its painting, travel to a chosen place without junction-by-junction choice, the destination held on every page. Held to the screen at 1440, 820 and 390 |
 | The local adventure | Generated countries hold a town's people, a hire at the inn, a ruin or two, a lone tower, a toll, a band, a widow's price and what goes on in the towns; the unquiet tower can now be talked through as well as fought. The dense shared region of authored adventures (V) is not built: they are still separate countries |
-| The register | Of the 105 inherited, 37 fixed, 40 partial, 27 open, 1 not reproduced (none were fixed at the start); of 88 found in this mission, 72 fixed; of 70 from the adventures' authors, 50 fixed (section 4) |
+| The register | Of the 105 inherited, 37 fixed, 40 partial, 27 open, 1 not reproduced (none were fixed at the start); of 101 found in this mission, 83 fixed; of 70 from the adventures' authors, 50 fixed (section 4) |
 | Authoring | The studio of 69cffd9 (`kyrie new`, play a scene or a person, traces kept as tests, `inspect`, `verify`); the authors' friction answered where it was the engine's. Not extended after your interim report, as it asked |
 
 ## 1. What thirty minutes is like now
@@ -49,6 +49,17 @@ mother and sister of one name, the mother painted cutting a fish; "I've lost 1 t
 "spiders's bite", "Night, sunny"; a way down "by the light you carry" with nothing lit. What is not fixed: the tower
 wanted rope, climbing, lockwork or brawn, and a trap in the mine had no answer for this company but a pole it did not
 have.
+
+Play 10 began again from nothing: a human mage coming home to Merinael, where her father, a drover, had gone out with
+the cart and not come back. Her brother on a rail with their father's spear joined at once, and told her the left wheel
+had been out of true all spring; at the ford he stopped where the ruts went off the road: "That is the left wheel.
+That is his." The cart was in the ditch and their father under it. I buried him by the road and took his knife from
+the cairn; at home their mother said "I knew. The dog knew", and of the knife, "Keep it. He would want it used, not
+hung on a wall." That is the game at its best, and every beat answered what I had done. What broke it was the family
+itself: the brother of another people than his sister, an old man in a window and then a young shepherd; the mother
+younger than her daughter, greeted in the brother's words, and called by her full name in the telling; "went out on
+the ford"; and once the thread was done, nothing to do, though the brother had the next one in him if asked. Nearly
+all of it is fixed (the brother now says it unasked); the choices still call her by her name.
 
 ### What pulls a player on
 
@@ -171,7 +182,7 @@ what follows, and what they carry is under one choice.
 |---|---|---|---|---|---|
 | Inherited, at the start | 0 | 42 | 63 | 0 | 105 |
 | Inherited, now | 37 | 40 | 27 | 1 | 105 |
-| New in Mission 17 | 72 | 10 | 6 | 0 | 88 |
+| New in Mission 17 | 83 | 13 | 5 | 0 | 101 |
 | From the adventures (the Liberty of the Ice, the Banns at Hessel, A Winter in Carth) | 50 | 5 | 15 | 0 | 70 |
 
 Each row is in the [register](register.md) with its evidence: the commit, the test, and what remains. A row is fixed
@@ -184,7 +195,8 @@ cutting a fish, a stale aim gone, the voice's small slips (numerals, pronouns, a
 authors had worked round by hand: things given and spent, an area asked about, followers who keep up, a fight's
 consequences after its blows, a warning's wait shown, bailiffs who seize, a campaign's own night, a companion's word at
 a place, a debt paid to nothing, waits by the clock, names checked by the lint, and the guide's answers to what they
-learned by reading the engine.
+learned by reading the engine. After the report's first draft: a hurt companion tended from the place, a greeting as
+someone is now, spells prepared on the caster's page, and play 10's family.
 
 **What remains, and why.** Of the inherited rows still open, most are the engine's contracts (combat with exactly two
 teams and its constants in code, identity carried in id strings, a companion's lifecycle, presentation inside the
@@ -192,8 +204,8 @@ authority boundary) and the authoring language's larger constructs (a topic that
 remembers its agent, creatures that guard a way, people on their own errands, senses beyond sight, a promise); your
 interim report put these behind the game itself, and I kept them there. The rest are the world's breadth: dense
 authored content near the start (NAR-01, NAV-01, NAV-10), which is the shared region not yet built. The partial rows
-say in each what is left. Of this mission's own, the open ones are the portrait audit, tending from the place, and the
-owner's look at the page on a tablet.
+say in each what is left. Of this mission's own, the open ones are two fords of one river, the asks doubled for a site,
+the portrait audit, and your look at the page on a tablet.
 
 ## 5. Measurements
 
@@ -215,7 +227,7 @@ owner's look at the page on a tablet.
 - **Faces** (six countries' towns, every room by day): 36% to 69% of the people met have a painting (M17-23).
 - **Speed**: a command once a second country is drawn, about 152 ms (it had been a second: COR-22); a long journey of
   What Tessary Owes, 25 ms a command (it had been 40: M17-01); a city of many rooms, 31 (85: M17-02).
-- **The gates**: 1,466 tests at b10fe59, 50 of which run only when asked for (the 24 browser specs, the long descents,
+- **The gates**: 1,480 tests at 49a7d3a, 54 of which run only when asked for (the 26 browser specs, the long descents,
   the pinned Orsino registry); the suite about fourteen minutes on sixteen workers, the browser specs two and a half.
 
 ## 6. What I would do next, in order
@@ -226,8 +238,8 @@ owner's look at the page on a tablet.
    and heard there, not only by rumour.
 3. **Danger with an answer for every company**: a first ruin's traps scaled to the company that comes, and an answer to
    each trap for each calling (M17-56); a lone mage or thief who can live through the big ruin (PT-11).
-4. **Tending and talk where they are needed**: a hurt companion tended from the place itself, and a greeting chosen by
-   the scene as well as the manner (M17-88).
+4. **The names the country gives**: twin sites told apart in a few words, not twelve (M17-99), fords of one river told
+   apart (M17-100), and a family's given names kept apart from the hired hands' (M17-94).
 5. **The engine contracts still open** (combat's two teams and constants, identity in id strings, a companion's
    lifecycle: ARV-A23, L2, M5, M7) and the authoring rows the adventures still work round (a topic that takes an
    answer, a change that remembers its agent, creatures that guard a way, people on their own errands, senses beyond
