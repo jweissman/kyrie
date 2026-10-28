@@ -15,10 +15,13 @@ import { ActionFeedbackView } from '../presentation/action-feedback';
 // A choice the page offers, as an author names it in a step: its label ("Examine › Push and pull at it", "Pack › A
 // torch › Light", "a torch: Light"), and the same under the heading it is offered beneath ("the Sleeper's left
 // eyelid: Examine › Push and pull at it"), so that two things' alike choices can be told apart by name.
-export interface Offered { label: string; full: string; command: string }
+// A choice that cannot be undone says so (grave): the page asks before it does it, and a journey says it was asked.
+export interface Offered { label: string; full: string; command: string; grave?: string }
 // One step taken: what was asked, the choice it took, what came back (the event's perceptions and response), and
 // what the page told of it (the narrator's lines). JOURNEY_TRACE=1 prints each step as the page told it.
-export interface Taken { label: string; command: string; told: string; page: string; event: CampaignEvent }
+export interface Taken {
+  label: string; command: string; told: string; page: string; event: CampaignEvent; grave?: string;
+}
 
 // A game played by the labels a player sees, as every adventure's journeys are (Thrume, The House That Grows, The
 // Road the Star Came Down, The Patient Star each wrote one of these before it was shipped). A step is a pattern for
@@ -61,7 +64,16 @@ export class Journey {
   }
   find(pattern: string): Offered | undefined {
     const re = new RegExp(pattern, 'i'), all = this.choices();
-    return all.find(c => re.test(c.label)) ?? all.find(c => re.test(c.full));
+    return all.find(c => re.test(c.label)) ?? all.find(c => re.test(c.full)) ?? Journey.named(pattern, all);
+  }
+  // "register: Take" for "the register of names: Take": a thing called by part of its name, then what is done with it
+  // (a step had to quote an item's whole name: Liberty of the Ice friction 19).
+  private static named(pattern: string, all: Offered[]): Offered | undefined {
+    const at = pattern.indexOf(': ');
+    if (at < 1) { return undefined; }
+    const thing = new RegExp(pattern.slice(0, at), 'i'), act = new RegExp(`^${pattern.slice(at + 2)}`, 'i');
+    return all.find(c => [c.label, c.full].some(l => [...l.matchAll(/: /g)]
+      .some(m => thing.test(l.slice(0, m.index)) && act.test(l.slice(m.index + 2)))));
   }
   offers(pattern: string): boolean { return !!this.find(pattern); }
   // What the steps told, each step's perceptions and response after a space (as the journeys' own drivers said it).
@@ -82,10 +94,11 @@ export class Journey {
     const optional = step.startsWith('?'), c = this.find(optional ? step.slice(1) : step);
     if (!c && optional) { return ''; }
     if (!c) { throw new Error(`No /${step}/ at watch ${this.watch()} among ${this.choices().map(x => x.label).join(' | ')}`); }
-    return this.perform(c.command, c.label);
+    return this.perform(c.command, c.label, c.grave);
   }
-  // Performs a command, and keeps what came back and what the page told of it.
-  async perform(command: string, label = command): Promise<string> {
+  // Performs a command, and keeps what came back and what the page told of it (and, for one that cannot be undone,
+  // what the page asked before it: never tested, it executed on its first choice, Hessel friction 7).
+  async perform(command: string, label = command, grave?: string): Promise<string> {
     const before = PlayerView.observe(this.campaign);
     const event = await this.session.perform(command);
     const moved = before.location?.id !== this.at(this.campaign.playerActor ?? 'party');
@@ -95,7 +108,7 @@ export class Journey {
     // What the page says: the way there, the exchange, the place if the company moved, what has changed.
     const page = [...(leaf.journey ?? []), ...(leaf.exchange?.lines ?? []).map(l => l.text),
       ...(moved ? [...leaf.situation, ...leaf.presence] : []), ...leaf.changed].join(' ');
-    this.taken.push({ label, command, told, page, event });
+    this.taken.push({ label, command, told, page, event, ...grave ? { grave } : {} });
     if (process.env.JOURNEY_TRACE) { console.log(`[${label}] ${page}`); }
     return told;
   }
@@ -115,9 +128,11 @@ export class Journey {
     return this.campaign.world.number(ModuleWriter.call(name, ...args));
   }
   at(who: string): string | undefined { return this.campaign.world.one('at', who); }
+  // Waits on to a watch, or until the book closes (an ending reached on the way: waiting past it threw, Hessel friction
+  // 15).
   private async until(watch: number, long: boolean): Promise<string> {
     let told = '';
-    while (this.watch() < watch) {
+    while (this.campaign.running && this.watch() < watch) {
       const pick = long ? this.find('^Wait › Until dark') ?? this.find('^Wait › Until first light')
         : this.find(watch - this.watch() >= 6 ? '^Wait › An hour' : '^Wait › A while');
       const c = pick ?? this.find('^Wait › An hour');
@@ -150,20 +165,23 @@ export class Journey {
     for (let at = target; at !== start; at = came.get(at)![0]) { steps.unshift([came.get(at)![1], at]); }
     return steps;
   }
+  // A choice waited for until it is offered and comes off: a way until the company is through it, anything else
+  // once it has been done (a purchase written with it was bought again and again: Hessel friction 16).
   private async through(pattern: string): Promise<string> {
-    for (let tries = 0; tries < 12; tries++) {
+    for (let tries = 0; tries < 12 && this.campaign.running; tries++) {
       const here = this.at(this.campaign.playerActor ?? 'party'), c = this.find(pattern);
       if (c) {
         const told = await this.perform(c.command, c.label);
-        if (this.at(this.campaign.playerActor ?? 'party') !== here) { return told; }
+        const way = /^(go|travel)\b/.test(c.command);
+        if (!way || this.at(this.campaign.playerActor ?? 'party') !== here) { return told; }
       }
       await this.step('^Wait › A while');
     }
     throw new Error(`Never got through /${pattern}/`);
   }
-  private static leaves(list: Choice[], trail = ''): { label: string; command: string }[] {
+  private static leaves(list: Choice[], trail = ''): { label: string; command: string; grave?: string }[] {
     return list.flatMap(c => c.children ? this.leaves(c.children, `${trail}${c.label} › `)
-      : c.command ? [{ label: trail + c.label, command: c.command }] : []);
+      : c.command ? [{ label: trail + c.label, command: c.command, ...c.grave ? { grave: c.grave } : {} }] : []);
   }
   private static acts(acts: { label: string; command?: string; children?: { label: string; command?: string }[] }[],
     trail: string): { label: string; command: string }[] {

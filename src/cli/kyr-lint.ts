@@ -31,7 +31,9 @@ export class KyrLint {
   static campaigns(): string[] {
     return this.walk(join(this.root, 'data'), f => /campaign(\.\w+)?\.json$/.test(f)).map(p => p.slice(this.root.length + 1));
   }
-  // Vocabulary: one meaning per name; campaigns do not redefine canonical rule vocabulary.
+  // Vocabulary: one meaning per name among the shared rules, and no module redefining one of theirs. A module's own
+  // relations are its own, by its name (kept, broken in two adventures mean what each says), and are not reported:
+  // 1,700 warnings of them hid any new one (Liberty of the Ice friction 16, the Banns at Hessel's 17).
   static vocabulary(parsed = this.parsed()): Finding[] {
     const defs = new Map<string, { file: string; sig: string }[]>(), findings: Finding[] = [];
     for (const { file, module: m } of parsed) {
@@ -42,14 +44,13 @@ export class KyrLint {
     }
     findings.push(...this.twins(parsed));
     for (const [name, list] of defs) {
-      if (new Set(list.map(d => d.sig)).size > 1) {
+      const shared = list.filter(d => d.file.startsWith('data/rules/'));
+      if (new Set(shared.map(d => d.sig)).size > 1) {
         findings.push({ level: 'warning', check: 'vocabulary', where: name,
-          message: `defined with different meanings: ${list.map(d => `${d.file}(${d.sig})`).join(', ')}` });
+          message: `defined with different meanings: ${shared.map(d => `${d.file}(${d.sig})`).join(', ')}` });
       }
-      const canonical = list.some(d => d.file.startsWith('data/rules/'));
-      for (const d of list.filter(x => !x.file.startsWith('data/rules/'))) {
-        findings.push({ level: canonical ? 'error' : 'warning', check: canonical ? 'redefinition' : 'campaign-vocabulary',
-          where: d.file, message: canonical ? `redefines canonical ${name}` : `campaign-local relation ${name}` });
+      for (const d of shared.length ? list.filter(x => !x.file.startsWith('data/rules/')) : []) {
+        findings.push({ level: 'error', check: 'redefinition', where: d.file, message: `redefines canonical ${name}` });
       }
     }
     return findings;
@@ -93,6 +94,7 @@ export class KyrLint {
     const lint = new CampaignLint(path, await PlaySession.start(path, 'lint', source));
     lint.identity(); lint.shadows(); lint.containment(); lint.passages(); lint.traversal(); lint.geography();
     lint.applicability(); lint.labels(); lint.items(); lint.prose(); lint.domain(); lint.hazards(); lint.placeholders();
+    lint.roles();
     lint.anchors();
     return lint.findings;
   }

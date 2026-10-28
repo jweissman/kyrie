@@ -91,7 +91,7 @@ export class CampaignLint {
     return this.relations('needs').filter(r => r.args[0] === way).map(r => r.args[1]).join(',');
   }
   passages() {
-    const seen = new Map<string, string>();
+    const seen = new Map<string, string>(), kinds = new Set<string>();
     for (const c of this.relations('connects')) {
       const [way, a, b] = c.args as [string, string, string];
       for (const end of [a, b]) {
@@ -103,13 +103,17 @@ export class CampaignLint {
         this.add('warning', 'passage', `${way} duplicates ${seen.get(key)} between ${a} and ${b}`);
       }
       seen.set(key, way);
-      this.passageKind(way, a, b);
+      // A way is joined both ways round, and said of once.
+      if (!kinds.has(way)) { kinds.add(way); this.passageKind(way, a, b); }
     }
   }
-  // A passage kind promises something about its ends: stairs change level, roads stay outdoors.
+  // A passage kind promises something about its ends: stairs change level, roads stay outdoors. A climb from one
+  // area to another (a ladder from the quay to a loft) changes level whatever the levels are called (Liberty of the
+  // Ice friction 17: such a climb could not be a ladder).
   passageKind(way: string, a: string, b: string) {
     const kind = this.relations('passageKind').find(r => r.args[0] === way)?.args[1] ?? '';
-    if (['way_stair', 'way_ladder', 'way_shaft', 'way_incline'].includes(kind) && this.level(a) === this.level(b)) {
+    if (['way_stair', 'way_ladder', 'way_shaft', 'way_incline'].includes(kind) && this.level(a) === this.level(b)
+      && this.area(a) === this.area(b)) {
       this.add('warning', 'passage', `${way} is a ${kind.slice(4)} but does not change level`);
     }
     if (['way_road', 'way_path', 'way_track', 'way_ford'].includes(kind) && (this.indoors(a) || this.indoors(b))) {
@@ -117,6 +121,10 @@ export class CampaignLint {
     }
   }
   level(id: string) { return Spatial.ancestry(this.entities, id).find(e => e.space?.kind === 'level')?.id; }
+  area(id: string) {
+    return Spatial.ancestry(this.entities, id).slice(1)
+      .find(e => ['building', 'site', 'settlement', 'wilderness'].includes(e.space?.kind ?? ''))?.id;
+  }
   indoors(id: string) { return this.world.test({ kind: 'call', name: 'indoors', args: [id] }); }
   traversal() {
     const legacy = ['route', 'gate', 'hazardPassage', 'climbingPassage', 'informedPassage', 'footway'];
@@ -186,6 +194,16 @@ export class CampaignLint {
           this.add('error', 'category', `${where}: a ${c.raceId} cannot be a ${c.classId}`);
         }
       } else { this.add('error', 'category', `${where}: ${c.raceId} is neither an ancestry nor a species`); }
+    }
+  }
+  // A role that names its person again ("Lady Wenlock, a Lady Wenlock": Hessel friction 10) is said once on the page;
+  // the lint says it so the role can say who they are instead.
+  roles() {
+    for (const e of this.module.entities.filter(x => x.type === 'group' && x.name.includes(', '))) {
+      const [name, ...rest] = e.name.split(', '), role = rest.join(', ');
+      if (name && role.toLowerCase().includes(name.toLowerCase())) {
+        this.add('warning', 'role', `${e.id}: the role "${role}" names ${name} again; say who they are instead`);
+      }
     }
   }
   prose() {

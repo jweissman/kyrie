@@ -220,14 +220,20 @@ export class Narrator {
     return lines.filter((l, i) => lines.indexOf(l) === i);
   }
   // "Eamon, innkeeper" is "Eamon, the innkeeper"; "Cyril, pilgrim" is "Cyril, a pilgrim".
-  private static who(t: TargetRow): string {
+  static who(t: Pick<TargetRow, 'name' | 'many'>): string {
     const [name, ...rest] = t.name.split(', '), role = rest.join(', ');
     if (!role) { return name!; }
-    // A role that already says who they are ("the smith", "who speaks for Harrehes") takes no article.
-    // Nor does one of many ("hounds of knitted bone").
-    if (/^(the|a|an|his|her|their|your|my|our|who|whose) /i.test(role) || t.many) { return `${name}, ${role}`; }
+    // A role that names them again is said as it is ("Lady Wenlock, a Lady Wenlock": Hessel friction 10).
+    if (role.toLowerCase().includes(name!.toLowerCase())) { return role; }
+    // A role that already says who they are ("the smith", "who speaks for Harrehes", "Master Harker's clerk") takes no
+    // article ("a Master Harker's clerk": Liberty of the Ice friction 11). Nor does one of many ("hounds of knitted
+    // bone").
+    if (/^(the|a|an|his|her|their|your|my|our|who|whose) /i.test(role) || this.owned.test(role) || t.many) {
+      return `${name}, ${role}`;
+    }
     return `${name}, ${this.offices.test(role) ? 'the' : /^[aeiou]/i.test(role) ? 'an' : 'a'} ${role}`;
   }
+  private static readonly owned = /^(?:[A-Z][\w-]*\s)*[A-Z][\w-]*['’]s\b/;
   private static readonly offices =
     /^(innkeeper|priest|priestess|merchant|reeve|toll-reeve|smith|miller|headman|abbot|prior)\b/i;
   private static short(name: string): string { return name.split(', ')[0]!; }

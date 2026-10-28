@@ -74,7 +74,10 @@ export class PlayTool {
     for (const step of steps) {
       const before = j.taken.length;
       try { await j.step(step); } catch (e) { print(`! ${(e as Error).message}`); failed = 1; break; }
-      for (const t of j.taken.slice(before)) { print(`[${t.label}] ${t.page}`); }
+      for (const t of j.taken.slice(before)) {
+        if (t.grave) { print(`! asked first: ${t.grave}`); }
+        print(`[${t.label}] ${t.page}`);
+      }
     }
     print(`-- watch ${j.watch()}, at ${j.at(j.campaign.playerActor ?? 'party') ?? 'nowhere'}`);
     for (const p of o.probes) { print(this.probe(j, p)); }

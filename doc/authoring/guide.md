@@ -20,6 +20,10 @@ Every place sits inside exactly one other place. The kinds, from outside in, are
 give rooms their context: a room inside a building is indoors, and a room inside a settlement is in town. Rules use
 both facts. You cannot camp in the inn's taproom or on the village green, but you can on the lake shore.
 
+A place's name is said as the page says where you are and where a way goes, so name it as a player would say it:
+"the floor above", "the rooms below stairs" for the levels of a house, since a way through a level is labelled with
+its name ("Up to the floor above").
+
 The `at x, y` numbers are a room's cell on the map of its area. For an area, they are its position on the region
 map. Rooms of different areas never share a map, so you can number each area from zero.
 
@@ -107,6 +111,12 @@ adds or replaces a service.
     Role "eel-catcher". Background hunter. Calling ranger. Peaceable.
   }
 ```
+
+A `Role` says who someone is, after their name: "Wenna, the innkeeper", "Old Tam, an eel-catcher". Write it as you
+would after a comma, without an article; the page gives it the one it wants ("the" for an office, "a" or "an" for the
+rest), and says as written a role that begins with its own ("the smith", "who speaks for the parish") or says whose
+someone is ("Master Harker's clerk"). A role should not name its person again ("Lady Wenlock, a Lady Wenlock"): the page
+says it once, and `kyrie lint` points it out.
 
 Backgrounds and professions are in `data/catalog/backgrounds.json`:
 
@@ -293,6 +303,22 @@ Thornmere):
   Person salvager "Someone" at station { Role "salvager". Buys bronze_bearing for 6 coin. }
   Event paid near salvager when keeps(salvager, prize) "{salvager} hefts {prize}, checks the stamp against {permit}, and counts six coins into your hand." then { Assert delivered(prize). }
 ```
+
+What someone answers when asked is a `Topic`: what the company says (the choice's label), when it can be said, what
+they say back, and what saying it does.
+
+```text
+  Topic give_letter with priest "Give {priest} the brothers' letter" when expects(priest, actor) once {
+    Says "{priest} reads it by the door, where the light is, and then reads it again.".
+    On discuss { Retract expects(priest, actor). Assert knows(actor, found). }
+  }
+```
+
+`once` means what it does is done once. A topic that did nothing but teach (an answer, a way, a name) is offered
+afterwards as "Ask {priest} again about …", for the same answer and nothing more: a player who has forgotten what was
+said can hear it again (the notes keep it too). One that did anything else (a letter given, a key handed over) is
+not offered again. A journey step that names the first wording matches the "again" offer once the first is gone, so a
+step meant to ask once comes before anything that would ask it again.
 
 `Wants burial_register.` makes the standard `give` available to that person; `Buys … for … coin.` the standard
 `sell`. A long activity that someone arriving should break off says so: `Interrupted when threatened(actor).` Its

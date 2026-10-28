@@ -1,0 +1,16 @@
+Module p "A quay, a warehouse, and a lady" {
+  Place port "the port" is settlement.
+  Place quay "the quay" is room within port at 0, 0.
+  Place warehouse "the warehouse" is building within port.
+  Place floor "the warehouse floor" is room within warehouse at 0, 0.
+  Place loft "the warehouse loft" is room within warehouse at 1, 0.
+  Company party "You" of 1 at quay.
+  // A climb from one area to another changes level, whatever the levels are called: no finding.
+  Passage hoist_ladder "the hoist ladder" is ladder between quay and loft.
+  // A stair between two rooms of one level of one building does not: a finding.
+  Passage inner_stair "the inner stair" is stair between floor and loft.
+  Passage warehouse_door "the warehouse door" is door between quay and floor.
+  // A role that names its person again: a finding.
+  Person wenlock "Wenlock" at quay { Role "Lady Wenlock of the quay". Peaceable. }
+  Person tansy "Tansy Hobb" at quay { Role "Master Harker's clerk". Peaceable. }
+}
