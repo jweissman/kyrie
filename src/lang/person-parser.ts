@@ -7,7 +7,7 @@ import type { Module, Person, Predicate } from './module';
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
 // A person's words, and when they are said, if not always (Leaves "…" when …).
-interface Manner { kind: string; text: string; when?: Predicate }
+interface Manner { kind: string; text: string; when?: Predicate; place?: string }
 // The Person declaration of the Kyr grammar: who someone is (a role, an ancestry and calling or a species, how many
 // and what each is called, what they carry, offer and sell), and how they enter a module.
 export class PersonParser {
@@ -80,6 +80,11 @@ export class PersonParser {
   static PersonAgain(_greets: Node, _again: Node, text: Node, _dot: Node): Field {
     return { field: 'words', value: { kind: 'GreetsAgain', text: ModuleParser.ast(text) as string } };
   }
+  // What someone with the company says on coming somewhere that matters to them, once (A Winter in Carth's friction
+  // 21: Hern came into the fold his whole story points at, and the page said only that he was there).
+  static PersonRemarks(_r: Node, place: Node, text: Node, _dot: Node): Field {
+    return { field: 'words', value: { kind: 'Remarks', place: place.sourceString, text: ModuleParser.ast(text) as string } };
+  }
   static PersonHaunt(word: Node, id: Node, _dot: Node): Field {
     return { field: 'haunt', value: { kind: word.sourceString, text: id.sourceString } };
   }
@@ -91,6 +96,7 @@ export class PersonParser {
   private static manner(module: Module, id: string, temperament: string | undefined, manner: Manner[]) {
     if (temperament) { PersonParser.fact(module, 'temperament', id, `temper_${temperament}`); }
     for (const m of manner) {
+      if (m.kind === 'Remarks') { PersonParser.remark(module, id, m); continue; }
       const relation = PersonParser.manners[m.kind]!;
       if (['Lair', 'Refuge', 'Fears', 'Manner', 'Pronouns'].includes(m.kind)) {
         PersonParser.fact(module, relation, id, m.text); continue;
@@ -101,6 +107,15 @@ export class PersonParser {
       // Said only while it holds: a gaol door shutting on someone is no parting (A Winter in Carth's friction 8).
       if (m.when) { (module.queries ??= []).push({ name: `${words}_when`, parameters: [], body: m.when }); }
     }
+  }
+  // Said when the company comes to the place with them, travelling with it or following it, once.
+  private static remark(module: Module, id: string, m: Manner) {
+    const latch = `${id}_remarks_${m.place}`;
+    module.relations.push({ name: `${latch}_once`, types: [], exclusive: false });
+    (module.rules ??= []).push({ id: latch, say: m.text,
+      effects: [{ kind: 'assert', call: { kind: 'call', name: `${latch}_once`, args: [] } }],
+      when: ModuleParser.predicate(`company(?c) and at(?c, ${m.place}) and (travelsWith(${id}, ?c) or following(${id}, ?c))`
+        + ` and able(${id}) and not ${latch}_once()`) });
   }
   private static fact(module: Module, name: string, ...args: string[]) {
     module.initial.push({ kind: 'assert', call: { kind: 'call', name, args } });

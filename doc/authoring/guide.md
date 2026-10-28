@@ -208,6 +208,11 @@ reckons the fight. One that lay in wait (an ambush) gives no such moment, and no
 heeded. Running at any other time is an even chance, surer each time it is tried and fails: three in four the second
 time, sure the third.
 
+An action that puts the company where a band is races the band's warning: the shared rules warn on the next pass,
+before a rule of the module's own can say how the company came there. Settle it in the action's own effects (the
+watermen's sledges, which bring the company down onto the sledge road, assert that the wolves tolerate it, and a rule
+says how they were outrun: the Liberty of the Ice's 24).
+
 A danger with ways round it (a weight held out, a quiet slip along the pool) is territorial or defensive, with a
 `Warns` in its own manner that says what the ways round are (What Tessary Owes' Forsworn, W14). Each thing done while
 warned spends its patience, so the warning should name its price and the alternative (Bettany Slake's "Five coin for
@@ -407,6 +412,10 @@ region since retired (it is in the history before commit e4b485b):
     Assert at(raiders, barrows). Assert assails(raiders, party). }
 ```
 
+`dark()` holds from nine in the evening until six in the morning, unless the campaign keeps its own night beside its
+calendar: `"night": { "falls": 17, "lifts": 7 }` in its campaign.json is dark from five until seven, and `untilDark`
+and `untilLight` count to those hours (A Winter in Carth's February in the north, its friction 1).
+
 `lightless(place)` is a place where light dies: only a company with `sunlight` sees there, and `benighted(company)`
 covers it as well as an unlit place without a light. A change can be `consuming` a kind of item, which uses one up.
 
@@ -568,7 +577,10 @@ A context is the steps to play first, named in `data/adventures/<adventure>/cont
 A play worth keeping is kept as a test: `--keep <name>` on any `kyrie play` keeps the command and where it came to
 (the place, the watch, what the page told at the last step) in `test/fixtures/traces/<name>.json`, and
 `bin/kyrie keep <transcript.json> <name>` keeps a game saved from the browser. `test/traces.test.ts` plays every one
-again and fails if it comes anywhere else. To hold an adventure to everything at once (its lint, its tests and its
+again and fails if it comes anywhere else. A check's die depends on the game's seed and on what was done before it, so
+a journey is played again on its own seed, and a step whose check what follows does not need is written with `?`
+(`"?Puzzle out"`), so that a roll that goes the other way on another seed is not a failure (the Liberty of the Ice's
+20: a retry the next night is a real retry). To hold an adventure to everything at once (its lint, its tests and its
 kept traces):
 
 ```
@@ -610,9 +622,12 @@ bin/kyrie play path/to/your.campaign.json --seed s --steps steps.json --probe "k
 
 Each step is a pattern for the choice to take, matched against its label ("Wait › An hour", "Pack › A torch ›
 Light", "a torch: Light") and then against the label under its heading ("the Sleeper's left eyelid: Examine › Push
-and pull at it"), which tells two things' alike choices apart. `?pattern` is taken if it is offered; `@command`
-performs a command by its id; `=N` waits until watch N, `=+N` waits N watches more, `~N` waits until watch N by dark
-and first light; `~pattern` is a way not open yet, tried again after a short wait. Each step is printed as the page
+and pull at it"), which tells two things' alike choices apart. Alike things carried are one row with their count
+("Pack › Three torches › Light"), so a step for any of them is `Pack › .*torch.* › Light`. `?pattern` is taken if it is
+offered; `@command` performs a command by its id; `=N` waits until watch N, `=+N` waits N watches more, `~N` waits
+until watch N by dark and first light; `=21:00` waits until nine at night comes, and `=day 2 21:00` until nine at night
+on the second day (watches are ten minutes, counted from eight on the first morning, so that is 222, not 216: A Winter
+in Carth's 20); `~pattern` is a way not open yet, tried again after a short wait. Each step is printed as the page
 tells it, then where the company is, then the answers to the probes: a fact is yes or no, `#measure` its number.
 `--choices` lists what is offered at the end. The steps file is a list, or named phases played in the order written.
 `>place` goes to a place by the shortest way there, a way at a time (`>z3_deep`, or a whole id such as
@@ -730,8 +745,11 @@ own countries go on beyond the rest. To offer yours:
   (`{keeper}` is the innkeeper), with what the company knows of it once told (`heard`), which the journal keeps as
   heard from them.
 
-Its clock runs from when it is reached (a rule at `watch(clock) >= 216` waits 216 watches from then), and what it says
-of the company that comes in is said by names of its own (`Initially Set breath(party) to 12`).
+Its clock runs from the first morning after it is reached: its own `watch(clock)` is 0 at eight that morning, and below
+nothing until then (a rule at `watch(clock) >= 216` waits 216 watches from that morning), while `day(clock)` and
+`hour(clock)` are the world's. A country reached in the evening has its first day still to come, so a rule for that
+day's afternoon asks `watch(clock) >= 0` as well, or fires that evening (the Liberty of the Ice's 7). What it says of
+the company that comes in is said by names of its own (`Initially Set breath(party) to 12`).
 
 ### A companion who leaves
 
@@ -780,11 +798,36 @@ advises on a rule anchored at a place that changes something of the company's ow
 knows) and asks nothing of where the company is: it may be meant (a hand broken at a court the company stayed away
 from), and it may not.
 
-A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none.
+A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none. An action that
+would take one past nothing is not offered, since what cannot be paid for is not bought; where that is backwards (a
+company owing one pain kneels a night "for six of your pains"), the action says so: `Decrease pains(actor) by 6 or to
+nothing.` (A Winter in Carth's 2).
 
 Whether someone is anywhere in an area is asked as it is said: `within(party, cherrett_lodging)` holds in the
 parlour, on the stair and in Mrs Cherrett's room, and `within(rupert, hessel)` anywhere in the town (the Banns at
 Hessel's 13, which wrote it room by room). Like `distinct`, it tests what is already named, and finds no one.
+
+### What someone believes, and a lie told to them
+
+Someone holds a claim (`believes(harker, squire_claim)`) as firmly as `conviction(harker, squire_claim)` says: 2, sure
+of it; 1, shaken; and at nothing they let it go on the same pass (`let_go`), and `doubts(harker, squire_claim)`
+holds instead. So what a lie leads to asks `doubts`, not `believes`: a topic that talks Harker out of the claim
+(`Set conviction(harker, squire_claim) to 0`) leaves no `believes` for the next choice to need (the Liberty of the
+Ice's 4). A lie that makes someone believe what is false asserts the belief, with a conviction above nothing.
+
+```text
+  Topic lie_to_harker with harker "Tell Harker the squire went north by the ice" when believes(harker, squire_claim) once {
+    Says "Harker writes it down, and looks at you over the top of the pen.".
+    On discuss { Set conviction(harker, squire_claim) to 0. }
+  }
+  Action send_riders(actor: group, site: place) "Tell Harker to call his riders back" {
+    Requires able(actor) and at(actor, site) and at(harker, site) and doubts(harker, squire_claim).
+  }
+```
+
+A claim argued away (`swayedBy`, as a disputation does) without a reason the world gives (`reasoned(harker,
+squire_claim)`) is back by morning, and whoever argued it away is scorned for it (`scorns`): not listened to again.
+One let go for a reason, or talked away by a topic as above, stays let go.
 
 ### A place heard of
 
@@ -815,6 +858,11 @@ say, as an observation does, to a company that hears them (`test/fixtures/patien
     says "The words of the holding prayer are the clerk's line, word for word." teaches same { }
   Event bell at yard when knows(party, same) "Across the yard the granary bell rings once." teaches rung.
 ```
+
+An action, or a topic, can `Assert knows(…)`: what the company does, it knows it did (naming the chairman to Lanyon).
+A rule or an event happens whether or not the company is there to hear it, so what it teaches is learned by hearing
+it, and only then (the Banns at Hessel's 19). A scene that teaches two things is two rules, each saying its part (A
+Winter in Carth's 19).
 
 ### How the story ends
 
@@ -860,7 +908,8 @@ Someone who follows the company (`following(callow, party)`: led, in custody, a 
 goes. They are with it on the page, not announced in every room it comes to (the Liberty of the Ice's 14); a rule
 that does not ask who follows whom does not move them elsewhere, so an hour's routine need not say `and not
 following(rupert, party)` (the Banns at Hessel's 5); and a rule that carries the company off (a chair to the downs)
-takes them too (its 6).
+takes them too (its 6). What someone with the company says on coming somewhere that matters to them is said once,
+when they come there with it: `Remarks at fold "…".` in their declaration (A Winter in Carth's 21).
 
 ### A law of a module's own
 

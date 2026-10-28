@@ -1,0 +1,16 @@
+Module pains "A debt of one pain, and six knelt for" {
+  Place steps "the Minster steps" is room at 0, 0 outdoors.
+  Company party "You" of 1 at steps.
+  Measure pains(group).
+  Initially Set pains(party) to 1.
+  Action kneel(actor: group, site: place) "Kneel a night on the Steps for six of your pains" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and pains(actor) > 0.
+    On success { Decrease pains(actor) by 6 or to nothing. }
+  }
+  Action fast(actor: group, site: place) "Fast for six of your pains" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and pains(actor) > 0.
+    On success { Decrease pains(actor) by 6. }
+  }
+}

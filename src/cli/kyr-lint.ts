@@ -7,6 +7,7 @@ import { PlaySession } from '../session/play-session';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import type { BundleSource } from '../campaign/bundle-source';
 import { CampaignLint } from './campaign-lint';
+import { AdventureNames } from './adventure-names';
 import type { Module } from '../lang/module';
 
 // An error fails the lint; a warning fails it in recommended content; advice is for the author to look at, and fails
@@ -95,11 +96,12 @@ export class KyrLint {
     lint.identity(); lint.shadows(); lint.containment(); lint.passages(); lint.traversal(); lint.geography();
     lint.applicability(); lint.labels(); lint.items(); lint.prose(); lint.domain(); lint.hazards(); lint.placeholders();
     lint.roles();
-    lint.anchors(); lint.keeps();
+    lint.anchors(); lint.keeps(); lint.movers();
     return lint.findings;
   }
   static async run(paths: string[]) {
-    const results: Record<string, Finding[]> = { vocabulary: this.vocabulary() };
+    const results: Record<string, Finding[]> = { vocabulary: this.vocabulary(), names: AdventureNames.clashes()
+      .map(message => ({ level: 'error', check: 'names', where: 'data/adventures', message })) };
     for (const path of paths.length ? paths : this.campaigns()) {
       try { results[path] = await this.campaign(path); }
       catch (e) {

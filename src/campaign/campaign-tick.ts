@@ -1,5 +1,5 @@
 import type { Operators } from './operators';
-import { FictionalTime } from './fictional-time';
+import { FictionalTime, type Night } from './fictional-time';
 import { Calendar, type CalendarStart } from './calendar';
 import { Expressions } from '../expressions';
 import { RandomStreams } from '../random-streams';
@@ -41,13 +41,13 @@ export class CampaignTick {
   // watch's die (dice(clock), 1 to 100, drawn from the campaign's seed) for whatever is left to chance: a wandering
   // band on a road, the weather turning.
   static readonly seasons = ['spring', 'summer', 'autumn', 'winter'];
-  static clock(world: World, { elapsed, seed, calendar }: { elapsed: number; seed: string; calendar?: CalendarStart }):
-    Change[] {
+  static clock(world: World, { elapsed, seed, calendar, night: hours }: { elapsed: number; seed: string;
+    calendar?: CalendarStart; night?: Night }): Change[] {
     const night: Change[] = world.module.relations.some(r => r.name === 'dark')
-      ? [{ kind: FictionalTime.dark(elapsed) ? 'assert' : 'retract', call: ModuleWriter.call('dark') }] : [];
+      ? [{ kind: FictionalTime.dark(elapsed, hours) ? 'assert' : 'retract', call: ModuleWriter.call('dark') }] : [];
     // How long until the hours a company waits for: first light, a night's sleep, dark, the day's next turn.
-    const until: [string, number][] = [['untilLight', FictionalTime.untilLight(elapsed)],
-      ['untilMorning', FictionalTime.untilMorning(elapsed)], ['untilDark', FictionalTime.untilDark(elapsed)],
+    const until: [string, number][] = [['untilLight', FictionalTime.untilLight(elapsed, hours)],
+      ['untilMorning', FictionalTime.untilMorning(elapsed)], ['untilDark', FictionalTime.untilDark(elapsed, hours)],
       ['untilTurn', FictionalTime.untilTurn(elapsed)]];
     until.push(['hour', FictionalTime.hour(elapsed)], ['day', FictionalTime.day(elapsed)]);
     for (const [name, watches] of until) {

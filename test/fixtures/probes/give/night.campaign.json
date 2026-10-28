@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: a night of its own", "modules": [ { "id": "p", "bundle": "module.json" } ], "night": { "falls": 17, "lifts": 7 }, "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

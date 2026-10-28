@@ -225,6 +225,29 @@ export class CampaignLint {
       }
     }
   }
+  // A role is what someone is wherever they are: a clerk "at a high desk, doing sums" was standing barefoot in the
+  // Minster porch (A Winter in Carth's 13). One that puts them somewhere, on someone moved by a rule, an action or a
+  // pursuit of their own, is advice to say where it is true (`Role "…" when at(clerk, counting_house)`); what they
+  // are (an innkeeper, a cutter going home) is true wherever they go.
+  static readonly placing = /\b(at|in|on|by|beside|behind|under|over|inside|outside)\s+(a|an|the|his|her|their|its)\b/i;
+  movers() {
+    const moved = new Map<string, string>();
+    const lists = [...this.module.actions.map(a => [a.schema ?? a.id, [...a.success, ...a.failure]] as const),
+      ...(this.module.rules ?? []).map(r => [r.id, r.effects] as const)];
+    for (const [id, effects] of lists) {
+      for (const c of effects.filter(x => x.kind === 'assert' && x.call.name === 'at')) { moved.set(c.call.args[0]!, id); }
+    }
+    for (const p of (this.module.pursuits ?? []).filter(x => JSON.stringify(x.target).includes('"name":"at"'))) {
+      moved.set(p.actor, p.id);
+    }
+    for (const e of this.module.entities.filter(x => x.type === 'group' && x.name.includes(', ') && !x.roles)) {
+      const by = moved.get(e.id);
+      if (by && CampaignLint.placing.test(e.name.split(', ').slice(1).join(', '))) {
+        this.add('advice', 'role', `${e.id} is "${e.name.split(', ').slice(1).join(', ')}" wherever they are, and ${by}`
+          + ` moves them: say where it is true (Role "…" when at(${e.id}, …))`);
+      }
+    }
+  }
   prose() {
     const texts = new Map<string, string>([
       ...(this.module.observations ?? []).map(o => [o.id, o.text] as [string, string]),

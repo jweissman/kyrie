@@ -10,7 +10,8 @@ export type Predicate = Call | { kind: 'boolean'; value: boolean }
 export type Change = { kind: 'assert'; call: Call } | { kind: 'retract'; call: Call }
   | { kind: 'set'; call: Call; value: Value }
   | { kind: 'increase'; call: Call; value: Value }
-  | { kind: 'decrease'; call: Call; value: Value };
+  // toNothing: by so much, or to nothing if there is less (a debt of one pain paid with six: A Winter in Carth's 2).
+  | { kind: 'decrease'; call: Call; value: Value; toNothing?: boolean };
 export type PlaceKind = 'plane' | 'region' | 'settlement' | 'wilderness' | 'site' | 'building' | 'level' | 'room';
 export type MovementMode = 'walk' | 'enter' | 'leave' | 'ascend' | 'descend' | 'travel' | 'cross_plane';
 // Whether a place is under the sky, under a roof or under the ground: what can be seen and felt there of the weather

@@ -44,7 +44,7 @@ export class Campaign implements WatchHost {
   // A campaign is a composition of installed modules (see Campaign.load): the instance it is made from is its own,
   // made for it and kept by no one else. restore() resumes a save: copied unless it is handed over (owned), and its
   // module checked unless it is a game this engine kept itself (trusted).
-  constructor(seed: string, instance: Instance, restored?: Restored, calendar?: CampaignState['calendar']) {
+  constructor(seed: string, instance: Instance, restored?: Restored, dated?: Pick<CampaignState, 'calendar' | 'night'>) {
     const saved = restored && (restored.owned ? restored.save : structuredClone(restored.save));
     if (saved) {
       // Its own kinds first: the company carries things of them, in a page that may have played nothing yet.
@@ -74,8 +74,8 @@ export class Campaign implements WatchHost {
     const player = this.definition.actors.find(a => a.player);
     if (!player) { throw new Error('Campaign needs a player actor'); }
     const inhabitants = Object.fromEntries(this.definition.actors.map(a => [a.id, [...a.members]]));
-    this.current = { seed, world: instance.world, partyIds: [...player.members],
-      inhabitants, elapsed: 0, deadline: instance.budget, outcome: 'active', ...calendar ? { calendar } : {} };
+    this.current = { seed, world: instance.world, partyIds: [...player.members], inhabitants, elapsed: 0,
+      deadline: instance.budget, outcome: 'active', ...Object.fromEntries(Object.entries(dated ?? {}).filter(([, v]) => v)) };
     // The clock reads the hour from the start: how long until dark, until first light, until the day turns.
     this.commit(this.world.apply(CampaignTick.clock(this.world, this.current)));
     CreatureFacts.initialize(this.world, this.definition.actors, this.creatures);
@@ -117,7 +117,7 @@ export class Campaign implements WatchHost {
       if (party) { CompanyChoices.apply(draft, party); }
       Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
       const first = ModuleInstallations.prepare(undefined, draft, 0, false);
-      campaign = new Campaign(seed, first, undefined, manifest.calendar);
+      campaign = new Campaign(seed, first, undefined, { calendar: manifest.calendar, night: manifest.night });
     }
     // Settled when the last is in: everyone's facts projected (each install projected only its newcomers'), and the
     // joined whole checked.

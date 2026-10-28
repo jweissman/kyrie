@@ -24,7 +24,7 @@ export class ModuleWriter {
       case 'retract': return `Retract ${call}.`;
       case 'set': return `Set ${call} to ${ModuleWriter.value(change.value)}.`;
       case 'increase': return `Increase ${call} by ${ModuleWriter.value(change.value)}.`;
-      case 'decrease': return `Decrease ${call} by ${ModuleWriter.value(change.value)}.`;
+      case 'decrease': return `Decrease ${call} by ${ModuleWriter.value(change.value)}${change.toNothing ? ' or to nothing' : ''}.`;
     }
   }
   static write(module: Module): string {

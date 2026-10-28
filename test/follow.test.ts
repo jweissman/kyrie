@@ -34,4 +34,17 @@ describe('one who follows the company', () => {
     expect(j.at('party')).toBe('p__downs');
     expect(j.at('p__rupert')).toBe('p__downs');
   }, 60000);
+  // Hern came into the fold his whole story points at, and the page said only that he was there (A Winter in Carth's
+  // friction 21).
+  it('says what they say on coming somewhere that matters to them, once', async () => {
+    const j = await Journey.start('test/fixtures/probes/follow/probe.campaign.json', 'k');
+    await j.play('Ask them to come with you', 'To the square', 'To the King\'s Bath');
+    expect(j.taken.at(-1)!.page).toContain('She used to bring me here when I was small,’ says Rupert');
+    await j.play('To the square', 'To the King\'s Bath');
+    expect(j.taken.at(-1)!.page).not.toContain('She used to bring me here');
+    // Alone, he says nothing there.
+    const alone = await Journey.start('test/fixtures/probes/follow/probe.campaign.json', 'k');
+    await alone.play('To the square', 'To the King\'s Bath');
+    expect(alone.taken.at(-1)!.page).not.toContain('She used to bring me here');
+  }, 60000);
 });

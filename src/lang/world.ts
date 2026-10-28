@@ -267,8 +267,12 @@ export class World {
       }
       if (!signatures.measures.has(change.call.name)) { return false; }
       try {
-        const amount = this.number(change.value, {}, counts);
-        const value = counts.next(World.key(change.call), change.kind, amount, () => this.number(change.call));
+        const key = World.key(change.call);
+        // One that may stop at nothing takes no more than there is (see Counts: the list stops it there).
+        const amount = change.kind === 'decrease' && change.toNothing
+          ? Math.min(this.number(change.value, {}, counts), Math.max(counts.now(key) ?? this.number(change.call), 0))
+          : this.number(change.value, {}, counts);
+        const value = counts.next(key, change.kind, amount, () => this.number(change.call));
         if (!Number.isSafeInteger(value)) { return false; }
       } catch { return false; }
     }

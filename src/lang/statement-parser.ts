@@ -47,6 +47,10 @@ export class StatementParser {
   static Decrease(_decrease: Node, call: Node, _by: Node, value: Node) {
     return { kind: 'decrease', call: ModuleParser.ast(call), value: ModuleParser.ast(value) };
   }
+  static Lessen(_decrease: Node, call: Node, _by: Node, value: Node) {
+    return { kind: 'decrease', call: ModuleParser.ast(call), value: ModuleParser.ast(value), toNothing: true };
+  }
+  static ToNothing(value: Node, _tail: Node) { return ModuleParser.ast(value); }
   static Or(left: Node, _or: Node, right: Node) { return { kind: 'or', left: ModuleParser.ast(left), right: ModuleParser.ast(right) }; }
   static And(left: Node, _and: Node, right: Node) { return { kind: 'and', left: ModuleParser.ast(left), right: ModuleParser.ast(right) }; }
   static Not(_not: Node, value: Node) { return { kind: 'not', value: ModuleParser.ast(value) }; }

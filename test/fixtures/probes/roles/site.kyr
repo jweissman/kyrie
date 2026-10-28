@@ -1,0 +1,19 @@
+Module roles "A clerk at his desk, and in the porch" {
+  Place minster "the Minster" is building.
+  Place counting_house "the counting-house" is room within minster at 0, 0.
+  Place porch "the Minster porch" is room within minster at 1, 0.
+  Passage arch "the arch" between counting_house and porch.
+  Company party "You" of 1 at counting_house.
+  Person dinsdale "Dinsdale" at counting_house { Role "a clerk at a high desk, doing sums". Ancestry human. Peaceable. }
+  Person ward "Ward" at counting_house { Role "a clerk at a high desk, doing sums" when at(ward, counting_house).
+    Ancestry human. Peaceable. }
+  Relation rung(place).
+  Action ring(actor: group, site: place) "Ring the Minster bell" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and not rung(porch).
+    On success { Assert rung(porch). }
+  }
+  Rule to_the_porch when rung(porch) and at(dinsdale, counting_house) and at(ward, counting_house) {
+    Retract at(dinsdale, counting_house). Assert at(dinsdale, porch). Retract at(ward, counting_house). Assert at(ward, porch).
+  }
+}

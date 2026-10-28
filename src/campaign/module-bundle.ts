@@ -11,6 +11,7 @@ import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
 import type { Module } from '../lang/module';
 import { ModuleShadow } from './module-shadow';
+import { FictionalTime } from './fictional-time';
 import { Composition, type Composed, type ManifestEntry } from '../world/compose/composition';
 
 export interface BundleRequest {
@@ -24,8 +25,9 @@ export interface CampaignManifest {
   version: 1; name: string; modules: BundleRequest[]; party?: import('../content').CreatureGenerationContext[];
   // What the company is being asked to do, shown when it is formed.
   pitch?: { heading: string; text: string };
-  // The date it begins on: a day of a month of a year of the Sun and Moon.
-  calendar?: import('./calendar').CalendarStart;
+  // The date it begins on: a day of a month of a year of the Sun and Moon; and the hours of its night, when they are
+  // not nine in the evening and six in the morning ("night": { "falls": 17, "lifts": 7 }).
+  calendar?: import('./calendar').CalendarStart; night?: import('./fictional-time').Night;
   // How the campaign's kits were composed into it, when it asks for any.
   composition?: Composed;
 }
@@ -65,7 +67,9 @@ export class ModuleBundle {
   static async campaign(path: string, source: BundleSource, seed = ''): Promise<CampaignManifest> {
     const manifest = JSON.parse(await source.read(path)) as Omit<CampaignManifest, 'modules'> & { modules: ManifestEntry[] };
     if (manifest.version !== 1 || typeof manifest.name !== 'string' || !Array.isArray(manifest.modules)
-      || !manifest.modules.length) { throw new Error('Invalid campaign manifest'); }
+      || !manifest.modules.length || (manifest.night && !FictionalTime.keeps(manifest.night))) {
+      throw new Error('Invalid campaign manifest');
+    }
     const entries = manifest.modules.map(m => Composition.isKit(m) ? { ...m, kit: source.resolve(m.kit, path) }
       : { ...m, bundle: source.resolve(m.bundle, path) });
     if (!entries.some(e => Composition.isKit(e))) { return { ...manifest, modules: entries as BundleRequest[] }; }

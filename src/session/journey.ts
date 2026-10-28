@@ -30,6 +30,7 @@ export interface Taken {
 //   @command   perform a command by its id
 //   =N         wait until watch N, an hour at a time while six or more away, a while at a time after
 //   =+N        wait N watches more
+//   =21:00     wait until that time comes, or =day 3 21:00 until that time of that day (the first is day 1)
 //   ~N         wait until watch N by dark and first light (an hour when neither is offered)
 //   ~pattern   a way that is not open yet: wait a while and try again, up to twelve times
 //   >place     go to a place by the shortest way the world joins them, a way at a time (a place of a generated
@@ -83,6 +84,8 @@ export class Journey {
     return told;
   }
   async step(step: string): Promise<string> {
+    const named = /^=(?:day (\d+) )?(\d{1,2}):(\d{2})$/.exec(step);
+    if (named) { return this.until(Journey.watchAt(this.watch(), named.slice(1)), false); }
     const wait = /^(=\+|=|~)(\d+)$/.exec(step);
     if (wait) {
       const n = Number(wait[2]);
@@ -130,6 +133,15 @@ export class Journey {
   at(who: string): string | undefined { return this.campaign.world.one('at', who); }
   // Waits on to a watch, or until the book closes (an ending reached on the way: waiting past it threw, Hessel friction
   // 15).
+  // The watch a time on the clock comes at, counted from eight on the first morning: the next such time, or that day's.
+  // Nine at night on Shrove Monday is 222, and an author wrote 216, which is eight o'clock (A Winter in Carth's 20).
+  static watchAt(now: number, [day, hours, minutes]: (string | undefined)[]): number {
+    const time = Number(hours) * 60 + Number(minutes);
+    if (day) { return this.watchOf(Number(day), time); }
+    const today = Math.floor((now * 10 + 8 * 60) / 1440) + 1;
+    return this.watchOf(today, time) > now ? this.watchOf(today, time) : this.watchOf(today + 1, time);
+  }
+  private static watchOf(day: number, minutes: number): number { return ((day - 1) * 1440 + minutes - 8 * 60) / 10; }
   private async until(watch: number, long: boolean): Promise<string> {
     let told = '';
     while (this.campaign.running && this.watch() < watch) {

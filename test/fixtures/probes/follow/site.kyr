@@ -7,7 +7,8 @@ Module follow "A man asked to come, his afternoon at the baths, and a chair to t
   Passage lane_end "the lane's end" between lane and square.
   Passage bath_door "the bath door" between square and baths.
   Company party "You" of 1 at lane.
-  Person rupert "Rupert" at lane { Role "a young man of the town". Ancestry human. Peaceable. }
+  Person rupert "Rupert" at lane { Role "a young man of the town". Ancestry human. Peaceable.
+    Remarks at baths "'She used to bring me here when I was small,' says Rupert, and looks at the green water.". }
   Initially Assert acceptsEscort(rupert, party).
   Topic rupert_mother with rupert "Ask Rupert about his mother" when true {
     Says "'She'll be at the Pump Room,' says Rupert. 'She always is.'".

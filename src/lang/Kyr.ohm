@@ -55,12 +55,13 @@ Kyr {
   ExitDoor = "through" ident
   ExitKnowledge = "known" "by" ident
   Person = "Person" ident string "at" ident "{" PersonPart* "}"
-  PersonPart = PersonRole | PersonKnown | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonAgain | PersonWords | PersonHaunt
+  PersonPart = PersonRole | PersonKnown | PersonRace | PersonSpecies | PersonVariant | PersonSeen | PersonCreature | PersonCount | PersonCalled | PersonWants | PersonTrait | PersonCarries | PersonClass | PersonLevel | PersonUses | PersonHorizon | StatePart | ChangePart | GuardsPart | PersonPeaceable | PersonProfession | PersonBackground | OffersPart | SellsPart | BuysPart | PersonTemperament | PersonManner | PersonPronouns | PersonAgain | PersonWords | PersonHaunt | PersonRemarks
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
   PersonWords = ("Warns" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Joins" | "Leaves" | "Greets" | "Likeness") string RoleWhen? "."
   PersonAgain = "Greets" "again" string "."
+  PersonRemarks = "Remarks at" ident string "."
   PersonHaunt = ("Lair" | "Refuge" | "Fears") ident "."
   PersonProfession = "Profession" ident "."
   PersonBackground = "Background" ident "."
@@ -157,7 +158,7 @@ Kyr {
        | "Time" Call "." -- measured
   Resolve = "Resolve" Call "."
   ChangeStatement = Change "."
-  Change = Assert | Retract | Set | Increase | Decrease | Give | Spend
+  Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend
   Assert = "Assert" Call
   Give = "Give" term "to" term
   Spend = "Spend" term "from" term
@@ -165,6 +166,8 @@ Kyr {
   Set = "Set" Call "to" Value
   Increase = "Increase" Call "by" Value
   Decrease = "Decrease" Call "by" Value
+  Lessen = "Decrease" Call "by" ToNothing
+  ToNothing = Value "or to nothing"
   Predicate = Or
   Or = And kwOr Or -- binary
      | And

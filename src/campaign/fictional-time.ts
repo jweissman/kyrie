@@ -1,3 +1,5 @@
+// The hours night falls and lifts, 0 to 23: from falls in the evening until lifts in the morning.
+export interface Night { falls: number; lifts: number }
 export class FictionalTime {
   static readonly minutesPerTick = 10;
   // The clock at a watch, and the minutes spent since it began (small things take minutes, not watches).
@@ -9,10 +11,18 @@ export class FictionalTime {
   // The hour of the day, 0 to 23, and the day since the company came (1, 2…).
   static hour(tick: number): number { return Math.floor((8 * 60 + tick * this.minutesPerTick) / 60) % 24; }
   static day(tick: number): number { return Math.floor((8 * 60 + tick * this.minutesPerTick) / 1440) + 1; }
-  // Night, for the world: from nine in the evening until six in the morning.
-  static dark(tick: number): boolean {
+  // Night, for the world: from nine in the evening until six in the morning, unless a campaign keeps its own (A Winter
+  // in Carth's February in the north is dark from five until seven: its friction 1; the Liberty of the Ice's winter
+  // fair is dusk at four).
+  static readonly night: Night = { falls: 21, lifts: 6 };
+  // Hours a night can keep: it falls in the afternoon or evening and lifts in the small hours or the morning.
+  static keeps(night: Night): boolean {
+    return Number.isInteger(night.falls) && Number.isInteger(night.lifts) && night.falls >= 12 && night.falls <= 23
+      && night.lifts >= 0 && night.lifts < 12;
+  }
+  static dark(tick: number, night: Night = this.night): boolean {
     const hour = Math.floor((8 * 60 + tick * this.minutesPerTick) / 60) % 24;
-    return hour >= 21 || hour < 6;
+    return hour >= night.falls || hour < night.lifts;
   }
   // The first hours of the morning, while the dew is on the grass and shadows are long.
   static early(tick: number): boolean {
@@ -24,11 +34,11 @@ export class FictionalTime {
     const hour = Math.floor((8 * 60 + tick * this.minutesPerTick) / 60) % 24;
     return hour < 5 ? 'night' : hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : hour < 21 ? 'evening' : 'night';
   }
-  // Watches from this one until six in the morning, while it is dark.
-  static untilLight(tick: number): number {
-    if (!this.dark(tick)) { return 0; }
+  // Watches from this one until first light (six in the morning), while it is dark.
+  static untilLight(tick: number, night: Night = this.night): number {
+    if (!this.dark(tick, night)) { return 0; }
     const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440;
-    return Math.ceil(((6 * 60 - minutes + 1440) % 1440) / this.minutesPerTick);
+    return Math.ceil(((night.lifts * 60 - minutes + 1440) % 1440) / this.minutesPerTick);
   }
   // Watches of a night's sleep from this one: until seven in the morning when that is six to eighteen hours off
   // (a bed taken in the afternoon or the small hours), otherwise eight hours.
@@ -36,11 +46,11 @@ export class FictionalTime {
     const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440, wake = (7 * 60 - minutes + 1440) % 1440;
     return Math.ceil((wake >= 360 && wake <= 1080 ? wake : 480) / this.minutesPerTick);
   }
-  // Watches from this one until nine in the evening, while it is light.
-  static untilDark(tick: number): number {
-    if (this.dark(tick)) { return 0; }
+  // Watches from this one until dark (nine in the evening), while it is light.
+  static untilDark(tick: number, night: Night = this.night): number {
+    if (this.dark(tick, night)) { return 0; }
     const minutes = (8 * 60 + tick * this.minutesPerTick) % 1440;
-    return Math.ceil((21 * 60 - minutes) / this.minutesPerTick);
+    return Math.ceil((night.falls * 60 - minutes) / this.minutesPerTick);
   }
   // Watches until the day next turns: first light, midday, evening or dark (six, twelve, six and nine o'clock).
   static untilTurn(tick: number): number {

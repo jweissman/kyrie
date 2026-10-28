@@ -1,4 +1,5 @@
 import type { CalendarStart } from './calendar';
+import type { Night } from './fictional-time';
 import type { CommandResolution } from './command-resolution';
 import type { CampaignDefinition } from './definition';
 import type { Creature } from '../creature';
@@ -23,8 +24,9 @@ export interface CampaignState {
   released?: string[];
   // What each who joined the company had of their own, put by until they leave it (see Membership.enlist).
   purses?: Record<string, number>;
-  // The date the campaign began on, when its manifest gives one (see Calendar).
-  calendar?: CalendarStart;
+  // The date the campaign began on, when its manifest gives one (see Calendar), and the hours its night keeps, when
+  // they are its own (see FictionalTime.dark).
+  calendar?: CalendarStart; night?: Night;
   outcome: 'active' | 'success' | 'failure';
   modules?: ModuleStatus[];
   outcomes?: Record<string, boolean>; developments?: { id: string; elapsed: number }[];
