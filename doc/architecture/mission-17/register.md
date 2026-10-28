@@ -15,9 +15,9 @@ it back). A finding a redesign makes moot is Superseded by name, never dropped.
 | | Fixed | Partial | Open | Superseded | Deferred | Not reproduced | Total |
 |---|---|---|---|---|---|---|---|
 | Inherited, at the start | 0 | 42 | 63 | 0 | 0 | 0 | 105 |
-| Inherited, now | 37 | 40 | 27 | 0 | 0 | 1 | 105 |
+| Inherited, now | 40 | 40 | 24 | 0 | 0 | 1 | 105 |
 | New in Mission 17 | 93 | 12 | 5 | 0 | 0 | 0 | 110 |
-| From the adventures (Pellam, Hessel, Carth) | 50 | 5 | 15 | 0 | 0 | 0 | 70 |
+| From the adventures (Pellam, Hessel, Carth) | 51 | 5 | 14 | 0 | 0 | 0 | 70 |
 
 ## Gate A: foundations (correctness, contracts, verification)
 
@@ -116,9 +116,9 @@ it back). A finding a redesign makes moot is Superseded by name, never dropped.
 | AUT-07 | State names share the module namespace | Open | Open |  |
 | AUT-08 | A thing's view does not show the place lines its change altered | Open | Open |  |
 | AUT-09 | Counters against the clock; dates, periods, a module calendar | Partial | Partial | A placed country's days begin at a morning (a0827fd); 3835188: a late installation reads the watch as its own however it reads it (the review's A14); b89eed5: a Rule written `once` happens the first time and never again. Open (E): `day(clock)` and a calendar … |
-| AUT-10 | `Buys` without coin; `Sells` by a non-trader | Open | Open |  |
-| AUT-11 | Levels must sit in a site; ending precedence by order; a one-way way reported as a duplicate | Open | Open |  |
-| AUT-12 | Journey driver gaps; a step label matching another's topic; a rule's says missing from `told` | Open | Open |  |
+| AUT-10 | `Buys` without coin; `Sells` by a non-trader | Open | Fixed | 7fffc1f: one who buys has coin to buy with, ten times the most they pay, unless the module gives them their own (Halm had none, and the page never offered him a find; Parliament of Books' almanack buyer still had none); one who sells and is no trader is on the page (`test/buyer-purse.test.ts`) |
+| AUT-11 | Levels must sit in a site; ending precedence by order; a one-way way reported as a duplicate | Open | Fixed | 7fffc1f: a level may sit in a town or the hills, a terrace open to the sky, walked onto and joined by a stair (`test/terraces.test.ts`); a one-way way with its own way back is two ways; the lint says when an ending asks all an earlier one asks and can never be reached (`test/endings-lint.test.ts`) |
+| AUT-12 | Journey driver gaps; a step label matching another's topic; a rule's says missing from `told` | Open | Fixed | 7fffc1f: `=until <condition>`, `?` before any step, quotes straight or curled, and a step matching choices that do different things kept in `ambiguous` (strict, or JOURNEY_STRICT=1, fails and names them: 25 such steps in the adventures' journeys, most `^Take` among several things); `told` carries the Result and what rules said, and an ending stops a wait (`test/journey-driver.test.ts`) |
 | AUT-14 | Handing an item over (`Gives`) | Open | Fixed | 30168b6: `Give coat to party.` (or `to actor`) in what a topic, an action, a rule or an event does puts the thing in the hands of the first of the company who is up, out of whoever had it or from wherever it lay, and the page says so ("You take Davy's red coat."); the guide's "Asking, giving, selling, waiting" (`test/give.test.ts`, `probes/give`) |
 | AUT-16 | An owner's objection that is not hostility | Open | Open |  |
 | AUT-17 | A change that remembers its agent | Open | Open |  |
@@ -282,7 +282,7 @@ What the authors of The Liberty of the Ice (Pellam), The Banns at Hessel and A W
 | ICE-10 | A question put to the player is a topic that opens topics: the page cannot show the answers as answers to the question | Liberty of the Ice friction 10 | Open | Same as AUT-03 (D) |
 | ICE-11 | A Role is given an article ("Silas Kemble, a Master Harker's clerk") | Liberty of the Ice friction 11 | Fixed | 5f0ce85: a role that says whose someone is takes no article; the guide says how a Role is written and how the page says it (`test/roles-said.test.ts`) |
 | ICE-12 | A person cannot be seen as someone else until known: Ursel is "Ursel Cobb" before she has said her name | Liberty of the Ice friction 12 | Fixed | 8999666: `Known as "a woman in a grey shawl" when not knows(party, her_name).` (`test/known-as.test.ts`, and the guide) |
-| ICE-13 | `Grave` is for actions only: a handshake in conversation must be an action to be asked about first | Liberty of the Ice friction 13 | Open | Grave topics (D) |
+| ICE-13 | `Grave` is for actions only: a handshake in conversation must be an action to be asked about first | Liberty of the Ice friction 13 | Fixed | 7fffc1f: a topic may be `Grave`, before its Says or after, and the page asks first, as for an act (the grave probe's warden, `test/grave.test.ts`) |
 | ICE-14 | A follower's topics need "Talk to" first, and a follower is announced in every room over a day's walking | Liberty of the Ice friction 14 | Fixed | 30168b6: one who follows the company is with it on the page, not announced in each place it comes to, and what can be asked of them is on their card beside the company's, with no "Talk to" first (`test/follow.test.ts`) |
 | ICE-15 | The engine's dark is nine to six in every season: a winter fair is dusk at four | Liberty of the Ice friction 15 | Partial | 41e851a: a campaign can keep its own night, dusk at four if it says so (CTH-01). Open: the Liberty of the Ice's campaign does not say so yet (its authors'), and generated countries keep nine to six in every season of their calendar |
 | ICE-16 | Lint's vocabulary check compares relation names across modules though each is namespaced (`kept`, `broken`) | Liberty of the Ice friction 16 | Fixed | 5f0ce85: the repository's vocabulary check reports a clash among the shared rules, or a module redefining one of theirs; a module's own relations are its own |
