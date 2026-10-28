@@ -116,7 +116,7 @@ Module toll_customs "Customs-men on the road" {
   Place lockup "the lord's lockup" is room indoors.
   Passage lockup_door "the lockup door" is door between lockup and market.
   Thing lockup_bar "the lockup door" on lockup_door {
-    State barred blocking "A plank door, barred on the outside.".
+    State barred blocking "A plank door in the wall, barred on the outside: the lord's lockup.".
     State unbarred "The lockup door stands open on the morning.".
   }
   Observe lockup_scene at lockup when true "A stone room with a high slit of a window, and straw on the floor that has seen a good many nights like yours.".

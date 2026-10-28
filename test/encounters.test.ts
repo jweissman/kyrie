@@ -28,6 +28,29 @@ describe('encounters you can read and answer', () => {
       expect(battle.chosen()).toEqual(declared);
     }
   });
+  // Taunted after the round began, a creature means what its turn will do: to strike whoever taunted it (play 8: a
+  // revenant taunted by a drover still "meant to use claws on Maren").
+  it('a creature taunted onto another after it declared shows the intent its taunt has given it', () => {
+    for (const seed of Array.from({ length: 24 }, (_, i) => `t${i + 1}`)) {
+      const battle = Fight.make(seed);
+      for (let turn = 0; turn < 40 && !battle.state.outcome; turn++) {
+        const now = battle.state, taunt = battle.legalCommands().find(c => c.ability === 'taunt' && c.target === 'bear');
+        if (now.actor === 'bran' && taunt && now.intents?.bear?.target === 'dori' && now.order!.includes('bear')) {
+          battle.step(taunt);
+          const bear = battle.state.combatants.find(c => c.id === 'bear')!;
+          if (!battle.state.outcome && bear.statuses.some(x => x.by === 'bran')) {
+            expect(battle.state.intents?.bear?.target).toBe('bran');
+            while (battle.state.actor !== 'bear' && !battle.state.outcome) { battle.step(battle.chosen()); }
+            if (!battle.state.outcome) { expect(battle.chosen().target).toBe('bran'); }
+            return;
+          }
+        }
+        const wait = battle.legalCommands().find(c => c.ability === 'wait');
+        battle.step(now.actor === 'bear' || !wait ? battle.chosen() : wait);
+      }
+    }
+    throw new Error('No seed let Bran taunt the bear off Dori');
+  });
   it('a warrior guarding a companion takes the blow aimed at them', () => {
     for (const seed of Array.from({ length: 16 }, (_, i) => `g${i + 1}`)) {
       const battle = Fight.make(seed);

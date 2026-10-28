@@ -129,10 +129,12 @@ export class ChoiceList {
     const barred: Choice = { id, label, tone: 'way', disabled: e.blocked ?? 'Not possible from here right now.', about,
       note: 'barred' };
     if (!e.acts.length) { return [barred]; }
-    // A way that is barred, with something to try on what bars it, is those tries; what bars it is said with each.
+    // A way that is barred, with something to try on what bars it, is the way, barred, saying what bars it (and what
+    // another way there would want), and then those tries: "Into the bailey" had opened on looking closely, pushing
+    // and listening at a portcullis, nothing saying why it was no way in (play 8).
     if (e.blocked && !e.acts.some(a => this.moves(a))) {
-      return this.tries(e, label, about).map(c => ({ ...c, about: [e.blocked, c.about].filter(Boolean)
-        .filter((x, i, all) => all.indexOf(x) === i).join(' ') }));
+      return [barred, ...this.tries(e, label, about).map(c => ({ ...c, about: [e.blocked, c.about].filter(Boolean)
+        .filter((x, i, all) => all.indexOf(x) === i).join(' ') }))];
     }
     // A way with one thing to do, and that thing is to go, is just the way; anything else (open the door, risk the
     // pit) is said, so a choice never pretends to lead somewhere it does not.

@@ -261,7 +261,11 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
   text-shadow: 0 2px 16px rgba(0,0,0,.55); }
 .sitter .cap .n { font: 600 clamp(44px, 5.4vw, 72px)/1 var(--do); letter-spacing: -.01em; margin: 0 0 6px; }
 .sitter .cap .r { font: 400 16px var(--do); margin: 0; }
-/* No painting fits them: the page is theirs in type. */
+/* No painting fits them: the country they are met in, darkened at the foot under their name. */
+.sitter.scenic::after { content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.62), rgba(0,0,0,.08) 60%); }
+.sitter.scenic .cap, .sitter.scenic .credit { z-index: 1; }
+/* No painting can be had: the page is theirs in type. */
 .sitter.unpainted { background: var(--paper); border-right: 1px solid var(--hair); display: flex; align-items: flex-end; }
 .sitter.unpainted .cap { position: static; color: var(--ink); text-shadow: none; padding: 0 clamp(24px, 4vw, 56px) clamp(30px, 8vh, 80px); }
 .sitter.unpainted .cap .n { font: 400 clamp(46px, 6vw, 80px)/1.02 var(--told); }

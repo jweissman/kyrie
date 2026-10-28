@@ -108,7 +108,7 @@ export class WorldAssembler {
     if (told) { modules.push(told.request); }
     // One who comes alone is told who at the first inn would come along, whatever brought them (PT-11).
     if (!told || party.length === 1) {
-      this.arrival(region, { size: party.length, contacts }, { files, root, modules });
+      this.arrival(region, { size: party.length, contacts, start: told?.start.place }, { files, root, modules });
     }
     const path = base.resolve(`${root}.campaign.json`);
     const framework = options.framework === null ? [] : await this.framework(base, options.framework ?? this.frontier);
@@ -233,7 +233,7 @@ export class WorldAssembler {
     return true;
   }
   // Why the company came, written as a module of its own (see RegionRecruits.arrival).
-  private static arrival(region: Region, company: { size: number; contacts: Contact[] },
+  private static arrival(region: Region, company: { size: number; contacts: Contact[]; start?: string },
     at: { files: Record<string, string>; root: string; modules: BundleRequest[] }) {
     const arrival = RegionRecruits.arrival(region, company);
     if (!arrival) { return; }

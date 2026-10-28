@@ -40,7 +40,10 @@ export class CombatModel {
         ...c.ability.effects.some(e => e.kind === 'flee') ? { odds: battle.flight() } : {},
         ...actor?.stock?.[c.ability.id] ? { carried: actor.stock[c.ability.id]!.length } : {} })),
       ...battle.opening && !state.outcome ? { moment: battle.opening, reckoned: DangerSense.of(battle).text } : {},
-      order: (state.order ?? []).map(id => this.name(state, id)),
+      // Who is still to act this round: not those who have fallen since it began (play 8's "then the second of the
+      // risen dead", down).
+      order: (state.order ?? []).filter((id, i) => !i || state.combatants.some(f => f.id === id && f.hp > 0))
+        .map(id => this.name(state, id)),
       laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
         .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),
       log: battle.events.map(e => this.line(e, state)).filter(line => !!line).slice(-40),

@@ -105,4 +105,10 @@ export class Canon {
   }
   static isAncestry(id: string): boolean { return Object.hasOwn(this.ancestries, id); }
   static isSpecies(id: string): boolean { return Object.hasOwn(this.species, id); }
+  // One of the dead or a spirit who is a he or a she (pron_she), not an it: someone, if they keep the peace (a drowned
+  // girl, a captain kneeling in his chapel), where a peaceable beast is an animal.
+  static soul(id: string, pronoun?: string): boolean {
+    return this.isSpecies(id) && ['monster', 'spirit'].includes(this.creature(id).kind ?? '')
+      && !!pronoun && pronoun !== 'pron_it';
+  }
 }

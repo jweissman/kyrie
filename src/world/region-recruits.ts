@@ -38,11 +38,13 @@ export class RegionRecruits {
   }
   // Why the company has come, said as it arrives, as a module of its own so it stands apart from the town: each
   // member an old acquaintance sent word to, and what of; a company of one is told who at the first town's inn is
-  // looking for work, by name. Nothing is a task: it is what they came for. It is said wherever in the town the
-  // company begins: said on its green, it was never heard by one who began at its shrine (play 7; PT-11, a lone
-  // mage, thief or bard does not get far alone).
-  static arrival(region: Region, company: { size: number; contacts: Contact[] }) {
-    const town = region.settlements[0]!, imports: Record<string, string> = { party: 'region.party', town: `region.${town.id}` };
+  // looking for work, by name. Nothing is a task: it is what they came for. It is said where the company begins
+  // (said on the town's green, it was never heard by one who began at its shrine: play 7; PT-11, a lone mage, thief
+  // or bard does not get far alone), and only there: said all over the town, it was told at the forge the company
+  // began at, again in the square, and a third time at the inn (play 8).
+  static arrival(region: Region, company: { size: number; contacts: Contact[]; start?: string }) {
+    const town = region.settlements[0]!, start = company.start ?? `${town.id}_green`;
+    const imports: Record<string, string> = { party: 'region.party', start: `region.${start}` };
     const said = company.contacts.map((c, i) => {
       const s = region.settlements.find(x => c.carrier.startsWith(`${x.id}_`));
       imports[`c${i + 1}`] = `region.${c.carrier}`;
@@ -58,10 +60,10 @@ export class RegionRecruits {
     }
     if (!said.length) { return undefined; }
     const names = Object.keys(imports), source = ['Module arrival "Why the company came" {', '  Entity party: group "Your company".',
-      '  Place town "Where they arrive" is settlement.', ...names.filter(n => /^c\d+$/.test(n)).map(n => `  Entity ${n}: group "Someone".`),
-      `  Observe arrival within town when watch(clock) < 1 ${JSON.stringify(said.join(' '))}.`, '  Goal false.', '}'].join('\n');
+      '  Place start "Where they begin" is room.', ...names.filter(n => /^c\d+$/.test(n)).map(n => `  Entity ${n}: group "Someone".`),
+      `  Observe arrival at start when watch(clock) < 1 ${JSON.stringify(said.join(' '))}.`, '  Goal false.', '}'].join('\n');
     return { source, imports, manifest: { version: 1, source: 'arrival.kyr', rules: ['world'], globals: ['party'],
-      imports: names, roles: Object.fromEntries(names.map(n => [n, { type: n === 'town' ? 'place' : 'group' }])) } };
+      imports: names, roles: Object.fromEntries(names.map(n => [n, { type: n === 'start' ? 'place' : 'group' }])) } };
   }
   static traveller(s: Settlement, i: number, region: Region, at = `${s.id}_taproom`): string[] {
     const q = JSON.stringify, id = `${s.id}_traveller`, ancestry = s.people?.traveller ?? s.folk ?? region.ancestry;

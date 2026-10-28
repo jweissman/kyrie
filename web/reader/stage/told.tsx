@@ -8,6 +8,7 @@ import { Moments } from './moments';
 import { Panorama } from './panorama';
 import { PlaceStage } from './place-stage';
 import { Stage } from './stage';
+import { Journey } from './journey';
 
 // What the place says and what just happened in it. Coming somewhere, the way there is told, then the place, then
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
@@ -47,7 +48,7 @@ export class Told {
   static Travelled({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, leaf = frame.leaf;
     if (s.pending) { return null; }
-    if (frame.travel) { return <Told.Journey travel={frame.travel} />; }
+    if (frame.travel) { return <Journey.View travel={frame.travel} />; }
     return leaf.moved && leaf.journey && leaf.journey.length > 0 ? <div className="journey" aria-label="On the way">
       {leaf.journey.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}</div> : null;
   }
@@ -60,18 +61,6 @@ export class Told {
         {recap.last && <p className="last"><span className="at">{recap.last.at}</span> {Typography.curl(
           `${recap.last.said}${/[.!?]$/.test(recap.last.said) ? '' : '.'} ${recap.last.told}`.trim())}</p>}
       </div>
-    );
-  }
-  // A journey along known ways: each leg as it went, under the time it came there; and, if it did not arrive, what
-  // stopped it, said plainly where the eye goes next.
-  static Journey({ travel }: { travel: NonNullable<Frame['travel']> }) {
-    return (
-      <section className="travelled" aria-label={`On the way to ${travel.to}`}>
-        <ol>{travel.legs.map((l, i) => <li key={i}><p className="leg"><span className="at">{l.at.replace(/^Day \d+, /, '')}</span>
-          {' '}{Typography.curl(Words.upper(l.place))}</p>
-          {[...l.journey, ...l.lines].map((t, j) => <p key={j}>{Typography.curl(t)}</p>)}</li>)}</ol>
-        {!travel.arrived && <p className="stopped">{Typography.curl(travel.stopped ?? 'The journey stops here')}.</p>}
-      </section>
     );
   }
   // Whether the page already says it (the dark, in the place's own words), so it is not said twice.

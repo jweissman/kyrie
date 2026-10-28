@@ -105,9 +105,12 @@ export class Itineraries {
     const plans = [...known].filter(id => id !== area?.id && (told.includes(id) || this.worth(byId.get(id))))
       .flatMap(id => { const p = this.plan(campaign, id); return p && (p.legs.length > 1 || p.toward) ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
-    // A door someone told of and the ruin gone into behind it are one place, not two of one name: the ruin, whose way
-    // goes by its door, is left out ("Riwustagn" was offered twice, back in town: play 7).
-    return plans.filter(p => !plans.some(o => o !== p && o.name === p.name && p.legs.some(l => l.to === o.id)));
+    // A door someone told of and the ruin gone into behind it are one place, not two: the ruin, whose way goes by its
+    // door, is left out ("Riwustagn" was offered twice, back in town: play 7; a lone tower's foot and the keep gone
+    // into from it were "Aurumvigilia" and "The tower": play 8).
+    const ways = world.related('connects');
+    return plans.filter(p => !plans.some(o => o !== p && (o.name === p.name && p.legs.some(l => l.to === o.id)
+      || SiteScale.behind(entities, o.id, ways) === p.id)));
   }
   // The towns the roads the company knows go to, that it has not been to or been told of: the map draws them, and
   // they can be set out for from it, and from the notes (the map had said "You know no way there yet" of a town at
@@ -145,7 +148,7 @@ export class Itineraries {
   }
   // A place set out for, with how big it is where it is a site (see SiteScale).
   private static scaled(campaign: Campaign, d: Itinerary, names: Map<string, Entity>): NonNullable<Screen['destinations']>[number] {
-    const scale = SiteScale.of(campaign.module.entities, d.id);
+    const scale = SiteScale.of(campaign.module.entities, d.id, campaign.world.related('connects'));
     return { ...this.named(d, names), ...scale ? { scale } : {} };
   }
   private static named(d: Itinerary, names: Map<string, Entity>): NonNullable<Screen['destinations']>[number] {

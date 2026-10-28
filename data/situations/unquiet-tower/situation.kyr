@@ -104,7 +104,8 @@ Module unquiet_tower "The unquiet tower" {
   }
   Initially Set encounterXp(hound) to 25.
   Person maren "the drowned girl" at cell {
-    Role "the necromancer's drowned sister". Species revenant. Level 1. Peaceable.
+    Role "the necromancer's drowned sister". Species revenant. Level 1. Peaceable. Pronouns she.
+    Greets "The drowned girl turns her head toward you. Her lips move, and nothing comes." when state(maren, empty).
     State empty "A girl in a wet shift sits on a stone bench. Water runs from her hair without end. She turns her head toward you and says nothing.".
     State named "The drowned girl sits forward on the bench and looks at you. Her lips move, and this time words come.".
     State resting "The drowned girl lies on the bench with her hands folded. Her hair has dried.".
@@ -112,7 +113,7 @@ Module unquiet_tower "The unquiet tower" {
     Change lay_named "Say the rites of the dead over {self}, as she asks" from named to resting needing rites.
   }
   Person captain "the kneeling shape" at chapel {
-    Role "the garrison's last captain". Species wisp. Peaceable.
+    Role "the garrison's last captain". Species wisp. Peaceable. Pronouns he.
     State kneeling "A pale shape in a surcoat kneels at the chapel altar with its head bowed, and does not look round.".
     State gone "The chapel is empty. Rain has found the altar.".
   }
@@ -151,7 +152,7 @@ Module unquiet_tower "The unquiet tower" {
     Source letters "a bundle of letters in a girl's hand, and his notes on each" at library readable by party.
   }
   Discovery back_stair "A back stair climbs inside the tower wall from the crypt to the study at the top." {
-    Source worn_steps "boot-worn steps behind an empty burial niche" at crypt readable by party.
+    Source worn_steps "the wear of boots on steps behind an empty burial niche" at crypt readable by party.
   }
   Discovery captain_name "The garrison's last captain was Edric Hale. The roll says he died at the Holt and lies in its chapel." {
     Source roll "the garrison roll, in a cracked binding" at library readable by party.
@@ -166,6 +167,17 @@ Module unquiet_tower "The unquiet tower" {
   Topic captain_named with captain "Call the captain by his name, Edric Hale" when state(captain, kneeling) and knows(actor, captain_name) once {
     Says "The shape lifts its head at its name. 'Present,' it says. 'The pay is in the strongroom, and the silver; the drift floods, but the sluice under the cistern steps still turns. Take it. There is no one left to pay.' Then it is not there.".
     On discuss { Assert knows(actor, sluice_known). Assert state(captain, gone). }
+  }
+  // The keepers wrote the names of the dead, and the one at the shrine remembers hers: the way to give her back
+  // herself, for a company that would sooner talk than fight (play 8: a bard at the tower found no one to talk to).
+  Topic her_name with keeper "Ask {keeper} about {necromancer}'s sister" when knows(actor, sister) and state(maren, empty) once {
+    Says "{keeper} is quiet a long moment. 'I wrote her name in the register myself, the spring she was born, and the flood took the book the night it took her.' {keeper} says the name as it was written, and makes you say it back until you have it right. 'Say it to her as I said it. The dead answer to what we wrote.'".
+    On discuss { Assert knows(actor, her_name). }
+  }
+  Entity her_name: fact "{keeper} gave you the drowned girl's name, as the keepers wrote it.".
+  Topic call_her with maren "Call the drowned girl by her name, as {keeper} said it" when knows(actor, her_name) and state(maren, empty) once {
+    Says "You say it as {keeper} said it. The water stops a moment in her hair. 'Yes,' she says, as if you had asked her something. 'That is mine.'".
+    On discuss { Assert state(maren, named). }
   }
   Topic maren_asks with maren "Ask the drowned girl what she wants" when state(maren, named) once {
     Says "'He called me by my name and I came,' she says, 'and it is cold, and I am so tired. Tell him to let me go. Or let me go yourselves.'".
@@ -226,6 +238,10 @@ Module unquiet_tower "The unquiet tower" {
 
   // What the company did below reaches him: dead he raised, laid down in his own hall.
   Event noticed near necromancer when state(risen, laid) and together(party, necromancer) and state(necromancer, working) "{necromancer} looks up at last. 'You laid my dead down in the hall,' he says. 'They will not get up again for me. Who sent you? The keepers?' He does not wait for an answer.".
+  // Asked while he works, he says enough to send a company looking: one of the dead, only one, and the letters below.
+  Topic doing with necromancer "Ask {necromancer} what he wants with the dead" when state(necromancer, working) and not knows(actor, sister) once {
+    Says "'Want with them?' {necromancer} does not look up. 'Nothing. I wanted one of them, only one, and the rest came up with her. Read what you like downstairs, and then go.'".
+  }
   Topic why with necromancer "Ask {necromancer} who he was raising" when state(necromancer, broken) and not spared(necromancer) {
     Says "'My sister,' says {necromancer}. 'She drowned the spring I left {shrine}. I only wanted to ask her one thing. The others came up with her.' He will not look at you.".
   }

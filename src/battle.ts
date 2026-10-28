@@ -256,8 +256,7 @@ export class Battle {
       this.history.push({ type: 'windup', turn: this.turn, actor: actor.id, target: command.target, detail: ability.windup });
       this.endTurn(actor);
       if (!this.outcome) { this.advance(); }
-      this.commit();
-      return structuredClone(this.history.slice(start));
+      return this.settled(start);
     }
     delete actor.windup;
     const context = this.context(actor);
@@ -275,13 +274,28 @@ export class Battle {
     if (!this.outcome && actor.hp > 0 && --this.actions > 0 && !actor.statuses.some(s => Effects.skips(s.id))
       && this.commandsFor(actor).length) {
       this.impulsive(actor);
-      this.commit();
-      return structuredClone(this.history.slice(start));
+      return this.settled(start);
     }
     if (!this.outcome) { this.endTurn(actor); }
     if (!this.outcome) { this.advance(); }
+    return this.settled(start);
+  }
+  // A step done: what it made of the intents declared, the fight kept, and what happened in it.
+  private settled(start: number): CombatEvent[] {
+    this.redeclare();
     this.commit();
     return structuredClone(this.history.slice(start));
+  }
+  // An intent made impossible since the round began (its creature taunted onto another, its target fallen) is
+  // declared again, as its turn would choose, so that what the company sees coming is what comes (play 8: a revenant
+  // taunted by a drover still "meant to use claws on Maren").
+  private redeclare() {
+    for (const [id, intent] of this.intents) {
+      const f = this.fighters.find(x => x.id === id), legal = f && f.hp > 0 ? this.commandsFor(f) : [];
+      if (legal.some(c => c.ability === intent.ability && c.target === intent.target)) { continue; }
+      if (!legal.length) { this.intents.delete(id); continue; }
+      this.intents.set(id, Tactics.choose({ ...this.state, actor: id }, this.plain(legal)));
+    }
   }
   // What can be done in this fight: the catalog's abilities, and the things the company carries to use up.
   get repertoire(): ArenaAbility[] { return this.abilities; }

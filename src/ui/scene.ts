@@ -60,10 +60,13 @@ export class SceneModel {
     return words[c.label] ? { ...c, label: words[c.label]! } : c;
   }
   // Said beside its subject, a choice need not name it again: "Ask Wat about Father" under Wat is "Ask about Father";
-  // "Take a coil of rope" under the rope is "Take".
+  // "Take a coil of rope" under the rope is "Take". What is told someone, or asked of them, still says whom: "Tell
+  // the dead can rest" and "Tell to leave and never come back" (play 8) were no one's words.
   static bare(c: Choice, name: string): Choice {
     const short = name.replace(/^(a|an|the|some) /i, '');
-    const asked = c.label.replace(new RegExp(`^(\\w+) ${this.escape(name)}\\b(?!['’]s),? ?`), '$1 ');
+    const whom = new RegExp(`^(${this.telling.join('|')}) ${this.escape(name)}\\b|^\\w+ ${this.escape(name)},? (to|that) `);
+    const asked = whom.test(c.label) ? c.label
+      : c.label.replace(new RegExp(`^(\\w+) ${this.escape(name)}\\b(?!['’]s),? ?`), '$1 ');
     // "Make much of Fly" is "Make much of"; "Gather a wad of sphagnum moss" keeps what it gathers.
     const tail = new RegExp(`\\s(${this.escape(name)}|${this.escape(short)})$`, 'i');
     const cut = asked.replace(tail, '').trim();
@@ -73,6 +76,8 @@ export class SceneModel {
     return { ...c, label: label || c.label,
       ...c.children ? { children: c.children.map(k => this.bare(k, name)) } : {} };
   }
+  static readonly telling = ['Tell', 'Warn', 'Remind', 'Assure', 'Promise', 'Convince', 'Persuade', 'Urge', 'Beg',
+    'Order', 'Bid', 'Let', 'Help'];
   private static escape(text: string): string { return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
   // Ways that take more than a few minutes, or set out across wild country, are the ways out; the rest, and any way
   // about the settlement or site the company is in however long (the gauge shaft, the Hall lane), are about here.

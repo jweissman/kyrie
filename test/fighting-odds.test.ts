@@ -47,6 +47,26 @@ describe('the odds of a blow, and what a fight says', () => {
     ];
     expect(CombatTelling.exchanges(events, state)[0]!.text).toContain('shrugs off the armor shred');
   });
+  // A wound bleeds at its own turn's end, after whatever it did: what it comes to is said of the wound, not read as
+  // the blow just told (play 8: "The second of the risen dead is not infected", after its claws caught Maren).
+  it('tells a wound bleeding, and festering or not, as the wound\'s', () => {
+    const state = { combatants: [{ id: 'w', name: 'Maren' }, { id: 'f', name: 'the risen dead' }] } as unknown as BattleState;
+    const turn: CombatEvent[] = [
+      { type: 'action', turn: 1, command: { actor: 'f', ability: 'melee', target: 'w' } },
+      { type: 'attack', turn: 1, actor: 'f', target: 'w', die: 15, need: 8, toHit: 2, armorClass: 6, weapon: 'claws',
+        success: true, critical: false },
+      { type: 'damage', turn: 1, actor: 'f', target: 'w', rolled: 1, amount: 1, hp: 6 },
+      { type: 'damage', turn: 1, actor: 'f', target: 'f', rolled: 2, amount: 2, hp: 9, damageType: 'bleed' },
+      { type: 'save', turn: 1, actor: 'f', target: 'f', rolled: 18, difficulty: 15, success: true, against: 'infected' },
+    ];
+    const told = CombatTelling.exchanges(turn, state)[0]!.text;
+    expect(told).toContain('The risen dead bleeds, for 2.');
+    expect(told).toContain('The risen dead\'s wound stays clean.');
+    expect(told).not.toMatch(/bleed damage|not infected/);
+    const festers: CombatEvent[] = [{ type: 'action', turn: 1, command: { actor: 'f', ability: 'wait', target: 'f' } },
+      { type: 'status', turn: 1, actor: 'f', target: 'f', detail: 'infected', amount: 3 }];
+    expect(CombatTelling.exchanges(festers, state)[0]!.text).toContain('The risen dead\'s wound festers.');
+  });
   // The follow-up review: "shakes it off. … takes 0 fire damage. … is burning", and a bite "for 0" that bled.
   it('tells harm that came to nothing as nothing, and a save against harm as turning the worst of it', () => {
     const state = { combatants: [{ id: 'w', name: 'Dayereth' }, { id: 'f', name: 'the hound' }] } as unknown as BattleState;

@@ -89,8 +89,10 @@ export class CombatTelling {
   private consequence(e: CombatEvent): string | undefined {
     switch (e.type) {
       // Harm that came to nothing (a save halved it away) is not told as harm.
+      // A wound bleeding is told as one (it bled at its own turn's end, after whatever it did: play 8).
       case 'damage': if (!e.amount && e.modifiers?.resistance !== 1) { return undefined; }
         return e.modifiers?.resistance === 1 ? `${this.name(e.target)} is not harmed by it.`
+        : e.damageType === 'bleed' ? `${this.name(e.target)} bleeds, for ${e.amount}.`
         : e.damageType && e.damageType !== 'physical' ? `${this.name(e.target)} takes ${e.amount} ${e.damageType} damage.`
           : `${this.name(e.target)} is hurt, for ${e.amount}.`;
       case 'heal': return e.amount ? `${this.name(e.target)} recovers ${e.amount}.` : undefined;
@@ -111,6 +113,9 @@ export class CombatTelling {
     const state = /(ed|ing)$/.test(what.split(' ')[0] ?? '');
     if (e.immune) { return !what ? `${who} is untouched by it.` : state ? `${who} cannot be ${what}.` : `${who} cannot suffer ${what}.`; }
     if (!e.success) { return undefined; }
+    // What a bleeding wound may come to is said of the wound ("the second of the risen dead is not infected", after
+    // its own blow on someone else, read as the blow's: play 8; the register's CMB-02).
+    if (e.against === 'infected') { return `${who}'s wound stays clean.`; }
     // A save against the harm itself turns the worst of it, not all of it: what it sets going still goes.
     return !what ? `${who} turns the worst of it aside.` : state ? `${who} is not ${what}.` : `${who} shrugs off the ${what}.`;
   }
@@ -118,7 +123,8 @@ export class CombatTelling {
   static readonly phrases: Record<string, string> = { prone: '{t} is knocked flat.', shred: "{t}'s armour is torn open.",
     poison: '{t} is poisoned.', silence: '{t} is struck dumb.', slow: '{t} slows.', haste: '{t} quickens.',
     rage: '{t} flies into a rage.', flight: '{t} lifts into the air.', focus: '{t} steadies.', thirst: '{t} is parched.',
-    doom: 'Doom settles on {t}.', agony: '{t} doubles over in agony.', fear: '{t} is afraid.', dodge: '{t} is ready to dodge.' };
+    doom: 'Doom settles on {t}.', agony: '{t} doubles over in agony.', fear: '{t} is afraid.', dodge: '{t} is ready to dodge.',
+    infected: "{t}'s wound festers." };
   // "The boar is bleeding", in the condition's own words when it has them.
   private condition(target: string, id: string): string {
     const own = CombatPresenter.told(id, 'begins');

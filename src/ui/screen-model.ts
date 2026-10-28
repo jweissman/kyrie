@@ -32,16 +32,14 @@ import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types'
 export class ScreenModel {
   // The date by the campaign's calendar, and the weather by the sky of the region the company is in.
   private static when(campaign: Campaign, elapsed: number): Pick<Screen, 'date' | 'weather'> {
-    const start = campaign.readout.calendar, world = campaign.world;
-    const sky = Skies.over(world, campaign.playerActor);
+    const start = campaign.readout.calendar, sky = Skies.over(campaign.world, campaign.playerActor);
     return { ...start ? { date: { short: Calendar.short(start, elapsed), long: Calendar.long(start, elapsed) } } : {},
       ...sky ? { weather: sky.replace(/^.*__/, '').replace(/^weather_/, '') } : {} };
   }
   static build(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world;
     const entities = ObservationText.presented(world);
-    const names = this.names(campaign);
-    const prices = this.prices(world);
+    const names = this.names(campaign), prices = this.prices(world);
     const present = new Set(view.present.map(p => p.id));
     const passageOf = this.passageOf(world, view.location?.id ?? '');
     const fees = this.fees(campaign);
@@ -283,8 +281,11 @@ export class ScreenModel {
         || (Content.playableRaces as string[]).includes(member.raceId));
       // A person's ancestry is in their look; their note is what is going on with them (a creature's, what it is).
       // A creature that keeps the peace (a dog on a doorstep, a goat on a tether) is an animal about the place, not a
-      // danger; what it is, its role says.
-      const animal = !playable && w.test(ModuleWriter.call('peaceable', p.id));
+      // danger; what it is, its role says. One of the dead or a spirit who keeps it, and is a he or a she, is someone
+      // (a drowned girl in a cell had been among the animals: play 8).
+      const peaceable = !playable && w.test(ModuleWriter.call('peaceable', p.id));
+      const soul = peaceable && p.members?.length === 1 && Canon.soul(member!.raceId, w.one('pronouns', p.id));
+      const animal = peaceable && !soul;
       // A creature its author gave a role is said by it ("the tall grey figure that walks the Long Man"), not by its
       // kind, which may be what the company has yet to find out (an automaton).
       const note = (p.state ? undefined : p.condition) ?? (member && !playable && !animal && !p.name.includes(', ')
@@ -298,7 +299,7 @@ export class ScreenModel {
       // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
       const portrait = likened ? this.portrait(w, p.id, member, at.taken) : undefined;
-      return { id: p.id, kind: playable ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
+      return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...(p.members?.length ?? 0) > 1 ? { many: true } : {},
         ...(!p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
