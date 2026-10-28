@@ -27,7 +27,7 @@
   Rule {w}_drains when state({w}_wheel, turned) and state({w}_water, flooded) says "Deep in the hill a gate grinds open. The black water begins to fall, and goes on falling, and the dark fills with the sound of it." { Assert state({w}_water, drained). }
   Thing {w}_marks "marks cut up a pillar" at {w}_hall {
     State unread "One pillar is cut with marks from the floor to as high as you can reach, each with a word beside it in the old script.".
-    State read "Each mark is the height the water stood in a year the {epithet} kept it, and the word beside it is the year's name. There are hundreds. The last mark is the highest, and has no word.".
+    State read "Each mark is the height the water stood in a year {epithet} kept it, and the word beside it is the year's name. There are hundreds. The last mark is the highest, and has no word.".
     Change read "Read the marks on the pillar" from unread to read needing lore.
   }
   Observe {w}_marks_learned at {w}_hall of {w}_marks as reading when state({w}_marks, read) "{craft} {belief}" teaches {makersfact}.

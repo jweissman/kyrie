@@ -274,8 +274,11 @@ export class Narrator {
     // What was learned is noted, unless it has just been said.
     const said = new Set(unique.map(l => l.text));
     const notes = [...feedback.resources.map(r => this.resource(r)), ...(spoken.length ? []
-      : feedback.discoveries.filter(d => !said.has(d)).map(d => `Noted: ${this.gist(d)}`))];
-    const begun = event.cut && campaign.operator(event.action)?.name, me = this.alone(campaign);
+      : feedback.discoveries.filter(d => !said.has(d)).map(d => `Noted: ${this.gist(d)}`)),
+    ...(feedback.aims ?? []).map(a => `Aim: ${a}`)];
+    // A fight that fell on the company is not an activity it began (its action is the attack it was drawn into: "You
+    // begin to attack the wheel-keeper" was told of a company that walked into the wheel-room and fled).
+    const begun = event.cut && !event.prelude && campaign.operator(event.action)?.name, me = this.alone(campaign);
     const turned = this.tidy(unique, fight).map(l => me && ['telling', 'event', 'change'].includes(l.kind)
       ? { ...l, text: SecondPerson.turn(l.text, me) } : l);
     return { ...told.said ? { said: begun ? Narrator.begun(begun) : told.said } : {},

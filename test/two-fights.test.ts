@@ -36,7 +36,7 @@ describe('two fights in one', () => {
     const lines = (leaf.exchange?.lines ?? []).map(l => l.text);
     expect(lines.some(l => /^The (first|second|third|fourth) of the rats falls\.$/.test(l))).toBe(true);
     expect(lines.some(l => /bone hounds/.test(l))).toBe(true);
-    expect(lines.filter(l => /^Your company prevails/.test(l))).toEqual([]);
+    expect(lines.filter(l => /^The fight is won/.test(l))).toEqual(['The fight is won.']);
   }, 60000);
   // The fight's own page closes as its last blow lands, so the account after it keeps the blow that felled each who
   // fell: the strike on whoever took the damage, and not whatever else came just before (Mabon missing a hound).
@@ -45,9 +45,9 @@ describe('two fights in one', () => {
       'Wenna takes 3 bludgeoning damage (0 HP left).', 'Wenna falls.',
       'Rharash hits the first of the pack (d20 15, needing 9: THAC0 less AC 11 less to-hit 4).',
       'The first of the pack takes 1 slashing damage (0 HP left).', 'The first of the pack falls.',
-      'Your company wins the encounter.'];
+      'The fight is won.'];
     expect(Narration.tidy(lines, lines.length)).toEqual(['Wenna takes 3 bludgeoning damage (0 HP left).', 'Wenna falls.',
       'Rharash hits the first of the pack.', 'The first of the pack takes 1 slashing damage (0 HP left).',
-      'The first of the pack falls.', 'Your company wins the encounter.']);
+      'The first of the pack falls.', 'The fight is won.']);
   });
 });

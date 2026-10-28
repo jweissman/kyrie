@@ -28,7 +28,7 @@
   },
   "tower_necromancer": {
     "__no_id": true,
-    "_drawn": "=lookup(townsfolkName, #ancestry)", ">name": "=defined('taken') ? (among(#taken, #_drawn) ? select(townsfolkName, #ancestry, '!among(#taken, #__it)') : #_drawn) : #_drawn",
+    "_drawn": "=lookup(townsfolkName, #ancestry)", ">name": "=defined('taken') ? apart(#_drawn, #taken, #ancestry, 'tower_necromancer') : #_drawn",
     ">raceId": "=#ancestry",
     ">classId": "=lookup(necromancerCalling, #ancestry)"
   },

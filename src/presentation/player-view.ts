@@ -253,9 +253,12 @@ export class PlayerView {
       choices: publicChoices.map(c => c.choice),
       ...(campaign.module.objectives?.length ? { objectives: perceiving ? campaign.module.objectives
         .filter(o => world.test(o.when)).map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }))
-        : [] } : {}),
+        .toSorted((a, b) => PlayerView.own(a.id) - PlayerView.own(b.id)) : [] } : {}),
       map: CompanyMap.of(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action)) };
   }
+  // Your own errand before what the country holds (the page's aim had wandered to whatever was heard of last: the lone
+  // tower, then the cisterns, while the brothers' errand was under way: play 7).
+  private static own(id: string): number { return /^origin__/.test(id) ? 0 : 1; }
   // The company as the page shows it: each member's standing, spells, conditions, abilities and qualities.
   private static members(campaign: Campaign): PlayerSnapshot['party'] {
     const creatures = campaign.readout.creatures;

@@ -5,9 +5,12 @@ export class Narration {
     let clean = lines.map(l => this.sentence(l.replace(/ \((\d+) HP; [^)]*\)/, ' ($1 HP left)')
       .replace(/(passes|fails) the (\w+) save \([^)]*\)/, (_m, verb: string, stat: string) =>
         `${verb === 'passes' ? 'resists' : 'fails to resist'} (${stat})`)));
-    // "Your company prevails" says no more than the encounter won does; who is down after it, it still says.
-    if (clean.some(l => /wins the encounter/.test(l))) {
-      clean = clean.map(l => l.replace(/^Your company prevails\. ?/, '')).filter(Boolean);
+    // How the fight ended is said once, by the fight; who is down after it is still said.
+    const ends = new RegExp('^(The fight is (won|lost)|You are clear of the fight'
+      + '|The fight ends with neither side the better)\\.$');
+    const end = clean.find(l => ends.test(l));
+    if (end) {
+      clean = clean.map(l => l !== end && l.startsWith(end) ? l.slice(end.length).trim() : l).filter(Boolean);
     }
     // "Wenna is down" after "Wenna falls" says it twice.
     clean = clean.filter(l => {
@@ -24,7 +27,8 @@ export class Narration {
     // A fight was told blow by blow as it happened; afterwards only how it turned out is told again, and the blow
     // that felled each who fell, since the last of them was struck as the fight's own page closed.
     if (!blows || clean.length <= 6) { return clean; }
-    const told = /falls|wins|withdraw|defeated|experience|dies|reaches level|flees|gets away|(is|are) down|at you/;
+    const told = new RegExp('falls|fight is (won|lost)|clear of the fight|neither side|ground is yours|experience|dies'
+      + '|reaches level|flees|gets away|(is|are) down|at you');
     return clean.filter((l, i) => told.test(l) || this.fell(clean, i + 1)
       || (this.fell(clean, i + 2) && this.struck(l, clean[i + 1]))).map(l => l.replace(/ \(d20 [^)]*\)/, ''));
   }

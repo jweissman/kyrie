@@ -195,17 +195,27 @@ export class PlaceStage {
         {said && <span className="r">{Typography.curl(said)}</span>}
       </Act.View>
       <PlaceStage.Opened choice={go!} draw={draw} />
-      {also.map(c => <Fragment key={c.id}><Act.View choice={c} draw={draw} className="way also">
-        {Typography.curl(Words.upper(PlaceStage.also(c.label)))}</Act.View><PlaceStage.Opened choice={c} draw={draw} /></Fragment>)}
+      {also.map(c => c.children?.length ? <PlaceStage.Hazard key={c.id} choice={c} draw={draw} />
+        : <Act.View key={c.id} choice={c} draw={draw} className="way also">
+          {Typography.curl(Words.upper(PlaceStage.also(c.label)))}</Act.View>)}
     </>;
   }
-  // What you mean to do, said quietly at the head of the ways on: the first aim the notes hold (the owner's interim
-  // report: little to say where anything worth doing was, without turning to the notes).
+  // Something in the way and what can be done about it, each its own row under the thing's name: it had opened as a
+  // fold under the way, "…" and then underlined words (play 7, the enchanted object on the long stair).
+  static Hazard({ choice: c, draw }: { choice: Choice; draw: Draw }) {
+    return <>
+      <p className="way-thing">{Typography.curl(Words.upper(PlaceStage.also(c.label).replace(/^(Look at|Examine) /i, '')))}</p>
+      {c.children!.map(k => <Fragment key={k.id}><Act.View choice={k} draw={draw} className="way also">
+        {Typography.curl(Words.upper(k.label))}</Act.View><PlaceStage.Opened choice={k} draw={draw} /></Fragment>)}
+    </>;
+  }
+  // Your aim, said quietly at the head of the ways on: the first the notes hold, your own errand before what the
+  // country holds (the owner's interim report: little to say where anything worth doing was, without the notes). It
+  // is said as written: "You mean to / the brothers want …" was no sentence (play 7).
   static Aim({ screen, bound }: { screen: Screen; bound: boolean }) {
     const aim = screen.objectives[0];
     if (!aim || bound) { return null; }
-    return <p className="aim" data-id="aim"><span className="label">You mean to</span>{Typography.curl(
-      aim.replace(/^./, c => c.toLowerCase()))}</p>;
+    return <p className="aim" data-id="aim"><span className="label">Your aim</span>{Typography.curl(Words.upper(aim))}</p>;
   }
   // Where you are going, while you are: where to, the next way and how long it is, how long in all; going on (by the
   // way known from here, a way at a time, stopping only for what wants you) and giving it up. On every page you

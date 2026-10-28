@@ -10,7 +10,7 @@
     "casting": "=gen(fever_casting)"
   },
   "fever_casting": { "__no_id": true, "mother": "=gen(fever_mother)", "sister": "=gen(fever_sister)" },
-  "fever_mother": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? (among(#taken, #_drawn) ? select(townsfolkName, #folk, '!among(#taken, #__it)') : #_drawn) : #_drawn", "raceId": "=#folk" },
-  "fever_sister": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? (among(#taken, #_drawn) ? select(townsfolkName, #folk, '!among(#taken, #__it)') : #_drawn) : #_drawn", "raceId": "=#folk",
+  "fever_mother": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? apart(#_drawn, #taken, #folk, 'fever_mother') : #_drawn", "raceId": "=#folk" },
+  "fever_sister": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? apart(#_drawn, #taken, #folk, 'fever_sister') : #_drawn", "raceId": "=#folk",
     "classId": "=lookup(goingsOnCalling, #folk)" }
 }

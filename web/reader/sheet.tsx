@@ -7,7 +7,8 @@ import { CharacterPage } from './character-page';
 import { MenuModel } from './menu-model';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
-// you can be of it), the story so far, what you carry, the company. Back goes back to what is here; the world stays.
+// you can be of it), the story so far, what you carry, the company. The book's head goes back to what is here (a back
+// of its own under the head made two: play 7); the world stays.
 export class Sheet {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, screen = frame.screen;
@@ -15,7 +16,6 @@ export class Sheet {
       : s.view === 'company' ? <CharacterPage.View app={app} /> : Sheet.pack(app, screen);
     return (
       <section className={`sheet view-${s.view}`} data-region="details" aria-label={s.view}>
-        <p className="back"><button type="button" className="act" data-action="close" onClick={app.back}>‹ Back</button></p>
         {body}
       </section>
     );

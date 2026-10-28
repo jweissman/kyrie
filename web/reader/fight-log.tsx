@@ -1,8 +1,8 @@
 import { memo, useLayoutEffect, useRef } from 'react';
 import type { CombatScreen } from '../../src/ui/screen-types';
 
-// The fight so far, round by round, newest last: beside the page at a desk, folded under the turn on a phone. It
-// scrolls on its own, so reading back never moves the foes or the choices.
+// The fight so far, round by round, newest last: shown in place of what just happened when asked for. It scrolls on
+// its own, so reading back never moves the foes or the choices.
 export class FightLog {
   static View({ exchanges }: { exchanges: CombatScreen['exchanges'] }) {
     const list = useRef<HTMLDivElement>(null);

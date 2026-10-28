@@ -22,7 +22,13 @@ describe('creation, by the rules', () => {
         .toEqual([Fighting.statMod(score), Checks.bonus(c, 'lore').modifier]);
     }
     expect(CreationRules.quality('strength', 13)).toEqual(['A blow with a weapon in the hand: +2 to hit, +2 to the harm it'
-      + ' does.', 'Climbing, and lifting or forcing what is stuck: +1 to the roll. Against paralysis: +2.']);
+      + ' does.', 'Climbing, and lifting or forcing what is stuck: +1 to the roll. Against paralysis: +3 and the die.']);
+    // The sheet says its saves on their own, with what is worn counted, and its qualities without them.
+    expect(CreationRules.quality('wisdom', 10, undefined, false)).toEqual(['Searching a place: +0. Reading people and'
+      + ' country, tending wounds, the rites, and the way across country: +0 to the roll.']);
+    expect(CreationRules.quality('dexterity', 8, undefined, false)).toEqual(['Easier to hit: blows at you need 1 less to'
+      + ' land.', 'A shot with a bow, a sling or a dart: −1 to hit, +0 to the harm it does.',
+    'Going unseen, locks and traps: −1 to the roll.']);
   });
   it('offers a calling every ordinary weapon it is trained to, and no treasure', () => {
     const arms = (calling: string) => catalog.callings.find(c => c.id === calling)!.weapons.map(w => w.id);

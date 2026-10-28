@@ -5,6 +5,7 @@ import { Attending, type Attention, type Examined, type Talk } from '../../src/u
 import type { Frame } from '../engine/protocol';
 import type { Travel } from './reader-app';
 import { Words } from './words';
+import { Aims } from './aims';
 
 export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 // What can be chosen now: the scene (who and what is here, the ways, yourself), or a conversation with one of them, or
@@ -63,11 +64,14 @@ export class MenuModel {
     const going = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id)];
     const about = this.around(screen);
     const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...about, ...scene.far, ...going,
-      ...scene.you].flatMap(c => this.unfold(c, opened));
+      ...scene.you].flatMap(c => this.unfold(c, this.inWay(c) ? new Set([...opened, c.id]) : opened));
     return { scene, sections: [...this.sections(scene), ...going.length
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []], choices,
     destinations: going, around: about };
   }
+  // Something in a way and what can be done about it are drawn under the way, open, and are among the choices (they
+  // had been a fold: play 7): a way's own choice, after its first, that holds choices of its own.
+  private static inWay(c: Choice): boolean { return /^exit:[^/]+\/[1-9]\d*:/.test(c.id) && !!c.children; }
   // The other places of the town further than a step, each walked to directly by the known way: "To the taproom of
   // the Fierce Goblet, by the landing".
   static around(screen: Frame['screen']): Choice[] {
@@ -88,9 +92,12 @@ export class MenuModel {
   // (the edge of the wood it is said to be in). Past the nearest few, the map, which has them all.
   static destinations(screen: Frame['screen'], bound?: string): Choice[] {
     const all = (screen.destinations ?? []).filter(d => d.id !== bound);
-    return [...all.slice(0, this.near).map(d => ({ ...this.journey(d), note: this.by(d) })),
-      ...all.length > this.near ? [{ id: 'view:map', label: `The other places you know: ${all.length - this.near}, on the map`,
-        tone: 'way' as const, command: 'view:map' }] : []];
+    // The nearest, and the place your aim names, near or far.
+    const named = Aims.named(all, screen.objectives[0], this.near);
+    const shown = [...all.slice(0, this.near), ...named ? [named] : []], rest = all.length - shown.length;
+    return [...shown.map(d => ({ ...this.journey(d), note: this.by(d) })),
+      ...rest > 0 ? [{ id: 'view:map', label: rest === 1 ? 'One other place you know, on the map'
+        : `${Words.upper(Words.many(rest, 'other place'))} you know, on the map`, tone: 'way' as const, command: 'view:map' }] : []];
   }
   // A journey held (set out on, and not yet come to the end of): going on with it, by the way known from here, and
   // giving it up.

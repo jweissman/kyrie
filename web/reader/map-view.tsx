@@ -28,7 +28,7 @@ export class MapView {
           <MapView.Plan app={app} screen={screen} chosen={chosen} />
         </div>
         {local && <MapView.Local chart={local} />}
-        <p><button type="button" className="act" data-action="close" onClick={app.back}>‹ Back to where you are</button></p>
+        <p><button type="button" className="option back-to" data-action="close" onClick={app.back}>Back to where you are</button></p>
       </article>
     );
   }
@@ -86,7 +86,7 @@ export class MapView {
             points={p.points}><title>{p.label}</title></polyline>)}
           {d.zones.map(z => <text key={z.id} className="name-zone" x={z.x} y={z.y} textAnchor="middle">{z.name}</text>)}
           {d.places.map(p => <g key={p.id} className={`spot${chosen === p.id ? ' chosen' : ''}`} role="button" tabIndex={0}
-            data-action="map-place" data-id={p.id} aria-label={d.labels.find(l => l.id === p.id)?.text ?? p.id}
+            data-action="map-place" data-id={p.id} aria-label={d.labels.find(l => l.id === p.id)?.text ?? p.name}
             aria-pressed={chosen === p.id} onClick={() => choose(p.id)}
             onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); choose(p.id); } }}>
             <circle className="reach" cx={p.x} cy={p.y} r={14} />

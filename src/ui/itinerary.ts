@@ -101,9 +101,12 @@ export class Itineraries {
     // somewhere been is, when it is a settlement, a site or the edge of the country. One a step away is a way about
     // here, not somewhere to set out for; but setting out toward a place in wild country is not the step into it (the
     // raiders' hold a widow looks toward, a path's walk into the wood it stands in).
-    return [...known].filter(id => id !== area?.id && (told.includes(id) || this.worth(byId.get(id))))
+    const plans = [...known].filter(id => id !== area?.id && (told.includes(id) || this.worth(byId.get(id))))
       .flatMap(id => { const p = this.plan(campaign, id); return p && (p.legs.length > 1 || p.toward) ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
+    // A door someone told of and the ruin gone into behind it are one place, not two of one name: the ruin, whose way
+    // goes by its door, is left out ("Riwustagn" was offered twice, back in town: play 7).
+    return plans.filter(p => !plans.some(o => o !== p && o.name === p.name && p.legs.some(l => l.to === o.id)));
   }
   // The towns the roads the company knows go to, that it has not been to or been told of: the map draws them, and
   // they can be set out for from it, and from the notes (the map had said "You know no way there yet" of a town at

@@ -360,14 +360,16 @@ export class Effects {
     target[effect.resource] += amount;
     if (amount) { Effects.detail(context, target, { type: 'gain', detail: effect.resource, amount }); }
   }
-  // Commands.handleStatusEffect: a reapplied status replaces the old one; temporary hit points are rolled now.
+  // Commands.handleStatusEffect: a reapplied status replaces the old one; temporary hit points are rolled now, by
+  // whoever gave it, or by its holder when nobody did (a ward from a lantern lifted off its hook: "14 + 2 * #level" had
+  // no level to read, and the page showed the engine's error).
   static condition(effect: Extract<Effect, { kind: 'apply' }>, target: Fighter, context: EffectContext) {
     if (target.hp === 0) { return; }
     const status = Effects.status(effect.status);
     target.statuses = target.statuses.filter(s => s.id !== effect.status
       || (status.stacking === 'source-refresh' && s.source !== context.source?.id));
     const pool = status.modifiers.tempHp && context.expressions
-      ? context.expressions.number(status.modifiers.tempHp, context.actor ? Effects.context(context.actor) : {}) : 0;
+      ? context.expressions.number(status.modifiers.tempHp, Effects.context(context.actor ?? target)) : 0;
     // A perk can make every status its holder applies last longer (a troupe's resonant harmony).
     const longer = context.actor ? Perks.bonus(context.actor.traits, 'spellDuration',
       context.actor.environment ? { environment: context.actor.environment } : {}) : 0;

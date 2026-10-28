@@ -23,9 +23,7 @@ export class QualitiesStep {
             aria-label={`${q.name}: rolled ${rolled[q.id]}`} onClick={choose.bind(null, q.id)}>{rolled[q.id]}</button>
           <div className="quality">
             <p className="q"><b>{q.name}</b> <span className="score">{score}</span>
-              {adds && <span className="adds">{adds}</span>}
-              <span className="mods">{`${CreationRules.signed(CreationRules.fight(score))} in a fight, `
-                + `${CreationRules.signed(CreationRules.check(score))} to a roll`}</span></p>
+              {adds && <span className="adds">{adds}</span>}</p>
             <ul className="does">{CreationRules.quality(q.id, score, calling).map(l => <li key={l}>{Typography.curl(l)}</li>)}</ul>
           </div>
         </li>;

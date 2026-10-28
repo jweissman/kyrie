@@ -127,9 +127,8 @@ export class CharacterPage {
       {sheet && <section className="qualities-of"><h3>Qualities</h3><ul className="tiles">{sheet.qualities.map(q =>
         <li key={q.id} className="tile"><span className="q">{q.name}</span>
           <span className="score">{q.score}</span>
-          <span className="mods">{CharacterPage.signed(q.fight)} in a fight{q.check !== q.fight
-            && `, ${CharacterPage.signed(q.check)} in a check`}{q.score !== q.base && ` · of ${q.base}`}</span>
-          <span className="rests">{CreationRules.quality(q.id, q.score).filter(l => !/^Hit points/.test(l))
+          {q.score !== q.base && <span className="mods">{`of ${q.base}`}</span>}
+          <span className="rests">{CreationRules.quality(q.id, q.score, undefined, false).filter(l => !/^Hit points/.test(l))
             .map(l => <span key={l} className="does">{Typography.curl(l)}</span>)}</span></li>)}</ul></section>}
       {sheet && <section><h3>In a fight</h3><dl className="bearings">{sheet.fighting.map(b => <div key={b.label}>
         <dt>{b.label}</dt><dd>{Typography.curl(b.value)}</dd></div>)}</dl></section>}

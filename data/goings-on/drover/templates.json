@@ -10,7 +10,7 @@
     "casting": "=gen(drover_casting)"
   },
   "drover_casting": { "__no_id": true, "wife": "=gen(drover_wife)", "son": "=gen(drover_son)" },
-  "drover_wife": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? (among(#taken, #_drawn) ? select(townsfolkName, #folk, '!among(#taken, #__it)') : #_drawn) : #_drawn", "raceId": "=#folk" },
-  "drover_son": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? (among(#taken, #_drawn) ? select(townsfolkName, #folk, '!among(#taken, #__it)') : #_drawn) : #_drawn", "raceId": "=#folk",
+  "drover_wife": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? apart(#_drawn, #taken, #folk, 'drover_wife') : #_drawn", "raceId": "=#folk" },
+  "drover_son": { "__no_id": true, "_drawn": "=lookup(townsfolkName, #folk)", ">name": "=defined('taken') ? apart(#_drawn, #taken, #folk, 'drover_son') : #_drawn", "raceId": "=#folk",
     "classId": "=lookup(goingsOnCalling, #folk)" }
 }

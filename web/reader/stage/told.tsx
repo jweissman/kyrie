@@ -115,8 +115,9 @@ export class Told {
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
         {notes.length > 0 && <ul className="notes">{notes.map(n => <li key={n}
-          className={/^Noted: /.test(n) ? 'learned' : undefined}>{/^Noted: /.test(n)
-            ? <><span className="label">You know now</span> {Typography.curl(n.replace(/^Noted: /, ''))}</>
+          className={/^(Noted|Aim): /.test(n) ? 'learned' : undefined}>{/^(Noted|Aim): /.test(n)
+            ? <><span className="label">{/^Aim: /.test(n) ? 'A new aim' : 'You know now'}</span>
+              {` ${Typography.curl(n.replace(/^(Noted|Aim): /, ''))}`}</>
             : Typography.curl(n)}</li>)}</ul>}
       </section>
     );

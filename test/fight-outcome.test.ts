@@ -13,12 +13,12 @@ describe('a fight told', () => {
     const s = await PlaySession.start('test/fixtures/household/household.campaign.json', 'h', NodeBundleSource.shared);
     const event = { action: 'wait', result: 'success', changes: [], elapsed: 0,
       combat: [{ type: 'end', outcome: 'goblins' }] } as unknown as CampaignEvent;
-    const feedback: ActionFeedback = { attempt: 'Fight', result: 'Your company is defeated.', ended: true, resources: [],
+    const feedback: ActionFeedback = { attempt: 'Fight', result: 'The fight is lost.', ended: true, resources: [],
       time: '', immediate: ['Bettany Slake hits Ivo.', 'Ivo takes 6 bludgeoning damage (0 HP left).', 'Ivo falls.'],
       discoveries: [], rolls: [], observations: [], available: [], unavailable: [], events: [] };
     const lines = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign), { event, feedback, moved: false })
       .exchange!.lines.map(l => l.text);
     expect(lines).toEqual(['Bettany Slake hits Ivo.', 'Ivo takes 6 bludgeoning damage (0 HP left).', 'Ivo falls.',
-      'Your company is defeated.']);
+      'The fight is lost.']);
   }, 60000);
 });

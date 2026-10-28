@@ -43,7 +43,7 @@ describe('a fight that has ended', () => {
   it('is held on its page, how it ended and what it was worth, until the player goes on', async () => {
     const { host, session } = await Hounds.host(), frame = await Hounds.attack(host, session);
     expect(frame.combat?.outcome).toBe('fighters');
-    expect(frame.combat!.after).toContain('Your company wins the encounter.');
+    expect(frame.combat!.after).toContain('The fight is won.');
     expect(frame.combat!.after!.some(l => /^Wenna gains \d+ experience\.$/.test(l))).toBe(true);
     expect(frame.combat!.foes.every(f => f.down)).toBe(true);
     // Its page calls the hounds as the place did, and the account afterwards does: never by their number in the fight.

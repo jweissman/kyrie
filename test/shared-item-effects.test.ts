@@ -67,6 +67,13 @@ describe('shared item and environmental effects', () => {
     expect(bareSave?.type === 'save' && bareSave.modifier).toBe(0);
     expect(protectedSave?.type === 'save' && protectedSave.die).toBe(bareSave?.type === 'save' && bareSave.die);
   });
+  it('gives a ward that nobody casts its temporary hit points by the level of whoever it is given to', () => {
+    // A wonder in a ruin: a lantern lifted off its hook wards whoever lifts it (Orsino's warded: 14 + 2 × level).
+    const store = ItemFixture.setup(), lantern = [{ id: 'lantern', type: 'hazard', name: 'The lantern',
+      effect: 'Apply warded to ally for 5 hours.' }];
+    Items.expose(store, { target: 'hero', ability: 'lantern', source: 'hall:lantern', seed: 'ward', entities: lantern });
+    expect(store.get('hero').state.conditions.find(s => s.id === 'warded')?.tempHp).toBe(14 + 2 * 4);
+  });
   it('rejects invalid targets without spending an owned dose, and repeats seeded trap saves exactly', () => {
     const store = ItemFixture.setup(); Items.take(store, 'hero', { id: 'dose-1', definition: 'healingdraught' });
     const before = store.snapshot;

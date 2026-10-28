@@ -3,6 +3,9 @@ import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { PlayerView } from '../src/presentation/player-view';
+import { ScreenModel } from '../src/ui/screen-model';
+import { Narrator } from '../src/presentation/narrator';
+import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import type { Battle } from '../src/battle';
 import type { Command } from '../src/model';
 
@@ -45,6 +48,16 @@ describe('people who fall on the company', () => {
     expect([event.fledTo, Watch.where(s)]).toEqual(['world__lane', 'world__lane']);
     // The sentry is still at his post, and will challenge them again.
     expect(s.campaign.world.test(ModuleWriter.call('at', 'world__sentry', 'world__gatehouse'))).toBe(true);
+  }, 60000);
+  // A fight that came at the company is not told as one it began: fleeing the wheel-keeper that fell on it in the
+  // wheel-room, a fresh play read "You begin to attack the wheel-keeper. The wheel-keeper comes at you!" (play 7).
+  it('tells the way the company took, not an attack it never made, when it is fallen on there', async () => {
+    const s = await Watch.start(), before = PlayerView.observe(s.campaign);
+    const event = await s.perform('go(world__gate,world__gatehouse)', Watch.run);
+    const feedback = ActionFeedbackView.read(s.campaign, event, before);
+    const leaf = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign),
+      { event, feedback, said: 'Through the gate', moved: true });
+    expect(leaf.exchange?.said).toBe('Through the gate');
   }, 60000);
   // The cold playtest fled the cave spiders it had attacked, and was told "The ferocious cave spiders come at you!"
   // with nothing after: a company that runs from a fight it chose stayed where it stood, and what it ran from fell on

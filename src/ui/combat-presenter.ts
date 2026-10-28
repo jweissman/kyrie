@@ -82,12 +82,13 @@ export class CombatPresenter {
       case 'dismiss': return `${event.detail} goes back whence it came.`;
       case 'react': return `${actor} answers ${target}.`;
       case 'travel': return `${actor} travels to ${event.detail}.`;
-      case 'end': return event.outcome === 'fighters' ? 'Your company wins the encounter.' :
-        event.outcome === 'goblins' ? 'The opposition wins the encounter.' :
-          event.outcome !== 'escaped' ? 'The encounter ends without a victor.'
+      // In the page's words, not the engine's ("Your company withdraws from the encounter": play 7).
+      case 'end': return event.outcome === 'fighters' ? 'The fight is won.' :
+        event.outcome === 'goblins' ? 'The fight is lost.' :
+          event.outcome !== 'escaped' ? 'The fight ends with neither side the better.'
             : event.fled?.team === 'goblins'
               ? `${state.combatants.find(f => f.id === event.fled!.actor)?.name ?? event.fled.actor} flees the fight.`
-              : 'Your company withdraws from the encounter.';
+              : 'You are clear of the fight.';
     }
   }
 }

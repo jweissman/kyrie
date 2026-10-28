@@ -7,7 +7,7 @@ import { Words } from './words';
 // One line of a conversation as it is kept on the page: what the company said, what was said back or done, what it
 // came to know, and what it paid or was given.
 export interface TalkLine {
-  kind: 'you' | 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'learned' | 'tally'; text: string;
+  kind: 'you' | 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'learned' | 'aim' | 'tally'; text: string;
 }
 
 // Where the player's attention goes, and what a conversation keeps. Turning to someone, to a thing, away from a thing
@@ -39,7 +39,7 @@ export class Conversation {
     const restated = Words.restates(Words.echo(words), exchange?.lines[0]?.text);
     const you: TalkLine[] = /#talk$/.test(choice.id) || restated ? [] : [{ kind: 'you', text: words }];
     return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
-      ...(exchange?.notes ?? []).map(text => ({ kind: /^Noted: /.test(text) ? 'learned' as const : 'tally' as const,
-        text: text.replace(/^Noted: /, '') }))];
+      ...(exchange?.notes ?? []).map(text => ({ kind: /^Noted: /.test(text) ? 'learned' as const
+        : /^Aim: /.test(text) ? 'aim' as const : 'tally' as const, text: text.replace(/^(Noted|Aim): /, '') }))];
   }
 }

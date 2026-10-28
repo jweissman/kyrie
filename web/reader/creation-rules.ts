@@ -26,26 +26,38 @@ export class CreationRules {
     return from.flatMap(x => x?.qualities[quality] ? [`${this.signed(x.qualities[quality]!)} ${x.name.toLowerCase()}`]
       : []).join(', ');
   }
-  // What a quality does at a score, line by line, for someone of a calling. A save adds your level as well.
-  static quality(id: string, score: number, calling?: Calling): string[] {
+  // What a quality does at a score, line by line, for someone of a calling. A save is the die, the quality's fighting
+  // measure and the level (one, at creation), as the sheet's saves are; a sheet, which says its saves exactly with
+  // what is worn counted, asks for the lines without them (play 7 read "Against madness: −1" over "+0 and the die").
+  static quality(id: string, score: number, calling?: Calling, saves = true): string[] {
+    return this.does(id, score, calling).map(l => saves ? l : l.replace(/ ?(Against|Getting out of the way)[^.:]*: [^.]*\./g, ''))
+      .filter(Boolean);
+  }
+  private static does(id: string, score: number, calling?: Calling): string[] {
     const f = this.signed(this.fight(score)), harm = this.signed(Math.max(0, this.fight(score)));
     const k = this.signed(this.check(score)), spells = calling?.casts === id ? [this.casting(calling)] : [];
+    const save = `${this.signed(this.fight(score) + 1)} and the die`;
     switch (id) {
       case 'strength': return [`A blow with a weapon in the hand: ${f} to hit, ${harm} to the harm it does.`,
-        `Climbing, and lifting or forcing what is stuck: ${k} to the roll. Against paralysis: ${f}.`];
-      case 'dexterity': return [`Harder to hit: blows at you need ${f} more to land.`,
+        `Climbing, and lifting or forcing what is stuck: ${k} to the roll. Against paralysis: ${save}.`];
+      case 'dexterity': return [this.dodge(this.fight(score)),
         `A shot with a bow, a sling or a dart: ${f} to hit, ${harm} to the harm it does.`,
-        `Going unseen, locks and traps: ${k} to the roll. Getting out of the way of a blast: ${f}.`];
+        `Going unseen, locks and traps: ${k} to the roll. Getting out of the way of a blast: ${save}.`];
       case 'constitution': return [`Hit points: your calling's die${calling ? ` (${calling.hitDie})` : ''} at first level`
         + `${this.fight(score) > 0 ? `, and ${this.fight(score)} more` : ''}; half the die again at each level after, ${f}.`,
-      `Against poison, disease, bleeding, stunning, breath and the cold: ${f}. Digging: ${k} to the roll.`];
+      `Against poison, disease, bleeding, stunning, breath and the cold: ${save}. Digging: ${k} to the roll.`];
       case 'intelligence': return [`Old histories, scripts and the workings of magic: ${k} to the roll. Against`
-        + ` madness: ${f}.`, ...spells];
+        + ` madness: ${save}.`, ...spells];
       case 'wisdom': return [`Searching a place: ${f}. Reading people and country, tending wounds, the rites, and the`
-        + ` way across country: ${k} to the roll. Against magic, charms, fear and sleep: ${f}.`, ...spells];
+        + ` way across country: ${k} to the roll. Against magic, charms, fear and sleep: ${save}.`, ...spells];
       case 'charisma': return [`Talking people round, a lie that holds, or frightening someone: ${k} to the roll.`, ...spells];
       default: return [];
     }
+  }
+  // How much harder a quick body is to hit: what a blow at you must roll the more, or the less.
+  private static dodge(n: number): string {
+    return n > 0 ? `Harder to hit: blows at you need ${n} more to land.` : n < 0
+      ? `Easier to hit: blows at you need ${-n} less to land.` : 'No harder or easier to hit than anyone.';
   }
   private static casting(calling: Calling): string {
     const of = { mage: 'spells', cleric: 'prayers', bard: 'songs' }[calling.id] ?? 'spells';

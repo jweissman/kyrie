@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReaderApp } from '../reader-app';
 import { Toast } from '../toast';
 import { Typography } from '../../../src/presentation/typography';
@@ -24,6 +24,8 @@ export class CreationPage {
     { id: 'why', title: 'Why you have come', View: OriginStep.View }];
   static View({ app }: { app: ReaderApp }) {
     const [at, go] = useState(0), s = app.state, setting = s.setting;
+    // Each page opens at its head (the qualities and the weapon opened at their feet, where the last was left: play 7).
+    useEffect(() => { window.scrollTo({ top: 0 }); }, [at]);
     if (!setting || !s.catalog || !s.party[0]) { return null; }
     const step = CreationPage.steps[at]!, next = CreationPage.steps[at + 1];
     return (

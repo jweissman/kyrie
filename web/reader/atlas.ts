@@ -8,7 +8,7 @@ export interface Drawn {
   unknown: Pt[];
   rivers: string[]; roads: { points: string; came: boolean }[];
   paths: { points: string; label: string; shut: boolean; came: boolean }[];
-  places: (Pt & { id: string; kind: string; visited: boolean })[];
+  places: (Pt & { id: string; kind: string; visited: boolean; name: string })[];
   zones: (Pt & { id: string; name: string })[];
   labels: (Pt & { id: string; text: string; kind: string; known: boolean; anchor: 'start' | 'end' | 'middle' })[];
   here?: Pt; glosses: [string, string][];
@@ -98,8 +98,9 @@ export class Atlas {
   }
   private static ends(e: RegionChart['edges'][number]): string { return [e.from, e.to].sort().join('|'); }
   // A name beside each place: to the right if there is room, else left, above or below, on a side no road or path runs
-  // through where there is one (a name across a road is hard to read); a name that fits nowhere is left off (the
-  // ways list says it).
+  // through where there is one (a name across a road is hard to read). A mark's name that fits nowhere is left off (the
+  // ways list says it); a town's is set where it stays on the map, crowded or not: two towns the notes offered to set
+  // out for were circles without names (play 7).
   private static labels(places: (Pt & { id: string; kind: string; visited: boolean; name: string })[], taken: Pt[],
     bounds?: number[], ways: Pt[] = []): Drawn['labels'] {
     const boxes: number[][] = taken.map(p => [p.x - 13, p.y - 13, p.x + 13, p.y + 13]);
@@ -112,13 +113,17 @@ export class Atlas {
       const tries: [number, number, 'start' | 'end' | 'middle'][] = [[16, 4, 'start'], [-16, 4, 'end'],
         [0, -16, 'middle'], [0, 28, 'middle']];
       let set: { x: number; y: number; anchor: 'start' | 'end' | 'middle'; box: number[] } | undefined, across = set;
+      let crowded = set;
       for (const [dx, dy, anchor] of tries) {
         const x = p.x + dx, y = p.y + dy, left = anchor === 'start' ? x : anchor === 'end' ? x - w : x - w / 2;
         const box = [left, y - h + 3, left + w, y + 3];
         // A name stays on the map: one that would run off its edge goes on another side.
         if (bounds && (box[0]! < bounds[0]! || box[2]! > bounds[0]! + bounds[2]! || box[1]! < bounds[1]!
           || box[3]! > bounds[1]! + bounds[3]!)) { continue; }
-        if (boxes.some(b => box[0]! < b[2]! && box[2]! > b[0]! && box[1]! < b[3]! && box[3]! > b[1]!)) { continue; }
+        if (boxes.some(b => box[0]! < b[2]! && box[2]! > b[0]! && box[1]! < b[3]! && box[3]! > b[1]!)) {
+          crowded ??= { x, y, anchor, box };
+          continue;
+        }
         if (ways.some(q => q.x > box[0]! && q.x < box[2]! && q.y > box[1]! && q.y < box[3]!)) {
           across ??= { x, y, anchor, box };
           continue;
@@ -126,7 +131,7 @@ export class Atlas {
         set = { x, y, anchor, box };
         break;
       }
-      const at = set ?? across;
+      const at = set ?? across ?? (town ? crowded : undefined);
       if (!at) { continue; }
       boxes.push(at.box);
       out.push({ id: p.id, text, kind: p.kind, known: p.visited || town, x: at.x, y: at.y, anchor: at.anchor });

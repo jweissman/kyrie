@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { CombatantRow } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
@@ -7,11 +8,13 @@ import { Act } from './act';
 
 // A fight. The company on one side and what it fights on the other, each with how hurt they are, what they are under
 // and (for a foe) what it means to do; between them what has just happened, large, the latest last; whose turn it
-// is and who follows; and beneath, what the one whose turn it is can do, as cards. The whole fight so far is a fold
-// away. A word said in the middle of it never hides what happened. Once it has ended, the page stays: the last blows,
-// how it ended and what it was worth, and how each side stands, until the player goes on.
+// is and who follows; and beneath, what the one whose turn it is can do, as cards. The whole fight so far is shown in
+// place of what just happened, at a touch, and put away again (it had been a web page's fold: play 7). A word said in
+// the middle of it never hides what happened. Once it has ended, the page stays: the last blows, how it ended and what
+// it was worth, and how each side stands, until the player goes on.
 export class FightStage {
   static View({ app }: { app: ReaderApp }) {
+    const [log, show] = useState(false);
     const s = app.state, frame = s.frame!, combat = frame.combat!, mark = s.fight, draw = Act.draw(app);
     const seen = mark?.seen ?? 0, recent = combat.exchanges.filter(e => e.n >= seen);
     const first = mark?.first ?? true, after = combat.after ?? [];
@@ -24,12 +27,12 @@ export class FightStage {
         <div className="sides">
           <ul className="side ours" aria-label="The company">{combat.allies.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
             took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} />)}</ul>
-          <div className="beat" aria-live="polite">
+          <div className="beat" aria-live="polite">{log ? <FightLog.Memo exchanges={combat.exchanges} /> : <>
             {first && frame.opening.filter(Boolean).map((l, i) => <p key={`o${i}`} className="began">{Typography.curl(l)}</p>)}
             {recent.map(e => <p key={e.n} className="what" title={e.detail}>{Typography.curl(e.text)}</p>)}
             {after.map(l => <p key={l} className="after">{Typography.curl(l)}</p>)}
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}
-          </div>
+          </>}</div>
           <ul className="side foes" aria-label="Against you">{combat.foes.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
             took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} foe />)}</ul>
         </div>
@@ -44,10 +47,8 @@ export class FightStage {
           {combat.ours && !combat.outcome && app.menu.sections.length > 0 && <p className="auto">T lets {combat.actorName} fight
             this turn on their own.</p>}
         </div>
-        <details className="fight-log-fold">
-          <summary>The fight so far</summary>
-          <FightLog.Memo exchanges={combat.exchanges} />
-        </details>
+        <p className="fight-log-toggle"><button type="button" className="option quiet" data-action="fight-log"
+          aria-pressed={log} onClick={() => show(!log)}>{log ? 'Back to what just happened' : 'The fight so far'}</button></p>
       </div>
     );
   }

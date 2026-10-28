@@ -15,6 +15,9 @@ export interface ActionFeedback {
   observations: string[]; available: string[]; unavailable: string[]; events: string[];
   // Whether the result is how a fight ended, which is told after its blows.
   ended?: boolean;
+  // Aims taken up or come to by it: reading the makers' marks made the brothers' errand "You have copied the old
+  // writing at Riwustagn. Ruven at Faennsīe should see it.", and only the notes said so (play 7).
+  aims?: string[];
 }
 export class ActionFeedbackView {
   static readonly probes = ['look_closely', 'prod', 'pry', 'burn', 'push', 'listen', 'search'];
@@ -124,9 +127,9 @@ export class ActionFeedbackView {
     const ended = event.combat.find(e => e.type === 'end');
     if (ended?.type !== 'end') { return undefined; }
     const fallen = after.party.filter(p => p.hp === 0 && before.party.some(b => b.id === p.id && b.hp > 0));
-    return `${ended.outcome === 'fighters' ? 'Your company prevails.' : ended.outcome === 'escaped' ? ended.fled?.team === 'goblins'
-      ? 'Your opponent flees; the company holds the ground.' : 'Your company withdraws.'
-      : ended.outcome === 'goblins' ? 'Your company is defeated.' : 'The encounter ends without a victor.'}`
+    return `${ended.outcome === 'fighters' ? 'The fight is won.' : ended.outcome === 'escaped' ? ended.fled?.team === 'goblins'
+      ? 'Your opponent flees, and the ground is yours.' : 'You are clear of the fight.'
+      : ended.outcome === 'goblins' ? 'The fight is lost.' : 'The fight ends with neither side the better.'}`
       + `${fallen.length ? ` ${fallen.map(p => p.name).join(', ')} ${fallen.length === 1 ? 'is' : 'are'} down.` : ''}`;
   }
   // What was learned from words said in the moment (a rule that says and teaches): those words stand for it, and the
@@ -153,6 +156,9 @@ export class ActionFeedbackView {
     const unsaid = learned.filter(k => !spoken.has(k.id) && !shown.has(k.id));
     const changed = this.changed(campaign, event, { before, after, taught, known: new Set(learned.map(k => k.id)) });
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
+    const had = before.objectives ?? [];
+    const aims = (after.objectives ?? []).filter(o => !had.some(b => b.id === o.id && b.text === o.text))
+      .map(o => FictionalTime.prose(o.text));
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
     const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && !learned.length && !changed.length
@@ -186,7 +192,7 @@ export class ActionFeedbackView {
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],
       rolls, discoveries: learned.map(k => shown.get(k.id) ?? k.text),
-      ...!response && battleResult ? { ended: true } : {},
+      ...!response && battleResult ? { ended: true } : {}, ...aims.length ? { aims } : {},
       events: (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       observations: changed.map(o => FictionalTime.prose(o.text)),
       available: before.location?.id === after.location?.id ?
