@@ -70,7 +70,10 @@ export class Panorama {
                 .trim())}</span>}
               {s.way && <span className="looked">{Typography.curl(s.way)}</span>}
               {s.beyond && <span className="looked beyond">{Typography.curl(s.beyond)}</span>}</span>
-            <span className="off">{s.distance}{d?.journey.minutes ? ` · ${Words.span(d.journey.minutes)}` : ''}</span>
+            {/* How far it looks, and how long the ways known take to it, said apart: "a long way off · about 2 hours"
+                beside "some way off · about 5 hours" read as a contradiction (the cold evaluation). */}
+            <span className="off">{s.distance}{d?.journey.minutes ? ` · ${Words.span(d.journey.minutes)} by the ways you know`
+              : ''}</span>
             {d && choose && <button type="button" className="act set-out" data-action="set-out" data-id={d.id}
               title={d.journey.label} onClick={() => choose(d.journey)}>Set out</button>}
           </li>;

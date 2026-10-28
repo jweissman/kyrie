@@ -20,16 +20,17 @@ describe('the company\'s light', () => {
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w8_barrow_chamber') }]));
     // What is carried to spare is counted by its kind: the follow-up review found a torch in the pack and "nothing
-    // to spare" beside it, the pack's kinds being counted by their names.
-    expect(ScreenModel.build(s.campaign).expedition.light).toBe('Nothing lit · 1 torch to spare');
+    // to spare" beside it, the pack's kinds being counted by their names. (Everyone sets out with a torch and a
+    // candle: the cold evaluation.)
+    expect(ScreenModel.build(s.campaign).expedition.light).toBe('Nothing lit · 1 torch, 1 candle to spare');
     await s.perform(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
     expect(ScreenModel.build(s.campaign).expedition.light)
-      .toMatch(/^Wenna's torch, (an hour|\d+ minutes) left · nothing to spare$/);
+      .toMatch(/^Wenna's torch, (an hour|\d+ minutes) left · 1 candle to spare$/);
     // Out in the day the torch is put out, and keeps what is left of it: said as burning, it read as burning on
     // (play 7).
     c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', 'region__w8_barrow_chamber') },
       { kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w8') }]));
     expect(ScreenModel.build(s.campaign).expedition.light)
-      .toMatch(/^Wenna's torch, put out with (an hour|\d+ minutes) left · nothing to spare$/);
+      .toMatch(/^Wenna's torch, put out with (an hour|\d+ minutes) left · 1 candle to spare$/);
   }, 60000);
 });

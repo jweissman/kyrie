@@ -11,6 +11,7 @@ import { ModuleParser } from '../lang/module-parser';
 import { ModuleCompiler } from '../lang/module-compiler';
 import { ModuleWriter } from '../lang/module-writer';
 import { Cast } from './cast';
+import { ItemTraits } from './item-traits';
 import type { CampaignActor, CampaignDefinition } from './definition';
 import type { Instance, Operator, Module, Person } from '../lang/module';
 import { EngineOwned } from '../lang/engine-owned';
@@ -54,7 +55,7 @@ export class ModuleAssembly {
       throw new Error('Member state is inferred from the canonical cast; do not initialize it manually');
     }
     this.generatedItems(module, manifest.items ?? {});
-    this.itemTraits(module);
+    ItemTraits.assert(module);
     this.references(module, cast);
     const order = [...manifest.actors.order, ...(company ? [company.actor] : []), ...people];
     const actors = this.actors(order, module);
@@ -218,25 +219,6 @@ export class ModuleAssembly {
     const ids = new Set([...(module.people ?? []).filter(p => !p.creature && !(p.raceId && Canon.isSpecies(p.raceId)))
       .map(p => p.id), ...module.actions.flatMap(a => a.speaker && !imported.includes(a.speaker) ? [a.speaker] : [])]);
     for (const id of ids) { module.initial.push({ kind: 'assert', call: ModuleWriter.call('talks', id) }); }
-  }
-  private static itemTraits(module: Module) {
-    const kinds = new Set(module.initial.filter(c => c.kind === 'assert' && c.call.name === 'itemKind')
-      .map(c => c.call.args[1]!));
-    for (const kind of kinds) {
-      const definition = ItemCatalog.get(kind);
-      const fuel = [...kinds].some(k => ItemCatalog.get(k).fuel === kind);
-      for (const name of [...(definition.slot ? ['wearable'] : []), ...(definition.use ? ['consumable'] : []),
-        ...(/^Apply (torchlit|candlelit) to self/.test(definition.use ?? '') ? ['lightsUp'] : []), ...fuel ? ['fuel'] : []]) {
-        this.trait(module, name, kind);
-      }
-      if (definition.fuel && kinds.has(definition.fuel)) { this.trait(module, 'burns', kind, definition.fuel); }
-    }
-  }
-  private static trait(module: Module, name: string, ...args: string[]) {
-    if (module.relations.some(r => r.name === name) && !module.initial.some(c => c.kind === 'assert'
-      && c.call.name === name && c.call.args.every((a, i) => a === args[i]))) {
-      module.initial.push({ kind: 'assert', call: ModuleWriter.call(name, ...args) });
-    }
   }
   private static references(module: Module, cast: SituationManifest['creatures']) {
     if (module.relations.some(r => r.name === 'fieldUsable')) {

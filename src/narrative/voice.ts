@@ -66,8 +66,12 @@ export class Voice {
   // that agrees with them, [walk|walks].
   static render(text: string, s: Speaking): string {
     const words = this.pronouns[s.pronoun ?? 'they'] ?? this.pronouns.they!;
+    // A verb next to the speaker's name agrees with the speaker, one or many, before the name or after it, not with
+    // the pronoun said of them ("'You,' say the woman in black": the cold evaluation).
     const named = s.many === undefined ? text : text.replace(/(\{[Aa]ctor\} )\[([^|\]]*)\|([^\]]*)\]/g,
-      (_, actor: string, plural: string, singular: string) => `${actor}${s.many ? plural : singular}`);
+      (_, actor: string, plural: string, singular: string) => `${actor}${s.many ? plural : singular}`)
+      .replace(/\[([^|\]]*)\|([^\]]*)\]( \{[Aa]ctor\})/g,
+        (_, plural: string, singular: string, actor: string) => `${s.many ? plural : singular}${actor}`);
     return named.replace(/\{(\w+)\}/g, (all, key: string) => {
       const lower = key.toLowerCase(), upper = key !== lower;
       const word = words[lower as keyof typeof words];

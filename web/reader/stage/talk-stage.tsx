@@ -5,8 +5,6 @@ import type { Counter } from '../../../src/ui/trade-model';
 import type { ReaderApp } from '../reader-app';
 import type { TalkLine } from '../conversation';
 import { Typography } from '../../../src/presentation/typography';
-import { Scenery } from '../../../src/ui/scenery';
-import { Likeness } from '../../../src/paintings/likeness';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Stage } from './stage';
@@ -46,23 +44,19 @@ export class TalkStage {
     );
   }
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
-  // as far as the painting itself says. Where no painting fits them, the country they are met in is behind their
-  // name, rather than a picture of someone they are not (in type alone, on a tablet held upright, a drover's page was
-  // two thirds blank paper above her name: play 8).
+  // as far as the painting itself says. Where no painting fits them, the page is theirs in type: their name, large,
+  // and what they are, rather than a picture of someone they are not (the country's own painting behind the name of
+  // a minstrel read as "a different landscape each time instead of a face": the cold evaluation).
   // A painting that cannot be had (images refused, or the page offline) leaves the page in type, as one that does not
   // fit: the Bushweald play without images found a black slab, a broken picture and its painter's credit.
   static Sitter({ app, name, role, children }: { app: ReaderApp; name: string; role: string; children?: ReactNode }) {
-    const given = app.menu.talk!.subject.portrait, [failed, fail] = useState<string[]>([]);
-    const portrait = given && !failed.includes(given.large) ? given : undefined;
-    const view = portrait ? undefined : Scenery.of(app.state.frame!.screen), wide = view && `paintings/large/${view}.webp`;
-    const scene = wide && !failed.includes(wide) ? wide : undefined;
+    const given = app.menu.talk!.subject.portrait, [failed, fail] = useState<string>();
+    const portrait = given && given.large !== failed ? given : undefined;
     return (
-      <div className={`sitter${portrait ? '' : scene ? ' scenic' : ' unpainted'}`}>
-        {portrait && <img src={portrait.large} alt="" decoding="async" onError={() => fail([...failed, portrait.large])}
+      <div className={`sitter${portrait ? '' : ' unpainted'}`}>
+        {portrait && <img src={portrait.large} alt="" decoding="async" onError={() => fail(portrait.large)}
           style={{ objectPosition: `50% ${portrait.focus}%` }} />}
-        {scene && <img src={scene} alt="" decoding="async" onError={() => fail([...failed, scene])} />}
         {portrait && <p className="credit">{portrait.credit ?? 'Painter unrecorded'}</p>}
-        {scene && <p className="credit">{Likeness.credits[view!] ?? 'Painter unrecorded'}</p>}
         <div className="cap"><h1 className="n">{Typography.curl(name)}</h1>{role && <p className="r">{Typography.curl(role)}</p>}
           {children}</div>
       </div>

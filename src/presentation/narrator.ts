@@ -6,6 +6,7 @@ import { ActionFeedbackView, type ActionFeedback } from './action-feedback';
 import { FictionalTime } from '../campaign/fictional-time';
 import { Typography } from './typography';
 import { Narration } from './narration';
+import { Spoken } from './spoken';
 import { ModuleWriter } from '../lang/module-writer';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
@@ -71,6 +72,10 @@ export class Narrator {
     const situation = this.paragraphs(credited, defs);
     // What a thing looks like is not told again with it when the place has just said it (a wonder, told as the place).
     const placed = situation.join(' ');
+    // What was seen on coming here and is gone by the time the page is drawn (a word chalked on a gate, whose seeing
+    // taught what it says) is told with the place, this once (the Banns at Hessel's friction 4, HSL-04).
+    const gone = told?.moved ? told.feedback.observations.filter(t => !placed.includes(t)
+      && !screen.observed.some(o => FictionalTime.prose(o.text) === t)) : [];
     const familiar = this.familiar(campaign, screen);
     const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p)
       && !familiar.has(p));
@@ -78,7 +83,7 @@ export class Narrator {
     const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)) && !presence.includes(c));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     return this.set({
-      situation, presence, changed: fresh,
+      situation: [...situation, ...gone], presence, changed: fresh,
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
       ...journey.length ? { journey } : {},
     });
@@ -246,7 +251,7 @@ export class Narrator {
     const { event, feedback } = told, action = campaign.operator(event.action);
     const informant = action?.schema === 'ask' ? action.bindings?.informant : undefined;
     const speaker = informant ? this.nameOf(campaign, informant) : undefined;
-    const spoken = speaker ? feedback.discoveries.map(d => this.speech(d, speaker)) : [];
+    const spoken = speaker ? feedback.discoveries.map(d => Spoken.speech(d, speaker)) : [];
     const fight = event.combat.some(e => e.type === 'end');
     // What the voice tables told of it (someone joining, a dog patted) stands for the bare result of the command.
     const voiced = (event.voiced ?? []).filter(v => !v.kind.startsWith('journey'))
@@ -314,11 +319,6 @@ export class Narrator {
   }
   // "A drover went out and did not come home. His dog did." told by Eamon is
   // "‘A drover went out and did not come home,’ says Eamon. ‘His dog did.’"
-  static speech(text: string, speaker: string): string {
-    const said = text.trim(), [first, ...rest] = said.split(/(?<=[.!?])\s+/);
-    const lead = first!.replace(/\.$/, ',');
-    return rest.length ? `‘${lead}’ says ${speaker}. ‘${rest.join(' ')}’` : `‘${lead}’ says ${speaker}.`;
-  }
   // "Coin: 22 → 21" reads "−1 coin (21 now)".
   static resource(line: string): string {
     const m = /^(.+): (\d+) → (\d+)$/.exec(line);

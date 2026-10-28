@@ -67,6 +67,19 @@ describe('the odds of a blow, and what a fight says', () => {
       { type: 'status', turn: 1, actor: 'f', target: 'f', detail: 'infected', amount: 3 }];
     expect(CombatTelling.exchanges(festers, state)[0]!.text).toContain('The risen dead\'s wound festers.');
   });
+  // A creature's antlers or claws miss and catch as many, and a held bleed is no news of how anyone is (the cold
+  // evaluation: "Finn's antlers misses", "Sir Hamo Ashdown is not bleeding").
+  it('tells many-pointed weapons as many, and a held bleed plainly', () => {
+    const state = { combatants: [{ id: 'f', name: 'Finn', equipment: { weapon: { name: 'Antlers', natural: true } } },
+      { id: 'h', name: 'Sir Hamo Ashdown' }] } as unknown as BattleState;
+    const miss: CombatEvent[] = [{ type: 'action', turn: 1, command: { actor: 'f', ability: 'melee', target: 'h' } },
+      { type: 'attack', turn: 1, actor: 'f', target: 'h', die: 3, need: 12, toHit: 0, armorClass: 8, weapon: 'antlers',
+        success: false, critical: false }];
+    expect(CombatTelling.exchanges(miss, state)[0]!.text).toContain("Finn's antlers miss Sir Hamo Ashdown.");
+    const held: CombatEvent[] = [{ type: 'action', turn: 1, command: { actor: 'f', ability: 'wait', target: 'f' } },
+      { type: 'save', turn: 1, actor: 'f', target: 'h', rolled: 17, difficulty: 15, success: true, against: 'bleed' }];
+    expect(CombatTelling.exchanges(held, state)[0]!.text).toContain('Sir Hamo Ashdown does not bleed from it.');
+  });
   // The follow-up review: "shakes it off. … takes 0 fire damage. … is burning", and a bite "for 0" that bled.
   it('tells harm that came to nothing as nothing, and a save against harm as turning the worst of it', () => {
     const state = { combatants: [{ id: 'w', name: 'Dayereth' }, { id: 'f', name: 'the hound' }] } as unknown as BattleState;

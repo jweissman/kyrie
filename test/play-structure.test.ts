@@ -5,6 +5,7 @@ import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList } from '../src/ui/choice-list';
+import { SceneModel } from '../src/ui/scene';
 import { Travel } from '../src/session/travel';
 import { Content } from '../src/content';
 import { Canon } from '../src/canon/canon';
@@ -176,6 +177,35 @@ describe('one of the company who is down', () => {
     } finally { again.release(); }
     await s.perform('wait');
     expect(ScreenModel.build(s.campaign).party[1]!.fallen).toBe(Standing.dead);
+  }, 60000);
+  // Someone dead is said to be once, beside their name, not twice ("Sir Hamo Ashdown … · dead  dead": the cold
+  // evaluation).
+  it('is said once to be dead, of someone not of the company', async () => {
+    const s = await Played.start('Place yard "the yard" is room within field at 0, 0 outdoors. Company party "You" of 2 at yard. '
+      + 'Person carter "Mira" at yard { Role "a carter". Ancestry human. Calling commoner. Level 1. Peaceable. }');
+    const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
+    const carter = s.campaign.module.entities.find(e => /carter$/.test(e.id))!.id;
+    const mira = s.campaign.readout.inhabitants[carter]![0]!, lease = store.acquire([mira]);
+    try {
+      lease.creatures[0]!.state.hp = 0; lease.creatures[0]!.state.conditions.push({ id: 'slain', remaining: 1, clock: 'until-removed' });
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
+    await s.perform('wait');
+    const her = SceneModel.build(ScreenModel.build(s.campaign)).subjects.find(x => x.name === 'Mira')!;
+    expect([her.state, her.note]).toEqual(['dead', 'a carter']);
+  }, 60000);
+  // What one who lies senseless carries is under one choice, not a row of them (the cold evaluation: six "Take … from
+  // Maud for Mindartis" stood on the page while she lay on the floor).
+  it('offers what they carry under one choice', async () => {
+    const s = await Played.start('Place yard "the yard" is room within field at 0, 0 outdoors. Company party "You" of 2 at yard.');
+    const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures, bo = s.campaign.state.partyIds[1]!;
+    const lease = store.acquire([bo]);
+    try { lease.creatures[0]!.state.hp = 0; lease.commit(lease.creatures); } finally { lease.release(); }
+    await s.perform('wait');
+    const screen = ScreenModel.build(s.campaign), name = screen.party[1]!.name;
+    const taking = ChoiceList.explore(screen).flatMap(x => x.choices).filter(c => /^Take /.test(c.label));
+    expect(taking.map(c => c.label)).toEqual([`Take from ${name}`]);
+    expect(taking[0]!.children!.length).toBeGreaterThan(1);
   }, 60000);
 });
 

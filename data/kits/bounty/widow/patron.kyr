@@ -26,7 +26,8 @@ Module widow_patron "A widow's price" {
   Initially Assert established(paid_out).
   Topic claim with widow "Tell the woman in black it is done" when met(price) and knows(actor, price) once {
     Says "She doesn't cry. She counts the coins into your hand one at a time, and then puts the ring on top, and goes inside and shuts the door.".
-    On discuss { Increase quantity(actor, gold) by 15. Assert knows(actor, paid_out). }
+    // Gone in, she is not on the step to be asked again what she is waiting for (the cold evaluation).
+    On discuss { Increase quantity(actor, gold) by 15. Assert knows(actor, paid_out). Retract at(widow, town). }
   }
   Goal met(price) and knows(party, paid_out).
 }

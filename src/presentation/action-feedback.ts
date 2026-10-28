@@ -180,8 +180,10 @@ export class ActionFeedbackView {
     const unsaid = learned.filter(k => !spoken.has(k.id) && !shown.has(k.id));
     const changed = this.changed(campaign, event, { before, after, taught, known: new Set(learned.map(k => k.id)) });
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
+    // An aim is new when it was not one before: the same aim told again with its count gone up (graves opened, five,
+    // six, seven) is not "A new aim" (the cold evaluation).
     const had = before.objectives ?? [];
-    const aims = (after.objectives ?? []).filter(o => !had.some(b => b.id === o.id && b.text === o.text))
+    const aims = (after.objectives ?? []).filter(o => !had.some(b => b.id === o.id))
       .map(o => FictionalTime.prose(o.text));
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.

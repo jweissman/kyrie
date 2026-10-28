@@ -7,6 +7,7 @@ import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { Narrator } from '../src/presentation/narrator';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Aims } from '../web/reader/aims';
+import { ModuleWriter } from '../src/lang/module-writer';
 
 // Your own errand comes first among your aims, and an aim taken up is said when it is: the page's aim had wandered to
 // whatever was heard of last (the lone tower, then the cisterns) while the brothers' errand was under way, and the
@@ -27,6 +28,14 @@ describe('your aims', () => {
     expect(leaf.exchange?.notes)
       .toContainEqual(expect.stringMatching(/^Noted: A lone tower: somewhere to set out for now, /));
     expect(ScreenModel.build(c).objectives[0]).toMatch(/^The brothers want the old writing at /);
+    // The same aim with its count gone up (another grave open) is not a new one (the cold evaluation).
+    const held = c as unknown as { world: { apply(x: unknown[]): unknown; number(x: unknown): number };
+      commit(x: unknown): void };
+    const graves = ModuleWriter.call('tower__opened', 'tower__churchyard'), later = PlayerView.observe(c);
+    held.commit(held.world.apply([{ kind: 'set', call: graves, value: ModuleWriter.number(held.world.number(graves) + 1) }]));
+    const waited = await s.perform('wait');
+    expect(PlayerView.observe(c).objectives?.map(o => o.text)).not.toEqual(later.objectives?.map(o => o.text));
+    expect(ActionFeedbackView.read(c, waited, later).aims ?? []).toEqual([]);
   }, 120000);
   // The place your aim names is offered to set out for, however far: the cisterns of Lunastagn, the aim, were only "on
   // the map", while three nearer places stood under Set out for (play 7).

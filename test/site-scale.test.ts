@@ -6,6 +6,7 @@ import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
 import type { Entity } from '../src/lang/module';
+import { Spatial } from '../src/spatial';
 
 // How big a place set out for is, said before the journey: one that goes down level under level (or up), a large
 // place or a small one (NAV-09: a minor cave could be taken for the reward of a long journey).
@@ -73,5 +74,22 @@ describe('a site set out for', () => {
     const going = ScreenModel.build(c).destinations ?? [];
     expect(going.find(d => d.id === 'region__w9')?.scale).toBe('level upon level');
     expect(going.map(d => d.id)).not.toContain('tower__tower');
+  }, 120000);
+  // Nor is a ruin offered to set out for from inside it (the cold evaluation: "SET OUT FOR Sanhtusrecs", from its own
+  // long passage). Kite's mine, four levels deep, told of, and stood in.
+  it('is not offered to set out for from inside it', async () => {
+    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'debt',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] });
+    const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
+    const held = c as unknown as { world: { apply(c: unknown[]): unknown; one(r: string, a: string): string };
+      commit(x: unknown): void };
+    held.commit(held.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__w8_named') }]));
+    expect((ScreenModel.build(c).destinations ?? []).map(d => d.id)).toContain('region__w8');
+    const byId = new Map(c.module.entities.map(e => [e.id, e]));
+    const within = c.module.entities.find(e => e.space?.kind === 'room' && Spatial.ancestry(byId, e.id)
+      .some(a => a.id === 'region__w8_site'))!;
+    held.commit(held.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', held.world.one('at', 'party')) },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', within.id) }]));
+    expect((ScreenModel.build(c).destinations ?? []).map(d => d.id)).not.toContain('region__w8');
   }, 120000);
 });

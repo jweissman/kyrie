@@ -24,7 +24,7 @@ describe('a price on a power', () => {
     const hold = Itineraries.destinations(c).find(d => d.name === 'a toll-house by the water')!;
     expect([hold.toward, hold.legs.length]).toEqual(['Thyrnebearwas', 1]);
   }, 120000);
-  // At the hold, the challenge to single combat is weighed up before it is taken, as an attack is, and a fight it
+  // At the hold, the challenge to fight is weighed up before it is taken, as an attack is, and a fight it
   // brings on and loses is told as chosen, not as being set upon (a fresh play took it up unwarned and died).
   it('says what a challenge to its chief would come to, and tells a fight so begun as chosen', async () => {
     const w = await WorldAssembler.assemble('ember', NodeBundleSource.shared, { origin: 'herbs',
@@ -34,14 +34,14 @@ describe('a price on a power', () => {
     await s.perform('wait');
     const acts: Act[] = [], screen = ScreenModel.build(c);
     for (const a of [...screen.people, ...screen.things].flatMap(r => r.acts)) { acts.push(a, ...a.children ?? []); }
-    expect(acts.find(a => /single combat/.test(a.label))?.reckoned)
+    expect(acts.find(a => /^Call Sir Hamo out/.test(a.label))?.reckoned)
       .toEqual({ danger: 'deadly', text: 'Sir Hamo Ashdown is more than you can take.' });
-    await s.perform(PlayerView.choices(c).find(x => /single combat/.test(x.choice.name))!.choice.id);
+    await s.perform(PlayerView.choices(c).find(x => /^Call Sir Hamo out/.test(x.choice.name))!.choice.id);
     for (let i = 0; i < 12 && c.running; i++) {
       const strike = PlayerView.choices(c).find(x => /Strike/.test(x.choice.name)) ?? PlayerView.choices(c)[0]!;
       await s.perform(strike.choice.id);
     }
-    expect(Obituary.of(c).lines).toContain('It began when you chose to challenge Sir Hamo to single combat.');
+    expect(Obituary.of(c).lines).toContain('It began when you chose to call Sir Hamo out to fight.');
   }, 120000);
   // The pedlar at Naedltun knows the place too, by its name: what she says is what the note of it says (the note had
   // named Fyrsteport, which nobody had: NAR-12).

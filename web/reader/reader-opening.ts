@@ -1,5 +1,6 @@
 import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
+import { Rolls } from '../../src/rules/rolls';
 import { CreationRules } from './creation-rules';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
@@ -61,8 +62,9 @@ export class ReaderOpening {
       const open = this.app.state.catalog?.ancestries.find(a => a.id === member.raceId)?.callings;
       if (field === 'raceId' && open?.length && !open.includes(member.classId ?? '')) { member.classId = open[0]!; }
       if (field === 'classId' || field === 'raceId') { delete member.traits; delete member.spells; }
-      // A calling's weapons are its own: a new calling's is the one its bearer strikes best with until chosen.
-      if (field === 'classId') { delete member.weapon; }
+      // A calling's weapons are its own: a new calling's is the one its bearer strikes best with until chosen; and its
+      // rolls are placed where it wants them.
+      if (field === 'classId') { delete member.weapon; this.suit(member); }
       // A trade is a calling's own: a new calling has none until one is chosen.
       const trade = this.app.state.catalog?.backgrounds.find(b => b.id === member.backgroundId);
       if (field === 'classId' && trade?.calling && trade.calling !== member.classId) { delete member.backgroundId; }
@@ -97,8 +99,14 @@ export class ReaderOpening {
     crypto.getRandomValues(die);
     member.rolled = Object.fromEntries(Object.keys(member.rolled).map((q, i) => [q,
       [0, 1, 2].reduce((sum, k) => sum + 1 + die[i * 3 + k]! % 6, 0)]));
+    this.suit(member);
     this.app.setState({ party });
     this.readySoon();
+  }
+  // The rolls placed where the member's calling wants them (see Rolls).
+  private suit(member: Member) {
+    const wants = this.app.state.catalog?.callings.find(c => c.id === member.classId)?.qualities;
+    if (member.rolled && wants) { member.rolled = Rolls.suited(member.rolled as Record<string, number>, wants); }
   }
   // While the player reads the page, the start is made ready for the choices as they stand, a moment after the last
   // change (see EngineHost.prepare): Begin asking the same takes it up at once.

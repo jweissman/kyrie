@@ -59,7 +59,7 @@ export class MapView {
         <p className="label">{here ? 'You are here' : visited ? 'You have been here' : 'You have not been here'}</p>
         <h2 className="to">{Typography.curl(Words.upper(name))}</h2>
         {d ? <>
-          <ol className="legs">{d.legs.map((l, i) => <li key={i}>{Typography.curl(`By ${l.way} to ${l.to}`)}
+          <ol className="legs">{d.legs.map((l, i) => <li key={i}>{Typography.curl(Words.leg(l.way, l.to))}
             <span className="note">{Words.span(l.minutes)}</span></li>)}</ol>
           <p className="how">{Words.upper(Words.span(d.minutes))} in all{d.toward ? `, as far as ${d.toward}` : ''}. Each leg is
             walked as it comes; the journey stops for anything that wants you.</p>

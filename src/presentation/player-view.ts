@@ -12,6 +12,7 @@ import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
 import { ActionPresentation, type PublicChoice } from './action-presentation';
 import { ObservationText } from '../lang/observation-text';
+import { Spoken } from './spoken';
 import { VisitedPlaces } from './visited-places';
 import { Agency } from '../campaign/agency';
 import { ActionTime } from '../campaign/action-time';
@@ -425,7 +426,7 @@ export class PlayerView {
     const declared = action ? (event.result === 'success' ? action.success : action.failure) : [];
     return { at: previous, kind: 'player',
       text: `${action?.name ?? event.action}${event.result === 'failure' ? ' — failed' : ''}`,
-      detail: [...(event.response ? [event.response] : []), ...event.combat.map(c => CombatPresenter.format(c, names)),
+      detail: [...Spoken.told(campaign, event, labels), ...event.combat.map(c => CombatPresenter.format(c, names)),
         ...(campaign.module.observations?.length ? [] : declared.map(change => this.change(change, labels)))] };
   }
 }

@@ -31,7 +31,7 @@
   "ask": {
     "label": "Ask {kinName} about {name}",
     "says": [
-      "'{name}? Always the one who went first and asked afterwards.' {kinName} watches {name} across the room a while. 'Bring {name} back to me, will you.'",
+      "'{name}? Always the one who went first and asked afterwards.' {kinName} looks over at {name} a while. 'Bring {name} back to me, will you.'",
       "'We were children here together.' {kinName} speaks more quietly. 'Something went out of {name} after the bad winter. It is good to see some of it come back.'"
     ]
   },
@@ -197,7 +197,7 @@
     },
     "minstrel": {
       "knows": { "of": "song", "label": "Ask {name} for a song of this country",
-        "says": "'There is only one song anybody here asks for.' {name} sings it low, so as not to wake the house: how the kingdom of {kingdom} rose on what the old makers left, where the power lay with {were}, and how it fell to {fall}. 'It is longer,' {name} says, 'but that is the bone of it.'" },
+        "says": "'There is only one song anybody here asks for.' {name} sings it low, for you and nobody else: how the kingdom of {kingdom} rose on what the old makers left, where the power lay with {were}, and how it fell to {fall}. 'It is longer,' {name} says, 'but that is the bone of it.'" },
       "remarks": {
         "oak": "{name} hums something under the great oak, then stops: it is an old song about a tree like this, and it does not end well.",
         "mere": "{name} skims a stone across the mere: seven, eight. 'There is a song about a woman who drowned in a mere. There always is.'",

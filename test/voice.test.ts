@@ -75,6 +75,14 @@ describe('The voice tables', () => {
       if (line.id.includes('.orsino.')) { expect(line.source?.orsino).toMatch(/^barks:/); }
     }
   });
+  // The verb next to the speaker's name agrees with the speaker, whatever the pronoun said of them (the cold
+  // evaluation read "'You,' say the woman in black").
+  it('makes a verb before the speaker agree with the speaker', () => {
+    const said = (many: boolean) => Voice.render('‘You,’ [say|says] {actor}, neither pleased nor otherwise.',
+      { actor: 'the woman in black', pronoun: 'they', many });
+    expect([said(false), said(true)]).toEqual(['‘You,’ says the woman in black, neither pleased nor otherwise.',
+      '‘You,’ say the woman in black, neither pleased nor otherwise.']);
+  });
   it('every line reads whole in every person it may be said of', () => {
     for (const line of Voice.tables.flatMap(t => t.lines)) {
       for (const pronoun of ['he', 'she', 'they', 'it']) {

@@ -1,5 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Entity } from '../lang/module';
+import type { Call, Entity } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model';
@@ -82,6 +82,12 @@ export class Itineraries {
     }
     return undefined;
   }
+  // Whether the company stands inside a place's site: the ruin behind its door, or a site gone into from it.
+  private static inside(byId: Map<string, Entity>,
+    at: { here?: string; id: string; ways: readonly Call[]; entities: readonly Entity[] }): boolean {
+    const { here, id, ways, entities } = at;
+    return !!here && [`${id}_site`, SiteScale.behind(entities, id, ways)].some(site => site && this.within(byId, here, site));
+  }
   static within(entities: Map<string, Entity>, id: string, place: string): boolean {
     return id === place || Spatial.ancestry(entities, id).some(e => e.id === place);
   }
@@ -102,13 +108,15 @@ export class Itineraries {
     // somewhere been is, when it is a settlement, a site or the edge of the country. One a step away is a way about
     // here, not somewhere to set out for; but setting out toward a place in wild country is not the step into it (the
     // raiders' hold a widow looks toward, a path's walk into the wood it stands in).
-    const plans = [...known].filter(id => id !== area?.id && (told.includes(id) || this.worth(byId.get(id))))
+    // Nor is the place the company is inside (Sanhtusrecs, offered from its own long passage: the cold evaluation).
+    const ways = world.related('connects');
+    const plans = [...known].filter(id => id !== area?.id && !this.inside(byId, { here, id, ways, entities })
+      && (told.includes(id) || this.worth(byId.get(id))))
       .flatMap(id => { const p = this.plan(campaign, id); return p && (p.legs.length > 1 || p.toward) ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
     // A door someone told of and the ruin gone into behind it are one place, not two: the ruin, whose way goes by its
     // door, is left out ("Riwustagn" was offered twice, back in town: play 7; a lone tower's foot and the keep gone
     // into from it were "Aurumvigilia" and "The tower": play 8).
-    const ways = world.related('connects');
     return plans.filter(p => !plans.some(o => o !== p && (o.name === p.name && p.legs.some(l => l.to === o.id)
       || SiteScale.behind(entities, o.id, ways) === p.id)));
   }

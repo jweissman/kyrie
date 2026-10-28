@@ -7,6 +7,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
+import { Spoken } from '../src/presentation/spoken';
 import { ModuleParser } from '../src/lang/module-parser';
 
 // The narrator chooses what to tell. What someone says when asked is said in their words, where they say it; the sky
@@ -41,9 +42,9 @@ describe('the narrator', () => {
     expect(presence).not.toContain('a who');
   }, 60000);
   it('sets an answer as the words of whoever gave it', () => {
-    expect(Narrator.speech('A drover went out three days ago and did not come home. His dog did.', 'Eamon'))
+    expect(Spoken.speech('A drover went out three days ago and did not come home. His dog did.', 'Eamon'))
       .toBe('‘A drover went out three days ago and did not come home,’ says Eamon. ‘His dog did.’');
-    expect(Narrator.speech('The barrow is open.', 'Cyril')).toBe('‘The barrow is open,’ says Cyril.');
+    expect(Spoken.speech('The barrow is open.', 'Cyril')).toBe('‘The barrow is open,’ says Cyril.');
   });
   it('tells what someone was asked in their words, on the page, not in the journal', async () => {
     const s = await Telling.start();
@@ -58,6 +59,10 @@ describe('the narrator', () => {
     const speech = asked.exchange!.lines.filter(l => l.kind === 'speech').map(l => l.text);
     expect(speech.join(' ')).toContain(`says ${keeper}`);
     expect(asked.exchange!.lines.some(l => /tells you what they have heard/.test(l.text))).toBe(false);
+    // And the Story keeps it as it was said (the cold evaluation read "tells you what they have heard about" there).
+    const kept = PlayerView.chronicle(s.campaign).filter(e => e.kind === 'player').at(-1)!.detail.join(' ');
+    expect(kept).toContain(`says ${keeper}`);
+    expect(kept).not.toMatch(/tells you what they have heard/);
   }, 60000);
   it('tells the sky on coming out under it, not again on the next step, and not as if outside under a roof', async () => {
     const s = await Telling.start();

@@ -1,5 +1,5 @@
 Module outlaw_folk "Outlaws" {
-  Description "Outlaws under Sir Hamo Ashdown, a knight who lost his lands and his name in somebody else's war. They hold up travellers on the road by day for road-money, take a tithe from the market when they please, keep a mercer for ransom, and will not refuse a challenge to single combat.".
+  Description "Outlaws under Sir Hamo Ashdown, a knight who lost his lands and his name in somebody else's war. They hold up travellers on the road by day for road-money, take a tithe from the market when they please, keep a mercer for ransom, and will not refuse a challenge to fight.".
   Entity party: group "Your company".
   Place outside "The approach" is room.
   Place road "The road they watch" is room.
@@ -104,11 +104,12 @@ Module outlaw_folk "Outlaws" {
       and not alarmed(hamo) and not tolerates(band, actor) and not ended(band).
     Time 3.
     On success { Assert tolerates(band, actor). Assert tolerates(sentry, actor). Assert tolerates(hamo, actor). }
-    Result "A long wait, and then Long Peter waves you up. 'Sir Hamo will see you. Keep your hands where we can see them.'".
+    Result "A long wait, and then Long Peter waves you up. 'Sir Hamo will see you. He's at the fire, through there. Keep your hands where we can see them.'".
   }
-  // A challenge to single combat: Sir Hamo will not refuse one, and his men will not interfere.
-  Action challenge(actor: group, site: place) "Challenge Sir Hamo to single combat" {
-    Description "Call it out where his men can hear. A knight who refuses a challenge is no knight, and he knows it.".
+  // A challenge: Sir Hamo will not refuse one, and his men will not interfere. It is the company he fights, not one
+  // champion of it (a "single combat" that a bard and a summoned deer fought in: the cold evaluation).
+  Action challenge(actor: group, site: place) "Call Sir Hamo out to fight" {
+    Description "Call it out where his men can hear: the company against Sir Hamo, and his men keeping out of it. A knight who refuses a challenge is no knight, and he knows it.".
     Requires able(actor) and at(actor, site) and able(hamo) and not dueling(hamo) and not ended(band)
       and (at(hamo, site) or (connects(gate, site, ?in) and at(band, ?in))).
     On success { Assert dueling(hamo). Assert tolerates(band, actor). Assert at(hamo, site). Assert assails(hamo, actor). }

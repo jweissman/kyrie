@@ -1,0 +1,9 @@
+Module p "A word chalked on a gate, read once" {
+  Place town "the town" is settlement.
+  Place lane "the lane" is room within town at 0, 0 outdoors.
+  Place yard "the yard" is room within town at 1, 0 outdoors.
+  Passage gap "the gap in the hedge" between lane and yard.
+  Company party "You" of 1 at lane.
+  Entity word: fact "STAY is chalked on the yard gate.".
+  Observe chalk at yard when not knows(party, word) "A word is chalked on the yard gate in a child's capitals: STAY." teaches word.
+}

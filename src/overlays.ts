@@ -1,6 +1,7 @@
 import { ItemNames } from './item-names';
 import { Canon } from './canon/canon';
 import { ItemCatalog } from './item-catalog';
+import { ItemTraits } from './campaign/item-traits';
 import type { Attribute, Creature } from './creature';
 import type { Instance } from './lang/module';
 
@@ -77,11 +78,14 @@ export class Overlays {
     }
   }
   // What a person of a class carries from the start besides arms and armour, as Orsino's classes do (a warrior's
-  // torch and pole, a thief's tools): those the item catalog has.
+  // torch and pole, a thief's tools): those the item catalog has. Whoever sets out on the road carries a light, a
+  // candle that weighs nothing (a ranger went down into a pitch-dark barrow with none, and found none to buy: the
+  // cold evaluation); a torch too was a load that slowed a companion carrying weight-stones.
   static classGear(c: { raceId?: string; classId?: string }): string[] {
     if (!c.classId || (c.raceId && Canon.isSpecies(c.raceId))) { return []; }
     const klass = Canon.classes[Canon.resolve('classes', c.classId)];
-    return (klass?.startingGear ?? []).filter(k => Canon.items[k]);
+    const light = klass && klass.adventuring !== false ? ['candle'] : [];
+    return [...new Set([...klass?.startingGear ?? [], ...light])].filter(k => Canon.items[k]);
   }
   // The weapons and armour a person might start with: Orsino draws them from the class's tables during creation, so
   // every candidate is declared and only the drawn ones are ever owned.
@@ -137,5 +141,6 @@ export class Overlays {
         }
       }
     }
+    ItemTraits.assert(module);
   }
 }

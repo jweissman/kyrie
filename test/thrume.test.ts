@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
+import { PlayerView } from '../src/presentation/player-view';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Journey } from '../src/session/journey';
@@ -100,7 +101,8 @@ describe('Thrume', () => {
 describe('the Heart-Tomb', () => {
   const start = async () => {
     const s = await T.start('test/fixtures/thrume-tomb/tomb.campaign.json');
-    await s.perform('light_item(thrume__party_2__torch)');
+    // A torch lit, whoever's: everyone sets out with one now (the cold evaluation), and the first offered is lit.
+    await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Light a torch')!.choice.id);
     return s;
   };
   it('kills whoever strikes the Gate with iron, and stirs the sleeper', async () => {

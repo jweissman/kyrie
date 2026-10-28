@@ -155,11 +155,13 @@ describe('7-11: equipment, monsters, theology, ecology and local mechanisms', ()
     expect(source('equipment:longsword_of_flames')).toMatchObject({ damage: '1d8', type: 'piercing' });
     const knight = Probe.creature('rhys', { classId: 'warrior', raceId: 'human', traits: ['brave'],
       weapon: 'longsword_of_flames', armor: 'chainmail' });
-    // Arms and armour as authored, and a warrior's torch and pole, as Orsino starts every warrior.
+    // Arms and armour as authored, and a warrior's torch and pole, as Orsino starts every warrior, and the candle
+    // everyone sets out with.
     expect(knight.state.inventory).toEqual([
       { id: 'rhys__longsword_of_flames', definition: 'longsword_of_flames', equipped: true },
       { id: 'rhys__chainmail', definition: 'chainmail', equipped: true },
-      { id: 'rhys__torch', definition: 'torch' }, { id: 'rhys__pole', definition: 'pole' }]);
+      { id: 'rhys__torch', definition: 'torch' }, { id: 'rhys__pole', definition: 'pole' },
+      { id: 'rhys__candle', definition: 'candle' }]);
     const equipment = CombatProjection.fighter(knight, 'fighters').equipment;
     expect([equipment.weapon.id, equipment.armorAc, equipment.hooks.onAttackHit?.length]).toEqual(['longsword_of_flames', 5, 1]);
   });

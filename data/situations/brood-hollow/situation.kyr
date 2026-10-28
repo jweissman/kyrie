@@ -146,6 +146,9 @@ Module brood_hollow "A brood under the hill" {
   // play was asked to tell Garth and Odile of one quieted out of its sight).
   Query involved(c: group) means knows(c, ewes) or knows(c, no_silk) or asked(garth, c) or asked(odile, c).
   Objective deadline when involved(party) and state(garth, angry) and not quieted(brood) "{garth} has lost another ewe and means to burn out {hollow} himself.".
-  Objective tell when involved(party) and quieted(brood) and (not thanked(garth, party) or (sated(brood) and not thanked(odile, party))) "The brood is quiet. {garth} and {odile} will want to know.".
+  // Only a company that has spoken with them is asked to tell them: one that only heard the rumour, and was elsewhere
+  // when the hollow burned, was handed "The brood is quiet. Garth and Odile will want to know." by two people it
+  // had never met (the cold evaluation).
+  Objective tell when (asked(garth, party) or asked(odile, party)) and quieted(brood) and (not thanked(garth, party) or (sated(brood) and not thanked(odile, party))) "The brood is quiet. {garth} and {odile} will want to know.".
   Goal quieted(brood).
 }

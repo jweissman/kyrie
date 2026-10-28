@@ -104,14 +104,16 @@ export class SettlementWriter {
     return { name: s.name, inn: s.inn.replace(/^The /, 'the '), keeper: s.innkeeper };
   }
   // Whoever keeps travellers: an innkeeper, or an alehouse-keeper, a guest-master, a sutler, or whoever speaks for a
-  // hamlet and has a hayloft; each with what they ask for a night, and the food they can spare.
+  // hamlet and has a hayloft; each with what they ask for a night, the food they can spare, and a light for the road
+  // (a ranger asked six of a country's people for a candle, and none sold one: the cold evaluation).
   private static keeper(s: Settlement, f: Founding, region: Region): string {
     const q = this.q, k = Foundings.table.keeping[f.keeping], stock = this.stock(s);
     const at = f.keeping === 'none' ? `${s.id}_green` : `${s.id}_taproom`;
     const work = f.keeping === 'inn' ? 'Profession innkeeper.'
       : `Background ${k.background}. Offers lodging ${q(k.lodging![0])} for ${k.lodging![1]} coin.`;
     return `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${at} { Role ${q(Foundings.fill(k.role, this.words(s)))}. ${this.of(s, 'innkeeper', region)} ${work} Peaceable.${this.pronoun(s, 'innkeeper', f)} `
-      + `Sells rations for ${stock.price} coin from ${f.keeping === 'none' ? Math.min(2, stock.stock) : stock.stock}. }`;
+      + `Sells rations for ${stock.price} coin from ${f.keeping === 'none' ? Math.min(2, stock.stock) : stock.stock}. `
+      + `Sells torch for 1 coin from ${f.keeping === 'none' ? 1 : 3}. Sells candle for 1 coin from ${f.keeping === 'none' ? 2 : 4}. }`;
   }
   // Only a town's priest has the learning to call the dead back, and keeps a copy of the old orders' glossary of the
   // old script, for whoever would read the makers' stones.

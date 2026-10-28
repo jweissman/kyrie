@@ -110,12 +110,36 @@
       "text": "{Actor} grins before you have said anything at all. ‘You look like a person with a question.’"
     },
     {
+      "id": "address.first.cheerful.4",
+      "when": {
+        "moment": "first",
+        "manner": "cheerful"
+      },
+      "text": "{Actor} looks up and smiles as if you were the best thing to happen all morning. ‘Hello! What can I do?’"
+    },
+    {
+      "id": "address.first.cheerful.5",
+      "when": {
+        "moment": "first",
+        "manner": "cheerful"
+      },
+      "text": "‘A stranger!’ [say|says] {actor}, pleased. ‘Sit, if you like. Ask, if you like.’"
+    },
+    {
       "id": "address.again.cheerful",
       "when": {
         "moment": "again",
         "manner": "cheerful"
       },
       "text": "‘There you are!’ [say|says] {actor}, as if {they} had been expecting you."
+    },
+    {
+      "id": "address.again.cheerful.3",
+      "when": {
+        "moment": "again",
+        "manner": "cheerful"
+      },
+      "text": "‘Back again!’ [say|says] {actor}. ‘I hoped you would be.’"
     },
     {
       "id": "address.first.grim",
@@ -134,12 +158,44 @@
       "text": "{Actor} does not look up. ‘Say it, then.’"
     },
     {
+      "id": "address.first.grim.4",
+      "when": {
+        "moment": "first",
+        "manner": "grim"
+      },
+      "text": "{Actor} waits for you to speak, and does nothing to help."
+    },
+    {
+      "id": "address.first.grim.5",
+      "when": {
+        "moment": "first",
+        "manner": "grim"
+      },
+      "text": "‘If it’s trouble,’ [say|says] {actor}, ‘I have enough of my own.’"
+    },
+    {
+      "id": "address.first.grim.6",
+      "when": {
+        "moment": "first",
+        "manner": "grim"
+      },
+      "text": "{Actor} looks you over, and does not seem to like what {they} [see|sees] any better than anything else."
+    },
+    {
       "id": "address.again.grim",
       "when": {
         "moment": "again",
         "manner": "grim"
       },
       "text": "‘You,’ [say|says] {actor}, neither pleased nor otherwise."
+    },
+    {
+      "id": "address.again.grim.3",
+      "when": {
+        "moment": "again",
+        "manner": "grim"
+      },
+      "text": "{Actor} nods once, and goes back to what {they} [were|was] doing until you speak."
     },
     {
       "id": "address.first.stoic",
@@ -150,12 +206,44 @@
       "text": "{Actor} looks up, and puts {their} hands still, and waits for you to say what you want."
     },
     {
+      "id": "address.first.stoic.3",
+      "when": {
+        "moment": "first",
+        "manner": "stoic"
+      },
+      "text": "{Actor} hears you come, and finishes what {they} [were|was] doing before {they} [look|looks] round."
+    },
+    {
+      "id": "address.first.stoic.4",
+      "when": {
+        "moment": "first",
+        "manner": "stoic"
+      },
+      "text": "{Actor} nods to you, and says nothing until you do."
+    },
+    {
+      "id": "address.first.stoic.5",
+      "when": {
+        "moment": "first",
+        "manner": "stoic"
+      },
+      "text": "‘Yes?’ [say|says] {actor}, without hurry."
+    },
+    {
       "id": "address.again.stoic",
       "when": {
         "moment": "again",
         "manner": "stoic"
       },
       "text": "{Actor} inclines {their} head, which seems to be a whole greeting."
+    },
+    {
+      "id": "address.again.stoic.3",
+      "when": {
+        "moment": "again",
+        "manner": "stoic"
+      },
+      "text": "‘Again,’ [say|says] {actor}, as a thing noted, not a complaint."
     },
     {
       "id": "address.first.jovial",
@@ -166,12 +254,36 @@
       "text": "‘Now then!’ [say|says] {actor}, loud enough for anyone near to hear. ‘A new face. What can I do for you?’"
     },
     {
+      "id": "address.first.jovial.3",
+      "when": {
+        "moment": "first",
+        "manner": "jovial"
+      },
+      "text": "‘Come in, come in, whoever you are,’ [say|says] {actor}. ‘Everybody else has.’"
+    },
+    {
+      "id": "address.first.jovial.4",
+      "when": {
+        "moment": "first",
+        "manner": "jovial"
+      },
+      "text": "{Actor} slaps the nearest flat surface by way of welcome. ‘Well? Out with it!’"
+    },
+    {
       "id": "address.again.jovial",
       "when": {
         "moment": "again",
         "manner": "jovial"
       },
       "text": "‘Back for more of my wisdom,’ [say|says] {actor}. ‘Can’t say I blame you.’"
+    },
+    {
+      "id": "address.again.jovial.3",
+      "when": {
+        "moment": "again",
+        "manner": "jovial"
+      },
+      "text": "‘The very one!’ [say|says] {actor}. ‘I was just telling someone about you. Not all of it true.’"
     },
     {
       "id": "address.first.compassionate",
@@ -182,12 +294,36 @@
       "text": "{Actor} takes in the state of you: the road dust, the tiredness. ‘You’ve come a way. What do you need?’"
     },
     {
+      "id": "address.first.compassionate.3",
+      "when": {
+        "moment": "first",
+        "manner": "compassionate"
+      },
+      "text": "‘Sit down a moment,’ [say|says] {actor}. ‘Whatever it is, it will keep that long.’"
+    },
+    {
+      "id": "address.first.compassionate.4",
+      "when": {
+        "moment": "first",
+        "manner": "compassionate"
+      },
+      "text": "{Actor} looks at your face, and then at your boots, and [speak|speaks] gently. ‘What is it you need?’"
+    },
+    {
       "id": "address.again.compassionate",
       "when": {
         "moment": "again",
         "manner": "compassionate"
       },
       "text": "‘How are you getting on?’ [ask|asks] {actor}, and seems to want to know."
+    },
+    {
+      "id": "address.again.compassionate.3",
+      "when": {
+        "moment": "again",
+        "manner": "compassionate"
+      },
+      "text": "‘You came back,’ [say|says] {actor}, glad of it. ‘Is it any better?’"
     },
     {
       "id": "address.first.proud",
@@ -206,12 +342,36 @@
       "text": "‘I don’t know you,’ [say|says] {actor}, and waits to be told why {they} should."
     },
     {
+      "id": "address.first.proud.4",
+      "when": {
+        "moment": "first",
+        "manner": "proud"
+      },
+      "text": "{Actor} finishes what {they} [were|was] saying to someone else first."
+    },
+    {
+      "id": "address.first.proud.5",
+      "when": {
+        "moment": "first",
+        "manner": "proud"
+      },
+      "text": "{Actor} looks at you as if deciding whether you are worth a whole sentence."
+    },
+    {
       "id": "address.again.proud",
       "when": {
         "moment": "again",
         "manner": "proud"
       },
       "text": "{Actor} acknowledges you with the smallest movement of the chin."
+    },
+    {
+      "id": "address.again.proud.3",
+      "when": {
+        "moment": "again",
+        "manner": "proud"
+      },
+      "text": "‘You again,’ [say|says] {actor}, as if granting it."
     },
     {
       "id": "address.first.acerbic",
@@ -230,12 +390,36 @@
       "text": "{Actor} looks you up and down. ‘Whatever it is, the answer’s probably no. Go on.’"
     },
     {
+      "id": "address.first.acerbic.4",
+      "when": {
+        "moment": "first",
+        "manner": "acerbic"
+      },
+      "text": "‘Let me guess,’ [say|says] {actor}. ‘You want something.’"
+    },
+    {
+      "id": "address.first.acerbic.5",
+      "when": {
+        "moment": "first",
+        "manner": "acerbic"
+      },
+      "text": "{Actor} sighs before you have said a word. ‘Go on, then.’"
+    },
+    {
       "id": "address.again.acerbic",
       "when": {
         "moment": "again",
         "manner": "acerbic"
       },
       "text": "‘Oh, it’s you,’ [say|says] {actor}. ‘I wondered when you’d be back to bother me.’"
+    },
+    {
+      "id": "address.again.acerbic.3",
+      "when": {
+        "moment": "again",
+        "manner": "acerbic"
+      },
+      "text": "‘Still here,’ [say|says] {actor}. ‘I suppose that’s something.’"
     },
     {
       "id": "address.kin.first",
@@ -356,7 +540,7 @@
         "temper": "wary",
         "kind": "person"
       },
-      "text": "{Actor} [draw|draws] back to the edge of your light and [watch|watches] you, weapons low but ready. Nobody speaks first."
+      "text": "{Actor} [draw|draws] back from you and [watch|watches], weapons low but ready. Nobody speaks first."
     },
     {
       "id": "address.wary.first.2",
@@ -365,7 +549,7 @@
         "temper": "wary",
         "kind": "person"
       },
-      "text": "{Actor} [go|goes] still when your light finds {them}. There is a mutter, and an answer, and then {they} [wait|waits] to see what you will do."
+      "text": "{Actor} [go|goes] still when you come. There is a mutter, and an answer, and then {they} [wait|waits] to see what you will do."
     },
     {
       "id": "address.wary.again.1",

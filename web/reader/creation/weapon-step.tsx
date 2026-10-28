@@ -21,7 +21,9 @@ export class WeaponStep {
     return <>
       <p className="how">{`${Words.upper(Words.article(calling.name.toLowerCase()))} is trained to ${weapons.length}`
         + ' weapons. A blow is a d20 that must meet a number set by your level and the foe\'s armour; what you strike'
-        + ' with adds to it, and to the harm.'}</p>
+        + ` with adds to it, and to the harm. “A ${calling.name.toLowerCase()}'s own” marks what ${calling.name.toLowerCase()}s`
+        + ' carry by custom, no better for it; “suits you best”, the one of those you would strike hardest with at your'
+        + ' scores, unless another does far more.'}</p>
       {groups.map(g => <Card.Deck key={g} title={g} kind="weapons">
         {weapons.filter(w => CreationRules.group(w.kind) === g).sort((a, b) => CreationRules.average(a.damage)
           - CreationRules.average(b.damage)).map(w => {

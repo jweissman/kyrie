@@ -20,9 +20,13 @@ export class CreationRules {
     return Math.max(1, rolled + people + calling + background);
   }
   // Where what is added to a roll comes from: "+1 elf, +2 warrior, +2 forester".
+  // What adds to a quality, by whom: your people, your calling, and what you were before you came, said as that ("+2
+  // once a scribe": "+2 scribe" had read as something chosen before anything called scribe was: the cold evaluation).
   static sources(member: Member, catalog: Catalog, quality: string): string {
+    const before = catalog.backgrounds.find(b => b.id === member.backgroundId);
     const from = [catalog.ancestries.find(a => a.id === member.raceId),
-      catalog.callings.find(c => c.id === member.classId), catalog.backgrounds.find(b => b.id === member.backgroundId)];
+      catalog.callings.find(c => c.id === member.classId),
+      before && { ...before, name: `once ${/^[aeiou]/i.test(before.name) ? 'an' : 'a'} ${before.name}` }];
     return from.flatMap(x => x?.qualities[quality] ? [`${this.signed(x.qualities[quality]!)} ${x.name.toLowerCase()}`]
       : []).join(', ');
   }
@@ -78,14 +82,15 @@ export class CreationRules {
         + ' that charges you.' } : {} };
   }
   private static round(n: number): string { return Number.isInteger(n) ? String(n) : n.toFixed(1); }
-  // The weapon struck with best, by the harm it does on average at your scores; the calling's own first.
+  // The weapon struck with best, by the harm it does on average at your scores; the calling's own first, so that the
+  // qualities rolled again do not trade a ranger's bow for a scythe unasked (the cold evaluation).
   static best(weapons: Weapon[], member: Member, catalog: Catalog): Weapon | undefined {
     return weapons.reduce<Weapon | undefined>((b, w) => !b || this.worth(w, member, catalog) > this.worth(b, member,
       catalog) ? w : b, undefined);
   }
   private static worth(w: Weapon, member: Member, catalog: Catalog): number {
     return this.average(w.damage) + this.fight(this.score(member, catalog, w.missile ? 'dexterity' : 'strength')) * 1.5
-      + (w.own ? 0.5 : 0);
+      + (w.own ? 3 : 0);
   }
   // The kinds weapons come in, as the page groups them.
   static readonly kinds: [string, string][] = [['blade', 'Blades'], ['axe', 'Axes'], ['mace', 'Maces'],

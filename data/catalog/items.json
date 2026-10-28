@@ -376,6 +376,7 @@
       "category": "gear",
       "description": "A tallow candle. Lit, it burns about two hours: a small light, easily put out.",
       "value": 1,
+      "mass": 0,
       "use": "Apply candlelit to self for 2 hours.",
       "source": {
         "orsino": "gear:candle",

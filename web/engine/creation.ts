@@ -1,6 +1,7 @@
 import type { Memorial } from '../../src/world/memorial';
 import partyExamples from '../../data/campaigns/companies.json';
 import { Canon } from '../../src/canon/canon';
+import { Rolls } from '../../src/rules/rolls';
 import { Content } from '../../src/content';
 import { Overlays } from '../../src/overlays';
 import { CompanyPreview } from '../../src/presentation/company-preview';
@@ -135,7 +136,8 @@ export class Creation {
   // with six rolls of three dice to place on the qualities (the same for the same country).
   static protagonist(ancestry: string, seed: string): Member {
     const playable = (Content.playableRaces as string[]).includes(ancestry) ? ancestry : 'human';
-    return { name: 'Wenna', raceId: playable as Member['raceId'], classId: 'warrior', rolled: Content.rolls(seed) };
+    return { name: 'Wenna', raceId: playable as Member['raceId'], classId: 'warrior',
+      rolled: Rolls.suited(Content.rolls(seed), Canon.classes.warrior?.attributes ?? {}) };
   }
   // Where a company sets out: an authored campaign from the bundled files, or the generated region drawn again for
   // this company (its backgrounds place old friends in the region).

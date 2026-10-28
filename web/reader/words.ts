@@ -3,6 +3,11 @@ import { Typography } from '../../src/presentation/typography';
 
 // How the page says small things: the time of day, a choice echoed as what the company did, how hurt someone looks.
 export class Words {
+  // A leg of a journey: by its way, to where it comes; a way named for where it goes is not followed by the name again
+  // ("By the track to a great long mound … to a great long mound …": the cold evaluation).
+  static leg(way: string, to: string): string {
+    return way.toLowerCase().endsWith(` to ${to.toLowerCase()}`) ? `By ${way}` : `By ${way} to ${to}`;
+  }
   static readonly ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth',
     'tenth', 'eleventh', 'twelfth'];
   static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }

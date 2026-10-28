@@ -46,7 +46,9 @@ export class SceneModel {
     const kind = companions.has(s.id) ? 'companion' : row?.kind === 'animal' ? 'animal'
       : s.tone as 'creature' | 'person' | 'thing';
     const [name, ...role] = s.title.split(', ');
-    const note = [role.join(', '), s.note].filter(Boolean).join(' · ');
+    // Dead or down is said apart, in its colour, and not again in the note ("dead dead": the cold evaluation).
+    const said = row?.state ? s.note?.replace(/(?:^| · )(?:dead|down)$/, '') : s.note;
+    const note = [role.join(', '), said].filter(Boolean).join(' · ');
     return { id: s.id, kind, name: name!, ...note ? { note } : {}, ...s.about ? { about: s.about } : {},
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
       ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.says?.length ? { says: row.says } : {},

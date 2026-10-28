@@ -69,12 +69,15 @@ export class CombatTelling {
     const actor = this.name(attack.actor), target = this.name(attack.target), weapon = this.weapon(attack.actor);
     const natural = this.fighter(attack.actor)?.equipment?.weapon?.natural;
     const how = natural ? `${actor}'s ${weapon}` : actor;
+    // A creature's antlers or claws are many, and miss and catch as many ("Finn's antlers misses": the cold
+    // evaluation; "the risen dead's claws catches Maren": play 8).
+    const many = natural && /(?<!s)s$/.test(weapon);
     if (!attack.success) {
       if (attack.evaded) { return `${target} slips aside from ${natural ? how : `${actor}'s ${weapon || 'blow'}`}.`; }
-      return natural ? `${how} misses ${target}.` : `${actor} ${kind === 'ranged' ? 'shoots at' : 'strikes at'} ${target}`
-        + ` and misses.`;
+      return natural ? `${how} ${many ? 'miss' : 'misses'} ${target}.`
+        : `${actor} ${kind === 'ranged' ? 'shoots at' : 'strikes at'} ${target} and misses.`;
     }
-    const verb = attack.critical ? natural ? 'catches' : 'lands a telling blow on' : natural ? 'catches' : kind === 'ranged'
+    const verb = natural ? many ? 'catch' : 'catches' : attack.critical ? 'lands a telling blow on' : kind === 'ranged'
       ? 'shoots' : 'hits';
     const with_ = natural || !weapon ? '' : ` with the ${weapon}`;
     // A blow that does no harm is not told with its nothing ("for 0"); what else it does is told after it.
@@ -116,6 +119,8 @@ export class CombatTelling {
     // What a bleeding wound may come to is said of the wound ("the second of the risen dead is not infected", after
     // its own blow on someone else, read as the blow's: play 8; the register's CMB-02).
     if (e.against === 'infected') { return `${who}'s wound stays clean.`; }
+    // Not "is not bleeding", which reads as news of how they are (the cold evaluation).
+    if (e.against === 'bleed') { return `${who} does not bleed from it.`; }
     // A save against the harm itself turns the worst of it, not all of it: what it sets going still goes.
     return !what ? `${who} turns the worst of it aside.` : state ? `${who} is not ${what}.` : `${who} shrugs off the ${what}.`;
   }
