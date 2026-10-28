@@ -18,9 +18,9 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "deem": "github:jweissman/deem#967deac5b8411a921b85ba9ef630d503081ce21e",
+    "deem": "git+https://github.com:443/jweissman/deem.git#967deac5b8411a921b85ba9ef630d503081ce21e",
     "eslint": "^10.13.0",
-    "languages": "github:jweissman/languages#30d36c624e6a604b5ed9296dad5127b23aeb2285",
+    "languages": "git+https://github.com:443/jweissman/languages.git#30d36c624e6a604b5ed9296dad5127b23aeb2285",
     "ohm-js": "^17.5.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"

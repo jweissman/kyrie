@@ -46,10 +46,14 @@ with three quick specs of its own.
 
 ## Dependencies
 
-Deem and the languages package are pinned by commit in `package.json` (`github:jweissman/deem#<commit>`,
-`github:jweissman/languages#<commit>`), and the lockfile records each with an integrity hash, so a clean clone needs
-no sibling checkouts: `git clone`, `bun install`, and every check above runs. To move a pin, push the dependency's
-commit, then change the commit in `package.json` and `bun install`.
+Deem and the languages package are pinned by commit in `package.json` as git URLs
+(`git+https://github.com:443/jweissman/deem.git#<commit>`, and the same for `languages`), and `bun install` clones
+each at that commit, so a clean clone needs no sibling checkouts: `git clone`, `bun install`, and every check above
+runs. The `:443` is deliberate: bun takes a plain `github.com` URL, git or not, for a GitHub tarball fetched through
+`api.github.com`, which a review environment refused with 403 (the architecture review's L4); with the port named, it is
+a git dependency like any other, fetched wherever git can reach GitHub. The commit is what pins it. To move a pin, push
+the dependency's commit, then change the commit in `package.json` and `bun install`. `main` is protected against
+force-pushes, so a commit a review names stays on it.
 
 To work on Deem (or languages) beside Kyrie without pushing each change: `bun link` in the sibling checkout, then
 `bun link deem` in Kyrie. `node_modules/deem` then points at the checkout, and `package.json` is left as it is. The

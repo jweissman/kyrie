@@ -108,5 +108,39 @@
       "goblin": 25
     },
     "person": 30
+  },
+  "combat": {
+    "about": "The numbers and ids the rules of a fight turn on, kept here rather than in the engine's code (the architecture review's A23): Orsino's death save and system shock, the save against what a kind of damage brings and how many turns that lasts, how many a summoner holds, the chance to get away on each try (sure after the last), a bare hand, and the conditions and procedures the rules name.",
+    "deathSave": 25,
+    "triggerSave": 15,
+    "triggerTurns": 3,
+    "summons": {
+      "base": 3,
+      "perLevels": 3
+    },
+    "flee": [
+      {
+        "die": "1d2",
+        "atMost": 1
+      },
+      {
+        "die": "1d4",
+        "atMost": 3
+      }
+    ],
+    "systemShock": 10,
+    "fist": {
+      "id": "fist",
+      "name": "Fist",
+      "damage": "1d2",
+      "type": "bludgeoning",
+      "natural": true
+    },
+    "ids": {
+      "slain": "slain",
+      "raising": "raise_dead",
+      "roughRest": "rough_rest",
+      "shelteredRest": "camp_recovery"
+    }
   }
 }

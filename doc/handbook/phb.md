@@ -646,7 +646,7 @@ Brings woodcraft, and knows someone who hears news on the road.
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
 | Animal handler | +2 wisdom, +1 dexterity | 15 | anyone | Woodcraft | Adapted |
-| Archer | +5 dexterity, +2 wisdom | 70 | Ranger | Woodcraft | Adapted |
+| Archer | +3 dexterity, +2 wisdom | 70 | Ranger | Woodcraft, Stealth | Adapted |
 | Badger | +3 constitution, +1 strength | 5 | anyone | Woodcraft | Adapted |
 | Botanist | +3 intelligence, +2 wisdom | 15 | anyone | Woodcraft | Adapted |
 | Forester | +2 wisdom, +1 dexterity | 15 | anyone | Woodcraft, handaxe | Adapted |
@@ -656,9 +656,9 @@ Brings woodcraft, and knows someone who hears news on the road.
 | Hunter | +2 dexterity, +1 wisdom, +1 constitution | 15 | Ranger | Woodcraft, Coil of rope | Adapted |
 | Monster hunter | +3 strength, +3 dexterity, +3 constitution, +2 intelligence, +2 wisdom, +1 charisma | 100 | Warrior | Woodcraft | Adapted |
 | Scout | +2 dexterity, +2 wisdom | 15 | anyone | Woodcraft | Adapted |
-| Sharpshooter | +5 dexterity, +2 intelligence, +2 wisdom | 80 | Ranger | Woodcraft | Adapted |
+| Sharpshooter | +3 dexterity, +2 intelligence, +2 wisdom | 80 | Ranger | Woodcraft, Stealth | Adapted |
 | Skinner | +3 dexterity, +2 constitution | 20 | anyone | Woodcraft | Adapted |
-| Tracker | +4 wisdom, +2 dexterity | 40 | Ranger | Woodcraft, Stealth | Adapted |
+| Tracker | +3 wisdom, +2 dexterity | 40 | Ranger | Woodcraft, Stealth, Insight | Adapted |
 | Tribesman | +2 strength, +1 constitution, +1 wisdom | 10 | anyone | Woodcraft | Adapted |
 | Woodcutter | +2 strength, +2 constitution, −1 dexterity | 15 | anyone | Woodcraft | Adapted |
 | Zoologist | +3 intelligence, +2 wisdom | 20 | anyone | Woodcraft | Adapted |
@@ -678,9 +678,9 @@ Brings wayfinding, and knows someone who hears news on the road.
 | Messenger | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Adapted |
 | Nomad | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Adapted |
 | Outlander | +1 strength, +1 dexterity, +1 constitution | 10 | anyone | Wayfinding | Adapted |
-| Pathfinder | +4 dexterity, +3 wisdom | 50 | Ranger | Wayfinding | Adapted |
+| Pathfinder | +3 dexterity, +3 wisdom | 50 | Ranger | Wayfinding, Stealth | Adapted |
 | Runner | +3 dexterity, +1 constitution | 10 | anyone | Wayfinding | Adapted |
-| Trader | +2 wisdom, +4 charisma, +3 intelligence | 120 | anyone | Wayfinding | Adapted |
+| Trader | +2 wisdom, +3 charisma, +3 intelligence | 120 | anyone | Wayfinding, Persuasion | Adapted |
 | Vagabond | +2 dexterity, +1 constitution | 5 | anyone | Wayfinding | Adapted |
 | Wayfarer | +2 dexterity, +1 wisdom | 10 | anyone | Wayfinding | Adapted |
 
@@ -690,11 +690,11 @@ Brings lockwork, and knows someone who hears news at a market.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
-| Artificer | +4 intelligence, +3 dexterity, +2 wisdom | 60 | anyone | Lockwork | Adapted |
+| Artificer | +3 intelligence, +3 dexterity, +2 wisdom | 60 | anyone | Lockwork, Lore | Adapted |
 | Bellwright | +2 strength, +1 constitution | 20 | anyone | Lockwork | Adapted |
 | Engineer | +3 intelligence, +2 dexterity | 40 | anyone | Lockwork | Adapted |
-| Inventor | +4 intelligence, +2 dexterity | 50 | anyone | Lockwork | Adapted |
-| Locksmith | +4 dexterity, +2 intelligence | 40 | anyone | Lockwork, Thieves' tools | Adapted |
+| Inventor | +3 intelligence, +2 dexterity | 50 | anyone | Lockwork, Lore | Adapted |
+| Locksmith | +3 dexterity, +2 intelligence | 40 | anyone | Lockwork, Stealth, Thieves' tools | Adapted |
 | Tinker | +3 dexterity, +2 intelligence | 30 | anyone | Lockwork | Adapted |
 | Toymaker | +3 dexterity, +2 intelligence | 30 | anyone | Lockwork, Firewood | Adapted |
 
@@ -704,18 +704,18 @@ Brings stealth and deception, and knows someone who hears news at a market.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
-| Assassin | +4 dexterity, +2 intelligence, +2 wisdom, +3 charisma | 100 | Thief | Stealth, Deception | Adapted |
+| Assassin | +3 dexterity, +2 intelligence, +2 wisdom, +3 charisma | 100 | Thief | Stealth, Deception | Adapted |
 | Bandit | +2 dexterity, +1 strength | 15 | Thief | Stealth, Deception, dagger | Adapted |
-| Burglar | +5 dexterity, +2 charisma | 40 | Thief | Stealth, Deception | Adapted |
-| Cardsharp | +4 dexterity, +2 intelligence | 30 | Thief | Stealth, Deception | Adapted |
+| Burglar | +3 dexterity, +2 charisma | 40 | Thief | Stealth, Deception | Adapted |
+| Cardsharp | +3 dexterity, +2 intelligence | 30 | Thief | Stealth, Deception | Adapted |
 | Criminal | +2 dexterity, +1 charisma, −1 intelligence | 15 | Thief | Stealth, Lockwork | Adapted |
-| Cutpurse | +5 dexterity, +2 charisma | 30 | Thief | Stealth, Deception | Adapted |
+| Cutpurse | +3 dexterity, +2 charisma | 30 | Thief | Stealth, Deception | Adapted |
 | Gambler | +3 charisma, +2 dexterity | 25 | Thief | Stealth, Deception | Adapted |
 | Outlaw | +3 dexterity, +1 strength | 15 | Thief | Stealth, Deception, dagger | Adapted |
-| Pickpocket | +4 dexterity, +2 charisma | 25 | Thief | Stealth, Deception | Adapted |
-| Poisoner | +3 dexterity, +4 intelligence, +2 wisdom | 70 | anyone | Stealth, Deception | Adapted |
+| Pickpocket | +3 dexterity, +2 charisma | 25 | Thief | Stealth, Deception | Adapted |
+| Poisoner | +3 dexterity, +3 intelligence, +2 wisdom | 70 | anyone | Stealth, Deception, Lore | Adapted |
 | Raider | +3 strength, +2 constitution | 15 | Warrior | Stealth, Deception | Adapted |
-| Saboteur | +4 dexterity, +2 intelligence | 40 | Thief | Stealth, Deception | Adapted |
+| Saboteur | +3 dexterity, +2 intelligence | 40 | Thief | Stealth, Deception | Adapted |
 | Smuggler | +2 dexterity, +2 charisma | 40 | anyone | Stealth, Deception | Adapted |
 | Spy | +2 charisma, +2 dexterity, +1 intelligence | 50 | Thief | Stealth, Deception | Adapted |
 | Thug | +3 strength, +2 constitution | 20 | Thief | Stealth, Deception | Adapted |
@@ -733,7 +733,7 @@ Brings mending, and knows someone who hears news at a shrine.
 | Medic | +2 wisdom, +2 intelligence | 20 | Cleric | Mending, Bandages, Healing herbs | Adapted |
 | Nurse | +3 wisdom, +1 charisma | 15 | anyone | Mending | Adapted |
 | Pharmacist | +3 intelligence, +2 wisdom | 30 | anyone | Mending | Adapted |
-| Physician | +4 intelligence, +4 wisdom | 40 | anyone | Mending | Adapted |
+| Physician | +3 intelligence, +3 wisdom | 40 | anyone | Mending, Lore, Insight | Adapted |
 | Plague doctor | +2 intelligence, +3 wisdom | 15 | Cleric | Mending, Healing herbs | Adapted |
 
 ### The faith
@@ -742,13 +742,13 @@ Brings rites of the dead and insight, and knows someone who hears news at a shri
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
-| Abbot | +4 wisdom, +3 charisma | 80 | anyone | Rites of the dead, Insight | Adapted |
+| Abbot | +3 wisdom, +3 charisma | 80 | anyone | Rites of the dead, Insight | Adapted |
 | Acolyte | +2 wisdom, +1 intelligence | 5 | anyone | Rites of the dead, Insight | Adapted |
 | Archon | +3 intelligence, +3 wisdom, +2 charisma | 100 | anyone | Rites of the dead, Insight | Adapted |
-| Ascetic | +5 wisdom, −1 constitution | 20 | Monk | Climbing | Adapted |
+| Ascetic | +3 wisdom, −1 constitution | 20 | Monk | Climbing, Insight | Adapted |
 | Cultist | +2 intelligence, +1 wisdom, −1 charisma | 5 | anyone | Rites of the dead, Insight | Adapted |
 | Hermit | +2 constitution, +1 wisdom, −2 charisma | 5 | anyone | Rites of the dead, Insight | Adapted |
-| Inquisitor | +3 intelligence, +4 wisdom, +3 charisma | 70 | anyone | Rites of the dead, Insight | Adapted |
+| Inquisitor | +3 intelligence, +3 wisdom, +3 charisma | 70 | anyone | Rites of the dead, Insight | Adapted |
 | Mendicant | +3 wisdom, +2 dexterity, +1 constitution | 30 | Monk | Climbing | Adapted |
 | Missionary | +3 wisdom, +2 charisma | 20 | Cleric | Rites of the dead, Insight, Holy symbol | Adapted |
 | Priest | +3 wisdom, +2 charisma | 30 | anyone | — | Adapted |
@@ -764,24 +764,24 @@ Brings lore, and knows someone who hears news at a shrine.
 |---|---|---|---|---|---|
 | Advisor | +3 intelligence, +3 wisdom, +2 charisma | 100 | anyone | Lore | Adapted |
 | Apprentice | +2 intelligence, +1 dexterity | 10 | anyone | Lore | Adapted |
-| Arcanist | +5 intelligence, +1 wisdom | 70 | Mage | Lore | Adapted |
+| Arcanist | +3 intelligence, +1 wisdom | 70 | Mage | Lore | Adapted |
 | Archaeologist | +3 intelligence, +2 wisdom | 30 | anyone | Lore, Digging, Shovel | Adapted |
-| Architect | +4 intelligence, +3 wisdom | 60 | anyone | Lore | Adapted |
-| Archivist | +4 intelligence, +5 wisdom | 30 | anyone | Lore | Adapted |
-| Astronomer | +4 intelligence, +2 wisdom | 15 | anyone | Lore | Adapted |
+| Architect | +3 intelligence, +3 wisdom | 60 | anyone | Lore | Adapted |
+| Archivist | +3 intelligence, +3 wisdom | 30 | anyone | Lore, Insight | Adapted |
+| Astronomer | +3 intelligence, +2 wisdom | 15 | anyone | Lore | Adapted |
 | Fortuneteller | +3 charisma, +1 intelligence | 40 | anyone | Lore | Adapted |
 | Historian | +3 intelligence, +2 wisdom | 20 | anyone | Lore | Adapted |
-| Invoker | +2 intelligence, +4 wisdom | 50 | Mage | Lore | Adapted |
+| Invoker | +2 intelligence, +3 wisdom | 50 | Mage | Lore, Insight | Adapted |
 | Librarian | +2 intelligence, +2 wisdom | 10 | anyone | Lore | Adapted |
-| Mystic | +5 wisdom, −1 intelligence, +2 charisma | 60 | Mage | Lore | Adapted |
+| Mystic | +3 wisdom, −1 intelligence, +2 charisma | 60 | Mage | Lore, Insight | Adapted |
 | Parchment maker | +2 dexterity, +2 intelligence | 20 | anyone | Lore | Adapted |
 | Philosopher | +3 intelligence, +2 wisdom | 20 | anyone | Lore | Adapted |
-| Rhetorician | +4 charisma, +4 intelligence, +2 wisdom | 80 | anyone | Lore | Adapted |
-| Sage | +4 intelligence, +3 wisdom | 25 | anyone | Lore | Adapted |
+| Rhetorician | +3 charisma, +3 intelligence, +2 wisdom | 80 | anyone | Lore, Persuasion | Adapted |
+| Sage | +3 intelligence, +3 wisdom | 25 | anyone | Lore | Adapted |
 | Scholar | +2 intelligence, +1 wisdom, −1 charisma | 5 | anyone | Lore | Adapted |
 | Scribe | +2 intelligence, +1 dexterity | 15 | anyone | Lore | Adapted |
 | Secretkeeper | +3 dexterity, +2 intelligence, +1 wisdom | 40 | anyone | Lore | Adapted |
-| Vizier | +5 intelligence, +3 wisdom, +4 charisma | 150 | anyone | Lore | Adapted |
+| Vizier | +3 intelligence, +3 wisdom, +3 charisma | 150 | anyone | Lore, Persuasion | Adapted |
 | Witch | +3 intelligence, +3 wisdom, +2 charisma | 20 | Mage | Lore, Kingsfoil | Adapted |
 
 ### Stone and earth
@@ -801,7 +801,7 @@ Brings digging, carries shovel, and knows someone who hears news at an inn.
 | Scavenger | +2 dexterity, +1 wisdom | 10 | anyone | Digging, Shovel | Adapted |
 | Stone mason | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 50 | anyone | Digging, Shovel | Adapted |
 | Stonecarver | +3 strength, +2 constitution, +2 dexterity, +1 intelligence | 50 | anyone | Digging, Shovel | Adapted |
-| Treasure hunter | +4 dexterity, +3 intelligence, +2 wisdom | 120 | anyone | Digging, Shovel | Adapted |
+| Treasure hunter | +3 dexterity, +3 intelligence, +2 wisdom | 120 | anyone | Digging, Stealth, Shovel | Adapted |
 
 ### Arms
 
@@ -812,16 +812,16 @@ Brings brawn and intimidation, and knows someone who hears news at an inn.
 | Athlete | +2 strength, +2 dexterity, +1 constitution | 10 | anyone | Brawn, Intimidation | Adapted |
 | Blacksmith | +2 strength, +1 constitution, +1 dexterity | 25 | anyone | Brawn, Intimidation | Adapted |
 | Bounty hunter | +2 dexterity, +2 wisdom | 25 | anyone | Brawn, Intimidation, Coil of rope, Manacles | Adapted |
-| Champion | +4 strength, +3 constitution, +2 dexterity, +1 wisdom, +2 charisma | 50 | Warrior | Brawn, Intimidation | Adapted |
+| Champion | +3 strength, +3 constitution, +2 dexterity, +1 wisdom, +2 charisma | 50 | Warrior | Brawn, Intimidation | Adapted |
 | Coppersmith | +3 dexterity, +1 intelligence | 25 | anyone | Brawn, Intimidation | Adapted |
 | Deserter | +2 dexterity, +1 constitution | 10 | anyone | Brawn, Intimidation | Adapted |
-| Dragon slayer | +4 strength, +3 constitution, +2 dexterity, +2 wisdom, +2 charisma | 200 | anyone | Brawn, Intimidation | Adapted |
+| Dragon slayer | +3 strength, +3 constitution, +2 dexterity, +2 wisdom, +2 charisma | 200 | anyone | Brawn, Intimidation | Adapted |
 | Errant | +2 strength, +3 intelligence, +2 wisdom, +1 charisma | 75 | Warrior | Brawn, Intimidation | Adapted |
-| Executioner | +4 strength, +3 constitution, +2 dexterity | 40 | anyone | Brawn, Intimidation | Adapted |
+| Executioner | +3 strength, +3 constitution, +2 dexterity | 40 | anyone | Brawn, Intimidation | Adapted |
 | Folk hero | +2 strength, +1 constitution, +1 charisma | 10 | anyone | Brawn, Intimidation | Adapted |
 | Gladiator | +3 strength, +2 constitution, +1 dexterity | 30 | anyone | Brawn, Intimidation | Adapted |
-| Guard | +2 strength, +4 constitution | 10 | Warrior | Brawn, Intimidation | Adapted |
-| Juggernaut | +5 strength, +5 constitution, +1 dexterity, −2 intelligence, −1 charisma | 50 | anyone | Brawn, Intimidation | Adapted |
+| Guard | +2 strength, +3 constitution | 10 | Warrior | Brawn, Intimidation | Adapted |
+| Juggernaut | +3 strength, +3 constitution, +1 dexterity, −2 intelligence, −1 charisma | 50 | anyone | Brawn, Intimidation | Adapted |
 | Mercenary | +2 strength, +1 constitution, +1 dexterity | 20 | Warrior | Brawn, Intimidation | Adapted |
 | Praetor | +3 strength, +3 constitution, +2 dexterity | 50 | Warrior | Brawn, Intimidation | Adapted |
 | Roustabout | +3 strength, +2 dexterity, +2 charisma | 25 | anyone | Brawn, Intimidation | Adapted |
@@ -854,25 +854,25 @@ Brings lore and deception, and knows someone who hears news at an inn.
 
 | Background | Qualities | Gold | For | Brings | Status |
 |---|---|---|---|---|---|
-| Comedian | +4 charisma, +2 dexterity | 25 | Bard | Lore, Deception | Adapted |
-| Courtesan | +5 charisma, +3 intelligence | 150 | anyone | Lore, Deception | Adapted |
-| Dancer | +4 dexterity, +3 charisma, +2 intelligence | 80 | Bard | Lore, Deception | Adapted |
+| Comedian | +3 charisma, +2 dexterity | 25 | Bard | Lore, Deception, Persuasion | Adapted |
+| Courtesan | +3 charisma, +3 intelligence | 150 | anyone | Lore, Deception, Persuasion | Adapted |
+| Dancer | +3 dexterity, +3 charisma, +2 intelligence | 80 | Bard | Lore, Deception, Stealth | Adapted |
 | Entertainer | +2 charisma, +1 dexterity | 30 | Bard | Lore, Deception | Adapted |
-| Fabulist | +4 charisma, +3 intelligence | 60 | Bard | Lore, Deception | Adapted |
-| Harlequin | +4 charisma, +3 dexterity | 40 | Bard | Lore, Deception | Adapted |
+| Fabulist | +3 charisma, +3 intelligence | 60 | Bard | Lore, Deception, Persuasion | Adapted |
+| Harlequin | +3 charisma, +3 dexterity | 40 | Bard | Lore, Deception, Persuasion | Adapted |
 | Jacanape | +3 charisma, +1 dexterity | 30 | anyone | Lore, Deception | Adapted |
 | Juggler | +3 dexterity, +1 charisma | 20 | anyone | Lore, Deception | Adapted |
 | Minstrel | +3 charisma, +2 dexterity | 30 | Bard | Lore, Deception | Adapted |
-| Orator | +5 charisma, +3 intelligence | 90 | Bard | Lore, Deception | Adapted |
+| Orator | +3 charisma, +3 intelligence | 90 | Bard | Lore, Deception, Persuasion | Adapted |
 | Performer | +3 charisma, +2 dexterity | 30 | Bard | Lore, Deception | Adapted |
-| Playwright | +5 charisma, +4 intelligence | 70 | Bard | Lore, Deception, Quill | Adapted |
+| Playwright | +3 charisma, +3 intelligence | 70 | Bard | Lore, Deception, Persuasion, Quill | Adapted |
 | Poet | +3 charisma, +1 intelligence | 25 | Bard | Lore, Deception | Adapted |
 | Singer | +2 charisma, +1 wisdom | 25 | Bard | Lore, Deception | Adapted |
 | Storyteller | +3 charisma, +2 intelligence | 30 | Bard | Lore, Deception | Adapted |
 | Town crier | +3 charisma, +1 wisdom | 15 | anyone | Lore, Deception | Adapted |
-| Tragedian | +4 charisma, +2 wisdom | 25 | Bard | Lore, Deception | Adapted |
-| Troubadour | +4 charisma, +2 dexterity | 40 | Bard | Lore, Deception | Adapted |
-| Virtuoso | +5 charisma, +3 dexterity | 60 | Bard | Lore, Deception | Adapted |
+| Tragedian | +3 charisma, +2 wisdom | 25 | Bard | Lore, Deception, Persuasion | Adapted |
+| Troubadour | +3 charisma, +2 dexterity | 40 | Bard | Lore, Deception, Persuasion | Adapted |
+| Virtuoso | +3 charisma, +3 dexterity | 60 | Bard | Lore, Deception, Persuasion | Adapted |
 
 ### A trade
 
@@ -887,7 +887,7 @@ Brings persuasion, and knows someone who hears news at a market.
 | Brewer | +2 constitution, +1 intelligence | 20 | anyone | Persuasion | Adapted |
 | Chef | +2 constitution, +1 wisdom | 15 | anyone | Persuasion | Adapted |
 | Craftsman | +3 dexterity, +2 intelligence, +1 wisdom | 40 | anyone | Persuasion | Adapted |
-| Diamantaire | +5 intelligence, +4 wisdom, +5 charisma | 200 | anyone | Persuasion | Adapted |
+| Diamantaire | +3 intelligence, +3 wisdom, +3 charisma | 200 | anyone | Persuasion, Lore, Insight | Adapted |
 | Factotum | +2 intelligence, +1 dexterity, +1 wisdom | 10 | anyone | Persuasion | Adapted |
 | Farmer | +2 constitution, +1 strength, +1 wisdom | 10 | anyone | Persuasion | Adapted |
 | Fletcher | +3 dexterity, +1 intelligence | 25 | anyone | Persuasion | Adapted |
@@ -921,16 +921,16 @@ Brings persuasion and insight, and knows someone who hears news at a market.
 | Aristocrat | +2 charisma, +1 intelligence, −1 strength | 400 | anyone | Persuasion, Insight | Adapted |
 | Beadle | +2 wisdom, +1 charisma | 10 | anyone | Persuasion, Insight | Adapted |
 | Courtier | +2 charisma, +1 intelligence | 50 | anyone | Persuasion, Insight | Adapted |
-| Demagogue | +5 charisma, +2 wisdom | 75 | anyone | Persuasion, Insight | Adapted |
+| Demagogue | +3 charisma, +2 wisdom | 75 | anyone | Persuasion, Insight | Adapted |
 | Diplomat | +3 charisma, +1 intelligence | 75 | anyone | Persuasion, Insight | Adapted |
-| Judge | +4 wisdom, +3 intelligence, +2 charisma | 70 | anyone | Persuasion, Insight | Adapted |
-| Magistrate | +4 intelligence, +3 wisdom, +2 charisma | 80 | anyone | Persuasion, Insight | Adapted |
+| Judge | +3 wisdom, +3 intelligence, +2 charisma | 70 | anyone | Persuasion, Insight | Adapted |
+| Magistrate | +3 intelligence, +3 wisdom, +2 charisma | 80 | anyone | Persuasion, Insight, Lore | Adapted |
 | Noble | +1 strength, +1 intelligence, +2 charisma, −1 constitution | 50 | anyone | Persuasion, Insight | Adapted |
-| Politician | +4 charisma, +2 intelligence | 100 | anyone | Persuasion, Insight | Adapted |
+| Politician | +3 charisma, +2 intelligence | 100 | anyone | Persuasion, Insight | Adapted |
 | Quaestor | +3 intelligence, +2 wisdom, +2 charisma | 50 | anyone | Persuasion, Insight | Adapted |
 | Revolutionary | +3 charisma, +1 wisdom | 25 | anyone | Persuasion, Insight | Adapted |
 | Royalty | +3 charisma, +2 intelligence, +1 wisdom, −2 strength | 1000 | anyone | Persuasion, Insight | Adapted |
-| Tax collector | +4 charisma, +2 intelligence | 70 | anyone | Persuasion, Insight | Adapted |
+| Tax collector | +3 charisma, +2 intelligence | 70 | anyone | Persuasion, Insight | Adapted |
 | Tribune | +2 strength, +2 constitution, +2 intelligence, +2 wisdom, +2 charisma | 100 | anyone | Persuasion, Insight | Adapted |
 
 ### The margins

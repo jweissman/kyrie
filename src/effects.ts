@@ -75,8 +75,8 @@ export class Effects {
   static combatant(fighter: Fighter): Combatant {
     const scores = Effects.scores(fighter);
     return { level: fighter.level, strength: scores.strength, dexterity: scores.dexterity,
-      armorAc: fighter.equipment?.armorAc ?? 0, weapon: fighter.equipment?.weapon ?? { id: 'fist', name: 'Fist',
-        damage: '1d2', type: 'bludgeoning', natural: true }, modifiers: Effects.modifiers(fighter) };
+      armorAc: fighter.equipment?.armorAc ?? 0, weapon: fighter.equipment?.weapon ?? { ...Canon.rules.combat.fist },
+      modifiers: Effects.modifiers(fighter) };
   }
   static saveModifier(fighter: Fighter, kind?: string): number {
     const m = Effects.modifiers(fighter);
@@ -218,7 +218,7 @@ export class Effects {
     if (!context.expressions) { return; }
     if (target.hp === 0) {
       const death = context.events.findLastIndex(e => e.type === 'death' && e.actor === target.id);
-      if (Effects.save(target, 'death', 25, context)) {
+      if (Effects.save(target, 'death', Canon.rules.combat.deathSave, context)) {
         target.hp = 1;
         if (death >= 0) { context.events.splice(death, 1); }
         context.events.push({ type: 'revive', turn: context.turn, actor: target.id, target: target.id,
@@ -233,10 +233,12 @@ export class Effects {
       .filter(([id, c]) => c.trigger === type && Canon.resolve('conditions', id) === id
         && !(context.field && c.lifetime === 'encounter'))) {
       if (target.hp === 0) { continue; }
-      const saved = Effects.save(target, status.saveKind ?? 'magic', 15, context), roll = context.events.at(-1);
+      const saved = Effects.save(target, status.saveKind ?? 'magic', Canon.rules.combat.triggerSave, context);
+      const roll = context.events.at(-1);
       if (roll?.type === 'save') { roll.against = id; }
       if (!saved) {
-        Effects.condition({ kind: 'apply', status: id, duration: status.duration ?? 3, target: 'enemy' }, target, context);
+        Effects.condition({ kind: 'apply', status: id, duration: status.duration ?? Canon.rules.combat.triggerTurns,
+          target: 'enemy' }, target, context);
       }
     }
     const actor = context.actor;
@@ -293,7 +295,9 @@ export class Effects {
   }
   // What is left of a body's conditions once it is raised: not its death. A raising in a fight and one at a shrine are
   // the same raising (FieldUse.raise).
-  static raised<T extends { id: string }>(conditions: T[]): T[] { return conditions.filter(c => c.id !== 'slain'); }
+  static raised<T extends { id: string }>(conditions: T[]): T[] {
+    return conditions.filter(c => c.id !== Canon.rules.combat.ids.slain);
+  }
   static apply(effect: Effect, target: Fighter, rolled: number, context: EffectContext) {
     const actor = context.actor;
     switch (effect.kind) {
@@ -303,8 +307,9 @@ export class Effects {
       // before a fight that came at it closes: flight failed again and again (PT-24), and a fragile company was killed
       // by what it had no turn to back away from (PT-10).
       case 'flee': {
-        const tries = context.tries ?? 0, dice = !context.sure && tries < 2 ? context.expressions : undefined;
-        const away = !dice || (tries ? dice.number('1d4') <= 3 : dice.number('1d2') === 1);
+        const odds = Canon.rules.combat.flee[context.tries ?? 0];
+        const dice = !context.sure && odds ? context.expressions : undefined;
+        const away = !dice || dice.number(odds!.die) <= odds!.atMost;
         context.retreat = away;
         context.events.push({ type: 'flee', turn: context.turn, actor: Effects.sourceId(context), success: away });
         break;

@@ -70,7 +70,7 @@ Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, weara
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 24 | 9 | 2 | 7 | 18 |
+| 2 | 27 | 9 | 2 | 9 | 19 |
 
 #### relieves
 
@@ -83,6 +83,12 @@ What could be used on a member to any end: a remedy for a hurt or an ill they ha
 *Kyr · relation(itemkind); relation(itemkind, itemkind); relation(itemkind)* · `rule:belongings.lightsUp`
 
 What is used by lighting it, on whoever carries it (a torch, a candle); what burns in something else, and what it burns in (lamp oil, in a lantern).
+
+#### handed, usesUp
+
+*Kyr · relation(item, group); relation(group, itemkind)* · `rule:belongings.handed`
+
+A thing handed to a company ("Give coat to party." in what a topic or an action does: a coat held out, a letter out of a lockbox, a casket put in your arms), which the engine puts in the hands of the first of the company who is up, from wherever it lay or whoever had it; and one of a kind the company gives up ("Spend weight_stone from actor."), from whichever of it carries one. Each is done once, and forgotten.
 
 #### worth, buysValuables, realized, valuable
 
@@ -148,13 +154,19 @@ How much coin a dealer keeps in the house: what they pay out, trade brings back 
 
 Whose a thing is, and to whom they have lent it. An owner, or one who serves them, who sees the company with it unlent (awake, and there to see it), says so once, in their own words if they have them ("Objects" in a person), and is not the company's friend after. One asleep sees nothing.
 
+#### resentment
+
+*Kyr · relation(group, entity)* · `rule:belongings.resentment`
+
+One who resents it says so in their own words ("Resents" in a person), and is not made the company's enemy by it: the Factor who saw her own letter had turned hostile, and every word with her was closed (What Tessary Owes' W8).
+
 #### owner_objects
 
 *Kyr · rule* · `rule:belongings.owner_objects`
 
 Says: "{?o} sees {?i} in your hands. 'That is mine.'"
 
-> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); perceives(?o, ?c); not (objection(?o, ?w))
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); perceives(?o, ?c); not (objection(?o, ?w)); not (resentment(?o, ?r))
 
 > Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
 
@@ -164,9 +176,19 @@ Says: "{?o} sees {?i} in your hands. 'That is mine.'"
 
 Says: "{?w}"
 
-> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); perceives(?o, ?c); objection(?o, ?w)
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); perceives(?o, ?c); objection(?o, ?w); not (resentment(?o, ?r))
 
 > Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
+
+#### owner_resents
+
+*Kyr · rule* · `rule:belongings.owner_resents`
+
+Says: "{?w}"
+
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); perceives(?o, ?c); resentment(?o, ?w)
+
+> Then: Assert objected(?o, ?i).
 
 #### servant_objects
 
@@ -174,7 +196,7 @@ Says: "{?w}"
 
 Says: "{?s} sees {?i} in your hands, and goes to tell {?o}."
 
-> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); perceives(?s, ?c); not (objection(?s, ?w))
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); perceives(?s, ?c); not (objection(?s, ?w)); not (resentment(?o, ?r))
 
 > Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
 
@@ -184,9 +206,19 @@ Says: "{?s} sees {?i} in your hands, and goes to tell {?o}."
 
 Says: "{?w}"
 
-> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); perceives(?s, ?c); objection(?s, ?w)
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); perceives(?s, ?c); objection(?s, ?w); not (resentment(?o, ?r))
 
 > Then: Assert objected(?o, ?i). Assert hostile(?o, ?c).
+
+#### servant_tells
+
+*Kyr · rule* · `rule:belongings.servant_tells`
+
+Says: "{?s} sees {?i} in your hands, and goes to tell {?o}."
+
+> When: owns(?o, ?i); company(?c); unlent(?o, ?i, ?c); serves(?s, ?o); perceives(?s, ?c); resentment(?o, ?r)
+
+> Then: Assert objected(?o, ?i).
 
 #### shelf
 
@@ -277,6 +309,20 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 - Costs: 1
 
 > Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(dose, carrier); itemKind(dose, form); lightsUp(form); relieves(carrier, form)
+
+> Then: nothing changes
+
+#### douse light
+
+*Kyr · action (group, member)* · `rule:belongings.douse_light`
+
+- Shown as: Put out {carrier}'s light
+- Takes: 10 minutes
+- Costs: 1
+
+A light put out, smothered or pinched out: the dark is the dark again, and what was left of it is spent (the Road's B3: a lantern smothered in a coat stayed lit).
+
+> Needs: able(actor); memberOf(carrier, actor); awake(carrier); brings(carrier, light)
 
 > Then: nothing changes
 
@@ -624,17 +670,35 @@ Six hours and a ration, somewhere safe; and there is no ration left.
 
 ### Bodies, places, time and the shared catalog
 
-Also kept, without comment: at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, pronouns, quantity, watch, encounterXp, untilLight, untilMorning, untilDark, untilTurn.
+Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, pronouns, matterSince, quantity, watch, encounterXp, untilLight, untilMorning, untilDark, untilTurn.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 15 | 34 | 12 | 5 | 1 | 8 |
+| 19 | 44 | 15 | 5 | 2 | 8 |
 
 #### ending, reached
 
 *Kyr · kind; relation(ending)* · `rule:world_core.ending`
 
 An ending an author writes (Ending … when … "epilogue"): reached once, and the book closes on it.
+
+#### heading, chapterOpened
+
+*Kyr · kind; relation(heading)* · `rule:world_core.heading`
+
+A chapter of a module's story, opened once (see Chapter).
+
+#### promise, promiseMade, promiseKept, promiseBroken
+
+*Kyr · kind; relation(promise); relation(promise); relation(promise)* · `rule:world_core.promise`
+
+A promise the company makes (see Promise): made, then kept or broken.
+
+#### occasion, matter, occasionBegun, occasionOver
+
+*Kyr · kind; kind; relation(occasion); relation(occasion)* · `rule:world_core.occasion`
+
+An occasion and its matters, taken up in order (see Occasion): begun, a matter open since a watch, done, over.
 
 #### milestone, achieved, merit
 
@@ -665,6 +729,26 @@ The land a stretch of country is (a river's vale, a wood, a mere, a pass): what 
 *Kyr · kind; relation(place, sizekind)* · `rule:world_core.sizekind`
 
 How big a settlement is: what can be seen of it from the road, and what it can spare.
+
+#### within
+
+*Kyr · relation(entity, place)* · `rule:world_core.within`
+
+Someone or something in a place of an area, however deep ("within(party, cherrett_lodging)": the parlour, the stair or her room). Computed, as distinct is, of what is bound: never asserted.
+
+#### granted, grantedUntil
+
+*Kyr · relation(group, capability); measure(group, capability)* · `rule:world_core.granted`
+
+What the company can do for a while by what it has done, not by what it carries (a brand lit at the ox fire and held up high: flame, for two hours): Assert granted(party, flame). Set grantedUntil(party, flame) to watch(clock) + 12. It ends when that watch comes; one given no end lasts until it is retracted (the Liberty of the Ice's 23: a brand made in the story could not be what the wolves feared).
+
+#### grant_ends
+
+*Kyr · rule* · `rule:world_core.grant_ends`
+
+> When: granted(?c, ?k); grantedUntil(?c, ?k) >= 1; watch(clock) >= grantedUntil(?c, ?k)
+
+> Then: Retract granted(?c, ?k).
 
 #### been
 
@@ -786,11 +870,11 @@ You cannot move. Time passes over you until you can.
 
 > Then: nothing changes
 
-#### hour, day
+#### hour, day, nightCount
 
-*Kyr · measure(clock); measure(clock)* · `rule:world_core.hour`
+*Kyr · measure(clock); measure(clock); measure(clock)* · `rule:world_core.hour`
 
-The hour of the day (0 to 23) and the day since the company came (1, 2…): what people's days are kept by.
+The hour of the day (0 to 23) and the day since the company came (1, 2…): what people's days are kept by. The night's count (nightCount) is that of the night that falls on that day, from noon until noon the next.
 
 #### dice
 
@@ -1150,17 +1234,17 @@ Cut it, strip it or pick it, and carry it away: what grows wild is anyone's who 
 
 ### How creatures that live somewhere answer those who come into it
 
-Also kept, without comment: plea, greeting, greeted, petted, warned, yielded, warnsFirst.
+Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yielded, warnsFirst.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 21 | 2 | 1 | 17 | 5 |
+| 1 | 22 | 2 | 1 | 18 | 5 |
 
 #### temperament
 
 *Kyr · kind* · `rule:inhabitants.temperament`
 
-A creature's temperament says how it meets a company that comes where it lives. A territorial one warns, then falls on whoever stays; a defensive one warns, and fights only for its lair; a proud one names a price; a savage one falls on you at once; one that lies in ambush strikes unless keen eyes spot it first; an obedient one keeps its post and nothing else; a wary one slinks away, and fights only when cornered in its refuge. A group of one species takes its species' temperament; a place may give any group one (temper_savage, temper_proud…).
+A creature's temperament says how it meets a company that comes where it lives. A territorial one warns, then falls on whoever stays; a defensive one warns, and fights only for its lair; a proud one names a price; a savage one falls on you at once; one that lies in ambush strikes unless keen eyes spot it first; an obedient one keeps its post and nothing else; a wary one slinks away, and fights only when cornered in its refuge; a seizing one (bailiffs, the Weights) warns, and then takes whoever stays, with no fight: what follows is the module's (captured). A group of one species takes its species' temperament; a place may give any group one (temper_savage, temper_proud…).
 
 #### temperament
 
@@ -1178,7 +1262,7 @@ Where it lives and what it defends; where it goes when beaten or frightened off.
 
 *Kyr · relation(group, entity); relation(group, entity); relation(group, entity)* · `rule:inhabitants.warning`
 
-What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields.
+What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields; and how it comes where the company is, said as it comes, before it warns (Arrives).
 
 #### withdraw, warnedOff
 
@@ -1264,9 +1348,21 @@ A warning spent: whoever stayed is fallen on (for a defensive one, only in its l
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); not (temperament(?g, temper_defensive)); onslaught(?g, ?o)
+> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); not (temperament(?g, temper_defensive)); not (temperament(?g, temper_seizing)); onslaught(?g, ?o)
 
 > Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
+
+#### temper_seizes
+
+*Kyr · rule* · `rule:inhabitants.temper_seizes`
+
+A seizing one takes whoever stayed, and there is no fight (What Tessary Owes' W9: two bailiffs of bronze who cannot be fought were dismantled by a level-three cleric).
+
+Says: "{?o}"
+
+> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); temperament(?g, temper_seizing); onslaught(?g, ?o)
+
+> Then: Assert captured(?g, ?c). Retract warned(?g, ?c).
 
 #### temper_defends
 
@@ -1504,7 +1600,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 31 | 2 | 23 | 0 | 6 |
+| 8 | 32 | 2 | 23 | 0 | 6 |
 
 #### scenery
 
@@ -1628,6 +1724,12 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 
 > Then: Assert state(trap, after). Assert at(actor, destination). Assert tookWay(actor, way).
 
+#### changedBy
+
+*Kyr · relation(entity, group)* · `rule:world_passages.changedBy`
+
+Who last changed a thing by one of its own changes, so that a rule can ask who did it: Bettany opening her own lockbox had been taken for someone at it in front of her (What Tessary Owes' W15).
+
 #### change thing
 
 *Kyr · action (group, change, entity, condition, condition)* · `rule:world_passages.change_thing`
@@ -1638,7 +1740,7 @@ Someone who moves quietly takes the company past a watcher without a fight or a 
 
 > Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); not (consumes(how, ?g)); not (spends(how, ?k))
 
-> Then: Assert state(thing, result).
+> Then: Assert state(thing, result). Assert changedBy(thing, actor).
 
 #### change thing spending
 
@@ -1652,7 +1754,7 @@ What it takes is used up doing it.
 
 > Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); spends(how, form); memberOf(carrier, actor); awake(carrier); ownedItem(spent, carrier); itemKind(spent, form)
 
-> Then: Assert state(thing, result).
+> Then: Assert state(thing, result). Assert changedBy(thing, actor).
 
 #### change thing paying
 
@@ -1666,7 +1768,7 @@ Said by the thing's own name ("the Abbess's Eye is used up", not "Elen's the Abb
 
 > Needs: able(actor); changeOf(how, thing); changeFrom(how, origin); changeTo(how, result); state(thing, origin); reaches(actor, thing); equippedFor(actor, how); informedFor(actor, how); placedFor(actor, how); not (dead(thing)); not (benighted(actor)); consumes(how, spent); quantity(actor, spent) >= 1
 
-> Then: Assert state(thing, result). Decrease quantity(actor, spent) by 1.
+> Then: Assert state(thing, result). Assert changedBy(thing, actor). Decrease quantity(actor, spent) by 1.
 
 ### Company and intention
 

@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 225,
+    "kyr": 238,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 207,
+      "kyr": 220,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10463,6 +10463,13 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.handed",
+   "title": "handed, usesUp",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.worth",
    "title": "worth, buysValuables, realized, valuable",
    "status": "kyr",
@@ -10526,6 +10533,13 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.resentment",
+   "title": "resentment",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.owner_objects",
    "title": "owner_objects",
    "status": "kyr",
@@ -10540,6 +10554,13 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.owner_resents",
+   "title": "owner_resents",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.servant_objects",
    "title": "servant_objects",
    "status": "kyr",
@@ -10549,6 +10570,13 @@
   {
    "id": "rule:belongings.servant_objects_aloud",
    "title": "servant_objects_aloud",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.servant_tells",
+   "title": "servant_tells",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
@@ -10605,6 +10633,13 @@
   {
    "id": "rule:belongings.light_item",
    "title": "light item",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.douse_light",
+   "title": "douse light",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belongings"
@@ -10806,6 +10841,27 @@
    "section": "world-rules/rules-core"
   },
   {
+   "id": "rule:world_core.heading",
+   "title": "heading, chapterOpened",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.promise",
+   "title": "promise, promiseMade, promiseKept, promiseBroken",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.occasion",
+   "title": "occasion, matter, occasionBegun, occasionOver",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.milestone",
    "title": "milestone, achieved, merit",
    "status": "kyr",
@@ -10836,6 +10892,27 @@
   {
    "id": "rule:world_core.sizekind",
    "title": "sizekind, townSize",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.within",
+   "title": "within",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.granted",
+   "title": "granted, grantedUntil",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.grant_ends",
+   "title": "grant_ends",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
@@ -10954,7 +11031,7 @@
   },
   {
    "id": "rule:world_core.hour",
-   "title": "hour, day",
+   "title": "hour, day, nightCount",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
@@ -11296,6 +11373,13 @@
    "section": "world-rules/rules-inhabitants"
   },
   {
+   "id": "rule:inhabitants.temper_seizes",
+   "title": "temper_seizes",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
    "id": "rule:inhabitants.temper_defends",
    "title": "temper_defends",
    "status": "kyr",
@@ -11564,6 +11648,13 @@
   {
    "id": "rule:world_passages.risk",
    "title": "risk",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
+   "id": "rule:world_passages.changedBy",
+   "title": "changedBy",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-passages"

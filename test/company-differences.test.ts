@@ -22,12 +22,14 @@ class Companies {
 }
 
 describe('different companies, different ways through', () => {
-  it('at the boar, a ranger reads its posture and a thief slips past; each sees what the other could do', async () => {
+  // Bran was a locksmith before he was a warrior: quick fingers, and quiet feet (M17-54: a background's +4 dexterity is
+  // +3 and stealth), so the fellowship slips past by him; the delvers see what woodcraft would have read.
+  it('at the boar, a ranger reads its posture and a thief slips past; the delvers see what the ranger could do', async () => {
     const [fellowship, delvers] = await Promise.all([Companies.at('fellowship', 'go(march__causeway_path,march__causeway)'),
       Companies.at('delvers', 'go(march__causeway_path,march__causeway)')]);
     const read = "Read a reedbank boar's warning posture", slip = 'To Drain mouth — slip past';
     expect(Companies.find(fellowship, read)).toMatchObject({ note: 'Elen' });
-    expect(Companies.find(fellowship, slip)?.disabled).toBe('Needs stealth: no one in the company has it.');
+    expect(Companies.find(fellowship, slip)?.note).toContain('Bran');
     expect(Companies.find(delvers, read)?.disabled).toBe('Needs woodcraft: no one in the company has it.');
     expect(Companies.find(delvers, slip)?.note).toContain('Nell');
     expect(Companies.find(delvers, slip)?.command).toBeDefined();

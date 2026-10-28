@@ -57,21 +57,36 @@ export class BackgroundCatalog {
     const carried = (row.gear ?? []).filter(has), lacking = (row.gear ?? []).filter(g => !has(g));
     // A profession is what someone does for a living where they are: it brings no kit and no old friend.
     const gear = change.gear ?? (use === 'profession' ? [] : [...new Set([...meaning.gear ?? [], ...carried])]);
-    const skills = change.skills ?? meaning.skills ?? [];
+    const own = change.skills ?? meaning.skills ?? [], toned = this.toned(row.attributes);
+    const skills = [...new Set([...own, ...toned.skilled])];
     const channel = change.channel ?? meaning.channel, lines = meaning.contacts ?? [];
     const text = change.contact ?? lines[index % Math.max(1, lines.length)];
     const contact = use === 'background' && channel && text ? { channel, text } : undefined;
-    const added = [skills.length ? skills.join(' and ') : '', gear.filter(g => !carried.includes(g)).join(', '),
+    const added = [own.length ? own.join(' and ') : '', gear.filter(g => !carried.includes(g)).join(', '),
       contact ? `an old acquaintance ${this.where[channel!]}` : '',
       change.offers ? 'what the profession offers' : ''].filter(Boolean);
-    return { name: change.name ?? this.title(id), use, kind, attributes: row.attributes, gold: row.gold,
+    const halved = Object.keys(row.attributes).some(k => toned.attributes[k] !== row.attributes[k]);
+    const scores = halved ? `, at most ${this.most} to a score in Kyr, with ${toned.skilled.join(' and ')} for the rest` : '';
+    return { name: change.name ?? this.title(id), use, kind, attributes: toned.attributes, gold: row.gold,
       ...row.requiredClass ? { requiredClass: row.requiredClass } : {}, ...skills.length ? { skills } : {},
       ...gear.length ? { gear } : {}, ...change.offers ? { offers: change.offers } : {},
       ...change.routine ? { routine: change.routine } : {}, ...contact ? { contact } : {},
       ...lacking.length ? { omits: Object.fromEntries(lacking.map(g => [`gear:${g}`, 'Kyr has no such item.'])) } : {},
-      source: { orsino: row.source.orsino, fidelity: added.length ? 'adapted' : 'faithful',
-        notes: added.length ? `Orsino gives scores and gold; Kyr adds ${added.join('; ')} (${meaning.name.toLowerCase()}).`
-          : 'Orsino gives scores and gold.' } };
+      source: { orsino: row.source.orsino, fidelity: added.length || halved ? 'adapted' : 'faithful',
+        notes: `Orsino gives scores and gold${scores}`
+          + `${added.length ? `; Kyr adds ${added.join('; ')} (${meaning.name.toLowerCase()})` : ''}.` } };
+  }
+  // Orsino's scores, the largest toned down: no background adds more than three to a score, and one that would brings
+  // that score's skill instead (M17-54: a trader's +4 charisma beside a bard's own made a first-level bard +6 to talk
+  // anyone round; the owner would have no cap on a quality, but a skill where the number was).
+  static readonly most = 3;
+  static readonly skilled: Record<string, string> = { strength: 'brawn', constitution: 'brawn', dexterity: 'stealth',
+    intelligence: 'lore', wisdom: 'insight', charisma: 'persuasion' };
+  static toned(scores: Record<string, number>): { attributes: Record<string, number>; skilled: string[] } {
+    const attributes = Object.fromEntries(Object.entries(scores).map(([k, v]) => [k, Math.min(v, this.most)]));
+    const skilled = Object.entries(scores).filter(([, v]) => v > this.most).map(([k]) => this.skilled[k])
+      .filter((x): x is string => !!x);
+    return { attributes, skilled: [...new Set(skilled)] };
   }
   static readonly where: Record<Channel, string> = { road: 'on the road', tavern: 'at an inn', temple: 'at a shrine',
     market: 'at a market' };

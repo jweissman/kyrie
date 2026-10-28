@@ -823,12 +823,33 @@ own countries go on beyond the rest. To offer yours:
   (`{keeper}` is the innkeeper), with what the company knows of it once told (`heard`), which the journal keeps as
   heard from them.
 
+Where a country lies depends on every other's `beside`: one offered beside a new terrain can take a place another had.
+`bin/kyrie countries [seed ...]` says where each authored country lies in the worlds the tests draw (its cell, its
+side, and the terrain of the country it is entered from); run it before and after changing a `beside`, and compare
+(A Winter in Carth's 16).
+
 Its clock runs from the first morning after it is reached: its own `watch(clock)` is 0 at eight that morning, and below
 nothing until then (a rule at `watch(clock) >= 216` waits 216 watches from that morning); its `day(clock)` and
 `nightCount(clock)` are counted from that morning too, and `hour(clock)` is the world's. A country reached in the
 evening has its first day still to come, so a rule for that day's afternoon asks `watch(clock) >= 0` as well, or fires
 that evening (the Liberty of the Ice's 7). What it says of the company that comes in is said by names of its own
 (`Initially Set breath(party) to 12`).
+
+### Someone on an errand of their own
+
+Someone can have somewhere to be. A person who goes by the ways (`Uses go.`) and plans the walk (`Plans 14 steps.`,
+how many ways ahead they look) takes up a `Pursuit` whose aim is a place: they walk there a way at a time, taking each
+way's time; the company sees them go, and can meet them on the road (`test/fixtures/probes/errand`; the Road's F10:
+Webb's walk to Keld had been a teleport). Of several pursuits the one of the highest priority whose condition holds is
+taken up.
+
+```text
+  Person webb "Webb" at yard { Role "a carter". Uses go. Plans 14 steps. Peaceable. Pronouns he. }
+  Pursuit to_keld for webb "walking to Keld" priority 5 when day(clock) >= 18 seeks at(webb, keld).
+```
+
+A Peaceable person goes about their errands and comes at nobody, whatever their kind's temper; one who is to turn (the
+young bloods, once the hold is roused) stops being peaceable when a rule retracts `peaceable(bloods)` (Thrume's F2).
 
 ### A companion who leaves
 
@@ -977,6 +998,36 @@ it has opened.
 
 ```text
   Chapter saturday "Saturday" when day(clock) == 2 and hour(clock) >= 6 "The bells of Saint Ebba's ring six, and the town is up before them.".
+```
+
+### A promise made
+
+A promise the company makes to someone is a `Promise`: made by an action or a topic that asserts `promiseMade(id)`, an
+aim while it stands ("Keep your promise to Comptroller Vane: …"), kept the first time its kept condition holds, and
+broken the first time its broken condition does, with what breaking it brings (`test/fixtures/probes/promise`; What
+Tessary Owes' 5: every promise was a relation, a deadline rule, a kept rule, a broken rule and a consequence, by hand).
+`promiseKept(id)` and `promiseBroken(id)` say how it went.
+
+```text
+  Promise letter_promise "to bring him the Factor's letter by nightfall" to comptroller
+    kept when keeps(comptroller, letter) "The Comptroller draws a line through the promise, neatly."
+    broken when hour(clock) >= 18 "Somewhere a line is drawn through a promise you made." { Assert forsworn(party). }.
+```
+
+### An occasion of several matters
+
+A court's cases, a council's business, a hearing: an `Occasion` opens when its condition first holds and takes up its
+matters in order. Each is said as it opens and stays open until its own condition closes it or its time is up; then
+the next is taken up, and after the last the occasion is over (`test/fixtures/probes/occasion`; the Liberty of the
+Ice's 9: its Landing, like Low Water's Hearing and four others, was built by hand in windows of watches). What the
+company can do in a matter asks `matterOpen(herring)`; `matterDone`, `occasionBegun` and `occasionOver` say the rest.
+
+```text
+  Occasion landing "the Landing" at quay when watch(clock) >= 2 {
+    Matter herring "Master Harker brings the herring case before the Reeve." for 30 minutes until decided(herring).
+    Matter boat "The boat case is called." for 30 minutes.
+    Closes "The Reeve rises, and the Landing is over for the day.".
+  }
 ```
 
 ### Numbers in what is said

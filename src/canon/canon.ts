@@ -20,7 +20,7 @@ import orsinoBlessings from '../../data/catalog/orsino/blessings.json';
 import orsinoBackgrounds from '../../data/catalog/orsino/backgrounds.json';
 import { BackgroundCatalog, type BackgroundTables, type CompiledBackground } from './background-catalog';
 import type {
-  Ability, Ancestry, CharacterClass, Condition, Deity, Domain, ItemKind, Organism, Procedure, Skill,
+  Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, ItemKind, Organism, Procedure, Skill,
   Source, Species, Trait,
 } from './schema';
 
@@ -47,7 +47,7 @@ export class Canon {
   }
   static readonly rules = rules as unknown as {
     attributes: string[]; damageTypes: string[]; physicalDamage: string[]; resources: string[];
-    saveKinds: Record<string, string>; saveLimit: number; procedures: Record<string, Procedure>;
+    saveKinds: Record<string, string>; saveLimit: number; procedures: Record<string, Procedure>; combat: Combat;
   };
   static readonly abilities = Canon.merge<Ability>('ability', orsinoAbilities.abilities, abilities.abilities);
   static readonly conditions = Canon.merge<Condition>('condition', orsinoConditions.conditions,

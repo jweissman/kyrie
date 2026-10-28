@@ -1,0 +1,20 @@
+Module occasion "The Landing on the ice" {
+  Place fair "the frost fair" is settlement.
+  Place quay "the Reeve's quay" is room within fair at 0, 0 outdoors.
+  Company party "You" of 1 at quay.
+  Relation decided(matter).
+  // Two matters taken up in order: the first until it is decided or its half-hour is up, the second for its half-hour.
+  Occasion landing "the Landing" at quay when watch(clock) >= 2 {
+    Matter herring "Master Harker brings the herring case before the Reeve." for 30 minutes until decided(herring).
+    Matter boat "The boat case is called: a boat sunk at its mooring, and two who say it is theirs." for 30 minutes.
+    Closes "The Reeve rises, and the Landing is over for the day.".
+  }
+  Action speak_herring(actor: group, site: place) "Speak for the herring men" {
+    Requires able(actor) and at(actor, site) and at(actor, quay) and matterOpen(herring).
+    Time 1 minute.
+    On success { Assert decided(herring). }
+    Result "You speak for the herring men, and the Reeve nods.".
+  }
+  Observe quay_scene at quay when true "A quay of black ice.".
+  Goal false.
+}

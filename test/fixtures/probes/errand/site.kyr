@@ -1,0 +1,16 @@
+Module errand "Webb walks to Keld" {
+  Place dale "the dale" is wilderness.
+  Place yard "Webb's yard" is room within dale at 0, 0 outdoors.
+  Place lane "the lane to Keld" is room within dale at 1, 0 outdoors.
+  Place keld "Keld" is room within dale at 2, 0 outdoors.
+  Passage yard_lane "the yard gate" is path between yard and lane taking 30 minutes.
+  Passage lane_keld "the lane" is path between lane and keld taking 30 minutes.
+  Company party "You" of 1 at yard.
+  Person webb "Webb" at yard { Role "a carter". Uses go. Plans 14 steps. Peaceable. Pronouns he. }
+  // An errand: someone who goes by the ways (Uses go), plans the walk (Plans …), and has somewhere to be.
+  Pursuit to_keld for webb "walking to Keld" priority 5 when watch(clock) >= 2 seeks at(webb, keld).
+  // A hall dog of a kind that warns, Peaceable: it does not.
+  Person bolt "Bolt" at yard { Role "the old hall dog". Species wolf. Peaceable. }
+  Observe yard_scene at yard when true "A yard.".
+  Goal false.
+}

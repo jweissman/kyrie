@@ -4,6 +4,8 @@ import type { World } from './world';
 import type { InstalledModule } from '../campaign/definition';
 import { ObservationText } from './observation-text';
 import { Chapters } from './chapters';
+import { Promises } from './promises';
+import { Occasions } from './occasions';
 
 type Node = ohm.Node;
 export interface EndingSpec { id: string; title: string; when: Predicate; text: string }
@@ -16,8 +18,10 @@ export interface EndingSpec { id: string; title: string; when: Predicate; text: 
 // already under way (a country beyond a march: InstalledModule.chapter) closes only its own chapter: its epilogue is
 // told as it happens, and the world goes on (What Tessary Owes, the authoring-friction report).
 export class Endings {
-  // A chapter is written as an ending is, and opens as an ending closes (see Chapters).
-  static readonly actions = { Ending: Endings.parse, EndingWhen: Endings.when, ...Chapters.actions };
+  // A chapter is written as an ending is, and opens as an ending closes (see Chapters); a promise is kept or broken as
+  // one does (see Promises).
+  static readonly actions = { Ending: Endings.parse, EndingWhen: Endings.when, ...Chapters.actions,
+    ...Promises.actions, ...Occasions.actions };
   static parse(_ending: Node, id: Node, title: Node, when: Node) {
     return { field: 'ending', value: { id: id.sourceString, title: Endings.ast(title) as string,
       ...Endings.ast(when) as { when: Predicate; text: string } } };

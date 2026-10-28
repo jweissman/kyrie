@@ -1,6 +1,6 @@
 Kyr {
   Module = "Module" ident string "{" Declaration* "}"
-  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Chapter | Milestone | Company | ItemDecl | HazardDecl
+  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Chapter | Promise | Occasion | Milestone | Company | ItemDecl | HazardDecl
   Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceShelter? PlaceAlias? "."
   PlaceShelter = "outdoors" | "indoors" | "underground" | "elsewhere"
   PlaceParent = "within" ident
@@ -51,6 +51,23 @@ Kyr {
   MilestoneWhen = "when" Predicate "."
   Ending = "Ending" ident string EndingWhen
   Chapter = "Chapter" ident string EndingWhen
+  Promise = "Promise" PromiseHead PromiseKept PromiseBroken
+  PromiseHead = ident string "to" ident
+  PromiseKept = "kept" "when" Predicate string?
+  PromiseBroken = "broken" "when" Predicate PromiseTail
+  PromiseTail = string PromiseEffects? "."
+  PromiseEffects = "{" ChangeStatement* "}"
+  Occasion = "Occasion" OccasionHead "{" OccasionBody
+  OccasionBody = OccasionMatter+ OccasionCloses? "}"
+  OccasionHead = ident string OccasionWhere
+  OccasionWhere = OccasionAt? "when" Predicate
+  OccasionAt = "at" ident
+  OccasionMatter = "Matter" ident string MatterFor
+  MatterFor = "for" integer MatterUnit MatterUntil
+  MatterUnit = "minutes" | "minute" | "hours" | "hour"
+  MatterUntil = MatterCondition? "."
+  MatterCondition = "until" Predicate
+  OccasionCloses = "Closes" string "."
   EndingWhen = "when" Predicate string "."
   Exit = "Exit" ident string "from" ident "to" ident "by" ident ExitDoor? ExitKnowledge? "."
   ExitDoor = "through" ident

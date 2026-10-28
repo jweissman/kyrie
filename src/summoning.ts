@@ -1,6 +1,7 @@
 import type { Effect } from './lang/parse';
 import type { EffectContext } from './effects';
 import type { Fighter } from './model';
+import { Canon } from './canon/canon';
 
 type Summon = Extract<Effect, { kind: 'summon' }>;
 
@@ -8,7 +9,10 @@ type Summon = Extract<Effect, { kind: 'summon' }>;
 // its side and belong to it; a summoner holds at most 3 + level / 3 of them, and calling more sends the oldest away.
 // They are the fight's alone: none outlasts it.
 export class Summoning {
-  static limit(owner: Fighter): number { return 3 + Math.floor(owner.level / 3); }
+  static limit(owner: Fighter): number {
+    const { base, perLevels } = Canon.rules.combat.summons;
+    return base + Math.floor(owner.level / perLevels);
+  }
   static call(effect: Summon, owner: Fighter, context: EffectContext) {
     const expressions = context.expressions!;
     const count = effect.amount ? Math.max(0, expressions.amount(effect.amount, Summoning.values(owner))) : 1;

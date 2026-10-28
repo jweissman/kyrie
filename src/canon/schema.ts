@@ -170,3 +170,10 @@ export interface Organism {
   cut?: { yields: string; gathered: string; count?: number };
 }
 export interface Procedure { name: string; effect: string; description: string }
+// The numbers and ids the rules of a fight turn on (data/catalog/vocabulary.json's combat): see its about.
+export interface Combat {
+  deathSave: number; triggerSave: number; triggerTurns: number; summons: { base: number; perLevels: number };
+  flee: { die: string; atMost: number }[]; systemShock: number;
+  fist: { id: string; name: string; damage: string; type: string; natural: boolean };
+  ids: { slain: string; raising: string; roughRest: string; shelteredRest: string };
+}

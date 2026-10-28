@@ -47,9 +47,9 @@ export class FieldUse {
       const c = lease.creatures[0]!;
       // One already up and not dead needs no raising; one left "slain" with breath in them (raised in a fight before
       // a raising lifted death: the review's A4) is raised whole.
-      const dead = c.state.conditions.some(s => s.id === 'slain');
+      const dead = c.state.conditions.some(s => s.id === Canon.rules.combat.ids.slain);
       if (c.state.hp > 0 && !dead) { return []; }
-      const revive = Content.abilities.find(a => a.id === 'raise_dead')?.effects.find(e => e.kind === 'revive');
+      const revive = Content.abilities.find(a => a.id === Canon.rules.combat.ids.raising)?.effects.find(e => e.kind === 'revive');
       const percent = revive && 'percent' in revive ? Math.min(revive.percent ?? 50, 100) : 50;
       c.state.hp = Math.max(c.state.hp, 1, Math.floor(percent / 100 * c.base.maxHp)); c.state.conditions = [];
       lease.commit([c]);
@@ -64,16 +64,18 @@ export class FieldUse {
     const events: CombatEvent[] = [];
     if (!members.some(id => store.get(id).state.hp > 0)) { return events; }
     const lease = store.acquire(members.filter(id => store.get(id).state.hp === 0
-      && !store.get(id).state.conditions.some(s => s.id === 'slain')));
+      && !store.get(id).state.conditions.some(s => s.id === Canon.rules.combat.ids.slain)));
     try {
       for (const c of lease.creatures) {
         const die = new Expressions(RandomStreams.key(seed, 'shock', c.id)).number('1d20');
-        const modifier = Fighting.statMod(c.base.constitution), success = die + modifier >= 10;
-        events.push({ type: 'save', turn: 0, actor: c.id, target: c.id, rolled: die + modifier, difficulty: 10, success,
+        const modifier = Fighting.statMod(c.base.constitution);
+        const success = die + modifier >= Canon.rules.combat.systemShock;
+        events.push({ type: 'save', turn: 0, actor: c.id, target: c.id, rolled: die + modifier, difficulty: Canon.rules.combat.systemShock, success,
           die, stat: 'constitution', modifier, kind: 'system shock' });
-        if (success) { c.state.hp = 1; } else { c.state.conditions.push({ id: 'slain', remaining: 1, clock: 'until-removed' }); }
+        if (success) { c.state.hp = 1; } else { c.state.conditions.push({ id: Canon.rules.combat.ids.slain, remaining: 1, clock: 'until-removed' }); }
         events.push(success ? { type: 'revive', turn: 0, actor: c.id, target: c.id, detail: 'comes round', amount: 1 }
-          : { type: 'status', turn: 0, actor: c.id, target: c.id, detail: 'slain', clock: 'until-removed' });
+          : { type: 'status', turn: 0, actor: c.id, target: c.id, detail: Canon.rules.combat.ids.slain,
+            clock: 'until-removed' });
       }
       lease.commit(lease.creatures);
     } finally { lease.release(); }
@@ -94,7 +96,7 @@ export class FieldUse {
   // light, which runs its course) burn only while they are wanted: where the company is is unlit, and it is not
   // asleep. A lantern is put out to sleep, and in the day, or in a lit room.
   static advance(store: CreatureStore, elapsed: number, events: CombatEvent[],
-    scene?: { world: World; actors: CampaignActor[]; player?: string; asleep?: boolean }) {
+    scene?: { world: World; actors: CampaignActor[]; player?: string; asleep?: boolean; seed?: string }) {
     const ids = store.live.filter(c => c.state.conditions.some(s => s.clock === 'world-time')).map(c => c.id);
     if (!ids.length) { return false; }
     const lease = store.acquire(ids);
@@ -107,7 +109,11 @@ export class FieldUse {
       const dark = !!place && !scene?.asleep && scene!.world.test(ModuleWriter.call('unlit', place));
       for (const target of fighters) {
         const start = events.length, own = company.includes(target.id);
-        Effects.advance(target, 'world-time', { fighters, turn: elapsed, events,
+        // With a fight's dice and what lapses (a countdown's blast) as in a fight, outside one: a tick of dice had
+        // thrown, and a death save had been skipped (the architecture review's A23).
+        Effects.advance(target, 'world-time', { fighters, turn: elapsed, events, field: true,
+          expressions: new Expressions(RandomStreams.key(scene?.seed ?? 'field', 'field', elapsed, target.id)),
+          lapse: AbilityUse.lapse.bind(AbilityUse),
           content: new Content('clock'), abilities: [], retreat: false, location: null },
         id => own && !dark && this.burns(id));
         if (visible && !visible.includes(target.id)) {

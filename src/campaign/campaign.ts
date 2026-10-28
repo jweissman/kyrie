@@ -382,8 +382,8 @@ export class Campaign implements WatchHost {
   amend(event: CampaignEvent) { this.log[this.log.length - 1] = structuredClone(event); }
   advanceWatch(combat: CombatEvent[], asleep = false) {
     this.current.elapsed++;
-    if (FieldUse.advance(this.creatures, this.current.elapsed, combat,
-      { world: this.world, actors: this.live, player: this.playerActor, asleep })) { this.refresh(); }
+    const scene = { world: this.world, actors: this.live, player: this.playerActor, asleep, seed: this.current.seed };
+    if (FieldUse.advance(this.creatures, this.current.elapsed, combat, scene)) { this.refresh(); }
     if (this.definition) { this.commit(this.world.apply(CampaignTick.clock(this.world, this.current))); }
   }
   settleWatch(combat: CombatEvent[]) {

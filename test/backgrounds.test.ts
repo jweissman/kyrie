@@ -8,16 +8,27 @@ import { GenerationSetting } from '../src/generation-setting';
 
 // Orsino's 215 backgrounds, composed from its own rows and Kyr's kind tables: none written out by hand.
 describe('backgrounds compiled from Orsino\'s rows and Kyr\'s kinds', () => {
-  it('has every one of Orsino\'s, each with Orsino\'s scores, gold and class', () => {
+  it('has every one of Orsino\'s, each with Orsino\'s scores, at most 3 to one, its gold and class', () => {
     expect(Object.keys(Canon.backgrounds)).toHaveLength(215);
     expect(Canon.backgrounds.champion).toMatchObject({ name: 'Champion', kind: 'arms', gold: 50, requiredClass: 'warrior',
-      attributes: { strength: 4, constitution: 3, dexterity: 2, wisdom: 1, charisma: 2 }, skills: ['brawn', 'intimidation'] });
+      attributes: { strength: 3, constitution: 3, dexterity: 2, wisdom: 1, charisma: 2 }, skills: ['brawn', 'intimidation'] });
+  });
+  // M17-54: a trader's +4 charisma beside a bard's own made a first-level bard +6 to talk anyone round. No cap on a
+  // quality, but less in raw numbers and more in what one knows: no background adds more than three to a score, and
+  // one that would brings that score's skill (a trader's charisma, persuasion).
+  it('gives a skill where a background\'s number was more than three', () => {
+    expect(Canon.backgrounds.trader).toMatchObject({ attributes: { wisdom: 2, charisma: 3, intelligence: 3 } });
+    expect(Canon.backgrounds.trader!.skills).toContain('persuasion');
+    const all = Object.values(Canon.backgrounds);
+    expect(Math.max(...all.flatMap(b => Object.values(b.attributes)))).toBe(3);
+    expect(BackgroundCatalog.toned({ charisma: 5, wisdom: 4, strength: 1, intelligence: -2 }))
+      .toEqual({ attributes: { charisma: 3, wisdom: 3, strength: 1, intelligence: -2 }, skilled: ['persuasion', 'insight'] });
   });
   it('gives a background what its kind means in Kyr, unless an overlay says otherwise', () => {
     // A woodcutter is of the wild kind, and nothing more is said of it.
     expect(Canon.backgrounds.woodcutter).toMatchObject({ kind: 'wild', skills: ['woodcraft'], contact: { channel: 'road' } });
     // A tracker reads country and moves quietly; an innkeeper keeps an inn and offers a bed.
-    expect(Canon.backgrounds.tracker!.skills).toEqual(['woodcraft', 'stealth']);
+    expect(Canon.backgrounds.tracker!.skills).toEqual(['woodcraft', 'stealth', 'insight']);
     expect(Canon.backgrounds.innkeeper).toMatchObject({ use: 'profession', routine: 'keeping the inn',
       offers: [{ kind: 'lodging', fee: 3 }] });
     expect(Canon.backgrounds.innkeeper!.contact).toBeUndefined();

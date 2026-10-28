@@ -1,0 +1,18 @@
+Module promising "A promise to the Comptroller" {
+  Place ossel "Ossel" is settlement.
+  Place office "the Comptroller's office" is room within ossel at 0, 0.
+  Company party "You" of 1 at office.
+  Person comptroller "Comptroller Vane" at office { Role "the Comptroller of the Balance". Peaceable. Pronouns he. Wants map. }
+  Relation forsworn(group).
+  Item letter "the Factor's letter" is map at office.
+  // Made by a word to him; kept when he has the letter; broken at nightfall, forsworn.
+  Topic promise_letter with comptroller "Promise the Comptroller the Factor's letter by nightfall" when not promiseMade(letter_promise) once {
+    Says "The Comptroller writes one line on the black glass. 'By nightfall,' he says.".
+    On discuss { Assert promiseMade(letter_promise). }
+  }
+  Promise letter_promise "to bring him the Factor's letter by nightfall" to comptroller
+    kept when keeps(comptroller, letter) "The Comptroller draws a line through the promise, neatly."
+    broken when hour(clock) >= 18 "Somewhere a line is drawn through a promise you made." { Assert forsworn(party). }.
+  Observe office_scene at office when true "An office of black glass.".
+  Goal false.
+}

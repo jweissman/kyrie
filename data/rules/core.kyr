@@ -4,6 +4,11 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Kind ending. Relation reached(ending).
   // A chapter of a module's story, opened once (see Chapter).
   Kind heading. Relation chapterOpened(heading).
+  // A promise the company makes (see Promise): made, then kept or broken.
+  Kind promise. Relation promiseMade(promise). Relation promiseKept(promise). Relation promiseBroken(promise).
+  // An occasion and its matters, taken up in order (see Occasion): begun, a matter open since a watch, done, over.
+  Kind occasion. Kind matter. Relation occasionBegun(occasion). Relation occasionOver(occasion).
+  Relation matterOpen(matter). Relation matterDone(matter). Measure matterSince(matter).
   // Something done that a company grows by (Milestone … worth … when …): achieved once, and worth so much experience.
   Kind milestone. Relation achieved(milestone). Measure merit(milestone).
   Entity gold: good "coin". Entity rations: good "ration". Entity clock: clock "Time".

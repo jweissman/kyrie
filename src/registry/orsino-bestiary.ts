@@ -114,8 +114,12 @@ export class OrsinoBestiary {
     const ids = Object.keys(all).sort();
     const byOrsino = Object.fromEntries(ids.filter(id => all[id]!.source.orsino)
       .map(id => [all[id]!.source.orsino!, id]));
+    // What a summoning calls is a creature, of the beasts, the magical kinds or another plane; a fighting object (a
+    // bomb, a turret, a barrier, a phylactery) is set where it stands by an ability of its own, and is not called by a
+    // summoning of its type (COR-20: regenerated, a summoning of constructs would have called up bombs and turrets).
     const byType: Record<string, string[]> = {};
-    for (const id of ids.filter(id => all[id]!.kind === 'monster' && !all[id]!.variantOf)) {
+    for (const id of ids.filter(id => all[id]!.kind === 'monster' && !all[id]!.variantOf
+      && !all[id]!.source.orsino?.startsWith('combatEntity:'))) {
       (byType[all[id]!.type ?? 'monster'] ??= []).push(id);
     }
     const companions = Object.fromEntries(entries.filter(e => e.family === 'companion').map(e =>

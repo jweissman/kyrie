@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: an errand, and a peaceable hound", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }
