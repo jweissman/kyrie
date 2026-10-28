@@ -3,6 +3,7 @@ import type { CampaignEvent } from '../campaign/campaign-types';
 import type { LandChart } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time';
+import { Calendar } from '../campaign/calendar';
 import { Voice } from './voice';
 import { Editor } from './editor';
 import { Narrator } from '../presentation/narrator';
@@ -46,7 +47,8 @@ export class Journeys {
     }
     const kinds: [string, Record<string, string>][] = [
       ...this.going(campaign, event, from, start) ? [] : [['journey-depart', { time: FictionalTime.part(start),
-        sky: this.skies[sky ?? ''] ?? 'fair', ...FictionalTime.early(start) ? { light: 'early' } : {} }] as
+        sky: this.skies[sky ?? ''] ?? (this.wintry(campaign, from, start) ? 'cold' : 'fair'),
+        ...FictionalTime.early(start) ? { light: 'early' } : {} }] as
         [string, Record<string, string>]],
       ...(march || chart) && !again ? [['journey-land', march?.land ?? this.ground(campaign, chart!, { way, from, to })] as
         [string, Record<string, string>]] : [],
@@ -64,6 +66,12 @@ export class Journeys {
     const [behind, ahead] = [this.country(campaign, from), this.country(campaign, to)];
     return behind && ahead ? { land: { land: behind === ahead ? 'march-alike' : 'march' },
       words: { behind: RegionGeography.terrain(behind), ahead: RegionGeography.terrain(ahead) } } : undefined;
+  }
+  // A frost country's sky, and any in winter, is cold unless it is something else: no dew on the grass on a frozen
+  // fell (A Winter in Carth's friction 9, the register's CTH-09).
+  private static wintry(campaign: Campaign, place: string, elapsed: number): boolean {
+    const start = campaign.readout.calendar;
+    return this.country(campaign, place) === 'frost' || (!!start && Calendar.date(start, elapsed).season === 'winter');
   }
   // The terrain of the country a place is in (region__edge_west, of region; x0y1__edge_east, of x0y1).
   private static country(campaign: Campaign, place: string): string | undefined {

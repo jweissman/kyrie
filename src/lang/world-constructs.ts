@@ -201,10 +201,12 @@ export class WorldConstructs {
     this.assert(module, t.site.anchor, t.id, t.site.id);
     if (t.hidden) { this.assert(module, 'revealedBy', t.id, t.hidden); }
     if (t.holds) { this.assert(module, 'receptacle', t.id); }
-    // Anything a company can handle can be tried, in the ways that suit it.
-    if (t.type !== 'group' && t.type !== 'scenery') {
+    // Anything a company can handle can be tried, in the ways that suit it; scenery only in the ways its author
+    // offers (`Tries looking` had offered no way to look at the snow on a fell: Hessel's friction 20, HSL-19).
+    const tries = t.type === 'group' ? [] : t.type === 'scenery' ? t.tries ?? [] : this.tries(t);
+    if (tries.length) {
       this.assert(module, 'probeable', t.id);
-      for (const verb of this.tries(t)) { this.assert(module, 'suits', t.id, verb); }
+      for (const verb of tries) { this.assert(module, 'suits', t.id, verb); }
     }
     this.states(module, t, t.site.anchor === 'on' ? { kind: 'beside', id: t.site.id } : { kind: 'near', id: t.id });
   }

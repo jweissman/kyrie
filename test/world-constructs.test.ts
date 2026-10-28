@@ -58,6 +58,15 @@ describe('first-class world declarations lower to ordinary facts', () => {
       ['ladder__braced', 'beside', 'shaft'], ['ladder__broken', 'beside', 'shaft']]);
     expect(m.entities.find(e => e.id === 'ladder_brace')?.name).toBe('Brace {ladder}');
   });
+  // Scenery is not handled, but it can be looked at closely where its author says so (Hessel's friction 20, HSL-19:
+  // `is scenery` took away the choice to examine even with `Tries looking`).
+  it('lets scenery be tried only in the ways its author offers', () => {
+    const facts = Source.facts(`
+  Place a "A" is room. Kind scenery.
+  Thing snow "the snow on the fell" at a is scenery { Tries looking. State lying "Snow lies on the fell.". }
+  Thing sky "the sky" at a is scenery { State grey "The sky is grey.". }`);
+    expect(facts.filter(f => /^(probeable|suits)\(/.test(f))).toEqual(['probeable(snow)', 'suits(snow, looking)']);
+  });
   it('survives the bundle write-and-reparse round trip with the same facts, rules and claims', () => {
     const m = Source.module(`
   Place a "A" is room at 1, 2. Place b "B" is room. Passage door "the door" between a and b.

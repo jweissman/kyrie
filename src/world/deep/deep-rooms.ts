@@ -75,11 +75,25 @@ export class DeepRooms {
     const found = RegionMarvels.wonders.find(([k]) => k === key);
     return found ? RegionMarvels.wonder(found, room, `${room}_wonder`) : [];
   }
+  // How the coin left in a room lies there, each room its own way (one purse rotted through in nearly every room
+  // of one barrow: the play-structure investigation's PT-15).
+  static readonly hoards: [string, string][] = [
+    ['Coins lie scattered in the dust, green with age, where a purse rotted through.',
+      'Nothing is left in the dust but the shape of a purse.'],
+    ['A cracked pot lies on its side against the wall, and coins have spilled from it across the floor.',
+      'The cracked pot lies empty against the wall.'],
+    ['Coins glint in a crack between two flagstones, a row of them, pushed in edgeways long ago.',
+      'The crack between the flagstones is only a crack now.'],
+    ['A rotted pouch lies under a fallen stone, and coins have run out of it like seed.',
+      'The rotted pouch lies empty under its stone.'],
+    ['Coins lie heaped in a niche in the wall, green and stuck together, as if someone left them for someone.',
+      'The niche is empty but for a ring of green where the coins lay.'],
+    ['A rusted strongbox has burst at its seams, and coins lie in the rust around it.',
+      'The burst strongbox is empty, and so is the rust around it.']];
   private static coins(room: string, coin: number): string[] {
-    const q = this.q, id = `${room}_coins`;
+    const q = this.q, id = `${room}_coins`, [lying, gathered] = new Draw(`${room}:coins`).pick(this.hoards);
     return [`  Thing ${id} "scattered coins" at ${room} {`,
-      '    State lying "Coins lie scattered in the dust, green with age, where a purse rotted through.".',
-      '    State gathered "Nothing is left in the dust but the shape of a purse.".',
+      `    State lying ${q(lying)}.`, `    State gathered ${q(gathered)}.`,
       '    Change gather "Gather up the coins" from lying to gathered.', '  }', `  Relation ${id}_counted().`,
       `  Rule ${id}_counted when state(${id}, gathered) and not ${id}_counted() says ${q(`${coin} coin, all told, most of it old and some of it good.`)} {`,
       // Gathered, there is nothing left to look at closely.
