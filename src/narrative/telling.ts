@@ -5,6 +5,7 @@ import { Voice, type VoiceLine } from './voice';
 import { VoiceContext } from './voice-context';
 import { Editor } from './editor';
 import { Journeys } from './journeys';
+import { ModuleWriter } from '../lang/module-writer';
 
 export type Voiced = NonNullable<CampaignEvent['voiced']>[number];
 // What the company is told of what a command made happen, in the voice tables' words: chosen for the moment, never
@@ -71,6 +72,9 @@ export class Telling {
       many: (campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 };
     const own = this.authored[h.kind] && campaign.world.module.relations.some(r => r.name === this.authored[h.kind])
       ? campaign.world.one(this.authored[h.kind]!, actor) : undefined;
+    // Words said only while something holds (Leaves "…" when …) are not said, nor any others, when it does not.
+    if (own && campaign.world.module.queries.some(q => q.name === `${own}_when`)
+      && !campaign.world.test(ModuleWriter.call(`${own}_when`))) { return undefined; }
     if (own && context.moment === 'first') {
       const words = campaign.module.entities.find(e => e.id === own)?.name ?? '';
       return { id: `own:${own}`, kind: h.kind, actor, text: Voice.render(words, speaking) };

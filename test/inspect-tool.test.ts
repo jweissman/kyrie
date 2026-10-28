@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'bun:test';
 import { InspectTool } from '../src/cli/inspect-tool';
 import { PlayTool } from '../src/cli/play-tool';
+import { PlaySession } from '../src/session/play-session';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 
 // The studio's `kyrie inspect` (brief X): why a choice is or is not on offer where a game stands. Offered, and how the
 // page shows it; or, for the bindings nearest to being offered, which of its conditions fail, with what holds instead,
@@ -35,6 +38,24 @@ describe('kyrie inspect', () => {
     expect(out.at(-1)).toStartWith('    fails: noticed(region__z3_deep_hut_find, party): noticed means');
     expect(out.at(-1)).toEndWith('does not hold, though revealedBy(region__z3_deep_hut_find, region__z3_deep_hut_looked)');
   }, 120000);
+  // One whose every condition holds, but which would take a count below nothing, is not offered, and says why
+  // (thirty coin paid by one who had none: Liberty of the Ice's friction 3; A Winter in Carth's friction 2).
+  it('says when what a choice does cannot be done: a count taken below nothing', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'pay/site.kyr': `Module pay "Pay" { Place field "Field" is wilderness.
+        Place yard "the yard" is room within field at 0, 0. Company party "You" of 1 at yard.
+        Action pay(actor: group, site: place) "Pay thirty coin for the horse" { Requires at(actor, site).
+          On success { Decrease quantity(actor, gold) by 30. } Result "Paid.". } }`,
+      'pay/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
+        exports: { party: 'party' } }),
+      'pay.campaign.json': JSON.stringify({ version: 1, name: 'pay', modules: [{ id: 'p', bundle: 'pay/module.json' }],
+        party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
+    const s = await PlaySession.start(source.resolve('pay.campaign.json'), 'pay', source);
+    const lines = InspectTool.report(s.campaign, 'Pay thirty');
+    expect(lines[0]).toBe('p__pay "Pay thirty coin for the horse": not offered');
+    expect(lines.at(-1)).toMatch(new RegExp('^ {4}cannot be done: it takes 30 from quantity\\(party, gold\\), which stands at \\d+,'
+      + ' and a count is never taken below nothing$'));
+  }, 60000);
 });
 
 describe('kyrie play --world', () => {

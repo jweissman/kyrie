@@ -1,3 +1,4 @@
+import { RegionNews } from './region-news';
 import type { Landmark } from './region-land';
 import { RegionGeography } from './region-geography';
 import { RegionPeoples } from './region-peoples';
@@ -126,6 +127,9 @@ export class RegionWriter {
     return [...line.replace(/"(?:[^"\\]|\\.)*"/g, '')].reduce((n, c) => n + (c === '{' ? 1 : c === '}' ? -1 : 0), 0);
   }
   private static body(region: Region, taken: Record<string, string>): string[] {
+    return RegionNews.writing(region, () => this.parts(region, taken));
+  }
+  private static parts(region: Region, taken: Record<string, string>): string[] {
     const q = JSON.stringify, lines: string[] = [];
     lines.push(
       `  Description ${q(`${region.name}: ${this.terrain(region.terrain)} country, home to ${this.peoples(region)}, who keep the faith of ${region.deity}.${this.meaning(region)}`)}.`,

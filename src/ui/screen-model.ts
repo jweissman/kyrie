@@ -25,7 +25,7 @@ import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers';
 import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
-import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses';
+import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
@@ -33,7 +33,7 @@ export class ScreenModel {
   // The date by the campaign's calendar, and the weather by the sky of the region the company is in.
   private static when(campaign: Campaign, elapsed: number): Pick<Screen, 'date' | 'weather'> {
     const start = campaign.readout.calendar, world = campaign.world;
-    const sky = world.related('state').find(r => /(^|__)sky$/.test(r.args[0]!))?.args[1];
+    const sky = Skies.over(world, campaign.playerActor);
     return { ...start ? { date: { short: Calendar.short(start, elapsed), long: Calendar.long(start, elapsed) } } : {},
       ...sky ? { weather: sky.replace(/^.*__/, '').replace(/^weather_/, '') } : {} };
   }

@@ -6,7 +6,8 @@ import type { Module, Person, Predicate } from './module';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
-interface Manner { kind: string; text: string }
+// A person's words, and when they are said, if not always (Leaves "…" when …).
+interface Manner { kind: string; text: string; when?: Predicate }
 // The Person declaration of the Kyr grammar: who someone is (a role, an ancestry and calling or a species, how many
 // and what each is called, what they carry, offer and sell), and how they enter a module.
 export class PersonParser {
@@ -71,8 +72,9 @@ export class PersonParser {
   static PersonPronouns(_p: Node, id: Node, _dot: Node): Field {
     return { field: 'haunt', value: { kind: 'Pronouns', text: `pron_${id.sourceString}` } };
   }
-  static PersonWords(word: Node, text: Node, _dot: Node): Field {
-    return { field: 'words', value: { kind: word.sourceString, text: ModuleParser.ast(text) as string } };
+  static PersonWords(word: Node, text: Node, when: Node, _dot: Node): Field {
+    const holds = when.children[0] ? { when: ModuleParser.ast(when.children[0]) as Predicate } : {};
+    return { field: 'words', value: { kind: word.sourceString, text: ModuleParser.ast(text) as string, ...holds } };
   }
   // What someone says to a company that comes back (What Tessary Owes' W18).
   static PersonAgain(_greets: Node, _again: Node, text: Node, _dot: Node): Field {
@@ -96,6 +98,8 @@ export class PersonParser {
       const words = `${id}_${relation}`;
       module.entities.push({ id: words, type: 'fact', name: m.text });
       PersonParser.fact(module, relation, id, words);
+      // Said only while it holds: a gaol door shutting on someone is no parting (A Winter in Carth's friction 8).
+      if (m.when) { (module.queries ??= []).push({ name: `${words}_when`, parameters: [], body: m.when }); }
     }
   }
   private static fact(module: Module, name: string, ...args: string[]) {

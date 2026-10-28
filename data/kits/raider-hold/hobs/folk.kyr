@@ -34,6 +34,7 @@ Module hob_folk "Hobs" {
     Role "chief of the hobs". Ancestry goblin. Calling thief. Level 3.
     Wants grave_rings. Wants chapel_plate. Wants jade_idol. Wants toll_silver. Wants bronze_bearing.
     State presiding "The Gaffer sits on a heap of stolen fleeces in a bishop's mitre and somebody's spectacles, and watches you with very bright eyes.".
+    Objects "'Said don't touch nothing!' The Gaffer comes up off his fleeces with the mitre over one eye. 'Thieves! In my own hold! THIEVES!'".
   }
   Initially Assert serves(watchers, gaffer). Initially Assert serves(raiders, gaffer).
   Person captive "the shepherd's boy" at pens {
@@ -47,6 +48,9 @@ Module hob_folk "Hobs" {
   Item handbell "a chapel handbell, wrapped in sacking" is bell in heap.
   Item chalice "a stolen chalice" is chapel_plate in chest.
   Item rings "a string of rings off the dead" is grave_rings in heap.
+  // What they took is theirs now, as far as the hobs are concerned: taken under their eyes, it is not let go (PT-33:
+  // "Don't touch nothing," and nothing came of touching). The bell they will not touch, and do not count.
+  Initially Assert owns(gaffer, chalice). Initially Assert owns(gaffer, rings).
 
   Observe empty_frame at chapel when not freed(captive) "The bell is gone from its frame over the well. 'Hobs,' people say, and spit, and nobody has gone after it.".
   Observe clappers at outside when true "Up on the hold, things hang where anyone coming can see them: among them bells, every one with its clapper torn out.".

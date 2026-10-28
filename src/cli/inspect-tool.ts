@@ -51,7 +51,8 @@ export class InspectTool {
     const fewest = Math.min(...ranked.map(n => n.failing.length));
     const best = ranked.filter(n => n.failing.length === fewest).slice(0, 3);
     return best.flatMap((n, i) => [...best.findIndex(m => m.schema === n.schema) === i
-      ? [`${n.schema.id} ${JSON.stringify(n.schema.name)}: not offered`] : [], ...this.told(campaign, n)]);
+      ? [`${n.schema.id} ${JSON.stringify(n.schema.name)}: not offered`] : [], ...this.told(campaign, n),
+    ...n.failing.length ? [] : this.unpaid(campaign, n.schema, n.binding, labels)]);
   }
   private static named(schema: Operator, re: RegExp): boolean { return re.test(schema.id) || re.test(schema.name); }
   // An action on offer, and how the page shows it: as a choice of its own, as one with another alike, or not at all
@@ -126,6 +127,16 @@ export class InspectTool {
       lines.push(`    fails: ${ModuleWriter.predicate(bound)}${this.instead(world, bound)}`);
     }
     return lines;
+  }
+  // An action every condition of which holds is still not offered when what it does cannot be done: it would take a
+  // count below nothing (thirty coin paid by one who had none: Liberty of the Ice's friction 3; a debt of one pain
+  // that could not be knelt off for six: A Winter in Carth's friction 2). Each count it takes from is said.
+  private static unpaid(campaign: Campaign, schema: Operator, binding: Binding, labels: Map<string, string>): string[] {
+    const world = campaign.world, op = ActionSchemas.instance(schema, binding, labels);
+    if (world.admits(op.success)) { return []; }
+    return op.success.filter(c => c.kind === 'decrease').map(c => `    cannot be done: it takes`
+      + ` ${ModuleWriter.value(c.value)} from ${World.format(c.call)}, which stands at ${world.number(c.call)},`
+      + ' and a count is never taken below nothing');
   }
   // What holds instead of a fact that fails (the company is somewhere else), and what a query that fails means.
   private static instead(world: World, p: Predicate): string {

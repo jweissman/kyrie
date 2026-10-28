@@ -87,9 +87,9 @@ export class RegionTraffic {
       `  Topic ${t.id}_going${i} with ${t.id} ${q(`Ask ${t.name} where ${this.they(t)} ${t.pronoun === 'they' ? 'are' : 'is'} going`)}`
         + ` when journeysTo(${t.id}, ${to.id}_green) { Says ${q(this.say(t, t.kind.going, { to: to.name }))}. }`,
       `  Topic ${t.id}_news${i} with ${t.id} ${q(`Ask ${t.name} for news of ${from.name}`)} when journeysTo(${t.id}, ${to.id}_green)`
-        + ` and at(${t.id}, ${way}) { Says ${q(this.say(t, news, this.news(region, from)))}. }`,
+        + ` and at(${t.id}, ${way}) { Says ${q(this.say(t, news, this.news(region, from, t.id)))}. }`,
       `  Topic ${t.id}_rested${i} with ${t.id} ${q(`Ask ${t.name} for news of ${to.name}`)} when journeysTo(${t.id}, ${to.id}_green)`
-        + ` and not at(${t.id}, ${way}) { Says ${q(this.say(t, news.replace('this morning', 'yesterday'), this.news(region, to)))}. }`]),
+        + ` and not at(${t.id}, ${way}) { Says ${q(this.say(t, news.replace('this morning', 'yesterday'), this.news(region, to, t.id)))}. }`]),
     `  Topic ${t.id}_deeds with ${t.id} ${q(`Ask ${t.name} what people are saying`)} when renowned(party)`
       + `${this.raised(region) ? ` and not ${this.raised(region)}()` : ''} once { Says ${q(this.say(t, tables.deeds, {}))}. }`,
     ...this.heard(region, t), ...this.knows(region, t)];
@@ -122,7 +122,9 @@ export class RegionTraffic {
     return [`  Topic ${t.id}_country with ${t.id} ${q(`Ask ${t.name} about the country off the road`)} when not knows(actor, ${named}) {`,
       `    Says ${q(this.say(t, t.draw.pick(tables.knows), words))}.`, `    On discuss { Assert knows(actor, ${named}). }`, '  }'];
   }
-  private static news(region: Region, s: Settlement): Record<string, string> { return RegionNews.of(region, s); }
+  private static news(region: Region, s: Settlement, teller: string): Record<string, string> {
+    return RegionNews.of(region, s, teller);
+  }
   // A trouble on the road: it comes on some mornings, and whoever helps is thanked; if nobody does, it is sorted out
   // by evening anyway.
   private static trouble(t: Traveller): string[] {

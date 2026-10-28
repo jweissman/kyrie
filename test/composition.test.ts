@@ -125,6 +125,21 @@ describe('the raider-hold kit in play', () => {
     expect([event.response, ...(event.perceptions ?? []).map(p => p.text)].join(' ')).toContain('run, howling');
     expect(Compose.legal(s)).toContain('go(knotHold__stake_gate,knotHold__yard)');
   }, 60000);
+  // The hobs' plunder is theirs, as far as they are concerned: taken under the Gaffer's eyes it is not let go (PT-33:
+  // "Don't touch nothing," and nothing came of touching).
+  it('has the Gaffer object to his plunder taken under his eyes', async () => {
+    const s = await PlaySession.start(Compose.fells, 'fells', NodeBundleSource.shared);
+    Compose.put(s, 'knotHold__pit');
+    const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown; one(r: string, a: string): string };
+      commit(w: unknown): void };
+    c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'knotFolk__gaffer',
+      c.world.one('at', 'knotFolk__gaffer')) }, { kind: 'assert', call: ModuleWriter.call('at', 'knotFolk__gaffer',
+      'knotHold__pit') }]));
+    await s.perform('field_spell(fells__member_party_3,conjure_light,fells__member_party_3)');
+    const event = await s.perform(Compose.legal(s).find(x => x.startsWith('take_out(knotFolk__rings'))!);
+    expect([event.response, ...(event.perceptions ?? []).map(p => p.text)].join(' ')).toContain('Said don\'t touch nothing');
+    expect(s.campaign.world.test(ModuleWriter.call('hostile', 'knotFolk__gaffer', 'party'))).toBe(true);
+  }, 60000);
   it('has outlaws who stop a company on their road by day, and let it go for road-money', async () => {
     const s = await PlaySession.start(Compose.outlaws, 'a', NodeBundleSource.shared);
     Compose.put(s, 'fells__alders');
