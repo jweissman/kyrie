@@ -60,7 +60,10 @@ export class CombatTelling {
     if (c.ability === 'wait') { return `${actor} waits.`; }
     const target = c.target && c.target !== c.actor ? ` on ${this.name(c.target)}` : '';
     const landed = attack ? attack.success ? `, and it lands${damage?.amount ? `, for ${damage.amount}` : ''}` : ', and misses' : '';
-    return `${actor} uses ${ability}${target}${landed}.`;
+    // What came to nothing says so: "Ithil uses Soot Cloud." was all a cloud of soot told, with nothing hidden for it
+    // to show (the play-structure investigation's PT-23).
+    const nothing = !attack && !rest.some(e => e.type !== 'initiative' && e.type !== 'end') ? ', to no effect' : '';
+    return `${actor} uses ${ability}${target}${landed}${nothing}.`;
   }
   private blow(kind: string, attack: Of<'attack'>, damage?: Harm): string {
     const actor = this.name(attack.actor), target = this.name(attack.target), weapon = this.weapon(attack.actor);

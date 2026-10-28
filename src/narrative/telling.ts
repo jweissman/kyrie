@@ -36,6 +36,8 @@ export class Telling {
       .sort((a, b) => this.priority[a.kind]! - this.priority[b.kind]!)
       // Three dogs and a cat coming to see who you are is one of them doing it: the rest have greeted too, unsaid.
       .filter((h, i, all) => h.kind !== 'greet' || all.findIndex(x => x.kind === 'greet') === i).slice(0, this.most);
+    const greeting = happenings.filter(h => h.kind === 'greet' || h.kind === 'address').map(h => h.actor ?? '');
+    for (const actor of greeting.length ? this.met(campaign, event, company, greeting) : []) { pairs.add(`met:${actor}`); }
     // A way across country is told as it goes, before anything that happened at its end.
     const told: Voiced[] = Journeys.tell(campaign, event, used);
     for (const h of happenings) {
@@ -44,6 +46,17 @@ export class Telling {
       if (said) { told.push(said); Editor.said(used, said.id); }
     }
     return told;
+  }
+  // Whoever the company has had to do with before: followed by, travelled with, spoken to or greeted. Someone met
+  // again is greeted as one met again (Hern, who had walked a day with the company, greeted it as a stranger: A Winter
+  // in Carth's friction 7).
+  private static met(campaign: Campaign, event: CampaignEvent, company: string, actors: string[]): string[] {
+    const ties = new Set(actors.flatMap(a => ['following', 'travelsWith', 'addressed', 'greeted']
+      .map(r => `+ ${r}(${a}, ${company})`)));
+    // The command being told is the last in the history (a copy of it, not the event itself).
+    const before = campaign.history.at(-1)?.action === event.action ? campaign.history.slice(0, -1) : campaign.history;
+    const met = new Set(before.flatMap(e => e.changes.filter(c => ties.has(c))));
+    return actors.filter(a => [...met].some(c => c.includes(`(${a}, `)));
   }
   // Whoever has nobody in them still standing (a sergeant cut down, a band all fallen). Not a group gone into the
   // company: a recruit's own band is done with when they join, and they say so.

@@ -25,7 +25,9 @@ export class VoiceContext {
       // Whether they are where the company is, or have it from someone who was (Venn, in his study, told by Dunnet).
       present: !actor || world.one('at', actor) === place ? 'here' : 'away',
       shelter,
-      moment: pairs.has(`${h.kind}:${actor}`) ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {},
+      // A greeting is the first only to someone the company has not had to do with before (see Telling.met).
+      moment: pairs.has(`${h.kind}:${actor}`) || (['greet', 'address'].includes(h.kind) && pairs.has(`met:${actor}`))
+        ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {},
       // A band of many (the elders), for the lines said only of many.
       ...(campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 ? { number: 'many' } : {} };
   }

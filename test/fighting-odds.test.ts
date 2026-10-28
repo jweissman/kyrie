@@ -66,6 +66,9 @@ describe('the odds of a blow, and what a fight says', () => {
       { type: 'damage', turn: 1, actor: 'f', target: 'w', rolled: 0, amount: 0, hp: 12 },
     ];
     expect(CombatTelling.exchanges(bite, state)[0]!.text).not.toContain('for 0');
+    // A spell that came to nothing says so (PT-23: "Ithil uses Soot Cloud." with nothing hidden for it to show).
+    const soot: CombatEvent[] = [{ type: 'action', turn: 1, command: { actor: 'w', ability: 'soot_cloud', target: 'w' } }];
+    expect(CombatTelling.exchanges(soot, state)[0]!.text).toBe('Dayereth uses Soot Cloud, to no effect.');
   });
   // Seen in a1's barrow: a hound knocked flat and stunned "cannot act. … cannot act."
   it('says once what two things that came of a blow both come to', () => {

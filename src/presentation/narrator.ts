@@ -44,8 +44,10 @@ export class Narrator {
     // The sky is told when the company comes out under it (from indoors, or at the start), or when it turns; walking on
     // from one place to the next under the same sky, it is not told again.
     const under = !told || (told.moved && this.cameOut(campaign, told.event));
+    // Why a way is shut is told the first time it is seen shut; after, the way says it (A Winter in Carth's friction
+    // 12: the gaol's hours were told each time the company came into the Close).
     const kept = screen.observed.filter(o => this.tells(this.def(defs, o.id), { shelter, known, arrived: under, turned,
-      here: screen.place.id }));
+      here: screen.place.id }) && !(/__shut$/.test(o.id) && seenBefore.has(o.id)));
     // What has changed since the company was last here is told under that, not twice.
     const changed = known && told?.moved ? screen.fresh : [];
     const exchange = told && this.exchange(campaign, told);
@@ -269,9 +271,10 @@ export class Narrator {
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''),
         kind: fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
       ...outcome,
+      ...waiting ? [] : seen,
+      // Weariness come on is told after the rest, not in the middle of a scene (A Winter in Carth's friction 14).
       ...event.changes.includes(`+ weary(${campaign.playerActor})`)
         ? [{ text: Narrator.weary(campaign.readout.partyIds.length === 1), kind: 'event' as const }] : [],
-      ...waiting ? [] : seen,
     // What someone says, whether answering or of their own accord (a companion's word on coming somewhere), is speech.
     ].map(l => ({ ...l, kind: ['telling', 'event'].includes(l.kind) && /^['‘"“]/.test(l.text) ? 'speech' as const : l.kind }));
     // Going somewhere is told by the place it brings you to: "You arrive at the old bank" adds nothing to it.
