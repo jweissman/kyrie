@@ -68,8 +68,8 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 
 .chapter { font: 500 12px/1.3 var(--do); letter-spacing: .18em; text-transform: uppercase; margin: 0 0 8px; }
 /* Coming into a country is a chapter of its own: the page gives it room, and the new country a mark of discovery. */
-.chapter.kind-country { margin-top: 4px; font-size: 13px; }
-.chapter.kind-country::before { content: ''; display: block; width: 44px; height: 5px; background: var(--yellow); margin: 0 0 18px; }
+.chapter:is(.kind-country, .kind-chapter) { margin-top: 4px; font-size: 13px; }
+.chapter:is(.kind-country, .kind-chapter)::before { content: ''; display: block; width: 44px; height: 5px; background: var(--yellow); margin: 0 0 18px; }
 .chapter.kind-country + .place { font-size: clamp(38px, 4.6vw, 54px); margin-bottom: 26px; }
 .place { font: 400 clamp(32px, 3.6vw, 46px)/1.08 var(--told); letter-spacing: -.01em; margin: 0 0 22px; text-wrap: balance; }
 .dark-note { font: italic 400 19px/1.5 var(--told); }
@@ -91,6 +91,7 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .happened .you { font: 400 14.5px/1.4 var(--do); color: var(--grey); margin: 0 0 8px; }
 .happened .speech { font-size: 20px; line-height: 1.5; }
 .happened .change { font-style: italic; }
+.happened .opening { font-size: 19px; line-height: 1.55; }
 /* What happened of itself (the Mower walking into the hill) is told as the story is; a fight's blows are noted. */
 .happened .fight { font: 400 15.5px/1.45 var(--do); color: var(--grey); }
 .happened.tone-fail p { color: var(--grey); }
@@ -355,6 +356,8 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .recruit .techniques { margin: 6px 0 0; padding: 0; list-style: none; font-size: 15px; }
 .recruit .techniques li { margin: 4px 0; }
 .replies { list-style: none; padding: 0; margin: 0; }
+.answering { font: 500 12px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin: 0 0 6px; }
+.replies.answers { border-left: 4px solid var(--yellow); padding-left: 12px; margin: 0 0 14px; }
 .replies li { margin: 0 0 6px; }
 .replies .act i, .dialogue .leave .act i { font-style: normal; color: var(--faint); display: inline-block; width: 1.7em; }
 .replies .act.sel i, .dialogue .leave .act.sel i { color: var(--blue); }

@@ -1,0 +1,10 @@
+Module chapters "Three days at a frost fair" {
+  Place fair "the frost fair" is settlement.
+  Place booths "the booths" is room within fair at 0, 0 outdoors.
+  Company party "You" of 1 at booths.
+  // The second day opens once, at seven, before the morning's weather is told.
+  Chapter second_day "The second day" when day(clock) == 2 and hour(clock) >= 7 "Snow came in the night, and the booths are white to the eaves.".
+  Observe booths_scene at booths when true "Booths of canvas stand in rows on the ice.".
+  Observe white_sky at booths as weather when day(clock) == 2 and hour(clock) >= 7 "The sky is white and low.".
+  Goal false.
+}

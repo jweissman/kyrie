@@ -14,6 +14,8 @@ export interface Choice {
   local?: boolean;
   // What cannot be undone by it: the page says so, and asks again, before it is done.
   grave?: string;
+  // An answer to the question just put (see Act).
+  answer?: boolean;
 }
 // What the choices are about: a person, a creature, a thing, the ways out, the company itself.
 export interface Section {
@@ -235,7 +237,7 @@ export class ChoiceList {
     return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(about ? { about } : {}),
       ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}),
-      ...(a.grave ? { grave: a.grave } : {}) };
+      ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}) };
   }
   // The pack: each companion's things, and what each can do with them.
   static pack(screen: Screen): Section[] {

@@ -18,8 +18,10 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Relation temperament(group, temperament).
   // Where it lives and what it defends; where it goes when beaten or frightened off.
   Relation lair(group, place). Relation refuge(group, place).
-  // What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields.
+  // What it does, in the place's own words: its warning, its onslaught, what makes it flinch, how it yields; and how it
+  // comes where the company is, said as it comes, before it warns (Arrives).
   Relation warning(group, entity). Relation onslaught(group, entity). Relation flinch(group, entity).
+  Relation arrival(group, entity).
   // How it gives ground when it is warned off and has somewhere to go.
   Relation withdraw(group, entity). Relation warnedOff(group, group).
   Relation plea(group, entity). Relation greeting(group, entity).

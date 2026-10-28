@@ -101,12 +101,15 @@ Module world_passages "Passages, obstacles and the condition of things" {
     On success { Assert state(trap, after). Assert at(actor, destination). Assert tookWay(actor, way). }
     On failure { Assert state(trap, after). }
   }
+  // Who last changed a thing by one of its own changes, so that a rule can ask who did it: Bettany opening her own
+  // lockbox had been taken for someone at it in front of her (What Tessary Owes' W15).
+  Relation changedBy(entity, group) exclusive.
   Action change_thing(actor: group, how: change, thing: entity, origin: condition, result: condition) "{how}" {
     Time 3 minutes.
     Requires able(actor) and changeOf(how, thing) and changeFrom(how, origin) and changeTo(how, result)
       and state(thing, origin) and reaches(actor, thing) and equippedFor(actor, how) and informedFor(actor, how)
       and placedFor(actor, how) and not dead(thing) and not benighted(actor) and not consumes(how, ?g) and not spends(how, ?k).
-    On success { Assert state(thing, result). }
+    On success { Assert state(thing, result). Assert changedBy(thing, actor). }
   }
   Action change_thing_spending(actor: group, how: change, thing: entity, origin: condition, result: condition, spent: item, form: itemkind, carrier: member) "{how}, using {spent}" {
     Time 3 minutes.
@@ -116,7 +119,7 @@ Module world_passages "Passages, obstacles and the condition of things" {
       and placedFor(actor, how) and not dead(thing) and not benighted(actor) and spends(how, form) and memberOf(carrier, actor) and awake(carrier)
       and ownedItem(spent, carrier) and itemKind(spent, form).
     Resolve drop(spent, carrier).
-    On success { Assert state(thing, result). }
+    On success { Assert state(thing, result). Assert changedBy(thing, actor). }
     // Said by the thing's own name ("the Abbess's Eye is used up", not "Elen's the Abbess's Eye").
     Result "{spent} is used up.".
   }
@@ -125,6 +128,6 @@ Module world_passages "Passages, obstacles and the condition of things" {
     Requires able(actor) and changeOf(how, thing) and changeFrom(how, origin) and changeTo(how, result)
       and state(thing, origin) and reaches(actor, thing) and equippedFor(actor, how) and informedFor(actor, how)
       and placedFor(actor, how) and not dead(thing) and not benighted(actor) and consumes(how, spent) and quantity(actor, spent) >= 1.
-    On success { Assert state(thing, result). Decrease quantity(actor, spent) by 1. }
+    On success { Assert state(thing, result). Assert changedBy(thing, actor). Decrease quantity(actor, spent) by 1. }
   }
 }

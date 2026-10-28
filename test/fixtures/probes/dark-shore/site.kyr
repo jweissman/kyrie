@@ -1,0 +1,10 @@
+Module darkshore "The grey shore, with every light out" {
+  Place coast "the coast" is wilderness.
+  Place shore "the grey shore" is room within coast at 0, 0.
+  Company party "You" of 1 at shore.
+  Initially Assert unlit(shore).
+  // Heard in the dark, as seen in the light: what sounds there.
+  Observe surf at shore as sound when true "Somewhere below you the sea breaks on stones, and draws back.".
+  Observe shore_scene at shore when true "A grey shore of shingle runs off into the mist.".
+  Goal false.
+}

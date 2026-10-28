@@ -194,8 +194,14 @@ savage. A person can be given a temperament, and its own words, in its declarati
 The words are:
 
 - `Warns` and `Comes`: its warning and its onslaught;
+- `Arrives`: how it comes where the company already stands (put there by a rule, or on its own errand), said as it
+  comes and before it warns: the shared rules' warning had come before the module could say how a band came (the
+  Liberty of the Ice's 22; `test/fixtures/probes/arrives`). A company coming to it is not its coming;
 - `Flinches` and `Pleads`: what it does when it is frightened off, and when it is beaten;
-- `Lair`, `Refuge` and `Fears`: where it holds, where it runs, and what drives it there (`Fears sunlight.`);
+- `Lair`, `Refuge` and `Fears`: where it holds, where it runs, and what drives it there (`Fears sunlight.`). What it
+  fears is a capability the company has, by what it carries (a lit torch is flame) or granted for a while by what it
+  does: `Assert granted(actor, flame). Set grantedUntil(actor, flame) to watch(clock) + 12.` (a brand held up high,
+  for two hours; `test/fixtures/probes/brand`);
 - `Objects`: what a person says on seeing what is theirs in the company's hands (see "Whose things are", below);
 - `Joins` and `Leaves`: what they say on joining the company and on leaving it;
 - `Greets`, and `Greets again`: what they say the first time the company speaks to them, and when it comes back. One
@@ -237,7 +243,8 @@ player sees while it holds; the description of the state a change leads to is wh
 it. A `blocking` state closes the passage the thing is on, and a `dangerous` state hurts whoever crosses. A `Change`
 moves the thing from one state to another. It can need a skill, an item kind or one particular item, or consume a
 good, and `at` a place it can be made from there alone. You never write a separate scene line saying the gate is
-open: the gate's state says it.
+open: the gate's state says it. `changedBy(thing, who)` says who last changed a thing by one of its changes, so a rule
+can ask who opened the lockbox, not only that it is open (What Tessary Owes' W15; `test/fixtures/probes/changed-by`).
 
 ```kyr
   Thing grille "the rusted grille" on ossuary_arch {
@@ -305,6 +312,41 @@ A scene can teach what it shows. `teaches` makes seeing it knowing it, and the j
 ```
 
 Condition objectives on what the company knows, not on what has happened where it cannot see.
+
+### A question put to the company
+
+A question someone puts to the company is a topic put `once`; its answers are topics `answering` it. They are offered
+once the question has been put, under "Your answer" on the page rather than among the rest, and one of them is given
+(`test/fixtures/probes/question`; Low Water's 5 and the Liberty of the Ice's 10, whose answers had stood among the
+topics as topics).
+
+```text
+  Topic callow_asks with callow "Ask Callow what he wants of you" when true once {
+    Says "'Which of you,' says Callow, 'is bound by the hand you gave the Reeve?'".
+  }
+  Topic say_bound with callow "Say that you are" answering callow_asks when true {
+    Says "Callow nods slowly. 'Then the Court will want you, and not the others.'".
+    On discuss { Assert bound(actor). }
+  }
+```
+
+### Said to someone, and it may not come off
+
+Talking someone round, lying to them, asking what they may refuse: an action with a `Speaker` is said to them, and
+stands in the talk with them among what can be asked, not among the place's actions. It may roll, and the page says
+the odds; their answer is its `Result` or its `Otherwise` (`test/fixtures/probes/spoken-roll`; A Winter in Carth's
+10, whose persuasions sat among the actions).
+
+```text
+  Action ask_will(actor: group, site: place) "Ask Will to light the hearth himself, for the child" {
+    Speaker will.
+    Requires able(actor) and at(actor, site) and at(will, site) and not consented(will).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert consented(will). }
+    Result "Will Scaife gets up, and you hear him at the mantel.".
+    Otherwise "Will Scaife hears you out in the dark, and does not move.".
+  }
+```
 
 ### Asking, giving, selling, waiting
 
@@ -423,10 +465,21 @@ and `untilLight` count to those hours (A Winter in Carth's February in the north
 `lightless(place)` is a place where light dies: only a company with `sunlight` sees there, and `benighted(company)`
 covers it as well as an unlit place without a light. A change can be `consuming` a kind of item, which uses one up.
 
+In the dark nothing is seen, but what sounds or is felt there still is: an observation `as sound` or `as felt` is told
+with every light out, as the sea breaking below a grey shore (`test/fixtures/probes/dark-shore`; the Patient Star's 4,
+the Road's F5). A light carried can be put out ("Put out Ama's light"), and what was left of it is spent: the dark is
+the dark again (the Road's B3: a lantern smothered in a coat had stayed lit).
+
+```text
+  Observe surf at shore as sound when true "Somewhere below you the sea breaks on stones, and draws back.".
+```
+
 ### Tolerance, keys and guests
 
 `tolerates(x, company)` means x lets the company be: it does not bar the company's way, fall on it, or break its
-rest. A toll, a bribe, an audience or a bargain is a rule or action that asserts it, and a betrayal retracts it.
+rest. A toll, a bribe, an audience or a bargain is a rule or action that asserts it, and a betrayal retracts it. Any
+person or creature, a band of them as well, can stand over a way: a `blocking` state and `Guards drain_way.` bar it
+until they let the company by (`test/fixtures/probes/guarded-way`: six rats over a drain, thrown bread).
 `keyholder(x, thing)` lets x, and whoever serves x, through a way that thing bars. From the Lanthorn, also retired:
 
 ```text
@@ -464,7 +517,9 @@ the counting-house fixture:
   }
 ```
 
-A servant bought off stops serving: in *The Long Man*, paying Dunnet's wages retracts `serves(dunnet, venn)`.
+A servant bought off stops serving: in *The Long Man*, paying Dunnet's wages retracts `serves(dunnet, venn)`. One who
+`Resents "…"` says that on seeing what is theirs in the company's hands, and is not made its enemy by it: they can
+still be talked to (What Tessary Owes' W8; `test/fixtures/probes/resents`).
 
 ## 6. Descriptions
 
@@ -911,6 +966,18 @@ stops, and the page closes on its title and epilogue, as it does when no one is 
 `reached(opened)` says which ending a game came to, in a kept game as in play. Endings are tried in the order they
 are written, so the more particular comes first: the lint says when one asks all that an earlier one asks, and so can
 never be reached.
+
+### A chapter that opens
+
+A day, or an act, that opens is a `Chapter`, written as an ending is: it opens once, the first time its condition holds;
+its title heads the page, and its words are told first of what came of the step, in a paragraph of their own, before
+the morning's weather or whatever else the step told (`test/fixtures/probes/chapters`; the Liberty of the Ice's 26, the
+Banns at Hessel's 22: each day's opening had been a rule and a latch, run on after supper). `chapterOpened(saturday)` says
+it has opened.
+
+```text
+  Chapter saturday "Saturday" when day(clock) == 2 and hour(clock) >= 6 "The bells of Saint Ebba's ring six, and the town is up before them.".
+```
 
 ### Numbers in what is said
 

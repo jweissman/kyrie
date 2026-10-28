@@ -111,6 +111,32 @@ export class CampaignLint {
   }
   // The first ending whose condition holds is the one reached: a later one that asks all an earlier one asks, and
   // more, can never be (Low Water's 21: seventeen endings ordered by hand, nothing saying one was shadowed).
+  // A fact of a module's own that something writes and nothing reads, in a condition, a value or a text: an unfinished
+  // thread, said as advice (the Road's licensed, warmed, grieved and warnedChimed were found by hand: its friction's
+  // "lint that understands rules").
+  writeOnly() {
+    const read = new Set<string>(), written = new Set<string>();
+    // What the campaign reads of it too: its outcomes, and the goals and pressures of those who act in it.
+    CampaignLint.walk([this.module, this.session.campaign.tickState.definition], read, written);
+    for (const name of [...written].filter(n => n.includes('__') && !read.has(n)).sort()) {
+      this.add('advice', 'write-only', `${name} is written and never read: a thread not yet taken up?`);
+    }
+  }
+  private static walk(node: unknown, read: Set<string>, written: Set<string>) {
+    if (typeof node === 'string') {
+      for (const m of node.matchAll(/\{[^{}]*?\b(\w+__\w+)\(/g)) { read.add(m[1]!); }
+      return;
+    }
+    if (!node || typeof node !== 'object') { return; }
+    const n = node as { kind?: string; name?: string; call?: { name: string }; value?: unknown };
+    if (n.kind && ['assert', 'retract', 'set', 'increase', 'decrease'].includes(n.kind) && n.call) {
+      written.add(n.call.name);
+      if (n.value) { this.walk(n.value, read, written); }
+      return;
+    }
+    if (n.kind === 'call' && n.name) { read.add(n.name); }
+    for (const v of Array.isArray(node) ? node : Object.values(node)) { this.walk(v, read, written); }
+  }
   endings() {
     const ends = (this.module.rules ?? []).filter(r => r.effects.some(e => e.kind === 'assert' && e.call.name === 'reached'))
       .map(r => ({ id: r.id, asks: this.conjuncts(r.when.kind === 'and' ? r.when.left : r.when) }));
@@ -171,8 +197,14 @@ export class CampaignLint {
   geography() {
     const connects = this.relations('connects');
     if (!connects.length) { return; }
-    const start = this.relations('at').find(r => r.args[0] === this.session.campaign.playerActor)?.args[1];
-    const reached = new Set(start ? [start] : []);
+    const company = this.session.campaign.playerActor;
+    const start = this.relations('at').find(r => r.args[0] === company)?.args[1];
+    // A room the company is put in by a rule or an action is reached by it (Thrume's F7: an iron door dropped the
+    // company into the oubliette by a rule, and a one-way drop was written only so that the lint would see the way).
+    const moved = [...(this.module.rules ?? []).flatMap(r => r.effects), ...this.module.actions.flatMap(a => a.success)]
+      .filter(c => c.kind === 'assert' && c.call.name === 'at' && [company, 'actor'].includes(c.call.args[0]))
+      .map(c => c.call.args[1]!);
+    const reached = new Set([...start ? [start] : [], ...moved]);
     for (let grew = true; grew;) {
       grew = false;
       for (const [, from, to] of connects.map(c => c.args)) {

@@ -3,6 +3,7 @@ import { CampaignTick, type Happening, type TickDecision, type TickHost } from '
 import { Consequences } from './consequences';
 import { Engagement } from './engagement';
 import { Interruption } from './interruption';
+import { Arrivals } from './arrivals';
 import { Journey, type Leg } from './journey';
 import type { Operator } from '../lang/module';
 import type { World } from '../lang/world';
@@ -29,11 +30,12 @@ export class WatchLoop {
     const npc: TickDecision[] = [], happenings: Happening[] = [];
     const player = host.playerActor, watches = WatchLoop.spend(host, ActionTime.minutes(action, before));
     const watch = Interruption.begin(host.world, action, player, host.tickState.current.elapsed);
-    let why: string | undefined;
+    let why: string | undefined, present = Arrivals.present(host.world, player);
     // Something done in no time at all, or in a few minutes (a word, a pat on the head, a lid lifted), takes no watch,
     // but the world still answers it: its rules, and whatever it sets off.
     if (!watches && host.persistent) {
       CampaignTick.rules(host, happenings);
+      Arrivals.tell(host.world, player, present, happenings);
       Consequences.strike(host, combat); Consequences.hand(host, combat);
       const foe = Engagement.foe(host);
       if (foe) { return { npc, happenings, interrupted: Engagement.announced(host, foe, happenings) }; }
@@ -47,7 +49,9 @@ export class WatchLoop {
       if (host.persistent) {
         const said = happenings.length;
         CampaignTick.npcs(host, npc);
+        present = Arrivals.tell(host.world, player, present, happenings);
         CampaignTick.rules(host, happenings);
+        present = Arrivals.tell(host.world, player, present, happenings);
         Consequences.strike(host, combat); Consequences.hand(host, combat);
         host.settleWatch(combat);
         // Someone falling on the company stops whatever it was doing, interruptible or not.

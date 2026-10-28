@@ -215,8 +215,7 @@ export class PlayerView {
     const state = { elapsed: read.elapsed, creatures: read.creatures, partyIds: read.partyIds };
     const at = world.one('at', actor), place = at === undefined ? undefined : ObservationText.entity(world, at);
     const location = place?.type === 'place' ? place : undefined;
-    const perceiving = this.test(world, 'able', actor);
-    const dark = !!location && this.benighted(world, actor, location.id);
+    const perceiving = this.test(world, 'able', actor), dark = !!location && this.benighted(world, actor, location.id);
     const situations = campaign.installations.length ?
       campaign.installations.map(m => ({ name: m.name, description: m.description ?? '' })) :
       [{ name: campaign.module.name, description: campaign.module.description }];
@@ -226,8 +225,9 @@ export class PlayerView {
       ...(location ? { location: { id: location.id, name: ObservationText.label(world, location.id),
         ...(location.space ? { kind: location.space.kind } : {}) } } : {}),
       ...(location?.space ? { spatial: this.spatial(campaign, actor, location, publicChoices) } : {}),
-      // In an unlit place without a light, what is said here goes unseen; only who is here can be heard.
-      observations: perceiving && location ? (dark ? [this.darkness] : LocalObservations.read(world, actor)) : [],
+      // In an unlit place without a light, what is said here goes unseen; who is here, and what sounds, is heard.
+      observations: perceiving && location ? [...dark ? [this.darkness] : [],
+        ...LocalObservations.read(world, actor, dark)] : [],
       // Whoever could be here, in the module's order: not every entity there is.
       present: perceiving && location ? this.present(campaign, actor, location.id, dark) : [],
       items: state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c =>

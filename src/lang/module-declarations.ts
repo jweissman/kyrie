@@ -5,6 +5,7 @@ import { WorldConstructs, type EventSpec, type PassageSpec, type ThingSpec } fro
 import { ItemCatalog } from '../item-catalog';
 import { PersonParser } from './person-parser';
 import { Endings, type EndingSpec } from './endings';
+import { Chapters, type ChapterSpec } from './chapters';
 import { Milestones, type MilestoneSpec } from './milestones';
 
 type Field = { field: string; value: unknown };
@@ -59,6 +60,7 @@ export class ModuleDeclarations {
       case 'thing': WorldConstructs.thing(module, value as ThingSpec); break;
       case 'event': WorldConstructs.event(module, value as EventSpec); break;
       case 'ending': Endings.lower(module, value as EndingSpec); break;
+      case 'chapter': Chapters.lower(module, value as ChapterSpec); break;
       case 'milestone': Milestones.lower(module, value as MilestoneSpec); break;
       case 'objective': (module.objectives ??= []).push(value as NonNullable<Module['objectives']>[number]); break;
       case 'place': case 'hazard': module.entities.push(value as Module['entities'][number]); break;
@@ -78,6 +80,7 @@ export class ModuleDeclarations {
         // A question put once can be put again, for the same answer and nothing more (M16: topics vanished once asked).
         const again = once && topic ? WorldConstructs.recall(action) : [];
         if (once) { WorldConstructs.once(module, action); }
+        if (action.answers) { WorldConstructs.answer(module, action, action.answers); }
         if (action.speaker && !topic) { ModuleDeclarations.spoken(action, action.speaker); }
         module.actions.push(action, ...again); break;
       }

@@ -225,7 +225,8 @@ export class ChoiceGrouping {
       ...ChoiceGrouping.until(action, minutes, context.world),
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
-      ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}) };
+      ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}),
+      ...(action.answers ? { answer: true } : {}) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {};
     ChoiceGrouping.warn(leaf, action, context);
     if (action.movement) {

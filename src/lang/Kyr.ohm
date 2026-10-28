@@ -1,6 +1,6 @@
 Kyr {
   Module = "Module" ident string "{" Declaration* "}"
-  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Milestone | Company | ItemDecl | HazardDecl
+  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Chapter | Milestone | Company | ItemDecl | HazardDecl
   Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceShelter? PlaceAlias? "."
   PlaceShelter = "outdoors" | "indoors" | "underground" | "elsewhere"
   PlaceParent = "within" ident
@@ -50,6 +50,7 @@ Kyr {
   MilestoneWorth = "worth" integer MilestoneWhen
   MilestoneWhen = "when" Predicate "."
   Ending = "Ending" ident string EndingWhen
+  Chapter = "Chapter" ident string EndingWhen
   EndingWhen = "when" Predicate string "."
   Exit = "Exit" ident string "from" ident "to" ident "by" ident ExitDoor? ExitKnowledge? "."
   ExitDoor = "through" ident
@@ -59,7 +60,7 @@ Kyr {
   PersonTemperament = "Temperament" ident "."
   PersonManner = "Manner" ident "."
   PersonPronouns = "Pronouns" ident "."
-  PersonWords = ("Warns" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Joins" | "Leaves" | "Greets" | "Likeness") string RoleWhen? "."
+  PersonWords = ("Warns" | "Arrives" | "Comes" | "Flinches" | "Pleads" | "Objects" | "Resents" | "Joins" | "Leaves" | "Greets" | "Likeness") string RoleWhen? "."
   PersonAgain = "Greets" "again" string "."
   PersonRemarks = "Remarks at" ident string "."
   PersonHaunt = ("Lair" | "Refuge" | "Fears") ident "."
@@ -87,7 +88,8 @@ Kyr {
   PersonClass = ("Class" | "Calling") ident "."
   PersonLevel = "Level" integer "."
   PersonUses = "Uses" ListOf<ident, ","> "."
-  Topic = "Topic" ident "with" ident TopicTravelling? string "when" Predicate TopicOnce? "{" Grave? "Says" string "." Grave? TopicEffects? "}"
+  Topic = "Topic" ident "with" ident TopicTravelling? string TopicAnswering? "when" Predicate TopicOnce? "{" Grave? "Says" string "." Grave? TopicEffects? "}"
+  TopicAnswering = "answering" ident
   TopicTravelling = "travelling"
   TopicOnce = "once"
   TopicEffects = "On" "discuss" "{" ChangeStatement* "}"

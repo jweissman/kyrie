@@ -1,0 +1,14 @@
+Module sumpgate "The Dyers' Basin" {
+  Place terrace "the Dyers' Terrace" is settlement.
+  Place basin "the edge of the Dyers' Basin" is room within terrace at 0, 0 outdoors.
+  Company party "You" of 1 at basin.
+  Thing sluice "the sump gate" at basin {
+    State down "The sump gate is down, and the basin brims.".
+    State up "The sump gate is wound up.".
+    Change wind "Wind the sump gate up" from down to up.
+  }
+  // A line of the place that the gate's change alters: told with what came of winding it.
+  Observe drained at basin when state(sluice, up) "The water in the basin goes down, and the floor shows through the mud.".
+  Observe basin_scene at basin when true "A basin of dye-water under the terrace wall.".
+  Goal false.
+}

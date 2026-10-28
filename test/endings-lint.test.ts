@@ -13,4 +13,10 @@ describe('the lint', () => {
     expect(found.filter(f => f.check === 'ending').map(f => f.message))
       .toEqual(['p__ballad is never reached: p__drowning comes first, and holds whenever it does']);
   }, 60000);
+  // Thrume's F7 (AUT-23): a rule that drops the company into the oubliette was not a way in, and the lint said the
+  // oubliette could not be reached; a one-way drop was written for the lint alone.
+  it('counts a room the company is put in by a rule as reached', async () => {
+    const found = await KyrLint.campaign('test/fixtures/probes/rule-move/probe.campaign.json', new NodeBundleSource());
+    expect(found.filter(f => f.check === 'geography').map(f => f.message)).toEqual([]);
+  }, 60000);
 });

@@ -18,6 +18,8 @@ export interface Act {
   bound?: string[];
   // What cannot be undone by it, said before it is done.
   grave?: string;
+  // An answer to a question the company has just been put (Topic … answering), told with it, not among the rest.
+  answer?: boolean;
   // When a night's sleep it is would end, as the clock says it ("5:00 p.m."): a bed taken in the morning sleeps eight
   // hours, until the evening, and said only "8h" (the cold evaluation).
   until?: string;

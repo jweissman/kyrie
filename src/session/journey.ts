@@ -23,7 +23,7 @@ export interface Offered { label: string; full: string; command: string; grave?:
 // action's Result and what rules said, as the module wrote them), and what the page told of it (page: the narrator's
 // lines, set as a book is, its quotes curled). JOURNEY_TRACE=1 prints each step as the page told it.
 export interface Taken {
-  label: string; command: string; told: string; page: string; event: CampaignEvent; grave?: string;
+  label: string; command: string; told: string; page: string; event: CampaignEvent; grave?: string; chapter?: string;
 }
 
 // A game played by the labels a player sees, as every adventure's journeys are (Thrume, The House That Grows, The
@@ -154,7 +154,8 @@ export class Journey {
     // What the page says: the way there, the exchange, the place if the company moved, what has changed.
     const page = [...(leaf.journey ?? []), ...(leaf.exchange?.lines ?? []).map(l => l.text),
       ...(moved ? [...leaf.situation, ...leaf.presence] : []), ...leaf.changed].join(' ');
-    this.taken.push({ label, command, told, page, event, ...grave ? { grave } : {} });
+    const chapter = leaf.heading?.kind === 'chapter' ? leaf.heading.title : undefined;
+    this.taken.push({ label, command, told, page, event, ...grave ? { grave } : {}, ...chapter ? { chapter } : {} });
     if (process.env.JOURNEY_TRACE) { console.log(`[${label}] ${page}`); }
     return told;
   }

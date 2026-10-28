@@ -1,0 +1,20 @@
+Module spokenroll "Will, and the cold hearth" {
+  Place farm "the farm" is settlement.
+  Place house "the house-place" is room within farm at 0, 0.
+  Company party "You" of 1 at house.
+  Person will "Will Scaife" at house { Role "a farmer keeping a vigil". Peaceable. Pronouns he. }
+  Relation consented(group). Relation tried(group).
+  // Said to someone, and it may not come off: an action they are the speaker of, in the talk with them.
+  Action ask_will(actor: group, site: place) "Ask Will to light the hearth himself, for the child" {
+    Speaker will.
+    Requires able(actor) and at(actor, site) and at(will, site) and not consented(will) and not tried(actor).
+    Time 2.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert consented(will). }
+    On failure { Assert tried(actor). }
+    Result "Will Scaife gets up, and you hear him at the mantel.".
+    Otherwise "Will Scaife hears you out in the dark, and does not move.".
+  }
+  Observe house_scene at house when true "A dark house-place, and a cold hearth.".
+  Goal false.
+}

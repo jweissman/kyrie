@@ -1,0 +1,17 @@
+Module rulemove "The iron door and the oubliette" {
+  Place tomb "the tomb" is site.
+  Place hall "the door hall" is room within tomb at 0, 0.
+  Place pit "the oubliette" is room within tomb at 1, 0.
+  // The only way into the pit is the floor falling under the company: no way goes down, a shaft goes up.
+  Passage shaft "the oubliette shaft" is shaft between pit and hall one way needing climbing or rope.
+  Company party "You" of 1 at hall.
+  Thing door "the iron door" at hall {
+    State shut "An iron door stands in the far wall.".
+    State open "The iron door stands open.".
+    Change heave "Heave the iron door open" from shut to open.
+  }
+  Relation sprung(entity).
+  Rule drop when state(door, open) and not sprung(door) says "The floor swings away under you, down." { Assert sprung(door). Assert at(party, pit). }
+  Observe hall_scene at hall when true "A hall before an iron door.".
+  Goal false.
+}

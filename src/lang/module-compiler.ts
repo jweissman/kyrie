@@ -11,7 +11,7 @@ import { EngineOwned } from './engine-owned';
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
 export class ModuleCompiler {
   static readonly aspects: readonly Aspect[] = ['fixture', 'feature', 'sign', 'weather', 'ambience', 'event', 'revelation',
-    'reading', 'hearsay'];
+    'reading', 'hearsay', 'sound', 'felt'];
   private lookup?: Lookup;
   private signatures = new WeakMap<Signature[], Map<string, Signature>>();
   // joined: checking a world joined from modules each checked on its own already. An action's parameter named as

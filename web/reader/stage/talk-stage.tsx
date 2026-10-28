@@ -31,8 +31,14 @@ export class TalkStage {
             <div className="choosing">
               <TalkStage.Counter wares={wares} buys={counter?.buys ?? []} coin={frame.screen.purse.coin} draw={draw} />
               {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
+              {/* A question put to the company is answered first, by its answers (Low Water's 5, the Liberty of the
+                  Ice's 10: three answers to Callow's question had stood among the rest, as topics). */}
+              {rest.some(c => c.answer) && <><p className="answering">Your answer</p>
+                <ol className="replies answers" aria-label="Your answer">{rest.filter(c => c.answer)
+                  .map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
               <ol className="replies" aria-label={`What you might say to ${name}`}>
-                {rest.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} asked={s.asked.includes(c.id)} />)}
+                {rest.filter(c => !c.answer).map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
+                  asked={s.asked.includes(c.id)} />)}
               </ol>
             </div>
             <p className="leave"><Act.View choice={talk.leave} draw={draw}>

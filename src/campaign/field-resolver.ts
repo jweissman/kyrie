@@ -68,6 +68,7 @@ export class FieldResolver {
       return Items.transfer(creatures, { id: call.args[0]!, label }, call.args[1]!, call.args[2]!);
     }
     if (call.name === 'drop') { return Items.drop(creatures, call.args[1]!, call.args[0]!); }
+    if (call.name === 'douse') { return Items.douse(creatures, call.args[0]!); }
     if (call.name === 'realize') { return this.realize(call, host); }
     if (call.name === 'check') {
       const members = host.actors.find(a => a.id === call.args[0])?.members ?? [];

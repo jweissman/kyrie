@@ -1,0 +1,20 @@
+Module question "Callow's question" {
+  Place fair "the frost fair" is settlement.
+  Place booths "the booths" is room within fair at 0, 0 outdoors.
+  Company party "You" of 1 at booths.
+  Person callow "Magister Callow" at booths { Role "a preacher of the Flow". Peaceable. Pronouns he. }
+  Relation bound(group).
+  // A question put to the company, and its answers: offered once it has been put, one answer only.
+  Topic callow_asks with callow "Ask Callow what he wants of you" when true once {
+    Says "'Which of you,' says Callow, 'is bound by the hand you gave the Reeve?'".
+  }
+  Topic say_bound with callow "Say that you are" answering callow_asks when true {
+    Says "Callow nods slowly. 'Then the Court will want you, and not the others.'".
+    On discuss { Assert bound(actor). }
+  }
+  Topic say_none with callow "Say that none of you is" answering callow_asks when true {
+    Says "'A lie,' says Callow, 'is a hand given too.'".
+  }
+  Observe booths_scene at booths when true "Booths on the ice.".
+  Goal false.
+}

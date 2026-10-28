@@ -260,6 +260,19 @@ export class WorldConstructs {
       && success.some(c => c.kind === 'assert' && JSON.stringify(c.call) === JSON.stringify(p.value));
     return own ? { kind: 'boolean', value: true } : p;
   }
+  // An answer to a question put to the company: offered once the question, a topic put once, has been put (its
+  // said_ latch), and no other answer to it has been given (A topic could not take an answer: Low Water's 5, the
+  // Liberty of the Ice's 10, Callow's question with three answers that the page could not show as answers to it).
+  static answer(module: Module, action: Module['actions'][number], question: string) {
+    const put = { kind: 'call' as const, name: `said_${question}`, args: [] };
+    const given = { kind: 'call' as const, name: `answered_${question}`, args: [] };
+    if (!module.relations.some(r => r.name === given.name)) {
+      module.relations.push({ name: given.name, types: [], exclusive: false });
+    }
+    action.requires = { kind: 'and', left: action.requires,
+      right: { kind: 'and', left: put, right: { kind: 'not', value: given } } };
+    action.success = [...action.success, { kind: 'assert', call: given }];
+  }
   static once(module: Module, action: Module['actions'][number]) {
     const latch = `said_${action.id}`;
     module.relations.push({ name: latch, types: [], exclusive: false });

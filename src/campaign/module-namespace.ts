@@ -63,6 +63,7 @@ export class ModuleNamespace {
       ...(action.otherwise ? { otherwise: this.text(action.otherwise, bound) } : {}),
       ...(action.seen ? { seen: this.text(action.seen, bound) } : {}),
       ...(action.speaker ? { speaker: this.entities[action.speaker] } : {}),
+      ...(action.answers ? { answers: `${this.bindings.id}__${action.answers}` } : {}),
       ...(action.searchPlace ? { searchPlace: this.entities[action.searchPlace] } : {}),
       ...(action.movement ? { movement: Spatial.scope(action.movement, id => this.entities[id] ?? id) } : {}),
       ...(parameters ? { parameters } : {}), requires: this.predicate(action.requires, bound),

@@ -133,6 +133,18 @@ export class Items {
   }
   // An item out of its carrier's hands: set down, given, sold, put away or used up, as the action says it was; the
   // action tells it, so there is nothing more to say of it here.
+  // A light put out: what burns on its carrier and gives light (a torch, a lantern's oil) is out, and what was left of
+  // it is spent (the Road's B3: a lantern smothered in a coat stayed lit).
+  static douse(store: CreatureStore, owner: string): CombatEvent[] {
+    const lease = store.acquire([owner]);
+    try {
+      const creature = lease.creatures[0]!;
+      creature.state.conditions = creature.state.conditions
+        .filter(s => !Canon.conditions[Canon.resolve('conditions', s.id)]?.grants?.includes('light'));
+      lease.commit(lease.creatures);
+      return [];
+    } finally { lease.release(); }
+  }
   static drop(store: CreatureStore, owner: string, id: string): CombatEvent[] {
     const lease = store.acquire([owner]);
     try {

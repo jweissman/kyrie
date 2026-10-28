@@ -7,7 +7,8 @@ import { Words } from './words';
 // One line of a conversation as it is kept on the page: what the company said, what was said back or done, what it
 // came to know, and what it paid or was given.
 export interface TalkLine {
-  kind: 'you' | 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'learned' | 'aim' | 'tally'; text: string;
+  kind: 'you' | 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' | 'learned' | 'aim' | 'tally';
+  text: string;
   // What a note is, said before it ("A new aim", "The aim now", "You know now").
   label?: string;
 }

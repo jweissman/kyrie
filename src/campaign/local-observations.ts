@@ -67,10 +67,13 @@ export class LocalObservations {
       && !world.test(ModuleWriter.call('shut', r.args[1]!)));
   }
   // What the place itself is like comes first, then who and what is about in it. An observation near a variable is
-  // one observation for each entity its condition binds that the company is near, known as id@entity.
-  static read(world: World, actor: string): { id: string; text: string }[] {
+  // one observation for each entity its condition binds that the company is near, known as id@entity. In the dark,
+  // only what is heard or felt (`as sound`, `as felt`: the Patient Star's 4 and the Road's F5, a shore with every light
+  // out told nothing, and a man waking in the same small vault).
+  static read(world: World, actor: string, dark = false): { id: string; text: string }[] {
     // Most observations are of a place: only this one's need a closer look.
-    const here = world.one('at', actor), all = world.module.observations ?? [];
+    const here = world.one('at', actor), all = (world.module.observations ?? [])
+      .filter(o => !dark || ['sound', 'felt'].includes(o.aspect ?? ''));
     const seen = all.filter(o => !o.place.startsWith('?') && ((o.anchor ?? 'at') !== 'at' || o.place === here)
       && this.perceives(world, actor, o.place, o.anchor)
       && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor)

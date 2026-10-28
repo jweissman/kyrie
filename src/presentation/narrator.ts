@@ -8,15 +8,16 @@ import { Typography } from './typography';
 import { Narration } from './narration';
 import { Spoken } from './spoken';
 import { ModuleWriter } from '../lang/module-writer';
+import { Chapters } from '../lang/chapters';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
 // change to the place, or a fight's turning point.
-export interface ExchangeLine { text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' }
+export interface ExchangeLine { text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' }
 export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[]; tone: 'act' | 'fight' | 'fail' }
 // What the page tells, kept apart by what it is for: the present situation (what this place is, and who and what
 // is here), what has changed since the company was last here, and what came of the last thing it did.
 export interface Leaf {
-  heading?: { kind: 'opening' | 'country'; title: string };
+  heading?: { kind: 'opening' | 'country' | 'chapter'; title: string };
   situation: string[]; presence: string[]; changed: string[]; exchange?: Exchange; shelter?: Shelter;
   // Whether the last command brought the company here from somewhere else, and the way, told as it went.
   moved?: boolean; journey?: string[];
@@ -86,7 +87,8 @@ export class Narrator {
     // What has changed is told once: not again when the exchange told it, nor when it is who is here and doing what.
     const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)) && !presence.includes(c));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
-    return this.set({
+    const chapter = told && Chapters.opened(campaign.module, told.event.perceptions);
+    return this.set({ ...chapter ? { heading: { kind: 'chapter' as const, title: chapter.title } } : {},
       situation: [...situation, ...gone], presence, changed: fresh,
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
       ...journey.length ? { journey } : {},
@@ -278,12 +280,15 @@ export class Narrator {
     // How a fight ended is told after the blows that ended it: What Tessary Owes' cold playtest read "Your company is
     // defeated" before "Bettany Slake hits Ivo" (W23).
     const result = feedback.ended ? [] : telling, outcome = feedback.ended ? telling : [];
-    const events = feedback.events.map(text => ({ text, kind: 'event' as const }));
+    // A chapter opened is told first of all, in its own paragraph, under its title (see Chapters and leaf).
+    const chapter = Chapters.opened(campaign.module, event.perceptions);
+    const events = feedback.events.filter(t => t !== chapter?.text).map(text => ({ text, kind: 'event' as const }));
     // A thing changed is told by what came of it (the water going down) before how it is now (the well dry); a wait,
     // by how the place has become (night on the crest) before what broke it off (the Mower come up onto it).
     const changing = /^change_thing/.test(action?.schema ?? ''), waiting = /^wait/.test(action?.schema ?? '');
     const seen = (told.moved ? [] : feedback.observations).map(text => ({ text, kind: 'change' as const }));
     const lines: ExchangeLine[] = [
+      ...chapter ? [{ text: chapter.text, kind: 'opening' as const }] : [],
       ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...changing ? events : [], ...result,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...changing || fight ? [] : events,

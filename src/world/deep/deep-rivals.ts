@@ -71,13 +71,14 @@ export class DeepRivals {
   // filed it as seen with the company's own eyes), and as their head says it to whoever asks while they are below;
   // and their mark on every level they have reached, from the stage they go down it.
   private static delving(r: Rivals, power: Power, layout: DeepLayout): string[] {
-    const q = this.q, { id, head, values } = r, out = this.fill(power.out, r);
+    const q = this.q, { id, head, values } = r, out = this.fill(power.out, this.heard(r)), w = values.w!;
     return [`  Entity ${id}_out: fact ${q(out)}.`,
       `  Observe ${id}_out_told near ${values.keeper} as hearsay when stage(${id}) == 1 and not knows(party, ${id}_out)`
         + ` ${q(out)} teaches ${id}_out.`,
       `  Topic ${id}_gone with ${head} ${q(`Ask {${head}} where ${this.fill(power.band, r)} have gone`)}`
         + ` when stage(${id}) >= 1 and not foiled(${id}) and not won(${id}) once {`,
-      `    Says ${q(this.fill(power.gone, r))}. On discuss { Assert knows(actor, ${id}_out). }`, '  }',
+      `    Says ${q(this.fill(power.gone, r))}. On discuss { Assert knows(actor, ${id}_out). Assert knows(actor, ${w}_named). }`,
+      '  }',
       ...layout.levels.slice(0, -1).map((level, i) => `  Observe ${id}_trace${i} at ${level.rooms[0]!.id}`
         + ` when stage(${id}) >= ${i + 1} ${q(this.fill(power.trace, r))}.`)];
   }
@@ -87,7 +88,7 @@ export class DeepRivals {
     const due = `stage(${id}) >= ${levels.length + 1} and not won(${id}) and not foiled(${id})`
       + ` and not (at(party, ?p) and deepLevelOf(?p, ${levels.at(-1)!.id}))`;
     const entry = levels.at(-1)!.rooms[0]!.id, packs = `${id}_packs`, gear = power.gear.map((g, n) => ({ g, n }));
-    const fate = this.fill(`${this.upper(power.band)} went down into {name}, and few of them came back.`, r);
+    const fate = this.fill(`${this.upper(power.band)} went down into {name}, and few of them came back.`, this.heard(r));
     return [`  Place ${packs} "where they keep their packs" is room within ${levels.at(-1)!.id}.`,
       ...gear.map(({ g, n }) => `  Item ${id}_gear${n} ${q(this.called(g))} is ${g} at ${packs}.`),
       `  Relation ${id}_broken(). Relation ${id}_bought(). Entity ${id}_fate: fact ${q(fate)}.`,
@@ -99,7 +100,8 @@ export class DeepRivals {
         + ` ${q(fate)} teaches ${id}_fate.`,
       `  Topic ${id}_fate_told with ${head} ${q(`Ask {${head}} what became of ${this.fill(power.band, r)}`)}`
         + ` when ${id}_broken() once {`,
-      `    Says ${q(this.fill(power.fate, { ...r, price: r.raised }))}. On discuss { Assert knows(actor, ${id}_fate). }`, '  }',
+      `    Says ${q(this.fill(power.fate, { ...r, price: r.raised }))}.`
+        + ` On discuss { Assert knows(actor, ${id}_fate). Assert knows(actor, ${r.values.w!}_named). }`, '  }',
       `  Rule ${id}_won when ${due} and not able(${keeper}) and at(${heart}, ${room}) { Retract at(${heart}, ${room}).`
         + ` Assert at(${heart}, ${seat.id}_green). Assert keeps(${head}, ${heart}). Assert won(${id}).`
         + `${at.raises ? ` Assert ${at.layout.site}_raised().` : ''} }`,
@@ -116,6 +118,10 @@ export class DeepRivals {
     return [...theirs.length ? theirs : region.settlements]
       .sort((a, b) => Terrain.distance(land, a.cell!, site.cell!) - Terrain.distance(land, b.cell!, site.cell!))[0]!;
   }
+  // What is overheard of them names the site as the company knows it, not by a name it has not learned (the narration
+  // audit: "the brothers, who went up to Albuslac" was talked of in a taproom where the doorway was still a doorway);
+  // their head, telling it, names it.
+  private static heard(r: Rivals): Rivals { return { ...r, values: { ...r.values, name: `{${r.values.w!}}` } }; }
   private static fill(text: string, r: Rivals): string {
     const words: Record<string, string> = { head: `{${r.head}}`, name: r.values.name!, seat: r.seat.name,
       kingdom: r.values.kingdom!, prize: r.prize, price: String(r.price) };

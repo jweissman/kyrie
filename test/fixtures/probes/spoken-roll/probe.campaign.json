@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: a word that rolls", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "bard" } ] }

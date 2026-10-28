@@ -18,10 +18,12 @@ export class PersonParser {
   static Grave(_g: Node, text: Node, _dot: Node): Field {
     return { field: 'grave', value: (text as unknown as { ast(): unknown }).ast() as string };
   }
-  // The grave words of a topic, written before its Says or after.
-  static graveOf(...optional: Node[]): { grave?: string } {
-    const grave = optional.flatMap(o => o.children).map(g => (ModuleParser.ast(g) as Field).value as string)[0];
-    return grave ? { grave } : {};
+  // What a topic is beside its words: put once; grave, as written before its Says or after; the answer to a question
+  // the company has been put (`answering ask_bound`).
+  static topic(once: Node, graves: Node[], answering: Node): { once?: true; grave?: string; answers?: string } {
+    const grave = graves.flatMap(o => o.children).map(g => (ModuleParser.ast(g) as Field).value as string)[0];
+    const answers = answering.children.map(a => ModuleParser.ast(a) as string)[0];
+    return { ...once.children.length ? { once: true } : {}, ...grave ? { grave } : {}, ...answers ? { answers } : {} };
   }
   // Person = "Person" ident string "at" ident "{" PersonPart* "}"
   static person(id: Node, name: Node, place: Node, parts: Node): Field {
@@ -93,10 +95,9 @@ export class PersonParser {
   static PersonHaunt(word: Node, id: Node, _dot: Node): Field {
     return { field: 'haunt', value: { kind: word.sourceString, text: id.sourceString } };
   }
-  static readonly manners: Record<string, string> = { Warns: 'warning', Comes: 'onslaught', Flinches: 'flinch',
-    Pleads: 'plea', Objects: 'objection', Joins: 'joining', Leaves: 'parting', Greets: 'greeting',
-    GreetsAgain: 'regreeting', Likeness: 'likeness',
-    Lair: 'lair',
+  static readonly manners: Record<string, string> = { Warns: 'warning', Arrives: 'arrival', Comes: 'onslaught',
+    Flinches: 'flinch', Pleads: 'plea', Objects: 'objection', Resents: 'resentment', Joins: 'joining',
+    Leaves: 'parting', Greets: 'greeting', GreetsAgain: 'regreeting', Likeness: 'likeness', Lair: 'lair',
     Refuge: 'refuge', Fears: 'fears', Manner: 'manner', Pronouns: 'pronouns' };
   private static manner(module: Module, id: string, temperament: string | undefined, manner: Manner[]) {
     if (temperament) { PersonParser.fact(module, 'temperament', id, `temper_${temperament}`); }

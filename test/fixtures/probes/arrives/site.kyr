@@ -1,0 +1,17 @@
+Module arrives "Wolves on the sledge road" {
+  Place reach "the Reach" is wilderness.
+  Place road "the sledge road" is room within reach at 0, 0 outdoors.
+  Place downs "the downs" is room within reach at 3, 3 outdoors.
+  Passage track "the track up to the downs" is path between road and downs taking 20 minutes.
+  Company party "You" of 1 at road.
+  Person wolves "the wolves off the downs" at downs {
+    Role "four of them, grey, lean as rakes". Species wolf. Numbers 4. Pronouns they. Temperament territorial.
+    Arrives "Four grey shapes come down off the downs onto the ice, one behind another, and sit across the road.".
+    Warns "The wolves get up, without hurry. One puts its head down, and you hear it: a sound like a saw in green wood.".
+  }
+  Relation came(place).
+  // The module puts them on the road; the shared rules' warning comes after they are said to come.
+  Rule wolves_come when watch(clock) >= 3 and not came(road) { Assert came(road). Assert at(wolves, road). }
+  Observe road_scene at road when true "The sledge road runs on grey into the dark.".
+  Goal false.
+}

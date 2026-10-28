@@ -39,6 +39,8 @@ export interface Operator {
   otherwise?: string;
   // What cannot be undone by it, said before it is done: the page asks first (Grave "…").
   grave?: string;
+  // The question a topic answers (Topic … answering q): offered once q has been put, and one answer only.
+  answers?: string;
   parameters?: { name: string; type: string }[];
   actor?: string; schema?: string; bindings?: Record<string, string>;
   id: string; name: string; description: string; requires: Predicate;
@@ -72,9 +74,9 @@ export interface WorldRule {
 // (an event), or a discovery that deserves the page to itself (a revelation).
 // A reading is what something written says (a tally, a tablet): what it teaches is the writing's account, not seen.
 // Hearsay is talk overheard where someone is (the brothers gone up the hill, as the taproom has it): what it teaches is
-// heard there, not seen.
+// heard there, not seen. A sound, or what is felt, is perceived in the dark as well as in the light.
 export type Aspect = 'fixture' | 'feature' | 'sign' | 'weather' | 'ambience' | 'event' | 'revelation' | 'reading'
-  | 'hearsay';
+  | 'hearsay' | 'sound' | 'felt';
 export interface Observation {
   id: string; place: string; anchor?: Anchor; when: Predicate; text: string; teaches?: string;
   // The entity described, which is not perceived while the company has not noticed it.

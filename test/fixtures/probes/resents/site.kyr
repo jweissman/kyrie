@@ -1,0 +1,12 @@
+Module resents "The Factor's chart" {
+  Place quay "the quay" is room.
+  Company party "You" of 1 at quay.
+  // One who resents what she sees says so, and stays civil: she can still be talked to.
+  Person sault "Maud Sault" at quay {
+    Role "the Factor of the lightermen". Peaceable. Pronouns she.
+    Resents "Maud Sault sees her own chart in your hands, and says nothing, and you will remember that she said nothing.".
+  }
+  Item chart "Maud Sault's chart" is map at quay owned by sault.
+  Observe quay_scene at quay when true "A quay of black stone.".
+  Goal false.
+}

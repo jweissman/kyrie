@@ -36,4 +36,34 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a grave act on the page', () => {
     expect(await page.evaluate(() => document.body.innerText)).toContain('it goes over, and breaks');
     expect(errors).toEqual([]);
   }, 120000);
+  // Low Water's 11 (AUT-08): a thing's own view did not show the lines of the place its change altered. Winding the
+  // sump gate up from its own view tells the basin draining there, with the gate as it now is.
+  it('tells, in a thing\'s own view, what its change did to the place', async () => {
+    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
+      { site, pointer: false, query: '?campaign=test/fixtures/probes/sump-gate/probe.campaign.json' });
+    await page.waitForSelector('[data-action="start"]');
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    await page.click('[data-choice="p__sluice#look"]');
+    await driver.settle();
+    await page.locator('[data-choice^="p__sluice/"][data-choice*=":Wind"]').first().click();
+    await driver.settle();
+    expect(await page.locator('.thing').innerText()).toContain('The water in the basin goes down');
+    expect(errors).toEqual([]);
+  }, 120000);
+  // Low Water's 5 and the Liberty of the Ice's 10 (AUT-03, ICE-10): a question put to the company is answered by its
+  // answers, under the question, not among the rest of what might be said.
+  it('shows the answers to a question put, as answers', async () => {
+    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
+      { site, pointer: false, query: '?campaign=test/fixtures/probes/question/probe.campaign.json' });
+    await page.waitForSelector('[data-action="start"]');
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    await driver.pick(c => /#talk$/.test(c.id) && /Callow/.test(c.label), 'Callow');
+    await driver.pick(c => /Ask Callow what he wants/.test(c.label), 'the question');
+    expect(await page.locator('.dialogue .answering').innerText()).toMatch(/your answer/i);
+    expect(await page.locator('.dialogue .replies.answers li').allInnerTexts())
+      .toEqual([expect.stringContaining('Say that you are'), expect.stringContaining('Say that none of you is')]);
+    expect(errors).toEqual([]);
+  }, 120000);
 });

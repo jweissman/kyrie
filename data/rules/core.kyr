@@ -2,6 +2,8 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Kind group. Kind place. Kind good. Kind clock. Kind capability.
   // An ending an author writes (Ending … when … "epilogue"): reached once, and the book closes on it.
   Kind ending. Relation reached(ending).
+  // A chapter of a module's story, opened once (see Chapter).
+  Kind heading. Relation chapterOpened(heading).
   // Something done that a company grows by (Milestone … worth … when …): achieved once, and worth so much experience.
   Kind milestone. Relation achieved(milestone). Measure merit(milestone).
   Entity gold: good "coin". Entity rations: good "ration". Entity clock: clock "Time".
@@ -42,6 +44,14 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Relation witnessedAttack(group, group, group).
   Relation refusesService(group, group).
   Relation capable(group, capability). Relation brings(member, capability).
+  // What the company can do for a while by what it has done, not by what it carries (a brand lit at the ox fire and
+  // held up high: flame, for two hours): Assert granted(party, flame). Set grantedUntil(party, flame) to watch(clock) +
+  // 12. It ends when that watch comes; one given no end lasts until it is retracted (the Liberty of the Ice's 23: a
+  // brand made in the story could not be what the wolves feared).
+  Relation granted(group, capability). Measure grantedUntil(group, capability).
+  Rule grant_ends when granted(?c, ?k) and grantedUntil(?c, ?k) >= 1 and watch(clock) >= grantedUntil(?c, ?k) {
+    Retract granted(?c, ?k).
+  }
   Relation serves(group, group).
   Query allied(a: group, b: group) means serves(a, b) or serves(b, a) or (serves(a, ?m) and serves(b, ?m)).
   Relation unlit(place). Relation company(group).

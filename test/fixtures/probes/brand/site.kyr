@@ -1,0 +1,20 @@
+Module brand "Wolves, and a brand from the ox fire" {
+  Place reach "the Reach" is wilderness.
+  Place road "the sledge road" is room within reach at 0, 0 outdoors.
+  Place downs "the downs" is room within reach at 3, 3 outdoors.
+  Company party "You" of 1 at road.
+  Person wolves "the wolves off the downs" at road {
+    Role "four of them, grey". Species wolf. Numbers 4. Pronouns they. Temperament territorial. Refuge downs. Fears flame.
+    Warns "The wolves get up, without hurry, and one of them puts its head down.".
+    Flinches "The wolves turn, all four together, and go away down the sledge road at a long easy lope.".
+  }
+  // A brand made in the story, not a torch: flame for two hours, as long as it burns.
+  Action hold_brand(actor: group, site: place) "Hold the brand from the ox fire up high" {
+    Requires able(actor) and at(actor, site) and not granted(actor, flame).
+    Time 1 minute.
+    On success { Assert granted(actor, flame). Set grantedUntil(actor, flame) to watch(clock) + 12. }
+    Result "You swing the brand over your head, and it roars.".
+  }
+  Observe road_scene at road when true "The sledge road runs on grey into the dark.".
+  Goal false.
+}

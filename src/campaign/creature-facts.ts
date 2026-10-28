@@ -36,7 +36,7 @@ export class CreatureFacts {
     'water', 'stage', 'trade', 'court', 'margins'];
   // Every relation or measure a projection writes or reads besides the creatures (see Projection).
   static readonly reads = [...CreatureFacts.written, 'carried', 'capacity', 'peaceable', 'state', 'warning', 'onslaught',
-    'flinch'];
+    'flinch', 'granted'];
   static project(world: World, actors: CampaignActor[], store: CreatureStore): World {
     const scope = this.scope(world), changes: Change[] = [];
     for (const actor of actors) {
@@ -117,11 +117,14 @@ export class CreatureFacts {
   private static scope(world: World): Scope { return { ...this.declared(world.module), world }; }
   // What the company as a whole can do and is: its skills, who brings each, whether it can act, and its coin.
   private static group(actor: CampaignActor, members: Creature[], scope: Scope): Change[] {
-    const changes: Change[] = [], { has, capabilities, references, at } = scope;
+    const changes: Change[] = [], { has, capabilities, references, at, world } = scope;
     if (has.has('capable')) {
+      // What it carries, or what it has been granted for a while (see core.kyr's granted).
+      const granted = has.has('granted') ? new Set(world.related('granted').filter(r => r.args[0] === actor.id)
+        .map(r => r.args[1]!)) : new Set<string>();
       for (const capability of capabilities) {
-        changes.push({ kind: PartyCapabilities.has(capability.id, members, at) ? 'assert' : 'retract',
-          call: ModuleWriter.call('capable', actor.id, capability.id) });
+        changes.push({ kind: PartyCapabilities.has(capability.id, members, at) || granted.has(capability.id) ? 'assert'
+          : 'retract', call: ModuleWriter.call('capable', actor.id, capability.id) });
       }
     }
     for (const c of has.has('brings') ? members : []) {

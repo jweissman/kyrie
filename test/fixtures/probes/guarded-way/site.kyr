@@ -1,0 +1,20 @@
+Module guard "Rats over the drain" {
+  Place sewer "the sewers" is site.
+  Place sump "the sump" is room within sewer at 0, 0.
+  Place drain "the plunge drain" is room within sewer at 1, 0.
+  Passage drain_way "the plunge drain" is passage between sump and drain.
+  Company party "You" of 1 at sump.
+  Person rats "the drain rats" at sump {
+    Role "a heaving mass of them". Species rat. Numbers 6. Peaceable.
+    State massed blocking "Rats mass over the mouth of the plunge drain, hundreds of them, watching.".
+    Guards drain_way.
+  }
+  Action appease(actor: group, site: place) "Throw the rats the bread" {
+    Requires able(actor) and at(actor, site) and at(rats, site) and not tolerates(rats, actor).
+    Time 1 minute.
+    On success { Assert tolerates(rats, actor). }
+    Result "The rats fall on the bread, and part.".
+  }
+  Observe sump_scene at sump when true "A sump, and a drain going down.".
+  Goal false.
+}

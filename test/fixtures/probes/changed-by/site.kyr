@@ -1,0 +1,14 @@
+Module changedby "Bettany's lockbox" {
+  Place office "the office" is room.
+  Company party "You" of 1 at office.
+  Thing lockbox "the lockbox" at office {
+    State shut "A lockbox sits on the desk, shut.".
+    State open "The lockbox stands open.".
+    Change unlock "Open the lockbox" from shut to open.
+  }
+  Relation seen(group).
+  // Asked of who opened it, not only that it is open.
+  Rule caught when state(lockbox, open) and changedBy(lockbox, party) and not seen(party) says "Bettany looks up from her ledger, and sees you at her lockbox." { Assert seen(party). }
+  Observe office_scene at office when true "An office of ledgers.".
+  Goal false.
+}
