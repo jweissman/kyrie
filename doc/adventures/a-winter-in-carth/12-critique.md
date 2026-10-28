@@ -1,6 +1,7 @@
 # A Winter in Carth: a final critique
 
-*Written after the last reading of the transcripts, as an editor would write it to the author: what the adventure
+*The first final critique. [14-second-pass.md](14-second-pass.md) re-reads the adventure as literature, answers much of
+what follows, and supersedes it where they disagree.* *Written after the last reading of the transcripts, as an editor would write it to the author: what the adventure
 is, where it succeeds, and where it does not.*
 
 ## What it is

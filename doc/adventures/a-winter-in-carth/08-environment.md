@@ -29,6 +29,12 @@
   gilded fresh each morning by whoever is ahead; the price board at the Wood Exchange, which Thackray rubs out with
   his fur sleeve; the forty-one pegs in the Barefoot Hall.
 
+- **History under the surface.** The Register's first line (*In the year the Bishop went away*), the thirty-one
+  names round the Chapter House wall, the gift cut in the Wood-reeve's post, the planed plinth, the fold's thread of
+  smoke. Each is a reference the story does not need, offered so that Gaunt is older than its plot (14-second-pass).
+- **A guarded secret.** The Fabric's night-men hold the scaffold-yard from nine till four, four crowbars and a
+  horn lantern; they warn once. The unbuilding can be seen from Gaol Lane over the wall without meeting them.
+
 ## Resolutions, and where they come back
 
 | Resolution | Seen again at |
@@ -49,6 +55,8 @@
 | the rescue | Prudence's eight o'clock; the serjeants; Hal taken or not; the bars out |
 | the masked Lady | her words through the bars; the ring at the porter; her verdict |
 | Quist's Determination | the dispute; two contrary Determinations read at the trial |
+| Ellen's name | the thirtieth peg; Annis at the cob; Thackray told; the account, where Annis paints the peg herself |
+| Cuthbert and the fold | Hern at the fold ("There's room"); the Lady's finger on a line nineteen years back; Joby's lantern; Hern made room for by the fire |
 | the company bears it | put out at dusk, struck from the Register, the Fell Gate shut for ever; Hern through the wicket: "You lovely fool" |
 
 ## The endings

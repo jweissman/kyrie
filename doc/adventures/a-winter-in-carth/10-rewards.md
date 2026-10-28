@@ -3,7 +3,7 @@
 *Gaunt is a city where merit is bought, so its rewards are mostly things that cannot be: what the company did with its
 own hands and feet, and who it changed. Source: `growth.kyr`, and the items and coin in the strands.*
 
-## Experience: thirty-five milestones
+## Experience: thirty-seven milestones
 
 Experience comes only from things done (no creature in Gaunt is worth anything dead). In rough bands:
 
@@ -15,6 +15,8 @@ Experience comes only from things done (no creature in Gaunt is worth anything d
 | 200 | the vigil released; Joan and Abel at one table; the tower's course standing; witness for Carth; going out of the Gate of Ash with him |
 | 150 | the night at Carth got through; who paid for it found out; Annis face to face with him; the Ladder set at itself; Sowerby's own penance; Laverock exposed; the wood brought in; the bars out; a fire lit for the child (which breaks the vigil, and is still worth something) |
 | 100 | the road's three questions; Kell's name; the old woman brought in; Ralph laid out; a clean shrift; your own penance; the masked woman; Bess's word carried; Prudence turned; the Doctors set at each other |
+| 150 | (second pass) carrying word between a mason and his son |
+| 100 | (second pass) finding where the Gate of Ash leads |
 | 50 | custody; Tib's skate-bones; Mother Sugden's oven |
 
 What the played journeys earned (from `playtest/`): *from above* 2,900; *the company bears it* 2,150; *the Lady's

@@ -45,7 +45,14 @@ hundred and eleven years. Three days to Ash Day. Somebody in this city paid for 
 - **Annis Scaife**, who reads her losses aloud like a list; **Will**, who will not look at anyone; **Old Mother
   Scaife**, who lays a place for the Cold Guest and lies down with her dead husband in the byre to keep him warm;
   **Dowsie**, with a cough that is changing; **Fly** the collie.
-- **Raistrick**, the Ash-reeve. Exact, polite, never knocks. "A vigil isn't a thing you're told about before."
+- **Raistrick**, the Ash-reeve. Exact, polite, never knocks. "A vigil isn't a thing you're told about before." At nine
+  he lit his own mother's vigil for his sister's croup, and lost them the farm; he took the post so that "the hand in
+  the ash should be a hand that knows".
+- **Ellen Wray**, dead, the thirtieth peg in the Barefoot Hall: Annis's sister, who went down to the Row to proxy for
+  the winter. Annis took the vigil knowing whose penance it was, to be the one who forgives him, or does not.
+- **Cuthbert Thwaite**, Joby's son, the last man put out of Gaunt, nineteen years ago, for saying the tower was
+  unbuilt by night: the Lady's first putting-out, and Hern's best-paid fast. He lives in the put-outs' fold on the
+  Levels, within sight of the tower, owing nobody.
 - **Canon Hamo Laverock**, Master of the Fabric, prosecutor, the Scaifes' landlord: unbuilds the tower by night so the
   Fabric's tithe never ends. Very clean hands.
 - **Joby Thwaite**, master mason of seventy-one, who has set the last course fifty-three years running.
@@ -67,9 +74,13 @@ hundred and eleven years. Three days to Ash Day. Somebody in this city paid for 
    truth. The trial is their quarrel in public. The soup was always too salt.
 3. **The letter against the spirit**: at Carth, the vigil kept by the rule (a fire in the byre, the hearth wet) or
    broken for the child; in Gaunt, the tally made clean by a forgery, a proxy or your own bare feet.
-4. **Thackray against himself**: a kind man who caused deaths by a price, and keeps paying not to know it.
+4. **Thackray against himself**: a kind man who caused deaths by a price, and keeps paying not to know it; and
+   **Annis against Thackray**, keeping his penance for her sister's death, night by night, undecided.
 5. **The company against its own place in the story**: Hern's third question. Bringing him in is a promise made by
    someone else; the city's whole proposition is that the one who pays need not be the one who does.
+6. **The city against its own history**: the Bishop who went away, the gift of the fallen wood cut in a post, the
+   verse planed off Oswy's plinth, the mason put out for telling the truth. Gaunt has been unbuilding itself by
+   night for two hundred years.
 
 ## The ending, in five ways
 

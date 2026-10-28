@@ -34,6 +34,9 @@ offer. Nearly every gate has a way round that costs something else, usually time
 | The gaol bars | lockwork **or** brawn gate | thief, warrior | there is no other way out of the window; *the Flight* needs one of them, or the Drove Fork |
 | Hern failing in the cell | tend him: mending gate | cleric, monk | the Lady sends her physician if she is moved |
 | The serjeants in Gaol Lane | a fight (two commoners) | warrior | pay Prudence's six shillings, and nobody comes |
+| The Fabric's night-men | a fight (four warriors) in the scaffold-yard, nine till four | a strong warrior, perhaps | watch from Gaol Lane; come at dusk; go back when warned; Joby's masons on Fastens' Eve; the canon silenced |
+| The woodmen | pay four shillings, or fight three | warrior | come when the right is open |
+| The wolves | a fight (five) at the deadfall from dusk | — | come by day |
 | The Barefoot soles | a barefoot mile and a night on the Steps, having walked with Hern | anyone with the time and the feet | — |
 
 ## The two approaches compared

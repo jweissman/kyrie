@@ -144,8 +144,8 @@ describe('A Winter in Carth: the city\'s strands', () => {
     await bard.play(...phases('letter').road!, ...down);
     // Without the climb the wall is no way at all.
     expect(bard.j.find('^To the foot of the north tower')).toBeUndefined();
-    // The unbuilding is seen from the lane after nine; Joby is told at the Fat Lamb before ten; the lodge is walked in the
-    // morning, when the Fabric's night-men have gone from the scaffold-yard.
+    // The unbuilding is seen from the lane after nine; Joby is told at the Fat Lamb before ten; the lodge is walked in
+    // the morning, when the Fabric's night-men have gone from the scaffold-yard.
     await bard.play('To the Bearer', '=222', 'To Gaol Lane', 'To the Bearer', 'To the Long Shambles', 'Into the Fat Lamb', 'Talk to Old Joby', 'Tell Joby', 'Take a bed',
       'Out to the Long Shambles', 'To the Bearer', 'Into the masons\' lodge', 'To the foot of the north tower', 'To the Close of Saint Oswy');
     expect(bard.measure('pains', 'party')).toBeGreaterThan(0);

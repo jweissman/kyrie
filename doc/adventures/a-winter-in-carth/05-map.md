@@ -43,6 +43,8 @@ Four areas in a column, with the wood off to the east. Distances are walking tim
                          [carth_yard]                             Carth
                      door ╱        ╲ 2h (closed while it snows)
             [house_place]─[carth_byre]  [levels_road]─1h─[wood_edge]─20m─[deadfall]
+                                    40m ╱    (the put-outs' fold, west of the Gate of Ash)
+                                 [fold]
                                          │      ╲                       the Bishop's Wood
                            the Fell Gate │       ╲ the Gate of Ash (open at dusk on Ash Day only)
                                      [fell_gate]  [gate_of_ash]
@@ -112,5 +114,7 @@ window is a second person, `hern_window`, seen when he is in the cell and it is 
 | the serjeants | Gaol Lane | from ten on Fastens' Eve, if informed |
 | Doctors Ploughwright and Quist | the Divinity Schools | dispute at two on Fastens' Eve |
 | the woodmen, the wolves | the Bishop's Wood | the wolves come out at dusk |
+| the Fabric's night-men | the scaffold-yard at the foot of the north tower | nine till four, unless Joby's masons sit up or their canon is silenced; seen from the Levels as a lantern moving on the tower |
+| Cuthbert Thwaite | the put-outs' fold | always: put out nineteen years ago, he does not leave it |
 
-Thirty-eight rooms (twelve beyond the walls, twenty-six within) and thirty-three people.
+Thirty-nine rooms (thirteen beyond the walls, twenty-six within) and thirty-five people.

@@ -91,6 +91,29 @@ became Sugden, Laverock, the Divinity Schools, the Close of Saint Oswy, the Long
 **17. Dependencies.** `bun install` could not fetch the GitHub-hosted `deem` and `languages` packages in this
 environment (403); they were cloned into `node_modules` by hand at the locked commits.
 
+## Found in the second pass
+
+**18. An observation that teaches cannot be conditioned on not knowing what it teaches.** `Observe … when not
+knows(party, x) "…" teaches x` teaches before the page is told, so its own condition turns false and the text is never
+shown, while the knowledge is silently gained (the coin's mark matched over the Exchange door; a test checking only
+the knowledge passed). The module's `teachesAt`/`seenOnce` latch, which closes only after the company leaves the
+place, is the workaround. *Remedy:* evaluate an observation's condition before applying what it teaches, or warn in
+lint when an Observe's condition negates its own `teaches`.
+
+**19. Rules cannot assert knowledge.** `Assert knows(party, …)` in a rule is refused at load ("a rule teaches what it
+says"), which is right, but the rule must then be shaped as `says "…" teaches fact { … }`, and a scene that teaches
+two things must be two rules. Hern's meeting at the fold teaches the after through its text.
+
+**20. Watches are hard to author against.** Step files wait by watch number (`=222`), counted in ten-minute watches
+from eight on the first morning. Nine at night on Shrove Monday is 222; I wrote 216, which is eight o'clock, and spent
+three runs finding out. *Remedy:* a journey step that waits to a named time (`~Monday 21:00`), as `~N` waits by dark
+and light.
+
+**21. A companion has no reaction to a place unless the author writes one.** Hern walked into the put-outs' fold, the
+place his whole story points at, and the page said only that he "is here". Nothing in the engine said a following
+person had arrived somewhere that mattered to them. The module adds a rule for it (`hern_at_fold`). *Remedy:*
+`Remarks at <place> "…"` on a Person, said once when they arrive there with the company.
+
 ## What worked well
 
 - **Things with states as the hinge of a scene.** The hearth (*cold*, *ablaze*, *snowed*) carries every way through

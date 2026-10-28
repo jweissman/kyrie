@@ -73,3 +73,28 @@ From reading the eight transcripts, first alone and then by an outside reader as
   monk's Barefoot soles; the back ways into the Close (the wall, the lodge).
 - **A test lost and found.** A scripted edit had silently cut the tower and Prudence journeys from the small suite;
   restored, and passing against the revised module.
+
+## Changed by the second pass
+
+Reading again as literature (14-second-pass.md) changed these:
+
+- **New buried history.** Ellen Wray, Annis's sister, the thirtieth peg, and why Annis took the vigil. Cuthbert Thwaite,
+  Joby's son, the last man put out, the Lady's first putting-out and Hern's thanksgiving fast. Raistrick's childhood
+  vigil. The Register's first line, the thirty-one names round the Chapter House, the gift cut in the Wood-reeve's
+  post, the planed plinth.
+- **A new place and strand**: the put-outs' fold on the Levels (`fold.kyr`), with Cuthbert, the scene of Hern brought
+  there on his way in, and Hern told in his cell or through the bars. A new reason for Hern to live: an after.
+- **A new danger**: the Fabric's night-men in the scaffold-yard after nine, with five ways round. The unbuilding is now
+  seen from nine till four, so the dusk back ways are safe and the night ones are not.
+- **The coin is a clue.** Annis no longer names the Exchange; the mark is matched at its door. Asking Thackray
+  directly needs that match (or the other two routes).
+- **New topics:** Hern on the put-out; Joby's son; the Lady on her first putting-out; Annis on Ellen; Will on the
+  billhook; Raistrick on the warm hearth; Thackray told of the thirtieth peg; Cuthbert's four.
+- **Foreshadowing** for the masked Lady (the Duchess's ladle), the unbuilding (the lantern seen from the Levels), the
+  second verse (the plinth), the fold (its smoke from the road), and Ellen (her peg).
+- **Pruned** where cleverness outran the scene (14-second-pass lists the lines). The Lady's manner is acerbic and
+  the masked woman's grim, so the engine's farewells fit them.
+- **A chapter beat**: THE FIRST NIGHT at the door of Carth.
+- **New fates**: Joby's lantern; Cuthbert knowing; Hern made room for at the fold; Annis painting her sister's peg.
+- **New tests** (18 small in all): the thirtieth peg; the fold; the night-men. New transcripts: `peg`, `fold`.
+
