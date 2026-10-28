@@ -78,7 +78,7 @@ Module gaunt "A Winter in Carth" {
   Relation stayingAtCarth(group). Relation nightOver(group).
   Measure carthArrived(group). Measure carthDay(group).
   Rule carth_arrival at house_place when at(party, house_place) and snowing() and not stayingAtCarth(party)
-    says "The door shuts behind you, and the dark is complete. Not the dark of a night outdoors, which has a sky in it; the dark of a shut room with no fire, which has nothing. Somebody takes your arm, a hard small hand, and puts you down on the floor against a wall, which is stone, and cold through your clothes in a moment. You hear: a child coughing, close; someone breathing slow by where the hearth must be; a clock; the cow, through the wall; a dog, which comes and presses itself against your legs. And the cold. Not the cold outside, which moves. A cold that has been sitting in this room for twenty-three days, and has settled." {
+    says "THE FIRST NIGHT. The door shuts behind you, and the dark is complete. Not the dark of a night outdoors, which has a sky in it; the dark of a shut room with no fire, which has nothing. Somebody takes your arm, a hard small hand, and puts you down on the floor against a wall, which is stone, and cold through your clothes in a moment. You hear: a child coughing, close; someone breathing slow by where the hearth must be; a clock; the cow, through the wall; a dog, which comes and presses itself against your legs. And the cold. Not the cold outside, which moves. A cold that has been sitting in this room for twenty-three days, and has settled." {
     Assert stayingAtCarth(party). Set carthArrived(party) to watch(clock). Set carthDay(party) to dayN(gaunt_town). }
   Query carthNight() means stayingAtCarth(party) and not nightOver(party).
 

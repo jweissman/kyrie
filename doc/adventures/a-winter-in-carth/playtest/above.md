@@ -1,6 +1,6 @@
 # From Above
 
-Played by Wren, a bard; seed `g1`, steps `test/fixtures/gaunt/above.json`; 170 steps; ended at watch 493, at the ending "The Bearer". Written by `bun scripts/winter-in-carth-transcripts.ts` from the journey as the page told it.
+Played by Wren, a bard; seed `g1`, steps `test/fixtures/gaunt/above.json`; 171 steps; ended at watch 493, at the ending "The Bearer". Written by `bun scripts/winter-in-carth-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -80,7 +80,7 @@ The yard at Carth: a long low house with the byre under the same roof, its one w
 
 **Into the house at Carth**
 
-The door shuts behind you, and the dark is complete. Not the dark of a night outdoors, which has a sky in it; the dark of a shut room with no fire, which has nothing. Somebody takes your arm, a hard small hand, and puts you down on the floor against a wall, which is stone, and cold through your clothes in a moment. You hear: a child coughing, close; someone breathing slow by where the hearth must be; a clock; the cow, through the wall; a dog, which comes and presses itself against your legs. And the cold. Not the cold outside, which moves. A cold that has been sitting in this room for twenty-three days, and has settled. Fly stays where she is, against your legs, and goes on shivering, which is as much welcome as you are going to get. The hearth is dead: a bed of grey ash swept flat, and over it on the chain an empty pot. Beside it, on a cloth on the floor, a bowl and a spoon laid for somebody. Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; Will Scaife, a big silent man with a shovel, grey-faced, who does not look at anyone; Annis Scaife, the farmer’s wife, thin as a lath, with her sleeves rolled and her mouth set; Old Mother Scaife, an old woman in a shawl, a shape by the dead hearth that rocks a little; and Dowsie Scaife, a child in the box-bed, under every blanket in the house, coughing.
+THE FIRST NIGHT. The door shuts behind you, and the dark is complete. Not the dark of a night outdoors, which has a sky in it; the dark of a shut room with no fire, which has nothing. Somebody takes your arm, a hard small hand, and puts you down on the floor against a wall, which is stone, and cold through your clothes in a moment. You hear: a child coughing, close; someone breathing slow by where the hearth must be; a clock; the cow, through the wall; a dog, which comes and presses itself against your legs. And the cold. Not the cold outside, which moves. A cold that has been sitting in this room for twenty-three days, and has settled. Fly stays where she is, against your legs, and goes on shivering, which is as much welcome as you are going to get. The hearth is dead: a bed of grey ash swept flat, and over it on the chain an empty pot. Beside it, on a cloth on the floor, a bowl and a spoon laid for somebody. Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; Will Scaife, a big silent man with a shovel, grey-faced, who does not look at anyone; Annis Scaife, the farmer’s wife, thin as a lath, with her sleeves rolled and her mouth set; Old Mother Scaife, an old woman in a shawl, a shape by the dead hearth that rocks a little; and Dowsie Scaife, a child in the box-bed, under every blanket in the house, coughing.
 
 **Talk to Annis Scaife**
 
@@ -92,7 +92,7 @@ The door shuts behind you, and the dark is complete. Not the dark of a night out
 
 **Ask Annis who paid them**
 
-‘The Penitentiary,’ says Annis. ‘That’s who pays. That’s who always pays. Whoever owes pays the Penitentiary, and it pays you.’ A box is opened, and something put into your hand: a shilling, cold, with a nick on its face you can feel with your thumb, a little raised oblong. ‘Except it didn’t come from the Penitentiary’s chest,’ she says. ‘The clerk brought it in a bag with the Wood Exchange’s mark on it, the billet. All twenty of them have it.’ She takes the coin back. ‘I’m not a fool. I know what’s dear this winter, and who’s sorry.’
+‘The Penitentiary,’ says Annis. ‘That’s who pays. That’s who always pays. Whoever owes pays the Penitentiary, and it pays you.’ A box is opened, and something put into your hand: a shilling, cold, with a mark struck on its face that you can feel with your thumb: a little raised oblong, like a cut log. ‘It never came out of the Penitentiary’s chest,’ she says. ‘All twenty of them have that mark. Somebody’s own shillings, marked for their own counting-house.’ She takes the coin back. ‘I’m not a fool. I know whose mark that is. I’ve known since Candlemas.’ And she will say nothing more about it tonight.
 
 **Take your leave**
 
@@ -162,11 +162,11 @@ The big man starts, and wipes his face with a fur cuff. ‘Riding,’ he says. �
 
 **Fetch Annis Scaife out to the man at the gate**
 
-Annis Scaife comes out into the yard in her shawl, and looks at the man on the grey cob, and at his gown, and his gloves, and his face; and you tell her who he is. She does not shout. She walks up to the cob’s shoulder, in the snow to her knees, and says, up to him: ‘It’s cold.’ That is all. He looks down at her. ‘I know,’ he says. ‘No,’ says Annis Scaife, ‘you don’t. It’s cold. In there. Twenty-four nights. My father-in-law’s in the byre in his Sunday coat waiting for the ground. My girl’s got a cough. It’s cold.’ She turns round and goes back into the house and shuts the door, and the big man sits his horse in the yard for a long time with the tears running into his fur collar, and then rides away down the fell without a word. Wren gains 150 experience: found out whose forty nights they were. Wren gains 150 experience: brought Annis Scaife face to face with the man who bought her vigil.
+Annis Scaife comes out into the yard in her shawl, and looks at the man on the grey cob, and at his gown, and his gloves, and his face; and you see her know him. She has known his mark since Candlemas. She does not shout. She walks up to the cob’s shoulder, in the snow to her knees, and says, up to him: ‘It’s cold.’ That is all. He looks down at her. ‘I know,’ he says. ‘No,’ says Annis Scaife, ‘you don’t. It’s cold. In there. Twenty-four nights. My father-in-law’s in the byre in his Sunday coat waiting for the ground. My girl’s got a cough. My sister’s on your wall in the Row: Ellen Wray, the thirtieth peg. It’s cold.’ She turns round and goes back into the house and shuts the door, and the big man sits his horse in the yard for a long time with the tears running into his fur collar, and then rides away down the fell without a word. Wren gains 150 experience: found out whose forty nights they were. Wren gains 150 experience: brought Annis Scaife face to face with the man who bought her vigil.
 
 **To the road across the Levels**
 
-You walk fast to keep warm, and it does not help much. The road across the Levels: flat, white, straight, and at the end of it Gaunt, which gets bigger very slowly. It is walled twice, a new wall round an old one, and a third wall round the middle where the Minster stands, so that from out here it looks like a target. Off to the east a dark line of wood. Off to the west, in the city’s wall, a gate with no road going out of it. The Gate of Ash is shut, and barred, and the bar is chained, and the chain is sealed with the Penitentiary’s seal. It is opened once a year, if anyone has been put out, at dusk on Ash Day. Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here.
+You walk fast to keep warm, and it does not help much. The road across the Levels: flat, white, straight, and at the end of it Gaunt, which gets bigger very slowly. It is walled twice, a new wall round an old one, and a third wall round the middle where the Minster stands, so that from out here it looks like a target. Off to the east a dark line of wood. Off to the west, in the city’s wall, a gate with no road going out of it; and out beyond it on the snow, a long way off, a ruined sheepfold, with one thread of smoke going up from it. The Gate of Ash is shut, and barred, and the bar is chained, and the chain is sealed with the Penitentiary’s seal. It is opened once a year, if anyone has been put out, at dusk on Ash Day. Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough, is here.
 
 **To the Fell Gate**
 
@@ -174,7 +174,7 @@ You are moved up the queue by the queue, and come to the table under the arch. T
 
 **To the Row**
 
-The Row: two storeys of cold lodgings leaning on the old wall, a street of trodden snow, and in every other doorway someone sitting with their feet in a bowl of warm water, because their feet are their living. A board at the corner says BAREFOOT HALL and a hand points. Through the old wall, by Bow Gate, you can see the Middle Town, and smell its bread. Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; and Prudence Garth, a pale serious girl of seventeen with a student’s satchel and darned gloves, who does not meet anyone’s eye.
+The Row: two storeys of cold lodgings leaning on the old wall, a street of trodden snow, and in every other doorway someone sitting with their feet in a bowl of warm water, because their feet are their living. A board at the corner says BAREFOOT HALL and a hand points. Through the old wall, by Bow Gate, you can see the Middle Town, and smell its bread. By the Hall door the Barefoot copper sits cold on its brazier, and on a nail above it hangs a long iron ladle, polished bright as a spoon at a christening. Nobody in the Row touches it. ‘The Duchess’s,’ says a woman in a doorway, when she sees you looking, and will not say who the Duchess is. Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; and Prudence Garth, a pale serious girl of seventeen with a student’s satchel and darned gloves, who does not meet anyone’s eye.
 
 **To the Row ditch**
 
@@ -186,7 +186,7 @@ The boy on the bank does not look round. ‘They’re under the ice,’ he says.
 
 **Break the black ice by the culvert grating and reach in for the boy's skate-bones**
 
-You lie flat on the ice with the whole slide watching, and break the black skin by the grating with your heel, and reach in to the shoulder. The cold of it is so complete that for a moment you cannot tell whether you have a hand at all. Then your fingers close on something knobbled, bone and thong, and you draw it out streaming, and roll back onto the bank, and the children cheer as if you had pulled out a drowned king. Wren fails to resist (constitution). You take 2 physical damage (4 HP left).
+You lie flat on the ice with the whole slide watching, and break the black skin by the grating with your heel, and reach in to the shoulder. The cold of it is so complete that for a moment you cannot tell whether you have a hand at all. Then your fingers close on something knobbled, bone and thong, and you draw it out streaming, and roll back onto the bank, and the children cheer as if you had pulled out a drowned man alive. Wren fails to resist (constitution). You take 2 physical damage (4 HP left).
 
 **Take**
 
@@ -198,7 +198,7 @@ You give Tib Ackroyd’s skate-bones to Tib Ackroyd. Tib Ackroyd takes the skate
 
 **To the Row**
 
-Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; and Prudence Garth, a pale serious girl of seventeen with a student’s satchel and darned gloves, who does not meet anyone’s eye. The Row: lodgings on the old wall, feet in bowls in the doorways, Bow Gate, the Barefoot Hall.
+By the Hall door the Barefoot copper sits cold on its brazier, and on a nail above it hangs a long iron ladle, polished bright as a spoon at a christening. Here are Ninian Hern, a barefoot old man in a frieze coat, ignoring a cough; and Prudence Garth, a pale serious girl of seventeen with a student’s satchel and darned gloves, who does not meet anyone’s eye. The Row: lodgings on the old wall, feet in bowls in the doorways, Bow Gate, the Barefoot Hall.
 
 **To the Long Shambles**
 
@@ -226,11 +226,11 @@ The porter of the Close Gate looks at Hern for a long moment through the grille,
 
 **Into the Penitentiary**
 
-The Penitentiary: a long room of clerks, and behind them forty great books on forty lecterns, the Register of Gaunt, every fault and every penance and who did it, back two hundred and eleven years; and at the end of the room, at a desk with a fire beside it, a woman in grey with a pen behind her ear. Dame Hawise Strake, the Lady Penitentiary, a broad handsome woman of sixty in grey, with a pen behind her ear and the Row still in her voice, is here.
+The Penitentiary: a long room of clerks, and behind them forty great books on forty lecterns, the Register of Gaunt, every fault and every penance and who did it, back two hundred and eleven years, to the first line of the first book, in brown ink gone the colour of tea: In the year the Bishop went away, and the Penitentiary took up his keys; and at the end of the room, at a desk with a fire beside it, a woman in grey with a pen behind her ear. Dame Hawise Strake, the Lady Penitentiary, a broad handsome woman of sixty in grey, with a pen behind her ear and the Row still in her voice, is here.
 
 **Talk to Dame Hawise Strake**
 
-The woman at the desk by the fire looks up, and takes the pen from behind her ear, and points it at the chair. ‘Sit. You’re the stranger who brought Ninian in, or the one who didn’t. Either way you’ve walked with him, so you’ll have opinions. Everybody who walks with Ninian comes away with opinions.’ She smiles, and it is a wonderful smile. ‘Mine are on the wall.’ The forty books of the Register stand behind her on their lecterns.
+The woman at the desk by the fire looks up, and takes the pen from behind her ear, and points it at the chair. ‘Sit. You’re the stranger who brought Ninian in, or the one who didn’t. Either way you’ve walked with him, so you’ll have opinions. Everybody who walks with Ninian comes away with opinions.’ She smiles: a Row smile, all at once and gone, that has not been taught any manners by forty books. ‘Mine are on the wall.’ The forty books of the Register stand behind her on their lecterns.
 
 **Ask the Lady Penitentiary whether the Commerce of Merit does anyone any good**
 
@@ -278,7 +278,7 @@ The Shambles: the penthouse, the butchers, the chestnut man, the Steps up to the
 
 **Into the Fat Lamb**
 
-The Fat Lamb: a big warm inn, the warmest room you have stood in since the march, full of people eating as if somebody were going to take the plates away, which on Wednesday somebody is. A fire you could roast an ox in, and an ox in it. Here are Matthias Dent, the landlord of the Fat Lamb, in a leather apron, carving; and Old Joby Thwaite, a master mason of seventy-one with stone-dust in his eyebrows and hands like two mallets, eating a pie with great concentration.
+The Fat Lamb: a big warm inn, the warmest room you have stood in since the march, full of people eating as if somebody were going to take the plates away, which on Wednesday somebody is. A fire with half a sheep turning over it, and a boy turning the sheep. Here are Matthias Dent, the landlord of the Fat Lamb, in a leather apron, carving; and Old Joby Thwaite, a master mason of seventy-one with stone-dust in his eyebrows and hands like two mallets, eating a pie with great concentration.
 
 *(4 waits in which nothing is told)*
 
@@ -294,7 +294,7 @@ The old man with the stone-dust eyebrows points at the bench opposite with his p
 
 **Ask Joby Thwaite why the north tower is never finished**
 
-‘Frost,’ says Joby. ‘The Master of the Fabric says frost. You set a course, and the frost gets in the mortar overnight, and in the morning it’s spalled, and you’ve to take it down and set it again.’ He finishes his pie and looks at the crust. ‘Fifty-three years I’ve been a mason, and I never saw frost do it in a night anywhere but here.’ He brushes his hands. ‘Laverock says it’s the tower. It’s a holy tower. It’s humble. It doesn’t want to be finished.’ He looks at you. ‘I’d like to see it finished,’ he says, simply, ‘before I’m humble.’
+‘Frost,’ says Joby. ‘The Master of the Fabric says frost. You set a course, and the frost gets in the mortar overnight, and in the morning it’s spalled, and you’ve to take it down and set it again.’ He finishes his pie and looks at the crust. ‘Fifty-three years I’ve been a mason, and I never saw frost do it in a night anywhere but here.’ He brushes his hands. ‘I’d a lad once who said it wasn’t frost. Said it in here, drunk, at that table. They put him out of the Gate of Ash for it.’ He looks at the crust a long time. ‘Laverock says it’s the tower. It’s a holy tower. It’s humble. It doesn’t want to be finished.’ He looks at you. ‘I’d like to see it finished,’ he says, simply, ‘before I’m humble.’
 
 **Out to the Long Shambles**
 
@@ -304,7 +304,7 @@ The Shambles at night, shuttered, with the lamp of the Fat Lamb at one end and t
 
 The Bearer’s Steps: thirty broad stone steps up to the Close Gate, every one worn into a dip in the middle by knees, and the Close Gate at the top with a porter behind a grille.
 
-*(4 waits in which nothing is told)*
+*(5 waits in which nothing is told)*
 
 **To Gaol Lane, under the gaol window**
 
@@ -328,7 +328,7 @@ Joby Thwaite waves his pie at you.
 
 **Tell Joby Thwaite what you have seen on the scaffold at night**
 
-Joby Thwaite puts down his pie. He sits for a long time with his big hands flat on the table. ‘Frost,’ he says at last. ‘Fifty-three years.’ He does not shout; masons do not. He stands up, very slowly, as a wall stands up. ‘Fastens’ Eve,’ he says. ‘We’ll set it in the morning, and we’ll sit up with it at night, the lodge, all of us, with our mallets. Let them come with their crowbar.’ He looks at you. ‘You’ll come and sit with us. The lodge door’s open to you, now, the yard door off the Steps. Any time. Tell the lads Joby said.’
+Joby Thwaite puts down his pie. He sits for a long time with his big hands flat on the table. ‘Frost,’ he says at last. ‘Fifty-three years.’ And then, much more quietly: ‘Cuthbert.’ He does not shout; masons do not. He stands up, very slowly, as a wall stands up. ‘Fastens’ Eve,’ he says. ‘We’ll set it in the morning, and we’ll sit up with it at night, the lodge, all of us, with our mallets. Let them come with their crowbar.’ He looks at you. ‘You’ll come and sit with us. The lodge door’s open to you, now, the yard door off the Steps. Any time. Tell the lads Joby said.’
 
 **Take a bed and supper**
 
@@ -342,7 +342,7 @@ The Shambles: the penthouse, the butchers, the chestnut man, the Steps up to the
 
 **Into the Wood Exchange**
 
-The Wood Exchange: a hall with a counter and a great pair of scales, a board of prices, and over the door a carved wooden billet, the city’s sign for wood. The board says: OAK, THE CORD, 30S. ASH 28S. THORN 24S. FAGGOTS, THE HUNDRED, 9S. These are the prices of a city that owns its forest. A clerk is writing the prices up by a shilling, carefully, with the chalk held between two fingers so as not to get it on his cuff. Through the door behind the scales you see the Ash-reeve, Raistrick, snow on his sheepskin, standing in front of Alderman Thackray’s desk, saying one word, which you do not hear; and the big man nodding, and nodding, and putting his face in his hands. Here are Raistrick, the Ash-reeve, a long quiet man in a sheepskin, the Penitentiary’s warden of vigils; Alderman Hugh Thackray, the Wood-reeve: a big soft man in a fur-lined gown, with a kind face and the look of someone who has not slept in a year; and the Wood Exchange clerk, a clerk with chalk held between two fingers, putting prices up.
+The Wood Exchange: a hall with a counter and a great pair of scales, a board of prices, and over the door a carved wooden billet, the city’s sign for wood. The board says: OAK, THE CORD, 30S. ASH 28S. THORN 24S. FAGGOTS, THE HUNDRED, 9S. These are the prices of a city that owns its forest. A clerk is writing the prices up by a shilling, carefully, with the chalk held between two fingers so as not to get it on his cuff. You know that shape. You have had it under your thumb, in the dark, on a cold shilling: the little cut log over this door is the mark on the Scaifes’ coin. Through the door behind the scales you see the Ash-reeve, Raistrick, snow on his sheepskin, standing in front of Alderman Thackray’s desk, saying one word, which you do not hear; and the big man nodding, and nodding, and putting his face in his hands. Here are Raistrick, the Ash-reeve, a long quiet man in a sheepskin, the Penitentiary’s warden of vigils; Alderman Hugh Thackray, the Wood-reeve: a big soft man in a fur-lined gown, with a kind face and the look of someone who has not slept in a year; and the Wood Exchange clerk, a clerk with chalk held between two fingers, putting prices up.
 
 **Talk to Alderman Hugh Thackray**
 
@@ -378,7 +378,7 @@ The Close: swept snow, smoking chimneys, the Penitentiary, the Schools, the Mins
 
 **Into the Divinity Schools**
 
-The Schools: a hall with two pulpits facing each other across it like ships about to fire, and benches, and students on the benches, and on the wall a list of Determinations for sale, with prices. Here are Doctor Ploughwright, the Irrefragable Doctor, a tall grey scholar in a fur hood, who has never been refuted because he has never been understood; and Doctor Quist, the Seraphic Doctor, a small round woman in an inky gown who argues with her hands, with her feet, and once, famously, with a chair.
+The Schools: a hall with two pulpits facing each other across it like a quarrel built in oak, and benches, and students on the benches, and on the wall a list of Determinations for sale, with prices. Here are Doctor Ploughwright, the Irrefragable Doctor, a tall grey scholar in a fur hood, who has never been refuted because he has never been understood; and Doctor Quist, the Seraphic Doctor, a small round woman in an inky gown who argues with her hands and her feet and her whole small body.
 
 **Talk to Doctor Quist**
 
@@ -468,7 +468,7 @@ Matthias Dent, the landlord of the Fat Lamb, in a leather apron, carving, is her
 
 **Take a bed and supper**
 
-You eat what is put in front of you, and sleep long, under a roof. ASH DAY. At nine every forehead in Gaunt is marked with ash at the Minster door, and the Ladder of Merit is gilded for the year. At noon the Consistory sits in the Chapter House on the matter of Ninian Hern. At dusk, for the first time in nineteen years, the Gate of Ash may be opened. Wren gains 200 experience: saw the north tower’s new course stand. The Fat Lamb: a big warm inn, the warmest room you have stood in since the march, full of people eating as if somebody were going to take the plates away, which on Wednesday somebody is. A fire you could roast an ox in, and an ox in it.
+You eat what is put in front of you, and sleep long, under a roof. ASH DAY. At nine every forehead in Gaunt is marked with ash at the Minster door, and the Ladder of Merit is gilded for the year. At noon the Consistory sits in the Chapter House on the matter of Ninian Hern. At dusk, for the first time in nineteen years, the Gate of Ash may be opened. Wren gains 200 experience: saw the north tower’s new course stand. The Fat Lamb: a big warm inn, the warmest room you have stood in since the march, full of people eating as if somebody were going to take the plates away, which on Wednesday somebody is. A fire with half a sheep turning over it, and a boy turning the sheep.
 
 *(1 wait in which nothing is told)*
 
@@ -502,7 +502,7 @@ The nave of the Minster on Ash Day, full: the whole city, it seems, with a grey 
 
 **To the Chapter House**
 
-The Chapter House: a round stone room with a stone bench all round it and a stone chair at the head, and in the middle, on the floor, a little square of different stone, where the accused stands. Here are Ninian Hern, a barefoot old man in a new grey coat, standing on a square of different stone with his hands behind his back; Alderman Hugh Thackray, the Wood-reeve: a big soft man in a fur-lined gown, with a kind face and the look of someone who has not slept in a year; Canon Hamo Laverock, the Master of the Fabric, in a fur tippet, a pleasant round man with very clean hands; and Dame Hawise Strake, the Lady Penitentiary, a broad handsome woman of sixty in grey, with a pen behind her ear and the Row still in her voice.
+The Chapter House: a round stone room with a stone bench all round it and a stone chair at the head, and in the middle, on the floor, a little square of different stone, where the accused stands. Round the wall above the bench, cut one under another, the names of every Lord and Lady Penitentiary of Gaunt, thirty-one of them, the oldest worn almost away; the newest, cut sharp and still pale, HAWISE STRAKE, OF THE ROW. Here are Ninian Hern, a barefoot old man in a new grey coat, standing on a square of different stone with his hands behind his back; Alderman Hugh Thackray, the Wood-reeve: a big soft man in a fur-lined gown, with a kind face and the look of someone who has not slept in a year; Canon Hamo Laverock, the Master of the Fabric, in a fur tippet, a pleasant round man with very clean hands; and Dame Hawise Strake, the Lady Penitentiary, a broad handsome woman of sixty in grey, with a pen behind her ear and the Row still in her voice.
 
 *(3 waits in which nothing is told)*
 
@@ -518,7 +518,7 @@ You stand up behind the rope and give your name and show your clean tally, and t
 
 **Stand as a witness, and tell the Consistory what Hern said on the road**
 
-You tell them: the fell road, the old man barefoot in the snow asking whether one man can be sorry for another; the kneeling proxy at the stone, and the board, and what is owed the dead; the Drove Fork. The canons write. Hern listens with his head on one side, as if hearing a story about someone he once knew, and when you get to what you yourself answered he grins at you across the floor, the three teeth, and the Lady Penitentiary sees him do it.
+You tell them: the fell road, the old man barefoot in the snow asking whether one man can be sorry for another; the kneeling proxy at the stone, and the board, and what is owed the dead; the Drove Fork. The canons write. Hern listens with his head on one side, as if hearing a story about someone he once knew, and when you get to what you yourself answered he grins at you across the floor, and the Lady Penitentiary sees him do it.
 
 **Wait › An hour**
 
@@ -534,7 +534,7 @@ The Lady Penitentiary stands up out of the stone chair, which nobody has seen a 
 
 **Wait › An hour**
 
-The Chapter House: a round stone room with a stone bench all round it and a stone chair at the head, and in the middle, on the floor, a little square of different stone, where the accused stands. An hour passes.
+The Chapter House: a round stone room with a stone bench all round it and a stone chair at the head, and in the middle, on the floor, a little square of different stone, where the accused stands. Round the wall above the bench, cut one under another, the names of every Lord and Lady Penitentiary of Gaunt, thirty-one of them, the oldest worn almost away; the newest, cut sharp and still pale, HAWISE STRAKE, OF THE ROW. An hour passes.
 
 *(2 waits in which nothing is told)*
 
@@ -544,7 +544,7 @@ At five the Gate of Ash is opened, and Hugh Thackray, Wood-reeve, who has been t
 
 **Wait › An hour**
 
-Your tally is clean. Gaunt has nothing against you, which in Gaunt is the most anybody ever has. At Carth there is a fire on the hearth and a cart of oak in the yard, and the forty nights are paid in full by the man who bought them, and the rent with them. Ralph Scaife is still in the byre, because the ground is still iron; but there is a lamp by him now, and nobody has to lie down with him to keep him warm. Dowsie Scaife is up and about in her mother’s shawl, with a cough she is proud of, telling the hens about the stone man in the Minster, who she has never seen. Hugh Thackray is struck from the Register of Gaunt and from the Ladder of Merit, where a mason has chiselled his name out of the gold, leaving a long pale scar at the top of the board that nobody will paint over. He walked to Carth in a pair of borrowed boots and knocked, and Annis Scaife let him in, and gave him the axe, and he is splitting the oak he sent up the fell, very badly, in the yard, in the snow, and will not come in to the fire until it is all done. Abel Lumb fasts for Mistress Pickersgill’s thoughts, eleven a week, and she goes down on Mondays to watch him not eat; and neither of them has said anything to anyone. Under the scar at the top of the Ladder, DINSDALE is gilded first this year and SOWERBY second, or the other way about; the city has stopped being able to tell, and the scar is above them both. The north tower of the Minster of Gaunt has a new course of white stone on it, the first in two hundred and eleven years that stayed, and Joby Thwaite goes up the scaffold every morning to look at it, and comes down, and sets another. The dead-wood right is open in the Bishop’s Wood, and every child in the Row is out there with a sledge, and the Barefoot Hall’s stove is lit, and on the wall the forty-one pegs have the forty-one names on them, painted, in white. Hal Metcalfe is in the Consistory gaol, in the warm room, for Fastens’ Eve and a ladder, and will be heard after the Fast. Prudence Garth’s mother has paid her pains and can buy in the Shambles, and Prudence has not been seen on the Steps since.
+Your tally is clean. Gaunt has nothing against you, which in Gaunt is the most anybody ever has. At Carth there is a fire on the hearth and a cart of oak in the yard, and the forty nights are paid in full by the man who bought them, and the rent with them. Ralph Scaife is still in the byre, because the ground is still iron; but there is a lamp by him now, and nobody has to lie down with him to keep him warm. Annis Scaife has walked down to the Barefoot Hall and painted her sister’s name on the thirtieth peg herself, in white, and rubbed out the little mark beside it. Dowsie Scaife is up and about in her mother’s shawl, with a cough she is proud of, telling the hens about the stone man in the Minster, who she has never seen. Hugh Thackray is struck from the Register of Gaunt and from the Ladder of Merit, where a mason has chiselled his name out of the gold, leaving a long pale scar at the top of the board that nobody will paint over. He walked to Carth in a pair of borrowed boots and knocked, and Annis Scaife let him in, and gave him the axe, and he is splitting the oak he sent up the fell, very badly, in the yard, in the snow, and will not come in to the fire until it is all done. Abel Lumb fasts for Mistress Pickersgill’s thoughts, eleven a week, and she goes down on Mondays to watch him not eat; and neither of them has said anything to anyone. Under the scar at the top of the Ladder, DINSDALE is gilded first this year and SOWERBY second, or the other way about; the city has stopped being able to tell, and the scar is above them both. The north tower of the Minster of Gaunt has a new course of white stone on it, the first in two hundred and eleven years that stayed, and Joby Thwaite goes up the scaffold every morning to look at it, and comes down, and sets another. The dead-wood right is open in the Bishop’s Wood, and every child in the Row is out there with a sledge, and the Barefoot Hall’s stove is lit, and on the wall the forty-one pegs have the forty-one names on them, painted, in white. Hal Metcalfe is in the Consistory gaol, in the warm room, for Fastens’ Eve and a ladder, and will be heard after the Fast. Prudence Garth’s mother has paid her pains and can buy in the Shambles, and Prudence has not been seen on the Steps since.
 
 **Wait › An hour**
 

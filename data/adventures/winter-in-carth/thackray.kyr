@@ -59,7 +59,7 @@ Module gaunt "A Winter in Carth" {
   // The thirtieth peg: whose penance it is, and who is keeping it.
   Relation ellenToThackray(group).
   Topic thackray_ellen with thackray "Tell Alderman Thackray whose sister hangs on the thirtieth peg" when knows(actor, ellen_wray) and knows(actor, thackray_vigil) and not annisSaid(thackray) and not ellenToThackray(thackray) and not onFell(thackray) once {
-    Says "'The thirtieth,' he says. He knows the pegs; he went to look at them. 'Wray. Ellen Wray, from the fell.' Then he understands it, and you watch it go into him the way the cold goes into a house, from the floor up. 'Her sister,' he says. 'And she took my forty nights.' He sits down on a sack of charcoal in his fur gown. 'She's keeping my penance for her own sister's death, at two shillings a night, and I paid it.' After a while: 'Why would she do that?' And then, before you can answer, because he is not a stupid man: 'So that it's kept by somebody who knows.'".
+    Says "'The thirtieth,' he says. He knows the pegs; he went to look at them. 'Wray. Ellen Wray, from the fell.' Then he understands it, and you watch it go into him the way the cold goes into a house, from the floor up. 'Her sister,' he says. 'And she took my forty nights.' He puts his soft hands over his face. 'She's keeping my penance for her own sister's death, at two shillings a night, and I paid it.' After a while: 'Why would she do that?' And then, before you can answer, because he is not a stupid man: 'So that it's kept by somebody who knows.'".
     On discuss { Assert ellenToThackray(thackray). Increase thackrayMoved(thackray) by 1. }
   }
   // One night of his own.

@@ -34,13 +34,17 @@ Module gaunt "A Winter in Carth" {
     Says "Cuthbert Thwaite does not say anything. He goes to the gap in the wall of the fold and stands in it, looking at the city, for a long time. When he comes back he has been crying and is not ashamed of it. 'Don't tell him where I am,' he says. 'If he wants to know, the lantern's on the tower every night, and I'm at the other end of it.'".
     On discuss { Assert cuthbertTold(cuthbert). Assert cuthbertKnows(cuthbert). }
   }
+  // Hern brought to the fold himself, on the way in to his trial: the after, seen.
+  Rule hern_at_fold at fold when following(hern, party) and at(party, fold) and at(cuthbert, fold) and not hernHeardFold(hern)
+    says "Hern stops in the gap of the fold wall and does not come in. The man with the turf-spade looks up and sees him, and goes on looking. 'Barefoot Hern,' says Cuthbert Thwaite at last. 'You fasted for my going.' 'I did,' says Hern. 'Three days. A shilling a day. The Fabric paid.' 'Was it a good fast?' 'It was the best I ever kept,' says Hern, 'and I never meant a minute of it.' Cuthbert considers this, and nods, as if it were a fair answer to a fair question, and moves up on the turf bench by the fire. 'There's room,' he says, 'if they put you out.' Hern does not sit down. But he stands in the gap a long time, looking at the seven faces and the fire, the way a man looks at a road he had not known was there." teaches fold_after {
+    Assert hernHeardFold(hern). Increase hernReasons(hern) by 1. }
   // Told to Hern, in his cell or at the bars, the after is a reason to live: there is somewhere to walk to.
   Topic hern_fold_cell with hern "Tell Hern what Cuthbert Thwaite says comes after the Gate of Ash" when hernGaoled(hern) and knows(actor, fold_after) and not hernHeardFold(hern) once {
-    Says "Hern listens with his feet to the fire. 'Young Thwaite,' he says. 'I fasted three days for the Fabric the week they put him out. Thanksgiving for a slander stopped, a shilling a day.' He looks at the fire. 'And he's been out there all this time. Cutting turves. Owing nobody.' He laughs, and it turns into the cough, and the cough goes on. 'An after,' he says, when he can. 'Well. I'd not thought there was anywhere to walk to.'".
+    Says "Hern listens with his feet to the fire. 'Young Thwaite,' he says, and you can see him remember a shilling a day. He looks at the fire. 'And he's been out there all this time. Cutting turves. Owing nobody.' He laughs, and it turns into the cough, and the cough goes on. 'An after,' he says, when he can. 'Well. I'd not thought there was anywhere to walk to.'".
     On discuss { Assert hernHeardFold(hern). Increase hernReasons(hern) by 1. }
   }
   Topic hern_fold_window with hern_window "Tell Hern what Cuthbert Thwaite says comes after the Gate of Ash" when knows(actor, fold_after) and not hernHeardFold(hern) once {
-    Says "The face at the bars is quiet a long time. 'Young Thwaite,' says Hern. 'I fasted for the Fabric the week they put him out, a shilling a day. And he's been out there all this while, owing nobody.' The hands on the bars tighten and loosen. 'An after. I'd not thought there was anywhere to walk to.'".
+    Says "The face at the bars is quiet a long time. 'Young Thwaite,' says Hern. 'Out there all this while, owing nobody.' The hands on the bars tighten and loosen. 'An after. I'd not thought there was anywhere to walk to.'".
     On discuss { Assert hernHeardFold(hern). Increase hernReasons(hern) by 1. }
   }
   Milestone m_fold "found where the Gate of Ash leads" worth 100 when knows(party, fold_after).

@@ -17,6 +17,8 @@ const journeys: { file: string; title: string; who: string; campaign: string; se
   { file: 'dead.md', title: 'Nothing Done at Carth', who: 'a ranger', campaign: build('ranger'), seed: 'g1', steps: 'dead' },
   { file: 'letter.md', title: 'The Letter of the Vigil', who: 'Wren, a bard', campaign: bard, seed: 'g1', steps: 'letter' },
   { file: 'recant.md', title: 'The Lady\'s Words', who: 'Wren, a bard', campaign: bard, seed: 'g1', steps: 'recant' },
+  { file: 'peg.md', title: 'The Thirtieth Peg', who: 'Wren, a bard', campaign: bard, seed: 'g1', steps: 'peg' },
+  { file: 'fold.md', title: 'The Put-Outs\' Fold', who: 'Wren, a bard', campaign: bard, seed: 'g1', steps: 'fold' },
 ];
 await mkdir(out, { recursive: true });
 for (const { file, title, who, campaign, seed, steps } of journeys) {

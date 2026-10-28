@@ -1,0 +1,39 @@
+{
+  "road": [
+    "Talk to Beadle",
+    "Ask the beadle what the commission",
+    "Take Ninian Hern into your custody",
+    "Into the vigil-house",
+    "Talk to Raistrick",
+    "Ask Raistrick what he keeps",
+    "Ask Raistrick whose",
+    "Out to the road",
+    "To the Proxy's Stone",
+    "Tell him: yes. That is what love is",
+    "Tell him: their names",
+    "To the Drove Fork",
+    "Call after him: neither",
+    "To the top of Carth Fell",
+    "To the yard at Carth",
+    "Into the house at Carth",
+    "Talk to Annis",
+    "Ask Annis Scaife why there is no fire",
+    "Ask Annis who paid",
+    "Ask Annis whether she knows whose sorrow",
+    "=139"
+  ],
+  "city": [
+    "Out to the yard",
+    "To the road across the Levels",
+    "To the Fell Gate",
+    "To the Row",
+    "Into the Barefoot Hall",
+    "Out to the Row",
+    "To the Long Shambles",
+    "=170",
+    "Into the Wood Exchange",
+    "Talk to Alderman",
+    "Ask Alderman Thackray whose forty nights",
+    "Tell Alderman Thackray whose sister"
+  ]
+}
