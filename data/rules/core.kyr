@@ -33,6 +33,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Kind sizekind. Relation townSize(place, sizekind).
   Entity size_hamlet: sizekind "hamlet". Entity size_village: sizekind "village". Entity size_town: sizekind "town".
   Relation able(group). Relation dead(group). Relation distinct(entity, entity).
+  // Someone or something in a place of an area, however deep ("within(party, cherrett_lodging)": the parlour, the
+  // stair or her room). Computed, as distinct is, of what is bound: never asserted.
+  Relation within(entity, place).
   Relation closed(place). Relation indoors(place). Relation settled(place).
   Relation peaceable(group). Relation routed(group).
   Relation dark().

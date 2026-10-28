@@ -34,11 +34,13 @@ export class Journey {
     const effects = action.success.filter(c => (c.kind === 'assert' || c.kind === 'retract') && c.call.name !== 'at');
     return { actor: player, origin, destination, ...way ? { way } : {}, followers, effects };
   }
-  // A move too short to be a journey still takes along whoever is following the company from where it stood.
+  // A move too short to be a journey still takes along whoever is following the company from where it stood, and
+  // follows it still (not the bear put back in her pen as the company is thrown out into the lane: Gosse's Company).
   static along(before: World, after: World, player: string | undefined): World {
     const from = player && this.where(before, player), to = player && this.where(after, player);
     if (!player || !from || !to || from === to) { return after; }
     const followers = before.related('following').filter(r => r.args[1] === player
+      && after.test(ModuleWriter.call('following', r.args[0]!, player))
       && this.where(before, r.args[0]!) === from && this.where(after, r.args[0]!) === from).map(r => r.args[0]!);
     return followers.length
       ? after.apply(followers.flatMap(g => [this.at('retract', g, from), this.at('assert', g, to)])) : after;

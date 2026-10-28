@@ -1,4 +1,5 @@
 import { Spatial } from '../spatial';
+import { ComputedRelations } from './computed-relations';
 import { ObservationText } from './observation-text';
 import { Deem } from 'deem';
 import { Expressions } from '../expressions';
@@ -275,7 +276,7 @@ export class ModuleCompiler {
   // The variables a condition binds wherever it holds: of an `or`, only those both sides bind.
   private static binds(p: Predicate): Set<string> {
     switch (p.kind) {
-      case 'call': return new Set(p.name === 'distinct' ? [] : p.args.filter(a => a.startsWith('?')));
+      case 'call': return new Set(ComputedRelations.has(p.name) ? [] : p.args.filter(a => a.startsWith('?')));
       case 'and': return new Set([...this.binds(p.left), ...this.binds(p.right)]);
       case 'or': { const right = this.binds(p.right); return new Set([...this.binds(p.left)].filter(v => right.has(v))); }
       default: return new Set();
@@ -283,8 +284,9 @@ export class ModuleCompiler {
   }
   private static variables(p: Predicate, seen: { bound: Set<string>; compared: Set<string> }, positive: boolean) {
     if (p.kind === 'call') {
-      // `distinct` tests what is bound, and binds nothing (one asked of nothing bound threw mid-pass: the review's A9).
-      const into = p.name === 'distinct' ? seen.compared : positive ? seen.bound : undefined;
+      // `distinct` and `within` test what is bound, and bind nothing (one asked of nothing bound threw mid-pass: the
+      // review's A9).
+      const into = ComputedRelations.has(p.name) ? seen.compared : positive ? seen.bound : undefined;
       for (const a of p.args.filter(x => x.startsWith('?'))) { into?.add(a); }
     }
     if (p.kind === 'compare') {

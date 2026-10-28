@@ -1,4 +1,5 @@
 import type { Module, Predicate, Query, Value } from './module';
+import { ComputedRelations } from './computed-relations';
 
 interface Modes { negated: string[]; binds: string[]; named: string[] }
 
@@ -26,7 +27,7 @@ export class QueryModes {
       case 'not': case 'compare': return true;
       case 'and': case 'or': return this.reads(module, p.left) || this.reads(module, p.right);
       case 'call': {
-        if (p.name === 'distinct') { return true; }
+        if (ComputedRelations.has(p.name)) { return true; }
         const query = this.query(module, p.name);
         return !!query && this.of(module, query.body).negated.length > 0;
       }
@@ -100,7 +101,7 @@ export class QueryModes {
     return asking.size ? this.modes(module, p, asking) : this.of(module, p);
   }
   private static call(module: Module, p: Extract<Predicate, { kind: 'call' }>, asking: Set<string>): Modes {
-    if (p.name === 'distinct') { return { negated: [...p.args], binds: [], named: [...p.args] }; }
+    if (ComputedRelations.has(p.name)) { return { negated: [...p.args], binds: [], named: [...p.args] }; }
     const query = this.query(module, p.name);
     if (!query) { return { negated: [], binds: [...p.args], named: [...p.args] }; }
     if (asking.has(query.name)) { return { negated: [], binds: [], named: [...p.args] }; }

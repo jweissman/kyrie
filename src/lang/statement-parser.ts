@@ -30,6 +30,14 @@ export class StatementParser {
   static ChangeStatement(change: Node, _dot: Node) { return ModuleParser.ast(change); }
   static Assert(_assert: Node, call: Node) { return { kind: 'assert', call: ModuleParser.ast(call) }; }
   static Retract(_retract: Node, call: Node) { return { kind: 'retract', call: ModuleParser.ast(call) }; }
+  // "Give coat to party.": a thing put in the company's hands, by whoever has it, and "Spend weight_stone from actor.":
+  // one of a kind it carries, given up. The engine does both (Consequences.hand), and forgets that it was asked to.
+  static Give(_give: Node, item: Node, _to: Node, group: Node) {
+    return { kind: 'assert', call: { kind: 'call', name: 'handed', args: [item.sourceString, group.sourceString] } };
+  }
+  static Spend(_spend: Node, kind: Node, _from: Node, group: Node) {
+    return { kind: 'assert', call: { kind: 'call', name: 'usesUp', args: [group.sourceString, kind.sourceString] } };
+  }
   static Set(_set: Node, call: Node, _to: Node, value: Node) {
     return { kind: 'set', call: ModuleParser.ast(call), value: ModuleParser.ast(value) };
   }

@@ -170,7 +170,9 @@ A creature that is not `Peaceable` meets a company that comes where it lives by 
 - **ambush**: strikes, unless a watchful company sees it first;
 - **wary**: slips away to its refuge, and fights only when cornered there;
 - **obedient**: keeps its post;
-- **proud**: names a price.
+- **proud**: names a price;
+- **seizing**: warns, then takes whoever stays, with no fight (`captured(weights, party)`); what follows (the cells, a
+  fine) is the module's (What Tessary Owes' Weights, W9).
 
 A species has its own temperament, and a monster without one takes its type's: a beast is territorial, the undead
 savage. A person can be given a temperament, and its own words, in its declaration. From *The Long Man*
@@ -209,7 +211,10 @@ time, sure the third.
 A danger with ways round it (a weight held out, a quiet slip along the pool) is territorial or defensive, with a
 `Warns` in its own manner that says what the ways round are (What Tessary Owes' Forsworn, W14). Each thing done while
 warned spends its patience, so the warning should name its price and the alternative (Bettany Slake's "Five coin for
-the use of it, or back up the street the way you came", W22). Warned off, one with a `Refuge` gives ground and goes
+the use of it, or back up the street the way you came", W22). The patience is the rest of the watch it warned in, and
+the page says how long is left ("The wolves will wait 8 minutes more, no longer."), and marks what would take longer;
+a module's own answer to a warning (a name given, a letter shown) is an action that retracts `warned` and asserts
+`tolerates` within it (the Banns at Hessel's 23). Warned off, one with a `Refuge` gives ground and goes
 there, in the plain words of its temperament unless it has words of its own.
 
 Someone can be called something else until they are known, or while something holds: `Known as "a woman in a grey
@@ -330,6 +335,27 @@ afterwards as "Ask {priest} again about …", for the same answer and nothing mo
 said can hear it again (the notes keep it too). One that did anything else (a letter given, a key handed over) is
 not offered again. A journey step that names the first wording matches the "again" offer once the first is gone, so a
 step meant to ask once comes before anything that would ask it again.
+
+What a topic or an action puts in the company's hands is given in so many words: `Give davy_coat to actor.` gives the
+coat to the first of the company who is up, out of whoever had it or from wherever it lay, and the page says "You take
+Davy's red coat." Nothing need be set on the floor to be taken (What Tessary Owes' W3, the Banns at Hessel's 14).
+`Spend weight_stone from actor.` gives up one thing of that kind, whichever of the company carries it, and
+`holding(actor, weight_stone)` in a requirement says it has one to give (Low Water's 6, which had a pan and a rule on
+what was put in it):
+
+```text
+  Topic coat_given with nan "Ask Nan about Davy's coat" when toldNan(actor) once {
+    Says "'Take him this,' says Nan. 'He was always cold.'".
+    On discuss { Give davy_coat to actor. }
+  }
+  Action weigh(actor: group, site: place) "Set a weight-stone in the Assayers' pan" {
+    Requires able(actor) and at(actor, site) and at(pan, site) and holding(actor, weight_stone).
+    On success { Spend weight_stone from actor. Increase weighed(pan) by 1. }
+  }
+```
+
+`Assert keeps(actor, heart)` does not do it for the company: what it carries is in its members' packs, so what it
+keeps is in nobody's hands, and `kyrie lint` says so (Low Water's 3). What someone else keeps is theirs.
 
 `Wants burial_register.` makes the standard `give` available to that person; `Buys … for … coin.` the standard
 `sell`. A long activity that someone arriving should break off says so: `Interrupted when threatened(actor).` Its
@@ -756,6 +782,10 @@ from), and it may not.
 
 A count taken below nothing stops at nothing: `Decrease dose(?m) by 8` leaves a dose of five at none.
 
+Whether someone is anywhere in an area is asked as it is said: `within(party, cherrett_lodging)` holds in the
+parlour, on the stair and in Mrs Cherrett's room, and `within(rupert, hessel)` anywhere in the town (the Banns at
+Hessel's 13, which wrote it room by room). Like `distinct`, it tests what is already named, and finds no one.
+
 ### A place heard of
 
 A fact can say where something is: `Initially Assert leadsTo(barrow_named, barrow).` Once the company knows the fact
@@ -825,6 +855,12 @@ wall).
 Someone the company is kin to (`kin(party, brother)`) and willing (`willing(brother, party)`) can be asked to come
 along; they join as themselves, keep what they could be asked at home, and can be sent home again. A dog is
 `Species dog`: tame animals keep the peace, greet whom they know, and can be made much of (`test/fixtures/household`).
+
+Someone who follows the company (`following(callow, party)`: led, in custody, a child brought home) goes where it
+goes. They are with it on the page, not announced in every room it comes to (the Liberty of the Ice's 14); a rule
+that does not ask who follows whom does not move them elsewhere, so an hour's routine need not say `and not
+following(rupert, party)` (the Banns at Hessel's 5); and a rule that carries the company off (a chair to the downs)
+takes them too (its 6).
 
 ### A law of a module's own
 

@@ -55,6 +55,25 @@ export class CampaignLint {
     if (c.kind === 'call' && (where || c.args?.includes(place))) { return true; }
     return Object.values(p).some(v => CampaignLint.asksWhere(v, company, place));
   }
+  // What a company keeps is in nobody's hands: what it carries is in its members' packs, so a heart filed with the
+  // company by `Assert keeps(actor, heart)` was carried by no one, and everything that needed it was withheld (Low
+  // Water's friction 3). One kept by whoever else does it (`distinct(actor, party)`) is theirs, as it should be.
+  keeps() {
+    const company = this.session.campaign.playerActor;
+    if (!company) { return; }
+    const others = JSON.stringify({ kind: 'call', name: 'distinct', args: ['actor', company] });
+    const lists = [...this.module.actions.map(a => ({ id: a.schema ?? a.id, effects: [...a.success, ...a.failure],
+      theirs: JSON.stringify(a.requires ?? {}).includes(others) })),
+    ...(this.module.rules ?? []).map(r => ({ id: r.id, effects: r.effects, theirs: false }))];
+    for (const { id, effects, theirs } of lists) {
+      const kept = effects.find(c => c.kind === 'assert' && c.call.name === 'keeps'
+        && (c.call.args[0] === company || (c.call.args[0] === 'actor' && !theirs)));
+      if (kept) {
+        this.add('warning', 'keeps', `${id} files ${kept.call.args[1]} with ${kept.call.args[0]}, where no one carries`
+          + ` it: Give ${kept.call.args[1]} to ${kept.call.args[0]}`);
+      }
+    }
+  }
   // A hazard's effect is checked as it will be struck with: a condition that is no condition, or a damage type that
   // is none ("fyre"), is an error here, not when it strikes.
   hazards() {

@@ -167,6 +167,9 @@ describe('The Banns at Hessel: the Old Town, the road and the Ball', () => {
     // The fallen footpads ask no price, and the physician kneels to them.
     expect(g.j.find('the price named')).toBeUndefined();
     expect(g.page).toMatch(/You’ll live,’ he tells them/);
+    // What he says over them is told after the blows that felled them, not before (its friction 3).
+    const fight = g.j.taken.at(-1)!.page;
+    expect(fight.indexOf('The fight is won')).toBeLessThan(fight.indexOf('You’ll live'));
     await g.play('Tell him: never', 'To the south gate of Orm', 'Go in with Dr Ottery');
     expect(g.holds('otteryLicensed', 'ottery')).toBe(true);
   }, 120000);

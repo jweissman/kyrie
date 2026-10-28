@@ -1,0 +1,32 @@
+Module give "A coat held out, a weight-stone paid, and a fire to sit by" {
+  Place town "the town" is settlement.
+  Place house "Nan's house" is building within town.
+  Place kitchen "Nan's kitchen" is room within house at 0, 0.
+  Place lane "the lane" is room within town at 1, 0 outdoors.
+  Passage door "Nan's door" between kitchen and lane.
+  Company party "You" of 1 at kitchen.
+  Person nan "Nan" at kitchen { Role "a net-mender". Ancestry human. Peaceable. }
+  Kind soldier_coat "a red coat of the Long Muster" like cloak worth 0 weighing 2
+    described "A soldier's coat, red gone brown at the shoulders.".
+  Item coat "Davy's red coat" is soldier_coat at kitchen hidden until coat_given.
+  Discovery coat_given "Nan has given you Davy's coat to take to him.".
+  Topic coat_asked with nan "Ask Nan about Davy's coat" when true once {
+    Says "'Take it to him,' says Nan. 'He was always cold.'".
+    On discuss { Give coat to party. Assert knows(party, coat_given). }
+  }
+  Kind weight_stone "a weight-stone" is treasure worth 1 weighing 1 described "A squared block of grey stone.".
+  Item weight_a "a weight-stone" is weight_stone at kitchen.
+  Item weight_b "a pair of bronze hands" is weight_stone at kitchen.
+  Measure weighed(place).
+  Action weigh(actor: group, site: place) "Set a weight-stone in Nan's scales" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and at(nan, site) and holding(actor, weight_stone).
+    On success { Spend weight_stone from actor. Increase weighed(site) by 1. }
+    Result "The pan goes down.".
+  }
+  Action sit(actor: group, site: place) "Sit by Nan's fire" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and within(actor, house).
+    Result "The fire is warm.".
+  }
+}

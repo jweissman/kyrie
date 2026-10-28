@@ -2,13 +2,16 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // A creature's temperament says how it meets a company that comes where it lives. A territorial one warns, then
   // falls on whoever stays; a defensive one warns, and fights only for its lair; a proud one names a price; a savage
   // one falls on you at once; one that lies in ambush strikes unless keen eyes spot it first; an obedient one keeps
-  // its post and nothing else; a wary one slinks away, and fights only when cornered in its refuge. A group of one
-  // species takes its species' temperament; a place may give any group one (temper_savage, temper_proud…).
+  // its post and nothing else; a wary one slinks away, and fights only when cornered in its refuge; a seizing one
+  // (bailiffs, the Weights) warns, and then takes whoever stays, with no fight: what follows is the module's
+  // (captured). A group of one species takes its species' temperament; a place may give any group one (temper_savage,
+  // temper_proud…).
   Kind temperament.
   Entity temper_territorial: temperament "territorial". Entity temper_defensive: temperament "defensive".
   Entity temper_wary: temperament "wary". Entity temper_ambush: temperament "ambush".
   Entity temper_proud: temperament "proud".
   Entity temper_obedient: temperament "obedient". Entity temper_savage: temperament "savage".
+  Entity temper_seizing: temperament "seizing".
   // A tame creature (a dog, a horse, a cat about a house) knows people: it comes to see who you are, and lets you
   // make much of it.
   Entity temper_tame: temperament "tame".
@@ -35,6 +38,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_ambush_warning: fact "Something is waiting here, and you see it before it moves: {?g}.".
   Entity temper_words_ambush_onslaught: fact "{?g} springs out at you.".
   Entity temper_words_obedient_onslaught: fact "{?g} comes at you, as it was made to.".
+  Entity temper_words_seizing_warning: fact "{?g} will not have you here. Go, or be taken.".
+  Entity temper_words_seizing_onslaught: fact "{?g} takes hold of you, and there is no fighting it.".
   Entity temper_words_wary_flinch: fact "{?g} slips away from you.".
   Entity temper_words_wary_onslaught: fact "Cornered, {?g} turns on you.".
   Entity temper_words_proud_warning: fact "{?g} looks at you as if you owed it something.".
@@ -68,7 +73,7 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // many small things are done in it.
   Measure patience(group).
   Query confronts(g: group, c: group) means together(g, c) and company(c) and able(g) and not routed(g)
-    and not tolerates(g, c) and not assails(g, c).
+    and not tolerates(g, c) and not assails(g, c) and not captured(g, c).
 
   // Fear comes first: whatever it fears, brought into its presence, drives it back to its refuge.
   Rule temper_shies when fears(?g, ?k) and company(?c) and together(?g, ?c) and capable(?c, ?k) and able(?g)
@@ -92,8 +97,15 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   }
   // A warning spent: whoever stayed is fallen on (for a defensive one, only in its lair).
   Rule temper_closes when warned(?g, ?c) and together(?g, ?c) and able(?g) and not routed(?g) and not tolerates(?g, ?c)
-    and patience(?g) <= watch(clock) and not temperament(?g, temper_defensive) and onslaught(?g, ?o) says "{?o}" {
+    and patience(?g) <= watch(clock) and not temperament(?g, temper_defensive) and not temperament(?g, temper_seizing)
+    and onslaught(?g, ?o) says "{?o}" {
     Assert assails(?g, ?c). Retract warned(?g, ?c).
+  }
+  // A seizing one takes whoever stayed, and there is no fight (What Tessary Owes' W9: two bailiffs of bronze who
+  // cannot be fought were dismantled by a level-three cleric).
+  Rule temper_seizes when warned(?g, ?c) and together(?g, ?c) and able(?g) and not routed(?g) and not tolerates(?g, ?c)
+    and patience(?g) <= watch(clock) and temperament(?g, temper_seizing) and onslaught(?g, ?o) says "{?o}" {
+    Assert captured(?g, ?c). Retract warned(?g, ?c).
   }
   Rule temper_defends when warned(?g, ?c) and temperament(?g, temper_defensive) and lair(?g, ?l) and at(?c, ?l)
     and at(?g, ?l) and able(?g) and not routed(?g)
@@ -108,7 +120,7 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   }
   Relation warnsFirst(temperament).
   Initially Assert warnsFirst(temper_territorial). Initially Assert warnsFirst(temper_defensive).
-  Initially Assert warnsFirst(temper_proud).
+  Initially Assert warnsFirst(temper_proud). Initially Assert warnsFirst(temper_seizing).
   Rule temper_falls_on when temperament(?g, temper_savage) and company(?c) and confronts(?g, ?c) and onslaught(?g, ?o)
     says "{?o}" {
     Assert assails(?g, ?c).

@@ -12,6 +12,7 @@ import { ObservationText } from '../lang/observation-text';
 import { LocalObservations } from './local-observations';
 import { World } from '../lang/world';
 import { Reads } from '../lang/reads';
+import { Journey } from './journey';
 import type { Call, Change, Module, Operator, WorldRule, WorldState } from '../lang/module';
 import type { CampaignDefinition } from './definition';
 import type { CreatureStore } from '../creature-store';
@@ -129,7 +130,10 @@ export class CampaignTick {
       // Each instance fires only if its condition still holds after those before it (two powers cannot both seize
       // the one stronghold left vacant).
       if (Object.keys(binding).length && !host.world.test(rule.when, binding)) { continue; }
-      const prior = host.world, next = prior.apply(effects);
+      // Whoever follows the company comes along when a rule carries it off (a chair to the downs: the Banns at
+      // Hessel's friction 6, which kept its own rule for it).
+      const prior = host.world, next = Journey.along(prior, prior.apply(this.yielding(host, rule, effects)),
+        host.playerActor);
       CreatureFacts.commitMoney(prior, next, definition.actors, creatures);
       // The world itself is kept, not a copy of its facts, which the next reading of the world would build again
       // from every fact (Mission 15's profile: most of a command's time in a country of several regions).
@@ -143,6 +147,20 @@ export class CampaignTick {
         happenings.push({ id: instance, text: ObservationText.render(rule.say, next, true, binding), kind: 'event' });
       }
     }
+  }
+  // One who follows the company goes where it goes: a rule that neither asks nor says who follows whom (an hour's
+  // routine: Rupert, asked to come and tell his mother, walked off to the King's Bath at two, the Banns at Hessel's
+  // friction 5, whose forty routines each said "and not following") does not take them anywhere else. One that ends
+  // the following (Gosse's bear put back in her pen) does.
+  private static yielding(host: TickHost, rule: WorldRule, effects: Change[]): Change[] {
+    const player = host.playerActor, world = host.world, ties = ['following', 'travelsWith'];
+    if (!player || !world.relates('following') || effects.some(c => ties.includes(c.call.name))) { return effects; }
+    const followers = new Set(world.related('following').filter(r => r.args[1] === player).map(r => r.args[0]!));
+    const reads = this.idle.get(rule)?.reads ?? Reads.names(world.module, [rule.when]);
+    if (!followers.size || reads.some(n => ties.includes(n))) { return effects; }
+    const moved = new Set(effects.filter(c => c.kind === 'assert' && c.call.name === 'at' && followers.has(c.call.args[0]!))
+      .map(c => c.call.args[0]!));
+    return moved.size ? effects.filter(c => c.call.name !== 'at' || !moved.has(c.call.args[0]!)) : effects;
   }
   // The effect lists a rule contributes now: none, one, or one per satisfying binding of its ?variables. A rule that
   // held nowhere in a world holds nowhere in a later one of its line that has written nothing its condition reads, so

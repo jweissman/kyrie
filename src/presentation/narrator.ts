@@ -223,8 +223,14 @@ export class Narrator {
       lines.push(`${this.upper(named[0]!)}${named[0]!.includes(', ') ? ',' : ''} ${many ? 'are' : 'is'} here.`);
     }
     else if (named.length) { lines.push(`Here are ${named.slice(0, -1).join('; ')}; and ${named.at(-1)}.`); }
+    // How long whoever warns the company off will wait (the Banns at Hessel's friction 23: the rest of a watch, and
+    // nothing on the page said so).
+    if (screen.warned) { lines.push(this.waits(screen.warned)); }
     // Two of a kind doing the same (two goats at one hedge) are told once.
     return lines.filter((l, i) => lines.indexOf(l) === i);
+  }
+  static waits(w: { by: string; left: number }): string {
+    return `${this.upper(w.by)} will wait ${w.left <= 5 ? 'a few minutes' : `${w.left} minutes`} more, no longer.`;
   }
   // "Eamon, innkeeper" is "Eamon, the innkeeper"; "Cyril, pilgrim" is "Cyril, a pilgrim".
   static who(t: Pick<TargetRow, 'name' | 'many'>): string {
@@ -271,11 +277,14 @@ export class Narrator {
     const lines: ExchangeLine[] = [
       ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...changing ? events : [], ...result,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
-      ...changing ? [] : events,
+      ...changing || fight ? [] : events,
       ...voiced,
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''),
         kind: fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
       ...outcome,
+      // What a fight set off is told after the blows that set it off: the Banns at Hessel read a man on his knees
+      // saying "You'll live" before the blow that felled the footpad (its friction 3).
+      ...fight && !changing ? events : [],
       ...waiting ? [] : seen,
       // Weariness come on is told after the rest, not in the middle of a scene (A Winter in Carth's friction 14).
       ...event.changes.includes(`+ weary(${campaign.playerActor})`)

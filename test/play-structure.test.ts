@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Narrator } from '../src/presentation/narrator';
 import { ChoiceList } from '../src/ui/choice-list';
 import { SceneModel } from '../src/ui/scene';
 import { Travel } from '../src/session/travel';
@@ -225,6 +226,8 @@ describe('a warning', () => {
     const marked = choices.filter(c => c.note?.includes('The wolves will not wait for it'));
     expect(marked.length).toBeGreaterThan(0);
     expect(choices.every(c => marked.includes(c) === ((c.minutes ?? 0) >= warned.left))).toBe(true);
+    // And the page says how long they will wait (the Banns at Hessel's friction 23).
+    expect(Narrator.leaf(s.campaign, screen).presence).toContain(`The wolves will wait ${warned.left} minutes more, no longer.`);
   }, 60000);
 });
 

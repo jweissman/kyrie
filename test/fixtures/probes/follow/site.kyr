@@ -1,0 +1,35 @@
+Module follow "A man asked to come, his afternoon at the baths, and a chair to the downs" {
+  Place town "the town" is settlement.
+  Place lane "the lane" is room within town at 0, 0 outdoors.
+  Place square "the square" is room within town at 1, 0 outdoors.
+  Place baths "the King's Bath" is room within town at 2, 0 indoors.
+  Place downs "the downs" is room within town at 1, 1 outdoors.
+  Passage lane_end "the lane's end" between lane and square.
+  Passage bath_door "the bath door" between square and baths.
+  Company party "You" of 1 at lane.
+  Person rupert "Rupert" at lane { Role "a young man of the town". Ancestry human. Peaceable. }
+  Initially Assert acceptsEscort(rupert, party).
+  Topic rupert_mother with rupert "Ask Rupert about his mother" when true {
+    Says "'She'll be at the Pump Room,' says Rupert. 'She always is.'".
+  }
+  // His afternoon: when the bath bell goes, to the baths, whatever he has agreed to.
+  Relation rung(place). Relation bathed(group).
+  Action ring(actor: group, site: place) "Ring the bath bell" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and at(actor, square) and not rung(square).
+    On success { Assert rung(square). }
+  }
+  Rule rupert_bathes when rung(square) and at(rupert, ?p) and not bathed(rupert) {
+    Retract at(rupert, ?p). Assert at(rupert, baths). Assert bathed(rupert).
+  }
+  // A chair hailed carries the company up to the downs.
+  Relation hailed(group).
+  Action hail(actor: group, site: place) "Hail a chair" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and at(actor, square) and not hailed(actor).
+    On success { Assert hailed(actor). }
+  }
+  Rule chair_carries when hailed(party) and at(party, ?p) and not at(party, downs) {
+    Retract at(party, ?p). Assert at(party, downs).
+  }
+}

@@ -2,6 +2,10 @@ import { Expressions } from '../expressions';
 import { RandomStreams } from '../random-streams';
 import { ModuleWriter } from '../lang/module-writer';
 import { Items } from './items';
+import { Effects } from '../effects';
+import { ObservationText } from '../lang/observation-text';
+import type { Call, Change } from '../lang/module';
+import type { Creature } from '../creature';
 import type { CombatEvent } from '../model';
 import type { TickHost } from './campaign-tick';
 
@@ -26,4 +30,38 @@ export class Consequences {
     host.refreshProjection();
     return true;
   }
+  // A thing handed to a company ("Give coat to party.") goes to the first of it who is up, out of whoever's hands
+  // held it or from wherever it lay; one of a kind a company spends ("Spend weight_stone from actor.") is given up by
+  // the first of it who carries one, and is gone. Tessary's Nan had to set Davy's coat down to be taken, and Low
+  // Water's pan took a weight-stone only by a container and a rule on what was put in it.
+  static hand(host: TickHost, combat: CombatEvent[]): boolean {
+    const world = host.world, handed = world.related('handed'), spent = world.related('usesUp');
+    if (!handed.length && !spent.length) { return false; }
+    const { definition, creatures } = host.tickState, changes = [...handed, ...spent].map(r => this.retract(r));
+    for (const [item, group] of handed.map(r => r.args as [string, string])) {
+      const members = definition.actors.find(a => a.id === group)?.members ?? [];
+      const kind = world.one('itemKind', item), taker = members.find(id => this.up(creatures.get(id)));
+      const owner = creatures.snapshot.find(c => c.state.inventory?.some(i => i.id === item))?.id;
+      if (!kind || !taker || (owner && members.includes(owner))) { continue; }
+      const label = ObservationText.label(world, item);
+      combat.push(...owner ? Items.transfer(creatures, { id: item, label }, owner, taker)
+        : Items.take(creatures, taker, { id: item, definition: kind, label }));
+      changes.push(...[...world.related('at', item), ...world.related('inside', item)].map(r => this.retract(r)));
+    }
+    for (const [group, kind] of spent.map(r => r.args as [string, string])) {
+      const members = definition.actors.find(a => a.id === group)?.members ?? [];
+      const carrier = members.map(id => creatures.get(id))
+        .find(c => c.state.inventory?.some(i => i.definition === kind));
+      const kept = carrier?.state.inventory?.filter(i => i.definition === kind) ?? [];
+      const thing = kept.find(i => !i.equipped) ?? kept[0];
+      if (carrier && thing) { Items.drop(creatures, carrier.id, thing.id); }
+    }
+    host.commitWorld(world.apply(changes));
+    host.refreshProjection();
+    return true;
+  }
+  private static up(c: Creature): boolean {
+    return c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id));
+  }
+  private static retract(r: Call): Change { return { kind: 'retract', call: ModuleWriter.call(r.name, ...r.args) }; }
 }

@@ -157,8 +157,10 @@ Kyr {
        | "Time" Call "." -- measured
   Resolve = "Resolve" Call "."
   ChangeStatement = Change "."
-  Change = Assert | Retract | Set | Increase | Decrease
+  Change = Assert | Retract | Set | Increase | Decrease | Give | Spend
   Assert = "Assert" Call
+  Give = "Give" term "to" term
+  Spend = "Spend" term "from" term
   Retract = "Retract" Call
   Set = "Set" Call "to" Value
   Increase = "Increase" Call "by" Value

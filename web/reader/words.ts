@@ -1,5 +1,6 @@
 import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Typography } from '../../src/presentation/typography';
+import { Counted } from '../../src/presentation/counted';
 
 // How the page says small things: the time of day, a choice echoed as what the company did, how hurt someone looks.
 export class Words {
@@ -84,12 +85,7 @@ export class Words {
   // A thing without its article, as a list names it: "a torch" is "torch".
   static bare(name: string): string { return name.replace(/^(a|an|the|some) /i, ''); }
   // How many of a thing, in words: "three torches", "two sacks of bell-teeth".
-  static many(n: number, noun: string): string {
-    const [head, ...of] = noun.split(' of '), plural = /(s|x|z|ch|sh)$/.test(head!) ? `${head}es`
-      : /[^aeiou]y$/.test(head!) ? `${head!.slice(0, -1)}ies` : `${head}s`;
-    const said = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n];
-    return `${said ?? n} ${[plural, ...of].join(' of ')}`;
-  }
+  static many(n: number, noun: string): string { return Counted.many(n, noun); }
   // The subject of a person or thing named with what they are: "Wren, ferry-keeper" is Wren.
   static short(name: string): string { return name.split(', ')[0]!; }
   // Choices that differ in one part only (four words to press on a casket) are said once, the words apart: what they

@@ -1,4 +1,5 @@
 import type { Call, Predicate, Query, Value } from './module';
+import { ComputedRelations } from './computed-relations';
 import type { World } from './world';
 
 type Binding = Record<string, string>;
@@ -20,8 +21,8 @@ export class Candidates {
   private static *call(world: World, p: Call, b: Binding): Generator<Binding> {
     const query = world.module.queries.find(q => q.name === p.name);
     if (query) { yield* this.ask(world, query, p.args.map(a => this.value(a, b)), b); return; }
-    // Two parties are distinct when they are not the same one: a test of what is bound, proposing nothing.
-    if (p.name === 'distinct') { if (this.open(p, b) || world.test(p, this.flat(b))) { yield b; } return; }
+    // Two parties distinct, a thing within an area: a test of what is bound, proposing nothing.
+    if (ComputedRelations.has(p.name)) { if (this.open(p, b) || world.test(p, this.flat(b))) { yield b; } return; }
     yield* world.solve(p, b);
   }
   // A query's body, asked with the asker's arguments, and what its parameters came to given back to the asker.

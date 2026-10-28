@@ -1,0 +1,18 @@
+Module kept "A heart lifted from its socket, and one a thief takes" {
+  Place hall "the hall" is room at 0, 0 indoors.
+  Company party "You" of 1 at hall.
+  Person thief "a thief" at hall { Role "a thief". Ancestry human. }
+  Kind heart_kind "a stone heart" is treasure worth 1 weighing 1 described "A heart of grey stone.".
+  Item heart "the ninth heart" is heart_kind at hall.
+  Item other_heart "the tenth heart" is heart_kind at hall.
+  Action lift(actor: group, site: place) "Lift the ninth heart from its socket" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and at(heart, site).
+    On success { Retract at(heart, site). Assert keeps(actor, heart). }
+  }
+  Action pocket(actor: group, site: place) "Pocket the tenth heart" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and at(other_heart, site) and distinct(actor, party).
+    On success { Retract at(other_heart, site). Assert keeps(actor, other_heart). }
+  }
+}

@@ -79,7 +79,7 @@ export interface ChronicleEntry { at: number; kind: 'player' | 'npc' | 'world' |
 // conservative, documented locality policy: the player actor's own facts, its location, co-located entities,
 // legal commands, its own declared effects and combats, NPC actions at its location, and public deadlines.
 export class PlayerView {
-  private static readonly ownHidden = ['at', 'distinct', 'knows', 'assumesFalse', 'mayExamine', 'operates', 'able', 'unladen', 'capable'];
+  private static readonly ownHidden = ['at', 'distinct', 'within', 'knows', 'assumesFalse', 'mayExamine', 'operates', 'able', 'unladen', 'capable'];
   static readonly darkness = { id: 'darkness',
     text: 'It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.' };
   static supported(campaign: Campaign): boolean { return campaign.persistent && !!campaign.playerActor; }

@@ -1,0 +1,13 @@
+Module seized "The Weights, who take the forsworn and cannot be fought" {
+  Place quay "the quay" is room at 0, 0 outdoors.
+  Place wall "the black wall" is room at 1, 0 outdoors.
+  Place cells "the Weights' cells" is room at 2, 0 indoors.
+  Passage steps "the steps to the black wall" between quay and wall.
+  Company party "You" of 1 at quay.
+  Person weights "the Weights" at wall { Role "bailiffs of bronze". Species golem. Numbers 2. Temperament seizing.
+    Warns "Two figures of bronze turn their faces to you, and hold out their hands, palm up. Not yet.".
+    Comes "The Weights take you by the arms, and there is no pulling free.". }
+  Rule taken_down when captured(weights, party) and at(party, wall) {
+    Retract at(party, wall). Assert at(party, cells).
+  }
+}

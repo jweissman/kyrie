@@ -1,4 +1,5 @@
 import { ActionSchemas } from './action-schemas';
+import { ComputedRelations } from '../lang/computed-relations';
 import type { CampaignActor } from './definition';
 import type { Call, Module, Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
@@ -101,8 +102,8 @@ export class Operators {
   // A query at the top of the conjunction proposes too (see Candidates), after the facts that constrain as much.
   private collect(p: Predicate, names: Set<string>, out: Call[]): Call[] {
     if (p.kind === 'and') { this.collect(p.left, names, out); this.collect(p.right, names, out); }
-    // A computed comparison (distinct) only filters what the facts propose; it proposes nothing itself.
-    else if (p.kind === 'call' && p.name !== 'distinct' && (this.relations.has(p.name) || this.queries.has(p.name))
+    // A computed comparison (distinct, within) only filters what the facts propose; it proposes nothing itself.
+    else if (p.kind === 'call' && !ComputedRelations.has(p.name) && (this.relations.has(p.name) || this.queries.has(p.name))
       && p.args.some(a => names.has(a))) {
       out.push(p);
     }

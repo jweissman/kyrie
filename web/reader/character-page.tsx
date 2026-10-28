@@ -3,6 +3,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { CharacterSheet, DevelopmentOption } from '../../src/presentation/character-sheet';
 import type { ReaderApp } from './reader-app';
 import { Typography } from '../../src/presentation/typography';
+import { Counted } from '../../src/presentation/counted';
 import { Act, type Draw } from './stage/act';
 import { Told } from './stage/told';
 import { Words } from './words';
@@ -154,11 +155,6 @@ export class CharacterPage {
   static signed(n: number): string { return n >= 0 ? `+${n}` : `−${-n}`; }
   // What is carried, the same things together (three torches, not a torch three times), what is in use apart.
   static counted<T extends { name: string; equipped?: boolean }>(items: T[]): { item: T; count: number }[] {
-    const out: { item: T; count: number }[] = [];
-    for (const item of items) {
-      const same = out.find(o => o.item.name === item.name && !!o.item.equipped === !!item.equipped);
-      if (same) { same.count++; } else { out.push({ item, count: 1 }); }
-    }
-    return out;
+    return Counted.together(items);
   }
 }

@@ -117,9 +117,11 @@ export class ScreenModel {
       ...world.measured('worth').map(m => [`worth:${m.call.args[0]}`, m.value] as const)]);
   }
   // Whoever travels with the company is with it, not met where it is.
+  // Who is with the company: whoever has joined it, and whoever follows it (one in custody, a child brought home),
+  // who goes where it goes and is not announced in every room it comes to (the Liberty of the Ice's friction 14).
   private static along(world: Campaign['world'], actor?: string): Set<string> {
-    return new Set(world.module.relations.some(r => r.name === 'travelsWith') && actor
-      ? world.related('travelsWith').filter(r => r.args[1] === actor).map(r => r.args[0]!) : []);
+    return new Set(actor ? ['travelsWith', 'following'].filter(name => world.relates(name))
+      .flatMap(name => world.related(name).filter(r => r.args[1] === actor).map(r => r.args[0]!)) : []);
   }
   // Family are named as what they are to you: "Ion, your brother", not "Ion, the drover's son".
   private static called(w: Campaign['world'], id: string, name: string): string {

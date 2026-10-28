@@ -1,5 +1,6 @@
 import type { Act, CombatScreen, ExitRow, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 import { Patience } from './patience';
+import { Counted } from '../presentation/counted';
 
 export type Tone = 'way' | 'person' | 'creature' | 'thing' | 'company' | 'item' | 'member' | 'ability' | 'spell';
 // One thing the player can choose. A choice either performs its command when chosen or opens a short list of
@@ -223,14 +224,16 @@ export class ChoiceList {
       ...owners.map(owner => {
         const items = screen.items.filter(i => i.owner === owner);
         return { id: `pack:${owner}`, title: `${items[0]!.ownerName} carries`, tone: 'item' as const, glyph: '○',
-          choices: items.map(i => this.item(i)) };
+          choices: Counted.together(items, i => i.kept ?? i.slot ?? '').map(({ item, count }) => this.item(item, count)) };
       }),
       ...this.tending(screen.party),
     ];
   }
-  private static item(i: ItemRow): Choice {
+  // Alike things are one row ("Eight torches"), and what is done with it is done with one of them.
+  private static item(i: ItemRow, count = 1): Choice {
     const note = i.equipped ? `in use${i.slot ? ` · ${i.slot}` : ''}` : i.kept ?? i.slot ?? '';
-    const base = { id: i.id, label: this.upper(i.name), tone: 'item' as const, about: `${i.description}${i.equipped ? ' In use.' : ''}`,
+    const label = this.upper(count > 1 ? Counted.many(count, i.name.replace(/^(a|an|the|some) /i, '')) : i.name);
+    const base = { id: i.id, label, tone: 'item' as const, about: `${i.description}${i.equipped ? ' In use.' : ''}`,
       ...(note ? { note } : {}) };
     return i.acts.length ? { ...base, children: this.flatten(i.acts, i.id, 'item') } : base;
   }

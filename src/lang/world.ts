@@ -1,4 +1,5 @@
 import type { Call, Change, Module, NumberValue, Predicate, Signature, Value, WorldState } from './module';
+import { ComputedRelations } from './computed-relations';
 import { RelationViews } from './relation-views';
 import { Asking } from './asking';
 import { QueryModes } from './query-modes';
@@ -193,7 +194,7 @@ export class World {
       return;
     }
     if (!signatures.relations.has(p.name)) { throw new Error(`Unknown predicate ${p.name}`); }
-    if (p.name === 'distinct') { throw new Error('distinct compares two bound parties'); }
+    if (ComputedRelations.has(p.name)) { throw new Error(`${p.name} compares what is bound`); }
     // By the first argument's index when it is known, else the second's; a binding is copied only for a fact that
     // matches.
     const facts = !args[0]!.startsWith('?') ? this.related(p.name, args[0]!)
@@ -230,8 +231,8 @@ export class World {
           return this.test(query.body, argumentsByName);
         }
         if (!signatures.relations.has(call.name)) { throw new Error(`Unknown predicate ${call.name}`); }
-        // Two parties are distinct when they are not the same one: computed, not stored for every pair.
-        if (call.name === 'distinct') { return call.args[0] !== call.args[1]; }
+        // Two parties distinct, a thing within an area: computed, not stored for every pair.
+        if (ComputedRelations.has(call.name)) { return ComputedRelations.test(this, call); }
         return this.byName.get(call.name)?.has(World.key(call)) ?? false;
       }
       case 'compare': {

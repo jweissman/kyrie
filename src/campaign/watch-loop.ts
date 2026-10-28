@@ -34,7 +34,7 @@ export class WatchLoop {
     // but the world still answers it: its rules, and whatever it sets off.
     if (!watches && host.persistent) {
       CampaignTick.rules(host, happenings);
-      Consequences.strike(host, combat);
+      Consequences.strike(host, combat); Consequences.hand(host, combat);
       const foe = Engagement.foe(host);
       if (foe) { return { npc, happenings, interrupted: Engagement.announced(host, foe, happenings) }; }
       Engagement.halt(host);
@@ -48,7 +48,7 @@ export class WatchLoop {
         const said = happenings.length;
         CampaignTick.npcs(host, npc);
         CampaignTick.rules(host, happenings);
-        Consequences.strike(host, combat);
+        Consequences.strike(host, combat); Consequences.hand(host, combat);
         host.settleWatch(combat);
         // Someone falling on the company stops whatever it was doing, interruptible or not.
         const foe = Engagement.foe(host), halted = foe ? undefined : Engagement.halt(host);

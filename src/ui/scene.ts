@@ -53,7 +53,7 @@ export class SceneModel {
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
       ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.says?.length ? { says: row.says } : {},
       ...row?.state ? { state: row.state } : {}, ...row?.recruit ? { recruit: row.recruit } : {},
-      choices: s.choices.map(c => this.bare(c, name!)).map(c => kind === 'animal' ? this.led(c) : c) };
+      choices: s.choices.map(c => this.bare(c, name!)).map(c => row?.kind === 'animal' ? this.led(c) : c) };
   }
   // An animal is led and let go, not asked.
   private static led(c: Choice): Choice {

@@ -95,7 +95,7 @@ export class KyrLint {
     lint.identity(); lint.shadows(); lint.containment(); lint.passages(); lint.traversal(); lint.geography();
     lint.applicability(); lint.labels(); lint.items(); lint.prose(); lint.domain(); lint.hazards(); lint.placeholders();
     lint.roles();
-    lint.anchors();
+    lint.anchors(); lint.keeps();
     return lint.findings;
   }
   static async run(paths: string[]) {
