@@ -38,13 +38,6 @@ export class Words {
     const r = max ? hp / max : 1;
     return r >= 1 ? 'unhurt' : r > 0.6 ? 'hurt' : r > 0.3 ? 'badly hurt' : 'near death';
   }
-  // "Rending bite → Elen" is "rending bite at Elen".
-  // What a foe means to do, as it would be said: "Sweeping Strike → Wenna" is "sweeping strike on Wenna".
-  static intent(text: string): string {
-    const [what, at] = text.split(' → ');
-    const act = what!.toLowerCase();
-    return at ? `${act} on ${at}` : act;
-  }
   // Whether a line of what happened says the act again ("Hild lights a torch." after "You light a torch."): its verb
   // among its first words, and the two after it the same. Then the echo of it is not said as well. An act told in
   // another verb counts as its own ("You collect the rod for Aldith." and "Aldith takes the rod.").

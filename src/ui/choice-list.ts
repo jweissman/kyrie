@@ -205,9 +205,10 @@ export class ChoiceList {
     }
     // A skilled choice names who does it; one the company cannot make says what it needs; a price is said beside it,
     // as a time is, not run into what is done ("A ration", 2 coin).
-    // Camp lasts until morning, however long that is from now.
+    // A night's sleep lasts until morning, however long that is from now; taken by day, until the hour it ends.
     const priced = / — (\d+ coin)$/.exec(a.label), label = priced ? a.label.slice(0, priced.index) : a.label;
-    const span = /^Make camp/.test(a.label) ? 'until morning' : a.minutes && a.minutes > 10 ? this.minutes(a.minutes) : '';
+    const span = a.until ? /^7:00 a\.m\./.test(a.until) ? 'until morning' : `until ${a.until}`
+      : /^Make camp/.test(a.label) ? 'until morning' : a.minutes && a.minutes > 10 ? this.minutes(a.minutes) : '';
     // One that cannot be made now says why beneath it (the coin it costs, the skill it wants), not that no one can.
     const odds = a.reckoned ? this.chances[a.reckoned.danger] : '';
     const note = a.disabled ? '' : [priced?.[1] ?? '', span, a.by?.join(', ') ?? '', odds].filter(Boolean).join(' · ');

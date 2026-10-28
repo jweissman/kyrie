@@ -1,6 +1,8 @@
 import type { Operator, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import { ActionTime } from '../campaign/action-time';
+import { FictionalTime } from '../campaign/fictional-time';
+import { ModuleWriter } from '../lang/module-writer';
 import type { Danger } from '../presentation/danger-sense';
 import { Provocation } from '../campaign/provocation';
 import type { PublicChoice } from '../presentation/action-presentation';
@@ -205,12 +207,18 @@ export class ChoiceGrouping {
     const foe = Provocation.of(action), reckoned = foe && context.reckon?.(foe);
     if (reckoned) { Object.assign(leaf, { reckoned, risk: true }); }
   }
+  // A sleep that lasts until morning says when it will end: at seven, or eight hours on, by day.
+  private static until(action: Operator, minutes: number, world?: World): { until?: string } {
+    if (action.duration?.name !== 'untilMorning' || !world) { return {}; }
+    return { until: FictionalTime.clock(world.number(ModuleWriter.call('watch', 'clock')) + Math.round(minutes / 10)) };
+  }
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
-    const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }),
-      minutes: context.world ? ActionTime.minutes(action, context.world) : choice.time * 10,
+    const minutes = context.world ? ActionTime.minutes(action, context.world) : choice.time * 10;
+    const leaf = { ...(row.wanting ? { disabled: row.wanting } : { command: choice.id }), minutes,
+      ...ChoiceGrouping.until(action, minutes, context.world),
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
       ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}) };

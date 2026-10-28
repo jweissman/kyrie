@@ -15,12 +15,14 @@ import { Told } from './told';
 // A way out of a place, with every choice that goes by it (go; open it first; look at what is on it).
 export interface Way { exit: ExitRow; choices: Choice[] }
 
-// Standing somewhere: a spread, held to the screen, with nothing across its head or its foot. On the left page, the
-// place as it is told: where you are, what it is, and what has just happened in it. On the right, the way here when
-// the company has just come, and what is here to attend to, each once (danger first, then the people, each with what
-// they are doing as you see them, the animals and things to look at, and whoever is with you); then the ways on from
-// here, every one a choice; the nearest places you know the way to, to set out for; and yourself. On a tablet held
-// upright or a phone it is one column: the place, who is here, the rest of the telling, the ways on (stage.css).
+// Standing somewhere: a spread, held to the screen, with nothing across its head. On the left page, the place as it
+// is told: where you are, what it is, and what has just happened in it. On the right, the way here when the company
+// has just come, and what is here to attend to, each once (danger first, then the people, each with what they are
+// doing as you see them, the animals and things to look at, and whoever is with you); under it, apart, the ways on
+// from here, every one a choice; the nearest places you know the way to, to set out for; and yourself. On a tablet
+// held upright or a phone the scene is one column, scrolling, and the ways on stand at the foot of the screen under
+// it, as a conversation does under its painting: a place had been a long scroll of bordered lists, the ways a scroll
+// away (the cold evaluation: "a Fighting Fantasy book crossed with a wiki"; stage.css).
 export class PlaceStage {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, screen = frame.screen, draw = Act.draw(app);
@@ -35,15 +37,17 @@ export class PlaceStage {
             <div className="telling"><Told.Place app={app} journey={false} /></div>
           </div>
         </section>}
-        <section className="recto" aria-label="Here, and the ways on">
+        <section className="recto" aria-label="Here">
           <div className="measure">
             {view ? <div className="told-here"><Told.Place app={app} /></div>
               : <div className="way-here"><Told.Travelled app={app} /></div>}
             <PlaceStage.Here app={app} draw={draw} />
-            <PlaceStage.On app={app} draw={draw} />
           </div>
         </section>
         </div>
+        <section className="on-pane" aria-label="The ways on"><div className="measure">
+          <PlaceStage.On app={app} draw={draw} />
+        </div></section>
       </article>
     );
   }
@@ -187,12 +191,16 @@ export class PlaceStage {
   // be done at it (open it first, look at what is on it) beneath.
   static Way({ way, draw, twin, road }: { way: Way; draw: Draw; twin?: boolean; road?: boolean }) {
     const [go, ...also] = way.choices, exit = way.exit;
-    const said = [road || twin ? exit.way ? `by ${exit.way}` : '' : '', go!.note, road && exit.visited ? 'been' : '']
-      .filter(Boolean).join(' · ');
+    // By what way, unless the way is where it goes ("To the bridge over the Reodex, by the bridge over the Reodex"),
+    // and without the place it reaches when that is named already ("by the path", not "by the path into Holenforwest").
+    const to = PlaceStage.to(go!, exit), named = exit.way && to.toLowerCase().includes(exit.way.toLowerCase());
+    const by = [(road || twin) && exit.way && !named ? `by ${PlaceStage.route(exit.way, to)}` : '',
+      road && exit.visited ? 'been' : ''].filter(Boolean).join(' · ');
     return <>
       <Act.View choice={go!} draw={draw} className="way">
-        <span className="n">{Typography.curl(Words.upper(PlaceStage.to(go!, exit)))}</span>
-        {said && <span className="r">{Typography.curl(said)}</span>}
+        <span className="n">{Typography.curl(Words.upper(to))}</span>
+        {go!.note && <><span className="lead" aria-hidden="true" /><span className="t">{Typography.curl(go!.note)}</span></>}
+        {by && <span className="r">{Typography.curl(by)}</span>}
       </Act.View>
       <PlaceStage.Opened choice={go!} draw={draw} />
       {also.map(c => c.children?.length ? <PlaceStage.Hazard key={c.id} choice={c} draw={draw} />
@@ -258,6 +266,12 @@ export class PlaceStage {
     return /^(To|Into|Out|Up|Down|Back|Across|Over|Through|Along) /.test(said) ? said : exit.destination.name;
   }
   private static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
+  static route(way: string, to: string): string {
+    const m = /^(.+?)\s+(?:out into|out onto|up onto|into|onto|to|across|over|through)\s+(.+)$/.exec(way);
+    const place = m?.[2]!.replace(/^(the|a|an) /i, '');
+    return m && place && (to.includes(place) || place.split(' ').some(w => /^\p{Lu}/u.test(w) && to.includes(w)))
+      ? m[1]! : way;
+  }
   // What a way or a thing opens, once opened, under it.
   static Opened({ choice: c, draw }: { choice: Choice; draw: Draw }) {
     return c.children && draw.open.has(c.id) ? <Act.List choices={c.children} draw={draw} className="column unfolded" />

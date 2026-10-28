@@ -40,9 +40,11 @@ export class FightStage {
           <ul className="side foes" aria-label="Against you">{combat.foes.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
             took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} foe />)}</ul>
         </div>
-        <p className="turn">{turn}{!combat.outcome && combat.order.length > 1
-          && <span> · then {combat.order.slice(1).join(', ')}</span>}
+        <div className="turn"><p className="now">{turn}
           {s.pending && <span className="working"> · {Typography.curl(Words.lastSaid(s.pending.said))}…</span>}</p>
+          {!combat.outcome && combat.order.length > 1 && <ol className="order" aria-label="Who acts, in turn">
+            {combat.order.map((n, i) => <li key={`${i}:${n}`} className={i ? undefined : 'next'}>
+              {Typography.curl(Words.upper(n))}</li>)}</ol>}</div>
         <div className="moves">
           {app.menu.sections.filter(sec => sec.choices.length).map(sec => <section key={sec.id} data-section={sec.id}>
             {sec.title && <p className="label">{sec.title}</p>}
@@ -56,18 +58,24 @@ export class FightStage {
       </div>
     );
   }
+  // What a foe means to do this round, at whom first: "→ Ama · strike with the javelin".
+  static Intent({ intent }: { intent: string }) {
+    const [what, at] = intent.split(' → ');
+    return <p className="intent">{at && <span className="at">→ {Typography.curl(at)}</span>}
+      <span className="what">{at ? ' · ' : ''}{Typography.curl(what!.toLowerCase())}</span></p>;
+  }
   static Card({ fighter: f, took, foe }: { fighter: CombatantRow; took: number; foe?: boolean }) {
     const hurt = Words.hurt(f.hp, f.maxHp);
     return (
-      <li className={`card${f.down ? ' down' : ''}${f.acting ? ' acting' : ''}${took > 0 ? ' struck' : ''}`}
+      <li className={`fighter${f.down ? ' down' : ''}${f.acting ? ' acting' : ''}${took > 0 ? ' struck' : ''}`}
         data-fighter={f.id}>
-        <p className="n"><b>{Typography.curl(Words.upper(f.name))}</b>{took > 0 && <span className="took" key={`${f.hp}`}>−{took}</span>}</p>
-        <p className="line">{f.line}</p>
+        <p className="n"><b>{Typography.curl(Words.upper(f.name))}</b>{took > 0 && <span className="took" key={`${f.hp}`}>−{took}</span>}
+          <span className="of">{f.hp} of {f.maxHp}</span></p>
         <span className="hp" aria-hidden="true"><i style={{ width: `${f.maxHp ? (f.hp / f.maxHp) * 100 : 0}%` }} /></span>
-        <p className="tags"><span className={`state ${hurt.replace(' ', '-')}`}>{hurt} · {f.hp} of {f.maxHp}</span>
+        <p className="tags">{f.line} · <span className={`state ${hurt.replace(' ', '-')}`}>{hurt}</span>
           {!f.down && f.statuses.length > 0 && ` · ${[...new Set(f.statuses)].join(', ')}`}
           {!f.down && f.boons && f.boons.length > 0 && ` · ${[...new Set(f.boons)].join(', ')}`}</p>
-        {foe && !f.down && f.intent && <p className="intent">Means to use {Words.intent(f.intent)}.</p>}
+        {foe && !f.down && f.intent && <FightStage.Intent intent={f.intent} />}
         {foe && !f.down && f.defenses && <p className="defenses">{Words.upper(f.defenses)}.</p>}
       </li>
     );
