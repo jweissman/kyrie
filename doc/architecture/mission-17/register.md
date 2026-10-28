@@ -16,7 +16,7 @@ it back). A finding a redesign makes moot is Superseded by name, never dropped.
 |---|---|---|---|---|---|---|---|
 | Inherited, at the start | 0 | 42 | 63 | 0 | 0 | 0 | 105 |
 | Inherited, now | 37 | 40 | 27 | 0 | 0 | 1 | 105 |
-| New in Mission 17 | 58 | 8 | 7 | 0 | 0 | 0 | 73 |
+| New in Mission 17 | 58 | 10 | 5 | 0 | 0 | 0 | 73 |
 | From the adventures (Pellam, Hessel, Carth) | 50 | 5 | 15 | 0 | 0 | 0 | 70 |
 
 ## Gate A: foundations (correctness, contracts, verification)
@@ -223,9 +223,9 @@ it back). A finding a redesign makes moot is Superseded by name, never dropped.
 | M17-68 | Creation: a default warrior of Strength 8 and Intelligence 17; "+1 scribe" before anything called scribe was chosen; a re-roll trading the bow for a scythe; "a ranger's own" and "suits you best" unexplained | Cold evaluation | Fixed | b46f2b7: rolls placed where the calling wants them, and again on a new roll or calling; "once a scribe"; a calling's own weapons first; the tags explained (`test/rolls-suited.test.ts`) |
 | M17-69 | The map: a chosen mound's marker beside another place's name; a road drawn through "FEARNGLAED"; a leg "to a great long mound … to a great long mound" | Cold evaluation | Partial | b46f2b7: a leg names where it comes once (`test/journey-leg.test.ts`). Open: the map's labels set clear of other places' marks and of the roads |
 | M17-70 | The tower's view: "a long way off · about 2 hours" beside "some way off · about 5 hours"; tiny "Set out" links | Cold evaluation | Fixed | b46f2b7: a journey's time said as by the ways known; a control a finger can take |
-| M17-71 | Places read as lists, fights as forms, travel as a log: "a Fighting Fantasy book crossed with a wiki" | Cold evaluation | Open | The composition of a place and of a fight at tablet size, as the owner's interim report asked: the largest thing still to do |
+| M17-71 | Places read as lists, fights as forms, travel as a log: "a Fighting Fantasy book crossed with a wiki" | Cold evaluation | Partial | a942a22: a place is a scene above, scrolling, and its ways on apart beneath it, at the foot of an upright screen as a conversation stands under its painting, set as a book's index (where, a dotted leader, how long; the road under it, its place not said again); a fight is a field (each fighter a line with a bar, a foe's red and at whom it strikes first, the turn order a strip of names, the moves a hand of cards at the foot). Open: the owner's look at it on a tablet; who is here is still a list of names |
 | M17-72 | A cat in a patch of sun in the rain; a minstrel singing "so as not to wake the house" in a busy morning taproom; a kin "watching across the room" from a shop door | Cold evaluation | Fixed | b46f2b7 |
-| M17-73 | An inn bed taken in the morning slept until evening; a ranger with "Set Spear", a deer of three hit points, and no specialty | Cold evaluation | Open | The bed sleeps eight hours by day, as written, and could say so before it is taken; the ranger's kit is the catalog's |
+| M17-73 | An inn bed taken in the morning slept until evening; a ranger with "Set Spear", a deer of three hit points, and no specialty | Cold evaluation | Partial | a942a22: a night's sleep says when it will end, "until 4:00 p.m." for a bed taken in the morning, "until morning" at night (`test/bed-hour.test.ts`). Open: the ranger's kit (Set Spear, a deer of three hit points, no specialty), the catalog's |
 
 ## From the adventures integrated in Mission 17
 
