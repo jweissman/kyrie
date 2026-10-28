@@ -8,8 +8,8 @@ Module gaunt "A Winter in Carth" {
   Person hawise "Dame Hawise Strake" at penitentiary {
     Role "the Lady Penitentiary, a broad handsome woman of sixty in grey, with a pen behind her ear and the Row still in her voice" when not masked(hawise).
     Role "a masked woman in a grey shawl ladling soup at the Barefoot copper, with a voice from the Row" when masked(hawise).
-    Ancestry human. Peaceable. Pronouns she. Manner cheerful.
-    Greets "The woman at the desk by the fire looks up, and takes the pen from behind her ear, and points it at the chair. 'Sit. You're the stranger who brought Ninian in, or the one who didn't. Either way you've walked with him, so you'll have opinions. Everybody who walks with Ninian comes away with opinions.' She smiles, and it is a wonderful smile. 'Mine are on the wall.' The forty books of the Register stand behind her on their lecterns.".
+    Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "The woman at the desk by the fire looks up, and takes the pen from behind her ear, and points it at the chair. 'Sit. You're the stranger who brought Ninian in, or the one who didn't. Either way you've walked with him, so you'll have opinions. Everybody who walks with Ninian comes away with opinions.' She smiles: a Row smile, all at once and gone, that has not been taught any manners by forty books. 'Mine are on the wall.' The forty books of the Register stand behind her on their lecterns.".
     Greets again "Dame Hawise looks up from the Register and smiles.".
   }
   Relation masked(group). Measure hawiseReasons(group). Query hawiseMoved() means hawiseReasons(hawise) >= 2.
@@ -47,8 +47,12 @@ Module gaunt "A Winter in Carth" {
     On discuss { Assert knows(actor, sentence_borne). }
   }
   Topic hawise_pellow with hawise "Tell the Lady Penitentiary what Canon Laverock's men do on the north tower at night" when knows(actor, unbuilding) and not pellowExposed(pellow) and not pellowBargain(pellow) once {
-    Says "Dame Hawise listens without a word, writing nothing. When you have done she sits back. 'The frost,' she says. 'Fifty-three years of frost.' Then she laughs, quite helplessly, with her hand over her eyes. 'Oh, Hamo. Oh, the Fabric.' She stops laughing. 'He'll not prosecute anybody on Ash Day for saying the Commerce is a fraud. Not in my Chapter House. I'll have the precentor do it, who believes in nothing and reads beautifully.' She makes a note. 'Thank you. I've wondered about that tower since I was twelve.'".
+    Says "Dame Hawise listens without a word, writing nothing. When you have done she sits back. 'The frost,' she says. 'Fifty-three years of frost.' Then she laughs, quite helplessly, with her hand over her eyes. 'Oh, Hamo. Oh, the Fabric.' She stops laughing. 'He'll not prosecute anybody on Ash Day for saying the Commerce is a fraud. Not in my Chapter House. I'll have the precentor do it, who believes in nothing and reads beautifully.' She is still for a moment. Then she gets up and goes along the lecterns to the last of the forty books, and turns it back nineteen years, and puts her finger on a line, and keeps it there. 'Cuthbert Thwaite,' she says, to the book. 'Slander.' She closes it gently, as if it might wake. 'Thank you,' she says, and does not turn round.".
     On discuss { Assert pellowExposed(pellow). Increase hawiseReasons(hawise) by 1. }
+  }
+  Topic hawise_last with hawise "Ask the Lady Penitentiary who was last put out at the Gate of Ash" when not masked(hawise) once {
+    Says "She does not need to look it up. 'Cuthbert Thwaite, journeyman mason, nineteen years ago this Ash Day. Slander of the Fabric.' She dips her pen. 'My first sitting in the stone chair. Hamo Laverock prosecuted, gently. The boy said he'd seen men take the tower down by night. I asked him did he recant, and he said he'd seen what he'd seen.' She writes a line, and blots it. 'So I put him out. Fairly. I've not put anyone out since.' She does not look up. 'Ninian will be the second.'".
+    On discuss { Assert knows(actor, last_put_out). }
   }
   Topic hawise_ladder with hawise "Tell the Lady Penitentiary that Mistress Dinsdale and Master Sowerby are buying penance in advance to race each other up the Ladder" when knows(actor, dinsdale_hiring) and not ladderExposed(dinsdale) and not masked(hawise) once {
     Says "'In advance.' Dame Hawise closes her eyes. 'For faults they haven't done.' She opens them. 'That's not penance, that's a subscription.' She writes. 'Both of them down a rung on Ash Day, and the advances forfeit to the Barefoot Hall.' She looks up. 'Don't look so pleased. They'll be back up next year. People always are. That's what the Ladder's for.'".

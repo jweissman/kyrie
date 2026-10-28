@@ -66,6 +66,9 @@ Module gaunt "A Winter in Carth" {
     Greets "The man at the table looks up from his book, and closes it on his finger, and waits. He is perfectly polite. 'Raistrick,' he says. 'I keep the vigils on this side of the Levels.'".
     Greets again "Raistrick looks up from his book and waits.".
   }
+  Topic raistrick_warm with raistrick "Ask Raistrick whether he has ever found a hearth warm" when knows(actor, ash_test) once {
+    Says "Raistrick considers the question as if it were a hearth. 'Often,' he says. 'Most vigils break. The cold is longer than people think.' He turns his book round on the table, and back. 'The first I found warm was my mother's. Forty nights, for a miller's lie, on a farm the other side of the Levels. I was nine. My sister had the croup on the twentieth night, and I lit it. The reeve that year came at three and put his hand in it and said Broken, and we were off the farm by Lady Day.' He opens the book. 'I took the post when he died. I thought the hand in the ash should be a hand that knows.' He finds his place, and makes a small neat mark. 'It doesn't change what the ash says.'".
+  }
   Discovery ash_test "Raistrick, the Ash-reeve, comes to every vigil house in the night, unannounced, and puts his bare hand into the ash of the hearth. If it is warm the vigil is broken. That is the whole of the test: the hearth.".
   Topic raistrick_what with raistrick "Ask Raistrick what he keeps" when true once {
     Says "'Vigils,' says Raistrick. 'Cold vigils. A house that takes one keeps no fire, for so many nights; I see that it does.' He holds up his right hand, and turns it over, as if it were a tool he were showing you. 'Once a night, at an hour I choose, I go in, and I put my hand in the ash of the hearth. Cold, it is kept. Warm, it is broken.' He lowers the hand. 'I don't knock. A vigil isn't a thing you're told about before.'".
@@ -169,6 +172,10 @@ Module gaunt "A Winter in Carth" {
     On discuss { Assert knows(actor, vigil_refused). }
   }
   Discovery vigil_refused "Last winter Ninian Hern refused to keep the Cold Vigil, forty nights of no fire, the penance for a blood-fault, bought by someone in Gaunt; so somebody else is keeping it.".
+  Topic hern_gate with hern "Ask Hern what becomes of a man put out of Gaunt" when not hernGaoled(hern) once {
+    Says "'He walks,' says Hern. 'Out of the Gate of Ash at dusk, into the Levels, in what he stands in, and they seal the gate behind him, and that's the end of the story.' He thinks about it. 'Last one was nineteen years since. A mason, young Thwaite, for saying the Fabric's men took the tower down at night. I fasted three days for the Fabric the week he went: a thanksgiving, for a slander stopped. A shilling a day.' He coughs. 'Best-paid fast I ever kept. Nobody's seen him since. Nobody's looked.'".
+    On discuss { Assert knows(actor, last_put_out). }
+  }
   Topic hern_hawise with hern "Ask Hern who will judge him" when not hernGaoled(hern) once {
     Says "'The Lady Penitentiary,' says Hern, as if it were a joke he had made long ago. 'Hawise Strake. We were proxies together in the Row when we were twelve: we fasted for a fishmonger's wife, the pair of us, a week, and ate her cat's dinner on the fourth day. She went up. I stayed down. She'll put me out.' He looks at the snow. 'She'll be very fair about it. She always was. That was the trouble.'".
     On discuss { Assert knows(actor, hern_and_hawise). }

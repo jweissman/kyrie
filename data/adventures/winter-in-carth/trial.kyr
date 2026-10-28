@@ -9,7 +9,7 @@ Module gaunt "A Winter in Carth" {
     Greets again "Doctor Ploughwright inclines his head a quarter of an inch.".
   }
   Person quist "Doctor Quist" at schools {
-    Role "the Seraphic Doctor, a small round woman in an inky gown who argues with her hands, with her feet, and once, famously, with a chair". Ancestry human. Calling bard. Level 4. Peaceable. Pronouns she. Manner cheerful.
+    Role "the Seraphic Doctor, a small round woman in an inky gown who argues with her hands and her feet and her whole small body". Ancestry human. Calling bard. Level 4. Peaceable. Pronouns she. Manner cheerful.
     Greets "The small round doctor bounces up from a bench. 'A stranger! Do you want a Determination? I've some very good ones going cheap: whether the Fast includes eels; whether a penance done in a dream counts; whether Saint Oswy was tall.' She leans in. 'Or are you here about Barefoot Hern? Everybody's here about Barefoot Hern. Ploughwright's sold his. Mine's still on the shelf.'".
     Greets again "Doctor Quist waves at you with both hands.".
   }
@@ -86,7 +86,7 @@ Module gaunt "A Winter in Carth" {
       and askedSorry(actor) and not testifiedRoad(actor).
     Time 2.
     On success { Assert testifiedRoad(actor). }
-    Result "You tell them: the fell road, the old man barefoot in the snow asking whether one man can be sorry for another; the kneeling proxy at the stone, and the board, and what is owed the dead; the Drove Fork. The canons write. Hern listens with his head on one side, as if hearing a story about someone he once knew, and when you get to what you yourself answered he grins at you across the floor, the three teeth, and the Lady Penitentiary sees him do it.".
+    Result "You tell them: the fell road, the old man barefoot in the snow asking whether one man can be sorry for another; the kneeling proxy at the stone, and the board, and what is owed the dead; the Drove Fork. The canons write. Hern listens with his head on one side, as if hearing a story about someone he once knew, and when you get to what you yourself answered he grins at you across the floor, and the Lady Penitentiary sees him do it.".
   }
   Action offer_to_bear(actor: group, site: place) "Stand, and offer to bear Ninian Hern's sentence yourself" {
     Grave "If the Lady Penitentiary accepts it, it is you who will be put out of Gaunt at dusk, in what you stand in, struck from its Register for good.".

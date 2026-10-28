@@ -144,10 +144,53 @@ describe('A Winter in Carth: the city\'s strands', () => {
     await bard.play(...phases('letter').road!, ...down);
     // Without the climb the wall is no way at all.
     expect(bard.j.find('^To the foot of the north tower')).toBeUndefined();
-    await bard.play('To the Bearer', 'To the Long Shambles', 'Into the Fat Lamb', '=204', 'Talk to Old Joby', 'Tell Joby', 'Out to the Long Shambles',
-      'To the Bearer', 'Into the masons\' lodge', 'To the foot of the north tower', 'To the Close of Saint Oswy');
+    // The unbuilding is seen from the lane after nine; Joby is told at the Fat Lamb before ten; the lodge is walked in the
+    // morning, when the Fabric's night-men have gone from the scaffold-yard.
+    await bard.play('To the Bearer', '=222', 'To Gaol Lane', 'To the Bearer', 'To the Long Shambles', 'Into the Fat Lamb', 'Talk to Old Joby', 'Tell Joby', 'Take a bed',
+      'Out to the Long Shambles', 'To the Bearer', 'Into the masons\' lodge', 'To the foot of the north tower', 'To the Close of Saint Oswy');
     expect(bard.measure('pains', 'party')).toBeGreaterThan(0);
     expect(bard.at('party')).toBe('close_green');
+  }, 300000);
+
+  it('the thirtieth peg: Annis took the vigil for her own sister\'s death; the coin\'s mark is matched over the Exchange door; and Thackray is told', async () => {
+    const g = await Gaunt.start();
+    await g.play(...phases('letter').road!, 'Talk to Annis', 'Ask Annis Scaife why there is no fire', 'Ask Annis who paid', 'Ask Annis whether she knows whose sorrow',
+      '=139', ...phases('letter').down!, 'To the Row', 'Into the Barefoot Hall', 'Out to the Row', 'To the Long Shambles', '=170', 'Into the Wood Exchange',
+      'Talk to Alderman', 'Ask Alderman Thackray whose forty nights', 'Tell Alderman Thackray whose sister');
+    expect(g.page).toMatch(/I want him forgiven by somebody who knows what it cost/);
+    expect(g.page).toMatch(/ELLEN WRAY, FROM THE FELL/);
+    expect(g.knows('billet_known')).toBe(true);
+    expect(g.holds('ellenToThackray', 'thackray')).toBe(true);
+    expect(g.page).toMatch(/So that it’s kept by somebody who knows/);
+  }, 300000);
+
+  it('the put-outs\' fold: where the Gate of Ash leads; Hern told there is an after, put out, and made room for by the fire; Joby told his son is alive', async () => {
+    const g = await Gaunt.start();
+    await g.play(...phases('letter').road!, 'Ask Hern what becomes of a man put out', 'Wait › Until dark', 'Make a fire of straw and thorn', '=139', 'To the house-place', 'Out to the yard', 'To the road across the Levels',
+      'To the put-outs', 'Talk to Cuthbert', 'Ask the man with the turf-spade', 'Ask Cuthbert Thwaite what comes after', 'Ask Cuthbert Thwaite about his father',
+      'To the road across the Levels', 'To the Fell Gate', 'To the Row', 'To the Long Shambles', 'To the Bearer', 'Bring Ninian Hern up',
+      'Into the Consistory gaol', 'Talk to Ninian', 'Tell Hern what Cuthbert Thwaite says', 'Out to the Close', 'To the Bearer', 'To the Long Shambles',
+      'Into the Fat Lamb', '=212', 'Talk to Old Joby', 'Ask Joby Thwaite why', 'Out to the Long Shambles', 'To the Bearer', '=222', 'To Gaol Lane',
+      'To the Bearer', 'To the Long Shambles', 'Into the Fat Lamb', 'Talk to Old Joby', 'Tell Joby Thwaite what you have seen', 'Tell Joby Thwaite that his son');
+    expect(g.page).toMatch(/I fasted three days for the Fabric the week he went/);
+    expect(g.page).toMatch(/They never put that in the stories, do they\. The after/);
+    expect(g.holds('hernHeardFold', 'hern')).toBe(true);
+    expect(g.holds('jobyToFold', 'joby')).toBe(true);
+    await g.until();
+    expect(g.ending()).toEqual(['put_out']);
+    expect(g.page).toMatch(/they made room by the fire for an old man in a grey coat/);
+    expect(g.page).toMatch(/sat down by the fire there beside his son/);
+  }, 400000);
+
+  it('the Fabric\'s night-men hold the scaffold-yard after nine: they warn a climber off, and going back over the wall is the way round', async () => {
+    const g = await Gaunt.start(build('monk'), 'g1');
+    await g.play(...phases('letter').road!, '=139', ...phases('letter').down!, 'To the Row', 'To the Long Shambles', 'To the Bearer', '=224', 'To Gaol Lane',
+      'To the foot of the north tower');
+    expect(g.at('nightmen')).toBe('tower_foot');
+    expect(g.page).toMatch(/in the morning they’ll find you at the foot of it, and say it was the frost/);
+    await g.play('To Gaol Lane');
+    expect(g.at('party')).toBe('gaol_lane');
+    expect(g.j.holds('able', 'party')).toBe(true);
   }, 300000);
 
   it('the tower: the unbuilding seen from Gaol Lane, Joby told, and the Master of the Fabric\'s bargain taken for the Scaifes\' rent', async () => {
