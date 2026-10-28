@@ -1,0 +1,52 @@
+Module gaunt "A Winter in Carth" {
+  // ── The put-outs' fold ────────────────────────────────────────────────────────────────────────────────────────────
+  // Where the Gate of Ash leads. Nineteen years ago the gate was opened for Cuthbert Thwaite, journeyman mason, Joby's
+  // son, who said the Fabric's men took the north tower down by night. Canon Laverock prosecuted; Dame Hawise, in her
+  // first year in the stone chair, put him out; Hern was hired by the Fabric to fast three days in thanksgiving for a
+  // slander stopped. Cuthbert did not walk away. He lives in a ruined sheepfold on the Levels with the others the gate
+  // was opened for, owing nobody, within sight of the tower, and watches the lantern go up it every night. He is the
+  // answer to the question Hern cannot answer: what comes after.
+  Person cuthbert "Cuthbert Thwaite" at fold {
+    Role "a put-out mason of fifty, with his father's shoulders and a turf-spade, who looks at the city before he looks at you". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "'Lost?' says the man with the turf-spade. 'Nobody comes out here that isn't lost or put out, and you've boots on.' He looks past you at Gaunt, the way everyone here does. 'Sit by the fire. It's peat we cut ourselves, so nobody owes anybody for it.'".
+    Greets again "Cuthbert Thwaite nods, and goes on looking at the city.".
+  }
+  Relation cuthbertKnows(group). Relation cuthbertTold(group). Relation jobyToFold(group). Relation hernHeardFold(group).
+  Discovery last_put_out "Nineteen years ago a young mason, Thwaite, was put out of Gaunt at the Gate of Ash for saying that the Fabric's men took the north tower down at night. Nobody has seen him since; nobody has looked.".
+  Discovery cuthbert_story "Cuthbert Thwaite, Joby Thwaite's son, was put out of Gaunt nineteen years ago for saying the Fabric's men took the north tower down by night. Canon Laverock prosecuted; Dame Hawise, in her first year as Lady Penitentiary, put him out. He lives in the put-outs' fold on the Levels.".
+  Discovery fold_after "There is an after to being put out of Gaunt: a turf-roofed fold on the Levels where the put-out live, owing nothing, keeping nobody's penance but their own.".
+  Topic cuthbert_who with cuthbert "Ask the man with the turf-spade why he was put out" when true once {
+    Says "'Cuthbert Thwaite. Mason. Nineteen years this Ash Day.' He leans on the spade. 'I was a journeyman on the north tower. One night I'd left my level up top and went back for it, and there were men on the scaffold by lantern taking down what we'd set that day, block by block, and a canon below with his hands in his sleeves.' He shrugs. 'I said so. In the Fat Lamb, drunk, which was a mistake; and then sober, at the Penitentiary, which was a worse one. Slander of the Fabric. Canon Laverock prosecuted, very gently.' He spits into the fire. 'The new Lady Penitentiary asked me did I recant. I said I'd seen what I'd seen. She was very fair about it.'".
+    On discuss { Assert knows(actor, cuthbert_story). Assert knows(actor, last_put_out). }
+  }
+  Topic cuthbert_after with cuthbert "Ask Cuthbert Thwaite what comes after the Gate of Ash" when knows(actor, cuthbert_story) once {
+    Says "'This,' he says, and means all of it: the fold, the turf roof, the fire, the seven of them. 'Nobody in the Register. Nobody owes anybody anything, and nobody's paid to be sorry for us. We cut turves. We herd for the drovers when they come through at Lammas. We bury our own, in the soft ground by the dyke where the frost doesn't reach.' He looks at the city. 'It's a hard life. It's mine. It's the first thing in my life that was.' A pause. 'They never put that in the stories, do they. The after.'".
+    On discuss { Assert knows(actor, fold_after). }
+  }
+  Topic cuthbert_father with cuthbert "Ask Cuthbert Thwaite about his father" when knows(actor, cuthbert_story) once {
+    Says "'Joby.' He turns a turf over with the spade, and another. 'He came to the Gate of Ash when they put me out. Stood in the lane with his cap in his hands, and never looked at me. He'd set that course himself that day, and as far as he was concerned I'd called him a liar about his own frost.' He straightens. 'He's set it every day since. I can see the scaffold from here. Every night I watch the lantern go up it.'".
+  }
+  Topic cuthbert_tower with cuthbert "Tell Cuthbert Thwaite you have seen the Fabric's men take the tower down" when knows(actor, unbuilding) and knows(actor, cuthbert_story) and not cuthbertKnows(cuthbert) once {
+    Says "He puts the spade down, carefully, as if it might break. 'Still,' he says. 'Nineteen years.' He sits down on the wall of the fold. For a while he does not say anything at all. Then he laughs, once. 'I was drunk,' he says. 'But I wasn't wrong.'".
+    On discuss { Assert cuthbertKnows(cuthbert). }
+  }
+  Topic cuthbert_joby with cuthbert "Tell Cuthbert Thwaite that his father knows the truth now" when jobyKnows(joby) and knows(actor, cuthbert_story) and not cuthbertTold(cuthbert) once {
+    Says "Cuthbert Thwaite does not say anything. He goes to the gap in the wall of the fold and stands in it, looking at the city, for a long time. When he comes back he has been crying and is not ashamed of it. 'Don't tell him where I am,' he says. 'If he wants to know, the lantern's on the tower every night, and I'm at the other end of it.'".
+    On discuss { Assert cuthbertTold(cuthbert). Assert cuthbertKnows(cuthbert). }
+  }
+  // Hern brought to the fold himself, on the way in to his trial: the after, seen.
+  Rule hern_at_fold at fold when following(hern, party) and at(party, fold) and at(cuthbert, fold) and not hernHeardFold(hern)
+    says "Hern stops in the gap of the fold wall and does not come in. The man with the turf-spade looks up and sees him, and goes on looking. 'Barefoot Hern,' says Cuthbert Thwaite at last. 'You fasted for my going.' 'I did,' says Hern. 'Three days. A shilling a day. The Fabric paid.' 'Was it a good fast?' 'It was the best I ever kept,' says Hern, 'and I never meant a minute of it.' Cuthbert considers this, and nods, as if it were a fair answer to a fair question, and moves up on the turf bench by the fire. 'There's room,' he says, 'if they put you out.' Hern does not sit down. But he stands in the gap a long time, looking at the seven faces and the fire, the way a man looks at a road he had not known was there." teaches fold_after {
+    Assert hernHeardFold(hern). Increase hernReasons(hern) by 1. }
+  // Told to Hern, in his cell or at the bars, the after is a reason to live: there is somewhere to walk to.
+  Topic hern_fold_cell with hern "Tell Hern what Cuthbert Thwaite says comes after the Gate of Ash" when hernGaoled(hern) and knows(actor, fold_after) and not hernHeardFold(hern) once {
+    Says "Hern listens with his feet to the fire. 'Young Thwaite,' he says, and you can see him remember a shilling a day. He looks at the fire. 'And he's been out there all this time. Cutting turves. Owing nobody.' He laughs, and it turns into the cough, and the cough goes on. 'An after,' he says, when he can. 'Well. I'd not thought there was anywhere to walk to.'".
+    On discuss { Assert hernHeardFold(hern). Increase hernReasons(hern) by 1. }
+  }
+  Topic hern_fold_window with hern_window "Tell Hern what Cuthbert Thwaite says comes after the Gate of Ash" when knows(actor, fold_after) and not hernHeardFold(hern) once {
+    Says "The face at the bars is quiet a long time. 'Young Thwaite,' says Hern. 'Out there all this while, owing nobody.' The hands on the bars tighten and loosen. 'An after. I'd not thought there was anywhere to walk to.'".
+    On discuss { Assert hernHeardFold(hern). Increase hernReasons(hern) by 1. }
+  }
+  Milestone m_fold "found where the Gate of Ash leads" worth 100 when knows(party, fold_after).
+  Milestone m_cuthbert "carried word between a mason and his son" worth 150 when cuthbertTold(cuthbert) and jobyToFold(joby).
+}

@@ -1,0 +1,73 @@
+Module gaunt "A Winter in Carth" {
+  // ── The widow's thoughts ──────────────────────────────────────────────────────────────────────────────────────────
+  // Mistress Joan Pickersgill, a tanner's widow, rich, fifty, hires Abel Lumb every week to fast for her impure
+  // thoughts. Her thoughts are about Abel Lumb. Abel Lumb is starving. Neither can say it. She is Hugh Thackray's
+  // cousin, and the only person in Gaunt who laughs at him.
+  Person joan "Mistress Joan Pickersgill" at pickersgill_parlour {
+    Role "a tanner's widow of fifty in plum silk, with a laugh like a dropped tray and a book of devotion on her knee that is not a book of devotion". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "Mistress Pickersgill looks at you over the book and closes it on her thumb. 'Oh, good,' she says. 'A stranger. Sit down. Strangers don't count. Have a fig.'".
+    Greets again "'You again!' says Mistress Pickersgill, delighted. 'Have a fig.'".
+  }
+  Relation joanKnows(group). Relation abelKnows(group). Relation abelBearing(group). Relation joanThinksHarder(group).
+  Relation betrothed(group). Relation joanLaughed(group).
+  Discovery joan_thinks "Mistress Joan Pickersgill pays a proxy at the Stand to fast every week for her impure thoughts, which are about a young man at the Stand.".
+  Discovery abel_fasts "Abel Lumb has fasted eleven days running at the Stand for Mistress Pickersgill's impure thoughts, at threepence a day, and is fainting.".
+  Discovery abel_loves "Abel Lumb is in love with Mistress Pickersgill, and would sooner starve than stop fasting for her.".
+  Topic joan_penance with joan "Ask Mistress Pickersgill about her penances" when true once {
+    Says "'Oh, my penances.' She is enchanted to be asked. 'Impure thoughts, my dear, by the week. The Penitentiary has me at one pain a thought, and a fast a pain, and I am paying for eleven a week.' She eats a fig. 'I've a young man at the Stand who does them for me. Long, thin, very serious. He's so good at them. I go down on a Monday and watch him not eat.' A pause. 'That's not one of the thoughts. That's just devotion.' Another pause. 'Some of it is the thoughts.'".
+    On discuss { Assert knows(actor, joan_thinks). }
+  }
+  Topic abel_who with abel "Ask Abel Lumb whose fast he is keeping" when not abelFed(abel) once {
+    Says "'Mistress Pickersgill's,' says Abel, with a sort of shy pride. 'Impure thoughts. Eleven a week. I've not eaten since the Monday before last.' He sways. 'She comes and watches. To see it's done properly. She's very exact.' He looks at his feet. 'She's very kind. She brought me a fig once, and then she remembered, and took it back.'".
+    On discuss { Assert knows(actor, abel_fasts). }
+  }
+  Topic abel_feelings with abel "Ask Abel Lumb why he does not stop" when knows(actor, abel_fasts) and not abelFed(abel) once {
+    Says "Abel goes a red that shows how white he was. 'Because then somebody else would do them,' he says. 'Her thoughts. Somebody else would be fasting for them, and she'd go and watch him.' He grips the hurdle. 'I couldn't bear it. I'd sooner starve.' He hears himself. 'I am starving,' he says, surprised.".
+    On discuss { Assert knows(actor, abel_loves). }
+  }
+  Topic tell_joan with joan "Tell Mistress Pickersgill what her thoughts are costing the young man who fasts for them" when knows(actor, abel_fasts) and knows(actor, joan_thinks) and not joanKnows(joan) once {
+    Says "Mistress Pickersgill hears you out with a fig halfway to her mouth, and it stays there. 'Eleven days,' she says. 'He's eaten nothing. For my—' She puts the fig down. She goes very pink, then very white, then pink again, which in plum silk is a remarkable sight. 'I thought he was just good at it,' she says. And then, quite differently: 'Does he know? What they're about?' She does not wait to be answered. She rings for her maid. 'My cloak,' she says, 'and a basket, and in the basket everything in the larder.' She stops. 'No. Not today. He'd not take it, from me, today; he'd think it was charity.' She sits down. 'Fastens' Eve,' she says. 'At the Fat Lamb. Everybody says everything on Fastens' Eve and nobody minds. Tell him to come.'".
+    On discuss { Assert joanKnows(joan). }
+  }
+  Topic tell_abel with abel "Tell Abel Lumb who Mistress Pickersgill's thoughts are about" when knows(actor, joan_thinks) and knows(actor, abel_fasts) and not abelKnows(abel) and not abelFed(abel) once {
+    Says "Abel Lumb looks at you for a long time. Then he laughs, carefully, as if laughing might use something up. 'No,' he says. 'No. She's a tanner's widow with a house on Tanners' Row and I'm a back at the Stand.' But he has gone pink to the ears. 'You're having me on.' He grips the hurdle. 'Are you having me on?' And then, before you can answer, he faints again, this time with an expression of great happiness.".
+    On discuss { Assert abelKnows(abel). }
+  }
+  // Taking over his fasts: the complication. Joan, told her proxy is changed, thinks harder.
+  Action take_abels_fast(actor: group, site: place) "Take Abel Lumb's fast for Mistress Pickersgill on yourself, so he can eat" {
+    Description "Threepence a day, and her thoughts on your account.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and at(abel, the_stand) and knows(actor, abel_fasts) and not abelBearing(actor) and not abelFed(abel) and not fastToday(actor) and daytime().
+    Time 2 minutes.
+    On success { Assert abelBearing(actor). Assert abelFed(abel). Assert fastToday(actor). Set fastedOn(actor) to dayN(gaunt_town). Assert hungry(actor). Set nextMeal(actor) to watch(clock) + 144. Assert joanThinksHarder(joan). }
+    Result "The clerk crosses out LUMB, A. and writes you in against PICKERSGILL, J., IMPURE THOUGHTS, and Abel is lifted out of his pen and taken off to the Fat Lamb by two proxies for a bowl of mutton, protesting, looking back at you over his shoulder like a dog being taken to a different house. By evening the clerk has news for you, with a straight face: Mistress Pickersgill came down to watch, and found her fasts being kept by a stranger, and went home, and has sent word that she will need fourteen this week.".
+  }
+  Topic joan_harder with joan "Ask Mistress Pickersgill why she needs fourteen fasts this week" when joanThinksHarder(joan) and not joanKnows(joan) once {
+    Says "'Because my young man's gone,' says Mistress Pickersgill, crossly, 'and somebody else is doing my thoughts, and I don't know where he is, and so naturally I can't stop thinking about him, can I, and it all has to be paid for.' She takes a fig, looks at it, and puts it back. 'Is he eating? Somebody said he was eating. At the Fat Lamb.' She looks at the fire. 'Good,' she says, in a small voice. 'That's good.'".
+    On discuss { Assert knows(actor, joan_thinks). Assert knows(actor, joan_misses). }
+  }
+  Discovery joan_misses "Mistress Pickersgill misses Abel Lumb.".
+  // Fastens' Eve at the Fat Lamb, under masks: she says it.
+  Action bring_abel(actor: group, site: place) "Bring Abel Lumb to Mistress Pickersgill's table at the Fat Lamb" {
+    Description "Masks on, licence until midnight, and everyone saying everything.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fat_lamb) and licence() and at(joan, fat_lamb) and at(abel, fat_lamb)
+      and (joanKnows(joan) or abelKnows(abel) or knows(actor, joan_misses)) and not betrothed(joan).
+    Time 3.
+    On success { Assert betrothed(joan). Assert abelFed(abel). }
+    Result "You put Abel Lumb down in the chair opposite Mistress Pickersgill's, masked, and stand back. For a long time neither of them says anything, and the fiddle goes on, and the landlord comes by with his jug and says 'Midnight, mind,' and goes away. Then Mistress Pickersgill pushes her mask up on her forehead and says, quite loudly, because it is Fastens' Eve: 'They're about you. All of them. Every week. Eleven. I've been paying you to starve for wanting you, and I'm a wicked old woman and I want you to eat this pie.' Abel Lumb looks at the pie, and at her, and takes his own mask off. 'I'd sooner eat it,' he says, 'than anything,' which does not quite make sense, and then he does. The whole of the Fat Lamb applauds, because the whole of the Fat Lamb has been listening.".
+  }
+  Rule joan_to_lamb when licence() and hour(clock) < 23 and not at(joan, fat_lamb) and (joanKnows(joan) or joanThinksHarder(joan)) { Assert at(joan, fat_lamb). }
+  Rule abel_to_lamb when licence() and hour(clock) < 23 and not at(abel, fat_lamb) and (abelKnows(abel) or abelFed(abel) or joanKnows(joan)) { Assert at(abel, fat_lamb). Assert abelAway(abel). }
+  Rule joan_home when (not licence() or hour(clock) >= 23) and at(joan, fat_lamb) { Assert at(joan, pickersgill_parlour). }
+  Rule abel_home when (not licence() or hour(clock) >= 23) and abelAway(abel) and not betrothed(joan) { Retract abelAway(abel). }
+  Rule abel_wed when betrothed(joan) and not licence() and at(abel, fat_lamb) { Assert abelAway(abel). Assert at(abel, pickersgill_parlour). }
+  Topic joan_cousin with joan "Ask Mistress Pickersgill about her cousin Hugh Thackray" when true once {
+    Says "'Hugh!' She laughs her dropped-tray laugh. 'Top of the Ladder. Holiest man in Gaunt, by the gold. He was a fat little boy who cried when he trod on a beetle, and he grew into a fat big man who cries when he puts the price of wood up.' She stops laughing. 'He's been strange all winter. Since the frost. He comes to dinner and doesn't eat and doesn't say anything. I thought it was his liver.'".
+    On discuss { Assert knows(actor, thackray_strange). }
+  }
+  Discovery thackray_strange "Hugh Thackray, the Wood-reeve, has been strange all winter, since the great frost, his cousin says: silent at dinner, eating nothing.".
+  // Betrothed, she has a good deal of courage to spare, and spends some of it on her cousin.
+  Topic joan_tell_hugh with joan "Ask Mistress Pickersgill to tell her cousin Hugh to do his own penance" when betrothed(joan) and knows(actor, thackray_vigil) and not joanLaughed(thackray) once {
+    Says "'Forty nights,' says Joan Pickersgill, when you have told her, 'of a cold farm, for the Row he froze. Bought. By Hugh.' She stands up. Abel stands up too, because she has. 'I shall go round,' she says, 'and laugh at him. I've not laughed at Hugh since he was nine and it did him good then.' She puts on her cloak. At the door she turns. 'Abel. Come and watch. You're good at watching penance.'".
+    On discuss { Assert joanLaughed(thackray). }
+  }
+}

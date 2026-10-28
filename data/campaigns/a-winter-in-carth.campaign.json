@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "A Winter in Carth",
+  "calendar": {
+    "year": 1121,
+    "month": 2,
+    "day": 13
+  },
+  "pitch": {
+    "heading": "Up the fell road to Gaunt",
+    "text": "The march road brings you up out of the snow-fields to a stone cross where the fell road begins: north over Carth Fell, and down across the white Levels to Gaunt, the walled city of the Minster, three days before the Fast. On the step of the Cross a barefoot old man is mending a sandal he does not need, and beside him a beadle sits with his frozen foot in his hat."
+  },
+  "modules": [
+    {
+      "id": "gaunt",
+      "bundle": "../adventures/winter-in-carth/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Wren",
+      "raceId": "human",
+      "classId": "bard"
+    }
+  ]
+}

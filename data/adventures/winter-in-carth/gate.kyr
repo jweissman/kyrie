@@ -1,0 +1,161 @@
+Module gaunt "A Winter in Carth" {
+  // ── The Commerce of Merit ─────────────────────────────────────────────────────────────────────────────────────────
+  // Every fault in Gaunt has its price in pains, set by the Penitentiary; every pain may be paid by doing a penance, or
+  // by paying another to do it. A company carries its shrift on a tally-stick cut at the gate: the pains it owes. Owing
+  // anything, it may not pass into the Close, nor be heard at the Consistory. The shrift is never a number on the page;
+  // it is told in the city's words where the city reads it.
+  Measure pains(group).
+  Relation tallied(group). Relation forgedTally(group). Relation porterPassed(group). Relation porterCaught(group).
+  Query shriven() means tallied(party) and pains(party) < 1.
+  // Gaunt gives no credit: a night on the Steps for one pain clears the one, and the other five are the Fabric's.
+  Rule no_credit when pains(party) < 0 { Set pains(party) to 0. }
+  Query closeAdmits() means shriven() or porterPassed(party) or ashOpen().
+  Relation putOut(group).
+
+  // ── The Fell Gate ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Person assessor "the Assessor of the Fell Gate" at fell_gate {
+    Role "a canon of the Penitentiary in a black gown, at a table under the arch, with a box of tally-sticks and a knife". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "The Assessor does not look up from the tally he is cutting. 'Faults of the road,' he says. 'Name them. What you do not name, and is known, is assessed double.'".
+    Greets again "The Assessor looks up, and down again. 'Faults?'".
+  }
+  Relation assessed(group). Relation assessing(group).
+  // The first time the company comes through, it is assessed for the road: what it did, and whom it kept company with.
+  Rule assess_begins at fell_gate when at(party, fell_gate) and not assessed(party) and not assessing(party)
+    says "You are moved up the queue by the queue, and come to the table under the arch. The Assessor dips his pen. 'Faults of the road,' he says, without looking up, and then he does look up, and sees what you have brought with you, or have not, and his pen stops." {
+    Assert assessing(party). Set pains(party) to 0. }
+  Rule assess_association at fell_gate when assessing(party) and following(hern, party) and not spread(assess_association)
+    says "'Association,' says the Assessor, and cuts one notch. 'With the accused, Ninian Hern. One pain. Everyone who walks with him pays it; you are the first who has.'" { Increase pains(party) by 1. Assert spread(assess_association). }
+  Rule assess_board at fell_gate when assessing(party) and keptBoard(party) and not spread(assess_board)
+    says "'Interference with a penance in progress, at the Proxy's Stone,' says the Assessor, who has had it from the road already, and cuts two. 'Two pains. The proxy was dead, which is a mitigation, and the board was the Common Council's, which is not.'" { Increase pains(party) by 2. Assert spread(assess_board). }
+  Rule assess_vigil at fell_gate when assessing(party) and brokeVigil(party) and not spread(assess_vigil)
+    says "The Assessor has a paper, come down off the fell before you on a pair of snowshoes. He reads it. Then he takes a fresh stick and cuts it a long time. 'A vigil broken at Carth, by fire, by a stranger,' he says. 'Whoever breaks a penance takes its debt. Seventeen nights of a cold hearth.' He holds up the stick, which is notched along a third of its length. 'Seventeen pains.'" { Increase pains(party) by 17. Assert spread(assess_vigil). }
+  Entity assess_association: fact "Association". Entity assess_board: fact "Interference". Entity assess_vigil: fact "the vigil".
+  Rule assess_done at fell_gate when assessing(party) and pains(party) > 0 and not assessed(party)
+    says "He splits the tally down its length, gives you one half and drops the other into a box marked F for Fell. 'Your shrift,' he says. 'Owing that, you are welcome in the Row and the Middle Town and you will not pass the Close Gate, nor be heard by the Consistory, until you have paid it. The Stand is in the old sheep-market. Next.'" {
+    Assert assessed(party). Retract assessing(party). Assert tallied(party). }
+  Rule assess_clean at fell_gate when assessing(party) and pains(party) < 1 and not assessed(party)
+    says "He cuts no notches. He splits the blank tally and gives you half. 'Clean,' he says, faintly surprised, as if he had seen a white crow. 'Welcome to Gaunt. Keep it so.' Next." {
+    Assert assessed(party). Retract assessing(party). Assert tallied(party). }
+  Topic assessor_hern with assessor "Ask the Assessor what is to be done with Ninian Hern" when following(hern, actor) and not hernGaoled(hern) once {
+    Says "'Delivered,' says the Assessor, 'to the Consistory gaol in the Close, by his custodian, by noon on Fastens' Eve. The custodian is admitted to the Close for that errand and that only, and paid on delivery.' He looks at Hern, who is looking at the box of tallies with professional interest. 'Until then he is in your keeping, and his faults are yours.' Hern beams at you.".
+  }
+  Topic assessor_law with assessor "Ask the Assessor how a debt of pains is paid" when tallied(actor) once {
+    Says "The Assessor sighs, as at a child. 'By penance. Done by yourself, at the Stand or on the Steps: a fast, two pains a day; a barefoot mile round the walls, one; stripes at the post, three; a night's vigil on the Bearer's Steps, six. Or by another: any penance may be borne by another. The Stand will find you one, a shilling a pain. Or by remission, which is the Lady Penitentiary's, and which you will not get.' He returns to his tally. 'It is very simple. That is its beauty.'".
+  }
+
+  // ── Delivering the accused ────────────────────────────────────────────────────────────────────────────────────────
+  Relation delivered(group).
+  Action deliver_hern(actor: group, site: place) "Bring Ninian Hern up the Bearer's Steps and in at the Close Gate to the Consistory gaol" {
+    Description "The custodian is admitted to the Close for that errand, and paid eight shillings on delivery.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and following(hern, actor) and custody(actor) and not hernGaoled(hern) and not delivered(actor).
+    Time 3.
+    On success { Assert delivered(actor). Assert hernGaoled(hern). Retract following(hern, actor). Assert at(hern, gaol_cell). Increase quantity(actor, gold) by 8.
+      Retract at(actor, site). Assert at(actor, close_green). }
+    Result "The porter of the Close Gate looks at Hern for a long moment through the grille, and then opens it without a word. Inside, the Close is warm, swept, quiet, and smells of woodsmoke. Two serjeants in the Consistory's grey come across the lawn for him. Hern shakes your hand once more. 'Thank you for having me,' he says, as if leaving a dinner. 'Come and see me. They allow visitors. They're merciful.' The serjeants take him across the Close to a low door, and he goes in under it without ducking, being short, and the door shuts. A clerk counts eight shillings into your hand. You are standing in the Close of Gaunt, where nobody owes anything.".
+  }
+  Action deliver_uncustodied(actor: group, site: place) "Walk Ninian Hern up the Bearer's Steps to the Close Gate, and leave him at it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and following(hern, actor) and not custody(actor) and not hernGaoled(hern).
+    Time 2.
+    On success { Assert hernGaoled(hern). Retract following(hern, actor). Assert at(hern, gaol_cell). }
+    Result "At the top of the Bearer's Steps Hern knocks on the porter's grille himself. 'Ninian Hern,' he says, 'come in on his own feet, for the Consistory.' The gate opens a crack, and he goes in, and turns in the gap. 'Come and see me,' he says. 'They allow visitors.' The gate shuts.".
+  }
+  // He keeps his appointment whatever his custodian does: by noon on Fastens' Eve he is in the gaol.
+  Rule hern_gives_himself_up when eveDay() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not hernDead(hern)
+    and following(hern, party) and at(party, ?p) and townRoom(?p) says "Hern looks up at the sun and says, 'Noon on Fastens' Eve. I've an appointment,' and goes off up the Bearer's Steps by himself, and is let in at the Close Gate, and does not look back." {
+    Assert hernGaoled(hern). Retract following(hern, party). Assert at(hern, gaol_cell). }
+  Rule hern_leaves_you when eveDay() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not hernDead(hern)
+    and at(hern, ?p) and at(party, ?p) says "Hern gets up and looks at the sun. 'Noon on Fastens' Eve,' he says. 'I've an appointment in Gaunt, and I'll keep it on my own feet.' He goes off north, barefoot, at a walk, and does not look back." {
+    Assert hernGaoled(hern). Retract following(hern, party). Assert at(hern, gaol_cell). }
+  Rule hern_keeps_appointment when eveDay() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not hernDead(hern) {
+    Assert hernGaoled(hern). Retract following(hern, party). Assert at(hern, gaol_cell). }
+  // Refused at the Cross, he walks down from Carth when the snow stops, and is in the gaol by Shrove Monday noon.
+  Rule hern_walks_in when hernAhead(hern) and mondayN() and hour(clock) >= 12 and not hernGaoled(hern) and not hernFled(hern) and not following(hern, party) and not hernDead(hern) {
+    Assert hernGaoled(hern). Assert at(hern, gaol_cell). }
+  // Left anywhere on the road by a company that goes on without him, he goes on without it.
+  Rule hern_strays when following(hern, party) and nightfall() and at(party, ?p) and townRoom(?p) and not inClose() and not custody(party) and not spread(hern_strays)
+    says "Hern stops at a corner. 'I've a room in the Row,' he says, 'nobody's let it; I'll sleep there, and save you the custody of me.' He goes off into the dark." { Assert spread(hern_strays). }
+  Entity hern_strays: fact "Hern goes his way".
+
+  // ── Paying: by doing it ───────────────────────────────────────────────────────────────────────────────────────────
+  Relation fastToday(group). Measure fastedOn(group).
+  Action own_fast(actor: group, site: place) "Keep a day's fast at the Stand for two of your pains" {
+    Description "Nothing to eat until tomorrow. A clerk notes it on your tally.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and tallied(actor) and pains(actor) >= 1 and not fastToday(actor).
+    Time 2 minutes.
+    On success { Assert fastToday(actor). Set fastedOn(actor) to dayN(gaunt_town). Assert hungry(actor). Set nextMeal(actor) to watch(clock) + 144. Set pains(actor) to pains(actor) - 2. }
+    Result "The Stand's clerk cuts a fast on your tally with a small curved mark like a crescent moon. 'Two,' he says. 'Don't eat. People will be watching. They always are, in the Fast; it's the main amusement.'".
+  }
+  Rule fast_ends when fastToday(party) and dayN(gaunt_town) > fastedOn(party) { Retract fastToday(party). }
+  Hazard barefoot_mile "a mile barefoot on the frozen setts" means "Deal (1d2) physical damage to ally unless constitution save against (10).".
+  Action own_mile(actor: group, site: place) "Walk a barefoot mile round the walls for one of your pains" {
+    Description "Boots off, round the inside of the new wall, with a board on your back saying what for.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and tallied(actor) and pains(actor) >= 1.
+    Time 3.
+    On success { Decrease pains(actor) by 1. Assert strikes(barefoot_mile, actor). Assert walkedBarefoot(actor). }
+    Result "Boots off, a board on your back saying your own fault in your own name, which nobody in the Stand has seen in years and several of them come out to look at, and once round the inside of the new wall on the frozen setts, a mile, past the Row and the Fell Gate and the Gate of Ash and back. Your feet stop hurting after the first quarter, which is worse. Children follow you. At the end the clerk cuts a notch off your tally with a flourish.".
+  }
+  Relation walkedBarefoot(group).
+  Hazard stripes "stripes at the Stand's post" means "Deal (1d3) physical damage to ally.".
+  Action own_stripes(actor: group, site: place) "Take stripes at the Stand's post for three of your pains" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and tallied(actor) and pains(actor) >= 1.
+    Time 1.
+    On success { Set pains(actor) to pains(actor) - 3. Assert strikes(stripes, actor). }
+    Result "The post is in the middle of the Stand and the man who lays them on is a proxy himself, between jobs, and apologises. Six with a leather strap, counted aloud by the clerk. It is over quicker than you expected and hurts for longer. 'Three,' says the clerk, and cuts.".
+  }
+  Hazard steps_cold "a night on the Bearer's Steps" means "Deal (1d4) physical damage to ally unless constitution save against (11).".
+  Action own_vigil(actor: group, site: place) "Kneel the night on the Bearer's Steps yourself, for six of your pains" {
+    Description "From dusk to first light, on the stone, in the open.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and nightfall() and tallied(actor) and pains(actor) >= 1 and not licence().
+    Time 36.
+    On success { Set pains(actor) to pains(actor) - 6. Assert strikes(steps_cold, actor). Assert keptStepVigil(actor). }
+    Result "You kneel on the Bearer's Steps all night with the Close Gate shut above you and the Shambles shut below. Twice the porter opens his grille and looks at you and shuts it. Once a woman from the Row brings you a hot stone wrapped in a rag and goes away again without a word. The Minster bells give you every hour, so that you know exactly how much of it there is. At first light the porter comes out with a knife and cuts six notches off your tally and gives it back. 'Six,' he says. 'You did it properly. Nobody does it properly.'".
+  }
+  Relation keptStepVigil(group).
+
+  // ── Paying: by another ────────────────────────────────────────────────────────────────────────────────────────────
+  // A shilling a pain at the Stand. The page says who takes the work.
+  Action hire_proxy(actor: group, site: place) "Hire a proxy at the Stand to bear your pains, a shilling a pain" {
+    Description "Your shrift paid, today, by somebody else's back.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and tallied(actor) and pains(actor) >= 1 and pains(actor) < 10
+      and quantity(actor, gold) >= pains(actor) and not struck(barefoot).
+    Time 3 minutes.
+    On success { Decrease quantity(actor, gold) by pains(actor). Set pains(actor) to 0. Assert hiredProxy(actor). }
+    Result "The Stand's clerk takes your tally and your shillings, and calls a name, and a woman in a grey shawl comes out of a pen and takes the tally from him, and reads it, and nods, and puts on a board with your fault on it in your name, and goes off to do it. She does not look at you. Why would she? It is not personal. The clerk gives you back a clean tally. 'Shriven,' he says. 'Next.'".
+  }
+  Action hire_proxy_heavy(actor: group, site: place) "Hire a proxy at the Stand to bear your pains, a shilling a pain" {
+    Description "Your shrift paid, today, by somebody else's back.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_stand) and daytime() and tallied(actor) and pains(actor) >= 10
+      and quantity(actor, gold) >= pains(actor) and not struck(barefoot).
+    Time 3 minutes.
+    On success { Decrease quantity(actor, gold) by pains(actor). Set pains(actor) to 0. Assert hiredProxy(actor). Assert tibBears(actor). }
+    Result "Seventeen nights of cold hearth is a lot of pains to find a back for, and the Stand's clerk has to go along the pens asking. In the end it is a boy, twelve or so, thin, with his feet in rags, who says he can do cold, he's done cold before, his gran's the Prior. 'Tib Ackroyd,' the clerk writes, and gives him your tally, and the boy reads it slowly with his finger, and nods, and goes off to find a cold room to sit in for seventeen nights at a shilling a night, which in the Row is good money. The clerk gives you back a clean tally. 'Shriven,' he says.".
+  }
+  Relation hiredProxy(group). Relation tibBears(group).
+
+  // ── Paying: by forgery ────────────────────────────────────────────────────────────────────────────────────────────
+  Person heb "Heb" at heb_cellar {
+    Role "a small sharp woman with spectacles pushed up into grey hair and a tally-knife, a Penitentiary clerk's widow". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "'Shut the door,' says the woman at the table. 'There. Now. You've a tally you don't like the look of.' She holds out her hand for it without looking. 'Everybody has. Show.'".
+    Greets again "Heb pushes her spectacles up. 'Back again.'".
+  }
+  Action buy_forgery(actor: group, site: place) "Buy a clean tally of Heb, four shillings" {
+    Description "It will look like a clean one. Whether it passes for one depends on who looks.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, heb_cellar) and tallied(actor) and pains(actor) >= 1 and not forgedTally(actor) and quantity(actor, gold) >= 4.
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 4. Assert forgedTally(actor). }
+    Result "Heb turns your tally over in her fingers like a jeweller, splits a blank stick of the same willow from her bundle, ages it over the brazier, rubs it in ash and spit and her own sleeve, and cuts the Fell Gate's mark in the end with three flicks. 'There,' she says. 'Clean as a nun. It'll pass any porter that's been on the gate more than a year and less than ten; the new ones look too hard and the old ones know my hand.' She drops your real one in a drawer full of real ones. 'You still owe it, mind. That's between you and Saint Oswy.'".
+  }
+  Topic heb_law with heb "Ask Heb about the law of penance" when true once {
+    Says "'The law.' Heb snorts. 'I copied it out for thirty years, for him upstairs.' She means her husband, and the Penitentiary. 'It's all one sentence: every fault has a price, and anyone can pay it. All the rest is arithmetic.' She cuts a notch for emphasis. 'Putting-out's a penance too, did you know? The greatest. It's in the canons. So by the law anyone could be put out for anyone.' She looks at you over the spectacles. 'Nobody ever has. People with friends don't get put out.'".
+    On discuss { Assert knows(actor, sentence_borne). }
+  }
+  Action show_forgery(actor: group, site: place) "Show the porter of the Close Gate Heb's clean tally" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, close_gate_street) and forgedTally(actor) and not porterPassed(actor) and not porterCaught(actor) and not shriven().
+    Time 1 minute.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert porterPassed(actor). }
+    On failure { Assert porterCaught(actor). Retract forgedTally(actor). Increase pains(actor) by 3. }
+    Result "The porter takes the stick through the grille and turns it in the lamplight, and runs his thumb along it, and hands it back. 'Clean,' he says, and the grille shuts, and the gate opens.".
+    Otherwise "The porter takes the stick through the grille and turns it in the lamplight, and smiles for the first time. 'Heb,' he says, fondly, and snaps it in two. 'She does a lovely job. Forgery's three more.' He cuts them on your real tally, which he seems to have had all along, and pushes it back through the grille.".
+  }
+}

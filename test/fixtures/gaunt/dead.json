@@ -1,0 +1,33 @@
+{
+  "road": [
+    "Talk to Beadle",
+    "Ask the beadle what the commission",
+    "Take Ninian Hern into your custody",
+    "To the Proxy's Stone",
+    "Tell him: it is a trade",
+    "Tell him: nothing",
+    "To the Drove Fork",
+    "To the drovers' road",
+    "Go after him and take him by the arm",
+    "To the Drove Fork",
+    "To the top of Carth Fell",
+    "To the yard at Carth",
+    "Into the house at Carth"
+  ],
+  "carth": [
+    "=139",
+    "Out to the yard",
+    "To the road across the Levels",
+    "To the Fell Gate"
+  ],
+  "city": [
+    "To the Row",
+    "To the Long Shambles",
+    "To the Bearer",
+    "Bring Ninian Hern up",
+    "To the Bearer",
+    "To the Long Shambles",
+    "Into the Fat Lamb",
+    "Take a bed"
+  ]
+}

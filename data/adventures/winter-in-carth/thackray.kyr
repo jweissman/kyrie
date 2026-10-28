@@ -1,0 +1,102 @@
+Module gaunt "A Winter in Carth" {
+  // ── Whose forty nights ────────────────────────────────────────────────────────────────────────────────────────────
+  // Hugh Thackray, Wood-reeve, holds the Bishop's licence for firewood and sits for the Guildhall on the Consistory. In
+  // the great frost last winter he held back wood to raise the price, and forty-one people froze in the Row. No law calls
+  // that a crime. He went to the Penitentiary and confessed it as blood; they set it at forty nights cold; he paid,
+  // and Hern refused it, and the Scaifes took it. He is genuinely sorry. He has not lowered the price. Knowing who he is
+  // opens a door to him; it does not move him. He is moved by people: by Annis Scaife to his face, by one night of his
+  // own vigil, by his cousin's laughter, by a children's rhyme.
+  Person thackray "Alderman Hugh Thackray" at wood_exchange {
+    Role "the Wood-reeve: a big soft man in a fur-lined gown, with a kind face and the look of someone who has not slept in a year" when not nightAtCarth(thackray).
+    Role "the Wood-reeve, a big soft man in a fur-lined gown, grey in the face, who has not been warm since yesterday" when nightAtCarth(thackray).
+    Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "The big man in the fur-lined gown turns to you with real pleasure. 'A stranger! Welcome to Gaunt. Have you somewhere warm? You must have somewhere warm.' He presses your hand. 'Wood is dear this winter, I'm afraid. Wood is always dear in a hard winter. It's a law of nature,' he says, and then looks as if he wished he had not.".
+    Greets again "Alderman Thackray turns from the scales and smiles at you, kindly, tiredly.".
+  }
+  Discovery thackray_vigil "Alderman Hugh Thackray, the Wood-reeve, bought the Cold Vigil at Carth: forty nights, one for each of the forty-one who froze in the Row last winter when he held back wood to raise its price. He is sorry. He has not lowered the price.".
+  Discovery reeve_to_thackray "Raistrick, the Ash-reeve, reports each morning at ten at the Wood Exchange, to Alderman Thackray.".
+  Measure thackrayMoved(group).
+  Relation annisSaid(group). Relation nightAtCarth(group). Relation verseToThackray(group). Relation thackrayNightDue(group).
+  Query thackrayChanged() means thackrayMoved(thackray) >= 2.
+  Relation woodOpened(group). Relation thackrayWillBear(group). Relation scaifesPaid(group).
+
+  // His day: the Exchange from nine; on Shrove Monday morning, the fell road, alone, to look at a chimney.
+  Relation onFell(group).
+  Rule thackray_rides when mondayN() and hour(clock) >= 9 and hour(clock) < 11 and not snowing() and not onFell(thackray) and not nightAtCarth(thackray) and not spread(thackray_rode) { Assert onFell(thackray). Assert at(thackray, carth_yard). Assert spread(thackray_rode). }
+  Entity thackray_rode: fact "Thackray on the fell".
+  Rule thackray_back when onFell(thackray) and hour(clock) >= 11 { Retract onFell(thackray). Assert at(thackray, wood_exchange). }
+  Rule thackray_exchange when daytime() and not onFell(thackray) and not at(thackray, wood_exchange) and not thackrayAway(thackray) and not sitting() { Assert at(thackray, wood_exchange). }
+  Rule thackray_evening when not daytime() and at(thackray, wood_exchange) and not thackrayAway(thackray) { Assert at(thackray, limbo). }
+  Relation thackrayAway(group).
+  Observe thackray_on_fell at carth_yard when onFell(thackray) "At the yard gate, on a grey cob up to its hocks in the snow, sits a big man in a fur-lined gown, looking at the chimney of the house. Just looking at it. He has a face like a kind uncle's, and he has been crying.".
+  Topic thackray_fell with thackray "Ask the man on the grey cob what brings him up the fell" when onFell(thackray) and not knows(actor, thackray_vigil) once {
+    Says "The big man starts, and wipes his face with a fur cuff. 'Riding,' he says. 'For my health. The physicians say riding.' He looks at the chimney again. 'Nobody's smoke,' he says, to himself. Then, to you, too brightly: 'A hard winter. A very hard winter. One does what one can.' He turns the cob's head for Gaunt.".
+    On discuss { Assert knows(actor, thackray_rides_out). }
+  }
+  Discovery thackray_rides_out "A big man in a fur-lined gown rode up the fell on Shrove Monday morning to look at the chimney at Carth, and wept.".
+  // Raistrick's report at ten, seen.
+  Rule reeve_reports_in when (mondayN() or eveDay() or ashDay()) and hour(clock) >= 10 and hour(clock) < 11 and vigilOn() and morningDue(carth_vigil) and not at(raistrick, wood_exchange) and not reeveKneeling(raistrick) { Assert at(raistrick, wood_exchange). }
+  Rule reeve_reports_out when hour(clock) >= 11 and at(raistrick, wood_exchange) { Assert at(raistrick, reeve_hut). }
+  Observe reeve_seen at wood_exchange when at(raistrick, wood_exchange) and at(thackray, wood_exchange) "Through the door behind the scales you see the Ash-reeve, Raistrick, snow on his sheepskin, standing in front of Alderman Thackray's desk, saying one word, which you do not hear; and the big man nodding, and nodding, and putting his face in his hands." teaches reeve_to_thackray.
+  Observe vigil_book at wood_exchange when vigilBroken(carth_vigil) and at(thackray, wood_exchange) and not vigilReleased(carth_vigil) "On the Wood-reeve's desk, behind the scales, a short notched stick lies by itself, cut through.".
+  Topic thackray_ask with thackray "Ask Alderman Thackray whose forty nights are being kept at Carth" when not knows(actor, thackray_vigil)
+    and (knows(actor, reeve_to_thackray) or knows(actor, billet_known) or knows(actor, thackray_rides_out) and knows(actor, thackray_strange)) once {
+    Says "Alderman Thackray does not pretend. That is the first surprising thing about him. He sits down on a sack of charcoal, in his fur gown, and looks at his hands. 'Mine,' he says. 'Last winter, in the great frost, I held the oak back from the Exchange a fortnight to bring the price up. Everybody does. It's the market.' He turns his hands over. 'Forty-one in the Row. The Barefoot Hall has their pegs on the wall. I went to see them, the pegs.' He looks up. 'I went to the Penitentiary and confessed it as blood, which it isn't, in law. Dame Hawise set it at forty nights cold. I paid. Barefoot Hern wouldn't keep it. A farm took it.' He is quiet. 'I'm sorry. I'm sorrier than I have ever been. I'd give anything.' Then, because he is an honest man: 'I haven't lowered the price. You can't, in a hard winter. The market won't bear it.'".
+    On discuss { Assert knows(actor, thackray_vigil). }
+  }
+  // Annis Scaife to his face, at her own gate.
+  Action fetch_annis(actor: group, site: place) "Fetch Annis Scaife out to the man at the gate" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, carth_yard) and onFell(thackray) and at(annis, house_place)
+      and (knows(actor, billet_coin) or knows(actor, thackray_vigil)) and not annisSaid(thackray).
+    Time 2.
+    On success { Assert annisSaid(thackray). Increase thackrayMoved(thackray) by 1. Assert knows(actor, thackray_vigil). Assert knows(actor, ellen_wray). }
+    Result "Annis Scaife comes out into the yard in her shawl, and looks at the man on the grey cob, and at his gown, and his gloves, and his face; and you see her know him. She has known his mark since Candlemas. She does not shout. She walks up to the cob's shoulder, in the snow to her knees, and says, up to him: 'It's cold.' That is all. He looks down at her. 'I know,' he says. 'No,' says Annis Scaife, 'you don't. It's cold. In there. Twenty-four nights. My father-in-law's in the byre in his Sunday coat waiting for the ground. My girl's got a cough. My sister's on your wall in the Row: Ellen Wray, the thirtieth peg. It's cold.' She turns round and goes back into the house and shuts the door, and the big man sits his horse in the yard for a long time with the tears running into his fur collar, and then rides away down the fell without a word.".
+  }
+  Topic thackray_annis_city with thackray "Tell Alderman Thackray what Annis Scaife said: it's cold" when knows(actor, thackray_vigil) and stayingAtCarth(actor) and not annisSaid(thackray) and not onFell(thackray) once {
+    Says "You tell him: the dark, the hearth, the child's cough, the old man in the byre, the old woman lying down with him. He listens with his eyes shut. When you have finished he says, 'Thank you,' as if you had handed him a bill, and pays it.".
+    On discuss { Assert annisSaid(thackray). Increase thackrayMoved(thackray) by 1. }
+  }
+  // The thirtieth peg: whose penance it is, and who is keeping it.
+  Relation ellenToThackray(group).
+  Topic thackray_ellen with thackray "Tell Alderman Thackray whose sister hangs on the thirtieth peg" when knows(actor, ellen_wray) and knows(actor, thackray_vigil) and not annisSaid(thackray) and not ellenToThackray(thackray) and not onFell(thackray) once {
+    Says "'The thirtieth,' he says. He knows the pegs; he went to look at them. 'Wray. Ellen Wray, from the fell.' Then he understands it, and you watch it go into him the way the cold goes into a house, from the floor up. 'Her sister,' he says. 'And she took my forty nights.' He puts his soft hands over his face. 'She's keeping my penance for her own sister's death, at two shillings a night, and I paid it.' After a while: 'Why would she do that?' And then, before you can answer, because he is not a stupid man: 'So that it's kept by somebody who knows.'".
+    On discuss { Assert ellenToThackray(thackray). Increase thackrayMoved(thackray) by 1. }
+  }
+  // One night of his own.
+  Topic thackray_night with thackray "Ask Alderman Thackray to keep one night of his forty himself, at Carth, at the cold hearth" when knows(actor, thackray_vigil) and vigilOn() and not nightAtCarth(thackray) and not thackrayNightDue(thackray) and not onFell(thackray) once {
+    Says "He looks at you as if you had suggested he fly. 'Myself,' he says. 'It's bought. It's paid. It's—' He stops. He looks at his fur cuffs. 'They'd let me in? The Scaifes?' Then, slowly: 'Nobody ever does it themselves. It isn't done. That's the whole—' He stops again. He takes off his gloves, and looks at his hands, which are soft. 'Tonight,' he says. 'Tonight. Before I think about it.'".
+    On discuss { Assert thackrayNightDue(thackray). }
+  }
+  Rule thackray_to_carth when thackrayNightDue(thackray) and hour(clock) >= 20 and not nightAtCarth(thackray) and not at(thackray, house_place) { Assert thackrayAway(thackray). Assert at(thackray, house_place). }
+  Rule thackray_kept_night at house_place when thackrayNightDue(thackray) and at(thackray, house_place) and hour(clock) >= 6 and hour(clock) < 12 and not nightAtCarth(thackray) {
+    Assert nightAtCarth(thackray). Increase thackrayMoved(thackray) by 1. Retract thackrayAway(thackray). Assert at(thackray, wood_exchange). Retract thackrayNightDue(thackray). }
+  Rule thackray_night_seen at house_place when thackrayNightDue(thackray) and at(thackray, house_place) and at(party, house_place) and smallHours() and not spread(thackray_night_seen)
+    says "In the dark, by the dead hearth, someone large is sitting on the floor with his back to the wall where you sat, breathing in short hard breaths through his nose. At three the latch lifts and the Ash-reeve comes in and kneels and puts his hand in the ash, and the large man by the wall makes a small sound, and Raistrick turns his head toward it and says, very quietly, 'Alderman,' and nothing else, and goes." { Assert spread(thackray_night_seen). }
+  Entity thackray_night_seen: fact "Thackray at Carth by night".
+  Topic thackray_after_night with thackray "Ask Alderman Thackray about his night at Carth" when nightAtCarth(thackray) once {
+    Says "He is grey, and his voice has gone, and he has not taken off his gloves. 'I couldn't feel my feet by midnight,' he says. 'By two I couldn't think. There's a child coughs all night. There's a man in the byre.' He holds his hands to the brazier and they shake. 'Forty-one,' he says. 'One night, and I thought I'd die of it, and I've a fur gown.' He looks at you. 'I'm not sorry any more. I don't know what I am. Sorry was warm.'".
+  }
+  Topic thackray_verse with thackray "Tell Alderman Thackray the second verse of the children's rhyme" when knows(actor, second_verse) and knows(actor, thackray_vigil) and not verseToThackray(thackray) once {
+    Says "You say it to him, the children's rhyme off the Row ditch: Oswy, Oswy, up the hill, carry me and carry me still. At the top he set him down: NOW WALK, said Oswy. Thackray says it after you, under his breath, twice. 'Now walk,' he says. 'He carried him all the way up, and then put him down, and said, now walk.' He sits very still. 'I've been carried,' he says. 'I've been carried all my life.'".
+    On discuss { Assert verseToThackray(thackray). Increase thackrayMoved(thackray) by 1. }
+  }
+  Rule joan_moves_him when joanLaughed(thackray) and not spread(joan_moved) { Increase thackrayMoved(thackray) by 1. Assert spread(joan_moved). }
+  Entity joan_moved: fact "Joan laughed".
+  Observe joan_at_exchange at wood_exchange when joanLaughed(thackray) and at(thackray, wood_exchange) "Mistress Pickersgill has been to the Wood Exchange. The whole of the Middle Town knows it, because she laughed at her cousin in front of the scales for a quarter of an hour, with a young man from the Stand standing behind her eating a pie; and at the end of it, the clerks say, the Wood-reeve laughed too, and then sat down on the charcoal and cried.".
+
+  // Moved, he acts.
+  Topic thackray_release with thackray "Ask Alderman Thackray to release the Carth vigil, and pay the Scaifes in full" when thackrayChanged() and not vigilReleased(carth_vigil) and not scaifesPaid(carth_vigil) once {
+    Says "'Yes,' he says at once, as if he had been waiting all winter for somebody to ask. He writes, on the Exchange's paper, in a big untidy hand: the Carth vigil released by the purchaser, the forty nights paid in full to the keepers, and a cart of oak to go up the fell today. He sands it, and seals it with the billet. 'Raistrick will take it up,' he says. 'He'll be glad. He never liked that one.'".
+    On discuss { Assert vigilReleased(carth_vigil). Assert scaifesPaid(carth_vigil). }
+  }
+  Topic thackray_wood with thackray "Ask Alderman Thackray to open the dead-wood right in the Bishop's Wood" when thackrayChanged() and not woodOpened(thackray) once {
+    Says "Thackray looks at the price-board for a long time, and at the clerk writing it up a shilling with his chalk held between two fingers. 'The dead wood,' he says. 'That was always theirs, the Row's. I shut it because it brought the price down.' He gets up, and takes the chalk out of the clerk's fingers, and goes and rubs out OAK, THE CORD, 30S with his sleeve, which is fur, and writes nothing in its place. 'Open the right,' he tells the clerk. 'Today. Send to the woodmen. And send to the Barefoot Hall, to Bess Ackroyd, and tell her it's open, and tell her—' he stops. 'Tell her nothing. Tell her it's open.'".
+    On discuss { Assert woodOpened(thackray). }
+  }
+  Topic thackray_bear with thackray "Ask Alderman Thackray whether he would bear Ninian Hern's sentence" when thackrayChanged() and knows(actor, sentence_borne) and not thackrayWillBear(thackray) and not hernFled(hern) and not hernDead(hern) once {
+    Says "He does not answer for so long that you think he has not understood. Then he says, 'Put out. Walked through the Gate of Ash at dusk with nothing.' He looks at his gown. 'He refused my forty nights, Hern. He was the only man in Gaunt who told me what they were for.' He stands up. 'If the Consistory will have it,' he says, 'yes. I'll walk.' He smiles, a little, for the first time. 'Now walk,' he says. 'I'll tell them at the trial. I sit on it, after all.'".
+    On discuss { Assert thackrayWillBear(thackray). }
+  }
+  // Released, the vigil's coin reaches Carth, and the fire is lit there; told to a company that is there or comes.
+  Observe released_yard at carth_yard when vigilReleased(carth_vigil) "There is a cart in the yard at Carth with a load of oak on it, half unloaded, and a woodman eating his dinner on the shafts.".
+}

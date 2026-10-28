@@ -1,0 +1,155 @@
+Module gaunt "A Winter in Carth" {
+  // ── The Barefoot ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // The proxies' fellowship in the Row, and its Prior, Bess Ackroyd: Hern's oldest friend and his enemy now, because
+  // if his teaching takes the Row loses its winter wage. She will call the Row out on Ash Day, the year's best day for
+  // wages, if the Wood Exchange will not open the dead-wood right; but the Row will not come out for her unless it can
+  // afford to, or has a reason better than its stomach.
+  Entity barefoot: group "the Barefoot".
+  Relation struck(group). Relation strikeCalled(group). Relation rowWorked(group). Relation broughtWood(group).
+  Relation tibHelped(group). Relation carryingBess(group). Relation hernHeardBess(group).
+  Person bess "Bess Ackroyd" at barefoot_hall {
+    Role "the Prior of the Barefoot, a square grey woman with her feet in a bowl and a ledger on her knee, who looks at everyone's feet first". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "The woman with her feet in the bowl looks at your feet, and then at your face. 'Not a proxy,' she says. 'Not a burgess. A stranger with boots.' She turns a page of her ledger. 'If you've come to look at the poor, the pegs are along that wall. Forty-one. Everybody looks at the pegs.'".
+    Greets again "Bess Ackroyd looks at your feet, and nods.".
+    Wants gaunt_sledge.
+  }
+  Discovery strike_threat "Bess Ackroyd, Prior of the Barefoot, has threatened to call the Row out on Ash Day, the year's best day for proxies' wages, unless the Wood Exchange opens the Row's old right to the dead wood in the Bishop's Wood; but the Row cannot afford to lose Ash Day's wage, and will not come out for her.".
+  Discovery bess_view "Bess Ackroyd thinks Ninian Hern is right, and that if he wins, the Row starves: the Commerce of Merit is its winter's bread.".
+  Topic bess_barefoot with bess "Ask Bess Ackroyd about the Barefoot" when true once {
+    Says "'We're the backs,' says Bess. 'Every fast in Gaunt, every vigil, every mile on the setts, every stripe at the post that some burgess earned, one of us does it, and gets paid, and eats.' She nods at the pegs. 'Last winter the Wood-reeve held the oak back for a fortnight in the frost, and shut the dead-wood right, which was always ours, in the Bishop's Wood. Forty-one.' She turns a page. 'I've said I'll call the Row out on Ash Day if he doesn't open the right. Ash Day, when every burgess wants to be clean for the gilding. Best wage of the year.' She looks at her ledger. 'They'll not come out. They can't afford to. I can't afford to. But I've said it.'".
+    On discuss { Assert knows(actor, strike_threat). }
+  }
+  Topic bess_hern with bess "Ask Bess Ackroyd about Ninian Hern" when true once {
+    Says "Bess takes her feet out of the bowl and dries them, one, then the other, slowly, with great care, as you would dry a tool. 'Ninian Hern was the best back in this Hall for thirty years,' she says. 'He taught me to kneel. You don't kneel on your knees, he said, you kneel on your mind.' She puts her stockings on. 'And now he stands on the Minster steps and tells the burgesses it does them no good. And he's right. And if they believe him, there's no Stand, and no wage, and next winter there's eighty pegs on that wall instead of forty.' She stands up. 'He can afford to be right. He's sixty and he's got a cough. We've got children.'".
+    On discuss { Assert knows(actor, bess_view). }
+  }
+  // Work for the Hall: an unpaid vigil, for a proxy too sick to keep it, and the Hall remembers.
+  Action keep_hall_vigil(actor: group, site: place) "Keep tonight's vigil for a sick proxy of the Hall, unpaid" {
+    Description "Old Nell Firth is booked for a night on the Bearer's Steps for a tallow-chandler, and she is coughing blood. Someone has to, or she loses the booking and the next one.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, barefoot_hall) and evening() and not licence() and not rowWorked(actor) and knows(actor, strike_threat).
+    Time 36.
+    On success { Assert rowWorked(actor). Assert strikes(steps_cold, actor). Assert keptStepVigil(actor). }
+    Result "You kneel on the Bearer's Steps all night with Nell Firth's board round your neck and the chandler's fault on it, for no pay, and in the morning Bess Ackroyd comes up the Steps herself with a can of tea and stands while you drink it, and says nothing, and takes the board back, and cuts Nell's notch in the Hall's book with her own knife. 'Nell's kept her booking,' she says. 'That's next week's bread.' At the bottom of the Steps she turns. 'You've knees,' she says. It is the highest praise in the Row.".
+  }
+  // The strike: with Dinsdale's every back bought, the Row has leverage, and Bess sees it at once.
+  Topic bess_cornered with bess "Tell Bess Ackroyd that Mistress Dinsdale has hired every back in the Stand for Ash Day" when knows(actor, stand_cornered) and knows(actor, strike_threat) and not strikeCalled(barefoot) and not woodOpened(thackray) once {
+    Says "Bess Ackroyd sits quite still. Then she laughs, which you have not heard her do; it is a short dry sound like a stick breaking. 'Every back,' she says. 'Paid in advance, I'll be bound; Grizel Dinsdale always pays in advance.' She shuts the ledger. 'So we're paid for Ash Day already, every one of us. And if we stay at home, there's not a proxy to be had in Gaunt for love nor money, and every burgess that wants to be clean for the gilding will have to—' She stops, and looks at the pegs. 'Will have to do it themselves,' she says. 'Barefoot. In the snow. In front of the Row.' She stands up. 'I'll call them out. They'll come, for that. They'd pay to see that.'".
+    On discuss { Assert strikeCalled(barefoot). }
+  }
+  Action persuade_strike(actor: group, site: place) "Tell Bess Ackroyd the Row should come out on Ash Day, and you will stand with it" {
+    Description "Without the Stand bought out, the Row would lose the year's best wage. She will want a reason she can say to them.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, barefoot_hall) and at(bess, barefoot_hall) and knows(actor, strike_threat)
+      and (rowWorked(actor) or broughtWood(actor)) and not strikeCalled(barefoot) and not woodOpened(thackray) and not triedStrike(actor).
+    Time 3.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert strikeCalled(barefoot). }
+    On failure { Assert triedStrike(actor). }
+    Result "You say it to the Hall, in the end, not to Bess: to forty proxies on the benches with their feet in bowls. That the Wood-reeve shut the right and they froze; that the burgesses buy their way clean on their backs; that on one day in the year, the day the Ladder is gilded, the backs could stay at home. Nobody says anything. Then an old man at the back says, 'I'd give a week's wage to see Grizel Dinsdale's feet,' and the Hall laughs, and that is the vote.".
+    Otherwise "The Hall hears you out, politely, with their feet in their bowls. Then Bess says, 'Ash Day's three days' bread. You've not got children,' and that is the end of it.".
+  }
+  Relation triedStrike(group).
+  // At six on Ash Day the Row stays home, unless the right was opened, in which case Bess calls it off: they asked for
+  // the wood and got it.
+  Rule row_stays_home when strikeCalled(barefoot) and ashDay() and hour(clock) >= 6 and not woodOpened(thackray) and not struck(barefoot) { Assert struck(barefoot). }
+  Rule row_struck_told when struck(barefoot) and inTown() and ashDay() and not spread(row_struck)
+    says "On Ash Day morning the Stand is empty. Every pen, every board rubbed out, and the clerk sitting at his desk at the gate with his ledger open and his pen up and nobody to write. In the Row, every doorstep has someone sitting on it with their feet in a bowl, watching the Middle Town, as if waiting for a procession. At half past eight it begins: the burgesses of Gaunt, who must be clean for the gilding, coming down the Shambles barefoot in the snow to do their own penance, one by one, white-faced, in their shirts, with their boards round their necks in their own hands. The Row watches. Nobody laughs at first. Then a child does, and then everybody does, and then, quite soon, nobody does again." { Assert spread(row_struck). }
+  Entity row_struck: fact "the Barefoot out".
+  Observe stand_struck at the_stand when struck(barefoot) and ashDay() "The Stand on Ash Day: empty pens, rubbed-out boards, and the clerk at his desk with nobody to write.".
+  // Bess's word for Hern, carried by someone the Row trusts.
+  Topic bess_plea with bess "Ask Bess Ackroyd what she would say to Ninian Hern, if she could" when knows(actor, bess_view) and not strikeCalled(barefoot) and not hernHeardBess(hern) and (rowWorked(actor) or broughtWood(actor) or tibHelped(actor)) once {
+    Says "Bess looks at the pegs a long time. 'Tell him,' she says, 'he can be right in heaven. Down here we eat.' She rubs her eyes with the heel of her hand. 'Tell him: recant, Ninian. Say it was the cough talking. Let them gild their Ladder. And next winter, when the Row's eating, he can come and sit by the stove and tell us all over again how none of it's worth anything, and we'll feed him while he says it.' She turns back to the ledger. 'Tell him I said, you don't kneel on your knees. He'll know.'".
+    On discuss { Assert carryingBess(actor). }
+  }
+  // Met face to face, while he is still out and walking with the company.
+  Action hern_meets_bess(actor: group, site: place) "Bring Ninian Hern and Bess Ackroyd face to face" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, barefoot_hall) and following(hern, actor) and at(bess, barefoot_hall) and not hernHeardBess(hern) and not strikeCalled(barefoot).
+    Time 3.
+    On success { Assert hernHeardBess(hern). Increase hernReasons(hern) by 1. Assert knows(actor, bess_view). }
+    Result "Hern stands in the doorway of the Barefoot Hall with his bare feet on the sill and looks at the pegs, and then at Bess. Neither says anything. Then he goes and puts his hand flat on Tobias Kell's peg, which is the newest. 'I passed him on the fell,' he says. 'Kneeling yet, for Roper.' Bess says, 'Did you.' 'I knelt down with him a while.' 'Did you.' He turns round. 'Bess.' 'You can be right in heaven, Ninian,' Bess says. 'Down here we eat.' And they argue then, for an hour, the way old friends argue, not to win, with the whole Hall listening; and at the end of it Hern sits down on the bench with his feet in somebody's bowl, and coughs, and says to you, not to her: 'She's right, too. That's the devil of it. She's always been right too.'".
+  }
+  Measure hernReasons(group).
+
+  // ── The Bishop's Wood ─────────────────────────────────────────────────────────────────────────────────────────────
+  Kind gaunt_sledge "a sledge of dead wood from the Bishop's Wood" is treasure worth 4 weighing 4.
+  Item sledge "a sledge of dead wood" is gaunt_sledge at limbo.
+  Kind gaunt_faggot "a faggot of thorn from the Wood Exchange" is treasure worth 2 weighing 1.
+  Relation sledgeLoaded(group).
+  Person woodmen "the Wood-reeve's woodmen" at wood_edge {
+    Role "three woodmen in leather with billhooks, keeping the Bishop's Wood". Ancestry human. Calling warrior. Level 2. Numbers 3. Pronouns they.
+    Temperament proud.
+    Warns "Three woodmen step out from the holly with billhooks on their shoulders. 'Dead-wood right's suspended,' says the biggest, quite pleasantly. 'By order. Four shillings and we never saw you, for an hour; or back to the Levels; or we can be assessed together, all four of us, for a brawl, which is two pains each and worth it on a cold day.'".
+    Pleads "The woodmen back off into the holly with their hands up. 'All right,' says the biggest. 'All right. Take your sticks. It's not our wood either.'".
+  }
+  Initially Set tribute(woodmen) to 4.
+  Rule woodmen_gone when woodOpened(thackray) and at(woodmen, wood_edge) { Assert at(woodmen, limbo). }
+  Observe wood_open at wood_edge when woodOpened(thackray) "Someone has taken down the board at the edge of the Bishop's Wood and leant it against the post face inward. Along the woodmen's path there are sledge-runners, many, and children's footprints.".
+  Person wolves "the wolves of the Bishop's Wood" at limbo {
+    Role "five grey wolves, thin from the winter, at the edge of the clearing". Species wolf. Numbers 5.
+    Temperament territorial.
+    Warns "At the edge of the clearing five grey wolves stand up out of the snow, one after another, as if the snow had made them, and look at you, and the biggest drops its head. It is dusk. It is their wood at dusk.".
+  }
+  Rule wolves_come when (hour(clock) >= 16 or hour(clock) < 7) and at(wolves, limbo) and able(wolves) and not routed(wolves) { Assert at(wolves, deadfall). }
+  Rule wolves_go when hour(clock) >= 7 and hour(clock) < 16 and at(wolves, deadfall) { Assert at(wolves, limbo). }
+  Action load_sledge(actor: group, site: place) "Cut and load a sledge with dead wood from the deadfall" {
+    Description "Three hours' work with an axe borrowed from nobody, and a sledge made of two boughs and your belt.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deadfall) and not sledgeLoaded(actor) and not at(wolves, deadfall).
+    Time 18. Interrupted when threatened(actor).
+    On success { Assert sledgeLoaded(actor). Assert at(sledge, deadfall). }
+    Result "Dead oak, dry as bone, grey; it breaks under a boot in lengths a child could carry, and you load it on a sledge of two boughs lashed with your belt until the sledge groans. It is enough to keep a household a fortnight, or an oven a week, or a cold farm till the thaw. It is the Row's, by right, and nobody in Gaunt can buy it this winter.".
+  }
+  Event bess_gets_wood near bess when keeps(bess, sledge) "Bess Ackroyd stands in the Hall door and looks at the sledge, and at you, for a long time. 'From the Bishop's Wood,' she says. 'By right.' She calls over her shoulder, and in a minute the Row is round the sledge, and the wood is going away into every doorway an armful at a time, and somebody is lighting the stove in the Hall for the first time this winter. Bess does not touch it. 'They'll say we stole it,' she says. 'Let them say it at the Consistory.'" then { Assert broughtWood(party). Assert rowWarmed(barefoot). }
+  Relation rowWarmed(group).
+
+  // ── The slide ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Purely the Row's: a boy who has lost his skate-bones, cut by his dead father, under the ice by the culvert.
+  Person tib "Tib Ackroyd" at row_ditch {
+    Role "a boy of twelve with his feet in rags, sitting on the ditch bank watching the others slide". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "The boy on the bank does not look round. 'They're under the ice,' he says. 'By the grating. My skates. They went through yesterday where it's black.' He looks at the slide. 'Dad cut them. Out of a cow.'".
+    Greets again "Tib Ackroyd looks round, and back at the ice.".
+    Wants gaunt_skates.
+    Seen when not tibBears(party).
+  }
+  Kind gaunt_skates "a pair of skate-bones, cut from a cow's shins, with leather thongs" is treasure worth 0 weighing 0.
+  Item skates "Tib Ackroyd's skate-bones" is gaunt_skates at limbo.
+  Relation skatesFound(group).
+  Hazard ditch_water "the black water under the ditch ice" means "Deal (1d2) physical damage to ally unless constitution save against (10).".
+  Action find_skates(actor: group, site: place) "Break the black ice by the culvert grating and reach in for the boy's skate-bones" {
+    Description "The water under it is black, and the ice round the hole will not hold a man.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, row_ditch) and not nightfall() and not skatesFound(actor) and not tibBears(actor).
+    Time 2.
+    On success { Assert skatesFound(actor). Assert at(skates, row_ditch). Assert strikes(ditch_water, actor). }
+    Result "You lie flat on the ice with the whole slide watching, and break the black skin by the grating with your heel, and reach in to the shoulder. The cold of it is so complete that for a moment you cannot tell whether you have a hand at all. Then your fingers close on something knobbled, bone and thong, and you draw it out streaming, and roll back onto the bank, and the children cheer as if you had pulled out a drowned man alive.".
+  }
+  Event tib_skates near tib when keeps(tib, skates) "Tib Ackroyd takes the skate-bones and turns them over and wipes them on his sleeve and does not say thank you, which in the Row means thank you. He ties them on. Then he goes out onto the slide, and the line of children makes room, and as he goes they all begin to sing, the way they do, the sliding song, and for the first time you hear the end of it: Oswy, Oswy, up the hill, carry me and carry me still; at the top he set him down: NOW WALK, said Oswy, into town! And on NOW WALK whoever is at the front of the line has to get off the slide and walk, and everybody shrieks." teaches second_verse then { Assert tibHelped(party). }
+  Discovery second_verse "The Row's children sing the end of Saint Oswy's rhyme, which is cut on no stone: at the top of the hill, Oswy set the sinner down, and said, Now walk.".
+  Observe ditch_tib_gone at row_ditch when tibBears(party) and not nightfall() "The children slide on the ditch in a line, singing. On the bank, where a boy was sitting yesterday, there is nobody: the boy is keeping somebody's seventeen cold nights, at a shilling a night, in a room in the Row with the window open.".
+
+  // ── The Shrove baker ──────────────────────────────────────────────────────────────────────────────────────────────
+  Person tunstall "Mother Sugden" at bakehouse {
+    Role "a baker as round and floury as her own loaves, with her arms crossed, glaring at her oven". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "'Two days,' says Mother Sugden, 'two days to Ash Day, three hundred shrove-cakes risen, a pig's worth of crackling, and the oven stone cold, because the Wood-reeve wants thirty shillings the cord for oak and I'd as soon put my own feet in it.' She glares at you. 'If you've wood, I'll love you. If you haven't, mind the dough.'".
+    Greets again "Mother Sugden glares at you with great warmth.".
+    Wants gaunt_faggot. Wants gaunt_sledge.
+  }
+  Thing oven "Mother Sugden's oven" at bakehouse is scenery {
+    State cold "The oven's mouth is black and cold.".
+    State hot "The oven roars.".
+  }
+  Initially Assert state(oven, cold).
+  Event oven_lit near tunstall when (keeps(tunstall, ?w) and itemKind(?w, gaunt_faggot) or keeps(tunstall, sledge)) and state(oven, cold) "Mother Sugden has the wood in the oven before you have let go of it, and the flint struck, and the bellows going; and in a quarter of an hour the bakehouse is roaring and she is sliding trays in on the peel two at a time, singing something rude. 'Come back on Ash Day morning,' she says over her shoulder. 'Not before. You'll not get anything before.'" then { Assert state(oven, hot). Assert bakerHelped(party). }
+  Relation bakerHelped(group).
+  Observe baker_cake at bakehouse when bakerHelped(party) and ashDay() "On the bakehouse step, wrapped in a cloth with your name chalked on it, there is a shrove-cake, still faintly warm. It is Ash Day. You may not eat it. Mother Sugden, through the window, is watching to see whether you will.".
+  Person exchange_clerk "the Wood Exchange clerk" at wood_exchange {
+    Role "a clerk with chalk held between two fingers, putting prices up". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "'Wood?' says the clerk, chalk poised. 'Oak's thirty the cord. Faggots, a hundred, nine shillings; or one, for the poor, two shillings, which is cheaper by the faggot and dearer by the hundred.' He smiles. 'Arithmetic.'".
+    Sells gaunt_faggot for 2 coin from 6.
+  }
+
+  // ── Fly ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Scaifes' dog follows a company that was good to the house and to her, down the fell; and goes home the next time
+  // it is at Carth, if there is a child there to go home to.
+  Rule fly_follows when petted(fly, party) and dowsieSafe(dowsie) and morningDue(carth_vigil) and at(party, levels_road) and not following(fly, party) and not flyHome(fly) { Assert following(fly, party). Assert acceptsEscort(fly, party). Assert at(fly, levels_road). }
+  Relation flyHome(group).
+  Rule fly_goes_home at carth_yard when following(fly, party) and at(party, carth_yard) and not dowsieDead(dowsie) and not flyHome(fly)
+    says "Fly goes off across the yard without looking back, and scratches at the door, and it opens, and a small voice inside says 'Fly!' and the door shuts." { Retract following(fly, party). Assert flyHome(fly). Assert at(fly, house_place). }
+}

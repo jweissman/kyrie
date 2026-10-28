@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "country.kyr",
+    "road.kyr",
+    "carth.kyr",
+    "gate.kyr",
+    "stand.kyr",
+    "widow.kyr",
+    "thackray.kyr",
+    "row.kyr",
+    "tower.kyr",
+    "fold.kyr",
+    "eve.kyr",
+    "gaol.kyr",
+    "trial.kyr",
+    "endings.kyr",
+    "growth.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "gaunt_country",
+    "cross_road": "cross_road"
+  },
+  "experience": 800,
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  }
+}

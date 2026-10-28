@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "A Winter in Carth: ranger",
+  "calendar": {
+    "year": 1121,
+    "month": 2,
+    "day": 13
+  },
+  "modules": [
+    {
+      "id": "gaunt",
+      "bundle": "../../../data/adventures/winter-in-carth/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Rook",
+      "raceId": "elf",
+      "classId": "ranger"
+    }
+  ]
+}
