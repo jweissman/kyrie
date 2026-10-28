@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: the journey driver", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

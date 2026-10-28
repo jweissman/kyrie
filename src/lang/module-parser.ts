@@ -281,9 +281,11 @@ export class ModuleParser {
     return ModuleParser.list(changes) as Change[];
   }
   // A topic is put to someone where they are; one "travelling" to someone who has joined the company, wherever it is.
+  // One that cannot be undone (a hand shaken on a bargain) says so before or after its words, and the page asks first
+  // (Liberty of the Ice's 13: every handshake had to be an action to be asked about).
   static Topic(_t: Node, id: Node, _with: Node, speaker: Node, travelling: Node, title: Node, _when: Node,
-    condition: Node, once: Node, _open: Node, _says: Node, response: Node, _dot: Node, effects: Node,
-    _close: Node): Field {
+    condition: Node, once: Node, _open: Node, before: Node, _says: Node, response: Node, _dot: Node, after: Node,
+    effects: Node, _close: Node): Field {
     const who = speaker.sourceString;
     // Someone who has joined the company is still themselves: what could be put to them where they were can be put to
     // them on the way, so long as they can answer (not fallen, nor asleep).
@@ -292,9 +294,9 @@ export class ModuleParser {
       ? `able(actor) and distinct(actor, ${who}) and at(actor, site) and ${along}`
       : `able(actor) and distinct(actor, ${who}) and at(actor, site)`
         + ` and ((able(${who}) and not asleep(${who}) and at(${who}, site)) or (${along}))`;
-    return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title),
-      description: '', speaker: who, topic: true,
-      report: ModuleParser.ast(response), parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
+    return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title), description: '',
+      speaker: who, topic: true, report: ModuleParser.ast(response), ...PersonParser.graveOf(before, after),
+      parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
       requires: { kind: 'and', left: ModuleParser.predicate(text), right: ModuleParser.ast(condition) },
       success: ModuleParser.told(effects.children.length ? ModuleParser.ast(effects.children[0]!) as Change[] : [],
         who),

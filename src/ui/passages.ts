@@ -38,9 +38,11 @@ export class Passages {
     if (a.some(id => !b.includes(id))) { return 'leave'; }
     return 'walk';
   }
+  // What a way goes into or out of: a building, a site, a floor of one; not a terrace of a town, walked onto.
   private enclosures(id: string): string[] {
     return Spatial.ancestry(this.entities, id).slice(1)
-      .filter(e => ['building', 'site', 'level'].includes(e.space!.kind)).map(e => e.id);
+      .filter(e => ['building', 'site', 'level'].includes(e.space!.kind) && !Spatial.terrace(e, this.entities))
+      .map(e => e.id);
   }
   scope(origin: string, destination: string, transition: Transition): string | undefined {
     if (transition === 'walk') { return undefined; }

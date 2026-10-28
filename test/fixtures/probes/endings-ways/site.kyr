@@ -1,0 +1,15 @@
+Module endingsways "A drop with a way back, and three endings" {
+  Place field "a field" is wilderness.
+  Place ledge "the ledge" is room within field at 0, 0 outdoors.
+  Place pool "the still water" is room within field at 1, 0 outdoors.
+  Passage drop "the drop" is path between ledge and pool taking 2 minutes one way.
+  Passage stair "the cut stair" is path between pool and ledge taking 10 minutes one way.
+  Company party "You" of 1 at ledge.
+  Relation drowned(group). Relation saved(group). Relation sung(group).
+  Ending drowning "The Drowning" when drowned(party) "The water closes over.".
+  Ending ballad "The Ballad" when drowned(party) and sung(party) "They sing of it after.".
+  Ending homecoming "The Keeping" when saved(party) "You come home.".
+  Observe ledge_scene at ledge when true "A ledge over still water.".
+  Observe pool_scene at pool when true "Still water under a ledge.".
+  Goal false.
+}

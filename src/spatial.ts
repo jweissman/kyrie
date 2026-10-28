@@ -90,9 +90,10 @@ export class Spatial {
     if (!module.relations.some(r => r.name === 'indoors')) { return; }
     const entities = new Map(module.entities.map(e => [e.id, e]));
     for (const place of module.entities.filter(e => e.space)) {
-      const above = this.ancestry(entities, place.id).slice(1).map(e => e.space!.kind);
+      const line = this.ancestry(entities, place.id).slice(1), above = line.map(e => e.space!.kind);
       const shelter = place.space!.shelter;
-      const inside = shelter ? shelter !== 'outdoors' : above.some(k => k === 'building' || k === 'level');
+      const inside = shelter ? shelter !== 'outdoors'
+        : line.some(e => e.space!.kind === 'building' || e.space!.kind === 'level' && !this.terrace(e, entities));
       if (inside) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'indoors', args: [place.id] } }); }
       if (above.includes('settlement')) { module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'settled', args: [place.id] } }); }
     }
@@ -130,12 +131,19 @@ export class Spatial {
       }
     }
   }
+  // A level of a town or of the hills, not of a building or a site: a terrace, open to the sky, walked onto rather than
+  // entered (Low Water's 16: Ammerlin's terraces had to be written as steps, a level sitting only in a site).
+  static terrace(level: Entity, entities: Map<string, Entity>): boolean {
+    const parent = level.space?.parent ? entities.get(level.space.parent) : undefined;
+    return level.space?.kind === 'level' && ['settlement', 'wilderness'].includes(parent?.space?.kind ?? '');
+  }
   private static validateParent(entity: Entity, entities: Map<string, Entity>): void {
     const space = entity.space!;
     const allowed: Record<string, string[]> = {
       plane: [], region: ['plane'], settlement: ['region'], wilderness: ['region'],
       site: ['region', 'settlement', 'wilderness'], building: ['settlement', 'site', 'wilderness'],
-      level: ['site', 'building', 'level'], room: ['settlement', 'wilderness', 'site', 'building', 'level', 'room'],
+      level: ['settlement', 'wilderness', 'site', 'building', 'level'],
+      room: ['settlement', 'wilderness', 'site', 'building', 'level', 'room'],
     };
     if (space.parent && !allowed[space.kind]!.includes(entities.get(space.parent)!.space!.kind)) {
       throw new Error(`Invalid ${space.kind} containment for ${entity.id}`);

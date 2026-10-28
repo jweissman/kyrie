@@ -136,4 +136,14 @@ export class ModuleWriter {
     if (value.kind === 'arith') { return { ...value, left: this.calls(value.left, f), right: this.calls(value.right, f) }; }
     return { ...value };
   }
+  // The same for a condition: each call in it, and in what it compares.
+  static conditionCalls(p: Predicate, f: (call: Call) => Call): Predicate {
+    switch (p.kind) {
+      case 'call': return f(p);
+      case 'not': return { ...p, value: this.conditionCalls(p.value, f) };
+      case 'and': case 'or': return { ...p, left: this.conditionCalls(p.left, f), right: this.conditionCalls(p.right, f) };
+      case 'compare': return { ...p, left: this.calls(p.left, f), right: this.calls(p.right, f) };
+      default: return { ...p };
+    }
+  }
 }

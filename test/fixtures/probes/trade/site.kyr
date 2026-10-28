@@ -1,0 +1,11 @@
+Module trade "A scholar and a carter" {
+  Place yard "the yard" is room.
+  Company party "You" of 1 at yard.
+  Person halm "Teodor Halm" at yard { Role "a scholar". Peaceable. Pronouns he. Buys rope for 5 coin. Sells torch for 2 coin from 3. }
+  Person dace "Dace" at yard { Role "a carter". Peaceable. Pronouns she. Buys rope for 4 coin. }
+  Initially Set quantity(dace, gold) to 3.
+  Initially Set quantity(party, gold) to 20.
+  Item coil "a coil of rope" is rope at yard.
+  Observe yard_scene at yard when true "A yard.".
+  Goal false.
+}

@@ -24,6 +24,10 @@ A place's name is said as the page says where you are and where a way goes, so n
 "the floor above", "the rooms below stairs" for the levels of a house, since a way through a level is labelled with
 its name ("Up to the floor above").
 
+A level of a town or of the hills, not of a building or a site, is a terrace: open to the sky, walked onto from the
+rest of the town ("To the quay", not "Into the Dyers' Terrace"), and joined to the terrace above by a stair
+(`test/fixtures/probes/terraces`).
+
 The `at x, y` numbers are a room's cell on the map of its area. For an area, they are its position on the region
 map. Rooms of different areas never share a map, so you can number each area from zero.
 
@@ -622,13 +626,16 @@ bin/kyrie play path/to/your.campaign.json --seed s --steps steps.json --probe "k
 
 Each step is a pattern for the choice to take, matched against its label ("Wait › An hour", "Pack › A torch ›
 Light", "a torch: Light") and then against the label under its heading ("the Sleeper's left eyelid: Examine › Push
-and pull at it"), which tells two things' alike choices apart. Alike things carried are one row with their count
-("Pack › Three torches › Light"), so a step for any of them is `Pack › .*torch.* › Light`. `?pattern` is taken if it is
-offered; `@command` performs a command by its id; `=N` waits until watch N, `=+N` waits N watches more, `~N` waits
-until watch N by dark and first light; `=21:00` waits until nine at night comes, and `=day 2 21:00` until nine at night
-on the second day (watches are ten minutes, counted from eight on the first morning, so that is 222, not 216: A Winter
-in Carth's 20); `~pattern` is a way not open yet, tried again after a short wait. Each step is printed as the page
-tells it, then where the company is, then the answers to the probes: a fact is yes or no, `#measure` its number.
+and pull at it"), which tells two things' alike choices apart; quotes are quotes, straight or curled. Alike things
+carried are one row with their count ("Pack › Three torches › Light"), so a step for any of them is
+`Pack › .*torch.* › Light`. `@command` performs a command by its id; `=N` waits until watch N, `=+N` waits N watches
+more, `~N` waits until watch N by dark and first light; `=21:00` waits until nine at night comes, and `=day 2 21:00`
+until nine at night on the second day (watches are ten minutes, counted from eight on the first morning, so that is
+222, not 216: A Winter in Carth's 20); `=until approach(bowl) >= 1` waits a while at a time until a condition holds,
+written as the module writes it, or the book closes; `~pattern` is a way not open yet, tried again after a short wait.
+`?` before any step takes it if it can be taken and goes on if not (`?Puzzle out`, `?=+6`). Each step is printed as
+the page tells it, then where the company is, then the answers to the probes: a fact is yes or no, `#measure` its
+number.
 `--choices` lists what is offered at the end. The steps file is a list, or named phases played in the order written.
 `>place` goes to a place by the shortest way there, a way at a time (`>z3_deep`, or a whole id such as
 `ashhollow__square`).
@@ -657,7 +664,11 @@ change_thing "{how}": not offered
 
 A journey test plays the same steps with `Journey` (`src/session/journey.ts`), as the adventures' own tests do
 (`test/thrume.test.ts`, `test/house-that-grows.test.ts`, `test/let-one-remember.test.ts`,
-`test/patient-star.test.ts`); `JOURNEY_TRACE=1` prints each step as the page told it.
+`test/patient-star.test.ts`); `JOURNEY_TRACE=1` prints each step as the page told it. A step's `told` is what the
+event said (the action's Result, and what rules said with it) as the module wrote it; its `page` is the page's
+telling, set as a book is, its quotes curled. A step that matches choices doing different things takes the first and
+is kept in `ambiguous`; a journey started `{ strict: true }`, or run with `JOURNEY_STRICT=1`, fails there instead, and
+names them (`test/journey-driver.test.ts`).
 
 ## 10. What else a module can say
 
@@ -848,6 +859,16 @@ again, it is done (`test/fixtures/probes/grave`).
   }
 ```
 
+A topic can be grave too: a hand shaken on a bargain, in the middle of talk (`Grave` before its `Says`, or after).
+
+```text
+  Topic shake_reeve with reeve "Shake the Reeve's hand on it" when true once {
+    Grave "A hand shaken on the ice binds: the Court will hold you to it.".
+    Says "The Reeve's grip is cold, and brief.".
+    On discuss { Assert shook(party, reeve). }
+  }
+```
+
 ### Words that teach
 
 What is known is learned, not set: a rule cannot `Assert knows(…)`. A rule's or an event's words can teach what they
@@ -874,7 +895,9 @@ stops, and the page closes on its title and epilogue, as it does when no one is 
   Ending opened "The Gate Opens" when state(lever, up) "The gate grinds open on the valley beyond, and the pass is yours.".
 ```
 
-`reached(opened)` says which ending a game came to, in a kept game as in play.
+`reached(opened)` says which ending a game came to, in a kept game as in play. Endings are tried in the order they
+are written, so the more particular comes first: the lint says when one asks all that an earlier one asks, and so can
+never be reached.
 
 ### Numbers in what is said
 

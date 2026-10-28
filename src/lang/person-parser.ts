@@ -18,6 +18,11 @@ export class PersonParser {
   static Grave(_g: Node, text: Node, _dot: Node): Field {
     return { field: 'grave', value: (text as unknown as { ast(): unknown }).ast() as string };
   }
+  // The grave words of a topic, written before its Says or after.
+  static graveOf(...optional: Node[]): { grave?: string } {
+    const grave = optional.flatMap(o => o.children).map(g => (ModuleParser.ast(g) as Field).value as string)[0];
+    return grave ? { grave } : {};
+  }
   // Person = "Person" ident string "at" ident "{" PersonPart* "}"
   static person(id: Node, name: Node, place: Node, parts: Node): Field {
     const p: Person = { id: id.sourceString, name: ModuleParser.ast(name) as string, place: place.sourceString,

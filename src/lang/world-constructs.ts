@@ -98,7 +98,14 @@ export class WorldConstructs {
   static offers(module: Module, p: { id: string; place: string; offers?: { kind: string; text: string; fee: number }[];
     sells?: { what: string; fee: number; stock: number }[]; buys?: { what: string; fee: number }[] },
   catalog?: (kind: string) => string | undefined) {
-    // What a person will pay for a kind of thing the company brings them.
+    // What a person will pay for a kind of thing the company brings them, and coin to pay with: ten times the most they
+    // pay, unless the module gives them their own (Low Water's 14: Halm bought finds and held nothing, and the page
+    // never offered him one).
+    const most = Math.max(0, ...(p.buys ?? []).map(b => b.fee));
+    if (most) {
+      module.initial.unshift({ kind: 'set', call: { kind: 'call', name: 'quantity', args: [p.id, 'gold'] },
+        value: { kind: 'number', value: most * 10 } });
+    }
     for (const b of p.buys ?? []) {
       const kindName = catalog?.(b.what);
       if (!kindName) { throw new Error(`${p.id} buys ${b.what}, which is no kind of item`); }

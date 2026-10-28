@@ -1,0 +1,31 @@
+Module journeydriver "A yard, a clerk and a tide" {
+  Place yard "the yard" is room.
+  Company party "You" of 1 at yard.
+  Relation turned(group). Relation creaked(group). Relation rung(group). Relation flooded(group).
+  Action turn_wheel(actor: group, site: place) "Turn the wheel" {
+    Requires able(actor) and at(actor, site) and not turned(actor).
+    Time 1 minute.
+    On success { Assert turned(actor). }
+    Result "You lean on the spoke, and the wheel turns.".
+  }
+  Rule gate_groans when turned(party) and not creaked(party) says "Across the yard, the gate groans open." { Assert creaked(party). }
+  Rule bell when watch(clock) >= 4 and not rung(party) says "A bell rings in the gate-house." { Assert rung(party). }
+  Rule tide when watch(clock) >= 30 and not flooded(party) { Assert flooded(party). }
+  Ending drowning "The Drowning" when flooded(party) "The tide comes over the yard wall, and the water closes over.".
+  Person quill "Quill" at yard { Role "a clerk". Peaceable. Pronouns he. }
+  Topic quill_counts with quill "Ask Quill what the Reckoner counts" when true once {
+    Says "'Everything,' says Quill.".
+  }
+  Thing exhibit "the census exhibit" at yard {
+    State shut "A glass case of tallies stands by the wall.".
+    State open "The glass case stands open.".
+    Change count "Read what the Reckoner counts" from shut to open.
+  }
+  Thing ledger "the Reckoner’s ledger" at yard {
+    State closed "A ledger lies on a stool.".
+    State opened "The ledger lies open on the stool.".
+    Change open "Open the Reckoner’s ledger" from closed to opened.
+  }
+  Observe yard_scene at yard when true "A yard with a wheel in it.".
+  Goal false.
+}

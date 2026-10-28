@@ -5,7 +5,7 @@ import { Canon } from '../canon/canon';
 import { Spatial } from '../spatial';
 import { Effects } from '../effects';
 import { parseAbility } from '../lang/parse';
-import type { Entity, Module } from '../lang/module';
+import type { Entity, Module, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import type { Finding } from './kyr-lint';
 
@@ -106,6 +106,22 @@ export class CampaignLint {
       this.add('warning', 'containment', `${p.id} has no place in the containment tree`);
     }
   }
+  private oneWay(way: string, a: string, b: string): boolean {
+    return !this.relations('connects').some(r => r.args[0] === way && r.args[1] === b && r.args[2] === a);
+  }
+  // The first ending whose condition holds is the one reached: a later one that asks all an earlier one asks, and
+  // more, can never be (Low Water's 21: seventeen endings ordered by hand, nothing saying one was shadowed).
+  endings() {
+    const ends = (this.module.rules ?? []).filter(r => r.effects.some(e => e.kind === 'assert' && e.call.name === 'reached'))
+      .map(r => ({ id: r.id, asks: this.conjuncts(r.when.kind === 'and' ? r.when.left : r.when) }));
+    ends.forEach((late, i) => {
+      const early = ends.slice(0, i).find(e => [...e.asks].every(a => late.asks.has(a)));
+      if (early) { this.add('warning', 'ending', `${late.id} is never reached: ${early.id} comes first, and holds whenever it does`); }
+    });
+  }
+  private conjuncts(p: Predicate): Set<string> {
+    return p.kind === 'and' ? new Set([...this.conjuncts(p.left), ...this.conjuncts(p.right)]) : new Set([JSON.stringify(p)]);
+  }
   private needs(way: string): string {
     return this.relations('needs').filter(r => r.args[0] === way).map(r => r.args[1]).join(',');
   }
@@ -116,7 +132,9 @@ export class CampaignLint {
       for (const end of [a, b]) {
         if (this.entities.get(end)?.type !== 'place') { this.add('error', 'passage', `${way} ends at ${end}, which is not a place`); }
       }
-      const key = [a, b].sort().join('|');
+      // A way that goes one way only is not its own return (Low Water's 17: the way back from the still water was
+      // reported as a duplicate of the way down to it).
+      const key = this.oneWay(way, a, b) ? `${a}>${b}` : [a, b].sort().join('|');
       // Two ways between the same places are alternatives only if they ask for different things (a rope, a lock).
       if (seen.has(key) && seen.get(key) !== way && this.needs(way) === this.needs(seen.get(key)!)) {
         this.add('warning', 'passage', `${way} duplicates ${seen.get(key)} between ${a} and ${b}`);

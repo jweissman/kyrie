@@ -1,0 +1,16 @@
+Module terraces "A town on two terraces" {
+  Place vale "the vale" is region.
+  Place town "Ammerlin" is settlement within vale.
+  Place gate "the north gate" is room within town at 2, 0 outdoors.
+  Place lower "the Dyers' Terrace" is level within town.
+  Place quay "the quay" is room within lower at 0, 0 outdoors.
+  Place walk "the Dyers' Walk" is room within lower at 1, 0.
+  Place upper "the Rim" is level within town.
+  Place market "the market" is room within upper at 0, 1 outdoors.
+  Passage gate_quay "the gate road" is path between gate and quay taking 2 minutes.
+  Passage quay_walk "the quayside" is path between quay and walk taking 2 minutes.
+  Passage stair "the long stair" is stair between walk and market.
+  Company party "You" of 1 at gate.
+  Observe market_scene at market when true "A market at the head of the stair.".
+  Goal false.
+}

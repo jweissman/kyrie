@@ -14,4 +14,12 @@ Module grave "A statue that can be broken, once" {
     On success { Assert state(statue, broken). }
     Result "You put your shoulder to the statue, and it goes over, and breaks.".
   }
+  // A topic can be grave too: an oath sworn in the middle of talk.
+  Person warden "Ysolde" at square { Role "the square's warden". Peaceable. Pronouns she. }
+  Relation sworn(group).
+  Topic swear with warden "Swear to Ysolde that the statue will stand" when not sworn(actor) once {
+    Grave "An oath sworn to the warden binds you to the statue.".
+    Says "Ysolde takes your hand, and holds it a moment longer than she needs to.".
+    On discuss { Assert sworn(actor). }
+  }
 }

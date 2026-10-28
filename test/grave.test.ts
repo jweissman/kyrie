@@ -17,4 +17,13 @@ describe('a grave act', () => {
     expect(await j.play('Break the founder')).toContain('it goes over, and breaks');
     expect(j.holds('state', 'p__statue', 'p__broken')).toBe(true);
   }, 60000);
+  // An oath sworn in talk, not an action beside it (Liberty of the Ice's 13: every handshake had to be one).
+  it('may be a topic, said in the talk before it is done', async () => {
+    const j = await Journey.start(probe, 'grave');
+    const choice = ChoiceList.explore(ScreenModel.build(j.campaign)).flatMap(s => leaves(s.choices))
+      .find(c => c.label === 'Swear to Ysolde that the statue will stand')!;
+    expect(choice.grave).toBe('An oath sworn to the warden binds you to the statue.');
+    expect(await j.play('Swear to Ysolde')).toContain('holds it a moment longer');
+    expect(j.holds('p__sworn', 'party')).toBe(true);
+  }, 60000);
 });
