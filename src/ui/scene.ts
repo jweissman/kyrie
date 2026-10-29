@@ -41,6 +41,8 @@ export class SceneModel {
       near: all.filter(c => !this.far(c)), far: all.filter(c => this.far(c)),
       you: sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => !this.across(c))) };
   }
+  // One of the place's own acts, by its command (a module's: pellam__ride_swing), not one done anywhere (waiting).
+  static own(this: void, c: Choice): boolean { return !!c.own; }
   // Danger first (a creature, or a band the company would reckon a fight with), then whoever the company has a stake
   // in, then people, animals and things, and whoever is with the company last.
   static readonly ranks: Record<SceneSubject['kind'], number> = { creature: 0, person: 2, animal: 3, thing: 4, companion: 5 };

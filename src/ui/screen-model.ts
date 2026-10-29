@@ -27,7 +27,7 @@ import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers';
 import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
-import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
+import { Services } from './services'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
 import { Stakes } from './stakes';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
@@ -82,7 +82,7 @@ export class ScreenModel {
       deadlines: view.deadlines.map(d => `${d.pressure}: ${FictionalTime.at(d.at)}${d.passed ? ' (passed)' : ''}`),
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
       formations: this.formations(campaign),
-      trade: here ? TradeModel.at(world, here, names) : [],
+      trade: here ? TradeModel.at(world, here, names) : [], services: Services.of(campaign, names),
       objectives: Stakes.here(campaign, view.objectives ?? [], here).map(o => FictionalTime.prose(o.text)),
       ...stakes.size ? { aimed: [...stakes] } : {},
       ...new ChartModel(world, view.actor, entities).build(visited, here),

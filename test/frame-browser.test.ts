@@ -53,8 +53,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
       expect((await MonoBrowser.metrics(page)).scroll).toBe(false);
       await driver.pick(c => /^To the bridge-foot/.test(c.label), 'the bridge-foot');
       expect((await MonoBrowser.metrics(page)).scroll).toBe(false);
+      // Those whose work is the heart's, and your brother (the rest of the town work in its lanes and fields since
+      // Mission 18's commons).
       const people = await Frame.people(page);
-      expect(Object.keys(people).length).toBeGreaterThan(2);
+      expect(Object.keys(people).length).toBeGreaterThan(1);
       expect(Object.values(people).every(n => n === 1)).toBe(true);
       // Who is here comes after the place's first paragraph, a phone's too, not under the whole telling (M17-05).
       expect(await Frame.above(page, '.cast .plates > li', '.telling .establish > p:nth-of-type(2)')).toBe(true);

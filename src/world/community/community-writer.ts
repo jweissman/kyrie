@@ -79,7 +79,8 @@ export class CommunityWriter {
     const s = c.settlement, q = this.q, work = r.workplace ?? `${s.id}_green`;
     const kin = r.kin ? `, ${c.residents.find(x => x.id === r.kin!.to)?.name}'s ${r.kin.as}` : '';
     const role = `the ${r.work.name}${kin}`, their = Voice.pronouns[r.pronoun]!.their;
-    const about = r.workplace ? c.workplaces.find(w => w.id === r.workplace)!.name : `${their} work`;
+    const place = c.workplaces.find(w => w.id === r.workplace);
+    const about = place && !place.common ? place.name : `${their} work`;
     const evening = r.evening === 'inn' && c.inn ? `${s.id}_taproom` : `${s.id}_houses`;
     const free = `able(${r.id}) and not travelsWith(${r.id}, party) and not following(${r.id}, party)`;
     return [

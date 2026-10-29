@@ -59,7 +59,7 @@ export class Outfitters {
     const draw = new Draw(`${region.name}:${s.id}:chandler:manner`);
     const sells = c.stock.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
     const likeness = CommunityWriter.likenessOf(region, { pronoun, painting: 'shopkeeper', id: keeper });
-    return [`  Place ${id} ${q(`${name}'s ${c.shop}`)} is room within ${s.id} at 2, 0 indoors.`,
+    return [`  Place ${id} ${q(`${name}'s ${c.shop}`)} is room within ${s.id} at 3, 0 indoors.`,
       `  Passage ${id}_door ${q(`${name}'s door`)} is door between ${id} and ${s.id}_green.`,
       `  Person ${keeper} ${q(name)} at ${id} { Role ${q(c.role)}. Ancestry ${ancestry}.${likeness} Peaceable.`
         + ` Pronouns ${pronoun}. Manner ${draw.pick(['proud', 'cheerful', 'acerbic', 'stoic', 'jovial'])}. ${sells} }`,

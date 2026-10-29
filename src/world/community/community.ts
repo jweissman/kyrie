@@ -1,4 +1,5 @@
 import { Draw } from '../land/draw';
+import { Commons } from './commons';
 import { Canon } from '../../canon/canon';
 import { Overlays } from '../../overlays';
 import { RegionGeography } from '../region-geography';
@@ -34,7 +35,9 @@ export interface Animal { id: string; species: string; name: string; pronoun: 'h
   // How it is seen after dark, when that is not how it is seen by day (a cat in the sun).
   night?: string }
 // A place where the work is done; the founding's own carries what there is to do there besides (see FoundingPlace).
-export interface Workplace { id: string; name: string; scene: string; indoors: boolean; place?: FoundingPlace }
+// common: one of the places anyone works whose work has none of its own (see Commons): the lanes, the fields.
+export interface Workplace { id: string; name: string; scene: string; indoors: boolean; place?: FoundingPlace;
+  common?: boolean }
 // A small trouble of one household that a stranger could help with: a goat got out, a thing they lack.
 export interface Concern { kind: 'strayed' | 'wants'; resident: string; animal?: string; wants?: string }
 export interface Community {
@@ -62,6 +65,7 @@ export class Communities {
     const residents = chosen.map(([key, work], i) => this.resident(s, { key, work, ancestry, i, draw, used }));
     this.households(residents, draw);
     const workplaces = this.places(s, residents, founding);
+    workplaces.push(...Commons.assign(s, residents, { workplaces, water, heart: ['workings', 'yard'].includes(founding.kind) }));
     const animals = this.animals(s, residents, { draw, founding, beasts });
     const concern = this.concern(residents, animals, { draw, stock, beasts });
     return { settlement: s, residents, animals, workplaces, water, inn: founding.keeping !== 'none', ...concern ? { concern } : {} };

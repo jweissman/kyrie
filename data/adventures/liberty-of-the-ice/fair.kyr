@@ -7,7 +7,7 @@ Module pellam "The Liberty of the Ice" {
   // crowd, which goes where the Fair's day goes.
 
   // Mother Gage's booth, the first at the foot of Swan Stairs: everything the frost wants.
-  Person gage "Mother Gage" at limbo {
+  Person gage "Mother Gage" at swan_foot {
     Role "a chandler in three shawls, at the first booth at the foot of Swan Stairs". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "'Candles, lamp-oil, lanterns, rope, a bar for the ice and a sack for what you win,' says a woman in three shawls, all in one breath, from the first booth at the foot of the stairs. 'Everything the frost wants and nothing it doesn't. You're new. You'll want a light. They all want a light, after.'".
     Greets again "'Back for the light,' says Mother Gage. 'They always come back for the light.'".

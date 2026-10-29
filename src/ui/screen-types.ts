@@ -25,6 +25,8 @@ export interface Act {
   until?: string;
   // Whether it gives the company light (a spell of light: see Illumination).
   light?: boolean;
+  // One of the place's own, an adventure's or a country's (the swing-boat, a penny a stair), not one done anywhere.
+  own?: boolean;
   // A fight it begins (a challenge to single combat), weighed up before it is chosen, as an attack is.
   reckoned?: { danger: Danger; text: string };
 }
@@ -140,6 +142,9 @@ export interface Screen {
   roads?: NonNullable<Screen['destinations']>;
   // The other places of the town the company is in, further than a step (by its square), to walk to directly.
   around?: NonNullable<Screen['destinations']>;
+  // Where in the settlement the company is in what anyone needs is found (see Services): each need, who meets it,
+  // where, whether that is here, and what of it they have.
+  services?: { need: string; who: string; place: PlaceRef; here: boolean; has: string[] }[];
 }
 export interface Chart {
   // A way out of the plan is drawn as a place beyond it (external); one to another level of the site goes up or down.

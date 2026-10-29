@@ -1,0 +1,57 @@
+Module pellam "The Liberty of the Ice" {
+  // ── Callow at the Glove Post: the disputation on the ice ──────────────────────────────────────────────────────────
+  // His question was asked only of whoever had stood up at the Court and shaken to be his hand; a stranger who stopped
+  // at his keg on the first morning heard what he teaches, and nothing more (the owner's review of Mission 18: the
+  // philosophers were thin to meet, and slow to argue). On the first day, before the Court sits, he puts it to anyone
+  // who has heard him out, in front of the crowd; each answer has its rejoinder, and its follow-up; the ice joins in;
+  // and the third answer, which only someone who has seen a bargain shaken on a lie can give, is waited for.
+  Relation callowPut(group). Relation publicBinds(group). Relation publicChanges(group). Relation publicKnowing(group).
+  Relation callowPressed(group). Relation gantSpoke(group). Relation urselSpoke(group). Relation callowWaits(group).
+  Query callowOnKeg() means at(callow, freezeland) and not callowCharged(callow) and not iceGone().
+  Topic callow_puts with callow "Let Magister Callow put his question to you, before the crowd" when callowHeard(actor) and callowOnKeg() and not callowPut(actor) once {
+    Says "He gets down off his keg and takes you by both shoulders and turns you to face the crowd, as if you were the text of his sermon. 'Here,' he says, 'is a stranger who came down the North Road this morning, and shook on a penny a stair with a waterman, very likely, or will before the day is out. Tomorrow this stranger will have seen the Fair, and lost a purse, and found it, and be somebody else.' He turns you back to face him. 'So. Which of them does the hand bind? The one who gave it, or the one who is standing here when it is called in?' The crowd goes quiet to hear what you will say, which is the most attention you have had from anybody in Pellam.".
+    On discuss { Assert callowPut(actor). }
+  }
+  Topic callow_public_binds with callow "Tell him, before them all: a hand binds whoever gave it, changed or not" when callowPut(actor) and callowOnKeg() and not publicBinds(actor) and not publicChanges(actor) and not publicKnowing(actor) once {
+    Says "'The Reeve's answer,' says Callow, delighted, to the crowd. 'Pellam's answer. Every honest man's.' He coughs. 'And Master Harker's, who has bought up every bond in this city that a man made when he was younger and poorer and stupider, and calls them in on the man he is now.' He turns back to you. 'You say the man is dragged along behind his promise like a dog behind a cart. Very well. But who wrote the promise down? And was it the same promise when it was called in?' He looks across, very pointedly, at the lean-to in the lee of the Glove Post.".
+    On discuss { Assert publicBinds(actor). }
+  }
+  Topic callow_public_changes with callow "Tell him, before them all: he is right, and nobody is bound by who they were" when callowPut(actor) and callowOnKeg() and not publicBinds(actor) and not publicChanges(actor) and not publicKnowing(actor) once {
+    Says "His face lights up like a boy's. 'A convert,' he tells the crowd, 'on the ice, before noon.' Half of them cheer and half of them boo, and a waterman at the back shouts that he'll take his penny a stair off the convert, then, since it's somebody else who'll owe it. 'Ah,' says Callow, and holds up one finger, and coughs. 'There is the difficulty. Every man in Pellam agrees with me about his own promises, and with the Reeve about everybody else's.' He looks at you, sharply, kindly. 'Which are you?'".
+    On discuss { Assert publicChanges(actor). }
+  }
+  // A middle answer, which only someone who has seen a bargain shaken on a lie can give: before the crowd, it is the
+  // thing the Court will be argued on at the Landing.
+  Topic callow_public_knowing with callow "Tell him, before them all: a hand binds the one who shook it if he knew what he was shaking on; shaken on a lie about the thing itself, it binds nobody" when callowPut(actor) and callowOnKeg() and not publicKnowing(actor)
+    and (knows(actor, hired_sold) or knows(actor, tansy_hired) or knows(actor, gant_altered)) once {
+    Says "Callow does not say anything at all for a while, which nobody on the ice has seen him do, and the crowd waits with him. 'That is not the Flow,' he says at last. 'And it is not the Reeve.' He coughs. 'It is a third thing. Nothing stays, but what a man knew when he gave his hand, that stays: it was really there.' He turns to the crowd. 'Remember that this stranger said it, and I did not,' he tells them, 'when it is argued before the Reeve.' Then, to you, quietly: 'Somebody shook on a lie in front of you. Hold onto them. That is your case, and it is better than mine.'".
+    On discuss { Assert publicKnowing(actor). Assert knows(actor, third_thing). }
+  }
+  Discovery third_thing "Magister Callow's third thing, said first by you before the crowd at the Glove Post: a hand binds the one who shook it if he knew what he was shaking on; a hand shaken on a lie about the thing itself binds nobody. It could be argued before the Reeve." {
+    Known by callow.
+  }
+  // Disagreement pressed: each answer has its follow-up, and each follow-up is somewhere to go.
+  Topic callow_press_bond with callow "Ask Callow what he meant, looking at the lean-to: who changed the promise?" when publicBinds(actor) and callowOnKeg() and not callowPressed(actor) once {
+    Says "'I meant nothing,' says Callow, loudly, for the crowd, and then, low, for you: 'Sir Lionel Gant, under the Glove Post, borrowed three coin from his tailor ten years ago. Master Harker bought the bond, and it says thirty now. The man has changed, and so has the paper, and only one of them was supposed to.' He climbs back on his keg. 'Ask Sir Lionel whether he ever read his own copy. He has not. Nobody reads what they shook on; that is how the world is run.'".
+    On discuss { Assert callowPressed(actor). Assert knows(actor, gant_bond). }
+  }
+  Topic callow_press_reeve with callow "Ask Callow what the Reeve will say to a convert" when publicChanges(actor) and callowOnKeg() and not callowPressed(actor) once {
+    Says "'To you? Nothing. You have not preached it.' He looks over at the Court's patched tent beside the Glove Post. 'To me she will say it at four, I think. The watermen have been counting how many of their pennies I have talked off them.' He coughs, and laughs, and coughs. 'Come and watch. Nobody on the ice will shake to be my hand, and you will see what a hand is worth when there is none.'".
+    On discuss { Assert callowPressed(actor). Assert knows(actor, court_at_four). }
+  }
+  Discovery court_at_four "Magister Callow expects to be charged at the Court of the Ice at four on the first day, for teaching that a hand binds nobody; and that nobody on the ice will shake to be his hand." {
+    Known by callow.
+  }
+  // He waits for the third answer from whoever has not found it yet: something to go and look for.
+  Topic callow_waits with callow "Ask Callow whether there is any answer he has not heard" when callowPut(actor) and (publicBinds(actor) or publicChanges(actor)) and callowOnKeg() and not publicKnowing(actor) and not callowWaits(actor) once {
+    Says "'One.' He holds up a finger. 'I have heard the Reeve's, and mine, ten thousand times. I have never heard a third, and I think there is one, and I think it is lying about on this ice somewhere for anyone who has seen a hand shaken on a lie.' He taps your chest. 'Find me someone who shook on a lie, and come and tell me what it bound. Before four, if you would be so kind: after four I expect to be busy.'".
+    On discuss { Assert callowWaits(actor). }
+  }
+  // The ice joins in: Sir Lionel, who borrowed three, for the Reeve's answer; Ursel, who has never shaken, for his.
+  Rule gant_joins when publicBinds(party) and at(party, freezeland) and at(gant, freezeland) and not gantFree(gant) and not gantSafe(gant) and not gantSpoke(gant)
+    says "From the lean-to under the Glove Post, Sir Lionel Gant raises his glass. 'Bound, sir! Bound for ever, by a hand I gave when I had more hair and fewer creditors. I borrowed three. I am bound for thirty. If the stranger can show me where the other twenty-seven came from, I will shake on anything they like.' The crowd cheers him, as it cheers everything." {
+    Assert gantSpoke(gant). }
+  Rule ursel_joins when publicChanges(party) and at(party, freezeland) and urselHere() and not urselSpoke(ursel)
+    says "Somewhere in the crowd a woman in a man's caped coat laughs out loud. 'Never shook on anything in my life,' she calls, 'and never needed a philosopher to tell me why.' Callow bows to her, very low, and coughs." {
+    Assert urselSpoke(ursel). }
+}

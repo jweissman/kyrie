@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
-import type { SceneSubject } from '../../../src/ui/scene';
+import { SceneModel, type SceneSubject } from '../../../src/ui/scene';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
@@ -12,6 +12,7 @@ import { Act, type Draw } from './act';
 import { Stage } from './stage';
 import { Told } from './told';
 import { WaysPane } from './ways-pane';
+import { HerePane } from './here-pane';
 
 // A way out of a place, with every choice that goes by it (go; open it first; look at what is on it).
 export interface Way { exit: ExitRow; choices: Choice[] }
@@ -28,6 +29,10 @@ export class PlaceStage {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, screen = frame.screen, draw = Act.draw(app);
     const view = screen.dark ? undefined : Scenery.of(screen), raised = app.state.open.includes(WaysPane.sheet);
+    // Side by side (a desktop, a tablet held sideways), who is here and what there is to do are at the head of the
+    // ways, never under a long telling (the owner's review of Mission 18: Freezeland Street's people were out of sight
+    // under its description); held upright, they are in the telling.
+    const wide = HerePane.useWide();
     return (
       <article className={`scene-page kind-${PlaceStage.kind(screen)}${screen.dark ? ' dark' : ''}${raised ? ' raised' : ''}`}
         id="page">
@@ -37,11 +42,14 @@ export class PlaceStage {
         </header>
         <section className="scene" aria-label="The place">
           <div className="measure"><div className="telling">
-            <Told.Place app={app} headed={false} here={<PlaceStage.Here app={app} draw={draw} />} />
+            <Told.Place app={app} headed={false} here={<PlaceStage.Here app={app} draw={draw} only={wide ? 'danger' : undefined} />} />
           </div></div>
         </section>
         <section className="on-pane" aria-label="The ways on"><div className="measure">
+          {wide && <PlaceStage.Here app={app} draw={draw} only="company" />}
+          <HerePane.Doing app={app} draw={draw} />
           <WaysPane.View app={app} draw={draw} />
+          <HerePane.Services app={app} />
         </div></section>
         <footer className="place-foot">
           <PlaceStage.Aim screen={screen} bound={!!frame.bound} />
@@ -58,19 +66,25 @@ export class PlaceStage {
   // Who and what is here: danger first, then whoever the company has a stake in, large; the rest of the people as
   // plates, or in a busy place each a line (what they are doing is told when they are turned to); the animals and
   // things; whoever is with you.
-  static Here({ app, draw }: { app: ReaderApp; draw: Draw }) {
+  // only: the danger alone (beside a telling whose company is in the pane), or the company alone (in the pane).
+  static Here({ app, draw, only }: { app: ReaderApp; draw: Draw; only?: 'danger' | 'company' }) {
     const scene = app.menu.scene!;
     const of = (kind: SceneSubject['kind']) => scene.subjects.filter(x => x.kind === kind && !PlaceStage.danger(x));
     const people = of('person'), small = [...of('animal'), ...of('thing')], along = of('companion');
-    const busy = people.filter(s => !s.stake).length > 3;
+    const busy = people.filter(s => !s.stake).length > 3, threats = scene.subjects.filter(PlaceStage.danger);
+    if (only === 'danger') {
+      return threats.length ? <div className="here">{threats.map(c => <PlaceStage.Threat key={c.id} subject={c} draw={draw} />)}</div>
+        : null;
+    }
+    if (only === 'company' && !people.length && !small.length && !along.length) { return null; }
     return (
-      <div className="here">
-        {scene.subjects.filter(PlaceStage.danger).map(c => <PlaceStage.Threat key={c.id} subject={c} draw={draw} />)}
-        {people.length > 0 && <div className={`cast${busy ? ' busy' : ''}`} data-line="People here">
+      <div className={`here${only ? ' in-pane' : ''}`}>
+        {!only && threats.map(c => <PlaceStage.Threat key={c.id} subject={c} draw={draw} />)}
+        {people.length > 0 && <div className={`cast${busy && !only ? ' busy' : ''}`} data-line="People here">
           <p className="label">{people.length === 1 ? 'Someone here' : 'People here'}</p>
           <ul className="plates">{people.map(s => <li key={s.id} data-subject={s.id}
             className={s.stake ? 'lead' : busy ? 'brief' : undefined}>
-            <PlaceStage.Plate subject={s} draw={draw} brief={busy && !s.stake} /></li>)}</ul>
+            <PlaceStage.Plate subject={s} draw={draw} brief={(busy || !!only) && !s.stake} /></li>)}</ul>
         </div>}
         {small.length > 0 && <div className="also-here" data-line="To look at">
           <p className="label">{of('thing').length ? of('animal').length ? 'Animals, and things to look at'
@@ -305,7 +319,7 @@ export class PlaceStage {
     return (
       <section className="you" data-region="party" aria-label="Yourself">
         <Stage.Me screen={screen} />
-        <Act.List choices={scene.you} draw={draw} className="small yours" />
+        <Act.List choices={scene.you.filter(c => !SceneModel.own(c))} draw={draw} className="small yours" />
       </section>
     );
   }
