@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 241,
+    "kyr": 242,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 14,
+      "kyr": 15,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -11975,15 +11975,15 @@
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:raider_hold",
-   "title": "A raiders' hold",
+   "id": "kit:toll_road",
+   "title": "A toll on a road",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:toll_road",
-   "title": "A toll on a road",
+   "id": "kit:raider_hold",
+   "title": "A raiders' hold",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
@@ -12040,6 +12040,13 @@
   {
    "id": "campaign:parliament-of-books",
    "title": "A Parliament of Books",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:the-grand-tour",
+   "title": "The Grand Tour",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

@@ -2203,17 +2203,6 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 > A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, the people the power acts through, and where it holds out (which the offer puts on the company's map); who offers the money, and what they want for it, is Deem's to propose.
 
-#### A raiders' hold
-
-*Kyr* · `kit:raider_hold`
-
-- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey))
-- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
-- Provides: 7 facts
-- Modules: 4
-
-> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
-
 #### A toll on a road
 
 *Kyr* · `kit:toll_road`
@@ -2224,6 +2213,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 - Modules: 2
 
 > A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
+
+#### A raiders' hold
+
+*Kyr* · `kit:raider_hold`
+
+- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey))
+- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
+- Provides: 7 facts
+- Modules: 4
+
+> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
 
 ### Frameworks
 
@@ -2301,6 +2301,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > Calamy is a city of paper at the mouth of the Calam, where the tide turns the mills twice a day and every household keeps a book that knows it. Its books are entangled with its money, its law, its prayers and its quarrels, and lately some of them have begun to talk. In nine days it is the Kindling, when the city burns last year's almanacks to light the new year in.
+
+### The Grand Tour
+
+*Kyr* · `campaign:the-grand-tour`
+
+- Regions and sites: sennet
+- Kits placed: —
+
+> Sennet is a port city in three storeys. On the bay, the quays and glass-houses, and on the headland the House of Doors, whose doors open on the elemental planes. Over the cloud-line above it, Cloudgate, a hill of the old city lifted into the sky two hundred years ago, where it is always a fine afternoon. Under the bay, the Whelm, the lower town the sea came into when the hill went up, where the merfolk live now among the drowned shop-signs. Twelve days ago the Rector of the House of Doors proclaimed the first Grand Tour in two hundred years: whoever brings her the four petals of the Rose of the Winds will be first through the Door of Doors. The same night a young man went over the balustrade of Cloudgate in the fog. You have eighteen coin, and the coast road under your feet.
 
 ### The House That Grows
 

@@ -85,7 +85,8 @@ Module sennet "The Grand Tour" {
   Relation wentWith(group).
   Query beenWith() means wentWith(fabian).
   Rule fabian_went when travelsWith(fabian, party) and inPlanes() and not wentWith(fabian) { Assert wentWith(fabian). }
-  Rule fabian_falls when joinedAs(?m, fabian) and slain(?m) and not fabianLost(party) { Assert fabianLost(party). }
+  // A member slain leaves the company, and is a member of their own again (memberOf), not joinedAs: either holds.
+  Rule fabian_falls when (joinedAs(?m, fabian) or memberOf(?m, fabian)) and slain(?m) and not fabianLost(party) { Assert fabianLost(party). }
 
   // ── On the road ───────────────────────────────────────────────────────────────────────────────────────────────────
   Topic fabian_how with fabian travelling "Ask Fabian how he is bearing up" when inPlanes() once {

@@ -214,14 +214,22 @@ Module sennet "The Grand Tour" {
     State lying "A coffin of white wood with silver handles lies on trestles before the altar, under a pall embroidered with a hill on a hand. There is a great deal of white lilies.".
     State gone "The trestles before the altar are bare.".
   }
-  Rule mourners_gather when funeralHour() and not at(imogen, balustrade) { Assert at(imogen, balustrade). Assert at(aubrey, balustrade). Assert at(quance, balustrade). Assert rectorAbout(quance). }
+  Rule mourners_gather when funeralHour() and not at(imogen, balustrade) { Assert at(imogen, balustrade). Assert at(aubrey, balustrade). }
+  Rule rector_mourns when funeralHour() and rectorFree() and not at(quance, balustrade) { Assert at(quance, balustrade). Assert rectorAbout(quance). }
   Rule mourners_part when day(clock) == 3 and hour(clock) >= 13 and rectorAbout(quance) { Retract rectorAbout(quance). }
-  Occasion letting_down "the letting-down of Perrin Halyard" at balustrade when day(clock) == 3 and hour(clock) >= 12 {
+  Occasion letting_down "the letting-down of Perrin Halyard" at balustrade when day(clock) == 3 and hour(clock) >= 12 and not rectorTaken(quance) {
     Matter eulogy "Six Halyard footmen carry the white coffin out of the Ascension Chapel to the Balustrade and set it on the rail, and the Rector of the House of Doors steps forward in her gown of four colours, and speaks without notes, in a voice that carries without being raised: of a boy who could read Aenean like a menu and was kind, which they never are at that age; of a Doorward who believed that every door is a promise to someone on the other side of it; of the bay, which does not give back what it is given. Half the Promenade is crying. The Dowager stands like a post. Aubrey Halyard, at the back, holds on to an orange tree." for 30 minutes.
     Matter lowering "The footmen take the ropes. The coffin goes over the rail and down the face of the rock into the cloud, slowly, the ropes creaking, until the cloud has it." for 20 minutes.
     Matter let_go "At a sign from the Dowager the footmen let go the ropes, all at once, and they snake over the rail after it, and are gone." for 10 minutes.
     Closes "Cloudgate stands at the Balustrade a while longer, looking at the cloud, and then goes in to lunch.".
   }
+  // With the Rector in the Watch-house, the House sends its chaplain, who did not know the boy, and says so.
+  Occasion letting_down_plain "the letting-down of Perrin Halyard" at balustrade when day(clock) == 3 and hour(clock) >= 12 and rectorTaken(quance) {
+    Matter eulogy_amis "Six Halyard footmen carry the white coffin out of the Ascension Chapel to the Balustrade and set it on the rail. The House of Doors has sent its chaplain, Brother Amis, since its Rector is in the Watch-house on Fish Street, and the whole of Cloudgate knows why. He says that he did not know the young man, and that Veyra asks us to remember the absent traveller, and to promise him a path home; and then, looking at the white box, that he will not say anything else, since it seems to him that this one may find his own." for 30 minutes.
+    Matter lowering_plain "The footmen take the ropes. The coffin goes over the rail and down the face of the rock into the cloud, slowly, the ropes creaking, until the cloud has it." for 20 minutes.
+    Matter let_go_plain "At a sign from the Dowager the footmen let go the ropes, all at once, and they snake over the rail after it, and are gone." for 10 minutes.
+    Closes "Cloudgate stands at the Balustrade a while longer, looking at the cloud, and then goes in to lunch.".
+  }
   Observe eulogy_hands at balustrade when matterOpen(eulogy) and capable(party, insight) "The Rector's voice does not shake once. But all the time she speaks she holds the rail of the Balustrade with her left hand, and the knuckles of it are white as the rail.".
-  Rule coffin_gone when matterDone(let_go) and state(coffin, lying) { Assert state(coffin, gone). }
+  Rule coffin_gone when (matterDone(let_go) or matterDone(let_go_plain)) and state(coffin, lying) { Assert state(coffin, gone). }
 }

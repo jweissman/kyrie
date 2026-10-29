@@ -54,6 +54,10 @@ describe('The Grand Tour, other ends', () => {
     await g.play('=+7');
     expect(g.holds('rectorTaken', 'quance')).toBe(true);
     expect(g.watch).toBeLessThan(200);
+    // The coffin goes off the rail all the same, and the House sends its chaplain.
+    await g.play('>sennet__winch_floor', 'Go up in the basket, a friend', '>sennet__balustrade', '=day 3 12:05');
+    expect(g.page).toContain('Brother Amis');
+    expect(g.at('quance')).toBe('sennet__offstage');
     await g.until(1015);
     expect(g.ending()).toEqual(['sennet__end_found_out']);
   }, 600000);
@@ -129,6 +133,15 @@ describe('The Grand Tour, other ends', () => {
     expect(g.holds('rectorHunted', 'quance')).toBe(true);
     expect(g.holds('perrinDead', 'party')).toBe(true);
     expect(g.page).toContain('on the bottom now');
+  }, 600000);
+
+  it('the Tour Unfinished: the Fire petal won and kept, and nothing else done; the Rector never has three', async () => {
+    const g = await Sennet.start();
+    await g.fixture('tour', 'fire');
+    await g.until(1015);
+    expect(g.holds('keelTried', 'quance')).toBe(false);
+    expect(g.holds('cloudgateFell', 'sennet_bay')).toBe(false);
+    expect(g.ending()).toEqual(['sennet__end_unopened']);
   }, 600000);
 });
 
