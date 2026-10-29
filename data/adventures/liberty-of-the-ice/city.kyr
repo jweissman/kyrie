@@ -15,6 +15,9 @@ Module pellam "The Liberty of the Ice" {
   Place the_ice "the Frost Fair" is settlement within lisk at 1, 2.
   Place reach "the Reach" is wilderness within lisk at 2, 2.
   Place bankside "Bankside" is settlement within lisk at 1, 3.
+  // The Lisk runs east through the middle of it all: under the bridge, under the Fair, and away down the Reach.
+  Initially Assert landform(pellam_bridge, land_river). Initially Assert landform(the_ice, land_river).
+  Initially Assert landform(reach, land_river).
 
   // ── Buildings ─────────────────────────────────────────────────────────────────────────────────────────────────────
   Place evenhand_church "the Scale Church" is building within pellam_city.

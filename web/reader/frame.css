@@ -158,25 +158,17 @@ html, body { overflow: hidden; }
 .creation-foot .so-far { margin: 0; text-align: center; font: italic 400 15.5px/1.4 var(--told); color: var(--dim);
   overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
-/* The deck: large cards in a row, centred while they fit, turned by arrows, a swipe or the keys when they do not. */
+/* The deck: the cards together, wrapping into rows, every one in sight (no turning sideways through them); the chosen
+   card's own words and its rule beneath, then its particulars. */
 .deck { margin: 18px 0 0; }
 .deck-title { font: 500 11px/1.2 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--dim);
   text-align: center; margin: 0 0 12px; }
-.deck-row { position: relative; }
-.creation .cards { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-  padding: 10px 4px 18px; justify-content: safe center; overscroll-behavior-x: contain; }
-.creation .cards::-webkit-scrollbar { display: none; }
-.deck-turn { all: unset; cursor: pointer; position: absolute; top: 50%; z-index: 2; width: 40px; height: 64px;
-  margin-top: -32px; display: grid; place-items: center; font: 300 34px/1 var(--do); color: var(--ivory);
-  background: rgba(18, 19, 24, .9); border: 1px solid var(--edge-strong); }
-.deck-turn[hidden] { display: none; }
-.deck-turn.back { left: -6px; }
-.deck-turn.on { right: -6px; }
-.deck-turn:hover, .deck-turn:focus-visible { border-color: var(--gold-line); color: var(--gold); outline: none; }
-.card { all: unset; box-sizing: border-box; cursor: pointer; position: relative; flex: 0 0 clamp(200px, 20vw, 248px);
-  min-height: clamp(250px, 36vh, 330px); scroll-snap-align: center; display: flex; flex-direction: column; align-items: center;
-  text-align: center; gap: 10px; padding: 26px 20px 20px; background: linear-gradient(180deg, var(--lift), var(--raised));
-  border: 1px solid var(--edge); border-radius: 2px; color: var(--ivory); -webkit-tap-highlight-color: transparent;
+.creation .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 152px), 1fr)); gap: 10px;
+  padding: 6px 2px 4px; }
+.card { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 8px; padding: 18px 12px 14px; min-height: 118px;
+  background: linear-gradient(180deg, var(--lift), var(--raised)); border: 1px solid var(--edge); border-radius: 2px;
+  color: var(--ivory); -webkit-tap-highlight-color: transparent;
   transition: border-color var(--quick), box-shadow var(--settle) var(--ease), transform var(--settle) var(--ease); }
 .card:hover, .card:focus-visible { border-color: var(--gold-line); outline: none; transform: translateY(-3px);
   box-shadow: 0 14px 34px rgba(0, 0, 0, .45); }
@@ -194,9 +186,9 @@ html, body { overflow: hidden; }
 .card.chosen .card-big { color: var(--gold); }
 .card-name { font: 500 14px/1.3 var(--do); letter-spacing: .2em; text-transform: uppercase; }
 .card .tag { font: 600 10px/1.2 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--verdigris); }
-.card-text { font: italic 400 15.5px/1.45 var(--told); color: var(--dim); }
-.card-rule { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--edge); width: 100%; font: 400 12.5px/1.4 var(--do);
-  color: var(--ivory); letter-spacing: .02em; }
+.chosen-lead { max-width: 46rem; margin: 14px auto 0; display: grid; gap: 6px; text-align: center; }
+.chosen-lead .card-text { font: italic 400 17px/1.5 var(--told); color: var(--ivory); }
+.chosen-lead .card-rule { font: 500 12.5px/1.4 var(--do); letter-spacing: .06em; color: var(--verdigris); }
 .card-shut { font: 500 12.5px/1.3 var(--do); color: var(--ember); }
 .particulars { margin: 6px auto 0; max-width: 46rem; padding: 14px 0 0; border-top: 1px solid var(--edge); }
 .particulars .label { text-align: center; color: var(--gold); }
@@ -240,7 +232,8 @@ html, body { overflow: hidden; }
   .creation-foot > :last-child { justify-self: end; }
 }
 @media (max-width: 560px) {
-  .card { flex-basis: 74vw; min-height: 0; }
+  .creation .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card { min-height: 96px; padding: 14px 8px 12px; }
   .creation-head .kicker span { display: none; }
   .steps { gap: 0; }
   .step { width: 20px; }

@@ -21,7 +21,10 @@ export class LandModel {
   // The cells a way runs over. Along a road, the half of it from the end the company would set out from (or all of
   // it, to a march-stone at its far end); a path or a track, from one end straight to the other, or to the road it
   // meets.
-  course(from: string, to: string): { course: number[]; road: boolean } | undefined {
+  // An authored region's ways are roads of their own, by the way's name (see AuthoredLand).
+  course(from: string, to: string, passage?: string): { course: number[]; road: boolean } | undefined {
+    const own = passage ? this.chart.roads[passage] : undefined;
+    if (own?.length) { return { course: this.cell(from) === own[0] ? own : [...own].reverse(), road: true }; }
     const roads = this.chart.roads, r = roads[from] ? from : roads[to] ? to : undefined;
     if (!r) {
       const a = this.cell(from), b = this.cell(to);
@@ -50,23 +53,28 @@ export class LandModel {
       const area = this.marked(id), at = this.cell(id);
       for (const c of chart.parts[id] ?? chart.roads[id] ?? []) { this.reveal(c, 2, known); }
       if (at !== undefined) { this.reveal(at, area?.space?.kind === 'settlement' ? 3 : 2, known); }
+      for (const c of (area && chart.blocks?.[area.id]) ?? []) { this.reveal(c, 1, known); }
     }
     for (const id of heard) {
       const at = this.cell(id);
       if (at !== undefined) { known.add(at); }
     }
-    const roads = Object.fromEntries(Object.entries(chart.roads).filter(([way]) => visited.has(way) || heard.has(way)));
+    const passages = new Set(ways.map(w => w.passage));
+    const roads = Object.fromEntries(Object.entries(chart.roads).filter(([way]) => visited.has(way) || heard.has(way)
+      || passages.has(way)));
     for (const cells of Object.values(roads)) { for (const c of cells) { known.add(c); } }
     const marks = this.marks([...visited, ...heard], visited, here);
     const named = new Set([...areas.map(a => a.id), ...marks.map(m => m.id)]);
     return { width: chart.width, height: chart.height, cover: chart.cover, rivers: chart.rivers, roads,
       known: [...known].sort((a, b) => a - b), ...this.at(here), marks, zones: this.zones(areas, known),
-      glosses: Object.fromEntries(Object.entries(chart.glosses ?? {}).filter(([id]) => named.has(id))) };
+      glosses: Object.fromEntries(Object.entries(chart.glosses ?? {}).filter(([id]) => named.has(id))),
+      ...chart.blocks ? { blocks: chart.blocks } : {} };
   }
   // Where the company is: at its place's cell, or on a road, halfway along it; nowhere, when it is lost in wild
   // country (a place there with no cell of its own).
   private at(here: string): { here?: number } {
-    const lost = this.chart.places[here] === undefined && this.marked(here)?.space?.kind === 'wilderness';
+    // An authored region's land knows each stretch of it whole (see AuthoredLand): nobody is lost on it.
+    const lost = !this.chart.blocks && this.chart.places[here] === undefined && this.marked(here)?.space?.kind === 'wilderness';
     const road = this.chart.roads[here], c = lost ? undefined : this.cell(here) ?? road?.[Math.floor(road.length / 2)];
     return c === undefined ? {} : { here: c };
   }

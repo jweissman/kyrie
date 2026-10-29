@@ -25,31 +25,35 @@
 .ending.fallen p { color: var(--dim); }
 .ending.fallen .acts { margin-top: 30px; justify-content: center; gap: 10px; }
 
-/* ---- The map: the country as land. Hexes of what each is, in tones with more life than the stage's (deep water,
-   dark forest, heather, fen, fell, peak, open land), each with its glyph; rivers glowing azure; roads cased, ochre on
-   black, so a road reads as a road; paths dashed; settlements as roofs, sites as broken arches; you in gold, and
-   where you are bound ringed in gold. What is not known is a faint grid of points. ---- */
-.atlas { margin: 0 0 18px; --t-known: #262922; --t-water: #17324C; --t-wood: #1B3324; --t-fell: #36301F; --t-heath: #352530;
-  --t-fen: #1F3329; --t-peak: #34333F; }
-.atlas svg { display: block; max-width: 100%; height: auto; user-select: none; background: radial-gradient(ellipse at 50% 50%,
-  rgba(36, 38, 44, .6), transparent 70%); }
-.atlas .unknown { fill: var(--edge-strong); }
-.atlas .hex { stroke: rgba(10, 11, 14, .55); stroke-width: .8; }
-.atlas .hex.known { fill: var(--t-known); } .atlas .hex.water { fill: var(--t-water); } .atlas .hex.wood { fill: var(--t-wood); }
-.atlas .hex.fell { fill: var(--t-fell); } .atlas .hex.heath { fill: var(--t-heath); } .atlas .hex.fen { fill: var(--t-fen); }
-.atlas .hex.peak { fill: var(--t-peak); }
-.atlas .glyph { fill: none; stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
-.atlas .glyph.wood { stroke: #6FA67A; fill: rgba(111, 166, 122, .18); } .atlas .glyph.peak { stroke: #C3BFD3; }
-.atlas .glyph.fell { stroke: #B39A62; } .atlas .glyph.heath { stroke: #C08AA2; } .atlas .glyph.fen { stroke: #78B596; }
-.atlas .glyph.water { stroke: #7FB0EE; opacity: .7; }
-.atlas .river-bed { fill: none; stroke: rgba(121, 174, 247, .25); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
-.atlas .river { fill: none; stroke: var(--azure); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.atlas .road-bed { fill: none; stroke: #0A0B0E; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
-.atlas .road { fill: none; stroke: #D9B36C; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.atlas .road.came { stroke: var(--gold); stroke-width: 3; }
-.atlas .path { fill: none; stroke: var(--ivory); stroke-width: 1.3; stroke-dasharray: 4 4; stroke-linecap: round; opacity: .75; }
-.atlas .path.shut { stroke: var(--ember); stroke-dasharray: 2 3; }
-.atlas .path.came { stroke: var(--gold); opacity: 1; }
+/* ---- The map: the country as land (Mission 18, the owner's review: hexes round a network were not a country). The
+   land is painted under it (see PaintedLand); on it the marks of what each stretch is, rivers in azure, roads quiet in
+   old ink, paths fainter, settlements as roofs, sites as broken arches, the rooms of the place you are in on its own
+   stretch; you in gold, where you are bound ringed in gold, the way to a place chosen dashed in gold. It is dragged
+   to move about, and brought nearer or further by its wheel or its buttons. */
+.atlas { margin: 0 0 18px; }
+.atlas-view { position: relative; width: 100%; max-height: min(68vh, 760px); overflow: hidden; border: 1px solid var(--edge);
+  background: #08090B; }
+.atlas svg { display: block; width: 100%; height: 100%; user-select: none; touch-action: none; cursor: grab; }
+.atlas svg:active { cursor: grabbing; }
+.atlas image { image-rendering: auto; }
+.atlas-tools { position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.atlas-tools button { all: unset; cursor: pointer; width: 30px; height: 30px; display: grid; place-items: center;
+  font: 400 17px/1 var(--do); color: var(--ivory); background: rgba(10, 11, 14, .82); border: 1px solid var(--edge-strong); }
+.atlas-tools button:hover, .atlas-tools button:focus-visible { color: var(--gold); border-color: var(--gold-line); outline: none; }
+.atlas .glyph { fill: none; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; opacity: .85; }
+.atlas .glyph.wood { stroke: #6FA67A; fill: rgba(111, 166, 122, .22); } .atlas .glyph.peak { stroke: #D6D2C8; fill: rgba(10, 11, 14, .35); }
+.atlas .glyph.fell { stroke: #B9A77E; } .atlas .glyph.heath { stroke: #B88E9A; } .atlas .glyph.fen { stroke: #78B596; }
+.atlas .glyph.water { stroke: #8FBBEF; opacity: .5; }
+.atlas .river-bed { fill: none; stroke: rgba(10, 20, 30, .7); stroke-width: 5.5; stroke-linecap: round; stroke-linejoin: round; }
+.atlas .river { fill: none; stroke: var(--azure); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; opacity: .9; }
+.atlas .road-bed { fill: none; stroke: rgba(10, 11, 14, .65); stroke-width: 3.6; stroke-linecap: round; stroke-linejoin: round; }
+.atlas .road { fill: none; stroke: #D8C49A; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: .9; }
+.atlas .road.came { stroke: #EAD7A8; stroke-width: 2; opacity: 1; }
+.atlas .path { fill: none; stroke: var(--ivory); stroke-width: 1; stroke-dasharray: 2 3; stroke-linecap: round; opacity: .6; }
+.atlas .path.shut { stroke: var(--ember); }
+.atlas .path.came { opacity: .95; }
+.atlas .route { fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-dasharray: 6 5; stroke-linecap: round;
+  filter: drop-shadow(0 0 3px rgba(242, 189, 76, .6)); pointer-events: none; }
 .atlas .town { fill: var(--ivory); stroke: #0A0B0E; stroke-width: 1; }
 .atlas .town.unvisited { fill: #0A0B0E; stroke: var(--ivory); stroke-width: 1.2; }
 .atlas .site { fill: none; stroke: var(--dim); stroke-width: 1.8; stroke-linecap: round; }
@@ -61,11 +65,12 @@
   transform-origin: center; }
 @keyframes you-here { 50% { transform: scale(1.18); opacity: .55; } }
 .atlas .whither { fill: none; stroke: var(--gold); stroke-width: 1.4; stroke-dasharray: 3 2.5; }
-.atlas text { font-family: var(--do); fill: var(--ivory); paint-order: stroke; stroke: #0A0B0E; stroke-width: 3.5px;
+.atlas text { font-family: var(--do); fill: var(--ivory); paint-order: stroke; stroke: #0A0B0E;
+  stroke-width: calc(3.5px * var(--k, 1));
   stroke-linejoin: round; }
-.atlas .name-town { font-weight: 600; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
-.atlas .name-mark { font-weight: 450; font-size: 11.5px; fill: var(--dim); }
-.atlas .name-zone { font-weight: 400; font-style: italic; font-family: var(--told); font-size: 14px; letter-spacing: .2em;
+.atlas .name-town { font-weight: 600; font-size: calc(12px * var(--k, 1)); letter-spacing: .12em; text-transform: uppercase; }
+.atlas .name-mark { font-weight: 450; font-size: calc(11.5px * var(--k, 1)); fill: var(--dim); }
+.atlas .name-zone { font-weight: 400; font-style: italic; font-family: var(--told); font-size: calc(14px * var(--k, 1)); letter-spacing: .2em;
   fill: rgba(236, 230, 217, .5); }
 .atlas .name-unknown { fill: var(--faint); font-style: italic; }
 .atlas .spot { cursor: pointer; outline: none; }
@@ -73,6 +78,13 @@
 .atlas .spot .reach { fill: transparent; stroke: none; }
 .atlas .spot:hover .reach { fill: rgba(236, 230, 217, .08); }
 .atlas .spot:focus-visible .reach, .atlas .spot.chosen .reach { fill: var(--gold-glow); stroke: var(--gold); stroke-width: 1.3; }
+.atlas .local-plan .street { stroke: rgba(236, 230, 217, .55); stroke-width: 2.2; stroke-linecap: round; }
+.atlas .local-plan .street.shut { stroke: var(--ember); stroke-dasharray: 2 3; }
+.atlas .local-plan .room circle, .atlas .local-plan .room rect { fill: #0A0B0E; stroke: var(--ivory); stroke-width: 1.2; }
+.atlas .local-plan .room.unvisited circle, .atlas .local-plan .room.unvisited rect { stroke: var(--dim); stroke-dasharray: 2 2; }
+.atlas .local-plan .room.here circle, .atlas .local-plan .room.here rect { fill: var(--gold); stroke: var(--gold); }
+.atlas .local-plan text { font-size: calc(11.5px * var(--k, 1)); font-weight: 500; letter-spacing: .02em; fill: var(--ivory);
+  stroke-width: calc(3px * var(--k, 1)); }
 .atlas-key { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 400 12.5px var(--do); color: var(--dim); margin: 10px 0 0; }
 .atlas-key i { display: inline-block; width: 22px; height: 0; vertical-align: 4px; margin-right: 6px; border-top: 2.4px solid #D9B36C; }
 .atlas-key i.path { border-top: 1.4px dashed var(--ivory); }
@@ -95,16 +107,4 @@
 .book-page:has(.map) { max-width: 82rem; }
 @media (max-width: 860px) { .map-spread { grid-template-columns: minmax(0, 1fr); } .map-spread .plan { position: static; margin-top: 16px; } }
 /* A place's rooms, below the land: each a square joined by its ways; where you are, gold. */
-.local { margin: 22px 0 0; }
-.local .levels { list-style: none; padding: 0; margin: 4px 0 12px; display: flex; flex-wrap: wrap; gap: 2px 0; }
-.local .levels li + li::before { content: '↓'; margin: 0 10px; color: var(--faint); }
-.local .levels li[aria-current="location"] { color: var(--gold); font-weight: 600; }
-.local-sheet { overflow-x: auto; overscroll-behavior-x: contain; }
-.local svg { display: block; max-width: none; }
-.local .room { fill: var(--raised); stroke: var(--ivory); stroke-width: 1.3; }
-.local .room.here { fill: var(--gold); stroke: var(--gold); }
-.local .room.unvisited { stroke-dasharray: 3 3; stroke: var(--dim); }
-.local .link { stroke: var(--dim); stroke-width: 1.3; }
-.local .link.shut { stroke: var(--ember); stroke-dasharray: 2 3; }
-.local text { font: 500 12px var(--do); fill: var(--ivory); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; }
 .fight-log p { font-size: 15px; color: var(--dim); }

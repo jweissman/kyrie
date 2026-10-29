@@ -60,7 +60,8 @@ export class References {
     const d = region.land ? Atlas.draw(region, came) : Atlas.schematic(region, came);
     return <figure className={`land${small ? ' small' : ''}`}>
       <svg viewBox={d.box.join(' ')} role="img" aria-label="The country as far as you know it">
-        {d.cells.map(c => <polygon key={c.i} className={`cell ${c.cover}`} points={c.points} />)}
+        {d.cells.map(c => <rect key={c.i} className={`cell ${c.cover}`} x={c.x - Atlas.S / 2} y={c.y - Atlas.S / 2}
+          width={Atlas.S} height={Atlas.S} />)}
         {d.rivers.map((r, i) => <path key={`r${i}`} className="river" d={r} />)}
         {d.roads.map((r, i) => <path key={`d${i}`} className={`road${r.came ? ' came' : ''}`} d={r.d} />)}
         {d.paths.map((p, i) => <path key={`p${i}`} className={`path${p.came ? ' came' : ''}`} d={p.d} />)}

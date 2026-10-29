@@ -1,36 +1,36 @@
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent, type WheelEvent } from 'react';
 import type { Chart, RegionChart, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Atlas, type Drawn } from './atlas';
 import { Terrain } from './terrain';
+import { PaintedLand } from './painted-land';
 import { MenuModel } from './menu-model';
 import { Typography } from '../../src/presentation/typography';
 import { Words } from './words';
 
-// The map, in the world's place, with the ways still beside it. The country as far as you know it, as land: hexes of
-// wood, fell, fen, heath, peak and water, each drawn as what it is; rivers and roads as curves across them, roads cased
-// so they read as roads; paths dashed; settlements as roofs and sites as broken arches; you in gold, and where you are
-// bound ringed in gold. Below it, the place you are in, room by room, when it has
-// rooms and is not wild country (which the land shows). Only what you have seen, or know the way to, is drawn; what
-// you know only by name is grey.
+type Box = [number, number, number, number];
+// The map, in the world's place, with the way to a place chosen on it beside it (Mission 18, the owner's review: the
+// map was hexes wrapped round a network, beside a diagram of rooms). The country as far as you know it, painted as
+// land: wood, fell, fen, heath, peak and water in their own tones, lit from the north-west so the heights stand up,
+// with their marks scattered over them; rivers; roads quiet across it, paths fainter; settlements as roofs, sites as
+// broken arches; you in gold, where you are bound ringed in gold, the way there dashed in gold when a place is chosen.
+// The rooms of the settlement or site you are in, where its author set them out, are drawn on its own stretch of the
+// land, not apart from it. What the company does not know fades into the dark. It is dragged to move about it, and
+// its wheel or buttons bring it nearer or further.
 export class MapView {
   static View({ app, screen }: { app: ReaderApp; screen: Screen }) {
     const came = MapView.came(app), [chosen, choose] = useState<string>();
-    // Wild country is drawn on the land itself, landmark by landmark; the rooms of a place are drawn below it.
-    const region = screen.region, wild = region?.land && region.areas.find(a => a.here)?.kind === 'wilderness';
-    const local = (!wild || screen.chart?.level) && screen.chart && screen.chart.places.filter(p => !p.external).length > 1
-      ? screen.chart : undefined;
+    const region = screen.region;
     return (
       <article className="world-body map" data-region="map" aria-label="The map">
         <p className="where"><span className="title">{app.state.frame!.title}</span><span>The map</span></p>
         <h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1>
         <div className="map-spread">
           {region ? <MapView.Region region={region} came={came} chosen={chosen} choose={choose}
-            bound={app.state.frame?.bound?.id} />
+            bound={app.state.frame?.bound?.id} local={screen.chart} />
             : <p className="none">You have no map of this country yet.</p>}
           <MapView.Plan app={app} screen={screen} chosen={chosen} />
         </div>
-        {local && <MapView.Local chart={local} />}
         <p><button type="button" className="option back-to" data-action="close" onClick={app.back}>Back to where you are</button></p>
       </article>
     );
@@ -40,9 +40,6 @@ export class MapView {
     const entries = app.state.frame?.entries ?? [], here = app.state.frame?.screen.place.id;
     return [...entries].reverse().find(e => e.place && e.place !== here)?.place;
   }
-  // The country is drawn larger than its cells' own size, to be read at a glance on a wide page; on a narrow one it
-  // fits the page.
-  static readonly scale = 1.4;
   // A place chosen on the map: what the company knows of it, and the way there, leg by leg, with setting out; or that
   // it knows no way there yet. A place is chosen by pointing at it, or by the keys (Tab to it, Enter).
   static Plan({ app, screen, chosen }: { app: ReaderApp; screen: Screen; chosen?: string }) {
@@ -73,82 +70,72 @@ export class MapView {
     );
   }
   static readonly Region = memo(MapView.region);
-  private static region({ region, came, chosen, choose, bound }: { region: RegionChart; came?: string; chosen?: string;
-    choose: (id: string) => void; bound?: string }) {
+  private static region({ region, came, chosen, choose, bound, local }: { region: RegionChart; came?: string;
+    chosen?: string; choose: (id: string) => void; bound?: string; local?: Chart }) {
     const d: Drawn = useMemo(() => region.land ? Atlas.draw(region, came) : Atlas.schematic(region, came), [region, came]);
+    const painting = useMemo(() => region.land && MapView.painting(region.land, region.terrain), [region.land, region.terrain]);
+    const plan = useMemo(() => local && region.land?.blocks ? MapView.plan(local, region) : undefined, [local, region]);
+    // Opened on the place you are in where it has its rooms drawn, else on what you know of the country.
+    const start = (plan?.box ?? d.box) as Box;
+    const [view, look] = useState<Box>(start);
+    useEffect(() => { look(start); }, [start[0], start[1], start[2], start[3]]);
+    const sheet = useRef<SVGSVGElement>(null), held = useRef<{ x: number; y: number; view: Box } | undefined>(undefined);
+    const [wide, measure] = useState(0);
+    useEffect(() => {
+      const el = sheet.current;
+      if (!el) { return; }
+      const watch = new ResizeObserver(() => measure(el.clientWidth));
+      watch.observe(el);
+      return () => watch.disconnect();
+    }, []);
+    // Names are read at the same size however near the map is brought, and never larger than they were set to be
+    // placed (on a phone the whole map is smaller, its names with it).
+    const k = wide ? Math.min(1, view[2] / wide) : 1, you = plan?.rooms.find(r => r.here) ?? d.here;
+    const route = useMemo(() => MapView.route(region, chosen ?? bound), [region, chosen, bound]);
     return (
       <figure className="atlas">
-        <svg viewBox={d.box.join(' ')} role="img" aria-label="The country as far as you know it"
-          style={{ width: `${Math.round(d.box[2]! * MapView.scale)}px` }}>
-          <Terrain.Defs />
-          {d.unknown.map((p, i) => <circle key={`u${i}`} className="unknown" cx={p.x} cy={p.y} r={1.1} />)}
-          <Terrain.Land cells={d.cells} />
-          {d.rivers.map((r, i) => <g key={`r${i}`}><path className="river-bed" d={r} /><path className="river" d={r} /></g>)}
-          {d.roads.map((r, i) => <g key={`d${i}`}><path className="road-bed" d={r.d} />
-            <path className={`road${r.came ? ' came' : ''}`} d={r.d} /></g>)}
-          {d.paths.map((p, i) => <path key={`p${i}`} className={`path${p.shut ? ' shut' : ''}${p.came ? ' came' : ''}`}
-            d={p.d}><title>{p.label}</title></path>)}
-          {d.zones.map(z => <text key={z.id} className="name-zone" x={z.x} y={z.y} textAnchor="middle">{z.name}</text>)}
-          {d.places.map(p => <g key={p.id} className={`spot${chosen === p.id ? ' chosen' : ''}${bound === p.id ? ' bound' : ''}`}
-            role="button" tabIndex={0} data-action="map-place" data-id={p.id}
-            aria-label={d.labels.find(l => l.id === p.id)?.text ?? p.name}
-            aria-pressed={chosen === p.id} onClick={() => choose(p.id)}
-            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); choose(p.id); } }}>
-            <circle className="reach" cx={p.x} cy={p.y} r={14} />
-            {bound === p.id && <circle className="whither" cx={p.x} cy={p.y} r={13} />}
-            <Terrain.Mark p={p} /></g>)}
-          {d.here && <g aria-current="location"><circle className="you-glow" cx={d.here.x} cy={d.here.y} r={24}
-            fill="url(#map-glow)" /><circle className="you-ring" cx={d.here.x} cy={d.here.y} r={11} />
-            <circle className="you" cx={d.here.x} cy={d.here.y} r={4.5} /><title>You are here</title></g>}
-          {d.labels.map(l => <text key={l.id} className={`${l.kind === 'settlement' ? 'name-town' : 'name-mark'}${l.known ? '' : ' name-unknown'}`}
-            x={l.x} y={l.y} textAnchor={l.anchor}>{l.text}</text>)}
-        </svg>
+        <div className="atlas-view" style={{ aspectRatio: `${start[2]} / ${start[3]}` }}>
+          <svg ref={sheet} viewBox={view.join(' ')} role="img" aria-label="The country as far as you know it"
+            style={{ '--k': k } as CSSProperties}
+            onWheel={e => MapView.wheel(e, sheet.current, view, look, d.size)}
+            onPointerDown={e => MapView.hold(e, held, view)} onPointerMove={e => MapView.drag(e, held, sheet.current, look, d.size)}
+            onPointerUp={() => { held.current = undefined; }} onPointerLeave={() => { held.current = undefined; }}>
+            <Terrain.Defs />
+            {painting && <image href={painting} x={0} y={0} width={d.size.w} height={d.size.h} preserveAspectRatio="none" />}
+            <Terrain.Land cells={d.cells} />
+            {d.rivers.map((r, i) => <g key={`r${i}`}><path className="river-bed" d={r} /><path className="river" d={r} /></g>)}
+            {d.roads.map((r, i) => <g key={`d${i}`}><path className="road-bed" d={r.d} />
+              <path className={`road${r.came ? ' came' : ''}`} d={r.d} /></g>)}
+            {d.paths.map((p, i) => <path key={`p${i}`} className={`path${p.shut ? ' shut' : ''}${p.came ? ' came' : ''}`}
+              d={p.d}><title>{p.label}</title></path>)}
+            {route.map((r, i) => <path key={`w${i}`} className="route" d={r} />)}
+            {plan && <MapView.LocalPlan plan={plan} />}
+            {d.zones.map(z => <text key={z.id} className="name-zone" x={z.x} y={z.y} textAnchor="middle">{z.name}</text>)}
+            {d.places.map(p => <g key={p.id} className={`spot${chosen === p.id ? ' chosen' : ''}${bound === p.id ? ' bound' : ''}`}
+              role="button" tabIndex={0} data-action="map-place" data-id={p.id}
+              aria-label={d.labels.find(l => l.id === p.id)?.text ?? p.name}
+              aria-pressed={chosen === p.id} onClick={() => choose(p.id)}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); choose(p.id); } }}>
+              <circle className="reach" cx={p.x} cy={p.y} r={14} />
+              {bound === p.id && <circle className="whither" cx={p.x} cy={p.y} r={13} />}
+              <Terrain.Mark p={p} /></g>)}
+            {you && <g aria-current="location"><circle className="you-glow" cx={you.x} cy={you.y} r={26}
+              fill="url(#map-glow)" /><circle className="you-ring" cx={you.x} cy={you.y} r={11} />
+              <circle className="you" cx={you.x} cy={you.y} r={4.5} /><title>You are here</title></g>}
+            {d.labels.map(l => <text key={l.id} className={`${l.kind === 'settlement' ? 'name-town' : 'name-mark'}${l.known ? '' : ' name-unknown'}`}
+              x={l.x} y={l.y} textAnchor={l.anchor}>{l.text}</text>)}
+          </svg>
+          <div className="atlas-tools">
+            <button type="button" aria-label="Nearer" data-action="map-nearer" onClick={() => look(MapView.zoom(view, 0.8, d.size))}>+</button>
+            <button type="button" aria-label="Further" data-action="map-further" onClick={() => look(MapView.zoom(view, 1.25, d.size))}>−</button>
+            <button type="button" aria-label="Where you are" data-action="map-here" onClick={() => look(start)}>◎</button>
+          </div>
+        </div>
         <figcaption className="atlas-key"><span><i />A road</span><span><i className="path" />A path or a track</span>
           <span><i className="river" />Water</span><span><i className="you" />You</span>
           <span><i className="whither" />Where you are bound</span></figcaption>
         {d.glosses.length > 0 && <p className="atlas-names">{d.glosses.map(([name, gloss]) => <span key={name}>
           <b>{name}</b> {gloss}. </span>)}</p>}
-      </figure>
-    );
-  }
-  // The place you are in, room by room: each a square, joined by its ways, its name under it; where you are, filled.
-  // Drawn at the size it is read at: wider than the page, it scrolls sideways rather than shrinking its names.
-  static readonly across = 136;
-  static readonly down = 96;
-  static readonly Local = memo(MapView.local);
-  private static local({ chart }: { chart: Chart }) {
-    const xs = chart.places.map(p => p.x), ys = chart.places.map(p => p.y);
-    const [x0, y0] = [Math.min(...xs), Math.min(...ys)];
-    const w = (Math.max(...xs) - x0) * MapView.across + 150, h = (Math.max(...ys) - y0) * MapView.down + 90;
-    const where = new Map(chart.places.map(p => [p.id,
-      { x: (p.x - x0) * MapView.across + 75, y: (p.y - y0) * MapView.down + 22 }]));
-    // Opened, the sheet shows where you are, whatever lies to either side.
-    const sheet = useRef<HTMLDivElement>(null), here = chart.places.find(p => p.here);
-    const hx = here ? where.get(here.id)!.x : 0;
-    useEffect(() => {
-      const el = sheet.current;
-      if (el && el.scrollWidth > el.clientWidth) { el.scrollLeft = Math.max(0, hx - el.clientWidth / 2); }
-    }, [hx]);
-    return (
-      <figure className="local">
-        {(chart.levels?.length ?? 0) > 1
-          ? <ol className="levels label" aria-label="The levels you have been on, top to bottom">
-            {chart.levels!.map(l => <li key={l.name} aria-current={l.here ? 'location' : undefined}>{Words.upper(l.name)}</li>)}
-          </ol>
-          : <p className="label">{chart.level ? Words.upper(chart.level) : 'Here'}</p>}
-        <div className="local-sheet" ref={sheet}>
-          <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} role="img" aria-label="The place you are in">
-            {chart.edges.map(e => { const a = where.get(e.from), b = where.get(e.to); return a && b
-              ? <line key={`${e.id}${e.from}`} className={`link${e.status === 'open' ? '' : ' shut'}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
-              : null; })}
-            {chart.places.map(p => { const c = where.get(p.id)!; return <g key={p.id}>
-              <rect className={`room${p.here ? ' here' : ''}${p.visited || p.here ? '' : ' unvisited'}`} x={c.x - 7} y={c.y - 7}
-                width={14} height={14} />
-              <text x={c.x} y={c.y + 24} textAnchor="middle">{MapView.wrap(Typography.curl(MapView.rise(p)
-                + Words.upper(p.name)), 19)
-                .map((line, i) => <tspan key={i} x={c.x} dy={i ? 14 : 0}>{line}</tspan>)}</text></g>; })}
-          </svg>
-        </div>
       </figure>
     );
   }
@@ -163,5 +150,103 @@ export class MapView {
       else { lines.push(word); }
     }
     return lines;
+  }
+  // The land painted (see PaintedLand), as an image to set under the map's marks; none where there is no page to paint
+  // it on (the map drawn as text, in a test).
+  static painting(land: NonNullable<RegionChart['land']>, terrain?: string): string | undefined {
+    if (typeof document === 'undefined') { return undefined; }
+    const p = PaintedLand.paint(land, terrain), canvas = document.createElement('canvas');
+    canvas.width = p.width; canvas.height = p.height;
+    canvas.getContext('2d')?.putImageData(new ImageData(new Uint8ClampedArray(p.data), p.width, p.height), 0, 0);
+    return canvas.toDataURL();
+  }
+  // Nearer or further, about the middle of what is shown, never further than the whole land and a little.
+  static zoom(view: Box, by: number, size: { w: number; h: number }, about?: { x: number; y: number }): Box {
+    const w = Math.min(size.w * 1.3, Math.max(Atlas.S * 4, view[2] * by)), k = w / view[2], h = view[3] * k;
+    const at = about ?? { x: view[0] + view[2] / 2, y: view[1] + view[3] / 2 };
+    return [at.x - (at.x - view[0]) * k, at.y - (at.y - view[1]) * k, w, h];
+  }
+  private static wheel(e: WheelEvent, svg: SVGSVGElement | null, view: Box, look: (b: Box) => void, size: { w: number; h: number }) {
+    if (!svg) { return; }
+    const r = svg.getBoundingClientRect(), at = { x: view[0] + (e.clientX - r.left) / r.width * view[2],
+      y: view[1] + (e.clientY - r.top) / r.height * view[3] };
+    look(MapView.zoom(view, e.deltaY > 0 ? 1.15 : 0.87, size, at));
+  }
+  private static hold(e: PointerEvent, held: { current?: { x: number; y: number; view: Box } }, view: Box) {
+    if ((e.target as Element).closest('[data-action="map-place"]')) { return; }
+    held.current = { x: e.clientX, y: e.clientY, view };
+  }
+  private static drag(e: PointerEvent, held: { current?: { x: number; y: number; view: Box } }, svg: SVGSVGElement | null,
+    look: (b: Box) => void, size: { w: number; h: number }) {
+    const h = held.current;
+    if (!h || !svg) { return; }
+    const r = svg.getBoundingClientRect(), k = h.view[2] / r.width;
+    const x = Math.min(size.w - h.view[2] / 2, Math.max(-h.view[2] / 2, h.view[0] - (e.clientX - h.x) * k));
+    const y = Math.min(size.h - h.view[3] / 2, Math.max(-h.view[3] / 2, h.view[1] - (e.clientY - h.y) * k));
+    look([x, y, h.view[2], h.view[3]]);
+  }
+  // The way to a place, area by area over the ways the company knows, each leg's course on the land.
+  static route(region: RegionChart, to?: string): string[] {
+    const W = region.land?.width, from = region.areas.find(a => a.here)?.id, goal = to && (region.within[to] ?? to);
+    if (!W || !from || !goal || from === goal) { return []; }
+    const came = new Map<string, RegionChart['edges'][number]>([[from, undefined as never]]);
+    for (const queue = [from]; queue.length && !came.has(goal);) {
+      const at = queue.shift()!;
+      for (const e of region.edges.filter(x => (x.from === at || x.to === at) && x.status === 'open')) {
+        const next = e.from === at ? e.to : e.from;
+        if (!came.has(next)) { came.set(next, e); queue.push(next); }
+      }
+    }
+    if (!came.has(goal)) { return []; }
+    const legs: string[] = [];
+    for (let at = goal; at !== from;) {
+      const e = came.get(at)!;
+      if (e.course?.length) { legs.push(Atlas.curve(e.course.map(c => Atlas.centre(c, W)))); }
+      at = e.from === at ? e.to : e.from;
+    }
+    return legs;
+  }
+  // The rooms of the place the company is in, set out on its own stretch of the land as its author set them out:
+  // the streets and open places as dots, the rooms under a roof as small squares, joined by their ways.
+  static plan(chart: Chart, region: RegionChart): { box: Box; rooms: { id: string; name: string; x: number; y: number;
+    here: boolean; indoors: boolean; visited: boolean; named: boolean }[];
+    ways: { a: { x: number; y: number }; b: { x: number; y: number }; open: boolean }[] } | undefined {
+    const home = region.areas.find(a => a.here), area = home?.id, cells = area ? region.land?.blocks?.[area] : undefined;
+    const W = region.land!.width, inner = chart.places.filter(p => !p.external);
+    if (!cells?.length || inner.length < 2) { return undefined; }
+    const xs = cells.map(c => c % W), ys = cells.map(c => Math.floor(c / W)), S = Atlas.S;
+    // Set a cell in from the edges of its stretch, so that a fair on a river stands on the ice, not its banks.
+    const [bx, by] = [Math.min(...xs) * S + S * 1.5, Math.min(...ys) * S + S * 1.5];
+    const [bw, bh] = [(Math.max(...xs) - Math.min(...xs) - 2) * S, (Math.max(...ys) - Math.min(...ys) - 2) * S];
+    const px = inner.map(p => p.x), py = inner.map(p => p.y), [x0, y0] = [Math.min(...px), Math.min(...py)];
+    const nx = Math.max(1, Math.max(...px) - x0), ny = Math.max(1, Math.max(...py) - y0);
+    const at = new Map(inner.map(p => [p.id, { x: bx + (p.x - x0) / nx * bw, y: by + (p.y - y0) / ny * bh }]));
+    const rooms = inner.map(p => ({ id: p.id, name: p.name, ...at.get(p.id)!, here: p.here, visited: p.visited,
+      indoors: !!p.area && p.area !== home?.name, named: false }));
+    MapView.name(rooms);
+    const pad = S * 4;
+    return { box: [bx - pad, by - pad, bw + pad * 2, bh + pad * 2], rooms,
+    ways: chart.edges.flatMap(e => { const a = at.get(e.from), b = at.get(e.to);
+      return a && b ? [{ a, b, open: e.status === 'open' }] : []; }) };
+  }
+  // Which rooms of a plan are named on it: where you are first, then those been to, then the rest, each only where
+  // its name crosses no other.
+  private static name(rooms: { name: string; x: number; y: number; here: boolean; visited: boolean; named: boolean }[]) {
+    const boxes: number[][] = [];
+    for (const r of [...rooms].sort((a, b) => Number(b.here) - Number(a.here) || Number(b.visited) - Number(a.visited))) {
+      const w = r.name.length * 4.6, box = [r.x - w / 2, r.y - 16, r.x + w / 2, r.y - 6];
+      if (boxes.some(b => box[0]! < b[2]! && box[2]! > b[0]! && box[1]! < b[3]! && box[3]! > b[1]!)) { continue; }
+      boxes.push(box);
+      r.named = true;
+    }
+  }
+  private static LocalPlan({ plan }: { plan: NonNullable<ReturnType<typeof MapView.plan>> }) {
+    return <g className="local-plan">
+      {plan.ways.map((w, i) => <line key={i} className={`street${w.open ? '' : ' shut'}`} x1={w.a.x} y1={w.a.y} x2={w.b.x} y2={w.b.y} />)}
+      {plan.rooms.map(r => <g key={r.id} className={`room${r.here ? ' here' : ''}${r.visited ? '' : ' unvisited'}`}>
+        {r.indoors ? <rect x={r.x - 4} y={r.y - 4} width={8} height={8} /> : <circle cx={r.x} cy={r.y} r={4} />}
+        {r.named && <text x={r.x} y={r.y - 8} textAnchor="middle">{Typography.curl(Words.upper(r.name))}</text>}
+        <title>{Typography.curl(Words.upper(r.name))}</title></g>)}
+    </g>;
   }
 }

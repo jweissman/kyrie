@@ -1,3 +1,4 @@
+import { AuthoredLand } from '../world/authored-land';
 import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
@@ -171,7 +172,7 @@ export class ChartModel {
   private region(ways: WayInfo[], visited: Set<string>, place: string): { region?: RegionChart } {
     const areas = new Map<string, RegionChart['areas'][number]>(), edges = new Map<string, RegionChart['edges'][number]>();
     const here = this.regionalArea(place)?.id, home = this.regionOf(here);
-    const chart = home && this.world.module.charts?.[home];
+    const chart = home ? AuthoredLand.of(this.world.module, home) : undefined;
     const land = chart ? new LandModel(chart, this.entities) : undefined;
     for (const v of [...visited].filter(v => this.regionOf(v) === home)) { this.mark(areas, v, visited, here); }
     // What the company has been told of (a site named to it, leadsTo) is on its map too, before it has been there.
@@ -188,8 +189,13 @@ export class ChartModel {
       const key = [a, b].sort().join('|');
       if (!edges.has(key)) {
         edges.set(key, { from: a, to: b, label: `${w.name} · ${this.duration(w.passage)}`, status: w.status,
-          ...land?.course(w.from, w.to), ...w.reason ? { reason: w.reason } : {} });
+          ...land?.course(w.from, w.to, w.passage), ...w.reason ? { reason: w.reason } : {} });
       }
+    }
+    // Each area where it stands on the land, where the land is drawn (an authored region's grid is not its land's).
+    for (const a of areas.values()) {
+      const cell = chart?.places[a.id];
+      if (chart && cell !== undefined) { a.x = cell % chart.width; a.y = Math.floor(cell / chart.width); }
     }
     const terrain = home ? this.form(home, 'terrain').form : undefined;
     return areas.size > 1 || (chart && areas.size) ? { region: { areas: [...areas.values()], edges: [...edges.values()],

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Atlas } from '../web/reader/atlas';
+import { PaintedLand } from '../web/reader/painted-land';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
@@ -7,8 +8,8 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
 import type { RegionChart } from '../src/ui/screen-types';
 
-// The map draws what the company knows of the land, as hexes: each known cell its land's tone, water as water, the
-// rest of the country as a faint grid; a name beside each place, never across another; and the company, the places
+// The map draws what the company knows of the land, as land: each known cell its land's tone, water as water, the
+// rest of the country fading to a trace; a name beside each place, never across another; and the company, the places
 // it knows and the ways it knows, where they are on the land. a1: Murkstede by the sea, Eikwudu east of it.
 class Land {
   // A land of rows of cover marks, all of it known but the last row, with a town in the middle of the first row.
@@ -23,13 +24,17 @@ class Land {
 }
 
 describe('the map', () => {
-  it('draws the cells the company knows in the tone of their land, and the rest as a faint grid', () => {
+  it('draws the cells the company knows in the tone of their land, and paints the rest fading to a trace', () => {
     const d = Atlas.draw(Land.region(['~~...', '.ww..', 'fffff']));
     expect(d.cells.map(c => c.cover)).toEqual(['water', 'water', 'known', 'known', 'known', 'known', 'wood', 'wood',
       'known', 'known']);
-    expect(d.unknown).toHaveLength(5);
+    expect(d.size).toEqual({ w: 5 * Atlas.S, h: 3 * Atlas.S });
     expect(d.here).toEqual(Atlas.centre(2, 5));
-    expect(d.here).toEqual({ x: 2 * Atlas.S + Atlas.S / 2, y: Atlas.R });
+    expect(d.here).toEqual({ x: 2 * Atlas.S + Atlas.S / 2, y: Atlas.S / 2 });
+    // Painted: what is known wholly, the row beyond it fading, water darker than open land.
+    const land = Land.region(['~~...', '.ww..', 'fffff']).land!, p = PaintedLand.paint(land), F = PaintedLand.grain(land);
+    const alpha = (x: number, y: number) => p.data[((y * F + 2) * p.width + x * F + 2) * 4 + 3]!;
+    expect([alpha(2, 0), alpha(2, 2) < 255, alpha(2, 2) > 0]).toEqual([255, true, true]);
   });
   it('writes no name across another, nor across a place', () => {
     const d = Atlas.draw(Land.region(['.........', '.........', '.........', '.........']));

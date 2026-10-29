@@ -1,9 +1,10 @@
-import type { Drawn } from './atlas';
+import { Atlas, type Drawn } from './atlas';
+import { PaintedLand } from './painted-land';
 
-// The land drawn on the map's hexes: a glyph of what each hex is (trees for wood, a fell's rounded hill, a peak with
-// its snow, the reeds of a fen, the tufts of heath, the ripples of water), placed a little differently in each hex so
-// the country does not read as wallpaper; the unknown as faint hex outlines; and the marks for places: a settlement as
-// a cluster of roofs, a site as a broken arch, anything else as a diamond.
+// The marks of what the land is, set on its painting: trees scattered through a wood, a fell's rounded hills, a peak
+// with its snow, the reeds of a fen, the tufts of heath, the ripples of water, each cell's few placed differently so
+// the country does not read as wallpaper; and the marks for places: a settlement as a cluster of roofs, a site as a
+// broken arch, anything else as a diamond.
 export class Terrain {
   static readonly glyphs: Record<string, string> = {
     wood: 'M-5 3l3-7 3 7zM1 4l3-8 3 8z',
@@ -24,14 +25,21 @@ export class Terrain {
       </defs>
     );
   }
-  // Each hex's glyph, nudged by its index so neighbours differ.
+  // How many of its mark a cell of each land carries, and how large: a wood is many trees, a peak one mountain.
+  static readonly scatter: Record<string, [number, number]> = { wood: [4, 10], peak: [1, 18], fell: [2, 13],
+    heath: [2, 10], fen: [2, 10], water: [1, 12] };
+  // Each cell's marks, each placed by the cell and its count so neighbours differ.
   static Land({ cells }: { cells: Drawn['cells'] }) {
+    const S = Atlas.S;
     return <g className="land">
-      {cells.map(c => <polygon key={c.i} className={`hex ${c.cover}`} points={c.points} />)}
-      {cells.filter(c => Terrain.glyphs[c.cover]).map(c => {
-        const dx = ((c.i * 7) % 5) - 2, dy = ((c.i * 3) % 3) - 1;
-        return <use key={`g${c.i}`} href={`#g-${c.cover}`} className={`glyph ${c.cover}`} x={c.x + dx - 8} y={c.y + dy - 8}
-          width={16} height={16} />;
+      {cells.filter(c => Terrain.scatter[c.cover]).flatMap(c => {
+        const [n, size] = Terrain.scatter[c.cover]!;
+        return Array.from({ length: n }, (_, k) => {
+          const x = c.x - S / 2 + S * (0.2 + 0.6 * PaintedLand.hash(c.i * 7 + k, 3));
+          const y = c.y - S / 2 + S * (0.25 + 0.55 * PaintedLand.hash(c.i * 5 + k, 9));
+          return <use key={`g${c.i}.${k}`} href={`#g-${c.cover}`} className={`glyph ${c.cover}`} x={x - size / 2}
+            y={y - size / 2} width={size} height={size} />;
+        });
       })}
     </g>;
   }

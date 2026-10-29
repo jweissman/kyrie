@@ -125,6 +125,8 @@ export interface Module {
 export interface LandChart {
   width: number; height: number; cover: string; rivers: number[][]; roads: Record<string, number[]>;
   parts: Record<string, number[]>; places: Record<string, number>; glosses?: Record<string, string>;
+  // An authored region's: the cells of each of its stretches of country, settlements and sites (see AuthoredLand).
+  blocks?: Record<string, number[]>;
 }
 export interface WorldState {
   relations: Call[];

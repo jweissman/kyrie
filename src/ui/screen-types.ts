@@ -170,7 +170,10 @@ export interface RegionChart {
     known: number[]; here?: number;
     marks: { id: string; name: string; cell: number; kind: string; visited: boolean; here: boolean }[];
     zones: { id: string; name: string; form?: string; cells: number[] }[];
-    glosses: Record<string, string> };
+    glosses: Record<string, string>;
+    // Where an authored region's places stand on its land, a stretch each (see AuthoredLand): the rooms of the one
+    // the company is in are drawn on it.
+    blocks?: Record<string, number[]> };
 }
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;

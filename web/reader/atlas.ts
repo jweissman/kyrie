@@ -3,9 +3,9 @@ import { Typography } from '../../src/presentation/typography';
 
 interface Pt { x: number; y: number }
 export interface Drawn {
-  box: number[]; cells: { i: number; x: number; y: number; points: string; cover: string }[];
-  // The land not yet known, as a faint grid of points: how far the country goes, and nothing of what is in it.
-  unknown: Pt[];
+  // The part of the land worth showing first, and the whole land's size.
+  box: number[]; size: { w: number; h: number };
+  cells: { i: number; x: number; y: number; cover: string }[];
   rivers: string[]; roads: { d: string; came: boolean }[];
   paths: { d: string; label: string; shut: boolean; came: boolean }[];
   places: (Pt & { id: string; kind: string; visited: boolean; name: string })[];
@@ -14,19 +14,18 @@ export interface Drawn {
   here?: Pt; glosses: [string, string][];
 }
 
-// The country as hexes of the land the company knows, each the tone of its land with its land drawn on it (trees,
-// fells, peaks, fen, water) by the map view; rivers and roads as curves through the hexes' middles, not lines between
-// graph nodes; paths straight from end to end; settlements and other places marked; names set where they do not cross
-// another name or a mark. The land's cells are a square grid; set in hexes, every other row is shifted half a cell.
+// The country as land the company knows: the map view paints it (see PaintedLand) and sets on it the marks of what
+// each stretch is (trees, fells, peaks, fen, water); rivers and roads as curves through the cells' middles, not lines
+// between graph nodes; paths straight from end to end; settlements and other places marked; names set where they do
+// not cross another name or a mark. The land's cells are a square grid (the hexes of Mission 18's first map made a
+// board of it: the owner's review).
 export class Atlas {
-  static readonly S = 24;
-  static readonly R = Atlas.S / Math.sqrt(3);
-  static readonly ROW = Atlas.R * 1.5;
+  static readonly S = 28;
   static readonly covers: Record<string, string> = { '~': 'water', o: 'water', ',': 'fen', '.': 'known', w: 'wood',
     h: 'heath', f: 'fell', p: 'peak' };
   static draw(region: RegionChart, came?: string): Drawn {
     const land = region.land!, W = land.width, known = new Set(land.known);
-    const cells = land.known.map(i => ({ i, ...this.centre(i, W), points: this.hex(this.centre(i, W)),
+    const cells = land.known.map(i => ({ i, ...this.centre(i, W),
       cover: this.covers[land.cover[i] ?? '.'] ?? 'known' }));
     const hereArea = region.areas.find(a => a.here)?.id, cameArea = came ? region.within[came] ?? came : undefined;
     const ends = [cameArea ?? '', hereArea ?? ''].sort().join('|');
@@ -49,11 +48,11 @@ export class Atlas {
     const lines = [...Object.values(land.roads), ...region.edges.filter(e => e.course && !e.road).map(e => e.course!)]
       .map(cs => cs.filter(c => known.has(c)).map(c => this.centre(c, W)));
     const labels = this.labels(places, here ? [here] : [], box, this.along(lines));
-    const unknown = [...land.cover].flatMap((_, i) => known.has(i) ? [] : [this.centre(i, W)]);
     const glosses = Object.entries(land.glosses).map(([id, gloss]) => [places.find(p => p.id === id)?.name
       ?? region.areas.find(a => a.id === id)?.name ?? '', gloss] as [string, string]).filter(([n]) => n);
     const rivers = land.rivers.map(r => this.line(r.filter(c => known.has(c)), W));
-    return { box, cells, unknown, zones: this.zoned(zones, labels, [...places, ...here ? [here] : []]), rivers,
+    return { box, size: { w: W * this.S, h: land.height * this.S }, cells,
+      zones: this.zoned(zones, labels, [...places, ...here ? [here] : []]), rivers,
       roads, paths, places, labels, ...here ? { here } : {}, glosses };
   }
   // A country with no land drawn for it (an authored one): its places where its author set them, joined by the ways
@@ -73,7 +72,7 @@ export class Atlas {
       visited: a.visited, name: a.name, ...at.get(a.id)! }));
     const here = hereArea ? at.get(hereArea) : undefined;
     const box = [0, 0, (Math.max(...xs) - x0) * G + 280, (Math.max(...ys) - y0) * G + 110];
-    return { box, cells: [], unknown: [], rivers: [], roads: [], paths, places, zones: [],
+    return { box, size: { w: box[2]!, h: box[3]! }, cells: [], rivers: [], roads: [], paths, places, zones: [],
       labels: this.labels(places, here ? [here] : [], box),
       ...here ? { here } : {}, glosses: [] };
   }
@@ -81,11 +80,11 @@ export class Atlas {
   // never narrower than a phone shows at full size; the rest is unknown, and would only make the known part small.
   private static crop(known: number[], W: number, H: number, here?: Pt): number[] {
     const S = this.S, xs = known.map(i => i % W), ys = known.map(i => Math.floor(i / W));
-    if (here) { xs.push(Math.floor(here.x / S)); ys.push(Math.floor(here.y / this.ROW)); }
-    if (!xs.length) { return [0, 0, W * S + S / 2, H * this.ROW + this.R / 2]; }
+    if (here) { xs.push(Math.floor(here.x / S)); ys.push(Math.floor(here.y / S)); }
+    if (!xs.length) { return [0, 0, W * S, H * S]; }
     const [x0, x1] = this.span(Math.min(...xs), Math.max(...xs), W, 16);
     const [y0, y1] = this.span(Math.min(...ys), Math.max(...ys), H, 10);
-    return [x0 * S, y0 * this.ROW, (x1 - x0) * S + S / 2, (y1 - y0) * this.ROW + this.R / 2];
+    return [x0 * S, y0 * S, (x1 - x0) * S, (y1 - y0) * S];
   }
   // Cells lo to hi, three about them, widened to the least it may be and kept within the land.
   private static span(lo: number, hi: number, size: number, least: number): [number, number] {
@@ -93,18 +92,9 @@ export class Atlas {
     while (b - a < Math.min(least, size)) { if (a > 0) { a--; } if (b - a < least && b < size) { b++; } }
     return [a, b];
   }
-  // The middle of a cell's hex: every other row half a cell to the right.
+  // The middle of a cell.
   static centre(i: number, W: number): Pt {
-    const col = i % W, row = Math.floor(i / W);
-    return { x: col * this.S + this.S / 2 + (row % 2) * this.S / 2, y: row * this.ROW + this.R };
-  }
-  // A hex about a middle, its points up and down, a hair inside its neighbours.
-  private static hex(c: Pt): string {
-    const r = this.R * 0.98;
-    return [30, 90, 150, 210, 270, 330].map(a => {
-      const t = (a * Math.PI) / 180;
-      return `${(c.x + r * Math.cos(t)).toFixed(1)},${(c.y + r * Math.sin(t)).toFixed(1)}`;
-    }).join(' ');
+    return { x: (i % W) * this.S + this.S / 2, y: Math.floor(i / W) * this.S + this.S / 2 };
   }
   // A way over cells, as a curve through their middles: a road bends as a road does, not as a graph's edge.
   private static line(cells: number[], W: number): string { return this.curve(cells.map(c => this.centre(c, W))); }
