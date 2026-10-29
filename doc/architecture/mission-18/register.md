@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 1 | 61 | 10 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 10 | 0 | 0 | 0 | 0 | 0 | 10 |
-| The owner's review | 0 | 11 | 2 | 0 | 0 | 0 | 13 |
+| The owner's review | 0 | 12 | 1 | 0 | 0 | 0 | 13 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -167,7 +167,7 @@ closing them. They are worked alongside the rest of the mission, not instead of 
 | OWN-03 | Less on the screen: creation without horizontal scrolling through text-heavy cards; a few significant controls, the mechanics on demand; a compact character sheet that still reaches the whole rules | A | P0 | Partial | Creation's choices a grid, chosen first (37970a0); the character sheet compact (character-page.tsx): six qualities as chips with score and modifier, what each does a touch away; skills and techniques by name, opened for their rules; saves beside the fight; what is carried in a line. A warrior's page from 682 words and 2,560 px tall to 181 words and 1,013 px (3,777 to 2,100 on a phone); test/reader-browser.test.ts opens a quality. What remains: the place's controls, the owner's verdict |
 | OWN-04 | Settlements with observable life: population, services, occupations, schedules, relationships, activities; a quiet place intelligible; a busy fair populated and interactive | C | P0 | Partial | Pellam's Fair has its trades, its crowd and its pastimes on a schedule (fair.kyr); generated towns not yet |
 | OWN-05 | Ordinary commerce: rations, light, rope, a crowbar and the rest found from a typical start without searching blindly | C | P0 | Partial | Every generated village and town has a chandler, a hamlet's keeper rope and oil (M18-10); Pellam's chandler is the first booth on the ice; a general store and an emporium stock the outfit first (M18-06); what remains: a settlement's services said where they are |
-| OWN-06 | Significant conversations: the philosophers' depth, initiative, discoverability, continuity of argument, teaching, sustained exchange; real debate among several; answers to disagreement | C | P0 | Open | |
+| OWN-06 | Significant conversations: the philosophers' depth, initiative, discoverability, continuity of argument, teaching, sustained exchange; real debate among several; answers to disagreement | C | P0 | Partial | Callow's public question with three answers, rejoinders and follow-ups (disputation.kyr, f076c8e); the Glove Post argues (debate.kyr): Callow calls a stranger over, Sir Lionel and Ursel set at it answer him and each other before the crowd, Callow says what the ice has heard (three positions, taught as something to keep), and at the Court he remembers which answer the stranger gave (`test/liberty-of-the-ice-small.test.ts`). What remains: the generated disputations elsewhere (goings-on), and the owner's verdict |
 | OWN-07 | Acceptance: a solo protagonist enters Pellam during the Frost Fair through the reader, sees where the people and the activity are, finds useful commerce, speaks substantially with someone important, keeps their bearings, and finds a reason to go on; no scene injected, no fixture set up | F | P0 | Partial | Played through the reader (doc/playtests/pellam-frost-fair-2026-10-29): the watermen, Mother Gage's counter and a lantern bought, the Glove Post's people, Callow's public question answered and pressed, the swing-boat's view and the notes. What remains: the owner's verdict; the philosophers' longer debate (OWN-06) |
 
 ### The owner's correction of 2026-10-29: the map and exploration

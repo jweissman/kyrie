@@ -1,0 +1,48 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The Glove Post argues: Callow, Sir Lionel and Ursel ─────────────────────────────────────────────────────────────
+  // The owner's review of Mission 18 asked of the philosophers initiative, a sustained exchange, real debate among
+  // several, answers to disagreement, teaching, and an argument that is remembered. Callow calls a stranger over; once
+  // his question has been answered, the stranger can set Sir Lionel and Ursel at it in front of the crowd, the three of
+  // them answer one another, Callow says what the ice has heard (three answers, and the stranger's), and at the Court
+  // he remembers which answer the stranger gave.
+  Relation callowHailed(group). Relation debateGant(group). Relation debateUrsel(group). Relation debateSummed(group).
+  Relation callowRejoined(group). Relation debateWarm(group). Relation callowRemembered(group).
+  // He does not wait to be asked.
+  Rule callow_hails when firstDay() and at(party, freezeland) and callowOnKeg() and not callowHeard(party) and not callowHailed(party)
+    says "On his keg at the foot of the Glove Post the old preacher breaks off in the middle of a sentence and points his handkerchief at you over the heads of the crowd. 'You! Yes. The one with the snow still on their boots. Come here and be argued with: it is free, and it is the only thing on the ice that is.' The crowd turns round to look at you, delighted." {
+    Assert callowHailed(party). }
+  // Sir Lionel, set at it: a gentleman is his promises.
+  Topic gant_is_bound with gant "Ask Sir Lionel, in front of Callow's crowd, whether a man is his promises" when callowPut(actor) and callowOnKeg() and at(gant, freezeland) and not gantFree(gant) and not gantSafe(gant) and not debateGant(actor) once {
+    Says "Sir Lionel gets up out of his lean-to, which takes some time, and stands with one hand on the Glove Post. 'A man is nothing else,' he says. 'I gave my hand for three coin at five-and-twenty, to a tailor, for this waistcoat. I am bound to that boy as if he were my own son, and so I am bound for thirty, and it has ruined me, and I would not have it otherwise. Honour is being bound to who you were. Without it,' and he looks down at Callow on his keg, 'you have a philosopher.' The crowd cheers. Callow, coughing, cheers loudest.".
+    On discuss { Assert debateGant(actor). }
+  }
+  Rule callow_answers_gant when debateGant(party) and at(party, freezeland) and callowOnKeg() and not callowRejoined(callow)
+    says "'Lionel,' says Callow, quite gently, from his keg, 'you are bound to a boy of five-and-twenty who has been dead these fifteen years, and the only man in Pellam who believes that boy is still alive is Master Harker, who is paid to.' Sir Lionel opens his mouth, and shuts it, and sits down on his lean-to's step, and is quiet for a while, which the crowd does not cheer." {
+    Assert callowRejoined(callow). }
+  // Ursel, set at it: keep your hand in your pocket.
+  Topic ursel_never_shakes with ursel "Ask Ursel Cobb, before the crowd, why she has never shaken on anything" when debateGant(actor) and urselHere() and not debateUrsel(actor) once {
+    Says "'Because I tell lies for a living,' says Ursel, loud enough for the back of the crowd, 'and I'm good at it. Anything I say can be a lie, and everybody knows it, and they pay me for that. A hand is the one thing I can't fake. So I keep it in my pocket.' She puts it there to show them. 'He,' a nod at Callow, 'says nothing you give stays. Sir Lionel says everything you give stays for ever. I say: what you never gave, nobody can call in.'".
+    On discuss { Assert debateUrsel(actor). }
+  }
+  Rule the_three_argue when debateUrsel(party) and at(party, freezeland) and callowOnKeg() and at(gant, freezeland) and not debateWarm(callow)
+    says "And then they are at it, all three, and you are forgotten. Sir Lionel says that a woman who will not give her hand cannot be trusted with anything. Ursel says that is the first true thing a gentleman has said to her this winter. Callow says that they are both describing the same coward from two sides: the one who is afraid to be someone else tomorrow. A waterman shouts that whoever wins owes him a penny a stair. Sir Lionel tells Callow he is a heretic. Callow tells Sir Lionel he is a debtor. Ursel tells them both they are men, and the crowd, which has been waiting all morning for somebody to say it, roars." {
+    Assert debateWarm(callow). }
+  // What the ice has heard, as Callow tells it: something to take to the Court, and to keep.
+  Topic callow_sums with callow "Ask Callow, when the three of them have done, what the ice has heard" when debateUrsel(actor) and callowOnKeg() and not debateSummed(actor) once {
+    Says "Callow wipes his eyes, which are wet with laughing and with coughing. 'Three answers,' he says, holding up three fingers to the crowd. 'Sir Lionel's: the hand binds the one who gave it, for ever, and that is honour, and it has ruined him. Mine: it binds nobody, because nobody stays, and that will be my ruin at four o'clock. Ursel's: give nothing, and nothing can be called in, which is the wisest and the loneliest of the three.' He lowers his hand and looks at you. 'And yours, which you gave them a little while ago, and which they will remember better than you think. The ice keeps everything that is said on it, until the thaw.'".
+    On discuss { Assert debateSummed(actor). Assert knows(actor, three_on_the_ice). }
+  }
+  Discovery three_on_the_ice "Three answers on the ice to what a hand binds: Sir Lionel Gant's, that it binds the one who gave it for ever, and that is honour; Magister Callow's, that it binds nobody, because nobody stays; Ursel Cobb's, that what you never gave nobody can call in." {
+    Known by callow.
+  }
+  // At the Court he remembers what the stranger said before the Glove Post.
+  Rule callow_remembers_binds when callowCharged(callow) and at(callow, court) and at(party, court) and publicBinds(party) and not callowHand(party) and not callowRemembered(callow)
+    says "Before the trestle, Magister Callow finds you on the benches and lifts his handkerchief to you. 'There,' he tells the Court, 'is the stranger who told the Glove Post this morning that a hand binds whoever gave it, changed or not. I should like to see what such a hand would do for a man who does not believe in it.' The benches turn round to look at you." {
+    Assert callowRemembered(callow). }
+  Rule callow_remembers_changes when callowCharged(callow) and at(callow, court) and at(party, court) and publicChanges(party) and not callowHand(party) and not callowRemembered(callow)
+    says "Before the trestle, Magister Callow finds you on the benches and smiles. 'My convert,' he tells the Court. 'Converted before noon, on the ice. A convert would never shake to be my hand, of course: whoever shook would be somebody else by the Landing.' He coughs. 'Which is a pity.' The benches turn round to look at you." {
+    Assert callowRemembered(callow). }
+  Rule callow_remembers_knowing when callowCharged(callow) and at(callow, court) and at(party, court) and publicKnowing(party) and not callowHand(party) and not callowRemembered(callow)
+    says "Before the trestle, Magister Callow finds you on the benches and nods to you, gravely, as to a colleague. 'The stranger with the third thing,' he tells the Court. 'Remember it, Justice, when the Landing comes.' Justice Broom writes something down." {
+    Assert callowRemembered(callow). }
+}
