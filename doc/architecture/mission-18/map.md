@@ -63,8 +63,55 @@ Measured: a generated country now has some 380 places and 880 ways (from 135 and
 destination, up onto the fells by the compass, looking out (a square tower a long way off, Barzelmizela some way off;
 the known land from 81 hexes to 146), and across the country to the tower, kept known.
 
+## The second round: the map in three dimensions
+
+The owner's addendum of 2026-10-29 asked for something more ambitious than the flat hex crawl: an isometric, 2.5D or
+3D terrain map (Three.js permitted) over the whole screen, with relief, light and atmosphere, a palette of a piece
+with the title, roads and rivers in the land, mist over unknown country, places recognisable by their form, where you
+are and can see and are bound, pan, zoom and choosing by mouse, keys and touch, wilderness steps, long journeys and
+going into a site told apart, and every approach judged by how the actual map looks and plays.
+
+Two different renderers were built over the same generated country (kite's world b2, after a morning on the fells
+above Ramavor), and published as one playable page for the owner (a claude.ai artifact, private to the owner, built
+from scratch code that has not yet entered the reader):
+
+- **Relief**: one continuous landscape, heights blended between hexes, the fells and heights broken into ridges,
+  rivers on flat valley floors, a reflective lake with shallows, the hexes drawn only where they matter (yours in
+  gold, the six about you, the one pointed at, the one you are bound for) in the land's own shader.
+- **Tiles**: a table of hex tiles, each a low terrace by its height, turf over soil at its sides, its top swelling a
+  little and mottled in its land's colours, sand where it meets water, a darker bank by a river; mountains, forests
+  in clumps, heather and walls on the fells, hedges and farmsteads near towns, pools in the fens, sheep.
+
+Both share the rest: a dusk sky with a gold thread at the horizon after the title's; mist from one small noise texture
+in two drifting banks over whatever is not known; towns modelled by their size (roofs about a church tower, a wall
+where roads meet, windows lit); places by their kind (a square tower with its pennant, broken walls with an arch, a
+cave mouth in rocks, stepping-stones, a standing stone, a cairn where a wild country is entered), each with a small
+sign of its kind; the way to where you are bound dotted over the land to a gold pennant; knowledge arriving as the
+mist going off the hexes nearest first (tiles standing up out of it).
+
+| | |
+|---|---|
+| ![Tiles](map/3d-tiles.jpg) | ![Tiles from a corner](map/3d-tiles-corner.jpg) |
+| ![Tiles, near](map/3d-tiles-near.jpg) | ![Relief](map/3d-relief.jpg) |
+
+The owner's notes after trying it, and what each changed:
+
+| Note | Done |
+|---|---|
+| Performance miserable | Nothing drawn unless something has changed (the mist drifting a few times a second when idle); shadows cast once (the sun does not move); no point lights (seven before; lamps and lanterns are glows); the mist two texture reads instead of thirty noise octaves; names measured once, not every frame; the pixel ratio held to 1.5; the tiles merged into three meshes (563 draw calls before); hex lines worked out only near you, the pointer and the bound. In software GL at an iPad's density, about twice the frames while dragging, the worst from four seconds to under one. |
+| A more angled view | The camera low over the land as from a hill (about 25° below the horizon), the far country going into haze. |
+| Clearer places, cities, towers, mountains, forests | As above; signs of a place's kind always on, its name when pointed at or chosen. |
+| The tiles more appealing, but too steep | Terraces of at most five gentle steps; the heights as small mountains on their tiles. |
+| Roads and rivers to meander | Curves through each hex with a bend between, a river wandering further than a road, laid over the land where it is known. |
+| Richer land | Mottled tops, shores, banks, verges, sides of turf and soil; the furniture above. |
+| Less text | Only town names and places' signs; the steps about you, the wild countries' names and the label on you gone. |
+
+The tiles are the owner's preference and the treatment carried forward; the relief stays on the page for comparison.
+
 ## What remains
 
+- The tiles into the reader as its map (replacing the flat hex crawl, keeping its hooks and its plain fallback where
+  there is no WebGL), with a step to the next hex, a journey, and going into a place each its own act.
 - The owner's review of the map, in play.
 - The wild's own life: what is met in the open country (beasts, travellers, weather's hazards) by its land, and the
   small finds of a stretch (a spring, a shepherd's hut, a wreck of a cart) beyond the places it already holds.

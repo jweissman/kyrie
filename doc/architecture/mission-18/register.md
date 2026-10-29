@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 9 | 0 | 1 | 0 | 0 | 0 | 10 |
-| The owner's review | 0 | 6 | 5 | 0 | 0 | 0 | 11 |
+| The owner's review | 0 | 8 | 5 | 0 | 0 | 0 | 13 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -181,6 +181,13 @@ gates. The map is not accepted until the owner has reviewed it as a visual and i
 | OWN-09 | Wilderness exploration as a central pleasure: travel (a known route to a destination, no junction chores), exploration (unknown country entered, surveyed, crossed hex by hex or toward a seen feature, discovering places and updating what is known), and investigation (a site) continuous; leaving a town simply to explore; a persistent position on intelligible land; vantage, expertise, light, weather and a spyglass changing what is seen; fog of war; discovered places on the map and usable | C | P0 | Partial | The open country of every generated country, stretch by stretch, a compass across it, looking out (by land, skill, glass, haze, dark), places seen and found, journeys toward them (test/exploration.test.ts). Remains: the wild's own meetings and small finds; authored regions' open country |
 | OWN-10 | Visual hierarchy across ordinary play, the title screen as the reference: fewer peer controls; compact character and inventory, details on inspection | A | P0 | Partial | Creation's choices together (37970a0); the place's people and its own pastimes at the head of the ways, the company's own choices apart (this batch); character sheet and pack remain |
 | OWN-11 | Demonstration: a new solo protagonist leaves a settlement to explore without a destination, opens the full-screen map, sees familiar terrain and the edge of the unknown, crosses unknown country and reveals more, discovers varied places by surveying, travel or sight, investigates one, travels back or on by ordinary travel, and keeps what was learned | F | P0 | Open | |
+
+### The owner's addendum of 2026-10-29: a map in three dimensions, and the Grand Tour
+
+| ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
+|---|---|---|---|---|---|
+| OWN-12 | A genuinely beautiful, explorable map: isometric, 2.5D or 3D terrain over the whole screen (Three.js permitted); relief, light, atmosphere, a palette of a piece with the title, transitions; roads and rivers in the land, no graph; mist for unknown country; recognisable places; where you are, can see and are bound; pan, zoom and choose by mouse, keys and touch; a wilderness step, a long journey and going into a site told apart; knowledge kept; genuinely different approaches prototyped and judged on iPad and desktop, offline, with reduced motion and accessible controls; the actual map's quality the acceptance | A | P0 | Partial | Two renderers (relief, tiles) over one generated country, published to the owner as a playable page and revised four times on the owner's notes (map.md, the second round); the tiles carried forward. What remains: into the reader with real traversal; the owner's acceptance |
+| OWN-13 | The Grand Tour (adventure/grand-tour): its premise, places, planar geography and progression examined; how it would sit in the same canonical planes and metropolitan geography (one Plane of Fire, one House of Doors as a restricted precinct of the mages' college, its upper galleries opened by an artifact rebuilt from elemental parts); its author's design kept, compatibility questions raised before any rewriting | B | P0 | Partial | grand-tour.md: the design read, the House and the Rose found close to the owner's vision, seven points of friction with the shared world, thirteen questions for the owner and the author; the branch merged onto today's main in a scratch worktree conflicts only in the generated bundle index and passes its own 30 tests. What remains: the answers, then shared planes and the House as a canonical precinct |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 
