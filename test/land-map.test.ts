@@ -7,7 +7,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
 import type { RegionChart } from '../src/ui/screen-types';
 
-// The map draws what the company knows of the land, plainly: each known cell its land's tone, water as water, the
+// The map draws what the company knows of the land, as hexes: each known cell its land's tone, water as water, the
 // rest of the country as a faint grid; a name beside each place, never across another; and the company, the places
 // it knows and the ways it knows, where they are on the land. a1: Murkstede by the sea, Eikwudu east of it.
 class Land {
@@ -28,7 +28,8 @@ describe('the map', () => {
     expect(d.cells.map(c => c.cover)).toEqual(['water', 'water', 'known', 'known', 'known', 'known', 'wood', 'wood',
       'known', 'known']);
     expect(d.unknown).toHaveLength(5);
-    expect(d.here).toEqual({ x: 2 * Atlas.S + Atlas.S / 2, y: Atlas.S / 2 });
+    expect(d.here).toEqual(Atlas.centre(2, 5));
+    expect(d.here).toEqual({ x: 2 * Atlas.S + Atlas.S / 2, y: Atlas.R });
   });
   it('writes no name across another, nor across a place', () => {
     const d = Atlas.draw(Land.region(['.........', '.........', '.........', '.........']));

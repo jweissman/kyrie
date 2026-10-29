@@ -1,80 +1,65 @@
 import { useEffect, useState } from 'react';
 import type { ReaderApp } from '../reader-app';
-import { Toast } from '../toast';
 import { Typography } from '../../../src/presentation/typography';
-import { CreationRules } from '../creation-rules';
-import { Words } from '../words';
 import { PeopleStep } from './people-step';
 import { CallingStep } from './calling-step';
+import { SpecialtyStep } from './specialty-step';
+import { TradeStep } from './trade-step';
 import { QualitiesStep } from './qualities-step';
 import { WeaponStep } from './weapon-step';
 import { OriginStep } from './origin-step';
+import { NameStep } from './name-step';
 
-type Step = { id: string; title: string; View: (p: { app: ReaderApp }) => React.ReactNode };
+type Step = { id: string; ask: string; View: (p: { app: ReaderApp }) => React.ReactNode };
 
-// Before a country: who comes into it, chosen as a book is opened, a page at a time: who you are and your people;
-// your calling; your qualities; the weapon you set out with; and why you have come. Each page's choices are cards,
-// each saying what it is and what it does by the rules; what you are so far is beside them, with setting out. You are
-// imagined, not painted: no likeness is chosen for you (the owner's interim report, M17).
+// Before a country: the choice of a life, one question at a time, each answered from a few large cards. It begins
+// from why you have come (a debt, an errand, a child's fever, a father who did not come home), then asks your people,
+// your calling and its way, what you were before if your reason leaves that open, the weapon you favour, what you are
+// made of, and last your name, with the life said back. What a card means by the rules is said beneath the cards for
+// the one chosen; everything chosen so far is a sentence at the foot. You are imagined, not painted: no likeness is
+// chosen for you. Setting out at any page sets out as you stand; a game whose choices are all made sets out from the
+// last.
 export class CreationPage {
-  static readonly steps: Step[] = [{ id: 'you', title: 'You', View: PeopleStep.View },
-    { id: 'calling', title: 'Your calling', View: CallingStep.View },
-    { id: 'qualities', title: 'Your qualities', View: QualitiesStep.View },
-    { id: 'weapon', title: 'Your weapon', View: WeaponStep.View },
-    { id: 'why', title: 'Why you have come', View: OriginStep.View }];
+  static steps(app: ReaderApp): Step[] {
+    const s = app.state, catalog = s.catalog!, m = s.party[0]!, country = s.setting?.title ?? 'this country';
+    const calling = catalog.callings.find(c => c.id === m.classId);
+    const origin = s.setting?.origins?.find(o => o.id === s.origin);
+    return [{ id: 'why', ask: `Why have you come to ${country}?`, View: OriginStep.View },
+      { id: 'you', ask: 'Of what people are you?', View: PeopleStep.View },
+      { id: 'calling', ask: 'What is your calling?', View: CallingStep.View },
+      ...calling?.specializations.length ? [{ id: 'specialty', ask: SpecialtyStep.ask(calling), View: SpecialtyStep.View }] : [],
+      ...origin && !origin.background ? [{ id: 'trade', ask: 'What were you, before?', View: TradeStep.View }] : [],
+      ...calling?.weapons.length ? [{ id: 'weapon', ask: 'What do you carry into a fight?', View: WeaponStep.View }] : [],
+      { id: 'qualities', ask: 'What are you made of?', View: QualitiesStep.View },
+      { id: 'name', ask: 'And what are you called?', View: NameStep.View }];
+  }
   static View({ app }: { app: ReaderApp }) {
-    const [at, go] = useState(0), s = app.state, setting = s.setting;
-    // Each page opens at its head (the qualities and the weapon opened at their feet, where the last was left: play 7).
-    useEffect(() => { window.scrollTo({ top: 0 }); }, [at]);
+    const [at, go] = useState('why'), s = app.state, setting = s.setting;
+    useEffect(() => { document.querySelector('.creation-body')?.scrollTo({ top: 0 }); }, [at]);
     if (!setting || !s.catalog || !s.party[0]) { return null; }
-    const step = CreationPage.steps[at]!, next = CreationPage.steps[at + 1];
+    const steps = CreationPage.steps(app), i = Math.max(0, steps.findIndex(x => x.id === at)), step = steps[i]!;
+    const back = steps[i - 1], next = steps[i + 1];
     return (
       <div className="creation" data-mode="create">
         <header className="creation-head">
-          <p className="label">{Typography.curl(setting.title)}</p>
-          <h1>{Typography.curl(setting.pitch.heading)}</h1>
-          <p className="pitch">{Typography.curl(setting.pitch.text)}</p>
-          <nav aria-label="Making you"><ol className="steps">{CreationPage.steps.map((x, i) => <li key={x.id}>
-            <button type="button" className="step" data-step={x.id} aria-current={i === at ? 'step' : undefined}
-              onClick={() => go(i)}><i>{i + 1}</i>{x.title}</button></li>)}</ol></nav>
+          <p className="kicker">{Typography.curl(setting.title)}<span>{Typography.curl(setting.pitch.heading)}</span></p>
+          <nav aria-label="The choice of a life"><ol className="steps">{steps.map((x, n) => <li key={x.id}>
+            <button type="button" className="step" data-step={x.id} aria-label={x.ask}
+              aria-current={n === i ? 'step' : undefined} data-done={n < i || undefined} onClick={() => go(x.id)} /></li>)}</ol></nav>
+          <button type="button" className="set-out-now" data-action="start" onClick={app.opening.begin}>Set out now</button>
         </header>
-        <main className="creation-page" aria-label={step.title} data-page={step.id}>
+        <div className="creation-body" data-page={step.id}>
+          <h1 className="ask">{Typography.curl(step.ask)}</h1>
+          {i === 0 && <p className="pitch">{Typography.curl(setting.pitch.text)}</p>}
           <step.View app={app} />
-          <p className="turn">
-            {at > 0 && <button type="button" className="option back" onClick={() => go(at - 1)}>Back</button>}
-            {next ? <button type="button" className="option on" data-action="next" onClick={() => go(at + 1)}>
-              {`On to ${next.title.toLowerCase()}`}</button>
-              : <button type="button" className="option go" data-nav data-action="start" onClick={app.opening.begin}>
-                Set out</button>}
-          </p>
-        </main>
-        <CreationPage.SoFar app={app} go={go} />
-        <Toast.View app={app} />
+        </div>
+        <footer className="creation-foot">
+          {back ? <button type="button" className="option back" data-nav onClick={() => go(back.id)}>Back</button> : <span />}
+          <p className="so-far" aria-label="You so far">{Typography.curl(NameStep.life(app).join(' '))}</p>
+          {next ? <button type="button" className="option go" data-nav data-action="next" onClick={() => go(next.id)}>
+            Continue</button> : <span />}
+        </footer>
       </div>
-    );
-  }
-  // What you are so far, each line going back to the page it was chosen on; and setting out, at any page.
-  static SoFar({ app, go }: { app: ReaderApp; go: (i: number) => void }) {
-    const s = app.state, catalog = s.catalog!, m = s.party[0]!;
-    const people = catalog.ancestries.find(a => a.id === m.raceId), calling = catalog.callings.find(c => c.id === m.classId);
-    const special = calling?.specializations.find(t => t.id === m.traits?.[0]);
-    const weapon = calling?.weapons.find(w => w.id === (m.weapon ?? CreationRules.best(calling.weapons, m, catalog)?.id));
-    const origin = s.setting?.origins?.find(o => o.id === s.origin);
-    const scores = catalog.qualities.map(q => `${q.name.slice(0, 3)} ${CreationRules.score(m, catalog, q.id)}`);
-    const lines: [number, string][] = [[0, `${m.name ?? 'You'}, ${people?.name.toLowerCase() ?? ''}`],
-      [1, [calling?.name, special?.name].filter(Boolean).join(', ')], [2, scores.join(' · ')],
-      [3, weapon ? Words.upper(Words.article(weapon.name)) : 'Bare hands'], [4, origin?.title ?? 'For no reason yet']];
-    return (
-      <aside className="so-far" aria-label="You so far">
-        <p className="label">You so far</p>
-        <ul>{lines.map(([i, text]) => <li key={i}><button type="button" className="line" onClick={() => go(i)}>
-          {Typography.curl(text)}</button></li>)}</ul>
-        <p className="out">
-          <button type="button" className="option go" data-nav data-action="start" onClick={app.opening.begin}>Set out</button>
-          <button type="button" className="option" data-nav data-action="another" onClick={app.opening.anew}>
-            Another country</button>
-        </p>
-      </aside>
     );
   }
 }

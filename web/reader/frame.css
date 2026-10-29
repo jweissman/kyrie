@@ -1,104 +1,256 @@
-/* The rebuilt compositions (the owner's interim report, M17): controls that look like controls, cards for choices,
-   nothing standing on the page that is not about what the player is doing, and every edge inside the safe area of a
-   tablet's screen (the page asks for the whole screen: viewport-fit=cover). Same ground, ink and type as the rest. */
+/* ---- The lantern. A dark ground, the country's painting far behind it, and one bounded stage lit within it: about a
+   fifth of a desktop's width kept as margin (a tenth each side), less on a tablet, none on a phone, where the stage is
+   the screen inside its safe areas. The page itself never scrolls; what is long scrolls inside its own region. ---- */
+html, body { overflow: hidden; }
+.shell { --gx: clamp(24px, 10vw, 220px); --gy: clamp(16px, 6vh, 84px);
+  --frame-w: min(calc(100vw - 2 * var(--gx)), 1320px); --frame-h: min(calc(100dvh - 2 * var(--gy)), 940px);
+  position: fixed; inset: 0; display: grid; place-items: center; background: var(--ground); overflow: clip; }
+@media (orientation: portrait) { .shell { --frame-h: min(calc(100dvh - 2 * var(--gy)), 1240px); } }
+.shell.hour-morning { --hour: rgba(246, 205, 140, .12); }
+.shell.hour-afternoon { --hour: rgba(242, 189, 76, .10); }
+.shell.hour-evening { --hour: rgba(233, 120, 74, .16); }
+.shell.hour-night { --hour: rgba(70, 96, 170, .18); }
+.ambient { position: absolute; inset: -48px; pointer-events: none; background: var(--plate) center / cover no-repeat;
+  filter: blur(22px) saturate(.7) brightness(.42); transform: scale(1.04); transition: opacity 900ms var(--ease); }
+.ambient::after { content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 65% at 50% 50%, transparent 0%, rgba(10, 11, 14, .55) 55%, var(--ground) 100%),
+    linear-gradient(180deg, var(--hour), transparent 55%); }
+.frame { position: relative; width: var(--frame-w); height: var(--frame-h); background: rgba(18, 19, 24, .94);
+  border: 1px solid var(--edge); box-shadow: 0 30px 90px rgba(0, 0, 0, .55), 0 0 0 1px rgba(0, 0, 0, .6);
+  overflow: clip; isolation: isolate; }
+/* The stage's corners, drawn in gold: its bounds marked, not boxed. */
+.frame::after { content: ''; position: absolute; inset: -1px; pointer-events: none; z-index: 20; --c: 18px;
+  background:
+    linear-gradient(var(--gold-line), var(--gold-line)) 0 0 / var(--c) 1.5px no-repeat,
+    linear-gradient(var(--gold-line), var(--gold-line)) 0 0 / 1.5px var(--c) no-repeat,
+    linear-gradient(var(--gold-line), var(--gold-line)) 100% 0 / var(--c) 1.5px no-repeat,
+    linear-gradient(var(--gold-line), var(--gold-line)) 100% 0 / 1.5px var(--c) no-repeat,
+    linear-gradient(var(--gold-line), var(--gold-line)) 0 100% / var(--c) 1.5px no-repeat,
+    linear-gradient(var(--gold-line), var(--gold-line)) 0 100% / 1.5px var(--c) no-repeat,
+    linear-gradient(var(--gold-line), var(--gold-line)) 100% 100% / var(--c) 1.5px no-repeat,
+    linear-gradient(var(--gold-line), var(--gold-line)) 100% 100% / 1.5px var(--c) no-repeat; }
+/* The title is the one page that is the whole screen. */
+.shell.phase-title { --frame-w: 100vw; --frame-h: 100dvh; }
+.shell.phase-title .frame { background: transparent; border: 0; box-shadow: none; }
+.shell.phase-title .frame::after { display: none; }
+.shell.phase-title .ambient { filter: blur(3px) saturate(.6) brightness(.32); }
+/* A tablet keeps a narrower margin; a phone, none: its stage is the screen within its safe areas. */
+@media (max-width: 1279px) { .shell { --gx: clamp(20px, 4.5vw, 64px); --gy: clamp(14px, 3.4vh, 40px); } }
+@media (max-width: 1023px) { .shell { --gx: clamp(16px, 3.5vw, 36px); --gy: clamp(14px, 2.6vh, 32px); } }
+@media (max-width: 699px) {
+  .shell { --gx: 0px; --gy: 0px; }
+  .frame { border: 0; box-shadow: none; background: var(--surface); }
+  .frame::after { display: none; }
+}
+/* Arriving: what the stage now shows rises into its light. */
+.frame > * { animation: arrive var(--settle) var(--ease) both; }
+@keyframes arrive { from { opacity: 0; transform: translateY(6px); } }
 
-/* ---- Controls. An option is a control, never an underlined word; a card is a choice that says what it is. ---- */
+
+/* ---- The title: the whole screen, dark; the painting comes up behind the name; the ways in, centred. ---- */
+.title-page { position: relative; height: 100dvh; display: grid; place-items: center; padding: 0 20px; max-width: none;
+  min-height: 0; }
+.title-main { display: flex; flex-direction: column; align-items: center; text-align: center; width: min(980px, 100%); }
+.mark { margin: 0; font: 300 clamp(44px, 8vw, 116px)/1 var(--do); letter-spacing: .34em; padding-left: .34em; white-space: nowrap;
+  color: var(--ivory); text-shadow: 0 0 40px rgba(242, 189, 76, .18); }
+.mark span { display: inline-block; }
+.horizon { position: relative; width: min(340px, 70vw); height: 12px; margin: clamp(18px, 3vh, 30px) 0 clamp(16px, 2.6vh, 26px); }
+.horizon::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent); }
+.horizon i { position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px; background: var(--gold);
+  transform: rotate(45deg); box-shadow: 0 0 14px var(--gold); }
+.title-page .lede { font: italic 400 clamp(17px, 1.6vw, 21px)/1.5 var(--told); color: var(--dim); max-width: 26em;
+  margin: 0 0 clamp(28px, 6vh, 56px); }
+.title-menu { position: relative; width: min(360px, 100%); }
+.title-menu ul { list-style: none; margin: 0; padding: 0; }
+.way-in { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; width: 100%; min-height: 54px; padding: 8px 40px; color: var(--dim); text-decoration: none;
+  -webkit-tap-highlight-color: transparent; transition: color var(--quick); }
+.way-in .n { font: 500 15px/1.2 var(--do); letter-spacing: .26em; text-transform: uppercase; padding-left: .26em; }
+.way-in .why { font: italic 400 14.5px/1.35 var(--told); color: var(--faint); margin-top: 4px; letter-spacing: 0; }
+.way-in[aria-current="true"], .way-in:hover, .way-in:focus-visible { color: var(--ivory); outline: none; }
+.way-in[aria-current="true"] .why { color: var(--dim); }
+.way-in:active .n { transform: translateY(1px); color: var(--gold); }
+/* The selection: a diamond before the way and a line after it, sliding to the way the pointer or the keys are on. */
+.title-menu .indicator { position: absolute; left: 0; right: 0; top: 0; height: 0; pointer-events: none;
+  transition: transform var(--settle) var(--ease); }
+.title-menu .indicator::before, .title-menu .indicator::after { content: ''; position: absolute; top: 0; }
+.title-menu .indicator::before { left: 6px; width: 7px; height: 7px; margin-top: -4px; background: var(--gold);
+  transform: rotate(45deg); box-shadow: 0 0 12px var(--gold); }
+.title-menu .indicator::after { right: 0; width: 22px; height: 1px; background: var(--gold-line); }
+.title-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom));
+  margin: 0; font: 400 11.5px var(--do); color: var(--faint); letter-spacing: .04em; }
+.title-page .dev { margin-top: 32px; text-align: left; }
+.title-page .dev ol { list-style: none; padding: 0; display: grid; gap: 6px; }
+/* The opening, beat by beat: the mark; black; the name lit letter by letter, the horizon drawn, the ways in after. */
+.beat-ident .title-main, .beat-dark .title-main { visibility: hidden; }
+.beat-ident ~ .ambient, .shell:has(.beat-ident) .ambient, .shell:has(.beat-dark) .ambient { opacity: 0; }
+.shell:has(.beat-reveal) .ambient { animation: plate-up 2.6s var(--ease) both; }
+@keyframes plate-up { from { opacity: 0; transform: scale(1.12); } }
+.beat-reveal .mark span { animation: letter 1.2s var(--ease) both; }
+@keyframes letter { from { opacity: 0; filter: blur(8px); letter-spacing: .2em; } }
+.beat-reveal .horizon { animation: draw-out 1s .5s var(--ease) both; }
+@keyframes draw-out { from { clip-path: inset(0 50% 0 50%); } to { clip-path: inset(0 0 0 0); } }
+.beat-reveal .lede { animation: rise .9s .9s var(--ease) both; }
+.beat-reveal .title-menu li { animation: rise .7s var(--ease) both; }
+.beat-reveal .title-menu li:nth-child(1) { animation-delay: 1.15s; }
+.beat-reveal .title-menu li:nth-child(2) { animation-delay: 1.27s; }
+.beat-reveal .title-menu li:nth-child(3) { animation-delay: 1.39s; }
+.beat-reveal .title-menu li:nth-child(4) { animation-delay: 1.51s; }
+.beat-reveal .title-menu .indicator { animation: rise .7s 1.6s var(--ease) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+.ident { position: absolute; inset: 0; z-index: 30; display: grid; place-items: center; background: #000;
+  animation: ident-out 2.6s var(--ease) both; }
+.ident svg { width: min(240px, 50vw); overflow: visible; }
+.ident line { stroke-linecap: round; }
+.ident .ground { stroke: var(--gold-line); stroke-width: 1; animation: draw-out .7s var(--ease) both; }
+.ident .tower { stroke: var(--ivory); stroke-width: 2.4; stroke-dasharray: 90; stroke-dashoffset: 90;
+  filter: drop-shadow(0 0 6px rgba(242, 189, 76, .7)); animation: tower .8s var(--ease) forwards; }
+@keyframes tower { to { stroke-dashoffset: 0; } }
+.ident .star { fill: var(--gold); filter: drop-shadow(0 0 8px var(--gold)); opacity: 0; transform-box: fill-box;
+  transform-origin: center; animation: star .6s 1.35s var(--ease) forwards; }
+@keyframes star { from { opacity: 0; transform: scale(.2) rotate(-45deg); } to { opacity: 1; transform: scale(1) rotate(0deg); } }
+@keyframes ident-out { 0%, 78% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .title-page *, .ident, .shell .ambient { animation: none !important; } }
+
+/* ---- Controls beyond choices: an option is a key pressed (Back, Continue, Roll again); the primary one is gold. ---- */
 .option { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center;
-  justify-content: center; gap: 10px; min-height: 48px; padding: 12px 22px; font: 500 16px/1.2 var(--do);
-  border: 1.5px solid var(--ink); border-radius: 4px; background: var(--paper); color: var(--ink);
-  -webkit-tap-highlight-color: transparent; user-select: none; }
-.option:hover { background: var(--wash); }
-.option:active { transform: translateY(1px); }
-.option:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
-.option.go { background: var(--ink); color: var(--paper); }
-.option.go:hover { background: #2E2E2E; }
-.option[disabled], .option[aria-disabled="true"] { opacity: .45; cursor: default; transform: none; }
+  justify-content: center; gap: 10px; min-height: 46px; padding: 11px 24px; font: 500 13.5px/1.2 var(--do);
+  letter-spacing: .18em; text-transform: uppercase; color: var(--ivory); border: 1px solid var(--edge-strong);
+  border-radius: 2px; background: var(--raised); -webkit-tap-highlight-color: transparent; user-select: none;
+  transition: border-color var(--quick), background var(--quick), box-shadow var(--quick); }
+.option:hover, .option:focus-visible { border-color: var(--gold-line); background: var(--lift); outline: none; }
+.option:active { transform: translateY(1px); background: var(--gold-glow); }
+.option.go { background: var(--gold); color: var(--deep); border-color: var(--gold); font-weight: 600; }
+.option.go:hover, .option.go:focus-visible { background: #FFD27A; box-shadow: 0 0 24px rgba(242, 189, 76, .35); }
+.option.go:active { background: #D9A53A; }
+.option[disabled], .option[aria-disabled="true"] { opacity: .4; cursor: default; transform: none; }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr)); gap: 12px; }
-.card { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 8px;
-  padding: 16px 18px 18px; border: 1px solid var(--hair); border-radius: 6px; background: var(--paper);
-  min-height: 48px; transition: border-color .12s, box-shadow .12s; -webkit-tap-highlight-color: transparent; }
-.card:hover { border-color: #B8B8B8; }
-.card:active { background: var(--wash); }
-.card:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
-.card.chosen { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
-.card[disabled] { cursor: default; opacity: .5; }
-.card-name { font: 400 22px/1.15 var(--told); display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
-.card .tag { font: 500 11px/1.2 var(--do); letter-spacing: .1em; text-transform: uppercase; color: var(--blue); }
-.card-text { font: 400 15.5px/1.45 var(--told); }
-.card-facts { display: flex; flex-direction: column; gap: 4px; font: 400 13.5px/1.4 var(--do); color: var(--grey); }
-.card-facts b { font-weight: 600; color: #2B2B2B; }
-.card-shut { font: 500 13px/1.3 var(--do); color: var(--red); }
+/* ---- Creation: one question at a time, a few large cards, the rules for the one chosen beneath, the life so far at
+   the foot. The stage is split head, body (which alone scrolls) and foot. ---- */
+.creation { height: var(--frame-h); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+.creation-head { display: flex; align-items: center; gap: 24px; padding: clamp(16px, 2.6vh, 26px) clamp(20px, 3.4vw, 48px) 0; }
+.creation-head .kicker { margin: 0; font: 500 11px/1.4 var(--do); letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.creation-head .kicker span { color: var(--dim); letter-spacing: .12em; }
+.creation-head nav { margin-left: auto; }
+.steps { list-style: none; display: flex; gap: 6px; padding: 0; margin: 0; }
+.step { all: unset; box-sizing: border-box; cursor: pointer; width: 26px; height: 26px; display: grid; place-items: center; }
+.step::before { content: ''; width: 8px; height: 8px; border: 1.5px solid var(--faint); transform: rotate(45deg);
+  transition: background var(--quick), border-color var(--quick), transform var(--settle) var(--ease); }
+.step[data-done]::before { background: var(--dim); border-color: var(--dim); }
+.step[aria-current="step"]::before { background: var(--gold); border-color: var(--gold); transform: rotate(45deg) scale(1.25);
+  box-shadow: 0 0 10px var(--gold); }
+.step:hover::before, .step:focus-visible::before { border-color: var(--gold); }
+.step:focus-visible { outline: none; }
+.set-out-now { all: unset; cursor: pointer; font: 500 11px/1 var(--do); letter-spacing: .2em; text-transform: uppercase;
+  color: var(--dim); padding: 10px 0 10px 12px; }
+.set-out-now:hover, .set-out-now:focus-visible { color: var(--gold); outline: none; }
+.creation-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  padding: clamp(18px, 4vh, 44px) clamp(20px, 3.4vw, 48px) 24px; display: flex; flex-direction: column; align-items: center; }
+.creation-body > * { width: 100%; max-width: 1100px; }
+.ask { font: italic 400 clamp(28px, 3.4vw, 44px)/1.15 var(--told); text-align: center; margin: 0 0 12px; color: var(--ivory);
+  text-wrap: balance; }
+.creation .pitch { text-align: center; color: var(--dim); font-size: 17px; max-width: 40em; margin: 0 auto 8px; }
+.creation .how { text-align: center; font: 400 14.5px/1.5 var(--do); color: var(--dim); max-width: 46em; margin: 0 auto 14px; }
+.creation-foot { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 20px;
+  padding: 14px clamp(20px, 3.4vw, 48px) max(16px, env(safe-area-inset-bottom)); border-top: 1px solid var(--edge); }
+.creation-foot .so-far { margin: 0; text-align: center; font: italic 400 15.5px/1.4 var(--told); color: var(--dim);
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
-/* ---- Creation: who comes into the country, a page at a time, with what you are so far beside it. ---- */
-.creation { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; grid-template-rows: auto 1fr;
-  column-gap: clamp(24px, 4vw, 56px); max-width: 86rem; margin: 0 auto; min-height: 100dvh;
-  padding: max(28px, env(safe-area-inset-top)) max(clamp(18px, 4vw, 56px), env(safe-area-inset-right))
-    max(48px, env(safe-area-inset-bottom)) max(clamp(18px, 4vw, 56px), env(safe-area-inset-left)); }
-.creation-head { grid-column: 1 / -1; }
-.creation-head h1 { font: 400 clamp(32px, 4.4vw, 52px)/1.05 var(--told); margin: 0 0 12px; }
-.creation-head .pitch { max-width: 40em; color: var(--grey); font-size: 18px; }
-.steps { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 18px 0 28px; }
-.step { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 9px;
-  min-height: 44px; padding: 10px 18px; font: 500 15px/1 var(--do); border: 1px solid var(--hair); border-radius: 999px; }
-.step i { font-style: normal; color: var(--faint); font-variant-numeric: tabular-nums; }
-.step:hover { border-color: #B8B8B8; }
-.step[aria-current="step"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
-.step[aria-current="step"] i { color: #BDBDBD; }
-.step:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
-.creation-page { min-width: 0; }
-.creation .deck { margin: 0 0 32px; }
-.creation .deck-title { font: 500 12px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey);
-  margin: 0 0 12px; }
-.creation .how { font: 400 15px/1.45 var(--do); color: var(--grey); max-width: 46em; margin: 0 0 16px; }
-.creation .turn { display: flex; gap: 12px; margin: 36px 0 0; padding-top: 22px; border-top: 1px solid var(--hair); }
-.creation .turn .on, .creation .turn .go { margin-left: auto; }
-.name-field { display: block; font: 500 12px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase;
-  color: var(--grey); margin: 0 0 30px; max-width: 26rem; }
-.name-field input { display: block; width: 100%; margin-top: 8px; padding: 6px 0 8px; border: 0;
-  border-bottom: 1.5px solid var(--ink); font: 400 34px/1.15 var(--told); letter-spacing: 0; text-transform: none;
-  background: transparent; color: var(--ink); outline: none; border-radius: 0; }
-.name-field input:focus { border-bottom-color: var(--blue); }
-.so-far { position: sticky; top: max(24px, env(safe-area-inset-top)); align-self: start; padding-left: 22px;
-  border-left: 1px solid var(--hair); }
-.so-far ul { list-style: none; margin: 0 0 20px; padding: 0; }
-.so-far .line { all: unset; box-sizing: border-box; cursor: pointer; display: block; width: 100%; min-height: 40px;
-  padding: 8px 0; font: 400 16.5px/1.35 var(--told); border-bottom: 1px solid var(--hair); }
-.so-far .line:hover { color: var(--blue); }
-.so-far .out { display: flex; flex-direction: column; gap: 10px; }
-
-/* Qualities: each roll a control to change over, beside what the score does by the rules. */
-.qualities { list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 10px; }
-.qualities > li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: start;
-  padding: 14px 16px; border: 1px solid var(--hair); border-radius: 6px; }
-.qualities > li.held { border-color: var(--blue); }
-.qualities .roll { all: unset; box-sizing: border-box; cursor: pointer; width: 64px; height: 64px; display: grid;
-  place-items: center; border: 1.5px solid var(--ink); border-radius: 6px; font: 400 30px/1 var(--told);
-  font-variant-numeric: tabular-nums; }
-.qualities .roll[aria-pressed="true"] { border-color: var(--blue); color: var(--blue); }
-.qualities .roll:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
-.qualities .q { margin: 2px 0 6px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
-  font: 400 15px/1.3 var(--do); }
-.qualities .q b { font: 500 13px/1 var(--do); letter-spacing: .12em; text-transform: uppercase; }
-.qualities .q .score { font: 400 26px/1 var(--told); }
-.qualities .q .adds, .qualities .q .mods { color: var(--grey); font-size: 13.5px; }
-.qualities .does { list-style: none; margin: 0; padding: 0; font: 400 15px/1.45 var(--told); }
-.qualities .does li { margin: 0 0 3px; }
-
-/* The trade: kinds of background to choose among, then the trades of the kind. */
-.trade { margin: 8px 0 30px; }
-.kinds { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; padding: 0; }
+/* The deck: large cards in a row, centred while they fit, turned by arrows, a swipe or the keys when they do not. */
+.deck { margin: 18px 0 0; }
+.deck-title { font: 500 11px/1.2 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--dim);
+  text-align: center; margin: 0 0 12px; }
+.deck-row { position: relative; }
+.creation .cards { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  padding: 10px 4px 18px; justify-content: safe center; overscroll-behavior-x: contain; }
+.creation .cards::-webkit-scrollbar { display: none; }
+.deck-turn { all: unset; cursor: pointer; position: absolute; top: 50%; z-index: 2; width: 40px; height: 64px;
+  margin-top: -32px; display: grid; place-items: center; font: 300 34px/1 var(--do); color: var(--ivory);
+  background: rgba(18, 19, 24, .9); border: 1px solid var(--edge-strong); }
+.deck-turn[hidden] { display: none; }
+.deck-turn.back { left: -6px; }
+.deck-turn.on { right: -6px; }
+.deck-turn:hover, .deck-turn:focus-visible { border-color: var(--gold-line); color: var(--gold); outline: none; }
+.card { all: unset; box-sizing: border-box; cursor: pointer; position: relative; flex: 0 0 clamp(200px, 20vw, 248px);
+  min-height: clamp(250px, 36vh, 330px); scroll-snap-align: center; display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 10px; padding: 26px 20px 20px; background: linear-gradient(180deg, var(--lift), var(--raised));
+  border: 1px solid var(--edge); border-radius: 2px; color: var(--ivory); -webkit-tap-highlight-color: transparent;
+  transition: border-color var(--quick), box-shadow var(--settle) var(--ease), transform var(--settle) var(--ease); }
+.card:hover, .card:focus-visible { border-color: var(--gold-line); outline: none; transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .45); }
+.card:active { transform: translateY(-1px); }
+.card.chosen { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 0 36px rgba(242, 189, 76, .18); }
+.card.chosen::after { content: ''; position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; background: var(--gold);
+  transform: rotate(45deg); box-shadow: 0 0 10px var(--gold); }
+.card[disabled] { cursor: default; opacity: .38; transform: none; box-shadow: none; }
+.card .glyph { width: 46px; height: 46px; fill: none; stroke: var(--ivory); stroke-width: 1.6; stroke-linecap: round;
+  stroke-linejoin: round; margin-bottom: 4px; }
+.card.chosen .glyph { stroke: var(--gold); filter: drop-shadow(0 0 6px rgba(242, 189, 76, .5)); }
+.card .glyph text { fill: var(--ivory); stroke: none; font: 300 20px var(--do); }
+.card-big { font: 300 38px/1 var(--do); letter-spacing: .02em; color: var(--ivory); margin: 4px 0; }
+.card.chosen .card-big { color: var(--gold); }
+.card-name { font: 500 14px/1.3 var(--do); letter-spacing: .2em; text-transform: uppercase; }
+.card .tag { font: 600 10px/1.2 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--verdigris); }
+.card-text { font: italic 400 15.5px/1.45 var(--told); color: var(--dim); }
+.card-rule { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--edge); width: 100%; font: 400 12.5px/1.4 var(--do);
+  color: var(--ivory); letter-spacing: .02em; }
+.card-shut { font: 500 12.5px/1.3 var(--do); color: var(--ember); }
+.particulars { margin: 6px auto 0; max-width: 46rem; padding: 14px 0 0; border-top: 1px solid var(--edge); }
+.particulars .label { text-align: center; color: var(--gold); }
+.particulars ul { list-style: none; margin: 0; padding: 0; columns: 2 18rem; column-gap: 32px; }
+.particulars li { break-inside: avoid; font: 400 14px/1.5 var(--do); color: var(--dim); margin: 0 0 6px; }
+.particulars li b { color: var(--ivory); font-weight: 600; }
+.kinds { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 8px auto 6px; padding: 0;
+  max-width: 900px; }
 .kind { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
-  min-height: 40px; padding: 8px 14px; border: 1px solid var(--hair); border-radius: 999px; font: 500 14px/1 var(--do); }
-.kind small { color: var(--faint); font-size: 12px; }
-.kind[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
-.kind:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
-
-@media (max-width: 960px) {
-  .creation { grid-template-columns: minmax(0, 1fr); }
-  .so-far { position: static; padding: 22px 0 0; border-left: 0; border-top: 1px solid var(--hair); margin-top: 28px; }
+  min-height: 38px; padding: 8px 14px; border: 1px solid var(--edge); border-radius: 2px; font: 500 12.5px/1 var(--do);
+  letter-spacing: .1em; text-transform: uppercase; color: var(--dim); transition: color var(--quick), border-color var(--quick); }
+.kind small { color: var(--faint); font-size: 11px; letter-spacing: .04em; text-transform: none; }
+.kind:hover, .kind:focus-visible { color: var(--ivory); border-color: var(--edge-strong); outline: none; }
+.kind[aria-pressed="true"] { color: var(--gold); border-color: var(--gold-line); background: var(--gold-glow); }
+/* Qualities: six tiles, the roll large in each; one chosen, then another, changes them over. */
+.qualities { list-style: none; margin: 12px auto 18px; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px; max-width: 900px; }
+.qualities > li { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 8px;
+  border: 1px solid var(--edge); background: var(--raised); }
+.qualities > li.held { border-color: var(--gold); box-shadow: 0 0 24px rgba(242, 189, 76, .16); }
+.q-name { font: 500 11px/1.2 var(--do); letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.qualities .roll { all: unset; box-sizing: border-box; cursor: pointer; width: 72px; height: 72px; display: grid;
+  place-items: center; font: 300 38px/1 var(--do); font-variant-numeric: tabular-nums; border: 1px solid var(--edge-strong);
+  transition: border-color var(--quick), color var(--quick); }
+.qualities .roll:hover, .qualities .roll:focus-visible { border-color: var(--gold-line); outline: none; }
+.qualities .roll[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+.q-score { font: 400 12px/1.3 var(--do); color: var(--faint); text-align: center; }
+.creation .again { text-align: center; margin-top: 14px; }
+/* The last page: a name, and the life said back. */
+.naming { display: flex; flex-direction: column; align-items: center; gap: 18px; margin-top: 10px; }
+.name-field input { display: block; width: min(30rem, 80vw); padding: 6px 0 10px; border: 0; border-bottom: 1px solid var(--gold-line);
+  font: 300 clamp(32px, 4vw, 48px)/1.1 var(--do); letter-spacing: .06em; text-align: center; background: transparent;
+  color: var(--ivory); outline: none; border-radius: 0; }
+.name-field input:focus { border-bottom-color: var(--gold); }
+.naming .life { font: italic 400 19px/1.55 var(--told); color: var(--dim); text-align: center; max-width: 34em; margin: 0; }
+.naming .out { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+@media (max-width: 860px) {
+  .qualities { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .creation-foot { grid-template-columns: auto auto; }
+  .creation-foot .so-far { grid-column: 1 / -1; grid-row: 1; }
+  .creation-foot > :last-child { justify-self: end; }
 }
 @media (max-width: 560px) {
-  .cards { grid-template-columns: minmax(0, 1fr); }
-  .creation .turn { flex-wrap: wrap; }
+  .card { flex-basis: 74vw; min-height: 0; }
+  .creation-head .kicker span { display: none; }
+  .steps { gap: 0; }
+  .step { width: 20px; }
 }
+
+/* ---- Before play, beside the title and creation: the campaigns, a company formed for an authored campaign, options,
+   and the country being drawn. Each is a page that scrolls inside the stage: the shell never scrolls (a company page
+   taller than a phone had put Set out below a screen nothing could scroll to). ---- */
+.frame > .opening:not(.title-page) { height: var(--frame-h); max-width: none; margin: 0; min-height: 0; overflow-y: auto;
+  overscroll-behavior: contain; padding: clamp(24px, 5vh, 56px) clamp(18px, 4vw, 56px) 48px; }
+.frame > .opening:not(.title-page) > main { max-width: 62rem; margin: 0 auto; }
+.frame > .opening.loading { display: grid; place-items: center; text-align: center; }
+.loading h1 { font: 300 clamp(30px, 4vw, 48px)/1.1 var(--do); }
+.loading .stage { height: auto; color: var(--dim); font: italic 400 18px/1.5 var(--told); animation: breathe 1.6s var(--ease) infinite; }

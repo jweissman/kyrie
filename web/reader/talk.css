@@ -1,0 +1,110 @@
+/* ---- Someone spoken with: their painting as large as the stage allows, their name set on it, and beside it the
+   conversation, newest last; under it what you might say, numbered, and taking your leave, never scrolled away
+   (PT-42). The one page the owner and the cold evaluation both called right: kept, and lit. Where no painting fits
+   them, the page is theirs in type. ---- */
+.talk { display: grid; grid-template-columns: minmax(300px, 44%) minmax(0, 1fr); height: var(--frame-h); overflow: hidden;
+  position: relative; }
+.sitter { position: relative; height: var(--frame-h); overflow: hidden; background: var(--deep); }
+.sitter img { display: block; width: 100%; height: 100%; object-fit: cover; animation: settle-in 1s var(--ease) both; }
+.sitter::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent 50%, rgba(7, 8, 10, .82) 100%), linear-gradient(270deg, rgba(18, 19, 24, .5), transparent 22%); }
+.sitter .credit { position: absolute; top: 14px; left: 18px; z-index: 1; margin: 0; font: 400 11px var(--do);
+  color: rgba(236, 230, 217, .7); text-shadow: 0 1px 3px rgba(0, 0, 0, .7); }
+.sitter .cap { position: absolute; z-index: 1; left: clamp(20px, 3vw, 44px); bottom: clamp(22px, 4vh, 44px); right: 20px;
+  color: var(--ivory); text-shadow: 0 2px 18px rgba(0, 0, 0, .7); }
+.sitter .cap .n { font: 300 clamp(44px, 5.2vw, 72px)/1 var(--do); letter-spacing: .02em; margin: 0 0 8px; }
+.sitter .cap .r { font: 500 12px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin: 0; }
+.sitter .cap .when { margin: 14px 0 0; }
+.sitter.unpainted { background: radial-gradient(ellipse at 30% 100%, rgba(242, 189, 76, .08), transparent 60%), var(--raised);
+  border-right: 1px solid var(--edge); display: flex; align-items: flex-end; }
+.sitter.unpainted::after { display: none; }
+.sitter.unpainted .cap { position: static; padding: 0 clamp(24px, 4vw, 56px) clamp(30px, 8vh, 80px); }
+.sitter.unpainted .cap .n { font-size: clamp(46px, 6vw, 80px); }
+
+.dialogue { height: var(--frame-h); display: flex; flex-direction: column; max-width: 50rem;
+  padding: max(30px, env(safe-area-inset-top)) clamp(24px, 4vw, 56px) env(safe-area-inset-bottom); }
+.lines { flex: 0 0 auto; max-height: 44%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin: 0;
+  padding: 0 64px 14px 0; }
+.lines .line { margin: 0 0 .8em; animation: arrive var(--settle) var(--ease) both; }
+.lines .line.you { font: 500 12.5px/1.4 var(--do); letter-spacing: .06em; color: var(--gold); margin-top: 18px; }
+.lines .line.you::before { content: ''; display: inline-block; width: 6px; height: 6px; margin: 0 9px 1px 1px;
+  background: var(--gold); transform: rotate(45deg); }
+.lines .line.you.waiting::after { content: ' …'; }
+.lines .line.speech { font-size: 20.5px; line-height: 1.55; }
+.lines .line.telling, .lines .line.change { color: var(--ivory); }
+.lines .line.event, .lines .line.tally { font: 400 14.5px/1.45 var(--do); color: var(--dim); }
+.lines .line.learned { border-left: 2px solid var(--verdigris); padding: 4px 0 4px 12px; font: 400 15px/1.45 var(--do);
+  background: linear-gradient(90deg, rgba(95, 211, 182, .08), transparent 60%); }
+.lines .line.learned b { display: block; font: 500 10.5px var(--do); letter-spacing: .2em; text-transform: uppercase;
+  color: var(--verdigris); margin-bottom: 2px; }
+.lines .line.learned.aim { border-left-color: var(--gold); background: linear-gradient(90deg, var(--gold-glow), transparent 60%); }
+.lines .line.learned.aim b { color: var(--gold); }
+/* What can be chosen gives way and scrolls within itself, fading at its foot when there is more; the leave stays. */
+.dialogue .answer { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden;
+  border-top: 1px solid var(--edge-strong); padding: 14px 0 18px; }
+.dialogue .answer > .choosing { flex: 0 1 auto; min-height: 0; overflow-y: auto; padding-bottom: 18px;
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent); }
+.dialogue .answer > .leave { flex: none; margin: 8px 0 0; }
+.replies { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.replies .act, .dialogue .leave .act { display: flex; align-items: baseline; gap: 12px; width: 100%; min-height: 46px;
+  padding: 11px 16px 11px 14px; font: 500 15.5px/1.35 var(--do); }
+.replies .act::before, .dialogue .leave .act::before { display: none; }
+.replies .act i, .dialogue .leave .act i { font: 500 12px/1 var(--do); font-style: normal; color: var(--dim); flex: none;
+  width: 22px; height: 22px; display: inline-grid; place-items: center; border: 1px solid var(--edge-strong);
+  transform: translateY(-1px); transition: color var(--quick), border-color var(--quick), background var(--quick); }
+.replies .act:hover i, .replies .act.sel i, .replies .act:focus-visible i, .dialogue .leave .act:hover i,
+.dialogue .leave .act.sel i, .dialogue .leave .act:focus-visible i { color: var(--deep); background: var(--gold);
+  border-color: var(--gold); }
+.replies .act small { font: 400 13px var(--do); color: var(--dim); }
+.replies .asked .act { color: var(--dim); }
+.replies.answers { border-left: 2px solid var(--gold); padding-left: 12px; margin: 0 0 14px; }
+.answering { font: 500 11px/1.3 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+.dialogue .leave .act { color: var(--dim); border-style: dashed; }
+/* A trader's counter: each ware a key that buys it, its price and how many are left. */
+.counter { margin: 0 0 16px; padding: 0 0 14px; border-bottom: 1px solid var(--edge); font: 400 14.5px/1.5 var(--do); }
+.counter .label { margin: 0 0 8px; color: var(--gold); }
+.counter .wares { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill,
+  minmax(220px, 1fr)); gap: 6px; }
+.counter .ware { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 10px;
+  width: 100%; min-height: 48px; padding: 9px 12px; text-align: left; font: 500 14.5px/1.3 var(--do); }
+.counter .act.ware::before { display: none; }
+.counter span.ware { border: 1px dashed var(--edge); color: var(--faint); }
+.counter .ware .r { color: var(--dim); font: 400 12.5px var(--do); }
+.counter .ware .n i { font-style: normal; color: var(--dim); margin-right: 10px; font-size: 12px; }
+.counter .ware.dear, .counter .act.ware.shut { color: var(--faint); }
+.counter .ware .why { flex-basis: 100%; font-size: 12.5px; color: var(--faint); }
+.counter .ware.several { display: flex; border: 1px solid var(--edge); }
+.counter .ware.several .for { min-height: 36px; font-size: 13px; }
+.counter .buys { margin: 8px 0 0; color: var(--dim); font-size: 13.5px; }
+/* Someone who would join you, as they would come. */
+.recruit { margin: 0 0 16px; padding: 12px 14px; border: 1px solid rgba(239, 159, 174, .4);
+  background: linear-gradient(90deg, rgba(239, 159, 174, .07), transparent 70%); }
+.recruit .summary { margin: 0 0 4px; font: 500 15px var(--do); color: var(--ivory); }
+.recruit .bearing, .recruit .qualities-line, .recruit .skills-line { margin: 4px 0; color: var(--dim); font: 400 14px/1.45 var(--do); }
+
+.close { all: unset; cursor: pointer; position: absolute; top: max(10px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right)); width: 44px; height: 44px; display: grid; place-items: center;
+  font: 300 28px/1 var(--do); color: var(--dim); z-index: 6; }
+.close:hover, .close:focus-visible { color: var(--gold); outline: none; }
+/* In a conversation, or with one thing looked at, the book is a quiet mark beside the close. */
+.mode-talk .corner, .mode-examine .corner { right: calc(max(12px, env(safe-area-inset-right)) + 48px);
+  top: max(10px, env(safe-area-inset-top)); width: 44px; min-height: 44px; padding: 0; justify-content: center;
+  background: transparent; border-color: transparent; color: var(--dim); backdrop-filter: none; }
+.mode-talk .corner .corner-label, .mode-examine .corner .corner-label { display: none; }
+.mode-talk .corner:hover, .mode-examine .corner:hover { color: var(--gold); }
+.thing .face .when { margin: -2px 0 22px; }
+
+/* On an upright screen the painting takes whatever the conversation leaves, down to a quarter of the stage, and the
+   conversation sits under it at the foot, as tall as what is in it (M17-44). */
+@media (max-width: 1023px), (orientation: portrait) {
+  .talk { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(24%, 1fr) auto; }
+  .talk:has(.sitter.unpainted) { grid-template-rows: auto minmax(0, 1fr); }
+  .sitter { height: auto; min-height: 0; }
+  .talk .dialogue { height: auto; max-height: calc(var(--frame-h) * .76); min-height: 0; overflow: hidden; }
+  .talk:has(.sitter.unpainted) .dialogue { max-height: none; }
+  .talk .dialogue .lines { max-height: calc(var(--frame-h) * .4); padding-right: 0; }
+  .sitter.unpainted .cap { padding: max(64px, env(safe-area-inset-top)) 22px 22px; }
+  .sitter.unpainted .cap .n { font-size: clamp(40px, 9vw, 72px); }
+  .dialogue { width: 100%; max-width: 46rem; margin: 0 auto; padding: 16px max(20px, env(safe-area-inset-right))
+    max(14px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+}

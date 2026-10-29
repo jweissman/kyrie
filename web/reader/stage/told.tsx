@@ -17,7 +17,10 @@ import { Journey } from './journey';
 export class Told {
   // With the journey (journey: false leaves the way here to the facing page, see Told.Travelled), and who and what is
   // here after the place's first paragraph (M17-05: a town's people had been under the whole telling, a scroll away).
-  static Place({ app, journey = true, here }: { app: ReaderApp; journey?: boolean; here?: ReactNode }) {
+  // Its heading (the chapter, the place's name, where and when) is the stage's own head where the stage draws one
+  // (headed: false).
+  static Place({ app, journey = true, here, headed = true }: { app: ReaderApp; journey?: boolean; here?: ReactNode;
+    headed?: boolean }) {
     const s = app.state, frame = s.frame!, leaf = frame.leaf, screen = frame.screen, exchange = leaf.exchange;
     const told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
     const stayed = !leaf.moved && !!told;
@@ -31,10 +34,7 @@ export class Told {
       : x.kind === 'person' ? x.says ?? [] : []).map(Typography.curl));
     const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p)));
     return <>
-      {leaf.heading && <p className={`chapter kind-${leaf.heading.kind}`}>{Typography.curl(leaf.heading.kind === 'country'
-        ? `Into ${leaf.heading.title}` : leaf.heading.title)}</p>}
-      <h1 className="place" data-id="place">{Typography.curl(Words.upper(screen.place.name))}</h1>
-      <Stage.When frame={frame} />
+      {headed && <Told.Heading frame={frame} />}
       {leaf.recap && (leaf.recap.aim || leaf.recap.last) && <Told.Recap recap={leaf.recap} />}
       {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       {s.pending && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
@@ -54,6 +54,16 @@ export class Told {
     </>;
   }
   static readonly harm = /\btakes? \d+ [a-z]+ damage\b/;
+  // The chapter a place opens (a country come into, a story's chapter), the place's name, and where and when.
+  static Heading({ frame }: { frame: Frame }) {
+    const heading = frame.leaf.heading;
+    return <>
+      {heading && <p className={`chapter kind-${heading.kind}`}>{Typography.curl(heading.kind === 'country'
+        ? `Into ${heading.title}` : heading.title)}</p>}
+      <h1 className="place" data-id="place">{Typography.curl(Words.upper(frame.screen.place.name))}</h1>
+      <Stage.When frame={frame} />
+    </>;
+  }
   // The way here, on arriving: a journey along known ways leg by leg, or what the way was like.
   static Travelled({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, leaf = frame.leaf;

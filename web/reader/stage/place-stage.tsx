@@ -16,32 +16,44 @@ import { WaysPane } from './ways-pane';
 // A way out of a place, with every choice that goes by it (go; open it first; look at what is on it).
 export interface Way { exit: ExitRow; choices: Choice[] }
 
-// Standing somewhere: the scene, and what can be done from it. The scene is one leaf: the place's name, what has just
-// happened, the place's first paragraph, then who and what is here (whoever the company has a stake in first, and
-// large; in a busy place the rest each a line), then the rest of the telling. Beside it on a desktop or a tablet held
-// sideways, or at the foot of the screen held upright, the ways on and yourself (see WaysPane). A place had been two
-// leaves scrolling one over the other on a tablet, a town square's eleven people and fifteen ways in rows alike (the
-// owner's interim report: "sprawling link lists"; the aesthetic doctrine: "a dozen competing portrait tiles and
-// thirteen exits presented as equivalent objects").
+// Standing somewhere. Across the head of the stage, the place as it looks (its painting, where one fits, dimming into
+// the stage) with its name, where and when set on it; under it, the telling, read first: what has just happened, the
+// place's first paragraph, who and what is here (whoever the company has a stake in first, and large; in a busy place
+// the rest each a line), the rest of the telling. Beside it on a desktop or a tablet held sideways, or at the foot of
+// an upright screen, the ways on. Across the foot, quietly, your aim and yourself: how you are, what you have, and
+// what you can do of yourself. A town square, a road in the wild and a cellar in the dark share this one shape but
+// are lit differently: a settlement's head is its lane or market, the wild's its land under the hour's sky, a site's
+// the ruin, and the dark has no painting at all, only the little the company can see.
 export class PlaceStage {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, screen = frame.screen, draw = Act.draw(app);
-    // A chapter opened (the game begun, a country come into) opens on a painting of the country, as a band.
-    const view = frame.leaf.heading && !app.state.pending ? Scenery.of(screen) : undefined;
-    const raised = app.state.open.includes(WaysPane.sheet);
+    const view = screen.dark ? undefined : Scenery.of(screen), raised = app.state.open.includes(WaysPane.sheet);
     return (
-      <article className={`scene-page${view ? ' opens' : ''}${raised ? ' raised' : ''}`} id="page">
-        <section className="scene" aria-label="The place">
+      <article className={`scene-page kind-${PlaceStage.kind(screen)}${screen.dark ? ' dark' : ''}${raised ? ' raised' : ''}`}
+        id="page">
+        <header className={`place-head${view ? ' painted' : ''}`}>
           {view && <PlaceStage.Country view={view} />}
+          <div className="title-block"><Told.Heading frame={frame} /></div>
+        </header>
+        <section className="scene" aria-label="The place">
           <div className="measure"><div className="telling">
-            <Told.Place app={app} here={<PlaceStage.Here app={app} draw={draw} />} />
+            <Told.Place app={app} headed={false} here={<PlaceStage.Here app={app} draw={draw} />} />
           </div></div>
         </section>
         <section className="on-pane" aria-label="The ways on"><div className="measure">
           <WaysPane.View app={app} draw={draw} />
         </div></section>
+        <footer className="place-foot">
+          <PlaceStage.Aim screen={screen} bound={!!frame.bound} />
+          <PlaceStage.You app={app} draw={draw} />
+        </footer>
       </article>
     );
+  }
+  // What kind of place this is, for its lighting: a settlement, a site, or the wild.
+  static kind(screen: Screen): 'settlement' | 'site' | 'wild' {
+    const kinds = screen.path.map(p => p.kind);
+    return kinds.includes('site') ? 'site' : kinds.includes('settlement') ? 'settlement' : 'wild';
   }
   // Who and what is here: danger first, then whoever the company has a stake in, large; the rest of the people as
   // plates, or in a busy place each a line (what they are doing is told when they are turned to); the animals and
@@ -79,7 +91,7 @@ export class PlaceStage {
   static Country({ view }: { view: string }) {
     const credit = Likeness.credits[view];
     return (
-      <figure className="scenery band" aria-hidden="true">
+      <figure className="scenery" aria-hidden="true">
         <img src={`paintings/large/${view}.webp`} alt="" decoding="async"
           onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} />
         {credit && <figcaption>{credit}</figcaption>}

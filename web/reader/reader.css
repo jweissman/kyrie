@@ -1,7 +1,8 @@
-/* Kyr. Bright literary modernism: white paper and near-black ink, always; Newsreader for what is told, Jost for what
-   can be done and for finding one's way, both under the SIL Open Font License, served from fonts/. Colour only for
-   what it means, and never alone: blue where attention is, red for harm and what cannot be undone, yellow for
-   something newly learned. The dark, the night and the deep are told, not painted over the page. */
+/* Kyrie. A lantern in a dark room: a near-black ground, one bounded stage lit within it, luminous colour only where it
+   means something. Newsreader tells and speaks; Jost, a geometric face, names what can be done and where one is; both
+   under the SIL Open Font License, served from fonts/. Gold is where attention is (your choice, your aim, your turn);
+   ember is harm and what cannot be undone; verdigris is something learned or found; azure is water and what is only
+   heard; violet is magic and wonder; rose is kin and affection. Never colour alone: each has its words beside it. */
 @font-face { font-family: 'Jost'; src: url(fonts/jost-normal-latin.woff2) format('woff2'); font-weight: 300 800; font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Jost'; src: url(fonts/jost-normal-latin-ext.woff2) format('woff2'); font-weight: 300 800; font-display: swap;
@@ -12,51 +13,85 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'Newsreader'; font-style: italic; src: url(fonts/newsreader-italic-latin.woff2) format('woff2'); font-weight: 300 700; font-display: swap; }
 
+
 :root {
-  --paper: #FFFFFF; --ink: #151515; --grey: #5E5E5E; --faint: #9A9A9A; --hair: #E3E3E3; --wash: #F6F6F5;
-  --blue: #176BEE; --red: #E73535; --yellow: #F3C82E; --river: #3D7BE0;
-  --land: #F6F6F3; --known: #EFEFEC; --wood: #E6ECE2; --fell: #F0ECE5; --heath: #F2EBE8; --fen: #E6EFEA;
-  --peak: #E5E2DD; --water: #DCE8FB;
+  --ground: #0A0B0E; --surface: #121318; --raised: #191B21; --lift: #22252D; --deep: #07080A;
+  --ivory: #ECE6D9; --dim: #A59F94; --faint: #6E6A62; --edge: rgba(236, 230, 217, .10); --edge-strong: rgba(236, 230, 217, .24);
+  --gold: #F2BD4C; --gold-glow: rgba(242, 189, 76, .16); --gold-line: rgba(242, 189, 76, .55);
+  --ember: #FF6B45; --ember-glow: rgba(255, 107, 69, .14); --verdigris: #5FD3B6; --azure: #79AEF7; --violet: #B49CFF;
+  --rose: #EF9FAE; --life: #79D58F;
+  /* The hour's light, which tints the ground: set on the shell by the time of day. */
+  --hour: rgba(242, 189, 76, .10);
+  /* The names the compositions knew the old page's colours by, now the lantern's. */
+  --paper: var(--surface); --ink: var(--ivory); --grey: var(--dim); --hair: var(--edge); --wash: var(--raised);
+  --blue: var(--gold); --red: var(--ember); --yellow: var(--verdigris); --river: var(--azure);
+  --land: #15171C; --known: #1B1E24; --wood: #17221D; --fell: #221F1A; --heath: #241C1F; --fen: #16211F;
+  --peak: #24232A; --water: #142235;
   --do: 'Jost', 'Futura', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
   --told: 'Newsreader', 'Iowan Old Style', 'Charter', Georgia, serif;
-  /* The names stage.css and older pages know the two voices by. */
   --display: var(--do); --text: var(--told);
-  color-scheme: light;
+  /* Motion: quick for what answers a touch, settling for what arrives. */
+  --quick: 120ms; --settle: 280ms; --ease: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: dark;
 }
+@media (prefers-reduced-motion: reduce) { :root { --quick: 0ms; --settle: 0ms; } }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; min-height: 100%; }
-body { background: var(--paper); color: var(--ink); font: 19px/1.55 var(--told); font-kerning: normal;
+html, body { margin: 0; height: 100%; }
+body { background: var(--ground); color: var(--ivory); font: 19px/1.6 var(--told); font-kerning: normal;
   text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
 #mono { min-height: 100dvh; }
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a { color: inherit; }
 p { margin: 0 0 .7em; text-wrap: pretty; hyphens: auto; }
-kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(--hair); border-radius: 3px; padding: 2px 4px;
-  margin-left: 6px; vertical-align: 1px; }
-:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
-.label { font: 500 11.5px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin: 0 0 8px; }
+::selection { background: var(--gold-glow); color: var(--ivory); }
+kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--edge-strong); border-radius: 2px; padding: 2px 5px;
+  margin-left: 8px; vertical-align: 1px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.label { font: 500 11px/1.2 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); margin: 0 0 10px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+* { scrollbar-width: thin; scrollbar-color: var(--edge-strong) transparent; }
 
-/* ---- Choices: words that do something. Where the keys are, in blue; what it costs, beside it in grey; harm, red,
-   with its words. ---- */
-.act { all: unset; box-sizing: border-box; cursor: pointer; font: 450 16.5px/1.35 var(--do); color: var(--ink);
-  padding: 3px 0; text-decoration: underline; text-decoration-color: var(--hair); text-decoration-thickness: 1px;
-  text-underline-offset: 5px; -webkit-tap-highlight-color: transparent; }
-.act:hover { text-decoration-color: var(--ink); }
-.act.sel, .act:focus-visible { color: var(--blue); text-decoration-color: var(--blue); text-decoration-thickness: 2px; outline: none; }
-.act[aria-disabled="true"], .act.shut { color: var(--faint); text-decoration: none; cursor: default; }
-.act .note, .note { font: 400 14px/1.35 var(--do); color: var(--grey); margin-left: 8px; font-variant-numeric: tabular-nums;
-  text-decoration: none; display: inline-block; }
-.act .why { display: block; font: 400 13.5px/1.35 var(--do); color: var(--faint); text-decoration: none; }
-.act .about { display: block; font: 400 14px/1.4 var(--do); color: var(--grey); text-decoration: none; margin-top: 2px; max-width: 34em; }
-.act .grave-said { display: block; font: 500 14px/1.4 var(--do); color: var(--red); margin-top: 4px; text-decoration: none; }
-.act.risk::after { content: '  a risk'; white-space: pre; font: 500 12px var(--do); letter-spacing: .06em; color: var(--red); }
-.act.grave::after { content: '  cannot be undone'; white-space: pre; font: 500 12px var(--do); letter-spacing: .06em; color: var(--red); }
-.act.opens::after { content: ' …'; color: var(--faint); }
-.act.opened::after { content: ' ⌄'; color: var(--faint); }
-.acts { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 2px 20px; }
+/* ---- Choices. Every one is a control that is pressed, not a word underlined: at rest a quiet key with a diamond
+   before it; pointed at or reached by the keys, it lights (the diamond fills gold, light sweeps in from its leading
+   edge); pressed, it sinks; chosen, it holds its light while the world answers; one that cannot be done is drawn
+   dashed and says why. A risk's diamond is ember; what cannot be undone says so before it is done. Nothing moves
+   under the finger: only colour, light and the diamond change. ---- */
+.act { all: unset; box-sizing: border-box; position: relative; cursor: pointer; display: inline-flex; align-items: center;
+  flex-wrap: wrap; gap: 2px 10px; min-height: 44px; padding: 9px 16px 9px 34px; font: 500 15.5px/1.3 var(--do);
+  color: var(--ivory); background: linear-gradient(90deg, var(--gold-glow), transparent 75%) no-repeat 0 0 / 0% 100%,
+  var(--raised); border: 1px solid var(--edge); border-radius: 2px; -webkit-tap-highlight-color: transparent;
+  user-select: none; transition: background-size var(--settle) var(--ease), border-color var(--quick), color var(--quick); }
+.act::before { content: ''; position: absolute; left: 14px; top: 50%; width: 7px; height: 7px; margin-top: -4px;
+  border: 1.5px solid var(--dim); transform: rotate(45deg); transition: background var(--quick), border-color var(--quick),
+  transform var(--settle) var(--ease); }
+.act:hover, .act.sel, .act:focus-visible { background-size: 100% 100%, auto; border-color: var(--gold-line); outline: none; }
+.act:hover::before, .act.sel::before, .act:focus-visible::before { background: var(--gold); border-color: var(--gold);
+  transform: rotate(135deg); }
+.act.sel, .act:focus-visible { box-shadow: inset 2px 0 0 var(--gold); }
+.act:active { background: var(--gold-glow); transform: translateY(1px); transition-duration: 40ms; }
+.act.fired { border-color: var(--gold); background: var(--gold-glow); }
+.act.fired::before { background: var(--gold); border-color: var(--gold); animation: fired .9s var(--ease) infinite; }
+@keyframes fired { 50% { box-shadow: 0 0 0 5px var(--gold-glow); } }
+.act[aria-disabled="true"], .act.shut { color: var(--faint); background: transparent; border-style: dashed; cursor: default; }
+.act.shut::before { border-color: var(--faint); background: none; transform: rotate(45deg); }
+.act.shut:hover { background: transparent; border-color: var(--edge-strong); }
+.act .note, .note { font: 400 13.5px/1.35 var(--do); color: var(--dim); font-variant-numeric: tabular-nums; }
+.act .why { flex-basis: 100%; font: 400 13px/1.35 var(--do); color: var(--faint); }
+.act .about { flex-basis: 100%; font: 400 13.5px/1.4 var(--do); color: var(--dim); max-width: 34em; }
+.act .grave-said { flex-basis: 100%; font: 500 13.5px/1.4 var(--do); color: var(--ember); margin-top: 2px; }
+.act.risk::before, .act.grave::before { border-color: var(--ember); }
+.act.risk:hover::before, .act.grave:hover::before, .act.risk.sel::before, .act.grave.sel::before { background: var(--ember);
+  border-color: var(--ember); }
+.act.risk::after { content: 'a risk'; font: 600 10.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ember); }
+.act.grave::after { content: 'cannot be undone'; font: 600 10.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ember); }
+.act.opens::after { content: '›'; color: var(--dim); font-size: 18px; line-height: 1; }
+.act.opened { border-color: var(--edge-strong); }
+.act.opened::after { content: '‹'; color: var(--gold); font-size: 18px; line-height: 1; }
+.acts { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .acts.column { flex-direction: column; gap: 2px; }
 .acts.small .act { font-size: 15px; }
 .opened-list, .acts.unfolded { list-style: none; margin: 4px 0 10px; padding: 2px 0 2px 16px; border-left: 2px solid var(--hair); }
@@ -98,118 +133,17 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 .where span + span::before { content: '·'; margin: 0 8px; color: var(--faint); }
 .where .title { color: var(--ink); }
 
-/* ---- The map: what you know of the country, drawn plainly. You are in blue. ---- */
-.atlas { margin: 0 0 18px; }
-.atlas svg { display: block; max-width: 100%; height: auto; user-select: none; }
-.atlas .unknown { fill: var(--hair); }
-.atlas .cell { stroke: none; }
-.atlas .river { fill: none; stroke: var(--river); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.atlas .road { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.atlas .path { fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-dasharray: 5 4; stroke-linecap: round; }
-.atlas .shut { stroke: var(--red); stroke-dasharray: 2 3; }
-.atlas .came { stroke: var(--ink); stroke-width: 3.4; }
-.atlas .town { fill: var(--ink); }
-.atlas .town.unvisited { fill: var(--paper); stroke: var(--ink); stroke-width: 1.6; }
-.atlas .mark { fill: var(--paper); stroke: var(--ink); stroke-width: 1.4; }
-.atlas .mark.visited { fill: var(--ink); }
-.atlas .you { fill: var(--blue); }
-.atlas .you-ring { fill: none; stroke: var(--blue); stroke-width: 1.5; }
-.atlas text { font-family: var(--do); fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px;
-  stroke-linejoin: round; }
-.atlas .name-town { font-weight: 600; font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; }
-.atlas .name-mark { font-weight: 450; font-size: 12px; }
-.atlas .name-zone { font-weight: 400; font-size: 13px; letter-spacing: .3em; text-transform: uppercase; fill: var(--grey); }
-.atlas .name-unknown { fill: var(--grey); font-style: italic; }
-.atlas .tag { font-weight: 700; font-size: 11px; fill: var(--paper); stroke: none; }
-/* A place on the map is a control: pointed at, it is ringed; chosen, ringed in blue. */
-.atlas .spot { cursor: pointer; outline: none; }
-.atlas .you, .atlas .you-ring, .atlas text { pointer-events: none; }
-.atlas .spot .reach { fill: transparent; stroke: none; }
-.atlas .spot:hover .reach { fill: rgba(21,21,21,.07); }
-.atlas .spot:focus-visible .reach, .atlas .spot.chosen .reach { fill: rgba(23,107,238,.12); stroke: var(--blue); stroke-width: 1.5; }
-.map-spread { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 20rem); gap: 0 clamp(20px, 3vw, 40px);
-  align-items: start; }
-.map-spread .plan { position: sticky; top: 0; padding: 4px 0 0 18px; border-left: 3px solid var(--ink); }
-.map-spread .plan .to { font: 400 30px/1.1 var(--told); margin: 0 0 12px; }
-.map-spread .plan .legs { margin: 0 0 8px; padding-left: 1.2em; font: 400 15px/1.5 var(--do); }
-.map-spread .plan .legs .note { margin-left: 8px; }
-.map-spread .plan .how { font: 400 14px/1.45 var(--do); color: var(--grey); }
-.map-spread .plan .go { display: inline-block; margin-top: 8px; font: 500 17px/1.2 var(--do); text-decoration: none;
-  padding: 9px 16px 10px; background: var(--ink); color: var(--paper); }
-.map-spread .plan .go:hover, .map-spread .plan .go:focus-visible { background: var(--blue); }
-.book-page:has(.map) { max-width: 76rem; }
-@media (max-width: 860px) { .map-spread { grid-template-columns: minmax(0, 1fr); } .map-spread .plan { position: static; margin-top: 16px; } }
-.atlas .tag-dot { fill: var(--ink); }
-.atlas .edge-time { font-size: 11px; fill: var(--grey); }
-.atlas-key { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 400 13px var(--do); color: var(--grey); margin: 10px 0 0; }
-.atlas-key i { display: inline-block; width: 22px; height: 0; vertical-align: 4px; margin-right: 6px; border-top: 2.2px solid var(--ink); }
-.atlas-key i.path { border-top: 1.4px dashed var(--ink); }
-.atlas-key i.river { border-top-color: var(--river); }
-.atlas-key i.you { width: 9px; height: 9px; border: 0; border-radius: 50%; background: var(--blue); vertical-align: 0; }
-.atlas-names { font: 400 14px/1.5 var(--do); color: var(--grey); margin-top: 12px; }
-.atlas-names b { color: var(--ink); font-weight: 600; }
-.local { margin: 22px 0 0; }
-.local .levels { list-style: none; padding: 0; margin: 4px 0 12px; display: flex; flex-wrap: wrap; gap: 2px 0;
-  font: 500 14px/1.4 var(--do); color: var(--grey); }
-.local .levels li + li::before { content: '↓'; margin: 0 10px; color: var(--faint); }
-.local .levels li[aria-current="location"] { color: var(--ink); font-weight: 600; }
-.local-sheet { overflow-x: auto; overscroll-behavior-x: contain; }
-.local svg { display: block; max-width: none; }
-.local .room { fill: var(--paper); stroke: var(--ink); stroke-width: 1.4; }
-.local .room.here { fill: var(--blue); stroke: var(--blue); }
-.local .room.unvisited { stroke-dasharray: 3 3; }
-.local .link { stroke: var(--ink); stroke-width: 1.4; }
-.local .link.shut { stroke: var(--red); stroke-dasharray: 2 3; }
-.local text { font: 500 12px var(--do); fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; }
 .fight-log p { font-size: 16px; color: var(--grey); }
 
 /* ---- Before play: the title, who you are, and why you have come. ---- */
-.opening { max-width: 62rem; margin: 0 auto; padding: clamp(28px, 7vw, 96px) clamp(16px, 5vw, 64px) 64px; min-height: 100dvh; }
-.title-page { max-width: none; height: 100dvh; min-height: 0; overflow: hidden; display: grid; align-items: center;
-  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 1fr); gap: 0 clamp(32px, 5vw, 88px);
-  padding: clamp(24px, 5vh, 64px) clamp(20px, 5vw, 88px); }
-.title-page .plate { margin: 0; align-self: center; justify-self: end; width: 100%; max-width: 860px; }
-.title-page .plate img { display: block; width: 100%; max-height: calc(100dvh - 160px); object-fit: cover;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.06); }
-.title-page .plate.gone { visibility: hidden; }
-.title-page .plate figcaption { font: 400 12px/1.4 var(--do); color: var(--faint); margin-top: 10px; letter-spacing: .02em; }
-.title-page main { position: relative; padding-left: clamp(20px, 2.4vw, 36px); max-width: 30rem; }
-.title-page main::before { content: ''; position: absolute; left: 0; top: .9em; width: 6px; height: clamp(88px, 13vw, 168px);
-  background: var(--blue); }
-.mark { font: 400 clamp(96px, 13vw, 184px)/.86 var(--told); letter-spacing: -.035em; margin: 0 0 clamp(22px, 3vw, 36px); }
-.mark::after { content: '.'; color: var(--yellow); }
-.lede { font: italic 400 clamp(20px, 1.9vw, 24px)/1.4 var(--told); color: var(--grey); max-width: 24em; margin: 0 0 40px; }
-.begin { list-style: none; margin: 0; padding: 0; }
-.begin li { margin: 0 0 12px; }
-.begin .act.door { display: block; width: 100%; text-decoration: none; padding: 14px 18px 15px; margin-left: -18px;
-  border-left: 3px solid transparent; transition: background-color .12s, border-color .12s; }
-.begin .act.door .n { display: block; font: 500 clamp(28px, 2.6vw, 34px)/1.1 var(--do); letter-spacing: -.005em; }
-.begin .act.door:hover { background: var(--wash); border-left-color: var(--ink); }
-.begin .act.door.sel, .begin .act.door:focus-visible { background: #F1F5FD; border-left-color: var(--blue); }
-.begin .act.door.sel .n, .begin .act.door:focus-visible .n { color: var(--blue); }
-.begin .act.door:active { background: #E8EEFA; }
-.begin .act.door::after { content: none; }
-@media (max-width: 860px) {
-  .title-page { height: auto; min-height: 100dvh; overflow: visible; grid-template-columns: minmax(0, 1fr);
-    align-content: start; padding: 0 16px 40px; }
-  .title-page .plate { justify-self: stretch; margin: 0 -16px 28px; width: calc(100% + 32px); max-width: none; }
-  .title-page .plate img { max-height: 42dvh; box-shadow: none; }
-  .title-page .plate figcaption { padding: 0 16px; }
-}
-.begin .act .why { font: 400 15.5px/1.45 var(--do); color: var(--grey); margin-top: 4px; }
-/* The other ways in, as quiet controls a finger can find, not underlined words (play 7). */
-.small-ways { margin-top: 48px; display: flex; flex-wrap: wrap; gap: 10px; font: 450 14px var(--do); color: var(--ink); }
-.small-ways label, .small-ways .link, .small-ways a { cursor: pointer; display: inline-flex; align-items: center;
-  box-sizing: border-box; min-height: 44px; padding: 0 18px; border: 1px solid var(--hair); border-radius: 22px;
-  background: var(--paper); color: inherit; text-decoration: none; }
-.small-ways label:hover, .small-ways .link:hover, .small-ways a:hover { background: var(--wash); }
+.opening { max-width: 62rem; margin: 0 auto; padding: clamp(28px, 7vw, 96px) clamp(16px, 5vw, 64px) 64px; min-height: var(--frame-h); }
 .small-ways .link { font: inherit; }
 .options-page h1, .loading h1 { font: 400 clamp(36px, 4.6vw, 56px)/1.05 var(--told); margin: 0 0 22px; }
-.option { margin: 0 0 26px; }
-.option .acts { gap: 4px 30px; }
-.option .act { font: 500 18px/1.3 var(--do); text-decoration: none; display: block; padding: 6px 0 6px 14px; }
-.option .act .why { display: block; font: 400 15px/1.4 var(--told); color: var(--grey); }
-.option .act[aria-pressed="true"], .origins .act[aria-pressed="true"] { box-shadow: inset 3px 0 0 var(--blue); }
+.setting { margin: 0 0 26px; }
+.setting .acts { gap: 8px; }
+.setting .act .why { display: block; flex-basis: 100%; font: 400 14px/1.4 var(--told); color: var(--dim); }
+.setting .act[aria-pressed="true"], .origins .act[aria-pressed="true"] { border-color: var(--gold); box-shadow: inset 2px 0 0 var(--gold); }
+.setting .act[aria-pressed="true"]::before { background: var(--gold); border-color: var(--gold); }
 :root[data-size="smaller"] #mono { zoom: .9; }
 :root[data-size="larger"] #mono { zoom: 1.15; }
 .roll, .line.roll { color: var(--grey); font: 400 14.5px/1.45 var(--do); }
@@ -233,10 +167,10 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 .set-out { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: baseline; }
 .set-out .go { font: 500 30px var(--do); }
 .loading .stage { font: 400 20px var(--do); color: var(--grey); }
-.toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: var(--paper);
+.toast { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: var(--paper);
   font: 450 15px var(--do); padding: 10px 16px; max-width: calc(100vw - 32px); z-index: 10; }
 .toast button { all: unset; cursor: pointer; margin-left: 12px; text-decoration: underline; }
-.help { position: fixed; right: 20px; bottom: 20px; background: var(--paper); border: 1px solid var(--ink); padding: 16px 20px;
+.help { position: absolute; right: 20px; bottom: 20px; background: var(--paper); border: 1px solid var(--ink); padding: 16px 20px;
   font: 400 14px var(--do); z-index: 9; }
 .help dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; }
 .help div { display: contents; }
@@ -259,10 +193,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 @media (max-width: 860px) {
   body { font-size: 18px; }
   .fields, .fields.trade, .editor { grid-template-columns: minmax(0, 1fr); }
-  .act { font-size: 17px; padding: 6px 0; }
-  .acts { gap: 4px 18px; }
 }
-@media (hover: none) { .act:hover { text-decoration-color: var(--hair); } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
 /* ---- The character: who they are, how they stand, what they can do and could become. ---- */
@@ -284,7 +215,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 .character .option .take { font-weight: 500; }
 .character .option .take.still { font: 500 16.5px var(--do); color: var(--grey); }
 .character .option .from-to { font: 400 14.5px var(--do); color: var(--grey); margin-left: 10px; font-variant-numeric: tabular-nums; }
-.character .option .what { font-size: 16px; margin: 2px 0; color: #2B2B2B; }
+.character .option .what { font-size: 16px; margin: 2px 0; color: var(--ivory); }
 .character .changes { list-style: none; padding: 0; margin: 2px 0 0; font: 400 14px/1.45 var(--do); color: var(--grey); }
 .character .changes li::before { content: '→ '; color: var(--faint); }
 .qualities { border-collapse: collapse; width: 100%; font: 400 15px/1.4 var(--do); }
@@ -301,7 +232,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--faint); border: 1px solid var(-
 .bearings dd { margin: 0; font-size: 17px; }
 .skills div, .character .abilities div { padding: 6px 0; border-top: 1px solid var(--hair); }
 .skills dt, .character .abilities dt { font: 500 15.5px var(--do); }
-.skills dd, .character .abilities dd { margin: 0; font-size: 16.5px; color: #2B2B2B; }
+.skills dd, .character .abilities dd { margin: 0; font-size: 16.5px; color: var(--ivory); }
 .character .from { font: 400 13px var(--do); color: var(--grey); margin-left: 6px; }
 /* Each spell prepared today, and what could be prepared in its place, chosen there. */
 .character .prepared > ul { list-style: none; padding: 0; margin: 0; }

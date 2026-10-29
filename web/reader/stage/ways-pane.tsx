@@ -22,7 +22,6 @@ export class WaysPane {
     const from = `From ${screen.place.name.replace(/^The /, 'the ')}`;
     return (
       <div className={`on${busy ? ' busy' : ''}`}>
-        <PlaceStage.Aim screen={screen} bound={!!frame.bound} />
         <PlaceStage.Bound app={app} draw={draw} />
         {busy && <WaysPane.Nearest app={app} draw={draw} going={going} />}
         <div className={`ways-all${raised ? ' raised' : ''}`} role={busy && raised ? 'dialog' : undefined}
@@ -37,7 +36,6 @@ export class WaysPane {
           <PlaceStage.Ways screen={screen} near={scene.near} far={scene.far} draw={draw} around={app.menu.around} />
           <PlaceStage.Further app={app} draw={draw} />
         </div>
-        <PlaceStage.You app={app} draw={draw} />
       </div>
     );
   }

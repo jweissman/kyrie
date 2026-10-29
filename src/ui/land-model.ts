@@ -40,14 +40,16 @@ export class LandModel {
     return Math.hypot(a % w - b % w, Math.floor(a / w) - Math.floor(b / w));
   }
   // The land the company knows: around every settlement it has been to, along every road it has walked and every
-  // part of wild country it has crossed, and the cell of each place it has been to or knows the way to.
+  // part of wild country it has crossed (as far as one sees from a road, a couple of cells either side: a map of only
+  // the road's own cells had been fog with a thread through it), and the cell of each place it has been to or knows
+  // the way to.
   land(seen: { visited: Set<string>; told: string[] }, ways: WayInfo[], here: string, areas: RegionChart['areas']): Land {
     const chart = this.chart, known = new Set<number>(), visited = seen.visited;
     const heard = new Set([...ways.flatMap(w => [w.from, w.to]), ...seen.told]);
     for (const id of visited) {
       const area = this.marked(id), at = this.cell(id);
-      for (const c of chart.parts[id] ?? chart.roads[id] ?? []) { this.reveal(c, 1, known); }
-      if (at !== undefined) { this.reveal(at, area?.space?.kind === 'settlement' ? 2 : 1, known); }
+      for (const c of chart.parts[id] ?? chart.roads[id] ?? []) { this.reveal(c, 2, known); }
+      if (at !== undefined) { this.reveal(at, area?.space?.kind === 'settlement' ? 3 : 2, known); }
     }
     for (const id of heard) {
       const at = this.cell(id);

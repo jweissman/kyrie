@@ -29,7 +29,11 @@ export class Scenery {
   // winter, where a kind has a winter painting, one of those (a cold country's town in summer is a grey northern bay,
   // in winter its frozen river: a fresh play had a leafy fair for a town of snow-fences and turf roofs).
   static readonly winter = new Set(['wintre', 'ice-cutter', 'avalanche']);
+  // Under a roof (a room of a building, or anywhere within a level of a site), no country is painted: the Hall cellar
+  // at Merrow had opened on a sunlit wood (Mission 18's first walk), and a picture that contradicts the place is worse
+  // than none.
   static of(screen: Screen): string | undefined {
+    if (screen.path.some(p => p.kind === 'building' || p.kind === 'level')) { return undefined; }
     const kinds = screen.path.map(p => p.kind), area = screen.region?.areas.find(a => a.here);
     const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
     const form = area?.form?.replace(/^land_/, ''), terrain = screen.region?.terrain?.replace(/^.*__/, '');

@@ -69,19 +69,26 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
-  // On a desktop the telling has the left page whole and the ways on the right page theirs: at a chapter's opening the
-  // ways had had the lower 44% of the right page for one way, and cut the telling above them short (play 12).
-  it('gives the telling and the ways a page each on a desktop, the full height of the screen', async () => {
+  // On a desktop the telling and the ways stand side by side under the place's head, each the whole height between the
+  // head and the foot (at a chapter's opening the ways had had the lower 44% of the right page for one way, and cut the
+  // telling above them short: play 12), and the stage that holds them keeps its margins: about a tenth of the screen's
+  // width each side (Mission 18's A1).
+  it('gives the telling and the ways a column each under the head, in a stage with its margins', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=mere' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    const pages = await page.evaluate(() => ['.scene-page > .scene', '.scene-page > .on-pane'].map(s => {
-      const r = document.querySelector(s)!.getBoundingClientRect();
-      return [Math.round(r.top), Math.round(r.height)];
-    }));
-    expect(pages).toEqual([[0, 900], [0, 900]]);
+    const laid = await page.evaluate(() => {
+      const box = (s: string) => document.querySelector(s)!.getBoundingClientRect();
+      const [scene, on, head, foot, frame] = ['.scene-page > .scene', '.scene-page > .on-pane', '.place-head',
+        '.place-foot', '.frame'].map(box) as DOMRect[];
+      const r = Math.round;
+      return { level: r(scene!.top) === r(on!.top) && r(scene!.height) === r(on!.height),
+        between: r(scene!.top) === r(head!.bottom) && r(scene!.bottom) === r(foot!.top),
+        margins: Math.min(r(frame!.left), r(innerWidth - frame!.right)) };
+    });
+    expect([laid.level, laid.between, laid.margins >= 130]).toEqual([true, true, true]);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);

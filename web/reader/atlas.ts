@@ -3,35 +3,38 @@ import { Typography } from '../../src/presentation/typography';
 
 interface Pt { x: number; y: number }
 export interface Drawn {
-  box: number[]; cells: { i: number; x: number; y: number; s: number; cover: string }[];
+  box: number[]; cells: { i: number; x: number; y: number; points: string; cover: string }[];
   // The land not yet known, as a faint grid of points: how far the country goes, and nothing of what is in it.
   unknown: Pt[];
-  rivers: string[]; roads: { points: string; came: boolean }[];
-  paths: { points: string; label: string; shut: boolean; came: boolean }[];
+  rivers: string[]; roads: { d: string; came: boolean }[];
+  paths: { d: string; label: string; shut: boolean; came: boolean }[];
   places: (Pt & { id: string; kind: string; visited: boolean; name: string })[];
   zones: (Pt & { id: string; name: string })[];
   labels: (Pt & { id: string; text: string; kind: string; known: boolean; anchor: 'start' | 'end' | 'middle' })[];
   here?: Pt; glosses: [string, string][];
 }
 
-// The country drawn plainly, as a grid of the cells the company knows: each cell the flat tone of its land, water
-// blue; rivers and roads through the cells' middles; paths straight from end to end; settlements as squares, other
-// places as rings; names set where they do not cross another name or a mark.
+// The country as hexes of the land the company knows, each the tone of its land with its land drawn on it (trees,
+// fells, peaks, fen, water) by the map view; rivers and roads as curves through the hexes' middles, not lines between
+// graph nodes; paths straight from end to end; settlements and other places marked; names set where they do not cross
+// another name or a mark. The land's cells are a square grid; set in hexes, every other row is shifted half a cell.
 export class Atlas {
-  static readonly S = 22;
+  static readonly S = 24;
+  static readonly R = Atlas.S / Math.sqrt(3);
+  static readonly ROW = Atlas.R * 1.5;
   static readonly covers: Record<string, string> = { '~': 'water', o: 'water', ',': 'fen', '.': 'known', w: 'wood',
     h: 'heath', f: 'fell', p: 'peak' };
   static draw(region: RegionChart, came?: string): Drawn {
-    const land = region.land!, W = land.width, S = Atlas.S, known = new Set(land.known);
-    const cells = land.known.map(i => ({ i, x: (i % W) * S + 0.75, y: Math.floor(i / W) * S + 0.75, s: S - 1.5,
+    const land = region.land!, W = land.width, known = new Set(land.known);
+    const cells = land.known.map(i => ({ i, ...this.centre(i, W), points: this.hex(this.centre(i, W)),
       cover: this.covers[land.cover[i] ?? '.'] ?? 'known' }));
     const hereArea = region.areas.find(a => a.here)?.id, cameArea = came ? region.within[came] ?? came : undefined;
     const ends = [cameArea ?? '', hereArea ?? ''].sort().join('|');
     const roadsCame = region.edges.filter(e => e.road && this.ends(e) === ends).map(e => this.line(e.course ?? [], W));
     const roads = Object.values(land.roads).map(cs => this.line(cs.filter(c => known.has(c)), W))
-      .map(points => ({ points, came: roadsCame.includes(points) }));
+      .map(d => ({ d, came: roadsCame.includes(d) }));
     const paths = region.edges.filter(e => e.course && !e.road && e.course.length > 1)
-      .map(e => ({ points: this.line(e.course!, W), label: Typography.curl(e.label), shut: e.status !== 'open',
+      .map(e => ({ d: this.line(e.course!, W), label: Typography.curl(e.label), shut: e.status !== 'open',
         came: this.ends(e) === ends }));
     const places = [...region.areas.filter(a => a.kind === 'settlement').map(a => ({ id: a.id, kind: 'settlement',
       visited: a.visited, ...this.centre(a.y * W + a.x, W), name: a.name })),
@@ -63,7 +66,7 @@ export class Atlas {
     const ends = [cameArea ?? '', hereArea ?? ''].sort().join('|');
     const paths = region.edges.flatMap(e => {
       const a = at.get(e.from), b = at.get(e.to);
-      return a && b ? [{ points: `${a.x},${a.y} ${b.x},${b.y}`, label: Typography.curl(e.label),
+      return a && b ? [{ d: `M${a.x},${a.y} L${b.x},${b.y}`, label: Typography.curl(e.label),
         shut: e.status !== 'open', came: this.ends(e) === ends }] : [];
     });
     const places = region.areas.map(a => ({ id: a.id, kind: a.kind === 'settlement' ? 'settlement' : 'site',
@@ -78,11 +81,11 @@ export class Atlas {
   // never narrower than a phone shows at full size; the rest is unknown, and would only make the known part small.
   private static crop(known: number[], W: number, H: number, here?: Pt): number[] {
     const S = this.S, xs = known.map(i => i % W), ys = known.map(i => Math.floor(i / W));
-    if (here) { xs.push(Math.floor(here.x / S)); ys.push(Math.floor(here.y / S)); }
-    if (!xs.length) { return [0, 0, W * S, H * S]; }
+    if (here) { xs.push(Math.floor(here.x / S)); ys.push(Math.floor(here.y / this.ROW)); }
+    if (!xs.length) { return [0, 0, W * S + S / 2, H * this.ROW + this.R / 2]; }
     const [x0, x1] = this.span(Math.min(...xs), Math.max(...xs), W, 16);
     const [y0, y1] = this.span(Math.min(...ys), Math.max(...ys), H, 10);
-    return [x0 * S, y0 * S, (x1 - x0) * S, (y1 - y0) * S];
+    return [x0 * S, y0 * this.ROW, (x1 - x0) * S + S / 2, (y1 - y0) * this.ROW + this.R / 2];
   }
   // Cells lo to hi, three about them, widened to the least it may be and kept within the land.
   private static span(lo: number, hi: number, size: number, least: number): [number, number] {
@@ -90,12 +93,32 @@ export class Atlas {
     while (b - a < Math.min(least, size)) { if (a > 0) { a--; } if (b - a < least && b < size) { b++; } }
     return [a, b];
   }
-  private static centre(i: number, W: number): Pt {
-    return { x: (i % W) * this.S + this.S / 2, y: Math.floor(i / W) * this.S + this.S / 2 };
+  // The middle of a cell's hex: every other row half a cell to the right.
+  static centre(i: number, W: number): Pt {
+    const col = i % W, row = Math.floor(i / W);
+    return { x: col * this.S + this.S / 2 + (row % 2) * this.S / 2, y: row * this.ROW + this.R };
   }
-  private static line(cells: number[], W: number): string {
-    return cells.map(c => { const p = this.centre(c, W); return `${p.x},${p.y}`; }).join(' ');
+  // A hex about a middle, its points up and down, a hair inside its neighbours.
+  private static hex(c: Pt): string {
+    const r = this.R * 0.98;
+    return [30, 90, 150, 210, 270, 330].map(a => {
+      const t = (a * Math.PI) / 180;
+      return `${(c.x + r * Math.cos(t)).toFixed(1)},${(c.y + r * Math.sin(t)).toFixed(1)}`;
+    }).join(' ');
   }
+  // A way over cells, as a curve through their middles: a road bends as a road does, not as a graph's edge.
+  private static line(cells: number[], W: number): string { return this.curve(cells.map(c => this.centre(c, W))); }
+  static curve(p: Pt[]): string {
+    if (p.length < 2) { return p.length ? `M${p[0]!.x},${p[0]!.y}` : ''; }
+    let d = `M${Atlas.at(p[0]!.x)},${Atlas.at(p[0]!.y)}`;
+    for (let i = 0; i < p.length - 1; i++) {
+      const a = p[i - 1] ?? p[i]!, b = p[i]!, c = p[i + 1]!, e = p[i + 2] ?? c;
+      d += ` C${Atlas.at(b.x + (c.x - a.x) / 6)},${Atlas.at(b.y + (c.y - a.y) / 6)}`
+        + ` ${Atlas.at(c.x - (e.x - b.x) / 6)},${Atlas.at(c.y - (e.y - b.y) / 6)} ${Atlas.at(c.x)},${Atlas.at(c.y)}`;
+    }
+    return d;
+  }
+  private static at(n: number): string { return n.toFixed(1); }
   private static ends(e: RegionChart['edges'][number]): string { return [e.from, e.to].sort().join('|'); }
   // A name beside each place: to the right if there is room, else left, above or below, on a side no road or path runs
   // through where there is one (a name across a road is hard to read). A mark's name that fits nowhere is left off (the

@@ -9,25 +9,27 @@ import { Act, type Draw } from './act';
 import { PlaceStage } from './place-stage';
 import { Told } from './told';
 
-// On a road. Not a room: a line across the country between two places, with the country it crosses in bands (fen,
-// woods, a ford) and the tracks that leave it; what the way was like and who and what is by the road, as a place is
-// told; and beside it, or at the foot of a screen held upright, your aim and the two ways on, back and forward, with
-// stopping between them (the road had been a spread of its own whose leaves fell apart on a tablet, its paragraphs at
-// three indents and no aim: Mission 17).
+// On a road. Not a room: across the head of the stage, the line across the country between two places, the country
+// it crosses in bands (fen, woods, a ford), you on it, and the tracks that leave it; under it what the way was like and
+// who and what is by the road, as a place is told; beside it, or at the foot of an upright screen, the two ways on,
+// back and forward; at the foot your aim and yourself. The same shape as a place, so travel and arrival read as one
+// game (the road had been a spread of its own whose leaves fell apart on a tablet: Mission 17).
 export class RoadStage {
   static View({ app, route }: { app: ReaderApp; route: Route }) {
     const scene = app.menu.scene!, draw = Act.draw(app), frame = app.state.frame!;
     const ways = [...scene.near, ...scene.far];
     return (
-      <article className="scene-page road-page" id="page">
+      <article className="scene-page road-page kind-wild" id="page">
+        <header className="place-head">
+          <div className="title-block"><Told.Heading frame={frame} /></div>
+          <RoadStage.Strip route={route} draw={draw} ways={ways} />
+        </header>
         <section className="scene" aria-label="The road">
           <div className="measure">
-            <RoadStage.Strip route={route} draw={draw} ways={ways} />
-            <div className="telling"><Told.Place app={app} here={<RoadStage.By app={app} draw={draw} />} /></div>
+            <div className="telling"><Told.Place app={app} headed={false} here={<RoadStage.By app={app} draw={draw} />} /></div>
           </div>
         </section>
         <section className="on-pane" aria-label="Ways on"><div className="measure"><div className="on">
-          <PlaceStage.Aim screen={frame.screen} bound={!!frame.bound} />
           {/* A journey stopped on the road (a cart gone off it, a goat loose) is taken up again from here. */}
           <PlaceStage.Bound app={app} draw={draw} />
           <nav className="onward" aria-label="Ways on">
@@ -36,8 +38,11 @@ export class RoadStage {
             <RoadStage.End choices={RoadStage.choices(ways, route.to)} exit={route.to} draw={draw} />
           </nav>
           <PlaceStage.Further app={app} draw={draw} />
-          <PlaceStage.You app={app} draw={draw} />
         </div></div></section>
+        <footer className="place-foot">
+          <PlaceStage.Aim screen={frame.screen} bound={!!frame.bound} />
+          <PlaceStage.You app={app} draw={draw} />
+        </footer>
       </article>
     );
   }

@@ -60,10 +60,10 @@ export class References {
     const d = region.land ? Atlas.draw(region, came) : Atlas.schematic(region, came);
     return <figure className={`land${small ? ' small' : ''}`}>
       <svg viewBox={d.box.join(' ')} role="img" aria-label="The country as far as you know it">
-        {d.cells.map(c => <rect key={c.i} className={`cell ${c.cover}`} x={c.x} y={c.y} width={c.s} height={c.s} />)}
-        {d.rivers.map((r, i) => <polyline key={`r${i}`} className="river" points={r} />)}
-        {d.roads.map((r, i) => <polyline key={`d${i}`} className={`road${r.came ? ' came' : ''}`} points={r.points} />)}
-        {d.paths.map((p, i) => <polyline key={`p${i}`} className={`path${p.came ? ' came' : ''}`} points={p.points} />)}
+        {d.cells.map(c => <polygon key={c.i} className={`cell ${c.cover}`} points={c.points} />)}
+        {d.rivers.map((r, i) => <path key={`r${i}`} className="river" d={r} />)}
+        {d.roads.map((r, i) => <path key={`d${i}`} className={`road${r.came ? ' came' : ''}`} d={r.d} />)}
+        {d.paths.map((p, i) => <path key={`p${i}`} className={`path${p.came ? ' came' : ''}`} d={p.d} />)}
         {d.places.map(p => p.kind === 'settlement'
           ? <rect key={p.id} className={`town${p.visited ? '' : ' unvisited'}`} x={p.x - 5} y={p.y - 5} width={10} height={10} />
           : <circle key={p.id} className={`mark${p.visited ? ' visited' : ''}`} cx={p.x} cy={p.y} r={4} />)}

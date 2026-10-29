@@ -76,12 +76,13 @@ export class SiteBuild {
       + 'return r.text();}).then(function(t){if(seen&&t&&t!==seen){location.reload();}seen=t||seen;})'
       + '.catch(function(){});},1000);})();</script>');
   }
+  // The page's stylesheets, in the order index.html links them: the lantern's ground, controls and books; the shell,
+  // title and creation; then each composition of play.
+  static readonly sheets = ['reader.css', 'frame.css', 'stage.css', 'talk.css', 'fight.css', 'book.css'];
   private static async page(out: string, script: string) {
     const html = (await readFile(join(this.root, 'web/reader/index.html'), 'utf8')).replace('</body>', `${script}</body>`);
     for (const name of ['index.html', 'mono.html']) { await writeFile(join(out, name), html); }
-    await cp(join(this.root, 'web/reader/reader.css'), join(out, 'reader.css'));
-    await cp(join(this.root, 'web/reader/stage.css'), join(out, 'stage.css'));
-    await cp(join(this.root, 'web/reader/frame.css'), join(out, 'frame.css'));
+    for (const sheet of SiteBuild.sheets) { await cp(join(this.root, 'web/reader', sheet), join(out, sheet)); }
     await cp(join(this.root, 'web/reader/fonts'), join(out, 'fonts'), { recursive: true });
     await cp(join(this.root, 'web/reader/paintings'), join(out, 'paintings'), { recursive: true });
   }

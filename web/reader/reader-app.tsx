@@ -17,6 +17,7 @@ import { LoadingPage } from './loading-page';
 import { PlayPage } from './play-page';
 import { OptionsPage } from './options-page';
 import { ReaderOptions, type Options } from './reader-options';
+import { Shell } from './shell';
 
 export type Phase = 'title' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
@@ -266,6 +267,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   exportTranscript() { return this.state.frame?.transcript; }
   override render(): ReactNode {
+    return <Shell.View app={this}>{this.page()}</Shell.View>;
+  }
+  private page(): ReactNode {
     switch (this.state.phase) {
       case 'title': return <TitlePage.View app={this} />;
       case 'options': return <OptionsPage.View app={this} />;

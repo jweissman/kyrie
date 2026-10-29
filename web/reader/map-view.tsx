@@ -2,13 +2,15 @@ import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import type { Chart, RegionChart, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Atlas, type Drawn } from './atlas';
+import { Terrain } from './terrain';
 import { MenuModel } from './menu-model';
 import { Typography } from '../../src/presentation/typography';
 import { Words } from './words';
 
-// The map, in the world's place, with the ways still beside it. The country as far as you know it, drawn plainly: its
-// land in flat tones cell by cell, water in blue, roads in black and paths dashed, settlements as squares and other
-// places as rings, and you in red, with the way you came. Below it, the place you are in, room by room, when it has
+// The map, in the world's place, with the ways still beside it. The country as far as you know it, as land: hexes of
+// wood, fell, fen, heath, peak and water, each drawn as what it is; rivers and roads as curves across them, roads cased
+// so they read as roads; paths dashed; settlements as roofs and sites as broken arches; you in gold, and where you are
+// bound ringed in gold. Below it, the place you are in, room by room, when it has
 // rooms and is not wild country (which the land shows). Only what you have seen, or know the way to, is drawn; what
 // you know only by name is grey.
 export class MapView {
@@ -23,7 +25,8 @@ export class MapView {
         <p className="where"><span className="title">{app.state.frame!.title}</span><span>The map</span></p>
         <h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1>
         <div className="map-spread">
-          {region ? <MapView.Region region={region} came={came} chosen={chosen} choose={choose} />
+          {region ? <MapView.Region region={region} came={came} chosen={chosen} choose={choose}
+            bound={app.state.frame?.bound?.id} />
             : <p className="none">You have no map of this country yet.</p>}
           <MapView.Plan app={app} screen={screen} chosen={chosen} />
         </div>
@@ -70,36 +73,39 @@ export class MapView {
     );
   }
   static readonly Region = memo(MapView.region);
-  private static region({ region, came, chosen, choose }: { region: RegionChart; came?: string; chosen?: string;
-    choose: (id: string) => void }) {
+  private static region({ region, came, chosen, choose, bound }: { region: RegionChart; came?: string; chosen?: string;
+    choose: (id: string) => void; bound?: string }) {
     const d: Drawn = useMemo(() => region.land ? Atlas.draw(region, came) : Atlas.schematic(region, came), [region, came]);
     return (
       <figure className="atlas">
         <svg viewBox={d.box.join(' ')} role="img" aria-label="The country as far as you know it"
           style={{ width: `${Math.round(d.box[2]! * MapView.scale)}px` }}>
+          <Terrain.Defs />
           {d.unknown.map((p, i) => <circle key={`u${i}`} className="unknown" cx={p.x} cy={p.y} r={1.1} />)}
-          {d.cells.map(c => <rect key={c.i} className={`cell ${c.cover}`} x={c.x} y={c.y} width={c.s} height={c.s}
-            style={{ fill: `var(--${c.cover})` }} />)}
-          {d.rivers.map((r, i) => <polyline key={`r${i}`} className="river" points={r} />)}
-          {d.roads.map((r, i) => <polyline key={`d${i}`} className={`road${r.came ? ' came' : ''}`} points={r.points} />)}
-          {d.paths.map((p, i) => <polyline key={`p${i}`} className={`path${p.shut ? ' shut' : ''}${p.came ? ' came' : ''}`}
-            points={p.points}><title>{p.label}</title></polyline>)}
+          <Terrain.Land cells={d.cells} />
+          {d.rivers.map((r, i) => <g key={`r${i}`}><path className="river-bed" d={r} /><path className="river" d={r} /></g>)}
+          {d.roads.map((r, i) => <g key={`d${i}`}><path className="road-bed" d={r.d} />
+            <path className={`road${r.came ? ' came' : ''}`} d={r.d} /></g>)}
+          {d.paths.map((p, i) => <path key={`p${i}`} className={`path${p.shut ? ' shut' : ''}${p.came ? ' came' : ''}`}
+            d={p.d}><title>{p.label}</title></path>)}
           {d.zones.map(z => <text key={z.id} className="name-zone" x={z.x} y={z.y} textAnchor="middle">{z.name}</text>)}
-          {d.places.map(p => <g key={p.id} className={`spot${chosen === p.id ? ' chosen' : ''}`} role="button" tabIndex={0}
-            data-action="map-place" data-id={p.id} aria-label={d.labels.find(l => l.id === p.id)?.text ?? p.name}
+          {d.places.map(p => <g key={p.id} className={`spot${chosen === p.id ? ' chosen' : ''}${bound === p.id ? ' bound' : ''}`}
+            role="button" tabIndex={0} data-action="map-place" data-id={p.id}
+            aria-label={d.labels.find(l => l.id === p.id)?.text ?? p.name}
             aria-pressed={chosen === p.id} onClick={() => choose(p.id)}
             onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); choose(p.id); } }}>
             <circle className="reach" cx={p.x} cy={p.y} r={14} />
-            {p.kind === 'settlement'
-              ? <rect className={`town${p.visited ? '' : ' unvisited'}`} x={p.x - 6} y={p.y - 6} width={12} height={12} />
-              : <circle className={`mark${p.visited ? ' visited' : ''}`} cx={p.x} cy={p.y} r={4.5} />}</g>)}
-          {d.here && <g aria-current="location"><circle className="you-ring" cx={d.here.x} cy={d.here.y} r={12} />
-            <circle className="you" cx={d.here.x} cy={d.here.y} r={6} /><title>You are here</title></g>}
+            {bound === p.id && <circle className="whither" cx={p.x} cy={p.y} r={13} />}
+            <Terrain.Mark p={p} /></g>)}
+          {d.here && <g aria-current="location"><circle className="you-glow" cx={d.here.x} cy={d.here.y} r={24}
+            fill="url(#map-glow)" /><circle className="you-ring" cx={d.here.x} cy={d.here.y} r={11} />
+            <circle className="you" cx={d.here.x} cy={d.here.y} r={4.5} /><title>You are here</title></g>}
           {d.labels.map(l => <text key={l.id} className={`${l.kind === 'settlement' ? 'name-town' : 'name-mark'}${l.known ? '' : ' name-unknown'}`}
             x={l.x} y={l.y} textAnchor={l.anchor}>{l.text}</text>)}
         </svg>
         <figcaption className="atlas-key"><span><i />A road</span><span><i className="path" />A path or a track</span>
-          <span><i className="river" />Water</span><span><i className="you" />You</span></figcaption>
+          <span><i className="river" />Water</span><span><i className="you" />You</span>
+          <span><i className="whither" />Where you are bound</span></figcaption>
         {d.glosses.length > 0 && <p className="atlas-names">{d.glosses.map(([name, gloss]) => <span key={name}>
           <b>{name}</b> {gloss}. </span>)}</p>}
       </figure>
