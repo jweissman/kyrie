@@ -1,0 +1,98 @@
+Module sennet "The Grand Tour" {
+  // ── Fabian Murrey ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Grandson of Dame Philippa Murrey, who did the Tour nine times and wrote the Handbook. Thirty-four. He has written
+  // four hundred pages of the seventh edition out of the sixth, in the room over the shop, and has never been through
+  // a door: at twelve his grandmother took him to the Fire Door and he fainted in the heat, and she said he had the
+  // soul of an index. Frightened, funny, warm; he notices everything and believes none of it is worth writing down
+  // unless somebody more important saw it first. If he comes on the Tour he writes the seventh edition as he goes,
+  // and what it says depends on what he was shown.
+  Person fabian "Fabian Murrey" at murrey_shop {
+    Role "a bookseller, long and thin, with ink on his cuffs and a pencil behind each ear" when not travelsWith(fabian, party).
+    Role "a guidebook man, with a pencil behind each ear" when travelsWith(fabian, party).
+    Ancestry human. Calling commoner. Background scholar. Level 2. Peaceable. Pronouns he. Manner compassionate.
+    Greets "A long thin man unfolds himself from behind a counter stacked with the same red book, knocks a pile of them over, catches two, and says, 'Murrey's. Handbook for Travellers through the Doors. Sixth edition. Three coin.' He looks at the pile on the floor. 'It's a bit out of date. Forty years. But the planes don't change much, do they?' A pause. 'I wouldn't know.'".
+    Greets again "'Oh! You,' says Fabian Murrey, and drops a pencil.".
+    Joins "Fabian Murrey puts on his hat, and takes it off, and puts it on again, and puts a second pencil behind his other ear. 'I'll come,' he says. 'I've a notebook. I'll be no use at all in a fight, I want that understood.' He turns the sign on the shop door to CLOSED, and then, after a moment, turns it back to OPEN. 'Somebody might want a book.'".
+    Leaves "'I'll be at the shop,' says Fabian Murrey. 'Writing it down. Come and tell me the rest.'".
+  }
+  Measure fondness(group).
+  Relation fabianAsked(group). Relation fabianDefended(group). Relation fabianShamed(group). Relation fabianWilling(group).
+  Relation fabianHome(group). Relation fabianLost(group). Relation beloved(group). Relation fabianTold(group).
+  Rule fabian_shop when openHours() and not travelsWith(fabian, party) and not at(fabian, murrey_shop) { Assert at(fabian, murrey_shop). }
+  Rule fabian_upstairs when not openHours() and not travelsWith(fabian, party) and not at(fabian, offstage) { Assert at(fabian, offstage). }
+  Observe murrey_scene at murrey_shop when true "Murrey's: a narrow shop with a gilt key over the door, every wall shelved to the ceiling with the same red book, MURREY'S HANDBOOK FOR TRAVELLERS THROUGH THE DOORS, and over the counter a portrait of a formidable old woman in a fire-cloak, with one foot on a stone that is plainly from somewhere else.".
+
+  Kind handbook_kind "Murrey's Handbook, sixth edition" is gear worth 3 weighing 1 described "MURREY'S HANDBOOK FOR TRAVELLERS THROUGH THE DOORS, BY DAME PHILIPPA MURREY. SIXTH EDITION. A fat red book on thin paper, with folding maps of planes that do not hold still, and a great many opinions. This copy is a new printing, of last spring, of the edition of forty years ago.".
+  Kind philippa_kind "Dame Philippa's own Handbook" is gear worth 0 weighing 1 described "A red book gone brown, swollen, scorched at one corner and stained with salt, that has been through the Doors nine times in a fire-cloak's pocket: the sixth edition, forty years old, the first copy ever printed, with Dame Philippa's own corrections in the margins in green ink, and a pressed flower from the Plane of Air that crumbles if you breathe on it.".
+  Item philippa_copy "Dame Philippa's own Handbook" is philippa_kind at offstage.
+  Item shop_copy "a Handbook from the pile" is handbook_kind at murrey_shop owned by fabian.
+  Action buy_handbook(actor: group, site: place) "Buy a copy of Murrey's Handbook for three coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(fabian, site) and at(shop_copy, murrey_shop) and quantity(actor, gold) >= 3.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 3. Increase quantity(fabian, gold) by 3. Assert lends(fabian, shop_copy, actor). Give shop_copy to actor. }
+    Result "He wraps it in brown paper, though you are going to carry it under your arm, and ties the string in a bow, and then unties it again to show you the folding map of the Plane of Fire, which does not hold still.".
+  }
+
+  Topic fabian_book with fabian "Ask Fabian Murrey about the Handbook" when true once {
+    Says "'My grandmother's.' He glances up at the portrait. 'Dame Philippa Murrey. She did the Tour nine times, when it was the fashion, before the fashion went to the spas. She wrote the sixth edition in a single winter, after her ninth, and it's never been out of print.' He touches a copy. 'I'm doing the seventh. I've done four hundred pages.' He clears his throat. 'Out of the sixth. Correcting the commas. I've not been through a door myself, as such.'".
+    On discuss { Assert knows(actor, handbook_known). }
+  }
+  Discovery handbook_known "Fabian Murrey is writing the seventh edition of his grandmother's Handbook for Travellers through the Doors, out of the sixth, which is forty years old, without ever having been through a door himself.".
+  Topic fabian_doors with fabian "Ask Fabian Murrey why he has never been through a door" when knows(actor, handbook_known) once {
+    Says "He takes off his spectacles and cleans them on his tie, which makes them worse. 'When I was twelve she took me to the Fire Door, to start me. It was open. I could see the Hour Court through it, all red. And the heat came out of it like a hand.' He puts them back on. 'I fainted. Into a Doorward. She picked me up off the floor by my collar and said, in front of the whole Hall, Fabian, you have the soul of an index.' He smiles, very slightly. 'She wasn't wrong. I'm a very good index. Guidebook men don't go. They write down where other people went.'".
+    On discuss { Assert knows(actor, fabian_fear). }
+  }
+  Discovery fabian_fear "Fabian Murrey fainted at the Fire Door when he was twelve, and his grandmother told the whole Hall he had the soul of an index. He has never been through a door since.".
+  Topic fabian_grandmother with fabian "Ask Fabian Murrey what his grandmother was like" when knows(actor, fabian_fear) once {
+    Says "'Magnificent.' He says it at once. 'She wore a fire-cloak to dinner. She was crowned in the Hour Court twice, once for showing them a snowball and once for being rude to them, which they'd never had. She called the sylphs a pack of fishwives to their faces and they loved her.' He looks at the portrait. 'She never once in her life asked anybody what they thought of anything. I used to bring her my essays and she'd correct the commas.' He laughs. 'I do the commas now. In her book.' And then, as if he had not meant to say it: 'I'd like to write one sentence she didn't.'".
+    On discuss { Increase fondness(fabian) by 1. Assert knows(actor, fabian_wish). }
+  }
+  Discovery fabian_wish "Fabian Murrey would like to write one sentence of the Handbook that his grandmother did not.".
+
+  // ── Florian at Murrey's ───────────────────────────────────────────────────────────────────────────────────────────
+  // On the first afternoon the Honourable Florian Mottram comes into the shop with Miss Sone to buy the Handbook, and
+  // finds out what its author's grandson has not done (rivals.kyr has them).
+  Query florianInShop() means day(clock) == 1 and hour(clock) >= 15 and hour(clock) < 16.
+  Event florian_mocks at murrey_shop when florianInShop() and at(party, murrey_shop) and at(florian, murrey_shop) "The shop bell goes, and a young man in a coat the colour of a sunset comes in with a grey, square woman behind him, and buys four copies of the Handbook without looking at them. 'Murrey,' he says. 'Murrey! You're the grandson. Grandmother was a legend, Papa says. Crowned in the Fire twice.' He beams. 'And you? How many times have you been through, then? Ten? Twenty?' Fabian Murrey says nothing. 'None?' The young man laughs, delightedly, not unkindly, as you would laugh at a dog in a hat. 'You've written a book about it and you've never been! Sone, did you hear? Never been!' Miss Sone, behind him, closes her eyes." then { Assert fabianShamed(fabian). }
+  Topic defend_fabian with florian "Tell the Honourable Florian Mottram that Fabian Murrey knows more about the planes than he will learn on the Tour" when fabianShamed(fabian) and at(fabian, ?p) and at(florian, ?p) and not fabianDefended(fabian) once {
+    Says "Florian Mottram stops laughing, with his mouth still open. He looks at you, and at Fabian, and at the four red books in his arms. 'Oh,' he says. 'Oh, I say. I didn't mean.' He goes pink to the ears. 'I'm sure he does. I haven't read it. Sone reads it.' Behind him Miss Sone opens her eyes and looks at you with something like interest. When they have gone Fabian Murrey picks a pencil up off the floor that he did not drop, and puts it behind his ear, where there is one already. 'Nobody,' he says, carefully, 'has said anything like that about me in my life.'".
+    On discuss { Assert fabianDefended(fabian). Increase fondness(fabian) by 1. }
+  }
+  Observe fabian_crushed at murrey_shop when fabianShamed(fabian) and not fabianDefended(fabian) and not travelsWith(fabian, party) and at(fabian, murrey_shop) "Fabian Murrey is correcting commas in a proof with great concentration, and does not look up.".
+
+  // ── Asked to come ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // He will not go through a door for a stranger's asking. For someone who has been through one, and promises to
+  // bring him back, he will.
+  Query beenThrough() means been(party, fire_threshold) or been(party, earth_threshold) or been(party, air_threshold) or been(party, drowned_stair).
+  Topic fabian_ask with fabian "Ask Fabian Murrey to come with you on the Tour" when knows(actor, handbook_known) and not fabianAsked(fabian) and not travelsWith(fabian, party) once {
+    Says "He laughs, and stops when he sees you mean it. 'Me? I'd faint. I'd faint and you'd have to carry me, and I'm all elbows.' He picks up a book and puts it down. 'Have you been through? Any of them?' He looks at your face. 'No. Then you don't know either.' He shakes his head. 'Go through one. Come back and tell me what it was really like, and not what she says it's like.' He taps the red book. 'Then ask me again.'".
+    On discuss { Assert fabianAsked(fabian). }
+  }
+  Topic fabian_told_through with fabian "Tell Fabian Murrey what it was really like, through the door" when fabianAsked(fabian) and beenThrough() and not fabianTold(fabian) once {
+    Says "He listens to all of it with his pencil stopped over his notebook and does not write a word. When you have finished he looks at the portrait for a long time. 'She never said it smelt like that,' he says. 'She never said anything was frightening. She said the Hour Court was vulgar.' He puts the pencil down. 'If I came,' he says, very quietly, 'would you bring me back? Not her way. Your way. Would you promise?'".
+    On discuss { Assert fabianTold(fabian). }
+  }
+  Topic fabian_promise with fabian "Promise Fabian Murrey you will bring him home" answering fabian_told_through when fabianTold(fabian) and not fabianWilling(fabian) once {
+    Says "'All right,' says Fabian Murrey, and swallows. 'All right. I'll hold you to it, mind. I'll write it down.' He does: you watch him write it in the notebook, in a small careful hand, and underline it. Then he goes up the stairs at the back of the shop two at a time, and comes down with a red book gone brown, scorched at one corner, and holds it out to you. 'Hers,' he says. 'The first copy. She took it through nine times. You carry it. My hands shake.'".
+    On discuss { Assert fabianWilling(fabian). Assert willing(fabian, actor). Set hire(fabian) to 0. Assert promiseMade(fabian_home). Give philippa_copy to actor. Assert lends(fabian, philippa_copy, actor). Increase fondness(fabian) by 1. }
+  }
+  Promise fabian_home "to bring Fabian Murrey home from the Tour" to fabian
+    kept when fabianHome(party) "Fabian Murrey sits down on his own stool behind his own counter, and puts both hands flat on it, as if it might go somewhere."
+    broken when fabianLost(party) "Somewhere a line is drawn through a promise you wrote in a notebook." { }.
+  // Home: back in the shop from wherever the Tour took him, with the Tour behind him.
+  Rule fabian_home_again when fabianWilling(fabian) and beenWith() and at(party, murrey_shop) and not travelsWith(fabian, party) and at(fabian, murrey_shop) and not fabianHome(party) { Assert fabianHome(party). }
+  Rule fabian_back_through when fabianWilling(fabian) and travelsWith(fabian, party) and beenWith() and at(party, murrey_shop) and not fabianHome(party) and doorOpen(sennet_bay) { Assert fabianHome(party). }
+  Relation wentWith(group).
+  Query beenWith() means wentWith(fabian).
+  Rule fabian_went when travelsWith(fabian, party) and inPlanes() and not wentWith(fabian) { Assert wentWith(fabian). }
+  Rule fabian_falls when joinedAs(?m, fabian) and slain(?m) and not fabianLost(party) { Assert fabianLost(party). }
+
+  // ── On the road ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Topic fabian_how with fabian travelling "Ask Fabian how he is bearing up" when inPlanes() once {
+    Says "'I haven't fainted.' He sounds astonished. 'I keep waiting to. I've been holding the notebook ready, in case.' He looks round him at the place, at all of it, with his mouth a little open. 'She said vulgar,' he says. 'It's not vulgar. It's the least vulgar thing I've ever seen.' And he writes that down.".
+    On discuss { Increase fondness(fabian) by 1. }
+  }
+  Topic fabian_notebook with fabian travelling "Ask Fabian what he has written so far" when wentWith(fabian) once {
+    Says "He shows you. It is not like the Handbook at all. It is short, and written in pencil, and crossed out, and some of it is about the places and a good deal of it is about the people, including, you notice, you. He takes it back before you can read that part. 'It's not ready,' he says. 'It's only true.'".
+  }
+}

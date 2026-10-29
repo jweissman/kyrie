@@ -1,0 +1,67 @@
+Module sennet "The Grand Tour" {
+  // ── The Undertow ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Under the drowned Guildhall, the Aenean Undercroft, and in it the tide-engine. The merfolk know what it is: their
+  // grandmothers read the plaque, and never needed it. The House of Doors was built over the Aeneans' own; the engine
+  // drives a shaft up through the rock of the headland to the Nexus, and started, it pushes the Door of Doors open
+  // from below without the Rose. It runs on the whole tide of the Whelm: while it turns, a day and a night, the
+  // Whelm's lamps go out and its air-bells empty. Nobody may start it without No Admittance's leave who wants to be
+  // welcome in the Whelm after; and nobody should start it with anybody still in an air-bell.
+  Relation engineRunning(place). Measure engineSince(place). Relation engineLeave(group). Relation leaveTerms(group).
+  Relation engineSeen(group).
+  Topic perrin_engine with perrin "Ask Perrin Halyard about the Aenean books he is drying" when true once {
+    Says "'Oh!' His whole face changes, the way Mercy's does about the lanterns. 'You won't believe it. The House of Doors, the Collegium, was built on top of the Aeneans' own. Ours is a copy. Theirs is down there, under the Guildhall.' He points at the floor of the bell. 'The tide-engine. It drives a shaft that goes up through the headland to the Nexus, and if you start it, it opens the Door of Doors from below. No Rose. No petals. The Aeneans never needed a key; they had the sea.' He laughs. 'Isadora would sell her soul for it. I haven't told her. I've been rather busy being dead.' He sobers. 'It runs on the whole tide of the Whelm, though. Start it, and every lamp down here goes out for a day, and the air-bells empty.' He looks round at the bell he is lying in. 'Including this one.'".
+    On discuss { Assert knows(actor, undertow_known). }
+  }
+  Discovery undertow_known "The tide-engine in the Aenean Undercroft drives a shaft up through the headland to the Nexus; started, it opens the Door of Doors from below, without the Rose. It runs on the whole tide of the Whelm: for a day the lamps go out and the air-bells empty.".
+  Action read_plaque(actor: group, site: place) "Read the plaque on the tide-engine" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, engine_room) and not knows(actor, undertow_known)
+      and (capable(actor, lore) or craft(actor, craft_learning) or carries(actor, perrin_notebook)).
+    Time 2.
+    On success { Assert knows(actor, undertow_known). }
+    Result "It is Aenean, square and plain, and says what it is with the dreadful simplicity of a people who had never needed to explain anything twice: that this wheel turns on the tide of the whole harbour, and turning, raises the cage of the shaft to the Hall of All Doors above, and sets that door open; and that while it turns, all lamps below, and all air held below, are given to it. Underneath, in a later hand, someone has scratched in Common: PERRIN WAS HERE.".
+  }
+  Topic admittance_engine with admittance "Ask No Admittance for leave to start the tide-engine" when admittanceTrusts(admittance) and knows(actor, undertow_known) and not engineLeave(actor) {
+    Says "She is quiet a long time. 'A day without lamps,' she says. 'A day without the bells. The children will be frightened. The old ones will not come out of their houses.' She looks at you. 'We have never started it. Our grandmothers read what it does, and decided they had no door they wanted that much.' She turns her crown in her hands. 'You want a door that much?' And then, before you can answer: 'If you do it, do it with us. With every hand of the Whelm on the wheel, so it is ours that did it, not yours. And not with anyone left in a bell. Move the dry man first.'".
+    On discuss { Assert leaveTerms(actor). }
+  }
+  Rule leave_given when leaveTerms(party) and (perrinMoved(party) or perrinUp(party) or perrinDead(party)) and not engineLeave(party) { Assert engineLeave(party). }
+  Observe engine_waiting at engine_room when engineLeave(party) and not engineRunning(sennet_bay) "The merfolk are here, all of them, the whole Whelm, holding the paddles of the great wheel in silence, waiting for you.".
+  // With every hand of the Whelm on it: anyone can, given leave.
+  Action start_engine_together(actor: group, site: place) "Put your hands on the great wheel beside the merfolk, and turn the tide-engine over" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, engine_room) and engineLeave(actor) and not engineRunning(sennet_bay) and not openedBelow(sennet_bay).
+    Grave "While the engine runs, a day and a night, the Whelm's lamps are out and its air-bells empty.".
+    Time 3.
+    On success { Assert engineRunning(sennet_bay). Set engineSince(sennet_bay) to watch(clock). }
+    Result "No Admittance says a word in bubbles, and the whole Whelm leans on the wheel, and so do you, and nothing happens, and nothing happens, and then the sea moves. You feel it: the whole weight of the bay, swinging, the way the tide swings at the turn, and the wheel goes over with it, slowly, enormously, and the paddles come up out of the pit streaming, and somewhere far above in the rock a chain begins to run. All down the Undercroft the white lamps go out, row by row, as if somebody were walking along them with a snuffer. In the dark, under your hands, the wheel turns.".
+  }
+  // Alone, with skill, and without leave if need be: the Whelm will know who did it.
+  Action start_engine_alone(actor: group, site: place) "Find the engine's catch, and let the tide take the wheel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, engine_room) and knows(actor, undertow_known) and not engineRunning(sennet_bay) and not openedBelow(sennet_bay) and not engineFailed(actor)
+      and (capable(actor, lockwork) or capable(actor, mending) or craft(actor, craft_mechanisms)).
+    Grave "While the engine runs, a day and a night, the Whelm's lamps are out and its air-bells empty.".
+    Time 3.
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Assert engineRunning(sennet_bay). Set engineSince(sennet_bay) to watch(clock). Assert startedAlone(actor). }
+    On failure { Assert engineFailed(actor). }
+    Result "It takes you an hour, in the green light, along the black shafts with your hands, before you find it: a pawl, as long as your arm, holding the whole wheel against the tide, as a finger holds a door. You lift it. The sea takes the wheel. It goes over with a sound you feel in your teeth, and the paddles come up out of the pit streaming, and the white lamps of the Undercroft go out, row by row, all the way along, as if somebody were walking along them with a snuffer.".
+    Otherwise "You find a dozen things that might be the catch, and none of them is, and the wheel stands in its pit, enormous and patient, and does not turn.".
+  }
+  Relation startedAlone(group). Relation engineFailed(group).
+  Rule engine_unwelcome when startedAlone(party) and not engineLeave(party) and not whelmHostile(party) { Assert whelmHostile(party). Retract tolerates(guard, party). Retract admitted(party). }
+  // Everyone in an air-bell when it empties drowns, unless they have breath of their own.
+  Rule bell_empties when engineRunning(sennet_bay) and at(perrin, air_bell) and not perrinDead(party) and not perrinMoved(party) { Assert perrinDead(party). Assert drownedByEngine(party). }
+  Relation drownedByEngine(group).
+  Rule bell_empties_told at air_bell when engineRunning(sennet_bay) and drownedByEngine(party) and not drownTold(party)
+    says "Somewhere above you, through the rock, the air-bells are emptying: you hear them, one after another, a long gulp and a rush of bubbles. One of them is the bell off the Guildhall where Mercy keeps what she caught." { Assert drownTold(party). }
+  Relation drownTold(group).
+  Observe whelm_dark at drowned_street when engineRunning(sennet_bay) "The lamps of the Whelm are out. Chandlers' Row is black, and full of the sound of the merfolk calling to each other in the dark.".
+  Rule engine_stops when engineRunning(sennet_bay) and watch(clock) >= engineSince(sennet_bay) + 144 { Retract engineRunning(sennet_bay). }
+  // The cage, at the foot of the shaft, goes up while the wheel turns, into the Nexus.
+  Action ride_cage(actor: group, site: place) "Step into the Aenean cage, and ride it up the shaft" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shaft_foot) and engineRunning(sennet_bay).
+    Time 3.
+    On success { Assert at(actor, nexus). Assert openedBelow(sennet_bay). Assert doorOpen(sennet_bay). Set openedAt(sennet_bay) to watch(clock). }
+    Result "The cage goes up. It goes up through black rock for a long time, out of the water and into air, cold, then dry, rattling, with the chain running somewhere beside you and the tide working the whole of it from below like a heart; and stops; and the roof of the cage opens like a hatch, and you climb out of the floor of a round room at the top of a tower, beside a door standing by itself with nothing behind it. As you watch, the Door of Doors swings open on its own, pushed from below by the whole weight of the sea, and on the other side of it there is everywhere.".
+  }
+  Observe shaft_waiting at shaft_foot when engineRunning(sennet_bay) "The cage at the foot of the shaft is humming, and its door stands open.".
+}

@@ -1,0 +1,113 @@
+Module sennet "The Grand Tour" {
+  // ── The Plane of Air: the Gallery of Winds ────────────────────────────────────────────────────────────────────────
+  // Every word said in the Air is carried everywhere at once, so nothing is secret there, and nothing is believed.
+  // The sylphs' court gives audience by reputation: the North Wind receives only whoever is most talked of. Whatever
+  // is said in the Gallery is blown down into Cloudgate and Sennet within the hour. The court's petal was given away
+  // two hundred and thirty years ago by the North Wind, Prince Tramontane, to a mortal girl he loved.
+  Entity plane_pandemonium: law "the law of the Air".
+  Initially Assert law(wind_land, plane_pandemonium).
+  Query inAir() means within(party, air_land).
+  Thing air_bar "the bar of the Air Door" on air_door {
+    State sealed blocking "A bar of silver lies across the arch of the Air Door, with the Halyards' seal on it in green wax.".
+    State broken "The bar of the Air Door lies on the grass, and the Halyards' seal is broken.".
+    Change break_seal "Break the Halyards' seal, and lift the bar off the Air Door" from sealed to broken.
+  }
+  Initially Assert keyholder(imogen, air_bar).
+  Rule air_leave when (halyardLeave(party) or travelsWith(aubrey, party) or following(aubrey, party)) and not keyholder(party, air_bar) { Assert keyholder(party, air_bar). }
+  Rule seal_broken when state(air_bar, broken) and not sealBroken(party) says "Somewhere behind you on the Promenade a footman shouts." { Assert sealBroken(party). Increase talk(party) by 1. }
+  Relation sealBroken(group).
+  Observe threshold_air at air_threshold when true "Through the arch, and there is nothing under your feet, and you do not fall. You stand on air, as on a floor of glass that is not there, and below you, a very long way below, cloud, and below the cloud, more sky. Wind goes past you in every direction at once, warm and cold, carrying voices. All the voices are talking about something.".
+  Observe gallery_scene at gallery when true "The Gallery of Winds is a long hall made of nothing, a hall you know is there by the way the wind goes round its pillars. The sylphs of the Air are in it, a great many of them, slight and quick and nearly transparent, talking, all of them, all the time, in voices that go past you and come back from behind. Every word said anywhere in the hall is said everywhere in it a moment later.".
+  Observe gallery_talk at gallery as ambience when inAir() "In the voices going past, you hear, over and over, the same few things: who the Rector of the House of Doors is dining with, what the Mottram boy said about his tailor, and your own name, which nobody here has been told.".
+  Observe eyrie_scene at eyrie when true "The eyrie of the North Wind is the top of the sky: blue going to black, stars in the day, cold enough to hurt. There is nothing here but the wind, and the wind is a person: a tall pale shape with hair of snow streaming from it, who has been looking out over the edge of the world at nothing for a very long time.".
+
+  Person sylphs "the sylphs of the Gallery" at gallery {
+    Role "the sylphs of the Air, a great many, all talking". Ancestry sylph. Numbers 5. Calling mage. Level 3. Peaceable. Pronouns they.
+    Greets "A sylph comes past you, turns round in the air, comes back, and looks at you very close, as a bird does. 'Oh, it's you!' they say. 'We've heard all about you. Have you heard what they're saying about you?' They do not wait for an answer. 'Neither have we. Tell us something.'".
+    Greets again "'It's you!' say the sylphs. 'Tell us something.'".
+  }
+  Initially Assert overhears(sylphs).
+  // What the sylphs hear is down in Cloudgate within the hour, and in Sennet by the next.
+  Relation gossip(entity). Measure gossipAt(entity). Relation blown(entity).
+  Rule gossip_noted when heardOf(sylphs, ?f) and not gossip(?f) { Assert gossip(?f). Set gossipAt(?f) to watch(clock). }
+  Rule gossip_blows when gossip(?f) and not blown(?f) and watch(clock) >= gossipAt(?f) + 6 {
+    Assert blown(?f). Assert heardOf(quance, ?f). Assert heardOf(imogen, ?f). Assert heardOf(aubrey, ?f). Assert heardOf(florian, ?f). }
+  Rule gossip_heard within cloudgate when gossip(?f) and blown(?f) and not gossipHeard(?f) and within(party, cloudgate)
+    says "A wind comes down out of the clear sky over Cloudgate, cold, smelling of snow, and every window on the Promenade bangs at once; and in the wind, very small and very fast, voices, telling it to everyone in the street." { Assert gossipHeard(?f). }
+  Relation gossipHeard(entity).
+  Topic sylphs_petal with sylphs "Ask the sylphs about the Air petal of the Rose" when true once {
+    Says "'Oh, that!' They are delighted. It is the oldest thing in the Air to talk about and they talk about it. 'Tramontane gave it away! The North Wind! To a girl! A mortal girl from the Sennet side, Ysabeau, with red hair, two hundred and thirty years ago, they talked all one summer up in his eyrie and he gave her the petal for a keepsake, the court's own petal, imagine, and she took it home and set it in the bottom of her hill and lifted her whole family into the sky with it.' They go round you, faster. 'And the sea came in. And she never came back. And he's been blowing cold ever since, haven't you noticed, the north wind, it's cold, it's because of her.' They come close. 'It's still there! In the hill! Holding them up! Everyone knows! Nobody ever says!'".
+    On discuss { Assert knows(actor, keel_petal). Assert knows(actor, tramontane_story). }
+  }
+  Discovery tramontane_story "Prince Tramontane, the North Wind, gave the Air court's petal to Ysabeau Halyard, a red-haired girl from Sennet he loved, two hundred and thirty years ago, after a summer in his eyrie. She set it in the keel of her hill and lifted it into the sky, and never came back. The sylphs say he has blown cold ever since.".
+  Topic sylphs_audience with sylphs "Ask the sylphs how you might be received by the North Wind" when true once {
+    Says "'You have to be talked about!' They seem to think this obvious. 'He only sees whoever's most talked of. Everybody's talking about the Rector this week, and the Mottram boy, and before that it was a goat.' They consider you. 'You're hardly talked about at all. Do something! Do something in Cloudgate, everybody listens to Cloudgate. Or tell us something, and we'll talk about you telling us.' They laugh, a sound like a flute with a crack in it. 'Something true, preferably. We can't tell the difference, but it's more fun.'".
+    On discuss { Assert knows(actor, talked_of). }
+  }
+  Discovery talked_of "The North Wind receives only whoever is most talked of in the Air. Something done in Cloudgate is talked of there; so is anything told to the sylphs, who carry it down into Cloudgate and Sennet within the hour.".
+  Topic sylphs_self with sylphs "Tell the sylphs one true thing about yourself" when not toldSelf(actor) once {
+    Says "You tell them. You do not know why you choose the thing you choose; it is the first true thing that comes. They listen, all of them, perfectly still for once, and then they take it away with them in every direction at once, and a moment later it comes back to you from behind, said in a hundred voices, and it sounds, said by them, like something worth having said.".
+    On discuss { Assert toldSelf(actor). Increase talk(actor) by 1. }
+  }
+  Relation toldSelf(group).
+  Topic sylphs_alive with sylphs "Tell the sylphs that Perrin Halyard is alive" when knows(actor, perrin_alive) and not heardOf(sylphs, perrin_alive) once {
+    Grave "Whatever is said in the Gallery is down in Cloudgate within the hour, and in Sennet, and in the House of Doors.".
+    Says "There is a silence in the Gallery of Winds, which has not happened in living memory. Then the sylphs scream, all of them, with joy, and are gone in every direction at once, down, down, toward the cloud and the hill and the city, telling it.".
+    On discuss { Assert heardOf(sylphs, perrin_alive). Assert toldAlive(actor). Increase talk(actor) by 2. }
+  }
+  Topic sylphs_pushed with sylphs "Tell the sylphs that it was the Rector of the House of Doors who pushed Perrin Halyard" when knows(actor, quance_pushed) and not heardOf(sylphs, quance_pushed) once {
+    Grave "Whatever is said in the Gallery is down in Cloudgate within the hour, and in Sennet, and in the House of Doors.".
+    Says "The sylphs do not believe it; they never believe anything. But they have never in their lives had anything so good to not believe. They go out of the Gallery like a flock of starlings off a field.".
+    On discuss { Assert heardOf(sylphs, quance_pushed). Assert heardOf(sylphs, perrin_alive). Assert toldAlive(actor). Increase talk(actor) by 3. }
+  }
+  Topic sylphs_keel with sylphs "Tell the sylphs, out loud, that the Air petal is in the keel of Cloudgate" when knows(actor, keel_petal) and not heardOf(sylphs, keel_petal) once {
+    Says "'We know!' they cry, all of them, enchanted. 'But nobody's ever said it! Out loud! In the Gallery!' And they are off, saying it, out loud, in every direction, all the way down.".
+    On discuss { Assert heardOf(sylphs, keel_petal). Increase talk(actor) by 2. }
+  }
+
+  // ── Prince Tramontane, the North Wind ─────────────────────────────────────────────────────────────────────────────
+  Passage eyrie_rise "the updraught" is path between gallery and eyrie taking 5 minutes
+    opening when talk(party) >= 3 or following(imogen, party) "The north wind will not let you up: it puts you back down in the Gallery like a leaf. The sylphs say he receives only whoever is most talked of.".
+  Person tramontane "Tramontane" at eyrie {
+    Role "the North Wind, a prince of the Air, with hair of snow". Ancestry sylph. Calling mage. Trait conjurer. Level 10. Peaceable. Pronouns he. Manner grim.
+    Wants air_petal_kind. Wants ysabeau_letter_kind.
+    Greets "The tall pale shape turns from the edge of the world, slowly, and looks at you, and you are cold to the bone. 'They talk of you,' says the North Wind. His voice is the sound of a wind round a house at night. 'Down there, and up here. So you are let up.' He looks at you longer. 'You have come from Sennet. You smell of the sea.' And then, after a long time: 'Is it still there? The hill?'".
+    Greets again "The North Wind turns his head to you, and the cold comes with it.".
+  }
+  Relation tramontaneHeard(group).
+  Topic tramontane_ysabeau with tramontane "Tell the North Wind the hill is still there, and ask him about Ysabeau" when true once {
+    Says "He is silent so long the stars move. 'She came up through the arch at seventeen, on a dare, with her skirts tied up, and stood on nothing, and was not afraid. Nobody had come up for a hundred years.' The wind goes round you, softer. 'We talked a summer. I was four hundred; I was young. At the end of it she said, give me something to remember you by, and I gave her the petal. The court's petal. I had no right.' His face does not change. 'She went home and set it in the bottom of her family's hill and lifted them into the sky above the smell of fish. And the sea came in under them, and her people's people drowned in their beds. And she never came back up the arch. Not once.' He looks at the edge of the world. 'She used it as a lever. I gave her my heart and she used it as a lever.' A pause. 'I have blown cold since. You will have noticed.'".
+    On discuss { Assert tramontaneHeard(tramontane). Assert knows(actor, tramontane_story). Assert knows(actor, keel_petal). }
+  }
+  Topic tramontane_want with tramontane "Ask the North Wind whether he wants the petal back" when tramontaneHeard(tramontane) once {
+    Says "'Want.' He tries the word as if it were in another language. 'The court wants it back. The court has wanted it back for two hundred years; it is the court's.' He looks at you. 'I want her to have meant it.' The cold deepens. 'Bring it back, and I will take it, and her hill will go down into the sea where it came out, and that is justice, I suppose. Or bring me something that says she meant it, and I will let it be what it was, a keepsake, and let it hold up her house as long as it likes.' He turns back to the edge of the world. 'I do not know which I would rather. Bring me one or the other.'".
+    On discuss { Assert knows(actor, tramontane_terms). }
+  }
+  Discovery tramontane_terms "The North Wind will take the Air petal back, and let Cloudgate go down into the sea; or, brought something to show that Ysabeau loved him, he will let the petal be a keepsake still, and hold up her house as long as it likes.".
+  // Ysabeau's letter, or a Halyard come to say they are sorry: the gift renewed.
+  Event letter_read near tramontane when keeps(tramontane, ysabeau_letter) and not giftRenewed(sennet_bay) "The North Wind reads it. It is two lines; he reads it for a long time. Then his face, which has not changed since you came up, changes, and the cold goes out of the eyrie all at once like a held breath let go, and somewhere far below, over Sennet, in June, it begins to snow: big soft flakes out of a clear sky, falling on the Quay and the glass-houses and the bay and on Cloudgate, settling on the orange trees. 'Remember me,' says Tramontane. 'She said that.' He folds the letter very small. 'Then let her house keep what I gave her. Tell them it is a keepsake. Tell them it is not theirs.' He looks at you. 'And tell them the North Wind is sorry about the sea.'" then {
+    Assert giftRenewed(sennet_bay). }
+  Event halyard_sorry near tramontane when at(party, eyrie) and (following(imogen, party) and imogenSorry(imogen)) and not giftRenewed(sennet_bay) "Lady Imogen Halyard stands on nothing at the top of the sky in her black lace, with her chin up, and says to the North Wind what nobody of her name has said in two hundred and thirty years: that her family took what it was given in love and used it as a lever, and let the sea in on its neighbours, and never once came back to say so; and that she is sorry. Her voice does not shake until the last word. The North Wind looks at her a long time. 'You have her chin,' he says. And somewhere far below, over Sennet, in June, it begins to snow." then {
+    Assert giftRenewed(sennet_bay). Retract following(imogen, party). Assert at(imogen, drawing_room). }
+  Event petal_home near tramontane when keeps(tramontane, air_petal) and not airHome(sennet_bay) "The North Wind takes the petal, and it stops pulling upward in his hand, and lies still, as if it had come to the end of a long way. 'Home,' he says. He closes his hand on it. 'You know what it held up.' He does not ask; he is not a person who asks. 'Then it is done, and it was not mine to do.' He looks down, through the cloud, toward the place where the hill was." then {
+    Assert airHome(sennet_bay). }
+  Relation airHome(place).
+  // A breath of him, for Prue's furnace; given if asked, or caught in a jar.
+  Kind feather_kind "a feather of the North Wind" is gear worth 0 weighing -1 granting climbing described "A long white feather, cold to the touch, that lifts a little toward the sky when you open your hand. Whoever carries it does not fall: they come down, wherever they come down, like a leaf.".
+  Item north_feather "a feather of the North Wind" is feather_kind at offstage.
+  Item north_jar "a jar of the North Wind" is north_wind_kind at offstage.
+  Topic tramontane_jar with tramontane "Ask the North Wind for a breath of himself in a jar, for a glass-blower in Lamp Street" when tramontaneHeard(tramontane) and holding(actor, wind_jar_kind) and at(north_jar, offstage) once {
+    Says "'For a glass-blower.' Something that might once have been a smile goes over the North Wind's face. 'To make another petal. To set in her hill in place of mine, so that mine can come home and her house stay up.' He considers the idea as if he had never met one before. 'That is the first new thing anybody has said to me in two hundred years.' He breathes into the jar. Frost grows inside the glass in ferns. He stops it himself, with one cold finger.".
+    On discuss { Spend wind_jar_kind from actor. Give north_jar to actor. }
+  }
+  Action catch_wind(actor: group, site: place) "Unstop the empty wind-jar and hold it up into the North Wind" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, eyrie) and holding(actor, wind_jar_kind) and at(north_jar, offstage).
+    Time 1 minute.
+    On success { Spend wind_jar_kind from actor. Give north_jar to actor. }
+    Result "The North Wind gets into the jar the way it gets into everything, and you stop it, and the glass goes white with frost in your hands and pulls a little upward. The tall pale shape at the edge of the world does not turn round.".
+  }
+  Topic tramontane_feather with tramontane "Ask the North Wind what he will give whoever brings his gift home" when knows(actor, tramontane_terms) and (airHome(sennet_bay) or giftRenewed(sennet_bay)) and at(north_feather, offstage) once {
+    Says "He takes a feather out of the air, or out of himself; it is hard to tell. 'Carry this,' he says. 'Whoever carries it does not fall.' He gives it you. 'It seemed to me a thing somebody in your city should have.'".
+    On discuss { Give north_feather to actor. }
+  }
+}

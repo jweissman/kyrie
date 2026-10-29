@@ -1,0 +1,67 @@
+Module sennet "The Grand Tour" {
+  // ── The Night of Lanterns ─────────────────────────────────────────────────────────────────────────────────────────
+  // Ascension Day: the fourth night. On the Promenade, Cloudgate keeps the Lifting: a band, the Dowager's toast, the
+  // dancing, and at half past ten a thousand paper lanterns loosed off the rim into the dark. Below, on the black water
+  // of the bay, the harbour keeps the Whelming with candles. From the Balustrade, if you look down through the hole in
+  // the cloud, you can see both at once.
+  Occasion lanterns "the Night of Lanterns" at promenade when lanternNight() {
+    Matter guests "Cloudgate's guests come up through the cloud in basket after basket, in pale silk, and walk along the Promenade under strings of paper lanterns not yet lit." for 30 minutes.
+    Matter toast "The band stops. The Dowager Lady Halyard stands on the steps of Halyard House in black, with a glass, and Cloudgate falls silent for the toast to the Lifting." for 30 minutes.
+    Matter dancing "The band strikes up a reel, and Cloudgate dances on the gravel of the Promenade under the stars, which up here are enormous." for 90 minutes.
+    Matter loosing "Half past ten. Every house in Cloudgate brings out its lanterns, a thousand of them, paper, lit, and at a sign they are let go off the rim of the Promenade into the dark, all at once, and go up." for 30 minutes.
+    Matter supper "Supper is laid in the drawing room of Halyard House, under the portraits." for 60 minutes.
+    Closes "The band packs up. The last lanterns are very small and very high. Cloudgate goes to bed in the starlight.".
+  }
+  Observe lantern_toast at promenade when matterOpen(toast) "The Dowager raises her glass. 'To Ysabeau,' she says, 'who lifted us up out of the damp.' Cloudgate drinks. The Rector of the House of Doors, among the guests in her gown of four colours, drinks too, and catches your eye over the rim of the glass, and smiles.".
+  Observe lantern_dancing at promenade when matterOpen(dancing) "Couples go by on the gravel, turning. Aubrey Halyard dances with nobody and drinks with everybody. Florian Mottram dances very badly with Miss Sone, who leads.".
+  Observe lantern_loosing at promenade when matterOpen(loosing) "The lanterns go up off the rim of Cloudgate in a single breath, a thousand, gold, turning slowly, rising into a sky so black and full of stars that it looks like the inside of a bell; and the whole of Cloudgate stands with its face turned up, silent, while they go.".
+  Observe candles_below at balustrade when lanternNight() "Far below, through a hole in the cloud, on the black water of the bay, there is another field of lights: small, steady, low, a thousand of them, drifting. The harbour's candles for the Whelming, set on the water for the lower town.".
+  Observe candles_quay at quay when lanternNight() "The harbour is on the Quay with candles, every one of them, in jars and in eggshells and in hollowed loaves, and is setting them on the water one at a time, saying names, so that the bay below Cloudgate is covered with small lights going out with the tide. Overhead, in the black above the cloud, Cloudgate's lanterns are going up.".
+  Observe candle_bethan at quay when lanternNight() and bethanAtPeace(bethan) "Old Bethan sets one candle on the water, in an eggshell, and says 'Ned Saltash,' and goes home to bed.".
+  Relation danced(group). Relation candlesTold(group).
+
+  // ── A dance ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  Topic dance_fabian with fabian "Ask Fabian Murrey to dance" when matterOpen(dancing) and fondness(fabian) >= 3 and not danced(fabian) once {
+    Says "He looks at you as if you had asked him to step off the Balustrade. 'I don't. I can't. I've never.' Then he puts his notebook in his pocket, and his pencil behind his ear, where there is one already, and takes your hand. He is a very bad dancer and does not tread on you once. Halfway down the Promenade, under the paper lanterns, he says, not looking at you, 'I've written down every place I've been with you. I haven't written down this.' And you go round again.".
+    On discuss { Assert danced(fabian). Increase fondness(fabian) by 1. Increase talk(party) by 1. }
+  }
+  Topic fabian_beloved with fabian "Tell Fabian Murrey what he is to you" when fondness(fabian) >= 5 and danced(fabian) and not beloved(fabian) once {
+    Says "He hears you out, standing very still, with the pencil stopped over his notebook; and when you have finished he puts the pencil down. 'I have written,' says Fabian Murrey, 'four hundred pages about places, and not one line about a person, because Grandmother said people were not what a guidebook is for.' He looks at you. 'She was wrong about the Hour Court. She was wrong about the keel.' He takes your hand, as he did on the Promenade, quite formally, as if he had been taught it out of a book. 'I think she may have been wrong about that too.'".
+    On discuss { Assert beloved(fabian). }
+  }
+
+  // ── Mercy sees them go up ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule mercy_lanterns at promenade when mercyAloft(mercy) and following(mercy, party) and at(party, promenade) and matterOpen(loosing) and not mercySawLanterns(mercy)
+    says "Mercy, in her water-butt on its barrow at the rim of the Promenade, with her chin on the edge and her hair in wet ropes down the staves, watches the lanterns go up. A thousand of them, alive, gold, turning. She does not make a sound. Her gills are quite still. Round her the whole of Cloudgate has turned from the lanterns to look at her, a mermaid on the Promenade on the Night of Lanterns, and she does not notice any of it. When the last of them is only a star she says, to nobody, 'They go up.' And then, louder, and you realise she is speaking to the Dowager, who is standing three feet from the barrow in her black lace with a glass in her hand: 'I caught your son. Out of the sky. He's in my air-bell with his leg broke, eating fish. He says to say he isn't coming home, and he says to say he's sorry about the coffin.'" {
+    Assert mercySawLanterns(mercy). Increase talk(party) by 3. Assert imogenMetMercy(imogen). Assert heardOf(imogen, perrin_alive). Assert heardOf(quance, perrin_alive). Assert heardOf(florian, perrin_alive). Assert toldAlive(party). }
+  // A ring, to show she is telling the truth: his signet, which she wears on her thumb.
+  Rule imogen_ring at promenade when mercySawLanterns(mercy) and imogenMetMercy(imogen) and not imogenBelieves(imogen) and at(imogen, promenade)
+    says "The Dowager does not move. Then Mercy holds up her hand out of the water, and on her thumb, too big for any finger, is a ring: gold, with a hill on a hand cut in the stone. Lady Imogen Halyard looks at it. The glass goes out of her fingers and breaks on the gravel, and she does not look down at it. She looks at the girl in the butt for a long time, and then, as if every bone in her had been told to, she kneels on the gravel of the Promenade in her black lace, in front of Cloudgate, so that her face is level with the mermaid's, and takes the wet hand with the ring on it in both of hers. 'Thank you,' she says. That is all. Nobody on the Promenade has ever seen her kneel." {
+    Assert imogenBelieves(imogen). }
+  Rule mercy_home_after when mercySawLanterns(mercy) and following(mercy, party) and (day(clock) >= 5 or hour(clock) < 5) {
+    Retract following(mercy, party). Retract mercyUp(mercy). Assert at(mercy, air_bell). Retract mercyAloft(mercy). }
+
+  // ── What the Dowager comes to ─────────────────────────────────────────────────────────────────────────────────────
+  // Her son alive, and the girl who saved him, and the candles on the water for the people her family drowned.
+  Topic imogen_candles with imogen "Tell Lady Halyard what the harbour is setting on the water tonight, and for whom" when knows(actor, lifting_known) and lanternNight() and not imogenShamed(imogen) once {
+    Says "'Candles,' she says. 'I know.' She does not look toward the Balustrade. 'We have always known. We say that it is very pretty, from up here.' She is silent a long time. 'My great-great-grandmother's people's people,' she says at last, very low, 'drowned in their beds so that she could be above the smell of fish. And every year they light candles for them, and we stand up here and drink to her.' She puts her glass down on the rim of the Balustrade, untouched. 'I have never once in my life,' says Lady Halyard, 'gone down to the Quay on this night.'".
+    On discuss { Assert imogenShamed(imogen). }
+  }
+  Topic imogen_alive_shown with imogen "Tell Lady Halyard that her son is alive, and show her his letter in his own hand" when knows(actor, perrin_alive) and carries(actor, mother_letter) and not imogenBelieves(imogen) once {
+    Says "She reads the first line and her face does not change, and she reads the rest, and her face does not change, and she folds it up very small and holds it in her fist against her chest, and stands like that, quite still, in the middle of her drawing room under all the portraits. 'He writes like his father,' she says. 'Abominably.' She does not cry. She says, after a long time, 'Where?' and when you tell her, 'Under the sea,' she shuts her eyes. 'With a girl of the sea-folk. Who caught him.' She opens them. 'Then I owe a girl of the sea-folk my son.'".
+    On discuss { Assert imogenBelieves(imogen). Assert heardOf(imogen, perrin_alive). Assert toldAlive(actor). }
+  }
+  Kind mother_letter_kind "Perrin's letter to his mother" is gear worth 0 weighing 0 described "A page torn from a drowned book, written over in pencil in a quick, untidy hand: Mother, I am alive, I am sorry about the coffin, it was not Aubrey, I am very happy, please do not come. A girl caught me. Her name is Mercy. Be kind to her if you ever meet her, which you won't. P.".
+  Item mother_letter "Perrin's letter to his mother" is mother_letter_kind at offstage.
+  Topic perrin_mother with perrin "Ask Perrin Halyard to write to his mother" when perrinWrote(perrin) and not carries(actor, mother_letter) and at(mother_letter, offstage) once {
+    Says "He groans. 'Must I?' But he is already tearing out another page. He writes it quickly and badly, crosses out a line, writes it again. 'Tell her not to come down,' he says, giving it you. 'She'd bring a footman.'".
+    On discuss { Give mother_letter to actor. }
+  }
+  Rule imogen_turns when imogenBelieves(imogen) and (imogenMetMercy(imogen) or imogenShamed(imogen)) and not imogenSorry(imogen) { Assert imogenSorry(imogen). }
+  Topic imogen_go_up with imogen "Ask Lady Halyard to come up through the Air Door with you, and say it to the North Wind herself" when imogenSorry(imogen) and knows(actor, tramontane_story) and not giftRenewed(sennet_bay) and not following(imogen, party) once {
+    Says "'To the North Wind.' She looks at the portrait of the lady in green. 'To say that we are sorry. Two hundred and thirty years late.' Her mouth moves, very slightly. 'Halyards are always late; it is a mark of breeding.' She gets her shawl. 'Very well. Now, before I think better of it. And you will not tell anyone that I was frightened on the stair.'".
+    On discuss { Assert following(imogen, party). }
+  }
+  // She opens the Air Door herself, who keeps its seal.
+  Rule imogen_opens when following(imogen, party) and not keyholder(party, air_bar) { Assert keyholder(party, air_bar). }
+}

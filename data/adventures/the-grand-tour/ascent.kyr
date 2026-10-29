@@ -1,0 +1,91 @@
+Module sennet "The Grand Tour" {
+  // ── The Ascent ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // One way up to Cloudgate for a person who cannot climb two hours of chain: the basket, wound up the anchor chain
+  // by four capstans in the winch-house, sixty men and women on the bars in shifts, under Mother Kittiwake. Five coin
+  // a head by day. At dawn the laundry of Cloudgate goes up (Cloudgate has no water to wash in) and whoever carries a
+  // hamper rides with it. Down is free: nobody, Mother Kittiwake says, has ever been charged for coming down to earth.
+  Observe yard_scene at ascent_yard when true "The anchor chain comes down out of the cloud into the middle of the yard, each link the size of a door, and goes into the ground through an iron collar on a granite block the size of a house, and the whole yard hums with it, very low, the way a church does after the organ has stopped. Beside it the winch-house, all doors and chimneys, smoking.".
+  Observe yard_chain at ascent_yard when not descending(sennet_bay) and not cloudgateFell(sennet_bay) "Looking straight up the chain you lose it in the cloud a long way up, and above the cloud, very small, very sunlit, the underside of Cloudgate.".
+  Observe winch_scene at winch_floor when true "The winch-house: four capstans as big as merry-go-rounds, each with fifteen bars and fifteen people on them, walking round and round in a thunder of boots and chain, singing. In the middle of the floor the basket waits on its hook, a wicker thing the size of a cart with a bench in it and a rail round it, and a slate hanging off the rail: UP 5 COIN. DOWN FREE. NO DOGS.".
+  Observe winch_strike at winch_floor when strike(sennet_bay) "The capstans stand still. The bars are leant against the wall, and the gang sits on the floor round them playing cards, very loudly, so that it can be heard up the chain.".
+
+  Person kittiwake "Mother Kittiwake" at winch_floor {
+    Role "the master of the winch-gang, with a voice like a foghorn". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "A woman built like a capstan herself, in a leather apron with a bosun's whistle on a chain, looks you up and down. 'UP OR DOWN?' she says, at a volume meant for the far side of the bay, and then, at a normal one, seeing you flinch: 'Sorry, love. Twenty years in here. Up's five. Down's free. Nobody's ever been charged for coming down to earth.'".
+    Greets again "'UP OR DOWN?' says Mother Kittiwake, cheerfully.".
+  }
+  Relation gangFriend(group). Relation strike(place). Relation strikeSettled(place). Relation laundryHand(group).
+  Rule kittiwake_day when hour(clock) >= 5 and hour(clock) < 22 and not at(kittiwake, winch_floor) { Assert at(kittiwake, winch_floor). }
+  Rule kittiwake_night when (hour(clock) >= 22 or hour(clock) < 5) and not at(kittiwake, offstage) { Assert at(kittiwake, offstage). }
+  Query basketRuns() means hour(clock) >= 5 and hour(clock) < 22 and not strike(sennet_bay) and not descending(sennet_bay) and not cloudgateFell(sennet_bay).
+  Action ride_up(actor: group, site: place) "Pay five coin and go up in the basket" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, winch_floor) and basketRuns() and not gangFriend(actor) and quantity(actor, gold) >= 5.
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(kittiwake, gold) by 5. Assert at(actor, landing_stage). }
+    Result "You sit on the bench. Mother Kittiwake blows her whistle and the capstans start to walk, and the floor drops away, and the roof, and the winch-house is a box of noise under you, and the city a map, and the bay a plate, and then the cloud comes down over all of it, white, cold, wet, for a long time, nothing but the chain going up beside you link by link like a ladder in a dream. And then you come up out of it into the sun. It is the middle of a fine afternoon up here, whatever it is down there, and Cloudgate is over your head with its gardens hanging over the edge, and the basket comes up through a hole in the Landing Stage like a bucket out of milk.".
+  }
+  Action ride_up_free(actor: group, site: place) "Go up in the basket, a friend of the gang" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, winch_floor) and basketRuns() and gangFriend(actor).
+    Time 3.
+    On success { Assert at(actor, landing_stage). }
+    Result "'Mind your heads,' says Mother Kittiwake, and blows the whistle, and the gang sings you up through the cloud.".
+  }
+  Query laundryHour() means hour(clock) >= 5 and hour(clock) < 8.
+  Action ride_laundry(actor: group, site: place) "Carry a hamper of Cloudgate's laundry up in the dawn basket" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, winch_floor) and laundryHour() and basketRuns().
+    Time 3.
+    On success { Assert at(actor, landing_stage). Assert laundryHand(actor). }
+    Result "Nobody asks who you are. A girl hands you a wicker hamper with HALYARD stencilled on the lid, smelling of starch, and you go up with nine laundresses and forty hampers through the cloud in the grey of the early morning, and at the top, in sudden gold light, a footman in a green coat is waiting on the Landing Stage with a list, and ticks off your hamper without looking at your face.".
+  }
+  Action ride_down(actor: group, site: place) "Go down in the basket" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, landing_stage) and basketRuns().
+    Time 3.
+    On success { Assert at(actor, winch_floor). }
+    Result "Down through the sun, and the cloud, and out of the bottom of the cloud into Sennet's weather, whatever it is, with the bay coming up at you and the capstans' thunder coming up through the floor of the basket, until you are set down on the winch-house floor and somebody unhooks you.".
+  }
+  // In the Halyards' laundry, by the back way: the servants' hall takes in its hampers, and nobody looks at whoever
+  // carries one.
+  Action laundry_in(actor: group, site: place) "Carry the Halyards' hamper round to the servants' hall" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, landing_stage) and laundryHand(actor) and laundryHour().
+    Time 1.
+    On success { Assert at(actor, servants_hall). Retract laundryHand(actor). }
+    Result "Round the back of the Promenade, down an area, through a green door, into a stone-flagged hall with a long table and a fire, where a cook takes the hamper off you and gives you a cup of tea for your trouble without asking your name.".
+  }
+  Rule laundry_done when laundryHand(party) and not laundryHour() { Retract laundryHand(party). }
+
+  // ── The capstan ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Action work_capstan(actor: group, site: place) "Put your shoulder to a capstan bar for a shift" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, winch_floor) and at(kittiwake, site) and openHours() and not gangFriend(actor) and not strike(sennet_bay).
+    Time 18.
+    On success { Assert gangFriend(actor). }
+    Result "Mother Kittiwake looks at you as if you had offered to marry her, and then puts you on number three capstan between a boy of fourteen and a woman of seventy who walks you off your feet. You walk round. You walk round. The chain goes up and comes down; baskets of Tourists go up, baskets of laundry come down; the gang sings, the same song, which is about a girl in Cloudgate who dropped her garter and what became of the man it hit. At the end of the shift your legs have stopped belonging to you, and Mother Kittiwake slaps you on the back hard enough to loosen a tooth. 'You'll go up free,' she says. 'Whenever you like. You've earned it the hard way, which is the only way up that's honest.'".
+  }
+  Topic kittiwake_halyards with kittiwake "Ask Mother Kittiwake how the gang gets on with Cloudgate" when true once {
+    Says "'Cloudgate pays by the basket. The Halyards pay, being the first family, and the rest pay the Halyards.' She spits, accurately, into a bucket. 'Since the boy fell, the Dowager's docked us. A third. Mourning economies, says her steward. They've stopped the laundry going up twice a week and the coal going up and our pay going down, and the wine still goes up every morning, I notice.' She folds her arms. 'Ascension Day's the fourth day. They'll want every basket running for their lanterns. If we've not had our third by noon on Ascension Day, the gang sits down.'".
+    On discuss { Assert knows(actor, strike_coming). }
+  }
+  Discovery strike_coming "Since Perrin Halyard fell, the Dowager of Cloudgate has docked the winch-gang's pay by a third. Unless it is paid back by noon on Ascension Day, the fourth day, Mother Kittiwake's gang will sit down and the basket stop.".
+  Rule strike_begins when day(clock) == 4 and hour(clock) >= 12 and not strikeSettled(sennet_bay) and not strike(sennet_bay) and not strikeOver(sennet_bay)
+    says "At noon a long horn blows from the winch-house at the foot of the Ascent, and goes on blowing, and then stops; and the chain, which has hummed all your time in Sennet, is silent. The winch-gang has sat down." {
+    Assert strike(sennet_bay). }
+  Relation strikeOver(place).
+  // Cloudgate holds out for six hours, and then it runs out of clean shirts for the Lanterns.
+  Rule strike_ends when strike(sennet_bay) and day(clock) == 4 and hour(clock) >= 18
+    says "At six in the evening the Halyards' steward comes down the chain on a bosun's chair, which nobody has seen a steward do before, with a purse. Cloudgate has run out of clean shirts for the Lanterns. The horn blows again, short, and the chain starts to hum." {
+    Retract strike(sennet_bay). Assert strikeOver(sennet_bay). }
+  Topic kittiwake_paid with kittiwake "Pay Mother Kittiwake the gang's third out of your own purse, twenty coin" when knows(actor, strike_coming) and not strikeSettled(sennet_bay) and not strikeOver(sennet_bay) and quantity(actor, gold) >= 20 once {
+    Says "She looks at the coins in her hand for a long moment. 'From you,' she says. 'Well.' She weighs them. 'Then it's the Halyards owe you, not us. That's better. That's a lot better.' She blows the whistle. 'BACK ON THE BARS. WE'VE BEEN PAID BY A STRANGER.' The gang cheers, and looks at you, and the look is the look of sixty people who will remember your face.".
+    On discuss { Decrease quantity(actor, gold) by 20. Increase quantity(kittiwake, gold) by 20. Assert strikeSettled(sennet_bay). Assert gangFriend(actor). Retract strike(sennet_bay). }
+  }
+  // Or the Dowager is brought to pay it, by someone she will hear (cloudgate.kyr); either way the gang knows who.
+  Rule strike_settled_up when strikeSettled(sennet_bay) and strike(sennet_bay) { Retract strike(sennet_bay). }
+
+  // ── The night Perrin fell ─────────────────────────────────────────────────────────────────────────────────────────
+  // The winch-gang knows who went up and who came down, and when, because it carried them. It does not tell
+  // Cloudgate's business to anyone who has not walked a shift, or put money in the gang's hand.
+  Topic kittiwake_night with kittiwake "Ask Mother Kittiwake who came down the night Perrin Halyard fell" when gangFriend(actor) and heardFall() once {
+    Says "She stops the capstan with a blast of the whistle and comes close, and for once her voice is not much more than an ordinary voice. 'The Rector,' she says. 'Magistra Quance, in her gown, with her chain on. She went up on the seven o'clock with all the House for the Halyards' do, and the House came down at nine, all of them, except her. She came down on the eleven o'clock. Alone. That was after the bells, and the shouting up there, and the fog.' She looks at her own hands. 'She gave me a crown. A crown, for the basket, that's free going down. And her hand was shaking so, she dropped it, and I picked it up for her.' She straightens. 'I put it down to the height. Everybody shakes, coming down off that rock after a death.' A pause. 'I'd not say it to anybody that hadn't walked my bars.'".
+    On discuss { Assert knows(actor, late_basket). }
+  }
+  Discovery late_basket "On the night Perrin Halyard fell, the Rector, Magistra Quance, did not come down from Cloudgate on the nine o'clock basket with the rest of the House, but alone on the eleven o'clock, after the fall, and tipped Mother Kittiwake a crown for a basket that is free going down, with a hand that shook so that she dropped it.".
+}

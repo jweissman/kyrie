@@ -1,0 +1,131 @@
+Module sennet "The Grand Tour" {
+  // ── The Door of Doors ─────────────────────────────────────────────────────────────────────────────────────────────
+  // A door standing by itself in the Nexus, with a rose of four hollows in its boss. Set all four petals and turn the
+  // Rose, and it opens on anywhere; or start the tide-engine under the Whelm, and it is pushed open from below
+  // (undertow.kyr). Whoever is first through it is the Doorward: from the Nexus, the Door opens for them on any town
+  // they have stood in; and from any door in the world, knocked on three times, they can step back into the Nexus.
+  Relation socketed(entity). Measure socketCount(place). Relation doorward(group). Relation rectorMeansFirst(group).
+  Action set_fire(actor: group, site: place) "Set the Fire petal in the rose of the Door of Doors" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and carries(actor, fire_petal) and not socketed(fire_petal).
+    Time 1 minute.
+    On success { Spend fire_petal_kind from actor. Assert socketed(fire_petal). Increase socketCount(nexus) by 1. }
+    Result "It goes into its hollow in the boss with a click, and the light in it moves, and the door, which has been only a door, is warm under your hand.".
+  }
+  Action set_earth(actor: group, site: place) "Set the Earth petal in the rose of the Door of Doors" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and carries(actor, earth_petal) and not socketed(earth_petal).
+    Time 1 minute.
+    On success { Spend earth_petal_kind from actor. Assert socketed(earth_petal). Increase socketCount(nexus) by 1. }
+    Result "It goes in heavily, with a sound like a stone settling in a wall, and the door's frame stands a little more firmly on the floor, as if it had grown roots.".
+  }
+  Action set_water(actor: group, site: place) "Set the Water petal in the rose of the Door of Doors" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and carries(actor, water_petal) and not socketed(water_petal).
+    Time 1 minute.
+    On success { Spend water_petal_kind from actor. Assert socketed(water_petal). Increase socketCount(nexus) by 1. }
+    Result "It goes in wet, and the sound of the sea in it fills the round room for a moment, and the boards of the door darken, as if a wave had gone over them.".
+  }
+  Action set_air(actor: group, site: place) "Set the Air petal in the rose of the Door of Doors" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and carries(actor, air_petal) and not socketed(air_petal).
+    Time 1 minute.
+    On success { Spend air_petal_kind from actor. Assert socketed(air_petal). Increase socketCount(nexus) by 1. }
+    Result "It goes into its hollow pulling upward, and stops pulling, and a cold wind comes out from under the door, smelling of snow.".
+  }
+  Action turn_rose(actor: group, site: place) "Turn the Rose" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and socketCount(nexus) >= 4 and not doorOpen(sennet_bay).
+    Grave "The Door of Doors has not been opened in two hundred years. Opened, it is open.".
+    Time 1 minute.
+    On success { Assert doorOpen(sennet_bay). Assert roseMade(sennet_bay). Set openedAt(sennet_bay) to watch(clock). }
+    Result "You put your hand on the boss and turn it, and it turns, the four petals going round together like the hands of a clock, and the Door of Doors opens. On the other side of it there is no room. There is everywhere. You see the coast road, and the Glass Market, and the Hour Court burning, and the inside of the Slow Assembly, and the eyrie of the North Wind, and a street in a town a long way off where it is raining, and a kitchen you have never seen with a woman in it singing, and a beach, and the moon, close, and all of them are there at once and each of them is the only one, and the wind of all of them comes through the doorway into the Nexus and lifts your hair.".
+  }
+  Observe door_open at nexus when doorOpen(sennet_bay) "The Door of Doors stands open in the middle of the round room, and through it, everywhere: the coast road, the Hour Court, a beach, the moon, a kitchen with a woman singing, all of them at once and each the only one. A wind comes through it that smells of every weather.".
+  Observe door_shut at nexus when not doorOpen(sennet_bay) and socketCount(nexus) >= 1 "In the rose on the boss of the Door of Doors, {socketCount(nexus)} of the four hollows have their petals.".
+  Action step_through(actor: group, site: place) "Step through the Door of Doors, first" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and doorOpen(sennet_bay) and not firstThrough(actor) and not rectorThrough(quance).
+    Time 1.
+    On success { Assert firstThrough(actor). Assert doorward(actor). }
+    Result "You step through, and for a moment you are everywhere, and it is not like anything; it is like being a door. Then you think of the Nexus, because it is the last place you were, and you are standing in it again with the wind of everywhere at your back, and you are the first person in two hundred years to have done that, and you know, without anybody telling you, that the Door knows you now. That it will open for you on anywhere you have stood. And that any door in the world, knocked on three times by you, will open on this room.".
+  }
+  // The Doorward's door: from the Nexus to any town square or street the company has stood in, outside Sennet; and
+  // back, from anywhere indoors, by knocking.
+  Action open_on(actor: group, site: place, dest: place) "Open the Door of Doors on {dest}" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and doorward(actor) and been(actor, dest)
+      and settled(dest) and not indoors(dest) and not within(dest, sennet_bay).
+    Time 1.
+    On success { Assert at(actor, dest). }
+    Result "You think of {dest}, and it is there on the other side of the Door, exactly as you last saw it, and you step through.".
+  }
+  Action knock_home(actor: group, site: place) "Knock three times on the nearest door, and step through it into the Nexus" {
+    Requires able(actor) and company(actor) and at(actor, site) and doorward(actor) and indoors(site) and not at(actor, nexus) and not inPlanes().
+    Time 1.
+    On success { Assert at(actor, nexus). }
+    Result "You knock three times on the door, any door, and open it, and there is the round room at the top of the tower in Sennet, and the Door of Doors standing in it, and a wind of everywhere. You step through, and the door you came by shuts itself behind you.".
+  }
+
+  // Chert, who is the size of a cat, goes where the House's cat goes, and draws the bolt from inside.
+  Action chert_flap(actor: group, site: place) "Ask Chert to roll through the cat-flap and draw the bolt of the tower door from inside" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tower_stair) and travelsWith(chert, actor) and state(tower_lock, locked).
+    Time 1 minute.
+    On success { Assert state(tower_lock, open). }
+    Result "Chert looks at the cat-flap, and at you, and says that he has been waiting six hundred and forty years for somebody to ask him to do something disreputable. He rolls through it, flap and all. There is a long pause, and the sound of a small stone person climbing a large wooden door, and then the bolt goes back with a clank, and the tower door swings open on the round room, and Chert, hanging off the bolt by both arms, says, 'There's a cat's dish.'".
+  }
+
+  // ── The petal in the keel ─────────────────────────────────────────────────────────────────────────────────────────
+  Thing keel_rose "the petal in the keel" at keel {
+    State set "In a socket cut into the rock of the keel, at the end of the ledge, a petal of clear glass is set, point downward, and wind pours out of it, steady and cold, smelling of snow. Leaning on the rail beside it you can feel the whole hill above you lean on it, the way a house leans on a beam.".
+    State taken "The socket at the end of the ledge is empty. The rock round it is wet with thaw.".
+    State replaced "In the socket at the end of the ledge, a petal of Lamp Street glass with a fern of frost in it, pouring wind. The hill leans on it as it leaned on the other.".
+  }
+  Observe keel_feel at keel when state(keel_rose, set) and not knows(party, keel_petal) "There is something set in the rock at the end of the ledge. You can feel the wind of it from here." teaches keel_seen.
+  Discovery keel_seen "Something is set in the rock at the end of the ledge under Cloudgate, and a cold wind pours out of it downward.".
+  Action take_keel(actor: group, site: place) "Take the Air petal out of the keel of Cloudgate" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, keel) and state(keel_rose, set).
+    Grave "Cloudgate stands on that petal. Taken out, the hill will come down where it came from, on the Whelm.".
+    Time 1 minute.
+    On success { Assert state(keel_rose, taken). Give air_petal to actor. Assert petalTaken(air_petal). Assert descending(sennet_bay). Set descent(sennet_bay) to 0. Assert tookKeel(actor). }
+    Result "It comes out of the rock into your hand, pulling upward, cold, and the wind stops. In the silence you hear the hill above you settle, all at once, the way a sleeper turns over; and then the ledge under your feet is not quite where it was.".
+  }
+  Relation tookKeel(group). Relation rectorTookKeel(group).
+  Action swap_keel(actor: group, site: place) "Take the Air petal out of the keel, and set Prue Quickly's petal in its place" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, keel) and state(keel_rose, set) and carries(actor, made_petal).
+    Time 1 minute.
+    On success { Assert state(keel_rose, replaced). Spend made_petal_kind from actor. Give air_petal to actor. Assert petalTaken(air_petal). Assert madeSet(sennet_bay). }
+    Result "You have to do it in one movement, the old out and the new in, with your hands numb and your heart going. For the length of a breath the wind stops and the hill leans on nothing, and the ledge tilts under you, and somewhere above you a great many plates fall off a great many dressers. Then the Lamp Street petal takes the weight, and the wind comes out of it, steady, cold, smelling of snow; and Cloudgate holds. In your other hand the true petal pulls upward, toward home.".
+  }
+
+  // ── The coming down ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Without its petal Cloudgate comes down where it came from, over the next hour, into the bay, on the Whelm. The
+  // merfolk can go home through the Water Door, if somebody tells them in time.
+  Rule descent_goes when descending(sennet_bay) and not cloudgateFell(sennet_bay) and descent(sennet_bay) < 6 { Increase descent(sennet_bay) by 1. }
+  Rule descent_one when descending(sennet_bay) and descent(sennet_bay) == 1 and not toldDescent(sennet_bay)
+    says "All over Sennet the windows rattle, and the dogs begin. Over the bay, in the sun above the cloud, Cloudgate has begun, very slowly, to tilt." { Assert toldDescent(sennet_bay). }
+  Relation toldDescent(place).
+  Observe falling_promenade at promenade when descending(sennet_bay) and not cloudgateFell(sennet_bay) "The Promenade is tilting. The gravel is running toward the Balustrade in little streams, and the orange trees in their tubs are sliding after it, and the people of Cloudgate are standing very still in their pale clothes, holding on to things, looking down, at the cloud coming up.".
+  Observe falling_quay at quay when descending(sennet_bay) and not cloudgateFell(sennet_bay) "Over the bay Cloudgate is coming down through the cloud, slowly, tilted, the size of a hill, with its gardens hanging off it and its windows flashing, and the whole Quay is standing looking up at it with its mouth open, and the chain from the Ascent is going slack in great loops into the water.".
+  Action warn_whelm(actor: group, site: place) "Tell No Admittance that Cloudgate is coming down on the Whelm, and the merfolk must go home through the Water Door" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(admittance, site) and (descending(sennet_bay) or knows(actor, keel_petal)) and not whelmEmptied(sennet_bay) and not cloudgateFell(sennet_bay).
+    Time 1 minute.
+    On success { Assert whelmEmptied(sennet_bay). }
+    Result "No Admittance hears you without moving. Then she takes the crown of shells off her head, and holds it in her lap, and looks round her Guildhall at the white lamps and the drowned tables and the arms of the Glovers' Company, for a long time. 'Home,' she says. 'Through the Water Door. Where my grandmother came from.' She stands up out of the mayor's chair, which nobody has seen her do. 'Well. We kept it a long time.' And she raises her voice, and the Whelm comes out of its doors.".
+  }
+  Rule cloudgate_lands when descending(sennet_bay) and descent(sennet_bay) >= 6 and not cloudgateFell(sennet_bay) {
+    Assert cloudgateFell(sennet_bay). Retract descending(sennet_bay). Set openedAt(sennet_bay) to watch(clock). }
+  Rule cloudgate_lands_told when cloudgateFell(sennet_bay) and not landedTold(sennet_bay) and (inSennet() or inWhelm())
+    says "Cloudgate comes down into the bay. It comes down slowly, slower than you would believe, into the hole it came out of two hundred years ago; and the sea goes up round it in a wall, white, higher than the Quay, and comes in over the Quay and up the Haul and into the Glass Market to the knees, and goes out again, taking a great deal with it. When it has gone, Halyard Hill is standing in the bay where it always stood, wet to the first floor, with its gardens dripping, a little island, a hundred yards off the end of the Fish Stairs." {
+    Assert landedTold(sennet_bay). }
+  Relation landedTold(place).
+  Rule cloudgate_crushes when cloudgateFell(sennet_bay) and not whelmEmptied(sennet_bay) and not whelmCrushed(sennet_bay) {
+    Assert whelmCrushed(sennet_bay). }
+  Relation whelmCrushed(place).
+  Rule perrin_crushed when whelmCrushed(sennet_bay) and at(perrin, air_bell) and not perrinDead(party) { Assert perrinDead(party). Retract at(perrin, air_bell). Assert at(perrin, offstage). }
+  Rule merfolk_gone when cloudgateFell(sennet_bay) and whelmEmptied(sennet_bay) and at(admittance, guildhall) { Retract at(admittance, guildhall). Assert at(admittance, offstage). Retract at(mercy, air_bell). Assert at(hapenny, offstage). }
+  // The company on Cloudgate rides it down; under the bay, it is thrown up the stairs.
+  Hazard landing "Cloudgate coming down" means "Deal (2d8) physical damage to ally unless dexterity save against (13).".
+  Rule keel_drowned when cloudgateFell(sennet_bay) and at(party, keel) { Assert at(party, landing_stage). }
+  Rule rides_down when cloudgateFell(sennet_bay) and within(party, cloudgate) and not rode(party) and not holding(party, feather_kind) { Assert rode(party). Assert strikes(landing, party). }
+  Rule thrown_up when cloudgateFell(sennet_bay) and inWhelm() and not rode(party) { Assert rode(party). Assert strikes(landing, party). Assert at(party, fish_stairs). }
+  Relation rode(group).
+  // Once it is down, there is no more Ascent: the Landing Stage is a step off a boat, and the keel is under the sea.
+  Rule chain_slack when cloudgateFell(sennet_bay) and not slackened(sennet_bay) { Assert slackened(sennet_bay). }
+  Relation slackened(place).
+  Passage hill_ferry "the ferry to Halyard Hill" is ferry between quay and landing_stage taking 10 minutes
+    opening when cloudgateFell(sennet_bay) "A ferry-stair goes down off the end of the Quay to the water, for a ferry with nowhere in the bay to go.".
+}

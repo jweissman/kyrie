@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "source": [
+    "clock.kyr",
+    "city.kyr",
+    "state.kyr",
+    "harbour.kyr",
+    "lamp.kyr",
+    "murrey.kyr",
+    "handbook.kyr",
+    "ascent.kyr",
+    "collegium.kyr",
+    "cloudgate.kyr",
+    "whelm.kyr",
+    "fire.kyr",
+    "earth.kyr",
+    "air.kyr",
+    "rivals.kyr",
+    "door.kyr",
+    "rector.kyr",
+    "lanterns.kyr",
+    "fall.kyr",
+    "undertow.kyr",
+    "endings.kyr",
+    "aftermath.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "sennet_bay",
+    "coast_road": "coast_road"
+  },
+  "experience": 1000
+}

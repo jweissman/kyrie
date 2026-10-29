@@ -1,0 +1,217 @@
+Module sennet "The Grand Tour" {
+  // ── The House of Doors ────────────────────────────────────────────────────────────────────────────────────────────
+  // The Collegium of Veyra, on the headland: the Hall of Doors with the Fire and the Earth doors in it (the Air door is
+  // in Cloudgate, the Water door in the Whelm); the Museum of the Tour, two centuries of things brought home; Veyra's
+  // chapel; the Rector's study; and up the tower stair, the Nexus, where the Door of Doors has stood shut since the
+  // Rose was broken. The Rector, Magistra Isadora Quance, has proclaimed the Grand Tour, and receives every Tourist
+  // herself.
+  Observe gate_scene at college_gate when true "The House of Doors stands on the headland over the bay, a long grey building with a short grey tower, much less grand than you expected, with lichen on it and students sitting on the wall eating pies. Over the gate, in old letters, a line cut deep: EVERY DOOR IS A PROMISE TO SOMEONE ON THE OTHER SIDE OF IT.".
+  Observe quad_scene at quad when true "The Quad: grass worn to earth along the paths, four doors in four walls, and students crossing it in gowns of four colours, red, brown, blue and white, arguing. A board by the Hall's doors says THE GRAND TOUR: TOURISTS TO THE RECTOR'S DOOR, and somebody has added in chalk, AND GOD HELP YOU.".
+  Observe hall_scene at hall_of_doors when true "The Hall of Doors: long, dim, cold, with a floor of black and white stone worn into dips, and at the far end two doors side by side in the wall. One is iron, red-hot along its edges, and the air in front of it shakes. The other is a slab of granite on hinges as thick as your leg, with moss growing on it, and a draught coming under it that smells of cellars. Between them a little man sits at a desk with a ledger.".
+  Observe museum_scene at museum when true "The Museum of the Tour: a long gallery of glass cabinets, two hundred years of things brought home. A stuffed salamander, still smoking very slightly. A sylph's feather under a bell jar, standing on its tip. A merfolk crown of shells labelled PRESENTED. A bowl of stones from the Plane of Earth, each labelled with the name of the Tourist who picked it up, in a larger hand than the name of the stone.".
+  Observe cabinet14 at museum when not emberFreed(museum) "In Cabinet Fourteen, on black velvet, under glass, a coal the size of a hen's egg is burning. It has burnt since the year it was brought home; the label says so: AN EMBER OF THE HOUR COURT. BROUGHT HOME BY THE HON. THOS. MOTTRAM, 1210. When you lean close it brightens, and when you speak it gives off a little flurry of sparks against the glass, as if it were trying to say something back.".
+  Observe chapel_scene at chapel when true "Veyra's chapel: small, whitewashed, with a single lamp, and a table instead of an altar, laid for one, with a cup and a plate and a candle, the way you lay a place for somebody who has not come home yet. On the wall, in the same old letters as over the gate: SHARE FOOD. REMEMBER THE ABSENT. PROMISE A PATH HOME.".
+  Observe study_scene at rector_study when true "The Rector's study: books to the ceiling and on the floor and on the chairs, a desk the size of a boat, and on the desk among the books a case of black wood lined with velvet with four empty hollows in it, each the shape of a petal. Through the window, the bay, and Cloudgate.".
+  Observe tower_scene at tower_stair when true "The tower stair goes up in a tight stone spiral to a door at the top: oak, iron-bound, with a lock the size of a book. Somebody, long ago, has cut a cat-flap in the bottom of it.".
+  Observe nexus_scene at nexus when true "The Nexus is a round room at the top of the tower with no windows and no furniture. In the middle of it a door stands by itself in a frame, with nothing behind it: you can walk round it. On this side it is a plain door of pale wood with a round boss in the middle, carved into a rose of four petals, and four hollows in the rose where petals should be. On the far side, when you walk round, it is the same door. A cat's dish stands by it, empty.".
+
+  // ── Magistra Isadora Quance, Rector ───────────────────────────────────────────────────────────────────────────────
+  // Brilliant, generous, vain and very funny, and a murderer. Perrin Halyard, her best student, found what is in the
+  // keel of Cloudgate (the Air petal, stolen; door.kyr) and told her, and told her he would tell the Plane of Air so
+  // that it could have it back; that would have put the fourth petal where no Rector could reach it. She followed him
+  // to the Balustrade in the fog. She has proclaimed the Tour so that others will bring her the three petals that
+  // the courts still keep, and means to take the fourth herself.
+  Person quance "Magistra Isadora Quance" at rector_study {
+    Role "the Rector of the House of Doors, in a gown of four colours and a chain of keys" when not rectorExposed(quance).
+    Role "the Rector of the House of Doors, found out" when rectorExposed(quance).
+    Ancestry human. Calling mage. Trait enchanter. Level 9. Peaceable. Pronouns she. Manner jovial.
+    Wants fire_petal_kind. Wants earth_petal_kind. Wants water_petal_kind. Wants air_petal_kind. Wants notebook_kind.
+    Greets "A tall woman of sixty in a gown sewn in four colours gets up from behind a desk the size of a boat, scattering books, and comes round it with both hands out. On her chain of office a ring of old keys clinks. 'A Tourist! A real one, from over the hill. Do sit. Throw those on the floor, they've been there for years.' She looks at you with enormous interest, as if you were the only interesting thing to have happened to her all week. 'Isadora Quance. I run this place, or it runs me. You've come about the Grand Tour. Everybody has. Most of them are idiots. Are you?'".
+    Greets again "'You!' says the Rector, delighted, and clinks.".
+  }
+  Query rectorFree() means not rectorExposed(quance) and not rectorTaken(quance) and not rectorThrough(quance) and not rectorFled(quance) and not dead(quance).
+  Relation rectorAbout(group). Relation rectorAway(group).
+  Rule quance_study when hour(clock) >= 9 and hour(clock) < 17 and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, rector_study) { Assert at(quance, rector_study). }
+  Rule quance_hall when hour(clock) >= 17 and hour(clock) < 19 and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, hall_of_doors) { Assert at(quance, hall_of_doors). }
+  Rule quance_writes when hour(clock) >= 19 and hour(clock) < 23 and not lanternNight() and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, rector_study) { Assert at(quance, rector_study). }
+  Rule quance_bed when (hour(clock) >= 23 or hour(clock) < 9) and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, offstage) { Assert at(quance, offstage). }
+  Rule quance_lanterns when lanternNight() and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, promenade) { Assert at(quance, promenade). }
+
+  Topic quance_rose with quance "Ask the Rector about the Rose of the Winds" when true once {
+    Says "'The key of the Door of Doors.' She picks up a book, looks at it, and drops it. 'Broken in four and given to the four courts of the planes, the Fire, the Earth, the Water and the Air, so that nobody could ever open the Door alone. Very sensible. Very dull.' She lights a cigarillo off a candle. 'The Door opens on anywhere, you know. Anywhere at all. You think of a place and there it is, on the other side. Nobody has been through it in two hundred years.' She blows smoke at the ceiling. 'The courts still have their petals. They have to be asked for them, each in its own fashion, which is the Tour. Bring me all four and you'll be first through. That's the prize.' She smiles. 'And I'll be second. That's mine.'".
+    On discuss { Assert knows(actor, rose_known). }
+  }
+  Discovery rose_known "The Rose of the Winds is the key of the Door of Doors, broken into four petals, each given to one of the four courts of the elemental planes to keep, so that nobody could open the Door alone. Whoever brings the Rector all four will be first through the Door of Doors, which opens on anywhere.".
+  Topic quance_perrin with quance "Ask the Rector about Perrin Halyard" when heardFall() once {
+    Says "For a moment the Rector does not say anything. She puts down the cigarillo. 'My best,' she says. 'The best student I have had in thirty years. He could read Aenean like a menu, and he was kind, which they never are at that age.' She looks out of the window at Cloudgate. 'He'd been drinking. He and his brother. They always fought. He went to the Balustrade to cool off, and the fog came up.' She picks the cigarillo up again; her hand is perfectly steady. 'I gave the eulogy at the lying-in-state. I'll give it again on the third day, when they let him down. I would give the whole Tour to have him back.' She smiles at you, a little crookedly. 'Don't tell anyone I said that. It's very bad for discipline.'".
+    On discuss { Assert knows(actor, rector_on_perrin). }
+  }
+  Discovery rector_on_perrin "The Rector says Perrin Halyard was the best student she had in thirty years, that he and his brother had been drinking and fighting, and that he went to the Balustrade to cool off and the fog came up. She says she would give the whole Tour to have him back.".
+  // Entering the Tour: ten coin; or a favour for her; or as second bear-leader to a Mottram (rivals.kyr).
+  Kind licence_kind "a Tourist's licence of the Grand Tour" is gear worth 0 weighing 0 described "A card the size of your hand, printed in four colours, with the Rector's signature across it in violet ink the size of a fist: THE BEARER IS ENTERED FOR THE GRAND TOUR AND IS TO BE GIVEN EVERY CIVILITY THROUGH THE DOORS OF THE HOUSE. On the back, smaller: THE HOUSE ACCEPTS NO RESPONSIBILITY.".
+  Item licence "a Tourist's licence" is licence_kind at offstage.
+  Topic quance_enter with quance "Ask the Rector to enter you for the Grand Tour" when not enrolled(actor) once {
+    Says "'Of course.' She is already writing on a card in violet ink. 'The fee's ten coin, I'm afraid. The Bursar insists. It keeps out the riff-raff and lets in the rich, which is the opposite of what one wants, but there.' She looks up at you over the pen. 'Unless.' She taps her teeth with it. 'There is a thing you could do for me, instead. If you go down into the Whelm, for the Water petal. Perrin's things went into the bay with him. His notebook. It was the House's, and it was the last thing he wrote, and I'd like it back.' Her voice is quite steady. 'Find me that, and you're entered for nothing. I'll lend you a helm.'".
+    On discuss { Assert knows(actor, tour_fee). }
+  }
+  Discovery tour_fee "The Grand Tour's fee is ten coin. The Rector will waive it for a Tourist who will look in the Whelm for Perrin Halyard's notebook, which went into the bay with him, and lend them a brine-glass helm for it.".
+  Action pay_fee(actor: group, site: place) "Pay the Rector the Tour's fee, ten coin" {
+    Speaker quance.
+    Requires able(actor) and company(actor) and at(actor, site) and at(quance, site) and knows(actor, tour_fee) and not enrolled(actor) and quantity(actor, gold) >= 10.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 10. Increase quantity(quance, gold) by 10. Assert enrolled(actor). Give licence to actor. }
+    Result "She signs the card with a flourish that goes off the edge of it, and blows on it, and gives it you. 'There. You're a Tourist. Go and be astonished at things. Bring me petals.'".
+  }
+  Item house_helm "the House's brine-glass helm" is brine_helm_kind at offstage.
+  Relation commissioned(group).
+  Topic quance_commission with quance "Say you will look in the Whelm for Perrin Halyard's notebook" when knows(actor, tour_fee) and not enrolled(actor) once {
+    Says "'Bless you.' She says it simply, and for a moment she looks her age. Then she is writing on the card again, and ringing a bell, and a timid young man comes in with a glass helm in his arms like a baby. 'Tolley, the House's helm for our Tourist. Mind the bladder, it squeaks.' To you: 'His notebook is red, with the House's key on it. If you find it, bring it straight to me. Nobody else.' She signs the card. 'Not his mother, poor woman. It would only distress her.'".
+    On discuss { Assert enrolled(actor). Assert commissioned(actor). Give licence to actor. Give house_helm to actor. Assert lends(quance, house_helm, actor). }
+  }
+  // The Rector likes to be asked, and likes to give, and remembers what she gave.
+  Relation rectorFavour(group).
+  Topic quance_prue with quance "Ask the Rector to have the House withdraw its complaint against Prue Quickly" when knows(actor, prue_complaint) and prueTrouble(prue) and not prueSaved(prue) once {
+    Says "'The glass-blower!' She laughs till she has to sit down. 'The Mottram boy laid it on that very desk, and I turned it over and it said A PRESENT FROM SENNET, and I nearly died. The Bursar has no sense of humour; it was taken out at birth.' She scribbles a note and rings for Tolley. 'Withdrawn. With the House's compliments, and tell her I want a paperweight.' She looks at you over her spectacles, amused. 'You owe me one, now. I shall remember.'".
+    On discuss { Assert prueSaved(prue). Assert rectorFavour(actor). }
+  }
+  // Petals laid before her, by the company or anyone, are hers (rivals.kyr has Florian bring his).
+  Event fire_to_rector near quance when keeps(quance, fire_petal) and not rectorHas(fire_petal) "The Rector holds the petal up to the window, and the light in it moves, and she says nothing at all for a long moment. Then she lays it in its hollow in the black case on her desk, very gently, as if it might wake. 'One,' says Isadora Quance." then { Assert rectorHas(fire_petal). Increase rectorPetals(sennet_bay) by 1. }
+  Event earth_to_rector near quance when keeps(quance, earth_petal) and not rectorHas(earth_petal) "The Rector takes the stone petal in both hands, and nearly drops it for the weight, and laughs. She sets it in its hollow in the black case. 'You'd think it would be the heavy one that's hard to get,' she says. 'It's always the light ones.'" then { Assert rectorHas(earth_petal). Increase rectorPetals(sennet_bay) by 1. }
+  Event water_to_rector near quance when keeps(quance, water_petal) and not rectorHas(water_petal) "The Rector holds the green petal to her ear, the way you do a shell, and listens, with her eyes shut. Then she lays it in its hollow, wet, on the velvet." then { Assert rectorHas(water_petal). Increase rectorPetals(sennet_bay) by 1. }
+  Event air_to_rector near quance when keeps(quance, air_petal) and not rectorHas(air_petal) "The Rector takes the clear petal, and it pulls upward out of her fingers, and she closes her hand on it so hard her knuckles go white. She does not ask where you found it. 'Well,' she says, very softly. 'Well, well.'" then { Assert rectorHas(air_petal). Increase rectorPetals(sennet_bay) by 1. }
+  // Perrin's notebook (whelm.kyr) given her: its last pages are dated after he fell.
+  Event notebook_to_rector near quance when keeps(quance, perrin_notebook) and not heardOf(quance, perrin_alive) "The Rector takes the red notebook and opens it at the end, and you see her see the dates. Her face does not move at all. 'Thank you,' she says. 'This is a great kindness.' She puts it in a drawer and locks the drawer. 'Where exactly did you find it?' And then, lightly, before you can answer: 'No. Don't tell me. It would only distress me.'" then { Assert heardOf(quance, perrin_alive). }
+
+  // ── Mr. Edwin Tolley, amanuensis ──────────────────────────────────────────────────────────────────────────────────
+  // Takes down the Rector's memoirs, Thresholds, which the Sennet Courant prints in parts; writes better than she does,
+  // and she takes his sentences. Until he is his own man, whatever he hears goes to her.
+  Person tolley "Mr. Edwin Tolley" at rector_study {
+    Role "the Rector's amanuensis, a young man with a shorthand pad and no chin". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "A young man in a gown too big for him looks up from a shorthand pad and goes pink. 'Tolley,' he says. 'Amanuensis. I take down. The Rector's memoirs, mostly. Thresholds. The Courant prints them on Saturdays.' He looks at his pad. 'Very good they are. Everybody says so.'".
+    Greets again "Mr. Tolley looks up from his pad and goes pink.".
+  }
+  Initially Assert passesTo(tolley, quance).
+  Relation tolleyFriend(group). Relation tolleyCredited(group). Relation tolleyNovel(group).
+  Rule tolley_works when hour(clock) >= 9 and hour(clock) < 17 and not tolleyFriend(tolley) and not at(tolley, rector_study) { Assert at(tolley, rector_study). }
+  Rule tolley_works_free when hour(clock) >= 9 and hour(clock) < 17 and tolleyFriend(tolley) and not at(tolley, rector_study) and rectorFree() { Assert at(tolley, rector_study). }
+  Rule tolley_evening when hour(clock) >= 19 and hour(clock) < 23 and not at(tolley, taproom) { Assert at(tolley, taproom). }
+  Rule tolley_bed when (hour(clock) >= 23 or hour(clock) < 9 or (hour(clock) >= 17 and hour(clock) < 19)) and not at(tolley, offstage) { Assert at(tolley, offstage). }
+  Observe tolley_writing at taproom when at(tolley, taproom) "In the corner of the Sounding Line, with a pint he has not touched, Mr. Tolley is writing in a notebook that is not his shorthand pad, fast, with his tongue between his teeth, and covering the page with his arm whenever anyone goes by.".
+  Topic tolley_book with tolley "Ask Mr. Tolley what he is writing, here in the corner" when at(tolley, taproom) once {
+    Says "He covers the page with both arms, and then, slowly, uncovers it. 'A novel.' He says it as if it were a disease. 'A romance. Of the sea. About a lighthouse keeper's daughter who.' He stops. 'It doesn't matter.' He turns his pint round. 'The Rector says I've no ear. She takes the bits she likes for Thresholds. That line over the gate of the House, everyone thinks is hers: Every door is a promise to someone on the other side of it. She had it off me in March. It was the first line of my chapter four.' He drinks, finally. 'She says the House's sentences are the House's.'".
+    On discuss { Assert knows(actor, tolley_line). }
+  }
+  Discovery tolley_line "The line cut over the gate of the House of Doors, EVERY DOOR IS A PROMISE TO SOMEONE ON THE OTHER SIDE OF IT, which everyone thinks the Rector's, is Edwin Tolley's, from his novel; she took it for her memoirs, saying the House's sentences are the House's.".
+  Topic quance_tolley with quance "Ask the Rector to put Mr. Tolley's name to the line over the gate" when knows(actor, tolley_line) and not tolleyCredited(tolley) once {
+    Says "She stares at you. Then she throws back her head and laughs. 'Did he tell you that? The little toad.' She is not angry; she is delighted. 'Of course it's his. It's far too good for me. I steal from everybody.' She rings. 'Tolley! The next part of Thresholds will say, in a footnote, that the line over the gate is by Mr. Edwin Tolley, my amanuensis, who has more talent than is good for him. There. Now go away and stop telling Tourists things.' He goes out the colour of a beetroot. She winks at you. 'You owe me another.'".
+    On discuss { Assert tolleyCredited(tolley). Assert rectorFavour(actor). }
+  }
+  Topic tolley_own with tolley "Tell Mr. Tolley to put his own name to his own novel, and take it to the Courant himself" when knows(actor, tolley_line) and not tolleyNovel(tolley) and at(tolley, taproom) once {
+    Says "He looks at you as if you had suggested he take it to the moon. 'Under my name.' He looks at the notebook. 'Edwin Tolley. A Romance of the Sea.' He says it again, quietly, trying it. 'She'd sack me.' He thinks about that for longer than you expect, and then he laughs, out loud, for the first time since you've known him. 'She would. She'd sack me. And then I'd have to.' He closes the notebook. 'The Courant's on Fish Street. They open at nine.'".
+    On discuss { Assert tolleyNovel(tolley). }
+  }
+  Rule tolley_his_own when (tolleyCredited(tolley) or tolleyNovel(tolley)) and not tolleyFriend(tolley) { Assert tolleyFriend(tolley). Retract passesTo(tolley, quance). }
+  Topic tolley_chapter with tolley "Ask Mr. Tolley what the Rector has dictated about the night Perrin Halyard fell" when tolleyFriend(tolley) and heardFall() once {
+    Says "He looks round, though there is nobody to see. 'She's done it four times.' He gets out his pad and turns back through it. 'Chapter Thirty-One, The Halyards' Reception. The first time, the morning after: I came down on the eleven o'clock basket, shaken by the height, and could not sleep. The second time she struck out shaken by the height. The third time it was the ten o'clock. The fourth time, and that's the one going to the Courant, it was the nine o'clock, with the rest of the House, and she was in her bed by ten.' He shuts the pad. 'I don't know what it means. I know she doesn't change things. She never changes anything. She says it's vulgar to revise.'".
+    On discuss { Assert knows(actor, chapter_rewritten). }
+  }
+  Discovery chapter_rewritten "The Rector has dictated the chapter of her memoirs about the night Perrin Halyard fell four times: first saying she came down on the eleven o'clock basket shaken by the height, last that she came down at nine with the rest of the House and was in bed by ten. Mr. Tolley says she never revises anything.".
+
+  // ── Dr. Evander Cole and the ember in Cabinet Fourteen ────────────────────────────────────────────────────────────
+  // A child of the Hour Court, carried off as a curiosity eighty years ago by a Mottram, and burning since behind
+  // glass. Dr. Cole knows it is alive. The Rector will not have it given back: the collection is not a lending library.
+  Person cole "Dr. Evander Cole" at museum {
+    Role "Curator of the Museum of the Tour, in a dusty frock-coat". Ancestry gnome. Peaceable. Pronouns he. Manner compassionate.
+    Greets "A small gentleman in a frock-coat with dust in all its creases comes out from behind a cabinet with a feather duster. 'Cole. Curator. Two centuries of the Tour, and not one Tourist in fifty looks at any of it.' He dusts a bell jar. 'They look at the labels, to see whose name is on it.'".
+    Greets again "'Ah,' says Dr. Cole, and dusts something.".
+  }
+  Relation emberFreed(place). Relation coleAgrees(group). Relation emberAsked(group).
+  Rule cole_works when openHours() and not at(cole, museum) { Assert at(cole, museum). }
+  Rule cole_home when not openHours() and not at(cole, offstage) { Assert at(cole, offstage). }
+  Topic cole_ember with cole "Ask Dr. Cole about the ember in Cabinet Fourteen" when not emberFreed(museum) once {
+    Says "He stops dusting. 'It's alive.' He says it very quietly. 'They don't believe me, upstairs. A child of the Hour Court, a little one, a spark. Thomas Mottram scooped it up in a fire-tongs in the year 1210 and brought it home in a brass warming-pan and gave it to the Museum, and it's been in that case for eighty years.' He goes to the cabinet; the coal brightens. 'It talks to me. In sparks. I've learned a little. It says the same thing, mostly.' He puts his hand flat on the glass. 'It says, is it the next hour yet.'".
+    On discuss { Assert knows(actor, ember_alive). }
+  }
+  Discovery ember_alive "The ember in Cabinet Fourteen of the Museum of the Tour is a living child of the Hour Court, carried off in a warming-pan by Thomas Mottram in 1210. Dr. Cole has learned a little of its sparks: it asks whether it is the next hour yet.".
+  Topic cole_home_ember with cole "Ask Dr. Cole to let you take the ember home through the Fire Door" when knows(actor, ember_alive) and not emberFreed(museum) and not emberAsked(cole) once {
+    Says "'I've asked.' He sits down on a bench as if his legs had gone. 'Every Rector for twenty years. This one laughed, and then she said, Evander, the collection is not a lending library.' He looks at the ember. 'It's not mine to give. It's the Museum's. It's the Mottrams', in law, I suppose, being their gift; a Mottram could take it back, I've always thought, if one ever asked, which none of them will.' He looks at you. 'Or the Rector could, by a word. She won't. I can't.' He looks at the lock on the cabinet, and then away from it, very deliberately. 'I go home at seven,' he says. 'I've always gone home at seven.'".
+    On discuss { Assert emberAsked(cole). Assert knows(actor, ember_ways). }
+  }
+  Discovery ember_ways "Dr. Cole cannot give up the ember; it is the Museum's, or the Mottrams' in law, and a Mottram could take it back. The Rector will not. He has said, looking away from the lock on Cabinet Fourteen, that he always goes home at seven.".
+  Kind ember_kind "the ember of the Hour Court" is gear worth 0 weighing 1 described "A coal the size of a hen's egg, carried in a brass warming-pan with the lid on, burning, that brightens when you speak and gives off sparks when you open the lid, as if it were asking you something.".
+  Item ember "the ember" is ember_kind in cabinet owned by cole.
+  Thing cabinet "Cabinet Fourteen" at museum {
+    Holds.
+    State locked closed "Cabinet Fourteen is locked, a little brass lock with the Museum's key on it.".
+    State open "Cabinet Fourteen stands open.".
+    State broken "The glass of Cabinet Fourteen is broken.".
+    Change pick "Pick the lock of Cabinet Fourteen" from locked to open needing lockwork.
+    Change smash "Break the glass of Cabinet Fourteen" from locked to broken needing crowbar.
+  }
+  Relation emberStolen(group).
+  Rule ember_taken when carries(party, ember) and not emberFreed(museum) { Assert emberFreed(museum). Assert emberStolen(party). Assert lends(cole, ember, party). }
+  Observe cabinet_empty at museum when emberFreed(museum) "Cabinet Fourteen is empty, the black velvet with a scorched hollow in it the size of a hen's egg. The label is still there.".
+  Rule glass_heard when state(cabinet, broken) and openHours() and not brokenHeard(museum) says "Somebody in the Museum shouts at the sound of breaking glass, and runs for the Doorwarden." { Assert brokenHeard(museum). Assert hostile(cole, party). }
+  Relation brokenHeard(place).
+  // Given by a word of the Rector's, if she owes the company two.
+  Topic quance_ember with quance "Ask the Rector to let the ember in Cabinet Fourteen go home" when knows(actor, ember_alive) and not emberFreed(museum) once {
+    Says "'The ember.' She sighs. 'Evander's been at you. He's been at me for years.' She taps the pen on her teeth. 'The collection is not a lending library. If I give back one thing, every court on every plane will be at the door for its stones and its feathers and its crowns, and the Museum will be an empty room with labels in it.' She looks at you. 'No. I'm sorry. Ask me for something else.'".
+    On discuss { Assert knows(actor, rector_refuses_ember). }
+  }
+  Discovery rector_refuses_ember "The Rector will not let the ember go home: if the Museum gives back one thing, every court of every plane will want its things back.".
+
+  // ── Mr. Tench, the Doorwarden ─────────────────────────────────────────────────────────────────────────────────────
+  Person tench "Mr. Tench" at hall_of_doors {
+    Role "the Doorwarden, at a desk between the doors with a ledger". Ancestry halfling. Peaceable. Pronouns he. Manner stoic.
+    State on_duty blocking "The Doorwarden keeps the Fire Door and the Earth Door from his desk, with his ledger open, and nobody goes through either without his say.".
+    Guards fire_door. Guards earth_door.
+    Greets "The little man at the desk looks up over half-spectacles. 'Tench. Doorwarden. Name, licence, and are you sure.' He dips his pen. 'Everybody's sure. Then they come back through the Fire one with their eyebrows off.'".
+    Greets again "'Name, licence, and are you sure,' says Mr. Tench, without looking up.".
+  }
+  Rule tench_licensed when holding(party, licence_kind) and not tolerates(tench, party) { Assert tolerates(tench, party). }
+  Rule tench_lets_out when within(party, fire_land) and not tolerates(tench, party) { Assert tolerates(tench, party). }
+  Rule tench_lets_out_earth when within(party, earth_land) and not tolerates(tench, party) { Assert tolerates(tench, party). }
+  Action tip_tench(actor: group, site: place) "Give the Doorwarden the customary shilling, and three more" {
+    Speaker tench.
+    Requires able(actor) and company(actor) and at(actor, site) and at(tench, site) and not tolerates(tench, actor) and quantity(actor, gold) >= 4.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 4. Increase quantity(tench, gold) by 4. Assert tolerates(tench, actor). }
+    Result "He writes something in the ledger that is not your name. 'Student,' he says. 'Visiting. Mind the heat.'".
+  }
+  Item tench_cloak "the House's fire-cloak" is fire_cloak_kind at offstage.
+  Topic tench_cloak_lend with tench "Ask the Doorwarden for a fire-cloak out of the House's press" when holding(actor, licence_kind) and at(tench_cloak, offstage) once {
+    Says "He gets down off his stool, and unlocks a press, and gives you a grey cloak that stands up by itself. 'The House's. Bring it back. If you come back without it, I'll know what happened.' He climbs back on the stool. 'Cooked.'".
+    On discuss { Give tench_cloak to actor. Assert lends(tench, tench_cloak, actor). }
+  }
+
+  // ── Thursday ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The House's cat, who goes through doors.
+  Person thursday "Thursday" at quad {
+    Role "the House's cat, a large grey tom with singed whiskers". Species cat. Peaceable. Pronouns he.
+  }
+  Rule thursday_hall when hour(clock) >= 8 and hour(clock) < 12 and not following(thursday, party) and not at(thursday, hall_of_doors) { Assert at(thursday, hall_of_doors). }
+  Rule thursday_stair when hour(clock) >= 12 and hour(clock) < 16 and not following(thursday, party) and not at(thursday, tower_stair) { Assert at(thursday, tower_stair). }
+  Rule thursday_quad when (hour(clock) >= 16 or hour(clock) < 8) and not following(thursday, party) and not at(thursday, quad) { Assert at(thursday, quad). }
+  Observe thursday_fire at hall_of_doors when at(thursday, hall_of_doors) and hour(clock) == 10 "The Fire Door opens a crack on its own, and a large grey cat walks out of it with a mouse made of cinders in his mouth, still glowing, and lays it at the Doorwarden's feet, and walks off. Mr. Tench writes something in the ledger.".
+  Observe thursday_flap at tower_stair when at(thursday, tower_stair) "The grey cat is sitting at the top of the tower stair washing his face. While you watch he gets up, stretches, and goes through the cat-flap in the tower door as if it were any door in the world, and the flap swings, and is still.".
+
+  // ── Veyra's chapel ────────────────────────────────────────────────────────────────────────────────────────────────
+  Person amis "Brother Amis" at chapel {
+    Role "chaplain of Veyra to the House of Doors". Ancestry dwarf. Profession priest. Peaceable. Pronouns he. Manner compassionate.
+    Greets "A dwarf in a grey robe is laying the place on the table again, the cup, the plate, the candle, though nothing on it has been touched. 'Veyra's,' he says. 'Keeper of the Returning Path. She asks three things of us. Share food. Remember the absent. Promise a path home.' He straightens the cup. 'The House has got very good at the second, lately, and forgotten the other two.'".
+    Greets again "Brother Amis straightens the cup on the table.".
+  }
+  Topic amis_house with amis "Ask Brother Amis what he means, that the House has forgotten" when true once {
+    Says "'The Tour was a pilgrimage, once. You went through a door, and you were a guest of whoever was on the other side, and you ate what they ate, and you came back and told your own people about them.' He looks at the table. 'Now they go through to bring things back. Look in the Museum. Every one of those things had a path home, and nobody promised it one.' He lights the candle. 'Veyra keeps the returning path. It is not a road for bringing things home. It is a road for coming home with nothing in your hands, and being glad.'".
+    On discuss { Assert knows(actor, veyra_way). }
+  }
+  Discovery veyra_way "Brother Amis says the Tour was once a pilgrimage, where a traveller was a guest on the far side of a door and came home to tell of it; now Tourists go through to bring things back, and nothing in the Museum was ever promised a path home.".
+
+  // ── The tower door ────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing tower_lock "the lock of the tower door" on nexus_way {
+    State locked blocking "The tower door is locked. The lock is the size of a book.".
+    State open "The tower door stands open.".
+    Change pick "Pick the lock of the tower door" from locked to open needing lockwork.
+  }
+  Initially Assert keyholder(quance, tower_lock).
+}

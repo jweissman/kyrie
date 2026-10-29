@@ -1,0 +1,208 @@
+Module sennet "The Grand Tour" {
+  // ── Cloudgate ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The top of old Sennet, lifted two hundred years ago, above the cloud-line, where it is always a fine afternoon.
+  // Its first family keeps the Air Door and a secret: what Ysabeau Halyard brought home through it, and set in the keel.
+  Observe stage_scene at landing_stage when not visitedBefore(landing_stage) "Sun. That is the first thing: after the grey of the cloud, sun, warm and gold and steady, the light of a fine afternoon in a good summer, and a sky over everything so blue it looks lacquered. The Landing Stage is white stone with gilt railings. Below the railings, in every direction, the top of the cloud lies like a country of snow, and out of it, here and there, a gull comes up and looks surprised.".
+  Observe stage_again at landing_stage when visitedBefore(landing_stage) "The Landing Stage, white and gilt, in the sun, with the cloud lying below the railings like snow.".
+  Observe stage_night at landing_stage as weather when dark() "Even at night it is not quite dark in Cloudgate. Above the cloud the stars are enormous, and the cloud below gives back a light of its own, like snow under a moon.".
+  Observe promenade_scene at promenade when true "The Promenade runs round the rim of Cloudgate between the great houses and the edge: gravel raked into patterns, orange trees in tubs, benches with nobody on them, and people walking slowly in pale clothes under parasols, looking at the view, which is cloud. The houses of Cloudgate are the houses of old Sennet, very old, with their ground floors gone into the rock, so that the front doors are on the first floor and the steps go up to them out of the gravel. All the windows face outward.".
+  Observe balustrade_scene at balustrade when true "At the end of the Promenade the gravel stops at a stone balustrade, waist-high, with a broad flat rail you could sit on, and beyond it nothing at all: the cloud, a long way down, and the curve of the world. A wreath of white flowers has been tied to the rail, and is going brown. Nobody is standing near it.".
+  Observe court_scene at wind_court when true "The Wind Court is a round garden in the middle of Cloudgate, walled, with no plants in it but grass, and the grass all lying flat in one direction. In the wall on the far side is an arch of white stone, very old, with nothing in it but sky; and out of the sky in it comes a wind, steady, cold, smelling of snow, that never stops.".
+  Observe chapel_ascension at ascension_chapel when true "The Ascension Chapel: small, gilt, full of the smell of lilies going over. Over the altar, in a painted window, a lady in green is lifting a hill on the palm of her hand, smiling, with a little city on it and a little sea underneath pouring into the hole.".
+  Observe drawing_scene at drawing_room when true "The drawing room of Halyard House runs the width of the house with windows all down the outer side, so that the cloud fills them like a white wall. Every chair is gilt. Down the inner wall, Halyards in oils look down their noses at the windows, beginning with a lady in green with a hill on her hand.".
+  Observe aubrey_scene at aubrey_rooms when true "Aubrey Halyard's rooms: a sitting room that was handsome once, with the curtains drawn against the view and the furniture pushed back to the walls, and on every flat surface a bottle or a glass or a playing card, and a smell of brandy and cold ash.".
+  Observe servants_scene at servants_hall when true "The servants' hall: stone-flagged, low, warm, with a long table and a range and a dresser of blue plates, and no windows at all. Nobody who works in Cloudgate, they say down below, ever gets to see the view.".
+  Observe cellar_scene at wine_cellar when true "The wine cellar of Halyard House is cut into the rock of the hill: racks and racks of bottles in the lamplight, all their necks pointing the same way, and at the far end, where the racks stop, the bare rock, cold and sweating.".
+  Observe keel_scene at keel when true "You come out of the bottom of the hill onto the underside of Cloudgate: rock, brown and wet and hanging, roots coming out of it like hair, and a ledge cut along it for a man to walk on, with an iron rail; and under the rail, a long way down through the cloud, nothing; and then, through a hole in the cloud, very small, the bay, and the Quay, and a boat on the water like a seed.".
+
+  // ── The Dowager Lady Imogen Halyard ───────────────────────────────────────────────────────────────────────────────
+  Person imogen "Lady Imogen Halyard" at ascension_chapel {
+    Role "the Dowager of Cloudgate, in black, very upright" when not perrinUp(party).
+    Role "the Dowager of Cloudgate, who has had her son back" when perrinUp(party).
+    Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "A tall woman in black lace looks at you down a very long nose, as if you were a long way below her, which, to be fair, all of Sennet is. 'You are a Tourist,' she says. 'I can always tell. You look at the view.' She does not offer her hand. 'I am Imogen Halyard. My son is dead. You will forgive me if I do not make conversation.'".
+    Greets again "Lady Halyard inclines her head to you, exactly one inch.".
+  }
+  Relation imogenToldAlive(group). Relation imogenBelieves(group). Relation imogenMetMercy(group). Relation imogenShamed(group).
+  Relation imogenSorry(group). Relation halyardLeave(group). Relation bribed(group). Relation bribeOffered(group). Relation secretToldImogen(group).
+  Query mourning() means day(clock) <= 2.
+  Rule imogen_vigil when mourning() and hour(clock) >= 8 and hour(clock) < 12 and not following(imogen, party) and not at(imogen, ascension_chapel) { Assert at(imogen, ascension_chapel). }
+  Rule imogen_receives when hour(clock) >= 12 and hour(clock) < 23 and not funeralHour() and not lanternNight() and not following(imogen, party) and not at(imogen, drawing_room) { Assert at(imogen, drawing_room). }
+  Rule imogen_morning when not mourning() and hour(clock) >= 8 and hour(clock) < 12 and not funeralHour() and not following(imogen, party) and not at(imogen, drawing_room) { Assert at(imogen, drawing_room). }
+  Rule imogen_lanterns when lanternNight() and not following(imogen, party) and not at(imogen, promenade) { Assert at(imogen, promenade). }
+  Rule imogen_night when (hour(clock) >= 23 or hour(clock) < 8) and not following(imogen, party) and not at(imogen, offstage) { Assert at(imogen, offstage). }
+  Topic imogen_perrin with imogen "Ask Lady Halyard about her son" when true once {
+    Says "'Perrin.' She says it as if it were a word in a language she has stopped speaking. 'He wanted to be a Doorward. A Halyard, keeping other people's doors, for a salary, on the headland. I said it was beneath him. He said everything was beneath us, Mother, that was rather the point.' Her mouth moves, very slightly. 'He was the clever one. Aubrey is the eldest.' She looks at the window, at the white wall of cloud. 'The sea does not give back what goes off this rock. We are letting down an empty box on the third day, because one must let down something.'".
+    On discuss { Assert knows(actor, imogen_grief). }
+  }
+  Discovery imogen_grief "Lady Halyard thought Perrin's wish to be a Doorward beneath the family; he told her everything was beneath them, that was rather the point. She is letting down an empty coffin because one must let down something.".
+  Topic imogen_lifting with imogen "Ask Lady Halyard about the Lifting" when true once {
+    Says "'My great-great-grandmother lifted this hill on the palm of her hand.' She does not look at the portrait; she does not need to. 'Ysabeau Halyard. She went through the Air Door a girl and came back a woman, with the means to raise her family above the damp and the smells and the sea, and she used them. That is what one does with means.' She folds her hands. 'Down there they call it something else. They would.'".
+    On discuss { Assert knows(actor, imogen_lifting). }
+  }
+  Discovery imogen_lifting "Lady Halyard says Ysabeau Halyard went through the Air Door a girl and came back with the means to lift her family above the sea, and used them, as one does with means.".
+  Topic imogen_ysabeau with imogen "Ask Lady Halyard about the lady in green with the hill on her hand" when knows(actor, imogen_lifting) once {
+    Says "'They say she loved a wind.' Lady Halyard says it with great distaste, as if repeating something said by a servant. 'A prince of the Air. Family nonsense. She kept a box of letters to him that she never sent, it's in the escritoire there with the deeds, nobody has opened it in a hundred years.' She looks at the portrait at last. 'She married Lord Halyard the year after the Lifting and had nine children and died at ninety in that chair. If she loved a wind, she got over it.'".
+    On discuss { Assert knows(actor, ysabeau_letters). }
+  }
+  Discovery ysabeau_letters "Ysabeau Halyard, who lifted Cloudgate, is said to have loved a prince of the Air. A box of her letters to him that she never sent is in the escritoire in the drawing room of Halyard House, with the deeds.".
+  Kind ysabeau_letter_kind "Ysabeau Halyard's last letter" is gear worth 0 weighing 0 described "A letter folded small and gone the colour of tea, addressed on the outside, in a girl's hand, To the North Wind, and never sent. Inside, two lines: I did a terrible thing with what you gave me, and I have been sorry every day of my life, and I have never once stopped loving you. Do not forgive me. Remember me. Y.".
+  Item ysabeau_letter "Ysabeau's letter" is ysabeau_letter_kind in escritoire owned by imogen.
+  Thing escritoire "the escritoire" at drawing_room {
+    Holds.
+    State locked closed "An escritoire of black lacquer stands under the portrait of the lady in green, locked.".
+    State open "The escritoire under the portrait stands open, full of deeds and a box of letters tied with green ribbon.".
+    Change pick "Pick the lock of the escritoire" from locked to open needing lockwork.
+  }
+  Initially Assert keyholder(imogen, escritoire).
+  // Moved, the Dowager gives the letter herself (door.kyr has the North Wind's answer).
+  Topic imogen_letter with imogen "Ask Lady Halyard for Ysabeau's last letter, to take to the North Wind" when knows(actor, ysabeau_letters) and imogenSorry(imogen) and not carries(actor, ysabeau_letter) once {
+    Says "She unlocks the escritoire herself, and takes out the box, and unties the green ribbon, and finds the last letter without looking, as if she had always known which it was. She reads it standing. Then she gives it to you. 'Take it to him,' she says. 'Tell him a Halyard sent it. Tell him we are sorry.' She holds on to it a moment longer than she needs to. 'Tell him she meant it.'".
+    On discuss { Assert lends(imogen, ysabeau_letter, actor). Give ysabeau_letter to actor. }
+  }
+  // Leave to use the Air Door, after the mourning, to an entered Tourist; or Aubrey takes the company through.
+  Topic imogen_leave with imogen "Ask Lady Halyard for leave to go through the Air Door" when enrolled(actor) and not halyardLeave(actor) once {
+    Says "'The Wind Court is closed while my son lies in the chapel.' She does not raise her voice. 'After he is let down, on the third day, a Tourist of the Grand Tour may have the Halyards' leave, since the Rector has asked it of us, and one does not refuse the House.' She looks at you without any warmth at all. 'Afterwards. Not before.'".
+    On discuss { Assert knows(actor, leave_after). }
+  }
+  Discovery leave_after "Lady Halyard will give a Tourist of the Grand Tour leave to use the Air Door, but not while Perrin lies in the chapel: only after he is let down on the third day.".
+  Topic imogen_leave_given with imogen "Ask Lady Halyard again for leave to go through the Air Door, now that her son is let down" when knows(actor, leave_after) and enrolled(actor) and not mourning() and not halyardLeave(actor) once {
+    Says "She takes a card from the escritoire, and writes on it, and gives it you without a word. It says, in a small hard hand: THE HALYARDS' LEAVE. I.H.".
+    On discuss { Assert halyardLeave(actor). }
+  }
+
+  // ── Aubrey Halyard ────────────────────────────────────────────────────────────────────────────────────────────────
+  // The heir. Quarrelled with his brother ten minutes before the fall, and cannot remember the end of the night, and
+  // has come to believe he did it.
+  Person aubrey "Aubrey Halyard" at aubrey_rooms {
+    Role "the Halyards' heir, unshaven, in last night's shirt" when not perrinUp(party) and not aubreyFreed(aubrey).
+    Role "the Halyards' heir, who has had his brother back" when aubreyFreed(aubrey).
+    Ancestry human. Calling warrior. Trait brave. Level 3. Peaceable. Pronouns he. Manner grim.
+    Wants brother_letter_kind.
+    Greets "A man of thirty in a shirt he has slept in is lying on a sofa with his boots on the silk and a bottle on his chest, and does not get up. 'Another Tourist,' he says, to the ceiling. 'Mother sends them in to be cheered up by. Go away and look at the view.'".
+    Greets again "Aubrey Halyard lifts the bottle to you without lifting his head.".
+  }
+  Entity aubrey_guilt: claim "Aubrey Halyard pushed his brother off the Balustrade".
+  Initially Assert believes(aubrey, aubrey_guilt). Initially Set conviction(aubrey, aubrey_guilt) to 2.
+  Relation aubreyTalked(group). Relation aubreyFreed(group). Relation aubreyFriend(group). Relation drankWith(group).
+  Rule aubrey_rooms_day when hour(clock) >= 8 and hour(clock) < 19 and not funeralHour() and not following(aubrey, party) and not at(aubrey, aubrey_rooms) { Assert at(aubrey, aubrey_rooms). }
+  Rule aubrey_promenade when hour(clock) >= 19 and hour(clock) < 24 and not following(aubrey, party) and not at(aubrey, promenade) { Assert at(aubrey, promenade). }
+  Rule aubrey_night when hour(clock) < 8 and not following(aubrey, party) and not at(aubrey, offstage) { Assert at(aubrey, offstage). }
+  Action drink_aubrey(actor: group, site: place) "Sit down and drink with Aubrey Halyard" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(aubrey, site) and not drankWith(actor).
+    Time 6.
+    On success { Assert drankWith(actor). }
+    Result "You sit on the floor, since he is on the sofa, and he passes you the bottle without looking, and for an hour you drink his family's brandy, which is very good, and he talks about nothing: horses, a girl in Sennet who married a ship's chandler, the view, which he hates. Toward the end of the bottle he stops talking, and looks at the ceiling, and you understand that if you ask him now, he will tell you.".
+  }
+  Topic aubrey_night_asked with aubrey "Ask Aubrey Halyard what happened on the night his brother fell" when drankWith(actor) and not aubreyTalked(aubrey) once {
+    Says "He doesn't answer for a long time. 'We quarrelled. On the Promenade. Perrin had found something out, family business, and he was going to give it away. Give it away, to strangers, to the wind.' He laughs. 'I said if he wanted to go down so badly he could jump. I said that.' He puts the bottle down on the floor, carefully. 'He went off to the Balustrade. I went after him. I was going to say I was sorry. And then I don't remember. The fog came up. I remember the rail under my hands, wet. And then bells, and people shouting, and I was sitting on the gravel.' He looks at his hands. 'I think I put my hands on him. I think I did. I'd had a great deal to drink and I was angry, and he was my brother, and I think I put my hands on him.'".
+    On discuss { Assert aubreyTalked(aubrey). Assert knows(actor, aubrey_quarrel). }
+  }
+  Discovery aubrey_quarrel "On the night Perrin fell, he and Aubrey quarrelled on the Promenade: Perrin had found out family business and meant to give it away, and Aubrey told him to jump. Aubrey followed him to the Balustrade to say sorry, and remembers nothing after the fog came up but the wet rail under his hands; he believes he pushed his brother.".
+  Topic aubrey_keel with aubrey "Ask Aubrey Halyard what family business his brother found out" when aubreyTalked(aubrey) and aubreyFriend(aubrey) and not knows(actor, keel_ladder_known) once {
+    Says "'You'd better see it.' He gets up, steadier than you expected. 'When we were boys we used to climb down the keel ladder, Perrin and I, at the back of the wine cellar, and spit at the clouds. Nobody goes down there. Mother doesn't know it's there.' He finds a key on his watch-chain and gives it you. 'The cellar stair. Go down, and go to the end of the racks, and feel along the rock on the left. There's a ladder. Go down it, and along the ledge, and look at what's set in the rock.' He sits down again. 'That's what he found. That's what he was going to give away.'".
+    On discuss { Assert knows(actor, keel_ladder_known). Assert keyholder(party, cellar_lock). }
+  }
+  // Freed of it by his brother: a letter in Perrin's hand, or Perrin himself (whelm.kyr, fall.kyr).
+  Relation letterToAubrey(group).
+  Kind brother_letter_kind "Perrin's letter to his brother" is gear worth 0 weighing 0 described "A letter written in pencil on a page out of a drowned book, the paper still damp, in a quick clever hand: Aubrey, you great fool. It wasn't you. You were sitting on the gravel being sick when I went over, I could hear you. I'm alive, I've broken my leg, I'm happier than I've ever been, and I'm not coming up. Stop drinking Father's brandy. P.".
+  Item brother_letter "Perrin's letter to Aubrey" is brother_letter_kind at offstage.
+  Event aubrey_reads near aubrey when keeps(aubrey, brother_letter) and not aubreyFreed(aubrey) "Aubrey Halyard reads the letter standing up. He reads it again. Then he sits down on the floor, all at once, as if his strings had been cut, and puts his face in his hands, and his shoulders shake, and it is some time before you understand that he is laughing. 'Father's brandy,' he says, through his fingers. 'Father's brandy. The little swine.' He looks up at you with his face wet. 'He's alive. He's alive and he's not coming up.' And then, a good deal later: 'Where is he? Can you take me? Can I see him?'" then {
+    Assert aubreyFreed(aubrey). Set conviction(aubrey, aubrey_guilt) to 0. Assert aubreyFriend(aubrey). }
+  Topic aubrey_alive_told with aubrey "Tell Aubrey Halyard that his brother is alive" when knows(actor, perrin_alive) and not aubreyFreed(aubrey) and not carries(actor, brother_letter) once {
+    Says "He looks at you with something close to hatred. 'Don't.' He gets up off the sofa. 'Don't, do you hear. Every Tourist in Cloudgate has a story about the bay. He's dead. I killed him.' He opens the door for you. 'Bring me something in his hand,' he says, 'or don't come back.'".
+  }
+  Rule aubrey_befriended when aubreyTalked(aubrey) and drankWith(party) and talked_twice(party) and not aubreyFriend(aubrey) { Assert aubreyFriend(aubrey). }
+  Relation talked_twice(group).
+  Topic aubrey_not_you with aubrey "Tell Aubrey Halyard that a man who meant to say sorry is not a man who pushes his brother" when aubreyTalked(aubrey) and not aubreyFreed(aubrey) and not talked_twice(actor) once {
+    Says "He looks at you for a long time. 'You don't know that.' But he picks up the bottle, and looks at it, and puts it down without drinking. 'Nobody's said that. Mother says nothing. The whole of Cloudgate looks at me the way you look at a hole in the road.' He rubs his face. 'Sit down, then. If you're staying.'".
+    On discuss { Assert talked_twice(actor). }
+  }
+  // Aubrey brought down to the Fish Stairs at night to see his brother (whelm.kyr), or Perrin brought up.
+  Topic aubrey_comes with aubrey "Ask Aubrey Halyard to come down with you to the Fish Stairs, to his brother" when aubreyFreed(aubrey) and not perrinDead(party) and not travelsWith(aubrey, party) and not brothersMet(party) once {
+    Says "He is putting on his coat before you have finished. 'Let me shave,' he says, and then: 'No. He'd only laugh.'".
+    On discuss { Assert following(aubrey, party). }
+  }
+  Relation brothersMet(group).
+
+  // ── Jem Tuttle, footman ───────────────────────────────────────────────────────────────────────────────────────────
+  // Brought up from Sennet at fourteen, never let down again (the Dowager does not let her servants go down: they do
+  // not come back), and terrified of the edge every day of his life. On the night of the fall he was sent to the
+  // Balustrade with a shawl.
+  Person jem "Jem Tuttle" at drawing_room {
+    Role "a footman of Halyard House in a green coat, who keeps away from the windows" when not jemFree(jem).
+    Role "a potman, lately a footman, who has come down to earth" when jemFree(jem).
+    Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    State at_door blocking "Jem Tuttle keeps the door of Halyard House, and nobody comes in by it without his say.".
+    Guards halyard_door.
+    Greets "A young footman in a green coat bows to you, from as far from the windows as the room allows. 'Halyard House. Her Ladyship receives in the afternoon. Have you a card?'".
+    Greets again "The footman bows, from the far side of the room from the windows.".
+  }
+  Relation jemFree(group). Relation jemWants(group). Relation jemPlace(group).
+  Rule jem_door when hour(clock) >= 8 and hour(clock) < 18 and not jemFree(jem) and not at(jem, drawing_room) { Assert at(jem, drawing_room). }
+  Rule jem_hall when (hour(clock) >= 18 or hour(clock) < 8) and hour(clock) >= 5 and not jemFree(jem) and not at(jem, servants_hall) { Assert at(jem, servants_hall). }
+  Rule jem_sleeps when hour(clock) < 5 and not jemFree(jem) and not at(jem, offstage) { Assert at(jem, offstage). }
+  Rule jem_potman when jemFree(jem) and hour(clock) >= 10 and hour(clock) < 23 and not at(jem, taproom) { Assert at(jem, taproom). }
+  Rule jem_bed_below when jemFree(jem) and (hour(clock) >= 23 or hour(clock) < 10) and not at(jem, offstage) { Assert at(jem, offstage). }
+  // Let in: as gentlefolk, as an entered Tourist with the Rector's card, or with the heir.
+  Rule jem_admits when (craft(party, craft_court) or holding(party, licence_kind) or travelsWith(aubrey, party) or following(aubrey, party)) and not tolerates(jem, party) { Assert tolerates(jem, party). }
+  Topic jem_edge with jem "Ask the footman why he keeps away from the windows" when true once {
+    Says "He goes red. 'Heights, sir. Madam.' He swallows. 'I come up at fourteen from Fish Street. Her Ladyship took me on for my legs. I've not been down since. She doesn't let us down, the servants: they don't come back, she says.' He looks at the window, and away. 'Eleven years I've been up here, and every morning I wake up and think about the edge. There's nothing on the other side of those windows, and everyone up here walks about as if there was.' He straightens his coat. 'I'd go down tomorrow if I'd a place to go to. I'd go down on my hands and knees.'".
+    On discuss { Assert jemWants(jem). Assert knows(actor, jem_wish). }
+  }
+  Discovery jem_wish "Jem Tuttle, the Halyards' footman, came up from Fish Street at fourteen, is terrified of heights, and has not been let down in eleven years; he would go down tomorrow if he had a place below to go to.".
+  Topic peg_potman with peg "Ask Peg Arkle whether the Sounding Line could use a potman, a Fish Street lad, honest" when knows(actor, jem_wish) and not jemPlace(jem) once {
+    Says "'A potman.' Peg considers you, and the window, and the hill in it. 'One of theirs? A footman?' She snorts. 'Can he carry six pints without spilling and be civil to fishermen?' You say that he has carried trays through Halyard House for eleven years without falling off the edge of the world. She laughs. 'Send him down. If he's Fish Street, I knew his mother.'".
+    On discuss { Assert jemPlace(jem). }
+  }
+  Topic prue_hand with prue "Ask Prue Quickly whether she could use a hand at the furnace, a Fish Street lad" when knows(actor, jem_wish) and not jemPlace(jem) and not furnaceCold(glasshouse) once {
+    Says "'Can he stand heat?' You say he has stood Cloudgate for eleven years. 'That's cold,' says Prue. 'Cold's worse.' She shrugs. 'Send him down. I'll have his eyebrows off in a week.'".
+    On discuss { Assert jemPlace(jem). }
+  }
+  Topic jem_told_place with jem "Tell the footman there is a place for him below" when jemPlace(jem) and not jemFree(jem) once {
+    Says "He stares at you. Then, very slowly, he takes off his green coat, and folds it, and lays it on a gilt chair, and puts his white gloves on top of it. 'I'll go down on the four o'clock,' he says, 'with my eyes shut.' He looks round the drawing room, at all of it, and at the white windows. Then he looks at you, and lowers his voice. 'There's a thing I never told. Who would I have told?' He wets his lips. 'The night Master Perrin went over. I was sent to the Balustrade at ten with a shawl for her Ladyship, in the fog. And there was someone at the rail, just where he— Not her Ladyship. A woman, in a long gown, with sleeves like a bishop's, hanging down, and something on a chain that rang. And then there wasn't anyone. And I ran.' He picks up his gloves again, and puts them down. 'I thought I'd seen a ghost. I'm a Fish Street lad. We see the drowned.'".
+    On discuss { Assert jemFree(jem). Assert knows(actor, bishop_sleeves). }
+  }
+  Discovery bishop_sleeves "Jem Tuttle, the Halyards' footman, was at the Balustrade at ten on the night Perrin fell, and in the fog saw a woman at the rail, not the Dowager, in a long gown with sleeves like a bishop's, hanging down, and something on a chain that rang; and then nobody.".
+  // A frightened man can be frightened into it, and ruined by it.
+  Action scare_jem(actor: group, site: place) "Take the footman by his collar and make him tell you what he saw on the night of the fall" {
+    Speaker jem.
+    Requires able(actor) and company(actor) and at(actor, site) and at(jem, site) and heardFall() and not jemFree(jem) and not knows(actor, bishop_sleeves) and not scared(jem).
+    Time 1 minute.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert scared(jem). Assert knows(actor, bishop_sleeves). }
+    On failure { Assert scared(jem). }
+    Result "He tells you in a whisper with his eyes on the window: a woman at the rail in the fog, at ten, in a long gown with sleeves like a bishop's, and something on a chain that rang, and then nobody. Then he goes to Her Ladyship's steward, white, and gives notice, and is not let down: he is sent to the kitchens, where nobody will see him again.".
+    Otherwise "He goes white and says nothing at all, and the steward comes in to see what the noise is.".
+  }
+  Relation scared(group).
+
+  // ── The cellar ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing cellar_lock "the cellar door" on cellar_stair {
+    State locked blocking "The cellar door at the top of the stair is locked.".
+    State open "The cellar door stands open.".
+    Change pick "Pick the lock of the cellar door" from locked to open needing lockwork.
+  }
+  Initially Assert keyholder(imogen, cellar_lock).
+  Discovery keel_ladder_searched "Behind the last rack of the wine cellar, in the rock, iron rungs go down into the dark.".
+  Rule ladder_found_searching when knows(party, keel_ladder_searched) and not knows(party, keel_ladder_known) says "Behind the last rack of the wine cellar, in the rock, iron rungs go down." teaches keel_ladder_known { }
+  Observe cellar_rungs at wine_cellar when knows(party, keel_ladder_known) "At the end of the racks, on the left, iron rungs are let into the bare rock, going down into the dark, wet, cold, with a wind coming up them.".
+
+  // ── The letting-down ──────────────────────────────────────────────────────────────────────────────────────────────
+  // At noon on the third day the empty coffin goes off the Balustrade on ropes into the cloud, and is let go.
+  Query funeralHour() means day(clock) == 3 and hour(clock) >= 11 and hour(clock) < 13.
+  Thing coffin "Perrin Halyard's coffin" at ascension_chapel {
+    State lying "A coffin of white wood with silver handles lies on trestles before the altar, under a pall embroidered with a hill on a hand. There is a great deal of white lilies.".
+    State gone "The trestles before the altar are bare.".
+  }
+  Rule mourners_gather when funeralHour() and not at(imogen, balustrade) { Assert at(imogen, balustrade). Assert at(aubrey, balustrade). Assert at(quance, balustrade). Assert rectorAbout(quance). }
+  Rule mourners_part when day(clock) == 3 and hour(clock) >= 13 and rectorAbout(quance) { Retract rectorAbout(quance). }
+  Occasion letting_down "the letting-down of Perrin Halyard" at balustrade when day(clock) == 3 and hour(clock) >= 12 {
+    Matter eulogy "Six Halyard footmen carry the white coffin out of the Ascension Chapel to the Balustrade and set it on the rail, and the Rector of the House of Doors steps forward in her gown of four colours, and speaks without notes, in a voice that carries without being raised: of a boy who could read Aenean like a menu and was kind, which they never are at that age; of a Doorward who believed that every door is a promise to someone on the other side of it; of the bay, which does not give back what it is given. Half the Promenade is crying. The Dowager stands like a post. Aubrey Halyard, at the back, holds on to an orange tree." for 30 minutes.
+    Matter lowering "The footmen take the ropes. The coffin goes over the rail and down the face of the rock into the cloud, slowly, the ropes creaking, until the cloud has it." for 20 minutes.
+    Matter let_go "At a sign from the Dowager the footmen let go the ropes, all at once, and they snake over the rail after it, and are gone." for 10 minutes.
+    Closes "Cloudgate stands at the Balustrade a while longer, looking at the cloud, and then goes in to lunch.".
+  }
+  Observe eulogy_hands at balustrade when matterOpen(eulogy) and capable(party, insight) "The Rector's voice does not shake once. But all the time she speaks she holds the rail of the Balustrade with her left hand, and the knuckles of it are white as the rail.".
+  Rule coffin_gone when matterDone(let_go) and state(coffin, lying) { Assert state(coffin, gone). }
+}

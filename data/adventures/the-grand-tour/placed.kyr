@@ -1,0 +1,4 @@
+Module sennet "The Grand Tour" {
+  // A province of a generated world's first country: the company that comes down the coast road is the world's own.
+  Entity party: group "Your company".
+}

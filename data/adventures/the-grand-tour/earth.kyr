@@ -1,0 +1,91 @@
+Module sennet "The Grand Tour" {
+  // ── The Plane of Earth: the Slow Assembly ─────────────────────────────────────────────────────────────────────────
+  // The earth-folk deliberate at the pace of stone. The Earth petal lies set in the floor of their chamber, under a
+  // motion tabled in the year of the Lifting: "that the Assembly consider whether to consider the return of the petal
+  // to the House of Doors". The second reading is nearly done: it has reached "...the petal to the House", at a word
+  // a day of Sennet's, and two words are left. Whoever sits through them is the petitioner, and the petition will be
+  // granted. Or there is Chert, the youngest delegate, who is six hundred and forty and cannot bear it.
+  Initially Assert unlit(earth_threshold). Initially Assert unlit(assembly). Initially Assert unlit(minutes).
+  Query inEarth() means within(party, earth_land).
+  Observe threshold_earth at earth_threshold when true "Through the granite door, and the cold shuts behind you like a lid. Rock: rock above and below and on every side, and a tunnel going on into it, square, as if cut by someone with all the time in the world. There is no sound at all. The air tastes of a cellar and of something older than cellars.".
+  Observe assembly_scene at assembly when true "The chamber of the Slow Assembly is a cave as big as the inside of a hill, and the Assembly sits round it in tiers: shapes of stone, some as big as houses, some as small as a dog, perfectly still, every one of them facing the middle. In the middle, set into the floor, a petal of dark stone, and over it, on a pillar of basalt, the Speaker, who is speaking. A word comes out of the Speaker, very slowly, like a boulder coming down a slope in a dream. It takes a long time to arrive.".
+  Observe minutes_scene at minutes when true "The Gallery of the Minutes is a long passage whose walls are banded, layer on layer, in every colour stone comes in: the minutes of the Slow Assembly, each layer a sitting, laid down as it happened. Here and there a layer has cracked and fallen in a heap at the foot of the wall, and lies there.".
+
+  Measure words(place). Relation motionCarried(place). Relation sat(group). Relation dugOut(group).
+  Initially Set words(assembly) to 0.
+  Person speaker "the Speaker of the Slow Assembly" at assembly {
+    Role "a pillar of basalt that speaks, a word at a time". Species earth_elemental. Level 9. Peaceable. Pronouns it.
+  }
+  Person delegates "the Slow Assembly" at assembly {
+    Role "a hundred shapes of stone in tiers, listening". Species earth_elemental. Numbers 9. Level 5. Peaceable. Pronouns they.
+  }
+  Observe speaker_word0 at assembly when words(assembly) == 0 "The Speaker is in the middle of a word. You listen for a long time before you understand that the word, when it is finished, will be OF.".
+  Observe speaker_word1 at assembly when words(assembly) == 1 and not motionCarried(assembly) "The Speaker is in the middle of a word. It will be DOORS.".
+  Topic speaker_asked with speaker "Ask the Speaker of the Slow Assembly what it is saying" when true once {
+    Says "The Speaker does not stop. Nothing stops in the Assembly. But after a while, a long while, a small pebble on the bottom tier rolls down to your feet and says, in a voice like gravel in a bucket, very fast: 'It's reading the motion. The second reading. That the Assembly consider whether to consider the return of the petal to the House of Doors. It's got to the petal to the House.' The pebble sighs. 'It started the second reading in your year Ten-Ninety. It'll say of tomorrow, by your sun. Doors the day after. Then it puts the question, and they'll say yes, they always say yes, they're only careful.' It looks up at you. 'If you sat through it, you'd be the petitioner. They'd give it you. Two days.' It looks round at the tiers. 'Two days! I can't bear it. I'm Chert.'".
+    On discuss { Assert knows(actor, motion_known). }
+  }
+  Discovery motion_known "The Slow Assembly is reading the motion that it consider whether to consider the return of the petal to the House of Doors, a word a day; it has reached 'the petal to the House'. Two words are left. Whoever sits through them is the petitioner, and the Assembly will give them the Earth petal.".
+  Action sit_assembly(actor: group, site: place) "Sit through a day of the Slow Assembly" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, assembly) and not motionCarried(assembly) and not petalTaken(earth_petal) and knows(actor, motion_known).
+    Time 144.
+    Interrupted when threatened(actor).
+    On success { Increase words(assembly) by 1. Assert sat(actor). }
+    Result "You sit. There is nothing else to do. You sit on a ledge of the bottom tier, in the dark or in your own small light, and the Speaker speaks, and the word comes down the slope of the day toward you, and the Assembly listens, perfectly still, and so after a while do you. You sleep, once or twice. You eat what you have. At the end of the day of Sennet's sun, which you cannot see, the word arrives, enormous and quiet, and is said; and the Assembly, all of it, settles a hair's breadth lower on its tiers, satisfied.".
+  }
+  Rule motion_put at assembly when words(assembly) >= 2 and sat(party) and not motionCarried(assembly) and not petalTaken(earth_petal)
+    says "DOORS, says the Speaker, at last; and then, without a pause, which in the Assembly is like a shout, it puts the question. The Assembly answers. It answers all at once, a hundred voices of stone saying the same word, AYE, so low that you feel it in the floor rather than hear it, and the petal in the middle of the chamber floor rises out of the rock by itself, slowly, the way a stone comes up through a field in spring, and rolls to the feet of the petitioner." {
+    Assert motionCarried(assembly). Give earth_petal to party. Assert petalTaken(earth_petal). }
+  // Moved, in the old form, that the question be now put: it is a word less, and a day.
+  Action move_question(actor: group, site: place) "Move, in the old form, that the question be now put" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, assembly) and knows(actor, motion_known) and not motionCarried(assembly) and not petalTaken(earth_petal) and not moved(actor)
+      and (capable(actor, lore) or craft(actor, craft_learning)).
+    Time 1 minute.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert moved(actor). Increase words(assembly) by 1. Assert sat(actor). }
+    On failure { Assert moved(actor). }
+    Result "You stand up on the bottom tier and say, in the form the Handbook gives for addressing a court of the planes, and the House's Aenean for the part about the question, that you move the question be now put. Nothing happens for an hour. Then the Speaker's word, which was coming slowly down its slope, comes a great deal faster, and the Assembly settles, and Chert, beside you, whispers that you have saved it a day and that he loves you.".
+    Otherwise "You stand up and move it, and the Assembly does not hear, because you have not said it in any form it knows, and after an hour you sit down again.".
+  }
+  Relation moved(group).
+
+  // ── Chert ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Species pebble "a pebble of the Slow Assembly" like earth_elemental tame described "A small earth-person, the size of a cat, of grey stone with white veins in it, round as a river stone, with two short stone arms and a face that is mostly cracks.".
+  Person chert "Chert" at assembly {
+    Role "the youngest delegate of the Slow Assembly, a pebble the size of a cat". Species pebble. Level 2. Peaceable. Pronouns he.
+    Greets "A pebble the size of a cat rolls down off the bottom tier and stops against your boot. 'You're quick,' it says, with deep approval, in a voice like gravel in a bucket. 'Everything up there's quick, isn't it. I've heard. Birds. Weather. Weeks.' It looks up the tunnel toward the door. 'I'm six hundred and forty,' it says, 'and I have never seen a week.'".
+    Greets again "'You're back!' says Chert, and rolls a little way toward you, which for him is running.".
+    Joins "Chert rolls up onto your boot and clings there with both stone arms. 'Don't tell them,' he says, nodding at the Assembly. 'They'll find out in about a hundred years. By then I'll have seen a bird.'".
+    Leaves "'I'll roll home from here,' says Chert. 'It's downhill. Everything is, for me.'".
+  }
+  Relation chertAsked(group). Relation chertTook(group). Relation chertSaw(group).
+  Topic chert_want with chert "Ask Chert what he would do, if he could do anything" when true once {
+    Says "'See the sky.' He says it at once. 'I've heard about it. It's blue, they say, and very big, and nothing holds it up. And birds. And a week.' He rocks on his round bottom. 'I'd go through the door. I'd roll all the way to wherever the sky is and look at it until I was bored, which would be about fifty years.' He looks round at the Assembly, which has not moved. 'They'd say wait. They'd say there's a motion before the Assembly.' He makes a noise like a small landslide. 'There's always a motion before the Assembly.'".
+    On discuss { Assert chertAsked(chert). Assert willing(chert, actor). Set hire(chert) to 0. }
+  }
+  Topic chert_petal with chert travelling "Ask Chert whether he might fetch the petal out of the chamber floor, motion or no motion" when travelsWith(chert, party) and at(party, assembly) and not petalTaken(earth_petal) once {
+    Says "'It's only a motion.' He rolls off your boot and across the chamber floor, quite slowly, while the Assembly listens to the Speaker and notices nothing, and puts both his stone arms round the petal in the floor and pulls, with a face of enormous effort, and it comes out of the rock with a sound like a cork. He rolls back with it held over his head. 'There,' says Chert. 'They'll find out in about a hundred years. They'll say, Chert. In that voice.' He grins with all his cracks. 'I'll be a hundred and forty by then. I'll be old enough to argue.'".
+    On discuss { Assert chertTook(chert). Give earth_petal to actor. Assert petalTaken(earth_petal). }
+  }
+  Rule chert_sees_sky when travelsWith(chert, party) and (within(party, cloudgate) or within(party, sennet_town) or at(party, coast_road)) and at(party, ?p) and not indoors(?p) and not dark() and not chertSaw(chert)
+    says "Chert, on your boot, sees the sky, and goes completely still, and stays still for so long that you think he has turned back into a stone. Then he says, very small, 'Oh.' And then, 'It doesn't hold up.' And then, 'Nothing holds it up.' And he does not say anything else for an hour." {
+    Assert chertSaw(chert). }
+  // Dug out with a pick, which the Assembly will consider.
+  Action dig_petal(actor: group, site: place) "Dig the Earth petal out of the chamber floor while the Assembly listens to the Speaker" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, assembly) and not petalTaken(earth_petal) and (capable(actor, digging) or craft(actor, craft_earth)).
+    Time 6.
+    On success { Assert dugOut(actor). Give earth_petal to actor. Assert petalTaken(earth_petal). }
+    Result "You dig. The rock round the petal is hard, and old, and does not want to go, and you swear at it in a whisper because it seems wrong to swear aloud; and after an hour the petal comes out of the floor in your hands, heavy as a sleeping cat, and the Assembly does not move. Not a hair. You go up the tunnel with it with the back of your neck crawling. Behind you, very slowly, something has begun to turn its head.".
+  }
+  Rule assembly_turns when dugOut(party) and not inEarth() and not assemblyTurned(party) { Assert assemblyTurned(party). }
+  Relation assemblyTurned(group).
+
+  // ── The Minutes ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Kind geode_kind "a geode from the Minutes" is treasure worth 4 weighing 2 described "A round grey stone the size of an apple, from a fallen layer of the Minutes of the Slow Assembly, that rattles a little when you shake it. Chert says it is an amendment, abandoned, and hollow inside, and that it took longer to grow than your whole kind has had names.".
+  Item geode "a geode" is geode_kind at minutes.
+  Topic chert_geode with chert "Ask Chert about the round stones in the fallen layers of the Minutes" when true once {
+    Says "'Amendments.' He sounds bored. 'Abandoned ones. They fall out of the minutes when nobody seconds them, and lie about.' He looks at you sideways. 'They're hollow. Crack one, and it's all crystals inside. Took a million years to grow, give or take. Everyone up there makes such a fuss about them.' He rolls a little. 'You can have one. Nobody'll miss it. Nobody's missed anything in here since the Lifting.'".
+    On discuss { Assert knows(actor, geode_known). }
+  }
+  Discovery geode_known "The round stones in the fallen layers of the Minutes of the Slow Assembly are abandoned amendments, hollow, lined with crystal that took about a million years to grow. Chert says the company may have one.".
+}

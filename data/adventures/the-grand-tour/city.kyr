@@ -1,0 +1,167 @@
+Module sennet "The Grand Tour" {
+  Description "Sennet, a port city in three storeys: on the bay, the quays and glass-houses and the House of Doors, whose doors open on the elemental planes; over the cloud-line, Cloudgate, a hill of the old city lifted into the sky two hundred years ago; under the water, the Whelm, the drowned lower town where the merfolk live. The Rector of the House of Doors has proclaimed the first Grand Tour in two hundred years.".
+
+  // ── The country ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // The coast road comes over the downs and down to the Landward Gate. The city stands on the east shore of the bay;
+  // the House of Doors on the headland north of it. Cloudgate floats over the bay to the west, at the top of the
+  // anchor chain, above the hole it came out of; under it, under the water, is the Whelm.
+  Place sennet_bay "the Bay of Sennet" is region.
+  Initially Assert terrain(sennet_bay, marsh).
+  Place downs "the coast road" is wilderness within sennet_bay at 2, 0.
+  Place sennet_town "Sennet" is settlement within sennet_bay at 2, 1.
+  Place cloudgate "Cloudgate" is settlement within sennet_bay at 1, 0.
+  Place whelm "the Whelm" is wilderness within sennet_bay at 1, 1.
+
+  // ── Buildings of Sennet ───────────────────────────────────────────────────────────────────────────────────────────
+  Place winch_house "the winch-house" is building within sennet_town.
+  Place sounding_line "the Sounding Line" is building within sennet_town.
+  Place harbour_office "the Harbourmaster's office" is building within sennet_town.
+  Place glasshouse_b "Prue Quickly's glass-house" is building within sennet_town.
+  Place murreys "Murrey's" is building within sennet_town.
+  Place pargeters "Pargeter's" is building within sennet_town.
+  Place house_of_doors "the House of Doors" is building within sennet_town.
+  Place tower "the tower stair" is level within house_of_doors.
+
+  // ── Sennet ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place coast_road "the top of the coast road" is room within downs at 0, 0 outdoors.
+  Place landward_gate "the Landward Gate" is room within sennet_town at 2, 0 outdoors.
+  Place glass_market "the Glass Market" is room within sennet_town at 2, 1 outdoors.
+  Place ascent_yard "the foot of the Ascent" is room within sennet_town at 1, 0 outdoors.
+  Place winch_floor "the winch-house" is room within winch_house at 0, 0 indoors.
+  Place quay "the Quay" is room within sennet_town at 1, 1 outdoors.
+  Place fish_stairs "the Fish Stairs" is room within sennet_town at 0, 1 outdoors.
+  Place taproom "the Sounding Line" is room within sounding_line at 0, 2 indoors.
+  Place pumphrey_office "the Harbourmaster's office" is room within harbour_office at 1, 2 indoors.
+  Place lamp_street "Lamp Street" is room within sennet_town at 3, 1 outdoors.
+  Place glasshouse "Prue Quickly's glass-house" is room within glasshouse_b at 4, 1 indoors.
+  Place murrey_shop "Murrey's" is room within murreys at 3, 2 indoors.
+  Place outfitter "Pargeter's" is room within pargeters at 3, 0 indoors.
+  Place college_gate "the gate of the House of Doors" is room within sennet_town at 4, 0 outdoors.
+  Place quad "the Quad" is room within house_of_doors at 5, 0 outdoors.
+  Place hall_of_doors "the Hall of Doors" is room within house_of_doors at 5, 1 indoors.
+  Place museum "the Museum of the Tour" is room within house_of_doors at 6, 0 indoors.
+  Place chapel "the chapel of Veyra" is room within house_of_doors at 4, 2 indoors.
+  Place rector_study "the Rector's study" is room within house_of_doors at 6, 1 indoors.
+  Place tower_stair "the tower stair" is room within tower at 6, 2 indoors.
+  Place nexus "the Nexus" is room within tower at 6, 3 indoors.
+
+  // ── Cloudgate ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place halyard_house "Halyard House" is building within cloudgate.
+  Place cellars "the cellars of Halyard House" is level within halyard_house.
+  Place ascension_chapel_b "the Ascension Chapel" is building within cloudgate.
+  Place landing_stage "the Landing Stage" is room within cloudgate at 1, 2 outdoors.
+  Place promenade "the Promenade" is room within cloudgate at 1, 1 outdoors.
+  Place balustrade "the Balustrade" is room within cloudgate at 0, 1 outdoors.
+  Place wind_court "the Wind Court" is room within cloudgate at 2, 2 outdoors.
+  Place ascension_chapel "the Ascension Chapel" is room within ascension_chapel_b at 2, 1 indoors.
+  Place drawing_room "the drawing room of Halyard House" is room within halyard_house at 1, 0 indoors.
+  Place aubrey_rooms "Aubrey Halyard's rooms" is room within halyard_house at 2, 0 indoors.
+  Place servants_hall "the servants' hall" is room within halyard_house at 0, 0 indoors.
+  Place wine_cellar "the wine cellar" is room within cellars at 0, 3 indoors.
+  Place keel "the keel of Cloudgate" is room within cloudgate at 0, 4 outdoors.
+
+  // ── The Whelm ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place drowned_stair "the foot of the Fish Stairs, under the water" is room within whelm at 2, 0 outdoors.
+  Place drowned_street "Chandlers' Row, under the water" is room within whelm at 1, 0 outdoors.
+  Place drowned_church "Lir's church, under the water" is room within whelm at 0, 0 outdoors.
+  Place guildhall "the drowned Guildhall" is room within whelm at 1, 1 outdoors.
+  Place air_bell "the air-bell" is room within whelm at 2, 1 indoors.
+  Place undercroft "the Aenean Undercroft" is room within whelm at 1, 2 underground.
+  Place engine_room "the tide-engine" is room within whelm at 2, 2 underground.
+  Place shaft_foot "the foot of the Aenean shaft" is room within whelm at 0, 2 underground.
+
+  // ── The planes ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Each door of the Tour opens on a plane of its own; the Water door is in the Whelm, and nobody uses it.
+  Place fire_world "the Plane of Fire" is plane.
+  Place fire_land "the Plane of Fire" is region within fire_world elsewhere.
+  Place hour_land "the Hour Court" is wilderness within fire_land at 0, 0 elsewhere.
+  Place fire_threshold "the far side of the Fire Door" is room within hour_land at 0, 1.
+  Place hour_court "the Hour Court" is room within hour_land at 1, 1.
+  Place ash_market "the Ash Market" is room within hour_land at 1, 0.
+  Place lists "the Lists of the Salamanders" is room within hour_land at 2, 1.
+  Place earth_world "the Plane of Earth" is plane.
+  Place earth_land "the Plane of Earth" is region within earth_world elsewhere.
+  Place strata_land "the Slow Assembly" is wilderness within earth_land at 0, 0 elsewhere.
+  Place earth_threshold "the far side of the Earth Door" is room within strata_land at 0, 0.
+  Place assembly "the chamber of the Slow Assembly" is room within strata_land at 1, 0.
+  Place minutes "the Gallery of the Minutes" is room within strata_land at 2, 0.
+  Place air_world "the Plane of Air" is plane.
+  Place air_land "the Plane of Air" is region within air_world elsewhere.
+  Place wind_land "the Gallery of Winds" is wilderness within air_land at 0, 0 elsewhere.
+  Place air_threshold "the far side of the Air Door" is room within wind_land at 0, 1.
+  Place gallery "the Gallery of Winds" is room within wind_land at 1, 1.
+  Place eyrie "the eyrie of the North Wind" is room within wind_land at 1, 0.
+
+  // Where those who are not about go: home to bed, out on business, down below.
+  Place offstage "elsewhere in Sennet" is room within downs at 5, 5.
+
+  // What has to be known before two of the ways are seen: a ladder down through the floor of Halyard House's cellar,
+  // and the merfolk's guest-room, where Mercy keeps what she caught.
+  Discovery keel_ladder_known "A ladder goes down from the wine cellar of Halyard House through the rock of Cloudgate to its keel, where nobody goes." {
+    Found by searching wine_cellar "Behind the last rack, in the bare rock, your hand finds iron: rungs, let into the stone, going down into the dark, with a cold wind coming up them.".
+  }
+  Discovery air_bell_known "Off the drowned Guildhall a passage goes up into one of the Aenean air-bells, a room of dry air under the sea, where Mercy keeps what she caught.".
+
+  // ── Ways: Sennet ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Passage coast_way "the coast road" is road between coast_road and landward_gate taking 30 minutes.
+  Passage gate_street "Gate Street" is path between landward_gate and glass_market taking 5 minutes.
+  Passage chain_street "Chain Street" is path between glass_market and ascent_yard taking 5 minutes.
+  Passage winch_door "the winch-house door" is door between ascent_yard and winch_floor.
+  Passage the_haul "the Haul" is path between glass_market and quay taking 5 minutes.
+  Passage quay_walk "the quay wall" is path between quay and fish_stairs taking 3 minutes.
+  Passage line_door "the Sounding Line's door" is door between quay and taproom.
+  Passage office_door "the Harbourmaster's door" is door between quay and pumphrey_office.
+  Passage lamp_way "Lamp Street" is path between glass_market and lamp_street taking 5 minutes.
+  Passage glass_door "the glass-house door" is door between lamp_street and glasshouse.
+  Passage murrey_door "Murrey's door" is door between lamp_street and murrey_shop.
+  Passage pargeter_door "Pargeter's door" is door between lamp_street and outfitter.
+  Passage headland_steps "the Headland Steps" is steps between lamp_street and college_gate.
+  Passage college_arch "the gate of the House of Doors" is gate between college_gate and quad.
+  Passage hall_door "the doors of the Hall" is door between quad and hall_of_doors.
+  Passage museum_door "the Museum door" is door between quad and museum.
+  Passage chapel_door "the chapel door" is door between quad and chapel.
+  Passage lodging_door "the Rector's door" is door between quad and rector_study.
+  Passage tower_way "the tower stair" is stair between rector_study and tower_stair.
+  Passage nexus_way "the tower door" is door between tower_stair and nexus.
+
+  // ── Ways: up and down ─────────────────────────────────────────────────────────────────────────────────────────────
+  // The basket is the winch-gang's to give (ascent.kyr). The chain is anyone's who can climb it: two hours, hand
+  // over hand, up through the cloud.
+  Passage anchor_chain "the anchor chain" is ladder between ascent_yard and landing_stage taking 2 hours needing climbing
+    opening when not cloudgateFell(sennet_bay) and not descending(sennet_bay) "The anchor chain lies slack in great loops across the yard and into the bay.".
+  // Under the water. The way down needs breath; the way up is anyone's, since anybody can swim up (whelm.kyr).
+  Passage stairs_down "the Fish Stairs, under the water" is steps between fish_stairs and drowned_stair one way needing breath.
+  Passage stairs_up "the Fish Stairs, to the air" is steps between drowned_stair and fish_stairs one way.
+
+  // ── Ways: Cloudgate ───────────────────────────────────────────────────────────────────────────────────────────────
+  Passage stage_walk "the walk from the Landing Stage" is path between landing_stage and promenade taking 3 minutes.
+  Passage promenade_end "the end of the Promenade" is path between promenade and balustrade taking 3 minutes.
+  Passage court_walk "the colonnade" is path between promenade and wind_court taking 3 minutes.
+  Passage chapel_porch "the Ascension Chapel's porch" is door between promenade and ascension_chapel.
+  Passage halyard_door "the door of Halyard House" is door between promenade and drawing_room.
+  Passage aubrey_door "Aubrey Halyard's door" is door between drawing_room and aubrey_rooms.
+  Passage baize_door "the baize door" is door between drawing_room and servants_hall.
+  Passage cellar_stair "the cellar stair" is stair between servants_hall and wine_cellar.
+  Passage keel_ladder "the keel ladder" is ladder between wine_cellar and keel taking 10 minutes hidden until keel_ladder_known
+    opening when not cloudgateFell(sennet_bay) "The keel ladder goes down into black water.".
+
+  // ── Ways: the Whelm ───────────────────────────────────────────────────────────────────────────────────────────────
+  Passage row_way "Chandlers' Row" is path between drowned_stair and drowned_street taking 5 minutes.
+  Passage church_way "the church door, under the water" is doorway between drowned_street and drowned_church.
+  Passage guild_way "the Guildhall steps" is steps between drowned_street and guildhall.
+  Passage bell_way "the neck of the air-bell" is passage between guildhall and air_bell hidden until air_bell_known.
+  Passage undercroft_stair "the Undercroft steps" is steps between guildhall and undercroft.
+  Passage engine_arch "the engine arch" is arch between undercroft and engine_room.
+  Passage shaft_way "the shaft passage" is passage between undercroft and shaft_foot.
+
+  // ── Ways: the planes ──────────────────────────────────────────────────────────────────────────────────────────────
+  Passage fire_door "the Fire Door" is door between hall_of_doors and fire_threshold.
+  Passage earth_door "the Earth Door" is door between hall_of_doors and earth_threshold.
+  Passage air_door "the Air Door" is gate between wind_court and air_threshold.
+  Passage court_way "the way to the Hour Court" is path between fire_threshold and hour_court taking 5 minutes.
+  Passage market_way "the way to the Ash Market" is path between hour_court and ash_market taking 5 minutes.
+  Passage lists_way "the way to the Lists" is path between hour_court and lists taking 5 minutes.
+  Passage assembly_way "the long tunnel" is tunnel between earth_threshold and assembly taking 10 minutes.
+  Passage minutes_way "the Gallery of the Minutes" is passage between assembly and minutes taking 5 minutes.
+  Passage gallery_way "the wind" is path between air_threshold and gallery taking 5 minutes.
+}

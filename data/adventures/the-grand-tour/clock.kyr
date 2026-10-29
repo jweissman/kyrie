@@ -1,0 +1,43 @@
+Module sennet "The Grand Tour" {
+  // ── The week ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Sennet's days are counted from the company's coming: the morning it comes down the coast road is the first. The
+  // coffin goes off the Balustrade at noon on the third day; the Night of Lanterns is the fourth night; the book
+  // closes on the eighth morning, or the morning after the Door of Doors is opened, whichever is first. In a world
+  // that goes on, the first day begins the first morning after Sennet is reached, and nothing of it happens before.
+  Query begun() means watch(clock) >= 0.
+  Query morning() means hour(clock) >= 6 and hour(clock) < 12.
+  Query afternoon() means hour(clock) >= 12 and hour(clock) < 18.
+  Query evening() means hour(clock) >= 18 and hour(clock) < 23.
+  Query dawn() means hour(clock) >= 5 and hour(clock) < 7.
+  Query smallHours() means hour(clock) < 5.
+  // The working day: shops open, the House receives, the basket runs.
+  Query openHours() means hour(clock) >= 8 and hour(clock) < 19.
+  // The Night of Lanterns: the fourth night, from dusk until midnight.
+  Query lanternNight() means day(clock) == 4 and hour(clock) >= 19.
+
+  Chapter day_one "The first day" when begun() and day(clock) == 1 "The bells of the House of Doors ring eight across the bay, and the gulls go up off the Quay all at once, and over all of it, over the cloud, a hill of houses catches the sun.".
+  Chapter day_two "The second day" when day(clock) == 2 and hour(clock) >= 6 "Sennet wakes to the winch-gang's horn at the foot of the Ascent and the smell of the glass-houses lighting their furnaces from the Fire Door.".
+  Chapter day_three "The third day" when day(clock) == 3 and hour(clock) >= 6 "It is the day Cloudgate lets Perrin Halyard's coffin down off the Balustrade. All morning the Quay looks up.".
+  Chapter day_four "The fourth day" when day(clock) == 4 and hour(clock) >= 6 "Ascension Day. Cloudgate has hung out its bunting; you can see it from the Quay, very small, in the sun above the cloud. On the Quay the harbour is buying candles.".
+  Chapter day_five "The fifth day" when day(clock) == 5 and hour(clock) >= 6 "The morning after the Lanterns. Paper lanterns that went up from Cloudgate last night are coming down all over Sennet, burnt out, on roofs and in gutters and on the water.".
+  Chapter day_six "The sixth day" when day(clock) == 6 and hour(clock) >= 6 "A grey morning, with the wind off the sea. The fishing boats stay in.".
+  Chapter day_seven "The seventh day" when day(clock) == 7 and hour(clock) >= 6 "The seventh day of the Tour since you came. In the Glass Market a man is selling a print of the Door of Doors, opened, with a Rector going through it in a halo.".
+
+  // ── Breath under the water ────────────────────────────────────────────────────────────────────────────────────
+  // What a company needs to go down the Fish Stairs: a kiss of the merfolk's, for three hours, or a brine-glass helm
+  // while it is held (whelm.kyr).
+  Entity breath: capability "Breath under water".
+
+  // ── Where word reaches the company ────────────────────────────────────────────────────────────────────────────────
+  // News of the city is heard anywhere in Sennet, in Cloudgate or on the coast road; not under the water, nor in the
+  // planes.
+  Query inSennet() means within(party, sennet_town) or within(party, cloudgate) or at(party, coast_road).
+  Query inWhelm() means within(party, whelm).
+  Query inPlanes() means within(party, fire_land) or within(party, earth_land) or within(party, air_land).
+  // Whoever follows the company is carried with it by the basket, the cage and the stairs, as by the ways.
+  Rule followers_keep_up when following(?x, party) and at(party, ?p) and not at(?x, ?p) { Assert at(?x, ?p). }
+  // A place the company has left and come back to is told shortly.
+  Relation visitedNow(place). Relation visitedBefore(place).
+  Rule arrives_at when at(party, ?p) and not visitedNow(?p) { Assert visitedNow(?p). }
+  Rule leaves_from when visitedNow(?p) and not at(party, ?p) { Retract visitedNow(?p). Assert visitedBefore(?p). }
+}

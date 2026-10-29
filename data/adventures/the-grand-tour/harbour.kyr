@@ -1,0 +1,201 @@
+Module sennet "The Grand Tour" {
+  // ── The Quay and the Fish Stairs ──────────────────────────────────────────────────────────────────────────────────
+  // The harbour is the city's oldest people: the families who came up out of the lower town on the night it drowned,
+  // and stayed by the water, and sell what comes out of it. Nothing here touches the Rose. The harbour has its own
+  // troubles: a widow who cannot sleep for a bell; a merfolk child who wants to go shopping; a bylaw.
+  Observe landward_scene at landward_gate when not visitedBefore(landward_gate) "The Landward Gate is a gate in no wall: the wall came down a century ago and the gate was kept because the city liked it. Beyond it Sennet goes down to the water in roofs of green copper and glass, glass everywhere, glass-house chimneys smoking, and the bay beyond, very blue. Over the bay, over the cloud that lies on the water like a fleece, a hill stands in the sky with houses on it, and a chain comes down from it to the city like a plumb-line.".
+  Observe landward_again at landward_gate when visitedBefore(landward_gate) "The Landward Gate, and the city going down to the water, and Cloudgate over the bay.".
+  Observe market_scene at glass_market when true "The Glass Market: a square of stalls under awnings, and everything on them glass. Glass floats for nets, glass eyes for dolls, glass bottles with the light of the Fire Door still moving in them, sold as night-lights. A crier walks the square with a board on a pole.".
+  Observe market_crier at glass_market when openHours() and not doorOpen(sennet_bay) "The crier's board says, in red: THE GRAND TOUR IS PROCLAIMED. Underneath, smaller, in black: PERRIN HALYARD, DOORWARD, FELL 12 DAYS SINCE. LET DOWN ON THE 3RD DAY AT NOON. Someone has chalked beneath both of them: MIND YOUR HEADS." teaches perrin_board.
+  Discovery perrin_board "The crier's board in the Glass Market says that Perrin Halyard, a Doorward, fell from Cloudgate twelve days before you came, and will be let down on the third day at noon.".
+  Query heardFall() means knows(party, perrin_fell) or knows(party, perrin_board).
+  Observe quay_scene at quay when true "The Quay: granite, wet, smelling of weed and tar and frying. Boats tied two deep. Eel barrows, lobster pots, a gull standing on a bollard with the air of having been appointed to it. Looking up from here, Cloudgate is directly overhead, and its underside is rock, brown and hanging, like the bottom of a turnip pulled out of the ground.".
+  Observe fish_stairs_scene at fish_stairs when true "The Fish Stairs go down off the end of the Quay into the bay: green granite, worn hollow in the middle, going down and down under the water until the light gives up on them. A brass plate is let into the third step from the bottom of the dry ones: BY ORDER: NO PERSON OF THE SEA ABOVE THIS STEP. MDCIX.".
+  Observe taproom_scene at taproom when true "The Sounding Line is low, and dark, and full of fishermen. A sounding-lead the size of a child's head hangs over the bar on its line, and every so often somebody pats it for luck without looking. The window looks straight out across the bay at nothing but water and, above the water, the underside of Cloudgate.".
+
+  // ── The bell under the water ──────────────────────────────────────────────────────────────────────────────────────
+  // Lir's church went down with the lower town, and its bell is still in the tower, under the bay. At each turn of the
+  // tide, morning and evening, it rings. The harbour says it is the drowned. It is the merfolk children, who think it
+  // is the best noise in the world.
+  Query tideTurn() means hour(clock) == 6 or hour(clock) == 18.
+  Relation bellStopped(place). Relation bellMuffled(place). Relation bellForNed(place). Relation bellRungForNed(place).
+  Observe bell_heard at quay as sound when tideTurn() and not bellStopped(sennet_bay) and not bellMuffled(sennet_bay) "Out in the bay, under the water, a bell is ringing: slow, deep, a long way down, as if someone had rung it in a dream. On the Quay nobody looks up, and everybody stops.".
+  Observe bell_heard_stairs at fish_stairs as sound when tideTurn() and not bellStopped(sennet_bay) and not bellMuffled(sennet_bay) "Under your feet, under the stairs, under the water, a bell rings: slow, and deep, and very far down.".
+  Observe bell_heard_line at taproom as sound when tideTurn() and not bellStopped(sennet_bay) and not bellMuffled(sennet_bay) "Through the window, out of the bay, a bell rings under the water. The fishermen at the bar stop talking until it has done.".
+
+  // ── Old Bethan ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person bethan "Old Bethan" at quay {
+    Role "an eel-wife, at a barrow of live eels" when not bethanAtPeace(bethan).
+    Role "an eel-wife, who has slept" when bethanAtPeace(bethan).
+    Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Sells rations for 1 coin from 6.
+    Greets "A small old woman in three shawls looks up from a barrow of live eels, and looks at your boots, and says: 'Eel pie. A penny. You'll not get better in Sennet and you'll get worse up there.' She jerks her head at the sky without looking at it.".
+    Greets again "'Eel pie,' says Old Bethan, which is how she says good morning.".
+  }
+  Relation bethanAtPeace(group). Relation bethanFriend(group).
+  Rule bethan_quay when hour(clock) >= 8 and hour(clock) < 18 and not at(bethan, quay) { Assert at(bethan, quay). }
+  Rule bethan_line when hour(clock) >= 18 and hour(clock) < 22 and not bellForNed(sennet_bay) and not at(bethan, taproom) { Assert at(bethan, taproom). }
+  Rule bethan_home when (hour(clock) >= 22 or hour(clock) < 8) and not at(bethan, offstage) { Assert at(bethan, offstage). }
+  Observe bethan_tired near bethan when not bethanAtPeace(bethan) and not dark() "Old Bethan's eyes are red at the rims, and twice while you watch she starts to nod over the eels and jerks awake.".
+  Topic bethan_bell with bethan "Ask Old Bethan about the bell under the water" when true once {
+    Says "'The bell.' She kills an eel, neatly, with the back of a knife. 'They'll tell you it's the drowned. Lir's church went down with the lower town the night the hill went up, and the sexton with it, and he's been at his rope two hundred years.' Another eel. 'My Ned went out after mackerel in the January blow and the sea kept him. Never come ashore. Not a button.' She wipes the knife. 'And twice a day, at the turn, that bell. And every time I think it's for him. And it isn't. It's for nobody. And I've to go on thinking it, twice a day, morning and night, and I haven't slept since Candlemas.' She looks at you. 'Eel pie?'".
+    On discuss { Assert knows(actor, bell_grief). }
+  }
+  Discovery bell_grief "Old Bethan's husband, Ned Saltash, was lost at sea in January and never came ashore. Twice a day, at the turn of the tide, the bell under the bay rings, and every time she thinks it rings for him; she has not slept since Candlemas.".
+  Topic peg_bell with peg "Ask Peg Arkle who rings the bell under the water" when true once {
+    Says "'The drowned.' She says it the way you'd say the post. 'Lir's sexton, still at his rope. My gran said so, and hers did.' She leans on the bar. 'Mind, my gran also said the merfolk ate children, and there's one of theirs comes up the Fish Stairs every morning and sells cockles to the children, so.'".
+  }
+  // Ha'penny tells it plainly, being the one who rings it.
+  Topic hapenny_bell with hapenny "Ask Ha'penny about the bell in the drowned church" when true once {
+    Says "'The bell!' Ha'penny's whole face lights up, gills and all. 'We ring it. Me and Shutters and Cash Only and all of us. You swim up the tower and you get hold of the rope and you hang off it, and it goes BONG and you go up with it, and it goes BONG again and you come down.' She demonstrates, with her whole body, on the step. 'At the turn, when the water swings. It's the best noise in the Whelm.' She stops. 'Can you hear it up here?'".
+    On discuss { Assert knows(actor, bell_ringers). }
+  }
+  Discovery bell_ringers "The bell under the bay is rung by the merfolk children, Ha'penny among them, who hang off its rope at the turn of the tide for the noise.".
+  Relation hapennySorry(group).
+  Topic hapenny_told_bethan with hapenny "Tell Ha'penny about Old Bethan, who cannot sleep for the bell" when knows(actor, bell_grief) and knows(actor, bell_ringers) and not hapennySorry(hapenny) once {
+    Says "Ha'penny goes very still on the step, and then she puts her cockles down. 'We didn't know,' she says. 'Nobody told us anybody heard.' Her gills open and shut. 'Is she the little one with the eels? She gives me the heads.' She looks at the water, as if the bell were looking back. 'We could stop.' A pause. 'Or we could ring it for him. Properly. Once. So he'd know.' She looks up at you. 'Which would she want?'".
+    On discuss { Assert hapennySorry(hapenny). }
+  }
+  Topic hapenny_stop with hapenny "Ask Ha'penny to stop ringing the bell" answering hapenny_told_bethan when hapennySorry(hapenny) and not bellStopped(sennet_bay) and not bellForNed(sennet_bay) once {
+    Says "'All right.' She says it sadly, the way a child gives up a stick. 'I'll tell the others. Cash Only will cry. He always cries.' She slides off the step into the water up to her chin. 'Tell her sorry. From the bell.'".
+    On discuss { Assert bellStopped(sennet_bay). }
+  }
+  Topic hapenny_ring with hapenny "Ask Ha'penny to ring the bell once, at the evening tide, for Ned Saltash" answering hapenny_told_bethan when hapennySorry(hapenny) and not bellStopped(sennet_bay) and not bellForNed(sennet_bay) once {
+    Says "'Once.' She nods hard. 'Ned Saltash. Once, at the turn, and slow, and then nobody touches it.' She says the name over to herself twice, to keep it. 'You tell her to be on the Quay. You tell her it's for him.'".
+    On discuss { Assert bellForNed(sennet_bay). }
+  }
+  Relation bethanWaiting(group).
+  Topic bethan_told_ring with bethan "Tell Old Bethan the bell will be rung once at the evening tide, for Ned, and then not again" when bellForNed(sennet_bay) and not bellRungForNed(sennet_bay) and not bethanWaiting(bethan) once {
+    Says "She does not say anything for a while. She covers the eels with a wet sack. 'Who by?' You tell her. 'A merfolk child.' She laughs, once, short. 'Ned would like that. He used to throw them his crusts.' She takes off one of the shawls and folds it and puts it back on. 'The evening tide. On the Quay.' She nods at nothing. 'I'll be there.'".
+    On discuss { Assert bethanWaiting(bethan). }
+  }
+  Rule bethan_waits when bethanWaiting(bethan) and hour(clock) >= 17 and hour(clock) < 19 and not bellRungForNed(sennet_bay) and not at(bethan, quay) { Assert at(bethan, quay). }
+  Rule bell_for_ned at quay when bellForNed(sennet_bay) and bethanWaiting(bethan) and hour(clock) == 18 and not bellRungForNed(sennet_bay)
+    says "At the turn of the evening tide the harbour goes quiet, the way it does, and out in the bay under the water the bell rings once: slow, and deep, and a long time dying. Then nothing. Old Bethan is standing at the edge of the Quay in her three shawls with her hands folded. 'Ned Saltash,' she says, not loud, to the water. Then she turns round and goes home, with the barrow, at six in the evening, which nobody on the Quay has seen her do since January." {
+    Assert bellRungForNed(sennet_bay). Assert bethanAtPeace(bethan). Assert bethanFriend(bethan). Assert bellStopped(sennet_bay). Retract at(bethan, quay). Assert at(bethan, offstage). }
+  Rule bell_rung_away when bellForNed(sennet_bay) and hour(clock) == 18 and not bethanWaiting(bethan) and not bellRungForNed(sennet_bay) { Assert bellRungForNed(sennet_bay). Assert bellStopped(sennet_bay). }
+  Topic bethan_stopped with bethan "Tell Old Bethan the bell will not ring again" when bellStopped(sennet_bay) and not bellRungForNed(sennet_bay) and not bethanFriend(bethan) once {
+    Says "'Won't it.' She listens, as if it might. 'Well.' She kills an eel. 'Well, that's something.' And then, not looking at you: 'Who'll I think of, at the turn, then?' She doesn't wait for an answer.".
+    On discuss { Assert bethanFriend(bethan). }
+  }
+  // Muffled by hand, with a rope round the clapper, down in the drowned tower (whelm.kyr).
+  Topic bethan_muffled with bethan "Tell Old Bethan you have tied up the clapper of the bell under the water" when bellMuffled(sennet_bay) and not bethanFriend(bethan) once {
+    Says "She stares at you. 'You went down there? Into the lower town?' She looks at your hair, which is still wet. Then she gives you an eel pie, for nothing, which on the Quay is a declaration. 'Mad,' she says. 'Ned was mad. Eat that.'".
+    On discuss { Assert bethanFriend(bethan). }
+  }
+  Observe bethan_asleep_after at quay when bethanAtPeace(bethan) and at(bethan, quay) "Old Bethan is asleep on an upturned crate behind her barrow, with her mouth open, in the sun. The harbour is stepping round her.".
+  // What the words on the drowned church door are: the harbour remembers, Bethan's family above all.
+  Topic bethan_mercy with bethan "Ask Old Bethan about the words cut on the drowned church door" when bethanFriend(bethan) and knows(actor, door_words) once {
+    Says "'Mercy on us.' She says it straight away, the way you'd say your own address. 'Jinny Saltash cut that. My gran's gran's sister. The sexton's girl. They were in Lir's church when the water came, because the church was highest, and it came up the nave anyway, and she got up on the porch and cut that in the door with a fish-knife while it came. They found the knife on the Quay in the morning and nothing else.' She looks at the water. 'It's what you say, on the Quay, when the sea's up. Mercy on us. We say it without thinking.' She looks at you. 'Why?'".
+    On discuss { Assert knows(actor, mercy_meaning). }
+  }
+  Discovery mercy_meaning "MERCY ON US, cut in the drowned church door, was cut by Jinny Saltash, the sexton's girl, with a fish-knife, as the sea came up the nave on the night of the Whelming. It is what the harbour still says when the sea is up.".
+
+  // ── Peg Arkle and the Sounding Line ───────────────────────────────────────────────────────────────────────────────
+  Person peg "Peg Arkle" at taproom {
+    Role "the landlady of the Sounding Line". Profession innkeeper. Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Sells rations for 2 coin from 8.
+    Greets "A broad woman with her sleeves rolled pulls you a pint before you ask for it. 'There. You've the look of the coast road.' She jerks her head at the window and Cloudgate in it. 'Not going up there, are you? Nobody goes up there but the laundry and the Tourists, and the laundry comes back.'".
+    Greets again "'There you are,' says Peg Arkle, and pulls you a pint.".
+  }
+  Topic peg_tour with peg "Ask Peg Arkle about the Grand Tour" when true once {
+    Says "'Oh, the Tour.' She polishes a glass with great contempt. 'The Rector's proclaimed it. First in two hundred years. Whoever brings her the four petals of the Rose gets to go first through the Door of Doors, up in her tower, which opens on anywhere.' She holds the glass to the light. 'Anywhere. The town's full of rich boys from up there with bear-leaders, and boys from three countries off with fathers' money, buying fire-cloaks off Pargeter.' She puts the glass down. 'You enter at the House, on the headland. She sees you herself, they say. Charming woman. Makes you feel you've been waiting all your life to be talked to.'".
+    On discuss { Assert knows(actor, tour_known). }
+  }
+  Discovery tour_known "The Rector of the House of Doors has proclaimed the Grand Tour: whoever brings her the four petals of the Rose of the Winds, from the courts of the elemental planes, will go first through the Door of Doors, in her tower, which opens on anywhere. The Tour is entered at the House of Doors, on the headland.".
+  Topic peg_perrin with peg "Ask Peg Arkle about the young man who fell" when true once {
+    Says "'Perrin Halyard.' She crosses herself, the harbour way, a little circle like a porthole. 'The Halyards' younger boy. He was a Doorward at the House, a nice lad, used to come in here in his gown and drink with the fishermen, which his mother never knew. Went off the Balustrade the night the Tour was proclaimed. Fog. They say he'd been drinking with his brother, and quarrelling.' She lowers her voice. 'They say a lot, up there. They never found him. The bay doesn't give back what comes off that rock.' She glances up at the window. 'They're dropping the coffin anyway. Third day, noon. You'll see it from the Quay.'".
+    On discuss { Assert knows(actor, perrin_fell). }
+  }
+  Discovery perrin_fell "Perrin Halyard, younger son of the Halyards of Cloudgate and a Doorward of the House of Doors, went over the Balustrade of Cloudgate in fog on the night the Grand Tour was proclaimed, twelve days before you came; he had been drinking and quarrelling with his brother. He was never found. His empty coffin is to be let down off the Balustrade at noon on the third day.".
+  Topic peg_lifting with peg "Ask Peg Arkle about Cloudgate" when true once {
+    Says "'Cloudgate.' She says it like a debt. 'That was the top of the town once. Halyard Hill. Two hundred years ago Lady Ysabeau Halyard came home from the Air Door with something in her pocket and lifted the whole hill into the sky, houses and all, and the sea came into the hole where it had been, and the lower town went under in an hour.' She wipes the bar. 'They call it the Lifting, up there. Ascension Day, they keep it, with lanterns. We call it the Whelming, down here, and we keep it with candles on the water. Same night.' She shrugs. 'You can see both from the Quay. Very pretty.'".
+    On discuss { Assert knows(actor, lifting_known). }
+  }
+  Discovery lifting_known "Two hundred years ago Lady Ysabeau Halyard came back through the Air Door with something that lifted Halyard Hill, the top of old Sennet, into the sky with its houses: Cloudgate. The sea came into the hole it left, and the lower town drowned in an hour. Cloudgate keeps the night as the Lifting, with lanterns; the harbour keeps it as the Whelming, with candles on the water.".
+
+  // ── Ha'penny and the third step ───────────────────────────────────────────────────────────────────────────────────
+  // A merfolk child comes up the Fish Stairs at the morning and evening tides to sell cockles to the harbour children,
+  // to the third step, which is as far as the Bylaw lets her. She wants to go to the Glass Market and buy a present.
+  Person hapenny "Ha'penny" at drowned_street {
+    Role "a merfolk child with a basket of cockles" when not hapennyUp(hapenny).
+    Role "a merfolk child in a fish-basket, delighted with everything" when hapennyUp(hapenny).
+    Ancestry undine. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A merfolk child is sitting on the third step from the bottom of the dry ones, with her tail in the sea and a basket of cockles in her lap: green-skinned, freckled with silver, with gills under her ears like the gills of a fish, which open and shut when she is interested, which is always. 'Cockles,' she says. 'Ha'penny a scoop. That's my name too. Ha'penny. What's yours?'".
+    Greets again "'It's you!' says Ha'penny, and her gills go.".
+  }
+  Relation hapennyUp(group). Relation hapennyWish(group). Relation hapennyShopped(group). Relation hapennyInvites(group).
+  Query stairsTide() means (hour(clock) >= 7 and hour(clock) < 10) or (hour(clock) >= 16 and hour(clock) < 18).
+  Rule hapenny_up_stairs when stairsTide() and begun() and not hapennyUp(hapenny) and not following(hapenny, party) and not at(hapenny, fish_stairs) { Assert at(hapenny, fish_stairs). }
+  Rule hapenny_down when not stairsTide() and not hapennyUp(hapenny) and not following(hapenny, party) and not at(hapenny, drowned_street) { Assert at(hapenny, drowned_street). }
+  Observe hapenny_on_step at fish_stairs when at(hapenny, fish_stairs) and not hapennyUp(hapenny) "On the third step from the bottom, exactly on the brass plate, as if to make a point, a merfolk child sits with a basket of cockles and her tail in the water.".
+  Topic hapenny_wish with hapenny "Ask Ha'penny what is up the stairs that she wants" when true once {
+    Says "'The market.' She says it the way other children say Midsummer. 'The glass one. Where everything's glass and the light's in the bottles.' She looks up the stairs, all the way up, to where they turn the corner onto the Quay. 'I want to buy a present. With my own pearl.' She shows you: a pearl the size of a pea, in her fist. 'For Mercy. She's gone funny. She smiles at nothing all day and won't come to the shoals.' Her gills shut, offended. 'But it's above the plate. The fat man with the telescope says five coin to anybody who brings me.' She considers you. 'Have you got five coin?'".
+    On discuss { Assert hapennyWish(hapenny). Assert knows(actor, third_step). }
+  }
+  Discovery third_step "By the Harbour Bylaw of 1109 no merfolk may come above the third step of the Fish Stairs, on pain of five coin to whoever brings them. Ha'penny, a merfolk child, wants to go up to the Glass Market and buy a present for Mercy with her own pearl.".
+
+  // ── Mr. Pumphrey, the Harbourmaster ───────────────────────────────────────────────────────────────────────────────
+  Person pumphrey "Mr. Josiah Pumphrey" at pumphrey_office {
+    Role "the Harbourmaster of Sennet, with a brass telescope and the Bylaws under his arm". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "A stout man in a blue coat with brass buttons, a brass telescope and a bound copy of the Harbour Bylaws, looks at you through the telescope from four feet away, and then lowers it. 'Josiah Pumphrey,' he says. 'Harbourmaster. If you have business on the Quay, I am the Quay.'".
+    Greets again "'Ah,' says Mr. Pumphrey, and consults the Bylaws, in case.".
+  }
+  Rule pumphrey_office_hours when hour(clock) >= 8 and hour(clock) < 12 and not at(pumphrey, pumphrey_office) { Assert at(pumphrey, pumphrey_office). }
+  Rule pumphrey_patrol when hour(clock) >= 13 and hour(clock) < 18 and not at(pumphrey, fish_stairs) { Assert at(pumphrey, fish_stairs). }
+  Rule pumphrey_dines when ((hour(clock) >= 12 and hour(clock) < 13) or (hour(clock) >= 18 and hour(clock) < 21)) and not at(pumphrey, taproom) { Assert at(pumphrey, taproom). }
+  Rule pumphrey_bed when (hour(clock) >= 21 or hour(clock) < 8) and not at(pumphrey, offstage) { Assert at(pumphrey, offstage). }
+  Topic pumphrey_bylaw with pumphrey "Ask Mr. Pumphrey about the brass plate on the third step" when true once {
+    Says "'Bylaw Eleven-oh-Nine.' He opens the book without looking, at the page, which is worn grey. 'No person of the sea above the third step of the Fish Stairs, on pain of five coin to whoever brings them.' He closes it. 'Since the Whelming. The sea came up into the town once, and the town decided it would be the one to say how far, after.' He polishes the telescope. 'They trade at the third step. Proper. Orderly. Nobody on the Quay has a word against them. Below the plate.'".
+    On discuss { Assert knows(actor, third_step). }
+  }
+  Relation pumphreyRelents(group). Relation pumphreyDeposit(group).
+  Topic pumphrey_bethan with pumphrey "Have Old Bethan tell Mr. Pumphrey about his grandmother" when bethanFriend(bethan) and hapennyWish(hapenny) and at(bethan, ?p) and at(pumphrey, ?p) and not pumphreyRelents(pumphrey) once {
+    Says "Old Bethan puts her hands on her hips. 'Josiah Pumphrey,' she says, loud enough for the Quay. 'Your gran, Hester Pumphrey, sold cockles to the sea-folk on those stairs before you were breeched, and sat on the top step to do it, and nobody fined her, and you used to sit in her lap and pull their hair.' The Quay has gone very quiet. The Harbourmaster has gone the colour of a boiled crab. 'That,' he says, 'is neither here nor there.' He looks at the Bylaws. He looks at the plate. 'An hour,' he says. 'Under my eye. For the child. And if she bites anyone it is on your heads.'".
+    On discuss { Assert pumphreyRelents(pumphrey). }
+  }
+  Action argue_pumphrey(actor: group, site: place) "Argue with Mr. Pumphrey, in front of the whole Quay, that a child going shopping is not a person of the sea" {
+    Speaker pumphrey.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pumphrey, site) and hapennyWish(hapenny) and not pumphreyRelents(pumphrey) and not argued(pumphrey).
+    Time 1 minute.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert pumphreyRelents(pumphrey). Assert argued(pumphrey). }
+    On failure { Assert argued(pumphrey). }
+    Result "You put it to him that a child is a person of the sea only in the sense that a cod is a person, and that the Bylaw says person, and the Quay starts laughing at about the word cod and does not stop. The Harbourmaster holds out against it as long as a man can. 'An hour,' he says, at last, with dignity. 'Under my eye. As an exception. Which proves the rule.'".
+    Otherwise "You put it to him, and he hears you out, and then reads you the Bylaw again, slowly, with the stresses in different places, until the Quay gets bored and goes back to work.".
+  }
+  Relation argued(group).
+  Action pumphrey_deposit(actor: group, site: place) "Offer Mr. Pumphrey the five coin in advance" {
+    Speaker pumphrey.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pumphrey, site) and hapennyWish(hapenny) and not pumphreyRelents(pumphrey) and quantity(actor, gold) >= 5.
+    Time 1 minute.
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity(pumphrey, gold) by 5. Assert pumphreyRelents(pumphrey). Assert pumphreyDeposit(pumphrey). }
+    Result "'There is no provision,' says Mr. Pumphrey, 'for paying in advance.' He looks at the coins. He looks at the Bylaws, which have nothing to say. 'I will accept it,' he says, 'as a deposit,' and writes you a receipt in a beautiful hand.".
+  }
+  // Brought up the stairs: by leave, or unseen while the Harbourmaster is at his dinner, or anyway, and fined.
+  Query pumphreyWatching() means at(pumphrey, fish_stairs) or at(pumphrey, quay).
+  Action carry_hapenny(actor: group, site: place) "Lift Ha'penny into a fish-basket and carry her up the Fish Stairs to the Glass Market" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fish_stairs) and at(hapenny, site) and hapennyWish(hapenny) and not hapennyShopped(hapenny) and not hapennyUp(hapenny).
+    Time 1.
+    On success {
+      Assert hapennyUp(hapenny). Assert following(hapenny, party). Retract at(actor, fish_stairs). Assert at(actor, glass_market).
+    }
+    Result "She weighs about as much as a wet dog, and she is in the fish-basket before you have finished lifting it, with her tail curled round under her and her arms over the rim, and her gills going like bellows. Up the stairs, past the brass plate (she leans out to spit on it), along the Quay, where every head turns, up the Haul, and into the Glass Market, where she sees the bottles with the light moving in them and says nothing at all for the first time since you met her.".
+  }
+  Rule hapenny_fined when hapennyUp(hapenny) and not pumphreyRelents(pumphrey) and not fined(party) and pumphreyWatching()
+    says "Behind you on the Quay a whistle goes, and Mr. Pumphrey comes along it at a pace he has not used in years, with the Bylaws open. 'Bylaw Eleven-oh-Nine!' he says. 'Five coin!' And he holds out his hand, and the Quay, which loves a fine as it loves a wedding, watches you pay." {
+    Assert fined(party). Decrease quantity(party, gold) by 5 or to nothing. }
+  Relation fined(group).
+  Observe hapenny_market at glass_market when hapennyUp(hapenny) and following(hapenny, party) and not hapennyShopped(hapenny) "In her fish-basket Ha'penny is looking at everything at once: the bottles with the light in them, the glass floats, a stall of hand-mirrors, the crier's board, a dog. The stallholders have stopped crying their wares to look at her, and she at them.".
+  // At Prue Quickly's she buys her present with her pearl (lamp.kyr), and on the way back says what it is for.
+  Topic hapenny_gossip with hapenny "Ask Ha'penny why Mercy needs a present" when hapennyShopped(hapenny) and not knows(actor, sky_man) once {
+    Says "'Because she's gone soft.' Ha'penny holds the mirror up and looks at herself in it and makes a face. 'She caught a man. Out of the sky. He came down through the cloud in the fog like a gannet, twelve nights ago, and she caught him before the bottom got him, and took him to the air-bell, and she keeps him there, and feeds him, and he's broken his leg, and he reads books, and she won't come to the shoals.' She puts the mirror against her chest. 'Gran says he's a dry man and no good. I've seen him. He's all right. He talks to me.' She looks at you sideways. 'Don't tell. It's a secret. Everybody knows.'".
+    On discuss { Assert knows(actor, sky_man). }
+  }
+  Discovery sky_man "Twelve nights ago, in the fog, a man came down out of the sky into the bay, and Mercy, a merfolk girl, caught him before the bottom did, and keeps him in an air-bell in the Whelm. He has broken his leg, and reads books. The merfolk all know.".
+  Topic hapenny_home with hapenny "Take Ha'penny back down to the Fish Stairs" when hapennyUp(hapenny) and hapennyShopped(hapenny) once {
+    Says "She is quiet on the way back, holding the mirror. At the third step she slides out of the basket and into the water to the shoulders and turns round. 'You can come to supper,' she says. 'In the Guildhall. Gran won't mind. She will, but she won't.' She looks at the stairs going down into the dark. 'You need breath to come. I can give you some. Mine doesn't last long. I'm little.' And she ducks, and is gone, and the mirror flashes once, going down.".
+    On discuss { Retract hapennyUp(hapenny). Retract following(hapenny, party). Assert at(hapenny, drowned_street). Assert hapennyInvites(hapenny). Retract at(actor, glass_market). Assert at(actor, fish_stairs). Assert knows(actor, supper_asked). }
+  }
+  Discovery supper_asked "Ha'penny has asked the company to supper in the drowned Guildhall, at the table of her grandmother, the merfolk matriarch.".
+}

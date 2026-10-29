@@ -1,0 +1,110 @@
+Module sennet "The Grand Tour" {
+  // ── What the Rector does, if nobody stops her ─────────────────────────────────────────────────────────────────────
+  // She has proclaimed the Tour so that others will bring her the three petals the courts still keep. Florian and
+  // Miss Sone bring her the Fire (second day) and the Earth (fourth). On the fourth day she buys six brine-glass helms
+  // and six harpoons on the House's account, and at dawn on the sixth her divers go down into the Whelm for the Water
+  // petal, among people who have never been attacked. On the seventh night, with three, she goes down the keel
+  // ladder for the fourth, and the hill falls into its hole on the Whelm, and she sets the Rose and goes through the
+  // Door of Doors and is not seen again. Every step is her own; each can be stopped.
+  Relation raided(group). Relation raidRepulsed(group). Relation divers(group). Relation huntTried(group).
+  Relation rectorHunted(group). Relation rectorSawCompany(group). Relation keelTried(group).
+  Query rectorThree() means rectorHas(fire_petal) and rectorHas(earth_petal) and rectorHas(water_petal).
+  Query rectorAll() means rectorThree() and rectorHas(air_petal).
+  // ── The divers ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Rule divers_ordered when day(clock) >= 4 and rectorFree() and not petalTaken(water_petal) and not divers(quance) { Assert divers(quance). }
+  Topic pargeter_trade with pargeter "Ask Mr. Pargeter how trade is, with the Tour on" when divers(quance) once {
+    Says "'Marvellous! The House bought six brine-glass helms yesterday, on the Rector's own account.' He rubs his hands. 'And six harpoons. Whaling, I said to the clerk, ha ha.' He stops rubbing them. 'He didn't laugh. Nobody in the House laughs, this week.' He looks at you over his spectacles. 'What does a college want with harpoons, under the water? There's nothing down there but the sea-folk.'".
+    On discuss { Assert knows(actor, rector_divers). }
+  }
+  Discovery rector_divers "On the fourth day the House of Doors bought six brine-glass helms and six harpoons from Pargeter's, on the Rector's own account. There is nothing under the bay to use them on but the merfolk.".
+  Topic warn_admittance with admittance "Warn No Admittance that dry men are coming down with harpoons for the Water petal" when knows(actor, rector_divers) and not whelmWarned(admittance) and not raided(quance) once {
+    Says "She does not ask how you know. 'Harpoons.' She looks at her people at their supper, the children, the old man in the drowned armchair. 'In my Guildhall.' Her hand goes up to the crown. 'We have never been hunted. We came through the Door to a town already drowned; nobody was left to hunt us.' She stands up out of the mayor's chair. 'Then we will be awake.' She gives orders, in bubbles, low and quick, and the merfolk get up from the table and go, and you hear, through the water, all down Chandlers' Row, doors being shut.".
+    On discuss { Assert whelmWarned(admittance). }
+  }
+  Person house_divers "the House's divers" at offstage {
+    Role "six men in brine-glass helms with harpoons". Ancestry human. Calling warrior. Level 3. Numbers 3. Pronouns they.
+    Arrives "Down the drowned street, out of the green, come men in brine-glass helms with harpoons, walking along the bottom in lead boots, slow, with the bladders on their backs hissing.".
+  }
+  Rule raid_down when day(clock) == 6 and hour(clock) >= 5 and rectorFree() and not petalTaken(water_petal) and not raided(quance) and at(party, guildhall) and not whelmWarned(admittance) {
+    Assert at(house_divers, guildhall). Assert assails(house_divers, party). Assert raided(quance). Assert raidFought(party). }
+  Relation raidFought(group).
+  Rule raid_beaten when raidFought(party) and not able(house_divers) and not raidRepulsed(quance) says "The last of the divers goes up toward the light kicking, without his harpoon. The merfolk come out of the doors of Chandlers' Row, slowly, and look at you." {
+    Assert raidRepulsed(quance). Assert admittanceTrusts(admittance). Assert at(house_divers, offstage). }
+  Rule raid_won when raidFought(party) and not able(party) and able(house_divers) and not petalTaken(water_petal) {
+    Assert petalTaken(water_petal). Assert rectorHas(water_petal). Assert keeps(quance, water_petal). Increase rectorPetals(sennet_bay) by 1. Assert whelmRaided(admittance). }
+  Rule raid_unseen when day(clock) == 6 and hour(clock) >= 5 and rectorFree() and not petalTaken(water_petal) and not raided(quance) and not at(party, guildhall) {
+    Assert raided(quance). }
+  Rule raid_repulsed when raided(quance) and whelmWarned(admittance) and not raidFought(party) and not raidRepulsed(quance) { Assert raidRepulsed(quance). }
+  Rule raid_takes when raided(quance) and not whelmWarned(admittance) and not raidFought(party) and not petalTaken(water_petal) {
+    Assert petalTaken(water_petal). Assert rectorHas(water_petal). Assert keeps(quance, water_petal). Increase rectorPetals(sennet_bay) by 1. Assert whelmRaided(admittance). }
+  Relation whelmRaided(group).
+  Rule raid_news within sennet_town when whelmRaided(admittance) and not raidNews(party)
+    says "On the Quay they are saying that men in helms came up the Fish Stairs at six this morning with harpoons, and one of the harpoons had blood on it that was not red, and that they went up the headland to the House without a word to anybody." { Assert raidNews(party). }
+  Rule repulse_news within sennet_town when raidRepulsed(quance) and not raidNews(party)
+    says "On the Quay they are saying that men in helms came up the Fish Stairs at six this morning without their harpoons, and one of them bitten through the leg, and would not say what by." { Assert raidNews(party). }
+  Relation raidNews(group).
+  Observe whelm_after_raid at guildhall when whelmRaided(admittance) and at(admittance, guildhall) "No Admittance sits in the mayor's chair with her arm bound up in weed, and no crown. The Guildhall is very quiet. Nobody looks at you.".
+  Rule raided_hostile when whelmRaided(admittance) and not admittanceTrusts(admittance) and not whelmHostile(party) { Assert whelmHostile(party). Retract tolerates(guard, party). Retract admitted(party). }
+
+  // ── What she does when she hears Perrin Halyard is alive ──────────────────────────────────────────────────────────
+  // At two in the morning after she hears it, she goes down into the Whelm in the House's helm, to the air-bell.
+  Query perrinGuarded() means perrinUp(party) or perrinMoved(party) or whelmWarned(admittance) or at(party, air_bell) or not at(perrin, air_bell).
+  Rule rector_hunts when heardOf(quance, perrin_alive) and rectorFree() and hour(clock) == 2 and not huntTried(quance) and not perrinDead(party) and perrinGuarded() and at(party, air_bell)
+    says "Something comes up through the hole in the floor of the air-bell, slowly: a bowl of glass, a collar of leather, a gown of four colours gone dark with the sea. The Rector stands up in the air of the bell in a brine-glass helm, with her keys on their chain, dripping, and takes the helm off, and sees you. She looks at you for what seems a long time. Then she looks at Perrin Halyard, who is awake now, and white. 'Another night,' she says, quite pleasantly, and puts the helm back on, and goes down through the floor again." teaches rector_came {
+    Assert huntTried(quance). Assert rectorSawCompany(quance). }
+  Discovery rector_came "At two in the morning the Rector came up into the air-bell in a brine-glass helm, found the company there with Perrin Halyard, said 'Another night,' and went.".
+  Rule rector_hunt_balked when heardOf(quance, perrin_alive) and rectorFree() and hour(clock) == 2 and not huntTried(quance) and not perrinDead(party) and perrinGuarded() and not at(party, air_bell) {
+    Assert huntTried(quance). }
+  Rule rector_kills when heardOf(quance, perrin_alive) and rectorFree() and hour(clock) == 2 and not huntTried(quance) and not perrinDead(party) and not perrinGuarded() {
+    Assert huntTried(quance). Assert perrinDead(party). Assert rectorHunted(quance). Retract at(perrin, air_bell). Assert at(perrin, offstage). }
+  Rule perrin_found_dead within sennet_town when rectorHunted(quance) and perrinDead(party) and not deathNews(party) and hour(clock) >= 7
+    says "A merfolk child is sitting on the third step of the Fish Stairs, not selling anything, with her face in her hands. When you come near, Ha'penny looks up. 'Somebody came into the air-bell in the night,' she says. 'Mercy's sky-man. He's on the bottom now. She won't come out.'" { Assert deathNews(party). }
+  Relation deathNews(group).
+
+  // ── The keel, on the seventh night, or as soon as she knows she is known ─────────────────────────────────────────
+  Query keelNight() means (day(clock) == 7 and hour(clock) >= 22) or (heardOf(quance, quance_pushed) and hour(clock) >= 22).
+  Rule rector_to_keel when keelNight() and rectorFree() and rectorThree() and state(keel_rose, set) and not keelTried(quance) {
+    Assert keelTried(quance). Assert rectorAbout(quance). Assert at(quance, keel). Set keelAt(quance) to watch(clock). }
+  Measure keelAt(group).
+  Event rector_at_keel at keel when at(party, keel) and at(quance, keel) and keelTried(quance) and state(keel_rose, set) "The keel ladder rings, and someone comes down it, slow and sure, in a gown of four colours with the sleeves tied back, and a chain of keys that chimes at every rung; and steps off onto the ledge, and sees you, and stops. The Rector has a black case under her arm. 'Oh, my dear,' says Isadora Quance. 'Oh, I am sorry it's you.' She looks past you at the petal in the rock, pouring its cold wind down into the cloud. 'Come with me,' she says. 'I mean it. Stand aside, and come up the tower with me tonight, and we'll go through it together, both of us, first. Nobody else alive will ever have done it.' She smiles at you, and it is the same smile, the one that makes you feel you have been waiting all your life to be talked to. 'Well?'" then { Assert rectorOffers(party). }
+  Relation rectorOffers(group).
+  Topic join_rector with quance "Stand aside, and go with the Rector" when rectorOffers(party) and at(party, keel) and state(keel_rose, set) once {
+    Grave "Cloudgate stands on that petal. Taken out, the hill will come down where it came from, on the Whelm.".
+    Says "You stand aside. She goes past you along the ledge, and puts her hand to the petal in the rock, and takes it out. The wind stops. Above you the hill settles, the way a sleeper turns over. 'Come,' she says, and takes your arm.".
+    On discuss { Assert state(keel_rose, taken). Assert rectorHas(air_petal). Assert petalTaken(air_petal). Assert descending(sennet_bay). Set descent(sennet_bay) to 0. Assert rectorTookKeel(quance). Assert accomplice(party). Assert at(quance, nexus). Assert at(party, nexus). }
+  }
+  Relation accomplice(group).
+  Topic refuse_rector with quance "Tell the Rector no, and stand between her and the petal" when rectorOffers(party) and at(party, keel) and state(keel_rose, set) and not refusedRector(party) once {
+    Says "'No?' She looks genuinely surprised, and then, oddly, pleased, as a teacher is when a student says something unexpected. 'No. Well.' She sets the black case down on the ledge, carefully. 'I had so hoped,' says the Rector, and takes off her rings.".
+    On discuss { Assert refusedRector(party). Retract peaceable(quance). Assert assails(quance, party). }
+  }
+  Relation refusedRector(group).
+  Topic over_rector with quance "Tell the Rector it is over: Perrin Halyard is alive, and up, and Cloudgate knows" when rectorOffers(party) and at(party, keel) and perrinUp(party) and not rectorFled(quance) once {
+    Says "For a long moment she does not move at all. Then she laughs, very quietly, a real laugh, at herself. 'Up,' she says. 'Of course he is. He always did come back up, that boy, whatever you threw him into.' She looks at the petal in the rock, and at the black case under her arm, and at you. 'Say it where it can't be unsaid,' she says. 'I taught him that.' She sets the case down on the ledge at your feet, very gently, as if it might wake. 'Mind the petals. They're the only things I ever earned.' And she goes back up the keel ladder, rung by rung, with her keys chiming, and you do not see her again.".
+    On discuss { Assert rectorFled(quance). Retract rectorHas(fire_petal). Retract rectorHas(earth_petal). Retract rectorHas(water_petal). Give fire_petal to actor. Give earth_petal to actor. Give water_petal to actor. Assert at(quance, offstage). }
+  }
+  // Nobody there to stop her, or nobody who did in time: she takes it, and the hill comes down.
+  Rule rector_takes_keel when keelTried(quance) and at(quance, keel) and state(keel_rose, set) and rectorFree() and able(quance) and watch(clock) >= keelAt(quance) + 2 and not refusedRector(party) {
+    Assert state(keel_rose, taken). Assert rectorHas(air_petal). Assert petalTaken(air_petal). Assert descending(sennet_bay). Set descent(sennet_bay) to 0. Assert rectorTookKeel(quance). Assert at(quance, nexus). }
+  Rule rector_beaten when refusedRector(party) and not able(quance) and not rectorTaken(quance)
+    says "The Rector lies on the ledge with her gown spread round her and her keys under her hand, breathing, looking up at the underside of Cloudgate. 'I was very good,' she says. 'I was very, very good, you know.' Footsteps on the ladder: Halyard footmen, and behind them, for some reason, Sergeant Bassett of the Watch, who has never been up the chain in his life and is green." {
+    Assert rectorTaken(quance). Retract rectorHas(fire_petal). Retract rectorHas(earth_petal). Retract rectorHas(water_petal). Give fire_petal to party. Give earth_petal to party. Give water_petal to party. Assert at(quance, offstage). }
+
+  // ── The Rector with four petals sets the Rose and goes through ───────────────────────────────────────────────────
+  Rule rector_sets_rose when rectorAll() and rectorFree() and at(quance, nexus) and not doorOpen(sennet_bay) {
+    Assert doorOpen(sennet_bay). Assert roseMade(sennet_bay). Set openedAt(sennet_bay) to watch(clock). Assert socketed(fire_petal). Assert socketed(earth_petal). Assert socketed(water_petal). Assert socketed(air_petal). Set socketCount(nexus) to 4. }
+  Rule rector_opens_seen at nexus when rectorAll() and at(quance, nexus) and doorOpen(sennet_bay) and at(party, nexus) and not rectorSeenOpen(party)
+    says "The Rector sets the four petals in the rose of the Door of Doors one after another, quickly, without looking, as if she had done it in her sleep a thousand times; and turns the Rose, and the Door opens on everywhere, and the wind of everywhere comes into the Nexus and lifts the hair off her forehead. She stands looking at it with her hands at her sides. 'Oh,' says Isadora Quance, very softly, like a girl." { Assert rectorSeenOpen(party). }
+  Relation rectorSeenOpen(group).
+  Rule rector_goes_through when doorOpen(sennet_bay) and at(quance, nexus) and rectorFree() and not firstThrough(party) and watch(clock) >= openedAt(sennet_bay) + 1 and not accomplice(party) {
+    Assert rectorThrough(quance). Retract at(quance, nexus). Assert at(quance, offstage). }
+  Rule rector_follows when doorOpen(sennet_bay) and at(quance, nexus) and rectorFree() and firstThrough(party) and not rectorThrough(quance)
+    says "The Rector steps through the Door of Doors after you, into everywhere, without looking back; and does not come out again on this side, whatever you think of." {
+    Assert rectorThrough(quance). Retract at(quance, nexus). Assert at(quance, offstage). }
+  // An accomplice is let go first, as she promised: she keeps her word, being vain.
+  Rule accomplice_first when accomplice(party) and doorOpen(sennet_bay) and at(party, nexus) and not firstThrough(party)
+    says "'You first,' says the Rector. 'You won. I said so.' She is laughing. Behind you, over the bay, a whole hill is coming down out of the sky." { Assert firstThrough(party). Assert doorward(party). }
+  // Opened from below or by the company's Rose, the door brings her running up the tower stair.
+  Rule rector_comes_running when doorOpen(sennet_bay) and rectorFree() and not rectorAll() and not at(quance, nexus) and not rectorThrough(quance) and within(quance, sennet_town) {
+    Assert at(quance, nexus). Assert rectorAbout(quance). }
+}

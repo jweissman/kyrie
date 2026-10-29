@@ -1,0 +1,30 @@
+Module sennet "The Grand Tour" {
+  // ── The Rose of the Winds ─────────────────────────────────────────────────────────────────────────────────────────
+  // The key of the Door of Doors, broken in four and given to the four courts so that nobody could open it alone. Each
+  // petal is in one place until somebody has it: the company (in its packs), Florian and Miss Sone (the rivals, who
+  // give what they win to the Rector the evening they win it), or the Rector.
+  Kind fire_petal_kind "the Fire petal of the Rose" is treasure worth 0 weighing 0 described "A petal of red glass the length of your hand, warm as a cup of tea, with a light moving in it like a coal breathing. It does not burn anything it touches.".
+  Kind earth_petal_kind "the Earth petal of the Rose" is treasure worth 0 weighing 2 described "A petal of dark stone the length of your hand, much heavier than it should be, cool, with a grain in it like the rings of a tree.".
+  Kind water_petal_kind "the Water petal of the Rose" is treasure worth 0 weighing 0 described "A petal of green glass the length of your hand, always a little wet, with a sound in it, if you hold it to your ear, like the sea in a shell.".
+  Kind air_petal_kind "the Air petal of the Rose" is treasure worth 0 weighing -6 described "A petal of clear glass the length of your hand, with nothing in it at all that you can see, that pulls upward out of your fingers like a kite on a string. Wind comes out of it, steady, cold, smelling of snow.".
+  Item fire_petal "the Fire petal" is fire_petal_kind at offstage.
+  Item earth_petal "the Earth petal" is earth_petal_kind at offstage.
+  Item water_petal "the Water petal" is water_petal_kind at offstage.
+  Item air_petal "the Air petal" is air_petal_kind at offstage.
+  Relation rivalHas(entity). Relation rectorHas(entity). Relation petalTaken(entity).
+  // Who has won each petal, whoever holds it now.
+  Query companyHas(p: entity) means carries(party, p).
+  Measure rectorPetals(place). Measure companyPetals(place).
+
+  // ── What the week turns on ────────────────────────────────────────────────────────────────────────────────────────
+  // Perrin Halyard, the Rector, Cloudgate, the Door: the large facts every part of the city reads.
+  Relation perrinDead(group). Relation perrinUp(group). Relation perrinMoved(group).
+  Relation rectorExposed(group). Relation rectorTaken(group). Relation rectorThrough(group). Relation rectorFled(group).
+  Relation cloudgateFell(place). Relation descending(place). Measure descent(place). Relation whelmEmptied(place).
+  Relation madeSet(place). Relation giftRenewed(place).
+  Relation doorOpen(place). Relation openedBelow(place). Relation roseMade(place). Relation firstThrough(group).
+  Measure openedAt(place).
+  Relation enrolled(group).
+  // Cloudgate's talk of the company: what the Gallery of Winds listens for (air.kyr).
+  Measure talk(group).
+}

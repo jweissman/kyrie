@@ -1,0 +1,78 @@
+Module sennet "The Grand Tour" {
+  // ── Who was at the Balustrade ─────────────────────────────────────────────────────────────────────────────────────
+  // Three people saw a piece of it, and each told it only once something had been done for them: Mother Kittiwake
+  // (the eleven o'clock basket), Jem Tuttle (the sleeves, the chain), Mr. Tolley (the chapter dictated four times).
+  // Perrin heard the keys. Any two of the three, put together, say who it was; so does Perrin, told any one.
+  Rule two_witnesses_basket_sleeves when knows(party, late_basket) and knows(party, bishop_sleeves) and not knows(party, quance_pushed)
+    says "You put it together: a woman at the rail at ten in a gown with sleeves like a bishop's, and a chain that rang; and the Rector, alone, on the eleven o'clock basket, with a hand that shook so she dropped the crown." teaches quance_pushed { }
+  Rule two_witnesses_basket_chapter when knows(party, late_basket) and knows(party, chapter_rewritten) and not knows(party, quance_pushed)
+    says "You put it together: the Rector came down alone on the eleven o'clock basket after the fall, shaking; and she has dictated that night four times, until she came down at nine and was in bed by ten." teaches quance_pushed { }
+  Rule two_witnesses_sleeves_chapter when knows(party, bishop_sleeves) and knows(party, chapter_rewritten) and not knows(party, quance_pushed)
+    says "You put it together: a woman at the rail at ten in a gown with sleeves like a bishop's, with a chain that rang; and the Rector, who never revises, has rewritten the night four times." teaches quance_pushed { }
+  // Who can be brought to say what they saw, out loud, before others.
+  Query witnessKittiwake() means knows(party, late_basket) and gangFriend(party).
+  Query witnessJem() means knows(party, bishop_sleeves) and jemFree(jem).
+  Query witnessTolley() means knows(party, chapter_rewritten) and tolleyFriend(tolley).
+  Query twoWitnesses() means (witnessKittiwake() and witnessJem()) or (witnessKittiwake() and witnessTolley()) or (witnessJem() and witnessTolley()).
+  Query perrinHere() means following(perrin, party) or (perrinUp(party) and at(perrin, ?p) and at(party, ?p)).
+
+  // ── Before Cloudgate, at the Lanterns ─────────────────────────────────────────────────────────────────────────────
+  Action accuse_lanterns(actor: group, site: place) "Say out loud, before all Cloudgate, that the Rector pushed Perrin Halyard off the Balustrade" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, promenade) and at(quance, site) and lanternNight() and knows(actor, quance_pushed) and rectorFree() and not accused(actor).
+    Grave "Said before all Cloudgate, it is said, and the Rector will know you know.".
+    Time 1 minute.
+    On success { Assert accused(actor). Assert heardOf(quance, quance_pushed). Increase talk(actor) by 2. }
+    Result "You say it. Your voice goes out across the Promenade in the silence of the band's stopping, and every face turns. The Rector of the House of Doors lowers her glass.".
+  }
+  Relation accused(group).
+  Rule accusation_holds at promenade when accused(party) and rectorFree() and (perrinHere() or twoWitnesses()) and lanternNight()
+    says "Nobody laughs. Somebody says the name of Jem Tuttle, the footman who went down, and somebody says that Mother Kittiwake has been telling the winch-house about the eleven o'clock basket since the fourth day; and the Rector looks round the faces of Cloudgate one by one, and sees in them that it is believed. 'Well,' she says, and sets her glass down on the rim of the Balustrade, very carefully. The Dowager says, 'Take her,' without raising her voice, and four Halyard footmen do." {
+    Assert rectorExposed(quance). Assert rectorTaken(quance). Assert at(quance, offstage). Assert rectorLostPetals(quance). }
+  Rule accusation_fails at promenade when accused(party) and rectorFree() and not perrinHere() and not twoWitnesses() and lanternNight() and not laughed(party)
+    says "There is a silence; and then the Rector laughs, delightedly, and Cloudgate laughs with her, because she is laughing. 'My dear,' she says, 'what a story. You must write it down.' She raises her glass to you. Over its rim, for a moment, her eyes are not laughing at all." {
+    Assert laughed(party). }
+  Relation laughed(group). Relation rectorLostPetals(group).
+  // Taken, she gives up what she held: the petals go back to the courts they came from, or to whoever won them.
+  Rule petals_released when rectorLostPetals(quance) and (rectorHas(fire_petal) or rectorHas(earth_petal) or rectorHas(water_petal)) {
+    Retract rectorHas(fire_petal). Retract rectorHas(earth_petal). Retract rectorHas(water_petal). Assert petalsHeld(sennet_bay). }
+  Relation petalsHeld(place).
+  Topic imogen_petals with imogen "Ask Lady Halyard for the petals the Rector was carrying" when petalsHeld(sennet_bay) once {
+    Says "'The House's? Or the courts'?' She has the black case in her lap; the footmen brought it. She opens it, and looks at what is in it for a long moment, and closes it, and gives it you. 'I find I do not want anything in my house,' says Lady Halyard, 'that anybody has carried up a hill.'".
+    On discuss { Retract petalsHeld(sennet_bay). Give fire_petal to actor. Give earth_petal to actor. Give water_petal to actor. }
+  }
+
+  // ── Before the Watch ──────────────────────────────────────────────────────────────────────────────────────────────
+  Topic bassett_told with bassett "Lay before Sergeant Bassett what the winch-gang, the footman and the amanuensis know about the night Perrin Halyard fell" when knows(actor, quance_pushed) and twoWitnesses() and rectorFree() once {
+    Says "The sergeant hears it all without a word, writing in his notebook on his hat. When you have finished he reads it back to you, slowly, the way he read A PRESENT FROM SENNET. Then he puts the notebook away. 'Mother Kittiwake I've known thirty years,' he says. 'Jem Tuttle I knew his mother. The Rector's young man, I don't know, but he's frightened, and frightened men are mostly telling the truth.' He puts his hat on. 'I'm going up the headland,' says Sergeant Bassett. 'You'd better come and stand where she can see you.'".
+    On discuss { Assert rectorExposed(quance). Assert bassettGoes(bassett). }
+  }
+  Relation bassettGoes(group).
+  Rule bassett_takes when bassettGoes(bassett) and rectorFree() and within(quance, sennet_town)
+    says "Sergeant Bassett of the Watch walks up the Headland Steps with his hat in his hand, and into the House of Doors, and is in the Rector's study for a quarter of an hour; and comes out with the Rector of the House of Doors walking beside him in her gown of four colours, her chain of keys in his other hand, talking to him pleasantly about the weather in Cloudgate." {
+    Assert rectorTaken(quance). Assert at(quance, offstage). Assert rectorLostPetals(quance). }
+
+  // ── Perrin, face to face ──────────────────────────────────────────────────────────────────────────────────────────
+  Event perrin_meets_rector near quance when perrinHere() and rectorFree() and at(quance, ?p) and at(party, ?p) and not dark() "The Rector turns, and sees Perrin Halyard, wet, on a crutch made of an oar, and for the first time since you have known her Isadora Quance has nothing to say. She looks at him. He looks at her. 'You lent me your own books,' he says. 'You taught me Aenean.' 'You were the best I ever had,' she says, and her voice is quite steady. 'And you were going to give it to the wind.' She looks down at her hands, and at the keys on her chain, and takes the chain off over her head, and holds it out to him; and when he does not take it she lets it fall on the floor between them. 'Say it where it can't be unsaid,' says the Rector. 'I taught you that.' And she sits down on the nearest thing, which is the floor, in her gown of four colours, and waits for whoever will come." then {
+    Assert rectorExposed(quance). Assert rectorTaken(quance). Assert rectorLostPetals(quance). Assert perrinConfronted(perrin). }
+  Relation perrinConfronted(group).
+  Rule rector_led_off when rectorTaken(quance) and not at(quance, offstage) { Assert at(quance, offstage). }
+
+  // ── Kept above: the Dowager's price ───────────────────────────────────────────────────────────────────────────────
+  Topic imogen_secret with imogen "Tell Lady Halyard you know what holds Cloudgate up" when knows(actor, keel_petal) and not secretToldImogen(actor) and not cloudgateFell(sennet_bay) and not imogenSorry(imogen) once {
+    Says "She looks at you for a long time. Then she goes to the escritoire, and unlocks it, and takes out a purse, heavy, and sets it on the table between you. 'A hundred coin,' she says. 'And the friendship of this house, which in Cloudgate is worth more than the coin.' She does not sit down. 'My son wanted to give it to the wind. My son is at the bottom of the bay.' Her face does not move. 'What do you want?'".
+    On discuss { Assert secretToldImogen(actor). Assert bribeOffered(actor). }
+  }
+  Topic take_bribe with imogen "Take the purse, and say you will keep Cloudgate's secret" answering imogen_secret when bribeOffered(actor) and not bribed(actor) once {
+    Grave "A hand that takes the Halyards' money keeps the Halyards' secret.".
+    Says "She does not watch you pick it up. 'Thank you,' she says, to the window. 'You will be received in this house, whenever you come up.' And then, still to the window: 'He would have despised you.'".
+    On discuss { Assert bribed(actor). Increase quantity(actor, gold) by 100. Assert promiseMade(keep_secret). }
+  }
+  Topic refuse_bribe with imogen "Leave the purse on the table" answering imogen_secret when bribeOffered(actor) and not bribed(actor) and not refusedBribe(actor) once {
+    Says "She looks at the purse, and at you, and for a moment something moves in her face that might be respect, and might be fear. 'Then we understand each other,' says Lady Halyard. 'Good afternoon.'".
+    On discuss { Assert refusedBribe(actor). }
+  }
+  Relation refusedBribe(group).
+  Promise keep_secret "to keep the secret of what holds Cloudgate up" to imogen
+    kept when cloudgateFell(sennet_bay) or doorOpen(sennet_bay) or day(clock) >= 8 "Lady Halyard's purse is lighter, and her house is still in the sky."
+    broken when heardOf(sylphs, keel_petal) or tookKeel(party) "Somewhere in Cloudgate a door is closed to you for good." { }.
+}

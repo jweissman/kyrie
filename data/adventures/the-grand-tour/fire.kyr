@@ -1,0 +1,187 @@
+Module sennet "The Grand Tour" {
+  // ── The Plane of Fire: the Hour Court ─────────────────────────────────────────────────────────────────────────────
+  // Nothing in the Fire lasts more than an hour, so the court of the ifrit values only what is new. A thing seen
+  // twice is ash. Every hour the court crowns whatever is newest in it, and the Monarch holds the Fire petal for the
+  // hour, in a brazier of white fire, and may do with it as a Monarch does. What the Fire has never in its existence
+  // seen is anything old.
+  Entity plane_gehenna: law "the law of the Fire".
+  Initially Assert law(hour_land, plane_gehenna).
+  Hazard heat "The heat of the Fire" means "Deal (1d6) fire damage to ally unless constitution save against (11).".
+  Query inFire() means within(party, fire_land).
+  Relation scorched(group).
+  Rule fire_scorches when inFire() and not capable(party, heatproof) and not heatSuspended(fire_land) {
+    Assert strikes(heat, party). }
+  Rule fire_scorch_told when inFire() and not capable(party, heatproof) and not scorched(party) says "The heat comes at you like a hand on the face. Your hair crackles. Without a fire-cloak, the Fire will cook you a little at a time." { Assert scorched(party). }
+  Rule fire_scorch_reset when scorched(party) and not inFire() { Retract scorched(party). }
+  Observe threshold_fire at fire_threshold when true "Through the door, and the Hall is gone, and there is no ground, only a floor of red light like the floor of a forge, and over it a sky of slow orange cloud, and everything moving, flickering, changing its shape while you look at it: hills that are flames, flames that are towers. Behind you the Fire Door stands in nothing, a door-shaped piece of cool grey Sennet, with a halfling's ledger visible through it.".
+  Observe hour_court_scene at hour_court when true "The Hour Court is a great hall without walls, held up by pillars of fire that are never the same pillars twice. The court of the ifrit moves through it, tall and burning, in clothes of smoke, talking all at once and never about the same thing for more than a moment. In the middle, on a dais of embers, a brazier of white fire, and in the white fire, lying on it as if on a cushion, a petal of red glass. Beside the brazier, a throne, and on the throne, this hour's Monarch.".
+  Observe hour_monarch_a at hour_court when not crowned(party) and not emberCrowned(fire_land) and hour(clock) < 6 "This hour's Monarch is a little salamander in a paper crown, who seems as surprised as anyone.".
+  Observe hour_monarch_b at hour_court when not crowned(party) and not emberCrowned(fire_land) and hour(clock) >= 6 and hour(clock) < 12 "This hour's Monarch is a song: a tune of three notes that somebody made up a little while ago, sitting on the throne as a wavering in the air. The court bows to it.".
+  Observe hour_monarch_c at hour_court when not crowned(party) and not emberCrowned(fire_land) and hour(clock) >= 12 and hour(clock) < 18 and not rivalCrowned(fire_land) "This hour's Monarch is a colour nobody had seen before this morning, a kind of blue-red, sitting on the throne as a light.".
+  Observe hour_monarch_d at hour_court when not crowned(party) and not emberCrowned(fire_land) and hour(clock) >= 18 "This hour's Monarch is an ifrit child of a few minutes old, asleep on the throne, glowing. The court tiptoes.".
+  Observe hour_monarch_you at hour_court when crowned(party) "This hour's Monarch is you. The court of the ifrit stands about the throne, burning, and watches you with the most enormous interest, as they have watched nothing else in their lives, for the length of an hour.".
+  Observe hour_monarch_ember at hour_court when emberCrowned(fire_land) "This hour's Monarch, and the last hour's, and the hour's before, is a small coal on the throne, the size of a hen's egg, that remembers. The court has never had a Monarch that remembered anything, and stands about it, burning, in an uneasy and delighted silence.".
+  Observe ash_scene at ash_market when true "The Ash Market: stalls of flame selling flame. Everything on them is brand-new and burning, and will be ash within the hour, and the ifrit buying and selling it do not seem to mind; they mind only if it is not new. At the back of the market, where the stalls were an hour ago, lie drifts of grey ash, and a breeze is taking them.".
+  Observe lists_scene at lists when true "The Lists of the Salamanders: a ring of fire, and in the ring two salamanders as long as horses fighting, rolling over and over, biting, while the court of the ifrit watches and cheers each new hold and turns away bored at any it has seen before.".
+
+  Relation heatSuspended(place). Relation crowned(group). Relation emberCrowned(place). Relation rivalCrowned(place).
+  Relation shown(entity). Measure reign(place). Measure lastHour(place). Relation sangToCourt(group).
+  Initially Set reign(fire_land) to 3. Initially Set lastHour(fire_land) to 8.
+  Relation everCrowned(group).
+  Rule hour_turns_told at hour_court when inFire() and hour(clock) != lastHour(fire_land) and crowned(party)
+    says "A bell of fire rings somewhere, and the hour turns, and the court turns away from you all at once, as if you had never been, to crown whatever is newest now. Your reign is over." { }
+
+  // Each hour the court crowns its own newest, at three; and whatever the company was is over.
+  Rule hour_turns when hour(clock) != lastHour(fire_land) {
+    Set lastHour(fire_land) to hour(clock). Set reign(fire_land) to 3. Retract crowned(party). Retract heatSuspended(fire_land). }
+  // ── The hawker ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person hawker "a hawker of the Ash Market" at ash_market {
+    Role "an ifrit selling flames off a tray of flame". Species ifrit. Peaceable. Pronouns they.
+    Greets "An ifrit with a tray of fire hung round their neck turns to you and looks you over, flickering. 'New!' they say. 'You're new. I've never seen you.' They look again, and their face falls in on itself in smoke. 'Oh. I have now.'".
+    Greets again "'Have I seen you?' says the hawker, and squints. 'I have. Pity.'".
+  }
+  Topic hawker_rule with hawker "Ask the hawker how a Monarch is made in the Hour Court" when true once {
+    Says "'Newness!' They spread their hands, and flames come off the fingers. 'Every hour the court crowns the newest thing in it. A song somebody's just made up. A colour. A baby. A fight, if it's a new fight; never the same hold twice.' They lean close, hot as an oven. 'Show the court something it has never seen, and if it's newer than the Monarch, you're the Monarch till the bell. And the Monarch has the brazier, and the petal on it.' They shrug, in sparks. 'Only nothing's new to us for long. A thing seen twice is ash. And we've seen everything that burns.' They look at you with sudden cunning. 'What have you got that doesn't?'".
+    On discuss { Assert knows(actor, hour_rule). }
+  }
+  Discovery hour_rule "In the Hour Court a new Monarch is crowned every hour, of whatever is newest there. Shown something it has never seen, newer than the Monarch, the court crowns whoever showed it until the bell, and the Monarch holds the Fire petal. A thing seen twice is ash to them; they have seen everything that burns.".
+  Topic hawker_old with hawker "Ask the hawker what is the newest thing anyone ever showed the court" when knows(actor, hour_rule) once {
+    Says "'Oh.' The hawker goes quite still, which for an ifrit is a kind of trance. 'There was a woman, once, before I was lit. I was told. In a grey cloak, with a book. She showed them a snowball.' They shiver, in sparks. 'Cold. A thing that was cold. And then she was rude to them, which nobody had ever been.' They lean in. 'The oldest thing in the Fire is about an hour old. Anything older than that,' they whisper, as if it were indecent, 'nobody here has ever seen. We wouldn't know what to do with ourselves.'".
+    On discuss { Assert knows(actor, old_is_new). }
+  }
+  Discovery old_is_new "Nothing in the Fire is older than an hour, so nothing old has ever been seen there: the hawker says the court would not know what to do with itself before anything old.".
+
+  // ── Things to show the court ──────────────────────────────────────────────────────────────────────────────────────
+  // Each is shown once; a thing newer than this hour's Monarch crowns the company. The newest of all are the oldest:
+  // Dame Philippa's own Handbook, forty years old, nine times through the Doors, and a geode from the Minutes of the
+  // Slow Assembly (earth.kyr), older than anything.
+  Query crownable() means inFire() and at(party, hour_court) and not crowned(party) and not emberCrowned(fire_land).
+  Rule crowned_felt when crowned(party) and not everCrowned(party) { Assert everCrowned(party). Increase talk(party) by 2. }
+  Relation fabianLetGo(group).
+  Topic fabian_book_ask with fabian travelling "Ask Fabian whether you may show the Hour Court his grandmother's own Handbook" when inFire() and at(party, hour_court) and carries(party, philippa_copy) and knows(actor, old_is_new) and not fabianLetGo(fabian) and not shown(philippa_copy) once {
+    Says "He knows what you are going to ask before you ask it; you can see him know. He looks at the brazier, and at the court, and at the red book gone brown in your hands. 'It'll burn,' he says. 'In an hour. Everything here does.' He takes it from you and opens it at the flyleaf, where an old woman has written PHILIPPA MURREY HER BOOK in green ink, and under it, in a child's hand, much later, F. MURREY. He looks at that for a long time. 'She'd hate it,' he says. 'Being shown off to the Hour Court like a snowball.' And then he laughs, and it is a real laugh, the first you have heard from him. 'Go on. Show them. I've got it by heart anyway, God help me. I'll write my own.'".
+    On discuss { Assert fabianLetGo(fabian). Increase fondness(fabian) by 2. }
+  }
+  Action show_handbook(actor: group, site: place) "Show the Hour Court Dame Philippa's own Handbook, forty years old" {
+    Requires able(actor) and company(actor) and at(actor, site) and crownable() and carries(actor, philippa_copy) and not shown(philippa_copy)
+      and (fabianLetGo(fabian) or not travelsWith(fabian, party)).
+    Time 1 minute.
+    On success { Assert shown(philippa_copy). Spend philippa_kind from actor. Assert crowned(actor). Set reign(fire_land) to 9. Assert bookBurned(party). }
+    Result "You hold it up. The court of the ifrit looks at it, and does not understand, and then understands, all at once, the whole court, the way a flock of birds turns. A thing that is forty years old. That has been through the Fire Door nine times, and come back nine times, and not burned. That has someone's writing in it, in green, and someone else's, in pencil, and a flower from another world pressed flat. They come close, burning, and do not touch it. A very old ifrit (perhaps fifty minutes old) begins to weep fire. Then the whole court kneels, and they take the paper crown off the head of the last Monarch and put it on yours, and set the red book on the white fire beside the petal, where it begins, very slowly, at one corner, to burn.".
+  }
+  Relation bookBurned(group).
+  Observe book_burning at hour_court when bookBurned(party) and crowned(party) "On the white fire beside the petal Dame Philippa's Handbook is burning, very slowly, from one corner, page by page, the green ink going up last. The court will not take its eyes off it.".
+  Action show_geode(actor: group, site: place) "Show the Hour Court the geode from the Minutes" {
+    Requires able(actor) and company(actor) and at(actor, site) and crownable() and holding(actor, geode_kind) and not shown(geode_kind) and reign(fire_land) < 8.
+    Time 1 minute.
+    On success { Assert shown(geode_kind). Assert crowned(actor). Set reign(fire_land) to 8. }
+    Result "You crack it open in your two hands, as Chert showed you, and hold out the halves: a hollow lined with purple crystal, grown slowly, a speck at a time, in the dark, over a length of time the court of the ifrit has no word for. They stare into it. One of them asks how long. You say a million years, which is a guess. The court makes a noise like a forge-bellows breathing in, and sits down, all of it, on the floor of light, and crowns you.".
+  }
+  Action show_wind(actor: group, site: place) "Show the Hour Court the jar of the North Wind" {
+    Requires able(actor) and company(actor) and at(actor, site) and crownable() and holding(actor, north_wind_kind) and not shown(north_wind_kind) and reign(fire_land) < 6.
+    Time 1 minute.
+    On success { Assert shown(north_wind_kind). Assert crowned(actor). Set reign(fire_land) to 6. }
+    Result "You hold up the jar, and the frost on the inside of the glass ferns up in the heat, and does not melt. The court crowds in. Cold, they say to one another, cold, and something that is not anything moving in it, and it does not burn. They put the paper crown on you, gingerly, as if you might freeze it.".
+  }
+  Action show_mirror(actor: group, site: place) "Show the Hour Court a hand-mirror" {
+    Requires able(actor) and company(actor) and at(actor, site) and crownable() and holding(actor, mirror_kind) and not shown(mirror_kind) and reign(fire_land) < 5.
+    Time 1 minute.
+    On success { Assert shown(mirror_kind). Assert crowned(actor). Set reign(fire_land) to 5. }
+    Result "You hold it up to the court, and the nearest ifrit looks into it and sees itself, still. Not flickering. Not changing. Held in the glass the way nothing in the Fire is ever held. It screams, delightedly, and the court comes running to look at itself standing still, and crowns you for it while they jostle.".
+  }
+  Action show_glass_petal(actor: group, site: place) "Show the Hour Court a glass petal stamped A PRESENT FROM SENNET" {
+    Requires able(actor) and company(actor) and at(actor, site) and crownable() and holding(actor, glass_petal_kind) and not shown(glass_petal_kind) and reign(fire_land) < 4.
+    Time 1 minute.
+    On success { Assert shown(glass_petal_kind). Assert crowned(actor). Set reign(fire_land) to 4. }
+    Result "They look at the glass petal, and at the real one on the brazier, and back, and an ifrit turns it over and reads A PRESENT FROM SENNET, and explains to the others what a present is, and what Sennet is, and that this is a thing pretending to be another thing, and will not burn while it does it. The court has never seen a lie that did not burn. They crown you, laughing in great gusts of smoke.".
+  }
+  Action show_shop_book(actor: group, site: place) "Show the Hour Court a copy of Murrey's Handbook from the shop" {
+    Requires able(actor) and company(actor) and at(actor, site) and crownable() and holding(actor, handbook_kind) and not shown(handbook_kind).
+    Time 1 minute.
+    On success { Assert shown(handbook_kind). }
+    Result "They look at it politely. It is new paper, printed last spring. They have seen paper. One of them takes it, and it is ash in their hand before they have opened it, and they blow the ash away, and look past you for something else.".
+  }
+  Action sing_court(actor: group, site: place) "Sing the Hour Court something nobody has ever sung" {
+    Requires able(actor) and company(actor) and at(actor, site) and crownable() and not sangToCourt(actor) and reign(fire_land) < 5.
+    Time 1 minute.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert sangToCourt(actor). Assert crowned(actor). Set reign(fire_land) to 5. }
+    On failure { Assert sangToCourt(actor). }
+    Result "You make it up as you go: a song about the coast road, and a gull on a bollard, and the bay, in a tune you have never heard either. The court listens. Nobody has sung it before; nobody will sing it again, because nobody will remember it in an hour, and you will not either. While it lasts it is the newest thing in the world. They crown you on the last note.".
+    Otherwise "You sing, and halfway through the second verse you hear yourself singing a song you know, a song from home, and so does the court: it has heard that one, an hour ago or a thousand years ago, it does not matter. They turn away.".
+  }
+  // A player by trade makes something up that the court has never seen, without a roll: a turn, a bit, a trick.
+  Action perform_court(actor: group, site: place) "Give the Hour Court a turn of your own devising, as a player does" {
+    Requires able(actor) and company(actor) and at(actor, site) and crownable() and craft(actor, craft_stage) and not performed(actor) and reign(fire_land) < 6.
+    Time 1 minute.
+    On success { Assert performed(actor). Assert crowned(actor). Set reign(fire_land) to 6. }
+    Result "You give them a bit you have never done, because you are making it up out of the heat and the faces and the brazier: a Tourist meeting the Fire for the first time, losing an eyebrow, then the other, then their dignity. The court has never seen itself from the outside. It screams. It sits down. It begs for more, and then remembers it has seen that now, and crowns you instead.".
+  }
+  Relation performed(group).
+  // The ember of Cabinet Fourteen, brought home: nobody in the Fire remembers it, and it is new to them; and it is the
+  // only thing in the Fire that remembers anything.
+  Action ember_home(actor: group, site: place) "Open the warming-pan and set the ember down before the Hour Court" {
+    Requires able(actor) and company(actor) and at(actor, site) and inFire() and at(actor, hour_court) and carries(actor, ember) and not emberCrowned(fire_land).
+    Time 1 minute.
+    On success { Spend ember_kind from actor. Assert emberCrowned(fire_land). Retract crowned(actor). Assert emberHome(fire_land). }
+    Result "You open the lid. The ember sits in the pan for a moment, quite still, as if it did not believe it; and then it rolls out onto the floor of light, and flares up as high as your shoulder, white, and the court of the ifrit turns to look at it all at once. They have never seen it. They do not remember it; nobody in the Fire has remembered anything for eighty years. It is the newest thing in the Hour Court. They carry it to the throne. And on the throne it does a thing no Monarch of the Fire has done: it looks across the court at you, and you understand that it knows you, and knows Dr. Cole, and knows the inside of Cabinet Fourteen, and eighty years of a museum, and the next hour, and the one after that. It remembers.".
+  }
+  Relation emberHome(place).
+  Kind hour_ember_kind "an hour-ember" is gear worth 0 weighing 0 granting light described "A coal no bigger than a hazelnut in a cage of copper wire, warm, that gives a steady small light and does not go out, and brightens when it is spoken to.".
+  Item hour_ember "an hour-ember" is hour_ember_kind at offstage.
+  Relation emberThanked(group).
+  Rule ember_thanks at hour_court when emberCrowned(fire_land) and at(party, hour_court) and not emberThanked(party)
+    says "The coal on the throne gives off a flurry of sparks, and an ifrit beside it, listening, steps down off the dais and holds out to you, with great care, a petal of red glass from the white fire, and a coal no bigger than a hazelnut in a cage of copper wire. 'The Monarch says,' says the ifrit, frowning, because it has never had to say what a Monarch says twice, 'that it is the next hour now. It says, thank you for the hour. It says, take this, for the light, and this, because it is the only thing it has. It says,' the ifrit stops, baffled, 'remember it.'" {
+    Assert emberThanked(party). Give hour_ember to party. }
+  Rule ember_gives_petal when emberThanked(party) and not petalTaken(fire_petal) and not rivalHas(fire_petal) and not rectorHas(fire_petal) {
+    Give fire_petal to party. Assert petalTaken(fire_petal). }
+
+  // ── What a Monarch may do ─────────────────────────────────────────────────────────────────────────────────────────
+  Action decree_petal(actor: group, site: place) "Decree that the Fire petal goes home with the Monarch" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hour_court) and crowned(actor) and not petalTaken(fire_petal) and not rivalHas(fire_petal).
+    Time 1 minute.
+    On success { Give fire_petal to actor. Assert petalTaken(fire_petal). }
+    Result "You stand up off the throne and say so, and the court of the ifrit is enchanted: nobody has ever decreed anything about the petal; it has always just lain there. An ifrit lifts it off the white fire in its bare hands and gives it to you, warm as a cup of tea. 'Decreed,' says the court, all at once, and forgets, and is watching you to see what you will do next.".
+  }
+  Action decree_cool(actor: group, site: place) "Decree that nothing in the Hour Court shall burn anybody until the bell" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hour_court) and crowned(actor) and not heatSuspended(fire_land).
+    Time 1 minute.
+    On success { Assert heatSuspended(fire_land). }
+    Result "The court looks at you as if you had asked the sea to be dry. Then, because it is a new thing to be asked, it does it: the whole Hour Court goes down to the heat of a warm bath, and stays there, sulkily, every flame in it holding itself in like a breath.".
+  }
+  Action decree_holiday(actor: group, site: place) "Decree a holiday in the Hour Court, for the rest of the hour" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hour_court) and crowned(actor) and not holidayDecreed(actor).
+    Time 1 minute.
+    On success { Assert holidayDecreed(actor). Increase talk(actor) by 1. }
+    Result "The court has never had a holiday, since it has never had anything but holidays. It is delighted to have a name for it. It dances. You will hear of this dance, later, in places you would not expect.".
+  }
+  Relation holidayDecreed(group).
+  // A Tourist with nothing to show can reach into the white fire, which is not new.
+  Action snatch_petal(actor: group, site: place) "Reach into the brazier for the Fire petal while the court is looking the other way" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hour_court) and not crowned(actor) and not petalTaken(fire_petal) and not rivalHas(fire_petal) and not snatched(actor).
+    Time 1 minute.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert snatched(actor). Give fire_petal to actor. Assert petalTaken(fire_petal). Assert strikes(heat, actor). }
+    On failure { Assert snatched(actor). Assert strikes(heat, actor). Assert strikes(heat, actor). }
+    Result "Your hand goes into the white fire and out of it with the petal, and the pain comes after, enormous, and you are walking away across the floor of light holding a petal in a hand that has no feeling in it, and nobody has turned round.".
+    Otherwise "The white fire is not the fire of the hall. It goes into your arm to the shoulder. The court turns, and looks at you, and you see it decide that a Tourist with their arm on fire is not new, and turn away again.".
+  }
+  Relation snatched(group).
+
+  // ── The Lists ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person salamander "the champion of the Lists" at lists {
+    Role "a salamander as long as a horse, in the ring of fire". Species fire_elemental. Level 3. Peaceable. Pronouns it.
+    Pleads "The salamander rolls over on its back in the ring and goes dull red, and the court cheers you, a new thing, a Tourist who won.".
+  }
+  Relation challenged(group).
+  Action challenge(actor: group, site: place) "Step into the ring of fire against the champion of the Lists" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lists) and at(salamander, site) and able(salamander) and not challenged(actor).
+    Time 1 minute.
+    On success { Assert challenged(actor). Retract peaceable(salamander). Assert assails(salamander, actor). }
+    Result "The court of the ifrit sees you step over the ring and goes quiet, and then goes mad. A Tourist! In the Lists! The champion turns its long head to you and opens its mouth, and inside it is white.".
+  }
+  Rule lists_won when challenged(party) and not able(salamander) and not listsWon(party) and not crowned(party) and not emberCrowned(fire_land)
+    says "The court carries you out of the Lists and across the floor of light to the Hour Court on its shoulders, burning, and puts the paper crown on your head, because nobody has seen that before." {
+    Assert listsWon(party). Assert crowned(party). Set reign(fire_land) to 6. Assert at(party, hour_court). Increase talk(party) by 1. }
+  Relation listsWon(group).
+}

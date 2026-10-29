@@ -1,0 +1,267 @@
+Module sennet "The Grand Tour" {
+  // ── The Whelm ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The lower town of old Sennet, two hundred years under the bay: Chandlers' Row, Lir's church with its bell, the
+  // Guildhall. The merfolk came through the Water Door three generations ago and live in it, by the light of Aenean
+  // lamps they found burning in the Undercroft below, and take their names from the signs over the drowned shops,
+  // which they think are old words of power. They are ruled, or kept, by an old woman called No Admittance.
+  Relation wet(place).
+  Initially Assert wet(drowned_stair). Initially Assert wet(drowned_street). Initially Assert wet(drowned_church).
+  Initially Assert wet(guildhall). Initially Assert wet(undercroft). Initially Assert wet(engine_room). Initially Assert wet(shaft_foot).
+  Hazard drowning "Water in the lungs" means "Deal (2d6) physical damage to ally unless constitution save against (12).".
+  Rule drowns when at(party, ?p) and wet(?p) and not capable(party, breath)
+    says "Your breath is gone. The green goes black at the edges; you kick, and kick, and the stairs are somewhere above you in the dark, and then a hand that is not yours has you by the collar and is hauling, and you come up out of the bay onto the Fish Stairs on your face, coughing up half of it." {
+    Assert strikes(drowning, party). Assert at(party, fish_stairs). }
+  Rule breath_going when at(party, ?p) and wet(?p) and granted(party, breath) and grantedUntil(party, breath) >= 1 and grantedUntil(party, breath) - watch(clock) == 1 and not warnedBreath(party)
+    says "There is a tightness coming in your chest, very gentle, like a hand. What breath you were given is running out." { Assert warnedBreath(party). }
+  Relation warnedBreath(group).
+  Rule breath_renewed when warnedBreath(party) and grantedUntil(party, breath) - watch(clock) > 1 { Retract warnedBreath(party). }
+
+  Observe dstair_scene at drowned_stair when not visitedBefore(drowned_stair) "Green. Everything is green, and slow, and the light comes down from above in long wavering ropes. The Fish Stairs go down out of the sky into a street: a real street, cobbled, with houses on both sides of it with their doors open and their windows open and weed growing out of their chimneys, and lamps lit in some of the windows, white lamps, burning steady under the sea. A shoal of little silver fish goes up the street like a crowd going home.".
+  Observe dstair_again at drowned_stair when visitedBefore(drowned_stair) "The foot of the Fish Stairs, in the green, where the stairs come down out of the light into the drowned street.".
+  Observe dstreet_scene at drowned_street when true "Chandlers' Row, under the water: shopfronts with their glass long gone and their signs still up, the gilt letters furred with weed, CHANDLER, TALLOW AND WAX, ROOMS TO LET, CASH ONLY, SHUTTERS, HA'PENNY A SCOOP. The merfolk live in the shops. Through the open doors you see them at their lives: a woman combing a child's hair, an old man asleep in a drowned armchair, two boys fighting over a teapot.".
+  Observe dchurch_scene at drowned_church when true "Lir's church stands at the bottom of the street with its tower going up into the green and its door open. The nave is full of fish. On the porch, cut deep into the oak of the door with something sharp and in a great hurry, letters you can still read: MERCY ON US.".
+  Discovery door_words "On the door of Lir's church, under the water, someone cut MERCY ON US with something sharp, in a hurry.".
+  Observe dchurch_words at drowned_church when not knows(party, door_words) "The letters on the door are cut deep and badly, and the last one runs off down the grain, as if whoever cut it had not had time to finish." teaches door_words.
+  Observe dchurch_bell at drowned_church when true "High in the tower, if you look up the shaft of it through the water, the bell hangs on its beam, green, with a rope going down from it that sways in the current like a weed.".
+  Action muffle_bell(actor: group, site: place) "Swim up the drowned tower and tie up the bell's clapper with your rope" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drowned_church) and holding(actor, rope) and not bellMuffled(sennet_bay) and not bellStopped(sennet_bay).
+    Time 3.
+    On success { Spend rope from actor. Assert bellMuffled(sennet_bay). }
+    Result "Up the inside of the tower through the green, past the floors that fell in two hundred years ago, to the beam; and there is the bell, green and enormous and nearer than you wanted, and its clapper as big as a man. You lash it to the frame with every turn of rope you have, and knot it, and it hangs there trussed like a ham. Below you, at the foot of the tower, three merfolk children are watching with their mouths open, and one of them, who has a sign over his house that says CASH ONLY, begins to cry.".
+  }
+  Observe guild_scene at guildhall when true "The Guildhall of old Sennet: a great room with a hammer-beam roof, where the merchants met, full now of the merfolk. White Aenean lamps hang from the beams on chains. At the far end, in the drowned mayor's chair, sits an old woman with a crown of shells.".
+  Observe guild_sign at guildhall when true "Over the small door at the back of the Guildhall, in old gilt letters furred with weed, a sign: NO ADMITTANCE.".
+  Observe bell_scene at air_bell when true "You come up out of the water through a round hole in a floor, into air. Real air, cool and stale and smelling of copper. You are inside a dome of something like glass, as big as a room, set on the bottom of the sea, with the green light outside it on every side and fish looking in. An Aenean lamp burns on a hook. On the floor: a mattress of weed, a heap of books drying in a row, a broken chair, and a young man with his leg in splints made of an oar.".
+  Observe undercroft_scene at undercroft when true "Below the Guildhall the merfolk's town stops and something much older begins: walls of black stone fitted without mortar, tall arches, everything square and plain and cut with a precision that hurts the eye. The Aenean Undercroft. The lamps here are the same white lamps, but there are hundreds of them, in rows, and they hum.".
+  Observe engine_scene at engine_room when true "The tide-engine fills a hall the size of a church: a great wheel of black metal, standing on its edge, half in a pit, with paddles on it the size of doors, and round it a confusion of shafts and chains and copper, all green, all still. A plaque in the wall is cut in letters you half know.".
+  Observe shaft_scene at shaft_foot when true "The passage ends at the foot of a shaft, square, black, going straight up into the rock, with a cage of black metal standing at the bottom of it on rails, like a lift in a mine, waiting.".
+
+  // ── No Admittance ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Person admittance "No Admittance" at guildhall {
+    Role "the merfolk's matriarch, in a crown of shells with something green in it". Ancestry undine. Level 5. Peaceable. Pronouns she. Manner proud.
+    Greets "The old woman in the drowned mayor's chair looks at you a long time out of eyes like two wet stones. Her crown is shells, and in the front of it is a petal of green glass, and the water round it moves like water round a spring. 'Dry,' she says at last. 'You are dry. In my Guildhall.' She considers this. 'I am No Admittance. I keep who comes and goes. Who let you come?'".
+    Greets again "No Admittance considers you from the mayor's chair.".
+  }
+  Relation admitted(group). Relation ateWith(group). Relation admittanceLaughed(group). Relation admittanceTrusts(group).
+  Relation whelmWarned(group). Relation whelmHostile(group). Relation blessed(group). Relation waterGiven(group).
+  Rule admittance_trusts when (admittanceLaughed(admittance) or blessed(admittance)) and ateWith(party) and not admittanceTrusts(admittance) { Assert admittanceTrusts(admittance). }
+  Person guard "the Admittance's guard" at drowned_street {
+    Role "two merfolk with eel-spears, at the foot of the Guildhall steps". Ancestry undine. Numbers 2. Calling cleric. Trait oceanist. Level 2. Peaceable. Pronouns they.
+    State posted blocking "Two merfolk with eel-spears keep the Guildhall steps, floating, watching who comes.".
+    Guards guild_way.
+  }
+  Rule guard_admits when admitted(party) and not tolerates(guard, party) and not whelmHostile(party) { Assert tolerates(guard, party). }
+  Topic guard_invited with guard "Tell the guards Ha'penny asked you to supper" when hapennyInvites(hapenny) and not admitted(actor) once {
+    Says "The two guards look at each other. One of them says something to the other in bubbles, and the other laughs, also in bubbles. 'Ha'penny,' the first says. 'She brings us everything. Last week a cat.' He moves his spear aside. 'Supper is at the turn of the evening. Go up. Eat what you are given.'".
+    On discuss { Assert admitted(actor). }
+  }
+  // A sailor knows the greeting the merfolk give at the third step, and gives it back.
+  Topic guard_greeting with guard "Touch your forehead to the water and say Salt and welcome, as the fishermen do" when craft(actor, craft_water) and not admitted(actor) once {
+    Says "The guards stare. Then the older one touches his own forehead, slowly, and says back, in a voice like water going down a drain, 'Salt and welcome, dry one,' and grins with a great many teeth. 'A boatman. You smell of tar.' He moves his spear. 'Go up.'".
+    On discuss { Assert admitted(actor). }
+  }
+  Kind candle_gift_kind "a beeswax candle" is gear worth 1 weighing 0 described "A good beeswax candle, the kind the House uses in Veyra's chapel.".
+  Topic guard_gift with guard "Show the guards something dry they have never seen" when not admitted(actor) and (holding(actor, mirror_kind) or holding(actor, glass_petal_kind) or holding(actor, handbook_kind) or holding(actor, wind_jar_kind)) once {
+    Says "They come close, the both of them, and look at it with their gills going, and touch it with the ends of their spears. 'Dry,' one says, reverently. 'Dry, and down here.' They hand it back to you, which you did not expect. 'Gran will want to see you,' the other says. 'Go up. Bring it.'".
+    On discuss { Assert admitted(actor). }
+  }
+  Action table(actor: group, site: place) "Sit down at No Admittance's table, and eat what you are given" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, guildhall) and at(admittance, site) and admitted(actor) and not ateWith(actor) and hour(clock) >= 17 and hour(clock) < 22.
+    Time 6.
+    On success { Assert ateWith(actor). }
+    Result "Supper in the Whelm is laid on the old merchants' table, under the white lamps: raw things, in brine, on drowned plates with the arms of the Glovers' Company on them. Eels. Something with too many legs that is still deciding whether to be dead. Weed in long green ribbons. A soup of nothing you can name that tastes of the inside of a shell. The merfolk watch you eat it, every mouthful, in a silence like a theatre. No Admittance watches longest. When you have eaten it all she picks something off her own plate, a little white thing like a pearl, and holds it out to you on her palm. You eat that too. The Guildhall breathes out. 'Well,' says No Admittance. 'Well. That is how it is done.'".
+  }
+  Observe sailor_supper at guildhall when ateWith(party) and craft(party, craft_water) and not visitedBefore(guildhall) "One of the merfolk at table says, loudly, that you eat like a fisherman, and the table laughs, and you understand it is the highest compliment the Whelm has.".
+  Topic admittance_crown with admittance "Ask No Admittance about the green petal in her crown" when true once {
+    Says "'The Court of Waters gave it my grandmother when we came through, to keep.' She does not touch it. 'Not to give, not to use. To keep. They gave keeping to us because we are good at it. We kept the street. We kept the lamps lit. We kept the dry men's bell.' She looks at you. 'Now every dry child in Sennet with a bear-leader comes to the third step and shouts down that they want it. For a door.' She snorts a stream of bubbles. 'Keeping is the whole of it.'".
+    On discuss { Assert knows(actor, water_kept). }
+  }
+  Discovery water_kept "No Admittance wears the Water petal of the Rose in her crown of shells. The Court of Waters gave it her grandmother when the merfolk came through, to keep: not to give or to use.".
+  Topic admittance_dry with admittance "Ask No Admittance what she thinks of the dry folk of Sennet" when true once {
+    Says "'They let the sea into their own houses.' She sweeps a hand at the Guildhall, the street outside, the church. 'Their great ones went up into the sky and the sea came into the hole, and their little ones drowned in their beds, and we came through two lifetimes after and found the lamps still lit and the tables laid.' She leans forward. 'And then the dry men set a brass plate on the third step and told the sea how far it may come up their stairs.' She sits back. 'No admittance. Above the third step, no admittance.' She does not seem to hear what she has said.".
+    On discuss { Assert knows(actor, admittance_grievance). }
+  }
+  Discovery admittance_grievance "No Admittance resents the Harbour Bylaw that keeps the merfolk below the third step of the Fish Stairs: the dry folk let the sea into their own houses, and then told it how far it might come up their stairs.".
+  Topic admittance_name with admittance "Tell No Admittance what the sign over the back door of her Guildhall says, and what it means in Sennet" when knows(actor, admittance_grievance) and not admittanceLaughed(admittance) once {
+    Says "You tell her. In Sennet, over a door, NO ADMITTANCE means keep out. It is what they put up on the door to the cellar. The Guildhall goes so still you can hear the lamps hum. No Admittance looks at you. She looks over her shoulder at the little door at the back of the hall, and the gilt letters over it, for a long time. Then her shoulders begin to shake, and her crown slips, and she puts up a hand to it, and the sound that comes out of her is so loud and so long that the fish go out of the windows. She laughs until she weeps, and the merfolk laugh with her because she is laughing, and then because they understand. 'Keep out!' she says, wiping her eyes. 'Sixty years. Sixty years I have been keep out, and so proud of it.' She looks at you with her wet-stone eyes and they are not stones at all. 'Well. We are the same, then, the plate and I. The plate and I should meet.'".
+    On discuss { Assert admittanceLaughed(admittance). }
+  }
+  Topic admittance_step with admittance "Tell No Admittance that the Harbourmaster let Ha'penny up the stairs to the Glass Market" when hapennyShopped(hapenny) and pumphreyRelents(pumphrey) and not stepTold(admittance) once {
+    Says "'He did.' She knows, of course; Ha'penny has told the whole Whelm, twice. 'With his own leave, the brass man.' She thinks about it. 'Then he is not all brass.' She looks at you. 'And you asked him. A dry one asked a dry one, for one of ours.' She inclines her head, a little, the way a queen does when nobody is watching. 'That is noted.'".
+    On discuss { Assert stepTold(admittance). Assert blessed(admittance). }
+  }
+  Relation stepTold(group).
+
+  // ── The Water petal ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Keeping is the whole of it. She gives it, in the end, for a reason that is not a door: because a dry one asked a
+  // dry one for one of hers, at the third step; or as the gift of the house to the guest who stood with her
+  // granddaughter when Mercy asked her blessing on the dry man she caught.
+  Relation matchBlessed(group). Relation mercyAsks(group).
+  Topic admittance_petal with admittance "Ask No Admittance for the Water petal of the Rose" when admittanceTrusts(admittance) and not petalTaken(water_petal) and not stepTold(admittance) and not matchBlessed(admittance) once {
+    Says "'For a door.' She does not raise her voice. 'Every dry child with a bear-leader wants it for a door. Keeping is the whole of it.' She looks at you a long time. 'Bring me a reason that is not a door, and I will think about it.'".
+    On discuss { Assert knows(actor, admittance_reason). }
+  }
+  Discovery admittance_reason "No Admittance will not give the Water petal for a door. She asks for a reason that is not a door.".
+  Topic admittance_gives with admittance "Ask No Admittance again for the Water petal" when admittanceTrusts(admittance) and not petalTaken(water_petal) and (stepTold(admittance) or matchBlessed(admittance)) once {
+    Says "She takes off the crown of shells and looks at the green petal in it, and the water round it moves like water round a spring. 'Keeping,' she says. 'My grandmother kept it, and my mother, and I, sixty years. For the Court of Waters, that never once came to see whether we had.' She works it free of the shells with her old fingers. 'A dry one asked for one of ours, and was given. Now one of ours gives a dry one.' She holds it out to you on her palm, wet. 'Not for a door. For the asking.'".
+    On discuss { Give water_petal to actor. Assert petalTaken(water_petal). Assert waterGiven(admittance). }
+  }
+  Topic mercy_ask_blessing with mercy "Tell Mercy she should ask her grandmother's blessing herself, and that you will stand with her" when mercyTrusts(mercy) and knows(actor, perrin_alive) and admittanceTrusts(admittance) and not matchBlessed(admittance) and not mercyAsks(mercy) once {
+    Says "She goes very still in the water. 'Ask Gran.' She says it as if you had told her to ask the tide. 'For a dry man.' Then her chin comes up, exactly like a crown. 'At supper. In front of everyone. Then she can't pretend she didn't hear.' She looks at you. 'You'll be there. You said.'".
+    On discuss { Assert mercyAsks(mercy). }
+  }
+  Event mercy_blessing at guildhall when mercyAsks(mercy) and at(party, guildhall) and at(mercy, guildhall) and at(admittance, guildhall) and hour(clock) >= 17 and not matchBlessed(admittance) "Mercy swims up the length of the merchants' table with the whole Whelm watching, and stops in front of the drowned mayor's chair, and says, loud enough for the bell to hear, that she has caught a dry man out of the sky and means to keep him, and asks her grandmother's blessing on it. Nobody breathes, if that is the word. No Admittance looks at her granddaughter for a long time; and then, for longer, at you, standing beside her. 'A dry man,' she says. 'Under my roof. Eating my fish.' She turns the crown in her hands. 'Who reads books to the children, Ha'penny says, and lets them sit on his bad leg.' A very long pause. 'Keep him, then,' says No Admittance. 'Keeping is the whole of it.' The Guildhall goes up like a fountain." then { Assert matchBlessed(admittance). Assert admittanceTrusts(admittance). }
+
+  // ── Mercy ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Named from the words on the church door; caught a man falling out of the sky twelve nights ago, and has kept him.
+  // She wants to go up and see the lanterns of Cloudgate go up alive, which she has only ever seen come down dead.
+  Person mercy "Mercy" at air_bell {
+    Role "a merfolk girl with silver in her hair" when not following(mercy, party).
+    Role "a merfolk girl in a water-butt on a barrow, astonished" when following(mercy, party).
+    Ancestry undine. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A merfolk girl comes up through the water as if she had been poured, and stops a foot from your face, and looks at you with enormous curiosity and no fear at all. She is perhaps twenty. There is silver in her hair like the scales of a fish. 'You came down the stairs,' she says. 'Nobody comes down the stairs. Are you looking for something? Everybody up there is looking for something.' She tilts her head. 'I am Mercy.'".
+    Greets again "'You again,' says Mercy, pleased.".
+  }
+  Relation mercyTrusts(group). Relation mercyKissed(group). Relation mercyNamed(group). Relation mercyWish(group). Relation mercySawLanterns(group).
+  Rule mercy_supper when hour(clock) >= 17 and hour(clock) < 21 and not following(mercy, party) and not at(mercy, guildhall) and not perrinDead(party) and not mercyUp(mercy) { Assert at(mercy, guildhall). }
+  Rule mercy_bell when (hour(clock) >= 21 or hour(clock) < 17) and not following(mercy, party) and not at(mercy, air_bell) and not mercyUp(mercy) and not perrinUp(party) { Assert at(mercy, air_bell). }
+  Relation mercyUp(group).
+  Rule mercy_trusts when (ateWith(party) or admittanceTrusts(admittance) or following(aubrey, party)) and not mercyTrusts(mercy) { Assert mercyTrusts(mercy). }
+  Action mercy_breath(actor: group, site: place) "Ask Mercy for breath" {
+    Speaker mercy.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mercy, site) and mercyTrusts(mercy) and not perrinDead(party) and not (granted(actor, breath) and grantedUntil(actor, breath) - watch(clock) > 6).
+    Time 1 minute.
+    On success { Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 18. Assert mercyKissed(actor). }
+    Result "She laughs, and takes your face in her two cold hands and kisses you on the mouth, and it tastes of salt and something green, and the water you are breathing goes soft and easy in your chest, like air in a warm room. 'There. Three hours. Then come up, or come back.' She lets go. 'Dry ones always ask so politely.'".
+  }
+  Action hapenny_breath(actor: group, site: place) "Ask Ha'penny for some of her breath" {
+    Speaker hapenny.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hapenny, site) and hapennyInvites(hapenny) and not (granted(actor, breath) and grantedUntil(actor, breath) - watch(clock) > 3).
+    Time 1 minute.
+    On success { Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 6. }
+    Result "She puts her arms round your neck and kisses you on the nose, very loud. 'There. An hour. I'm little.' She considers. 'If it runs out, come up. Don't be brave. The brave ones are the ones on the bottom.'".
+  }
+  Topic mercy_catch with mercy "Ask Mercy about the man she caught" when knows(actor, sky_man) and not mercyTrusts(mercy) once {
+    Says "Her face closes like a shell. 'Who told you that?' And then, before you can answer: 'Ha'penny. Ha'penny tells the fish.' She looks at you hard. 'He is mine. I caught him. If you are from up there, from the sky-island, come to take him back up where they threw him, you can go up the stairs again, and you will not get breath from me.' She turns to go, and turns back. 'Come to Gran's table, if you want to talk to me. Eat what you are given. Then I'll know.'".
+    On discuss { Assert knows(actor, mercy_wary). }
+  }
+  Discovery mercy_wary "Mercy will not speak of the man she caught to anyone from the sky-island come to take him back. She will talk to someone who has eaten at No Admittance's table.".
+  Topic mercy_catch_trusted with mercy "Ask Mercy how she caught the man who fell out of the sky" when mercyTrusts(mercy) once {
+    Says "'In the fog.' She says it with her whole face, the way Ha'penny talks about the bell. 'I was at the top, at the cloud, where the light is, the night of the first fog. And something came down through it. A man, all arms, with his coat open like wings, falling.' She holds out her arms. 'I went up under him and caught him in the water before the bottom got him, and his leg broke on me, and he was drowning, so I gave him breath and took him down to the air-bell, the one the guests sleep in, and he woke up and saw me and said, I'm dead, aren't I.' She laughs. 'And I said no, you're in the Whelm. And he said, that's worse, my mother would die.' She looks at you. 'His name is Perrin. He's mine. Do you want to see him?'".
+    On discuss { Assert knows(actor, perrin_alive). Assert knows(actor, air_bell_known). }
+  }
+  Discovery perrin_alive "Perrin Halyard is alive. Mercy caught him in the bay the night he fell, and keeps him in an air-bell in the Whelm with a broken leg.".
+  Topic mercy_wish_asked with mercy "Ask Mercy what she would like, if she could have anything" when mercyTrusts(mercy) once {
+    Says "She does not have to think. 'The lanterns.' She points up, through the green, toward a light you cannot see. 'Every year, on the long night, lights go up from the sky-island, a thousand, and in the morning they come down into the sea, black and dead, all over the Whelm, and the children collect them.' She looks up. 'I have never seen one alive. I want to see one go up. Burning. From the sky-island, with my own eyes, on the night.' She looks at you as if it were obvious. 'And Perrin wants to stay down here for ever. So we are going to have to work something out.'".
+    On discuss { Assert mercyWish(mercy). Assert knows(actor, mercy_wants_lanterns). }
+  }
+  Discovery mercy_wants_lanterns "Mercy wants to see the lanterns of Cloudgate go up, alive, on the Night of Lanterns, from Cloudgate itself; she has only ever seen them come down dead into the sea. Perrin wants to stay in the Whelm for ever.".
+  Topic mercy_name with mercy "Tell Mercy what her name means, and who cut it on the church door" when knows(actor, mercy_meaning) and not mercyNamed(mercy) once {
+    Says "She listens without moving at all, the way the merfolk listen, with her gills still. 'A prayer,' she says. 'Somebody's prayer. A girl's, with a fish-knife, while the water came.' She puts her hand flat against her own chest. 'And it worked.' She looks at you, astonished. 'It worked, didn't it. I was mercy on him. Nobody up there had any, and I was.' She is quiet for a while. 'Is her family still up there? On the Quay?' You tell her about Old Bethan, and the eels. 'I'd like to meet her,' says Mercy. 'I'd like to tell her it worked.'".
+    On discuss { Assert mercyNamed(mercy). }
+  }
+
+  // ── Perrin Halyard ────────────────────────────────────────────────────────────────────────────────────────────────
+  // Pushed in the fog, by hands he did not see, with keys ringing. He has decided it was his brother, whom he can
+  // forgive, rather than either of the two people who wear keys; and would rather stay dead than accuse him. He has
+  // never been so happy in his life.
+  Person perrin "Perrin Halyard" at air_bell {
+    Role "a young man with his leg in splints made of an oar" when not perrinUp(party) and not legSet(perrin).
+    Role "a young man with his leg properly splinted" when legSet(perrin) and not perrinUp(party).
+    Role "Perrin Halyard, come up out of the sea" when perrinUp(party).
+    Ancestry human. Calling mage. Trait diviner. Level 4. Peaceable. Pronouns he. Manner cheerful.
+    Greets "The young man on the weed mattress looks up from a drowned book he is drying page by page against the lamp, and sees you, and goes white, and then, seeing your face, laughs. 'Oh, God. A Tourist. Of course. The bay's full of them.' He has a quick, clever, sunburnt face and his mother's nose. 'I'm dead, you know. Officially. They're letting me down on the third day. I'd come, but I've broken my leg.'".
+    Greets again "'You again,' says Perrin Halyard, and shuts his book on his finger.".
+  }
+  Entity aubrey_did: claim "Aubrey pushed Perrin off the Balustrade".
+  Initially Assert believes(perrin, aubrey_did). Initially Set conviction(perrin, aubrey_did) to 2.
+  Relation legSet(group). Relation perrinKnows(group). Relation perrinForgives(group). Relation perrinPromised(group).
+  Relation perrinWrote(group). Relation perrinWantsUp(group).
+  Topic perrin_fall with perrin "Ask Perrin Halyard what happened at the Balustrade" when true once {
+    Says "He stops smiling. 'I was pushed.' He says it quite plainly. 'I'd quarrelled with my brother, on the Promenade, and gone off to the Balustrade to cool down, and the fog came up over the rail, the way it does at night, thick as wool. I was leaning on the rail. And there were hands in my back, two of them, hard, and I went over.' He looks at his hands. 'I didn't see. I heard keys, ringing, a lot of keys, as if somebody had shaken a chain. And then I was falling through the cloud for a very long time and then I was in the sea and there was a girl.' He shrugs. 'Aubrey. It must have been Aubrey. He'd told me to jump. He was drunk. He didn't mean it.' He looks at you. 'I'm not going back up there to put my brother in the dock for being drunk. I'd rather be dead. I'm very good at it; I've had practice.'".
+    On discuss { Assert knows(actor, keys_heard). }
+  }
+  Discovery keys_heard "Perrin Halyard was pushed off the Balustrade from behind, in the fog, by two hands he did not see; he heard keys ringing, a great many, as if someone had shaken a chain. He has decided it was his brother Aubrey, drunk, and will not go back up to accuse him.".
+  Topic perrin_found with perrin "Ask Perrin Halyard what he found out, that he quarrelled over" when knows(actor, keys_heard) once {
+    Says "He looks at you for a long time, deciding. 'You'll find out anyway, if you're on the Tour.' He pulls himself up against the glass. 'Ysabeau, my great-great-whatever, the one with the hill on her hand. She didn't lift Cloudgate by magic. She lifted it with a petal. The Air petal of the Rose, that the North Wind gave her because he loved her, and she took it home and set it in the keel of Halyard Hill, and up it went, and the sea came in.' He rubs his face. 'It's still there. Under the cellars. I climbed down and saw it, the week before the Tour was proclaimed. Every petal the Rector is sending people after is in a court somewhere, and the fourth is holding up my mother's house.' He laughs, shortly. 'I said the Air should have it back. Aubrey said the house would fall down. Well, it would.' He hesitates. 'I told the Rector. Before anyone. She was my teacher. She said she'd think about what to do.'".
+    On discuss { Assert knows(actor, keel_petal). Assert knows(actor, perrin_told_rector). }
+  }
+  Discovery keel_petal "The Air petal of the Rose is not in the Plane of Air. The North Wind gave it to Ysabeau Halyard for love; she set it in the keel of Halyard Hill and lifted it into the sky. It is still there, in the keel under the cellars of Halyard House, holding Cloudgate up. Taken out, Cloudgate would fall.".
+  Discovery perrin_told_rector "Perrin Halyard told the Rector what holds Cloudgate up, before anyone else, the week before the Grand Tour was proclaimed; he told her the Air should have its petal back, and she said she would think about what to do.".
+  Kind notebook_kind "Perrin's notebook" is gear worth 0 weighing 0 described "A red notebook with the key of the House of Doors stamped on the cover, swollen with salt: Perrin Halyard's. Pages of Aenean, copied off plaques and drowned books; a drawing of a great wheel. The last pages are dated after the night he fell.".
+  Item perrin_notebook "Perrin's notebook" is notebook_kind at air_bell owned by perrin.
+  Topic perrin_notebook_asked with perrin "Ask Perrin Halyard for his notebook, which the Rector wants" when commissioned(actor) and not carries(actor, perrin_notebook) once {
+    Says "'Isadora wants it?' He looks pleased, and then puzzled. 'It's only the Aenean. And the wheel. Nothing she couldn't read off the plaque herself.' He hands it over. 'Tell her I'm sorry about the coffin.' Then he stops, with his hand still out. 'No. Don't tell her anything. Don't tell anybody I'm here. Will you promise me?'".
+    On discuss { Give perrin_notebook to actor. Assert lends(perrin, perrin_notebook, actor). }
+  }
+  Topic perrin_promise with perrin "Promise Perrin Halyard you will tell nobody he is alive" when knows(actor, perrin_alive) and not perrinPromised(perrin) once {
+    Says "'Thank you.' He means it; he looks younger. 'It's only that if I'm alive, somebody pushed me, and if somebody pushed me it was Aubrey, and if it was Aubrey he hangs, or worse, he lives with it.' He picks up his book. 'Dead is so much simpler. You'd be surprised.'".
+    On discuss { Assert perrinPromised(perrin). Assert promiseMade(perrin_secret). }
+  }
+  Relation toldAlive(group).
+  Promise perrin_secret "to tell nobody that Perrin Halyard is alive" to perrin
+    kept when doorOpen(sennet_bay) and not toldAlive(party) "Somewhere under the bay a young man who is officially dead goes on being so, as he asked."
+    broken when toldAlive(party) "Somewhere a secret you promised to keep is out in the world, and running." { }.
+  Topic perrin_aubrey with perrin "Tell Perrin Halyard that his brother believes he pushed him, and is drinking himself to death over it" when knows(actor, aubrey_quarrel) and not perrinWrote(perrin) once {
+    Says "He stares at you. 'He thinks.' He puts the book down. 'Oh, the idiot. Oh, the great fool.' He laughs, and it goes wrong halfway. 'It wasn't Aubrey. I said it was, because. It wasn't. He was on the gravel, being sick. I heard him. I heard him being sick while somebody else came up behind me.' He puts his face in his hands. 'I let him think it. I lay down here and let him think it, so I wouldn't have to think who.' He looks up. 'Give me a pen. Have you got a pen? No, of course, there's no ink in the sea. Pencil.' He tears a page out of a drowned book and writes on it, fast, against his knee, and folds it, and holds it out. 'Take him that. Please. Today.'".
+    On discuss { Assert perrinWrote(perrin). Give brother_letter to actor. Set conviction(perrin, aubrey_did) to 0. }
+  }
+  // Told what the winch-gang, the footman or the amanuensis know, he sees whose keys they were.
+  Topic perrin_told_who with perrin "Tell Perrin Halyard what you have learned of who was at the Balustrade" when (knows(actor, late_basket) or knows(actor, bishop_sleeves) or knows(actor, chapter_rewritten)) and knows(actor, keys_heard) and not perrinKnows(perrin) once {
+    Says "He listens, and as he listens his face changes, the way a face changes when someone you love walks into the room behind you and you see them in a mirror. 'Keys,' he says. 'A chain of keys. Sleeves like a bishop's.' He looks at the lamp. 'The eleven o'clock basket.' He is quiet for a long time. 'I told her. I told her, and I went to the Balustrade, and she came after me to talk, and I didn't turn round because I thought it was Aubrey come to say sorry.' He closes his eyes. 'Isadora. She taught me Aenean. She lent me her own books.' When he opens his eyes they are perfectly dry and much older. 'She'll go for the keel. She'll take the Tour's three and go down for the fourth, and the house will fall, and Mother, and the Whelm under it.' He takes hold of the oar on his leg. 'I have to go up.'".
+    On discuss { Assert perrinKnows(perrin). Assert perrinWantsUp(perrin). Assert knows(actor, quance_pushed). Set conviction(perrin, aubrey_did) to 0. }
+  }
+  Discovery quance_pushed "It was the Rector, Isadora Quance, who pushed Perrin Halyard off the Balustrade in the fog: he had told her what holds Cloudgate up, and that the Air should have its petal back. Her chain of keys rang; her sleeves hung like a bishop's; she came down alone on the eleven o'clock basket.".
+  // A leg set by someone who knows how can carry him up the stairs on his own; otherwise Mercy carries him.
+  Action set_leg(actor: group, site: place) "Take the oar off Perrin Halyard's leg and set it properly" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(perrin, site) and not legSet(perrin) and (capable(actor, mending) or craft(actor, craft_healing)).
+    Time 3.
+    On success { Assert legSet(perrin). }
+    Result "Mercy set it as you would set a fin, which is to say with great love and in the wrong place. You take the oar off, and feel along the bone while he swears in three languages, one of them Aenean, and pull it straight, and splint it with two of the drowned books, which is the best thing anybody has done with that edition. 'There,' you say. He looks at it, white and sweating. 'I could walk on that,' he says. 'In a week. I could swim on it now.'".
+  }
+  Topic perrin_up_asked with perrin "Ask Perrin Halyard to come up out of the Whelm with you" when perrinWantsUp(perrin) and not perrinUp(party) and not following(perrin, party) once {
+    Says "'Yes.' He is already pulling himself toward the hole in the floor. 'Mercy will bring me, she'll have to, I'm a stone in the water with this leg.' He looks at you over his shoulder. 'Where? Not Mother's. Not yet. Somewhere she'd come to.' He thinks. 'Somewhere very public, Isadora would say. She always said, if you've something to say, say it where it can't be unsaid.'".
+    On discuss { Assert following(perrin, party). Assert perrinMoved(party). }
+  }
+  // Once he is up the Fish Stairs and on dry stone, he is up: the city will know him.
+  Rule perrin_surfaces when following(perrin, party) and inSennet() and not perrinUp(party)
+    says "Perrin Halyard comes up the Fish Stairs out of the bay on Mercy's shoulder, dripping, with his leg out stiff in front of him, a dead man in a wet shirt in the middle of the Quay, and the Quay stops. Somebody drops a lobster. Old Bethan, if she is anywhere about, says Mercy on us, and means it." {
+    Assert perrinUp(party). }
+
+  // ── The brothers ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Aubrey brought to the Fish Stairs after dark; Mercy brings Perrin up to the third step to meet him.
+  Event brothers_meet at fish_stairs when at(party, fish_stairs) and following(aubrey, party) and dark() and not perrinDead(party) and not perrinUp(party) and not brothersMet(party) "Aubrey Halyard goes down the Fish Stairs in the dark, past the brass plate, and down, until he is standing in the bay up to his waist in his good coat, and stands there. For a while nothing. Then the water by the third step bulges, and a merfolk girl comes up out of it with a young man on her shoulder, and the young man says, 'You great fool, you're ruining Father's coat.' Aubrey makes a noise like nothing you have heard a man make. He gets hold of his brother, coat, splints, merfolk girl and all, and holds on. 'I thought I'd,' he says. 'I thought.' 'You were being sick on the gravel,' says Perrin, into his shoulder. 'I heard you. You've always been sick on gravel. Mother despairs.' It is some time before either of them lets go." then {
+    Assert brothersMet(party). Assert perrinForgives(perrin). Assert aubreyFreed(aubrey). Set conviction(aubrey, aubrey_guilt) to 0. Assert aubreyFriend(aubrey). Retract following(aubrey, party). }
+
+  // ── The water-butt ────────────────────────────────────────────────────────────────────────────────────────────────
+  // How to take a mermaid up to Cloudgate for the Night of Lanterns: a water-butt, a barrow, the basket, and nerve.
+  Relation buttGot(group). Relation mercyComing(group).
+  Topic peg_butt with peg "Ask Peg Arkle to lend you the rain-butt off the Sounding Line's yard, and a barrow" when knows(actor, mercy_wants_lanterns) and not buttGot(actor) once {
+    Says "'My rain-butt.' She looks at you. 'What for?' You tell her. Peg Arkle puts both hands flat on the bar and laughs until the sounding-lead swings. 'A mermaid. Up the chain. To the Lanterns.' She wipes her eyes. 'Take it. Take the barrow. Take my blessing. I'll stand on the Quay and watch you go up.' She points a finger at you. 'You bring my butt back.'".
+    On discuss { Assert buttGot(actor). }
+  }
+  Topic kittiwake_butt with kittiwake "Ask Mother Kittiwake for the loan of the winch-house's fire-butt, and a barrow" when knows(actor, mercy_wants_lanterns) and gangFriend(actor) and not buttGot(actor) once {
+    Says "'The fire-butt.' She looks at you. 'If the winch-house catches light while it's gone it's on your head.' She hears what it is for, and her face goes through several things. 'NO DOGS, the slate says,' she says at last. 'It doesn't say a word about mermaids.' She whistles up two of the gang to carry it.".
+    On discuss { Assert buttGot(actor). }
+  }
+  Topic mercy_lanterns_offer with mercy "Tell Mercy you will take her up to Cloudgate to see the lanterns go up, in a water-butt" when mercyWish(mercy) and buttGot(actor) and day(clock) == 4 and not mercyComing(mercy) once {
+    Says "She stares at you, and then she shrieks, a sound like a gull, and turns over in the water three times. 'In a butt! Like a herring!' She comes up again with her hair over her face. 'Perrin will say no. Perrin will say I'll be seen.' She pushes her hair back. 'I want to be seen. Let the sky-island see me. Let them see who caught their boy.' She looks at you. 'Tonight? The long night? You'll have to carry me up the stairs, and up the chain, and I'll need to be wet the whole time, and I'll want to see everything.'".
+    On discuss { Assert mercyComing(mercy). }
+  }
+  Action fetch_mercy(actor: group, site: place) "Bring the water-butt and the barrow down to the Fish Stairs, and help Mercy into it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fish_stairs) and mercyComing(mercy) and buttGot(actor) and not following(mercy, party) and not mercySawLanterns(mercy) and day(clock) == 4.
+    Time 2.
+    On success { Assert following(mercy, party). Assert mercyUp(mercy). }
+    Result "It takes four fishermen, the butt, the barrow, a great deal of advice from the Quay and a bucket chain of the harbour's children to fill it, and then Mercy comes up the Fish Stairs past the brass plate on your arm, flopping, laughing, and goes into the butt with a splash that soaks everybody in reach, and comes up with her chin on the rim. 'Go on,' she says. 'Go on, go on.' The Quay pushes the barrow.".
+  }
+  Action ride_up_mercy(actor: group, site: place) "Wheel the barrow with Mercy in it onto the basket, and go up" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, winch_floor) and following(mercy, party) and basketRuns() and (gangFriend(actor) or quantity(actor, gold) >= 10).
+    Time 3.
+    On success { Assert at(actor, landing_stage). Assert mercyAloft(mercy). }
+    Result "Mother Kittiwake looks at the barrow for a long time. Then she blows her whistle, and the gang, which has heard, puts its backs into the bars and sings, and you go up through the cloud with a mermaid in a water-butt with her chin on the rim, saying 'Oh. Oh. Oh,' all the way, at every turn of the chain, and when you come up out of the cloud into the gold she stops saying anything at all.".
+  }
+  Relation mercyAloft(group).
+  // If she cannot be paid for, the gang will take her up free once it knows the company; else ten coin, for two.
+  Rule mercy_fare when mercyAloft(mercy) and not gangFriend(party) and not mercyPaid(party) { Assert mercyPaid(party). Decrease quantity(party, gold) by 10 or to nothing. }
+  Relation mercyPaid(group).
+}

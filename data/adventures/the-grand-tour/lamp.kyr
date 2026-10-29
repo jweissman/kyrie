@@ -1,0 +1,127 @@
+Module sennet "The Grand Tour" {
+  // ── Lamp Street ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // The glass-houses of Sennet burn on heat piped from the Fire Door, by the hour, by the House's licence. Prue Quickly
+  // makes floats and bottles and mirrors, and, for the Tourists, "genuine petals of the Rose" at a coin each, stamped on
+  // the back A PRESENT FROM SENNET. One of them has got her into trouble with the Watch.
+  Observe lamp_scene at lamp_street when true "Lamp Street climbs toward the headland between glass-houses, every one of them with its doors open and its furnace roaring, so that walking up it is like walking past a row of opened ovens. Over each furnace a copper pipe comes down out of the street's great main, which runs up the hill on iron legs to the House of Doors, and hums.".
+  Observe lamp_shops at lamp_street when true "Between the glass-houses, two shops: MURREY'S, under a sign of a gilt key, with a window full of the same red book; and PARGETER'S, OUTFITTERS TO THE GRAND TOUR, with a dummy in the window wearing a fire-cloak, a brine-glass helm and an expression of great confidence.".
+  Observe glasshouse_scene at glasshouse when true "Prue Quickly's glass-house: one long hot room, a furnace at the end of it like an open mouth, and on every shelf and hook and windowsill glass: floats, bottles, rods, hand-mirrors, a chandelier half-made hanging from a beam, and a tray of red glass petals, each the length of your hand, under a card: GENUINE PETALS OF THE ROSE. ONE COIN.".
+  Observe glasshouse_cold at glasshouse when furnaceCold(glasshouse) "The furnace is out. The pipe over it is cold, and someone has tied a cardboard label to it: HEAT WITHDRAWN BY ORDER OF THE HOUSE.".
+
+  Kind mirror_kind "a hand-mirror" is gear worth 2 weighing 0 described "A hand-mirror of Prue Quickly's glass, round, in a frame of bent copper.".
+  Kind glass_petal_kind "a glass petal" is gear worth 1 weighing 0 described "A petal of red glass the length of your hand, very like the pictures of the Fire petal of the Rose, and stamped on the back in small capitals: A PRESENT FROM SENNET.".
+
+  Person prue "Prue Quickly" at glasshouse {
+    Role "a glass-blower, with forearms like a stevedore's and no eyebrows". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Sells mirror_kind for 2 coin from 4.
+    Sells glass_petal_kind for 1 coin from 9.
+    Greets "A woman with no eyebrows and a blowpipe over her shoulder like a musket turns round from the furnace. 'Mind the floor, it's hot. Everything's hot.' She looks you over. 'Tourist? You'll want a petal. Everybody wants a petal. One coin, and I'll tell you a secret: it isn't real.'".
+    Greets again "'Mind the floor,' says Prue Quickly.".
+  }
+  Relation furnaceCold(place). Relation prueSaved(group). Relation watchCame(group). Relation prueTrouble(group).
+  Rule prue_works when openHours() and not at(prue, glasshouse) { Assert at(prue, glasshouse). }
+  Rule prue_evening when hour(clock) >= 19 and hour(clock) < 22 and not at(prue, taproom) { Assert at(prue, taproom). }
+  Rule prue_bed when (hour(clock) >= 22 or hour(clock) < 8) and not at(prue, offstage) and not making(prue) { Assert at(prue, offstage). }
+
+  // Ha'penny's present: a mirror, for a pearl (harbour.kyr). Prue gives change in glass fish.
+  Kind glass_fish_kind "a glass fish" is gear worth 0 weighing 0 described "A little fish of blue glass with a bubble in its belly, made by Prue Quickly for a merfolk child who had never seen a fish that would not swim away.".
+  Action hapenny_shops(actor: group, site: place) "Let Ha'penny choose her present" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, glasshouse) and at(prue, site) and following(hapenny, party) and not hapennyShopped(hapenny).
+    Time 2.
+    On success { Assert hapennyShopped(hapenny). }
+    Result "Ha'penny goes along Prue's shelves in her fish-basket like a duchess at a sale, touching nothing, looking at everything, while Prue Quickly watches her with her arms folded and something happening to her face. In the end Ha'penny chooses a hand-mirror in a copper frame, the plainest, and holds out her pearl for it on her flat palm. Prue looks at the pearl, which would buy the shop, and closes Ha'penny's fingers back over it. 'Keep that,' she says. 'Mirrors are a ha'penny today. For people called Ha'penny.' And she gives her a little blue glass fish as well, for change, and Ha'penny holds it up to the furnace light and sees the bubble in it and makes a sound like a kettle.".
+  }
+
+  // ── The Watch, and a petal that was not a forgery ─────────────────────────────────────────────────────────────────
+  Person bassett "Sergeant Bassett" at offstage {
+    Role "a sergeant of the Watch, in a leather hat". Ancestry dwarf. Peaceable. Pronouns he. Manner stoic.
+    Greets "The sergeant takes off his leather hat to you, and puts it back on. 'Bassett, of the Watch. Lamp Street is my beat, and I'll thank you not to buy anything off it that's pretending to be something else.'".
+  }
+  Rule watch_comes when day(clock) == 2 and hour(clock) >= 10 and not watchCame(party) {
+    Assert watchCame(party). Assert prueTrouble(prue). Assert at(bassett, glasshouse). }
+  Observe bassett_here at glasshouse when at(bassett, glasshouse) and prueTrouble(prue) and not prueSaved(prue) "Sergeant Bassett of the Watch stands just inside the door with his leather hat in his hands and a notebook open on it, and Prue Quickly stands at the furnace with her arms folded, and neither of them is enjoying it.".
+  Rule watch_goes when at(bassett, glasshouse) and hour(clock) >= 13 { Retract at(bassett, glasshouse). Assert at(bassett, offstage). }
+  Rule watch_returns when day(clock) == 3 and hour(clock) >= 10 and hour(clock) < 13 and prueTrouble(prue) and not prueSaved(prue) and not at(bassett, glasshouse) { Assert at(bassett, glasshouse). }
+  // Unless somebody speaks for her by noon on the third day, the House takes back her heat.
+  Rule heat_withdrawn when day(clock) == 3 and hour(clock) >= 12 and prueTrouble(prue) and not prueSaved(prue) and not furnaceCold(glasshouse) {
+    Assert furnaceCold(glasshouse). }
+  Topic prue_trouble with prue "Ask Prue Quickly what the Watch wants with her" when prueTrouble(prue) and not prueSaved(prue) once {
+    Says "'Forgery.' She spits on the floor and it hisses. 'A boy from up there, a Mottram, bought one of my petals yesterday and took it straight up the headland and laid it on the Rector's desk as the Fire petal of the Rose. Without turning it over.' She turns one over for you: A PRESENT FROM SENNET. 'The Rector laughed, they say. Then her Bursar put in a complaint, forgery of the Rose, and if it isn't settled the House takes back my heat. Off the main.' She jerks her chin at the copper pipe. 'Ten years I've had that heat. You can't blow glass on wanting to.'".
+    On discuss { Assert knows(actor, prue_complaint). }
+  }
+  Discovery prue_complaint "The Honourable Florian Mottram laid one of Prue Quickly's souvenir petals on the Rector's desk as the Fire petal without turning it over; the House's Bursar has complained of forgery, and unless it is settled by noon on the third day the House will take back the heat that runs Prue's furnace.".
+  Topic bassett_stamp with bassett "Show Sergeant Bassett what is stamped on the back of the petals" when prueTrouble(prue) and not prueSaved(prue) and at(bassett, glasshouse) once {
+    Says "The sergeant puts his spectacles on and turns the petal to the furnace light, and reads A PRESENT FROM SENNET aloud, in a voice that makes it sound like a confession. He turns it over again. 'It's not my place to say what's a forgery and what's a present,' he says. 'It's the House's complaint. If the House takes it back, I've nothing to do.' He puts his hat on. 'Get the House to take it back, or get the young gentleman to say it was his mistake. Either will do me.'".
+    On discuss { Assert knows(actor, bassett_terms). }
+  }
+  Discovery bassett_terms "Sergeant Bassett will let the forgery complaint against Prue Quickly drop if the House withdraws it, or if Florian Mottram says it was his own mistake.".
+  // Settled by the Rector (collegium.kyr), who likes to be generous, and remembers it; or by Florian (rivals.kyr).
+  Rule prue_saved_told at glasshouse when prueSaved(prue) and at(bassett, glasshouse) says "Sergeant Bassett closes his notebook, and puts on his hat, and says to the furnace, 'Complaint withdrawn,' and goes." {
+    Retract at(bassett, glasshouse). Assert at(bassett, offstage). }
+  Topic prue_thanks with prue "Tell Prue Quickly the complaint is withdrawn" when prueSaved(prue) and not prueFriend(prue) once {
+    Says "She looks at you with her bald, scorched face for a moment, and then she puts down her blowpipe and shakes your hand hard enough to hurt. 'Right,' she says. 'Right. You want glass, you come to me. Anything. I'll make you a chandelier.' She thinks. 'Don't ask for a chandelier.'".
+    On discuss { Assert prueFriend(prue). }
+  }
+  Relation prueFriend(group).
+  Rule heat_restored when prueSaved(prue) and furnaceCold(glasshouse) says "In Lamp Street the copper main hums again, and Prue Quickly's furnace roars up like a lion let out." { Retract furnaceCold(glasshouse). }
+
+  // ── A petal of the North Wind ─────────────────────────────────────────────────────────────────────────────────────
+  // What Prue could make, given the things to make it with: a jar of the Air plane's own wind, a real petal to copy,
+  // and her furnace. Made, it holds up whatever it is set in, as the true one does (door.kyr).
+  Topic prue_could with prue "Ask Prue Quickly whether she could make a petal that was not a present" when true once {
+    Says "She laughs. Then she stops laughing and looks at the tray of red glass. 'A real one, you mean. One that does what they do.' She picks up a rod and turns it in the furnace mouth. 'Glass is only sand that's been told what to be by fire. The Rose's petals are glass that's been told by something else: the Fire one by the Fire, the Air one by the wind.' She draws out the rod, glowing. 'Give me a jar of the Air plane's own wind, the real wind, not Cloudgate's, and let me have one of the real petals in my hand an hour to see how it's made, and my heat, and a night.' She looks at you. 'I could make you one that would hold up a hat. Or a house, if it were a big enough hat.'".
+    On discuss { Assert knows(actor, made_possible). }
+  }
+  Discovery made_possible "Prue Quickly says that, given a jar of the Air plane's own wind, a real petal of the Rose to copy for an hour, her furnace's heat and a night, she could make a petal of the Rose that does what a real one does.".
+  Kind wind_jar_kind "an empty wind-jar" is gear worth 2 weighing 1 described "A stoppered jar of thick green glass, Pargeter's best, sold to Tourists for bringing home a breath of the Plane of Air. It is empty, which is to say full of Sennet.".
+  Kind north_wind_kind "a jar of the North Wind" is gear worth 0 weighing -1 described "A stoppered jar of green glass, very cold to hold, that pulls a little upward out of your hand. Inside, something moves that is not anything; frost is growing on the inside of the glass in ferns.".
+  Kind made_petal_kind "the petal Prue Quickly made" is treasure worth 0 weighing -6 described "A petal of clear glass the length of your hand, made in Lamp Street, with a fern of frost inside it that never melts, that pulls upward out of your fingers like a kite on a string. On the back, very small, Prue has stamped: A PRESENT FROM SENNET.".
+  Item made_petal "the made petal" is made_petal_kind at offstage.
+  Relation making(group). Relation madeReady(group). Measure madeSince(group).
+  Query seenPetal() means carries(party, fire_petal) or carries(party, earth_petal) or carries(party, water_petal) or carries(party, air_petal).
+  Action prue_make(actor: group, site: place) "Give Prue Quickly the jar of the North Wind, and lend her a petal of the Rose for the night, to make one" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(prue, site) and holding(actor, north_wind_kind) and seenPetal()
+      and knows(actor, made_possible) and not furnaceCold(glasshouse) and not making(prue) and not madeReady(prue).
+    Time 1.
+    On success { Spend north_wind_kind from actor. Assert making(prue). Set madeSince(prue) to watch(clock). }
+    Result "Prue takes the jar in both hands, and the frost on the inside of it ferns up toward her fingers, and she sucks in her breath. She holds the real petal up to the furnace light for a long time, turning it, the way a jeweller looks at a stone. 'Right,' she says, and bars the door. 'Go away. Come back in the morning. Don't let anybody in this street open a window.'".
+  }
+  Rule made_done when making(prue) and watch(clock) >= madeSince(prue) + 60 and hour(clock) >= 7 and hour(clock) < 19 {
+    Retract making(prue). Assert madeReady(prue). }
+  Rule prue_makes_at_night when making(prue) and not at(prue, glasshouse) { Assert at(prue, glasshouse). }
+  Observe making_seen at glasshouse when making(prue) "Prue Quickly's door is barred and her shutters are up, and through the cracks of them comes a light that is not furnace-light: white, and cold, like moonlight on snow. The street outside is full of frost in June.".
+  Topic prue_made with prue "Ask Prue Quickly whether the petal is made" when madeReady(prue) and at(made_petal, offstage) once {
+    Says "She has not slept. Her hands are wrapped in wet rag and she is grinning like a fool. She unwraps something on the bench, carefully, and it lifts off the cloth and stands on its point in the air, turning, a hand's breadth up, until she catches it. 'There,' says Prue Quickly. 'Hold on to it. It wants to go up.' She gives it you, and gives you back the true one. 'It's as good. I'd swear to it in front of the Rector.' She turns it over to show you. 'I stamped it. Old habits.'".
+    On discuss { Give made_petal to actor. }
+  }
+
+  // ── Pargeter's, outfitters to the Grand Tour ──────────────────────────────────────────────────────────────────────
+  Kind fire_cloak_kind "a fire-cloak" like cloak worth 6 weighing 2 described "A long hooded cloak of grey stuff woven with asbestos and soaked in alum, very stiff, smelling of a blacksmith's apron: Pargeter's patent, for the Plane of Fire. In it the heat of the Fire is only very hot.".
+  Kind brine_helm_kind "a brine-glass helm" is gear worth 12 weighing 3 described "A bowl of thick glass for the head, with a collar of oiled leather and a bladder on the back that hisses. Pargeter's patent, for the Whelm. Inside it you breathe, of a kind, with your ears full of your own heart.".
+  Observe outfitter_scene at outfitter when true "Pargeter's: a long shop like a ship's chandlery for a voyage to nowhere, hung from the beams with fire-cloaks stiff as boards, glass helms in rows on wooden heads, coils of rope, lamps, and green wind-jars in pyramids. Everything has a ticket, and every ticket has been crossed out and written again higher.".
+  Person pargeter "Mr. Pargeter" at outfitter {
+    Role "an outfitter to the Grand Tour, in a waistcoat of many pockets". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Sells fire_cloak_kind for 6 coin from 4.
+    Sells brine_helm_kind for 12 coin from 2.
+    Sells wind_jar_kind for 2 coin from 6.
+    Sells rope for 1 coin from 5.
+    Sells lantern for 7 coin from 3.
+    Sells lamp_oil for 1 coin from 8.
+    Greets "'Ah!' A thin man in a waistcoat of a great many pockets comes round the counter with both hands out. 'A Tourist! I can always tell. The look of a person who has not yet been anywhere.' He sweeps an arm. 'Fire-cloaks, brine-glass helms, wind-jars, a Tourist's complete necessaire in a calf case at eleven guineas, which I do not recommend to you, as you are clearly a person of sense.'".
+    Greets again "'Back!' says Mr. Pargeter, delighted. 'They always come back.'".
+  }
+  Rule pargeter_hours when openHours() and not at(pargeter, outfitter) { Assert at(pargeter, outfitter). }
+  Rule pargeter_home when not openHours() and not at(pargeter, offstage) { Assert at(pargeter, offstage). }
+  Topic pargeter_advice with pargeter "Ask Mr. Pargeter what a Tourist needs" when true once {
+    Says "'For the Fire, a cloak. Without one you will be cooked in an hour, a little at a time, like a ham.' He shows you one. 'For the Whelm, a helm, unless you can get one of the sea-folk to kiss you, which I am told lasts three hours and costs nothing, but I could not say, not having been asked.' He sniffs. 'For the Earth, a lamp: it is dark in there, and slow. For the Air, nothing: the sylphs will hold you up out of politeness, but they will talk about you after.' He taps a green jar. 'And a wind-jar, to bring home a breath of it. Very popular with aunts.'".
+    On discuss { Assert knows(actor, tour_needs). }
+  }
+  Discovery tour_needs "What a Tourist needs, by Mr. Pargeter: a fire-cloak for the Plane of Fire, or be cooked; a brine-glass helm for the Whelm, or a merfolk kiss, which lasts three hours; a lamp for the Plane of Earth, which is dark; nothing for the Plane of Air. And a wind-jar, to bring home a breath of the Air.".
+  // What is worn: a helm while it is held gives breath, a cloak proof against the Fire (W1 of 02-adaptation.md: an
+  // item of the module's own cannot yet grant a capability of the module's own).
+  Entity heatproof: capability "Proof against the heat of the Fire".
+  Rule helm_breath when holding(party, brine_helm_kind) and not granted(party, breath) { Assert granted(party, breath). Set grantedUntil(party, breath) to 0. }
+  Rule helm_gone when not holding(party, brine_helm_kind) and granted(party, breath) and grantedUntil(party, breath) == 0 { Retract granted(party, breath). }
+  Rule cloak_proof when holding(party, fire_cloak_kind) and not granted(party, heatproof) { Assert granted(party, heatproof). Set grantedUntil(party, heatproof) to 0. }
+  Rule cloak_gone when not holding(party, fire_cloak_kind) and granted(party, heatproof) and grantedUntil(party, heatproof) == 0 { Retract granted(party, heatproof). }
+}
