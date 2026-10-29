@@ -67,9 +67,15 @@
       "terrain": "marsh",
       "among": "independent",
       "rumour": "'South, in the Strewnfield,' says {keeper}, 'a room of glass fell into a barley field by Cobble Ring. It grows, they say, wherever nobody is watching it. They sit up with it all night on stools.'",
-      "heard": "South over the march lies the Strewnfield, where a room of glass fell into a barley field by Cobble Ring, and grows wherever nobody watches it.",
+      "heard": "South of here lies the Strewnfield, where a room of glass fell into a barley field by Cobble Ring, and grows wherever nobody watches it.",
       "skyline": "a flash in the fields, like a window where no house stands",
-      "far": "a room of glass fell into a barley field, and grows wherever nobody is watching it"
+      "far": "a room of glass fell into a barley field, and grows wherever nobody is watching it",
+      "province": true,
+      "covers": [
+        "meadow",
+        "heath",
+        "fen"
+      ]
     },
     {
       "id": "corrow",

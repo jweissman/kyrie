@@ -315,12 +315,12 @@ describe("Gosse's Company: saving, replaying, and the world it lies in", () => {
   }, 240000);
 
   it('a generated forest country holds the vale of the Arle beyond its west march, the players stuck on a green on the road there, and the road in', async () => {
-    const w = await WorldAssembler.assemble('gosse', NodeBundleSource.shared, { region: { terrain: 'forest' } });
+    const w = await WorldAssembler.assemble('troupe', NodeBundleSource.shared, { region: { terrain: 'forest' } });
     expect(w.report.region.beyond!.west!.name).toBe('the vale of the Arle');
     // The herald: the players are on the green of the town the west road leaves from, and the inns have heard.
     const herald = w.report.placements.find(pl => pl.scenario === 'players')!;
     expect(herald).toBeDefined();
-    const s = await PlaySession.start(w.path, 'gosse', w.source);
+    const s = await PlaySession.start(w.path, 'troupe', w.source);
     expect(s.campaign.installations.some(m => m.id === 'players')).toBe(true);
     const green = s.campaign.world.one('at', 'players__gosse')!;
     GeneratedWorld.put(s, green.replace(/^region__/, ''));
@@ -331,7 +331,7 @@ describe("Gosse's Company: saving, replaying, and the world it lies in", () => {
     GeneratedWorld.put(s, s.campaign.world.one('at', told.speaker!)!.replace(/^region__/, ''));
     expect(await j.play('about the Trial of the Wheel at Pentrice')).toMatch(/Trial|Pentrice|players/);
     await GeneratedWorld.travel(s, 'edge_west');
-    const drawn = await new Frontier('gosse', NodeBundleSource.shared).expand(s.campaign);
+    const drawn = await new Frontier('troupe', NodeBundleSource.shared).expand(s.campaign);
     expect(s.campaign.installations.find(m => m.id === drawn!.rid)?.chapter).toBe(true);
     await j.play('West Road above Pentrice');
     expect(s.campaign.world.one('at', 'party')).toBe(`${drawn!.rid}__road_end`);

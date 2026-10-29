@@ -7,6 +7,7 @@ import { ModuleBundle } from '../campaign/module-bundle';
 import { WorldGrid } from './world-grid';
 import { RegionWriter, type Region } from './region-writer';
 import { Countries, type Country } from './countries';
+import { Provinces } from './provinces';
 import { Renewal } from './renewal';
 import type { DeemValue } from 'deem';
 
@@ -41,6 +42,8 @@ export class Frontier {
   // road to it. The region newly drawn, if one was.
   async expand(campaign: Campaign): Promise<{ region?: Region; rid: string } | undefined> {
     await this.renew(campaign);
+    const gate = new RegExp(`^${RegionWriter.id}__${Provinces.room('(\\w+)')}$`).exec(campaign.world.one('at', 'party') ?? '');
+    if (gate) { await this.province(campaign, gate[1]!); return undefined; }
     const at = /^(.+)__edge_(north|east|south|west)$/.exec(campaign.world.one('at', 'party') ?? '');
     const here = at && WorldGrid.at(at[1]!);
     if (!at || !here) { return undefined; }
@@ -72,6 +75,21 @@ export class Frontier {
       here: `${at[1]!}.edge_${side}`, there: `${rid}.${there}` } },
     new OverlayBundleSource(this.base, files));
     return { rid, ...region ? { region } : {} };
+  }
+  // A province of the first country (see Provinces), the first time a company stands at its way in: the adventure
+  // installed within the country, not as a country of its own, and the road on from the way in to where its own
+  // places begin.
+  private async province(campaign: Campaign, id: string) {
+    const country = Countries.provinces.find(c => c.id === id), install = Provinces.install(id);
+    if (!country || campaign.installed.includes(install)) { return; }
+    const word: Record<string, string> = country.after ? { word: `${RegionWriter.id}.${Provinces.room(id)}_beyond` } : {};
+    await campaign.install({ id: install, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
+      imports: { party: `${RegionWriter.id}.party`, ...word, ...await this.herald(campaign, country) }, chapter: true,
+      within: `${RegionWriter.id}__region` }, this.base, false, true);
+    const link = `link${install}`;
+    await campaign.install({ id: link, bundle: `${link}/module.json`, imports: {
+      here: `${RegionWriter.id}.${Provinces.room(id)}`, there: `${install}.${country.entry}` } },
+    new OverlayBundleSource(this.base, this.road(link, `the road on into ${country.name}`, '1 hour')));
   }
   // What the first country's towns have going on next, begun as it falls due (see Renewal); one the country has none
   // for is not looked for again.
@@ -146,11 +164,11 @@ export class Frontier {
   }
   // Whether a campaign is a generated world (its manifest is one the assembler wrote), which can go on past its edges.
   static generated(scenario: string): boolean { return /(^|\/)world-[^/]*\.campaign\.json$/.test(scenario); }
-  // The road across the march between two regions' march-stones.
-  private road(id: string): Record<string, string> {
-    const source = [`Module ${id} "The road across the march" {`, '  Place here "Where the road leaves" is room.',
+  // The road across the march between two regions' march-stones; or on from a province's way in into it.
+  private road(id: string, name = 'the road across the march', time = '2 hours'): Record<string, string> {
+    const source = [`Module ${id} ${JSON.stringify(name.replace(/^the /, 'The '))} {`, '  Place here "Where the road leaves" is room.',
       '  Place there "Where the road comes in" is room.',
-      '  Passage march "the road across the march" is road between here and there taking 2 hours.', '  Goal false.', '}'];
+      `  Passage march ${JSON.stringify(name)} is road between here and there taking ${time}.`, '  Goal false.', '}'];
     return { [`${id}/module.json`]: JSON.stringify({ version: 1, source: 'link.kyr', rules: ['world'],
       imports: ['here', 'there'], roles: { here: { type: 'place' }, there: { type: 'place' } } }),
     [`${id}/link.kyr`]: source.join('\n') };

@@ -14,7 +14,7 @@ describe('where the authored countries lie', () => {
       for (const c of Countries.list) {
         expect(told.filter(l => l.includes(` ${c.name} `)).length, `${seed} ${c.name}`).toBe(1);
       }
-      const placed = / (north|east|south|west) of (the first country|x\S+) \(\w+\)$/;
+      const placed = / (north|east|south|west) (of|within) (the first country|x\S+) \(\w+\)$/;
       expect(told.slice(1).every(l => placed.test(l))).toBe(true);
     }
     expect(lines.length).toBe(2 * (Countries.list.length + 1));

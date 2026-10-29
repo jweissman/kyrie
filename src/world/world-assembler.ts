@@ -15,6 +15,7 @@ import { RegionEcology } from './region-ecology';
 import { RegionGeography } from './region-geography';
 import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
+import { Provinces } from './provinces';
 import { Communities } from './community/community';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
@@ -53,9 +54,8 @@ export interface ScenarioManifest {
 }
 export interface Placement {
   scenario: string; instance: string; bindings: Record<string, string>; generated: string[];
-  modules: string[]; carriers: Record<string, string[]>;
-  // The region module it is set in (see WorldGrid): "region" for the first.
-  rid: string;
+  // rid: the region module it is set in (see WorldGrid): "region" for the first.
+  modules: string[]; carriers: Record<string, string[]>; rid: string;
   // The placements its links are bound to, by role: where they are set, and which instance (see ScenarioManifest).
   linked?: Record<string, { rid: string; n: number }>;
 }
@@ -86,14 +86,15 @@ export class WorldAssembler {
     // Someone who died in this country before: where they lie, and how they died, which the country remembers.
     memorial?: Memorial;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
-    const region = this.region(seed, [0, 0], options.region);
+    const region = this.region(seed, [0, 0], options.region), days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.further = Countries.further(region, seed);
-    const days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
     const heralds = await this.heralds(base, region, seed);
     const { context, eligibility, placements } = this.settle(region, library,
       { seed, rid: RegionWriter.id, rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [], heralds });
+    // The country's provinces: its authored adventures that are parts of it, each with a way in on its land.
+    region.provinces = await Provinces.regions(Provinces.situate(region), base);
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
     const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
     const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.party)[0]!)]

@@ -8,6 +8,8 @@ import { RegionRoads } from './region-roads';
 import { RegionZones } from './region-zones';
 import { RegionSights } from './region-sights';
 import { RegionBorders } from './region-borders';
+import { RegionGates } from './region-gates';
+import { Provinces, type Province } from './provinces';
 import type { Atlas } from './land/atlas';
 import type { Side } from './land/borders';
 import type { History } from './history/histories';
@@ -62,6 +64,8 @@ export interface Region extends Naming {
     way?: string; skyline?: string }>>;
   // The authored countries its folk have heard of further off, beyond the countries next to theirs (Countries.further).
   further?: { side: Side; via: string; then: Side; name: string; terrain: string; far: string; id: string }[];
+  // Its provinces: authored adventures installed as parts of it, each entered by its way in (see Provinces).
+  provinces?: Province[];
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
@@ -140,7 +144,7 @@ export class RegionWriter {
     lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionSights.lines(region),
       ...RegionGrowth.lines(region),
       ...RegionMarvels.lines(region),
-      ...RegionBorders.lines(region),
+      ...RegionBorders.lines(region), ...RegionGates.lines(region),
       ...RegionSites.lines(region, taken),
       ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region), ...RegionTraffic.lines(region),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : []);
@@ -209,6 +213,7 @@ export class RegionWriter {
     ...RegionGeography.atlas(region).borders.flatMap(b => [RegionBorders.room(b), `${RegionBorders.room(b)}_land`,
       // What is said of an authored country beyond, which the country marks old news once it is seen through.
       ...RegionBorders.remembers(region.beyond?.[b.side]) ? [`${RegionBorders.room(b)}_beyond`] : []]),
+    ...RegionGates.ids(region),
     ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),
     ...region.history ? ['history_successors'] : [],
     ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : []];
@@ -233,7 +238,8 @@ export class RegionWriter {
       meadow: '.', wood: 'w', heath: 'h', fell: 'f', peak: 'p' };
     return { width: atlas.land.width, height: atlas.land.height, cover: atlas.land.cover.map(c => glyphs[c]).join(''),
       rivers: atlas.rivers.map(r => r.cells), roads: Object.fromEntries([...roads.map(r => [r.way, r.route.cells]),
-        ...atlas.borders.map(b => [RegionBorders.room(b), b.road.cells])]),
+        ...atlas.borders.map(b => [RegionBorders.room(b), b.road.cells]),
+        ...(region.provinces ?? []).map(p => [Provinces.room(p.country), p.gate.road.cells])]),
       parts: Object.fromEntries(atlas.zones.flatMap(z => z.parts.map((cells, i) => [RegionZones.room(z, i), cells]))),
       // What each name means, in the tongue it was given in: kept with the chart, not said in the place's description.
       glosses: Object.fromEntries([...region.settlements, ...region.sites].filter(x => x.gloss && x.tongue)
@@ -242,6 +248,8 @@ export class RegionWriter {
         ...atlas.zones.flatMap(z => RegionZones.landmarks(region, z).map(l => [l.id, l.cell])),
         ...region.sites.filter(w => w.cell !== undefined).map(w => [w.id, w.cell]),
         ...atlas.borders.map(b => [RegionBorders.room(b), b.cell]),
+        ...(region.provinces ?? []).flatMap(p => [[Provinces.room(p.country), p.gate.cell],
+          ...p.region ? [[p.region, p.gate.cell]] : []]),
         ...atlas.zones.map(z => [z.id, z.centres[0]])]) };
   }
 }

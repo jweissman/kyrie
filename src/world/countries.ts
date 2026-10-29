@@ -27,20 +27,28 @@ export interface Country {
   // the country, and never drawn at random; and those of its exports the country reads, bound to the country's
   // optional imports of the same name when it is installed (see Frontier).
   herald?: { scenario: string; exports: string[] };
+  // A province: installed as part of the world's first country, its way in a place a little in from its side of that
+  // country, not a country of its own beyond a march (Mission 18's Gate B; see Gates, Frontier).
+  province?: boolean;
+  // The land a province lies on, the kinds most wanted first (a barley field: meadow).
+  covers?: import('./land/land-cover').Cover[];
 }
 type Beyond = NonNullable<Region['beyond']>[Side];
 export class Countries {
   static readonly list = countries.countries as Country[];
+  // The countries that lie beyond marches; the rest are provinces of the first country.
+  static readonly marches = Countries.list.filter(c => !c.province);
+  static readonly provinces = Countries.list.filter(c => c.province);
   // The country that fits beyond a march of a country of this terrain, of those not yet placed and this world holds.
   static fits(terrain: string, side: Side, placed: (c: Country) => boolean, seed: string): Country | undefined {
-    return this.list.find(c => c.side === side && c.beside.includes(terrain) && !placed(c)
+    return this.marches.find(c => c.side === side && c.beside.includes(terrain) && !placed(c)
       && this.held(c, seed, terrain));
   }
   // Whether the first country, of this terrain, leads into a country: always, unless it is among a kind of which the
   // seed chose another of those that fit it.
   static held(c: Country, seed: string, terrain: string): boolean {
     if (!c.among) { return true; }
-    const kin = this.list.filter(o => o.among === c.among && o.beside.includes(terrain));
+    const kin = this.marches.filter(o => o.among === c.among && o.beside.includes(terrain));
     if (!kin.includes(c)) { return false; }
     return kin[this.hash(`${seed}:${c.among}`) % kin.length] === c;
   }
@@ -61,7 +69,7 @@ export class Countries {
       if (c) { plan.set(WorldGrid.id(...WorldGrid.next([0, 0], side)), c); }
     }
     const ways = new Set<string>();
-    for (const c of this.list.filter(o => ![...plan.values()].includes(o))) {
+    for (const c of this.marches.filter(o => ![...plan.values()].includes(o))) {
       const way = this.way(seed, c, plan, ways);
       if (way) { plan.set(WorldGrid.id(...WorldGrid.next(way, c.side)), c); ways.add(WorldGrid.id(...way)); }
     }

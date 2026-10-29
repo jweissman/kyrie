@@ -18,7 +18,8 @@ describe('a world of every adventure', () => {
   it('places every authored country, each beside a country it may lie beside, and walls none in', () => {
     for (const seed of ['wren', 'thorn', 'a1', 'b2', 'g7', 'kin', 'mere', 'cov13']) {
       const first = WorldGrid.drawn(seed, 0, 0).terrain, plan = Countries.plan(seed, first);
-      expect([...plan.values()].map(c => c.id).sort()).toEqual(Countries.list.map(c => c.id).sort());
+      // Every country beyond a march somewhere; the provinces are parts of the first country (Mission 18).
+      expect([...plan.values()].map(c => c.id).sort()).toEqual(Countries.marches.map(c => c.id).sort());
       const ways = [...plan].map(([cell, c]) => WorldGrid.id(...WorldGrid.next(WorldGrid.at(cell)!,
         Borders.opposite[c.side])));
       for (const [i, [, c]] of [...plan].entries()) {

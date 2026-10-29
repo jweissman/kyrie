@@ -12,9 +12,9 @@ import { GeneratedWorld } from './support/generated';
 // country.
 describe('the Bowl of Ammerlin beyond a march', () => {
   it('is held beyond the south march of a fen country, and its Hearing falls six days on from reaching it', async () => {
-    const w = await WorldAssembler.assemble('mere', NodeBundleSource.shared, { region: { terrain: 'marsh' } });
+    const w = await WorldAssembler.assemble('kin', NodeBundleSource.shared, { region: { terrain: 'marsh' } });
     expect(w.report.region.beyond!.south!.name).toBe('the Bowl of Ammerlin');
-    const s = await PlaySession.start(w.path, 'mere', w.source), frontier = new Frontier('mere', NodeBundleSource.shared);
+    const s = await PlaySession.start(w.path, 'kin', w.source), frontier = new Frontier('kin', NodeBundleSource.shared);
     await GeneratedWorld.travel(s, 'edge_south');
     const elapsed = s.campaign.state.elapsed, drawn = await frontier.expand(s.campaign);
     expect(drawn!.region).toBeUndefined();

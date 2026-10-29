@@ -176,8 +176,10 @@ export class ModuleBundle {
     return { ...chart, roads: this.scoped(chart.roads, id), parts: this.scoped(chart.parts, id),
       places: this.scoped(chart.places, id), ...chart.glosses ? { glosses: this.scoped(chart.glosses, id) } : {} };
   }
+  // A chart's own ids, scoped to its module; one of another module's already (a province's region, drawn on the land
+  // of the country it is a part of) is kept as it is.
   private static scoped<T>(o: Record<string, T>, id: string): Record<string, T> {
-    return Object.fromEntries(Object.entries(o).map(([k, v]) => [`${id}__${k}`, v]));
+    return Object.fromEntries(Object.entries(o).map(([k, v]) => [k.includes('__') ? k : `${id}__${k}`, v]));
   }
   // Reads and parses a module's files ahead of its loading (a country while its protagonist is chosen), one file at a
   // time with a pause between, so that whatever else is asked meanwhile is answered; its loading then finds them.

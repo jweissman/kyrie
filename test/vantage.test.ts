@@ -39,10 +39,11 @@ class High {
 describe('somewhere high', () => {
   it('shows, climbed, what is in sight of it, and each is somewhere to set out for after', async () => {
     const { c, told } = await High.climbed('larch');
-    expect(told).toContain('To the south-west, not far off: the march-stone of the Bowl of Ammerlin.');
+    // (Thrume's: the Bowl of Ammerlin's until the Strewnfield became a province of the first country, Mission 18.)
+    expect(told).toContain('To the north-east, not far off: the march-stone of Thrume.');
     expect(told).toContain('To the north-east, not far off: a half-fallen tower.');
     const going = Itineraries.destinations(c).map(d => d.name);
-    expect(going).toEqual(expect.arrayContaining(['the march-stone of the Bowl of Ammerlin', 'a half-fallen tower']));
+    expect(going).toEqual(expect.arrayContaining(['the march-stone of Thrume', 'a half-fallen tower']));
     const fact = c.module.entities.find(e => e.type === 'fact' && /_saw\d+$/.test(e.id))!;
     expect(c.world.test(ModuleWriter.call('knows', c.playerActor!, fact.id))).toBe(true);
   }, 120000);
