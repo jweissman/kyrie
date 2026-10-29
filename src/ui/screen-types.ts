@@ -60,6 +60,8 @@ export interface TargetRow {
   recruit?: Recruit;
   // Someone the company has a stake in (its family; whoever an aim it holds turns on): met first (see Stakes).
   stake?: boolean;
+  // Someone with something written to be asked of them (a Topic): talking to them can go somewhere.
+  asked?: boolean;
 }
 export interface ItemRow {
   // kind: the catalog's id for what it is (torch, lamp_oil), not its name.

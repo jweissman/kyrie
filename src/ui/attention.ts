@@ -18,18 +18,27 @@ export class Attending {
   }
   private static opener(s: SceneSubject): SceneSubject {
     // A danger is met where it stands: fighting it, talking it round and warning it off are all said at once, not
-    // behind a conversation that may never be opened.
-    if (s.danger && s.kind !== 'companion') { return s; }
+    // behind a conversation that may never be opened. Talking to it is offered only where something is written to be
+    // asked of it: grave-robbers talked to had drawn back and said nothing, and nothing could be put to them (the cold
+    // evaluation's 14; play 13).
+    if (s.danger && s.kind !== 'companion') {
+      return s.asked ? s : { ...s, choices: s.choices.filter(c => !this.talking.test(c.command ?? '')) };
+    }
     if (['person', 'companion'].includes(s.kind) && s.choices.length) {
       const talk = this.all(s.choices).find(c => this.talking.test(c.command ?? ''));
       const rest = this.replies(s.choices);
-      return { ...s, choices: [{ id: `${s.id}#talk`, label: `Talk to ${s.name}`, tone: 'person',
+      return { ...s, choices: [{ id: `${s.id}#talk`, label: `Talk to ${this.called(s)}`, tone: 'person',
         ...talk?.command ? { command: talk.command } : {}, children: rest.length ? rest : [] }] };
     }
     if (s.kind === 'thing' && s.choices.length) {
       return { ...s, choices: [{ id: `${s.id}#look`, label: s.name, tone: 'thing', children: s.choices }] };
     }
     return s;
+  }
+  // One's own family by what they are to you ("Talk to your mother", not "Talk to Jassin Galanodel": M17-93).
+  private static called(s: SceneSubject): string {
+    const kin = s.note?.split(' · ')[0];
+    return s.stake && kin?.startsWith('your ') ? kin : s.name;
   }
   // A conversation: what can be said to them, and taking leave.
   static talk(scene: Scene, id: string): Talk | undefined {

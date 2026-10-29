@@ -130,7 +130,8 @@ export class DeepSites {
   private static raised(purpose: DeepPurpose, layout: DeepLayout, values: Record<string, string>): string[] {
     const o = purpose.objective, site = layout.site, q = this.q;
     if (!o.goal || !o.raised) { return []; }
-    const [goal, raised] = [o.goal, o.raised].map(t => t.replaceAll('{name}', values.name!));
+    // The aim names the site as the place it is, so the ways to it are known for the aim's (see Stakes).
+    const [goal, raised] = [o.goal.replaceAll('{name}', `{${site}_site}`), o.raised.replaceAll('{name}', values.name!)];
     return [`  Entity ${site}_story: fact ${q(o.text)}.`, `  Relation ${site}_raised().`,
       `  Objective ${site}_bring when knows(party, ${site}_story) and not ${site}_raised() ${q(goal)}.`,
       `  Rule ${site}_brought when at(party, ?p) and not unlit(?p) and not dark() and ownedItem(${site}_heart, ?m)`

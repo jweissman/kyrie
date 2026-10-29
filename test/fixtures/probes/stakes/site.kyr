@@ -4,6 +4,9 @@ Module stakes "Whom the company has a stake in" {
   Place bridge "the bridge over the Reed" is room at 0, 1 outdoors.
   Passage yard_lane "the gate" is path between yard and lane.
   Passage yard_bridge "the bridge road" is path between yard and bridge.
+  Place barrow "Lacrimerecs" is site at 2, 0.
+  Place mouth "a door of stone in a long mound" is room within barrow at 0, 0 outdoors.
+  Passage lane_mouth "the fen track" is path between lane and mouth.
   Company party "You" of 1 at yard.
   Entity called_brother: fact "your brother".
   Person ned "Ned" at yard { Role "a carter". Peaceable. Pronouns he. }
@@ -11,5 +14,6 @@ Module stakes "Whom the company has a stake in" {
   Person tom "Tom" at yard { Peaceable. Pronouns he. }
   Initially Assert kin(party, tom). Initially Assert kinship(tom, called_brother).
   Objective father when true "Your father went out by {bridge} with the cart.".
+  Objective crown when true "Bring the crown of the first king out from under {barrow}.".
   Goal false.
 }

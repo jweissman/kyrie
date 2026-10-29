@@ -6,11 +6,13 @@ import type { Screen } from './screen-types';
 // night. Each kind has a few, and a place is given the same one each time (by its id). Chosen by looking at the
 // paintings (data/paintings/seen.json): wide country, with a way into it, never a figure who could be taken for
 // someone met (a village fair's crowd under a church tower had opened a shrine's page and a road through a forest
-// clearing: Mission 17's plays). A town in the woods is a clearing in them.
+// clearing: Mission 17's plays). A town in the woods is a clearing in them; one in the fens a mill on its bluff, or
+// boats drawn up (a fen salt-house had opened on sheep in a wooded lane: play 13).
 export class Scenery {
   static readonly views: Record<string, string[]> = {
     'settlement:river': ['bridge', 'mill'], 'settlement:frost': ['wintre', 'ice-cutter', 'trapper', 'idyll'],
-    'settlement:forest': ['forest', 'herd', 'chapel'], settlement: ['herd', 'chapel', 'arcadia', 'bridge'],
+    'settlement:forest': ['forest', 'herd', 'chapel'], 'settlement:marsh': ['mill', 'trapper'],
+    settlement: ['herd', 'chapel', 'arcadia', 'bridge'],
     'wild:river': ['indolence', 'bridge'], 'wild:lake': ['bear', 'party'], 'wild:peak': ['idyll', 'avalanche'],
     'wild:pass': ['idyll', 'bridge'], 'wild:wood': ['grove', 'gale'],
     forest: ['grove', 'gale', 'forest'], marsh: ['grove', 'trapper'], mountain: ['idyll', 'bear'],

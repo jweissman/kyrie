@@ -42,6 +42,8 @@ export class EngineHost {
   private frontier?: Frontier;
   private log: Entry[] = [];
   private opening: string[] = [];
+  // How long the story was when the command under way began: what was told before it did not start its fight.
+  private began = 0;
   private screen?: Screen;
   // The last command, as the narrator tells it until the next; and the country the company was last in, so that
   // coming into another is marked.
@@ -178,7 +180,7 @@ export class EngineHost {
     const session = this.session, game = this.game;
     if (!session) { throw new Error('No game is under way'); }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
-    this.fought = undefined;
+    this.fought = undefined; this.began = campaign.history.length;
     try {
       const event = await session.perform(command, this.controlling(game));
       if (game !== this.game) { throw new Error('That game is no longer under way.'); }
@@ -266,9 +268,11 @@ export class EngineHost {
     this.fought = battle;
     this.post({ kind: 'frame', frame: this.frame() });
   });
-  // What was seen and said in the moment the company was set upon, if it was.
+  // What was seen and said in the moment the company was set upon, if it was: never what was told before the command
+  // that began it (a fight with bats begun by the company opened on "Brann lights a torch.": play 13).
   private begun(): string[] {
-    const last = this.session?.campaign.history.at(-1);
+    const history = this.session?.campaign.history ?? [];
+    const last = history.length > this.began ? history.at(-1) : undefined;
     const seen = [...(last?.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       ...(last?.response ? [last.response] : [])];
     return seen.length ? [...new Set(seen)] : [''];

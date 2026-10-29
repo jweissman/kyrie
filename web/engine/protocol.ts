@@ -35,7 +35,10 @@ export interface Setting {
 // The choices a company is made from, read from the same catalogs the game runs on.
 export interface Catalog {
   // Each people, the callings open to it (an elf is no cleric), and what it and each calling add to the qualities.
-  ancestries: { id: string; name: string; text: string; callings: string[]; qualities: Record<string, number> }[];
+  // A people: what it is, the callings it follows, what it adds to the qualities, and its gifts by birth ("Keen
+  // Senses: +4 to search checks").
+  ancestries: { id: string; name: string; text: string; callings: string[]; qualities: Record<string, number>;
+    gifts: string[] }[];
   // A calling's specializations (a cleric's domains, a mage's schools): what each is, and what its first spells are of.
   callings: { id: string; name: string; text: string;
     specializations: { id: string; name: string; text?: string; of?: string; does?: string }[];

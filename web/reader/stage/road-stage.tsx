@@ -10,48 +10,55 @@ import { PlaceStage } from './place-stage';
 import { Told } from './told';
 
 // On a road. Not a room: a line across the country between two places, with the country it crosses in bands (fen,
-// woods, a ford) and the tracks that leave it; what the way was like and what is by the road; and the two ways on,
-// back and forward, with stopping between them.
+// woods, a ford) and the tracks that leave it; what the way was like and who and what is by the road, as a place is
+// told; and beside it, or at the foot of a screen held upright, your aim and the two ways on, back and forward, with
+// stopping between them (the road had been a spread of its own whose leaves fell apart on a tablet, its paragraphs at
+// three indents and no aim: Mission 17).
 export class RoadStage {
   static View({ app, route }: { app: ReaderApp; route: Route }) {
-    const scene = app.menu.scene!, draw = Act.draw(app);
+    const scene = app.menu.scene!, draw = Act.draw(app), frame = app.state.frame!;
     const ways = [...scene.near, ...scene.far];
+    return (
+      <article className="scene-page road-page" id="page">
+        <section className="scene" aria-label="The road">
+          <div className="measure">
+            <RoadStage.Strip route={route} draw={draw} ways={ways} />
+            <div className="telling"><Told.Place app={app} here={<RoadStage.By app={app} draw={draw} />} /></div>
+          </div>
+        </section>
+        <section className="on-pane" aria-label="Ways on"><div className="measure"><div className="on">
+          <PlaceStage.Aim screen={frame.screen} bound={!!frame.bound} />
+          {/* A journey stopped on the road (a cart gone off it, a goat loose) is taken up again from here. */}
+          <PlaceStage.Bound app={app} draw={draw} />
+          <nav className="onward" aria-label="Ways on">
+            <p className="label">Ways on</p>
+            <RoadStage.End choices={RoadStage.choices(ways, route.from)} exit={route.from} draw={draw} back />
+            <RoadStage.End choices={RoadStage.choices(ways, route.to)} exit={route.to} draw={draw} />
+          </nav>
+          <PlaceStage.Further app={app} draw={draw} />
+          <PlaceStage.You app={app} draw={draw} />
+        </div></div></section>
+      </article>
+    );
+  }
+  // Who and what is by the road: danger first, then the people, then the animals, things and whoever is with you.
+  static By({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const scene = app.menu.scene!;
     const of = (kind: SceneSubject['kind']) => scene.subjects.filter(x => x.kind === kind && !PlaceStage.danger(x));
     const people = of('person'), small = [...of('animal'), ...of('thing'), ...of('companion')];
     return (
-      <article className="spread road-spread" id="page">
-        <div className="leaves">
-        <section className="verso" aria-label="The road">
-          <div className="measure">
-            <RoadStage.Strip route={route} draw={draw} ways={ways} />
-            <Told.Place app={app} />
-          </div>
-        </section>
-        <section className="recto" aria-label="By the road">
-          <div className="measure">
-            {scene.subjects.filter(PlaceStage.danger).map(c => <PlaceStage.Threat key={c.id} subject={c} draw={draw} />)}
-            {people.length > 0 && <div className="cast" data-line="By the road">
-              <p className="label">By the road</p>
-              <ul className="plates">{people.map(s => <li key={s.id} data-subject={s.id}>
-                <PlaceStage.Plate subject={s} draw={draw} /></li>)}</ul>
-            </div>}
-            {small.length > 0 && <div className="also-here" data-line="To look at">
-              <ul className="chips">{small.map(s => <li key={s.id} data-subject={s.id}>
-                <PlaceStage.Chip subject={s} draw={draw} /></li>)}</ul>
-            </div>}
-            <nav className="onward" aria-label="Ways on">
-              <p className="label">Ways on</p>
-              <RoadStage.End choices={RoadStage.choices(ways, route.to)} exit={route.to} draw={draw} />
-              <RoadStage.End choices={RoadStage.choices(ways, route.from)} exit={route.from} draw={draw} back />
-            </nav>
-            {/* A journey stopped on the road (a cart gone off it, a goat loose) is taken up again from here. */}
-            <PlaceStage.Bound app={app} draw={draw} />
-            <PlaceStage.Further app={app} draw={draw} />
-            <PlaceStage.You app={app} draw={draw} />
-          </div>
-        </section>
-        </div>
-      </article>
+      <div className="here">
+        {scene.subjects.filter(PlaceStage.danger).map(c => <PlaceStage.Threat key={c.id} subject={c} draw={draw} />)}
+        {people.length > 0 && <div className="cast" data-line="By the road">
+          <p className="label">By the road</p>
+          <ul className="plates">{people.map(s => <li key={s.id} data-subject={s.id} className={s.stake ? 'lead' : undefined}>
+            <PlaceStage.Plate subject={s} draw={draw} /></li>)}</ul>
+        </div>}
+        {small.length > 0 && <div className="also-here" data-line="To look at">
+          <ul className="chips">{small.map(s => <li key={s.id} data-subject={s.id}>
+            <PlaceStage.Chip subject={s} draw={draw} /></li>)}</ul>
+        </div>}
+      </div>
     );
   }
   static choices(ways: Choice[], e: ExitRow): Choice[] {

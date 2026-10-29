@@ -13,10 +13,15 @@ export class Card {
         <span className="card-name">{Typography.curl(name)}{tag && <span className="tag">{Typography.curl(tag)}</span>}</span>
         {text && <span className="card-text">{Typography.curl(text)}</span>}
         {facts.length > 0 && <span className="card-facts">{facts.map((f, i) => <span key={i} className="fact">
-          {typeof f === 'string' ? Typography.curl(f) : f}</span>)}</span>}
+          {typeof f === 'string' ? Card.fact(f) : f}</span>)}</span>}
         {shut && <span className="card-shut">{Typography.curl(shut)}</span>}
       </button>
     );
+  }
+  // A fact headed by what it is ("Keen Senses: +4 to search checks"), the heading set apart.
+  static fact(f: string): ReactNode {
+    const m = /^([^:]{2,32}): (.+)$/.exec(f);
+    return m ? <><b>{Typography.curl(m[1]!)}</b> {Typography.curl(m[2]!)}</> : Typography.curl(f);
   }
   // Cards laid out on the page, with a heading and a line about them.
   static Deck({ title, how, children, kind }: { title?: string; how?: string; children: ReactNode; kind?: string }) {

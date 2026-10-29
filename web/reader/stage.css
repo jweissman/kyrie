@@ -499,7 +499,7 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 .ways.about .act.way .lead { display: none; }
 .ways.about .act.way .t { margin-left: 2px; color: var(--grey); }
 @media (max-width: 639px) { .ways.about .options > li.wide { grid-column: 1 / -1; } }
-.ways.about .options > li.barred { grid-column: 1 / -1; }
+.ways.about .options > li.whole { grid-column: 1 / -1; }
 @media (min-width: 640px) {
   .ways.about .options { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
 }
@@ -706,5 +706,9 @@ html:has(.stage), body:has(.stage) { height: 100%; overflow: hidden; }
 }
 /* Side by side, the ways about a place two to a row wherever they fit. */
 @media (min-width: 640px) {
-  .scene-page .ways.about .options { grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr)); }
+  .scene-page .ways.about .options { grid-template-columns: repeat(auto-fill, minmax(14.5rem, 1fr)); }
 }
+/* On a road, the two ways on under your aim, back and forward, the road's own name under each. */
+.road-page .onward { margin: 0 0 22px; }
+.road-page .onward .label { flex-basis: 100%; margin-bottom: 0; }
+.road-page .strip { margin-bottom: 26px; }

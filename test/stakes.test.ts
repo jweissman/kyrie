@@ -16,4 +16,16 @@ describe('a stake', () => {
     expect(screen.exits.filter(e => screen.aimed!.includes(e.destination.id)).map(e => e.destination.name))
       .toEqual(['the bridge over the Reed']);
   }, 30000);
+  it('takes in the places of a site an aim names, so the way to its mouth is the way to it', async () => {
+    const j = await Journey.start('test/fixtures/probes/stakes/probe.campaign.json');
+    await j.play('^To the lane');
+    const screen = ScreenModel.build(j.campaign);
+    expect(screen.exits.filter(e => screen.aimed!.includes(e.destination.id)).map(e => e.destination.name))
+      .toEqual(['a door of stone in a long mound']);
+    // At its door the aim it names is the one said first, not the father's (play 13: the debt had been the aim shown
+    // in the king-barrow whose crown was the other).
+    expect(screen.objectives[0]).toMatch(/father/);
+    await j.play('^Into Lacrimerecs');
+    expect(ScreenModel.build(j.campaign).objectives[0]).toMatch(/crown/);
+  }, 30000);
 });

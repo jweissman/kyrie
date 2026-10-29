@@ -14,9 +14,9 @@ import { World } from '../src/lang/world';
 // has ended, the last blows, how it ended and what it was worth, until the player goes on; and the place does not
 // tell the blows again. Wenna, made hard to kill, sees off the bone hounds in a1's barrow halls.
 class Hounds {
-  static async host() {
+  static async host(seen: Frame[] = []) {
     const host: EngineHost = new EngineHost((m: Message) => {
-      if (m.kind === 'frame') { setTimeout(() => void host.handle({ kind: 'fight' }), 0); }
+      if (m.kind === 'frame') { seen.push(m.frame); setTimeout(() => void host.handle({ kind: 'fight' }), 0); }
     });
     await host.handle({ kind: 'begin', campaign: 'world', seed: 'a1', origin: 'wanderer',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
@@ -38,6 +38,20 @@ class Hounds {
     return await host.handle({ kind: 'perform', command: attack.choice.id }) as Frame;
   }
 }
+
+describe('a fight the company begins', () => {
+  // It opens on what began it, never on what was told before (a fight with bats begun by the company had opened on
+  // "Brann lights a torch.": play 13).
+  it('does not open on what was told before the command that began it', async () => {
+    const seen: Frame[] = [], { host, session } = await Hounds.host(seen);
+    const before = (await host.handle({ kind: 'perform', command: 'wait' }) as Frame).leaf.exchange?.lines
+      .map(l => l.text) ?? [];
+    expect(before.length).toBeGreaterThan(0);
+    await Hounds.attack(host, session);
+    const opened = seen.find(f => f.combat)!.opening;
+    expect(opened.filter(l => before.includes(l))).toEqual([]);
+  }, 120000);
+});
 
 describe('a fight that has ended', () => {
   it('is held on its page, how it ended and what it was worth, until the player goes on', async () => {

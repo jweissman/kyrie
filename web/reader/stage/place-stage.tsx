@@ -160,7 +160,8 @@ export class PlaceStage {
       {(about.length > 0 || around.length > 0) && <nav className="ways about" aria-label="Ways about the place">
         <p className="label">{scope ? `About ${Typography.curl(scope)}` : 'Ways on'}</p>
         <ul className="options">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}
-          className={[PlaceStage.wide(w.exit.destination.name) ? 'wide' : '', w.choices[0]!.disabled ? 'barred' : '',
+          className={[PlaceStage.wide(w.exit.destination.name) ? 'wide' : '',
+            w.choices[0]!.disabled || w.choices.length > 1 ? 'whole' : '',
             PlaceStage.aims(screen, w.choices[0]!)
             ? 'aimed' : ''].filter(Boolean).join(' ') || undefined}>
           <PlaceStage.Way way={w} draw={draw} twin={about.filter(o => o.exit.destination.name
@@ -222,8 +223,9 @@ export class PlaceStage {
   // way known from here, a way at a time, stopping only for what wants you) and giving it up. On every page you
   // explore from until you come there (the owner's interim report).
   // A name too long for half a phone's width takes the whole row there ("To the market-place of Karashilgab" had
-  // wrapped over three lines beside another: play 11), and so does a way barred, with why (a boar across the low path
-  // had been told in a column a third of the page wide).
+  // wrapped over three lines beside another: play 11), and so does a way barred, with why, or with something on it
+  // (a boar across the low path, a hidden switch and a pole to prod it with, had been told in a column a third of the
+  // page wide).
   static wide(name: string): boolean { return name.length > 22; }
   static Bound({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const bound = app.state.frame!.bound, going = app.menu.destinations ?? [];

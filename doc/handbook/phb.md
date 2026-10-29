@@ -18,7 +18,7 @@ A companion's ancestry adds to their qualities, decides which callings are open 
 
 Jack of All Trades: +1 to searching.
 
-> A human of the settled riverlands.
+> Humans of the settled riverlands: farmers, carters, clerks and soldiers, quick to take up a new trade and to turn a hand to whatever is wanted.
 
 ### Elf
 
@@ -35,7 +35,7 @@ Jack of All Trades: +1 to searching.
 
 Keen Senses: +4 to searching.
 
-> Elf of the frontier.
+> Elves of the frontier woods, long-lived and light on their feet: little escapes their eyes, and magic finds them hard to hold.
 
 ### Dwarf
 
@@ -51,7 +51,7 @@ Keen Senses: +4 to searching.
 
 Enduring: +2 hit points each level.
 
-> Dwarf of the frontier.
+> Dwarves of the frontier hills, slow to anger and slower to die: poison, sickness and hardship take a long time to wear them down.
 
 ### Goblin
 

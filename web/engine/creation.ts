@@ -17,6 +17,7 @@ import { CharacterSheets } from '../../src/presentation/character-sheet';
 import { Fighting } from '../../src/rules/fighting';
 import { Creation as RulesCreation } from '../../src/rules/creation';
 import { MechanicsText } from '../../src/presentation/mechanics-text';
+import type { Trait } from '../../src/canon/schema';
 
 
 // The engine's side of forming a company: what there is to choose from, what a campaign asks of the company, a
@@ -31,7 +32,7 @@ export class Creation {
         text: Canon.ancestries[id]?.description ?? '',
         callings: (Content.playableClasses as string[])
           .filter(c => Canon.ancestries[id]?.classes.includes(c) ?? true),
-        qualities: { ...Canon.ancestries[id]?.attributes ?? {} } as Record<string, number> })),
+        qualities: { ...Canon.ancestries[id]?.attributes ?? {} } as Record<string, number>, gifts: this.gifts(id) })),
       callings: (Content.playableClasses as string[]).map(id => {
         const c = Canon.classes[Canon.resolve('classes', id)];
         return { id, name: c?.name ?? id, text: c?.practice ?? c?.description ?? '',
@@ -78,6 +79,18 @@ export class Creation {
         ...own.includes(id) ? { own: true } : {}, value: i.value ?? 0 }));
   }
   // The armour a calling may wear, in words: "any armour", or the kinds it is trained to.
+  // A people's gifts by birth, each with what it does in Kyr ("Keen Senses: +4 to search checks"); a gift Kyr does not
+  // do yet is not offered (the creation page had said of each people only what it adds to the rolls).
+  private static gifts(id: string): string[] {
+    return (Canon.ancestries[id]?.traits ?? []).map(t => Canon.traits[t]).filter((t): t is Trait =>
+      t?.category === 'lineage' && !t.unsupported).map(t => `${t.name}: ${this.gift(t)}`);
+  }
+  private static gift(t: Trait): string {
+    const said = /\d/.test(t.description ?? '') && !t.omits ? t.description!.replace(/\.$/, '') : '';
+    const bonuses = (t.perks ?? []).flatMap(p => Object.entries(p.bonuses ?? {}).map(([k, n]) =>
+      `${n > 0 ? '+' : '−'}${Math.abs(n as number)} to ${(Canon.skills[k]?.name ?? k).toLowerCase()}`));
+    return said || [...MechanicsText.modifiers(t.modifiers), ...bonuses].join(', ') || (t.description ?? '').replace(/\.$/, '');
+  }
   private static armour(calling: string): string {
     const c = Canon.classes[Canon.resolve('classes', calling)], p = c?.proficiencies.armor;
     if (!p || p.all) { return 'any armour'; }

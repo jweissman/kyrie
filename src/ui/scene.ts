@@ -15,6 +15,8 @@ export interface SceneSubject {
   recruit?: TargetRow['recruit'];
   // Someone the company has a stake in, met before the rest (see Stakes).
   stake?: boolean;
+  // Someone with something written to be asked of them.
+  asked?: boolean;
 }
 // What the page is drawn from in play: who and what is here (danger first), who is with you, the ways about the place
 // and the ways out across the country, and what you can do yourself. Every choice is one the engine offered, attached
@@ -57,7 +59,7 @@ export class SceneModel {
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
       ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.says?.length ? { says: row.says } : {},
       ...row?.state ? { state: row.state } : {}, ...row?.recruit ? { recruit: row.recruit } : {},
-      ...row?.stake ? { stake: true } : {},
+      ...row?.stake ? { stake: true } : {}, ...row?.asked ? { asked: true } : {},
       choices: s.choices.map(c => this.bare(c, name!)).map(c => row?.kind === 'animal' ? this.led(c) : c) };
   }
   // An animal is led and let go, not asked.

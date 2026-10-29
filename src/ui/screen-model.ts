@@ -60,7 +60,7 @@ export class ScreenModel {
     const dark = view.observations.some(o => o.id === 'darkness'), stakes = Stakes.of(campaign);
     // Each person in the one painting they are met in wherever they are (see Portraits).
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world, { dark, campaign }),
-      ...along.has(p.id) ? { companion: true } : {}, ...stakes.has(p.id) ? { stake: true } : {},
+      ...this.marks(campaign, p.id, { along, stakes }),
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped),
       ...CharacterSheets.recruit(campaign, p.id, grouped.targets.get(p.id) ?? []) })));
     return {
@@ -83,7 +83,7 @@ export class ScreenModel {
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
       formations: this.formations(campaign),
       trade: here ? TradeModel.at(world, here, names) : [],
-      objectives: (view.objectives ?? []).map(o => FictionalTime.prose(o.text)),
+      objectives: Stakes.here(campaign, view.objectives ?? [], here).map(o => FictionalTime.prose(o.text)),
       ...stakes.size ? { aimed: [...stakes] } : {},
       ...new ChartModel(world, view.actor, entities).build(visited, here),
       expedition: this.expedition(world, view, items, here),
@@ -118,6 +118,11 @@ export class ScreenModel {
       ...world.measured('goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
       ...world.measured('pays').map(m => [`pays:${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
       ...world.measured('worth').map(m => [`worth:${m.call.args[0]}`, m.value] as const)]);
+  }
+  // How someone here stands to the company: with it, one it has a stake in, one with something written to be asked.
+  private static marks(campaign: Campaign, id: string, sets: { along: Set<string>; stakes: Set<string> }) {
+    return { ...sets.along.has(id) ? { companion: true } : {}, ...sets.stakes.has(id) ? { stake: true } : {},
+      ...campaign.module.actions.some(a => a.speaker === id) ? { asked: true } : {} };
   }
   // Whoever travels with the company is with it, not met where it is.
   // Who is with the company: whoever has joined it, and whoever follows it (one in custody, a child brought home),

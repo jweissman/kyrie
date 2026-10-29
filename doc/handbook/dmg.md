@@ -34,7 +34,7 @@ Also kept, without comment: refutes, scorns.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 7 | 1 | 0 | 2 | 0 |
+| 1 | 10 | 1 | 0 | 4 | 0 |
 
 #### believes, conviction, disputant
 
@@ -47,6 +47,28 @@ A claim someone holds, and how firmly they hold it: 2 sure of it, 1 shaken, and 
 *Kyr · relation(group, claim); relation(group, claim, group); relation(group, claim)* · `rule:world_belief.reasoned`
 
 How a claim was let go: for a reason the world gave (reasoned), or only to good arguing, and whose (swayedBy). A reason may shake a claim without its being let go: whoever was given one holds it still, less firmly, until the rest of the way is argued. Let go for a reason it stays let go. Argued away without one, it is back by morning, and the one who argued it away is scorned for it: not listened to again.
+
+#### heardOf, passesTo, overhears
+
+*Kyr · relation(group, entity); relation(group, group); relation(group)* · `rule:world_belief.heardOf`
+
+What one person hears is carried to another (the Liberty of the Ice's 5: a lie told to Abel, or a truth told on the Liars' Bench in front of Kemble, had to be carried to Harker by hand-made relations and rules). Whoever is told of something has heard of it (heardOf, asserted by what tells them: a topic, a rule); one who passes on what they hear to someone (passesTo: a tattler to their master) has passed it on once the two are together; one who overhears (overhears) hears what anyone beside them has heard.
+
+#### passed_on
+
+*Kyr · rule* · `rule:world_belief.passed_on`
+
+> When: heardOf(?a, ?f); passesTo(?a, ?b); together(?a, ?b); able(?a); not (heardOf(?b, ?f))
+
+> Then: Assert heardOf(?b, ?f).
+
+#### overheard
+
+*Kyr · rule* · `rule:world_belief.overheard`
+
+> When: heardOf(?a, ?f); overhears(?k); together(?k, ?a); able(?k); not (heardOf(?k, ?f))
+
+> Then: Assert heardOf(?k, ?f).
 
 #### let_go
 

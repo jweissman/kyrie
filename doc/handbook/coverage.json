@@ -997,7 +997,7 @@
     "faithful": 220,
     "adapted": 25,
     "represented": 49,
-    "kyr": 238,
+    "kyr": 241,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 220,
+      "kyr": 223,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10430,6 +10430,27 @@
   {
    "id": "rule:world_belief.reasoned",
    "title": "reasoned, swayedBy, doubts",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belief"
+  },
+  {
+   "id": "rule:world_belief.heardOf",
+   "title": "heardOf, passesTo, overhears",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belief"
+  },
+  {
+   "id": "rule:world_belief.passed_on",
+   "title": "passed_on",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belief"
+  },
+  {
+   "id": "rule:world_belief.overheard",
+   "title": "overheard",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-belief"
