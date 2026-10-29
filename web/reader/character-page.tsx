@@ -123,31 +123,33 @@ export class CharacterPage {
         {m.fallen && <span className="hurt"> · {Typography.curl(m.fallen)}</span>}</p>
     );
   }
+  // The sheet at a glance, the rules a touch away (the owner's review: "a compact character sheet that still reaches
+  // the whole rules"): each quality its score and what it adds, opened for what it does; how they fight; their saves
+  // in a line; each skill and technique by name, opened for what it is; what they carry in a line.
   static Sheet({ member: m, screen, swaps, draw }: { member: MemberRow; screen: Screen; swaps: Choice[]; draw: Draw }) {
     const sheet = m.sheet, gear = CharacterPage.counted(screen.items.filter(i => i.owner === m.id));
     return <>
-      {sheet && <section className="qualities-of"><h3>Qualities</h3><ul className="tiles">{sheet.qualities.map(q =>
-        <li key={q.id} className="tile"><span className="q">{q.name}</span>
-          <span className="score">{q.score}</span>
-          {q.score !== q.base && <span className="mods">{`of ${q.base}`}</span>}
-          <span className="rests">{CreationRules.quality(q.id, q.score, undefined, false).filter(l => !/^Hit points/.test(l))
-            .map(l => <span key={l} className="does">{Typography.curl(l)}</span>)}</span></li>)}</ul></section>}
-      {sheet && <section><h3>In a fight</h3><dl className="bearings">{sheet.fighting.map(b => <div key={b.label}>
-        <dt>{b.label}</dt><dd>{Typography.curl(b.value)}</dd></div>)}</dl></section>}
-      {sheet && <section><h3>Saves</h3><dl className="bearings">{sheet.saves.map(b => <div key={b.label}>
-        <dt>{Typography.curl(b.label)}</dt><dd>{b.value} and the die</dd></div>)}</dl></section>}
-      {sheet && sheet.skills.length > 0 && <section><h3>Skills</h3><dl className="skills">{sheet.skills.map(s =>
-        <div key={s.id}><dt>{s.name} <span className="from">{s.from}{s.check !== undefined
-          && ` · ${CharacterPage.signed(s.check)} in a check`}</span></dt>
-          <dd>{Typography.curl(s.text)}</dd></div>)}</dl></section>}
+      {sheet && <section className="qualities-of"><h3>Qualities</h3><ul className="chips">{sheet.qualities.map(q =>
+        <li key={q.id}><details><summary><span className="q">{q.name}</span><b className="score">{q.score}</b>
+          <span className="mod">{CharacterPage.signed(Math.floor((q.score - 10) / 2))}</span></summary>
+          <p className="does">{q.score !== q.base && <span className="mods">{`Of ${q.base}. `}</span>}
+            {CreationRules.quality(q.id, q.score, undefined, false).filter(l => !/^Hit points/.test(l))
+              .map(l => <span key={l}>{Typography.curl(l)} </span>)}</p></details></li>)}</ul></section>}
+      {sheet && <section className="fight"><h3>In a fight</h3><dl className="bearings">{sheet.fighting.map(b => <div key={b.label}>
+        <dt>{b.label}</dt><dd>{Typography.curl(b.value)}</dd></div>)}</dl>
+        <h3>Saves</h3><dl className="bearings saves">{sheet.saves.map(b => <div key={b.label}>
+          <dt>{Typography.curl(b.label)}</dt><dd>{b.value} and the die</dd></div>)}</dl></section>}
+      {sheet && sheet.skills.length > 0 && <section><h3>Skills</h3><ul className="folds">{sheet.skills.map(s =>
+        <li key={s.id}><details><summary>{s.name}{s.check !== undefined
+          && <span className="from">{CharacterPage.signed(s.check)}</span>}</summary>
+          <p><span className="from">{s.from}.</span> {Typography.curl(s.text)}</p></details></li>)}</ul></section>}
       <CharacterPage.Prepared member={m} swaps={swaps} draw={draw} />
-      <section><h3>Techniques</h3><dl className="abilities">{m.abilities.map(a => <div key={a.id}>
-        <dt>{a.name}{a.price && <span className="from"> {a.price}{CharacterPage.yet(m, a.price)}</span>}</dt>
-        <dd>{Typography.curl(a.text)}</dd></div>)}</dl></section>
-      <section><h3>Carries</h3><ul className="gear">{gear.map(({ item: i, count }) => <li key={i.id}>
-        <b>{Words.upper(count > 1 ? Words.many(count, Words.bare(i.name)) : Words.bare(i.name))}</b>
-        {i.equipped && <span className="from"> in use</span>}{i.description && <span> · {Typography.curl(i.description)}</span>}
-      </li>)}</ul>{!gear.length && <p className="none">Nothing.</p>}</section>
+      <section><h3>Techniques</h3><ul className="folds">{m.abilities.map(a => <li key={a.id}><details><summary>{a.name}
+        {a.price && <span className="from">{a.price}{CharacterPage.yet(m, a.price)}</span>}</summary>
+        <p>{Typography.curl(a.text)}</p></details></li>)}</ul></section>
+      <section><h3>Carries</h3>{gear.length ? <p className="gear-line">{gear.map(({ item: i, count }, n) => <span key={i.id}>
+        {n > 0 && ' · '}{Words.upper(count > 1 ? Words.many(count, Words.bare(i.name)) : Words.bare(i.name))}
+        {i.equipped && <span className="from">in use</span>}</span>)}</p> : <p className="none">Nothing.</p>}</section>
     </>;
   }
   // The spells prepared today, each with what could be prepared in its place (an hour's study or prayer), chosen

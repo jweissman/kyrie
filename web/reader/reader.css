@@ -292,3 +292,31 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 }
 
 .tile .rests .does { display: block; margin: 0 0 3px; }
+
+/* The sheet compact (Mission 18, OWN-03): the qualities as a row of chips, each opened for what it does; skills and
+   techniques by name, opened for what they are; saves and what is carried in a line. */
+.character .chips { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.character .chips details { border: 1px solid var(--hair); border-top: 2px solid var(--ink); }
+.character .chips summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; align-items: baseline;
+  padding: 8px 10px; gap: 2px 6px; }
+.character .chips summary::-webkit-details-marker { display: none; }
+.character .chips .q { grid-column: 1 / -1; font: 500 10.5px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); }
+.character .chips .score { font: 400 28px/1 var(--told); font-variant-numeric: tabular-nums; }
+.character .chips .mod { font: 500 13.5px var(--do); color: var(--grey); }
+.character .chips details[open] { grid-column: span 2; }
+.character .chips .does { margin: 0; padding: 0 10px 10px; font: 400 13px/1.45 var(--do); color: var(--grey); }
+.character .folds { list-style: none; padding: 0; margin: 0; }
+.character .folds li { border-top: 1px solid var(--hair); }
+.character .folds summary { cursor: pointer; padding: 6px 0; font: 500 15px var(--do); list-style: none; }
+.character .folds summary::-webkit-details-marker { display: none; }
+.character .folds summary::before { content: '+'; display: inline-block; width: 1.1em; color: var(--grey); }
+.character .folds details[open] summary::before { content: '\2212'; }
+.character .folds p { margin: 0 0 8px 1.1em; font-size: 15.5px; color: var(--ivory); }
+.character .gear-line { margin: 10px 0 0; font: 400 14.5px/1.6 var(--do); }
+.character .bearings.saves div { padding: 3px 0; }
+.character .bearings.saves dt, .character .bearings.saves dd { font: 400 13.5px/1.4 var(--do); }
+@media (min-width: 961px) {
+  .character { grid-auto-flow: row dense; }
+  .character section.fight { grid-column: 3; grid-row: span 3; }
+}
+@media (max-width: 960px) { .character .chips { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
