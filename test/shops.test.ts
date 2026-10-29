@@ -32,6 +32,13 @@ describe("a town's shops", () => {
     await s.perform(buy.choice.id);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBeLessThan(gold);
   }, 60000);
+  // A general store had the eight cheapest things of its kinds by name, a bedroll, a bell, dice and firewood, and no
+  // light, rope or crowbar (M18-06): what anyone setting out needs comes first.
+  it('a general store stocks the outfit first', () => {
+    const stock = RegionShops.stocks.general!.stock.map(([what]) => what);
+    expect(stock.slice(0, 5)).toEqual(['torch', 'candle', 'lantern', 'rope', 'crowbar']);
+    expect(stock).not.toContain('dice');
+  });
 });
 
 // What the company cannot afford is offered without its command, saying what it costs and what the company has:

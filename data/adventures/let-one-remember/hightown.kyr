@@ -53,8 +53,14 @@ Module corrow "Let One Remember" {
   Person charge "the Charge" at charge_hall {
     Role "Hightown's council of charge-holders". Ancestry human. Numbers 5. Peaceable.
   }
+  Topic charge_keep with charge "Ask the charge-holders what they keep" when true once {
+    Says "The nearest turns her shoulder so you can read the word stitched on her breast: WELLS. 'Each of us keeps one thing for the whole rock, and keeps it whole,' she says. 'The wells. The nets. The hoist. The seed. The archive.' The others incline their heads as their charges are named. 'What none of us keeps is where we came from. That is the Unasked's.' She says the next words as a congregation says them, without thinking. 'We do not ask.'".
+  }
   Person rimfolk "the people on the rim" at rim_walk {
     Role "net-menders and spinners, working the fog-nets". Ancestry human. Numbers 6. Peaceable.
+  }
+  Topic rimfolk_nets with rimfolk "Ask the net-menders about the fog-nets" when not crashed(hightown) once {
+    Says "'Every drop on the rock comes off the cloud,' says a woman with a netting needle, not stopping. 'No springs up here, and the rain's mostly under us. The nets comb the cloud and the gutters take it to the cisterns.' She pulls a knot tight with her teeth. 'A dry month, we drink from the stores. Two, the Charge sits.' Further along the rim a man laughs, not happily. 'And three,' he says, 'we go home, says Aron Fennimore.'".
   }
   Initially Assert counterweight(amberly). Initially Assert counterweight(linnet). Initially Assert counterweight(grounders).
   Initially Assert counterweight(charge). Initially Assert counterweight(rimfolk). Initially Assert counterweight(aron).
@@ -160,6 +166,9 @@ Module corrow "Let One Remember" {
   // The charge-holders sleep in the outer room; the sealed door's lock is a tally-chain bar.
   Person keepers "two charge-holders" at archive_outer {
     Role "charge-holders sleeping before the sealed door". Ancestry human. Numbers 2. Peaceable.
+  }
+  Topic keepers_door with keepers "Speak to the charge-holders by the sealed door" when state(unasked_lock, shut) once {
+    Says "One of them opens an eye, sees that you are not on fire, and shuts it again. The other says, without properly waking: 'Archive's shut. Nobody goes through that door. Nobody's asked to.' He turns over toward the wall and pulls the blanket up. 'That's the point of it.'".
   }
   Thing unasked_lock "the tally-chain bar of the sealed door" on unasked_door {
     State shut blocking "The granite door carved with the Unasked is shut. Its lock is a slot for a tally-chain bar.".

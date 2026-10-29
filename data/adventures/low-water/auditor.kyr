@@ -24,6 +24,9 @@ Module lowwater "Low Water" {
     Role "figures of water, standing". Numbers 3. Peaceable.
     Seen when dark() and approach(bowl) >= 1 and not broken(reckoner).
   }
+  Topic reflected_spoken with reflected "Speak to the figures of water" when not reflectedStilled(bowl) once {
+    Says "None of them answers. The nearest turns its clear face toward you, and its lips move with yours a breath behind, the wrong way round: what you said, said backwards, without a sound. Then it turns back to face the Sounding and goes on singing, as if you were a thing it had already counted.".
+  }
   Hazard reflected_cold "The cold of the Reflected" means "Deal (1d6) necrotic damage to ally unless wisdom save against (12).".
   Rule reflected_rise when hour(clock) == 22 and approach(bowl) >= 2 and at(reflected, mere_edge) and not reflectedStilled(bowl) and not broken(reckoner) {
     Retract at(reflected, mere_edge). Assert at(reflected, ward_landing). }

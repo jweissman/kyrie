@@ -18,6 +18,9 @@ Module tessary "What Tessary Owes" {
     Comes "Sault's lightermen come at you with their cudgels up, not hurrying, the way men do who have done this before.".
     Pleads "The last of the lightermen backs off with his hands open. 'Not paid enough,' he says. 'Not for this.'".
   }
+  Topic lightermen_whose with lightermen "Ask the lightermen whose warehouse this is" when true once {
+    Says "'The Factor's,' says the biggest, as if that settled it, which in Panhythe it does. 'And the Factor's not here, and the warehouse is shut.' He taps his cudgel against his palm, gently, in no particular time. 'You've asked. Now go and ask somebody who's paid to answer.'".
+  }
   Initially Assert takesPrisoners(lightermen). Initially Assert serves(lightermen, sault).
   Rule lightermen_captured when captured(lightermen, party) and at(party, ?p)
     says "You wake on the salt crust out on the Pans, at dawn, with a split lip and your purse lighter. Somebody has left you a cup of water, which is the Factor all over." {

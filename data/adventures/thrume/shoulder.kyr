@@ -117,9 +117,18 @@ Module thrume "Thrume" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_yard) and not guest(actor) and not roused(hold).
     Time 1.
     On success { Assert guest(actor). Assert tolerates(morrach, actor). Assert tolerates(skarn, actor). Assert tolerates(bloods, actor). }
-    Result "The hammer is almost too heavy to lift. The pole rings like a bell. The hall doors open, and a giant looks down at you for a long moment, and stands aside.".
+    Result "The hammer is almost too heavy to lift. The pole rings like a bell. The hall doors open, and a giant looks down at you for a long moment, and stands aside. 'Hall, and hearth, and high seat,' he says, slowly, as to children. 'Not the pens. Not the cellars. Not the young ones' house.'".
   }
-  Rule guest_broken when guest(party) and not sworn(morrach) and (at(party, pens) or at(party, ice_cellar) or at(party, barracks))
+  // Where a guest may not go: told when hall-right is given, and once more, the first time, by whoever sees; a guest
+  // still there an hour later, or come back after that, has broken it (a curious company went down the cellar stair,
+  // was hunted by Skarn and died on the first day: Mission 18's reach audit, M18-09).
+  Relation guestBarred(place). Relation trespassed(group, place). Measure leaveBy(group).
+  Initially Assert guestBarred(pens). Initially Assert guestBarred(ice_cellar). Initially Assert guestBarred(barracks).
+  Rule trespass_warned when guest(party) and not sworn(morrach) and at(party, ?p) and guestBarred(?p) and not trespassed(party, ?p)
+    says "Somewhere behind you a giant says one word, flat and heavy, the way you would speak to a dog at a gate. Guests do not come here. Be gone, and do not come back." {
+    Assert trespassed(party, ?p). Set leaveBy(party) to watch(clock) + 6.
+  }
+  Rule guest_broken when guest(party) and not sworn(morrach) and at(party, ?p) and guestBarred(?p) and trespassed(party, ?p) and watch(clock) >= leaveBy(party)
     says "Skarn's voice, from across the yard: 'Guests. Look where the guests are.' And then, louder, to the whole hold." {
     Retract guest(party). Retract tolerates(skarn, party). Retract tolerates(bloods, party). Retract tolerates(morrach, party). Assert roused(hold).
   }
@@ -143,6 +152,9 @@ Module thrume "Thrume" {
   // The Rememberer.
   Discovery song_seen "The carvings on the hearth pillars are a song in the giants' writing, and it is about something they keep.".
   Observe pillars_teach at hearth when true "Close to, the lines on the pillars are writing, tiny and endless, the same few signs over and over: a mountain, a heart, a closed eye." teaches song_seen.
+  Topic rememberer_keeps with rememberer "Ask the old giantess by the hearth what she keeps" when not saltReturned(rememberer) once {
+    Says "The Rememberer turns her blind face down toward your voice, from very high up. 'Small ones,' she says, in a voice like wind in a chimney. 'I keep the song. Somebody must. The young ones would rather keep a war.' Her hand, as long as you are, moves over the pillar beside her, over the tiny endless writing. 'Your miners cut deep at the bottom of their hole, and found something red, and warm. If any of it has come up into the light, bring it to me. Then I will tell you whose it is.'".
+  }
   Discovery thrume_known "Thrume is not a mountain. It is a titan, sleeping, and the range is its body; the red salt is its blood. The giants of the Shoulder are its keepers, and the mine is a wound.".
   Relation saltReturned(group).
   Event salt_given near rememberer when keeps(rememberer, ?s) and itemKind(?s, heart_salt)

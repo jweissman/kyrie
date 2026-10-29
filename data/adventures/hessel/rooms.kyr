@@ -75,6 +75,12 @@ Module hessel "The Banns at Hessel" {
     Role "the Rooms' footman, in blue, who has stood at that door for eleven Seasons and seen everything twice". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "The footman looks over your head at a point on the far wall.".
   }
+  Topic fitch_door with fitch "Ask the footman who is let in at the Rooms" when true once {
+    Says "'Subscribers,' says Pocklington, to the far wall. 'Their names in Mr Twiss's book, their tickets in their hands. Strangers, by subscription, three coin, the last week of the Season, at Mr Twiss's pleasure.' A pause of exactly one breath. 'Persons Mr Twiss has barred, never. Not by the front door, and not by the side door, which there is not, and which is locked at half past seven.'".
+  }
+  Topic fitch_seasons with fitch "Ask the footman what he has seen in eleven Seasons" when true once {
+    Says "For the first time his eyes come down from the wall and rest on you, briefly, as on a coat that has been hung on the wrong peg. 'Everything, sir or madam,' he says. 'Twice.' The eyes go back up. 'A duel on the stairs, a proposal in the card-room, an elopement out of the tea-room window, which is not as easy as it looks. Mr Twiss has opened the Rooms every night of the Season for twenty years, and I have stood at this door for eleven of them, and nobody has once asked me what I thought of any of it.' He does not say what he thinks of it now.".
+  }
   Relation fitchBribed(group).
   Action bribe_fitch(actor: group, site: place) "Slip Pocklington five coin to let Mrs Cherrett's household in at the Ball" {
     Requires able(actor) and company(actor) and at(actor, site) and at(fitch, site) and legs(actor) and householdBarred(cherrett)

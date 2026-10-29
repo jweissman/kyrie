@@ -135,6 +135,9 @@ Module wrayford "The Third Night" {
     Role "a printer, inky to the elbow". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "Ezra Quoin straightens up from the press with a sheet in each hand. 'Ballads, bills, confessions, almanacs, notices of sale,' he says. 'Three coin the hundred and I'll set it while you wait.'".
   }
+  Topic quoin_lines with quoin "Ask Quoin what is drying on his lines" when not knows(actor, confession_read) once {
+    Says "'The True and Last Confession of Wat Pardoe,' says Quoin, with a craftsman's pride. 'Forty on the lines and three hundred posted. Best thing I've sold in years.' He pats a damp sheet as if it were a horse. 'There's one on every post in the Market, if you'd rather read it dry. Everybody else has.'".
+  }
   Discovery quoin_named "The Confession was printed by Ezra Quoin of Cutler's Lane, who prints anything paid for.".
   Rule confession_printer when knows(party, confession_read) and not knows(party, quoin_named) and at(party, quoin_shop) says "You know that black letter; you read it on every post in the Market." teaches quoin_named { }
   Topic quoin_who with quoin "Ask Quoin who brought him Wat Pardoe's confession to print" when knows(actor, confession_read) once {

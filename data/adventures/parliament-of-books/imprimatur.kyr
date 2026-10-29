@@ -13,6 +13,12 @@ Module calamy "A Parliament of Books" {
     Buys almanack_copy for 1 coin.
     Greets "A clerk in grey looks up from a ledger. 'Licences, left. Refusals, right. Unquiet volumes, the box, four pence, and mind your fingers, some of them bite.'".
   }
+  Topic clerk_box with clerk "Ask the clerk about the box for unquiet volumes" when true once {
+    Says "'Four pence a volume, paid at this counter, no name asked, a receipt if you want one, and nobody does.' The clerk does not look up from the ledger. 'Almanacks, this year, mostly. Those I give a penny for; they are not worth four, and there are three thousand of them.' A stamp comes down: REFUSED. 'They go downstairs in a sack. On Thursday the Deputy Censor takes what she judges to the Ashpit. The rest are kept for the Kindling.' The box in the wall gives a small dry cough. 'Some of them bite,' says the clerk. 'I did say.'".
+  }
+  Topic clerk_licence with clerk "Ask the clerk how a book is licensed" when true once {
+    Says "The clerk counts it off on inky fingers. 'A copy to this counter, a fee of a shilling, a reader's fortnight. The reader reads it for anything against the Parliament or the Lamp, and for anything that moves. If it says nothing it should not: LICENSED. If it says something it should not, the cuts are marked in red and you may print it cut.' They glance at the slot in the wall. 'If it says something by itself, it is not a licence you want. It is the box.'".
+  }
   Observe imp_kitchen_scene at imp_kitchen when true "A big cold kitchen with a scrubbed table, a banked fire, a dresser of plain plates, and on a nail by the chimney a penny almanack, curling. On the table there is a single candlestick with the candle burnt right down, and a chair pushed back as if someone got up from it in a hurry.".
 
   // ── Hester Rhule. ──

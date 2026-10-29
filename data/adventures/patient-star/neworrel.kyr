@@ -91,6 +91,9 @@ Module season "The Patient Star" {
     State posted blocking "Two Office men and a clerk sit at the head of the Coverers' Stair.".
   }
   Initially Assert serves(office_guard, aske).
+  Topic guard_stair with office_guard "Ask the stair guard what it takes to go down" when not tolerates(office_guard, actor) once {
+    Says "'A pass from the Warden,' says the clerk, before either of the men can open his mouth, 'or a licence of the Office, stamped. Neither of which, I think, you have.' One of the Office men shifts on his stool and says, not unkindly, 'The Warden's in the barracks. He likes to be asked. He likes it better with money in it.'".
+  }
   Rule licence_stair when licensed(party) and not tolerates(office_guard, party) { Assert tolerates(office_guard, party). }
   Topic aske_king with aske "Ask the Warden about the king below" when true once {
     Says "'Royal property,' says Aske, 'and a wonder. When he is well enough I mean to bring him up to Sorne, and the court will see what the Crown holds under this plateau.' He smiles without warmth. 'You will have heard he wakes. I have it in a book.'".

@@ -529,10 +529,16 @@ Module pentrice "Gosse's Company" {
     Role "a printer of Paternoster Row". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "Rufus Inchbald is a fat cheerful man with inky hands and a pencil behind each ear. 'Sermons, ballads, almanacs, plays, licences, banns,' he says. 'Whatever you want said, I'll make it say it.'".
   }
+  Topic inchbald_trade with inchbald "Ask Inchbald what sells in Pentrice" when true once {
+    Says "'Hangings, prodigies and plays,' says Inchbald happily, wiping his hands down his apron. 'In that order. A good hanging I can sell six hundred of by noon; a calf with two heads, four hundred.' He taps the side of his nose and leaves a black mark on it. 'But a play the whole town's talking of, before it's played? That's worth more than both. You'd be surprised what a man can come by, if he knows a boy who writes fast.'".
+  }
   Person shad "Shad" at press_room {
     Role "the printer's boy". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Seen when at(shad, press_room) or knows(viewer, shad_seen).
     Greets "Shad is a thin boy of about twelve with a wax tablet on a string round his neck and a stylus behind his ear, who looks at you with great innocence.".
+  }
+  Topic shad_tablet with shad "Ask Shad what the wax tablet is for" when at(shad, press_room) and not knows(actor, shad_seen) once {
+    Says "Shad looks down at the tablet as if he had never seen it before. 'Sums,' he says. 'For the master. Paper costs money.' He rubs at nothing on it with his thumb. 'And I'm learning my letters.' A pause, and then, because he is twelve and cannot help it: 'Fast ones.'".
   }
   Relation shadAtWork(group). Relation shadStopped(group). Relation quartoPrinted(place). Relation playbills(group). Relation bookInSoke(place).
   Rule shad_climbs when rehearsedI(pentrice) and not shadStopped(shad) and not shadAtWork(shad) and at(shad, press_room) { Retract at(shad, press_room). Assert at(shad, moon_loft). Assert shadAtWork(shad). }

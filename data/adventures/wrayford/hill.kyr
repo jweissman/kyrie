@@ -184,6 +184,9 @@ Module wrayford "The Third Night" {
     Role "the Alderman's ice-man, in a sacking cape". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "Tobias Wren straightens up from the straw with a pair of tongs. 'Hill houses only,' he says. 'Alderman's orders.'".
   }
+  Topic tobias_blue_room with tobias "Ask Tobias Wren who the ice is for" when true once {
+    Says "'The blue room, mostly.' Tobias leans on the tongs. 'Four blocks a day up the back stairs since Tuesday, and lilies, and the window kept shut.' He looks at the straw. 'Ninety-one, she was. And the old man at the Acre won't dig.' He turns a block over to its cold side. 'There's ice in here for a fortnight, if the weather holds. After that I'd not want to be the one carrying it up.'".
+  }
   Rule tobias_day when hour(clock) >= 8 and hour(clock) < 18 and not at(tobias, ice_house) { Assert at(tobias, ice_house). }
   Rule tobias_night when (hour(clock) >= 18 or hour(clock) < 8) and at(tobias, ice_house) { Retract at(tobias, ice_house). Assert at(tobias, limbo). }
   Thing ice_lock "the ice-house door" on ice_door {

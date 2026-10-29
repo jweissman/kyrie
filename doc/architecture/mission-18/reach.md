@@ -103,5 +103,11 @@ foot of the stairs, Freezeland Street and the map.
   otherwise a chandlery off its heart, selling food, light, oil, rope, a crowbar, sacks, chalk, bedrolls, waterskins,
   bandages, a pole and spikes; a hamlet's keeper sells rope and oil besides food and a light. A town's other shops
   are never two of one family (remedies, general goods, arms, cloth, rarities).
+- The audit's own rows (M18-05 to M18-09): Low Water's way out asks first and waits until the city has been seen; a
+  general store stocks the outfit first; those who only buy are listed apart; everyone found mute across the library
+  has something to say; Thrume's guest-right, Tessary's quay steps at high water and the Flood Line's eels warn
+  before they kill. Measured again (`kyrie reach --all`): nobody mute in any adventure (from two or three in most);
+  no book closed on its first morning; Thrume's first death moved from the first afternoon to the second day, after
+  a warning ignored.
 
 The rest is in the register's rows for the owner's review (OWN-01 to OWN-07) and the audit's own (M18-04 onward).

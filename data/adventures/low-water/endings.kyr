@@ -4,8 +4,9 @@ Module lowwater "Low Water" {
   Relation departed(group).
   Action leave_bowl(actor: group, site: place) "Go up out of the Bowl by the north road" {
     Description "Leave Ammerlin. What is done here stays done.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_road).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rim_road) and been(actor, rim_head).
     Time 1.
+    Grave "There is no coming back down: Ammerlin is left to whatever it comes to, and the story ends on the road north.".
     On success { Assert departed(actor). }
   }
   Ending open_bowl "The Open Bowl" when heartHome(bowl) and not heartRecovered(party) "The light goes up the stair in the water, carried in cupped hands, step after step, and goes in at the glass gate in the outer dark, and the voice that was the fifth voice says, very quietly, in every room in Ammerlin at once, in the voice of the Office counter: 'Received.' Then the nail comes out. The Mere goes first, through the bottom of the Bowl, not falling but going, the way water goes into sand, and where it was there is a round dark with no bottom and no sound coming up out of it. The Ward goes the next night: Tench Row, the landing, the boats, Dov Vant's yard, all of it, a step at a time, as if somebody were reading a gauge downward. The city goes up the Stair with what it can carry. On the Rim, in the morning, Isaura Vant stands at the Gauge and measures the dark, because somebody must, and it does not have a number. In a hall of jars a very long way above, every cupful of it is kept.".

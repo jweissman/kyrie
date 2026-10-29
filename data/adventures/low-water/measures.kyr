@@ -31,6 +31,12 @@ Module lowwater "Low Water" {
   Person clerks "the Office clerks" at office_hall {
     Role "at work behind the counter". Ancestry human. Numbers 3. Peaceable.
   }
+  Topic clerks_queue with clerks "Ask the clerks what the queue is waiting for" when true once {
+    Says "'Rights,' says the nearest clerk, without looking up. 'Read, registered, quarrelled over, sealed. Same as every day.' He stamps a paper and passes it along. 'Only the quarrels don't stop at the counter any more. Everybody's right is a little less water than it was, and everybody wants it written down whose fault that is before the Hearing.' The clerk beside him says, to the ledger, 'Sixty-one in the queue yesterday. In my father's time a busy day was nine.'".
+  }
+  Topic clerks_water with clerks "Ask the clerks where the water goes" when true once {
+    Says "'Ask Clerk Vant,' say two of them at once. The third, the eldest, sighs and draws a grey card from a box under the counter. 'Three hundred and twenty ells a day at the Rim Gauge. A fifth of it to the Guild's Channel, by grant, sealed. The rest down the Stair, lock by lock, every terrace its right by the hour, and what comes to the Mere is what is left.' He puts the card back. 'That is what is written. Whether it is what happens is what you are for.'".
+  }
   Person fenn "Registrar Odile Fenn" at registrar_room {
     Greets "Registrar Fenn finishes the line she is writing, and blots it, and only then looks up.".
     Role "the head of the Office of Measures". Ancestry human. Peaceable. Pronouns she. Manner grim.

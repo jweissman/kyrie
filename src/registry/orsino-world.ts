@@ -34,8 +34,9 @@ export class OrsinoWorld {
   static readonly worked = /plate|tripwire|switch/;
   constructor(private readonly entries: RegistryEntry[], private readonly known: { statuses: Set<string>;
     abilities: Set<string>; damage: Set<string>; items: Set<string>;
-    // Kyr's items, with the Orsino entry each translates and its worth: what a shop can stock.
-    catalog?: Record<string, { source?: { orsino?: string }; value?: number }> }) {}
+    // Kyr's items, with the Orsino entry each translates and its worth: what a shop can stock; and the outfit anyone
+    // setting out needs, in the order a chandler shelves it (data/generation/tables/trade.json).
+    catalog?: Record<string, { source?: { orsino?: string }; value?: number }>; outfit?: string[] }) {}
   generate(): WorldTables {
     return { wonders: this.wonders(), traps: this.traps(), shops: this.shops(), riddles: this.riddles(),
       riddleAnswers: this.riddleAnswers(), dungeon: this.dungeon() };
@@ -77,7 +78,9 @@ export class OrsinoWorld {
     }));
   }
   // The Kyr items a shop stocks: those of its kinds whose Orsino entries meet its restrictions (kind, rarity, type),
-  // worth no more than a country's market sees (300 coin), cheapest first, at most eight.
+  // worth no more than a country's market sees (300 coin), at most eight: the outfit first, in its order, then the
+  // cheapest. A general store had stocked the eight cheapest by name, a bedroll, a bell, dice and firewood, and no
+  // light, rope or crowbar (M18-06).
   private stock(sells: string[], restrictions: Record<string, string[]>): [string, number][] {
     const by = new Map(this.entries.map(e => [e.id, e]));
     return Object.entries(this.known.catalog ?? {}).flatMap(([id, item]) => {
@@ -86,7 +89,12 @@ export class OrsinoWorld {
       const def: Raw = { rarity: 'common', ...(entry.definition as Raw) };
       const fits = Object.entries(restrictions).every(([field, allowed]) => allowed.includes(String(def[field])));
       return fits ? [[id, Math.max(1, Math.round(item.value))] as [string, number]] : [];
-    }).sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0])).slice(0, 8);
+    }).sort((a, b) => this.rank(a[0]) - this.rank(b[0]) || a[1] - b[1] || a[0].localeCompare(b[0])).slice(0, 8);
+  }
+  // Where a thing comes in the outfit; anything not of it, after the whole outfit.
+  private rank(id: string): number {
+    const outfit = this.known.outfit ?? [], i = outfit.indexOf(id);
+    return i < 0 ? outfit.length : i;
   }
   // An editor's hand on Orsino's riddles, read through: an answer the riddle contradicts, put right (what always was
   // and never will be is yesterday; the cold playtest was asked for "Tomorrow"), and riddles that ask what another

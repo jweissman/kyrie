@@ -103,6 +103,9 @@ Module hessel "The Banns at Hessel" {
     Role "a shepherd, standing by the bed with his hat crushed in his hands". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "The shepherd looks at you, and at the old man with the bag behind you, and something in his face opens like a door. 'You're a doctor,' he says to Ottery. 'Say you're a doctor.'".
   }
+  Topic shepherd_child with shepherd "Ask the shepherd what ails the child" when not childTreated(actor) once {
+    Says "'Fever. Three days of it.' He turns his hat round and round by the brim. 'Her mother's done all her mother did: the wet cloth, the willow, the window shut against the night air. The physicians at Orm don't come up the fell for a shepherd, and there's no money to fetch one if they would.' He looks at the bed, and then at the door, as if a doctor might come in by it if he looked hard enough. 'She was singing on Sunday.'".
+  }
   Relation childTreated(group). Relation fatherAsked(group). Relation toldLive(group). Relation toldUnknown(group). Relation letOtteryAnswer(group).
   Observe hut_fever at hut when not childTreated(party) "The little girl in the bed is burning; you can feel it from the door. Her mother sits by her with a wet cloth, and does not look round.".
   Observe hut_cost at hut when not childTreated(party) and following(ottery, party) and beforeCollege() "Ottery has his coat half off already. Then he stops, and looks at you. 'An hour,' he says. 'That's the College, by the drove road. They sit at noon and they'll not wait.' He looks at the child. 'It's your character they want at Orm, not mine. You choose.'".
@@ -136,6 +139,9 @@ Module hessel "The Banns at Hessel" {
     Temperament proud.
     Warns "Three men in crape masks step out from behind the gibbet with cudgels, and the tallest says, quite politely, 'Three coin, if you please, for the use of the crossways, and you can go on to Orm, or back to Hessel, or to the devil, as you like.' Another says, 'Or we can do it the other way.' He is looking at Ottery, not at you. Under the smallest one's smock there is a chairman's blue coat, and the purse at the tall one's belt is new, and smells, even from here, of cloves.".
     Pleads "The footpads drop their cudgels in the heather and run, one of them leaving a shoe.".
+  }
+  Topic footpads_doctor with footpads "Ask the footpads what they want with the old man" when warned(footpads, actor) and not padsShamed(footpads) once {
+    Says "'Nothing,' says the tall one, too quickly. 'Three coin, for the crossways. Same as anybody.' The smallest one has not stopped looking at Ottery. 'Long walk to Orm, for an old man,' he says. 'Longer if he's late.' The tall one hits him, not hard, on the back of the head, and the smallest one looks at the heather.".
   }
   Initially Set tribute(footpads) to 3.
   // Beaten, a company is robbed, not killed, and left by the gibbet to come round.

@@ -127,10 +127,16 @@ Module thrume "Thrume" {
     Says "It has no mouth. It speaks anyway, inside your head, in the kindest voice you have ever heard: 'You slept so well. Come down and sleep with us. It is so quiet in Hush.' Mother Quietly, in front of it, smiles a little wider, as if she had said it.".
     On discuss { Assert knows(actor, hush_named). }
   }
+  Topic watcher_hush with watcher "Ask the grey thing what Hush is" when knows(actor, hush_named) once {
+    Says "'Quiet,' it says, inside your head, in that kind voice. 'Nobody is afraid in Hush. Nobody is cold, or sorry, or anything at all. You would like it so much.' It does not move. Its soft face stays turned to you the whole time you are in the room, the way a sunflower stays turned to the sun.".
+  }
 
   // The night carts.
   Person hushed "the night carters" at lantern_back {
     Role "two men with still eyes, who do not speak". Ancestry human. Calling warrior. Level 2. Numbers 2. Peaceable.
+  }
+  Topic hushed_asked with hushed "Ask the two men with still eyes what they do here" when true once {
+    Says "Neither of them answers. The nearer one looks at you the way a man looks at rain on a window, and then past you at the Lantern's back gate, and waits, quite patiently, for you to stop being there. Their eyes do not blink as often as eyes should. When you step back, both of them, at the same moment, breathe out.".
   }
   Relation carting(group). Relation ringBroken(group).
   Rule carters_out when dark() and at(hushed, lantern_back) and not ringBroken(hushed) and untilLight(clock) > 36 { Assert at(hushed, carters_yard). Assert carting(hushed). }

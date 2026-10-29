@@ -64,6 +64,9 @@ Module season "Hold One Season" {
     Role "keeper of the Lower Inn". Profession innkeeper. Ancestry human. Peaceable. Pronouns she.
     Sells rations for 1 coin from 6.
   }
+  Topic kerra_notice with kerra "Ask Kerra Lowe about the notice by the door" when true once {
+    Says "'This house is the Office's post on the gorge road,' Kerra says, without looking at it. 'Means a Glass Office man sleeps here when he comes down the Ramp, and I keep a book of who else does, and the Office pays me for the book.' She wipes the walnut bar in long strokes. 'Nobody comes down the Ramp but carriers, and now and then somebody from Quell come to stare at the light. The carriers don't sign. The others do, and then they ask me what it is, and I tell them I keep an inn.'".
+  }
   Initially Assert slowable(mirel). Initially Assert feltClad(mirel). Initially Set hire(mirel) to 1.
   Thing bolt "the bolt on the holder's door" on holders_door {
     State home "The holder's door is bolted with a long iron pin, square in section, too heavy for the job, rusted where hands do not wear it.".

@@ -26,7 +26,10 @@ Module tessary "What Tessary Owes" {
   Passage aqueduct_way "the lane to the aqueduct" is path between forum and aqueduct_foot taking 5 minutes.
   Passage pier "the broken pier" is passage between aqueduct_foot and aqueduct_top needing climbing or rope
     opening when lowWater() "The broken pier stands up out of the sea. The water is over everything below it.".
-  Passage landing_way "the quay steps" is steps between scales_street and landing.
+  // A company come through the runners' tunnel at high water had walked down the quay steps into the drowned street
+  // and been rolled out through the Swatch, three times in an afternoon, until it died (M18-09).
+  Passage landing_way "the quay steps" is steps between scales_street and landing
+    opening when lowWater() "The quay steps go down into the sea. The Street of Scales is under it, and so is everything else.".
   Passage bath_door "the bath-house door" is doorway between scales_street and bath_hall.
   Passage plunge_arch "the plunge-room arch" is arch between bath_hall and plunge.
   Passage dome_stair "the dome stair" is passage between bath_hall and bath_dome

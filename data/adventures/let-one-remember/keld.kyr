@@ -38,6 +38,9 @@ Module corrow "Let One Remember" {
   Person keldfolk "the people of Keld" at keld_green {
     Role "Keld households". Ancestry human. Numbers 4. Peaceable.
   }
+  Topic keldfolk_remembered with keldfolk "Ask the people of Keld what it is to be remembered" when true once {
+    Says "A man with juniper in his hatband laughs. 'Every pedlar who ever sold us a needle knows us by name till he dies. Every creditor too, which is the bad side of it.' A woman beside him looks you in the face. 'We came back from the Margin, and the Margin came back with us. Go on: try and forget me.' You try. You cannot. She looks pleased, and then a little sorry for you.".
+  }
   Initially Set hire(teshen) to 2.
 
   Topic saska_kept with saska "Ask Mother Saska how the Keld speak of the past" when true once {

@@ -226,6 +226,9 @@ Module season "Hold One Season" {
     described "An eel of the Ammer that swam up the warm Outfall as an elver two hundred years ago and never left: three metres of it, white about the jaw.".
   Person eels "Outfall eels" at flood_line {
     Role "two old eels lying in the flooded doorway". Species outfall_eel. Numbers 2.
+    // They warn before they strike: as ambushers they killed a company on its first walk down the slope (M18-09).
+    Temperament territorial.
+    Warns "Your light goes down into the clear water at the foot of the slope, and two white jaws turn up toward it out of the flooded doorway, slowly. Behind each, three metres of eel uncoils along the floor. They are in no hurry. This is theirs.".
   }
   Thing sluice "the Sluice" at sluice_head {
     State closed "A bronze gate stands in a stone frame at the head of a broad tunnel, with a geared wheel the size of a man. A trickle comes through it.".
@@ -246,6 +249,9 @@ Module season "Hold One Season" {
   }
   Initially Assert asleep(garret). Initially Assert slowable(garret). Initially Assert feltClad(garret).
   Initially Set dose(garret) to 2400.
+  Topic garret_held with garret "Speak to the man in the light" when asleep(garret) once {
+    Says "Garret does not answer. His eyes are open and on the jar in front of him, and they do not come round to you. You wait for him to breathe, and count your own breaths while you wait, and get to forty before his chest moves. Whatever you said, he will hear it, if he hears it, some time next week.".
+  }
   Measure watchedFor(entity).
   Rule watching_garret when at(party, vault) and heldDeep(garret) and at(garret, vault) and not benighted(party) { Increase watchedFor(garret) by 1. }
   Observe garret_moved at vault when heldDeep(garret) and at(garret, vault) and watchedFor(garret) >= 6 "You have watched him for an hour. His hand is a finger's width nearer the jar than it was, and his chest is higher.".

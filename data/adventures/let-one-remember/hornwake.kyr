@@ -69,6 +69,9 @@ Module corrow "Let One Remember" {
   Person cook "Hal Brack" at cook_room {
     Role "keeper of the cookhouse". Ancestry human. Profession innkeeper. Peaceable.
   }
+  Topic cook_shifting with cook "Ask Hal Brack how the cookhouse keeps up with the horn" when true once {
+    Says "'Two stoves,' says Hal Brack, and bangs a ladle on the nearer. 'One at each end. On a shifting day one goes on the first cart, and the other stays lit till the wagons roll, and by noon there's a town again a mile north and I'm frying in it.' The ladle points at the stovepipes. 'Move-bell goes before dawn, three and three. Hornwake's never missed a breakfast for the horn yet, and it won't while this tent stands.'".
+  }
   Person wakefolk "the people of Hornwake" at wagons {
     Role "Hornwake households". Ancestry human. Numbers 5. Peaceable.
   }

@@ -99,6 +99,9 @@ Module corrow "Let One Remember" {
   Person clerks "the Registry clerks" at counting_house {
     Role "clerks feeding the braziers". Ancestry human. Numbers 3. Peaceable.
   }
+  Topic clerks_braziers with clerks "Ask the clerks why they keep the braziers fed" when true once {
+    Says "'Cold glass forgets,' says the nearest clerk, shovelling. 'Every lattice in this gallery holds the Registry's numbers as notes, and a note wants warmth to keep sounding. Let a cabinet go cold and it goes quiet, and whatever was in it is gone.' The shovel points down the gallery at the silent cabinets with their cards. 'Before twelve hundred. Nobody had the coal.' Another clerk, not looking up: 'Nobody has it now, either. Ask the Assessor.'".
+  }
 
   // Licences. The Registry writes down who goes below it, and when they come back by the stair.
   Relation licensed(group). Relation below(group). Measure wentDown(group). Relation backByStair(group).

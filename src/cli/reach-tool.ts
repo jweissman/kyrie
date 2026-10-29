@@ -55,6 +55,10 @@ export class ReachTool {
       `sellers ${r.trade.size} wares ${wares.size}`, `idle ${r.idle}/${r.steps}`, r.closed.length ? `closed ${r.closed.length}x` : '',
       r.ended === 'steps' ? '' : `(${r.ended?.slice(0, 60)})`].join('  ');
   }
+  // Who traded, each with what they sold (or only bought).
+  private static traders(m: Map<string, string[]>): string {
+    return [...m].map(([who, what]) => `${this.short(who)} (${what.join(', ')})`).join('; ');
+  }
   static detail(r: Reach, w: Written, print: (line: string) => void) {
     const short = this.short.bind(this), missing = this.missing.bind(this);
     print(`  ended: ${r.ended}`);
@@ -64,7 +68,8 @@ export class ReachTool {
     print(`  unmet people: ${missing(r.people.keys(), w.people)}`);
     print(`  never had anything to say: ${[...r.mute].filter(m => !r.spoken.has(m)).map(short).join(' ') || '-'}`);
     print(`  topics never offered: ${missing(r.topicsOffered, w.topics)}`);
-    print(`  sold: ${[...r.trade].map(([who, what]) => `${short(who)} (${what.join(', ')})`).join('; ') || 'nothing'}`);
+    print(`  sold: ${this.traders(r.trade) || 'nothing'}`);
+    if (r.buyers.size) { print(`  only bought: ${this.traders(r.buyers)}`); }
     const busiest = [...r.crowd].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([p, n]) => `${short(p)} ${n}`);
     const empty = [...r.crowd].filter(([, n]) => n === 0).length;
     print(`  busiest: ${busiest.join(', ')}; rooms never seen with anyone in them: ${empty}/${r.crowd.size}`);

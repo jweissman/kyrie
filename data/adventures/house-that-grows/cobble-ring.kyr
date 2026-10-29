@@ -63,6 +63,12 @@ Module hhg "The House That Grows" {
     Role "Kezu's sister, Tobu's mother, sitting up with her". Ancestry human. Peaceable.
   }
   Initially Assert watcher(hanu). Initially Assert post(hanu, kezu_loft). Initially Assert overlooks(hanu, kezu_bed).
+  Topic hanu_sitting with hanu "Ask Hanu why she is sitting up over her sister" when true once {
+    Says "Hanu does not take her eyes off the shutter. 'Because she sleeps too much, and in Cobble Ring a thing nobody watches is a thing that changes.' Her hand rests by the bell. 'Since the barley she's down all morning and all night, and up grey for the afternoon. She's sat up for this town since she was Tobu's age. Somebody can sit up for her for a week.'".
+  }
+  Topic hanu_tobu with hanu "Ask Hanu about Tobu" when true once {
+    Says "'Sleeps like an ox,' says Hanu fondly, to the shutter. 'Seventeen, and he'd sleep through the hall bell. That's why she's teaching him. She says a boy who can sleep can learn to stay awake; it's the ones who can't sleep who see things that aren't there.' The corner of her mouth goes up and comes down again. 'He was with her in the barley. He won't tell me what she did. He might tell you.'".
+  }
   Person tobu "Tobu" at kezu_kitchen {
     Role "Kezu's sister's boy, seventeen, who sleeps like an ox". Ancestry human. Peaceable.
   }
@@ -189,6 +195,12 @@ Module hhg "The House That Grows" {
   Rule council_sells when watch(clock) >= 312 and not voted(tessa) and sellVotes(tessa) >= 5 { Assert voted(tessa). Assert sold(annex). }
   Rule council_keeps when watch(clock) >= 312 and not voted(tessa) and sellVotes(tessa) < 5 { Assert voted(tessa). }
   Relation sold(place).
+  Topic tessa_kept with tessa "Ask the reeve what the council decided" when voted(tessa) and not sold(annex) once {
+    Says "'Kept.' Ammu Tessa squares the stack of slates. 'And Haddo voted a mark a week for his barley, which he'll spend complaining.' She looks toward the east lip as if she could see the green glass through the wall. 'So it's ours to watch, the way it always was. Four on the stools, day and night, and nobody yawns.'".
+  }
+  Topic tessa_sold with tessa "Ask the reeve what the council decided" when sold(annex) once {
+    Says "'Sold.' The reeve turns the Company draft face down on the slates, as if it might be watching her. 'Two thousand marks. The Company's guards take the stools at dusk.' She is quiet a moment. 'They don't know how to sit up. They'll learn, or the house will teach them.'".
+  }
   Observe vote_kept at reeve_room as event when voted(tessa) and not sold(annex) "The council's slates are stacked on the table. The house stays Cobble Ring's to watch, and Haddo has been voted a mark a week for his barley.".
   Observe vote_sold at reeve_room as event when sold(annex) "The council's slates are stacked on the table, and on top of them a Company draft for two thousand marks.".
 }

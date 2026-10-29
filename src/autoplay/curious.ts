@@ -5,8 +5,8 @@ import type { Operator } from '../lang/module';
 export interface Reach {
   rooms: Set<string>; people: Map<string, Set<string>>; topicsOffered: Set<string>; topicsTaken: Set<string>;
   actsOffered: Set<string>; actsTaken: Set<string>; observed: Set<string>;
-  // Merchants found, with what each sells; and the names of everything sold.
-  trade: Map<string, string[]>;
+  // Merchants found, with what each sells; and those who only buy, with what they buy (Halm's finds, a factor's prize).
+  trade: Map<string, string[]>; buyers: Map<string, string[]>;
   // Those talked to who had nothing to say the first time, and those who never had.
   mute: Set<string>; spoken: Set<string>;
   // The people seen in each room, at the busiest it was seen; steps spent waiting because nothing was new.
@@ -31,8 +31,8 @@ export class Curious {
   private readonly tried = new Set<string>();
   private readonly ops: Map<string, Operator>;
   readonly reach: Reach = { rooms: new Set(), people: new Map(), topicsOffered: new Set(), topicsTaken: new Set(),
-    actsOffered: new Set(), actsTaken: new Set(), observed: new Set(), trade: new Map(), mute: new Set(),
-    spoken: new Set(), crowd: new Map(), idle: 0, steps: 0, closed: [] };
+    actsOffered: new Set(), actsTaken: new Set(), observed: new Set(), trade: new Map(), buyers: new Map(),
+    mute: new Set(), spoken: new Set(), crowd: new Map(), idle: 0, steps: 0, closed: [] };
   // avoid: the choices that closed the book on an earlier try, not taken again; reach: an earlier try's, added to.
   constructor(private readonly j: Journey, private readonly avoid = new Set<string>(), reach?: Reach) {
     if (reach) { this.reach = reach; }
@@ -47,7 +47,7 @@ export class Curious {
       const pick = this.choose();
       if (!pick) { this.reach.ended = 'nothing to do'; break; }
       this.reach.steps++;
-      try { await this.j.perform(pick.command, pick.label); } catch (e) {
+      try { await this.j.perform(pick.command, pick.label, pick.grave); } catch (e) {
         this.reach.ended = `${pick.label}: ${(e as Error).message.slice(0, 160)}`; break;
       }
     }
@@ -70,7 +70,10 @@ export class Curious {
       r.firstMet ??= clock;
     }
     for (const o of sc.observed) { r.observed.add(o.id); }
-    for (const t of sc.trade) { r.trade.set(t.id, t.sells.map(s => s.name)); }
+    for (const t of sc.trade) {
+      if (t.sells.length) { r.trade.set(t.id, t.sells.map(s => s.name)); }
+      else { r.buyers.set(t.id, t.buys.map(b => b.name)); }
+    }
     for (const c of this.j.choices()) {
       const op = this.op(c);
       if (op?.speaker) { r.topicsOffered.add(op.id); r.firstAsked ??= clock; }
