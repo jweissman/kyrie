@@ -131,3 +131,28 @@
 @media (max-width: 860px) { .map-spread { grid-template-columns: minmax(0, 1fr); } .map-spread .plan { position: static; margin-top: 16px; } }
 /* A place's rooms, below the land: each a square joined by its ways; where you are, gold. */
 .fight-log p { font-size: 15px; color: var(--dim); }
+
+/* The board (Mission 18, the owner's addendum): the country in three dimensions over the whole map, its few words
+   over it: towns by name, places by the sign of their kind, a place's name only when pointed at or chosen, you. */
+.field-land.board canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; outline: none; }
+.board-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+.board-labels > * { position: absolute; left: 0; top: 0; pointer-events: auto; white-space: nowrap; }
+.board-town { all: unset; cursor: pointer; font: 500 13px/1 var(--do); letter-spacing: .26em; color: var(--ivory); padding-bottom: 5px;
+  border-bottom: 1px solid rgba(242, 189, 76, .45); text-shadow: 0 1px 2px rgba(0, 0, 0, .9), 0 0 12px rgba(5, 6, 9, .85); }
+.board-town:not(.visited) { color: #e2d7bf; }
+.board-sign { all: unset; cursor: pointer; display: flex; align-items: center; gap: 7px; color: var(--ivory);
+  font: italic 400 14.5px/1 var(--told); text-shadow: 0 1px 2px rgba(0, 0, 0, .9), 0 0 12px rgba(5, 6, 9, .85); }
+.board-sign i { flex: none; width: 22px; height: 22px; box-sizing: border-box; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(11, 12, 15, .8); border: 1px solid rgba(236, 230, 217, .6); box-shadow: 0 1px 6px rgba(0, 0, 0, .65); }
+.board-sign svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linejoin: round; stroke-linecap: round; }
+.board-sign:not(.visited) { color: #ecd296; }
+.board-sign:not(.visited) i { border-color: rgba(242, 189, 76, .85); }
+.board-sign.way i { width: 17px; height: 17px; margin: 0 2.5px; }
+.board-sign.way svg { width: 10px; height: 10px; }
+.board-sign.chosen, .board-town.chosen { color: var(--gold); }
+.board-sign.chosen i { border-color: var(--gold); background: rgba(40, 31, 12, .9); }
+.board-sign:focus-visible i, .board-town:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.board-labels > .away:not(:focus) { opacity: 0; pointer-events: none; }
+.board-you { pointer-events: none !important; width: 0; height: 0; }
+.board-you .you-dot { position: absolute; left: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+  box-shadow: 0 0 10px rgba(242, 189, 76, .9); }

@@ -51,6 +51,9 @@ export class SiteBuild {
       define: { 'process.env.NODE_ENV': '"production"' },
       plugins: [{ name: 'engine-source', setup: SiteBuild.embed.bind(SiteBuild, engine) }] });
     if (!result.success) { throw new AggregateError(result.logs, 'Reader build failed'); }
+    const board = await Bun.build({ entrypoints: [join(this.root, 'web/reader/board/board-main.ts')], target: 'browser',
+      format: 'iife', outdir: out, naming: 'board.js', minify });
+    if (!board.success) { throw new AggregateError(board.logs, 'Board build failed'); }
     return result.outputs.reduce((sum, o) => sum + o.size, 0);
   }
   static embed(engine: string, build: PluginBuilder) {

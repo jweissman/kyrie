@@ -78,6 +78,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     await d.go('causeway');
     expect((await d.inspect()).place?.id).toBe('march__causeway');
     await d.mode('m');
+    await page.waitForSelector('[data-region="map"] [aria-current="location"]', { timeout: 120000 });
     expect(await page.locator('[data-region="map"] [aria-current="location"]').count()).toBe(1);
     await d.mode('m');
     // A fight: each foe and what it means to do; each exchange in words, the dice kept back.

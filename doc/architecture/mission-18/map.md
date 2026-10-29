@@ -108,10 +108,20 @@ The owner's notes after trying it, and what each changed:
 
 The tiles are the owner's preference and the treatment carried forward; the relief stays on the page for comparison.
 
+## The tiles in the reader
+
+The tiles are now the reader's map (web/reader/board/, a script of its own, board.js, fetched only when the map is
+first opened; web/reader/board-field.tsx mounts it). Where a browser cannot draw it, the flat hex crawl stands in its
+place. Its towns and places are buttons, reached by Tab (the view glides to whichever has the focus, even one off the
+screen) and chosen with Enter or a touch, as on the flat map; a known hex is chosen by pointing at it; the card at the
+foot plans the way and sets out, as before. What became known since the map was last open arrives as the mist going
+off it and the tiles standing up. test/board-browser.test.ts plays it in a real browser (software GL standing in for a
+GPU): the country drawn over the whole screen, you on it, a town chosen by the keys, planned and set out for.
+
 ## What remains
 
-- The tiles into the reader as its map (replacing the flat hex crawl, keeping its hooks and its plain fallback where
-  there is no WebGL), with a step to the next hex, a journey, and going into a place each its own act.
+- On the board itself, a step to the next hex, a journey and going into a place each its own act (they are the card's
+  now, as on the flat map).
 - The owner's review of the map, in play.
 - The wild's own life: what is met in the open country (beasts, travellers, weather's hazards) by its land, and the
   small finds of a stretch (a spring, a shepherd's hut, a wreck of a cart) beyond the places it already holds.

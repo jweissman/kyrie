@@ -28,7 +28,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     const from = (await driver.inspect()).place?.id;
     await driver.mode('m');
     expect((await driver.inspect()).mode).toBe('map');
-    // By the keys: the town is reached by Tab and chosen with Enter.
+    // By the keys: the town is reached by Tab and chosen with Enter (on the board, once it is drawn).
+    await page.waitForSelector('[data-action="map-place"][data-id="region__s4"]', { timeout: 120000 });
     await page.focus('[data-action="map-place"][data-id="region__s4"]');
     await page.keyboard.press('Enter');
     const plan = await page.textContent('.plan');
@@ -44,7 +45,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
-  // On a phone the map is the whole screen (Mission 18, the owner's correction): where you are is on it, nothing runs
+  // On a phone the map is the whole screen (Mission 18, the owner's correction), the board or the flat map, whichever
+  // the browser can draw: where you are is on it, nothing runs
   // past the screen's edge, and a place chosen is said in a card at its foot, whole (the register's NAV-05 and PRE-04:
   // names cut on a phone; the map untested at 390 px). The rest of the country is a drag away.
   it('at 390 by 844: fills the screen with the map, you on it, and the plan at its foot', async () => {
@@ -54,11 +56,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.mode('m');
+    await page.waitForSelector('.field-land [aria-current="location"] .you-dot', { timeout: 120000 });
     const fit = await page.evaluate(() => {
-      const map = document.querySelector('.field-land svg')!.getBoundingClientRect();
+      const map = document.querySelector('.field-land svg, .field-land canvas')!.getBoundingClientRect();
       const you = document.querySelector('.field-land [aria-current="location"] .you-dot')!.getBoundingClientRect();
       const plan = document.querySelector('.field-map .plan')!.getBoundingClientRect();
-      return { names: document.querySelectorAll('.field-land text').length,
+      return { names: document.querySelectorAll('.field-land text, .board-labels [data-action="map-place"]').length,
         whole: map.width >= innerWidth - 1 && map.height >= innerHeight - 1,
         you: you.left >= 0 && you.right <= innerWidth && you.top >= 0 && you.bottom <= innerHeight,
         wide: document.documentElement.scrollWidth > innerWidth,

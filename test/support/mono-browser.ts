@@ -6,8 +6,9 @@ import { MonoDriver } from './mono-driver';
 // Opens the built Mono client in a real browser for tests and recorders. Requires `bun run web:build` and a
 // Playwright Chromium (KYRIE_CHROMIUM may name the executable).
 export class MonoBrowser {
-  static async launch() {
-    return chromium.launch(process.env.KYRIE_CHROMIUM ? { executablePath: process.env.KYRIE_CHROMIUM } : {});
+  static async launch(args: string[] = []) {
+    const path = process.env.KYRIE_CHROMIUM;
+    return chromium.launch({ ...path ? { executablePath: path } : {}, args });
   }
   static async page(browser: Awaited<ReturnType<typeof MonoBrowser.launch>>, size: { width: number; height: number },
     options: { site?: string; pointer?: boolean; query: string }) {

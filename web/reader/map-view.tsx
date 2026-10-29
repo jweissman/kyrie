@@ -5,6 +5,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { ReaderApp } from './reader-app';
 import { HexLand, type Drawn, type Mark } from './hex-land';
 import { HexSymbols } from './hex-symbols';
+import { BoardField } from './board-field';
 import { MenuModel } from './menu-model';
 import { Typography } from '../../src/presentation/typography';
 import { Words } from './words';
@@ -23,7 +24,8 @@ export class MapView {
     const [chosen, choose] = useState<string>(), region = screen.region;
     const map = (
       <section className="field-map" data-region="map" aria-label="The map" role="dialog">
-        {region?.land ? <MapView.Field region={region} chosen={chosen} choose={choose} bound={app.state.frame?.bound?.id} />
+        {region?.land ? <BoardField.View region={region} chosen={chosen} choose={choose} bound={app.state.frame?.bound?.id}
+          flat={<MapView.Field region={region} chosen={chosen} choose={choose} bound={app.state.frame?.bound?.id} />} />
           : <p className="none">You have no map of this country yet.</p>}
         <header className="field-head"><p className="where"><span className="title">{app.state.frame!.title}</span>
           <span>The map</span></p><h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1></header>

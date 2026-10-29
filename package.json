@@ -9,6 +9,7 @@
     "@types/bun": "latest",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
+    "@types/three": "0.169.0",
     "eslint-plugin-no-comments": "1.2.1",
     "jiti": "2.7.0",
     "playwright-core": "1.48.2",
@@ -23,7 +24,8 @@
     "languages": "git+https://github.com:443/jweissman/languages.git#30d36c624e6a604b5ed9296dad5127b23aeb2285",
     "ohm-js": "^17.5.0",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "three": "0.169.0"
   },
   "scripts": {
     "arena": "bun run scripts/arena.ts",
