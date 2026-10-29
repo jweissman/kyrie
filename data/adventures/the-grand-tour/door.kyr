@@ -37,7 +37,7 @@ Module sennet "The Grand Tour" {
     Result "You put your hand on the boss and turn it, and it turns, the four petals going round together like the hands of a clock, and the Door of Doors opens. On the other side of it there is no room. There is everywhere. You see the coast road, and the Glass Market, and the Hour Court burning, and the inside of the Slow Assembly, and the eyrie of the North Wind, and a street in a town a long way off where it is raining, and a kitchen you have never seen with a woman in it singing, and a beach, and the moon, close, and all of them are there at once and each of them is the only one, and the wind of all of them comes through the doorway into the Nexus and lifts your hair.".
   }
   Observe door_open at nexus when doorOpen(sennet_bay) "The Door of Doors stands open in the middle of the round room, and through it, everywhere: the coast road, the Hour Court, a beach, the moon, a kitchen with a woman singing, all of them at once and each the only one. A wind comes through it that smells of every weather.".
-  Observe door_shut at nexus when not doorOpen(sennet_bay) and socketCount(nexus) >= 1 "In the rose on the boss of the Door of Doors, {socketCount(nexus)} of the four hollows have their petals.".
+  Observe door_shut at nexus when not doorOpen(sennet_bay) and socketCount(nexus) >= 1 "Petals set in the rose of the Door of Doors: {socketCount(nexus) in words} of the four.".
   Measure firstAt(group).
   Action step_through(actor: group, site: place) "Step through the Door of Doors, first" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and doorOpen(sennet_bay) and not firstThrough(actor) and not rectorThrough(quance).

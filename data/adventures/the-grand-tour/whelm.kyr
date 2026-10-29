@@ -11,10 +11,10 @@ Module sennet "The Grand Tour" {
   Rule drowns when at(party, ?p) and wet(?p) and not capable(party, breath)
     says "Your breath is gone. The green goes black at the edges; you kick, and kick, and the stairs are somewhere above you in the dark, and then a hand that is not yours has you by the collar and is hauling, and you come up out of the bay onto the Fish Stairs on your face, coughing up half of it." {
     Assert strikes(drowning, party). Assert at(party, fish_stairs). }
-  Rule breath_going when at(party, ?p) and wet(?p) and granted(party, breath) and grantedUntil(party, breath) >= 1 and grantedUntil(party, breath) - watch(clock) == 1 and not warnedBreath(party)
+  Rule breath_going when at(party, ?p) and wet(?p) and granted(party, breath) and breathUntil(party) >= 1 and breathUntil(party) - watch(clock) == 1 and not warnedBreath(party)
     says "There is a tightness coming in your chest, very gentle, like a hand. What breath you were given is running out." { Assert warnedBreath(party). }
   Relation warnedBreath(group).
-  Rule breath_renewed when warnedBreath(party) and grantedUntil(party, breath) - watch(clock) > 1 { Retract warnedBreath(party). }
+  Rule breath_renewed when warnedBreath(party) and breathUntil(party) - watch(clock) > 1 { Retract warnedBreath(party). }
 
   Observe dstair_scene at drowned_stair when not visitedBefore(drowned_stair) "Green. Everything is green, and slow, and the light comes down from above in long wavering ropes. The Fish Stairs go down out of the sky into a street: a real street, cobbled, with houses on both sides of it with their doors open and their windows open and weed growing out of their chimneys, and lamps lit in some of the windows, white lamps, burning steady under the sea. A shoal of little silver fish goes up the street like a crowd going home.".
   Observe dstair_again at drowned_stair when visitedBefore(drowned_stair) "The foot of the Fish Stairs, in the green, where the stairs come down out of the light into the drowned street.".
@@ -53,17 +53,17 @@ Module sennet "The Grand Tour" {
   Rule guard_admits when admitted(party) and not tolerates(guard, party) and not whelmHostile(party) { Assert tolerates(guard, party). }
   Topic guard_invited with guard "Tell the guards Ha'penny asked you to supper" when hapennyInvites(hapenny) and not admitted(actor) once {
     Says "The two guards look at each other. One of them says something to the other in bubbles, and the other laughs, also in bubbles. 'Ha'penny,' the first says. 'She brings us everything. Last week a cat.' He moves his spear aside. 'Supper is at the turn of the evening.' He leans close and breathes on you, which is how the Whelm says come in; the water in your chest goes soft and easy. 'Go up. Eat what you are given.'".
-    On discuss { Assert admitted(actor). Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 18. }
+    On discuss { Assert admitted(actor). Assert granted(actor, breath). Set grantedUntil(actor, breath) to 0. Set breathUntil(actor) to watch(clock) + 18. }
   }
   // A sailor knows the greeting the merfolk give at the third step, and gives it back.
   Topic guard_greeting with guard "Touch your forehead to the water and say Salt and welcome, as the fishermen do" when craft(actor, craft_water) and not admitted(actor) once {
     Says "The guards stare. Then the older one touches his own forehead, slowly, and says back, in a voice like water going down a drain, 'Salt and welcome, dry one,' and grins with a great many teeth. 'A boatman. You smell of tar.' He leans in and breathes on you, which is how the Whelm says come in, and the water in your chest goes easy. 'Go up.'".
-    On discuss { Assert admitted(actor). Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 18. }
+    On discuss { Assert admitted(actor). Assert granted(actor, breath). Set grantedUntil(actor, breath) to 0. Set breathUntil(actor) to watch(clock) + 18. }
   }
   Kind candle_gift_kind "a beeswax candle" is gear worth 1 weighing 0 described "A good beeswax candle, the kind the House uses in Veyra's chapel.".
   Topic guard_gift with guard "Show the guards something dry they have never seen" when not admitted(actor) and (holding(actor, mirror_kind) or holding(actor, glass_petal_kind) or holding(actor, handbook_kind) or holding(actor, wind_jar_kind)) once {
     Says "They come close, the both of them, and look at it with their gills going, and touch it with the ends of their spears. 'Dry,' one says, reverently. 'Dry, and down here.' They hand it back to you, which you did not expect. 'Gran will want to see you,' the other says, and breathes on you, which is how the Whelm says come in. 'Go up. Bring it.'".
-    On discuss { Assert admitted(actor). Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 18. }
+    On discuss { Assert admitted(actor). Assert granted(actor, breath). Set grantedUntil(actor, breath) to 0. Set breathUntil(actor) to watch(clock) + 18. }
   }
   Action table(actor: group, site: place) "Sit down at No Admittance's table, and eat what you are given" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, guildhall) and at(admittance, site) and admitted(actor) and not ateWith(actor) and hour(clock) >= 17 and hour(clock) < 22.
@@ -131,16 +131,16 @@ Module sennet "The Grand Tour" {
   Rule mercy_trusts when (ateWith(party) or admittanceTrusts(admittance) or following(aubrey, party)) and not mercyTrusts(mercy) { Assert mercyTrusts(mercy). }
   Action mercy_breath(actor: group, site: place) "Ask Mercy for breath" {
     Speaker mercy.
-    Requires able(actor) and company(actor) and at(actor, site) and at(mercy, site) and mercyTrusts(mercy) and not perrinDead(party) and not (granted(actor, breath) and grantedUntil(actor, breath) - watch(clock) > 6).
+    Requires able(actor) and company(actor) and at(actor, site) and at(mercy, site) and mercyTrusts(mercy) and not perrinDead(party) and not (granted(actor, breath) and breathUntil(actor) - watch(clock) > 6).
     Time 1 minute.
-    On success { Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 18. Assert mercyKissed(actor). }
+    On success { Assert granted(actor, breath). Set grantedUntil(actor, breath) to 0. Set breathUntil(actor) to watch(clock) + 18. Assert mercyKissed(actor). }
     Result "She laughs, and takes your face in her two cold hands and kisses you on the mouth, and it tastes of salt and something green, and the water you are breathing goes soft and easy in your chest, like air in a warm room. 'There. Three hours. Then come up, or come back.' She lets go. 'Dry ones always ask so politely.'".
   }
   Action hapenny_breath(actor: group, site: place) "Ask Ha'penny for some of her breath" {
     Speaker hapenny.
-    Requires able(actor) and company(actor) and at(actor, site) and at(hapenny, site) and hapennyInvites(hapenny) and not (granted(actor, breath) and grantedUntil(actor, breath) - watch(clock) > 3).
+    Requires able(actor) and company(actor) and at(actor, site) and at(hapenny, site) and hapennyInvites(hapenny) and not (granted(actor, breath) and breathUntil(actor) - watch(clock) > 3).
     Time 1 minute.
-    On success { Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 6. }
+    On success { Assert granted(actor, breath). Set grantedUntil(actor, breath) to 0. Set breathUntil(actor) to watch(clock) + 6. }
     Result "She puts her arms round your neck and kisses you on the nose, very loud. 'There. An hour. I'm little.' She considers. 'If it runs out, come up. Don't be brave. The brave ones are the ones on the bottom.'".
   }
   Topic mercy_catch with mercy "Ask Mercy about the man she caught" when knows(actor, sky_man) and not mercyTrusts(mercy) once {

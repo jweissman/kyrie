@@ -7,6 +7,7 @@ import { Frontier } from '../src/world/frontier';
 import { Countries } from '../src/world/countries';
 import { Journey } from '../src/session/journey';
 import { GeneratedWorld } from './support/generated';
+import { steps } from './support/sennet';
 
 // Sennet in a world that goes on: a province of the first country (Mission 18's Gate B), its way in on the country's
 // own land a little in from the east, with a road to it from the nearest town. In every town the Rector's
@@ -54,4 +55,23 @@ describe('Sennet, a province of the first country', () => {
     await j.play('To the Quay');
     expect(await j.play('Wait › A while')).toBeDefined();
   }, 900000);
+
+  it('an ordinary protagonist of the world opens the Door from below, and the Door then opens on Sennet\'s streets', async () => {
+    const seed = 'kite', w = await WorldAssembler.assemble(seed, NodeBundleSource.shared);
+    const s = await PlaySession.start(w.path, seed, w.source), j = Journey.of(s);
+    await GeneratedWorld.travel(s, 'gate_sennet');
+    await new Frontier(seed, NodeBundleSource.shared).expand(s.campaign);
+    await j.play('To the top of the coast road');
+    // The Tour's days are Sennet's own, from the first morning after it is reached: its day 1 is the world's next.
+    const shift = Math.ceil(j.watch() / 144);
+    const route = ['=day 1 08:10', ...steps('outcomes', 'undertow')].map(x => x.replace(/>sennet__/, '>psennet__')
+      .replace(/^=day (\d+)/, (_, d: string) => `=day ${Number(d) + shift}`));
+    await j.play(...route);
+    expect(s.campaign.world.test({ kind: 'call', name: 'psennet__openedBelow', args: ['psennet__sennet_bay'] })).toBe(true);
+    const offered = PlayerView.choices(s.campaign).map(c => c.choice.name);
+    expect(offered).toContain('Open the Door of Doors on the Glass Market');
+    await j.play('Open the Door of Doors on the Glass Market');
+    expect(s.campaign.world.one('at', 'party')).toBe('psennet__glass_market');
+  }, 900000);
 });
+

@@ -8,7 +8,7 @@ Module sennet "The Grand Tour" {
   Initially Assert law(wind_land, plane_pandemonium).
   Query inAir() means within(party, air_land).
   Thing air_bar "the bar of the Air Door" on air_door {
-    State sealed blocking "A bar of silver lies across the arch of the Air Door, with the Halyards' seal on it in green wax.".
+    State sealed blocking "A bar of silver lies across the arch of the Air Door, with the Halyards' seal on it in green wax: whoever has the Halyards' leave lifts it, and sets it back.".
     State broken "The bar of the Air Door lies on the grass, and the Halyards' seal is broken.".
     Change break_seal "Break the Halyards' seal, and lift the bar off the Air Door" from sealed to broken.
   }

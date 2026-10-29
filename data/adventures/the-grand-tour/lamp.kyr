@@ -125,7 +125,6 @@ Module sennet "The Grand Tour" {
   // item of the module's own cannot yet grant a capability of the module's own).
   Entity heatproof: capability "Proof against the heat of the Fire".
   Rule helm_breath when holding(party, brine_helm_kind) and not granted(party, breath) { Assert granted(party, breath). Set grantedUntil(party, breath) to 0. }
-  Rule helm_gone when not holding(party, brine_helm_kind) and granted(party, breath) and grantedUntil(party, breath) == 0 { Retract granted(party, breath). }
   Rule cloak_proof when holding(party, fire_cloak_kind) and not granted(party, heatproof) { Assert granted(party, heatproof). Set grantedUntil(party, heatproof) to 0. }
   Rule cloak_gone when not holding(party, fire_cloak_kind) and granted(party, heatproof) and grantedUntil(party, heatproof) == 0 { Retract granted(party, heatproof). }
 }

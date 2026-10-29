@@ -29,6 +29,13 @@ Module sennet "The Grand Tour" {
   // What a company needs to go down the Fish Stairs: a kiss of the merfolk's, for three hours, or a brine-glass helm
   // while it is held (whelm.kyr).
   Entity breath: capability "Breath under water".
+  // How long a kiss of the merfolk's lasts, on Sennet's own clock: the shared grantedUntil is left at 0 (held), and the
+  // module ends the grant itself, because a module placed in a world reads its own watch and the shared rule the
+  // world's (friction.md).
+  Measure breathUntil(group).
+  Rule breath_ends when granted(party, breath) and breathUntil(party) >= 1 and watch(clock) >= breathUntil(party) {
+    Set breathUntil(party) to 0. }
+  Rule breath_lost when granted(party, breath) and breathUntil(party) == 0 and not holding(party, brine_helm_kind) { Retract granted(party, breath). }
 
   // ── Where word reaches the company ────────────────────────────────────────────────────────────────────────────────
   // News of the city is heard anywhere in Sennet, in Cloudgate or on the coast road; not under the water, nor in the

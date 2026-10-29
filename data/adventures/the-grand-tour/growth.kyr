@@ -1,0 +1,33 @@
+Module sennet "The Grand Tour" {
+  // ── What the company grows by ─────────────────────────────────────────────────────────────────────────────────────
+  // A company grows in Sennet by what it does for its people and its courts, not only by fights: the small stories
+  // are worth as much as a petal, and setting the city right is worth most. Seeing the book through is worth the
+  // module's own experience on top (module.json).
+  Milestone m_entered "entered for the Grand Tour" worth 25 when enrolled(party).
+  Milestone m_gang "walked a shift on the winch-gang's capstans" worth 25 when gangFriend(party).
+  Milestone m_step "brought Ha'penny above the third step to buy a present" worth 50 when hapennyShopped(hapenny).
+  Milestone m_bell "gave Old Bethan a night's sleep" worth 50 when bethanAtPeace(bethan).
+  Milestone m_prue "kept Prue Quickly's heat on" worth 50 when prueSaved(prue).
+  Milestone m_jem "found Jem Tuttle a place below the cloud" worth 50 when jemFree(jem).
+  Milestone m_tolley "gave Edwin Tolley his own sentences back" worth 50 when tolleyFriend(tolley).
+  Milestone m_chert "showed a delegate of the Slow Assembly the sky" worth 50 when chertSaw(chert).
+  Milestone m_ember "took the ember in Cabinet Fourteen home" worth 75 when emberHome(fire_land).
+  Milestone m_fire "was crowned in the Hour Court" worth 75 when everCrowned(party).
+  Milestone m_earth "carried the Earth petal out of the Slow Assembly" worth 75 when carries(party, earth_petal).
+  Milestone m_laughed "made No Admittance laugh" worth 50 when admittanceLaughed(admittance).
+  Milestone m_water "was given the Water petal for the asking" worth 75 when carries(party, water_petal).
+  Milestone m_north "was let up to the North Wind" worth 75 when tramontaneHeard(tramontane).
+  Milestone m_alive "found the dead man alive" worth 50 when knows(party, perrin_alive).
+  Milestone m_leg "set Perrin Halyard's leg" worth 25 when legSet(perrin).
+  Milestone m_brothers "brought the Halyard brothers face to face" worth 75 when brothersMet(party).
+  Milestone m_case "knew who pushed Perrin Halyard" worth 100 when knows(party, quance_pushed).
+  Milestone m_lanterns "took a mermaid to the Night of Lanterns" worth 100 when mercySawLanterns(mercy).
+  Milestone m_raid "stood with the Whelm against the House's divers" worth 75 when raidRepulsed(quance).
+  Milestone m_warned "warned the Whelm in time" worth 100 when whelmEmptied(sennet_bay).
+  Milestone m_found "put the Rector of the House of Doors before the Watch" worth 150 when rectorTaken(quance).
+  Milestone m_made "set Lamp Street glass in the keel of Cloudgate" worth 150 when madeSet(sennet_bay).
+  Milestone m_renewed "had the North Wind's gift renewed" worth 150 when giftRenewed(sennet_bay).
+  Milestone m_undertow "opened the Door of Doors from below, by the Whelm's leave" worth 150 when openedBelow(sennet_bay) and engineLeave(party).
+  Milestone m_first "went first through the Door of Doors in two hundred years" worth 100 when firstThrough(party).
+  Milestone m_fabian "brought Fabian Murrey home" worth 75 when fabianHome(party).
+}

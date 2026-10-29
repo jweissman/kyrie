@@ -163,7 +163,7 @@ Module sennet "The Grand Tour" {
   // ── Mr. Tench, the Doorwarden ─────────────────────────────────────────────────────────────────────────────────────
   Person tench "Mr. Tench" at hall_of_doors {
     Role "the Doorwarden, at a desk between the doors with a ledger". Ancestry halfling. Peaceable. Pronouns he. Manner stoic.
-    State on_duty blocking "The Doorwarden keeps the Fire Door and the Earth Door from his desk, with his ledger open, and nobody goes through either without his say.".
+    State on_duty blocking "Mr. Tench keeps the Fire Door and the Earth Door with his ledger open, and nobody goes through either without his say.".
     Guards fire_door. Guards earth_door.
     Greets "The little man at the desk looks up over half-spectacles. 'Tench. Doorwarden. Name, licence, and are you sure.' He dips his pen. 'Everybody's sure. Then they come back through the Fire one with their eyebrows off.'".
     Greets again "'Name, licence, and are you sure,' says Mr. Tench, without looking up.".

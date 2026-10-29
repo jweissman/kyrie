@@ -54,7 +54,7 @@ Module sennet "The Grand Tour" {
   Person chert "Chert" at assembly {
     Role "the youngest delegate of the Slow Assembly, a pebble the size of a cat". Species pebble. Level 2. Peaceable. Pronouns he.
     Greets "A pebble the size of a cat rolls down off the bottom tier and stops against your boot. 'You're quick,' it says, with deep approval, in a voice like gravel in a bucket. 'Everything up there's quick, isn't it. I've heard. Birds. Weather. Weeks.' It looks up the tunnel toward the door. 'I'm six hundred and forty,' it says, 'and I have never seen a week.'".
-    Greets again "'You're back!' says Chert, and rolls a little way toward you, which for him is running.".
+    Greets again "'Still quick,' says Chert approvingly, and rolls a little way toward you, which for him is running.".
     Joins "Chert rolls up onto your boot and clings there with both stone arms. 'Don't tell them,' he says, nodding at the Assembly. 'They'll find out in about a hundred years. By then I'll have seen a bird.'".
     Leaves "'I'll roll home from here,' says Chert. 'It's downhill. Everything is, for me.'".
   }
