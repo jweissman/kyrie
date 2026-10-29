@@ -189,6 +189,7 @@ html, body { overflow: hidden; }
   stroke-linejoin: round; margin-bottom: 4px; }
 .card.chosen .glyph { stroke: var(--gold); filter: drop-shadow(0 0 6px rgba(242, 189, 76, .5)); }
 .card .glyph text { fill: var(--ivory); stroke: none; font: 300 20px var(--do); }
+.deck-weapons .card, .deck-trades .card, .deck-specialties .card { min-height: 0; }
 .card-big { font: 300 38px/1 var(--do); letter-spacing: .02em; color: var(--ivory); margin: 4px 0; }
 .card.chosen .card-big { color: var(--gold); }
 .card-name { font: 500 14px/1.3 var(--do); letter-spacing: .2em; text-transform: uppercase; }
@@ -204,8 +205,8 @@ html, body { overflow: hidden; }
 .particulars li b { color: var(--ivory); font-weight: 600; }
 .kinds { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 8px auto 6px; padding: 0;
   max-width: 900px; }
-.kind { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
-  min-height: 38px; padding: 8px 14px; border: 1px solid var(--edge); border-radius: 2px; font: 500 12.5px/1 var(--do);
+.kind { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+  min-height: 38px; padding: 7px 12px; border: 1px solid var(--edge); border-radius: 2px; font: 500 12.5px/1 var(--do);
   letter-spacing: .1em; text-transform: uppercase; color: var(--dim); transition: color var(--quick), border-color var(--quick); }
 .kind small { color: var(--faint); font-size: 11px; letter-spacing: .04em; text-transform: none; }
 .kind:hover, .kind:focus-visible { color: var(--ivory); border-color: var(--edge-strong); outline: none; }

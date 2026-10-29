@@ -29,7 +29,7 @@ export class WeaponStep {
     return <>
       <ul className="kinds" aria-label="Kinds of weapon">{groups.map(g => <li key={g}><button type="button" className="kind"
         data-nav aria-pressed={group === g} onClick={() => open(g)}>{g}
-        <small>{WeaponStep.span(weapons.filter(w => CreationRules.group(w.kind) === g))}</small></button></li>)}</ul>
+        <small>{weapons.filter(w => CreationRules.group(w.kind) === g).length}</small></button></li>)}</ul>
       <Card.Deck kind="weapons" detail={chosen && said && <Card.Particulars title={Words.upper(chosen.name)}
         facts={[`${Words.upper(said.harm)}.`, said.struck, `${Words.upper(chosen.weight || 'ordinary')} in weight; worth`
           + ` ${chosen.value} coin.`, ...said.also ? [said.also] : [], WeaponStep.blow]} />}>
@@ -49,11 +49,5 @@ export class WeaponStep {
   private static face(w: Weapon, m: ReaderApp['state']['party'][number], catalog: Catalog): string {
     const harm = CreationRules.weapon(w, m, catalog).harm, avg = /, ([\d.]+) a blow/.exec(harm)?.[1];
     return Typography.curl(`${avg ?? '?'} a blow on average, ${w.type.toLowerCase()}.`);
-  }
-  // The dice of a family, least to most: "1d4–1d10".
-  private static span(ws: Weapon[]): string {
-    const sorted = [...ws].sort((a, b) => CreationRules.average(a.damage) - CreationRules.average(b.damage));
-    const [low, high] = [sorted[0]!.damage, sorted.at(-1)!.damage];
-    return low === high ? low : `${low}–${high}`;
   }
 }
