@@ -20,6 +20,10 @@ export interface BundleRequest {
   // Installed into a world already under way, which goes on after it (a country beyond a march): reaching one of its
   // endings closes its chapter, and the world goes on.
   chapter?: boolean;
+  // A place the module's own top-level regions are set inside: an adventure installed as a province of the country
+  // it is placed in, not as a country of its own (Mission 18's Gate B). Its places then lie in that country, and the
+  // map, the sky and the news are that country's.
+  within?: string;
 }
 export interface CampaignManifest {
   version: 1; name: string; modules: BundleRequest[]; party?: import('../content').CreatureGenerationContext[];
@@ -291,8 +295,15 @@ export class ModuleBundle {
     }
     draft.roles = RoleRequirements.bind(manifest.roles ?? {}, imports);
     if (manifest.chart) { draft.instance.module.charts = { [`${request.id}__region`]: this.chart(manifest.chart, request.id) }; }
+    if (request.within) { ModuleBundle.nest(draft, request.within); }
     if (manifest.experience) { draft.experience = manifest.experience; }
     if (request.chapter) { draft.chapter = true; }
     return draft;
+  }
+  // Sets a module's top-level regions inside a host place, as a province of it.
+  private static nest(draft: ModuleDraft, host: string) {
+    for (const e of draft.instance.module.entities) {
+      if (e.space?.kind === 'region' && !e.space.parent) { e.space = { ...e.space, parent: host }; }
+    }
   }
 }

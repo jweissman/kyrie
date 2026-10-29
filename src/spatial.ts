@@ -140,7 +140,7 @@ export class Spatial {
   private static validateParent(entity: Entity, entities: Map<string, Entity>): void {
     const space = entity.space!;
     const allowed: Record<string, string[]> = {
-      plane: [], region: ['plane'], settlement: ['region'], wilderness: ['region'],
+      plane: [], region: ['plane', 'region'], settlement: ['region'], wilderness: ['region'],
       site: ['region', 'settlement', 'wilderness'], building: ['settlement', 'site', 'wilderness'],
       level: ['settlement', 'wilderness', 'site', 'building', 'level'],
       room: ['settlement', 'wilderness', 'site', 'building', 'level', 'room'],

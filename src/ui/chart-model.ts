@@ -150,8 +150,12 @@ export class ChartModel {
     return f ? { form: f.replace(/^.*__/, '').replace(/^land_/, '') } : {};
   }
   // The region a place lies in (or the plane, for a place in one with no region): one region is drawn at a time.
+  // The country a place lies in, for its map: the outermost region over it (a province's places, an adventure's
+  // valley installed within a country, are drawn on that country's land: Mission 18's Gate B).
   private regionOf(id: string | undefined): string | undefined {
-    return id ? Spatial.ancestry(this.entities, id).find(e => ['region', 'plane'].includes(e.space!.kind))?.id : undefined;
+    if (!id) { return undefined; }
+    const line = Spatial.ancestry(this.entities, id);
+    return (line.findLast(e => e.space!.kind === 'region') ?? line.find(e => e.space!.kind === 'plane'))?.id;
   }
   private told(passage: string): boolean {
     return this.world.related('revealedBy').some(r => r.args[0] === passage
