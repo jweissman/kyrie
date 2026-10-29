@@ -22,7 +22,7 @@ Module sennet "The Grand Tour" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, winch_floor) and basketRuns() and not gangFriend(actor) and quantity(actor, gold) >= 5.
     Time 3.
     On success { Decrease quantity(actor, gold) by 5. Increase quantity(kittiwake, gold) by 5. Assert at(actor, landing_stage). }
-    Result "You sit on the bench. Mother Kittiwake blows her whistle and the capstans start to walk, and the floor drops away, and the roof, and the winch-house is a box of noise under you, and the city a map, and the bay a plate, and then the cloud comes down over all of it, white, cold, wet, for a long time, nothing but the chain going up beside you link by link like a ladder in a dream. And then you come up out of it into the sun. It is the middle of a fine afternoon up here, whatever it is down there, and Cloudgate is over your head with its gardens hanging over the edge, and the basket comes up through a hole in the Landing Stage like a bucket out of milk.".
+    Result "You sit on the bench. Mother Kittiwake blows her whistle and the capstans start to walk, and the floor drops away, and the roof, and the winch-house is a box of noise under you, and the city a map, and the bay a plate, and then the cloud comes down over all of it, white, cold, wet, for a long time, nothing but the chain going up beside you link by link like a ladder in a dream. And then you come up out of it, and Cloudgate is over your head with its gardens hanging over the edge, and the basket comes up through a hole in the Landing Stage like a bucket out of milk.".
   }
   Action ride_up_free(actor: group, site: place) "Go up in the basket, a friend of the gang" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, winch_floor) and basketRuns() and gangFriend(actor).
@@ -41,7 +41,7 @@ Module sennet "The Grand Tour" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, landing_stage) and basketRuns().
     Time 3.
     On success { Assert at(actor, winch_floor). }
-    Result "Down through the sun, and the cloud, and out of the bottom of the cloud into Sennet's weather, whatever it is, with the bay coming up at you and the capstans' thunder coming up through the floor of the basket, until you are set down on the winch-house floor and somebody unhooks you.".
+    Result "Down through the cloud, and out of the bottom of the cloud into Sennet's weather, whatever it is, with the bay coming up at you and the capstans' thunder coming up through the floor of the basket, until you are set down on the winch-house floor and somebody unhooks you.".
   }
   // In the Halyards' laundry, by the back way: the servants' hall takes in its hampers, and nobody looks at whoever
   // carries one.

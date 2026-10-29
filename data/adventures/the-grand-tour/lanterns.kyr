@@ -1,14 +1,14 @@
 Module sennet "The Grand Tour" {
   // ── The Night of Lanterns ─────────────────────────────────────────────────────────────────────────────────────────
   // Ascension Day: the fourth night. On the Promenade, Cloudgate keeps the Lifting: a band, the Dowager's toast, the
-  // dancing, and at half past ten a thousand paper lanterns loosed off the rim into the dark. Below, on the black water
+  // dancing, and at half past nine a thousand paper lanterns loosed off the rim into the dark. Below, on the black water
   // of the bay, the harbour keeps the Whelming with candles. From the Balustrade, if you look down through the hole in
   // the cloud, you can see both at once.
   Occasion lanterns "the Night of Lanterns" at promenade when lanternNight() and not cloudgateFell(sennet_bay) {
     Matter guests "Cloudgate's guests come up through the cloud in basket after basket, in pale silk, and walk along the Promenade under strings of paper lanterns not yet lit." for 30 minutes.
     Matter toast "The band stops. The Dowager Lady Halyard stands on the steps of Halyard House in black, with a glass, and Cloudgate falls silent for the toast to the Lifting." for 30 minutes.
     Matter dancing "The band strikes up a reel, and Cloudgate dances on the gravel of the Promenade under the stars, which up here are enormous." for 90 minutes.
-    Matter loosing "Half past ten. Every house in Cloudgate brings out its lanterns, a thousand of them, paper, lit, and at a sign they are let go off the rim of the Promenade into the dark, all at once, and go up." for 30 minutes.
+    Matter loosing "Half past nine. Every house in Cloudgate brings out its lanterns, a thousand of them, paper, lit, and at a sign they are let go off the rim of the Promenade into the dark, all at once, and go up." for 30 minutes.
     Matter supper "Supper is laid in the drawing room of Halyard House, under the portraits." for 60 minutes.
     Closes "The band packs up. The last lanterns are very small and very high. Cloudgate goes to bed in the starlight.".
   }

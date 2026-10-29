@@ -78,15 +78,17 @@ Module sennet "The Grand Tour" {
   Observe keel_feel at keel when state(keel_rose, set) and not knows(party, keel_petal) "There is something set in the rock at the end of the ledge. You can feel the wind of it from here." teaches keel_seen.
   Discovery keel_seen "Something is set in the rock at the end of the ledge under Cloudgate, and a cold wind pours out of it downward.".
   Action take_keel(actor: group, site: place) "Take the Air petal out of the keel of Cloudgate" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, keel) and state(keel_rose, set).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, keel) and state(keel_rose, set) and not giftRenewed(sennet_bay).
     Grave "Cloudgate stands on that petal. Taken out, the hill will come down where it came from, on the Whelm.".
     Time 1 minute.
     On success { Assert state(keel_rose, taken). Give air_petal to actor. Assert petalTaken(air_petal). Assert descending(sennet_bay). Set descent(sennet_bay) to 0. Assert tookKeel(actor). }
     Result "It comes out of the rock into your hand, pulling upward, cold, and the wind stops. In the silence you hear the hill above you settle, all at once, the way a sleeper turns over; and then the ledge under your feet is not quite where it was.".
   }
+  // Given again, by leave, it is a keepsake and not a key: it does not come out of the rock for anyone.
+  Observe keel_kept at keel when giftRenewed(sennet_bay) and state(keel_rose, set) "The petal in the rock at the end of the ledge pours its cold wind down as it always has; but there is frost on the rock round it now, in the shape of a fern, and when you put your hand to it, it does not move at all, as a ring does not that has been worn too long to come off.".
   Relation tookKeel(group). Relation rectorTookKeel(group).
   Action swap_keel(actor: group, site: place) "Take the Air petal out of the keel, and set Prue Quickly's petal in its place" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, keel) and state(keel_rose, set) and carries(actor, made_petal).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, keel) and state(keel_rose, set) and carries(actor, made_petal) and not giftRenewed(sennet_bay).
     Time 1 minute.
     On success { Assert state(keel_rose, replaced). Spend made_petal_kind from actor. Give air_petal to actor. Assert petalTaken(air_petal). Assert madeSet(sennet_bay). }
     Result "You have to do it in one movement, the old out and the new in, with your hands numb and your heart going. For the length of a breath the wind stops and the hill leans on nothing, and the ledge tilts under you, and somewhere above you a great many plates fall off a great many dressers. Then the Lamp Street petal takes the weight, and the wind comes out of it, steady, cold, smelling of snow; and Cloudgate holds. In your other hand the true petal pulls upward, toward home.".
@@ -132,5 +134,5 @@ Module sennet "The Grand Tour" {
   Rule chain_slack when cloudgateFell(sennet_bay) and not slackened(sennet_bay) { Assert slackened(sennet_bay). }
   Relation slackened(place).
   Passage hill_ferry "the ferry to Halyard Hill" is ferry between quay and landing_stage taking 10 minutes
-    opening when cloudgateFell(sennet_bay) "A ferry-stair goes down off the end of the Quay to the water, for a ferry with nowhere in the bay to go.".
+    opening when cloudgateFell(sennet_bay) "No ferry runs between the Quay and Halyard Hill while the hill is in the sky.".
 }

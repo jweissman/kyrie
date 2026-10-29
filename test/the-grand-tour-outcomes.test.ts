@@ -68,4 +68,67 @@ describe('The Grand Tour, other ends', () => {
     await g.until(g.watch + 150);
     expect(g.ending()).toEqual(['sennet__end_rectors_door']);
   }, 600000);
+
+  it('the Letter: a burglar picks the Dowager\'s escritoire by night, and the North Wind, given Ysabeau\'s letter, renews the gift', async () => {
+    const g = await Sennet.start(undefined, 'sennet', Sennet.one('thief', 'burglar', 'elf', 'Wren'));
+    await g.fixture('outcomes', 'letter');
+    expect(g.holds('escritoirePicked', 'party')).toBe(true);
+    expect(g.holds('sealBroken', 'party')).toBe(true);
+    expect(g.holds('giftRenewed', 'sennet_bay')).toBe(true);
+    expect(g.carries('north_feather')).toBe(true);
+    await g.until(1015);
+    // On the seventh night the Rector, with three petals, goes down to the keel and cannot take it.
+    expect(g.holds('rectorBalked', 'quance')).toBe(true);
+    expect(g.holds('cloudgateFell', 'sennet_bay')).toBe(false);
+    expect(g.ending()).toEqual(['sennet__end_letter']);
+  }, 600000);
+
+  it('Kept Above: holding three petals of the Rose, the Tourist takes the Dowager\'s purse to keep the keel\'s secret', async () => {
+    const g = await Sennet.start();
+    await g.fixture('tour', 'fire', 'fabian_earth', 'whelm');
+    await g.fixture('outcomes', 'kept_above');
+    expect(g.holds('bribed', 'party')).toBe(true);
+    expect(g.gold()).toBeGreaterThanOrEqual(100);
+    await g.until(1015);
+    expect(g.holds('keelTried', 'quance')).toBe(false);
+    expect(g.ending()).toEqual(['sennet__end_kept_above']);
+  }, 600000);
+
+  it('First Through: the petals given to the Rector, the Tourist stands aside at the keel on the seventh night', async () => {
+    const g = await Sennet.start();
+    await g.fixture('tour', 'fire', 'fabian_earth', 'whelm', 'cloudgate');
+    await g.fixture('outcomes', 'accomplice');
+    expect(g.holds('accomplice', 'party')).toBe(true);
+    expect(g.holds('firstThrough', 'party')).toBe(true);
+    expect(g.holds('rectorThrough', 'quance')).toBe(true);
+    await g.until(1015);
+    expect(g.holds('cloudgateFell', 'sennet_bay')).toBe(true);
+    expect(g.ending()).toEqual(['sennet__end_accomplice']);
+  }, 600000);
+
+  it('the Keepsake: Mercy taken up the chain in a water-butt to see the lanterns, the Dowager on her knees, and sorry', async () => {
+    const g = await Sennet.start();
+    await g.play(...steps('tour', 'fire', 'fabian_earth', 'whelm', 'cloudgate', 'air'));
+    await g.fixture('outcomes', 'lanterns');
+    expect(g.holds('mercySawLanterns', 'mercy')).toBe(true);
+    expect(g.holds('imogenSorry', 'imogen')).toBe(true);
+    expect(g.holds('giftRenewed', 'sennet_bay')).toBe(true);
+    // The Rector heard it too, and came for Perrin at two; the company was in the bell.
+    expect(g.knows('rector_came')).toBe(true);
+    expect(g.holds('perrinDead', 'party')).toBe(false);
+    expect(g.page).toContain('Another night');
+    await g.until(1015);
+    expect(g.ending()).toEqual(['sennet__end_gift_renewed']);
+  }, 600000);
+
+  it('the same night, but the company stays up in the Air: the Rector comes to the air-bell at two, and nobody is there', async () => {
+    const g = await Sennet.start();
+    await g.play(...steps('tour', 'fire', 'fabian_earth', 'whelm', 'cloudgate', 'air'));
+    await g.play(...steps('outcomes', 'lanterns').slice(0, -4), '=day 5 07:10', '>sennet__landing_stage',
+      'Go down in the basket', '>sennet__fish_stairs');
+    expect(g.holds('rectorHunted', 'quance')).toBe(true);
+    expect(g.holds('perrinDead', 'party')).toBe(true);
+    expect(g.page).toContain('on the bottom now');
+  }, 600000);
 });
+

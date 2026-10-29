@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'bun:test';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { KyrLint } from '../src/cli/kyr-lint';
-import { Sennet, home } from './support/sennet';
+import { Sennet, home, steps } from './support/sennet';
+import { PlaySession } from '../src/session/play-session';
+import { Journey } from '../src/session/journey';
 
 // The Grand Tour (doc/adventures/the-grand-tour): the principal approaches to the Door of Doors, played by the labels a
 // player sees from the steps in test/fixtures/sennet.
@@ -36,5 +38,20 @@ describe('The Grand Tour', () => {
     expect(g.holds('cloudgateFell', 'sennet_bay')).toBe(false);
     expect(g.holds('doorward', 'party')).toBe(true);
     expect(g.ending()).toEqual(['sennet__end_made_petal']);
+  }, 600000);
+
+  it('is kept, mid-Tour, and taken up again in a fresh page to the same Sennet and the same end', async () => {
+    const g = await Sennet.start();
+    await g.fixture('tour', 'fire', 'fabian_earth', 'whelm');
+    const kept = JSON.parse(JSON.stringify(g.j.session.checkpoint())) as ReturnType<PlaySession['checkpoint']>;
+    const again = new Sennet(Journey.of(PlaySession.resume(kept)));
+    expect(again.carries('water_petal')).toBe(true);
+    expect(again.holds('travelsWith', 'fabian', 'party')).toBe(true);
+    expect(again.watch).toBe(g.watch);
+    const rest = steps('tour', 'cloudgate', 'air', 'made', 'door');
+    await g.play(...rest);
+    await again.play(...rest);
+    expect(again.ending()).toEqual(['sennet__end_made_petal']);
+    expect(again.j.session.canonical()).toBe(g.j.session.canonical());
   }, 600000);
 });

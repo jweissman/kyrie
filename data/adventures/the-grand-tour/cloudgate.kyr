@@ -2,10 +2,11 @@ Module sennet "The Grand Tour" {
   // ── Cloudgate ─────────────────────────────────────────────────────────────────────────────────────────────────────
   // The top of old Sennet, lifted two hundred years ago, above the cloud-line, where it is always a fine afternoon.
   // Its first family keeps the Air Door and a secret: what Ysabeau Halyard brought home through it, and set in the keel.
-  Observe stage_scene at landing_stage when not visitedBefore(landing_stage) and aloft() "Sun. That is the first thing: after the grey of the cloud, sun, warm and gold and steady, the light of a fine afternoon in a good summer, and a sky over everything so blue it looks lacquered. The Landing Stage is white stone with gilt railings. Below the railings, in every direction, the top of the cloud lies like a country of snow, and out of it, here and there, a gull comes up and looks surprised.".
-  Observe stage_again at landing_stage when visitedBefore(landing_stage) and aloft() "The Landing Stage, white and gilt, in the sun, with the cloud lying below the railings like snow.".
+  Observe stage_scene at landing_stage when not visitedBefore(landing_stage) and aloft() and not dark() "Sun. That is the first thing: after the grey of the cloud, sun, warm and gold and steady, the light of a fine afternoon in a good summer, and a sky over everything so blue it looks lacquered. The Landing Stage is white stone with gilt railings. Below the railings, in every direction, the top of the cloud lies like a country of snow, and out of it, here and there, a gull comes up and looks surprised.".
+  Observe stage_again at landing_stage when visitedBefore(landing_stage) and aloft() and not dark() "The Landing Stage, white and gilt, in the sun, with the cloud lying below the railings like snow.".
   Observe stage_night at landing_stage as weather when dark() and aloft() "Even at night it is not quite dark in Cloudgate. Above the cloud the stars are enormous, and the cloud below gives back a light of its own, like snow under a moon.".
-  Observe promenade_scene at promenade when aloft() "The Promenade runs round the rim of Cloudgate between the great houses and the edge: gravel raked into patterns, orange trees in tubs, benches with nobody on them, and people walking slowly in pale clothes under parasols, looking at the view, which is cloud. The houses of Cloudgate are the houses of old Sennet, very old, with their ground floors gone into the rock, so that the front doors are on the first floor and the steps go up to them out of the gravel. All the windows face outward.".
+  Observe promenade_scene at promenade when aloft() and not dark() "The Promenade runs round the rim of Cloudgate between the great houses and the edge: gravel raked into patterns, orange trees in tubs, benches with nobody on them, and people walking slowly in pale clothes under parasols, looking at the view, which is cloud. The houses of Cloudgate are the houses of old Sennet, very old, with their ground floors gone into the rock, so that the front doors are on the first floor and the steps go up to them out of the gravel. All the windows face outward.".
+  Observe promenade_night at promenade when aloft() and dark() "The Promenade at night: the gravel grey under enormous stars, the orange trees black in their tubs, the great houses shuttered, and all round the rim the cloud lying pale below the Balustrade like a field of snow under a moon. Somebody in one of the houses is playing a piano, badly, with the window open.".
   Observe balustrade_scene at balustrade when aloft() "At the end of the Promenade the gravel stops at a stone balustrade, waist-high, with a broad flat rail you could sit on, and beyond it nothing at all: the cloud, a long way down, and the curve of the world. A wreath of white flowers has been tied to the rail, and is going brown. Nobody is standing near it.".
   Observe court_scene at wind_court when aloft() "The Wind Court is a round garden in the middle of Cloudgate, walled, with no plants in it but grass, and the grass all lying flat in one direction. In the wall on the far side is an arch of white stone, very old, with nothing in it but sky; and out of the sky in it comes a wind, steady, cold, smelling of snow, that never stops.".
   Observe chapel_ascension at ascension_chapel when true "The Ascension Chapel: small, gilt, full of the smell of lilies going over. Over the altar, in a painted window, a lady in green is lifting a hill on the palm of her hand, smiling, with a little city on it and a little sea underneath pouring into the hole.".
@@ -28,6 +29,8 @@ Module sennet "The Grand Tour" {
     Ancestry human. Peaceable. Pronouns she. Manner proud.
     Greets "A tall woman in black lace looks at you down a very long nose, as if you were a long way below her, which, to be fair, all of Sennet is. 'You are a Tourist,' she says. 'I can always tell. You look at the view.' She does not offer her hand. 'I am Imogen Halyard. My son is dead. You will forgive me if I do not make conversation.'".
     Greets again "Lady Halyard inclines her head to you, exactly one inch.".
+    Joins "Lady Halyard takes your arm, as if it were the most ordinary thing in the world, and does not let go of it.".
+    Leaves "Lady Halyard lets go of your arm, and straightens her shawl, and is the Dowager of Cloudgate again.".
   }
   Relation imogenToldAlive(group). Relation imogenBelieves(group). Relation imogenMetMercy(group). Relation imogenShamed(group).
   Relation imogenSorry(group). Relation halyardLeave(group). Relation bribed(group). Relation bribeOffered(group). Relation secretToldImogen(group).
@@ -58,9 +61,19 @@ Module sennet "The Grand Tour" {
     Holds.
     State locked closed "An escritoire of black lacquer stands under the portrait of the lady in green, locked.".
     State open "The escritoire under the portrait stands open, full of deeds and a box of letters tied with green ribbon.".
-    Change pick "Pick the lock of the escritoire" from locked to open needing lockwork.
   }
   Initially Assert keyholder(imogen, escritoire).
+  // Picked only with nobody by: the footman keeps the drawing room by day, the Dowager receives in it till eleven.
+  Action pick_escritoire(actor: group, site: place) "Pick the lock of the escritoire, while the drawing room is empty" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drawing_room) and state(escritoire, locked)
+      and capable(actor, lockwork) and not at(jem, drawing_room) and not at(imogen, drawing_room).
+    Time 2.
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Retract state(escritoire, locked). Assert state(escritoire, open). Assert escritoirePicked(actor). }
+    Result "The drawing room is dark but for the cloud in the windows, which gives back a light of its own. The lock is old and good and French, and takes you a quarter of an hour, with the Halyards in oils watching you down their noses the whole time; and then the lid comes down into your hands without a sound.".
+    Otherwise "The lock is old and good and French, and it beats you. Somewhere in the house a clock strikes the quarter, and then the half, and you leave it.".
+  }
+  Relation escritoirePicked(group).
   // Moved, the Dowager gives the letter herself (door.kyr has the North Wind's answer).
   Topic imogen_letter with imogen "Ask Lady Halyard for Ysabeau's last letter, to take to the North Wind" when knows(actor, ysabeau_letters) and imogenSorry(imogen) and not carries(actor, ysabeau_letter) once {
     Says "She unlocks the escritoire herself, and takes out the box, and unties the green ribbon, and finds the last letter without looking, as if she had always known which it was. She reads it standing. Then she gives it to you. 'Take it to him,' she says. 'Tell him a Halyard sent it. Tell him we are sorry.' She holds on to it a moment longer than she needs to. 'Tell him she meant it.'".

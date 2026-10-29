@@ -57,13 +57,17 @@ Module sennet "The Grand Tour" {
     Assert huntTried(quance). }
   Rule rector_kills when heardOf(quance, perrin_alive) and rectorFree() and hour(clock) == 2 and not huntTried(quance) and not perrinDead(party) and not perrinGuarded() {
     Assert huntTried(quance). Assert perrinDead(party). Assert rectorHunted(quance). Retract at(perrin, air_bell). Assert at(perrin, offstage). }
-  Rule perrin_found_dead within sennet_town when rectorHunted(quance) and perrinDead(party) and not deathNews(party) and hour(clock) >= 7
+  Rule perrin_found_dead at fish_stairs when rectorHunted(quance) and perrinDead(party) and not deathNews(party) and hour(clock) >= 7 and at(party, fish_stairs)
     says "A merfolk child is sitting on the third step of the Fish Stairs, not selling anything, with her face in her hands. When you come near, Ha'penny looks up. 'Somebody came into the air-bell in the night,' she says. 'Mercy's sky-man. He's on the bottom now. She won't come out.'" { Assert deathNews(party). }
   Relation deathNews(group).
 
   // ── The keel, on the seventh night, or as soon as she knows she is known ─────────────────────────────────────────
   Query keelNight() means (day(clock) == 7 and hour(clock) >= 22) or (heardOf(quance, quance_pushed) and hour(clock) >= 22).
-  Rule rector_to_keel when keelNight() and rectorFree() and rectorThree() and state(keel_rose, set) and not keelTried(quance) {
+  // A keepsake renewed does not come out for her: she goes down the ladder with her case and comes up with it empty.
+  Rule rector_balked when keelNight() and rectorFree() and rectorThree() and giftRenewed(sennet_bay) and not keelTried(quance) {
+    Assert keelTried(quance). Assert rectorBalked(quance). }
+  Relation rectorBalked(group).
+  Rule rector_to_keel when keelNight() and rectorFree() and rectorThree() and state(keel_rose, set) and not giftRenewed(sennet_bay) and not keelTried(quance) {
     Assert keelTried(quance). Assert rectorAbout(quance). Assert at(quance, keel). Set keelAt(quance) to watch(clock). }
   Measure keelAt(group).
   Event rector_at_keel at keel when at(party, keel) and at(quance, keel) and keelTried(quance) and state(keel_rose, set) "The keel ladder rings, and someone comes down it, slow and sure, in a gown of four colours with the sleeves tied back, and a chain of keys that chimes at every rung; and steps off onto the ledge, and sees you, and stops. The Rector has a black case under her arm. 'Oh, my dear,' says Isadora Quance. 'Oh, I am sorry it's you.' She looks past you at the petal in the rock, pouring its cold wind down into the cloud. 'Come with me,' she says. 'I mean it. Stand aside, and come up the tower with me tonight, and we'll go through it together, both of us, first. Nobody else alive will ever have done it.' She smiles at you, and it is the same smile, the one that makes you feel you have been waiting all your life to be talked to. 'Well?'" then { Assert rectorOffers(party). }
@@ -84,7 +88,8 @@ Module sennet "The Grand Tour" {
     On discuss { Assert rectorFled(quance). Retract rectorHas(fire_petal). Retract rectorHas(earth_petal). Retract rectorHas(water_petal). Give fire_petal to actor. Give earth_petal to actor. Give water_petal to actor. Assert at(quance, offstage). }
   }
   // Nobody there to stop her, or nobody who did in time: she takes it, and the hill comes down.
-  Rule rector_takes_keel when keelTried(quance) and at(quance, keel) and state(keel_rose, set) and rectorFree() and able(quance) and watch(clock) >= keelAt(quance) + 2 and not refusedRector(party) {
+  Rule rector_takes_keel at keel when keelTried(quance) and at(quance, keel) and state(keel_rose, set) and rectorFree() and able(quance) and watch(clock) >= keelAt(quance) + 2 and not refusedRector(party)
+    says "'Well,' says the Rector gently, when you have neither come nor stood in her way, 'I did ask.' She goes past you along the ledge, close enough that her sleeve brushes your face, and puts her hand to the petal in the rock, and takes it out. The wind stops. Above you the hill settles, the way a sleeper turns over. She is up the ladder before you have moved, quick and sure, with the case under her arm, and the chain of keys chiming at every rung." {
     Assert state(keel_rose, taken). Assert rectorHas(air_petal). Assert petalTaken(air_petal). Assert descending(sennet_bay). Set descent(sennet_bay) to 0. Assert rectorTookKeel(quance). Assert at(quance, nexus). }
   Rule rector_beaten when refusedRector(party) and not able(quance) and not rectorTaken(quance)
     says "The Rector lies on the ledge with her gown spread round her and her keys under her hand, breathing, looking up at the underside of Cloudgate. 'I was very good,' she says. 'I was very, very good, you know.' Footsteps on the ladder: Halyard footmen, and behind them, for some reason, Sergeant Bassett of the Watch, who has never been up the chain in his life and is green." {

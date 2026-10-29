@@ -9,8 +9,16 @@ Module sennet "The Grand Tour" {
   Hazard heat "The heat of the Fire" means "Deal (1d6) fire damage to ally unless constitution save against (11).".
   Query inFire() means within(party, fire_land).
   Relation scorched(group).
-  Rule fire_scorches when inFire() and not capable(party, heatproof) and not heatSuspended(fire_land) {
-    Assert strikes(heat, party). }
+  // Every half hour, not every ten minutes: the Fire is meant to drive a Tourist out, not cook one mid-sentence.
+  // Once on the way in, unshielded; half an hour later the court carries out whoever is still there, and sets them
+  // down at Mr. Tench's feet: the Fire is meant to drive a Tourist out, not cook one mid-sentence.
+  Measure scorchedAt(group). Relation scorching(group).
+  Rule fire_scorches when inFire() and not capable(party, heatproof) and not heatSuspended(fire_land) and not scorching(party) {
+    Assert strikes(heat, party). Assert scorching(party). Set scorchedAt(party) to watch(clock). }
+  Rule fire_carries_out when inFire() and scorching(party) and not capable(party, heatproof) and not heatSuspended(fire_land) and watch(clock) >= scorchedAt(party) + 3
+    says "The heat takes your legs out from under you. The last thing you see clearly is the Hour Court, crowding round, interested; and then you are being carried, by a great many hands that are too hot to bear, through a door, and set down on cold stone. 'Cooked,' says Mr. Tench, above you, and writes it in the ledger." {
+    Retract scorching(party). Assert at(party, hall_of_doors). }
+  Rule fire_cools when scorching(party) and not inFire() { Retract scorching(party). }
   Rule fire_scorch_told when inFire() and not capable(party, heatproof) and not scorched(party) says "The heat comes at you like a hand on the face. Your hair crackles. Without a fire-cloak, the Fire will cook you a little at a time." { Assert scorched(party). }
   Rule fire_scorch_reset when scorched(party) and not inFire() { Retract scorched(party). }
   Observe threshold_fire at fire_threshold when true "Through the door, and the Hall is gone, and there is no ground, only a floor of red light like the floor of a forge, and over it a sky of slow orange cloud, and everything moving, flickering, changing its shape while you look at it: hills that are flames, flames that are towers. Behind you the Fire Door stands in nothing, a door-shaped piece of cool grey Sennet, with a halfling's ledger visible through it.".

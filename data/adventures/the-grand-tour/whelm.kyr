@@ -121,6 +121,8 @@ Module sennet "The Grand Tour" {
     Ancestry undine. Peaceable. Pronouns she. Manner cheerful.
     Greets "A merfolk girl comes up through the water as if she had been poured, and stops a foot from your face, and looks at you with enormous curiosity and no fear at all. She is perhaps twenty. There is silver in her hair like the scales of a fish. 'You came down the stairs,' she says. 'Nobody comes down the stairs. Are you looking for something? Everybody up there is looking for something.' She tilts her head. 'I am Mercy.'".
     Greets again "'You again,' says Mercy, pleased.".
+    Joins "Mercy settles her chin on the rim of the butt. 'Push,' she says.".
+    Leaves "Mercy goes home to the Whelm before the tide turns, as merfolk must.".
   }
   Relation mercyTrusts(group). Relation mercyKissed(group). Relation mercyNamed(group). Relation mercyWish(group). Relation mercySawLanterns(group).
   Rule mercy_supper when hour(clock) >= 17 and hour(clock) < 21 and not following(mercy, party) and not at(mercy, guildhall) and not perrinDead(party) and not mercyUp(mercy) { Assert at(mercy, guildhall). }
@@ -200,7 +202,7 @@ Module sennet "The Grand Tour" {
   }
   Relation toldAlive(group).
   Promise perrin_secret "to tell nobody that Perrin Halyard is alive" to perrin
-    kept when doorOpen(sennet_bay) and not toldAlive(party) "Somewhere under the bay a young man who is officially dead goes on being so, as he asked."
+    kept when closingDay() and not toldAlive(party) and not perrinDead(party) "Somewhere under the bay a young man who is officially dead goes on being so, as he asked."
     broken when toldAlive(party) "Somewhere a secret you promised to keep is out in the world, and running." { }.
   Topic perrin_aubrey with perrin "Tell Perrin Halyard that his brother believes he pushed him, and is drinking himself to death over it" when knows(actor, aubrey_quarrel) and not perrinWrote(perrin) once {
     Says "He stares at you. 'He thinks.' He puts the book down. 'Oh, the idiot. Oh, the great fool.' He laughs, and it goes wrong halfway. 'It wasn't Aubrey. I said it was, because. It wasn't. He was on the gravel, being sick. I heard him. I heard him being sick while somebody else came up behind me.' He puts his face in his hands. 'I let him think it. I lay down here and let him think it, so I wouldn't have to think who.' He looks up. 'Give me a pen. Have you got a pen? No, of course, there's no ink in the sea. Pencil.' He tears a page out of a drowned book and writes on it, fast, against his knee, and folds it, and holds it out. 'Take him that. Please. Today.'".
@@ -258,7 +260,7 @@ Module sennet "The Grand Tour" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, winch_floor) and following(mercy, party) and basketRuns() and (gangFriend(actor) or quantity(actor, gold) >= 10).
     Time 3.
     On success { Assert at(actor, landing_stage). Assert mercyAloft(mercy). }
-    Result "Mother Kittiwake looks at the barrow for a long time. Then she blows her whistle, and the gang, which has heard, puts its backs into the bars and sings, and you go up through the cloud with a mermaid in a water-butt with her chin on the rim, saying 'Oh. Oh. Oh,' all the way, at every turn of the chain, and when you come up out of the cloud into the gold she stops saying anything at all.".
+    Result "Mother Kittiwake looks at the barrow for a long time. Then she blows her whistle, and the gang, which has heard, puts its backs into the bars and sings, and you go up through the cloud with a mermaid in a water-butt with her chin on the rim, saying 'Oh. Oh. Oh,' all the way, at every turn of the chain, and when you come up out of the top of the cloud she stops saying anything at all.".
   }
   Relation mercyAloft(group).
   // If she cannot be paid for, the gang will take her up free once it knows the company; else ten coin, for two.

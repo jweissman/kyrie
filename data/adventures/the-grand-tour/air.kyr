@@ -79,7 +79,7 @@ Module sennet "The Grand Tour" {
     Says "He is silent so long the stars move. 'She came up through the arch at seventeen, on a dare, with her skirts tied up, and stood on nothing, and was not afraid. Nobody had come up for a hundred years.' The wind goes round you, softer. 'We talked a summer. I was four hundred; I was young. At the end of it she said, give me something to remember you by, and I gave her the petal. The court's petal. I had no right.' His face does not change. 'She went home and set it in the bottom of her family's hill and lifted them into the sky above the smell of fish. And the sea came in under them, and her people's people drowned in their beds. And she never came back up the arch. Not once.' He looks at the edge of the world. 'She used it as a lever. I gave her my heart and she used it as a lever.' A pause. 'I have blown cold since. You will have noticed.'".
     On discuss { Assert tramontaneHeard(tramontane). Assert knows(actor, tramontane_story). Assert knows(actor, keel_petal). }
   }
-  Topic tramontane_want with tramontane "Ask the North Wind whether he wants the petal back" when tramontaneHeard(tramontane) once {
+  Topic tramontane_want with tramontane "Ask the North Wind whether he wants the petal back" when tramontaneHeard(tramontane) and not giftRenewed(sennet_bay) once {
     Says "'Want.' He tries the word as if it were in another language. 'The court wants it back. The court has wanted it back for two hundred years; it is the court's.' He looks at you. 'I want her to have meant it.' The cold deepens. 'Bring it back, and I will take it, and her hill will go down into the sea where it came out, and that is justice, I suppose. Or bring me something that says she meant it, and I will let it be what it was, a keepsake, and let it hold up her house as long as it likes.' He turns back to the edge of the world. 'I do not know which I would rather. Bring me one or the other.'".
     On discuss { Assert knows(actor, tramontane_terms). }
   }
@@ -106,7 +106,7 @@ Module sennet "The Grand Tour" {
     On success { Spend wind_jar_kind from actor. Give north_jar to actor. }
     Result "The North Wind gets into the jar the way it gets into everything, and you stop it, and the glass goes white with frost in your hands and pulls a little upward. The tall pale shape at the edge of the world does not turn round.".
   }
-  Topic tramontane_feather with tramontane "Ask the North Wind what he will give whoever brings his gift home" when knows(actor, tramontane_terms) and (airHome(sennet_bay) or giftRenewed(sennet_bay)) and at(north_feather, offstage) once {
+  Topic tramontane_feather with tramontane "Ask the North Wind what he will give whoever brings his gift home" when (airHome(sennet_bay) or giftRenewed(sennet_bay)) and at(north_feather, offstage) once {
     Says "He takes a feather out of the air, or out of himself; it is hard to tell. 'Carry this,' he says. 'Whoever carries it does not fall.' He gives it you. 'It seemed to me a thing somebody in your city should have.'".
     On discuss { Give north_feather to actor. }
   }
