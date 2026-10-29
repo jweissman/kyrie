@@ -78,6 +78,43 @@
       ]
     },
     {
+      "id": "sennet",
+      "bundle": "the-grand-tour/placed.json",
+      "entry": "coast_road",
+      "marker": "quance",
+      "side": "east",
+      "beside": [
+        "marsh",
+        "forest",
+        "hills",
+        "mountain",
+        "frost",
+        "desert"
+      ],
+      "name": "Sennet",
+      "topic": "the Grand Tour at Sennet",
+      "terrain": "marsh",
+      "rumour": "'East, down on the coast, there's Sennet,' says {keeper}. 'A port, all glass-houses, with a House of Doors on the headland whose doors open on the planes, and a hill floating over the bay with the gentry living on it, and the merfolk living in the drowned streets underneath.' {keeper} leans on the bar. 'The Rector there has proclaimed a Grand Tour, the first in two hundred years. Whoever brings her the four petals of the Rose goes first through the Door of Doors, that opens on anywhere.' {keeper} lowers their voice. 'And a young lord went off the edge of the floating hill the night she proclaimed it, they say, in the fog.'",
+      "heard": "East, down on the coast, lies Sennet: a port with a House of Doors whose doors open on the planes, a hill floating over its bay with the gentry on it, and merfolk in the drowned streets beneath. Its Rector has proclaimed a Grand Tour for the four petals of the Rose; the prize is to be first through the Door of Doors.",
+      "skyline": "far off over the sea, a hill hanging in the sky with houses on it, and a chain coming down from it",
+      "far": "a hill of houses floats over a bay, and the Rector of its House of Doors has proclaimed a Grand Tour",
+      "notice": {
+        "name": "the Rector's proclamation of the Grand Tour",
+        "text": "A printed sheet in four colours under a seal of a door: BY THE RECTOR OF THE HOUSE OF DOORS AT SENNET. THE GRAND TOUR IS PROCLAIMED, THE FIRST IN TWO HUNDRED YEARS. WHOSOEVER BRINGS TO THE HOUSE THE FOUR PETALS OF THE ROSE OF THE WINDS SHALL GO FIRST THROUGH THE DOOR OF DOORS. I. QUANCE, RECTOR. Under it, in pencil: east, down the coast road; and someone has drawn a little door, and beside it a little figure falling out of the sky.",
+        "talk": "The Rector of Sennet's proclamation of the Grand Tour is nailed up where travellers will see it, and half the talk is of the Door of Doors and what anybody would want with anywhere, and the other half of the young lord who fell out of the sky."
+      },
+      "after": {
+        "talk": "The proclamation of the Grand Tour at Sennet still hangs where travellers will see it, curling at the corners. The word up the coast road is that the Tour is settled, one way or another, and nobody tells it the same way twice.",
+        "told": "{keeper} hears you out, all of it, from the coast road to the Door of Doors, and once, at the part about the hill, puts down the glass. 'We heard some of it,' {keeper} says then. 'Up the coast road. Not the half.' {keeper} takes the proclamation down, and folds it in four, and puts it behind the bar with the things worth keeping."
+      },
+      "province": true,
+      "covers": [
+        "meadow",
+        "fen",
+        "heath"
+      ]
+    },
+    {
       "id": "corrow",
       "bundle": "let-one-remember/placed.json",
       "entry": "eighth_bend",

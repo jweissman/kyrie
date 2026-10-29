@@ -83,6 +83,15 @@ Module sennet "The Grand Tour" {
     Says "She stares at you. 'You went down there? Into the lower town?' She looks at your hair, which is still wet. Then she gives you an eel pie, for nothing, which on the Quay is a declaration. 'Mad,' she says. 'Ned was mad. Eat that.'".
     On discuss { Assert bethanFriend(bethan). }
   }
+  // One of the cloth, or anyone who knows the rites of the dead, can say them for a man the sea kept.
+  Action bethan_rite(actor: group, site: place) "Say the words for the drowned with Old Bethan, for Ned Saltash, at the edge of the Quay" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bethan, site) and at(actor, quay) and knows(actor, bell_grief) and not bethanAtPeace(bethan)
+      and (capable(actor, rites) or craft(actor, craft_faith)).
+    Time 2.
+    On success { Assert bethanAtPeace(bethan). Assert bethanFriend(bethan). Assert bethanRite(bethan). }
+    Result "You take her to the edge of the Quay, where the steps go down, and say the words for those the sea keeps: the old ones, that the harbour has half forgotten, about the deep and the returning path and a light left in the window. She says them after you, the bits she knows, with her eyes on the water. When you have finished she stands a while. 'He'll hear that,' she says. 'Better than any bell.' And then, at the turn of the tide, as if it had been waiting for her, the bell under the bay rings, slow and deep, and Old Bethan laughs out loud for the first time since January. 'There,' she says. 'That's him saying goodnight.'".
+  }
+  Relation bethanRite(group).
   Observe bethan_asleep_after at quay when bethanAtPeace(bethan) and at(bethan, quay) "Old Bethan is asleep on an upturned crate behind her barrow, with her mouth open, in the sun. The harbour is stepping round her.".
   // What the words on the drowned church door are: the harbour remembers, Bethan's family above all.
   Topic bethan_mercy with bethan "Ask Old Bethan about the words cut on the drowned church door" when bethanFriend(bethan) and knows(actor, door_words) once {

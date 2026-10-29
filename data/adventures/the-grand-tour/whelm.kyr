@@ -52,18 +52,18 @@ Module sennet "The Grand Tour" {
   }
   Rule guard_admits when admitted(party) and not tolerates(guard, party) and not whelmHostile(party) { Assert tolerates(guard, party). }
   Topic guard_invited with guard "Tell the guards Ha'penny asked you to supper" when hapennyInvites(hapenny) and not admitted(actor) once {
-    Says "The two guards look at each other. One of them says something to the other in bubbles, and the other laughs, also in bubbles. 'Ha'penny,' the first says. 'She brings us everything. Last week a cat.' He moves his spear aside. 'Supper is at the turn of the evening. Go up. Eat what you are given.'".
-    On discuss { Assert admitted(actor). }
+    Says "The two guards look at each other. One of them says something to the other in bubbles, and the other laughs, also in bubbles. 'Ha'penny,' the first says. 'She brings us everything. Last week a cat.' He moves his spear aside. 'Supper is at the turn of the evening.' He leans close and breathes on you, which is how the Whelm says come in; the water in your chest goes soft and easy. 'Go up. Eat what you are given.'".
+    On discuss { Assert admitted(actor). Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 18. }
   }
   // A sailor knows the greeting the merfolk give at the third step, and gives it back.
   Topic guard_greeting with guard "Touch your forehead to the water and say Salt and welcome, as the fishermen do" when craft(actor, craft_water) and not admitted(actor) once {
-    Says "The guards stare. Then the older one touches his own forehead, slowly, and says back, in a voice like water going down a drain, 'Salt and welcome, dry one,' and grins with a great many teeth. 'A boatman. You smell of tar.' He moves his spear. 'Go up.'".
-    On discuss { Assert admitted(actor). }
+    Says "The guards stare. Then the older one touches his own forehead, slowly, and says back, in a voice like water going down a drain, 'Salt and welcome, dry one,' and grins with a great many teeth. 'A boatman. You smell of tar.' He leans in and breathes on you, which is how the Whelm says come in, and the water in your chest goes easy. 'Go up.'".
+    On discuss { Assert admitted(actor). Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 18. }
   }
   Kind candle_gift_kind "a beeswax candle" is gear worth 1 weighing 0 described "A good beeswax candle, the kind the House uses in Veyra's chapel.".
   Topic guard_gift with guard "Show the guards something dry they have never seen" when not admitted(actor) and (holding(actor, mirror_kind) or holding(actor, glass_petal_kind) or holding(actor, handbook_kind) or holding(actor, wind_jar_kind)) once {
-    Says "They come close, the both of them, and look at it with their gills going, and touch it with the ends of their spears. 'Dry,' one says, reverently. 'Dry, and down here.' They hand it back to you, which you did not expect. 'Gran will want to see you,' the other says. 'Go up. Bring it.'".
-    On discuss { Assert admitted(actor). }
+    Says "They come close, the both of them, and look at it with their gills going, and touch it with the ends of their spears. 'Dry,' one says, reverently. 'Dry, and down here.' They hand it back to you, which you did not expect. 'Gran will want to see you,' the other says, and breathes on you, which is how the Whelm says come in. 'Go up. Bring it.'".
+    On discuss { Assert admitted(actor). Assert granted(actor, breath). Set grantedUntil(actor, breath) to watch(clock) + 18. }
   }
   Action table(actor: group, site: place) "Sit down at No Admittance's table, and eat what you are given" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, guildhall) and at(admittance, site) and admitted(actor) and not ateWith(actor) and hour(clock) >= 17 and hour(clock) < 22.

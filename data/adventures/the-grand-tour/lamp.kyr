@@ -37,6 +37,10 @@ Module sennet "The Grand Tour" {
     Role "a sergeant of the Watch, in a leather hat". Ancestry dwarf. Peaceable. Pronouns he. Manner stoic.
     Greets "The sergeant takes off his leather hat to you, and puts it back on. 'Bassett, of the Watch. Lamp Street is my beat, and I'll thank you not to buy anything off it that's pretending to be something else.'".
   }
+  // His beat, by day, when the glass-blower is not his business: Lamp Street, as he says.
+  Rule bassett_beat when openHours() and not at(bassett, glasshouse) and not at(bassett, lamp_street) and not bassettGoes(bassett) and not watchAtPrue() { Assert at(bassett, lamp_street). }
+  Rule bassett_off when not openHours() and at(bassett, lamp_street) { Retract at(bassett, lamp_street). Assert at(bassett, offstage). }
+  Query watchAtPrue() means prueTrouble(prue) and not prueSaved(prue) and hour(clock) >= 10 and hour(clock) < 13 and (day(clock) == 2 or day(clock) == 3).
   Rule watch_comes when day(clock) == 2 and hour(clock) >= 10 and not watchCame(party) {
     Assert watchCame(party). Assert prueTrouble(prue). Assert at(bassett, glasshouse). }
   Observe bassett_here at glasshouse when at(bassett, glasshouse) and prueTrouble(prue) and not prueSaved(prue) "Sergeant Bassett of the Watch stands just inside the door with his leather hat in his hands and a notebook open on it, and Prue Quickly stands at the furnace with her arms folded, and neither of them is enjoying it.".

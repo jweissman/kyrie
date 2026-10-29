@@ -20,9 +20,13 @@ Module sennet "The Grand Tour" {
     On success { Assert knows(actor, undertow_known). }
     Result "It is Aenean, square and plain, and says what it is with the dreadful simplicity of a people who had never needed to explain anything twice: that this wheel turns on the tide of the whole harbour, and turning, raises the cage of the shaft to the Hall of All Doors above, and sets that door open; and that while it turns, all lamps below, and all air held below, are given to it. Underneath, in a later hand, someone has scratched in Common: PERRIN WAS HERE.".
   }
-  Topic admittance_engine with admittance "Ask No Admittance for leave to start the tide-engine" when admittanceTrusts(admittance) and knows(actor, undertow_known) and not engineLeave(actor) {
+  Topic admittance_engine with admittance "Ask No Admittance for leave to start the tide-engine" when admittanceTrusts(admittance) and knows(actor, undertow_known) and not engineLeave(actor) once {
     Says "She is quiet a long time. 'A day without lamps,' she says. 'A day without the bells. The children will be frightened. The old ones will not come out of their houses.' She looks at you. 'We have never started it. Our grandmothers read what it does, and decided they had no door they wanted that much.' She turns her crown in her hands. 'You want a door that much?' And then, before you can answer: 'If you do it, do it with us. With every hand of the Whelm on the wheel, so it is ours that did it, not yours. And not with anyone left in a bell. Move the dry man first.'".
     On discuss { Assert leaveTerms(actor). }
+  }
+  Topic mercy_moves with mercy "Ask Mercy to take Perrin out of the air-bell for the day, while the engine runs" when leaveTerms(party) and not perrinMoved(party) and not perrinUp(party) and not perrinDead(party) once {
+    Says "'Out of the bell?' She looks at you, and at the floor, through which, somewhere, the great wheel is waiting. Then she nods. 'To the Guildhall. With me. I'll breathe for him all day; he won't like it, he says I breathe like a seal.' She goes down through the floor of the water like a dropped stone, and you hear, faintly, up through the green, Perrin Halyard objecting.".
+    On discuss { Assert perrinMoved(party). Assert at(perrin, guildhall). }
   }
   Rule leave_given when leaveTerms(party) and (perrinMoved(party) or perrinUp(party) or perrinDead(party)) and not engineLeave(party) { Assert engineLeave(party). }
   Observe engine_waiting at engine_room when engineLeave(party) and not engineRunning(sennet_bay) "The merfolk are here, all of them, the whole Whelm, holding the paddles of the great wheel in silence, waiting for you.".

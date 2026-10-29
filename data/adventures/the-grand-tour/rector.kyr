@@ -93,12 +93,20 @@ Module sennet "The Grand Tour" {
   // ── The Rector with four petals sets the Rose and goes through ───────────────────────────────────────────────────
   Rule rector_sets_rose when rectorAll() and rectorFree() and at(quance, nexus) and not doorOpen(sennet_bay) {
     Assert doorOpen(sennet_bay). Assert roseMade(sennet_bay). Set openedAt(sennet_bay) to watch(clock). Assert socketed(fire_petal). Assert socketed(earth_petal). Assert socketed(water_petal). Assert socketed(air_petal). Set socketCount(nexus) to 4. }
+  // Given the fourth, by a student who did as she was told: she does not wait for night.
+  Event rector_climbs near quance when rectorAll() and rectorFree() and not doorOpen(sennet_bay) and not at(quance, nexus) and not keelTried(quance) and not rectorClimbing(quance)
+    "The Rector closes the black case on the four petals and stands up. 'You have done everything I asked,' she says, 'and done it beautifully, and I shall say so in the Courant.' She takes her chain of keys off the hook. 'Come up and watch, if you like. Someone ought to.' And she goes out, and up the tower stair, not hurrying, with the case under her arm, and leaves the tower door open behind her." then {
+    Assert rectorClimbing(quance). Assert rectorAbout(quance). Set climbAt(quance) to watch(clock). Assert state(tower_lock, open). }
+  // (A moment later: an event that moved her at once would not be told, nor would the petal given with it.)
+  Relation rectorClimbing(group). Measure climbAt(group).
+  Rule rector_at_top when rectorClimbing(quance) and rectorFree() and not doorOpen(sennet_bay) and not at(quance, nexus) and watch(clock) >= climbAt(quance) + 1 {
+    Assert at(quance, nexus). Assert rectorAbout(quance). }
   Rule rector_opens_seen at nexus when rectorAll() and at(quance, nexus) and doorOpen(sennet_bay) and at(party, nexus) and not rectorSeenOpen(party)
     says "The Rector sets the four petals in the rose of the Door of Doors one after another, quickly, without looking, as if she had done it in her sleep a thousand times; and turns the Rose, and the Door opens on everywhere, and the wind of everywhere comes into the Nexus and lifts the hair off her forehead. She stands looking at it with her hands at her sides. 'Oh,' says Isadora Quance, very softly, like a girl." { Assert rectorSeenOpen(party). }
   Relation rectorSeenOpen(group).
-  Rule rector_goes_through when doorOpen(sennet_bay) and at(quance, nexus) and rectorFree() and not firstThrough(party) and watch(clock) >= openedAt(sennet_bay) + 1 and not accomplice(party) {
+  Rule rector_goes_through when doorOpen(sennet_bay) and at(quance, nexus) and rectorFree() and not firstThrough(party) and watch(clock) >= openedAt(sennet_bay) + 2 and not accomplice(party) and not rectorBarred(quance) {
     Assert rectorThrough(quance). Retract at(quance, nexus). Assert at(quance, offstage). }
-  Rule rector_follows when doorOpen(sennet_bay) and at(quance, nexus) and rectorFree() and firstThrough(party) and not rectorThrough(quance)
+  Rule rector_follows when doorOpen(sennet_bay) and at(quance, nexus) and rectorFree() and firstThrough(party) and not rectorThrough(quance) and not rectorBarred(quance) and watch(clock) >= firstAt(party) + 1
     says "The Rector steps through the Door of Doors after you, into everywhere, without looking back; and does not come out again on this side, whatever you think of." {
     Assert rectorThrough(quance). Retract at(quance, nexus). Assert at(quance, offstage). }
   // An accomplice is let go first, as she promised: she keeps her word, being vain.
@@ -106,5 +114,15 @@ Module sennet "The Grand Tour" {
     says "'You first,' says the Rector. 'You won. I said so.' She is laughing. Behind you, over the bay, a whole hill is coming down out of the sky." { Assert firstThrough(party). Assert doorward(party). }
   // Opened from below or by the company's Rose, the door brings her running up the tower stair.
   Rule rector_comes_running when doorOpen(sennet_bay) and rectorFree() and not rectorAll() and not at(quance, nexus) and not rectorThrough(quance) and within(quance, sennet_town) {
-    Assert at(quance, nexus). Assert rectorAbout(quance). }
+    Assert at(quance, nexus). Assert rectorAbout(quance). Assert rectorCame(quance). }
+  Relation rectorCame(group). Relation rectorBarred(group).
+  Rule rector_arrives_seen at nexus when rectorCame(quance) and at(quance, nexus) and at(party, nexus) and not rectorArrivalTold(party)
+    says "Feet on the tower stair, running, and the tower door bangs back: the Rector of the House of Doors, with her gown of four colours flying and her chain of keys in her fist, stops in the doorway of the Nexus and sees the Door of Doors standing open on everywhere, and you beside it. She does not say anything at all. She looks past you, at it, the way a woman looks at a sea she has walked a long way to see." { Assert rectorArrivalTold(party). }
+  Relation rectorArrivalTold(group).
+  Action bar_rector(actor: group, site: place) "Stand in the doorway of the Door of Doors, and bar the Rector's way" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and at(quance, site) and doorOpen(sennet_bay) and rectorFree() and not rectorBarred(quance).
+    Time 1 minute.
+    On success { Assert rectorBarred(quance). }
+    Result "You step into the doorway, with everywhere at your back, and she stops a yard from you. For a moment you think she will try; she is taller than you, and has her keys in her fist, and you have seen what is in her face. Then she laughs, a little, and sits down on the floor of the Nexus in her gown of four colours, with her back against the wall, and looks at the Door over your shoulder. 'I shall sit here, then,' says Isadora Quance, 'and look at it. Nobody can stop me looking.'".
+  }
 }

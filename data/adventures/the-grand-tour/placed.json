@@ -38,11 +38,15 @@
   },
   "experience": 1000,
   "imports": [
-    "party"
+    "party",
+    "word"
   ],
   "roles": {
     "party": {
       "type": "group"
     }
-  }
+  },
+  "optional": [
+    "word"
+  ]
 }

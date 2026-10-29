@@ -17,7 +17,7 @@ import { PlayParts } from './play-parts';
 import { Traces, type Came } from './traces';
 
 export class PlayTool {
-  static readonly usage = 'usage: kyrie play <campaign.json> | --world <seed> [--origin o] [--as race/calling/Name]'
+  static readonly usage = 'usage: kyrie play <campaign.json> [--as race/calling/Name[/background]] | --world <seed> [--origin o] [--as race/calling/Name]'
     + ' | scene|character <id> --in <adventure> [--context name] [--seed s] [--steps steps.json] [--probe "..."]'
     + ' [--choices] [--keep name] [step ...]';
   static parse(args: string[]) {
@@ -40,8 +40,13 @@ export class PlayTool {
   // into what is to be played (to a scene, or into talk with someone).
   static async start(o: ReturnType<typeof PlayTool.parse>): Promise<{ journey: Journey; lead: string[] }> {
     if (o.part) { return PlayParts.start(o.part.kind, o.part.id, o.part.into, o.part.context); }
-    if (!o.world) { return { journey: await Journey.start(o.campaign!, o.seed), lead: [] }; }
-    const [raceId = 'human', classId = 'ranger', name = 'Aud'] = (o.as ?? '').split('/').map(x => x.trim() || undefined);
+    const [raceId = 'human', classId = 'ranger', name = 'Aud', backgroundId] =
+      (o.as ?? '').split('/').map(x => x.trim() || undefined);
+    // A campaign played as someone of the player's choosing (race/calling/Name[/background]), not its own company.
+    if (!o.world) {
+      const party = o.as ? { party: [{ name, raceId, classId, ...backgroundId ? { backgroundId } : {} }] } : {};
+      return { journey: await Journey.start(o.campaign!, o.seed, party), lead: [] };
+    }
     const drawn = { party: [{ name, raceId, classId }], origin: o.origin };
     return { journey: Journey.of(await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared)), lead: [] };
   }
@@ -62,6 +67,11 @@ export class PlayTool {
   static probe(j: Journey, probe: string): string {
     const [name, ...args] = probe.trim().split(/\s+/);
     if (!name) { return ''; }
+    // @relation lists what holds of it, for a relation of any arity.
+    if (name.startsWith('@')) {
+      const held = j.campaign.world.related(name.slice(1)).filter(f => args.every((a, i) => f.args[i] === a));
+      return `${probe}: ${held.map(f => `(${f.args.join(', ')})`).join(' ') || 'none'}`;
+    }
     return name.startsWith('#') ? `${probe}: ${j.measure(name.slice(1), ...args)}` : `${probe}: ${j.holds(name, ...args) ? 'yes' : 'no'}`;
   }
   static async main(args: string[], print: (line: string) => void = console.log): Promise<number> {

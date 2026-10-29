@@ -38,17 +38,18 @@ Module sennet "The Grand Tour" {
   }
   Observe door_open at nexus when doorOpen(sennet_bay) "The Door of Doors stands open in the middle of the round room, and through it, everywhere: the coast road, the Hour Court, a beach, the moon, a kitchen with a woman singing, all of them at once and each the only one. A wind comes through it that smells of every weather.".
   Observe door_shut at nexus when not doorOpen(sennet_bay) and socketCount(nexus) >= 1 "In the rose on the boss of the Door of Doors, {socketCount(nexus)} of the four hollows have their petals.".
+  Measure firstAt(group).
   Action step_through(actor: group, site: place) "Step through the Door of Doors, first" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and doorOpen(sennet_bay) and not firstThrough(actor) and not rectorThrough(quance).
-    Time 1.
-    On success { Assert firstThrough(actor). Assert doorward(actor). }
+    Time 1 minute.
+    On success { Assert firstThrough(actor). Assert doorward(actor). Set firstAt(actor) to watch(clock). }
     Result "You step through, and for a moment you are everywhere, and it is not like anything; it is like being a door. Then you think of the Nexus, because it is the last place you were, and you are standing in it again with the wind of everywhere at your back, and you are the first person in two hundred years to have done that, and you know, without anybody telling you, that the Door knows you now. That it will open for you on anywhere you have stood. And that any door in the world, knocked on three times by you, will open on this room.".
   }
-  // The Doorward's door: from the Nexus to any town square or street the company has stood in, outside Sennet; and
+  // The Doorward's door: from the Nexus to any town square or street the company has stood in; and
   // back, from anywhere indoors, by knocking.
   Action open_on(actor: group, site: place, dest: place) "Open the Door of Doors on {dest}" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and doorward(actor) and been(actor, dest)
-      and settled(dest) and not indoors(dest) and not within(dest, sennet_bay).
+      and settled(dest) and not indoors(dest).
     Time 1.
     On success { Assert at(actor, dest). }
     Result "You think of {dest}, and it is there on the other side of the Door, exactly as you last saw it, and you step through.".
@@ -108,8 +109,12 @@ Module sennet "The Grand Tour" {
   }
   Rule cloudgate_lands when descending(sennet_bay) and descent(sennet_bay) >= 6 and not cloudgateFell(sennet_bay) {
     Assert cloudgateFell(sennet_bay). Retract descending(sennet_bay). Set openedAt(sennet_bay) to watch(clock). }
-  Rule cloudgate_lands_told when cloudgateFell(sennet_bay) and not landedTold(sennet_bay) and (inSennet() or inWhelm())
+  Rule cloudgate_lands_told when cloudgateFell(sennet_bay) and not landedTold(sennet_bay) and (within(party, sennet_town) or at(party, coast_road) or inWhelm())
     says "Cloudgate comes down into the bay. It comes down slowly, slower than you would believe, into the hole it came out of two hundred years ago; and the sea goes up round it in a wall, white, higher than the Quay, and comes in over the Quay and up the Haul and into the Glass Market to the knees, and goes out again, taking a great deal with it. When it has gone, Halyard Hill is standing in the bay where it always stood, wet to the first floor, with its gardens dripping, a little island, a hundred yards off the end of the Fish Stairs." {
+    Assert landedTold(sennet_bay). }
+  // Aboard, it is another thing: the ride down.
+  Rule cloudgate_lands_aboard when cloudgateFell(sennet_bay) and not landedTold(sennet_bay) and within(party, cloudgate)
+    says "Cloudgate comes down. From on it, it is not slow at all. The cloud comes up past the railings like a white wall and then you are in it, grey, wet, blind, with every bell in the hill ringing on its own and the dressers of Halyard House going over one after another like a long applause; and then you are out under it, in Sennet's light, and the bay is coming up, and the Quay, and every face on the Quay; and the hill sits down into the sea with a sound you feel in your back teeth, and the sea goes up all round it in a white wall, and comes down on you." {
     Assert landedTold(sennet_bay). }
   Relation landedTold(place).
   Rule cloudgate_crushes when cloudgateFell(sennet_bay) and not whelmEmptied(sennet_bay) and not whelmCrushed(sennet_bay) {

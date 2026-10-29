@@ -14,6 +14,8 @@ Module sennet "The Grand Tour" {
   Query openHours() means hour(clock) >= 8 and hour(clock) < 19.
   // The Night of Lanterns: the fourth night, from dusk until midnight.
   Query lanternNight() means day(clock) == 4 and hour(clock) >= 19.
+  // Cloudgate in the sky, where it has always been (state.kyr says what brings it down).
+  Query aloft() means not cloudgateFell(sennet_bay).
 
   Chapter day_one "The first day" when begun() and day(clock) == 1 "The bells of the House of Doors ring eight across the bay, and the gulls go up off the Quay all at once, and over all of it, over the cloud, a hill of houses catches the sun.".
   Chapter day_two "The second day" when day(clock) == 2 and hour(clock) >= 6 "Sennet wakes to the winch-gang's horn at the foot of the Ascent and the smell of the glass-houses lighting their furnaces from the Fire Door.".
@@ -36,6 +38,9 @@ Module sennet "The Grand Tour" {
   Query inPlanes() means within(party, fire_land) or within(party, earth_land) or within(party, air_land).
   // Whoever follows the company is carried with it by the basket, the cage and the stairs, as by the ways.
   Rule followers_keep_up when following(?x, party) and at(party, ?p) and not at(?x, ?p) { Assert at(?x, ?p). }
+  // Whom the company has met, to be told of afterwards.
+  Relation met(group).
+  Rule meets when addressed(?p, party) and not met(?p) { Assert met(?p). }
   // A place the company has left and come back to is told shortly.
   Relation visitedNow(place). Relation visitedBefore(place).
   Rule arrives_at when at(party, ?p) and not visitedNow(?p) { Assert visitedNow(?p). }

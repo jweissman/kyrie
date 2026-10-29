@@ -17,7 +17,7 @@ Module sennet "The Grand Tour" {
   Relation gangFriend(group). Relation strike(place). Relation strikeSettled(place). Relation laundryHand(group).
   Rule kittiwake_day when hour(clock) >= 5 and hour(clock) < 22 and not at(kittiwake, winch_floor) { Assert at(kittiwake, winch_floor). }
   Rule kittiwake_night when (hour(clock) >= 22 or hour(clock) < 5) and not at(kittiwake, offstage) { Assert at(kittiwake, offstage). }
-  Query basketRuns() means hour(clock) >= 5 and hour(clock) < 22 and not strike(sennet_bay) and not descending(sennet_bay) and not cloudgateFell(sennet_bay).
+  Query basketRuns() means (hour(clock) >= 5 and hour(clock) < 22 or lanternNight() or (day(clock) == 5 and hour(clock) < 1)) and not strike(sennet_bay) and not descending(sennet_bay) and not cloudgateFell(sennet_bay).
   Action ride_up(actor: group, site: place) "Pay five coin and go up in the basket" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, winch_floor) and basketRuns() and not gangFriend(actor) and quantity(actor, gold) >= 5.
     Time 3.

@@ -4,7 +4,7 @@ Module sennet "The Grand Tour" {
   // dancing, and at half past ten a thousand paper lanterns loosed off the rim into the dark. Below, on the black water
   // of the bay, the harbour keeps the Whelming with candles. From the Balustrade, if you look down through the hole in
   // the cloud, you can see both at once.
-  Occasion lanterns "the Night of Lanterns" at promenade when lanternNight() {
+  Occasion lanterns "the Night of Lanterns" at promenade when lanternNight() and not cloudgateFell(sennet_bay) {
     Matter guests "Cloudgate's guests come up through the cloud in basket after basket, in pale silk, and walk along the Promenade under strings of paper lanterns not yet lit." for 30 minutes.
     Matter toast "The band stops. The Dowager Lady Halyard stands on the steps of Halyard House in black, with a glass, and Cloudgate falls silent for the toast to the Lifting." for 30 minutes.
     Matter dancing "The band strikes up a reel, and Cloudgate dances on the gravel of the Promenade under the stars, which up here are enormous." for 90 minutes.
@@ -16,7 +16,8 @@ Module sennet "The Grand Tour" {
   Observe lantern_dancing at promenade when matterOpen(dancing) "Couples go by on the gravel, turning. Aubrey Halyard dances with nobody and drinks with everybody. Florian Mottram dances very badly with Miss Sone, who leads.".
   Observe lantern_loosing at promenade when matterOpen(loosing) "The lanterns go up off the rim of Cloudgate in a single breath, a thousand, gold, turning slowly, rising into a sky so black and full of stars that it looks like the inside of a bell; and the whole of Cloudgate stands with its face turned up, silent, while they go.".
   Observe candles_below at balustrade when lanternNight() "Far below, through a hole in the cloud, on the black water of the bay, there is another field of lights: small, steady, low, a thousand of them, drifting. The harbour's candles for the Whelming, set on the water for the lower town.".
-  Observe candles_quay at quay when lanternNight() "The harbour is on the Quay with candles, every one of them, in jars and in eggshells and in hollowed loaves, and is setting them on the water one at a time, saying names, so that the bay below Cloudgate is covered with small lights going out with the tide. Overhead, in the black above the cloud, Cloudgate's lanterns are going up.".
+  Observe candles_quay at quay when lanternNight() and aloft() "The harbour is on the Quay with candles, every one of them, in jars and in eggshells and in hollowed loaves, and is setting them on the water one at a time, saying names, so that the bay below Cloudgate is covered with small lights going out with the tide. Overhead, in the black above the cloud, Cloudgate's lanterns are going up.".
+  Observe candles_quay_fallen at quay when lanternNight() and not aloft() "The harbour is on the Quay with candles, as it is every year, setting them on the water one at a time and saying names. This year the candles drift out on the tide and fetch up, one after another, against the wet stone of a hill a hundred yards off, and burn there, along its foot, in a ring.".
   Observe candle_bethan at quay when lanternNight() and bethanAtPeace(bethan) "Old Bethan sets one candle on the water, in an eggshell, and says 'Ned Saltash,' and goes home to bed.".
   Relation danced(group). Relation candlesTold(group).
 
@@ -32,7 +33,7 @@ Module sennet "The Grand Tour" {
 
   // ── Mercy sees them go up ─────────────────────────────────────────────────────────────────────────────────────────
   Rule mercy_lanterns at promenade when mercyAloft(mercy) and following(mercy, party) and at(party, promenade) and matterOpen(loosing) and not mercySawLanterns(mercy)
-    says "Mercy, in her water-butt on its barrow at the rim of the Promenade, with her chin on the edge and her hair in wet ropes down the staves, watches the lanterns go up. A thousand of them, alive, gold, turning. She does not make a sound. Her gills are quite still. Round her the whole of Cloudgate has turned from the lanterns to look at her, a mermaid on the Promenade on the Night of Lanterns, and she does not notice any of it. When the last of them is only a star she says, to nobody, 'They go up.' And then, louder, and you realise she is speaking to the Dowager, who is standing three feet from the barrow in her black lace with a glass in her hand: 'I caught your son. Out of the sky. He's in my air-bell with his leg broke, eating fish. He says to say he isn't coming home, and he says to say he's sorry about the coffin.'" {
+    says "Mercy, in her water-butt on its barrow at the rim of the Promenade, with her chin on the edge and her hair in wet ropes down the staves, watches the lanterns go up. A thousand of them, alive, gold, turning. She does not make a sound. Her gills are quite still. Round her the whole of Cloudgate has turned from the lanterns to look at her, a mermaid on the Promenade on the Night of Lanterns, and she does not notice any of it. When the last of them is only a star she says, to nobody, 'They go up.' And then, louder, and you realise she is speaking to the Dowager, who is standing three feet from the barrow in her black lace with a glass in her hand: 'I caught your son. Out of the sky. He's in my air-bell with his leg broke, eating fish. He says to say he isn't coming home, and he says to say he's sorry about the coffin.' Across the Promenade, among the guests, the Rector of the House of Doors sets her glass down on the rim of the Balustrade, very carefully, and goes to find her cloak." {
     Assert mercySawLanterns(mercy). Increase talk(party) by 3. Assert imogenMetMercy(imogen). Assert heardOf(imogen, perrin_alive). Assert heardOf(quance, perrin_alive). Assert heardOf(florian, perrin_alive). Assert toldAlive(party). }
   // A ring, to show she is telling the truth: his signet, which she wears on her thumb.
   Rule imogen_ring at promenade when mercySawLanterns(mercy) and imogenMetMercy(imogen) and not imogenBelieves(imogen) and at(imogen, promenade)
@@ -58,7 +59,7 @@ Module sennet "The Grand Tour" {
     On discuss { Give mother_letter to actor. }
   }
   Rule imogen_turns when imogenBelieves(imogen) and (imogenMetMercy(imogen) or imogenShamed(imogen)) and not imogenSorry(imogen) { Assert imogenSorry(imogen). }
-  Topic imogen_go_up with imogen "Ask Lady Halyard to come up through the Air Door with you, and say it to the North Wind herself" when imogenSorry(imogen) and knows(actor, tramontane_story) and not giftRenewed(sennet_bay) and not following(imogen, party) once {
+  Topic imogen_go_up with imogen "Ask Lady Halyard to come up through the Air Door with you, and say it to the North Wind herself" when imogenSorry(imogen) and (knows(actor, tramontane_story) or knows(actor, ysabeau_letters)) and not giftRenewed(sennet_bay) and not following(imogen, party) once {
     Says "'To the North Wind.' She looks at the portrait of the lady in green. 'To say that we are sorry. Two hundred and thirty years late.' Her mouth moves, very slightly. 'Halyards are always late; it is a mark of breeding.' She gets her shawl. 'Very well. Now, before I think better of it. And you will not tell anyone that I was frightened on the stair.'".
     On discuss { Assert following(imogen, party). }
   }

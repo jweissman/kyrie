@@ -43,12 +43,12 @@ Module sennet "The Grand Tour" {
 
   // ── Before the Watch ──────────────────────────────────────────────────────────────────────────────────────────────
   Topic bassett_told with bassett "Lay before Sergeant Bassett what the winch-gang, the footman and the amanuensis know about the night Perrin Halyard fell" when knows(actor, quance_pushed) and twoWitnesses() and rectorFree() once {
-    Says "The sergeant hears it all without a word, writing in his notebook on his hat. When you have finished he reads it back to you, slowly, the way he read A PRESENT FROM SENNET. Then he puts the notebook away. 'Mother Kittiwake I've known thirty years,' he says. 'Jem Tuttle I knew his mother. The Rector's young man, I don't know, but he's frightened, and frightened men are mostly telling the truth.' He puts his hat on. 'I'm going up the headland,' says Sergeant Bassett. 'You'd better come and stand where she can see you.'".
-    On discuss { Assert rectorExposed(quance). Assert bassettGoes(bassett). }
+    Says "The sergeant hears it all without a word, writing in his notebook on the crown of his hat. When you have finished he reads it back to you, slowly, with his finger under the line, and asks you twice whether that is what was said, and twice you tell him it is. Then he puts the notebook away. 'I've known the winch-gang thirty years,' he says, 'and the Halyards' people, and most of the House. They're not all honest. But they're frightened, and frightened people are mostly telling the truth.' He puts his hat on. 'I'm going up the headland,' says Sergeant Bassett, 'to have a word.'".
+    On discuss { Assert rectorExposed(quance). Assert bassettGoes(bassett). Set bassettAt(bassett) to watch(clock). }
   }
-  Relation bassettGoes(group).
-  Rule bassett_takes when bassettGoes(bassett) and rectorFree() and within(quance, sennet_town)
-    says "Sergeant Bassett of the Watch walks up the Headland Steps with his hat in his hand, and into the House of Doors, and is in the Rector's study for a quarter of an hour; and comes out with the Rector of the House of Doors walking beside him in her gown of four colours, her chain of keys in his other hand, talking to him pleasantly about the weather in Cloudgate." {
+  Relation bassettGoes(group). Measure bassettAt(group).
+  Rule bassett_takes when bassettGoes(bassett) and not rectorTaken(quance) and not rectorThrough(quance) and not rectorFled(quance) and (within(quance, sennet_town) or at(quance, offstage)) and watch(clock) >= bassettAt(bassett) + 6
+    says "Sergeant Bassett of the Watch walks up the Headland Steps with his hat in his hand, and into the House of Doors, and is in the Rector's study for a quarter of an hour; and, in the hour after, the whole of Lamp Street sees him come down again with the Rector of the House of Doors walking beside him in her gown of four colours, her chain of keys in his other hand, talking to him pleasantly about the weather in Cloudgate." {
     Assert rectorTaken(quance). Assert at(quance, offstage). Assert rectorLostPetals(quance). }
 
   // ── Perrin, face to face ──────────────────────────────────────────────────────────────────────────────────────────
