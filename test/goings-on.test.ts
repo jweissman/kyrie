@@ -127,12 +127,36 @@ describe('a fever on the green', () => {
     const mother = ObservationText.label(s.campaign.world, 'fever__mother');
     expect(mother).not.toContain('fever');
     expect(Town.said(await Town.act(s, new RegExp(`^Give some willow bark to ${mother}$`))))
-      .toContain('By evening the fever has broken');
+      .toContain('A cup every hour till it breaks');
+    // The bark is not the end of it: someone must keep the cups through the worst (M17-21). The company sits up.
+    expect(s.campaign.world.test(ModuleWriter.call('fever__mended', 'fever__mother'))).toBe(false);
+    expect(Town.said(await Town.act(s, /^Sit with the child/))).toContain('her hand goes cool in yours');
     // The house is grateful: taking leave of the mother is taking leave of a friend, not of a proud stranger.
     expect(s.campaign.world.test(ModuleWriter.call('grateful', 'fever__mother', 'party'))).toBe(true);
     expect(Town.said(await Town.act(s, /^Speak with/))).toContain('I will come');
     expect(PlayerView.choices(s.campaign).some(c => / to join the company$/.test(c.choice.name))).toBe(true);
   }, 60000);
+  // M17-21: the herbs taken, the mother must sleep and the cups be kept. Asked, the sister keeps them; left to the
+  // mother, the fever comes back and the herbs are spent, so that something more must be brought.
+  it('is kept by the sister if she is asked, and comes back hotter if nobody keeps the cups', async () => {
+    for (const asked of [true, false]) {
+      const { w, s } = await Town.start(), placed = w.report.placements.find(p => p.scenario === 'fever')!;
+      const { town, road } = placed.bindings as { town: string; road: string };
+      GeneratedWorld.put(s, road);
+      await s.perform('wait');
+      await Town.act(s, /^Gather some willow bark/);
+      GeneratedWorld.put(s, `${town}_green`);
+      await s.perform('wait');
+      const mother = ObservationText.label(s.campaign.world, 'fever__mother');
+      await Town.act(s, new RegExp(`^Give some willow bark to ${mother}$`));
+      if (asked) { expect(Town.said(await Town.act(s, /^Speak with/))).toContain('I can do the cups'); }
+      let said = '';
+      for (let h = 0; h < 9; h++) { said += Town.said(await s.perform('wait_hour')); }
+      const mended = s.campaign.world.test(ModuleWriter.call('fever__mended', 'fever__mother'));
+      expect([mended, said.includes(asked ? 'the fever has broken' : 'The fever has come back hotter')]).toEqual([asked, true]);
+      if (!asked) { expect(s.campaign.world.test(ModuleWriter.call('fever__dosed', 'fever__mother'))).toBe(false); }
+    }
+  }, 120000);
   it('is lost on the third morning if no one brings anything', async () => {
     const { w, s } = await Town.start(), town = w.report.placements.find(p => p.scenario === 'fever')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_green`);

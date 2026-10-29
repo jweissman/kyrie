@@ -91,11 +91,29 @@ describe('an origin', () => {
     expect(asked).toContain('The herb-wife sent you');
     expect(asked).not.toMatch(/nothing left|willow/i);
     await Opening.take(s, /^Give .*feverwort/i);
+    // It is taken a cup every hour until it breaks, and someone must keep the cups (M17-21): the company sits with
+    // the child through the worst of it.
+    expect(c.world.test(ModuleWriter.call('fever__mended', 'fever__mother'))).toBe(false);
+    expect((await Opening.take(s, /^Ask .* how the child is$/)).response).toMatch(/^'Hotter,'/);
+    await Opening.take(s, /^Sit with the child/);
     expect(c.world.test(ModuleWriter.call('fever__mended', 'fever__mother'))).toBe(true);
     expect(c.world.test(ModuleWriter.call('stale', 'fever__bark_lore'))).toBe(true);
-    // Asked at once, the child is asleep; she sat up and asked for bread the next morning, not minutes after (play 9).
-    expect((await Opening.take(s, /^Ask .* how the child is$/)).response).toMatch(/^'Asleep,'/);
+    // The night sat through, she sleeps; she sat up and asked for bread the next morning, not minutes after (play 9).
+    expect((await Opening.take(s, /^Ask .* how the child is$/)).response).toMatch(/^'(Asleep|She sat up this morning)/);
   }, 60000);
+  // Left to the mother, who falls asleep, the feverwort is spent and the fever comes back; what an apothecary carries
+  // of their own is what is left to give.
+  it('has the apothecary\'s own herbs to give when the feverwort is spent', async () => {
+    const s = await Opening.start('herbs', 'wren'), c = s.campaign;
+    await Opening.take(s, /green/i);
+    await Opening.take(s, /^Give .*feverwort/i);
+    for (let h = 0; h < 9; h++) { await s.perform('wait_hour'); }
+    expect(c.world.test(ModuleWriter.call('fever__dosed', 'fever__mother'))).toBe(false);
+    await Opening.take(s, /^Give healing herbs/i);
+    expect(c.world.test(ModuleWriter.call('fever__dosed', 'fever__mother'))).toBe(true);
+    await Opening.take(s, /^Sit with the child/);
+    expect(c.world.test(ModuleWriter.call('fever__mended', 'fever__mother'))).toBe(true);
+  }, 90000);
   it('begins with one person, on the way in, told who they are and why they came', async () => {
     const s = await Opening.start('kin'), screen = ScreenModel.build(s.campaign);
     expect(screen.party.map(m => m.name)).toEqual(['Wenna']);

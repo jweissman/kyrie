@@ -4,12 +4,13 @@ Module fever "A fever on the green" {
   Place green "The green" is room.
   Place road "The road" is room.
   Relation mended(group). Relation lost(group). Relation offered(group). Measure mendedOn(group).
+  Relation dosed(group). Relation helping(group). Relation nursed(group). Measure dosedAt(group).
   Entity sick: fact "A child at {green} has a fever that will not break, and the herbs have run out.".
   Initially Assert established(sick).
 
   Person mother "The sick child's mother" at green { Role "the child's mother". Peaceable. Pronouns she. Wants herbs. Wants willow_bark. Wants feverwort. }
   Person sister "The sick child's sister" at green { Role "the child's elder sister". Peaceable. Pronouns she. }
-  Observe shutters at green when not mended(mother) and not lost(mother) "The shutters of one house are drawn in daylight, and a woman stands in its door, watching the road.".
+  Observe shutters at green when not dosed(mother) and not mended(mother) and not lost(mother) "The shutters of one house are drawn in daylight, and a woman stands in its door, watching the road.".
   Observe mended_scene at green when mended(mother) "The shutters of the sick child's house are open, and a child's voice comes out of it, complaining.".
   Observe lost_scene at green when lost(mother) "The shutters of the sick child's house stay drawn, and there are flowers on the step.".
   // Willow bark breaks a fever. Where willows grow by the water the country itself says (growing.kyr): bark gathered
@@ -27,8 +28,29 @@ Module fever "A fever on the green" {
     and expects(mother, actor) once {
     Says "'Three days,' says {mother}, 'and no better.' Then she sees the cloth in your hands, and knows it, and her hand goes to her mouth. 'The herb-wife sent you. She said she would send someone.'".
   }
-  // Whatever herbs are given her, she uses; and the house is grateful to whoever brought them.
-  Rule mended_by when keeps(mother, ?i) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside without a word. By evening the fever has broken." { Assert mended(mother). Set mendedOn(mother) to day(clock). Assert stale(sick). Assert stale(bark_lore). Assert grateful(mother, party). Assert grateful(sister, party). }
+  // Whatever herbs are given her, she uses: steeped, a cup every hour until it breaks, and the worst of it before it
+  // does. She has not slept in three days. Somebody must keep the cups: the company, sitting with the child, or the
+  // sister, if she is asked; or nobody, and the mother falls asleep in her chair, the fever comes back, and the herbs
+  // are spent (the feverwort errand had been over the moment the cloth changed hands: Mission 17's M17-21).
+  Rule dosed_by when keeps(mother, ?i) and not dosed(mother) and not mended(mother) and not lost(mother) says "{mother} takes the herbs inside and puts the kettle on. 'A cup every hour till it breaks,' she says. 'That is how the herb-wife always had it. And it gets worse before it breaks.'" { Assert dosed(mother). Set dosedAt(mother) to watch(clock). }
+  Observe weary at green when dosed(mother) and not mended(mother) and not lost(mother) "The shutters are still drawn. Inside, {mother} is counting the hours aloud so as not to fall asleep in her chair.".
+  Topic mother_dosed with mother "Ask {mother} how the child is" when dosed(mother) and not mended(mother) and not lost(mother) once {
+    Says "'Hotter,' says {mother}. 'The herb-wife said it would be: a cup every hour, and the worst before it breaks.' She has not sat down. 'I have not slept since it started. If I sit down now I will not get up again.'".
+  }
+  Action sit_up(actor: group, site: place) "Sit with the child, and give her the cup every hour until the fever breaks" {
+    Requires able(actor) and at(actor, site) and at(actor, green) and dosed(mother) and not mended(mother) and not lost(mother)
+      and not helping(sister).
+    Time 480 minutes.
+    On success { Assert nursed(mother). Assert mended(mother). Set mendedOn(mother) to day(clock). Assert stale(sick). Assert stale(bark_lore). Assert grateful(mother, party). Assert grateful(sister, party). }
+    Result "You sit by the bed with the cup and a candle, and {mother} sleeps in her chair for the first time in three days. The worst of it comes as the herb-wife said it would: the child cries out at nothing and burns to the touch, and will not drink, and then drinks. A long while after, her hand goes cool in yours, and she sleeps properly.".
+  }
+  Topic sister_help with sister "Speak with {sister}" when dosed(mother) and not mended(mother) and not lost(mother) and not helping(sister) once {
+    Says "'I can do the cups,' says {sister}. 'I can count. Mother has to sleep, or she will be ill as well.' She is about nine, and she means it.".
+    On discuss { Assert helping(sister). }
+  }
+  Rule kept_by_sister at green when dosed(mother) and helping(sister) and not mended(mother) and not lost(mother) and watch(clock) >= dosedAt(mother) + 48 says "The sister comes out onto the step with a cup in her hand to say it: the fever has broken, and her mother is asleep." { Assert mended(mother). Set mendedOn(mother) to day(clock). Assert stale(sick). Assert stale(bark_lore). Assert grateful(mother, party). Assert grateful(sister, party). }
+  Observe kept_scene at green when mended(mother) and helping(sister) and not nursed(mother) "On the step of the sick child's house the sister sits with a cup in her lap, asleep, very proud of herself.".
+  Rule fever_turns at green when dosed(mother) and keeps(mother, ?i) and not helping(sister) and not mended(mother) and not lost(mother) and watch(clock) >= dosedAt(mother) + 48 says "{mother} fell asleep in her chair at last, and nobody gave the cups. The fever has come back hotter than before, and the herbs are spent." { Retract dosed(mother). Retract keeps(mother, ?i). }
   // Too late, it happens at first light, and is heard by whoever is on the green; whoever comes back later sees it.
   Rule lost_child at green when watch(clock) >= 240 and untilLight(clock) == 1 and not mended(mother) and not lost(mother) says "In the morning the shrine bell is rung once, slowly. The child on the green has died." { Assert lost(mother). Assert stale(sick). Assert stale(bark_lore). }
 
@@ -47,6 +69,7 @@ Module fever "A fever on the green" {
     Says "{sister} does not look up. 'You came through here,' she says. 'Everybody comes through here.'".
   }
 
-  Objective herbs when knows(party, sick) and not mended(mother) and not lost(mother) "A child at {green} has a fever; it needs herbs, or willow bark from where willows grow by water.".
+  Objective herbs when knows(party, sick) and not dosed(mother) and not mended(mother) and not lost(mother) "A child at {green} has a fever; it needs herbs, or willow bark from where willows grow by water.".
+  Objective nursing when dosed(mother) and not mended(mother) and not lost(mother) "The child at {green} has the herbs, a cup every hour; someone must keep the cups until the fever breaks, and her mother has not slept in three days.".
   Goal mended(mother).
 }
