@@ -9,17 +9,21 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { GeneratedWorld } from './support/generated';
 import type { Region } from '../src/world/region-writer';
 
-// A town keeps one of Orsino's shops beside its own merchant (a market town two): b2's town, a fort on the pass,
-// keeps an armourer, who sells what Orsino's armoury sells (Kyr's armour of its kinds) at what it is worth.
+// A town keeps one of Orsino's shops beside its own merchant (a market town two), never of the family its merchant
+// already sells (Mission 18: a herb-wife's town had a dispensary and a potion-shop besides); each is kept by someone
+// of its town and sells what Orsino says its kind sells, at what it is worth.
 describe("a town's shops", () => {
   it('are kept by someone of the town, and sell what the shop sells', async () => {
-    const w = await WorldAssembler.assemble('b2', NodeBundleSource.shared,
+    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const region = w.report.region as Region, kinds = RegionShops.chosen(region, 0);
     expect(kinds.length).toBeGreaterThan(0);
     expect(region.settlements.slice(1).every((s, i) => s.size === 'town' || !RegionShops.chosen(region, i + 1).length))
       .toBe(true);
-    const s = await PlaySession.start(w.path, 'b2', w.source), shop = `${region.settlements[0]!.id}_${kinds[0]}`;
+    // The first of the country's shops whose cheapest ware a wanderer can buy.
+    const shops = region.settlements.flatMap((t, i) => RegionShops.chosen(region, i).map(k => ({ id: `${t.id}_${k}`, k })));
+    const shop = shops.find(x => Math.min(...RegionShops.stocks[x.k]!.stock.map(([, fee]) => fee)) <= 12)!.id;
+    const s = await PlaySession.start(w.path, 'kite', w.source);
     GeneratedWorld.put(s, shop);
     await s.perform('wait');
     const buy = PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith(`buy_item(region__${shop}_keeper_`))!;

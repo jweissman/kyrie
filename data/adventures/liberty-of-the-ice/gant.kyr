@@ -59,6 +59,15 @@ Module pellam "The Liberty of the Ice" {
   Person swan_bailiff "a bailiff" at swan_lane {
     Role "a man in brown with a copy of the writ, at the head of Swan Stairs". Ancestry human. Peaceable. Pronouns he.
   }
+  // Asked, a bailiff says whose writ it is, and holds it up, and does not let go of it.
+  Topic bailiff_writ with swan_bailiff "Ask the bailiff whose writ he carries" when not gantFree(gant) and not gantSafe(gant) once {
+    Says "'Sir Lionel Gant's,' says the bailiff, and holds it up for you to read without letting go of it. 'At the suit of Josias Harker, wool-factor, thirty coin. He's on the ice, and the ice is a liberty, so I stand here and he stands there.' He stamps his feet. 'He'll come off it. They all come off it, at the thaw.'".
+    On discuss { Assert knows(actor, gant_bond). }
+  }
+  Topic bailiffs_writ with bailiffs "Ask the bailiffs who they are waiting for" when not gantFree(gant) and not gantSafe(gant) once {
+    Says "'A gentleman in a red waistcoat,' says one bailiff. 'Thirty coin, at the suit of Master Harker,' says the other. 'If you see him on this side of the river,' says the first, 'you'll tell us.' 'For a consideration,' says the second. They go back to stamping.".
+    On discuss { Assert knows(actor, gant_bond). }
+  }
   Initially Assert serves(bailiffs, harker). Initially Assert serves(swan_bailiff, harker).
   Initially Assert writServer(bailiffs). Initially Assert writServer(swan_bailiff).
   Relation writServer(group).

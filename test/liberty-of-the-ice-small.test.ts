@@ -202,3 +202,20 @@ describe('The Liberty of the Ice: the second pass', () => {
     expect(g.page).toMatch(/I remember the hands/);
   }, 400000);
 });
+
+// The Fair a stranger comes down into (the owner's review of Mission 18: the ice was described full and played
+// empty): the chandler at the first booth sells a light, rope and a crowbar, and tells what is where; the crowd, the
+// gingerbread and the swing-boat are about the Glove Post by day; and from the top of the swing the Fair is known.
+describe('The Liberty of the Ice: the Fair', () => {
+  it('meets a stranger at the foot of the stairs with a chandler, and at the Glove Post with its crowd', async () => {
+    const g = await Pellam.start();
+    await g.play('go:swan_lane', 'Ask the watermen what a penny a stair buys', 'Shake on a penny a stair', 'go:swan_foot');
+    const sold = g.j.screen().trade.find(c => c.id === 'pellam__gage')?.sells.map(s => s.name);
+    expect(sold).toEqual(expect.arrayContaining(['Lantern', 'Coil of rope', 'Crowbar', 'Flask of lamp oil']));
+    await g.play('Ask Mother Gage what a stranger ought to know', '=9:00', 'go:freezeland');
+    expect(g.knows('fair_known')).toBe(true);
+    expect(g.j.screen().people.map(p => p.id)).toEqual(expect.arrayContaining(['pellam__crowd', 'pellam__meg']));
+    await g.play('?Ask her for your purse back', '=+1', 'Ride the swing-boat');
+    expect(g.knows('fair_from_above')).toBe(true);
+  }, 300000);
+});

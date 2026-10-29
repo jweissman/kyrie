@@ -16,7 +16,7 @@ import { RegionGeography } from './region-geography';
 import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
 import { Provinces } from './provinces';
-import { Communities } from './community/community';
+import { Outfitters } from './outfitters';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
 import { ScenarioTowns } from './scenario-towns';
@@ -433,7 +433,7 @@ export class WorldAssembler {
   static folk(placement: Placement, region: Region): Record<string, DeemValue> {
     const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
     return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {},
-      taken: [...Communities.everyone(region)] };
+      taken: [...Outfitters.everyone(region)] };
   }
   // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
   // modules, which use it (a den does) or not.

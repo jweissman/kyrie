@@ -43,6 +43,19 @@ export class Scenarios {
     { manifest: 'data/campaigns/gosses-company.campaign.json', title: "Gosse's Company", seed: 'arle',
       note: 'A company of travelling players is stuck on a village green with its wagon chained to a post, on its way west to the Trial of the Wheel at Pentrice: three companies, three nights, a bench of four critics, and a playhouse for ever to the best. The play they will put on came to them out of the air, unsigned, and every word of it is about the man who banned them.',
       detail: 'A licensed city, a playhouse over the river, a week of rehearsals, and one night at the Wheel' },
+    // Four cities of one author's, played until Mission 18 only as countries beyond a march (doc/adventures/*).
+    { manifest: 'data/campaigns/the-liberty-of-the-ice.campaign.json', title: 'The Liberty of the Ice', seed: 'lisk',
+      note: 'The river Lisk has frozen hard under Pellam Bridge for the first time in thirty-one winters, and the city is holding a Frost Fair on it, with a law of its own, cried at noon from a mast with a glove on it: say what you will, keep what you shake on.',
+      detail: 'A wool city, a street of booths on the ice, a court for handshakes, and three days before the thaw' },
+    { manifest: 'data/campaigns/a-winter-in-carth.campaign.json', title: 'A Winter in Carth', seed: 'g1',
+      note: 'The march road brings you up out of the snow-fields to a stone cross where the fell road begins: north over Carth Fell, and down across the white Levels to Gaunt, the walled city of the Minster, three days before the Fast.',
+      detail: 'A fell road, a walled city of the Minster, a trial, and three days before the Fast' },
+    { manifest: 'data/campaigns/hessel.campaign.json', title: 'The Banns at Hessel', seed: 'h1',
+      note: 'Hessel goes up its hill in tiers of steam and honey-coloured stone: the spa where the old come to be mended and the young to be married, in the last four days of its Season. You have a little money, no letters of introduction, and nothing to do there but see it.',
+      detail: 'A spa town, its baths and assembly rooms, a marriage in question, and the last four days of the Season' },
+    { manifest: 'data/campaigns/the-third-night.campaign.json', title: 'The Third Night', seed: 'wray',
+      note: 'Three years you have been on the far side of the fells, hiring out with the droves. Your father went out on the road with the cart and did not come home. Now you are coming down the drove road to Wrayford, the bridge-city on the Wray, a week late.',
+      detail: 'A bridge-city on the Wray, a missing father, and three nights' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

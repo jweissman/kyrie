@@ -34,5 +34,6 @@ describe('an author\'s own adventure', () => {
       expect(struck.stdout).toContain('Unknown status nonexistent_condition');
       expect(struck.stdout).toContain('Unknown damage type fyre');
     } finally { rmSync(dir, { recursive: true, force: true }); }
-  }, 120000);
+    // Three lints, each a process of its own: half a minute alone, and four times that among the suite's workers.
+  }, 300000);
 });

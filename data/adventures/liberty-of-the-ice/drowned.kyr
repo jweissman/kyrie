@@ -134,6 +134,9 @@ Module pellam "The Liberty of the Ice" {
     Flinches "The searchers back off over the ice, lanterns swinging, shouting for each other.".
     Pleads "'Enough,' says the one on the ice, with his hands over his head. 'Enough. We're paid by the night, not by the head.'".
   }
+  Topic searchers_keep with searchers "Ask the wharf men what they are keeping" when at(searchers, hay_wharf) once {
+    Says "'Master Harker's wool,' says the biggest of them, 'and Master Harker's business, and none of yours.' The lurcher agrees with him. Behind them the bondhouse door is barred on the outside, which is an odd way to keep wool in.".
+  }
   Initially Assert tolerates(searchers, party). Initially Assert serves(searchers, harker). Initially Assert takesPrisoners(searchers).
   Rule searchers_out when searchNight() and not searchersDiverted(lisk) and able(searchers) and not iceGone() and not at(searchers, black_reach) { Assert at(searchers, black_reach). }
   Rule searchers_wharf when not searchNight() and not searchersDiverted(lisk) and not landingAt(lisk) and able(searchers) and not at(searchers, hay_wharf) { Assert at(searchers, hay_wharf). }

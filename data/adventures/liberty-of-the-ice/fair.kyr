@@ -1,0 +1,122 @@
+Module pellam "The Liberty of the Ice" {
+  // ── The Fair: its trades and its crowd ────────────────────────────────────────────────────────────────────────────
+  // The street of booths was written from the first (gin and gingerbread, skittles with a frozen sheep's head, a
+  // swing-boat, slices of the ox, a man selling the future), but only as what is seen; a stranger came down the stairs
+  // into a Fair with nobody in it to buy from or ask (the owner's review of Mission 18). These are its people: on the
+  // ice from eight in the morning until nine at night while it holds, and gone home over the bridge after; and its
+  // crowd, which goes where the Fair's day goes.
+
+  // Mother Gage's booth, the first at the foot of Swan Stairs: everything the frost wants.
+  Person gage "Mother Gage" at limbo {
+    Role "a chandler in three shawls, at the first booth at the foot of Swan Stairs". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "'Candles, lamp-oil, lanterns, rope, a bar for the ice and a sack for what you win,' says a woman in three shawls, all in one breath, from the first booth at the foot of the stairs. 'Everything the frost wants and nothing it doesn't. You're new. You'll want a light. They all want a light, after.'".
+    Greets again "'Back for the light,' says Mother Gage. 'They always come back for the light.'".
+    Sells candle for 1 coin from 12. Sells torch for 1 coin from 8. Sells lantern for 6 coin from 2. Sells lamp_oil for 1 coin from 8.
+    Sells rope for 1 coin from 4. Sells crowbar for 2 coin from 3. Sells sack for 1 coin from 6. Sells chalk for 1 coin from 6.
+    Sells blanket for 1 coin from 4. Sells iron_spikes for 1 coin from 6.
+  }
+  Rule gage_day when hour(clock) >= 8 and hour(clock) < 21 and not iceGone() and not at(gage, swan_foot) { Assert at(gage, swan_foot). }
+  Rule gage_home when (hour(clock) >= 21 or hour(clock) < 8 or iceGone()) and not at(gage, limbo) { Assert at(gage, limbo). }
+  Observe gage_booth at swan_foot when at(gage, swan_foot) "At the foot of the stairs the first booth of all is a chandler's, hung with candles in bundles like onions, with lanterns on a pole and a coil of rope for a doorstep.".
+  Topic gage_ice with gage "Ask Mother Gage what a stranger ought to know on the ice" when true once {
+    Says "'Know?' She counts it off on her mittens. 'The Glove's at the top of the street, and the crier cries the Liberty under it at noon: say what you like, keep what you shake on, and they mean it, so don't shake. The Court's the big patched tent by the Glove, and sits at four. Gin's at the Lamb, the bottom of the street, with the Liars' Bench at seven. The bear's past the Hiring Ring, the ox at the bottom. Past the ox is the Reach, which is grey ice over black water, and you keep to the sledge-marks or you go in.' She looks at your hands. 'And you'll want a light.'".
+    On discuss { Assert knows(actor, fair_known). }
+  }
+  Topic gage_thaw with gage "Ask Mother Gage how long the ice will hold" when true once {
+    Says "'Till it goes.' She does not look up from her wicks. 'Last time it went in the night, all at once, with the Fair on it. I lost a booth and a husband. The booth was the better loss.' She ties off a bundle. 'Three days, the watermen say, for what watermen know. When it goes, be on a bank.'".
+  }
+  Discovery fair_known "The Frost Fair: Freezeland Street runs down the ice from the Glove Post at its top to the Frozen Lamb at its lower end. The Court of the Ice sits at four in the patched tent by the Glove; the Liars' Bench is at the Lamb from seven; the bear is at its stake past the Hiring Ring, and the ox roasts at the bottom of the street. Past the ox is the Reach, grey ice over black water, where people keep to the sledge-marks." {
+    Known by gage, crowd, meg.
+  }
+
+  // The crowd: thick about the Glove Post by day, round the Court when it sits, at the Liars' Bench of an evening,
+  // and gone to bed after.
+  Person crowd "the crowd" at limbo {
+    Role "apprentices, wool-men, skaters, mothers, a sweep, children with hot codlings: the Fair" when not lampLit().
+    Role "the Fair after dark, louder than by day, and redder in the face" when lampLit().
+    Ancestry human. Peaceable. Numbers 12. Pronouns they. Manner jovial.
+    Greets "Nobody in the crowd is talking to you in particular, and everybody is willing to: an apprentice with a hot codling, a woman with a baby in her shawl, a sweep. 'First time on the ice?' says the apprentice. 'You'll want to see the bear.'".
+    Greets again "The crowd shoulders round you, cheerful, cold, smelling of gin and gingerbread.".
+  }
+  Rule crowd_street when hour(clock) >= 9 and (hour(clock) < 16 or (hour(clock) >= 17 and hour(clock) < 19)) and not iceGone() and not at(crowd, freezeland) { Assert at(crowd, freezeland). }
+  Rule crowd_court when hour(clock) >= 16 and hour(clock) < 17 and not iceGone() and not at(crowd, court) { Assert at(crowd, court). }
+  Rule crowd_bench when hour(clock) >= 19 and hour(clock) < 23 and not iceGone() and not at(crowd, lamb) { Assert at(crowd, lamb). }
+  Rule crowd_bed when (hour(clock) >= 23 or hour(clock) < 9 or iceGone()) and not at(crowd, limbo) { Assert at(crowd, limbo). }
+  Topic crowd_see with crowd "Ask the crowd what there is to see on the ice" when true once {
+    Says "Everybody tells you at once. The bear, past the Hiring Ring, that dances if you've a penny for Hester. The ox, at the bottom, that's sinking. The swing-boat, here, that you can see the whole Fair from. The Court, at four, in the patched tent, where the Reeve tries handshakes. The Liars' Bench at the Lamb tonight, a silver tongue for the best lie. 'And the knight,' says the apprentice, pointing with his codling at the lean-to under the Glove Post, 'who lives on the ice.'".
+    On discuss { Assert knows(actor, fair_known). }
+  }
+  Topic crowd_knight with crowd "Ask the crowd about the knight who lives on the ice" when at(gant, freezeland) and not gantFree(gant) and not gantSafe(gant) once {
+    Says "'Sir Lionel?' The apprentice laughs. 'Owes Master Harker thirty coin, and can't put a foot off the ice or the bailiffs have him: they're stood at the top of both stairs, look.' A woman in a shawl: 'He says it was three.' 'Everybody says it was three.' 'He says it nicer than most.'".
+  }
+  Topic crowd_hiring with crowd "Ask the crowd about Master Harker's hiring" when not iceGone() once {
+    Says "'At the Ring, ten till noon, for a farm in the hills,' says the sweep. 'Good wages. Food. A bed.' A woman in a shawl says, 'My cousin went, at the spring hiring. Not a word since.' 'Your cousin can't write.' 'Nor can any of them, then,' she says, 'for none of them ever has,' and the crowd goes on to talk about the ox.".
+  }
+
+  // Long Meg's gingerbread, at the Glove Post.
+  Person meg "Long Meg" at limbo {
+    Role "a gingerbread-wife a head taller than anyone on the ice, with a tray of gilt gingerbread pigs". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "'Gingerbread!' says a woman a head taller than anybody, from behind a tray of pigs with gilt on their backs. 'Penny a pig. Gilt's extra, and you can't eat it, and everybody wants it.'".
+    Greets again "Long Meg holds up a pig. 'Gilt this time?'".
+    Sells rations for 1 coin from 30.
+  }
+  Rule meg_day when hour(clock) >= 8 and hour(clock) < 21 and not iceGone() and not at(meg, freezeland) { Assert at(meg, freezeland). }
+  Rule meg_home when (hour(clock) >= 21 or hour(clock) < 8 or iceGone()) and not at(meg, limbo) { Assert at(meg, limbo). }
+  Topic meg_liberty with meg "Ask Long Meg what the Liberty means" when true once {
+    Says "'Say what you will,' says Meg, 'means a lie's no crime on the ice. I can tell you these pigs are gold all through, and you can tell me you're a duke, and neither of us goes to the stocks. Keep what you shake on means the other thing.' She holds up her hand. 'Shake on a thing on this ice and the Reeve holds you to it, whatever was said to get you to. So you don't. Not with me, not with a waterman, and never with a woman in a man's caped coat, if you see one.'".
+  }
+
+  // The ox roast: the Butchers' Company's men, and slices at a penny, on bread.
+  Person butchers "the Butchers' Company's men" at limbo {
+    Role "three butchers in aprons over their greatcoats, round the ox, arguing". Ancestry human. Peaceable. Numbers 3. Pronouns they. Manner proud.
+    Greets "'A penny a slice, on bread, with the dripping,' says the biggest butcher, without taking his eyes off the hearth, which is sinking. 'Don't stand on the soft bit.'".
+    Sells rations for 1 coin from 40.
+  }
+  Rule butchers_day when hour(clock) >= 9 and hour(clock) < 20 and not iceGone() and not at(butchers, ox_roast) { Assert at(butchers, ox_roast). }
+  Rule butchers_home when (hour(clock) >= 20 or hour(clock) < 9 or iceGone()) and not at(butchers, limbo) { Assert at(butchers, limbo). }
+  Topic butchers_ox with butchers "Ask the butchers whether the ox will go through the ice" when not iceGone() once {
+    Says "All three answer. The hearth is sinking a hand a day; at a hand a day the ox has four days; the ice will go before the ox does; the ice will never go; the Company has a wager on it with the Watermen, which is why there is a waterman over there watching the hearth with a stick. 'It'll be the river or the ox,' says the biggest butcher, 'and my money's on the ox.'".
+  }
+
+  // The skittle alley and the swing-boat, by the Glove Post, a penny a go.
+  Relation bowled(group). Relation swung(group). Relation fortuned(group).
+  Action bowl_skittles(actor: group, site: place) "Bowl a frozen sheep's head down the skittle alley, a penny a go" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and not dark() and not iceGone()
+      and quantity(actor, gold) >= 1 and not bowled(actor).
+    Time 5 minutes.
+    Resolve check(actor, brawn, dc_fair).
+    On success { Decrease quantity(actor, gold) by 1. Increase quantity(actor, rations) by 2. Assert bowled(actor). }
+    On failure { Decrease quantity(actor, gold) by 1. Assert bowled(actor). }
+    Result "The sheep's head goes down the alley like a cannon-ball, frozen hard as one, and takes out all nine and the boy who was setting them up, who is not hurt and is delighted. The alley-man gives you two gingerbread pigs off Long Meg's tray, and Long Meg puts them on his account.".
+    Otherwise "The sheep's head goes down the alley with a wobble, looking at you reproachfully all the way, and takes out two. 'Better than the alderman,' says the alley-man, kindly, and that is all you get.".
+  }
+  Action ride_swing(actor: group, site: place) "Ride the swing-boat up over the Fair, a penny" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and not dark() and not iceGone()
+      and quantity(actor, gold) >= 1 and not swung(actor).
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Assert swung(actor). Assert knows(actor, fair_known). Assert knows(actor, fair_from_above). }
+    Result "Up, and down, and up, higher each time, until at the top of the swing you can see all of it: Freezeland Street running down the white river from the bridge, the Glove on its mast, the Court's patched tent beside it, the smoke of the ox at the bottom of the street, the Hiring Ring and a dark bulk at the stake past it that is the bear; on the Bankside shore two men in brown stamping at the head of Hay Stairs; and past the last booth, a long way down the grey Reach, a ship locked in the ice at a slant, with her masts gone. Then down, and the Fair closes over you again.".
+  }
+  Discovery fair_from_above "From the top of the swing-boat: two bailiffs in brown keep the head of Hay Stairs on the Bankside shore, as one keeps Swan Stairs; and far down the Reach past the last booth, a ship is locked in the ice at a slant, with her masts gone.".
+  Action buy_fortune(actor: group, site: place) "Pay the man selling the future a penny for yours" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, freezeland) and not iceGone()
+      and quantity(actor, gold) >= 1 and not fortuned(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Assert fortuned(actor). }
+    Result "The man selling the future has a board that says so, and a cat, and he looks at your palm for a long time with the cat looking too. 'You'll be asked for your hand three times on this ice,' he says. 'Twice by people who want it, and once by somebody who has never given theirs to anybody. Take the third.' He closes your fingers over the palm. 'That's a penny's worth. The rest is dearer.'".
+  }
+
+  // The watermen on Swan Stairs, with their plank and their tin cup.
+  Person stair_men "two watermen on the stairs" at limbo {
+    Role "two watermen with a plank across Swan Stairs and a tin cup" when not stairsPaid(party).
+    Role "two watermen on Swan Stairs, who nod to you as a freeman of the stairs" when stairsPaid(party).
+    Ancestry human. Peaceable. Numbers 2. Pronouns they. Manner jovial.
+    Greets "'A penny a stair,' says the bigger of the two watermen on the top step, without getting up. 'Shake on it.'".
+    Greets again "The watermen on the stairs touch their caps.".
+  }
+  Rule stair_men_day when hour(clock) >= 8 and hour(clock) < 21 and not iceGone() and not at(stair_men, swan_lane) { Assert at(stair_men, swan_lane). }
+  Rule stair_men_home when (hour(clock) >= 21 or hour(clock) < 8 or iceGone()) and not at(stair_men, limbo) { Assert at(stair_men, limbo). }
+  Topic stair_men_penny with stair_men "Ask the watermen what a penny a stair buys" when not stairsPaid(actor) once {
+    Says "'The freedom of both banks till the thaw,' says the bigger one. 'Up and down as you like. Twelve stairs here.' The smaller one says, 'Nine at Hay Stairs, if you're a Bankside sort.' 'Don't tell 'em that.' 'Pay at the bottom,' says the bigger one, 'or pay at the Court. Shake on it, and you're bound to it, by the Liberty. That's how the ice is. River froze and put us out of work, and now every hand on Pellam's worth a penny a stair.'".
+  }
+}

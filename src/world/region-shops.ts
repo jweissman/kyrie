@@ -15,12 +15,24 @@ interface Kind { role: string; room: string; painting: string; scene: string }
 export class RegionShops {
   static readonly kinds = shops.kinds as Record<string, Kind>;
   static readonly stocks = world.shops as unknown as Record<string, { name: string; stock: [string, number][] }>;
-  // The kinds a town keeps, drawn for the town.
+  // Shops that sell the same things, of which a town keeps one at most: a herb-wife's town had a dispensary and a
+  // potion-shop besides, and no rope (the owner's review of Mission 18). The general kinds are its chandler's.
+  static readonly families: Record<string, string> = { alchemy: 'remedies', apothecary: 'remedies',
+    dispensary: 'remedies', herbs: 'remedies', potions: 'remedies', general: 'general', emporium: 'general',
+    variety: 'general', provisions: 'general', tools: 'general', kitchen: 'general', armory: 'arms', weapons: 'arms',
+    fabrics: 'cloth', exotician: 'rare', magic_items: 'rare', scrolls: 'rare', jewelry: 'rare' };
+  static readonly merchants: Record<string, string> = { herbwife: 'remedies', chandler: 'general', smith: 'arms' };
+  // The kinds a town keeps, drawn for the town: none of the family its merchant or chandler already sells.
   static chosen(region: Region, i: number): string[] {
     const s = region.settlements[i]!;
     if (s.size !== 'town') { return []; }
     const fit = Object.keys(this.kinds).filter(k => (this.stocks[k]?.stock.length ?? 0) >= 3);
-    return new Draw(`${region.name}:${s.id}:shops`).shuffle(fit).slice(0, Foundings.of(region, i).kind === 'market' ? 2 : 1);
+    const had = new Set(['general', this.merchants[s.merchantType ?? 'chandler'] ?? '']), out: string[] = [];
+    for (const kind of new Draw(`${region.name}:${s.id}:shops`).shuffle(fit)) {
+      const family = this.families[kind] ?? kind;
+      if (!had.has(family)) { out.push(kind); had.add(family); }
+    }
+    return out.slice(0, Foundings.of(region, i).kind === 'market' ? 2 : 1);
   }
   static lines(region: Region, i: number): string[] {
     const s = region.settlements[i]!;

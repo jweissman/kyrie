@@ -23,7 +23,8 @@ independent ones batched.
 |---|---|---|---|---|---|---|---|
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
-| New in Mission 18 | 2 | 0 | 1 | 0 | 0 | 0 | 3 |
+| New in Mission 18 | 4 | 1 | 5 | 0 | 0 | 0 | 10 |
+| The owner's review | 0 | 3 | 4 | 0 | 0 | 0 | 7 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -143,6 +144,31 @@ independent ones batched.
 | M18-01 | The kept a1 descent record no longer replays: at step 109 "Use bandages on Aghavan" is not offered, so `sim-bench a1` measures 108 commands | M18 baseline (sim-bench) | D | P2 | Open | Re-record or repair the a1 record so the performance baseline covers the whole kept game (D8) |
 | M18-02 | A cellar under the Hall at Merrow opened on a painting of a sunlit wood: the place's scenery chose an outdoor painting for a room under a roof | M18 first walk (Long Man) | A | P1 | Fixed | Scenery.of paints no country under a roof (a room of a building or anywhere within a level of a site); the head is typographic and the ground dark |
 | M18-03 | The map knew only the cells of a road walked, one either side: a country walked for a day was fog with a thread through it | M18 first walk (kite) | A | P1 | Fixed | LandModel reveals two cells about a road walked or wild country crossed, three about a settlement visited, two about any other place been to |
+
+| M18-04 | Four adventures (The Liberty of the Ice, A Winter in Carth, The Banns at Hessel, The Third Night) were never in the reader's campaigns: reachable only by crossing a march in a generated world | Owner's review, 2026-10-29 (reach audit) | B | P1 | Fixed | web/scenarios.ts lists them with their journeys' seeds; play-session.test loads each from the bundle as the CLI does |
+| M18-05 | Low Water's first way out, "Go up out of the Bowl by the north road", ends the book at 8:10 on the first morning, unwarned | reach audit | C | P1 | Open | Say before it what it ends (Grave), as other book-ending choices do |
+| M18-06 | Orsino's General Store (and Emporium) stocks the eight cheapest things of its kinds in alphabetical order: bedroll, bell, blanket, caltrops, candle, chalk, dice, firewood | reach audit | C | P1 | Open | Stock general shops with the outfit first (src/registry/orsino-world.ts), then the cheapest others |
+| M18-07 | Sellers with nothing to sell: A Parliament of Books's clerk, Low Water's Halm, The House That Grows's Dace, a generated company's factor | reach audit | C | P2 | Open | Give each a stock, or take away the counter |
+| M18-08 | People with nothing to say when spoken to, two or three an adventure (Pellam's bailiffs and night-watchman, Hessel's shepherd and Fitch, Low Water's clerks, Thrume's watcher, Carth none) | reach audit | C | P1 | Partial | Pellam's: bailiffs, searchers and old Fowke now say something; the rest open, listed by `kyrie reach --all --detail` |
+| M18-09 | A default company dies on its first walk in Thrume (Skarn), What Tessary Owes (the Street of Scales) and The Patient Star (the Flood Line) | reach audit | C | P1 | Open | Each danger seen before it is walked into (a warning, a reckoning on the way), or a start that is not the deadliest place |
+| M18-10 | A generated herb-wife's town had three shops of remedies and nowhere to buy rope or a lantern | reach audit (kite) | C | P0 | Fixed | Outfitters: every village and town has a chandler; RegionShops never keeps two of one family; kite's Weligtún: Thurstan's chandlery, a cloth-hall, a jewel-shop |
+
+## The owner's review of 2026-10-29
+
+The opening was found materially improved; the game remained too visually busy, hard to navigate and not rewarding to
+explore; the hex map not a hex crawl; authored adventures almost empty to play; generated towns many people without
+life. These are new P0 experiential requirements: no earlier implementation of the features they name counts as
+closing them. They are worked alongside the rest of the mission, not instead of it.
+
+| ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
+|---|---|---|---|---|---|
+| OWN-01 | Audit what ordinary play reaches against what was written, beginning with The Liberty of the Ice, across the library: characters, conversations, activities, merchants, scenes; geography, time, conditions, placement | C | P0 | Partial | `bin/kyrie reach` (src/autoplay/curious.ts) and doc/architecture/mission-18/reach.md, the library measured and Pellam audited through the reader; repairs follow the gaps it lists (M18-04 to M18-10) |
+| OWN-02 | Replace the map: terrain first (landscape, roads, rivers, settlements, discoveries, where you are, where you are bound), explorable, with no competing structural diagram and no indiscriminate connection lines | A | P0 | Open | |
+| OWN-03 | Less on the screen: creation without horizontal scrolling through text-heavy cards; a few significant controls, the mechanics on demand; a compact character sheet that still reaches the whole rules | A | P0 | Open | |
+| OWN-04 | Settlements with observable life: population, services, occupations, schedules, relationships, activities; a quiet place intelligible; a busy fair populated and interactive | C | P0 | Partial | Pellam's Fair has its trades, its crowd and its pastimes on a schedule (fair.kyr); generated towns not yet |
+| OWN-05 | Ordinary commerce: rations, light, rope, a crowbar and the rest found from a typical start without searching blindly | C | P0 | Partial | Every generated village and town has a chandler, a hamlet's keeper rope and oil (M18-10); Pellam's chandler is the first booth on the ice; what remains: a settlement's services said where they are, the general store's stock (M18-06) |
+| OWN-06 | Significant conversations: the philosophers' depth, initiative, discoverability, continuity of argument, teaching, sustained exchange; real debate among several; answers to disagreement | C | P0 | Open | |
+| OWN-07 | Acceptance: a solo protagonist enters Pellam during the Frost Fair through the reader, sees where the people and the activity are, finds useful commerce, speaks substantially with someone important, keeps their bearings, and finds a reason to go on; no scene injected, no fixture set up | F | P0 | Open | |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 

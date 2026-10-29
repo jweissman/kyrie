@@ -2,6 +2,7 @@ import { Draw } from './land/draw';
 import { RegionGeography, type Road } from './region-geography';
 import { Communities } from './community/community';
 import { RegionShops } from './region-shops';
+import { Outfitters } from './outfitters';
 import { SettlementWriter } from './settlement-writer';
 import { Voice } from '../narrative/voice';
 import { CommunityWriter } from './community/community-writer';
@@ -45,7 +46,7 @@ export class RegionTraffic {
     const names = given[ancestry] ?? given.human!;
     // A name nobody settled in the country has, so that a traveller is never taken for one of them.
     const name = Communities.distinct(names[pronoun] ?? names.she!, ancestry,
-      { draw, taken: new Set([...used, ...Communities.everyone(region), ...RegionShops.keepers(region)]) });
+      { draw, taken: new Set([...used, ...Outfitters.everyone(region), ...RegionShops.keepers(region)]) });
     used.add(name);
     return { id: `${road.way}_t`, name, pronoun, kind: this.kinds[key]!, road, draw };
   }

@@ -1,0 +1,16 @@
+{
+  "about": "Every village and town has a chandler, who sells what anyone setting out needs (Mission 18, the owner's fifth priority: rations, light, rope and a crowbar found from a typical starting place without searching blindly through many shops). Where the settlement's own merchant is a chandler (data/generation/tables/trade.json), it is they; otherwise a chandlery opens off the heart (src/world/outfitters.ts). A hamlet's keeper sells the least of it.",
+  "chandler": "chandler",
+  "hamlet": [
+    [
+      "rope",
+      1,
+      2
+    ],
+    [
+      "lamp_oil",
+      1,
+      2
+    ]
+  ]
+}

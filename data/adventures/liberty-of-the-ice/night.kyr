@@ -9,6 +9,9 @@ Module pellam "The Liberty of the Ice" {
     Role "a night-watchman on Hay Wharf, with a brazier and a bottle". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "Old Fowke lifts his lantern into your face. 'Wharf's shut,' he says. 'Everything's shut. Go to bed.'".
   }
+  Topic fowke_wharf with fowke "Ask old Fowke what he is watching for" when not asleep(fowke) once {
+    Says "'Wool,' says Fowke. 'Master Harker's wool, and rats, and whatever's none of your business.' He drinks. 'There's coughing in there some nights. Rats cough, in a frost. Go to bed.'".
+  }
   Initially Assert serves(fowke, harker).
   Rule fowke_on when (hour(clock) >= 21 or hour(clock) < 7) and not at(fowke, hay_wharf) { Assert at(fowke, hay_wharf). }
   Rule fowke_off when hour(clock) >= 7 and hour(clock) < 21 and not at(fowke, limbo) { Assert at(fowke, limbo). Retract asleep(fowke). }

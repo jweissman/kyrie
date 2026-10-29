@@ -20,6 +20,7 @@ import { Traces } from './traces';
 import { VerifyTool } from './verify-tool';
 import { NewTool } from './new-tool';
 import { CountriesTool } from './countries-tool';
+import { ReachTool } from './reach-tool';
 import { Terminal } from './terminal';
 import { Frontier } from '../world/frontier';
 import { DrawnWorld } from '../world/drawn-world';
@@ -37,6 +38,7 @@ export class KyrieCli {
     '           bin/kyrie play scene|character <id> --in <adventure> [--context name] [step ...] [--keep name]',
     '           bin/kyrie keep <transcript.json> <name> (a game saved from the browser, kept as a test)',
     '           bin/kyrie countries [seed ...] (where each authored country lies, for comparing before and after)',
+    '           bin/kyrie reach <campaign.json> [--seed s] [--steps n] | --all [--detail] (what a curious player reaches)',
     '           bin/kyrie voice show|moments|coverage|review|orsino | handbook [--html <dir>]',
     'Check:     bin/kyrie test [bun test arguments] | verify <adventure> | validate',
     '           bin/kyrie orsino check|report|generate|catalog|world|inventory',
@@ -59,6 +61,7 @@ export class KyrieCli {
       case 'verify': return VerifyTool.main(rest);
       case 'new': return NewTool.main(rest);
       case 'countries': return CountriesTool.main(rest);
+      case 'reach': return ReachTool.main(rest);
       case 'campaign': await Terminal.play(await Campaign.load(path, argument ?? 'campaign', NodeBundleSource.shared)); return 0;
       case 'replay': return this.replay(path);
       case 'resume': await Terminal.play(Campaign.restore(JSON.parse(await readFile(path, 'utf8')))); return 0;

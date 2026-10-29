@@ -7,6 +7,7 @@ import { Communities } from './community/community';
 import { CommunityWriter } from './community/community-writer';
 import { Foundings, type Founding } from './founding';
 import { RegionShops } from './region-shops';
+import { Outfitters } from './outfitters';
 import type { Region, Settlement } from './region-writer';
 
 // A merchant's trade: who they are, their shop and what it looks like inside (a salt-house had no words of its own:
@@ -62,7 +63,8 @@ export class SettlementWriter {
       `  Observe ${s.id}_why at ${s.id}_green as ambience when not dark() ${q(f.why)}.`,
       ...SettlementScenes.life(region, i) ? [`  Observe ${s.id}_life at ${s.id}_green as ambience when not dark() ${q(SettlementScenes.life(region, i)!)}.`] : [],
       ...RegionFaith.lines(s, cult, has.shrine ? `${s.id}_shrine` : `${s.id}_green`, this.wayside(f, cult)),
-      // The shops a town keeps beside its own merchant (see RegionShops).
+      // A chandlery, where the merchant is not a chandler (see Outfitters); the shops a town keeps besides.
+      ...Outfitters.lines(region, s),
       ...RegionShops.lines(region, i),
       // The people who live there, at their work and about the place, and its animals (see Communities).
       ...CommunityWriter.lines(region, Communities.plan(region, s, this.trade(s).stock.map(([what]) => what))),
@@ -113,7 +115,8 @@ export class SettlementWriter {
       : `Background ${k.background}. Offers lodging ${q(k.lodging![0])} for ${k.lodging![1]} coin.`;
     return `  Person ${s.id}_innkeeper ${q(s.innkeeper)} at ${at} { Role ${q(Foundings.fill(k.role, this.words(s)))}. ${this.of(s, 'innkeeper', region)} ${work} Peaceable.${this.pronoun(s, 'innkeeper', f)} `
       + `Sells rations for ${stock.price} coin from ${f.keeping === 'none' ? Math.min(2, stock.stock) : stock.stock}. `
-      + `Sells torch for 1 coin from ${f.keeping === 'none' ? 1 : 3}. Sells candle for 1 coin from ${f.keeping === 'none' ? 2 : 4}. }`;
+      + `Sells torch for 1 coin from ${f.keeping === 'none' ? 1 : 3}. Sells candle for 1 coin from ${f.keeping === 'none' ? 2 : 4}.`
+      + `${s.size === 'hamlet' ? Outfitters.hamlet.map(([what, fee, n]) => ` Sells ${what} for ${fee} coin from ${n}.`).join('') : ''} }`;
   }
   // Only a town's priest has the learning to call the dead back, and keeps a copy of the old orders' glossary of the
   // old script, for whoever would read the makers' stones.
