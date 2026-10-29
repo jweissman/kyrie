@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 9 | 0 | 1 | 0 | 0 | 0 | 10 |
-| The owner's review | 0 | 9 | 4 | 0 | 0 | 0 | 13 |
+| The owner's review | 0 | 10 | 3 | 0 | 0 | 0 | 13 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -180,7 +180,7 @@ gates. The map is not accepted until the owner has reviewed it as a visual and i
 | OWN-08 | The map reconsidered from first principles: full viewport (an exception to the protected stage), minimal overlays; three treatments prototyped and compared (an illustrated terrain-first hex crawl, a restrained isometric hex terrain, a hybrid) and one chosen by appearance and playability; a cohesive palette, legible terrain, roads and waterways as features of the world, varied marks for landmarks and places, where you are and where you are bound always shown, and a meaningful edge between known and unknown country | A | P0 | Partial | Built: the three compared and the illustrated hex crawl chosen (doc/architecture/mission-18/map.md); the full-screen map. Remains: the owner's review in play |
 | OWN-09 | Wilderness exploration as a central pleasure: travel (a known route to a destination, no junction chores), exploration (unknown country entered, surveyed, crossed hex by hex or toward a seen feature, discovering places and updating what is known), and investigation (a site) continuous; leaving a town simply to explore; a persistent position on intelligible land; vantage, expertise, light, weather and a spyglass changing what is seen; fog of war; discovered places on the map and usable | C | P0 | Partial | The open country of every generated country, stretch by stretch, a compass across it, looking out (by land, skill, glass, haze, dark), places seen and found, journeys toward them (test/exploration.test.ts). Remains: the wild's own meetings and small finds; authored regions' open country |
 | OWN-10 | Visual hierarchy across ordinary play, the title screen as the reference: fewer peer controls; compact character and inventory, details on inspection | A | P0 | Partial | Creation's choices together (37970a0); the place's people and its own pastimes at the head of the ways, the company's own choices apart (this batch); character sheet and pack remain |
-| OWN-11 | Demonstration: a new solo protagonist leaves a settlement to explore without a destination, opens the full-screen map, sees familiar terrain and the edge of the unknown, crosses unknown country and reveals more, discovers varied places by surveying, travel or sight, investigates one, travels back or on by ordinary travel, and keeps what was learned | F | P0 | Open | |
+| OWN-11 | Demonstration: a new solo protagonist leaves a settlement to explore without a destination, opens the full-screen map, sees familiar terrain and the edge of the unknown, crosses unknown country and reveals more, discovers varied places by surveying, travel or sight, investigates one, travels back or on by ordinary travel, and keeps what was learned | F | P0 | Partial | Played through the reader with the board (doc/playtests/exploration-2026-10-29): out of Ramavor with no errand, onto the fells, looking out, the map taking in what was seen, a square tower set out for and arrived at, home by travel until night, what was learned kept; two faults it found mended. What remains: the owner's verdict |
 
 ### The owner's addendum of 2026-10-29: a map in three dimensions, and the Grand Tour
 

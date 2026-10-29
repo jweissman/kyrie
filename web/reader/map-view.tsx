@@ -47,9 +47,10 @@ export class MapView {
     const area = region.within[id] ?? id, name = cell !== undefined ? MapView.ground(land, Number(cell))
       : region.areas.find(a => a.id === chosen)?.name ?? land.marks.find(m => m.id === chosen)?.name ?? chosen;
     const d = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? []].find(x => x.id === id || x.id === area);
-    const here = cell !== undefined ? land.here === Number(cell) : region.areas.find(a => a.here)?.id === area;
-    const go: Choice | undefined = d ? MenuModel.journey(d) : !here && land.tracts && cell !== undefined
-      ? { id: `travel:${id}`, label: `Go across country to ${name}`, tone: 'way', command: `travel:${id}` } : undefined;
+    const mark = land.marks.find(m => m.id === chosen);
+    const here = cell !== undefined ? land.here === Number(cell) : mark ? mark.here : region.areas.find(a => a.here)?.id === area;
+    const go: Choice | undefined = d ? MenuModel.journey(d)
+      : MapView.across(land, here ? undefined : cell ?? MapView.at(land, chosen), name);
     return (
       <aside className="plan" aria-label={`The way to ${name}`} data-id={chosen}>
         <p className="label">{here ? 'You are here' : MapView.been(region, chosen) ? 'You have been here' : 'You have not been here'}</p>
@@ -62,6 +63,16 @@ export class MapView {
           {Typography.curl(go.label)}</button>}
       </aside>
     );
+  }
+  // Where no way is known, across the open country to the hex: a hex chosen, or the hex a place seen stands on.
+  private static across(land: NonNullable<RegionChart['land']>, cell: string | number | undefined,
+    name: string): Choice | undefined {
+    if (!land.tracts || cell === undefined || !land.known.includes(Number(cell))) { return undefined; }
+    const id = `${land.tracts}${cell}`;
+    return { id: `travel:${id}`, label: `Go across country to ${name}`, tone: 'way', command: `travel:${id}` };
+  }
+  private static at(land: NonNullable<RegionChart['land']>, id: string): number | undefined {
+    return land.marks.find(m => m.id === id && !m.here)?.cell;
   }
   private static been(region: RegionChart, id: string): boolean {
     return !!(region.areas.find(a => a.id === id)?.visited ?? region.land?.marks.find(m => m.id === id)?.visited);

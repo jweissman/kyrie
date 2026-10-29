@@ -29,6 +29,7 @@ export class BoardTiles {
   private readonly riseTexture: DataTexture;
   private readonly rims = new Map<string, Mesh>();
   private ghosts: Object3D[] = [];
+  private edge = '';
   constructor(private readonly scene: Scene, private readonly ground: BoardGround, water: ShaderMaterial,
     paths: { rivers: Vector3[]; roads: Vector3[] }) {
     const grid = ground.grid;
@@ -57,8 +58,9 @@ export class BoardTiles {
       this.rise[c] = s <= 0.001 ? -4 : (1 - (1 - s) ** 3) * 0.7 - 0.7;
     }
     this.riseTexture.needsUpdate = true;
-    this.scene.remove(...this.ghosts);
-    const glimpsed = this.ground.grid.cells.filter(c => k.now[c]! > 0.05 && this.rise[c]! <= -4);
+    const glimpsed = this.ground.grid.cells.filter(c => k.now[c]! > 0.05 && this.rise[c]! <= -4), key = glimpsed.join();
+    if (key === this.edge) { return; }
+    this.edge = key; this.scene.remove(...this.ghosts);
     this.ghosts = glimpsed.length ? this.glimpsed(glimpsed) : [];
     if (this.ghosts.length) { this.scene.add(...this.ghosts); }
   }
