@@ -73,7 +73,7 @@ Module sennet "The Grand Tour" {
   // What Prue could make, given the things to make it with: a jar of the Air plane's own wind, a real petal to copy,
   // and her furnace. Made, it holds up whatever it is set in, as the true one does (door.kyr).
   Topic prue_could with prue "Ask Prue Quickly whether she could make a petal that was not a present" when true once {
-    Says "She laughs. Then she stops laughing and looks at the tray of red glass. 'A real one, you mean. One that does what they do.' She picks up a rod and turns it in the furnace mouth. 'Glass is only sand that's been told what to be by fire. The Rose's petals are glass that's been told by something else: the Fire one by the Fire, the Air one by the wind.' She draws out the rod, glowing. 'Give me a jar of the Air plane's own wind, the real wind, not Cloudgate's, and let me have one of the real petals in my hand an hour to see how it's made, and my heat, and a night.' She looks at you. 'I could make you one that would hold up a hat. Or a house, if it were a big enough hat.'".
+    Says "She snorts. Then she looks at the tray of red glass, and stops. 'A real one, you mean. One that does what they do.' She picks up a rod and turns it in the furnace mouth. 'Glass is only sand that's been told what to be by fire. The Rose's petals are glass that's been told by something else: the Fire one by the Fire, the Air one by the wind.' She draws out the rod, glowing. 'Give me a jar of the Air plane's own wind, the real wind, not Cloudgate's, and let me have one of the real petals in my hand an hour to see how it's made, and my heat, and a night.' She looks at you. 'I could make you one that would hold up a hat. Or a house, if it were a big enough hat.'".
     On discuss { Assert knows(actor, made_possible). }
   }
   Discovery made_possible "Prue Quickly says that, given a jar of the Air plane's own wind, a real petal of the Rose to copy for an hour, her furnace's heat and a night, she could make a petal of the Rose that does what a real one does.".
@@ -116,6 +116,12 @@ Module sennet "The Grand Tour" {
   }
   Rule pargeter_hours when openHours() and not at(pargeter, outfitter) { Assert at(pargeter, outfitter). }
   Rule pargeter_home when not openHours() and not at(pargeter, offstage) { Assert at(pargeter, offstage). }
+  // The Dowager was born over this shop; he is her brother's son. She has been in it once since she married.
+  Topic pargeter_imogen with pargeter "Ask Mr. Pargeter whether he has ever sold to Halyard House" when met(imogen) once {
+    Says "'Once.' He straightens a helm on its wooden head that does not need straightening. 'Her Ladyship came in herself, last spring, for a fire-cloak for Mr. Perrin, the best I had. Paid the ticket without looking at it. Didn't look at me, either.' He moves the helm back. 'She was born upstairs. Imogen Pargeter. My father's sister. She went up the chain at nineteen to be a lady's maid, and came down a Halyard, and has not come down since.' He smiles at you with all his teeth. 'I keep her room as it was. In case. You never know, with the Tour, who'll want outfitting.'".
+    On discuss { Assert knows(actor, imogen_pargeter). }
+  }
+  Discovery imogen_pargeter "Lady Imogen Halyard was born Imogen Pargeter, over the outfitter's shop in Lamp Street; she went up the chain at nineteen as a lady's maid and married the heir. Mr. Pargeter is her nephew, and keeps her room as it was.".
   Topic pargeter_advice with pargeter "Ask Mr. Pargeter what a Tourist needs" when true once {
     Says "'For the Fire, a cloak. Without one you will be cooked in an hour, a little at a time, like a ham.' He shows you one. 'For the Whelm, a helm, unless you can get one of the sea-folk to kiss you, which I am told lasts three hours and costs nothing, but I could not say, not having been asked.' He sniffs. 'For the Earth, a lamp: it is dark in there, and slow. For the Air, nothing: the sylphs will hold you up out of politeness, but they will talk about you after.' He taps a green jar. 'And a wind-jar, to bring home a breath of it. Very popular with aunts.'".
     On discuss { Assert knows(actor, tour_needs). }

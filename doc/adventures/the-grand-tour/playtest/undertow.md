@@ -20,7 +20,7 @@ The Quay: granite, wet, smelling of weed and tar and frying. Boats tied two deep
 
 **>sennet__fish_stairs**
 
-The Fish Stairs go down off the end of the Quay into the bay: green granite, worn hollow in the middle, going down and down under the water until the light gives up on them. A brass plate is let into the third step from the bottom of the dry ones: BY ORDER: NO PERSON OF THE SEA ABOVE THIS STEP. MDCIX. On the third step from the bottom, exactly on the brass plate, as if to make a point, a merfolk child sits with a basket of cockles and her tail in the water. Ha’penny, a merfolk child with a basket of cockles, is here.
+The Fish Stairs go down off the end of the Quay into the bay: green granite, worn hollow in the middle, going down and down under the water until the light gives up on them. A brass plate is let into the third step from the bottom of the dry ones: BY ORDER: NO PERSON OF THE SEA ABOVE THIS STEP. MCCXI. On the third step from the bottom, exactly on the brass plate, as if to make a point, a merfolk child sits with a basket of cockles and her tail in the water. The plate is brass, green at the screws; its letters have been polished smooth by eighty years of people sitting on them. Ha’penny, a merfolk child with a basket of cockles, is here.
 
 **Talk to Ha'penny**
 
@@ -112,7 +112,7 @@ The Guildhall of old Sennet: a great room with a hammer-beam roof, where the mer
 
 **Ask No Admittance for leave to start the tide-engine**
 
-She is quiet a long time. ‘A day without lamps,’ she says. ‘A day without the bells. The children will be frightened. The old ones will not come out of their houses.’ She looks at you. ‘We have never started it. Our grandmothers read what it does, and decided they had no door they wanted that much.’ She turns her crown in her hands. ‘You want a door that much?’ And then, before you can answer: ‘If you do it, do it with us. With every hand of the Whelm on the wheel, so it is ours that did it, not yours. And not with anyone left in a bell. Move the dry man first.’
+She takes off her crown and holds it in her lap, which in the Whelm is how you think. ‘A day without lamps,’ she says. ‘A day without the bells. The children will be frightened. The old ones will not come out of their houses.’ She looks at you. ‘We have never started it. Our grandmothers read what it does, and decided they had no door they wanted that much.’ She turns her crown in her hands. ‘You want a door that much?’ And then, before you can answer: ‘If you do it, do it with us. With every hand of the Whelm on the wheel, so it is ours that did it, not yours. And not with anyone left in a bell. Move the dry man first.’
 
 **Ask Mercy to take Perrin out of the air-bell for the day, while the engine runs**
 

@@ -17,13 +17,13 @@ Module sennet "The Grand Tour" {
   // Cloudgate in the sky, where it has always been (state.kyr says what brings it down).
   Query aloft() means not cloudgateFell(sennet_bay).
 
-  Chapter day_one "The first day" when begun() and day(clock) == 1 "The bells of the House of Doors ring eight across the bay, and the gulls go up off the Quay all at once, and over all of it, over the cloud, a hill of houses catches the sun.".
-  Chapter day_two "The second day" when day(clock) == 2 and hour(clock) >= 6 "Sennet wakes to the winch-gang's horn at the foot of the Ascent and the smell of the glass-houses lighting their furnaces from the Fire Door.".
-  Chapter day_three "The third day" when day(clock) == 3 and hour(clock) >= 6 "It is the day Cloudgate lets Perrin Halyard's coffin down off the Balustrade. All morning the Quay looks up.".
-  Chapter day_four "The fourth day" when day(clock) == 4 and hour(clock) >= 6 "Ascension Day. Cloudgate has hung out its bunting; you can see it from the Quay, very small, in the sun above the cloud. On the Quay the harbour is buying candles.".
-  Chapter day_five "The fifth day" when day(clock) == 5 and hour(clock) >= 6 "The morning after the Lanterns. Paper lanterns that went up from Cloudgate last night are coming down all over Sennet, burnt out, on roofs and in gutters and on the water.".
-  Chapter day_six "The sixth day" when day(clock) == 6 and hour(clock) >= 6 "A grey morning, with the wind off the sea. The fishing boats stay in.".
-  Chapter day_seven "The seventh day" when day(clock) == 7 and hour(clock) >= 6 "The seventh day of the Tour since you came. In the Glass Market a man is selling a print of the Door of Doors, opened, with a Rector going through it in a halo.".
+  Chapter day_one "The Coast Road" when begun() and day(clock) == 1 "The bells of the House of Doors ring eight across the bay, and the gulls go up off the Quay all at once, and over all of it, over the cloud, a hill of houses catches the sun.".
+  Chapter day_two "The Courts" when day(clock) == 2 and hour(clock) >= 6 "Sennet wakes to the winch-gang's horn at the foot of the Ascent and the smell of the glass-houses lighting their furnaces from the Fire Door.".
+  Chapter day_three "The Letting-Down" when day(clock) == 3 and hour(clock) >= 6 "It is the day Cloudgate lets Perrin Halyard's coffin down off the Balustrade. All morning the Quay looks up.".
+  Chapter day_four "Ascension Day" when day(clock) == 4 and hour(clock) >= 6 "Ascension Day. Cloudgate has hung out its bunting; you can see it from the Quay, very small, in the sun above the cloud. On the Quay the harbour is buying candles.".
+  Chapter day_five "The Morning After" when day(clock) == 5 and hour(clock) >= 6 "The morning after the Lanterns. Paper lanterns that went up from Cloudgate last night are coming down all over Sennet, burnt out, on roofs and in gutters and on the water.".
+  Chapter day_six "The Divers" when day(clock) == 6 and hour(clock) >= 6 "A grey morning, with the wind off the sea. The fishing boats stay in.".
+  Chapter day_seven "The Keel" when day(clock) == 7 and hour(clock) >= 6 "The seventh day of the Tour since you came. In the Glass Market a man is selling a print of the Door of Doors, opened, with a Rector going through it in a halo.".
 
   // ── Breath under the water ────────────────────────────────────────────────────────────────────────────────────
   // What a company needs to go down the Fish Stairs: a kiss of the merfolk's, for three hours, or a brine-glass helm

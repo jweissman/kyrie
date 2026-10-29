@@ -12,16 +12,17 @@ transcripts. None of it is independent human testing, which this work has not ha
 | `test/the-grand-tour-outcomes.test.ts` | 11 | Every other end, each by its own route and company, and the fault where Perrin is drowned |
 | `test/the-grand-tour-builds.test.ts` | 3 | The monk's chain; a bard cannot climb it; the sailor's greeting |
 | `test/the-grand-tour-autoplay.test.ts` | 4 | 300 offered commands each, four tempers and callings, every step checked by the laboratory's invariants, round-tripped every forty, replayed to the same game |
+| `test/the-grand-tour-second.test.ts` | 6 | The Sexton: the wrong hour kills, the turn is safe; the bell stopped lets it down and rung again sends it up; Bethan told why sleeps with the bell ringing; fed, it lets you be; the Courant's printed lie makes the case; the wrong answer puts Aubrey in the Watch-house and sends Perrin up |
 | `test/the-grand-tour-placed.test.ts` | 3 | Sennet as a province; the proclamation, the keeper's rumour, the gate, the installation, the coast road, the left-alone week in a world that goes on; and the Undertow played by the world's own protagonist, with the Door opened on the Glass Market |
 
-All 24 pass. The full repository suite was not run end to end in this session (it is several hours serial); the 31
+All 30 pass. The full repository suite was not run end to end in this session (it is several hours serial); the 31
 files that the province placement can touch (world assembly, regions, provinces, frontier, the other placed
 adventures, lint, seeds, the repository bundle) were, and pass, except `lint-outside`, which fails on the base branch
 too, on a pre-existing redefinition in `data/adventures/low-water/undercroft.kyr` this branch does not touch.
 
 ## The journeys
 
-Ten transcripts in `playtest/`, written by `bun scripts/the-grand-tour-transcripts.ts` from the fixtures in
+Twelve transcripts in `playtest/`, written by `bun scripts/the-grand-tour-transcripts.ts` from the fixtures in
 `test/fixtures/sennet/` as the page told them:
 
 | Journey | Who | Steps | End |
@@ -36,6 +37,8 @@ Ten transcripts in `playtest/`, written by `bun scripts/the-grand-tour-transcrip
 | `kept-above.md` | Tamsin | 288 | Kept Above |
 | `keepsake.md` | Tamsin | 363 | The Keepsake |
 | `letter.md` | Wren, thief (burglar) | 199 | The Letter |
+| `bell.md` | Tamsin: the bell stopped for Bethan, the Sexton down, the bell rung again, Bethan told why | 190 | The Second Whelming |
+| `wrong-answer.md` | Tamsin: Aubrey's story carried to Bassett; Perrin told | 295 | The Tour Unfinished |
 
 ## The two portals, compared in play
 

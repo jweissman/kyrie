@@ -59,7 +59,7 @@ Module sennet "The Grand Tour" {
 
   // ── Kept above: the Dowager's price ───────────────────────────────────────────────────────────────────────────────
   Topic imogen_secret with imogen "Tell Lady Halyard you know what holds Cloudgate up" when knows(actor, keel_petal) and not secretToldImogen(actor) and not cloudgateFell(sennet_bay) and not imogenSorry(imogen) once {
-    Says "She looks at you for a long time. Then she goes to the escritoire, and unlocks it, and takes out a purse, heavy, and sets it on the table between you. 'A hundred coin,' she says. 'And the friendship of this house, which in Cloudgate is worth more than the coin.' She does not sit down. 'My son wanted to give it to the wind. My son is at the bottom of the bay.' Her face does not move. 'What do you want?'".
+    Says "She does not look at the portrait. She looks at your boots, which have been on the Quay. Then she goes to the escritoire, and unlocks it, and takes out a purse, heavy, and sets it on the table between you. 'A hundred coin,' she says. 'And the friendship of this house, which in Cloudgate is worth more than the coin.' She does not sit down. 'My son wanted to give it to the wind. My son is at the bottom of the bay.' Her face does not move. 'What do you want?'".
     On discuss { Assert secretToldImogen(actor). Assert bribeOffered(actor). }
   }
   Topic take_bribe with imogen "Take the purse, and say you will keep Cloudgate's secret" answering imogen_secret when bribeOffered(actor) and not bribed(actor) once {
@@ -75,4 +75,26 @@ Module sennet "The Grand Tour" {
   Promise keep_secret "to keep the secret of what holds Cloudgate up" to imogen
     kept when cloudgateFell(sennet_bay) or doorOpen(sennet_bay) or day(clock) >= 8 "Lady Halyard's purse is lighter, and her house is still in the sky."
     broken when heardOf(sylphs, keel_petal) or tookKeel(party) "Somewhere in Cloudgate a door is closed to you for good." { }.
+
+  // ── The wrong answer ──────────────────────────────────────────────────────────────────────────────────────────────
+  // Aubrey's own story, carried to the Watch, is believed: he believes it himself. The Rector is pleased. Only the
+  // dead man can undo it, by coming up.
+  Relation aubreyTaken(group).
+  Topic bassett_aubrey with bassett "Tell Sergeant Bassett that it was Aubrey Halyard who pushed his brother off the Balustrade" when knows(actor, aubrey_quarrel) and not aubreyTaken(aubrey) and not aubreyFreed(aubrey) and not knows(actor, quance_pushed) and not bassettGoes(bassett) once {
+    Grave "Aubrey Halyard believes it himself. If you say it to the Watch, he will not deny it.".
+    Says "The sergeant writes it down, every word, on the crown of his hat, and reads it back to you, and you hear how it sounds: two brothers, a quarrel, the fog, the rail. 'Heir to Cloudgate,' he says. 'That'll be a long day.' He puts his hat on. 'I'll go up and ask him. Mostly they tell you.'".
+    On discuss { Assert aubreyTaken(aubrey). Assert aubreyTakenSays(bassett). Set bassettAt(bassett) to watch(clock). }
+  }
+  Relation aubreyTakenSays(group).
+  Rule aubrey_led_down when aubreyTakenSays(bassett) and watch(clock) >= bassettAt(bassett) + 6 and not at(aubrey, offstage) and not aubreyFreed(aubrey)
+    says "Within the hour Sergeant Bassett comes down the chain in the basket with Aubrey Halyard beside him, unshaven, in last night's shirt, not in irons, looking at the cloud going past as if he had never seen it. The whole Quay watches them walk to the Watch-house on Fish Street. Aubrey does not deny anything. He thanks the sergeant for the walk." {
+    Assert at(aubrey, offstage). }
+  Observe rector_pleased at rector_study when aubreyTaken(aubrey) and not aubreyFreed(aubrey) and at(quance, rector_study) "The Rector looks up from Tolley's pad as you come in. 'Poor Aubrey,' she says. 'I always thought it might be. One hopes the court is kind.' Her keys chime. She looks, for the first time since you have known her, entirely at rest.".
+  Topic perrin_brother_taken with perrin "Tell Perrin Halyard that his brother is in the Watch-house, for pushing him" when aubreyTaken(aubrey) and not aubreyFreed(aubrey) and not perrinWantsUp(perrin) once {
+    Says "He does not say anything. He puts the drowned book down on the weed, very carefully, open, so as not to lose his place, and then he looks at the oar splinted to his leg as if it were somebody else's. 'He'll say yes,' he says at last. 'He'll say yes to all of it, because he thinks it's true. The idiot. The great kind idiot.' He reaches for the oar. 'Get me up those stairs.'".
+    On discuss { Assert perrinWantsUp(perrin). }
+  }
+  Rule aubrey_released when aubreyTaken(aubrey) and not aubreyFreed(aubrey) and (perrinUp(party) or rectorExposed(quance))
+    says "Word comes along the Quay as fast as a gull: the Watch has let Aubrey Halyard go. He walked out of the Watch-house on Fish Street and stood on the step in the sun, and did not seem to know which way to go, and then went down to the Fish Stairs and sat on the third one, on the plate, and stayed there." {
+    Assert aubreyFreed(aubrey). Retract aubreyTaken(aubrey). Assert at(aubrey, aubrey_rooms). }
 }

@@ -95,6 +95,51 @@ every ending is `end_…`; `lodging` and `shut` were taken by the shared rules.
 21. The lint's two dozen advisories ("a Role true wherever they are") are right in letter and mostly noise for a city
     whose people keep schedules.
 
+## Found in the second pass
+
+**22. A rule said within an area waits to fire, not only to be told.** `CampaignTick.fire` returns before a
+`within whelm` rule's condition is even read unless the company is in the Whelm. The Sexton's return up the tower is
+a fact about the world, true whether or not anyone is under the water; anchored `within whelm` it would not have
+happened until the company came down. *Worked round:* every such moment is two rules, the change unanchored and its
+telling `within`; and the telling, which now arrives whenever the company next comes down, has to be written in the
+past tense, as the merfolk's report. *Remedy:* anchor the telling, not the firing (as `at` already does).
+
+**23. What an observation teaches is learned after the rules have run.** `Perceptions.settle` commits the knowledge
+an observation teaches after `CampaignTick.rules`; an inference rule on that knowledge (the Courant's printed lie
+against Kittiwake's memory) fires on the company's next action, not the one that read the Courant. Silent: the test
+that read the paper and checked the inference failed. *Remedy:* one more pass of rules after perceptions settle.
+
+**24. A rule that teaches must say something.** `Rule … teaches plate_known { }` is refused at load ("it must say
+something, and teach a fact"): there is no silent noticing. *Worked round:* an observation that teaches.
+
+**25. An ambusher's first page is its blow.** A creature with temperament `ambush` attacks as the company arrives:
+"The Sexton comes at you! Brann takes 5 physical damage (0 HP left). Brann falls. The fight is lost." There is no beat
+in which the company sees it uncoil and can go back down. *Worked round:* warnings in the rooms before (the tower
+stone rubbed smooth in a spiral; Ha'penny's grandmother's word; No Admittance's "Do not stop the bell"). *Remedy:* a
+`Warns "…"` line on a person, told once on arrival, with the fight on the next watch unless the company stays.
+
+**26. A schedule has no pause.** Every routine of a person (Aubrey's rooms by day, the Promenade by night, abed, the
+funeral) is its own rule, and every new state that takes the person out of the routine (arrested; on the Rector's
+crate on Ascension Eve) means editing each of them with another `and not …`. *Remedy:* `Routine` blocks that a single
+`held(person)` suspends.
+
+**27. A measure the player should feel cannot be shown.** Fabian's fondness exists only in the world; the page never
+says it. *Worked round:* rules that say something at thresholds (`fabian_we`, `fabian_signed`). That is the right
+literary answer, and the engine could make it easier: an author's `Shows` line on a measure's threshold.
+
+**28. Nothing checks the world's own dates.** The brass plate said MDCIX (1609) in a world whose calendar is 1290;
+two documents and the module disagreed about whether the North Wind's gift was two hundred or two hundred and thirty
+years ago. A lint cannot know Roman numerals are dates, but a module's `Year` constants could be declared once and
+interpolated.
+
+**29. The engine's join and leave lines, again.** Perrin, coming up out of the Whelm at last on his oar, said "'Why
+not. It's not as if anything is keeping me here.'" Friction 12 stands; every person who can be `following` needs a
+`Joins` and `Leaves`, and nothing tells the author which.
+
+**30. A kind needed early.** Bethan sells the eels that feed the Sexton, and `Sells` needs the kind declared before
+the person; the Sexton's file is later in the load order, so the creel's kind lives in `harbour.kyr`, far from what it
+is for.
+
 ## Deem
 
 No Deem tables were written for Sennet: its people are Kyr persons with ancestry, calling and level, and its things

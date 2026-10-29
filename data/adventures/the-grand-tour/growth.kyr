@@ -30,4 +30,8 @@ Module sennet "The Grand Tour" {
   Milestone m_undertow "opened the Door of Doors from below, by the Whelm's leave" worth 150 when openedBelow(sennet_bay) and engineLeave(party).
   Milestone m_first "went first through the Door of Doors in two hundred years" worth 100 when firstThrough(party).
   Milestone m_fabian "brought Fabian Murrey home" worth 75 when fabianHome(party).
+  Milestone m_bell_kept "let Old Bethan sleep, and the bell ring" worth 75 when bethanAtPeace(bethan) and (knows(party, sexton_known) or knows(party, sexton_hint)) and not bellSilent().
+  Milestone m_sexton_fed "fed the Sexton of Lir's from Old Bethan's barrow" worth 50 when sextonFed(party).
+  Milestone m_sexton_slain "killed the Sexton of Lir's" worth 150 when sextonKilled(party).
+  Milestone m_printed_lie "caught the Rector's memoirs in a lie" worth 75 when knows(party, thresholds_nine) and knows(party, late_basket).
 }

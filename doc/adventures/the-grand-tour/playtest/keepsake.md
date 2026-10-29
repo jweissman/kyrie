@@ -1,6 +1,6 @@
 # The Keepsake
 
-Played by Tamsin, a bard; seed `sennet`; 158 steps given, 363 taken; ended at watch 1014, at the ending "The Keepsake". Written by `bun scripts/the-grand-tour-transcripts.ts` from the journey as the page told it.
+Played by Tamsin, a bard; seed `sennet`; 159 steps given, 364 taken; ended at watch 1014, at the ending "The Keepsake". Written by `bun scripts/the-grand-tour-transcripts.ts` from the journey as the page told it.
 
 *(The first page)*
 
@@ -30,7 +30,11 @@ The Quad: grass worn to earth along the paths, four doors in four walls, and stu
 
 The Rector’s study: books to the ceiling and on the floor and on the chairs, a desk the size of a boat, and on the desk among the books a case of black wood lined with velvet with four empty hollows in it, each the shape of a petal. Through the window, the bay, and Cloudgate.
 
-*(2 waits in which nothing is told)*
+*(1 wait in which nothing is told)*
+
+**Wait › A while**
+
+Whenever the Rector moves, the keys on her chain of office chime, a small bright sound, like a purse shaken. Time passes.
 
 **Talk to Magistra Isadora Quance**
 
@@ -82,7 +86,7 @@ He takes off his spectacles and cleans them on his tie, which makes them worse. 
 
 **Ask Fabian Murrey to come with you on the Tour**
 
-He laughs, and stops when he sees you mean it. ‘Me? I’d faint. I’d faint and you’d have to carry me, and I’m all elbows.’ He picks up a book and puts it down. ‘Have you been through? Any of them?’ He looks at your face. ‘No. Then you don’t know either.’ He shakes his head. ‘Go through one. Come back and tell me what it was really like, and not what she says it’s like.’ He taps the red book. ‘Then ask me again.’
+He drops the book he is holding, and picks it up, and sees that you mean it. ‘Me? I’d faint. I’d faint and you’d have to carry me, and I’m all elbows.’ He picks up a book and puts it down. ‘Have you been through? Any of them?’ He looks at your face. ‘No. Then you don’t know either.’ He shakes his head. ‘Go through one. Come back and tell me what it was really like, and not what she says it’s like.’ He taps the red book. ‘Then ask me again.’
 
 **>sennet__lamp_street**
 
@@ -110,7 +114,7 @@ The Quad: grass worn to earth along the paths, four doors in four walls, and stu
 
 **>sennet__hall_of_doors**
 
-Thursday comes to wind once round your ankles, and goes back to his place. The Hall of Doors: long, dim, cold, with a floor of black and white stone worn into dips, and at the far end two doors side by side in the wall. One is iron, red-hot along its edges, and the air in front of it shakes. The other is a slab of granite on hinges as thick as your leg, with moss growing on it, and a draught coming under it that smells of cellars. Between them a little man sits at a desk with a ledger. Mr. Tench keeps the Fire Door and the Earth Door with his ledger open, and nobody goes through either without his say.
+Thursday comes to wind once round your ankles, and goes back to his place. The Hall of Doors: long, dim, cold, with a floor of black and white stone worn into dips, and at the far end two doors side by side in the wall. One is iron, red-hot along its edges, and the air in front of it shakes. The other is a slab of granite on hinges as thick as your leg, with moss growing on it, and a draught coming under it that smells of cellars. Between them a little man sits at a desk with a ledger. Between the doors, the Roll of the Grand Tour: 1088, Ysabeau Halyard, DECLARED NOTHING. Between the two doors, above Mr. Tench’s desk, a board painted black, with names in gilt: THE ROLL OF THE GRAND TOUR. 1012, proclaimed by Rector Aenhild Brack: WON, by Odo Sare, Doorward, who went through first and came back and would not say where. 1047: NOT WON. 1088: NOT WON. Under 1088, in smaller gilt, the entered Tourists, and among them: Ysabeau Halyard, aged seventeen, through the Air Door, DECLARED NOTHING. And under that, in different gilt, much newer: the Court of the Air reports its petal lost, the same year. Then two hundred years of black board, and at the bottom, still tacky: 1290, proclaimed by Rector I. Quance. Mr. Tench keeps the Fire Door and the Earth Door with his ledger open, and nobody goes through either without his say.
 
 **Talk to Mr. Tench**
 
@@ -190,7 +194,7 @@ He listens to all of it with his pencil stopped over his notebook and does not w
 
 **Ask Fabian Murrey to join the company**
 
-Fabian Murrey puts on his hat, and takes it off, and puts it on again, and puts a second pencil behind his other ear. ‘I’ll come,’ he says. ‘I’ve a notebook. I’ll be no use at all in a fight, I want that understood.’ He turns the sign on the shop door to CLOSED, and then, after a moment, turns it back to OPEN. ‘Somebody might want a book.’
+Fabian is writing in his notebook as you walk, and you see over his shoulder that he has stopped writing ‘the traveller’, as his grandmother did, in every line for four hundred pages. He has started writing ‘we’. Fabian Murrey puts on his hat, and takes it off, and puts it on again, and puts a second pencil behind his other ear. ‘I’ll come,’ he says. ‘I’ve a notebook. I’ll be no use at all in a fight, I want that understood.’ He turns the sign on the shop door to CLOSED, and then, after a moment, turns it back to OPEN. ‘Somebody might want a book.’
 
 **>sennet__lamp_street**
 
@@ -215,6 +219,10 @@ It is pitch dark. Without a light you can see nothing here, and do nothing that 
 **>sennet__assembly**
 
 A pebble the size of a cat rolls down off the bottom tier and stops against your boot. ‘You’re quick,’ it says, with deep approval, in a voice like gravel in a bucket. ‘Everything up there’s quick, isn’t it. I’ve heard. Birds. Weather. Weeks.’ It looks up the tunnel toward the door. ‘I’m six hundred and forty,’ it says, ‘and I have never seen a week.’ It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing. Fabian writes in his notebook by your light, and reads it you in a whisper: ‘The Assembly is slow because it is careful. The youngest of them is six hundred and forty, and I liked him best.’ In the dark you can hear the Speaker of the Slow Assembly, the Slow Assembly and Chert close by.
+
+**Ask Fabian how he is bearing up**
+
+‘I haven’t fainted.’ He sounds astonished. ‘I keep waiting to. I’ve been holding the notebook ready, in case.’ He looks round him at the place, at all of it, with his mouth a little open. ‘She said vulgar,’ he says. ‘It’s not vulgar. It’s the least vulgar thing I’ve ever seen.’ And he writes that down.
 
 **Talk to Chert**
 
@@ -278,7 +286,7 @@ Lamp Street climbs toward the headland between glass-houses, every one of them w
 
 **>sennet__glass_market**
 
-The Glass Market: a square of stalls under awnings, and everything on them glass. Here are the Honourable Florian Mottram, a Tourist from Cloudgate, in a coat the colour of a sunset; and Miss Agatha Sone, a bear-leader, square and grey, with a sergeant’s moustache of eyebrow.
+The Glass Market: a square of stalls under awnings, and everything on them glass. Here are the Honourable Florian Mottram, a Tourist from Cloudgate, in a coat the colour of a sunset; and Miss Agatha Sone, a bear-leader, square and grey, with a sergeant’s moustache of eyebrow. Chalked under the proclamation: A TOURIST CROWNED IN THE FIRE, NAME NOT KNOWN. A crowd is arguing about who.
 
 **>sennet__quay**
 
@@ -288,7 +296,7 @@ The Quay: granite, wet, smelling of weed and tar and frying. Boats tied two deep
 
 **>sennet__fish_stairs**
 
-The Fish Stairs go down off the end of the Quay into the bay: green granite, worn hollow in the middle, going down and down under the water until the light gives up on them. A brass plate is let into the third step from the bottom of the dry ones: BY ORDER: NO PERSON OF THE SEA ABOVE THIS STEP. MDCIX. Fabian writes in his notebook, and reads it you: ‘The merfolk come up the Fish Stairs to a brass plate, and no further. Nobody in Sennet could tell me why, except that it was written down.’ Murrey’s Handbook, sixth edition: ‘The merfolk do not come above the third step, by an excellent bylaw. The traveller who wishes to visit the Whelm should not.’
+The Fish Stairs go down off the end of the Quay into the bay: green granite, worn hollow in the middle, going down and down under the water until the light gives up on them. A brass plate is let into the third step from the bottom of the dry ones: BY ORDER: NO PERSON OF THE SEA ABOVE THIS STEP. MCCXI. Fabian writes in his notebook, and reads it you: ‘The merfolk come up the Fish Stairs to a brass plate, and no further. Nobody in Sennet could tell me why, except that it was written down.’ Murrey’s Handbook, sixth edition: ‘The merfolk do not come above the third step, by an excellent bylaw. The traveller who wishes to visit the Whelm should not.’ The plate is brass, green at the screws; its letters have been polished smooth by eighty years of people sitting on them.
 
 *(4 waits in which nothing is told)*
 
@@ -412,7 +420,7 @@ He stops smiling. ‘I was pushed.’ He says it quite plainly. ‘I’d quarrel
 
 **Ask Perrin Halyard what he found out, that he quarrelled over**
 
-He looks at you for a long time, deciding. ‘You’ll find out anyway, if you’re on the Tour.’ He pulls himself up against the glass. ‘Ysabeau, my great-great-whatever, the one with the hill on her hand. She didn’t lift Cloudgate by magic. She lifted it with a petal. The Air petal of the Rose, that the North Wind gave her because he loved her, and she took it home and set it in the keel of Halyard Hill, and up it went, and the sea came in.’ He rubs his face. ‘It’s still there. Under the cellars. I climbed down and saw it, the week before the Tour was proclaimed. Every petal the Rector is sending people after is in a court somewhere, and the fourth is holding up my mother’s house.’ He laughs, shortly. ‘I said the Air should have it back. Aubrey said the house would fall down. Well, it would.’ He hesitates. ‘I told the Rector. Before anyone. She was my teacher. She said she’d think about what to do.’
+He looks at you, deciding, and picks at the splint on his leg. ‘You’ll find out anyway, if you’re on the Tour.’ He pulls himself up against the glass. ‘Ysabeau, my great-great-whatever, the one with the hill on her hand. She didn’t lift Cloudgate by magic. She lifted it with a petal. The Air petal of the Rose, that the North Wind gave her because he loved her, and she took it home and set it in the keel of Halyard Hill, and up it went, and the sea came in.’ He rubs his face. ‘It’s still there. Under the cellars. I climbed down and saw it, the week before the Tour was proclaimed. Every petal the Rector is sending people after is in a court somewhere, and the fourth is holding up my mother’s house.’ He laughs, shortly. ‘I said the Air should have it back. Aubrey said the house would fall down. Well, it would.’ He hesitates. ‘I told the Rector. Before anyone. She was my teacher. She said she’d think about what to do.’
 
 **Ask Perrin Halyard about the Aenean books he is drying**
 
@@ -444,7 +452,7 @@ The Quay: granite, wet, smelling of weed and tar and frying. Out in the bay, und
 
 **>sennet__taproom**
 
-The Sounding Line is low, and dark, and full of fishermen. A sounding-lead the size of a child’s head hangs over the bar on its line, and every so often somebody pats it for luck without looking. The window looks straight out across the bay at nothing but water and, above the water, the underside of Cloudgate. Through the window, out of the bay, a bell rings under the water. The fishermen at the bar stop talking until it has done. Murrey’s Handbook, sixth edition: ‘Not recommended.’ Old Bethan’s eyes are red at the rims, and twice while you watch she starts to nod over the eels and jerks awake. Here are Peg Arkle, the landlady of the Sounding Line; and Mr. Josiah Pumphrey, the Harbourmaster of Sennet, with a brass telescope and the Bylaws under his arm.
+The Sounding Line is low, and dark, and full of fishermen. A sounding-lead the size of a child’s head hangs over the bar on its line, and every so often somebody pats it for luck without looking. The window looks straight out across the bay at nothing but water and, above the water, the underside of Cloudgate. Through the window, out of the bay, a bell rings under the water. The fishermen at the bar stop talking until it has done. Murrey’s Handbook, sixth edition: ‘Not recommended.’ On the bar, the Sennet Courant, with this week’s part of the Rector’s memoirs. THRESHOLDS, by Magistra I. Quance. Chapter the Twenty-Ninth: Under the Plate. ‘I was born in a room on Fish Street that the spring tides came into, and my mother sold eels on the Quay from the barrow beside the steps. On Ascension night I sat on the third step from the bottom, on the brass plate that says how high the sea may come, and watched the lanterns go up from a hill I would never be let up; and it seemed to me that the plate had been put there for me as much as for the sea.’ Old Bethan’s eyes are red at the rims, and twice while you watch she starts to nod over the eels and jerks awake. Here are Peg Arkle, the landlady of the Sounding Line; and Mr. Josiah Pumphrey, the Harbourmaster of Sennet, with a brass telescope and the Bylaws under his arm.
 
 **Take a bed and supper**
 
@@ -502,11 +510,11 @@ You sit on the floor, since he is on the sofa, and he passes you the bottle with
 
 **Ask Aubrey Halyard what happened on the night his brother fell**
 
-He doesn’t answer for a long time. ‘We quarrelled. On the Promenade. Perrin had found something out, family business, and he was going to give it away. Give it away, to strangers, to the wind.’ He laughs. ‘I said if he wanted to go down so badly he could jump. I said that.’ He puts the bottle down on the floor, carefully. ‘He went off to the Balustrade. I went after him. I was going to say I was sorry. And then I don’t remember. The fog came up. I remember the rail under my hands, wet. And then bells, and people shouting, and I was sitting on the gravel.’ He looks at his hands. ‘I think I put my hands on him. I think I did. I’d had a great deal to drink and I was angry, and he was my brother, and I think I put my hands on him.’
+He doesn’t answer. He turns the bottle until its label faces him, as if it might help. ‘We quarrelled. On the Promenade. Perrin had found something out, family business, and he was going to give it away. Give it away, to strangers, to the wind.’ He laughs. ‘I said if he wanted to go down so badly he could jump. I said that.’ He puts the bottle down on the floor, carefully. ‘He went off to the Balustrade. I went after him. I was going to say I was sorry. And then I don’t remember. The fog came up. I remember the rail under my hands, wet. And then bells, and people shouting, and I was sitting on the gravel.’ He looks at his hands. ‘I think I put my hands on him. I think I did. I’d had a great deal to drink and I was angry, and he was my brother, and I think I put my hands on him.’
 
 **Tell Aubrey Halyard that a man who meant to say sorry is not a man who pushes his brother**
 
-He looks at you for a long time. ‘You don’t know that.’ But he picks up the bottle, and looks at it, and puts it down without drinking. ‘Nobody’s said that. Mother says nothing. The whole of Cloudgate looks at me the way you look at a hole in the road.’ He rubs his face. ‘Sit down, then. If you’re staying.’
+He looks at you, and then at his hands, which have been the problem for twelve days. ‘You don’t know that.’ But he picks up the bottle, and looks at it, and puts it down without drinking. ‘Nobody’s said that. Mother says nothing. The whole of Cloudgate looks at me the way you look at a hole in the road.’ He rubs his face. ‘Sit down, then. If you’re staying.’
 
 **Ask Aubrey Halyard what family business his brother found out**
 
@@ -558,11 +566,11 @@ A tall woman in black lace looks at you down a very long nose, as if you were a 
 
 **Ask Lady Halyard about the Lifting**
 
-‘My great-great-grandmother lifted this hill on the palm of her hand.’ She does not look at the portrait; she does not need to. ‘Ysabeau Halyard. She went through the Air Door a girl and came back a woman, with the means to raise her family above the damp and the smells and the sea, and she used them. That is what one does with means.’ She folds her hands. ‘Down there they call it something else. They would.’
+‘My husband’s grandmother, six times back, lifted this hill on the palm of her hand. I married it.’ She does not look at the portrait; she does not need to. ‘Ysabeau Halyard. She went through the Air Door a girl and came back a woman, with the means to raise her family above the damp and the smells and the sea, and she used them. That is what one does with means.’ She folds her hands. ‘Down there they call it something else. They would.’
 
 **Ask Lady Halyard about the lady in green with the hill on her hand**
 
-‘They say she loved a wind.’ Lady Halyard says it with great distaste, as if repeating something said by a servant. ‘A prince of the Air. Family nonsense. She kept a box of letters to him that she never sent, it’s in the escritoire there with the deeds, nobody has opened it in a hundred years.’ She looks at the portrait at last. ‘She married Lord Halyard the year after the Lifting and had nine children and died at ninety in that chair. If she loved a wind, she got over it.’
+‘They say she loved a wind.’ Lady Halyard says it with great distaste, as if repeating something said by a servant. ‘A prince of the Air. Family nonsense. She kept a box of letters to him that she never sent, it’s in the escritoire there with the deeds, nobody has opened it in a hundred years.’ She looks at the portrait at last. ‘She married her cousin the year after the Lifting, so as not to change her name, and had nine children, and died at ninety in that chair. If she loved a wind, she got over it.’
 
 **Ask Lady Halyard for leave to go through the Air Door**
 
@@ -624,7 +632,7 @@ Lamp Street climbs toward the headland between glass-houses, every one of them w
 
 **>sennet__glass_market**
 
-The Glass Market: a square of stalls under awnings, and everything on them glass.
+The Glass Market: a square of stalls under awnings, and everything on them glass. Across the top of the board, in black: PERRIN HALYARD LET DOWN TODAY AT NOON. HATS OFF ON THE QUAY.
 
 **>sennet__ascent_yard**
 
@@ -640,19 +648,19 @@ You sit on the bench. Mother Kittiwake blows her whistle and the capstans start 
 
 **>sennet__promenade**
 
-The Promenade runs round the rim of Cloudgate between the great houses and the edge: gravel raked into patterns, orange trees in tubs, benches with nobody on them, and people walking slowly in pale clothes under parasols, looking at the view, which is cloud. Jem Tuttle keeps the door of Halyard House, and nobody comes in by it without his say.
+The Promenade runs round the rim of Cloudgate between the great houses and the edge: gravel raked into patterns, orange trees in tubs, benches with nobody on them, and people walking slowly in pale clothes under parasols, looking at the view, which is cloud. Jem Tuttle keeps the door of Halyard House, and nobody comes in by it without his say. A nursemaid from the Sennet side, in Halyard green, wheels a Cloudgate baby along the rim of the Promenade. She keeps to the inside of the path, against the house-fronts, and does not look at the view; and when the baby throws its rattle at the Balustrade she lets it lie.
 
 **>sennet__balustrade**
 
-At the end of the Promenade the gravel stops at a stone balustrade, waist-high, with a broad flat rail you could sit on, and beyond it nothing at all: the cloud, a long way down, and the curve of the world. A wreath of white flowers has been tied to the rail, and is going brown. Nobody is standing near it. Murrey’s Handbook, sixth edition: ‘The prospect from the Balustrade at sunset is justly celebrated. The traveller is advised not to lean.’ Here are Magistra Isadora Quance, the Rector of the House of Doors, in a gown of four colours and a chain of keys; Lady Imogen Halyard, the Dowager of Cloudgate, in black, very upright; Aubrey Halyard, the Halyards’ heir, unshaven, in last night’s shirt; the Honourable Florian Mottram, a Tourist from Cloudgate, in a coat the colour of a sunset; and Miss Agatha Sone, a bear-leader, square and grey, with a sergeant’s moustache of eyebrow.
+At the end of the Promenade the gravel stops at a stone balustrade, waist-high, with a broad flat rail you could sit on, and beyond it nothing at all: the cloud, a long way down, and the curve of the world. A wreath of white flowers has been tied to the rail, and is going brown. Nobody is standing near it. Murrey’s Handbook, sixth edition: ‘The prospect from the Balustrade at sunset is justly celebrated. The traveller is advised not to lean.’ The Rector’s keys chime when she moves. You find that you are listening to them. Here are Lady Imogen Halyard, the Dowager of Cloudgate, in black, very upright; Aubrey Halyard, the Halyards’ heir, unshaven, in last night’s shirt; the Honourable Florian Mottram, a Tourist from Cloudgate, in a coat the colour of a sunset; and Miss Agatha Sone, a bear-leader, square and grey, with a sergeant’s moustache of eyebrow.
 
 **Wait › An hour**
 
-Six Halyard footmen carry the white coffin out of the Ascension Chapel to the Balustrade and set it on the rail, and the Rector of the House of Doors steps forward in her gown of four colours, and speaks without notes, in a voice that carries without being raised: of a boy who could read Aenean like a menu and was kind, which they never are at that age; of a Doorward who believed that every door is a promise to someone on the other side of it; of the bay, which does not give back what it is given. Half the Promenade is crying. The Dowager stands like a post. Aubrey Halyard, at the back, holds on to an orange tree.
+When the Rector puts her hand on the rail to speak, the keys on her chain chime against the stone. Six Halyard footmen carry the white coffin out of the Ascension Chapel to the Balustrade and set it on the rail, and the Rector of the House of Doors steps forward in her gown of four colours, and speaks without notes, in a voice that carries without being raised: of a boy who could read Aenean like a menu and was kind, which they never are at that age; of a Doorward who believed that every door is a promise to someone on the other side of it; of the bay, which does not give back what it is given. Half the Promenade is crying. The Dowager stands like a post. Aubrey Halyard, at the back, holds on to an orange tree.
 
 **Wait › An hour**
 
-The footmen take the ropes. The coffin goes over the rail and down the face of the rock into the cloud, slowly, the ropes creaking, until the cloud has it.
+As the footmen take the ropes Aubrey Halyard says, quite loudly, to nobody, ‘I did it, you know. Ask anyone.’ Nobody looks at him. His mother does not turn her head. The Rector, beside her, puts a hand on his arm, very kindly, and he lets it stay there. The footmen take the ropes. The coffin goes over the rail and down the face of the rock into the cloud, slowly, the ropes creaking, until the cloud has it.
 
 *(1 wait in which nothing is told)*
 
@@ -698,7 +706,7 @@ A sylph comes past you, turns round in the air, comes back, and looks at you ver
 
 **Ask the sylphs about the Air petal of the Rose**
 
-‘Oh, that!’ They are delighted. It is the oldest thing in the Air to talk about and they talk about it. ‘Tramontane gave it away! The North Wind! To a girl! A mortal girl from the Sennet side, Ysabeau, with red hair, two hundred and thirty years ago, they talked all one summer up in his eyrie and he gave her the petal for a keepsake, the court’s own petal, imagine, and she took it home and set it in the bottom of her hill and lifted her whole family into the sky with it.’ They go round you, faster. ‘And the sea came in. And she never came back. And he’s been blowing cold ever since, haven’t you noticed, the north wind, it’s cold, it’s because of her.’ They come close. ‘It’s still there! In the hill! Holding them up! Everyone knows! Nobody ever says!’
+‘Oh, that!’ They are delighted. It is the oldest thing in the Air to talk about and they talk about it. ‘Tramontane gave it away! The North Wind! To a girl! A mortal girl from the Sennet side, Ysabeau, with red hair, two hundred years ago, they talked all one summer up in his eyrie and he gave her the petal for a keepsake, the court’s own petal, imagine, and she took it home and set it in the bottom of her hill and lifted her whole family into the sky with it.’ They go round you, faster. ‘And the sea came in. And she never came back. And he’s been blowing cold ever since, haven’t you noticed, the north wind, it’s cold, it’s because of her.’ They come close. ‘It’s still there! In the hill! Holding them up! Everyone knows! Nobody ever says!’
 
 **Ask the sylphs how you might be received by the North Wind**
 
@@ -786,13 +794,15 @@ The Quay: granite, wet, smelling of weed and tar and frying. Old Bethan’s eyes
 
 **>sennet__taproom**
 
-The Sounding Line is low, and dark, and full of fishermen. Peg Arkle, the landlady of the Sounding Line, is here.
+The Sounding Line is low, and dark, and full of fishermen. Peg Arkle, the landlady of the Sounding Line, is here. The Courant on the bar, with a black border for the funeral. THRESHOLDS, Chapter the Thirty-First: The Halyards’ Reception. ‘I left the Halyards’ at nine, with the rest of the House, and came down on the nine o’clock basket, and was in my bed by ten, and knew nothing of what happened on the Balustrade until Tolley woke me in the morning. I have not slept properly since. Perrin was the best of us.’
 
 **Take a bed and supper**
 
 Ascension Day. Cloudgate has hung out its bunting; you can see it from the Quay, very small, in the sun above the cloud. On the Quay the harbour is buying candles. You eat what is put in front of you, and sleep long, under a roof.
 
-*(1 wait in which nothing is told)*
+**Wait › An hour**
+
+The Courant on the bar. THRESHOLDS, Chapter the Thirty-Second: Lanterns. ‘The first time the Halyards asked me up for the Lanterns I was fifty-one and Rector of the House. I let my lantern go off the rim with the rest of Cloudgate, and watched it go up, and found that I did not want to be up there at all. I wanted to be someone who could have refused.’ An hour passes.
 
 **Ask Peg Arkle to lend you the rain-butt off the Sounding Line's yard, and a barrow**
 
@@ -886,7 +896,7 @@ Mother Kittiwake looks at the barrow for a long time. Then she blows her whistle
 
 **>sennet__promenade**
 
-Mercy, in her water-butt on its barrow at the rim of the Promenade, with her chin on the edge and her hair in wet ropes down the staves, watches the lanterns go up. A thousand of them, alive, gold, turning. She does not make a sound. Her gills are quite still. Round her the whole of Cloudgate has turned from the lanterns to look at her, a mermaid on the Promenade on the Night of Lanterns, and she does not notice any of it. When the last of them is only a star she says, to nobody, ‘They go up.’ And then, louder, and you realise she is speaking to the Dowager, who is standing three feet from the barrow in her black lace with a glass in her hand: ‘I caught your son. Out of the sky. He’s in my air-bell with his leg broke, eating fish. He says to say he isn’t coming home, and he says to say he’s sorry about the coffin.’ Across the Promenade, among the guests, the Rector of the House of Doors sets her glass down on the rim of the Balustrade, very carefully, and goes to find her cloak. The Dowager does not move. Then Mercy holds up her hand out of the water, and on her thumb, too big for any finger, is a ring: gold, with a hill on a hand cut in the stone. Lady Imogen Halyard looks at it. The glass goes out of her fingers and breaks on the gravel, and she does not look down at it. She looks at the girl in the butt for a long time, and then, as if every bone in her had been told to, she kneels on the gravel of the Promenade in her black lace, in front of Cloudgate, so that her face is level with the mermaid’s, and takes the wet hand with the ring on it in both of hers. ‘Thank you,’ she says. That is all. Nobody on the Promenade has ever seen her kneel. Tamsin, Fabian Murrey and Chert each gain 100 experience: took a mermaid to the Night of Lanterns. Here are Magistra Isadora Quance, the Rector of the House of Doors, in a gown of four colours and a chain of keys; Lady Imogen Halyard, the Dowager of Cloudgate, in black, very upright; Aubrey Halyard, the Halyards’ heir, unshaven, in last night’s shirt; the Honourable Florian Mottram, a Tourist from Cloudgate, in a coat the colour of a sunset; and Miss Agatha Sone, a bear-leader, square and grey, with a sergeant’s moustache of eyebrow. The Promenade at night: the gravel grey under enormous stars, the orange trees black in their tubs, the great houses shuttered, and all round the rim the cloud lying pale below the Balustrade like a field of snow under a moon. Somebody in one of the houses is playing a piano, badly, with the window open. The lanterns go up off the rim of Cloudgate in a single breath, a thousand, gold, turning slowly, rising into a sky so black and full of stars that it looks like the inside of a bell; and the whole of Cloudgate stands with its face turned up, silent, while they go.
+Mercy, in her water-butt on its barrow at the rim of the Promenade, with her chin on the edge and her hair in wet ropes down the staves, watches the lanterns go up. A thousand of them, alive, gold, turning. She does not make a sound. Her gills are quite still. Round her the whole of Cloudgate has turned from the lanterns to look at her, a mermaid on the Promenade on the Night of Lanterns, and she does not notice any of it. When the last of them is only a star she says, to nobody, ‘They go up.’ And then, louder, and you realise she is speaking to the Dowager, who is standing three feet from the barrow in her black lace with a glass in her hand: ‘I caught your son. Out of the sky. He’s in my air-bell with his leg broke, eating fish. He says to say he isn’t coming home, and he says to say he’s sorry about the coffin.’ Across the Promenade, among the guests, the Rector of the House of Doors sets her glass down on the rim of the Balustrade, very carefully, and goes to find her cloak. The Dowager does not move. Then Mercy holds up her hand out of the water, and on her thumb, too big for any finger, is a ring: gold, with a hill on a hand cut in the stone. Lady Imogen Halyard looks at it. The glass goes out of her fingers and breaks on the gravel, and she does not look down at it. She looks at the girl in the butt for a long time, and then, as if every bone in her had been told to, she kneels on the gravel of the Promenade in her black lace, in front of Cloudgate, so that her face is level with the mermaid’s, and takes the wet hand with the ring on it in both of hers. ‘Thank you,’ she says. That is all. Nobody on the Promenade has ever seen her kneel. Tamsin, Fabian Murrey and Chert each gain 100 experience: took a mermaid to the Night of Lanterns. The Rector’s keys chime when she moves. You find that you are listening to them. Here are Lady Imogen Halyard, the Dowager of Cloudgate, in black, very upright; Aubrey Halyard, the Halyards’ heir, unshaven, in last night’s shirt; the Honourable Florian Mottram, a Tourist from Cloudgate, in a coat the colour of a sunset; and Miss Agatha Sone, a bear-leader, square and grey, with a sergeant’s moustache of eyebrow. The Promenade at night: the gravel grey under enormous stars, the orange trees black in their tubs, the great houses shuttered, and all round the rim the cloud lying pale below the Balustrade like a field of snow under a moon. Somebody in one of the houses is playing a piano, badly, with the window open. The lanterns go up off the rim of Cloudgate in a single breath, a thousand, gold, turning slowly, rising into a sky so black and full of stars that it looks like the inside of a bell; and the whole of Cloudgate stands with its face turned up, silent, while they go.
 
 **Wait › A while**
 
@@ -910,7 +920,7 @@ The Gallery of Winds is a long hall made of nothing, a hall you know is there by
 
 **>sennet__eyrie**
 
-Lady Imogen Halyard stands on nothing at the top of the sky in her black lace, with her chin up, and says to the North Wind what nobody of her name has said in two hundred and thirty years: that her family took what it was given in love and used it as a lever, and let the sea in on its neighbours, and never once came back to say so; and that she is sorry. Her voice does not shake until the last word. The North Wind looks at her a long time. ‘You have her chin,’ he says. And somewhere far below, over Sennet, in June, it begins to snow. Lady Halyard lets go of your arm, and straightens her shawl, and is the Dowager of Cloudgate again. Tamsin, Fabian Murrey and Chert each gain 150 experience: had the North Wind’s gift renewed. The eyrie of the North Wind is the top of the sky: blue going to black, stars in the day, cold enough to hurt. Tramontane, the North Wind, a prince of the Air, with hair of snow, is here.
+Lady Imogen Halyard stands on nothing at the top of the sky in her black lace, with her chin up, and says to the North Wind what nobody of her name has said in two hundred years: that her family took what it was given in love and used it as a lever, and let the sea in on its neighbours, and never once came back to say so; and that she is sorry. Her voice does not shake until the last word. The North Wind considers her, as he considers weather. ‘You have her chin,’ he says. And somewhere far below, over Sennet, in June, it begins to snow. Lady Halyard lets go of your arm, and straightens her shawl, and is the Dowager of Cloudgate again. Tamsin, Fabian Murrey and Chert each gain 150 experience: had the North Wind’s gift renewed. The eyrie of the North Wind is the top of the sky: blue going to black, stars in the day, cold enough to hurt. Tramontane, the North Wind, a prince of the Air, with hair of snow, is here.
 
 *(1 wait in which nothing is told)*
 
@@ -928,7 +938,7 @@ The Wind Court is a round garden in the middle of Cloudgate, walled, with no pla
 
 **>sennet__promenade**
 
-The Promenade at night: the gravel grey under enormous stars, the orange trees black in their tubs, the great houses shuttered, and all round the rim the cloud lying pale below the Balustrade like a field of snow under a moon. Here are Magistra Isadora Quance, the Rector of the House of Doors, in a gown of four colours and a chain of keys; Lady Imogen Halyard, the Dowager of Cloudgate, in black, very upright; Aubrey Halyard, the Halyards’ heir, unshaven, in last night’s shirt; the Honourable Florian Mottram, a Tourist from Cloudgate, in a coat the colour of a sunset; and Miss Agatha Sone, a bear-leader, square and grey, with a sergeant’s moustache of eyebrow.
+The Promenade at night: the gravel grey under enormous stars, the orange trees black in their tubs, the great houses shuttered, and all round the rim the cloud lying pale below the Balustrade like a field of snow under a moon. The Rector’s keys chime when she moves. You find that you are listening to them. Here are Lady Imogen Halyard, the Dowager of Cloudgate, in black, very upright; Aubrey Halyard, the Halyards’ heir, unshaven, in last night’s shirt; the Honourable Florian Mottram, a Tourist from Cloudgate, in a coat the colour of a sunset; and Miss Agatha Sone, a bear-leader, square and grey, with a sergeant’s moustache of eyebrow.
 
 **>sennet__landing_stage**
 

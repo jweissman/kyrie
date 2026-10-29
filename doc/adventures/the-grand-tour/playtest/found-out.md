@@ -54,7 +54,7 @@ The Quay: granite, wet, smelling of weed and tar and frying. Boats tied two deep
 
 **>sennet__taproom**
 
-The Sounding Line is low, and dark, and full of fishermen. A sounding-lead the size of a child’s head hangs over the bar on its line, and every so often somebody pats it for luck without looking. The window looks straight out across the bay at nothing but water and, above the water, the underside of Cloudgate. In the corner of the Sounding Line, with a pint he has not touched, Mr. Tolley is writing in a notebook that is not his shorthand pad, fast, with his tongue between his teeth, and covering the page with his arm whenever anyone goes by. Old Bethan’s eyes are red at the rims, and twice while you watch she starts to nod over the eels and jerks awake. Here are Peg Arkle, the landlady of the Sounding Line; Mr. Josiah Pumphrey, the Harbourmaster of Sennet, with a brass telescope and the Bylaws under his arm; Prue Quickly, a glass-blower, with forearms like a stevedore’s and no eyebrows; and Mr. Edwin Tolley, the Rector’s amanuensis, a young man with a shorthand pad and no chin.
+The Sounding Line is low, and dark, and full of fishermen. A sounding-lead the size of a child’s head hangs over the bar on its line, and every so often somebody pats it for luck without looking. The window looks straight out across the bay at nothing but water and, above the water, the underside of Cloudgate. In the corner of the Sounding Line, with a pint he has not touched, Mr. Tolley is writing in a notebook that is not his shorthand pad, fast, with his tongue between his teeth, and covering the page with his arm whenever anyone goes by. On the bar, the Sennet Courant, with this week’s part of the Rector’s memoirs. THRESHOLDS, by Magistra I. Quance. Chapter the Twenty-Ninth: Under the Plate. ‘I was born in a room on Fish Street that the spring tides came into, and my mother sold eels on the Quay from the barrow beside the steps. On Ascension night I sat on the third step from the bottom, on the brass plate that says how high the sea may come, and watched the lanterns go up from a hill I would never be let up; and it seemed to me that the plate had been put there for me as much as for the sea.’ Old Bethan’s eyes are red at the rims, and twice while you watch she starts to nod over the eels and jerks awake. Here are Peg Arkle, the landlady of the Sounding Line; Mr. Josiah Pumphrey, the Harbourmaster of Sennet, with a brass telescope and the Bylaws under his arm; Prue Quickly, a glass-blower, with forearms like a stevedore’s and no eyebrows; and Mr. Edwin Tolley, the Rector’s amanuensis, a young man with a shorthand pad and no chin.
 
 **Ask Mr. Tolley what he is writing, here in the corner**
 
@@ -68,7 +68,11 @@ He looks at you as if you had suggested he take it to the moon. ‘Under my name
 
 Sennet wakes to the winch-gang’s horn at the foot of the Ascent and the smell of the glass-houses lighting their furnaces from the Fire Door. You eat what is put in front of you, and sleep long, under a roof.
 
-*(5 waits in which nothing is told)*
+**Wait › An hour**
+
+The Courant on the bar. THRESHOLDS, Chapter the Thirtieth: Second. ‘I went through my first door at fourteen, as a scullion, with a bucket of the Hall’s ashes, because the Doorward’s boy was sick. I have been second through every door since. The second Doorward of my year, after a Mottram. The second woman to be Rector, after a Halyard. I shall be second through the Door of Doors, after whoever wins the Tour, which is only right: it will be the first door anyone ever asked me to go through.’ An hour passes.
+
+*(4 waits in which nothing is told)*
 
 **>sennet__quay**
 
@@ -92,7 +96,7 @@ The Quad: grass worn to earth along the paths, four doors in four walls, and stu
 
 **>sennet__rector_study**
 
-The Rector’s study: books to the ceiling and on the floor and on the chairs, a desk the size of a boat, and on the desk among the books a case of black wood lined with velvet with four empty hollows in it, each the shape of a petal. Through the window, the bay, and Cloudgate. Here are Magistra Isadora Quance, the Rector of the House of Doors, in a gown of four colours and a chain of keys; and Mr. Edwin Tolley, the Rector’s amanuensis, a young man with a shorthand pad and no chin.
+The Rector’s study: books to the ceiling and on the floor and on the chairs, a desk the size of a boat, and on the desk among the books a case of black wood lined with velvet with four empty hollows in it, each the shape of a petal. Through the window, the bay, and Cloudgate. Whenever the Rector moves, the keys on her chain of office chime, a small bright sound, like a purse shaken. Here are Magistra Isadora Quance, the Rector of the House of Doors, in a gown of four colours and a chain of keys; and Mr. Edwin Tolley, the Rector’s amanuensis, a young man with a shorthand pad and no chin.
 
 **Ask Mr. Tolley what the Rector has dictated about the night Perrin Halyard fell**
 

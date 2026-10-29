@@ -20,7 +20,7 @@ The Quay: granite, wet, smelling of weed and tar and frying. Boats tied two deep
 
 **>sennet__taproom**
 
-The Sounding Line is low, and dark, and full of fishermen. A sounding-lead the size of a child’s head hangs over the bar on its line, and every so often somebody pats it for luck without looking. The window looks straight out across the bay at nothing but water and, above the water, the underside of Cloudgate. Peg Arkle, the landlady of the Sounding Line, is here.
+The Sounding Line is low, and dark, and full of fishermen. A sounding-lead the size of a child’s head hangs over the bar on its line, and every so often somebody pats it for luck without looking. The window looks straight out across the bay at nothing but water and, above the water, the underside of Cloudgate. On the bar, the Sennet Courant, with this week’s part of the Rector’s memoirs. THRESHOLDS, by Magistra I. Quance. Chapter the Twenty-Ninth: Under the Plate. ‘I was born in a room on Fish Street that the spring tides came into, and my mother sold eels on the Quay from the barrow beside the steps. On Ascension night I sat on the third step from the bottom, on the brass plate that says how high the sea may come, and watched the lanterns go up from a hill I would never be let up; and it seemed to me that the plate had been put there for me as much as for the sea.’ Peg Arkle, the landlady of the Sounding Line, is here.
 
 *(9 waits in which nothing is told)*
 
@@ -98,7 +98,7 @@ A sylph comes past you, turns round in the air, comes back, and looks at you ver
 
 **Ask the sylphs about the Air petal of the Rose**
 
-‘Oh, that!’ They are delighted. It is the oldest thing in the Air to talk about and they talk about it. ‘Tramontane gave it away! The North Wind! To a girl! A mortal girl from the Sennet side, Ysabeau, with red hair, two hundred and thirty years ago, they talked all one summer up in his eyrie and he gave her the petal for a keepsake, the court’s own petal, imagine, and she took it home and set it in the bottom of her hill and lifted her whole family into the sky with it.’ They go round you, faster. ‘And the sea came in. And she never came back. And he’s been blowing cold ever since, haven’t you noticed, the north wind, it’s cold, it’s because of her.’ They come close. ‘It’s still there! In the hill! Holding them up! Everyone knows! Nobody ever says!’
+‘Oh, that!’ They are delighted. It is the oldest thing in the Air to talk about and they talk about it. ‘Tramontane gave it away! The North Wind! To a girl! A mortal girl from the Sennet side, Ysabeau, with red hair, two hundred years ago, they talked all one summer up in his eyrie and he gave her the petal for a keepsake, the court’s own petal, imagine, and she took it home and set it in the bottom of her hill and lifted her whole family into the sky with it.’ They go round you, faster. ‘And the sea came in. And she never came back. And he’s been blowing cold ever since, haven’t you noticed, the north wind, it’s cold, it’s because of her.’ They come close. ‘It’s still there! In the hill! Holding them up! Everyone knows! Nobody ever says!’
 
 **Tell the sylphs one true thing about yourself**
 
@@ -190,4 +190,4 @@ Of the Rector: she went down the keel ladder of Halyard House on the seventh nig
 
 **Wait › An hour**
 
-It snowed on Sennet in June: big soft flakes out of a clear sky, on the Quay and the glass-houses and the bay, on Cloudgate’s orange trees, on the brass plate on the third step of the Fish Stairs. By morning it has gone, and Cloudgate is still in the sky, held up by a keepsake that is not its own, by leave of a wind who was given a letter two hundred and thirty years late, by a hand that had no business with it. Nobody at Halyard House knows who opened the escritoire. Lady Halyard has had the lock changed, and sat a long time in the drawing room with an empty box and a green ribbon in her lap, and has not sent for the Watch. The sylphs know, and are telling everyone. Nobody believes them; it is too good.
+It snowed on Sennet in June: big soft flakes out of a clear sky, on the Quay and the glass-houses and the bay, on Cloudgate’s orange trees, on the brass plate on the third step of the Fish Stairs. By morning it has gone, and Cloudgate is still in the sky, held up by a keepsake that is not its own, by leave of a wind who was given a letter two hundred years late, by a hand that had no business with it. Nobody at Halyard House knows who opened the escritoire. Lady Halyard has had the lock changed, and sat a long time in the drawing room with an empty box and a green ribbon in her lap, and has not sent for the Watch. The sylphs know, and are telling everyone. Nobody believes them; it is too good.

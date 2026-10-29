@@ -29,10 +29,13 @@ Module sennet "The Grand Tour" {
     Greets "A tall woman of sixty in a gown sewn in four colours gets up from behind a desk the size of a boat, scattering books, and comes round it with both hands out. On her chain of office a ring of old keys clinks. 'A Tourist! A real one, from over the hill. Do sit. Throw those on the floor, they've been there for years.' She looks at you with enormous interest, as if you were the only interesting thing to have happened to her all week. 'Isadora Quance. I run this place, or it runs me. You've come about the Grand Tour. Everybody has. Most of them are idiots. Are you?'".
     Greets again "'You!' says the Rector, delighted, and clinks.".
   }
+  // Ascension Eve, six to seven: an hour on Old Bethan's crate (courant.kyr).
+  Query isaEve() means day(clock) == 3 and hour(clock) == 18 and not cloudgateFell(sennet_bay).
   Query rectorFree() means not rectorExposed(quance) and not rectorTaken(quance) and not rectorThrough(quance) and not rectorFled(quance) and not dead(quance).
   Relation rectorAbout(group). Relation rectorAway(group).
   Rule quance_study when hour(clock) >= 9 and hour(clock) < 17 and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, rector_study) { Assert at(quance, rector_study). }
-  Rule quance_hall when hour(clock) >= 17 and hour(clock) < 19 and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, hall_of_doors) { Assert at(quance, hall_of_doors). }
+  Rule quance_eve when isaEve() and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, quay) { Assert at(quance, quay). }
+  Rule quance_hall when hour(clock) >= 17 and hour(clock) < 19 and not isaEve() and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, hall_of_doors) { Assert at(quance, hall_of_doors). }
   Rule quance_writes when hour(clock) >= 19 and hour(clock) < 23 and not lanternNight() and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, rector_study) { Assert at(quance, rector_study). }
   Rule quance_bed when (hour(clock) >= 23 or hour(clock) < 9) and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, offstage) { Assert at(quance, offstage). }
   Rule quance_lanterns when lanternNight() and rectorFree() and not rectorAbout(quance) and not rectorAway(quance) and not at(quance, promenade) { Assert at(quance, promenade). }

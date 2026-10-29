@@ -65,16 +65,16 @@ Module sennet "The Grand Tour" {
   // bring him back, he will.
   Query beenThrough() means been(party, fire_threshold) or been(party, earth_threshold) or been(party, air_threshold) or been(party, drowned_stair).
   Topic fabian_ask with fabian "Ask Fabian Murrey to come with you on the Tour" when knows(actor, handbook_known) and not fabianAsked(fabian) and not travelsWith(fabian, party) once {
-    Says "He laughs, and stops when he sees you mean it. 'Me? I'd faint. I'd faint and you'd have to carry me, and I'm all elbows.' He picks up a book and puts it down. 'Have you been through? Any of them?' He looks at your face. 'No. Then you don't know either.' He shakes his head. 'Go through one. Come back and tell me what it was really like, and not what she says it's like.' He taps the red book. 'Then ask me again.'".
+    Says "He drops the book he is holding, and picks it up, and sees that you mean it. 'Me? I'd faint. I'd faint and you'd have to carry me, and I'm all elbows.' He picks up a book and puts it down. 'Have you been through? Any of them?' He looks at your face. 'No. Then you don't know either.' He shakes his head. 'Go through one. Come back and tell me what it was really like, and not what she says it's like.' He taps the red book. 'Then ask me again.'".
     On discuss { Assert fabianAsked(fabian). }
   }
   Topic fabian_told_through with fabian "Tell Fabian Murrey what it was really like, through the door" when fabianAsked(fabian) and beenThrough() and not fabianTold(fabian) once {
     Says "He listens to all of it with his pencil stopped over his notebook and does not write a word. When you have finished he looks at the portrait for a long time. 'She never said it smelt like that,' he says. 'She never said anything was frightening. She said the Hour Court was vulgar.' He puts the pencil down. 'If I came,' he says, very quietly, 'would you bring me back? Not her way. Your way. Would you promise?'".
-    On discuss { Assert fabianTold(fabian). }
+    On discuss { Assert fabianTold(fabian). Increase fondness(fabian) by 1. }
   }
   Topic fabian_promise with fabian "Promise Fabian Murrey you will bring him home" answering fabian_told_through when fabianTold(fabian) and not fabianWilling(fabian) once {
     Says "'All right,' says Fabian Murrey, and swallows. 'All right. I'll hold you to it, mind. I'll write it down.' He does: you watch him write it in the notebook, in a small careful hand, and underline it. Then he goes up the stairs at the back of the shop two at a time, and comes down with a red book gone brown, scorched at one corner, and holds it out to you. 'Hers,' he says. 'The first copy. She took it through nine times. You carry it. My hands shake.'".
-    On discuss { Assert fabianWilling(fabian). Assert willing(fabian, actor). Set hire(fabian) to 0. Assert promiseMade(fabian_home). Give philippa_copy to actor. Assert lends(fabian, philippa_copy, actor). Increase fondness(fabian) by 1. }
+    On discuss { Assert fabianWilling(fabian). Increase fondness(fabian) by 1. Assert willing(fabian, actor). Set hire(fabian) to 0. Assert promiseMade(fabian_home). Give philippa_copy to actor. Assert lends(fabian, philippa_copy, actor). Increase fondness(fabian) by 1. }
   }
   Promise fabian_home "to bring Fabian Murrey home from the Tour" to fabian
     kept when fabianHome(party) "Fabian Murrey sits down on his own stool behind his own counter, and puts both hands flat on it, as if it might go somewhere."
@@ -96,4 +96,11 @@ Module sennet "The Grand Tour" {
   Topic fabian_notebook with fabian travelling "Ask Fabian what he has written so far" when wentWith(fabian) once {
     Says "He shows you. It is not like the Handbook at all. It is short, and written in pencil, and crossed out, and some of it is about the places and a good deal of it is about the people, including, you notice, you. He takes it back before you can read that part. 'It's not ready,' he says. 'It's only true.'".
   }
+
+  // His fondness, shown where he shows everything: in what he writes.
+  Relation fabianWe(group). Relation fabianSigned(group).
+  Rule fabian_we when travelsWith(fabian, party) and fondness(fabian) >= 3 and not fabianWe(fabian)
+    says "Fabian is writing in his notebook as you walk, and you see over his shoulder that he has stopped writing 'the traveller', as his grandmother did, in every line for four hundred pages. He has started writing 'we'." { Assert fabianWe(fabian). }
+  Rule fabian_signed when travelsWith(fabian, party) and fondness(fabian) >= 5 and not fabianSigned(fabian)
+    says "At the foot of a page, under 'we', Fabian has written your name, and crossed it out, and written it again." { Assert fabianSigned(fabian). }
 }

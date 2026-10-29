@@ -6,7 +6,7 @@
 
 Sennet is a port in three storeys. On the bay: quays, eel-wives, glass-houses fed with heat from the Fire Door, and on
 the headland the House of Doors, a shabby college whose doors open on the elemental planes. Over the cloud-line,
-**Cloudgate**: the top of the old city, lifted into the sky two hundred and thirty years ago by Ysabeau Halyard,
+**Cloudgate**: the top of the old city, lifted into the sky two hundred years ago by Ysabeau Halyard,
 where it is always a fine afternoon and the servants never see the view. Under the bay, **the Whelm**: the lower town,
 drowned when the hill went up, its lamps still lit, where the merfolk came through the Water Door two lifetimes later
 and live in the shops.
@@ -46,10 +46,10 @@ which is the point of a city.
 
 | | Who | Wants | Contradiction |
 |---|---|---|---|
-| **Isadora Quance** | Rector of the House of Doors, sixty, mage, gown of four colours, chain of keys | To be first through the Door of Doors | Genuinely loved Perrin; pushed him; gave his eulogy without notes; keeps her word to an accomplice, from vanity |
+| **Isadora Quance** | Rector of the House of Doors, sixty, mage, gown of four colours, chain of keys; born Isa Quance on Fish Street, the eel-wife's daughter | To be first through the Door of Doors, after a life of being second | Genuinely loved Perrin; pushed him; gave his eulogy without notes; sits on Old Bethan's crate every Ascension Eve; has become what kept her down ("I don't see why I should go down to tell them") |
 | **Perrin Halyard** | Her best student, the Dowager's younger son, "officially dead" | To stay dead, and give the petal back to the wind | Is the only one who can clear his brother, and won't |
 | **Mercy** | A merfolk girl who caught him | To see a lantern go up alive | Wants to be seen; it is what endangers him |
-| **Lady Imogen Halyard** | The Dowager of Cloudgate | That her family stay above the smell of fish | Has never once gone down to the Quay on the Night of Lanterns, and knows why |
+| **Lady Imogen Halyard** | The Dowager of Cloudgate; born Imogen Pargeter over the outfitter's in Lamp Street, up the chain at nineteen as a lady's maid | That her family stay above the smell of fish | Has never once gone down to the Quay on the Night of Lanterns; her nephew sells Tourists their cloaks |
 | **Aubrey Halyard** | Her heir, thirty, on the sofa | To have said sorry | Believes he did it |
 | **Fabian Murrey** | Bookseller, grandson of the Handbook's author, the companion | To write one sentence his grandmother did not | Has never been through a door |
 | **Chert** | Youngest delegate of the Slow Assembly, a pebble the size of a cat, 640 | To see the sky | Will steal a petal "it's only a motion" |
@@ -64,6 +64,7 @@ which is the point of a city.
 | **Sergeant Bassett** | The Watch, Lamp Street | That nothing on his beat pretend to be what it isn't | Brings her tea in the cell, after |
 | **Florian Mottram, Miss Sone** | The rival Tourist and his bear-leader | A collection; a wage | His great-grandfather's ember is in a cabinet; Miss Sone has opinions |
 | **Tramontane** | The North Wind | That she had meant it | Will let the hill fall for justice, or keep it up for a letter |
+| **The Sexton** | A conger as long as a boat in the drowned belfry | To be let be | Kept by the bell the children ring for the noise |
 | **Mr. Tench, Dr. Cole, Brother Amis, Thursday** | Doorwarden, curator, chaplain of Veyra, cat | Order; the ember home; the House to remember; mice | — |
 
 ## The conflicts

@@ -13,7 +13,7 @@ Module sennet "The Grand Tour" {
   Discovery perrin_board "The crier's board in the Glass Market says that Perrin Halyard, a Doorward, fell from Cloudgate twelve days before you came, and will be let down on the third day at noon.".
   Query heardFall() means knows(party, perrin_fell) or knows(party, perrin_board).
   Observe quay_scene at quay when true "The Quay: granite, wet, smelling of weed and tar and frying. Boats tied two deep. Eel barrows, lobster pots, a gull standing on a bollard with the air of having been appointed to it. Looking up from here, Cloudgate is directly overhead, and its underside is rock, brown and hanging, like the bottom of a turnip pulled out of the ground.".
-  Observe fish_stairs_scene at fish_stairs when true "The Fish Stairs go down off the end of the Quay into the bay: green granite, worn hollow in the middle, going down and down under the water until the light gives up on them. A brass plate is let into the third step from the bottom of the dry ones: BY ORDER: NO PERSON OF THE SEA ABOVE THIS STEP. MDCIX.".
+  Observe fish_stairs_scene at fish_stairs when true "The Fish Stairs go down off the end of the Quay into the bay: green granite, worn hollow in the middle, going down and down under the water until the light gives up on them. A brass plate is let into the third step from the bottom of the dry ones: BY ORDER: NO PERSON OF THE SEA ABOVE THIS STEP. MCCXI.".
   Observe taproom_scene at taproom when true "The Sounding Line is low, and dark, and full of fishermen. A sounding-lead the size of a child's head hangs over the bar on its line, and every so often somebody pats it for luck without looking. The window looks straight out across the bay at nothing but water and, above the water, the underside of Cloudgate.".
 
   // ── The bell under the water ──────────────────────────────────────────────────────────────────────────────────────
@@ -27,17 +27,20 @@ Module sennet "The Grand Tour" {
   Observe bell_heard_line at taproom as sound when tideTurn() and not bellStopped(sennet_bay) and not bellMuffled(sennet_bay) "Through the window, out of the bay, a bell rings under the water. The fishermen at the bar stop talking until it has done.".
 
   // ── Old Bethan ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Kind eel_basket_kind "a basket of live eels" is gear worth 2 weighing 2 described "A wicker creel of live eels under a wet sack, heavy and moving, from Old Bethan's barrow. Eels are what the harbour lives on, and what lives on the harbour.".
   Person bethan "Old Bethan" at quay {
     Role "an eel-wife, at a barrow of live eels" when not bethanAtPeace(bethan).
     Role "an eel-wife, who has slept" when bethanAtPeace(bethan).
     Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Sells rations for 1 coin from 6.
+    Sells eel_basket_kind for 2 coin from 4.
     Greets "A small old woman in three shawls looks up from a barrow of live eels, and looks at your boots, and says: 'Eel pie. A penny. You'll not get better in Sennet and you'll get worse up there.' She jerks her head at the sky without looking at it.".
     Greets again "'Eel pie,' says Old Bethan, which is how she says good morning.".
   }
   Relation bethanAtPeace(group). Relation bethanFriend(group).
   Rule bethan_quay when hour(clock) >= 8 and hour(clock) < 18 and not at(bethan, quay) { Assert at(bethan, quay). }
-  Rule bethan_line when hour(clock) >= 18 and hour(clock) < 22 and not bellForNed(sennet_bay) and not at(bethan, taproom) { Assert at(bethan, taproom). }
+  Rule bethan_eve when isaEve() and not at(bethan, quay) { Assert at(bethan, quay). }
+  Rule bethan_line when hour(clock) >= 18 and hour(clock) < 22 and not isaEve() and not bellForNed(sennet_bay) and not at(bethan, taproom) { Assert at(bethan, taproom). }
   Rule bethan_home when (hour(clock) >= 22 or hour(clock) < 8) and not at(bethan, offstage) { Assert at(bethan, offstage). }
   Observe bethan_tired near bethan when not bethanAtPeace(bethan) and not dark() "Old Bethan's eyes are red at the rims, and twice while you watch she starts to nod over the eels and jerks awake.".
   Topic bethan_bell with bethan "Ask Old Bethan about the bell under the water" when true once {

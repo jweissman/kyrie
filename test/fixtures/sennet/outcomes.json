@@ -190,6 +190,8 @@
   "=day 7 21:50",
   "Wait › A while",
   "Wait › A while",
+  "Ask the Rector why she pushed",
+  "Ask the Rector what is under the hill",
   "Stand aside, and go with the Rector",
   "=+3"
  ],
@@ -219,5 +221,44 @@
   "Go down in the basket",
   ">sennet__air_bell",
   "=day 5 02:30"
+ ],
+ "bell": [
+  ">sennet__quay",
+  "Ask Old Bethan about the bell",
+  ">sennet__fish_stairs",
+  "=day 1 16:00",
+  "Talk to Ha'penny",
+  "Ask Ha'penny about the bell",
+  "why the children ring the bell",
+  "Tell Ha'penny about Old Bethan",
+  "Ask Ha'penny to stop ringing",
+  "=day 1 18:20",
+  "=day 2 07:10",
+  "Ask Ha'penny and the others to ring",
+  "=day 2 18:20",
+  ">sennet__taproom",
+  "why the merfolk ring the bell"
+ ],
+ "wrong": [
+  "=day 2 05:00",
+  ">sennet__winch_floor",
+  "Carry a hamper",
+  "Carry the Halyards' hamper",
+  "Talk to Jem",
+  "why he keeps away",
+  ">sennet__drawing_room",
+  ">sennet__aubrey_rooms",
+  "=day 2 09:00",
+  "Talk to Aubrey",
+  "Sit down and drink",
+  "what happened on the night",
+  ">sennet__landing_stage",
+  "Go down in the basket",
+  ">sennet__glasshouse",
+  "Tell Sergeant Bassett that it was Aubrey",
+  "=+8",
+  ">sennet__air_bell",
+  "his brother is in the Watch-house",
+  "Ask Perrin Halyard to come up"
  ]
 }

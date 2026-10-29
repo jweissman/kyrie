@@ -82,3 +82,29 @@ documents 00–02, which predate the build.*
   nothing about who built it.
 - The student lovers (E12) stayed cut.
 - No Deem tables; no new engine relation for a recruit's death (`lost`), which friction 3 asks for.
+
+## The second pass
+
+See `12-second-pass.md` for the reasons. In the module:
+
+- `courant.kyr`: the crier's board chalked with the race; *Thresholds*, chapters 29–33, in the Courant on the bar of the
+  Sounding Line; the printed lie as a witness (`printed_lie`); Old Bethan on Isa Quance; the Rector on Bethan's crate
+  on Ascension Eve (her schedule and Bethan's changed for it).
+- `sexton.kyr`: the belfry (a new room and way in `city.kyr`), the Sexton, the turn, the eels (sold by Bethan), the
+  descent and return, the kill; `muffle_bell` moved up into the belfry.
+- `history.kyr`: the Roll of the Grand Tour; the Museum's labels; the register on the drowned lectern; where the
+  merfolk learned their English; why there is no weather on Cloudgate; the frosted bottles; the Nexus hatch; the
+  Rector's keys.
+- `rector.kyr`: two questions at the keel. `fall.kyr`: the wrong answer to Bassett, Aubrey led down, the Rector at
+  rest, Perrin told, Aubrey released. `cloudgate.kyr`: Aubrey at the funeral; the nursemaid; Imogen married into the
+  hill. `lamp.kyr`: Mr. Pargeter, her nephew. `lanterns.kyr`: "I was born on Lamp Street." `murrey.kyr`: "we", and
+  your name crossed out; fondness for being told and being promised.
+- `clock.kyr`: the chapters named as acts. `growth.kyr`: four milestones. `aftermath.kyr`: Aubrey taken, the Sexton
+  kept, down or dead.
+- Chronology: the gift in 1088, the Lifting in 1090 (no more "two hundred and thirty years"); Ysabeau married her cousin;
+  the plate MCCXI, not MDCIX.
+- Prose: "for a long time" from 51 to 24; seven characters given their own gestures in place of the narrator's pause
+  or a laugh; Perrin and Aubrey join and leave in their own words.
+- Tests: `the-grand-tour-second.test.ts` (six); the Tour's fixture asks Fabian how he is bearing up; First Through's
+  accomplice asks the Rector her two questions. Transcripts: `bell.md`, `wrong-answer.md`.
+

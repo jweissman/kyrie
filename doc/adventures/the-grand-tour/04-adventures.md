@@ -4,8 +4,9 @@
 
 The commission's test for a small adventure was: a person with a motive; a place or an object; an uncertainty; more
 than one way through; a complication; a resolution with consequences; and later effects. Each entry below gives
-those, and the file where it lives. Seven of the twenty threads touch nothing cosmic and change only a person; they
-are marked **local**.
+those, and the file where it lives. Eight of the twenty-three threads touch nothing cosmic and change only a person;
+they are marked **local**. Threads 21–23 and the Bell's second half were added in the second pass
+(`12-second-pass.md`).
 
 ## The local stories
 
@@ -19,9 +20,12 @@ Bethan at the edge of the Quay (`bethan_rite`). *Complication:* the words cut on
 are the same words. *Later:* on the Night of Lanterns she sets one candle on the water for Ned and goes home to bed;
 in the Keepsake she lights the Dowager's candle without a word; the news tells which way it went.
 
+*Second pass:* every way of stopping the bell now lets the Sexton down (21); only understanding it, or the rite,
+gives Bethan her sleep and keeps the Row safe.
+
 **2. The Third Step** (`harbour.kyr`, `lamp.kyr`) — **local**, and a hinge. *Ha'penny*, a merfolk child, wants to buy
 Mercy a present in the Glass Market with her own pearl. *Object:* the brass plate on the third step, BY ORDER: NO
-PERSON OF THE SEA ABOVE THIS STEP. MDCIX. *Mr. Pumphrey*, the Harbourmaster, will fine anyone who brings her up five
+PERSON OF THE SEA ABOVE THIS STEP. MCCXI. *Mr. Pumphrey*, the Harbourmaster, will fine anyone who brings her up five
 coin. *Ways through:* pay; pay in advance as a "deposit" (he finds a form for it); argue in front of the Quay that a
 child shopping is not a person of the sea (persuasion, an even chance); have Old Bethan tell him, loud enough for the Quay,
 about his own grandmother, who sold cockles to the sea-folk from the top step and let him pull their hair; or simply lift her into a fish-basket and carry her.
@@ -113,7 +117,7 @@ Whelm on day 6 at five unless she is warned or you are there.
 is in the keel; break the Halyards' seal; do something in Cloudgate. *Complication:* everything told is down in
 Cloudgate within the hour and in the House by the next: telling the sylphs Perrin is alive tells the Rector.
 
-**15. Tramontane** (`air.kyr`) — the second romance, two hundred and thirty years old. The North Wind gave the court's
+**15. Tramontane** (`air.kyr`) — the second romance, two hundred years old. The North Wind gave the court's
 petal to a red-haired girl who came up through the arch on a dare. *Ways:* take him his petal back (and the hill comes
 down), bring Ysabeau's last letter (two lines, never sent), or bring a Halyard to say sorry. *Later:* it snows on
 Sennet in June.
@@ -146,6 +150,28 @@ shut to you after).
 weakness for being first. She enters Tourists; she lends helms; she wants Perrin's notebook (whose last pages are
 dated after he fell); she buys petals; she sends divers; she hunts Perrin at two in the morning after she hears; she
 goes to the keel on the seventh night; given the four petals she climbs the tower at once.
+
+## Added in the second pass
+
+**21. The Sexton** (`sexton.kyr`) — **local**, and the work's one monster. A conger as long as a boat coiled round
+the bell-beam of the drowned church since the water came in, kept there by the bell at the turn of the tide, which
+the children ring for the noise and the grandmothers rang for a reason. *Uncertainty:* the harbour's legend (the
+drowned sexton at his rope) against the child's ("Gran says the Sexton comes down") against the matriarch's
+("Keeping… nobody knows what it is for"). *Ways through:* time the belfry for the turn; feed it Bethan's eels; ring
+the bell again (Ha'penny, or cut your own muffle); fight it (level 5, ambush: one blow kills a level-1 warrior); or
+tell Bethan why, so the bell need not stop. *Complication:* it is Bethan's sleep against the Row's safety.
+*Later:* the Row shut and the third step short of cockles; or the children ringing for the noise, and some of them
+knowing why; or the dead Sexton on the cobbles, and No Admittance: "Now nobody keeps anything."
+
+**22. Isa Quance** (`courant.kyr`, `rector.kyr`). The Rector's history, in her own memoirs a chapter a morning in the
+Courant, in Old Bethan's memory of the clever girl on the next barrow, in the woman on Bethan's crate on Ascension
+Eve, and in two answers at the keel. *Uncertainty:* the printed Chapter Thirty-One, which says she came down at
+nine. *Ways:* read it, and set it beside Kittiwake's memory of the eleven o'clock (a witness made by the player).
+*Later:* the Courant's blank column when she is taken.
+
+**23. The wrong answer** (`fall.kyr`). Aubrey's own account, carried to Bassett, is believed, because Aubrey believes
+it: he walks down the chain beside the sergeant and thanks him for the walk; the Rector is at rest. *Ways out:*
+Perrin, told, comes up; or the Rector is found out. *Later:* or the Assize at Michaelmas.
 
 ## How they hold together
 

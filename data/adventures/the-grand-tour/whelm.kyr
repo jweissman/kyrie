@@ -5,7 +5,7 @@ Module sennet "The Grand Tour" {
   // lamps they found burning in the Undercroft below, and take their names from the signs over the drowned shops,
   // which they think are old words of power. They are ruled, or kept, by an old woman called No Admittance.
   Relation wet(place).
-  Initially Assert wet(drowned_stair). Initially Assert wet(drowned_street). Initially Assert wet(drowned_church).
+  Initially Assert wet(drowned_stair). Initially Assert wet(drowned_street). Initially Assert wet(drowned_church). Initially Assert wet(belfry).
   Initially Assert wet(guildhall). Initially Assert wet(undercroft). Initially Assert wet(engine_room). Initially Assert wet(shaft_foot).
   Hazard drowning "Water in the lungs" means "Deal (2d6) physical damage to ally unless constitution save against (12).".
   Rule drowns when at(party, ?p) and wet(?p) and not capable(party, breath)
@@ -24,10 +24,10 @@ Module sennet "The Grand Tour" {
   Observe dchurch_words at drowned_church when not knows(party, door_words) "The letters on the door are cut deep and badly, and the last one runs off down the grain, as if whoever cut it had not had time to finish." teaches door_words.
   Observe dchurch_bell at drowned_church when true "High in the tower, if you look up the shaft of it through the water, the bell hangs on its beam, green, with a rope going down from it that sways in the current like a weed.".
   Action muffle_bell(actor: group, site: place) "Swim up the drowned tower and tie up the bell's clapper with your rope" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drowned_church) and holding(actor, rope) and not bellMuffled(sennet_bay) and not bellStopped(sennet_bay).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, belfry) and holding(actor, rope) and not bellMuffled(sennet_bay) and not bellStopped(sennet_bay).
     Time 3.
     On success { Spend rope from actor. Assert bellMuffled(sennet_bay). }
-    Result "Up the inside of the tower through the green, past the floors that fell in two hundred years ago, to the beam; and there is the bell, green and enormous and nearer than you wanted, and its clapper as big as a man. You lash it to the frame with every turn of rope you have, and knot it, and it hangs there trussed like a ham. Below you, at the foot of the tower, three merfolk children are watching with their mouths open, and one of them, who has a sign over his house that says CASH ONLY, begins to cry.".
+    Result "The bell is green and enormous and nearer than you wanted, and its clapper as big as a man. You lash it to the frame with every turn of rope you have, and knot it, and it hangs there trussed like a ham. Below you, at the foot of the tower, three merfolk children are watching with their mouths open, and one of them, who has a sign over his house that says CASH ONLY, begins to cry.".
   }
   Observe guild_scene at guildhall when true "The Guildhall of old Sennet: a great room with a hammer-beam roof, where the merchants met, full now of the merfolk. White Aenean lamps hang from the beams on chains. At the far end, in the drowned mayor's chair, sits an old woman with a crown of shells.".
   Observe guild_sign at guildhall when true "Over the small door at the back of the Guildhall, in old gilt letters furred with weed, a sign: NO ADMITTANCE.".
@@ -174,6 +174,8 @@ Module sennet "The Grand Tour" {
     Ancestry human. Calling mage. Trait diviner. Level 4. Peaceable. Pronouns he. Manner cheerful.
     Greets "The young man on the weed mattress looks up from a drowned book he is drying page by page against the lamp, and sees you, and goes white, and then, seeing your face, laughs. 'Oh, God. A Tourist. Of course. The bay's full of them.' He has a quick, clever, sunburnt face and his mother's nose. 'I'm dead, you know. Officially. They're letting me down on the third day. I'd come, but I've broken my leg.'".
     Greets again "'You again,' says Perrin Halyard, and shuts his book on his finger.".
+    Joins "Perrin Halyard gets the oar under his arm and stands, white to the lips, and grins at you. 'Lead on. Slowly. I'm a dead man; we don't hurry.'".
+    Leaves "Perrin Halyard lets go of your shoulder, and stands on his own, on the oar, and nods to you, as one Doorward to another.".
   }
   Entity aubrey_did: claim "Aubrey pushed Perrin off the Balustrade".
   Initially Assert believes(perrin, aubrey_did). Initially Set conviction(perrin, aubrey_did) to 2.
@@ -185,7 +187,7 @@ Module sennet "The Grand Tour" {
   }
   Discovery keys_heard "Perrin Halyard was pushed off the Balustrade from behind, in the fog, by two hands he did not see; he heard keys ringing, a great many, as if someone had shaken a chain. He has decided it was his brother Aubrey, drunk, and will not go back up to accuse him.".
   Topic perrin_found with perrin "Ask Perrin Halyard what he found out, that he quarrelled over" when knows(actor, keys_heard) once {
-    Says "He looks at you for a long time, deciding. 'You'll find out anyway, if you're on the Tour.' He pulls himself up against the glass. 'Ysabeau, my great-great-whatever, the one with the hill on her hand. She didn't lift Cloudgate by magic. She lifted it with a petal. The Air petal of the Rose, that the North Wind gave her because he loved her, and she took it home and set it in the keel of Halyard Hill, and up it went, and the sea came in.' He rubs his face. 'It's still there. Under the cellars. I climbed down and saw it, the week before the Tour was proclaimed. Every petal the Rector is sending people after is in a court somewhere, and the fourth is holding up my mother's house.' He laughs, shortly. 'I said the Air should have it back. Aubrey said the house would fall down. Well, it would.' He hesitates. 'I told the Rector. Before anyone. She was my teacher. She said she'd think about what to do.'".
+    Says "He looks at you, deciding, and picks at the splint on his leg. 'You'll find out anyway, if you're on the Tour.' He pulls himself up against the glass. 'Ysabeau, my great-great-whatever, the one with the hill on her hand. She didn't lift Cloudgate by magic. She lifted it with a petal. The Air petal of the Rose, that the North Wind gave her because he loved her, and she took it home and set it in the keel of Halyard Hill, and up it went, and the sea came in.' He rubs his face. 'It's still there. Under the cellars. I climbed down and saw it, the week before the Tour was proclaimed. Every petal the Rector is sending people after is in a court somewhere, and the fourth is holding up my mother's house.' He laughs, shortly. 'I said the Air should have it back. Aubrey said the house would fall down. Well, it would.' He hesitates. 'I told the Rector. Before anyone. She was my teacher. She said she'd think about what to do.'".
     On discuss { Assert knows(actor, keel_petal). Assert knows(actor, perrin_told_rector). }
   }
   Discovery keel_petal "The Air petal of the Rose is not in the Plane of Air. The North Wind gave it to Ysabeau Halyard for love; she set it in the keel of Halyard Hill and lifted it into the sky. It is still there, in the keel under the cellars of Halyard House, holding Cloudgate up. Taken out, Cloudgate would fall.".

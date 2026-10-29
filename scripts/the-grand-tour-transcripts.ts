@@ -26,6 +26,9 @@ const journeys: { file: string; title: string; who: string; party?: CreatureGene
     route: [...steps('tour', 'fire', 'fabian_earth', 'whelm'), ...steps('outcomes', 'kept_above')] },
   { file: 'keepsake.md', title: 'The Keepsake', who: 'Tamsin, a bard', party: bard,
     route: [...steps('tour', 'fire', 'fabian_earth', 'whelm', 'cloudgate', 'air'), ...steps('outcomes', 'lanterns')] },
+  { file: 'bell.md', title: 'The Bell', who: 'Tamsin, a bard', party: bard, route: steps('outcomes', 'bell') },
+  { file: 'wrong-answer.md', title: 'The Wrong Answer', who: 'Tamsin, a bard', party: bard,
+    route: [...steps('tour', 'fire', 'fabian_earth', 'whelm'), ...steps('outcomes', 'wrong')] },
   { file: 'letter.md', title: 'The Letter', who: 'Wren, a thief (a burglar)', party: one('thief', 'burglar', 'elf', 'Wren'),
     route: steps('outcomes', 'letter') },
 ];

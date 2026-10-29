@@ -64,6 +64,7 @@ Module sennet "The Grand Tour" {
   Place drowned_stair "the foot of the Fish Stairs, under the water" is room within whelm at 2, 0 outdoors.
   Place drowned_street "Chandlers' Row, under the water" is room within whelm at 1, 0 outdoors.
   Place drowned_church "Lir's church, under the water" is room within whelm at 0, 0 outdoors.
+  Place belfry "the belfry of Lir's church, under the water" is room within whelm at 0, 1 indoors.
   Place guildhall "the drowned Guildhall" is room within whelm at 1, 1 outdoors.
   Place air_bell "the air-bell" is room within whelm at 2, 1 indoors.
   Place undercroft "the Aenean Undercroft" is room within whelm at 1, 2 underground.
@@ -148,6 +149,7 @@ Module sennet "The Grand Tour" {
   // ── Ways: the Whelm ───────────────────────────────────────────────────────────────────────────────────────────────
   Passage row_way "Chandlers' Row" is path between drowned_stair and drowned_street taking 5 minutes.
   Passage church_way "the church door, under the water" is doorway between drowned_street and drowned_church.
+  Passage tower_inside "the inside of the tower" is passage between drowned_church and belfry taking 5 minutes.
   Passage guild_way "the Guildhall steps" is steps between drowned_street and guildhall.
   Passage bell_way "the neck of the air-bell" is passage between guildhall and air_bell hidden until air_bell_known.
   Passage undercroft_stair "the Undercroft steps" is steps between guildhall and undercroft.

@@ -1,5 +1,8 @@
 # The Grand Tour: a critique
 
+*(Written after the first build. `12-second-pass.md` reads it again, harder, and records what was then done about
+the antagonist offstage, the one voice, the hidden romance and the mystery without a wrong answer.)*
+
 *An honest reading of what was built, as literature and as play, by its author, from the ten transcripts in
 `playtest/` and the journeys behind them. The author is the worst-placed reader there is; what follows tries to read
 against that.*

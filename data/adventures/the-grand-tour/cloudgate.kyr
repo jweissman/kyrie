@@ -6,6 +6,7 @@ Module sennet "The Grand Tour" {
   Observe stage_again at landing_stage when visitedBefore(landing_stage) and aloft() and not dark() "The Landing Stage, white and gilt, in the sun, with the cloud lying below the railings like snow.".
   Observe stage_night at landing_stage as weather when dark() and aloft() "Even at night it is not quite dark in Cloudgate. Above the cloud the stars are enormous, and the cloud below gives back a light of its own, like snow under a moon.".
   Observe promenade_scene at promenade when aloft() and not dark() "The Promenade runs round the rim of Cloudgate between the great houses and the edge: gravel raked into patterns, orange trees in tubs, benches with nobody on them, and people walking slowly in pale clothes under parasols, looking at the view, which is cloud. The houses of Cloudgate are the houses of old Sennet, very old, with their ground floors gone into the rock, so that the front doors are on the first floor and the steps go up to them out of the gravel. All the windows face outward.".
+  Observe promenade_nurse at promenade when aloft() and not dark() and hour(clock) < 12 and not lanternNight() "A nursemaid from the Sennet side, in Halyard green, wheels a Cloudgate baby along the rim of the Promenade. She keeps to the inside of the path, against the house-fronts, and does not look at the view; and when the baby throws its rattle at the Balustrade she lets it lie.".
   Observe promenade_night at promenade when aloft() and dark() "The Promenade at night: the gravel grey under enormous stars, the orange trees black in their tubs, the great houses shuttered, and all round the rim the cloud lying pale below the Balustrade like a field of snow under a moon. Somebody in one of the houses is playing a piano, badly, with the window open.".
   Observe balustrade_scene at balustrade when aloft() "At the end of the Promenade the gravel stops at a stone balustrade, waist-high, with a broad flat rail you could sit on, and beyond it nothing at all: the cloud, a long way down, and the curve of the world. A wreath of white flowers has been tied to the rail, and is going brown. Nobody is standing near it.".
   Observe court_scene at wind_court when aloft() "The Wind Court is a round garden in the middle of Cloudgate, walled, with no plants in it but grass, and the grass all lying flat in one direction. In the wall on the far side is an arch of white stone, very old, with nothing in it but sky; and out of the sky in it comes a wind, steady, cold, smelling of snow, that never stops.".
@@ -46,12 +47,12 @@ Module sennet "The Grand Tour" {
   }
   Discovery imogen_grief "Lady Halyard thought Perrin's wish to be a Doorward beneath the family; he told her everything was beneath them, that was rather the point. She is letting down an empty coffin because one must let down something.".
   Topic imogen_lifting with imogen "Ask Lady Halyard about the Lifting" when true once {
-    Says "'My great-great-grandmother lifted this hill on the palm of her hand.' She does not look at the portrait; she does not need to. 'Ysabeau Halyard. She went through the Air Door a girl and came back a woman, with the means to raise her family above the damp and the smells and the sea, and she used them. That is what one does with means.' She folds her hands. 'Down there they call it something else. They would.'".
+    Says "'My husband's grandmother, six times back, lifted this hill on the palm of her hand. I married it.' She does not look at the portrait; she does not need to. 'Ysabeau Halyard. She went through the Air Door a girl and came back a woman, with the means to raise her family above the damp and the smells and the sea, and she used them. That is what one does with means.' She folds her hands. 'Down there they call it something else. They would.'".
     On discuss { Assert knows(actor, imogen_lifting). }
   }
   Discovery imogen_lifting "Lady Halyard says Ysabeau Halyard went through the Air Door a girl and came back with the means to lift her family above the sea, and used them, as one does with means.".
   Topic imogen_ysabeau with imogen "Ask Lady Halyard about the lady in green with the hill on her hand" when knows(actor, imogen_lifting) once {
-    Says "'They say she loved a wind.' Lady Halyard says it with great distaste, as if repeating something said by a servant. 'A prince of the Air. Family nonsense. She kept a box of letters to him that she never sent, it's in the escritoire there with the deeds, nobody has opened it in a hundred years.' She looks at the portrait at last. 'She married Lord Halyard the year after the Lifting and had nine children and died at ninety in that chair. If she loved a wind, she got over it.'".
+    Says "'They say she loved a wind.' Lady Halyard says it with great distaste, as if repeating something said by a servant. 'A prince of the Air. Family nonsense. She kept a box of letters to him that she never sent, it's in the escritoire there with the deeds, nobody has opened it in a hundred years.' She looks at the portrait at last. 'She married her cousin the year after the Lifting, so as not to change her name, and had nine children, and died at ninety in that chair. If she loved a wind, she got over it.'".
     On discuss { Assert knows(actor, ysabeau_letters). }
   }
   Discovery ysabeau_letters "Ysabeau Halyard, who lifted Cloudgate, is said to have loved a prince of the Air. A box of her letters to him that she never sent is in the escritoire in the drawing room of Halyard House, with the deeds.".
@@ -100,13 +101,15 @@ Module sennet "The Grand Tour" {
     Wants brother_letter_kind.
     Greets "A man of thirty in a shirt he has slept in is lying on a sofa with his boots on the silk and a bottle on his chest, and does not get up. 'Another Tourist,' he says, to the ceiling. 'Mother sends them in to be cheered up by. Go away and look at the view.'".
     Greets again "Aubrey Halyard lifts the bottle to you without lifting his head.".
+    Joins "Aubrey Halyard puts the bottle down, and looks at it, and leaves it. 'All right,' he says. 'Where.'".
+    Leaves "Aubrey Halyard goes back the way you came, walking carefully, like a man on a deck.".
   }
   Entity aubrey_guilt: claim "Aubrey Halyard pushed his brother off the Balustrade".
   Initially Assert believes(aubrey, aubrey_guilt). Initially Set conviction(aubrey, aubrey_guilt) to 2.
   Relation aubreyTalked(group). Relation aubreyFreed(group). Relation aubreyFriend(group). Relation drankWith(group).
-  Rule aubrey_rooms_day when hour(clock) >= 8 and hour(clock) < 19 and not funeralHour() and not following(aubrey, party) and not at(aubrey, aubrey_rooms) { Assert at(aubrey, aubrey_rooms). }
-  Rule aubrey_promenade when hour(clock) >= 19 and hour(clock) < 24 and not following(aubrey, party) and not at(aubrey, promenade) { Assert at(aubrey, promenade). }
-  Rule aubrey_night when hour(clock) < 8 and not following(aubrey, party) and not at(aubrey, offstage) { Assert at(aubrey, offstage). }
+  Rule aubrey_rooms_day when hour(clock) >= 8 and hour(clock) < 19 and not funeralHour() and not aubreyTaken(aubrey) and not following(aubrey, party) and not at(aubrey, aubrey_rooms) { Assert at(aubrey, aubrey_rooms). }
+  Rule aubrey_promenade when hour(clock) >= 19 and hour(clock) < 24 and not aubreyTaken(aubrey) and not following(aubrey, party) and not at(aubrey, promenade) { Assert at(aubrey, promenade). }
+  Rule aubrey_night when hour(clock) < 8 and not aubreyTaken(aubrey) and not following(aubrey, party) and not at(aubrey, offstage) { Assert at(aubrey, offstage). }
   Action drink_aubrey(actor: group, site: place) "Sit down and drink with Aubrey Halyard" {
     Requires able(actor) and company(actor) and at(actor, site) and at(aubrey, site) and not drankWith(actor).
     Time 6.
@@ -114,7 +117,7 @@ Module sennet "The Grand Tour" {
     Result "You sit on the floor, since he is on the sofa, and he passes you the bottle without looking, and for an hour you drink his family's brandy, which is very good, and he talks about nothing: horses, a girl in Sennet who married a ship's chandler, the view, which he hates. Toward the end of the bottle he stops talking, and looks at the ceiling, and you understand that if you ask him now, he will tell you.".
   }
   Topic aubrey_night_asked with aubrey "Ask Aubrey Halyard what happened on the night his brother fell" when drankWith(actor) and not aubreyTalked(aubrey) once {
-    Says "He doesn't answer for a long time. 'We quarrelled. On the Promenade. Perrin had found something out, family business, and he was going to give it away. Give it away, to strangers, to the wind.' He laughs. 'I said if he wanted to go down so badly he could jump. I said that.' He puts the bottle down on the floor, carefully. 'He went off to the Balustrade. I went after him. I was going to say I was sorry. And then I don't remember. The fog came up. I remember the rail under my hands, wet. And then bells, and people shouting, and I was sitting on the gravel.' He looks at his hands. 'I think I put my hands on him. I think I did. I'd had a great deal to drink and I was angry, and he was my brother, and I think I put my hands on him.'".
+    Says "He doesn't answer. He turns the bottle until its label faces him, as if it might help. 'We quarrelled. On the Promenade. Perrin had found something out, family business, and he was going to give it away. Give it away, to strangers, to the wind.' He laughs. 'I said if he wanted to go down so badly he could jump. I said that.' He puts the bottle down on the floor, carefully. 'He went off to the Balustrade. I went after him. I was going to say I was sorry. And then I don't remember. The fog came up. I remember the rail under my hands, wet. And then bells, and people shouting, and I was sitting on the gravel.' He looks at his hands. 'I think I put my hands on him. I think I did. I'd had a great deal to drink and I was angry, and he was my brother, and I think I put my hands on him.'".
     On discuss { Assert aubreyTalked(aubrey). Assert knows(actor, aubrey_quarrel). }
   }
   Discovery aubrey_quarrel "On the night Perrin fell, he and Aubrey quarrelled on the Promenade: Perrin had found out family business and meant to give it away, and Aubrey told him to jump. Aubrey followed him to the Balustrade to say sorry, and remembers nothing after the fog came up but the wet rail under his hands; he believes he pushed his brother.".
@@ -134,7 +137,7 @@ Module sennet "The Grand Tour" {
   Rule aubrey_befriended when aubreyTalked(aubrey) and drankWith(party) and talked_twice(party) and not aubreyFriend(aubrey) { Assert aubreyFriend(aubrey). }
   Relation talked_twice(group).
   Topic aubrey_not_you with aubrey "Tell Aubrey Halyard that a man who meant to say sorry is not a man who pushes his brother" when aubreyTalked(aubrey) and not aubreyFreed(aubrey) and not talked_twice(actor) once {
-    Says "He looks at you for a long time. 'You don't know that.' But he picks up the bottle, and looks at it, and puts it down without drinking. 'Nobody's said that. Mother says nothing. The whole of Cloudgate looks at me the way you look at a hole in the road.' He rubs his face. 'Sit down, then. If you're staying.'".
+    Says "He looks at you, and then at his hands, which have been the problem for twelve days. 'You don't know that.' But he picks up the bottle, and looks at it, and puts it down without drinking. 'Nobody's said that. Mother says nothing. The whole of Cloudgate looks at me the way you look at a hole in the road.' He rubs his face. 'Sit down, then. If you're staying.'".
     On discuss { Assert talked_twice(actor). }
   }
   // Aubrey brought down to the Fish Stairs at night to see his brother (whelm.kyr), or Perrin brought up.
@@ -214,7 +217,8 @@ Module sennet "The Grand Tour" {
     State lying "A coffin of white wood with silver handles lies on trestles before the altar, under a pall embroidered with a hill on a hand. There is a great deal of white lilies.".
     State gone "The trestles before the altar are bare.".
   }
-  Rule mourners_gather when funeralHour() and not at(imogen, balustrade) { Assert at(imogen, balustrade). Assert at(aubrey, balustrade). }
+  Rule mourners_gather when funeralHour() and not at(imogen, balustrade) { Assert at(imogen, balustrade). }
+  Rule aubrey_mourns when funeralHour() and not aubreyTaken(aubrey) and not at(aubrey, balustrade) { Assert at(aubrey, balustrade). }
   Rule rector_mourns when funeralHour() and rectorFree() and not at(quance, balustrade) { Assert at(quance, balustrade). Assert rectorAbout(quance). }
   Rule mourners_part when day(clock) == 3 and hour(clock) >= 13 and rectorAbout(quance) { Retract rectorAbout(quance). }
   Occasion letting_down "the letting-down of Perrin Halyard" at balustrade when day(clock) == 3 and hour(clock) >= 12 and not rectorTaken(quance) {
@@ -232,4 +236,8 @@ Module sennet "The Grand Tour" {
   }
   Observe eulogy_hands at balustrade when matterOpen(eulogy) and capable(party, insight) "The Rector's voice does not shake once. But all the time she speaks she holds the rail of the Balustrade with her left hand, and the knuckles of it are white as the rail.".
   Rule coffin_gone when (matterDone(let_go) or matterDone(let_go_plain)) and state(coffin, lying) { Assert state(coffin, gone). }
+
+  // Aubrey at his brother's letting-down: what he believes, out loud, or the rope in his own hands.
+  Observe funeral_aubrey at balustrade when matterOpen(lowering) and not aubreyFreed(aubrey) and not aubreyTaken(aubrey) "As the footmen take the ropes Aubrey Halyard says, quite loudly, to nobody, 'I did it, you know. Ask anyone.' Nobody looks at him. His mother does not turn her head. The Rector, beside her, puts a hand on his arm, very kindly, and he lets it stay there.".
+  Observe funeral_aubrey_freed at balustrade when matterOpen(lowering) and aubreyFreed(aubrey) "Aubrey Halyard has taken one of the ropes from a footman and is letting the empty box down himself, hand under hand, with his face perfectly straight, and every so often a sound comes out of him that Cloudgate takes for grief.".
 }
