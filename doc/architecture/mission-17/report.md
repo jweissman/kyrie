@@ -7,12 +7,13 @@ meets first, then the interface on a tablet, then a satisfying local adventure, 
 those need, and the studio last. This report says where that stands. The running record is the
 [register](register.md); the plays it rests on are in [play](play/).
 
-Six plays rest under this report: I played it as you would (play 8, a bard with a debt, at tablet size by touch, on
+Seven plays rest under this report: I played it as you would (play 8, a bard with a debt, at tablet size by touch, on
 0a19de2); an evaluator who had read nothing of the game played it for about 125 taps on bdc87ba
 ([its report](play/cold-evaluation.md)); and I played four fresh games on the final builds, a cleric with feverwort
 ([play 9](play/play-9.md)), a mage coming home ([play 10](play/play-10.md)), a thief on the brothers' errand, on a
-phone ([play 11](play/play-11.md)), and a monk come over the hills, on a desktop ([play 12](play/play-12.md)). Every
-calling and every origin has now been played. What each found was fixed where it was the game's fault, and is in the
+phone ([play 11](play/play-11.md)), and a monk come over the hills, on a desktop ([play 12](play/play-12.md)); and,
+after your word that the interface was still painful and the place was rebuilt by salience, a dwarf cleric owing a
+salter, into a king-barrow ([play 13](play/play-13.md)). Every calling and every origin has now been played. What each found was fixed where it was the game's fault, and is in the
 register under its name.
 
 ## In short
@@ -23,7 +24,7 @@ register under its name.
 | Feels like a game | Partly. "It feels like an RPG when people talk and when the dice bite … in between, which is most of the taps, it feels like browsing" (the cold evaluation). The conversation page, the moment before a fight, a level gained and a thing seen through are a game's. A place was a page of rows and a fight a form when the evaluator played; since, a place is a scene with its ways at the foot of the screen and a fight a field (a942a22), which you have not yet seen on a tablet |
 | The interface | Rebuilt as a game after your interim report: no bar across the top, a book in the corner, creation as cards, a place as a scene with its ways beside it or at its foot, a conversation at the foot of its painting, travel to a chosen place without junction-by-junction choice, the destination held on every page. Since your last word that it is still painful (53d847f): family and whoever an aim names come first and larger among who is here, the way an aim names first among the ways; a busy place's people are each a line and its ways a touch away, not two scrolling lists; a fight keeps its last blows on the page. Held to the screen at 1440, 1180, 820 and 390 |
 | The local adventure | Generated countries hold a town's people, a hire at the inn, a ruin or two, a lone tower, a toll, a band, a widow's price and what goes on in the towns; the unquiet tower can now be talked through as well as fought. The dense shared region of authored adventures (V) is not built: they are still separate countries |
-| The register | Of the 105 inherited, 52 fixed, 42 partial, 10 open, 1 not reproduced (none were fixed at the start); of 110 found in this mission, 95 fixed; of 70 from the adventures' authors, 65 fixed (section 4) |
+| The register | Of the 105 inherited, 52 fixed, 43 partial, 9 open, 1 not reproduced (none were fixed at the start); of 114 found in this mission, 99 fixed; of 70 from the adventures' authors, 65 fixed (section 4) |
 | Authoring | The studio of 69cffd9 (`kyrie new`, play a scene or a person, traces kept as tests, `inspect`, `verify`); the authors' friction answered where it was the engine's. Not extended after your interim report, as it asked |
 
 ## 1. What thirty minutes is like now
@@ -189,8 +190,8 @@ what follows, and what they carry is under one choice.
 | | Fixed | Partial | Open | Not reproduced | Total |
 |---|---|---|---|---|---|
 | Inherited, at the start | 0 | 42 | 63 | 0 | 105 |
-| Inherited, now | 52 | 42 | 10 | 1 | 105 |
-| New in Mission 17 | 95 | 13 | 2 | 0 | 110 |
+| Inherited, now | 52 | 43 | 9 | 1 | 105 |
+| New in Mission 17 | 99 | 13 | 2 | 0 | 114 |
 | From the adventures (the Liberty of the Ice, the Banns at Hessel, A Winter in Carth) | 65 | 5 | 0 | 0 | 70 |
 
 Each row is in the [register](register.md) with its evidence: the commit, the test, and what remains. A row is fixed
@@ -221,7 +222,8 @@ Garret as one of the Mutual's cutters, not the cutter's uncle.
 **What remains, and why.** Of the inherited rows still open, most are the engine's contracts (combat with exactly two
 teams and its constants in code, identity carried in id strings, a companion's lifecycle, presentation inside the
 authority boundary) and Deem's tables of a module's own; your interim report put these behind the game itself, and
-I kept them there. The rest are the world's breadth: dense authored content near the start (NAR-01, NAV-01, NAV-10),
+I kept them there. The rest are the world's breadth: dense authored content near the start (NAR-01, NAV-10; NAV-01
+measured and partial),
 which is the shared region not yet built. The partial rows say in each what is left. Of this mission's own, two are
 open: the feverwort errand's second beat and the Awls' nightly fight in Doble's yard, for the origin's and the
 adventure's authors. Of the adventures' authors' seventy, none is open.
@@ -246,13 +248,16 @@ adventure's authors. Of the adventures' authors' seventy, none is open.
 - **Faces** (six countries' towns, every room by day): 36% to 69% of the people met have a painting (M17-23).
 - **Speed**: a command once a second country is drawn, about 152 ms (it had been a second: COR-22); a long journey of
   What Tessary Owes, 25 ms a command (it had been 40: M17-01); a city of many rooms, 31 (85: M17-02).
-- **The gates**: 1,528 tests at 53d847f, 58 of which run only when asked for (the 30 browser specs, the long descents,
+- **The gates**: 1,532 tests at 3326e0b, 58 of which run only when asked for (the 30 browser specs, the long descents,
   the pinned Orsino registry); the suite about fourteen minutes on sixteen workers, the browser specs two and a half.
 
 ## 6. What I would do next, in order
 
-1. **Your look at the new place and fight on a tablet**, and another pass on them from what you see: who is here is
-   still a list of names and roles, and a place has no picture of its own.
+Every row still open or partial, what closing it takes and the order proposed for the next mission, is in
+[ahead.md](ahead.md).
+
+1. **Your look at the new place, road and fight on a tablet**, and another pass on them from what you see: who is
+   here leads by what they are to you now, but a place still has no picture of its own.
 2. **The dense shared region (V)**: several adventures interleaved in one valley or city, found by what can be seen
    and heard there, not only by rumour.
 3. **Danger with an answer for every company**: a first ruin's traps scaled to the company that comes, and an answer to
