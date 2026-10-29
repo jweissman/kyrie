@@ -2,6 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { Call, Entity } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
+import { LandModel } from './land-model';
 import { ChartModel } from './chart-model';
 import type { WayInfo } from './passage-model';
 import { VisitedPlaces } from '../presentation/visited-places';
@@ -22,23 +23,41 @@ export class Itineraries {
   // The known ways, from each place; or only those open now, with nothing in the way and nothing to risk (a ford in
   // spate is risked, not taken). Read once for each state of the world and of where the company has been, for every
   // place it plans for (the page plans for each place it knows of).
-  private static readonly read = new WeakMap<object, { at: string; ways: WayInfo[] }>();
-  static graph(campaign: Campaign, clear = false): Map<string, WayInfo[]> {
+  private static readonly read = new WeakMap<object, { at: string; ways: WayInfo[]; roam?: WayInfo[] }>();
+  // roam: with every way across the open country besides, walked or not, for a journey toward a place seen (see
+  // Itineraries.seen).
+  static graph(campaign: Campaign, clear = false, roam = false): Map<string, WayInfo[]> {
     const actor = campaign.playerActor!, world = campaign.world, at = `${actor}:${campaign.history.length}`;
     let kept = this.read.get(world);
     if (kept?.at !== at) {
-      const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
-      kept = { at, ways: new ChartModel(world, actor, entities).ways(VisitedPlaces.of(campaign, actor)) };
+      kept = { at, ways: this.chart(campaign).ways(VisitedPlaces.of(campaign, actor)) };
       this.read.set(world, kept);
     }
-    const ways = kept.ways, graph = new Map<string, WayInfo[]>();
+    if (roam) { kept.roam ??= this.chart(campaign).ways(VisitedPlaces.of(campaign, actor), true); }
+    const ways = roam ? kept.roam! : kept.ways, graph = new Map<string, WayInfo[]>();
     for (const w of ways) {
       if (w.status === 'blocked' || (clear && w.status !== 'open')) { continue; }
+      // Not seen nor been to, a place is not struck out toward: a journey goes into no open country for it.
+      if (!roam && LandModel.tract.test(w.to)) { continue; }
       if (!(graph.get(w.from) ?? []).some(x => x.passage === w.passage && x.to === w.to)) {
         graph.set(w.from, [...graph.get(w.from) ?? [], w]);
       }
     }
     return graph;
+  }
+  private static chart(campaign: Campaign): ChartModel {
+    return new ChartModel(campaign.world, campaign.playerActor!, new Map(campaign.module.entities.map(e => [e.id, e])));
+  }
+  // Whether a place is one the company may strike out across the open country toward: a stretch of it chosen on the
+  // map, something it has seen from high ground (RegionTracts), or somewhere it has been (the way home). Toward a
+  // place only heard of, a journey goes by known ways to the edge of its wild country, and asks there (the
+  // play-structure investigation's PT-16).
+  static seen(campaign: Campaign, destination: string): boolean {
+    if (LandModel.tract.test(destination)) { return true; }
+    const been = VisitedPlaces.of(campaign, campaign.playerActor!);
+    if (been.has(destination) || been.has(`${destination}_green`)) { return true; }
+    return campaign.world.relates('knows')
+      && campaign.world.test(ModuleWriter.call('knows', campaign.playerActor!, `${destination}_sighted`));
   }
   // The quickest known way from where the company stands to a place, or to anywhere within an area: by ways open
   // now if there are any (mere's march-stone by the bridge, while both fords are in spate), else by those that ask
@@ -62,7 +81,8 @@ export class Itineraries {
   private static route(campaign: Campaign, destination: string, clear = false): Itinerary | undefined {
     const world = campaign.world, here = world.one('at', campaign.playerActor!);
     if (!here || here === destination) { return undefined; }
-    const graph = this.graph(campaign, clear), entities = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const graph = this.graph(campaign, clear, this.seen(campaign, destination));
+    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
     const best = new Map<string, { minutes: number; legs: Leg[] }>([[here, { minutes: 0, legs: [] }]]);
     const open = [here];
     while (open.length) {

@@ -5,7 +5,7 @@ import { ObservationText } from '../lang/observation-text';
 import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
 import { PassageModel, type WayInfo } from './passage-model';
-import { LandModel } from './land-model';
+import { LandModel, type Surveys } from './land-model';
 import type { Chart, RegionChart } from './screen-types';
 
 // Maps from canonical geography at two scales. Local: the rooms of the settlement, wilderness or site the company is
@@ -33,10 +33,12 @@ export class ChartModel {
   static readonly roads = ['way_road', 'way_causeway', 'way_bridge', 'way_ford', 'way_ferry'];
   // The ways the company has walked from, the ways it has been told of, the country's roads, and with wayfinding every
   // road and path of the country.
-  ways(visited: Set<string>): WayInfo[] {
+  // roam: for planning a journey toward a place seen, the whole open country, walked or not (the map's land is never
+  // made known by it: see LandModel).
+  ways(visited: Set<string>, roam = false): WayInfo[] {
     const model = new PassageModel(this.world, this.actor, this.entities);
     const seen = [...[...visited].flatMap(from => model.ways(from)), ...this.toldWays(model),
-      ...this.kind(model, ChartModel.roads)];
+      ...this.kind(model, ChartModel.roads), ...this.across(model, visited, roam)];
     if (!this.world.test(ModuleWriter.call('capable', this.actor, 'wayfinding'))) { return seen; }
     return [...seen, ...this.kind(model, ChartModel.regional)];
   }
@@ -54,6 +56,19 @@ export class ChartModel {
         .flatMap(e => this.into(e.id)))]);
     return w.related('connects').filter(c => passages.has(c.args[0]!))
       .flatMap(c => model.ways(c.args[1]!).filter(x => x.passage === c.args[0] && x.to === c.args[2]));
+  }
+  // Across the open country the company knows (see LandModel.explored): the ways between any two stretches of it it
+  // has seen, walked or not, so that a place seen from high ground can be set out toward over the land between.
+  private across(model: PassageModel, visited: Set<string>, roam: boolean): WayInfo[] {
+    const here = this.world.one('at', this.actor), home = this.regionOf(here);
+    const chart = home ? AuthoredLand.of(this.world.module, home) : undefined;
+    const prefix = chart && Object.keys(chart.places).find(id => LandModel.tract.test(id))?.replace(/\d+$/, '');
+    if (!chart || !prefix) { return []; }
+    const known = roam ? Object.values(chart.places)
+      : new LandModel(chart, this.entities).explored(visited, this.surveys());
+    const tracts = new Set([...known].map(c => `${prefix}${c}`));
+    return [...tracts].filter(t => !visited.has(t) && this.entities.has(t))
+      .flatMap(t => model.ways(t).filter(w => tracts.has(w.to)));
   }
   private knows(fact: string): boolean { return this.world.test(ModuleWriter.call('knows', this.actor, fact)); }
   // The ways into a place from outside it.
@@ -158,6 +173,21 @@ export class ChartModel {
     const line = Spatial.ancestry(this.entities, id);
     return (line.findLast(e => e.space!.kind === 'region') ?? line.find(e => e.space!.kind === 'plane'))?.id;
   }
+  // A way of the country drawn on its chart: both ends in it, and not across its open country.
+  private charted(w: WayInfo, home: string | undefined): boolean {
+    return this.regionOf(w.from) === home && this.regionOf(w.to) === home && !this.overland(w);
+  }
+  // A way across the open country (see RegionTracts): the land itself, not a line on it.
+  private overland(w: WayInfo): boolean { return this.world.one('passageKind', w.passage) === 'way_overland'; }
+  // What the company has looked out over (see LandModel.explored).
+  surveys(): Surveys {
+    return { surveyed: this.looked('surveyed'), well: this.looked('surveyedWell'), dim: this.looked('surveyedDim') };
+  }
+  // The places the company stands in a country's relation to (a country's own, named for its module: region__surveyed).
+  private looked(end: string): string[] {
+    const name = this.world.module.relations.find(r => r.name.endsWith(`__${end}`))?.name;
+    return name ? this.world.related(name, this.actor).map(r => r.args[1]!) : [];
+  }
   private told(passage: string): boolean {
     return this.world.related('revealedBy').some(r => r.args[0] === passage
       && this.world.test(ModuleWriter.call('knows', this.actor, r.args[1]!)));
@@ -178,7 +208,7 @@ export class ChartModel {
     // What the company has been told of (a site named to it, leadsTo) is on its map too, before it has been there.
     const told = this.leads().filter(p => this.regionOf(p) === home);
     for (const t of told) { this.mark(areas, t, visited, here); }
-    for (const w of ways.filter(x => this.regionOf(x.from) === home && this.regionOf(x.to) === home)) {
+    for (const w of ways.filter(x => this.charted(x, home))) {
       const a = this.mark(areas, w.from, visited, here), b = this.mark(areas, w.to, visited, here);
       // A trail within a stretch of wild country is drawn on the land too, from landmark to landmark, once the company
       // has walked from either end of it or been told it (not merely for knowing the country's roads).
@@ -200,7 +230,8 @@ export class ChartModel {
     const terrain = home ? this.form(home, 'terrain').form : undefined;
     return areas.size > 1 || (chart && areas.size) ? { region: { areas: [...areas.values()], edges: [...edges.values()],
       within: Object.fromEntries(this.within), ...terrain ? { terrain } : {},
-      ...land ? { land: this.glossed(land.land({ visited, told }, ways, place, [...areas.values()])) } : {} } } : {};
+      ...land ? { land: this.glossed(land.land({ visited, told, surveys: this.surveys() }, ways, place,
+        [...areas.values()])) } : {} } } : {};
   }
   // A name is glossed (Westron for "battle gate") once the company knows the place by it: a ruin seen from a tower,
   // known only by its look, is not explained by a name it has not learned.

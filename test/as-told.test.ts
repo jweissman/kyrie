@@ -30,8 +30,9 @@ class Thorn {
 
 describe('as the company would tell it', () => {
   it('calls the widow on her step what the page calls her', async () => {
-    const s = await Thorn.start();
-    Thorn.put(s, 's1_green');
+    // Where her town is drawn (the green of whichever town the price on the raiders is placed in).
+    const s = await Thorn.start(), home = s.campaign.world.one('at', 'pricePatron__widow')!;
+    Thorn.put(s, home.replace(/^region__/, ''));
     expect(Thorn.names(s)).toEqual(expect.arrayContaining(['Talk to the woman in black',
       'Ask the woman in black what she is waiting for']));
   }, 60000);

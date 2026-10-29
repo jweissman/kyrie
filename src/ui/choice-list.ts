@@ -184,6 +184,7 @@ export class ChoiceList {
   private static moves(a: Act): boolean { return a.label === 'Go' || a.label === 'Walk'; }
   static wayLabel(e: ExitRow): string {
     const room = this.inline(e.destination.name);
+    if (e.bearing) { return `${e.bearing.charAt(0).toUpperCase()}${e.bearing.slice(1)}: ${room}`; }
     switch (e.transition) {
       case 'enter': return `Into ${this.inline(e.scope ?? room)}`;
       case 'leave': return `Out to ${room}`;

@@ -79,9 +79,10 @@ export class WorldConstructs {
         when: hidden ? { kind: 'and', left: unopened, right: known } : unopened, text: shut, aspect: 'feature' });
     }
   }
+  // overland: from one stretch of a country's open country into the next (see RegionTracts).
   static readonly wayKinds = ['passage', 'door', 'doorway', 'arch', 'gate', 'stair', 'steps', 'ladder', 'shaft', 'path',
     'track', 'road', 'causeway', 'bridge', 'ford', 'tunnel', 'crawl', 'culvert', 'drift', 'incline', 'ferry', 'climb',
-    'portal'];
+    'portal', 'overland'];
   // An item instance with one name: the authored one, or its catalog kind's name.
   static item(module: Module, i: { id: string; name?: string; kind: string; place: string; inside?: boolean;
     hidden?: string; owner?: string }, kindName?: string) {

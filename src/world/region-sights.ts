@@ -44,7 +44,8 @@ export class RegionSights {
         ...this.beyond(region, s, { id: fact, at: h.at, seen: s.far ? seen : `${seen}${clear}` })];
     }));
     // A glass is a kind of thing in this country whether or not anyone here sells one (one bought elsewhere serves).
-    return lines.some(l => l.includes('holding(party, spyglass)')) ? ['  Entity spyglass: itemkind "Spyglass".', ...lines] : lines;
+    // A glass is a kind of thing in every country (declared with its open country: see RegionTracts).
+    return lines;
   }
   // A site seen from up there is known for what it is by one who knows the old works or the lie of the country: its
   // name, as the folk would tell it. Not far off, the way to it can be seen from up there, as the innkeeper would

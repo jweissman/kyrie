@@ -44,9 +44,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
-  // On a phone every name is set inside the map, nothing runs past the screen's edge, and the plan is under the map
-  // (the register's NAV-05 and PRE-04: names cut on a phone; the map untested at 390 px).
-  it('at 390 by 844: sets every name inside the map, and the plan under it', async () => {
+  // On a phone the map is the whole screen (Mission 18, the owner's correction): where you are is on it, nothing runs
+  // past the screen's edge, and a place chosen is said in a card at its foot, whole (the register's NAV-05 and PRE-04:
+  // names cut on a phone; the map untested at 390 px). The rest of the country is a drag away.
+  it('at 390 by 844: fills the screen with the map, you on it, and the plan at its foot', async () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 390, height: 844 },
       { site, pointer: true, query: '?world=kite' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -54,14 +55,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.mode('m');
     const fit = await page.evaluate(() => {
-      const map = document.querySelector('svg text.name-town')!.closest('svg')!.getBoundingClientRect();
-      const names = Array.from(document.querySelectorAll('svg text'), t => t.getBoundingClientRect());
-      return { names: names.length, inside: names.every(r => r.left >= map.left - 1 && r.right <= map.right + 1),
+      const map = document.querySelector('.field-land svg')!.getBoundingClientRect();
+      const you = document.querySelector('.field-land [aria-current="location"] .you-dot')!.getBoundingClientRect();
+      const plan = document.querySelector('.field-map .plan')!.getBoundingClientRect();
+      return { names: document.querySelectorAll('.field-land text').length,
+        whole: map.width >= innerWidth - 1 && map.height >= innerHeight - 1,
+        you: you.left >= 0 && you.right <= innerWidth && you.top >= 0 && you.bottom <= innerHeight,
         wide: document.documentElement.scrollWidth > innerWidth,
-        under: document.querySelector('.plan')!.getBoundingClientRect().top >= map.bottom };
+        plan: plan.left >= 0 && plan.right <= innerWidth && plan.bottom <= innerHeight };
     });
     expect(fit.names).toBeGreaterThan(4);
-    expect(fit).toEqual({ names: fit.names, inside: true, wide: false, under: true });
+    expect(fit).toEqual({ names: fit.names, whole: true, you: true, wide: false, plan: true });
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);

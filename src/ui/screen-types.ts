@@ -41,6 +41,8 @@ export interface ExitRow {
   several?: boolean;
   // A way that goes one way only (the great pipe, feet first): said by its own name, and asked about again.
   oneWay?: boolean;
+  // Which way a step across the open country goes (north-east), as the land lies (see Headings).
+  bearing?: string;
 }
 export interface TargetRow {
   id: string; kind: 'person' | 'creature' | 'animal' | 'thing' | 'feature'; name: string; note?: string; activity?: string;
@@ -178,7 +180,9 @@ export interface RegionChart {
     glosses: Record<string, string>;
     // Where an authored region's places stand on its land, a stretch each (see AuthoredLand): the rooms of the one
     // the company is in are drawn on it.
-    blocks?: Record<string, number[]> };
+    blocks?: Record<string, number[]>;
+    // The id of a generated country's stretches of open country, but for each one's cell (region__t), to go to one.
+    tracts?: string };
 }
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;

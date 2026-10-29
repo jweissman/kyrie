@@ -266,6 +266,17 @@
 .services .need { font: 600 10.5px/1.3 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--verdigris); }
 .services .who { font: 500 14px/1.35 var(--do); color: var(--ivory); }
 
+/* Across the open country: the six ways as the hexes about lie, two to a row. */
+.across-country { margin: 0 0 20px; }
+.across-country .compass { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.across-country .act.stride { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%;
+  min-height: 0; padding: 7px 10px 8px 30px; }
+.across-country .act.stride::before { top: 15px; }
+.across-country .act.stride .n { font: 600 10.5px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.across-country .act.stride .r { flex-basis: auto; max-width: 100%; font: 400 13px/1.3 var(--do); color: var(--ivory);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.across-country .act.stride .t { font: 400 12px/1.3 var(--do); color: var(--dim); }
+
 /* A tablet held upright, or a phone: the head, the telling, then the ways at the foot (the busy place's nearest few
    and a sheet), then yourself. */
 @media (max-width: 1023px), (orientation: portrait) {

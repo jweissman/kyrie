@@ -9,16 +9,16 @@ import { Obituary } from '../src/narrative/obituary';
 import type { Act } from '../src/ui/screen-types';
 import { GeneratedWorld } from './support/generated';
 
-// A price on the raiders' chief says where the raiders are: the widow at Naedltun looks toward their hold as she
-// offers it, and her word puts it on the company's map, somewhere to set out toward (a fresh play of Mission 17 took
-// up her offer and found nothing to say where the raiders were, and nobody else would). A pedlar who knows the place
-// says it by its name.
+// A price on the raiders' chief says where the raiders are: the widow on her town's green looks toward their hold as
+// she offers it, and her word puts it on the company's map, somewhere to set out toward (a fresh play of Mission 17
+// took up her offer and found nothing to say where the raiders were, and nobody else would). A pedlar who knows the
+// place says it by its name.
 describe('a price on a power', () => {
   it('says where the power holds out, and that is somewhere to set out toward', async () => {
     const w = await WorldAssembler.assemble('ember', NodeBundleSource.shared, { origin: 'herbs',
       party: [{ name: 'Aud', raceId: 'elf', classId: 'ranger' }] });
     const s = await PlaySession.start(w.path, 'ember', w.source), c = s.campaign;
-    await GeneratedWorld.travel(s, 's5_green');
+    await GeneratedWorld.travel(s, c.world.one('at', 'pricePatron__widow')!.replace(/^region__/, ''));
     const offer = PlayerView.choices(c).find(x => /what she is waiting for/.test(x.choice.name))!;
     expect((await s.perform(offer.choice.id)).response).toContain('looking toward a toll-house by the water');
     const hold = Itineraries.destinations(c).find(d => d.name === 'a toll-house by the water')!;

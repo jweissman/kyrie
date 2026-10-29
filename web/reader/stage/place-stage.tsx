@@ -177,12 +177,15 @@ export class PlaceStage {
   // its way and how long, and whether the company has been there (only a road already travelled says so).
   static Ways({ screen, near, far, draw, around = [] }: { screen: Screen; near: Choice[]; far: Choice[]; draw: Draw;
     around?: Choice[] }) {
-    const about = PlaceStage.ways(screen, near), out = PlaceStage.ways(screen, far);
-    const across = far.filter(c => !out.some(w => w.choices.includes(c)));
+    const all = PlaceStage.ways(screen, near).concat(PlaceStage.ways(screen, far)), steps = all.filter(w => w.exit.bearing);
+    const about = PlaceStage.ways(screen, near).filter(w => !w.exit.bearing), out = PlaceStage.ways(screen, far)
+      .filter(w => !w.exit.bearing);
+    const across = far.filter(c => !all.some(w => w.choices.includes(c)));
     const scope = screen.path.filter(p => p.kind === 'settlement' || p.kind === 'site').at(-1)?.name;
     // The town's other places all by the same way are said to go by it once, not seven times (play 9).
     const by = around.length > 1 && around.every(c => c.note && c.note === around[0]!.note) ? around[0]!.note : undefined;
     return <>
+      <PlaceStage.Compass steps={steps} draw={draw} />
       {(about.length > 0 || around.length > 0) && <nav className="ways about" aria-label="Ways about the place">
         <p className="label">{scope ? `About ${Typography.curl(scope)}` : 'Ways on'}</p>
         <ul className="options">{about.map(w => <li key={w.exit.id} data-exit={w.exit.id}
@@ -206,6 +209,25 @@ export class PlaceStage {
         {across.map(c => <li key={c.id}><Act.View choice={c} draw={draw} className="way" /></li>)}</ul>
       </nav>}
     </>;
+  }
+  // The six ways across the open country, as the hexes about lie: north-west and north-east, west and east, south-west
+  // and south-east, each with its land and how long it takes (they had each been "among the trees of Pharaiyaar, by
+  // the way across country" in a list of roads).
+  static readonly compass = ['north-west', 'north-east', 'west', 'east', 'south-west', 'south-east'];
+  static Compass({ steps, draw }: { steps: Way[]; draw: Draw }) {
+    if (!steps.length) { return null; }
+    const at = (w: Way) => PlaceStage.compass.indexOf(w.exit.bearing ?? '');
+    return (
+      <nav className="ways across-country" aria-label="Across country">
+        <p className="label">Across country</p>
+        <ul className="compass">{[...steps].sort((a, b) => at(a) - at(b)).map(w => <li key={w.exit.id} data-exit={w.exit.id}
+          data-bearing={w.exit.bearing} style={{ gridColumn: at(w) % 2 + 1 }}>
+          <Act.View choice={w.choices[0]!} draw={draw} className="way stride">
+            <span className="n">{Words.upper(w.exit.bearing!)}</span>
+            <span className="r">{Typography.curl(w.exit.destination.name)}</span>
+            {w.choices[0]!.note && <span className="t">{Typography.curl(w.choices[0]!.note)}</span>}</Act.View></li>)}</ul>
+      </nav>
+    );
   }
   // A way, as one choice: where it goes, and beside it by what way, how long and whether you have been; what else can
   // be done at it (open it first, look at what is on it) beneath.

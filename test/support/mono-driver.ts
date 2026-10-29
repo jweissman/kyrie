@@ -108,6 +108,9 @@ export class MonoDriver {
   // A book opened as a player would: by its key, or, by pointer, from the book in the corner and then its tab.
   async mode(key: string) {
     if (!this.pointer) { await this.key(key); return; }
+    // The map is the whole screen, closed by its own cross (Mission 18).
+    const shut = '.field-map [data-action="close"]';
+    if (key === 'm' && await this.page.locator(shut).count()) { await this.click(shut); return; }
     const tab = `[data-action="mode"][data-key="${key}"]`;
     if (!await this.page.locator(tab).count()) {
       await this.click('[data-action="book"]');

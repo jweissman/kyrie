@@ -4,12 +4,20 @@ import type { WayInfo } from './passage-model';
 import type { RegionChart } from './screen-types';
 
 type Land = NonNullable<RegionChart['land']>;
+// What the company has looked out over (see RegionTracts): the stretches of open country it surveyed, those it
+// surveyed with the eye of someone who knows how to look (or a glass), and those it looked out from in haze.
+export interface Surveys { surveyed: string[]; well: string[]; dim: string[] }
 
 // A region's land as the company knows it, for its map: the cells it has seen, where each place it knows stands on
 // them, the wild country it has been into or knows of, and the course each known way takes over the land. Drawn from
 // the region's chart and what the company has walked and heard, never from anything it has not.
 export class LandModel {
   constructor(private readonly chart: LandChart, private readonly entities: Map<string, Entity>) {}
+  // A stretch of a country's open country (see RegionTracts), by its id.
+  static readonly tract = /__t\d+$/;
+  // How far the eye goes from a stretch looked out from, by its land: from the heights far, from a wood or a fen
+  // hardly past the next stretch.
+  static readonly sight: Record<string, number> = { p: 4, f: 3, h: 3, '.': 2, w: 1, ',': 1 };
   // The cell a place stands at: its own, or else its site's, its settlement's or its wild country's.
   cell(id: string): number | undefined {
     return Spatial.ancestry(this.entities, id).map(e => this.chart.places[e.id]).find(c => c !== undefined);
@@ -46,10 +54,11 @@ export class LandModel {
   // part of wild country it has crossed (as far as one sees from a road, a couple of cells either side: a map of only
   // the road's own cells had been fog with a thread through it), and the cell of each place it has been to or knows
   // the way to.
-  land(seen: { visited: Set<string>; told: string[] }, ways: WayInfo[], here: string, areas: RegionChart['areas']): Land {
-    const chart = this.chart, known = new Set<number>(), visited = seen.visited;
-    const heard = new Set([...ways.flatMap(w => [w.from, w.to]), ...seen.told]);
-    for (const id of visited) {
+  land(seen: { visited: Set<string>; told: string[]; surveys?: Surveys }, ways: WayInfo[], here: string,
+    areas: RegionChart['areas']): Land {
+    const chart = this.chart, visited = seen.visited, known = this.explored(visited, seen.surveys);
+    const heard = new Set([...ways.flatMap(w => [w.from, w.to]), ...seen.told, ...this.found(visited)]);
+    for (const id of [...visited].filter(v => !LandModel.tract.test(v))) {
       const area = this.marked(id), at = this.cell(id);
       for (const c of chart.parts[id] ?? chart.roads[id] ?? []) { this.reveal(c, 2, known); }
       if (at !== undefined) { this.reveal(at, area?.space?.kind === 'settlement' ? 3 : 2, known); }
@@ -63,12 +72,42 @@ export class LandModel {
     const roads = Object.fromEntries(Object.entries(chart.roads).filter(([way]) => visited.has(way) || heard.has(way)
       || passages.has(way)));
     for (const cells of Object.values(roads)) { for (const c of cells) { known.add(c); } }
-    const marks = this.marks([...visited, ...heard], visited, here);
+    const marks = this.marks([...visited, ...heard].filter(id => !LandModel.tract.test(id)), visited, here);
     const named = new Set([...areas.map(a => a.id), ...marks.map(m => m.id)]);
     return { width: chart.width, height: chart.height, cover: chart.cover, rivers: chart.rivers, roads,
       known: [...known].sort((a, b) => a - b), ...this.at(here), marks, zones: this.zones(areas, known),
       glosses: Object.fromEntries(Object.entries(chart.glosses ?? {}).filter(([id]) => named.has(id))),
-      ...chart.blocks ? { blocks: chart.blocks } : {} };
+      ...chart.blocks ? { blocks: chart.blocks } : {}, ...this.tracts() };
+  }
+  // The stretches of open country known by exploring: each walked, with those about it; about each looked out from,
+  // as far as its land lets the eye go, one stretch further for someone who knows how to look, one only in haze.
+  explored(visited: Set<string>, surveys?: Surveys): Set<number> {
+    const chart = this.chart, known = new Set<number>();
+    for (const id of [...visited].filter(v => LandModel.tract.test(v))) {
+      const c = chart.places[id];
+      if (c !== undefined) { this.reveal(c, 1, known); }
+    }
+    const well = new Set(surveys?.well ?? []);
+    for (const id of surveys?.surveyed ?? []) {
+      const c = chart.places[id];
+      if (c !== undefined) { this.reveal(c, (LandModel.sight[chart.cover[c] ?? '.'] ?? 2) + (well.has(id) ? 1 : 0), known); }
+    }
+    for (const id of surveys?.dim ?? []) {
+      const c = chart.places[id];
+      if (c !== undefined) { this.reveal(c, 1, known); }
+    }
+    return known;
+  }
+  // What stands on a stretch walked is found there, whether or not it could be seen from afar (a cave, a clearing).
+  private found(visited: Set<string>): string[] {
+    const walked = new Set([...visited].filter(v => LandModel.tract.test(v)).map(v => this.chart.places[v]));
+    return Object.entries(this.chart.places).filter(([id, c]) => walked.has(c) && !LandModel.tract.test(id)
+      && this.entities.get(id)?.space?.kind === 'room').map(([id]) => id);
+  }
+  // The id each stretch of open country is known by, but for its cell, for the map to go to one.
+  private tracts(): { tracts?: string } {
+    const one = Object.keys(this.chart.places).find(id => LandModel.tract.test(id));
+    return one ? { tracts: one.replace(/\d+$/, '') } : {};
   }
   // Where the company is: at its place's cell, or on a road, halfway along it; nowhere, when it is lost in wild
   // country (a place there with no cell of its own).

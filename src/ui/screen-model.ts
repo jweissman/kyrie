@@ -27,7 +27,7 @@ import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers';
 import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
-import { Services } from './services'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
+import { Services } from './services'; import { Headings } from './headings'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
 import { Stakes } from './stakes';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 
@@ -69,8 +69,8 @@ export class ScreenModel {
       ...this.when(campaign, view.elapsed), path: here ? passages.path(here) : [], place: passages.place(here),
       prose: scene.prose, fresh: scene.fresh, observed: view.observations,
       dark: view.observations.some(o => o.id === 'darkness'),
-      exits: here ? passages.exits(here, grouped.exits,
-        { ...(view.spatial ? { spatial: view.spatial } : {}), visited }) : [],
+      exits: here ? Headings.of(world.module, passages.path(here), here, passages.exits(here, grouped.exits,
+        { ...(view.spatial ? { spatial: view.spatial } : {}), visited })) : [],
       people: [...rows.filter(r => ['person', 'creature', 'animal'].includes(r.kind)), ...companions],
       things: rows.filter(r => r.kind === 'thing' || r.kind === 'feature'),
       party: this.party(view, campaign, grouped), items, camp: grouped.camp,

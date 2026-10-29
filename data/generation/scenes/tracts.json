@@ -1,0 +1,25 @@
+{
+  "about": "The open country of a generated region, cell by cell (src/world/region-tracts.ts): what each stretch is called by its land, and how it is told, for walking it with no road and no destination. {near} is the nearest settlement, {bearing} where this lies from it, {zone} the wild country it is part of, {river} the river through it.",
+  "land": {
+    "meadow": { "name": "open fields", "zoned": "the fields of {zone}", "minutes": 30,
+      "told": ["Open country: rough pasture and old field-strips gone back to grass, a hedge here and there, the sky very big over it.", "Grassland, rolling a little, cropped short by sheep you cannot see. A wall of fieldstone runs along nowhere in particular.", "Meadow, wet in the hollows and dry on the rises, with a few thorn trees leaning all the same way."] },
+    "heath": { "name": "open heath", "zoned": "the heath of {zone}", "minutes": 40,
+      "told": ["Heath, brown and purple, the wind going over it in long runs, and a path made by deer going away through the heather.", "High open heath: ling and bilberry, a scatter of grey stones, a lark going up and up.", "Rough heath, boggy between the tussocks, the kind of country that is further across than it looks."] },
+    "wood": { "name": "woodland", "zoned": "among the trees of {zone}", "minutes": 60,
+      "told": ["Woodland: oak and ash and holly, the light green and broken, last year's leaves deep underfoot.", "Close wood, old and mossy, the paths between the trunks made by animals and going where animals go.", "A stand of tall trees with little under them, so that you can see a long way between the trunks, and nothing moving."] },
+    "fen": { "name": "wet ground", "zoned": "the fen of {zone}", "minutes": 70,
+      "told": ["Fen: reeds taller than a man, black water between, and the ground giving underfoot with every step.", "Wet ground, sedge and cotton-grass, the pools reflecting the sky, a heron getting up slow and offended.", "A causey of old turves across the marsh, and on either side of it water that does not show how deep it is."] },
+    "fell": { "name": "the fellside", "zoned": "the fells of {zone}", "minutes": 70,
+      "told": ["Fellside: short turf and scree, the slope going up steeply to a skyline that keeps being further.", "Bare fell, stone walls climbing it in straight lines, a ruined fold, the wind loud.", "High ground, rock breaking through the turf, and below, when you turn, the whole country laid out small."] },
+    "peak": { "name": "the heights", "zoned": "the heights of {zone}", "minutes": 120,
+      "told": ["The heights: rock and old snow and nothing growing but lichen, the air thin and the drop on every side.", "A ridge of broken rock, cairned where someone has been before you, the wind knocking you about.", "High crags and a cold tarn in a hollow of them, and the cloud coming over the top like smoke."] }
+  },
+  "river": "The {river} runs through it, and has to be waded or gone round.",
+  "road": "A road crosses it, the only straight thing in sight.",
+  "rises": "To the {side} the land rises.",
+  "falls": "To the {side} the land falls away.",
+  "town": "{near} is close by: you can hear it, and smell its smoke.",
+  "survey": "You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it.",
+  "surveyHaze": "You look out over the country, but the weather has closed in: the nearer land is plain enough, and nothing past it.",
+  "surveyFar": "You stand on the highest ground to hand, and look out over the country, slowly, with the eye of someone who has had to find their way before."
+}

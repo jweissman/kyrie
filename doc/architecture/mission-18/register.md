@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 4 | 1 | 5 | 0 | 0 | 0 | 10 |
-| The owner's review | 0 | 3 | 4 | 0 | 0 | 0 | 7 |
+| The owner's review | 0 | 6 | 5 | 0 | 0 | 0 | 11 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -169,6 +169,18 @@ closing them. They are worked alongside the rest of the mission, not instead of 
 | OWN-05 | Ordinary commerce: rations, light, rope, a crowbar and the rest found from a typical start without searching blindly | C | P0 | Partial | Every generated village and town has a chandler, a hamlet's keeper rope and oil (M18-10); Pellam's chandler is the first booth on the ice; what remains: a settlement's services said where they are, the general store's stock (M18-06) |
 | OWN-06 | Significant conversations: the philosophers' depth, initiative, discoverability, continuity of argument, teaching, sustained exchange; real debate among several; answers to disagreement | C | P0 | Open | |
 | OWN-07 | Acceptance: a solo protagonist enters Pellam during the Frost Fair through the reader, sees where the people and the activity are, finds useful commerce, speaks substantially with someone important, keeps their bearings, and finds a reason to go on; no scene injected, no fixture set up | F | P0 | Open | |
+
+### The owner's correction of 2026-10-29: the map and exploration
+
+Given after the interim painted map (37970a0), as a focused correction to this mission, not a replacement of its other
+gates. The map is not accepted until the owner has reviewed it as a visual and interactive experience.
+
+| ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
+|---|---|---|---|---|---|
+| OWN-08 | The map reconsidered from first principles: full viewport (an exception to the protected stage), minimal overlays; three treatments prototyped and compared (an illustrated terrain-first hex crawl, a restrained isometric hex terrain, a hybrid) and one chosen by appearance and playability; a cohesive palette, legible terrain, roads and waterways as features of the world, varied marks for landmarks and places, where you are and where you are bound always shown, and a meaningful edge between known and unknown country | A | P0 | Partial | Built: the three compared and the illustrated hex crawl chosen (doc/architecture/mission-18/map.md); the full-screen map. Remains: the owner's review in play |
+| OWN-09 | Wilderness exploration as a central pleasure: travel (a known route to a destination, no junction chores), exploration (unknown country entered, surveyed, crossed hex by hex or toward a seen feature, discovering places and updating what is known), and investigation (a site) continuous; leaving a town simply to explore; a persistent position on intelligible land; vantage, expertise, light, weather and a spyglass changing what is seen; fog of war; discovered places on the map and usable | C | P0 | Partial | The open country of every generated country, stretch by stretch, a compass across it, looking out (by land, skill, glass, haze, dark), places seen and found, journeys toward them (test/exploration.test.ts). Remains: the wild's own meetings and small finds; authored regions' open country |
+| OWN-10 | Visual hierarchy across ordinary play, the title screen as the reference: fewer peer controls; compact character and inventory, details on inspection | A | P0 | Partial | Creation's choices together (37970a0); the place's people and its own pastimes at the head of the ways, the company's own choices apart (this batch); character sheet and pack remain |
+| OWN-11 | Demonstration: a new solo protagonist leaves a settlement to explore without a destination, opens the full-screen map, sees familiar terrain and the edge of the unknown, crosses unknown country and reveals more, discovers varied places by surveying, travel or sight, investigates one, travels back or on by ordinary travel, and keeps what was learned | F | P0 | Open | |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 
