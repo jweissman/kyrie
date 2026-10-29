@@ -74,7 +74,7 @@ Module calamy "A Parliament of Books" {
   // A temperament given a person overrides its keeping the peace, so the Awls warn and come by rules of their own: by
   // day they are Binders' lads at their benches, and only on the fourth night are they anything else.
   Person awls "the Awls" at hall_floor {
-    Role "Binders' lads with awls and mallets". Ancestry human. Calling warrior. Level 1. Numbers 3. Peaceable.
+    Role "Binders' lads with awls and mallets". Ancestry human. Calling commoner. Level 1. Numbers 3. Peaceable.
     Seen when not peaceable(awls).
   }
   Relation awlsWarned(group). Measure awlsPatience(group).
@@ -84,6 +84,15 @@ Module calamy "A Parliament of Books" {
   Rule awls_come at press_yard when awlsWarned(awls) and at(awls, press_yard) and at(party, press_yard) and not peaceable(awls) and not awlsStopped(saul)
     and watch(clock) >= awlsPatience(awls) and not assails(awls, party) says "The Awls come at you with their mallets." {
     Assert assails(awls, party). }
+  // Doble's apprentices sleep over the press shed. Shouted for, they come down with staves and a lamp, and Saul, who
+  // came to break a machine and not heads, counts them and calls his lads off (Mission 17's M17-45: three to one in
+  // the dark had nearly always gone against the one, warrior or not).
+  Action rouse_yard(actor: group, site: place) "Shout for Doble's apprentices over the press shed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(awls, site) and at(actor, press_yard) and awlsWarned(awls) and not peaceable(awls) and not awlsStopped(saul).
+    Time 1.
+    On success { Assert awlsStopped(saul). Assert pressGuarded(doble). Assert at(awls, hall_floor). Assert peaceable(awls). Retract assails(awls, actor). }
+    Result "You shout. A shutter bangs open over the press shed, a lamp comes out, and then the apprentices come down the outside stair in their shirts with staves and a pressman's bar, seven of them, swearing. Saul Vetch counts them. 'Not tonight, lads,' he says. They go back over the wall the way they came, and one of them, from the top of it, throws his mallet into the pump trough, which is the only thing broken in Doble's yard that night.".
+  }
   Action stand_aside(actor: group, site: place) "Stand aside and let the Awls at the press" {
     Requires able(actor) and company(actor) and at(actor, site) and at(awls, site) and awlsWarned(awls) and not peaceable(awls) and not awlsStopped(saul).
     Time 1.

@@ -71,10 +71,9 @@ describe('A Parliament of Books: the bond and the yard', () => {
     expect(Calamy.said(j)).toContain('Warden Mott of the Binders has spent the day');
   }, 180000);
 
-  // The Awls are three against one. A lone warrior of the third level, weary and hungry at one in the morning after
-  // three days awake (this path never sleeps), loses nearly every time; rested and fed, wins about one night in eight
-  // (M17-45, for the adventure's authors). Here the company has slept and eaten, and the night's dice are a seed's on
-  // which it wins: the moment before a fight that came at the company (PT-10) changed the dice the first seed had.
+  // The Awls are three against one: Binders' lads with mallets, not soldiers (M17-45: as warriors they had beaten a
+  // lone warrior of the third level eleven nights in twelve, weary or rested; as the tradesmen they are, he stands on
+  // ten in twelve). Here the company has slept and eaten, on a seed's night it wins.
   it('is in Doble\'s yard when the Awls come, and beats them off; Kit Sews the Pleas', async () => {
     const j = await Calamy.start('awls8', warrior);
     await Calamy.play(j, 'go:hall_floor', 'Talk to Warden', 'eats his dinner', 'Take your leave', 'go:press_room', 'Talk to Kit',
@@ -90,6 +89,22 @@ describe('A Parliament of Books: the bond and the yard', () => {
     await Calamy.play(j, '=790');
     expect(Calamy.holds(j, 'pleasPrinted', 'doble')).toBe(true);
     expect(j.campaign.world.test({ kind: 'call', name: C('pleasAwake'), args: [C('doble')] })).toBe(false);
+  }, 300000);
+});
+
+describe('A Parliament of Books: the night in the yard', () => {
+  // Warned off by Saul, a lone warrior need not fight three: Doble's apprentices sleep over the press shed, and shouted
+  // for they come down with staves, and Saul calls his lads off (M17-45). Weary and hungry, as the path leaves them.
+  it('shouts for Doble\'s apprentices when the Awls come, and Saul calls his lads off', async () => {
+    const j = await Calamy.start('awls3', warrior);
+    await Calamy.play(j, 'go:hall_floor', 'Talk to Warden', 'eats his dinner', 'Take your leave', 'go:press_room', 'Talk to Kit',
+      'what would bring him back', 'Take your leave', 'go:hall_floor', 'Talk to Warden', 'journeyman.s wage', 'Take your leave',
+      'go:press_room', 'Talk to Kit', 'Warden says yes', '?Take your leave', 'go:doble_office', 'Talk to Ambrose', 'what he is printing',
+      'Sewn before they go out', 'Take your leave', 'go:press_yard', '=520');
+    await j.step(`=until ${C('awlsWarned')}(${C('awls')})`);
+    expect(await Calamy.play(j, 'Shout for Doble\'s apprentices')).toContain('Not tonight, lads');
+    expect([Calamy.holds(j, 'awlsStopped', 'saul'), Calamy.holds(j, 'pressBroken', 'doble')]).toEqual([true, false]);
+    expect(j.screen().party.every(m => m.hp === m.maxHp)).toBe(true);
   }, 300000);
 });
 
