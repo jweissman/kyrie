@@ -1,0 +1,325 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── The Note, and the Goose Fair ───────────────────────────────────────────────────────────────────────────
+  // Once the company is known to the circus, Madame Sallow's agent comes onto the ground with the Colonel's old
+  // debt, bought up: sixty coin, payable at the Goose Fair in the fair town, the next time the circus comes there and
+  // three days off at least, or the wagons, canvas and beasts go to Sallow's Imperial Hippodrome. Her Hippodrome
+  // pitches by the fair town to wait. Her man works against Wapshott's meanwhile, by a hired lad: the bills, the
+  // band's books, the wire, a cage pin. At the Fair the clowns of both circuses meet on the green, both play on the
+  // last night before the Clerk of the Fair and his jury, and the Note is reckoned.
+  Measure note(concern). Measure servedDay(concern). Measure fairDay(concern). Measure evidence(group). Measure fairScore(concern).
+  Relation noteServed(concern). Relation fairSet(concern). Relation fairOn(concern). Relation sallowPlaying(place). Relation noteSettled(concern).
+  Relation noteDischarged(concern). Relation noteTorn(concern). Relation merged(concern). Relation sleeExposed(group). Relation contestWon(concern). Relation contestLost(concern).
+  Query fairFirst() means fairOn(wapshotts) and day(clock) == fairDay(wapshotts).
+  Query fairSecond() means fairOn(wapshotts) and day(clock) == fairDay(wapshotts) + 1.
+  Query fairThird() means fairOn(wapshotts) and day(clock) == fairDay(wapshotts) + 2.
+
+  Place sallow_ground "Sallow's Imperial Hippodrome" is room within town_a at 4, 0.
+  Passage sallow_lane "the lane to the far meadow" is path between green_a and sallow_ground taking 10 minutes hidden until note_known.
+  Observe sallow_scene at sallow_ground when noteServed(wapshotts) and not sallowGone(wapshotts) "In the far meadow along the lane stands Sallow's Imperial Hippodrome: a big top twice the size of Wapshott's, blue and gold, every guy-rope new and white, its wagons all painted alike in blue with gold lettering, its canvasmen in blue jackets with brass buttons. A camel stands by the front, eating a hat. A painted board says THE IMPERIAL HIPPODROME. COMFORT. ELEGANCE. SATISFACTION. NO ANIMALS HAVE BEEN HARMED EXCEPT IN THE ADVERTISED MANNER.".
+  Relation sallowGone(concern).
+  Person sallow "Madame Cordelia Sallow" at tober_a {
+    Role "the proprietress of Sallow's Imperial Hippodrome". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "A tall woman of fifty in dove-grey silk, with a silver-headed cane and an account-book under her arm, turns from the camel to look at you. She has a beautiful, intelligent, tired face, like a duchess who has been doing her own sums. 'Cordelia Sallow,' she says. 'You will be one of Florian's. You have the look of someone he has made a promise to.' She considers you. 'Sit down. I am not the villain of this piece. I am merely the only person in it who can add.'".
+    Greets again "Madame Sallow inclines her head, and makes a small note in her account-book, which may or may not be about you.".
+  }
+  Person slee "Varney Slee" at tober_a {
+    Role "Madame Sallow's agent". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Known as "a man in a grey hat" when not knows(party, slee_named).
+    Greets "A smooth, pleasant man in a grey topper, grey gloves and a grey waistcoat, with a face so agreeable you forget it while you are looking at it, lifts his hat to you. 'Slee,' he says. 'Varney Slee. Madame Sallow's man of business. I make things easy, for Madame. Anything at all that you would like made easy, you have only to ask.'".
+  }
+  Entity slee_named: fact "The man in the grey hat is Varney Slee, Madame Sallow's man of business.".
+  Rule slee_known when addressed(slee, party) and not knows(party, slee_named) says "He is Varney Slee, Madame Sallow's man of business." teaches slee_named { }
+  Person bombazine "Captain Bombazine" at tober_a {
+    Role "the clown of Sallow's Imperial Hippodrome". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "An enormous clown in a red wig and a uniform with epaulettes the size of dinner plates is practising falling off a stool, loudly. 'CAPTAIN BOMBAZINE!' he shouts, from the ground. 'THE LOUDEST CLOWN IN THE COUNTRY! I don't do silence,' he says, sitting up. 'Silence is for old men who've forgotten the words.' He offers you a hand with a buzzer in it.".
+    Greets again "'AH!' shouts Captain Bombazine, delighted, from wherever he has fallen.".
+  }
+  Person wat "Wat Coppock" at tober_a {
+    Role "a lanky lad of the fair town, with a paste-pot". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A long lad of sixteen with a paste-pot, a brush, and a roll of gold-and-blue bills under his arm, freezes like a heron. 'I never,' he says. 'Whatever it is. I never. I was at my nan's.'".
+  }
+  Person pettigrew "Master Obadiah Pettigrew" at tober_a {
+    Role "the Clerk of the Goose Fair". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "A small, round, important man in a black gown with a goose-quill behind his ear and a chain of office on which hangs a silver goose stands on a mounting-block with a ledger. 'Pettigrew,' he says. 'Clerk of the Goose Fair, by charter of the town, these thirty years. Pitches, tolls, weights, measures, and disputes concerning geese. If you are here about a goose, take a ticket.' He hands you a ticket. It has a number on it: 341.".
+  }
+  Initially Assert offstage(sallow). Initially Assert offstage(slee). Initially Assert offstage(bombazine). Initially Assert offstage(wat). Initially Assert offstage(pettigrew).
+  Initially Assert offstage(hymnal).
+
+  // ── The Note served ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule note_comes when metCircus(party) and pitched(wapshotts) and day(clock) >= 3 and hour(clock) >= 10 and hour(clock) < 18 and not noteServed(wapshotts)
+    and current(wapshotts, ?g) and groundRoom(?g, rk_wagons, ?w) {
+    Assert noteServed(wapshotts). Set note(wapshotts) to 60. Set servedDay(wapshotts) to day(clock). Retract offstage(slee). Assert at(slee, ?w).
+    Retract offstage(sallow). Assert at(sallow, sallow_ground). Retract offstage(bombazine). Assert at(bombazine, sallow_ground). Assert sallowPlaying(tober_a). }
+  Rule note_told near slee when noteServed(wapshotts) and not noteTold(wapshotts) and at(slee, ?w) and at(wapshott, ?w)
+    says "A smooth man in a grey topper is on the steps of the Colonel's wagon with a paper. 'A small matter of business, Colonel,' he says pleasantly, so that everyone in the wagon-ring hears it. 'Your note of hand to the Dunmere Discount House, sixty coin, long overdue, has been bought by Madame Sallow, of the Imperial Hippodrome. Madame will be pleased to receive payment at the Goose Fair at {town_a}, the next time your circus is there. Failing which, by the terms of the note, your wagons, canvas, effects and beasts.' He lifts his hat. 'Madame sends her regards, and hopes you are keeping well.' The Colonel stands in his doorway with his mouth open, and for the first time since you have known him, says nothing at all." {
+    Assert noteTold(wapshotts). }
+  Relation noteTold(concern).
+  Rule slee_leaves when noteServed(wapshotts) and at(slee, ?w) and groundOf(?w, ?g) and not noteTold(wapshotts) and not at(wapshott, ?w) { Assert noteTold(wapshotts). }
+  Rule slee_goes when noteTold(wapshotts) and not sleeGone(slee) and not at(slee, sallow_ground) and hour(clock) >= 13 { Assert at(slee, sallow_ground). }
+  Relation sleeGone(group).
+  Entity note_known: fact "Madame Sallow has bought up Colonel Wapshott's old note of hand: sixty coin, payable at the Goose Fair at {town_a} the next time the circus is there, or the wagons, canvas, effects and beasts are hers.".
+  Topic ada_note with ada "Ask Ada what the man in the grey hat wanted" when noteServed(wapshotts) once {
+    Says "Ada's face is set like a plate. 'The Dunmere note,' she says. 'Sixty coin. The Colonel signed it four years ago for a new big top, and spent it on a velvet curtain and an elephant that died at Marlow, and forgot about it, and I found it, and he said they'd forgotten it too.' She taps the ledger. 'Cordelia Sallow bought it. She'll take the lot: the wagons, the canvas, Bucephalus, the menagerie, us. At the Fair at {town_a}.' She looks at the strongbox. 'There's {strongbox(wapshotts)} in it. And the Fair has a prize, for the best show on the last night: forty coin and the Great Pitch. If we win that, and fill the box between now and then, and nobody eats.' She shuts the ledger. 'I'm going to be sick. I'll be in the wagon.'".
+    On discuss { Assert knows(actor, note_known). Assert knows(actor, prize_known). }
+  }
+  Entity prize_known: fact "At the Goose Fair the Clerk of the Fair and his jury give forty coin, and the Great Pitch of the Fair, to the best show of its last night.".
+  Objective the_note when knows(party, note_known) and not noteSettled(wapshotts) "Help Wapshott's find sixty coin for Madame Sallow's note by the Goose Fair at {town_a}, or win the Fair's prize, or both.".
+  Topic wap_note with wapshott "Ask the Colonel what he means to do about the note" when knows(actor, note_known) and not noteSettled(wapshotts) once {
+    Says "The Colonel is sitting in his wagon in his shirtsleeves with his crimson coat on his knee, sewing a button on it, badly. 'Do?' he says. 'Do? I mean to give the greatest performance this country has ever seen, at the Goose Fair, before Cordelia Sallow and her camel and her account-book, and win the Great Pitch, and pay her in front of the whole town with the prize, coin by coin, and kiss her hand, and bow, and fall over the ring boards on purpose for once in my life.' He pricks his finger. 'And if that does not answer, I mean to run away to sea.' A pause. 'Will you help me? I find I have very few friends with honest faces.'".
+    On discuss { Increase regard(wapshott) by 1. }
+  }
+
+  // Sallow's Hippodrome plays at the fair town every night once it has come, and takes the house there.
+  Rule sallow_play_ends when sallowGone(wapshotts) and sallowPlaying(tober_a) { Retract sallowPlaying(tober_a). }
+  Topic sallow_why with sallow "Ask Madame Sallow why she bought the Colonel's note" when noteServed(wapshotts) once {
+    Says "'Because somebody had to,' says Madame Sallow, 'before a man in Dunmere did who would sell the horse for glue.' She opens the account-book. 'Florian Wapshott is the best showman in this country and the worst man of business in the world. He has thirty people who depend on him, and he would spend their dinners on a camel.' She closes it. 'I do not want his circus. I want it run. With me running it, under his name and mine, it would be the finest in the land. He will never ask me. So I have arranged that he need not.' She looks at you. 'If he pays, he pays, and I wish him joy of it. I do not cheat. I never have. Tell him that.'".
+    On discuss { Assert knows(actor, sallow_fair). }
+  }
+  Entity sallow_fair: fact "Madame Sallow says she does not want to destroy Wapshott's but to run it, under both names, and that she has never cheated.".
+  Topic sallow_wapshott with sallow "Ask Madame Sallow about the lion's cage at Dunmere" when knows(actor, sallow_known) and knows(actor, sallow_fair) once {
+    Says "For a moment Madame Sallow looks a great deal younger and very much more tired. 'He told you that,' she says. 'He would.' She looks at the blue and gold of her big top. 'The night before, I asked to see the books, as his wife-to-be. He said a wedding was no place for arithmetic. I found them in the morning, under the lion. We owed four hundred coin.' She smiles slightly. 'I left with the lion, the elephant and the ledger, and paid every penny of it in two years, and he has never once asked how.' She makes a note. 'He thinks I jilted him. I suppose I did. I jilted the ledger, and he was in it.'".
+  }
+
+  Observe hippodrome_show at sallow_ground when noteServed(wapshotts) and not sallowGone(wapshotts) and hour(clock) >= 19 and hour(clock) < 21 "Inside the blue and gold, the Imperial Hippodrome is playing, and it is very good. Everything happens exactly when it should: twelve white horses in a wheel, a man who swallows a sword and then a second sword, a troupe of tumblers from the south in silver, a camel that kneels on a word. Nobody falls over anything. The lamps never gutter. At the end, as a final wonder, a cage is drawn in on wheels, and in it lies an old lion with a grey muzzle and a torn ear, asleep, who opens one yellow eye at the applause and closes it again.".
+  Topic sallow_lion with sallow "Ask Madame Sallow about the old lion in the cage" when noteServed(wapshotts) once {
+    Says "'Nebuchadnezzar,' says Madame Sallow. 'He was at Dunmere. In the cage, on the morning.' She does not soften, exactly; she goes still. 'He is thirty-one, and nearly blind, and he does nothing now but lie in the ring and open one eye, and the public loves him more than the swords.' A pause. 'Florian has never once asked after him. In nineteen years. You might tell him, if you like, that the lion is well.'".
+    On discuss { Assert knows(actor, lion_well). }
+  }
+  Entity lion_well: fact "Nebuchadnezzar, the lion who was in the cage at Dunmere on the wedding morning, is thirty-one, nearly blind, and well, in Sallow's Hippodrome.".
+  Topic wap_lion with wapshott "Tell the Colonel that Nebuchadnezzar is well" when knows(actor, lion_well) once {
+    Says "The Colonel turns away, quite sharply, and stands looking at the wall of his wagon, where the picture hangs with its face turned in. 'Is he,' he says. Then, after a while: 'He used to put his head on her knee. In the cage. Like a cat. I was jealous of a lion.' He clears his throat with a sound like a drain. 'Thank you. I did not ask. I did not dare.'".
+    On discuss { Increase regard(wapshott) by 1. }
+  }
+
+  // ── The man in the grey hat at work ─────────────────────────────────────────────────────────────────────────
+  // A lad is paid to paste over the bills, change the band's books, grease the wire; and on the Fair's second
+  // morning a cage pin may be drawn. Each leaves something to find, and the lad can be caught and made to say who
+  // paid him; enough of it set before Madame Sallow, and her man is done.
+  Relation watOut(group). Relation billsHit(place). Measure watDay(group). Relation watCaught(group). Relation watTalked(group).
+  Rule wat_pastes when noteTold(wapshotts) and pitched(wapshotts) and hour(clock) >= 7 and hour(clock) < 12 and current(wapshotts, ?g) and greenOf(?g, ?green)
+    and billOf(?g, ?b) and state(?b, playing) and not billsHit(?g) and not watCaught(wat) and watDay(wat) < day(clock) {
+    Assert billsHit(?g). Assert state(?b, defaced). Retract offstage(wat). Assert at(wat, ?green). Assert watOut(wat). Set watDay(wat) to day(clock). }
+  Rule wat_goes when watOut(wat) and hour(clock) >= 12 { Retract watOut(wat). Assert offstage(wat). }
+  Rule bills_hit_reset when onRoad(wapshotts) and billsHit(?g) and not current(wapshotts, ?g) { Retract billsHit(?g). }
+  Observe wat_seen near wat when watOut(wat) "A long lad with a paste-pot and a roll of gold-and-blue bills is working his way round {green_a}, whistling, pasting Sallow's over Wapshott's as fast as he can go.".
+  Action collar_wat(actor: group, site: place) "Collar the lad with the paste-pot" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wat, site) and watOut(wat) and not watCaught(wat).
+    Resolve check(actor, intimidation, dc_easy).
+    On success { Assert watCaught(wat). }
+    Result "You have him by the collar before he can run, and he dangles, paste-brush dripping, protesting that he was at his nan's.".
+    Otherwise "He sees you coming and is gone over a wall like a hare, leaving a trail of paste.".
+  }
+  Topic wat_who with wat "Ask Wat who is paying him" when watCaught(wat) and not watTalked(wat) once {
+    Says "'Nobody,' says Wat. You wait. 'A gent,' says Wat. 'A grey gent. A penny a bill, and a shilling to go round to the circus wagons at night and change some books on a music-stand for some others he gave me, and another to go up a pole with a pot of goose-grease, which I never, I was frit, I put it on the bottom bit only.' He swallows. 'He said it was a lark. Between circuses. He said they all do it.' He looks at the ground. 'My nan goes to Wapshott's every year. She likes the horse.'".
+    On discuss { Assert watTalked(wat). Increase evidence(actor) by 2. Assert knows(actor, wat_paid). Retract watOut(wat). Assert offstage(wat). }
+  }
+  Entity wat_paid: fact "Wat Coppock, a lad of {town_a}, says a gentleman in grey paid him to paste over Wapshott's bills, change the band's music-books, and grease the foot of the wire.".
+  // The band's books, the second show after the note.
+  Rule books_changed when noteTold(wapshotts) and pitched(wapshotts) and nights(wapshotts) >= 1 and hour(clock) >= 18 and hour(clock) < 19
+    and not booksChanged(wapshotts) and not bandWatched(wapshotts) and day(clock) >= servedDay(wapshotts) + 1 {
+    Assert booksChanged(wapshotts). Assert musicSwapped(wapshotts). }
+  Relation booksChanged(concern). Relation bandWatched(concern).
+  Action watch_band(actor: group, site: place) "Sit by the band's music-stands in the backyard until the show, and see nobody touches them" {
+    Time untilShow(clock).
+    Requires able(actor) and company(actor) and at(actor, site) and at(cookfire, site) and noteTold(wapshotts) and pitched(wapshotts) and hour(clock) >= 17 and hour(clock) < 19
+      and not booksChanged(wapshotts) and not bandWatched(wapshotts).
+    On success { Assert bandWatched(wapshotts). }
+    Result "You sit on the cookhouse steps by the band's stands with a mug of tea, and at a quarter to seven a long lad with a parcel under his arm comes round the canvas wagon, sees you, stops, and walks off again very fast, whistling, with the parcel. Fipps's books are where Fipps left them.".
+  }
+  Measure untilShow(clock).
+  Rule until_show when hour(clock) < 19 { Set untilShow(clock) to (19 - hour(clock)) * 6. }
+  Thing hymnal "a hymnal on Fipps's music-stand" at tober_a {
+    State left "A fat hymnal, THE PENITENT'S PSALTER, lies open on Fipps's music-stand where his band-book should be.".
+    Tries looking.
+  }
+  Rule hymnal_left when musicSpoiled(wapshotts) and not hymnalLeft(wapshotts) and current(wapshotts, ?g) and groundRoom(?g, rk_yard, ?y) {
+    Assert hymnalLeft(wapshotts). Retract offstage(hymnal). Assert at(hymnal, ?y). Assert travels(hymnal). Assert post(hymnal, rk_yard). }
+  Relation hymnalLeft(concern).
+  Observe hymnal_inside near hymnal when tried(hymnal, looking) and not knows(party, hymnal_ticket) "Inside the cover, pressed flat to mark a page, is a ticket: blue, with gold edges. SALLOW'S IMPERIAL HIPPODROME. COMPLIMENTARY. ADMIT THE BEARER. On the back, in a neat grey hand: For W.C., with thanks. V.S." teaches hymnal_ticket.
+  Entity hymnal_ticket: fact "In the hymnal left on Fipps's stand was a complimentary ticket to Sallow's Imperial Hippodrome, inscribed on the back: For W.C., with thanks. V.S.".
+  Rule hymnal_counts when knows(party, hymnal_ticket) and not hymnalCounted(party) { Increase evidence(party) by 1. Assert hymnalCounted(party). }
+  Relation hymnalCounted(group).
+  // The wire, at the Fair's first night, unless someone looks at the rigging first.
+  Rule wire_greasing when fairFirst() and hour(clock) >= 18 and not wireChecked(wapshotts) and not wireSpoiled(zephyrine) and not wireGreased(zephyrine) {
+    Assert wireGreased(zephyrine). }
+  Relation wireChecked(concern).
+  Action check_wire(actor: group, site: place) "Climb the king-pole and look over the wire's rigging before the show" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and ringHere(site) and noteTold(wapshotts) and not showOn(wapshotts) and not wireChecked(wapshotts) and hour(clock) >= 12.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Assert wireChecked(wapshotts). Retract wireGreased(zephyrine). }
+    Result "You go up the king-pole on its pegs to the Sylph's platform, forty feet over the ring, and look at everything: the wire, the anchor, the turnbuckle, the platform's boards. On the foot of the far pole's ladder, where her slipper goes first, you find it: a smear of goose-grease, shining, and a white goose feather stuck in it, and on the platform a blue ticket-stub with gold edges. You wipe it off with your sleeve, and come down with the stub.".
+    Otherwise "You go up the king-pole a little way and find you do not much want to go further, and come down with your hands sweating.".
+  }
+  Rule wire_check_counts when wireChecked(wapshotts) and not wireCounted(party) { Increase evidence(party) by 1. Assert wireCounted(party). }
+  Rule wire_spoiled_counts when wireSpoiled(zephyrine) and not wireCounted(party) { Increase evidence(party) by 1. Assert wireCounted(party). }
+  Relation wireCounted(group).
+  // The cage pin, on the Fair's second morning, if there is a cage worth opening, unless someone sits up with it.
+  Rule pin_drawn when fairSecond() and hour(clock) >= 5 and hour(clock) < 7 and exhibit(bramble) and not pinGuarded(wapshotts) and not pinTried(wapshotts) {
+    Assert pinDrawn(wapshotts). Assert pinTried(wapshotts). }
+  Relation pinGuarded(concern). Relation pinTried(concern).
+  Action sit_up_menagerie(actor: group, site: place) "Sit up all night in the menagerie, in the dark by Bramble's cage" {
+    Time untilLight(clock).
+    Requires able(actor) and company(actor) and at(actor, site) and at(beastpost, site) and exhibit(bramble) and fairFirst() and dark() and not pinGuarded(wapshotts).
+    Interrupted when raidOn(wapshotts).
+    On success { Assert pinGuarded(wapshotts). Assert pinTried(wapshotts). Assert sleeCaught(slee). Increase evidence(actor) by 3. }
+    Result "You sit in the straw in the dark with your back to the iron-strapped cage and Bramble breathing on your neck through the bars, warm and enormous and smelling of mutton. The hours go by. In the grey before dawn the menagerie flap lifts, very softly, and a man in a grey topper comes in with a dark-lantern, goes to the cage door, and puts his gloved hand on the pin. You stand up. Bramble, behind you, screams. Varney Slee drops the lantern and runs into a tent-pole, and you are on him before he can get up, and he sits in the straw and laughs, quite pleasantly. 'Ah,' he says. 'Well. Madame need not know. Need she?'".
+  }
+  Relation sleeCaught(group).
+  Topic slee_caught with slee "Ask Slee whether Madame Sallow sent him to let the owlbear out" when sleeCaught(slee) once {
+    Says "'Madame,' says Slee, brushing straw off his waistcoat, 'has never in her life sent me to do anything. She sends me to make things easy. What I do to make them easy, she is too busy to ask.' He smiles his forgettable smile. 'She will have the circus either way. I merely wished her to have it a little more cheaply, and at a little less risk of sentiment.' He looks at you. 'You won't tell her. Nobody ever does. People like a thing made easy.'".
+  }
+  Action tell_sallow(actor: group, site: place) "Set before Madame Sallow what her man has been doing to Wapshott's" {
+    Speaker sallow. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sallow, site) and evidence(actor) >= 2 and not sleeExposed(slee).
+    On success { Assert sleeExposed(slee). Assert sleeGone(slee). Assert offstage(slee). }
+    Result "You tell her all of it, and set down what you have: the lad's words, the ticket in the hymnal, the grease on the ladder, the grey glove on the cage pin. Madame Sallow listens without a movement. When you have finished she closes her account-book, very gently, as if it were asleep. 'Varney,' she says, not loudly. Slee is there, in the tent door, smiling. 'Your wages to the end of the month,' she says, 'and a horse, and the road, and if I see you within a day's ride of anything of mine I will have the camel sit on you.' He goes. She sits on in the empty tent while the lamps are put out around her. 'I have never cheated,' she says at last, to nobody. 'Not once. Not even Florian.'".
+  }
+  // A brother not mended by the Fair is a brother Slee can buy.
+  Rule dunstan_bought when fairFirst() and hour(clock) >= 12 and not feudMended(hal) and not dunstanGone(dunstan) and not sleeExposed(slee) {
+    Assert dunstanGone(dunstan). Assert away(dunstan). Assert at(dunstan, sallow_ground). }
+  Observe dunstan_at_sallow near dunstan when dunstanGone(dunstan) and at(dunstan, sallow_ground) "Dunstan Quincey is here, in a blue jersey with gold piping, tumbling alone on the grass in front of the Hippodrome with a face like a shut door.".
+  Action bring_dunstan(actor: group, site: place) "Show Dunstan his father's playbill, and bring him back to his brother" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dunstan, site) and dunstanGone(dunstan) and holding(actor, quincey_bill_kind).
+    On success { Retract dunstanGone(dunstan). Retract away(dunstan). Assert feudMended(hal). Increase regard(dunstan) by 2. Increase regard(hal) by 2. }
+    Result "Dunstan reads it standing up in his blue jersey, and reads it again, and then he takes the jersey off and folds it and puts it on the camel, and walks back up the lane beside you without a word; and in the backyard of Wapshott's his brother sees him coming and drops the bucket he is carrying, and the two of them stand and look at each other across the horse lines, and Hal says, 'Your left foot's late,' and Dunstan says, 'I know,' and that is the end of it.".
+  }
+
+  // ── The Goose Fair ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule fair_set when noteServed(wapshotts) and here(tober_a) and day(clock) == arrivedDay(wapshotts) and arrivedDay(wapshotts) >= servedDay(wapshotts) + 3 and not fairSet(wapshotts) {
+    Assert fairSet(wapshotts). Assert fairOn(wapshotts). Set fairDay(wapshotts) to day(clock). Retract offstage(pettigrew). Assert at(pettigrew, green_a). }
+  Rule fair_ends when fairOn(wapshotts) and day(clock) > fairDay(wapshotts) + 2 and hour(clock) >= 6 { Retract fairOn(wapshotts). Assert offstage(pettigrew). }
+  Rule fair_opens at green_a when fairFirst() and hour(clock) >= 14 and not fairOpened(wapshotts)
+    says "The Goose Fair has come to {town_a}. Every road into the town is white with geese: geese driven in flocks of a hundred by girls with long sticks, geese in carts, geese under arms, geese loose and furious. {green_a} is booths and smoke and bells and shouting, gingerbread and ribbons and roast goose; and in the middle of it all, on a mounting-block, a small round man in a black gown with a silver goose on a chain is ringing a hand-bell for silence and not getting it." {
+    Assert fairOpened(wapshotts). }
+  Relation fairOpened(concern).
+  Observe fair_green at green_a when fairOn(wapshotts) and not dark() "{green_a} is given over to the Goose Fair: booths, smoke, gingerbread, ribbons, a man selling a cure for everything, girls with long sticks driving geese through the crowd, and geese, everywhere geese, hissing at the ankles of the quality.".
+  Topic pettigrew_contest with pettigrew "Ask the Clerk of the Fair about the contest" when fairOn(wapshotts) once {
+    Says "Master Pettigrew draws himself up. 'By the charter of the Fair,' he says, 'the Great Pitch, which is the meadow by the green, with water and the right of the bell, goes each year to the show the Fair thinks best, together with a purse of forty coin from the tolls. This year there are two shows. Most irregular.' He consults his ledger. 'On the Fair's second afternoon, the clowns of both will meet upon the green, as of old custom, in the Flyting. On the third night the jury,' he indicates himself, '{keeper_a}, and {priest_a}, will attend both performances and decide. The verdict is mine to give, at the pump, at nine.' He lowers his voice. 'Madame Sallow has been very civil to me. She sent me a goose.' A pause. 'I have a great many geese.'".
+    On discuss { Assert knows(actor, contest_rules). }
+  }
+  Entity contest_rules: fact "At the Goose Fair, the clowns of both circuses meet in a Flyting on the green on the second afternoon, and on the third night the Clerk, {keeper_a} and {priest_a} judge both shows and give the verdict at the pump at nine.".
+  Topic pettigrew_fee with pettigrew "Ask the Clerk what Wapshott's owes the Fair" when fairOn(wapshotts) and not feePaid(wapshotts) once {
+    Says "'Pitch-toll,' says Master Pettigrew, without looking up. 'Five coin for a show of more than four wagons, payable to the Clerk, receipt given. The Colonel has not paid. The Colonel never pays. The Colonel tells me every year that the toll is a matter of the deepest principle.' He looks up. 'The jury will note who pays their toll.'".
+    On discuss { Assert knows(actor, fee_owed). }
+  }
+  Entity fee_owed: fact "Wapshott's owes the Clerk of the Goose Fair five coin of pitch-toll, and the jury will note who pays.".
+  Relation feePaid(concern).
+  Action pay_fee(actor: group, site: place) "Pay the Clerk of the Fair Wapshott's pitch-toll, five coin" {
+    Speaker pettigrew. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pettigrew, site) and knows(actor, fee_owed) and not feePaid(wapshotts) and quantity(actor, gold) >= 5.
+    On success { Decrease quantity(actor, gold) by 5. Assert feePaid(wapshotts). Increase fairScore(wapshotts) by 1. }
+    Result "Master Pettigrew writes a receipt in a large slow hand, blots it, and gives it to you as if it were a knighthood. 'The first time in nineteen years,' he says. 'I shall tell my wife.'".
+  }
+  Topic jury_keeper with keeper_a "Ask {keeper_a} what the jury will be looking for" when knows(actor, contest_rules) once {
+    Says "'Me?' says {keeper_a}. 'A full house and nobody hurt. And no lies on the bills: I've had the Colonel's basilisks before, and his mermaids. Last year it was a mermaid. It was a monkey sewn to a fish.' {keeper_a} wipes the bar. 'And I'll tell you what tips it, with Pettigrew. The town. Whoever this town's fondest of on the night, that's who he'll give it to, and say it was the charter.'".
+    On discuss { Assert knows(actor, jury_wants). }
+  }
+  Entity jury_wants: fact "{keeper_a} says the jury wants a full house, nobody hurt and no lies on the bills, and that the Clerk will give it to whichever show the town is fondest of.".
+  Topic jury_priest with priest_a "Ask {priest_a} what the jury will be looking for" when knows(actor, contest_rules) once {
+    Says "{priest_a} considers. 'Something true,' {priest_a} says. 'I don't mind it being impossible. A woman walking on a rope is impossible. I mind it being false.' A small smile. 'And I should like to laugh. I am asked to so seldom in my work.'".
+  }
+
+  // The Flyting: at three on the Fair's second day, on the green. Mumchance will not speak; someone must.
+  Rule flyting_called at green_a when fairSecond() and hour(clock) >= 15 and not flytingDone(wapshotts) and not inBout(bombazine) and at(party, green_a)
+    says "Master Pettigrew rings his bell on the mounting-block. 'THE FLYTING!' he cries. 'By old custom of the Fair, the fool of each show shall stand upon the green and abuse the other, and the Fair decide!' Captain Bombazine bounds out of the crowd in his red wig and epaulettes to a roar, and bows to all sides, and then turns to Wapshott's, where Mumchance stands in his white face with his hands folded, not saying a word, as he never does. 'WELL?' bellows Bombazine. 'Is the old man going to SPEAK? Or will somebody speak for him?' Mumchance looks at you." {
+    Assert inBout(bombazine). Assert boutAtFair(bombazine). Assert heckler(bombazine). Set composure(bombazine) to 6. Set poise(party) to 3. Set jab(bombazine) to 1. Retract answered(party).
+    Assert at(bombazine, green_a). Assert at(mumchance, green_a). Assert flytingCalled(wapshotts). }
+  Relation flytingDone(concern). Relation flytingCalled(concern).
+  Rule bomb_jab1 near bombazine when inBout(bombazine) and jab(bombazine) == 1 and not answered(party) and not jabTold(bombazine)
+    says "'LOOK at it!' shouts Bombazine, pointing at you. 'Wapshott's champion! They had to send out for one! The old one's forgotten how to talk and the Colonel's forgotten how to pay!'" { Assert jabTold(bombazine). }
+  Rule bomb_jab2 near bombazine when inBout(bombazine) and jab(bombazine) == 2 and not answered(party) and not jabTold(bombazine)
+    says "Bombazine falls over backwards with a crash, gets up, and shouts: 'That's a FALL! Did you see? They do it for nothing at Wapshott's, because nobody's paid them to stand up!'" { Assert jabTold(bombazine). }
+  Rule bomb_jab3 near bombazine when inBout(bombazine) and jab(bombazine) == 3 and not answered(party) and not jabTold(bombazine)
+    says "Bombazine plants himself in front of you, nose to nose, so that his breath smells of peppermint. 'Go on,' he says, very loud. 'Say something FUNNY. I dare you. The whole Fair's waiting. Even the GEESE are waiting.'" { Assert jabTold(bombazine). }
+  Rule flyting_won when boutWon(party, bombazine) and not flytingDone(wapshotts) says "Master Pettigrew rings his bell. 'The Fair has spoken!' he cries, though it is still speaking, and loudly, and mostly about you. 'The Flyting to Wapshott's!' Mumchance, who has not moved, unfolds his hands." {
+    Assert flytingDone(wapshotts). Increase fairScore(wapshotts) by 2. Increase standing(tober_a) by 1. Increase regard(mumchance) by 2. }
+  Rule flyting_lost when boutLost(party, bombazine) and not flytingDone(wapshotts) says "Master Pettigrew rings his bell. 'The Flyting to the Hippodrome!' Bombazine is carried off on the shoulders of the Hippodrome's canvasmen. Mumchance pats your arm, once, as he passes, and says very softly: 'I lost my first Flyting at Dunmere to a man with a trumpet. Never mind.'" {
+    Assert flytingDone(wapshotts). Decrease fairScore(wapshotts) by 1. }
+  Rule flyting_drawn when flytingCalled(wapshotts) and not inBout(bombazine) and not flytingDone(wapshotts) says "Master Pettigrew rings his bell, and consults nobody, and declares the Flyting a draw by ancient precedent, and goes to lunch." {
+    Assert flytingDone(wapshotts). }
+  Rule flyting_unanswered at green_a when fairSecond() and hour(clock) >= 16 and not flytingCalled(wapshotts) and not flytingDone(wapshotts)
+    says "On the green, the Flyting is called, and Captain Bombazine abuses Wapshott's for a quarter of an hour, and Mumchance stands and looks at him without a word, as he always does, and nobody else from Wapshott's comes forward; and in the end Master Pettigrew gives it to the Hippodrome, regretfully, on the ground that silence, however eloquent, is not strictly speaking abuse." {
+    Assert flytingDone(wapshotts). Decrease fairScore(wapshotts) by 1. }
+  Rule bomb_home when flytingDone(wapshotts) and at(bombazine, green_a) and hour(clock) >= 17 { Assert at(bombazine, sallow_ground). }
+
+  // The last night: both shows; the jury sees both; the verdict at nine; the reckoning at ten.
+  Rule fair_scores when fairThird() and showOn(wapshotts) and act(wapshotts) == 1 and not fairCounted(wapshotts) and current(wapshotts, ?g) {
+    Assert fairCounted(wapshotts). Assert juryIn(wapshotts). }
+  Relation fairCounted(concern). Relation juryIn(concern).
+  Rule jury_seen near ringpost when juryIn(wapshotts) and showOn(wapshotts) and not juryTold(wapshotts)
+    says "On the front bench tonight, very upright, sit the jury of the Goose Fair: Master Pettigrew in his gown with his silver goose, and beside him {keeper_a} and {priest_a}, looking as if they would rather be anywhere and are secretly enjoying themselves. Behind them the benches are full to the canvas. At the very back, in dove-grey, with her account-book on her knee, sits Madame Sallow." { Assert juryTold(wapshotts). }
+  Relation juryTold(concern).
+  Rule jury_menagerie when juryIn(wapshotts) and exhibits(wapshotts) >= 3 and not juryMenagerie(wapshotts) { Assert juryMenagerie(wapshotts). Increase fairScore(wapshotts) by 1. }
+  Rule jury_basilisk when juryIn(wapshotts) and basiliskBilled(wapshotts) and not juryBasilisk(wapshotts) { Assert juryBasilisk(wapshotts). Decrease fairScore(wapshotts) by 2. }
+  Rule jury_honest when juryIn(wapshotts) and basiliskHonest(wapshotts) and not juryBasilisk(wapshotts) { Assert juryBasilisk(wapshotts). Increase fairScore(wapshotts) by 1. }
+  Rule jury_town when juryIn(wapshotts) and standing(tober_a) >= 5 and not juryTown(wapshotts) { Assert juryTown(wapshotts). Increase fairScore(wapshotts) by 2. }
+  Rule jury_mother when juryIn(wapshotts) and reunited(pruett) and not juryMother(wapshotts) { Assert juryMother(wapshotts). Assert at(pruett, ring_a). }
+  Relation juryMenagerie(concern). Relation juryBasilisk(concern). Relation juryTown(concern). Relation juryMother(concern).
+  Rule basilisk_found_out near ringpost when juryIn(wapshotts) and basiliskBilled(wapshotts) and showOn(wapshotts) and act(wapshotts) == 3 and not exposedTold(wapshotts)
+    says "In the interval a farmer's boy who went into the menagerie to see THE BASILISK, LIVING comes back out and stands up on the bench and shouts, 'IT'S OUR SIR RODERICK! IT'S GRANFER TULL'S BANTAM, HE SOLD IT AT MICHAELMAS, IT'S GOT DYE ON!' The house laughs. The jury does not. Master Pettigrew writes something in his ledger." { Assert exposedTold(wapshotts). }
+  Relation exposedTold(concern).
+  Rule verdict at green_a when fairThird() and hour(clock) >= 21 and juryIn(wapshotts) and not contestWon(wapshotts) and not contestLost(wapshotts) and quality(wapshotts) + fairScore(wapshotts) >= 12
+    says "At the pump on the green, under a ring of lanterns, Master Pettigrew climbs onto his mounting-block and rings his bell until the whole Fair is quiet, even the geese. 'By the charter of the Goose Fair,' he says, 'the jury has seen both shows. Madame Sallow's Hippodrome is magnificent. It is everything a show should be. And this town,' he says, and seems surprised at himself, 'is fond of the other one.' He holds up a purse. 'The Great Pitch of the Fair, and forty coin, to WAPSHOTT'S.' The roar goes up and up. The Colonel, in his crimson coat, does not roar. He takes off his hat, and holds it over his heart, and weeps openly, and at the back of the crowd Madame Sallow closes her account-book and claps, twice, precisely." {
+    Assert contestWon(wapshotts). Increase strongbox(wapshotts) by 40. Increase standing(tober_a) by 1. }
+  Rule verdict_lost at green_a when fairThird() and hour(clock) >= 21 and juryIn(wapshotts) and not contestWon(wapshotts) and not contestLost(wapshotts) and quality(wapshotts) + fairScore(wapshotts) < 12
+    says "At the pump on the green, under the lanterns, Master Pettigrew rings his bell for silence. 'By the charter of the Goose Fair,' he says, 'the jury has seen both shows. The Great Pitch, and forty coin, to Sallow's Imperial Hippodrome.' There is a cheer, and some of it is real. The Colonel, in his crimson coat, nods, and bows to the blue-and-gold canvasmen, beautifully, and does not let anyone see his face." {
+    Assert contestLost(wapshotts). }
+  Rule no_show_no_contest at green_a when fairThird() and hour(clock) >= 21 and not juryIn(wapshotts) and not contestWon(wapshotts) and not contestLost(wapshotts)
+    says "At the pump Master Pettigrew gives the Great Pitch and the purse to the Hippodrome, which was the only show in {town_a} tonight." { Assert contestLost(wapshotts). }
+
+  // The reckoning, at ten, in the Colonel's wagon.
+  Rule reckoning_paid near wapshott when (contestWon(wapshotts) or contestLost(wapshotts)) and hour(clock) >= 22 and not noteSettled(wapshotts) and strongbox(wapshotts) >= note(wapshotts)
+    says "At ten Madame Sallow comes to the Colonel's wagon, alone, with her cane and her account-book, and the whole circus finds a reason to be in the wagon-ring. The Colonel opens the strongbox. He counts out sixty coin onto her open book, one at a time, slowly, saying the numbers aloud, and Ada behind him mouths them with him; and when he has finished he takes her hand and kisses it, and bows, and steps back, and falls magnificently over the boot-scraper. For once in his life he meant to. In the shadow of the next wagon Mumchance, who has seen it, says nothing, and nods, once, as if a long-standing account had been settled too. Madame Sallow looks down at the Colonel on the grass. 'Florian,' she says. 'You have paid a debt. I am not sure you know what to do now.' 'Nor am I,' says the Colonel from the grass. 'Isn't it wonderful?'" {
+    Assert noteSettled(wapshotts). Assert noteDischarged(wapshotts). Decrease strongbox(wapshotts) by note(wapshotts). Set note(wapshotts) to 0. }
+  Rule reckoning_torn near wapshott when (contestWon(wapshotts) or contestLost(wapshotts)) and hour(clock) >= 22 and not noteSettled(wapshotts) and strongbox(wapshotts) < note(wapshotts) and sleeExposed(slee)
+    says "At ten Madame Sallow comes to the Colonel's wagon, alone, with her account-book. The Colonel opens the strongbox and shows her what is in it, which is not enough, and begins to make a speech. She stops him with one gloved hand. Then she takes the note out of her book, and looks at it, and tears it in half, and in half again, and lets the pieces fall into the strongbox. 'My man worked against you,' she says. 'With my money, in my name. I will not take a thing I have half-stolen.' She turns to go, and turns back. 'Next year, Florian, I shall beat you fairly. Please be there. It is very dull being magnificent alone.'" {
+    Assert noteSettled(wapshotts). Assert noteTorn(wapshotts). Set note(wapshotts) to 0. }
+  Rule reckoning_merged near wapshott when (contestWon(wapshotts) or contestLost(wapshotts)) and hour(clock) >= 22 and not noteSettled(wapshotts) and strongbox(wapshotts) < note(wapshotts) and not sleeExposed(slee)
+    says "At ten Madame Sallow comes to the Colonel's wagon with her account-book, and the Colonel shows her the strongbox, which is not enough. She does not gloat. She sits down on his steps and opens the book. 'The wagons, the canvas, the beasts, and the people, by the note, are mine,' she says. 'I do not want them. I want them run.' She writes. 'SALLOW AND WAPSHOTT'S UNITED CIRCUS. Your name second; it is alphabetical. You will have the ring and the bills and the parade and every idea you have ever had, and I will have the strongbox and the key to it.' She holds out the pen. The Colonel looks at the pen as a man looks down a well. Then he signs, and the whole wagon-ring breathes out. 'Cordelia,' he says. 'Florian,' she says. 'You have ink on your moustache.'" {
+    Assert noteSettled(wapshotts). Assert merged(wapshotts). Set note(wapshotts) to 0. Retract offstage(sallow). Assert travels(sallow). Assert post(sallow, rk_wagons). }
+
+  // ── After the Fair ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule hippodrome_leaves when noteSettled(wapshotts) and not sallowGone(wapshotts) and hour(clock) >= 6 and day(clock) > fairDay(wapshotts) + 2 {
+    Assert sallowGone(wapshotts). Assert sleeGone(slee). Assert offstage(slee). Assert offstage(bombazine). }
+  Rule sallow_away when sallowGone(wapshotts) and not merged(wapshotts) and not offstage(sallow) and not sallowAtRevels(sallow) { Assert offstage(sallow). }
+  
+  Observe united_board near pole when merged(wapshotts) and pitched(wapshotts) and at(pole, ?r) "On the painted front of the big top a new board has been nailed over the old: SALLOW & WAPSHOTT'S UNITED CIRCUS. Under it, in chalk, in a large looping hand: (WAPSHOTT'S).".
+  Observe pitch_charter near pole when contestWon(wapshotts) and at(pole, ?r) "Nailed to the ticket wagon, framed in gilt, is a parchment with a red seal: THE CHARTER OF THE GREAT PITCH OF THE GOOSE FAIR OF {town_a}, TO WAPSHOTT'S CIRCUS, IN PERPETUITY OR UNTIL FURTHER NOTICE.".
+  Topic wap_next with wapshott "Ask the Colonel what comes next for Wapshott's" when noteSettled(wapshotts) once {
+    Says "The Colonel stands at the field gate in the morning with his hands behind his back, looking at the road. 'Next,' he says. 'Next season, my friend, the menagerie GROWS. An elephant. No. Something bigger than an elephant.' He turns. 'Quirk! What is bigger than an elephant?' 'A whale, Colonel,' says Quirk, from up a ladder. 'Bigger.' Pip, going by with a bucket, says: 'They dug a bone out of the marl-pit at {town_c} last spring, Colonel, a thigh-bone as long as a man, and they've put it in the shrine and nobody knows what it's off.' The Colonel goes very still. A light comes into his eye that Ada, in the hatch of the ticket wagon, sees from forty feet off, and puts her pen down, and puts her head in her hands. The Colonel, without turning round, says to you, quite quietly: 'Thank you. I mean it. Ada tells me I never sound as if I do.'".
+    On discuss { Assert knows(actor, bone_heard). }
+  }
+  Entity bone_heard: fact "A thigh-bone as long as a man was dug out of the marl-pit at {town_c}, and the Colonel has heard of it.".
+  Topic wap_letter with wapshott "Ask the Colonel about the letter with the crowned seal" when noteSettled(wapshotts) and (crestShown(wapshotts) or contestWon(wapshotts)) once {
+    Says "The Colonel takes it out of his inside pocket, where it has been since dawn, over his heart. Thick paper, a seal of red wax: a wheel, with a crown over it. 'A gentleman was in the house on the last night,' he says. 'In a plain coat, at the back. He wrote this at the inn and left it for me.' He reads it to you, though he clearly knows it by heart. 'The Steward of the Household of the Progress presents his compliments to Colonel Wapshott, and begs to inquire whether the Colonel would consider bringing his company, and,' the Colonel's voice wobbles, 'his tortoise, to perform before the Household at a date to be agreed.' He folds it. 'Before the Household,' he says. 'The Household of the Progress.' He looks at you. 'Hench says I must learn to bow. Properly. To a dowager who is also an archduke.' He swallows. 'I have never been so frightened in my life.'".
+  }
+  Topic ada_torn with ada "Ask Ada what she made of Madame Sallow tearing up the note" when noteTorn(wapshotts) once {
+    Says "Ada has the torn pieces of the note in an envelope in the back of the ledger, between the Brigand's Bride and the wages. 'I'm keeping them,' she says. 'For when he forgets.' She is quiet. 'She looked at the books, you know. Before she tore it. She asked to see them and I showed her, and she went down every page with her finger, and at the end she said, Miss Thripp, you are wasted on him. And I said, I know. And she said, So was I.' Ada shuts the ledger. 'Then she tore it up.'".
+  }
+  Query crestShown(n: concern) means knows(party, crest_known) and exhibit(methuselah).
+  Topic mum_end with mumchance "Ask Mumchance how he feels, now the Fair is done" when noteSettled(wapshotts) once {
+    Says "Mumchance is sitting on his bucket in the sun, with no face on, which you have hardly seen: an old man's face, lined and plain and very kind. 'Tired,' he says. 'Good tired.' He watches Honoria hanging out the washing on the guy-ropes. 'She asked me last night,' he says, 'whether I remembered Wakeham. I said I'd never forgotten it.' He picks a straw off his knee. 'Then neither of us said anything for an hour, which is about right for us.' He looks at you. 'We go round again tomorrow. Come and find us. You always know where we are; we're the ones in the field.'".
+  }
+  Milestone m_turn "went on in the ring at Wapshott's" worth 50 when turns(party) >= 1.
+  Milestone m_triumph "brought the house down at Wapshott's" worth 100 when renown(party) >= 4.
+  Milestone m_fall "learned the Fall from Mumchance" worth 50 when fallLearned(party).
+  Milestone m_art "learned the four foundations of the Gentle Art" worth 200 when fallLearned(party) and lookLearned(party) and feintLearned(party) and answerLearned(party).
+  Milestone m_jos "out-heckled Jos Haverhill" worth 75 when boutWon(party, jos).
+  Milestone m_quinceys "mended the Brothers Quincey" worth 100 when feudMended(hal).
+  Milestone m_sylph "walked the Sylph of the Wire home to her mother" worth 150 when reunited(pruett).
+  Milestone m_nell "brought Nell to see her father's tent lit" worth 75 when nellTold(nell).
+  Milestone m_basilisk "found out the basilisk" worth 50 when knows(party, roderick_known).
+  Milestone m_fox "saw the glimmer-fox hunting moths" worth 75 when foxSeen(party).
+  Milestone m_fox_free "let the glimmer-fox go home" worth 75 when foxFreed(party).
+  Milestone m_hob "found Ninepence the hob a hearth" worth 150 when hobJoined(ninepence) or hobAtInn(ninepence).
+  Milestone m_bramble "brought in the owlbear of the orchards alive" worth 200 when exhibit(bramble) or brambleLost(wapshotts).
+  Milestone m_tortoise "brought the Tortoise of Antiquity up to the circus" worth 75 when tortoiseHome(wapshotts).
+  Milestone m_serpent "found Fipps his serpent" worth 75 when serpentGiven(party).
+  Milestone m_slee "showed Madame Sallow what her man had done" worth 150 when sleeExposed(slee).
+  Milestone m_flyting "won the Flyting at the Goose Fair" worth 150 when boutWon(party, bombazine).
+  Milestone m_pitch "saw Wapshott's win the Great Pitch of the Goose Fair" worth 250 when contestWon(wapshotts) and knows(party, note_known).
+  Milestone m_note "saw the Colonel's note settled" worth 200 when (noteDischarged(wapshotts) or noteTorn(wapshotts)) and knows(party, note_known).
+}

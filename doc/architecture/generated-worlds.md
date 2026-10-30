@@ -62,7 +62,7 @@ A scenario is a manifest next to ordinary Kyr modules. The tower ([unquiet-tower
 |---|---|
 | `context` | Region values the scenario accepts, per key. A death-faith region never gets the necromancer's tower. |
 | `instances`, `weight` | How many times it may be placed in one region; relative likelihood when several fit. |
-| `places` | Roles it needs: `site` (kinds it accepts, claimed exclusively) or `settlement` (`near:<role>`, shared). |
+| `places` | Roles it needs: `site` (kinds it accepts, claimed exclusively) or `settlement` (`near:<role>`, shared; `largest`, and `along:<role>` for the next town along the roads, shared and claiming nothing), or `way` (`near:<role>`, or `between:<role>,<role>`). |
 | `modules[].imports` | References: `@party`, `@region`, `@wilds` (the open country sites stand in), `@role`, `@role.part` (a settlement's `green`, `taproom`, `shrine`, `shop`, `priest`, `innkeeper`, `merchant`, `traveller`; a site's `track`), or `module.export`. |
 | `route` | A passage (`module.export` or `@role.track`) hidden until the company knows a hook that opens it. |
 | `hooks` | Facts the scenario establishes, the topic people raise (`{role}` becomes the bound place's generated name), and the channels that carry them. `opens: false` keeps a hook from revealing the route. |
@@ -81,6 +81,9 @@ scenario's own Deem templates receive the region context, so the tower's necroma
 `necromancerCalling` table keyed by the region's ancestry. Backgrounds declare contacts in the catalog
 ([backgrounds.json](../../data/catalog/backgrounds.json)): `"contact": { "channel": "road", "text": "{contact} and
 {member} hunted the same hills for a season." }`.
+
+**Standing scenarios.** `data/scenarios/standing.json` lists scenarios every first country holds whatever is drawn
+(Wapshott's circus, which goes round three of its towns): placed after the drawn ones, so that nothing drawn moves.
 
 ## Knowledge: true, believed, learned
 

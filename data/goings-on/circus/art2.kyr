@@ -1,0 +1,133 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── The Gentle Art, second degree ───────────────────────────────────────────────────────────────────────────
+  // After the four foundations: the Riposte (Mumchance: to be where the blow is not, and let it land on its thrower),
+  // the Echo (Mother Pell: to give back a voice, which is attention with the volume up), and the Reversal, which only
+  // the two of them together can teach, because it was their act: the mirror-door of Pell and Fell, the first
+  // disciplined imitation, a body that gives back another body's movement. Mumchance calls it the door to the
+  // Mirror, and not the Mirror.
+  Relation riposteLearned(group). Relation echoLearned(group). Relation reversalLearned(group). Relation courtTaught(group).
+  Measure triedRiposteDay(group). Measure triedEchoDay(group). Measure triedReversalDay(group). Relation madePellLaugh(group).
+  Relation partnered(group). Relation partnerRehearsed(group). Relation pipReady(group). Relation knowsWhyNow(group).
+
+  Topic mum_why_now with mumchance "Ask Mumchance about the Riposte" when answerLearned(actor) and letterCome(wapshotts) once {
+    Says "Mumchance does not answer at once. He is looking at the King's Rest on its hill, or at where it would be from here. 'I said I'd teach the four,' he says. 'I've taught the four. The fifth I never taught anybody. My father taught it me with a sword, and I never found anyone I wanted to give it to with a custard.' He turns on his bucket. 'The knees are seventy. I'd like to show it you while I can still be where the blow isn't.' A pause. 'And there's the Revels. The ladder for two, before the Household of the Progress. I've thought about that ladder for forty years. I never had a second.'".
+    On discuss { Assert knowsWhyNow(actor). }
+  }
+  Topic mum_partner with mumchance "Tell Mumchance you will be his second on the ladder at the Revels" when knowsWhyNow(actor) and not partnered(actor) once {
+    Says "Mumchance holds out his hand. It is the second time. 'The ladder for two,' he says. 'One climbs, one helps; the one who helps is the joke. You'll be the one who helps.' He almost smiles. 'It was Polly's part. She did it with her mouth. You'll have to do it with your feet.'".
+    On discuss { Assert partnered(actor). Increase regard(mumchance) by 2. }
+  }
+  Action rehearse_partner(actor: group, site: place) "Rehearse the ladder for two with Mumchance, in the empty ring" {
+    Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and partnered(actor) and freeHour() and not partnerRehearsed(actor).
+    Resolve check(actor, tumbling, dc_fair).
+    On success { Assert partnerRehearsed(actor). }
+    Result "Two hours in the empty ring with the ladder. He climbs; you help; he falls. You learn where to stand so that your help is always a foot to the left of where it is needed, and how long to look at him when he lands, and that the whole thing is a conversation in which you never once say a word. At the end he lies in the sawdust and you stand over him with the ladder, and he says, without moving, 'Again,' and you know that it is good.".
+    Otherwise "Two hours with the ladder, and every time he falls you catch him, out of kindness, which ruins it. 'Don't help,' he says. 'Help wrongly. Tomorrow.'".
+  }
+  Action learn_riposte(actor: group, site: place) "Learn the Riposte from Mumchance: stand in the ring while he throws custards" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and knowsWhyNow(actor) and answerLearned(actor) and freeHour()
+      and not riposteLearned(actor) and triedRiposteDay(actor) < day(clock).
+    Resolve check(actor, tumbling, dc_hard).
+    On success { Assert riposteLearned(actor). Assert teaches(mumchance, riposte). Increase regard(mumchance) by 1. }
+    On failure { Set triedRiposteDay(actor) to day(clock). }
+    Result "Honoria makes him a bucket of custard. He stands at one side of the ring and throws, with a fencing-master's wrist, and for the first hour every custard finds you. 'You're getting out of the way,' he says. 'Don't get out of the way. Be where it isn't, and leave something where it is.' In the second hour you learn to leave your hat. In the third a custard leaves his hand, and you are not where it goes, and your hat is, and it goes past your hat and on, all the way, into Pip's face where she is sitting on the ring boards. Mumchance sits down in the sawdust and laughs till he cannot get up. 'That,' he says, wiping his eyes, 'is the Riposte. The blow goes on to someone who deserved it more.'".
+    Otherwise "Three hours of custard. You go to bed yellow. 'Tomorrow,' says Mumchance. 'Honoria will make more. She thinks it's good for you.'".
+  }
+  Action amuse_pell(actor: group, site: place) "Give Mother Pell Mumchance's look, the one at the ladder" {
+    Speaker motherpell. Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(motherpell, site) and lookLearned(actor) and not madePellLaugh(actor).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert madePellLaugh(actor). Increase regard(motherpell) by 2. }
+    Result "You give her the Look: Mumchance's, at the ladder, the one that says the world has done this to you personally. Mother Pell stares. Then she laughs so hard the bath-chair rolls a yard backward, and she has to be fetched. 'Gus Fell,' she says, wiping her eyes with a shawl. 'Gus Fell to the life. He's given you his face. The old fool's given somebody his face.'".
+    Otherwise "You give her the Look. 'Very nice,' she says. 'Whose is it meant to be?'".
+  }
+  Action learn_echo(actor: group, site: place) "Ask Mother Pell to teach you the voices" {
+    Speaker motherpell. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(motherpell, site) and (madePellLaugh(actor) or regard(motherpell) >= 2) and not echoLearned(actor)
+      and triedEchoDay(actor) < day(clock).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert echoLearned(actor). Assert teaches(motherpell, echo). Assert canTurn(actor, turn_voices). }
+    On failure { Set triedEchoDay(actor) to day(clock). }
+    Result "An hour beside the bath-chair while the town goes by, with Mother Pell giving you voices like sweets: the innkeeper, a goose, Augustus, Augustus as a goose. 'Don't copy,' she says. 'Copying is mockery, and mockery is cheap. Listen. Listen till you could love them for an hour. Then give it them back.' Toward the end a carter passes, cursing his horse, and you give him back his own curse, in his own voice, and he stops and turns round, quite certain his brother is behind him. Mother Pell claps her mittens. 'The Echo,' she says. 'First step to the Mirror, Gus would say. He only says that because he never could do it.'".
+    Otherwise "An hour of voices, and every one of them comes out as you doing a voice. 'You're listening to yourself,' says Mother Pell. 'Listen to them. Tomorrow.'".
+  }
+  Action learn_reversal(actor: group, site: place) "Ask Pell and Fell to teach you the mirror-door together" {
+    Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and at(motherpell, site) and pellAndFellMet(mumchance) and riposteLearned(actor) and echoLearned(actor)
+      and not reversalLearned(actor) and triedReversalDay(actor) < day(clock).
+    Resolve check(actor, tumbling, dc_hard).
+    On success { Assert reversalLearned(actor). Assert teaches(mumchance, reversal). Increase regard(mumchance) by 1. Increase regard(motherpell) by 1. }
+    On failure { Set triedReversalDay(actor) to day(clock). }
+    Result "On the green stage of the Revels Hall, with Mother Pell calling it from her chair and Mumchance on his bad knees, they show you the mirror-door: two people either side of an empty frame, each the other's reflection, until one of them moves first and the other does not follow, and the whole house screams. 'It isn't copying,' says Mother Pell. 'It's giving back.' 'It's where the weight goes,' says Mumchance. You learn it for two hours, his movement in your body, her timing in your ear, until, at the end, he lunges at the frame and you give his lunge back to him, exactly, and he goes over his own feet and down. He lies there. 'That's the Reversal,' he says from the boards. 'A man's own weight, given back. The door to the Mirror.' He looks up at the green ceiling of the hall. 'Not the Mirror. The door.'".
+    Otherwise "Two hours at the mirror-door, and you are always a hair late, so that you are not a mirror but a person copying. 'Again tomorrow,' they say, together, and look at each other, startled.".
+  }
+  // In a bout of words: the Echo gives a heckler his own voice; the Riposte lets his jab land on someone else.
+  Action echo_him(actor: group, foe: group, site: place) "Give {foe} back his own voice, word for word" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and boutOpen(foe, actor) and at(foe, site) and echoLearned(actor).
+    Resolve check(actor, performance, dc_easy).
+    On success { Decrease composure(foe) by 3 or to nothing. Assert answered(actor). }
+    On failure { Decrease poise(actor) by 1 or to nothing. Assert answered(actor). }
+    Result "You give it back to him: his own words, in his own voice, his own pause, the little sniff he does not know he does; and the house hears the sniff, and is lost, and he hears it too, and does not know where to put his face.".
+    Otherwise "You give him his own voice, and it comes out as somebody's uncle.".
+  }
+  Action riposte_him(actor: group, foe: group, site: place) "Let {foe}'s jab land on someone who deserves it more" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and boutOpen(foe, actor) and at(foe, site) and riposteLearned(actor).
+    Resolve check(actor, deception, dc_fair).
+    On success { Decrease composure(foe) by 3 or to nothing. Assert answered(actor). }
+    On failure { Decrease poise(actor) by 1 or to nothing. Assert answered(actor). }
+    Result "You agree that someone in this room is everything he says; and then, without a word, you turn and look at him, so that the whole house turns with you, and everything he said is now about him.".
+    Otherwise "You try to pass it on, and there is nobody to pass it to, and it stays on you.".
+  }
+
+  // A turn of voices, for one who has the Echo.
+  Entity turn_voices: turnkind "a turn of voices and imitations".
+  Topic book_voices with wapshott "Ask the Colonel to put you on tonight in a turn of voices" when auditioned(actor) and canTurn(actor, turn_voices) and not booked(actor, turn_voices) and not onTurn(actor) {
+    Says "'Voices!' says the Colonel. 'Do mine.' You do his. He listens with his head on one side, and then, slowly, goes red. 'I do not sound like that,' he says, in exactly the voice you used. 'After the Ox. Leave me out of it.'".
+    On discuss { Assert booked(actor, turn_voices). }
+  }
+  Rule voices_triumph near ringpost when triumph(party) and booked(party, turn_voices)
+    says "You give the house itself back to itself: the innkeeper, the priest, the man who sells eels, the Colonel at the top of his voice; and then, at the end, very quietly, Mumchance, who never speaks, saying 'Again.' The tent comes apart. In the wings Mumchance has his hand over his eyes." {
+    Assert turnPaid(party). Increase regard(mumchance) by 1. }
+  Rule voices_fair near ringpost when fairTurn(party) and booked(party, turn_voices)
+    says "You do the town's voices, and the house knows every one, and laughs at its neighbours, which is the safest kind of laugh there is." { Assert turnPaid(party). }
+  Rule voices_flop near ringpost when flop(party) and booked(party, turn_voices)
+    says "You do the town's voices, and they are all the same voice, and it is yours, and a man in the front row asks who you are meant to be." { Assert turnPaid(party). }
+  Action turn_bold_voices(actor: group, site: place) "Go for the big finish: the Colonel's own voice, to his face" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and onTurn(actor) and not turnChosen(actor) and booked(actor, turn_voices).
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert turnChosen(actor). Increase turnScore(actor) by 4. }
+    On failure { Assert turnChosen(actor). Decrease turnScore(actor) by 1 or to nothing. }
+    Result "You turn to the Colonel, in the middle of his own ring, and become him: the chest, the moustache, the LADIES AND GENTLEMEN, the tears at the right moment. He stands it for ten seconds. Then he starts to laugh, helplessly, the first time anyone in the circus has seen him laugh at himself, and the house sees it, and that is the end of everybody.".
+    Otherwise "You turn to the Colonel and become him, and he does not laugh. He looks at you like a man shown a portrait he paid for and did not like.".
+  }
+
+  // ── The forms of a court, from Hench ────────────────────────────────────────────────────────────────────────
+  Action learn_court(actor: group, site: place) "Ask Hench to teach you the forms of a court" {
+    Speaker hench. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hench, site) and knows(actor, letter_known) and not courtTaught(actor).
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert courtTaught(actor). Increase regard(hench) by 1. }
+    Result "Hench sets two chairs in the wardrobe wagon, one for the Dowager and one for the Steward, and puts a hatbox on each, and for an hour you bow to hatboxes. 'One does not turn one's back on the dais. One does not laugh until Her Serene Highness has laughed, and then one laughs a little less. One does not speak to a dowager who is also an archduchess until she has decided which she is today; she will tell you by the hand she offers.' He corrects your knee with his tape-measure. 'And one never, ever, explains a joke at court. If a joke has to be explained at court, one has simply died, and must lie still.' At the end you can bow to a hatbox as if it owned a country, and Hench, for the first time, says 'Good.'".
+    Otherwise "An hour of bowing to hatboxes, and every bow is a bow to a hatbox. 'You are sincere,' says Hench with distaste. 'At court that is mistaken for impertinence.'".
+  }
+
+  // ── Pip's first entrée ───────────────────────────────────────────────────────────────────────────────────────
+  Topic pip_entree with pip "Ask Pip whether she has an entrée of her own for the Revels" when letterCome(wapshotts) and fallLearned(actor) and not pipReady(pip) and not travelsWith(pip, actor) once {
+    Says "Pip goes pink. 'Mumchance said I could go on at the Revels. Alone. Three minutes.' She twists her nose in her pocket. 'I've got the start, I fall off a barrel. I've got the end, I bow to the wrong person. I haven't got the middle. Everybody says the middle's where the joke is.' She looks at you. 'You've done the four. Would you,' she says, very fast, 'help.'".
+    On discuss { Assert pipAsked(pip). }
+  }
+  Relation pipAsked(group).
+  Action help_pip(actor: group, site: place) "Work out Pip's entrée with her, the middle of it" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and pipAsked(pip) and freeHour() and not pipReady(pip).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert pipReady(pip). Increase regard(pip) by 2. }
+    Result "You work it out together in the backyard among the washing, with Pip falling off the barrel forty times: and the middle, it turns out, is the get-up. She falls off the barrel, and gets up, and the barrel is still there, and she looks at it, and decides to forgive it, and goes to shake its hand, and it rolls away. She does it once more and you laugh out loud before you can stop, and she stops dead and stares at you. 'That's it,' she says. 'That's it, isn't it? Oh, Mumchance is going to be so cross I didn't ask him.'".
+    Otherwise "You try the middle a dozen ways, and every one is a joke you can see coming. 'Tomorrow,' says Pip, who has started to sound exactly like Mumchance.".
+  }
+}

@@ -1,0 +1,193 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── The shape of it: four chapters ──────────────────────────────────────────────────────────────────────────
+  // The wagons (wonder); the note (the backstage truth, and the rival's shadow); the Goose Fair (the worst hour, and
+  // the last show given anyway); and the road again. Each opens on something seen.
+  Chapter ch_wagons "The Wagons" when at(party, ?g) and here(?g) and groundOf(?g, ?g) "The field gate stands open and the grass inside it is already trodden into paths. A smell of horse and oranges and wet canvas, a dog asleep on a coil of rope, and a man somewhere out of sight shouting HEAVE in a voice like a gong. You have walked into a circus.".
+  Chapter ch_note "The Note" when knows(party, note_known) "Behind every circus there is a second circus, which the public never sees: the ledger, the larder, the wages, the wagon with a wheel that is going. You have seen it now.".
+  Chapter ch_fair "The Goose Fair" when fairOn(wapshotts) and within(party, town_a) "The roads into {town_a} are white with geese, and have been for a day; the whole country is coming in behind them to buy and sell and be fleeced. Somewhere in the din, a small round man in a black gown is ringing a bell.".
+  Chapter ch_road "On the Road Again" when noteSettled(wapshotts) and onRoad(wapshotts) "At six the canvas comes down in its long sigh, and the wagons go out of {town_a} in the old order, Bucephalus first. Whatever was won or lost, the circus does what it has always done. It goes on round.".
+
+  // ── Before the note: what is seen before it is said ─────────────────────────────────────────────────────────
+  Observe grey_hat_house near ringpost when showOn(wapshotts) and nights(wapshotts) >= 1 and not noteServed(wapshotts) and act(wapshotts) >= 2 "At the very back of the house, standing, though there are seats, is a man in a grey topper who does not laugh at anything. He is writing in a small book: not during the acts, you notice, but between them, when the canvasmen come on to clear the ring. He seems to be counting the benches.".
+  Observe colonel_counting near wagonring when at(wagonring, ?r) and noteServed(wapshotts) and not noteSettled(wapshotts) and (hour(clock) >= 23 or hour(clock) < 5) "There is one candle still lit in the crimson wagon. Through the little window you can see the Colonel in his shirt, alone, counting the strongbox onto the table, then counting it again, then writing a sum on the back of a playbill and crossing it out.".
+  Thing relics "the Colonel's relics" at tober_a {
+    State hung "Inside the crimson wagon, over the Colonel's bunk, hang his relics: a framed bill, a length of iron chain, and a picture in a gilt frame with its face to the wall.".
+    State turned "Inside the crimson wagon, over the Colonel's bunk, hang his relics: a framed bill, a length of iron chain, and the picture in its gilt frame, turned to face the room: a young woman with a lion cub in her lap and an account-book under her elbow, painted by somebody who loved her.".
+    Change turn_picture "Turn the picture round" from hung to turned.
+    Tries looking.
+  }
+  Initially Assert state(relics, hung). Initially Assert travels(relics). Initially Assert post(relics, rk_wagons).
+  Observe relics_looked near relics when tried(relics, looking) and not knows(party, relics_known) "The bill, framed in black: WAPSHOTT'S CIRCUS. IN HOB'S FIELD, BEHIND THE WAGGONER, DUNMERE. ONE HORSE. ONE LADDER. ONE GENTLEMAN. ADMISSION AN EGG. The chain is an elephant's ankle-chain, the iron worn bright on the inside, with DIDO stamped on the lock; she died at Marlow in the flood year, Ada says later, and is buried under the market cross, and the town still argues about whether it was a privilege." teaches relics_known.
+  Entity relics_known: fact "The Colonel keeps the bill of his first show (Hob's Field, Dunmere; admission an egg), the ankle-chain of Dido, an elephant who died at Marlow in the flood year, and a portrait turned to the wall.".
+  Observe sallow_portrait near relics when state(relics, turned) and not knows(party, portrait_known) "Under the portrait, on the frame, a small brass plate: C., AT DUNMERE." teaches portrait_known.
+  Entity portrait_known: fact "The portrait the Colonel keeps turned to the wall is of a young woman with a lion cub and an account-book, marked C., AT DUNMERE.".
+  Rule picture_back when state(relics, turned) and at(relics, ?r) and not at(party, ?r) { Assert state(relics, hung). }
+
+  // The Fair coming: geese on every road toward the fair town, from the eighth day once the note is out.
+  Observe geese_ab at road_ab when noteServed(wapshotts) and day(clock) >= 8 and not fairDone(wapshotts) and not dark() "The road is white with geese: a flock of two hundred or more being driven toward {town_a} for the Goose Fair by two girls with long sticks and a boy with a dog, the whole mass of them moving like a slow spill of milk and hissing at everything that is not a goose.".
+  Observe geese_bc at road_bc when noteServed(wapshotts) and day(clock) >= 8 and not fairDone(wapshotts) and not dark() "Geese on the road, a whole flock of them, driven by a woman in a red shawl toward the Fair at {town_a}. Their feet have been dipped in tar and sand for the walk, she tells you, so they will not go lame; they look as if they were wearing boots, and as if they knew it.".
+  Observe geese_ca at road_ca when noteServed(wapshotts) and day(clock) >= 8 and not fairDone(wapshotts) and not dark() "Geese on the road, going the way the wagons go, toward {town_a} and the Goose Fair: a hundred white backs in a bobbing tide between the hedges, and a drover asleep on a donkey behind them.".
+  Relation fairDone(concern).
+  Rule fair_done when noteSettled(wapshotts) and not fairDone(wapshotts) { Assert fairDone(wapshotts). }
+
+  // ── The worst hour: the tober-raiders, on the Fair's first night ─────────────────────────────────────────────
+  // At eleven, three men from Dunmere come onto the ground with knives for the guy-ropes, hired by Slee by the rope.
+  // They can be fought; or the old cry raised, which brings the whole backyard; or paid; or told whose ropes they
+  // are; or led a dance through the ropes in the dark. Left alone for an hour, they bring the big top down.
+  Person raiders "three men from Dunmere" at tober_a {
+    Role "tober-raiders with knives and cudgels". Ancestry human. Calling warrior. Level 2. Numbers 3. Pronouns they.
+    Temperament territorial.
+    Warns "Three men are coming across the dark field from the hedge, low, with their hats pulled down: one has a lantern with the shutter nearly closed, and in the slice of light you see a knife, and a rope parting under it with a sound like a bow-string. The biggest of them sees you and stops. 'Go back to bed,' he says, quite kindly. 'This is none of yours. We're paid by the rope.'".
+    Comes "The three of them come at you through the guy-ropes with their cudgels up.".
+    Flinches "The men from Dunmere go back over the hedge the way they came, faster than they came.".
+    Pleads "The last of the men from Dunmere sits down in the wet grass with his hands up. 'A shilling a rope,' he says. 'The gent in grey. That's all I know. That's all any of us know.'".
+  }
+  Initially Assert offstage(raiders).
+  Relation raidOn(concern). Relation raidStopped(concern). Relation canvasCut(concern). Measure raidAt(concern).
+  Rule raid_comes when fairFirst() and hour(clock) >= 23 and not raidOn(wapshotts) and not raidStopped(wapshotts) and not canvasCut(wapshotts) and not sleeExposed(slee) {
+    Assert raidOn(wapshotts). Set raidAt(wapshotts) to watch(clock). Retract offstage(raiders). Assert at(raiders, tober_a). }
+  Rule raid_heard near beastpost when raidOn(wapshotts) and at(party, beasts_a) and not raidHeard(wapshotts)
+    says "Out on the front, in the dark, voices, low; and then a sound you know, the creak of a guy-rope taking a knife, and the snap as it goes." { Assert raidHeard(wapshotts). }
+  Relation raidHeard(concern).
+  Rule raid_done near pole when raidOn(wapshotts) and watch(clock) >= raidAt(wapshotts) + 6 and not raidStopped(wapshotts) and able(raiders)
+    says "In the small hours, with a long groan of canvas, the big top of Wapshott's sags, and leans, and comes down on one side across the ring, with the guy-ropes cut on the side toward the hedge. Lusk is out in his nightshirt with a lantern before it has finished falling. By first light the whole circus is sewing." {
+    Assert canvasCut(wapshotts). Retract raidOn(wapshotts). Assert offstage(raiders). Set canvas(wapshotts) to 0. }
+  Rule raid_beaten when raidOn(wapshotts) and not able(raiders) { Assert raidStopped(wapshotts). Retract raidOn(wapshotts). Increase evidence(party) by 1. }
+  Rule raid_gone when raidStopped(wapshotts) and not offstage(raiders) and able(raiders) { Assert offstage(raiders). }
+  Action hey_rube(actor: group, site: place) "Raise the old cry of the circus at the top of your voice: Hey Rube!" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(raiders, site) and raidOn(wapshotts) and (hand(actor) or regard(lusk) >= 2 or regard(honoria) >= 2).
+    On success { Assert raidStopped(wapshotts). Retract raidOn(wapshotts). Increase regard(lusk) by 1. Increase evidence(actor) by 1. }
+    Result "You shout it: HEY RUBE! And the circus, which was asleep, is not. Wagon doors bang open all round the ring. Lusk comes round the big top in his shirt with a king-stake in each hand; eight canvasmen behind him with mallets; the Quinceys, cartwheeling; Billie with a pitchfork; and last, filling the gap between two wagons, Honoria Bulstrode in a flowered nightgown with a frying-pan. The men from Dunmere look at Honoria for a long moment. Then they are over the hedge, and one of them leaves his hat, and in the hat is a paper with the number of ropes on it and a shilling a rope, in a neat grey hand.".
+  }
+  Action hey_rube_flattie(actor: group, site: place) "Shout Hey Rube! as you have heard the circus does, and hope it answers a stranger" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(raiders, site) and raidOn(wapshotts) and not hand(actor) and regard(lusk) < 2 and regard(honoria) < 2 and not shoutedRube(actor).
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert raidStopped(wapshotts). Retract raidOn(wapshotts). Increase evidence(actor) by 1. }
+    On failure { Assert shoutedRube(actor). }
+    Result "You shout it, HEY RUBE, in a voice you did not know you had, and for a moment nothing; and then a wagon door bangs, and Lusk's voice says 'Who's that?', and then all the doors, and the circus comes out to see who is calling its call, and finds three men from Dunmere with knives. The men do not wait to be introduced.".
+    Otherwise "You shout it, and somewhere a dog barks, and the biggest of the three men laughs. 'That's not yours to shout, flattie,' he says.".
+  }
+  Relation shoutedRube(group).
+  Action raiders_paid(actor: group, site: place) "Offer the men from Dunmere twelve coin to go home, which is more than they are paid" {
+    Speaker raiders. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(raiders, site) and raidOn(wapshotts) and quantity(actor, gold) >= 12.
+    On success { Decrease quantity(actor, gold) by 12. Increase quantity(raiders, gold) by 12. Assert raidStopped(wapshotts). Retract raidOn(wapshotts). }
+    Result "The biggest one weighs the coins in his hand, and looks at his friends, and at the ropes, and does a sum. 'The gent in grey said a shilling a rope,' he says. 'He didn't say anything about a better offer.' They go back over the hedge, and one of them, from the far side, wishes you a good night.".
+  }
+  Action raiders_told(actor: group, site: place) "Tell the men from Dunmere whose ropes these are, and who sleeps in the cookhouse wagon thirty feet away" {
+    Speaker raiders. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(raiders, site) and raidOn(wapshotts) and not toldRaiders(actor).
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert raidStopped(wapshotts). Retract raidOn(wapshotts). Increase evidence(actor) by 1. }
+    On failure { Assert toldRaiders(actor). }
+    Result "You tell them, low, about the Ox of Abernant: what she lifts every night, and what she lifted off her brother at fourteen, and that she is a light sleeper. The smallest of them has seen her lift the horse. He starts to go, without a word, and the others look at him, and then they go too. 'The gent in grey never said,' one of them mutters, going. 'The gent in grey never says anything.'".
+    Otherwise "You tell them about the Ox of Abernant, and the biggest of them says he has heard of her and that she is in the bills in letters twice the size she is in life.".
+  }
+  Relation toldRaiders(group).
+  Action raiders_led(actor: group, site: place) "Lead them a dance through the guy-ropes in the dark, the way a clown goes through a crowd" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(raiders, site) and raidOn(wapshotts) and not ledRaiders(actor).
+    Resolve check(actor, tumbling, dc_fair).
+    On success { Assert raidStopped(wapshotts). Retract raidOn(wapshotts). }
+    On failure { Assert ledRaiders(actor). }
+    Result "You grab the nearest one's lantern and run, and they come after you, into the guy-ropes: forty of them, in the dark, at the height of a man's shin, and you know where every one is because you have been tripping over them for days. You go through them like a hare through a hedge. Behind you there is a sound like a bag of tools being dropped down a well, three times. By the time they have got up, every wagon door is open.".
+    Otherwise "You run into the guy-ropes with a stolen lantern and the first rope you meet is the one you forgot, and you go down, and the lantern goes out, and the three of them stand over you in the dark, breathing.".
+  }
+  Action raiders_feinted(actor: group, site: place) "Feint: look past them at the cookhouse wagon, and call out to Honoria as if she were already on the steps" {
+    Speaker raiders. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(raiders, site) and raidOn(wapshotts) and feintLearned(actor) and not ledRaiders(actor).
+    Resolve check(actor, deception, dc_easy).
+    On success { Assert raidStopped(wapshotts). Retract raidOn(wapshotts). }
+    On failure { Assert ledRaiders(actor). }
+    Result "You look past them, over the biggest one's shoulder, at the dark bulk of the cookhouse wagon, and say, quite quietly, 'No, it's all right, Honoria. Put it down. There's only three.' All three of them turn round. When they turn back you are gone, and so, in another moment, are they.".
+    Otherwise "You look past them and call to Honoria, and the biggest one does not turn. 'Oldest trick there is,' he says. 'My granny did that one.'".
+  }
+  Relation ledRaiders(group).
+  Observe canvas_patched near ringpost when canvasCut(wapshotts) and fairOn(wapshotts) "The big top has been sewn back together in a day: a long scar of new stitching runs down one side, and two of the guy-ropes are knotted where they were cut, and through a seam near the king-pole you can see a strip of sky.".
+  Rule contest_patched when fairThird() and showOn(wapshotts) and act(wapshotts) == 1 and canvasCut(wapshotts) and not patchedCounted(wapshotts) {
+    Assert patchedCounted(wapshotts). Decrease quality(wapshotts) by 2. }
+  Relation patchedCounted(concern).
+
+  // ── The jury, aloud, at the pump at nine ──────────────────────────────────────────────────────────────────
+  Rule jury_clerk at green_a when fairThird() and hour(clock) >= 21 and juryIn(wapshotts) and not juryClerkSaid(wapshotts)
+    says "Before the verdict, by the charter, each of the jury gives a reason. Master Pettigrew first, consulting his ledger: 'The Hippodrome's pitch-toll was paid on the day it came, in full, with a goose. Wapshott's,' he looks over the ledger, 'is noted.'" {
+    Assert juryClerkSaid(wapshotts). }
+  Rule jury_clerk_paid at green_a when juryClerkSaid(wapshotts) and feePaid(wapshotts) and not juryClerkPaid(wapshotts)
+    says "'Noted,' he adds, 'as paid. For the first time in nineteen years. I have told my wife.'" { Assert juryClerkPaid(wapshotts). }
+  Relation juryClerkSaid(concern). Relation juryClerkPaid(concern).
+  Rule jury_keeper_lie at green_a when juryClerkSaid(wapshotts) and basiliskBilled(wapshotts) and not juryKeeperSaid(wapshotts)
+    says "Then {keeper_a}: 'A full house both nights, and nobody hurt. But I'll not give a prize to a basilisk with a bantam's legs. I've had the Colonel's mermaid.'" { Assert juryKeeperSaid(wapshotts). }
+  Rule jury_keeper_cut at green_a when juryClerkSaid(wapshotts) and canvasCut(wapshotts) and not juryKeeperSaid(wapshotts)
+    says "Then {keeper_a}: 'They played in a tent that was on the ground at dawn. Sewn up in a day. You could see the stars through it in the third act, and nobody went home.'" { Assert juryKeeperSaid(wapshotts). Increase fairScore(wapshotts) by 1. }
+  Rule jury_keeper_plain at green_a when juryClerkSaid(wapshotts) and not juryKeeperSaid(wapshotts)
+    says "Then {keeper_a}: 'A full house both nights, and nobody hurt, and no lies on the bills that I could catch. That's all I ask of anybody.'" { Assert juryKeeperSaid(wapshotts). }
+  Relation juryKeeperSaid(concern).
+  Rule jury_priest_mother at green_a when juryKeeperSaid(wapshotts) and reunited(pruett) and not juryPriestSaid(wapshotts)
+    says "Last {priest_a}, quietly, so that the Fair leans in to hear: 'I said I did not mind a thing being impossible, only false. A woman walked on a rope tonight, forty feet up, and stopped in the middle, and lifted her parasol to her mother on the back bench. That was impossible. It was not false.'" { Assert juryPriestSaid(wapshotts). Increase fairScore(wapshotts) by 2. }
+  Rule jury_priest_cock at green_a when juryKeeperSaid(wapshotts) and basiliskHonest(wapshotts) and not juryPriestSaid(wapshotts)
+    says "Last {priest_a}: 'There is a board in Wapshott's menagerie that says a cockerel believes himself a basilisk, and asks you not to contradict him. It is the most honest thing I have read this year.'" { Assert juryPriestSaid(wapshotts). Increase fairScore(wapshotts) by 1. }
+  Rule jury_priest_laugh at green_a when juryKeeperSaid(wapshotts) and not juryPriestSaid(wapshotts)
+    says "Last {priest_a}: 'I laughed,' {priest_a} says, and seems surprised to hear it. 'In both. More in one.'" { Assert juryPriestSaid(wapshotts). }
+  Relation juryPriestSaid(concern).
+
+  // ── People noticing the rhyme ────────────────────────────────────────────────────────────────────────────
+  Topic mum_back_bench with mumchance "Tell Mumchance about Mrs Pruett on the back bench" when knows(actor, susan_pruett) once {
+    Says "Mumchance puts down his brush. 'My father sat at the back,' he says. 'Every year, at the Midsummer Fair at Dunmere, for twenty-two years. Never once came round. I never once went out to him. I'd see the shape of him against the lamps at the flap and I'd do the ladder for him, the whole act, for one man at the back who'd sent me to the sword.' He picks the brush up again. 'Then one year the shape wasn't there.' He goes on painting. 'Somebody should walk that girl down the lane.'".
+  }
+  Topic mum_colonel_fall with mumchance "Ask Mumchance about the way the Colonel falls over the ring boards every night" when true once {
+    Says "Mumchance smiles, which takes some time to arrive. 'Nineteen years,' he says, 'and he has never once meant it. He backs out bowing, and the boards are where they always are, and down he goes, and the house thinks it is the best joke of the night, and he gets up red to the ears and furious.' He blots his lip. 'The day he means it, he'll be a clown. I've been waiting for that day since he was a young man in Hob's Field with one horse and a borrowed ladder.'".
+  }
+  Topic priest_c_bone with priest_c "Ask {priest_c} about the great bone kept in the shrine" when true once {
+    Says "{priest_c} takes you to it: under the side-altar, on a trestle, wrapped in a moth-eaten altar cloth, a bone the colour of strong tea and as long as a tall man, with a knuckle at one end the size of a cottage loaf. 'From the marl-pit, last spring,' {priest_c} says. 'The diggers stopped work for a week. The children call it the giant's leg. Old Tull says it is from the ox that drew the ark.' {priest_c} lays the cloth back over it, gently. 'I say prayers over it, in case. Nobody has told me for whom.'".
+    On discuss { Assert knows(actor, bone_seen). }
+  }
+  Entity bone_seen: fact "Under the side-altar of the shrine at {town_c} lies a bone as long as a tall man, dug from the marl-pit last spring: nobody knows of what.".
+  Topic pip_cant with pip "Ask Pip what all the circus words mean" when true once {
+    Says "'Oh!' Pip sits down on a bucket, delighted to be asked. 'The tober's the ground. The flatties are you lot, the town, no offence. A joey is a clown, after Joey Pell, who was the first one, at Dunmere, a hundred years ago, and could make a whole house cry by eating a string of sausages. A kinker's a performer, a grafter's a canvasman, the half is half an hour before the show, and the bunce is what's left in the box after, which is never anything.' She thinks. 'And if you ever hear somebody shout Hey Rube, you drop what you're holding and run toward it, whatever it is. That's the oldest one. That's for when the flatties come for the tober with sticks. It hasn't happened since I've been here.' She looks pleased and a little disappointed. 'Mumchance says it happened at Wakeham.'".
+    On discuss { Assert knows(actor, hey_rube_known). }
+  }
+  Entity hey_rube_known: fact "Hey Rube! is the oldest cry of the circus: whoever hears it drops what they are holding and runs toward it, for when the tober is attacked.".
+
+  // ── At the Flyting: forty years of silence, and one word ──────────────────────────────────────────────────
+  Rule mum_speaks at green_a when boutWon(party, bombazine) and answerLearned(party) and not mumSpoke(mumchance)
+    says "Bombazine, red under his paint, rounds on the old man in the white face. 'And HIM!' he bellows to the Fair. 'Forty years and never a WORD! Is there a word in him? Is there ONE?' The green goes quiet. Mumchance takes one step forward, and looks at Bombazine, and then at you, a long look, the one he gave you over forty dropped plates; and says, quite clearly, in his soft dry voice, so that the whole of {town_a} hears it: 'Again.' The Fair goes up like a hayrick. Somewhere at the back a small bald cobbler is shouting 'HE SPOKE! NINE YEARS! HE SPOKE!' and weeping into his apron." {
+    Assert mumSpoke(mumchance). Increase fairScore(wapshotts) by 1. }
+  Relation mumSpoke(group).
+  // Jos at the Fair: for Wapshott's if he was beaten fair, and against it if he was not.
+  Rule jos_to_fair when fairSecond() and hour(clock) >= 14 and hour(clock) < 17 and not at(jos, green_a) { Assert at(jos, green_a). }
+  Rule jos_back when fairSecond() and hour(clock) >= 17 and at(jos, green_a) { Assert at(jos, green_b). }
+  Rule jos_for_us at green_a when inBout(bombazine) and boutWon(party, jos) and not josSided(jos)
+    says "From the crowd, a voice like a rusty hinge: 'Go on, swan! I taught you better than that! Tell him about his wig!' Jos Haverhill, in his Sunday coat, has walked all the way from {town_b} to heckle for you." {
+    Assert josSided(jos). Decrease composure(bombazine) by 1 or to nothing. }
+  Rule jos_against at green_a when at(party, green_a) and inBout(bombazine) and boutLost(party, jos) and not boutWon(party, jos) and not josSided(jos)
+    says "From the crowd, a voice like a rusty hinge: 'That's the one I had for breakfast in {town_b}, Captain! Go easy, it bruises!' Jos Haverhill has walked all the way from {town_b}, it seems, to enjoy himself." {
+    Assert josSided(jos). Decrease poise(party) by 1 or to nothing. }
+  Relation josSided(group).
+
+  // ── Ada and the roof she is offered ───────────────────────────────────────────────────────────────────────
+  Topic ada_offer with ada "Ask Ada what Madame Sallow wanted with her" when fairOn(wapshotts) and day(clock) >= fairDay(wapshotts) + 1 and not noteSettled(wapshotts) once {
+    Says "Ada does not look up from the ledger. 'A quarter-share,' she says. 'In the Hippodrome. Now. Today. Her own book-keeper's going to Dunmere to marry a wine-merchant and she wants somebody who can add and isn't frightened of a man in a crimson coat.' She turns a page that does not need turning. 'It's what I wanted. A quarter of a circus by thirty. I'm twenty-four.' Her pencil has stopped. 'She looked at me the way you'd look at a good horse in a bad stable. Nobody's ever looked at me like that. The Colonel looks at me like a man looking at a fence.'".
+    On discuss { Assert knows(actor, ada_offered). }
+  }
+  Entity ada_offered: fact "Madame Sallow has offered Ada Thripp a quarter-share in the Imperial Hippodrome, now, which is what Ada wanted of Wapshott's by thirty.".
+  Topic ada_stay with ada "Tell Ada that Wapshott's needs her more than the Hippodrome does" answering ada_offer when not adaAnswered(ada) {
+    Says "'I know,' says Ada. 'That's the trouble with it.' She closes the ledger. 'I'll tell her after the Fair. Whatever the Fair says.'".
+    On discuss { Assert adaAnswered(ada). }
+  }
+  Topic ada_go with ada "Tell Ada she should take it" answering ada_offer when not adaAnswered(ada) {
+    Says "Ada looks at you properly for the first time. 'Yes,' she says. 'I should.' She goes on looking. 'And who'd keep him? Fipps? The horse?' She opens the ledger again. 'I'll tell her after the Fair. Whatever the Fair says.'".
+    On discuss { Assert adaAnswered(ada). }
+  }
+  Relation adaAnswered(group).
+  Topic wap_ada with wapshott "Tell the Colonel that Madame Sallow has offered Ada a quarter-share" when knows(actor, ada_offered) and not noteSettled(wapshotts) once {
+    Says "The Colonel stops with his hand on the wagon door. For once he does not say anything large. 'Of course she has,' he says. 'Cordelia always knew what a thing was worth before I did.' He looks across the wagon-ring at the hatch of the ticket wagon, where a green bonnet is bent over a book. 'Four years,' he says. 'And I have never once asked her what she wanted.' He goes in, and shuts the door, and does not come out for an hour.".
+    On discuss { Assert colonelKnowsAda(wapshott). }
+  }
+  Relation colonelKnowsAda(group).
+  Rule ada_share near wapshott when noteDischarged(wapshotts) and colonelKnowsAda(wapshott) and not adaShared(ada)
+    says "When Madame Sallow has gone, the Colonel turns round in the lamplight and holds out his pen to Ada: his own pen, the steel one with the brass cap. 'A quarter-share,' he says. 'Drawn up properly, by you, since I should get it wrong. And the pen.' Ada takes the pen. She turns it over once, as if checking it for a maker's mark. Then she puts it behind her ear with the two pencils, and says, 'Thank you, Florian,' which nobody in the circus has ever heard her call him." {
+    Assert adaShared(ada). }
+  Relation adaShared(group).
+}

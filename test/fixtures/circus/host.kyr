@@ -1,0 +1,46 @@
+Module host "Three towns on a circuit" {
+  Description "Three small towns joined by roads, for the circus to go round.".
+  Place shire "the Lowe country" is region.
+  Place ashby "Ashby Lowe" is settlement within shire at 0, 0.
+  Place burl "Burl" is settlement within shire at 2, 0.
+  Place cotter "Cotter's Cross" is settlement within shire at 1, 2.
+  Place wild "the open country" is wilderness within shire at 1, 1.
+  Place a_green "Ashby green" is room within ashby at 1, 1.
+  Place a_inn "the Plough" is building within ashby.
+  Place a_tap "the Plough's taproom" is room within a_inn at 1, 0.
+  Place b_green "Burl green" is room within burl at 1, 1.
+  Place b_inn "the Swan" is building within burl.
+  Place b_tap "the Swan's taproom" is room within b_inn at 1, 0.
+  Place c_green "the cross at Cotter's Cross" is room within cotter at 1, 1.
+  Place c_inn "the Bell" is building within cotter.
+  Place c_tap "the Bell's taproom" is room within c_inn at 1, 0.
+  Place ab_way "the Burl road" is room within wild at 0, 0.
+  Place bc_way "the Cotter road" is room within wild at 1, 0.
+  Place ca_way "the Ashby road" is room within wild at 0, 1.
+  Passage a_door "the Plough's door" is door between a_tap and a_green.
+  Passage b_door "the Swan's door" is door between b_tap and b_green.
+  Passage c_door "the Bell's door" is door between c_tap and c_green.
+  Passage ab1 "the road east" is road between a_green and ab_way taking 1 hour.
+  Passage ab2 "the road into Burl" is road between ab_way and b_green taking 1 hour.
+  Passage bc1 "the road south" is road between b_green and bc_way taking 1 hour.
+  Passage bc2 "the road into Cotter's Cross" is road between bc_way and c_green taking 1 hour.
+  Passage ca1 "the road west" is road between c_green and ca_way taking 1 hour.
+  Passage ca2 "the road into Ashby" is road between ca_way and a_green taking 1 hour.
+  Person a_keeper "Martha Lowe" at a_tap { Role "innkeeper". Profession innkeeper. Peaceable. Pronouns she. }
+  Person b_keeper "Will Pargeter" at b_tap { Role "innkeeper". Profession innkeeper. Peaceable. Pronouns he. }
+  Person c_keeper "Sukey Bell" at c_tap { Role "innkeeper". Profession innkeeper. Peaceable. Pronouns she. }
+  Person a_priest "Brother Ansel" at a_green { Role "priest". Profession priest. Peaceable. Pronouns he. }
+  Person b_priest "Mother Hale" at b_green { Role "priest". Profession priest. Peaceable. Pronouns she. }
+  Person c_priest "Father Dunn" at c_green { Role "priest". Profession priest. Peaceable. Pronouns he. }
+  Person a_merchant "Josh Tull" at a_green { Role "chandler". Peaceable. Pronouns he. Sells rations for 2 coin from 6. }
+  Person b_merchant "Hetty Crane" at b_green { Role "chandler". Peaceable. Pronouns she. Sells rations for 2 coin from 6. }
+  Person c_merchant "Amos Roe" at c_green { Role "chandler". Peaceable. Pronouns he. Sells rations for 2 coin from 6. }
+  Observe a_scene at a_green when true "A green with a pump.".
+  Observe b_scene at b_green when true "A green with a pond.".
+  Observe c_scene at c_green when true "A green round an old cross.".
+  Observe ab_scene at ab_way when true "A road between hedges.".
+  Observe bc_scene at bc_way when true "A road between hedges.".
+  Observe ca_scene at ca_way when true "A road between hedges.".
+  Company party "You" of 1 at a_green.
+  Initially Set quantity(party, gold) to 20.
+}

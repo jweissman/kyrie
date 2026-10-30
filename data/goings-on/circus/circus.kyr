@@ -1,0 +1,313 @@
+Module circus "Wapshott's Peregrine Circus" {
+  Description "A travelling circus on a circuit of three towns of the country: Colonel Florian Wapshott's Grand Peregrine Circus and Hippodrama, its ring, its wagons, its people, its debts, and the first beasts of its menagerie. It pitches three days in a town, strikes at first light on the fourth, and is on the road by six.".
+  Entity party: group "Your company".
+
+  // ── The circuit: three towns of the country, and the roads between ───────────────────────────────────────────────
+  // The first town is where the Goose Fair is held; the second and third are its neighbours along the roads.
+  Place town_a "The fair town" is settlement.
+  Place town_b "The second town" is settlement.
+  Place town_c "The third town" is settlement.
+  Place green_a "The fair town's green" is room.
+  Place green_b "The second town's green" is room.
+  Place green_c "The third town's green" is room.
+  Place road_ab "The road from the fair town" is room.
+  Place road_bc "The road from the second town" is room.
+  Place road_ca "The road from the third town" is room.
+  Entity keeper_a: group "Whoever keeps travellers in the fair town".
+  Entity keeper_b: group "Whoever keeps travellers in the second town".
+  Entity keeper_c: group "Whoever keeps travellers in the third town".
+  Entity priest_a: group "Whoever keeps the god in the fair town".
+  Entity priest_b: group "Whoever keeps the god in the second town".
+  Entity priest_c: group "Whoever keeps the god in the third town".
+  Entity merchant_a: group "Whoever sells in the fair town".
+  Entity merchant_b: group "Whoever sells in the second town".
+  Entity merchant_c: group "Whoever sells in the third town".
+
+  // ── What the circus is, as a concern: its purse, its larder, its canvas, its name in each town ──────────────────
+  Kind concern. Entity wapshotts: concern "Wapshott's Circus".
+  Measure strongbox(concern). Measure larder(concern). Measure canvas(concern). Measure arrears(concern).
+  Measure moveDay(concern). Measure arrivedDay(concern). Measure house(concern). Measure quality(concern).
+  Measure takenTonight(concern). Measure nights(concern). Measure feed(concern).
+  Initially Set strongbox(wapshotts) to 14. Initially Set larder(wapshotts) to 3. Initially Set canvas(wapshotts) to 2.
+  Initially Set feed(wapshotts) to 3. Initially Set moveDay(wapshotts) to 4. Initially Set arrivedDay(wapshotts) to 1.
+  // How the circus stands in a town (by its ground there): what fills its benches.
+  Measure standing(place).
+  Initially Set standing(tober_a) to 2. Initially Set standing(tober_b) to 2. Initially Set standing(tober_c) to 1.
+
+  // ── The grounds: a field outside each town, and the circus's rooms there while it is pitched ────────────────────
+  Kind roomkind.
+  Entity rk_tober: roomkind "the front". Entity rk_ring: roomkind "the ring". Entity rk_yard: roomkind "the backyard".
+  Entity rk_wagons: roomkind "the wagons". Entity rk_beasts: roomkind "the menagerie".
+  Relation groundRoom(place, roomkind, place). Relation groundOf(place, place). Relation greenOf(place, place).
+  Relation nextGround(place, place). Relation roadOut(place, place).
+  Relation here(place). Relation pitched(concern). Relation onRoad(concern). Relation current(concern, place) exclusive.
+  Relation onWay(concern, place) exclusive.
+  Relation travels(entity). Relation post(entity, roomkind) exclusive. Relation performer(entity). Relation away(entity).
+  // Whoever is off the stage of this story for now (a rival not yet come, a lad gone home) is nowhere at all.
+  Relation offstage(entity).
+  Rule exit_stage when offstage(?p) and at(?p, ?q) { Retract at(?p, ?q). }
+
+  Place tober_a "Wapshott's ground" is room within town_a at 5, 1.
+  Place ring_a "the big top" is room within town_a at 6, 1 indoors.
+  Place yard_a "the backyard of the circus" is room within town_a at 6, 2.
+  Place wagons_a "the ring of living-wagons" is room within town_a at 6, 0.
+  Place beasts_a "the menagerie tent" is room within town_a at 5, 2 indoors.
+  Place tober_b "Wapshott's ground" is room within town_b at 5, 1.
+  Place ring_b "the big top" is room within town_b at 6, 1 indoors.
+  Place yard_b "the backyard of the circus" is room within town_b at 6, 2.
+  Place wagons_b "the ring of living-wagons" is room within town_b at 6, 0.
+  Place beasts_b "the menagerie tent" is room within town_b at 5, 2 indoors.
+  Place tober_c "Wapshott's ground" is room within town_c at 5, 1.
+  Place ring_c "the big top" is room within town_c at 6, 1 indoors.
+  Place yard_c "the backyard of the circus" is room within town_c at 6, 2.
+  Place wagons_c "the ring of living-wagons" is room within town_c at 6, 0.
+  Place beasts_c "the menagerie tent" is room within town_c at 5, 2 indoors.
+
+  Passage tober_lane_a "the field gate" is gate between green_a and tober_a taking 5 minutes.
+  Passage tober_lane_b "the field gate" is gate between green_b and tober_b taking 5 minutes.
+  Passage tober_lane_c "the field gate" is gate between green_c and tober_c taking 5 minutes.
+  Passage flap_a "the flap of the big top" is doorway between tober_a and ring_a
+    opening when here(tober_a) and (not showOn(wapshotts) or admitted(party)).
+  Passage flap_b "the flap of the big top" is doorway between tober_b and ring_b
+    opening when here(tober_b) and (not showOn(wapshotts) or admitted(party)).
+  Passage flap_c "the flap of the big top" is doorway between tober_c and ring_c
+    opening when here(tober_c) and (not showOn(wapshotts) or admitted(party)).
+  Passage back_a "the way round behind the big top" is path between tober_a and yard_a taking 2 minutes
+    opening when here(tober_a).
+  Passage back_b "the way round behind the big top" is path between tober_b and yard_b taking 2 minutes
+    opening when here(tober_b).
+  Passage back_c "the way round behind the big top" is path between tober_c and yard_c taking 2 minutes
+    opening when here(tober_c).
+  Passage wagon_steps_a "the gap between the wagons" is path between yard_a and wagons_a taking 1 minute
+    opening when here(tober_a) "Nobody lives here when the circus is away.".
+  Passage wagon_steps_b "the gap between the wagons" is path between yard_b and wagons_b taking 1 minute
+    opening when here(tober_b) "Nobody lives here when the circus is away.".
+  Passage wagon_steps_c "the gap between the wagons" is path between yard_c and wagons_c taking 1 minute
+    opening when here(tober_c) "Nobody lives here when the circus is away.".
+  Passage ring_curtain_a "the ring curtain" is doorway between ring_a and yard_a
+    opening when here(tober_a) "There is no ring here now.".
+  Passage ring_curtain_b "the ring curtain" is doorway between ring_b and yard_b
+    opening when here(tober_b) "There is no ring here now.".
+  Passage ring_curtain_c "the ring curtain" is doorway between ring_c and yard_c
+    opening when here(tober_c) "There is no ring here now.".
+  Passage beast_flap_a "the menagerie flap" is doorway between tober_a and beasts_a
+    hidden until list_given opening when here(tober_a) and menagerieOpen(wapshotts) "There is no menagerie tent pitched here.".
+  Passage beast_flap_b "the menagerie flap" is doorway between tober_b and beasts_b
+    hidden until list_given opening when here(tober_b) and menagerieOpen(wapshotts) "There is no menagerie tent pitched here.".
+  Passage beast_flap_c "the menagerie flap" is doorway between tober_c and beasts_c
+    hidden until list_given opening when here(tober_c) and menagerieOpen(wapshotts) "There is no menagerie tent pitched here.".
+
+  Initially Assert groundRoom(tober_a, rk_tober, tober_a). Initially Assert groundRoom(tober_a, rk_ring, ring_a).
+  Initially Assert groundRoom(tober_a, rk_yard, yard_a). Initially Assert groundRoom(tober_a, rk_wagons, wagons_a).
+  Initially Assert groundRoom(tober_a, rk_beasts, beasts_a).
+  Initially Assert groundRoom(tober_b, rk_tober, tober_b). Initially Assert groundRoom(tober_b, rk_ring, ring_b).
+  Initially Assert groundRoom(tober_b, rk_yard, yard_b). Initially Assert groundRoom(tober_b, rk_wagons, wagons_b).
+  Initially Assert groundRoom(tober_b, rk_beasts, beasts_b).
+  Initially Assert groundRoom(tober_c, rk_tober, tober_c). Initially Assert groundRoom(tober_c, rk_ring, ring_c).
+  Initially Assert groundRoom(tober_c, rk_yard, yard_c). Initially Assert groundRoom(tober_c, rk_wagons, wagons_c).
+  Initially Assert groundRoom(tober_c, rk_beasts, beasts_c).
+  Initially Assert groundOf(tober_a, tober_a). Initially Assert groundOf(ring_a, tober_a). Initially Assert groundOf(yard_a, tober_a).
+  Initially Assert groundOf(wagons_a, tober_a). Initially Assert groundOf(beasts_a, tober_a).
+  Initially Assert groundOf(tober_b, tober_b). Initially Assert groundOf(ring_b, tober_b). Initially Assert groundOf(yard_b, tober_b).
+  Initially Assert groundOf(wagons_b, tober_b). Initially Assert groundOf(beasts_b, tober_b).
+  Initially Assert groundOf(tober_c, tober_c). Initially Assert groundOf(ring_c, tober_c). Initially Assert groundOf(yard_c, tober_c).
+  Initially Assert groundOf(wagons_c, tober_c). Initially Assert groundOf(beasts_c, tober_c).
+  Initially Assert greenOf(tober_a, green_a). Initially Assert greenOf(tober_b, green_b). Initially Assert greenOf(tober_c, green_c).
+  Initially Assert nextGround(tober_a, tober_b). Initially Assert nextGround(tober_b, tober_c). Initially Assert nextGround(tober_c, tober_a).
+  Initially Assert roadOut(tober_a, road_ab). Initially Assert roadOut(tober_b, road_bc). Initially Assert roadOut(tober_c, road_ca).
+  // The first morning the circus is on the fair town's ground already, come in the evening before; it parades at four.
+  Initially Assert pitched(wapshotts). Initially Assert here(tober_a). Initially Assert current(wapshotts, tober_a). Initially Assert onWay(wapshotts, road_ca).
+
+  Query inRing(g: place, r: place) means groundRoom(g, rk_ring, r).
+  Query circusRoom(r: place) means groundOf(r, ?g) and distinct(r, ?g).
+  Query ringHere(r: place) means groundRoom(?g, rk_ring, r) and here(?g).
+  Query atCircus(a: group) means at(a, ?r) and groundOf(?r, ?g) and here(?g).
+  Query rehearsal() means pitched(wapshotts) and hour(clock) >= 9 and hour(clock) < 12.
+  Query striking() means day(clock) >= moveDay(wapshotts).
+
+  // ── The days: strike at six on the fourth morning, on the road till two, pitch, parade at four, play at seven ─────
+  Rule strike_camp when pitched(wapshotts) and current(wapshotts, ?g) and day(clock) >= moveDay(wapshotts) and hour(clock) >= 6
+    and hour(clock) < 14 and roadOut(?g, ?w) and nextGround(?g, ?n) {
+    Retract pitched(wapshotts). Retract here(?g). Assert onRoad(wapshotts). Assert onWay(wapshotts, ?w). Assert current(wapshotts, ?n).
+    Decrease canvas(wapshotts) by 1 or to nothing. Retract paraded(wapshotts). }
+  Rule strike_seen near lusk when onRoad(wapshotts) and hour(clock) < 14 and not struckTold(wapshotts) says "Before it is light the canvasmen are at the guy-ropes. The big top comes down in a long sigh of canvas, the king-poles are lowered like masts, and by six the wagons are rolling, Bucephalus first, Colonel Wapshott on the box of the first wagon in his crimson coat, conducting the dawn." { Assert struckTold(wapshotts). }
+  Relation struckTold(concern). Relation paraded(concern).
+  Rule wagons_on_road when onRoad(wapshotts) and onWay(wapshotts, ?w) and travels(?p) and not at(?p, ?w) and not away(?p) and not travelsWith(?p, party) {
+    Assert at(?p, ?w). }
+  Rule wagons_pitch when onRoad(wapshotts) and hour(clock) >= 14 and (not wheelOff(wapshotts) or hour(clock) >= 18) and current(wapshotts, ?g) {
+    Retract onRoad(wapshotts). Retract struckTold(wapshotts). Assert pitched(wapshotts). Assert here(?g).
+    Set moveDay(wapshotts) to day(clock) + 3. Set arrivedDay(wapshotts) to day(clock). }
+  Rule troupe_settles when pitched(wapshotts) and current(wapshotts, ?g) and travels(?p) and post(?p, ?k) and groundRoom(?g, ?k, ?r)
+    and not at(?p, ?r) and not away(?p) and not travelsWith(?p, party) and not (performer(?p) and (showOn(wapshotts) or rehearsal()))
+    and not parading(?p) {
+    Assert at(?p, ?r). }
+  Rule troupe_to_ring when pitched(wapshotts) and current(wapshotts, ?g) and performer(?p) and (showOn(wapshotts) or rehearsal())
+    and groundRoom(?g, rk_ring, ?r) and not at(?p, ?r) and not away(?p) and not travelsWith(?p, party) and not parading(?p) {
+    Assert at(?p, ?r). }
+  // Whoever is inside when the canvas comes down is put out on the field, unless they ride with the wagons.
+  Rule turned_out when circusRoom(?r) and at(party, ?r) and groundOf(?r, ?g) and not here(?g) and not riding(party)
+    says "The canvas comes down round you. A canvasman puts you, quite kindly, out on the grass, and goes back for the pole." {
+    Assert at(party, ?g). }
+  Relation riding(group).
+  Rule ride_out when onRoad(wapshotts) and riding(party) and onWay(wapshotts, ?w) and at(party, ?r) and groundOf(?r, ?g)
+    and not here(?g) and not at(party, ?w)
+    says "You ride out with the wagons, on the tail-board of the cookhouse wagon with Honoria Bulstrode's feet beside you, and the field you slept on goes away behind you, already only a ring of yellow grass." {
+    Assert at(party, ?w). }
+  Rule ride_in when pitched(wapshotts) and riding(party) and current(wapshotts, ?g) and onWay(wapshotts, ?w) and at(party, ?w)
+    says "The wagons turn in off the road at a field gate, one after another, and Gideon Lusk walks into the middle of the field and stands there, and that is where the king-pole goes. By the time the kettle boils the big top is a shape against the sky." {
+    Assert at(party, ?g). }
+
+  // The parade: at four on the day it comes, round the town's green with the band.
+  Relation parading(entity). Relation parades(entity).
+  Rule parade_starts when pitched(wapshotts) and day(clock) == arrivedDay(wapshotts) and hour(clock) >= 16 and hour(clock) < 17
+    and not paraded(wapshotts) and parades(?p) and current(wapshotts, ?g) and greenOf(?g, ?green) and not away(?p) and not travelsWith(?p, party) {
+    Assert parading(?p). Assert at(?p, ?green). }
+  Rule parade_ends when parading(?p) and hour(clock) >= 17 {
+    Retract parading(?p). Assert paraded(wapshotts). }
+  Rule parade_seen near wapshott when parading(wapshott) and not paradeTold(wapshotts) says "Here is the parade. First comes a drum, then a cornet, then a serpent, which is a black wooden horn that goes three times round a fat man; then Bucephalus, a grey horse of great age wearing a plume, who looks at the town as if he were thinking of buying it and had seen the drains; then the Colonel on foot in a crimson coat, shouting. Behind him a clown in white walks very slowly with a goose under each arm and does not say a word, and every child in the place follows him." { Assert paradeTold(wapshotts). }
+  Relation paradeTold(concern).
+  Rule parade_reset when pitched(wapshotts) and paradeTold(wapshotts) and hour(clock) >= 17 { Retract paradeTold(wapshotts). }
+  Rule parade_draws when parading(wapshott) and current(wapshotts, ?g) and not paradeCounted(?g) and arrivedDay(wapshotts) >= 1 {
+    Increase standing(?g) by 1. Assert paradeCounted(?g). }
+  Relation paradeCounted(place).
+  Rule parade_count_resets when onRoad(wapshotts) and paradeCounted(?g) { Retract paradeCounted(?g). }
+
+  // ── The fields themselves, with the circus and without ──────────────────────────────────────────────────────────
+  Observe tober_a_scene at tober_a when true "A grazing field outside {town_a}, sloping a little toward the road, with a five-barred gate and a lime tree.".
+  Observe tober_b_scene at tober_b when true "A rough meadow behind the last houses of {town_b}, with a pond in one corner where the geese of the town come to complain.".
+  Observe tober_c_scene at tober_c when true "A long field outside {town_c} with an old stone cross at the top of it, worn to a stump, that someone has hung a horseshoe on.".
+  Observe tober_up near pole when here(?g) and at(pole, ?g) "The big top stands in the middle of the field, striped red and dirty white, its king-pole flying a pennant that says WAPSHOTT'S in letters gone pink. Guy-ropes run out from it to stakes in every direction, so that walking anywhere is a kind of dance. Before the flap a painted front of boards announces THE GRAND PEREGRINE CIRCUS & HIPPODRAMA, PATRONIZED BY THE NOBILITY, and someone has written under it in chalk, WHICH NOBILITY.".
+  Thing pole "the king-pole" at tober_a is scenery {
+    State standing "The big top's king-pole stands up through the canvas, and the pennant snaps.".
+    State packed "The big top is folded on the canvas wagon, poles and all, under a tarpaulin lashed down with forty knots.".
+  }
+  Initially Assert travels(pole). Initially Assert post(pole, rk_tober).
+  Observe flap_laced near pole when showOn(wapshotts) and at(pole, ?r) and not admitted(party) "The show is on. The flap of the big top is laced back, and a canvasman stands in it with his arms folded; beside it, in the hatch of the ticket wagon, Ada Thripp sits with her cash-box. One coin, and no arguing.".
+  Observe tober_bare_a at tober_a when not here(tober_a) "There is a ring of yellowed grass in the middle of the field, and a scatter of old sawdust, and deep ruts going out at the gate.".
+  Observe tober_bare_b at tober_b when not here(tober_b) "There is a ring of yellowed grass in the middle of the field, and a scatter of old sawdust, and deep ruts going out at the gate.".
+  Observe tober_bare_c at tober_c when not here(tober_c) "There is a ring of yellowed grass in the middle of the field, and a scatter of old sawdust, and deep ruts going out at the gate.".
+  Observe ring_scene near ringpost when ringHere(?r) and at(ringpost, ?r) "Inside, the big top is brown and warm and smells of trodden grass, sawdust, horse and oranges. Benches rise on scaffolding round the ring, which is a low wall of painted boards forty-two feet across, because that is the size a horse likes to canter in. High up between the two king-poles a wire is strung, so fine you lose it against the canvas.".
+  Thing ringpost "the ring" at tober_a is scenery {
+    State ready "The ring's painted boards are scuffed with a hundred towns' boots.".
+    State packed "The ring boards are stacked in the back of a wagon like a load of painted fencing.".
+  }
+  Initially Assert travels(ringpost). Initially Assert post(ringpost, rk_ring).
+  Observe yard_scene near cookfire when at(cookfire, ?r) and pitched(wapshotts) "Behind the big top is the backyard, where the circus lives: horse lines, a cookhouse fire with a kettle on a chain, washing on the guy-ropes, a heap of hay, a man asleep in a barrow. Through the gap in the canvas you can hear the ring.".
+  Thing cookfire "the cookhouse fire" at tober_a is scenery {
+    State lit "Honoria Bulstrode's cookhouse fire burns under a black kettle and a pot the size of a font.".
+    State packed "The cookhouse wagon goes along with its chimney smoking, Honoria on the step, and a smell of bacon trailing behind it for a quarter of a mile.".
+  }
+  Initially Assert travels(cookfire). Initially Assert post(cookfire, rk_yard).
+  Observe wagons_scene near wagonring when at(wagonring, ?r) and pitched(wapshotts) "The living-wagons stand in a ring with their shafts down and their steps let down, like a village that walked here: green, yellow, a blue one with stars, a black one with the word SIBYL in gold. Chimneys smoke. On the steps of the biggest, which is crimson and has a brass knocker in the shape of a lion, there is a boot-scraper and a sign: THE COLONEL. KNOCK. WAIT. KNOCK AGAIN.".
+  Thing wagonring "the ring of wagons" at tober_a is scenery {
+    State standing "The living-wagons stand shafts-down in their ring.".
+    State packed "The living-wagons sway along the road nose to tail, their chimneys smoking, washing still pegged on a line between two of them.".
+  }
+  Initially Assert travels(wagonring). Initially Assert post(wagonring, rk_wagons).
+  Rule camp_packs when onRoad(wapshotts) and not state(pole, packed) {
+    Assert state(pole, packed). Assert state(ringpost, packed). Assert state(cookfire, packed). Assert state(wagonring, packed). Assert state(beastpost, packed). }
+  Rule camp_pitches when pitched(wapshotts) and state(pole, packed) {
+    Assert state(pole, standing). Assert state(ringpost, ready). Assert state(cookfire, lit). Assert state(wagonring, standing). Assert state(beastpost, kept). }
+  // A field the circus is coming to: the marking-stakes are in the day before.
+  Observe stakes_a at tober_a when not here(tober_a) and state(bill_a, coming) "Fresh marking-stakes have been driven into the grass in a great circle, each with a red rag tied to it, and one in the middle taller than the rest: the circus is expected.".
+  Observe stakes_b at tober_b when not here(tober_b) and state(bill_b, coming) "Fresh marking-stakes have been driven into the grass in a great circle, each with a red rag tied to it, and one in the middle taller than the rest: the circus is expected.".
+  Observe stakes_c at tober_c when not here(tober_c) and state(bill_c, coming) "Fresh marking-stakes have been driven into the grass in a great circle, each with a red rag tied to it, and one in the middle taller than the rest: the circus is expected.".
+  // Where it is now, and for how long: what any of the three innkeepers can say.
+  Topic where_a_b with keeper_a "Ask {keeper_a} where the circus is now" when not here(tober_a) and (current(wapshotts, tober_b) or current(wapshotts, tober_r)) {
+    Says "'At {town_b},' says {keeper_a}, 'or on the road there. They go on to {town_c} after, and they're back here after that. Three days in a town, always, and then six o'clock in the morning and away.'".
+  }
+  Topic where_a_c with keeper_a "Ask {keeper_a} where the circus is now" when not here(tober_a) and current(wapshotts, tober_c) {
+    Says "'At {town_c},' says {keeper_a}, 'or on the road there; and here next, by the road from {town_c}. Three days a town; ask the carrier which of them it is.'".
+  }
+  Topic where_b_a with keeper_b "Ask {keeper_b} where the circus is now" when not here(tober_b) and not here(tober_r) and current(wapshotts, tober_a) {
+    Says "'At {town_a},' says {keeper_b}, 'and coming here next, by the road from {town_a}. Three days a town, and the morning after they're on the road.'".
+  }
+  Topic where_b_c with keeper_b "Ask {keeper_b} where the circus is now" when not here(tober_b) and not here(tober_r) and current(wapshotts, tober_c) {
+    Says "'Gone on to {town_c},' says {keeper_b}. 'Then {town_a}, then back here. You'd catch them at {town_c} if you went now.'".
+  }
+  Topic where_c_a with keeper_c "Ask {keeper_c} where the circus is now" when not here(tober_c) and current(wapshotts, tober_a) {
+    Says "'At {town_a},' says {keeper_c}, 'then {town_b}, then here. You'd do better to go to them than wait.'".
+  }
+  Topic where_c_b with keeper_c "Ask {keeper_c} where the circus is now" when not here(tober_c) and (current(wapshotts, tober_b) or current(wapshotts, tober_r)) {
+    Says "'At {town_b},' says {keeper_c}, 'and here next, by the road from {town_b}. They stop three days, and then the wagons come.'".
+  }
+  Observe road_wagons near pole when onRoad(wapshotts) and onWay(wapshotts, ?w) and at(pole, ?w) "Wapshott's Circus is on the road: eleven wagons nose to tail, a canvas wagon stacked with poles, the cookhouse wagon smoking as it goes, the living-wagons swaying, the ponies on a string behind, Bucephalus out in front at his own pace, which is the pace of everyone. A painted board on the last wagon says WAPSHOTT'S. WE ARE COMING TO YOUR TOWN. Someone has written under it, IN THE END.".
+
+  // ── The bills: Sidney Quirk goes ahead the day before and pastes the town ──────────────────────────────────────
+  Thing bill_a "Wapshott's bill" at green_a {
+    State coming "A bill is pasted on the nearest wall, still wet, red and black: WAPSHOTT'S GRAND PEREGRINE CIRCUS & HIPPODRAMA! COMING! TOMORROW, BY TWO O'CLOCK! THE SYLPH OF THE WIRE! THE OX OF ABERNANT! MUMCHANCE THE SILENT! THE BROTHERS QUINCEY! AND BUCEPHALUS! Underneath, smaller: and the Colonel.".
+    State playing "Wapshott's bill on the wall says NOW PLAYING, NIGHTLY AT SEVEN, ADMISSION ONE COIN, CHILDREN AND DOGS HALF, on a strip pasted over the word COMING.".
+    State gone "A faded circus bill is peeling off the wall. Someone has written across it in charcoal: GONE ON TO {town_b}. BACK ROUND IN SIX DAYS.".
+    State defaced "Wapshott's bill on the wall has been pasted over with a clean new one in gold and blue: SALLOW'S IMPERIAL HIPPODROME. THE ONLY CIRCUS WORTH THE NAME. A corner of Wapshott's still sticks out from under it, with half the Colonel's face.".
+    Change repaste "Paste a fresh Wapshott's bill over Sallow's" from defaced to playing.
+  }
+  Thing bill_b "Wapshott's bill" at green_b {
+    State coming "A bill is pasted on the nearest wall, still wet, red and black: WAPSHOTT'S GRAND PEREGRINE CIRCUS & HIPPODRAMA! COMING! TOMORROW, BY TWO O'CLOCK! THE SYLPH OF THE WIRE! THE OX OF ABERNANT! MUMCHANCE THE SILENT! THE BROTHERS QUINCEY! AND BUCEPHALUS! Underneath, smaller: and the Colonel.".
+    State playing "Wapshott's bill on the wall says NOW PLAYING, NIGHTLY AT SEVEN, ADMISSION ONE COIN, CHILDREN AND DOGS HALF, on a strip pasted over the word COMING.".
+    State gone "A faded circus bill is peeling off the wall. Someone has written across it in charcoal: GONE ON TO {town_c}. BACK ROUND IN SIX DAYS.".
+    State old "A faded Wapshott's bill from the last round is peeling off the wall, the Colonel's face half gone. Across it someone has chalked the round: {town_a}, {town_b}, {town_c}, THREE DAYS EACH.".
+    State defaced "Wapshott's bill on the wall has been pasted over with a clean new one in gold and blue: SALLOW'S IMPERIAL HIPPODROME. THE ONLY CIRCUS WORTH THE NAME. A corner of Wapshott's still sticks out from under it, with half the Colonel's face.".
+    Change repaste "Paste a fresh Wapshott's bill over Sallow's" from defaced to playing.
+  }
+  Thing bill_c "Wapshott's bill" at green_c {
+    State coming "A bill is pasted on the nearest wall, still wet, red and black: WAPSHOTT'S GRAND PEREGRINE CIRCUS & HIPPODRAMA! COMING! TOMORROW, BY TWO O'CLOCK! THE SYLPH OF THE WIRE! THE OX OF ABERNANT! MUMCHANCE THE SILENT! THE BROTHERS QUINCEY! AND BUCEPHALUS! Underneath, smaller: and the Colonel.".
+    State playing "Wapshott's bill on the wall says NOW PLAYING, NIGHTLY AT SEVEN, ADMISSION ONE COIN, CHILDREN AND DOGS HALF, on a strip pasted over the word COMING.".
+    State gone "A faded circus bill is peeling off the wall. Someone has written across it in charcoal: GONE ON TO {town_a}. BACK ROUND IN SIX DAYS.".
+    State old "A faded Wapshott's bill from the last round is peeling off the wall, the Colonel's face half gone. Across it someone has chalked the round: {town_a}, {town_b}, {town_c}, THREE DAYS EACH.".
+    State defaced "Wapshott's bill on the wall has been pasted over with a clean new one in gold and blue: SALLOW'S IMPERIAL HIPPODROME. THE ONLY CIRCUS WORTH THE NAME. A corner of Wapshott's still sticks out from under it, with half the Colonel's face.".
+    Change repaste "Paste a fresh Wapshott's bill over Sallow's" from defaced to playing.
+  }
+  Initially Assert state(bill_a, playing). Initially Assert state(bill_b, old). Initially Assert state(bill_c, old).
+  Relation billOf(place, thing).
+  Initially Assert billOf(tober_a, bill_a). Initially Assert billOf(tober_b, bill_b). Initially Assert billOf(tober_c, bill_c).
+  Rule bill_playing when here(?g) and billOf(?g, ?b) and state(?b, coming) { Assert state(?b, playing). }
+  Rule bill_gone when onRoad(wapshotts) and billOf(?g, ?b) and not current(wapshotts, ?g) and state(?b, playing) { Assert state(?b, gone). }
+  Rule bill_repasted when billOf(?g, ?b) and state(?b, playing) and repastePending(?b) { Retract repastePending(?b). Increase standing(?g) by 1. }
+  Relation repastePending(thing).
+  Rule bill_mark when billOf(?g, ?b) and state(?b, defaced) and not repastePending(?b) { Assert repastePending(?b). }
+  // Quirk goes ahead at ten the day before the strike, and is on the next town's green with his paste-pot.
+  Rule quirk_goes_ahead when pitched(wapshotts) and day(clock) + 1 >= moveDay(wapshotts) and hour(clock) >= 10 and current(wapshotts, ?g)
+    and nextGround(?g, ?n) and greenOf(?n, ?green) and billOf(?n, ?b) and not away(quirk) {
+    Assert away(quirk). Assert at(quirk, ?green). Assert state(?b, coming). }
+  Rule quirk_rejoins when pitched(wapshotts) and away(quirk) and quirkAhead(quirk) and day(clock) == arrivedDay(wapshotts) and hour(clock) >= 15 {
+    Retract away(quirk). Retract quirkAhead(quirk). }
+  Rule quirk_marked when away(quirk) and not quirkAhead(quirk) and onRoad(wapshotts) { Assert quirkAhead(quirk). }
+  Relation quirkAhead(group).
+  Rule quirk_bills_more when away(quirk) and current(wapshotts, ?n) and onRoad(wapshotts) and not billedAhead(?n) { Increase standing(?n) by 1. Assert billedAhead(?n). }
+  Relation billedAhead(place).
+  Rule billed_reset when here(?g) and billedAhead(?g) and day(clock) > arrivedDay(wapshotts) { Retract billedAhead(?g). }
+
+  // ── What the towns say of it, wherever it is ──────────────────────────────────────────────────────────────────
+  Entity heard_circus: fact "Wapshott's Grand Peregrine Circus is going round the country, three days in a town: {town_a}, then {town_b}, then {town_c}, and back. It plays nightly at seven, a coin a head.".
+  Initially Assert established(heard_circus).
+  Topic keeper_a_here with keeper_a "Ask {keeper_a} about the circus" when here(tober_a) {
+    Says "'Wapshott's,' says {keeper_a}, with the face of someone who has had a circus in the house before. 'Out in the field past the green. They'll play tonight at seven, and the Colonel will come in here after and order the best of everything on account. Go and see them. Pay at the flap. Don't lend the Colonel anything; he means to pay you back, that's what makes him dangerous.'".
+    On discuss { Assert knows(actor, heard_circus). }
+  }
+  Topic keeper_a_away with keeper_a "Ask {keeper_a} about the circus" when not here(tober_a) {
+    Says "'Wapshott's? Gone round the circuit,' says {keeper_a}. 'They're three days in a town: here, then {town_b}, then {town_c}, and back here again, round and round like a horse in a ring. You'll find them at one of the three, or on the road between, eleven wagons and a horse in front setting the pace. They're always back here for the Goose Fair, if there's a Fair this year. They say this year there is.'".
+    On discuss { Assert knows(actor, heard_circus). }
+  }
+  Topic keeper_b_here with keeper_b "Ask {keeper_b} about the circus" when here(tober_b) {
+    Says "'Out on the pond meadow,' says {keeper_b}. 'The geese are beside themselves. Last time they were here a goose got into the big top and went on in the middle of the Sylph and got the biggest hand of the night. I'm going tonight. Everybody's going tonight. My mother's going and she hasn't been out of the house since the flood.'".
+    On discuss { Assert knows(actor, heard_circus). }
+  }
+  Topic keeper_b_away with keeper_b "Ask {keeper_b} about the circus" when not here(tober_b) {
+    Says "'Wapshott's?' says {keeper_b}. 'Round and about. Three days in {town_a}, three here, three in {town_c}. A man comes ahead of them with a paste-pot and bills everything that stands still. Last time he billed the vicar's cow. You'll know they're near when the cow says COMING.'".
+    On discuss { Assert knows(actor, heard_circus). }
+  }
+  Topic keeper_c_here with keeper_c "Ask {keeper_c} about the circus" when here(tober_c) {
+    Says "'Up at the cross field,' says {keeper_c}. 'They come through every round and we're always the last and the smallest and the Colonel always says we are his favourite, and the thing is, I think he means it. Go tonight. The old clown, Mumchance, doesn't say a word the whole night and you laugh till you have to sit down in the road.'".
+    On discuss { Assert knows(actor, heard_circus). }
+  }
+  Topic keeper_c_away with keeper_c "Ask {keeper_c} about the circus" when not here(tober_c) {
+    Says "'They'll be round,' says {keeper_c}. 'Wapshott's goes {town_a}, {town_b}, here, and back; three days a town. If you want them sooner, ask at {town_a}: that's where they winter, when they can afford a winter, and where the Fair is.'".
+    On discuss { Assert knows(actor, heard_circus). }
+  }
+  Topic priest_a_circus with priest_a "Ask {priest_a} about the circus" when true once {
+    Says "{priest_a} sighs. 'The Colonel came to the shrine last year and asked if the god would care to be patron of a Hippodrama. I said the god does not take patronage. He said in that case he would put the god's name on the bills for nothing, as a courtesy.' A pause. 'He did, too. In quite small letters. I found I did not mind as much as I expected.'".
+  }
+  Topic merchant_a_circus with merchant_a "Ask {merchant_a} about the circus" when true once {
+    Says "'They buy flour, bacon, oats, lamp oil, paint, and candles by the gross,' says {merchant_a}, 'and they pay in coin, mostly, and the rest in tickets, and a man can only see the Sylph of the Wire so many times.' A sniff. 'Nine. A man can see her nine times.'".
+  }
+}

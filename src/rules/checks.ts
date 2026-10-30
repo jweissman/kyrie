@@ -16,7 +16,8 @@ export class Checks {
   static readonly qualities: Record<string, Attribute> = { persuasion: 'charisma', deception: 'charisma',
     intimidation: 'charisma', insight: 'wisdom', lore: 'intelligence', woodcraft: 'wisdom', perception: 'wisdom',
     stealth: 'dexterity', lockwork: 'dexterity', trapwork: 'dexterity', climbing: 'strength', brawn: 'strength',
-    mending: 'wisdom', rites: 'wisdom', wayfinding: 'wisdom', digging: 'constitution' };
+    mending: 'wisdom', rites: 'wisdom', wayfinding: 'wisdom', digging: 'constitution', tumbling: 'dexterity',
+    performance: 'charisma' };
   // How hard, as Kyr names it (Resolve check(actor, persuasion, dc_hard)): the number to meet or beat.
   static readonly difficulties: Record<string, number> = { dc_easy: 10, dc_fair: 13, dc_hard: 16, dc_formidable: 19 };
   static difficulty(id: string): number {
