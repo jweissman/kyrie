@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 2 | 61 | 9 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 10 | 0 | 0 | 0 | 0 | 0 | 10 |
-| The owner's review | 0 | 17 | 24 | 0 | 0 | 0 | 41 |
+| The owner's review | 0 | 17 | 25 | 0 | 0 | 0 | 42 |
 | The adventures' authors | 0 | 11 | 58 | 0 | 0 | 0 | 69 |
 
 | By gate | A | B | C | D | E | F |
@@ -249,6 +249,7 @@ After 49c4338. Modest refinements to OWN-29, OWN-16 and OWN-30.
 | OWN-39 | A fight card's portrait not a little square: it fills the whole left third or quarter of the company member's card, full height | A | P1 | Open | |
 | OWN-40 | The protagonist's sex or presentation chosen at creation, deciding pronouns, portrait and how they are spoken of; and a table to roll for several name options | A | P1 | Open | |
 | OWN-41 | Every name through one mechanism: the Common names of the human heartland from a true "common" tongue in the `languages` package that echoes the concept structure it is given, rather than a lexicon of their own (src/world/common-names.ts) | D | P2 | Open | Not urgent; noted when the Common names were built (49c4338) |
+| OWN-42 | The intro and studio stab given care, with words (a studio name such as "Freehaven" or "Seventh Star"); the product's own name not to stay "Kyrie", candidates proposed for the owner's choice | A | P2 | Open | |
 
 ### The owner's directive of 2026-10-30: one universe
 
