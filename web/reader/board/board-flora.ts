@@ -15,6 +15,7 @@ export class BoardFlora {
   private static readonly greens = ['#46663d', '#3c5c38', '#52703f', '#43603f', '#5c6d3b', '#4b6a44', '#6c6a3a',
     '#76603a'];
   private static readonly firs = ['#2a4532', '#2f4c35', '#34492f'];
+  private static readonly frosted = ['#41564d', '#4c6158', '#5a6d66'];
   private static readonly fields = ['#7b7a44', '#5c6935', '#8b7c4c', '#6d7a3e', '#857245'];
   private readonly towns: Set<number>;
   private readonly roads: Set<number>;
@@ -24,6 +25,7 @@ export class BoardFlora {
     for (const c of ground.grid.cells) { this.grow(c); }
   }
   private grow(c: number): void {
+    if (this.ground.land.terrain === 'frost') { this.cold(c); return; }
     const cover = this.ground.cover(c),
       nearTown = [...this.towns].some(t => this.ground.grid.centres[t]!.distanceTo(this.ground.grid.centres[c]!) < 1.6);
     if (cover === 'w') { this.wood(c); }
@@ -60,6 +62,34 @@ export class BoardFlora {
     }
     if ((cover === 'f' || cover === 'h' || cover === '.') && !this.towns.has(c) && Noise.hash(c,
       90) < 0.45) { this.flock(c); }
+  }
+  // A frost country's growth: firs alone in its woods, dusted with snow; low scrub on the tundra about the towns and
+  // their few fields; lichen and stone on the heath and the fells; reeds standing out of the frozen fens; peaks as
+  // anywhere. No sheep graze it and no broadleaf grows.
+  private cold(c: number): void {
+    const cover = this.ground.cover(c), town = this.towns.has(c);
+    if (cover === 'w') {
+      this.many(c, ['fir', this.ground.levels[c]! > 0.2 ? 14 : 10, 0.42], i => [(0.9 + Noise.hash(c, i + 9) * 0.5) * 1.1,
+        BoardFlora.frosted[i % 3]!]);
+    }
+    if (cover === '.') {
+      const g = this.ground.grid, near = [...this.towns].some(t => g.centres[t]!.distanceTo(g.centres[c]!) < 1.6);
+      if (!town && near) {
+        this.many(c, ['strip', 4, 0.3], i => [0.8, BoardFlora.fields[(i + 2) % 5]!]);
+      }
+      this.many(c, ['bush', 3, 0.4],
+        i => Noise.hash(c, i + 60) < 0.5 ? [0.5 + Noise.hash(c, i) * 0.4, '#5f634e'] : undefined);
+    }
+    if (cover === 'h' || cover === 'f') {
+      this.many(c, ['heather', cover === 'f' ? 6 : 4, 0.4], i => [0.55 + Noise.hash(c, i) * 0.3,
+        Noise.hash(c, i + 2) > 0.5 ? '#9a988a' : '#7f7d6e']);
+      this.many(c, ['rock', cover === 'f' ? 4 : 2, 0.42], i => [(0.6 + Noise.hash(c, i) * 0.9) * 0.5, '#a7aaad']);
+    }
+    if (cover === 'p') {
+      const [x, z] = this.around(c, 1, 0.08);
+      this.put('massif', c, [x, z], [1.3 + Noise.hash(c, 2) * 0.35, '#ffffff']);
+    }
+    if (cover === ',') { this.many(c, ['reed', 7, 0.4], i => [0.6 + Noise.hash(c, i) * 0.5, '#8d8a6c']); }
   }
   // A wood in its layers: over its canopy (see BoardGround), broadleaf crowns standing out of it, firs over all.
   private wood(c: number): void {

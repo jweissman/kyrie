@@ -14,6 +14,8 @@ export interface BoardLand {
   known: number[]; here?: number; marks: BoardMark[];
   // The protagonist's portrait (its small copy), to be them on your mark; none, and the mark is a pin alone.
   face?: string;
+  // The country's terrain (frost, mountain, forest, marsh), which the land's colours and growth answer to.
+  terrain?: string;
 }
 // What the board gives back: a hex or a place chosen (and whether by the keys, so that the way there is the next
 // thing they reach), and that it can no longer be drawn, when the browser has taken its drawing away for good.

@@ -47,7 +47,8 @@ export class BoardField {
     const marks = land.marks.map(m => ({ id: m.id, name: m.name, cell: m.cell, visited: m.visited,
       kind: BoardField.kind(m), state: m.state }));
     return { key: land.cover, width: W, height: land.height, cover: land.cover, rivers: land.rivers, roads: land.roads,
-      known: land.known, here: land.here, marks: [...towns, ...marks], face };
+      known: land.known, here: land.here, marks: [...towns, ...marks], face,
+      ...region.terrain ? { terrain: region.terrain } : {} };
   }
   // A place's kind, by its sign on the flat map; where a way goes into wild country, seen or been to, a cairn.
   static kind(m: Land['marks'][number]): string {

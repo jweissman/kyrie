@@ -23,9 +23,20 @@ export class BoardTiles {
   private static readonly tones: Record<string, Color[]> = Object.fromEntries(Object.entries({
     '.': ['#56613a', '#7b7f47'], h: ['#5f5236', '#80704a'], f: ['#5b4f4a', '#7a6f57'], p: ['#57544f', '#77736b'],
     w: ['#1c2c1d', '#4a6436'], ',': ['#323d31', '#56603f'] }).map(([k, v]) => [k, v.map(c => new Color(c))]));
+  // A frost country's land by the same covers: the open land tundra, grey-green and pale; the heath frosted; the fells
+  // under snow; the peaks' feet rock and snow; the woods' floor snow between the firs; the fens frozen.
+  private static readonly frost: Record<string, Color[]> = Object.fromEntries(Object.entries({
+    '.': ['#5f6656', '#878d79'], h: ['#6f6c60', '#9d9a8c'], f: ['#a9b0b8', '#dde2e6'], p: ['#8a8d92', '#c6cad0'],
+    w: ['#2a3630', '#7d8a86'], ',': ['#53606a', '#8592a0'] }).map(([k, v]) => [k, v.map(c => new Color(c))]));
+  // The colours of a cover in the country's terrain.
+  static tone(terrain: string | undefined, cover: string): Color[] {
+    const own = terrain === 'frost' ? BoardTiles.frost : BoardTiles.tones;
+    return own[cover] ?? own['.']!;
+  }
   private static readonly sand = new Color('#9a8a62');
   private static readonly bank = new Color('#4a4230');
   private static readonly floor = new Color('#3a3324');
+  private static readonly snow = new Color('#c4cbd0');
   private static readonly verge = new Color('#7d6a4c');
   private static readonly earth = ['#4d3c2b', '#33281e', '#120f0c'].map(c => new Color(c));
   private static readonly made = new Map<number, { points: [number, number][]; index: number[]; rim: number }>();
@@ -103,12 +114,13 @@ export class BoardTiles {
   // bank as it falls to a river; worn by a road.
   private colour(c: number, [x, z, lx, lz]: [number, number, number, number],
     [{ y, bed: cut, crown }, shores]: [{ y: number; bed: number; crown: number }, number[]]): Color {
-    const g = this.ground, [lo, hi] = BoardTiles.tones[g.cover(c)] ?? BoardTiles.tones['.']!,
+    const g = this.ground, [lo, hi] = BoardTiles.tone(g.land.terrain, g.cover(c)),
       d = HexGrid.outward(lx, lz, 0.5 * BoardGround.GAP), facing = Math.atan2(lz, lx);
     const wood = g.cover(c) === 'w', k = lo!.clone().lerp(hi!,
       wood ? MathUtils.smoothstep(crown, 0.5, 1) : MathUtils.smoothstep(Noise.fbm(x * 4.3 + c, z * 4.3), 0.3, 0.75))
       .multiplyScalar(0.92 + Noise.hash(c, 77) * 0.16);
-    if (wood) { k.lerp(BoardTiles.floor, 1 - MathUtils.smoothstep(crown, 0.1, 0.4)); }
+    if (wood) { k.lerp(g.land.terrain === 'frost' ? BoardTiles.snow : BoardTiles.floor,
+      1 - MathUtils.smoothstep(crown, 0.1, 0.4)); }
     else { k.multiplyScalar(1 + Math.max(0, y) * 1.5); }
     if (d > 0.6 && shores.some(w => Math.abs(Math.atan2(Math.sin(facing - w), Math.cos(facing - w))) < 0.75)) {
       k.lerp(BoardTiles.sand, MathUtils.smoothstep(d, 0.6, 0.95) * 0.75);
