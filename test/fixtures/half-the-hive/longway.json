@@ -1,0 +1,3 @@
+{
+ "the theft": [">hume__chantry_yard", "=23:00", "^To the chantry|^Into the chantry", "^To Squire Corve's study", "?Pick the lock", "?Pick the lock", "?Pick the lock", "?Pick the lock", "Take from the squire's oak case", "Pour the squire's flask"]
+}

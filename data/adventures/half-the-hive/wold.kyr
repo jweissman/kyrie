@@ -1,0 +1,82 @@
+Module hume "Half the Hive" {
+  // ── The High Wold: the honey linden, the moor, the Toot ───────────────────────────────────────────────────────────
+
+  // Cutting wild comb: a living. Forty feet up a lime on old pegs, a slab a day, sold in Smoke End.
+  Relation combCutToday(place). Measure combCutDay(place).
+  Hazard peg_fall "a fall from the honey linden" means "Deal (2d6) physical damage to ally unless dexterity save against (12).".
+  Action cut_comb(actor: group, site: place) "Climb the pegs to the wild comb, and cut a slab" {
+    Description "Forty feet up an old lime on other people's pegs, with wild bees about your head.".
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, honey_oak) and daytime() and combCutDay(honey_oak) != day(clock).
+    Time 6.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Set combCutDay(honey_oak) to day(clock). Increase combsCut(honey_oak) by 1. }
+    On failure { Set combCutDay(honey_oak) to day(clock). Assert strikes(peg_fall, actor). }
+    Result "You go up the pegs with your knife in your teeth. Up close the wild bees are tiny and furious and their stings are needles, not nails; you hardly feel them. You cut a slab the size of a book from the lip of the comb and come down with it held against your chest, honey running down your wrists.".
+    Otherwise "Thirty feet up a peg turns under your foot, old and rotten, and the trunk goes past you, and the ground comes up.".
+  }
+  Measure combsCut(place). Relation combHanded(entity).
+  Item wild_a "a slab of wild comb" is wild_comb at limbo. Item wild_b "a slab of wild comb" is wild_comb at limbo. Item wild_c "a slab of wild comb" is wild_comb at limbo.
+  Item wild_d "a slab of wild comb" is wild_comb at limbo. Item wild_e "a slab of wild comb" is wild_comb at limbo. Item wild_f "a slab of wild comb" is wild_comb at limbo.
+  Rule comb_a when combsCut(honey_oak) >= 1 and not combHanded(wild_a) { Assert combHanded(wild_a). Give wild_a to party. }
+  Rule comb_b when combsCut(honey_oak) >= 2 and not combHanded(wild_b) { Assert combHanded(wild_b). Give wild_b to party. }
+  Rule comb_c when combsCut(honey_oak) >= 3 and not combHanded(wild_c) { Assert combHanded(wild_c). Give wild_c to party. }
+  Rule comb_d when combsCut(honey_oak) >= 4 and not combHanded(wild_d) { Assert combHanded(wild_d). Give wild_d to party. }
+  Rule comb_e when combsCut(honey_oak) >= 5 and not combHanded(wild_e) { Assert combHanded(wild_e). Give wild_e to party. }
+  Rule comb_f when combsCut(honey_oak) >= 6 and not combHanded(wild_f) { Assert combHanded(wild_f). Give wild_f to party. }
+  Observe oak_cut at honey_oak as sign when combCutDay(honey_oak) == day(clock) "A raw pale place on the lip of the wild comb shows where a slab was cut today. The bees are mending it already.".
+
+  // The black hive on the crag: robbers. Smoke, flame, a fight, or the shepherds' drove.
+  Species robber_kind "a black robber-bee" like nightmare temperament territorial described "A bee the size of a cat, black all over and glossy as a beetle, with a high mean whine and a sting like an awl. Robbers: they take honey from weaker hives, and anything else they find.".
+  Person robbers "the black bees of the crag" at black_crag {
+    Role "a swarm of black robber-bees, each the size of a cat, boiling out of the splits in the crag".
+    Species robber_kind. Level 2. Numbers 5.
+    State hanging blocking "Black bees hang in the air over the far path under the crag, whining, and they will let no one by who has not dealt with them.".
+    Guards far_path.
+    Fears flame.
+    Refuge limbo.
+    Warns "The whine on the crag goes up a note, sharp, and black bees come out of the splits in the rock and hang in the air over the path, a dozen, twenty, facing you. They do not come nearer yet. They are deciding. A smoker would make them stupid; a torch would make them go; there is no other way past the crag but through them, unless you know one.".
+    Comes "The black bees come down off the crag at you all at once, whining, and the air is full of them.".
+    Flinches "The black bees fall back from the fire, whining, into the splits of the crag.".
+  }
+  Action smoke_robbers(actor: group, site: place) "Puff smoke at the black bees until they go slow" {
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, black_crag) and smoking() and able(robbers) and at(robbers, black_crag) and not tolerates(robbers, actor).
+    Time 1.
+    On success { Assert tolerates(robbers, actor). }
+    Result "You work the bellows, and the smoker coughs grey into the air over the path, and the black bees in it slow and blunder and settle on the heather, and crawl, and forget you. You go under the crag at a walk, puffing, with your heart in your throat.".
+  }
+
+  // The bothy, on the shepherds' drove.
+  Observe bothy_names at bothy as feature when true "The names on the lintel are shepherds' names, mostly, and dates; and in among them, newer, cut in a careless flowing hand that must have taken an afternoon: IVO G. HIS BOTHY. And under that, in another hand, neat and square: NOT HIS. K.D.".
+
+  // ── The Toot, and Duke ────────────────────────────────────────────────────────────────────────────────────────────
+  // Tibby Breck's pet drone, Duke, has flown up the Toot to the drones' gathering, as drones do. Tibby will tell where
+  // with a dance, as Hume children do; and brought Duke home, he tells what his grandmother does at night.
+  Species drone_kind "a drone" like dragonfly tame described "A drone of the Sisters: bigger than a worker, blunt-faced, with enormous eyes that meet on the top of his head, no sting at all, and a deep rich buzz like a man humming with his mouth shut.".
+  Person duke "Duke" at toot {
+    Role "a young drone with a scrap of red ribbon tied round one leg, sitting in the grass with his enormous eyes on the sky" when not dukeHome(duke).
+    Role "Tibby's drone, with a scrap of red ribbon round one leg, humming" when dukeHome(duke).
+    Species drone_kind. Peaceable. Pronouns he.
+  }
+  Initially Assert acceptsEscort(duke, party).
+  Person tibby "Tibby Breck" at royal_gallery {
+    Role "a small boy of eight with a scab on his chin, sitting under the Breck princess-cell, kicking his heels".
+    Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A small boy under the first princess-cell looks at you with frank interest. 'Are you a lowlander? Can you find things? Duke's gone. He's my drone. I raised him from an egg. He's got a red ribbon on. Gran says drones always go, it's what they're for, but he's mine.' His lip goes. Then it firms up. 'I can show you where he went. I saw him go.'".
+    Greets again "Tibby kicks his heels. 'Have you found Duke?'".
+  }
+  Relation dukeHome(group).
+  Initially Assert home(duke, royal_gallery).
+  Topic tibby_where with tibby "Ask Tibby to show you where Duke went" when not dukeHome(duke) and not knows(actor, duke_where) once {
+    Says "Tibby stands up, very serious, and shows you with a dance, the way Hume children do: a little run toward where the sun would be, and then off to one side, waggling his bottom for all he is worth, and then a loop, and again. He is very bad at it and very proud.".
+    On discuss { Assert knows(actor, duke_where). }
+  }
+  Discovery duke_where "Tibby Breck's drone Duke went up the Toot, the hill above the gorge, where the drones gather.".
+  Initially Assert leadsTo(duke_where, toot).
+  Observe tibby_dance_read near tibby when knows(party, duke_where) and danceLearned(party) and not dukeHome(duke) "Read with the eye Kestrel gave you, Tibby's dance was not so bad: a short way, uphill, north of the sun. The Toot.".
+  Rule duke_home at royal_gallery when cameHome(duke) and not dukeHome(duke) says "Tibby sees Duke before Duke sees him, and makes a noise like a kettle, and then he has the drone round the neck, which is a thing you would not have thought possible, and Duke is humming deep in his chest like a cat purring, and Tibby is telling him he is a very bad drone, very bad, the worst." { Assert dukeHome(duke). Retract following(duke, party). Retract acceptsEscort(duke, party). Assert at(duke, royal_gallery). }
+  Topic tibby_secret with tibby "Ask Tibby whether anything strange happens in the royal gallery" when dukeHome(duke) and not knows(actor, breck_spoon) once {
+    Says "Tibby looks round to see if anyone is listening, and then puts his mouth up to your ear, and Duke's enormous eye comes round too, as if he wants to hear. 'Gran comes at night,' Tibby whispers. 'When everyone's gone to sleep. With the big spoon and the jelly-pot. And she puts jelly in our princess's cell through a little hole, lots of it. I followed her, looking for Duke.' He thinks. 'She said if I told, the princess would be sad.' He looks worried. 'Is it a secret if you tell a lowlander?'".
+    On discuss { Assert knows(actor, breck_spoon). }
+  }
+  Discovery breck_spoon "Dame Brenna Breck goes to the royal gallery at night and feeds extra royal jelly into her household's princess-cell through a hole, so that her princess will wake first and kill the others.".
+}

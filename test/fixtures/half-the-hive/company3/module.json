@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "source": [
+    "../../../../data/adventures/half-the-hive/country.kyr",
+    "../../../../data/adventures/half-the-hive/clock.kyr",
+    "../../../../data/adventures/half-the-hive/dance.kyr",
+    "../../../../data/adventures/half-the-hive/smoke.kyr",
+    "../../../../data/adventures/half-the-hive/apron.kyr",
+    "../../../../data/adventures/half-the-hive/lovers.kyr",
+    "../../../../data/adventures/half-the-hive/stores.kyr",
+    "../../../../data/adventures/half-the-hive/ivo.kyr",
+    "../../../../data/adventures/half-the-hive/wold.kyr",
+    "../../../../data/adventures/half-the-hive/gallow.kyr",
+    "../../../../data/adventures/half-the-hive/dell.kyr",
+    "../../../../data/adventures/half-the-hive/lark.kyr",
+    "../../../../data/adventures/half-the-hive/calling.kyr",
+    "../../../../data/adventures/half-the-hive/leaving.kyr",
+    "../../../../data/adventures/half-the-hive/daughters.kyr",
+    "../../../../data/adventures/half-the-hive/turning.kyr",
+    "../../../../data/adventures/half-the-hive/after.kyr",
+    "../../../../data/adventures/half-the-hive/endings.kyr",
+    "../../../../data/adventures/half-the-hive/growth.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "hume_wold",
+    "drove_end": "drove_end"
+  },
+  "experience": 800
+}

@@ -1,0 +1,50 @@
+{
+ "the phial": [
+  ">hume__scenting_room",
+  "Ask Elspet to scent you",
+  ">hume__mellor_cell",
+  "Talk to Agnes",
+  "Ask Agnes how Tobit died",
+  "^Take your leave"
+ ],
+ "nell": [
+  ">hume__nell_shop",
+  "Talk to Nell",
+  "Ask Nell Quarrie how she makes",
+  "Ask Nell Quarrie why she learned",
+  "Ask Nell Quarrie whether she was in the Capped Gallery",
+  "^Take your leave"
+ ],
+ "agnes": [
+  ">hume__mellor_cell",
+  "Talk to Agnes",
+  "Tell Agnes the phial was Nell",
+  "^Take your leave"
+ ],
+ "elspet": [
+  ">hume__scenting_room",
+  "Ask Elspet to name Nell Quarrie",
+  "?Ask Elspet to name Nell Quarrie",
+  ">hume__nell_shop",
+  "Talk to Nell",
+  "Tell Nell Quarrie that Elspet",
+  "^Take your leave"
+ ],
+ "the mead": [
+  ">hume__taproom",
+  "Talk to Martin",
+  "Ask Martin about Huw",
+  "Ask Martin what would start",
+  "^Take your leave",
+  ">hume__honey_vaults",
+  "Talk to Huw",
+  "Ask Huw about his mead",
+  "Tell Huw that the old mead-masters",
+  "^Take your leave"
+ ],
+ "the drewes": [
+  ">hume__leavers_yard",
+  "Pay the Drewes what the candles are worth",
+  "Sell .*candles"
+ ]
+}

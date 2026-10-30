@@ -1,0 +1,55 @@
+Module hume "Half the Hive" {
+  // ── The Calling ───────────────────────────────────────────────────────────────────────────────────────────────────
+  // At six on the second evening, in the Dancing Hall, every household says aloud who goes and who stays. Keepers and
+  // Searchers are not asked; they go. The Escort is not asked; it is the Escort. What each says is what each has come to
+  // by then, so the Calling is where the week shows itself. Huw Penry's cask is broached at the end.
+  Occasion the_calling "the Calling" at dancing_hall when day(clock) >= 2 and hour(clock) >= 18 and not leavingBegun() {
+    Matter call_open "Elspet Garnock, the Scent-warden, strikes the slope three times with a staff of black wax, and the hall goes quiet, and the hum comes back into the quiet like water into a footprint." for 10 minutes.
+    Matter call_keepers "'The keeper is not asked,' says Elspet. 'The keeper goes.' At the top of the slope, under the round window, Linnet Amory stands with her eyes on the floor." for 10 minutes.
+    Matter call_searchers "'The Searchers are not asked,' says Elspet. 'The Searchers go.' Along the wall the Searchers stand up, one by one, Kestrel Dunn first." for 10 minutes.
+    Matter call_households "'The households,' says Elspet, and one by one, from the front of the hall to the back, the heads of households stand up on the tilted floor and say it: so many go, so many stay, and the names. Some read it off a slate. Some cannot get it out, and someone beside them says it for them." for 20 minutes.
+    Matter call_escort "'The Escort,' says Elspet, 'is not asked.' A few people laugh, the way they always laugh at that, and along the back wall a row of yellow coats sits very straight and smiles." for 10 minutes.
+    Matter call_mead "Huw Penry comes in with two of the Waxwrights rolling his great barrel, and stands it on its end at the foot of the slope, and knocks in the tap, and the whole hall holds out its cups." for 10 minutes.
+    Closes "Elspet strikes the slope three times. 'It is said,' she says. What is said at a Calling is not unsaid. People go out of the hall in silence, holding on to each other on the slope, and in the Brood gallery outside somebody begins to cry, and somebody else begins, very badly, to sing.".
+  }
+  // Everyone of the Comb is in the hall for it.
+  Rule calling_gathers when occasionBegun(the_calling) and not occasionOver(the_calling) and not at(linnet, dancing_hall) and not spread(calling_gathered) {
+    Assert at(linnet, dancing_hall). Assert at(eben, dancing_hall). Assert at(agnes, dancing_hall). Assert at(huw, dancing_hall). Assert at(elspet, dancing_hall). Assert at(pim, dancing_hall).
+    Assert spread(calling_gathered). }
+  Rule calling_disperses when occasionOver(the_calling) and spread(calling_gathered) and not spread(calling_dispersed) {
+    Assert at(linnet, mothers_chamber). Assert at(eben, wax_gallery). Assert at(agnes, mellor_cell). Assert at(huw, honey_vaults). Assert at(elspet, scenting_room). Assert at(pim, mothers_chamber).
+    Assert spread(calling_dispersed). }
+  Entity calling_gathered: fact "the Comb in the hall". Entity calling_dispersed: fact "the Comb gone home".
+
+  // The keepers.
+  Rule call_linnet_knows at dancing_hall when matterOpen(call_keepers) and linnetKnows(linnet) and not spread(said_linnet) says "Linnet lifts her head and looks straight down the slope across the whole hall at Eben Candlish, and he looks back, and a few people who know turn to see what she is looking at." { Assert spread(said_linnet). }
+  Rule call_linnet_hides at dancing_hall when matterOpen(call_keepers) and not linnetKnows(linnet) and knows(party, linnet_secret) and not spread(said_linnet) says "You know what she means to say on the morning of the Leaving: that she is ill, that Pim must go. You are the only one in the hall who knows it. Pim, beside her, is beaming." { Assert spread(said_linnet). }
+  Entity said_linnet: fact "the keeper at the Calling".
+  // The Searchers.
+  Rule call_hannet_carried at dancing_hall when matterOpen(call_searchers) and promiseMade(carry_hannet) and not spread(said_hannet) says "Hannet Coke gets up off the floor on her stick. 'Hannet Coke goes,' she says, in a voice that carries, 'carried, like a cheese, by this lowlander and whoever else they can bully into it,' and the hall laughs out loud, and some of them are crying as they laugh, because she has stayed six times." { Assert spread(said_hannet). }
+  Rule call_hannet_stays at dancing_hall when matterOpen(call_searchers) and hannetStopped(hannet) and not promiseMade(carry_hannet) and not spread(said_hannet) says "Hannet Coke does not get up. When Elspet looks at her she says, from the floor, 'Hannet Coke stays,' quite steadily, and puts her hand inside her collar, where something hangs on a cord." { Assert spread(said_hannet). }
+  Rule call_hannet_tree at dancing_hall when matterOpen(call_searchers) and dancesFor(hannet, gallowtree) and not spread(said_hannet) says "Hannet Coke gets up on her stick with the rest, beaming, seventy years old, going at last." { Assert spread(said_hannet). }
+  Entity said_hannet: fact "Hannet at the Calling".
+  Rule call_moss_hurt at dancing_hall when matterOpen(call_searchers) and mossHurt(moss) and not spread(said_moss) says "One Searcher does not stand: Moss Ashdown, propped against the wall with his side bound up, looking at his knees. 'Moss stays,' Kestrel says for him, not unkindly. 'Can't walk.'" { Assert spread(said_moss). }
+  Entity said_moss: fact "Moss at the Calling".
+  // The households.
+  Rule call_agnes_carries at dancing_hall when matterOpen(call_households) and linnetPermitsDead(linnet) and not spread(said_agnes) says "Agnes Mellor stands up. 'The Mellors,' she says. 'Agnes goes. And Tobit Mellor goes with her, by leave of the keeper.' There is a sound in the hall like wind in a wood. Somebody says, 'The dead stay,' and somebody else says, 'Hush,' and Linnet Amory, at the top of the slope, says clearly, 'Not this one.'" { Assert spread(said_agnes). }
+  Rule call_agnes_likeness at dancing_hall when matterOpen(call_households) and likenessGiven(agnes) and not linnetPermitsDead(linnet) and not spread(said_agnes) says "Agnes Mellor stands up with something wrapped in her shawl held against her chest. 'The Mellors. Agnes goes.' She looks down at the shawl. 'Both of us,' she says, and sits down." { Assert spread(said_agnes). }
+  Rule call_agnes_free at dancing_hall when matterOpen(call_households) and agnesFreed(agnes) and not spread(said_agnes) says "Agnes Mellor stands up. 'The Mellors. Agnes goes. Tobit stays, with the others, safe.' Her voice holds all the way." { Assert spread(said_agnes). }
+  Rule call_agnes_stays at dancing_hall when matterOpen(call_households) and not spread(said_agnes) says "Agnes Mellor stands up. 'The Mellors,' she says. 'Agnes stays.' People turn to look at her; everyone knew the Mellors meant to go. 'I'll not leave him alone up there,' she says, to nobody, and sits down." { Assert spread(said_agnes). }
+  Entity said_agnes: fact "Agnes at the Calling".
+  Rule call_eben_both at dancing_hall when matterOpen(call_households) and linnetKnows(linnet) and not spread(said_eben) says "When the Candlishes are called, old Abel Candlish starts to say that the household stays, all of it, and Eben stands up beside him and says over him, 'Eben Candlish goes,' and looks up the slope at the keeper; and the old man stops, and looks at his son, and sits down." { Assert spread(said_eben). }
+  Rule call_eben_stays at dancing_hall when matterOpen(call_households) and ebenKnows(eben) and not linnetKnows(linnet) and not spread(said_eben) says "When the Candlishes are called, old Abel Candlish says the household stays, and Eben, beside him, says nothing at all, and looks up the slope at the keeper as if he could see through her." { Assert spread(said_eben). }
+  Rule call_eben_hides at dancing_hall when matterOpen(call_households) and knows(party, eben_secret) and not spread(said_eben) says "When the Candlishes are called, old Abel Candlish says the household stays, all of it, and Eben, beside him, keeps his face perfectly still. You know he means to walk out after the bees on the day without a word to anyone. Nobody else does." { Assert spread(said_eben). }
+  Entity said_eben: fact "Eben at the Calling".
+  Rule call_brecks at dancing_hall when matterOpen(call_households) and not spread(said_brecks) says "Dame Brenna Breck stands up, very upright, in a black gown with a silver bee on it. 'The Brecks stay. All of us. We keep a princess.' She sits down as if she had won something." { Assert spread(said_brecks). }
+  Entity said_brecks: fact "the Brecks at the Calling".
+  // The Escort.
+  Rule call_ivo at dancing_hall when matterOpen(call_escort) and ivoSearcher(ivo) and not spread(said_ivo) says "And then one of the yellow coats stands up. 'Ivo Gildersleeve,' says Ivo, in a voice that fills the hall to the round window. 'Searcher. Goes.' There is an uproar: laughter, shouting, someone's cup going over. Elspet strikes the slope with her staff for quiet and does not get it. Then Kestrel Dunn says, from the wall, not loudly, 'He does,' and the hall goes quiet as if she had shut a door." { Assert spread(said_ivo). }
+  Entity said_ivo: fact "Ivo at the Calling".
+  // The mead.
+  Rule call_mead_miracle at dancing_hall when matterOpen(call_mead) and meadSecret(huw) and not spread(said_mead) says "The mead comes out of the tap gold and clear and smelling of heather and lime-flower, and a silence goes down the hall as people taste it, and then a long low sound of four hundred people saying oh. Huw Penry stands by his barrel with tears running into his beard and tells everyone near him that it started again on its own in the night, by the Mother's grace, and that he always knew it would; and he believes it, and so, by the end of the evening, does the hall." { Assert spread(said_mead). }
+  Rule call_mead_good at dancing_hall when matterOpen(call_mead) and meadSaved(huw) and not spread(said_mead) says "The mead comes out of the tap gold and clear and smelling of heather and lime-flower, and a silence goes down the hall as people taste it, and then a sound, a long low sound of four hundred people saying oh. It tastes like the best day of a summer you had when you were young. Huw Penry stands by his barrel with tears running into his beard, saying to everyone near him that it came to him in a dream." { Assert spread(said_mead). }
+  Rule call_mead_bad at dancing_hall when matterOpen(call_mead) and not meadSaved(huw) and not spread(said_mead) says "The mead comes out of the tap thick and cloudy and sweet as syrup, unworked, and the hall drinks it because it is the Calling, and says how fine it is, and Huw Penry stands by his barrel and smiles and smiles, and you can see he would rather be dead." { Assert spread(said_mead). }
+  Entity said_mead: fact "the mead at the Calling".
+}

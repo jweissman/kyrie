@@ -1,0 +1,40 @@
+{
+ "taken on": [
+  ">hume__scenting_room",
+  "Ask Elspet to scent you",
+  ">hume__dancing_hall",
+  "Talk to Kestrel",
+  "Ask to be taken on",
+  "^Take your leave"
+ ],
+ "the gallowtree": [
+  ">hume__gallow_hollow",
+  "the capped of the seventh Leaving: Examine \u2014 Look closely"
+ ],
+ "the theft": [
+  ">hume__chantry_yard",
+  "=23:00",
+  "^To the chantry|^Into the chantry",
+  "^To Squire Corve's study",
+  "?Pick the lock",
+  "?Pick the lock",
+  "?Pick the lock",
+  "?Pick the lock",
+  "Take from the squire's oak case"
+ ],
+ "nell told on": [
+  ">hume__nell_shop",
+  "=day 2 09:00",
+  "Talk to Nell",
+  "Ask Nell Quarrie how she makes",
+  "Ask Nell Quarrie why she learned",
+  "^Take your leave",
+  ">hume__scenting_room",
+  "Tell Elspet that Nell Quarrie forges"
+ ],
+ "the flask in the tree": [
+  "=day 2 20:00",
+  ">hume__gallow_hollow",
+  "Uncork the squire's flask"
+ ]
+}

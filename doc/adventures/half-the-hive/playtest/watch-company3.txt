@@ -1,0 +1,494 @@
+# watch-company3: test/fixtures/half-the-hive/company3.campaign.json watch
+# ending: lark_owned
+
+> >hume__smoke_street
+You set out from the drove road at the Wold’s edge early, with your shadow long in front of you on the road. In the Wold of Hume the limes are in flower, the queen-cells in the Comb were capped six days ago, and every household under the Brow is deciding who goes. The hum has dropped a note. Anyone in the Wold can hear it, if they know what it sounded like before. Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes. Smudge-fires of damp bracken and dung burn in iron baskets at every door and at the street’s ends, and the smoke goes up the gorge on the draught, grey and sweetish, and makes your eyes run. People here walk with a hand over their mouths, out of habit. Somewhere a hammer. Up the gorge, through the smoke, a glow like a lamp behind a curtain. On the post of the Smoker’s Rest a notice is nailed up, in a square hand, in lowland letters: SEARCHERS WANTED. ANY WHO CAN WALK AND LOOK. PAID IN WAX. ASK FOR K. DUNN, THE DANCING HALL, UP THE COMB. And under it, smaller: GET SCENTED FIRST. Handcarts go up the gorge empty and come down loaded: chests, chairs, a cradle, a loom in pieces, all with that faint golden tackiness of things that have lived a long time in the Comb.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path. The smoke thins behind you and something else takes its place: warmth, out of all proportion to the day, and a smell like a summer field baked and then poured into a jar, and a sound you feel first in your teeth.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. It is gold and amber and brown and in places nearly black; it hangs in great curved sheets, like curtains frozen in a wind, the oldest of them four hundred years old; and it is cut through with doors, and stairs, and windows. The light through the wax is the colour of beer. The hum is everywhere: in the walls of the gorge, in the ground, in your breastbone. Overhead the Sisters come and go in brown streams the width of a road, gold-and-black, furred like a good coat, with eyes like wet coal. They land on the comb’s lip and walk in. When one passes low the wind of her wings lifts your hair. The people on the Apron do not look up, the way people in a town do not look up at the weather. Stalls along the troughs sell honey-cake, comb in squares on vine leaves, bee-bread in brown loaves, mead by the horn, and a fried thing in paper cones that smells of nuts and butter, which the stallholder says is brood: the drone brood, a delicacy, fried in its own wax. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__scenting_room
+A low room cut into the rock beside the foot stair, very clean. Shelves of stoppered jars, a stone basin, a brazier with something resinous on it. A slate on the wall says in chalk: GUESTS SCENTED, ONE DAY. TWO COIN. SEARCHERS NOTHING. Elspet Garnock, the Scent-warden: a small exact woman with a stained apron and very clean hands, who smells overwhelmingly of the Comb, is here.
+
+> Ask Elspet to scent you for a day, two coin
+She dips two fingers in a jar of something gold and thick, and draws them down your forehead, your throat, the insides of your wrists, behind your ears, saying something under her breath that has the hum’s tune and no words. It is warm, and then it is nothing; and then, as you go out, a Sister on the doorframe turns her head toward you, and away, uninterested, as if you were family.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg. The gallery is a corridor of six-sided rooms, each as big as a cottage, their walls thin enough to see shapes through: bees, people, a cradle. The floor gives very slightly underfoot and is tacky, like a well-polished table on a hot day, and everyone here goes barefoot or in felt. The hum is so close now that you hear words in it if you let yourself.
+
+> >hume__mellor_cell
+A family’s cell: one six-sided room with a hearth-stone in the middle that has never had a fire on it, a loom, a bed in a wax alcove, children’s drawings pressed into the wall. A bundle tied up in a blanket by the door, ready to go. The other half of the room is not packed at all. Agnes Mellor, the Capper’s widow: a heavy, quiet woman with grey plaits and a mourning band of black wax on her wrist, is here.
+
+> Talk to Agnes Mellor
+A heavy grey woman is sitting on the end of the bed with her hands in her lap, the way people sit in a room where somebody has died. She looks up at you without much interest. ‘If you’re from the Hum-keepers, the answer’s still the same,’ she says. ‘If you’re not, sit down. Nobody sits down in here since Tobit.’
+
+> Ask Agnes about the dark watch
+‘The night before you’re capped, someone sits with you. In the Gallery, in the dark, no light, because there’s no flame among the Capped: one candle up there and four hundred years of us go up like a hayrick.’ She looks at her hands. ‘Tomorrow they cap him, or the day after, whenever I’ve sat. I can’t sit alone; it’s not done. And nobody’ll sit with me.’ Her mouth goes thin. ‘They say there’s something up there since he died. Something in the dark that smells of the Mother. Children’s talk.’ She looks at you. ‘You’re not a child.’
+
+> Offer to sit the dark watch with Agnes tonight
+She looks at you a long time. ‘Tonight,’ she says. ‘At ten, in the Gallery. No light. You’ll not need one; you sit where you’re put and you don’t move.’ She almost smiles. ‘You talk to him, if you like. I do.’
+
+> Ask Agnes whether she will go with the Leaving
+‘I was always going to go. Tobit and me both. We’d said, when it came, we’d go together and start again somewhere with a view.’ She is quiet. ‘He’s going to be capped in that wall with four hundred years of strangers, and I’m going to walk off over the Wold and never see him again. That’s the custom. The dead stay.’ She looks up. ‘I want to take him. Capped, in his wax, on a litter. Linnet says no. Everyone says no. It’s never been done.’ Her hands close. ‘I’ll not leave him alone up there with whatever it is that’s in the dark.’
+
+> Take your leave
+Agnes Mellor lifts a hand, once.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__honey_vaults
+The honey vaults go back into the dark under the Brow: cell upon cell, each the size of a barrel, each capped with white wax, each full. Where the cap is thin, the honey shows through, dark gold, like looking into a lamp from the side. Bees stand on the comb fanning with their wings, and the air moves past you warm and thick and smelling of every flower you have ever known. The biggest barrel in the vaults, chalked PENRY · CALLING, sits silent: put your ear to it and there is nothing. Huw Penry, the Comb’s mead-maker: a big man with a magnificent beard and a voice he uses to its full extent, among his barrels, is here.
+
+> >hume__capped_gallery
+The Capped Gallery is cool and silent, the only place in the Comb where the hum is far away. Here the walls are clear wax, very thick, and in the wax, upright, in rows going back further than you can see, are the Humefolk dead. They stand in their best clothes with their eyes shut and their hands folded, perfectly kept, the newest nearest, the oldest so far back they are only shapes, four hundred years deep. Here and there someone living sits on a little stool in front of one of them, and talks to it in a low voice, and is not embarrassed. There is no light in the Capped Gallery but what comes down the arch from the vaults. By the arch a board is pegged, burnt in with a hot iron: NO FLAME AMONG THE CAPPED. Nearest the arch, on a trestle, under a sheet of muslin, a stocky man lies waiting to be capped, his hands folded on a sealing-iron.
+
+> Wait › An hour
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing. Beside you in the dark Agnes is talking to Tobit, low and steady, the way you talk to someone across a kitchen: the goat has got into the beans again; the roof over the loom wants seeing to; their boy in Ketter has not written; whose turn it is to fetch water. She leaves gaps for him to answer. An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Pack › A torch › Light
+Bran lights a torch. ‘No,’ Agnes says, aloud, appalled, the first thing she has said above a whisper. ‘Not here. Not among them.’ The Capped Gallery is cool and silent, the only place in the Comb where the hum is far away. Here the walls are clear wax, very thick, and in the wax, upright, in rows going back further than you can see, are the Humefolk dead. They stand in their best clothes with their eyes shut and their hands folded, perfectly kept, the newest nearest, the oldest so far back they are only shapes, four hundred years deep. Here and there someone living sits on a little stool in front of one of them, and talks to it in a low voice, and is not embarrassed. There is no light in the Capped Gallery but what comes down the arch from the vaults. By the arch a board is pegged, burnt in with a hot iron: NO FLAME AMONG THE CAPPED. Nearest the arch, on a trestle, under a sheet of muslin, a stocky man lies waiting to be capped, his hands folded on a sealing-iron.
+
+> Wait › A while
+Bran hits the Deathshead. The Deathshead takes 3 slashing damage (0 HP left). The Deathshead falls. The fight is won. Elen, Bran and Dori each gain 142 experience. Elen, Bran and Dori each gain 50 experience: heard what comes into the Capped Gallery in the dark. Elen, Bran and Dori each gain 200 experience: rid the Capped Gallery of the Deathshead.
+
+> Wait › A while
+Time passes.
+
+> Wait › An hour
+It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing. An hour passes. Bran’s torch gutters out. It is a long time since anyone slept. The company is weary, and will fight the worse for it until it sleeps.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+The grey comes at the arch. Agnes Mellor gets up stiffly off her stool and puts her palm flat on the wax in front of Tobit’s face. ‘Somebody sat,’ she says to him. ‘With a light, among them all. But sat.’ She does not look at you. Elen, Bran and Dori each gain 100 experience: kept the dark watch with Agnes Mellor.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> >hume__honey_vaults
+The honey vaults go back into the dark under the Brow: cell upon cell, each the size of a barrel, each capped with white wax, each full. The biggest barrel in the vaults, chalked PENRY · CALLING, sits silent: put your ear to it and there is nothing.
+
+> >hume__mothers_chamber
+The Crown of the Comb is a long dim hall under the very rock of the Brow, where the comb is oldest and nearly black. In the middle of it, on a wide shallow cell like a bed, is the Mother: as long as a pony, slender, the gold of her body gone dark with age, her wings short on her long back. The Sisters stand round her in a ring facing in, touching her, stroking her, feeding her from their mouths. She is quite still. The hum here is so deep it is not a sound at all but a pressure, like being underwater. The Lantern Stair climbs round and round toward the Crown and stops, three turns up, at nothing. Every little while the ring round the Mother breaks: a Sister pushes at her, butts her, runs up her back, and the Mother walks three steps, and the ring closes again. They are making her thin enough to fly. Here are Linnet Amory, the Hum-keeper: a young woman with a shaved head and bare arms crawling with Sisters, who does not seem to notice them; and Pim Garnock, the keeper’s novice: a gangling boy of seventeen with a newly shaved head, sunburnt where the hair was.
+
+> Talk to Linnet Amory
+A young woman sitting cross-legged beside the Mother looks up. Her head is shaved and her arms are bare and there are Sisters walking on them, on her shoulders, on her scalp, and she moves them aside with a finger as you might move a cat off a chair. ‘Shh,’ she says, not to you. Then, to you, low: ‘She’s resting. She has a long way to go and she’s never flown in her life, not since she was a girl.’ She looks at the Mother with an expression you have seen on people at a bedside. ‘I’m Linnet. I keep her. For four more days.’
+
+> Ask Linnet to let Agnes Mellor carry Tobit with the Leaving
+‘No.’ She says it at once, gently. ‘The dead stay. They always stay. That’s what the Capped Gallery is: the ones who went are the Comb’s future, and the ones who stay are its past, and the dead are with the past.’ She strokes the Mother. ‘If we carried our dead, we’d carry everything. Every Leaving would be a funeral procession, and the new comb would be built round coffins.’ She looks at you. ‘I know what Agnes wants. I’m sorry.’
+
+> Tell Linnet about the dark watch you kept with Agnes, and what she said to him
+You tell her about the watch in the dark: Agnes’s voice going on and on to the shape in the wax, about the goat, and the roof, and their son in Ketter, and whose turn it was to fetch water, as if he could answer. Linnet listens with her hand on the Mother. When you have done she says, ‘She talked to him about the goat.’ And then, after a while: ‘Nobody ever wrote down that the dead must stay. It’s just what’s done.’ She looks at the old queen, who is leaving everything she ever made. ‘Tell Agnes she can carry him. Tell her I’ll walk beside her.’ Elen, Bran and Dori each gain 150 experience: won leave for Agnes Mellor to carry her dead.
+
+> Take your leave
+‘Look after yourself,’ says Linnet Amory. ‘I mean it.’
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+All over the Wold the Searchers are out: walking the lindens, the moor, the chalk, looking into every hollow big enough to hold two hundred people and a cloud of bees. In the Dancing Hall the dances have begun to lean one way, then another. The Mother will not go before the Calling, tonight. After that she will go when five dance for one place, and not before; unless something else decides it.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+You catch the smell of yourself, as the air moves: your own smell, coming back through the Mother’s, like a stone coming up through snow. The anointing is wearing off. Within the hour you will smell of nothing but yourself.
+
+> Wait › An hour
+A Sister lands on the wall beside you, as big as a hound, and turns her head; and then she is on your shoulder, light as a cat, and her feelers are going over your face and hair, quick, quick, tasting. The hum near you goes up half a note. Someone in the gallery says sharply, ‘You’re not scented. Get out, or get smoke.’
+
+> Wait › An hour
+The Sisters come for you. One, then three, then the air is full of them, and a sting goes in like a hot nail driven, and there is a smell like bananas, sharp and sudden, and more come to it. A Sister that stings dies of it, tearing; you see her drop and crawl. You get your arms over your head and run, down and down, out of the Comb into the light of the Apron, with the hum roaring after you. Bran resists (constitution). The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Stalls along the troughs sell honey-cake, comb in squares on vine leaves, bee-bread in brown loaves, mead by the horn, and a fried thing in paper cones that smells of nuts and butter, which the stallholder says is brood: the drone brood, a delicacy, fried in its own wax. An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Stalls along the troughs sell honey-cake, comb in squares on vine leaves, bee-bread in brown loaves, mead by the horn, and a fried thing in paper cones that smells of nuts and butter, which the stallholder says is brood: the drone brood, a delicacy, fried in its own wax. An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+The Apron is too quiet. The Sisters still come and go overhead, but thinly, a stream where there was a river; half the stalls are bare boards; and the people who are left stand about in twos and threes, not talking much, looking up at the Comb as if it were somebody’s house after a funeral. It begins as a change in the hum: up, and up, a whole octave, until the gorge rings with it like a struck bell. Then out of every door and crack and window of the Comb at once, the Sisters pour. Not in streams: in a flood, a brown roaring flood, filling the air of the gorge from wall to wall, so many and so loud that the sun goes dim and you cannot hear yourself shout. They boil up over the lip of the Brow in a column a quarter of a mile wide. Somewhere in the middle of it, invisible, is the Mother. And down the foot stair, out of the doors, with bundles on their backs and veils on their heads and little bells tied on their wrists so as not to lose each other, come the people who are going: two hundred of them, walking fast, not looking back, while the people who are staying stand at the troughs and on the Apron and in the doorways and watch them go. At the foot of the stair two people pass each other in the crowd: a long-faced man in a travelling cloak with a Waxwright’s roll of blades on his back, going out after the bees, not looking back; and a young woman with a shaved head and Sisters on her arms, coming in, not looking at anyone. They do not see each other. The crowd closes between them. At the head of the going, beside Kestrel, walks the keeper’s novice, Pim Garnock, seventeen, with his shaved head sunburnt and his arms held out stiffly from his sides because they are covered in Sisters, and his face set like a boy’s at his first funeral.
+
+> Wait › An hour
+She goes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Stalls along the troughs sell honey-cake, comb in squares on vine leaves, bee-bread in brown loaves, mead by the horn, and a fried thing in paper cones that smells of nuts and butter, which the stallholder says is brood: the drone brood, a delicacy, fried in its own wax. An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Two days after the Leaving the new queen flies, and the Escort walks behind her in yellow; and at dusk, by a custom older than the Comb, the Escort is turned out.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Stalls along the troughs sell honey-cake, comb in squares on vine leaves, bee-bread in brown loaves, mead by the horn, and a fried thing in paper cones that smells of nuts and butter, which the stallholder says is brood: the drone brood, a delicacy, fried in its own wax. An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+From up the Toot comes singing, old and wordless, and then a sound like the whole sky humming, and then quiet.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Eben Candlish walked out after the bees without a word to anyone, and is in the new comb, carving nothing; and Linnet Amory, who stayed for him so that he could finish the Stair, keeps the Daughters in the Brow, and goes every evening to the Waxwrights’ gallery and stands at the foot of the Lantern Stair, three turns up and stopping at nothing, and nobody has had the heart yet to tell her he meant to do the same for her. Hannet Coke stayed, for the seventh time. She sits on the slope of the empty Dancing Hall in the afternoons and runs, very short, very slow, the line of a dance for somewhere, to nobody. Agnes Mellor carried her husband out of the Brow on a litter, capped, by leave of the keeper, the first of the dead ever to go with a Leaving; and he stands now in the first wall of the new comb, alone in it, with a view. Nothing comes into the Capped Gallery in the small hours now. The Cappers have taken down the board that says no flame among the Capped, and put it back up again, because it is still true. Once a month Nell Quarrie goes up the stair in the dark smelling of her own oil, and sits an hour with Aldo, and comes down, and nobody notices. Moss Ashdown can walk again, with a stick, and will be a Searcher still, they say, in a year. There is a song about him in the Brow after all; the children made it up. It is not the song he wanted. It is quite a good song. The Breck princess woke first and stung her sisters in their cells, and reigns, and the Brecks are the Mother’s household at last after a hundred years, and everyone says what a strong queen she is, and how lucky. Ivo Gildersleeve was turned out with the Escort, with a cloak and a loaf, and is sitting on a milestone at the edge of the Wold looking down the drove road at the lowland, which he has never seen, deciding. The Leaving lives in the chantry tower at Larkhill, safe and dry and a morning from market; and the bees, and the comb, and the honey, are the property of L. Corve, Esquire, by the law of the lowland, which the Humefolk have never had to know before and are learning. He has not taken a single pot. He has not been in among them. He cannot bring himself to, and they cannot bring themselves to ask him.

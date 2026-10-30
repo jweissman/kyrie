@@ -1,0 +1,461 @@
+# gallowtree-thief: test/fixtures/half-the-hive/thief.campaign.json gallow
+# ending: gallow
+
+> >hume__smoke_street
+You set out from the drove road at the Wold’s edge early, with your shadow long in front of you on the road. In the Wold of Hume the limes are in flower, the queen-cells in the Comb were capped six days ago, and every household under the Brow is deciding who goes. The hum has dropped a note. Anyone in the Wold can hear it, if they know what it sounded like before. Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes. Smudge-fires of damp bracken and dung burn in iron baskets at every door and at the street’s ends, and the smoke goes up the gorge on the draught, grey and sweetish, and makes your eyes run. People here walk with a hand over their mouths, out of habit. Somewhere a hammer. Up the gorge, through the smoke, a glow like a lamp behind a curtain. On the post of the Smoker’s Rest a notice is nailed up, in a square hand, in lowland letters: SEARCHERS WANTED. ANY WHO CAN WALK AND LOOK. PAID IN WAX. ASK FOR K. DUNN, THE DANCING HALL, UP THE COMB. And under it, smaller: GET SCENTED FIRST. Handcarts go up the gorge empty and come down loaded: chests, chairs, a cradle, a loom in pieces, all with that faint golden tackiness of things that have lived a long time in the Comb.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path. The smoke thins behind you and something else takes its place: warmth, out of all proportion to the day, and a smell like a summer field baked and then poured into a jar, and a sound you feel first in your teeth.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. It is gold and amber and brown and in places nearly black; it hangs in great curved sheets, like curtains frozen in a wind, the oldest of them four hundred years old; and it is cut through with doors, and stairs, and windows. The light through the wax is the colour of beer. The hum is everywhere: in the walls of the gorge, in the ground, in your breastbone. Overhead the Sisters come and go in brown streams the width of a road, gold-and-black, furred like a good coat, with eyes like wet coal. They land on the comb’s lip and walk in. When one passes low the wind of her wings lifts your hair. The people on the Apron do not look up, the way people in a town do not look up at the weather. Stalls along the troughs sell honey-cake, comb in squares on vine leaves, bee-bread in brown loaves, mead by the horn, and a fried thing in paper cones that smells of nuts and butter, which the stallholder says is brood: the drone brood, a delicacy, fried in its own wax. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__scenting_room
+A low room cut into the rock beside the foot stair, very clean. Shelves of stoppered jars, a stone basin, a brazier with something resinous on it. A slate on the wall says in chalk: GUESTS SCENTED, ONE DAY. TWO COIN. SEARCHERS NOTHING. Elspet Garnock, the Scent-warden: a small exact woman with a stained apron and very clean hands, who smells overwhelmingly of the Comb, is here.
+
+> Ask Elspet to scent you for a day, two coin
+She dips two fingers in a jar of something gold and thick, and draws them down your forehead, your throat, the insides of your wrists, behind your ears, saying something under her breath that has the hum’s tune and no words. It is warm, and then it is nothing; and then, as you go out, a Sister on the doorframe turns her head toward you, and away, uninterested, as if you were family.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg. The gallery is a corridor of six-sided rooms, each as big as a cottage, their walls thin enough to see shapes through: bees, people, a cradle. The floor gives very slightly underfoot and is tacky, like a well-polished table on a hot day, and everyone here goes barefoot or in felt. The hum is so close now that you hear words in it if you let yourself.
+
+> >hume__dancing_hall
+The Dancing Hall is the strangest room you have ever stood in. Its floor is tilted like a roof, steep enough that you would slide if it were not tacky; and its walls are written all over with marks scored into the wax: lines and loops and figure-eights, thousands of them, overlapping, generations deep. Up at the top of the slope a round window lets in the sun, and the Searchers dance on the slope below it: a straight run, waggling, then a loop back round, then the run again. The angle of the run from straight up is the angle from the sun. How long the waggle lasts is how far. How hard is how good. The Searchers do not dance alone. On the upper slope, where the wax is darkest, Sisters dance too, the bees’ own scouts, huge and fast and silent, running their lines and turning; and where a Sister dances, the people watching go quiet and lean to read her. For the Far Brow, east over the moor, a long waggling run straight toward the window and a little left, a day’s distance: three dancing it. For the Chalk Dell, south-east: two. For the Gallowtree, a short run west, two hours: one. Here are Kestrel Dunn, the Wardmistress of the Searchers, lean and brown, two fingers short on her left hand; Hannet Coke, the oldest of the Searchers, small and brown and bent, sitting on the slope with her stick across her knees; and Moss Ashdown, a Searcher, nineteen, freckled, with a boar-spear he will not put down.
+
+> Talk to Kestrel Dunn
+A lean brown woman at the foot of the slope looks you up and down the way a farrier looks at a horse. ‘You came about the notice,’ she says. It is not a question. ‘Good. I’ve two hundred people to house by Midsummer and half my Searchers have decided to stay home and grow old. Can you walk? Can you look? Can you tell a dry hollow from a wet one? Then you’ll do.’
+
+> Ask to be taken on as a Searcher
+‘Taken on.’ Kestrel takes a strip of yellow ribbon out of her belt and ties it round your arm, hard, with her teeth and her good hand. ‘Elspet at the Scenting House will scent you for nothing while you wear that. You’re paid in wax, a cake for every place you go and look at and come back and tell me about, honestly. Four places worth the walk, this year.’ She counts on her short hand. ‘The Gallowtree: Hannet’s. Two hours west, on a knoll, big hollow lime, close, which is all Hannet cares about. The Chalk Dell: Moss’s. South-east. Dry, warm, a cave in the chalk, and the brocks live in it, which Moss thinks is a selling point. The Far Brow: mine. A day east, over the moor, and the most beautiful place in the Wold. And Larkhill.’ Her face shuts. ‘A lowland squire’s got a chapel on the Wold’s edge, and for a week the Sisters’ own scouts have been flying out to it and coming back excited, and I don’t know why, and I don’t like not knowing.’ Tamsin gains 25 experience: was taken on as a Searcher of Hume Brow.
+
+> Take your leave
+‘Don’t let me keep you,’ says Kestrel Dunn, who was not trying to.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__linden_wood
+You leave Hume Brow in the full of the morning, with the sun climbing and the path dry underfoot. The linden wood is tall and cool and full of the noise of bees: the limes are in flower, and the Sisters work the high branches, huge shapes in the green, and the scent of the flowers comes down so thick it is almost a taste. Paths go off every way: north to the moor, west to a knoll with one great tree on it, south-east downhill toward chalk, west along the edge toward Larkhill.
+
+> >hume__gallow_knoll
+The Gallowtree stands alone on its knoll, a linden so old it has outlived its own name: nobody was ever hanged on it; the name is older than hanging. Its trunk is as big round as a cottage, grey and ridged and hollow, and its crown is still full and green and loud with wild bees. In the trunk, at the height of a man, someone long ago cut a door, and shaped its sill in wax, and the wax has gone grey.
+
+> >hume__gallow_hollow
+Inside the tree is a room, round, tall as a chapel, lit greenly from cracks high up. The walls are comb: old grey comb, built up the inside of the trunk in sheets, abandoned, dry; and there are people in it. In the grey comb of the walls, upright, capped in wax gone the colour of old bone: men, women, a few children, in clothes eighty years out of fashion, eyes shut. Some have their hands folded. Some do not. One woman holds a baby. By the door, on the floor, against the wall, sits the one who capped the others: uncapped, because there was nobody left to do it. Bones in a brown Capper’s apron, a sealing-iron by one hand. In the lap, something small. At the back of the hollow the inner wood of the tree goes up into the dark, ridged and grey, wet-looking. High up in the hollow, above the capped, where the dry top of the trunk catches the light, a few sheets of comb hang that are not grey but white, white as milk: the first comb the seventh Leaving’s bees drew, before anything was born in it.
+
+> Examine — Look closely
+You look closely at the capped of the seventh Leaving. You go round the walls slowly. Forty-one of them. The capping gets worse as you go: the first are smooth and clear and careful, the work of a Capper with time; then rougher; then thin, hurried, cracked, as if done by someone who was cold, or ill, or alone. The last few are hardly capped at all.
+
+> >hume__gallow_knoll
+Tamsin gains 100 experience: found what became of the seventh Leaving. The Gallowtree stands alone on its knoll, a linden so old it has outlived its own name: nobody was ever hanged on it; the name is older than hanging.
+
+> >hume__linden_wood
+You set out from the Gallowtree’s knoll. The linden wood is tall and cool and full of the noise of bees: the limes are in flower, and the Sisters work the high branches, huge shapes in the green, and the scent of the flowers comes down so thick it is almost a taste.
+
+> >hume__larkhill_lane
+A sunken lane under ash trees, with the Wold going up on one side and the lowland falling away green on the other. Ahead, on its hill, a little grey chapel with a square tower, and a new slate roof on the house beside it that does not match.
+
+> >hume__chantry_yard
+A little walled yard round a grey stone chantry, very old, its windows empty, its tower square and stout and bigger than a chantry needs. Someone has been mending it: new mortar, a new door, beehives in a row along the south wall, ordinary straw skeps, with ordinary bees. Beside the chantry a farmhouse with the new slate roof. Halse, the Larkhill bailiff: a big slow lowlander with a cudgel, who touches his hat to everyone, is here.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Into the chantry at Larkhill
+The chantry’s nave has been cleared of everything but its stone. The tower stair goes up from the west end. On the walls, pinned in rows, are drawings: bees, the Sisters, done from life in brown ink and coloured, wings, legs, eyes, stings, each with a note in a small neat hand. Hundreds of them. Twelve years of them, by the dates.
+
+> To Squire Corve's study
+A small warm room with books to the ceiling, a microscope of brass, a table covered with papers, a dead Sister’s wing in a glass frame on the wall, gold and veined like a leaf of mica. Letters in a rack, each with the same seal broken: a hexagon. On a shelf by the window, a small case of polished oak with a brass lock, the only locked thing in the room.
+
+> Pick the lock of the squire's oak case · likely
+The lock is good lowland work. It does not give, and somewhere in the house a floorboard does. Tamsin fails the lockwork check (d20 4 + dexterity 4 + lockwork 2 = 10 against 13).
+
+> Pick the lock of the squire's oak case · likely
+The lock is good lowland work and takes you longer than it should, in the dark, with the house creaking; and then it gives. Tamsin makes the lockwork check (d20 19 + dexterity 4 + lockwork 2 = 25 against 13). The oak case on the shelf stands open.
+
+> Take from the squire's oak case
+You take the squire’s flask from the squire’s oak case.
+
+> >hume__chantry_nave
+The chantry’s nave has been cleared of everything but its stone.
+
+> >hume__chantry_yard
+A little walled yard round a grey stone chantry, very old, its windows empty, its tower square and stout and bigger than a chantry needs.
+
+> >hume__larkhill_lane
+A sunken lane under ash trees, with the Wold going up on one side and the lowland falling away green on the other.
+
+> >hume__drove_end
+You go out of the lane to Larkhill into the dark, by what light there is. The drove road comes up out of the lowland hedges onto open turf, short and springy and full of thyme, and the sky gets bigger. Ahead the Wold goes up in long dry swells, linden-dark on the tops. A cut in it, like a door left ajar, is the Hask gorge, with smoke standing up out of its mouth in a column the wind cannot quite knock over. A lane goes off west along the edge toward a hill with a tower on it. Once, high up, something crosses the sky from north to south that you take for weather: a long brown smudge, unravelling and knitting up again, with a sound under it like a mill-race a long way off.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__nell_shop
+Nell Quarrie, the perfumer of Smoke End: a tall woman in black, fifty, very upright, who smells faintly of the Comb, is here.
+
+> Wait › An hour
+An hour passes. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+All over the Wold the Searchers are out: walking the lindens, the moor, the chalk, looking into every hollow big enough to hold two hundred people and a cloud of bees. In the Dancing Hall the dances have begun to lean one way, then another. The Mother will not go before the Calling, tonight. After that she will go when five dance for one place, and not before; unless something else decides it.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+You catch the smell of yourself, as the air moves: your own smell, coming back through the Mother’s, like a stone coming up through snow. The anointing is wearing off. Within the hour you will smell of nothing but yourself.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › A while
+Time passes.
+
+> Talk to Nell Quarrie
+A tall woman in black looks up from a row of little bottles. The shop smells of roses, of resin, of musk, and under it all, faint and impossible, of warm wax and summer fields. ‘Rosewater,’ she says, ‘lavender, attar, civet, and a few things of my own.’ She watches you notice the smell under the smells. ‘Yes,’ she says, ‘that too. One coin. Half a day.’
+
+> Ask Nell Quarrie how she makes the oil that smells of the Comb
+‘Carefully.’ She does not smile. ‘Six years of carefully. Heather oil, and wax, and propolis, and fourteen other things, and a great deal of standing at the foot of the stair with my eyes shut, smelling.’ She sets a bottle straight on the shelf. ‘It is not illegal. There is no law in the Wold about smelling of things. There is only Elspet Garnock.’
+
+> Ask Nell Quarrie why she learned to make it
+She is quiet so long you think she will not answer. ‘My husband was Aldo Quarrie, of the Comb. He came down to Smoke End to buy lavender for his mother and he stayed eleven years. When he was dying he wanted to go home, and I took him up the stair, and Elspet Garnock scented him, and would not scent me.’ Her hands are quite still on the counter. ‘He’s capped in the Gallery. Fourth row from the arch, on the left. I asked to go up and sit with him the way the Humefolk sit with theirs. Three times. Elspet said I was not of the Comb.’ She looks at you. ‘So I made myself of the Comb. Once a month, for six years, I have gone up the stair smelling of this, and sat with him an hour in the dark, and come down. Nobody has ever stopped me. Nobody has ever noticed.’ Tamsin gains 75 experience: heard Nell Quarrie out.
+
+> Take your leave
+Nell Quarrie considers the conversation over some moments before you do.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__scenting_room
+A low room cut into the rock beside the foot stair, very clean. Elspet Garnock, the Scent-warden: a small exact woman with a stained apron and very clean hands, who smells overwhelmingly of the Comb, is here.
+
+> Tell Elspet that Nell Quarrie forges the scent and goes up the stair in it
+Elspet hears you out without moving. Then she takes off her spectacles and folds them. ‘Six years,’ she says. ‘Up my stair.’ She sends the girl who sweeps the step running up the Comb for two of the Hum-keepers. ‘Thank you,’ she says to you, quite sincerely, and you understand that you have done a thing that cannot be taken back, and that she is grateful for it.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> Wait › A while
+Time passes.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__linden_wood
+You leave Hume Brow late, with the light already going yellow. The light goes before you are halfway, and you walk the rest by guess and by the pale line of the path. The linden wood is tall and cool and full of the noise of bees: the limes are in flower, and the Sisters work the high branches, huge shapes in the green, and the scent of the flowers comes down so thick it is almost a taste.
+
+> >hume__gallow_knoll
+The Gallowtree stands alone on its knoll, a linden so old it has outlived its own name: nobody was ever hanged on it; the name is older than hanging.
+
+> >hume__gallow_hollow
+Inside the tree is a room, round, tall as a chapel, lit greenly from cracks high up. In the grey comb of the walls, upright, capped in wax gone the colour of old bone: men, women, a few children, in clothes eighty years out of fashion, eyes shut. Some have their hands folded. Some do not. One woman holds a baby. By the door, on the floor, against the wall, sits the one who capped the others: uncapped, because there was nobody left to do it. Bones in a brown Capper’s apron, a sealing-iron by one hand. In the lap, something small. At the back of the hollow the inner wood of the tree goes up into the dark, ridged and grey, wet-looking. High up in the hollow, above the capped, where the dry top of the trunk catches the light, a few sheets of comb hang that are not grey but white, white as milk: the first comb the seventh Leaving’s bees drew, before anything was born in it.
+
+> Uncork the squire's flask here, on the wind, to call the swarm to the Gallowtree
+You break the wax and draw the stopper and set the flask in a crack where the wind takes it. The smell goes out from it like ripples from a stone. Within the hour the first Sisters come, high, circling, then lower; by evening there are dozens, walking on the rock, fanning their wings, beside themselves. They will go back and dance it. They will not be able to help it.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+From the direction of the gorge comes a sound like the sea getting up, and then the whole sky over the Brow goes brown, and moves.
+
+> Wait › An hour
+She goes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Two days after the Leaving the new queen flies, and the Escort walks behind her in yellow; and at dusk, by a custom older than the Comb, the Escort is turned out.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+You chose for the bees. The Searchers know it; the Sisters do not, and never will. Kestrel Dunn has not said your name since, and will not, either to curse it or to thank you. Eben Candlish walked out after the bees without a word to anyone, and is in the new comb, carving nothing; and Linnet Amory, who stayed for him so that he could finish the Stair, keeps the Daughters in the Brow, and goes every evening to the Waxwrights’ gallery and stands at the foot of the Lantern Stair, three turns up and stopping at nothing, and nobody has had the heart yet to tell her he meant to do the same for her. Hannet Coke went with the Mother at last, two hours, on her own legs, to the Gallowtree, and sits on the knoll in the sun, happy, and does not know whose tree it is. Agnes Mellor stayed. She sits in the Capped Gallery every night in the dark with Tobit, on her stool, talking about the goat. Something still comes into the Capped Gallery in the small hours, soft and dry, smelling of the Mother, and drinks from the seals of the dead; and the children of the Brow have a name for it, and a rhyme, and will not go up the honey stair after dark. Nell Quarrie’s shop in Smoke End has a mark on the door that the Comb reads, and she does not go up the gorge, and in the evenings she stands at the foot of the path with her eyes shut, smelling. Squire Corve’s oak case is empty, and he has not said a word to anyone about it, because he cannot. He writes to the keeper this spring as every spring, and asks, as every spring, to be named; and does not mention the flask; and nor does the keeper. Moss Ashdown can walk again, with a stick, and will be a Searcher still, they say, in a year. There is a song about him in the Brow after all; the children made it up. It is not the song he wanted. It is quite a good song. The Breck princess woke first and stung her sisters in their cells, and reigns, and the Brecks are the Mother’s household at last after a hundred years, and everyone says what a strong queen she is, and how lucky. Ivo Gildersleeve was turned out with the Escort, with a cloak and a loaf, and is sitting on a milestone at the edge of the Wold looking down the drove road at the lowland, which he has never seen, deciding. In the Gallowtree the new comb grows white over the grey, up the inside of the old tree, over the faces of the seventh Leaving, whom the eighth have decided not to speak about. The tree is green and loud with bees. It is wet at the heart. It will be a long winter, and when the Searchers of the Brow walk out to the knoll at the thaw to see how the eighth Leaving did, they will find out, as the Brow has always said of the seventh, whether they went on east.

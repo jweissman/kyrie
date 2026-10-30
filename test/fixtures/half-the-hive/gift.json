@@ -1,0 +1,47 @@
+{
+ "nell": [
+  ">hume__nell_shop",
+  "Talk to Nell",
+  "Buy a phial",
+  "Ask Nell Quarrie how she makes",
+  "Ask Nell Quarrie why she learned",
+  "^Take your leave"
+ ],
+ "aldo": [
+  "Anoint yourself with Nell",
+  ">hume__capped_gallery",
+  "Sit a while with Aldo",
+  ">hume__nell_shop",
+  "Talk to Nell",
+  "Tell Nell Quarrie you sat",
+  "Ask Nell Quarrie what she made",
+  "^Take your leave"
+ ],
+ "corve": [
+  ">hume__corve_study",
+  "Talk to Squire",
+  "Ask Squire Corve about his drawings",
+  "Ask Squire Corve about the flask",
+  "^Take your leave"
+ ],
+ "the keeper": [
+  ">hume__scenting_room",
+  "?Ask Elspet to scent you",
+  ">hume__mothers_chamber",
+  "Talk to Linnet",
+  "Tell Linnet about Squire Corve",
+  "^Take your leave"
+ ],
+ "the gift": [
+  "=day 2 08:00",
+  ">hume__corve_study",
+  "Talk to Squire",
+  "Tell Squire Corve the Hum-keeper will name him",
+  "^Take your leave"
+ ],
+ "the flask uncorked": [
+  "=day 2 20:00",
+  ">hume__chantry_nave",
+  "Uncork the squire's flask"
+ ]
+}

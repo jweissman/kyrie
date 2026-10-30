@@ -1,0 +1,61 @@
+Module hume "Half the Hive" {
+  // ── The week ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The country's days are counted from the first morning after the company comes (day(clock) is 1 then). The Calling
+  // is on the evening of the second day; the Mother will not go before it. From the third noon she goes as soon as
+  // five dance for one place. At dawn on the fourth day Squire Corve uncorks his flask at Larkhill; at noon on the
+  // fourth day she goes, to the flask if it is open, or where most dance. The Daughters wake the night she goes; the
+  // new queen flies two days after; the Escort is turned out that dusk, and the book closes.
+  Query daytime() means hour(clock) >= 7 and hour(clock) < 20.
+  Query night() means hour(clock) >= 22 or hour(clock) < 5.
+  Query inWold() means at(party, ?p) and wold(?p).
+  Query inComb() means at(party, ?p) and combRoom(?p).
+  Relation spread(fact).
+
+  // ── Chapters ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Chapter hum_drops "The Hum Drops a Note" when inWold() "In the Wold of Hume the limes are in flower, the queen-cells in the Comb were capped six days ago, and every household under the Brow is deciding who goes. The hum has dropped a note. Anyone in the Wold can hear it, if they know what it sounded like before.".
+  Chapter searching "The Searching" when day(clock) >= 2 and hour(clock) >= 6 and inWold() and not leavingBegun() "All over the Wold the Searchers are out: walking the lindens, the moor, the chalk, looking into every hollow big enough to hold two hundred people and a cloud of bees. In the Dancing Hall the dances have begun to lean one way, then another. The Mother will not go before the Calling, tonight. After that she will go when five dance for one place, and not before; unless something else decides it.".
+  Chapter calling "The Calling" when occasionBegun(the_calling) and not occasionOver(the_calling) and within(party, comb) "At six the hum in the Dancing Hall is drowned out for once by people: the whole of Hume Brow crowded onto the tilted floor, standing, sitting, holding on to each other so as not to slide. The Calling. Every household, in turn, will say aloud who goes with the Mother, and who stays.".
+  Chapter leaving_ch "The Leaving" when leavingBegun() and inWold() "She goes.".
+  Chapter daughters_ch "The Daughters" when leavingBegun() and leftNight() and inComb() "In the half-empty Comb, in the royal gallery, something is moving inside the wax.".
+  Chapter turning_ch "The Turning-out" when flightDay() and inWold() "Two days after the Leaving the new queen flies, and the Escort walks behind her in yellow; and at dusk, by a custom older than the Comb, the Escort is turned out.".
+
+  // ── The Sisters know their own ────────────────────────────────────────────────────────────────────────────────────
+  // A scent lasts a day from the Scenting House (Searchers' and guests' alike), half a day from Nell's oil; for one named
+  // to the hive it does not wear off. In the Comb unscented, a Sister tastes you; the watch after, they sting. A
+  // smoking smoker carried makes them slow, and they do not.
+  Measure scentUntil(group). Relation named(group). Relation anointed(group). Relation tasted(group). Measure tastedAt(group).
+  Query scented() means named(party) or anointed(party) and scentUntil(party) > watch(clock).
+  Query smoking() means holding(party, bee_smoker).
+  Hazard sting "a Sister's sting" means "Deal (2d6) poison damage to ally unless constitution save against (12).".
+  Rule sisters_taste when inComb() and not scented() and not smoking() and not tasted(party) and not leftNight() says "A Sister lands on the wall beside you, as big as a hound, and turns her head; and then she is on your shoulder, light as a cat, and her feelers are going over your face and hair, quick, quick, tasting. The hum near you goes up half a note. Someone in the gallery says sharply, 'You're not scented. Get out, or get smoke.'" { Assert tasted(party). Set tastedAt(party) to watch(clock). }
+  Rule sisters_sting when at(party, ?p) and combRoom(?p) and not scented() and not smoking() and tasted(party) and watch(clock) > tastedAt(party) and not leftNight() says "The Sisters come for you. One, then three, then the air is full of them, and a sting goes in like a hot nail driven, and there is a smell like bananas, sharp and sudden, and more come to it. A Sister that stings dies of it, tearing; you see her drop and crawl. You get your arms over your head and run, down and down, out of the Comb into the light of the Apron, with the hum roaring after you." { Assert strikes(sting, party). Set tastedAt(party) to watch(clock). Retract at(party, ?p). Assert at(party, apron). }
+  Rule sisters_forget when tasted(party) and not inComb() { Retract tasted(party). }
+  Rule scent_fades when inWold() and anointed(party) and scentUntil(party) <= watch(clock) + 6 and not named(party) and not spread(scent_faded) says "You catch the smell of yourself, as the air moves: your own smell, coming back through the Mother's, like a stone coming up through snow. The anointing is wearing off. Within the hour you will smell of nothing but yourself." { Assert spread(scent_faded). }
+  Entity scent_faded: fact "the scent worn off".
+
+  // ── The things of the Wold ──
+  Kind wax_cake "a cake of Brow wax" is treasure worth 2 weighing 1 described "A round cake of yellow wax the size of a cheese, stamped with a hexagon. Searchers are paid in it; anyone in Smoke End will take it as money.".
+  Kind sister_sting "a Sister's sting in a twist of paper" is gear worth 2 weighing 0 described "A Sister's sting, as long as your finger, barbed, with the little white sac of venom still on the end of it, folded in a twist of brown paper. Even through the paper it smells sharply of bananas.".
+  Kind nell_oil "a phial of Nell Quarrie's oil" is gear worth 1 weighing 0 described "A tiny stoppered phial of something gold and thick that smells, when you unstop it, so exactly like the Comb that your mouth waters. It is not quite right. You cannot say how.".
+  Kind fine_candles "a bundle of fluted Brow candles" is treasure worth 6 weighing 1 described "Six tall white candles, fluted like columns, from the Drewes' moulds. A Brow candle burns three nights and smells of summer.".
+  Kind white_wax "a slab of white comb" is treasure worth 4 weighing 1 described "A slab of old comb, white and fine as paper, that was never used for brood: the first comb a new swarm draws. It smells of nothing at all, which is how you know how old it is.".
+  Kind old_comb "a slab of old black comb" is gear worth 0 weighing 1 described "A slab of brood comb gone black with a hundred years of being lived in: tough as leather, smelling of bees and old honey and something animal.".
+  Kind found_phial "a little phial Agnes found" is gear worth 0 weighing 0 described "A tiny stoppered phial, empty, with a smear of something gold dried round its lip that smells, faintly, of the Comb, and not quite.".
+  Kind tobit_likeness "a wax likeness of Tobit Mellor" is gear worth 0 weighing 1 described "A little figure as long as your forearm, carved in gold and white wax: a stocky man in a capping apron with his sleeves rolled, his head a little on one side.".
+  Kind deathshead_wing "a death's-head moth's wing" is treasure worth 5 weighing 0 described "A wing the size of a hand-mirror, brown and grey as a dead leaf, dusted soft, with a pale ring on it like an eye.".
+  Kind bee_bread "a loaf of bee-bread" is gear worth 1 weighing 0 described "A small brown loaf of pollen packed by the Sisters into the comb and soured there: bitter, nutty, sticky, the colour of an old penny.".
+  Kind wild_comb "a slab of wild comb" is treasure worth 3 weighing 1 described "A slab of wild comb from the honey linden, black and gold, dripping, with a dead small bee or two in it, which is how you know it is real.".
+  Kind queen_flask "the squire's flask" is gear worth 0 weighing 1 described "A flask of thick green glass, stoppered and wired and sealed with red wax, warm to the touch. Even through the glass and the wax you can smell it: the Mother, stronger than the Mother, so strong it makes your head swim.".
+  Kind wax_bee "a little bee carved in wax" is gear worth 0 weighing 0 described "A bee no bigger than your thumb, carved in yellow wax gone brown, every leg and every vein of the wing, made by someone with time and love and a very fine blade.".
+  Kind queen_cage "a queen-cage of wax rods" is gear worth 0 weighing 0 described "A little lantern of thin wax rods, Waxwright's work, hinged to close round a princess-cell, so that what comes out of it can come out, and what wants to get in cannot.".
+  // A smoker, a veil.
+  Kind bee_smoker "a bee-smoker" is gear worth 3 weighing 2 described "A tin can with a spout and a little leather bellows, stuffed with smouldering bracken and dried dung. Squeeze, and it gives a puff of cool grey smoke, and any bee it touches goes slow and stupid and thinks of honey.".
+  Kind bee_veil "a bee-veil" like cloak worth 2 weighing 1 described "A broad hat of plaited straw with a curtain of black horsehair gauze hanging all round it to the shoulders, tied under the arms.".
+
+  // ── Places once seen ──────────────────────────────────────────────────────────────────────────────────────────────
+  // The four places the Mother might go, and the room in each from which a Searcher can say she has seen it.
+  Relation hollowSite(place). Relation seenFrom(place, place).
+  Initially Assert hollowSite(gallowtree). Initially Assert hollowSite(chalk_dell). Initially Assert hollowSite(larkhill). Initially Assert hollowSite(far_brow).
+  Initially Assert seenFrom(gallow_hollow, gallowtree). Initially Assert seenFrom(dell_floor, chalk_dell). Initially Assert seenFrom(chantry_nave, larkhill). Initially Assert seenFrom(far_hollow, far_brow).
+  Query hasSeen(s: place) means been(party, ?r) and seenFrom(?r, s).
+}

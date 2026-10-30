@@ -1,0 +1,42 @@
+Module hume "Half the Hive" {
+  // ── The Chalk Dell and the brocks ─────────────────────────────────────────────────────────────────────────────────
+  // Two brock sows, honey badgers as big as ponies, live in the cave at the back of the Dell, and have since before the
+  // Brow. The Searchers of the sixth Leaving left a message for whoever came after, in dance-marks on the chalk: at the
+  // turn of the year, the dead year's comb at the cave mouth, and the brocks keep the peace. Nobody has read it in sixty
+  // years, because nobody has looked. The brocks can be killed (very dangerous), driven in by fire (they come back), or
+  // given the old gift.
+  Species brock_kind "a brock" like owlbear temperament territorial described "A honey badger the size of a pony: low, broad, grey-backed and black-bellied, with a short thick tail and front claws as long as sickles, and a smell of musk you can taste. Its skin hangs loose on it, so that when you seize it, it turns round inside its own hide and bites you.".
+  Person brocks "the brocks" at sett_mouth {
+    Role "two brock sows, honey badgers as big as ponies, grey-backed, lying in the cave mouth" when at(brocks, sett_mouth).
+    Role "two brock sows, honey badgers as big as ponies, loose in the dark among the sleepers" when not at(brocks, sett_mouth).
+    Species brock_kind. Level 2. Numbers 2.
+    Lair sett_mouth. Refuge limbo.
+    Fears flame.
+    Warns "In the dark of the cave mouth something grey heaves up, and then another: two shapes, low and very broad, as big as ponies, with flat striped heads that swing toward you. One of them clacks its teeth, a sound like a shut book. They do not come. They wait, and the smell of musk rolls out of the cave at you so thick you could lean on it. A fire would send them back into the dark.".
+    Comes "The brocks come out of the cave low and fast, like grey water, and the first one hits you at the knee.".
+    Flinches "The brocks back into the dark of the cave from the fire, hissing, and are gone, though you can hear them in there, waiting.".
+    Pleads "The last brock, bloody, turns and drags herself back into the dark of the cave, and does not come out again.".
+  }
+  Relation brockTruce(group). Relation brocksKilled(group).
+  Query brocksSafe() means brockTruce(brocks) or brocksKilled(brocks).
+  Rule brocks_slain when not able(brocks) and not brocksKilled(brocks) { Assert brocksKilled(brocks). }
+  // The marks on the chalk.
+  Thing chalk_marks "the marks on the chalk" at dell_floor {
+    State scored "Low on the white wall of the Dell, at the height of a hand, are scored marks: lines and loops and figure-eights, old, weathered, the edges gone soft.".
+  }
+  Observe marks_read at dell_floor when tried(chalk_marks, looking) and danceLearned(party) and not knows(party, brock_truce) "Looked at with the eye Kestrel gave you, the marks are not decoration. They are dances, scored where a dancer would run them, and you can read them, slowly, like a child spelling: a short run toward the cave. A loop. A run that turns round on itself, the sign for the end of the year. A run back from the cave, waggling hard: good, good, very good. And at the end, a sign you have seen on the wall of the Dancing Hall a thousand times: the mark of the Searchers. At the turning of the year, the old comb at the cave. Then all is well." teaches brock_truce.
+  Observe marks_unread at dell_floor when tried(chalk_marks, looking) and not danceLearned(party) "They look like the marks on the walls of the Dancing Hall: lines and loops. Someone who knew the dance might read them.".
+  Discovery brock_truce "Dance-marks on the chalk of the Dell, left by the Searchers of an old Leaving, say: at the turning of the year, leave the old comb at the cave, and the brocks keep the peace.".
+  Action brock_gift(actor: group, site: place) "Leave the old black comb at the cave mouth, as the marks say" {
+    Description "The old gift, sixty years late.".
+    Requires at(actor, site) and able(actor) and company(actor) and (at(actor, dell_floor) or at(actor, sett_mouth)) and holding(actor, old_comb) and knows(actor, brock_truce) and able(brocks) and not brockTruce(brocks).
+    Time 2.
+    On success { Spend old_comb from actor. Assert brockTruce(brocks). Assert tolerates(brocks, actor). Retract assails(brocks, actor). Retract warned(brocks, actor). }
+    Result "You walk to the cave mouth with the black comb held out in front of you in both hands, which is the stupidest thing you have ever done, and put it down on the bare earth there, and back away. For a long moment nothing. Then a broad striped head comes out of the dark, and sniffs, and sniffs again, and a paw as big as a spade drags the comb inside. You hear it being eaten: a long, contented, crunching sound. The second brock comes out and lies down in the cave mouth in the sun, and yawns, showing you everything, and looks at you with its small black eyes as if you were weather.".
+  }
+  Rule sisters_for_dell when brocksSafe() and not sistersDell(chalk_dell) and not committed() and not leavingBegun() { Assert sistersDell(chalk_dell). Increase tally(chalk_dell) by 1. }
+  Rule dell_word at dancing_hall when sistersDell(chalk_dell) and not spread(dell_word) says "On the upper slope of the Dancing Hall a Sister you have not seen before is dancing south-east, short and hard, over and over: the Dell. The bees' own scouts have been to look, now that nothing in it will eat them." { Assert spread(dell_word). }
+  Entity dell_word: fact "the Sisters for the Dell".
+  Observe dell_peace at sett_mouth when brockTruce(brocks) "The brocks lie in the cave mouth in the sun with their chins on their paws, and watch you, and do not get up.".
+  Observe dell_empty at sett_mouth when brocksKilled(brocks) "The cave mouth is empty and smells of blood and musk. Flies.".
+}

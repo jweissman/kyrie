@@ -1,0 +1,5 @@
+{
+ "agnes": [">hume__scenting_room", "Ask Elspet to scent you", ">hume__mellor_cell", "Talk to Agnes", "Ask Agnes about the dark watch", "Offer to sit the dark watch", "Ask Agnes whether she will go", "^Take your leave"],
+ "the light": ["=21:30", ">hume__capped_gallery", "=day 2 00:50", "Pack › A torch › Light", "=day 2 01:20"],
+ "after": ["=day 2 04:30", ">hume__mothers_chamber", "Talk to Linnet", "Ask Linnet to let Agnes", "Tell Linnet about the dark watch", "^Take your leave"]
+}
