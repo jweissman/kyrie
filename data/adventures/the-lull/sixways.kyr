@@ -16,6 +16,8 @@ Module lull "The Lull" {
   Place hangers "the Hangers" is wilderness within lull_country at 1, 1.
   Place swallow "the Swallow" is wilderness within lull_country at 2, 3.
 
+  Initially Assert terrain(lull_country, forest).
+  Initially Assert landform(tarn, land_lake). Initially Assert landform(hangers, land_wood).
   Place waiting_woman "the Waiting Woman" is building within sixways.
   Place coll_house "Ruth Coll's" is building within sixways.
   Place haskett_house "Haskett's" is building within sixways.
