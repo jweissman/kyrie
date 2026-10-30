@@ -22,6 +22,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // comes where the company is, said as it comes, before it warns (Arrives).
   Relation warning(group, entity). Relation onslaught(group, entity). Relation flinch(group, entity).
   Relation arrival(group, entity).
+  // What gives away one that lies in wait, to a company on the way in (see temper_betrayed), and whom it has.
+  Relation sign(group, entity). Relation betrayed(group, group).
   // How it gives ground when it is warned off and has somewhere to go.
   Relation withdraw(group, entity). Relation warnedOff(group, group).
   Relation plea(group, entity). Relation greeting(group, entity).
@@ -39,6 +41,7 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_savage_onslaught: fact "{?g} comes at you without a sound.".
   Entity temper_words_ambush_warning: fact "Something is waiting here, and you see it before it moves: {?g}.".
   Entity temper_words_ambush_onslaught: fact "{?g} springs out at you.".
+  Entity temper_words_ambush_sign: fact "Something is lying in wait in {?p}: on the way in the ground is scuffed where something has lain a long while, and nothing there makes a sound.".
   Entity temper_words_obedient_onslaught: fact "{?g} comes at you, as it was made to.".
   Entity temper_words_seizing_warning: fact "{?g} will not have you here. Go, or be taken.".
   Entity temper_words_seizing_onslaught: fact "{?g} takes hold of you, and there is no fighting it.".
@@ -126,6 +129,14 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Rule temper_falls_on when temperament(?g, temper_savage) and company(?c) and confronts(?g, ?c) and onslaught(?g, ?o)
     says "{?o}" {
     Assert assails(?g, ?c).
+  }
+  // One that lies in wait gives itself away to a company next door, on a way it can see, before it springs: told once,
+  // in its kind's words or its own (the novice covenant: GTR-25's "an ambusher's first page is its blow"). Going on in
+  // is the company's choice, and it springs as before on one without keen eyes.
+  Rule temper_betrayed when temperament(?g, temper_ambush) and company(?c) and able(?g) and not routed(?g)
+    and at(?g, ?p) and at(?c, ?q) and connects(?w, ?q, ?p) and visibleTo(?w, ?c) and not tolerates(?g, ?c)
+    and not betrayed(?g, ?c) and sign(?g, ?s) says "{?s}" {
+    Assert betrayed(?g, ?c).
   }
   Rule temper_springs when temperament(?g, temper_ambush) and company(?c) and confronts(?g, ?c)
     and not capable(?c, perception) and not warned(?g, ?c)

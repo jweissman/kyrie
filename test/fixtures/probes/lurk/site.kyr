@@ -1,0 +1,13 @@
+Module lurk "A spider in the dark" {
+  Place cave "the cave" is wilderness.
+  Place bank "the bank below the cave" is room within cave at 0, 0 outdoors.
+  Place mouth "the cave mouth" is room within cave at 1, 0.
+  Place gallery "the low gallery" is room within cave at 2, 0.
+  Passage climb "the climb to the mouth" is path between bank and mouth taking 10 minutes.
+  Passage crawl "the crawl" is path between mouth and gallery taking 10 minutes.
+  Company party "You" of 1 at bank.
+  Person spider "the cave spider" at gallery {
+    Role "a spider as big as a dog". Species cave_spider.
+  }
+  Goal false.
+}

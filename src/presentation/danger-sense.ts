@@ -7,10 +7,13 @@ import { Effects } from '../effects';
 import { Environment } from '../campaign/environment';
 import type { Campaign } from '../campaign/campaign';
 import type { Creature } from '../creature';
-import type { CombatEvent } from '../model';
+import type { CombatEvent, Fighter, Moment } from '../model';
 
 export type Danger = 'slight' | 'fair' | 'hard' | 'grave' | 'deadly';
 export interface Reckoning { danger: Danger; text: string }
+
+// Where a fight is fought, and, for one already joined, how it opened.
+type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment };
 
 // How a fight with a group would likely go, as the company reckons it before it starts: the fight played out a few
 // times from where everyone stands now, both sides fighting as the game's own tactics would. It decides nothing; it
@@ -27,20 +30,34 @@ export class DangerSense {
     const read = campaign.readout;
     const foes = this.standing(campaign, read.inhabitants[group] ?? []), ours = this.standing(campaign, read.partyIds);
     if (!foes.length || !ours.length) { return undefined; }
+    // What each has in hand is part of it: a sword bought since is a different fight.
     const key = JSON.stringify([group, ...[...ours, ...foes].map(c => [c.id, c.state.hp, c.state.mana, c.base.level,
-      c.state.conditions.map(s => s.id)])]);
+      c.state.conditions.map(s => s.id), (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition)])]);
     return this.kept(key, () => this.judge(this.play(ours, foes, key,
       Environment.encounter(campaign.world, campaign.playerActor)), ours, foes));
   }
   // A fight already joined, as it would go from where everyone stands: what the company reckons in the moment before
   // one that came at it closes, and backs away from if it is beyond it (PT-10). The place's laws are held by the
-  // fighters already.
+  // fighters already. Each is built back with what they came in with: built from the fight alone, they had left
+  // their packs and arms behind, and a warrior who won such a fight four times in four was told, fighting it again
+  // with fists, "They are more than you can take" (the novice viability measure, 2026-10-30). And it is fought as it
+  // opens: seen as it began, the company strikes first.
   static of(battle: Battle): Reckoning {
+    const { ours, foes } = this.fighters(battle), standing = battle.state.combatants.filter(f => f.hp > 0);
+    const moment = battle.opening;
+    const key = JSON.stringify(['joined', moment ?? '', ...standing.map(f => [f.id, f.hp, f.mana, f.level,
+      f.statuses.map(s => s.id), f.equipment.weapon.name, f.equipment.armorAc])]);
+    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [], ...moment ? { moment } : {} }),
+      ours, foes));
+  }
+  // Those still standing in a fight, each side, as the creatures they came into it as, less what they have spent.
+  static fighters(battle: Battle): { ours: Creature[]; foes: Creature[] } {
     const standing = battle.state.combatants.filter(f => f.hp > 0);
-    const ours = standing.filter(f => f.team === 'fighters').map(f => CombatProjection.creature(f));
-    const foes = standing.filter(f => f.team !== 'fighters').map(f => CombatProjection.creature(f));
-    const key = JSON.stringify(['joined', ...standing.map(f => [f.id, f.hp, f.mana, f.level, f.statuses.map(s => s.id)])]);
-    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [] }), ours, foes));
+    return { ours: standing.filter(f => f.team === 'fighters').map(f => this.back(battle, f)),
+      foes: standing.filter(f => f.team !== 'fighters').map(f => this.back(battle, f)) };
+  }
+  private static back(battle: Battle, f: Fighter): Creature {
+    return CombatProjection.creature(f, battle.original(f.id));
   }
   private static kept(key: string, reckon: () => Reckoning): Reckoning {
     let reckoning = this.reckoned.get(key);
@@ -57,8 +74,7 @@ export class DangerSense {
   }
   // The fight played out: how often the company wins, and in a win, how many of it fall, how hurt it is, and who fell
   // most often.
-  private static play(ours: Creature[], foes: Creature[], key: string,
-    place: ReturnType<typeof Environment.encounter>): Fight {
+  private static play(ours: Creature[], foes: Creature[], key: string, place: Place): Fight {
     const played: Trial[] = [];
     for (let trial = 0; trial < this.trials; trial++) {
       played.push(this.trial(ours, foes, `${key}:${trial}`, place));
@@ -104,8 +120,7 @@ export class DangerSense {
     return { held: [...laid].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'held' };
   }
   // One fight played out: whether the company won it, who of it fell, and how hurt it came out.
-  private static trial(ours: Creature[], foes: Creature[], seed: string,
-    place: ReturnType<typeof Environment.encounter>): Trial {
+  private static trial(ours: Creature[], foes: Creature[], seed: string, place: Place): Trial {
     const store = new CreatureStore(structuredClone([...ours, ...foes]));
     const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: 150, ...place });

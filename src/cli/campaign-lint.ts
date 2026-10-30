@@ -8,6 +8,7 @@ import { parseAbility } from '../lang/parse';
 import type { Entity, Module, Predicate } from '../lang/module';
 import type { World } from '../lang/world';
 import type { Finding } from './kyr-lint';
+import { CommitmentLint } from './commitment-lint';
 
 // One campaign's findings, gathered by named checks over its loaded world.
 export class CampaignLint {
@@ -296,6 +297,14 @@ export class CampaignLint {
         this.add('advice', 'role', `${e.id} is "${e.name.split(', ').slice(1).join(', ')}" wherever they are, and ${by}`
           + ` moves them: say where it is true (Role "…" when at(${e.id}, …))`);
       }
+    }
+  }
+  // An action that puts the company where nothing leads back out of, and says nothing of it first (CommitmentLint).
+  commitments() {
+    const connects = this.relations('connects').map(r => r.args);
+    for (const c of CommitmentLint.unmarked(this.module, connects, this.session.campaign.playerActor)) {
+      this.add('warning', 'commitment', `${c.action} puts the company in ${c.place}, and nothing leads out of it: say so`
+        + ' before it is chosen (Grave "…")');
     }
   }
   prose() {

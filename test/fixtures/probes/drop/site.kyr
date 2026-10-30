@@ -1,0 +1,26 @@
+Module drop "Two holes in a floor" {
+  Place crypt "the crypt" is site.
+  Place floor "the crypt floor" is room within crypt at 0, 0.
+  Place hall "the hall below" is room within crypt at 0, 1.
+  Place shaft "the bottom of the shaft" is room within crypt at 1, 1.
+  Place well "the bottom of the well" is room within crypt at 2, 1.
+  Passage stair "the stair" is stair between floor and hall.
+  Company party "You" of 1 at floor.
+  // Down into the hall by the hole: the stair comes back up.
+  Action drop_hall(actor: group) "Drop through the hole into the hall" {
+    Requires able(actor) and at(actor, floor).
+    On success { Retract at(actor, floor). Assert at(actor, hall). }
+  }
+  // Down the shaft: nothing comes back up, and nothing says so.
+  Action drop_shaft(actor: group) "Drop down the shaft" {
+    Requires able(actor) and at(actor, floor).
+    On success { Retract at(actor, floor). Assert at(actor, shaft). }
+  }
+  // Down the well: nothing comes back up, and it says so first.
+  Action drop_well(actor: group) "Drop down the well" {
+    Grave "The well's sides are sheer and wet; there is no climbing back up them.".
+    Requires able(actor) and at(actor, floor).
+    On success { Retract at(actor, floor). Assert at(actor, well). }
+  }
+  Goal false.
+}

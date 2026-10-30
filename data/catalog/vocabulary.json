@@ -110,7 +110,7 @@
     "person": 30
   },
   "combat": {
-    "about": "The numbers and ids the rules of a fight turn on, kept here rather than in the engine's code (the architecture review's A23): Orsino's death save and system shock, the save against what a kind of damage brings and how many turns that lasts, how many a summoner holds, the chance to get away on each try (sure after the last), a bare hand, and the conditions and procedures the rules name.",
+    "about": "The numbers and ids the rules of a fight turn on, kept here rather than in the engine's code (the architecture review's A23): Orsino's death save and system shock, the save against what a kind of damage brings and how many turns that lasts, how many a summoner holds, the chance to get away on each try (sure after the last), the turns a technique of Orsino's rests after use when it names none (its Combat.ts: action.cooldown || 3) and the moves every fighter has that rest not at all (a weapon's blow, waiting and getting away, which Orsino offers every turn), a bare hand, and the conditions and procedures the rules name.",
     "deathSave": 25,
     "triggerSave": 15,
     "triggerTurns": 3,
@@ -129,6 +129,15 @@
       }
     ],
     "systemShock": 10,
+    "recharge": {
+      "technique": 3,
+      "free": [
+        "melee",
+        "ranged",
+        "wait",
+        "flee"
+      ]
+    },
     "fist": {
       "id": "fist",
       "name": "Fist",

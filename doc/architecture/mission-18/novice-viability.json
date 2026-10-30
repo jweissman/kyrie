@@ -1,0 +1,3881 @@
+{
+ "spec": {
+  "seeds": [
+   "s1",
+   "s2",
+   "s3",
+   "s4",
+   "s5",
+   "s6",
+   "s7",
+   "s8"
+  ],
+  "origin": "debt",
+  "callings": [
+   "warrior",
+   "mage",
+   "thief",
+   "cleric",
+   "bard",
+   "ranger",
+   "monk"
+  ],
+  "trials": 10,
+  "maxTurns": 150,
+  "title": "the first baseline (techniques free every turn)"
+ },
+ "summary": [
+  {
+   "calling": "warrior",
+   "company": "alone",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 3,
+   "stand": 0.5,
+   "standDied": 0.485,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.313,
+   "declined": 0.463,
+   "escaped": 0.196,
+   "died": 0.028,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.028,
+   "tried": 137,
+   "flight": 0.956,
+   "attempts": 0.72
+  },
+  {
+   "calling": "warrior",
+   "company": "hired",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 1,
+   "stand": 1,
+   "standDied": 0.249,
+   "spread": [
+    0.2,
+    1
+   ],
+   "won": 0.543,
+   "declined": 0.209,
+   "escaped": 0.213,
+   "died": 0.034,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.048,
+   "tried": 149,
+   "flight": 0.96,
+   "attempts": 0.671
+  },
+  {
+   "calling": "mage",
+   "company": "alone",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 1,
+   "stand": 0,
+   "standDied": 0.966,
+   "spread": [
+    0,
+    0.1
+   ],
+   "won": 0,
+   "declined": 0.806,
+   "escaped": 0.164,
+   "died": 0.03,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.03,
+   "tried": 110,
+   "flight": 1,
+   "attempts": 1
+  },
+  {
+   "calling": "mage",
+   "company": "hired",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 0,
+   "stand": 0.4,
+   "standDied": 0.584,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.112,
+   "declined": 0.537,
+   "escaped": 0.324,
+   "died": 0.027,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.161,
+   "tried": 218,
+   "flight": 0.995,
+   "attempts": 0.7
+  },
+  {
+   "calling": "thief",
+   "company": "alone",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 0,
+   "stand": 0,
+   "standDied": 0.907,
+   "spread": [
+    0,
+    0.1
+   ],
+   "won": 0.016,
+   "declined": 0.746,
+   "escaped": 0.197,
+   "died": 0.04,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.04,
+   "tried": 134,
+   "flight": 0.985,
+   "attempts": 0.917
+  },
+  {
+   "calling": "thief",
+   "company": "hired",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 1,
+   "stand": 0.5,
+   "standDied": 0.521,
+   "spread": [
+    0,
+    0.9
+   ],
+   "won": 0.191,
+   "declined": 0.507,
+   "escaped": 0.251,
+   "died": 0.051,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.122,
+   "tried": 179,
+   "flight": 0.939,
+   "attempts": 0.675
+  },
+  {
+   "calling": "cleric",
+   "company": "alone",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 4,
+   "stand": 0.2,
+   "standDied": 0.637,
+   "spread": [
+    0,
+    0.75
+   ],
+   "won": 0.157,
+   "declined": 0.552,
+   "escaped": 0.233,
+   "died": 0.058,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.058,
+   "tried": 168,
+   "flight": 0.929,
+   "attempts": 0.776
+  },
+  {
+   "calling": "cleric",
+   "company": "hired",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 2,
+   "stand": 0.9,
+   "standDied": 0.294,
+   "spread": [
+    0.1,
+    1
+   ],
+   "won": 0.473,
+   "declined": 0.194,
+   "escaped": 0.296,
+   "died": 0.037,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.099,
+   "tried": 208,
+   "flight": 0.952,
+   "attempts": 0.676
+  },
+  {
+   "calling": "bard",
+   "company": "alone",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 0,
+   "stand": 0,
+   "standDied": 0.903,
+   "spread": [
+    0,
+    0.25
+   ],
+   "won": 0.019,
+   "declined": 0.746,
+   "escaped": 0.191,
+   "died": 0.043,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.043,
+   "tried": 131,
+   "flight": 0.977,
+   "attempts": 0.928
+  },
+  {
+   "calling": "bard",
+   "company": "hired",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 2,
+   "stand": 0.5,
+   "standDied": 0.5,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.213,
+   "declined": 0.433,
+   "escaped": 0.307,
+   "died": 0.046,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.137,
+   "tried": 217,
+   "flight": 0.949,
+   "attempts": 0.684
+  },
+  {
+   "calling": "ranger",
+   "company": "alone",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 3,
+   "stand": 0,
+   "standDied": 0.773,
+   "spread": [
+    0,
+    0.9
+   ],
+   "won": 0.093,
+   "declined": 0.642,
+   "escaped": 0.231,
+   "died": 0.034,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.034,
+   "tried": 158,
+   "flight": 0.981,
+   "attempts": 0.833
+  },
+  {
+   "calling": "ranger",
+   "company": "hired",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 2,
+   "stand": 0.6,
+   "standDied": 0.425,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.342,
+   "declined": 0.343,
+   "escaped": 0.279,
+   "died": 0.036,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.07,
+   "tried": 192,
+   "flight": 0.974,
+   "attempts": 0.698
+  },
+  {
+   "calling": "monk",
+   "company": "alone",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 4,
+   "stand": 0.1,
+   "standDied": 0.748,
+   "spread": [
+    0,
+    0.55
+   ],
+   "won": 0.049,
+   "declined": 0.701,
+   "escaped": 0.191,
+   "died": 0.058,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.058,
+   "tried": 139,
+   "flight": 0.921,
+   "attempts": 0.766
+  },
+  {
+   "calling": "monk",
+   "company": "hired",
+   "scope": "first",
+   "bands": 67,
+   "atOnce": 13,
+   "sprung": 2,
+   "warns": 35,
+   "unwarned": 0.194,
+   "misread": 2,
+   "stand": 0.7,
+   "standDied": 0.397,
+   "spread": [
+    0.1,
+    1
+   ],
+   "won": 0.358,
+   "declined": 0.313,
+   "escaped": 0.267,
+   "died": 0.061,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.11,
+   "tried": 195,
+   "flight": 0.918,
+   "attempts": 0.678
+  },
+  {
+   "calling": "warrior",
+   "company": "alone",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 2,
+   "stand": 0.75,
+   "standDied": 0.325,
+   "spread": [
+    0.1,
+    1
+   ],
+   "won": 0.42,
+   "declined": 0.3,
+   "escaped": 0.26,
+   "died": 0.02,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.02,
+   "tried": 55,
+   "flight": 0.945,
+   "attempts": 0.765
+  },
+  {
+   "calling": "warrior",
+   "company": "hired",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 1,
+   "stand": 1,
+   "standDied": 0.085,
+   "spread": [
+    0.9,
+    1
+   ],
+   "won": 0.695,
+   "declined": 0.05,
+   "escaped": 0.21,
+   "died": 0.045,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.08,
+   "tried": 43,
+   "flight": 0.977,
+   "attempts": 0.677
+  },
+  {
+   "calling": "mage",
+   "company": "alone",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 0,
+   "stand": 0,
+   "standDied": 0.935,
+   "spread": [
+    0,
+    0.4
+   ],
+   "won": 0,
+   "declined": 0.9,
+   "escaped": 0.1,
+   "died": 0,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0,
+   "tried": 20,
+   "flight": 1,
+   "attempts": 1
+  },
+  {
+   "calling": "mage",
+   "company": "hired",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 0,
+   "stand": 0.5,
+   "standDied": 0.445,
+   "spread": [
+    0.3,
+    1
+   ],
+   "won": 0.17,
+   "declined": 0.45,
+   "escaped": 0.365,
+   "died": 0.015,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.18,
+   "tried": 73,
+   "flight": 1,
+   "attempts": 0.689
+  },
+  {
+   "calling": "thief",
+   "company": "alone",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 0,
+   "stand": 0.05,
+   "standDied": 0.76,
+   "spread": [
+    0,
+    0.7
+   ],
+   "won": 0.055,
+   "declined": 0.7,
+   "escaped": 0.21,
+   "died": 0.035,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.035,
+   "tried": 44,
+   "flight": 0.955,
+   "attempts": 0.778
+  },
+  {
+   "calling": "thief",
+   "company": "hired",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 0,
+   "stand": 0.7,
+   "standDied": 0.35,
+   "spread": [
+    0.4,
+    1
+   ],
+   "won": 0.325,
+   "declined": 0.3,
+   "escaped": 0.35,
+   "died": 0.025,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.125,
+   "tried": 73,
+   "flight": 0.959,
+   "attempts": 0.66
+  },
+  {
+   "calling": "cleric",
+   "company": "alone",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 0,
+   "stand": 0.65,
+   "standDied": 0.46,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.315,
+   "declined": 0.35,
+   "escaped": 0.275,
+   "died": 0.06,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.06,
+   "tried": 63,
+   "flight": 0.873,
+   "attempts": 0.696
+  },
+  {
+   "calling": "cleric",
+   "company": "hired",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 2,
+   "stand": 1,
+   "standDied": 0.15,
+   "spread": [
+    0.6,
+    1
+   ],
+   "won": 0.615,
+   "declined": 0.05,
+   "escaped": 0.305,
+   "died": 0.03,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.11,
+   "tried": 66,
+   "flight": 0.924,
+   "attempts": 0.67
+  },
+  {
+   "calling": "bard",
+   "company": "alone",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 0,
+   "stand": 0.1,
+   "standDied": 0.775,
+   "spread": [
+    0,
+    0.6
+   ],
+   "won": 0.065,
+   "declined": 0.7,
+   "escaped": 0.185,
+   "died": 0.05,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.05,
+   "tried": 40,
+   "flight": 0.925,
+   "attempts": 0.787
+  },
+  {
+   "calling": "bard",
+   "company": "hired",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 0,
+   "stand": 0.7,
+   "standDied": 0.37,
+   "spread": [
+    0.4,
+    1
+   ],
+   "won": 0.35,
+   "declined": 0.3,
+   "escaped": 0.305,
+   "died": 0.045,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.12,
+   "tried": 67,
+   "flight": 0.91,
+   "attempts": 0.642
+  },
+  {
+   "calling": "ranger",
+   "company": "alone",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 1,
+   "stand": 0.6,
+   "standDied": 0.53,
+   "spread": [
+    0,
+    0.9
+   ],
+   "won": 0.25,
+   "declined": 0.45,
+   "escaped": 0.275,
+   "died": 0.025,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.025,
+   "tried": 58,
+   "flight": 0.948,
+   "attempts": 0.688
+  },
+  {
+   "calling": "ranger",
+   "company": "hired",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 1,
+   "stand": 0.9,
+   "standDied": 0.245,
+   "spread": [
+    0.6,
+    1
+   ],
+   "won": 0.565,
+   "declined": 0.1,
+   "escaped": 0.295,
+   "died": 0.04,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.085,
+   "tried": 62,
+   "flight": 0.952,
+   "attempts": 0.694
+  },
+  {
+   "calling": "monk",
+   "company": "alone",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 0,
+   "stand": 0.15,
+   "standDied": 0.765,
+   "spread": [
+    0,
+    0.5
+   ],
+   "won": 0.03,
+   "declined": 0.8,
+   "escaped": 0.13,
+   "died": 0.04,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.04,
+   "tried": 32,
+   "flight": 0.813,
+   "attempts": 0.722
+  },
+  {
+   "calling": "monk",
+   "company": "hired",
+   "scope": "near",
+   "bands": 20,
+   "atOnce": 2,
+   "sprung": 0,
+   "warns": 6,
+   "unwarned": 0.1,
+   "misread": 2,
+   "stand": 0.85,
+   "standDied": 0.27,
+   "spread": [
+    0.4,
+    1
+   ],
+   "won": 0.355,
+   "declined": 0.2,
+   "escaped": 0.39,
+   "died": 0.055,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.14,
+   "tried": 83,
+   "flight": 0.94,
+   "attempts": 0.672
+  },
+  {
+   "calling": "warrior",
+   "company": "alone",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.5,
+   "standDied": 0.479,
+   "spread": [
+    0.1,
+    0.95
+   ],
+   "won": 0.282,
+   "declined": 0.526,
+   "escaped": 0.173,
+   "died": 0.019,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.019,
+   "tried": 146,
+   "flight": 0.925,
+   "attempts": 0.649
+  },
+  {
+   "calling": "warrior",
+   "company": "hired",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.9,
+   "standDied": 0.283,
+   "spread": [
+    0.35,
+    1
+   ],
+   "won": 0.509,
+   "declined": 0.308,
+   "escaped": 0.171,
+   "died": 0.013,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.028,
+   "tried": 137,
+   "flight": 0.971,
+   "attempts": 0.621
+  },
+  {
+   "calling": "mage",
+   "company": "alone",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0,
+   "standDied": 0.929,
+   "spread": [
+    0,
+    0
+   ],
+   "won": 0.008,
+   "declined": 0.974,
+   "escaped": 0.006,
+   "died": 0.012,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.012,
+   "tried": 7,
+   "flight": 0.714,
+   "attempts": 0.625
+  },
+  {
+   "calling": "mage",
+   "company": "hired",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.3,
+   "standDied": 0.604,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.169,
+   "declined": 0.628,
+   "escaped": 0.188,
+   "died": 0.014,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.142,
+   "tried": 157,
+   "flight": 0.936,
+   "attempts": 0.586
+  },
+  {
+   "calling": "thief",
+   "company": "alone",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0,
+   "standDied": 0.885,
+   "spread": [
+    0,
+    0.2
+   ],
+   "won": 0.044,
+   "declined": 0.91,
+   "escaped": 0.036,
+   "died": 0.01,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.01,
+   "tried": 32,
+   "flight": 0.875,
+   "attempts": 0.596
+  },
+  {
+   "calling": "thief",
+   "company": "hired",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.3,
+   "standDied": 0.573,
+   "spread": [
+    0.05,
+    1
+   ],
+   "won": 0.218,
+   "declined": 0.603,
+   "escaped": 0.172,
+   "died": 0.008,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.068,
+   "tried": 141,
+   "flight": 0.95,
+   "attempts": 0.601
+  },
+  {
+   "calling": "cleric",
+   "company": "alone",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.15,
+   "standDied": 0.629,
+   "spread": [
+    0,
+    0.95
+   ],
+   "won": 0.229,
+   "declined": 0.615,
+   "escaped": 0.096,
+   "died": 0.059,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.059,
+   "tried": 95,
+   "flight": 0.789,
+   "attempts": 0.56
+  },
+  {
+   "calling": "cleric",
+   "company": "hired",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.9,
+   "standDied": 0.35,
+   "spread": [
+    0.05,
+    1
+   ],
+   "won": 0.447,
+   "declined": 0.346,
+   "escaped": 0.177,
+   "died": 0.029,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.072,
+   "tried": 152,
+   "flight": 0.908,
+   "attempts": 0.624
+  },
+  {
+   "calling": "bard",
+   "company": "alone",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0,
+   "standDied": 0.865,
+   "spread": [
+    0,
+    0.4
+   ],
+   "won": 0.062,
+   "declined": 0.872,
+   "escaped": 0.054,
+   "died": 0.013,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.013,
+   "tried": 48,
+   "flight": 0.875,
+   "attempts": 0.568
+  },
+  {
+   "calling": "bard",
+   "company": "hired",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.3,
+   "standDied": 0.567,
+   "spread": [
+    0.05,
+    0.95
+   ],
+   "won": 0.226,
+   "declined": 0.615,
+   "escaped": 0.142,
+   "died": 0.017,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.074,
+   "tried": 120,
+   "flight": 0.925,
+   "attempts": 0.594
+  },
+  {
+   "calling": "ranger",
+   "company": "alone",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0,
+   "standDied": 0.771,
+   "spread": [
+    0,
+    0.4
+   ],
+   "won": 0.113,
+   "declined": 0.808,
+   "escaped": 0.071,
+   "died": 0.009,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.009,
+   "tried": 62,
+   "flight": 0.887,
+   "attempts": 0.567
+  },
+  {
+   "calling": "ranger",
+   "company": "hired",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.55,
+   "standDied": 0.485,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.337,
+   "declined": 0.5,
+   "escaped": 0.146,
+   "died": 0.017,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.04,
+   "tried": 122,
+   "flight": 0.934,
+   "attempts": 0.633
+  },
+  {
+   "calling": "monk",
+   "company": "alone",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.1,
+   "standDied": 0.758,
+   "spread": [
+    0,
+    0.4
+   ],
+   "won": 0.121,
+   "declined": 0.795,
+   "escaped": 0.071,
+   "died": 0.014,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.014,
+   "tried": 63,
+   "flight": 0.873,
+   "attempts": 0.611
+  },
+  {
+   "calling": "monk",
+   "company": "hired",
+   "scope": "placed",
+   "bands": 78,
+   "atOnce": 0,
+   "sprung": 0,
+   "warns": 0,
+   "unwarned": 0,
+   "misread": 0,
+   "stand": 0.6,
+   "standDied": 0.468,
+   "spread": [
+    0.1,
+    1
+   ],
+   "won": 0.319,
+   "declined": 0.487,
+   "escaped": 0.158,
+   "died": 0.036,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.073,
+   "tried": 136,
+   "flight": 0.904,
+   "attempts": 0.624
+  },
+  {
+   "calling": "warrior",
+   "company": "alone",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 43,
+   "sprung": 8,
+   "warns": 66,
+   "unwarned": 0.199,
+   "misread": 14,
+   "stand": 0.6,
+   "standDied": 0.464,
+   "spread": [
+    0.1,
+    1
+   ],
+   "won": 0.284,
+   "declined": 0.44,
+   "escaped": 0.25,
+   "died": 0.026,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.026,
+   "tried": 561,
+   "flight": 0.961,
+   "attempts": 0.747
+  },
+  {
+   "calling": "warrior",
+   "company": "hired",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 42,
+   "sprung": 7,
+   "warns": 67,
+   "unwarned": 0.194,
+   "misread": 8,
+   "stand": 1,
+   "standDied": 0.273,
+   "spread": [
+    0.3,
+    1
+   ],
+   "won": 0.488,
+   "declined": 0.269,
+   "escaped": 0.227,
+   "died": 0.017,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.03,
+   "tried": 503,
+   "flight": 0.974,
+   "attempts": 0.693
+  },
+  {
+   "calling": "mage",
+   "company": "alone",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 42,
+   "sprung": 7,
+   "warns": 67,
+   "unwarned": 0.194,
+   "misread": 1,
+   "stand": 0,
+   "standDied": 0.952,
+   "spread": [
+    0,
+    0
+   ],
+   "won": 0.003,
+   "declined": 0.796,
+   "escaped": 0.174,
+   "died": 0.027,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.027,
+   "tried": 378,
+   "flight": 0.995,
+   "attempts": 0.992
+  },
+  {
+   "calling": "mage",
+   "company": "hired",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 41,
+   "sprung": 6,
+   "warns": 68,
+   "unwarned": 0.19,
+   "misread": 4,
+   "stand": 0.3,
+   "standDied": 0.62,
+   "spread": [
+    0,
+    0.85
+   ],
+   "won": 0.117,
+   "declined": 0.537,
+   "escaped": 0.327,
+   "died": 0.019,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.139,
+   "tried": 725,
+   "flight": 0.975,
+   "attempts": 0.738
+  },
+  {
+   "calling": "thief",
+   "company": "alone",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 43,
+   "sprung": 8,
+   "warns": 66,
+   "unwarned": 0.199,
+   "misread": 3,
+   "stand": 0,
+   "standDied": 0.894,
+   "spread": [
+    0,
+    0
+   ],
+   "won": 0.025,
+   "declined": 0.741,
+   "escaped": 0.209,
+   "died": 0.026,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.026,
+   "tried": 462,
+   "flight": 0.976,
+   "attempts": 0.909
+  },
+  {
+   "calling": "thief",
+   "company": "hired",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 42,
+   "sprung": 7,
+   "warns": 67,
+   "unwarned": 0.194,
+   "misread": 7,
+   "stand": 0.4,
+   "standDied": 0.569,
+   "spread": [
+    0,
+    0.9
+   ],
+   "won": 0.188,
+   "declined": 0.5,
+   "escaped": 0.288,
+   "died": 0.023,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.093,
+   "tried": 645,
+   "flight": 0.966,
+   "attempts": 0.723
+  },
+  {
+   "calling": "cleric",
+   "company": "alone",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 42,
+   "sprung": 7,
+   "warns": 67,
+   "unwarned": 0.194,
+   "misread": 10,
+   "stand": 0.2,
+   "standDied": 0.652,
+   "spread": [
+    0,
+    0.9
+   ],
+   "won": 0.172,
+   "declined": 0.546,
+   "escaped": 0.23,
+   "died": 0.052,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.052,
+   "tried": 534,
+   "flight": 0.929,
+   "attempts": 0.794
+  },
+  {
+   "calling": "cleric",
+   "company": "hired",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 41,
+   "sprung": 6,
+   "warns": 68,
+   "unwarned": 0.19,
+   "misread": 5,
+   "stand": 0.9,
+   "standDied": 0.362,
+   "spread": [
+    0.1,
+    1
+   ],
+   "won": 0.412,
+   "declined": 0.301,
+   "escaped": 0.263,
+   "died": 0.024,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.069,
+   "tried": 595,
+   "flight": 0.956,
+   "attempts": 0.7
+  },
+  {
+   "calling": "bard",
+   "company": "alone",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 42,
+   "sprung": 7,
+   "warns": 67,
+   "unwarned": 0.194,
+   "misread": 3,
+   "stand": 0,
+   "standDied": 0.884,
+   "spread": [
+    0,
+    0.3
+   ],
+   "won": 0.031,
+   "declined": 0.731,
+   "escaped": 0.205,
+   "died": 0.032,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.032,
+   "tried": 452,
+   "flight": 0.978,
+   "attempts": 0.906
+  },
+  {
+   "calling": "bard",
+   "company": "hired",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 41,
+   "sprung": 6,
+   "warns": 68,
+   "unwarned": 0.19,
+   "misread": 10,
+   "stand": 0.4,
+   "standDied": 0.539,
+   "spread": [
+    0,
+    0.95
+   ],
+   "won": 0.198,
+   "declined": 0.481,
+   "escaped": 0.295,
+   "died": 0.025,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.095,
+   "tried": 662,
+   "flight": 0.962,
+   "attempts": 0.731
+  },
+  {
+   "calling": "ranger",
+   "company": "alone",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 42,
+   "sprung": 7,
+   "warns": 67,
+   "unwarned": 0.194,
+   "misread": 10,
+   "stand": 0,
+   "standDied": 0.772,
+   "spread": [
+    0,
+    0.4
+   ],
+   "won": 0.09,
+   "declined": 0.662,
+   "escaped": 0.223,
+   "died": 0.025,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.025,
+   "tried": 492,
+   "flight": 0.98,
+   "attempts": 0.859
+  },
+  {
+   "calling": "ranger",
+   "company": "hired",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 41,
+   "sprung": 6,
+   "warns": 68,
+   "unwarned": 0.19,
+   "misread": 7,
+   "stand": 0.6,
+   "standDied": 0.468,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.321,
+   "declined": 0.403,
+   "escaped": 0.257,
+   "died": 0.019,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.05,
+   "tried": 571,
+   "flight": 0.974,
+   "attempts": 0.716
+  },
+  {
+   "calling": "monk",
+   "company": "alone",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 42,
+   "sprung": 7,
+   "warns": 67,
+   "unwarned": 0.194,
+   "misread": 7,
+   "stand": 0.1,
+   "standDied": 0.759,
+   "spread": [
+    0,
+    0.5
+   ],
+   "won": 0.083,
+   "declined": 0.667,
+   "escaped": 0.208,
+   "died": 0.042,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.042,
+   "tried": 479,
+   "flight": 0.939,
+   "attempts": 0.799
+  },
+  {
+   "calling": "monk",
+   "company": "hired",
+   "scope": "country",
+   "bands": 216,
+   "atOnce": 41,
+   "sprung": 6,
+   "warns": 68,
+   "unwarned": 0.19,
+   "misread": 5,
+   "stand": 0.7,
+   "standDied": 0.448,
+   "spread": [
+    0.1,
+    1
+   ],
+   "won": 0.313,
+   "declined": 0.384,
+   "escaped": 0.266,
+   "died": 0.037,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.082,
+   "tried": 610,
+   "flight": 0.941,
+   "attempts": 0.703
+  },
+  {
+   "calling": "warrior",
+   "company": "alone",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 6,
+   "stand": 0.5,
+   "standDied": 0.492,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.296,
+   "declined": 0.438,
+   "escaped": 0.235,
+   "died": 0.031,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.031,
+   "tried": 215,
+   "flight": 0.972,
+   "attempts": 0.766
+  },
+  {
+   "calling": "warrior",
+   "company": "hired",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 4,
+   "stand": 1,
+   "standDied": 0.287,
+   "spread": [
+    0.2,
+    1
+   ],
+   "won": 0.483,
+   "declined": 0.247,
+   "escaped": 0.243,
+   "died": 0.027,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.036,
+   "tried": 223,
+   "flight": 0.969,
+   "attempts": 0.72
+  },
+  {
+   "calling": "mage",
+   "company": "alone",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 1,
+   "stand": 0,
+   "standDied": 0.965,
+   "spread": [
+    0,
+    0.1
+   ],
+   "won": 0,
+   "declined": 0.775,
+   "escaped": 0.185,
+   "died": 0.039,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.039,
+   "tried": 165,
+   "flight": 1,
+   "attempts": 1
+  },
+  {
+   "calling": "mage",
+   "company": "hired",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 1,
+   "stand": 0.2,
+   "standDied": 0.626,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.099,
+   "declined": 0.528,
+   "escaped": 0.346,
+   "died": 0.027,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.157,
+   "tried": 311,
+   "flight": 0.99,
+   "attempts": 0.739
+  },
+  {
+   "calling": "thief",
+   "company": "alone",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 1,
+   "stand": 0,
+   "standDied": 0.899,
+   "spread": [
+    0,
+    0.1
+   ],
+   "won": 0.021,
+   "declined": 0.708,
+   "escaped": 0.228,
+   "died": 0.043,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.043,
+   "tried": 209,
+   "flight": 0.971,
+   "attempts": 0.898
+  },
+  {
+   "calling": "thief",
+   "company": "hired",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 3,
+   "stand": 0.4,
+   "standDied": 0.575,
+   "spread": [
+    0,
+    0.9
+   ],
+   "won": 0.173,
+   "declined": 0.506,
+   "escaped": 0.28,
+   "died": 0.042,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.108,
+   "tried": 260,
+   "flight": 0.958,
+   "attempts": 0.737
+  },
+  {
+   "calling": "cleric",
+   "company": "alone",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 6,
+   "stand": 0.2,
+   "standDied": 0.654,
+   "spread": [
+    0,
+    0.75
+   ],
+   "won": 0.147,
+   "declined": 0.562,
+   "escaped": 0.234,
+   "died": 0.057,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.057,
+   "tried": 221,
+   "flight": 0.941,
+   "attempts": 0.813
+  },
+  {
+   "calling": "cleric",
+   "company": "hired",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 2,
+   "stand": 0.9,
+   "standDied": 0.356,
+   "spread": [
+    0.1,
+    1
+   ],
+   "won": 0.412,
+   "declined": 0.27,
+   "escaped": 0.289,
+   "died": 0.029,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.079,
+   "tried": 267,
+   "flight": 0.963,
+   "attempts": 0.71
+  },
+  {
+   "calling": "bard",
+   "company": "alone",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 1,
+   "stand": 0,
+   "standDied": 0.893,
+   "spread": [
+    0,
+    0.25
+   ],
+   "won": 0.018,
+   "declined": 0.719,
+   "escaped": 0.215,
+   "died": 0.048,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.048,
+   "tried": 195,
+   "flight": 0.979,
+   "attempts": 0.936
+  },
+  {
+   "calling": "bard",
+   "company": "hired",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 5,
+   "stand": 0.4,
+   "standDied": 0.542,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.188,
+   "declined": 0.449,
+   "escaped": 0.322,
+   "died": 0.04,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.125,
+   "tried": 299,
+   "flight": 0.96,
+   "attempts": 0.728
+  },
+  {
+   "calling": "ranger",
+   "company": "alone",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 3,
+   "stand": 0,
+   "standDied": 0.79,
+   "spread": [
+    0,
+    0.5
+   ],
+   "won": 0.09,
+   "declined": 0.629,
+   "escaped": 0.246,
+   "died": 0.035,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.035,
+   "tried": 222,
+   "flight": 0.986,
+   "attempts": 0.876
+  },
+  {
+   "calling": "ranger",
+   "company": "hired",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 3,
+   "stand": 0.6,
+   "standDied": 0.47,
+   "spread": [
+    0,
+    1
+   ],
+   "won": 0.308,
+   "declined": 0.382,
+   "escaped": 0.282,
+   "died": 0.028,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.061,
+   "tried": 256,
+   "flight": 0.98,
+   "attempts": 0.725
+  },
+  {
+   "calling": "monk",
+   "company": "alone",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 5,
+   "stand": 0,
+   "standDied": 0.76,
+   "spread": [
+    0,
+    0.55
+   ],
+   "won": 0.055,
+   "declined": 0.663,
+   "escaped": 0.224,
+   "died": 0.058,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.058,
+   "tried": 212,
+   "flight": 0.939,
+   "attempts": 0.799
+  },
+  {
+   "calling": "monk",
+   "company": "hired",
+   "scope": "big",
+   "bands": 89,
+   "atOnce": 20,
+   "sprung": 4,
+   "warns": 44,
+   "unwarned": 0.225,
+   "misread": 2,
+   "stand": 0.7,
+   "standDied": 0.448,
+   "spread": [
+    0.1,
+    1
+   ],
+   "won": 0.317,
+   "declined": 0.348,
+   "escaped": 0.287,
+   "died": 0.048,
+   "taken": 0,
+   "undecided": 0,
+   "fell": 0.107,
+   "tried": 272,
+   "flight": 0.938,
+   "attempts": 0.684
+  }
+ ],
+ "countries": [
+  {
+   "seed": "s1",
+   "start": "region__s1_shop",
+   "town": "region__s1",
+   "firstRuin": {
+    "id": "region__w4_site",
+    "name": "Nocstumul",
+    "minutes": 70,
+    "bands": 1
+   },
+   "bigRuin": {
+    "id": "region__w8_site",
+    "name": "Sanhtustumul",
+    "minutes": 80,
+    "bands": 10
+   },
+   "hire": {
+    "group": "region__s1_traveller",
+    "name": "Orym",
+    "members": [
+     "region__s1_traveller_person"
+    ],
+    "calling": "bard",
+    "fee": 3,
+    "gold": 21
+   },
+   "bands": [
+    {
+     "id": "region__w2_stone",
+     "name": "the stone that moves",
+     "where": "Witrumcol",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 400
+    },
+    {
+     "id": "region__w3_dead",
+     "name": "the barrow-dead",
+     "where": "Umbrawigil",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 490
+    },
+    {
+     "id": "region__w4_dead",
+     "name": "the barrow-dead",
+     "where": "Nocstumul",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 80
+    },
+    {
+     "id": "region__w5_smugglers",
+     "name": "the river-smugglers",
+     "where": "Seolforfyrd",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 520
+    },
+    {
+     "id": "region__w6_wolves",
+     "name": "the wolves",
+     "where": "Ísenheald",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 440
+    },
+    {
+     "id": "region__w7_warden",
+     "name": "the choir's warden",
+     "where": "Altuscarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 360
+    },
+    {
+     "id": "region__w8_barrow_chamber_dwellers",
+     "name": "the bats",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": 100
+    },
+    {
+     "id": "region__w8_barrow_recess_dwellers",
+     "name": "the robbers' captain",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 110
+    },
+    {
+     "id": "region__w8_barrow_recess2_dwellers",
+     "name": "the beetles",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 110
+    },
+    {
+     "id": "region__w8_halls_bone_hall_dwellers",
+     "name": "the bone hounds",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 130
+    },
+    {
+     "id": "region__w8_halls_mourners_dwellers",
+     "name": "the restless dead",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "region__w8_halls_kings_door_dwellers",
+     "name": "the ghouls",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 150
+    },
+    {
+     "id": "region__w8_halls_embalmers_dwellers",
+     "name": "the sacred mourner",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 150
+    },
+    {
+     "id": "region__w8_barrow_newcomers",
+     "name": "the grave-robbers",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_halls_newcomers",
+     "name": "the ghouls",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_keeper",
+     "name": "the king under the mound",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 170
+    },
+    {
+     "id": "brood__brood",
+     "name": "the spider brood",
+     "where": "Silkholme sink",
+     "trouble": "A brood under the hill",
+     "members": 3,
+     "minutes": 630
+    },
+    {
+     "id": "tower__necromancer",
+     "name": "Caelynn Holimion",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 400
+    },
+    {
+     "id": "tower__risen",
+     "name": "the risen dead",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 2,
+     "minutes": 400
+    },
+    {
+     "id": "tower__hound",
+     "name": "the knitted hound",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 400
+    },
+    {
+     "id": "den__beasts",
+     "name": "the spiders",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 2,
+     "minutes": 410
+    },
+    {
+     "id": "raidersFolk__watchers",
+     "name": "the hobs on the gate",
+     "where": "the ring-fort",
+     "trouble": "Hobs",
+     "members": 2,
+     "minutes": 410
+    },
+    {
+     "id": "raidersFolk__raiders",
+     "name": "the raiding party",
+     "where": "the ring-fort",
+     "trouble": "Hobs",
+     "members": 3,
+     "minutes": 420
+    },
+    {
+     "id": "raidersFolk__gaffer",
+     "name": "the Gaffer",
+     "where": "the ring-fort",
+     "trouble": "Hobs",
+     "members": 1,
+     "minutes": 430
+    },
+    {
+     "id": "tollKeepers__chief",
+     "name": "the toll-reeve",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 1,
+     "minutes": 300
+    },
+    {
+     "id": "tollKeepers__keepers",
+     "name": "the customs-men",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 2,
+     "minutes": 300
+    }
+   ]
+  },
+  {
+   "seed": "s2",
+   "start": "region__s1_shop",
+   "town": "region__s1",
+   "firstRuin": {
+    "id": "region__w9_site",
+    "name": "Umbrarecs",
+    "minutes": 70,
+    "bands": 11
+   },
+   "bigRuin": {
+    "id": "region__w9_site",
+    "name": "Umbrarecs",
+    "minutes": 70,
+    "bands": 11
+   },
+   "hire": {
+    "group": "region__s1_traveller",
+    "name": "Fenwick",
+    "members": [
+     "region__s1_traveller_person"
+    ],
+    "calling": "mage",
+    "fee": 3,
+    "gold": 21
+   },
+   "bands": [
+    {
+     "id": "region__w1_dead",
+     "name": "the barrow-dead",
+     "where": "Nocswigil",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 360
+    },
+    {
+     "id": "region__w2_dead",
+     "name": "the barrow-dead",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 350
+    },
+    {
+     "id": "region__w3_dead",
+     "name": "the barrow-dead",
+     "where": "Dolortumul",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 370
+    },
+    {
+     "id": "region__w5_frogs",
+     "name": "frogs as big as dogs",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 180
+    },
+    {
+     "id": "region__w6_wolves",
+     "name": "the wolves",
+     "where": "Reodweard",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 100
+    },
+    {
+     "id": "region__w8_king",
+     "name": "the barrow-king",
+     "where": "Recsrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 380
+    },
+    {
+     "id": "region__w8_household",
+     "name": "the king's household",
+     "where": "Recsrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 360
+    },
+    {
+     "id": "region__w9_barrow_chamber_dwellers",
+     "name": "the sturdy rats",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 5,
+     "minutes": 90
+    },
+    {
+     "id": "region__w9_barrow_recess_dwellers",
+     "name": "the agile beetles",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 100
+    },
+    {
+     "id": "region__w9_barrow_recess2_dwellers",
+     "name": "the robbers' captain",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 100
+    },
+    {
+     "id": "region__w9_halls_stair_foot_dwellers",
+     "name": "the nimble restless dead",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 110
+    },
+    {
+     "id": "region__w9_halls_gallery_dwellers",
+     "name": "the swift bone hounds",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 130
+    },
+    {
+     "id": "region__w9_halls_kings_door_dwellers",
+     "name": "the ghouls",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 140
+    },
+    {
+     "id": "region__w9_halls_embalmers_dwellers",
+     "name": "the phantasmal mourner",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "region__w9_halls_well_dwellers",
+     "name": "the restless dead",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "region__w9_barrow_newcomers",
+     "name": "the grave-robbers",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": null
+    },
+    {
+     "id": "region__w9_halls_newcomers",
+     "name": "the bone hounds",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": null
+    },
+    {
+     "id": "region__w9_keeper",
+     "name": "the king under the mound",
+     "where": "Umbrarecs",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 160
+    },
+    {
+     "id": "tower__necromancer",
+     "name": "Lareth",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 110
+    },
+    {
+     "id": "tower__risen",
+     "name": "the risen dead",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 2,
+     "minutes": 110
+    },
+    {
+     "id": "tower__hound",
+     "name": "the knitted hound",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 110
+    },
+    {
+     "id": "den__beasts",
+     "name": "the ghoul",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 1,
+     "minutes": 250
+    },
+    {
+     "id": "den2__beasts",
+     "name": "the ghoul",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 1,
+     "minutes": 240
+    },
+    {
+     "id": "raidersFolk__sentry",
+     "name": "the outlaws' sentry",
+     "where": "the ring-fort",
+     "trouble": "Outlaws",
+     "members": 1,
+     "minutes": 380
+    },
+    {
+     "id": "raidersFolk__band",
+     "name": "Sir Hamo's men",
+     "where": "the ring-fort",
+     "trouble": "Outlaws",
+     "members": 4,
+     "minutes": 370
+    },
+    {
+     "id": "raidersFolk__hamo",
+     "name": "Sir Hamo Ashdown",
+     "where": "the ring-fort",
+     "trouble": "Outlaws",
+     "members": 1,
+     "minutes": 390
+    },
+    {
+     "id": "tollKeepers__chief",
+     "name": "the toll-reeve",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 1,
+     "minutes": 60
+    },
+    {
+     "id": "tollKeepers__keepers",
+     "name": "the customs-men",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 2,
+     "minutes": 60
+    }
+   ]
+  },
+  {
+   "seed": "s3",
+   "start": "region__s1_shop",
+   "town": "region__s1",
+   "firstRuin": {
+    "id": "region__w8_site",
+    "name": "Lapisrechies",
+    "minutes": 120,
+    "bands": 10
+   },
+   "bigRuin": {
+    "id": "region__w8_site",
+    "name": "Lapisrechies",
+    "minutes": 120,
+    "bands": 10
+   },
+   "hire": {
+    "group": "region__s1_traveller",
+    "name": "Delta",
+    "members": [
+     "region__s1_traveller_person"
+    ],
+    "calling": "mage",
+    "fee": 3,
+    "gold": 21
+   },
+   "bands": [
+    {
+     "id": "region__w1_dead",
+     "name": "the barrow-dead",
+     "where": "Dolorechies",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 300
+    },
+    {
+     "id": "region__w2_dead",
+     "name": "the barrow-dead",
+     "where": "Nocscustod",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 190
+    },
+    {
+     "id": "region__w3_dead",
+     "name": "the barrow-dead",
+     "where": "Sanhtustumul",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 150
+    },
+    {
+     "id": "region__w5_rats",
+     "name": "the rats",
+     "where": "Fyrstefyrd",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": 230
+    },
+    {
+     "id": "region__w6_wolves",
+     "name": "the wolves",
+     "where": "Gefeohtheald",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 130
+    },
+    {
+     "id": "region__w7_king",
+     "name": "the barrow-king",
+     "where": "Recsrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 200
+    },
+    {
+     "id": "region__w7_household",
+     "name": "the king's household",
+     "where": "Recsrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 180
+    },
+    {
+     "id": "region__w8_barrow_chamber_dwellers",
+     "name": "the bats",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": 140
+    },
+    {
+     "id": "region__w8_barrow_recess_dwellers",
+     "name": "the robbers' captain",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 150
+    },
+    {
+     "id": "region__w8_barrow_recess2_dwellers",
+     "name": "the beetles",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 150
+    },
+    {
+     "id": "region__w8_halls_bone_hall_dwellers",
+     "name": "the ghouls",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 170
+    },
+    {
+     "id": "region__w8_halls_kings_door_dwellers",
+     "name": "the cursed great hound",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 190
+    },
+    {
+     "id": "region__w8_grave_treasury_dwellers",
+     "name": "the blessed king's men",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 190
+    },
+    {
+     "id": "region__w8_barrow_newcomers",
+     "name": "the grave-robbers",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_halls_newcomers",
+     "name": "the bone hounds",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_grave_newcomers",
+     "name": "the shade",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_keeper",
+     "name": "the king under the mound",
+     "where": "Lapisrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 210
+    },
+    {
+     "id": "tower__necromancer",
+     "name": "Yoriel Lamb",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 240
+    },
+    {
+     "id": "tower__risen",
+     "name": "the risen dead",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 2,
+     "minutes": 240
+    },
+    {
+     "id": "tower__hound",
+     "name": "the knitted hound",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 240
+    },
+    {
+     "id": "den__beasts",
+     "name": "the ghoul",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 1,
+     "minutes": 190
+    },
+    {
+     "id": "den2__beasts",
+     "name": "the ghoul",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 1,
+     "minutes": 280
+    },
+    {
+     "id": "raidersFolk__watchers",
+     "name": "the hobs on the gate",
+     "where": "the ring-fort",
+     "trouble": "Hobs",
+     "members": 2,
+     "minutes": 150
+    },
+    {
+     "id": "raidersFolk__raiders",
+     "name": "the raiding party",
+     "where": "the ring-fort",
+     "trouble": "Hobs",
+     "members": 3,
+     "minutes": 160
+    },
+    {
+     "id": "raidersFolk__gaffer",
+     "name": "the Gaffer",
+     "where": "the ring-fort",
+     "trouble": "Hobs",
+     "members": 1,
+     "minutes": 170
+    },
+    {
+     "id": "tollKeepers__chief",
+     "name": "the toll-reeve",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 1,
+     "minutes": 100
+    },
+    {
+     "id": "tollKeepers__keepers",
+     "name": "the customs-men",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 2,
+     "minutes": 100
+    }
+   ]
+  },
+  {
+   "seed": "s4",
+   "start": "region__s1_shop",
+   "town": "region__s1",
+   "firstRuin": {
+    "id": "region__w9_site",
+    "name": "Tenebrerecs",
+    "minutes": 90,
+    "bands": 9
+   },
+   "bigRuin": {
+    "id": "region__w9_site",
+    "name": "Tenebrerecs",
+    "minutes": 90,
+    "bands": 9
+   },
+   "hire": {
+    "group": "region__s1_traveller",
+    "name": "Rolen",
+    "members": [
+     "region__s1_traveller_person"
+    ],
+    "calling": "warrior",
+    "fee": 3,
+    "gold": 21
+   },
+   "bands": [
+    {
+     "id": "region__w1_dead",
+     "name": "the barrow-dead",
+     "where": "Nocstumul",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 140
+    },
+    {
+     "id": "region__w2_dead",
+     "name": "the barrow-dead",
+     "where": "Nebulrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 330
+    },
+    {
+     "id": "region__w3_dead",
+     "name": "the barrow-dead",
+     "where": "Lapistumul",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 350
+    },
+    {
+     "id": "region__w4_keeper",
+     "name": "the wheel-keeper",
+     "where": "Lunfons",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 250
+    },
+    {
+     "id": "region__w5_frogs",
+     "name": "frogs as big as dogs",
+     "where": "Frigdusfons",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 340
+    },
+    {
+     "id": "region__w6_smugglers",
+     "name": "the river-smugglers",
+     "where": "Winbrycg",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 430
+    },
+    {
+     "id": "region__w7_wolves",
+     "name": "the wolves",
+     "where": "Heahweard",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 100
+    },
+    {
+     "id": "region__w8_king",
+     "name": "the barrow-king",
+     "where": "Recsrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 300
+    },
+    {
+     "id": "region__w8_household",
+     "name": "the king's household",
+     "where": "Recsrechies",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 280
+    },
+    {
+     "id": "region__w9_barrow_robbers_dwellers",
+     "name": "the rats",
+     "where": "Tenebrerecs",
+     "trouble": "The country's own sites and wild",
+     "members": 5,
+     "minutes": 100
+    },
+    {
+     "id": "region__w9_barrow_chamber_dwellers",
+     "name": "the swift bats",
+     "where": "Tenebrerecs",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": 110
+    },
+    {
+     "id": "region__w9_barrow_vent_dwellers",
+     "name": "the beetles",
+     "where": "Tenebrerecs",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 90
+    },
+    {
+     "id": "region__w9_barrow_recess_dwellers",
+     "name": "the robbers' captain",
+     "where": "Tenebrerecs",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 120
+    },
+    {
+     "id": "region__w9_halls_mourners_dwellers",
+     "name": "the mysterious bone hounds",
+     "where": "Tenebrerecs",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 150
+    },
+    {
+     "id": "region__w9_halls_kings_door_dwellers",
+     "name": "the restless dead",
+     "where": "Tenebrerecs",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 160
+    },
+    {
+     "id": "region__w9_barrow_newcomers",
+     "name": "the grave-robbers",
+     "where": "Tenebrerecs",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": null
+    },
+    {
+     "id": "region__w9_halls_newcomers",
+     "name": "the ghouls",
+     "where": "Tenebrerecs",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": null
+    },
+    {
+     "id": "region__w9_keeper",
+     "name": "the king under the mound",
+     "where": "Tenebrerecs",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 180
+    },
+    {
+     "id": "den__beasts",
+     "name": "the bear",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 1,
+     "minutes": 210
+    },
+    {
+     "id": "brood__brood",
+     "name": "the spider brood",
+     "where": "Silkholme sink",
+     "trouble": "A brood under the hill",
+     "members": 3,
+     "minutes": 230
+    },
+    {
+     "id": "den2__beasts",
+     "name": "the bear",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 1,
+     "minutes": 360
+    },
+    {
+     "id": "raidersFolk__sentry",
+     "name": "the outlaws' sentry",
+     "where": "the cave",
+     "trouble": "Outlaws",
+     "members": 1,
+     "minutes": 330
+    },
+    {
+     "id": "raidersFolk__band",
+     "name": "Sir Hamo's men",
+     "where": "the cave",
+     "trouble": "Outlaws",
+     "members": 4,
+     "minutes": 320
+    },
+    {
+     "id": "raidersFolk__hamo",
+     "name": "Sir Hamo Ashdown",
+     "where": "the cave",
+     "trouble": "Outlaws",
+     "members": 1,
+     "minutes": 340
+    },
+    {
+     "id": "tollKeepers__chief",
+     "name": "the toll-reeve",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 1,
+     "minutes": 80
+    },
+    {
+     "id": "tollKeepers__keepers",
+     "name": "the customs-men",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 2,
+     "minutes": 80
+    }
+   ]
+  },
+  {
+   "seed": "s5",
+   "start": "region__s1_shop",
+   "town": "region__s1",
+   "firstRuin": {
+    "id": "region__w9_site",
+    "name": "Somnumcarmen",
+    "minutes": 140,
+    "bands": 10
+   },
+   "bigRuin": {
+    "id": "region__w9_site",
+    "name": "Somnumcarmen",
+    "minutes": 140,
+    "bands": 10
+   },
+   "hire": {
+    "group": "region__s1_traveller",
+    "name": "Liora",
+    "members": [
+     "region__s1_traveller_person"
+    ],
+    "calling": "mage",
+    "fee": 3,
+    "gold": 21
+   },
+   "bands": [
+    {
+     "id": "region__w2_wyvern",
+     "name": "the wyvern",
+     "where": "Stelespir",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 210
+    },
+    {
+     "id": "region__w5_stone",
+     "name": "the stone that moves",
+     "where": "Oratocol",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 450
+    },
+    {
+     "id": "region__w6_rats",
+     "name": "the rats",
+     "where": "Sealtport",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": 250
+    },
+    {
+     "id": "region__w8_reckoner",
+     "name": "the last reckoner",
+     "where": "Caelumspir",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 240
+    },
+    {
+     "id": "region__w9_porch_doors_dwellers",
+     "name": "the rats",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 5,
+     "minutes": 150
+    },
+    {
+     "id": "region__w9_porch_stair_head_dwellers",
+     "name": "the centipedes",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 160
+    },
+    {
+     "id": "region__w9_porch_vent_dwellers",
+     "name": "the noble great centipede",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "region__w9_choir_cantors_dwellers",
+     "name": "the cantors",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 190
+    },
+    {
+     "id": "region__w9_still_landing_dwellers",
+     "name": "the majestic unsung stone",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 210
+    },
+    {
+     "id": "region__w9_still_echoes_dwellers",
+     "name": "the forgotten hard note",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 200
+    },
+    {
+     "id": "region__w9_porch_newcomers",
+     "name": "the bats",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": null
+    },
+    {
+     "id": "region__w9_choir_newcomers",
+     "name": "the dust",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": null
+    },
+    {
+     "id": "region__w9_still_newcomers",
+     "name": "the unsung stone",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": null
+    },
+    {
+     "id": "region__w9_keeper",
+     "name": "the Unsung",
+     "where": "Somnumcarmen",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 230
+    },
+    {
+     "id": "tower__necromancer",
+     "name": "Rurik Dankil",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 340
+    },
+    {
+     "id": "tower__risen",
+     "name": "the risen dead",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 2,
+     "minutes": 340
+    },
+    {
+     "id": "tower__hound",
+     "name": "the knitted hound",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 340
+    },
+    {
+     "id": "den__beasts",
+     "name": "the spiders",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 2,
+     "minutes": 310
+    },
+    {
+     "id": "den2__beasts",
+     "name": "the spiders",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 2,
+     "minutes": 220
+    },
+    {
+     "id": "raidersFolk__sentry",
+     "name": "the outlaws' sentry",
+     "where": "the cave",
+     "trouble": "Outlaws",
+     "members": 1,
+     "minutes": 150
+    },
+    {
+     "id": "raidersFolk__band",
+     "name": "Sir Hamo's men",
+     "where": "the cave",
+     "trouble": "Outlaws",
+     "members": 4,
+     "minutes": 140
+    },
+    {
+     "id": "raidersFolk__hamo",
+     "name": "Sir Hamo Ashdown",
+     "where": "the cave",
+     "trouble": "Outlaws",
+     "members": 1,
+     "minutes": 160
+    },
+    {
+     "id": "tollKeepers__chief",
+     "name": "Sergeant Mawr",
+     "where": "Deserters on the road",
+     "trouble": "Deserters on the road",
+     "members": 1,
+     "minutes": 90
+    },
+    {
+     "id": "tollKeepers__keepers",
+     "name": "the deserters",
+     "where": "Deserters on the road",
+     "trouble": "Deserters on the road",
+     "members": 3,
+     "minutes": 90
+    }
+   ]
+  },
+  {
+   "seed": "s6",
+   "start": "region__s1_shop",
+   "town": "region__s1",
+   "firstRuin": {
+    "id": "region__w8_site",
+    "name": "Chitharcaw",
+    "minutes": 140,
+    "bands": 9
+   },
+   "bigRuin": {
+    "id": "region__w8_site",
+    "name": "Chitharcaw",
+    "minutes": 140,
+    "bands": 9
+   },
+   "hire": {
+    "group": "region__s1_traveller",
+    "name": "Cadan",
+    "members": [
+     "region__s1_traveller_person"
+    ],
+    "calling": "warrior",
+    "fee": 3,
+    "gold": 21
+   },
+   "bands": [
+    {
+     "id": "region__w3_lookouts",
+     "name": "the lookouts",
+     "where": "Lucswis",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 320
+    },
+    {
+     "id": "region__w5_wolves",
+     "name": "the wolves",
+     "where": "Gefeohtgaet",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 260
+    },
+    {
+     "id": "region__w7_warden",
+     "name": "the choir's warden",
+     "where": "Carmencol",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 500
+    },
+    {
+     "id": "region__w8_porch_listening_dwellers",
+     "name": "the agile centipedes",
+     "where": "Chitharcaw",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 160
+    },
+    {
+     "id": "region__w8_porch_vent_dwellers",
+     "name": "the alpha great centipede",
+     "where": "Chitharcaw",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "region__w8_choir_tuning_dwellers",
+     "name": "the ferocious dust",
+     "where": "Chitharcaw",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 190
+    },
+    {
+     "id": "region__w8_still_landing_dwellers",
+     "name": "the sacred hard note",
+     "where": "Chitharcaw",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 210
+    },
+    {
+     "id": "region__w8_still_nave_dwellers",
+     "name": "the forgotten unsung stone",
+     "where": "Chitharcaw",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 220
+    },
+    {
+     "id": "region__w8_porch_newcomers",
+     "name": "the bats",
+     "where": "Chitharcaw",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_choir_newcomers",
+     "name": "the cantors",
+     "where": "Chitharcaw",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_still_newcomers",
+     "name": "the hard note",
+     "where": "Chitharcaw",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_keeper",
+     "name": "the Unsung",
+     "where": "Chitharcaw",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 230
+    },
+    {
+     "id": "tower__necromancer",
+     "name": "Gimgen Ungart",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 310
+    },
+    {
+     "id": "tower__risen",
+     "name": "the risen dead",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 2,
+     "minutes": 310
+    },
+    {
+     "id": "tower__hound",
+     "name": "the knitted hound",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 310
+    },
+    {
+     "id": "den__beasts",
+     "name": "the spiders",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 2,
+     "minutes": 250
+    },
+    {
+     "id": "den2__beasts",
+     "name": "the spiders",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 2,
+     "minutes": 590
+    },
+    {
+     "id": "raidersFolk__watchers",
+     "name": "the hobs on the gate",
+     "where": "the cave",
+     "trouble": "Hobs",
+     "members": 2,
+     "minutes": 140
+    },
+    {
+     "id": "raidersFolk__raiders",
+     "name": "the raiding party",
+     "where": "the cave",
+     "trouble": "Hobs",
+     "members": 3,
+     "minutes": 150
+    },
+    {
+     "id": "raidersFolk__gaffer",
+     "name": "the Gaffer",
+     "where": "the cave",
+     "trouble": "Hobs",
+     "members": 1,
+     "minutes": 160
+    },
+    {
+     "id": "tollKeepers__chief",
+     "name": "Sergeant Mawr",
+     "where": "Deserters on the road",
+     "trouble": "Deserters on the road",
+     "members": 1,
+     "minutes": 150
+    },
+    {
+     "id": "tollKeepers__keepers",
+     "name": "the deserters",
+     "where": "Deserters on the road",
+     "trouble": "Deserters on the road",
+     "members": 3,
+     "minutes": 150
+    }
+   ]
+  },
+  {
+   "seed": "s7",
+   "start": "region__s1_shop",
+   "town": "region__s1",
+   "firstRuin": {
+    "id": "region__w6_site",
+    "name": "Graegweard",
+    "minutes": 100,
+    "bands": 1
+   },
+   "bigRuin": {
+    "id": "region__w8_site",
+    "name": "Cuprumtener",
+    "minutes": 100,
+    "bands": 14
+   },
+   "hire": {
+    "group": "region__s1_traveller",
+    "name": "Devlin",
+    "members": [
+     "region__s1_traveller_person"
+    ],
+    "calling": "bard",
+    "fee": 3,
+    "gold": 21
+   },
+   "bands": [
+    {
+     "id": "region__w1_frogs",
+     "name": "frogs as big as dogs",
+     "where": "Argentumfons",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 260
+    },
+    {
+     "id": "region__w2_keeper",
+     "name": "the wheel-keeper",
+     "where": "Riwuswigil",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 380
+    },
+    {
+     "id": "region__w3_cold",
+     "name": "the cold below",
+     "where": "Nigermons",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 370
+    },
+    {
+     "id": "region__w4_cold",
+     "name": "the cold below",
+     "where": "Sacsumport",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 190
+    },
+    {
+     "id": "region__w4_goblins",
+     "name": "the goblins",
+     "where": "Sacsumport",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 140
+    },
+    {
+     "id": "region__w5_rats",
+     "name": "the rats",
+     "where": "Fyrsteport",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": 250
+    },
+    {
+     "id": "region__w6_wolves",
+     "name": "the wolves",
+     "where": "Graegweard",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 100
+    },
+    {
+     "id": "region__w7_keeper",
+     "name": "the keeper of the mere",
+     "where": "Profundusaq",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 230
+    },
+    {
+     "id": "region__w8_adit_adit_dwellers",
+     "name": "the agile cave spiders",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 110
+    },
+    {
+     "id": "region__w8_adit_forge_dwellers",
+     "name": "the rats",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": 120
+    },
+    {
+     "id": "region__w8_adit_winze_head_dwellers",
+     "name": "the goblin chief",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 130
+    },
+    {
+     "id": "region__w8_adit_vent_dwellers",
+     "name": "the goblins",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 100
+    },
+    {
+     "id": "region__w8_haulage_haulage_dwellers",
+     "name": "the forgotten mud",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "region__w8_haulage_winze_foot_dwellers",
+     "name": "the noble shift-boss",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "region__w8_haulage_seal_dwellers",
+     "name": "the nimble cave hounds",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 170
+    },
+    {
+     "id": "region__w8_drowned_lode_dwellers",
+     "name": "the curious shining one",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 200
+    },
+    {
+     "id": "region__w8_breach_hollow_dwellers",
+     "name": "the forgotten vein-born",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 240
+    },
+    {
+     "id": "region__w8_adit_newcomers",
+     "name": "the bats",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_haulage_newcomers",
+     "name": "the ghouls",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_drowned_newcomers",
+     "name": "the ooze",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_breach_newcomers",
+     "name": "the vein-born",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_keeper",
+     "name": "the thing in the vein",
+     "where": "Cuprumtener",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 240
+    },
+    {
+     "id": "tower__necromancer",
+     "name": "Bran",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 190
+    },
+    {
+     "id": "tower__risen",
+     "name": "the risen dead",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 2,
+     "minutes": 190
+    },
+    {
+     "id": "tower__hound",
+     "name": "the knitted hound",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 190
+    },
+    {
+     "id": "brood__brood",
+     "name": "the spider brood",
+     "where": "Silkholme sink",
+     "trouble": "A brood under the hill",
+     "members": 3,
+     "minutes": 200
+    },
+    {
+     "id": "den__beasts",
+     "name": "the spiders",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 2,
+     "minutes": 350
+    },
+    {
+     "id": "raidersFolk__sentry",
+     "name": "the outlaws' sentry",
+     "where": "the ring-fort",
+     "trouble": "Outlaws",
+     "members": 1,
+     "minutes": 130
+    },
+    {
+     "id": "raidersFolk__band",
+     "name": "Sir Hamo's men",
+     "where": "the ring-fort",
+     "trouble": "Outlaws",
+     "members": 4,
+     "minutes": 120
+    },
+    {
+     "id": "raidersFolk__hamo",
+     "name": "Sir Hamo Ashdown",
+     "where": "the ring-fort",
+     "trouble": "Outlaws",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "tollKeepers__chief",
+     "name": "the toll-reeve",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 1,
+     "minutes": 70
+    },
+    {
+     "id": "tollKeepers__keepers",
+     "name": "the customs-men",
+     "where": "Customs-men on the road",
+     "trouble": "Customs-men on the road",
+     "members": 2,
+     "minutes": 70
+    }
+   ]
+  },
+  {
+   "seed": "s8",
+   "start": "region__s1_shop",
+   "town": "region__s1",
+   "firstRuin": {
+    "id": "region__w8_site",
+    "name": "Obscuruslac",
+    "minutes": 90,
+    "bands": 16
+   },
+   "bigRuin": {
+    "id": "region__w8_site",
+    "name": "Obscuruslac",
+    "minutes": 90,
+    "bands": 16
+   },
+   "hire": {
+    "group": "region__s1_traveller",
+    "name": "Boddynock",
+    "members": [
+     "region__s1_traveller_person"
+    ],
+    "calling": "bard",
+    "fee": 3,
+    "gold": 21
+   },
+   "bands": [
+    {
+     "id": "region__w1_keeper",
+     "name": "the wheel-keeper",
+     "where": "Frigdusfons",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 230
+    },
+    {
+     "id": "region__w2_frogs",
+     "name": "frogs as big as dogs",
+     "where": "Riwuswigil",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 220
+    },
+    {
+     "id": "region__w3_lookouts",
+     "name": "the lookouts",
+     "where": "Achilwigil",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 180
+    },
+    {
+     "id": "region__w5_smugglers",
+     "name": "the river-smugglers",
+     "where": "Wīdgaet",
+     "trouble": "The country's own sites and wild",
+     "members": 3,
+     "minutes": 140
+    },
+    {
+     "id": "region__w7_keeper",
+     "name": "the keeper of the mere",
+     "where": "Magnustagn",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 320
+    },
+    {
+     "id": "region__w8_gatehouse_gate_hall_dwellers",
+     "name": "the snakes",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 100
+    },
+    {
+     "id": "region__w8_gatehouse_race_head_dwellers",
+     "name": "the frogs",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": 110
+    },
+    {
+     "id": "region__w8_gatehouse_stair_head_dwellers",
+     "name": "the rats",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 5,
+     "minutes": 110
+    },
+    {
+     "id": "region__w8_galleries_stair_foot_dwellers",
+     "name": "the ooze",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 120
+    },
+    {
+     "id": "region__w8_galleries_colonnade_dwellers",
+     "name": "the nimble mud",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 120
+    },
+    {
+     "id": "region__w8_galleries_pipe_gallery_dwellers",
+     "name": "the terrifying drowned",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 110
+    },
+    {
+     "id": "region__w8_galleries_pump_dwellers",
+     "name": "the majestic warden of the wheel",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 120
+    },
+    {
+     "id": "region__w8_galleries_deep_gate_dwellers",
+     "name": "the ooze",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 120
+    },
+    {
+     "id": "region__w8_cistern_drowned_hall_dwellers",
+     "name": "the phantasmal cistern-water",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "region__w8_cistern_vault_dwellers",
+     "name": "the venomous drowned wardens",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 2,
+     "minutes": 150
+    },
+    {
+     "id": "region__w8_still_shore_dwellers",
+     "name": "the salt",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 160
+    },
+    {
+     "id": "region__w8_gatehouse_newcomers",
+     "name": "the bats",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 4,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_galleries_newcomers",
+     "name": "the mud",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_cistern_newcomers",
+     "name": "the cistern-water",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_still_newcomers",
+     "name": "the salt",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": null
+    },
+    {
+     "id": "region__w8_keeper",
+     "name": "the still water",
+     "where": "Obscuruslac",
+     "trouble": "The country's own sites and wild",
+     "members": 1,
+     "minutes": 170
+    },
+    {
+     "id": "brood__brood",
+     "name": "the spider brood",
+     "where": "Silkholme sink",
+     "trouble": "A brood under the hill",
+     "members": 3,
+     "minutes": 240
+    },
+    {
+     "id": "tower__necromancer",
+     "name": "Rangrim Battlehammer",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 190
+    },
+    {
+     "id": "tower__risen",
+     "name": "the risen dead",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 2,
+     "minutes": 190
+    },
+    {
+     "id": "tower__hound",
+     "name": "the knitted hound",
+     "where": "The tower",
+     "trouble": "The unquiet tower",
+     "members": 1,
+     "minutes": 190
+    },
+    {
+     "id": "den__beasts",
+     "name": "the hounds",
+     "where": "A den in the wild: A den in the wild",
+     "trouble": "A den in the wild",
+     "members": 2,
+     "minutes": 320
+    },
+    {
+     "id": "raidersFolk__watchers",
+     "name": "the hobs on the gate",
+     "where": "the cave",
+     "trouble": "Hobs",
+     "members": 2,
+     "minutes": 120
+    },
+    {
+     "id": "raidersFolk__raiders",
+     "name": "the raiding party",
+     "where": "the cave",
+     "trouble": "Hobs",
+     "members": 3,
+     "minutes": 130
+    },
+    {
+     "id": "raidersFolk__gaffer",
+     "name": "the Gaffer",
+     "where": "the cave",
+     "trouble": "Hobs",
+     "members": 1,
+     "minutes": 140
+    },
+    {
+     "id": "tollKeepers__chief",
+     "name": "Sergeant Mawr",
+     "where": "Deserters on the road",
+     "trouble": "Deserters on the road",
+     "members": 1,
+     "minutes": 120
+    },
+    {
+     "id": "tollKeepers__keepers",
+     "name": "the deserters",
+     "where": "Deserters on the road",
+     "trouble": "Deserters on the road",
+     "members": 3,
+     "minutes": 120
+    }
+   ]
+  }
+ ]
+}

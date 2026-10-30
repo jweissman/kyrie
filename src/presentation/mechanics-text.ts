@@ -35,14 +35,23 @@ export class MechanicsText {
     const costs = [level ? `Takes ${level === 8 ? 'an' : 'a'} ${Spellcasting.ordinal(level)}-level slot.`
       : ability.spell ? `${/^[aeiou]/.test(ability.spell.tradition) ? 'An' : 'A'} ${ability.spell.tradition} cantrip, cast at will.`
         : ability.cost ? `Costs ${ability.cost} mana.` : '',
-    ability.cooldown ? `Again after ${ability.cooldown === 1 ? 'a turn' : `${ability.cooldown} turns`}.` : '']
-      .filter(Boolean);
+    ability.cooldown ? `${this.capitalize(this.again(ability.cooldown))}.` : ''].filter(Boolean);
     const details = [...new Set(ability.effects.flatMap(e => e.kind === 'apply' ? [e.status]
       : this.triggered(e).map(([id]) => id)))].map(id => this.condition(id, actor)).filter((d): d is string => !!d);
     const kind = ability.spell?.tradition ?? '', an = /^[aeiou]/.test(kind) ? 'An' : 'A';
     const spell = !ability.spell ? [] : ability.spell.level ? [`${an} ${kind} spell of the ${Spellcasting.ordinal(level)} level.`]
       : [];
     return { summary: `${this.capitalize(parts.join('; '))}.`, details: [...details, ...spell, ...costs] };
+  }
+  static again(cooldown: number): string { return `again after ${cooldown === 1 ? 'a turn' : `${cooldown} turns`}`; }
+  // What an ability does besides the blow its card's odds tell, in a few words for the fight card: "it is prone for
+  // 3 turns · again after 3 turns", "heal yourself for 1d10 + 1 (2–11) · again after 3 turns". The cards had said
+  // only a blow's odds, alike for Strike, Cleave and Sweep, and nothing at all of Second Wind (the OWN-28 diagnosis).
+  static gist(ability: ArenaAbility, actor?: Record<string, number>): string {
+    const struck = ability.effects.some(e => e.kind === 'attack');
+    const parts = ability.effects.filter(e => e.kind !== 'attack' || e.spillover).map(e => e.kind === 'attack'
+      ? 'a killing blow carries on to another' : this.effect(e, actor, struck && e.target === 'enemy' ? 'it' : false));
+    return [...parts, ability.cooldown ? this.again(ability.cooldown) : ''].filter(Boolean).join(' · ');
   }
   // What using an ability spends, in a few words: "1st-level slot", "cantrip", "2 mana", or nothing.
   static price(ability: ArenaAbility): string {
@@ -72,7 +81,7 @@ export class MechanicsText {
         case 'cast': return `${Canon.abilities[e.ability]?.name ?? e.ability}, at no cost`;
         case 'drain': return `drain ${amount} health from ${to}`;
         case 'defend': return 'guard until your next turn';
-        case 'flee': return 'try to escape the fight (an even chance)';
+        case 'flee': return `try to get away from the fight (${MechanicsText.flight()})`;
         case 'apply': return `${this.holds(e.target === 'self' ? 'you' : to, e.status)} `
           + `${this.conditionName(e.status)} ${this.duration(e.duration, e.clock).replace(/^(\d)/, 'for $1')
             .replace(/^a /, 'for a ')}`;
@@ -91,6 +100,11 @@ export class MechanicsText {
         + 'save against 15 avoids it')]
       .filter(Boolean);
     return qualifiers.length ? `${text} (${qualifiers.join('; ')})` : text;
+  }
+  // The chance of getting away on each try, as the rules have it: "1 in 2, then 3 in 4, then sure". It had said "an
+  // even chance" of every try, where each that fails makes the next surer.
+  static flight(): string {
+    return [...Canon.rules.combat.flee.map(o => `${o.atMost} in ${o.die.split('d')[1]}`), 'sure'].join(', then ');
   }
   // Conditions a damage type sets off on whoever it hurts (Orsino's status triggers): fire may set a creature burning.
   static triggered(e: Effect): [string, (typeof Content.statuses)[string]][] {

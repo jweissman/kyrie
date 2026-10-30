@@ -10,7 +10,8 @@ describe('a word said to someone that may not come off', () => {
     const j = await Journey.start('test/fixtures/probes/spoken-roll/probe.campaign.json');
     await j.play('Talk to Will');
     const ask = j.find('Will Scaife, a farmer keeping a vigil: Ask Will to light the hearth');
-    expect(ask?.label).toMatch(/an even chance$/);
+    // Failed, it is not tried again (tried), and says so before it is tried (the audit's SLIP-08).
+    expect(ask?.label).toMatch(/an even chance · one try$/);
     const told = await j.play('Ask Will to light the hearth');
     expect(told).toMatch(/gets up, and you hear him at the mantel|hears you out in the dark, and does not move/);
     expect(j.holds('p__consented', 'p__will') || j.holds('p__tried', 'party')).toBe(true);

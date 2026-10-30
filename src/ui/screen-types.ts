@@ -203,6 +203,8 @@ export interface CombatScreen {
   round: number;
   foes: CombatantRow[]; allies: CombatantRow[];
   abilities: { id: string; name: string; text: string; cost: number; price: string; cooldown: number; scope: string;
+    // What it does besides a blow, for its card (see MechanicsText.gist): nothing for a plain blow or a spell.
+    gist?: string;
     spell?: { level: number; ready: number };
     // How much good it would do now, as the game's own tactics weigh it: the best of its uses.
     rank?: number;

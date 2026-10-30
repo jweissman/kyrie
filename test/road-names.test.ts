@@ -40,10 +40,10 @@ describe('roads that share a name', () => {
     };
     const road = RegionGeography.roads(w.report.region).find(r => r.way === 's2_s3_way')!;
     expect(RegionRoads.names(road, w.report.region).way).toBe('the road through Birchwood');
-    const off = ways('region__s2_s3_way').filter(l => l.startsWith('To among the trees of Birchwood'));
+    const off = ways('region__s2_s3_way').filter(l => l.startsWith('To the woods of Birchwood'));
     expect(off).toHaveLength(7);
-    expect(off).toContain('To among the trees of Birchwood by the road, half an hour out of Brightbridge');
-    expect(off).toContain('To among the trees of Birchwood by the road, two and a half hours out of Redholm');
+    expect(off).toContain('To the woods of Birchwood by the road, half an hour out of Brightbridge');
+    expect(off).toContain('To the woods of Birchwood by the road, two and a half hours out of Redholm');
     const from = [...new Set(c.world.related('connects').map(r => r.args[1]!))];
     const alike = from.flatMap(place => {
       const labels = ways(place);

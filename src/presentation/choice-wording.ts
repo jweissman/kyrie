@@ -3,7 +3,8 @@ import { ObservationText } from '../lang/observation-text';
 import { Checks, type Odds } from '../rules/checks';
 import { Harm } from '../rules/harm';
 import type { Campaign } from '../campaign/campaign';
-import type { Call } from '../lang/module';
+import type { Call, Module, Predicate } from '../lang/module';
+import { World } from '../lang/world';
 import type { Operator } from '../campaign/planner';
 
 // The last words on a choice, once it is grounded: a way not named twice, nor for where the company stands; what a
@@ -30,8 +31,11 @@ export class ChoiceWording {
     if (resolve?.name === 'purchase') { name += ` · ${world.number(ModuleWriter.call('price', resolve.args[0]!))} coin`; }
     // An offering costs what its shrine asks.
     if (resolve?.name === 'bless') { name += ` · ${world.number(ModuleWriter.call('offering', resolve.args[0]!))} coin`; }
-    // A check says how it looks to the one who would make it: likely, an even chance, beyond you.
-    if (resolve?.name === 'check') { name += ` · ${this.odds(campaign, resolve)}`; }
+    // A check says how it looks to the one who would make it: likely, an even chance, beyond you; and one that cannot
+    // be tried again if it fails says so.
+    if (resolve?.name === 'check') {
+      name += ` · ${this.odds(campaign, resolve)}${this.final(action, campaign.module) ? ' · one try' : ''}`;
+    }
     // Risking a hazard says what it would do to whoever goes first, once it is understood.
     const hurt = resolve?.name === 'expose' && action.schema === 'risk' ? this.hurt(campaign, action, resolve) : undefined;
     if (hurt) { name += ` · ${hurt}`; }
@@ -50,6 +54,25 @@ export class ChoiceWording {
     if (!hazard?.effect || !victim) { return undefined; }
     const harm = Harm.average(hazard.effect), hp = victim.state.hp;
     return harm >= hp ? 'it could kill' : harm * 3 >= hp ? 'it would hurt badly' : 'it would hurt a little';
+  }
+  // Whether a check, failed, cannot be tried again: what it needs not to hold, failing it makes hold (a band talked to
+  // badly is not talked to again), or what it needs, failing it takes away, and nothing in the world undoes that (a
+  // word put badly in a disputation can be put again the next day). A cold playtest failed one and learnt only after
+  // that it had been the only try (the audit's SLIP-08).
+  static final(action: Operator, module: Module): boolean {
+    const needs = this.needs(action.requires);
+    const closing = action.failure.filter(c => (c.kind === 'assert' && needs.not.has(World.key(c.call)))
+      || (c.kind === 'retract' && needs.so.has(World.key(c.call))));
+    const undoing = [...(module.rules ?? []).flatMap(r => r.effects), ...module.actions.flatMap(a => a.success)];
+    return closing.some(c => !undoing.some(u => u.call.name === c.call.name && u.kind !== c.kind
+      && ['assert', 'retract'].includes(u.kind)));
+  }
+  // What a condition asks, as a chain of ands: what must hold, and what must not.
+  private static needs(p: Predicate, out = { so: new Set<string>(), not: new Set<string>() }) {
+    if (p.kind === 'and') { this.needs(p.left, out); this.needs(p.right, out); }
+    if (p.kind === 'call') { out.so.add(World.key(p)); }
+    if (p.kind === 'not' && p.value.kind === 'call') { out.not.add(World.key(p.value)); }
+    return out;
   }
   private static odds(campaign: Campaign, check: Call): string {
     const read = campaign.readout, company = read.creatures.filter(c => read.partyIds.includes(c.id));

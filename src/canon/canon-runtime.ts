@@ -24,12 +24,23 @@ export class CanonRuntime {
     return /^\d+$/.test(text.trim()) ? { kind: 'literal', value: Number(text) } : { kind: 'deem', expression: text };
   }
   static ability(id: string, a: Ability): ArenaAbility {
-    const common = { cost: a.cost ?? 0, cooldown: a.recharge ?? 0, ...a.spell ? { spell: a.spell } : {},
+    const common = { cost: a.cost ?? 0, cooldown: this.recharge(id, a), ...a.spell ? { spell: a.spell } : {},
       ...a.level !== undefined ? { level: a.level } : {}, ...a.requires ? { requires: a.requires } : {},
       ...a.windup ? { windup: a.windup } : {},
       ...a.resist ? { resist: { kind: a.resist.kind, difficulty: this.amount(a.resist.difficulty) } } : {} };
     if (a.effects) { return { id, name: a.name, effects: a.effects, ...common, description: a.description ?? a.name }; }
     return { ...parseAbility(id, a.name, a.effect!), description: a.effect!, ...common };
+  }
+  // The turns an ability rests after use. Orsino rests every one of its skills that names none for three (Combat.ts:
+  // action.cooldown || 3), all but the moves every fighter has (a weapon's blow, waiting, getting away); Kyr had read
+  // the unnamed as none, so Second Wind healed and Sweep laid a foe prone every turn, and every reckoning fought with
+  // them so (the OWN-28 diagnosis). Kyr's own techniques (Guard) and Orsino's spells (which spend a slot) rest as they
+  // say.
+  static recharge(id: string, a: Ability): number {
+    const { technique, free } = Canon.rules.combat.recharge;
+    // An Orsino skill is an entry of its registry's ability family (ability:second_wind).
+    const skill = a.kind === 'technique' && a.source?.orsino?.split(':')[0] === 'ability';
+    return a.recharge ?? (skill && !free.includes(id) ? technique : 0);
   }
   // Every ability Kyr can execute. Entries recorded as unsupported stay in the catalog but are never offered.
   static abilities(): ArenaAbility[] {

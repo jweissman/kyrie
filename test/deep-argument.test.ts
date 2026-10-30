@@ -60,9 +60,10 @@ describe('the walled stair, argued at the shrine', () => {
   it('is the priest\'s to forbid, and is argued at odds the page states', async () => {
     const s = await Shrine.start();
     expect(Shrine.names(s)).toEqual(expect.arrayContaining([
-      'Argue with Baern that what is below should be met, not walled in · unlikely',
-      'Watch Baern for what goes unsaid · an even chance',
-      'Tell Baern the stair will be opened whatever is said · an even chance',
+      // Each way of arguing it is tried once, and says so before it is tried (the audit's SLIP-08).
+      'Argue with Baern that what is below should be met, not walled in · unlikely · one try',
+      'Watch Baern for what goes unsaid · an even chance · one try',
+      'Tell Baern the stair will be opened whatever is said · an even chance · one try',
       'Promise Baern to shut the stair again when you come back up']));
     // Evidence is offered only to a company that has the makers' words to give.
     expect(Shrine.names(s).some(n => n.startsWith('Tell Baern what the words cut in the wall say'))).toBe(false);
@@ -108,7 +109,7 @@ describe('the walled stair, argued at the shrine', () => {
   it('is argued in the ways its public content names', async () => {
     DeepArgument.said.moves.push({ id: 'bell', label: 'Ring the shrine bell for {priest}', check: 'persuasion, dc_easy',
       yes: '{priest} listens to the bell.', no: '{priest} does not listen.' });
-    try { expect(Shrine.names(await Shrine.start())).toContain('Ring the shrine bell for Baern · an even chance'); } finally {
+    try { expect(Shrine.names(await Shrine.start())).toContain('Ring the shrine bell for Baern · an even chance · one try'); } finally {
       DeepArgument.said.moves.pop();
     }
   }, 120000);

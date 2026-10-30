@@ -171,7 +171,8 @@ A creature that is not `Peaceable` meets a company that comes where it lives by 
 - **territorial**: warns, then comes at whoever stays;
 - **defensive**: warns, and fights only in its lair;
 - **savage**: comes at once;
-- **ambush**: strikes, unless a watchful company sees it first;
+- **ambush**: strikes, unless a watchful company sees it first; but it gives itself away to a company in the place
+  next door, once (a sign in its kind's words, `temper_words_ambush_sign`), so going in is a choice;
 - **wary**: slips away to its refuge, and fights only when cornered there;
 - **obedient**: keeps its post;
 - **proud**: names a price;
@@ -214,9 +215,9 @@ you here for long."
 Only a creature that warns leaves the company a turn for anything but a fight. One that falls on the company without
 warning (savage, obedient at its post, wary when cornered, or a person a module sets on it) is seen as it moves: in the
 fight's first round the company acts first, and can get back the way it came for certain; the page says how it
-reckons the fight. One that lay in wait (an ambush) gives no such moment, and nor does one that warned and was not
-heeded. Running at any other time is an even chance, surer each time it is tried and fails: three in four the second
-time, sure the third.
+reckons the fight. One that lay in wait (an ambush) strikes first, and the company's turn after its first blows is its
+moment; one that warned and was not heeded gives none. Running at any other time is an even chance, surer each time
+it is tried and fails: three in four the second time, sure the third.
 
 An action that puts the company where a band is races the band's warning: the shared rules warn on the next pass,
 before a rule of the module's own can say how the company came there. Settle it in the action's own effects (the
@@ -953,6 +954,12 @@ again, it is done (`test/fixtures/probes/grave`).
     …
   }
 ```
+
+A way that goes `one way` says so of itself, before it is taken. An action that puts the company somewhere nothing
+leads back out of (a drop down a well, no way up and nothing to do down there that takes it on) must say so in its
+`Grave`: `kyrie lint` reports one that does not (its `commitment` check; `test/fixtures/probes/drop`). And a check
+that cannot be tried again once it fails (its failure makes true what it needs to be false, and nothing undoes it)
+says "one try" beside its odds, before it is tried.
 
 A topic can be grave too: a hand shaken on a bargain, in the middle of talk (`Grave` before its `Says`, or after).
 

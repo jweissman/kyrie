@@ -35,6 +35,7 @@ export class CombatModel {
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
         cost: c.ability.cost ?? 0, price: MechanicsText.price(c.ability),
         cooldown: c.ability.cooldown ?? 0, scope: c.scope,
+        ...this.gist(c.ability, actor),
         rank: Math.max(...c.commands.map(command => Tactics.score(state, command))),
         ...(c.ability.spell ? { spell: { level: c.ability.spell.level,
           ready: (actor?.ready ?? []).flat().filter(id => id === c.ability.id).length } } : {}),
@@ -52,6 +53,12 @@ export class CombatModel {
       round: battle.events.filter(e => e.type === 'initiative').length,
       exchanges: CombatTelling.exchanges(battle.events, state).map((t, n) => ({ n, ...t })),
     };
+  }
+  // What a technique does besides a blow, for its card; a spell is told by its own preview, and running by its odds.
+  private static gist(ability: ArenaAbility, actor?: Fighter): { gist?: string } {
+    if (ability.spell || ability.effects.some(e => e.kind === 'flee')) { return {}; }
+    const gist = MechanicsText.gist(ability, actor && Effects.context(actor));
+    return gist ? { gist } : {};
   }
   private static called(state: BattleState, called?: ReadonlyMap<string, string>): BattleState {
     if (!called) { return state; }

@@ -1,0 +1,1 @@
+{ "version": 1, "name": "Probe: a drop with no way back", "modules": [ { "id": "p", "bundle": "module.json" } ], "party": [ { "name": "Ama", "raceId": "human", "classId": "warrior" } ] }

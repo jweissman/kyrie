@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { CanonRuntime } from '../canon/canon-runtime';
 import { Content } from '../content';
 import { Fighting } from '../rules/fighting';
 import { Advancement } from '../rules/advancement';
@@ -28,7 +29,8 @@ export class PlayChapters {
         + 'may do; Backstab needs the thief hidden. Some creatures wind up a great blow a turn ahead, and the company sees it '
         + 'coming; a stun loses the blow.',
       'Brought to nothing, a creature saves against death (DC 25). It stays at 1 hit point if it succeeds, and falls if it '
-        + 'does not. A companion who falls may not get up. Fleeing is the whole company\'s: an even chance, and the fight ends.'],
+        + 'does not. A companion who falls may not get up. Fleeing is the whole company\'s, and the fight ends: '
+        + `${MechanicsText.flight()}, and sure in the moment before a fight that came at the company closes.`],
     table: { head: ['Level', ...levels.map(String)], rows: [['THAC0', ...levels.map(l => String(Fighting.thac0(l)))],
       ['Highest spell level', ...levels.map(l => String(Fighting.maxSpellLevel(l)))]] } };
   }
@@ -74,10 +76,10 @@ export class PlayChapters {
     const entries = Object.entries(Canon.abilities).filter(([, a]) => !a.spell && a.kind === 'technique')
       .sort(([, a], [, b]) => a.name.localeCompare(b.name)).map(([id, a]): Entry => {
         const mechanics = HandbookText.mechanics(id);
-        const requires = a.requires ?? {};
+        const requires = a.requires ?? {}, again = CanonRuntime.recharge(id, a);
         return { id: `ability:${id}`, title: a.name, status: HandbookStatus.of(a), kind: 'technique',
           facts: [...a.cost ? [['Cost', `${a.cost} mana`] as [string, string]] : [],
-            ...a.recharge ? [['Again after', `${a.recharge} turns`] as [string, string]] : [],
+            ...again ? [['Again after', `${again} turns`] as [string, string]] : [],
             ...requires.status ? [['Needs', `the holder ${MechanicsText.conditionName(requires.status)}`] as [string, string]] : [],
             ...requires.notStatus ? [['Not while', MechanicsText.conditionName(requires.notStatus)] as [string, string]] : [],
             ...requires.interceptWeapon ? [['Needs', 'a weapon that sets against a charge'] as [string, string]] : [],

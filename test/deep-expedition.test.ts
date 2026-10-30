@@ -78,8 +78,9 @@ describe('a deep site, from the inn', () => {
       /^Take the gallery to the crossing$/]);
     const met = /draw back from you and|go still when you come/;
     expect(await Delve.take(s, /^Talk to the goblins$/)).toMatch(met);
-    expect(Delve.names(s)).toEqual(expect.arrayContaining(['Ask the goblins to let you by · an even chance',
-      'Warn the goblins off · unlikely']));
+    // Each is tried once, whatever comes of it, and says so before it is tried (the audit's SLIP-08).
+    expect(Delve.names(s)).toEqual(expect.arrayContaining(['Ask the goblins to let you by · an even chance · one try',
+      'Warn the goblins off · unlikely · one try']));
     const said = await Delve.take(s, /^Ask the goblins to let you by/);
     expect(said).toMatch(/persuasion check \(d20 \d+ \+ charisma -?\d+ = \d+ against 13\)/);
     const goblins = s.campaign.module.entities.find(e => e.name === 'the goblins')!.id;

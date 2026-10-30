@@ -37,6 +37,9 @@ export interface Fighter {
   cooldowns: Record<string, number>;
   // A big blow this creature is winding up, to land on its next turn unless it is interrupted.
   windup?: Command;
+  // Who last hurt it in this fight, and the harm it has done the other side: what a foe reads in choosing whom to go
+  // for (see Quarry).
+  struck?: string; harm?: number;
 }
 // A fight that came at the company gives it a moment before it closes, in which it can get back the way it came for
 // certain (PT-10): seen as it began, the company acts first; sprung on it from hiding, the other side does, and the

@@ -2,6 +2,7 @@ import { Canon } from './canon/canon';
 import { Spellcasting } from './rules/spellcasting';
 import { AbilityUse } from './ability-use';
 import { CreatureStore, type CreatureLease } from './creature-store';
+import type { Creature } from './creature';
 import { CombatProjection } from './combat-projection';
 import { Content } from './content';
 import { Expressions } from './expressions';
@@ -9,6 +10,7 @@ import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
 import { Fighting } from './rules/fighting';
 import { Tactics } from './tactics';
+import { Quarry } from './quarry';
 import { ItemCatalog } from './item-catalog';
 import type { ArenaAbility } from './lang/parse';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
@@ -98,6 +100,9 @@ export class Battle {
         ...options.moment ? { moment: options.moment } : {} }, options.seed, options.maxTurns ?? 500, lease);
     } catch (error) { lease.release(); throw error; }
   }
+  // One in the fight as they came into it, with their pack and arms: what a reckoning from where everyone stands
+  // builds them back from (see DangerSense.of).
+  original(id: string): Creature | undefined { return this.lease?.creatures.find(c => c.id === id); }
   get participants(): EncounterParticipant[] {
     return [...this.fighters, ...this.departed].map(f => CombatProjection.participant(f,
       f.statuses.filter(s => Effects.status(s.id).lifetime === 'encounter')));
@@ -280,8 +285,10 @@ export class Battle {
     if (!this.outcome) { this.advance(); }
     return this.settled(start);
   }
-  // A step done: what it made of the intents declared, the fight kept, and what happened in it.
+  // A step done: who it hurt and by whom (see Quarry), what it made of the intents declared, the fight kept, and what
+  // happened in it.
   private settled(start: number): CombatEvent[] {
+    Quarry.record(this.fighters, this.history.slice(start));
     this.redeclare();
     this.commit();
     return structuredClone(this.history.slice(start));

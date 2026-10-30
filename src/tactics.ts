@@ -2,6 +2,7 @@ import { Content } from './content';
 import { Effects } from './effects';
 import { ItemCatalog } from './item-catalog';
 import type { BattleState, Command, Fighter } from './model';
+import { Quarry } from './quarry';
 
 // The automatic controller's choice: score each legal command, take the best. Ties are broken explicitly, never by
 // catalog order: first by the position of the ability in the actor's own ability list (its weapon attack last), then by
@@ -22,7 +23,11 @@ export class Tactics {
         case 'attack': case 'damage': case 'drain': {
           score += 10 + (effect.target === 'enemies' || effect.target === 'random enemies' ?
             state.combatants.filter(f => f.team !== actor.team && f.hp > 0).length * 5 : 0);
-          score += Math.max(0, 8 - target.hp);
+          // The company finishes whoever is nearest falling; a foe goes for whom its kind would (see Quarry), and a
+          // blow at all of them (a turret's volley) falls on that one too.
+          const all = effect.target === 'enemies' || effect.target === 'random enemies';
+          score += actor.team === 'fighters' ? Math.max(0, 8 - target.hp)
+            : all || Quarry.of(state, actor) === target.id ? 8 : 0;
           const type = effect.kind === 'attack' ? actor.equipment?.weapon?.type ?? 'bludgeoning'
             : effect.kind === 'damage' ? effect.damageType : effect.damageType ?? 'necrotic';
           score -= 10 * Tactics.resistance(target, type);
@@ -32,7 +37,9 @@ export class Tactics {
         case 'revive': score += 40; break;
         case 'remove': score += target.statuses.some(s => s.id === effect.status) ? 20 : 0; break;
         case 'apply':
-          if (Effects.skips(effect.status)) { score += 18; }
+          // Standing in front of a frail companion something means to strike comes before a blow of one's own.
+          if (Effects.status(effect.status).guard) { score += Quarry.cover(state, actor, target); }
+          else if (Effects.skips(effect.status)) { score += 18; }
           else if (!target.statuses.some(s => s.id === effect.status)) { score += 6; }
           break;
         default: break;
