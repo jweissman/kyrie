@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 2 | 61 | 9 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 10 | 0 | 0 | 0 | 0 | 0 | 10 |
-| The owner's review | 0 | 17 | 21 | 0 | 0 | 0 | 38 |
+| The owner's review | 0 | 17 | 24 | 0 | 0 | 0 | 41 |
 | The adventures' authors | 0 | 11 | 58 | 0 | 0 | 0 | 69 |
 
 | By gate | A | B | C | D | E | F |
@@ -239,6 +239,16 @@ Modest presentation and world-coherence additions, not to displace the playabili
 |---|---|---|---|---|---|
 | OWN-29 | Portraits for player characters and party members from the matrices in assets/pcs (every class, male and female, and commoner and aristocrat as general types): extracted and each reviewed before use, assigned by the character's identity and presentation without needing every combination, a restrained fallback where none fits; used sparingly, principally on the party's combat cards (and perhaps a compact party overview), never large in the narrative view or cluttering creation; commoner and aristocrat portraits for existing characters, no new classes for the art | A | P1 | Partial | Built (49c4338): 54 portraits cut from the six matrices in assets/pcs and each reviewed (data/paintings/pcs.json: class, ancestry, presentation, crop and doubts); assigned by calling (commoner or aristocrat by background for those without one), ancestry and presentation (pronouns, the likeness chosen, else a stable draw), a plain initial where none fits; shown only on the company's fight cards (46 px) and the company page, never in the narrative view or creation (test/company-portraits.test.ts, test/reader-browser.test.ts). A name's sex is not yet read for a member without pronouns. The owner's verdict awaited |
 | OWN-30 | Names: a varied, plausible default name for a new character drawn by ancestry and cultural origin, rerolled or edited easily, an ordinary default, not the same handful across campaigns; settlements of the human heartland in one human tradition (plain Common names such as Whitefall, or a coherent Westron vocabulary), never Khuzdul or Quenya at random; elven and dwarven traditions where those peoples settled, held ancestral land or left a mark in the region's history (a human town on an elven foundation may keep its name) | B | P1 | Partial | Refines OWN-16. Built (49c4338): see OWN-16; region names remain |
+
+### The owner's notes of 2026-10-30 on faces and names
+
+After 49c4338. Modest refinements to OWN-29, OWN-16 and OWN-30.
+
+| ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
+|---|---|---|---|---|---|
+| OWN-39 | A fight card's portrait not a little square: it fills the whole left third or quarter of the company member's card, full height | A | P1 | Open | |
+| OWN-40 | The protagonist's sex or presentation chosen at creation, deciding pronouns, portrait and how they are spoken of; and a table to roll for several name options | A | P1 | Open | |
+| OWN-41 | Every name through one mechanism: the Common names of the human heartland from a true "common" tongue in the `languages` package that echoes the concept structure it is given, rather than a lexicon of their own (src/world/common-names.ts) | D | P2 | Open | Not urgent; noted when the Common names were built (49c4338) |
 
 ### The owner's directive of 2026-10-30: one universe
 
