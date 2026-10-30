@@ -236,4 +236,13 @@ describe('The Lull, by other hands', () => {
     expect(g.j.campaign.world.test({ kind: 'call', name: 'travelsWith', args: [k('linnet'), 'party'] })).toBe(true);
     expect(g.holds('stayPromised', 'party')).toBe(false);
   }, 300000);
+
+  it('the Long Sunday paid for: Haskett\'s wages carried in, and what the paid townsfolk built comes apart at the Watching', async () => {
+    const g = await Lull.start();
+    await g.fixture('wages');
+    expect(g.holds('clubPaid', 'club')).toBe(true);
+    expect(g.holds('joins', 'folk')).toBe(true);
+    expect(g.ending()).toEqual([k('long_sunday')]);
+    expect(g.page).toMatch(/The people who were paid stand looking at their hands/);
+  }, 600000);
 });
