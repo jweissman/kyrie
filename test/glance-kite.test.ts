@@ -117,7 +117,9 @@ describe('kite at a glance', () => {
     expect(Kite.g.legal().filter(id => id.includes('plunder'))).toHaveLength(1);
     expect(den.acts.map(a => a.why)).not.toContain('danger');
   });
+  // About a millisecond alone; the bound leaves room for a machine running sixteen suites at once (its quickest of
+  // nine had still come to six there), and still catches a glance grown slow.
   it('works the glance out in a few milliseconds', () => {
-    expect(Kite.g.timed()).toBeLessThan(2);
+    expect(Kite.g.timed()).toBeLessThan(8);
   });
 });

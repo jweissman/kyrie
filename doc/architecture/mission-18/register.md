@@ -28,6 +28,7 @@ independent ones batched.
 | The adventures' authors | 0 | 14 | 55 | 0 | 0 | 0 | 69 |
 | The navigation review | 0 | 4 | 18 | 0 | 0 | 0 | 22 |
 | The cold review, section H | 0 | 1 | 5 | 0 | 0 | 0 | 6 |
+| Fair Weather's author | 0 | 1 | 14 | 0 | 0 | 0 | 15 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -436,6 +437,29 @@ answered on main, in the second table. Rows found by reading but not yet reprodu
 | WPC-X07 | A story that runs over twelve game days cannot be played whole in a test. | Wapshott's Circus, README.md | COR-18 | Staging is private and spread across 58 test files, so COR-18's audit has to read each one. |
 | WPC-X10 | The circus's money, larder and wages are told only through Ada's talk. | Wapshott's Circus, critique.md | Answered on main | critique.md §9: "The economy is real but mostly invisible except through Ada. |
 | WPC-X11 | Every first country gets the same circus, with the same people under the same names. | Wapshott's Circus, critique.md | AUT-25 | No Kyr form draws a module's person, or a variant of its text, by Deem. |
+
+### Fair Weather's friction (adventure/fair-weather, merged 2026-10-30)
+
+The author's own record, doc/adventures/fair-weather/friction.md (read against main at 23fc5f7 by its author; not
+re-verified line by line here). Points 9, 12 and 18 are held by GTR-15 (by design), AUT-07 and OWN-31 to OWN-35.
+
+| ID | Finding | Gate | Pri | Now | Would help |
+|---|---|---|---|---|---|
+| FWR-01 | Adding a country to countries.json silently moves the other countries in every seed (the independent adventures are chosen by a hash over their number); and the generator draws no desert, though five countries list it as beside | B | P1 | Open | `kyrie countries --diff` naming what a change moves; placement as data (B4, one country); deserts drawable (OWN-44) |
+| FWR-02 | A passage's opening is read while the company is crossing it, so a tide-way shuts behind and before a crossing in progress and the journey "turns back" onto the flooding sand | C | P1 | Open | A way being crossed stays open for whoever is on it, or passability is judged as the company left |
+| FWR-03 | A permanently dangerous way cannot be risked: the save is rolled, then the journey finds it hazardous and turns back | C | P1 | Open | Risking marks the way risked for that crossing |
+| FWR-04 | The voice tables make a dog speak when it follows a second time ("'For a while, then.'") | A | P2 | Open | Filter join lines by species, as thanks are |
+| FWR-05 | No cycles: tides built by hand from the hour, a lag measure and arithmetic | D | P2 | Open | A declared cycle with named phases usable in `opening when` (with AUT-05, AUT-09) |
+| FWR-06 | A standalone campaign's ending closes the book at the climax, so a dénouement exists only in a generated world | D | P2 | Open | Say so in the guide; an ending that closes after its aftermath |
+| FWR-07 | An occasion's matter that times out is told after the next matter opens | A | P3 | Open | Decide a matter within its own time |
+| FWR-08 | In a crowded room every person's every topic is offered at once, burying the scene's own few acts | A | P1 | Partial | The glance (dfc2b32) promotes three; a way to mark an occasion's acts as the acts while it sits |
+| FWR-10 | `Manner` accepts seven values and fails at load with no line | D | P3 | Open | List them in the guide; the error at the line |
+| FWR-11 | `holding(actor, rations)` is silently never true, rations being a good not a kind | D | P2 | Open | Lint `holding(_, <good>)` |
+| FWR-13 | A Kind's name clash across adventures is caught by a test, not by lint | D | P3 | Open | Lint it (with WPC-14) |
+| FWR-14 | A Speaker on any action makes a creature someone to talk to ("Talk to Admiral") | D | P2 | Open | Talkers from topics, not from any speaker |
+| FWR-15 | A journey step's pattern matches another person's topic in the same room | F | P3 | Open | Steps by speaker as well as words |
+| FWR-16 | Topics cannot roll; persuasion is an action that sits elsewhere in the list | D | P3 | Open | A Topic with a check |
+| FWR-17 | No non-lethal fight: three village lads with their fists kill or are killed | C | P1 | Open | A Yields temperament that stops at the first fall, for fights whose stakes are not lives |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 
