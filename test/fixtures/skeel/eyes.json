@@ -1,0 +1,6 @@
+{
+  "day1": ["^To Fore Street", "^To the quay", "^To the Slip", "=until lowWater()", "Pay Cuddy", "^To the open Strand", "^To Scarth Bank", "Work on the wreck", "^To the open Strand", "^To the Slip", "^To the quay", "^To Fore Street", "^Into the Admiral", "=20:00", "Work for Mother Jago", "on the house"],
+  "sale": ["^Out to Fore Street", "^To the quay", "=until matterOpen(lot_crate)", "Bid four coin for the crate", "^To the Slip", "=until lowWater()", "Pay Cuddy", "^To the open Strand", "^To the Holm strand", "^Into the Lantern", "^Into the lamp-room",
+    "Talk to Loveday", "Give Loveday Kitto a pair of spectacles", "who filled the barrel", "to come with you to Skeel"],
+  "ask": ["=until lowWater()", ">skeel__holm_shore", "^To the open Strand", "^To the Slip", "^To the quay", "^Into the Wreck-House"]
+}

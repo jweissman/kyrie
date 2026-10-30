@@ -56,6 +56,7 @@ Module skeel "Fair Weather" {
     Greets "A very large young man with a cudgel stuck in his belt, who stands up when you come in, and then sits down again when he sees you are not anybody. 'Reeve's busy,' he says.".
     Greets again "Big Jack Cawse touches his cudgel, the way another man would touch his hat.".
   }
+  Observe cawse_sore at wreck_house when beatLads(party) and at(cawse, wreck_house) "Big Jack Cawse has a split lip, which is his brothers' and which he is wearing for them, and he watches you the whole time you are in the Wreck-House.".
   Topic cawse_lantern with cawse "Ask Jack Cawse what he wants" when true once {
     Says "He thinks about it seriously. 'The Lantern,' he says. 'Reeve says he'll ask the Court for it, for me, when Loveday's turned off. Three coin a week and the house on the Holm and nobody bothers you.' He grins. 'And you can see everything that comes into the Reach, first.'".
     On discuss { Assert knows(actor, cawse_lantern_known). }
@@ -92,6 +93,17 @@ Module skeel "Fair Weather" {
   Topic hender_hunger with hender "Ask Hender Brask what becomes of Skeel if the Constancy is not wreck" when knows(actor, hunger_known) once {
     Says "'Then her owners have their grain back, and are glad of it, I am sure.' He spreads his hands flat on the book. 'And we have two failed seasons and the Admiral's factor at Martinmas, and a Lowland salt company on the Strand by spring, and the children of this town eating limpets off the Holm by February. I have counted it. I have counted it many times.' He looks at the stacked sacks, and his voice is very quiet. 'I have counted every grain in this building.'".
   }
+  Relation watchedHands(group).
+  Action watch_hender(actor: group, site: place) "Watch Hender Brask's hands while he talks of the Lantern" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hender, site) and not watchedHands(actor) and knows(actor, wreck_known).
+    Time 1 minute.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert watchedHands(actor). Assert knows(actor, hender_shaken). }
+    On failure { Assert watchedHands(actor). }
+    Result "His voice is steady; it is a good voice for numbers. His hands are not. Each time he says the word Lantern his right hand closes, very slightly, on the pen, as if on the handle of something that is burning him; and each time he says Loveday he puts the pen down altogether. Grief, you think. Or not only grief.".
+    Otherwise "He talks well and evenly, and if there is anything under it, you do not see it.".
+  }
+  Discovery hender_shaken "Hender Brask's hands close on his pen whenever he names the Lantern, and he cannot hold it at all when he names Loveday Kitto.".
   // Hender's offer: to a stranger he has seen out on the sands, on the second day.
   Relation henderOffered(group). Relation dogDeal(group).
   Topic hender_offer with hender "Ask Hender Brask whether there is work for a stranger" when secondDay() and knows(actor, dog_known) and not dogDealt(admiral) once {
@@ -135,7 +147,7 @@ Module skeel "Fair Weather" {
   Occasion sale "the Wreck Sale" at quay when secondDay() and hour(clock) >= 9 and not henderConfessed(hender) {
     Matter lot_cask "Hender Brask, on a barrel with the book under his arm, calls the first lot: 'A cask, unmarked, wet. Sound, by the knock of it. Two coin? Two coin for the cask.' Somebody at the back says, 'It's water,' and the quay laughs." for 20 minutes until lotSold(lot_cask).
     Matter lot_crate "'Lot two. A crate, small, very heavy for its size, stencilled WITH CARE, in the southern hand.' He rocks it with his foot, and it clinks, finely, like a great many small things. 'Glass. Three coin?' Mother Jago, at the front, puts her hand up." for 20 minutes until lotSold(lot_crate).
-    Matter lot_chest "'Lot three.' He hesitates over this one. 'A sea-chest. Officer's. Initials M.F. on the lid. Locked; the key's at the bottom of the Reach. Contents unknown.' Jack Cawse says, 'A shilling,' and nobody else says anything." for 20 minutes until lotSold(lot_chest).
+    Matter lot_chest "'Lot three.' He hesitates over this one. 'A sea-chest. Officer's. The lid is cut with two letters, M and F. Locked; the key's at the bottom of the Reach. Contents unknown.' Jack Cawse says, 'A shilling,' and nobody else says anything." for 20 minutes until lotSold(lot_chest).
     Closes "Hender Brask closes the book, and gets down off the barrel, and the quay goes back to its work.".
   }
   Relation lotSold(matter).

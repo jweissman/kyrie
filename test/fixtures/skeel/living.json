@@ -1,5 +1,31 @@
 {
-  "dog": ["^To Fore Street", "^To the quay", "^To the Slip", "=until lowWater()", "Pay Cuddy", "^To the open Strand",
-    "Throw the black dog", "=+1", "Throw the black dog", "=+1", "Throw the black dog", "Hold out your hand", "^To the Slip", "^To the quay", "^To Fore Street", "^Into the Admiral"],
-  "court": ["=day 3 15:20", "^Out to Fore Street", "^To the quay", "^Into the fish cellars", "^Into the net-loft", "=until matterOpen(call)", "Bring Admiral forward", "=until courtDone(reach)"]
+  "dog": [
+    "^To Fore Street",
+    "^To the quay",
+    "^To the Slip",
+    "=until lowWater()",
+    "Pay Cuddy",
+    "^To the open Strand",
+    "Throw the black dog",
+    "=+1",
+    "Throw the black dog",
+    "=+1",
+    "Throw the black dog",
+    "Hold out your hand",
+    "^To the Slip",
+    "^To the quay",
+    "^To Fore Street",
+    "^Into the Admiral"
+  ],
+  "court": [
+    "=day 3 15:20",
+    "^Out to Fore Street",
+    "^To the quay",
+    "^Into the fish cellars",
+    "^Into the net-loft",
+    "=until matterOpen(call)",
+    "Bring Admiral forward",
+    "=until courtDone(reach)",
+    "=day 4 18:30"
+  ]
 }

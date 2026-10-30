@@ -45,6 +45,17 @@ Module skeel "Fair Weather" {
     On success { Increase dogTrust(admiral) by 2. Set fedDog(actor) to watch(clock). }
     Result "The egg lands and does not break. The dog comes for it, and rolls it with his nose, and breaks it, and eats it shell and all, and then looks at you as if you might be a person after all.".
   }
+  Relation readDog(group).
+  Action read_dog(actor: group, site: place) "Sit downwind of the black dog, low and still, and let him come to you" {
+    Description "The way you would with any frightened animal: no looking, no reaching, all the time in the world.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(admiral, site) and dogFree() and not readDog(actor).
+    Time 3.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert readDog(actor). Increase dogTrust(admiral) by 2. }
+    On failure { Assert readDog(actor). }
+    Result "You sit down on the sand with the wind in your face and your hands in your lap and look at nothing. It takes half an hour. Then there is a cold nose against the back of your neck, and gone, and back again.".
+    Otherwise "You sit, and he watches you sit, and after a while he lies down a long way off, and so do you, and that is all.".
+  }
   Observe dog_closer near admiral when dogFree() and dogTrust(admiral) >= 2 and onSands(party) "The black dog lies down twenty feet from you with his chin on his forepaws, watching you, and his tail moves, once, on the sand.".
   Action call_dog(actor: group, site: place) "Hold out your hand to the black dog" {
     Requires able(actor) and company(actor) and at(actor, site) and at(admiral, site) and dogFree() and dogTrust(admiral) >= 3.
@@ -117,6 +128,15 @@ Module skeel "Fair Weather" {
     On success { Retract following(admiral, actor). Assert dogDrowned(admiral). Assert dogDealt(admiral). Retract at(admiral, gut_lip). Assert at(admiral, limbo). Assert drownedDog(actor). }
     Result "It does not take long. That is the worst of it. Afterward you sit on the soft sand at the lip of the Gut with your arms wet to the shoulder, and a shilling owed you at the Wreck-House, and the sea comes over the Strand behind you, and you do not feel it for a while.".
   }
-  Relation drownedDog(group).
+  Relation drownedDog(group). Relation dogLied(group).
+  Action lie_dog(actor: group, site: place) "Tell Hender Brask the dog is drowned" {
+    Speaker hender.
+    Requires able(actor) and at(actor, site) and at(hender, site) and dogDeal(actor) and not dogDrowned(admiral) and not dogLied(actor)
+      and (dogHidden(admiral) or dogWithNye(admiral) or following(admiral, actor)) and not at(admiral, site).
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert dogLied(actor). Assert dogDealt(admiral). Increase quantity(actor, gold) by 1. }
+    Result "He looks at your sleeves, which are dry, and then at your face, and you hold it. After a long moment he takes the shilling out of the drawer and lays it on the table, and writes something in the book. 'Thank you,' he says, and you see that he is relieved, and that he is ashamed of being relieved, and that he will not ask.".
+    Otherwise "He looks at your sleeves, which are dry. 'No,' he says quietly. 'No, it isn't.' He puts the shilling back in the drawer. 'Keep it out of my sight, then. That is all I ask.'".
+  }
   Event dog_shilling at wreck_house when drownedDog(party) and at(party, wreck_house) and at(hender, wreck_house) "Hender Brask looks at your sleeves, which are still stiff with salt, and takes a shilling out of the drawer and lays it on the table, and does not touch your hand when you take it. He writes something in the book. Then he sits looking at what he has written." then { Increase quantity(party, gold) by 1. }
 }

@@ -37,6 +37,18 @@ Module skeel "Fair Weather" {
   Observe slip_scene at slip when true "A cobbled slipway goes down off the end of the harbour wall onto the Strand. At its foot a post is driven into the sand with a bell on it, and beside the post the first of the withies: a laurel branch stuck upright, then another, and another, away across the sand.".
 
   Observe parlour_scene at reeve_parlour when true "A narrow, very tidy parlour: two chairs by a grate, a clock, a shelf of ledgers in date order, and on the wall a framed chart of the Reach, old and foxed, with a pilot's soundings on it in faded ink. Under the chart, a blue-painted oar, very old, hung on two pegs like a sword.".
+  Relation chartRead(group).
+  Action read_chart(actor: group, site: place) "Study the old chart of the Reach on the Reeve's wall" {
+    Description "Faded soundings in a pilot's hand, and marks nobody in Skeel uses any more.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, reeve_parlour) and not chartRead(actor) and not benighted(actor).
+    Time 2.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert chartRead(actor). Assert knows(actor, leading_mark). Assert knows(actor, chart_jacob). }
+    On failure { Assert chartRead(actor). }
+    Result "It is a pilot's working chart, sixty years old, the soundings in brown ink in a small neat hand, and in the margin, signed J.B., a note on the leading mark: the Pulpit kept over the Holm light brings a ship up the channel clear of Scarth Bank, and a lamp is hung in the Pulpit on black nights at the iron ring. Somebody has gone over that note very recently with a finger; the dust on the glass is wiped clean along it, and nowhere else.".
+    Otherwise "Soundings, bearings, marks in a cramped hand and an old notation you cannot follow. You can see that it means something, and not what.".
+  }
+  Discovery chart_jacob "On the Reeve's parlour wall hangs Jacob Brask's own chart of the Reach, with the leading mark noted in the margin and the place of the Pulpit lamp; the dust on the glass has been wiped away along that note, recently, by a finger.".
   Observe head_scene at head when true "The very end of Skeel Head: turf, thrift, a sheer drop on three sides to the sea, and the whole Reach spread below like a map. A stone hut the size of a cupboard stands on the point with a window on every side.".
   // ── Mother Jago and the Admiral ───────────────────────────────────────────────────────────────────────────────────
   Observe tap_scene at taproom when true "A low room built into the hold of a ship, they say, and it feels it: the beams curve, the floor tilts a little toward the fire, and the lamps swing when the door opens. Fishermen with nothing to fish sit at the long table over small beer. On the wall, a painted board with the names of ships that have come to Skeel, and the years. The last name, freshly painted: CONSTANCY.".
@@ -154,6 +166,9 @@ Module skeel "Fair Weather" {
   Topic cuddy_night with cuddy "Ask Cuddy Pascoe who was on the sands the night of the wreck" when knows(actor, wreck_known) once {
     Says "His smile goes. 'Everybody, by morning.' He turns a withy in his hands. 'Before? Nobody. Nobody walks the Strand at night but me, and I was abed.' He looks out at the sand. 'Only the withies were wrong, after. Three of them out by Scarth Bank, pulled and stuck back a yard off, the way a man does who's walking with a lantern and leans on them. I put them right. I never said.' He rings the bell, very softly. 'You don't, in Skeel.'".
     On discuss { Assert knows(actor, withies_moved). }
+  }
+  Topic cuddy_wet with cuddy "Tell Cuddy Pascoe the sea caught you on the Strand" when caughtByFlood(actor) once {
+    Says "He stops smiling and looks at you properly, up and down, the way you look at someone to count their legs. 'Four hours,' he says. 'And the fifth is the sea's.' Then he rings his little bell at you, softly, twice, which you understand is what he does instead of saying he is glad you are alive.".
   }
   Discovery withies_moved "On the morning after the wreck, Cuddy Pascoe found three withies out by Scarth Bank pulled and stuck back a yard off true, the way a man leans on them who is walking the Strand at night with a lantern.".
 

@@ -47,12 +47,13 @@ Module skeel "Fair Weather" {
   Topic ebrel_light with ebrel "Ask Ebrel Penhallow about the light on the Craigs" when knows(actor, craigs_light) once {
     Says "She stops eating. 'Piran saw it. He came in white and said it was his father's ghost, up in the Pulpit with a lamp.' She throws the shell over the edge. 'I told him to hush. I told him there's no ghosts, and he's to say nothing to nobody.' She looks at you straight. 'You want to know why? Because the only folk who go up the Pulpit are climbers, and the climbing's on the Reeve's licence, and I've three children and an old mother. That's why.' She wipes her mouth. 'He's never forgiven me. Talk to him if you like. He talks to strangers. He doesn't talk to me.'".
   }
+  Observe piran_turned at clifftop when piranHatesYou(piran) and at(piran, clifftop) "Piran sits at the far end of the camp, as far from you as the cliff allows, with his back to you.".
   Topic piran_ghost with piran "Ask Piran what he saw on the night of the wreck" when true once {
     Says "He does not look round. 'A light. In the Pulpit. I was out on the edge here, I come out here at night, Mam doesn't know. And there was a light in the Pulpit where there's never anything, a lamp, hung up, and a man beside it, all dark. I thought it was my da.' He swallows. 'And then the ship hit, out on the sand, I heard it, like a door slammed a mile off. And the man put his hand over the lamp. And it was dark.' Now he looks at you. 'Ghosts don't put their hands over lamps. Do they.'".
     On discuss { Assert knows(actor, craigs_light). Assert knows(actor, piran_saw). }
   }
   Discovery piran_saw "Piran Penhallow saw a man in the Pulpit on the night of the wreck, beside a hung lamp; when the ship struck, the man covered it with his hand.".
-  Topic piran_plan with piran "Ask Piran what he means to do" when knows(actor, piran_saw) once {
+  Topic piran_plan with piran "Ask Piran what he means to do" when knows(actor, piran_saw) and not piranHatesYou(piran) once {
     Says "'Go up.' He says it quite calmly. 'Tomorrow night, when they're all at the Supper and drunk. Up the fixed rope to the ledges, and up the face. I've done the face in my head every night since I was seven. I'll see what's up there.' He looks at you. 'If you tell Mam, I'll go tonight instead.'".
     On discuss { Assert piranPlans(piran). }
   }

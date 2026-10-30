@@ -5,7 +5,9 @@ import { Reach, home, k } from './support/skeel';
 
 // Fair Weather (doc/adventures/fair-weather), played by the labels a player sees from the steps in
 // test/fixtures/skeel. Each test is one way the three days can go. The company comes down the coast road at eight on
-// the first morning (watch 0); the Wreck Court sits at four on the third (watch 336).
+// the first morning (watch 0); the Wreck Court sits at four on the third (watch 336); the third ebb gives back the
+// drowned before dawn on the fourth; and the ending is told when Ferrar's packet sails, at six on the fourth evening
+// (watch 492).
 describe('Fair Weather', () => {
   it('lints clean', async () => {
     const findings = await KyrLint.campaign(home, new NodeBundleSource());
@@ -46,6 +48,38 @@ describe('Fair Weather', () => {
     expect(g.ending()).toEqual([k('pilots')]);
     expect(g.page).toMatch(/Did you put the sea in my oil/);
     expect(g.page).toMatch(/PILOTS OF THE REACH|Twelve Gigs/);
+    // The third ebb: Matthew Ferrar found among the drowned, and his sister comes down the Slip.
+    expect(g.holds('matthewHome', 'constance')).toBe(true);
+    expect(g.page).toMatch(/Well, Mattie/);
+  }, 600000);
+
+  it('The Godson, sent: the Reeve told to row out and tell Loveday himself, and refusing to say wreck', async () => {
+    const g = await Reach.start('data/campaigns/skeel.campaign.json', 's1');
+    await g.fixture('godson');
+    expect(g.knows('hender_did')).toBe(true);
+    expect(g.holds('confessedAlone', 'hender')).toBe(true);
+    expect(g.holds('notWreck', 'reach')).toBe(true);
+    expect(g.ending()).toEqual([k('godson')]);
+    expect(g.page).toMatch(/I will not say it/);
+  }, 600000);
+
+  it('Kerensa, asked in the loft though she said not to: she stands, and the false light makes the ship no wreck', async () => {
+    const g = await Reach.start('data/campaigns/skeel.campaign.json', 's1');
+    await g.fixture('kerensa');
+    expect(g.knows('kerensa_saw')).toBe(true);
+    expect(g.holds('kerensaSpoke', 'party')).toBe(true);
+    expect(g.holds('notWreck', 'reach')).toBe(true);
+    expect(g.ending()).toEqual([k('exposed')]);
+  }, 600000);
+
+  it('Loveday\'s eyes: the crate bought at the sale, a pair of spectacles, and the first thing she sees is the sea in her oil', async () => {
+    const g = await Reach.start('data/campaigns/skeel.campaign.json', 's1');
+    await g.fixture('eyes');
+    expect(g.holds('crateBought', 'party')).toBe(true);
+    expect(g.holds('lovedaySees', 'loveday')).toBe(true);
+    expect(g.knows('oil_watered')).toBe(true);
+    expect(g.holds('henderConfessed', 'hender')).toBe(true);
+    expect(g.page).toMatch(/takes off the spectacles/);
   }, 600000);
 
   it('A Living Thing: the dog brought up the loft, and the Court laughs, and stops', async () => {

@@ -38,7 +38,7 @@ Module skeel "Fair Weather" {
   }
   Topic kerensa_bar with kerensa "Ask Kerensa Brask what she has been sounding the bar for" when kerensaTrust(kerensa) >= 2 and (knows(actor, pilots_known) or turnedWheel(actor)) once {
     Says "She goes very still with the mallet in the air. Then she laughs, angrily. 'Bartle. Bartle Tonkin and his one lead-line a year.' She puts the mallet down and wipes her hands and takes out of her guernsey a little notebook bound in sailcloth, and holds it, not giving it. 'Two summers. Every state of the tide, every cast, the whole bar from the Craigs to Inish. I don't know why. Because he did it. Because it's there to be known and nobody knows it any more.' She turns the notebook over. 'Because if anybody ever wanted pilots on the Reach again, somebody would have to know the bar.' She almost holds it out. 'It's no use to anybody. There's no station.'".
-    On discuss { Assert knows(actor, kerensa_sounds). }
+    On discuss { Assert knows(actor, kerensa_sounds). Increase kerensaTrust(kerensa) by 1. }
   }
   Discovery kerensa_sounds "Kerensa Brask has been rowing her grandfather's rebuilt gig out at night for two summers, sounding the whole of the Reach's bar, cast by cast, and keeps it in a notebook.".
   Topic kerensa_notes_ask with kerensa "Ask Kerensa Brask to let Old Malachy see her notebook, for the Rutter" when knows(actor, kerensa_sounds) and rutterAsked(actor) once {

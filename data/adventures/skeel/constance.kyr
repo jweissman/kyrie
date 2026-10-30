@@ -46,7 +46,7 @@ Module skeel "Fair Weather" {
   // On the night low water of the third day the Reach gives back the Constancy's eleven men at the wrack line below the
   // Slip, as it nearly always does.
   Relation drownedIn(place).
-  Rule third_ebb when thirdDay() and lowWater() and hour(clock) >= 22 and not drownedIn(reach) { Assert drownedIn(reach). }
+  Rule third_ebb when thirdDay() and lowWater() and hour(clock) >= 23 and not drownedIn(reach) { Assert drownedIn(reach). }
   Rule third_ebb_late when dayN(reach) >= 4 and not drownedIn(reach) { Assert drownedIn(reach). }
   Observe drowned_scene at slip when drownedIn(reach) and not acreFilled(reach) "Along the wrack line at the foot of the Slip, among the weed and the driftwood, the sea has laid out the Constancy's people: eleven men, side by side, almost in a row, as if somebody had arranged them. Lanterns stand on the sand by them, and Skeel stands round them in the dark, men with their hats off, women with their shawls over their heads, quiet. Parson Hosken is going from one to the next.".
   Relation matthewFound(group). Relation matthewHome(group). Relation crewNamed(place).

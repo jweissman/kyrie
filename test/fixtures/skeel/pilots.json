@@ -141,5 +141,11 @@
     "^Into the net-loft",
     "=until matterOpen(winter)",
     "Put the Rutter on the table"
+  ],
+  "ebb": [
+    "=day 3 23:10",
+    ">skeel__slip",
+    "Look among the drowned for Matthew Ferrar",
+    "=day 4 18:30"
   ]
 }
