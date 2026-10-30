@@ -1,0 +1,581 @@
+# nell-bard: test/fixtures/half-the-hive/bard.campaign.json nell
+# ending: lark_owned
+
+> >hume__smoke_street
+You set out from the drove road at the Wold’s edge early, with your shadow long in front of you on the road. In the Wold of Hume the limes are in flower, the queen-cells in the Comb were capped six days ago, and every household under the Brow is deciding who goes. The hum has dropped a note. Anyone in the Wold can hear it, if they know what it sounded like before. Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes. Smudge-fires of damp bracken and dung burn in iron baskets at every door and at the street’s ends, and the smoke goes up the gorge on the draught, grey and sweetish, and makes your eyes run. People here walk with a hand over their mouths, out of habit. Somewhere a hammer. Up the gorge, through the smoke, a glow like a lamp behind a curtain. On the post of the Smoker’s Rest a notice is nailed up, in a square hand, in lowland letters: SEARCHERS WANTED. ANY WHO CAN WALK AND LOOK. PAID IN WAX. ASK FOR K. DUNN, THE DANCING HALL, UP THE COMB. And under it, smaller: GET SCENTED FIRST. Handcarts go up the gorge empty and come down loaded: chests, chairs, a cradle, a loom in pieces, all with that faint golden tackiness of things that have lived a long time in the Comb.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path. The smoke thins behind you and something else takes its place: warmth, out of all proportion to the day, and a smell like a summer field baked and then poured into a jar, and a sound you feel first in your teeth.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. It is gold and amber and brown and in places nearly black; it hangs in great curved sheets, like curtains frozen in a wind, the oldest of them four hundred years old; and it is cut through with doors, and stairs, and windows. The light through the wax is the colour of beer. The hum is everywhere: in the walls of the gorge, in the ground, in your breastbone. Overhead the Sisters come and go in brown streams the width of a road, gold-and-black, furred like a good coat, with eyes like wet coal. They land on the comb’s lip and walk in. When one passes low the wind of her wings lifts your hair. The people on the Apron do not look up, the way people in a town do not look up at the weather. Stalls along the troughs sell honey-cake, comb in squares on vine leaves, bee-bread in brown loaves, mead by the horn, and a fried thing in paper cones that smells of nuts and butter, which the stallholder says is brood: the drone brood, a delicacy, fried in its own wax. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__scenting_room
+A low room cut into the rock beside the foot stair, very clean. Shelves of stoppered jars, a stone basin, a brazier with something resinous on it. A slate on the wall says in chalk: GUESTS SCENTED, ONE DAY. TWO COIN. SEARCHERS NOTHING. Elspet Garnock, the Scent-warden: a small exact woman with a stained apron and very clean hands, who smells overwhelmingly of the Comb, is here.
+
+> Ask Elspet to scent you for a day, two coin
+She dips two fingers in a jar of something gold and thick, and draws them down your forehead, your throat, the insides of your wrists, behind your ears, saying something under her breath that has the hum’s tune and no words. It is warm, and then it is nothing; and then, as you go out, a Sister on the doorframe turns her head toward you, and away, uninterested, as if you were family.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg. The gallery is a corridor of six-sided rooms, each as big as a cottage, their walls thin enough to see shapes through: bees, people, a cradle. The floor gives very slightly underfoot and is tacky, like a well-polished table on a hot day, and everyone here goes barefoot or in felt. The hum is so close now that you hear words in it if you let yourself.
+
+> >hume__mellor_cell
+A family’s cell: one six-sided room with a hearth-stone in the middle that has never had a fire on it, a loom, a bed in a wax alcove, children’s drawings pressed into the wall. A bundle tied up in a blanket by the door, ready to go. The other half of the room is not packed at all. Agnes Mellor, the Capper’s widow: a heavy, quiet woman with grey plaits and a mourning band of black wax on her wrist, is here.
+
+> Talk to Agnes Mellor
+A heavy grey woman is sitting on the end of the bed with her hands in her lap, the way people sit in a room where somebody has died. She looks up at you without much interest. ‘If you’re from the Hum-keepers, the answer’s still the same,’ she says. ‘If you’re not, sit down. Nobody sits down in here since Tobit.’
+
+> Ask Agnes how Tobit died
+‘In the Capped Gallery. In the night. He went up to see to old Mother Rook’s seal, which was weeping, and he didn’t come down, and they found him in the morning by the wall, sitting, with his face,’ she says, and stops. ‘Slack. Like a child’s, asleep. Except his eyes were open.’ She turns her mourning band round on her wrist. ‘And the cells beside him, the honey cells under the seals, empty. Licked out. The keepers say his heart. Sixty-one, and up and down that stair forty times a day, and his heart.’ She reaches into her apron and holds something out on her palm. ‘This was by his hand. It isn’t his. I don’t know what it is.’ You take a little phial Agnes found.
+
+> Take your leave
+Agnes Mellor lifts a hand, once.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__nell_shop
+Nell Quarrie, the perfumer of Smoke End: a tall woman in black, fifty, very upright, who smells faintly of the Comb, is here.
+
+> Talk to Nell Quarrie
+A tall woman in black looks up from a row of little bottles. The shop smells of roses, of resin, of musk, and under it all, faint and impossible, of warm wax and summer fields. ‘Rosewater,’ she says, ‘lavender, attar, civet, and a few things of my own.’ She watches you notice the smell under the smells. ‘Yes,’ she says, ‘that too. One coin. Half a day.’
+
+> Ask Nell Quarrie how she makes the oil that smells of the Comb
+‘Carefully.’ She does not smile. ‘Six years of carefully. Heather oil, and wax, and propolis, and fourteen other things, and a great deal of standing at the foot of the stair with my eyes shut, smelling.’ She sets a bottle straight on the shelf. ‘It is not illegal. There is no law in the Wold about smelling of things. There is only Elspet Garnock.’
+
+> Ask Nell Quarrie why she learned to make it
+She is quiet so long you think she will not answer. ‘My husband was Aldo Quarrie, of the Comb. He came down to Smoke End to buy lavender for his mother and he stayed eleven years. When he was dying he wanted to go home, and I took him up the stair, and Elspet Garnock scented him, and would not scent me.’ Her hands are quite still on the counter. ‘He’s capped in the Gallery. Fourth row from the arch, on the left. I asked to go up and sit with him the way the Humefolk sit with theirs. Three times. Elspet said I was not of the Comb.’ She looks at you. ‘So I made myself of the Comb. Once a month, for six years, I have gone up the stair smelling of this, and sat with him an hour in the dark, and come down. Nobody has ever stopped me. Nobody has ever noticed.’ Tamsin gains 75 experience: heard Nell Quarrie out.
+
+> Ask Nell Quarrie whether she was in the Capped Gallery the night Tobit Mellor died
+She does not pretend. She has been waiting for someone to ask. ‘Yes. It was my night.’ She sits down. ‘I was with Aldo. In the dark. And Tobit came up with a little lamp, which they never do, to see to a seal that was weeping, and I heard him stop, and say, What are you? Very surprised. And then there was a noise.’ Her hands tighten. ‘A squeal. And I saw, by his lamp, before it went over, a moth. As long as my arm. On the wall over him, with its wings open. It had a face on its back. A skull.’ She breathes. ‘Then the lamp was out. I went to him in the dark. He was sitting against the wall, and he was dead, and it was drinking, beside us, at the seals. It smelt of the Mother. It smelt like me.’ She looks at you. ‘I closed his eyes. I sat with him until it went away and the arch went grey, and then I ran, because if I was found there they would have said I did it, the lowland woman in the forged scent. I dropped a phial. I have been waiting for someone to come and ask me about it ever since.’ Tamsin gains 50 experience: heard what comes into the Capped Gallery in the dark. Tamsin gains 100 experience: learned who sat with Tobit Mellor the night he died.
+
+> Take your leave
+Nell Quarrie considers the conversation over some moments before you do.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__mellor_cell
+A family’s cell: one six-sided room with a hearth-stone in the middle that has never had a fire on it, a loom, a bed in a wax alcove, children’s drawings pressed into the wall. Agnes Mellor, the Capper’s widow: a heavy, quiet woman with grey plaits and a mourning band of black wax on her wrist, is here.
+
+> Talk to Agnes Mellor
+Agnes looks up. ‘Sit down.’
+
+> Tell Agnes the phial was Nell Quarrie's, and that Nell sat with Tobit the night he died
+‘Nell Quarrie.’ Agnes says the name slowly. ‘Aldo’s widow. From Smoke End.’ She takes it in. ‘Tobit capped Aldo. Six years ago. He cried doing it; he was fond of Aldo. He said it was a shame about the wife, that Elspet wouldn’t have her.’ She is silent. ‘And she was up there. In the dark, with nobody knowing, and she found him, and she sat with him till it got light.’ Agnes wipes her face with the flat of her hand, roughly. ‘Somebody sat with him, then. Somebody did.’ She stands up. ‘You tell Elspet Garnock that Agnes Mellor says Nell Quarrie is more of the Comb than Elspet is. Tell her I said it.’
+
+> Take your leave
+Agnes Mellor lifts a hand, once.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__scenting_room
+A low room cut into the rock beside the foot stair, very clean. Elspet Garnock, the Scent-warden: a small exact woman with a stained apron and very clean hands, who smells overwhelmingly of the Comb, is here.
+
+> Ask Elspet to name Nell Quarrie to the Comb, on Agnes Mellor's word · an even chance
+Elspet hears you out and shakes her head. ‘You are asking me to reward a forger for forging.’ She turns back to the basin. ‘Ask me again when I have slept on it.’ Tamsin fails the persuasion check (d20 11 + charisma -1 + persuasion 2 = 12 against 13).
+
+> Ask Elspet to name Nell Quarrie to the Comb, on Agnes Mellor's word · an even chance
+You tell her all of it: the oil, the six years, the fourth row on the left. And then what Agnes Mellor said, that Tobit sealed Aldo Quarrie himself and wept doing it, and that Nell sat with Tobit’s body last week in the dark when nobody else would. Elspet is silent a long time. ‘She has been coming up my stair,’ she says at last, ‘for six years, to sit in the dark with a dead man, because I would not let her do it in the light.’ She puts her spectacles back on. ‘Tell her to come in the morning. I will do it properly. The way it is done for a bride.’ Tamsin makes the persuasion check (d20 19 + charisma -1 + persuasion 2 = 20 against 13). Tamsin gains 200 experience: saw Nell Quarrie named to the Comb.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__nell_shop
+Nell Quarrie, the perfumer of Smoke End: a tall woman in black, fifty, very upright, who smells faintly of the Comb, is here.
+
+> Talk to Nell Quarrie
+Nell Quarrie inclines her head.
+
+> Tell Nell Quarrie that Elspet Garnock will scent her
+She does not believe you, and then she does, and then she sits down on the stool behind her counter very suddenly, like a much older woman. ‘Properly,’ she says. ‘Up the stair in daylight, like anybody.’ She puts her hands over her face. When she takes them away she is smiling, which you have not seen her do. ‘I shall go up tomorrow,’ she says, ‘and sit with him in the afternoon. In the afternoon! With the light coming down the arch.’
+
+> Take your leave
+Nell Quarrie considers the conversation over some moments before you do.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__taproom
+Martin Sayle, the keeper of the Smoker’s Rest: a grey, square, careful man who turns his head to listen with his left ear, is here.
+
+> Talk to Martin Sayle
+The man behind the board turns his head to bring his left ear round to you. ‘Speak up on that side. The right’s been no use since a Sister put a sting in it, twenty years back, the first week I came up here.’ He pours you something without asking. ‘Mead. Mine. It isn’t as good as Huw Penry’s up the Comb, and I’ll tell you why before you ask: he’s got the heather honey and I’ve got what he sells me. Bed’s two coin. Welcome to the Wold.’
+
+> Ask Martin about Huw Penry's mead
+His face does something complicated. ‘Huw Penry is the finest mead-maker in the Wold and the vainest man in it, and he’s going with the Mother, and he’s making one last mead for the Calling that’ll be drunk at every Calling for thirty years, he says.’ A pause. ‘I hear it’s stuck. Stopped working in the barrel. Won’t go.’ Another pause. ‘I’m not glad,’ says Martin, who is a little glad. ‘Somebody should tell him what’ll start it. It won’t be me. He’d sooner pour it in the stream than take a word from Smoke End.’
+
+> Ask Martin what would start a stuck mead
+‘Bee-bread,’ says Martin at once, and then looks as if he wished he had not. ‘A fist of it, crumbled in. The yeast’s hungry, honey’s not enough for it; it wants feeding. Any brewer in the lowland knows that.’ He polishes a cup that does not need it. ‘Doll Rowntree on the Apron sells it by the loaf. Huw’d know it himself if he ever listened to anybody.’ He sets the cup down. ‘Don’t tell him it came from me.’
+
+> Take your leave
+Martin Sayle lifts a hand, once.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__honey_vaults
+The honey vaults go back into the dark under the Brow: cell upon cell, each the size of a barrel, each capped with white wax, each full. Where the cap is thin, the honey shows through, dark gold, like looking into a lamp from the side. Bees stand on the comb fanning with their wings, and the air moves past you warm and thick and smelling of every flower you have ever known. The biggest barrel in the vaults, chalked PENRY · CALLING, sits silent: put your ear to it and there is nothing. Huw Penry, the Comb’s mead-maker: a big man with a magnificent beard and a voice he uses to its full extent, among his barrels, is here.
+
+> Talk to Huw Penry
+A big bearded man among the barrels turns round with his arms out as if you had come to his wedding. ‘A stranger! A lowlander! Have you ever tasted mead? You have not. You have tasted what Martin Sayle sells in Smoke End, which is honey-water that has had a fright.’ He thumps a barrel. ‘This is mead.’ He lowers his voice. ‘Not this one.’
+
+> Ask Huw about his mead for the Calling
+‘My last.’ He lays a hand on the biggest barrel. ‘Heather honey off the moor, lime honey off the wood, water from the Brow spring, and forty years of knowing. It’ll be drunk at the Calling, and they’ll keep a cask of it to drink at every Calling after, for thirty years, and say: Penry made that, the year he went.’ His hand stays on the barrel. Then, quietly, all the voice gone out of him: ‘It’s stopped. It was working, and it stopped. Eight days now. It just sits there, sweet, and won’t go.’ He looks at you with real despair. ‘Forty years and it’s never happened.’
+
+> Tell Huw that the old mead-masters of the Comb swore by bee-bread in a stuck barrel · unlikely
+You tell him you heard it from the Waxwrights, who heard it from their grandfathers: that the old masters of the Comb, in the days before anybody wrote anything down, would crumble a fist of bee-bread into a sulking barrel. Huw Penry’s eyes go wide. ‘The old masters,’ he says reverently. ‘Of course. Of course they did. Lost knowledge.’ He has a loaf in the barrel before you have finished, and by evening it is working, and he is telling everyone that he rediscovered it. Tamsin makes the deception check (d20 14 + charisma -1 = 13 against 13). Tamsin gains 75 experience: got Huw Penry’s mead working. The biggest barrel in the vaults, chalked PENRY · CALLING, is muttering and ticking to itself, and smells of summer.
+
+> Take your leave
+Huw Penry considers the conversation over some moments before you do.
+
+> >hume__brood_gallery
+Inside, the Comb is warm as a kitchen and gold as the inside of an egg.
+
+> >hume__apron
+The gorge opens into a bowl under a lip of grey rock a quarter of a mile long, and hanging from the underside of the rock is a honeycomb the size of a town, with people going in and out of it, and bees as big as hounds. Doll Rowntree, a stallholder by the troughs, with a griddle, a fly-whisk, and forearms like hams, is here.
+
+> >hume__gorge_path
+The gorge closes in: grey limestone walls going up and up, ferns in every crack, a stream loud beside the path.
+
+> >hume__smoke_street
+Smoke End is one street of turf-roofed houses and timber yards strung along a stream at the mouth of the gorge, and all of it smokes.
+
+> >hume__leavers_yard
+The Chandlers’ Company’s yard, behind a fence of split oak: a long shed, a weighing-beam, and today a field’s worth of other people’s lives set out on the trodden mud in rows. Wax in cakes and candles. Honey in crocks. Spinning wheels, bee-veils, carved chests, a child’s cot, a pair of good boots. A man in a black coat walks the rows with a boy and a slate, saying a number at each thing, low, and the boy writing it, and the families standing by their things not looking at each other. Here are Crispin Penhallow, the factor of the Chandlers’ Company: a pleasant, soft-voiced man in a black coat, with a boy and a slate; and the Drewes, a family of chandlers of the Comb going with the Mother: a mother, a father, two girls, standing by a table of fine candles.
+
+> Pay the Drewes what the candles are worth, six coin
+The mother looks at the six coins in her hand, and then at you, and then, for the first time, at Crispin Penhallow, who is looking at the sky. ‘There,’ she says to her daughters, and closes her hand. The younger girl says, ‘Now we can have the goat,’ and is hushed. You take a bundle of fluted Brow candles. Tamsin gains 50 experience: paid the Drewes what their candles were worth.
+
+> Sell a bundle of fluted Brow candles
+Crispin Penhallow takes a bundle of fluted Brow candles, and counts out the coin for it. Tamsin gains 3 experience.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes. It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+All over the Wold the Searchers are out: walking the lindens, the moor, the chalk, looking into every hollow big enough to hold two hundred people and a cloud of bees. In the Dancing Hall the dances have begun to lean one way, then another. The Mother will not go before the Calling, tonight. After that she will go when five dance for one place, and not before; unless something else decides it.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+You catch the smell of yourself, as the air moves: your own smell, coming back through the Mother’s, like a stone coming up through snow. The anointing is wearing off. Within the hour you will smell of nothing but yourself.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+From the direction of the gorge comes a sound like the sea getting up, and then the whole sky over the Brow goes brown, and moves.
+
+> Wait › An hour
+She goes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Two days after the Leaving the new queen flies, and the Escort walks behind her in yellow; and at dusk, by a custom older than the Comb, the Escort is turned out.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+An hour passes.
+
+> Wait › An hour
+Eben Candlish walked out after the bees without a word to anyone, and is in the new comb, carving nothing; and Linnet Amory, who stayed for him so that he could finish the Stair, keeps the Daughters in the Brow, and goes every evening to the Waxwrights’ gallery and stands at the foot of the Lantern Stair, three turns up and stopping at nothing, and nobody has had the heart yet to tell her he meant to do the same for her. Hannet Coke stayed, for the seventh time. She sits on the slope of the empty Dancing Hall in the afternoons and runs, very short, very slow, the line of a dance for somewhere, to nobody. Agnes Mellor stayed. She sits in the Capped Gallery every night in the dark with Tobit, on her stool, talking about the goat. Something still comes into the Capped Gallery in the small hours, soft and dry, smelling of the Mother, and drinks from the seals of the dead; and the children of the Brow have a name for it, and a rhyme, and will not go up the honey stair after dark. Nell Quarrie goes up the stair in the afternoons now, in daylight, scented by Elspet Garnock’s own hand, and sits with Aldo, fourth row on the left, with the light coming down the arch; and has shut her shop, because she finds she has no more use for the oil. Moss Ashdown can walk again, with a stick, and will be a Searcher still, they say, in a year. There is a song about him in the Brow after all; the children made it up. It is not the song he wanted. It is quite a good song. The Breck princess woke first and stung her sisters in their cells, and reigns, and the Brecks are the Mother’s household at last after a hundred years, and everyone says what a strong queen she is, and how lucky. Ivo Gildersleeve was turned out with the Escort, with a cloak and a loaf, and is sitting on a milestone at the edge of the Wold looking down the drove road at the lowland, which he has never seen, deciding. A cask of Huw Penry’s last mead is laid down in the honey vaults of the Brow to be broached at every Calling for thirty years, chalked PENRY · THE YEAR HE WENT, and Martin Sayle in Smoke End says it is the second-best mead in the Wold, and will not say which is the first. The Drewes bought a goat with what you paid them, at the last farm before the moor, and walked it all the way, and it is the only goat in the new comb, and the younger girl has named it after you. The Leaving lives in the chantry tower at Larkhill, safe and dry and a morning from market; and the bees, and the comb, and the honey, are the property of L. Corve, Esquire, by the law of the lowland, which the Humefolk have never had to know before and are learning. He has not taken a single pot. He has not been in among them. He cannot bring himself to, and they cannot bring themselves to ask him.

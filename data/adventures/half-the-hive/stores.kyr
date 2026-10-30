@@ -52,6 +52,13 @@ Module hume "Half the Hive" {
   Item tobit_figure "a wax likeness of Tobit Mellor" is tobit_likeness at limbo.
   // The watch: Agnes goes up at ten on the night agreed, and sits till first light.
   Rule agnes_to_gallery when watchAgreed(agnes) and not keptWatch(party) and (hour(clock) >= 22 or hour(clock) < 5) and not at(agnes, capped_gallery) and not leavingBegun() { Assert at(agnes, capped_gallery). }
+  Action sit_watch(actor: group, site: place) "Sit down beside Agnes in the dark, and keep the watch" {
+    Description "No light. You sit where you are put, and you do not move, until something changes.".
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, capped_gallery) and at(agnes, capped_gallery) and watchAgreed(agnes) and not keptWatch(actor) and not at(deathshead, capped_gallery) and (hour(clock) >= 22 or hour(clock) < 4).
+    Time 6.
+    Interrupted when at(deathshead, capped_gallery).
+    Result "You sit. The dark is complete. After a while you can hear the dead, or think you can: the wax ticking as the night cools, a long way back in the rows. Agnes talks to Tobit. You do not move.".
+  }
   Rule agnes_home when at(agnes, capped_gallery) and hour(clock) >= 5 and hour(clock) < 22 { Assert at(agnes, mellor_cell). }
   Rule watch_kept_lit at capped_gallery when watchAgreed(agnes) and at(party, capped_gallery) and at(agnes, capped_gallery) and hour(clock) >= 4 and hour(clock) < 5 and not keptWatch(party) and lightAmongCapped(party) says "The grey comes at the arch. Agnes Mellor gets up stiffly off her stool and puts her palm flat on the wax in front of Tobit's face. 'Somebody sat,' she says to him. 'With a light, among them all. But sat.' She does not look at you." { Assert keptWatch(party). }
   Rule watch_kept at capped_gallery when watchAgreed(agnes) and at(party, capped_gallery) and at(agnes, capped_gallery) and hour(clock) >= 4 and hour(clock) < 5 and not keptWatch(party) says "The dark goes grey at the arch, and then you can see your hands. Agnes Mellor gets up stiffly off her stool and puts her palm flat on the wax in front of Tobit's face, the way you would on a door, and holds it there. 'There,' she says to him. 'Somebody sat.'" { Assert keptWatch(party). }

@@ -11,8 +11,8 @@ Module hume "Half the Hive" {
     Greets "A tall old woman in black under the first princess-cell inclines her head to you a quarter of an inch. 'Dame Brenna Breck. That is our cell.' She does not need to say whose. 'You will forgive me if I do not get up. A watcher does not get up.'".
     Greets again "Dame Brenna inclines her head a quarter of an inch.".
   }
-  Person watchers "the watchers of the other cells" at royal_gallery {
-    Role "an old Waxwright on one stool and a freckled woman on the other, not speaking".
+  Person watchers "Abel Candlish and Wenn Ashdown" at royal_gallery {
+    Role "the watchers of the other two cells: Eben's old father on one stool, Moss's freckled mother on the other, not speaking".
     Ancestry human. Numbers 2. Peaceable. Pronouns they.
   }
   Relation brennaShamed(group). Relation pimConsents(group). Relation breckPierced(group). Relation emerged(entity). Relation castTomorrow(group). Relation castWent(group).
@@ -61,7 +61,7 @@ Module hume "Half the Hive" {
     Requires at(actor, site) and able(actor) and company(actor) and at(actor, royal_gallery) and royalCell(cell) and state(cell, sealed) and holding(actor, queen_cage) and pimConsents(pim) and not emerged(cell_breck).
     Time 1.
     On success { Spend queen_cage from actor. Assert state(cell, caged). }
-    Result "You lift the little lantern of rods up round the cell, and close it, and the watcher on the stool beneath stands up and watches you do it and does not stop you. 'The keeper said,' they say, to the room, to Dame Brenna, who says nothing.".
+    Result "You lift the little lantern of rods up round the cell, and close it, and the watcher on the stool beneath stands up and watches you do it and does not stop you. 'The keeper said,' says the watcher under it, to the room, to Dame Brenna, who says nothing.".
   }
   Action pierce_breck(actor: group, site: place) "Pierce the Breck princess-cell with a blade before she wakes" {
     Grave "The princess in it will die in the wax, the Brecks' hundred years of hoping with her.".
@@ -87,8 +87,8 @@ Module hume "Half the Hive" {
   Rule candlish_stung when daughtersDone(brenna) and state(cell_candlish, sealed) and not breckPierced(brenna) { Assert state(cell_candlish, killed). }
   Rule ashdown_stung when daughtersDone(brenna) and state(cell_ashdown, sealed) { Assert state(cell_ashdown, killed). }
   Rule cast_coming when daughtersDone(brenna) and (state(cell_candlish, caged) or state(cell_ashdown, caged)) and not castTomorrow(brenna) { Assert castTomorrow(brenna). }
-  Rule stinging_caged at royal_gallery when daughtersDone(brenna) and at(party, royal_gallery) and state(cell_candlish, caged) and state(cell_ashdown, caged) and not spread(stinging_seen) says "At two the new queen comes along the ceiling of the royal gallery: long, gold, new, quick as a cat. She goes to each cell in turn, and at each she walks round and round the cage, piping, frantic, and cannot get in; and inside, the quacking goes on, frightened and alive. The two watchers sit under their cages with their hands clenched in their laps and do not look at Dame Brenna." { Assert spread(stinging_seen). }
-  Rule stinging_seen at royal_gallery when daughtersDone(brenna) and at(party, royal_gallery) and not spread(stinging_seen) says "At two the new queen comes along the ceiling of the royal gallery: long, gold, new, quick as a cat. She goes to each cell in turn. Where a cell is caged she walks round and round the cage, piping, frantic, and cannot get in. Where it is not, she clings to the wax and curls her body under her, and the quacking from inside stops. Under the cell the watcher on the stool puts their face in their hands." { Assert spread(stinging_seen). }
+  Rule stinging_caged at royal_gallery when daughtersDone(brenna) and at(party, royal_gallery) and state(cell_candlish, caged) and state(cell_ashdown, caged) and not spread(stinging_seen) says "At two the new queen comes along the ceiling of the royal gallery: long, gold, new, quick as a cat. She goes to each cell in turn, and at each she walks round and round the cage, piping, frantic, and cannot get in; and inside, the quacking goes on, frightened and alive. Abel Candlish and Wenn Ashdown sit under their cages with their hands clenched in their laps and do not look at Dame Brenna, and Dame Brenna does not look at them." { Assert spread(stinging_seen). }
+  Rule stinging_seen at royal_gallery when daughtersDone(brenna) and at(party, royal_gallery) and not spread(stinging_seen) says "At two the new queen comes along the ceiling of the royal gallery: long, gold, new, quick as a cat. She goes to each cell in turn. Where a cell is caged she walks round and round the cage, piping, frantic, and cannot get in. Where it is not, she clings to the wax and curls her body under her, and the quacking from inside stops. Under the Candlish cell old Abel Candlish puts his face in his hands; under the Ashdown cell Wenn Ashdown stands up, and sits down again, and stands up." { Assert spread(stinging_seen). }
   Entity stinging_seen: fact "the stinging".
   Rule cast_goes when castTomorrow(brenna) and hour(clock) >= 12 and not castWent(brenna) and daughtersDone(brenna) {
     Assert castWent(brenna). }

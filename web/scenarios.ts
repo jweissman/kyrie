@@ -56,7 +56,8 @@ export class Scenarios {
     { manifest: 'data/campaigns/the-third-night.campaign.json', title: 'The Third Night', seed: 'wray',
       note: 'Three years you have been on the far side of the fells, hiring out with the droves. Your father went out on the road with the cart and did not come home. Now you are coming down the drove road to Wrayford, the bridge-city on the Wray, a week late.',
       detail: 'A bridge-city on the Wray, a missing father, and three nights' },
-    // An independent adventure: a town inside a honeycomb, and the week half of it leaves (doc/adventures/half-the-hive).
+    // An independent adventure: a town inside a honeycomb, and the week half of it leaves
+    // (doc/adventures/half-the-hive).
     { manifest: 'data/campaigns/half-the-hive.campaign.json', title: 'Half the Hive', seed: 'hume',
       note: 'On the Wold of Hume four hundred people live inside a honeycomb under a cliff and belong to bees as big as hounds by the smell of their queen. The old queen is about to swarm, and half the town will walk out behind her and never come back. Their Searchers are short of hands.',
       detail: 'A town in a honeycomb, a high wold of lindens, chalk and heather, four places to live and a week to choose' },
