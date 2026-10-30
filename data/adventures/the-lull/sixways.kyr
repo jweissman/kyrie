@@ -192,14 +192,13 @@ Module lull "The Lull" {
   Discovery simeon_doctrine "Simeon Eddowes holds that the Lull's law is love: what is done for love holds, and what is not comes undone, wages or no wages.".
   Topic simeon_hester with simeon "Tell Simeon Eddowes that Hester Lindsell is dying" when knows(actor, hester_sick) and not simeonToldHester(simeon) {
     Says "Simeon is still for a long moment. Then he takes off his spectacles and folds them, very carefully, as if they might break. 'Hester Lumb,' he says. 'Lindsell. Yes.' He puts the spectacles down on a gloss. 'When we were twenty, her count and mine, I asked her to walk up the Tump with me, and she went up it with Tobias Lindsell instead. He was the better man. I have held that for sixty years and it has never once ravelled.' He looks at the window, at the stone. 'Dying. In there, nobody dies quick. She'll have been dying for years of mine.' He gets up. 'I should like to see her. I should very much like to see her. And I can't get past the Tump.'".
-    On discuss { Assert simeonToldHester(simeon). Assert willing(simeon, actor). }
+    On discuss { Assert simeonToldHester(simeon). Assert acceptsEscort(simeon, actor). }
   }
   Relation simeonToldHester(group).
-  Topic simeon_join_offer with simeon "Ask Simeon Eddowes to come into the Lull with you" when knows(actor, simeon_banned) and not simeonToldHester(simeon) and not willing(simeon, actor) and not travelsWith(simeon, actor) once {
+  Topic simeon_join_offer with simeon "Ask Simeon Eddowes to come into the Lull with you" when knows(actor, simeon_banned) and not simeonToldHester(simeon) and not acceptsEscort(simeon, actor) once {
     Says "Simeon looks at you over his spectacles for a long time. 'The wardens would turn me back at the Tump,' he says. 'And I would stand there and let them, because I am old and I have nothing in there worth the shame of it.' He goes back to his pen. 'Ask me again if that changes.'".
   }
   // He will come with the company once there is something in the Lull worth the shame of being turned back.
-  Rule simeon_escorts when willing(simeon, party) and not acceptsEscort(simeon, party) { Assert acceptsEscort(simeon, party). }
   Rule simeon_sets_out when following(simeon, party) and not simeonSetOut(simeon)
     says "Simeon takes off the white apron, folds it, looks at it, and puts it back on. 'If I am going to be turned back at the Tump,' he says, 'I should like them to see what they are turning back. They keep the shoulder in the mornings, the wardens. After eleven they go down to the Green to fine people for enjoying themselves.'" { Assert simeonSetOut(simeon). }
   Relation simeonSetOut(group).

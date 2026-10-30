@@ -60,7 +60,7 @@ Module lull "The Lull" {
   Relation simeonWrong(group).
   Topic simeon_wrong_here with simeon "Tell Simeon what Aldith Mote found the law to be" when knows(actor, meaning_law) and not following(simeon, party) and not simeonWrong(simeon) once {
     Says "Simeon puts down his pen. 'Meaning,' he says. 'Not love.' He sits back. 'Spite holds,' he says slowly. 'Yes. It would.' Then he laughs, a great bark of a laugh. 'Held: I was wrong. Twenty years. Wonderful.' He picks the pen up, and puts it down again, and looks at the stone through the window. 'I should like to see that board before they paint it out.'".
-    On discuss { Assert simeonWrong(simeon). Assert willing(simeon, actor). }
+    On discuss { Assert simeonWrong(simeon). Assert acceptsEscort(simeon, actor). }
   }
 
   // ── The Gift Hall bench ───────────────────────────────────────────────────────────────────────────────────────────

@@ -1,0 +1,38 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "corin": [
+  "To the end of the Shift Bridge",
+  "Talk to Corin",
+  "Ask Corin Lindsell about her clocks",
+  "Ask Corin Lindsell about the Weekday Club",
+  "Take your leave",
+  "To Linger green"
+ ],
+ "kezia": [
+  "To the Pleasure Gardens",
+  "Talk to Kezia",
+  "Ask Kezia Pryce whether she knows Corin",
+  "Ask Kezia Pryce whether she can keep",
+  "Take your leave",
+  "To Linger green"
+ ],
+ "night1": [
+  "=20:30",
+  "Lie down Lull-fashion"
+ ],
+ "night2": [
+  "=20:30",
+  "Lie down Lull-fashion"
+ ],
+ "day3": [
+  "To the end of the Shift Bridge",
+  "=20:30",
+  "=23:30"
+ ]
+}

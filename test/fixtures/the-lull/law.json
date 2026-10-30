@@ -1,0 +1,49 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "aldith": [
+  "Into the Glossary",
+  "Talk to Aldith",
+  "Ask Aldith Mote what the Glossers",
+  "Offer to help Aldith",
+  "Take your leave",
+  "Out to Linger green",
+  "Stack a cairn"
+ ],
+ "lettice": [
+  "Into the Pryces",
+  "Talk to Lettice",
+  "Accept what Lettice",
+  "Take your leave",
+  "Out to Linger green"
+ ],
+ "hob": [
+  "To the Pleasure Gardens",
+  "To the Mill yard",
+  "To the shore of Lammas",
+  "Talk to Hob",
+  "Ask Hob Linsey to set a skep",
+  "Take your leave",
+  "To the Mill yard",
+  "To the Pleasure Gardens",
+  "To Linger green",
+  "=20:30"
+ ],
+ "found": [
+  "Into the Glossary"
+ ],
+ "next": [
+  "Out to Linger green",
+  "Lie down Lull-fashion",
+  "Into the Glossary",
+  "Talk to Aldith",
+  "Tell Aldith Mote what you have seen",
+  "Take your leave",
+  "Out to Linger green"
+ ]
+}

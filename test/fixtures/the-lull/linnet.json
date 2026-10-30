@@ -1,0 +1,44 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "day1": [
+  "Into the Open Hand",
+  "Into the floor above",
+  "Talk to Linnet",
+  "Ask Linnet Gale about her tunes",
+  "Take your leave",
+  "Out to the Open Hand",
+  "Out to Linger green",
+  "=20:30",
+  "Lie down Lull-fashion"
+ ],
+ "day2": [
+  "Into the Open Hand",
+  "Into the floor above",
+  "Talk to Linnet",
+  "Let Linnet Gale look at you",
+  "Tell Linnet Gale that you came back",
+  "Take your leave",
+  "Out to the Open Hand",
+  "Out to Linger green",
+  "Into the Gift Hall",
+  "Sit at the Gift Hall bench and carve something for Linnet",
+  "Out to Linger green",
+  "Into the Open Hand",
+  "Into the floor above",
+  "Linnet Gale: Give .*limewood",
+  "=20:30",
+  "Lie down Lull-fashion"
+ ],
+ "day3": [
+  "Talk to Linnet",
+  "Linnet Gale asks whether",
+  "Tell Linnet Gale that you will stay",
+  "Take your leave"
+ ]
+}

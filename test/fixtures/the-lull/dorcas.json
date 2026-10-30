@@ -1,0 +1,25 @@
+{
+ "sixways": [
+  "Sixways street$",
+  "^Into the Waiting",
+  "Talk to Dorcas",
+  "Ask Dorcas Penhallow about the sign",
+  "Ask Dorcas Penhallow what a week",
+  "Take your leave",
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "piran": [
+  "To Weavers' Row",
+  "Into Piran",
+  "Talk to Piran",
+  "Ask Piran Penhallow about the heads",
+  "Tell Piran Penhallow that Dorcas is ill",
+  "Take your leave",
+  "Out to Weavers",
+  "=21:30"
+ ]
+}

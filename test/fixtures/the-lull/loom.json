@@ -1,0 +1,20 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "awake": [
+  "=23:30",
+  "Wait \u203a An hour",
+  "To the Pleasure Gardens",
+  "To the Mill yard",
+  "Pack \u203a .*torch.* \u203a Light|a torch: Light",
+  "Into the mill",
+  "Into the loom floor",
+  "=+3",
+  "Work the loom"
+ ]
+}
