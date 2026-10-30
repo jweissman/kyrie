@@ -27,6 +27,7 @@ independent ones batched.
 | The owner's review | 0 | 18 | 25 | 0 | 0 | 0 | 43 |
 | The adventures' authors | 0 | 14 | 55 | 0 | 0 | 0 | 69 |
 | The navigation review | 0 | 0 | 22 | 0 | 0 | 0 | 22 |
+| The cold review, section H | 0 | 0 | 5 | 0 | 0 | 0 | 5 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -272,6 +273,20 @@ or competing institutions accepted world facts.
 | OWN-36 | The Grand Tour's integration decisions: its Hour Court, Slow Assembly and Gallery canonical locations within their planes, not exhausting them; the Plane of Water independent of the Whelm (material Imbar); Cloudgate's Air Door in the House's wider network; distinct semantic names for unrelated licences; one world-owned Imbar; underwater breathing and protection from extreme heat as shared semantics where fitting, adventure effects not universal laws; the Doorward limited to the doors and destinations it legitimately holds, never the upper House; its consequential outcomes (Cloudgate and the Whelm, the Rector's and Perrin's fates, the Rose, upper-House access, relationships and institutions) visible to other modules | B | P0 | Open | |
 | OWN-37 | The Grand Tour for an ordinary player: its premise (Tamsin, a bard) working for any created protagonist of another calling, ancestry, name or background, a fixed protagonist only an explicit special mode; its seven-day contest against a persistent world clock, travel, other adventures and late entry, with missed opportunities and later history coherent; its seventy-odd places and its conversations discoverable and navigable in ordinary play (authored depth is not experienced depth) | C | P0 | Open | |
 | OWN-38 | Demonstrations: two adventures extending and visiting one Plane of Fire; two extending one Infinite Library (or its diagnosis and correction); the Grand Tour's courts stable through adventure transitions; one House of Doors reachable and referable from independent content; a whole Rose opening the upper precinct without conflating inner and outer planes; a Grand Tour outcome recognised by another module; an ordinary new protagonist entering and playing it without private authoring assumptions | F | P0 | Open | |
+
+### The cold review's section H, 2026-10-30
+
+The independent systemic review (doc/playtests/systemic-enjoyment-2026-10-30/review.md, section H, "Why it does not
+yet feel like a game"), brought by the owner: "certainly the economic and adventuring loops need care and attention".
+The design is in [loops.md](loops.md).
+
+| ID | Finding | Gate | Pri | Now | Repair |
+|---|---|---|---|---|---|
+| REV-01 | No expedition contract: scenarios, works and kits each omit different links (lead, aim, place, threshold, inside, answers, yield, aftermath, successor), and the world audit checks only scenarios' clues | C | P0 | Open | Every placement declares the nine links or declines one; the audit reports each field per seed as a gate; the bell and the hobs repaired first (OWN-28) |
+| REV-02 | Search is a universal twenty-minute lottery with one neutral sentence; payoff only where an author watched for `searched`; players search superstitiously | C | P1 | Open | Examine a perceptible cue; a sweep with stated scale and a confident negative; measured over the first twenty searches |
+| REV-03 | The wild is connective tissue: travel compresses into prose; no turn asks a decision of route, camp, supplies, signs or travellers | C | P1 | Open | Sparse wilderness turns with a decision, caused by terrain, weather, hour and supplies (refines OWN-27) |
+| REV-04 | Treasure has no future but coin; sale grants its worth as experience; no mentors, specialists, assets, institutions or commissions; recruits a few coins once | C | P0 | Open | A capability market in each substantial town; selling no longer grants experience; a census over 12 countries before and after |
+| REV-05 | No decision frame: an act collapses anticipation, commitment, response and explanation into a button and a paragraph, then a new list of legal commands | A | P0 | Open | Runtime frame (now, aim, acts, inspect, reference) and attempt, result, changed state, newly relevant act after each act (extends the glance) |
 
 ### The navigation review of 2026-10-30
 
