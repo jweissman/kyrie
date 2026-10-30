@@ -28,6 +28,7 @@ interface Held { x: number; y: number; view: Box; moved: boolean }
 export class MapView {
   static View({ app, screen }: { app: ReaderApp; screen: Screen }) {
     const [chosen, choose] = useState<string>(), [keyed, key] = useState(0), region = screen.region;
+    const [pointed, point] = useState<string>();
     const dialog = useRef<HTMLElement>(null), bound = region && BoardField.whither(region, app.state.frame?.bound?.id);
     // A place chosen by the keys: the way there is the next thing they reach, not the rest of the places on the map.
     // Pointed at, a hex or a place with a way to it is set out for at once, a waypoint, the way walked on the map as
@@ -49,12 +50,12 @@ export class MapView {
       <section className="field-map" data-region="map" aria-label="The map" role="dialog" aria-modal="true"
         tabIndex={-1} ref={dialog} onKeyDown={e => MapView.escape(e, app, chosen ? forget : undefined)}>
         {region?.land ? <BoardField.View region={region} chosen={chosen} choose={pick} bound={bound}
-          face={screen.party[0]?.face?.src} walking={walking}
+          face={screen.party[0]?.face?.src} walking={walking} point={point}
           flat={<MapView.Field region={region} chosen={chosen} choose={pick} bound={bound} />} />
           : <p className="none">You have no map of this country yet.</p>}
         <header className="field-head"><p className="where"><span className="title">{app.state.frame!.title}</span>
           <span>The map</span></p><h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1></header>
-        <MapView.Plan app={app} screen={screen} chosen={chosen} clear={forget} />
+        <MapView.Plan app={app} screen={screen} chosen={chosen} clear={forget} pointed={pointed} />
         <button type="button" className="field-shut" data-action="close" aria-label="Back to where you are" onClick={app.back}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
         <Notices.View app={app} map />
@@ -95,10 +96,11 @@ export class MapView {
     (dialog?.querySelector<HTMLElement>('.plan .go') ?? dialog?.querySelector<HTMLElement>('.plan .to'))?.focus();
   }
   // What a hex or a place chosen is, and how to go there: by the way the page plans, leg by leg; or across country.
-  // Chosen, it can be let go of again by a touch as well as by Esc.
-  static Plan({ app, screen, chosen, clear }: { app: ReaderApp; screen: Screen; chosen?: string;
-    clear?: () => void }) {
-    const region = screen.region, land = region?.land;
+  // Chosen, it can be let go of again by a touch as well as by Esc. Nothing chosen, what the pointer is over is told
+  // the same way, and that a touch sets out for it (the owner, OWN-47).
+  static Plan({ app, screen, chosen: picked, clear, pointed }: { app: ReaderApp; screen: Screen; chosen?: string;
+    clear?: () => void; pointed?: string }) {
+    const region = screen.region, land = region?.land, chosen = picked ?? pointed, over = !picked;
     if (!chosen || !region || !land) {
       return <aside className="plan" aria-label="A place on the map" aria-live="polite">
         <p className="label">Somewhere to go</p>
@@ -106,7 +108,8 @@ export class MapView {
     }
     const { cell, name, d, here, go } = MapView.way(screen, chosen);
     return (
-      <aside className="plan" aria-label={`The way to ${name}`} data-id={chosen} aria-live="polite">
+      <aside className={`plan${over ? ' over' : ''}`} aria-label={`The way to ${name}`} data-id={chosen}
+        aria-live={over ? 'off' : 'polite'}>
         <p className="label">{MapView.told(region, chosen, here)}</p>
         <h2 className="to" tabIndex={-1}>{Typography.curl(Words.upper(name))}</h2>
         {d && <ol className="legs">{d.legs.map((l, i) => <li key={i}>{Typography.curl(Words.leg(l.way, l.to))}
@@ -115,9 +118,10 @@ export class MapView {
           : here ? 'You are here already.' : go ? 'Across the country you can see, the quickest way.'
             : cell !== undefined && !MapView.walkable(land, Number(cell)) ? 'There is no going there on foot.'
               : 'You know no way there yet.'}</p>
-        {go && <button type="button" className="act go" data-action="set-out" onClick={() => app.choose(go)}>
+        {over && go && <p className="note">Choose it to set out.</p>}
+        {!over && go && <button type="button" className="act go" data-action="set-out" onClick={() => app.choose(go)}>
           {Typography.curl(go.label)}</button>}
-        {clear && <button type="button" className="unchoose" data-action="map-unchoose" aria-label={`Let go of ${name}`}
+        {clear && !over && <button type="button" className="unchoose" data-action="map-unchoose" aria-label={`Let go of ${name}`}
           onClick={clear}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg></button>}
       </aside>
     );
@@ -127,7 +131,7 @@ export class MapView {
   static way(screen: Screen, chosen: string) {
     const region = screen.region!, land = region.land!;
     const cell = /^hex:(\d+)$/.exec(chosen)?.[1], id = cell !== undefined ? MapView.on(land, Number(cell)) : chosen;
-    const area = region.within[id] ?? id, name = cell !== undefined ? MapView.ground(land, Number(cell))
+    const area = region.within[id] ?? id, name = cell !== undefined ? MapView.ground(land, Number(cell), region)
       : region.areas.find(a => a.id === chosen)?.name ?? land.marks.find(m => m.id === chosen)?.name ?? chosen;
     // The place itself before what it lies in: a keep in a fen is set out for, not the fen.
     const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? [], ...screen.mapped ?? []];
@@ -186,11 +190,21 @@ export class MapView {
     if (!area || !land) { return land?.marks.find(m => m.id === id)?.state; }
     return area.kind === 'settlement' ? HexLand.town(land, area) : area.visited ? 'visited' : 'seen';
   }
-  // A hex of open country, by its land.
-  static ground(land: NonNullable<RegionChart['land']>, cell: number): string {
-    const cover = HexLand.covers[land.cover[cell] ?? '.'] ?? 'meadow';
-    return ({ meadow: 'open fields', heath: 'open heath', wood: 'woodland', fen: 'wet ground', fell: 'the fellside',
-      peak: 'the heights', sea: 'the sea', lake: 'water' } as Record<string, string>)[cover] ?? 'open country';
+  // A hex of open country, by its land, and where it lies: from the nearest town within a day or so, as the stretch
+  // is named when you come to it ("wet ground east of Brightbridge": the bare "wet ground" said nothing of where, the
+  // owner, OWN-47).
+  static ground(land: NonNullable<RegionChart['land']>, cell: number, region?: RegionChart): string {
+    const cover = HexLand.covers[land.cover[cell] ?? '.'] ?? 'meadow', W = land.width;
+    const ground = ({ meadow: 'open fields', heath: 'open heath', wood: 'woodland', fen: 'wet ground',
+      fell: 'the fellside', peak: 'the heights', sea: 'the sea', lake: 'water' } as Record<string, string>)[cover];
+    const near = (region?.areas ?? []).filter(a => a.kind === 'settlement')
+      .map(a => ({ a, by: MapView.apart(W, a.y * W + a.x, cell) })).sort((x, y) => x.by - y.by)[0];
+    if (!near || near.by === 0 || near.by > 5) { return ground ?? 'open country'; }
+    return `${ground ?? 'open country'} ${MapView.bearing(cell % W - near.a.x, Math.floor(cell / W) - near.a.y)} of ${near.a.name}`;
+  }
+  private static bearing(dx: number, dy: number): string {
+    const ways = ['east', 'south-east', 'south', 'south-west', 'west', 'north-west', 'north', 'north-east'];
+    return ways[(Math.round(Math.atan2(dy, dx) / (Math.PI / 4)) + 8) % 8]!;
   }
   static readonly Field = memo(MapView.field);
   private static field({ region, chosen, choose, bound }: { region: RegionChart; chosen?: string;

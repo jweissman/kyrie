@@ -280,12 +280,15 @@ export class Board implements BoardApi {
   // A tap: on a name or a sign, that place; on the land, the place on the hex (its town before anything else there),
   // or the hex.
   private tapped(e: PointerEvent): void {
-    const tap = this.presses.up(e), marks = this.land.marks;
+    const tap = this.presses.up(e);
     if (!tap) { return; }
-    const c = tap.id === undefined ? this.under(e) : undefined;
-    const id = tap.id ?? (c === undefined ? undefined
-      : marks.find(m => m.cell === c && m.town)?.id ?? marks.find(m => m.cell === c)?.id ?? `hex:${c}`);
+    const c = tap.id === undefined ? this.under(e) : undefined, id = tap.id ?? this.idAt(c);
     if (id) { this.hooks.choose(id); }
+  }
+  private idAt(c?: number): string | undefined {
+    const marks = this.land.marks;
+    return c === undefined ? undefined
+      : marks.find(m => m.cell === c && m.town)?.id ?? marks.find(m => m.cell === c)?.id ?? `hex:${c}`;
   }
   // A touch begun on a name or a sign, handed on to the land, so that it moves the land as a touch anywhere else
   // would; taken up where it was put down, it chooses that place.
@@ -298,7 +301,7 @@ export class Board implements BoardApi {
   // What the pointer is over: its hex ringed, and the name of a place there shown.
   private point(c: number | undefined): void {
     if (c === this.pointed) { return; }
-    this.pointed = c; this.tiles.mark('hover', c); this.dirty = true;
+    this.pointed = c; this.tiles.mark('hover', c); this.dirty = true; this.hooks.point?.(this.idAt(c));
   }
   private hereAt(): Vector2 | undefined {
     return this.land.here === undefined ? undefined : this.grid.centres[this.land.here];

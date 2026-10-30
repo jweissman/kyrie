@@ -19,7 +19,8 @@ export interface BoardLand {
 }
 // What the board gives back: a hex or a place chosen (and whether by the keys, so that the way there is the next
 // thing they reach), and that it can no longer be drawn, when the browser has taken its drawing away for good.
-export interface BoardHooks { choose(id: string, keyed?: boolean): void; lost?(): void }
+// And what the pointer is over, a hex or a place, or nothing.
+export interface BoardHooks { choose(id: string, keyed?: boolean): void; lost?(): void; point?(id?: string): void }
 export interface BoardApi {
   show(chosen?: string, bound?: string): void;
   // Your mark walked along the way to a hex or a place, as the company sets out for it.

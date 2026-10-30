@@ -53,6 +53,9 @@
 .field-map .plan { position: absolute; left: 20px; bottom: 20px; z-index: 3; width: min(340px, calc(100vw - 40px));
   padding: 14px 16px 16px; background: rgba(12, 13, 16, .88); border: 1px solid var(--edge-strong); backdrop-filter: blur(8px); }
 .field-map .plan .label { color: var(--gold); }
+/* What the pointer is over, told as a place chosen is, a little quieter, with that a touch sets out for it. */
+.field-map .plan.over { background: rgba(14, 15, 19, .82); }
+.field-map .plan > .note { margin: 6px 0 0; font-size: 13px; color: var(--gold); letter-spacing: .02em; }
 .field-map .plan .to { font: 300 24px/1.15 var(--do); margin: 0 0 8px; }
 .field-map .plan .legs { margin: 0 0 6px; padding-left: 1.2em; font: 400 13.5px/1.5 var(--do); max-height: 7.5em; overflow: auto; }
 .field-map .plan .legs .note { margin-left: 8px; color: var(--dim); }

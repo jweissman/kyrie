@@ -77,9 +77,11 @@ export class BoardField {
   }
   // The board, given where the company is bound as the maps know it (see whither), and where it is setting out for,
   // that your mark walk the way there.
-  static View({ region, chosen, choose, bound, flat, face, walking }: { region: RegionChart; chosen?: string;
-    choose: (id: string, keyed?: boolean) => void; bound?: string; flat: ReactNode; face?: string; walking?: string }) {
+  static View({ region, chosen, choose, bound, flat, face, walking, point }: { region: RegionChart; chosen?: string;
+    choose: (id: string, keyed?: boolean) => void; bound?: string; flat: ReactNode; face?: string; walking?: string;
+    point?: (id?: string) => void }) {
     const host = useRef<HTMLDivElement>(null), board = useRef<BoardApi | undefined>(undefined), pick = useRef(choose);
+    const over = useRef(point); over.current = point;
     const [failed, fail] = useState(() => !BoardField.able()), [ready, readied] = useState(false);
     const [land, same] = useMemo(() => BoardField.drawn(region, face), [region, face]);
     const now = useRef({ land, chosen, bound });
@@ -95,7 +97,7 @@ export class BoardField {
         try {
           const still = matchMedia('(prefers-reduced-motion: reduce)').matches, at = now.current;
           board.current = m.mount(host.current, at.land, { choose: (id, keyed) => pick.current(id, keyed),
-            lost: () => fail(true) }, still);
+            lost: () => fail(true), point: id => over.current?.(id) }, still);
           // A board made again (the land changed under it) shows at once what is chosen and where you are bound.
           board.current.show(at.chosen, at.bound); readied(true);
         } catch (e) {
