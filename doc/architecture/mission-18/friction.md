@@ -2,8 +2,7 @@
 
 Where Kyr, Deem, the engine, the tools and the page resisted two adventures written against this mission's engine:
 the Grand Tour (adventure/grand-tour, its own friction at doc/adventures/the-grand-tour/friction.md, with points found in
-its critique, second pass and playtests) and Wapshott's Peregrine Circus (adventure/big-tent, Phase I; read for its
-findings only, not merged, its author at work on Phase II). Each point was read against main at 827354c by one agent and
+its critique, second pass and playtests) and Wapshott's Peregrine Circus (adventure/big-tent, Phase I; merged at 4f55697). Each point was read against main at 827354c by one agent and
 checked by a second, reading the code only. Nothing was played or probed for this record: "still holds" means the code
 on main still does what the author met. The register (register.md, "The adventures' authors") carries one row for each;
 this is each row's whole case, in the authors' order.
@@ -914,7 +913,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-01: A place cannot move: a travelling circus has to be written as five rooms in each of three towns
 
-*Wapshott's Circus (unmerged) friction 1. Gate B, P2; still holds on main.*
+*Wapshott's Circus friction 1. Gate B, P2; still holds on main.*
 
 **The finding.** A place cannot move: a travelling circus has to be written as five rooms in each of three towns (fifteen rooms), with a hand-written rule that moves its people and its scenery into the current town's copies, because a room's town is fixed when it is declared.
 
@@ -930,7 +929,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-02: An observation written `near` a place, or near a variable that stands for a place, is accepted and never shown
 
-*Wapshott's Circus (unmerged) friction 2. Gate D, P2; still holds on main.*
+*Wapshott's Circus friction 2. Gate D, P2; still holds on main.*
 
 **The finding.** An observation written `near` a place, or near a variable that stands for a place, is accepted and never shown: `near` means where a thing stands, and a place does not stand anywhere.
 
@@ -946,7 +945,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-03: A rule cannot be anchored `near` a variable
 
-*Wapshott's Circus (unmerged) friction 3. Gate D, P3; still holds on main.*
+*Wapshott's Circus friction 3. Gate D, P3; still holds on main.*
 
 **The finding.** A rule cannot be anchored `near` a variable (it fails to load with "Unknown near anchor"), though an observation can, so a rule about whoever its condition finds cannot be heard only near them.
 
@@ -962,7 +961,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-04: There is nowhere to keep someone who is not yet in the story, or has left it
 
-*Wapshott's Circus (unmerged) friction 4. Gate D, P2; still holds on main.*
+*Wapshott's Circus friction 4. Gate D, P2; still holds on main.*
 
 **The finding.** There is nowhere to keep someone who is not yet in the story, or has left it: every person must stand in a real place, and those parked out of the way in a real room were met there in play (Madame Sallow standing in a hedge on a road before her entrance; an owlbear in an orchard at noon).
 
@@ -978,7 +977,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-05: A shut way has one text for why it is shut, whatever shut it, so the big top's flap, merely laced during the show, said "The big top is not here
 
-*Wapshott's Circus (unmerged) friction 5. Gate D, P3; still holds on main.*
+*Wapshott's Circus friction 5. Gate D, P3; still holds on main.*
 
 **The finding.** A shut way has one text for why it is shut, whatever shut it, so the big top's flap, merely laced during the show, said "The big top is not here; the circus has gone on".
 
@@ -994,7 +993,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-06: Naming a room for its town ("Wapshott's ground by {town_a}") is neither documented nor tested, and the circus's author took it to be impossible
 
-*Wapshott's Circus (unmerged) friction 6. Gate D, P3; partly answered on main.*
+*Wapshott's Circus friction 6. Gate D, P3; partly answered on main.*
 
 **The finding.** Naming a room for its town ("Wapshott's ground by {town_a}") is neither documented nor tested, and the circus's author took it to be impossible, so one country holds three rooms called "Wapshott's ground", three called "the big top", and so on.
 
@@ -1010,7 +1009,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-07: `addressed(person, company)` takes the person first
 
-*Wapshott's Circus (unmerged) friction 7. Gate D, P2; still holds on main.*
+*Wapshott's Circus friction 7. Gate D, P2; still holds on main.*
 
 **The finding.** `addressed(person, company)` takes the person first; written the other way round, the circus's `metCircus` never held and its debt note was never served, and nothing warned, because both arguments are of the same kind (`group`).
 
@@ -1026,7 +1025,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-08: A fact that only one thing may hold at a time cannot be declared with a single argument
 
-*Wapshott's Circus (unmerged) friction 8. Gate D, P3; still holds on main.*
+*Wapshott's Circus friction 8. Gate D, P3; still holds on main.*
 
 **The finding.** A fact that only one thing may hold at a time cannot be declared with a single argument: `current(place) exclusive` is refused, so the circus had to invent an entity to hang `current(wapshotts, ground)` on.
 
@@ -1042,7 +1041,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-09: Kyr has no division and no remainder
 
-*Wapshott's Circus (unmerged) friction 9. Gate D, P3; still holds on main; held by AUT-05.*
+*Wapshott's Circus friction 9. Gate D, P3; still holds on main; held by AUT-05.*
 
 **The finding.** Kyr has no division and no remainder: the takings of a wet night could not be halved, and the night's incident, which wanted a remainder of the count of nights, had to come from a stored die read in ranges.
 
@@ -1058,7 +1057,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-10: An action that should last until a set hour needs the module's own measure, recomputed by a rule every watch
 
-*Wapshott's Circus (unmerged) friction 10. Gate D, P3; still holds on main.*
+*Wapshott's Circus friction 10. Gate D, P3; still holds on main.*
 
 **The finding.** An action that should last until a set hour needs the module's own measure, recomputed by a rule every watch (`untilShow(clock)`), because `Time` takes only a measure, and the engine's own countdowns run only to light, dark, morning and the turn of the day.
 
@@ -1074,7 +1073,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-11: A person written `Known as` something else until they are known is called that in the list of who is here, but choices and results built from the shared actions' labels still use their real name
 
-*Wapshott's Circus (unmerged) friction 11. Gate A, P2; partly answered on main.*
+*Wapshott's Circus friction 11. Gate A, P2; partly answered on main.*
 
 **The finding.** A person written `Known as` something else until they are known is called that in the list of who is here, but choices and results built from the shared actions' labels still use their real name: in `kyrie play` and Journey, "Talk to Mademoiselle Zéphyrine" stands beside "a woman in a silver wrap".
 
@@ -1090,7 +1089,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-12: A module's own paper (a list, a playbill) declared `like` the catalog's glossary of the old script takes the glossary's book slot and its lore along with it
 
-*Wapshott's Circus (unmerged) friction 12. Gate D, P2; still holds on main.*
+*Wapshott's Circus friction 12. Gate D, P2; still holds on main.*
 
 **The finding.** A module's own paper (a list, a playbill) declared `like` the catalog's glossary of the old script takes the glossary's book slot and its lore along with it, so it is offered "Equip" and, once equipped, teaches reading the old script. `is gear` avoids this, but there is no category for a document that is carried and read.
 
@@ -1106,7 +1105,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-13: To hand the company a thing with `Give`, an author must also park that thing in some room, hidden until a fact
 
-*Wapshott's Circus (unmerged) friction 13. Gate D, P2; still holds on main.*
+*Wapshott's Circus friction 13. Gate D, P2; still holds on main.*
 
 **The finding.** To hand the company a thing with `Give`, an author must also park that thing in some room, hidden until a fact, and assert that fact by hand beside the `Give`. Nothing checks that the three agree.
 
@@ -1122,7 +1121,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-14: A module's own kinds of thing share one namespace with the catalog and with every other module, so an author must invent long names
 
-*Wapshott's Circus (unmerged) friction 14. Gate D, P2; still holds on main.*
+*Wapshott's Circus friction 14. Gate D, P2; still holds on main.*
 
 **The finding.** A module's own kinds of thing share one namespace with the catalog and with every other module, so an author must invent long names (`wonders_list_kind`) to avoid clashing with whatever else might be installed in the same world.
 
@@ -1138,7 +1137,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-15: Names the shared rules use are closed to every module
 
-*Wapshott's Circus (unmerged) friction 15. Gate D, P2; still holds on main; held by AUT-07.*
+*Wapshott's Circus friction 15. Gate D, P2; still holds on main; held by AUT-07.*
 
 **The finding.** Names the shared rules use are closed to every module: an entity cannot be called `box`, a parameter of the shared take-out and put-in actions, and a state cannot be called `shut`, a shared query.
 
@@ -1154,7 +1153,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-16: Nothing guarantees that a scenario is placed
 
-*Wapshott's Circus (unmerged) friction 16. Gate B, P1; still holds on main.*
+*Wapshott's Circus friction 16. Gate B, P1; still holds on main.*
 
 **The finding.** Nothing guarantees that a scenario is placed: the library is drawn by weight, so an institution meant to be in every first country, like a touring circus, is there in some worlds and missing in others.
 
@@ -1170,7 +1169,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-17: A scenario cannot ask for "the next town along the road" or "the road between two towns"
 
-*Wapshott's Circus (unmerged) friction 17. Gate B, P1; still holds on main.*
+*Wapshott's Circus friction 17. Gate B, P1; still holds on main.*
 
 **The finding.** A scenario cannot ask for "the next town along the road" or "the road between two towns". On main an unknown settlement need is not refused: it quietly becomes the first fitting town, so the circus's three grounds would all land in one town.
 
@@ -1186,7 +1185,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-18: A going-on placed in 'any' settlement claims that town for itself alone
 
-*Wapshott's Circus (unmerged) friction 18. Gate B, P2; still holds on main.*
+*Wapshott's Circus friction 18. Gate B, P2; still holds on main.*
 
 **The finding.** A going-on placed in 'any' settlement claims that town for itself alone, so something that visits towns already busy, like a circus, cannot share one with what else is going on there.
 
@@ -1202,7 +1201,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-19: The author reports that retrying a failed check gives the same roll each time
 
-*Wapshott's Circus (unmerged) friction 19. Gate D, P3; not settled by reading.*
+*Wapshott's Circus friction 19. Gate D, P3; not settled by reading.*
 
 **The finding.** The author reports that retrying a failed check gives the same roll each time (a night spent failing to lure the owlbear failed every night after). Reading main's code, though, a repeated check draws a fresh die.
 
@@ -1218,7 +1217,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-20: A choice whose action rolls a check has its odds added to its label
 
-*Wapshott's Circus (unmerged) friction 20. Gate F, P3; still holds on main.*
+*Wapshott's Circus friction 20. Gate F, P3; still holds on main.*
 
 **The finding.** A choice whose action rolls a check has its odds added to its label ("… · an even chance"), so a test step that matches the action's own label exactly, from ^ to $, fails.
 
@@ -1234,7 +1233,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-21: The author reports that a `Grave` choice, one that cannot be undone and is asked about first, needs confirming at the command line but is taken at once by Journey
 
-*Wapshott's Circus (unmerged) friction 21. Gate F, P3; not settled by reading.*
+*Wapshott's Circus friction 21. Gate F, P3; not settled by reading.*
 
 **The finding.** The author reports that a `Grave` choice, one that cannot be undone and is asked about first, needs confirming at the command line but is taken at once by Journey, so a list of steps that works in one fails in the other.
 
@@ -1250,7 +1249,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-22: A long wait in a test is cut short when a territorial band arrives (raiders at midnight on the circus ground)
 
-*Wapshott's Circus (unmerged) friction 22. Gate F, P3; answered on main.*
+*Wapshott's Circus friction 22. Gate F, P3; answered on main.*
 
 **The finding.** A long wait in a test is cut short when a territorial band arrives (raiders at midnight on the circus ground). The author says this is right in play, only surprising in a test of something else, and the tests now wait at the inn. This is a process note, not a defect.
 
@@ -1266,7 +1265,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-23: Editing source files while the full test suite runs spoils the run, because each test file loads the code when it starts
 
-*Wapshott's Circus (unmerged) friction 23. Gate F, P3; answered on main.*
+*Wapshott's Circus friction 23. Gate F, P3; answered on main.*
 
 **The finding.** Editing source files while the full test suite runs spoils the run, because each test file loads the code when it starts. This is a process note, not a defect.
 
@@ -1280,7 +1279,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-24: The lint's length limits on files and functions fell on world-assembler.ts and on one long test block
 
-*Wapshott's Circus (unmerged) friction 24. Gate D, P3; answered on main.*
+*Wapshott's Circus friction 24. Gate D, P3; answered on main.*
 
 **The finding.** The lint's length limits on files and functions fell on world-assembler.ts and on one long test block. This is a process note: the limits are the owner's, and the branch complied.
 
@@ -1294,7 +1293,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-25: An author's own repeated phrases build up across a long module ("for a long time" fifteen times, "purring like a millstone" twice), and no tool reports them
 
-*Wapshott's Circus (unmerged) friction 25. Gate D, P3; still holds on main.*
+*Wapshott's Circus friction 25. Gate D, P3; still holds on main.*
 
 **The finding.** An author's own repeated phrases build up across a long module ("for a long time" fifteen times, "purring like a millstone" twice), and no tool reports them: `kyrie voice` reads only the shared voice tables.
 
@@ -1310,7 +1309,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-26: Something that happens again and again, like a nightly show, is told in full every time unless the author hand-writes a fact for 'seen it once' and two versions of every text
 
-*Wapshott's Circus (unmerged) friction 26. Gate D, P2; still holds on main.*
+*Wapshott's Circus friction 26. Gate D, P2; still holds on main.*
 
 **The finding.** Something that happens again and again, like a nightly show, is told in full every time unless the author hand-writes a fact for 'seen it once' and two versions of every text. Kyr has a 'first time, and after' form only for a person's greeting.
 
@@ -1326,7 +1325,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X01: A measure meant to stay between bounds
 
-*Wapshott's Circus (unmerged), README.md. Gate D, P3; still holds on main; held by AUT-05.*
+*Wapshott's Circus, README.md. Gate D, P3; still holds on main; held by AUT-05.*
 
 **The finding.** A measure meant to stay between bounds (the circus's canvas, 0 to 3, and its beasts' welfare, 0 to 4) cannot be given a ceiling in Kyr. The module either adds a rule that sets the value back after it has gone over, or guards every increase by hand.
 
@@ -1342,7 +1341,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X02: A contest of words (a heckler's composure against the answerer's poise, over three jabs) has to be built by hand from relations, measures and rules
 
-*Wapshott's Circus (unmerged), README.md. Gate D, P3; still holds on main.*
+*Wapshott's Circus, README.md. Gate D, P3; still holds on main.*
 
 **The finding.** A contest of words (a heckler's composure against the answerer's poise, over three jabs) has to be built by hand from relations, measures and rules: eight rules and five answer actions for one heckler. There is no shared form for a bout or contest that a module could use instead.
 
@@ -1358,7 +1357,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X03: A new skill has to be written in four shared places, one of them engine code
 
-*Wapshott's Circus (unmerged), README.md. Gate D, P2; still holds on main.*
+*Wapshott's Circus, README.md. Gate D, P2; still holds on main.*
 
 **The finding.** A new skill has to be written in four shared places, one of them engine code: core.kyr's capability, skills.json, the callings in classes.json, and the quality it rests on in Checks.qualities. A checked skill missing from Checks.qualities is rolled on wisdom without any warning.
 
@@ -1374,7 +1373,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X04: A module cannot declare its own techniques. The circus put Pratfall and Feint into the shared abilities.json
 
-*Wapshott's Circus (unmerged), README.md. Gate D, P2; still holds on main.*
+*Wapshott's Circus, README.md. Gate D, P2; still holds on main.*
 
 **The finding.** A module cannot declare its own techniques. The circus put Pratfall and Feint into the shared abilities.json, so every world and the generated handbook carry them whether or not the circus is installed.
 
@@ -1390,7 +1389,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X05: A rule that sends a module's people to their places pulls a recruit out of the company unless it adds `and not travelsWith(?p, party)`
 
-*Wapshott's Circus (unmerged), README.md. Gate D, P2; partly answered on main.*
+*Wapshott's Circus, README.md. Gate D, P2; partly answered on main.*
 
 **The finding.** A rule that sends a module's people to their places pulls a recruit out of the company unless it adds `and not travelsWith(?p, party)`. Main stops a rule from moving someone who follows the company, but not someone who has joined it. The circus writes the guard into four rules, and the generated towns' writers each write it again.
 
@@ -1406,7 +1405,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X06: A story placed in the shared country
 
-*Wapshott's Circus (unmerged), README.md. Gate B, P2; still holds on main.*
+*Wapshott's Circus, README.md. Gate B, P2; still holds on main.*
 
 **The finding.** A story placed in the shared country (a going-on or a standing scenario) cannot use an Ending, because a placed module's ending closes the whole book. Only the countries beyond a march and the provinces close just their own chapter, so the circus reaches its reckoning with no ending at all.
 
@@ -1422,7 +1421,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X07: A story that runs over twelve game days cannot be played whole in a test
 
-*Wapshott's Circus (unmerged), README.md. Gate F, P2; still holds on main; held by COR-18.*
+*Wapshott's Circus, README.md. Gate F, P2; still holds on main; held by COR-18.*
 
 **The finding.** A story that runs over twelve game days cannot be played whole in a test. The circus's three reckonings are reached by writing facts straight into the world through a private cast, and no test runs several circuits after the Fair.
 
@@ -1438,7 +1437,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X08: The circus has been played only by its author, at the command line
 
-*Wapshott's Circus (unmerged), README.md and critique.md. Gate F, P2; partly answered on main.*
+*Wapshott's Circus, README.md and critique.md. Gate F, P2; partly answered on main.*
 
 **The finding.** The circus has been played only by its author, at the command line. Its README lists the browser page, the map's drawing of its grounds and Pip fighting as a companion as never checked. Main has a preview server and a curious autoplay, but `kyrie verify` runs neither, and it cannot verify a placed going-on at all.
 
@@ -1454,7 +1453,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X09: A module can name places beyond its towns only as fixed words in its prose
 
-*Wapshott's Circus (unmerged), critique.md. Gate B, P3; still holds on main.*
+*Wapshott's Circus, critique.md. Gate B, P3; still holds on main.*
 
 **The finding.** A module can name places beyond its towns only as fixed words in its prose (the circus's Dunmere, Marlow, Wakeham and Oster), the same in every world. A placement can import its own towns, the party, the country and its history, but not the world's real neighbouring countries.
 
@@ -1470,7 +1469,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X10: The circus's money, larder and wages are told only through Ada's talk
 
-*Wapshott's Circus (unmerged), critique.md. Gate D, P3; answered on main.*
+*Wapshott's Circus, critique.md. Gate D, P3; answered on main.*
 
 **The finding.** The circus's money, larder and wages are told only through Ada's talk. Its author wanted a bill of the week's figures, which main can already show, because a module's texts and aims may print a measure's value. So this is the module's own work, not engine friction.
 
@@ -1486,7 +1485,7 @@ this is each row's whole case, in the authors' order.
 
 ## WPC-X11: Every first country gets the same circus, with the same people under the same names
 
-*Wapshott's Circus (unmerged), critique.md. Gate D, P1; partly answered on main; held by AUT-25.*
+*Wapshott's Circus, critique.md. Gate D, P1; partly answered on main; held by AUT-25.*
 
 **The finding.** Every first country gets the same circus, with the same people under the same names. That includes locals set down in generated towns of any folk, always human (a cobbler Jos Haverhill, a Mrs Pruett). A placed module's people can be drawn by Deem only through JSON templates outside Kyr, so a cast written in Kyr cannot be drawn at all.
 
