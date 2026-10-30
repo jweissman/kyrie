@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 2 | 61 | 9 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 10 | 0 | 1 | 0 | 0 | 0 | 11 |
-| The owner's review | 0 | 17 | 25 | 0 | 0 | 0 | 42 |
+| The owner's review | 0 | 18 | 24 | 0 | 0 | 0 | 42 |
 | The adventures' authors | 0 | 14 | 55 | 0 | 0 | 0 | 69 |
 | The navigation review | 0 | 0 | 22 | 0 | 0 | 0 | 22 |
 
@@ -231,7 +231,7 @@ clearly actionable. Not another restyle, widget, more places or checklist: find 
 
 | ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
 |---|---|---|---|---|---|
-| OWN-28 | Diagnose one ordinary expedition end to end through the real application (settlement, a lead found in play, where it is, travel, the site entered and navigated, a worthwhile activity, home again), every breakdown traced to its layer; the three to five highest-leverage structural corrections with evidence and ordinary-play verification; one representative expedition repaired so that comparable journeys work; each system reported as implemented, reachable, usable and enjoyable, separately; playability not deferred to Mission 19 | F | P0 | Open | |
+| OWN-28 | Diagnose one ordinary expedition end to end through the real application (settlement, a lead found in play, where it is, travel, the site entered and navigated, a worthwhile activity, home again), every breakdown traced to its layer; the three to five highest-leverage structural corrections with evidence and ordinary-play verification; one representative expedition repaired so that comparable journeys work; each system reported as implemented, reachable, usable and enjoyable, separately; playability not deferred to Mission 19 | F | P0 | Partial | Diagnosed (doc/architecture/mission-18/diagnosis.md; journal doc/playtests/ordinary-expedition-2026-10-30): five corrections, each a placement-contract or presentation change, none a rewrite: (1) every placed adventure's lead becomes an aim (kits have no lead, 12 of 13 works no aim); (2) a promised inside exists and its way in has more than one key (29 of 29 dens are one room); (3) the page decides what matters first (the glance); (4) the danger word true (techniques imported with no cooldown, so forecasts and audits overstate the company); (5) an ending becomes a fact the world answers (hooks never go stale). The representative repair, the bell and the hobs from Brightbridge, under way |
 
 ### The owner's additions of 2026-10-30: portraits and names
 
