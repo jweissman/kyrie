@@ -7,7 +7,9 @@ export interface BoardLand {
   width: number; height: number; cover: string; rivers: number[][]; roads: Record<string, number[]>;
   known: number[]; here?: number; marks: BoardMark[];
 }
-export interface BoardHooks { choose(id: string): void }
+// What the board gives back: a hex or a place chosen (and whether by the keys, so that the way there is the next
+// thing they reach), and that it can no longer be drawn, when the browser has taken its drawing away for good.
+export interface BoardHooks { choose(id: string, keyed?: boolean): void; lost?(): void }
 export interface BoardApi {
   show(chosen?: string, bound?: string): void;
   zoom(by: number): void;

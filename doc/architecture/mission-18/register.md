@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 2 | 61 | 9 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 10 | 0 | 0 | 0 | 0 | 0 | 10 |
-| The owner's review | 0 | 12 | 1 | 0 | 0 | 0 | 13 |
+| The owner's review | 0 | 12 | 9 | 0 | 0 | 0 | 21 |
 
 | By gate | A | B | C | D | E | F |
 |---|---|---|---|---|---|---|
@@ -188,6 +188,23 @@ gates. The map is not accepted until the owner has reviewed it as a visual and i
 |---|---|---|---|---|---|
 | OWN-12 | A genuinely beautiful, explorable map: isometric, 2.5D or 3D terrain over the whole screen (Three.js permitted); relief, light, atmosphere, a palette of a piece with the title, transitions; roads and rivers in the land, no graph; mist for unknown country; recognisable places; where you are, can see and are bound; pan, zoom and choose by mouse, keys and touch; a wilderness step, a long journey and going into a site told apart; knowledge kept; genuinely different approaches prototyped and judged on iPad and desktop, offline, with reduced motion and accessible controls; the actual map's quality the acceptance | A | P0 | Partial | Two renderers (relief, tiles) over one generated country, published to the owner as a playable page and revised four times on the owner's notes (map.md, the second round); the tiles are the reader's map (web/reader/board/, the flat map where it cannot be drawn; test/board-browser.test.ts). What remains: the board's own acts for a step, a journey and going in; the owner's acceptance |
 | OWN-13 | The Grand Tour (adventure/grand-tour): its premise, places, planar geography and progression examined; how it would sit in the same canonical planes and metropolitan geography (one Plane of Fire, one House of Doors as a restricted precinct of the mages' college, its upper galleries opened by an artifact rebuilt from elemental parts); its author's design kept, compatibility questions raised before any rewriting | B | P0 | Partial | grand-tour.md: the design read, the House and the Rose found close to the owner's vision, seven points of friction with the shared world, thirteen questions for the owner and the author; the branch merged onto today's main in a scratch worktree conflicts only in the generated bundle index and passes its own 30 tests. What remains: the answers, then shared planes and the House as a canonical precinct |
+
+### The owner's feedback of 2026-10-29 on the graphical experience: radical simplification
+
+The title has improved and the map is becoming spatial; ordinary play is still far too busy, like a complex website
+rather than an immersive RPG. Not smaller text or narrower panels: stop showing what the moment does not need. These
+refine the interface requirements (Gate A); they do not interrupt the other gates.
+
+| ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
+|---|---|---|---|---|---|
+| OWN-14 | Character creation as centred cards and almost nothing else: a minimal heading ("Choose your ancestry"), the choices as attractive cards of consistent proportions with imagery or iconography, a concise name and only the most useful identifying line, a clear selected state and an obvious way on; several visible together; a restrained layout for larger sets (no horizontally scrolling wall); no gameplay HUD, window frames, sidebars or information panels | A | P0 | Open | |
+| OWN-15 | Spell schools reveal the actual starting spells: each school's emblem, a very short practical identity, and the spells it grants or opens, each with what it does, before committing; a modest, consistent icon language for schools and common spells, useful in play; detailed mechanics in an inspectable view | A | P0 | Open | |
+| OWN-16 | Names: a randomized default name fitting the protagonist's ancestry and culture, easily rerolled and edited; settlements named by their inhabitants' culture and history, a coherent Common (Westron) tradition of plain, evocative translated names for the human heartland (Whitefall, Thornford), foreign or ancestral names only where history or influence puts them | B | P0 | Open | |
+| OWN-17 | A distinct, nearly empty opening scene after creation (entering the country, a road, a town coming into sight, a traveller), reflecting origin and background; one or two brief beats, perhaps an encounter in which the protagonist reveals their background in words; then yield to play, no long run of Continue | A | P0 | Open | |
+| OWN-18 | Locations radically shorter: a first arrival as one distinctive observation, a sign of current life, something worth noticing or doing (a paragraph or two at most); history, architecture, inhabitants, services and geography found by looking, moving, talking and inspecting; a return briefer still unless something has changed; no gazetteer on entry | A | P0 | Open | |
+| OWN-19 | A quiet gameplay view: the present scene and the actions that matter now; fewer persistent controls, frames, stacked panels, lists of people and destinations, repeated status and long description; what is perceived, known, doable, inspectable and reference kept distinct, the last in map, sheet, journal or encyclopedia; hierarchy and whitespace, not shrinking | A | P0 | Open | |
+| OWN-20 | Each activity its own composition in one artistic world: creation an almost empty selection; the opening a quiet narrative stage; conversation the speaker and their words; exploration the scene and a few meaningful actions; the map the whole viewport; inventory, spells, character and reference denser when deliberately opened | A | P0 | Open | |
+| OWN-21 | Demonstration: ancestry, calling and background chosen from centred cards; a spell school with its actual spells; a randomized name; a quiet opening; into exploration; a town arrival, concise, with a few meaningful actions; deeper information only on request; judged on the rendered screens at desktop and tablet sizes, substantially quieter, more beautiful and more intentional | F | P0 | Open | |
 
 ## Appendix: Mission 17's evidence, as it stood at 28b306c
 

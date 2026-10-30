@@ -1,6 +1,6 @@
-import type { Vector3 } from 'three';
 import type { BoardGround } from './board-ground';
 import { Noise } from './noise';
+import type { PathReach } from './path-reach';
 import { Scatter, type Spot } from './scatter';
 
 // Where the country's growing things and furniture stand, hex by hex, by its land: woods in clumps of broadleaf and
@@ -15,7 +15,7 @@ export class BoardFlora {
   private static readonly fields = ['#7b7a44', '#5c6935', '#8b7c4c', '#6d7a3e', '#857245'];
   private readonly towns: Set<number>;
   private readonly roads: Set<number>;
-  constructor(private readonly ground: BoardGround, private readonly keep: { rivers: Vector3[]; roads: Vector3[] },
+  constructor(private readonly ground: BoardGround, private readonly keep: { rivers: PathReach; roads: PathReach },
     towns: number[]) {
     this.towns = new Set(towns); this.roads = new Set(Object.values(ground.land.roads).flat());
     for (const c of ground.grid.cells) { this.grow(c); }
@@ -90,12 +90,8 @@ export class BoardFlora {
   private put(kind: string, c: number, [x, z]: [number, number], [s, color]: [number, string]): void {
     const p = this.ground.grid.centres[c]!,
       clear = kind === 'wall' || kind === 'hedge' || kind === 'farm' ? 0.08 : 0.06;
-    if (this.ground.grid.cellAt(x, z) !== c || BoardFlora.near(this.keep.rivers, x, z) < clear + 0.03) { return; }
-    if (BoardFlora.near(this.keep.roads, x, z) < clear || this.towns.has(c) && Math.hypot(x - p.x,
-      z - p.y) < 0.33) { return; }
+    if (this.ground.grid.cellAt(x, z) !== c || this.keep.rivers.near(x, z, clear + 0.03)) { return; }
+    if (this.keep.roads.near(x, z, clear) || this.towns.has(c) && Math.hypot(x - p.x, z - p.y) < 0.33) { return; }
     this.spots[kind]!.push(Scatter.spot(c, [x, z], s, color));
-  }
-  private static near(points: Vector3[], x: number, z: number): number {
-    return points.reduce((best, p) => Math.min(best, Math.hypot(p.x - x, p.z - z)), 9);
   }
 }

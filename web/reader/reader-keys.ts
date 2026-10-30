@@ -1,9 +1,11 @@
 import type { ReaderApp } from './reader-app';
 import type { View } from './menu-model';
+import { Stage } from './stage/stage';
 
 // The keyboard. In play, arrows move the highlight through what can be done now, Enter does it, a digit does one at
-// once, Esc goes back; letters open the company, the pack, the journal and the map. Before play, arrows move between
-// the page's choices and Enter takes the one in focus.
+// once, Esc goes back; letters open the company, the pack, the journal and the map. Over the map, the arrows, Enter,
+// Space and the digits are the map's own. Before play, arrows move between the page's choices and Enter takes the
+// one in focus.
 export class ReaderKeys {
   static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'pack', j: 'journal', m: 'map', h: 'story' };
   constructor(private readonly app: ReaderApp) {}
@@ -19,6 +21,9 @@ export class ReaderKeys {
   };
   private play(key: string): boolean {
     const app = this.app, menu = app.menu, s = app.state;
+    // The map open over the page: its buttons pressed and its land moved over by these keys, not the place's choices
+    // hidden under it done unseen. Esc still closes it, and the letters open the books.
+    if (Stage.mapped(app) && /^(ArrowUp|ArrowDown|Enter| |[1-9])$/.test(key)) { return false; }
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       if (!menu.choices.length) { return false; }
       // The first press shows where the keys are, on the first choice (or the last, going up), rather than passing

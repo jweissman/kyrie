@@ -48,6 +48,11 @@ export class Stage {
     if (s.attention.kind === 'thing' && menu.examined) { return 'examine'; }
     return Routes.of(frame.screen) ? 'road' : 'explore';
   }
+  // Whether the map is open over everything (not a fight, or the end, come over it): then the keys are the map's, and
+  // what would be said over the page is said over the map.
+  static mapped(app: ReaderApp): boolean {
+    return app.state.view === 'map' && !!app.state.frame && Stage.mode(app) === 'book';
+  }
   // What automation knows the stage as: the place and the road are both exploring; a book is what it holds.
   private static inspected(app: ReaderApp, mode: Mode): string {
     if (mode === 'road') { return 'explore'; }
