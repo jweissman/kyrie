@@ -13,7 +13,7 @@ Module drover "The drover who did not come home" {
   // The dog that came home: a real dog, lame in the off forefoot, who lets anyone who is kind to her look at her; and
   // whoever does sees where she has been.
   Person dog "the grey dog" at green { Role "the drover's dog". Species dog. Pronouns she. Peaceable. }
-  Observe dog_waits near dog of dog when not told(wife) and at(dog, green) "A grey dog lies by the door of {taproom} with her head on her paws, watching the road. She holds one forefoot off the ground.".
+  Observe dog_waits near dog of dog as sign when not told(wife) and at(dog, green) "A grey dog lies by the door of {taproom} with her head on her paws, watching the road. She holds one forefoot off the ground.".
   Observe dog_in near dog of dog when told(wife) and at(dog, taproom) "The grey dog lies by the kitchen fire with her chin on her paws.".
   Rule dog_goes_in when told(wife) and at(dog, green) { Assert at(dog, taproom). }
   Entity dog_mud: fact "The grey dog came home caked in black ditch-mud, the off forefoot cut as if on iron.".

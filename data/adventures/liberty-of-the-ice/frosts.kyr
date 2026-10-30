@@ -22,11 +22,11 @@ Module pellam "The Liberty of the Ice" {
 
   // ── The bill on the Glove Post ────────────────────────────────────────────────────────────────────────────────────
   // Noll Brisket prints the day each morning and pastes it on the mast under the glove: what is on, and when.
-  Observe bill_one at freezeland when firstDay() and not iceGone() "A bill is pasted on the Glove Post, new this morning, the ink smudged with frost: THE GREAT FROST FAIR, FIRST DAY. — HIRING at the RING, TEN till NOON, by Master J. HARKER, for a farm in the hills. — The LIBERTY CRIED at NOON. — The COURT of the ICE sits at FOUR. — The LIARS' BENCH at the FROZEN LAMB from SEVEN. — A BEAR. AN OX. FROST-CREAM. — NO LAW BUT THE GLOVE.".
+  Observe bill_one at freezeland as reading when firstDay() and not iceGone() "A bill is pasted on the Glove Post, new this morning, the ink smudged with frost: THE GREAT FROST FAIR, FIRST DAY. — HIRING at the RING, TEN till NOON, by Master J. HARKER, for a farm in the hills. — The LIBERTY CRIED at NOON. — The COURT of the ICE sits at FOUR. — The LIARS' BENCH at the FROZEN LAMB from SEVEN. — A BEAR. AN OX. FROST-CREAM. — NO LAW BUT THE GLOVE.".
   Observe bill_two at freezeland when secondDay() and not iceGone() "Today's bill on the Glove Post, pasted over yesterday's: SECOND DAY. — The LAST HIRING, NINE till ELEVEN. — The COURT at FOUR. — The BENCH at SEVEN. — MARRIED, TOMORROW at NOON, at the ICE CHAPEL: ALDERMAN H. GOSLING and MISTRESS THESSALY HARKER. — Beware the Ice below the Bridge.".
   Observe bill_three at freezeland when thirdDay() and not iceGone() "Today's bill on the Glove Post, wet already: THIRD DAY. — The WEDDING at NOON. — The LANDING at TWO, before the REEVE: every hand shaken on the ice to be CRIED, and LANDED, or let go. — OFF THE ICE at NINE, every soul. — God keep the Liberty.".
   // The pillory stands empty by the stocks from the first day, with a board on it waiting to be written on.
-  Observe pillory_waits at freezeland when not landingAt(lisk) and not pilloried(party) and not iceGone() "Beside the stocks stands a pillory nobody is in, with snow on the board where the head goes, and a placard hung on it ready, blank, for whatever the Court writes there.".
+  Observe pillory_waits at freezeland as feature when not landingAt(lisk) and not pilloried(party) and not iceGone() "Beside the stocks stands a pillory nobody is in, with snow on the board where the head goes, and a placard hung on it ready, blank, for whatever the Court writes there.".
 
   // ── The Book of Frosts ────────────────────────────────────────────────────────────────────────────────────────────
   // The Watermen's Company keeps, among its accounts, the river's own history: every frost the Lisk has stood, and what

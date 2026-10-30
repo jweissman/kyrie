@@ -19,6 +19,7 @@ import { OptionsPage } from './options-page';
 import { ReaderOptions, type Options } from './reader-options';
 import { Shell } from './shell';
 import { Stage } from './stage/stage';
+import { Act } from './stage/act';
 
 export type Phase = 'title' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
@@ -94,7 +95,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const [was, now] = [prev.attention, this.state.attention];
     if (now.kind !== 'place' && (was.kind !== now.kind || was.id !== now.id)) { ReaderApp.top(); }
     if (prev.cursor !== this.state.cursor && prev.frame === frame && this.state.keyed && !this.state.hovered) {
-      const chosen = document.querySelector<HTMLElement>(`[data-action="choice"][data-index="${this.state.cursor}"]`);
+      // On the sheet raised over a place, when it is there too (a way rowed under the glance and among every way).
+      const at = `[data-action="choice"][data-index="${this.state.cursor}"]`;
+      const chosen = document.querySelector<HTMLElement>(`[aria-modal="true"] ${at}`) ?? document.querySelector<HTMLElement>(at);
       chosen?.focus({ preventScroll: true });
       chosen?.scrollIntoView({ block: 'nearest' });
     }
@@ -159,7 +162,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const book = /^view:(\w+)(?::(.+))?$/.exec(choice.command);
     if (book) { this.show(book[1] as View, book[2]); return; }
     // Nothing that cannot be undone is done by a slip: it is said first, and done when chosen again.
-    if (choice.grave && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
+    // So is a fight the company could lose, as it reckons it (see Marks).
+    if (Act.asks(choice) && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
     const said = MenuModel.said(this.menu, choice);
     Timings.chosen(said);
     if (frame.combat) {
@@ -268,6 +272,13 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       attention: s.attention, talk: s.talk,
       sections: menu.sections.map(sec => ({ id: sec.id, title: sec.title, choices: sec.choices.map(MenuModel.shape) })),
       choices: menu.choices.map(MenuModel.shape), selected: s.keyed ? menu.choices[s.cursor]?.id : undefined, trail: s.open,
+      // A place at a glance: how the company came, what it leads with and why, the ways it rows; where the rest is drawn;
+      // and a choice chosen once that asks again before it is done.
+      ...frame?.leaf.glance && menu.sheets && s.view === 'here' && s.attention.kind === 'place' && !frame.combat
+        ? { glance: { arrival: frame.leaf.glance.arrival, sight: frame.leaf.glance.sight?.id,
+          acts: frame.leaf.glance.acts.map(a => ({ choice: a.choice, why: a.why, marks: a.marks.map(m => m.kind) })),
+          ways: frame.leaf.glance.ways }, sheets: menu.sheets } : {},
+      ...s.confirming ? { confirming: s.confirming } : {},
       combat: frame?.combat, log: (frame?.entries ?? []).slice(-5), party: frame?.screen.party.map(m => ({ name: m.name,
         hp: m.hp })), pending: !!s.pending || s.phase === 'loading', error: s.error, timings: Timings.list,
       keeps: Timings.keeps };

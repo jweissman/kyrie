@@ -1,0 +1,148 @@
+/* A place at a glance (OWN-18, OWN-19): the place's head across the stage, and under it one column on the reading
+   measure, the head's name set on the same measure: what was just done; how the company came; the place's own line;
+   a sign of life now; what has changed; the aim when it wants saying; the few things worth doing, the first edged in
+   gold; a quiet row of the nearest ways; how the company is, only when something is wrong; and the keys to what is a
+   touch away, held at the column's foot while the rest is longer than the screen. Look about, Every way and More are
+   sheets raised over it: from the right on a desk or a tablet held sideways, from the foot of a screen held upright.
+   On a screen no taller than a laptop's, the head is lower and the column closer set, so that an arrival's glance is
+   seen whole. */
+.scene-page.glance-page { position: relative; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas: "head" "scene"; }
+.glance-page .place-head .title-block { width: 100%; max-width: 40rem; margin: 0 auto; }
+.glance-page > .scene { padding: clamp(20px, 3.6vh, 36px) clamp(18px, 4vw, 48px) 0; scrollbar-gutter: stable both-edges; }
+.scene-page.glance-page > .scene .measure { max-width: 40rem; margin: 0 auto; }
+
+.glance .came { font: italic 400 15.5px/1.5 var(--told); color: var(--dim); margin: 0 0 14px; padding-left: 14px;
+  border-left: 1px solid var(--edge-strong); }
+/* A journey stopped says why where the eye goes first; a journey's legs open from its line. */
+.glance .came.stopped { font: 500 15px/1.5 var(--do); font-style: normal; color: var(--gold); border-left-color: var(--gold); }
+.glance details.came > summary { cursor: pointer; list-style: none; }
+.glance details.came > summary::-webkit-details-marker { display: none; }
+.glance details.came > summary::after { content: ' ›'; color: var(--faint, var(--dim)); }
+.glance details.came[open] > summary { margin-bottom: 10px; }
+.glance details.came .travelled { border-left: 0; padding-left: 0; margin-bottom: 4px; }
+.glance .sight { font: 400 20px/1.6 var(--told); color: var(--ivory); margin: 0 0 16px; text-wrap: pretty; }
+.glance.arrival-return .sight, .glance.arrival-resume .sight { font-size: 18.5px; }
+.glance .life { display: flex; align-items: flex-start; gap: 14px; margin: 0 0 18px; font: italic 400 17.5px/1.55 var(--told);
+  color: var(--ivory); }
+.glance .life .face { flex: none; width: 44px; height: 54px; margin-top: 4px; overflow: hidden; background: var(--lift);
+  box-shadow: 0 0 0 1px var(--edge-strong); }
+.glance .life .face img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.85); }
+.glance .life .face.gone { display: none; }
+.glance .threat { margin: 4px 0 18px; }
+.glance .happened { margin: 0 0 18px; }
+.glance > .happened:not(:first-child) .telling, .glance > .happened:not(:first-child) p { font-size: 17.5px; }
+.glance .changed { margin: 4px 0 18px; }
+.glance .aim { margin: 18px 0 0; font-size: 15.5px; color: var(--dim); }
+.glance .dark-note { margin: 0 0 16px; }
+
+/* What is worth doing now: at most three, best first, each with why and what it risks. */
+.glance .led { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 8px; }
+.act.led-act { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 3px 14px; width: 100%;
+  min-height: 56px; padding: 12px 16px 12px 38px; }
+.act.led-act::before { left: 16px; }
+.act.led-act .n { grid-column: 1; font: 500 16.5px/1.3 var(--do); }
+.act.led-act .why-said { grid-column: 1; font: 400 13px/1.35 var(--do); color: var(--gold); letter-spacing: .02em; }
+.act.led-act .key { grid-column: 2; grid-row: 1; }
+.act.led-act .led-mark { grid-column: 1 / -1; font: 400 13.5px/1.4 var(--do); letter-spacing: 0; color: var(--ember); }
+.act.led-act .led-mark::before { content: ''; display: inline-block; width: 5px; height: 5px; margin: 0 8px 2px 0;
+  background: currentColor; transform: rotate(45deg); }
+.act.led-act .led-mark:is(.mark-night, .mark-unlooked, .mark-heard) { color: var(--azure); }
+.act.led-act:is(.risk, .grave)::after { grid-column: 1 / -1; }
+/* What a mark says in words is not said again as a tag ("a risk" under a fight and how it would go). */
+.act.led-act:has(> .led-mark)::after { content: none; }
+.act.led-act.first { border-color: var(--gold-line); box-shadow: inset 3px 0 0 var(--gold);
+  background: linear-gradient(90deg, var(--gold-glow), transparent 80%), var(--raised); }
+.act.led-act.first::before { background: var(--gold); border-color: var(--gold); }
+.act.led-act.first .n { font-size: 17.5px; }
+
+/* The quiet row: the nearest ways; then the keys to every way, everyone and everything here, and yourself. */
+.glance-row { margin: 22px 0 0; padding-top: 16px; border-top: 1px solid var(--edge); }
+.glance-row .tiles { list-style: none; margin: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr)); gap: 6px; }
+.glance-row .act.tile { min-height: 48px; background: transparent; }
+.glance-row .act.tile .n { font-size: 14px; }
+.glance-row li.step .act.tile .n { font: 600 10.5px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.glance-row li.step .act.tile .r { max-width: 100%; font: 400 13px/1.3 var(--do); color: var(--ivory); overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap; }
+.glance-row .act.tile.aimed { box-shadow: inset 2px 0 0 var(--gold); }
+.glance-row .act.tile .mark-tag { margin-top: 2px; }
+/* The column's foot is the keys' own (the scene has none under them), so that held there they cover what scrolls
+   under them to the screen's edge. */
+.glance-keys { position: sticky; bottom: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; margin: 0;
+  padding: 12px 0 max(28px, env(safe-area-inset-bottom)); background: linear-gradient(to bottom, transparent, var(--surface) 12px); }
+.glance-row + .glance-keys, .glance-row + .need + .glance-keys { padding-top: 12px; }
+.led + .glance-keys, .led + .need + .glance-keys { margin-top: 10px; }
+.glance-keys > button { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+  width: auto; min-height: 44px; padding: 10px 16px; border: 1px solid var(--edge-strong); background: var(--surface);
+  font: 500 12px/1 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--ivory); }
+.glance-keys > button:hover, .glance-keys > button:focus-visible, .glance-keys > button[aria-expanded="true"] {
+  border-color: var(--gold-line); color: var(--gold); outline: none; }
+.glance-keys .count { font-variant-numeric: tabular-nums; color: var(--gold); letter-spacing: 0; }
+.glance-keys kbd, .act.led-act .key { letter-spacing: 0; }
+.glance .need { margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 4px 16px; font: 500 12.5px/1.4 var(--do);
+  letter-spacing: .08em; text-transform: uppercase; color: var(--ember); }
+@media (hover: none) { .act.led-act .key, .glance-keys kbd { display: none; } }
+@media (max-height: 960px) and (min-width: 700px) {
+  .glance-page .place-head.painted { min-height: clamp(130px, 19vh, 190px); }
+  .glance-page > .scene { padding-top: clamp(16px, 2.6vh, 26px); }
+  .glance-keys { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
+  .glance .sight { font-size: 19px; line-height: 1.55; margin-bottom: 14px; }
+  .glance .life, .glance .threat, .glance .happened, .glance .changed { margin-bottom: 14px; }
+  .glance .aim { margin-top: 12px; }
+  .glance .led { margin-top: 14px; gap: 6px; }
+  .act.led-act { min-height: 50px; padding-top: 10px; padding-bottom: 10px; }
+  .glance-row { margin-top: 14px; padding-top: 10px; }
+  .glance-row .act.tile { min-height: 44px; }
+}
+
+/* What a choice risks, as a tag on it wherever it is drawn; a way with no coming back says that, not "cannot be
+   undone". */
+.mark-tag { font: 600 10.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--ember); }
+.act.grave:has(> .mark-one-way)::after { content: none; }
+.mark-tag:is(.mark-night, .mark-unlooked, .mark-heard) { color: var(--azure); }
+.ways .options > li.aimed .act.way > .n::after { content: 'your aim'; margin-left: 10px; font: 600 10px/1 var(--do);
+  letter-spacing: .16em; text-transform: uppercase; color: var(--gold); vertical-align: 2px; }
+
+/* The map and yourself beside the book, each a quiet icon. */
+.corner-keys { position: absolute; z-index: 5; top: 14px; right: 16px; display: flex; gap: 8px; }
+.corner-keys .corner { position: static; }
+.corner-keys .corner.icon { padding: 0 12px; }
+.corner-keys .corner svg path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
+.corner-keys .corner[data-action="book"] svg path { fill: currentColor; stroke: none; }
+@media (max-width: 699px) { .corner-keys .corner .corner-label { display: none; } .corner-keys .corner { padding: 0 11px; } }
+
+/* A sheet raised over the glance. */
+.glance-page .shade { position: absolute; inset: 0; z-index: 5; background: rgba(0, 0, 0, .55);
+  animation: shade-in var(--settle) var(--ease) both; }
+@keyframes shade-in { from { opacity: 0; } }
+.drawer { position: absolute; z-index: 6; top: 0; right: 0; bottom: 0; width: min(38rem, 100%); display: flex; flex-direction: column;
+  background: var(--surface); border-left: 1px solid var(--gold-line); box-shadow: -24px 0 60px rgba(0, 0, 0, .55);
+  animation: drawer-in var(--settle) var(--ease) both; }
+@keyframes drawer-in { from { transform: translateX(24px); opacity: 0; } }
+.drawer > .sheet-head { flex: none; position: static; padding: 14px clamp(18px, 3vw, 32px) 10px; border-bottom: 1px solid var(--edge); }
+.drawer-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  padding: 18px clamp(18px, 3vw, 32px) max(32px, env(safe-area-inset-bottom)); }
+.drawer-body > * + * { margin-top: 22px; }
+.drawer .telling .establish > p:first-child { font-size: 19px; }
+.drawer .here { margin: 14px 0 20px; }
+.drawer .you { display: block; margin: 0; }
+.drawer .you .me { margin: 0 0 14px; }
+.drawer .acts.column { display: grid; gap: 6px; }
+.drawer .acts.column .act { display: flex; width: 100%; }
+.drawer .aim { display: block; }
+.drawer .aim .label { display: block; margin-bottom: 6px; }
+@media (max-width: 699px), (orientation: portrait) {
+  .drawer { top: auto; left: 0; width: auto; max-height: 86%; border-left: 0; border-top: 1px solid var(--gold-line);
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, .6); animation-name: drawer-up; }
+  @keyframes drawer-up { from { transform: translateY(24px); opacity: 0; } }
+}
+@media (max-width: 699px) {
+  .glance .sight { font-size: 18.5px; }
+  .glance .life { font-size: 16.5px; }
+  .glance-row .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .glance-keys { flex-wrap: nowrap; gap: 6px; }
+  .glance-keys > button { flex: 1 1 auto; justify-content: center; gap: 7px; padding: 10px 8px; font-size: 11px;
+    letter-spacing: .1em; white-space: nowrap; }
+  .glance-keys > button[data-action="more"] { flex: 0 1 auto; }
+}

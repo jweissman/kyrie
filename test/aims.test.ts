@@ -38,7 +38,9 @@ describe('your aims', () => {
     expect(ActionFeedbackView.read(c, waited, later).aims ?? []).toEqual([]);
   }, 120000);
   // The place your aim names is offered to set out for, however far: the cisterns of Lunastagn, the aim, were only "on
-  // the map", while three nearer places stood under Set out for (play 7).
+  // the map", while three nearer places stood under Set out for (play 7). The notes still match an aim to a place by
+  // its name (Sheet.Aim); the place's ways and journeys take the aims' places from the engine (glance.aimed: see
+  // glance-menu.test.ts).
   it('offers the place your aim names to set out for, beside the nearest', () => {
     const places = ['Riwustagn', 'Argentumfons', 'a lone tower', 'Lunastagn', 'Murkheald', 'Glōmburg'].map(name => ({ name }));
     const aim = 'Bring the Wardens\' reading-glass up out of Lunastagn, from the still water at the bottom.';

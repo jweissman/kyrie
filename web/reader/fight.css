@@ -114,8 +114,9 @@
   .fight .order { margin-left: 0; }
 }
 /* A short stage (a small laptop's, a phone's): the hand of cards a little lower and shorter, so the company above it
-   is seen whole, each face with its card (at 1180 by 820 the third of three had been cut at the mouth). */
-@media (max-height: 880px) {
+   is seen whole, each face with its card (at 1180 by 820 the third of three had been cut at the mouth; at 1440 by
+   900 too, once each act carried its marks). */
+@media (max-height: 920px) {
   .fight > .sides { padding-top: 14px; }
   .fight > .moves { max-height: calc(var(--frame-h) * .36); }
   .fight .moves .act { min-height: 52px; padding-top: 8px; padding-bottom: 8px; }

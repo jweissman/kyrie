@@ -2,6 +2,8 @@ import type { Act, CombatScreen, ExitRow, ItemRow, MemberRow, Screen, TargetRow 
 import { Patience } from './patience';
 import { Tending } from './tending';
 import { Counted } from '../presentation/counted';
+import { Marks } from './marks';
+import type { Mark } from '../presentation/glance-types';
 
 export type Tone = 'way' | 'person' | 'creature' | 'thing' | 'company' | 'item' | 'member' | 'ability' | 'spell';
 // One thing the player can choose. A choice either performs its command when chosen or opens a short list of
@@ -18,6 +20,8 @@ export interface Choice {
   answer?: boolean;
   // One of the place's own (see Act).
   own?: boolean;
+  // What it risks, said on it before it is chosen (see Marks).
+  marks?: Mark[];
 }
 // What the choices are about: a person, a creature, a thing, the ways out, the company itself.
 export interface Section {
@@ -36,11 +40,11 @@ export class ChoiceList {
   static explore(screen: Screen): Section[] {
     const merchants = screen.people.some(p => p.acts.some(a => a.label === 'Buy'));
     const things = screen.things.filter(t => !(merchants && t.acts.length && t.acts.every(a => a.label.startsWith('Buy from'))));
-    return this.waited(screen, [
+    return Marks.on(screen, this.waited(screen, [
       ...[...screen.people, ...things].map(t => this.subject(t, screen.fresh)),
       ...(screen.exits.length ? [this.ways(screen.exits)] : []),
       ...this.company(screen),
-    ]);
+    ]));
   }
   // What the company can do by itself: light a light in the dark, tend whoever is hurt (see Tending), camp, rest and
   // the rest, and prepare spells.

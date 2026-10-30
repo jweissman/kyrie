@@ -2,10 +2,11 @@ import { ChoiceList, type Choice, type Section } from '../../src/ui/choice-list'
 import { ChoiceTree } from '../../src/ui/choice-tree';
 import { SceneModel, type Scene } from '../../src/ui/scene';
 import { Attending, type Attention, type Examined, type Talk } from '../../src/ui/attention';
+import { Routes } from '../../src/ui/route';
 import type { Frame } from '../engine/protocol';
+import type { Glance } from '../../src/presentation/glance-types';
 import type { Travel } from './reader-app';
 import { Words } from './words';
-import { Aims } from './aims';
 import { Hours } from './hours';
 import { Wares } from './wares';
 
@@ -17,7 +18,11 @@ export interface Menu {
   sections: Section[]; choices: Choice[]; scene?: Scene; talk?: Talk; examined?: Examined; destinations?: Choice[];
   // The other places of the town, further than a step, walked to directly.
   around?: Choice[];
+  // Where each choice at a place is drawn besides the glance (see Glance): who and what is here and the place's own
+  // acts under Look about, the ways under Every way, the company's own under More. It places them; it ranks nothing.
+  sheets?: Sheets;
 }
+export interface Sheets { look: string[]; ways: string[]; more: string[] }
 
 export class MenuModel {
   static build(frame: Frame | undefined, view: View, open: string[],
@@ -69,13 +74,32 @@ export class MenuModel {
     const screen = frame.screen;
     const scene = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen)
       : /^prepare:/.test(c.id) ? this.preparing(c, screen) : c) };
-    const going = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id)];
-    const about = this.around(screen);
-    const choices = [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...about, ...scene.far, ...going,
-      ...scene.you].flatMap(c => this.unfold(c, this.inWay(c) ? new Set([...opened, c.id]) : opened));
+    // On a road the page draws no glance (see RoadStage): its two ends and what is by it, in their own order.
+    const glance = Routes.of(screen) ? undefined : frame.leaf.glance;
+    const aimed = frame.leaf.glance?.aimed;
+    const going = [...this.onward(frame.bound), ...this.destinations(screen, frame.bound?.id, aimed)];
+    const about = this.around(screen), subjects = scene.subjects.flatMap(s => s.choices);
+    const ways = [...scene.near, ...about, ...scene.far, ...going];
+    const own = scene.you.filter(SceneModel.own), yours = scene.you.filter(c => !SceneModel.own(c));
+    const sheets = { look: this.ids([...subjects, ...own], opened), ways: this.ids(ways, opened),
+      more: this.ids(yours, opened) };
     return { scene, sections: [...this.sections(scene), ...going.length
-      ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []], choices,
-    destinations: going, around: about };
+      ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []],
+    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you], opened), glance), destinations: going,
+    around: about, ...glance ? { sheets } : {} };
+  }
+  // Every choice as drawn, what is open under its opener (and what is in a way, always: see inWay).
+  private static unfolded(choices: Choice[], opened: Set<string>): Choice[] {
+    return choices.flatMap(c => this.unfold(c, this.inWay(c) ? new Set([...opened, c.id]) : opened));
+  }
+  private static ids(choices: Choice[], opened: Set<string>): string[] {
+    return this.unfolded(choices, opened).map(c => c.id);
+  }
+  // What the glance leads with comes first, in its order (the keys' 1, 2 and 3), then everything else as it was: the
+  // same choices, none twice, none lost.
+  private static led(choices: Choice[], glance?: Glance): Choice[] {
+    const first = (glance?.acts ?? []).flatMap(a => choices.find(c => c.id === a.choice) ?? []);
+    return [...first, ...choices.filter(c => !first.includes(c))];
   }
   // Something in a way and what can be done about it are drawn under the way, open, and are among the choices (they
   // had been a fold: play 7): a choice of a way's own that holds choices of its own, the first of them too (a way
@@ -106,10 +130,10 @@ export class MenuModel {
   // The nearest places known and the way to them, each a journey to set out on at once: where it goes, how long, and
   // by where (the first legs' places). A place whose way is not known is set out toward, as far as the known ways go
   // (the edge of the wood it is said to be in). Past the nearest few, the map, which has them all.
-  static destinations(screen: Frame['screen'], bound?: string): Choice[] {
+  static destinations(screen: Frame['screen'], bound?: string, aimed: string[] = []): Choice[] {
     const all = (screen.destinations ?? []).filter(d => d.id !== bound);
-    // The nearest, and the place your aim names, near or far.
-    const named = Aims.named(all, screen.objectives[0], this.near);
+    // The nearest, and the place your aims name, near or far: the engine says which (see Glance.aimed).
+    const named = all.slice(this.near).find(d => aimed.includes(`travel:${d.id}`));
     const shown = [...all.slice(0, this.near), ...named ? [named] : []], rest = all.length - shown.length;
     return [...shown.map(d => ({ ...this.journey(d), note: [d.scale, this.by(d), Hours.dark(screen.elapsed, d.minutes)]
       .filter(Boolean).join(' · ') })), ...this.roads(screen, bound, this.near - shown.length),

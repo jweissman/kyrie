@@ -19,7 +19,7 @@ Module pellam "The Liberty of the Ice" {
 
   // The Glove Post: a ship's mast stepped in the ice at the top of Freezeland Street, with a great leather glove nailed
   // to the top of it, the sign of a liberty since there were fairs.
-  Observe glove_post at freezeland when not iceGone() "At the top of Freezeland Street a ship's mast has been stepped in the ice and guyed with ropes, and nailed to the head of it, stiff with frost, is a leather glove as big as a sail-bag: the sign of the Liberty. A board at the foot of the mast says in red: SAY WHAT YOU WILL. KEEP WHAT YOU SHAKE ON. C. BROOM, REEVE.".
+  Observe glove_post at freezeland as feature when not iceGone() "At the top of Freezeland Street a ship's mast has been stepped in the ice and guyed with ropes, and nailed to the head of it, stiff with frost, is a leather glove as big as a sail-bag: the sign of the Liberty. A board at the foot of the mast says in red: SAY WHAT YOU WILL. KEEP WHAT YOU SHAKE ON. C. BROOM, REEVE.".
   Person crier "the Fair's crier" at limbo {
     Role "a waterman with a bell and a voice". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "The crier wipes his bell with his sleeve. 'Noon, and every noon,' he says. 'You'll hear it.'".

@@ -41,6 +41,9 @@ export class SceneModel {
       near: all.filter(c => !this.far(c)), far: all.filter(c => this.far(c)),
       you: sections.filter(s => s.tone === 'company').flatMap(s => s.choices.filter(c => !this.across(c))) };
   }
+  // A danger where the company stands: one it would reckon a fight with, not with it, and not dead or down (the page's
+  // Threat card, and the glance's first business).
+  static threat(this: void, s: SceneSubject): boolean { return !!s.danger && s.kind !== 'companion' && !s.state; }
   // One of the place's own acts, by its command (a module's: pellam__ride_swing), not one done anywhere (waiting).
   static own(this: void, c: Choice): boolean { return !!c.own; }
   // Danger first (a creature, or a band the company would reckon a fight with), then whoever the company has a stake

@@ -18,11 +18,12 @@ export class Told {
   // With the journey (journey: false leaves the way here to the facing page, see Told.Travelled), and who and what is
   // here after the place's first paragraph (M17-05: a town's people had been under the whole telling, a scroll away).
   // Its heading (the chapter, the place's name, where and when) is the stage's own head where the stage draws one
-  // (headed: false).
-  static Place({ app, journey = true, here, headed = true }: { app: ReaderApp; journey?: boolean; here?: ReactNode;
-    headed?: boolean }) {
+  // (headed: false). Whole: the place told in full and without what just happened, which the glance has told (Look
+  // about: see LookAbout).
+  static Place({ app, journey = true, here, headed = true, whole }: { app: ReaderApp; journey?: boolean;
+    here?: ReactNode; headed?: boolean; whole?: boolean }) {
     const s = app.state, frame = s.frame!, leaf = frame.leaf, screen = frame.screen, exchange = leaf.exchange;
-    const told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
+    const told = !whole && exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
     const stayed = !leaf.moved && !!told;
     // Hurt on the way in (a trap's blade), what happened comes before the place, whose telling says what it left (play
     // 9 read "The hidden switch has gone off, and is spent." before "A scything blade swings through the air.").
@@ -41,7 +42,7 @@ export class Told {
       {headed && <Told.Heading frame={frame} />}
       {recap && (recap.aim || recap.last) && <Told.Recap recap={recap} />}
       {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
-      {s.pending && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
+      {s.pending && !whole && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {journey && <Told.Travelled app={app} />}
       {!s.pending && (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={Moments.ready(screen)}
         app={app} />}

@@ -5,7 +5,8 @@ import { Toast } from './toast';
 // are asked for, and anything that went wrong. With the map open they are said over the map, which covers the rest.
 export class Notices {
   private static readonly keys: [string, string][] = [['↑ ↓', 'move between choices'], ['Enter', 'do it'],
-    ['1–9', 'do one at once'], ['Esc', 'put away, or go back'], ['M', 'the map'], ['J', 'your notes'],
+    ['1–9', 'do one at once'], ['Esc', 'put away, or go back'], ['L', 'look about: everything here'],
+    ['W', 'every way from here'], ['M', 'the map'], ['J', 'your notes'],
     ['I', 'what you carry'], ['C', 'the company'], ['H', 'the story so far'],
     ['T', 'in a fight, let a companion fight on their own']];
   // On the map the keys are the map's own: from place to place on it, and a place chosen and set out for, or let go.

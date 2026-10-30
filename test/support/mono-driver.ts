@@ -9,6 +9,11 @@ export interface MonoInspection {
   combat?: { ours: boolean; outcome: string | null; actorName: string; foes: { name: string; hp: number }[] };
   log: { title: string; lines: string[] }[]; party?: { name: string; hp: number }[]; pending: boolean; error: string;
   talk?: { kind: string; text: string }[];
+  // At a place: what its glance leads with and rows, and which sheet draws each other choice (see Raised).
+  glance?: { arrival: string; sight?: string; acts: { choice: string; why: string; marks: string[] }[];
+    ways: string[] };
+  sheets?: { look: string[]; ways: string[]; more: string[] };
+  confirming?: string;
 }
 
 // Drives the Mono client through the keyboard (and optionally the pointer) using semantic ids and labels. It never
@@ -43,27 +48,45 @@ export class MonoDriver {
       requestAnimationFrame(() => requestAnimationFrame(() => done(pages.every((p, i) => p?.scrollTop === tops[i]))));
     }), null, { timeout: 10000 });
   }
-  // A choice touched where it is on show: in a busy place a way not among the nearest is raised with every way first,
-  // as a finger would (the nearest are the same choices again, as tiles).
+  // A choice touched where it is on show, as a finger would: on the sheet raised over a place when it is there; else
+  // on the place's glance, the sheet put away first; else the sheet that holds it raised first (Look about, Every way
+  // or More: see Raised), or, where there are no such sheets (a road), every way.
   async tap(index: number) {
-    const shown = `.intentions [data-action="choice"][data-index="${index}"] >> visible=true`;
-    if (!(await this.page.locator(shown).count()) && await this.page.locator('.all-ways').count()) {
+    const choice = `[data-action="choice"][data-index="${index}"]`, sheet = '.intentions [aria-modal="true"]';
+    const raised = `${sheet} ${choice} >> visible=true`, shown = `.intentions ${choice} >> visible=true`;
+    if (await this.page.locator(raised).count()) { await this.click(raised); return; }
+    const state = await this.inspect(), id = state.choices[index]?.id ?? '';
+    const glanced = !!state.glance && [...state.glance.acts.map(a => a.choice), ...state.glance.ways].includes(id);
+    if (await this.page.locator(sheet).count()) { await this.click(`${sheet} .sheet-shut`); }
+    const holder = state.sheets && !glanced ? (['look', 'ways', 'more'] as const).find(k => state.sheets![k].includes(id))
+      : undefined;
+    const opener = holder && { look: '[data-action="look-about"]', ways: '.all-ways', more: '[data-action="more"]' }[holder];
+    if (opener) { await this.click(opener); }
+    else if (!(await this.page.locator(shown).count()) && await this.page.locator('.all-ways').count()) {
       await this.click('.all-ways');
     }
     await this.click(shown);
   }
   // Does a choice on show, found by a predicate; arrows bring the highlight to it, then Enter does it.
+  // A choice that asks again before it is done (what cannot be undone, a fight that could be lost) is chosen again,
+  // as a player who has read what it risks.
   async pick(test: (c: ChoiceShape) => boolean, what: string) {
     const state = await this.inspect();
     const index = state.choices.findIndex(test);
     if (index < 0) { throw new Error(`No choice ${what}: ${state.choices.map(c => `${c.id} "${c.label}"`).join(' | ')}`); }
-    if (this.pointer) { await this.tap(index); return; }
-    // The first press shows where the keys are (on the first choice); the player moves from there.
-    if (state.selected === undefined) { await this.key('ArrowDown'); }
-    const current = Math.max(0, state.choices.findIndex(c => c.id === state.selected));
-    const delta = index - current;
-    for (let i = 0; i < Math.abs(delta); i++) { await this.key(delta > 0 ? 'ArrowDown' : 'ArrowUp'); }
-    await this.key('Enter');
+    for (let again = 0; again < 2; again++) {
+      if (this.pointer) { await this.tap(index); }
+      else {
+        // The first press shows where the keys are (on the first choice); the player moves from there.
+        const now = again ? await this.inspect() : state;
+        if (now.selected === undefined) { await this.key('ArrowDown'); }
+        const current = Math.max(0, now.choices.findIndex(c => c.id === (now.selected ?? now.choices[0]?.id)));
+        const delta = index - current;
+        for (let i = 0; i < Math.abs(delta); i++) { await this.key(delta > 0 ? 'ArrowDown' : 'ArrowUp'); }
+        await this.key('Enter');
+      }
+      if ((await this.inspect()).confirming !== state.choices[index]!.id) { return; }
+    }
   }
   // A choice about a subject (its id, or the id without the installation prefix), by the start of its label; then
   // any further labels pick from the list it opens. A subject with several things to do is one choice that opens them

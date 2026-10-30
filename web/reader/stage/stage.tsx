@@ -29,7 +29,7 @@ export class Stage {
     const s = app.state, menu = app.menu, mode = Stage.mode(app), frame = s.frame!;
     return (
       <div className={`stage mode-${mode}`} data-mode={Stage.inspected(app, mode)} aria-busy={s.pending ? true : undefined}>
-        {['explore', 'road', 'talk', 'examine'].includes(mode) && <Stage.Corner app={app} />}
+        {['explore', 'road', 'talk', 'examine'].includes(mode) && <Stage.Corner app={app} full={mode === 'explore'} />}
         <div className="intentions" data-region="choices">
           {mode === 'prologue' && <PrologueStage.View app={app} />}
           {mode === 'fallen' && <BookStage.Ending app={app} />}
@@ -94,15 +94,34 @@ export class Stage {
     );
   }
   // The book in the corner: yourself, the notes, the pack, the map and the story, opened from one control that stands
-  // quiet in the corner of every page until it is wanted (and by their keys: C, J, I, M, H).
-  static Corner({ app }: { app: ReaderApp }) {
-    return (
+  // quiet in the corner of every page until it is wanted (and by their keys: C, J, I, M, H). At a place, the map and
+  // yourself beside it, each a quiet icon (OWN-19: the Book, the map and the character as quiet icons).
+  static Corner({ app, full }: { app: ReaderApp; full?: boolean }) {
+    const book = (
       <button type="button" className="corner" data-action="book" onClick={() => app.show('journal')}
         aria-label="Your book: yourself, your notes, your pack, the map and the story so far">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 5.2C5.9 4.2 8.6 4.3 11 5.6v13.6
           c-2.4-1.2-5.1-1.3-7.5-.3V5.2zm17 0v13.7c-2.4-1-5.1-.9-7.5.3V5.6c2.4-1.3 5.1-1.4 7.5-.4z" /></svg>
         <span className="corner-label">Book</span>
       </button>
+    );
+    if (!full) { return book; }
+    return (
+      <nav className="corner-keys" aria-label="Your books">
+        <button type="button" className="corner icon" data-action="mode" data-view="map" data-key="m" aria-label="The map"
+          onClick={() => app.show('map')}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6
+            2.5V6.5zM9 4v13.5M15 6.5V20" /></svg>
+          <span className="corner-label">Map</span>
+        </button>
+        <button type="button" className="corner icon" data-action="mode" data-view="company" data-key="c"
+          aria-label="Yourself" onClick={() => app.show('company')}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12.2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5
+            20.5c.8-4 3.8-6.2 7.5-6.2s6.7 2.2 7.5 6.2" /></svg>
+          <span className="corner-label">You</span>
+        </button>
+        {book}
+      </nav>
     );
   }
   // Yourself, at a glance: how you are, what ails you, what you have to spend and to eat, and your light if it matters.

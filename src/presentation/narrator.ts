@@ -10,6 +10,8 @@ import { Spoken } from './spoken';
 import { ModuleWriter } from '../lang/module-writer';
 import { Chapters } from '../lang/chapters';
 import type { Opening } from './prologue';
+import { Glance } from './glance';
+import type { Glance as GlanceView } from './glance-types';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
 // change to the place, or a fight's turning point.
@@ -26,6 +28,8 @@ export interface Leaf {
   recap?: { aim?: string; last?: { said: string; told: string; at: string } };
   // A new game's opening, told apart before the first place where the page asks it to be (see Prologue).
   prologue?: { title: string; beats: string[] };
+  // The place at a glance: what the page leads with, decided here (see Glance).
+  glance?: GlanceView;
 }
 // One command, as the host keeps it until the next: what happened, what the company saw of it, the words it was
 // chosen in, and whether it brought the company somewhere else.
@@ -92,11 +96,12 @@ export class Narrator {
     const fresh = changed.filter(c => !echoed.has(Narration.sentence(c)) && !presence.includes(c));
     const journey = (told?.event.voiced ?? []).filter(v => v.kind.startsWith('journey')).map(v => Typography.curl(v.text));
     const chapter = told && Chapters.opened(campaign.module, told.event.perceptions);
-    return this.set({ ...chapter ? { heading: { kind: 'chapter' as const, title: chapter.title } } : {},
+    const leaf = this.set({ ...chapter ? { heading: { kind: 'chapter' as const, title: chapter.title } } : {},
       situation: [...situation, ...gone], presence, changed: fresh,
       ...exchange ? { exchange } : {}, ...shelter ? { shelter } : {}, ...told?.moved ? { moved: true } : {},
       ...journey.length ? { journey } : {},
     });
+    return { ...leaf, glance: Glance.of(campaign, screen, told, { kept, known, changed: fresh, opened: !!opening }) };
   }
   // What an opening told just before is left out of the place (see Prologue).
   private static unsaid<T extends { id: string }>(lines: T[], opening?: Opening): T[] {

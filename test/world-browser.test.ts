@@ -72,11 +72,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
-  // On a desktop the telling and the ways stand side by side under the place's head, each the whole height between the
-  // head and the foot (at a chapter's opening the ways had had the lower 44% of the right page for one way, and cut the
-  // telling above them short: play 12), and the stage that holds them keeps its margins: about a tenth of the screen's
-  // width each side (Mission 18's A1).
-  it('gives the telling and the ways a column each under the head, in a stage with its margins', async () => {
+  // On a desktop a place is one column under its head (OWN-19: the telling and the ways had stood side by side, with a
+  // foot of your aim and yourself under both): the glance on the reading measure, the head's name set on the same
+  // measure, the whole height between the head and the stage's foot, and nothing across the foot; and the stage that
+  // holds it keeps its margins: about a tenth of the screen's width each side (Mission 18's A1).
+  it('gives a place one column under its head, in a stage with its margins', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=mere' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -84,14 +84,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     const laid = await page.evaluate(() => {
       const box = (s: string) => document.querySelector(s)!.getBoundingClientRect();
-      const [scene, on, head, foot, frame] = ['.scene-page > .scene', '.scene-page > .on-pane', '.place-head',
-        '.place-foot', '.frame'].map(box) as DOMRect[];
+      const [scene, glance, title, head, page, frame] = ['.scene-page > .scene', '[data-region="glance"]',
+        '.place-head .title-block', '.place-head', '#page', '.frame'].map(box) as DOMRect[];
       const r = Math.round;
-      return { level: r(scene!.top) === r(on!.top) && r(scene!.height) === r(on!.height),
-        between: r(scene!.top) === r(head!.bottom) && r(scene!.bottom) === r(foot!.top),
+      return { one: r(scene!.width) === r(page!.width),
+        measure: r(glance!.left) === r(title!.left) && glance!.width <= 660,
+        between: r(scene!.top) === r(head!.bottom) && r(scene!.bottom) === r(page!.bottom),
+        panes: document.querySelectorAll('.on-pane, .place-foot').length,
         margins: Math.min(r(frame!.left), r(innerWidth - frame!.right)) };
     });
-    expect([laid.level, laid.between, laid.margins >= 130]).toEqual([true, true, true]);
+    expect([laid.one, laid.measure, laid.between, laid.panes, laid.margins >= 130])
+      .toEqual([true, true, true, 0, true]);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
@@ -104,7 +107,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
-    // A busy place's ways are raised over the scene by one touch.
+    // Every way is raised over the glance by one touch.
     if (await page.locator('.all-ways').count()) { await page.click('.all-ways'); }
     const rows = await page.$$eval('.ways.about .options', lists => lists.flatMap(list => {
       const whole = list.getBoundingClientRect().width;

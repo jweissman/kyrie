@@ -28,7 +28,9 @@ Module den "A den in the wild" {
     Result "You say the rites over {den}, all of them, slowly, as they were said once. Something in the dark goes still, and then there is nothing there at all.".
   }
   Action plunder(actor: group, spot: place) "Search {den} for what was dragged in" {
-    Requires able(actor) and at(actor, spot) and (dead(beasts) or driven(beasts) or laid(beasts)) and not looted(actor).
+    // At the den itself: its spot left free, it was offered wherever the company stood once the beasts were dealt
+    // with, "Search Thorn Hole" on the fells beside it (the glance's design, OWN-18).
+    Requires able(actor) and at(actor, spot) and at(actor, den) and (dead(beasts) or driven(beasts) or laid(beasts)) and not looted(actor).
     Time 2.
     On success { Increase quantity(actor, gold) by hoard(beasts). Assert looted(actor). }
     Result "Among the bones are coins and a broken buckle: {hoard(beasts) in words} coin in all.".

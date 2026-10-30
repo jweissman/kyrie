@@ -28,6 +28,7 @@ import { ObservationText } from '../../src/lang/observation-text';
 import { Spatial } from '../../src/spatial';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { ChoiceList } from '../../src/ui/choice-list';
+import { Glance } from '../../src/presentation/glance';
 
 // A journey as it goes: each leg as it was told, and the frame the last one left.
 interface Trail { legs: NonNullable<Frame['travel']>['legs']; last?: Frame }
@@ -245,7 +246,10 @@ export class EngineHost {
     if (done.arrived || !plan) { this.bound = undefined; }
     const frame = trail.last ?? this.settled(), legs = trail.legs;
     const to = plan?.name ?? Travel.named(session.campaign, destination) ?? 'where you set out for';
-    return { ...frame, travel: { to, arrived: done.arrived, legs, ...done.stopped ? { stopped: done.stopped } : {} } };
+    const travel = { to, arrived: done.arrived, legs, ...done.stopped ? { stopped: done.stopped } : {} };
+    // The journey is one line of the glance where it ends; its legs stay with the place's full telling.
+    const glance = frame.leaf.glance && Glance.came(frame.leaf.glance, travel);
+    return { ...frame, ...glance ? { leaf: { ...frame.leaf, glance } } : {}, travel };
   }
   // One leg of a journey, done as the page does a way chosen, and kept as it was told.
   private async leg(trail: Trail, command: string, said: string): Promise<CampaignEvent> {
@@ -398,8 +402,11 @@ export class EngineHost {
     const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
     // In a fight, the company's own by their portraits, as on their pages.
     const faces = new Map(this.screen.party.flatMap(m => m.face ? [[m.id, m.face] as const] : []));
-    // Told before the story is sent: the opening is the story's first entry (see leaf).
-    const leaf = this.leaf();
+    // Told before the story is sent: the opening is the story's first entry (see leaf). The journey held is read after
+    // the page is told (coming to it lets it go), and goes on first of what the glance leads with.
+    const leaf = this.leaf(), going = this.journeying();
+    if (leaf.glance) { leaf.glance = Glance.held(leaf.glance, { ...going.bound ? { bound: going.bound } : {},
+      ...leaf.recap ? { resumed: true } : {}, elapsed: this.screen.elapsed }); }
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
       leaf,
       // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the
@@ -412,7 +419,7 @@ export class EngineHost {
         ?? Obituary.of(campaign) },
       chronicle: PlayerView.chronicle(campaign)
         .map(e => ({ at: FictionalTime.at(e.at), text: e.text, detail: e.detail })),
-      ...this.journeying(), transcript: session.transcript };
+      ...going, transcript: session.transcript };
   }
   // The journey held, as the page shows it: where to, the way on from here leg by leg and how long; or, come to it
   // (by whatever way), none.

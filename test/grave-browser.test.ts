@@ -3,8 +3,17 @@ import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+
+class Grave {
+  // A thing turned to by a touch: on the place's glance when it leads with it, else under Look about (OWN-18).
+  static async touch(page: Page, selector: string) {
+    if (!(await page.locator(selector).count())) { await page.click('[data-action="look-about"]'); }
+    await page.click(selector);
+  }
+}
 
 // What cannot be undone is said before it is done, and done when chosen again: the founder's statue
 // (test/fixtures/probes/grave). Opt in with KYRIE_BROWSER=1.
@@ -24,7 +33,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a grave act on the page', () => {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // Looked at, the statue shows what can be done to it.
-    await page.click('[data-choice="p__statue#look"]');
+    await Grave.touch(page, '[data-choice="p__statue#look"]');
     await driver.settle();
     const act = () => page.locator('[data-choice^="p__statue/"][data-choice*=":Break"]').first();
     await act().click();
@@ -44,7 +53,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a grave act on the page', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await page.click('[data-choice="p__sluice#look"]');
+    await Grave.touch(page, '[data-choice="p__sluice#look"]');
     await driver.settle();
     await page.locator('[data-choice^="p__sluice/"][data-choice*=":Wind"]').first().click();
     await driver.settle();

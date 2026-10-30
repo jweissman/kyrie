@@ -26,6 +26,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    // Every way, raised over the place's glance (OWN-19).
+    await page.click('.all-ways');
     const way = page.locator('.ways [data-exit]', { has: page.locator('.way-thing', { hasText: /tripwire/i }) });
     await way.locator('.also', { hasText: 'Look closely' }).click();
     await driver.settle();
@@ -40,6 +42,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    await page.click('.all-ways');
     await page.locator('.ways .also', { hasText: 'Push and pull at it' }).click();
     await driver.settle();
     expect(await page.evaluate(() => document.body.innerText)).toContain('shifts an inch in its grooves');
@@ -53,6 +56,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    await page.click('.all-ways');
     await page.locator('.ways [data-exit] .act.way').first().click();
     await driver.settle();
     const text = await page.evaluate(() => document.body.innerText);
