@@ -19,12 +19,19 @@ Module hume "Half the Hive" {
   }
   Initially Assert serves(halse, corve).
   Relation corveGives(group). Relation corveConfronted(group). Relation flaskGone(group).
-  Thing flask_case "a locked case of polished oak" at corve_study {
+  Thing flask_case "the squire's oak case" at corve_study {
     Holds.
     State locked closed "On a shelf by the window, a small case of polished oak with a brass lock, the only locked thing in the room.".
     State open "The oak case on the shelf stands open.".
-    Change pick "Pick the oak case's lock" from locked to open needing lockwork.
-    Change force "Prise the oak case open" from locked to open needing crowbar.
+  }
+  Action pick_case(actor: group, site: place) "Pick the lock of the squire's oak case" {
+    Description "While he is not in the room.".
+    Requires at(actor, site) and able(actor) and company(actor) and at(actor, corve_study) and not at(corve, corve_study) and state(flask_case, locked).
+    Time 1.
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Assert state(flask_case, open). }
+    Result "The lock is good lowland work and takes you longer than it should, in the dark, with the house creaking; and then it gives.".
+    Otherwise "The lock is good lowland work. It does not give, and somewhere in the house a floorboard does.".
   }
   Item corve_flask "the squire's flask" is queen_flask in flask_case owned by corve.
   Rule corve_sleeps when (hour(clock) >= 21 or hour(clock) < 7) and at(corve, corve_study) { Assert at(corve, limbo). }

@@ -1,0 +1,104 @@
+{
+ "taken on": [
+  ">hume__scenting_room",
+  "Ask Elspet to scent you",
+  ">hume__dancing_hall",
+  "Talk to Kestrel",
+  "Ask to be taken on",
+  "Ask Kestrel to teach you the dance",
+  "^Take your leave"
+ ],
+ "the marks on the chalk": [
+  ">hume__dell_floor",
+  "the marks on the chalk: Examine \u2014 Look closely"
+ ],
+ "the Comb by evening": [
+  ">hume__wax_gallery",
+  "Talk to Eben",
+  "Ask Eben for some old dark comb",
+  "Ask Eben about the Lantern",
+  "Ask Eben why",
+  "Tell Eben that Linnet|^Take your leave",
+  ">hume__mothers_chamber",
+  "Talk to Pim",
+  "Ask Pim about the Daughters",
+  "^Take your leave",
+  "Talk to Linnet",
+  "Ask Linnet whether she is ready",
+  "^Take your leave",
+  ">hume__wax_gallery",
+  "Talk to Eben",
+  "Tell Eben that Linnet",
+  "Ask Eben to make queen-cages",
+  "^Take your leave",
+  ">hume__taproom",
+  "Take a bed and supper"
+ ],
+ "the gift": [
+  "=day 2 06:00",
+  ">hume__sett_mouth",
+  "Leave the old black comb"
+ ],
+ "the white comb": [
+  ">hume__gallow_hollow",
+  "?Climb the old comb",
+  "?Climb the old comb",
+  "?Climb the old comb",
+  "the one by the door: Examine \u2014 Look closely",
+  "Take the little wax bee"
+ ],
+ "the dance": [
+  ">hume__scenting_room",
+  "Show Elspet your Searcher",
+  ">hume__dancing_hall",
+  "Dance for the Chalk Dell",
+  "?Dance for the Chalk Dell",
+  "Talk to Hannet",
+  "Give Hannet the little wax bee",
+  "Promise Hannet",
+  "Ask Hannet to dance for the Chalk Dell",
+  "^Take your leave",
+  "Talk to Kestrel",
+  "Tell Kestrel what you found at the Gallowtree",
+  "Tell Kestrel what you found in the Chalk Dell",
+  "^Take your leave"
+ ],
+ "duke and the spoon": [
+  ">hume__royal_gallery",
+  "Talk to Tibby",
+  "Ask Tibby to show you",
+  "^Take your leave",
+  ">hume__toot",
+  "come with you",
+  ">hume__royal_gallery",
+  "Talk to Tibby",
+  "?Ask Tibby whether anything strange",
+  "^Take your leave"
+ ],
+ "the keeper's leave": [
+  ">hume__mothers_chamber",
+  "Talk to Linnet",
+  "Tell Linnet that Dame Brenna",
+  "^Take your leave",
+  ">hume__royal_gallery",
+  "Close a queen-cage round the Candlish",
+  "Close a queen-cage round the Ashdown"
+ ],
+ "the stair": [
+  ">hume__wax_gallery",
+  "Talk to Eben",
+  "Give a slab of white comb",
+  "^Take your leave",
+  "=21:00",
+  "Sing the hum's key"
+ ],
+ "the Leaving": [
+  "=day 3 08:00",
+  ">hume__scenting_room",
+  "Show Elspet your Searcher",
+  "=until hume__leavingBegun()",
+  ">hume__royal_gallery",
+  "=until hume__daughtersDone(hume__brenna)",
+  "=+3"
+ ]
+}
