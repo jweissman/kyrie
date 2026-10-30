@@ -62,12 +62,14 @@ export class CommunityWriter {
   private static likeness(region: Region, r: Resident): string {
     return this.likenessOf(region, { pronoun: r.pronoun, painting: r.work.painting, id: r.id });
   }
-  // The same for anyone of the country (a traveller on its roads): no two of its people hang in the same painting.
+  // The same for anyone of the country (a traveller on its roads): no two of its people hang in the same painting, and
+  // a country drawn beyond the march hangs none the world's people hold already while another fits (region.held):
+  // two of a1's countries had hung seven paintings in common (M17-65).
   // They work for their living: a painting of their work whose sitter is of the gentry (the herbalist is a lady at
   // her cabinet) is not theirs, and one of a middling or working sitter is (the follow-up review saw richly dressed
   // sitters given working roles).
   static likenessOf(region: Region, who: { pronoun: string; painting: string; id: string }): string {
-    const portraits = this.portraits.get(region) ?? this.portraits.set(region, new Portraits()).get(region)!;
+    const portraits = this.portraits.get(region) ?? this.portraits.set(region, new Portraits(region.held)).get(region)!;
     const station = Likeness.stations[who.painting];
     const work = station === 'high' ? { stations: ['middling', 'labouring'] }
       : { concept: who.painting, ...station ? { stations: [station] } : {} };

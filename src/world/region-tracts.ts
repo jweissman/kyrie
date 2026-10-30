@@ -1,5 +1,8 @@
 import { Draw } from './land/draw';
-import { RegionGeography } from './region-geography';
+import { RegionGeography, type Road } from './region-geography';
+import { RegionRoads } from './region-roads';
+import { Roads } from './land/roads';
+import type { Cover } from './land/land-cover';
 import { RegionZones } from './region-zones';
 import { RegionBorders } from './region-borders';
 import { RegionSites } from './region-sites';
@@ -91,12 +94,35 @@ export class RegionTracts {
       const ends = new Set([r.from.cell, r.to.cell]);
       for (const c of new Set(r.route.cells)) {
         if (cells.has(c) && !ends.has(c)) {
-          lines.push(`  Passage tr${c}_${r.way} "the road" is overland between ${this.id(c)} and ${r.way} taking 5 minutes.`);
+          lines.push(`  Passage tr${c}_${r.way} ${JSON.stringify(this.off(region, r, c))} is overland between `
+            + `${this.id(c)} and ${r.way} taking 5 minutes.`);
         }
       }
     }
     return lines;
   }
+  // A way off a road into the stretch it crosses, told by where on the road it leaves it: how far along it from the
+  // town it is nearer ("the road, an hour out of Wychmaere"). They had all been "the road", and on a road through a
+  // wood its seven ways off into the wood read alike to the letter, "To among the trees of Beorquudu" (NAV-04).
+  static off(region: Region, road: Road, cell: number): string {
+    const cover = RegionGeography.atlas(region).land.cover, cells = road.route.cells, i = cells.indexOf(cell);
+    const out = this.walked(cells.slice(1, i + 1), cover), back = this.walked(cells.slice(i, -1), cover);
+    const [town, along] = back < out ? [road.to, back] : [road.from, out];
+    return `the road, ${this.span(along)} out of ${town.name}`;
+  }
+  // How long a road takes over the cells it crosses, as the land they are goes (see Roads.hours).
+  private static walked(cells: number[], cover: Cover[]): number {
+    return cells.reduce((n, c) => n + Roads.hours[cover[c]!], 0);
+  }
+  // A road's length in the hours a road is walked in (a cell of open ground is half an hour: see RegionRoads), as a
+  // traveller says it.
+  private static span(hours: number): string {
+    const halves = Math.max(1, Math.round(hours * RegionRoads.minutesPerHour / 30)), whole = Math.floor(halves / 2);
+    const and = halves % 2 ? ' and a half' : '';
+    return !whole ? 'half an hour' : whole === 1 ? `an hour${and}` : `${this.counts[whole] ?? whole}${and} hours`;
+  }
+  static readonly counts = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven',
+    'twelve'];
   // Looking out over the country, not in the dark; in haze or rain, the nearer land only. Someone who knows how to
   // look, or has a glass, sees further (see LandModel.explored).
   private static surveying(region: Region): string[] {

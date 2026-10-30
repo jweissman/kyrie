@@ -43,7 +43,8 @@ export class RegionShops {
     const draw = new Draw(`${region.name}:${s.id}_${kind}`), ancestry = s.folk ?? region.ancestry;
     const pronoun = draw.pick(['she', 'he']), given = folk.given as unknown as Record<string, Record<string, string[]>>;
     const names = (given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!;
-    const name = Communities.distinct(names, ancestry, { draw, taken: Communities.everyone(region) });
+    const name = Communities.distinct(names, ancestry,
+      { draw, taken: Communities.everyone(region), reserved: region.reserved });
     return { name, pronoun, draw };
   }
   // Everyone who keeps a shop in the country, by name.

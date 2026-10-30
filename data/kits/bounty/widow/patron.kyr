@@ -6,9 +6,12 @@ Module widow_patron "A widow's price" {
   Place lair "Where the raiders hold out" is room.
   Entity chief: group "The raiders' chief".
   Entity band: group "The raiders".
-  // Known by how she is seen: nobody tells a stranger her name.
+  // Known by how she is seen: nobody tells a stranger her name. She takes the company as she takes everything now,
+  // without tears: given no manner, she was grim by lot, and the Story had her go "back to work before you have
+  // turned round" from the step she has not left (the cold evaluation).
   Person widow "the woman in black" at town {
     Role "a widow whose son went after the raiders". Ancestry human. Calling commoner. Level 1. Peaceable.
+    Manner stoic. Pronouns she.
     State waiting "A woman in black sits on the step of a cold house with her hands in her lap, watching the road.".
   }
   Entity price: fact "A widow will pay her savings and her son's ring for the raiders' chief, dead or run off.".

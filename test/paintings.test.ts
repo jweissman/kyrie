@@ -43,6 +43,14 @@ describe('the painting corpus', () => {
     const portraits = new Portraits(), given = Array.from({ length: 40 }, (_, i) =>
       portraits.take({ sex: i % 2 ? 'man' : 'woman', stations: ['labouring', 'middling'] }, `p${i}`));
     expect(new Set(given).size).toBe(40);
+    // Past the paintings of their sex, none rather than another's: no painting is two people's of one country, and one
+    // the world's people hold a country away (`held`) is given only where nothing else fits as well (M17-65).
+    const women = Array.from({ length: 300 }, (_, i) => portraits.take({ sex: 'woman' }, `w${i}`));
+    const painted = women.filter(Boolean);
+    expect([new Set(painted).size, painted.length < 300]).toEqual([painted.length, true]);
+    const held = new Set(['shepherd']), herd = new Portraits(held).take({ sex: 'man', concept: 'shepherd',
+      stations: ['labouring'] }, 'Wat');
+    expect([held.has(herd!), Likeness.sitter(herd!)?.station]).toEqual([false, 'labouring']);
   });
   // The follow-up review saw a mother painted younger than her son, and grand.
   it('paints a mother as a woman of her years, and of her work', () => {
@@ -98,6 +106,15 @@ describe('the painting corpus', () => {
       .toEqual(['woman', false, true]);
     const widow = Likeness.of({ role: 'a widow whose son went after the raiders', name: 'the woman in black', key: 'g' });
     expect([Likeness.sitter(widow ?? '')?.sex, Likeness.mourning.has(widow ?? '')]).toEqual(['woman', true]);
+    // Never in a painting another of the country is in: where the country's people hold every grown woman of the
+    // working people's paintings and every one at home, the child's mother is a middling woman of her years, not the
+    // fishwife two villages off nor no one (M17-65).
+    const grown = [...Likeness.sitters].filter(([, s]) => s.sex === 'woman' && s.station === 'labouring'
+      && s.age !== 'young').map(([id]) => id);
+    const taken = new Set([kin, ...grown, ...Likeness.homely]);
+    const sick = Likeness.of({ role: 'the child\'s mother', key: 'g', taken }) ?? '';
+    expect([taken.has(sick), Likeness.sitter(sick)?.sex, Likeness.sitter(sick)?.station,
+      Likeness.sitter(sick)?.age === 'young']).toEqual([false, 'woman', 'middling', false]);
   });
 });
 

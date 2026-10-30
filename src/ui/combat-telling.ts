@@ -1,4 +1,5 @@
 import { Content } from '../content';
+import { Canon } from '../canon/canon';
 import { ConditionSense } from '../presentation/condition-sense';
 import { CombatPresenter } from './combat-presenter';
 import { Barks } from '../narrative/barks';
@@ -12,7 +13,7 @@ type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
 type Harm = Extract<CombatEvent, { type: 'damage' | 'heal' }>;
 
 // A fight as the company sees it: each exchange (someone acts, and what follows from it) told in a sentence or two,
-// "Elen hits the boar with the spear, for 4. The boar is bleeding." The dice stay with the exchange, for whoever
+// "Elen hits the boar with the spear, for 4. The boar is knocked flat." The dice stay with the exchange, for whoever
 // looks closer, and nothing is said that a watcher could not see.
 export class CombatTelling {
   static exchanges(events: CombatEvent[], state: BattleState): Telling[] {
@@ -26,18 +27,39 @@ export class CombatTelling {
     // What fighters say at the turning points, now and then (see Barks).
     const fighters = [...state.combatants, ...(state.departed ?? []) as Fighter[]];
     const barks = new Barks(fighters, fighters.map(f => f.id).join(','));
-    return groups.map((g, n) => this.tell(g.events, g.round, state, barks.of(g.events, n))).filter(t => t.text);
+    const told = new CombatTelling(state, CombatTelling.unlasted(events));
+    return groups.map((g, n) => this.tell(g.events, g.round, told, barks.of(g.events, n))).filter(t => t.text);
   }
-  private static tell(group: CombatEvent[], round: number, state: BattleState, bark?: string): Telling {
-    const told = new CombatTelling(state), [first, ...rest] = group;
+  private static tell(group: CombatEvent[], round: number, told: CombatTelling, bark?: string): Telling {
+    const [first, ...rest] = group;
     const sentences = [...first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group),
       ...bark ? [bark] : []];
     // Two conditions that come to the same thing ("cannot act") are said once.
     return { text: [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' '),
-      detail: group.map(e => CombatPresenter.format(e, state)).filter(l => !l.startsWith('Initiative')).join(' '),
+      detail: group.map(e => CombatPresenter.format(e, told.state)).filter(l => !l.startsWith('Initiative')).join(' '),
       round, ...first?.type === 'action' ? { actor: first.command.actor } : {} };
   }
-  private constructor(private readonly state: BattleState) {}
+  // Bleeding is told once it has lasted, as it bleeds ("Bruni bleeds, for 1"), and not as the wound is dealt: a bite
+  // in the round a fight ended in had been told "Bruni is bleeding", and the bleeding was gone with the fight before it
+  // ever bled; nor is a second bite's held save told, of one bleeding already, as their not bleeding (the cold
+  // playtest's "Bruni is bleeding… Bruni is not bleeding" in one round: the register's CMB-02).
+  private static unlasted(events: CombatEvent[]): Set<CombatEvent> {
+    const unsaid = new Set<CombatEvent>(), bleeding = new Set<string>();
+    for (const e of events) {
+      if (e.type === 'status' && CombatTelling.bleeds(e.detail)) { unsaid.add(e); bleeding.add(e.target); }
+      else if (e.type === 'save' && e.success && bleeding.has(e.target) && CombatTelling.bleeds(e.against)) {
+        unsaid.add(e);
+      } else if ((e.type === 'expire' || e.type === 'remove') && CombatTelling.bleeds(e.detail)) {
+        bleeding.delete(e.target);
+      } else if (e.type === 'death') { bleeding.delete(e.actor); }
+    }
+    return unsaid;
+  }
+  // A condition that is a wound bleeding: Orsino's bleed, which ends with the fight, and Kyr's, which outlasts it.
+  private static bleeds(id?: string): boolean {
+    return !!id && Canon.conditions[Canon.resolve('conditions', id)]?.saveKind === 'bleed';
+  }
+  private constructor(private readonly state: BattleState, private readonly unsaid: ReadonlySet<CombatEvent>) {}
   private fighter(id: string): Fighter | undefined {
     return [...this.state.combatants, ...(this.state.departed ?? []) as Fighter[]].find(f => f.id === id);
   }
@@ -87,7 +109,8 @@ export class CombatTelling {
   private after(events: CombatEvent[]): string[] {
     const blow = events.find((e): e is Of<'attack'> => e.type === 'attack');
     const told = blow && events.find(e => e.type === 'damage' && e.target === blow.target);
-    return events.filter(e => e !== told).map(e => this.consequence(e)).filter((s): s is string => !!s);
+    return events.filter(e => e !== told && !this.unsaid.has(e)).map(e => this.consequence(e))
+      .filter((s): s is string => !!s);
   }
   private consequence(e: CombatEvent): string | undefined {
     switch (e.type) {

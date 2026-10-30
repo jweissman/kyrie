@@ -11,6 +11,7 @@ import { ThingStage } from './thing-stage';
 import { RoadStage } from './road-stage';
 import { FightStage } from './fight-stage';
 import { BookStage } from './book-stage';
+import { Held } from './held';
 
 export type Mode = 'explore' | 'talk' | 'examine' | 'road' | 'combat' | 'book' | 'fallen';
 
@@ -40,9 +41,8 @@ export class Stage {
     );
   }
   static mode(app: ReaderApp): Mode {
-    const s = app.state, frame = s.frame!, menu = app.menu;
-    if (!frame.screen.running) { return 'fallen'; }
-    if (frame.combat) { return 'combat'; }
+    const s = app.state, frame = s.frame!, menu = app.menu, held = Held.page(frame);
+    if (held) { return held; }
     if (s.view !== 'here') { return 'book'; }
     if (s.attention.kind === 'person' && menu.talk) { return 'talk'; }
     if (s.attention.kind === 'thing' && menu.examined) { return 'examine'; }

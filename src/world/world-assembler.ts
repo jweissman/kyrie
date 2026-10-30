@@ -15,7 +15,7 @@ import { RegionGeography } from './region-geography';
 import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
 import { Provinces } from './provinces';
-import { Outfitters } from './outfitters';
+import { StoryPeople } from './story-people';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
 import { ScenarioTowns } from './scenario-towns';
@@ -58,12 +58,15 @@ export interface Placement {
   modules: string[]; carriers: Record<string, string[]>; rid: string;
   // The placements its links are bound to, by role: where they are set, and which instance (see ScenarioManifest).
   linked?: Record<string, { rid: string; n: number }>;
+  // The names its people have of their authors, which none of the country's own people is given (see StoryPeople).
+  named?: string[];
 }
 export interface WorldReport {
   seed: string; region: Region; context: Record<string, string>;
   eligibility: { scenario: string; fits: boolean; why?: string }[]; placements: Placement[]; contacts: Contact[];
 }
-export interface Entry { path: string; manifest: ScenarioManifest }
+// A scenario of the library, and the names its modules give their people (see StoryPeople).
+export interface Entry { path: string; manifest: ScenarioManifest; named?: string[] }
 
 // Builds a playable campaign from a seed: Deem generates the region; scenarios are selected by the contexts they
 // declare (a Deem select over the library); each is bound to the region's places, given any sites it needs, and
@@ -134,14 +137,15 @@ export class WorldAssembler {
   // The country beyond a border, drawn the first time a company goes there (see Frontier): a region of its own where
   // it lies in the world, with its own scenarios (none placed anywhere already), and no company of its own. The
   // names of the regions already drawn on either side are as they are, not as they would have been drawn; its works
-  // are named apart from the works already drawn (`taken`). (first: the terrain of the world's first country, which
-  // with the seed decides where its authored countries lie: see Countries.plan.)
+  // are named apart from the works already drawn (`taken`), and its people painted apart from the paintings the
+  // world's people hold (`held`). (first: the terrain of the world's first country, which with the seed decides where
+  // its authored countries lie: see Countries.plan.)
   static async beyond(seed: string, base: BundleSource, at: { x: number; y: number; calendar?: Region['calendar'];
-    exclude: string[]; named?: Region['beyond']; taken?: string[]; first: string }):
+    exclude: string[]; named?: Region['beyond']; taken?: string[]; held?: string[]; first: string }):
     Promise<{ requests: BundleRequest[]; source: BundleSource; region: Region }> {
     const rid = WorldGrid.id(at.x, at.y);
     const region = this.region(seed, [at.x, at.y], undefined, { taken: at.taken, first: at.first });
-    region.beyond = { ...region.beyond, ...at.named }; region.calendar = at.calendar;
+    region.beyond = { ...region.beyond, ...at.named }; region.calendar = at.calendar; region.held = at.held;
     region.further = Countries.further(region, seed, at.first);
     const library = await this.library(base, 'data/scenarios/library.json');
     const { context, placements } = this.settle(region, library,
@@ -195,6 +199,8 @@ export class WorldAssembler {
     // What every first country keeps going round it (a circus on its circuit) is placed last, so nothing drawn moves.
     placements.push(...(at.standing ?? []).filter(x => this.placeable(x.manifest, region, claimed))
       .flatMap(e => this.place(e.manifest, { n: 1, region, claimed, seed: at.seed, rid: at.rid, placements }) ?? []));
+    // Its stories' people keep the names their authors gave them, and its own people are named apart from them.
+    StoryPeople.reserve(region, placements, [...library, ...at.standing ?? [], ...at.heralds ?? []]);
     return { context, eligibility, placements };
   }
   static readonly standing = 'data/scenarios/standing.json';
@@ -284,18 +290,13 @@ export class WorldAssembler {
   // The heralds of the countries a first region lies beside (see Countries.heralds): scenarios kept out of the
   // library's draw, one for each country that sends one.
   static async heralds(base: BundleSource, region: Region, seed: string): Promise<Entry[]> {
-    return Promise.all(Countries.heralds(region.terrain, seed).map(async ({ country }) => {
-      const at = base.resolve(`data/scenarios/${country.herald!.scenario}`);
-      return { path: at, manifest: JSON.parse(await base.read(at)) as ScenarioManifest };
-    }));
+    return Promise.all(Countries.heralds(region.terrain, seed).map(({ country }) =>
+      StoryPeople.entry(base, base.resolve(`data/scenarios/${country.herald!.scenario}`))));
   }
   static async library(base: BundleSource, index: string): Promise<Entry[]> {
     const path = base.resolve(index);
     const list = JSON.parse(await base.read(path)) as { scenarios: string[] };
-    return Promise.all(list.scenarios.map(async file => {
-      const at = base.resolve(file, path);
-      return { path: at, manifest: JSON.parse(await base.read(at)) as ScenarioManifest };
-    }));
+    return Promise.all(list.scenarios.map(file => StoryPeople.entry(base, base.resolve(file, path))));
   }
   // Context fit, decided by the same Deem selection the assembler uses, and whether its sites can exist here.
   static fits(s: ScenarioManifest, context: Record<string, string>, region: Region) {
@@ -429,11 +430,11 @@ export class WorldAssembler {
       context: { ...context, ...m.context } }));
   }
   // The people of the settlement a placement is set in, for its modules to name their own people by; and the names
-  // the country's folk have already, which its people are drawn apart from (two Caelynns on one quay: PT-28).
+  // the country's people have already, which its people are drawn apart from (two Caelynns on one quay: PT-28).
   static folk(placement: Placement, region: Region): Record<string, DeemValue> {
     const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
     return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {},
-      taken: [...Outfitters.everyone(region)] };
+      taken: StoryPeople.country(region) };
   }
   // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
   // modules, which use it (a den does) or not.

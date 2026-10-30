@@ -39,7 +39,9 @@ export class RegionRiddles {
     return [`  Action ${a.id}_word${a.n}(actor: group, door: thing) ${q(`Press the word “${a.word}”`)} {`,
       `    Description "Put a finger in the hollow beside the word, and press.".`,
       `    Requires able(actor) and at(actor, ${a.room}) and ${a.id}_door(door) and state(door, sealed).`, '    Time 1.',
-      a.right ? `    On success { Retract state(door, sealed). Assert state(door, open). }`
+      // Whoever presses the right word has opened it, as whoever works any change on a thing has changed it: those
+      // who watch the way can tell who did it (Sir Hamo's men at Fyrsteport, PT-33).
+      a.right ? `    On success { Retract state(door, sealed). Assert state(door, open). Assert changedBy(door, actor). }`
         : `    On success { Assert strikes(${a.id}_cold, actor). }`,
       `    Result ${q(a.right ? `The word sinks into the stone under your finger. Something deep in the door turns over, like a sleeper, and the whole slab swings on a pivot you could not see, and the way in is open.`
         : 'The word sinks under your finger and comes back up. The stone breathes out, once, a breath as cold as a well in winter, and the door stays as it was.')}.`,

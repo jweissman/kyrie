@@ -383,8 +383,10 @@ export class EngineHost {
     const faces = new Map(this.screen.party.flatMap(m => m.face ? [[m.id, m.face] as const] : []));
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
       leaf: this.leaf(),
+      // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the
+      // page turning to the end as it was struck (the cold playtest's "my last strike's result never shown": CMB-02).
       ...this.turn ? { combat: CombatModel.build(this.turn.battle, BandNames.of(campaign), faces) }
-        : this.fought && this.told && this.screen.running
+        : this.fought && this.told
           ? { combat: CombatModel.ended(this.fought, this.told.event.combat, BandNames.of(campaign), faces) } : {},
       opening: this.opening.filter(Boolean),
       ...this.screen.running ? {} : { ending: Endings.reached(campaign.world, campaign.installations)

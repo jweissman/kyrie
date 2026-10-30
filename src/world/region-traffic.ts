@@ -28,10 +28,8 @@ interface Traveller { id: string; name: string; pronoun: string; kind: Kind; roa
 export class RegionTraffic {
   static readonly kinds = tables.kinds as unknown as Record<string, Kind>;
   static lines(region: Region): string[] {
-    const roads = RegionGeography.roads(region), draw = new Draw(`${region.name}:traffic`);
-    if (!roads.length) { return []; }
-    const kinds = draw.shuffle(Object.keys(this.kinds)), used = new Set<string>();
-    const travellers = roads.slice(0, 6).map((road, i) => this.traveller(region, road, kinds[i % kinds.length]!, used));
+    const travellers = this.travellers(region);
+    if (!travellers.length) { return []; }
     return ['  Relation journeysTo(group, place). Relation inTrouble(group). Relation helpedBy(group, group).',
       '  Relation renowned(group).',
       // Once anyone in the country is grateful to the company, the roads hear of it.
@@ -39,6 +37,14 @@ export class RegionTraffic {
       ...travellers.flatMap(t => [...this.person(region, t), ...this.rounds(region, t), ...this.talk(region, t),
         ...this.trouble(t)])];
   }
+  // One traveller to a road, of the first six.
+  private static travellers(region: Region): Traveller[] {
+    const roads = RegionGeography.roads(region), draw = new Draw(`${region.name}:traffic`);
+    const kinds = draw.shuffle(Object.keys(this.kinds)), used = new Set<string>();
+    return roads.slice(0, 6).map((road, i) => this.traveller(region, road, kinds[i % kinds.length]!, used));
+  }
+  // What the people on the country's roads are called, who spend their nights at its inns.
+  static names(region: Region): string[] { return this.travellers(region).map(t => t.name); }
   private static traveller(region: Region, road: Road, key: string, used: Set<string>): Traveller {
     const draw = new Draw(`${road.way}:traveller`), ancestry = road.from.folk ?? region.ancestry;
     const pronoun = key === 'family' ? draw.pick(['she', 'he']) : draw.chance(0.05) ? 'they' : draw.pick(['she', 'he']);
@@ -46,7 +52,8 @@ export class RegionTraffic {
     const names = given[ancestry] ?? given.human!;
     // A name nobody settled in the country has, so that a traveller is never taken for one of them.
     const name = Communities.distinct(names[pronoun] ?? names.she!, ancestry,
-      { draw, taken: new Set([...used, ...Outfitters.everyone(region), ...RegionShops.keepers(region)]) });
+      { draw, taken: new Set([...used, ...Outfitters.everyone(region), ...RegionShops.keepers(region)]),
+        reserved: region.reserved });
     used.add(name);
     return { id: `${road.way}_t`, name, pronoun, kind: this.kinds[key]!, road, draw };
   }

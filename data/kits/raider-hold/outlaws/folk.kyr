@@ -25,6 +25,7 @@ Module outlaw_folk "Outlaws" {
     Called "Long Peter", "Ada Marl", "the Weasel", "Simkin".
     Guards gate.
     State keeping blocking "Sir Hamo's men lounge about with their bows strung, and one of them always has an eye on the way in.".
+    Resents "Long Peter is at the way in with his bow across his arm, and has watched you do it. 'Well, that's done it,' he says. 'Two winters we've lived on that doorstep, and never one of us fool enough to open what was shut there. Whatever was in it is out now, and it's us that live next door.' He spits. 'Sir Hamo shall hear of this.'".
   }
   Person hamo "Sir Hamo Ashdown" at den {
     Role "a knight without lands, who leads the outlaws". Ancestry human. Calling warrior. Level 3.
@@ -87,10 +88,25 @@ Module outlaw_folk "Outlaws" {
   Rule tithe when untilLight(clock) == 40 and dice(clock) <= 20 and able(band) and at(band, yard) and not quiet(band)
     and not ended(band) { Increase losses(town) by 1. }
   Observe tithed_once at town when losses(town) >= 1 "Sir Hamo's men rode into the market at noon and took a tithe of everything on the stalls, with the reeve standing by because there was nothing he could do.".
-  // The sentry's horn rouses the hold when anyone comes up uninvited; the band comes to the way in.
+  // What was shut on their doorstep, opened under their eyes (the sentry's at his post, or theirs where the way in
+  // gives on it): Sir Hamo's men live next door to whatever it let out, and say so in their own words. It is a
+  // grudge, not a fight: they let the company by no more, and will not be hailed, until it pays for what it let out
+  // (PT-33: they had done nothing when the speaking door at Fyrsteport was opened in front of them).
+  Relation affronted(group). Relation begrudged(entity).
+  Query overlooked(c: group) means at(c, outside) and ((alert(sentry) and at(sentry, lookout) and not unseen(c, sentry))
+    or (alert(band) and at(band, yard) and connects(gate, outside, yard) and not unseen(c, band))).
+  Rule doorstep_opened when overlooked(party) and changedBy(?d, party) and on(?d, ?w) and connects(?w, outside, ?r)
+    and undone(?d) and not begrudged(?d) and able(band) and at(band, yard) and not ended(band)
+    and resentment(band, ?said) says "{?said}" {
+    Assert begrudged(?d). Assert affronted(band).
+    Retract tolerates(band, party). Retract tolerates(sentry, party). Retract tolerates(hamo, party).
+  }
+  // The sentry's horn rouses the hold when anyone comes up uninvited; the band comes to the way in. A company they
+  // have a grudge against is no stranger, and no alarm.
   Rule horn when (at(party, outside) or at(party, bolt)) and able(sentry) and not tolerates(band, party) and not alarmed(hamo)
-    and dice(clock) <= 50 says "A horn sounds above you, two long notes." { Assert alarmed(hamo). }
-  Rule caught_prying when tolerates(band, party) and not alarmed(hamo) and (at(party, store) or at(party, pens) or at(party, den))
+    and not affronted(band) and dice(clock) <= 50 says "A horn sounds above you, two long notes." { Assert alarmed(hamo). }
+  Rule caught_prying when (tolerates(band, party) or affronted(band)) and not alarmed(hamo)
+    and (at(party, store) or at(party, pens) or at(party, den))
     and not dueling(hamo) and ((capable(party, stealth) and dice(clock) <= 15) or (not capable(party, stealth) and dice(clock) <= 50))
     says "'Hoy! Hands where I can see them!' Bows come up all round you." { Assert alarmed(hamo). Retract tolerates(band, party). }
   // The hold roused turns out on whoever is about it; on the road the band holds a company up and asks first (a
@@ -101,10 +117,19 @@ Module outlaw_folk "Outlaws" {
   Action hail(actor: group, site: place) "Hail the outlaws and ask for Sir Hamo" {
     Description "Stand where they can see you with your hands empty. Outlaws who were once a knight's men still know how a parley goes.".
     Requires able(actor) and at(actor, site) and connects(gate, site, ?in) and at(band, ?in) and able(band)
-      and not alarmed(hamo) and not tolerates(band, actor) and not ended(band).
+      and not alarmed(hamo) and not tolerates(band, actor) and not ended(band) and not affronted(band).
     Time 3.
     On success { Assert tolerates(band, actor). Assert tolerates(sentry, actor). Assert tolerates(hamo, actor). }
     Result "A long wait, and then Long Peter waves you up. 'Sir Hamo will see you. He's at the fire, through there. Keep your hands where we can see them.'".
+  }
+  Action make_amends(actor: group, site: place) "Pay Sir Hamo's men five coin for what you let out" {
+    Description "Stand where they can see you and hold the coin up. Men who live by road-money know what a grievance is worth.".
+    Requires able(actor) and at(actor, site) and connects(gate, site, ?in) and at(band, ?in) and able(band)
+      and affronted(band) and not alarmed(hamo) and not ended(band) and quantity(actor, gold) >= 5.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 5. Retract affronted(band). Assert tolerates(band, actor).
+      Assert tolerates(sentry, actor). Assert tolerates(hamo, actor). }
+    Result "Long Peter comes out for the coins and bites one. 'For whatever you let out,' he says. 'Sir Hamo says you can come up. Next time, ask first.'".
   }
   // A challenge: Sir Hamo will not refuse one, and his men will not interfere. It is the company he fights, not one
   // champion of it (a "single combat" that a bard and a summoned deer fought in: the cold evaluation).

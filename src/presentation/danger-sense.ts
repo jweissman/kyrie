@@ -3,9 +3,11 @@ import { Battle } from '../battle';
 import { CombatProjection } from '../combat-projection';
 import { CreatureStore } from '../creature-store';
 import { Tactics } from '../tactics';
+import { Effects } from '../effects';
 import { Environment } from '../campaign/environment';
 import type { Campaign } from '../campaign/campaign';
 import type { Creature } from '../creature';
+import type { CombatEvent } from '../model';
 
 export type Danger = 'slight' | 'fair' | 'hard' | 'grave' | 'deadly';
 export interface Reckoning { danger: Danger; text: string }
@@ -13,9 +15,13 @@ export interface Reckoning { danger: Danger; text: string }
 // How a fight with a group would likely go, as the company reckons it before it starts: the fight played out a few
 // times from where everyone stands now, both sides fighting as the game's own tactics would. It decides nothing; it
 // is what a seasoned eye makes of the odds, said by the most seasoned member in words, not numbers.
-interface Trial { won: boolean; fell: string[]; hurt: number }
+// A fight won is held when the foes lost more turns than they took, and by what was laid on them most (prone).
+interface Trial { won: boolean; fell: string[]; hurt: number; held?: string }
+interface Fight { odds: number; fallen: number; hurt: number; frail?: string; held?: string }
 export class DangerSense {
   static readonly trials = 6;
+  // How a foe is kept from fighting back, by what keeps it so; anything else, from fighting back.
+  private static readonly keeping: Record<string, string> = { prone: 'down', asleep: 'asleep' };
   private static readonly reckoned = new Map<string, Reckoning>();
   static reckon(campaign: Campaign, group: string): Reckoning | undefined {
     const read = campaign.readout;
@@ -52,7 +58,7 @@ export class DangerSense {
   // The fight played out: how often the company wins, and in a win, how many of it fall, how hurt it is, and who fell
   // most often.
   private static play(ours: Creature[], foes: Creature[], key: string,
-    place: ReturnType<typeof Environment.encounter>) {
+    place: ReturnType<typeof Environment.encounter>): Fight {
     const played: Trial[] = [];
     for (let trial = 0; trial < this.trials; trial++) {
       played.push(this.trial(ours, foes, `${key}:${trial}`, place));
@@ -70,10 +76,32 @@ export class DangerSense {
     }
     const won = played.filter(t => t.won), falls = new Map<string, number>();
     for (const id of won.flatMap(t => t.fell)) { falls.set(id, (falls.get(id) ?? 0) + 1); }
-    const frail = [...falls].sort((a, b) => b[1] - a[1])[0]?.[0];
+    const frail = [...falls].sort((a, b) => b[1] - a[1])[0]?.[0], held = this.heldBy(won);
     return { odds: won.length / played.length,
       fallen: won.length ? won.reduce((n, t) => n + t.fell.length, 0) / won.length : ours.length,
-      hurt: won.length ? won.reduce((n, t) => n + t.hurt, 0) / won.length : 1, ...frail ? { frail } : {} };
+      hurt: won.length ? won.reduce((n, t) => n + t.hurt, 0) / won.length : 1, ...frail ? { frail } : {},
+      ...held ? { held } : {} };
+  }
+  // What kept the foes from fighting back in most of the fights won, if they were kept so: a lone barrow-king, a
+  // level-five revenant, read "no match" to a fresh warrior because Sweep had him prone nearly every turn of it.
+  private static heldBy(won: Trial[]): string | undefined {
+    const held = won.flatMap(t => t.held ? [t.held] : []), counts = new Map<string, number>();
+    if (held.length * 2 <= won.length) { return undefined; }
+    for (const h of held) { counts.set(h, (counts.get(h) ?? 0) + 1); }
+    return [...counts].sort((a, b) => b[1] - a[1])[0]![0];
+  }
+  // Whether the foes lost more turns than they took in a fight, and to what was laid on them most often.
+  private static held(events: CombatEvent[], foes: Set<string>): Pick<Trial, 'held'> {
+    const lost = events.filter(e => e.type === 'skip' && foes.has(e.actor)).length;
+    const taken = events.filter(e => e.type === 'action' && foes.has(e.command.actor)).length;
+    if (lost <= taken) { return {}; }
+    const laid = new Map<string, number>();
+    for (const e of events) {
+      if (e.type === 'status' && foes.has(e.target) && !foes.has(e.actor) && Effects.skips(e.detail)) {
+        laid.set(e.detail, (laid.get(e.detail) ?? 0) + 1);
+      }
+    }
+    return { held: [...laid].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'held' };
   }
   // One fight played out: whether the company won it, who of it fell, and how hurt it came out.
   private static trial(ours: Creature[], foes: Creature[], seed: string,
@@ -85,12 +113,12 @@ export class DangerSense {
     if (battle.state.outcome !== 'fighters') { return { won: false, fell: [], hurt: 1 }; }
     const company = battle.state.combatants.filter(f => f.team === 'fighters');
     return { won: true, fell: company.filter(f => f.hp === 0).map(f => f.id),
-      hurt: 1 - company.reduce((sum, f) => sum + f.hp, 0) / ours.reduce((sum, c) => sum + c.state.hp, 0) };
+      hurt: 1 - company.reduce((sum, f) => sum + f.hp, 0) / ours.reduce((sum, c) => sum + c.state.hp, 0),
+      ...this.held(battle.events, new Set(foes.map(f => f.id))) };
   }
   // Anyone falling in any of the fights played out makes it a hard one: one who falls may not get up. Who would
   // fall is said by name (Wenna, at seven hit points, where the beetles are no match for Tharash).
-  private static judge(fight: { odds: number; fallen: number; hurt: number; frail?: string }, ours: Creature[],
-    foes: Creature[]): Reckoning {
+  private static judge(fight: Fight, ours: Creature[], foes: Creature[]): Reckoning {
     // One who is of a people is spoken of as they are, as a band is: not "it"; one person alone, by name ("Sir Hamo
     // Ashdown is more than you can take", where a challenge to single combat had read "They are more than the company
     // can take" to one who had come alone).
@@ -113,7 +141,11 @@ export class DangerSense {
       fair: `you should beat ${them}, though not unhurt`,
       slight: `${they} no match for you`,
     };
-    return { danger, text: ours.length > 1 ? `${judge.name} reckons ${said[danger]}.`
-      : `${said[danger].charAt(0).toUpperCase()}${said[danger].slice(1)}.` };
+    // An easy win that rests on keeping the foe from fighting back says so: the company that does not, or cannot,
+    // meets the foe as it is.
+    const told = said[danger] + (fight.held && (danger === 'slight' || danger === 'fair')
+      ? `, so long as you keep ${one ? 'them' : them} ${this.keeping[fight.held] ?? 'from fighting back'}` : '');
+    return { danger, text: ours.length > 1 ? `${judge.name} reckons ${told}.`
+      : `${told.charAt(0).toUpperCase()}${told.slice(1)}.` };
   }
 }

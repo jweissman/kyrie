@@ -9,6 +9,7 @@ import { RegionWriter, type Region } from './region-writer';
 import { Countries, type Country } from './countries';
 import { Provinces } from './provinces';
 import { Renewal } from './renewal';
+import { Sittings } from '../paintings/sittings';
 import type { DeemValue } from 'deem';
 
 // A generated world goes on past the edges of the region a company starts in. Each region's roads run out to a
@@ -128,7 +129,8 @@ export class Frontier {
   private async drawn(campaign: Campaign, x: number, y: number, keep = false) {
     const installed = new Set(campaign.installed);
     const at = { x, y, calendar: campaign.state.calendar, exclude: await this.placed(installed),
-      named: this.named(campaign, [x, y]), taken: this.works(campaign), first: this.first(campaign) };
+      named: this.named(campaign, [x, y]), taken: this.works(campaign), held: Sittings.held(campaign),
+      first: this.first(campaign) };
     const key = JSON.stringify(at);
     const drawing = this.ahead.get(key) ?? WorldAssembler.beyond(this.seed, this.base, at);
     if (keep && !this.ahead.has(key)) {

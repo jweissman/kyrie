@@ -16,13 +16,15 @@ import type { Region, Settlement } from '../src/world/region-writer';
 import type { CreatureStore } from '../src/creature-store';
 import { Standing } from '../src/ui/standing';
 import { WorldAssembler } from '../src/world/world-assembler';
+import { DangerSense, type Reckoning } from '../src/presentation/danger-sense';
+import { Advancement } from '../src/rules/advancement';
 import { GeneratedWorld } from './support/generated';
 
 // What the play-structure investigation of 6596e18 found in ordinary play, held here: a way that goes one way only
 // says so, and a journey does not take it unasked (PT-17); a journey goes on past those who let the company by
 // (PT-16); a risk that fails says who fell, and to what (PT-21); a mage in the dark can cast the light they have
-// (PT-06); a warrior starts in mail (PT-38); and a recruit whose people cannot take their calling's class takes one
-// near it (PT-13).
+// (PT-06); a warrior starts in mail, and a site's worthiest band that is no match for it says what that rests on
+// (PT-38); and a recruit whose people cannot take their calling's class takes one near it (PT-13).
 class Played {
   static readonly two = [{ name: 'Ama', raceId: 'human', classId: 'warrior' },
     { name: 'Bo', raceId: 'human', classId: 'warrior' }];
@@ -50,6 +52,24 @@ class Played {
   }
   static go(s: PlaySession, to: string) {
     return Travel.go({ campaign: s.campaign, perform: command => s.perform(command) }, this.place(s, to));
+  }
+  // Each site's worthiest band, by what its members are worth (as the fragile-start audit chose a ruin's climax), and
+  // how one fresh of a calling, alone, reckons it.
+  static async worthiest(seed: string, classId: string) {
+    const party = [{ name: 'Ama', raceId: classId === 'mage' ? 'elf' : 'human', classId }];
+    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { party });
+    const c = (await PlaySession.start(w.path, seed, w.source, party)).campaign, read = c.readout;
+    const best = new Map<string, { group: string; worth: number }>();
+    for (const [group, members] of Object.entries(read.inhabitants)) {
+      const site = /^region__(w\d+)/.exec(c.world.one('at', group) ?? '')?.[1];
+      if (!site || members.some(m => read.partyIds.includes(m))
+        || c.world.test(ModuleWriter.call('peaceable', group))) { continue; }
+      const worth = members.reduce((n, id) => n + Advancement.worth(read.creatures.find(x => x.id === id)!), 0);
+      if (worth > (best.get(site)?.worth ?? -1)) { best.set(site, { group, worth }); }
+    }
+    return [...best.values()].map(({ group }) => ({ name: c.module.entities.find(e => e.id === group)?.name,
+      level: Math.max(...read.inhabitants[group]!.map(id => read.creatures.find(x => x.id === id)!.base.level)),
+      reckoning: DangerSense.reckon(c, group) as Reckoning }));
   }
 }
 
@@ -161,6 +181,21 @@ describe('a start', () => {
     expect(['halfling', 'dwarf', 'elf'].map(folk => /Calling (\w+)\./.exec(Played.scholar(folk))?.[1]))
       .toEqual(['bard', 'cleric', 'mage']);
   });
+});
+
+describe('a site\'s worthiest band', () => {
+  // The audit heard a ruin's climax "no match for you" to a fresh warrior in a third of first ruins. Out of mail, the
+  // great barrow's last king, a revenant of the fifth level, still was: Sweep had him prone nearly every turn of every
+  // fight played out, and the reckoning said nothing of it. It says so now; to a mage, he is more than they can take.
+  it('is no match for a fresh warrior, when above it, only so long as the warrior keeps it from fighting back', async () => {
+    const warrior = await Played.worthiest('cov7', 'warrior'), mage = await Played.worthiest('cov7', 'mage');
+    expect(warrior.find(b => b.name?.startsWith('the barrow-king'))?.reckoning)
+      .toEqual({ danger: 'slight', text: 'It is no match for you, so long as you keep it down.' });
+    expect(mage.find(b => b.name?.startsWith('the barrow-king'))?.reckoning.danger).toBe('deadly');
+    // A fresh company is of the first level: no band above it is a bare walkover.
+    expect(warrior.filter(b => b.level > 1 && b.reckoning.danger === 'slight' && !/so long as/.test(b.reckoning.text)))
+      .toEqual([]);
+  }, 120000);
 });
 
 describe('one of the company who is down', () => {

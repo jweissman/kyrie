@@ -38,6 +38,17 @@ export class RegionPeoples {
     });
     return { ...region, peoples: [...new Set(folk.concat(peoples))], settlements };
   }
+  // A settlement's innkeeper, priest, merchant or traveller drawn a name that a story placed in the country gives one
+  // of its own people (Odile, Garth: see StoryPeople) is named again, apart from every other.
+  static apart(region: Region, reserved: string[]): void {
+    const used = new Set([...reserved, ...region.settlements.flatMap(s => this.roles.map(r => s[r]))]);
+    for (const s of region.settlements) {
+      for (const role of this.roles.filter(r => reserved.includes(s[r]))) {
+        s[role] = this.name(s.people?.[role] ?? s.folk ?? region.ancestry, used,
+          new Expressions(`${region.name}:${s.id}:${role}:apart`));
+      }
+    }
+  }
   // How a people is spoken of: "dwarven folk", "halflings".
   static word(ancestry: string): string {
     return this.tables.folkWord.groups[ancestry]?.[0] ?? `${ancestry.replaceAll('_', '-')} folk`;

@@ -9,6 +9,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
 import { Spoken } from '../src/presentation/spoken';
 import { ModuleParser } from '../src/lang/module-parser';
+import { ModuleWriter } from '../src/lang/module-writer';
 
 // The narrator chooses what to tell. What someone says when asked is said in their words, where they say it; the sky
 // is told when the company comes out under it, not at every step under the same sky, and never under a roof as if it
@@ -63,6 +64,30 @@ describe('the narrator', () => {
     const kept = PlayerView.chronicle(s.campaign).filter(e => e.kind === 'player').at(-1)!.detail.join(' ');
     expect(kept).toContain(`says ${keeper}`);
     expect(kept).not.toMatch(/tells you what they have heard/);
+  }, 60000);
+  // The cold evaluation's Story had the widow of A widow's price "gone back to work before you have turned round" as
+  // the company took its leave: given no manner, she was grim by lot, on a step she never left. She lets it go as she
+  // takes everything now; and once she has gone in and shut the door, nobody is on the step to take leave of.
+  it('lets the widow on her step go as she is, and has no leave taken of her once she has gone in', async () => {
+    const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared,
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] });
+    const s = await PlaySession.start(w.path, 'thorn', w.source);
+    GeneratedWorld.put(s, s.campaign.world.one('at', 'pricePatron__widow')!.replace(/^region__/, ''));
+    // What the Story keeps of her: the voice tables' lines, as the page told them.
+    const kept = () => s.campaign.history.flatMap(e => e.voiced ?? []).filter(v => v.actor === 'pricePatron__widow')
+      .map(v => v.text);
+    await Telling.take(s, /^Talk to the woman in black/);
+    await Telling.take(s, /^Ask the woman in black what she is waiting for/);
+    const leave = await Telling.take(s, /^Take your leave of the woman in black/);
+    expect(leave.exchange!.lines.map(l => l.text)).toContain('The woman in black lifts a hand, once.');
+    expect(kept().at(-1)).toBe('The woman in black lifts a hand, once.');
+    // The raiders' chief gone (as the kit's chief_gone rule has it), she is told so, pays, and goes in.
+    const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('pricePatron__met', 'pricePatron__price') }]));
+    await Telling.take(s, /^Talk to the woman in black/);
+    await Telling.take(s, /^Tell the woman in black it is done/);
+    expect(PlayerView.choices(s.campaign).map(x => x.choice.name).filter(n => /woman in black/.test(n))).toEqual([]);
+    expect(kept().join(' ')).not.toMatch(/gone back to work/);
   }, 60000);
   it('tells the sky on coming out under it, not again on the next step, and not as if outside under a roof', async () => {
     const s = await Telling.start();

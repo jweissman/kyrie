@@ -3,6 +3,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
+import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { ScreenModel } from '../src/ui/screen-model';
 import { GeneratedWorld } from './support/generated';
 import { ModuleWriter } from '../src/lang/module-writer';
@@ -55,10 +56,15 @@ describe('the family of one come home', () => {
     GeneratedWorld.put(s, `${town}_taproom`);
     await s.perform('wait');
     expect(Home.age(Home.face(s, 'drover__wife'))).not.toBe('young');
-    const mother = await Home.act(s, /^talk_to\(drover__wife\)$/);
+    const turned = PlayerView.observe(s.campaign), mother = await Home.act(s, /^talk_to\(drover__wife\)$/);
     const line = (e: typeof mother) => (e.voiced ?? []).find(v => v.kind === 'address')!;
     expect(line(mother).id).not.toBe(line(greeted).id);
     expect(line(mother).text).toMatch(/your mother/i);
+    // Talked to and left as she is to you: talked to as "your mother", she had been left with "You take your leave of
+    // Jassin Galanodel" (M17-93).
+    expect(ActionFeedbackView.read(s.campaign, mother, turned).attempt).toBe('Talk to your mother');
+    const leaving = PlayerView.observe(s.campaign), left = await Home.act(s, /^take_leave\(drover__wife\)$/);
+    expect(ActionFeedbackView.read(s.campaign, left, leaving).attempt).toBe('Take your leave of your mother');
   }, 120000);
   // Thorn's elf mother and son had both been Lia ("Lia the younger"), and a dwarf's mother elsewhere Ulfgar: a family
   // is named by its people's names for their sex, none of the country's people's and not each other's.

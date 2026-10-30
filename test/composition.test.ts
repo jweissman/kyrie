@@ -10,6 +10,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { Composition } from '../src/world/compose/composition';
 import { WorldAssembler } from '../src/world/world-assembler';
 import type { CreatureStore } from '../src/creature-store';
+import { GeneratedWorld } from './support/generated';
 
 // The assembler as a partner to Deem: kits (data/kits/raider-hold, data/kits/bounty) placed into an authored region
 // (test/fixtures/fells), with slots fixed by an author or bound by requirement and preference, dimensions proposed by
@@ -200,5 +201,31 @@ describe('kits in generated regions', () => {
     expect(s.campaign.module.entities.some(e => e.id === 'raidersFolk__challenge')
       || s.campaign.module.actions.some(a => a.id === 'raidersFolk__challenge')).toBe(true);
   }, 180000);
+  // In ember Sir Hamo's men keep their cave beside Fyrsteport, a toll-house whose door speaks. What was shut on their
+  // doorstep, opened under their eyes, draws their grudge in their own words: a company they had let by is let by no
+  // more, nor heard hailed, until it pays for what it let out. A grudge, not a fight (PT-33: they had done nothing).
+  it('has Sir Hamo\'s men resent the speaking door opened on their doorstep, until it is paid for', async () => {
+    const world = await WorldAssembler.assemble('ember', NodeBundleSource.shared, { origin: 'herbs',
+      party: [{ name: 'Aud', raceId: 'elf', classId: 'ranger' }] });
+    const s = await PlaySession.start(world.path, 'ember', world.source), c = s.campaign;
+    const holds = (name: string, ...args: string[]) => c.world.test(ModuleWriter.call(name, ...args));
+    const gold = () => c.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
+    GeneratedWorld.put(s, 'w6');
+    await s.perform(Compose.legal(s).find(id => id.startsWith('raidersFolk__hail'))!);
+    expect(holds('tolerates', 'raidersFolk__band', 'party')).toBe(true);
+    const right = c.module.actions.find(a => a.id.startsWith('region__w6_riddle_word')
+      && a.success.some(x => x.kind === 'retract'))!;
+    const opened = await s.perform(Compose.legal(s).find(id => id.startsWith(`${right.id}(`))!);
+    expect([opened.response, ...(opened.perceptions ?? []).map(p => p.text)].join(' '))
+      .toContain('Whatever was in it is out now, and it\'s us that live next door');
+    expect(opened.combat).toHaveLength(0);
+    expect(holds('tolerates', 'raidersFolk__band', 'party')).toBe(false);
+    for (let w = 0; w < 3; w++) { await s.perform('wait'); }
+    expect(holds('alarmed', 'raidersFolk__hamo') || holds('hostile', 'raidersFolk__hamo', 'party')).toBe(false);
+    expect(Compose.legal(s).some(id => id.startsWith('raidersFolk__hail'))).toBe(false);
+    const purse = gold();
+    await s.perform(Compose.legal(s).find(id => id.startsWith('raidersFolk__make_amends'))!);
+    expect([gold(), holds('tolerates', 'raidersFolk__band', 'party')]).toEqual([purse - 5, true]);
+  }, 120000);
 });
 

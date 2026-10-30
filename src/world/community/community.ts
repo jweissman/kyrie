@@ -62,7 +62,9 @@ export class Communities {
     const founding = Foundings.of(region, region.settlements.indexOf(s));
     const chosen = this.choose(region, s, { water, draw, founding });
     const ancestry = s.folk ?? region.ancestry, { people: used, animals: beasts } = this.before(region, s);
-    const residents = chosen.map(([key, work], i) => this.resident(s, { key, work, ancestry, i, draw, used }));
+    const reserved = region.reserved ?? [];
+    const residents = chosen.map(([key, work], i) =>
+      this.resident(s, { key, work, ancestry, i, draw, used, reserved }));
     this.households(residents, draw);
     const workplaces = this.places(s, residents, founding);
     workplaces.push(...Commons.assign(s, residents, { workplaces, water, heart: ['workings', 'yard'].includes(founding.kind) }));
@@ -133,7 +135,9 @@ export class Communities {
   // share a name while there are names enough.
   private static readonly given = new WeakMap<Region, Map<string, { people: string[]; animals: string[] }>>();
   private static before(region: Region, s: Settlement): { people: Set<string>; animals: Set<string> } {
-    const people = this.townsfolk(region), animals = new Set<string>();
+    // A story's people's names are kept for them (StoryPeople), from beasts too: an inn's dog had been the circus's
+    // Nell.
+    const people = this.townsfolk(region), animals = new Set<string>(region.reserved ?? []);
     for (const earlier of region.settlements.slice(0, region.settlements.indexOf(s))) {
       const named = this.names(region, earlier);
       for (const name of named.people) { people.add(name); }
@@ -156,12 +160,20 @@ export class Communities {
   }
   // A name for someone named after the settled people (a shop's keeper, a traveller): one nobody has, or, when the
   // names of their people have all been given, one with a family's name to it.
-  static distinct(names: string[], ancestry: string, at: { draw: Draw; taken: Set<string> }): string {
-    const free = names.filter(n => !at.taken.has(n));
-    if (free.length) { return at.draw.pick(free); }
+  static distinct(names: string[], ancestry: string,
+    at: { draw: Draw; taken: Set<string>; reserved?: readonly string[] | undefined }): string {
+    const free = this.pick(names.filter(n => !at.taken.has(n)), at.draw, at.reserved);
+    if (free) { return free; }
     const given = at.draw.pick(names);
     const families = at.draw.shuffle(this.folk.family[ancestry] ?? this.folk.family.human!);
     return families.map(f => `${given} ${f}`).find(n => !at.taken.has(n)) ?? `${given} ${families[0]!}`;
+  }
+  // One of a pool of names, as drawn; but one a story placed in the country gives one of its own people (Odile: see
+  // StoryPeople) is drawn again from the rest, so a country none of whose people drew one is named as it was.
+  static pick(pool: string[], draw: Draw, reserved: readonly string[] = []): string | undefined {
+    if (!pool.length) { return undefined; }
+    const drawn = draw.pick(pool), rest = pool.filter(n => !reserved.includes(n));
+    return reserved.includes(drawn) && rest.length ? draw.pick(rest) : drawn;
   }
   // Every name the country's settled people have: its townsfolk and everyone who lives in its settlements, for those
   // named after them (a shop's keeper, a traveller on the road) to keep clear of.
@@ -171,12 +183,12 @@ export class Communities {
     return all;
   }
   private static resident(s: Settlement, at: { key: string; work: Occupation; ancestry: string; i: number; draw: Draw;
-    used: Set<string> }): Resident {
+    used: Set<string>; reserved: readonly string[] }): Resident {
     const { key, work, ancestry, i, draw, used } = at;
     const names = this.folk.given[ancestry] ?? this.folk.given.human!;
     const pronoun = (work.pronoun ?? (draw.chance(0.06) ? 'they' : draw.chance(0.5) ? 'she' : 'he')) as Resident['pronoun'];
     const pool = (names[pronoun] ?? names.she!).filter(n => !used.has(n));
-    const given = pool.length ? draw.pick(pool) : draw.pick(names[pronoun] ?? names.she!);
+    const given = this.pick(pool, draw, at.reserved) ?? draw.pick(names[pronoun] ?? names.she!);
     const families = this.folk.family[ancestry] ?? this.folk.family.human!, family = draw.pick(families);
     // When the country's names of a people have all been given, a name given again is said with the family's.
     const name = pool.length ? given : `${given} ${family}`;

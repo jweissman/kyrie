@@ -67,6 +67,12 @@ export interface Region extends Naming {
   further?: { side: Side; via: string; then: Side; name: string; terrain: string; far: string; id: string }[];
   // Its provinces: authored adventures installed as parts of it, each entered by its way in (see Provinces).
   provinces?: Province[];
+  // The paintings the world's people hold already, where it is a country drawn beyond the march: its own people are
+  // painted in one of them only where none else fits (see CommunityWriter.likenessOf).
+  held?: string[] | undefined;
+  // The names the people of the stories placed in it have of their authors (see StoryPeople): none of its own people
+  // is given one.
+  reserved?: string[];
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }

@@ -8,22 +8,24 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { CreatureFacts } from '../src/campaign/creature-facts';
 import { CreatureStore } from '../src/creature-store';
 import { World } from '../src/lang/world';
+import { Held } from '../web/reader/stage/held';
 
 // A fight's page closed as the last blow landed, and the place came back at once with the fight told over again
 // in it: the outcome, the wounds and what was gained were never seen together. The page now holds the fight once it
 // has ended, the last blows, how it ended and what it was worth, until the player goes on; and the place does not
 // tell the blows again. Wenna, made hard to kill, sees off the bone hounds in a1's barrow halls.
 class Hounds {
-  static async host(seen: Frame[] = []) {
+  // Each turn of Wenna's is fought as the page would have her, or as the player chooses (a blow struck).
+  static async host(seen: Frame[] = [], hp = 300, choice?: string) {
     const host: EngineHost = new EngineHost((m: Message) => {
-      if (m.kind === 'frame') { seen.push(m.frame); setTimeout(() => void host.handle({ kind: 'fight' }), 0); }
+      if (m.kind === 'frame') { seen.push(m.frame); setTimeout(() => void host.handle({ kind: 'fight', choice }), 0); }
     });
     await host.handle({ kind: 'begin', campaign: 'world', seed: 'a1', origin: 'wanderer',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const held = host as unknown as { session: PlaySession }, checkpoint = held.session.checkpoint();
     const save = checkpoint.save;
     for (const m of save.creatures.filter(x => save.state.partyIds.includes(x.id))) {
-      m.base.maxHp = 300; m.state.hp = 300;
+      m.base.maxHp = 300; m.state.hp = hp;
     }
     const room = 'region__w8_halls_mourners', world = new World(save.module, save.state.world)
       .apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', room) },
@@ -73,5 +75,30 @@ describe('a fight that has ended', () => {
     // The next command's page is the place's.
     expect((await host.handle({ kind: 'perform', command: 'wait' }) as Frame)
       .combat).toBeUndefined();
+  }, 120000);
+});
+
+// A fight that ended the story turned the page to its end as the last blow was struck: the act last chosen in it, and
+// what came of it, were never seen (the cold playtest: "Strike again -> straight to end screen; my last strike's result
+// never shown"). It is held on its page like any other, how it was lost after the blows that lost it, and going on
+// from it is going on to the end. Wenna, worn down, strikes at the bone hounds and falls.
+describe('a fight that ends the story', () => {
+  it('shows the last act chosen in it before the end', async () => {
+    const seen: Frame[] = [], { host, session } = await Hounds.host(seen, 6, 'melee');
+    const frame = await Hounds.attack(host, session), fight = frame.combat!;
+    expect(frame.screen.running).toBe(false);
+    expect(frame.ending?.lines.length).toBeGreaterThan(0);
+    expect(fight.outcome).toBe('goblins');
+    expect(fight.after).toContain('The fight is lost.');
+    // The last time the player chose, and everything from it on: her blow, and the bites that ended it.
+    const chosen = seen.filter(f => f.combat?.ours).at(-1)!, from = chosen.combat!.exchanges.length;
+    const last = fight.exchanges.filter(e => e.n >= from);
+    expect(last[0]!.actor).toBe(chosen.combat!.actor);
+    expect(last[0]!.text).toMatch(/^Wenna (hits|strikes at|lands)/);
+    expect(last.at(-1)!.text).toContain('Wenna falls.');
+    // The page is the fight's, and going on from it is going on to the end.
+    expect(Held.page(frame)).toBe('combat');
+    expect(ChoiceList.all(ChoiceList.combat(fight)).map(c => c.label)).toEqual(['Go on']);
+    expect(Held.page({ ...frame, combat: undefined })).toBe('fallen');
   }, 120000);
 });

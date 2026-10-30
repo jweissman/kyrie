@@ -41,7 +41,7 @@ export class Outfitters {
     for (const s of region.settlements.filter(t => this.needed(t))) {
       const draw = new Draw(`${region.name}:${s.id}:chandler`), ancestry = s.folk ?? region.ancestry;
       const pronoun = draw.pick(['she', 'he']), names = (given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!;
-      const name = Communities.distinct(names, ancestry, { draw, taken });
+      const name = Communities.distinct(names, ancestry, { draw, taken, reserved: region.reserved });
       taken.add(name);
       out.set(s.id, { name, pronoun });
     }

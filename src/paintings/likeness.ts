@@ -47,18 +47,30 @@ export class Likeness {
   static sitter(id: string): Sitter | undefined { return this.sitters.get(id); }
   // The best painting for someone among those not yet taken: their work's own painting if it shows someone of their
   // sex; else one of their sex and station, of their age if it can be, in an older manner before a newer; ties settled
-  // by their own name, so the same person has the same painting.
-  static choose(who: Wanted, key: string, taken: Set<string> = new Set()): string | undefined {
+  // by their own name, so the same person has the same painting. One taken (by someone of their country) is never
+  // theirs: a widow in black and a sick child's mother of two villages had been one smiling woman gutting a fish (the
+  // cold evaluation's M17-65). One held further off (a country away) is theirs only where nothing else fits as well.
+  static choose(who: Wanted, key: string, taken: ReadonlySet<string> = new Set(),
+    held: ReadonlySet<string> = new Set()): string | undefined {
+    return this.best(who, key, { taken, held });
+  }
+  // The same among the paintings that are of them (see fits), where `fitting`: the best left that is, not the best
+  // left whether or not it is (a lad's painting refused as a greybeard's when a grown man's was there to give).
+  private static best(who: Wanted, key: string,
+    at: { taken: ReadonlySet<string>; held?: ReadonlySet<string>; fitting?: boolean }): string | undefined {
     const concept = who.concept && this.resolve(who.concept);
     let best: string | undefined, score = -Infinity;
     for (const [id, s] of this.sitters) {
-      if ((who.sex && s.sex !== who.sex) || this.unfit.has(id) || (who.elder && s.age === 'young')) { continue; }
+      if ((who.sex && s.sex !== who.sex) || this.unfit.has(id) || at.taken.has(id) || (who.elder && s.age === 'young')
+        || (at.fitting && !this.fits(id, who))) {
+        continue;
+      }
       // For one known only by whose they are, being at home is their station, and their age says which.
       const station = who.homely ? -1 : who.stations?.indexOf(s.station ?? '') ?? -1;
       const value = (id === concept ? 60 : 0) + (station >= 0 ? 20 - station * 6 : 0)
         + (who.age && s.age === who.age ? 6 : 0) + (who.mourning && this.mourning.has(id) ? 30 : 0)
         + (who.homely && this.homely.has(id) ? 25 : 0)
-        + Likeness.eras[s.era]! - (taken.has(id) ? 80 : 0)
+        + Likeness.eras[s.era]! - (at.held?.has(id) ? 80 : 0)
         + this.hash(`${key}:${id}`) / 2 ** 32;
       if (value > score) { score = value; best = id; }
     }
@@ -79,7 +91,8 @@ export class Likeness {
   // sex and station; where nothing says their station, or no painting is of it, there is none, and they are met in
   // words (Mother Ysolt was a young Samson, an alehouse-keeper a preacher, the inn's dog an auctioneer).
   static of(at: { own?: string; background?: string; profession?: string; role?: string; name?: string;
-    sex?: 'man' | 'woman'; key?: string; taken?: Set<string> }): string | undefined {
+    sex?: 'man' | 'woman'; key?: string; taken?: ReadonlySet<string>; held?: ReadonlySet<string> }):
+    string | undefined {
     if (at.own && this.ids.has(at.own)) { return at.own; }
     // A name that is a description ("the prior", "the woman in black") says what they are as a role does.
     const described = /^the /i.test(at.name ?? '') ? this.words(at.name!) : [];
@@ -95,7 +108,8 @@ export class Likeness {
     const title = this.titles[(at.name ?? '').split(' ')[0]!.toLowerCase()];
     const sex = at.sex ?? title?.sex ?? (kin && this.kin[kin]);
     const age = words.map(w => this.ages[w]).find(Boolean) ?? title?.age;
-    if (!sex && concept && this.sitters.has(concept) && !this.unfit.has(concept)) { return concept; }
+    if (!sex && concept && this.sitters.has(concept) && !this.unfit.has(concept) && !at.taken?.has(concept)
+      && !at.held?.has(concept)) { return concept; }
     // Someone known only by whose they are (the child's mother, the drover's son) is one of the working people.
     if (!station && !kin) { return undefined; }
     const mourning = /\b(widow|widower|mourning|grieving|bereaved|in black)\b/i.test(`${at.role ?? ''} ${at.name ?? ''}`);
@@ -104,16 +118,28 @@ export class Likeness {
     // the working people's paintings, stern under a wreath: play 10).
     const parent = words.some(w => this.parents.has(w));
     const homely = !concept && !!kin && (this.clauses(at.role ?? '').length === 1 || parent);
-    const painted = station ?? 'labouring', id = this.choose({ ...sex ? { sex } : {}, ...concept ? { concept } : {},
-      stations: [painted], ...age ? { age } : {}, ...mourning ? { mourning } : {}, ...homely ? { homely } : {},
-      ...parent ? { elder: true } : {} },
-    at.key ?? words.join(' '), at.taken);
-    const sitter = id ? this.sitters.get(id) : undefined;
-    // Not a girl for a woman of years, nor a greybeard for a lad.
+    const painted = station ?? 'labouring', wanted: Wanted = { ...sex ? { sex } : {}, ...concept ? { concept } : {},
+      ...age ? { age } : {}, ...mourning ? { mourning } : {}, ...homely ? { homely } : {},
+      ...parent ? { elder: true } : {} };
+    // Where none of their station is left to them (the country's people hold every grown woman of the working people's
+    // paintings), one of the station beside it: a sick child's mother in a middling woman's cap and collar.
+    for (const stations of [[painted], ...(this.beside[painted] ?? []).map(s => [s])]) {
+      const id = this.best({ ...wanted, stations }, at.key ?? words.join(' '),
+        { taken: at.taken ?? new Set(), ...at.held ? { held: at.held } : {}, fitting: true });
+      if (id) { return id; }
+    }
+    return undefined;
+  }
+  // The stations one of a station may be painted in where none of their own is left.
+  static readonly beside: Record<string, string[]> = { labouring: ['middling'], middling: ['labouring'] };
+  // Whether a painting is one of them: their work's, one of grief for one who mourns, one at home for one known by
+  // whose they are; or one of their station, not a girl for a woman of years, nor a greybeard for a lad.
+  private static fits(id: string, who: Wanted): boolean {
+    const sitter = this.sitters.get(id), age = who.age;
     const far = !!sitter?.age && ((!!age && Math.abs(this.years.indexOf(age) - this.years.indexOf(sitter.age)) > 1)
-      || (parent && sitter.age === 'young'));
-    return id && (id === concept || (mourning && this.mourning.has(id)) || (homely && this.homely.has(id))
-      || (sitter?.station === painted && !far)) ? id : undefined;
+      || (!!who.elder && sitter.age === 'young'));
+    return (!!who.concept && id === this.resolve(who.concept)) || (!!who.mourning && this.mourning.has(id))
+      || (!!who.homely && this.homely.has(id)) || (sitter?.station === who.stations?.[0] && !far);
   }
   // The paintings some people are given as their own (a likeness, by the painting's id, which is the name of the
   // entity the likeness names): those taken on a page.

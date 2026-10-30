@@ -9,6 +9,7 @@ import { PartyCapabilities } from '../campaign/party-capabilities';
 import { Canon } from '../canon/canon';
 import { ObservationText } from '../lang/observation-text';
 import { Itineraries } from '../ui/itinerary';
+import { Telling } from '../narrative/telling';
 
 export interface ActionFeedback {
   attempt: string; result: string; resources: string[]; time: string; immediate: string[]; discoveries: string[];
@@ -219,11 +220,7 @@ export class ActionFeedbackView {
         return (a?.amount ?? 0) === (b?.amount ?? 0) ? [] :
           [`${a?.name ?? b?.name}: ${a?.amount ?? 0} → ${b?.amount ?? 0}`];
       });
-    // What the company did, in the words it was offered in (a name it learns by doing it is not echoed back), where
-    // the offer was one; several offered under one id (buy it for one of the company or another) say it as done.
-    const offered = before.choices.filter(c => c.id === event.action);
-    return { resources, attempt: offered.length === 1 ? offered[0]!.name
-      : PlayerView.aliased(campaign.world, action.name, new Set(before.knowledge.map(k => k.id))),
+    return { resources, attempt: this.attempt(campaign, event, before),
       result: FictionalTime.prose(result),
       time: this.time(before, { elapsed: event.elapsed, minutes: after.minutes }),
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
@@ -238,5 +235,19 @@ export class ActionFeedbackView {
         after.choices.filter(c => !old.has(c.id)).map(c => c.name) : [],
       unavailable: before.location?.id === after.location?.id ?
         before.choices.filter(c => !now.has(c.id)).map(c => c.name) : [] };
+  }
+  // What the company did, in the words it was offered in (a name it learns by doing it is not echoed back), where
+  // the offer was one; several offered under one id (buy it for one of the company or another) say it as done. One's
+  // own mother or father is "your mother" in it, as in what is said of her (see Telling.called): talked to as "your
+  // mother", she had been left with "You take your leave of Jassin Galanodel" (M17-93).
+  private static attempt(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): string {
+    const action = campaign.operator(event.action)!, offered = before.choices.filter(c => c.id === event.action);
+    const said = offered.length === 1 ? offered[0]!.name
+      : PlayerView.aliased(campaign.world, action.name, new Set(before.knowledge.map(k => k.id)));
+    const kin = Object.values(action.bindings ?? {})
+      .map(id => [ObservationText.label(campaign.world, id), Telling.called(campaign, id)] as const)
+      .filter(([name, word]) => name !== word);
+    const told = kin.reduce((t, [name, word]) => t.replaceAll(name, word), said);
+    return told === said ? said : `${told.charAt(0).toUpperCase()}${told.slice(1)}`;
   }
 }

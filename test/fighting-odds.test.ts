@@ -16,6 +16,16 @@ class Bout {
   static battle(fighters: Fighter[], seed: string) {
     return new Battle({ id: 'bout', combatants: fighters, abilities: Content.abilities }, seed);
   }
+  // A cave spider's bite on Bruni, which lands; its save against bleeding holds, or it does not and he bleeds.
+  static bite(held: boolean): CombatEvent[] {
+    return [{ type: 'action', turn: 1, command: { actor: 's', ability: 'melee', target: 'b' } },
+      { type: 'attack', turn: 1, actor: 's', target: 'b', die: 15, need: 8, toHit: 2, armorClass: 6, weapon: 'bite',
+        success: true, critical: false },
+      { type: 'damage', turn: 1, actor: 's', target: 'b', rolled: 5, amount: 5, hp: 11, damageType: 'piercing' },
+      { type: 'save', turn: 1, actor: 's', target: 'b', rolled: held ? 18 : 4, difficulty: 15, success: held,
+        against: 'bleed' },
+      ...held ? [] : [{ type: 'status', turn: 1, actor: 's', target: 'b', detail: 'bleed', amount: 3 } as const]];
+  }
 }
 
 describe('the odds of a blow, and what a fight says', () => {
@@ -79,6 +89,27 @@ describe('the odds of a blow, and what a fight says', () => {
     const held: CombatEvent[] = [{ type: 'action', turn: 1, command: { actor: 'f', ability: 'wait', target: 'f' } },
       { type: 'save', turn: 1, actor: 'f', target: 'h', rolled: 17, difficulty: 15, success: true, against: 'bleed' }];
     expect(CombatTelling.exchanges(held, state)[0]!.text).toContain('Sir Hamo Ashdown does not bleed from it.');
+  });
+  // Bleeding is told once it has lasted, as it bleeds, not as the wound is dealt: told then, it began and ended in one
+  // round, gone with a fight fled before it ever bled, and a second bite's held save read as its stopping (the cold
+  // playtest: "Bruni is bleeding… Bruni is not bleeding" within one round, and the bleeding gone; CMB-02).
+  it('tells bleeding once it has lasted, and never as stopping while it goes on', () => {
+    const state = { combatants: [{ id: 'b', name: 'Bruni' }, { id: 's', name: 'the cave spider' }] } as unknown as
+      BattleState, bitten = [...Bout.bite(false), ...Bout.bite(true)];
+    const fled: CombatEvent[] = [{ type: 'action', turn: 2, command: { actor: 'b', ability: 'flee', target: 'b' } },
+      { type: 'flee', turn: 2, actor: 'b', success: true },
+      { type: 'end', turn: 2, outcome: 'escaped', reason: 'retreat', fled: { actor: 'b', team: 'fighters' } }];
+    const ran = CombatTelling.exchanges([...bitten, ...fled], state).map(t => t.text).join(' ');
+    expect(ran).not.toMatch(/bleed/);
+    expect(ran).toContain('Bruni gets away.');
+    // Fought on, it is told as it bleeds, at Bruni's own turn's end, and only then.
+    const stood: CombatEvent[] = [{ type: 'action', turn: 2, command: { actor: 'b', ability: 'wait', target: 'b' } },
+      { type: 'damage', turn: 2, actor: 'bleed', target: 'b', rolled: 1, amount: 1, hp: 5, damageType: 'bleed' }];
+    const told = CombatTelling.exchanges([...bitten, ...stood], state).map(t => t.text);
+    expect(told.slice(0, 2).join(' ')).not.toMatch(/bleed/);
+    expect(told[2]).toContain('Bruni bleeds, for 1.');
+    // One who is not bleeding, whose save holds, is still told so.
+    expect(CombatTelling.exchanges(Bout.bite(true), state)[0]!.text).toContain('Bruni does not bleed from it.');
   });
   // The follow-up review: "shakes it off. … takes 0 fire damage. … is burning", and a bite "for 0" that bled.
   it('tells harm that came to nothing as nothing, and a save against harm as turning the worst of it', () => {

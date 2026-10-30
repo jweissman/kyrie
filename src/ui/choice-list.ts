@@ -125,15 +125,24 @@ export class ChoiceList {
     // Two ways from here into the same enclosure (a tower by its door and by its well) are told apart by where they
     // arrive; a way into one that other ways lead into from elsewhere, by its own name (What Tessary Owes' two ways
     // into the Strongrooms, W16).
-    const twice = new Set(labels.filter((l, i) => labels.indexOf(l) !== i));
+    const twice = this.alike(labels);
+    const told = exits.map((e, i) => twice.has(labels[i]!)
+      ? `${labels[i]!.split(' ')[0]} ${this.inline(e.destination.name)}` : labels[i]!);
+    // Ways that read alike still, to places of one name (from a road, its ways off into the stretches of one wood it
+    // crosses, each "among the trees of Beorquudu": NAV-04), are each told by their own way.
+    const still = this.alike(told);
     const choices = exits.flatMap((e, i) => {
-      const label = twice.has(labels[i]!) ? `${labels[i]!.split(' ')[0]} ${this.inline(e.destination.name)}`
-        : (e.several && e.transition === 'enter' || e.oneWay) && e.way ? `${labels[i]!} by ${this.inline(e.way)}`
-          : labels[i]!;
+      const label = still.has(told[i]!) && e.way ? `${told[i]!} by ${this.inline(e.way)}`
+        : twice.has(labels[i]!) ? told[i]!
+          : (e.several && e.transition === 'enter' || e.oneWay) && e.way ? `${labels[i]!} by ${this.inline(e.way)}`
+            : labels[i]!;
       return this.way(e, label).map(c => e.local ? { ...c, local: true } : c).map(c => e.oneWay && c.command
         ? { ...c, grave: ChoiceList.oneWay } : c);
     });
     return { id: 'ways', title: 'Ways on', tone: 'way', glyph: '→', choices };
+  }
+  private static alike(labels: string[]): Set<string> {
+    return new Set(labels.filter((l, i) => labels.indexOf(l) !== i));
   }
   private static way(e: ExitRow, label: string): Choice[] {
     const about = this.wayAbout(e), id = e.id, minutes = this.longest(e.acts);
