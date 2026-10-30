@@ -81,7 +81,7 @@ Module lull "The Lull" {
     Requires able(actor) and company(actor) and at(actor, site) and lullRoom(site) and lullEvening() and not alwaysDark(site) and not weekReturned(lull_country).
     Time untilLull(clock).
     On success { Assert sleptLull(actor). Increase weeksAsleep(actor) by 1. Increase lastSlept(actor) by 1008. Retract weary(actor). }
-    Result "You lie down with your hands open, as they showed you, and the starlings' noise goes over and away, and you do not hear it stop. You wake to the same light, birds again, and the smell of bread from the Long Table. Nothing has moved. Your beard, or your nails, or the cut on somebody's hand, says otherwise: outside, it has been a week.".
+    Result "Last night you lay down with your hands open, as they showed you, and the starlings' noise went over and away, and you did not hear it stop. You woke to the same light, birds again, and the smell of bread from the Long Table. Nothing had moved. Your beard, or your nails, or a cut on your hand that has healed, says otherwise: outside, it has been a week.".
   }
   // In the Sixnight, open hands are the strikers' sign: lie down so and the six days take you out the other side.
   Action sixnight_sleep(actor: group, site: place) "Lie down with your hands open, and wait for the Lull's morning" {

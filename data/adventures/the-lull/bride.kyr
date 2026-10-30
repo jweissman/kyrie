@@ -55,7 +55,7 @@ Module lull "The Lull" {
   Rule gift_is_seat when abelMeans(abel) and state(abel_gift, chair) and not at(abel_gift, green) { Assert state(abel_gift, seat). }
   Rule chair_ravels at green when lullDusk() and at(abel_gift, green) and state(abel_gift, chair)
     says "At sunset Abel's chair comes apart for the fourth time, in front of the whole Long Table: legs, rails, seat, a little heap of pegs and shavings. Wenna Spurling's aunt does not laugh this time. Nobody laughs. Abel stands looking at it with his big hands hanging, and then he goes off up the Tump road in the dusk, alone, without his supper, and Wenna watches him go." {
-    Assert state(abel_gift, ravelled). Assert abelGaveUp(abel).
+    Assert state(abel_gift, ravelled). Assert abelGaveUp(abel). Assert at(abel_gift, limbo).
   }
   Relation abelGaveUp(group).
   Rule seat_holds at green when lullDusk() and at(abel_gift, green) and state(abel_gift, seat)

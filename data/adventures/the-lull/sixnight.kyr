@@ -11,7 +11,7 @@ Module lull "The Lull" {
   Observe yard_mill_dark at mill_yard when folded() "The Mill yard in the dark, and the Mill above it lit grey from within, every window, all seven storeys, and the whole building faintly shaking. From inside comes a sound like heavy rain on a roof that does not stop: looms, hundreds of them, going. The boarded window low down is not boarded. It is open, the way it was the night the strikers climbed out of it.".
   Observe floor_scene at mill_floor when lullOpen() "The ground floor of the Mill: a long room of iron pillars and dust, the light coming grey through the boarded windows. The great doors are barred on the inside with a beam of black oak as thick as a man, set in iron brackets, and the beam is cut all over with letters.".
   Observe floor_dark at mill_floor when folded() "The Mill's ground floor in the grey light that comes down the stairwell from above, where the noise is. The lint of the Ravel lies on the floor like snow and drifts in the draught from the stair. The great doors are barred on the inside with a beam of black oak cut all over with letters, and something on the other side of them, from the yard, is pushing: the doors move in their frame, a finger's breadth, and back, and again, very slowly, as if breathing.".
-  Thing beam "the beam across the Mill doors" at mill_floor is scenery {
+  Thing beam "the beam across the Mill doors" at mill_floor {
     State barring "Across the Mill doors, on the inside, lies the strikers' beam.".
   }
   Initially Assert state(beam, barring).
@@ -21,6 +21,7 @@ Module lull "The Lull" {
   Observe loom_dark at loom_floor when folded() "The loom floor, lit grey from nowhere, and every loom going: a hundred of them, the shuttles flying, the beaters coming down, the noise like a mill-race. At each loom something is working it. They have the shape of weavers, and are made of grey lint, the Ravel packed into the shape of a woman, a boy, a man, and they have no faces, and they do not stop. The cloth comes off the looms grey and endless and goes away into the dark at the end of the hall.".
   Observe loft_scene_bell at bell_loft when lullOpen() "The bell loft under the Mill's roof: rafters, pigeons, a bell on a beam with its rope hanging down the well to the floors below, and in a corner an iron-bound chest under a heap of sacking.".
   Observe loft_bell_dark at bell_loft when folded() "The bell loft, grey-lit and shaking with the looms below. The bell on its beam swings a little, by itself.".
+  Observe gap_scene at gap when true "A long low tunnel the river once took: the old tail-race, cut square in the rock, half full of black water running toward the hill's heart. Grey lint is caught along the waterline like scum, and the walls are scored with tally-marks in sevens, very old, as if somebody once counted days down here.".
   Observe pit_scene at wheel_pit when true "The wheel-pit under the Mill: the great wheel standing still in a slot of black water, its buckets furred with weed, and beyond it, low, the tail-race going away into the hill, wet-walled and breathing cold.".
 
   // The strikers' window: open in the dark, boarded in the day.
@@ -36,13 +37,15 @@ Module lull "The Lull" {
   // Whoever is awake in the Lull at midnight on its day is in the six days it does not keep. The valley is unlit, its
   // people asleep and not to be woken, the Ravel drifting, the Mill working. It explains nothing.
   // Told as the company first sees the dark, wherever in the valley it is; never to a company that slept through.
-  Observe sixnight_tump within tump when inSixnight() and not knows(party, sixnight_known) "It is past midnight. There was no sound to it: the starlings stopped, all at once, in the middle of a note, and the lights went out together as if a door had shut on them, and the stars went. Not behind cloud. Out. You are standing in the Lull in a dark with no top to it, and nobody else in the valley is awake." teaches sixnight_known.
-  Observe sixnight_linger within linger when inSixnight() and not knows(party, sixnight_known) "It is past midnight. There was no sound to it: the starlings stopped, all at once, in the middle of a note, and the lanterns along the Long Table went out together as if a door had shut on them, and the stars went. Not behind cloud. Out. You are standing in the Lull in a dark with no top to it, and nobody else in the valley is awake." teaches sixnight_known.
-  Observe sixnight_mill within mill when inSixnight() and not knows(party, sixnight_known) "It is past midnight. There was no sound to it, except that the starlings stopped, and the stars went out, and the Mill began." teaches sixnight_known.
-  Observe sixnight_wild within hangers when inSixnight() and not knows(party, sixnight_known) "It is past midnight. The birds stopped all at once in the middle of a note, and the stars went out, and nobody else in the valley is awake." teaches sixnight_known.
-  Observe sixnight_tarn within tarn when inSixnight() and not knows(party, sixnight_known) "It is past midnight. The birds stopped all at once in the middle of a note, and the stars went out of the tarn, and nobody else in the valley is awake." teaches sixnight_known.
-  Observe sixnight_swallow within swallow when inSixnight() and not knows(party, sixnight_known) "It is past midnight. The birds stopped all at once, and the stars went out, and the river goes on into the hill in the dark." teaches sixnight_known.
-  Rule sixnight_now when inSixnight() and not inSixnightNow(party) { Assert inSixnightNow(party). }
+  Observe sixnight_tump within tump as felt when inSixnight() and not sixnightToldDone(party) "It is past midnight. There was no sound to it: the starlings stopped, all at once, in the middle of a note, and the lights went out together as if a door had shut on them, and the stars went. Not behind cloud. Out. You are standing in the Lull in a dark with no top to it, and nobody else in the valley is awake.".
+  Observe sixnight_linger within linger as felt when inSixnight() and not sixnightToldDone(party) "It is past midnight. There was no sound to it: the starlings stopped, all at once, in the middle of a note, and the lanterns along the Long Table went out together as if a door had shut on them, and the stars went. Not behind cloud. Out. You are standing in the Lull in a dark with no top to it, and nobody else in the valley is awake.".
+  Observe sixnight_mill within mill as felt when inSixnight() and not sixnightToldDone(party) "It is past midnight. There was no sound to it, except that the starlings stopped, and the stars went out, and the Mill began.".
+  Observe sixnight_wild within hangers as felt when inSixnight() and not sixnightToldDone(party) "It is past midnight. The birds stopped all at once in the middle of a note, and the stars went out, and nobody else in the valley is awake.".
+  Observe sixnight_tarn within tarn as felt when inSixnight() and not sixnightToldDone(party) "It is past midnight. The birds stopped all at once in the middle of a note, and the stars went out of the tarn, and nobody else in the valley is awake.".
+  Observe sixnight_swallow within swallow as felt when inSixnight() and not sixnightToldDone(party) "It is past midnight. The birds stopped all at once, and the stars went out, and the river goes on into the hill in the dark.".
+  Rule sixnight_now when inSixnight() and not inSixnightNow(party) and at(party, ?p) { Assert inSixnightNow(party). Assert sixnightBegan(?p). }
+  Rule sixnight_moved when sixnightBegan(?p) and not at(party, ?p) { Retract sixnightBegan(?p). Assert sixnightToldDone(party). }
+  Relation sixnightBegan(place). Relation sixnightToldDone(group). Relation sixnightLived(group).
   Relation inSixnightNow(group).
   Discovery sixnight_known "Whoever is awake in the Lull at its midnight is in the six days it does not keep: a dark without stars, the people asleep and not to be woken, and the Mill working.".
   Observe green_sound at green as sound when folded() "From up the leat, very faint, comes a sound like rain on a roof that does not stop.".
@@ -79,6 +82,16 @@ Module lull "The Lull" {
     On success { Retract atLoom(actor). Assert at(actor, mill_yard). Retract at(shift_bolt, limbo). Give shift_bolt to actor. Assert weary(actor). Assert sleptLull(actor). Assert knows(actor, wove_shift). }
     Result "You work. There is no other word for it, and no other thing. The shuttle goes, the beater comes down, the cloth comes, and the grey light does not change, and you do not get hungry or thirsty or sleep, and you do not stop, because there is nothing to stop for, and the Hands beside you do not stop. Somewhere in it you understand that this is what the strikers stopped. Then the bell above you rings once, and you are standing in the Mill yard in the morning with starlings going over and a bolt of grey cloth in your arms that you wove, and your hands ache to the shoulder, and it is Lullday.".
   }
+  // Lying down open-handed, as the strikers did: neither the Hands nor the Overseer touch the resting.
+  Action lie_open(actor: group, site: place) "Lie down where you are with your hands open, palms up, as the strikers did" {
+    Description "Whatever works the Mill does not touch the resting. Or so Hob Linsey says.".
+    Requires able(actor) and company(actor) and at(actor, site) and inSixnight() and knows(actor, open_hands) and (warned(hands, actor) or warned(overseer, actor) or assails(overseer, actor)) and not atLoom(actor).
+    On success { Retract warned(hands, actor). Retract warned(overseer, actor). Retract assails(overseer, actor). Retract assails(hands, actor). Assert tolerates(hands, actor). Assert tolerates(overseer, actor). Assert restingBefore(actor). }
+    Result "You lie down on the boards with your hands open, palms up, and the noise of the looms goes on over you. Something tall comes and stands over you, and looks, if it is looking, a long time. Then it goes away. When you get up, nothing turns toward you. You are, as far as the Mill is concerned, on strike.".
+  }
+  Relation restingBefore(group).
+  Rule chest_noticed when state(pay_chest, open) and at(overseer, bell_loft) and able(overseer) and tolerates(overseer, party) and at(party, bell_loft) and not overseerBroken(overseer)
+    says "The lid of the pay-chest goes back, and the bell rings by itself, once, and the tall thing by the bell turns its hat toward you. Resting is one thing. This is another." { Retract tolerates(overseer, party). Assert assails(overseer, party). }
   Discovery wove_shift "You worked the six days at a loom of the Wrought Mill in the dark, beside the Hands, and came out on the Lull's morning with a bolt of grey cloth that you wove.".
 
   // The Overseer, in the bell loft, over the pay-chest.

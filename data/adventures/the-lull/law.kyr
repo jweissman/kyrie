@@ -53,12 +53,12 @@ Module lull "The Lull" {
     On discuss { Assert lawFound(aldith). Assert knows(actor, meaning_law). }
   }
   Discovery meaning_law "What holds in the Lull is what is meant: not what is unpaid, not what is loved, but what is done meaning it, all the way down. Wages are beside the point; so is love; spite holds, and grief.".
-  Topic simeon_wrong with simeon travelling "Tell Simeon what Aldith Mote found the law to be" when knows(actor, meaning_law) and travelsWith(simeon, party) and not simeonWrong(simeon) once {
+  Topic simeon_wrong with simeon "Tell Simeon what Aldith Mote found the law to be" when knows(actor, meaning_law) and following(simeon, party) and not simeonWrong(simeon) once {
     Says "Simeon stops dead in the road. 'Meaning,' he says. 'Not love.' He thinks about it with his whole face, which works like a loom. 'Spite holds. Yes. It would. God help us, of course it would.' Then he laughs, a great bark that sends birds up. 'Held: I was wrong. Twenty years. Wonderful. Oh, that is wonderful.' He wipes his eyes. 'Who found it? The little Mote girl? Good. Good. They'll make her paint over it. They made me.'".
     On discuss { Assert simeonWrong(simeon). }
   }
   Relation simeonWrong(group).
-  Topic simeon_wrong_here with simeon "Tell Simeon what Aldith Mote found the law to be" when knows(actor, meaning_law) and not travelsWith(simeon, party) and not simeonWrong(simeon) once {
+  Topic simeon_wrong_here with simeon "Tell Simeon what Aldith Mote found the law to be" when knows(actor, meaning_law) and not following(simeon, party) and not simeonWrong(simeon) once {
     Says "Simeon puts down his pen. 'Meaning,' he says. 'Not love.' He sits back. 'Spite holds,' he says slowly. 'Yes. It would.' Then he laughs, a great bark of a laugh. 'Held: I was wrong. Twenty years. Wonderful.' He picks the pen up, and puts it down again, and looks at the stone through the window. 'I should like to see that board before they paint it out.'".
     On discuss { Assert simeonWrong(simeon). Assert willing(simeon, actor). }
   }

@@ -45,7 +45,8 @@ Module lull "The Lull" {
   Rule fate_corin_hurt when accounting() and corinHurt(corin) and not spreadFact(fate_corin) says "Corin Lindsell's hand mended crooked. She has taught Davy Mote to cut the wheels, and sits beside him at the bench and tells him what he is doing wrong, and the clocks still come apart at sunset, both of theirs." { Assert spreadFact(fate_corin). }
   Rule fate_corin_sunday when accounting() and not spreadFact(fate_corin) says "Corin Lindsell went out over the Tump a Lullday after the Working Day with a bag of tools, to make clocks in the world. She comes back for the Watching once a year, her count, and every time Linger is a week older and she is a year, and every time her grandfather says, You look tired." { Assert spreadFact(fate_corin). }
   Entity fate_corin: fact "Corin".
-  Rule fate_tobias_love when accounting() and joins(tobias) and not tobiasGrief(tobias) and not spreadFact(fate_tobias) says "Tobias Lindsell keeps the Shift Bridge. He sits on a chair at the Mill end with Corin's clock in his waistcoat, and tells the strike to anyone who crosses, and tells it, now, from the right side of the window." { Assert spreadFact(fate_tobias). }
+  Rule fate_tobias_love when accounting() and joins(tobias) and bridgeBuilt(club) and not tobiasGrief(tobias) and not spreadFact(fate_tobias) says "Tobias Lindsell keeps the Shift Bridge. He sits on a chair at the Mill end with Corin's clock in his waistcoat, and tells the strike to anyone who crosses, and tells it, now, from the right side of the window." { Assert spreadFact(fate_tobias). }
+  Rule fate_tobias_broken when accounting() and joins(tobias) and wardensBroke(club) and not spreadFact(fate_tobias) says "Tobias Lindsell went into the leat after the timbers, at eighty-two, and brought one out, and set it on the bank, and sat on it. He sits on it still, most Lulldays, with Corin's clock in his waistcoat, and tells the strike from the right side of the window, to whoever will listen." { Assert spreadFact(fate_tobias). }
   Rule fate_tobias_grief when accounting() and tobiasGrief(tobias) and not spreadFact(fate_tobias) says "Tobias Lindsell died in the autumn, of being eighty-two in a valley where time had started again, quite quickly, in his chair by the empty bed. They found his hands open." { Assert spreadFact(fate_tobias). }
   Rule fate_tobias_none when accounting() and not spreadFact(fate_tobias) says "Tobias Lindsell sits by his window in the Lull and tells the strike to whoever asks, always from the window, and does not say which side." { Assert spreadFact(fate_tobias). }
   Entity fate_tobias: fact "Tobias".
@@ -53,8 +54,8 @@ Module lull "The Lull" {
   Rule fate_hester_you when accounting() and diedBy(hester, party) and not spreadFact(fate_hester) says "Hester Lindsell had her Monday from a Sixer's hand, and the Lull never asked whose. Tobias knows. On your account he says nothing at all, which in him is a kind of thanks." { Assert spreadFact(fate_hester). }
   Rule fate_hester_tobias when accounting() and diedBy(hester, tobias) and not spreadFact(fate_hester) says "Hester Lindsell is buried on the Tump under the Strike Post, by the striker's grave of Nell Lumb, her little sister. The Lull believes the wasting took her." { Assert spreadFact(fate_hester). }
   Entity fate_hester: fact "Hester".
-  Rule fate_simeon_home when accounting() and inLull(simeon) and not spreadFact(fate_simeon) says "Simeon Eddowes lives at the Glossary, unbanned by nobody in particular, and argues every day with Aldith Mote, and loses." { Assert spreadFact(fate_simeon). }
-  Rule fate_simeon_out when accounting() and not inLull(simeon) and not spreadFact(fate_simeon) says "Simeon Eddowes writes his glosses in Exiles' Row, facing the stone." { Assert spreadFact(fate_simeon). }
+  Rule fate_simeon_home when accounting() and simeonHome(simeon) and not spreadFact(fate_simeon) says "Simeon Eddowes lives at the Glossary, unbanned by nobody in particular, and argues every day with Aldith Mote, and loses." { Assert spreadFact(fate_simeon). }
+  Rule fate_simeon_out when accounting() and not simeonHome(simeon) and not spreadFact(fate_simeon) says "Simeon Eddowes writes his glosses in Exiles' Row, facing the stone." { Assert spreadFact(fate_simeon). }
   Entity fate_simeon: fact "Simeon".
   Rule fate_abel_wed when accounting() and wedded(wenna) and not spreadFact(fate_abel) says "Abel and Wenna Rooke are on the march road with Dulcie and the cart, with a box of green candles under the seat, going somewhere. Wenna has seen the sea. It was, she says, too big, and she has made Abel take her back twice." { Assert spreadFact(fate_abel). }
   Rule fate_abel_not when accounting() and not spreadFact(fate_abel) says "Abel Rooke has stopped making chairs. Wenna Spurling dips candles in the chandlery in the Lull, and smells the road on every Sixer's boots, and says nothing." { Assert spreadFact(fate_abel). }
@@ -90,7 +91,7 @@ Module lull "The Lull" {
   Relation sawWatching(group).
   Rule watching_seen when lullDusk() and at(party, green) and not sawWatching(party) { Assert sawWatching(party). }
   Milestone m_law "found what holds in the Lull" worth 150 when knows(party, meaning_law).
-  Milestone m_sixnight "lived through the Sixnight" worth 100 when knows(party, sixnight_known) and not inSixnight().
+  Milestone m_sixnight "lived through the Sixnight" worth 100 when sixnightLived(party).
   Milestone m_beam "read the strikers' beam" worth 50 when knows(party, beam_names).
   Milestone m_window "heard which side of the window" worth 100 when knows(party, tobias_inside).
   Milestone m_wedding "saw Abel and Wenna wed" worth 100 when wedded(wenna).

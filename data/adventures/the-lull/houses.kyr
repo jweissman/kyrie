@@ -37,6 +37,15 @@ Module lull "The Lull" {
   // The wardens keep the shoulder in the morning, and the green after.
   Rule wardens_to_green when lullOpen() and hour(clock) >= 11 and hour(clock) < 19 and routine(wardens) and not at(wardens, green) { Assert at(wardens, green). }
   Initially Assert serves(wardens, hobday).
+  // The wardens turn Simeon Eddowes back at the shoulder, by the old Chief Warden's word, while they keep it.
+  Relation simeonTurned(group). Relation simeonHome(group).
+  Rule simeon_turned at tump_shoulder when following(simeon, party) and at(party, tump_shoulder) and at(wardens, tump_shoulder) and lullOpen() and not simeonHome(simeon) and not hobdayGrateful(hobday)
+    says "The wardens on the shoulder look at the old man in the white apron, and at each other, and one of them steps into the road with his staff across it. 'Simeon Eddowes,' he says, not unkindly, as if reading it off something. 'Put out by the Chief Warden's word. You'll go back to the stone, sir.' Simeon stands in the road for a long moment, looking past them at the valley. Then he turns round and walks back up toward the Fold-stone, very straight, without a word, and the wardens watch him go, and look at their boots." {
+    Retract following(simeon, party). Assert at(simeon, fold_stone). Assert simeonTurned(simeon).
+  }
+  Rule simeon_waits when at(simeon, fold_stone) and simeonTurned(simeon) and not lullOpen() { Assert at(simeon, simeon_room). }
+  Rule simeon_comes_home when following(simeon, party) and inLull(party) and lullOpen() and not simeonHome(simeon) and not (at(party, tump_shoulder) and at(wardens, tump_shoulder))
+    says "Simeon stops in the road below the shoulder with the whole valley in front of him, the woods and the tarn and the town and the dark mill, and he does not say anything at all for a long time. Then he says, 'They've painted the Glossary,' in a voice you have not heard him use." { Assert simeonHome(simeon). }
 
   // The war in generosity.
   Topic hobday_fines with hobday "Ask Hobday Pryce what the Rest-wardens do" when lullOpen() once {

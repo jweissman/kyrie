@@ -1,0 +1,89 @@
+{
+ "arrive": [
+  "Sixways street$",
+  "To the Fold-stone$",
+  "Sit down by the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green"
+ ],
+ "hester": [
+  "Into the Lindsells",
+  "Hester Lindsell.s room",
+  "Talk to Hester",
+  "Talk to Hester Lindsell about something else",
+  "Ask Hester Lindsell what she wants",
+  "Take your leave",
+  "Lindsells. kitchen",
+  "Out to Linger green"
+ ],
+ "corin": [
+  "To the end of the Shift Bridge",
+  "Talk to Corin",
+  "Ask Corin Lindsell about her clocks",
+  "Ask Corin Lindsell what she wants",
+  "Ask Corin Lindsell whether she has ever made",
+  "Ask Corin Lindsell about the Weekday Club",
+  "Take your leave",
+  "To Linger green"
+ ],
+ "poppy": [
+  "To the Tump's shoulder",
+  "To the Fold-stone",
+  "To Sixways street",
+  "Into Ruth",
+  "Talk to Ruth",
+  "Ask Ruth Coll what she would send",
+  "Pay Ruth Coll three coin",
+  "Take your leave",
+  "Out to Sixways street",
+  "To the Fold-stone",
+  "To the Tump's shoulder",
+  "To Linger green",
+  "Into the Lindsells",
+  "Hester Lindsell.s room",
+  "Hester Lindsell: Give .*poppy",
+  "Lindsells. kitchen",
+  "Out to Linger green"
+ ],
+ "kezia": [
+  "To the Pleasure Gardens",
+  "Talk to Kezia",
+  "Ask Kezia Pryce whether she knows Corin",
+  "Ask Kezia Pryce whether she can keep",
+  "Take your leave",
+  "To Linger green"
+ ],
+ "night1": [
+  "=19:00",
+  "Sit down at the Long Table",
+  "=20:30",
+  "Lie down Lull-fashion"
+ ],
+ "day2": [
+  "Into the Lindsells",
+  "Hester Lindsell.s room",
+  "Talk to Tobias",
+  "Ask Tobias Lindsell about the poppy",
+  "Take your leave",
+  "Talk to Hester",
+  "Ask Hester Lindsell whether she would like",
+  "Take your leave",
+  "Lindsells. kitchen",
+  "Out to Linger green",
+  "=19:00",
+  "Sit down at the Long Table",
+  "=20:30",
+  "Talk to Tobias",
+  "Ask Tobias Lindsell to come down",
+  "Take your leave",
+  "Lie down Lull-fashion"
+ ],
+ "day3": [
+  "To the end of the Shift Bridge",
+  "=12:30",
+  "Take off your coat",
+  "=19:30",
+  "=20:30",
+  "=23:30"
+ ]
+}

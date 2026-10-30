@@ -130,6 +130,7 @@ Module lull "The Lull" {
   Action work_bridge(actor: group, site: place) "Take off your coat and work on the Shift Bridge with them" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, mill_bridge) and working() and not wardensBroke(club) and not workedBridge(actor) and hour(clock) < 18.
     Time 18.
+    Interrupted when wardensCame(wardens) and not wardensAside(wardens) and not wardensBroke(club) and not wardensWarned(party).
     On success { Assert workedBridge(actor). }
     Result "You work. You carry stone from the cart and pass timbers and hold ropes, and someone hands you a mallet, and the sun goes round, and nobody is in a hurry and nobody stops. The young of Linger work beside you the way you might dance a dance you have only seen done: with great seriousness, getting it wrong, getting it right. Somewhere in the afternoon you see Corin Lindsell on the middle of the bridge, filthy, with her hands on her hips, looking at what they have made, and her face is a thing you will remember.".
   }
@@ -139,6 +140,9 @@ Module lull "The Lull" {
   // bridge, or the Glossary has a ruling on the bank in a white apron.
   Query wardensStay() means hobdaySoftened(hobday) or keziaTells(hobday) or lawFound(aldith) and joins(aldith) or housesAtPeace(mabyn).
   Rule wardens_come when working() and hour(clock) >= 12 and not wardensCame(wardens) and not wardensStay() { Assert wardensCame(wardens). Assert held(wardens). Assert held(hobday). Assert at(wardens, mill_bridge). Assert at(hobday, mill_bridge). }
+  Relation wardensWarned(group).
+  Rule wardens_arrive at mill_bridge when working() and wardensCame(wardens) and not wardensAside(wardens) and not wardensBroke(club) and at(party, mill_bridge) and not wardensWarned(party)
+    says "At noon Hobday Pryce comes down the path from the Green with three wardens behind him, staves on their shoulders, and stops at the top of the bank. He is very red. 'That's enough,' he says. 'That's enough now. Down off it, all of you. It's the holy day.' Nobody moves. 'I'll give you till one o'clock,' says Hobday, 'and then we'll take you down.' And he stands there, with the town watching him, and waits." { Assert wardensWarned(party). }
   Rule wardens_stay_told at mill_bridge when working() and hour(clock) >= 12 and wardensStay() and at(party, mill_bridge) and not spreadFact(wardens_stayed_told)
     says "At noon Hobday Pryce comes down to the top of the bank with his staff and his sash and the wardens behind him, and stands there. He looks at the bridge, and at the young on it, and at his daughter, if she is there, and at Aldith Mote on the timbers in her white apron, if she is. He stands there a long time. Then he plants his staff in the turf, and sits down on the bank beside it, and the wardens, after a moment, sit down beside him; and they watch, like everybody else." { Assert spreadFact(wardens_stayed_told). Assert wardensAside(wardens). }
   Entity wardens_stayed_told: fact "the wardens sat down".

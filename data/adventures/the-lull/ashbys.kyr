@@ -38,7 +38,7 @@ Module lull "The Lull" {
     On discuss { Assert knows(actor, which_side). Increase hesterTrust(hester) by 1. }
   }
   Discovery which_side "Hester Lindsell says to ask Tobias, one day, which side of the Mill window he was on.".
-  Topic hester_simeon with hester "Tell Hester Lindsell that Simeon Eddowes is in Sixways, and old" when lullOpen() and not hesterDead(hester) and knows(actor, simeon_banned) and not travelsWith(simeon, party) once {
+  Topic hester_simeon with hester "Tell Hester Lindsell that Simeon Eddowes is in Sixways, and old" when lullOpen() and not hesterDead(hester) and knows(actor, simeon_banned) and not following(simeon, party) once {
     Says "Hester's eyes come open all the way. 'Simeon.' She laughs, and coughs, and laughs. 'Old? He was old at twenty. He wrote me a Gloss once, number forty, that a girl who walks up a hill with one man is not thereby walking away from another. The Reeve made him paint over it.' She lies back. 'Old,' she says again, differently. 'Of course he is. He went out.' She is quiet. 'Tell him I'd like to see him. Tell him I said Gloss forty.'".
     On discuss { Assert hesterAsksSimeon(hester). }
   }
@@ -56,7 +56,7 @@ Module lull "The Lull" {
   }
   Relation hesterHasPhial(group).
   // Simeon, there when she has it, gives it her himself.
-  Rule simeon_gives at hester_room when hesterHasPhial(hester) and travelsWith(simeon, party) and at(party, hester_room) and not hesterDead(hester) and not simeonWith(hester)
+  Rule simeon_gives at hester_room when hesterHasPhial(hester) and following(simeon, party) and at(party, hester_room) and not hesterDead(hester) and not simeonWith(hester)
     says "Simeon has not said a word since he came in. He sits on the end of the bed, where Hester pats, and they look at each other, and she says, 'Gloss forty,' and he says, 'Held,' and his voice goes. Then she shows him what is under her pillow, and he looks at it for a long time, and at her, and he says, 'I'll stay. I'll sit with you. Tobias can have the Table.' She says, 'You always did want to be in at the end of things.' He says, 'Only yours.'" {
     Assert simeonWith(hester).
   }
@@ -145,7 +145,7 @@ Module lull "The Lull" {
   Initially Assert state(corin_clock, ticking).
   Rule clock_set_out when corinMaking(corin) and lullOpen() and hour(clock) >= 19 and lullCount(clock) > corinStarted(corin) and at(corin_clock, limbo) and not corinClockHeld(corin) { Assert at(corin_clock, green). }
   Rule clock_holds at green when at(corin_clock, green) and lullDusk() and state(corin_clock, ticking)
-    says "The sun goes off the top of the Tump. Along the grass the day's makings stand in the last light, and the town watches them, and some go, as they go: a basket comes apart into withies with a dry rustle, and someone at the Table groans and is laughed at. Corin's little clock goes on ticking. Corin is standing up. She has not noticed she is standing. The clock ticks. The starlings come over. The clock ticks. Somebody starts to clap, and is hushed, because it is not a thing you clap; and then the whole Table is clapping anyway, and Corin sits down on the grass in front of her clock with her hands over her face." {
+    says "Among the makings, Corin's little clock goes on ticking. A basket beside it comes apart into withies with a dry rustle, and someone at the Table groans and is laughed at. The clock goes on ticking. Corin is standing up. She has not noticed she is standing. The clock ticks. The starlings come over. The clock ticks. Somebody starts to clap, and is hushed, because it is not a thing you clap; and then the whole Table is clapping anyway, and Corin sits down on the grass in front of her clock with her hands over her face." {
     Assert state(corin_clock, held). Assert corinClockHeld(corin). Retract corinMaking(corin).
   }
   // Given, it changes Tobias.

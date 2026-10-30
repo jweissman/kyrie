@@ -173,14 +173,12 @@ Module lull "The Lull" {
 
   // ── Simeon Eddowes, the Outlived ─────────────────────────────────────────────────────────────────────────────────
   Person simeon "Simeon Eddowes" at simeon_room {
-    Role "a Glosser of the Lull, put out of it" when not travelsWith(simeon, party).
-    Role "a Glosser of the Lull, going back" when travelsWith(simeon, party).
+    Role "a Glosser of the Lull, put out of it" when not following(simeon, party).
+    Role "a Glosser of the Lull, going back" when following(simeon, party).
     Ancestry human. Calling mage. Level 3. Peaceable. Pronouns he. Manner acerbic.
     Likeness "scholar".
     Greets "An old man in a white apron with no pockets looks up from his writing as though you had interrupted a sentence of some length. 'Gloss two thousand and ninety,' he says. 'Whether a visitor who knocks meaning to be let in is welcome, if he does not mean to stay. Held: he is.' He puts down the pen. 'Simeon Eddowes. I used to be a Glosser. I'm told I still am, by the apron, which I haven't taken off in twenty years. Sit, if you can find a chair under the law.'".
     Greets again "Simeon Eddowes looks up. 'Ah. The visitor. Held: welcome.'".
-    Joins "Simeon takes off the white apron, folds it, looks at it, and puts it back on. 'If I am going to be turned back at the Tump,' he says, 'I'd like them to see what they're turning back.'".
-    Leaves "'I'll go back to my paper,' says Simeon. 'It doesn't argue. That's its whole charm and its whole fault.'".
   }
   Topic simeon_who with simeon "Ask Simeon Eddowes why he was put out of the Lull" when true once {
     Says "'For a gloss,' says Simeon, with relish. 'Number nine hundred and twelve. A weaver's lad wanted to pay the woman he loved for sitting to him while he drew her, because he was poor and proud and she was poorer and prouder, and the Rest-wardens said a wage was a wage. I held that a wage paid in love is not a wage.' He spreads his hands. 'They said I'd opened the door to the week. Hobday Pryce's father was Chief Warden then. I was walked to the stone and told not to come back.' He smiles. 'The lad and the woman were married. The drawing held. Hobday's father did not.'".
@@ -200,8 +198,12 @@ Module lull "The Lull" {
   Topic simeon_join_offer with simeon "Ask Simeon Eddowes to come into the Lull with you" when knows(actor, simeon_banned) and not simeonToldHester(simeon) and not willing(simeon, actor) and not travelsWith(simeon, actor) once {
     Says "Simeon looks at you over his spectacles for a long time. 'The wardens would turn me back at the Tump,' he says. 'And I would stand there and let them, because I am old and I have nothing in there worth the shame of it.' He goes back to his pen. 'Ask me again if that changes.'".
   }
-  Initially Set hire(simeon) to 0.
-  Topic simeon_travel_lull with simeon travelling "Ask Simeon what he makes of the Lull, now he is back" when inLull(party) and lullOpen() and travelsWith(simeon, party) once {
+  // He will come with the company once there is something in the Lull worth the shame of being turned back.
+  Rule simeon_escorts when willing(simeon, party) and not acceptsEscort(simeon, party) { Assert acceptsEscort(simeon, party). }
+  Rule simeon_sets_out when following(simeon, party) and not simeonSetOut(simeon)
+    says "Simeon takes off the white apron, folds it, looks at it, and puts it back on. 'If I am going to be turned back at the Tump,' he says, 'I should like them to see what they are turning back. They keep the shoulder in the mornings, the wardens. After eleven they go down to the Green to fine people for enjoying themselves.'" { Assert simeonSetOut(simeon). }
+  Relation simeonSetOut(group).
+  Topic simeon_travel_lull with simeon "Ask Simeon what he makes of the Lull, now he is back" when inLull(party) and lullOpen() and following(simeon, party) once {
     Says "Simeon has stopped in the road and is looking at the Strike Post on the Tump with his mouth a little open. 'It's the same,' he says. 'It's the same morning. The same birds.' He wipes his eyes, without embarrassment. 'Twenty years out there, and in here they've had three. The Pryce boy will be Chief Warden. The Lindsell girl will be grown.' He sniffs. 'I am going to be very rude to a great many people.'".
   }
 
