@@ -345,7 +345,7 @@ Begins knowing Defend.
 - Gold: 25
 - Weapons: blade, bow, crossbow, staff, light_mace (light)
 - Armour: leather, cloth (light)
-- Skills: Lore, Persuasion
+- Skills: Lore, Persuasion, Performance
 - Later: 9: Major Inspire
 
 A few spells, a steady voice and lore: songs and histories that remember what others forget.
@@ -401,7 +401,7 @@ Begins knowing Ensnare.
 - Gold: 10
 - Weapons: unarmed
 - Armour: cloth (light)
-- Skills: Climbing, Mending, Insight
+- Skills: Climbing, Mending, Insight, Tumbling
 - Specializations: Wisdom, Compassionate Heart, Disciplined Mind
 - Later: 3: Fleet; 7: Rapid Strike; 11: Diamond body; 13: Veteran; 17: Unbroken
 
@@ -1113,6 +1113,22 @@ Making someone believe it would go badly for them, without having to show them.
 - Brought by: Cleric, Monk, The faith backgrounds, Courts and offices backgrounds
 
 Reading what someone means from how they say it: a motive, a lie, a fear.
+
+### Tumbling
+
+*Kyr* · `skill:tumbling`
+
+- Brought by: Monk
+
+Going down on purpose and coming up unhurt: the fall, the roll, the cartwheel, the low wire; a body that knows where the ground is.
+
+### Performance
+
+*Kyr* · `skill:performance`
+
+- Brought by: Bard
+
+Holding a house: a tune, a turn, a spiel, a face pulled at the right moment; the art of being watched and making it worth it.
 
 ## Traits
 
@@ -6929,6 +6945,16 @@ One enemy is entangled for 3 turns (a Dexterity save against 12 + level + bonusS
 
 > Entangle an enemy with vines, reducing their speed and giving them -2 to hit for 3 rounds.
 
+### Feint
+
+*Kyr · technique* · `ability:feint`
+
+- Again after: 2 turns
+
+One enemy is distracted for 2 turns (a Wisdom save against 12 avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. Again after 2 turns.
+
+> Show the eye one thing and the hand another: the shoulder that says left while the hip goes right. A foe who follows it strikes at where you are not.
+
 ### Fire ward
 
 *Adapted · technique* · `ability:fire_ward`
@@ -7054,6 +7080,16 @@ You are overwatching for a turn. Overwatching: +2 damage; and against an enemy w
 You are poisoning blade for 3 turns. poisoning blade: on landing a blow, the one struck gains poison for 3 turns (a Constitution save against 15 + level + bonusSpellDC avoids it).
 
 > Coat your weapon in poison for your next 2 attacks.
+
+### Pratfall
+
+*Kyr · technique* · `ability:pratfall`
+
+- Again after: 3 turns
+
+You are dodging for 2 turns. Dodging: 2 harder to hit, +5 evasion. Again after 3 turns.
+
+> Go down on purpose as the blow comes, the way a clown goes down a flight of stairs: it lands on nothing, and you are up again behind it.
 
 ### Prepare Charge
 

@@ -248,6 +248,28 @@
         "notes": "The old-school Knock, which Orsino's catalog lacks: whoever bears it may do what lockwork does for an hour."
       }
     },
+    "pratfall": {
+      "name": "Pratfall",
+      "kind": "technique",
+      "description": "Go down on purpose as the blow comes, the way a clown goes down a flight of stairs: it lands on nothing, and you are up again behind it.",
+      "effect": "Apply dodge to self for 2 turns.",
+      "recharge": 3,
+      "source": {
+        "kyr": true,
+        "notes": "The first foundation of the Gentle Art (Wapshott's Circus): a fall chosen, not suffered. Orsino's dodge status, for one exchange, on a longer recharge than Dodge itself."
+      }
+    },
+    "feint": {
+      "name": "Feint",
+      "kind": "technique",
+      "description": "Show the eye one thing and the hand another: the shoulder that says left while the hip goes right. A foe who follows it strikes at where you are not.",
+      "effect": "Apply distracted to enemy for 2 turns unless wisdom save against (12).",
+      "recharge": 2,
+      "source": {
+        "kyr": true,
+        "notes": "The third foundation of the Gentle Art (Wapshott's Circus): the fencing-master's feint taught with a broom handle. Orsino's distracted status, as a technique rather than the arcane Minor Distraction."
+      }
+    },
     "guard": {
       "name": "Guard",
       "kind": "technique",

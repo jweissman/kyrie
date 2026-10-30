@@ -381,7 +381,8 @@
         "climbing",
         "insight",
         "persuasion",
-        "lore"
+        "lore",
+        "tumbling"
       ],
       "weapons": [
         "dagger",
@@ -937,13 +938,15 @@
       },
       "skills": [
         "lore",
-        "persuasion"
+        "persuasion",
+        "performance"
       ],
       "learns": [
         "deception",
         "insight",
         "stealth",
-        "reading_the_dead"
+        "reading_the_dead",
+        "tumbling"
       ],
       "practice": "A few spells, a steady voice and lore: songs and histories that remember what others forget."
     },
@@ -1089,7 +1092,8 @@
       "skills": [
         "climbing",
         "mending",
-        "insight"
+        "insight",
+        "tumbling"
       ],
       "learns": [
         "stealth",

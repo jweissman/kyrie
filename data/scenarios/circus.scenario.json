@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "id": "circus",
+  "name": "Wapshott's Peregrine Circus",
+  "kind": "town",
+  "instances": 1,
+  "places": {
+    "a": {
+      "settlement": "largest"
+    },
+    "b": {
+      "settlement": "along:a"
+    },
+    "c": {
+      "settlement": "along:b"
+    },
+    "ab": {
+      "way": "between:a,b"
+    },
+    "bc": {
+      "way": "between:b,c"
+    },
+    "ca": {
+      "way": "between:c,a"
+    }
+  },
+  "modules": [
+    {
+      "id": "circus",
+      "bundle": "../goings-on/circus/module.json",
+      "imports": {
+        "party": "@party",
+        "town_a": "@a",
+        "green_a": "@a.green",
+        "keeper_a": "@a.innkeeper",
+        "priest_a": "@a.priest",
+        "merchant_a": "@a.merchant",
+        "town_b": "@b",
+        "green_b": "@b.green",
+        "keeper_b": "@b.innkeeper",
+        "priest_b": "@b.priest",
+        "merchant_b": "@b.merchant",
+        "town_c": "@c",
+        "green_c": "@c.green",
+        "keeper_c": "@c.innkeeper",
+        "priest_c": "@c.priest",
+        "merchant_c": "@c.merchant",
+        "road_ab": "@ab",
+        "road_bc": "@bc",
+        "road_ca": "@ca"
+      }
+    }
+  ],
+  "hooks": [
+    {
+      "fact": "circus.heard_circus",
+      "topic": "Wapshott's Circus",
+      "channels": [
+        "tavern",
+        "market",
+        "road"
+      ],
+      "opens": false
+    }
+  ]
+}

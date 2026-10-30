@@ -144,6 +144,20 @@
       "source": {
         "kyr": true
       }
+    },
+    "tumbling": {
+      "name": "Tumbling",
+      "description": "Going down on purpose and coming up unhurt: the fall, the roll, the cartwheel, the low wire; a body that knows where the ground is.",
+      "source": {
+        "kyr": true
+      }
+    },
+    "performance": {
+      "name": "Performance",
+      "description": "Holding a house: a tune, a turn, a spiel, a face pulled at the right moment; the art of being watched and making it worth it.",
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

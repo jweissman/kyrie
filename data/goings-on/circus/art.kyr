@@ -1,0 +1,257 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── The Gentle Art: what Mumchance teaches, which is the art of the sword done with a bucket ────────────────
+  // Four foundations, in order: the Fall (to go down on purpose and come up laughing), the Look (to time a thing so
+  // the house, or a man with a club, looks where you want), the Feint (to show the eye one thing and the hand
+  // another), and the Answer (to give back what is thrown at you, in words). Each once learned is a technique
+  // Mumchance will drill into a member for what they have learned in the world; the Wire, which the Sylph teaches, is
+  // balance, and stays in the body. What comes after the four (the Riposte, the Mirror) he only speaks of.
+  Relation fallLearned(group). Relation lookLearned(group). Relation feintLearned(group). Relation answerLearned(group).
+  Relation wireLearned(group). Relation wireWalked(group). Measure triedFallDay(group). Measure triedLookDay(group). Measure triedFeintDay(group).
+  Measure triedWireDay(group). Relation watchedEntree(group). Relation tumbledWithQuinceys(group). Relation bandLearned(group).
+  Query freeHour() means not showOn(wapshotts) and not onRoad(wapshotts).
+
+  Topic mum_teach with mumchance "Ask Mumchance whether he would teach you" when knows(actor, gentle_art_heard) and not fallLearned(actor) once {
+    Says "Mumchance looks at you for a long time in the mirror. 'People ask me to teach them to be funny,' he says. 'I can't. Nobody can. I can teach you to fall down. That's all. Everything else grows out of the fall, if you let it, the way a tree grows out of a hole in the ground.' He turns round on his bucket. 'My father taught the sword in four lessons, and so do I. The Fall. The Look. The Feint. The Answer. You'll get hurt. You'll get up. The getting up is the art.' He nods at the ring. 'Sawdust's soft. Come when there's no show on.'".
+    On discuss { Assert knows(actor, art_offered). }
+  }
+  Entity art_offered: fact "Mumchance will teach the Gentle Art, in four lessons as his father taught the sword: the Fall, the Look, the Feint, the Answer.".
+  Action learn_fall(actor: group, site: place) "Learn the Fall from Mumchance" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and knows(actor, art_offered) and freeHour()
+      and not fallLearned(actor) and triedFallDay(actor) < day(clock).
+    Resolve check(actor, tumbling, dc_fair).
+    On success { Assert fallLearned(actor). Assert teaches(mumchance, pratfall). Assert canTurn(actor, turn_clown). Give slap_shoes to actor. Assert knows(actor, shoes_given). }
+    On failure { Set triedFallDay(actor) to day(clock). }
+    Result "An hour of falling. Forwards, backwards, sideways off a barrel, off a chair, off Pip. 'Don't fall,' says Mumchance, over and over. 'Go down. A fall happens to you. Going down is something you do.' Near the end of the hour you trip over the ring boards by accident and your body does it by itself: tucks, rolls, takes the ground along the long muscles of the back, and you come up sitting, unhurt, looking at the boards as if they had been rude. Mumchance nods. Then he goes to his trunk and gives you a pair of long, flat, floppy shoes, soft as gloves. 'My first slap-shoes,' he says. 'They'll know where the ground is before you do.'".
+    Otherwise "An hour of falling, and every fall is a fall: you go down like a dropped sack and come up wincing. 'Tomorrow,' says Mumchance mildly. 'The body has to forget that it's afraid. That takes a night's sleep.'".
+  }
+  Kind circus_slapshoe_kind "a clown's slap-shoes" like boots_of_swiftness granting tumbling worth 2 weighing 1
+    described "Long, flat, floppy shoes of soft leather, worn thin at the toes, that slap the ground with a sound like applause. They were Mumchance's first.".
+  Item slap_shoes "Mumchance's old slap-shoes" is circus_slapshoe_kind at road_ca hidden until shoes_given.
+  Discovery shoes_given "Mumchance has given you his first slap-shoes.".
+
+  Action watch_entree(actor: group, site: place) "Stand in the wing at the ring curtain and watch Mumchance's entrée from the side" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and ringHere(site) and showOn(wapshotts) and act(wapshotts) == 5 and fallLearned(actor)
+      and not watchedEntree(actor).
+    On success { Assert watchedEntree(actor). }
+    Result "You watch him from the side, where the house cannot see you and you can see both him and them. And you see what you never could from the benches: that the laugh does not come when he falls. It comes a moment after, when he looks. He waits until the house has finished being frightened for him; and then he looks at the ladder; and the look is the joke. He times it to their breathing. He is conducting them.".
+  }
+  Action learn_look(actor: group, site: place) "Ask Mumchance to teach you the Look" {
+    Speaker mumchance. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and fallLearned(actor) and watchedEntree(actor) and freeHour()
+      and not lookLearned(actor) and triedLookDay(actor) < day(clock).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert lookLearned(actor). Assert teaches(mumchance, taunt). }
+    On failure { Set triedLookDay(actor) to day(clock). }
+    Result "He sits you on a bucket facing Pip, and makes Pip drop a plate, and makes you look at the plate. Forty times. Too soon, and nobody has seen the plate. Too late, and everybody has stopped caring. On the forty-first Pip laughs out loud before she can stop herself, and Mumchance says, 'There.' Then, more quietly: 'That look, held a little longer, at a man who means you harm, makes him look at you and nobody else. Bulls do it. Bullies do it. It's useful, in a tight place, to be the one everyone's looking at, if you know what you'll do with it.'".
+    Otherwise "Forty times you look at the plate. Every time, Pip just watches you look at it. 'You're looking because you know you should,' says Mumchance. 'Look because you can't help it. Tomorrow.'".
+  }
+  Action learn_feint(actor: group, site: place) "Fence with Mumchance in the backyard, a stick each, for the Feint" {
+    Speaker mumchance. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and lookLearned(actor) and freeHour()
+      and not feintLearned(actor) and triedFeintDay(actor) < day(clock).
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert feintLearned(actor). Assert teaches(mumchance, feint). Assert teaches(mumchance, dodge). }
+    On failure { Set triedFeintDay(actor) to day(clock). }
+    Result "Mumchance takes two broom handles from the canvas wagon, gives you one, and for the first time since you have known him stands up straight. He is suddenly a fencing-master's son, light on his bad knees, and you cannot touch him. 'You look at my eyes,' he says. 'Stop. My eyes are lying.' He shows you: the shoulder that says left while the hip goes right, the step back that is a step in, the dropped stick that is not dropped. In the end you get one past him, by looking hard at his left boot and hitting his right elbow, and he laughs aloud, which nobody in the circus has heard him do. 'That,' he says, 'is a feint. And this,' he sways out of your next stroke without moving his feet, 'is how a clown doesn't get hit.'".
+    Otherwise "Mumchance does not let you touch him once in an hour. 'You decide what to do and then you pretend,' he says. 'Pretend first. Decide later.' He hangs the sticks up. 'Again tomorrow.'".
+  }
+  Topic mum_answer with mumchance "Ask Mumchance about the fourth lesson, the Answer" when feintLearned(actor) and not answerLearned(actor) once {
+    Says "'The Answer I can't teach,' says Mumchance. 'You learn it from whoever is throwing things at you. When someone in the house shouts at you, and they will, the whole house turns to see what you'll do. Answer them right and the house is yours. Answer them wrong and it's theirs.' He thinks. 'There's a cobbler in {town_b} called Jos Haverhill who heckles every show we give there, and he's the best I ever heard. Go and lose to him. Then go and lose to him again. One night you'll answer.'".
+    On discuss { Assert knows(actor, jos_named). }
+  }
+  Entity jos_named: fact "Jos Haverhill, a cobbler of {town_b}, heckles every show Wapshott's gives there, and Mumchance says he is the best he ever heard.".
+  Topic mum_after_art with mumchance "Ask Mumchance what comes after the four" when answerLearned(actor) once {
+    Says "Mumchance is quiet for a long time. 'After the four,' he says, 'is the Riposte: to let a blow come, and be where it isn't, and have it land on the one who threw it. My father could do it with a sword. I can do it with a custard.' He looks at the wire, high up. 'And after that, they say, is the Mirror. I saw it once. A clown at the Fair at Dunmere, forty years ago, called Old Pantaloon, with a conjuror in the ring throwing fire at him; and he held up his two hands, empty, like a man looking in a glass, and the fire went back the way it came.' He shakes his head. 'I don't know how. Nobody does now. Maybe nobody ever did and I dreamed it.' He looks at you. 'You've the four. You're a clown, of the first degree. That's a lot more than most. The rest is the road.'".
+    On discuss { Assert knows(actor, mirror_heard). }
+  }
+  Entity mirror_heard: fact "After the Gentle Art's four foundations come the Riposte and, Mumchance says, the Mirror: he once saw an old clown at Dunmere hold up empty hands and send a conjuror's fire back the way it came.".
+
+  // The Wire: balance, from the Sylph, for one who can already fall.
+  Action learn_wire(actor: group, site: place) "Ask Zéphyrine to teach you on the low practice wire" {
+    Speaker zephyrine. Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(zephyrine, site) and fallLearned(actor) and regard(zephyrine) >= 1 and freeHour()
+      and not wireLearned(actor) and triedWireDay(actor) < day(clock).
+    Resolve check(actor, tumbling, dc_hard).
+    On success { Assert wireLearned(actor). }
+    On failure { Set triedWireDay(actor) to day(clock). }
+    Result "There is a practice wire strung at knee height between two wagons, and for two hours the Sylph walks beside you on the grass while you fall off it. 'You look at your feet,' she says. 'Your feet know where they are. Look at the end.' 'You hold your breath. Breathe. The wire does not like to be held.' At the end of the second hour you walk its whole length, looking at the end of it, breathing, and step off, and your body feels as if it has been taken apart and put back together the right way round. 'Good,' she says, and for a moment, in the dusk, her accent is from nowhere further than the next county. 'Walk it once more, for me, and it is yours.'".
+    Otherwise "For two hours the Sylph walks beside you while you fall off the wire. 'Not today,' she says, without unkindness. 'The wire is like a cat. It comes to you when you have stopped wanting it.'".
+  }
+  Action walk_wire(actor: group, walker: member, site: place) "Have {walker} walk the practice wire once more, for Zéphyrine" {
+    Time 2.
+    Requires memberOf(walker, actor) and awake(walker) and at(actor, site) and at(zephyrine, site) and wireLearned(actor) and not wireWalked(actor).
+    Resolve endow(walker, dexterity, by_one).
+    On success { Assert wireWalked(actor). Increase regard(zephyrine) by 1. }
+    Result "{walker} walks it once more, end to end, without looking down, and it stays: something in the ankles and the back of the neck that will not now go away. Zéphyrine nods once, as a sylph nods to another sylph.".
+  }
+
+  // Tumbling with the Brothers Quincey, and the band with Fipps: what a turn of each kind rests on.
+  Action tumble_quinceys(actor: group, site: place) "Practise tumbling with the Brothers Quincey" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hal, site) and at(dunstan, site) and freeHour() and not tumbledWithQuinceys(actor).
+    Resolve check(actor, tumbling, dc_fair).
+    On success { Assert tumbledWithQuinceys(actor). Assert canTurn(actor, turn_tumble). Increase regard(hal) by 1. Increase regard(dunstan) by 1. }
+    Result "An hour in the ring between the Quinceys, each of whom gives you instructions meant for the other. 'Tuck tighter,' says Hal, 'not like some people.' 'Land on the ball of the foot,' says Dunstan, 'which some people never learned.' By the end you can do a cartwheel, a back-roll and a thing that is nearly a handspring, and both of them, separately, tell you that you have a gift.".
+    Otherwise "An hour in the ring between the Quinceys, who both tell you that your cartwheel is a crime, and then argue about whose fault it is, through Pip.".
+  }
+  Action learn_band(actor: group, site: place) "Learn a part with Fipps and the band" {
+    Speaker fipps. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fipps, site) and freeHour() and not bandLearned(actor).
+    Resolve check(actor, performance, dc_easy).
+    On success { Assert bandLearned(actor). Assert canTurn(actor, turn_band). Increase regard(fipps) by 1. }
+    Result "Fipps sits you on an upturned tub between Tom Gale and his cornet and Abel Rudd and his drum, and teaches you the Grand Entry, the Galop and the Sylph's Waltz, by singing them at you with his eyes shut. 'Music,' he says, 'is just counting, with feeling. The counting is the easy part. The feeling,' he taps the serpent, 'is what she won't do.' By the end Abel Rudd, who cannot hear, nods at you, which Fipps says is the highest honour in the band.".
+    Otherwise "An hour with the band. You are always one bar behind, and Abel Rudd, who cannot hear you, knows it anyway, and looks at you sorrowfully over the drum. 'Tomorrow,' says Fipps. 'Counting, with feeling.'".
+  }
+
+  // ── The Answer: a bout of words with whoever heckles the ring ─────────────────────────────────────────────
+  // A heckler throws three things at the one standing up to them; each answer may shake them (their composure) or
+  // leave the one answering shaken (their poise). A heckler shaken to nothing is beaten, and the house with them;
+  // one who shakes the answerer to nothing has won, and the house with him.
+  Relation heckler(group). Relation inBout(group). Measure composure(group). Measure poise(group). Measure jab(group).
+  Relation boutWon(group, group). Relation boutLost(group, group). Relation answered(group). Measure boutDay(group).
+  Person jos "Jos Haverhill" at green_b {
+    Role "a cobbler of the town, and its wit". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A little bald man in a leather apron is sitting on a bench with a boot on a last between his knees and a mouth full of nails, which he takes out one at a time to talk through. 'Haverhill,' he says. 'Jos. Cobbler. Mend anything but a broken heart, and I'll have a go at that if it's leather.' He looks you over. 'You'll be with the circus. You've the look. Like a goose that's been told it's a swan.'".
+    Greets again "'Here's the swan,' says Jos Haverhill, taking a nail out of his mouth.".
+  }
+  Initially Assert heckler(jos).
+  Rule jos_to_show when here(tober_b) and showOn(wapshotts) and not at(jos, ring_b) { Assert at(jos, ring_b). }
+  Rule jos_home when not showOn(wapshotts) and not at(jos, green_b) { Assert at(jos, green_b). }
+  Topic jos_heckle with jos "Ask Jos why he heckles the circus" when true once {
+    Says "'Somebody has to,' says Jos. 'Thirty folk in spangles shouting at you that it's wonderful: a man's got to shout back, or what's he? Furniture.' He hammers a nail. 'The old clown never answers. He just looks at me. I've been trying to make that man say a word for nine years. Biggest laugh I ever got was the night he nearly did.'".
+  }
+  Rule jos_heckles near jos when showOn(wapshotts) and here(tober_b) and act(wapshotts) == 3 and at(party, ring_b) and boutDay(jos) < day(clock)
+    and not inBout(jos) and not boutWon(party, jos)
+    says "From the back of the benches a voice like a rusty hinge: 'Oi! You! Yes, you, sat there like a ha'penny bun!' Heads turn. Jos Haverhill is on his feet, pointing at you. 'You're with this lot, aren't you? I can tell by the face. Go on, then. Do something. The whole of {town_b}'s waiting.'" {
+    Assert inBout(jos). Set composure(jos) to 5. Set poise(party) to 3. Set jab(jos) to 1. Set boutDay(jos) to day(clock). Retract answered(party). }
+  Rule jos_jab2 near jos when inBout(jos) and jab(jos) == 2 and not answered(party) and not jabTold(jos)
+    says "'Is that it?' says Jos, to the house. 'I've had livelier conversations with a boot. I've had funnier conversations with a boot, and I nailed that one shut.'" { Assert jabTold(jos). }
+  Rule jos_jab3 near jos when inBout(jos) and jab(jos) == 3 and not answered(party) and not jabTold(jos)
+    says "Jos turns to the house with his arms out. 'Ladies and gentlemen of {town_b}! The circus has sent us its finest wit! Look at it! It's thinking! You can hear it from here, like a cart on a cobbled street!'" { Assert jabTold(jos). }
+  Relation jabTold(group).
+  Query boutOpen(o: group, a: group) means inBout(o) and heckler(o) and at(a, ?r) and at(o, ?r) and not answered(a).
+  Action answer_back(actor: group, foe: group, site: place) "Answer {foe} back, sharp, so the whole house hears it" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and boutOpen(foe, actor) and at(foe, site).
+    Resolve check(actor, performance, dc_fair).
+    On success { Decrease composure(foe) by 2 or to nothing. Assert answered(actor). }
+    On failure { Decrease poise(actor) by 1 or to nothing. Assert answered(actor). }
+    Result "You give it back to him, sharp and quick, and the house laughs at him, not you: a short bark of a laugh, the sound of a crowd changing sides.".
+    Otherwise "You give it back to him and it comes out wrong, a little slow, a little proud, and he catches it in the air and throws it back, and the house laughs at you.".
+  }
+  Action agree_louder(actor: group, foe: group, site: place) "Agree with {foe}, louder than he said it" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and boutOpen(foe, actor) and at(foe, site).
+    Resolve check(actor, persuasion, dc_easy).
+    On success { Decrease composure(foe) by 1 or to nothing. Assert answered(actor). }
+    On failure { Decrease poise(actor) by 1 or to nothing. Assert answered(actor). }
+    Result "You agree with him. Enthusiastically. You go further than he did, you add things he had not thought of, you call on the house to witness how right he is, until he is standing there with his mouth open and nothing left to say against you that you have not said first.".
+    Otherwise "You agree with him, and he says 'There you are, then,' and sits down satisfied, and somehow that is worse.".
+  }
+  Action fall_for_him(actor: group, foe: group, site: place) "Fall off the bench, as if his words had knocked you down" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and boutOpen(foe, actor) and at(foe, site) and fallLearned(actor).
+    Resolve check(actor, tumbling, dc_fair).
+    On success { Decrease composure(foe) by 2 or to nothing. Assert answered(actor). }
+    On failure { Decrease poise(actor) by 1 or to nothing. Assert answered(actor). }
+    Result "You clutch your heart as if shot, go down off the bench and roll the length of the gangway, and come to rest at his feet, and look up at him reproachfully, like Mumchance at his ladder. The house shrieks. He has nothing to say to a body at his feet.".
+    Otherwise "You go down off the bench as if shot, and it is only a fall, and you bang your elbow, and he says 'Mind the furniture,' and they laugh at the elbow.".
+  }
+  Action feint_him(actor: group, foe: group, site: place) "Look past {foe}, as if at someone come in behind him" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and boutOpen(foe, actor) and at(foe, site) and feintLearned(actor).
+    Resolve check(actor, deception, dc_easy).
+    On success { Decrease composure(foe) by 2 or to nothing. Assert answered(actor). }
+    On failure { Decrease poise(actor) by 1 or to nothing. Assert answered(actor). }
+    Result "You stop. You look past his shoulder, at the flap, with a face of dawning horror, and nod very slightly as if to someone there, and he turns round to look; and the whole house laughs, because there is nobody there, and he has turned round in front of all of them.".
+    Otherwise "You look past his shoulder at nothing, and he does not turn. 'Oldest trick in the book,' he says. 'My granny did that one.'".
+  }
+  Action give_look(actor: group, foe: group, site: place) "Say nothing, and give {foe} the Look" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and boutOpen(foe, actor) and at(foe, site) and lookLearned(actor).
+    Resolve check(actor, performance, dc_easy).
+    On success { Decrease composure(foe) by 3 or to nothing. Assert answered(actor). }
+    On failure { Decrease poise(actor) by 1 or to nothing. Assert answered(actor). }
+    Result "You say nothing. You look at him. You wait until the house has finished turning to see what you will do; and then a little longer; and then you look at him the way Mumchance looks at the ladder. He opens his mouth. He shuts it. The house, which has been holding its breath, lets it out in a roar, and he sits down.".
+    Otherwise "You say nothing and look at him, and hold it a beat too long, and he says, 'It's stopped. Somebody wind it up,' and the house roars.".
+  }
+  Rule bout_next when inBout(?o) and answered(party) and composure(?o) >= 1 and poise(party) >= 1 and jab(?o) < 3 {
+    Increase jab(?o) by 1. Retract answered(party). Retract jabTold(?o). }
+  Rule bout_won when inBout(?o) and composure(?o) < 1 and current(wapshotts, ?g)
+    says "{?o} sits down. Then, after a moment, from the seat, he begins to clap, slowly, and the whole house claps with him, and it is for you." {
+    Retract inBout(?o). Assert boutWon(party, ?o). Increase standing(?g) by 1. Increase renown(party) by 1. Assert wonABout(party). }
+  Rule bout_lost when inBout(?o) and poise(party) < 1
+    says "The house is laughing at you, kindly, the way it laughs at a dog that has fallen in a pond, and {?o} bows to all sides. You have lost the house tonight. Behind the curtain Mumchance has seen it all, and nods to you, as if to say: now you know where the floor is." {
+    Retract inBout(?o). Assert boutLost(party, ?o). }
+  Rule bout_drawn when inBout(?o) and answered(party) and jab(?o) >= 3 and composure(?o) >= 1 and poise(party) >= 1
+    says "The house has stopped knowing whose side it is on, and so has {?o}. He sits down muttering, and the show goes on round you both." {
+    Retract inBout(?o). }
+  Rule bout_ends_with_show when inBout(?o) and not showOn(wapshotts) and not boutAtFair(?o) { Retract inBout(?o). }
+  Relation boutAtFair(group). Relation wonABout(group).
+  Rule answer_learned when wonABout(party) and not answerLearned(party) and fallLearned(party)
+    says "On the way out through the backyard Mumchance falls into step beside you, and walks a while, and says only: 'That was the Answer.' Then he goes to bed." {
+    Assert answerLearned(party). Assert teaches(mumchance, vicious_mockery). }
+  Topic jos_beaten with jos "Ask Jos whether he has forgiven you" when boutWon(actor, jos) once {
+    Says "Jos takes a nail out of his mouth and points it at you. 'Nine years,' he says, 'I've been beaten by nobody in {town_b} but my wife. You're the second.' He puts the nail back, and talks round it. 'Come back next round. I'll have something new. I'll have been up nights.' He grins, which you have never seen. 'Here: give us your boots. I'll do the heels for nothing. A wit wants good heels.'".
+    On discuss { Increase regard(jos) by 2. }
+  }
+  Topic jos_won with jos "Ask Jos how you could have answered him" when boutLost(actor, jos) and not boutWon(actor, jos) once {
+    Says "'Don't argue,' says Jos. 'Never argue. Everybody in the house is cleverer than you when you're arguing. Make 'em look at something.' He hammers. 'Your old clown knows. He just looks. Drives me mad.'".
+  }
+
+  // ── Pastimes of the ground ──────────────────────────────────────────────────────────────────────────────────
+  // Wapshott's Grand Gurning Match: at three on the second day of a stand, on the front, a crown to the ugliest.
+  Relation gurnOn(concern). Measure gurnDay(concern). Relation gurned(group). Relation gurnEntered(group).
+  Rule gurn_starts when pitched(wapshotts) and day(clock) == arrivedDay(wapshotts) + 1 and hour(clock) >= 15 and hour(clock) < 16 and gurnDay(wapshotts) < day(clock) {
+    Assert gurnOn(wapshotts). Set gurnDay(wapshotts) to day(clock). Retract gurnEntered(party). }
+  Rule gurn_ends when gurnOn(wapshotts) and hour(clock) >= 16 { Retract gurnOn(wapshotts). }
+  Rule gurn_seen near pole when gurnOn(wapshotts) and not gurnTold(wapshotts)
+    says "On the front of the big top a horse-collar hangs from a pole, and the Colonel is standing on a barrel beside it bellowing: 'WAPSHOTT'S GRAND GURNING MATCH! A CROWN TO THE UGLIEST FACE IN THE COUNTRY! PUT YOUR HEAD THROUGH THE COLLAR AND DO YOUR WORST!' A line of townspeople waits to put their heads through the horse-collar and pull faces. Honoria Bulstrode is in the line. She enters every time. She has never won. She is too kind in the face." { Assert gurnTold(wapshotts). }
+  Relation gurnTold(concern).
+  Rule gurn_told_reset when gurnTold(wapshotts) and not gurnOn(wapshotts) { Retract gurnTold(wapshotts). }
+  Action gurn(actor: group, site: place) "Put your head through the horse-collar and pull the worst face you can" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and gurnOn(wapshotts) and at(pole, site) and not gurnEntered(actor) and not lookLearned(actor).
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert gurnEntered(actor). Increase quantity(actor, gold) by 3. Assert gurned(actor). Increase renown(actor) by 1. }
+    On failure { Assert gurnEntered(actor). }
+    Result "You put your head through the collar and do something with your face that you did not know your face could do. A child screams. A man drops his pie. The Colonel, who has seen everything, takes a step back off his barrel. 'THE WINNER,' he roars, from the grass, 'AND I NEVER WANT TO SEE IT AGAIN,' and gives you the crown, which is three coin in a twist of paper.".
+    Otherwise "You put your head through the collar and pull your face, and it is a good face, and the next man in the line is a thatcher from up the road who has no teeth and has been practising since Lady Day, and he wins.".
+  }
+  Action gurn_look(actor: group, site: place) "Put your head through the horse-collar and give the town the Look" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and gurnOn(wapshotts) and at(pole, site) and not gurnEntered(actor) and lookLearned(actor).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert gurnEntered(actor). Increase quantity(actor, gold) by 3. Assert gurned(actor). Increase renown(actor) by 1. }
+    On failure { Assert gurnEntered(actor). }
+    Result "You put your head through the collar and pull no face at all. You just look at them, the whole waiting line, with Mumchance's look, the one that says the world has done this to you personally; and you hold it, and hold it, until the face you are not pulling is worse than any face could be. The thatcher with no teeth concedes. The Colonel gives you the crown with his eyes shut.".
+    Otherwise "You give them the Look through the collar, and they wait for the face, and there is no face, and they think you have not started yet, and the thatcher with no teeth goes past you and wins.".
+  }
+  // Arm-wrestling the Ox, once a day, at the cookhouse table.
+  Measure wrestledDay(group). Relation beatHonoria(group).
+  Action wrestle_honoria(actor: group, site: place) "Arm-wrestle Honoria Bulstrode across the cookhouse table" {
+    Speaker honoria. Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(honoria, site) and freeHour() and wrestledDay(actor) < day(clock).
+    Resolve check(actor, brawn, dc_formidable).
+    On success { Set wrestledDay(actor) to day(clock). Assert beatHonoria(actor). Increase regard(honoria) by 1. }
+    On failure { Set wrestledDay(actor) to day(clock). }
+    Result "Honoria sets her elbow on the table, takes your hand, and smiles at you encouragingly. You heave. She lets you get her arm halfway down, out of politeness; then something happens to her face, a small surprised respect, and you put her hand flat on the boards. The backyard goes dead silent. Then Honoria laughs till she cries, and kisses you on the forehead, and tells everyone, and goes on telling them for a week.".
+    Otherwise "Honoria sets her elbow on the table, takes your hand, and smiles at you encouragingly while you heave. Then, very gently, as if putting a baby down, she lays the back of your hand on the table. 'There,' she says. 'Have a bun.'".
+  }
+  Topic honoria_beaten with honoria "Ask Honoria whether she has forgiven you for the arm-wrestling" when beatHonoria(actor) once {
+    Says "'Forgiven you?' says Honoria. 'My love, I've told every soul in the circus and two in the town. Nobody's put my hand down since the slate-cart.' She pats your arm, carefully, the way you would pat a cannon. 'Mind, I'd a bad shoulder that day. We'll have it again at the Fair, in front of people.'".
+  }
+  Topic pip_gurn with pip "Ask Pip what she made of your face at the gurning" when gurned(actor) once {
+    Says "'It was horrible,' says Pip, with deep respect. 'A baby cried. Two babies. A dog went under a cart and wouldn't come out.' She tries to do it herself, and can't, and falls over trying. 'Will you teach me? Mumchance says a face is a door; you have to know which way it opens.'".
+  }
+  // Pip at the juggling: three things, any three.
+  Relation juggled(group).
+  Action juggle_pip(actor: group, site: place) "Let Pip teach you to juggle three oranges" {
+    Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pip, site) and freeHour() and not juggled(actor).
+    On success { Assert juggled(actor). Increase regard(pip) by 1. }
+    Result "Pip teaches you with three oranges, then three potatoes, then two potatoes and a hedgehog, which is a mistake. By the end you can keep three things in the air for the count of nine, and Pip says you're a natural, and then says she says that to everyone, and then says it's true this time, sort of.".
+  }
+}

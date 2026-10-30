@@ -1,0 +1,7 @@
+{ "version": 1, "source": "host.kyr", "rules": ["world"], "globals": ["party"],
+  "exports": { "party": "party", "town_a": "ashby", "town_b": "burl", "town_c": "cotter",
+    "green_a": "a_green", "green_b": "b_green", "green_c": "c_green",
+    "road_ab": "ab_way", "road_bc": "bc_way", "road_ca": "ca_way",
+    "keeper_a": "a_keeper", "keeper_b": "b_keeper", "keeper_c": "c_keeper",
+    "priest_a": "a_priest", "priest_b": "b_priest", "priest_c": "c_priest",
+    "merchant_a": "a_merchant", "merchant_b": "b_merchant", "merchant_c": "c_merchant" } }
