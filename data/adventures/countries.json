@@ -276,6 +276,29 @@
       "heard": "North over the march the fell road climbs over Carth Fell and comes down to Gaunt, a walled city on the Levels where penance is bought and sold by the day, and a barefoot heretic is to be tried on Ash Day.",
       "skyline": "a walled city on a white plain, with a great church in it that has one tower and the stump of another",
       "far": "penance is bought and sold by the day, and a barefoot heretic is to be tried at the Minster on Ash Day"
+    },
+    {
+      "id": "lull",
+      "bundle": "the-lull/placed.json",
+      "entry": "march_road",
+      "marker": "fold_stone",
+      "side": "north",
+      "beside": [
+        "forest",
+        "mountain",
+        "marsh"
+      ],
+      "name": "the Lull",
+      "topic": "the Lull, over the march",
+      "terrain": "forest",
+      "rumour": "'North over the march there's a hamlet called Sixways,' says {keeper}, 'and above it a stone, and past the stone a valley you can only walk into one day in seven. The other six the road goes round a hill and back. The Lull, they call it. They don't work in there: whatever's done there without meaning it comes apart at sunset, bread and money and all. And if you sleep a night in it, you lose a week out here.'",
+      "heard": "North over the march, above the hamlet of Sixways, a road goes down from a standing stone one day in seven into the Lull, a valley where whatever is done without meaning it comes apart at sunset, and a night slept is a week gone outside.",
+      "skyline": "a bare green hill with a standing stone on it, and a road that goes round the hill and comes back",
+      "far": "there is a valley you can only walk into one day in seven, where nothing done without meaning it lasts the day",
+      "after": {
+        "talk": "The talk from over the east march is that something has changed in the Lull, and the carters of Sixways cannot agree whether for better.",
+        "told": "{keeper} hears you out about the Lull, the stone and the bridge and the Watching, and is quiet a while. 'One day in seven,' {keeper} says at last. 'I've often thought I could do with that.' Then, after a moment: 'Or maybe not. Maybe I'd mean too little of it.'"
+      }
     }
   ]
 }

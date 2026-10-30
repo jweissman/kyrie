@@ -56,6 +56,10 @@ export class Scenarios {
     { manifest: 'data/campaigns/the-third-night.campaign.json', title: 'The Third Night', seed: 'wray',
       note: 'Three years you have been on the far side of the fells, hiring out with the droves. Your father went out on the road with the cart and did not come home. Now you are coming down the drove road to Wrayford, the bridge-city on the Wray, a week late.',
       detail: 'A bridge-city on the Wray, a missing father, and three nights' },
+    // An independent adventure over the north march (doc/adventures/the-lull).
+    { manifest: 'data/campaigns/the-lull.campaign.json', title: 'The Lull', seed: 'lull',
+      note: 'Above the hamlet of Sixways a road goes down from a standing stone, one day in seven, into a valley that has kept only its holy day for fifty-seven years. Whatever is done there without meaning it comes apart at sunset; a night slept there is a week gone outside. The young of Linger mean to work.',
+      detail: 'A hamlet that waits, a valley that rests, a mill that works in the dark, and three Lulldays' },
   ];
   static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
 }

@@ -24,7 +24,8 @@
     "party"
   ],
   "imports": [
-    "party"
+    "party",
+    "word"
   ],
   "roles": {
     "party": {
@@ -36,5 +37,8 @@
     "region": "lull_country",
     "march_road": "march_road"
   },
-  "experience": 1000
+  "experience": 1000,
+  "optional": [
+    "word"
+  ]
 }

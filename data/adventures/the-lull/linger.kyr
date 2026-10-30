@@ -13,7 +13,7 @@ Module lull "The Lull" {
   Place mill_upper "the loom floor" is level within mill_b.
   Place mill_roof "the roof" is level within mill_b.
   Place hand_upper "the floor above" is level within open_hand_inn.
-  Place mill_under "the wheel-pit stair" is level within mill_b.
+  Place mill_under "the cellars of the Mill" is level within mill_b.
 
   Place tump_shoulder "the Tump's shoulder" is room within tump at 1, 1.
   Place strike_post "the top of the Tump" is room within tump at 1, 0.
