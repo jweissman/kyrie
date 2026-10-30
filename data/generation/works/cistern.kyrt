@@ -33,6 +33,9 @@
   Observe {w}_marks_learned at {w}_hall of {w}_marks as reading when state({w}_marks, read) "{craft} {belief}" teaches {makersfact}.
   Item {w}_votive "{richname}" is {rich} at {w}_head.
   Observe {w}_head_votive at {w}_head as feature when true "Things glint in the bottom of the basin: offerings, left for the springs by people who meant them.".
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_head) "The springs the country once drank from were held somewhere under {{w}}, and nobody has been down to them.".
 --- shape stair 1 if shape0
   Place {w}_stair "the long stair" is room within {w}_site at 0, 0.
   Place {w}_hall "the pillared hall" is room within {w}_site at 1, 0.

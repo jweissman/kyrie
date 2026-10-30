@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "source": "teller.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "word", "teller", "square"],
+  "roles": { "party": { "type": "group" }, "word": { "type": "fact" }, "teller": { "type": "group" },
+    "square": { "type": "place" } },
+  "generation": { "type": "kit_teller", "templates": "templates.json" }
+}

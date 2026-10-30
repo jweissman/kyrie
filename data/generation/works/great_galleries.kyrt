@@ -47,6 +47,9 @@
   Item {w}_star "{greatname}" is {great} at {w}_vein.
   Item {w}_blade "{richname}" is {rich} at {w}_moulds.
   Item {w}_left "{commonname}" is {common} at {w}_floor.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_deepest) "{{w}} goes down to the deepest working {epithet} ever cut.".
 --- end walled 1 if fatea
   Observe {w}_doors at {w}_deepest when true "The deepest gallery ends at three iron doors, one behind another, the outermost barred, every bar welded to its hasp. The air by them is cold enough to burn. On the outermost, in the old script, cut deep: IT IS AWAKE. WE ARE GOING UP. DO NOT COME DOWN." teaches {w}_end.
   Discovery {w}_end "Under the Delvers' great forge, below the last of the star-iron, is something cold and awake, behind three iron doors they welded shut before they left the fells.".

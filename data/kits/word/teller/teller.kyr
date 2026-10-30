@@ -1,0 +1,17 @@
+Module kit_teller "One who tells of a placement" {
+  Description "Someone who has heard what people say of a kit's placement, and tells it when asked: whoever keeps the inn where the word is heard, or the inn of the settlement nearest that. What they are asked about is what the kit's hook calls it (the bell the hobs took), given as the topic the composer installs this with, once for each who tells it (see KitWord).".
+  Entity party: group "Your company".
+  Entity word: fact "What people say of it".
+  Entity teller: group "Who tells it".
+  Place square "Where they hear it" is room.
+  Entity asked: source "What they are asked about".
+  Initially Assert knows(teller, word). Initially Assert testimony(teller, asked).
+  Initially Assert reveals(asked, word). Initially Assert noticeable(asked). Initially Assert at(asked, square).
+  // Once what was said of it is old news (the bell hung back, the outlaws gone), it is not asked about any more, and
+  // whoever told of it thanks the company, once (the expedition diagnosis: nothing noticed a hold seen to).
+  Rule told_out when stale(word) and testimony(teller, asked) { Retract testimony(teller, asked). }
+  Topic thanks with teller "Tell {teller} about {asked}" when stale(word) once {
+    Says "{teller} has heard already, as people hear everything, and will not take your money tonight. 'Drink up,' {teller} says. 'There's more than me glad of it.'".
+  }
+  Goal false.
+}

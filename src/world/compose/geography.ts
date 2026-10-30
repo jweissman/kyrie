@@ -34,14 +34,16 @@ export class Geography {
     by: Provenance) {
     const { place, places, ref } = at, id = ref.get(place.id);
     if (!id) { return; }
-    const kind = place.space!.kind;
+    const kind = place.space!.kind, naming = place.alias && ref.get(place.alias.until);
+    // Known by its look until a fact names it: which fact, so a kit's word of it can say its name (see KitWord).
+    if (naming) { ledger.commit('namedBy', [id, naming], by); }
     if (kind === 'region') { ledger.commit('region', [id], by); }
     if (kind === 'settlement') { ledger.commit('settlement', [id], by); }
     if (kind === 'wilderness') { ledger.commit('wilds', [id], by); }
     if (kind === 'site') { ledger.commit('site', [id, 'site'], by); }
     if (kind !== 'room') { return; }
     const area = this.owner(places, place);
-    if (area && ref.get(area.id)) { ledger.commit('within', [id, ref.get(area.id)!], by); }
+    if (area && ref.get(area.id)) { ledger.commit('areaOf', [id, ref.get(area.id)!], by); }
   }
   // The settlement, wild country or site a room belongs to, through buildings and levels.
   private static owner(places: Entity[], place: Entity): Entity | undefined {

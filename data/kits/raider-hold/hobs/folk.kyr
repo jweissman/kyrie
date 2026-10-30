@@ -12,6 +12,8 @@ Module hob_folk "Hobs" {
   Place lookout "The lookout" is room.
   Place bolt "Where the back way comes out" is room.
   Place chapel "Where they stole the bell" is room.
+  Place parish "The settlement they stole it from" is room.
+  Place steading "The settlement the boy comes from" is room.
   Entity gate: passage "The way in".
   Entity chest: thing "The chief's chest".
   Entity heap: thing "The plunder".
@@ -52,20 +54,58 @@ Module hob_folk "Hobs" {
   // "Don't touch nothing," and nothing came of touching). The bell they will not touch, and do not count.
   Initially Assert owns(gaffer, chalice). Initially Assert owns(gaffer, rings).
 
-  Observe empty_frame at chapel when not freed(captive) "The bell is gone from its frame over the well. 'Hobs,' people say, and spit, and nobody has gone after it.".
-  Observe clappers at outside when true "Up on the hold, things hang where anyone coming can see them: among them bells, every one with its clapper torn out.".
+  // Where the hobs are, as the settlement they robbed of its bell says it and as the bells on their hold show it:
+  // asked about the bell, whoever keeps the inn there and at the next settlement tells it (the kit's hook), and it
+  // leads to the hold. The start town's own hook had taught nothing, asked nothing of anyone and led nowhere (the
+  // expedition diagnosis, 30 October); the chapel is still not the town they raid (06a4c31).
+  Entity bell_taken: fact "Hobs took the bell out of its frame over the well at {parish} one night, and carried it off to their hold at {outside}.".
+  Initially Assert established(bell_taken).
+  // Told, not only seen: under the frame people say where the bell went, and what they call the place it went to
+  // comes with it in the same moment (see KitWord).
+  Observe empty_frame at chapel when not hung(handbell) "The bell is gone from its frame over the well. 'Hobs,' people say, and spit, and nobody has gone after it." teaches bell_taken.
+  Observe clappers at outside when true "Up on the hold, things hang where anyone coming can see them: among them bells, every one with its clapper torn out." teaches bell_taken.
+  // Heard of, the hold is somewhere to go; come to, its bells say the stolen one is inside; the bell in hand, neither
+  // is asked of the company any longer.
+  Relation regained(entity). Relation hung(entity).
+  Rule bell_regained when carries(party, handbell) and not regained(handbell) { Assert regained(handbell). }
+  Objective bell_sought when knows(party, bell_taken) and not been(party, outside) and not regained(handbell)
+    "Hobs took a bell from its frame, and hold out at {outside}.".
+  Objective bell_within when knows(party, bell_taken) and been(party, outside) and not regained(handbell)
+    "The stolen bell is somewhere in the hobs' hold at {outside}, where bells hang on the walls with their clappers torn out.".
+  // Got back, it belongs over the well it was taken from; hung there, what people said of it is old news.
+  Objective bell_home when regained(handbell) and not hung(handbell)
+    "The bell the hobs took belongs back in its frame over the well at {parish}.".
+  Action hang_bell(actor: group, site: place) "Hang the bell back in its frame" {
+    Description "Lift it up into the frame over the well, where it hung before the hobs came for it.".
+    Requires able(actor) and at(actor, site) and at(actor, chapel) and carries(actor, handbell) and not hung(handbell).
+    Time 2.
+    On success { Assert hung(handbell). Assert stale(bell_taken). Spend bell from actor. }
+    Result "The bell goes up into its frame, and somebody gives the rope a pull before you have your hands off it. Doors open all round the well.".
+  }
+  Observe bell_back at chapel when hung(handbell) "The bell hangs in its frame over the well again, and the children are not let near the rope.".
   // What the boy knows: the back way out, and what the hobs are afraid of.
   Entity bell_dread: fact "Hobs cannot abide the sound of a bell: ring one where they are and they run.".
   Initially Assert established(bell_dread).
+  // The bell was not his town's (06a4c31): he says whose it was, and what it is good for.
   Topic boy_bells with captive "Ask the shepherd's boy about the hobs" when true once {
-    Says "'They stole the bell off our chapel,' the boy whispers, 'and then they wouldn't touch it. Burdock wrapped it in a sack with his eyes shut. They can't stand bells. Our priest used to ring them off the farms, before.'".
-    On discuss { Assert knows(actor, bell_dread). }
+    Says "'They took the bell out of the frame at {parish},' the boy whispers, 'and then they wouldn't touch it. Burdock wrapped it in a sack with his eyes shut. They can't stand bells. Ring one where they can hear it and they run.'".
+    On discuss { Assert knows(actor, bell_dread). Assert knows(actor, bell_taken). }
   }
+  // Told what hobs cannot abide, a bell rung in the hold is a way through it, until the hobs are dealt with.
+  Objective ring when knows(party, bell_dread) and able(gaffer) and not routed(gaffer) and not paid(gaffer)
+    and not freed(captive) "Hobs cannot abide a bell: rung in their hold at {outside}, one would send them running.".
+
   Topic boy_way with captive "Ask the shepherd's boy how the hobs come and go" when true once {
     Says "'There's a back way,' he says. 'I've seen them go out of it with sacks and come in without. I don't know where it comes out.'".
   }
+  // He says where home is, and taking him there is asked of the company while he follows (the expedition diagnosis:
+  // nothing named his town, and the hobs' experience was never reached).
   Rule boy_follows when state(captive, loose) and not acceptsEscort(captive, party)
-    says "The boy grabs your sleeve. 'Take me home?'" { Assert acceptsEscort(captive, party). }
+    says "The boy grabs your sleeve. 'Take me home? It's {steading}. Mam will be out of her mind.'" {
+    Assert acceptsEscort(captive, party).
+  }
+  Objective boy_home_aim when acceptsEscort(captive, party) and not freed(captive)
+    "The shepherd's boy you untied in the hobs' pens wants taking home to {steading}.".
   Initially Assert home(captive, town). Initially Set thanks(captive) to 8.
   Rule boy_home when cameHome(captive) and not freed(captive)
     says "The boy's mother sees him from a doorway and comes running with her apron over her mouth." {
@@ -146,10 +186,15 @@ Module hob_folk "Hobs" {
     On success { Assert tolerates(watchers, actor). Assert tolerates(raiders, actor). Assert tolerates(gaffer, actor). }
     Result "There is a lot of giggling. Then Snig sticks his head out. 'Gaffer says come in and wipe your feet. Don't touch nothing.'".
   }
-  Rule caught_thieving when tolerates(gaffer, party) and not alarmed(gaffer) and (at(party, store) or at(party, pens))
+  // Guests are watched, and caught at it once they have done something: the boy untied, or the bell picked up. Only
+  // being in the pens or the store had been thieving, so the parley's word came to nothing (the expedition diagnosis).
+  Rule caught_thieving when tolerates(gaffer, party) and not alarmed(gaffer)
+    and (state(captive, loose) or carries(party, handbell)) and not at(party, outside) and not at(party, bolt)
     and ((capable(party, stealth) and dice(clock) <= 15) or (not capable(party, stealth) and dice(clock) <= 50))
     says "'OI!' A hob in the doorway points at you with his whole arm. 'THIEVES!'" { Assert alarmed(gaffer). }
-  Rule truce_broken when alarmed(gaffer) and tolerates(watchers, party) {
+  // The truce is over, and the page says so: the hobs who let the company by will not again.
+  Rule truce_broken when alarmed(gaffer) and tolerates(watchers, party)
+    says "Every hob in the hold is shrieking now. Whatever the Gaffer said at the gate, nobody here will let you by." {
     Retract tolerates(watchers, party). Retract tolerates(raiders, party). Retract tolerates(gaffer, party).
   }
   Topic gaffer_terms with gaffer "Ask the Gaffer what it would take to leave the farms alone" when tolerates(gaffer, party) once {

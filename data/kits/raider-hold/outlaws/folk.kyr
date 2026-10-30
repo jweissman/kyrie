@@ -87,7 +87,15 @@ Module outlaw_folk "Outlaws" {
   // The market: when they are short, they ride in at noon and take a tithe.
   Rule tithe when untilLight(clock) == 40 and dice(clock) <= 20 and able(band) and at(band, yard) and not quiet(band)
     and not ended(band) { Increase losses(town) by 1. }
-  Observe tithed_once at town when losses(town) >= 1 "Sir Hamo's men rode into the market at noon and took a tithe of everything on the stalls, with the reeve standing by because there was nothing he could do.".
+  // Where the outlaws are, as the settlement they tithe says it: asked about Sir Hamo, whoever keeps the inn there and
+  // at the next settlement tells it (the kit's hook), and it leads to the hold (the expedition diagnosis).
+  Entity hamo_road: fact "Sir Hamo Ashdown's outlaws take road-money on the road by day, and a tithe from the market when they please. They hold out at {outside}.".
+  Initially Assert established(hamo_road).
+  // Sir Hamo beaten or the merchant home, what the settlement said of the road is old news.
+  Rule hamo_old when (ended(band) or ended(mercer)) and not stale(hamo_road) { Assert stale(hamo_road). }
+  Objective outlaws_heard when knows(party, hamo_road) and not ended(band) and not ended(mercer)
+    "Sir Hamo Ashdown's outlaws rob the road, and hold out at {outside}.".
+  Observe tithed_once at town when losses(town) >= 1 "Sir Hamo's men rode into the market at noon and took a tithe of everything on the stalls, with the reeve standing by because there was nothing he could do." teaches hamo_road.
   // What was shut on their doorstep, opened under their eyes (the sentry's at his post, or theirs where the way in
   // gives on it): Sir Hamo's men live next door to whatever it let out, and say so in their own words. It is a
   // grudge, not a fight: they let the company by no more, and will not be hailed, until it pays for what it let out

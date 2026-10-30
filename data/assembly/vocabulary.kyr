@@ -4,12 +4,15 @@ Module assembly "What a world is made of, for assembling one" {
   // Geography, read from region modules: areas (settlements, wild country, sites) and the rooms on the ways between.
   Relation region(place). Relation terrain(place, terrainkind). Relation company(group).
   Relation settlement(place). Relation wilds(place). Relation site(place, sitekind).
-  Relation within(place, place).
+  // The settlement, wild country or site a room belongs to (the world's own within is worked out, not kept).
+  Relation areaOf(place, place).
   // A settlement's open middle, where news is heard and trouble arrives; and who keeps its inn.
   Relation square(place, place). Relation keeper(group, place).
   // A room on a road through wild country, a landmark travellers know, a narrow place a road cannot avoid.
   Relation waypoint(place). Relation landmark(place). Relation chokepoint(place). Relation onRoad(place).
   Relation siteKind(place, sitekind).
+  // A place a stranger knows only by how it looks (a smooth doorway in a crag) until a fact names it: that fact.
+  Relation namedBy(place, entity).
   Relation adjacent(place, place).
   // Hours between two places by the quickest known way.
   Measure hours(place, place).

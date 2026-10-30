@@ -43,6 +43,9 @@
   Rule {w}_hushed when state({w}_flute_bone, played) and not tolerates({w}_dead, party) says "The note goes along the passage and into the stone, low and thin. From further in comes a sound like someone settling back to sleep." { Assert tolerates({w}_dead, party). }
   Item {w}_flute "{commonname}" is {common} at {w}_end.
   Item {w}_goods "{richname}" is {rich} at {w}_right.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_end) "Whatever was buried with the dead of {{w}} lies there still.".
 --- shape long 1 if shape0
   Place {w}_passage "the stone passage" is room within {w}_site at 0, 0.
   Place {w}_left "the north chamber" is room within {w}_site at 0, 1.

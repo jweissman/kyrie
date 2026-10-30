@@ -40,6 +40,9 @@
   Item {w}_orrery_piece "{greatname}" is {great} at {w}_orrery.
   Item {w}_chart "{richname}" is {rich} at {w}_count.
   Item {w}_lens "{commonname}" is {common} at {w}_door.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_orrery) "At the top of {{w}} {epithet} counted the stars, and something there is counting still.".
 --- end war 1 if fatea
   Observe {w}_burnt at {w}_count when true "Half the racks have been burned, and the tablets in them split by the heat. On the other half, the count goes on alone for a year, and then stops: a tablet is cut with two marks for one night, and scored through.".
   Observe {w}_end_war at {w}_orrery when state({w}_rings, turned) "Turned on to tonight the orrery shows it plainly, what no one at the other towers could see: the count was a day out, and it was this tower's count. This tower was wrong. Someone has scratched that, very small, on the bronze: WE WERE WRONG." teaches {w}_end.

@@ -53,6 +53,9 @@
   Item {w}_claw "{greatname}" is {great} at {w}_vault.
   Item {w}_offering "{richname}" is {rich} at {w}_hall.
   Item {w}_left "{commonname}" is {common} at {w}_street.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_hall) "Whatever {epithet} kept at the bottom of {{w}} is under the still water yet.".
 --- end drowned 1 if fatea
   Observe {w}_drowned at {w}_street when state({w}_mere, low) "The street is full of the dead, and of their arms: spears and shields of a make nobody has seen in this country, and among them, unarmed, the Wardens, in their long coats, lying where the water came on them all together.".
   Observe {w}_end_drowned at {w}_hall of {w}_basin as reading when state({w}_basin, read) "Then the water in the basin shows you the valley, as it was: an army in the street, and the Wardens on the dam, and one of them putting a hand to the first wheel, and looking down at the basin, at you, before he turns it." teaches {w}_end.

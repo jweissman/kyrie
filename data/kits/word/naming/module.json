@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "source": "naming.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "word", "name"],
+  "roles": { "party": { "type": "group" }, "word": { "type": "fact" }, "name": { "type": "fact" } }
+}

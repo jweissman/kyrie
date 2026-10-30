@@ -30,6 +30,9 @@
   Observe {w}_tablets_learned at {w}_undercroft of {w}_tablets as reading when state({w}_tablets, read) "{fate}" teaches {fatefact}.
   Observe {w}_ring_learned at {w}_top when state({w}_ring, set) "{craft} {belief}" teaches {makersfact}.
   Item {w}_plate "{richname}" is {rich} at {w}_undercroft.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_top) "Nobody has climbed {{w}} in living memory, to see what its makers watched for.".
 --- shape round 1 if shape0
   Observe {w}_round_seen at {w} when true "It is round, and its door is high in the wall, where a stair of stones once climbed to it.".
   Place {w}_floor "the floor of the tower" is room within {w}_site at 0, 1.

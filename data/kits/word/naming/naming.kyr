@@ -1,0 +1,8 @@
+Module kit_naming "What the place is called" {
+  Description "Those who tell where a placement is call the place by its name, as people who live by it do: knowing what they say, the company knows the name, and the place is no longer only what it looks like to a stranger (a smooth doorway in a crag, until someone says what it is called). Learned in the same moment as the word, so the word is told with the name in it. The composer installs this where the place a kit claims is known by its look until a fact names it (see KitWord).".
+  Entity party: group "Your company".
+  Entity word: fact "What people say of it".
+  Entity name: fact "What the place is called".
+  Observe named near party when knows(party, word) and not knows(party, name) "Hereabouts the place has a name, and whoever speaks of it uses it." teaches name.
+  Goal false.
+}

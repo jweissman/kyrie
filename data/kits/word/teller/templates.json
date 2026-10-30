@@ -1,0 +1,15 @@
+{
+  "kit_teller": {
+    "__no_id": true,
+    "name": "One who tells of a placement",
+    "creatures": [],
+    "actors": { "order": [] },
+    "labels": "=gen(kit_teller_labels)",
+    "initial": [],
+    "outcomes": []
+  },
+  "kit_teller_labels": {
+    "__no_id": true,
+    "asked": "=#topic"
+  }
+}

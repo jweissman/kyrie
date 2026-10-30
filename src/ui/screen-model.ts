@@ -197,7 +197,7 @@ export class ScreenModel {
   static wanting(w: Wanting): string {
     if (w.thing) { return `Needs ${[w.name, ...w.or].join(' or ')}, and the company has none.`; }
     return w.or.length ? `Needs ${w.name.toLowerCase()} or ${w.or.join(' or ')}, and the company has neither.`
-      : `Needs ${w.name.toLowerCase()}: no one in the company has it.`;
+      : `Needs ${w.name.toLowerCase()}: no one in the company has it.${w.had ? ` ${w.had}` : ''}`;
   }
   static tell(this: void, id: string): string | undefined {
     const ability = Content.abilities.find(a => a.id === id), feat = Canon.traits[id];

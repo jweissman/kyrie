@@ -60,6 +60,9 @@
     Change read "Read the old script on the back of the altar" from unread to read needing lore.
   }
   Observe {w}_altar_read at {w}_church of {w}_altar as reading when state({w}_altar, read) "{fate}" teaches {fatefact}.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_church) "Nobody has gone into {{w}} since the brothers left it, as far as anyone knows.".
 --- fall plague 1 if fallplague
   Observe {w}_plague at {w}_cloister when true "The garth was dug for graves, row on row, until there was no more room in it and the last of them were laid in the walks. There are no names on any of them.".
   Observe {w}_last_plague at {w}_chapter of {w}_chronicle as reading when state({w}_chronicle, read) "The last hand writes that the brothers took in the sick from the river villages, as the rule bids. Then that they buried them. Then the brothers' own names, one under another, in a hand that gets smaller. The last name has no hand after it to write it.".

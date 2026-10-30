@@ -46,6 +46,9 @@
   Item {w}_titan "{greatname}" is {great} at {w}_heart.
   Item {w}_crystal "{richname}" is {rich} at {w}_choir.
   Item {w}_tool "{commonname}" is {common} at {w}_unfinished.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_heart) "Somewhere in the heart of {{w}}, {epithet} are singing still.".
 --- end failed 1 if fatea
   Observe {w}_end_failed at {w}_heart when state({w}_last, heard) "Under your hand the note comes up through the stone into you, and you hear it, and it is not a note: it is a voice, very slow, saying one thing. We could not hold it. We could not hold it. We could not hold it." teaches {w}_end.
   Discovery {w}_end "The last of the Stone-Singers sat down at the heart of their greatest hall when the singing failed, and held the note as long as she could. She could not hold it, she says.".

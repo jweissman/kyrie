@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "source": "lead.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "word", "there"],
+  "roles": { "party": { "type": "group" }, "word": { "type": "fact" }, "there": { "type": "place" } }
+}

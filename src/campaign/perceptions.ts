@@ -49,7 +49,11 @@ export class Perceptions {
       perceived = this.after(module, { ...seen, after: world, happenings: [] });
       all.push(...(perceived ?? []).filter(p => !all.some(a => a.kind === p.kind && a.id === p.id)));
     }
-    return { perceptions: all.length || perceived ? all.filter((p, i) => all.findIndex(a => a.kind === p.kind
+    // What is learned is told as the company knows it at the end of the moment: word of the hobs' hold, with the
+    // name the same word gave the place, not what it looks like to a stranger (see KitWord).
+    const told = all.map(p => p.kind === 'discovery'
+      ? { ...p, text: ObservationText.render(module.entities.find(e => e.id === p.id)!.name, world) } : p);
+    return { perceptions: told.length || perceived ? told.filter((p, i) => told.findIndex(a => a.kind === p.kind
       && a.id === p.id) === i) : undefined, noted };
   }
   static after(module: Module, seen: { before: World; after: World; player: string | undefined;

@@ -67,7 +67,9 @@ describe('somewhere high', () => {
       + ' where the track to it starts.']);
     expect(lines.filter(l => /^To the /.test(l))).toHaveLength(6);
     expect(lines.at(-1)).toBe('The way down is the stair you came up.');
-    expect(notes).toEqual(['Noted: Paliduslac: a square doorway in a hillside in Birchwood']);
+    // Named, the doorway is somewhere to go into: an aim (the expedition diagnosis, change 1).
+    expect(notes).toEqual(['Noted: Paliduslac: a square doorway in a hillside in Birchwood', 'Aim: The springs the '
+      + 'country once drank from were held somewhere under Paliduslac, and nobody has been down to them.']);
     expect(situation.some(p => /^To the /.test(p))).toBe(false);
     // Seen with the way to it, it is somewhere to set out for all the way, not only toward the wood it stands in.
     const ruin = Itineraries.destinations(c).find(d => d.name === 'Paliduslac')!;
@@ -112,10 +114,11 @@ describe('somewhere high', () => {
     expect(lines).toContain('Beyond it, over the march: a long ridge laid straight across the head of a dale, too straight'
       + ' for a hill.');
     // On the map from then on, by their look: no ruin's name is glossed there before it is learned. Nor is a Common
-    // name, which says what it means: only Wannstede's old Westron and Levankhafar's Khuzdul are.
+    // name, which says what it means: only Wannstede's old Westron and Levankhafar's Khuzdul are. The broken keep the
+    // hobs hold is named, and glossed, as the first town says it of the bell they took (the expedition diagnosis).
     const land = ScreenModel.build(c).region!.land!, marks = land.marks.map(m => m.name);
-    expect(marks).toEqual(expect.arrayContaining(['a broken keep', 'the march-stone of Merrowdale']));
-    expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s3', 's4']);
+    expect(marks).toEqual(expect.arrayContaining(['Gefeohtgaet', 'the march-stone of Merrowdale']));
+    expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s3', 's4', 'w5']);
     // A site seen through it is seen with the way to it, as one seen nearer is.
     expect(lines).toContain('The way to a cave in the hillside in Pinehurst: to the edge of Pinehurst by Levankhafar,'
       + ' where the track to it starts.');

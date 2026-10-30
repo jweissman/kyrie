@@ -52,6 +52,9 @@
   }
   Item {w}_hoard "{richname}" is {rich} in {w}_strongbox.
   Item {w}_dropped "{commonname}" is {common} at {w}_gate.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_solar) "Nobody has held {{w}} since the kingdom fell, and what its lords left there is there still.".
 --- fall plague 1 if fallplague
   Observe {w}_plague at {w}_hall when true "The long tables are still set out. On the benches and under them, and by the cold hearth, the bones of the garrison lie where they sat down and did not get up. Someone chalked a cross on the hall door from the outside.".
   Observe {w}_last_plague at {w}_solar of {w}_roll as reading when state({w}_roll, read) "The last entries are not dues. Down the margin, in a shaking hand, one word over and over, eleven times, each with a name: dead. The twelfth word is not finished.".

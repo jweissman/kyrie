@@ -38,6 +38,15 @@ what it establishes, and the modules it installs.
   `@region`, or each other's exports. The raider-hold kit's hold modules (ring-fort, cave) and folk modules (hobs,
   outlaws) meet at one role interface: `gate`, `yard`, `hall`, `den`, `pens`, `store`, `lookout`, `bolt`,
   `chest`, `heap`, `backway_known`. Any hold can house any folk.
+- **Hooks** are word of the placement, and need a claimed slot to lead to. Each names a fact one of the kit's
+  modules exports (`folk.bell_taken`), the topic it is asked about ("the bell the hobs took"), the slot of the
+  settlement where it is heard (`chapel`), and a `when` as a module's. The composer (`KitWord`) installs three small
+  modules from `data/kits/word`: knowing the fact leads to the claimed place (`leadsTo`); whoever keeps the inn in
+  that settlement, and the inn of the settlement nearest it, can be asked about it; and a place known only by its
+  look until a fact names it (`namedBy` in the ledger) is named by them too. The module's own Kyr says what the fact
+  is and makes it an aim (`Objective … when knows(party, bell_taken)`). The world audit holds every claimed place off
+  the roads to this: a fact that leads to it, told in a settlement the placement is bound to, and an aim knowing it
+  makes (`PlacedSites`, `WorldAudit`).
 
 An author asks for a kit in a campaign manifest and may fix anything:
 

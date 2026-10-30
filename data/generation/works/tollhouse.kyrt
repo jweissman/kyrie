@@ -57,6 +57,9 @@
   }
   Item {w}_takings "{richname}" is {rich} in {w}_chest.
   Item {w}_left "{commonname}" is {common} at {w}_counting.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_strong) "The princes' tolls were counted in {{w}}, and nobody has been into its strongroom since.".
 --- fall plague 1 if fallplague
   Observe {w}_plague at {w}_store when true "The bales nearest the water-door are marked with a ship's mark and a date, and none of them was ever opened. Someone painted a red cross on the warehouse doors, and nailed them shut from the outside; the nails have rusted through.".
   Observe {w}_last_plague at {w}_counting when true "Pinned over the clerks' desks, an order in the kingdom's letters: by the princes' command, no wool-ship to be unloaded, nor any man from one let ashore. The date on it is a week after the date on the bales.".

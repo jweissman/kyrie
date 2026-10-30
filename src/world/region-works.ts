@@ -24,7 +24,7 @@ import { Draw } from './land/draw';
 import { Foundings } from './founding';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../item-names';
-import type { Region, Site } from './region-writer';
+import type { Region, Settlement, Site } from './region-writer';
 
 // The makers' works in a generated region, as Kyr, from their plans (data/generation/works). Every work has its
 // outside: how it looks and the name cut over it. One a scenario has not taken is written whole: its rooms and ways,
@@ -100,13 +100,17 @@ export class RegionWorks {
   // Who tells of a work: the people of the settlement nearest it (its innkeeper, priest and merchant), and the
   // traveller of its neighbour along the road; and where it is, as they say it.
   private static tellers(region: Region, site: Site): Record<string, string> {
-    const town = RegionGeography.near(region, site);
-    const road = RegionGeography.roads(region).find(r => r.from.id === town.id || r.to.id === town.id);
-    const next = road ? (road.from.id === town.id ? road.to : road.from) : town;
+    const [town, next] = this.towns(region, site);
     return { town: town.id, townname: town.name, keeper: `${town.id}_innkeeper`, priest: `${town.id}_priest`,
       holy: Foundings.holyPlace(region, town),
       merchant: `${town.id}_merchant`, teller: `${next.id}_traveller`, nextname: next.name,
       where: RegionSites.where(RegionGeography.seats(region).find(s => s.site === site)!, region) };
+  }
+  // The settlements whose people tell of a work: the nearest, and its neighbour along the road (or the nearest again).
+  static towns(region: Region, site: Site): [Settlement, Settlement] {
+    const town = RegionGeography.near(region, site);
+    const road = RegionGeography.roads(region).find(r => r.from.id === town.id || r.to.id === town.id);
+    return [town, road ? (road.from.id === town.id ? road.to : road.from) : town];
   }
   // The treasure a work holds, from its makers' (Orsino's junk and gems): a common thing and a rich one, by kind and
   // by name, drawn for the work.

@@ -76,7 +76,8 @@
     "raiders": "band",
     "chief": "hamo",
     "captive": "mercer",
-    "roused": "hamo"
+    "roused": "hamo",
+    "hamo_road": "hamo_road"
   },
   "experience": 600
 }

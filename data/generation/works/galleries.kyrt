@@ -80,6 +80,9 @@
   Observe {w}_beyond_scene at {w}_beyond when true "A gallery cut rougher than the rest, as if in a hurry, running down into the cold. The walls glitter with frost, and with the pale ore, thick as a man's arm.".
   Item {w}_deep_ore "{richname}" is {rich} at {w}_beyond.
   Item {w}_ore "{commonname}" is {common} at {w}_vein.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_door_room) "The old workings of {{w}} go further down than anyone has followed them.".
 --- sign vein 1 if greatart
   Thing {w}_lode "the pale vein in the rock" at {w}_vein is scenery {
     State unfollowed "The vein of pale stuff runs on into the rock past the end of the gallery.".

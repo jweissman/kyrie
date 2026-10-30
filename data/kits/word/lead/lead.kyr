@@ -1,0 +1,8 @@
+Module kit_lead "Where a placement is" {
+  Description "What people say of a kit's placement says where it is: known, the place the placement claims is on the company's map, somewhere to set out for, before it has been there. The composer installs this for each of a kit's hooks (see KitWord).".
+  Entity party: group "Your company".
+  Entity word: fact "What people say of it".
+  Place there "Where it is" is room.
+  Initially Assert leadsTo(word, there).
+  Goal false.
+}

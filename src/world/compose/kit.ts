@@ -15,9 +15,11 @@ export interface ProposalSpec { table: string; by?: string }
 export interface KitModule {
   id: string; bundle: string; when?: Record<string, string>; imports: Record<string, string>;
 }
-// What people say about a placement, to be carried by word of mouth: a fact the kit's module exports, the topic it
-// is asked about, the slot of the settlement whose people know it.
-export interface KitHook { fact: string; topic: string; heard: string }
+// What people say about a placement, to be carried by word of mouth: a fact one of the kit's modules exports
+// (module.export), the topic it is asked about ("the bell the hobs took": Ask Aspen about the bell the hobs took), and
+// the slot of the settlement whose people know it; `when` as a module's. Who keeps the inn there and in the settlement
+// nearest it tell it, and knowing it leads to the place the placement claims (see KitWord).
+export interface KitHook { fact: string; topic: string; heard: string; when?: Record<string, string> }
 export interface KitManifest {
   version: 1; id: string; name: string; about: string;
   slots: Record<string, SlotSpec>;
@@ -40,6 +42,9 @@ export class Kits {
     }
     const tables = manifest.tables ? JSON.parse(await source.read(source.resolve(manifest.tables, path))) as
       Record<string, DeemValue> : {};
+    if (manifest.hooks?.length && !manifest.claims?.length) {
+      throw new Error(`Kit ${manifest.id} has hooks, which lead to the place it claims, and claims none`);
+    }
     for (const [dimension, spec] of Object.entries(manifest.proposals ?? {})) {
       if (!tables[spec.table]) { throw new Error(`Kit ${manifest.id} proposes ${dimension} from a missing table ${spec.table}`); }
     }

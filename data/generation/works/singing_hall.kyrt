@@ -25,7 +25,12 @@
     State closed blocking "A round slab of stone without handle or hinge closes the far side of the hall. Lines of notes, in the old script's way of writing song, are cut across it.".
     State open "The stone door has rolled back into the rock, and the air from behind it is cold.".
     Change sing "Sing the notes cut on the door" from closed to open needing lore.
+    Change hum "Hum back the note the door holds" from closed to open after learning {w}_tune.
   }
+  // Listened at, the door gives the note it answers to, and whoever has heard it can hum it back: lore reads the notes
+  // at once, and is no longer the only key (the expedition diagnosis: everything the hall held was behind lore).
+  Entity {w}_tune: fact "The door of notes in {{w}} holds one low note under everything; hummed back to it, it opens.".
+  Observe {w}_door_note at {w}_hall when tried({w}_door, listening) "Ear to the round slab, you hear it: one long note, very low, held under everything, as if the door were humming to itself. It would not be hard to hum." teaches {w}_tune.
   Thing {w}_figures "the figures in the stone" at {w}_inner {
     State silent "The figures stand in the stone with their mouths open, silent.".
     State heard "Put your ear to the stone of the figures, and you hear it: very far off, very faint, singing.".
@@ -34,6 +39,9 @@
   Observe {w}_figures_learned at {w}_inner when state({w}_figures, heard) "{fate}" teaches {fatefact}.
   Observe {w}_hall_learned at {w}_hall when state({w}_door, open) "{craft} {belief}" teaches {makersfact}.
   Item {w}_crystal "{richname}" is {rich} at {w}_inner.
+  // Named, a work is somewhere to go into: an aim until the company has been to its far end (the expedition
+  // diagnosis: twelve of thirteen works had no aim, so arriving at one asked nothing).
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_inner) "Something sings at the far end of {{w}}, where nobody goes.".
 --- sign choir 1 if greatart
   Observe {w}_choir_heard at {w}_inner as revelation when state({w}_figures, heard) "And the singing comes from somewhere. Moving from figure to figure with your ear to the stone, you find it loudest toward {greatwhere}, where {greatseen} must hold whoever is still singing." teaches {greatfound}.
 --- successors fold 2

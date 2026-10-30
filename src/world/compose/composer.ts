@@ -7,6 +7,7 @@ import { Binder } from './binder';
 import { Geography } from './geography';
 import type { Ledger } from './ledger';
 import type { Kit, KitModule, SlotSpec } from './kit';
+import { KitWord } from './kit-word';
 import { Proposer } from './proposer';
 import { Trace } from './trace';
 
@@ -19,16 +20,18 @@ export interface Placement {
 
 // Places kits into a world being assembled. For each request: bind the slots to committed places, let Deem propose
 // each open dimension, check every proposal against what is committed, then establish what the placement provides
-// and install its modules against the bound places. A request that cannot be met is refused with the reason; what
-// is already committed is never changed to make room for it.
+// and install its modules against the bound places, with word of it as its hooks say. A request that cannot be met
+// is refused with the reason; what is already committed is never changed to make room for it.
 export class Composer {
   readonly trace = new Trace();
   private readonly binder: Binder;
   private readonly proposer: Proposer;
+  private readonly word: KitWord;
   constructor(readonly ledger: Ledger, private readonly options: { seed: string; source: BundleSource;
     context: Record<string, string> }) {
     this.binder = new Binder(ledger, this.trace);
     this.proposer = new Proposer(ledger, this.trace);
+    this.word = new KitWord(ledger, options.source);
   }
   place(kit: Kit, request: KitRequest): Placement | undefined {
     const step = `${request.kit}#${request.id}`, fix = request.fix ?? {}, seed = this.options.seed;
@@ -45,8 +48,9 @@ export class Composer {
     const named = Object.fromEntries(Object.entries(bindings).map(([k, v]) => [k.slice(1), v]));
     const entities = { ...Object.fromEntries(this.minted(kit).map(name => [name, `${request.id}__${name}`])) };
     this.establish(kit, { step, id: request.id, bindings, choices, entities });
-    const modules = kit.manifest.modules.filter(m => Object.entries(m.when ?? {}).every(([d, v]) => choices[d] === v))
+    const modules = kit.manifest.modules.filter(m => Composer.chosen(m.when, choices))
       .map(m => this.request(m, { kit, request, bindings: named, choices }));
+    modules.push(...this.hooks(kit, { id: request.id, bindings: named, choices }));
     for (const m of modules) { this.trace.add({ step, kind: 'module', id: m.id, bundle: m.bundle }); }
     return { kit: kit.manifest.id, id: request.id, bindings: named, choices, entities, modules };
   }
@@ -81,6 +85,26 @@ export class Composer {
   static install(placement: string, module: string): string {
     return `${placement}${module.charAt(0).toUpperCase()}${module.slice(1)}`;
   }
+  // What one of a placement's modules exports (folk.chief), as an import names it once installed (knotFolk.chief).
+  static exported(placement: string, value: string): string {
+    const [module, name] = value.split('.') as [string, string];
+    return `${Composer.install(placement, module)}.${name}`;
+  }
+  // Whether what a kit's module or hook is installed `when` is what Deem proposed.
+  private static chosen(when: Record<string, string> | undefined, choices: Record<string, string>): boolean {
+    return Object.entries(when ?? {}).every(([d, v]) => choices[d] === v);
+  }
+  // Word of the placement, one hook at a time: heard where the hook says, and leading to the place the kit claims.
+  private hooks(kit: Kit, at: { id: string; bindings: Record<string, string>; choices: Record<string, string> }):
+    BundleRequest[] {
+    const there = at.bindings[kit.manifest.claims?.[0] ?? '']!;
+    return (kit.manifest.hooks ?? []).filter(h => Composer.chosen(h.when, at.choices)).flatMap((hook, i) => {
+      const heard = at.bindings[hook.heard];
+      if (!heard) { throw new Error(`Kit ${kit.manifest.id} hooks word to ${hook.heard}, which it did not bind`); }
+      return this.word.requests({ id: Composer.install(at.id, `word${i + 1}`), heard, there,
+        fact: Composer.exported(at.id, hook.fact), topic: hook.topic });
+    });
+  }
   // The kit's own entities (@band, @chief...) named in what it provides.
   private minted(kit: Kit): string[] {
     return [...new Set(kit.manifest.provides.flatMap(p => [...p.matchAll(/@(\w+)/g)].map(m => m[1]!)))];
@@ -109,8 +133,7 @@ export class Composer {
       if (value === '@party') { return [name, Geography.ref(party!)]; }
       if (value === '@region') { return [name, Geography.ref(region!)]; }
       if (value.startsWith('?')) { return [name, Geography.ref(bindings[value.slice(1)]!)]; }
-      const [module, exported] = value.split('.') as [string, string];
-      return [name, `${Composer.install(request.id, module)}.${exported}`];
+      return [name, Composer.exported(request.id, value)];
     }));
     return { id: Composer.install(request.id, m.id), bundle: this.options.source.resolve(m.bundle, kit.path), imports,
       context: { ...this.options.context, ...choices } as Record<string, DeemValue> };

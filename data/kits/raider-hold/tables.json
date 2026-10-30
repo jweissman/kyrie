@@ -68,6 +68,12 @@
                   "weight": 1
                 }
               ]
+            },
+            "parish": {
+              "is": "square(?parish, ?chapel)"
+            },
+            "steading": {
+              "is": "square(?steading, ?prey)"
             }
           }
         },

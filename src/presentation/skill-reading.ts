@@ -5,6 +5,7 @@ import { PartyCapabilities } from '../campaign/party-capabilities';
 import { ActionPresentation, type PublicChoice } from './action-presentation';
 import { ItemNames } from '../item-names';
 import { Canon } from '../canon/canon';
+import { SkillSources } from './skill-sources';
 
 // A choice the company could make with a skill it lacks: the skill, and anything else that would do instead (a crowbar,
 // for brawn), which it has not got either.
@@ -12,6 +13,8 @@ export interface Wanting {
   choice: PublicChoice; action: Operator; skill: string; name: string; or: string[];
   // A kind of thing rather than a skill: "a ten-foot pole", which nobody in the company is carrying.
   thing?: boolean;
+  // Where the skill is to be had, as the page says it: "Bertilak, at the shrine, sells a glossary of the old script."
+  had?: string;
 }
 interface Call { kind: 'call'; name: string; args: string[] }
 // How the company's skills bear on what it can do here: which skill each choice relies on (and so who does it),
@@ -97,7 +100,9 @@ export class SkillReading {
         && one.admits(op.success));
       for (const row of ActionPresentation.choices(opened, campaign.schemaList)) {
         const or = this.instead(campaign, row.action, needs).filter(n => n !== skill.name);
-        wanting.push({ ...row, skill: skill.id, name: skill.name, or, ...'thing' in skill ? { thing: true } : {} });
+        const had = 'thing' in skill ? undefined : SkillSources.where(campaign, skill.id);
+        wanting.push({ ...row, skill: skill.id, name: skill.name, or, ...'thing' in skill ? { thing: true } : {},
+          ...had ? { had } : {} });
       }
     }
     // One choice wanting a skill or a thing is told once, by the first that opens it (the skill, with the thing as

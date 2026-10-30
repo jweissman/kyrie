@@ -23,7 +23,9 @@
     "chest",
     "heap",
     "backway_known",
-    "chapel"
+    "chapel",
+    "parish",
+    "steading"
   ],
   "roles": {
     "party": {
@@ -73,6 +75,12 @@
     },
     "chapel": {
       "type": "place"
+    },
+    "parish": {
+      "type": "place"
+    },
+    "steading": {
+      "type": "place"
     }
   },
   "exports": {
@@ -81,7 +89,8 @@
     "chief": "gaffer",
     "captive": "captive",
     "bell_dread": "bell_dread",
-    "roused": "gaffer"
+    "roused": "gaffer",
+    "bell_taken": "bell_taken"
   },
   "experience": 600
 }

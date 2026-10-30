@@ -50,10 +50,13 @@ export class CompanyKnowledge {
     return kept.learned;
   }
   // Whether what a fact told of, and showed (a thing or a way hidden until it was known), is since in the company's
-  // hands or under its feet: heard of and since taken, it is not "heard, not yet seen" (the dyke-reeve's rod).
+  // hands or under its feet: heard of and since taken, it is not "heard, not yet seen" (the dyke-reeve's rod). So with
+  // a place it led to, once the company has been there (the hobs' hold, heard of at the bell-frame and come to).
   private static borne(world: World, actor: string, fact: string): boolean {
-    return world.relates('revealedBy') && world.related('revealedBy').some(r => r.args[1] === fact
+    const shown = world.relates('revealedBy') && world.related('revealedBy').some(r => r.args[1] === fact
       && (this.asks(world, 'carries', actor, r.args[0]!) || this.holds(world, 'tookWay', actor, r.args[0]!)));
+    return shown || (world.relates('leadsTo') && world.related('leadsTo')
+      .some(r => r.args[0] === fact && this.holds(world, 'been', actor, r.args[1]!)));
   }
   // A query (carries) as well as a relation.
   private static asks(world: World, name: string, ...args: string[]): boolean {

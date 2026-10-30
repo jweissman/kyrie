@@ -56,6 +56,9 @@
           "weight": 1
         }
       ]
+    },
+    "area": {
+      "is": "areaOf(?approach, ?area)"
     }
   },
   "proposals": {
@@ -90,7 +93,7 @@
       "bundle": "ringfort/module.json",
       "imports": {
         "party": "@party",
-        "land": "@region",
+        "land": "?area",
         "outside": "?approach"
       }
     },
@@ -102,7 +105,7 @@
       "bundle": "cave/module.json",
       "imports": {
         "party": "@party",
-        "land": "@region",
+        "land": "?area",
         "outside": "?approach"
       }
     },
@@ -128,7 +131,9 @@
         "heap": "hold.heap",
         "backway_known": "hold.backway_known",
         "town": "?prey",
-        "chapel": "?chapel"
+        "chapel": "?chapel",
+        "parish": "?parish",
+        "steading": "?steading"
       }
     },
     {
@@ -154,6 +159,24 @@
         "backway_known": "hold.backway_known",
         "town": "?prey"
       }
+    }
+  ],
+  "hooks": [
+    {
+      "when": {
+        "folk": "hobs"
+      },
+      "fact": "folk.bell_taken",
+      "topic": "the bell the hobs took",
+      "heard": "chapel"
+    },
+    {
+      "when": {
+        "folk": "outlaws"
+      },
+      "fact": "folk.hamo_road",
+      "topic": "Sir Hamo's outlaws",
+      "heard": "prey"
     }
   ]
 }

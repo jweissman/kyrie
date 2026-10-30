@@ -1,22 +1,28 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Change, Predicate } from '../lang/module';
+import type { Call, Change, Predicate } from '../lang/module';
 import { EngineWrites } from '../campaign/engine-writes';
+import { EntityIndex } from '../lang/entity-index';
+import { ModuleWriter } from '../lang/module-writer';
 import type { Placement } from './world-assembler';
 
 export interface AuditFinding { kind: 'route' | 'resource' | 'clue' | 'outcome'; subject: string; text: string }
+// A site a placement sets apart (a kit's hold, a makers' work), and the settlements it is bound to, whose people
+// should tell of it (see PlacedSites).
+export interface PlacedSite { subject: string; place: string; towns: string[] }
 
 // Whether a world's adventures can be found and finished, read off the world itself rather than trusted to its
 // generator: every place a story is set in can be walked to (by any way, shut or not: a way can be opened); every
 // thing someone wants exists somewhere the company can get it (for sale, growing, lying about) and not only in their
-// own hands; every story has someone who tells of it, somewhere the company can reach; and every story's ending names
-// only what something in the world can bring about. What the willow fix did for one fever, for every story.
+// own hands; every story has someone who tells of it, somewhere the company can reach; every site set apart for one
+// is told of where it belongs, and knowing of it is an aim; and every story's ending names only what something in the
+// world can bring about. What the willow fix did for one fever, for every story.
 export class WorldAudit {
   // Written by the engine rather than by rules: what a story may wait on without any rule asserting it.
   static readonly engine = EngineWrites.names;
-  static audit(campaign: Campaign, placements: Placement[] = []): AuditFinding[] {
+  static audit(campaign: Campaign, placements: Placement[] = [], sites: PlacedSite[] = []): AuditFinding[] {
     const reach = this.reachable(campaign);
     return [...this.routes(campaign, placements, reach), ...this.resources(campaign, reach),
-      ...this.clues(campaign, placements, reach),
+      ...this.clues(campaign, placements, reach), ...this.leads(campaign, sites, reach),
       ...this.outcomes(campaign)];
   }
   // Every place reachable from where the company stands, by every passage there is.
@@ -83,6 +89,50 @@ export class WorldAudit {
         text: carriers.length ? 'no one who tells of it can be reached' : 'no one tells of it' }];
     }));
   }
+  // Each placed site: a fact that leads to it, told in a settlement it is bound to by someone (or something) the
+  // company can reach, and an aim that knowing it makes. The hobs' hold had none of the three, and twelve works of
+  // thirteen had no aim (the expedition diagnosis, 30 October).
+  private static leads(campaign: Campaign, sites: PlacedSite[], reach: Set<string>): AuditFinding[] {
+    const leads = this.rows(campaign, 'leadsTo');
+    return sites.flatMap(site => {
+      const towns = new Set(site.towns.map(t => this.settlement(campaign, t)).filter(t => t !== undefined));
+      const facts = leads.filter(r => r.args[1] === site.place).map(r => r.args[0]!);
+      const told = facts.filter(f => this.told(campaign, f)
+        .some(at => reach.has(at) && towns.has(this.settlement(campaign, at) ?? '')));
+      const text = !facts.length ? 'nothing leads to it'
+        : !told.length ? 'nobody in a settlement it is bound to tells of it'
+          : !told.some(f => this.aimed(campaign, f)) ? 'knowing of it makes no aim' : undefined;
+      return text ? [{ kind: 'clue' as const, subject: site.subject, text }] : [];
+    });
+  }
+  // Where a fact is told: where they stand who tell it when asked (as testimony, or as a topic of their own), and
+  // where it is seen.
+  private static told(campaign: Campaign, fact: string): string[] {
+    const world = campaign.world, rows = this.rows.bind(this, campaign);
+    const sources = new Set(rows('reveals').filter(r => r.args[1] === fact).map(r => r.args[0]!));
+    const witnesses = rows('testimony').filter(r => sources.has(r.args[1]!)).map(r => r.args[0]!)
+      .filter(who => world.test(ModuleWriter.call('knows', who, fact)));
+    const speakers = campaign.schemaList.filter(a => a.speaker && a.success
+      .some(c => c.kind === 'assert' && c.call.name === 'knows' && c.call.args[1] === fact)).map(a => a.speaker!);
+    const seen = (campaign.module.observations ?? []).filter(o => o.teaches === fact).map(o => o.place);
+    return [...witnesses, ...speakers, ...seen].map(x => this.where(campaign, x) ?? x);
+  }
+  private static rows(campaign: Campaign, name: string) {
+    return campaign.world.relates(name) ? campaign.world.related(name) : [];
+  }
+  // Whether some aim holds when the fact is known: its condition asks that it be known, not that it not be.
+  private static aimed(campaign: Campaign, fact: string): boolean {
+    return (campaign.module.objectives ?? [])
+      .some(o => this.calls(o.when).some(c => c.name === 'knows' && c.args[1] === fact));
+  }
+  // The settlement a place is in (or is).
+  private static settlement(campaign: Campaign, id: string): string | undefined {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    for (let e = byId.get(id); e; e = e.space?.parent ? byId.get(e.space.parent) : undefined) {
+      if (e.space?.kind === 'settlement') { return e.id; }
+    }
+    return undefined;
+  }
   // Each ending names only what an action, a rule, an event, the world at its start or the engine can bring about.
   private static outcomes(campaign: Campaign): AuditFinding[] {
     const module = campaign.module;
@@ -95,11 +145,13 @@ export class WorldAudit {
         .map(name => ({ kind: 'outcome' as const, subject: id, text: `waits on ${name}, which nothing in the world asserts` }))));
   }
   // The relations a predicate needs to hold, positively.
-  private static wanted(p: Predicate, positive = true): string[] {
+  private static wanted(p: Predicate): string[] { return this.calls(p).map(c => c.name); }
+  // The calls a predicate needs to hold, positively.
+  private static calls(p: Predicate, positive = true): Call[] {
     switch (p.kind) {
-      case 'call': return positive ? [p.name] : [];
-      case 'not': return this.wanted(p.value, !positive);
-      case 'and': case 'or': return [...this.wanted(p.left, positive), ...this.wanted(p.right, positive)];
+      case 'call': return positive ? [p] : [];
+      case 'not': return this.calls(p.value, !positive);
+      case 'and': case 'or': return [...this.calls(p.left, positive), ...this.calls(p.right, positive)];
       default: return [];
     }
   }
