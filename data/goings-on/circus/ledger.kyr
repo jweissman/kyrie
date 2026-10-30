@@ -27,7 +27,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Speaker lusk. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(lusk, site) and strikeOn(wapshotts) and quantity(actor, gold) >= arrears(wapshotts) * 10.
     On success { Decrease quantity(actor, gold) by arrears(wapshotts) * 10. Set arrears(wapshotts) to 0. Retract strikeOn(wapshotts). Increase regard(lusk) by 2. }
-    Result "Lusk counts it, carefully, twice, and divides it among eight caps on the grass. The lads stand up. One of them shakes your hand. Lusk looks at you for a long time and says, 'Thank you,' which is two words, both of them true.".
+    Result "Lusk counts it, carefully, twice, and divides it among eight caps on the grass. The lads stand up. One of them shakes your hand. Lusk says, 'Thank you.' It is the most anybody has heard from him since the spring.".
   }
   Action talk_lads_round(actor: group, site: place) "Talk Lusk's lads into playing tonight, on your word they will be paid at the Fair" {
     Speaker lusk. Time 3.
@@ -147,7 +147,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Time 3.
     Requires able(actor) and company(actor) and at(actor, site) and at(hal, site) and at(dunstan, site) and holding(actor, quincey_bill_kind) and not feudMended(hal) and not dunstanGone(dunstan).
     On success { Assert feudMended(hal). Increase regard(hal) by 2. Increase regard(dunstan) by 2. Increase regard(pip) by 1. }
-    Result "You put the playbill down on an upturned bucket between them, and stand back. Hal reads it. Dunstan reads it upside down, then goes round and reads it the right way up. Nobody says anything for a long time. 'He dreamed it,' says Hal at last, hoarsely. 'He worked it out,' says Dunstan. 'On a slate.' They look at the woodcut, the two men going over each other like a wheel. 'He never said,' says Hal. 'He wanted us to think it was ours,' says Dunstan. And then, without anybody deciding, they are hitting each other, but it is mostly on the shoulders, and it turns into something else, and Pip, watching from the ring boards, bursts into tears and says she is not crying, she has sawdust in both eyes.".
+    Result "You put the playbill down on an upturned bucket between them, and stand back. Hal reads it. Dunstan reads it upside down, then goes round and reads it the right way up. Nobody says anything. Somewhere behind the canvas the band is tuning, badly. 'He dreamed it,' says Hal at last, hoarsely. 'He worked it out,' says Dunstan. 'On a slate.' They look at the woodcut, the two men going over each other like a wheel. 'He never said,' says Hal. 'He wanted us to think it was ours,' says Dunstan. And then, without anybody deciding, they are hitting each other, but it is mostly on the shoulders, and it turns into something else, and Pip, watching from the ring boards, bursts into tears and says she is not crying, she has sawdust in both eyes.".
   }
   Topic honoria_heads with honoria "Ask Honoria to bang the Quinceys' heads together, as their father would have" when knows(actor, father_quincey) and regard(honoria) >= 1 and not feudMended(hal) and not dunstanGone(dunstan) once {
     Says "Honoria wipes her hands on her apron. 'Barnaby used to say that,' she says, 'and never did it, not once; he was too soft.' She goes into the ring, where the brothers are tumbling at opposite ends, takes one by each collar, lifts them off the ground, and brings their heads together, not hard, with a noise like two coconuts meeting at a fair. She sets them down. 'Your father,' she says, 'would be ashamed of the pair of you. Now kiss and be friends or I'll do it again.' They do not kiss. But that night, in the ring, they look at each other.".
@@ -173,6 +173,16 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert knows(actor, pruett_waits). }
   }
   Entity pruett_waits: fact "Mrs Pruett of the tripe-lane will not go up to the circus to her daughter, but says her daughter's mother is where she left her.".
+  Action persuade_pruett(actor: group, site: place) "Persuade Mrs Pruett to come round to the back of the big top after the show, just once" {
+    Speaker pruett. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pruett, site) and knows(actor, pruett_waits) and not reunited(pruett) and not triedPruett(actor) and here(tober_c).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert reunited(pruett). Assert walksForHer(zephyrine). Increase regard(zephyrine) by 2. Increase larder(wapshotts) by 2. }
+    On failure { Assert triedPruett(actor). }
+    Result "You do not tell her anything about her daughter she does not know. You tell her about the wire: that the Sylph sits down on it halfway, every night, and nobody in the house knows why, and you think you do. Mrs Pruett scrapes the same piece of tripe for a long while. Then she unties her apron. That night, when the house has gone, a small woman in her Sunday shawl comes round the back of the big top past the horse lines, with a parcel of tripe under her arm, and knocks on the steps of a blue wagon with stars on it; and the door opens, and nobody in the backyard looks, very carefully, for an hour.".
+    Otherwise "'No,' says Mrs Pruett. 'She knows where the lane is.'".
+  }
+  Relation triedPruett(group).
   Topic zeph_mother with zephyrine "Tell Zéphyrine that her mother sits at the back every night, and is where she left her" when knows(actor, pruett_waits) and not reunited(pruett) once {
     Says "The Sylph goes very white, and then very red, and her accent goes altogether. 'She comes?' says Susan Pruett of {town_c}. 'Every night? The old devil. The old devil. She never said a word.' She sits down on the wagon steps. 'I wrote her a letter every round for eight years and I tore them all up. I was going to come down the lane in a carriage. With a footman. And throw her a purse.' She laughs, and it comes out wrong. 'I haven't got a carriage. I haven't got a footman.' She puts her face in her hands. 'Will you walk down with me? I'll not get there on my own. I've walked over a river on a rope and I can't walk down that lane.'".
     On discuss { Assert zephAsks(zephyrine). }
@@ -224,7 +234,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert nellAtShow(nell). }
     On failure { Assert triedAske(actor). }
-    Result "You tell her about the canvas wagon, and the eight good lads, and the man who sews the big top seam by seam every morning and carries a child's drawing of it folded in his shirt. Mrs Aske goes on with her sampler for a long time. 'Once,' she says at last. 'The back bench. And home by nine.' Under the table there is a sound like a kettle coming to the boil.".
+    Result "You tell her about the canvas wagon, and the eight good lads, and the man who sews the big top seam by seam every morning and carries a child's drawing of it folded in his shirt. Mrs Aske goes on with her sampler, and the clock goes on with its ticking, and you count eleven ticks. 'Once,' she says at last. 'The back bench. And home by nine.' Under the table there is a sound like a kettle coming to the boil.".
     Otherwise "'No,' says Mrs Aske. 'I know what a circus is. A circus is a thing that leaves.'".
   }
   Relation triedAske(group).

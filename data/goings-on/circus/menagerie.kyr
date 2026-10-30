@@ -43,7 +43,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Time 6.
     Requires able(actor) and company(actor) and at(actor, site) and at(beastpost, site) and exhibits(wapshotts) >= 1 and keptDay(actor) < day(clock).
     On success { Set keptDay(actor) to day(clock). Increase welfare(wapshotts) by 1. Increase regard(billie) by 1. }
-    Result "An hour with a fork and a barrow and Billie, who says nothing while you work and then, at the end, hands you a mug of tea with a great deal of sugar in it, which in Billie is a speech.".
+    Result "An hour with a fork and a barrow and Billie, who says nothing while you work and then, at the end, hands you a mug of tea with five sugars in it, because that is how she was given it at your age, on a drove road in the rain.".
   }
   Action buy_feed(actor: group, site: place) "Buy two days' feed for the menagerie from Billie's dealer, three coin" {
     Speaker billie. Time 2 minutes.
@@ -254,6 +254,11 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule hob_show near ringpost when hobJoined(ninepence) and showOn(wapshotts) and act(wapshotts) == 2 and not hobToldTonight(ninepence)
     says "In the middle of the horse's act the Colonel's hat lifts off his head of its own accord, floats twice round the ring at the height of a man's shoulder, and settles on Bucephalus. The house shrieks. Bucephalus allows it. In the gloom under the benches something small and brown is laughing." {
     Assert hobToldTonight(ninepence). Increase quality(wapshotts) by 1. Increase house(wapshotts) by 1. }
+  Topic hob_tortoise with ninepence "Ask Ninepence why he sits every night by the tortoise's straw" when hobJoined(ninepence) and exhibit(methuselah) once {
+    Says "Ninepence does not look round. He is sitting cross-legged on the edge of the tortoise's pen with his long hands in his lap, and the tortoise has put his old head out toward him, very close. 'We've met,' says the hob. 'On the mill road, in the summer the river ran backward. A procession a mile long, all crowned wheels, and a trumpet at the front, and at the back a cart with this one in it, eating a cabbage, the same as now.' He scratches the tortoise under the chin, gently, and the tortoise shuts his eyes. 'They called him the Bishop. Because he blessed nothing, and outlived three.' He looks at you sidelong. 'He's going home, isn't he. Your Colonel's going to take him home. I can see it on him. They've been going round with one household or another for three hundred years, these two old things.' He means himself as well, and does not say so.".
+    On discuss { Assert knows(actor, bishop_known). }
+  }
+  Entity bishop_known: fact "Ninepence the hob saw the Royal Progress pass the mill road three hundred years ago, with Wapshott's tortoise in a cart at the back, called the Bishop.".
   Rule hob_quiet when hobToldTonight(ninepence) and not showOn(wapshotts) { Retract hobToldTonight(ninepence). }
   Relation hobToldTonight(group).
   Topic keeper_b_hob with keeper_b "Ask {keeper_b} whether the inn would take in a hob" when hobTerms(actor) and not hobJoined(ninepence) and not hobAtInn(ninepence) once {
@@ -336,7 +341,7 @@ Module circus "Wapshott's Peregrine Circus" {
       Increase draw(wapshotts) by 4. Increase exhibits(wapshotts) by 1. Retract honeyBought(actor). Increase regard(billie) by 2. }
     On failure { Assert offstage(bramble). Set brambleBack(bramble) to watch(clock) + 60. }
     Result "Billie puts a hand flat on your back and presses you down into the long grass beside her, and you throw the comb onto the net, and lie there. The owlbear comes swaying out of the trees, stops, screams at the dusk, and forgets you both for the honey. 'Now,' breathes Billie, and you pull the rope together, and the net closes, and the owlbear sits in it licking its claws with a round, astonished, sticky face. Billie lets out a breath she seems to have been holding since the morning.".
-    Otherwise "You throw the comb, and move, a little, and the owlbear sees you and screams, and Billie drags you backwards by the collar into the hedge. The owlbear eats the honey, and looks at the hedge for a long time, and goes off up the orchard into the dark. 'Tomorrow,' says Billie, shaking. 'Lie stiller.' She has the comb back out of the net, somehow, sticky with straw.".
+    Otherwise "You throw the comb, and move, a little, and the owlbear sees you and screams, and Billie drags you backwards by the collar into the hedge. The owlbear eats the honey, and stares at the hedge with its head on one side, and goes off up the orchard into the dark. 'Tomorrow,' says Billie, shaking. 'Lie stiller.' She has the comb back out of the net, somehow, sticky with straw.".
   }
   // While it warns, what brings it in instead of a fight: honey on the net, and someone for it to look at.
   Action lure_owlbear(actor: group, site: place) "Throw the honeycomb down on Lusk's net, and draw the owlbear's eye while it comes" {
@@ -347,7 +352,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On success { Assert exhibit(bramble). Assert travels(bramble). Assert post(bramble, rk_beasts). Assert tolerates(bramble, actor). Assert peaceable(bramble).
       Increase draw(wapshotts) by 4. Increase exhibits(wapshotts) by 1. Retract honeyBought(actor). }
     On failure { Retract honeyBought(actor). }
-    Result "You throw the comb down on the net, and step aside, and stand very still and low the way Billie told you, and the owlbear forgets you for the honey. It puts its whole face in the comb, purring like a millstone, and you pull the rope, and the net closes, and it does not even struggle; it lies in the net licking its claws, wrapped up like a parcel, and looks at you with a round, astonished, sticky face.".
+    Result "You throw the comb down on the net, and step aside, and stand very still and low the way Billie told you, and the owlbear forgets you for the honey. It puts its whole face in the comb with a noise like a bee-skep being sat on, and you pull the rope, and the net closes, and it does not even struggle; it lies in the net licking its claws, wrapped up like a parcel, and looks at you with a round, astonished, sticky face.".
     Otherwise "You throw the comb down on the net, and the owlbear looks at it, and then at you, and decides you are more interesting than honey. It eats the honey anyway, net and all, in one gulp, and tears the net in two, and comes on.".
   }
   Action lure_owlbear_look(actor: group, site: place) "Throw the honeycomb down on Lusk's net, and give the owlbear the Look while it comes" {
@@ -417,7 +422,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Species old_tortoise "a giant tortoise" like turtle tame described "A tortoise the size of a hip-bath, his shell domed and seamed like an old map, his neck wrinkled like a glove, his eye small, black, and immensely patient. He moves at the pace of a minute hand, toward cabbages.".
   Person methuselah "the giant tortoise" at carrier_c {
     Role "a tortoise of great age, eating a cabbage". Species old_tortoise. Peaceable. Pronouns he.
-    Greets "The tortoise lifts his head, very slowly, and regards you for a long time, and then, very slowly, goes back to his cabbage.".
+    Greets "The tortoise lifts his head, at the speed of a clock's hour hand, and regards you, and goes back to his cabbage as if you were a passing season.".
   }
   Relation tortoiseBought(group). Relation tortoiseHome(concern). Relation cabbages(group). Relation sledgeBuilt(group). Relation honoriaBack(concern). Measure backDay(concern).
   Topic wiltshaw_buy with wiltshaw "Buy the tortoise from Joby Wiltshaw for six coin" when quantity(actor, gold) >= 6 and not tortoiseBought(actor) once {
@@ -504,7 +509,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Otherwise "You wade in among the geese, who object, and the grass snake goes away through the reeds like a ribbon pulled through a ring.".
   }
   Observe snake_shown near snake when exhibit(snake) "In a bucket with a lid of wire netting, on a table draped in black velvet, under a board six feet long that says THE GREAT SERPENT OF {town_b}, a grass snake is asleep.".
-  Event serpent_to_fipps near fipps when keeps(fipps, old_serpent) "Fipps takes the old serpent in his arms as if it were a child brought home from a war. He cleans the mouthpiece on his waistcoat, and wets his lips, and blows; and down out of its black throat comes a note like a cow in love, round and huge and low, so low the cups rattle in the cookhouse. 'The G,' Fipps whispers. 'The low G.' Bucephalus, in the horse lines, lifts his head and neighs." then {
+  Event serpent_to_fipps near fipps when keeps(fipps, old_serpent) "Fipps takes the old serpent in his arms as if it were a child brought home from a war. He cleans the mouthpiece on his waistcoat, and wets his lips, and blows; and down out of its black throat comes a note like a church organ that has swallowed a bull, round and huge and low, so low the cups rattle in the cookhouse. 'The G,' Fipps whispers. 'The low G.' Bucephalus, in the horse lines, lifts his head and neighs." then {
     Assert serpentGiven(party). Assert bandWhole(wapshotts). Increase regard(fipps) by 3. }
   Relation bandWhole(concern).
   Rule band_better near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and bandWhole(wapshotts) and not bandToldTonight(wapshotts)

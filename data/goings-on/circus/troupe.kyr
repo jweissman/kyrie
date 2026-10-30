@@ -19,7 +19,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Person mumchance "Mumchance" at road_ca {
     Role "the circus's old clown". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "An old man sits on an upturned bucket in his shirtsleeves, painting his face white in a bit of mirror nailed to a wagon wheel. He has a long, lined, patient face, like a horse that has seen everything twice. He finishes the line of his mouth before he looks at you. 'They call me Mumchance,' he says, in a soft dry voice that you have to lean toward, 'because in the ring I never say a word. Out here I say several.'".
-    Greets again "Mumchance lifts one hand from his knee, which in him is a great deal of welcome.".
+    Greets again "Mumchance lifts one hand from his knee and lets it fall again.".
   }
   Person pip "Pip Gallant" at road_ca {
     Role "the circus's ring-girl and Mumchance's apprentice". Ancestry human. Calling monk. Level 1. Peaceable. Pronouns she. Manner cheerful.
@@ -64,11 +64,11 @@ Module circus "Wapshott's Peregrine Circus" {
   Person lusk "Gideon Lusk" at road_ca {
     Role "the circus's boss canvasman". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "A very large man with a beard like a hedge and hands like spades is splicing a rope with his teeth and one hand. He takes the rope out of his teeth. 'Lusk,' he says. That seems to be all. Then, after a while: 'Canvas.' Then, after another while, as if he had thought hard about whether you deserved it: 'Mind the guys.'".
-    Greets again "Lusk nods. It is very nearly a word.".
+    Greets again "Lusk nods.".
   }
   Person nance "Nance Tibbet" at road_ca {
     Role "the Sibyl of the Seven Rivers, fortune-teller". Ancestry human. Peaceable. Pronouns she. Manner jovial.
-    Greets "An old woman in nine shawls, rings on every finger and two on one thumb, is sitting on the steps of a black wagon with SIBYL on it in gold, smoking a clay pipe. 'Nance Tibbet,' she says, 'the Sibyl of the Seven Rivers, which the Colonel made up; I'm from a town with one river and that one's mostly mud.' She looks at your face for a long time. 'You want to know something. Everybody who comes to the Sibyl wants to know something. It's usually something they know already.'".
+    Greets "An old woman in nine shawls, rings on every finger and two on one thumb, is sitting on the steps of a black wagon with SIBYL on it in gold, smoking a clay pipe. 'Nance Tibbet,' she says, 'the Sibyl of the Seven Rivers, which the Colonel made up; I'm from a town with one river and that one's mostly mud.' She looks at your face the way a horse-coper looks at teeth. 'You want to know something. Everybody who comes to the Sibyl wants to know something. It's usually something they know already.'".
     Greets again "'Back again, dearie,' says Nance Tibbet. 'They always come back. I'd say I foresaw it, but I'd be lying, and I only lie for money.'".
   }
   Person billie "Billie Ostrander" at road_ca {
@@ -251,9 +251,18 @@ Module circus "Wapshott's Peregrine Circus" {
     Says "'Eleven years,' says Hench, threading a needle without looking at it. 'Her Grace of Oster. I dressed her for two weddings, three funerals, a christening and a war. I know the order of precedence of every coronet from here to the sea, how to bow to a margrave, an archduke and a dowager who is all three, and which fork.' He bites the thread. 'Then she married a man who liked his own valet, and I went for a walk, and the walk ended here. I now dress a horse.' A pause. 'He has better posture than the Margrave.'".
     On discuss { Assert knows(actor, hench_court). }
   }
+  Topic hench_progress with hench "Ask Hench whether the old courts ever went travelling" when knows(actor, hench_court) once {
+    Says "'The old kings did nothing else,' says Hench. 'The Household of the Progress: the whole court on the roads from spring to Michaelmas, two hundred wagons, a chapel on wheels, the Treasury in an iron cart, and the Menagerie Royal behind it all in cages, so that the country could see what the king owned. A crowned wheel on every wagon.' He bites a thread. 'They went round, my dear, exactly as we go round, only with archbishops instead of Quinceys. The last Progress was three hundred years ago. The Household still exists, on paper, in a house near the sea, with a Steward and no wagons.' He smooths the bodice on his knee. 'I have sometimes thought the Colonel was born three hundred years too late, and on the wrong side of the wheel.'".
+    On discuss { Assert knows(actor, progress_known). }
+  }
+  Entity progress_known: fact "The old kings' Household of the Progress went round the country with two hundred wagons and the Menagerie Royal, under a crowned wheel; it still exists, on paper, with a Steward and no wagons.".
   Entity hench_court: fact "Lucius Hench, Wapshott's wardrobe-master, was eleven years valet to the Margravine of Oster, and knows the forms of every court.".
   Topic hench_owed with hench "Ask Hench how the wardrobe does" when true once {
     Says "'Spangles,' says Hench, 'are the curse of my life. They come off in the ring, and the ring eats them, and I sew them back, and the Colonel does not pay for the gold braid, which I bought in {town_a} on my own account last spring and have not been paid for since.' He holds up a tumbler's jersey with a rent in it from collar to hip. 'One of the Quinceys. They tear each other's costumes now, on the turn, out of spite, and pretend it is the other's fault, and I am to make them whole by seven.'".
+  }
+
+  Topic mum_slee with mumchance "Ask Mumchance what he makes of Varney Slee" when knows(actor, slee_named) once {
+    Says "'He makes things easy,' says Mumchance. 'He told me so. He told Hal he could make the Turn easy for him, at the Hippodrome, with a net.' He is quiet. 'Everything worth doing in this tent is hard. The fall's easy. Anybody falls. The get-up's hard. A man who makes things easy is a man who has never got up.' He looks at his knee. 'Mind, I've known some very nice men with nets.'".
   }
 
   // ── Gideon Lusk ──────────────────────────────────────────────────────────────────────────────────────────────

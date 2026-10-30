@@ -11,6 +11,32 @@ and one regional crisis: an old debt bought up by his former partner and fiancé
 The aim was a place the player is glad to find again with no quest pulling them there: humour from situations and
 people rather than names, warmth, theatre, a social life, and play that is self-directed.
 
+## Shape and themes (second pass)
+
+The second pass ([critique.md](critique.md)) gave it acts and a spine. Four **chapters** open on the page:
+**The Wagons** (the first step onto a pitched ground), **The Note** (when the company learns of the debt),
+**The Goose Fair** (in the fair town once the Fair is on), **On the Road Again** (the strike after the reckoning).
+The note is foreshadowed before it is served: a man in a grey hat at the back of the house counting benches,
+Nance's warning, a portrait turned to the wall among the Colonel's relics. The Fair has a worst hour (the raiders)
+and is heralded for days by geese on every road.
+
+Three themes run through the threads and are made to rhyme:
+
+- **The roof and the road**: the Colonel's amphitheatre, Honoria's tea-shop, Nell and her gran's *a circus is a thing
+  that leaves*, the Sylph who left a tripe-lane, the hob who must leave his mill, a tortoise that has gone round with
+  one household or another for three hundred years. Mumchance hears of Mrs Pruett on the back bench and tells of his
+  own father at the back of the house at Dunmere for twenty-two years.
+- **Humbug and the true thing**: the bills, the basilisk "theory", Slee who "makes things easy", Sallow who "has never
+  cheated". The fair town's priest says *I don't mind it being impossible; I mind it being false*, and says it again
+  as a juror, about whichever true thing the company made possible.
+- **The fall and the get-up**: Mumchance's whole art. The Colonel falls over the ring boards every night and has never
+  once meant it; Mumchance says the day he means it he will be a clown; at the paid reckoning he means it.
+
+Arcs: the Colonel (relics, the box counted alone at night, *I did not dare* about the lion, the fall meant, a true
+*thank you*); Mumchance (forty years' silence, one word at the Flyting, if earned); Ada (Sallow's offer of the
+quarter-share she wanted; the Colonel's pen, if he learns of it and the note is paid); Jos (for or against Wapshott's
+at the Fair, by how he was beaten).
+
 ## Where it lives in the shared world
 
 The circus is not a country of its own. It is a **standing scenario** of the first country
@@ -105,6 +131,11 @@ Seven parts of twenty minutes from seven o'clock, each with its variants:
    back bench.
 7. **The close**, the Colonel's nightly accidental fall over the ring boards, and the takings.
 
+Each act is told in full the first night the company sees it and briefly after; and every night one incident from a
+small table happens only that night (a dog Mumchance adopts into the act, a drunk thrown by the Quinceys, the lamps
+guttering and Pip holding a lantern up for the wire, a sleeping child waking into the silence, a goose and
+Bucephalus, a proposal in the gallery).
+
 ### A turn of your own
 
 Ask the Colonel, audition at the morning rehearsal (performance), and book a turn: a **clown's turn** with Mumchance
@@ -174,6 +205,11 @@ kept by feed and mucking out), and gets out when it is not. Six commissions, eac
 loose on the green with the baker's buns: lead her home with honey, or walk backwards with the Look; leave her and
 she goes to the hills with the town's washing, at a cost to the box and the town's regard.
 
+Sallow's own show can be seen across the green: flawless, and at the end an old blind lion, Nebuchadnezzar, who was in
+the cage at Dunmere on the wedding morning. If the hob and the tortoise are both with the circus, Ninepence knows
+him: he saw him go by on the mill road in a cart at the back of the old Royal Progress, and they called him the
+Bishop.
+
 Methuselah's shell bears **MENAGERIE ROYAL** and the crowned wheel of the old kings' Royal Progress (Hench knows it).
 
 ## The principal conflict: the Note and the Goose Fair
@@ -190,10 +226,18 @@ ticket in the hymnal, the grease and the stub on the platform, Slee himself in t
 band's stands, check the rigging, sit up with the cage. Two pieces of evidence set before Madame Sallow, and she
 dismisses him.
 
+**The worst hour.** At eleven on the Fair's first night three men from Dunmere, paid a shilling a rope, come over the
+hedge to cut the guy-ropes. Fight them (they are three warriors of the second level; a first-level company can die);
+raise the circus's old cry, **Hey Rube!** (a hand of the circus is answered at once, a stranger only with a hard
+performance check), and the whole backyard turns out behind Honoria and a frying-pan; outbid Slee; tell them who
+sleeps in the cookhouse wagon; lead them through the guy-ropes in the dark; or feint at an Honoria who is not there.
+Nobody on the ground, and the big top is down by morning: the contest is played in a patched tent, which costs the
+show and, to the fair town's innkeeper, says something in its favour.
+
 **The Fair** (three days): the town white with geese; the Clerk's pitch-toll (the jury notes who pays); on the second
 afternoon, the **Flyting** on the green, Captain Bombazine against Wapshott's fool, and Mumchance will not speak, so
 someone must; on the third night the jury (the Clerk, and the fair town's own innkeeper and priest) sees the show. The
-verdict at nine weighs the night's quality with what the Fair has seen: the Flyting, the toll, the menagerie, an
+verdict at nine (each juror first gives a reason aloud, from what the company made true) weighs the night's quality with what the Fair has seen: the Flyting, the toll, the menagerie, an
 honest basilisk or a dishonest one found out, and how fond the town is of the circus.
 
 **The reckoning** at ten, in the Colonel's wagon:
@@ -212,7 +256,8 @@ Mumchance says Honoria asked him whether he remembered Wakeham. Nothing more is 
 `data/goings-on/circus/` (one module, seven files): `circus.kyr` (the towns, the grounds, the circuit, the bills, the
 towns' talk), `troupe.kyr` (the company and its life), `show.kyr` (the show and a turn of one's own), `art.kyr` (the
 Gentle Art, heckling, pastimes), `ledger.kyr` (the economy and the troupe's own stories), `menagerie.kyr`,
-`note.kyr` (the conflict, the Fair, milestones). About 2,300 lines of Kyr.
+`acts.kyr` (chapters, foreshadowing, the relics, the raiders, the jury's reasons, the arcs added in the second pass),
+`note.kyr` (the conflict, the Fair, milestones). About 2,600 lines of Kyr.
 
 Engine and shared content changed for it, each general:
 
@@ -225,12 +270,13 @@ The circus uses no `Ending`: it lives in the shared country, and the book must n
 
 ## Tests and what was verified
 
-`test/circus.test.ts` (21 tests, by the labels a player sees): lint clean; the first afternoon's parade and show;
+`test/circus.test.ts` (27 tests, by the labels a player sees): lint clean; the first afternoon's parade and show;
 the circuit and the road; riding with the wagons; the Fall and its technique; a turn in the ring; the basilisk; the
 hob; the glimmer-fox; the tortoise and its crest; the owlbear (with Billie); the serpent; Jos's heckling; Nell; the
 Quinceys; the Sylph's mother; the note served and the Fair set; the three reckonings (with outcomes staged, since a
-whole run is longer than a test); the Flyting and Wat; and the circus placed and visited in a generated country
-(`thorn`).
+whole run is longer than a test); the Flyting and Wat; and the circus placed, visited and found again in the second town on the fourth day in a generated country
+(`thorn`); and the second pass's chapters, brief repeats, the raiders stopped and not stopped, Mumchance's word,
+and Ada's quarter-share.
 
 Played by the developer at the command line (`bin/kyrie play`), not by an independent player. Not verified in play:
 the browser presentation of the circus, the map's drawing of the three grounds, a full unhurried run from the first

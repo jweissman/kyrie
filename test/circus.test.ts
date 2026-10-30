@@ -118,7 +118,7 @@ describe("Wapshott's menagerie", () => {
   it('asks the hob of the mill, and takes him only on his own terms', async () => {
     const t = await Circus.start('hob');
     await t.play(...onGround, ...toColonel, 'Ask the Colonel about his menagerie', '=day 4 15:00', '>host__b_green', '^To the old fulling',
-      'Talk to Mrs Thrussell', 'Ask Mrs Thrussell about the hob', '>' + c('yard_b'), 'Ask Honoria for a bowl of cream', '>' + c('mill_b'),
+      'Talk to Mrs Thrussell', 'Ask Mrs Thrussell about the hob', '=day 4 18:10', '>' + c('yard_b'), 'Ask Honoria for a bowl of cream', '>' + c('mill_b'),
       '=day 4 21:30', "Set Honoria's bowl", 'Talk to Ninepence', 'Ask Ninepence what it would take', '>' + c('wagons_b'), "Put Ninepence's terms");
     expect(t.labels().some(l => l.startsWith('Persuade the Colonel that a hob who works the show unseen'))).toBe(true);
     t.stage(['colonelAgreesHob', 'wapshotts']);
@@ -254,18 +254,18 @@ describe("Wapshott's dangers, muddles and rivals", () => {
 
   it('settles the note at the Fair by the box, by Sallow tearing it, or by a merger', async () => {
     const paid = await Circus.start();
-    await paid.play(...onGround, 'Talk to Ada', '=day 10 15:00');
+    await paid.play(...onGround, 'Talk to Ada', '>host__a_tap', '=day 10 15:00');
     paid.stage(['set', 'fairScore', 'wapshotts', '20'], ['set', 'strongbox', 'wapshotts', '30']);
     await paid.play('=day 12 23:00');
     expect(paid.holds('contestWon', 'wapshotts')).toBe(true);
     expect(paid.holds('noteDischarged', 'wapshotts')).toBe(true);
     const torn = await Circus.start();
-    await torn.play(...onGround, 'Talk to Ada', '=day 10 15:00');
+    await torn.play(...onGround, 'Talk to Ada', '>host__a_tap', '=day 10 15:00');
     torn.stage(['sleeExposed', 'slee'], ['set', 'strongbox', 'wapshotts', '0']);
     await torn.play('=day 12 23:00');
     expect(torn.holds('noteTorn', 'wapshotts')).toBe(true);
     const merged = await Circus.start();
-    await merged.play(...onGround, 'Talk to Ada', '=day 12 23:00');
+    await merged.play(...onGround, 'Talk to Ada', '>host__a_tap', '=day 12 23:00');
     expect(merged.holds('merged', 'wapshotts')).toBe(true);
     await merged.play('=day 13 15:00');
     expect(merged.holds('travels', 'sallow')).toBe(true);
@@ -285,5 +285,67 @@ describe("Wapshott's in a generated country", () => {
     while (s.campaign.state.elapsed < 40) { await s.perform('wait'); }
     await GeneratedWorld.travel(s, c('tober_a'));
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('The big top stands in the middle of the field');
+    while (s.campaign.state.elapsed < 480) { await s.perform('wait_hour'); }
+    expect([c('wagons_b'), c('ring_b'), `region__${b}_green`]).toContain(s.campaign.world.one('at', c('wapshott'))!);
+    expect(s.campaign.world.test(ModuleWriter.call(c('here'), c('tober_a')))).toBe(false);
   }, 120000);
 });
+
+describe("Wapshott's second pass: chapters, the worst hour, and what changes", () => {
+  it('opens its chapters on what is seen: the wagons, the note, the Fair', async () => {
+    const t = await Circus.start();
+    await t.play(...onGround);
+    expect(t.page).toContain('You have walked into a circus.');
+    await t.play('Talk to Ada', '=day 3 14:00', '>' + c('tober_a'), 'Ask Ada what the man');
+    expect(t.page).toContain('Behind every circus there is a second circus');
+  }, 120000);
+
+  it('tells an act in full the first night and briefly after, and every night has its own incident', async () => {
+    const t = await Circus.start();
+    await t.play('=day 1 18:30', '^To Wapshott', 'Sign Ada', '^To the big top', '=day 1 21:10', '=day 2 18:50', '=day 2 21:10');
+    expect(t.page).toContain('The band crashes into the Grand Entry');
+    expect(t.page).toContain('They always do; you find you have roared too.');
+  }, 180000);
+
+  it('meets the men from Dunmere at midnight on the Fair\'s first night, and a hand can raise the cry', async () => {
+    const t = await Circus.start();
+    await t.play(...onGround, 'Sign Ada', 'Talk to Ada', '>host__a_tap', '=day 10 22:30', '>' + c('tober_a'), '=day 10 23:05');
+    expect(t.page).toContain('We\u2019re paid by the rope');
+    await t.play('Raise the old cry');
+    expect(t.holds('raidStopped', 'wapshotts')).toBe(true);
+    expect(t.page).toContain('Honoria Bulstrode in a flowered nightgown with a frying-pan');
+    await t.play('>host__a_tap', '=day 11 9:00');
+    expect(t.holds('canvasCut', 'wapshotts')).toBe(false);
+  }, 240000);
+
+  it('lets the ropes be cut if nobody is on the ground, and the contest is played in a patched tent', async () => {
+    const t = await Circus.start();
+    await t.play(...onGround, 'Talk to Ada', '>host__a_tap', '=day 11 9:00');
+    expect(t.holds('canvasCut', 'wapshotts')).toBe(true);
+    expect(t.measure('canvas', 'wapshotts')).toBe(0);
+  }, 180000);
+
+  it('hears Mumchance say one word at the Flyting, if the company has the Answer and wins it', async () => {
+    const t = await Circus.start();
+    await t.play(...onGround, 'Talk to Ada', '>host__a_tap', '=day 11 11:00', '>host__a_green');
+    t.stage(['answerLearned', 'party'], ['fallLearned', 'party'], ['lookLearned', 'party']);
+    await t.play('=day 11 15:05');
+    t.stage(['set', 'composure', 'bombazine', '1']);
+    for (let n = 0; n < 4 && t.holds('inBout', 'bombazine'); n++) { await t.play('?Say nothing, and give|Answer Captain Bombazine'); }
+    if (t.holds('boutWon', 'party', 'bombazine')) {
+      expect(t.holds('mumSpoke', 'mumchance')).toBe(true);
+      expect(t.page).toContain('HE SPOKE! NINE YEARS!');
+    }
+  }, 240000);
+
+  it('gives Ada her quarter-share and the Colonel\'s pen, if he knew of Sallow\'s offer and the note is paid', async () => {
+    const t = await Circus.start();
+    await t.play(...onGround, 'Talk to Ada', '>host__a_tap', '=day 11 10:00', '>' + c('tober_a'), 'Ask Ada what Madame Sallow wanted', 'Tell Ada that Wapshott',
+      '>' + c('ring_a'), 'Tell the Colonel that Madame Sallow has offered', '>host__a_tap');
+    t.stage(['set', 'fairScore', 'wapshotts', '20'], ['set', 'strongbox', 'wapshotts', '40']);
+    await t.play('=day 12 21:40', '>' + c('wagons_a'), '=day 12 22:30');
+    expect(t.holds('noteDischarged', 'wapshotts')).toBe(true);
+    expect(t.holds('adaShared', 'ada')).toBe(true);
+  }, 300000);
+});
+

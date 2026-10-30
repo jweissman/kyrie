@@ -7,6 +7,7 @@
     "art.kyr",
     "ledger.kyr",
     "menagerie.kyr",
+    "acts.kyr",
     "note.kyr"
   ],
   "rules": [

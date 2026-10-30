@@ -8,7 +8,10 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation hand(group).
   Kind actpart. Entity part_entry: actpart "the Grand Entry". Entity part_horse: actpart "Bucephalus". Entity part_quincey: actpart "the Brothers Quincey".
   Entity part_ox: actpart "the Ox of Abernant". Entity part_clown: actpart "Mumchance". Entity part_wire: actpart "the Sylph". Entity part_close: actpart "the close".
-  Relation told(actpart).
+  Relation told(actpart). Relation sawAct(actpart). Measure incident(concern).
+  // An act told in full the first time the company sees it, and in brief after; and every night one thing that
+  // happens only that night.
+  Rule saw_act when told(?p) and at(party, ?r) and ringHere(?r) and not sawAct(?p) { Assert sawAct(?p). }
   Query tonightGround(g: place) means pitched(wapshotts) and current(wapshotts, g).
   Rule admit_ticket when ticketDay(party) == day(clock) and not admitted(party) { Assert admitted(party). }
   Rule admit_hand when hand(party) and not admitted(party) { Assert admitted(party). }
@@ -33,7 +36,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // ── The doors at seven ──────────────────────────────────────────────────────────────────────────────────────
   Rule show_begins when tonightGround(?g) and hour(clock) >= 19 and hour(clock) < 20 and showDay(wapshotts) < day(clock) and not strikeOn(wapshotts) {
     Assert showOn(wapshotts). Set showDay(wapshotts) to day(clock). Set act(wapshotts) to 1. Set actAt(wapshotts) to watch(clock).
-    Set house(wapshotts) to 2 + standing(?g) * 2. Set quality(wapshotts) to 0. Retract told(part_entry). Retract told(part_horse). Retract told(part_quincey). Retract told(part_ox). Retract told(part_clown). Retract told(part_wire). Retract told(part_close). }
+    Set house(wapshotts) to 2 + standing(?g) * 2. Set quality(wapshotts) to 0. Set incident(wapshotts) to dice(wapshotts). Retract told(part_entry). Retract told(part_horse). Retract told(part_quincey). Retract told(part_ox). Retract told(part_clown). Retract told(part_wire). Retract told(part_close). }
   Rule show_struck when tonightGround(?g) and hour(clock) >= 19 and showDay(wapshotts) < day(clock) and strikeOn(wapshotts)
     says "There is no show tonight. The canvasmen are sitting on the grass with their arms folded, and the big top stands dark, and people come to the field gate and look at it and go away." {
     Set showDay(wapshotts) to day(clock). Decrease standing(?g) by 1 or to nothing. }
@@ -55,17 +58,24 @@ Module circus "Wapshott's Peregrine Circus" {
     Decrease quantity(party, gold) by 1. Increase strongbox(wapshotts) by 1. Set ticketDay(party) to day(clock). Assert admitted(party). }
 
   // ── 1. The Grand Entry ─────────────────────────────────────────────────────────────────────────────────────
-  Rule entry_told near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and not musicSwapped(wapshotts)
+  Rule entry_told near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and not musicSwapped(wapshotts) and not sawAct(part_entry)
     says "The band crashes into the Grand Entry. The flap flies back and in they all come, at a canter, at a walk, on their hands: the Brothers Quincey turning cartwheels, Pip with a banner, the Ox of Abernant with a pony under each arm, the Sylph in silver standing on Bucephalus's back as if he were a floor, and last of all the Colonel, enormous in crimson, cracking a whip at nothing. 'LADIES,' he roars, 'AND GENTLEMEN, AND THOSE OF YOU WHO ARE NEITHER!' The benches roar back. It is impossible not to roar back." {
     Assert told(part_entry). Increase quality(wapshotts) by 1. }
   Rule entry_hymn near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and musicSwapped(wapshotts)
     says "The band crashes into the Grand Entry, and it is a hymn. Fipps stares at the book on his stand, which is not his book, and goes on, because the band always goes on, and the whole company comes cantering into the ring to THE PENITENT'S LAMENT, slow, in a minor key, so that the Brothers Quincey cartwheel in like mourners and Bucephalus stops dead in the ring, swings his great head round, and looks at Fipps. The benches do not know whether to laugh. Some of them take their hats off." {
     Assert told(part_entry). Decrease quality(wapshotts) by 1. Assert musicSpoiled(wapshotts). }
+  Rule entry_again near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and not musicSwapped(wapshotts) and sawAct(part_entry)
+    says "The Grand Entry: the cartwheels, the banner, the Sylph standing on Bucephalus, the Colonel's roar. The benches roar back. They always do; you find you have roared too." {
+    Assert told(part_entry). Increase quality(wapshotts) by 1. }
   Relation musicSwapped(concern). Relation musicSpoiled(concern).
 
   // ── 2. Bucephalus at liberty ───────────────────────────────────────────────────────────────────────────────
-  Rule horse_told near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and not told(part_horse)
+  Rule horse_told near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and not told(part_horse) and not sawAct(part_horse)
     says "Then the ring is cleared, and Bucephalus comes in alone, with no bridle and no rider, and goes round at a slow, enormous, rocking canter, and when Billie Ostrander, at the ringside, lifts one finger he turns, and when she lifts two he kneels, and when the Colonel says 'And now, sir, bow to the noblest lady in the house,' he walks to the front bench and bows to a woman of ninety in a black bonnet, who bursts into tears." {
+    Assert told(part_horse). Increase quality(wapshotts) by 1. }
+
+  Rule horse_again near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and not told(part_horse) and sawAct(part_horse)
+    says "Bucephalus at liberty, rocking round the ring with nobody on him, turning at Billie's finger. Tonight he bows to a carter in the front row, who does not know where to look, and goes red to the hair." {
     Assert told(part_horse). Increase quality(wapshotts) by 1. }
 
   // ── 3. The Brothers Quincey ────────────────────────────────────────────────────────────────────────────────
@@ -81,26 +91,35 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation feudMended(group). Relation dunstanGone(group).
 
   // ── 4. The Ox of Abernant ──────────────────────────────────────────────────────────────────────────────────
-  Rule ox_strong near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and larder(wapshotts) >= 1
+  Rule ox_strong near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and larder(wapshotts) >= 1 and not sawAct(part_ox) and not honoriaAbed(honoria)
     says "The Ox of Abernant comes in in a leopard-skin and a flowered bonnet, bends four horseshoes into a heart, tears a book of the Colonel's sermons in half to great applause, and then stands under a platform with Bucephalus on it, sets her shoulders, and lifts him clear of the ground, horse and platform and all, while he looks out over the house with an expression of profound boredom." {
     Assert told(part_ox). Increase quality(wapshotts) by 1. }
-  Rule ox_hungry near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and larder(wapshotts) < 1
+  Rule ox_again near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and larder(wapshotts) >= 1 and sawAct(part_ox) and not honoriaAbed(honoria)
+    says "The Ox of Abernant: horseshoes into hearts, the Colonel's sermons torn in half, and the horse lifted on his platform, looking out over the house as if waiting for a better offer." {
+    Assert told(part_ox). Increase quality(wapshotts) by 1. }
+  Rule ox_hungry near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and larder(wapshotts) < 1 and not honoriaAbed(honoria)
     says "The Ox of Abernant comes in and bends the horseshoes, and tears the book, and then goes under Bucephalus's platform, and sets her shoulders, and lifts him an inch, and holds him there with her face going purple, and sets him down. The house claps kindly. The circus has eaten nothing since yesterday but bread, and in the backyard everybody knows it." {
     Assert told(part_ox). }
 
   // ── 5. Mumchance, and whoever else goes on ──────────────────────────────────────────────────────────────────
-  Rule clown_told near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and not told(part_clown) and liniment(mumchance)
+  Rule clown_told near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and not told(part_clown) and liniment(mumchance) and not sawAct(part_clown)
     says "Then Mumchance. He comes in through the curtain carrying a ladder, very carefully, and puts it up against nothing, and climbs it. That is the whole act, in a way. He climbs a ladder that is leaning on nothing, and it does not fall, and then it does, slowly, and he goes with it, all the way down, and lands, and lies there, and lifts his head and looks at the ladder with such reproach that the whole house howls. He does not say a word. Somebody on the back bench is crying with laughter and saying 'Oh no, oh no' over and over." {
     Assert told(part_clown). Increase quality(wapshotts) by 2. }
   Rule clown_stiff near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and not told(part_clown) and not liniment(mumchance)
-    says "Then Mumchance, with his ladder that leans on nothing. It is very funny. It is not quite what it could be: the fall, at the end, is a little careful, a little slow, as if the floor were further off than it used to be. The house laughs. Pip, at the curtain, is watching his knees." {
+    says "Then Mumchance, with his ladder that leans on nothing: he climbs a ladder that is leaning against nothing at all, and it stands, and then it doesn't, and he goes down with it. It is very funny. It is not quite what it could be: the fall, at the end, is a little careful, a little slow, as if the floor were further off than it used to be. The house laughs. Pip, at the curtain, is watching his knees." {
     Assert told(part_clown). Increase quality(wapshotts) by 1. }
+  Rule clown_again near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and not told(part_clown) and liniment(mumchance) and sawAct(part_clown)
+    says "Mumchance and the ladder that leans on nothing. You know exactly what is going to happen, and it happens, and knowing does not help at all; the man next to you has seen it eleven times and is lying on the bench." {
+    Assert told(part_clown). Increase quality(wapshotts) by 2. }
   Relation liniment(group). Measure linimentDay(group).
 
   // ── 6. The Sylph of the Wire ───────────────────────────────────────────────────────────────────────────────
   Rule wire_told near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and not told(part_wire) and not wireGreased(zephyrine)
-    and not walksForHer(zephyrine)
+    and not walksForHer(zephyrine) and not sawAct(part_wire)
     says "The lamps are lowered. A single light finds the wire, and on it, where nobody saw her climb, the Sylph: in silver, with a white parasol. She walks out over the ring. Halfway she stops, and sits down on the wire, as if on a garden wall, and takes off one slipper, and shakes a stone out of it, and puts it back on, and stands up. Nobody breathes. When she reaches the far platform the benches make a sound you have never heard people make, a sort of groan of relief." {
+    Assert told(part_wire). Increase quality(wapshotts) by 2. }
+  Rule wire_again near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and not told(part_wire) and not wireGreased(zephyrine) and not walksForHer(zephyrine) and sawAct(part_wire)
+    says "The lamps go down to one, and the Sylph walks out over the ring with her white parasol. Halfway, she sits on the wire as on a garden wall and shakes a stone out of her slipper. You know she will; the house knows she will; it holds its breath all the same, because the wire does not know." {
     Assert told(part_wire). Increase quality(wapshotts) by 2. }
   Rule wire_mother near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and not told(part_wire) and not wireGreased(zephyrine) and walksForHer(zephyrine)
     says "The lamps are lowered and the Sylph is on the wire, in silver, with her parasol. Halfway across, where she always sits down, she does not sit down. She stops, and looks down at the back benches, and lifts the parasol a little, the way you would lift a hand to someone across a street. Then she goes on, and she is not walking the wire, she is dancing on it, as if it were a floor at a wedding. At the back a small woman in a tripe-dresser's apron is standing up, and nobody behind her minds." {
@@ -109,6 +128,28 @@ Module circus "Wapshott's Peregrine Circus" {
     says "The lamps are lowered and the Sylph steps out onto the wire, and her slipper goes from under her. For a moment she is falling. Then she has the wire in the crook of one knee, and hangs there, upside down, forty feet up, with her silver hair coming down, and the house screams. She gets up. She walks to the far platform very slowly and stands there with her hand flat on the pole. The house claps as if it had been meant. Behind the curtain, Lusk goes up the far pole with a lantern, and comes down with grease on his fingers, and smells it, and looks at nobody." {
     Assert told(part_wire). Retract wireGreased(zephyrine). Assert wireSpoiled(zephyrine). Decrease quality(wapshotts) by 1. }
   Relation wireGreased(group). Relation wireSpoiled(group). Relation walksForHer(group).
+
+  // ── What happens only tonight ─────────────────────────────────────────────────────────────────────────────
+  Rule incident_dog near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and incident(wapshotts) <= 14 and not told(part_close) and not incidentTold(wapshotts)
+    says "Between acts a dog gets into the ring: a brown mongrel from the town, who trots once round the boards with great purpose, sits down in the exact centre, and scratches. Mumchance comes out of the curtain, looks at the dog, sits down beside it and scratches too. The dog leaves with him. The house will talk about nothing else." {
+    Assert incidentTold(wapshotts). Increase quality(wapshotts) by 1. }
+  Rule incident_drunk near ringpost when showOn(wapshotts) and act(wapshotts) == 3 and incident(wapshotts) >= 15 and incident(wapshotts) <= 28 and not incidentTold(wapshotts)
+    says "In the middle of the Quinceys a man from the benches climbs over the ring boards, very drunk, to show them how it is done. He does a cartwheel. It is not a good cartwheel. The Quinceys, without a word passing between them, pick him up by the elbows and throw him gently over their heads into the sawdust, and bow, and he bows too, and is carried off to the loudest cheer of his life." {
+    Assert incidentTold(wapshotts). }
+  Rule incident_lamps near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and incident(wapshotts) >= 29 and incident(wapshotts) <= 42 and not incidentTold(wapshotts)
+    says "Halfway through the wire the lamps gutter in a draught and go down to blue; for a moment the Sylph is a grey shape over the dark. Then a light comes up from below: Pip, standing on the ring boards with a stable lantern held up over her head at the full stretch of her arm, holding it there, shaking, till the Sylph is home." {
+    Assert incidentTold(wapshotts). Increase quality(wapshotts) by 1. }
+  Rule incident_child near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and incident(wapshotts) >= 43 and incident(wapshotts) <= 56 and not incidentTold(wapshotts)
+    says "On the front bench a child of about four has gone to sleep against her father's arm, and stays asleep through the cannon of laughter that goes up at the ladder, and through the band, and through the Colonel. When the house goes quiet for the wire she wakes up, and says, very loud, into the silence: 'Is it finished?' and the whole tent laughs, tenderly, like one person." {
+    Assert incidentTold(wapshotts). }
+  Rule incident_goose near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and incident(wapshotts) >= 57 and incident(wapshotts) <= 70 and not incidentTold(wapshotts)
+    says "A goose gets in under the side-wall and goes round the ring in front of Bucephalus, hissing at him the whole way. He does not alter his pace. At the end of the circuit he lowers his head and looks at it, from very close, and the goose remembers somewhere else it has to be." {
+    Assert incidentTold(wapshotts). }
+  Rule incident_proposal near ringpost when showOn(wapshotts) and act(wapshotts) == 7 and incident(wapshotts) >= 71 and incident(wapshotts) <= 82 and not incidentTold(wapshotts)
+    says "In the parade at the end a young man in the gallery stands up and shouts a girl's name, and then, into the silence, asks her to marry him. Every head turns. She says nothing for so long that the Colonel stops walking backwards. Then she says 'Go on, then,' and the band, which has never been at a loss in nineteen years, plays the Wedding March and the Galop at once." {
+    Assert incidentTold(wapshotts). }
+  Rule incident_reset when incidentTold(wapshotts) and not showOn(wapshotts) { Retract incidentTold(wapshotts). }
+  Relation incidentTold(concern).
 
   // ── 7. The close, and the takings ──────────────────────────────────────────────────────────────────────────
   Rule close_told near ringpost when showOn(wapshotts) and act(wapshotts) == 7 and not told(part_close)
@@ -228,7 +269,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Resolve check(actor, mending, dc_easy).
     On success { Set spangledDay(actor) to day(clock). Assert spangled(wapshotts). Increase regard(hench) by 1. }
     On failure { Set spangledDay(actor) to day(clock). }
-    Result "An hour on the wardrobe wagon's steps with a lapful of the Sylph's bodice and a saucer of spangles, while Hench works through the Quinceys' jerseys beside you and tells you, without looking up, which margrave fainted at which wedding and why. At the end he holds your work up to the light, and says, 'Adequate,' which from Hench is a garland.".
+    Result "An hour on the wardrobe wagon's steps with a lapful of the Sylph's bodice and a saucer of spangles, while Hench works through the Quinceys' jerseys beside you and tells you, without looking up, which margrave fainted at which wedding and why. At the end he holds your work up to the light, and says, 'Adequate.' He puts it on the rail with the others, which is where he puts the work he will not have to do again.".
     Otherwise "An hour on the wardrobe wagon's steps with a lapful of spangles, and when you hold the bodice up half of them fall off again. Hench takes it from you very gently, as if from a child holding a knife.".
   }
   Rule spangles_shine near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and spangled(wapshotts) and not spangleTold(wapshotts)
