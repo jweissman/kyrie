@@ -169,7 +169,7 @@ describe('the King\'s Rest and its Inventory', () => {
     t.stage(['knows', 'rest_heard'], ['knows', 'seal_seen'], ['knows', 'letter_known']);
     await t.play('=day 13 19:00', '>' + c('wagons_b'), 'Ask Hench for a handful of spare spangles');
     t.stage(['at', 'party', 'gate_tower']);
-    await t.play('=day 14 10:00', 'Spread Hench', '>' + c('wagons_b'), 'Give the Steward');
+    await t.play('=day 14 10:00', 'Spread Hench', 'Climb back down', '>' + c('wagons_b'), 'Give the Steward');
     expect(t.holds('sealBack', 'tobias')).toBe(true);
   }, 600000);
 
@@ -179,7 +179,7 @@ describe('the King\'s Rest and its Inventory', () => {
     await t.play('=day 17 9:00', '>' + c('pit_water'));
     expect(t.knows('worm_stone')).toBe(true);
     expect(t.page).toContain('NOT DEAD ENOUGH');
-    await t.play('Collect the great claw', '>' + c('wagons_c'), 'Show the Colonel the great claw');
+    await t.play('Take', '=day 17 12:40', '>' + c('wagons_c'), 'Show the Colonel the great claw');
     expect(t.holds('clawToColonel', 'wapshott')).toBe(true);
   }, 600000);
 });

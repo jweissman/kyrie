@@ -6929,6 +6929,16 @@ You are dodging for 3 turns. Dodging: 2 harder to hit, +5 evasion.
 
 > Focus on dodging attacks, granting you evasion and enhanced AC.
 
+### Echo
+
+*Kyr · technique* · `ability:echo`
+
+- Again after: 4 turns
+
+Every enemy is distracted for a turn (a Wisdom save against 13 avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. Again after 4 turns.
+
+> Give a foe back its own voice and bearing, a beat late, until it cannot tell which of you it is answering: the second degree of the Gentle Art.
+
 ### Engulf
 
 *Faithful · technique* · `ability:engulf`
@@ -7138,6 +7148,16 @@ Weapon attack against one enemy; weapon attack against it; weapon attack against
 Weapon attack against one enemy; weapon attack against it; you are reckless for 3 turns (a Wisdom save against 15 + level + bonusSpellDC avoids it). Reckless: −2 to hit, 2 easier to hit.
 
 > Make a powerful double attack that deals +2 damage each, but you take -2 to hit and +2 AC for 2 rounds.
+
+### Reversal
+
+*Kyr · technique* · `ability:reversal`
+
+- Again after: 3 turns
+
+1d8 (1–8) physical damage to one enemy (a Dexterity save against 13 avoids it). Again after 3 turns.
+
+> Give a foe's own weight back to it, as the mirror-door of Pell and Fell gives back a movement: its rush carries it over its own feet.
 
 ### Riposte
 

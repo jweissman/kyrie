@@ -88,7 +88,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Entity inventory_known: fact "The Keepers' Book lists the Menagerie Royal at the last Progress: the Bishop, a tortoise; a lion of Barbary, Nebuchadnezzar the third; the Glimmer, a fox of the fens that burns cold; a Hob of the Kitchen, in service; two bears of the owl kind; a dozen salamanders of the Warm-House; and the Leg of the Great Worm, from the marl at the third town, the rest of him still under the field.".
   Topic jabez_margins with jabez "Ask Jabez what the notes in the margins say" when knows(actor, inventory_known) once {
     Says "Jabez runs a finger down the margins. 'Here, my first father: THE BISHOP STRAYED AT THE THIRD TOWNE FORD ON THE LAST DAY. NOT FOUND. That was the morning they left. He was always slow.' His finger moves. 'Here, his son: THE GLIMMERS GONE BACK TO THE FENNE. Here: THE HOBBE GONE, NOBODY TO COOK FOR. Here, the bears: GONE OVER THE WALL IN THE GREAT FROST, and somebody's added, my grandfather, I think, THEIR GRANDCHILDREN IN THE ORCHARDS AT THE FAIR TOWNE, EATING BEES.' He laughs, a dry little laugh like a bird. 'And here, at the Leg, my great-grandfather, the only time any Orme ever wrote in red: DO NOT DIGGE. HE IS NOT DEAD ENOUGH.' Jabez closes the book. 'We never knew what he meant. Grandfather said it was a joke. He never laughed at it, though.'".
-    On discuss { Assert knows(actor, margins_known). }
+    On discuss { Assert knows(actor, margins_known). Assert knows(actor, marl_heard). }
   }
   Entity margins_known: fact "The Keepers' Book's margins say the Bishop strayed at the third town's ford on the last day of the last Progress; the Glimmer went back to the fen; the Hob left with nobody to cook for; the owl-bears went over the wall and their grandchildren eat bees in the fair town's orchards; and, in red, at the Leg of the Great Worm: DO NOT DIG. HE IS NOT DEAD ENOUGH.".
   // What the company already knows answers lines in the Book: Phase I's beasts, recognised.
@@ -157,6 +157,12 @@ Module circus "Wapshott's Peregrine Circus" {
     On success { Assert at(actor, gate_tower). }
     Result "You go up what is left of the gatehouse stair by its broken edges, with the wind in your ears and three hundred years of rook-droppings under your hands, and come out at the top among the sky.".
     Otherwise "Halfway up the broken stair a step goes from under your foot and you come down in a slither of stone and rook-nest, bruised, with Old Tom laughing above you.".
+  }
+  Action climb_down_tower(actor: group, site: place) "Climb back down the broken gatehouse stair" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_tower) and not capable(actor, climbing).
+    On success { Assert at(actor, rest_gate). }
+    Result "You come down the broken stair the slow way, facing the wall, a hand and a foot at a time, with Old Tom leaning over the parapet above you making remarks in three voices.".
   }
   Event seal_home near tobias when keeps(tobias, seal_ring) "Tobias Quarrendon takes the ring as if it were his great-aunt's heart, and kisses it, and puts it on his thumb, where it fits. 'She would have struck me off the Household,' he says. 'There are only two of us. It would have been a very small ceremony.'" then {
     Assert sealBack(tobias). Retract sealLost(tobias). Increase regard(tobias) by 2. }

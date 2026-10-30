@@ -801,7 +801,7 @@
     "faithful": 753,
     "adapted": 361,
     "represented": 4,
-    "kyr": 95,
+    "kyr": 97,
     "unsupported": 99,
     "unreachable": 4,
     "data-only": 12
@@ -931,7 +931,7 @@
       "faithful": 52,
       "adapted": 2,
       "represented": 0,
-      "kyr": 3,
+      "kyr": 5,
       "unsupported": 4,
       "unreachable": 0,
       "data-only": 0
@@ -8069,6 +8069,13 @@
    "section": "techniques"
   },
   {
+   "id": "ability:echo",
+   "title": "Echo",
+   "status": "kyr",
+   "book": "phb",
+   "section": "techniques"
+  },
+  {
    "id": "ability:engulf",
    "title": "Engulf",
    "status": "faithful",
@@ -8240,6 +8247,13 @@
    "id": "ability:reckless_attack",
    "title": "Reckless Attack",
    "status": "faithful",
+   "book": "phb",
+   "section": "techniques"
+  },
+  {
+   "id": "ability:reversal",
+   "title": "Reversal",
+   "status": "kyr",
    "book": "phb",
    "section": "techniques"
   },

@@ -90,3 +90,60 @@ was done about it, and what the language or tools could do. Written 30 October 2
 26. **The same night told the same way.** A show that runs nightly read like a gramophone by the third visit.
     *Done:* each act told in full once and briefly after (`sawAct`), and one incident a night. *Could:* a construct
     for "the first time the company sees this, and after".
+
+## Phase II, and the independent playtests
+
+27. **`Seen when` hides a person but not their greeting.** The hob, hidden until the cream, greeted a company that
+    walked into the mill ("'Ninepence,' he says, before you can ask"), with no hob on the page and nobody to talk to.
+    Found by the browser playtest. *Done:* the hob, the glimmer-fox and the grass snake are `offstage` until found.
+    *Could:* `Seen when` should suppress every telling of the person, the greeting included.
+28. **`Known as` is not used in a warning's patience line.** "Bramble will wait 7 minutes more" named the owlbear
+    before anyone had named it (and the playtester took Bramble for a goat met elsewhere). *Done:* the owlbear's name
+    is "the young owlbear", known as Bramble once caught. *Could:* the patience line should use the known-as name.
+29. **A module's weather is not the world's.** The circus threw its own rain at six, and "It is raining" was told
+    under a header saying FAIR. *Done:* the rain is gone; a rotten seam may split in the night wind instead. *Could:*
+    the region's weather readable by a module (`weather(sky, rain)`), so a show can be rained on honestly.
+30. **A rule's `says` with no anchor is heard anywhere in the world.** A dozen of the circus's "news" rules (the canvas
+    cut at the Fair, Madame Sallow refusing a contract, the hob leaving for the Rest) were told to a company in
+    another town. Found by reading every unanchored rule after the Phase II clock was played out. *Done:* each
+    anchored `near` its person or thing. *Could:* lint every unanchored `says` in a module that is installed in a
+    shared country, as it already advises on anchored rules that change the company.
+31. **Arrivals break a long wait.** Waiting "until dark" on the first town's green now stops at four, when the parade
+    arrives. Right for a player; it broke a shared test whose premise was an empty green, which now waits again
+    until it is dark.
+32. **Generated-world transcripts carry digests of the whole world**, so any module placed in every world breaks every
+    kept transcript though nothing it did changed. *Done:* the one transcript's digests re-recorded by replaying its
+    commands (the place, the watch and the told text are identical). *Could:* `bin/kyrie keep --rekey`.
+33. **A way back that needs what the way there needed.** Climbing the gatehouse by a check, without rope, left a
+    company on the tower with no way down, because the stair "needs climbing or rope" both ways. *Done:* a climb-down
+    action. *Could:* a passage needing something in one direction only.
+34. **The journey driver's `>place` walks ways, not actions**, so a test of a place reached by an action (the tower)
+    has to take the action by name. Correct, and worth knowing.
+35. **The background time limit.** The full suite takes about half an hour alone and longer beside other work; two
+    runs were stopped at the default thirty-minute limit before they finished.
+
+### The browser playtest, split as asked
+
+An independent agent played the built browser client for four in-game days without reading the circus's sources
+(see [verification.md](verification.md)). What it found in **the circus's own authoring** was fixed in Phase II's
+first commit: nothing said the circus was arriving today, and a player starting where it arrived could walk the whole
+circuit behind it (it is now pitched in the fair town on the first morning, and bills say *TOMORROW* and *BACK ROUND
+IN SIX DAYS*); the packed camp described itself as pitched on the road; no innkeeper said where it was *now* (each
+now does); the hob and the owlbear had no way in (the hob was a greeting with nobody behind it; Billie now says where
+the gear comes from, and the bee-wife gives honey on the Colonel's list alone); no hint led to the second lesson
+(Mumchance now says to watch from the wing); the List of Wonders could not be read (it can); a booked turn was charged
+at the flap (it is admitted); the playtester could not tell that the turn waited for it (the Colonel's introduction
+now says the house waits, and the turn waits longer); the snake's catching had the Colonel and Billie speaking where
+they were not.
+
+What it found in **the shared interface and navigation (M18)**, not specific to the circus, and not changed here:
+the title and creation screens do not answer the keyboard; on a place page Enter does nothing until an arrow is
+pressed though the first choice looks selected; there is no clock shown except while moving, and no "wait until
+seven", so catching an evening show is guesswork; "Make much of" with no animal named; "To among the trees of …";
+a multi-stop route told as "then the road, then the road, then the road"; travel within a town stopping halfway
+wherever people stand; daylight text at half past eleven at night and "the full of the morning" under an AFTERNOON
+header; long choice labels drawn with a blank first line; danger at night with no warning on a town's own way
+(revenants in a quarry-yard between an inn and a field); Notes stamping every fact with the time it was written down,
+and filing an item given in play under "Known before you set out". Two the playtester attributed to the circus are
+engine behaviour: the place description repeated under every act of the show (the room is re-described each watch),
+and Ada's takings line told twice in one description.
