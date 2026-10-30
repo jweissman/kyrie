@@ -2,6 +2,7 @@ import portraits from '../../data/paintings/pcs.json';
 import folk from '../../data/generation/scenes/folk.json';
 import { Canon } from '../canon/canon';
 import { Likeness } from './likeness';
+import type { World } from '../lang/world';
 
 export type Presentation = 'man' | 'woman';
 // One portrait of a player character, as recorded by looking at it (data/paintings/pcs.json): what it shows, not
@@ -58,6 +59,15 @@ export class CompanyPortraits {
       return !this.general.has(calling) && this.usable.some(p => p.class === calling) ? calling : undefined;
     }
     return this.courtly.has(who.backgroundId ?? '') ? 'aristocrat' : 'commoner';
+  }
+  // The words a member of the company is spoken of in, as the world says them: those of the group they are. One who
+  // joined is the group they joined as (a recruit's own "he"); the one who came alone is the company, as creation
+  // chose (see CompanyChoices.pronounce). None where the world says none, as for the three of an authored company.
+  static said(world: World, ref: string): string | undefined {
+    if (!world.relates('pronouns')) { return undefined; }
+    const joined = world.relates('joinedAs') ? world.one('joinedAs', ref) : undefined;
+    const group = joined ?? (world.relates('memberOf') ? world.one('memberOf', ref) : undefined);
+    return world.one('pronouns', ref) ?? (group ? world.one('pronouns', group) : undefined);
   }
   // How someone presents, from what the world says of them: their pronouns; else the sitter of a likeness chosen for
   // them at creation; else a given name only men or only women are given. Nothing said, nothing assumed.

@@ -30,9 +30,10 @@ export interface Setting {
   terrain?: string;
   // In a generated country, the reasons one person might have come into it, as this country holds them.
   origins?: { id: string; title: string; choice: string; background?: string }[];
-  // In a generated country, the given names a protagonist of each people may have, in the order they are offered: of
-  // the people's own names, none a name someone of the country already has (see ProtagonistNames).
-  names?: Record<string, string[]>;
+  // In a generated country, the given names a protagonist of each people may have as they present (she, he, they), in
+  // the order they are offered: of the people's own names, none a name someone of the country already has (see
+  // ProtagonistNames).
+  names?: Record<string, Partial<Record<'she' | 'he' | 'they', string[]>>>;
 }
 // A spell a protagonist sets out knowing, as creation shows it: its name, what it does in a short line and in whole
 // (see SpellLines), what the conditions it lays do and the save that resists it, its level (0 a cantrip), its emblem

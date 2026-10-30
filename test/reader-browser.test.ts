@@ -30,6 +30,13 @@ class Reading {
       return changes;
     });
   }
+  // Whether the last of the company is seen whole above the hand of cards, without scrolling.
+  static whole(page: Page) {
+    return page.evaluate(() => {
+      const sides = document.querySelector('.fight > .sides')!.getBoundingClientRect();
+      return Array.from(document.querySelectorAll('.ours .fighter')).pop()!.getBoundingClientRect().bottom <= sides.bottom;
+    });
+  }
   static async fight(d: MonoDriver) {
     for (let i = 0; i < 6 && (await d.inspect()).mode !== 'combat'; i++) {
       await d.pick(c => c.label.startsWith('Attack'), 'attack');
@@ -87,7 +94,22 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     await Reading.fight(d);
     expect((await d.inspect()).mode).toBe('combat');
     expect(await page.locator('.foes .intent').count()).toBeGreaterThan(0);
-    expect([await page.locator('.ours .fighter img.face').count(), await page.locator('.foes .face').count()]).toEqual([3, 0]);
+    // Each of the company by their portrait as the card's left panel, the whole height of it and about a quarter of
+    // its width (the owner, 2026-10-30: not a little square); no foe has one.
+    const panels = await page.locator('.ours .fighter .face').evaluateAll(faces => faces.map(f => {
+      const p = f.getBoundingClientRect(), card = f.parentElement!.getBoundingClientRect();
+      return [!!f.querySelector('img'), card.height - p.height <= 2, p.width / card.width > 0.2 && p.width / card.width < 0.36];
+    }));
+    expect([panels, await page.locator('.foes .face').count()]).toEqual([Array(3).fill([true, true, true]), 0]);
+    // The company seen whole above the hand, each face with its card, on a phone and on a small laptop (at 1180 by 820
+    // the third of three had been cut at the mouth).
+    const seen = [await Reading.whole(page)];
+    if (!pointer) {
+      await page.setViewportSize({ width: 1180, height: 820 });
+      seen.push(await Reading.whole(page));
+      await page.setViewportSize({ width, height });
+    }
+    expect(seen).toEqual(pointer ? [true] : [true, true]);
     await d.fight();
     const fought = await Reading.text(page);
     // Those the fight left dead are told dead, and not offered as a danger (play 9: dead spiders under "Danger").

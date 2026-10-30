@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { CombatantRow } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
@@ -75,22 +75,30 @@ export class FightStage {
     return (
       <li className={`fighter${marks.join('')}`} data-fighter={f.id}>
         {!foe && <FightStage.Face fighter={f} />}
-        <p className="n"><b>{Typography.curl(Words.upper(f.name))}</b>{took > 0 && <span className="took" key={`${f.hp}`}>−{took}</span>}
-          <span className="of">{f.hp} of {f.maxHp}</span></p>
+        <p className="n"><b title={foe ? undefined : Typography.curl(Words.upper(f.name))}>{Typography.curl(Words.upper(f.name))}</b>
+          {took > 0 && <span className="took" key={`${f.hp}`}>−{took}</span>}<span className="of">{f.hp} of {f.maxHp}</span></p>
         <span className="hp" aria-hidden="true"><i style={{ width: `${f.maxHp ? (f.hp / f.maxHp) * 100 : 0}%` }} /></span>
-        <p className="tags">{f.line} · <span className={`state ${hurt.replace(' ', '-')}`}>{hurt}</span>
-          {!f.down && f.statuses.length > 0 && ` · ${[...new Set(f.statuses)].join(', ')}`}
-          {!f.down && f.boons && f.boons.length > 0 && ` · ${[...new Set(f.boons)].join(', ')}`}</p>
+        <p className="tags"><span className="parts">{FightStage.parts(f, hurt).map(([key, part]) =>
+          <span key={key} className="part">
+            <span className="sep" aria-hidden="true"> · </span>{part}</span>)}</span></p>
         {foe && !f.down && f.intent && <FightStage.Intent intent={f.intent} />}
         {foe && !f.down && f.defenses && <p className="defenses">{Words.upper(f.defenses)}.</p>}
       </li>
     );
   }
-  // One of the company by their portrait (see CompanyPortraits), small at the card's side so the card is no taller for
-  // it; one no portrait fits by the first letter of their name on a plain plate.
+  // What they are and are under, each part whole (see fight.css): "elf ranger", "badly hurt", "prone, frightened".
+  static parts(f: CombatantRow, hurt: string): [string, ReactNode][] {
+    const [statuses, boons] = [f.statuses, f.boons ?? []].map(all => (f.down ? '' : [...new Set(all)].join(', ')));
+    return ([['line', f.line], ['state', <span className={`state ${hurt.replace(' ', '-')}`}>{hurt}</span>],
+      ['statuses', statuses], ['boons', boons]] as [string, ReactNode][]).filter(([, p]) => p);
+  }
+  // One of the company by their portrait (see CompanyPortraits), the card's left panel, the whole height of it, the
+  // name, the bar and what they are under to its right (the owner, 2026-10-30: not a little square). One no portrait
+  // fits, or whose portrait does not come, by the first letter of their name in the same panel.
   static Face({ fighter: f }: { fighter: CombatantRow }) {
-    return f.face ? <img className="face" src={f.face.src} alt="" decoding="async"
-      onError={e => { e.currentTarget.classList.add('gone'); }} />
-      : <span className="face plate" aria-hidden="true">{f.name.replace(/^(the|an?) /i, '').charAt(0).toUpperCase()}</span>;
+    const [failed, fail] = useState(false), painted = f.face && !failed;
+    return <span className={`face${painted ? '' : ' plate'}`} aria-hidden="true">
+      {painted ? <img src={f.face!.medium} alt="" decoding="async" onError={() => fail(true)} />
+        : f.name.replace(/^(the|an?) /i, '').charAt(0).toUpperCase()}</span>;
   }
 }

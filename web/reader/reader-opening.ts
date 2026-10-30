@@ -57,7 +57,7 @@ export class ReaderOpening {
   }
   // A change to one companion. Changing calling or specialization discards choices that no longer fit; in a drawn
   // country, what is discarded is taken again as it stands until changed (see CreationDefaults), and a name the
-  // player has not written is drawn again for a new people.
+  // player has not written or chosen is drawn again for a new people, or a new way of presenting.
   edit(index: number, field: string, value: string) {
     const party = structuredClone(this.app.state.party), member = party[index], was = member?.classId;
     if (!member) { return; }
@@ -67,8 +67,8 @@ export class ReaderOpening {
     else { this.change(member, field, value); }
     const s = this.app.state, drawn = index === 0 && s.setting?.generated && s.catalog;
     if (drawn) { CreationDefaults.settle(member, s.catalog!, { trade: !this.given(), was }); }
-    if (drawn && value !== people && field === 'raceId' && !s.named) {
-      member.name = s.setting?.names?.[value]?.[0] ?? member.name;
+    if (drawn && !s.named && ((field === 'raceId' && value !== people) || field === 'pronouns')) {
+      member.name = CreationDefaults.names(member, s.setting)[0] ?? member.name;
     }
     // A name emptied is no name written: the next people's is drawn again, and the drawn one is set out with.
     this.app.setState({ party, ...field === 'name' ? { named: !!value.trim() } : {} });
@@ -97,15 +97,6 @@ export class ReaderOpening {
     const s = this.app.state;
     return !!s.setting?.origins?.find(o => o.id === s.origin)?.background;
   }
-  // Another of the people's names, in place of the one there (see ProtagonistNames).
-  readonly rename = () => {
-    const party = structuredClone(this.app.state.party), member = party[0];
-    const next = member && CreationDefaults.another(member, this.app.state.setting);
-    if (!member || !next) { return; }
-    member.name = next;
-    this.app.setState({ party, named: false });
-    this.readySoon();
-  };
   // A reason for having come, and what it makes you: its own background, or, for one who brings their own trade,
   // none until it is chosen, or in a drawn country the calling's own until then (the engine gives the origin's too:
   // Origins.member).

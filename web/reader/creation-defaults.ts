@@ -21,14 +21,26 @@ export class CreationDefaults {
     }
   }
   // The name a protagonist sets out with: as written, without what a name in the world's text cannot hold (braces,
-  // quotes, a backslash), or, if nothing is left, the first of their people's names here (never none at Set out).
+  // quotes, a backslash), or, if nothing is left, the first of their people's names here for how they present (never
+  // none at Set out).
   static named(member: Member, setting?: Setting): string {
     const written = (member.name ?? '').replace(/[{}"\\]/g, '').trim().slice(0, 40);
-    return written || setting?.names?.[member.raceId ?? '']?.[0] || 'Wenna';
+    return written || this.names(member, setting)[0] || 'Wenna';
   }
-  // The next of the people's names after the one they have (the first, if theirs is none of them).
-  static another(member: Member, setting?: Setting): string | undefined {
-    const names = setting?.names?.[member.raceId ?? ''] ?? [];
-    return names.length ? names[(names.indexOf(member.name ?? '') + 1) % names.length] : undefined;
+  // Their people's names here for how they present, in the order they are offered (see ProtagonistNames).
+  static names(member: Member, setting?: Setting): string[] {
+    return setting?.names?.[member.raceId ?? '']?.[member.pronouns ?? 'they'] ?? [];
+  }
+  // The names offered at once, as a table rolled on: the people's names cut into as few tables as hold no more than
+  // six, as near one size as they go (ten are two of five, forty seven of six or five), so that each roll again offers
+  // only names not offered at the last, and the tables come round again in turn (a window of six sliding round ten had
+  // offered an elf the same names twice in two rolls); all of them, where there are no more than six.
+  static readonly offered = 6;
+  static table(member: Member, setting: Setting | undefined, roll: number): string[] {
+    const names = this.names(member, setting), tables = Math.ceil(names.length / this.offered);
+    if (tables <= 1) { return names; }
+    const at = roll % tables, size = Math.floor(names.length / tables), over = names.length % tables;
+    const start = at * size + Math.min(at, over);
+    return names.slice(start, start + size + (at < over ? 1 : 0));
   }
 }

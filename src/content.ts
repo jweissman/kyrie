@@ -43,6 +43,9 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   rolled?: Partial<Record<Attribute, number>>;
   // The painting the player chose to be them at creation, by its id in the collection (see Likeness).
   likeness?: string;
+  // The words they are spoken of in, chosen at creation as how they present (a woman, a man, neither): the world's
+  // pronouns for them (see CompanyChoices).
+  pronouns?: 'she' | 'he' | 'they';
 };
 export class Content {
   // What the creation screen and presenters show: classes and kinds by name.

@@ -24,7 +24,7 @@ independent ones batched.
 | Inherited, at the start | 0 | 61 | 11 | 0 | 1 | 0 | 73 |
 | Inherited, now | 8 | 55 | 9 | 0 | 1 | 0 | 73 |
 | New in Mission 18 | 10 | 0 | 1 | 0 | 0 | 0 | 11 |
-| The owner's review | 0 | 18 | 25 | 0 | 0 | 0 | 43 |
+| The owner's review | 0 | 20 | 23 | 0 | 0 | 0 | 43 |
 | The adventures' authors | 0 | 14 | 55 | 0 | 0 | 0 | 69 |
 | The navigation review | 0 | 0 | 22 | 0 | 0 | 0 | 22 |
 | The cold review, section H | 0 | 0 | 5 | 0 | 0 | 0 | 5 |
@@ -249,8 +249,8 @@ After 49c4338. Modest refinements to OWN-29, OWN-16 and OWN-30.
 
 | ID | Requirement | Gate | Pri | Now | Evidence, or what remains |
 |---|---|---|---|---|---|
-| OWN-39 | A fight card's portrait not a little square: it fills the whole left third or quarter of the company member's card, full height | A | P1 | Open | |
-| OWN-40 | The protagonist's sex or presentation chosen at creation, deciding pronouns, portrait and how they are spoken of; and a table to roll for several name options | A | P1 | Open | |
+| OWN-39 | A fight card's portrait not a little square: it fills the whole left third or quarter of the company member's card, full height | A | P1 | Partial | Built: the portrait fills the company card's left panel at full height (a quarter to a third of the card; narrower on a phone), the face kept in sight; a plain initial in the same panel where none fits (test/reader-browser.test.ts). The owner's verdict awaited |
+| OWN-40 | The protagonist's sex or presentation chosen at creation, deciding pronouns, portrait and how they are spoken of; and a table to roll for several name options | A | P1 | Partial | Built: Woman, Man or Neither on the name step sets the protagonist's pronouns in the world (narrator, portrait); six of the people's names for that presentation as a rolled table, Roll again, picking or writing one (test/presenting.test.ts, test/naming-browser.test.ts). The owner's verdict awaited |
 | OWN-41 | Every name through one mechanism: the Common names of the human heartland from a true "common" tongue in the `languages` package that echoes the concept structure it is given, rather than a lexicon of their own (src/world/common-names.ts) | D | P2 | Open | Not urgent; noted when the Common names were built (49c4338) |
 | OWN-42 | The intro and studio stab given care, with words (a studio name such as "Freehaven" or "Seventh Star"); the product's own name not to stay "Kyrie", candidates proposed for the owner's choice | A | P2 | Open | |
 | OWN-43 | The map as the basic way to navigate (2026-10-30, after playing): crossing into a new country left the map unusable, "you know no way" even to adjacent cells and to places along the road; set-out from the map to any cell, place or road stop in any country, by road where known and across country where not, with the look and feel improved | C | P0 | Open | NVR-01, NVR-06..09 are its causes in the first country |

@@ -166,13 +166,15 @@ export class Creation {
   static country(terrain: string): string {
     return ({ marsh: 'fen', forest: 'forest', mountain: 'high', frost: 'cold northern' } as Record<string, string>)[terrain] ?? terrain;
   }
-  // Who comes into a drawn country, until the player says otherwise: of its people where they may be a protagonist,
-  // named as their people name their own (the first of the country's names for them), with six rolls of three dice to
-  // place on the qualities (the same for the same country). Every part of them can be changed.
-  static protagonist(ancestry: string, seed: string, names: Record<string, string[]> = {}): Member {
+  // Who comes into a drawn country, until the player says otherwise: of its people where they may be a protagonist, a
+  // woman or a man as drawn for the country, named as their people name their own (the first of the country's names
+  // for them), with six rolls of three dice to place on the qualities (the same for the same country). Every part of
+  // them can be changed.
+  static protagonist(ancestry: string, seed: string, names: NonNullable<Setting['names']> = {}): Member {
     const playable = (Content.playableRaces as string[]).includes(ancestry) ? ancestry : 'human';
-    return { name: names[playable]?.[0] ?? 'Wenna', raceId: playable as Member['raceId'], classId: 'warrior',
-      rolled: Rolls.suited(Content.rolls(seed), Canon.classes.warrior?.attributes ?? {}) };
+    const pronouns = ProtagonistNames.presenting(seed);
+    return { name: names[playable]?.[pronouns]?.[0] ?? 'Wenna', raceId: playable as Member['raceId'], classId: 'warrior',
+      pronouns, rolled: Rolls.suited(Content.rolls(seed), Canon.classes.warrior?.attributes ?? {}) };
   }
   // Where a company sets out: an authored campaign from the bundled files, or the generated region drawn again for
   // this company (its backgrounds place old friends in the region).

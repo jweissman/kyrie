@@ -362,7 +362,7 @@ export class ScreenModel {
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
       const background = m.backgroundId ? Canon.backgrounds[m.backgroundId]?.name : undefined;
       const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness;
-      const pronoun = ref && campaign.world.relates('pronouns') ? campaign.world.one('pronouns', ref) : undefined;
+      const pronoun = ref ? CompanyPortraits.said(campaign.world, ref) : undefined;
       const face = CompanyPortraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} });
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(),
         ...likeness && Likeness.ids.has(likeness) ? { portrait: Likeness.portrait(likeness) } : {},

@@ -86,10 +86,15 @@ export class VoiceContext {
     for (const c of actor.replace(/^.*__/, '')) { hash = (hash * 31 + c.charCodeAt(0)) >>> 0; }
     return this.manners[hash % this.manners.length]!;
   }
+  // The words someone is spoken of in: their own, as the world says them; else they, for a group of more than one or
+  // a person, and it. The company's own are those of the one who came alone, as creation chose (CompanyChoices): with
+  // anyone else in it, it is many, and they (a company of two, Wren and a recruit, had been "she").
   static pronoun(campaign: Campaign, actor: string, kind: string): string {
+    const many = (campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1;
+    if (many && actor === campaign.playerActor) { return 'they'; }
     const given = campaign.world.one('pronouns', actor)?.replace(/^pron_/, '');
     if (given) { return given; }
-    if ((campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1) { return 'they'; }
+    if (many) { return 'they'; }
     return kind === 'person' ? 'they' : 'it';
   }
   // The species a group is of, when it is a species rather than people with an ancestry and calling.

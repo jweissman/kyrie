@@ -5,6 +5,7 @@ import type { ModuleDraft } from './module-namespace';
 import { Formations } from '../rules/formations';
 import { Canon } from '../canon/canon';
 import { CreatureSchema } from '../creature';
+import { ModuleWriter } from '../lang/module-writer';
 
 // The companions chosen at character creation, checked and written into the first module's company.
 export class CompanyChoices {
@@ -55,9 +56,23 @@ export class CompanyChoices {
         ...(context.weapon ? { weapon: context.weapon } : {}),
         ...(context.armor ? { armor: context.armor } : {}),
         ...(context.rolled ? { rolled: { ...context.rolled } } : {}),
-        ...(context.likeness ? { likeness: context.likeness } : {}) };
+        ...(context.likeness ? { likeness: context.likeness } : {}),
+        ...(context.pronouns ? { pronouns: context.pronouns } : {}) };
       const entity = draft.instance.module.entities.find(e => e.creatureId === entry.id);
       if (entity) { entity.name = context.name; }
     });
+    CompanyChoices.pronounce(draft, party, player.id);
+  }
+  // How the one who comes alone presents, as chosen at creation, is said of the company: "You" of one is them, and is
+  // spoken of in their words (VoiceContext reads a group's pronouns, and their portrait its member's group's: see
+  // CompanyPortraits.said). A company of more is spoken of as many, each of them in what their own group is said in.
+  private static pronounce(draft: ModuleDraft, party: CreatureGenerationContext[], company: string) {
+    if (party.some(c => c.pronouns && !['she', 'he', 'they'].includes(c.pronouns))) {
+      throw new Error('A companion is spoken of as she, he or they');
+    }
+    const said = party.length === 1 ? party[0]!.pronouns : undefined, module = draft.instance.module;
+    if (!said) { return; }
+    module.initial = module.initial.filter(c => !(c.call.name === 'pronouns' && c.call.args[0] === company));
+    module.initial.push({ kind: 'assert', call: ModuleWriter.call('pronouns', company, `pron_${said}`) });
   }
 }

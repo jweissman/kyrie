@@ -17,7 +17,9 @@
 .fight > .sides { flex: 1 1 auto; min-height: 0; overflow-y: auto; display: grid; align-content: start;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 clamp(16px, 2.6vw, 36px);
   padding: 20px clamp(20px, 3.4vw, 44px) 12px; }
-.fight .side { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; align-content: start; }
+/* A side's cards are its width and no wider: a name cut short is cut, not let push the card over the foes'. */
+.fight .side { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px;
+  align-content: start; container-type: inline-size; }
 .fight .side::before { font: 500 10.5px/1 var(--do); letter-spacing: .22em; text-transform: uppercase; color: var(--dim);
   margin-bottom: 2px; }
 .fight .side.ours::before { content: 'The company'; }
@@ -37,23 +39,33 @@
 .fight .fighter .hp { display: block; height: 4px; background: rgba(236, 230, 217, .08); overflow: hidden; }
 .fight .fighter .hp i { display: block; height: 100%; background: var(--life); transition: width var(--settle) var(--ease); }
 .fight .foes .fighter .hp i { background: var(--ember); }
-.fight .fighter .tags { margin: 8px 0 0; font: 400 12.5px/1.45 var(--do); color: var(--dim); }
+/* What they are and are under, each part kept whole on a line where it fits ("human warrior", "badly hurt") and the
+   dot between parts never left at the start or end of a line: each part carries its dot before it, and the first on
+   each line has it out of sight past the left edge. A part too long for a line of its own wraps under itself. */
+.fight .fighter .tags { margin: 8px 0 0; font: 400 12.5px/1.45 var(--do); color: var(--dim); overflow: hidden; }
+.fight .fighter .tags .parts { display: flex; flex-wrap: wrap; margin-left: -1.1em; }
+.fight .fighter .tags .part { position: relative; min-width: 0; padding-left: 1.1em; }
+.fight .fighter .tags .sep { position: absolute; left: 0; width: 1.1em; text-align: center; }
 .fight .fighter .state { color: var(--ivory); }
 .fight .fighter .state:is(.badly-hurt, .near-death, .down, .dying) { color: var(--ember); }
 .fight .fighter .intent { margin: 8px 0 0; padding-top: 8px; border-top: 1px solid var(--edge); font: 400 13px/1.4 var(--do);
   color: var(--dim); }
 .fight .fighter .intent .at { color: var(--ember); font-weight: 600; }
 .fight .fighter .defenses { margin: 6px 0 0; font: italic 400 13.5px/1.4 var(--told); color: var(--violet); }
-/* One of the company by a small portrait at the card's side (or the first letter of a name on a plain plate), beside
-   the name, the bar and what they are under: the card no taller for it. Gold-ringed with the card when they act;
-   grey when down. */
-.fight .fighter.faced { display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 12px; }
-.fight .fighter.faced > :not(.face) { grid-column: 2; }
-.fight .fighter .face { grid-column: 1; grid-row: 1 / span 3; align-self: center; width: 46px; height: 46px;
-  object-fit: cover; border: 1px solid var(--edge); background: var(--lift); }
-.fight .fighter .face.plate { display: grid; place-items: center; font: 300 22px/1 var(--told); color: var(--dim); }
-.fight .fighter .face.gone { visibility: hidden; }
-.fight .fighter.acting .face { border-color: var(--gold); }
+/* One of the company by their portrait as the card's left panel: about a quarter of the card and its whole height,
+   no shorter than it is wide by a fifth where the stage has the height (a tablet's tall cards), the face kept in sight
+   (each portrait is a square of face and shoulders, the face a little right of the middle and high: CompanyPortraits);
+   the name, cut short rather than wrapped, the bar and what they are under to its right. One without a portrait has
+   the first letter of their name in the same panel. The panel's edge gold with the card's when they act; grey when
+   down. The panel is measured on the side's width (cqw), which is the card's: a percentage would be of its height. */
+.fight .fighter.faced { --panel: clamp(64px, 26cqw, 120px); padding-left: calc(var(--panel) + 14px);
+  min-height: min(calc(var(--panel) * 1.2), calc(var(--frame-h) * .11)); }
+.fight .fighter.faced .n b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fight .fighter .face { position: absolute; top: 0; bottom: 0; left: 0; width: var(--panel); overflow: hidden;
+  background: var(--lift); border-right: 1px solid var(--edge); transition: border-color var(--quick); }
+.fight .fighter .face img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 60% 28%; }
+.fight .fighter .face.plate { display: grid; place-items: center; font: 300 34px/1 var(--told); color: var(--dim); }
+.fight .fighter.acting .face { border-right-color: var(--gold); }
 .fight .fighter.down .face { filter: grayscale(1); }
 .fight .fighter.struck { animation: struck .7s var(--ease); }
 @keyframes struck { 0% { background: rgba(255, 107, 69, .3); transform: translateX(-3px); } 18% { transform: translateX(2px); }
@@ -101,12 +113,23 @@
   .fight .beat { grid-column: 1 / -1; grid-row: 2; padding-top: 14px; }
   .fight .order { margin-left: 0; }
 }
+/* A short stage (a small laptop's, a phone's): the hand of cards a little lower and shorter, so the company above it
+   is seen whole, each face with its card (at 1180 by 820 the third of three had been cut at the mouth). */
+@media (max-height: 880px) {
+  .fight > .sides { padding-top: 14px; }
+  .fight > .moves { max-height: calc(var(--frame-h) * .36); }
+  .fight .moves .act { min-height: 52px; padding-top: 8px; padding-bottom: 8px; }
+}
 @media (max-width: 560px) {
   .fight .beat { grid-row: 1; padding: 0 0 12px; }
   .fight .beat .what.earlier { display: none; }
   .fight .moves .act { min-width: 7.5rem; min-height: 50px; padding: 8px 12px 8px 30px; font-size: 14px; }
   .fight .fighter { padding: 10px 11px; }
-  .fight .fighter.faced { grid-template-columns: 34px minmax(0, 1fr); column-gap: 9px; }
-  .fight .fighter .face { width: 34px; height: 34px; }
-  .fight .fighter .face.plate { font-size: 17px; }
+  .fight .fighter.faced { --panel: clamp(56px, 34cqw, 72px); padding: 10px 9px 10px calc(var(--panel) + 9px); }
+  .fight .fighter .face.plate { font-size: 24px; }
+  /* A phone's narrow card: the name whole beside what is left of them where both fit ("Bran" had been "Br…" beside
+     "15 of 15"), what is left under it where they do not; only a name longer than the card is cut short. */
+  .fight .fighter .n { flex-wrap: wrap; gap: 2px 6px; }
+  .fight .fighter .of { font-size: 11.5px; }
+  .fight .fighter .n b { flex: 1 1 auto; }
 }
