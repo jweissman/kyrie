@@ -254,7 +254,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Topic hob_agreed with ninepence "Tell Ninepence the Colonel accepts his terms" when colonelAgreesHob(wapshotts) and not hobJoined(ninepence) and not hobAtInn(ninepence) once {
     Grave "A hob who comes to a house stays its hob; the mill will have none after him.".
-    Says "Ninepence listens with his head on one side. Then he goes to the hearth and sweeps it, once, very carefully, and puts the brush back on its nail, and stands looking at the stopped wheel for a while. 'Four hundred years,' he says. 'Well. A mill's only a mill.' He turns round. 'Tell the Ox I'll take my cream at midnight. Tell the clown I'll mind his ladder. Tell the Colonel,' and for the first time he smiles, a wide brown crinkle, 'to mind his hat.'".
+    Says "Ninepence listens with his head on one side. Then he goes to the hearth and sweeps it, once, very carefully, and puts the brush back on its nail, and stands looking at the stopped wheel for a while. 'Three hundred years,' he says. 'Well. A mill's only a mill.' He turns round. 'Tell the Ox I'll take my cream at midnight. Tell the clown I'll mind his ladder. Tell the Colonel,' and for the first time he smiles, a wide brown crinkle, 'to mind his hat.'".
     On discuss { Assert hobJoined(ninepence). Assert travels(ninepence). Assert post(ninepence, rk_wagons). Increase exhibits(wapshotts) by 1. }
   }
   Rule hob_show near ringpost when hobJoined(ninepence) and showOn(wapshotts) and act(wapshotts) == 2 and not hobToldTonight(ninepence)

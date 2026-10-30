@@ -284,7 +284,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // ── After the Fair ─────────────────────────────────────────────────────────────────────────────────────────
   Rule hippodrome_leaves when noteSettled(wapshotts) and not sallowGone(wapshotts) and hour(clock) >= 6 and day(clock) > fairDay(wapshotts) + 2 {
     Assert sallowGone(wapshotts). Assert sleeGone(slee). Assert offstage(slee). Assert offstage(bombazine). }
-  Rule sallow_away when sallowGone(wapshotts) and not merged(wapshotts) and not offstage(sallow) { Assert offstage(sallow). }
+  Rule sallow_away when sallowGone(wapshotts) and not merged(wapshotts) and not offstage(sallow) and not sallowAtRevels(sallow) { Assert offstage(sallow). }
   
   Observe united_board near pole when merged(wapshotts) and pitched(wapshotts) and at(pole, ?r) "On the painted front of the big top a new board has been nailed over the old: SALLOW & WAPSHOTT'S UNITED CIRCUS. Under it, in chalk, in a large looping hand: (WAPSHOTT'S).".
   Observe pitch_charter near pole when contestWon(wapshotts) and at(pole, ?r) "Nailed to the ticket wagon, framed in gilt, is a parchment with a red seal: THE CHARTER OF THE GREAT PITCH OF THE GOOSE FAIR OF {town_a}, TO WAPSHOTT'S CIRCUS, IN PERPETUITY OR UNTIL FURTHER NOTICE.".

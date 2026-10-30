@@ -6,19 +6,17 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation wakeOn(concern). Relation wakeDone(concern).
   Rule wake_starts when letterCome(wapshotts) and current(wapshotts, tober_c) and pitched(wapshotts) and day(clock) == arrivedDay(wapshotts) + 1 and hour(clock) >= 13
     and not wakeDone(wapshotts) and not wakeOn(wapshotts) {
-    Assert wakeOn(wapshotts). Retract offstage(tull). Retract offstage(granfer). Assert at(tull, green_c). Assert at(granfer, green_c). }
+    Assert wakeOn(wapshotts). }
   Rule wake_ends when wakeOn(wapshotts) and hour(clock) >= 19 { Retract wakeOn(wapshotts). Assert wakeDone(wapshotts). }
   Observe wake_green at green_c when wakeOn(wapshotts) "It is the Marl Wake. The green is full of diggers in clean smocks with marl still in the creases of their hands, and their wives, and a fiddler, and a pole thirty feet high greased from top to bottom with a leg of mutton tied at the summit. Down the street comes the Marl Queen in a crown of white clay and cowslips, on a cart drawn by four diggers, throwing sugared almonds at the shrine. Wapshott's band has been asked to play her in, and is playing something it does not know with tremendous confidence.".
-  Person tull "Sim Tull" at tober_a {
+  Person tull "Sim Tull" at green_c {
     Role "the foreman of the marl-diggers". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "A broad man in a clean smock with forearms the colour of the pit, a sprig of cowslip in his hat and a pot of ale in each hand, gives you one of the pots before you have asked. 'Sim Tull,' he says. 'Foreman of the marl. It's the Wake. Nobody pays for ale at the Wake; it's bad luck.' He drinks. 'Are you for the pole? There's a leg of mutton on top. Nobody's had the mutton in four years. My granfer had it in his day; he never stops telling us.'".
+    Greets "A broad man in a smock with forearms the colour of the pit and a pot of ale in each hand gives you one of the pots before you have asked. 'Sim Tull,' he says. 'Foreman of the marl, when there's marl to dig.' He drinks. 'Come to the Marl Wake, when the circus is next here: there's a greasy pole with a leg of mutton on top. Nobody's had the mutton in four years. My granfer had it in his day; he never stops telling us.'".
   }
-  Person granfer "Granfer Tull" at tober_a {
+  Person granfer "Granfer Tull" at green_c {
     Role "the oldest digger of the town". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Greets "A tiny, bald, furious old man in a smock older than you are, sitting on a bench with his stick between his knees, looks you up and down. 'In my day,' he says, 'we had the mutton every year. Every year. Now they slide down that pole like butter off a knife.' He spits. 'And some thief of a dealer had my best bantam off me at Michaelmas for a shilling and a lie.'".
   }
-  Initially Assert offstage(tull). Initially Assert offstage(granfer).
-  Rule wake_folk_home when wakeDone(wapshotts) and not offstage(tull) and hour(clock) >= 20 { Assert offstage(tull). Assert offstage(granfer). }
   Topic granfer_roderick with granfer "Tell Granfer Tull his bantam is in Wapshott's menagerie, as a cockerel of uncommon malice" when exhibit(roderick) and basiliskHonest(wapshotts) once {
     Says "Granfer Tull gets up. He walks up the field to the menagerie on his stick, very fast for a man of his age, and you follow; and in front of the pen where Sir Roderick stands under his board, he stops, and reads it, his lips moving. WHO BELIEVES HIMSELF A BASILISK. DO NOT CONTRADICT HIM. Sir Roderick sees him and flies at the wire. 'That's him,' says Granfer Tull. 'That's him. Took the eye out of a fox at three weeks old.' He wipes his nose on his sleeve. 'Uncommon malice. Well. They've got him right.' He goes away down the field quite happy, and tells the whole Wake.".
     On discuss { Increase standing(tober_c) by 1. }

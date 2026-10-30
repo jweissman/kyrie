@@ -48,7 +48,7 @@ describe("Wapshott's, after the Goose Fair: the letter", () => {
     for (const outcome of ['paid', 'torn', 'merged'] as const) {
       const t = await Tour.reckoned(outcome);
       expect(t.holds(outcome === 'paid' ? 'noteDischarged' : outcome === 'torn' ? 'noteTorn' : 'merged', 'wapshotts')).toBe(true);
-      await t.play('=day 13 16:00');
+      await t.play('=day 13 19:00');
       expect(t.holds('letterCome', 'wapshotts')).toBe(true);
       expect(t.measure('revelsDay', 'wapshotts')).toBe(24);
       expect(t.at('tobias')).toBe(c('wagons_b'));
@@ -59,7 +59,7 @@ describe("Wapshott's, after the Goose Fair: the letter", () => {
     const t = await Tour.start();
     t.stage(['fallLearned', 'party'], ['answerLearned', 'party'], ['exhibit', 'methuselah'], ['travels', 'methuselah'], ['post', 'methuselah', 'rk_beasts'],
       ['menagerieOpen', 'wapshotts'], ['feudMended', 'hal']);
-    await t.play('=day 1 14:30', '^To Wapshott', 'Talk to Ada', '>host__a_tap', '=day 13 16:00');
+    await t.play('=day 1 14:30', '^To Wapshott', 'Talk to Ada', '>host__a_tap', '=day 13 19:00');
     expect(t.holds('exhibit', 'methuselah')).toBe(true);
     expect(t.at('methuselah')).toBe(c('beasts_b'));
     expect(t.holds('fallLearned', 'party')).toBe(true);
@@ -71,13 +71,13 @@ describe("Wapshott's, after the Goose Fair: the letter", () => {
 describe('the three reckonings carry on differently', () => {
   it('united: Cordelia refuses Sir Gervase, cancels the coach, pays the wages, and her horses and lion are in the show', async () => {
     const t = await Tour.reckoned('merged');
-    await t.play('=day 13 16:00', '>' + c('tober_b'), '=day 16 12:00');
+    await t.play('=day 13 19:00', '>' + c('tober_b'), '=day 16 12:00');
     expect(t.holds('fundsFound', 'wapshotts')).toBe(true);
     expect(t.holds('fenwickSigned', 'wapshotts')).toBe(false);
     expect(t.holds('coachStopped', 'wapshotts')).toBe(true);
     expect(t.holds('exhibit', 'neb')).toBe(true);
     expect(t.measure('arrears', 'wapshotts')).toBe(0);
-    await t.play('=day 16 18:40', 'Buy a ticket', '>' + c('ring_c'), '=day 16 20:00');
+    await t.play('>' + c('tober_c'), '=day 16 18:40', 'Buy a ticket', '>' + c('ring_c'), '=day 16 20:00');
     expect(t.page).toContain('twelve white horses');
   }, 400000);
 
@@ -153,11 +153,11 @@ describe('the King\'s Rest and its Inventory', () => {
   it('has an old keeper with a book, a raven with a seal, and a tortoise that can go home', async () => {
     const t = await Tour.reckoned('merged');
     t.stage(['exhibit', 'methuselah'], ['travels', 'methuselah'], ['post', 'methuselah', 'rk_beasts'], ['menagerieOpen', 'wapshotts']);
-    await t.play('=day 13 16:00', '>host__b_tap', 'Ask Will Pargeter about the walls on the hill', '>' + c('keeper_lodge'), 'Talk to Jabez', 'Ask Jabez why he keeps',
+    await t.play('=day 13 19:00', '>host__b_tap', 'Ask Will Pargeter about the walls on the hill', '>' + c('keeper_lodge'), 'Talk to Jabez', 'Ask Jabez why he keeps',
       'Ask Jabez to show you the Keepers', 'Ask Jabez what the notes', 'Tell Jabez that Wapshott');
     expect(t.knows('bishop_identified')).toBe(true);
     await t.play('>' + c('wagons_b'), 'Tell Tobias that the tortoise');
-    await t.play('>' + c('wagons_b'), 'Put it to the Colonel that the Bishop');
+    await t.play('=day 14 12:30', '>' + c('wagons_b'), 'Put it to the Colonel that the Bishop');
     expect(t.holds('bishopHome', 'methuselah')).toBe(true);
     await t.play('>host__b_tap', '=day 22 16:00');
     expect(t.holds('bishopAtRest', 'methuselah')).toBe(true);
@@ -167,7 +167,7 @@ describe('the King\'s Rest and its Inventory', () => {
   it('gets the seal back from the raven with Hench\'s spangles', async () => {
     const t = await Tour.reckoned('merged');
     t.stage(['knows', 'rest_heard'], ['knows', 'seal_seen'], ['knows', 'letter_known']);
-    await t.play('=day 13 16:30', '>' + c('wagons_b'), 'Ask Hench for a handful of spare spangles');
+    await t.play('=day 13 19:00', '>' + c('wagons_b'), 'Ask Hench for a handful of spare spangles');
     t.stage(['at', 'party', 'gate_tower']);
     await t.play('=day 14 10:00', 'Spread Hench', '>' + c('wagons_b'), 'Give the Steward');
     expect(t.holds('sealBack', 'tobias')).toBe(true);
@@ -175,7 +175,7 @@ describe('the King\'s Rest and its Inventory', () => {
 
   it('drains the marl-pit with Honoria\'s arm, finds the King\'s diggers\' stone and the claw, and the Colonel sees it', async () => {
     const t = await Tour.reckoned('merged');
-    await t.play('=day 16 13:30', '>host__c_green', 'Ask Sim Tull about the marl-pit', '>' + c('yard_c'), 'Ask Honoria to come and turn the sluice');
+    await t.play('=day 16 19:00', '>host__c_green', 'Ask Sim Tull about the marl-pit', '>' + c('yard_c'), 'Ask Honoria to come and turn the sluice');
     await t.play('=day 17 9:00', '>' + c('pit_water'));
     expect(t.knows('worm_stone')).toBe(true);
     expect(t.page).toContain('NOT DEAD ENOUGH');
