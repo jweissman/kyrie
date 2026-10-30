@@ -77,7 +77,7 @@ export class Glanced {
       Glance.of(this.s.campaign, this.screen, this.told, { kept, known: true, changed: [] });
       times.push(performance.now() - t);
     }
-    return times.sort((a, b) => a - b)[4]!;
+    return Math.min(...times);
   }
   // The words the glance leads with (its line and its life) and the words the full telling has.
   words(): { glance: number; full: number } {

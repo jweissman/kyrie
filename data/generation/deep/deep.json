@@ -584,13 +584,6 @@
       "depth": 2,
       "groups": [
         {
-          "species": "ooze",
-          "count": 1,
-          "label": "the ooze",
-          "role": "something grey that lives in the silt",
-          "temperament": "ambush"
-        },
-        {
           "species": "crystal_elemental",
           "count": 1,
           "label": "the shining one",
@@ -608,6 +601,13 @@
           "label": "the vein-born",
           "role": "things the ore has made of itself",
           "temperament": "territorial"
+        },
+        {
+          "species": "ooze",
+          "count": 1,
+          "label": "the ooze",
+          "role": "something grey that lives in the silt",
+          "temperament": "ambush"
         }
       ]
     }

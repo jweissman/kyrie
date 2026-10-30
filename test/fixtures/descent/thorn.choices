@@ -29,12 +29,10 @@
 ^Gather up the coins
 ^Collect a bronze sluice-key for Wenna
 ^Take the gap over the bronze gate
-^Collect a bronze bracelet for Arlen
 ^Take the conduit to the colonnade
 ^Unstrap the notebook and read it
 ^Gather up the coins
 ^Collect a torch for Arlen
-^Listen at the whispering wall
 ^Take the conduit to the great wheel
 ^Light a torch
 ^Drive the bronze pin home
@@ -57,7 +55,6 @@
 ^Take the path into Asholt to the landing
 ^Take Hallon's door
 ^Sell a silver ladle to Hallon
-^Sell a bronze bracelet to Hallon
 ^Sell a brothers' ewer to Hallon
 ^Buy one ration from Hallon
 ^Buy one ration from Hallon
@@ -81,15 +78,9 @@
 ^Light a torch
 ^Take the conduit to the colonnade
 ^Rest and recover at the colonnade
-^Take the walkway to the pipe gallery
-^Gather up the coins
-^Look closely at the magical rune
-^Take the walkway to the colonnade
-^Rest and recover at the colonnade
-^Take the walkway to the pipe gallery
-^Risk the magical rune on the way to the end of the gallery; Arlen goes first
 ^Collect a hand mirror for Wenna
-^Gather up the coins
+^Look closely at the enchanted object
+^Risk the enchanted object on the way to the pipe gallery; Arlen goes first
 ^Take the walkway to the pipe gallery
 ^Take the walkway to the colonnade
 ^Take the conduit to the foot of the stair
@@ -166,4 +157,3 @@
 ^Take the passage to the gate-hall
 ^Take the conduit to the doorway
 ^Take the way in to Albuslac
-^Wait until first light
