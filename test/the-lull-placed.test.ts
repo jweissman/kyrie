@@ -70,4 +70,33 @@ describe('The Lull in the world', () => {
     expect(c.world.test({ kind: 'call', name: k('cameIn'), args: ['party'] })).toBe(true);
     expect(j.page).toMatch(/Long Table/);
   }, 900000);
+
+  it('played through to the Seventh Day in the world, closes its chapter and not the book, and is changed when walked back into', async () => {
+    const seed = 'l127';
+    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
+      { origin: 'wanderer', region: { terrain: 'forest' }, party: [{ name: 'Morwen', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, seed, w.source), c = s.campaign;
+    const frontier = new Frontier(seed, NodeBundleSource.shared);
+    await GeneratedWorld.travel(s, 'edge_east');
+    const east = await frontier.expand(c);
+    await s.perform(PlayerView.choices(c).find(x => x.choice.id.startsWith('go(link') && x.choice.id.includes(`,${east!.rid}__`))!.choice.id);
+    await GeneratedWorld.travel(s, `${east!.rid}__edge_north`);
+    const lull = (await frontier.expand(c))!.rid, k = (id: string) => `${lull}__${id}`;
+    const holds = (name: string, ...args: string[]) => c.world.test({ kind: 'call', name: k(name), args: args.map(a => a === 'party' ? a : k(a)) });
+    const j = Journey.of(s);
+    await j.play('march road');
+    const file = await Bun.file('test/fixtures/the-lull/seventh.json').json() as Record<string, string[]>;
+    for (const steps of Object.values(file)) { await j.play(...steps); }
+    expect(holds('outcomeSeventh', 'lull_country')).toBe(true);
+    expect(c.world.related('reached').map(r => r.args[0])).toEqual([k('seventh_day')]);
+    expect(c.running).toBe(true);
+    // The word in the country behind it is old news now.
+    expect(c.world.related('stale').length).toBeGreaterThan(0);
+    // Come back to it a day later: the bridge stands, the road is open on an ordinary day, the stone says so.
+    await j.play('=+60', 'To Linger green', "To the Tump's shoulder", 'To the Fold-stone');
+    expect(j.page).toMatch(/AND THEN MONDAY/);
+    await j.play("To the Tump's shoulder", 'To Linger green', 'To the end of the Shift Bridge');
+    expect(j.page).toMatch(/goes over the mill-leat again/);
+    expect(j.page).toMatch(/Monday, and After|weighbridge house/);
+  }, 900000);
 });

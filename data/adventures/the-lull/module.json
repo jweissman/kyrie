@@ -16,6 +16,7 @@
     "working.kyr",
     "builds.kyr",
     "endings.kyr",
+    "after.kyr",
     "company.kyr"
   ],
   "rules": [

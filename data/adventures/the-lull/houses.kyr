@@ -77,6 +77,10 @@ Module lull "The Lull" {
   Rule lettice_recipe at green when letticeHumbled(lettice) and lullDusk() and at(lettice, green) and at(mabyn, green) and not spreadFact(recipe_told)
     says "At the Watching Lettice Pryce sets a folded paper on the grass with the day's makings, and the town reads the card on it, FOR MABYN GALE, A RECEIPT FOR THE CROUP, and looks at Mabyn, and Mabyn looks at Lettice. The sun goes. The paper stays. Mabyn Gale comes down the Table and picks it up and reads it, and says, 'Your mother's,' and Lettice says, 'Yes,' and that is all anybody says, and it is the talk of the Lull for a week of Lulldays." { Assert spreadFact(recipe_told). Assert housesAtPeace(mabyn). }
   Entity recipe_told: fact "the receipt for the croup".
+  Item mabyn_cloth "a length of Lull-cloth from Mabyn Gale" is lull_cloth at limbo.
+  Rule mabyn_thanks at green when housesAtPeace(mabyn) and at(party, green) and lullOpen() and hour(clock) >= 20 and at(mabyn_cloth, limbo) and not spreadFact(mabyn_thanked)
+    says "Later, when the lanterns are going out, Mabyn Gale finds you at the bottom of the Table and puts something soft into your arms without a word: a length of grey-gold Lull-cloth, folded small, that smells of her linen-press. 'My mother wove that,' she says. 'For whoever made Lettice Pryce give me something she meant.' She pats it. 'It'll outlast you. Don't sell it to that Haskett for less than fifteen.'" { Assert spreadFact(mabyn_thanked). Give mabyn_cloth to party. }
+  Entity mabyn_thanked: fact "Mabyn's thanks".
   Relation housesAtPeace(group).
   // Shamed, on the next Lullday she gives Mabyn her house. Spite is meant. It holds.
   Rule house_given at green when letticeShamed(lettice) and dayTwo() and lullDusk() and not pryceHouseGiven(lettice)

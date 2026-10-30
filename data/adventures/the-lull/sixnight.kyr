@@ -10,7 +10,7 @@ Module lull "The Lull" {
   Observe yard_mill at mill_yard when lullOpen() "The Mill yard: setts with grass between, a mounting-block, the great double doors of the Mill, iron-studded, shut. Over the doors is a stone shield with a hammer and a fleece on it and a name cut away. Along the ground floor the windows are boarded; one of them, low down, has its boards painted white and lettered: GLOSS 3. THAT THE MILL IS STOPPED.".
   Observe yard_mill_dark at mill_yard when folded() "The Mill yard in the dark, and the Mill above it lit grey from within, every window, all seven storeys, and the whole building faintly shaking. From inside comes a sound like heavy rain on a roof that does not stop: looms, hundreds of them, going. The boarded window low down is not boarded. It is open, the way it was the night the strikers climbed out of it.".
   Observe floor_scene at mill_floor when lullOpen() "The ground floor of the Mill: a long room of iron pillars and dust, the light coming grey through the boarded windows. The great doors are barred on the inside with a beam of black oak as thick as a man, set in iron brackets, and the beam is cut all over with letters.".
-  Observe floor_dark at mill_floor when folded() "The Mill's ground floor in the grey light that comes down the stairwell from above, where the noise is. The lint of the Ravel lies on the floor like snow and drifts in the draught from the stair. The great doors are barred on the inside with a beam of black oak cut all over with letters, and something on the other side of them, from the yard, is pushing: the doors move in their frame, a finger's breadth, and back, and again, very slowly, as if breathing.".
+  Observe floor_dark at mill_floor when folded() "The Mill's ground floor in the grey light that comes down the stairwell from above, where the noise is. The lint of the Ravel lies on the floor like snow and drifts in the draught from the stair. The great doors are barred on the inside with a beam of black oak cut all over with letters, and they are moving: outward, a finger's breadth, against the beam, and back, and again, very slowly, though there is nobody at them, as if the whole Mill were leaning on them from inside, breathing.".
   Thing beam "the beam across the Mill doors" at mill_floor {
     State barring "Across the Mill doors, on the inside, lies the strikers' beam.".
   }
@@ -78,7 +78,6 @@ Module lull "The Lull" {
   Rule hands_return when atLoom(party) and inSixnight() and not at(party, loom_floor) and not sleptLull(party)
     says "On the stair, gently, wet-wool hands take you by the arms, and turn you round, and bring you back to your loom." { Assert at(party, loom_floor). }
   Rule loom_freed when atLoom(party) and lullOpen() { Retract atLoom(party). }
-  Kind long_shift_cloth "a bolt of the Long Shift's cloth" is gear worth 20 weighing 2 described "A bolt of grey cloth from the looms of the Wrought Mill in the dark: close, even, perfect, and the colour of nothing at all. You wove it. It will never wear out.".
   Item shift_bolt "a bolt of the Long Shift's cloth" is long_shift_cloth at limbo.
   Action work_loom(actor: group, site: place) "Work the loom, as they want, until the Lull's morning" {
     Description "Six days, less what has gone. There is nothing else.".
@@ -123,7 +122,6 @@ Module lull "The Lull" {
     Change smash "Break the pay-chest's lock with a blow" from locked to open needing brawn.
   }
   Initially Assert state(pay_chest, locked).
-  Kind wrought_shillings_kind "a bag of the Wroughts' shillings" is gear worth 15 weighing 1 described "Old silver shillings in a canvas bag, struck with a hammer and a fleece: the Long Shift's wages for the seventh day, paid out to whoever would work it, and come back to the bailiff's chest at sunset.".
   Kind shilling_kind "one shilling, notched" is gear worth 1 weighing 0 described "A single old silver shilling, worn, with a notch filed in its edge by somebody who meant to know it again.".
   Item shillings "a bag of the Wroughts' shillings" is wrought_shillings_kind in pay_chest.
   Item notched_shilling "one shilling, notched" is shilling_kind in pay_chest.

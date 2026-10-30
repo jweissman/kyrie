@@ -104,7 +104,7 @@ Module lull "The Lull" {
   // ── Linger green and the Long Table ───────────────────────────────────────────────────────────────────────────────
   Observe green_morning at green when lullOpen() and hour(clock) < 12 "Down the middle of Linger green runs the Long Table, two hundred yards of trestles end to end, and people are wandering out with cloths and bowls to lay it, in no order, as the fancy takes them. Round the green stand grey weavers' houses whose top floors are all window, the long loom-lights of the old trade, now hung with plants and curtains and, in one, a cello. Nobody is hurrying. A man is asleep on a bench in the sun with his hat over his face and a child asleep on him.".
   Observe green_afternoon at green when lullOpen() and hour(clock) >= 12 and hour(clock) < 19 "The Long Table runs the length of the green, half-laid, with bowls of fruit on it and a cat walking down it. People sit about in the sun, talking, mending, playing draughts on the table's end; somebody is teaching a small boy to whistle, and the boy is not getting it, and nobody minds. On the Gift Hall steps a Glosser in a white apron is reading out something from a board, to a small crowd that keeps interrupting.".
-  Observe green_evening at green when lullOpen() and hour(clock) >= 19 and hour(clock) < 21 "The whole town is at the Long Table: four hundred people on benches the length of the green, under lanterns strung on poles, with the food going up and down it hand to hand. The Old Shift sit at the top, by the chapel. At the bottom the children have a table of their own and are under it more than at it. Everybody's eyes keep going to the things set out on the grass in front of the Table, a little apart: a chair, a quilt, a cake, a clock.".
+  Observe green_evening at green when lullOpen() and lawDay() and hour(clock) >= 19 and hour(clock) < 21 "The whole town is at the Long Table: four hundred people on benches the length of the green, under lanterns strung on poles, with the food going up and down it hand to hand. The Old Shift sit at the top, by the chapel. At the bottom the children have a table of their own and are under it more than at it. Everybody's eyes keep going to the things set out on the grass in front of the Table, a little apart: a chair, a quilt, a cake, a clock.".
   Observe green_night at green when lullOpen() and hour(clock) >= 21 "The Long Table is being cleared by whoever is nearest, and the lanterns are going out one by one along the poles. A few people are still talking at the far end. Somebody plays a last tune in the music room over the Open Hand, and people stop on their way home to hear the end of it.".
   Observe green_dark at green when folded() "Linger green in a dark without stars. The Long Table is a shape. The houses are shapes, every window black. Something grey and fine drifts across the grass at the height of your knee, like lint off a loom, or fog; it parts round your legs and closes again behind you without a sound.".
   Observe green_birds at green as ambience when lullOpen() and hour(clock) < 19 "Starlings everywhere: on the ridges, on the Table, on the ropes of the lanterns, talking.".
@@ -117,6 +117,15 @@ Module lull "The Lull" {
     Time 3.
     On success { Assert fedToday(actor). Increase quantity(actor, rations) by 2. Retract hungry(actor). }
     Result "You sit where there is a space, which is anywhere, and the food comes down the table to you hand over hand: pease pottage, new bread, trout from the tarn, a plum duff with a face drawn in it, honey, a jug of something cold. The woman beside you puts two loaves in your pack without asking, 'for the road', and goes on talking to someone else. Nobody asks what you came for. Somebody asks your name, and repeats it down the table, and it comes back up to you twenty yards later, mispronounced, with a cup of cider.".
+  }
+  // Sitting the Watching out on purpose: the sun's going is something to wait for.
+  Measure untilDusk(clock).
+  Rule dusk_counts when lullOpen() and hour(clock) < 20 and untilDusk(clock) != (20 - hour(clock)) * 6 { Set untilDusk(clock) to (20 - hour(clock)) * 6. }
+  Action keep_watching(actor: group, site: place) "Sit at the Long Table and watch the makings until the sun goes" {
+    Description "Everyone does. It is the Lull's theatre, and its court, and its news.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and lawDay() and lullOpen() and hour(clock) >= 18 and hour(clock) < 20.
+    Time untilDusk(clock).
+    Result "You find a place on a bench and watch, the way the town watches: not the makings, at first, but the light on the Tump, going up it.".
   }
   // The Watching begins, for whoever is at the Table.
   Rule watching_opens at green when lullDusk() and at(party, green) and not watchingToday(lull_country)
@@ -186,6 +195,14 @@ Module lull "The Lull" {
     Says "'Holy day and never another,' says the old woman at once. 'Those were the words.' 'They were not,' says a man with one eye. 'It was Let it be the holy day, and the rest of the week can go hang. I was there.' 'We were all there, Amos.' 'Agnes Crane sang it,' says a third, 'and it was a hymn, and the words were the hymn's, Rest and be thankful.' They argue. It is clearly a very old argument, and a happy one. After a while the old woman leans to you and says, low: 'It was a child that said it, in the end. Little Nell Lumb, that's dead. She said, Can't it just stay Sunday? And it did.' She sits back. 'Don't tell them I said.'".
     On discuss { Assert knows(actor, words_disputed). }
   }
+  Action learn_hymn(actor: group, site: place) "Ask the Old Shift to teach you Agnes Crane's hymn, Rest and be thankful" {
+    Description "An hour of singing with eleven old people who disagree about every word.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, almshouse) and at(old_shift, almshouse) and lullOpen() and knows(actor, words_disputed) and not granted(actor, performance).
+    Time 6.
+    On success { Assert granted(actor, performance). Assert knows(actor, hymn_learned). }
+    Result "They teach it you the way the old teach anything: all at once, in three keys, with the words in dispute. An old woman at the far end, who you gather is Agnes Crane, beats time on the arm of her chair with a shuttle and stops them every second line. It is not a good hymn. It goes up where you expect it to go down, and the last verse is only the first one again, slower, the way you would sing it to a child you were putting to sleep. By the end of the hour you have it, and so, somehow, does the cat.".
+  }
+  Discovery hymn_learned "The Old Shift taught you Agnes Crane's hymn, Rest and be thankful, which the strikers sang on the Tump. It goes up where you expect it to go down.".
   Discovery words_disputed "The Old Shift do not agree what was said on the Tump: 'holy day and never another', 'the rest of the week can go hang', a hymn's 'rest and be thankful', or a child's 'can't it just stay Sunday?'".
   Topic shift_tobias with old_shift "Ask the Old Shift about Tobias Lindsell" when lullOpen() once {
     Says "'Tobias tells it best,' they say. 'He was at the window when we came out. He saw it all.' 'He was the last down off the Tump,' says the one-eyed man. 'Carried Nell Lumb on his back.' 'He's not been himself,' says the old woman. 'Since Hester took bad. He sits with her. He'll not come to the Table.' A silence. 'Not like him,' someone says. 'Not like him at all.'".

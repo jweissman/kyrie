@@ -3,5 +3,5 @@ Module lull "The Lull" {
   Entity party: group "Your company".
   // What is said of the Lull in the country behind it: once the Working Day is over, it is old news there.
   Entity word: fact "What is said of the Lull in the country behind it.".
-  Rule word_old when workingOver(lull_country) and pastThree() and not stale(word) { Assert stale(word). }
+  Rule word_old when workingOver(lull_country) and not stale(word) { Assert stale(word). }
 }

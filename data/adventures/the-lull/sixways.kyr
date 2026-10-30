@@ -49,8 +49,8 @@ Module lull "The Lull" {
   Observe march_scene at march_road when true "The march road comes over the last rise and down into a hamlet of one street: flint walls, low thatch, a pump, and more carts than so few houses need. At every door there hangs a curtain of the same grey-gold cloth, and every one of them looks new. Beyond the roofs the road climbs on to a standing stone on a bare green rise, and stops.".
   Observe street_scene at sx_street when not dark() "Sixways street: the pump, the inn, a carter's yard, a herbwife's door with bunches hung in the porch, and the lane to a row of three cottages that stand a little apart. Everybody here seems to know what day it is in a way that people elsewhere do not.".
   Observe street_night at sx_street when dark() "Sixways street at night: the pump, the inn's lit window, and up on the rise the Fold-stone against the sky.".
-  Observe street_count at sx_street when lullCycle(clock) < 6 and not dark() "The board by the pump says, in chalk: LULL IN {lullDaysAway(clock)}.".
-  Observe street_lullday at sx_street when lullday() and not dark() "The board by the pump says, in chalk, LULLDAY, and underneath, in another hand, BACK BY MIDNIGHT.".
+  Observe street_count at sx_street when lullCycle(clock) < 6 and not weekReturned(lull_country) and not dark() "The board by the pump says, in chalk: LULL IN {lullDaysAway(clock)}.".
+  Observe street_lullday at sx_street when lullday() and not weekReturned(lull_country) and not dark() "The board by the pump says, in chalk, LULLDAY, and underneath, in another hand, BACK BY MIDNIGHT.".
   Observe taproom_scene at sx_taproom when true "The Waiting Woman's taproom is low and long, with a settle by the fire and a window at the end that looks up the road to the stone. Everybody who sits down sits facing that window. On the wall is the inn's old sign, taken down and kept indoors: a young woman at a window, in fresh paint, her face very carefully done.".
   Observe yard_scene at rooke_yard when true "A carter's yard: two carts, a heap of harness, a grey mare in a stall with her head over the door, and against the wall, under a sack, something with four legs that somebody has been making and unmaking.".
   Observe coll_scene at coll_kitchen when true "Ruth Coll's kitchen smells of rue and boiled linen. Bunches hang from every beam, the jars on the dresser are labelled in a sharp hand, and a pestle stands in a mortar on the table, mid-sentence.".
@@ -60,7 +60,7 @@ Module lull "The Lull" {
   Observe spring_scene at sx_spring when true "Behind the inn a spring comes out of the hillside under a lip of rock, cold and very clear, with a draught breathing out of the dark above the water. It smells of wet stone, and, faintly, of wool.".
   Observe stone_scene at fold_stone when true "The Fold-stone is a grey stone, waist-high, on the bare top of the rise, notched along both edges with seven notches to a row, row on row, so many that the lower ones are worn to dimples. Nothing hangs on it but the weather. From it the road goes on round a bare green hill, and comes back to the stone.".
   Observe stone_open at fold_stone when lullOpen() "There is another road from the stone this morning: down, through a gap in the turf that was not there, into a valley full of beech trees and smoke and birds, with a town in it, and a mill.".
-  Observe stone_count at fold_stone when lullCycle(clock) < 6 "The newest notches on the stone say that the Lull is {lullDaysAway(clock) in words} days off.".
+  Observe stone_count at fold_stone when lullCycle(clock) < 6 and not weekReturned(lull_country) "The newest notches on the stone say that the Lull is {lullDaysAway(clock) in words} days off.".
 
   // The days to the Lull, as Sixways chalks them.
   Measure lullDaysAway(clock).
@@ -132,12 +132,19 @@ Module lull "The Lull" {
 
   // ── Mercer Haskett, cloth-factor ──────────────────────────────────────────────────────────────────────────────────
   Kind lull_cloth "a length of Lull-cloth" is gear worth 12 weighing 1 described "A length of grey-gold woollen cloth, close-woven and soft, with no wear on it anywhere and none to come: it was woven by someone who meant it, in the Lull, and it does not fray, fade, or felt.".
+  Kind long_shift_cloth "a bolt of the Long Shift's cloth" is gear worth 20 weighing 2 described "A bolt of grey cloth from the looms of the Wrought Mill in the dark: close, even, perfect, and the colour of nothing at all. You wove it. It will never wear out.".
+  Kind wrought_shillings_kind "a bag of the Wroughts' shillings" is gear worth 15 weighing 1 described "Old silver shillings in a canvas bag, struck with a hammer and a fleece: the Long Shift's wages for the seventh day, paid out to whoever would work it, and come back to the bailiff's chest at sunset.".
   Person haskett "Mercer Haskett" at haskett_loft {
     Role "cloth-factor of Sixways, who buys Lull-cloth". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Likeness "merchant".
     Greets "A stout pleasant man in a waistcoat of the grey-gold cloth gets up from the desk with his hand already out. 'Haskett. Cloth. You'll have come about the Lull; everyone comes about the Lull. Sit down, sit down. Feel that.' He puts a corner of a bolt into your hand. 'Forty years old, that piece. Not a thread gone. You can't buy it in there for love or money: only for love.' He laughs at his own joke, which he has clearly made before, and means.".
     Greets again "'Ah!' says Haskett, delighted. 'Back from the Lull, or going?'".
     Buys lull_cloth for 12 coin.
+    Buys long_shift_cloth for 20 coin.
+    Buys wrought_shillings_kind for 15 coin.
+  }
+  Topic haskett_shift with haskett "Show Mercer Haskett the grey cloth you wove in the Mill" when carries(party, shift_bolt) once {
+    Says "Haskett takes the bolt to the window and does not say anything for a long time, which for him is a great deal of not saying. He rubs it, smells it, holds it to the light. 'Perfect,' he says at last. 'Perfect, and the colour of nothing.' He gives it back to you, not quite at once. 'I'll give you twenty for it. I'll give you twenty and I'll put it at the back of the rack where I don't have to look at it.' He wipes his hands on his waistcoat. 'Who wove that? No. Don't tell me.'".
   }
   Topic haskett_trade with haskett "Ask Mercer Haskett how he comes by Lull-cloth" when true once {
     Says "'Gifts,' says Haskett. 'Every scrap of it. A Lull weaver weaves a length for her sister in Sixways because she loves her sister and loves the loom, and the sister, who has a roof to mend, brings it to me. Forty years my father did it and thirty I have.' He strokes the bolt. 'Do you know what it would be worth, if they wove for wages and it held? They have four hundred people in there who have done nothing for fifty years but get good at things they love.' He sighs like a man looking at an orchard over a wall. 'And they won't take a penny. Their law, they say. Their custom, I say.'".
