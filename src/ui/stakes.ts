@@ -1,5 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Entity, Objective } from '../lang/module';
+import type { Entity, Objective, Predicate } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { EntityIndex } from '../lang/entity-index';
@@ -31,12 +31,27 @@ export class Stakes {
     return ids;
   }
   // The aims, the one that names where the company stands first: in the king-barrow, the crown it holds, not the debt
-  // that sent it there (play 13). Otherwise as they were (the company's own errand first).
+  // that sent it there (play 13). Then the company's own errand, before whatever the country has told it of since: at
+  // the bridge-foot of Brightbridge the father's cart, not the hobs' hold the innkeeper spoke of (the bell had come to
+  // lead the page as soon as it was heard of: OWN-28). Otherwise as they were.
   static here<A extends { id: string }>(campaign: Campaign, aims: A[], place?: string): A[] {
     const defs = new Map((campaign.module.objectives ?? []).map(o => [o.id, o]));
-    const at = new Set(aims.filter(a => place && defs.has(a.id) && Stakes.named(campaign, defs.get(a.id)!).has(place))
-      .map(a => a.id));
-    return [...aims.filter(a => at.has(a.id)), ...aims.filter(a => !at.has(a.id))];
+    return aims.map(a => [Stakes.rank(campaign, defs.get(a.id), place), a] as const)
+      .toSorted((x, y) => x[0] - y[0]).map(([, a]) => a);
+  }
+  private static rank(campaign: Campaign, def: Objective | undefined, place?: string): number {
+    if (def && place && Stakes.named(campaign, def).has(place)) { return 0; }
+    return def && Stakes.own(def) ? 1 : 2;
+  }
+  // The company's own errand: the aim its origin sets, or one that holds while it has kin in the matter (the kin
+  // origin's errand is the drover's going-on, asked of the drover's wife as the company's mother).
+  static own(o: Objective): boolean { return /^origin__/.test(o.id) || Stakes.kin(o.when); }
+  private static kin(p: Predicate): boolean {
+    switch (p.kind) {
+      case 'call': return p.name === 'kin' || p.name === 'kinship';
+      case 'and': case 'or': return Stakes.kin(p.left) || Stakes.kin(p.right);
+      default: return false;
+    }
   }
   private static inside(id: string, ids: Set<string>, byId: Map<string, Entity>): boolean {
     for (let p = byId.get(id)?.space?.parent; p; p = byId.get(p)?.space?.parent) { if (ids.has(p)) { return true; } }

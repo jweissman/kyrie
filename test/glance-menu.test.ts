@@ -31,6 +31,7 @@ class Menus {
 describe('the menu at a glance', () => {
   let g: Glanced;
   beforeAll(async () => { g = await Glanced.country('kite'); }, 120000);
+  // A walk out to the den on the way: a second alone, past bun's five seconds under a loaded suite.
   it('leads with the glance, keeps every choice, and places the rest under a sheet', async () => {
     Menus.check(g);
     await g.choose(/,region__s2_green\)$/);
@@ -40,7 +41,7 @@ describe('the menu at a glance', () => {
     expect(MenuModel.build(g.frame(), 'here', []).sheets!.look).toContain('drover__son#talk');
     await g.to('region__w11');
     Menus.check(g);
-  });
+  }, 30000);
   it('offers the place the aims name to set out for beyond the nearest', () => {
     const screen = g.frame().screen, legs = [{ way: 'the road', to: 'x', minutes: 60 }];
     const places = ['Riwustagn', 'Argentumfons', 'a lone tower', 'Lunastagn', 'Murkheald'].map((name, i) =>

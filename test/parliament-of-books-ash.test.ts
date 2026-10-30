@@ -50,9 +50,13 @@ describe('A Parliament of Books: the Ash', () => {
 
   it('a soldier goes down by force: through the pickets and the ranks, past the Penknife, and the Index into its own fire',
     async () => {
+      // Tenth level, and a night's camp at the burned edge before the hearth: since techniques rest (4fbff0a), an
+      // eighth-level soldier no longer outlasts the four Cinders on a Second Wind every turn, nor a tenth the Penknife
+      // straight after.
       const j = await Calamy.start('ash-fight',
-        [{ name: 'Brand', raceId: 'human', classId: 'warrior', backgroundId: 'soldier', level: 8 } as CreatureGenerationContext]);
-      await Calamy.play(j, ...withCrake, 'go:char_edge', 'Attack', 'go:cinderfield', 'Attack', 'go:hearth', 'Attack');
+        [{ name: 'Brand', raceId: 'human', classId: 'warrior', backgroundId: 'soldier', level: 10 } as CreatureGenerationContext]);
+      await Calamy.play(j, ...withCrake, 'go:char_edge', 'Attack', 'go:cinderfield', 'Attack', 'go:char_edge',
+        'Make camp for the night', 'go:hearth', 'Attack');
       expect(j.holds('dead', C('penknife')) || Calamy.holds(j, 'routed', 'penknife')).toBe(true);
       await Calamy.play(j, 'Throw the Index into its own furnace');
       expect(Calamy.holds(j, 'indexBurned', 'index')).toBe(true);

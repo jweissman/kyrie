@@ -8,8 +8,9 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // A whole first expedition, as it was played by the words on the page (doc/architecture/mission-14/expedition.md):
 // from the road into Gothgiba, the inn and the smith, out over the fell to the mine; the adit level's riddles, its
 // goblins, the glyph made safe, the air shaft found by its draft and climbed out of; home to sell what was carried
-// up, a companion raised at the shrine, a night at the inn. Its record replays it to the same world, and a game
-// saved halfway and taken up again ends where the unbroken game ends.
+// up, a night at the inn. Its record replays it to the same world, and a game saved halfway and taken up again ends
+// where the unbroken game ends. (Thoradin had fallen to the goblins and been raised at the shrine on the way home; on
+// the fights of 4fbff0a, foes choosing by kind and techniques resting, he comes through that fight standing.)
 class Expedition {
   static readonly steps = [
     'bailey', 'Wooden.Wolf', 'old.workings', 'Ask.Thoradin.whether', 'Ask.Thoradin.to.join', 'Buy.one.ration',
@@ -30,9 +31,8 @@ class Expedition {
     'to the foot of Barzelrehes by Gothgiba$', 'path up onto Barzelrehes to the bailey', "Ulfgar's door",
     'Sell a lump of star-iron', 'Sell a lump of star-iron', 'Sell a lump of star-iron', 'Sell a lump of star-iron',
     'Sell a lump of star-iron', 'Sell a lump of star-iron', "Sell a Delver's pay-token",
-    "Sell a Delver's pay-token", "Sell a Delver's ring", "Ulfgar's door", 'shrine porch',
-    'Ask Baern to raise Thoradin', 'shrine porch in Gothgiba to the bailey',
-    'door of the Wooden Wolf', 'Take a bed and supper'];
+    "Sell a Delver's pay-token", "Sell a Delver's ring", "Ulfgar's door", 'door of the Wooden Wolf',
+    'Take a bed and supper'];
   static async start() {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
@@ -48,14 +48,12 @@ class Expedition {
 }
 
 describe('a first expedition, played through', () => {
-  it('comes home with what it carried up, sold, and a companion raised: and replays to the same world', async () => {
+  it('comes home with what it carried up, sold, and its companion standing: and replays to the same world', async () => {
     const s = await Expedition.start(), fight = Expedition.steps.indexOf('Attack the goblins') + 1;
-    // Thoradin falls fighting the goblins: fallen, he cannot be asked anything; raised, he can again.
+    // Thoradin comes through the goblins standing: he can still be asked, there and at home.
     const asks = () => PlayerView.choices(s.campaign).some(c => /^Ask Thoradin /.test(c.choice.name));
-    await Expedition.play(s, Expedition.steps.slice(0, fight - 1));
+    await Expedition.play(s, Expedition.steps.slice(0, fight));
     expect(asks()).toBe(true);
-    await Expedition.play(s, Expedition.steps.slice(fight - 1, fight));
-    expect(asks()).toBe(false);
     await Expedition.play(s, Expedition.steps.slice(fight));
     expect(asks()).toBe(true);
     // A night at the inn is reckoned from waking: the day's eighteen hours begin now, not at bedtime.

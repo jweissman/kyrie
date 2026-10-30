@@ -78,8 +78,11 @@ describe('A Parliament of Books: the Stacks', () => {
       expect(j.at('party')).toBe(C('cthelll_gate'));
       await Calamy.play(j, 'Sign your name');
       expect(Calamy.holds(j, 'namedInCthelll', 'party')).toBe(true);
-      const b = j.campaign.readout.creatures.find(c => c.name === 'Brand')!;
-      expect([...b.base.abilities, ...b.state.learnedAbilities]).toEqual(expect.arrayContaining(['doom_spiral', 'anoint']));
+      // Each gift falls on one of the company by lot (a hazard strikes a member at random, keyed to the hour): Brand
+      // had drawn both, and the fights of 4fbff0a take other hours, so the blessing falls on Crake. The company has
+      // both.
+      const company = j.campaign.readout.creatures.filter(c => j.campaign.state.partyIds.includes(c.id));
+      expect(company.flatMap(c => c.state.learnedAbilities)).toEqual(expect.arrayContaining(['doom_spiral', 'anoint']));
     }, 600000);
 
   it('signs the lending slip for the shortest way to the Rotunda, and comes back under somebody else\'s name', async () => {

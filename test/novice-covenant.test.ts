@@ -92,13 +92,14 @@ describe('the page\'s word for a fight is the fight the company would fight', ()
     expect(ours[0]!.state.inventory?.map(i => i.definition)).toEqual(carried);
     expect(foes[0]!.state.inventory ?? []).toEqual([]);
   });
+  // Forty fights fought out, some two seconds alone and past bun's five under a loaded suite: seeded, so only slow.
   it('and its word agrees with how such a fight goes', () => {
     for (const [seed, foes] of [['arms', 1], ['pair', 2]] as const) {
       const said = DangerSense.of(Covenant.fight(seed, foes)).danger, [low, high] = Covenant.range[said];
       const won = Covenant.won(seed, foes, 20);
       expect([seed, said, won >= low - 0.2 && won <= high + 0.2]).toEqual([seed, said, true]);
     }
-  });
+  }, 30000);
 });
 
 describe('running is offered, and comes off as the page says', () => {

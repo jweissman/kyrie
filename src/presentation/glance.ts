@@ -145,13 +145,16 @@ export class Glance {
   }
   // The way from here toward a place an aim names (the first leg of the known way there), for the first two places the
   // aims name: when it lies in the same settlement or site, or two legs away at most. Found over the known ways (see
-  // Itineraries.graph), the fewest legs first, never further afield than that.
+  // Itineraries.graph), the fewest legs first, never further afield than that. Where the aim shown names the place the
+  // company stands in, no way is pointed off toward another aim held: what that aim asks is here (at the bridge the
+  // father went out by, the ruts off the road, not the road to the hobs' hold: OWN-28).
   private static toward(campaign: Campaign, screen: Screen,
     aims: { named: Set<string>; held: Set<string> }): Reading['toward'] {
     const out = new Map<string, 'toward' | 'held'>(), byId = EntityIndex.of(campaign.module.entities).byId;
     const here = screen.place.id, around = new Set(Spatial.ancestry(byId, here).map(e => e.id));
     const area = [...screen.path].reverse().find(p => ['settlement', 'site'].includes(p.kind))?.id;
-    const places = [...[...aims.named].map(id => [id, 'toward'] as const), ...[...aims.held].map(id => [id, 'held'] as const)]
+    const held = aims.named.has(here) ? [] : [...aims.held];
+    const places = [...[...aims.named].map(id => [id, 'toward'] as const), ...held.map(id => [id, 'held'] as const)]
       .filter(([id]) => byId.get(id)?.space && !around.has(id) && !screen.exits.some(e => e.destination.id === id))
       .slice(0, 2);
     const graph = places.length ? Itineraries.graph(campaign) : new Map<string, WayInfo[]>();
