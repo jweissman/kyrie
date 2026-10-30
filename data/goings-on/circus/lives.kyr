@@ -58,10 +58,10 @@ Module circus "Wapshott's Peregrine Circus" {
 
   // Clemency Vane, offered the chance to be funny.
   Relation clemencyFolly(group).
-  Topic offer_clemency with clemency "Offer Clemency Vane the part of Folly in Wapshott's masque at the Revels" when knows(actor, clemency_comic) and knows(actor, letter_known) and not clemencyFolly(clemency) once {
+  Topic offer_clemency with clem_vane "Offer Clemency Vane the part of Folly in Wapshott's masque at the Revels" when knows(actor, clemency_comic) and knows(actor, letter_known) and not clemencyFolly(clem_vane) once {
     Grave "A leading lady who plays in a rival's masque does not go back to her own company's the same.".
     Says "Clemency Vane looks at you over her cold tea for a long time. 'Folly,' she says. 'In a circus masque. Before the Household of the Progress. With my husband in the other masque, being Justice.' She puts the cup down very carefully. 'He will never forgive me.' A pause. 'He has never once laughed at me. Not once in twenty years.' She stands up. 'Yes. Tell your Colonel yes. Tell him I want a fan, and a ladder, and I want to sit down in the middle of something.'".
-    On discuss { Assert clemencyFolly(clemency). }
+    On discuss { Assert clemencyFolly(clem_vane). }
   }
 
   // Fipps's Grand Circus Overture, for a band of twenty: Pell's musicians, and the low G.

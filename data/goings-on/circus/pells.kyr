@@ -10,7 +10,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Greets "A tall man in a cloak with a fur collar the moths have been at, a profile like a coin and a voice like a cello played in a cathedral, turns to you as if you had entered stage left. 'Augustus Pell,' he says, 'of the Theatre Royal, Dunmere. You will have heard of my Margrave.' You have not. He forgives you with a small gesture. 'You are with the circus. One can always tell. There is a little sawdust about the soul.'".
     Greets again "Augustus Pell inclines his profile toward you, the better side.".
   }
-  Person clemency "Clemency Vane" at tober_a {
+  Person clem_vane "Clemency Vane" at tober_a {
     Role "the leading lady of Pell's Comedians". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "A handsome tired woman of forty in a dressing-gown over the second act of something, with a cold cup of tea and a part pinned to her knee, looks up at you. 'Clemency Vane,' she says. 'I have died eleven hundred times. Poisoned, stabbed, of grief, in a convent, under a portcullis. Once of a draught, but that was a real one.' She sips the cold tea. 'You're from the circus. Is it true your Sylph sits down in the middle of the wire? I should give my teeth to be allowed to sit down in the middle of anything.'".
     Greets again "Clemency Vane raises her cold cup to you.".
@@ -25,8 +25,8 @@ Module circus "Wapshott's Peregrine Circus" {
     Greets "In a bath-chair by the cart-stage, wrapped in shawls up to a nose like a parrot's, sits a tiny old woman with eyes like two currants in a bun. 'Mother Pell,' she says, in a big warm voice, and then, without moving her face at all, in a perfect copy of Augustus: 'You will have HEARD of my MARGRAVE.' Then in her own again: 'He's my grandson. I taught him everything and he forgot the funny part.' She looks you up and down. 'You've been near Gus Fell. I can smell the greasepaint. White, with a bit of lard in it. He always used too much lard.'".
     Greets again "'You again,' says Mother Pell, in your own voice, exactly, and then laughs in hers.".
   }
-  Initially Assert offstage(augustus). Initially Assert offstage(clemency). Initially Assert offstage(kit). Initially Assert offstage(motherpell).
-  Initially Assert pellPlayer(augustus). Initially Assert pellPlayer(clemency). Initially Assert pellPlayer(kit). Initially Assert pellPlayer(motherpell).
+  Initially Assert offstage(augustus). Initially Assert offstage(clem_vane). Initially Assert offstage(kit). Initially Assert offstage(motherpell).
+  Initially Assert pellPlayer(augustus). Initially Assert pellPlayer(clem_vane). Initially Assert pellPlayer(kit). Initially Assert pellPlayer(motherpell).
   Rule pells_come when letterCome(wapshotts) and day(clock) >= letterDay(wapshotts) + 1 and not pellsOut(wapshotts) { Assert pellsOut(wapshotts). }
   Rule pells_ahead when pellsOut(wapshotts) and not revelsDone(wapshotts) and pellPlayer(?p) and current(wapshotts, ?g) and nextGround(?g, ?n) and greenOf(?n, ?green)
     and not here(tober_r) and not at(?p, ?green) and not kitAway(?p) {
@@ -35,8 +35,8 @@ Module circus "Wapshott's Peregrine Circus" {
     Retract offstage(?p). Assert at(?p, revels_hall). }
   Rule pells_on when revelsDone(wapshotts) and pellPlayer(?p) and not offstage(?p) and not kitAway(?p) and hour(clock) >= 6 and day(clock) > revelsDay(wapshotts) { Assert offstage(?p). }
   Relation kitAway(group).
-  Observe pells_playing near augustus when pellsOut(wapshotts) and not here(tober_r) and hour(clock) >= 19 and hour(clock) < 21 "On a cart-stage on the green, by the light of four smoking flares, Pell's Comedians are playing THE TRAGEDY OF THE UNHAPPY MARGRAVE to forty people standing and a dog. Augustus Pell dies at length. Clemency Vane dies more briefly and better. A boy in a black doublet, who is a tree in the first act, catches a falling flare without breaking the line, and the dog barks at him.".
-  Observe pells_by_day near augustus when pellsOut(wapshotts) and not here(tober_r) and (hour(clock) < 19 or hour(clock) >= 21) "By the inn wall stands the cart of Pell's Comedians: a wagon that unfolds into a stage, painted THEATRE ROYAL DUNMERE in letters of faded gold, with a canvas sky rolled on the roof and a bath-chair chained to the tail.".
+  Observe pells_playing near augustus when pellsOut(wapshotts) and not here(tober_r) and hour(clock) >= 19 and hour(clock) < 21 "On a cart-stage in the middle of the town, by the light of four smoking flares, Pell's Comedians are playing THE TRAGEDY OF THE UNHAPPY MARGRAVE to forty people standing and a dog. Augustus Pell dies at length. Clemency Vane dies more briefly and better. A boy in a black doublet, who is a tree in the first act, catches a falling flare without breaking the line, and the dog barks at him.".
+  Observe pells_by_day near augustus when pellsOut(wapshotts) and not here(tober_r) and (hour(clock) < 19 or hour(clock) >= 21) "Against a wall stands the cart of Pell's Comedians: a wagon that unfolds into a stage, painted THEATRE ROYAL DUNMERE in letters of faded gold, with a canvas sky rolled on the roof and a bath-chair chained to the tail.".
   // A town that saw the tragedy last week has spent its coin.
   Rule pells_skim when pellsOut(wapshotts) and hour(clock) == 20 and at(augustus, ?green) and greenOf(?n, ?green) and not pellsPlayed(?n) { Assert pellsPlayed(?n). }
   Rule pells_house when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and current(wapshotts, ?g) and pellsPlayed(?g) {
@@ -53,7 +53,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert knows(actor, augustus_pierrot). }
   }
   Entity augustus_pierrot: fact "Augustus Pell played a Pierrot at eight in his grandmother's harlequinade, fell over, was laughed at, and has played tragedy ever since so that nobody should laugh at him again.".
-  Topic clemency_dying with clemency "Ask Clemency Vane whether she likes dying for a living" when true once {
+  Topic clemency_dying with clem_vane "Ask Clemency Vane whether she likes dying for a living" when true once {
     Says "'Like it?' Clemency considers her cold tea. 'I was a comedienne, you know. At twenty. Sauce and a fan and the second-best legs in Dunmere. Then Augustus married me, and in our company the leading lady dies.' She sets the cup down. 'He's a good man and a great actor and he has never once let me be funny in front of him. I don't think he knows he hasn't.' She looks across at the circus's posters on the inn wall, the Sylph sitting on her wire. 'I should like, once before I die properly, to sit down in the middle of something.'".
     On discuss { Assert knows(actor, clemency_comic). }
   }

@@ -129,7 +129,7 @@ describe('the Revels round', () => {
     t.stage(['knows', 'rest_heard'], ['knows', 'letter_known']);
     await t.play('=day 24 16:00', '>' + c('revels_hall'));
     t.stage(['hallRoofed', 'wapshotts'], ['densFit', 'wapshotts'], ['warmGlazed', 'wapshotts'], ['cloudMended', 'wapshotts'], ['ascensionRigged', 'wapshotts'],
-      ['clemencyFolly', 'clemency'], ['set', 'regard', 'tom', '1']);
+      ['clemencyFolly', 'clem_vane'], ['set', 'regard', 'tom', '1']);
     await t.play('=day 24 23:30');
     expect(t.page).toContain('MASTER OF THE REVELS AND KEEPER OF THE MENAGERIE ROYAL');
     expect(t.holds('warrantOurs', 'wapshotts')).toBe(true);
@@ -142,7 +142,7 @@ describe('the Revels round', () => {
     const t = await Tour.reckoned('paid');
     await t.play('=day 24 16:00');
     t.stage(['hallRoofed', 'wapshotts'], ['densFit', 'wapshotts'], ['warmGlazed', 'wapshotts'], ['cloudMended', 'wapshotts'], ['ascensionRigged', 'wapshotts'],
-      ['clemencyFolly', 'clemency'], ['set', 'regard', 'tom', '1'], ['partnered', 'party']);
+      ['clemencyFolly', 'clem_vane'], ['set', 'regard', 'tom', '1'], ['partnered', 'party']);
     await t.play('=day 24 23:30');
     expect(t.holds('fenwickSigned', 'wapshotts')).toBe(true);
     expect(t.holds('warrantFenwick', 'wapshotts')).toBe(true);

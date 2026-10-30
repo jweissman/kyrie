@@ -164,7 +164,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Assert parading(?p). Assert at(?p, ?green). }
   Rule parade_ends when parading(?p) and hour(clock) >= 17 {
     Retract parading(?p). Assert paraded(wapshotts). }
-  Rule parade_seen near wapshott when parading(wapshott) and not paradeTold(wapshotts) says "Here is the parade. First comes a drum, then a cornet, then a serpent, which is a black wooden horn that goes three times round a fat man; then Bucephalus, a grey horse of great age wearing a plume, who looks at the town as if he were thinking of buying it and had seen the drains; then the Colonel on foot in a crimson coat, shouting. Behind him a clown in white walks very slowly with a goose under each arm and does not say a word, and every child on the green follows him." { Assert paradeTold(wapshotts). }
+  Rule parade_seen near wapshott when parading(wapshott) and not paradeTold(wapshotts) says "Here is the parade. First comes a drum, then a cornet, then a serpent, which is a black wooden horn that goes three times round a fat man; then Bucephalus, a grey horse of great age wearing a plume, who looks at the town as if he were thinking of buying it and had seen the drains; then the Colonel on foot in a crimson coat, shouting. Behind him a clown in white walks very slowly with a goose under each arm and does not say a word, and every child in the place follows him." { Assert paradeTold(wapshotts). }
   Relation paradeTold(concern).
   Rule parade_reset when pitched(wapshotts) and paradeTold(wapshotts) and hour(clock) >= 17 { Retract paradeTold(wapshotts). }
   Rule parade_draws when parading(wapshott) and current(wapshotts, ?g) and not paradeCounted(?g) and arrivedDay(wapshotts) >= 1 {

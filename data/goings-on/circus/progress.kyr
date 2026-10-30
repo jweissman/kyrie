@@ -13,7 +13,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Chapter ch_rest "The King's Rest" when letterCome(wapshotts) and at(party, rest_gate) "Up the hill road, through the rooks, to a gatehouse twice as high as it needs to be, with a wheel and a crown over the arch. Behind it, half a furlong of swept stone, and an old man leaning on a broom, waiting, as his family has waited, for the kings to come back.".
 
   Person tobias "Tobias Quarrendon" at tober_a {
-    Role "the Clerk of the Household of the Progress". Ancestry human. Peaceable. Pronouns he. Manner cheerful. Wants seal_kind.
+    Role "the Clerk of the Household of the Progress". Ancestry human. Peaceable. Pronouns he. Manner cheerful. Wants progress_seal_kind.
     Greets "A tall young man in a good black coat gone shiny at the elbows, with ink on his cuffs, a satchel of papers, a face all nose and earnestness, and a seal-ring on a ribbon round his neck (no; on second look the ribbon is empty, and he keeps touching it), stands up very quickly and drops several papers. 'Quarrendon,' he says. 'Tobias. Clerk of the Household of the Progress. The Household is myself and my great-aunt. She is the Steward; I am,' he gathers the papers, 'everything else.'".
     Greets again "Tobias Quarrendon stands up, drops something, and is very glad to see you.".
   }

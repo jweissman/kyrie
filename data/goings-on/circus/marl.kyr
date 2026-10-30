@@ -8,7 +8,7 @@ Module circus "Wapshott's Peregrine Circus" {
     and not wakeDone(wapshotts) and not wakeOn(wapshotts) {
     Assert wakeOn(wapshotts). }
   Rule wake_ends when wakeOn(wapshotts) and hour(clock) >= 19 { Retract wakeOn(wapshotts). Assert wakeDone(wapshotts). }
-  Observe wake_green at green_c when wakeOn(wapshotts) "It is the Marl Wake. The green is full of diggers in clean smocks with marl still in the creases of their hands, and their wives, and a fiddler, and a pole thirty feet high greased from top to bottom with a leg of mutton tied at the summit. Down the street comes the Marl Queen in a crown of white clay and cowslips, on a cart drawn by four diggers, throwing sugared almonds at the shrine. Wapshott's band has been asked to play her in, and is playing something it does not know with tremendous confidence.".
+  Observe wake_green at green_c when wakeOn(wapshotts) "It is the Marl Wake. {green_c} is full of diggers in clean smocks with marl still in the creases of their hands, and their wives, and a fiddler, and a pole thirty feet high greased from top to bottom with a leg of mutton tied at the summit. Down the street comes the Marl Queen in a crown of white clay and cowslips, on a cart drawn by four diggers, throwing sugared almonds at the priest's door. Wapshott's band has been asked to play her in, and is playing something it does not know with tremendous confidence.".
   Person tull "Sim Tull" at green_c {
     Role "the foreman of the marl-diggers". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "A broad man in a smock with forearms the colour of the pit and a pot of ale in each hand gives you one of the pots before you have asked. 'Sim Tull,' he says. 'Foreman of the marl, when there's marl to dig.' He drinks. 'Come to the Marl Wake, when the circus is next here: there's a greasy pole with a leg of mutton on top. Nobody's had the mutton in four years. My granfer had it in his day; he never stops telling us.'".
@@ -96,26 +96,26 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Entity worm_stone: fact "On the floor of the marl-pit stands a squared stone cut with the words HERE THE KINGS DIGGERS STOPT. NOT DEAD ENOUGH., and beside it, standing out of the marl, a great dark ribbed curve taller than a man.".
   Observe stone_read at pit_water when pitDrained(wapshotts) and not knows(party, worm_stone) "On the upright stone, cut deep and carefully, as if by someone who meant it to be read in three hundred years: HERE THE KINGS DIGGERS STOPT. NOT DEAD ENOUGH. And beside it, standing out of the clay at an angle, the thing like a boat's rib: a single claw, black and glossy, curved like a sickle and as tall as you, still sharp along its inner edge." teaches worm_stone.
-  Kind claw_kind "the great claw from the marl-pit" is gear worth 30 weighing 6
+  Kind marl_claw_kind "the great claw from the marl-pit" is gear worth 30 weighing 6
     described "A claw as long as a scythe-blade, black and glossy as if lacquered, curved like a sickle, ribbed along its back, and still, after however long it has been in the marl, sharp along its inner edge. It is heavier than it looks, and colder.".
-  Item great_claw "the great claw from the marl-pit" is claw_kind at pit_water hidden until worm_stone.
+  Item great_claw "the great claw from the marl-pit" is marl_claw_kind at pit_water hidden until worm_stone.
   Relation clawShown(group). Relation clawToShrine(group). Relation clawReburied(group). Relation clawToColonel(group).
-  Topic fenwick_claw with fenwick "Show Sir Gervase the great claw from the marl-pit" when holding(actor, claw_kind) and not clawShown(fenwick) once {
+  Topic fenwick_claw with fenwick "Show Sir Gervase the great claw from the marl-pit" when holding(actor, marl_claw_kind) and not clawShown(fenwick) once {
     Says "Sir Gervase does not say anything at all. He takes off his hat. He takes the claw in both hands as a priest takes the cup, and turns it in the light, and runs his thumb, very carefully, along the inner edge, and draws blood, and does not notice. 'It is not a bird,' he says at last, quietly. 'It is not a bear. It is not a lizard, though it is very like a lizard, if a lizard were a cathedral.' He gives it back to you. His hands are shaking. 'The rest of it is under that field,' he says. 'Isn't it. That is what the stone means.' He laughs, quite wildly, a boy's laugh. 'Not dead enough!'".
     On discuss { Assert clawShown(fenwick). Assert shownFenwick(party). Increase regard(fenwick) by 2. }
   }
-  Topic wap_claw with wapshott "Show the Colonel the great claw from the marl-pit" when holding(actor, claw_kind) and not clawToColonel(wapshott) once {
+  Topic wap_claw with wapshott "Show the Colonel the great claw from the marl-pit" when holding(actor, marl_claw_kind) and not clawToColonel(wapshott) once {
     Says "The Colonel holds the claw up to the sky, at arm's length, with both hands, and his moustache begins to tremble. 'What,' he says, 'is this OFF?' You tell him about the stone. NOT DEAD ENOUGH. A light comes into the Colonel's eye that Ada, from the ticket wagon, sees from forty feet off. 'Bigger than an elephant,' he whispers. 'Under a field. And the Household of the Progress has a warrant for beasts.' He hands the claw back to you as if it were a crown. 'Keep it safe,' he says. 'Show it at the Revels. And say nothing to Sir Gervase. Say nothing to anybody. Say nothing to me; I shall only get ideas.' He has already got them.".
     On discuss { Assert clawToColonel(wapshott). Assert clawGiven(party). }
   }
-  Topic priest_c_claw with priest_c "Take the great claw to {priest_c}, to lie with the Leg under the altar" when holding(actor, claw_kind) and not clawToShrine(priest_c) once {
+  Topic priest_c_claw with priest_c "Take the great claw to {priest_c}, to lie with the Leg under the altar" when holding(actor, marl_claw_kind) and not clawToShrine(priest_c) once {
     Says "{priest_c} lays the claw on the altar cloth beside the Leg, and stands back. Together they make a shape the mind does not want to finish. {priest_c} says nothing for some time. Then: 'I shall say the prayers over two now,' {priest_c} says. 'Still for whom, I don't know. It seems a better place for them than a cabinet.' {priest_c} lays the cloth over both.".
-    On discuss { Assert clawToShrine(priest_c). Assert clawGiven(party). Spend claw_kind from actor. }
+    On discuss { Assert clawToShrine(priest_c). Assert clawGiven(party). Spend marl_claw_kind from actor. }
   }
   Action rebury_claw(actor: group, site: place) "Put the claw back in the marl beside the stone, where the King's diggers left it" {
     Time 2.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pit_water) and holding(actor, claw_kind) and not clawReburied(actor).
-    On success { Assert clawReburied(actor). Assert clawGiven(party). Spend claw_kind from actor. Increase regard(jabez) by 1. }
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pit_water) and holding(actor, marl_claw_kind) and not clawReburied(actor).
+    On success { Assert clawReburied(actor). Assert clawGiven(party). Spend marl_claw_kind from actor. Increase regard(jabez) by 1. }
     Result "You put it back where you found it, point down, in the cold clay beside the stone, and press the marl round it with your hands. It is a strange feeling, burying a thing that was never alive in your time, as if you were tucking it in. Up on the lip of the pit, when you climb out, the wind has got up, and for a moment you could swear the ground under your boots was warm.".
   }
   Topic priest_c_leg with priest_c "Ask {priest_c} to lend the great bone to the Revels at the King's Rest" when knows(actor, bone_seen) and knows(actor, inventory_known) and not legLent(priest_c) once {

@@ -101,7 +101,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Assert billsHit(?g). Assert state(?b, defaced). Retract offstage(wat). Assert at(wat, ?green). Assert watOut(wat). Set watDay(wat) to day(clock). }
   Rule wat_goes when watOut(wat) and hour(clock) >= 12 { Retract watOut(wat). Assert offstage(wat). }
   Rule bills_hit_reset when onRoad(wapshotts) and billsHit(?g) and not current(wapshotts, ?g) { Retract billsHit(?g). }
-  Observe wat_seen near wat when watOut(wat) "A long lad with a paste-pot and a roll of gold-and-blue bills is working his way round the green, whistling, pasting Sallow's over Wapshott's as fast as he can go.".
+  Observe wat_seen near wat when watOut(wat) "A long lad with a paste-pot and a roll of gold-and-blue bills is working his way round {green_a}, whistling, pasting Sallow's over Wapshott's as fast as he can go.".
   Action collar_wat(actor: group, site: place) "Collar the lad with the paste-pot" {
     Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(wat, site) and watOut(wat) and not watCaught(wat).
@@ -192,10 +192,10 @@ Module circus "Wapshott's Peregrine Circus" {
     Assert fairSet(wapshotts). Assert fairOn(wapshotts). Set fairDay(wapshotts) to day(clock). Retract offstage(pettigrew). Assert at(pettigrew, green_a). }
   Rule fair_ends when fairOn(wapshotts) and day(clock) > fairDay(wapshotts) + 2 and hour(clock) >= 6 { Retract fairOn(wapshotts). Assert offstage(pettigrew). }
   Rule fair_opens at green_a when fairFirst() and hour(clock) >= 14 and not fairOpened(wapshotts)
-    says "The Goose Fair has come to {town_a}. Every road into the town is white with geese: geese driven in flocks of a hundred by girls with long sticks, geese in carts, geese under arms, geese loose and furious. The green is booths and smoke and bells and shouting, gingerbread and ribbons and roast goose; and in the middle of it all, on a mounting-block, a small round man in a black gown with a silver goose on a chain is ringing a hand-bell for silence and not getting it." {
+    says "The Goose Fair has come to {town_a}. Every road into the town is white with geese: geese driven in flocks of a hundred by girls with long sticks, geese in carts, geese under arms, geese loose and furious. {green_a} is booths and smoke and bells and shouting, gingerbread and ribbons and roast goose; and in the middle of it all, on a mounting-block, a small round man in a black gown with a silver goose on a chain is ringing a hand-bell for silence and not getting it." {
     Assert fairOpened(wapshotts). }
   Relation fairOpened(concern).
-  Observe fair_green at green_a when fairOn(wapshotts) and not dark() "The green is the Goose Fair: booths, smoke, gingerbread, ribbons, a man selling a cure for everything, girls with long sticks driving geese through the crowd, and geese, everywhere geese, hissing at the ankles of the quality.".
+  Observe fair_green at green_a when fairOn(wapshotts) and not dark() "{green_a} is given over to the Goose Fair: booths, smoke, gingerbread, ribbons, a man selling a cure for everything, girls with long sticks driving geese through the crowd, and geese, everywhere geese, hissing at the ankles of the quality.".
   Topic pettigrew_contest with pettigrew "Ask the Clerk of the Fair about the contest" when fairOn(wapshotts) once {
     Says "Master Pettigrew draws himself up. 'By the charter of the Fair,' he says, 'the Great Pitch, which is the meadow by the green, with water and the right of the bell, goes each year to the show the Fair thinks best, together with a purse of forty coin from the tolls. This year there are two shows. Most irregular.' He consults his ledger. 'On the Fair's second afternoon, the clowns of both will meet upon the green, as of old custom, in the Flyting. On the third night the jury,' he indicates himself, '{keeper_a}, and {priest_a}, will attend both performances and decide. The verdict is mine to give, at the pump, at nine.' He lowers his voice. 'Madame Sallow has been very civil to me. She sent me a goose.' A pause. 'I have a great many geese.'".
     On discuss { Assert knows(actor, contest_rules). }

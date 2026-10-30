@@ -116,12 +116,12 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation bowed(group).
 
   // ── 2. Pell's masque ───────────────────────────────────────────────────────────────────────────────────────
-  Rule m2_pells at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 2 and not masqueTold(augustus) and not clemencyFolly(clemency)
+  Rule m2_pells at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 2 and not masqueTold(augustus) and not clemencyFolly(clem_vane)
     says "Pell's Comedians give THE MASQUE OF THE SEVEN VIRTUES, in verse, with fourteen musicians, and it is very fine. Augustus as Justice, in a gilt breastplate, speaks for eleven minutes without drawing breath. Clemency Vane as Mercy dies, beautifully, though nothing in the verse requires it. Mother Pell, in her bath-chair, is wheeled on as Time, and steals the masque in three lines, all in different voices. The court applauds properly. The Dowager does not laugh, because nothing was meant to be laughed at; she looks, if anything, a little hungry." {
     Assert masqueTold(augustus). }
   Rule m2_pells_kit at revels_hall when masqueTold(augustus) and kitJoins(kit) and not masqueTold(kit)
     says "Pell's Prudence is played by the prompter, in Kit Darrow's costume, which does not fit him, and he dries twice." { Assert masqueTold(kit). Decrease pellScore(wapshotts) by 1. }
-  Rule m2_pells_no_clemency at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 2 and not masqueTold(augustus) and clemencyFolly(clemency)
+  Rule m2_pells_no_clemency at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 2 and not masqueTold(augustus) and clemencyFolly(clem_vane)
     says "Pell's Comedians give THE MASQUE OF THE SEVEN VIRTUES without their leading lady, who is, as the whole hall knows by now, in the other masque. Augustus as Justice speaks his eleven minutes to a Mercy played by the wardrobe-mistress, who has never been on a stage before and says so, twice. He goes on magnificently. Mother Pell, as Time, saves what can be saved. The court applauds with tremendous good manners." {
     Assert masqueTold(augustus). Decrease pellScore(wapshotts) by 2. }
 
@@ -176,9 +176,9 @@ Module circus "Wapshott's Peregrine Circus" {
     says "And then the Colonel lifts, in both hands, something that was not in the Inventory: a black claw as long as a scythe, from the marl where the King's diggers stopped; and he does not say anything about it at all, which is the most frightening thing he has ever done. Sir Gervase, at the end of the row, stands up without knowing he has." {
     Assert masqueTold(great_claw). Increase revelsScore(wapshotts) by 1. }
   // The players of the Triumph.
-  Rule m5_folly at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 5 and clemencyFolly(clemency) and not masqueTold(clemency)
+  Rule m5_folly at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 5 and clemencyFolly(clem_vane) and not masqueTold(clem_vane)
     says "Into the Triumph of Wonder comes FOLLY, with a fan and a ladder: Clemency Vane of the Theatre Royal, who has not been allowed to be funny in twenty years. She climbs Mumchance's ladder, which leans on nothing, halfway, and stops, and sits down on a rung in the middle of everything, and fans herself, and looks at the court. The court looks back. And in the gallery, among Pell's Comedians, there is a sound nobody in that company has ever heard: Augustus Pell, laughing out loud." {
-    Assert masqueTold(clemency). Increase revelsScore(wapshotts) by 2. }
+    Assert masqueTold(clem_vane). Increase revelsScore(wapshotts) by 2. }
   Rule m5_pip_kit at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 5 and pipReady(pip) and kitJoins(kit) and not travelsWith(pip, party) and not masqueTold(pip)
     says "Then Pip, with Kit Darrow: the first entrée either of them ever made, three minutes. She falls off a barrel; he falls off a barrel like a cupboard; they get up, and look at the barrel, and decide to forgive it, together, and go to shake its hand, and it rolls away, and they chase it out of the hall arm in arm. Mumchance, in the wings, has his eyes shut." {
     Assert masqueTold(pip). Increase revelsScore(wapshotts) by 2. }

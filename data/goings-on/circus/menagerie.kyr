@@ -277,7 +277,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Says "Ninepence is quiet. 'An inn,' he says. 'Folk coming and going. Barrels. A brewhouse.' He rubs his long hands together, very slowly. 'I could do a great deal with a brewhouse.' He looks at you. 'It's not the circus, is it? You'll not get your penny for me.' He nods, as if you had answered. 'No. You'll not.' And he takes his brush off its nail and puts it under his arm, and goes out into the dark toward the town, and you hear him once on the lane, laughing.".
     On discuss { Assert hobAtInn(ninepence). Retract at(ninepence, mill_b). Increase regard(billie) by 2. }
   }
-  Observe hob_inn_sign near keeper_b when hobAtInn(ninepence) and not hobInnTold(party) "The inn is cleaner than it was. The barrels in the passage stand in a row as straight as soldiers, and somebody has mended the settle that has been broken since anyone remembers.".
+  Observe hob_inn_sign near keeper_b when hobAtInn(ninepence) and not hobInnTold(party) "The house is cleaner than it was. The barrels in the passage stand in a row as straight as soldiers, and somebody has mended the settle that has been broken since anyone remembers.".
   Relation hobInnTold(group).
 
   // ── 4. The beast in the orchards ────────────────────────────────────────────────────────────────────────────
