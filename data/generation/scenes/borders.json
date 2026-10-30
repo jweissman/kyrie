@@ -33,6 +33,10 @@
     ],
     "plain": [
       "A march-stone as tall as a man stands by the road where it leaves {region}. On this side it is cut with the sign of {region}; on the far side, with a sign you do not know."
+    ],
+    "desert": [
+      "Where the road leaves {region} a cairn of white stones stands on a low rise, a water-skin hung empty on a stake beside it, so that whoever comes in knows how far the next well is.",
+      "At the edge of {region} the road passes between two posts of sun-bleached timber, and on one of them someone has cut the number of days to the next water."
     ]
   }
 }

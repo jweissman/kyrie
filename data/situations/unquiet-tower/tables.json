@@ -14,7 +14,8 @@
       ],
       "frost": [
         "bare"
-      ]
+      ],
+      "desert": ["bare"]
     }
   },
   "necromancerCalling": {

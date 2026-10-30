@@ -8,7 +8,8 @@ export interface Relief { width: number; height: number; heights: number[]; coas
 // Heights from layered value noise, shaped by the region's terrain: a mountain region has a range across it, a frost
 // region stands high, a marsh region lies low and flat; a coast drops away to the sea on one side.
 export class Heights {
-  static readonly coastChance: Record<string, number> = { forest: 0.4, marsh: 0.7, mountain: 0.3, frost: 0.5 };
+  static readonly coastChance: Record<string, number> = { forest: 0.4, marsh: 0.7, mountain: 0.3, frost: 0.5,
+    desert: 0.3 };
   static make(key: string, terrain: string, size: { width: number; height: number }): Relief {
     const draw = new Draw(`${key}:heights`), { width, height } = size;
     const layers = [[6, 0.55], [3, 0.3], [1.4, 0.15]] as const;
@@ -39,7 +40,8 @@ export class Heights {
   private static smooth(t: number): number { return t * t * (3 - 2 * t); }
   private static mix(a: number, b: number, t: number): number { return a + (b - a) * t; }
   // A mountain region has a range across it, uneven along its crest so that it has saddles; a frost region is a
-  // high plateau with a lesser range; a marsh region is low and flat; a forest region rolls.
+  // high plateau with a lesser range; a marsh region is low and flat; a desert is a broad dry plain swelling into long
+  // dune-fields, with a low scarp of rock across it; a forest region rolls.
   private static shape(draw: Draw, terrain: string, heights: number[], size: { width: number; height: number }) {
     if (terrain === 'mountain') {
       const ridge = this.range(draw, size, 1);
@@ -50,6 +52,10 @@ export class Heights {
       return heights.map((h, i) => 0.35 + 0.4 * h + 0.25 * ridge[i]!);
     }
     if (terrain === 'marsh') { return heights.map(h => 0.7 * h ** 1.6); }
+    if (terrain === 'desert') {
+      const scarp = this.range(draw, size, 0.5);
+      return heights.map((h, i) => 0.2 + 0.55 * h + 0.25 * scarp[i]!);
+    }
     return heights;
   }
   // A ridge along a line across the region: highest on the line, falling away within a few cells of it.

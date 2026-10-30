@@ -24,6 +24,12 @@
         "cold",
         "cold",
         "temperate"
+      ],
+      "desert": [
+        "arid",
+        "arid",
+        "arid",
+        "temperate"
       ]
     }
   },

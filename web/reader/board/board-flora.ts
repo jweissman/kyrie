@@ -11,11 +11,13 @@ import { Scatter, type Spot } from './scatter';
 export class BoardFlora {
   readonly spots: Record<string,
     Spot[]> = { broadleaf: [], fir: [], rock: [], heather: [], reed: [], strip: [], massif: [],
-    bush: [], sheep: [], wall: [], hedge: [], farm: [], pool: [] };
+    bush: [], sheep: [], wall: [], hedge: [], farm: [], pool: [], palm: [] };
   private static readonly greens = ['#46663d', '#3c5c38', '#52703f', '#43603f', '#5c6d3b', '#4b6a44', '#6c6a3a',
     '#76603a'];
   private static readonly firs = ['#2a4532', '#2f4c35', '#34492f'];
   private static readonly frosted = ['#41564d', '#4c6158', '#5a6d66'];
+  private static readonly palms = ['#4f6a2f', '#5c7434', '#667a36'];
+  private static readonly gardens = ['#5f6e2f', '#6f7a38', '#7d7a40'];
   private static readonly fields = ['#7b7a44', '#5c6935', '#8b7c4c', '#6d7a3e', '#857245'];
   private readonly towns: Set<number>;
   private readonly roads: Set<number>;
@@ -26,6 +28,7 @@ export class BoardFlora {
   }
   private grow(c: number): void {
     if (this.ground.land.terrain === 'frost') { this.cold(c); return; }
+    if (this.ground.land.terrain === 'desert') { this.dry(c); return; }
     const cover = this.ground.cover(c),
       nearTown = [...this.towns].some(t => this.ground.grid.centres[t]!.distanceTo(this.ground.grid.centres[c]!) < 1.6);
     if (cover === 'w') { this.wood(c); }
@@ -90,6 +93,29 @@ export class BoardFlora {
       this.put('massif', c, [x, z], [1.3 + Noise.hash(c, 2) * 0.35, '#ffffff']);
     }
     if (cover === ',') { this.many(c, ['reed', 7, 0.4], i => [0.6 + Noise.hash(c, i) * 0.5, '#8d8a6c']); }
+  }
+  // A desert's growth: palms in its groves; thorn scrub and stones on the waste, and the strips of the oasis gardens by
+  // its towns; a few shrubs in the hollows of the dunes; boulders on the rock; mesas of red sandstone on the heights;
+  // reeds about the salt pans and the water. No sheep, and no broadleaf.
+  private dry(c: number): void {
+    const cover = this.ground.cover(c), town = this.towns.has(c), g = this.ground.grid;
+    if (cover === 'w') {
+      this.many(c, ['palm', 9, 0.4], i => [0.85 + Noise.hash(c, i + 9) * 0.45, BoardFlora.palms[i % 3]!]);
+    }
+    if (cover === '.') {
+      if (!town && [...this.towns].some(t => g.centres[t]!.distanceTo(g.centres[c]!) < 1.6)) {
+        this.many(c, ['strip', 5, 0.3], i => [0.9, BoardFlora.gardens[i % 3]!]);
+      }
+      this.many(c, ['bush', 4, 0.42], i => Noise.hash(c, i + 60) < 0.6 ? [0.4 + Noise.hash(c, i) * 0.4, '#6e6a3e'] : undefined);
+      this.many(c, ['rock', 3, 0.42], i => [(0.4 + Noise.hash(c, i) * 0.6) * 0.5, '#9c8463']);
+    }
+    if (cover === 'h') { this.many(c, ['bush', 2, 0.4], i => [0.35 + Noise.hash(c, i) * 0.3, '#7a7442']); }
+    if (cover === 'f') { this.many(c, ['rock', 6, 0.42], i => [(0.7 + Noise.hash(c, i) * 0.9) * 0.5, '#9a6a4a']); }
+    if (cover === 'p') {
+      const [x, z] = this.around(c, 1, 0.08);
+      this.put('massif', c, [x, z], [1.1 + Noise.hash(c, 2) * 0.3, '#d29a6c']);
+    }
+    if (cover === ',') { this.many(c, ['reed', 6, 0.4], i => [0.6 + Noise.hash(c, i) * 0.5, '#8f8a55']); }
   }
   // A wood in its layers: over its canopy (see BoardGround), broadleaf crowns standing out of it, firs over all.
   private wood(c: number): void {

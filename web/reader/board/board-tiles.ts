@@ -28,9 +28,14 @@ export class BoardTiles {
   private static readonly frost: Record<string, Color[]> = Object.fromEntries(Object.entries({
     '.': ['#5f6656', '#878d79'], h: ['#6f6c60', '#9d9a8c'], f: ['#a9b0b8', '#dde2e6'], p: ['#8a8d92', '#c6cad0'],
     w: ['#2a3630', '#7d8a86'], ',': ['#53606a', '#8592a0'] }).map(([k, v]) => [k, v.map(c => new Color(c))]));
+  // A desert's: the open land stony waste, the heath dunes of gold sand, the fells red rock, the peaks' mesas darker;
+  // the palms' ground green under them; the fens salt pans, pale (OWN-44).
+  private static readonly desert: Record<string, Color[]> = Object.fromEntries(Object.entries({
+    '.': ['#86704e', '#ad9469'], h: ['#b48c55', '#ddb97f'], f: ['#8a5a3b', '#b07a50'], p: ['#744c33', '#a26c4a'],
+    w: ['#47502a', '#7d8244'], ',': ['#9a9478', '#cfc8a8'] }).map(([k, v]) => [k, v.map(c => new Color(c))]));
   // The colours of a cover in the country's terrain.
   static tone(terrain: string | undefined, cover: string): Color[] {
-    const own = terrain === 'frost' ? BoardTiles.frost : BoardTiles.tones;
+    const own = terrain === 'frost' ? BoardTiles.frost : terrain === 'desert' ? BoardTiles.desert : BoardTiles.tones;
     return own[cover] ?? own['.']!;
   }
   private static readonly sand = new Color('#9a8a62');
@@ -120,7 +125,7 @@ export class BoardTiles {
     const wood = g.cover(c) === 'w', k = lo!.clone().lerp(hi!,
       wood ? MathUtils.smoothstep(crown, 0.5, 1) : MathUtils.smoothstep(Noise.fbm(x * 4.3 + c, z * 4.3), 0.3, 0.75))
       .multiplyScalar(0.92 + Noise.hash(c, 77) * 0.16);
-    if (wood) { k.lerp(g.land.terrain === 'frost' ? BoardTiles.snow : BoardTiles.floor,
+    if (wood) { k.lerp(g.land.terrain === 'frost' ? BoardTiles.snow : g.land.terrain === 'desert' ? BoardTiles.sand : BoardTiles.floor,
       1 - MathUtils.smoothstep(crown, 0.1, 0.4)); }
     else { k.multiplyScalar(1 + Math.max(0, y) * 1.5); }
     if (d > 0.6 && shores.some(w => Math.abs(Math.atan2(Math.sin(facing - w), Math.cos(facing - w))) < 0.75)) {

@@ -18,6 +18,9 @@ export class LandCover {
     frost: { peak: 0.04, fell: 0.16, heath: 0.4, low: 0.15, fen: 0.72, dry: 0.66, wood: 0.6, moisture: 0.4 },
     forest: { peak: 0.01, fell: 0.05, heath: 0.06, low: 0.2, fen: 0.72, dry: 0.5, wood: 0.47, moisture: 0.52 },
     marsh: { peak: 0, fell: 0.02, heath: 0.04, low: 0.5, fen: 0.55, dry: 0.5, wood: 0.56, moisture: 0.62 },
+    // A desert: dunes (its heath) over half its land, rock (its fell) and a few mesas above them, stony waste (its
+    // meadow) below; palms (its wood) and salt pans or oases (its fen) only where water stands or runs.
+    desert: { peak: 0.02, fell: 0.08, heath: 0.45, low: 0.12, fen: 0.62, dry: 0.6, wood: 0.5, moisture: 0.12 },
   };
   static make(key: string, terrain: string, relief: Relief, water: Water): Cover[] {
     const profile = this.profiles[terrain] ?? this.profiles.forest!, lakes = new Set(water.lakes.flat());

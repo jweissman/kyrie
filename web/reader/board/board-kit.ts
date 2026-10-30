@@ -6,9 +6,9 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import { Noise } from './noise';
 
 // The forms of the country's small things, each made once: a broadleaf's crown of rounded masses on its trunk and a
-// fir in three tiers, each darker below and lit at its top; a group of peaks
-// in grey rock, scree at their feet and snow on their heads; a boulder, a tuft of heather, a reed, a field strip, a
-// bush, a ewe, a length of wall or hedge, a farmstead with its barn and two fields, a pool.
+// fir in three tiers, each darker below and lit at its top; a group of peaks in grey rock, scree at their feet and
+// snow on their heads; a date palm; a boulder, a tuft of heather, a reed, a field strip, a bush, a ewe, a length of
+// wall or hedge, a farmstead with its barn and two fields, a pool.
 export class BoardKit {
   static make(kind: string): [BufferGeometry, Material] {
     const plain = new MeshStandardMaterial({ roughness: 0.95, flatShading: true });
@@ -19,6 +19,7 @@ export class BoardKit {
         BoardKit.at(new ConeGeometry(0.05, 0.14, 7), 0.18), BoardKit.at(new ConeGeometry(0.032, 0.1, 7), 0.25)]),
       [0.5, 1.15]), painted];
       case 'massif': return [BoardKit.massif(), painted];
+      case 'palm': return [BoardKit.palm(), painted];
       case 'rock': return [new DodecahedronGeometry(0.05, 0).scale(1, 0.7, 1), plain];
       case 'heather': return [new IcosahedronGeometry(0.04, 0).scale(1.3, 0.5, 1.3), plain];
       case 'reed': return [BoardKit.at(new ConeGeometry(0.012, 0.1, 4), 0.05), plain];
@@ -39,6 +40,14 @@ export class BoardKit {
       BoardKit.at(new IcosahedronGeometry(0.056, 0), 0.1).translate(0.048, 0, 0.02)]);
     return mergeGeometries([BoardKit.lit(leaf, [0.5, 1.2]),
       BoardKit.tinted([[BoardKit.at(new CylinderGeometry(0.008, 0.012, 0.08, 4, 1, true), 0.04), '#4a3826']])]);
+  }
+  // A date palm: a slender trunk leaning a little, and a crown of fronds spread flat and drooping at its head.
+  private static palm(): BufferGeometry {
+    const fronds = new ConeGeometry(0.085, 0.05, 7).translate(0.012, 0.215, 0).toNonIndexed();
+    fronds.deleteAttribute('uv');
+    return mergeGeometries([BoardKit.lit(fronds, [0.6, 1.2]),
+      BoardKit.tinted([[new CylinderGeometry(0.006, 0.01, 0.2, 5, 1, true).rotateZ(-0.08).translate(0.006, 0.1, 0),
+        '#6b5636']])]);
   }
   // A group of peaks, the highest in the middle and lesser ones about it, their flanks broken: each face rock, lighter
   // the higher it is, scree at the foot, and snow above a line that is not level.

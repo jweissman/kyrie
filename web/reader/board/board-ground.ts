@@ -61,7 +61,7 @@ export class BoardGround {
       cover = this.cover(c), settled = this.settled.has(c), bed = this.bed(x, z);
     const grain = (Noise.fbm(x * 3.1 + 5, z * 3.1) - 0.42) * (BoardGround.grains[cover] ?? 0) * 2,
       swell = settled ? 0 : this.humps(c, x - p.x, z - p.y) * (BoardGround.swells[cover] ?? 0),
-      crown = cover === 'w' && !settled ? this.canopy(x, z) : 0;
+      crown = cover === 'w' && !settled && this.land.terrain !== 'desert' ? this.canopy(x, z) : 0;
     return { y: (grain + swell) * (1 - d * d) + crown * BoardGround.CANOPY * (1 - d ** 8) - bed, bed, crown };
   }
   // How thick a wood's canopy is at a point, from nothing to all of it: broken into crowns, and opening where a river

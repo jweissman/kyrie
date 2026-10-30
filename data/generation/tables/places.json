@@ -58,6 +58,16 @@
           "__weight": 2,
           "__value": "dwarf"
         }
+      ],
+      "desert": [
+        {
+          "__weight": 3,
+          "__value": "human"
+        },
+        {
+          "__weight": 1,
+          "__value": "dwarf"
+        }
       ]
     }
   },
@@ -142,6 +152,19 @@
         "cloudy",
         "sharp",
         "cloud"
+      ],
+      "desert": [
+        "sand",
+        "dune",
+        "dust",
+        "sun",
+        "salt",
+        "red",
+        "dry",
+        "thorn",
+        "palm",
+        "glare",
+        "ochre"
       ]
     }
   },
@@ -198,6 +221,17 @@
         "stead",
         "hold",
         "view"
+      ],
+      "desert": [
+        "well",
+        "wells",
+        "spring",
+        "camp",
+        "town",
+        "fort",
+        "stead",
+        "gate",
+        "post"
       ]
     }
   },
@@ -223,6 +257,12 @@
         "wold",
         "reach",
         "waste"
+      ],
+      "desert": [
+        "waste",
+        "sands",
+        "reach",
+        "barrens"
       ]
     }
   },
@@ -340,6 +380,11 @@
         "furs",
         "whale oil",
         "peat"
+      ],
+      "desert": [
+        "salt",
+        "wool",
+        "tin"
       ]
     }
   },
@@ -377,6 +422,14 @@
         "minstrel",
         "soldier",
         "mason"
+      ],
+      "desert": [
+        "caravaneer",
+        "salt-carrier",
+        "pilgrim",
+        "tinker",
+        "soldier",
+        "water-diviner"
       ]
     }
   },
@@ -467,6 +520,21 @@
         },
         {
           "_key": "tower"
+        }
+      ],
+      "desert": [
+        {
+          "_key": "ruin",
+          "__weight": 3
+        },
+        {
+          "_key": "tower"
+        },
+        {
+          "_key": "cave"
+        },
+        {
+          "_key": "barrow"
         }
       ]
     }

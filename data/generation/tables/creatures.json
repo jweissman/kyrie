@@ -393,6 +393,7 @@
           "body": "wolf",
           "raceId": "wolf",
           "_terrains": {
+            "desert": true,
             "forest": true,
             "mountain": true,
             "frost": true,
@@ -406,6 +407,7 @@
           "_roles": {},
           "_adaptationTerrains": {
             "none": {
+              "desert": true,
               "forest": true,
               "mountain": true,
               "frost": true,
@@ -464,6 +466,7 @@
           "body": "cave_spider",
           "raceId": "cave_spider",
           "_terrains": {
+            "desert": true,
             "cave": true,
             "forest": true,
             "any": true
@@ -474,6 +477,7 @@
           "_roles": {},
           "_adaptationTerrains": {
             "none": {
+              "desert": true,
               "cave": true,
               "forest": true,
               "any": true

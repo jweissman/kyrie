@@ -32,6 +32,7 @@
     "marsh": ["reed", "rush", "sedge", "alder", "willow", "heron", "eel", "otter", "crane", "snipe", "teal", "mallow"],
     "mountain": ["stone", "iron", "flint", "raven", "eagle", "hawk", "rowan", "heather", "crow", "hare", "kestrel"],
     "frost": ["snow", "frost", "rime", "hoar", "winter", "wolf", "raven", "pine", "birch", "ice", "sleet"],
+    "desert": ["sand", "dust", "sun", "salt", "thorn", "red", "dry", "palm", "jackal", "glass", "ochre"],
     "shared": ["white", "black", "red", "grey", "green", "long", "broad", "deep", "low", "high", "old", "new", "fair",
       "still", "dusk", "wind", "rain", "mist", "cold", "bright"]
   },

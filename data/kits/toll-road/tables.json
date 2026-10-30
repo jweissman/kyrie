@@ -9,6 +9,7 @@
       "frost": [
         { "_key": "deserters", "_why": "deserters wintering by the road" }
       ],
+      "desert": [{"_key": "deserters", "__weight": 2, "_why": "deserters holding the only well on the road"}, {"_key": "customs", "_why": "a lord's customs-men at a well"}],
       "forest": [
         { "_key": "customs", "__weight": 2, "_why": "a lord's customs-men at the edge of his forest" },
         { "_key": "deserters", "_why": "deserters camped in the trees by the road" }

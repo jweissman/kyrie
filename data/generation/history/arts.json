@@ -21,7 +21,8 @@
         "marsh": 4,
         "forest": 2,
         "mountain": 1,
-        "frost": 1
+        "frost": 1,
+        "desert": 1
       },
       "plans": [
         "cistern",
@@ -91,7 +92,8 @@
         "mountain": 4,
         "frost": 2,
         "forest": 1,
-        "marsh": 0
+        "marsh": 0,
+        "desert": 2
       },
       "plans": [
         "galleries"
@@ -160,7 +162,8 @@
         "mountain": 3,
         "frost": 3,
         "forest": 1,
-        "marsh": 1
+        "marsh": 1,
+        "desert": 3
       },
       "plans": [
         "watchtower"
@@ -225,7 +228,8 @@
         "marsh": 2,
         "forest": 3,
         "mountain": 1,
-        "frost": 2
+        "frost": 2,
+        "desert": 2
       },
       "plans": [
         "barrow"
@@ -292,7 +296,8 @@
         "mountain": 2,
         "frost": 2,
         "forest": 2,
-        "marsh": 1
+        "marsh": 1,
+        "desert": 4
       },
       "plans": [
         "singing_hall"

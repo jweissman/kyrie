@@ -19,6 +19,7 @@
           "_why": "a cave out of the wind"
         }
       ],
+      "desert": [{"_key": "cave", "__weight": 2, "_why": "a cave in a scarp, out of the sun"}, {"_key": "ringfort", "_why": "an old walled well, its wall built up again"}],
       "forest": [
         {
           "_key": "ringfort",

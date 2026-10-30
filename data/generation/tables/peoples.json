@@ -128,6 +128,35 @@
             "sylph"
           ]
         }
+      ],
+      "desert": [
+        {
+          "_key": "caravans",
+          "__weight": 3,
+          "majority": "human",
+          "others": [
+            "catfolk",
+            "half_orc"
+          ]
+        },
+        {
+          "_key": "wells",
+          "__weight": 2,
+          "majority": "human",
+          "others": [
+            "dwarf",
+            "halfling"
+          ]
+        },
+        {
+          "_key": "saltworks",
+          "__weight": 2,
+          "majority": "dwarf",
+          "others": [
+            "human",
+            "half_orc"
+          ]
+        }
       ]
     }
   },
