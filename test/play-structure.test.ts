@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { ModuleWriter } from '../src/lang/module-writer';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
@@ -246,7 +247,9 @@ describe('a night in the open', () => {
     expect(camp?.grave).toMatch(/^The cold on the \S+ comes down after dark, and there is no shelter here\.$/);
     // After dark, the way onto it says so too (the laboratory's mage walked onto it at two hit points, and died).
     GeneratedWorld.put(s, 's1_green');
-    await s.perform('wait_for_dark');
+    // Something may come by on the green before dark (a circus parades there on the first afternoon) and break the
+    // wait off; wait again until it is dark.
+    for (let n = 0; n < 4 && !s.campaign.world.test(ModuleWriter.call('dark')); n++) { await s.perform('wait_for_dark'); }
     const onto = ChoiceList.all(ChoiceList.explore(ScreenModel.build(s.campaign)))
       .find(c => c.command?.startsWith('go(') && c.command.endsWith(',region__s1_s3_way)'));
     expect(onto?.grave).toMatch(/^The cold on the \S+ is down already, and there is no shelter there\.$/);

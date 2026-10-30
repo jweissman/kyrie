@@ -1,0 +1,182 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── Phase II: The Crowned Wheel ─────────────────────────────────────────────────────────────────────────────
+  // On the first day of the first stand after the Goose Fair (the second town), the Clerk of the Household of the
+  // Progress comes to the circus with a letter: the Steward has leave for one Little Progress, a night of Revels at
+  // the King's Rest eleven days on, where the office of Master of the Revels and Keeper of the Menagerie Royal may be
+  // given. The circus's next round goes up the hill for its last stand; the Revels are on that stand's third night.
+  Relation letterCome(concern). Measure letterDay(concern). Measure revelsDay(concern). Relation restRound(concern).
+  Relation revelsOn(concern). Relation revelsDone(concern).
+  Query revelsNight() means letterCome(wapshotts) and day(clock) == revelsDay(wapshotts).
+  Query phaseTwo() means letterCome(wapshotts) and not revelsDone(wapshotts).
+
+  Chapter ch_letter "The Letter" when knows(party, letter_known) "Fame, when it comes to a travelling circus, comes on foot, in a good coat gone shiny at the elbows, carrying a letter with a red seal. Nobody in the backyard has ever seen a seal like it. Everybody has an opinion about it by dinner.".
+  Chapter ch_rest "The King's Rest" when letterCome(wapshotts) and at(party, rest_gate) "Up the hill road, through the rooks, to a gatehouse twice as high as it needs to be, with a wheel and a crown over the arch. Behind it, half a furlong of swept stone, and an old man leaning on a broom, waiting, as his family has waited, for the kings to come back.".
+
+  Person tobias "Tobias Quarrendon" at tober_a {
+    Role "the Clerk of the Household of the Progress". Ancestry human. Peaceable. Pronouns he. Manner cheerful. Wants progress_seal_kind.
+    Greets "A tall young man in a good black coat gone shiny at the elbows, with ink on his cuffs, a satchel of papers, a face all nose and earnestness, and a seal-ring on a ribbon round his neck (no; on second look the ribbon is empty, and he keeps touching it), stands up very quickly and drops several papers. 'Quarrendon,' he says. 'Tobias. Clerk of the Household of the Progress. The Household is myself and my great-aunt. She is the Steward; I am,' he gathers the papers, 'everything else.'".
+    Greets again "Tobias Quarrendon stands up, drops something, and is very glad to see you.".
+  }
+  Initially Assert offstage(tobias).
+  Rule letter_comes when noteSettled(wapshotts) and pitched(wapshotts) and current(wapshotts, tober_b) and day(clock) == arrivedDay(wapshotts) and hour(clock) >= 15
+    and not letterCome(wapshotts) and groundRoom(tober_b, rk_wagons, ?w) {
+    Assert letterCome(wapshotts). Set letterDay(wapshotts) to day(clock). Set revelsDay(wapshotts) to day(clock) + 11.
+    Retract offstage(tobias). Assert at(tobias, ?w). Assert travels(tobias). Assert post(tobias, rk_wagons). Assert sealLost(tobias). }
+  Rule letter_told near tobias when letterCome(wapshotts) and at(tobias, ?w) and at(wapshott, ?w) and not letterTold(wapshotts)
+    says "A tall young man in a shiny black coat is on the Colonel's steps with a letter held out in both hands, as if it might go off. The Colonel takes it. The seal is red, a crowned wheel. He reads it, and sits down on his own boot-scraper, and reads it again, and then reads it aloud to the wagon-ring in a voice that goes up and up: 'The Steward of the Household of the Progress, having the Crown's leave for a Little Progress, will hold Revels at the King's Rest on the twelfth night from this, and will hear the claims of any company to the office of MASTER OF THE REVELS AND KEEPER OF THE MENAGERIE ROYAL, vacant these three hundred years.' The Colonel lowers the letter. Nobody in the backyard says anything. Then Bucephalus, in the horse lines, sneezes." {
+    Assert letterTold(wapshotts). }
+  Relation letterTold(concern).
+  Entity letter_known: fact "The Steward of the Household of the Progress will hold Revels at the King's Rest, above {town_b}, on the twelfth night after the letter came, and give the vacant office of Master of the Revels and Keeper of the Menagerie Royal to the company that best deserves it.".
+  Topic tobias_letter with tobias "Ask Tobias what the Household is, and what the Revels are" when letterCome(wapshotts) once {
+    Says "Tobias sits on the steps and explains, with his hands. 'The Household of the Progress went round the country with the old kings: two hundred wagons, a chapel on wheels, the Treasury in an iron cart, and the Menagerie Royal behind, so the country could see what the king had. The King's Rest, on the hill above this town, was its winter seat. Then there was a war, or a wedding, nobody agrees, and the Progress never came back, and the Household went on existing. On paper. In a house near the sea.' He smiles. 'My great-aunt has been Steward for fifty years and has never once had anything to steward. Then the Crown said she might hold one Little Progress, a night of Revels at the Rest, and give the old office, if anyone deserves it.' He looks at the big top. 'I was at your Goose Fair. At the back. I wrote to her that night. I said: they have been going round the Progress road for nineteen years and do not know it.'".
+    On discuss { Assert knows(actor, letter_known). Assert knows(actor, rest_heard). }
+  }
+  Topic tobias_road with tobias "Ask Tobias what he meant, that the circus goes round the Progress road" when knows(actor, letter_known) once {
+    Says "'The milestones!' Tobias is delighted that anybody asked. 'Every road your wagons take has the old stones on it, a crowned wheel on each, mostly worn to a smudge. The Progress came this way, {town_a}, {town_b}, {town_c}, and round, exactly as you do, exactly as slowly. Your Colonel thought he chose his circuit.' He laughs. 'Nobody chooses a road. A road chooses the people who need it.'".
+  }
+  Observe revels_bill_a at green_a when letterCome(wapshotts) and not revelsDone(wapshotts) "Over Wapshott's bill someone has pasted a new one, gold on black, with a crowned wheel at the top: THE REVELS OF THE PROGRESS AT THE KING'S REST, ABOVE {town_b}. FOR THE FIRST TIME IN THREE HUNDRED YEARS. WAPSHOTT'S CIRCUS WILL ATTEND. ON THE LAST NIGHT OF ITS ROUND.".
+  Observe revels_bill_b at green_b when letterCome(wapshotts) and not revelsDone(wapshotts) "Over Wapshott's bill someone has pasted a new one, gold on black, with a crowned wheel at the top: THE REVELS OF THE PROGRESS AT THE KING'S REST, ON THE HILL ABOVE THIS TOWN. FOR THE FIRST TIME IN THREE HUNDRED YEARS. WAPSHOTT'S CIRCUS WILL ATTEND. ON THE LAST NIGHT OF ITS ROUND.".
+  Observe revels_bill_c at green_c when letterCome(wapshotts) and not revelsDone(wapshotts) "Over Wapshott's bill someone has pasted a new one, gold on black, with a crowned wheel at the top: THE REVELS OF THE PROGRESS AT THE KING'S REST, ABOVE {town_b}. FOR THE FIRST TIME IN THREE HUNDRED YEARS. WAPSHOTT'S CIRCUS WILL ATTEND. ON THE LAST NIGHT OF ITS ROUND.".
+  Observe milestone_ab at road_ab when true "By the road stands an old milestone, worn to a stub, with a wheel cut in it and something over the wheel that might once have been a crown.".
+  Observe milestone_bc at road_bc when true "A milestone leans in the grass at the roadside, half sunk: on its face a worn wheel, and over it, if you look closely, the points of a crown.".
+  Observe milestone_ca at road_ca when true "At a bend in the road a squat old milestone with a crowned wheel cut in its face, so worn that the crown is only a row of bumps, like knuckles.".
+  Topic tobias_who with tobias "Ask Tobias who else means to claim the office" when knows(actor, letter_known) once {
+    Says "'The letter went to every company that plays the Progress road,' says Tobias. 'So far: you; Pell's Comedians, of the Theatre Royal at Dunmere, who say that the Revels were plays before ever they were beasts, which is true, and that a circus is a disease of the public taste, which my great-aunt thinks is a point of view.' He hesitates. 'And Madame Sallow has written.' He looks at the Colonel's wagon. 'She wrote a very short letter. It said: Yes.'".
+    On discuss { Assert knows(actor, rivals_known). }
+  }
+  Entity rivals_known: fact "Pell's Comedians, of the Theatre Royal at Dunmere, claim the office of the Revels too; and Madame Sallow has written, Yes.".
+  Topic tobias_wants with tobias "Ask Tobias what the Steward will want to see at the Revels" when knows(actor, letter_known) once {
+    Says "Tobias counts on long fingers. 'A Rest fit to hold Revels in: the Hall roofed, the dens fit for beasts, the Warm-House standing. Whatever of the Inventory a company can show: Jabez Orme has the Book. A masque: my great-aunt is very old-fashioned; she will want Virtues. And,' he swallows, 'the seal. The office cannot be given without the Household's seal on the warrant, and I had the seal on a ribbon round my neck when I went up to the Rest to measure the Hall, and I came down without it.' He touches the empty ribbon. 'If I tell her, she will strike me off the Household. There are only two of us. It would be a very small ceremony, and I should mind it very much.'".
+    On discuss { Assert knows(actor, revels_wants). Assert knows(actor, seal_lost_known). }
+  }
+  Entity revels_wants: fact "For the Revels the Steward will want the King's Rest fit (the Hall roofed, the dens fit for beasts, the Warm-House standing), what of the Inventory a company can show, a masque with Virtues in it, and the Household's seal, which Tobias lost on the hill.".
+  Entity seal_lost_known: fact "Tobias Quarrendon lost the Household's seal-ring up at the King's Rest.".
+  Objective revels when knows(party, letter_known) and not revelsDone(wapshotts) "Help Wapshott's win the office of the Revels at the King's Rest, on the twelfth night after the letter: the Rest made fit, the Inventory shown, a masque, and the Household's seal found.".
+  Objective seal when knows(party, seal_lost_known) and sealLost(tobias) and not revelsDone(wapshotts) "Find the Household's seal-ring, which Tobias lost up at the King's Rest.".
+
+  // The last stand of the Revels round is up the hill, in the Long Court, instead of on the second town's field.
+  Rule rest_round when letterCome(wapshotts) and pitched(wapshotts) and current(wapshotts, tober_a) and day(clock) + 5 >= revelsDay(wapshotts) and not restRound(wapshotts) {
+    Retract nextGround(tober_a, tober_b). Assert nextGround(tober_a, tober_r). Assert restRound(wapshotts). }
+  Rule rest_round_ends when restRound(wapshotts) and revelsDone(wapshotts) and nextGround(tober_a, tober_r) and current(wapshotts, tober_c) {
+    Retract nextGround(tober_a, tober_r). Assert nextGround(tober_a, tober_b). }
+  Rule wap_up_hill near wapshott when here(tober_r) and day(clock) == arrivedDay(wapshotts) and not upHillTold(wapshotts)
+    says "The wagons come up the hill road one after another with the horses blowing, under the gatehouse arch and into the Long Court, and stop. The Colonel climbs down off the box and stands on the swept setts where two hundred royal wagons stood, and takes off his hat, and for once does not say anything at all. Jabez Orme, at the far end with his broom, takes off his." { Assert upHillTold(wapshotts). }
+  Relation upHillTold(concern).
+
+  // ── Sir Gervase Fenwick, and his money ───────────────────────────────────────────────────────────────────
+  Person fenwick "Sir Gervase Fenwick" at tober_a {
+    Role "a baronet and naturalist, of Coldharbour". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A pink, plump, delighted man of fifty in a coat with forty pockets, every one of them bulging, is looking at a beetle on the back of his hand through a glass. 'Fenwick,' he says, without looking up. 'Gervase. Baronet, naturalist, member of four learned societies and expelled from a fifth. Look at this.' He shows you the beetle. 'Do you know what this is? Neither do I. Isn't it marvellous?' Then he looks at you, and you have the impression of being, briefly, also a beetle.".
+    Greets again "'Ah!' says Sir Gervase, lowering his glass. 'My favourite specimen.' He means it kindly.".
+  }
+  Initially Assert offstage(fenwick).
+  Relation fenwickCome(group). Relation fenwickSigned(concern). Relation clauseBeasts(concern). Relation clauseLeg(concern). Relation clauseHob(concern).
+  Relation fenwickRefused(concern). Relation fundsFound(concern).
+  Rule fenwick_comes when letterCome(wapshotts) and day(clock) >= letterDay(wapshotts) + 1 and hour(clock) >= 10 and pitched(wapshotts) and not fenwickCome(fenwick) {
+    Assert fenwickCome(fenwick). Retract offstage(fenwick). Assert travels(fenwick). Assert post(fenwick, rk_tober). Assert clauseBeasts(wapshotts). Assert clauseLeg(wapshotts). Assert clauseHob(wapshotts). }
+  Topic fenwick_offer with fenwick "Ask Sir Gervase what brings him to the circus" when fenwickCome(fenwick) once {
+    Says "'The Menagerie Royal!' says Sir Gervase, as other men might say a woman's name. 'Three hundred years I have wanted to see the Inventory, and so did my father, and his. I heard of your tortoise. I came at once. I came in my carriage, which is to say very slowly, behind a horse who disapproves of me.' He leans in. 'Your Colonel needs money to make the Rest fit for Revels. I have money. I have nothing but money and beetles. A hundred coin, for the Rest, on a small contract.' He produces it from a pocket, folded small. 'Three clauses. Nothing at all. A first right to buy, should any beast of the Inventory ever be sold. The Leg of the Great Worm, and anything found with it, to my cabinet at Coldharbour. And an afternoon, only an afternoon, with your hob and a pair of calipers.' He beams. 'Science, you see. Science is very small print.'".
+    On discuss { Assert knows(actor, fenwick_contract). }
+  }
+  Entity fenwick_contract: fact "Sir Gervase Fenwick offers a hundred coin for the restoration of the King's Rest, on three clauses: first right to buy any beast of the Inventory that is ever sold; the Leg of the Great Worm and anything found with it to his cabinet; and an afternoon with the hob and a pair of calipers.".
+  Topic billie_fenwick with billie "Ask Billie what she makes of Sir Gervase's contract" when knows(actor, fenwick_contract) once {
+    Says "Billie reads it standing up, with her lips pressed together. 'First right to buy,' she says. 'Means every beast we've got is for sale, and he's first in the queue.' She hands it back. 'And calipers for the hob. You put a pair of calipers near Ninepence and he'll sour every pail from here to the sea, and he'll be right.' She folds her arms. 'He's a nice man. He likes animals the way some men like clocks. If the Colonel signs that as it stands, he can keep his own menagerie.'".
+    On discuss { Assert knows(actor, billie_will_quit). }
+  }
+  Entity billie_will_quit: fact "Billie Ostrander will give up the menagerie if the Colonel signs Sir Gervase's contract with its first clause, that any beast of the Inventory is his to buy first.".
+  // Each clause may be struck by talk; or traded.
+  Action strike_beasts(actor: group, site: place) "Talk Sir Gervase out of the first clause: no beast of the Inventory is for sale" {
+    Speaker fenwick. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fenwick, site) and knows(actor, fenwick_contract) and clauseBeasts(wapshotts) and not fenwickSigned(wapshotts) and not triedBeasts(actor).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Retract clauseBeasts(wapshotts). }
+    On failure { Assert triedBeasts(actor). }
+    Result "You put it to him as one who loves a beast to another: that a beast with a price on it is a beast already half in a jar, and that he has never in his life wanted a thing that could be bought, only a thing that could be seen. Sir Gervase listens with his head on one side, like a thrush. Then he takes out a pencil and crosses the clause through, twice. 'You are quite right,' he says. 'I should only have been tempted.'".
+    Otherwise "'But a first right is nothing,' says Sir Gervase kindly, 'unless you mean to sell. You don't mean to sell. So it costs you nothing.' The logic is perfect, and you can find nothing to say to it.".
+  }
+  Relation triedBeasts(group).
+  Action strike_hob(actor: group, site: place) "Tell Sir Gervase what Ninepence would do to anyone who came at him with calipers" {
+    Speaker fenwick. Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fenwick, site) and knows(actor, fenwick_contract) and clauseHob(wapshotts) and not fenwickSigned(wapshotts).
+    On success { Retract clauseHob(wapshotts). }
+    Result "You tell him about the milk. All the milk, for ever, from here to the sea, and his own dairy at Coldharbour first. Sir Gervase goes a little pale under the pink. 'A sourcing hob,' he says, 'is very well attested in the literature.' He crosses the clause out. 'An afternoon's conversation,' he writes above it. 'If the hob consents.' He shows you. 'Will that do?'".
+  }
+  Action trade_leg(actor: group, site: place) "Promise Sir Gervase the first look at whatever is found in the marl-pit, in place of owning it" {
+    Speaker fenwick. Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fenwick, site) and knows(actor, fenwick_contract) and clauseLeg(wapshotts) and not fenwickSigned(wapshotts).
+    On success { Retract clauseLeg(wapshotts). Assert promiseMade(first_look). }
+    Result "'The first look,' says Sir Gervase. He thinks about it with his eyes shut. 'Before anyone. Before the Colonel.' He opens them. 'Done. A first look is worth more than a jar.' He crosses out the clause and writes over it, in a tiny hand: FIRST LOOK. Then he underlines it three times.".
+  }
+  Promise first_look "to give Sir Gervase the first look at whatever is found in the marl-pit" to fenwick
+    kept when shownFenwick(party) "Sir Gervase writes in his notebook: kept."
+    broken when clawGiven(party) and not shownFenwick(party) "Sir Gervase hears that the marl-pit gave something up, and that he was not sent for." { Decrease regard(fenwick) by 2 or to nothing. }.
+  Relation shownFenwick(group). Relation clawGiven(group).
+  // The Colonel signs, whatever is struck, three days after Sir Gervase comes, unless the money is found elsewhere.
+  Rule colonel_signs when fenwickCome(fenwick) and day(clock) >= letterDay(wapshotts) + 4 and not fenwickSigned(wapshotts) and not fenwickRefused(wapshotts) and not fundsFound(wapshotts) {
+    Assert fenwickSigned(wapshotts). Increase strongbox(wapshotts) by 100. }
+  Rule colonel_signs_told near wapshott when fenwickSigned(wapshotts) and not signedTold(wapshotts)
+    says "The Colonel signs Sir Gervase's contract on the cookhouse table with a flourish that takes the pen through the paper, and Sir Gervase counts a hundred coin into the strongbox in little gold piles, humming. Ada watches from the hatch with her hand flat on the ledger, as if it might get up and leave." { Assert signedTold(wapshotts). }
+  Relation signedTold(concern).
+  Rule billie_quits near billie when fenwickSigned(wapshotts) and clauseBeasts(wapshotts) and not billieQuit(billie)
+    says "Billie Ostrander takes off her keeper's apron in the menagerie and hangs it on the tent-pole. 'Horses,' she says to the Colonel. 'I'll keep your horses. The rest you can keep for Sir Gervase.' She goes out to the horse lines and does not come back into the menagerie tent." {
+    Assert billieQuit(billie). Assert post(billie, rk_yard). }
+  Relation billieQuit(group).
+  Rule hob_offended near wapshott when fenwickSigned(wapshotts) and clauseHob(wapshotts) and hobJoined(ninepence) and not hobOffended(ninepence)
+    says "In the night every pail of milk in the circus turns, and the butter will not come, and the Colonel's hat is found full of whey. Ninepence has heard about the calipers." {
+    Assert hobOffended(ninepence). }
+  Relation hobOffended(group).
+  Topic hob_calipers with ninepence "Tell Ninepence the calipers will never come near him" when hobOffended(ninepence) once {
+    Says "'They'll not,' says Ninepence, 'because I'll not be here.' He is packing: his brush, a cup, a fulling-cloth coat. Then he stops, and looks at you, and sits on his bundle. 'You'd have struck it out if you could. I know. I watched you try.' He considers the milk. 'I'll stay to the Revels. For the Ox, and the clown's ladder. After that we'll see who measures what.'".
+    On discuss { Retract hobOffended(ninepence). Assert hobStaysToRevels(ninepence). }
+  }
+  Relation hobStaysToRevels(group).
+  // Other money: Cordelia's, if the companies are one; the fair town's, by subscription; Ada's own.
+  Rule cordelia_refuses near sallow when merged(wapshotts) and fenwickCome(fenwick) and not fenwickSigned(wapshotts) and not fundsFound(wapshotts)
+    says "Cordelia Sallow reads Sir Gervase's contract through once, standing, with her cane under her arm, and hands it back to him. 'No,' she says. 'We will pay for our own roof, Sir Gervase, out of our own box, and you may come and look at anything you like, for a ticket.' The Colonel opens his mouth. 'Florian,' she says. He shuts it." {
+    Assert fundsFound(wapshotts). Assert fenwickRefused(wapshotts). Increase strongbox(wapshotts) by 40. }
+  Topic keeper_a_subscribe with keeper_a "Ask {keeper_a} whether the fair town would subscribe to the circus's Revels" when knows(actor, letter_known) and knows(actor, fenwick_contract) and not fundsFound(wapshotts) and not fenwickSigned(wapshotts) once {
+    Says "'For Wapshott's?' says {keeper_a}, and thinks about it, and looks at the wall where the old bill hangs. 'I'll put a box on the bar. The Clerk of the Fair will put in, for the honour of the town; he'll want a receipt. Leave it a day.'".
+    On discuss { Assert subscribed(keeper_a). Set subscribedDay(keeper_a) to day(clock). }
+  }
+  Relation subscribed(group). Measure subscribedDay(group).
+  Rule subscription_in near ada when subscribed(keeper_a) and day(clock) > subscribedDay(keeper_a) and not fundsFound(wapshotts) and not fenwickSigned(wapshotts) and standing(tober_a) >= 4
+    says "Word comes up from {town_a}: the box on the bar at the inn holds thirty-two coin, a lock of hair, two buttons and a receipt from the Clerk of the Fair for five coin in his own hand. The fair town has subscribed to the Revels." {
+    Assert fundsFound(wapshotts). Increase strongbox(wapshotts) by 32. Assert fenwickRefused(wapshotts). }
+  Rule subscription_thin near ada when subscribed(keeper_a) and day(clock) > subscribedDay(keeper_a) and not fundsFound(wapshotts) and not fenwickSigned(wapshotts) and standing(tober_a) < 4 and not thinTold(keeper_a)
+    says "Word comes up from {town_a}: the box on the bar at the inn holds eleven coin and a button. The fair town is fond of the circus, but not that fond." {
+    Assert thinTold(keeper_a). Increase strongbox(wapshotts) by 11. }
+  Relation thinTold(group).
+  Topic tell_wap_refuse with wapshott "Tell the Colonel the money is found without Sir Gervase, and he need not sign" when fundsFound(wapshotts) and not fenwickSigned(wapshotts) and not merged(wapshotts) once {
+    Says "The Colonel looks at the contract in his hand, and at you, and at the strongbox. 'Without the small print,' he says. 'I have never in my life been offered money without small print.' He gives the contract back to Sir Gervase with a bow. Sir Gervase takes it without the least offence. 'Then I shall come as a guest,' he says, 'and look at everything for nothing, which is better.'".
+  }
+
+  // ── Success is expensive: the Colonel's state coach ─────────────────────────────────────────────────────────
+  Thing state_coach "a gilded state coach" at tober_a {
+    State gilt "A state coach stands on the front of the big top, gilded from the wheels up, with WAPSHOTT'S on the door in letters of gold, a coachman's seat upholstered in crimson plush, and no horse in the circus able to pull it. Bucephalus has looked at it once and declined.".
+  }
+  Initially Assert offstage(state_coach). Relation coachOrdered(concern). Relation coachStopped(concern). Relation coachCome(concern).
+  Rule coach_ordered when letterCome(wapshotts) and day(clock) >= letterDay(wapshotts) + 2 and not coachOrdered(wapshotts) { Assert coachOrdered(wapshotts). }
+  Topic ada_coach with ada "Ask Ada why she is white to the bonnet" when coachOrdered(wapshotts) and not coachCome(wapshotts) and not coachStopped(wapshotts) once {
+    Says "Ada holds out a bill without a word. A STATE COACH, GILDED, FOR THE ROYAL REVELS, WITH ARMORIAL DOORS. TWENTY-FIVE COIN ON DELIVERY. From a coachmaker in {town_a}, delivery in three days. 'He's ordered a coach,' she says. 'To arrive at a royal ruin. In. A coach. We have eleven wagons and a horse who won't pull a cart he doesn't like the look of.' She folds the bill very small. 'If anybody can talk him out of it, it isn't me. He thinks I don't understand grandeur.'".
+    On discuss { Assert knows(actor, coach_known). }
+  }
+  Entity coach_known: fact "The Colonel has ordered a gilded state coach for the Revels, twenty-five coin on delivery in three days.".
+  Action stop_coach(actor: group, site: place) "Talk the Colonel out of the gilded state coach" {
+    Speaker wapshott. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wapshott, site) and knows(actor, coach_known) and not coachCome(wapshotts) and not coachStopped(wapshotts) and not triedCoach(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert coachStopped(wapshotts). Increase regard(ada) by 1. }
+    On failure { Assert triedCoach(actor). }
+    Result "You do not tell him it is extravagant; he knows. You tell him that the Progress came on foot and in wagons, and that the Steward has been waiting fifty years to see wagons, not a coach; that Jabez Orme has kept the court swept for wheels like theirs. The Colonel looks at his own wagons for a long time. Then he writes to the coachmaker, in capitals, CANCEL, and underneath, smaller, REGRETFULLY.".
+    Otherwise "'But a coach,' says the Colonel, with tears in his eyes, 'is a STATEMENT.' You cannot think what of.".
+  }
+  Relation triedCoach(group).
+  Rule coach_vetoed_cordelia near ada when coachOrdered(wapshotts) and not coachStopped(wapshotts) and not coachCome(wapshotts) and merged(wapshotts)
+    says "Cordelia Sallow reads the coachmaker's bill at breakfast, writes CANCELLED across it in red, and sends it back by the carrier before the Colonel has finished his egg. When he finds out he goes into his wagon and does not come out until dinner, and then eats two helpings, and brings her a cup of tea." {
+    Assert coachStopped(wapshotts). }
+  Rule coach_vetoed near ada when coachOrdered(wapshotts) and not coachStopped(wapshotts) and not coachCome(wapshotts) and adaShared(ada)
+    says "Ada, who holds a quarter-share now and the Colonel's own pen, has cancelled the Colonel's gilded coach by letter, without asking him, in a hand that does not shake. When he finds out he goes into his wagon and does not come out until dinner, and then eats two helpings." {
+    Assert coachStopped(wapshotts). }
+  Rule coach_comes when coachOrdered(wapshotts) and not coachStopped(wapshotts) and not coachCome(wapshotts) and day(clock) >= letterDay(wapshotts) + 5 and pitched(wapshotts) {
+    Assert coachCome(wapshotts). Retract offstage(state_coach). Assert travels(state_coach). Assert post(state_coach, rk_tober). Decrease strongbox(wapshotts) by 25 or to nothing. }
+}

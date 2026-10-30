@@ -1,0 +1,109 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── Pell's Comedians, of the Theatre Royal at Dunmere ───────────────────────────────────────────────────────
+  // Once the letter is out they travel the circuit too, always one town ahead of the wagons, playing tragedy on a
+  // cart-stage on the green and skimming the house the circus will want. For the Revels stand they are at the King's
+  // Rest, as claimants. They are not villains: a company of real actors, poor and proud, who think the circus a
+  // disease of the public taste and are a little afraid it may be the cure.
+  Relation pellsOut(concern). Relation pellsPlayed(place). Relation pellPlayer(group).
+  Person augustus "Augustus Pell" at tober_a {
+    Role "the manager and tragedian of Pell's Comedians". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "A tall man in a cloak with a fur collar the moths have been at, a profile like a coin and a voice like a cello played in a cathedral, turns to you as if you had entered stage left. 'Augustus Pell,' he says, 'of the Theatre Royal, Dunmere. You will have heard of my Margrave.' You have not. He forgives you with a small gesture. 'You are with the circus. One can always tell. There is a little sawdust about the soul.'".
+    Greets again "Augustus Pell inclines his profile toward you, the better side.".
+  }
+  Person clem_vane "Clemency Vane" at tober_a {
+    Role "the leading lady of Pell's Comedians". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A handsome tired woman of forty in a dressing-gown over the second act of something, with a cold cup of tea and a part pinned to her knee, looks up at you. 'Clemency Vane,' she says. 'I have died eleven hundred times. Poisoned, stabbed, of grief, in a convent, under a portcullis. Once of a draught, but that was a real one.' She sips the cold tea. 'You're from the circus. Is it true your Sylph sits down in the middle of the wire? I should give my teeth to be allowed to sit down in the middle of anything.'".
+    Greets again "Clemency Vane raises her cold cup to you.".
+  }
+  Person kit "Kit Darrow" at tober_a {
+    Role "Pell's apprentice". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A gangling boy of eighteen in a tragic black doublet too short in the sleeves is practising a dying fall against a cart-wheel, and doing it badly, and enjoying it far too much. 'Kit Darrow,' he says from the ground. 'Apprentice. I play Prudence, the Second Murderer and a tree.' He sits up. 'Mr Pell says I die like a man falling off a cart. I say that's how people die. Mostly. Off carts.'".
+    Greets again "'Hullo!' says Kit Darrow, from somewhere on the ground.".
+  }
+  Person motherpell "Mother Pell" at tober_a {
+    Role "the grandmother of Pell's Comedians, a clown of the old theatre". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "In a bath-chair by the cart-stage, wrapped in shawls up to a nose like a parrot's, sits a tiny old woman with eyes like two currants in a bun. 'Mother Pell,' she says, in a big warm voice, and then, without moving her face at all, in a perfect copy of Augustus: 'You will have HEARD of my MARGRAVE.' Then in her own again: 'He's my grandson. I taught him everything and he forgot the funny part.' She looks you up and down. 'You've been near Gus Fell. I can smell the greasepaint. White, with a bit of lard in it. He always used too much lard.'".
+    Greets again "'You again,' says Mother Pell, in your own voice, exactly, and then laughs in hers.".
+  }
+  Initially Assert offstage(augustus). Initially Assert offstage(clem_vane). Initially Assert offstage(kit). Initially Assert offstage(motherpell).
+  Initially Assert pellPlayer(augustus). Initially Assert pellPlayer(clem_vane). Initially Assert pellPlayer(kit). Initially Assert pellPlayer(motherpell).
+  Rule pells_come when letterCome(wapshotts) and day(clock) >= letterDay(wapshotts) + 1 and not pellsOut(wapshotts) { Assert pellsOut(wapshotts). }
+  Rule pells_ahead when pellsOut(wapshotts) and not revelsDone(wapshotts) and pellPlayer(?p) and current(wapshotts, ?g) and nextGround(?g, ?n) and greenOf(?n, ?green)
+    and not here(tober_r) and not at(?p, ?green) and not kitAway(?p) {
+    Retract offstage(?p). Assert at(?p, ?green). }
+  Rule pells_at_rest when pellsOut(wapshotts) and here(tober_r) and pellPlayer(?p) and not at(?p, revels_hall) and not revelsDone(wapshotts) and not kitAway(?p) {
+    Retract offstage(?p). Assert at(?p, revels_hall). }
+  Rule pells_on when revelsDone(wapshotts) and pellPlayer(?p) and not offstage(?p) and not kitAway(?p) and hour(clock) >= 6 and day(clock) > revelsDay(wapshotts) { Assert offstage(?p). }
+  Relation kitAway(group).
+  Observe pells_playing near augustus when pellsOut(wapshotts) and not here(tober_r) and hour(clock) >= 19 and hour(clock) < 21 "On a cart-stage in the middle of the town, by the light of four smoking flares, Pell's Comedians are playing THE TRAGEDY OF THE UNHAPPY MARGRAVE to forty people standing and a dog. Augustus Pell dies at length. Clemency Vane dies more briefly and better. A boy in a black doublet, who is a tree in the first act, catches a falling flare without breaking the line, and the dog barks at him.".
+  Observe pells_by_day near augustus when pellsOut(wapshotts) and not here(tober_r) and (hour(clock) < 19 or hour(clock) >= 21) "Against a wall stands the cart of Pell's Comedians: a wagon that unfolds into a stage, painted THEATRE ROYAL DUNMERE in letters of faded gold, with a canvas sky rolled on the roof and a bath-chair chained to the tail.".
+  // A town that saw the tragedy last week has spent its coin.
+  Rule pells_skim when pellsOut(wapshotts) and hour(clock) == 20 and at(augustus, ?green) and greenOf(?n, ?green) and not pellsPlayed(?n) { Assert pellsPlayed(?n). }
+  Rule pells_house when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and current(wapshotts, ?g) and pellsPlayed(?g) {
+    Retract pellsPlayed(?g). Decrease house(wapshotts) by 2 or to nothing. }
+  Topic ada_pells with ada "Ask Ada why the houses are thinner this round" when pellsOut(wapshotts) once {
+    Says "'Pell's,' says Ada, and taps the ledger. 'They go a town ahead of us and play tragedy on a cart for half our price, and the flatties have had their evening out by the time we come. Two coin a night off the house, near enough.' She sniffs. 'The worst of it is, they're good. I went to see the Margrave in {town_c} on my afternoon off. I cried at the poison. Don't tell the Colonel.'".
+  }
+
+  Topic augustus_circus with augustus "Ask Augustus Pell what he has against the circus" when true once {
+    Says "'Against it?' Augustus Pell looks wounded, nobly. 'Nothing. I simply observe that for three thousand years the stage has been a place where human beings speak to each other of their souls, and for nineteen your Colonel has made it a place where a large woman lifts a horse.' He arranges his cloak. 'The Revels were plays. Masques. Allegories of the Virtues, in verse. The beasts came after, as a sort of interval. We shall give them a masque. You will give them a horse being lifted.' A pause, less noble. 'It is a very good horse.'".
+  }
+  Topic augustus_secret with motherpell "Ask Mother Pell why Augustus hates clowns" when true once {
+    Says "Mother Pell's currant eyes go bright. 'Because he was one,' she says. 'At eight. I put him in the harlequinade at the Theatre Royal as a little Pierrot, and he fell over, which was the joke, and the house laughed, which was the point, and he cried, which was not.' She sighs. 'He took up tragedy so nobody would ever laugh at him again. Forty years. And they laugh all the same, at the dying; they think nobody notices.' She pats your hand. 'Don't you tell him I told you. I'll do his voice at you in your sleep.'".
+    On discuss { Assert knows(actor, augustus_pierrot). }
+  }
+  Entity augustus_pierrot: fact "Augustus Pell played a Pierrot at eight in his grandmother's harlequinade, fell over, was laughed at, and has played tragedy ever since so that nobody should laugh at him again.".
+  Topic clemency_dying with clem_vane "Ask Clemency Vane whether she likes dying for a living" when true once {
+    Says "'Like it?' Clemency considers her cold tea. 'I was a comedienne, you know. At twenty. Sauce and a fan and the second-best legs in Dunmere. Then Augustus married me, and in our company the leading lady dies.' She sets the cup down. 'He's a good man and a great actor and he has never once let me be funny in front of him. I don't think he knows he hasn't.' She looks across at the circus's posters on the inn wall, the Sylph sitting on her wire. 'I should like, once before I die properly, to sit down in the middle of something.'".
+    On discuss { Assert knows(actor, clemency_comic). }
+  }
+  Entity clemency_comic: fact "Clemency Vane, Pell's leading lady and his wife, was a comedienne before she married him; in Pell's company the leading lady dies, and she has never been let be funny since.".
+
+  // ── Mother Pell and Mumchance: an old double act ───────────────────────────────────────────────────────────
+  Topic motherpell_gus with motherpell "Ask Mother Pell how she knows Mumchance" when true once {
+    Says "'Know him? I was half of him.' She settles in her shawls. 'Pell and Fell, at the Midsummer Fair at Dunmere, forty years ago. He did the falls, I did the voices. He never said a word, so I said all of them: his, mine, the Lord Mayor's, the horse's. The whole fair, in two mouths, and one of them shut.' She is quiet. 'Then my father wanted me back indoors, at the Theatre Royal, with a roof and a salary. And Gus wouldn't come indoors. He said a circus is a thing that leaves, and he'd sooner fall in a field than stand on a stage that stays put.' She sniffs. 'Forty years. He's never once written. Well. He can't, can he. He'd have to say something.'".
+    On discuss { Assert knows(actor, pell_and_fell). }
+  }
+  Entity pell_and_fell: fact "Forty years ago at the Midsummer Fair at Dunmere, Mumchance and Mother Pell were a double act, Pell and Fell: he did the falls and she did all the voices; they parted when she went indoors to the Theatre Royal and he would not.".
+  Topic mum_pell with mumchance "Tell Mumchance that Mother Pell is with Pell's Comedians, and remembers Pell and Fell" when knows(actor, pell_and_fell) once {
+    Says "Mumchance's brush stops halfway across his mouth. He sits quite still on his bucket for long enough that a hen walks past him and looks back. 'Polly Pell,' he says at last. 'She did my voice better than I did.' He finishes the line of his mouth, very carefully. 'Is she well? Does she still do the Lord Mayor?' You say she does it at the dog. Something happens to the white face that, in anyone else, would be laughing. 'Tell her,' he says, and stops. 'No. Don't tell her anything. I'll,' and stops again. 'Forty years,' he says. 'I never once knew what to say to her. She always said it for me.'".
+    On discuss { Assert knows(actor, mum_pell_known). }
+  }
+  Entity mum_pell_known: fact "Mumchance still does not know what to say to Polly Pell after forty years; she always said it for him.".
+  Relation pellAndFellMet(group).
+  Rule old_partners at revels_hall when here(tober_r) and at(motherpell, revels_hall) and knows(party, mum_pell_known) and at(party, revels_hall) and not pellAndFellMet(mumchance)
+    says "Mumchance comes into the Revels Hall in his shirt-sleeves, without his face on, and stops inside the door. In her bath-chair by the green stage Mother Pell sees him and goes perfectly still. Then, without a word, she does his voice, his real soft dry voice, saying: 'Hullo, Polly.' And Mumchance, who cannot think what to say, has had it said for him again, and sits down on the stage steps beside her chair, and takes her hand, and they stay like that, saying nothing at all, the two halves of Pell and Fell, while Augustus stands in the gallery with his mouth open." {
+    Assert pellAndFellMet(mumchance). Increase regard(motherpell) by 2. Increase regard(mumchance) by 2. }
+
+  // ── Kit and Pip ────────────────────────────────────────────────────────────────────────────────────────────
+  // Kit walks back along the road after Pell's show to see the circus's; Pip notices. It goes on whether or not the
+  // company has a hand in it; the company may be asked.
+  Measure kitNights(group). Relation kitAsked(group). Relation kitJoins(group). Relation pipToTheatre(group).
+  Rule kit_watches near ringpost when pellsOut(wapshotts) and showOn(wapshotts) and act(wapshotts) == 7 and not kitSeenTonight(kit) and not travelsWith(pip, party) and not revelsDone(wapshotts)
+    says "At the very back of the house, still in half a tree costume with the leaves taken off, stands a boy who has walked two hours along the road from Pell's cart to see the end of the show. When Pip cartwheels past in the parade he does not look at anything else." {
+    Assert kitSeenTonight(kit). Increase kitNights(kit) by 1. }
+  Relation kitSeenTonight(group).
+  Rule kit_reset when kitSeenTonight(kit) and not showOn(wapshotts) and hour(clock) == 6 { Retract kitSeenTonight(kit). }
+  Topic pip_kit with pip "Ask Pip about the boy in the tree costume at the back of the house" when kitNights(kit) >= 2 and not kitAsked(pip) once {
+    Says "Pip goes red from the collar up. 'Kit,' she says. 'Kit Darrow. He's Pell's. He plays a tree. He walks all the way back after his own show to see ours, and then all the way to his again, in the dark, and he's always got a bit of a leaf on him somewhere.' She scuffs the sawdust. 'He wants to be a clown. He's terrible. He falls like a cupboard. He asked me to show him the get-up.' She looks at you sideways. 'Mr Pell would never let him go. And I couldn't go to Pell's; I'd have to stand still and say verse.' She falls over a bucket, which you think she meant. 'What would you do?'".
+    On discuss { Assert kitAsked(pip). }
+  }
+  Topic pip_kit_come with pip "Tell Pip that Kit should come to Wapshott's, and learn the get-up from Mumchance" answering pip_kit when not kitJoins(kit) and not pipToTheatre(pip) {
+    Says "'Mr Pell will go purple,' says Pip, delighted at the thought. 'He'd lose his Prudence.' She thinks. 'Mumchance would take him. He'd take anybody who can fall without crying.' She runs off to find a pencil and paper, and spends the dead hour after dinner writing what is clearly a very long letter.".
+    On discuss { Assert kitPlanned(kit). }
+  }
+  Topic pip_kit_go with pip "Tell Pip she could try the theatre for a season, and come back with all the words she can't help saying" answering pip_kit when not kitJoins(kit) and not pipToTheatre(pip) {
+    Says "Pip stares at you. 'Me? Indoors?' Then her face does something complicated. 'Mother Pell does voices. All of them. Mumchance says she was the other half of him.' She hugs her knees. 'A loud clown. In a theatre where you can hear the loud.' She does not decide; you can see her not deciding. 'I'd have to ask Mumchance. I'd have to ask him with my face, he won't hear it any other way.'".
+    On discuss { Assert pipThinks(pip). }
+  }
+  Relation kitPlanned(group). Relation pipThinks(group).
+  Rule kit_comes_over near kit when kitPlanned(kit) and here(tober_r) and day(clock) == revelsDay(wapshotts) - 1 and not kitJoins(kit)
+    says "On the day before the Revels, in the dead hour after dinner, Kit Darrow walks out of the Revels Hall with his bundle on his back and his tree costume over his arm, across the Long Court in front of all of Pell's Comedians, and asks Mumchance, at the cookhouse fire, whether he might learn to fall. Mumchance looks at him. Then he pushes him over. Kit gets up, and looks at the ground as if it had insulted his mother. Mumchance nods. In the gallery of the Revels Hall, Augustus Pell has gone the colour of a plum." {
+    Assert kitJoins(kit). Assert kitAway(kit). Assert travels(kit). Assert post(kit, rk_ring). Retract offstage(kit). }
+  Rule pip_goes near pip when pipThinks(pip) and revelsDone(wapshotts) and not pipToTheatre(pip) and not kitJoins(kit) and not travelsWith(pip, party) and day(clock) > revelsDay(wapshotts)
+    says "The morning after the Revels, Pip Gallant goes round the backyard with her bundle and a red nose in her pocket and kisses everybody, including Bucephalus, who allows it, and climbs up on the tail of Pell's cart beside Kit and Mother Pell's bath-chair. 'One season,' she shouts to the circus. 'Loud!' Mumchance, at the cookhouse fire, lifts one hand. Then he goes into his wagon and stays there until noon." {
+    Assert pipToTheatre(pip). Assert away(pip). Assert offstage(pip). }
+  Topic augustus_kit with augustus "Ask Augustus Pell how he does without his Prudence" when kitJoins(kit) once {
+    Says "Augustus Pell regards you down his nose for a long time. 'A tree,' he says, 'can be replaced. Prudence is a tree in a better costume.' A pause. 'He was never going to be a tragedian. He laughed in the poison scene. Every night. Quietly, but I heard.' He turns away, and turns back. 'You will tell Fell to teach him properly. Not the lard. The lard is a disgrace.'".
+  }
+}

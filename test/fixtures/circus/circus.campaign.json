@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "name": "Wapshott's Circus (test bed)",
+  "calendar": {
+    "year": 1290,
+    "month": 9,
+    "day": 20
+  },
+  "modules": [
+    {
+      "id": "host",
+      "bundle": "module.json"
+    },
+    {
+      "id": "circus",
+      "bundle": "../../../data/goings-on/circus/module.json",
+      "imports": {
+        "party": "host.party",
+        "town_a": "host.town_a",
+        "green_a": "host.green_a",
+        "keeper_a": "host.keeper_a",
+        "priest_a": "host.priest_a",
+        "merchant_a": "host.merchant_a",
+        "town_b": "host.town_b",
+        "green_b": "host.green_b",
+        "keeper_b": "host.keeper_b",
+        "priest_b": "host.priest_b",
+        "merchant_b": "host.merchant_b",
+        "town_c": "host.town_c",
+        "green_c": "host.green_c",
+        "keeper_c": "host.keeper_c",
+        "priest_c": "host.priest_c",
+        "merchant_c": "host.merchant_c",
+        "road_ab": "host.road_ab",
+        "road_bc": "host.road_bc",
+        "road_ca": "host.road_ca"
+      }
+    }
+  ],
+  "party": [
+    {
+      "name": "Wren",
+      "raceId": "human",
+      "classId": "bard"
+    }
+  ]
+}

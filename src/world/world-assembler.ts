@@ -1,5 +1,4 @@
 import { Memorials, type Memorial } from './memorial';
-import { RegionGrowth } from './region-growth';
 import type { DeemValue } from 'deem';
 import { Content, type CreatureGenerationContext } from '../content';
 import { RandomStreams } from '../random-streams';
@@ -36,8 +35,9 @@ export interface ScenarioManifest {
   // An adventure in a wild place (the default) or what is going on in a settlement (town).
   kind?: 'adventure' | 'town';
   context?: Record<string, string[]>;
-  // A place a scenario needs: a site of some kind, a settlement (near:role, toward:side, any, or the first), or the
-  // stretch of road out of a settlement (near:role).
+  // A place a scenario needs: a site of some kind, a settlement (near:role, toward:side, any, largest, along:role:
+  // the next along the roads from that one, or the first), or the stretch of road out of a settlement (near:role) or
+  // between two (between:role,role).
   places: Record<string, { site?: string[]; settlement?: string; way?: string }>;
   // Another scenario's placement in the same country it is bound to, if there is one: that placement's place, here
   // under a role of its own (the drover's trail goes to the den nearest the town). A module that needs it is
@@ -90,9 +90,9 @@ export class WorldAssembler {
     region.further = Countries.further(region, seed);
     region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
-    const heralds = await this.heralds(base, region, seed);
-    const { context, eligibility, placements } = this.settle(region, library,
-      { seed, rid: RegionWriter.id, rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [], heralds });
+    const heralds = await this.heralds(base, region, seed), standing = await this.library(base, this.standing);
+    const { context, eligibility, placements } = this.settle(region, library, { seed, rid: RegionWriter.id,
+      rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [], heralds, standing });
     // The country's provinces: its authored adventures that are parts of it, each with a way in on its land.
     region.provinces = await Provinces.regions(Provinces.situate(region), base);
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
@@ -107,7 +107,8 @@ export class WorldAssembler {
     // been an elf ranger, the town's folk (play 10).
     const family = origin?.manifest.binder === 'kin' ? party[0]!.raceId : undefined;
     this.spread(placements,
-      { library: [...library, ...heralds], base, region, contacts, context, files, root, modules, family });
+      { library: [...library, ...heralds, ...standing], base, region, contacts, context, files, root, modules,
+        family });
     const told = origin && Origins.write(origin, { region, placements, protagonist: party[0]!.name ?? 'you', root, files });
     if (told) { modules.push(told.request); }
     // One who comes alone is told who at the first inn would come along, whatever brought them (PT-11).
@@ -166,7 +167,7 @@ export class WorldAssembler {
   // The scenarios a region is given: adventures in the wild places first, then what is going on in the
   // settlements; none placed elsewhere in the world already.
   static settle(region: Region, library: Entry[], at: { seed: string; rid: string; rounds: [number, number];
-    exclude: string[]; heralds?: Entry[] }) {
+    exclude: string[]; heralds?: Entry[]; standing?: Entry[] }) {
     const context = { terrain: region.terrain, ancestry: region.ancestry, domain: region.domain };
     const eligibility = library.map(e => this.fits(e.manifest, context, region));
     const placements: Placement[] = [], claimed = new Set<string>();
@@ -191,8 +192,12 @@ export class WorldAssembler {
         if (placement) { placements.push(placement); }
       }
     }
+    // What every first country keeps going round it (a circus on its circuit) is placed last, so nothing drawn moves.
+    placements.push(...(at.standing ?? []).filter(x => this.placeable(x.manifest, region, claimed))
+      .flatMap(e => this.place(e.manifest, { n: 1, region, claimed, seed: at.seed, rid: at.rid, placements }) ?? []));
     return { context, eligibility, placements };
   }
+  static readonly standing = 'data/scenarios/standing.json';
   // Each placement's modules, and the module that spreads word of it.
   private static spread(placements: Placement[], at: { library: Entry[]; base: BundleSource; region: Region;
     contacts: Contact[]; context: Record<string, string>; files: Record<string, string>; root: string;
@@ -363,12 +368,7 @@ export class WorldAssembler {
         bindings[role] = ScenarioTowns.town(need.settlement, { region, bindings, claimed,
           parts: ScenarioTowns.parts(s, role), key: RandomStreams.key(seed, 'world', 'town', instance, role) });
       } else if (need.way) {
-        // The road out of the settlement, by the water if one runs by water: what happens on a road by a stream
-        // (a cart in the ditch, willows for a fever) is where people say it is.
-        const town = bindings[need.way.replace(/^near:/, '')];
-        const roads = RegionGeography.roads(region).filter(r => r.from.id === town || r.to.id === town);
-        const road = roads.find(r => RegionGrowth.habitats(region, r.route.cells).has('riverbank')) ?? roads[0];
-        if (road) { bindings[role] = road.way; }
+        const way = ScenarioTowns.way(region, need.way, bindings); if (way) { bindings[role] = way; }
       }
     }
     const linked = this.link(s, bindings, { region, placements: at.placements ?? [] });

@@ -1,0 +1,527 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── Wapshott's Cabinet of Living Wonders ────────────────────────────────────────────────────────────────────
+  // Begun when the Colonel resolves on it; kept by Billie Ostrander, in an old canvas pitched on the front. What it
+  // holds goes round with the wagons; how well it is kept (its welfare) decides whether it draws or smells, and
+  // whether what is in it stays in it. A beast that can talk is asked, not taken.
+  Relation menagerieOpen(concern). Measure draw(concern). Measure welfare(concern). Relation exhibit(group).
+  Measure exhibits(concern). Measure keptDay(group).
+  Initially Set welfare(wapshotts) to 3.
+  Topic wap_menagerie with wapshott "Ask the Colonel about his menagerie" when knows(actor, wapshott_dreams) and not menagerieOpen(wapshotts) once {
+    Says "The Colonel seizes your arm. 'WAPSHOTT'S CABINET OF LIVING WONDERS,' he says, so loudly that Bucephalus lays his ears back. 'A penny extra at the flap. Beasts of legend! Prodigies of nature! Things that Cordelia Sallow, with her camel, has never DREAMED of!' He lowers his voice. 'I have already acquired the first. A basilisk. In a crate. Very reasonable; a man in {town_b} let me have it for my watch.' He produces a paper from his coat. 'And here is my list. I want them all. I cannot go myself; a proprietor is needed at the helm. But a person of resource, with an honest face, who knew the country.' He presses the list into your hands. 'Billie will keep them. She does not know it yet.'".
+    On discuss { Assert menagerieOpen(wapshotts). Assert knows(actor, wonders_list). Give wonders_paper to actor. Assert knows(actor, list_given). Assert post(billie, rk_beasts). }
+  }
+  Kind wonders_list_kind "the Colonel's List of Wonders Wanted" is gear worth 0 weighing 0
+    described "A playbill with a list written on the back of it in the Colonel's huge looping hand: WONDERS WANTED. 1. The Basilisk (in hand; in crate; do not open). 2. The Glimmer-Fox, said to walk the water-meadows below the third town by night, burning cold. 3. A Hob, a genuine one, said to haunt the old fulling-mill at the second town, which is to be sold. 4. Some great Beast that is eating the bees in the orchards of the fair town, description various, all large. 5. A Tortoise of Antiquity, at the carrier's yard in the third town, to be had cheap, as nobody can move it. 6. A SERPENT, for Fipps, who will not stop asking. Under it, smaller: Billie says no cages for anything that can talk. Noted.".
+  Item wonders_paper "the Colonel's List of Wonders Wanted" is wonders_list_kind at tober_a hidden until list_given.
+  Discovery list_given "The Colonel has given you his List of Wonders Wanted.".
+  Action read_list(actor: group, site: place) "Read the Colonel's List of Wonders Wanted" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and holding(actor, wonders_list_kind).
+    Result "On the back of a playbill, in the Colonel's huge looping hand: WONDERS WANTED. 1. The Basilisk (in hand; in crate; do not open). 2. The Glimmer-Fox, said to walk the water-meadows below {town_c} by night, burning cold. 3. A Hob, a genuine one, said to haunt the old fulling-mill at {town_b}, which is to be sold. 4. Some great Beast that is eating the bees in the orchards of {town_a}, description various, all large. 5. A Tortoise of Antiquity, at the carrier's yard in {town_c}, to be had cheap, as nobody can move it. 6. A SERPENT, for Fipps, who will not stop asking. Underneath, smaller, in another hand: Billie says no cages for anything that can talk. Noted.".
+  }
+  Entity wonders_list: fact "Colonel Wapshott wants for his menagerie: the basilisk in its crate, a glimmer-fox from the water-meadows of {town_c}, the hob of the mill at {town_b}, whatever is eating the bees in {town_a}'s orchards, a giant tortoise at the carrier's yard in {town_c}, and a serpent for Fipps.".
+  Objective wonders when knows(party, wonders_list) and menagerieOpen(wapshotts) and exhibits(wapshotts) < 3 "Find the Colonel his Wonders, if you choose: a basilisk in a crate, a glimmer-fox, a hob, a beast in the orchards, a tortoise, a serpent.".
+  Topic billie_keeper with billie "Ask Billie whether she will keep the Colonel's menagerie" when menagerieOpen(wapshotts) once {
+    Says "'He told you before he told me,' says Billie. 'That's the Colonel.' She is quiet. 'I'll keep it. On my terms. Clean straw daily. Fed before the people are. Room to turn round. Anything that pines goes back where it came from, and anything that can talk is asked, not caught, or I walk.' She looks at you. 'You'll be the one fetching them. So they're your terms too.'".
+    On discuss { Increase regard(billie) by 1. Assert knows(actor, billie_terms). }
+  }
+  Entity billie_terms: fact "Billie Ostrander keeps the menagerie on her terms: clean straw daily, fed before the people, room to turn round, anything that pines goes home, and anything that can talk is asked, not caught.".
+  Observe beasts_scene near beastpost when at(beastpost, ?r) and menagerieOpen(wapshotts) "The menagerie is an old canvas tent, patched, smelling of straw and something wild. A painted board inside the flap says WAPSHOTT'S CABINET OF LIVING WONDERS, and under it, in Billie's square hand, DO NOT POKE.".
+  Thing beastpost "the menagerie" at tober_a is scenery {
+    State kept "Billie Ostrander's straw is clean and fresh.".
+    State neglected "The straw is foul, the water-pails empty, and the tent stinks.".
+    State packed "The menagerie travels in its own wagons behind the cookhouse, the cages lashed under canvas, Billie walking alongside talking to them.".
+  }
+  Initially Assert travels(beastpost). Initially Assert post(beastpost, rk_beasts).
+  Rule beasts_kept when pitched(wapshotts) and welfare(wapshotts) >= 2 and state(beastpost, neglected) { Assert state(beastpost, kept). }
+  Rule beasts_neglected when pitched(wapshotts) and welfare(wapshotts) < 2 and state(beastpost, kept) { Assert state(beastpost, neglected). }
+  // Each morning: feed eaten, welfare kept by Billie if there is feed, falling if there is none.
+  Rule beasts_fed when menagerieOpen(wapshotts) and exhibits(wapshotts) >= 1 and hour(clock) == 7 and keptDay(billie) < day(clock) and feed(wapshotts) >= 1 {
+    Set keptDay(billie) to day(clock). Decrease feed(wapshotts) by 1. Increase welfare(wapshotts) by 1. }
+  Rule beasts_hungry when menagerieOpen(wapshotts) and exhibits(wapshotts) >= 1 and hour(clock) == 7 and keptDay(billie) < day(clock) and feed(wapshotts) < 1 {
+    Set keptDay(billie) to day(clock). Decrease welfare(wapshotts) by 1 or to nothing. }
+  Rule welfare_cap when welfare(wapshotts) > 4 { Set welfare(wapshotts) to 4. }
+  Rule feed_bought when menagerieOpen(wapshotts) and exhibits(wapshotts) >= 1 and feed(wapshotts) < 1 and strongbox(wapshotts) >= 8 and hour(clock) == 8 and not feedBoughtToday(wapshotts) {
+    Decrease strongbox(wapshotts) by 2. Increase feed(wapshotts) by 1. Assert feedBoughtToday(wapshotts). }
+  Rule feed_reset when feedBoughtToday(wapshotts) and hour(clock) == 9 { Retract feedBoughtToday(wapshotts). }
+  Relation feedBoughtToday(concern).
+  Action muck_out(actor: group, site: place) "Help Billie muck out and feed the menagerie" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(beastpost, site) and exhibits(wapshotts) >= 1 and keptDay(actor) < day(clock).
+    On success { Set keptDay(actor) to day(clock). Increase welfare(wapshotts) by 1. Increase regard(billie) by 1. }
+    Result "An hour with a fork and a barrow and Billie, who says nothing while you work and then, at the end, hands you a mug of tea with five sugars in it, because that is how she was given it at your age, on a drove road in the rain.".
+  }
+  Action buy_feed(actor: group, site: place) "Buy two days' feed for the menagerie from Billie's dealer, three coin" {
+    Speaker billie. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(billie, site) and menagerieOpen(wapshotts) and quantity(actor, gold) >= 3 and feed(wapshotts) < 6.
+    On success { Decrease quantity(actor, gold) by 3. Increase feed(wapshotts) by 2. Increase regard(billie) by 1. }
+    Result "Billie writes a note to the corn-chandler and the knacker, and counts your coins into her coat. 'That's them right till Thursday,' she says.".
+  }
+  Topic billie_how with billie "Ask Billie how the menagerie does" when menagerieOpen(wapshotts) {
+    Says "'Feed for {feed(wapshotts)} days,' says Billie. 'Kept {welfare(wapshotts)} out of four, by my reckoning: four is as good as a beast in a tent can be, and nought is a disgrace, and somebody will get out.' She looks at the cages. 'Every penny they bring at the flap, they've earned. I'd like them to see some of it.'".
+  }
+  // The menagerie's pull at the flap: by what it holds, kept or not.
+  Rule draw_fed when menagerieOpen(wapshotts) and welfare(wapshotts) < 2 and draw(wapshotts) >= 2 and not drawHalved(wapshotts) {
+    Assert drawHalved(wapshotts). Decrease draw(wapshotts) by 1. }
+  Rule draw_restored when drawHalved(wapshotts) and welfare(wapshotts) >= 2 { Retract drawHalved(wapshotts). Increase draw(wapshotts) by 1. }
+  Relation drawHalved(concern).
+  Query beastIn(b: group) means exhibit(b) and pitched(wapshotts).
+
+  // ── 1. The basilisk, in its crate ───────────────────────────────────────────────────────────────────────────
+  Thing crate "a crate stencilled BASILISK" at tober_a {
+    State sealed "A tall slatted crate stands in the straw, nailed shut and stencilled in red: BASILISK. LIVE. DO NOT LOOK INTO ITS EYES. THIS WAY UP. There is a knot-hole in one side, at about the height of an eye.".
+    State empty "The lid is off the basilisk's crate.".
+    Change prise "Prise the lid off the basilisk's crate" from sealed to empty.
+    Tries looking, listening.
+  }
+  Initially Assert travels(crate). Initially Assert post(crate, rk_beasts).
+  Entity sale_read: fact "The basilisk's bill of sale reads: ONE BASILISK, JUVENILE, OF THE COCKATRICE STRAIN, WITH CERTIFICATE. FED ON CORN. CROWS AT DAWN. Signed with an X, and a thumb-print in green dye.".
+  Action read_sale(actor: group, site: place) "Read the dealer's bill of sale tacked to the basilisk's crate" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and at(crate, site) and not knows(actor, sale_read).
+    On success { Assert knows(actor, sale_read). }
+    Result "A greasy half-sheet, tacked to the slats: ONE BASILISK, JUVENILE, OF THE COCKATRICE STRAIN, WITH CERTIFICATE. FED ON CORN. CROWS AT DAWN. It is signed with an X, and a thumb-print in green dye. There is no certificate.".
+  }
+  Observe crate_heard near crate when tried(crate, listening) and state(crate, sealed) "Something in the crate shifts its weight, and scratches, and makes a low, indignant, gargling noise. If you are honest with yourself, it sounds like a hen with opinions." teaches crate_clucks.
+  Entity crate_clucks: fact "Whatever is in the basilisk's crate scratches, and gargles, like a hen with opinions.".
+  Observe crate_eye near crate when tried(crate, looking) and state(crate, sealed) and not knows(party, roderick_known) "You put your eye to the knot-hole, and remember the stencil, and take it away again sharply. Something inside moved toward the hole. Something with an eye. You did not look into it. Probably.".
+  Topic hench_mirror with hench "Ask Hench whether he has a looking-glass you could borrow" when menagerieOpen(wapshotts) and state(crate, sealed) once {
+    Says "'For the basilisk,' says Hench. 'Naturally. One does not look a basilisk in the eye; one looks at it in a glass, as Perseus did, or was it the other one.' He gives you a small round shaving mirror in a tortoiseshell back. 'Her Grace's late husband's. He used it to see if he was still there.'".
+    On discuss { Assert lentMirror(actor). }
+  }
+  Relation lentMirror(group).
+  Action mirror_crate(actor: group, site: place) "Hold Hench's glass to the knot-hole and look at the basilisk in it" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(crate, site) and state(crate, sealed) and lentMirror(actor) and not knows(actor, roderick_known).
+    On success { Assert knows(actor, roderick_known). }
+    Result "You angle the glass at the knot-hole, and look in it, and there, small and furious and upside down, is the basilisk: a bantam cockerel, about the size of a loaf, with a comb dyed bright green and a stare of absolute malice. It sees itself in the glass, and its comb goes up, and it hurls itself at the knot-hole with a scream of 'COCK-A-' that is cut off by the slats.".
+  }
+  Entity roderick_known: fact "The Colonel's basilisk is a bantam cockerel with a comb dyed green.".
+  Rule crate_reasoned when knows(party, crate_clucks) and knows(party, sale_read) and not knows(party, roderick_known)
+    says "Corn. Crows at dawn. A green thumb-print. A noise like a hen with opinions. You do not need to look into its eyes; you know what is in the crate." teaches roderick_known { }
+  Species bantam "a bantam cockerel" like hen tame described "A small, upright cockerel with a comb dyed green and spurs like nails. He is afraid of nothing, including you.".
+  Person roderick "Sir Roderick" at tober_a {
+    Role "a bantam cockerel with a green comb, billed as a basilisk". Species bantam. Peaceable. Pronouns he.
+    Greets "Sir Roderick looks at you with one eye, then the other, and then flies at your knees.".
+  }
+  Initially Assert away(roderick). Initially Assert offstage(roderick).
+  Hazard spurred "A cockerel's spurs" means "Deal (1) physical damage to ally.".
+  Rule crate_opened_blind near crate when state(crate, empty) and not knows(party, roderick_known) and not roderickOut(roderick)
+    says "The lid comes off and something small and green and screaming comes out of the crate at your face, all spurs, and you fall over backwards into the straw with your arms over your eyes, quite sure you have been turned to stone; and when you dare to look, it is a bantam cockerel with a green comb, standing on your chest, crowing." teaches roderick_known {
+    Assert strikes(spurred, party). Assert roderickOut(roderick). }
+  Rule crate_opened near crate when state(crate, empty) and knows(party, roderick_known) and not roderickOut(roderick)
+    says "You take the lid off, and the basilisk steps out of the crate into the straw: a bantam cockerel with a green comb, who looks round the menagerie as if he had bought it, and crows." {
+    Assert roderickOut(roderick). }
+  Relation roderickOut(group).
+  Rule roderick_in when roderickOut(roderick) and away(roderick) { Retract away(roderick). Retract offstage(roderick). Assert travels(roderick). Assert post(roderick, rk_beasts). }
+  Topic wap_basilisk with wapshott "Tell the Colonel his basilisk is a bantam cockerel with a dyed comb" when knows(actor, roderick_known) and not basiliskDecided(wapshotts) once {
+    Says "The Colonel looks at you for a long time. Then he goes to the menagerie and looks at Sir Roderick, who looks back. 'He cost me my watch,' he says quietly. 'It was my father's watch.' A pause. Then, slowly, magnificently, the Colonel's chest begins to swell. 'But who,' he says, 'is to SAY, my friend, that a basilisk does not look, to the uninstructed eye, very like a cockerel? Who has SEEN one? I put it to you.' He spreads his hands. 'THE BASILISK. LIVING. A penny. It is not a lie. It is a theory.'".
+    On discuss { Assert knows(actor, basilisk_theory). }
+  }
+  Entity basilisk_theory: fact "The Colonel means to show his bantam cockerel as THE BASILISK, LIVING, unless he is talked out of it.".
+  Topic basilisk_honest with wapshott "Talk the Colonel into billing him honestly, as a cockerel of uncommon malice" answering wap_basilisk when not basiliskDecided(wapshotts) {
+    Says "You argue it: that every child in {town_a} has seen a cockerel; that a cockerel who thinks he is a basilisk is funnier than a basilisk; that a cheat found out is a circus finished. The Colonel listens, pulling his moustache. 'A COCKEREL OF UNCOMMON MALICE,' he says at last, trying it. 'SIR RODERICK, WHO BELIEVES HIMSELF A BASILISK. Hm.' Sir Roderick flies at him. 'Hm!' says the Colonel, delighted. 'He does, doesn't he.' Billie, behind him, looks at you and nods.".
+    On discuss { Assert basiliskDecided(wapshotts). Assert basiliskHonest(wapshotts). Assert exhibit(roderick). Increase draw(wapshotts) by 2. Increase exhibits(wapshotts) by 1. Increase regard(billie) by 1. }
+  }
+  Topic basilisk_billed with wapshott "Let the Colonel bill him as the Basilisk" answering wap_basilisk when not basiliskDecided(wapshotts) {
+    Says "'Splendid,' says the Colonel. 'Splendid. Quirk will want new bills.' He goes off already composing them. Billie, at the menagerie flap, says nothing at all, very loudly.".
+    On discuss { Assert basiliskDecided(wapshotts). Assert basiliskBilled(wapshotts). Assert exhibit(roderick). Increase draw(wapshotts) by 3. Increase exhibits(wapshotts) by 1. Decrease regard(billie) by 1 or to nothing. }
+  }
+  Relation basiliskDecided(concern). Relation basiliskHonest(concern). Relation basiliskBilled(concern).
+  Observe roderick_shown near roderick when exhibit(roderick) and basiliskHonest(wapshotts) "Over Sir Roderick's pen a board says: SIR RODERICK. A COCKEREL OF UNCOMMON MALICE, WHO BELIEVES HIMSELF A BASILISK. DO NOT CONTRADICT HIM.".
+  Observe roderick_billed near roderick when exhibit(roderick) and basiliskBilled(wapshotts) "Over Sir Roderick's pen a black curtain hangs on a rail, and a board says: THE BASILISK. LIVING. VIEW ONLY IN THE GLASS PROVIDED. A mirror is chained to the pole.".
+
+  // ── 2. The glimmer-fox of the water-meadows ─────────────────────────────────────────────────────────────────
+  Place meadow_c "the water-meadows below the town" is room within town_c at 4, 3.
+  Passage meadow_path_c "the path down to the water-meadows" is path between tober_c and meadow_c taking 20 minutes.
+  Observe meadow_scene at meadow_c when true "Wet meadows in a loop of slow water, the grass long and silver, alders along the bank, and a line of pollard willows like men with their hair standing up.".
+  Observe meadow_night at meadow_c when dark() "In the dark the meadow is all sound: water, a moorhen, the long grass hissing.".
+  Discovery fox_trail "A line of frost-ferns crosses the meadow grass, in the middle of summer, from the alders to the willows: the glimmer-fox's road." {
+    Found by searching meadow_c with woodcraft "Low in the long grass, where nobody would see it who was not looking for it, there is frost: a line of frost-ferns on the blades, like the breath on a window, running from the alders to the willows. In the middle of summer. It melts as you look at it.".
+  }
+  Topic keeper_c_fox with keeper_c "Ask {keeper_c} about lights in the water-meadows" when knows(actor, wonders_list) once {
+    Says "'The glimmer,' says {keeper_c}. 'You'll see it from the bridge on a dark night, going along low by the willows, a cold sort of light, blue-white, like a candle in a church. The old folk call it the frost-fox. Children go looking for it and come back with chilblains in August.' {keeper_c} shrugs. 'It's never hurt anybody. It eats moths. Leave it be, I'd say. But nobody asks me.' A glance at the door. 'If you must: where it goes the grass whitens, even in August. A line of frost from the alders to the willows. Lie by that, after dark, and keep still.'".
+    On discuss { Assert knows(actor, fox_trail). }
+  }
+  Species glimmer_fox "a glimmer-fox" like fox tame described "A small, slender fox, its coat pale as ash, whose brush glows with a cold blue-white light, like moonlight on frost. Where it steps the grass whitens.".
+  Person glimmer "the glimmer-fox" at meadow_c {
+    Role "a fox whose brush burns cold". Species glimmer_fox. Peaceable. Pronouns she.
+  }
+  Initially Assert offstage(glimmer).
+  Relation foxSeen(group). Relation foxCaught(group). Relation foxPainted(concern). Relation foxFreed(group).
+  Action wait_fox(actor: group, site: place) "Lie in the reeds by the frost-line, and wait for the glimmer-fox" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, meadow_c) and dark() and knows(actor, fox_trail) and not foxSeen(actor) and not exhibit(glimmer).
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert foxSeen(actor). Retract offstage(glimmer). Assert at(glimmer, meadow_c). }
+    Result "You lie in the wet reeds for an hour, not moving, until your legs are part of the meadow. Then, along the frost-line, a light: low, blue-white, cold. She comes out of the alders with her brush held high and burning, a small pale fox, and stops, and looks straight at you, and goes on; and where she steps the grass goes white. She is hunting moths. They come to her light and she takes them out of the air, delicately, like someone eating grapes.".
+    Otherwise "You lie in the reeds an hour, and shift, and a moorhen goes up with a clatter, and far off by the willows a cold light winks once and goes out.".
+  }
+  Topic honoria_giblets with honoria "Ask Honoria for something a fox would come to" when foxSeen(actor) once {
+    Says "'A fox?' says Honoria. 'Chicken giblets. They'd come for those from three parishes.' She wraps you a parcel in a page of the Colonel's sermons. 'Mind, that's for catching. If you're only going to look at it, give it to the poor thing anyway.'".
+    On discuss { Assert giblets(actor). }
+  }
+  Relation giblets(group).
+  Action catch_fox(actor: group, site: place) "Lay Honoria's giblets on the frost-line, and throw a sack over the glimmer-fox when she comes" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, meadow_c) and dark() and foxSeen(actor) and giblets(actor) and not exhibit(glimmer) and not foxFreed(actor).
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert foxCaught(actor). Assert exhibit(glimmer). Assert travels(glimmer). Assert post(glimmer, rk_beasts). Increase draw(wapshotts) by 3. Increase exhibits(wapshotts) by 1. Retract giblets(actor). Set foxDays(glimmer) to 0. }
+    On failure { Retract giblets(actor). }
+    Result "She comes for the giblets, light first, along the frost-line, and puts her nose down; and you have the sack over her. Inside the sack she does not fight. She goes still, and the sack glows from inside, faintly, like a lantern with a cloth over it, and the canvas is cold to hold. You carry her up through the dark to the circus with the light coming through the weave in a pattern of tiny stars.".
+    Otherwise "She comes for the giblets, and you move a breath too soon, and the sack comes down on frost and grass and a fox that is not there any more. The light goes away along the willows. The giblets go with it.".
+  }
+  Topic ada_fox with ada "Tell Ada what you saw in the water-meadows" when foxSeen(actor) and not exhibit(glimmer) and not foxPainted(wapshotts) once {
+    Says "Ada listens with her pencil stopped. 'Blue-white,' she says. 'And the grass whitening. And taking moths out of the air like grapes.' She is writing fast. 'Don't catch it. I'll put it in the Brigand's Bride, part twenty-two, and Quirk can paint a bill, and the Colonel can stand on a barrel and tell them where to go to see it for nothing, and they'll come to the circus to hear about it first.' She looks up. 'People pay more for a wonder they haven't seen yet.'".
+    On discuss { Assert foxPainted(wapshotts). Increase draw(wapshotts) by 1. Increase regard(billie) by 2. Increase regard(ada) by 1. }
+  }
+  Measure foxDays(group).
+  Rule fox_pines when exhibit(glimmer) and hour(clock) == 7 and not darkTent(wapshotts) and not foxPinedToday(glimmer) {
+    Increase foxDays(glimmer) by 1. Assert foxPinedToday(glimmer). Decrease welfare(wapshotts) by 1 or to nothing. }
+  Rule fox_pine_reset when foxPinedToday(glimmer) and hour(clock) == 8 { Retract foxPinedToday(glimmer). }
+  Relation foxPinedToday(group). Relation darkTent(concern).
+  Observe fox_pining near glimmer when exhibit(glimmer) and not darkTent(wapshotts) "The glimmer-fox lies in the back of her pen with her nose in her brush. In the daylight of the tent her light is almost nothing, a grey glow, like a coal going out. Billie has put a moth-trap by her, and the moths are not coming.".
+  Observe fox_days near glimmer when exhibit(glimmer) and foxDays(glimmer) >= 3 "On the board over the glimmer-fox's pen, under her name, Billie has chalked a number, and rubbed it out, and chalked a bigger one: {foxDays(glimmer)} DAYS.".
+  Observe fox_dark near glimmer when exhibit(glimmer) and darkTent(wapshotts) "At the back of the menagerie Lusk has hung a curtain of old black canvas, and behind it, in the dark, the glimmer-fox walks round and round her pen with her brush alight, and moths come in under the canvas to her, and people stand in the dark with their mouths open, and children whisper.".
+  Topic lusk_dark with lusk "Ask Lusk for black canvas, to keep the glimmer-fox in the dark" when exhibit(glimmer) and not darkTent(wapshotts) once {
+    Says "Lusk thinks about it for a long time. 'Old side-wall,' he says. 'Black. From the funeral show at Wakeham.' He goes and gets it, and hangs it at the back of the menagerie with four stakes and a rope, and stands back. 'Dark,' he says, and goes away.".
+    On discuss { Assert darkTent(wapshotts). Increase welfare(wapshotts) by 1. }
+  }
+  Topic billie_fox with billie "Ask Billie how the glimmer-fox is" when exhibit(glimmer) and foxCaught(actor) once {
+    Says "'She'll live,' says Billie, 'in the dark, with moths. She won't thrive. Nothing that burns like that was meant to be looked at by a penny a time.' She looks at you. 'When you're ready, take her back. I'll not say I told you. I'll think it.'".
+  }
+  Action free_fox(actor: group, site: place) "Carry the glimmer-fox back to the water-meadows, and let her go" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(glimmer, site) and exhibit(glimmer) and here(tober_c).
+    On success { Retract exhibit(glimmer). Retract travels(glimmer). Assert at(glimmer, meadow_c). Assert foxFreed(actor). Assert offstage(glimmer). Decrease draw(wapshotts) by 3 or to nothing. Decrease exhibits(wapshotts) by 1 or to nothing. Increase regard(billie) by 2. Increase draw(wapshotts) by 1. }
+    Result "You carry her down in the sack to the frost-line and open it, and she steps out into the grass and stands, and her brush comes up and lights, slowly, from the root, like a wick taking. She looks back at you once. Then she is a light going away along the willows, and the grass whitening behind her. On the way back up, Billie is waiting by the field gate. She does not say anything. She walks back beside you.".
+  }
+
+  // ── 3. The hob of the fulling-mill ──────────────────────────────────────────────────────────────────────────
+  Place mill_b "the old fulling-mill" is room within town_b at 4, 3.
+  Passage mill_path_b "the lane down to the old mill" is path between green_b and mill_b taking 15 minutes.
+  Observe mill_scene at mill_b when true "A low stone mill on the stream, its wheel stopped, its fulling-stocks standing in the gloom like the heads of horses. Everything is very clean. The hearth is swept. A bowl stands on it, upside down. A notice is pinned to the door: TO BE SOLD, WITH ALL FIXTURES. ENQUIRE OF MRS THRUSSELL.".
+  Person thrussell "Mrs Thrussell" at mill_b {
+    Role "the widow who owns the old fulling-mill". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "A sharp old woman in black is counting the mill's sacks on a slate. 'If you're from the tannery, you're early,' she says. 'If you're from the circus, you're after him.' She jerks her chin at the hearth. 'Everyone's after him. My husband's grandfather was after him. He's never once been got.'".
+  }
+  Topic thrussell_hob with thrussell "Ask Mrs Thrussell about the hob" when true once {
+    Says "'Ninepence,' says Mrs Thrussell. 'That's his name, or what he answers to. He's kept this mill since there's been a mill: swept it, mended the stocks, turned the cloth in the night. You leave him cream on the hearth and the work's done by morning. Don't thank him; he can't abide it. Don't call him it; he sours the milk.' She looks at the notice. 'The tannery's buying. A tannery. He'll not stay in a tannery. He'll have nowhere.' She goes back to her slate. 'Not my concern. I've the sale to see to.' She does not count anything for some time.".
+    On discuss { Assert knows(actor, hob_ways). }
+  }
+  Entity hob_ways: fact "The hob of the fulling-mill at {town_b} answers to Ninepence: leave him cream on the hearth and the work is done; never thank him, never call him it; and the mill is being sold to a tannery, where he will not stay.".
+  Topic honoria_cream with honoria "Ask Honoria for a bowl of cream" when knows(actor, hob_ways) once {
+    Says "'Cream,' says Honoria, 'for a hob. Well.' She skims it off the top of the morning's milk into a blue bowl, thick and yellow. 'My mother left cream for the slate-hob at Abernant every night of her life. Never saw him. The slates were always stacked.' She gives you the bowl with both hands, carefully. 'Tell him it's from the Ox.'".
+    On discuss { Assert cream(actor). }
+  }
+  Relation cream(group).
+  Action leave_cream(actor: group, site: place) "Set Honoria's bowl of cream on the hearth of the mill, and wait in the dark" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mill_b) and cream(actor) and dark() and not hobMet(actor).
+    On success { Assert hobMet(actor). Retract cream(actor). Retract offstage(ninepence). Assert at(ninepence, mill_b). }
+    Result "You set the bowl down on the swept hearth and sit back in the dark by the stocks. For a long time nothing. Then the bowl is being drunk from: you hear it, a small neat lapping. Then, very close to your ear, a voice like a dry leaf: 'Cream from the Ox,' it says. 'I know the Ox. I know her mother's slates.' And there he is, on the edge of the hearth, wiping his mouth: a little brown man as high as your knee, hairy as a burr, in a coat made of a fulling-cloth, with long clever hands and eyes like wet sloes.".
+  }
+  Relation hobMet(group).
+  Species hob_kind "a hob" like pixie tame described "A little brown man as high as your knee, hairy as a burr, with long clever hands and eyes like wet sloes, in a coat cut from fulling-cloth.".
+  Person ninepence "Ninepence" at mill_b {
+    Role "the hob of the fulling-mill". Species hob_kind. Peaceable. Pronouns he. Manner acerbic.
+    Greets "'Ninepence,' he says, before you can ask. 'Because that's what I was paid, once, in the reign of a king you never heard of, and I've not had a rise.' He looks at you sidelong. 'You're the circus. You'll be wanting to put me in a box and charge a penny to look at me. Everyone wants to put me in something. The tannery wants to put me in a vat.'".
+  }
+  Initially Assert offstage(ninepence).
+  Relation hobJoined(group). Relation hobTerms(group). Relation hobCage(concern). Relation hobAtInn(group).
+  Topic hob_terms with ninepence "Ask Ninepence what it would take for him to come with the circus" when hobMet(actor) and not hobJoined(ninepence) and not hobAtInn(ninepence) once {
+    Says "Ninepence holds up one long finger. 'Cream, nightly, from the Ox, who knows how.' Another. 'No box. No cage. No curtain. A corner of my own, somewhere with a hearth, that I sweep, and nobody else sweeps.' Another. 'Work. I'll not be looked at like a turnip in a show. Give me something to do, and I'll do it, in the dark, as I always have, and better than you've ever seen it done.' The fourth finger. 'And my name on the bills. An inch high. Spelled right.' He folds his hands. 'Those are the terms. Take them to your Colonel. I'll not haggle. I've been haggled at by better.'".
+    On discuss { Assert hobTerms(actor). }
+  }
+  Topic wap_hob with wapshott "Put Ninepence's terms to the Colonel" when hobTerms(actor) and not hobJoined(ninepence) and not hobAtInn(ninepence) once {
+    Says "'No CAGE?' says the Colonel. 'A hob without a cage is a man with a beard. Who will pay a penny to look at a man with a beard? I can get men with beards for nothing; half the canvasmen are men with beards.' He paces. 'His name on the bills, very well. Cream, very well, Honoria makes it out of nothing. But a hob must be SEEN. Exhibited. In a gilded cage, with a velvet cushion.'".
+    On discuss { Assert knows(actor, wap_wants_cage). }
+  }
+  Entity wap_wants_cage: fact "Colonel Wapshott will take the hob on every term but one: he wants him in a gilded cage, exhibited.".
+  Action persuade_hob_terms(actor: group, site: place) "Persuade the Colonel that a hob who works the show unseen is worth more than a hob in a cage" {
+    Speaker wapshott. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wapshott, site) and knows(actor, wap_wants_cage) and not hobJoined(ninepence) and not hobAtInn(ninepence) and not triedHobTerms(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert colonelAgreesHob(wapshotts). }
+    On failure { Assert triedHobTerms(actor). }
+    Result "You put it to him as a showman: that nobody will pay a penny to see a little man in a cage, but everyone in the country will pay a coin to see a show where ropes untie themselves, ladders climb themselves, and the Colonel's hat floats off his head at the exact moment of his greatest dignity. 'THE INVISIBLE STAGEHAND,' says the Colonel slowly. 'NINEPENCE, THE HOB. SEEN BY NOBODY. FELT BY ALL.' He takes off his hat, and looks at it, and puts it back on with great care. 'Done,' he says.".
+    Otherwise "'No,' says the Colonel. 'No, no. People must SEE. I am a showman, not a priest.'".
+  }
+  Relation triedHobTerms(group). Relation colonelAgreesHob(concern).
+  Topic tell_wap_pension with wapshott "Tell the Colonel you know about Mrs Gale's coin, and that a man who does that does not put a hob in a cage" when knows(actor, wap_wants_cage) and knows(actor, wapshott_pension) and not colonelAgreesHob(wapshotts) once {
+    Says "The Colonel goes a deep, slow red, from the collar up. 'Ada,' he says. He looks away, at the wagons, for some time. 'That,' he says at last, quietly, 'was not for the bills.' Then he blows his nose like a trumpet. 'Very well. No cage. Tell the little man the Colonel accepts his terms in full, and the Colonel's name will be spelled the size of the hob's, and no larger, which is a thing that has not happened since nineteen years ago in a field.'".
+    On discuss { Assert colonelAgreesHob(wapshotts). Increase regard(wapshott) by 1. }
+  }
+  Topic hob_agreed with ninepence "Tell Ninepence the Colonel accepts his terms" when colonelAgreesHob(wapshotts) and not hobJoined(ninepence) and not hobAtInn(ninepence) once {
+    Grave "A hob who comes to a house stays its hob; the mill will have none after him.".
+    Says "Ninepence listens with his head on one side. Then he goes to the hearth and sweeps it, once, very carefully, and puts the brush back on its nail, and stands looking at the stopped wheel for a while. 'Three hundred years,' he says. 'Well. A mill's only a mill.' He turns round. 'Tell the Ox I'll take my cream at midnight. Tell the clown I'll mind his ladder. Tell the Colonel,' and for the first time he smiles, a wide brown crinkle, 'to mind his hat.'".
+    On discuss { Assert hobJoined(ninepence). Assert travels(ninepence). Assert post(ninepence, rk_wagons). Increase exhibits(wapshotts) by 1. }
+  }
+  Rule hob_show near ringpost when hobJoined(ninepence) and showOn(wapshotts) and act(wapshotts) == 2 and not hobToldTonight(ninepence)
+    says "In the middle of the horse's act the Colonel's hat lifts off his head of its own accord, floats twice round the ring at the height of a man's shoulder, and settles on Bucephalus. The house shrieks. Bucephalus allows it. In the gloom under the benches something small and brown is laughing." {
+    Assert hobToldTonight(ninepence). Increase quality(wapshotts) by 1. Increase house(wapshotts) by 1. }
+  Topic hob_tortoise with ninepence "Ask Ninepence why he sits every night by the tortoise's straw" when hobJoined(ninepence) and exhibit(methuselah) once {
+    Says "Ninepence does not look round. He is sitting cross-legged on the edge of the tortoise's pen with his long hands in his lap, and the tortoise has put his old head out toward him, very close. 'We've met,' says the hob. 'On the mill road, in the summer the river ran backward. A procession a mile long, all crowned wheels, and a trumpet at the front, and at the back a cart with this one in it, eating a cabbage, the same as now.' He scratches the tortoise under the chin, gently, and the tortoise shuts his eyes. 'They called him the Bishop. Because he blessed nothing, and outlived three.' He looks at you sidelong. 'He's going home, isn't he. Your Colonel's going to take him home. I can see it on him. They've been going round with one household or another for three hundred years, these two old things.' He means himself as well, and does not say so.".
+    On discuss { Assert knows(actor, bishop_known). }
+  }
+  Entity bishop_known: fact "Ninepence the hob saw the Royal Progress pass the mill road three hundred years ago, with Wapshott's tortoise in a cart at the back, called the Bishop.".
+  Rule hob_quiet when hobToldTonight(ninepence) and not showOn(wapshotts) { Retract hobToldTonight(ninepence). }
+  Relation hobToldTonight(group).
+  Topic keeper_b_hob with keeper_b "Ask {keeper_b} whether the inn would take in a hob" when hobTerms(actor) and not hobJoined(ninepence) and not hobAtInn(ninepence) once {
+    Says "{keeper_b} looks at you a long while. 'Ninepence?' {keeper_b} says. 'Out of the mill?' Then, slowly: 'My gran used to say the Thrussells' luck was in that mill and not in the Thrussells.' A glance at the cellar door. 'There's a hearth in the old brewhouse at the back nobody uses. If he'd take it. Cream I can do. Thanks I'll not give him; I know that much.'".
+    On discuss { Assert innOffered(keeper_b). }
+  }
+  Relation innOffered(group).
+  Topic hob_to_inn with ninepence "Tell Ninepence there is a hearth for him in the old brewhouse at the inn" when innOffered(keeper_b) and not hobJoined(ninepence) and not hobAtInn(ninepence) once {
+    Grave "A hob who comes to a house stays its hob; the mill will have none after him.".
+    Says "Ninepence is quiet. 'An inn,' he says. 'Folk coming and going. Barrels. A brewhouse.' He rubs his long hands together, very slowly. 'I could do a great deal with a brewhouse.' He looks at you. 'It's not the circus, is it? You'll not get your penny for me.' He nods, as if you had answered. 'No. You'll not.' And he takes his brush off its nail and puts it under his arm, and goes out into the dark toward the town, and you hear him once on the lane, laughing.".
+    On discuss { Assert hobAtInn(ninepence). Retract at(ninepence, mill_b). Increase regard(billie) by 2. }
+  }
+  Observe hob_inn_sign near keeper_b when hobAtInn(ninepence) and not hobInnTold(party) "The house is cleaner than it was. The barrels in the passage stand in a row as straight as soldiers, and somebody has mended the settle that has been broken since anyone remembers.".
+  Relation hobInnTold(group).
+
+  // ── 4. The beast in the orchards ────────────────────────────────────────────────────────────────────────────
+  Place orchard_a "the bee orchards behind the town" is room within town_a at 4, 3.
+  Passage orchard_path_a "the orchard lane" is path between green_a and orchard_a taking 20 minutes.
+  Observe orchard_scene at orchard_a when true "Old apple trees in long grass, grey with lichen, and between them the bee-skeps on their stands like a village of straw beehive houses. Three of the skeps are smashed, and the grass round them is torn up, and the bark of the nearest tree is clawed in long pale scores higher than a man.".
+  Person tarrant "Goody Tarrant" at orchard_a {
+    Role "the bee-wife of the orchards". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "A woman with a veil pushed up over her hat and a smoker in her hand is sitting on an upturned skep among the wreck of three others. 'Six skeps,' she says. 'In a fortnight. It comes at dusk. It's as big as a bullock and it's got a face like an owl, and it eats the comb and the bees and all, and screams.' She looks at you. 'If you're going to kill it, kill it. If you're not, I don't want to hear about it.'".
+  }
+  Topic billie_orchard with billie "Ask Billie what kind of beast would claw a tree that high and eat bees" when knows(actor, wonders_list) once {
+    Says "Billie's face changes. 'Face like an owl,' she says. 'Screams.' She looks at you. 'Owlbear. A young one, if it's eating bees: the old ones eat sheep. They're mad for honey at that age, and they've no more sense than a dog in a dairy.' She is quiet. 'And it'll kill you, mind. A young owlbear will take your arm off out of curiosity. If you're bringing it in, you'll want the cage-wagon iron-strapped, a net, honey to bring it, and somebody it'll look at while you close the net. And if it comes to it,' she says, 'it's you or it. I'd rather it was it.' She counts on her fingers. 'Lusk will make you a net, and strap the cage if you buy him the iron. The bee-wife will spare a comb. And ask me, when it's ready, and I'll come.'".
+    On discuss { Assert knows(actor, owlbear_ways). }
+  }
+  Entity owlbear_ways: fact "Billie Ostrander says the beast in the orchards is a young owlbear, mad for honey: to bring it in you want the cage-wagon iron-strapped, a net, honey to bring it, and somebody it will look at while the net closes.".
+  Species young_owlbear "a young owlbear" like owlbear temperament territorial described "A beast the size of a bullock, shaggy brown with a ruff of grey feathers, with the round, staring, horn-beaked face of an owl and great hooked claws on its forepaws. It is young: there is down still on its ruff, and it moves with the clumsy suddenness of a puppy that could kill you.".
+  Person bramble "the young owlbear" at orchard_a {
+    Role "a young owlbear, raiding the skeps" when not exhibit(bramble) and not brambleLoose(wapshotts).
+    Role "the menagerie's owlbear". Species young_owlbear. Pronouns she.
+    Known as "Bramble, the menagerie's owlbear" when exhibit(bramble) and not brambleLoose(wapshotts).
+        Warns "Something moves under the apple trees, and stands up. It is the size of a bullock, with a ruff of grey feathers and a round white owl's face, and it looks at you down its beak, and screams: a long, tearing, ridiculous, horrible scream, like a gate the size of a church. Then it comes a step nearer, swaying. You have a moment, no more, to do something other than fight.".
+    Comes "The owlbear comes at you through the skeps in a run like a landslide.".
+    Pleads "The owlbear goes down in the long grass and lies there with its round face in its claws, making a small sound, like a child.".
+  }
+  Query dusk() means hour(clock) >= 19 or hour(clock) < 5.
+  // By day she is up in the hills somewhere, nobody knows where; at dusk she comes down to the skeps.
+  Initially Assert offstage(bramble). Measure brambleBack(group).
+  Rule bramble_comes when offstage(bramble) and dusk() and watch(clock) >= brambleBack(bramble) and not exhibit(bramble) and not dead(bramble) and not brambleLost(wapshotts) { Retract offstage(bramble). Assert at(bramble, orchard_a). }
+  Rule bramble_goes when at(bramble, orchard_a) and not dusk() and not exhibit(bramble) and not dead(bramble) and not threatened(party) { Assert offstage(bramble). }
+  Relation netRigged(group). Relation cageStrapped(concern). Relation honeyBought(group). Relation brambleLoose(concern).
+  Topic tarrant_honey with tarrant "Ask Goody Tarrant for a comb of honey, to bring the beast with" when (knows(actor, owlbear_ways) or knows(actor, wonders_list)) and not honeyBought(actor) once {
+    Says "Goody Tarrant looks at you as if you were mad, which in fairness you may be. 'A comb,' she says, 'to bring it. To bring it here. On purpose.' Then she gets up and goes to a skep it hasn't found and smokes it, and cuts you a comb, golden and dripping, and wraps it in a dock-leaf. 'If you take it away,' she says, 'alive, and it never comes back, that's my honey well spent. If it eats you, I'll want the leaf back.'".
+    On discuss { Assert honeyBought(actor). }
+  }
+  Topic lusk_net with lusk "Ask Lusk for a net, and help to iron-strap the cage-wagon" when knows(actor, owlbear_ways) and not cageStrapped(wapshotts) once {
+    Says "Lusk listens to the whole thing, and you see him see it: the beast, the orchard, the net. 'Old side-wall,' he says. 'Cut in strips. Knotted. Two hours.' He looks at the cage-wagon, which has wooden bars. 'Iron,' he says. 'Straps. Four coin of straps from {merchant_a}. Somebody who can mend to help me fit them.' Then, as you go: 'Owlbear.' He shakes his head slowly. 'The Colonel.'".
+    On discuss { Assert knows(actor, cage_wanted). Assert netRigged(actor). }
+  }
+  Entity cage_wanted: fact "Gideon Lusk will iron-strap the cage-wagon for the owlbear, with four coin of iron straps from {merchant_a} and somebody who can mend to help.".
+  Relation strapsBought(group).
+  Topic merchant_a_straps with merchant_a "Buy four coin of iron straps from {merchant_a} for the circus's cage-wagon" when knows(actor, cage_wanted) and not strapsBought(actor) and quantity(actor, gold) >= 4 once {
+    Says "{merchant_a} weighs out the straps, and the rivets, and asks what they are for, and when you tell {merchant_a} turns quite pale and gives you an extra dozen rivets for nothing.".
+    On discuss { Decrease quantity(actor, gold) by 4. Increase quantity(merchant_a, gold) by 4. Assert strapsBought(actor). }
+  }
+  Action strap_cage(actor: group, site: place) "Help Lusk iron-strap the cage-wagon" {
+    Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lusk, site) and strapsBought(actor) and not cageStrapped(wapshotts) and freeHour().
+    Resolve check(actor, mending, dc_easy).
+    On success { Assert cageStrapped(wapshotts). Increase regard(lusk) by 1. }
+    Result "Two hours with Lusk, a forge-hammer and a bucket of rivets, fitting iron straps round the old cage-wagon's bars and across its floor. Lusk does not speak once. At the end he hangs on the bars with his whole weight, which is considerable, and bounces, and nothing gives. 'There,' he says.".
+    Otherwise "Two hours, and the rivets will not take for you. Lusk takes the hammer gently out of your hand. 'Tomorrow,' he says. 'Iron's like a horse.'".
+  }
+  Topic billie_comes with billie "Ask Billie to come to the orchard with you at dusk, when the cage is ready" when knows(actor, owlbear_ways) and cageStrapped(wapshotts) and not exhibit(bramble) and not billieComes(billie) once {
+    Says "Billie looks at you a long time. 'I said I'd keep them,' she says. 'I didn't say I'd catch them.' She takes her coat off the nail. 'Dusk, then. In the orchard. You'll do as I say, when I say, and if I say run you'll run.'".
+    On discuss { Assert billieComes(billie). }
+  }
+  Relation billieComes(group).
+  Rule billie_to_orchard when billieComes(billie) and dusk() and here(tober_a) and not exhibit(bramble) and not dead(bramble) and not at(billie, orchard_a) {
+    Assert away(billie). Assert at(billie, orchard_a). }
+  Rule billie_from_orchard when away(billie) and at(billie, orchard_a) and (exhibit(bramble) or dead(bramble) or not dusk()) { Retract away(billie). }
+  Action lure_owlbear_billie(actor: group, site: place) "Throw the honeycomb down on Lusk's net, and keep low and still beside Billie while the owlbear comes" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bramble, site) and at(billie, site) and honeyBought(actor) and netRigged(actor) and cageStrapped(wapshotts)
+      and not exhibit(bramble) and not dead(bramble).
+    Resolve check(actor, woodcraft, dc_easy).
+    On success { Assert exhibit(bramble). Assert travels(bramble). Assert post(bramble, rk_beasts). Assert tolerates(bramble, actor). Assert peaceable(bramble).
+      Increase draw(wapshotts) by 4. Increase exhibits(wapshotts) by 1. Retract honeyBought(actor). Increase regard(billie) by 2. }
+    On failure { Assert offstage(bramble). Set brambleBack(bramble) to watch(clock) + 60. }
+    Result "Billie puts a hand flat on your back and presses you down into the long grass beside her, and you throw the comb onto the net, and lie there. The owlbear comes swaying out of the trees, stops, screams at the dusk, and forgets you both for the honey. 'Now,' breathes Billie, and you pull the rope together, and the net closes, and the owlbear sits in it licking its claws with a round, astonished, sticky face. Billie lets out a breath she seems to have been holding since the morning.".
+    Otherwise "You throw the comb, and move, a little, and the owlbear sees you and screams, and Billie drags you backwards by the collar into the hedge. The owlbear eats the honey, and stares at the hedge with its head on one side, and goes off up the orchard into the dark. 'Tomorrow,' says Billie, shaking. 'Lie stiller.' She has the comb back out of the net, somehow, sticky with straw.".
+  }
+  // While it warns, what brings it in instead of a fight: honey on the net, and someone for it to look at.
+  Action lure_owlbear(actor: group, site: place) "Throw the honeycomb down on Lusk's net, and draw the owlbear's eye while it comes" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bramble, site) and honeyBought(actor) and netRigged(actor) and cageStrapped(wapshotts)
+      and not exhibit(bramble) and not dead(bramble) and not lookLearned(actor).
+    Resolve check(actor, woodcraft, dc_hard).
+    On success { Assert exhibit(bramble). Assert travels(bramble). Assert post(bramble, rk_beasts). Assert tolerates(bramble, actor). Assert peaceable(bramble).
+      Increase draw(wapshotts) by 4. Increase exhibits(wapshotts) by 1. Retract honeyBought(actor). }
+    On failure { Retract honeyBought(actor). }
+    Result "You throw the comb down on the net, and step aside, and stand very still and low the way Billie told you, and the owlbear forgets you for the honey. It puts its whole face in the comb with a noise like a bee-skep being sat on, and you pull the rope, and the net closes, and it does not even struggle; it lies in the net licking its claws, wrapped up like a parcel, and looks at you with a round, astonished, sticky face.".
+    Otherwise "You throw the comb down on the net, and the owlbear looks at it, and then at you, and decides you are more interesting than honey. It eats the honey anyway, net and all, in one gulp, and tears the net in two, and comes on.".
+  }
+  Action lure_owlbear_look(actor: group, site: place) "Throw the honeycomb down on Lusk's net, and give the owlbear the Look while it comes" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bramble, site) and honeyBought(actor) and netRigged(actor) and cageStrapped(wapshotts)
+      and not exhibit(bramble) and not dead(bramble) and lookLearned(actor).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert exhibit(bramble). Assert travels(bramble). Assert post(bramble, rk_beasts). Assert tolerates(bramble, actor). Assert peaceable(bramble).
+      Increase draw(wapshotts) by 4. Increase exhibits(wapshotts) by 1. Retract honeyBought(actor). }
+    On failure { Retract honeyBought(actor). }
+    Result "You throw the comb on the net and then you give it the Look, Mumchance's, the one that says the world has done this to you personally; and the owlbear stops, puzzled, and stares at you, and stares, and backs onto the net looking at you, as a bull backs from a matador who has done something it cannot account for. The rope pulls. The net closes. It sits in the net still staring at you with its head on one side, and then, in a small voice, it hoots.".
+    Otherwise "You give it the Look, and the owlbear gives it back, with interest. It has never been told what is funny and it is not going to start now.".
+  }
+  Rule owlbear_caught near bramble when exhibit(bramble) and at(bramble, orchard_a) says "Lusk and two of his lads come down the lane with the cage-wagon behind the ponies, and between you, with the net and the honey and a great deal of language, you get the owlbear into it. Goody Tarrant watches from behind a tree with her smoker raised like a pistol. When the door bangs shut she sits down in the grass and laughs till she cries." { Assert at(bramble, tober_a). }
+  Topic billie_bramble with billie "Ask Billie what she will call the owlbear" when exhibit(bramble) once {
+    Says "'Bramble,' says Billie at once. 'She came out of the hedge like one and she'll catch on everything.' She puts her hand flat on the iron strap of the cage, and the owlbear inside puts its great beak against the bars on the other side, and hoots. 'She's a baby,' Billie says. 'A great stupid baby. She'll want meat, and honey on Sundays, and to be talked to, and if she's not, she'll find her own way out, and then the Colonel will learn something.'".
+  }
+  Rule bramble_eats when exhibit(bramble) and hour(clock) == 7 and not brambleFedToday(bramble) { Decrease feed(wapshotts) by 1 or to nothing. Assert brambleFedToday(bramble). }
+  Rule bramble_fed_reset when brambleFedToday(bramble) and hour(clock) == 8 { Retract brambleFedToday(bramble). }
+  Relation brambleFedToday(group).
+  Observe bramble_shown near bramble when exhibit(bramble) and not brambleLoose(wapshotts) "In the iron-strapped cage-wagon Bramble the owlbear sits with her round white face pressed to the bars, hooting softly at anyone who will stand still, and screaming at anyone who won't. A board says: BRAMBLE, THE OWLBEAR OF THE ORCHARDS. CAPTURED ALIVE. FED ON MUTTON. DO NOT PUT HANDS THROUGH BARS. And under that, in someone else's writing: AGAIN.".
+  Rule bramble_killed when dead(bramble) and not brambleDied(wapshotts) { Assert brambleDied(wapshotts). Decrease regard(billie) by 2 or to nothing. }
+  Relation brambleDied(concern).
+  Topic tarrant_thanks with tarrant "Tell Goody Tarrant the beast will not come back" when (exhibit(bramble) or dead(bramble)) once {
+    Says "Goody Tarrant puts down her smoker. 'Alive or dead?' she says. You tell her. She nods slowly, and goes to the skep nearest, and takes out a second comb and gives it to you. 'For your Colonel,' she says. 'Tell him to come and see the orchards in blossom. He'll not have seen anything like it in his circus.'".
+    On discuss { Increase standing(tober_a) by 1. }
+  }
+  // An owlbear ill kept, or loosed, gets out.
+  Rule bramble_escapes when exhibit(bramble) and pitched(wapshotts) and hour(clock) == 7 and not brambleLoose(wapshotts) and (welfare(wapshotts) < 1 or pinDrawn(wapshotts))
+    and current(wapshotts, ?g) and greenOf(?g, ?green) {
+    Assert brambleLoose(wapshotts). Assert at(bramble, ?green). Retract peaceable(bramble). Retract tolerates(bramble, party). Retract travels(bramble). Set looseSince(wapshotts) to watch(clock). }
+  Measure looseSince(concern). Relation pinDrawn(concern).
+  Rule bramble_loose_told near bramble when brambleLoose(wapshotts) and not looseTold(wapshotts)
+    says "There is screaming on the green: people screaming, and under it a long, tearing, ridiculous scream that is not people. Bramble is out. She is standing in the middle of the green with the baker's whole tray of buns in her beak and the baker up the pump, and every child in the town is either running away from her or toward her." { Assert looseTold(wapshotts). }
+  Relation looseTold(concern).
+  Action recapture_honey(actor: group, site: place) "Walk out to Bramble with honey on your hands, low and slow, the way Billie showed you, and lead her home" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bramble, site) and brambleLoose(wapshotts) and knows(actor, owlbear_ways) and not dead(bramble).
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Retract brambleLoose(wapshotts). Assert peaceable(bramble). Assert tolerates(bramble, actor). Assert travels(bramble). Retract pinDrawn(wapshotts). Increase regard(billie) by 1. }
+    Result "You go out to her across the green, low and slow, with your hands held out sticky with honey from the cookhouse jar, talking nonsense in a voice like a kettle; and she stops screaming, and puts down the buns, and comes and licks your hands, purring like a millstone; and you walk her home across the green with your fingers in her ruff and the whole town watching from its windows, and she goes back into her cage of her own accord and lies down with a sigh. Somebody cheers. Then everybody does.".
+    Otherwise "You go out to her low and slow with honey on your hands, and she takes the honey and your sleeve with it and goes off down the street with the sleeve, screaming happily.".
+  }
+  Action recapture_look(actor: group, site: place) "Draw Bramble's eye with the Look, and walk backwards to the circus with her following" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bramble, site) and brambleLoose(wapshotts) and lookLearned(actor) and not dead(bramble).
+    Resolve check(actor, performance, dc_fair).
+    On success { Retract brambleLoose(wapshotts). Assert peaceable(bramble). Assert tolerates(bramble, actor). Assert travels(bramble). Retract pinDrawn(wapshotts). Increase renown(actor) by 1. }
+    Result "You stand in front of her and give her the Look, and she stops, and stares, and you walk backwards, slowly, all the way across the green and up the lane and through the field gate and into the cage, staring, and she follows you every step with her head on one side, staring back, like a goose after a bucket. The door clangs. You find you have to sit down. The town, which watched all of it from the windows, will be talking about it for thirty years, mostly wrongly.".
+    Otherwise "You give her the Look, and she gives it back, and then she sits on you.".
+  }
+  Rule bramble_home when not brambleLoose(wapshotts) and exhibit(bramble) and travels(bramble) and peaceable(bramble) and current(wapshotts, ?g) and greenOf(?g, ?green) and at(bramble, ?green) { Assert at(bramble, ?g). }
+  Rule bramble_gone near billie when brambleLoose(wapshotts) and watch(clock) >= looseSince(wapshotts) + 30 and current(wapshotts, ?g)
+    says "Bramble is gone. She went off over the hedges toward the hills in the afternoon with half the town's washing on her back, and nobody could stop her, and nobody, in the end, much wanted to. The Colonel is to pay for the washing, and for the baker's buns, and for a door." {
+    Retract brambleLoose(wapshotts). Retract exhibit(bramble). Assert offstage(bramble). Decrease draw(wapshotts) by 4 or to nothing. Decrease exhibits(wapshotts) by 1 or to nothing.
+    Decrease standing(?g) by 2 or to nothing. Decrease strongbox(wapshotts) by 5 or to nothing. Assert brambleLost(wapshotts). }
+  Relation brambleLost(concern).
+
+  // ── 5. The tortoise at the carrier's yard ───────────────────────────────────────────────────────────────────
+  Place carrier_c "the carrier's yard" is room within town_c at 3, 3.
+  Passage carrier_gate_c "the carrier's yard gate" is gate between green_c and carrier_c taking 5 minutes.
+  Observe carrier_scene at carrier_c when true "A cobbled yard behind the carrier's house, with a wagon on blocks, its back axle snapped clean in two, and, beside it, eating a cabbage with the slow thoroughness of a glacier, a tortoise the size of a hip-bath.".
+  Person wiltshaw "Joby Wiltshaw" at carrier_c {
+    Role "the carrier". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A red-faced man in a smock is sitting on the shafts of his broken wagon with his chin in his hands, staring at the tortoise. 'A sailor gave him me,' he says. 'Against a debt. Eleven shillings, and a tortoise thrown in. I thought he meant a little one. He broke my wagon getting off it.' He sighs. 'He eats a cabbage an hour. He's eaten my wife's garden. If you want him, you can have him for what the sailor owed me, and the use of my blessing.'".
+  }
+  Species old_tortoise "a giant tortoise" like turtle tame described "A tortoise the size of a hip-bath, his shell domed and seamed like an old map, his neck wrinkled like a glove, his eye small, black, and immensely patient. He moves at the pace of a minute hand, toward cabbages.".
+  Person methuselah "the giant tortoise" at carrier_c {
+    Role "a tortoise of great age, eating a cabbage". Species old_tortoise. Peaceable. Pronouns he.
+    Greets "The tortoise lifts his head, at the speed of a clock's hour hand, and regards you, and goes back to his cabbage as if you were a passing season.".
+  }
+  Relation tortoiseBought(group). Relation tortoiseHome(concern). Relation cabbages(group). Relation sledgeBuilt(group). Relation honoriaBack(concern). Measure backDay(concern).
+  Topic wiltshaw_buy with wiltshaw "Buy the tortoise from Joby Wiltshaw for six coin" when quantity(actor, gold) >= 6 and not tortoiseBought(actor) once {
+    Says "Joby Wiltshaw takes the coin as if it were a pardon. 'He's yours,' he says, 'and God go with you, slowly.' He scratches his head. 'Mind, he'll not get on a cart, and if he did, the cart'd not get on. He walks where there's cabbages. That's the whole of him.'".
+    On discuss { Decrease quantity(actor, gold) by 6. Increase quantity(wiltshaw, gold) by 6. Assert tortoiseBought(actor). }
+  }
+  Topic wap_tortoise_pay with wapshott "Ask the Colonel to pay for the tortoise out of the strongbox" when knows(actor, wonders_list) and not tortoiseBought(actor) and strongbox(wapshotts) >= 6 once {
+    Says "'Six coin!' says the Colonel. 'For a Tortoise of Antiquity! A bargain! A steal!' He opens the strongbox before Ada can get there and counts six into your hand. Ada watches the coins go with the face of a woman watching her children emigrate.".
+    On discuss { Decrease strongbox(wapshotts) by 6. Increase quantity(actor, gold) by 6. Decrease regard(ada) by 1 or to nothing. }
+  }
+  Topic merchant_c_cabbages with merchant_c "Buy a sack of cabbages from {merchant_c}, one coin" when tortoiseBought(actor) and not cabbages(actor) and quantity(actor, gold) >= 1 once {
+    Says "{merchant_c} sells you a sack of cabbages and does not ask why, because the whole of {town_c} already knows why, and some of them are coming to watch.".
+    On discuss { Decrease quantity(actor, gold) by 1. Increase quantity(merchant_c, gold) by 1. Assert cabbages(actor). }
+  }
+  Action lead_tortoise(actor: group, site: place) "Lead the tortoise up to the circus with a cabbage on a stick" {
+    Time 30.
+    Requires able(actor) and company(actor) and at(actor, site) and at(methuselah, site) and at(actor, carrier_c) and tortoiseBought(actor) and cabbages(actor) and here(tober_c) and not tortoiseHome(wapshotts).
+    On success { Assert tortoiseHome(wapshotts). }
+    Result "It takes five hours. You walk backwards up the street of {town_c} with a cabbage on a stick, and the tortoise follows it at the pace of a minute hand, and the whole town comes out to watch, and then goes in for dinner, and comes out again, and you are still there. Children walk beside him. A dog lies down in front of him and is pushed, gently, the length of the green. By the time you turn in at the field gate, a crowd of forty is walking behind you in a procession, and the Colonel comes running out of the big top, sees it, and starts selling them tickets.".
+  }
+  Action sledge_tortoise(actor: group, site: place) "Build a sledge with Lusk out of a spare pole and a door, and have Bucephalus drag the tortoise up" {
+    Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, carrier_c) and at(methuselah, site) and tortoiseBought(actor) and here(tober_c) and regard(lusk) >= 1 and regard(billie) >= 1
+      and not tortoiseHome(wapshotts) and not sledgeBuilt(actor).
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert sledgeBuilt(actor). Assert tortoiseHome(wapshotts). }
+    On failure { Assert sledgeBuilt(actor). }
+    Result "Lusk comes down with a spare quarter-pole and the carrier's back door off its hinges, and you lash them into a sledge, and Billie brings Bucephalus in his harness; and you get the tortoise onto it with a cabbage, and Bucephalus looks round at what he is being asked to pull, and sighs through his nose, and pulls it. Up the street, over the cobbles, in at the gate, in an hour, with Billie walking at his head saying 'Good lad' as if to a duke.".
+    Otherwise "Lusk comes down with a spare pole and the carrier's door, and the sledge you lash together comes apart at the first cobble, and the tortoise walks off it in disgust toward the carrier's wife's last row of beans.".
+  }
+  Action carry_tortoise(actor: group, site: place) "Ask Honoria to carry the tortoise up to the circus" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, carrier_c) and at(methuselah, site) and tortoiseBought(actor) and here(tober_c) and regard(honoria) >= 1 and not tortoiseHome(wapshotts) and not honoriaBack(wapshotts).
+    On success { Assert tortoiseHome(wapshotts). Assert honoriaBack(wapshotts). Set backDay(wapshotts) to day(clock). }
+    Result "Honoria comes down with her sleeves rolled up and looks at the tortoise and says 'Well, my love,' and squats, and gets her arms under him, and stands up with forty stone of tortoise against her chest; and walks up the street with him, step by step, red as a brick, while the tortoise looks out over her shoulder at {town_c} with an expression of mild interest. At the field gate she puts him down very gently and straightens up and something in her back goes click. 'Oh,' she says. 'Oh, dear.'".
+  }
+  Rule honoria_abed when honoriaBack(wapshotts) and day(clock) <= backDay(wapshotts) + 1 and not honoriaAbed(honoria) and current(wapshotts, ?g) and groundRoom(?g, rk_wagons, ?w) { Assert honoriaAbed(honoria). Assert away(honoria). Assert at(honoria, ?w). }
+  Rule honoria_up near honoria when honoriaAbed(honoria) and day(clock) > backDay(wapshotts) + 1 says "Honoria Bulstrode is up again, walking a little carefully, and the cookhouse smells of bacon, and everybody in the circus is very pleased about it and pretends not to be." {
+    Retract honoriaAbed(honoria). Retract away(honoria). Retract honoriaBack(wapshotts). }
+  Relation honoriaAbed(group).
+  Rule ox_abed near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and honoriaAbed(honoria)
+    says "There is no Ox tonight: the Ox of Abernant is in bed in the cookhouse wagon with a hot brick and a poultice. The Colonel announces it as a tragedy in five words and fills the gap by lifting a pony himself, very nearly." {
+    Assert told(part_ox). }
+  Rule tortoise_in when tortoiseHome(wapshotts) and not exhibit(methuselah) {
+    Assert exhibit(methuselah). Assert travels(methuselah). Assert post(methuselah, rk_beasts). Increase draw(wapshotts) by 2. Increase exhibits(wapshotts) by 1. }
+  Observe tortoise_shown near methuselah when exhibit(methuselah) "In a pen of warm straw near a brazier the great tortoise eats a cabbage, very slowly, in front of a board that says METHUSELAH. A TORTOISE OF ANTIQUITY. WITNESSED THE FLOOD. ASK HIM ABOUT IT. On the old seamed dome of his shell, half worn away, someone long ago has carved a device: a wheel with a crown over it, and letters round the rim.".
+  Topic hench_crest with hench "Ask Hench whether he knows the crowned wheel carved on the tortoise's shell" when exhibit(methuselah) once {
+    Says "Hench goes to the menagerie and kneels by the tortoise in the straw, which you would not have believed, and runs a long thin finger over the worn letters on the shell. He is quiet for some time. 'MENAGERIE ROYAL,' he says. 'And a date. Three hundred and some years.' He stands, and dusts his knees. 'The crowned wheel is the device of the Royal Progress: the old kings' household that went round the country, as we do, with its beasts. Her Grace of Oster's great-uncle had the last of the old inventories; I dusted it. There was a tortoise in it.' He looks at the Colonel's wagon. 'I should not tell him, if I were you. Not yet. He will want to know whose tortoise it is now. And then he will want to give it back, in person, with a band.'".
+    On discuss { Assert knows(actor, crest_known). }
+  }
+  Entity crest_known: fact "Carved on the shell of Wapshott's giant tortoise is MENAGERIE ROYAL and the crowned wheel of the old kings' Royal Progress; Hench says such a tortoise was in its last inventory, three hundred years ago.".
+
+  // ── 6. A serpent, for Fipps ─────────────────────────────────────────────────────────────────────────────────
+  Topic wap_serpent with wapshott "Ask the Colonel what he meant by A SERPENT, FOR FIPPS" when knows(actor, wonders_list) once {
+    Says "'Fipps,' says the Colonel, 'has asked me for a serpent eleven times. Eleven! I never saw a man so set on a thing. At first I put him off, as you would; and then I thought: why NOT a serpent? A serpent for the menagerie! The man has vision!' He frowns. 'Though I cannot see why he wants to play it.'".
+    On discuss { Assert knows(actor, serpent_muddle). }
+  }
+  Entity serpent_muddle: fact "The Colonel thinks Fipps wants a live serpent for the menagerie; Fipps wants a serpent, the bass horn, for the band.".
+  Topic fipps_muddle with fipps "Tell Fipps the Colonel has put A SERPENT on his list of wild beasts" when knows(actor, serpent_muddle) once {
+    Says "Fipps looks at you. Then he looks at the serpent wound round his body. Then he sits down on the cookhouse steps and laughs until the serpent makes a noise. 'Eleven times,' he says, wiping his eyes. 'Eleven times I have said to him, Colonel, I need a new serpent. And eleven times he has said, Corny, a serpent, my word, and gone very thoughtful.' He sobers. 'There's an old church band serpent in half the shrines in the country, from when they had bands. If one of the shrines round here had one in its loft and would part with it, I'd play the low G at the Fair if it killed me.'".
+    On discuss { Assert knows(actor, church_serpent). }
+  }
+  Entity church_serpent: fact "Signor Fipps says an old church band serpent may be lying forgotten in a shrine loft somewhere on the circuit.".
+  Topic priest_c_serpent with priest_c "Ask {priest_c} whether there is an old band serpent in the shrine's loft" when knows(actor, church_serpent) and not serpentFound(actor) once {
+    Says "{priest_c} looks startled, then thoughtful, then goes up a ladder into the dust of the roof and comes down after some time with something black, coiled and cobwebbed in both arms, like a sleeping python. 'My grandfather played it,' {priest_c} says, 'at harvest. Very badly. They say the god sent the flood of that year to make him stop.' {priest_c} blows the dust off it. 'Take it. If it's for the old clown's circus, take it with the god's blessing and mine, and tell them it's the first time in sixty years it's done any good.'".
+    On discuss { Assert serpentFound(actor). Give old_serpent to actor. Assert knows(actor, serpent_handed). }
+  }
+  Relation serpentFound(group). Relation serpentGiven(group).
+  Kind band_serpent_kind "an old band serpent" is gear worth 3 weighing 3
+    described "A bass horn of black leather over wood, coiled like a snake three times on itself, with brass keys gone green and a mouthpiece like a little cup. Inside the bell somebody has carved: J.R. HIS SERPENT. HARVEST.".
+  Item old_serpent "the old serpent from the shrine loft" is band_serpent_kind at tober_a hidden until serpent_handed.
+  Discovery serpent_handed "{priest_c} has given you the shrine's old band serpent.".
+  Person snake "a grass snake" at tober_b {
+    Role "a little green grass snake with a yellow collar". Species snake. Peaceable. Pronouns it.
+  }
+  Initially Assert offstage(snake).
+  Rule snake_seen when offstage(snake) and knows(party, serpent_muddle) and not snakeCaught(wapshotts) { Retract offstage(snake). Assert at(snake, tober_b). }
+  Relation snakeCaught(concern).
+  Action catch_snake(actor: group, site: place) "Catch the grass snake in the pond reeds for the Colonel's menagerie" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(snake, site) and knows(actor, serpent_muddle) and not snakeCaught(wapshotts) and here(tober_b).
+    Resolve check(actor, woodcraft, dc_easy).
+    On success { Assert snakeCaught(wapshotts). Assert exhibit(snake). Assert travels(snake). Assert post(snake, rk_beasts). Increase draw(wapshotts) by 1. Increase exhibits(wapshotts) by 1. }
+    Result "You wade in among the geese, who object, and come out with a grass snake as long as your arm, green and yellow-collared, which pretends to be dead in your hands with great conviction, tongue out. When you carry it into the menagerie Billie looks at it and says, 'It'll go in a bucket.' The Colonel, sent for, looks at it for a long time. 'THE GREAT SERPENT OF {town_b},' he says reverently. 'In a bucket. Yes.'".
+    Otherwise "You wade in among the geese, who object, and the grass snake goes away through the reeds like a ribbon pulled through a ring.".
+  }
+  Observe snake_shown near snake when exhibit(snake) "In a bucket with a lid of wire netting, on a table draped in black velvet, under a board six feet long that says THE GREAT SERPENT OF {town_b}, a grass snake is asleep.".
+  Event serpent_to_fipps near fipps when keeps(fipps, old_serpent) "Fipps takes the old serpent in his arms as if it were a child brought home from a war. He cleans the mouthpiece on his waistcoat, and wets his lips, and blows; and down out of its black throat comes a note like a church organ that has swallowed a bull, round and huge and low, so low the cups rattle in the cookhouse. 'The G,' Fipps whispers. 'The low G.' Bucephalus, in the horse lines, lifts his head and neighs." then {
+    Assert serpentGiven(party). Assert bandWhole(wapshotts). Increase regard(fipps) by 3. }
+  Relation bandWhole(concern).
+  Rule band_better near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and bandWhole(wapshotts) and not bandToldTonight(wapshotts)
+    says "Under the horse's act, the band plays the Galop, and under the band, now, is the new serpent: a deep warm BUMP on every beat that you feel in the bench, and that Bucephalus, going round, seems to canter on." {
+    Assert bandToldTonight(wapshotts). Increase quality(wapshotts) by 1. }
+  Rule band_told_reset when bandToldTonight(wapshotts) and not showOn(wapshotts) { Retract bandToldTonight(wapshotts). }
+  Relation bandToldTonight(concern).
+}

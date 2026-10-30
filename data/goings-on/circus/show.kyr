@@ -1,0 +1,400 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── The show: every night of a stand at seven, in seven parts of twenty minutes ───────────────────────────────
+  // How full the benches are (the house, in coin) is the town's regard for the circus, the bills and the parade, the
+  // menagerie and the weather; how well it goes (its quality) is what has been put right or let go wrong behind the
+  // canvas. The takings go into the strongbox when it is over, and a good night raises the town's regard.
+  Relation showOn(concern). Measure act(concern). Measure actAt(concern). Measure showDay(concern).
+  Relation raining(concern). Relation strikeOn(concern). Relation admitted(group). Measure ticketDay(group).
+  Relation hand(group).
+  Kind actpart. Entity part_entry: actpart "the Grand Entry". Entity part_horse: actpart "Bucephalus". Entity part_quincey: actpart "the Brothers Quincey".
+  Entity part_ox: actpart "the Ox of Abernant". Entity part_clown: actpart "Mumchance". Entity part_wire: actpart "the Sylph". Entity part_close: actpart "the close".
+  Relation told(actpart). Relation sawAct(actpart). Measure incident(concern).
+  // An act told in full the first time the company sees it, and in brief after; and every night one thing that
+  // happens only that night.
+  Rule saw_act when told(?p) and at(party, ?r) and ringHere(?r) and not sawAct(?p) { Assert sawAct(?p). }
+  Query tonightGround(g: place) means pitched(wapshotts) and current(wapshotts, g).
+  Rule admit_ticket when ticketDay(party) == day(clock) and not admitted(party) { Assert admitted(party). }
+  Rule admit_hand when (hand(party) or booked(party, ?t)) and not admitted(party) { Assert admitted(party). }
+  Rule admit_ends when admitted(party) and not hand(party) and not booked(party, ?t) and ticketDay(party) < day(clock) { Retract admitted(party). }
+
+  Action buy_ticket(actor: group, site: place) "Buy a ticket for tonight's show from Ada, one coin" {
+    Speaker ada. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ada, site) and pitched(wapshotts) and not admitted(actor)
+      and quantity(actor, gold) >= 1 and hour(clock) >= 12 and hour(clock) < 21.
+    On success { Decrease quantity(actor, gold) by 1. Increase strongbox(wapshotts) by 1. Set ticketDay(actor) to day(clock). Assert admitted(actor). }
+    Result "Ada takes your coin, bites it, which is a joke, and tears a ticket off a roll: a square of pink card that says WAPSHOTT'S. ADMIT ONE. NO REFUNDS IN CASE OF ACTS OF GOD, FIRE, OR THE COLONEL. 'Doors at seven,' she says. 'Find a bench by the ring and stay put; it runs two hours, a turn every twenty minutes, and the wire's last.'".
+  }
+
+  // A rotten canvas, thrown at six: on a big top worn to one seam in three, a seam may go in the night wind.
+  Rule rain_falls when pitched(wapshotts) and hour(clock) == 18 and showDay(wapshotts) < day(clock) and not rainThrown(wapshotts) {
+    Assert rainThrown(wapshotts). }
+  Rule rain_wet when rainThrown(wapshotts) and not raining(wapshotts) and not rainSettled(wapshotts) and canvas(wapshotts) <= 1 and dice(wapshotts) <= 40 { Assert raining(wapshotts). Assert rainSettled(wapshotts). }
+  Rule rain_dry when rainThrown(wapshotts) and not rainSettled(wapshotts) { Assert rainSettled(wapshotts). }
+  Relation rainThrown(concern). Relation rainSettled(concern).
+  Rule seam_goes near ringpost when showOn(wapshotts) and act(wapshotts) == 3 and raining(wapshotts) and not seamTold(wapshotts)
+    says "Above the gallery a rotten seam of the big top gives way with a noise like a sail going, and the night wind comes in through the gap and blows half the lamps out; people under it get up, and some of them go home." { Assert seamTold(wapshotts). }
+  Relation seamTold(concern).
+
+  // ── The doors at seven ──────────────────────────────────────────────────────────────────────────────────────
+  Rule show_begins when tonightGround(?g) and hour(clock) >= 19 and hour(clock) < 20 and showDay(wapshotts) < day(clock) and not strikeOn(wapshotts) and not revelsNight() {
+    Assert showOn(wapshotts). Set showDay(wapshotts) to day(clock). Set act(wapshotts) to 1. Set actAt(wapshotts) to watch(clock).
+    Set house(wapshotts) to 2 + standing(?g) * 2. Set quality(wapshotts) to 0. Set incident(wapshotts) to dice(wapshotts). Retract told(part_entry). Retract told(part_horse). Retract told(part_quincey). Retract told(part_ox). Retract told(part_clown). Retract told(part_wire). Retract told(part_close). }
+  Rule show_struck near pole when tonightGround(?g) and hour(clock) >= 19 and showDay(wapshotts) < day(clock) and strikeOn(wapshotts) and not revelsNight()
+    says "There is no show tonight. The canvasmen are sitting on the grass with their arms folded, and the big top stands dark, and people come to the field gate and look at it and go away." {
+    Set showDay(wapshotts) to day(clock). Decrease standing(?g) by 1 or to nothing. }
+  Rule show_next when showOn(wapshotts) and watch(clock) >= actAt(wapshotts) + 2 and act(wapshotts) < 7 and not onTurn(party) {
+    Increase act(wapshotts) by 1. Set actAt(wapshotts) to watch(clock). }
+  // What brings people, or keeps them away, counted as the doors open.
+  Rule house_menagerie when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and menagerieOpen(wapshotts) {
+    Increase house(wapshotts) by draw(wapshotts). }
+  Rule house_wet when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and raining(wapshotts) and canvas(wapshotts) <= 1 {
+    Decrease house(wapshotts) by 4 or to nothing. Decrease quality(wapshotts) by 2. }
+  Rule house_rival when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and sallowPlaying(?g) and current(wapshotts, ?g) {
+    Decrease house(wapshotts) by 3 or to nothing. }
+  Rule house_bills_down when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and current(wapshotts, ?g) and billOf(?g, ?b) and state(?b, defaced) {
+    Decrease house(wapshotts) by 2 or to nothing. }
+  Rule ticket_collected near ada when showOn(wapshotts) and act(wapshotts) == 1 and at(party, ?r) and ringHere(?r) and not admitted(party) and quantity(party, gold) >= 1
+    says "Ada Thripp comes along the bench with her cash-box before the band has finished, and stops in front of you, and holds out her hand, and waits, and you find you have given her a coin." {
+    Decrease quantity(party, gold) by 1. Increase strongbox(wapshotts) by 1. Set ticketDay(party) to day(clock). Assert admitted(party). }
+
+  Observe house_full near ringpost when showOn(wapshotts) and at(ringpost, ?r) and house(wapshotts) >= 10 "Every bench is full, and people are standing at the back and sitting on the ring boards' edge, and children are being passed along the rows over heads like parcels.".
+  Observe house_fair near ringpost when showOn(wapshotts) and at(ringpost, ?r) and house(wapshotts) >= 6 and house(wapshotts) < 10 "The benches are well filled: farmers in their good coats, girls in threes, a row of boys who have got in under the side-wall and are pretending they paid.".
+  Observe house_thin near ringpost when showOn(wapshotts) and at(ringpost, ?r) and house(wapshotts) < 6 "The house is thin tonight: a few families on the front benches, a courting couple at the back, and a great deal of bare planking that the Colonel plays to as if it were full.".
+  // ── 1. The Grand Entry ─────────────────────────────────────────────────────────────────────────────────────
+  Rule entry_told near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and not musicSwapped(wapshotts) and not sawAct(part_entry)
+    says "The band crashes into the Grand Entry. The flap flies back and in they all come, at a canter, at a walk, on their hands: the Brothers Quincey turning cartwheels, Pip with a banner, the Ox of Abernant with a pony under each arm, the Sylph in silver standing on Bucephalus's back as if he were a floor, and last of all the Colonel, enormous in crimson, cracking a whip at nothing. 'LADIES,' he roars, 'AND GENTLEMEN, AND THOSE OF YOU WHO ARE NEITHER!' The benches roar back. It is impossible not to roar back." {
+    Assert told(part_entry). Increase quality(wapshotts) by 1. }
+  Rule entry_hymn near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and musicSwapped(wapshotts)
+    says "The band crashes into the Grand Entry, and it is a hymn. Fipps stares at the book on his stand, which is not his book, and goes on, because the band always goes on, and the whole company comes cantering into the ring to THE PENITENT'S LAMENT, slow, in a minor key, so that the Brothers Quincey cartwheel in like mourners and Bucephalus stops dead in the ring, swings his great head round, and looks at Fipps. The benches do not know whether to laugh. Some of them take their hats off." {
+    Assert told(part_entry). Decrease quality(wapshotts) by 1. Assert musicSpoiled(wapshotts). }
+  Rule entry_again near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and not told(part_entry) and not musicSwapped(wapshotts) and sawAct(part_entry)
+    says "The Grand Entry: the cartwheels, the banner, the Sylph standing on Bucephalus, the Colonel's roar. The benches roar back. They always do; you find you have roared too." {
+    Assert told(part_entry). Increase quality(wapshotts) by 1. }
+  Relation musicSwapped(concern). Relation musicSpoiled(concern).
+
+  // ── 2. Bucephalus at liberty ───────────────────────────────────────────────────────────────────────────────
+  Rule horse_told near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and not told(part_horse) and not sawAct(part_horse)
+    says "Then the ring is cleared, and Bucephalus comes in alone, with no bridle and no rider, and goes round at a slow, enormous, rocking canter, and when Billie Ostrander, at the ringside, lifts one finger he turns, and when she lifts two he kneels, and when the Colonel says 'And now, sir, bow to the noblest lady in the house,' he walks to the front bench and bows to a woman of ninety in a black bonnet, who bursts into tears." {
+    Assert told(part_horse). Increase quality(wapshotts) by 1. }
+
+  Rule horse_again near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and not told(part_horse) and sawAct(part_horse)
+    says "Bucephalus at liberty, rocking round the ring with nobody on him, turning at Billie's finger. Tonight he bows to a carter in the front row, who does not know where to look, and goes red to the hair." {
+    Assert told(part_horse). Increase quality(wapshotts) by 1. }
+
+  // ── 3. The Brothers Quincey ────────────────────────────────────────────────────────────────────────────────
+  Rule quincey_feud near ringpost when showOn(wapshotts) and act(wapshotts) == 3 and not told(part_quincey) and not feudMended(hal) and not dunstanGone(dunstan)
+    says "The Brothers Quincey tumble. They are very good, each of them, separately: but they tumble as if the other were not there, and when they come together for the pyramid, Hal on Dunstan's shoulders, Dunstan steps forward a fraction early out of pure spite, and Hal steps back a fraction late out of pure spite, and they come down together in a heap in the sawdust and get up not looking at each other. The house laughs. It thinks it is meant. Behind the curtain somebody swears." {
+    Assert told(part_quincey). }
+  Rule quincey_mended near ringpost when showOn(wapshotts) and act(wapshotts) == 3 and not told(part_quincey) and feudMended(hal)
+    says "The Brothers Quincey tumble together, and you see at once what they were for: two halves of one thing, a pair of hands that knows where the other hand is. Then, without a word, they stand back to back, and take hold, and go over: the Quincey Turn, each over the other at once, like a wheel rolling across the ring, four times, five, six. The house is on its feet before they land." {
+    Assert told(part_quincey). Increase quality(wapshotts) by 3. }
+  Rule quincey_alone near ringpost when showOn(wapshotts) and act(wapshotts) == 3 and not told(part_quincey) and dunstanGone(dunstan)
+    says "Hal Quincey tumbles alone. He is very good, and he is half of something, and you can see the shape of the half that is missing in every turn he makes." {
+    Assert told(part_quincey). Increase quality(wapshotts) by 1. }
+  Relation feudMended(group). Relation dunstanGone(group).
+
+  // ── 4. The Ox of Abernant ──────────────────────────────────────────────────────────────────────────────────
+  Rule ox_strong near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and larder(wapshotts) >= 1 and not sawAct(part_ox) and not honoriaAbed(honoria)
+    says "The Ox of Abernant comes in in a leopard-skin and a flowered bonnet, bends four horseshoes into a heart, tears a book of the Colonel's sermons in half to great applause, and then stands under a platform with Bucephalus on it, sets her shoulders, and lifts him clear of the ground, horse and platform and all, while he looks out over the house with an expression of profound boredom." {
+    Assert told(part_ox). Increase quality(wapshotts) by 1. }
+  Rule ox_again near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and larder(wapshotts) >= 1 and sawAct(part_ox) and not honoriaAbed(honoria)
+    says "The Ox of Abernant: horseshoes into hearts, the Colonel's sermons torn in half, and the horse lifted on his platform, looking out over the house as if waiting for a better offer." {
+    Assert told(part_ox). Increase quality(wapshotts) by 1. }
+  Rule ox_hungry near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and not told(part_ox) and larder(wapshotts) < 1 and not honoriaAbed(honoria)
+    says "The Ox of Abernant comes in and bends the horseshoes, and tears the book, and then goes under Bucephalus's platform, and sets her shoulders, and lifts him an inch, and holds him there with her face going purple, and sets him down. The house claps kindly. The circus has eaten nothing since yesterday but bread, and in the backyard everybody knows it." {
+    Assert told(part_ox). }
+
+  // ── 5. Mumchance, and whoever else goes on ──────────────────────────────────────────────────────────────────
+  Rule clown_told near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and not told(part_clown) and liniment(mumchance) and not sawAct(part_clown)
+    says "Then Mumchance. He comes in through the curtain carrying a ladder, very carefully, and puts it up against nothing, and climbs it. That is the whole act, in a way. He climbs a ladder that is leaning on nothing, and it does not fall, and then it does, slowly, and he goes with it, all the way down, and lands, and lies there, and lifts his head and looks at the ladder with such reproach that the whole house howls. He does not say a word. Somebody on the back bench is crying with laughter and saying 'Oh no, oh no' over and over." {
+    Assert told(part_clown). Increase quality(wapshotts) by 2. }
+  Rule clown_stiff near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and not told(part_clown) and not liniment(mumchance)
+    says "Then Mumchance, with his ladder that leans on nothing: he climbs a ladder that is leaning against nothing at all, and it stands, and then it doesn't, and he goes down with it. It is very funny. It is not quite what it could be: the fall, at the end, is a little careful, a little slow, as if the floor were further off than it used to be. The house laughs. Pip, at the curtain, is watching his knees." {
+    Assert told(part_clown). Increase quality(wapshotts) by 1. }
+  Rule clown_again near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and not told(part_clown) and liniment(mumchance) and sawAct(part_clown)
+    says "Mumchance and the ladder that leans on nothing. You know exactly what is going to happen, and it happens, and knowing does not help at all; the man next to you has seen it eleven times and is lying on the bench." {
+    Assert told(part_clown). Increase quality(wapshotts) by 2. }
+  Relation liniment(group). Measure linimentDay(group).
+
+  // ── 6. The Sylph of the Wire ───────────────────────────────────────────────────────────────────────────────
+  Rule wire_told near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and not told(part_wire) and not wireGreased(zephyrine)
+    and not walksForHer(zephyrine) and not sawAct(part_wire)
+    says "The lamps are lowered. A single light finds the wire, and on it, where nobody saw her climb, the Sylph: in silver, with a white parasol. She walks out over the ring. Halfway she stops, and sits down on the wire, as if on a garden wall, and takes off one slipper, and shakes a stone out of it, and puts it back on, and stands up. Nobody breathes. When she reaches the far platform the benches make a sound you have never heard people make, a sort of groan of relief." {
+    Assert told(part_wire). Increase quality(wapshotts) by 2. }
+  Rule wire_again near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and not told(part_wire) and not wireGreased(zephyrine) and not walksForHer(zephyrine) and sawAct(part_wire)
+    says "The lamps go down to one, and the Sylph walks out over the ring with her white parasol. Halfway, she sits on the wire as on a garden wall and shakes a stone out of her slipper. You know she will; the house knows she will; it holds its breath all the same, because the wire does not know." {
+    Assert told(part_wire). Increase quality(wapshotts) by 2. }
+  Rule wire_mother near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and not told(part_wire) and not wireGreased(zephyrine) and walksForHer(zephyrine)
+    says "The lamps are lowered and the Sylph is on the wire, in silver, with her parasol. Halfway across, where she always sits down, she does not sit down. She stops, and looks down at the back benches, and lifts the parasol a little, the way you would lift a hand to someone across a street. Then she goes on, and she is not walking the wire, she is dancing on it, as if it were a floor at a wedding. At the back a small woman in a tripe-dresser's apron is standing up, and nobody behind her minds." {
+    Assert told(part_wire). Increase quality(wapshotts) by 3. }
+  Rule wire_greased near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and not told(part_wire) and wireGreased(zephyrine)
+    says "The lamps are lowered and the Sylph steps out onto the wire, and her slipper goes from under her. For a moment she is falling. Then she has the wire in the crook of one knee, and hangs there, upside down, forty feet up, with her silver hair coming down, and the house screams. She gets up. She walks to the far platform very slowly and stands there with her hand flat on the pole. The house claps as if it had been meant. Behind the curtain, Lusk goes up the far pole with a lantern, and comes down with grease on his fingers, and smells it, and looks at nobody." {
+    Assert told(part_wire). Retract wireGreased(zephyrine). Assert wireSpoiled(zephyrine). Decrease quality(wapshotts) by 1. }
+  Relation wireGreased(group). Relation wireSpoiled(group). Relation walksForHer(group).
+
+  // ── What happens only tonight ─────────────────────────────────────────────────────────────────────────────
+  Rule incident_dog near ringpost when showOn(wapshotts) and act(wapshotts) == 4 and incident(wapshotts) <= 14 and not told(part_close) and not incidentTold(wapshotts)
+    says "Between acts a dog gets into the ring: a brown mongrel from the town, who trots once round the boards with great purpose, sits down in the exact centre, and scratches. Mumchance comes out of the curtain, looks at the dog, sits down beside it and scratches too. The dog leaves with him. The house will talk about nothing else." {
+    Assert incidentTold(wapshotts). Increase quality(wapshotts) by 1. }
+  Rule incident_drunk near ringpost when showOn(wapshotts) and act(wapshotts) == 3 and incident(wapshotts) >= 15 and incident(wapshotts) <= 28 and not incidentTold(wapshotts)
+    says "In the middle of the Quinceys a man from the benches climbs over the ring boards, very drunk, to show them how it is done. He does a cartwheel. It is not a good cartwheel. The Quinceys, without a word passing between them, pick him up by the elbows and throw him gently over their heads into the sawdust, and bow, and he bows too, and is carried off to the loudest cheer of his life." {
+    Assert incidentTold(wapshotts). }
+  Rule incident_lamps near ringpost when showOn(wapshotts) and act(wapshotts) == 6 and incident(wapshotts) >= 29 and incident(wapshotts) <= 42 and not incidentTold(wapshotts)
+    says "Halfway through the wire the lamps gutter in a draught and go down to blue; for a moment the Sylph is a grey shape over the dark. Then a light comes up from below: Pip, standing on the ring boards with a stable lantern held up over her head at the full stretch of her arm, holding it there, shaking, till the Sylph is home." {
+    Assert incidentTold(wapshotts). Increase quality(wapshotts) by 1. }
+  Rule incident_child near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and incident(wapshotts) >= 43 and incident(wapshotts) <= 56 and not incidentTold(wapshotts)
+    says "On the front bench a child of about four has gone to sleep against her father's arm, and stays asleep through the cannon of laughter that goes up at the ladder, and through the band, and through the Colonel. When the house goes quiet for the wire she wakes up, and says, very loud, into the silence: 'Is it finished?' and the whole tent laughs, tenderly, like one person." {
+    Assert incidentTold(wapshotts). }
+  Rule incident_goose near ringpost when showOn(wapshotts) and act(wapshotts) == 2 and incident(wapshotts) >= 57 and incident(wapshotts) <= 70 and not incidentTold(wapshotts)
+    says "A goose gets in under the side-wall and goes round the ring in front of Bucephalus, hissing at him the whole way. He does not alter his pace. At the end of the circuit he lowers his head and looks at it, from very close, and the goose remembers somewhere else it has to be." {
+    Assert incidentTold(wapshotts). }
+  Rule incident_proposal near ringpost when showOn(wapshotts) and act(wapshotts) == 7 and incident(wapshotts) >= 71 and incident(wapshotts) <= 82 and not incidentTold(wapshotts)
+    says "In the parade at the end a young man in the gallery stands up and shouts a girl's name, and then, into the silence, asks her to marry him. Every head turns. She says nothing for so long that the Colonel stops walking backwards. Then she says 'Go on, then,' and the band, which has never been at a loss in nineteen years, plays the Wedding March and the Galop at once." {
+    Assert incidentTold(wapshotts). }
+  Rule incident_reset when incidentTold(wapshotts) and not showOn(wapshotts) { Retract incidentTold(wapshotts). }
+  Relation incidentTold(concern).
+
+  // ── 7. The close, and the takings ──────────────────────────────────────────────────────────────────────────
+  Rule close_told near ringpost when showOn(wapshotts) and act(wapshotts) == 7 and not told(part_close)
+    says "The band plays the company out, and they go round the ring once more, bowing, waving, Pip cartwheeling, the Colonel walking backwards before them all with his hat held high, so that he falls over the ring boards at the very end, as he does every night, and gets the biggest laugh of the evening, which he has never once intended." {
+    Assert told(part_close). }
+  Rule takings when showOn(wapshotts) and act(wapshotts) == 7 and told(part_close) and current(wapshotts, ?g) {
+    Retract showOn(wapshotts). Increase strongbox(wapshotts) by house(wapshotts). Set takenTonight(wapshotts) to house(wapshotts). Increase nights(wapshotts) by 1.
+    Retract rainThrown(wapshotts). Retract rainSettled(wapshotts). Retract raining(wapshotts). Retract seamTold(wapshotts). Retract musicSwapped(wapshotts). Assert reckoned(wapshotts). }
+  Relation reckoned(concern).
+  Rule good_night when reckoned(wapshotts) and quality(wapshotts) >= 7 and current(wapshotts, ?g) and standing(?g) < 6 {
+    Retract reckoned(wapshotts). Increase standing(?g) by 1. Assert lastNightGood(wapshotts). }
+  Rule poor_night when reckoned(wapshotts) and quality(wapshotts) <= 3 and current(wapshotts, ?g) {
+    Retract reckoned(wapshotts). Decrease standing(?g) by 1 or to nothing. Retract lastNightGood(wapshotts). }
+  Rule fair_night when reckoned(wapshotts) { Retract reckoned(wapshotts). }
+  Relation lastNightGood(concern).
+  Rule takings_heard near ada when not showOn(wapshotts) and showDay(wapshotts) == day(clock) and hour(clock) >= 21 and at(party, ?r) and at(ada, ?r) and not takingsTold(wapshotts)
+    says "Ada counts the night's takings into the strongbox by lamplight, a coin at a time, her lips moving. '{takenTonight(wapshotts)},' she says. 'In the box, {strongbox(wapshotts)}.'" { Assert takingsTold(wapshotts). }
+  Relation takingsTold(concern).
+  Rule takings_told_reset when takingsTold(wapshotts) and showDay(wapshotts) < day(clock) { Retract takingsTold(wapshotts). }
+
+  // ── A turn of your own in the ring ─────────────────────────────────────────────────────────────────────────
+  // The Colonel books a turn once someone has auditioned at the morning's rehearsal; each kind of turn rests on
+  // what has been learned for it. How it goes depends on the check, what was got ready that day (rehearsed with the
+  // one who knows it, a costume fitted, a cue agreed with the band), the house (warm, wet, heckled) and what the
+  // one on the turn chooses to do in it.
+  Kind turnkind. Entity turn_clown: turnkind "a clown's turn with Mumchance". Entity turn_tumble: turnkind "a tumbling turn with the Brothers Quincey".
+  Entity turn_band: turnkind "a turn with the band". Entity turn_spiel: turnkind "a spiel from the ring, as the Colonel's second".
+  Relation canTurn(group, turnkind). Relation booked(group, turnkind) exclusive. Relation auditioned(group). Relation onTurn(group). Relation turnDone(group).
+  Measure prep(group). Measure turnScore(group). Measure renown(group). Measure rehearsedDay(group). Measure cuedDay(group). Measure turns(group).
+  Relation costumed(group).
+  Initially Assert canTurn(party, turn_spiel).
+
+  Topic wap_turn with wapshott "Ask the Colonel for a turn in the ring" when not auditioned(actor) once {
+    Says "The Colonel takes a step back and looks you over as if you were a horse at a fair. 'A turn,' he says. 'In my ring. Before the public.' He walks round you. 'Teeth good. Legs adequate. Face,' he tilts his head, 'memorable, in the right light.' He claps you on the back. 'Come to the morning rehearsal, between nine and noon, and show me what you can do. If you make me laugh, or gasp, or weep, you go on. If you make me yawn, you sweep.'".
+    On discuss { Assert knows(actor, audition_asked). }
+  }
+  Entity audition_asked: fact "Colonel Wapshott will give you a turn in his ring if you audition for him at a morning rehearsal, between nine and noon.".
+  Action audition(actor: group, site: place) "Audition for the Colonel in the ring" {
+    Speaker wapshott. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wapshott, site) and ringHere(site) and rehearsal() and knows(actor, audition_asked)
+      and not auditioned(actor) and not failedAudition(actor, wapshotts).
+    Resolve check(actor, performance, dc_easy).
+    On success { Assert auditioned(actor). Increase regard(wapshott) by 1. }
+    On failure { Assert failedAudition(actor, wapshotts). }
+    Result "You do what you can do, in the middle of the ring, with the Brothers Quincey stopping to watch from opposite ends and Pip sitting on a bucket. When you finish there is a silence. Then the Colonel takes out an enormous handkerchief and blows his nose. 'Tonight,' he says thickly. 'Tell me what you'll do, and I'll find you a place on the bill, after the Ox and before the wire, where a new face does best.' Pip claps until Mumchance looks at her.".
+    Otherwise "You do what you can do, in the middle of the ring. The Colonel watches you with the face of a man waiting for a coach that is late. 'Hm,' he says at the end. 'Hm. Come back tomorrow. Bring something else. Bring something more.'".
+  }
+  Relation failedAudition(group, concern).
+  Rule audition_again when failedAudition(party, wapshotts) and hour(clock) == 6 { Retract failedAudition(party, wapshotts). }
+
+  Topic book_clown with wapshott "Ask the Colonel to put you on tonight in a clown's turn with Mumchance" when auditioned(actor) and canTurn(actor, turn_clown) and not booked(actor, turn_clown) and not onTurn(actor) {
+    Says "'With Mumchance!' says the Colonel. 'The old and the new! The silence and the, ah, the rest. Done. After the Ox. Don't upstage him; he'll kill you without a word.'".
+    On discuss { Assert booked(actor, turn_clown). }
+  }
+  Topic book_tumble with wapshott "Ask the Colonel to put you on tonight tumbling with the Brothers Quincey" when auditioned(actor) and canTurn(actor, turn_tumble) and not booked(actor, turn_tumble) and not onTurn(actor) {
+    Says "'With the Quinceys,' says the Colonel, a little doubtfully. 'Well. If they are speaking to you, which is more than they are to each other. After the Ox.'".
+    On discuss { Assert booked(actor, turn_tumble). }
+  }
+  Topic book_band with wapshott "Ask the Colonel to put you on tonight with the band" when auditioned(actor) and canTurn(actor, turn_band) and not booked(actor, turn_band) and not onTurn(actor) {
+    Says "'A solo!' says the Colonel. 'With the band behind you, and the lamps down. Fipps will weep. Fipps weeps anyway. After the Ox.'".
+    On discuss { Assert booked(actor, turn_band). }
+  }
+  Topic book_spiel with wapshott "Ask the Colonel to let you give the spiel from the ring tonight, as his second" when auditioned(actor) and not booked(actor, turn_spiel) and not onTurn(actor) {
+    Says "'My second!' The Colonel looks moved and slightly alarmed. 'You will stand in the middle of the ring, after the Ox, and introduce the Sylph, and fill the minute while the wire is lit. The words are nothing. The words are everything. Don't say anything I wouldn't. That gives you,' he says generously, 'enormous scope.'".
+    On discuss { Assert booked(actor, turn_spiel). }
+  }
+  // Getting ready: each the same day, for the night.
+  Action rehearse_clown(actor: group, site: place) "Rehearse tonight's turn with Mumchance" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and booked(actor, turn_clown) and rehearsedDay(actor) < day(clock) and hour(clock) < 18.
+    On success { Set rehearsedDay(actor) to day(clock). Increase prep(actor) by 1. }
+    Result "An hour with Mumchance behind the canvas wagon, with a ladder and a bucket. He shows you nothing new. He makes you do the old thing nine times, and each time he moves your weight a finger's width, and the ninth time you feel the laugh arrive before you have finished doing it, like a dog that has heard its name.".
+  }
+  Action rehearse_tumble(actor: group, site: place) "Rehearse tonight's turn with the Brothers Quincey" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hal, site) and at(dunstan, site) and booked(actor, turn_tumble) and rehearsedDay(actor) < day(clock) and hour(clock) < 18.
+    On success { Set rehearsedDay(actor) to day(clock). Increase prep(actor) by 1. }
+    Result "An hour in the ring with the Quinceys, one at each end, both shouting at you instead of at each other, which turns out to be very good for your timing.".
+  }
+  Action rehearse_band(actor: group, site: place) "Rehearse tonight's turn with Fipps and the band" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fipps, site) and booked(actor, turn_band) and rehearsedDay(actor) < day(clock) and hour(clock) < 18.
+    On success { Set rehearsedDay(actor) to day(clock). Increase prep(actor) by 1. Set cuedDay(actor) to day(clock). }
+    Result "An hour with the band on the steps of the cookhouse wagon. Abel Rudd, who is deaf, watches your feet and comes in on the drum exactly when your heel comes down. Fipps conducts with a sausage.".
+  }
+  Action rehearse_spiel(actor: group, site: place) "Rehearse tonight's spiel with the Colonel" {
+    Speaker wapshott. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wapshott, site) and booked(actor, turn_spiel) and rehearsedDay(actor) < day(clock) and hour(clock) < 18.
+    On success { Set rehearsedDay(actor) to day(clock). Increase prep(actor) by 1. }
+    Result "An hour in the Colonel's wagon while he walks up and down declaiming and you walk up and down behind him declaiming the same thing slightly later. 'Breathe from the BOOTS,' he says. 'Say LADIES as if you mean it and GENTLEMEN as if you are not sure. Never say anything once that you can say three times.'".
+  }
+  Action cue_band(actor: group, site: place) "Agree with Fipps how the band will bring you on tonight" {
+    Speaker fipps. Time 2.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fipps, site) and (booked(actor, turn_clown) or booked(actor, turn_tumble) or booked(actor, turn_spiel))
+      and cuedDay(actor) < day(clock) and hour(clock) < 19.
+    On success { Set cuedDay(actor) to day(clock). Increase prep(actor) by 1. }
+    Result "'A roll on the drum,' says Fipps, 'and the cornet goes up, and I come in under with the serpent, BUMP, and that's you.' He hums it. 'Wait for the bump. Everything is in the bump.'".
+  }
+  Action fit_costume(actor: group, site: place) "Ask Hench to fit you with something to go on in" {
+    Speaker hench. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hench, site) and auditioned(actor) and not costumed(actor).
+    On success { Assert costumed(actor). Give motley to actor. Assert knows(actor, motley_given). }
+    Result "Hench measures you without asking, with the tape and his eyes, and goes into the wardrobe wagon, and comes out twenty minutes later with something over his arm: a jacket of patched silk in nine colours, the sleeves too long on purpose, the buttons as big as biscuits. 'Motley,' he says. 'It belonged to a man called Tumbling Ned Pye, who is dead, so he will not mind. It hangs right. Do not sweat in it.'".
+  }
+  Kind circus_motley_kind "a coat of motley" like mantle_of_charisma granting performance worth 4 weighing 1
+    described "A jacket of patched silk in nine colours, the sleeves too long on purpose, the buttons as big as biscuits. It once belonged to Tumbling Ned Pye.".
+  Item motley "a coat of motley" is circus_motley_kind at tober_a hidden until motley_given.
+  Discovery motley_given "Hench has given you a coat of motley to go on in.".
+  Query prepBonus(a: group) means costumed(a).
+
+  // Spangles: Hench must have the costumes whole by seven, and a second pair of hands in the afternoon helps.
+  Measure spangledDay(group). Relation spangled(concern).
+  Action help_hench(actor: group, site: place) "Help Hench sew the spangles back on the costumes before the show" {
+    Speaker hench. Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hench, site) and pitched(wapshotts) and hour(clock) >= 12 and hour(clock) < 19
+      and spangledDay(actor) < day(clock).
+    Resolve check(actor, mending, dc_easy).
+    On success { Set spangledDay(actor) to day(clock). Assert spangled(wapshotts). Increase regard(hench) by 1. }
+    On failure { Set spangledDay(actor) to day(clock). }
+    Result "An hour on the wardrobe wagon's steps with a lapful of the Sylph's bodice and a saucer of spangles, while Hench works through the Quinceys' jerseys beside you and tells you, without looking up, which margrave fainted at which wedding and why. At the end he holds your work up to the light, and says, 'Adequate.' He puts it on the rail with the others, which is where he puts the work he will not have to do again.".
+    Otherwise "An hour on the wardrobe wagon's steps with a lapful of spangles, and when you hold the bodice up half of them fall off again. Hench takes it from you very gently, as if from a child holding a knife.".
+  }
+  Rule spangles_shine near ringpost when showOn(wapshotts) and act(wapshotts) == 1 and spangled(wapshotts) and not spangleTold(wapshotts)
+    says "Every spangle on every costume in the Grand Entry is where it ought to be tonight, and under the lamps the whole company glitters like a shoal of fish; and somewhere at the back of the house a child says 'Oh' out loud." {
+    Assert spangleTold(wapshotts). Increase quality(wapshotts) by 1. }
+  Rule spangles_reset when spangleTold(wapshotts) and not showOn(wapshotts) { Retract spangleTold(wapshotts). Retract spangled(wapshotts). }
+  Relation spangleTold(concern).
+  // The turn comes after the Ox: the Colonel calls it, and the one booked must be in the ring.
+  Rule turn_called near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and told(part_clown) and booked(party, ?t) and not onTurn(party) and not turnDone(party)
+    and at(party, ?r) and ringHere(?r)
+    says "As Mumchance goes off, the Colonel steps into the middle of the ring. 'LADIES AND GENTLEMEN,' he roars, 'a NEW FACE. Never before seen in {town_a}, nor, I may say, anywhere. I give you,' and he points at you, and the light finds you, and the house goes quiet in the particular way of a house that has no idea what is about to happen, and waits for you to begin." {
+    Assert onTurn(party). Set turnScore(party) to prep(party). }
+  Rule turn_costume when onTurn(party) and costumed(party) and not turnCostumed(party) { Increase turnScore(party) by 1. Assert turnCostumed(party). }
+  Rule turn_cue when onTurn(party) and cuedDay(party) == day(clock) and not turnCued(party) { Increase turnScore(party) by 1. Assert turnCued(party). }
+  Rule turn_warm when onTurn(party) and quality(wapshotts) >= 4 and not turnWarm(party) { Increase turnScore(party) by 1. Assert turnWarm(party). }
+  Rule turn_wet when onTurn(party) and raining(wapshotts) and canvas(wapshotts) <= 1 and not turnWet(party) { Decrease turnScore(party) by 1 or to nothing. Assert turnWet(party). }
+  Relation turnCostumed(group). Relation turnCued(group). Relation turnWarm(group). Relation turnWet(group).
+  Rule turn_missed near ringpost when showOn(wapshotts) and act(wapshotts) == 5 and booked(party, ?t) and not onTurn(party) and not turnDone(party)
+    and not (at(party, ?r) and ringHere(?r))
+    says "The Colonel steps into the ring with his arms up to announce a new face, and looks round, and there is nobody there. He lowers his arms. 'Ah,' he says, and tells a joke about a man from {town_b} instead, which gets a smaller laugh than he deserves." {
+    Retract booked(party, ?t). Decrease regard(wapshott) by 1 or to nothing. }
+
+  // What the one on the turn does with it.
+  Action turn_safe(actor: group, site: place) "Do the turn as you rehearsed it, and get off" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and onTurn(actor) and not turnChosen(actor).
+    Resolve check(actor, performance, dc_easy).
+    On success { Assert turnChosen(actor). Increase turnScore(actor) by 2. }
+    On failure { Assert turnChosen(actor). }
+    Result "You do what you rehearsed, and you do it clean, and you feel the house take it, the way a pond takes a stone.".
+    Otherwise "You do what you rehearsed, and somewhere in the middle your body forgets the order of things, and you finish it anyhow.".
+  }
+  Action turn_bold(actor: group, site: place) "Go for the big finish" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and onTurn(actor) and not turnChosen(actor) and (booked(actor, turn_clown) or booked(actor, turn_tumble)).
+    Resolve check(actor, tumbling, dc_hard).
+    On success { Assert turnChosen(actor). Increase turnScore(actor) by 4. }
+    On failure { Assert turnChosen(actor). Decrease turnScore(actor) by 1 or to nothing. Assert turnFell(actor). }
+    Result "You go for it: the thing you have never once done right in rehearsal. And it comes off. You feel it come off in your spine before the house sees it, and then the house sees it.".
+    Otherwise "You go for it, the thing you have never once done right in rehearsal, and you do not do it right now, and the sawdust comes up and hits you in the face.".
+  }
+  Action turn_crowd(actor: group, site: place) "Throw away the rehearsal and play to the house" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and onTurn(actor) and not turnChosen(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert turnChosen(actor). Increase turnScore(actor) by 3. }
+    On failure { Assert turnChosen(actor). }
+    Result "You stop, and look at them, the whole curved wall of faces, and talk to the fat man in the front row as if he were the only person in {town_a}, and the house, which loves nothing better than seeing someone else picked on, takes you to its heart.".
+    Otherwise "You stop and look at them and say something to the fat man in the front row, and the fat man says something back, and it is funnier than yours.".
+  }
+  Action turn_bold_voice(actor: group, site: place) "Go for the big finish" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and onTurn(actor) and not turnChosen(actor) and (booked(actor, turn_band) or booked(actor, turn_spiel)).
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert turnChosen(actor). Increase turnScore(actor) by 4. }
+    On failure { Assert turnChosen(actor). Decrease turnScore(actor) by 1 or to nothing. }
+    Result "You go for it: the note, the line, the thing you have never once got to the end of. And you get to the end of it, and there is nothing in the big top for a moment but you.".
+    Otherwise "You go for it, the note, the line, and your voice goes up like a rocket and comes down like the stick.".
+  }
+  Relation turnChosen(group). Relation turnFell(group).
+  // A fall, for one who has learned the Fall, is half the joke: the get-up.
+  Rule turn_fall_saved near ringpost when onTurn(party) and turnFell(party) and fallLearned(party) and not fallSaved(party)
+    says "But you have learned the Fall. You lie in the sawdust for one beat, two, the length Mumchance taught you; and then you lift your head and look at the place you fell from as if it had insulted your mother, and the house, which was wincing, roars." {
+    Increase turnScore(party) by 3. Assert fallSaved(party). }
+  Relation fallSaved(group).
+  Rule turn_ends when onTurn(party) and turnChosen(party) and booked(party, ?t) {
+    Retract onTurn(party). Assert turnDone(party). Increase turns(party) by 1. Assert turnResult(party). }
+  Relation turnResult(group).
+  Rule turn_left_ring when onTurn(party) and not (at(party, ?r) and ringHere(?r)) and booked(party, ?t) {
+    Retract onTurn(party). Assert turnDone(party). Set turnScore(party) to 0. Assert turnResult(party). Assert turnChosen(party). }
+  Rule turn_timeout when onTurn(party) and not turnChosen(party) and watch(clock) >= actAt(wapshotts) + 6 {
+    Assert turnChosen(party). Set turnScore(party) to 0. }
+
+  // How it went, by the turn and the score: a triumph (six or more), a fair turn (three to five), or a flop.
+  Query triumph(a: group) means turnResult(a) and turnScore(a) >= 6.
+  Query fairTurn(a: group) means turnResult(a) and turnScore(a) >= 3 and turnScore(a) < 6.
+  Query flop(a: group) means turnResult(a) and turnScore(a) < 3.
+  Rule clown_triumph near ringpost when triumph(party) and booked(party, turn_clown)
+    says "Mumchance comes on behind you with his ladder, and for three minutes the two of you play the oldest joke there is: he is trying to climb the ladder and you are trying to help him, and every time you help him he falls off. On the last fall you catch him, and he looks at you, and you look at him, and the house, which has been laughing so hard it has gone quiet, makes a noise like a dam going. In the wings, Mumchance's face does not move. His eyes are wet." {
+    Assert turnPaid(party). }
+  Rule clown_fair near ringpost when fairTurn(party) and booked(party, turn_clown)
+    says "You and Mumchance play the ladder: he climbs, you help, he falls. It gets its laughs, honest ones. Afterwards Mumchance pats your shoulder once, which is a sentence in him." { Assert turnPaid(party). }
+  Rule clown_flop near ringpost when flop(party) and booked(party, turn_clown)
+    says "You and Mumchance play the ladder, and you are always half a beat behind him, so that he has to wait for you to fall over, and a clown who waits is not funny. He covers for you with a look at the house, a look that says: this is my nephew, he means well. They laugh at the look." { Assert turnPaid(party). }
+  Rule tumble_triumph near ringpost when triumph(party) and booked(party, turn_tumble)
+    says "You go round the ring with the Brothers Quincey, three of you, so fast the house cannot count you, and at the end, without anybody planning it, Hal and Dunstan throw you up between them and you come down on their shoulders, one foot on each, arms out, and for one second the two of them are holding the same thing and know it. The house comes down. In the curtain Hal looks at Dunstan and nearly says something." {
+    Assert turnPaid(party). Increase regard(hal) by 1. Increase regard(dunstan) by 1. }
+  Rule tumble_fair near ringpost when fairTurn(party) and booked(party, turn_tumble)
+    says "You tumble with the Quinceys: three cartwheels, a fall, a spring. Nobody is hurt and everyone claps. Dunstan says afterwards 'not bad' as if it cost him a tooth." { Assert turnPaid(party). }
+  Rule tumble_flop near ringpost when flop(party) and booked(party, turn_tumble)
+    says "You tumble with the Quinceys, and you land on Hal, and Hal lands on Dunstan, and for one moment the Brothers Quincey are in the same heap, nose to nose, and speak to each other for the first time in three weeks, and what they say cannot be repeated." { Assert turnPaid(party). }
+  Rule band_triumph near ringpost when triumph(party) and booked(party, turn_band)
+    says "The lamps go down to one and the band plays under you, and you give the big top everything you have, and Abel Rudd's drum comes in exactly when your heel comes down, and on the last note Fipps takes the serpent down to the low G it will not play, and it plays it, a great warm blare like a cow in love. The house stamps until the scaffolding sways. Fipps is in tears. Fipps is always in tears; these are different ones." {
+    Assert turnPaid(party). Increase regard(fipps) by 2. }
+  Rule band_fair near ringpost when fairTurn(party) and booked(party, turn_band)
+    says "You go on with the band behind you, and it is a good turn, warm and true; and the house sways along with it, and at the end the children on the front bench try to sing it back to you." { Assert turnPaid(party). Increase regard(fipps) by 1. }
+  Rule band_flop near ringpost when flop(party) and booked(party, turn_band)
+    says "You go on with the band, and the band goes on without you, a bar ahead and gaining, until you are chasing it round the ring like a man after a hat in a wind. Bucephalus, at the curtain, stops eating and stares at you with deep disapproval." { Assert turnPaid(party). }
+  Rule spiel_triumph near ringpost when triumph(party) and booked(party, turn_spiel)
+    says "You stand in the middle of the ring with the light on you and tell them about the Sylph, and you find you are telling them the truth, or the truth as it would be if the world were better arranged: a lady of the air, who has never once come down except to land. By the time the light finds the wire, the whole house is looking up as if it had been promised a comet. The Colonel, beside you, says 'Hm' in a new voice, and puts you on the bills." {
+    Assert turnPaid(party). Increase regard(wapshott) by 1. Increase regard(zephyrine) by 1. }
+  Rule spiel_fair near ringpost when fairTurn(party) and booked(party, turn_spiel)
+    says "You stand in the ring and give the spiel for the Sylph, and say LADIES as if you meant it, and the house listens, and looks up when you point." { Assert turnPaid(party). }
+  Rule spiel_flop near ringpost when flop(party) and booked(party, turn_spiel)
+    says "You stand in the ring and begin the spiel for the Sylph, and lose the thread, and find a different one, which is about a goose, and the house is very confused, and the Colonel rescues you with a roar of 'BUT ENOUGH!' that makes a baby cry." { Assert turnPaid(party). }
+  // What comes of it, for the town, the box, the company's name, and the next night.
+  Rule turn_paid_triumph when turnPaid(party) and triumph(party) and current(wapshotts, ?g) {
+    Increase standing(?g) by 1. Increase house(wapshotts) by 3. Increase renown(party) by 2. Increase quality(wapshotts) by 2. Increase regard(wapshott) by 1. Assert turnSettled(party). }
+  Rule turn_paid_fair when turnPaid(party) and fairTurn(party) {
+    Increase house(wapshotts) by 1. Increase renown(party) by 1. Increase quality(wapshotts) by 1. Assert turnSettled(party). }
+  Rule turn_paid_flop when turnPaid(party) and flop(party) { Assert turnSettled(party). }
+  Rule turn_settled when turnSettled(party) and booked(party, ?t) {
+    Retract turnSettled(party). Retract turnPaid(party). Retract turnResult(party). Retract booked(party, ?t). Retract turnChosen(party). Retract turnFell(party).
+    Retract fallSaved(party). Retract turnCostumed(party). Retract turnCued(party). Retract turnWarm(party). Retract turnWet(party). Set prep(party) to 0. }
+  Relation turnPaid(group). Relation turnSettled(group).
+  Rule turn_day_resets when turnDone(party) and hour(clock) == 6 { Retract turnDone(party). }
+  Rule prep_spoils when prep(party) >= 1 and hour(clock) == 23 and not booked(party, ?t) { Set prep(party) to 0. }
+  Observe bill_name near ?b when renown(party) >= 3 and billOf(?g, ?b) and state(?b, playing) "Somebody has pasted a strip across the foot of the bill, in fresh red: AND A NEW FACE, BY DEMAND.".
+  Topic wap_after with wapshott "Ask the Colonel what he thought of your turn" when turnDone(actor) once {
+    Says "'What I thought,' says the Colonel, 'is neither here nor there. What the house thought is in the box.' He pats your cheek, which you did not expect. 'You went on. Most people never go on. They stand at the back their whole lives with their mouths open. You went on.' He thinks. 'Next time breathe from the boots.'".
+  }
+  Topic mum_after with mumchance "Ask Mumchance what he thought of your turn" when turnDone(actor) once {
+    Says "Mumchance is taking off his face with lard and a rag. 'The house is not a wall,' he says. 'It is a person. A big, stupid, kind person with a thousand eyes, who wants you to be all right. If you fall, it wants you to get up. If you get up, it loves you. If you get up and look at the floor as if the floor had done it, it will follow you home.' He wipes off the mouth. 'Again tomorrow.'".
+  }
+}

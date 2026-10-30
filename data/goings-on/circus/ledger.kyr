@@ -1,0 +1,251 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── What the circus eats, owes and mends ───────────────────────────────────────────────────────────────────
+  // Each morning the larder goes down by a day; Honoria buys at her price when it runs low and the box will bear
+  // it. At every strike the wages are due, ten coin; unpaid twice, the canvasmen sit down and there is no show till
+  // they are paid. Every strike wears the canvas; it can be mended with Lusk.
+  Measure ateDay(concern). Measure mendedDay(group). Measure honoriaBought(concern). Relation lentColonel(group).
+  Rule larder_eaten when (pitched(wapshotts) or onRoad(wapshotts)) and hour(clock) >= 6 and ateDay(wapshotts) < day(clock) {
+    Set ateDay(wapshotts) to day(clock). Decrease larder(wapshotts) by 1 or to nothing. }
+  Rule larder_bought when pitched(wapshotts) and hour(clock) >= 9 and larder(wapshotts) < 2 and strongbox(wapshotts) >= 9 and honoriaBought(wapshotts) < day(clock) {
+    Set honoriaBought(wapshotts) to day(clock). Decrease strongbox(wapshotts) by 6. Increase larder(wapshotts) by 2. }
+  Rule wages_paid when onRoad(wapshotts) and hour(clock) < 14 and not wagesReckoned(wapshotts) and strongbox(wapshotts) >= 10 {
+    Assert wagesReckoned(wapshotts). Decrease strongbox(wapshotts) by 10. Set arrears(wapshotts) to 0. Retract strikeOn(wapshotts). }
+  Rule wages_owed when onRoad(wapshotts) and hour(clock) < 14 and not wagesReckoned(wapshotts) and strongbox(wapshotts) < 10 {
+    Assert wagesReckoned(wapshotts). Increase arrears(wapshotts) by 1. }
+  Rule hand_paid when onRoad(wapshotts) and wagesReckoned(wapshotts) and hand(party) and not handPaid(party) and strongbox(wapshotts) >= 2 {
+    Assert handPaid(party). Decrease strongbox(wapshotts) by 2. Increase quantity(party, gold) by 2. }
+  Rule wages_reset when pitched(wapshotts) and wagesReckoned(wapshotts) { Retract wagesReckoned(wapshotts). Retract handPaid(party). }
+  Relation wagesReckoned(concern). Relation handPaid(group).
+  Initially Assert wagesReckoned(wapshotts).
+  Rule canvasmen_sit when arrears(wapshotts) >= 2 and not strikeOn(wapshotts) and pitched(wapshotts) {
+    Assert strikeOn(wapshotts). }
+  Observe strike_seen near pole when strikeOn(wapshotts) and at(pole, ?r) "Lusk's canvasmen are sitting in a row on the grass in front of the big top with their arms folded and their caps over their eyes. A board leans against the ticket wagon, chalked in a large careful hand: NO PAY NO PLAY. Lusk is sitting at the end of the row, with them.".
+  Topic lusk_strike with lusk "Ask Lusk what it would take for the lads to play" when strikeOn(wapshotts) {
+    Says "'Two stands owed,' says Lusk. 'Twenty coin.' He looks at you, not unkindly. 'I'll not cross them. They're right. If somebody paid the arrears, we'd have the big top up and lit by seven, and not a word said.'".
+  }
+  Action pay_arrears(actor: group, site: place) "Pay Lusk's lads their arrears out of your own purse" {
+    Speaker lusk. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lusk, site) and strikeOn(wapshotts) and quantity(actor, gold) >= arrears(wapshotts) * 10.
+    On success { Decrease quantity(actor, gold) by arrears(wapshotts) * 10. Set arrears(wapshotts) to 0. Retract strikeOn(wapshotts). Increase regard(lusk) by 2. }
+    Result "Lusk counts it, carefully, twice, and divides it among eight caps on the grass. The lads stand up. One of them shakes your hand. Lusk says, 'Thank you.' It is the most anybody has heard from him since the spring.".
+  }
+  Action talk_lads_round(actor: group, site: place) "Talk Lusk's lads into playing tonight, on your word they will be paid at the Fair" {
+    Speaker lusk. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lusk, site) and strikeOn(wapshotts) and not talkedLads(actor).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Retract strikeOn(wapshotts). Set arrears(wapshotts) to 1. Assert talkedLads(actor). Assert promiseMade(lads_promise). }
+    On failure { Assert talkedLads(actor). }
+    Result "You talk to them, the eight of them in a row on the grass with their caps over their eyes, about the Fair, and the box, and the Colonel, and the house that is already queuing at the gate; and one by one the caps come up. 'On your word,' says Lusk at last. 'Not his. Yours.' They stand up.".
+    Otherwise "You talk to them, and they listen, politely, with their caps over their eyes, and at the end one of them says 'Very nice,' and they go on sitting.".
+  }
+  Relation talkedLads(group).
+  Promise lads_promise "to see Lusk's canvasmen paid what they are owed" to lusk
+    kept when arrears(wapshotts) < 1 and not strikeOn(wapshotts) and noteSettled(wapshotts) "Lusk nods to you across the backyard: the lads are paid."
+    broken when arrears(wapshotts) >= 2 "Lusk's lads are sitting on the grass again, and Lusk does not look at you." { Decrease regard(lusk) by 2 or to nothing. }.
+  Action pay_wages(actor: group, site: place) "Put ten coin of your own into the strongbox for the wages" {
+    Speaker ada. Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ada, site) and pitched(wapshotts) and quantity(actor, gold) >= 10.
+    On success { Decrease quantity(actor, gold) by 10. Increase strongbox(wapshotts) by 10. Increase regard(ada) by 1. Assert lentColonel(actor). }
+    Result "Ada looks at the coins, and at you, and writes in the ledger, in a column of its own, your name and the sum. 'That's a loan,' she says, 'whatever you say, and it'll be paid, whatever he says.'".
+  }
+
+  // A wheel off on the road: the wagons come in late, unless someone puts a shoulder to it.
+  Relation wheelOff(concern). Relation wheelThrown(concern).
+  Rule wheel_thrown when onRoad(wapshotts) and hour(clock) >= 8 and not wheelThrown(wapshotts) { Assert wheelThrown(wapshotts). }
+  Rule wheel_comes_off when wheelThrown(wapshotts) and onRoad(wapshotts) and not wheelOff(wapshotts) and not wheelSettled(wapshotts) and dice(clock) <= 20 + (2 - canvas(wapshotts)) * 15 {
+    Assert wheelOff(wapshotts). Assert wheelSettled(wapshotts). }
+  Rule wheel_holds when wheelThrown(wapshotts) and not wheelSettled(wapshotts) { Assert wheelSettled(wapshotts). }
+  Rule wheel_reset when pitched(wapshotts) and wheelThrown(wapshotts) { Retract wheelThrown(wapshotts). Retract wheelSettled(wapshotts). Retract wheelOff(wapshotts). }
+  Relation wheelSettled(concern).
+  Observe wheel_off near lusk when wheelOff(wapshotts) and onRoad(wapshotts) "Halfway along, the canvas wagon is down on one corner in the ditch with its near hind wheel off and lying in the road, and the whole circus is standing round it giving advice. Lusk is under the axle. Bucephalus has gone on alone for a quarter of a mile, and is waiting, with his back to everybody, like a man pretending not to know his family.".
+  Action wheel_on(actor: group, site: place) "Put your shoulder under the canvas wagon while Lusk gets the wheel back on" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lusk, site) and wheelOff(wapshotts) and onRoad(wapshotts).
+    Resolve check(actor, brawn, dc_fair).
+    On success { Retract wheelOff(wapshotts). Increase regard(lusk) by 1. }
+    Result "You get your shoulder under the tail of the wagon with three canvasmen and Honoria, who takes most of it, and heave, and the corner comes up out of the ditch an inch, two, and Lusk slides the wheel on and drives the pin home with the heel of his hand. A cheer. Bucephalus, a quarter of a mile off, turns round and comes back as if it had been his idea.".
+    Otherwise "You heave with the rest, and the wagon comes up an inch and goes down again on Lusk's thumb, and the language under the axle is something the circus will quote for years.".
+  }
+  Rule late_in near quirk when wheelOff(wapshotts) and onRoad(wapshotts) and hour(clock) >= 14 and hour(clock) < 18 and not lateTold(wapshotts)
+    says "Word comes along the road that Wapshott's will be late in: a wheel off the canvas wagon. There will be no parade today." { Assert lateTold(wapshotts). }
+  Relation lateTold(concern).
+  Rule late_reset when pitched(wapshotts) and lateTold(wapshotts) { Retract lateTold(wapshotts). Assert paraded(wapshotts). }
+  // Signing on, and riding with the wagons.
+  Topic ada_sign with ada "Sign Ada's book as a hand of the circus" when not hand(actor) once {
+    Says "Ada opens the book at a page with a great many names on it, some crossed out, one with a skull drawn beside it. 'Two coin a stand when there is any,' she says, 'board, a place under a wagon, and the right to be shouted at by everyone.' She hands you the pen. 'Sign there. Hands travel with the wagons. Tell Lusk if you're riding.' When you have signed, she blots it, and for a moment almost smiles. 'Welcome to Wapshott's. Don't lend him money.'".
+    On discuss { Assert hand(actor). Assert admitted(actor). }
+  }
+  Topic lusk_ride with lusk "Tell Lusk you will ride with the wagons when they go on" when hand(actor) and not riding(actor) {
+    Says "Lusk nods. 'Six,' he says. 'Sharp.' Then, after a while: 'Cookhouse wagon. Tail-board. Mind Honoria's feet.'".
+    On discuss { Assert riding(actor). }
+  }
+  Topic lusk_stay with lusk "Tell Lusk you will make your own way, this time, and not ride with the wagons" when riding(actor) {
+    Says "Lusk nods. 'Road's there,' he says, which seems to cover it.".
+    On discuss { Retract riding(actor). }
+  }
+  Rule riding_needs_hand when riding(party) and not hand(party) { Retract riding(party). }
+
+  // Buying the larder, cheaper than the Colonel does.
+  Relation sellsTo(place, group).
+  Initially Assert sellsTo(tober_a, merchant_a). Initially Assert sellsTo(tober_b, merchant_b). Initially Assert sellsTo(tober_c, merchant_c).
+  Measure haggledDay(group).
+  Action haggle_larder(actor: group, seller: group, site: place) "Talk {seller} down on flour, oats and bacon for the circus's larder, four coin" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(seller, site) and current(wapshotts, ?g) and sellsTo(?g, seller) and pitched(wapshotts)
+      and quantity(actor, gold) >= 4 and haggledDay(actor) < day(clock) and larder(wapshotts) < 8.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Decrease quantity(actor, gold) by 4. Increase quantity(seller, gold) by 4. Increase larder(wapshotts) by 3. Set haggledDay(actor) to day(clock). Increase regard(honoria) by 1. }
+    On failure { Decrease quantity(actor, gold) by 4. Increase quantity(seller, gold) by 4. Increase larder(wapshotts) by 1. Set haggledDay(actor) to day(clock). }
+    Result "You talk {seller} down from the price the Colonel always pays to the price anyone else would, and then a little further, for the circus's sake and the sake of the Ox's pie. Three days' flour, oats and bacon go up to the field in a handcart, and Honoria, when she sees it, kisses you on the top of the head.".
+    Otherwise "{seller} has met the Colonel, and knows a circus when one stands in the shop. You get a day's worth for four coin, and a look.".
+  }
+  Action give_rations(actor: group, site: place) "Give Honoria two of your own rations for the larder" {
+    Speaker honoria. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(honoria, site) and quantity(actor, rations) >= 2.
+    On success { Decrease quantity(actor, rations) by 2. Increase larder(wapshotts) by 1. Increase regard(honoria) by 1. }
+    Result "Honoria takes them as if they were a bunch of violets. 'That's thirty dinners' worth of soup,' she says, which cannot be true, and somehow is.".
+  }
+  // The canvas, mended a seam at a time.
+  Action mend_canvas(actor: group, site: place) "Climb up on the big top with Lusk and mend a rotten seam" {
+    Time 6.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lusk, site) and pitched(wapshotts) and freeHour() and canvas(wapshotts) < 3 and mendedDay(actor) < day(clock).
+    Resolve check(actor, mending, dc_fair).
+    On success { Increase canvas(wapshotts) by 1. Set mendedDay(actor) to day(clock). Increase regard(lusk) by 1. }
+    On failure { Set mendedDay(actor) to day(clock). }
+    Result "An hour up on the canvas of the big top, spread-eagled on the warm slope of it with the field below, sewing a seam with a palm and a needle as long as your hand while Lusk sews toward you from the other end. When your stitches meet his in the middle he looks at them, and then at you, and nods.".
+    Otherwise "An hour up on the canvas, and your stitches will not lie flat. Lusk comes along the seam behind you and takes them all out, without a word, and does them again.".
+  }
+  Action lend_colonel(actor: group, site: place) "Lend the Colonel ten coin, against the Fair" {
+    Speaker wapshott. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wapshott, site) and quantity(actor, gold) >= 10 and not lentColonel(actor) and metCircus(actor).
+    On success { Decrease quantity(actor, gold) by 10. Increase strongbox(wapshotts) by 10. Assert lentColonel(actor). Increase regard(wapshott) by 1. Decrease regard(ada) by 0. }
+    Result "The Colonel takes the coins as a bishop takes a relic, and kisses one, and gives them to Ada, who was standing behind him and did not want him to see her face. 'You will be repaid,' he says, 'TENFOLD.' Ada writes down: ten.".
+  }
+  Rule colonel_repays near ada when lentColonel(party) and at(party, ?r) and at(ada, ?r) and noteDischarged(wapshotts) and strongbox(wapshotts) >= 10 and not repaid(party)
+    says "Ada finds you before you have finished breakfast and counts ten coin into your hand, and then, after a moment, one more. 'From the Colonel,' she says. 'He said tenfold. I said one. We compromised.'" {
+    Assert repaid(party). Decrease strongbox(wapshotts) by 11. Increase quantity(party, gold) by 11. }
+  Relation repaid(group).
+
+  // ── The Brothers Quincey ───────────────────────────────────────────────────────────────────────────────────
+  Topic hench_quinceys with hench "Ask Hench about the Brothers Quincey's father" when knows(actor, father_quincey) once {
+    Says "'Barnaby Quincey,' says Hench, at once. 'Tumbler. Dead nine years. A good man and a very poor dresser.' He puts down his needle. 'When the Waggoner at Dunmere sold up, the Colonel bought the players' lumber in the loft for a song, and there was a Quincey trunk in it. It is in my wagon. Under the Margravine's second-best petticoat. The boys have never asked for it. I do not think they know it was saved.'".
+    On discuss { Assert knows(actor, quincey_trunk). }
+  }
+  Entity quincey_trunk: fact "Hench has the late Barnaby Quincey's trunk in the wardrobe wagon, bought with the lumber of the Waggoner's loft at Dunmere.".
+  Action search_trunk(actor: group, site: place) "Go through Barnaby Quincey's old trunk with Hench" {
+    Speaker hench. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hench, site) and knows(actor, quincey_trunk) and not knows(actor, wheel_bill).
+    On success { Assert knows(actor, wheel_bill). Give wheel_playbill to actor. Assert knows(actor, playbill_given). }
+    Result "Under the Margravine's second-best petticoat, a battered trunk with B.Q. on the lid: a pair of tights darned past darning, a wooden leg with a shoe on it, a bundle of letters to a Mrs Quincey, and a playbill, foxed and soft as cloth, from a fair at Marlow twenty-four years ago. MR BARNABY QUINCEY, it says, WILL PERFORM, FOR THE FIRST TIME BEFORE ANY PUBLIC, THE QUINCEY WHEEL, OF HIS OWN INVENTION, WITH MR TOBIAS GROAT. Beneath it, a woodcut: two men back to back, going over each other like the spokes of a wheel. Hench reads it over your shoulder. 'Twenty-four years,' he says. 'The boys are twenty-two.'".
+  }
+  Entity wheel_bill: fact "A playbill of twenty-four years ago shows the Quincey Wheel performed by Barnaby Quincey, of his own invention, before either of his sons was born.".
+  Kind quincey_bill_kind "Barnaby Quincey's old playbill" is gear worth 0 weighing 0
+    described "A foxed playbill from a fair at Marlow, twenty-four years old: MR BARNABY QUINCEY WILL PERFORM THE QUINCEY WHEEL, OF HIS OWN INVENTION. A woodcut of two men back to back, going over each other like the spokes of a wheel.".
+  Item wheel_playbill "Barnaby Quincey's old playbill" is quincey_bill_kind at tober_a hidden until playbill_given.
+  Discovery playbill_given "You have Barnaby Quincey's old playbill, from his trunk.".
+  Action show_brothers(actor: group, site: place) "Get both Quinceys together and show them their father's playbill" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hal, site) and at(dunstan, site) and holding(actor, quincey_bill_kind) and not feudMended(hal) and not dunstanGone(dunstan).
+    On success { Assert feudMended(hal). Increase regard(hal) by 2. Increase regard(dunstan) by 2. Increase regard(pip) by 1. }
+    Result "You put the playbill down on an upturned bucket between them, and stand back. Hal reads it. Dunstan reads it upside down, then goes round and reads it the right way up. Nobody says anything. Somewhere behind the canvas the band is tuning, badly. 'He dreamed it,' says Hal at last, hoarsely. 'He worked it out,' says Dunstan. 'On a slate.' They look at the woodcut, the two men going over each other like a wheel. 'He never said,' says Hal. 'He wanted us to think it was ours,' says Dunstan. And then, without anybody deciding, they are hitting each other, but it is mostly on the shoulders, and it turns into something else, and Pip, watching from the ring boards, bursts into tears and says she is not crying, she has sawdust in both eyes.".
+  }
+  Topic honoria_heads with honoria "Ask Honoria to bang the Quinceys' heads together, as their father would have" when knows(actor, father_quincey) and regard(honoria) >= 1 and not feudMended(hal) and not dunstanGone(dunstan) once {
+    Says "Honoria wipes her hands on her apron. 'Barnaby used to say that,' she says, 'and never did it, not once; he was too soft.' She goes into the ring, where the brothers are tumbling at opposite ends, takes one by each collar, lifts them off the ground, and brings their heads together, not hard, with a noise like two coconuts meeting at a fair. She sets them down. 'Your father,' she says, 'would be ashamed of the pair of you. Now kiss and be friends or I'll do it again.' They do not kiss. But that night, in the ring, they look at each other.".
+    On discuss { Assert feudMended(hal). Increase regard(pip) by 1. }
+  }
+
+  // ── The Sylph's mother ─────────────────────────────────────────────────────────────────────────────────────
+  Place tripe_lane_c "the lane behind the green" is room within town_c at 0, 2.
+  Passage tripe_way_c "the alley off the green" is path between green_c and tripe_lane_c taking 3 minutes.
+  Observe tripe_scene at tripe_lane_c when true "A narrow lane of whitewashed back-yards, wet cobbles, and a smell of boiling. In one yard a small woman with forearms like a navvy's is scraping tripe on a board under a lean-to, very fast, with a curved knife.".
+  Person pruett "Mrs Pruett" at tripe_lane_c {
+    Role "a tripe-dresser of the town". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "The small woman does not stop scraping. 'Tripe's a penny the pound,' she says, 'and honeycomb's twopence, and if you're from the shrine I've paid.' She looks up at you with very still grey eyes, which you have seen before, forty feet up.".
+  }
+  Rule pruett_to_show when here(tober_c) and showOn(wapshotts) and not at(pruett, ring_c) and not reunited(pruett) { Assert at(pruett, ring_c). }
+  Rule pruett_home when not showOn(wapshotts) and not at(pruett, tripe_lane_c) and not reunited(pruett) { Assert at(pruett, tripe_lane_c). }
+  Observe pruett_back near pruett when showOn(wapshotts) and at(pruett, ring_c) and knows(party, susan_pruett) "On the very back bench, in her apron, alone, sits Mrs Pruett from the tripe-lane, with her hands folded, watching the wire.".
+  Topic pruett_circus with pruett "Ask Mrs Pruett whether she goes to the circus" when true once {
+    Says "'Every night they're here,' says Mrs Pruett, scraping. 'Back bench. It's a penny well spent.' A pause. 'I like the wire-walker. She has my mother's ankles. My mother could stand on a gate.' The knife stops. 'That's all.' It starts again.".
+  }
+  Topic pruett_susan with pruett "Tell Mrs Pruett you know who the Sylph of the Wire is" when knows(actor, susan_pruett) and not reunited(pruett) once {
+    Says "Mrs Pruett puts down the knife. She wipes her hands on her apron, very thoroughly, one finger at a time. 'She went off at fifteen,' she says, 'with my good knife and a rope I'd had for the washing. Left a note. YOU WILL HEAR OF ME.' She almost laughs. 'And I did. On the bills. MADEMOISELLE.' She picks the knife up again and does not use it. 'She's never once come down the lane. Eight years. I'll not go up there to her. I'll not stand in a field like a tinker's dog and be told she has a headache.' Her voice does not change at all. 'You tell her, if she wants her mother, her mother's where she left her.'".
+    On discuss { Assert knows(actor, pruett_waits). }
+  }
+  Entity pruett_waits: fact "Mrs Pruett of the tripe-lane will not go up to the circus to her daughter, but says her daughter's mother is where she left her.".
+  Action persuade_pruett(actor: group, site: place) "Persuade Mrs Pruett to come round to the back of the big top after the show, just once" {
+    Speaker pruett. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pruett, site) and knows(actor, pruett_waits) and not reunited(pruett) and not triedPruett(actor) and here(tober_c).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert reunited(pruett). Assert walksForHer(zephyrine). Increase regard(zephyrine) by 2. Increase larder(wapshotts) by 2. }
+    On failure { Assert triedPruett(actor). }
+    Result "You do not tell her anything about her daughter she does not know. You tell her about the wire: that the Sylph sits down on it halfway, every night, and nobody in the house knows why, and you think you do. Mrs Pruett scrapes the same piece of tripe for a long while. Then she unties her apron. That night, when the house has gone, a small woman in her Sunday shawl comes round the back of the big top past the horse lines, with a parcel of tripe under her arm, and knocks on the steps of a blue wagon with stars on it; and the door opens, and nobody in the backyard looks, very carefully, for an hour.".
+    Otherwise "'No,' says Mrs Pruett. 'She knows where the lane is.'".
+  }
+  Relation triedPruett(group).
+  Topic zeph_mother with zephyrine "Tell Zéphyrine that her mother sits at the back every night, and is where she left her" when knows(actor, pruett_waits) and not reunited(pruett) once {
+    Says "The Sylph goes very white, and then very red, and her accent goes altogether. 'She comes?' says Susan Pruett of {town_c}. 'Every night? The old devil. The old devil. She never said a word.' She sits down on the wagon steps. 'I wrote her a letter every round for eight years and I tore them all up. I was going to come down the lane in a carriage. With a footman. And throw her a purse.' She laughs, and it comes out wrong. 'I haven't got a carriage. I haven't got a footman.' She puts her face in her hands. 'Will you walk down with me? I'll not get there on my own. I've walked over a river on a rope and I can't walk down that lane.'".
+    On discuss { Assert zephAsks(zephyrine). }
+  }
+  Relation zephAsks(group). Relation reunited(group).
+  Action walk_down_lane(actor: group, site: place) "Walk down the tripe-lane with Zéphyrine to her mother's yard" {
+    Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(zephyrine, site) and zephAsks(zephyrine) and here(tober_c) and not reunited(pruett) and not showOn(wapshotts).
+    On success { Assert reunited(pruett). Assert walksForHer(zephyrine). Assert at(actor, tripe_lane_c). Assert at(pruett, tripe_lane_c). Increase regard(zephyrine) by 3. Increase larder(wapshotts) by 2. }
+    Result "She walks down through {town_c} beside you in her silver wrap with her chin up, past people who know her and do not know her, into the lane; and at the yard gate she stops. Mrs Pruett is scraping tripe. She does not look up. 'You've not been eating,' she says. 'I can see your collar-bones from here.' 'Mother,' says the Sylph of the Wire. 'You'll want your knife back, I expect,' says Mrs Pruett, and puts hers down, and then the two of them are holding each other in a yard full of tripe, and neither of them says anything at all, and you go and look at a wall for a while. When you come back Mrs Pruett is wrapping a great parcel of tripe and honeycomb for the circus. 'Thirty of them,' she says, 'and the horse. Tripe's good for a horse.' It is not, but nobody says so.".
+  }
+  Topic zeph_after with zephyrine "Ask Zéphyrine how she does" when reunited(pruett) once {
+    Says "'I'm going to stay Zéphyrine,' says Susan Pruett. 'On the bills. Nobody pays a penny to see Susan.' She is mending a slipper and humming. 'She's coming to the Fair at {town_a}. She's never been further than the next parish. She says if I'm going to walk across a river on a rope she wants to be underneath with her apron out.' She bites the thread. 'Mind you, I still haven't got a steeple.'".
+  }
+
+  // ── Mumchance's knees ───────────────────────────────────────────────────────────────────────────────────────
+  Relation camphor(group).
+  Action buy_camphor(actor: group, seller: group, site: place) "Buy a twist of camphor from {seller} for Mumchance's liniment, two coin" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(seller, site) and current(wapshotts, ?g) and sellsTo(?g, seller) and knows(actor, knees_known)
+      and quantity(actor, gold) >= 2 and not camphor(actor).
+    On success { Decrease quantity(actor, gold) by 2. Increase quantity(seller, gold) by 2. Assert camphor(actor). }
+    Result "{seller} sells you a twist of camphor in blue paper. It smells like a winter cupboard.".
+  }
+  Action camphor_to_honoria(actor: group, site: place) "Give Honoria the camphor for Mumchance's liniment" {
+    Speaker honoria. Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(honoria, site) and camphor(actor).
+    On success { Retract camphor(actor). Assert liniment(mumchance). Set linimentDay(mumchance) to day(clock) + 4. Increase regard(honoria) by 1. Increase regard(mumchance) by 1. }
+    Result "Honoria takes the camphor and sniffs it and nods, and mixes it in a saucepan with goose-grease, turpentine and something from a brown bottle, and the backyard fills with a smell like a horse's funeral. She takes it to Mumchance in a jar. He rubs it on his knees, sitting on his bucket, without a word; and after a while he stands up, and bends, and straightens, and does a small, perfect, entirely unnecessary pratfall onto the grass, and lies there looking at the sky. 'Ah,' he says.".
+  }
+  Rule liniment_wears when liniment(mumchance) and day(clock) > linimentDay(mumchance) { Retract liniment(mumchance). }
+
+  // ── Lusk's Nell ────────────────────────────────────────────────────────────────────────────────────────────
+  Place aske_cottage_b "Mrs Aske's cottage" is room within town_b at 0, 2 indoors.
+  Passage aske_door_b "Mrs Aske's door" is door between green_b and aske_cottage_b.
+  Observe aske_scene at aske_cottage_b when true "A tidy cottage with a dresser of willow-pattern plates and a clock that ticks very loudly, as if keeping an eye on everyone.".
+  Person aske "Mrs Aske" at aske_cottage_b {
+    Role "a grandmother of the town". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A tall old woman with her hair in a tight grey knot looks up from a sampler. 'If you're from the circus,' she says, 'the answer is no.'".
+  }
+  Person nell "Nell" at aske_cottage_b {
+    Role "a girl of eight, Lusk's daughter". Ancestry human. Peaceable. Pronouns she.
+    Greets "A girl of eight with her father's enormous serious face, in miniature, is sitting under the table drawing a tent on a slate. 'Is my dad coming?' she says. 'Has he got the big top up? Is it the red one? It's always the red one.'".
+  }
+  Relation nellAtShow(group).
+  Action persuade_aske(actor: group, site: place) "Ask Mrs Aske to bring Nell to the circus tonight, to see her father's tent lit" {
+    Speaker aske. Time 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(aske, site) and knows(actor, nell_known) and here(tober_b) and not nellAtShow(nell) and not triedAske(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert nellAtShow(nell). }
+    On failure { Assert triedAske(actor). }
+    Result "You tell her about the canvas wagon, and the eight good lads, and the man who sews the big top seam by seam every morning and carries a child's drawing of it folded in his shirt. Mrs Aske goes on with her sampler, and the clock goes on with its ticking, and you count eleven ticks. 'Once,' she says at last. 'The back bench. And home by nine.' Under the table there is a sound like a kettle coming to the boil.".
+    Otherwise "'No,' says Mrs Aske. 'I know what a circus is. A circus is a thing that leaves.'".
+  }
+  Relation triedAske(group).
+  Rule nell_to_show when nellAtShow(nell) and showOn(wapshotts) and here(tober_b) and not nellSeen(nell) { Assert at(nell, ring_b). Assert at(aske, ring_b). Assert nellSeen(nell). }
+  Relation nellSeen(group).
+  Rule nell_seen near nell when nellSeen(nell) and showOn(wapshotts) and at(nell, ring_b) and not nellTold(nell)
+    says "On the back bench, very upright, sits Mrs Aske in her best bonnet, and beside her, standing on the bench, Nell, with her mouth open, looking up at the canvas her father put there. Down at the ring curtain, where the canvasmen stand to watch, a very large man has taken off his cap and is holding it in both hands." {
+    Assert nellTold(nell). Increase regard(lusk) by 3. }
+  Relation nellTold(group).
+  Rule nell_home when nellSeen(nell) and not showOn(wapshotts) and at(nell, ring_b) { Assert at(nell, aske_cottage_b). Assert at(aske, aske_cottage_b). }
+  Topic lusk_nell_thanks with lusk "Ask Lusk whether Nell liked the show" when nellTold(nell) once {
+    Says "Lusk does not answer for a while. Then he says, all at once, as if it had been waiting a long time behind his teeth: 'She said the red one was the best one, and she was right, and her gran held my hand at the gate, which she's not done since the funeral, and I'll sew your boots for you, or your coat, or anything you've got, for the rest of my life.' He stops. He looks quite frightened. 'That's a lot of words,' he says.".
+  }
+}

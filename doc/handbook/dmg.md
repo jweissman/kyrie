@@ -732,7 +732,7 @@ Something done that a company grows by (Milestone … worth … when …): achie
 
 *Kyr · kind* · `rule:world_core.difficulty`
 
-What a keeper of the deep fears that only its makers' own bane brings: the Stone-Singers' bell, the Wardens' oath. How hard a check is (Resolve check(actor, persuasion, dc_fair)): ten, thirteen, sixteen or nineteen to beat.
+What a keeper of the deep fears that only its makers' own bane brings: the Stone-Singers' bell, the Wardens' oath. The ring's two: going down and coming up unhurt, on the wire or off a ladder (tumbling); and holding a house with a voice, an instrument or a face (performance). How hard a check is (Resolve check(actor, persuasion, dc_fair)): ten, thirteen, sixteen or nineteen to beat.
 
 #### terrainkind, terrain
 
@@ -2203,17 +2203,6 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 > A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, the people the power acts through, and where it holds out (which the offer puts on the company's map); who offers the money, and what they want for it, is Deem's to propose.
 
-#### A raiders' hold
-
-*Kyr* · `kit:raider_hold`
-
-- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey))
-- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
-- Provides: 7 facts
-- Modules: 4
-
-> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
-
 #### A toll on a road
 
 *Kyr* · `kit:toll_road`
@@ -2224,6 +2213,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 - Modules: 2
 
 > A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
+
+#### A raiders' hold
+
+*Kyr* · `kit:raider_hold`
+
+- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey))
+- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
+- Provides: 7 facts
+- Modules: 4
+
+> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
 
 ### Frameworks
 

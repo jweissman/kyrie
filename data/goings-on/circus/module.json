@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "source": [
+    "circus.kyr",
+    "troupe.kyr",
+    "show.kyr",
+    "art.kyr",
+    "ledger.kyr",
+    "menagerie.kyr",
+    "acts.kyr",
+    "note.kyr",
+    "rest.kyr",
+    "progress.kyr",
+    "pells.kyr",
+    "art2.kyr",
+    "lives.kyr",
+    "marl.kyr",
+    "revels.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "town_a",
+    "green_a",
+    "keeper_a",
+    "priest_a",
+    "merchant_a",
+    "town_b",
+    "green_b",
+    "keeper_b",
+    "priest_b",
+    "merchant_b",
+    "town_c",
+    "green_c",
+    "keeper_c",
+    "priest_c",
+    "merchant_c",
+    "road_ab",
+    "road_bc",
+    "road_ca"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "town_a": {
+      "type": "place"
+    },
+    "green_a": {
+      "type": "place"
+    },
+    "keeper_a": {
+      "type": "group"
+    },
+    "priest_a": {
+      "type": "group"
+    },
+    "merchant_a": {
+      "type": "group"
+    },
+    "town_b": {
+      "type": "place"
+    },
+    "green_b": {
+      "type": "place"
+    },
+    "keeper_b": {
+      "type": "group"
+    },
+    "priest_b": {
+      "type": "group"
+    },
+    "merchant_b": {
+      "type": "group"
+    },
+    "town_c": {
+      "type": "place"
+    },
+    "green_c": {
+      "type": "place"
+    },
+    "keeper_c": {
+      "type": "group"
+    },
+    "priest_c": {
+      "type": "group"
+    },
+    "merchant_c": {
+      "type": "group"
+    },
+    "road_ab": {
+      "type": "place"
+    },
+    "road_bc": {
+      "type": "place"
+    },
+    "road_ca": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "heard_circus": "heard_circus"
+  },
+  "experience": 600
+}

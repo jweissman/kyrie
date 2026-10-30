@@ -23,6 +23,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity knell: capability "The singers' knell". Entity oath: capability "The Wardens' oath".
   Entity persuasion: capability "Persuasion". Entity deception: capability "Deception".
   Entity intimidation: capability "Intimidation". Entity insight: capability "Insight".
+  // The ring's two: going down and coming up unhurt, on the wire or off a ladder (tumbling); and holding a house
+  // with a voice, an instrument or a face (performance).
+  Entity tumbling: capability "Tumbling". Entity performance: capability "Performance".
   // How hard a check is (Resolve check(actor, persuasion, dc_fair)): ten, thirteen, sixteen or nineteen to beat.
   Kind difficulty. Entity dc_easy: difficulty "easy". Entity dc_fair: difficulty "fair".
   Entity dc_hard: difficulty "hard". Entity dc_formidable: difficulty "formidable".

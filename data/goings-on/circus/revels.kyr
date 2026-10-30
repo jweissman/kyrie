@@ -1,0 +1,326 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── The Revels at the King's Rest ──────────────────────────────────────────────────────────────────────────
+  // On the twelfth night after the letter, in the Revels Hall. The court comes at five; the masques begin at seven,
+  // a part every twenty minutes: the court seated; Pell's masque; Sallow's offering (if she is a rival); Wapshott's
+  // Triumph of Wonder, made of whatever the company has made possible; a mishap, which waits for someone to do
+  // something; the Dowager's laugh, or not; and the Steward's verdict at the end.
+  Measure masque(concern). Measure masqueAt(concern). Measure revelsScore(concern). Measure pellScore(concern). Measure sallowScore(concern).
+  Relation mishapOn(concern). Relation mishapDone(concern). Relation masqueTold(entity).
+  Relation hallRoofed(concern). Relation densFit(concern). Relation cloudMended(concern).
+  Relation warrantOurs(concern). Relation warrantFenwick(concern). Relation warrantPell(concern). Relation warrantSallow(concern).
+  Query rivalSallow() means not merged(wapshotts).
+  Chapter ch_revels "The Revels" when courtCome(wapshotts) and within(party, town_b) "Lamps in every empty window of the King's Rest for the first time in three hundred years. Carriages on the hill road, and a sedan chair with four men sweating under it, and the whole of {town_b} walking up behind in its Sunday clothes to stand in the Long Court and look. At the gatehouse, in a green velvet coat three centuries out of fashion, Jabez Orme bows to everyone, including a dog.".
+  Chapter ch_after "After the Revels" when revelsDone(wapshotts) and onRoad(wapshotts) "The wagons go down the hill road at six in the old order, Bucephalus first; and whatever was given or not given in the Revels Hall last night, the circus does what it has always done. It goes on round. Only, it is a little different now, and everyone in it knows how.".
+
+  Person steward "Dame Honorine Quarrendon" at tober_a {
+    Role "the Steward of the Household of the Progress". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A very small, very old woman in black silk with a white lace cap and a staff of office as tall as herself, topped with a little gilt wheel, looks at you with eyes like a hawk's. 'Quarrendon,' she says. 'Steward. Fifty-one years. This is the first time I have had anything to steward, and I find I am enjoying it a great deal more than is proper.' She taps the staff on the setts. 'You will be the person who found my great-nephew's ring. Or the person who did not. I have not yet decided which.'".
+  }
+  Person dowager "Her Serene Highness the Dowager Archduchess Ottilie" at tober_a {
+    Role "who is also a Margravine and a Princess of the Progress". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "A large old lady upholstered in purple, with a face like a pleased bulldog and a great many pearls, extends a hand to you: the left, which Hench says means today she is a Margravine. 'Well,' she says. 'A person from the circus. Do they really have a lion? I was promised a lion. I was promised a lion at my first wedding and it was a dog in a mane.'".
+  }
+  Initially Assert offstage(steward). Initially Assert offstage(dowager).
+  Rule court_comes when letterCome(wapshotts) and day(clock) == revelsDay(wapshotts) and hour(clock) >= 17 and not courtCome(wapshotts) {
+    Assert courtCome(wapshotts). Retract offstage(steward). Retract offstage(dowager). Assert at(steward, revels_hall). Assert at(dowager, revels_hall).
+    Retract offstage(fenwick). Assert at(fenwick, revels_hall). Assert away(fenwick). Assert at(jabez, revels_hall). Assert jabezBusy(jabez). }
+  Relation courtCome(concern).
+  Rule sallow_comes when courtCome(wapshotts) and rivalSallow() and offstage(sallow) and not sallowAtRevels(sallow) {
+    Assert sallowAtRevels(sallow). Retract offstage(sallow). Assert at(sallow, revels_hall). }
+  Relation sallowAtRevels(group).
+  Rule lion_with_sallow when courtCome(wapshotts) and rivalSallow() and offstage(neb) and not lionLent(neb) { Retract offstage(neb). Assert at(neb, revels_hall). }
+  Rule lion_with_us when courtCome(wapshotts) and rivalSallow() and offstage(neb) and lionLent(neb) { Retract offstage(neb). Assert at(neb, revels_hall). Assert lionHere(neb). }
+  Rule pruett_to_revels when courtCome(wapshotts) and reunited(pruett) and not at(pruett, revels_hall) and not revelsDone(wapshotts) { Assert at(pruett, revels_hall). }
+  Rule nell_to_revels when courtCome(wapshotts) and nellTold(nell) and not at(nell, revels_hall) and not revelsDone(wapshotts) { Assert at(nell, revels_hall). }
+  // The circus's own show does not play on the Revels night; the company goes into the Hall.
+  Rule revels_begin when courtCome(wapshotts) and hour(clock) >= 19 and not revelsOn(wapshotts) and not revelsDone(wapshotts) {
+    Assert revelsOn(wapshotts). Set masque(wapshotts) to 1. Set masqueAt(wapshotts) to watch(clock). Set revelsScore(wapshotts) to 0.
+    Set pellScore(wapshotts) to 9. Set sallowScore(wapshotts) to 8. }
+  Rule troupe_to_hall when revelsOn(wapshotts) and performer(?p) and not at(?p, revels_hall) and not away(?p) and not travelsWith(?p, party) { Assert at(?p, revels_hall). }
+  Relation revelsGoer(group).
+  Initially Assert revelsGoer(ada). Initially Assert revelsGoer(hench). Initially Assert revelsGoer(billie). Initially Assert revelsGoer(lusk).
+  Initially Assert revelsGoer(nance). Initially Assert revelsGoer(quirk). Initially Assert revelsGoer(tobias).
+  Rule company_to_hall when revelsOn(wapshotts) and revelsGoer(?p) and not offstage(?p) and not at(?p, revels_hall) and not away(?p) and not travelsWith(?p, party) { Assert at(?p, revels_hall). }
+  Rule masque_next when revelsOn(wapshotts) and watch(clock) >= masqueAt(wapshotts) + 2 and masque(wapshotts) < 7 and not (mishapOn(wapshotts) and not mishapDone(wapshotts)) {
+    Increase masque(wapshotts) by 1. Set masqueAt(wapshotts) to watch(clock). }
+
+  // ── The restoration: what the Rest needs to be fit for Revels ─────────────────────────────────────────────
+  Topic lusk_hall with lusk "Ask Lusk to roof the Revels Hall with canvas" when knows(actor, revels_wants) and not hallRoofed(wapshotts) once {
+    Says "Lusk goes up the hill on the dead afternoon with four of his lads and stands in the Revels Hall looking up at the ribs of the roof for a long time. 'Old side-wall,' he says. 'The black. And the spare from the cookhouse fly.' He looks at you. 'Canvas won't come back off. Not whole. The big top'll be thinner for it.' Then, because you are still there: 'Worth it.' By dark the Revels Hall has a roof of patched black canvas laced to its old timbers, and the rain, for the first time in three hundred years, has nowhere to fall.".
+    On discuss { Assert hallRoofed(wapshotts). Decrease canvas(wapshotts) by 1 or to nothing. Increase regard(lusk) by 1. }
+  }
+  Rule fenwick_roofs near jabez when fenwickSigned(wapshotts) and not hallRoofed(wapshotts) and day(clock) >= letterDay(wapshotts) + 6
+    says "Word comes down the hill: Sir Gervase's slaters from {town_b} have roofed the Revels Hall with real slate, in four days, at his expense, and are now complaining about the raven." {
+    Assert hallRoofed(wapshotts). }
+  Rule fenwick_glazes when fenwickSigned(wapshotts) and not warmGlazed(wapshotts) and day(clock) >= letterDay(wapshotts) + 7 { Assert warmGlazed(wapshotts). }
+  Topic billie_dens with billie "Ask Billie whether the old dens in the Beast Yard are fit for beasts" when knows(actor, revels_wants) and not densFit(wapshotts) once {
+    Says "Billie has been up to look, and her face is set. 'Built by a man who'd never seen a lion,' she says. 'Six feet by eight, for a beast that wants to walk a mile a day. You could keep a lion in one if you wanted it mad by Michaelmas.' She folds her arms. 'Knock every two into one. Take out the partition walls. Then they'll do, for a night, for anything we've got.' She looks at you. 'It's stone. It wants somebody strong.'".
+    On discuss { Assert knows(actor, dens_wanted). }
+  }
+  Entity dens_wanted: fact "Billie says the old dens of the Beast Yard must be knocked two into one, partition walls out, before they are fit for beasts; it wants somebody strong.".
+  Topic honoria_dens with honoria "Ask Honoria to help knock the partition walls out of the old dens" when knows(actor, dens_wanted) and not densFit(wapshotts) once {
+    Says "Honoria goes up the hill with a sledgehammer over her shoulder and her bonnet on, and the whole of {town_b} hears it: a long morning of thunder from the King's Rest, as if the Progress were coming back with artillery. At noon she comes down for her dinner with stone-dust in her eyebrows. 'Six walls,' she says. 'Lovely old stone. It went like cake.'".
+    On discuss { Assert densFit(wapshotts). Increase regard(billie) by 2. }
+  }
+  Action knock_dens(actor: group, site: place) "Take a sledgehammer to the partition walls of the old dens yourself" {
+    Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, beast_yard) and knows(actor, dens_wanted) and not densFit(wapshotts).
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert densFit(wapshotts). Increase regard(billie) by 2. }
+    Result "Two hours with a sledgehammer, and six partition walls come down in clouds of three-hundred-year-old dust, and the dens of the Beast Yard are suddenly rooms a lion could walk in. Billie comes and looks, and walks the length of one, slowly, and nods.".
+    Otherwise "Two hours with a sledgehammer, and you have made a dent in one wall and several in yourself.".
+  }
+  Action mend_cloud(actor: group, site: place) "Climb into the stage-rigging of the Revels Hall and mend the old cloud machine" {
+    Time 12.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, revels_hall) and knows(actor, revels_wants) and not cloudMended(wapshotts).
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert cloudMended(wapshotts). }
+    Result "You spend two hours in the rigging over the green stage, oiling three-hundred-year-old pulleys, replacing a chain, re-pegging the gilt sun to the back of the cloud; and when you let the windlass go, the great wooden cloud comes down out of the dark, slow and swaying and wonderful, and stops a foot above the stage. Jabez Orme, in the doorway, says 'Oh,' and has to sit down.".
+    Otherwise "Two hours in the rigging, and when you let the windlass go the cloud comes down very fast and stops with a bang a yard above the stage and swings there, creaking, like a hanged thing.".
+  }
+  Rule hob_mends_cloud at revels_hall when (hobInvited(ninepence) or hobJoined(ninepence)) and here(tober_r) and not cloudMended(wapshotts) and hour(clock) == 5
+    says "In the morning the cloud machine in the Revels Hall runs as sweetly as a mill-wheel, every pulley oiled, the chain renewed, the gilt sun polished; and there is a bowl of porridge on the stage steps, scraped clean." {
+    Assert cloudMended(wapshotts). }
+
+  // ── 1. The court seated ────────────────────────────────────────────────────────────────────────────────────
+  Rule m1_court at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 1 and not masqueTold(steward)
+    says "The Revels Hall is full: the court on chairs before the green stage, the Dowager in purple on a dais under a canopy of the Colonel's best curtain, the Steward beside her very upright on a stool with her staff; Sir Gervase at the end of the row with a notebook; the gallery packed with Pell's Comedians and Wapshott's and half of {town_b}. Jabez Orme stands at the door in green velvet with his broom, which he would not be parted from, held like a pike. Tobias Quarrendon, at the Steward's elbow, has a list in one hand and the other on the empty ribbon round his neck." {
+    Assert masqueTold(steward). }
+  Rule m1_ring at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 1 and sealBack(tobias) and not masqueTold(seal_ring)
+    says "On Tobias's thumb, where everyone can see it, the Household's great gold seal-ring catches the lamplight. The Steward glances at it, once, and her mouth does something small and dry." {
+    Assert masqueTold(seal_ring). Increase revelsScore(wapshotts) by 1. }
+  Rule m1_hench at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 1 and not henchOffered(hench)
+    says "As the court settles, the Dowager's lorgnette swings toward the back of the hall and stops. 'HENCH!' she cries, in a voice that silences the gallery. 'Lucius Hench! You dressed me for my second wedding! You put the pearls on backwards on purpose so I should not marry the man, and I did not, and I have always meant to thank you!' Hench, in the wings, bows to the floor. 'Come to me,' says the Dowager. 'I have a household of forty and nobody who knows which fork. Name your salary.'" {
+    Assert henchOffered(hench). }
+  Rule hench_stays at revels_hall when henchOffered(hench) and regard(hench) >= 2 and not henchStays(hench) and not henchGoes(hench)
+    says "Hench bows again. 'Your Serene Highness is too kind,' he says. 'But I dress a horse now. He has better posture than the Margrave, and he has never once asked me which fork.' The Dowager stares at him. Then she laughs, a great bark, the first of the night, and the whole hall is allowed to laugh after her." {
+    Assert henchStays(hench). Increase revelsScore(wapshotts) by 1. }
+  Rule hench_goes at revels_hall when henchOffered(hench) and regard(hench) < 2 and not henchStays(hench) and not henchGoes(hench)
+    says "Hench bows again, and this time does not straighten for a long moment. 'Your Serene Highness does me great honour,' he says. 'I accept.' Behind him in the wings the Quinceys look at each other. Nobody in the circus, it occurs to everyone at once, has ever asked Hench what he wanted." {
+    Assert henchGoes(hench). }
+  Action bow_dowager(actor: group, site: place) "Bow to Her Serene Highness, as Hench taught you" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, revels_hall) and revelsOn(wapshotts) and masque(wapshotts) <= 2 and courtTaught(actor) and not bowed(actor).
+    On success { Assert bowed(actor). Increase revelsScore(wapshotts) by 1. }
+    Result "You bow as if to a hatbox that owns a country, and the Dowager, who has been bowed to by experts for seventy years, raises one eyebrow by the width of a pearl, which Hench, in the wings, will later describe as an ovation.".
+  }
+  Action bow_dowager_blind(actor: group, site: place) "Bow to Her Serene Highness as best you can" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, revels_hall) and revelsOn(wapshotts) and masque(wapshotts) <= 2 and not courtTaught(actor) and not bowed(actor).
+    Resolve check(actor, insight, dc_hard).
+    On success { Assert bowed(actor). Increase revelsScore(wapshotts) by 1. }
+    On failure { Assert bowed(actor). Decrease revelsScore(wapshotts) by 1 or to nothing. }
+    Result "You watch who bows to whom, and how, and do what the Steward did; and it is, by luck, the right thing.".
+    Otherwise "You bow, with feeling, to the Steward's footman, who is very embarrassed.".
+  }
+  Relation bowed(group).
+
+  // ── 2. Pell's masque ───────────────────────────────────────────────────────────────────────────────────────
+  Rule m2_pells at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 2 and not masqueTold(augustus) and not clemencyFolly(clem_vane)
+    says "Pell's Comedians give THE MASQUE OF THE SEVEN VIRTUES, in verse, with fourteen musicians, and it is very fine. Augustus as Justice, in a gilt breastplate, speaks for eleven minutes without drawing breath. Clemency Vane as Mercy dies, beautifully, though nothing in the verse requires it. Mother Pell, in her bath-chair, is wheeled on as Time, and steals the masque in three lines, all in different voices. The court applauds properly. The Dowager does not laugh, because nothing was meant to be laughed at; she looks, if anything, a little hungry." {
+    Assert masqueTold(augustus). }
+  Rule m2_pells_kit at revels_hall when masqueTold(augustus) and kitJoins(kit) and not masqueTold(kit)
+    says "Pell's Prudence is played by the prompter, in Kit Darrow's costume, which does not fit him, and he dries twice." { Assert masqueTold(kit). Decrease pellScore(wapshotts) by 1. }
+  Rule m2_pells_no_clemency at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 2 and not masqueTold(augustus) and clemencyFolly(clem_vane)
+    says "Pell's Comedians give THE MASQUE OF THE SEVEN VIRTUES without their leading lady, who is, as the whole hall knows by now, in the other masque. Augustus as Justice speaks his eleven minutes to a Mercy played by the wardrobe-mistress, who has never been on a stage before and says so, twice. He goes on magnificently. Mother Pell, as Time, saves what can be saved. The court applauds with tremendous good manners." {
+    Assert masqueTold(augustus). Decrease pellScore(wapshotts) by 2. }
+
+  // ── 3. Sallow's offering, if she is a rival ────────────────────────────────────────────────────────────────
+  Rule m3_sallow at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 3 and rivalSallow() and sallowAtRevels(sallow) and not masqueTold(sallow)
+    says "Madame Sallow does not give a masque. She opens the great doors of the hall onto the lamplit Long Court and shows the court her twelve white horses, turning in a wheel on the swept setts, nose to tail, without riders, like a thing with one mind; and a sword-swallower in silver; and nothing else, because nothing else is needed. It is perfectly done. The Steward makes a note." {
+    Assert masqueTold(sallow). }
+  Rule m3_sallow_lion at revels_hall when masqueTold(sallow) and not lionLent(neb) and not masqueTold(neb)
+    says "Last of all a cage is drawn in on wheels, and in it lies the old blind lion, Nebuchadnezzar, of the line of the Inventory, who lifts his grey head toward the Dowager's voice. 'A LION,' says the Dowager. 'At last. Not a dog.'" { Assert masqueTold(neb). Increase sallowScore(wapshotts) by 1. }
+
+  // ── 4. The Triumph of Wonder ───────────────────────────────────────────────────────────────────────────────
+  Rule m4_overture_full at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 4 and bandWhole(wapshotts) and orchestraLent(augustus) and not masqueTold(fipps)
+    says "Wapshott's begins with the GRAND CIRCUS OVERTURE of Signor Cornelius Fipps, in four movements, for a band of twenty: Pell's fourteen musicians and Wapshott's three and Fipps on the shrine-loft serpent, conducting with his whole body. The Entry of the Horses. The Ascent. The Fall of the Clown. And the Apotheosis, which turns, as it was always meant to, on a single low G, round and huge and warm, so low the canvas roof shivers. Fipps finishes in tears. Augustus Pell, in the gallery, is applauding with his hands above his head, and does not seem to know it." {
+    Assert masqueTold(fipps). Increase revelsScore(wapshotts) by 2. }
+  Rule m4_overture_band at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 4 and not masqueTold(fipps) and not (bandWhole(wapshotts) and orchestraLent(augustus))
+    says "Wapshott's begins with the band: a cornet, a drum, and Signor Fipps on the serpent, playing the Grand Entry with the brave thinness of three people where twenty were written for." {
+    Assert masqueTold(fipps). }
+  Rule m4_procession at revels_hall when masqueTold(fipps) and masque(wapshotts) == 4 and not masqueTold(wapshott)
+    says "Then the Colonel, in crimson, with the Steward's own copy of the Inventory open in his hands, calls the Menagerie Royal into the Revels Hall, line by line, for the first time in three hundred years; and Jabez Orme, at the door, reads the old names with him, under his breath." {
+    Assert masqueTold(wapshott). }
+  Rule inv_bishop_home at revels_hall when masqueTold(wapshott) and bishopAtRest(methuselah) and not masqueTold(methuselah)
+    says "THE BISHOP. And the old tortoise walks out of his own den in the Beast Yard, where he has lived for nine days now, at the pace of the hour hand, with Jabez walking beside him holding a cabbage; and the whole hall waits for him, in silence, for most of a minute, and nobody minds. The Steward rises from her stool." {
+    Assert masqueTold(methuselah). Increase revelsScore(wapshotts) by 3. }
+  Rule inv_bishop_ours at revels_hall when masqueTold(wapshott) and exhibit(methuselah) and not bishopAtRest(methuselah) and not masqueTold(methuselah)
+    says "THE BISHOP. The great tortoise is led in on a cabbage, and the Steward leans forward and reads the crowned wheel on his shell, and looks at the Colonel, and says nothing." {
+    Assert masqueTold(methuselah). Increase revelsScore(wapshotts) by 1. }
+  Rule inv_lion at revels_hall when masqueTold(wapshott) and lionHere(neb) and not masqueTold(neb)
+    says "A LION OF BARBARY, OF THE LINE OF NEBUCHADNEZZAR. And the old blind lion walks the length of the hall on no chain at all, very slowly, with Billie Ostrander's hand on his mane, and lies down at the foot of the Dowager's dais and puts his chin on his paws. 'A lion,' says the Dowager, quite softly. 'At last.'" {
+    Assert masqueTold(neb). Increase revelsScore(wapshotts) by 2. }
+  Rule inv_glimmer_kept at revels_hall when masqueTold(wapshott) and exhibit(glimmer) and not masqueTold(glimmer)
+    says "THE GLIMMER, A FOX OF THE FENS THAT BURNETH COLD. The lamps are lowered, and in the dark a small pale fox walks along the edge of the stage with her brush alight, and the green boards whiten where she steps." {
+    Assert masqueTold(glimmer). Increase revelsScore(wapshotts) by 1. }
+  Rule inv_glimmer_free at revels_hall when masqueTold(wapshott) and not exhibit(glimmer) and (foxFreed(party) or foxPainted(wapshotts)) and not masqueTold(glimmer)
+    says "THE GLIMMER, A FOX OF THE FENS THAT BURNETH COLD. The Colonel lowers the book. 'Gone back to the fen,' he says, 'as the margin says. We could have brought her. We did not.' And Ada, from the wings, reads aloud in a clear voice the account of a fox taking moths out of the air like grapes, and the frost-line on the summer grass; and the Steward, who did not expect to be moved by a fox that is not there, is." {
+    Assert masqueTold(glimmer). Increase revelsScore(wapshotts) by 2. }
+  Rule inv_hob at revels_hall when masqueTold(wapshott) and (hobJoined(ninepence) or hobInvited(ninepence)) and not masqueTold(ninepence)
+    says "A HOB OF THE KITCHEN, IN SERVICE, NOT TO BE THANKED. Nothing comes in. But every candle in the Revels Hall, three hundred of them, lights itself at once, in a ripple from the door to the dais, and the Dowager's cup, which was empty, is full; and nobody in the hall says thank you, because Jabez Orme, at the door, has his finger to his lips." {
+    Assert masqueTold(ninepence). Increase revelsScore(wapshotts) by 2. }
+  Rule inv_bears at revels_hall when masqueTold(wapshott) and exhibit(bramble) and welfare(wapshotts) >= 2 and not masqueTold(bramble)
+    says "TWO BEARES OF THE OWLE KIND, VERY SAVAGE. 'One,' says the Colonel. 'Granddaughter of the two.' And Bramble comes in on a long chain with honey on Billie's hands, and looks at the court with her round astonished face, and hoots, and the Dowager hoots back, and that is that." {
+    Assert masqueTold(bramble). Increase revelsScore(wapshotts) by 1. }
+  Rule inv_salamanders at revels_hall when masqueTold(wapshott) and (warmGlazed(wapshotts) or salamanderTaken(wapshotts)) and not masqueTold(salamanders)
+    says "SALAMANDERS OF THE WARME-HOUSE. And on a brass tray carried in by Pip, a salamander on a hot stone, glowing orange in the dim hall like a coal from the King's own grate." {
+    Assert masqueTold(salamanders). Increase revelsScore(wapshotts) by 1. }
+  Rule inv_basilisk at revels_hall when masqueTold(wapshott) and exhibit(roderick) and basiliskHonest(wapshotts) and not masqueTold(roderick)
+    says "And, not in the Inventory at all, the Colonel adds, with a bow: SIR RODERICK, A COCKEREL OF UNCOMMON MALICE, WHO BELIEVES HIMSELF A BASILISK. Sir Roderick is carried in by Pip, sees the Dowager's pearls, and flies at them. The Dowager catches him in both hands, and holds him up, and looks into his furious little eye, and laughs until the dais shakes." {
+    Assert masqueTold(roderick). Increase revelsScore(wapshotts) by 1. }
+  Rule inv_leg at revels_hall when masqueTold(wapshott) and legLent(priest_c) and not masqueTold(priest_c)
+    says "THE LEGGE OF THE GREAT WORME. The great bone is carried in on a hurdle by four diggers from {town_c}, with the children who bring it flowers walking beside it, and laid on the stage; and the hall goes quiet in a different way." {
+    Assert masqueTold(priest_c). Increase revelsScore(wapshotts) by 1. }
+  Rule inv_claw at revels_hall when masqueTold(wapshott) and clawToColonel(wapshott) and not masqueTold(great_claw)
+    says "And then the Colonel lifts, in both hands, something that was not in the Inventory: a black claw as long as a scythe, from the marl where the King's diggers stopped; and he does not say anything about it at all, which is the most frightening thing he has ever done. Sir Gervase, at the end of the row, stands up without knowing he has." {
+    Assert masqueTold(great_claw). Increase revelsScore(wapshotts) by 1. }
+  // The players of the Triumph.
+  Rule m5_folly at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 5 and clemencyFolly(clem_vane) and not masqueTold(clem_vane)
+    says "Into the Triumph of Wonder comes FOLLY, with a fan and a ladder: Clemency Vane of the Theatre Royal, who has not been allowed to be funny in twenty years. She climbs Mumchance's ladder, which leans on nothing, halfway, and stops, and sits down on a rung in the middle of everything, and fans herself, and looks at the court. The court looks back. And in the gallery, among Pell's Comedians, there is a sound nobody in that company has ever heard: Augustus Pell, laughing out loud." {
+    Assert masqueTold(clem_vane). Increase revelsScore(wapshotts) by 2. }
+  Rule m5_pip_kit at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 5 and pipReady(pip) and kitJoins(kit) and not travelsWith(pip, party) and not masqueTold(pip)
+    says "Then Pip, with Kit Darrow: the first entrée either of them ever made, three minutes. She falls off a barrel; he falls off a barrel like a cupboard; they get up, and look at the barrel, and decide to forgive it, together, and go to shake its hand, and it rolls away, and they chase it out of the hall arm in arm. Mumchance, in the wings, has his eyes shut." {
+    Assert masqueTold(pip). Increase revelsScore(wapshotts) by 2. }
+  Rule m5_pip at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 5 and pipReady(pip) and not kitJoins(kit) and not travelsWith(pip, party) and not masqueTold(pip)
+    says "Then Pip, alone, in her first entrée: three minutes. She falls off a barrel, and gets up, and looks at the barrel, and decides to forgive it, and goes to shake its hand, and it rolls away. The Dowager laughs. Pip, who has heard the Dowager laugh, stops dead, and turns pink to the hair, and has to be fetched off." {
+    Assert masqueTold(pip). Increase revelsScore(wapshotts) by 1. }
+  Rule m5_ladder_two at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 5 and partnered(party) and partnerRehearsed(party) and at(party, revels_hall) and not masqueTold(mumchance)
+    says "Then Mumchance comes out with his ladder, and you come out after him; and for four minutes, in front of the Household of the Progress, you play the ladder for two that he has waited forty years to play. He climbs; you help; he falls; and every time, your help is a foot to the left of where it was needed, and every time he looks at you from the floor with forty years of patience. On the last fall you do not catch him, exactly as rehearsed, and he lies there, and the hall waits; and you look down at him, and he looks up at you, and in the gallery Mother Pell says, in his voice, very softly, 'Again.' The court does not wait for the Dowager. Nobody could have." {
+    Assert masqueTold(mumchance). Increase revelsScore(wapshotts) by 4. }
+  Rule m5_ladder_alone at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 5 and not (partnered(party) and partnerRehearsed(party) and at(party, revels_hall)) and not masqueTold(mumchance)
+    says "Then Mumchance and his ladder that leans on nothing, before the Household of the Progress. It is the old act, done perfectly, by an old man on old knees; and it is very funny, and you can see, if you know where to look, the place in it where a second person ought to be." {
+    Assert masqueTold(mumchance). Increase revelsScore(wapshotts) by 1. }
+  Rule m5_ascension at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 5 and ascensionRigged(wapshotts) and not masqueTold(zephyrine)
+    says "Then the great doors of the hall are thrown open on the Long Court, and the whole Revels goes out under the sky, the Dowager on her dais carried by six canvasmen; and high up on the gatehouse tower, in silver, with a white parasol, is the Sylph. She steps out onto a wire nobody can see, over half a furlong of lamplit stone, with three hundred faces turned up; and walks it, the Ascension, all the way, without sitting down once." {
+    Assert masqueTold(zephyrine). Increase revelsScore(wapshotts) by 3. }
+  Rule m5_ascension_mother at revels_hall when masqueTold(zephyrine) and ascensionRigged(wapshotts) and reunited(pruett) and not masqueTold(pruett)
+    says "Directly under the middle of the wire, in her Sunday shawl, with her apron held out in both hands as if to catch her, stands a small woman from the tripe-lane of {town_c}; and when the Sylph comes down off the mounting-block at the far end, it is into the apron she comes, and the court, which does not understand at all, applauds that most of all." {
+    Assert masqueTold(pruett). Increase revelsScore(wapshotts) by 1. }
+
+  // ── 5. Something goes wrong ────────────────────────────────────────────────────────────────────────────────
+  Relation mishapRaven(concern). Relation mishapCloud(concern). Relation mishapColonel(concern).
+  Rule m6_raven at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 6 and not mishapOn(wapshotts) and not mishapDone(wapshotts) and regard(tom) < 1
+    says "In the middle of the Colonel's closing speech there is a black flicker under the canvas roof, and a sound like a door creaking, and Old Tom the raven drops out of the dark, takes the Dowager's tiara clean off her head, and goes up into the rigging with it, saying, distinctly, in Jabez's voice: 'MAKE WAY FOR THE KING.' The hall freezes. The Dowager sits bareheaded under her canopy with her mouth open. The Colonel has stopped speaking. Everybody looks at everybody else." {
+    Assert mishapOn(wapshotts). Assert mishapRaven(wapshotts). }
+  Rule m6_cloud at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 6 and not mishapOn(wapshotts) and not mishapDone(wapshotts) and regard(tom) >= 1 and not cloudMended(wapshotts)
+    says "For the end of the Triumph the Colonel has himself lowered from the flies in the old cloud machine, as WONDER, in gold, with the gilt sun behind him. It comes down two feet, and jams, with a bang, and hangs tilted, the Colonel clinging to the edge of a wooden cloud ten feet above the stage with his crown over one eye. The hall freezes. Nobody laughs; the Dowager has not. The cloud creaks." {
+    Assert mishapOn(wapshotts). Assert mishapCloud(wapshotts). }
+  Rule m6_colonel at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 6 and not mishapOn(wapshotts) and not mishapDone(wapshotts) and regard(tom) >= 1 and cloudMended(wapshotts)
+    says "The cloud comes down beautifully, and the Colonel steps off it as WONDER, in gold, and opens his mouth for the closing speech; and stops. He has forgotten it. All of it. He stands in front of the Household of the Progress with his mouth open and his crown on, and nothing whatsoever comes. The hall freezes. In the wings Ada has the speech in her hand and cannot reach him." {
+    Assert mishapOn(wapshotts). Assert mishapColonel(wapshotts). }
+  Action improvise(actor: group, site: place) "Go out on the stage and make whatever has gone wrong part of the masque" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, revels_hall) and mishapOn(wapshotts) and not mishapDone(wapshotts).
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert mishapDone(wapshotts). Increase revelsScore(wapshotts) by 2. }
+    On failure { Assert mishapDone(wapshotts). Decrease revelsScore(wapshotts) by 1 or to nothing. }
+    Result "You walk out onto the stage as if it had all been rehearsed, and announce it, in a voice you did not know you had, as the Masque's last Virtue: SURPRISE. And because you said it, it is. The court, relieved beyond words to be told what it is looking at, applauds.".
+    Otherwise "You walk out onto the stage and say something, and it is the wrong thing, and the silence after it is longer than the silence before.".
+  }
+  Action give_it_back(actor: group, site: place) "Give it back: answer the mishap with the Echo or the mirror-door, as Pell and Fell would" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, revels_hall) and mishapOn(wapshotts) and not mishapDone(wapshotts) and (echoLearned(actor) or reversalLearned(actor))
+      and (mishapCloud(wapshotts) or mishapColonel(wapshotts)).
+    Resolve check(actor, performance, dc_easy).
+    On success { Assert mishapDone(wapshotts). Increase revelsScore(wapshotts) by 3. }
+    On failure { Assert mishapDone(wapshotts). }
+    Result "You go out and stand under him, and become him: the Colonel stuck, the Colonel silent, the Colonel with his crown over one eye, exactly, his mirror; and then you move first, and he, without meaning to, follows you, and the mirror-door of Pell and Fell is suddenly happening in front of the Household with the Colonel as its other half. Mother Pell, in the gallery, shrieks. The Dowager laughs before anyone. It is, everyone afterwards agrees, the best thing in either masque.".
+    Otherwise "You go out and give the moment back, and it is only you copying a man in trouble, and the court looks away, politely.".
+  }
+  Action call_tom_down(actor: group, site: place) "Cup your hands and call, in Jabez's voice: 'Tom! Supper!'" {
+    Time 1 minute.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, revels_hall) and mishapRaven(wapshotts) and not mishapDone(wapshotts) and (echoLearned(actor) or knows(actor, tom_call)).
+    Resolve check(actor, performance, dc_easy).
+    On success { Assert mishapDone(wapshotts). Increase revelsScore(wapshotts) by 3. }
+    On failure { Assert mishapDone(wapshotts). Decrease revelsScore(wapshotts) by 1 or to nothing. }
+    Result "You call him the old way, high and thin, 'Tom! Supper!', in a voice that is Jabez's near enough; and Old Tom comes down out of the rigging in a long black slant and lands on the arm of the Dowager's chair and gives her back her tiara, carefully, as a present, and waits for supper. The Dowager looks at the raven. The raven looks at the Dowager. 'MAKE WAY FOR THE KING,' he says to her, kindly. She laughs till she has to be held.".
+    Otherwise "You call, and it is your voice, and in the rigging Old Tom says, in your voice, 'Tom! Supper!' and keeps the tiara.".
+  }
+  Action carry_on(actor: group, site: place) "Carry on exactly as if nothing had happened, as the forms of a court require" {
+    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, revels_hall) and mishapOn(wapshotts) and not mishapDone(wapshotts) and courtTaught(actor).
+    On success { Assert mishapDone(wapshotts). Increase revelsScore(wapshotts) by 1. }
+    Result "You step forward and carry on as Hench taught you: as if a court had never in its history seen anything amiss, which is what courts are for. You finish the Colonel's speech for him from memory, word for word, with a bow. The hall, which has been given permission to have seen nothing, gratefully sees nothing.".
+  }
+  Rule mishap_saved at revels_hall when mishapOn(wapshotts) and not mishapDone(wapshotts) and watch(clock) >= masqueAt(wapshotts) + 2 and regard(mumchance) >= 5
+    says "Before anyone else can move, Mumchance walks out onto the stage, in his white face, without hurry, and looks up at whatever has gone wrong; and then he looks at the court, with the look, the one he gives the ladder; and the court, who did not know they were allowed to, laugh." {
+    Assert mishapDone(wapshotts). Increase revelsScore(wapshotts) by 1. }
+  Rule mishap_left at revels_hall when mishapOn(wapshotts) and not mishapDone(wapshotts) and watch(clock) >= masqueAt(wapshotts) + 3
+    says "Nobody does anything. In the end Tobias Quarrendon, scarlet, goes up a ladder, and the thing is put right after a fashion, and the Triumph of Wonder limps to an end with the court looking at its hands." {
+    Assert mishapDone(wapshotts). Decrease revelsScore(wapshotts) by 2 or to nothing. }
+
+  // ── 6. The verdict ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule m7_rest_unroofed at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 7 and not hallRoofed(wapshotts) and not masqueTold(rest_gate)
+    says "The Steward rises. 'The Rest,' she says first, as the charter requires. 'I have sat three hours under the open sky in a hall the Household roofed in lead four hundred years ago. It is a fine sky. It is not a roof.'" { Assert masqueTold(rest_gate). Decrease revelsScore(wapshotts) by 2 or to nothing. }
+  Rule m7_rest_roofed at revels_hall when revelsOn(wapshotts) and masque(wapshotts) == 7 and hallRoofed(wapshotts) and not masqueTold(rest_gate)
+    says "The Steward rises. 'The Rest,' she says first, as the charter requires. 'It has a roof over its Revels again, and its dens are fit for beasts, or nearly, and its Warm-House stands, or nearly. Somebody has done in twelve days what the Household could not do in three hundred years, which is not a great compliment to the Household.'" {
+    Assert masqueTold(rest_gate). Increase revelsScore(wapshotts) by 2. }
+  Rule m7_dens when masqueTold(rest_gate) and densFit(wapshotts) and not masqueTold(beast_yard) { Assert masqueTold(beast_yard). Increase revelsScore(wapshotts) by 1. }
+  Rule m7_warm when masqueTold(rest_gate) and warmGlazed(wapshotts) and not masqueTold(warm_house) { Assert masqueTold(warm_house). Increase revelsScore(wapshotts) by 1. }
+  Rule m7_cloud when masqueTold(rest_gate) and cloudMended(wapshotts) and not masqueTold(revels_hall) { Assert masqueTold(revels_hall). Increase revelsScore(wapshotts) by 1. }
+  Rule m7_sold at revels_hall when masqueTold(rest_gate) and bishopSold(methuselah) and not masqueTold(keepers_book)
+    says "'The Bishop,' says the Steward, and her voice goes cold, 'is at Coldharbour, in a heated pen, being measured daily. I am told he was sold. I am told it was for forty coin.' She does not look at Sir Gervase, who has gone pink to the ears." {
+    Assert masqueTold(keepers_book). Decrease revelsScore(wapshotts) by 3 or to nothing. }
+  Rule m7_shilling at revels_hall when masqueTold(rest_gate) and sealLost(tobias) and knows(party, jabez_shilling) and not masqueTold(tom)
+    says "'The seal,' says the Steward, and Tobias goes white, 'is lost; my great-nephew lost it on this hill. A warrant cannot be given without a seal.' Silence. Then, at the door, Jabez Orme lifts the ribbon from round his neck and holds out a silver coin worn as thin as a fingernail. 'The last King's shilling,' he says. 'He gave it at the gate. Keep it, Orme, we shall come again.' The Steward looks at it for a long time. 'That,' she says, 'will do better than a seal.'" {
+    Assert masqueTold(tom). Retract sealLost(tobias). Assert sealBack(tobias). }
+  Rule m7_judge at revels_hall when masqueTold(rest_gate) and masque(wapshotts) == 7 and not revelsDone(wapshotts) and not masqueTold(dowager) {
+    Assert masqueTold(dowager). }
+  // Wapshott's, or the United Circus, wins.
+  Rule warrant_won at revels_hall when masqueTold(dowager) and not revelsDone(wapshotts) and revelsScore(wapshotts) > pellScore(wapshotts)
+    and (merged(wapshotts) or revelsScore(wapshotts) > sallowScore(wapshotts)) and not (fenwickSigned(wapshotts) and clauseBeasts(wapshotts))
+    says "The Steward turns to the Dowager, who has been laughing on and off since the cockerel and has not entirely stopped. The Dowager nods. The Steward raises her staff with its little gilt wheel. 'By the Crown's leave,' she says, 'and the Household's seal, the office of MASTER OF THE REVELS AND KEEPER OF THE MENAGERIE ROYAL, vacant these three hundred years, is given to,' and she looks down at the paper, and then at the Colonel, 'Colonel Florian Wapshott and his company. With the King's Rest for its winter seat, and the Inventory for its charge, and God help them all.' The Colonel does not roar. He kneels on the green boards of the Revels Hall in his gold crown, and bows his head, and when he lifts it his face is wet; and at the door Jabez Orme is sweeping the step, as hard as he can, so as not to be seen crying." {
+    Assert warrantOurs(wapshotts). Assert revelsDone(wapshotts). Retract revelsOn(wapshotts). }
+  Rule warrant_fenwick at revels_hall when masqueTold(dowager) and not revelsDone(wapshotts) and revelsScore(wapshotts) > pellScore(wapshotts)
+    and (merged(wapshotts) or revelsScore(wapshotts) > sallowScore(wapshotts)) and fenwickSigned(wapshotts) and clauseBeasts(wapshotts)
+    says "The Steward raises her staff. 'The office of Master of the Revels is given to Colonel Wapshott and his company.' The hall rises. The Steward lifts a hand, and it sits again. 'And since the Colonel's contract, which Sir Gervase has very properly laid before me, gives Sir Gervase the first right in every beast of the Inventory, the Keepership of the Menagerie Royal goes with that right. To Sir Gervase Fenwick, of Coldharbour.' Sir Gervase stands up, delighted, and then sees Billie Ostrander's face, and sits down again, less so. The Colonel bows, beautifully, to everyone, and looks, for the first time since you have known him, his age." {
+    Assert warrantOurs(wapshotts). Assert warrantFenwick(wapshotts). Assert revelsDone(wapshotts). Retract revelsOn(wapshotts). }
+  // Or a rival does.
+  Rule warrant_pell at revels_hall when masqueTold(dowager) and not revelsDone(wapshotts) and pellScore(wapshotts) >= revelsScore(wapshotts) and (merged(wapshotts) or pellScore(wapshotts) >= sallowScore(wapshotts))
+    says "The Steward raises her staff. 'The office of Master of the Revels, being in its first nature an office of plays and masques, is given to Mr Augustus Pell and the Comedians of the Theatre Royal.' Augustus bows to the dais, magnificently, with real tears. The Steward turns. 'And Her Serene Highness, who will be obeyed, wishes it known that she has laughed more tonight than in thirty years, and not at the Virtues.' The Dowager holds out a parchment, already signed: BY APPOINTMENT TO HER SERENE HIGHNESS THE DOWAGER ARCHDUCHESS, WAPSHOTT'S CIRCUS, PURVEYORS OF WONDER. The Colonel takes it in both hands. It is everything he has wanted all his life. He looks at it for a long time, and then up at the green ceiling of the Revels Hall, and you can see him find out that it is not, now, what he wants." {
+    Assert warrantPell(wapshotts). Assert revelsDone(wapshotts). Retract revelsOn(wapshotts). }
+  Rule warrant_sallow at revels_hall when masqueTold(dowager) and not revelsDone(wapshotts) and rivalSallow() and sallowScore(wapshotts) > pellScore(wapshotts) and sallowScore(wapshotts) >= revelsScore(wapshotts)
+    says "The Steward raises her staff. 'The office of Master of the Revels and Keeper of the Menagerie Royal is given to Madame Cordelia Sallow and the Imperial Hippodrome, who can add.' Madame Sallow rises and curtseys, not deeply. Then she turns, across the whole hall, to the Colonel. 'Florian,' she says. 'I shall want someone to tell me what the Inventory is for.' The Dowager, meanwhile, holds out a parchment to the Colonel: BY APPOINTMENT TO HER SERENE HIGHNESS, WAPSHOTT'S CIRCUS, PURVEYORS OF WONDER. 'For the cockerel,' she says." {
+    Assert warrantSallow(wapshotts). Assert revelsDone(wapshotts). Retract revelsOn(wapshotts). }
+  // The Long Court becomes the circus's stand on that round, for good, if the Rest is theirs.
+  Rule rest_kept when warrantOurs(wapshotts) and revelsDone(wapshotts) and nextGround(tober_a, tober_b) and current(wapshotts, tober_c) { Retract nextGround(tober_a, tober_b). Assert nextGround(tober_a, tober_r). }
+  Rule court_goes when revelsDone(wapshotts) and day(clock) > revelsDay(wapshotts) and hour(clock) >= 9 and not offstage(dowager) {
+    Assert offstage(dowager). Assert offstage(steward). Retract away(fenwick). Retract jabezBusy(jabez). }
+  Rule fenwick_home when revelsDone(wapshotts) and day(clock) > revelsDay(wapshotts) + 1 and not warrantFenwick(wapshotts) and travels(fenwick) { Retract travels(fenwick). Assert offstage(fenwick). }
+  Rule hench_leaves near hench when henchGoes(hench) and revelsDone(wapshotts) and day(clock) > revelsDay(wapshotts) and travels(hench)
+    says "Hench leaves with the Dowager's household in the morning, his trunk on the back of her carriage, in a new black coat. He shakes hands with everyone in the backyard, formally, and with Bucephalus, and goes. The wardrobe wagon is very quiet. On its steps, folded, is the Margravine's green spangle, on a note: FOR THE RAVEN." {
+    Retract travels(hench). Assert offstage(hench). }
+  Rule sallow_goes_after when revelsDone(wapshotts) and rivalSallow() and day(clock) > revelsDay(wapshotts) and sallowAtRevels(sallow) and not offstage(sallow) { Assert offstage(sallow). }
+  Rule neb_goes_after when revelsDone(wapshotts) and rivalSallow() and day(clock) > revelsDay(wapshotts) and not exhibit(neb) and not offstage(neb) { Assert offstage(neb). }
+  Rule hob_to_rest near jabez when revelsDone(wapshotts) and hobInvited(ninepence) and warrantOurs(wapshotts) and not hobAtRest(ninepence) and day(clock) > revelsDay(wapshotts)
+    says "Ninepence does not come down the hill with the wagons. In the Keeper's Lodge at the King's Rest the porridge, from this morning, is very good." {
+    Assert hobAtRest(ninepence). Retract travels(ninepence). Assert at(ninepence, keeper_lodge). Retract hobJoined(ninepence). Retract hobAtInn(ninepence). }
+
+  // ── After: what each says ──────────────────────────────────────────────────────────────────────────────────
+  Topic wap_after_revels with wapshott "Ask the Colonel what the Revels have made of Wapshott's" when revelsDone(wapshotts) and warrantOurs(wapshotts) once {
+    Says "The Colonel is sitting on the mounting-block at the end of the Long Court in his shirt, with the warrant on his knee and Jabez's broom against his shoulder, looking at the ruin. 'A royal seat,' he says. 'With no roof but Lusk's. A menagerie royal, consisting of a tortoise, a cockerel and an owlbear. An Inventory of beasts three hundred years dead or gone to the fen. And a warrant to hold a Progress every year, at my own expense, before the Household of the Progress, which is two people.' He looks at you, and he is happier than you have ever seen him, and more frightened. 'I have never in my life been given anything I could not afford. I find it very much worse than being poor.' A pause. 'Sir Gervase says the rest of the Worm is under that field. He says the Royal Society would pay to see it dug.' The light comes into his eye. 'Ada says if I so much as look at a spade she'll have my pen again.'".
+  }
+  Topic wap_after_pell with wapshott "Ask the Colonel how he bears losing the Revels to Pell" when revelsDone(wapshotts) and (warrantPell(wapshotts) or warrantSallow(wapshotts)) once {
+    Says "The Colonel has hung the Dowager's parchment in his wagon, in place of the portrait, which is now on the other wall, facing the room. 'By appointment,' he says. 'Nineteen years I wanted that.' He looks at it with great affection and no longer quite seeing it. 'And now I find I want a hill with a ruin on it, and a raven, and an old man with a broom.' He shrugs. 'Pell will make the Rest a theatre, and it will be very good, and very indoors.' Then he grins. 'He has asked me to lend him the Bishop for his masque next spring. I said yes. I said: at a cabbage an hour.'".
+  }
+  Topic steward_after with steward "Ask the Steward what the Household will do now" when revelsDone(wapshotts) once {
+    Says "Dame Honorine leans on her staff. 'Hold a Progress,' she says. 'Every year, as the warrant says. A little one: a hill, a ruin, a circus.' She looks round the Long Court, at the wagons, the swept setts, the raven on the gatehouse. 'For fifty-one years I have been Steward of nothing. I had begun to think that the Household was a joke the Crown had forgotten to stop telling.' She taps the staff. 'It may still be. But it is a better joke now.' And then, as she is carried off down the hill: 'Tell your Colonel the Treasury's wagon is not to be found. Tell him not to look for it. He will look for it.'".
+  }
+  Topic jabez_after with jabez "Ask Jabez how it feels, now the Progress has come" when revelsDone(wapshotts) once {
+    Says "Jabez is sitting on his step in the green velvet coat, with his broom across his knees. 'It came,' he says. 'Next spring, the King said, and it came. A bit late.' He laughs his dry bird's laugh. 'Three hundred years. Six brooms.' He looks up at the seventh hook. 'I swept the court this morning anyway. Somebody has to be ready. It would be a terrible thing if they came back and found it dirty.'".
+  }
+  Milestone m_letter "carried the Revels round from the letter to the Rest" worth 100 when knows(party, letter_known) and revelsDone(wapshotts).
+  Milestone m_book "read the Keepers' Book with Jabez Orme" worth 100 when knows(party, margins_known).
+  Milestone m_bishop "brought the Bishop home to the King's Rest" worth 300 when bishopAtRest(methuselah).
+  Milestone m_seal "found the Household's seal" worth 100 when sealBack(tobias) and knows(party, seal_lost_known).
+  Milestone m_pit "went down to the floor of the marl-pit" worth 200 when knows(party, worm_stone).
+  Milestone m_pike "carried the great pike to the river alive" worth 100 when pikeSaved(pike).
+  Milestone m_riposte "learned the Riposte from Mumchance" worth 100 when riposteLearned(party).
+  Milestone m_echo "learned the Echo from Mother Pell" worth 100 when echoLearned(party).
+  Milestone m_reversal "learned the mirror-door from Pell and Fell" worth 250 when reversalLearned(party).
+  Milestone m_ladder "played the ladder for two before the Household of the Progress" worth 250 when masqueTold(mumchance) and partnered(party) and partnerRehearsed(party).
+  Milestone m_wedding "stood for Honoria and Mumchance in the chapel of the Rest" worth 100 when weddingDone(honoria) and witness(party).
+  Milestone m_ascension "rigged the Sylph's Ascension" worth 150 when ascensionRigged(wapshotts) and masqueTold(zephyrine).
+  Milestone m_warrant "saw the office of the Revels given to Wapshott's" worth 400 when warrantOurs(wapshotts) and knows(party, letter_known).
+}
