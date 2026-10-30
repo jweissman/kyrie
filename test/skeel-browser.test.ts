@@ -21,6 +21,15 @@ const act = async (d: MonoDriver, ...labels: string[]) => {
   }
 };
 const text = (page: Page) => page.evaluate(() => document.body.innerText);
+// What a place shows and what is a touch away: the glance, then Look about (L) and Every way (W), each put away again.
+const whole = async (page: Page) => {
+  const seen = [await text(page)];
+  for (const key of ['l', 'w']) {
+    await page.keyboard.press(key); await page.waitForTimeout(150);
+    seen.push(await text(page)); await page.keyboard.press('Escape'); await page.waitForTimeout(150);
+  }
+  return seen.join('\n');
+};
 
 describe.skipIf(!process.env.KYRIE_BROWSER)('Fair Weather in the browser', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
@@ -40,14 +49,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Fair Weather in the browser', () =>
     expect(await text(page)).toMatch(/nine miles of shining water/);
     if (shots) { await page.screenshot({ path: `${shots}/browser-1-coast-road.png` }); }
     await act(d, '^To Fore Street');
-    expect(await text(page)).toMatch(/Wooden Saints/);
+    expect(await whole(page)).toMatch(/Wooden Saints/);
     if (shots) { await page.screenshot({ path: `${shots}/browser-2-fore-street.png` }); }
     await act(d, '^To the quay');
-    expect(await text(page)).toMatch(/THE SEA TAKES THE FIFTH/);
+    expect(await whole(page)).toMatch(/THE SEA TAKES THE FIFTH/);
     if (shots) { await page.screenshot({ path: `${shots}/browser-3-quay.png` }); }
     await act(d, '^To the Slip', '^Wait', '^A while', '^Wait', '^A while', '^Wait', '^A while', '^Wait', '^A while', '^Wait', '^A while', '^Wait', '^A while');
     await act(d, '^To the open Strand');
-    expect(await text(page)).toMatch(/black dog|curly dog/);
+    expect(await whole(page)).toMatch(/black dog|curly dog/);
     if (shots) { await page.screenshot({ path: `${shots}/browser-4-strand.png` }); }
     expect(errors).toEqual([]);
   }, 300000);
