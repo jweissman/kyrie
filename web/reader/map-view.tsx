@@ -40,6 +40,7 @@ export class MapView {
       <section className="field-map" data-region="map" aria-label="The map" role="dialog" aria-modal="true"
         tabIndex={-1} ref={dialog} onKeyDown={e => MapView.escape(e, app, chosen ? forget : undefined)}>
         {region?.land ? <BoardField.View region={region} chosen={chosen} choose={pick} bound={bound}
+          face={screen.party[0]?.face?.src}
           flat={<MapView.Field region={region} chosen={chosen} choose={pick} bound={bound} />} />
           : <p className="none">You have no map of this country yet.</p>}
         <header className="field-head"><p className="where"><span className="title">{app.state.frame!.title}</span>

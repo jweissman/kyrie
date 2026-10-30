@@ -42,18 +42,26 @@ export class BoardLabels {
     this.add({ el, at, cell: m.cell, id: m.id, town: false, w: 0, h: 0, name, afar: BoardLabels.afar(m), told });
   }
   static afar(m: BoardMark): boolean { return m.state === 'heard' || m.state === 'unknown'; }
-  // You, as a mark that says so: a pin on a plate over everything else on the map, the same size however near the
-  // view, a short staff down to its shadow on the ground where you are; and the name or sign of where you are, saying
-  // so too.
-  here(at: Vector3, cell: number): void {
+  // You, as a mark that says so: a plate over everything else on the map, the same size however near the view, a
+  // short staff down to its shadow on the ground where you are; on the plate your face where there is one (a pin where
+  // there is not, or it cannot be had); and the name or sign of where you are, saying so too.
+  here(at: Vector3, cell: number, face?: string): void {
     const el = document.createElement('span');
     el.className = 'board-you'; el.setAttribute('aria-current', 'location');
     el.setAttribute('role', 'img'); el.setAttribute('aria-label', 'You are here');
     el.innerHTML = `<span class="you-plate you-dot">${BoardGlyphs.pin}</span><span class="you-staff"></span>`
       + '<span class="you-shadow"></span>'; this.layer.appendChild(el); this.you = { el, at, cell };
+    if (face) { BoardLabels.face(el.querySelector('.you-plate')!, face); }
     for (const l of this.labels.filter(x => x.cell === cell)) {
       l.el.setAttribute('aria-label', `${l.el.getAttribute('aria-label') ?? ''}, where you are`);
     }
+  }
+  // A face on your plate in place of the pin, the pin again if the painting will not come.
+  private static face(plate: Element, src: string): void {
+    const img = document.createElement('img'), pin = plate.innerHTML;
+    img.src = src; img.alt = ''; img.decoding = 'async'; img.draggable = false;
+    img.addEventListener('error', () => { plate.classList.remove('faced'); plate.innerHTML = pin; });
+    plate.classList.add('faced'); plate.replaceChildren(img);
   }
   // The place whose name or sign something on the page is (or is within), if it is one.
   of(target: EventTarget | null): { id: string; cell: number } | undefined {

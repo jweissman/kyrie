@@ -38,15 +38,16 @@ export class BoardField {
     return BoardField.loading;
   }
   // What the board is given of the region's land: its hexes, rivers and roads, what is known, where you are, and each
-  // town and place known of with the sign of its kind (as the flat map has them) and how much is known of it.
-  static land(region: RegionChart): BoardLand {
+  // town and place known of with the sign of its kind (as the flat map has them) and how much is known of it; and the
+  // protagonist's face, for your mark.
+  static land(region: RegionChart, face?: string): BoardLand {
     const land = region.land!, W = land.width;
     const towns = region.areas.filter(a => a.kind === 'settlement').map(a => ({ id: a.id, name: a.name,
       cell: a.y * W + a.x, kind: 'town', visited: a.visited, town: true, state: HexLand.town(land, a) }));
     const marks = land.marks.map(m => ({ id: m.id, name: m.name, cell: m.cell, visited: m.visited,
       kind: BoardField.kind(m), state: m.state }));
     return { key: land.cover, width: W, height: land.height, cover: land.cover, rivers: land.rivers, roads: land.roads,
-      known: land.known, here: land.here, marks: [...towns, ...marks] };
+      known: land.known, here: land.here, marks: [...towns, ...marks], face };
   }
   // A place's kind, by its sign on the flat map; where a way goes into wild country, seen or been to, a cairn.
   static kind(m: Land['marks'][number]): string {
@@ -56,8 +57,8 @@ export class BoardField {
   }
   // The land as the board is given it, and that land told whole as text: a new frame that leaves the land as it was
   // (anything done with the map open, short of a journey) leaves the board as it is, its view where the player had it.
-  static drawn(region: RegionChart): [BoardLand, string] {
-    const land = BoardField.land(region);
+  static drawn(region: RegionChart, face?: string): [BoardLand, string] {
+    const land = BoardField.land(region, face);
     return [land, JSON.stringify(land)];
   }
   // Where the company is bound, as the maps know it (the board and the flat map have the same places): a town or a
@@ -74,11 +75,11 @@ export class BoardField {
     return marked ?? (a ? `hex:${a.y * land.width + a.x}` : undefined);
   }
   // The board, given where the company is bound as the maps know it (see whither).
-  static View({ region, chosen, choose, bound, flat }: { region: RegionChart; chosen?: string;
-    choose: (id: string, keyed?: boolean) => void; bound?: string; flat: ReactNode }) {
+  static View({ region, chosen, choose, bound, flat, face }: { region: RegionChart; chosen?: string;
+    choose: (id: string, keyed?: boolean) => void; bound?: string; flat: ReactNode; face?: string }) {
     const host = useRef<HTMLDivElement>(null), board = useRef<BoardApi | undefined>(undefined), pick = useRef(choose);
     const [failed, fail] = useState(() => !BoardField.able()), [ready, readied] = useState(false);
-    const [land, same] = useMemo(() => BoardField.drawn(region), [region]);
+    const [land, same] = useMemo(() => BoardField.drawn(region, face), [region, face]);
     const now = useRef({ land, chosen, bound });
     pick.current = choose; now.current = { land, chosen, bound };
     useEffect(() => {

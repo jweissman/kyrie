@@ -137,7 +137,7 @@ export class Board implements BoardApi {
       const aside = this.land.marks.some(m => m.cell === here) ? 0.28 : 0, lamp = this.places.lantern(here, aside);
       this.scene.add(lamp); this.stand(here, lamp);
       const p = this.grid.centres[here]!;
-      this.labels.here(new Vector3(p.x, this.ground.levels[here]! + 0.03, p.y + aside), here);
+      this.labels.here(new Vector3(p.x, this.ground.levels[here]! + 0.03, p.y + aside), here, this.land.face);
     }
   }
   // The view kept to the country known (and where you are, and the places heard of), with some hexes to spare.
