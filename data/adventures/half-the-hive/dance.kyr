@@ -25,7 +25,7 @@ Module hume "Half the Hive" {
 
   // ── Kestrel Dunn, Wardmistress of the Searchers ───────────────────────────────────────────────────────────────────
   Person kestrel "Kestrel Dunn" at dancing_hall {
-    Role "the Wardmistress of the Searchers: a lean brown woman with cropped grey hair, two fingers short on her left hand" when not leavingBegun().
+    Role "the Wardmistress of the Searchers, lean and brown, two fingers short on her left hand" when not leavingBegun().
     Role "the Wardmistress of the Searchers, a lean brown woman with cropped grey hair, walking at the head of the Leaving" when leavingBegun().
     Ancestry human. Calling ranger. Level 4. Peaceable. Pronouns she. Manner acerbic.
     Greets "A lean brown woman at the foot of the slope looks you up and down the way a farrier looks at a horse. 'You came about the notice,' she says. It is not a question. 'Good. I've two hundred people to house by Midsummer and half my Searchers have decided to stay home and grow old. Can you walk? Can you look? Can you tell a dry hollow from a wet one? Then you'll do.'".
