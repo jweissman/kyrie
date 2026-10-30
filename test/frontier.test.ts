@@ -88,9 +88,10 @@ describe('the world beyond a region', () => {
     // Its three days run from the morning after it is reached, not from when the world began (see placed-days).
     const storm = s.campaign.module.rules!.find(r => r.id === `${drawn!.rid}__storm_comes`)!;
     expect(JSON.stringify(storm.when)).toContain(`"value":${312 + Math.ceil(elapsed / 144) * 144}`);
-    // Placed once: another upland country's north march leads into a country of its own.
-    expect(Countries.fits('mountain', 'north', c => s.campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), 'thorn'))
-      .toBeUndefined();
+    // Placed once: another upland country's north march leads somewhere else (a country of its own, or another
+    // authored one that lies north, as the Lull does), never into Merrowdale again.
+    expect(Countries.fits('mountain', 'north', c => s.campaign.module.entities.some(e => e.id.endsWith(`__${c.marker}`)), 'thorn')
+      ?.id).not.toBe('longman');
   }, 120000);
   // The independent review's E2: a later country's march-stone named its own neighbour ("into Loxorloew, fen
   // country"), and the frontier installed an authored country beyond it. Only the first country's marches lead into
